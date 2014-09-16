@@ -1,11 +1,9 @@
-#ifndef __HEPTOPTAGGER_HH__
-#define __HEPTOPTAGGER_HH__
+#ifndef HTopTagger_hh
+#define HTopTagger_hh
 
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/tools/Filter.hh"
 
-// using namespace std;
-// using namespace fastjet;
 
 using std::max;
 using std::swap;

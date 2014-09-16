@@ -84,7 +84,7 @@ bool HAnalysis::Analysis()
     ++EventCounter;
 
     Event->GetJets();
-
+    
     vector<PseudoJet> BVector = Event->Jets->JetVector;
     int JetSum = BVector.size();
     if (JetSum > 1) {
@@ -164,6 +164,16 @@ bool HAnalysis::Analysis()
             HeavyHiggs->DeltaPhi = DeltaPhi;
 
         }
+        
+        vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
+        Print(0,"B Jets",BJets.size());
+	
+        vector<PseudoJet> TopJets = Event->TopJets;
+        Print(0,"Top Jets",TopJets.size());
+        
+        
+        
+        
 
         return 1;
 

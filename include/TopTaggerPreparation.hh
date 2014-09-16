@@ -1,5 +1,5 @@
-# ifndef __TOPTAGGERPREPARATION_H__
-# define __TOPTAGGERPREPARATION_H__
+# ifndef TopTaggerPreparation_hh
+# define TopTaggerPreparation_hh
 
 # include <vector>
 
@@ -11,17 +11,13 @@
 
 # include "HEPTopTagger.hh"
 # include "HPull.hh"
-# include "HObject.hh"
-
-// using namespace std;
-// using namespace fastjet;
-// using namespace TMath;
+# include "HConstants.hh"
 
 /**
  * @brief prepares the data for the top tagger
  *
  */
-class taggedtopclass : public HObject
+class taggedtopclass : public HConstants
 {
 
 public:
@@ -89,18 +85,6 @@ public:
     void NewEvent();
 
 private:
-
-    /**
-     * @brief Mass of the physical W
-     *
-     */
-    float WMass;
-
-    /**
-     * @brief Mass of the physical top
-     *
-     */
-    float TopMass;
 
     /**
      * @brief Calculates Vector of granulated Jets

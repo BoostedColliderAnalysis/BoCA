@@ -6,9 +6,6 @@ taggedtopclass::taggedtopclass()
     
     Print(0, "Contructor");
     
-    WMass = 80.39;
-    TopMass = 173.5;
-    
 }
 
 taggedtopclass::~taggedtopclass()
@@ -36,47 +33,46 @@ void taggedtopclass::NewEvent(){
     
 }
 
-vector<PseudoJet> taggedtopclass::GranulateJets(vector<PseudoJet> &HadronVector, const float &CellEta, const float &CellPhi, const float &PtCutOff)
+vector<PseudoJet> taggedtopclass::GranulateJets(vector<PseudoJet> &EFlowJetVector, const float &CellEta, const float &CellPhi, const float &PtCutOff)
 {
     
     Print(1, "Granulate Jets");
     
-    HadronVector = sorted_by_pt(HadronVector);
-    int HadronSum = HadronVector.size();
-    if (Debug > 1) cout <<  "Number of Hadrons: " <<  HadronSum << endl;
-
+    EFlowJetVector = sorted_by_pt(EFlowJetVector);
+    int EFlowJetSum = EFlowJetVector.size();
+    Print(2, "Number of Hadrons", EFlowJetSum );
 
     /// vector of containing only the hardest Jet Candidate
     vector<PseudoJet> GranulatedJetVector;
     GranulatedJetVector.clear();
-    GranulatedJetVector.push_back(HadronVector[0]);
+    GranulatedJetVector.push_back(EFlowJetVector[0]);
     int GranulatedJetSum = GranulatedJetVector.size();
     if (Debug > 1) cout <<  "Number of Granulated Jets: " <<  GranulatedJetSum << endl;
 
     /// Loop over all Hadrons
-    for (int HadronNumber = 1; HadronNumber < HadronSum; HadronNumber++) {
+    for (int HadronNumber = 1; HadronNumber < EFlowJetSum; HadronNumber++) {
         bool JetBool = false;
 
         /// Nested Loop over all Granulated Jets
         for (int GranulatedJetNumber = 0; GranulatedJetNumber < GranulatedJetSum; GranulatedJetNumber++) {
 
-            float CellEtaDifference = abs(HadronVector[HadronNumber].pseudorapidity() - GranulatedJetVector[GranulatedJetNumber].pseudorapidity()) / CellEta;
-            float CellPhiDifference = abs(HadronVector[HadronNumber].phi() - GranulatedJetVector[GranulatedJetNumber].phi());
+            float CellEtaDifference = abs(EFlowJetVector[HadronNumber].pseudorapidity() - GranulatedJetVector[GranulatedJetNumber].pseudorapidity()) / CellEta;
+            float CellPhiDifference = abs(EFlowJetVector[HadronNumber].phi() - GranulatedJetVector[GranulatedJetNumber].phi());
             if (CellPhiDifference > Pi()) CellPhiDifference = 2 * Pi() - CellPhiDifference;
             CellPhiDifference = CellPhiDifference / CellPhi;
 
             if (CellEtaDifference < 1 && CellPhiDifference < 1) {
 
                 JetBool = true;
-                float TotalEnergy  = HadronVector[HadronNumber].e() + GranulatedJetVector[GranulatedJetNumber].e();
-                float RescaleFactor = sqrt(pow(HadronVector[HadronNumber].px() + GranulatedJetVector[GranulatedJetNumber].px(), 2) + pow(HadronVector[HadronNumber].py() + GranulatedJetVector[GranulatedJetNumber].py(), 2) +
-                                            pow(HadronVector[HadronNumber].pz() + GranulatedJetVector[GranulatedJetNumber].pz(), 2));
-                float PxRescaled = TotalEnergy * (HadronVector[HadronNumber].px() + GranulatedJetVector[GranulatedJetNumber].px()) / RescaleFactor ;
-                float PyRescaled = TotalEnergy * (HadronVector[HadronNumber].py() + GranulatedJetVector[GranulatedJetNumber].py()) / RescaleFactor ;
-                float PzRescaled = TotalEnergy * (HadronVector[HadronNumber].pz() + GranulatedJetVector[GranulatedJetNumber].pz()) / RescaleFactor ;
+                float TotalEnergy  = EFlowJetVector[HadronNumber].e() + GranulatedJetVector[GranulatedJetNumber].e();
+                float RescaleFactor = sqrt(pow(EFlowJetVector[HadronNumber].px() + GranulatedJetVector[GranulatedJetNumber].px(), 2) + pow(EFlowJetVector[HadronNumber].py() + GranulatedJetVector[GranulatedJetNumber].py(), 2) +
+                                            pow(EFlowJetVector[HadronNumber].pz() + GranulatedJetVector[GranulatedJetNumber].pz(), 2));
+                float PxRescaled = TotalEnergy * (EFlowJetVector[HadronNumber].px() + GranulatedJetVector[GranulatedJetNumber].px()) / RescaleFactor ;
+                float PyRescaled = TotalEnergy * (EFlowJetVector[HadronNumber].py() + GranulatedJetVector[GranulatedJetNumber].py()) / RescaleFactor ;
+                float PzRescaled = TotalEnergy * (EFlowJetVector[HadronNumber].pz() + GranulatedJetVector[GranulatedJetNumber].pz()) / RescaleFactor ;
 
                 PseudoJet CombinedJet(PxRescaled, PyRescaled, PzRescaled, TotalEnergy);
-                CombinedJet.set_user_index(HadronVector[HadronNumber].user_index() + GranulatedJetVector[GranulatedJetNumber].user_index());
+                CombinedJet.set_user_index(EFlowJetVector[HadronNumber].user_index() + GranulatedJetVector[GranulatedJetNumber].user_index());
 
                 GranulatedJetVector.erase(GranulatedJetVector.begin() + GranulatedJetNumber);
                 GranulatedJetVector.push_back(CombinedJet);
@@ -87,7 +83,7 @@ vector<PseudoJet> taggedtopclass::GranulateJets(vector<PseudoJet> &HadronVector,
         }                                                   //  Granulated Jet Loop
 
         if (!JetBool) {
-            GranulatedJetVector.push_back(HadronVector[HadronNumber]);
+            GranulatedJetVector.push_back(EFlowJetVector[HadronNumber]);
             GranulatedJetVector = sorted_by_pt(GranulatedJetVector);
         }
 
@@ -106,7 +102,7 @@ vector<PseudoJet> taggedtopclass::GranulateJets(vector<PseudoJet> &HadronVector,
 
 }                                                           // granulated jets
 
-void taggedtopclass::TaggingTop(vector< PseudoJet > HadronVector)
+void taggedtopclass::TaggingTop(vector< PseudoJet > EFlowJetVector)
 {
     
     Print(1, "Tagging Top");
@@ -114,7 +110,7 @@ void taggedtopclass::TaggingTop(vector< PseudoJet > HadronVector)
     float CellEta = 0.1;
     float CellPhi = 0.1;
     float PtCutOff = 0.5;
-    vector<PseudoJet> GranulatedHadronVector = GranulateJets(HadronVector, CellEta, CellPhi, PtCutOff);
+    vector<PseudoJet> GranulatedHadronVector = GranulateJets(EFlowJetVector, CellEta, CellPhi, PtCutOff);
 
     float ConeSize = 1.5;
     JetDefinition GranulatedHadronJetDefinition(cambridge_algorithm, ConeSize);
@@ -129,10 +125,10 @@ void taggedtopclass::TaggingTop(vector< PseudoJet > HadronVector)
     if (Debug > 1) cout << "Number of Top Jet Candidates: " <<  JetSum << endl;
     for (int JetNumber = 0; JetNumber < JetSum; JetNumber++) {
 
-        bool debug = false;
-        if (Debug > 2) debug = true;
+//         bool debug = false;
+//         if (Debug > 2) debug = true;
 
-        HEPTopTagger TopTag(GranulatedHadronClusterSequence, JetVector[JetNumber], TopMass, WMass,  debug);
+        HEPTopTagger TopTag(GranulatedHadronClusterSequence, JetVector[JetNumber]);
         //         if (debug > 1) TopTag.debugg = true;
         TopTag.set_top_range(150., 200.);
         TopTag.run_tagger();

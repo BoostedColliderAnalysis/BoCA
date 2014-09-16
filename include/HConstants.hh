@@ -22,6 +22,8 @@ protected:
 
     const int TopMass;
     
+    const int WMass;
+    
     const int HiggsUserIndex;
     
     const int TopUserIndex;

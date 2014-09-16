@@ -2,7 +2,8 @@
 
 HConstants::HConstants() :
     HiggsMass(125),
-    TopMass(173),
+    TopMass(173.5),
+    WMass(80.39),
     HiggsUserIndex(1000),
     TopUserIndex(2000)
     {
