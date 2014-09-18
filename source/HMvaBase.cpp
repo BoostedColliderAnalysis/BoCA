@@ -11,9 +11,6 @@ HMvaBase::HMvaBase()
 
     Cut = "";
 
-    Candidate = new HCandidateBranch();
-
-
 }
 
 HMvaBase::~HMvaBase()

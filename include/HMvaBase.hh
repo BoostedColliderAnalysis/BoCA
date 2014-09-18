@@ -8,8 +8,8 @@
 
 # include "HObject.hh"
 
-using std::cout;
-using std::endl;
+// using std::cout;
+// using std::endl;
 using std::vector;
 
 
@@ -113,12 +113,20 @@ public:
 
     vector<HObservable> SpectatorVector;
 
+protected:
+  
+    virtual void DefineVariables() = 0;
+
+    virtual TString ClassName() {
+        return ("HAnalysisDiscriminator");
+    };
+
     HObservable NewObservable(float *, TString, TString, TString);
 
     HObservable NewObservable(float *, TString, TString);
 
     HObservable NewObservable(float *, TString);
-
+    
 private:
 
 };

@@ -2,6 +2,8 @@
 set(AnalysisSources ${HDictionarySource} HAnalysis.cpp)
 add_library(HAnalysisHeavyHiggsParton SHARED ${AnalysisSources})
 target_link_libraries(HAnalysisHeavyHiggsParton HBranch)
+set_target_properties(HAnalysisHeavyHiggsParton PROPERTIES ${LibraryProperties})
+install(TARGETS HAnalysisHeavyHiggsParton DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
 
 set(LinkLibraries
 ${LinkLibraries}

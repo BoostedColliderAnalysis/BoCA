@@ -16,8 +16,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-long-long -pedanti
 set(CMAKE_BUILD_TYPE Debug)
  
 # set library and excecutable destination
-set(LibraryDestination "${CMAKE_BINARY_DIR}/lib")
-set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
+set(LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
  
 # set path to dependencies
 set(MadGraphDir "~/Development/MadGraph")
@@ -28,11 +28,11 @@ set(DelphesLibrary ${DelphesDir}/libDelphes.so)
 set(ExRootLibrary ${ExRootDir}/lib/libExRootAnalysis.so)
 
 # set library versions
-SET(MajorVersion 0)
-SET(MinorVersion 0)
-SET(PatchVersion 0)
-SET(Version "${MajorVersion}.${MinorVersion}.${PatchVersion}")
-SET(LibraryProperties ${LibraryProperties}
+set(MajorVersion 0)
+set(MinorVersion 0)
+set(PatchVersion 0)
+set(Version "${MajorVersion}.${MinorVersion}.${PatchVersion}")
+set(LibraryProperties ${LibraryProperties}
     VERSION "${Version}"
     SOVERSION "${MajorVersion}"
     SUFFIX ".so"
@@ -57,7 +57,7 @@ include_directories(${IncludeDirectory})
 add_subdirectory(source)
 
 # Executables
-set(LinkDirectories ${ROOT_LIBRARY_DIR} ${LibraryDestination})
+set(LinkDirectories ${ROOT_LIBRARY_DIR} ${LIBRARY_OUTPUT_DIRECTORY})
 link_directories(${LinkDirectories})
 
 set(LinkLibraries

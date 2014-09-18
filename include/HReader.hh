@@ -2,8 +2,8 @@
 # define HReader_hh
 
 # include <algorithm>
-#include <iomanip>
-#include <sstream>
+# include <iomanip>
+# include <sstream>
 
 # include "TFile.h"
 # include "TClonesArray.h"
@@ -95,7 +95,7 @@ public:
      * @brief Constructor
      *
      */
-    HReader();
+    HReader(HMvaBase*);
 
     /**
      * @brief Destructor
@@ -211,7 +211,12 @@ private:
 
     ofstream LatexFile;
 
-    HMva *Mva;
+    HMvaBase *Mva;
+        
+    virtual TString ClassName() {
+        return ("HReader");
+    };
+
 
 };
 

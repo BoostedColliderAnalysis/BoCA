@@ -1,11 +1,11 @@
 # include "HReader.hh"
 
-HReader::HReader()
+HReader::HReader(HMvaBase *NewMva)
 {
 
-    if (Debug > 0)Print("HReader", "Constructor");
+    Print(0, "Constructor");
 
-    Mva = new HMva();
+    Mva = NewMva;
 
     AddVariable();
 
@@ -17,7 +17,7 @@ HReader::HReader()
 
 HReader::~HReader()
 {
-    if (Debug > 0)Print("HReader", "Destructor");
+    Print(0, "Destructor");
 
     delete Reader;
 
@@ -27,7 +27,7 @@ HReader::~HReader()
 void HReader::AddVariable()
 {
 
-    if (Debug > 0)Print("HReader", "Add Variable");
+    Print(0, "Add Variable");
 
     TString DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
@@ -50,7 +50,7 @@ void HReader::AddVariable()
 
 void HReader::BookMVA()
 {
-    if (Debug > 0)Print("HReader", "Book Mva");
+    Print(0, "Book Mva");
 
     TString XmlName = ".weights.xml";
 
@@ -67,7 +67,7 @@ void HReader::BookMVA()
 void HReader::MVALoop()
 {
 
-    if (Debug > 0)Print("HReader", "Mva Loop");
+    Print(0, "Mva Loop");
 
     // Export File
 //     TString ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
@@ -81,7 +81,7 @@ void HReader::MVALoop()
     if (Mva->Latex) LatexHeader();
 
     GetCuts();
-    
+
     int TreeSum = Mva->TestTreeVector.size();
     for (int TreeNumber = 0; TreeNumber < TreeSum; ++TreeNumber) {
 
@@ -118,7 +118,7 @@ void HReader::MVALoop()
 
 void HReader::ApplyBdt(ExRootTreeReader *TreeReader, TString TreeName, TFile *ExportFile)
 {
-    if (Debug > 0)Print("HReader", "Apply Bdt");
+    Print(0, "Apply Bdt");
 
     TClonesArray *CandidateClonesArray = TreeReader->UseBranch(Mva->CandidateBranchName);
     TClonesArray *LeptonClonesArray = TreeReader->UseBranch(Mva->LeptonBranchName);
@@ -185,7 +185,7 @@ void HReader::ApplyBdt(ExRootTreeReader *TreeReader, TString TreeName, TFile *Ex
 
 void HReader::GetCuts()
 {
-    if (Debug > 0)Print("HReader", "Get Cuts");
+    Print(0, "Get Cuts");
 
     TMVA::MethodCuts *MethodCuts;
 
@@ -193,13 +193,13 @@ void HReader::GetCuts()
     CutsMax.clear();
     MethodCuts = Reader->FindCutsMVA(Mva->CutMethodName) ;
     MethodCuts->GetCuts(Mva->SignalEfficiency, CutsMin, CutsMax);
-    
+
 }
 
 void HReader::LatexHeader()
 {
 
-    if (Debug > 0)Print("HReader", "LaTeX Header");
+    Print(0, "LaTeX Header");
 
     TString TexFileName = Mva->AnalysisName + "/" + "Cutflow" + TString(".tex");
 
@@ -212,7 +212,7 @@ void HReader::LatexHeader()
               << "\\usepackage{siunitx}" << endl << endl
               << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << endl
               << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << endl
-              << "\\newcolumntype{E}{R@{$\\pm$}L}" << endl << endl              
+              << "\\newcolumntype{E}{R@{$\\pm$}L}" << endl << endl
               << "\\begin{document}" << endl << endl;
 
 }
@@ -221,7 +221,7 @@ void HReader::LatexHeader()
 void HReader::ApplyCuts(ExRootTreeReader *TreeReader, TString TreeName)
 {
 
-    if (Debug > 0)Print("HReader", "Apply Cuts");
+    Print(0, "Apply Cuts");
 
     CutLoop(TreeReader);
 
@@ -254,13 +254,13 @@ void HReader::ApplyCuts(ExRootTreeReader *TreeReader, TString TreeName)
 void HReader::CutLoop(ExRootTreeReader *TreeReader)
 {
 
-    if (Debug > 0)Print("HReader", "Cut Loop");
+    Print(0, "Cut Loop");
 
     int ObservableSum = Mva->ObservableVector.size();
     HiggsSum = 0;
     TopSum = 0;
     FatJetSum = 0;
-    
+
     TopEventSum = 0;
     HiggsEventSum = 0;
 
@@ -288,7 +288,7 @@ void HReader::CutLoop(ExRootTreeReader *TreeReader)
         for (int CandidateNumber = 0; CandidateNumber < CandidateSum; ++CandidateNumber) {
 
             ++FatJetSum;
-            
+
             if (Mva->Candidate->TopTag) {
 
                 ++TopSum;
@@ -428,7 +428,7 @@ void HReader::TabularOutput()
 void HReader::LatexContent(TString TreeName)
 {
 
-    if (Debug > 0)Print("HReader", "LaTeX Content");
+    Print(0, "LaTeX Content");
 
     LatexFile << endl
               << "\\begin{table}" << endl
@@ -449,25 +449,25 @@ void HReader::LatexContent(TString TreeName)
     CrosssectionNorm = Crosssection * 1000; // conversion from pico to femto
     float CrosssectionNormError = CrosssectionError * 1000;
 //     CrosssectionNormRelError =  CrosssectionNormError / CrosssectionNorm;
-    
-    
+
+
 //     float EventNorm = Mva->Luminosity * CrosssectionNorm; // both are in fb
 //     float EventNormError = EventNorm * CrosssectionNormRelError;
-    
-             
+
+
 //               float EventRatio = EventNorm / EventGenerated;
 //     float EvenRatioError = EventNormError / EventGenerated;
 //     float EventRatioNormError = EvenRatioError / EventRatio;
-    
-              
-              float Lumi = Mva->Luminosity / EventGenerated;
 
-              float EventLuminosity = EventSum * Lumi;
+
+    float Lumi = Mva->Luminosity / EventGenerated;
+
+    float EventLuminosity = EventSum * Lumi;
 //               float EventLuminosityError = EventLuminosity * EventRatioNormError;
-              float EventLuminosityError = Error(EventLuminosity);
+    float EventLuminosityError = Error(EventLuminosity);
 
-              float HiggsEventLuminosity = HiggsEventSum * Lumi;
-              //     float HiggsEventLuminosityError = HiggsEventLuminosity * EventRatioNormError;              
+    float HiggsEventLuminosity = HiggsEventSum * Lumi;
+    //     float HiggsEventLuminosityError = HiggsEventLuminosity * EventRatioNormError;
     float HiggsEventLuminosityError = Error(HiggsEventLuminosity);
 
     float TopEventLuminosity = TopEventSum * Lumi;
@@ -492,7 +492,7 @@ void HReader::LatexContent(TString TreeName)
         EventLuminosityError = Error(EventLuminosity);
 //         EventLuminosityError = EventLuminosity * EventRatioNormError;
 
-        HiggsEventLuminosity = HiggsEventVector[ObservableNumber] * Lumi;            
+        HiggsEventLuminosity = HiggsEventVector[ObservableNumber] * Lumi;
         HiggsEventLuminosityError = Error(HiggsEventLuminosity);
 //         HiggsEventLuminosityError = HiggsEventLuminosity * EventRatioNormError;
 
@@ -524,7 +524,7 @@ void HReader::LatexContent(TString TreeName)
 void HReader::LatexFooter()
 {
 
-    if (Debug > 0)Print("HReader", "LaTeX Footer");
+    Print(0, "LaTeX Footer");
 
 
     LatexFile << endl << "\\end{document}" << endl;
@@ -557,7 +557,7 @@ float HReader::Ratio(float Nominator, float Denummertor)
 float HReader::Scaling(float Events, int Particles)
 {
 
-    if (Debug > 1)Print("HReader", "Scaling");
+    Print(1 , "Scaling");
 
     float Scaling;
 
@@ -580,7 +580,7 @@ float HReader::Scaling(float Events, int Particles)
 float HReader::Luminosity(float Number)
 {
 
-    if (Debug > 1)Print("HReader", "Luminosity");
+    Print(1 , "Luminosity");
 
     float Luminosity = Number / CrosssectionScaled;
 
@@ -591,7 +591,7 @@ float HReader::Luminosity(float Number)
 float HReader::LuminosityError(float Number)
 {
 
-    if (Debug > 1)Print("HReader", "Luminosity Error");
+    Print(1 , "Luminosity Error");
 
     float LuminosityError = Error(Number) / CrosssectionScaled
                             + Number / CrosssectionNorm * LuminosityScalingError
@@ -604,7 +604,7 @@ float HReader::LuminosityError(float Number)
 
 float HReader::Error(float Value)
 {
-    if (Debug > 1)Print("HReader", "Error");
+    Print(1 , "Error");
 
     float Error;
 
@@ -633,16 +633,16 @@ float HReader::RoundToDigits(float Value)
 
 float HReader::RoundError(float Value)
 {
-    
+
     return RoundToDigits(Value, 2);
-    
+
 }
 
 
 float HReader::RoundToDigits(float Value, int Digits)
 {
 
-    if (Debug > 1)Print("HReader", "Round To Digits");
+    Print(1 , "Round To Digits");
 
     if (Value == 0) {
 
@@ -660,7 +660,7 @@ float HReader::RoundToDigits(float Value, int Digits)
 float HReader::RoundToError(float Value, float Error)
 {
 
-    if (Debug > 1)Print("HReader", "Round To Digits");
+    Print(1 , "Round To Digits");
 
     if (Value == 0) {
 

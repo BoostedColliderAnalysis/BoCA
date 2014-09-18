@@ -27,6 +27,10 @@ public:
 private:
 
     void DefineVariables();
+    
+    virtual TString ClassName() {
+        return ("HMva");
+    };
 
 
 };

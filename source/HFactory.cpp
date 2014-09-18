@@ -1,12 +1,12 @@
 # include "HFactory.hh"
 
 
-HFactory::HFactory()
+HFactory::HFactory(HMvaBase* NewMva)
 {
 
-    if (Debug > 0)Print("HFactory", "Constructor");
+    Print(0 , "Constructor");
 
-    Mva = new HMva;
+    Mva = NewMva;
 
     NewFactory();
 
@@ -32,7 +32,7 @@ HFactory::HFactory()
 HFactory::~HFactory()
 {
 
-    if (Debug > 0)Print("HFactory", "Destructor");
+    Print(0 , "Destructor");
 
     delete Factory;
 
@@ -41,7 +41,7 @@ HFactory::~HFactory()
 void HFactory::NewFactory()
 {
 
-    if (Debug > 0)Print("HFactory", "New Factory");
+    Print(0 , "New Factory");
 
     TString FactoryOutputName = "Mva" + Mva->BackgroundName;
     TString OutputFileName(Mva->AnalysisName + "/" + FactoryOutputName + ".root");
@@ -58,7 +58,7 @@ void HFactory::NewFactory()
 void HFactory::AddVariables()
 {
 
-    if (Debug > 0)Print("HFactory", "Add Variables");
+    Print(0 , "Add Variables");
 
     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->AnalysisName;
 
@@ -134,7 +134,7 @@ void HFactory::AddVariables()
 void HFactory::GetTrees()
 {
 
-    if (Debug > 0)Print("HFactory", "Get Trees");
+    Print(0 , "Get Trees");
 
 // Signal
     int SignalSum = Mva->SignalVector.size();
@@ -145,7 +145,7 @@ void HFactory::GetTrees()
         TString SignalFileName = Mva->AnalysisName + "/" + Mva->SignalVector[SignalNumber] + TString(".root");
         if (gSystem->AccessPathName(SignalFileName)) cout << "File " << SignalFileName << " not found" << endl;
         TFile *SignalFile = TFile::Open(SignalFileName);
-        if (Debug > 0)Print("HFactory", "Signal File", SignalFile->GetName());
+        Print(0 , "Signal File", SignalFile->GetName());
 
         int TreeSum = Mva->SignalTreeVector.size();
 
@@ -166,7 +166,7 @@ void HFactory::GetTrees()
         TString BackgroundFileName = Mva->AnalysisName + "/" + InputBackgroundName + TString(".root");
         if (gSystem->AccessPathName(BackgroundFileName)) cout << "File " << BackgroundFileName << " not found" << endl;
         TFile *BackgroundFile = TFile::Open(BackgroundFileName);
-        if (Debug > 0)Print("HFactory", "Background File", BackgroundFile->GetName());
+        Print(0 , "Background File", BackgroundFile->GetName());
 
         int TreeSum = Mva->BackgroundTreeVector.size();
         for (int TreeNumber = 0; TreeNumber < TreeSum; ++TreeNumber) {
@@ -182,7 +182,7 @@ void HFactory::GetTrees()
 void HFactory::AddTree(TFile *File, TString TreeName, bool Signal)
 {
 
-    if (Debug > 0)Print("HFactory", "Add Tree", TreeName);
+    Print(0 , "Add Tree", TreeName);
 
     TTree *Tree = (TTree *)File->Get(TreeName);
 
@@ -199,7 +199,7 @@ void HFactory::AddTree(TFile *File, TString TreeName, bool Signal)
 
 //     Crosssection = 1; //FIXME we dont use the crosssection
 
-    if (Debug > 0)Print("HFactory", "Weight", Crosssection);
+    Print(0 , "Weight", Crosssection);
 
     if (Signal) {
 
@@ -217,7 +217,7 @@ void HFactory::AddTree(TFile *File, TString TreeName, bool Signal)
 void HFactory::PrepareTrainingAndTestTree()
 {
 
-    if (Debug > 0)Print("HFactory", "PrepareTrainingAndTestTree");
+    Print(0 , "PrepareTrainingAndTestTree");
 
     TCut SignalCut = Mva->Cut;
     TCut BackgroundCut = Mva->Cut;
@@ -232,7 +232,7 @@ void HFactory::PrepareTrainingAndTestTree()
 void HFactory::BookMethods()
 {
 
-    if (Debug > 0) Print("HFactory", "Book Methods");
+    Print(0 , "Book Methods");
 
 //     TString CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
 //     TString CutOptions = "VarProp=FSmart:VarTransform=PCA";

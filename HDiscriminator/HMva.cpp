@@ -2,9 +2,9 @@
 
 HMva::HMva() : HMvaBase()
 {
-    
-    if (Debug > 0)Print("HMvaCpv", "Constructor");
-    
+
+    Print(0 , "Constructor");
+
 //     Debug = 1;
 
     AnalysisName = "Discriminator";
@@ -15,13 +15,13 @@ HMva::HMva() : HMvaBase()
 //         BackgroundVector = {"Top"};
 
     TestName = "Test";
-    
-        SignalTreeVector = {"even", "mix", "odd"};
+
+    SignalTreeVector = {"even", "mix", "odd"};
 //         SignalTreeVector = {"even"};
 
     BackgroundTreeVector = {"background", "even", "mix", "odd"};
 //         BackgroundTreeVector = {"even"};
-    
+
     TestTreeVector = {"background","even", "mix", "odd"};
 //         TestTreeVector = {"even"};
 
@@ -36,25 +36,27 @@ HMva::HMva() : HMvaBase()
     Luminosity = 3000; // fb
 
     Latex = 1;
-    
+
+    Candidate = new HCandidateBranch();
+
     DefineVariables();
-    
+
     Cut = "Candidate.SubJet1Pt>0&&Candidate.SubJet2Pt>0&&Candidate.IsolationPt>0";
 
 }
 
 HMva::~HMva()
 {
-    
-    if (Debug > 0)Print("HMvaCpv", "Constructor");
+
+    Print(0 , "Constructor");
 
 }
 
 void HMva::DefineVariables()
 {
-    
-    if (Debug > 0)Print("HMvaCpv", "Define Variables");
-    
+
+    Print(0 , "Define Variables");
+
     ObservableVector.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV"));
     ObservableVector.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV"));
     ObservableVector.push_back(NewObservable(&Candidate->Eta, "Candidate.Eta", "Eta"));

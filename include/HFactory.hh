@@ -34,14 +34,14 @@ public:
      * @brief Constructor
      *
      */
-    HFactory();
+    HFactory(HMvaBase*);
 
     /**
      * @brief Destructor
      *
      */
     ~HFactory();
-
+    
 private:
 
     /**
@@ -98,7 +98,12 @@ private:
 
     void AddTree(TFile *, TString, bool);
 
-    HMva *Mva;
+    HMvaBase *Mva;
+        
+    virtual TString ClassName() {
+        return ("HFactory");
+    };
+
 
 };
 
