@@ -5,6 +5,8 @@ HParticle::HParticle()
     
     Print(0,"Constructor");
 
+//     Debug =5;
+    
 }
 
 HParticle::~HParticle()
@@ -51,7 +53,7 @@ bool HParticle::GetParticles(HClonesArrayBase *ImportClonesArrays)
     
     Print(2,"Number of Particles",ParticleSum);
     
-    for (int ParticleNumber = 0; ParticleNumber < ParticleSum; ParticleNumber++) {
+    for (int ParticleNumber = 0; ParticleNumber < ParticleSum; ++ParticleNumber) {
 
         CParticle *GenParticleClone = (CParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
 
@@ -98,6 +100,15 @@ bool HParticle::GetParticles(HClonesArrayBase *ImportClonesArrays)
                 }
 
             } // Muons
+            
+            if (abs(ParticleID) == 5) {
+                
+                PseudoJet JetCandidate = GetPseudoJet(GenParticleClone);
+                
+                BottomJetVector.push_back(JetCandidate);
+                Print(2,"Bottom");
+                
+            } // bottoms
 
         }
 

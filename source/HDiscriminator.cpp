@@ -24,7 +24,7 @@ HDiscriminator::~HDiscriminator()
 
 }
 
-void HDiscriminator::NewAnalysis()
+void HDiscriminator::NewFile()
 {
 
     Print(1, "New Analysis");
@@ -38,7 +38,7 @@ void HDiscriminator::NewAnalysis()
 
 }
 
-void HDiscriminator::CleanAnalysis()
+void HDiscriminator::CloseFile()
 {
 
     Print(1, "Clean Analysis");

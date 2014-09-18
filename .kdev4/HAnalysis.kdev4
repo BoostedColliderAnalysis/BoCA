@@ -123,7 +123,7 @@ pattern=*.o
 targets=1
 
 [Launch]
-Launch Configurations=Launch Configuration 0
+Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -141,4 +141,40 @@ External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=HAnalysis,HHeavyHiggs,HHeavyHiggs
 Use External Terminal=true
 Working Directory=file:///home/hajer/Projects/HeavyHiggs
+isExecutable=true
+
+[Launch][Launch Configuration 1]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HDiscriminator
+Type=Native Application
+
+[Launch][Launch Configuration 1][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1c\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00\x00\x00\x1c\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r)
+Dependency Action=Build
+EnvironmentGroup=default
+Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HDiscriminator
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=HAnalysis,HDiscriminator,HDiscriminator
+Use External Terminal=true
+Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
+isExecutable=true
+
+[Launch][Launch Configuration 2]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HHeavyHiggsParton
+Type=Native Application
+
+[Launch][Launch Configuration 2][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00"\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00P\x00a\x00r\x00t\x00o\x00n\x00\x00\x00"\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00P\x00a\x00r\x00t\x00o\x00n)
+Dependency Action=Build
+EnvironmentGroup=default
+Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HHeavyHiggsParton
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=HAnalysis,HHeavyHiggsParton,HHeavyHiggsParton
+Use External Terminal=true
+Working Directory=file:///home/hajer/Projects/HeavyHiggs/
 isExecutable=true

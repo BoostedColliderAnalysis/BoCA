@@ -78,18 +78,6 @@ void HObject::Print(int debug, TString Function)
 
 }
 
-// template<typename Template>
-// void HObject::Print(int debug, TString Function, Template Number)
-// {
-// 
-//     if (debug < Debug) {
-// 
-//         Printer(Function);
-//         cout << " " << Number << endl;
-// 
-//     }
-// 
-// }
 
 void HObject::Printer(TString Function)
 {

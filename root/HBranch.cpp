@@ -140,11 +140,15 @@ void HHeavyHiggsBranch::reset()
 
 //     EtaMax = InitialValue;
 //     EtaMin = InitialValue;
-//     MaxPt = InitialValue;
-//     MinPt = InitialValue;
+    MaxPt = InitialValue;
+    MinPt = InitialValue;
+    JetNumber = InitialValue;
     DeltaEta = InitialValue;
     BMass = InitialValue;
+    DeltaEta2 = InitialValue;
+    BMass2 = InitialValue;
     TMass = InitialValue;
     DeltaPhi = InitialValue;
+    BTag = InitialValue;
 
 }

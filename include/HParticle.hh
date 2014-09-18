@@ -35,6 +35,31 @@ class HParticle : public HObject
 
 public:
 
+    /**
+     * @brief constructor
+     *
+     */
+    HParticle();
+
+    /**
+     * @brief destructor
+     *
+     */
+    ~HParticle();
+    
+    void NewEvent();
+
+    /**
+     * @brief extract electrons and muon particle
+     *
+     * @return void
+     */
+    bool GetParticles(HClonesArrayBase *);
+
+    vector<TLorentzVector> LeptonVector();
+
+    vector<TLorentzVector> AntiLeptonVector();
+
     vector<TLorentzVector> TopVector;
 
     vector<TLorentzVector> AntiTopVector;
@@ -68,31 +93,6 @@ public:
      *
      */
     vector<PseudoJet> CharmJetVector;
-
-    /**
-     * @brief extract electrons and muon particle
-     *
-     * @return void
-     */
-    bool GetParticles(HClonesArrayBase *);
-
-    /**
-     * @brief constructor
-     *
-     */
-    HParticle();
-
-    /**
-     * @brief destructor
-     *
-     */
-    ~HParticle();
-    
-    void NewEvent();
-
-    vector<TLorentzVector> LeptonVector();
-
-    vector<TLorentzVector> AntiLeptonVector();
     
 
 

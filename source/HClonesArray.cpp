@@ -30,7 +30,7 @@ HClonesArrayBase::~HClonesArrayBase()
 
 }
 
-void HClonesArrayBase::ResetTrees()
+void HClonesArrayBase::ResetBranches()
 {
 
     Print(0, "ResetTrees");
@@ -53,7 +53,7 @@ void HClonesArrayBase::ResetTrees()
 
 }
 
-void HClonesArrayDelphes::ReadTrees(ExRootTreeReader *TreeReader)
+void HClonesArrayDelphes::UseBranches(ExRootTreeReader *TreeReader)
 {
     
     Print(0, "ReadTrees");
@@ -75,7 +75,7 @@ void HClonesArrayDelphes::ReadTrees(ExRootTreeReader *TreeReader)
     
 }
 
-void HClonesArraySnowmass::ReadTrees(ExRootTreeReader *TreeReader)
+void HClonesArraySnowmass::UseBranches(ExRootTreeReader *TreeReader)
 {
     
     Print(0, "ReadTrees");
@@ -89,13 +89,14 @@ void HClonesArraySnowmass::ReadTrees(ExRootTreeReader *TreeReader)
     EFlowTrackClonesArray = TreeReader->UseBranch("EFlowTrack");
     EFlowPhotonClonesArray = TreeReader->UseBranch("EFlowPhoton");
     EFlowNeutralHadronClonesArray = TreeReader->UseBranch("EFlowNeutralHadron");
+    Print(1,"We have EFlow Branches");
     EFlowMuonClonesArray = TreeReader->UseBranch("EFlowMuon");
     GenJetClonesArray = TreeReader->UseBranch("GenJet");
     ScalarHtClonesArray = TreeReader->UseBranch("ScalarHT");
     
 }
 
-void HClonesArrayPgs::ReadTrees(ExRootTreeReader *TreeReader)
+void HClonesArrayPgs::UseBranches(ExRootTreeReader *TreeReader)
 {
     
     Print(0, "ReadTrees");
@@ -109,7 +110,7 @@ void HClonesArrayPgs::ReadTrees(ExRootTreeReader *TreeReader)
     
 }
 
-void HClonesArrayBase::ReadTrees(ExRootTreeReader *TreeReader)
+void HClonesArrayParton::UseBranches(ExRootTreeReader *TreeReader)
 {
     
     Print(0, "ReadTrees");

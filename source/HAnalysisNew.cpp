@@ -36,6 +36,8 @@ void HAnalysisBase::AnalysisLoop()
         Print(0, "Analysing Mva Sample", StudyName);
 
         NewStudy();
+        
+    }
 
         int FileSum = FileVector.size();
         for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
@@ -63,11 +65,11 @@ void HAnalysisBase::AnalysisLoop()
         }
         Print(0, "All Files analysed", FileSum);
 
-        DeleteStudy();
+//         DeleteStudy();
 
-    }
+//     }
 
-    Print(0, "All Mva Samples analysed", StudySum);
+//     Print(0, "All Mva Samples analysed", StudySum);
 
 }
 
@@ -81,7 +83,8 @@ void HAnalysisBase::NewStudy()
 
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
-    ExportFile = new TFile(ExportName, "Recreate");
+    TFile ExportFile1 = new TFile(ExportName, "Recreate");
+    ExportFileVector.push_back(ExportFile1);
 
 }
 
@@ -94,13 +97,23 @@ void HAnalysisBase::NewFileBase()
 
     // Export tree
     TString ExportTreeName = FileVector[FileNumber]->Title;
-    TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
+    
+    vector<string> StudyNameVector = GetStudyNameVector();
+    int StudySum = StudyNameVector.size();
+    for (int StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
+        
+        
+        ExRootTreeWriter TreeWriter1 = new ExRootTreeWriter(ExportFile, ExportTreeName);
+        ExRootTreeBranch InfoBranch = TreeWriter1->NewBranch("Info", HInfoBranch::Class());
+        TreeWriterVector.push_back(TreeWriter1);
+        
+    }
+    
 
     NewFile();
 
     Event->NewFile();
 
-    InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
     // Import file
     TString ImportPath = FileVector[FileNumber]->GetFilePath();
@@ -134,7 +147,7 @@ void HAnalysisBase::NewEvent()
     if (Successfull) {
 
         AnalysisNotEmpty = 1;
-        HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
+        HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranchVector[]->NewEntry());
         Info->Crosssection = FileVector[FileNumber]->Crosssection;
         Info->Error = FileVector[FileNumber]->Error;
         Info->EventNumber = EventSum;

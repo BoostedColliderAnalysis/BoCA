@@ -18,11 +18,11 @@ protected:
         return ("HConstants");
     };
 
-    const int HiggsMass;
+    const float HiggsMass;
 
-    const int TopMass;
+    const float TopMass;
     
-    const int WMass;
+    const float WMass;
     
     const int HiggsUserIndex;
     

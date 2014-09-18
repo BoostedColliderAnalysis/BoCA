@@ -1,5 +1,5 @@
-# ifndef HPath_hh
-# define HPath_hh
+# ifndef HFile_hh
+# define HFile_hh
 
 # include "HObject.hh"
 
@@ -9,7 +9,7 @@
  * ProcessFolder has to be set
  *
  */
-class HPathBase : public HObject
+class HFileBase : public HObject
 {
 
 public:
@@ -18,31 +18,31 @@ public:
      * @brief constructor defining default path
      *
      */
-    explicit HPathBase();
+    explicit HFileBase();
 
     /**
      * @brief constructor defining default path
      *
      */
-    explicit HPathBase(TString Process);
+    explicit HFileBase(TString Process);
 
     /**
      * @brief constructor defining default path
      *
      */
-    explicit HPathBase(TString Process, TString Run);
+    explicit HFileBase(TString Process, TString Run);
 
     /**
      * @brief destructor
      *
      */
-    virtual ~HPathBase();
+    virtual ~HFileBase();
 
     /**
      * @brief Path path to the MadGraph installation
      *
      */
-    TString MadGraphPath;
+    static TString BasePath;
 
     /**
      * @brief Process name used in the file path
@@ -66,7 +66,7 @@ public:
      * @brief String containing the name of the root tree
      *
      */
-    TString TreeString;
+    static TString TreeString;
 
     /**
      * @brief Name of Process
@@ -91,117 +91,120 @@ public:
      *
      * @return TString file path
      */
-    virtual TString FilePath() = 0;
+    virtual TString GetFilePath() = 0;
 
-    virtual TString GetTreeString() = 0;
+    virtual TString GetTreeName() = 0;
+    
+    static TString FileSuffix;
 
 protected:
 
     virtual TString MadGraphFilePath() {
 
-        return (MadGraphPath + ProcessFolder + "/Events/" + RunFolder + "/");
+        return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
 
     };
+    
 
 private:
 
     void  SetVariables();
 
     virtual TString ClassName() {
-        return ("HPathBase");
+        return ("HFileBase");
     };
 
 };
 
-class HPathDelphes : public HPathBase
-{
-
-public:
-    using HPathBase::HPathBase;
-
-    /**
-     * @brief Compose file path
-     *
-     * @return TString file path
-     */
-    TString FilePath();
-
-    TString GetTreeString();
-
-private:
-    virtual TString ClassName() {
-        return ("HPathDelphes");
-    };
-
-};
-
-class HPathFlat : public HPathBase
-{
-
-public:
-    using HPathBase::HPathBase;
-
-    /**
-     * @brief Compose file path
-     *
-     * @return TString file path
-     */
-    TString FilePath();
-
-    TString GetTreeString();
-
-private:
-    virtual TString ClassName() {
-        return ("HPathFlat");
-    };
-
-};
-
-class HPathPgs : public HPathBase
+class HFileParton : public HFileBase
 {
 
 public:
     
-    using HPathBase::HPathBase;
+    using HFileBase::HFileBase;
 
     /**
      * @brief Compose file path
      *
      * @return TString file path
      */
-    TString FilePath();
+    TString GetFilePath();
 
-    TString GetTreeString();
+    TString GetTreeName();
 
 private:
+    
     virtual TString ClassName() {
-        return ("HPathFlat");
+        return ("HFileFlat");
     };
 
 };
 
-class HPathParton : public HPathBase
+class HFilePgs : public HFileBase
 {
 
 public:
-    using HPathBase::HPathBase;
+    
+    using HFileBase::HFileBase;
 
     /**
      * @brief Compose file path
      *
      * @return TString file path
      */
-    TString FilePath();
+    TString GetFilePath();
 
-    TString GetTreeString();
+    TString GetTreeName();
 
 private:
     virtual TString ClassName() {
-        return ("HPathFlat");
+        return ("HFileFlat");
     };
 
 };
 
+class HFileDelphes : public HFileBase
+{
 
+public:
+    using HFileBase::HFileBase;
+
+    /**
+     * @brief Compose file path
+     *
+     * @return TString file path
+     */
+    TString GetFilePath();
+
+    TString GetTreeName();
+
+private:
+    virtual TString ClassName() {
+        return ("HFileDelphes");
+    };
+
+};
+
+class HFileFolder : public HFileBase
+{
+
+public:
+    using HFileBase::HFileBase;
+
+    /**
+     * @brief Compose file path
+     *
+     * @return TString file path
+     */
+    TString GetFilePath();
+
+    TString GetTreeName();
+        
+private:
+    virtual TString ClassName() {
+        return ("HFileFolder");
+    };
+
+};
 
 # endif

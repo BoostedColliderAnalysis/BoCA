@@ -37,8 +37,6 @@ void HJet::NewEvent()
 
     BottomLorentzVectorVector.clear();
 
-    BottomsVector.clear();
-
     JetVector.clear();
 
 }
@@ -70,17 +68,15 @@ void HJet::AnalyseJet(HClonesArrayBase *ImportClonesArrays)
 
             TauTagCalculations(JetClone);
 
-        } else if (JetClone->BTag == 1) {
+        } else if (JetClone->BTag > 0) {
 
             Print(3, "Has B Tag");
-
             TLorentzVector BJetLorentzVector;
             BJetLorentzVector.SetPtEtaPhiM(JetClone->PT, JetClone->Eta, JetClone->Phi, JetClone->Mass);
             BottomLorentzVectorVector.push_back(BJetLorentzVector);
 
             PseudoJet BottomJet = FillPtJet(JetClone->PT, JetClone->Eta, JetClone->Phi);
-
-            BottomsVector.push_back(BottomJet);
+            BottomJetVector.push_back(BottomJet);
 
             //             HBottom *Bottom = new HBottom(Debug);
 //             Bottom->BTagCalculation(JetClone);
@@ -94,11 +90,11 @@ void HJet::AnalyseJet(HClonesArrayBase *ImportClonesArrays)
 
         }
 
-    }                                                       // jet loop
+    }
 
     Print(2, "Untagged jets", JetLorentzVectorVector.size());
 
-}                                                           // AnalyseJet
+}
 
 
 void HJet::TauTagCalculations(Jet *JetClone)
@@ -125,7 +121,7 @@ void HJet::TauTagCalculations(Jet *JetClone)
 
 }
 
-void HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
+bool HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
 {
     Print(1, "AnalyseEFlow");
 
@@ -133,11 +129,11 @@ void HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
 
     // Tracks
     int EFLowTrackSum = ClonesArrays->EFlowTrackClonesArray->GetEntriesFast();
-    Print(2, "Number of E Flow Tracks:", EFLowTrackSum);
-        int ElectronSum = ClonesArrays->ElectronClonesArray->GetEntriesFast();
-        if (ElectronSum > 0) Print(3, "Number of Electons:", ElectronSum);
+    Print(2, "Number of E Flow Tracks", EFLowTrackSum);
+    int ElectronSum = ClonesArrays->ElectronClonesArray->GetEntriesFast();
+    if (ElectronSum > 0) Print(3, "Number of Electons", ElectronSum);
     int MuonSum = ClonesArrays->MuonClonesArray->GetEntriesFast();
-    if (MuonSum > 0) Print(3, "Number of Muons:", MuonSum);
+    if (MuonSum > 0) Print(3, "Number of Muons", MuonSum);
     for (int EFlowTrackNumber = 0; EFlowTrackNumber < EFLowTrackSum ; ++EFlowTrackNumber) {
 
         Track *EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
@@ -174,7 +170,7 @@ void HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
 
     // Photons
     int EFLowPhotonSum = ClonesArrays->EFlowPhotonClonesArray->GetEntriesFast();
-    Print(2, "Number of E Flow Photons:", EFLowPhotonSum);
+    Print(2, "Number of E Flow Photons", EFLowPhotonSum);
     for (int EFlowPhotonNumber = 0; EFlowPhotonNumber < EFLowPhotonSum ; ++EFlowPhotonNumber) {
 
         // Using Tower for ET
@@ -187,7 +183,7 @@ void HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
         // Make sure this is not a photon
         bool Isolated = true;
         int PhotonSum = ClonesArrays->PhotonClonesArray->GetEntriesFast();
-        if (PhotonSum > 0) Print(2, "Number of Photons:", PhotonSum);
+        if (PhotonSum > 0) Print(2, "Number of Photons", PhotonSum);
         for (int PhotonNumber = 0; PhotonNumber < PhotonSum; ++PhotonNumber) {
 
             Photon *PhotonClone = (Photon *) ClonesArrays->PhotonClonesArray->At(PhotonNumber);
@@ -201,11 +197,9 @@ void HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
 
     }
 
-
-
     // Neutral Hadrons
     int HadronSum = ClonesArrays->EFlowNeutralHadronClonesArray->GetEntriesFast();
-    Print(2, "Number of EF Neut Had:", HadronSum);
+    Print(2, "Number of EF Neut Had", HadronSum);
     for (int HadronNumber = 0; HadronNumber < HadronSum; ++HadronNumber) {
 
         // Using Tower for ET
@@ -217,7 +211,6 @@ void HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
         EFlowJetVector.push_back(JetCandidate);
 
     }
-
 
     // Muon
     if (ClonesArrays->EFlowMuonClonesArray) {
@@ -236,7 +229,9 @@ void HJet::AnalyseEFlow(HClonesArrayBase *ImportClonesArrays)
         }
     }
 
-    Print(2, "Number of EFlow Jet:", EFlowJetVector.size());
+    Print(2, "Number of EFlow Jet", EFlowJetVector.size());
+    
+    return 1;
 
 }
 
@@ -303,7 +298,7 @@ void HJet::GetGenJet(HClonesArrayBase *ImportClonesArrays)
     ClonesArrays = ImportClonesArrays;
     int GenJetSum = ClonesArrays->GenJetClonesArray->GetEntriesFast();
     Print(2, "Number of GenJets", GenJetSum);
-    for (int GenJetNumber = 0; GenJetNumber < GenJetSum; GenJetNumber++) {
+    for (int GenJetNumber = 0; GenJetNumber < GenJetSum; ++GenJetNumber) {
 
         Jet *GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
         float GenJetPt = GenJetClone->PT;

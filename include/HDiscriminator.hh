@@ -52,14 +52,14 @@ public:
      *
      * @return void
      */
-    void NewAnalysis();
+    void NewFile();
     /**
      * @brief Clean after end of Analysis
      *
      * @return void
      */
 
-    void CleanAnalysis();
+    void CloseFile();
 
     /**
      * @brief New Event

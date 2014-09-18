@@ -42,7 +42,7 @@ public:
      *
      * @return void
      */
-    void CleanAnalysisBase();
+    void CloseFileBase();
     
 
 private:
@@ -51,7 +51,7 @@ private:
      * @brief number which indicates which file we are in
      *
      */
-    int AnalysisNumber;
+    int FileNumber;
 
     /**
      * @brief Branch structure for general tree infos

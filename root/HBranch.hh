@@ -156,12 +156,19 @@ public:
     
 //     float EtaMax;    
 //     float EtaMin;
-//     float MaxPt;
-//     float MinPt;
+    float MaxPt;
+    float MinPt;
+    int JetNumber;
+    
     float DeltaEta;
     float BMass;
+    
+    float DeltaEta2;
+    float BMass2;
+    
     float TMass;
     float DeltaPhi;
+    int BTag;
     
     HHeavyHiggsBranch();
     

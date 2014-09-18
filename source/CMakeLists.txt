@@ -11,7 +11,7 @@ HEvent.cpp
 HParticle.cpp
 HJet.cpp
 HLepton.cpp
-TopTaggerPreparation.cpp
+HTopTagger.cpp
 HDiscriminator.cpp
 HHiggsTagger.cpp
 HEPTopTagger.cpp
@@ -33,7 +33,7 @@ install(TARGETS HEvent DESTINATION ${LibraryDestination})
 # HAnalysisBase Library
 set(AnalysisBaseSources
 HAnalysisBase.cpp
-HPath.cpp
+HFile.cpp
 HClonesArray.cpp
 )
 
@@ -48,3 +48,21 @@ add_library(HAnalysisBase SHARED ${AnalysisBaseSources})
 target_link_libraries (HAnalysisBase ${HAnalysisBaseLinkLibraries})
 set_target_properties(HAnalysisBase PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysisBase DESTINATION ${LibraryDestination})
+
+# HMva Library
+# set(MvaBaseSources
+# HMvaBase.cpp
+# HFactory.cpp
+# HReader.cpp
+# )
+# 
+# set(HMvaBaseLinkLibraries
+# ${LinkLibraries}
+# ${ExRootLibrary}
+# HObject
+# )
+# set(MvaBaseSources ${MvaBaseSources} ${HDictionarySource}) 
+# add_library(HMvaBase SHARED ${MvaBaseSources})
+# target_link_libraries (HMvaBase ${HMvaBaseLinkLibraries})
+# set_target_properties(HMvaBase PROPERTIES ${LibraryProperties})
+# install(TARGETS HMvaBase DESTINATION ${LibraryDestination})

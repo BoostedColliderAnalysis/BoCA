@@ -64,19 +64,21 @@ private:
      *
      * @return void
      */
-    void FillAnalysisVector();
+    void SetFileVector();
     
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewAnalysis();
+    void NewFile();
     
-    void CleanAnalysis();
+    void CloseFile();
+    
+    vector<string> GetStudyNameVector();
     
     virtual TString ClassName() {
-        return ("HAnalysis");
+        return ("HAnalysisDiscriminator");
     };
 
 };

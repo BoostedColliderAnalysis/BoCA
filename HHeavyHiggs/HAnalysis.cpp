@@ -5,22 +5,44 @@ HAnalysis::HAnalysis()
 
     Print(0, "Constructor");
 
-    ProjectName = "HeavyHiggs";
+    ProjectName = "HeavyHiggs5";
 
-    MvaNameVector = {"Test"};
+    EventNumberMax = 10000;
 
-    EventNumberMax = 100000;
-
-    FillAnalysisVector();
-           
     ClonesArrays = new HClonesArraySnowmass();
+
+    Cut = 1;
 
 }
 
+// TString HFileBase::BasePath = "~/Projects/HeavyHiggs/Mass5/";
 
-void HAnalysis::NewAnalysis()
+void HAnalysis::SetFileVector()
 {
-    Print(0, "New Analysis");
+
+    Print(0, "Fill Analysis Vector", AnalysisName);
+
+    FileVector.push_back(new HFileFolder("Background"));
+    FileVector.push_back(new HFileFolder("400GeV"));
+//     FileVector.push_back(new HFileFolder("500GeV"));
+//     FileVector.push_back(new HFileFolder("600GeV"));
+//     FileVector.push_back(new HFileFolder("700GeV"));
+//     FileVector.push_back(new HFileFolder("800GeV"));
+//     FileVector.push_back(new HFileFolder("900GeV"));
+    FileVector.push_back(new HFileFolder("1000GeV"));
+    
+    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass5/";
+
+//     FileVector.push_back(new HFileDelphes("pp-bbtt-4f", "background"));
+
+    Print(0, "Files prepared", FileVector.size());
+
+}
+
+void HAnalysis::NewFile()
+{
+
+    Print(0, "New File");
 
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
 
@@ -29,42 +51,20 @@ void HAnalysis::NewAnalysis()
     BMassCounter = 0;
     TMassCounter = 0;
     JetCounter = 0;
-
-
-}
-
-void HAnalysis::CleanAnalysis()
-{
-    Print(0, "Clean Analysis");
-
-    cout << "EventCounter    " << EventCounter << endl;
-    cout << "JetCounter      " << JetCounter << endl;
-    cout << "DeltaEtaCounter " << DeltaEtaCounter << endl;
-    cout << "BMassCounter    " << BMassCounter << endl;
-    cout << "TMassCounter    " << TMassCounter << endl;
+    Jet2Counter = 0;
 
 }
 
-void HAnalysis::FillAnalysisVector()
+void HAnalysis::CloseFile()
 {
+    Print(0, "Close File");
 
-    Print(0, "Fill Analysis Vector", AnalysisName);
-
-    AnalysisVector.clear();
-    
-    AnalysisVector.push_back(new HPathFlat("Background"));
-    AnalysisVector.push_back(new HPathFlat("400GeV"));
-    AnalysisVector.push_back(new HPathFlat("500GeV"));
-    AnalysisVector.push_back(new HPathFlat("600GeV"));
-    AnalysisVector.push_back(new HPathFlat("700GeV"));
-    AnalysisVector.push_back(new HPathFlat("800GeV"));
-    AnalysisVector.push_back(new HPathFlat("900GeV"));
-    AnalysisVector.push_back(new HPathFlat("1000GeV"));
-    
-      
-
-    int AnalysisSum = AnalysisVector.size();
-    Print(0, "Files prepared", AnalysisSum);
+    Print(0, "EventCounter", EventCounter);
+    Print(0, "JetCounter", JetCounter);
+    Print(0, "DeltaEtaCounter", DeltaEtaCounter);
+    Print(0, "BMassCounter", BMassCounter);
+    Print(0, "Jet2Counter", Jet2Counter);
+    Print(0, "TMassCounter", TMassCounter);
 
 }
 
@@ -74,6 +74,9 @@ bool HAnalysis::Analysis()
 {
 
     Print(1, "Analysis", AnalysisName);
+
+    HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
+
     //     Event->GetLeptons();
 
     //     vector<PseudoJet> LeptonVector = Event->Leptons->LeptonJetVector;
@@ -84,53 +87,123 @@ bool HAnalysis::Analysis()
     ++EventCounter;
 
     Event->GetJets();
-    
-    vector<PseudoJet> BVector = Event->Jets->JetVector;
-    int JetSum = BVector.size();
+
+
+
+    vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
+    int BJetSum = BJets.size();
+    HeavyHiggs->BTag = BJetSum;
+    Print(3, "B Jets", BJetSum);
+
+
+
+    vector<PseudoJet> TopJets = Event->GetTops();
+    Print(3, "Top Jets", TopJets.size());
+
+    vector<PseudoJet> JetVector = Event->Jets->JetVector;
+    int JetSum = JetVector.size();
+    HeavyHiggs->JetNumber = JetSum;
+    Print(2,"JetSum",JetSum);
     if (JetSum > 1) {
 
         ++JetCounter;
 
-        sort(BVector.begin(), BVector.end(), SortJetByEta());
+        sort(JetVector.begin(), JetVector.end(), SortJetByEta());
 
-        PseudoJet BMax = BVector.front();
-        double EtaMax = BMax.eta();
-        //         double MaxPt = BMax.pt();
+        PseudoJet FrontJet = JetVector.front();
+        double FrontPt = FrontJet.pt();
+        double FrontEta = FrontJet.eta();
 
-        PseudoJet BMin = BVector.back();
-        double EtaMin = BMin.eta();
-        //         double MinPt = BMin.pt();
+        PseudoJet BackJet = JetVector.back();
+        double BackEta = BackJet.eta();
+        double BackPt = BackJet.pt();
 
-        PseudoJet Comb = BMax + BMin;
-        double BMass = Comb.m();
-        double DeltaEta = EtaMax - EtaMin;
+        PseudoJet CombinedJet = FrontJet + BackJet;
+        double CombinedMass = CombinedJet.m();
+        double CombinedEta = FrontEta - BackEta;
 
-        if (DeltaEta < 3) return 0;
+        if (Cut && CombinedEta < 3) return 0;
         ++DeltaEtaCounter;
 
-        if (BMass < 200) return 0;
+        if (Cut && CombinedMass < 200) return 0;
         ++BMassCounter;
 
-        HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
-        //         HeavyHiggs->EtaMax = EtaMax;
-        //         HeavyHiggs->EtaMin = EtaMin;
-        //         HeavyHiggs->MaxPt = MaxPt;
-        //         HeavyHiggs->MinPt = MinPt;
-        HeavyHiggs->DeltaEta = DeltaEta;
-        HeavyHiggs->BMass = BMass;
+        HeavyHiggs->MaxPt = FrontPt;
+        HeavyHiggs->MinPt = BackPt;
+        HeavyHiggs->DeltaEta = CombinedEta;
+        HeavyHiggs->BMass = CombinedMass;
+
 
         if (JetSum > 3) {
+            
+            ++Jet2Counter;
 
-            BVector.erase(BVector.begin());
-            BVector.erase(BVector.end());
+
+
+//             PseudoJet SecondFrontJet = JetVector.at(1);
+//             float SecondFrontPt = SecondFrontJet.perp();
+//             float SecondFrontEta = SecondFrontJet.eta();
+// 
+//             int Counter = 1;
+//             while (FrontPt < SecondFrontPt && SecondFrontEta > 0 && Counter < JetSum-1) {
+// 
+//                 iter_swap(JetVector.begin(), JetVector.begin() + Counter);
+// 
+//                 ++Counter;
+//                 
+//                 Print(3,"Counter",Counter);
+//                 Print(3,"SecondBackPt",SecondFrontPt);
+//                 Print(3,"SecondFrontEta",SecondFrontEta);
+// 
+//                 SecondFrontJet = JetVector.at(Counter);
+//                 SecondFrontPt = SecondFrontJet.perp();
+//                 SecondFrontEta = SecondFrontJet.eta();
+// 
+//             }
+// 
+//             PseudoJet SecondBackJet = JetVector.at(JetSum - 1);
+//             float SecondBackPt = SecondBackJet.perp();
+//             float SecondBackEta = SecondBackJet.eta();
+// 
+//             Counter = 1;
+//             while (BackPt < SecondBackPt && SecondBackEta < 0 && Counter < JetSum-1) {
+// 
+//                 iter_swap(JetVector.begin(), JetVector.begin() + Counter);
+// 
+//                 ++Counter;
+// 
+//                 SecondBackJet = JetVector.at(JetSum - Counter);
+//                 SecondBackPt = SecondBackJet.perp();
+//                 SecondBackEta = SecondBackJet.eta();
+// 
+//             }
+// 
+//             
+//             FrontJet = JetVector.front();
+//             FrontEta = FrontJet.eta();
+//             
+//             BackJet = JetVector.back();
+//             BackEta = BackJet.eta();
+//             
+//             CombinedJet = FrontJet + BackJet;
+//             CombinedMass = CombinedJet.m();
+//             CombinedEta = FrontEta - BackEta;
+//             
+//             
+//             HeavyHiggs->DeltaEta2 = CombinedEta;
+//             HeavyHiggs->BMass2 = CombinedMass;
+            
+
+            JetVector.erase(JetVector.begin());
+            JetVector.erase(JetVector.end());
 
             PseudoJet NegJet;
             PseudoJet PosJet;
 
             for (int JetNumber = 0; JetNumber < JetSum; ++JetNumber) {
 
-                PseudoJet Jet = BVector[JetNumber];
+                PseudoJet Jet = JetVector[JetNumber];
 
                 if (Jet.eta() < 0) {
 
@@ -151,7 +224,7 @@ bool HAnalysis::Analysis()
 
             PseudoJet RestJet = NegJet + PosJet;
             double TMass = RestJet.m();
-            if (TMass < 400) return 0;
+            if (Cut && TMass < 400) return 0;
             ++TMassCounter;
 
             HeavyHiggs->TMass = TMass;
@@ -164,16 +237,7 @@ bool HAnalysis::Analysis()
             HeavyHiggs->DeltaPhi = DeltaPhi;
 
         }
-        
-        vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
-        Print(0,"B Jets",BJets.size());
-	
-        vector<PseudoJet> TopJets = Event->TopJets;
-        Print(0,"Top Jets",TopJets.size());
-        
-        
-        
-        
+
 
         return 1;
 

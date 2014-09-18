@@ -4,7 +4,7 @@
 # include "HParticle.hh"
 # include "HLepton.hh"
 # include "HJet.hh"
-# include "TopTaggerPreparation.hh"
+# include "HTopTagger.hh"
 # include "HHiggsTagger.hh"
 # include "HDiscriminator.hh"
 # include "HObject.hh"
@@ -52,13 +52,13 @@ public:
      * @brief Tagged tops and their constituents
      *
      */
-    taggedtopclass *TaggedTopClass;
+    HTopTagger *TaggedTopClass;
 
     vector<PseudoJet> TopJets;
     
-    void NewAnalysis();
+    void NewFile();
     
-    void CleanAnalysis();
+    void CloseFile();
 
     void NewEvent(HClonesArrayBase *);
 
@@ -107,6 +107,7 @@ private:
     HClonesArrayBase *ClonesArrays;
     
     bool Particles;
+    bool EFlow;
     
     virtual TString ClassName() {
         return ("HEvent");

@@ -1,5 +1,5 @@
-# ifndef __HJET_HH__
-# define __HJET_HH__
+# ifndef HJet_hh
+# define HJet_hh
 
 # include "TObjArray.h"
 // # include "TMathBase.h"
@@ -14,7 +14,6 @@
 # include "HClonesArray.hh"
 # include "HObject.hh"
 
-
 using std::vector;
 using fastjet::PseudoJet;
 
@@ -26,7 +25,54 @@ class HJet : public HObject
 {
 
 public:
-
+    
+    /**
+     * @brief constructor
+     *
+     */
+    HJet();
+    
+    /**
+     * @brief Destructor
+     *
+     */
+    ~HJet();
+    
+    /**
+     * @brief AnalyseJet calls AnalyseEFlow
+     *
+     * @return void
+     */
+    void AnalyseJet(HClonesArrayBase *);
+    
+    /**
+     * @brief Get Tau Tag
+     * 
+     * @return void
+     */
+    void TauTagCalculations(Jet *);
+    
+    /**
+     * @brief Analyses EFlow Variables of Jets
+     *
+     */
+    bool AnalyseEFlow(HClonesArrayBase *ImportClonesArrays);
+    
+    /**
+     * @brief Get Gen Jet
+     * 
+     * @param  ...
+     * @return void
+     */
+    void GetGenJet(HClonesArrayBase *);
+    
+    /**
+     * @brief Initialize new event
+     * 
+     * @return void
+     */
+    void NewEvent();
+    
     /**
      * @brief vector of Jet Lorentz Vectors
      *
@@ -45,7 +91,6 @@ public:
      */
     vector<TLorentzVector> AntiTauLorentzVectorVector;
 
-
     /**
      * @brief Vector of EFlow JetCandidates
      *
@@ -57,7 +102,6 @@ public:
      *
      */
     vector<PseudoJet> JetVector;
-
 
     /**
      * @brief Vector of generator level Bottom Pseudo Jets
@@ -81,45 +125,8 @@ public:
      * @brief vector of Bottom Lorentz Vectors with their pull
      *
      */
-//     vector<HPull *> BottomClassVector;
-
     vector<TLorentzVector> BottomLorentzVectorVector;
 
-    vector<PseudoJet> BottomsVector;
-
-    void TauTagCalculations();
-
-    /**
-     * @brief AnalyseJet calls AnalyseEFlow
-     *
-     * @return void
-     */
-    void AnalyseJet(HClonesArrayBase *);
-
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
-    void AnalyseEFlow(HClonesArrayBase *);
-
-    void GetGenJet(HClonesArrayBase *);
-
-    /**
-     * @brief constructor
-     *
-     */
-    HJet();
-
-    /**
-     * @brief destructor
-     *
-     */
-    ~HJet();
-
-    void NewEvent();
-
-
-    void TauTagCalculations(Jet *);
 
 private:
 
@@ -139,8 +146,6 @@ private:
         return ("HJet");
     };
     
-    
-
 };
 
 #endif

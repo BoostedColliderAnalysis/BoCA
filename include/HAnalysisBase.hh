@@ -1,11 +1,13 @@
 # ifndef HAnalysisBase_hh
 # define HAnalysisBase_hh
 
+# include "TTree.h"
+
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 # include "ExRootAnalysis/ExRootProgressBar.h"
 
-# include "HPath.hh"
+# include "HFile.hh"
 
 # include "HEvent.hh"
 
@@ -53,18 +55,23 @@ protected:
      *
      * @return void
      */
-    virtual void FillAnalysisVector() = 0;
+    virtual void SetFileVector() = 0;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    virtual void NewAnalysis() = 0;
+    virtual void NewFile() = 0;
     
-    virtual void CleanAnalysis() = 0;
+    /**
+     * @brief Clean Analysis
+     * 
+     * @return void
+     */
+    virtual void CloseFile() = 0;
 
-    vector<string> MvaNameVector;
+//     vector<string> StudyNameVector;
 
     /**
      * @brief Name of Analysis
@@ -88,7 +95,7 @@ protected:
      * @brief vector containing the string pairs describing the path to the root file
      *
      */
-    vector<HPathBase *> AnalysisVector;
+    vector<HFileBase *> FileVector;
 
     /**
      * @brief Maximal number of Entries to analyse
@@ -103,23 +110,31 @@ protected:
      *
      */
     HClonesArrayBase *ClonesArrays;
+    
+    bool Cut;
+    
+    virtual vector<string> GetStudyNameVector();
+    
+    vector<TFile> ExportFileVector;
+    
+    vector<ExRootTreeWriter> TreeWriterVector;
 
 private:
 
-    void DefineHistograms();
+    void EmptyFileVector();
 
-    void NewMva();
+    void NewStudy();
 
-    string MvaName;
+    string StudyName;
 
-    void CleanMva();
+    void DeleteStudy();
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewAnalysisBase();
+    void NewFileBase();
 
     /**
      * @brief
@@ -131,7 +146,7 @@ private:
     int EventNumber;
 
 
-    void CleanAnalysisBase();
+    void CloseFileBase();
 
 
     /**
@@ -150,7 +165,7 @@ private:
      * @brief Number of this Analysis
      *
      */
-    int AnalysisNumber;
+    int FileNumber;
 
     /**
      * @brief Import File
@@ -178,7 +193,7 @@ private:
      * @brief Vector containing the number of entries in each file
      *
      */
-    vector<int> EntrySumVector;
+//     vector<int> EntrySumVector;
 
     bool AnalysisNotEmpty;
 

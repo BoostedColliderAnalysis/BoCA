@@ -1,10 +1,10 @@
-# ifndef TopTaggerPreparation_hh
-# define TopTaggerPreparation_hh
+# ifndef HTopTagger_hh
+# define HTopTagger_hh
 
 # include <vector>
 
-# include "TMath.h"
-# include "Rtypes.h"
+// # include "TMath.h"
+// # include "Rtypes.h"
 
 # include "fastjet/PseudoJet.hh"
 # include "fastjet/ClusterSequence.hh"
@@ -17,47 +17,47 @@
  * @brief prepares the data for the top tagger
  *
  */
-class taggedtopclass : public HConstants
+class HTopTagger : public HConstants
 {
-
+    
 public:
-
+    
     /**
      * @brief vector of top lorentzvector
      *
      */
     vector<TLorentzVector> TopLorentzVectorVector;
-
+    
     /**
      * @brief vector of top pseudo vector
      *
      */
     vector<PseudoJet> TopJetVector;
-
+    
     /**
      * @brief vector of bottom pseudo vector
      *
      */
     vector<PseudoJet> BottomJetVector;
-
+    
     /**
      * @brief vector of W Jet pseudo vector
      *
      */
     vector<PseudoJet> FirstWJetVector;
-
+    
     /**
      * @brief vector of W Jet pseudo vectors
      *
      */
     vector<PseudoJet> SecondWJetVector;
-
+    
     /**
      * @brief number of top candidates
      *
      */
     int NumberOfTop;
-
+    
     /**
      * @brief tagges the tops
      *
@@ -65,7 +65,7 @@ public:
      * @return void
      */
     void TaggingTop(vector< PseudoJet > HadronVector);
-
+    
     /**
      * @brief removes the bottoms comming from the top decay from the vector of bottom lorentz vectors
      *
@@ -73,19 +73,19 @@ public:
      * @return void
      */
     void RemoveBottomComingFromTop(vector<HPull *> BottomClassVector);
-
+    
     /**
      * @brief constructor
      *
      */
-    taggedtopclass();
+    HTopTagger();
     
-    ~taggedtopclass();
+    ~HTopTagger();
     
     void NewEvent();
-
+    
 private:
-
+    
     /**
      * @brief Calculates Vector of granulated Jets
      *
@@ -100,7 +100,7 @@ private:
     virtual TString ClassName() {
         return ("HTopTaggerPreparation");
     };
-
+    
 };
 
 #endif

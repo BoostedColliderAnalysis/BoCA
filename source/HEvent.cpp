@@ -3,24 +3,25 @@
 
 HEvent::HEvent()
 {
-    
-    Print(0,"Constructor");
+
+    Print(0, "Constructor");
 
     Particle = new HParticle();
     Jets = new HJet();
     Leptons = new HLepton();
-    TaggedTopClass = new taggedtopclass();
+    TaggedTopClass = new HTopTagger();
     HiggsTagger = new HHiggsTagger();
     Discriminator = new HDiscriminator();
-    
+
     Particles = 0;
+    EFlow = 0;
 
 }
 
 HEvent::~HEvent()
 {
-    
-    Print(0,"Destructor");
+
+    Print(0, "Destructor");
 
     delete Particle;
     delete Jets;
@@ -31,30 +32,30 @@ HEvent::~HEvent()
 
 }
 
-void HEvent::NewAnalysis()
+void HEvent::NewFile()
 {
-    
-    Print(1,"New Analysis");
-    
-    Discriminator->NewAnalysis();
-        
+
+    Print(1, "New Analysis");
+
+    Discriminator->NewFile();
+
 }
 
-void HEvent::CleanAnalysis()
+void HEvent::CloseFile()
 {
-    
-    Print(1,"Clean Analysis");
-    
-    Discriminator->CleanAnalysis();
-    
+
+    Print(1, "Close File");
+
+    Discriminator->CloseFile();
+
 }
-    
+
 
 void HEvent::NewEvent(HClonesArrayBase *ImportClonesArrays)
 {
-    
-    Print(1,"New Event");
-    
+
+    Print(1, "New Event");
+
     ClonesArrays = ImportClonesArrays;
     Particle->NewEvent();
     Jets->NewEvent();
@@ -62,25 +63,26 @@ void HEvent::NewEvent(HClonesArrayBase *ImportClonesArrays)
     TaggedTopClass->NewEvent();
     HiggsTagger->NewEvent();
     Discriminator->NewEvent();
-    
+
     Particles = 0;
+    EFlow = 0;
 
 }
 
 
 void HEvent::GetParticles()
 {
-    
-    Print(1,"Get Particles");
-    
+
+    Print(1, "Get Particles");
+
     Particles = Particle->GetParticles(ClonesArrays);
 
 }
 
 void HEvent::GetLeptons()
 {
-    Print(1,"Get Leptons");
-        
+    Print(1, "Get Leptons");
+
     Leptons->GetElectrons(ClonesArrays);
     Leptons->GetMuons(ClonesArrays);
     Leptons->GetLeptonLorentzVectorVector();
@@ -89,8 +91,8 @@ void HEvent::GetLeptons()
 
 void HEvent::GetJets()
 {
-    Print(1,"Get Jets");
-    
+    Print(1, "Get Jets");
+
     Jets->AnalyseJet(ClonesArrays);
 
 }
@@ -99,10 +101,10 @@ void HEvent::GetJets()
 
 PseudoJet HEvent::GetHiggs()
 {
-    
-    Print(1,"Get Higgs");
-    
-    Jets->AnalyseEFlow(ClonesArrays);
+
+    Print(1, "Get Higgs");
+
+    if (!EFlow) EFlow = Jets->AnalyseEFlow(ClonesArrays);
     Particle->GetParticles(ClonesArrays);
 
     PseudoJet HiggsJet = HiggsTagger->GetHiggsJet(Jets->EFlowJetVector, Particle->BottomJetVector, Particle->CharmJetVector);
@@ -113,11 +115,11 @@ PseudoJet HEvent::GetHiggs()
 
 vector<PseudoJet> HEvent::GetTops()
 {
-    
-    Print(1,"Get Tops");
 
-    if (Jets->EFlowJetVector.size() == 0) Jets->AnalyseEFlow(ClonesArrays);
-    TaggedTopClass->TaggingTop(Jets->EFlowJetVector);
+    Print(1, "Get Tops");
+
+    if (!EFlow) EFlow =  Jets->AnalyseEFlow(ClonesArrays);
+    if (Jets->EFlowJetVector.size() > 0) TaggedTopClass->TaggingTop(Jets->EFlowJetVector);
     vector<PseudoJet> TopJetVector = TaggedTopClass->TopJetVector;
 
     return (TopJetVector);
@@ -128,55 +130,55 @@ vector<PseudoJet> HEvent::GetTops()
 // vector<PseudoJet> HEvent::GetHiggsTopCandidates(bool Higgs, bool Tops, bool Candidates)
 // {
 //     Print(1,"GetHiggsTopCandidates");
-//     
+//
 //     vector<PseudoJet> CandidateJets;
-// 
-//     Jets->AnalyseEFlow(ClonesArrays);
+//
+//     if (!EFlow) EFlow = Jets->AnalyseEFlow(ClonesArrays);
 //     if (Higgs || Tops) Particle->GetParticles(ClonesArrays);
-// 
+//
 //     if (Particle->TopJetVector.size() > 0 && Tops && !Candidates) {
-//         
+//
 //         CandidateJets = Discriminator->GetTopJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
-//         
+//
 //     }
-// 
+//
 //     if (Particle->HiggsJetVector.size() > 0 && Higgs && !Candidates) {
-// 
-//        PseudoJet HiggsJet = Discriminator->GetHiggsJet(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);       
+//
+//        PseudoJet HiggsJet = Discriminator->GetHiggsJet(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
 //        CandidateJets.push_back(HiggsJet);
-// 
+//
 //     }
-// 
+//
 //     if (Candidates && !(Higgs || Tops) ) {
-//         
+//
 //         CandidateJets = Discriminator->GetCandidateJets(Jets->EFlowJetVector);
-//         
+//
 //     }
-// 
+//
 //     if (Higgs && Tops && Candidates) {
-//         
+//
 //         CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
-//         
+//
 //     }
-// 
+//
 //     return (CandidateJets);
-// 
+//
 // }
 
 
 vector<PseudoJet> HEvent::GetHiggsTopCandidates()
 {
-    Print(1,"GetHiggsTopCandidates");
-    
+    Print(1, "GetHiggsTopCandidates");
+
     vector<PseudoJet> CandidateJets;
-    
-    Jets->AnalyseEFlow(ClonesArrays);
+
+    if (!EFlow) EFlow = Jets->AnalyseEFlow(ClonesArrays);
     if (!Particles) Particles = Particle->GetParticles(ClonesArrays);
-    
-        CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
-            
+
+    CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
+
     return (CandidateJets);
-    
+
 }
 
 // HEvent::GetPhotons()

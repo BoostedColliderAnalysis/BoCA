@@ -29,9 +29,9 @@ public:
      */
     ~HClonesArrayBase();
 
-    void ResetTrees();
+    void ResetBranches();
 
-    virtual void ReadTrees(ExRootTreeReader *) = 0;
+    virtual void UseBranches(ExRootTreeReader *) = 0;
 
     /**
      * @brief Particle Clones Array
@@ -140,7 +140,7 @@ private:
 class HClonesArrayDelphes : public HClonesArrayBase
 {
 
-    void ReadTrees(ExRootTreeReader *);
+    void UseBranches(ExRootTreeReader *);
 
 private:
 
@@ -153,7 +153,7 @@ private:
 class HClonesArraySnowmass : public HClonesArrayBase
 {
 
-    void ReadTrees(ExRootTreeReader *);
+    void UseBranches(ExRootTreeReader *);
 
 private:
 
@@ -166,7 +166,7 @@ private:
 class HClonesArrayPgs : public HClonesArrayBase
 {
 
-    void ReadTrees(ExRootTreeReader *);
+    void UseBranches(ExRootTreeReader *);
 
 private:
 
@@ -179,7 +179,7 @@ private:
 class HClonesArrayParton : public HClonesArrayBase
 {
 
-    void ReadTrees(ExRootTreeReader *);
+    void UseBranches(ExRootTreeReader *);
 
 private:
 

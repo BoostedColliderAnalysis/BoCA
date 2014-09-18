@@ -4,24 +4,62 @@ HAnalysis::HAnalysis()
 {
 
     Print(0, "Constructor");
-
-    MvaNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
-//     MvaStringVector = {"Top"};
-
-//     EventNumberMax = 100000;
-
-    FillAnalysisVector();
-
-    LeptonEventCounter = 0;
     
     ProjectName = "Discriminator";
+
+    LeptonEventCounter = 0;
+        
+    ClonesArrays = new HClonesArrayDelphes();
+
+}
+
+vector<string> HAnalysis::GetStudyNameVector(){
+    
+    vector<string> StudyNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
+    //     vector<string> StudyNameVector = {"Top"};
+    
+    return StudyNameVector;
+    
+}
+
+void HAnalysis::SetFileVector()
+{
+
+    Print(0, "Set File Vector", AnalysisName);
+
+    if (AnalysisName != "Higgs") {
+
+        HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv","background");
+        Background->Crosssection = 3.215; // pb
+        Background->Error = 0.012; // pb
+        FileVector.push_back(Background);
+
+    }
+    
+    HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv","even");
+    Even->Crosssection = 0.02079; // pb
+    Even->Error = 0.000078; // pb
+    FileVector.push_back(Even);
+
+    HFileDelphes *Mix = new HFileDelphes("pp-x0tt-bblvlv","mix");
+    Mix->Crosssection = 0.01172; // pb
+    Mix->Error = 0.000045; // pb
+    FileVector.push_back(Mix);
+    
+    HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv","odd");
+    Odd->Crosssection = 0.008951; // pb
+    Odd->Error = 0.000035; // pb
+    FileVector.push_back(Odd);
+
+    int AnalysisSum = FileVector.size();
+    Print(0, "Files prepared", AnalysisSum);
 
 }
 
 
-void HAnalysis::NewAnalysis()
+void HAnalysis::NewFile()
 {
-    Print(0, "New Branches");
+    Print(0, "New File");
 
     CandidateBranch = TreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
     LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
@@ -29,49 +67,12 @@ void HAnalysis::NewAnalysis()
 
     LeptonEventCounter = 0;
 
-
 }
 
-void HAnalysis::CleanAnalysis()
+void HAnalysis::CloseFile()
 {
-    Print(0, "Clean Analysis");
+    Print(0, "Close File");
     
-}
-
-void HAnalysis::FillAnalysisVector()
-{
-
-    Print(0, "FillAnalysisVector", AnalysisName);
-
-//     AnalysisVector.clear();
-
-    if (AnalysisName != "Higgs") {
-
-        HPathDelphes *Background = new HPathDelphes("pp-bbtt-bblvlv","background");
-        Background->Crosssection = 3.215; // pb
-        Background->Error = 0.012; // pb
-        AnalysisVector.push_back(Background);
-
-    }
-    
-    HPathDelphes *Even = new HPathDelphes("pp-x0tt-bblvlv","even");
-    Even->Crosssection = 0.02079; // pb
-    Even->Error = 0.000078; // pb
-    AnalysisVector.push_back(Even);
-
-    HPathDelphes *Mix = new HPathDelphes("pp-x0tt-bblvlv","mix");
-    Mix->Crosssection = 0.01172; // pb
-    Mix->Error = 0.000045; // pb
-    AnalysisVector.push_back(Mix);
-    
-    HPathDelphes *Odd = new HPathDelphes("pp-x0tt-bblvlv","odd");
-    Odd->Crosssection = 0.008951; // pb
-    Odd->Error = 0.000035; // pb
-    AnalysisVector.push_back(Odd);
-
-    int AnalysisSum = AnalysisVector.size();
-    Print(0, "Files prepared", AnalysisSum);
-
 }
 
 
