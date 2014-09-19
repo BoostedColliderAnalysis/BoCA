@@ -10,6 +10,8 @@ HAnalysis::HAnalysis()
     LeptonEventCounter = 0;
         
     ClonesArrays = new HClonesArrayDelphes();
+        
+    Event = new HEventDelphes();
 
 }
 

@@ -7,10 +7,18 @@ install(TARGETS HObject DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
 
 # HEvent Library
 set(EventSources
-HEvent.cpp
-HParticle.cpp
+# HEvent.cpp
+HEventBase.cpp
+HEventDelphes.cpp
+# HParticle.cpp
+HParticleBase.cpp
+HParticleDelphes.cpp
+HParticleParton.cpp
 HJet.cpp
-HLepton.cpp
+# HLepton.cpp
+HLeptonBase.cpp
+HLeptonDelphes.cpp
+HLeptonPgs.cpp
 HTopTagger.cpp
 HDiscriminator.cpp
 HHiggsTagger.cpp
@@ -19,12 +27,11 @@ HPull.cpp
 )
 
 set(HEventLinkLibraries
-${LinkLibraries}
 ${fastjet_LIBRARIES} 
 ${DelphesLibrary}
 HObject 
 )
-set(EventSources ${EventSources} ${HDictionarySource}) 
+set(EventSources ${EventSources}) 
 add_library(HEvent SHARED ${EventSources} )
 target_link_libraries (HEvent ${HEventLinkLibraries})
 set_target_properties(HEvent PROPERTIES ${LibraryProperties})
@@ -38,12 +45,11 @@ HClonesArray.cpp
 )
 
 set(HAnalysisBaseLinkLibraries
-${LinkLibraries}
 ${ExRootLibrary}
 HObject
 HEvent 
 )
-set(AnalysisBaseSources ${AnalysisBaseSources} ${HDictionarySource}) 
+set(AnalysisBaseSources ${AnalysisBaseSources}) 
 add_library(HAnalysisBase SHARED ${AnalysisBaseSources})
 target_link_libraries (HAnalysisBase ${HAnalysisBaseLinkLibraries})
 set_target_properties(HAnalysisBase PROPERTIES ${LibraryProperties})
@@ -57,13 +63,12 @@ HReader.cpp
 )
 
 set(HMvaBaseLinkLibraries
-${LinkLibraries}
+TMVA
 ${ExRootLibrary}
 HObject
-TMVA
 HBranch
 )
-set(MvaBaseSources ${MvaBaseSources} ${HDictionarySource}) 
+set(MvaBaseSources ${MvaBaseSources}) 
 add_library(HMvaBase SHARED ${MvaBaseSources})
 target_link_libraries (HMvaBase ${HMvaBaseLinkLibraries})
 set_target_properties(HMvaBase PROPERTIES ${LibraryProperties})

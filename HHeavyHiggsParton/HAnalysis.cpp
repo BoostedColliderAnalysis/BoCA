@@ -88,12 +88,12 @@ bool HAnalysis::Analysis()
     sort(BottomVector.begin(), BottomVector.end(), SortJetByEta());
 
     PseudoJet FrontJet = BottomVector.front();
-    double FrontPt = FrontJet.pt();
+//     double FrontPt = FrontJet.pt();
     double FrontEta = FrontJet.eta();
 
     PseudoJet BackJet = BottomVector.back();
     double BackEta = BackJet.eta();
-    double BackPt = BackJet.pt();
+//     double BackPt = BackJet.pt();
 
     PseudoJet CombinedJet = FrontJet + BackJet;
     double CombinedMass = CombinedJet.m();

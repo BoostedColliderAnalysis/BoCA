@@ -6,8 +6,6 @@ HAnalysisBase::HAnalysisBase()
     Print(0, "Constructor");
 
     EventNumberMax = 100000;
-
-    Event = new HEvent();
     
 }
 

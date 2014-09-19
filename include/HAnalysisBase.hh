@@ -9,7 +9,7 @@
 
 # include "HFile.hh"
 
-# include "HEvent.hh"
+# include "HEventBase.hh"
 
 # include "HBranch.hh"
 # include "HObject.hh"
@@ -103,7 +103,7 @@ protected:
      */
     int EventNumberMax;
 
-    HEvent *Event;
+    HEventBase *Event;
     
     /**
      * @brief Clones Arrays

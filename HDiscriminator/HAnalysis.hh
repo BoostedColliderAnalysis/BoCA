@@ -2,6 +2,7 @@
 # define HAnalysis_hh
 
 # include "HAnalysisBase.hh"
+# include "HEventDelphes.hh"
 
 /**
  * @brief Class defining the Disciminator Analysis

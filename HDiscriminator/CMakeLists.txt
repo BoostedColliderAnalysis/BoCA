@@ -1,7 +1,7 @@
 # Analysis Library
-set(AnalysisSources ${HDictionarySource} HAnalysis.cpp)
+set(AnalysisSources HAnalysis.cpp)
 add_library(HAnalysisDiscriminator SHARED ${AnalysisSources})
-target_link_libraries(HAnalysisDiscriminator HBranch)
+target_link_libraries(HAnalysisDiscriminator HBranch HEvent)
 set_target_properties(HAnalysisDiscriminator PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysisDiscriminator DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
 
@@ -15,7 +15,7 @@ add_executable(HDiscriminator main.cpp)
 target_link_libraries(HDiscriminator ${LinkLibraries})
 
 # Mva Library
-set(MvaSources ${HDictionarySource} HMva.cpp)
+set(MvaSources HMva.cpp)
 add_library(HMva SHARED ${MvaSources})
 target_link_libraries(HMva HMvaBase)
 

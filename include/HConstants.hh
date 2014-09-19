@@ -24,6 +24,18 @@ protected:
     
     const float WMass;
     
+    /**
+     * @brief Physical Muon Mass
+     *
+     */
+    const float MuonMass;
+    
+    /**
+     * @brief Physical Electron Mass
+     *
+     */
+    const float ElectronMass;
+    
     const int HiggsUserIndex;
     
     const int TopUserIndex;

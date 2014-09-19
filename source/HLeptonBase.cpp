@@ -1,27 +1,26 @@
-# include "HLepton.hh"
+# include "HLeptonBase.hh"
 
-HLepton::HLepton()
+HLeptonBase::HLeptonBase()
 {
        
     Print(0,"Constructor");
     
-    ElectronMass = 0.000511;
-    MuonMass = 0.1134;
-    
 
 }
 
-HLepton::~HLepton()
+HLeptonBase::~HLeptonBase()
 {
     Print(0,"Destructor");
     
     
 }
 
-void HLepton::NewEvent()
+void HLeptonBase::NewEvent(HClonesArrayBase *ClonesArrayImport)
 {
     
     Print(1,"New Event");
+    
+    ClonesArray = ClonesArrayImport;
 
     ElectronLorentzVectorVector.clear();
     
@@ -48,79 +47,7 @@ void HLepton::NewEvent()
 }
 
 
-void HLepton::GetElectrons(HClonesArrayBase *ClonesArrayImport)
-{
-    
-    Print(1,"Get Electrons");
-
-    ClonesArray = ClonesArrayImport;
-    int ElectronSum = ClonesArray->ElectronClonesArray->GetEntriesFast();
-    Print(2,"Number of Electrons:",ElectronSum);
-    for (int ElectronNumber = 0; ElectronNumber < ElectronSum; ElectronNumber++) {
-
-        CElectron *ElectronClone = (CElectron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
-
-        int ElectronCharge = ElectronClone->Charge;
-        float ElectronPt = ElectronClone->PT;
-
-        if (ElectronCharge == -1) {
-
-            TLorentzVector ElectronLorentzVector;
-            ElectronLorentzVector.SetPtEtaPhiM(ElectronPt, ElectronClone->Eta, ElectronClone->Phi, ElectronMass);
-            ElectronLorentzVectorVector.push_back(ElectronLorentzVector);
-            Print(2,"Electron with Pt:",ElectronPt);
-
-        } else if (ElectronCharge == 1) {
-
-            TLorentzVector AntiElectronLorentzVector;
-            AntiElectronLorentzVector.SetPtEtaPhiM(ElectronPt, ElectronClone->Eta, ElectronClone->Phi, ElectronMass);
-            AntiElectronLorentzVectorVector.push_back(AntiElectronLorentzVector);
-            Print(2,"Anti Electron with Pt:",ElectronPt);
-
-        } else cout << "Electron Charge: " << ElectronCharge <<  endl;
-
-    }
-
-}
-
-void HLepton::GetMuons(HClonesArrayBase *ClonesArrayImport)
-{
-    
-    Print(1,"Get Muons");
-    
-    ClonesArray = ClonesArrayImport;
-    int MuonSum = ClonesArray->MuonClonesArray->GetEntriesFast();
-    Print(2,"Number of Muons:",MuonSum);
-    for (int MuonNumber = 0; MuonNumber < MuonSum; ++MuonNumber) {
-
-        CMuon *MuonClone = (CMuon *)ClonesArray->MuonClonesArray->At(MuonNumber);
-        int MuonCharge = MuonClone->Charge;
-        float MuonPt = MuonClone->PT;
-
-        if (MuonCharge == -1) {
-
-            TLorentzVector MuonLorentzVector;
-            MuonLorentzVector.SetPtEtaPhiM(MuonPt, MuonClone->Eta, MuonClone->Phi, MuonMass);
-            MuonLorentzVectorVector.push_back(MuonLorentzVector);
-            Print(2,"Muon with Pt:",MuonPt);
-
-        } else if (MuonCharge == 1) {
-
-            TLorentzVector AntiMuonLorentzVector;
-            AntiMuonLorentzVector.SetPtEtaPhiM(MuonPt, MuonClone->Eta, MuonClone->Phi, MuonMass);
-            AntiMuonLorentzVectorVector.push_back(AntiMuonLorentzVector);
-            Print(2,"Anti Muon with Pt:",MuonPt);
-
-        } else cout << "Muon Charge: " << MuonCharge <<  endl;
-
-    }
-
-}
-
-
-
-
-void HLepton::GetLeptonLorentzVectorVector()
+void HLeptonBase::GetLeptonLorentzVectorVector()
 {
     
     Print(1,"Get Leptons");

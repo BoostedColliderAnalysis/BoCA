@@ -2,6 +2,7 @@
 # define HAnalysis_hh
 
 # include "HAnalysisBase.hh"
+# include "HEventDelphes.hh"
 
 using std::iter_swap;
 

@@ -2,12 +2,6 @@
 # define HJet_hh
 
 # include "TObjArray.h"
-// # include "TMathBase.h"
-// # include "TMath.h"
-// # include "Rtypes.h"
-# include "TLorentzVector.h"
-
-# include "fastjet/PseudoJet.hh"
 
 # include "classes/DelphesClasses.h"
 
@@ -15,7 +9,6 @@
 # include "HObject.hh"
 
 using std::vector;
-using fastjet::PseudoJet;
 
 /**
  * @brief stores all the information about the event topology
@@ -43,7 +36,7 @@ public:
      *
      * @return void
      */
-    void AnalyseJet(HClonesArrayBase *);
+    void AnalyseJet();
     
     /**
      * @brief Get Tau Tag
@@ -56,7 +49,7 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool AnalyseEFlow(HClonesArrayBase *ImportClonesArrays);
+    bool AnalyseEFlow();
     
     /**
      * @brief Get Gen Jet
@@ -64,14 +57,14 @@ public:
      * @param  ...
      * @return void
      */
-    void GetGenJet(HClonesArrayBase *);
+    void GetGenJet();
     
     /**
      * @brief Initialize new event
      * 
      * @return void
      */
-    void NewEvent();
+    void NewEvent(HClonesArrayBase *);
     
     /**
      * @brief vector of Jet Lorentz Vectors
@@ -129,19 +122,40 @@ public:
 
 
 private:
+    
+    
+    template<typename Template1, typename Template2>
+    bool CheckIsolation(Template1 Particle1, Template2 Particle2)
+    {
+        
+        const float DeltaRIsolationMax = 0.01; // TODO decide on best value
+        bool Isolated = true;
+        
+        float Eta1 = Particle1->Eta;
+        float Phi1 = Particle1->Phi;
+        float Eta2 = Particle2->Eta;
+        float Phi2 = Particle2->Phi;
+        
+        if (GetDistance(Eta1, Phi1, Eta2, Phi2) < DeltaRIsolationMax) {
+            
+            Isolated = false;
+            
+        }
+        
+        
+        Isolated = true; // FIXME this destroys the isolation check (right now on purpose to get harder top jets)
+        
+        return (Isolated);
+        
+    }
+    
 
     /**
      * @brief Clones Arrays
      *
      */
     HClonesArrayBase *ClonesArrays;
-
-    bool CheckIsolation(float, float, float, float);
-
-    PseudoJet FillPtJet(float, float, float);
-
-    PseudoJet FillEJet(float, float, float);
-    
+        
     virtual TString ClassName() {
         return ("HJet");
     };

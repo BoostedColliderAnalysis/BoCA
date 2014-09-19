@@ -10,6 +10,8 @@ HAnalysis::HAnalysis()
     EventNumberMax = 10000;
 
     ClonesArrays = new HClonesArraySnowmass();
+    
+    Event = new HEventDelphes();
 
     Cut = 1;
 

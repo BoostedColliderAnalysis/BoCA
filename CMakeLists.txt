@@ -5,27 +5,35 @@ cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 # Has to be done after check of cmake version since this is a new feature                  
 project(HAnalysis)
 
-# Load some basic macros which are needed later on
-include(FindROOT.cmake)
-include(Findfastjet.cmake)
-
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-long-long -pedantic -g")
 
 #C set build type to debug
 set(CMAKE_BUILD_TYPE Debug)
- 
-# set library and excecutable destination
-set(LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+# Load some basic macros which are needed later on
+include(FindROOT.cmake)
+include(Findfastjet.cmake)
  
 # set path to dependencies
 set(MadGraphDir "~/Development/MadGraph")
 set(ExRootDir "${MadGraphDir}/ExRootAnalysis")
 set(DelphesDir "${MadGraphDir}/Delphes")
 
-set(DelphesLibrary ${DelphesDir}/libDelphes.so)
-set(ExRootLibrary ${ExRootDir}/lib/libExRootAnalysis.so)
+# find external libraries
+find_library(ExRootLibrary
+    NAMES ExRootAnalysis
+#     HINTS "${ExRootDir}/lib"
+)
+
+find_library(DelphesLibrary
+    NAMES Delphes
+#     HINTS "${DelphesDir}"
+)
+ 
+# set library and excecutable destination
+set(LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 # set library versions
 set(MajorVersion 0)
@@ -57,7 +65,7 @@ include_directories(${IncludeDirectory})
 add_subdirectory(source)
 
 # Executables
-set(LinkDirectories ${ROOT_LIBRARY_DIR} ${LIBRARY_OUTPUT_DIRECTORY})
+set(LinkDirectories ${ROOT_LIBRARY_DIR})
 link_directories(${LinkDirectories})
 
 set(LinkLibraries
