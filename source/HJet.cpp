@@ -54,7 +54,7 @@ void HJet::AnalyseJet()
     Print(2, "Number of Jets", JetSum);
 
     /// Loop over all jets
-    for (int JetNumber = 0; JetNumber < JetSum; JetNumber++) {
+    for (int JetNumber = 0; JetNumber < JetSum; ++JetNumber) {
 
         Print(3, "Jet Number", JetNumber);
         Jet *JetClone = (Jet *)JetClonesArray->At(JetNumber);

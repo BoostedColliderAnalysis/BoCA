@@ -6,7 +6,7 @@
 # include "TObjArray.h"
 
 # include "HClonesArray.hh"
-# include "HConstants.hh"
+# include "HObject.hh"
 
 using std::sort;
 using std::vector;
@@ -17,7 +17,7 @@ class Jet;
  * @brief calculation regarding leptons
  *
  */
-class HLeptonBase : public HConstants
+class HLeptonBase : public HObject
 {
 
 public:
@@ -35,9 +35,9 @@ public:
      */
     ~HLeptonBase();
         
-    void GetLeptonLorentzVectorVector();
-    
-    void GetAntiLeptonLorentzVectorVector();
+    vector<TLorentzVector> GetLeptonVector();
+                
+    vector<PseudoJet> GetLeptonJetVector();
     
     /**
      * @brief Find the hardest of the light leptons
@@ -61,7 +61,7 @@ public:
      * @param JetClone
      * @return void
      */
-    void TauTagCalculations(Jet *);
+//     void TauTagCalculations(Jet *);
     
     /**
      * @brief lepton and  Missing-Energy
@@ -69,7 +69,7 @@ public:
      * @param ClonesArrayClass ...
      * @return void
      */
-    void LeptonsAndMissingEt();
+//     void LeptonsAndMissingEt();
     
     void NewEvent(HClonesArrayBase *);
 
@@ -77,49 +77,74 @@ public:
      * @brief Electron Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> ElectronLorentzVectorVector;
+    vector<TLorentzVector> ElectronVector;
 
     /**
      * @brief Anti Electron Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiElectronLorentzVectorVector;
+    vector<TLorentzVector> AntiElectronVector;
 
     /**
      * @brief Muon Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> MuonLorentzVectorVector;
+    vector<TLorentzVector> MuonVector;
 
     /**
      * @brief Anti Muon Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiMuonLorentzVectorVector;
+    vector<TLorentzVector> AntiMuonVector;
 
     /**
      * @brief Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> TauLorentzVectorVector;
+    vector<TLorentzVector> TauVector;
 
     /**
      * @brief Anti Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiTauLorentzVectorVector;
+    vector<TLorentzVector> AntiTauVector;
 
     /**
      * @brief Lepton Lorentz Vector
      *
      */
-    vector<TLorentzVector> LeptonLorentzVectorVector;
+    vector<TLorentzVector> LeptonVector;
 
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
-    vector<TLorentzVector> AntiLeptonLorentzVectorVector;
+    vector<TLorentzVector> AntiLeptonVector;
+       
+
+    /**
+     * @brief Electron Lorentz Vector Vector
+     *
+     */
+    vector<PseudoJet> ElectronJetVector;
+
+    /**
+     * @brief Anti Electron Lorentz Vector Vector
+     *
+     */
+    vector<PseudoJet> AntiElectronJetVector;
+
+    /**
+     * @brief Muon Lorentz Vector Vector
+     *
+     */
+    vector<PseudoJet> MuonJetVector;
+
+    /**
+     * @brief Anti Muon Lorentz Vector Vector
+     *
+     */
+    vector<PseudoJet> AntiMuonJetVector;
     
     /**
      * @brief Lepton Lorentz Vector

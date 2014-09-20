@@ -11,6 +11,8 @@
 
 # include "TString.h"
 
+// # include "HasMember.hh"
+
 using std::left;
 using std::setw;
 using std::setfill;
@@ -21,6 +23,20 @@ using TMath::Pi;
 using fastjet::PseudoJet;
 
 
+// struct CheckHasE
+// {
+// 
+//   template <typename Template, double (Template::*)= &Template::E>
+//     struct get
+//     { };
+// };
+// 
+// template <typename Template>
+// struct HasE :
+//         HasMember<Template, CheckHasE>
+// { };
+
+
 class HObject
 {
 
@@ -29,6 +45,8 @@ public:
     HObject();
 
     virtual ~HObject();
+    
+protected:
 
     /**
      * @brief Calcualte distance in eta phi space
@@ -88,6 +106,8 @@ public:
         float ParticlePhi = Particle->Phi;
         float ParticleE = Particle->E;
         
+//      Print(0,"HasE",HasE<Template>::Value);
+
         LorentzVector.SetPtEtaPhiE(ParticlePt, ParticleEta, ParticlePhi, ParticleE);
         
         
@@ -165,16 +185,37 @@ public:
         
     }
 
-    int Debug;
-
-    const int LargeNumber;
-
-protected:
-
     virtual TString ClassName() {
         return ("HObject");
     };
 
+
+    int Debug;
+
+    const int LargeNumber;    
+
+    const float HiggsMass;
+
+    const float TopMass;
+    
+    const float WMass;
+    
+    /**
+     * @brief Physical Muon Mass
+     *
+     */
+    const float MuonMass;
+    
+    /**
+     * @brief Physical Electron Mass
+     *
+     */
+    const float ElectronMass;
+    
+    const int HiggsUserIndex;
+    
+    const int TopUserIndex;
+    
 private:
 
 };

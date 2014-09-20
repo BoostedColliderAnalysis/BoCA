@@ -2,105 +2,115 @@
 
 HLeptonBase::HLeptonBase()
 {
-       
+
     Print(0,"Constructor");
-    
 
 }
 
 HLeptonBase::~HLeptonBase()
 {
+
     Print(0,"Destructor");
-    
-    
+
 }
 
 void HLeptonBase::NewEvent(HClonesArrayBase *ClonesArrayImport)
 {
-    
+
     Print(1,"New Event");
-    
+
     ClonesArray = ClonesArrayImport;
 
-    ElectronLorentzVectorVector.clear();
-    
-    AntiElectronLorentzVectorVector.clear();
-    
-    MuonLorentzVectorVector.clear();
-    
-    AntiMuonLorentzVectorVector.clear();
-    
-    TauLorentzVectorVector.clear();
-    
-    AntiTauLorentzVectorVector.clear();
-    
-    LeptonLorentzVectorVector.clear();
-    
-    AntiLeptonLorentzVectorVector.clear();
-    
+    ElectronVector.clear();
+
+    AntiElectronVector.clear();
+
+    MuonVector.clear();
+
+    AntiMuonVector.clear();
+
+    TauVector.clear();
+
+    AntiTauVector.clear();
+
+    LeptonVector.clear();
+
+    AntiLeptonVector.clear();
+
     LeptonJetVector.clear();
-    
+
     AntiLeptonJetVector.clear();
+
+}
+
+vector<TLorentzVector> HLeptonBase::GetLeptonVector()
+{
+
+    Print(1,"Get Leptons");
+
+    LeptonVector = ElectronVector;
+    LeptonVector.insert(LeptonVector.end(), MuonVector.begin(), MuonVector.end());
+//     LeptonVector.insert(LeptonVector.end(), TauVector.begin(), TauVector.end());
+    sort(LeptonVector.begin(), LeptonVector.end(), SortByPt());
     
-    
+    Print(2,"Number of Leptons",LeptonVector.size());
+
+    AntiLeptonVector = AntiElectronVector;
+    AntiLeptonVector.insert(AntiLeptonVector.end(), AntiMuonVector.begin(), AntiMuonVector.end());
+//     AntiLeptonVector.insert(AntiLeptonVector.end(), AntiTauVector.begin(), AntiTauVector.end());
+    sort(AntiLeptonVector.begin(), AntiLeptonVector.end(), SortByPt());
+
+
+    Print(2,"Number of Anti Leptons",AntiLeptonVector.size());
+
+    vector<TLorentzVector> CompleteVector = LeptonVector;
+    CompleteVector.insert(CompleteVector.end(), AntiLeptonVector.begin(), AntiLeptonVector.end());
+    sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
+        
+    return CompleteVector;
     
 }
 
 
-void HLeptonBase::GetLeptonLorentzVectorVector()
+
+vector<PseudoJet> HLeptonBase::GetLeptonJetVector()
 {
-    
-    Print(1,"Get Leptons");
 
-    LeptonLorentzVectorVector = ElectronLorentzVectorVector;
-    LeptonLorentzVectorVector.insert(LeptonLorentzVectorVector.end(), MuonLorentzVectorVector.begin(), MuonLorentzVectorVector.end());
-//     LeptonLorentzVectorVector.insert(LeptonLorentzVectorVector.end(), TauLorentzVectorVector.begin(), TauLorentzVectorVector.end());
-    sort(LeptonLorentzVectorVector.begin(), LeptonLorentzVectorVector.end(), SortByPt());
+    Print(1,"Get Lepton Jets");
 
-    AntiLeptonLorentzVectorVector = AntiElectronLorentzVectorVector;
-    AntiLeptonLorentzVectorVector.insert(AntiLeptonLorentzVectorVector.end(), AntiMuonLorentzVectorVector.begin(), AntiMuonLorentzVectorVector.end());
-//     AntiLeptonLorentzVectorVector.insert(AntiLeptonLorentzVectorVector.end(), AntiTauLorentzVectorVector.begin(), AntiTauLorentzVectorVector.end());
-    sort(AntiLeptonLorentzVectorVector.begin(), AntiLeptonLorentzVectorVector.end(), SortByPt());
-    
-    int LeptonSum = LeptonLorentzVectorVector.size();
-    for (int LeptonNumber =0;LeptonNumber<LeptonSum;++LeptonNumber){
-        
-        TLorentzVector Lepton = LeptonLorentzVectorVector[LeptonNumber];
-        
-        PseudoJet LeptonJet(Lepton.Px(),Lepton.Py(),Lepton.Pz(),Lepton.E());
-        
-        LeptonJetVector.push_back(LeptonJet);
-        
-    }
-    
-    LeptonSum = AntiLeptonLorentzVectorVector.size();
-    for (int LeptonNumber =0;LeptonNumber<LeptonSum;++LeptonNumber){
-        
-        TLorentzVector Lepton = AntiLeptonLorentzVectorVector[LeptonNumber];
-        
-        PseudoJet LeptonJet(Lepton.Px(),Lepton.Py(),Lepton.Pz(),Lepton.E());
-        
-        AntiLeptonJetVector.push_back(LeptonJet);
-        
-    }
-    
-    Print(2,"Number of Leptons:",LeptonLorentzVectorVector.size());
-    Print(2,"Number of Anti Leptons:",AntiLeptonLorentzVectorVector.size());
+    LeptonJetVector = ElectronJetVector;
+    LeptonJetVector.insert(LeptonJetVector.end(), MuonJetVector.begin(), MuonJetVector.end());
+//     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());
+    sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
 
+    Print(2,"Number of Leptons",LeptonJetVector.size());
+
+    AntiLeptonJetVector = AntiElectronJetVector;
+    AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiMuonJetVector.begin(), AntiMuonJetVector.end());
+//     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiTauJetVector.begin(), AntiTauJetVector.end());
+    sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
+    Print(2,"Number of Anti Leptons",AntiLeptonJetVector.size());
+
+    vector<PseudoJet> CompleteJetVector = LeptonJetVector;
+    CompleteJetVector.insert(CompleteJetVector.end(), AntiLeptonJetVector.begin(), AntiLeptonJetVector.end());
+    sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
+        
+    return CompleteJetVector;
+    
 }
 
 
 // void  leptons::FindLargestLorentzVector()
 // {
 //
-//     TLorentzVector LeptonLorentzVector;
+//     TLorentzVector Lepton;
 //
-//     float ElectronPT = ElectronLorentzVector.Pt();
-//     float MuonPT = MuonLorentzVector.Pt();
-//     float TauPT = TauLorentzVector.Pt();
+//     float ElectronPT = Electron.Pt();
+//     float MuonPT = Muon.Pt();
+//     float TauPT = Tau.Pt();
 //
 //     if (ElectronPT > MuonPT && ElectronPT > TauPT) {
-//         LeptonLorentzVector =  ElectronLorentzVector;
+//         Lepton =  Electron;
 //     } else if (MuonPT > ElectronPT && MuonPT > TauPT) {
 //         LeptonLorentzVector = MuonLorentzVector;
 //     } else if (TauPT > ElectronPT && TauPT > MuonPT) {

@@ -1,6 +1,14 @@
 # include "HObject.hh"
 
-HObject::HObject() : LargeNumber(999999999)
+HObject::HObject() : 
+LargeNumber(999999999),
+    HiggsMass(125),
+    TopMass(173.5),
+    WMass(80.39),
+    MuonMass(0.1134),
+    ElectronMass(0.000511),
+    HiggsUserIndex(1000),
+    TopUserIndex(2000)
 {
 
     Print(0, "Constructor");

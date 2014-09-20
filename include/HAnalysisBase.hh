@@ -22,7 +22,7 @@ class HAnlysis;
  * @brief Class defining the Analysis
  *
  */
-class HAnalysisBase : public HConstants
+class HAnalysisBase : public HObject
 {
 
 public:

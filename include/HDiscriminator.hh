@@ -8,7 +8,7 @@
 # include "fastjet/ClusterSequenceArea.hh"
 
 # include "HPull.hh"
-# include "HConstants.hh"
+# include "HObject.hh"
 
 using fastjet::sorted_by_E;
 using fastjet::cambridge_algorithm;
@@ -30,7 +30,7 @@ using std::max;
  *
  *
  */
-class HDiscriminator : public HConstants
+class HDiscriminator : public HObject
 {
 
 public:

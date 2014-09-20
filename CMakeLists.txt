@@ -23,12 +23,12 @@ set(DelphesDir "${MadGraphDir}/Delphes")
 # find external libraries
 find_library(ExRootLibrary
     NAMES ExRootAnalysis
-#     HINTS "${ExRootDir}/lib"
+    HINTS "${ExRootDir}/lib"
 )
 
 find_library(DelphesLibrary
     NAMES Delphes
-#     HINTS "${DelphesDir}"
+    HINTS "${DelphesDir}"
 )
  
 # set library and excecutable destination

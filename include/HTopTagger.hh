@@ -11,13 +11,13 @@
 
 # include "HEPTopTagger.hh"
 # include "HPull.hh"
-# include "HConstants.hh"
+# include "HObject.hh"
 
 /**
  * @brief prepares the data for the top tagger
  *
  */
-class HTopTagger : public HConstants
+class HTopTagger : public HObject
 {
     
 public:

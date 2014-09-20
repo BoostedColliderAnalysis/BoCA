@@ -32,7 +32,7 @@ public:
 
     void NewEvent();
 
-    void GetLeptons();
+    vector<TLorentzVector>GetLeptons();
 
     void GetJets();
     

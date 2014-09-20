@@ -49,7 +49,6 @@ void HEventDelphes::CloseFile()
 
 }
 
-
 void HEventDelphes::NewEvent()
 {
 
@@ -58,6 +57,7 @@ void HEventDelphes::NewEvent()
     Particle->NewEvent(ClonesArrays);
     Jets->NewEvent(ClonesArrays);
     Leptons->NewEvent(ClonesArrays);
+    
     TopTagger->NewEvent();
     HiggsTagger->NewEvent();
     Discriminator->NewEvent();
@@ -67,14 +67,27 @@ void HEventDelphes::NewEvent()
 
 }
 
-void HEventDelphes::GetLeptons()
+
+void HEventDelphes::GetParticles()
+{
+
+    Print(1, "Get Particles");
+
+    Particles = Particle->GetParticles();
+
+}
+
+
+vector<TLorentzVector> HEventDelphes::GetLeptons()
 {
     Print(1, "Get Leptons");
 
     Leptons->GetElectrons();
     Leptons->GetMuons();
-    Leptons->GetLeptonLorentzVectorVector();
+    vector<TLorentzVector > LeptonVector =Leptons->GetLeptonVector();
+    vector<PseudoJet> LeptonJetVector =Leptons->GetLeptonJetVector();
 
+    return LeptonVector;
 }
 
 void HEventDelphes::GetJets()
@@ -121,39 +134,39 @@ vector<PseudoJet> HEventDelphes::GetTops()
 // vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(bool Higgs, bool Tops, bool Candidates)
 // {
 //     Print(1,"GetHiggsTopCandidates");
-// 
+//
 //     vector<PseudoJet> CandidateJets;
-// 
+//
 //     if (!EFlow) EFlow = Jets->AnalyseEFlow(ClonesArrays);
 //     if (Higgs || Tops) Particle->GetParticles(ClonesArrays);
-// 
+//
 //     if (Particle->TopJetVector.size() > 0 && Tops && !Candidates) {
-// 
+//
 //         CandidateJets = Discriminator->GetTopJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
-// 
+//
 //     }
-// 
+//
 //     if (Particle->HiggsJetVector.size() > 0 && Higgs && !Candidates) {
-// 
+//
 //        PseudoJet HiggsJet = Discriminator->GetHiggsJet(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
 //        CandidateJets.push_back(HiggsJet);
-// 
+//
 //     }
-// 
+//
 //     if (Candidates && !(Higgs || Tops) ) {
-// 
+//
 //         CandidateJets = Discriminator->GetCandidateJets(Jets->EFlowJetVector);
-// 
+//
 //     }
-// 
+//
 //     if (Higgs && Tops && Candidates) {
-// 
+//
 //         CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
-// 
+//
 //     }
-// 
+//
 //     return (CandidateJets);
-// 
+//
 // }
 
 
@@ -190,17 +203,6 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates()
 //     }
 //
 // }
-
-
-void HEventDelphes::GetParticles()
-{
-    
-    Print(1, "Get Particles");
-    
-    Particles = Particle->GetParticles();
-    
-}
-
 
 
 

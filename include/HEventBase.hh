@@ -40,7 +40,7 @@ public:
 
     virtual void GetParticles() = 0;
 
-    virtual void GetLeptons() = 0;
+    virtual vector<TLorentzVector> GetLeptons() = 0;
 
     virtual void GetJets() = 0;
 
