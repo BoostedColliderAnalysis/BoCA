@@ -81,6 +81,27 @@ bool HParticleParton::GetParticles()
                 Print(2,"Bottom");
                 
             } // bottoms
+            
+            if (abs(ParticleID) == 6) {
+                
+                TLorentzVector TopQuark = GetLorentzVector(ParticleClone);
+                PseudoJet TopJet = GetPseudoJetPt(ParticleClone);
+                TopJetVector.push_back(TopJet);
+                
+                if (ParticleID > 0) {
+                    
+                    TopVector.push_back(TopQuark);
+                    Print(2,"Top");
+                    
+                } else if (ParticleID < 0) {
+                    
+                    AntiTopVector.push_back(TopQuark);
+                    Print(2,"Anti Top");
+                    
+                }
+                
+                
+            } // top
 
         }
 
@@ -97,14 +118,14 @@ bool HParticleParton::GetParticles()
 
             } // charms
 
-            if (abs(ParticleID) == 5) {
-
-                PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
-
-                BottomJetVector.push_back(JetCandidate);
-                Print(2,"Bottom");
-
-            } // bottoms
+//             if (abs(ParticleID) == 5) {
+// 
+//                 PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
+// 
+//                 BottomJetVector.push_back(JetCandidate);
+//                 Print(2,"Bottom");
+// 
+//             } // bottoms
             
             if (abs(ParticleID)==5000000){
              
@@ -121,26 +142,7 @@ bool HParticleParton::GetParticles()
 
         if (ParticleStatus == 3) {
 
-            if (abs(ParticleID) == 6) {
 
-                TLorentzVector TopQuark = GetLorentzVector(ParticleClone);
-                PseudoJet TopJet = GetPseudoJetPt(ParticleClone);
-                TopJetVector.push_back(TopJet);
-                
-                if (ParticleID > 0) {
-
-                    TopVector.push_back(TopQuark);
-                Print(2,"Top");
-
-                } else if (ParticleID < 0) {
-
-                    AntiTopVector.push_back(TopQuark);
-                    Print(2,"Anti Top");
-
-                }
-
-
-            } // top
             
             if (abs(ParticleID)==0){
                 

@@ -1,25 +1,25 @@
-# include "HLeptonBase.hh"
+# include "HLepton.hh"
 
-HLeptonBase::HLeptonBase()
+HLepton::HLepton()
 {
 
     Print(0,"Constructor");
 
 }
 
-HLeptonBase::~HLeptonBase()
+HLepton::~HLepton()
 {
 
     Print(0,"Destructor");
 
 }
 
-void HLeptonBase::NewEvent(HClonesArrayBase *ClonesArrayImport)
+void HLepton::NewEvent(HClonesArray *NewClonesArray)
 {
 
     Print(1,"New Event");
 
-    ClonesArray = ClonesArrayImport;
+    ClonesArray = NewClonesArray;
 
     ElectronVector.clear();
 
@@ -43,7 +43,7 @@ void HLeptonBase::NewEvent(HClonesArrayBase *ClonesArrayImport)
 
 }
 
-vector<TLorentzVector> HLeptonBase::GetLeptonVector()
+vector<TLorentzVector> HLepton::GetLeptonVector()
 {
 
     Print(1,"Get Leptons");
@@ -73,7 +73,7 @@ vector<TLorentzVector> HLeptonBase::GetLeptonVector()
 
 
 
-vector<PseudoJet> HLeptonBase::GetLeptonJetVector()
+vector<PseudoJet> HLepton::GetLeptonJetVector()
 {
 
     Print(1,"Get Lepton Jets");

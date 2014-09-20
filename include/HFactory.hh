@@ -14,7 +14,7 @@
 # include "TMVA/Types.h"
 # include "TMVA/Config.h"
 
-# include "HMvaBase.hh"
+# include "HMva.hh"
 
 # include "HObject.hh"
 
@@ -34,7 +34,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(HMvaBase*);
+    HFactory(HMva*);
 
     /**
      * @brief Destructor
@@ -98,7 +98,7 @@ private:
 
     void AddTree(TFile *, TString, bool);
 
-    HMvaBase *Mva;
+    HMva *Mva;
         
     virtual TString ClassName() {
         return ("HFactory");

@@ -27,7 +27,7 @@ struct HObservable {
  * @brief Prepares multivariant analysis
  *
  */
-class HMvaBase : public HObject
+class HMva : public HObject
 {
 
 public:
@@ -36,13 +36,13 @@ public:
     * @brief Constructor
     *
     */
-    HMvaBase();
+    HMva();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMvaBase();
+    ~HMva();
 
     bool Latex;
 
@@ -116,7 +116,7 @@ protected:
     virtual void DefineVariables() = 0;
 
     virtual TString ClassName() {
-        return ("HAnalysisDiscriminator");
+        return ("HMva");
     };
 
     HObservable NewObservable(float *, TString, TString, TString);

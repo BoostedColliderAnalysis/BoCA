@@ -1,14 +1,14 @@
 # ifndef HLeptonPgs_hh
 # define HLeptonPgs_hh
 
-# include "HLeptonBase.hh"
+# include "HLepton.hh"
 # include "ExRootAnalysis/ExRootClasses.h"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class HLeptonPgs : public HLeptonBase
+class HLeptonPgs : public HLepton
 {
 
 public:
@@ -45,7 +45,7 @@ public:
 private:
     
     virtual TString ClassName() {
-        return ("HLepton");
+        return ("HLeptonPgs");
     };
 
 };

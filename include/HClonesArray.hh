@@ -11,7 +11,7 @@
  * @brief small class loading the Branches into ClonesArrays
  *
  */
-class HClonesArrayBase : public HObject
+class HClonesArray : public HObject
 {
 
 public:
@@ -21,13 +21,13 @@ public:
      *
      * @param TreeReader ExRoot TreeReader
      */
-    HClonesArrayBase();
+    HClonesArray();
 
     /**
      * @brief Destructor
      *
      */
-    ~HClonesArrayBase();
+    ~HClonesArray();
 
     void ResetBranches();
 
@@ -132,12 +132,12 @@ public:
 private:
 
     virtual TString ClassName() {
-        return ("HClonesArrayBase");
+        return ("HClonesArray");
     };
 
 };
 
-class HClonesArrayDelphes : public HClonesArrayBase
+class HClonesArrayDelphes : public HClonesArray
 {
 
     void UseBranches(ExRootTreeReader *);
@@ -150,7 +150,7 @@ private:
 
 };
 
-class HClonesArraySnowmass : public HClonesArrayBase
+class HClonesArraySnowmass : public HClonesArray
 {
 
     void UseBranches(ExRootTreeReader *);
@@ -163,7 +163,7 @@ private:
 
 };
 
-class HClonesArrayPgs : public HClonesArrayBase
+class HClonesArrayPgs : public HClonesArray
 {
 
     void UseBranches(ExRootTreeReader *);
@@ -176,7 +176,7 @@ private:
 
 };
 
-class HClonesArrayParton : public HClonesArrayBase
+class HClonesArrayParton : public HClonesArray
 {
 
     void UseBranches(ExRootTreeReader *);

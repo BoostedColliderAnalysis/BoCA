@@ -1,14 +1,14 @@
-# ifndef HAnalysis_hh
-# define HAnalysis_hh
+# ifndef HAnalysisDiscriminator_hh
+# define HAnalysisDiscriminator_hh
 
-# include "HAnalysisBase.hh"
+# include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 
 /**
  * @brief Class defining the Disciminator Analysis
  *
  */
-class HAnalysis : public HAnalysisBase
+class HAnalysisDiscriminator : public HAnalysis
 {
 
 public:
@@ -17,7 +17,7 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysis();
+    HAnalysisDiscriminator();
     
     /**
      * @brief Branch to write Higgs info into
@@ -79,7 +79,9 @@ private:
     vector<string> GetStudyNameVector();
     
     virtual TString ClassName() {
+        
         return ("HAnalysisDiscriminator");
+        
     };
 
 };

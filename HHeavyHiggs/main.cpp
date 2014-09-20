@@ -1,8 +1,8 @@
-#include "HAnalysis.hh"
+#include "HAnalysisHeavyHiggs.hh"
 
 int main()
 {
-    HAnalysis *Analysis = new HAnalysis();
+    HAnalysisHeavyHiggs *Analysis = new HAnalysisHeavyHiggs();
         
     Analysis->AnalysisLoop();
     

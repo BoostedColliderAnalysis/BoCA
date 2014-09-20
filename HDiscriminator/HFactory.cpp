@@ -1,9 +1,9 @@
-# include "HMva.hh"
+# include "HMvaDiscriminator.hh"
 # include "HFactory.hh"
 
 int main()
 {
-    HMva *Mva = new HMva();
+    HMvaDiscriminator *Mva = new HMvaDiscriminator();
   
     HFactory *Factory = new HFactory(Mva);
 

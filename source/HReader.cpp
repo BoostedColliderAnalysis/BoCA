@@ -1,6 +1,6 @@
 # include "HReader.hh"
 
-HReader::HReader(HMvaBase *NewMva)
+HReader::HReader(HMva *NewMva)
 {
 
     Print(0, "Constructor");

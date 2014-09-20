@@ -1,6 +1,6 @@
 # include "HFile.hh"
 
-HFileBase::HFileBase()
+HFile::HFile()
 {
 
     Print(0, "Constructor");
@@ -9,7 +9,7 @@ HFileBase::HFileBase()
 
 }
 
-HFileBase::HFileBase(TString Process)
+HFile::HFile(TString Process)
 {
 
     Print(0, "Constructor");
@@ -22,7 +22,7 @@ HFileBase::HFileBase(TString Process)
 
 }
 
-HFileBase::HFileBase(TString Process, TString Run)
+HFile::HFile(TString Process, TString Run)
 {
 
     Print(0, "Constructor");
@@ -38,13 +38,13 @@ HFileBase::HFileBase(TString Process, TString Run)
 
 }
 
-TString HFileBase::BasePath = "$HOME/Development/madgraph/";
+TString HFile::BasePath = "$HOME/Development/madgraph/";
 
-TString HFileBase::FileSuffix = "_delphes_events.root";
+TString HFile::FileSuffix = "_delphes_events.root";
 
-TString HFileBase::TreeString = "Delphes";
+TString HFile::TreeString = "Delphes";
 
-void HFileBase::SetVariables()
+void HFile::SetVariables()
 {
 
     Print(1, "Set Variables");
@@ -65,7 +65,7 @@ void HFileBase::SetVariables()
 
 }
 
-HFileBase::~HFileBase()
+HFile::~HFile()
 {
 
 

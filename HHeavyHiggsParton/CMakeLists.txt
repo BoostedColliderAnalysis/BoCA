@@ -1,9 +1,9 @@
 # Library
-set(AnalysisSources HAnalysis.cpp)
+set(AnalysisSources HAnalysisHeavyHiggsParton.cpp)
 add_library(HAnalysisHeavyHiggsParton SHARED ${AnalysisSources})
 target_link_libraries(HAnalysisHeavyHiggsParton HBranch HEvent)
 set_target_properties(HAnalysisHeavyHiggsParton PROPERTIES ${LibraryProperties})
-install(TARGETS HAnalysisHeavyHiggsParton DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
+install(TARGETS HAnalysisHeavyHiggsParton DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 set(LinkLibraries
 ${LinkLibraries}

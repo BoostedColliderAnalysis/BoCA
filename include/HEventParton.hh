@@ -1,14 +1,14 @@
 # ifndef HEventParton_hh
 # define HEventParton_hh
 
-# include "HEventBase.hh"
+# include "HEvent.hh"
 # include "HParticleParton.hh"
 
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HEventParton : public HEventBase
+class HEventParton : public HEvent
 {
 
 public:
@@ -17,13 +17,13 @@ public:
     * @brief constructor
     *
     */
-    HEventDelphes();
+    HEventParton();
 
     /**
      * @brief destructor
      *
      */
-    ~HEventDelphes();
+    ~HEventParton();
     
     void NewEvent();
     

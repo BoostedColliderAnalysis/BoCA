@@ -1,8 +1,8 @@
-#include "HAnalysis.hh"
+#include "HAnalysisDiscriminator.hh"
 
 int main()
 {
-    HAnalysis *Analysis = new HAnalysis();
+    HAnalysisDiscriminator *Analysis = new HAnalysisDiscriminator();
         
     Analysis->AnalysisLoop();
     

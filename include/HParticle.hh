@@ -1,5 +1,5 @@
-# ifndef HParticleBase_hh
-# define HParticleBase_hh
+# ifndef HParticle_hh
+# define HParticle_hh
 
 # include "TObjArray.h"
 
@@ -13,7 +13,7 @@ using std::vector;
  * @brief stores all the information about the event topology
  *
  */
-class HParticleBase : public HObject
+class HParticle : public HObject
 {
 
 public:
@@ -22,15 +22,15 @@ public:
      * @brief constructor
      *
      */
-    HParticleBase();
+    HParticle();
 
     /**
      * @brief destructor
      *
      */
-    ~HParticleBase();
+    ~HParticle();
 
-    void NewEvent(HClonesArrayBase *);
+    void NewEvent(HClonesArray *);
 
     /**
      * @brief extract electrons and muon particle
@@ -84,7 +84,7 @@ protected:
      * @brief Clones Arrays
      *
      */
-    HClonesArrayBase *ClonesArrays;
+    HClonesArray *ClonesArrays;
 
 
 private:

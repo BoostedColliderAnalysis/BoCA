@@ -1,9 +1,10 @@
 # ifndef HObject_hh
 # define HObject_hh
 
-#include <iostream>
-#include <iomanip>
-#include <math.h>
+# include <iostream>
+# include <iomanip>
+# include <math.h>
+#include <typeinfo>
 
 # include "TMath.h"
 # include "TLorentzVector.h"
@@ -25,12 +26,12 @@ using fastjet::PseudoJet;
 
 // struct CheckHasE
 // {
-// 
+//
 //   template <typename Template, double (Template::*)= &Template::E>
 //     struct get
 //     { };
 // };
-// 
+//
 // template <typename Template>
 // struct HasE :
 //         HasMember<Template, CheckHasE>
@@ -45,7 +46,7 @@ public:
     HObject();
 
     virtual ~HObject();
-    
+
 protected:
 
     /**
@@ -92,97 +93,94 @@ protected:
         }
 
     }
-        
+
     template<typename Template>
-    TLorentzVector GetLorentzVector(Template *Particle)
-    {
-        
+    TLorentzVector GetLorentzVector(Template *Particle) {
+
         Print(2, "Get Lorentz Vector");
         
-        TLorentzVector LorentzVector;
+//         TString s = typeid(Particle).name();
+//         Print(0,"Type",s);
         
-        float ParticlePt = Particle->PT;
-        float ParticleEta = Particle->Eta;
-        float ParticlePhi = Particle->Phi;
-        float ParticleE = Particle->E;
-        
+
+        float Pt = Particle->PT;
+        float Eta = Particle->Eta;
+        float Phi = Particle->Phi;
+        float E = Particle->E;
+
 //      Print(0,"HasE",HasE<Template>::Value);
 
-        LorentzVector.SetPtEtaPhiE(ParticlePt, ParticleEta, ParticlePhi, ParticleE);
-        
-        
-        return LorentzVector;
-        
-    }
-        
-    template<typename Template>
-    TLorentzVector GetLorentzVector(Template *Particle, float Mass)
-    {
-        
-        Print(2, "Get Lorentz Vector");
-        
         TLorentzVector LorentzVector;
-        
+        LorentzVector.SetPtEtaPhiE(Pt, Eta, Phi, E);
+
+        return LorentzVector;
+
+    }
+
+    template<typename Template>
+    TLorentzVector GetLorentzVector(Template *Particle, float Mass) {
+
+        Print(2, "Get Lorentz Vector");
+
+        TLorentzVector LorentzVector;
+
         float ParticlePt = Particle->PT;
         float ParticleEta = Particle->Eta;
         float ParticlePhi = Particle->Phi;
-        
+
         LorentzVector.SetPtEtaPhiM(ParticlePt, ParticleEta, ParticlePhi, Mass);
-                
+
         return LorentzVector;
-        
+
     }
-    
+
     template<typename Template>
-    TLorentzVector GetLorentzVectorM(Template *Particle)
-    {
-        
+    TLorentzVector GetLorentzVectorM(Template *Particle) {
+
         Print(2, "Get Lorentz Vector");
-        
+
         TLorentzVector LorentzVector;
-        
+
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
         float Phi = Particle->Phi;
         float Mass = Particle->Mass;
-        
+
         LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, Mass);
-        
+
         return LorentzVector;
-        
+
     }
-       
+
     template<typename Template>
-    PseudoJet GetPseudoJetPt(Template *Particle)
-    {
-        
+    PseudoJet GetPseudoJetPt(Template *Particle) {
+
         Print(2, "Get Pseudo Jet");
-        
+
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
         float Phi = Particle->Phi;
-        
+
         PseudoJet Jet = PseudoJet(Pt * cos(Phi), Pt * sin(Phi), Pt * sinh(Eta), Pt * cosh(Eta));
-        
+
         return Jet;
-        
+
     }
-    
+
     template<typename Template>
-    PseudoJet GetPseudoJetE(Template *Particle)
-    {
-        
+    PseudoJet GetPseudoJetE(Template *Particle) {
+
         Print(2, "Get Pseudo Jet");
-        
+
         float E = Particle->E;
         float Eta = Particle->Eta;
         float Phi = Particle->Phi;
         float Pt = E / cosh(Eta);
-        
+
         PseudoJet Jet = PseudoJet(Pt * cos(Phi), Pt * sin(Phi), Pt * sinh(Eta), Pt * cosh(Eta));
-        
+
         return Jet;
-        
+
     }
 
     virtual TString ClassName() {
@@ -192,30 +190,30 @@ protected:
 
     int Debug;
 
-    const int LargeNumber;    
+    const int LargeNumber;
 
     const float HiggsMass;
 
     const float TopMass;
-    
+
     const float WMass;
-    
+
     /**
      * @brief Physical Muon Mass
      *
      */
     const float MuonMass;
-    
+
     /**
      * @brief Physical Electron Mass
      *
      */
     const float ElectronMass;
-    
+
     const int HiggsUserIndex;
-    
+
     const int TopUserIndex;
-    
+
 private:
 
 };

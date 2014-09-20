@@ -1,6 +1,6 @@
-# include "HParticleBase.hh"
+# include "HParticle.hh"
 
-HParticleBase::HParticleBase()
+HParticle::HParticle()
 {
     
     Print(0,"Constructor");
@@ -9,18 +9,18 @@ HParticleBase::HParticleBase()
     
 }
 
-HParticleBase::~HParticleBase()
+HParticle::~HParticle()
 {
     
     Print(0,"Destructor");
 
 }
 
-void HParticleBase::NewEvent(HClonesArrayBase *ImportClonesArrays){
+void HParticle::NewEvent(HClonesArray *NewClonesArrays){
     
     Print(1,"New Event");
     
-    ClonesArrays = ImportClonesArrays;
+    ClonesArrays = NewClonesArrays;
     
     TopVector.clear();
     
@@ -44,7 +44,7 @@ void HParticleBase::NewEvent(HClonesArrayBase *ImportClonesArrays){
     
 }
 
-vector<TLorentzVector> HParticleBase::LeptonVector()
+vector<TLorentzVector> HParticle::LeptonVector()
 {
     
     Print(1,"LeptonVector");
@@ -64,7 +64,7 @@ vector<TLorentzVector> HParticleBase::LeptonVector()
 
 }
 
-vector<TLorentzVector> HParticleBase::AntiLeptonVector()
+vector<TLorentzVector> HParticle::AntiLeptonVector()
 {
     
     Print(1,"AntiLeptonVector");

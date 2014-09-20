@@ -1,13 +1,13 @@
-# ifndef HMvaCpv_hh
-# define HMvaCpv_hh
+# ifndef HMvaDiscriminator_hh
+# define HMvaDiscriminator_hh
 
-# include "HMvaBase.hh"
+# include "HMva.hh"
 
 /**
  * @brief Prepares multivariant analysis
  *
  */
-class HMva : public HMvaBase
+class HMvaDiscriminator : public HMva
 {
 
 public:
@@ -16,20 +16,20 @@ public:
     * @brief Constructor
     *
     */
-    HMva();
+    HMvaDiscriminator();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMva();
+    ~HMvaDiscriminator();
 
 private:
 
     void DefineVariables();
     
     virtual TString ClassName() {
-        return ("HMva");
+        return ("HMvaDiscriminator");
     };
 
 

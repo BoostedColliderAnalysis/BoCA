@@ -64,7 +64,7 @@ public:
      * 
      * @return void
      */
-    void NewEvent(HClonesArrayBase *);
+    void NewEvent(HClonesArray *);
     
     /**
      * @brief vector of Jet Lorentz Vectors
@@ -154,7 +154,7 @@ private:
      * @brief Clones Arrays
      *
      */
-    HClonesArrayBase *ClonesArrays;
+    HClonesArray *ClonesArrays;
         
     virtual TString ClassName() {
         return ("HJet");

@@ -1,5 +1,5 @@
-# ifndef HAnalysisBase_hh
-# define HAnalysisBase_hh
+# ifndef HAnalysis_hh
+# define HAnalysis_hh
 
 # include "TTree.h"
 
@@ -9,7 +9,7 @@
 
 # include "HFile.hh"
 
-# include "HEventBase.hh"
+# include "HEvent.hh"
 
 # include "HBranch.hh"
 # include "HObject.hh"
@@ -22,7 +22,7 @@ class HAnlysis;
  * @brief Class defining the Analysis
  *
  */
-class HAnalysisBase : public HObject
+class HAnalysis : public HObject
 {
 
 public:
@@ -31,13 +31,13 @@ public:
      * @brief Constructor calls the other preparing functions
      *
      */
-    HAnalysisBase();
+    HAnalysis();
 
     /**
      * @brief Destructor
      *
      */
-    ~HAnalysisBase();
+    ~HAnalysis();
 
     void AnalysisLoop();
 
@@ -71,8 +71,6 @@ protected:
      */
     virtual void CloseFile() = 0;
 
-//     vector<string> StudyNameVector;
-
     /**
      * @brief Name of Analysis
      *
@@ -95,7 +93,7 @@ protected:
      * @brief vector containing the string pairs describing the path to the root file
      *
      */
-    vector<HFileBase *> FileVector;
+    vector<HFile *> FileVector;
 
     /**
      * @brief Maximal number of Entries to analyse
@@ -103,13 +101,13 @@ protected:
      */
     int EventNumberMax;
 
-    HEventBase *Event;
+    HEvent *Event;
     
     /**
      * @brief Clones Arrays
      *
      */
-    HClonesArrayBase *ClonesArrays;
+    HClonesArray *ClonesArrays;
     
     bool Cut;
     
@@ -189,16 +187,10 @@ private:
 
     int EventSum;
 
-    /**
-     * @brief Vector containing the number of entries in each file
-     *
-     */
-//     vector<int> EntrySumVector;
-
     bool AnalysisNotEmpty;
 
     virtual TString ClassName() {
-        return ("HAnalysisBase");
+        return ("HAnalysis");
     };
 
 };

@@ -3,20 +3,18 @@ set(HObjectSources HObject.cpp )
 add_library(HObject SHARED ${HObjectSources} )
 target_link_libraries(HObject ${LinkLibraries})
 set_target_properties(HObject PROPERTIES ${LibraryProperties})
-install(TARGETS HObject DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
+install(TARGETS HObject DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 # HEvent Library
 set(EventSources
-# HEvent.cpp
-HEventBase.cpp
+HEvent.cpp
 HEventDelphes.cpp
-# HParticle.cpp
-HParticleBase.cpp
+HEventParton.cpp
+HParticle.cpp
 HParticleDelphes.cpp
 HParticleParton.cpp
 HJet.cpp
-# HLepton.cpp
-HLeptonBase.cpp
+HLepton.cpp
 HLeptonDelphes.cpp
 HLeptonPgs.cpp
 HTopTagger.cpp
@@ -35,41 +33,41 @@ set(EventSources ${EventSources})
 add_library(HEvent SHARED ${EventSources} )
 target_link_libraries (HEvent ${HEventLinkLibraries})
 set_target_properties(HEvent PROPERTIES ${LibraryProperties})
-install(TARGETS HEvent DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
+install(TARGETS HEvent DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
-# HAnalysisBase Library
-set(AnalysisBaseSources
-HAnalysisBase.cpp
+# HAnalysis Library
+set(AnalysisSources
+HAnalysis.cpp
 HFile.cpp
 HClonesArray.cpp
 )
 
-set(HAnalysisBaseLinkLibraries
+set(HAnalysisLinkLibraries
 ${ExRootLibrary}
 HObject
 HEvent 
 )
-set(AnalysisBaseSources ${AnalysisBaseSources}) 
-add_library(HAnalysisBase SHARED ${AnalysisBaseSources})
-target_link_libraries (HAnalysisBase ${HAnalysisBaseLinkLibraries})
-set_target_properties(HAnalysisBase PROPERTIES ${LibraryProperties})
-install(TARGETS HAnalysisBase DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
+set(AnalysisSources ${AnalysisSources}) 
+add_library(HAnalysis SHARED ${AnalysisSources})
+target_link_libraries (HAnalysis ${HAnalysisLinkLibraries})
+set_target_properties(HAnalysis PROPERTIES ${LibraryProperties})
+install(TARGETS HAnalysis DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 # HMva Library
-set(MvaBaseSources
-HMvaBase.cpp
+set(MvaSources
+HMva.cpp
 HFactory.cpp
 HReader.cpp
 )
 
-set(HMvaBaseLinkLibraries
+set(HMvaLinkLibraries
 TMVA
 ${ExRootLibrary}
 HObject
 HBranch
 )
-set(MvaBaseSources ${MvaBaseSources}) 
-add_library(HMvaBase SHARED ${MvaBaseSources})
-target_link_libraries (HMvaBase ${HMvaBaseLinkLibraries})
-set_target_properties(HMvaBase PROPERTIES ${LibraryProperties})
-install(TARGETS HMvaBase DESTINATION ${LIBRARY_OUTPUT_DIRECTORY})
+set(MvaSources ${MvaSources}) 
+add_library(HMva SHARED ${MvaSources})
+target_link_libraries (HMva ${HMvaLinkLibraries})
+set_target_properties(HMva PROPERTIES ${LibraryProperties})
+install(TARGETS HMva DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})

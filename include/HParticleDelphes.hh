@@ -2,13 +2,13 @@
 # define HParticleDelphes_hh
 
 # include "classes/DelphesClasses.h"
-# include "HParticleBase.hh"
+# include "HParticle.hh"
  
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HParticleDelphes : public HParticleBase
+class HParticleDelphes : public HParticle
 {
 
 public:

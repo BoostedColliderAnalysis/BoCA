@@ -1,14 +1,14 @@
 # ifndef HParticleParton_hh
 # define HParticleParton_hh
 
-# include "HParticleBase.hh"
+# include "HParticle.hh"
 # include "ExRootAnalysis/ExRootClasses.h"
 
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HParticleParton : public HParticleBase
+class HParticleParton : public HParticle
 {
 
 public:

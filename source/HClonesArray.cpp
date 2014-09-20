@@ -1,13 +1,13 @@
 # include "HClonesArray.hh"
 
-HClonesArrayBase::HClonesArrayBase()
+HClonesArray::HClonesArray()
 {
 
     Print(0, "Constructor");
     
 }
 
-HClonesArrayBase::~HClonesArrayBase()
+HClonesArray::~HClonesArray()
 {
 
     Print(0, "Destructor");
@@ -30,7 +30,7 @@ HClonesArrayBase::~HClonesArrayBase()
 
 }
 
-void HClonesArrayBase::ResetBranches()
+void HClonesArray::ResetBranches()
 {
 
     Print(0, "ResetTrees");

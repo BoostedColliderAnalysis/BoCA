@@ -1,5 +1,5 @@
-# ifndef HLeptonBase_hh
-# define HLeptonBase_hh
+# ifndef HLepton_hh
+# define HLepton_hh
 
 # include <algorithm>
 
@@ -17,7 +17,7 @@ class Jet;
  * @brief calculation regarding leptons
  *
  */
-class HLeptonBase : public HObject
+class HLepton : public HObject
 {
 
 public:
@@ -26,14 +26,14 @@ public:
      * @brief constructor
      *
      */
-    HLeptonBase();
+    HLepton();
     
     
     /**
      * @brief destructor
      *
      */
-    ~HLeptonBase();
+    ~HLepton();
         
     vector<TLorentzVector> GetLeptonVector();
                 
@@ -71,7 +71,7 @@ public:
      */
 //     void LeptonsAndMissingEt();
     
-    void NewEvent(HClonesArrayBase *);
+    void NewEvent(HClonesArray *);
 
     /**
      * @brief Electron Lorentz Vector Vector
@@ -160,12 +160,12 @@ public:
     
 protected:
     
-    HClonesArrayBase *ClonesArray;
+    HClonesArray *ClonesArray;
 
 private:
     
     virtual TString ClassName() {
-        return ("HLeptonBase");
+        return ("HLepton");
     };
 
 };

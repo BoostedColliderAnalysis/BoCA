@@ -9,7 +9,7 @@
  * ProcessFolder has to be set
  *
  */
-class HFileBase : public HObject
+class HFile : public HObject
 {
 
 public:
@@ -18,25 +18,25 @@ public:
      * @brief constructor defining default path
      *
      */
-    explicit HFileBase();
+    explicit HFile();
 
     /**
      * @brief constructor defining default path
      *
      */
-    explicit HFileBase(TString Process);
+    explicit HFile(TString Process);
 
     /**
      * @brief constructor defining default path
      *
      */
-    explicit HFileBase(TString Process, TString Run);
+    explicit HFile(TString Process, TString Run);
 
     /**
      * @brief destructor
      *
      */
-    virtual ~HFileBase();
+    virtual ~HFile();
 
     /**
      * @brief Path path to the MadGraph installation
@@ -111,17 +111,17 @@ private:
     void  SetVariables();
 
     virtual TString ClassName() {
-        return ("HFileBase");
+        return ("HFile");
     };
 
 };
 
-class HFileParton : public HFileBase
+class HFileParton : public HFile
 {
 
 public:
     
-    using HFileBase::HFileBase;
+    using HFile::HFile;
 
     /**
      * @brief Compose file path
@@ -140,12 +140,12 @@ private:
 
 };
 
-class HFilePgs : public HFileBase
+class HFilePgs : public HFile
 {
 
 public:
     
-    using HFileBase::HFileBase;
+    using HFile::HFile;
 
     /**
      * @brief Compose file path
@@ -163,11 +163,11 @@ private:
 
 };
 
-class HFileDelphes : public HFileBase
+class HFileDelphes : public HFile
 {
 
 public:
-    using HFileBase::HFileBase;
+    using HFile::HFile;
 
     /**
      * @brief Compose file path
@@ -185,11 +185,11 @@ private:
 
 };
 
-class HFileFolder : public HFileBase
+class HFileFolder : public HFile
 {
 
 public:
-    using HFileBase::HFileBase;
+    using HFile::HFile;
 
     /**
      * @brief Compose file path

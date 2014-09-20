@@ -1,7 +1,7 @@
 # ifndef HEventDelphes_hh
 # define HEventDelphes_hh
 
-# include "HEventBase.hh"
+# include "HEvent.hh"
 # include "HParticleDelphes.hh"
 # include "HLeptonDelphes.hh"
 
@@ -9,7 +9,7 @@
  * @brief stores all the information about the event topology
  *
  */
-class HEventDelphes : public HEventBase
+class HEventDelphes : public HEvent
 {
 
 public:
@@ -39,16 +39,6 @@ public:
     void GetParticles();
 
     PseudoJet GetHiggs();
-
-//     /**
-//      * @brief Get Discriminator Higgs and Tops
-//      *
-//      * @param  Higgs
-//      * @param  Tops
-//      * @param  Candidates
-//      * @return Higgs
-//      */
-//     vector<PseudoJet> GetHiggsTopCandidates(bool, bool, bool);
     
     vector<PseudoJet> GetHiggsTopCandidates();
 

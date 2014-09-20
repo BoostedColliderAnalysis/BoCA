@@ -15,7 +15,7 @@
 # include "TMVA/Reader.h"
 # include "TMVA/MethodCuts.h"
 
-# include "HMvaBase.hh"
+# include "HMva.hh"
 
 using std::sort;
 using std::pair;
@@ -95,7 +95,7 @@ public:
      * @brief Constructor
      *
      */
-    HReader(HMvaBase*);
+    HReader(HMva*);
 
     /**
      * @brief Destructor
@@ -211,7 +211,7 @@ private:
 
     ofstream LatexFile;
 
-    HMvaBase *Mva;
+    HMva *Mva;
         
     virtual TString ClassName() {
         return ("HReader");

@@ -1,13 +1,13 @@
 // # include "HReaderMulti.hh"
 # include "HReader.hh"
-# include "HMva.hh"
+# include "HMvaDiscriminator.hh"
 // # include "HReaderSimple.hh"
 
 
 int main()
 {
         
-    HMva *Mva = new HMva();
+    HMvaDiscriminator *Mva = new HMvaDiscriminator();
   
     HReader *Reader = new HReader(Mva);
     

@@ -2,13 +2,13 @@
 # define HLeptonDelphes_hh
 
 # include "classes/DelphesClasses.h"
-# include "HLeptonBase.hh"
+# include "HLepton.hh"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class HLeptonDelphes : public HLeptonBase
+class HLeptonDelphes : public HLepton
 {
 
 public:
@@ -46,7 +46,7 @@ public:
 private:
     
     virtual TString ClassName() {
-        return ("HLepton");
+        return ("HLeptonDelphes");
     };
 
 };

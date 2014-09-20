@@ -16,12 +16,12 @@ HJet::~HJet()
 
 }
 
-void HJet::NewEvent(HClonesArrayBase *ImportClonesArrays)
+void HJet::NewEvent(HClonesArray *NewClonesArrays)
 {
 
     Print(1, "New Event");
     
-    ClonesArrays = ImportClonesArrays;
+    ClonesArrays = NewClonesArrays;
 
     JetLorentzVectorVector.clear();
 

@@ -1,7 +1,7 @@
 # include "HFactory.hh"
 
 
-HFactory::HFactory(HMvaBase* NewMva)
+HFactory::HFactory(HMva* NewMva)
 {
 
     Print(0 , "Constructor");

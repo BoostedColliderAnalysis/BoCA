@@ -1,6 +1,6 @@
-# include "HAnalysis.hh"
+# include "HAnalysisHeavyHiggs.hh"
 
-HAnalysis::HAnalysis()
+HAnalysisHeavyHiggs::HAnalysisHeavyHiggs()
 {
 
     Print(0, "Constructor");
@@ -19,7 +19,7 @@ HAnalysis::HAnalysis()
 
 // TString HFileBase::BasePath = "~/Projects/HeavyHiggs/Mass5/";
 
-void HAnalysis::SetFileVector()
+void HAnalysisHeavyHiggs::SetFileVector()
 {
 
     Print(0, "Fill Analysis Vector", AnalysisName);
@@ -41,7 +41,7 @@ void HAnalysis::SetFileVector()
 
 }
 
-void HAnalysis::NewFile()
+void HAnalysisHeavyHiggs::NewFile()
 {
 
     Print(0, "New File");
@@ -57,7 +57,7 @@ void HAnalysis::NewFile()
 
 }
 
-void HAnalysis::CloseFile()
+void HAnalysisHeavyHiggs::CloseFile()
 {
     Print(0, "Close File");
 
@@ -72,7 +72,7 @@ void HAnalysis::CloseFile()
 
 
 
-bool HAnalysis::Analysis()
+bool HAnalysisHeavyHiggs::Analysis()
 {
 
     Print(1, "Analysis", AnalysisName);
@@ -131,8 +131,8 @@ bool HAnalysis::Analysis()
         ++BMassCounter;
 
 
-        HeavyHiggs->MaxPt = FrontPt;
-        HeavyHiggs->MinPt = BackPt;
+//         HeavyHiggs->MaxPt = FrontPt;
+//         HeavyHiggs->MinPt = BackPt;
         HeavyHiggs->DeltaEta = CombinedEta;
         HeavyHiggs->BMass = CombinedMass;
 

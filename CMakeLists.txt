@@ -32,8 +32,8 @@ find_library(DelphesLibrary
 )
  
 # set library and excecutable destination
-set(LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 # set library versions
 set(MajorVersion 0)
@@ -73,7 +73,7 @@ ${LinkLibraries}
 ${ExRootLibrary}
 HObject 
 HEvent 
-HAnalysisBase
+HAnalysis
 )
 
 add_subdirectory(HDiscriminator)

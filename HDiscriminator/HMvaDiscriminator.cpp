@@ -1,6 +1,6 @@
-# include "HMva.hh"
+# include "HMvaDiscriminator.hh"
 
-HMva::HMva() : HMvaBase()
+HMvaDiscriminator::HMvaDiscriminator()
 {
 
     Print(0 , "Constructor");
@@ -45,14 +45,14 @@ HMva::HMva() : HMvaBase()
 
 }
 
-HMva::~HMva()
+HMvaDiscriminator::~HMvaDiscriminator()
 {
 
     Print(0 , "Constructor");
 
 }
 
-void HMva::DefineVariables()
+void HMvaDiscriminator::DefineVariables()
 {
 
     Print(0 , "Define Variables");

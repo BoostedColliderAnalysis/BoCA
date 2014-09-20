@@ -1,7 +1,7 @@
 # include "HObject.hh"
 
-HObject::HObject() : 
-LargeNumber(999999999),
+HObject::HObject() :
+    LargeNumber(999999999),
     HiggsMass(125),
     TopMass(173.5),
     WMass(80.39),
@@ -89,12 +89,12 @@ void HObject::Print(int debug, TString Function)
 
 void HObject::Printer(TString Function)
 {
-            
-        const char Separator = ' ';
-        const int ClassWidth = 22;
-        const int FunctionWidth = 25;
-        
-        cout << left << setw(ClassWidth) << setfill(Separator) << ClassName();
-        cout << left << setw(FunctionWidth) << setfill(Separator) << Function;
-   
+
+    const char Separator = ' ';
+    const int ClassWidth = 28;
+    const int FunctionWidth = 25;
+
+    cout << left << setw(ClassWidth) << setfill(Separator) << ClassName();
+    cout << left << setw(FunctionWidth) << setfill(Separator) << Function;
+
 }

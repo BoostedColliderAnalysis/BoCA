@@ -1,6 +1,6 @@
-# include "HAnalysis.hh"
+# include "HAnalysisDiscriminator.hh"
 
-HAnalysis::HAnalysis()
+HAnalysisDiscriminator::HAnalysisDiscriminator()
 {
 
     Print(0, "Constructor");
@@ -15,7 +15,7 @@ HAnalysis::HAnalysis()
 
 }
 
-vector<string> HAnalysis::GetStudyNameVector(){
+vector<string> HAnalysisDiscriminator::GetStudyNameVector(){
     
     vector<string> StudyNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
     //     vector<string> StudyNameVector = {"Top"};
@@ -24,7 +24,7 @@ vector<string> HAnalysis::GetStudyNameVector(){
     
 }
 
-void HAnalysis::SetFileVector()
+void HAnalysisDiscriminator::SetFileVector()
 {
 
     Print(0, "Set File Vector", AnalysisName);
@@ -59,7 +59,7 @@ void HAnalysis::SetFileVector()
 }
 
 
-void HAnalysis::NewFile()
+void HAnalysisDiscriminator::NewFile()
 {
     Print(0, "New File");
 
@@ -71,7 +71,7 @@ void HAnalysis::NewFile()
 
 }
 
-void HAnalysis::CloseFile()
+void HAnalysisDiscriminator::CloseFile()
 {
     Print(0, "Close File");
     
@@ -79,7 +79,7 @@ void HAnalysis::CloseFile()
 
 
 
-bool HAnalysis::Analysis()
+bool HAnalysisDiscriminator::Analysis()
 {
 
     Print(1, "Analysis", AnalysisName);
@@ -233,7 +233,7 @@ bool HAnalysis::Analysis()
 // 
 // //             if (CandidateArea <= 0) {
 // // 
-// //                 Print("HAnalysis", "Candidate has no Area");
+// //                 Print("HAnalysisDiscriminator", "Candidate has no Area");
 // //                 continue;
 // // 
 // //             }
@@ -514,7 +514,7 @@ bool HAnalysis::Analysis()
 }
 
 
-vector<PseudoJet> HAnalysis::Leptons()
+vector<PseudoJet> HAnalysisDiscriminator::Leptons()
 {
 
 // Lepton Stuff

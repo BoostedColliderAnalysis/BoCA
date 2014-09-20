@@ -1,8 +1,8 @@
-# ifndef HEventBase_hh
-# define HEventBase_hh
+# ifndef HEvent_hh
+# define HEvent_hh
 
-# include "HParticleBase.hh"
-# include "HLeptonBase.hh"
+# include "HParticle.hh"
+# include "HLepton.hh"
 # include "HJet.hh"
 # include "HTopTagger.hh"
 # include "HHiggsTagger.hh"
@@ -13,7 +13,7 @@
  * @brief stores all the information about the event topology
  *
  */
-class HEventBase : public HObject
+class HEvent : public HObject
 {
 
 public:
@@ -22,45 +22,45 @@ public:
     * @brief constructor
     *
     */
-    HEventBase();
+    HEvent();
 
     /**
      * @brief destructor
      *
      */
-    ~HEventBase();
+    ~HEvent();
     
-    void NewEvent(HClonesArrayBase *);
+    void NewEvent(HClonesArray *);
     
-    virtual void NewFile() = 0;
+    virtual void NewFile(){};
     
-    virtual void CloseFile() = 0;
+    virtual void CloseFile(){};
     
-    virtual void NewEvent() = 0;
+    virtual void NewEvent(){};
 
-    virtual void GetParticles() = 0;
+    virtual void GetParticles(){};
 
-    virtual vector<TLorentzVector> GetLeptons() = 0;
+    virtual vector<TLorentzVector> GetLeptons(){vector<TLorentzVector> v; return v;};
 
-    virtual void GetJets() = 0;
+    virtual void GetJets(){};
 
-    virtual PseudoJet GetHiggs() = 0;
+    virtual PseudoJet GetHiggs(){PseudoJet j; return j;};
     
-    virtual vector<PseudoJet> GetHiggsTopCandidates() = 0;
+    virtual vector<PseudoJet> GetHiggsTopCandidates(){vector<PseudoJet> v; return v;};
 
-    virtual vector<PseudoJet> GetTops() = 0;
+    virtual vector<PseudoJet> GetTops(){vector<PseudoJet> v; return v;};
 
     /**
      * @brief Particles
      *
      */
-    HParticleBase *Particle;
+    HParticle *Particle;
 
     /**
      * @brief Leptons
      *
      */
-    HLeptonBase *Leptons;
+    HLepton *Leptons;
 
     /**
      * @brief Jets
@@ -92,12 +92,12 @@ protected:
      * @brief Clones Arrays
      *
      */
-    HClonesArrayBase *ClonesArrays;
+    HClonesArray *ClonesArrays;
 
 private:
     
     virtual TString ClassName() {
-        return ("HEventBase");
+        return ("HEvent");
     };
 };
 

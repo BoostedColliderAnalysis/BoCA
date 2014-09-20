@@ -95,8 +95,8 @@ void HInfoBranch::reset()
     int InitialValue = -10;
 
     Crosssection = InitialValue;
-    Error= InitialValue;
-    EventNumber= InitialValue;
+    Error = InitialValue;
+    EventNumber = InitialValue;
 
 }
 
@@ -138,15 +138,19 @@ void HHeavyHiggsBranch::reset()
 
     int InitialValue = -10;
 
-//     EtaMax = InitialValue;
-//     EtaMin = InitialValue;
-    MaxPt = InitialValue;
-    MinPt = InitialValue;
+    EtaMax = InitialValue;
+    EtaMin = InitialValue;
+    EtaMax2 = InitialValue;
+    EtaMin2 = InitialValue;
+//     MaxPt = InitialValue;
+//     MinPt = InitialValue;
     JetNumber = InitialValue;
     DeltaEta = InitialValue;
     BMass = InitialValue;
     DeltaEta2 = InitialValue;
     BMass2 = InitialValue;
+    DeltaEta3 = InitialValue;
+    BMass3 = InitialValue;
     TMass = InitialValue;
     DeltaPhi = InitialValue;
     BTag = InitialValue;
