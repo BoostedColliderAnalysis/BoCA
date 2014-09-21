@@ -271,9 +271,13 @@ vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
 
         }
 
+        
+        if (JetVector.size()>ParticleNumber){
         Print(2, "JetPosition", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
         JetVector[DistanceVector[ParticleNumber].Position].set_user_index(DistanceVector[ParticleNumber].ParticleId);
-
+	}
+	
+	
     }
 
 

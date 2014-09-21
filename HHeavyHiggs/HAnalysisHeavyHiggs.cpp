@@ -17,8 +17,6 @@ HAnalysisHeavyHiggs::HAnalysisHeavyHiggs()
 
 }
 
-// TString HFileBase::BasePath = "~/Projects/HeavyHiggs/Mass5/";
-
 void HAnalysisHeavyHiggs::SetFileVector()
 {
 
@@ -33,7 +31,8 @@ void HAnalysisHeavyHiggs::SetFileVector()
 //     FileVector.push_back(new HFileFolder("900GeV"));
 //     FileVector.push_back(new HFileFolder("1000GeV"));
 
-    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+//     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+    FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
     FileVector.front()->FileSuffix = "_Delphes.root";
 
 //     FileVector.push_back(new HFileDelphes("pp-bbtt-4f", "background"));
