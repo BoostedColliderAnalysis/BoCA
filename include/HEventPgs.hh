@@ -1,14 +1,14 @@
-# ifndef HEventParton_hh
-# define HEventParton_hh
+# ifndef HEventPgs_hh
+# define HEventPgs_hh
 
 # include "HEvent.hh"
-# include "HParticleParton.hh"
+# include "HLeptonPgs.hh"
 
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HEventParton : public HEvent
+class HEventPgs : public HEvent
 {
 
 public:
@@ -17,24 +17,24 @@ public:
     * @brief constructor
     *
     */
-    HEventParton();
+    HEventPgs();
 
     /**
      * @brief destructor
      *
      */
-    ~HEventParton();
+    ~HEventPgs();
     
     void NewEvent();
     
-    void GetParticles();
+    vector<TLorentzVector> GetLeptons();
 
 private:
     
-    bool HasParticles;
+    bool Leptons;
     
     virtual TString ClassName() {
-        return ("HEventParton");
+        return ("HEventPgs");
     };
 };
 

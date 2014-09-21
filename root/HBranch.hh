@@ -154,19 +154,19 @@ class HHeavyHiggsBranch : public TObject
     
 public:
     
-    float EtaMax;    
-    float EtaMin;
-    float EtaMax2;    
-    float EtaMin2;
-//     float MaxPt;
-//     float MinPt;
     int JetNumber;
     
-    float DeltaEta;
-    float BMass;
+    float BottomEtaMax;    
+    float BottomEtaMin;
     
-    float DeltaEta2;
-    float BMass2;
+    float BottomDeltaEta;
+    float BottomInvMass;
+    
+    float TopEtaMax;    
+    float TopEtaMin;
+    
+    float TopDeltaEta;
+    float TopInvMass;
     
     float DeltaEta3;
     float BMass3;

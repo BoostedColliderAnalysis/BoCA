@@ -49,18 +49,20 @@ public:
     virtual vector<PseudoJet> GetHiggsTopCandidates(){vector<PseudoJet> v; return v;};
 
     virtual vector<PseudoJet> GetTops(){vector<PseudoJet> v; return v;};
+    
+    virtual void GetTaggedJets(){};
 
     /**
      * @brief Particles
      *
      */
-    HParticle *Particle;
+    HParticle *Particles;
 
     /**
      * @brief Leptons
      *
      */
-    HLepton *Leptons;
+    HLepton *Lepton;
 
     /**
      * @brief Jets

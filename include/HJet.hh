@@ -36,7 +36,7 @@ public:
      *
      * @return void
      */
-    void AnalyseJet();
+    bool GetJets();
     
     /**
      * @brief Get Tau Tag

@@ -10,6 +10,7 @@ set(EventSources
 HEvent.cpp
 HEventDelphes.cpp
 HEventParton.cpp
+HEventPgs.cpp
 HParticle.cpp
 HParticleDelphes.cpp
 HParticleParton.cpp

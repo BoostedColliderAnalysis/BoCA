@@ -94,14 +94,33 @@ protected:
 
     }
 
+    template<typename Template, typename Template2>
+    void Print(int debug, TString Function, Template Number, Template2 Number2) {
+
+        if (debug < Debug) {
+
+            const char Separator = ' ';
+            const int FunctionWidth = 10;
+
+            Printer(Function);
+
+//             cout << " " << endl;
+            cout << left << setw(FunctionWidth) << setfill(Separator) << Number;
+            cout << left << setw(FunctionWidth) << setfill(Separator) << Number2;
+            cout << endl;
+
+        }
+
+    }
+
     template<typename Template>
     TLorentzVector GetLorentzVector(Template *Particle) {
 
         Print(2, "Get Lorentz Vector");
-        
+
 //         TString s = typeid(Particle).name();
 //         Print(0,"Type",s);
-        
+
 
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
@@ -213,6 +232,10 @@ protected:
     const int HiggsUserIndex;
 
     const int TopUserIndex;
+
+    const int TopId;
+
+    const int BottomId;
 
 private:
 

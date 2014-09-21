@@ -42,6 +42,8 @@ void HParticle::NewEvent(HClonesArray *NewClonesArrays){
     
     CharmJetVector.clear();
     
+    ParticleJetVector.clear();
+    
 }
 
 vector<TLorentzVector> HParticle::LeptonVector()

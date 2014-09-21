@@ -521,8 +521,8 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
     vector<float> LeptonEta, LeptonPhi;
 
     Event->GetLeptons();
-    vector<PseudoJet> LeptonVector = Event->Leptons->LeptonJetVector;
-    vector<PseudoJet> AntiLeptonVector = Event->Leptons->AntiLeptonJetVector;
+    vector<PseudoJet> LeptonVector = Event->Lepton->LeptonJetVector;
+    vector<PseudoJet> AntiLeptonVector = Event->Lepton->AntiLeptonJetVector;
 
 //     vector<TLorentzVector> LeptonVector = Event->Leptons->LeptonLorentzVectorVector;
 //     vector<TLorentzVector> AntiLeptonVector = Event->Leptons->AntiLeptonLorentzVectorVector;

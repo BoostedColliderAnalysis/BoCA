@@ -44,7 +44,7 @@ void HJet::NewEvent(HClonesArray *NewClonesArrays)
 }
 
 
-void HJet::AnalyseJet()
+bool HJet::GetJets()
 {
 
     Print(1, "Analyse Jet");
@@ -84,6 +84,8 @@ void HJet::AnalyseJet()
     }
 
     Print(2, "Untagged jets", JetLorentzVectorVector.size());
+    
+    return 1;
 
 }
 

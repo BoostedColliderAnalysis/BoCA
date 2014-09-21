@@ -163,7 +163,6 @@ TString HFileFolder::GetFilePath()
 
     Print(1, "FilePath");
 
-//     FileSuffix = "_delphes_events.root";
 
     TString FlatFilePath = BasePath + ProcessFolder + FileSuffix;
 

@@ -6,9 +6,9 @@ HEventParton::HEventParton()
 
     Print(0, "Constructor");
 
-    Particle = new HParticleParton();
+    Particles = new HParticleParton();
 
-    Particles = 0;
+    HasParticles = 0;
 
 }
 
@@ -17,7 +17,7 @@ HEventParton::~HEventParton()
 
     Print(0, "Destructor");
 
-    delete Particle;
+    delete Particles;
 
 }
 
@@ -26,7 +26,7 @@ void HEventParton::NewEvent()
 
     Print(1, "New Event");
 
-    Particle->NewEvent(ClonesArrays);
+    Particles->NewEvent(ClonesArrays);
 
 }
 
@@ -36,7 +36,7 @@ void HEventParton::GetParticles()
     
     Print(1, "Get Particles");
     
-    Particles = Particle->GetParticles();
+    HasParticles = Particles->GetParticles();
     
 }
 

@@ -4,6 +4,8 @@
 # include "classes/DelphesClasses.h"
 # include "HParticle.hh"
  
+using std::abs;
+ 
 /**
  * @brief stores all the information about the event topology
  *
@@ -31,8 +33,12 @@ public:
      * @return void
      */
     bool GetParticles();
+    
+    vector<PseudoJet> TagJets(vector<PseudoJet>);
       
 private:
+    
+    void RemoveBottoms();
     
     
     virtual TString ClassName() {

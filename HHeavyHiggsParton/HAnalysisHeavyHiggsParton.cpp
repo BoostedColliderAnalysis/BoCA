@@ -77,7 +77,7 @@ bool HAnalysisHeavyHiggsParton::Analysis()
 
     Event->GetParticles();
 
-    vector<PseudoJet> BottomVector = Event->Particle->BottomJetVector;
+    vector<PseudoJet> BottomVector = Event->Particles->BottomJetVector;
 
     int BottomSum = BottomVector.size();
 
@@ -113,12 +113,12 @@ bool HAnalysisHeavyHiggsParton::Analysis()
 
 //     HeavyHiggs->MaxPt = FrontEta;
 //     HeavyHiggs->MinPt = BackEta;
-    HeavyHiggs->EtaMax = FrontEta;
-    HeavyHiggs->EtaMin = BackEta;
-    HeavyHiggs->DeltaEta = CombinedEta;
-    HeavyHiggs->BMass = CombinedMass;
+    HeavyHiggs->BottomEtaMax = FrontEta;
+    HeavyHiggs->BottomEtaMin = BackEta;
+    HeavyHiggs->BottomDeltaEta = CombinedEta;
+    HeavyHiggs->BottomInvMass = CombinedMass;
 
-    vector<PseudoJet> TopVector = Event->Particle->TopJetVector;
+    vector<PseudoJet> TopVector = Event->Particles->TopJetVector;
 
     int TopSum = TopVector.size();
 
@@ -151,8 +151,8 @@ bool HAnalysisHeavyHiggsParton::Analysis()
     CombinedEta = FrontEta - BackEta;
 
 
-    HeavyHiggs->DeltaEta2 = CombinedEta;
-    HeavyHiggs->BMass2 = CombinedMass;
+    HeavyHiggs->TopDeltaEta = CombinedEta;
+    HeavyHiggs->TopInvMass = CombinedMass;
 
 
     vector<PseudoJet> JetVector = BottomVector;
@@ -167,8 +167,8 @@ bool HAnalysisHeavyHiggsParton::Analysis()
     BackJet = JetVector.back();
     BackEta = BackJet.eta();
 
-    HeavyHiggs->EtaMax2 = FrontEta;
-    HeavyHiggs->EtaMin2 = BackEta;
+    HeavyHiggs->TopEtaMax = FrontEta;
+    HeavyHiggs->TopEtaMin = BackEta;
 
     CombinedJet = FrontJet + BackJet;
     CombinedMass = CombinedJet.m();

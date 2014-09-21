@@ -38,6 +38,8 @@ public:
      * @return void
      */
     virtual bool GetParticles() = 0;
+    
+    virtual vector<PseudoJet> TagJets( vector<PseudoJet>){vector<PseudoJet> v; return v;};
 
     virtual vector<TLorentzVector> LeptonVector();
 
@@ -76,6 +78,7 @@ public:
      *
      */
     vector<PseudoJet> CharmJetVector;
+    
 
 protected:
 
@@ -85,6 +88,8 @@ protected:
      *
      */
     HClonesArray *ClonesArrays;
+    
+    vector<PseudoJet> ParticleJetVector;
 
 
 private:

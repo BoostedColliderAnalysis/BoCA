@@ -8,7 +8,9 @@ HObject::HObject() :
     MuonMass(0.1134),
     ElectronMass(0.000511),
     HiggsUserIndex(1000),
-    TopUserIndex(2000)
+    TopUserIndex(2000),
+    TopId(6),
+    BottomId(5)
 {
 
     Print(0, "Constructor");

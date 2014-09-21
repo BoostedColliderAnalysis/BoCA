@@ -43,6 +43,8 @@ public:
     vector<PseudoJet> GetHiggsTopCandidates();
 
     vector<PseudoJet> GetTops();
+    
+    void GetTaggedJets();
 
 private:
     
@@ -50,9 +52,11 @@ private:
         return ("HEventDelphes");
     };
     
-    bool EFlow;
+    bool HasEFlow;
     
-    bool Particles;
+    bool HasParticles;
+    
+    bool HasJets;
 
 };
 
