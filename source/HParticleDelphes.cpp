@@ -5,6 +5,8 @@ HParticleDelphes::HParticleDelphes()
 
     Print(2, "Constructor");
 
+//     Debug = 5;
+
 }
 
 HParticleDelphes::~HParticleDelphes()
@@ -163,69 +165,167 @@ struct HDistance {
 
     float Distance = 999999;
 
-    float SecondDistance = 999999;
-
 };
 
-vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
+// vector< PseudoJet > HParticleDelphes::TagBottom(vector<PseudoJet> JetVector)
+// {
+//     Print(2, "Tag Jets");
+//
+//     vector<HDistance> DistanceVector;
+//
+//     Print(2, "Heavy Quarks", BottomJetVector.size());
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < BottomJetVector.size(); ++ParticleNumber) {
+//
+//         HDistance JetDistance;
+//         DistanceVector.push_back(JetDistance);
+//
+//         Print(2, "Particle ID", BottomJetVector[ParticleNumber].user_index());
+//
+//         for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
+//
+//             float Distance = JetVector[JetNumber].delta_R(BottomJetVector[ParticleNumber]);
+//
+//             Print(2, "Distance", Distance);
+//
+//             if (Distance < DistanceVector[ParticleNumber].Distance) {
+//
+//                 DistanceVector[ParticleNumber].Distance = Distance;
+//                 DistanceVector[ParticleNumber].Position = JetNumber;
+//                 DistanceVector[ParticleNumber].ParticleId = BottomJetVector[ParticleNumber].user_index();
+//
+//             }
+//
+//         }
+//
+//     }
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < BottomJetVector.size(); ++ParticleNumber) {
+//
+//         Print(2, "Particle", DistanceVector[ParticleNumber].ParticleId);
+//
+//         if (JetVector[DistanceVector[ParticleNumber].Position].user_index() < 0) {
+//
+//             JetVector[DistanceVector[ParticleNumber].Position].set_user_index(DistanceVector[ParticleNumber].ParticleId);
+//             Print(2, "JetPosition", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
+//
+//         } else {
+//
+//             Print(0, "Double tagging", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
+//
+//         }
+//
+//
+//     }
+//
+//     return JetVector;
+//
+// };
+//
+// vector< PseudoJet > HParticleDelphes::TagTop(vector<PseudoJet> JetVector)
+// {
+//     Print(2, "Tag Jets");
+//
+//     vector<HDistance> DistanceVector;
+//
+//     Print(2, "Heavy Quarks", TopJetVector.size());
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < TopJetVector.size(); ++ParticleNumber) {
+//
+//         HDistance JetDistance;
+//         DistanceVector.push_back(JetDistance);
+//
+//         Print(2, "Particle ID", TopJetVector[ParticleNumber].user_index());
+//
+//         for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
+//
+//             if (JetVector[JetNumber].user_index() == BottomId) {
+//
+//                 float Distance = JetVector[JetNumber].delta_R(TopJetVector[ParticleNumber]);
+//
+//                 Print(2, "Distance", Distance);
+//
+//                 if (Distance < DistanceVector[ParticleNumber].Distance) {
+//
+//                     DistanceVector[ParticleNumber].Distance = Distance;
+//                     DistanceVector[ParticleNumber].Position = JetNumber;
+//                     DistanceVector[ParticleNumber].ParticleId = TopJetVector[ParticleNumber].user_index();
+//
+//                 }
+//
+//             }
+//
+//         }
+//
+//     }
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < TopJetVector.size(); ++ParticleNumber) {
+//
+//         Print(2, "Particle", DistanceVector[ParticleNumber].ParticleId);
+//
+//         if (JetVector[DistanceVector[ParticleNumber].Position].user_index() == BottomId) {
+//
+//         Print(2, "JetPosition", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
+//
+//             JetVector[DistanceVector[ParticleNumber].Position].set_user_index(DistanceVector[ParticleNumber].ParticleId);
+//
+//         } else  {
+//
+// //             Print(0,"Not a Bottom",JetVector[DistanceVector[ParticleNumber].Position].user_index() );
+//
+//             Print(0, "Double tagging", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
+//
+//         }
+//
+//
+//     }
+//
+//
+//     return JetVector;
+//
+// };
+
+vector< PseudoJet > HParticleDelphes::JetTagger(vector<PseudoJet> JetVector, vector<PseudoJet> ParticleVector)
+{
+
+    JetVector = JetTagger(JetVector, ParticleVector, EmptyId);
+
+
+    return JetVector;
+
+}
+
+
+vector< PseudoJet > HParticleDelphes::JetTagger(vector<PseudoJet> JetVector, vector<PseudoJet> ParticleVector, int Prerequisit)
 {
     Print(2, "Tag Jets");
 
-    if (JetVector.size() == 0) return JetVector;
-
-    RemoveBottoms();
-
-//     vector<vector<HDistance> DistanceMatrix;
-
     vector<HDistance> DistanceVector;
-    vector<HDistance> SecondDistanceVector;
-    vector<HDistance> ThirdDistanceVector;
 
-    Print(2, "Heavy Quraks", ParticleJetVector.size());
+    Print(2, "Heavy Quarks", ParticleVector.size());
 
-    for (unsigned ParticleNumber = 0; ParticleNumber < ParticleJetVector.size(); ++ParticleNumber) {
+    for (unsigned ParticleNumber = 0; ParticleNumber < ParticleVector.size(); ++ParticleNumber) {
 
         HDistance JetDistance;
         DistanceVector.push_back(JetDistance);
 
-        HDistance SecondJetDistance;
-        SecondDistanceVector.push_back(SecondJetDistance);
-
-        HDistance ThirdJetDistance;
-        ThirdDistanceVector.push_back(ThirdJetDistance);
-
-        Print(2, "Particle ID", ParticleJetVector[ParticleNumber].user_index());
+        Print(2, "Particle ID", ParticleVector[ParticleNumber].user_index());
 
         for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
-            float Distance = JetVector[JetNumber].delta_R(ParticleJetVector[ParticleNumber]);
+            if (JetVector[JetNumber].user_index() == Prerequisit) {
 
-            Print(2, "Distance", Distance);
+                float Distance = JetVector[JetNumber].delta_R(ParticleVector[ParticleNumber]);
 
-            if (Distance < DistanceVector[ParticleNumber].Distance) {
+                Print(2, "Distance", Distance);
 
-                ThirdDistanceVector[ParticleNumber] = SecondDistanceVector[ParticleNumber];
-                SecondDistanceVector[ParticleNumber] = DistanceVector[ParticleNumber];
+                if (Distance < DistanceVector[ParticleNumber].Distance) {
 
-                DistanceVector[ParticleNumber].Distance = Distance;
-                DistanceVector[ParticleNumber].Position = JetNumber;
-                DistanceVector[ParticleNumber].ParticleId = ParticleJetVector[ParticleNumber].user_index();
+                    DistanceVector[ParticleNumber].Distance = Distance;
+                    DistanceVector[ParticleNumber].Position = JetNumber;
+                    DistanceVector[ParticleNumber].ParticleId = ParticleVector[ParticleNumber].user_index();
 
-            } else if (Distance < SecondDistanceVector[ParticleNumber].Distance) {
-
-                ThirdDistanceVector[ParticleNumber] = SecondDistanceVector[ParticleNumber];
-
-                SecondDistanceVector[ParticleNumber].Distance = Distance;
-                SecondDistanceVector[ParticleNumber].Position = JetNumber;
-                SecondDistanceVector[ParticleNumber].ParticleId = ParticleJetVector[ParticleNumber].user_index();
-
-
-            } else if (Distance < ThirdDistanceVector[ParticleNumber].Distance) {
-
-
-                ThirdDistanceVector[ParticleNumber].Distance = Distance;
-                ThirdDistanceVector[ParticleNumber].Position = JetNumber;
-                ThirdDistanceVector[ParticleNumber].ParticleId = ParticleJetVector[ParticleNumber].user_index();
+                }
 
             }
 
@@ -233,51 +333,23 @@ vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
 
     }
 
-    for (unsigned ParticleNumber = 0; ParticleNumber < ParticleJetVector.size(); ++ParticleNumber) {
+    for (unsigned ParticleNumber = 0; ParticleNumber < ParticleVector.size(); ++ParticleNumber) {
 
         Print(2, "Particle", DistanceVector[ParticleNumber].ParticleId);
 
-        for (unsigned ParticleNumber2 = 0; ParticleNumber2 < ParticleNumber; ++ParticleNumber2) {
+        if (JetVector[DistanceVector[ParticleNumber].Position].user_index() == Prerequisit) {
 
-            if (DistanceVector[ParticleNumber].Position == DistanceVector[ParticleNumber2].Position) {
+            Print(2, "JetPosition", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
 
-                if (DistanceVector[ParticleNumber].Distance < DistanceVector[ParticleNumber2].Distance) {
+            JetVector[DistanceVector[ParticleNumber].Position].set_user_index(DistanceVector[ParticleNumber].ParticleId);
 
-                    if (DistanceVector[ParticleNumber2].Position != SecondDistanceVector[ParticleNumber2].Position) {
-                        
-                        DistanceVector[ParticleNumber2] = SecondDistanceVector[ParticleNumber2];
+        } else  {
 
-                    } else {
-
-                        DistanceVector[ParticleNumber2] = ThirdDistanceVector[ParticleNumber2];
-
-                    }
-
-                } else if (DistanceVector[ParticleNumber2].Distance < DistanceVector[ParticleNumber].Distance) {
-
-                    if (DistanceVector[ParticleNumber].Position != SecondDistanceVector[ParticleNumber].Position) {
-                        
-                        DistanceVector[ParticleNumber] = SecondDistanceVector[ParticleNumber];
-                        
-                    } else {
-                        
-                        DistanceVector[ParticleNumber] = ThirdDistanceVector[ParticleNumber];
-                        
-                    }
-
-                } else Print(2, "What is going on here");
-
-            }
+            Print(2, "Double tagging", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
 
         }
 
-        
-        if (JetVector.size()>ParticleNumber){
-        Print(2, "JetPosition", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
-        JetVector[DistanceVector[ParticleNumber].Position].set_user_index(DistanceVector[ParticleNumber].ParticleId);
-	}
-	
-	
+
     }
 
 
@@ -285,63 +357,196 @@ vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
 
 }
 
-void HParticleDelphes::RemoveBottoms()
+
+vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
 {
-    Print(1, "Remove Bottoms");
 
-    vector<HDistance> DistanceVector;
+    if (JetVector.size() == 0) return JetVector;
 
-    Print(2, "ParticleSum", ParticleJetVector.size());
+    JetVector = JetTagger(JetVector, BottomJetVector);
+    JetVector = JetTagger(JetVector, TopJetVector, BottomId);
 
-    for (unsigned ParticleNumber = 0; ParticleNumber < ParticleJetVector.size(); ++ParticleNumber) {
+    return JetVector;
 
-        HDistance ParticleDistance;
-        ParticleDistance.ParticleId = ParticleJetVector[ParticleNumber].user_index();
-
-        Print(3, "Particle ID", ParticleDistance.ParticleId);
-
-        DistanceVector.push_back(ParticleDistance);
-
-        for (unsigned ParticleNumber2 = 0; ParticleNumber2 < ParticleNumber; ++ParticleNumber2) {
-
-            float Distance = ParticleJetVector[ParticleNumber].delta_R(ParticleJetVector[ParticleNumber2]);
-
-            Print(3, "Distance", ParticleJetVector[ParticleNumber2].user_index(), Distance);
-
-            if (ParticleJetVector[ParticleNumber].user_index() != ParticleJetVector[ParticleNumber2].user_index()) {
-
-                if (Distance < DistanceVector[ParticleNumber].Distance) {
-
-                    DistanceVector[ParticleNumber].Distance = Distance;
-                    DistanceVector[ParticleNumber].Position = ParticleNumber2;
-
-                }
-
-                if (Distance < DistanceVector[ParticleNumber2].Distance) {
-
-                    DistanceVector[ParticleNumber2].Distance = Distance;
-                    DistanceVector[ParticleNumber2].Position = ParticleNumber;
-
-                }
-
-            }
-
-        }
-
-    }
-
-    for (unsigned ParticleNumber = 0; ParticleNumber < DistanceVector.size(); ++ParticleNumber) {
-
-        if (DistanceVector[ParticleNumber].ParticleId == TopId) {
-
-            Print(3, "Final Particle Distance", ParticleJetVector[DistanceVector[ParticleNumber].Position].user_index(), DistanceVector[ParticleNumber].Distance);
-
-            ParticleJetVector.erase(ParticleJetVector.begin() + DistanceVector[ParticleNumber].Position);
-
-        }
-
-    }
 
 }
+
+
+// vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
+// {
+//     Print(2, "Tag Jets");
+//
+//     if (JetVector.size() == 0) return JetVector;
+//
+//     RemoveBottoms();
+//
+// //     vector<vector<HDistance> DistanceMatrix;
+//
+//     vector<HDistance> DistanceVector;
+//     vector<HDistance> SecondDistanceVector;
+//     vector<HDistance> ThirdDistanceVector;
+//
+//     Print(2, "Heavy Quraks", ParticleJetVector.size());
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < ParticleJetVector.size(); ++ParticleNumber) {
+//
+//         HDistance JetDistance;
+//         DistanceVector.push_back(JetDistance);
+//
+//         HDistance SecondJetDistance;
+//         SecondDistanceVector.push_back(SecondJetDistance);
+//
+//         HDistance ThirdJetDistance;
+//         ThirdDistanceVector.push_back(ThirdJetDistance);
+//
+//         Print(2, "Particle ID", ParticleJetVector[ParticleNumber].user_index());
+//
+//         for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
+//
+//             float Distance = JetVector[JetNumber].delta_R(ParticleJetVector[ParticleNumber]);
+//
+//             Print(2, "Distance", Distance);
+//
+//             if (Distance < DistanceVector[ParticleNumber].Distance) {
+//
+//                 ThirdDistanceVector[ParticleNumber] = SecondDistanceVector[ParticleNumber];
+//                 SecondDistanceVector[ParticleNumber] = DistanceVector[ParticleNumber];
+//
+//                 DistanceVector[ParticleNumber].Distance = Distance;
+//                 DistanceVector[ParticleNumber].Position = JetNumber;
+//                 DistanceVector[ParticleNumber].ParticleId = ParticleJetVector[ParticleNumber].user_index();
+//
+//             } else if (Distance < SecondDistanceVector[ParticleNumber].Distance) {
+//
+//                 ThirdDistanceVector[ParticleNumber] = SecondDistanceVector[ParticleNumber];
+//
+//                 SecondDistanceVector[ParticleNumber].Distance = Distance;
+//                 SecondDistanceVector[ParticleNumber].Position = JetNumber;
+//                 SecondDistanceVector[ParticleNumber].ParticleId = ParticleJetVector[ParticleNumber].user_index();
+//
+//
+//             } else if (Distance < ThirdDistanceVector[ParticleNumber].Distance) {
+//
+//
+//                 ThirdDistanceVector[ParticleNumber].Distance = Distance;
+//                 ThirdDistanceVector[ParticleNumber].Position = JetNumber;
+//                 ThirdDistanceVector[ParticleNumber].ParticleId = ParticleJetVector[ParticleNumber].user_index();
+//
+//             }
+//
+//         }
+//
+//     }
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < ParticleJetVector.size(); ++ParticleNumber) {
+//
+//         Print(2, "Particle", DistanceVector[ParticleNumber].ParticleId);
+//
+//         for (unsigned ParticleNumber2 = 0; ParticleNumber2 < ParticleNumber; ++ParticleNumber2) {
+//
+//             if (DistanceVector[ParticleNumber].Position == DistanceVector[ParticleNumber2].Position) {
+//
+//                 if (DistanceVector[ParticleNumber].Distance < DistanceVector[ParticleNumber2].Distance) {
+//
+//                     if (DistanceVector[ParticleNumber2].Position != SecondDistanceVector[ParticleNumber2].Position) {
+//
+//                         DistanceVector[ParticleNumber2] = SecondDistanceVector[ParticleNumber2];
+//
+//                     } else {
+//
+//                         DistanceVector[ParticleNumber2] = ThirdDistanceVector[ParticleNumber2];
+//
+//                     }
+//
+//                 } else if (DistanceVector[ParticleNumber2].Distance < DistanceVector[ParticleNumber].Distance) {
+//
+//                     if (DistanceVector[ParticleNumber].Position != SecondDistanceVector[ParticleNumber].Position) {
+//
+//                         DistanceVector[ParticleNumber] = SecondDistanceVector[ParticleNumber];
+//
+//                     } else {
+//
+//                         DistanceVector[ParticleNumber] = ThirdDistanceVector[ParticleNumber];
+//
+//                     }
+//
+//                 } else Print(2, "What is going on here");
+//
+//             }
+//
+//         }
+//
+//
+//         if (JetVector.size() > ParticleNumber) {
+//             Print(2, "JetPosition", DistanceVector[ParticleNumber].Position, DistanceVector[ParticleNumber].Distance);
+//             JetVector[DistanceVector[ParticleNumber].Position].set_user_index(DistanceVector[ParticleNumber].ParticleId);
+//         }
+//
+//
+//     }
+//
+//
+//     return JetVector;
+//
+// }
+//
+// void HParticleDelphes::RemoveBottoms()
+// {
+//     Print(1, "Remove Bottoms");
+//
+//     vector<HDistance> DistanceVector;
+//
+//     Print(2, "ParticleSum", ParticleJetVector.size());
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < ParticleJetVector.size(); ++ParticleNumber) {
+//
+//         HDistance ParticleDistance;
+//         ParticleDistance.ParticleId = ParticleJetVector[ParticleNumber].user_index();
+//
+//         Print(3, "Particle ID", ParticleDistance.ParticleId);
+//
+//         DistanceVector.push_back(ParticleDistance);
+//
+//         for (unsigned ParticleNumber2 = 0; ParticleNumber2 < ParticleNumber; ++ParticleNumber2) {
+//
+//             float Distance = ParticleJetVector[ParticleNumber].delta_R(ParticleJetVector[ParticleNumber2]);
+//
+//             Print(3, "Distance", ParticleJetVector[ParticleNumber2].user_index(), Distance);
+//
+//             if (ParticleJetVector[ParticleNumber].user_index() != ParticleJetVector[ParticleNumber2].user_index()) {
+//
+//                 if (Distance < DistanceVector[ParticleNumber].Distance) {
+//
+//                     DistanceVector[ParticleNumber].Distance = Distance;
+//                     DistanceVector[ParticleNumber].Position = ParticleNumber2;
+//
+//                 }
+//
+//                 if (Distance < DistanceVector[ParticleNumber2].Distance) {
+//
+//                     DistanceVector[ParticleNumber2].Distance = Distance;
+//                     DistanceVector[ParticleNumber2].Position = ParticleNumber;
+//
+//                 }
+//
+//             }
+//
+//         }
+//
+//     }
+//
+//     for (unsigned ParticleNumber = 0; ParticleNumber < DistanceVector.size(); ++ParticleNumber) {
+//
+//         if (DistanceVector[ParticleNumber].ParticleId == TopId) {
+//
+//             Print(3, "Final Particle Distance", ParticleJetVector[DistanceVector[ParticleNumber].Position].user_index(), DistanceVector[ParticleNumber].Distance);
+//
+//             ParticleJetVector.erase(ParticleJetVector.begin() + DistanceVector[ParticleNumber].Position);
+//
+//         }
+//
+//     }
+//
+// }
 
 

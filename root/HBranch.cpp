@@ -139,21 +139,30 @@ void HHeavyHiggsBranch::reset()
     int InitialValue = -10;
     
     JetNumber = InitialValue;
-
-    BottomEtaMax = InitialValue;
-    BottomEtaMin = InitialValue;
-    BottomDeltaEta = InitialValue;
-    BottomInvMass = InitialValue;
-        
-    TopEtaMax = InitialValue;
-    TopEtaMin = InitialValue;
-    TopDeltaEta= InitialValue;
-    TopInvMass = InitialValue;
-    
-    DeltaEta3 = InitialValue;
-    BMass3 = InitialValue;
-    TMass = InitialValue;
-    DeltaPhi = InitialValue;
     BTag = InitialValue;
+
+    BottomEta1 = InitialValue;
+    BottomEta2 = InitialValue;
+    BottomDeltaEta = InitialValue;
+    
+    BottomPhi1 = InitialValue;
+    BottomPhi2 = InitialValue;
+    BottomDeltaPhi = InitialValue;
+    
+    BottomPt1 = InitialValue;
+    BottomPt2 = InitialValue;
+    BottomInvMass = InitialValue;
+    
+    TopEta1 = InitialValue;
+    TopEta2 = InitialValue;
+    TopDeltaEta = InitialValue;
+    
+    TopPhi1 = InitialValue;
+    TopPhi2 = InitialValue;
+    TopDeltaPhi = InitialValue;
+    
+    TopPt1 = InitialValue;
+    TopPt2 = InitialValue;
+    TopInvMass = InitialValue;
 
 }

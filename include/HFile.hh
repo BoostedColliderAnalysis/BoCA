@@ -96,6 +96,8 @@ public:
     virtual TString GetTreeName() = 0;
     
     static TString FileSuffix;
+    
+    static bool Snowmass;
 
 protected:
 
@@ -179,8 +181,11 @@ public:
     TString GetTreeName();
 
 private:
+    
     virtual TString ClassName() {
+        
         return ("HFileDelphes");
+        
     };
 
 };
@@ -201,8 +206,11 @@ public:
     TString GetTreeName();
         
 private:
+    
     virtual TString ClassName() {
+        
         return ("HFileFolder");
+        
     };
 
 };

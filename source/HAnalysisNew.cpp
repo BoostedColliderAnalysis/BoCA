@@ -1,6 +1,6 @@
-# include "HAnalysisBase.hh"
+# include "HAnalysis.hh"
 
-HAnalysisBase::HAnalysisBase()
+HAnalysis::HAnalysis()
 {
 
     Print(0, "Constructor");
@@ -11,7 +11,7 @@ HAnalysisBase::HAnalysisBase()
     
 }
 
-vector<string> HAnalysisBase::GetStudyNameVector(){
+vector<string> HAnalysis::GetStudyNameVector(){
     
     vector<string> StudyNameVector = {ProjectName};
     
@@ -19,7 +19,7 @@ vector<string> HAnalysisBase::GetStudyNameVector(){
     
 }
 
-void HAnalysisBase::AnalysisLoop()
+void HAnalysis::AnalysisLoop()
 {
 
     Print(0, "Analysis Loop");
@@ -73,7 +73,7 @@ void HAnalysisBase::AnalysisLoop()
 
 }
 
-void HAnalysisBase::NewStudy()
+void HAnalysis::NewStudy()
 {
 
     Print(0, "New Mva", StudyName);
@@ -89,7 +89,7 @@ void HAnalysisBase::NewStudy()
 }
 
 
-void HAnalysisBase::NewFileBase()
+void HAnalysis::NewFileBase()
 {
     Print(0, "New Analysis");
 
@@ -134,7 +134,7 @@ void HAnalysisBase::NewFileBase()
 }
 
 
-void HAnalysisBase::NewEvent()
+void HAnalysis::NewEvent()
 {
     Print(1, "New Event");
 
@@ -161,7 +161,7 @@ void HAnalysisBase::NewEvent()
 }
 
 
-void HAnalysisBase::CloseFileBase()
+void HAnalysis::CloseFileBase()
 {
     Print(0, "Clean Analysis");
 
@@ -181,14 +181,14 @@ void HAnalysisBase::CloseFileBase()
 }
 
 
-void HAnalysisBase::DeleteStudy()
+void HAnalysis::DeleteStudy()
 {
     Print(0, "Clean Mva");
 
 }
 
 
-HAnalysisBase::~HAnalysisBase()
+HAnalysis::~HAnalysis()
 {
 
     Print(0, "Destructor");
@@ -205,7 +205,7 @@ HAnalysisBase::~HAnalysisBase()
 
 }
 
-void HAnalysisBase::EmptyFileVector(){
+void HAnalysis::EmptyFileVector(){
     
         int PathSum = FileVector.size();
     for (int PathNumber = 0; PathNumber < PathSum; ++PathNumber) {

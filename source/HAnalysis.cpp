@@ -1,20 +1,24 @@
 # include "HAnalysis.hh"
+# include "HEventDelphes.hh"
+# include "HEventParton.hh"
+# include "HEventPgs.hh"
 
 HAnalysis::HAnalysis()
 {
 
     Print(0, "Constructor");
-    
+
     EventNumberMax = 100000;
-    
+
 }
 
-vector<string> HAnalysis::GetStudyNameVector(){
-    
+vector<string> HAnalysis::GetStudyNameVector()
+{
+
     vector<string> StudyNameVector = {ProjectName};
-    
+
     return StudyNameVector;
-    
+
 }
 
 void HAnalysis::AnalysisLoop()
@@ -23,7 +27,7 @@ void HAnalysis::AnalysisLoop()
     Print(0, "Analysis Loop");
 
     cout << endl;
-    
+
     vector<string> StudyNameVector = GetStudyNameVector();
 
     int StudySum = StudyNameVector.size();
@@ -73,13 +77,46 @@ void HAnalysis::NewStudy()
 {
 
     Print(0, "New Mva", StudyName);
-    
+
     EmptyFileVector();
     SetFileVector();
+
+    if (FileVector.front()->GetTreeName() == "Delphes") {
+
+        if (FileVector.front()->Snowmass) {
+
+            ClonesArrays = new HClonesArraySnowmass();
+
+        } else {
+
+            ClonesArrays = new HClonesArrayDelphes();
+
+        }
+
+        Event = new HEventDelphes();
+
+    } else if (FileVector.front()->GetTreeName() == "LHEF") {
+
+        ClonesArrays = new HClonesArrayParton();
+
+        Event = new HEventParton();
+
+    } else if (FileVector.front()->GetTreeName() == "LHCO") {
+
+        ClonesArrays = new HClonesArrayPgs();
+
+        Event = new HEventPgs();
+
+    } else {
+
+        Print(-1, "unknown Tree String", FileVector.front()->GetTreeName());
+
+    }
 
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
     ExportFile = new TFile(ExportName, "Recreate");
+    Print(0, "ExportFile",ExportName);
 
 }
 
@@ -92,6 +129,7 @@ void HAnalysis::NewFileBase()
 
     // Export tree
     TString ExportTreeName = FileVector[FileNumber]->Title;
+    Print(0, "ExportTreeName",ExportTreeName);
     TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
 
     NewFile();
@@ -179,9 +217,9 @@ HAnalysis::~HAnalysis()
     Print(0, "Destructor");
 
     ExportFile->Close();
-    
+
     EmptyFileVector();
-    
+
     delete ExportFile;
     delete ClonesArrays;
     delete Event;
@@ -190,14 +228,15 @@ HAnalysis::~HAnalysis()
 
 }
 
-void HAnalysis::EmptyFileVector(){
-    
-        int PathSum = FileVector.size();
+void HAnalysis::EmptyFileVector()
+{
+
+    int PathSum = FileVector.size();
     for (int PathNumber = 0; PathNumber < PathSum; ++PathNumber) {
 
         delete FileVector[PathNumber];
 
     }
     FileVector.clear();
-    
+
 }

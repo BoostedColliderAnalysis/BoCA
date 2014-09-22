@@ -44,6 +44,8 @@ TString HFile::FileSuffix = "_delphes_events.root";
 
 TString HFile::TreeString = "Delphes";
 
+bool HFile::Snowmass = 0;
+
 void HFile::SetVariables()
 {
 
@@ -76,7 +78,7 @@ HFile::~HFile()
 TString HFileParton::GetTreeName()
 {
 
-    Print(1, "Set Tree String");
+    Print(1, "Get Tree String");
 
     TreeString = "LHEF";
 
@@ -100,7 +102,7 @@ TString HFileParton::GetFilePath()
 TString HFilePgs::GetTreeName()
 {
 
-    Print(1, "Set Tree String");
+    Print(1, "Get Tree String");
 
     TreeString = "LHCO";
 
@@ -124,7 +126,7 @@ TString HFilePgs::GetFilePath()
 TString HFileDelphes::GetTreeName()
 {
 
-    Print(1, "Set Tree String");
+    Print(1, "Get Tree String");
 
     TreeString = "Delphes";
 
@@ -148,9 +150,7 @@ TString HFileDelphes::GetFilePath()
 TString HFileFolder::GetTreeName()
 {
 
-    Print(1, "Set Tree String");
-
-//     TreeString = "Delphes";
+    Print(1, "Get Tree String");
 
     return TreeString;
 
@@ -162,7 +162,6 @@ TString HFileFolder::GetFilePath()
 {
 
     Print(1, "FilePath");
-
 
     TString FlatFilePath = BasePath + ProcessFolder + FileSuffix;
 

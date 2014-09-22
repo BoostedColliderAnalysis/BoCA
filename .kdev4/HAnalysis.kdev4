@@ -123,24 +123,24 @@ pattern=*.o
 targets=1
 
 [Launch]
-Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2
+Launch Configurations=Launch Configuration 1,Launch Configuration 3,Launch Configuration 2,Launch Configuration 0
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=HHeavyHiggs
+Name=HHeavyHiggsDelphes
 Type=Native Application
 
 [Launch][Launch Configuration 0][Data]
 Arguments=
-Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x16\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00\x00\x00\x16\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s)
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x16\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00\x00\x00$\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00D\x00e\x00l\x00p\x00h\x00e\x00s)
 Dependency Action=Build
 EnvironmentGroup=default
-Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HHeavyHiggs
+Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HHeavyHiggsDelphes
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-Project Target=HAnalysis,HHeavyHiggs,HHeavyHiggs
+Project Target=HAnalysis,HHeavyHiggs,HHeavyHiggsDelphes
 Use External Terminal=true
-Working Directory=file:///home/hajer/Projects/HeavyHiggs
+Working Directory=file:///home/hajer/Projects/HeavyHiggs/
 isExecutable=true
 
 [Launch][Launch Configuration 1]
@@ -169,20 +169,30 @@ Type=Native Application
 
 [Launch][Launch Configuration 2][Data]
 Arguments=
-Debugger Shell=
-Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00"\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00P\x00a\x00r\x00t\x00o\x00n\x00\x00\x00"\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00P\x00a\x00r\x00t\x00o\x00n)
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x16\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00\x00\x00"\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00P\x00a\x00r\x00t\x00o\x00n)
 Dependency Action=Build
-Display Demangle Names=true
-Display Static Members=false
 EnvironmentGroup=default
 Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HHeavyHiggsParton
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-GDB Path=
-Project Target=HAnalysis,HHeavyHiggsParton,HHeavyHiggsParton
-Remote GDB Config Script=
-Remote GDB Run Script=
-Remote GDB Shell Script=
-Start With=ApplicationOutput
+Project Target=HAnalysis,HHeavyHiggs,HHeavyHiggsParton
+Use External Terminal=true
+Working Directory=file:///home/hajer/Projects/HeavyHiggs/
+isExecutable=true
+
+[Launch][Launch Configuration 3]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HHeavyHiggsPgs
+Type=Native Application
+
+[Launch][Launch Configuration 3][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x16\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00\x00\x00\x1c\x00H\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00P\x00g\x00s)
+Dependency Action=Build
+EnvironmentGroup=default
+Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HHeavyHiggsPgs
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=HAnalysis,HHeavyHiggs,HHeavyHiggsPgs
 Use External Terminal=true
 Working Directory=file:///home/hajer/Projects/HeavyHiggs/
 isExecutable=true

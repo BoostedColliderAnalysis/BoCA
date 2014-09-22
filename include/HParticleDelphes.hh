@@ -38,7 +38,8 @@ public:
       
 private:
     
-    void RemoveBottoms();
+    vector<PseudoJet> JetTagger(vector<PseudoJet>,vector<PseudoJet>, int);
+    vector<PseudoJet> JetTagger(vector<PseudoJet>,vector<PseudoJet>);
     
     
     virtual TString ClassName() {

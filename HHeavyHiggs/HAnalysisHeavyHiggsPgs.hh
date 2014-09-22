@@ -1,8 +1,7 @@
-# ifndef HAnalysisHeavyHiggs_hh
-# define HAnalysisHeavyHiggs_hh
+# ifndef HAnalysisHeavyHiggsPgs_hh
+# define HAnalysisHeavyHiggsPgs_hh
 
 # include "HAnalysis.hh"
-# include "HEventDelphes.hh"
 
 using std::iter_swap;
 
@@ -10,7 +9,7 @@ using std::iter_swap;
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class HAnalysisHeavyHiggs : public HAnalysis
+class HAnalysisHeavyHiggsPgs : public HAnalysis
 {
 
 public:
@@ -19,7 +18,7 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisHeavyHiggs();
+    HAnalysisHeavyHiggsPgs();
 
 private:
 
@@ -65,7 +64,7 @@ private:
 
     virtual TString ClassName() {
 
-        return ("HAnalysisHeavyHiggs");
+        return ("HAnalysisHeavyHiggsPgs");
 
     };
 

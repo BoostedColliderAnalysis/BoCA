@@ -113,8 +113,8 @@ bool HAnalysisHeavyHiggsParton::Analysis()
 
 //     HeavyHiggs->MaxPt = FrontEta;
 //     HeavyHiggs->MinPt = BackEta;
-    HeavyHiggs->BottomEtaMax = FrontEta;
-    HeavyHiggs->BottomEtaMin = BackEta;
+    HeavyHiggs->BottomEta1 = FrontEta;
+    HeavyHiggs->BottomEta2 = BackEta;
     HeavyHiggs->BottomDeltaEta = CombinedEta;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
@@ -167,15 +167,15 @@ bool HAnalysisHeavyHiggsParton::Analysis()
     BackJet = JetVector.back();
     BackEta = BackJet.eta();
 
-    HeavyHiggs->TopEtaMax = FrontEta;
-    HeavyHiggs->TopEtaMin = BackEta;
+    HeavyHiggs->TopEta1 = FrontEta;
+    HeavyHiggs->TopEta2 = BackEta;
 
     CombinedJet = FrontJet + BackJet;
     CombinedMass = CombinedJet.m();
     CombinedEta = FrontEta - BackEta;
 
-    HeavyHiggs->DeltaEta3 = CombinedEta;
-    HeavyHiggs->BMass3 = CombinedMass;
+    HeavyHiggs->TopDeltaEta = CombinedEta;
+    HeavyHiggs->TopInvMass = CombinedMass;
 
     sort(JetVector.begin(), JetVector.end(), SortJetByPt());
 

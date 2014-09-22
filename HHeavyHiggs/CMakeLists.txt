@@ -1,5 +1,8 @@
 # Library
-set(AnalysisSources HAnalysisHeavyHiggs.cpp)
+set(AnalysisSources 
+HAnalysisHeavyHiggsDelphes.cpp 
+HAnalysisHeavyHiggsParton.cpp 
+HAnalysisHeavyHiggsPgs.cpp)
 add_library(HAnalysisHeavyHiggs SHARED ${AnalysisSources})
 target_link_libraries(HAnalysisHeavyHiggs HBranch HEvent)
 set_target_properties(HAnalysisHeavyHiggs PROPERTIES ${LibraryProperties})
@@ -11,5 +14,11 @@ HAnalysisHeavyHiggs
 )
 
 # Executable
-add_executable(HHeavyHiggs main.cpp)
-target_link_libraries(HHeavyHiggs ${LinkLibraries})
+add_executable(HHeavyHiggsDelphes MainDelphes.cpp)
+target_link_libraries(HHeavyHiggsDelphes ${LinkLibraries})
+
+add_executable(HHeavyHiggsParton MainParton.cpp)
+target_link_libraries(HHeavyHiggsParton ${LinkLibraries})
+
+add_executable(HHeavyHiggsPgs MainPgs.cpp)
+target_link_libraries(HHeavyHiggsPgs ${LinkLibraries})

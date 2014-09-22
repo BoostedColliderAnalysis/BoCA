@@ -236,6 +236,8 @@ protected:
     const int TopId;
 
     const int BottomId;
+    
+    const int EmptyId;
 
 private:
 

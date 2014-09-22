@@ -10,12 +10,13 @@ HObject::HObject() :
     HiggsUserIndex(1000),
     TopUserIndex(2000),
     TopId(6),
-    BottomId(5)
+    BottomId(5),
+    EmptyId(-1)
 {
 
     Print(0, "Constructor");
 
-    Debug = 1;
+    Debug = 5;
 
 }
 

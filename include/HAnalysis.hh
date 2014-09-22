@@ -117,13 +117,13 @@ protected:
     
     vector<ExRootTreeWriter> TreeWriterVector;
 
+    string StudyName;
+
 private:
 
     void EmptyFileVector();
 
     void NewStudy();
-
-    string StudyName;
 
     void DeleteStudy();
 
