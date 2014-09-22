@@ -118,7 +118,7 @@ PseudoJet HEventDelphes::GetHiggs()
 
     Print(1, "Get Higgs");
 
-    if (!HasEFlow) HasEFlow = Jets->AnalyseEFlow();
+    if (!HasEFlow) HasEFlow = Jets->GetEFlow();
     Particles->GetParticles();
 
     PseudoJet HiggsJet = HiggsTagger->GetHiggsJet(
@@ -135,7 +135,7 @@ vector<PseudoJet> HEventDelphes::GetTops()
 
     Print(1, "Get Tops");
 
-    if (!HasEFlow) HasEFlow =  Jets->AnalyseEFlow();
+    if (!HasEFlow) HasEFlow =  Jets->GetEFlow();
     if (Jets->EFlowJetVector.size() > 0) TopTagger->TaggingTop(Jets->EFlowJetVector);
     vector<PseudoJet> TopJetVector = TopTagger->TopJetVector;
 
@@ -189,7 +189,7 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates()
 
     vector<PseudoJet> CandidateJets;
 
-    if (!HasEFlow) HasEFlow = Jets->AnalyseEFlow();
+    if (!HasEFlow) HasEFlow = Jets->GetEFlow();
     if (!HasParticles) HasParticles = Particles->GetParticles();
 
     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);

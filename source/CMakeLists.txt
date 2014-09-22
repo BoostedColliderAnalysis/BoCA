@@ -15,6 +15,8 @@ HParticle.cpp
 HParticleDelphes.cpp
 HParticleParton.cpp
 HJet.cpp
+HJetDelphes.cpp
+HJetPgs.cpp
 HLepton.cpp
 HLeptonDelphes.cpp
 HLeptonPgs.cpp

@@ -36,20 +36,13 @@ public:
      *
      * @return void
      */
-    bool GetJets();
-    
-    /**
-     * @brief Get Tau Tag
-     * 
-     * @return void
-     */
-    void TauTagCalculations(Jet *);
+    virtual bool GetJets(){bool b=1; return b;};
     
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool AnalyseEFlow();
+    virtual bool GetEFlow(){bool b=1; return b;};
     
     /**
      * @brief Get Gen Jet
@@ -57,7 +50,7 @@ public:
      * @param  ...
      * @return void
      */
-    void GetGenJet();
+    virtual void GetGenJet(){};
     
     /**
      * @brief Initialize new event
@@ -120,8 +113,14 @@ public:
      */
     vector<TLorentzVector> BottomLorentzVectorVector;
 
-
-private:
+protected:
+    
+    /**
+     * @brief Get Tau Tag
+     * 
+     * @return void
+     */
+    virtual void TauTagCalculations(Jet *){};
     
     
     template<typename Template1, typename Template2>

@@ -74,6 +74,9 @@ bool HAnalysisHeavyHiggsPgs::Analysis()
     
     vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
     
+    
+    Print(1, "Got B Jet Vector");
+    
     if (BJets.size() > 1) {
         
         for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
