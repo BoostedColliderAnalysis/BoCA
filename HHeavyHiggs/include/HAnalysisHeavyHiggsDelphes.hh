@@ -47,8 +47,12 @@ private:
     void CloseFile();
     
     vector<string> GetStudyNameVector();
+    
+    void FillBranch(PseudoJet, PseudoJet);
+    
+    float Leptons(PseudoJet);
 
-    virtual TString ClassName() {
+    TString ClassName() {
 
         return ("HAnalysisHeavyHiggsDelphes");
 

@@ -6,8 +6,6 @@ HAnalysis::HAnalysis()
     Print(0, "Constructor");
 
     EventNumberMax = 100000;
-
-    Event = new HEvent();
     
 }
 
@@ -26,7 +24,10 @@ void HAnalysis::AnalysisLoop()
 
     cout << endl;
     
+    
     vector<string> StudyNameVector = GetStudyNameVector();
+    
+    SetFileVector();
 
     int StudySum = StudyNameVector.size();
 
@@ -78,13 +79,11 @@ void HAnalysis::NewStudy()
 
     Print(0, "New Mva", StudyName);
     
-    EmptyFileVector();
-    SetFileVector();
 
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
-    TFile ExportFile1 = new TFile(ExportName, "Recreate");
-    ExportFileVector.push_back(ExportFile1);
+    TFile ExportFile = new TFile(ExportName, "Recreate");
+    ExportFileVector.push_back(ExportFile);
 
 }
 
@@ -103,9 +102,9 @@ void HAnalysis::NewFileBase()
     for (int StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
         
         
-        ExRootTreeWriter TreeWriter1 = new ExRootTreeWriter(ExportFile, ExportTreeName);
-        ExRootTreeBranch InfoBranch = TreeWriter1->NewBranch("Info", HInfoBranch::Class());
-        TreeWriterVector.push_back(TreeWriter1);
+        ExRootTreeWriter TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
+        ExRootTreeBranch InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
+        TreeWriterVector.push_back(TreeWriter);
         
     }
     
@@ -175,8 +174,8 @@ void HAnalysis::CloseFileBase()
     delete TreeReader;
     delete ImportTree;
     delete ImportFile;
-    delete TreeWriter;
 
+    delete TreeWriter;
 
 }
 

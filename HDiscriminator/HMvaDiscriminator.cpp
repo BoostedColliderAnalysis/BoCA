@@ -49,6 +49,8 @@ HMvaDiscriminator::~HMvaDiscriminator()
 {
 
     Print(0 , "Constructor");
+    
+    delete Candidate;
 
 }
 

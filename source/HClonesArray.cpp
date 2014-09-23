@@ -33,7 +33,7 @@ HClonesArray::~HClonesArray()
 void HClonesArray::ResetBranches()
 {
 
-    Print(0, "ResetTrees");
+    Print(0, "Reset Branches");
 
     ParticleClonesArray = NULL;
     PhotonClonesArray = NULL;
@@ -51,12 +51,13 @@ void HClonesArray::ResetBranches()
     GenJetClonesArray = NULL;
     ScalarHtClonesArray = NULL;
 
+    Print(0,"Branches reset");
 }
 
 void HClonesArrayDelphes::UseBranches(ExRootTreeReader *TreeReader)
 {
     
-    Print(0, "ReadTrees");
+    Print(0, "Use Branches");
     
     ParticleClonesArray = TreeReader->UseBranch("Particle");
     PhotonClonesArray = TreeReader->UseBranch("Photon");
@@ -78,7 +79,7 @@ void HClonesArrayDelphes::UseBranches(ExRootTreeReader *TreeReader)
 void HClonesArraySnowmass::UseBranches(ExRootTreeReader *TreeReader)
 {
     
-    Print(0, "ReadTrees");
+    Print(0, "Use Branches");
     
     ParticleClonesArray = TreeReader->UseBranch("Particle");
     PhotonClonesArray = TreeReader->UseBranch("Photon");
@@ -99,7 +100,7 @@ void HClonesArraySnowmass::UseBranches(ExRootTreeReader *TreeReader)
 void HClonesArrayPgs::UseBranches(ExRootTreeReader *TreeReader)
 {
     
-    Print(0, "ReadTrees");
+    Print(0, "Use Branches");
         
     PhotonClonesArray = TreeReader->UseBranch("Photon");
     ElectronClonesArray = TreeReader->UseBranch("Electron");
@@ -113,7 +114,7 @@ void HClonesArrayPgs::UseBranches(ExRootTreeReader *TreeReader)
 void HClonesArrayParton::UseBranches(ExRootTreeReader *TreeReader)
 {
     
-    Print(0, "ReadTrees");
+    Print(0, "Use Branches");
 
     ParticleClonesArray = TreeReader->UseBranch("Particle");
     

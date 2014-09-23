@@ -90,6 +90,8 @@ public:
     TCut Cut;
 
     HCandidateBranch *Candidate;
+    
+    HHeavyHiggsBranch *HeavyHiggs;
 
     /**
      * @brief Names of the Background Files

@@ -30,7 +30,7 @@ void HAnalysisHeavyHiggsDelphes::SetFileVector()
 
 //     if (AnalysisName != "Signal") {
 
-        FileVector.push_back(new HFileFolder("5k_Pt20"));
+    FileVector.push_back(new HFileFolder("5k_Pt20"));
 
 //     }
 
@@ -42,8 +42,8 @@ void HAnalysisHeavyHiggsDelphes::SetFileVector()
 //     FileVector.push_back(new HFileFolder("900GeV"));
 //     FileVector.push_back(new HFileFolder("1000GeV"));
 
-    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-//     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
+//     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+    FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
     FileVector.front()->FileSuffix = "_Delphes.root";
     FileVector.front()->Snowmass = 1;
 
@@ -106,8 +106,6 @@ bool HAnalysisHeavyHiggsDelphes::Test()
 
     Print(1, "BTag");
 
-    ++EventCounter;
-
     Event->GetJets();
     Event->GetLeptons();
 
@@ -134,34 +132,7 @@ bool HAnalysisHeavyHiggsDelphes::Test()
 
                 }
 
-                float FrontPt = FrontJet.pt();
-                float FrontEta = FrontJet.eta();
-                float FrontPhi = FrontJet.phi();
-
-                float BackEta = BackJet.eta();
-                float BackPt = BackJet.pt();
-                float BackPhi = BackJet.phi();
-
-                float InvMass = (FrontJet + BackJet).m();
-                float DeltaEta = FrontEta - BackEta;
-                float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
-
-                HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
-
-                HeavyHiggs->BottomEta1 = FrontEta;
-                HeavyHiggs->BottomEta2 = BackEta;
-                HeavyHiggs->BottomDeltaEta = DeltaEta;
-
-                HeavyHiggs->BottomPhi1 = FrontPhi;
-                HeavyHiggs->BottomPhi2 = BackPhi;
-                HeavyHiggs->BottomDeltaPhi = DeltaPhi;
-
-                HeavyHiggs->BottomPt1 = FrontPt;
-                HeavyHiggs->BottomPt2 = BackPt;
-                HeavyHiggs->BottomInvMass = InvMass;
-
-                HeavyHiggs->BTag = BJets.size();
-                HeavyHiggs->JetNumber = Event->Jets->JetVector.size();
+                FillBranch(FrontJet,BackJet);
 
             }
 
@@ -176,86 +147,55 @@ bool HAnalysisHeavyHiggsDelphes::Test()
 }
 bool HAnalysisHeavyHiggsDelphes::Background()
 {
-    
+
     Print(1, "Truth Level");
-    
-    HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
-        
+
     Event->GetTaggedJets();
-    
+    Event->GetLeptons();
+
     vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
-    int BJetSum = BJets.size();
-    HeavyHiggs->BTag = BJetSum;
-    Print(3, "B Jets", BJetSum);
-    
     vector<PseudoJet> JetVector = Event->Jets->JetVector;
-    int JetSum = JetVector.size();
-    HeavyHiggs->JetNumber = JetSum;
-    Print(2, "JetSum", JetSum);
-    
-    vector<PseudoJet> BottomVector;
-    
-    if (JetSum < 2) return 0;    
-    
-    for (int JetNumber = 0; JetNumber < JetSum; ++JetNumber) {
-        
+
+    if (JetVector.size() < 2) return 0;
+
+    for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
+
         if (JetVector[JetNumber].user_index() == BottomId) JetVector.erase(JetVector. begin() + JetNumber);
-        
+
     }
-    
+
+    for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
+
+        if(JetVector[JetNumber].user_index() == BottomId) Print(-1,"ERROR");
+
+    }
+
     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
-        
+
         for (unsigned BJetNumber2 = 0; BJetNumber2 < BJetNumber; ++BJetNumber2) {
-            
+
             PseudoJet FrontJet, BackJet;
-            
+
             if (BJets[BJetNumber].eta() > BJets[BJetNumber2].eta()) {
-                
+
                 FrontJet = BJets[BJetNumber];
                 BackJet = BJets[BJetNumber2];
-                
+
             } else {
-                
+
                 FrontJet = BJets[BJetNumber2];
                 BackJet = BJets[BJetNumber];
-                
+
             }
-            
-            float FrontPt = FrontJet.pt();
-            float FrontEta = FrontJet.eta();
-            float FrontPhi = FrontJet.phi();
-            
-            float BackEta = BackJet.eta();
-            float BackPt = BackJet.pt();
-            float BackPhi = BackJet.phi();
-            
-            float InvMass = (FrontJet + BackJet).m();
-            float DeltaEta = FrontEta - BackEta;
-            float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
-            
-            HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
-            
-            HeavyHiggs->BottomEta1 = FrontEta;
-            HeavyHiggs->BottomEta2 = BackEta;
-            HeavyHiggs->BottomDeltaEta = DeltaEta;
-            
-            HeavyHiggs->BottomPhi1 = FrontPhi;
-            HeavyHiggs->BottomPhi2 = BackPhi;
-            HeavyHiggs->BottomDeltaPhi = DeltaPhi;
-            
-            HeavyHiggs->BottomPt1 = FrontPt;
-            HeavyHiggs->BottomPt2 = BackPt;
-            HeavyHiggs->BottomInvMass = InvMass;
-            
-            HeavyHiggs->BTag = BJets.size();
-            HeavyHiggs->JetNumber = Event->Jets->JetVector.size();
-            
+
+            FillBranch(FrontJet,BackJet);
+
         }
-        
+
     }
-    
+
     return 1;
-        
+
 }
 
 bool HAnalysisHeavyHiggsDelphes::Signal()
@@ -263,32 +203,24 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
 
     Print(1, "Truth Level");
 
-    HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
-
-    ++EventCounter;
 
     Event->GetTaggedJets();
+    Event->GetLeptons();
 
     vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
-    int BJetSum = BJets.size();
-    HeavyHiggs->BTag = BJetSum;
-    Print(3, "B Jets", BJetSum);
 
     vector<PseudoJet> JetVector = Event->Jets->JetVector;
-    int JetSum = JetVector.size();
-    HeavyHiggs->JetNumber = JetSum;
-    Print(2, "JetSum", JetSum);
 
-    vector<PseudoJet> TopVector;
+//     vector<PseudoJet> TopVector;
     vector<PseudoJet> BottomVector;
 
-    if (JetSum < 4) return 0;
+    if (JetVector.size() < 4) return 0;
 
 
-    for (int JetNumber = 0; JetNumber < JetSum; ++JetNumber) {
+    for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
         if (JetVector[JetNumber].user_index() == BottomId) BottomVector.push_back(JetVector[JetNumber]);
-        if (JetVector[JetNumber].user_index() == TopId) TopVector.push_back(JetVector[JetNumber]);
+//         if (JetVector[JetNumber].user_index() == TopId) TopVector.push_back(JetVector[JetNumber]);
 
     }
 
@@ -296,32 +228,11 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
 
         sort(BottomVector.begin(), BottomVector.end(), SortJetByEta());
 
+
         PseudoJet FrontJet = BottomVector.front();
-        float FrontPt = FrontJet.pt();
-        float FrontEta = FrontJet.eta();
-        float FrontPhi = FrontJet.phi();
-
         PseudoJet BackJet = BottomVector.back();
-        float BackEta = BackJet.eta();
-        float BackPt = BackJet.pt();
-        float BackPhi = BackJet.phi();
 
-        float InvMass = (FrontJet + BackJet).m();
-        float DeltaEta = FrontEta - BackEta;
-        float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
-
-        HeavyHiggs->BottomEta1 = FrontEta;
-        HeavyHiggs->BottomEta2 = BackEta;
-        HeavyHiggs->BottomDeltaEta = DeltaEta;
-
-        HeavyHiggs->BottomPhi1 = FrontPhi;
-        HeavyHiggs->BottomPhi2 = BackPhi;
-        HeavyHiggs->BottomDeltaPhi = DeltaPhi;
-
-        HeavyHiggs->BottomPt1 = FrontPt;
-        HeavyHiggs->BottomPt2 = BackPt;
-        HeavyHiggs->BottomInvMass = InvMass;
-
+        FillBranch(FrontJet,BackJet);
 
 
     } else {
@@ -330,43 +241,102 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
 
     }
 
-    if (TopVector.size() > 1) {
-
-        sort(TopVector.begin(), TopVector.end(), SortJetByEta());
-
-        PseudoJet FrontJet = TopVector.front();
-        float FrontPt = FrontJet.pt();
-        float FrontEta = FrontJet.eta();
-        float FrontPhi = FrontJet.phi();
-
-        PseudoJet BackJet = TopVector.back();
-        float BackEta = BackJet.eta();
-        float BackPt = BackJet.pt();
-        float BackPhi = BackJet.phi();
-
-        float InvMass = (FrontJet + BackJet).m();
-        float DeltaEta = FrontEta - BackEta;
-        float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
-
-        HeavyHiggs->TopEta1 = FrontEta;
-        HeavyHiggs->TopEta2 = BackEta;
-        HeavyHiggs->TopDeltaEta = DeltaEta;
-
-        HeavyHiggs->TopPhi1 = FrontPhi;
-        HeavyHiggs->TopPhi2 = BackPhi;
-        HeavyHiggs->TopDeltaPhi = DeltaPhi;
-
-        HeavyHiggs->TopPt1 = FrontPt;
-        HeavyHiggs->TopPt2 = BackPt;
-        HeavyHiggs->TopInvMass = InvMass;
-
-    } else {
-
-        return 0;
-
-    }
+//     if (TopVector.size() > 1) {
+//
+//         sort(TopVector.begin(), TopVector.end(), SortJetByEta());
+//
+//         PseudoJet FrontJet = TopVector.front();
+//         float FrontPt = FrontJet.pt();
+//         float FrontEta = FrontJet.eta();
+//         float FrontPhi = FrontJet.phi();
+//
+//         PseudoJet BackJet = TopVector.back();
+//         float BackEta = BackJet.eta();
+//         float BackPt = BackJet.pt();
+//         float BackPhi = BackJet.phi();
+//
+//         float InvMass = (FrontJet + BackJet).m();
+//         float DeltaEta = FrontEta - BackEta;
+//         float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
+//
+//         HeavyHiggs->TopEta1 = FrontEta;
+//         HeavyHiggs->TopEta2 = BackEta;
+//         HeavyHiggs->TopDeltaEta = DeltaEta;
+//
+//         HeavyHiggs->TopPhi1 = FrontPhi;
+//         HeavyHiggs->TopPhi2 = BackPhi;
+//         HeavyHiggs->TopDeltaPhi = DeltaPhi;
+//
+//         HeavyHiggs->TopPt1 = FrontPt;
+//         HeavyHiggs->TopPt2 = BackPt;
+//         HeavyHiggs->TopInvMass = InvMass;
+//
+//     } else {
+//
+//         return 0;
+//
+//     }
 
     return 1;
+
+}
+
+void HAnalysisHeavyHiggsDelphes::FillBranch(PseudoJet FrontJet, PseudoJet BackJet) {
+
+    float FrontPt = FrontJet.pt();
+    float FrontEta = FrontJet.eta();
+    float FrontPhi = FrontJet.phi_std();
+
+    float BackEta = BackJet.eta();
+    float BackPt = BackJet.pt();
+    float BackPhi = BackJet.phi_std();
+
+    float InvMass = (FrontJet + BackJet).m();
+    float DeltaEta = FrontEta - BackEta;
+    float SumEta = FrontEta + BackEta;
+    float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
+    float SumPhi = FrontPhi + BackPhi; // FIXME constrain this
+    float DeltaPt = FrontPt - BackPt;
+
+    float Isolation = min(Leptons(FrontJet),Leptons(BackJet));
+
+    HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
+
+    HeavyHiggs->BottomEta1 = FrontEta;
+    HeavyHiggs->BottomEta2 = BackEta;
+    HeavyHiggs->BottomDeltaEta = DeltaEta;
+    HeavyHiggs->BottomSumEta = SumEta;
+
+    HeavyHiggs->BottomPhi1 = FrontPhi;
+    HeavyHiggs->BottomPhi2 = BackPhi;
+    HeavyHiggs->BottomDeltaPhi = DeltaPhi;
+    HeavyHiggs->BottomSumPhi = SumPhi;
+
+    HeavyHiggs->BottomPt1 = FrontPt;
+    HeavyHiggs->BottomPt2 = BackPt;
+    HeavyHiggs->BottomInvMass = InvMass;
+    HeavyHiggs->BottomDeltaPt = DeltaPt;
+
+    HeavyHiggs->BTag = Event->Jets->BottomJetVector.size();
+    HeavyHiggs->JetNumber = Event->Jets->JetVector.size();
+    HeavyHiggs->Isolation = Isolation;
+
+}
+
+
+float HAnalysisHeavyHiggsDelphes::Leptons(PseudoJet Jet) {
+
+    float Isolation;
+
+    vector<PseudoJet> LeptonVector = Event->Lepton->GetLeptonJetVector();
+
+    for (unsigned LeptonNumber = 0; LeptonNumber<LeptonVector.size(); ++LeptonNumber) {
+
+        Isolation = Jet.delta_R(LeptonVector[LeptonNumber]);
+
+    }
+
+    return Isolation;
 
 }
 

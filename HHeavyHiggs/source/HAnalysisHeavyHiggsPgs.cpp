@@ -21,7 +21,8 @@ void HAnalysisHeavyHiggsPgs::SetFileVector()
     FileVector.push_back(new HFileFolder("Signal_5f"));
     FileVector.push_back(new HFileFolder("5f_10k_Pt20"));
 
-    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+//     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+    FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
     FileVector.front()->FileSuffix = "_PGS.root";
     FileVector.front()->TreeString = "LHCO";
 

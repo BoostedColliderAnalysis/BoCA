@@ -113,7 +113,7 @@ protected:
     template<typename Template>
     PseudoJet GetPseudoJetByEnergy(Template *Particle, float Energy) {
         
-        Print(2, "Get Lorentz Vector by Energy");
+        Print(2, "Get Pseudo Jet by Energy");
         
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
@@ -137,7 +137,7 @@ protected:
     template<typename Template>
     PseudoJet GetPseudoJetByEnergy(Template *Particle) {
         
-        Print(2, "Get Lorentz Vector by Energy");
+        Print(2, "Get Pseudo Jet by Energy");
         
         float Energy = Particle->E;
         
@@ -150,7 +150,7 @@ protected:
     template<typename Template>
     PseudoJet GetPseudoJetByMass(Template *Particle, float Mass) {
         
-        Print(2, "Get Lorentz Vector by Mass");
+        Print(2, "Get Pseudo Jet by Mass");
         
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
@@ -171,7 +171,7 @@ protected:
     template<typename Template>
     PseudoJet GetPseudoJetByMass(Template *Particle) {
         
-        Print(2, "Get Lorentz Vector by Mass");
+        Print(2, "Get Pseudo Jet by Mass");
         
         float Mass = Particle->Mass;
         
@@ -190,7 +190,7 @@ protected:
     template<typename Template>
     PseudoJet GetPseudoJetByM(Template *Particle) {
         
-        Print(2, "Get Lorentz Vector By Mass");
+        Print(2, "Get Pseudo Jet By Mass");
         
         float Mass = Particle->M;
         

@@ -37,7 +37,7 @@ bool HJetDelphes::GetJets()
 
             Print(3, "Has Tau Tag");
 
-            TauTagCalculations(JetClone);
+            GetTau(JetClone);
 
         } else if (JetClone->BTag > 0) {
 
@@ -62,7 +62,7 @@ bool HJetDelphes::GetJets()
 }
 
 
-void HJetDelphes::TauTagCalculations(Jet *JetClone)
+void HJetDelphes::GetTau(Jet *JetClone)
 {
 
     Print(1, "TauTagCalculations");

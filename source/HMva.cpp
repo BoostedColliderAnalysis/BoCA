@@ -18,8 +18,6 @@ HMva::~HMva()
 
     Print(0, "Destructor");
 
-    delete Candidate;
-
 }
 
 

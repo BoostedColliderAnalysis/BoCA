@@ -37,7 +37,7 @@ public:
      * 
      * @return void
      */
-    void TauTagCalculations(Jet *);
+    void GetTau(Jet *);
     
     /**
      * @brief Analyses EFlow Variables of Jets

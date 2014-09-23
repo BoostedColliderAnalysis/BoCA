@@ -194,8 +194,10 @@ void HAnalysis::CloseFileBase()
     CloseFile();
 
     ClonesArrays->ResetBranches();
+    
 
-    delete TreeReader;
+//     delete TreeReader; // FIXME should get deleted here
+//     Print(0, "All deleted");
     delete ImportTree;
     delete ImportFile;
     delete TreeWriter;

@@ -43,10 +43,10 @@ vector<TLorentzVector> HEventPgs::GetLeptons()
     
     Print(1, "Get Leptons");
     
-    vector<TLorentzVector> v = Lepton->GetLeptonVector();
+    vector<TLorentzVector> LeptonVector = Lepton->GetLeptonVector();
     
     
-    return v;
+    return LeptonVector;
     
 }
 
