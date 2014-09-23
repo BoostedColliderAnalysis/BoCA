@@ -31,7 +31,7 @@ bool HJetDelphes::GetJets()
         Print(3, "Jet Number", JetNumber);
         Jet *JetClone = (Jet *)JetClonesArray->At(JetNumber);
 
-        JetVector.push_back(GetPseudoJetPt(JetClone));
+        JetVector.push_back(GetPseudoJet(JetClone));
 
         if (JetClone->TauTag == 1) {
 
@@ -43,13 +43,13 @@ bool HJetDelphes::GetJets()
 
             Print(3, "Has B Tag");
 
-            BottomLorentzVectorVector.push_back(GetLorentzVectorM(JetClone));
-            BottomJetVector.push_back(GetPseudoJetPt(JetClone));
+            BottomLorentzVectorVector.push_back(GetLorentzVector(JetClone));
+            BottomJetVector.push_back(GetPseudoJet(JetClone));
 
 
         } else {
 
-            JetLorentzVectorVector.push_back(GetLorentzVectorM(JetClone));
+            JetLorentzVectorVector.push_back(GetLorentzVector(JetClone));
 
         }
 
@@ -70,12 +70,12 @@ void HJetDelphes::TauTagCalculations(Jet *JetClone)
 
     if (JetCharge == - 1) {
 
-        TauLorentzVectorVector.push_back(GetLorentzVectorM(JetClone));
+        TauLorentzVectorVector.push_back(GetLorentzVector(JetClone));
         Print(2, "Tau Jet");
 
     } else if (JetCharge == 1) {
 
-        AntiTauLorentzVectorVector.push_back(GetLorentzVectorM(JetClone));
+        AntiTauLorentzVectorVector.push_back(GetLorentzVector(JetClone));
         Print(2, "Anti Tau Jet");
 
     } else cout << "Jet Charge: " << JetCharge <<  endl;
@@ -99,7 +99,7 @@ bool HJetDelphes::GetEFlow()
     for (int EFlowTrackNumber = 0; EFlowTrackNumber < EFLowTrackSum ; ++EFlowTrackNumber) {
 
         Track *EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
-        PseudoJet JetCandidate = GetPseudoJetPt(EFlowTrackClone);
+        PseudoJet JetCandidate = GetPseudoJet(EFlowTrackClone);
 
         // Make sure this is not an electron
         bool Isolated = true;
@@ -131,7 +131,7 @@ bool HJetDelphes::GetEFlow()
         // Using Tower for ET
         Photon *EFlowPhotonClone = (Photon *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
 
-        PseudoJet JetCandidate = GetPseudoJetE(EFlowPhotonClone);
+        PseudoJet JetCandidate = GetPseudoJet(EFlowPhotonClone);
 
         // Make sure this is not a photon
         bool Isolated = true;
@@ -158,7 +158,7 @@ bool HJetDelphes::GetEFlow()
         // Using Tower for ET
         Tower *HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
 
-        EFlowJetVector.push_back(GetPseudoJetE(HadronClone));
+        EFlowJetVector.push_back(GetPseudoJet(HadronClone));
 
     }
 
@@ -172,7 +172,7 @@ bool HJetDelphes::GetEFlow()
 
             Muon *MuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
 
-            EFlowJetVector.push_back(GetPseudoJetPt(MuonClone));
+            EFlowJetVector.push_back(GetPseudoJet(MuonClone));
 
         }
         
@@ -195,7 +195,7 @@ void HJetDelphes::GetGenJet()
 
         Jet *GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
 
-        GenJetVector.push_back(GetPseudoJetPt(GenJetClone));
+        GenJetVector.push_back(GetPseudoJet(GenJetClone));
 
     }
 

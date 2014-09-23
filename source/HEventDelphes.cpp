@@ -6,7 +6,7 @@ HEventDelphes::HEventDelphes()
     Print(0, "Constructor");
 
     Particles = new HParticleDelphes();
-    Jets = new HJet();
+    Jets = new HJetDelphes();
     Lepton = new HLeptonDelphes();
     TopTagger = new HTopTagger();
     HiggsTagger = new HHiggsTagger();

@@ -1,5 +1,5 @@
 # HObject Library
-set(HObjectSources HObject.cpp )
+set(HObjectSources HObject.cpp HFourVector.cpp)
 add_library(HObject SHARED ${HObjectSources} )
 target_link_libraries(HObject ${LinkLibraries})
 set_target_properties(HObject PROPERTIES ${LibraryProperties})

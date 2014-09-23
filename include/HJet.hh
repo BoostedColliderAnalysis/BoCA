@@ -14,7 +14,7 @@ using std::vector;
  * @brief stores all the information about the event topology
  *
  */
-class HJet : public HObject
+class HJet : virtual public HObject
 {
 
 public:
@@ -32,17 +32,24 @@ public:
     ~HJet();
     
     /**
+     * @brief Initialize new event
+     * 
+     * @return void
+     */
+    void NewEvent(HClonesArray *);
+    
+    /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
      * @return void
      */
-    virtual bool GetJets(){bool b=1; return b;};
+    virtual bool GetJets();
     
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool GetEFlow(){bool b=1; return b;};
+    virtual bool GetEFlow();
     
     /**
      * @brief Get Gen Jet
@@ -50,14 +57,7 @@ public:
      * @param  ...
      * @return void
      */
-    virtual void GetGenJet(){};
-    
-    /**
-     * @brief Initialize new event
-     * 
-     * @return void
-     */
-    void NewEvent(HClonesArray *);
+    virtual void GetGenJet();
     
     /**
      * @brief vector of Jet Lorentz Vectors
@@ -113,15 +113,7 @@ public:
      */
     vector<TLorentzVector> BottomLorentzVectorVector;
 
-protected:
-    
-    /**
-     * @brief Get Tau Tag
-     * 
-     * @return void
-     */
-    virtual void TauTagCalculations(Jet *){};
-    
+protected:    
     
     template<typename Template1, typename Template2>
     bool CheckIsolation(Template1 Particle1, Template2 Particle2)
@@ -148,12 +140,13 @@ protected:
         
     }
     
-
     /**
      * @brief Clones Arrays
      *
      */
     HClonesArray *ClonesArrays;
+    
+private:
         
     virtual TString ClassName() {
         return ("HJet");

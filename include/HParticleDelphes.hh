@@ -1,8 +1,8 @@
 # ifndef HParticleDelphes_hh
 # define HParticleDelphes_hh
 
-# include "classes/DelphesClasses.h"
 # include "HParticle.hh"
+# include "HFourVector.hh"
  
 using std::abs;
  
@@ -10,7 +10,7 @@ using std::abs;
  * @brief stores all the information about the event topology
  *
  */
-class HParticleDelphes : public HParticle
+class HParticleDelphes : public HParticle, private HFourVectorDelphes
 {
 
 public:
@@ -39,6 +39,7 @@ public:
 private:
     
     vector<PseudoJet> JetTagger(vector<PseudoJet>,vector<PseudoJet>, int);
+    
     vector<PseudoJet> JetTagger(vector<PseudoJet>,vector<PseudoJet>);
     
     

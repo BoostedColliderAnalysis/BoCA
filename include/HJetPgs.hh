@@ -2,12 +2,14 @@
 # define HJetPgs_hh
 
 # include "HJet.hh"
+# include "HFourVector.hh"
+
 
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HJetPgs : public HJet
+class HJetPgs : public HJet, public HFourVectorExRoot
 {
 
 public:

@@ -17,7 +17,7 @@ class Jet;
  * @brief calculation regarding leptons
  *
  */
-class HLepton : public HObject
+class HLepton : virtual public HObject
 {
 
 public:
@@ -27,13 +27,14 @@ public:
      *
      */
     HLepton();
-    
-    
+        
     /**
      * @brief destructor
      *
      */
     ~HLepton();
+    
+    void NewEvent(HClonesArray *);
         
     vector<TLorentzVector> GetLeptonVector();
                 
@@ -54,24 +55,6 @@ public:
      * @return void
      */
     virtual void GetMuons() = 0;
-    
-    /**
-     * @brief Finds (Anti-)Tau with the largest Pt
-     *
-     * @param JetClone
-     * @return void
-     */
-//     void TauTagCalculations(Jet *);
-    
-    /**
-     * @brief lepton and  Missing-Energy
-     *
-     * @param ClonesArrayClass ...
-     * @return void
-     */
-//     void LeptonsAndMissingEt();
-    
-    void NewEvent(HClonesArray *);
 
     /**
      * @brief Electron Lorentz Vector Vector

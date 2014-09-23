@@ -5,6 +5,7 @@ HObject::HObject() :
     HiggsMass(125),
     TopMass(173.5),
     WMass(80.39),
+    TauMass(1.776),
     MuonMass(0.1134),
     ElectronMass(0.000511),
     HiggsUserIndex(1000),
@@ -16,7 +17,7 @@ HObject::HObject() :
 
     Print(0, "Constructor");
 
-    Debug = 5;
+    Debug = 1;
 
 }
 
@@ -56,20 +57,27 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi)
     Print(3, "GetDeltaPhi");
 
     const float TwoPi = 2 * Pi();
+    
 
     float DeltaPhi = Phi - RefPhi;
+    
 
     while (fabs(DeltaPhi) > Pi()) {
 
-        if (DeltaPhi < -Pi()) {
-
+        if (DeltaPhi < -float(Pi())) {
+            
             DeltaPhi += TwoPi;
 
-        } else if (DeltaPhi > Pi()) {
+        } else if (DeltaPhi > float(Pi())) {
 
             DeltaPhi -= TwoPi;
 
+        } else {
+
+            break;
+
         }
+
 
     }
 
@@ -101,3 +109,7 @@ void HObject::Printer(TString Function)
     cout << left << setw(FunctionWidth) << setfill(Separator) << Function;
 
 }
+
+
+
+

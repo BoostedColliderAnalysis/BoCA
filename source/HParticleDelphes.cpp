@@ -81,7 +81,7 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 4) {
 
-                PseudoJet CharmJet = GetPseudoJetPt(GenParticleClone);
+                PseudoJet CharmJet = GetPseudoJet(GenParticleClone);
 
                 CharmJetVector.push_back(CharmJet);
                 Print(2, "Charm");
@@ -90,7 +90,7 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 5000000) {
 
-                PseudoJet HiggsParticle = GetPseudoJetPt(GenParticleClone);
+                PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone);
 
                 HiggsJetVector.push_back(HiggsParticle);
                 Print(2, "CPV Higgs");
@@ -106,7 +106,7 @@ bool HParticleDelphes::GetParticles()
             if (abs(ParticleID) == TopId) {
 
                 TLorentzVector TopQuark = GetLorentzVector(GenParticleClone);
-                PseudoJet TopJet = GetPseudoJetPt(GenParticleClone);
+                PseudoJet TopJet = GetPseudoJet(GenParticleClone);
                 TopJet.set_user_index(TopId);
 
                 TopJetVector.push_back(TopJet);
@@ -129,7 +129,7 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == BottomId) {
 
-                PseudoJet BottomJet = GetPseudoJetPt(GenParticleClone);
+                PseudoJet BottomJet = GetPseudoJet(GenParticleClone);
                 BottomJet.set_user_index(BottomId);
 
                 BottomJetVector.push_back(BottomJet);
@@ -142,7 +142,7 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 0) {
 
-                PseudoJet HiggsParticle = GetPseudoJetPt(GenParticleClone);
+                PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone);
 
                 HiggsJetVector.push_back(HiggsParticle);
                 Print(2, "Heavy CPV Higgs");

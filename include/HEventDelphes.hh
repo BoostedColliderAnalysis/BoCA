@@ -4,6 +4,7 @@
 # include "HEvent.hh"
 # include "HParticleDelphes.hh"
 # include "HLeptonDelphes.hh"
+# include "HJetDelphes.hh"
 
 /**
  * @brief stores all the information about the event topology

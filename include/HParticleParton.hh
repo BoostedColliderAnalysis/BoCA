@@ -2,13 +2,13 @@
 # define HParticleParton_hh
 
 # include "HParticle.hh"
-# include "ExRootAnalysis/ExRootClasses.h"
+# include "HFourVector.hh"
 
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HParticleParton : public HParticle
+class HParticleParton : public HParticle, public HFourVectorExRoot
 {
 
 public:

@@ -1,14 +1,14 @@
 # ifndef HLeptonDelphes_hh
 # define HLeptonDelphes_hh
 
-# include "classes/DelphesClasses.h"
 # include "HLepton.hh"
+# include "HFourVector.hh"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class HLeptonDelphes : public HLepton
+class HLeptonDelphes : public HLepton, HFourVectorDelphes
 {
 
 public:

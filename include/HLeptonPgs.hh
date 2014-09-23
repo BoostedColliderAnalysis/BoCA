@@ -2,13 +2,13 @@
 # define HLeptonPgs_hh
 
 # include "HLepton.hh"
-# include "ExRootAnalysis/ExRootClasses.h"
+# include "HFourVector.hh"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class HLeptonPgs : public HLepton
+class HLeptonPgs : public HLepton, public HFourVectorExRoot
 {
 
 public:
@@ -45,7 +45,9 @@ public:
 private:
     
     virtual TString ClassName() {
+        
         return ("HLeptonPgs");
+        
     };
 
 };

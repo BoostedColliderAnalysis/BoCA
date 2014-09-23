@@ -3,6 +3,7 @@
 
 # include "HEvent.hh"
 # include "HLeptonPgs.hh"
+# include "HJetPgs.hh"
 
 /**
  * @brief stores all the information about the event topology
@@ -28,10 +29,14 @@ public:
     void NewEvent();
     
     vector<TLorentzVector> GetLeptons();
+    
+    void GetJets();
 
 private:
     
-    bool Leptons;
+    bool HasLeptons;
+    
+    bool HasJets;
     
     virtual TString ClassName() {
         return ("HEventPgs");

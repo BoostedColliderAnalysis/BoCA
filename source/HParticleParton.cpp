@@ -75,7 +75,7 @@ bool HParticleParton::GetParticles()
             
             if (abs(ParticleID) == 5) {
                 
-                PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
+                PseudoJet JetCandidate = GetPseudoJet(ParticleClone);
                 
                 BottomJetVector.push_back(JetCandidate);
                 Print(2,"Bottom");
@@ -85,7 +85,7 @@ bool HParticleParton::GetParticles()
             if (abs(ParticleID) == 6) {
                 
                 TLorentzVector TopQuark = GetLorentzVector(ParticleClone);
-                PseudoJet TopJet = GetPseudoJetPt(ParticleClone);
+                PseudoJet TopJet = GetPseudoJet(ParticleClone);
                 TopJetVector.push_back(TopJet);
                 
                 if (ParticleID > 0) {
@@ -111,7 +111,7 @@ bool HParticleParton::GetParticles()
 
             if (abs(ParticleID) == 4) {
 
-                PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
+                PseudoJet JetCandidate = GetPseudoJet(ParticleClone);
 
                 CharmJetVector.push_back(JetCandidate);
                 Print(2,"Charm");
@@ -129,7 +129,7 @@ bool HParticleParton::GetParticles()
             
             if (abs(ParticleID)==5000000){
              
-                PseudoJet HiggsParticle = GetPseudoJetPt(ParticleClone);
+                PseudoJet HiggsParticle = GetPseudoJet(ParticleClone);
                 
                 HiggsJetVector.push_back(HiggsParticle);
                 Print(2,"CPV Higgs");
@@ -146,7 +146,7 @@ bool HParticleParton::GetParticles()
             
             if (abs(ParticleID)==0){
                 
-                PseudoJet HiggsParticle = GetPseudoJetPt(ParticleClone);
+                PseudoJet HiggsParticle = GetPseudoJet(ParticleClone);
                 
                 HiggsJetVector.push_back(HiggsParticle);
                 Print(2,"Heavy CPV Higgs");

@@ -13,7 +13,7 @@ using std::vector;
  * @brief stores all the information about the event topology
  *
  */
-class HParticle : public HObject
+class HParticle : virtual public HObject
 {
 
 public:
@@ -95,7 +95,9 @@ protected:
 private:
 
     virtual TString ClassName() {
+        
         return ("HParticle");
+        
     };
 
 };

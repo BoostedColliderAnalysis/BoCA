@@ -104,7 +104,6 @@ protected:
 
             Printer(Function);
 
-//             cout << " " << endl;
             cout << left << setw(FunctionWidth) << setfill(Separator) << Number;
             cout << left << setw(FunctionWidth) << setfill(Separator) << Number2;
             cout << endl;
@@ -113,97 +112,10 @@ protected:
 
     }
 
-    template<typename Template>
-    TLorentzVector GetLorentzVector(Template *Particle) {
-
-        Print(2, "Get Lorentz Vector");
-
-//         TString s = typeid(Particle).name();
-//         Print(0,"Type",s);
-
-
-        float Pt = Particle->PT;
-        float Eta = Particle->Eta;
-        float Phi = Particle->Phi;
-        float E = Particle->E;
-
-//      Print(0,"HasE",HasE<Template>::Value);
-
-        TLorentzVector LorentzVector;
-        LorentzVector.SetPtEtaPhiE(Pt, Eta, Phi, E);
-
-        return LorentzVector;
-
-    }
-
-    template<typename Template>
-    TLorentzVector GetLorentzVector(Template *Particle, float Mass) {
-
-        Print(2, "Get Lorentz Vector");
-
-        TLorentzVector LorentzVector;
-
-        float ParticlePt = Particle->PT;
-        float ParticleEta = Particle->Eta;
-        float ParticlePhi = Particle->Phi;
-
-        LorentzVector.SetPtEtaPhiM(ParticlePt, ParticleEta, ParticlePhi, Mass);
-
-        return LorentzVector;
-
-    }
-
-    template<typename Template>
-    TLorentzVector GetLorentzVectorM(Template *Particle) {
-
-        Print(2, "Get Lorentz Vector");
-
-        TLorentzVector LorentzVector;
-
-        float Pt = Particle->PT;
-        float Eta = Particle->Eta;
-        float Phi = Particle->Phi;
-        float Mass = Particle->Mass;
-
-        LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, Mass);
-
-        return LorentzVector;
-
-    }
-
-    template<typename Template>
-    PseudoJet GetPseudoJetPt(Template *Particle) {
-
-        Print(2, "Get Pseudo Jet");
-
-        float Pt = Particle->PT;
-        float Eta = Particle->Eta;
-        float Phi = Particle->Phi;
-
-        PseudoJet Jet = PseudoJet(Pt * cos(Phi), Pt * sin(Phi), Pt * sinh(Eta), Pt * cosh(Eta));
-
-        return Jet;
-
-    }
-
-    template<typename Template>
-    PseudoJet GetPseudoJetE(Template *Particle) {
-
-        Print(2, "Get Pseudo Jet");
-
-        float E = Particle->E;
-        float Eta = Particle->Eta;
-        float Phi = Particle->Phi;
-        float Pt = E / cosh(Eta);
-
-        PseudoJet Jet = PseudoJet(Pt * cos(Phi), Pt * sin(Phi), Pt * sinh(Eta), Pt * cosh(Eta));
-
-        return Jet;
-
-    }
-
     virtual TString ClassName() {
+        
         return ("HObject");
+        
     };
 
 
@@ -217,6 +129,8 @@ protected:
 
     const float WMass;
 
+    const float TauMass;
+    
     /**
      * @brief Physical Muon Mass
      *
@@ -236,7 +150,7 @@ protected:
     const int TopId;
 
     const int BottomId;
-    
+
     const int EmptyId;
 
 private:
