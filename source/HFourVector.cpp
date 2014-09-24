@@ -208,7 +208,7 @@ TLorentzVector HFourVectorDelphes::GetLorentzVector(Tower *Particle)
     float Eta = Particle->Eta;
     float Phi = Particle->Phi;
     float Energy = Particle->E;
-    float Pt = sqrt(pow(Energy, 2) - pow(Et, 2) / pow(sinh(Eta), 2));
+    float Pt = sqrt(pow(Energy, 2) - pow(Et, 2)) / sinh(Eta);
 
     LorentzVector.SetPtEtaPhiE(Pt, Eta, Phi, Energy);
 

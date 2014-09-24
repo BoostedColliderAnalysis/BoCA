@@ -117,8 +117,7 @@ protected:
         
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
-        float Phi = Particle->Phi;
-        
+        float Phi = Particle->Phi;        
         
         PseudoJet Jet = PseudoJet(Pt * cos(Phi), Pt * sin(Phi), Pt * sinh(Eta), Energy);
         
@@ -156,7 +155,7 @@ protected:
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
 //         float Energy = sqrt((2 * pow(Mass, 2) + pow(Pt, 2) * (1 + cosh(2 * Eta))) / 2);
-        float Energy = sqrt(pow(Mass, 2) + pow(Pt * cosh(Eta), 2) ) ;
+        float Energy = sqrt(pow(Mass, 2) + pow(Pt * cosh(Eta), 2));
         
         PseudoJet Jet = GetPseudoJetByEnergy(Particle, Energy);
         
@@ -211,9 +210,13 @@ protected:
     const bool CheckFourVectors;
     
     const float PtCheck;
+    
     const float MassCheck;
+    
     const float EtaCheck;
+    
     const float PhiCheck;
+    
     const float EnergyCheck;
     
 private:
