@@ -37,8 +37,8 @@ HMvaHeavyHiggs
 
 # Mva Executable
 
-add_executable(HHeavyHiggsFactory HFactory.cpp)
+add_executable(HHeavyHiggsFactory MainFactory.cpp)
 target_link_libraries(HHeavyHiggsFactory ${LinkLibraries})
 
-add_executable(HHeavyHiggsReader HReader.cpp)
+add_executable(HHeavyHiggsReader MainReader.cpp)
 target_link_libraries(HHeavyHiggsReader ${LinkLibraries})

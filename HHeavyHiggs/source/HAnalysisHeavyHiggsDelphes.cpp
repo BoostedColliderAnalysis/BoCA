@@ -42,8 +42,8 @@ void HAnalysisHeavyHiggsDelphes::SetFileVector()
 //     FileVector.push_back(new HFileFolder("900GeV"));
 //     FileVector.push_back(new HFileFolder("1000GeV"));
 
-//     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-    FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
+    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+//     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
     FileVector.front()->FileSuffix = "_Delphes.root";
     FileVector.front()->Snowmass = 1;
 
@@ -106,8 +106,8 @@ bool HAnalysisHeavyHiggsDelphes::Test()
 
     Print(1, "BTag");
 
-    Event->GetJets();
     Event->GetLeptons();
+    Event->GetJets();
 
     vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
     vector<PseudoJet> LeptonJet = Event->Lepton->LeptonJetVector;

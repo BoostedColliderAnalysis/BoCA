@@ -70,7 +70,7 @@ void HClonesArrayDelphes::UseBranches(ExRootTreeReader *TreeReader)
     EFlowTrackClonesArray = TreeReader->UseBranch("EFlowTrack");
     EFlowPhotonClonesArray = TreeReader->UseBranch("EFlowPhoton");
     EFlowNeutralHadronClonesArray = TreeReader->UseBranch("EFlowNeutralHadron");
-    EFlowMuonClonesArray = TreeReader->UseBranch("EFlowMuon");
+//     EFlowMuonClonesArray = TreeReader->UseBranch("EFlowMuon");
     GenJetClonesArray = TreeReader->UseBranch("GenJet");
     ScalarHtClonesArray = TreeReader->UseBranch("ScalarHT");
     
