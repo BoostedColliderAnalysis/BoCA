@@ -2,7 +2,7 @@
 # define HParticleDelphes_hh
 
 # include "HParticle.hh"
-# include "HFourVector.hh"
+# include "classes/DelphesClasses.h"
  
 using std::abs;
  
@@ -10,7 +10,7 @@ using std::abs;
  * @brief stores all the information about the event topology
  *
  */
-class HParticleDelphes : public HParticle, private HFourVectorDelphes
+class HParticleDelphes : public HParticle
 {
 
 public:

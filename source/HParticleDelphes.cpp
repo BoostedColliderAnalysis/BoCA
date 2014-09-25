@@ -39,7 +39,7 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 11) {
 
-                TLorentzVector ElectronParticle = GetLorentzVector(GenParticleClone);
+                TLorentzVector ElectronParticle = GenParticleClone->P4();
 
                 if (ParticleID > 0) {
 
@@ -57,7 +57,7 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 13) {
 
-                TLorentzVector MuonParticle = GetLorentzVector(GenParticleClone);
+                TLorentzVector MuonParticle = GenParticleClone->P4();
 
                 if (ParticleID > 0) {
 
@@ -81,7 +81,7 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 4) {
 
-                PseudoJet CharmJet = GetPseudoJet(GenParticleClone);
+                PseudoJet CharmJet = GetPseudoJet(GenParticleClone->P4());
 
                 CharmJetVector.push_back(CharmJet);
                 Print(2, "Charm");
@@ -90,12 +90,28 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 5000000) {
 
-                PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone);
+                PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone->P4());
 
                 HiggsJetVector.push_back(HiggsParticle);
                 Print(2, "CPV Higgs");
 
             } // cp Higgs
+
+            
+            if (abs(ParticleID) == BottomId) {
+                
+                PseudoJet BottomJet = GetPseudoJet(GenParticleClone->P4());
+                BottomJet.set_user_index(BottomId);
+                
+                BottomJetVector.push_back(BottomJet);
+                ParticleJetVector.push_back(BottomJet);
+                
+                Print(2, "Bottom");
+                
+//                 Print(-1, "Status 3 ", BottomJet.pt(), BottomJet.eta());
+                
+            } // bottoms
+                
 
         }
 
@@ -103,10 +119,24 @@ bool HParticleDelphes::GetParticles()
 
         if (ParticleStatus == 3) {
 
+//             if (abs(ParticleID) == BottomId) {
+// 
+//                 PseudoJet BottomJet = GetPseudoJet(GenParticleClone->P4());
+//                 BottomJet.set_user_index(BottomId);
+// 
+//                 BottomJetVector.push_back(BottomJet);
+//                 ParticleJetVector.push_back(BottomJet);
+// 
+//                 Print(2, "Bottom");
+//                 
+//                 Print(-1, "Status 3 ", BottomJet.pt(), BottomJet.eta());
+// 
+//             } // bottoms
+
             if (abs(ParticleID) == TopId) {
 
-                TLorentzVector TopQuark = GetLorentzVector(GenParticleClone);
-                PseudoJet TopJet = GetPseudoJet(GenParticleClone);
+                TLorentzVector TopQuark = GenParticleClone->P4();
+                PseudoJet TopJet = GetPseudoJet(GenParticleClone->P4());
                 TopJet.set_user_index(TopId);
 
                 TopJetVector.push_back(TopJet);
@@ -127,22 +157,9 @@ bool HParticleDelphes::GetParticles()
 
             } // top
 
-            if (abs(ParticleID) == BottomId) {
-
-                PseudoJet BottomJet = GetPseudoJet(GenParticleClone);
-                BottomJet.set_user_index(BottomId);
-
-                BottomJetVector.push_back(BottomJet);
-                ParticleJetVector.push_back(BottomJet);
-
-                Print(2, "Bottom");
-
-
-            } // bottoms
-
             if (abs(ParticleID) == 0) {
 
-                PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone);
+                PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone->P4());
 
                 HiggsJetVector.push_back(HiggsParticle);
                 Print(2, "Heavy CPV Higgs");
@@ -152,7 +169,8 @@ bool HParticleDelphes::GetParticles()
         }
 
     }
-
+    
+//     Print(-1, " ");
     return 1;
 
 }
@@ -285,6 +303,21 @@ struct HDistance {
 //
 // };
 
+
+
+vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
+{
+    
+    if (JetVector.size() == 0) return JetVector;
+    
+    JetVector = JetTagger(JetVector, BottomJetVector);
+    JetVector = JetTagger(JetVector, TopJetVector, BottomId);
+    
+    return JetVector;
+    
+    
+}
+
 vector< PseudoJet > HParticleDelphes::JetTagger(vector<PseudoJet> JetVector, vector<PseudoJet> ParticleVector)
 {
 
@@ -354,20 +387,6 @@ vector< PseudoJet > HParticleDelphes::JetTagger(vector<PseudoJet> JetVector, vec
 
 
     return JetVector;
-
-}
-
-
-vector< PseudoJet > HParticleDelphes::TagJets(vector<PseudoJet> JetVector)
-{
-
-    if (JetVector.size() == 0) return JetVector;
-
-    JetVector = JetTagger(JetVector, BottomJetVector);
-    JetVector = JetTagger(JetVector, TopJetVector, BottomId);
-
-    return JetVector;
-
 
 }
 

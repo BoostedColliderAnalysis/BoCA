@@ -119,7 +119,7 @@ PseudoJet HEventDelphes::GetHiggs()
     Print(1, "Get Higgs");
 
     if (!HasEFlow) HasEFlow = Jets->GetEFlow();
-    Particles->GetParticles();
+    GetParticles();
 
     PseudoJet HiggsJet = HiggsTagger->GetHiggsJet(
                              Jets->EFlowJetVector,

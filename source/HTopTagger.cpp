@@ -4,7 +4,7 @@ HTopTagger::HTopTagger()
 {
     
     
-    Print(0, "Contructor");
+    Print(0, "Constructor");
     
 }
 

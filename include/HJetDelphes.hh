@@ -2,13 +2,13 @@
 # define HJetDelphes_hh
 
 # include "HJet.hh"
-# include "HFourVector.hh"
+# include "classes/DelphesClasses.h"
 
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HJetDelphes : public HJet, public HFourVectorDelphes
+class HJetDelphes : public HJet
 {
 
 public:

@@ -17,7 +17,7 @@ HObject::HObject() :
 
     Print(0, "Constructor");
 
-    Debug = 1;
+    Debug = 0;
 
 }
 
@@ -39,7 +39,6 @@ float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2)
 
 }
 
-
 float HObject::GetDistance(float Eta, float Phi)
 {
 
@@ -57,15 +56,15 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi)
     Print(3, "GetDeltaPhi");
 
     const float TwoPi = 2 * Pi();
-    
+
 
     float DeltaPhi = Phi - RefPhi;
-    
+
 
     while (fabs(DeltaPhi) > Pi()) {
 
         if (DeltaPhi < -float(Pi())) {
-            
+
             DeltaPhi += TwoPi;
 
         } else if (DeltaPhi > float(Pi())) {
@@ -84,7 +83,6 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi)
     return (DeltaPhi);
 
 }
-
 
 void HObject::Print(int debug, TString Function)
 {
@@ -111,5 +109,13 @@ void HObject::Printer(TString Function)
 }
 
 
+PseudoJet HObject::GetPseudoJet(TLorentzVector Vector)
+{
+
+    PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
+
+    return Jet;
+
+}
 
 

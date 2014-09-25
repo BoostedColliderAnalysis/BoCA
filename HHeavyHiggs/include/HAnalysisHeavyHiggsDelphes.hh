@@ -3,8 +3,10 @@
 
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
+# include <algorithm>
 
 using std::iter_swap;
+using std::remove_if;
 
 /**
  * @brief Class defining the Heavy Higgs Analysis
@@ -51,6 +53,8 @@ private:
     void FillBranch(PseudoJet, PseudoJet);
     
     float Leptons(PseudoJet);
+    
+//     bool JetIsBottom(const PseudoJet &Jet);
 
     TString ClassName() {
 

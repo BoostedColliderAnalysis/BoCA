@@ -31,30 +31,34 @@ bool HJetDelphes::GetJets()
         Print(3, "Jet Number", JetNumber);
         Jet *JetClone = (Jet *)JetClonesArray->At(JetNumber);
 
-        JetVector.push_back(GetPseudoJet(JetClone));
+        JetVector.push_back(GetPseudoJet(JetClone->P4()));
 
+//         JetClone->Particles.
 
-        
-       
-        
-        
-        
+//         TObjectArray *ClonesArray = (TObjectArray*)JetClone->Particles.First(); 
         
 //         Print(-1,"first",  JetClone->Particles.);
 
 
 
 //         TRefArray RefArray = JetClone->Particles;
-//         
-// //         GenParticle *Clone = (GenParticle*) RefArray.GetObjectRef();
-// 
+// //         
+// // //         GenParticle *Clone = (GenParticle*) RefArray.GetObjectRef();
+// // 
 //         int RefSum = RefArray.GetEntriesFast();
-// 
-// //         Print(-1, "Test",  RefArray.Class_Name());
-// 
-// //         Print(-1, "RefSum", RefSum);
-// 
+// // 
+// // //         Print(-1, "Test",  RefArray.Class_Name());
+// // 
+// // //         Print(-1, "RefSum", RefSum);
+// // 
 //         for (int RefNumber = 0; RefNumber < RefSum; ++RefNumber) {
+//             
+//             TObject *Ref = RefArray[RefNumber];
+//             
+// //             int test = 
+//             ((GenParticle *) Ref->GetObject())->PID;
+            
+//             Print(-1, "Test", );
 // 
 // // Print(-1,"Test",JetClone->Particles.At(RefNumber)->PID);
 // 
@@ -98,13 +102,13 @@ bool HJetDelphes::GetJets()
 
             Print(3, "Has B Tag");
 
-            BottomLorentzVectorVector.push_back(GetLorentzVector(JetClone));
-            BottomJetVector.push_back(GetPseudoJet(JetClone));
+            BottomLorentzVectorVector.push_back(JetClone->P4());
+            BottomJetVector.push_back(GetPseudoJet(JetClone->P4()));
 
 
         } else {
 
-            JetLorentzVectorVector.push_back(GetLorentzVector(JetClone));
+            JetLorentzVectorVector.push_back(JetClone->P4());
 
         }
 
@@ -125,12 +129,12 @@ void HJetDelphes::GetTau(Jet *JetClone)
 
     if (JetCharge == - 1) {
 
-        TauLorentzVectorVector.push_back(GetLorentzVector(JetClone));
+        TauLorentzVectorVector.push_back(JetClone->P4());
         Print(2, "Tau Jet");
 
     } else if (JetCharge == 1) {
 
-        AntiTauLorentzVectorVector.push_back(GetLorentzVector(JetClone));
+        AntiTauLorentzVectorVector.push_back(JetClone->P4());
         Print(2, "Anti Tau Jet");
 
     } else cout << "Jet Charge: " << JetCharge <<  endl;
@@ -154,8 +158,8 @@ bool HJetDelphes::GetEFlow()
     for (int EFlowTrackNumber = 0; EFlowTrackNumber < EFLowTrackSum ; ++EFlowTrackNumber) {
 
         Track *EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
-        PseudoJet JetCandidate = GetPseudoJet(EFlowTrackClone);
-
+        PseudoJet JetCandidate = GetPseudoJet(EFlowTrackClone->P4());
+        
         // Make sure this is not an electron
         bool Isolated = true;
         for (int ElectronNumber = 0; ElectronNumber < ElectronSum; ++ElectronNumber) {
@@ -186,7 +190,7 @@ bool HJetDelphes::GetEFlow()
         // Using Tower for ET
         Photon *EFlowPhotonClone = (Photon *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
 
-        PseudoJet JetCandidate = GetPseudoJet(EFlowPhotonClone);
+        PseudoJet JetCandidate = GetPseudoJet(EFlowPhotonClone->P4());
 
         // Make sure this is not a photon
         bool Isolated = true;
@@ -213,8 +217,8 @@ bool HJetDelphes::GetEFlow()
         // Using Tower for ET
         Tower *HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
 
-        EFlowJetVector.push_back(GetPseudoJet(HadronClone));
-
+        EFlowJetVector.push_back(GetPseudoJet(HadronClone->P4()));
+                
     }
 
     // Muon
@@ -227,7 +231,7 @@ bool HJetDelphes::GetEFlow()
 
             Muon *MuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
 
-            EFlowJetVector.push_back(GetPseudoJet(MuonClone));
+            EFlowJetVector.push_back(GetPseudoJet(MuonClone->P4()));
 
         }
 
@@ -250,7 +254,7 @@ void HJetDelphes::GetGenJet()
 
         Jet *GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
 
-        GenJetVector.push_back(GetPseudoJet(GenJetClone));
+        GenJetVector.push_back(GetPseudoJet(GenJetClone->P4()));
 
     }
 

@@ -78,9 +78,13 @@ protected:
      */
     float GetDeltaPhi(float, float);
 
-    void Print(int debug, TString Function);
+    void Print(int, TString);
 
-    void Printer(TString Function);
+    void Printer(TString);
+    
+    PseudoJet GetPseudoJet(TLorentzVector);
+    
+//     bool JetIsBottom(PseudoJet);
 
     template<typename Template>
     void Print(int debug, TString Function, Template Number) {

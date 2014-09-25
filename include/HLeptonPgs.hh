@@ -8,7 +8,7 @@
  * @brief calculation regarding leptons
  *
  */
-class HLeptonPgs : public HLepton, public HFourVectorExRoot
+class HLeptonPgs : public HLepton, HFourVector
 {
 
 public:

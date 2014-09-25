@@ -67,16 +67,16 @@ void HDiscriminator::NewEvent()
 }
 
 vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(
-    vector<PseudoJet> EFlowJetVectorNew,
-    vector<PseudoJet> HiggsParticleVectorNew,
-    vector<PseudoJet> TopParticleVectorNew)
+    vector<PseudoJet> NewEFlowJetVector,
+    vector<PseudoJet> NewHiggsParticleVector,
+    vector<PseudoJet> NewTopParticleVector)
 {
 
     Print(1, "Get Tagged Candidate Jets");
 
-    EFlowJetVector = EFlowJetVectorNew;
-    HiggsParticleVector = HiggsParticleVectorNew;
-    TopParticleVector = TopParticleVectorNew;
+    EFlowJetVector = NewEFlowJetVector;
+    HiggsParticleVector = NewHiggsParticleVector;
+    TopParticleVector = NewTopParticleVector;
 
     const vector<PseudoJet> Jets;
 
@@ -87,7 +87,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(
 
     }
 
-    if (!HiggsParticleChecker()) return Jets;
+    if (HiggsParticleChecker()) return Jets;
 
     if (!TopParticleChecker()) return Jets;
 
@@ -129,11 +129,13 @@ bool HDiscriminator::HiggsParticleChecker()
         if (HiggsParticleSum() == 0) {
 
             Print(2, "No Higgs Particles", HiggsParticleSum());
+            
             return 1;
 
         } else if (HiggsParticleSum() > 1) {
 
             Print(0, "Number of Higgs Particles", HiggsParticleSum());
+            
             return 0;
 
         }

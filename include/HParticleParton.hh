@@ -8,7 +8,7 @@
  * @brief stores all the information about the event topology
  *
  */
-class HParticleParton : public HParticle, public HFourVectorExRoot
+class HParticleParton : public HParticle, HFourVector
 {
 
 public:

@@ -9,7 +9,7 @@
  * @brief stores all the information about the event topology
  *
  */
-class HJetPgs : public HJet, public HFourVectorExRoot
+class HJetPgs : public HJet, public HFourVector
 {
 
 public:
