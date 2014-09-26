@@ -6,6 +6,7 @@
 # include "ExRootAnalysis/ExRootTreeReader.h"
 
 # include "HObject.hh"
+# include "TObjArray.h"
 
 /**
  * @brief small class loading the Branches into ClonesArrays
@@ -32,6 +33,70 @@ public:
     void ResetBranches();
 
     virtual void UseBranches(ExRootTreeReader *) = 0;
+
+    int ParticleSum() {
+        return ParticleClonesArray->GetEntriesFast();
+    };
+
+    int TrackSum() {
+        return TrackClonesArray->GetEntriesFast();
+    };
+
+    int TowerSum() {
+        return TowerClonesArray->GetEntriesFast();
+    };
+
+    int EFlowTrackSum() {
+        return EFlowTrackClonesArray->GetEntriesFast();
+    };
+
+    int EFlowTowerSum() {
+        return EFlowTowerClonesArray->GetEntriesFast();
+    };
+
+    int GenJetSum() {
+        return GenJetClonesArray->GetEntriesFast();
+    };
+
+    int JetSum() {
+        return JetClonesArray->GetEntriesFast();
+    };
+
+    int ElectronSum() {
+        return ElectronClonesArray->GetEntriesFast();
+    };
+
+    int  MuonSum() {
+        return MuonClonesArray->GetEntriesFast();
+    };
+
+    int MissingEtSum() {
+        return MissingEtClonesArray->GetEntriesFast();
+    };
+
+    int ScalarHtSum() {
+        return ScalarHtClonesArray->GetEntriesFast();
+    };
+
+    int PhotonSum() {
+        return PhotonClonesArray->GetEntriesFast();
+    };
+
+    int EFlowPhotonSum() {
+        return EFlowPhotonClonesArray->GetEntriesFast();
+    };
+
+    int EFlowNeutralHadronSum() {
+        return EFlowNeutralHadronClonesArray->GetEntriesFast();
+    };
+
+    int EFlowMuonSum() {
+        return EFlowMuonClonesArray->GetEntriesFast();
+    };
+
+    int TauSum() {
+        return TauClonesArray->GetEntriesFast();
+    };
 
     /**
      * @brief Particle Clones Array

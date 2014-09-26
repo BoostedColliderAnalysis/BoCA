@@ -105,6 +105,9 @@ private:
     void TagFatJets();
 
     void GetMassDropVector();
+    
+    static bool JetIsBad(const PseudoJet &);
+    static bool JetIsBad2(const PseudoJet &);
 
     vector<PseudoJet> EFlowJetVector;
 

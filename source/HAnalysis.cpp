@@ -128,7 +128,7 @@ void HAnalysis::NewFileBase()
     AnalysisNotEmpty = 0;
 
     // Export tree
-    TString ExportTreeName = FileVector[FileNumber]->Title;
+    TString ExportTreeName = FileVector[FileNumber]->Title();
     Print(0, "ExportTreeName",ExportTreeName);
     TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
 

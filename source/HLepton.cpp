@@ -4,6 +4,8 @@ HLepton::HLepton()
 {
 
     Print(0,"Constructor");
+    
+//     Debug = 5;
 
 }
 
@@ -36,6 +38,14 @@ void HLepton::NewEvent(HClonesArray *NewClonesArray)
     LeptonVector.clear();
 
     AntiLeptonVector.clear();
+    
+    ElectronJetVector.clear();
+    
+    AntiElectronJetVector.clear();
+    
+    MuonJetVector.clear();
+    
+    AntiMuonJetVector.clear();
 
     LeptonJetVector.clear();
 
@@ -81,19 +91,19 @@ vector<PseudoJet> HLepton::GetLeptonJetVector()
     LeptonJetVector = ElectronJetVector;
     LeptonJetVector.insert(LeptonJetVector.end(), MuonJetVector.begin(), MuonJetVector.end());
 //     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());
-    sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
+//     sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
 
-    Print(2,"Number of Leptons",LeptonJetVector.size());
+    Print(2,"Number of Lepton Jets",LeptonJetVector.size());
 
     AntiLeptonJetVector = AntiElectronJetVector;
     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiMuonJetVector.begin(), AntiMuonJetVector.end());
 //     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiTauJetVector.begin(), AntiTauJetVector.end());
-    sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
-    Print(2,"Number of Anti Leptons",AntiLeptonJetVector.size());
+//     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
+    Print(2,"Number of Anti Lepton Jets",AntiLeptonJetVector.size());
 
     vector<PseudoJet> CompleteJetVector = LeptonJetVector;
     CompleteJetVector.insert(CompleteJetVector.end(), AntiLeptonJetVector.begin(), AntiLeptonJetVector.end());
-    sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
+//     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
         
     return CompleteJetVector;
     

@@ -30,8 +30,8 @@ public:
     void NewFile();
     
     void CloseFile();
-
-    void NewEvent();
+    
+    void NewEvent(HClonesArray *);
 
     vector<TLorentzVector>GetLeptons();
 

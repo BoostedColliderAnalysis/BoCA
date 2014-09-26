@@ -12,6 +12,10 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 //     ClonesArrays = new HClonesArrayDelphes();
 //         
 //     Event = new HEventDelphes();
+    
+//     Debug = 3;
+    
+    EventNumberMax = 10000;
 
 }
 
@@ -27,9 +31,9 @@ vector<string> HAnalysisDiscriminator::GetStudyNameVector(){
 void HAnalysisDiscriminator::SetFileVector()
 {
 
-    Print(0, "Set File Vector", AnalysisName);
+    Print(0, "Set File Vector", StudyName);
 
-    if (AnalysisName != "Higgs") {
+    if (StudyName != "Higgs") {
 
         HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv","background");
         Background->Crosssection = 3.215; // pb
@@ -82,7 +86,7 @@ void HAnalysisDiscriminator::CloseFile()
 bool HAnalysisDiscriminator::Analysis()
 {
 
-    Print(1, "Analysis", AnalysisName);
+    Print(1, "Analysis", StudyName);
 
     vector<PseudoJet> LeptonVector = Leptons();
 
@@ -93,7 +97,7 @@ bool HAnalysisDiscriminator::Analysis()
     if (LeptonSum < 2) {
 
         Print(1, "Not enough Leptons", LeptonSum);
-        return (0);
+        return 0;
 
     }
 
@@ -117,11 +121,11 @@ bool HAnalysisDiscriminator::Analysis()
     if (CandidateSum < 1) {
 
         Print(1, "No a Candidates");
-        return (0);
+        return 0;
 
     }
 
-    if (AnalysisName == "Test") {
+    if (StudyName == "Test") {
 
         CandidateSum = min(CandidateSum, 3);
 
@@ -135,73 +139,80 @@ bool HAnalysisDiscriminator::Analysis()
 
         Print(2, "Candidate", CandidateNumber);
 
-        if (AnalysisName == "Higgs") {
+        if (StudyName == "Higgs") {
 
-            if (!(CandidateJet.user_index() == HiggsUserIndex
-                    /*  || CandidateJet.user_index() == HiggsUserIndex + TopUserIndex*/)) {
+            if (CandidateJet.user_index() != HiggsUserIndex) {
 
                 Print(2, "Not a Higgs");
                 continue;
 
             }
 
-            if (CandidateCounter > 0) {
-
-                Print(0, "Number of Higgs", CandidateCounter);
-
-            }
-
+            if (CandidateCounter > 0) Print(0, "Number of Higgs", CandidateCounter);
             ++CandidateCounter;
-
             Print(1, "Higgs", CandidateCounter);
 
         }
 
-        if (AnalysisName == "Top") {
-
-            if (CandidateCounter > 1) break;
-            if (!(CandidateJet.user_index() == TopUserIndex
-//                     || CandidateJet.user_index() == 2 * TopUserIndex
-//                 || CandidateJet.user_index() == HiggsUserIndex + TopUserIndex
-                 )) continue;
-
+        if (StudyName == "Top") {
+            
+            if (CandidateJet.user_index() != TopUserIndex) {
+                
+                Print(2, "Not a Top");
+                continue;
+                
+            }
+            
+            if (CandidateCounter > 1) Print(0, "Number of Tops", CandidateCounter);            
             ++CandidateCounter;
             Print(1, "Top", CandidateCounter);
 
         }
         
-        if (AnalysisName == "TwoTop") {
+        if (StudyName == "TwoTop") {
             
-            if (CandidateCounter > 1) break;
-            if (!(
-//                 CandidateJet.user_index() == TopUserIndex                || 
-                CandidateJet.user_index() == 2 * TopUserIndex
-                //                 || CandidateJet.user_index() == HiggsUserIndex + TopUserIndex
-            )) continue;
+            if (CandidateJet.user_index() != 2 * TopUserIndex){
+                
+                Print(2, "Not two tops");
+                continue;
+                
+            }
             
+            if (CandidateCounter > 0) Print(0, "Number TopPairs", CandidateCounter);            
             ++CandidateCounter;
-            Print(1, "Top", CandidateCounter);
+            Print(1, "TwoTop", CandidateCounter);
             
         }
         
-        if (AnalysisName == "HiggsTop") {
+        if (StudyName == "HiggsTop") {
             
-            if (CandidateCounter > 1) break;
-            if (!(
-//                 CandidateJet.user_index() == TopUserIndex|| CandidateJet.user_index() == 2 * TopUserIndex || 
-                                CandidateJet.user_index() == HiggsUserIndex + TopUserIndex
-            )) continue;
+            if (CandidateJet.user_index() != HiggsUserIndex + TopUserIndex){
+                
+                Print(2, "Not a Top Higgs pair");
+                continue;
+                
+            }
             
+            if (CandidateCounter > 0) Print(0, "Number TopHiggsPairs", CandidateCounter);  
             ++CandidateCounter;
-            Print(1, "Top", CandidateCounter);
+            Print(1, "HiggsTop", CandidateCounter);
             
         }
 
-        if (AnalysisName == "Jet") {
+        if (StudyName == "Jet") {
 
-            if (CandidateJet.user_index() == HiggsUserIndex) continue;
-            if (CandidateJet.user_index() == TopUserIndex) continue;
-            ++CandidateCounter;
+            if (CandidateJet.user_index() == HiggsUserIndex ||
+             CandidateJet.user_index() == TopUserIndex ||
+             CandidateJet.user_index() == 2 * TopUserIndex ||
+             CandidateJet.user_index() == TopUserIndex+ HiggsUserIndex) {
+                
+                Print(2, "Not a light jet");
+                continue;
+                
+            }
+            
+            if (CandidateCounter > 2) Print(0, "Number light jets", CandidateCounter);  
+            ++CandidateCounter;            
             Print(1, "Jet", CandidateCounter);
 
         }
@@ -479,8 +490,6 @@ bool HAnalysisDiscriminator::Analysis()
 
         }
 
-
-
         Candidate->SubJet1Mass = SubJet1Mass / CandidateMass;
         Candidate->SubJet2Mass = SubJet2Mass / CandidateMass;
         Candidate->SubJet1Pt = SubJet1Pt / CandidatePt;
@@ -521,6 +530,7 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
     vector<float> LeptonEta, LeptonPhi;
 
     Event->GetLeptons();
+    
     vector<PseudoJet> LeptonVector = Event->Lepton->LeptonJetVector;
     vector<PseudoJet> AntiLeptonVector = Event->Lepton->AntiLeptonJetVector;
 

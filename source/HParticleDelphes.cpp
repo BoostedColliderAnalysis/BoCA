@@ -16,26 +16,25 @@ HParticleDelphes::~HParticleDelphes()
 
 }
 
+
 bool HParticleDelphes::GetParticles()
 {
 
     Print(1, "Get Particles");
+    
+    GenParticle *GenParticleClone;
+    int ParticleID;
+    
+    Print(2, "Number of Particles", ClonesArrays->ParticleSum());
+    for (int ParticleNumber = 0; ParticleNumber < ClonesArrays->ParticleSum(); ++ParticleNumber) {
 
-    int ParticleSum = ClonesArrays->ParticleClonesArray->GetEntriesFast();
+        GenParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
 
-    Print(2, "Number of Particles", ParticleSum);
-
-    for (int ParticleNumber = 0; ParticleNumber < ParticleSum; ++ParticleNumber) {
-
-        GenParticle *GenParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
-
-        int ParticleStatus = GenParticleClone->Status;
-        Print(3, "Particles Status", ParticleStatus);
-
-        int ParticleID = GenParticleClone->PID;
+        ParticleID = GenParticleClone->PID;
         Print(3, "Particles ID", ParticleID);
 
-        if (ParticleStatus == 1) {
+        if (GenParticleClone->Status == 1) {
+        Print(3, "Particles Status", 1);
 
             if (abs(ParticleID) == 11) {
 
@@ -57,16 +56,14 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == 13) {
 
-                TLorentzVector MuonParticle = GenParticleClone->P4();
-
                 if (ParticleID > 0) {
 
-                    MuonVector.push_back(MuonParticle);
+                    MuonVector.push_back(GenParticleClone->P4());
                     Print(2, "Muon");
 
                 } else if (ParticleID < 0) {
 
-                    AntiMuonVector.push_back(MuonParticle);
+                    AntiMuonVector.push_back(GenParticleClone->P4());
                     Print(2, "Anti Muon");
 
                 }
@@ -77,34 +74,29 @@ bool HParticleDelphes::GetParticles()
 
 
 
-        if (ParticleStatus == 2) {
+        if (GenParticleClone->Status == 2) {
+            Print(3, "Particles Status", 2);
 
             if (abs(ParticleID) == 4) {
 
-                PseudoJet CharmJet = GetPseudoJet(GenParticleClone->P4());
-
-                CharmJetVector.push_back(CharmJet);
+                CharmJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
                 Print(2, "Charm");
 
             } // charms
 
             if (abs(ParticleID) == 5000000) {
 
-                PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone->P4());
-
-                HiggsJetVector.push_back(HiggsParticle);
+                HiggsJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
                 Print(2, "CPV Higgs");
 
             } // cp Higgs
 
             
             if (abs(ParticleID) == BottomId) {
-                
-                PseudoJet BottomJet = GetPseudoJet(GenParticleClone->P4());
-                BottomJet.set_user_index(BottomId);
-                
-                BottomJetVector.push_back(BottomJet);
-                ParticleJetVector.push_back(BottomJet);
+                                
+                BottomJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
+                ParticleJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
+                ParticleJetVector.back().set_user_index(BottomId);
                 
                 Print(2, "Bottom");
                 
@@ -117,7 +109,8 @@ bool HParticleDelphes::GetParticles()
 
 
 
-        if (ParticleStatus == 3) {
+        if (GenParticleClone->Status == 3) {
+            Print(3, "Particles Status", 3);
 
 //             if (abs(ParticleID) == BottomId) {
 // 

@@ -29,15 +29,13 @@ public:
      *
      */
     ~HEvent();
-    
-    void NewEvent(HClonesArray *);
-    
+        
     virtual void NewFile(){};
     
     virtual void CloseFile(){};
     
-    virtual void NewEvent(){};
-
+    virtual void NewEvent(HClonesArray *) = 0;
+    
     virtual void GetParticles(){};
 
     virtual vector<TLorentzVector> GetLeptons(){vector<TLorentzVector> v; return v;};
@@ -94,7 +92,7 @@ protected:
      * @brief Clones Arrays
      *
      */
-    HClonesArray *ClonesArrays;
+//     HClonesArray *ClonesArrays;
 
 private:
     

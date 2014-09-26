@@ -21,74 +21,73 @@ bool HJetDelphes::GetJets()
 
     Print(1, "Analyse Jet");
 
-    TClonesArray *JetClonesArray = ClonesArrays->JetClonesArray;
-    int JetSum = JetClonesArray->GetEntriesFast();
-    Print(2, "Number of Jets", JetSum);
-
+    Print(2, "Number of Jets", ClonesArrays->JetSum());
+    Jet *JetClone;
+    
     /// Loop over all jets
-    for (int JetNumber = 0; JetNumber < JetSum; ++JetNumber) {
+    for (int JetNumber = 0; JetNumber < ClonesArrays->JetSum(); ++JetNumber) {
 
         Print(3, "Jet Number", JetNumber);
-        Jet *JetClone = (Jet *)JetClonesArray->At(JetNumber);
+        JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
 
         JetVector.push_back(GetPseudoJet(JetClone->P4()));
 
 //         JetClone->Particles.
 
-//         TObjectArray *ClonesArray = (TObjectArray*)JetClone->Particles.First(); 
-        
+//         TObjectArray *ClonesArray = (TObjectArray*)JetClone->Particles.First();
+
 //         Print(-1,"first",  JetClone->Particles.);
 
 
 
 //         TRefArray RefArray = JetClone->Particles;
-// //         
+// //
 // // //         GenParticle *Clone = (GenParticle*) RefArray.GetObjectRef();
-// // 
+// //
 //         int RefSum = RefArray.GetEntriesFast();
-// // 
+// //
 // // //         Print(-1, "Test",  RefArray.Class_Name());
-// // 
+// //
 // // //         Print(-1, "RefSum", RefSum);
-// // 
+// //
 //         for (int RefNumber = 0; RefNumber < RefSum; ++RefNumber) {
-//             
+//
 //             TObject *Ref = RefArray[RefNumber];
-//             
-// //             int test = 
+//
+// //             int test =
 //             ((GenParticle *) Ref->GetObject())->PID;
-            
+
 //             Print(-1, "Test", );
-// 
+//
 // // Print(-1,"Test",JetClone->Particles.At(RefNumber)->PID);
-// 
+//
 // // Print(-1,"Test", RefArray.Class()->ClassName());
 // // Print(-1,"Test", RefArray.At(RefNumber). );
-// 
+//
 // //             GenParticle *Clone = (GenParticle*) RefArray.GetObjectRef();
 //             GenParticle *Clone = (GenParticle*) RefArray.At(RefNumber);
 // // Candidate *Clone = (Candidate*) RefArray.At(RefNumber);
-// // Jet *Clone = (Jet*) RefArray.At(RefNumber);            
+// // Jet *Clone = (Jet*) RefArray.At(RefNumber);
 // // SortableObject *Clone = (SortableObject *) RefArray.At(RefNumber);
-//             
+//
 // // TObject *Object = RefArray.At(RefNumber);
 // // int PID = Clone->Status;
 // // float Charge = Clone->Charge;
-// 
+//
 // // Print(-1,"Test",Object->GetTitle());
-// 
+//
 //             Print(-1, "Test", Clone->Status);
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //         }
 
 
@@ -146,33 +145,34 @@ bool HJetDelphes::GetEFlow()
     Print(1, "AnalyseEFlow");
 
     // Tracks
-    int EFLowTrackSum = ClonesArrays->EFlowTrackClonesArray->GetEntriesFast();
-    Print(2, "Number of E Flow Tracks", EFLowTrackSum);
 
-    int ElectronSum = ClonesArrays->ElectronClonesArray->GetEntriesFast();
-    if (ElectronSum > 0) Print(3, "Number of Electons", ElectronSum);
+    Track *EFlowTrackClone;
+    Electron *ElectronClone;
+    Muon *MuonClone;
+    PseudoJet JetCandidate;
+    bool Isolated;
 
-    int MuonSum = ClonesArrays->MuonClonesArray->GetEntriesFast();
-    if (MuonSum > 0) Print(3, "Number of Muons", MuonSum);
+    if (ClonesArrays->ElectronSum() > 0) Print(3, "Number of Electons", ClonesArrays->ElectronSum());
+    if (ClonesArrays->MuonSum() > 0) Print(3, "Number of Muons", ClonesArrays->MuonSum());
+    if (ClonesArrays->EFlowTrackSum() > 0) Print(2, "Number of E Flow Tracks", ClonesArrays->EFlowTrackSum());
+    for (int EFlowTrackNumber = 0; EFlowTrackNumber < ClonesArrays->EFlowTrackSum() ; ++EFlowTrackNumber) {
 
-    for (int EFlowTrackNumber = 0; EFlowTrackNumber < EFLowTrackSum ; ++EFlowTrackNumber) {
+        EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
+        JetCandidate = GetPseudoJet(EFlowTrackClone->P4());
 
-        Track *EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
-        PseudoJet JetCandidate = GetPseudoJet(EFlowTrackClone->P4());
-        
         // Make sure this is not an electron
-        bool Isolated = true;
-        for (int ElectronNumber = 0; ElectronNumber < ElectronSum; ++ElectronNumber) {
+        Isolated = true;
+        for (int ElectronNumber = 0; ElectronNumber < ClonesArrays->ElectronSum(); ++ElectronNumber) {
 
-            Electron *ElectronClone = (Electron *) ClonesArrays->ElectronClonesArray->At(ElectronNumber);
+            ElectronClone = (Electron *) ClonesArrays->ElectronClonesArray->At(ElectronNumber);
             Isolated = CheckIsolation(EFlowTrackClone, ElectronClone);
 
         }
 
         // make sure this is not a muon
-        for (int MuonNumber = 0; MuonNumber < MuonSum; ++MuonNumber) {
+        for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
 
-            Muon *MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
+            MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
             Isolated = CheckIsolation(EFlowTrackClone, MuonClone);
 
         }
@@ -183,23 +183,21 @@ bool HJetDelphes::GetEFlow()
 
 
     // Photons
-    int EFLowPhotonSum = ClonesArrays->EFlowPhotonClonesArray->GetEntriesFast();
-    Print(2, "Number of E Flow Photons", EFLowPhotonSum);
-    for (int EFlowPhotonNumber = 0; EFlowPhotonNumber < EFLowPhotonSum ; ++EFlowPhotonNumber) {
+    Photon *EFlowPhotonClone, *PhotonClone;
 
-        // Using Tower for ET
-        Photon *EFlowPhotonClone = (Photon *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
+    if (ClonesArrays->EFlowPhotonSum() > 0) Print(2, "Number of E Flow Photons", ClonesArrays->EFlowPhotonSum());
+    if (ClonesArrays->PhotonSum() > 0) Print(2, "Number of Photons", ClonesArrays->PhotonSum());
+    for (int EFlowPhotonNumber = 0; EFlowPhotonNumber < ClonesArrays->EFlowPhotonSum() ; ++EFlowPhotonNumber) {
 
-        PseudoJet JetCandidate = GetPseudoJet(EFlowPhotonClone->P4());
+        EFlowPhotonClone = (Photon *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
+        JetCandidate = GetPseudoJet(EFlowPhotonClone->P4());
 
         // Make sure this is not a photon
-        bool Isolated = true;
+        Isolated = true;
 
-        int PhotonSum = ClonesArrays->PhotonClonesArray->GetEntriesFast();
-        if (PhotonSum > 0) Print(2, "Number of Photons", PhotonSum);
-        for (int PhotonNumber = 0; PhotonNumber < PhotonSum; ++PhotonNumber) {
+        for (int PhotonNumber = 0; PhotonNumber < ClonesArrays->PhotonSum(); ++PhotonNumber) {
 
-            Photon *PhotonClone = (Photon *) ClonesArrays->PhotonClonesArray->At(PhotonNumber);
+            PhotonClone = (Photon *) ClonesArrays->PhotonClonesArray->At(PhotonNumber);
 
             Isolated = CheckIsolation(EFlowPhotonClone, PhotonClone);
 
@@ -210,28 +208,40 @@ bool HJetDelphes::GetEFlow()
     }
 
     // Neutral Hadrons
-    int HadronSum = ClonesArrays->EFlowNeutralHadronClonesArray->GetEntriesFast();
-    Print(2, "Number of EF Neut Had", HadronSum);
-    for (int HadronNumber = 0; HadronNumber < HadronSum; ++HadronNumber) {
+    // Using Tower for ET
+    Tower *HadronClone;
 
-        // Using Tower for ET
-        Tower *HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
+    if (ClonesArrays->EFlowNeutralHadronSum() > 0) Print(2, "Number of EF Neut Had", ClonesArrays->EFlowNeutralHadronSum());
+    for (int HadronNumber = 0; HadronNumber < ClonesArrays->EFlowNeutralHadronSum(); ++HadronNumber) {
+
+        HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
 
         EFlowJetVector.push_back(GetPseudoJet(HadronClone->P4()));
-                
+
     }
 
     // Muon
     if (ClonesArrays->EFlowMuonClonesArray) {
 
-        int MuonSum = ClonesArrays->EFlowMuonClonesArray->GetEntriesFast();
-        Print(2, "Number of EF Muon", MuonSum);
+        Muon *EFlowMuonClone;
 
-        for (int MuonNumber = 0; MuonNumber < MuonSum; ++MuonNumber) {
+        Print(2, "Number of EF Muon", ClonesArrays->EFlowMuonSum());
 
-            Muon *MuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
+        for (int MuonNumber = 0; MuonNumber < ClonesArrays->EFlowMuonSum(); ++MuonNumber) {
 
-            EFlowJetVector.push_back(GetPseudoJet(MuonClone->P4()));
+            EFlowMuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
+
+            // make sure this is not a muon
+            Isolated = true;
+            for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
+
+                MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
+                Isolated = CheckIsolation(EFlowTrackClone, MuonClone);
+
+            }
+
+
+            if (Isolated) EFlowJetVector.push_back(GetPseudoJet(EFlowMuonClone->P4()));
 
         }
 
@@ -247,12 +257,12 @@ bool HJetDelphes::GetEFlow()
 void HJetDelphes::GetGenJet()
 {
     Print(1, "GetGenJet");
+    Jet *GenJetClone;
 
-    int GenJetSum = ClonesArrays->GenJetClonesArray->GetEntriesFast();
-    Print(2, "Number of GenJets", GenJetSum);
-    for (int GenJetNumber = 0; GenJetNumber < GenJetSum; ++GenJetNumber) {
+    Print(2, "Number of GenJets",  ClonesArrays->GenJetSum());
+    for (int GenJetNumber = 0; GenJetNumber <  ClonesArrays->GenJetSum(); ++GenJetNumber) {
 
-        Jet *GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
+        GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
 
         GenJetVector.push_back(GetPseudoJet(GenJetClone->P4()));
 

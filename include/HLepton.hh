@@ -3,7 +3,6 @@
 
 # include <algorithm>
 
-# include "TObjArray.h"
 
 # include "HClonesArray.hh"
 # include "HObject.hh"

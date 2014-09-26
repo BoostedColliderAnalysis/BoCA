@@ -16,6 +16,8 @@ HEventDelphes::HEventDelphes()
     HasEFlow = 0;
     HasJets = 0;
 
+//     Debug = 5;
+    
 }
 
 HEventDelphes::~HEventDelphes()
@@ -50,7 +52,7 @@ void HEventDelphes::CloseFile()
 
 }
 
-void HEventDelphes::NewEvent()
+void HEventDelphes::NewEvent(HClonesArray *ClonesArrays)
 {
 
     Print(1, "New Event");
@@ -190,7 +192,7 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates()
     vector<PseudoJet> CandidateJets;
 
     if (!HasEFlow) HasEFlow = Jets->GetEFlow();
-    if (!HasParticles) HasParticles = Particles->GetParticles();
+    GetParticles();
 
     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
 

@@ -85,23 +85,3 @@ vector<TLorentzVector> HParticle::AntiLeptonVector()
 
 
 }
-
-// vector<PseudoJet> HParticle::GetTops()
-// {
-//     
-//     vector<TLorentzVector> TotalVector;
-//     
-//     TotalVector = TopVector;
-//     TotalVector.insert(TotalVector.end(), AntiMuonVector.begin(), AntiMuonVector.end());
-//     
-//     sort(TotalVector.begin(), TotalVector.end(), SortByPt());
-//     
-//     
-//     
-//     if (Debug > 1) cout << TotalVector.size() << " truth level anti leptons" << endl;
-//     return (TotalVector);
-//     
-//     return (Jet);
-//     
-// }
-

@@ -18,7 +18,7 @@ HFile::HFile(TString Process)
 
     ProcessFolder = Process;
 
-    Title = Process;
+//     Title = Process;
 
 }
 
@@ -33,10 +33,22 @@ HFile::HFile(TString Process, TString Run)
 
     RunFolder = Run;
 
-    Title = Process;
+//     Title = Process;
 
 
 }
+
+TString HFile::Title(){
+    
+    return RunFolder;
+    
+}
+
+TString HFile::MadGraphFilePath() {
+    
+    return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
+    
+};
 
 TString HFile::BasePath = "$HOME/Development/madgraph/";
 
@@ -165,7 +177,7 @@ TString HFileFolder::GetFilePath()
 
     TString FlatFilePath = BasePath + ProcessFolder + FileSuffix;
 
-    Title = ProcessFolder;
+//     Title = ProcessFolder;
 
     return FlatFilePath;
 

@@ -18,14 +18,15 @@ void HLeptonDelphes::GetElectrons()
 {
 
     Print(1, "Get Electrons");
+    Electron* ElectronClone;
+    int ElectronCharge;
 
-    int ElectronSum = ClonesArray->ElectronClonesArray->GetEntriesFast();
-    Print(2, "Number of Electrons", ElectronSum);
-    for (int ElectronNumber = 0; ElectronNumber < ElectronSum; ElectronNumber++) {
+    Print(2, "Number of Electrons", ClonesArray->ElectronSum());
+    for (int ElectronNumber = 0; ElectronNumber < ClonesArray->ElectronSum(); ElectronNumber++) {
 
-        Electron* ElectronClone = (Electron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
+        ElectronClone = (Electron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
 
-        int ElectronCharge = ElectronClone->Charge;
+        ElectronCharge = ElectronClone->Charge;
 
         if (ElectronCharge == -1) {
 
@@ -53,13 +54,15 @@ void HLeptonDelphes::GetMuons()
 {
 
     Print(1, "Get Muons");
+    
+    Muon* MuonClone;
+    int MuonCharge;
+    
+    Print(2, "Number of Muons", ClonesArray->MuonSum());
+    for (int MuonNumber = 0; MuonNumber < ClonesArray->MuonSum(); ++MuonNumber) {
 
-    int MuonSum = ClonesArray->MuonClonesArray->GetEntriesFast();
-    Print(2, "Number of Muons", MuonSum);
-    for (int MuonNumber = 0; MuonNumber < MuonSum; ++MuonNumber) {
-
-        Muon* MuonClone = (Muon *)ClonesArray->MuonClonesArray->At(MuonNumber);
-        int MuonCharge = MuonClone->Charge;
+        MuonClone = (Muon *)ClonesArray->MuonClonesArray->At(MuonNumber);
+        MuonCharge = MuonClone->Charge;
 
         if (MuonCharge == -1) {
 

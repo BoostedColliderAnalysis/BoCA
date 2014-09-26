@@ -72,7 +72,7 @@ public:
      * @brief Name of Process
      *
      */
-    TString Title;
+    TString Title();
 
     /**
      * @brief Crosssection of the event
@@ -101,18 +101,14 @@ public:
 
 protected:
 
-    virtual TString MadGraphFilePath() {
-
-        return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
-
-    };
+    TString MadGraphFilePath();
     
 
 private:
 
     void  SetVariables();
 
-    virtual TString ClassName() {
+    TString ClassName() {
         return ("HFile");
     };
 
