@@ -48,7 +48,7 @@ TString HFile::MadGraphFilePath() {
     
     return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
     
-};
+}
 
 TString HFile::BasePath = "$HOME/Development/madgraph/";
 

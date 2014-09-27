@@ -72,6 +72,7 @@ link_directories(${LinkDirectories})
 set(LinkLibraries
 ${LinkLibraries}
 ${ExRootLibrary}
+HBranch
 HObject 
 HEvent 
 HAnalysis
