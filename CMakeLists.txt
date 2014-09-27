@@ -47,10 +47,14 @@ set(LibraryProperties ${LibraryProperties}
 )
 
 # Branch dictionary
-set(IncludeDirectory ${ROOT_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/root)
 include_directories(${IncludeDirectory})
 set(LinkLibraries ${ROOT_LIBRARIES})
 
+# set(IncludeDirectory ${ROOT_INCLUDE_DIR} ${PROJECT_SOURCE_DIR})
+# add_subdirectory(classes)
+
+set(IncludeDirectory ${ROOT_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/root)
+include_directories(${IncludeDirectory})
 add_subdirectory(root)
 
 # Libraries

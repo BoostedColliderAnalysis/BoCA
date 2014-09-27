@@ -37,6 +37,8 @@ public:
 
     void GetJets();
     
+    void GetEFlow();
+    
     void GetParticles();
 
     PseudoJet GetHiggs();

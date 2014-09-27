@@ -41,6 +41,8 @@ public:
     virtual vector<TLorentzVector> GetLeptons(){vector<TLorentzVector> v; return v;};
 
     virtual void GetJets(){};
+    
+    virtual void GetEFlow(){};
 
     virtual PseudoJet GetHiggs(){PseudoJet j; return j;};
     

@@ -1,4 +1,8 @@
 # include "HJetDelphes.hh"
+#include <fastjet/ClusterSequence.hh>
+// #include <fastjet/PseudoJet.hh>
+
+// using fastjet::PseudoJet;
 
 HJetDelphes::HJetDelphes()
 {
@@ -23,7 +27,7 @@ bool HJetDelphes::GetJets()
 
     Print(2, "Number of Jets", ClonesArrays->JetSum());
     Jet *JetClone;
-    
+
     /// Loop over all jets
     for (int JetNumber = 0; JetNumber < ClonesArrays->JetSum(); ++JetNumber) {
 
@@ -32,63 +36,82 @@ bool HJetDelphes::GetJets()
 
         JetVector.push_back(GetPseudoJet(JetClone->P4()));
 
-//         JetClone->Particles.
+        
+        
+        TObject *Object;
+        int PID = 0;
+        for (int ParticleNumber = 0; ParticleNumber < JetClone->Particles.GetEntriesFast(); ++ParticleNumber) {
+            
+            Object = JetClone->Particles.At(ParticleNumber);
+            if (Object == 0) continue;
 
-//         TObjectArray *ClonesArray = (TObjectArray*)JetClone->Particles.First();
+            if (Object->IsA() == GenParticle::Class()) {
+                
+                PID = ((GenParticle *) Object)->PID;
+                if(abs(PID)==6 || abs(PID)==24)  Print(-1, "Particle", PID);
 
-//         Print(-1,"first",  JetClone->Particles.);
+            } else if (Object->IsA() == Track::Class()) {
+                
+                PID = ((Track *) Object)->PID;
+                if(abs(PID)==6 || abs(PID)==24)  Print(-1, "Track", PID);
 
+            } else if (Object->IsA() == Candidate::Class()) {
+                
+                PID = ((Candidate *) Object)->PID;
+                if(abs(PID)==6 || abs(PID)==24)  Print(-1, "Candidate", PID);
+                
+            } else {
 
+                Print(-1, "it is", Object->IsA());
 
-//         TRefArray RefArray = JetClone->Particles;
-// //
-// // //         GenParticle *Clone = (GenParticle*) RefArray.GetObjectRef();
-// //
-//         int RefSum = RefArray.GetEntriesFast();
-// //
-// // //         Print(-1, "Test",  RefArray.Class_Name());
-// //
-// // //         Print(-1, "RefSum", RefSum);
-// //
-//         for (int RefNumber = 0; RefNumber < RefSum; ++RefNumber) {
-//
-//             TObject *Ref = RefArray[RefNumber];
-//
-// //             int test =
-//             ((GenParticle *) Ref->GetObject())->PID;
+            }
+        }
 
-//             Print(-1, "Test", );
-//
-// // Print(-1,"Test",JetClone->Particles.At(RefNumber)->PID);
-//
-// // Print(-1,"Test", RefArray.Class()->ClassName());
-// // Print(-1,"Test", RefArray.At(RefNumber). );
-//
-// //             GenParticle *Clone = (GenParticle*) RefArray.GetObjectRef();
-//             GenParticle *Clone = (GenParticle*) RefArray.At(RefNumber);
-// // Candidate *Clone = (Candidate*) RefArray.At(RefNumber);
-// // Jet *Clone = (Jet*) RefArray.At(RefNumber);
-// // SortableObject *Clone = (SortableObject *) RefArray.At(RefNumber);
-//
-// // TObject *Object = RefArray.At(RefNumber);
-// // int PID = Clone->Status;
-// // float Charge = Clone->Charge;
-//
-// // Print(-1,"Test",Object->GetTitle());
-//
-//             Print(-1, "Test", Clone->Status);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//         }
+        Print(-1, " ");
+
+vector<PseudoJet> ConstituentsVector;
+        
+        // Loop over all jet's constituents
+        TString String;
+        for (int ConstituentNumber = 0; ConstituentNumber < JetClone->Constituents.GetEntriesFast(); ++ConstituentNumber) {
+            
+            Object = JetClone->Constituents.At(ConstituentNumber);
+            if (Object == 0) continue;
+
+            if (Object->IsA() == GenParticle::Class()) {
+                                
+                ConstituentsVector.push_back(GetPseudoJet(((GenParticle *) Object)->P4()));
+                
+            } else if (Object->IsA() == Track::Class()) {
+                
+                ConstituentsVector.push_back(GetPseudoJet(((Track *) Object)->P4()));
+                
+            } else if (Object->IsA() == Tower::Class()) {
+                
+                ConstituentsVector.push_back(GetPseudoJet(((Tower *) Object)->P4()));
+                
+            } else if (Object->IsA() == Muon::Class()) {
+                
+                ConstituentsVector.push_back(GetPseudoJet(((Muon *) Object)->P4()));
+                
+            } else {
+                
+                String =Object->ClassName();
+                Print(0, "something else", String);
+
+            }
+        }
+
+        Print(-1, " ");
+
+        
+//         fastjet::JetDefinition jetDefinition(fastjet::cambridge_algorithm, 1.);
+//         fastjet::ClusterSequence JetClusterSequence(ConstituentsVector, jetDefinition);
+        
+        
+//         fastjet::JetDefinition
+//         fastjet::ClusterSequence CS(ConstituentsVector,fastjet::cambridge_algorithm);
+// CS->add_constituents(JetVector.back(),ConstituentsVector);
 
 
         if (JetClone->TauTag == 1) {
