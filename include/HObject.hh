@@ -127,9 +127,9 @@ protected:
 
     const int LargeNumber;
 
-    const float HiggsMass;
-
     const float TopMass;
+
+    const float HiggsMass;
 
     const float WMass;
 
@@ -150,6 +150,10 @@ protected:
     const int HiggsUserIndex;
 
     const int TopUserIndex;
+    
+    const int CpvHiggsId;
+    
+    const int HeavyHiggsId;
 
     const int TopId;
 

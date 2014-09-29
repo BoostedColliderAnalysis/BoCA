@@ -2,14 +2,16 @@
 
 HObject::HObject() :
     LargeNumber(999999999),
-    HiggsMass(125),
     TopMass(173.5),
+    HiggsMass(125),
     WMass(80.39),
     TauMass(1.776),
     MuonMass(0.1134),
     ElectronMass(0.000511),
     HiggsUserIndex(1000),
     TopUserIndex(2000),
+    CpvHiggsId(5000000),
+    HeavyHiggsId(26),
     TopId(6),
     BottomId(5),
     EmptyId(-1)

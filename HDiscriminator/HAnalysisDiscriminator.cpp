@@ -86,6 +86,8 @@ void HAnalysisDiscriminator::CloseFile()
 bool HAnalysisDiscriminator::Analysis()
 {
 
+    Event->GetJets();
+    
     Print(1, "Analysis", StudyName);
 
     vector<PseudoJet> LeptonVector = Leptons();
