@@ -5,7 +5,7 @@ HDiscriminator::HDiscriminator()
 
     Print(0, "Constructor");
 
-    Debug = 1;
+//     Debug = 5;
 
     MinDeltaR = LargeNumber;
 
@@ -113,6 +113,48 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(
     }
 
     FatJetTagger();
+
+    sort(FatJetVector.begin(), FatJetVector.end(), SortJetByMass());
+
+    return FatJetVector;
+
+}
+
+vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEFlowJetVector)
+{
+
+    Print(1, "Get Tagged Candidate Jets");
+
+    EFlowJetVector = NewEFlowJetVector;
+
+    const vector<PseudoJet> Jets;
+
+    if (EFlowJetSum() == 0) {
+
+        Print(1, "No EFlow Jets");
+        return Jets;
+
+    }
+
+    const int FatJetGoal = 3;
+    int FatJetPseudoGoal = FatJetGoal - 1;
+
+    while (FatJetSum() < FatJetGoal) {
+
+        ++FatJetPseudoGoal;
+        if (!GetSuperFatJetVector(FatJetPseudoGoal)) {
+
+            return Jets;
+
+            Print(0, "Not enough valid jets");
+
+        }
+
+        GetMassDropVector();
+
+    }
+
+    TagFatJets();
 
     sort(FatJetVector.begin(), FatJetVector.end(), SortJetByMass());
 
@@ -265,45 +307,45 @@ bool HDiscriminator::JetIsBad(const PseudoJet &Jet)
 {
 
     if (abs(Jet.m()) <= 1) {
-             
+
 //         Print(1, "Fat Jet Mass", Jet.m());
-        
+
         return 1;
-        
+
     }
-    
-    
+
+
     if (Jet.pieces().size() != 2) {
-        
+
 //         Print(1, "Pieces Sum", Jet.pieces().size());
-        
+
         return 1;
-        
+
     }
-    
+
 //     if (!Jet.has_structure()) {
-//                 
+//
 // //         Print(1, "PseudoJet has no structure");
-//         
+//
 //         return 1;
-//         
+//
 //     }
-    
-    
-   return 0;
+
+
+    return 0;
 
 }
 
 bool HDiscriminator::JetIsBad2(const PseudoJet &Jet)
 {
-    
-    
-        if (Jet.has_structure()) return 0;
-                    
+
+
+    if (Jet.has_structure()) return 0;
+
 //             Print(1, "PseudoJet has no structure");
-            
-            return 1;
-        
+
+    return 1;
+
 }
 
 
@@ -313,60 +355,60 @@ void HDiscriminator::GetMassDropVector()
     Print(1, "Get Mass Drop Jet Vector");
 
 
-    
-        for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
-         
-            FatJetVector[FatJetNumber] = GetMassDropJet(FatJetVector[FatJetNumber]);
-            
-        }
-        
-      FatJetVector.erase(std::remove_if(FatJetVector.begin(), FatJetVector.end(), JetIsBad2), FatJetVector.end());
-    
+
+    for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
+
+        FatJetVector[FatJetNumber] = GetMassDropJet(FatJetVector[FatJetNumber]);
+
+    }
+
+    FatJetVector.erase(std::remove_if(FatJetVector.begin(), FatJetVector.end(), JetIsBad2), FatJetVector.end());
+
     FatJetVector.erase(std::remove_if(FatJetVector.begin(), FatJetVector.end(), JetIsBad), FatJetVector.end());
 
 
 //     for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
-// 
+//
 //         PseudoJet FatJet = FatJetVector[FatJetNumber];
-// 
+//
 // //         if (FatJet.m() <= 10) {
-// // 
+// //
 // //             Print(1, "Fat Jet Mass", FatJet.m());
-// // 
+// //
 // //             FatJetVector.erase(FatJetVector.begin() + FatJetNumber);
-// // 
+// //
 // //             continue;
-// // 
+// //
 // //         }
-// 
+//
 //         vector<PseudoJet> FatJetPieces = FatJet.pieces();
-// 
+//
 // //         int PiecesSum = FatJetPieces.size();
-// // 
+// //
 // //         if (PiecesSum != 2) {
-// // 
+// //
 // //             Print(1, "Pieces Sum", PiecesSum);
-// // 
+// //
 // //             FatJetVector.erase(FatJetVector.begin() + FatJetNumber);
 // //             continue;
-// // 
+// //
 // //         }
-// 
+//
 //         FatJet = GetMassDropJet(FatJet);
-// 
+//
 //         if (FatJet.has_structure()) {
-// 
+//
 //             FatJetVector[FatJetNumber] = FatJet;
-// 
+//
 //         } else {
-// 
+//
 //             FatJetVector.erase(FatJetVector.begin() + FatJetNumber);
-// 
+//
 //             Print(1, "PseudoJet has no structure");
 //             continue;
-// 
+//
 //         }
-// 
+//
 //     }
 
 }
@@ -461,44 +503,44 @@ void HDiscriminator::TagFatJets()
 
     Print(1, "Tag FatJets");
 
-    bool HiggsLost = 1;
+//     bool HiggsLost = 1;
 
     for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
-
+        
+        Print(1, "Fat Jet", FatJetNumber);
         PseudoJet FatJet = FatJetVector[FatJetNumber];
 
         vector<PseudoJet> ConstituentsVector = FatJet.constituents();
         int ConstituentsSum = ConstituentsVector.size();
 
-        int UserIndex = 0;
+        int UserIndex = EmptyId;
 
         for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ++ConstituentsNumber) {
 
             int ConstUserIndex = ConstituentsVector[ConstituentsNumber].user_index();
 
-            if (ConstUserIndex > 0) {
+            if (ConstUserIndex != EmptyId && ConstUserIndex != EmptyUserIndex) {
 
-                UserIndex += ConstUserIndex;
+                if (UserIndex == EmptyId ||
+                        (UserIndex == CpvHiggsId && ConstUserIndex != CpvHiggsId) ||
+                        (UserIndex == TopId && ConstUserIndex != TopId)) {
 
-                if (ConstUserIndex == HiggsUserIndex) HiggsLost = 0;
+                    Print(1, "ConstUserIndex", ConstUserIndex);
+                    UserIndex += ConstUserIndex;
+                    Print(1, "UserIndex", UserIndex);
+
+                }
 
             }
 
         }
 
-        if (UserIndex > 0) FatJetVector[FatJetNumber].set_user_index(UserIndex);
+        if (UserIndex > 0) {
 
-        if (UserIndex == HiggsUserIndex + TopUserIndex) Overlap++;
-
-        if (HasHiggs && HiggsLost) {
-
-//             cout << "Higgs Lost" << endl;
-
-            ++LostHiggs;
+            FatJetVector[FatJetNumber].set_user_index(UserIndex);
+            Print(1, "Tagged FatJet", UserIndex);
 
         }
-
-        if (UserIndex > 0) Print(1, "Tagged FatJet", UserIndex);
 
     }
 
@@ -532,15 +574,15 @@ void HDiscriminator::FatJetTagger()
             }
 
         }
-        
+
 //         PseudoJet Jet = FatJetVector[HiggsParticlePosition];
 
 //         if (Jet.delta_R(HiggsParticle) > (Jet.pieces()[0]).delta_R(Jet.pieces()[1]))
 //             Print(-1,"Higgs too far away", Jet.delta_R(HiggsParticle) / (Jet.pieces()[0]).delta_R(Jet.pieces()[1]));
-        
+
         FatJetVector[HiggsParticlePosition].set_user_index(HiggsUserIndex);
         Print(1, "Higgs Tagged", HiggsParticlePosition);
-        
+
 
     }
 

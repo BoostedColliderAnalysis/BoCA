@@ -10,11 +10,12 @@ HObject::HObject() :
     ElectronMass(0.000511),
     HiggsUserIndex(1000),
     TopUserIndex(2000),
+    EmptyUserIndex(-1),
     CpvHiggsId(5000000),
     HeavyHiggsId(26),
     TopId(6),
     BottomId(5),
-    EmptyId(-1)
+    EmptyId(0)
 {
 
     Print(0, "Constructor");
@@ -106,6 +107,7 @@ void HObject::Printer(TString Function)
     const int FunctionWidth = 25;
 
     cout << left << setw(ClassWidth) << setfill(Separator) << ClassName();
+//     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
     cout << left << setw(FunctionWidth) << setfill(Separator) << Function;
 
 }

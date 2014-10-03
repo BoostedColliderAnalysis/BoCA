@@ -39,6 +39,8 @@ public:
     
     void GetEFlow();
     
+    void GetTaggedEFlow();
+    
     void GetParticles();
 
     PseudoJet GetHiggs();
@@ -52,7 +54,9 @@ public:
 private:
     
     virtual TString ClassName() {
+        
         return ("HEventDelphes");
+        
     };
     
     bool HasEFlow;

@@ -77,6 +77,8 @@ public:
      * @return Higgs Candidates
      */
     vector<PseudoJet> GetTaggedCandidateJets(vector<PseudoJet>, vector<PseudoJet>, vector<PseudoJet>);
+    
+    vector<PseudoJet> GetTaggedCandidateJets(vector<PseudoJet>);
 
 private:
 

@@ -33,18 +33,13 @@ public:
      * @return void
      */
     bool GetParticles();
-    
-    vector<PseudoJet> TagJets(vector<PseudoJet>);
       
-private:
-    
-    vector<PseudoJet> JetTagger(vector<PseudoJet>,vector<PseudoJet>, int);
-    
-    vector<PseudoJet> JetTagger(vector<PseudoJet>,vector<PseudoJet>);
-    
+private:    
     
     virtual TString ClassName() {
+        
         return ("HParticleDelphes");
+        
     };
 
 };

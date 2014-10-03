@@ -5,8 +5,6 @@ HJet::HJet()
 
     Print(0, "Constructor");
 
-//     Debug = 4;
-
 }
 
 HJet::~HJet()
@@ -47,12 +45,36 @@ bool HJet::GetJets()
 {
     
     Print(0,"Get Jets","No Jets");
-
-    bool Bool = 0;
     
-    return Bool;
+    return 0;
 
+}
 
+bool HJet::GetTaggedJets()
+{
+    
+    Print(0,"Get Tagged Jets","No Jets");
+    
+    return 0;
+    
+}
+
+bool HJet::GetStructuredJets()
+{
+    
+    Print(0,"Get Structured Jets","No Jets");
+    
+    return 0;
+    
+}
+
+bool HJet::GetEFlow(bool Tagging)
+{
+    
+    Print(0,"Get EFlow","No EFlow");
+        
+    return 0;
+        
 }
 
 bool HJet::GetEFlow()
@@ -60,10 +82,16 @@ bool HJet::GetEFlow()
     
     Print(0,"Get EFlow","No EFlow");
     
-    bool Bool = 0;
+    return 0;
     
-    return Bool;
+}
+
+bool HJet::GetTaggedEFlow()
+{
     
+    Print(0,"Get Tagged EFlow","No EFlow");
+    
+    return 0;
     
 }
 

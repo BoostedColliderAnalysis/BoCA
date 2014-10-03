@@ -124,6 +124,16 @@ void HEventDelphes::GetEFlow()
 }
 
 
+void HEventDelphes::GetTaggedEFlow()
+{
+    
+    Print(1, "Get EFlow");
+    
+    if (!HasEFlow) HasEFlow = Jets->GetTaggedEFlow();
+    
+}
+
+
 PseudoJet HEventDelphes::GetHiggs()
 {
 
@@ -198,14 +208,11 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates()
 {
     Print(1, "GetHiggsTopCandidates");
 
-    vector<PseudoJet> CandidateJets;
-
-    GetEFlow();
+    GetTaggedEFlow();
     GetParticles();
 
-    CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
-
-    return (CandidateJets);
+//     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
+    return Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector);
 
 }
 

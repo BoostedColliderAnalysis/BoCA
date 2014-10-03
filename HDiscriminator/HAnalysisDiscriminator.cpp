@@ -143,7 +143,7 @@ bool HAnalysisDiscriminator::Analysis()
 
         if (StudyName == "Higgs") {
 
-            if (CandidateJet.user_index() != HiggsUserIndex) {
+            if (CandidateJet.user_index() != HiggsUserIndex || CandidateJet.user_index() != CpvHiggsId) {
 
                 Print(2, "Not a Higgs");
                 continue;
@@ -158,7 +158,7 @@ bool HAnalysisDiscriminator::Analysis()
 
         if (StudyName == "Top") {
             
-            if (CandidateJet.user_index() != TopUserIndex) {
+            if (CandidateJet.user_index() != TopUserIndex || CandidateJet.user_index() != TopId) {
                 
                 Print(2, "Not a Top");
                 continue;
@@ -173,7 +173,7 @@ bool HAnalysisDiscriminator::Analysis()
         
         if (StudyName == "TwoTop") {
             
-            if (CandidateJet.user_index() != 2 * TopUserIndex){
+            if (CandidateJet.user_index() != 2 * TopUserIndex || CandidateJet.user_index() != 2* TopId){
                 
                 Print(2, "Not two tops");
                 continue;
@@ -188,7 +188,7 @@ bool HAnalysisDiscriminator::Analysis()
         
         if (StudyName == "HiggsTop") {
             
-            if (CandidateJet.user_index() != HiggsUserIndex + TopUserIndex){
+            if (CandidateJet.user_index() != HiggsUserIndex + TopUserIndex || CandidateJet.user_index() != CpvHiggsId + TopId){
                 
                 Print(2, "Not a Top Higgs pair");
                 continue;
@@ -203,10 +203,10 @@ bool HAnalysisDiscriminator::Analysis()
 
         if (StudyName == "Jet") {
 
-            if (CandidateJet.user_index() == HiggsUserIndex ||
-             CandidateJet.user_index() == TopUserIndex ||
-             CandidateJet.user_index() == 2 * TopUserIndex ||
-             CandidateJet.user_index() == TopUserIndex+ HiggsUserIndex) {
+            if (CandidateJet.user_index() == HiggsUserIndex ||CandidateJet.user_index() == CpvHiggsId ||
+                CandidateJet.user_index() == TopUserIndex ||CandidateJet.user_index() == TopId ||
+                CandidateJet.user_index() == 2 * TopUserIndex ||CandidateJet.user_index() == 2 * TopId ||
+                CandidateJet.user_index() == TopUserIndex+ HiggsUserIndex || CandidateJet.user_index() == TopId + CpvHiggsId) {
                 
                 Print(2, "Not a light jet");
                 continue;

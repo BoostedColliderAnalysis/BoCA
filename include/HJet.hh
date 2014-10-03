@@ -46,10 +46,36 @@ public:
     virtual bool GetJets();
     
     /**
+     * @brief AnalyseJet calls AnalyseEFlow
+     *
+     * @return void
+     */
+    virtual bool GetTaggedJets();
+    
+    /**
+     * @brief AnalyseJet calls AnalyseEFlow
+     *
+     * @return void
+     */
+    virtual bool GetStructuredJets();
+    
+    /**
+     * @brief Analyses EFlow Variables of Jets
+     *
+     */
+    virtual bool GetEFlow(bool);
+    
+    /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
     virtual bool GetEFlow();
+    
+    /**
+     * @brief Analyses EFlow Variables of Jets
+     *
+     */
+    virtual bool GetTaggedEFlow();
     
     /**
      * @brief Get Gen Jet

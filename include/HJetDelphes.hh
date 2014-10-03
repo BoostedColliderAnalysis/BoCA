@@ -1,8 +1,11 @@
 # ifndef HJetDelphes_hh
 # define HJetDelphes_hh
 
-# include "HJet.hh"
 # include "classes/DelphesClasses.h"
+# include <fastjet/ClusterSequence.hh>
+
+# include "HJet.hh"
+# include "HJetInfo.hh"
 
 /**
  * @brief stores all the information about the event topology
@@ -33,6 +36,20 @@ public:
     bool GetJets();
 
     /**
+     * @brief AnalyseJet calls AnalyseEFlow
+     *
+     * @return void
+     */
+    bool GetTaggedJets();
+
+    /**
+     * @brief AnalyseJet calls AnalyseEFlow
+     *
+     * @return void
+     */
+    bool GetStructuredJets();
+
+    /**
      * @brief Get Tau Tag
      *
      * @return void
@@ -46,6 +63,18 @@ public:
     bool GetEFlow();
 
     /**
+     * @brief Analyses EFlow Variables of Jets
+     *
+     */
+    bool GetEFlow(bool);
+
+    /**
+     * @brief Analyses EFlow Variables of Jets
+     *
+     */
+    bool GetTaggedEFlow();
+
+    /**
      * @brief Get Gen Jet
      *
      * @param  ...
@@ -53,46 +82,73 @@ public:
      */
     void GetGenJet();
 
-
 private:
 
-    int JetId;
+    vector<PseudoJet> TagJets(vector<PseudoJet>);
 
-//     Jet *JetClone;
+    vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>, int);
 
-//     TObject* IdentifyObject(TObject *Object);
-// 
-//     template<typename Template>
-//     TObject *GetParticleId(Template Particle) {
-// 
-//         int ParticleId = Particle->PID;
-// //         Print(-1,"PID",ParticleId);
-// 
-//         if (abs(ParticleId) == BottomId
-//                 && (abs(JetId) != TopId
-//                     || abs(JetId) != CpvHiggsId)) {
-//             JetId = ParticleId;
-//         } else if (abs(ParticleId) == TopId && abs(JetId) != HeavyHiggsId) {
-//             JetId = ParticleId;
-//         } else if (abs(ParticleId) == HeavyHiggsId || abs(ParticleId) == CpvHiggsId) {
-//             JetId = ParticleId;
-//         }
-// //         Print(-1,"PID",JetId);
-//         
-//         Print(-1,"M1",Particle->M1);
-// 
-//         TObject *Object;// = JetClone->Particles.At(Particle->M1);
-//         
-// //         GenParticle *mother = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Particle->M1);
-//         
-// //         Print(-1,mother->PID);
-// 
-//         return Object;
-// 
-//     }
+    vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>);
+
+    template <typename Template>
+    HJetInfo GetJetId(Template *Clone) {
+
+        Print(1, "Get Jet Id");
+
+        HJetInfo JetInfo;
+
+        TObject *Object;
+        int JetId = 0;
+        int ConstituentId;
+        float ParticlePt;
+
+        Print(2, "Number of Particle", Clone->Particles.GetEntriesFast());
+        for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
+
+            Object = Clone->Particles.At(ParticleNumber);
+
+            ConstituentId = GetMotherId(Object);
+
+            if (Object == 0) continue;
+            GenParticle *ParticleClone;
+            if (Object->IsA() == GenParticle::Class()) {
+                ParticleClone = (GenParticle *) Object;
+            } else {
+                Print(-1, "it is", Object->ClassName());
+                continue;
+            }
+            ParticlePt = ParticleClone->PT;
+
+            JetInfo.Constituent(ConstituentId, ParticlePt);
+
+//             if(JetId == )
+
+//             if (JetId == HeavyHiggsId || JetId == CpvHiggsId) break;
+
+        }
+        
+        Print(-1,"max frac",JetInfo.GetMaximalFraction());
+
+        Print(2, "Jet ID", JetId);
+
+        return JetInfo;
+
+    }
+
+
+
+
+
+    int GetMotherId(TObject *);
+
+    void GetTaggs(Jet *);
+
+    PseudoJet GetConstituents(Jet *);
 
     virtual TString ClassName() {
+
         return ("HJetDelphes");
+
     };
 
 };

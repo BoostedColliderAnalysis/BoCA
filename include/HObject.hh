@@ -6,6 +6,7 @@
 # include <math.h>
 #include <typeinfo>
 
+// # include "TObject.h"
 # include "TMath.h"
 # include "TLorentzVector.h"
 # include "fastjet/PseudoJet.hh"
@@ -38,7 +39,7 @@ using fastjet::PseudoJet;
 // { };
 
 
-class HObject
+class HObject// : public TObject
 {
 
 public:
@@ -81,10 +82,8 @@ protected:
     void Print(int, TString);
 
     void Printer(TString);
-    
+
     PseudoJet GetPseudoJet(TLorentzVector);
-    
-//     bool JetIsBottom(PseudoJet);
 
     template<typename Template>
     void Print(int debug, TString Function, Template Number) {
@@ -117,9 +116,9 @@ protected:
     }
 
     virtual TString ClassName() {
-        
+
         return ("HObject");
-        
+
     };
 
 
@@ -134,7 +133,7 @@ protected:
     const float WMass;
 
     const float TauMass;
-    
+
     /**
      * @brief Physical Muon Mass
      *
@@ -150,9 +149,11 @@ protected:
     const int HiggsUserIndex;
 
     const int TopUserIndex;
-    
+
+    const int EmptyUserIndex;
+
     const int CpvHiggsId;
-    
+
     const int HeavyHiggsId;
 
     const int TopId;
@@ -199,10 +200,18 @@ struct SortJetByMass {
 
 };
 
+// template <typename Template1, typename Template2>
 struct SortPairs {
 
-    inline bool operator()(const pair<TString, int> &Pair1,
-                           const pair<TString, int> &Pair2) {
+//     inline bool operator()(const pair<Template1, Template2> &Pair1,
+//                            const pair<Template1, Template2> &Pair2) {
+// 
+//         return (Pair1.second > Pair2.second);
+// 
+//     }
+
+    inline bool operator()(const pair<int, float> &Pair1,
+                           const pair<int, float> &Pair2) {
 
         return (Pair1.second > Pair2.second);
 
@@ -223,14 +232,14 @@ struct SortJetByEta {
 
 
 struct SortJetByDistance {
-    
+
     inline bool operator()(const PseudoJet &Jet1,
                            const PseudoJet &Jet2,
                            const PseudoJet &Jet3) {
-        
+
         return (Jet1.eta() > Jet2.eta());
-        
-                           }
-                           
+
+    }
+
 };
 #endif
