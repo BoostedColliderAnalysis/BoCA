@@ -81,8 +81,24 @@ public:
      * @return void
      */
     void GetGenJet();
+    GenParticle *GetMotherParticle(GenParticle*);
+
+//     template <typename Template>
+//     void GetParticlete(HObject *Object){
+//
+//
+//
+//     }
+
 
 private:
+
+    /**
+     * @brief AnalyseJet calls AnalyseEFlow
+     *
+     * @return void
+     */
+    bool GetJets(bool,bool);
 
     vector<PseudoJet> TagJets(vector<PseudoJet>);
 
@@ -94,11 +110,10 @@ private:
     HJetInfo GetJetId(Template *Clone) {
 
         Print(1, "Get Jet Id");
-        
+
+	GenParticle *ParticleClone;
         HJetInfo JetInfo;
         TObject *Object;
-        int ConstituentId;
-        float ParticlePt;
 
         Print(2, "Number of Particle", Clone->Particles.GetEntriesFast());
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
@@ -107,22 +122,20 @@ private:
 
             if (Object == 0) continue;
 
-            ConstituentId = GetMotherId(Object);
-
-            if (Object == 0) continue;
-            GenParticle *ParticleClone;
             if (Object->IsA() == GenParticle::Class()) {
+
                 ParticleClone = (GenParticle *) Object;
+
             } else {
-                Print(-1, "it is", Object->ClassName());
+
+                Print(-1, "Object is", Object->ClassName());
                 continue;
             }
-            ParticlePt = ParticleClone->PT;
 
-            JetInfo.AddConstituent(ConstituentId, ParticlePt);
-            
+            JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
+
         }
-        
+
         Print(3,"Max fraction",JetInfo.GetMaximalFraction());
 
         Print(3, "Jet ID", JetInfo.GetMaximalId());
@@ -132,9 +145,27 @@ private:
     }
 
 
+    template<typename ParticleTemplate,typename EFlowTemplate>
+    bool GetIsolation(EFlowTemplate *EFlowClone,
+// 		      ParticleTemplate *ParticleClone,
+		      TClonesArray *ClonesArray) {
+
+        bool Isolated = true;
+
+        for (int ParticleNumber = 0; ParticleNumber < ClonesArray->GetEntriesFast(); ++ParticleNumber) {
+
+            ParticleTemplate *ParticleClone = (ParticleTemplate *) ClonesArray->At(ParticleNumber);
+            Isolated = CheckIsolation(EFlowClone, ParticleClone);
+
+        }
+
+        return Isolated;
+    }
+
+
     int GetMotherId(TObject *);
 
-    void GetTaggs(Jet *);
+    void GetDelphesTags(Jet *);
 
     PseudoJet GetConstituents(Jet *);
 

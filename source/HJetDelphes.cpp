@@ -19,6 +19,27 @@ HJetDelphes::~HJetDelphes()
 bool HJetDelphes::GetJets()
 {
 
+    return GetJets(0,0);
+
+}
+
+bool HJetDelphes::GetTaggedJets()
+{
+
+    return GetJets(1,0);
+
+}
+
+bool HJetDelphes::GetStructuredJets()
+{
+
+    return GetJets(0,1);
+
+}
+
+bool HJetDelphes::GetJets(bool Tagging,bool Structure)
+{
+
     Print(1, "Get Jets", ClonesArrays->JetSum());
 
     Jet *JetClone;
@@ -28,32 +49,19 @@ bool HJetDelphes::GetJets()
         Print(3, "Jet Number", JetNumber);
         JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
 
-        JetVector.push_back(GetPseudoJet(JetClone->P4()));
+        if(Structure) {
 
-        GetTaggs(JetClone);
+            JetVector.push_back(GetConstituents(JetClone));
 
-    }
+        } else {
 
-    return 1;
+            JetVector.push_back(GetPseudoJet(JetClone->P4()));
 
-}
+        }
 
-bool HJetDelphes::GetTaggedJets()
-{
+        if(Tagging)JetVector.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
 
-    Print(1, "Get Tagged Jets", ClonesArrays->JetSum());
-
-    Jet *JetClone;
-
-    for (int JetNumber = 0; JetNumber < ClonesArrays->JetSum(); ++JetNumber) {
-
-        Print(3, "Jet Number", JetNumber);
-        JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
-
-        JetVector.push_back(GetPseudoJet(JetClone->P4()));
-        JetVector.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
-
-        GetTaggs(JetClone);
+        GetDelphesTags(JetClone);
 
     }
 
@@ -61,29 +69,7 @@ bool HJetDelphes::GetTaggedJets()
 
 }
 
-bool HJetDelphes::GetStructuredJets()
-{
-
-    Print(1, "Get Structured Jets", ClonesArrays->JetSum());
-
-    Jet *JetClone;
-
-    for (int JetNumber = 0; JetNumber < ClonesArrays->JetSum(); ++JetNumber) {
-
-        Print(3, "Jet Number", JetNumber);
-        JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
-
-        JetVector.push_back(GetConstituents(JetClone));
-
-        GetTaggs(JetClone);
-
-    }
-
-    return 1;
-
-}
-
-void HJetDelphes::GetTaggs(Jet *JetClone)
+void HJetDelphes::GetDelphesTags(Jet *JetClone)
 {
     Print(1, "Get taggs");
 
@@ -115,63 +101,19 @@ void HJetDelphes::GetTau(Jet *JetClone)
 
     Print(1, "TauTagCalculations");
 
-    int JetCharge = JetClone->Charge;
-
-    if (JetCharge == - 1) {
+    if (JetClone->Charge == - 1) {
 
         TauLorentzVectorVector.push_back(JetClone->P4());
         Print(2, "Tau Jet");
 
-    } else if (JetCharge == 1) {
+    } else if (JetClone->Charge == 1) {
 
         AntiTauLorentzVectorVector.push_back(JetClone->P4());
         Print(2, "Anti Tau Jet");
 
-    } else cout << "Jet Charge: " << JetCharge <<  endl;
+    } else Print(-1,"Jet Charge: ",JetClone->Charge);
 
 }
-
-
-// int HJetDelphes::GetJetId(Jet *JetClone)
-// {
-//
-//     Print(2, "Number of real Particles ", ClonesArrays->ParticleSum());
-//
-//     TObject *Object;
-//     int JetId = 0;
-//
-//     Print(2, "Number of Particle", JetClone->Particles.GetEntriesFast());
-//     for (int ParticleNumber = 0; ParticleNumber < JetClone->Particles.GetEntriesFast(); ++ParticleNumber) {
-//
-//         Object = JetClone->Particles.At(ParticleNumber);
-//
-//         JetId = GetMotherId(Object,JetId);
-//
-//         if (JetId == HeavyHiggsId || JetId == CpvHiggsId) break;
-//
-//     }
-//
-//     return JetId;
-//
-// }
-
-
-// HJetDelphes::JetFractions(int ConstituenttId){
-//
-// //     if(Con)
-//
-//
-// }
-
-// int HJetDelphes::GetMotherId(TObject *Object)
-// {
-//
-//     return GetMotherId(Object, EmptyId);
-//
-// }
-
-
-
 
 int HJetDelphes::GetMotherId(TObject *Object)
 {
@@ -243,6 +185,7 @@ PseudoJet HJetDelphes::GetConstituents(Jet *JetClone)
     for (int ConstituentNumber = 0; ConstituentNumber < JetClone->Constituents.GetEntriesFast(); ++ConstituentNumber) {
 
         Object = JetClone->Constituents.At(ConstituentNumber);
+
         if (Object == 0) continue;
 
         if (Object->IsA() == GenParticle::Class()) {
@@ -302,13 +245,11 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
     // Tracks
 
     Track *EFlowTrackClone;
-    Electron *ElectronClone;
-    Muon *MuonClone;
-    Muon *EFlowMuonClone;
-    Tower *HadronClone;    
     Tower *EFlowPhotonClone;
-    Photon *PhotonClone;
-    PseudoJet JetCandidate;
+    Tower *HadronClone;
+    Muon *EFlowMuonClone;
+
+//     PseudoJet JetCandidate;
     TObject *Object;
     bool Isolated;
 
@@ -319,33 +260,40 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
     for (int EFlowTrackNumber = 0; EFlowTrackNumber < ClonesArrays->EFlowTrackSum() ; ++EFlowTrackNumber) {
 
         EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
-        JetCandidate = GetPseudoJet(EFlowTrackClone->P4());
+//         JetCandidate = GetPseudoJet(EFlowTrackClone->P4());
 
         // Make sure this is not an electron
         if (Isolation) {
-            Isolated = true;
+//             Isolated = true;
 
-            for (int ElectronNumber = 0; ElectronNumber < ClonesArrays->ElectronSum(); ++ElectronNumber) {
+//             for (int ElectronNumber = 0; ElectronNumber < ClonesArrays->ElectronSum(); ++ElectronNumber) {
+//
+//                 ElectronClone = (Electron *) ClonesArrays->ElectronClonesArray->At(ElectronNumber);
+//                 Isolated = CheckIsolation(EFlowTrackClone, ElectronClone);
+//
+//             }
 
-                ElectronClone = (Electron *) ClonesArrays->ElectronClonesArray->At(ElectronNumber);
-                Isolated = CheckIsolation(EFlowTrackClone, ElectronClone);
-
-            }
+            Isolated = GetIsolation<Electron>(EFlowTrackClone,
+// 					       ElectronClone,
+                                              ClonesArrays->ElectronClonesArray);
+            if(Isolated) Isolated = GetIsolation<Muon>(EFlowTrackClone,
+// 	      MuonClone,
+                                        ClonesArrays->MuonClonesArray);
 
             // make sure this is not a muon
-            for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
-
-                MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
-                Isolated = CheckIsolation(EFlowTrackClone, MuonClone);
-
-            }
+//             for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
+//
+//                 MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
+//                 Isolated = CheckIsolation(EFlowTrackClone, MuonClone);
+//
+//             }
 
             if (!Isolated) continue;
 
         }
 
 
-        EFlowJetVector.push_back(JetCandidate);
+        EFlowJetVector.push_back(GetPseudoJet(EFlowTrackClone->P4()));
         Object = EFlowTrackClone->Particle.GetObject();
         if (Tagging) {
 
@@ -363,26 +311,29 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
     for (int EFlowPhotonNumber = 0; EFlowPhotonNumber < ClonesArrays->EFlowPhotonSum() ; ++EFlowPhotonNumber) {
 
         EFlowPhotonClone = (Tower *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
-        JetCandidate = GetPseudoJet(EFlowPhotonClone->P4());
+//         JetCandidate = GetPseudoJet(EFlowPhotonClone->P4());
 
         // Make sure this is not a photon
         if (Isolation) {
-            Isolated = true;
+//             Isolated = true;
 
-            for (int PhotonNumber = 0; PhotonNumber < ClonesArrays->PhotonSum(); ++PhotonNumber) {
-
-                PhotonClone = (Photon *) ClonesArrays->PhotonClonesArray->At(PhotonNumber);
-
-                Isolated = CheckIsolation(EFlowPhotonClone, PhotonClone);
-
-            }
+            Isolated = GetIsolation<Photon>(EFlowPhotonClone,
+// 				     PhotonClone,
+                                            ClonesArrays->PhotonClonesArray);
+//             for (int PhotonNumber = 0; PhotonNumber < ClonesArrays->PhotonSum(); ++PhotonNumber) {
+//
+//                 PhotonClone = (Photon *) ClonesArrays->PhotonClonesArray->At(PhotonNumber);
+//
+//                 Isolated = CheckIsolation(EFlowPhotonClone, PhotonClone);
+//
+//             }
 
             if (!Isolated) continue;
 
         }
 
 
-        EFlowJetVector.push_back(JetCandidate);
+        EFlowJetVector.push_back(GetPseudoJet(EFlowPhotonClone->P4()));
         if (Tagging) {
 
             EFlowJetVector.back().set_user_info(new HJetInfo(GetJetId(EFlowPhotonClone)));
@@ -421,13 +372,16 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
 
             if (Isolation) {
                 // make sure this is not a muon
-                Isolated = true;
-                for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
-
-                    MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
-                    Isolated = CheckIsolation(EFlowMuonClone, MuonClone);
-
-                }
+//                 Isolated = true;
+                Isolated = GetIsolation<Muon>(EFlowMuonClone,
+// 						MuonClone,
+                                              ClonesArrays->MuonClonesArray);
+//                 for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
+//
+//                     MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
+//                     Isolated = CheckIsolation(EFlowMuonClone, MuonClone);
+//
+//                 }
                 if (!Isolated) continue;
 
             }
