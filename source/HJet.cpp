@@ -68,7 +68,7 @@ bool HJet::GetStructuredJets()
     
 }
 
-bool HJet::GetEFlow(bool Tagging)
+bool HJet::GetEFlow(bool Tagging, bool Isolation)
 {
     
     Print(0,"Get EFlow","No EFlow");

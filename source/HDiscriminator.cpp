@@ -35,7 +35,6 @@ void HDiscriminator::NewFile()
 
     LostHiggs = 0;
 
-
 }
 
 void HDiscriminator::CloseFile()
@@ -154,7 +153,9 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEF
 
     }
 
-    TagFatJets();
+    GetFatJetTag();
+
+//     TagFatJets();
 
     sort(FatJetVector.begin(), FatJetVector.end(), SortJetByMass());
 
@@ -498,6 +499,45 @@ void HDiscriminator::TopTagger()
 
 }
 
+void HDiscriminator::GetFatJetTag()
+{
+
+    Print(1, "Get Fat Jet Tag");
+
+    int ConstituentId;
+    float ConstituentPt;
+    vector<PseudoJet> ConstituentsVector;
+    HJetInfo JetInfo;
+
+    for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
+
+        Print(1, "Fat Jet", FatJetNumber);
+
+        ConstituentsVector = FatJetVector[FatJetNumber].constituents();
+
+        for (unsigned ConstituentsNumber = 0; ConstituentsNumber < ConstituentsVector.size(); ++ConstituentsNumber) {
+
+            ConstituentId = ConstituentsVector[ConstituentsNumber].user_index();
+            ConstituentPt = ConstituentsVector[ConstituentsNumber].pt();
+
+            JetInfo.AddConstituent(ConstituentId, ConstituentPt);
+
+        }
+
+        FatJetVector[FatJetNumber].set_user_info(new HJetInfo(JetInfo));
+        
+        FatJetVector[FatJetNumber].user_info<HJetInfo>().PrintAllInfos();
+        
+        
+        Print(-1, "Tag", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId());
+        Print(-1, "Part", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalFraction());
+
+        JetInfo.Clear();
+        
+    }
+    
+}
+
 void HDiscriminator::TagFatJets()
 {
 
@@ -506,7 +546,7 @@ void HDiscriminator::TagFatJets()
 //     bool HiggsLost = 1;
 
     for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
-        
+
         Print(1, "Fat Jet", FatJetNumber);
         PseudoJet FatJet = FatJetVector[FatJetNumber];
 

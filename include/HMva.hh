@@ -117,8 +117,10 @@ protected:
   
     virtual void DefineVariables() = 0;
 
-    virtual TString ClassName() {
+    virtual TString ClassName() const {
+        
         return ("HMva");
+        
     };
 
     HObservable NewObservable(float *, TString, TString, TString);

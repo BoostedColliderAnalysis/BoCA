@@ -204,8 +204,10 @@ private:
 
     float GetSubDeltaR();
     
-    virtual TString ClassName() {
+    TString ClassName() const {
+        
         return ("HHiggsTagger");
+        
     };
 
 };

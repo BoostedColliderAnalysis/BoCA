@@ -104,11 +104,15 @@ void HEventDelphes::GetJets()
 
 void HEventDelphes::GetTaggedJets()
 {
-    Print(1, "Get Jets");
+    Print(1, "Get Tagged Jets");
 
-    GetJets();
-    GetParticles();
-    Jets->JetVector = Particles->TagJets(Jets->JetVector);
+//     GetJets();
+//     GetParticles();
+//     Jets->JetVector = Particles->TagJets(Jets->JetVector);
+    
+    
+    if (!HasJets) HasJets = Jets->GetTaggedJets();
+    
 
 
 }

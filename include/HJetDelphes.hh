@@ -66,7 +66,7 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetEFlow(bool);
+    bool GetEFlow(bool,bool);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -94,11 +94,9 @@ private:
     HJetInfo GetJetId(Template *Clone) {
 
         Print(1, "Get Jet Id");
-
+        
         HJetInfo JetInfo;
-
         TObject *Object;
-        int JetId = 0;
         int ConstituentId;
         float ParticlePt;
 
@@ -106,6 +104,8 @@ private:
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 
             Object = Clone->Particles.At(ParticleNumber);
+
+            if (Object == 0) continue;
 
             ConstituentId = GetMotherId(Object);
 
@@ -119,24 +119,17 @@ private:
             }
             ParticlePt = ParticleClone->PT;
 
-            JetInfo.Constituent(ConstituentId, ParticlePt);
-
-//             if(JetId == )
-
-//             if (JetId == HeavyHiggsId || JetId == CpvHiggsId) break;
-
+            JetInfo.AddConstituent(ConstituentId, ParticlePt);
+            
         }
         
-        Print(-1,"max frac",JetInfo.GetMaximalFraction());
+        Print(3,"Max fraction",JetInfo.GetMaximalFraction());
 
-        Print(2, "Jet ID", JetId);
+        Print(3, "Jet ID", JetInfo.GetMaximalId());
 
         return JetInfo;
 
     }
-
-
-
 
 
     int GetMotherId(TObject *);
@@ -145,7 +138,7 @@ private:
 
     PseudoJet GetConstituents(Jet *);
 
-    virtual TString ClassName() {
+    TString ClassName() const {
 
         return ("HJetDelphes");
 

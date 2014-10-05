@@ -63,7 +63,7 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool GetEFlow(bool);
+    virtual bool GetEFlow(bool,bool);
     
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -174,8 +174,10 @@ protected:
     
 private:
         
-    virtual TString ClassName() {
+    virtual TString ClassName() const {
+        
         return ("HJet");
+        
     };
     
 };

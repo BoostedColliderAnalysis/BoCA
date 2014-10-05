@@ -94,7 +94,7 @@ protected:
 
 private:
 
-    virtual TString ClassName() {
+    virtual TString ClassName() const {
         
         return ("HParticle");
         

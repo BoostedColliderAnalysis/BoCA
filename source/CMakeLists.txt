@@ -25,6 +25,7 @@ HDiscriminator.cpp
 HHiggsTagger.cpp
 HEPTopTagger.cpp
 HPull.cpp
+HJetInfo.cpp
 )
 
 set(HEventLinkLibraries

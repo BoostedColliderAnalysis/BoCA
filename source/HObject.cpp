@@ -15,10 +15,11 @@ HObject::HObject() :
     HeavyHiggsId(26),
     TopId(6),
     BottomId(5),
-    EmptyId(0)
+    EmptyId(0),
+    ProtonId(2212)
 {
 
-    Print(0, "Constructor");
+//     Print(0, "Constructor");
 
     Debug = 0;
 
@@ -31,35 +32,34 @@ HObject::~HObject()
 
 }
 
-float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2)
+float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2) const
 {
 
     Print(2, "GetDistance");
 
-    float Distance = sqrt(pow((Eta2 - Eta1), 2) + pow(GetDeltaPhi(Phi2, Phi1), 2));
+    float const Distance = sqrt(pow((Eta2 - Eta1), 2) + pow(GetDeltaPhi(Phi2, Phi1), 2));
 
-    return (Distance);
+    return Distance;
 
 }
 
-float HObject::GetDistance(float Eta, float Phi)
+float HObject::GetDistance(float Eta, float Phi) const
 {
 
     Print(2, "GetDistance");
 
-    float Distance = sqrt(pow(Eta, 2) + pow(Phi, 2));
+    float const Distance = sqrt(pow(Eta, 2) + pow(Phi, 2));
 
-    return (Distance);
+    return Distance;
 
 }
 
-float HObject::GetDeltaPhi(float Phi, float RefPhi)
+float HObject::GetDeltaPhi(float Phi, float RefPhi) const
 {
 
     Print(3, "GetDeltaPhi");
 
-    const float TwoPi = 2 * Pi();
-
+    float const TwoPi = 2 * Pi();
 
     float DeltaPhi = Phi - RefPhi;
 
@@ -83,11 +83,11 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi)
 
     }
 
-    return (DeltaPhi);
+    return DeltaPhi;
 
 }
 
-void HObject::Print(int debug, TString Function)
+void HObject::Print(int debug, TString Function) const
 {
 
     if (debug < Debug) {
@@ -99,12 +99,12 @@ void HObject::Print(int debug, TString Function)
 }
 
 
-void HObject::Printer(TString Function)
+void HObject::Printer(TString Function) const
 {
 
-    const char Separator = ' ';
-    const int ClassWidth = 28;
-    const int FunctionWidth = 25;
+    char const Separator = ' ';
+    int const ClassWidth = 28;
+    int const FunctionWidth = 25;
 
     cout << left << setw(ClassWidth) << setfill(Separator) << ClassName();
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
@@ -113,10 +113,10 @@ void HObject::Printer(TString Function)
 }
 
 
-PseudoJet HObject::GetPseudoJet(TLorentzVector Vector)
+PseudoJet HObject::GetPseudoJet(TLorentzVector Vector) const
 {
 
-    PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
+    PseudoJet const Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
 
     return Jet;
 

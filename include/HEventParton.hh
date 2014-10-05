@@ -33,8 +33,10 @@ private:
     
     bool HasParticles;
     
-    virtual TString ClassName() {
+    TString ClassName() const {
+        
         return ("HEventParton");
+        
     };
 };
 

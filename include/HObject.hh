@@ -4,7 +4,7 @@
 # include <iostream>
 # include <iomanip>
 # include <math.h>
-#include <typeinfo>
+# include <typeinfo>
 
 // # include "TObject.h"
 # include "TMath.h"
@@ -59,7 +59,7 @@ protected:
      * @param  Phi2
      * @return float distance
      */
-    float GetDistance(float, float, float, float);
+    float GetDistance(float, float, float, float) const;
 
     /**
      * @brief Calcualte distance from center in eta phi space
@@ -68,7 +68,7 @@ protected:
      * @param  Phi
      * @return float distance
      */
-    float GetDistance(float, float);
+    float GetDistance(float, float) const;
 
     /**
      * @brief Take care of phi angles around pi
@@ -77,16 +77,16 @@ protected:
      * @param RefPhi reference angle
      * @return float Phi angle
      */
-    float GetDeltaPhi(float, float);
+    float GetDeltaPhi(float, float) const;
 
-    void Print(int, TString);
+    void Print(int, TString) const;
 
-    void Printer(TString);
+    void Printer(TString) const;
 
-    PseudoJet GetPseudoJet(TLorentzVector);
+    PseudoJet GetPseudoJet(TLorentzVector) const;
 
     template<typename Template>
-    void Print(int debug, TString Function, Template Number) {
+    void Print(int debug, TString Function, Template Number) const {
 
         if (debug < Debug) {
 
@@ -98,12 +98,12 @@ protected:
     }
 
     template<typename Template, typename Template2>
-    void Print(int debug, TString Function, Template Number, Template2 Number2) {
+    void Print(int debug, TString Function, Template Number, Template2 Number2) const {
 
         if (debug < Debug) {
 
             const char Separator = ' ';
-            const int FunctionWidth = 10;
+            int const FunctionWidth = 10;
 
             Printer(Function);
 
@@ -115,52 +115,114 @@ protected:
 
     }
 
-    virtual TString ClassName() {
+    virtual TString ClassName() const {
 
         return ("HObject");
 
     };
 
 
+    /**
+     * @brief Debug level
+     * 
+     */
     int Debug;
 
-    const int LargeNumber;
-
-    const float TopMass;
-
-    const float HiggsMass;
-
-    const float WMass;
-
-    const float TauMass;
+    /**
+     * @brief A large number
+     * 
+     */
+    int const LargeNumber;
 
     /**
-     * @brief Physical Muon Mass
-     *
+     * @brief Top quark mass
+     * 
      */
-    const float MuonMass;
+    float const TopMass;
 
     /**
-     * @brief Physical Electron Mass
+     * @brief Higgs boson mass
+     * 
+     */
+    float const HiggsMass;
+
+    /**
+     * @brief W bsoson mass
+     * 
+     */
+    float const WMass;
+
+    /**
+     * @brief Tau lepton mass
+     * 
+     */
+    float const TauMass;
+
+    /**
+     * @brief Muon mass
      *
      */
-    const float ElectronMass;
+    float const MuonMass;
 
-    const int HiggsUserIndex;
+    /**
+     * @brief Electron mass
+     *
+     */
+    float const ElectronMass;
 
-    const int TopUserIndex;
+    /**
+     * @brief Higgs boson user index
+     * 
+     */
+    int const HiggsUserIndex;
 
-    const int EmptyUserIndex;
+    /**
+     * @brief Top quark user index
+     * 
+     */
+    int const TopUserIndex;
 
-    const int CpvHiggsId;
+    /**
+     * @brief Initial user index
+     * 
+     */
+    int const EmptyUserIndex;
 
-    const int HeavyHiggsId;
+    /**
+     * @brief CP violating Higgs boson index
+     * 
+     */
+    int const CpvHiggsId;
 
-    const int TopId;
+    /**
+     * @brief Heavy Higgs boson index
+     * 
+     */
+    int const HeavyHiggsId;
 
-    const int BottomId;
+    /**
+     * @brief Top quark index
+     * 
+     */
+    int const TopId;
 
-    const int EmptyId;
+    /**
+     * @brief Bottom quark index
+     * 
+     */
+    int const BottomId;
+
+    /**
+     * @brief Initial index
+     * 
+     */
+    int const EmptyId;
+    
+    /**
+     * @brief Initial index
+     * 
+     */
+    int const ProtonId;
 
 private:
 
@@ -213,7 +275,7 @@ struct SortPairs {
     inline bool operator()(const pair<int, float> &Pair1,
                            const pair<int, float> &Pair2) {
 
-        return (Pair1.second > Pair2.second);
+        return (Pair1.second < Pair2.second);
 
     }
 
@@ -242,4 +304,5 @@ struct SortJetByDistance {
     }
 
 };
+
 #endif

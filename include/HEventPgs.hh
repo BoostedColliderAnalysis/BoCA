@@ -38,9 +38,12 @@ private:
     
     bool HasJets;
     
-    virtual TString ClassName() {
+    TString ClassName() const {
+        
         return ("HEventPgs");
+        
     };
+    
 };
 
 #endif

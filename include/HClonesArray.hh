@@ -197,7 +197,9 @@ public:
 private:
 
     virtual TString ClassName() {
+        
         return ("HClonesArray");
+        
     };
 
 };
@@ -209,8 +211,10 @@ class HClonesArrayDelphes : public HClonesArray
 
 private:
 
-    virtual TString ClassName() {
+    TString ClassName() {
+        
         return ("HClonesArrayDelphes");
+        
     };
 
 };
@@ -222,8 +226,10 @@ class HClonesArraySnowmass : public HClonesArray
 
 private:
 
-    virtual TString ClassName() {
+    TString ClassName() {
+        
         return ("HClonesArraySnowmass");
+        
     };
 
 };
@@ -235,8 +241,10 @@ class HClonesArrayPgs : public HClonesArray
 
 private:
 
-    virtual TString ClassName() {
+    TString ClassName() {
+        
         return ("HClonesArrayPgs");
+        
     };
 
 };
@@ -248,8 +256,10 @@ class HClonesArrayParton : public HClonesArray
 
 private:
 
-    virtual TString ClassName() {
+    TString ClassName() const {
+        
         return ("HClonesArrayParton");
+        
     };
 
 };

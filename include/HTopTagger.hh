@@ -97,8 +97,10 @@ private:
      */
     vector<PseudoJet> GranulateJets(vector<PseudoJet> &HadronVector, const float &CellEta, const float &CellPhi, const float &PtCutOff);
     
-    virtual TString ClassName() {
+    TString ClassName() const {
+        
         return ("HTopTagger");
+        
     };
     
 };

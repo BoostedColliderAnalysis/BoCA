@@ -7,8 +7,13 @@
 # include "fastjet/tools/MassDropTagger.hh"
 # include "fastjet/ClusterSequenceArea.hh"
 
-# include "HPull.hh"
+// # include "HPull.hh"
 # include "HObject.hh"
+# include "HJetInfo.hh"
+
+using std::vector;
+using std::sort;
+using std::max;
 
 using fastjet::sorted_by_E;
 using fastjet::cambridge_algorithm;
@@ -20,10 +25,6 @@ using fastjet::AreaDefinition;
 using fastjet::ClusterSequenceArea;
 using fastjet::Selector;
 using fastjet::Filter;
-
-using std::vector;
-using std::sort;
-using std::max;
 
 /**
  * @brief Higgs Top Discriminator
@@ -105,6 +106,8 @@ private:
     void TopTagger();
 
     void TagFatJets();
+    
+    void GetFatJetTag();
 
     void GetMassDropVector();
     
@@ -169,8 +172,10 @@ private:
 
     bool HasHiggs;
 
-    virtual TString ClassName() {
+    TString ClassName() const {
+        
         return ("HDiscriminator");
+        
     };
 
 };

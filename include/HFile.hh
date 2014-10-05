@@ -108,8 +108,10 @@ private:
 
     void  SetVariables();
 
-    TString ClassName() {
+    virtual TString ClassName() {
+    
         return ("HFile");
+        
     };
 
 };
@@ -132,8 +134,10 @@ public:
 
 private:
     
-    virtual TString ClassName() {
+    TString ClassName() {
+        
         return ("HFileFlat");
+        
     };
 
 };
@@ -155,8 +159,11 @@ public:
     TString GetTreeName();
 
 private:
-    virtual TString ClassName() {
-        return ("HFileFlat");
+    
+    TString ClassName() {
+        
+        return ("HFilePgs");
+        
     };
 
 };
@@ -178,7 +185,7 @@ public:
 
 private:
     
-    virtual TString ClassName() {
+    TString ClassName() {
         
         return ("HFileDelphes");
         
@@ -203,7 +210,7 @@ public:
         
 private:
     
-    virtual TString ClassName() {
+    TString ClassName() const {
         
         return ("HFileFolder");
         

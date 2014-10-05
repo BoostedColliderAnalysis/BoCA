@@ -86,7 +86,7 @@ void HAnalysisDiscriminator::CloseFile()
 bool HAnalysisDiscriminator::Analysis()
 {
 
-    Event->GetJets();
+//     Event->GetTaggedJets();
     
     Print(1, "Analysis", StudyName);
 

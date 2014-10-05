@@ -34,8 +34,10 @@ public:
 
 private:
     
-    virtual TString ClassName() {
+    TString ClassName() const {
+        
         return ("HParticleParton");
+        
     };
 
 };
