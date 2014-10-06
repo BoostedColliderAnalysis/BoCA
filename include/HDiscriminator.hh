@@ -172,7 +172,7 @@ private:
 
     bool HasHiggs;
 
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HDiscriminator");
         

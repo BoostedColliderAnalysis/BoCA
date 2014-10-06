@@ -100,7 +100,7 @@ private:
 
     HMva *Mva;
         
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HFactory");
         

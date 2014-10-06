@@ -12,11 +12,21 @@ HObject::HObject() :
     TopUserIndex(2000),
     EmptyUserIndex(-1),
     CpvHiggsId(5000000),
+    ProtonId(2212),
+    UpUp1Id(2203),
+    UpDown1Id(2103),
+    UpDown0Id(2101),
+    DownDown1Id(1103),
     HeavyHiggsId(26),
+    GluonId(21),
     TopId(6),
     BottomId(5),
+    CharmId(4),
+    StrangeId(3),
+    UpId(2),
+    DownId(1),
     EmptyId(0),
-    ProtonId(2212)
+    IsrId(10)
 {
 
 //     Print(0, "Constructor");
@@ -59,18 +69,18 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi) const
 
     Print(3, "GetDeltaPhi");
 
-    float const TwoPi = 2 * Pi();
+    float const TwoPi = 2 * TMath::Pi();
 
     float DeltaPhi = Phi - RefPhi;
 
 
-    while (fabs(DeltaPhi) > Pi()) {
+    while (fabs(DeltaPhi) > TMath::Pi()) {
 
-        if (DeltaPhi < -float(Pi())) {
+        if (DeltaPhi < -float(TMath::Pi())) {
 
             DeltaPhi += TwoPi;
 
-        } else if (DeltaPhi > float(Pi())) {
+        } else if (DeltaPhi > float(TMath::Pi())) {
 
             DeltaPhi -= TwoPi;
 
@@ -87,28 +97,28 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi) const
 
 }
 
-void HObject::Print(int debug, TString Function) const
+void HObject::Print(int debug, string Function) const
 {
 
     if (debug < Debug) {
 
         Printer(Function);
-        cout << endl;
+        std::cout << std::endl;
     }
 
 }
 
 
-void HObject::Printer(TString Function) const
+void HObject::Printer(string Function) const
 {
 
     char const Separator = ' ';
     int const ClassWidth = 28;
     int const FunctionWidth = 25;
 
-    cout << left << setw(ClassWidth) << setfill(Separator) << ClassName();
+    std::cout << std::left << std::setw(ClassWidth) << std::setfill(Separator) << ClassName();
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
-    cout << left << setw(FunctionWidth) << setfill(Separator) << Function;
+    std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Function;
 
 }
 

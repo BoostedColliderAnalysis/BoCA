@@ -34,7 +34,7 @@ private:
 
     map<int, float> JetFractions;
 
-    TString ClassName() const {
+    string ClassName() const {
 
         return ("HJetInfo");
 

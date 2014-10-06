@@ -52,6 +52,6 @@ void HMvaHeavyHiggs::DefineVariables()
     ObservableVector.push_back(NewObservable(&HeavyHiggs->BottomDeltaEta, "HeavyHiggs.BottomDeltaEta", "BottomeDeltaEta"));
     ObservableVector.push_back(NewObservable(&HeavyHiggs->BottomDeltaPhi, "HeavyHiggs.BottomDeltaPhi", "BottomeDeltaPhi"));
 
-    if (Debug > 0) cout << "Variables defined" << endl;
+    Print(0,"Variables defined");
 
 }

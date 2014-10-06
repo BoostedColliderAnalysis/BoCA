@@ -21,7 +21,8 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 
 vector<string> HAnalysisDiscriminator::GetStudyNameVector(){
     
-    vector<string> StudyNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
+//     vector<string> StudyNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
+    vector<string> StudyNameVector = {"Higgs", "Top", "Jet", "Test"};
     //     vector<string> StudyNameVector = {"Top"};
     
     return StudyNameVector;
@@ -85,8 +86,6 @@ void HAnalysisDiscriminator::CloseFile()
 
 bool HAnalysisDiscriminator::Analysis()
 {
-
-//     Event->GetTaggedJets();
     
     Print(1, "Analysis", StudyName);
 
@@ -140,10 +139,12 @@ bool HAnalysisDiscriminator::Analysis()
         PseudoJet CandidateJet = CandidateJets[CandidateNumber];
 
         Print(2, "Candidate", CandidateNumber);
+        
+        Print(2,"Candidate",CandidateJet.user_index());
 
         if (StudyName == "Higgs") {
 
-            if (CandidateJet.user_index() != HiggsUserIndex || CandidateJet.user_index() != CpvHiggsId) {
+            if (CandidateJet.user_index() != CpvHiggsId) {
 
                 Print(2, "Not a Higgs");
                 continue;
@@ -158,7 +159,7 @@ bool HAnalysisDiscriminator::Analysis()
 
         if (StudyName == "Top") {
             
-            if (CandidateJet.user_index() != TopUserIndex || CandidateJet.user_index() != TopId) {
+            if (abs(CandidateJet.user_index()) != TopId) {
                 
                 Print(2, "Not a Top");
                 continue;
@@ -171,42 +172,44 @@ bool HAnalysisDiscriminator::Analysis()
 
         }
         
-        if (StudyName == "TwoTop") {
-            
-            if (CandidateJet.user_index() != 2 * TopUserIndex || CandidateJet.user_index() != 2* TopId){
-                
-                Print(2, "Not two tops");
-                continue;
-                
-            }
-            
-            if (CandidateCounter > 0) Print(0, "Number TopPairs", CandidateCounter);            
-            ++CandidateCounter;
-            Print(1, "TwoTop", CandidateCounter);
-            
-        }
-        
-        if (StudyName == "HiggsTop") {
-            
-            if (CandidateJet.user_index() != HiggsUserIndex + TopUserIndex || CandidateJet.user_index() != CpvHiggsId + TopId){
-                
-                Print(2, "Not a Top Higgs pair");
-                continue;
-                
-            }
-            
-            if (CandidateCounter > 0) Print(0, "Number TopHiggsPairs", CandidateCounter);  
-            ++CandidateCounter;
-            Print(1, "HiggsTop", CandidateCounter);
-            
-        }
+//         if (StudyName == "TwoTop") {
+//             
+//             if (CandidateJet.user_index() != 2 * TopUserIndex || CandidateJet.user_index() != 2* TopId){
+//                 
+//                 Print(2, "Not two tops");
+//                 continue;
+//                 
+//             }
+//             
+//             if (CandidateCounter > 0) Print(0, "Number TopPairs", CandidateCounter);            
+//             ++CandidateCounter;
+//             Print(1, "TwoTop", CandidateCounter);
+//             
+//         }
+//         
+//         if (StudyName == "HiggsTop") {
+//             
+//             if (CandidateJet.user_index() != HiggsUserIndex + TopUserIndex || CandidateJet.user_index() != CpvHiggsId + TopId){
+//                 
+//                 Print(2, "Not a Top Higgs pair");
+//                 continue;
+//                 
+//             }
+//             
+//             if (CandidateCounter > 0) Print(0, "Number TopHiggsPairs", CandidateCounter);  
+//             ++CandidateCounter;
+//             Print(1, "HiggsTop", CandidateCounter);
+//             
+//         }
 
         if (StudyName == "Jet") {
 
-            if (CandidateJet.user_index() == HiggsUserIndex ||CandidateJet.user_index() == CpvHiggsId ||
-                CandidateJet.user_index() == TopUserIndex ||CandidateJet.user_index() == TopId ||
-                CandidateJet.user_index() == 2 * TopUserIndex ||CandidateJet.user_index() == 2 * TopId ||
-                CandidateJet.user_index() == TopUserIndex+ HiggsUserIndex || CandidateJet.user_index() == TopId + CpvHiggsId) {
+            if (CandidateJet.user_index() == CpvHiggsId || abs(CandidateJet.user_index()) == TopId
+//                 ||
+//                 CandidateJet.user_index() == 2 * TopUserIndex ||CandidateJet.user_index() == 2 * TopId ||
+//                 CandidateJet.user_index() == TopUserIndex+ HiggsUserIndex || CandidateJet.user_index() == TopId + CpvHiggsId
+                
+            ) {
                 
                 Print(2, "Not a light jet");
                 continue;
@@ -476,11 +479,11 @@ bool HAnalysisDiscriminator::Analysis()
 
         int UserIndex = CandidateJet.user_index();
 
-        if (UserIndex == HiggsUserIndex) {
+        if (UserIndex == CpvHiggsId) {
             Candidate->HiggsTag = 1;
             Candidate->TopTag = 0;
 
-        } else if (UserIndex == TopUserIndex) {
+        } else if (UserIndex == TopId) {
 
             Candidate->TopTag = 1;
             Candidate->HiggsTag = 0;

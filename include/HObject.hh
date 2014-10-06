@@ -3,43 +3,16 @@
 
 # include <iostream>
 # include <iomanip>
-# include <math.h>
-# include <typeinfo>
 
-// # include "TObject.h"
 # include "TMath.h"
 # include "TLorentzVector.h"
+
 # include "fastjet/PseudoJet.hh"
 
-# include "TString.h"
-
-// # include "HasMember.hh"
-
-using std::left;
-using std::setw;
-using std::setfill;
-using std::cout;
-using std::endl;
-using std::pair;
-using TMath::Pi;
 using fastjet::PseudoJet;
+using std::string;
 
-
-// struct CheckHasE
-// {
-//
-//   template <typename Template, double (Template::*)= &Template::E>
-//     struct get
-//     { };
-// };
-//
-// template <typename Template>
-// struct HasE :
-//         HasMember<Template, CheckHasE>
-// { };
-
-
-class HObject// : public TObject
+class HObject
 {
 
 public:
@@ -79,26 +52,32 @@ protected:
      */
     float GetDeltaPhi(float, float) const;
 
-    void Print(int, TString) const;
+    void Print(int, string) const;
 
-    void Printer(TString) const;
+    void Printer(string) const;
 
+    /**
+     * @brief Get a PseudoJet from a TLorentzVector
+     * 
+     * @param  TLorentzVector
+     * @return fastjet::PseudoJet
+     */
     PseudoJet GetPseudoJet(TLorentzVector) const;
 
     template<typename Template>
-    void Print(int debug, TString Function, Template Number) const {
+    void Print(int debug, string Function, Template Number) const {
 
         if (debug < Debug) {
 
             Printer(Function);
-            cout << " " << Number << endl;
+            std::cout << " " << Number << std::endl;
 
         }
 
     }
 
     template<typename Template, typename Template2>
-    void Print(int debug, TString Function, Template Number, Template2 Number2) const {
+    void Print(int debug, string Function, Template Number, Template2 Number2) const {
 
         if (debug < Debug) {
 
@@ -107,15 +86,15 @@ protected:
 
             Printer(Function);
 
-            cout << left << setw(FunctionWidth) << setfill(Separator) << Number;
-            cout << left << setw(FunctionWidth) << setfill(Separator) << Number2;
-            cout << endl;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number2;
+            std::cout << std::endl;
 
         }
 
     }
 
-    virtual TString ClassName() const {
+    virtual string ClassName() const {
 
         return ("HObject");
 
@@ -193,13 +172,49 @@ protected:
      * 
      */
     int const CpvHiggsId;
+    
+    /**
+     * @brief Proton index
+     * 
+     */
+    int const ProtonId;
+    
+    /**
+     * @brief Up-up di-quark index
+     * 
+     */
+    int const UpUp1Id;
+    
+    /**
+     * @brief Up-down di-quark index
+     * 
+     */
+    int const UpDown1Id;
+    
+    /**
+     * @brief Up-down di-quark index
+     * 
+     */
+    int const UpDown0Id;
+    
+    /**
+     * @brief Down-down di-quark index
+     * 
+     */
+    int const DownDown1Id;
 
     /**
      * @brief Heavy Higgs boson index
      * 
      */
     int const HeavyHiggsId;
-
+    
+    /**
+     * @brief Gluon boson index
+     * 
+     */
+    int const GluonId;
+    
     /**
      * @brief Top quark index
      * 
@@ -211,6 +226,30 @@ protected:
      * 
      */
     int const BottomId;
+    
+    /**
+     * @brief Charm quark index
+     * 
+     */
+    int const CharmId;
+    
+    /**
+     * @brief Strange quark index
+     * 
+     */
+    int const StrangeId;
+    
+    /**
+     * @brief Up quark index
+     * 
+     */
+    int const UpId;
+    
+    /**
+     * @brief Down quark index
+     * 
+     */
+    int const DownId;
 
     /**
      * @brief Initial index
@@ -219,10 +258,13 @@ protected:
     int const EmptyId;
     
     /**
-     * @brief Initial index
+     * @brief Initial state radiation index
+     * 
+     * Index for all possbile initial state radiation.
+     * The value is self definied, be carfull with clashes.
      * 
      */
-    int const ProtonId;
+    int const IsrId;
 
 private:
 
@@ -272,8 +314,8 @@ struct SortPairs {
 // 
 //     }
 
-    inline bool operator()(const pair<int, float> &Pair1,
-                           const pair<int, float> &Pair2) {
+    inline bool operator()(const std::pair<int, float> &Pair1,
+                           const std::pair<int, float> &Pair2) {
 
         return (Pair1.second < Pair2.second);
 

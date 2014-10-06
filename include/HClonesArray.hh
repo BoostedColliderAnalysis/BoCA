@@ -34,67 +34,67 @@ public:
 
     virtual void UseBranches(ExRootTreeReader *) = 0;
 
-    int ParticleSum() {
+    int ParticleSum() const {
         return ParticleClonesArray->GetEntriesFast();
     };
 
-    int TrackSum() {
+    int TrackSum() const {
         return TrackClonesArray->GetEntriesFast();
     };
 
-    int TowerSum() {
+    int TowerSum() const {
         return TowerClonesArray->GetEntriesFast();
     };
 
-    int EFlowTrackSum() {
+    int EFlowTrackSum() const {
         return EFlowTrackClonesArray->GetEntriesFast();
     };
 
-    int EFlowTowerSum() {
+    int EFlowTowerSum() const {
         return EFlowTowerClonesArray->GetEntriesFast();
     };
 
-    int GenJetSum() {
+    int GenJetSum() const {
         return GenJetClonesArray->GetEntriesFast();
     };
 
-    int JetSum() {
+    int JetSum() const {
         return JetClonesArray->GetEntriesFast();
     };
 
-    int ElectronSum() {
+    int ElectronSum() const {
         return ElectronClonesArray->GetEntriesFast();
     };
 
-    int  MuonSum() {
+    int  MuonSum() const {
         return MuonClonesArray->GetEntriesFast();
     };
 
-    int MissingEtSum() {
+    int MissingEtSum() const {
         return MissingEtClonesArray->GetEntriesFast();
     };
 
-    int ScalarHtSum() {
+    int ScalarHtSum() const {
         return ScalarHtClonesArray->GetEntriesFast();
     };
 
-    int PhotonSum() {
+    int PhotonSum() const {
         return PhotonClonesArray->GetEntriesFast();
     };
 
-    int EFlowPhotonSum() {
+    int EFlowPhotonSum() const {
         return EFlowPhotonClonesArray->GetEntriesFast();
     };
 
-    int EFlowNeutralHadronSum() {
+    int EFlowNeutralHadronSum() const {
         return EFlowNeutralHadronClonesArray->GetEntriesFast();
     };
 
-    int EFlowMuonSum() {
+    int EFlowMuonSum() const {
         return EFlowMuonClonesArray->GetEntriesFast();
     };
 
-    int TauSum() {
+    int TauSum() const {
         return TauClonesArray->GetEntriesFast();
     };
 
@@ -196,7 +196,7 @@ public:
 
 private:
 
-    virtual TString ClassName() {
+    virtual string ClassName() {
         
         return ("HClonesArray");
         
@@ -211,7 +211,7 @@ class HClonesArrayDelphes : public HClonesArray
 
 private:
 
-    TString ClassName() {
+    string ClassName() {
         
         return ("HClonesArrayDelphes");
         
@@ -226,7 +226,7 @@ class HClonesArraySnowmass : public HClonesArray
 
 private:
 
-    TString ClassName() {
+    string ClassName() {
         
         return ("HClonesArraySnowmass");
         
@@ -241,7 +241,7 @@ class HClonesArrayPgs : public HClonesArray
 
 private:
 
-    TString ClassName() {
+    string ClassName() {
         
         return ("HClonesArrayPgs");
         
@@ -256,7 +256,7 @@ class HClonesArrayParton : public HClonesArray
 
 private:
 
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HClonesArrayParton");
         

@@ -43,6 +43,8 @@ public:
     virtual void GetJets(){};
     
     virtual void GetEFlow(){};
+    
+    virtual void GetTaggedEFlow(){};
 
     virtual PseudoJet GetHiggs(){PseudoJet j; return j;};
     
@@ -98,7 +100,7 @@ protected:
 
 private:
     
-    virtual TString ClassName() const {
+    virtual string ClassName() const {
         
         return ("HEvent");
         

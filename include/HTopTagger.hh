@@ -97,7 +97,7 @@ private:
      */
     vector<PseudoJet> GranulateJets(vector<PseudoJet> &HadronVector, const float &CellEta, const float &CellPhi, const float &PtCutOff);
     
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HTopTagger");
         

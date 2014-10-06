@@ -143,7 +143,7 @@ void HFactory::GetTrees()
         TString SignalName = Mva->SignalVector[SignalNumber];
 
         TString SignalFileName = Mva->AnalysisName + "/" + Mva->SignalVector[SignalNumber] + TString(".root");
-        if (gSystem->AccessPathName(SignalFileName)) cout << "File " << SignalFileName << " not found" << endl;
+        if (gSystem->AccessPathName(SignalFileName)) Print(-1, "File not found", SignalFileName);
         TFile *SignalFile = TFile::Open(SignalFileName);
         Print(0 , "Signal File", SignalFile->GetName());
 
@@ -164,7 +164,7 @@ void HFactory::GetTrees()
         TString InputBackgroundName = Mva->BackgroundVector[BackgroundNumber];
 
         TString BackgroundFileName = Mva->AnalysisName + "/" + InputBackgroundName + TString(".root");
-        if (gSystem->AccessPathName(BackgroundFileName)) cout << "File " << BackgroundFileName << " not found" << endl;
+        if (gSystem->AccessPathName(BackgroundFileName)) Print(-1, "File not found",BackgroundFileName);
         TFile *BackgroundFile = TFile::Open(BackgroundFileName);
         Print(0 , "Background File", BackgroundFile->GetName());
 

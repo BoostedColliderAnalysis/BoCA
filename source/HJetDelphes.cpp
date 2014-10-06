@@ -19,25 +19,25 @@ HJetDelphes::~HJetDelphes()
 bool HJetDelphes::GetJets()
 {
 
-    return GetJets(0,0);
+    return GetJets(0, 0);
 
 }
 
 bool HJetDelphes::GetTaggedJets()
 {
 
-    return GetJets(1,0);
+    return GetJets(1, 0);
 
 }
 
 bool HJetDelphes::GetStructuredJets()
 {
 
-    return GetJets(0,1);
+    return GetJets(0, 1);
 
 }
 
-bool HJetDelphes::GetJets(bool Tagging,bool Structure)
+bool HJetDelphes::GetJets(bool Tagging, bool Structure)
 {
 
     Print(1, "Get Jets", ClonesArrays->JetSum());
@@ -49,7 +49,7 @@ bool HJetDelphes::GetJets(bool Tagging,bool Structure)
         Print(3, "Jet Number", JetNumber);
         JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
 
-        if(Structure) {
+        if (Structure) {
 
             JetVector.push_back(GetConstituents(JetClone));
 
@@ -59,7 +59,7 @@ bool HJetDelphes::GetJets(bool Tagging,bool Structure)
 
         }
 
-        if(Tagging)JetVector.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
+        if (Tagging)JetVector.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
 
         GetDelphesTags(JetClone);
 
@@ -111,12 +111,13 @@ void HJetDelphes::GetTau(Jet *JetClone)
         AntiTauLorentzVectorVector.push_back(JetClone->P4());
         Print(2, "Anti Tau Jet");
 
-    } else Print(-1,"Jet Charge: ",JetClone->Charge);
+    } else Print(-1, "Jet Charge: ", JetClone->Charge);
 
 }
 
 int HJetDelphes::GetMotherId(TObject *Object)
 {
+
 
     Print(1, "Get Mother Id", ClonesArrays->ParticleSum());
 
@@ -138,19 +139,21 @@ int HJetDelphes::GetMotherId(TObject *Object)
     MotherPosition = ParticleClone->M1;
     Print(3, "Particle M1", MotherPosition);
 
-    while (MotherPosition != -1
-//         ParticleId != ProtonId
-//         && abs(MotherId) != HeavyHiggsId && abs(MotherId) != CpvHiggsId
-          ) {
+    while (MotherPosition != -1) {
 
-        if (abs(ParticleId) == BottomId
-                && (abs(MotherId) != TopId || abs(MotherId) != CpvHiggsId)) {
+        if (
+            (abs(ParticleId) == GluonId || abs(ParticleId) == UpId || abs(ParticleId) == DownId || abs(ParticleId) == StrangeId || abs(ParticleId) == CharmId || abs(ParticleId) == UpDown0Id || abs(ParticleId) == UpDown1Id || abs(ParticleId) == UpUp1Id || abs(ParticleId) == DownDown1Id)
+            && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId && abs(MotherId) != BottomId)) {
+            MotherId = IsrId;
+        } else if (abs(ParticleId) == BottomId
+                   && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId)) {
             MotherId = ParticleId;
         } else if (abs(ParticleId) == TopId && abs(MotherId) != HeavyHiggsId) {
             MotherId = ParticleId;
         } else if (abs(ParticleId) == HeavyHiggsId || abs(ParticleId) == CpvHiggsId) {
             MotherId = ParticleId;
         }
+
         Print(3, "Mother Id", MotherId);
 
         if (ClonesArrays->ParticleSum() < MotherPosition) {
@@ -167,7 +170,7 @@ int HJetDelphes::GetMotherId(TObject *Object)
 
     }
 
-    Print(3, "Mother Id", MotherId);
+    if(MotherId==EmptyId) Print(-1, "Mother Id", MotherId);
 
     return MotherId;
 
@@ -260,41 +263,18 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
     for (int EFlowTrackNumber = 0; EFlowTrackNumber < ClonesArrays->EFlowTrackSum() ; ++EFlowTrackNumber) {
 
         EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
-//         JetCandidate = GetPseudoJet(EFlowTrackClone->P4());
 
-        // Make sure this is not an electron
         if (Isolation) {
-//             Isolated = true;
 
-//             for (int ElectronNumber = 0; ElectronNumber < ClonesArrays->ElectronSum(); ++ElectronNumber) {
-//
-//                 ElectronClone = (Electron *) ClonesArrays->ElectronClonesArray->At(ElectronNumber);
-//                 Isolated = CheckIsolation(EFlowTrackClone, ElectronClone);
-//
-//             }
-
-            Isolated = GetIsolation<Electron>(EFlowTrackClone,
-// 					       ElectronClone,
-                                              ClonesArrays->ElectronClonesArray);
-            if(Isolated) Isolated = GetIsolation<Muon>(EFlowTrackClone,
-// 	      MuonClone,
-                                        ClonesArrays->MuonClonesArray);
-
-            // make sure this is not a muon
-//             for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
-//
-//                 MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
-//                 Isolated = CheckIsolation(EFlowTrackClone, MuonClone);
-//
-//             }
-
+            Isolated = GetIsolation<Electron>(EFlowTrackClone, ClonesArrays->ElectronClonesArray);
+            if (Isolated) Isolated = GetIsolation<Muon>(EFlowTrackClone, ClonesArrays->MuonClonesArray);
             if (!Isolated) continue;
 
         }
 
-
         EFlowJetVector.push_back(GetPseudoJet(EFlowTrackClone->P4()));
         Object = EFlowTrackClone->Particle.GetObject();
+
         if (Tagging) {
 
             EFlowJetVector.back().set_user_index(GetMotherId(Object));
@@ -304,36 +284,22 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
 
     }
 
-
     // Photons
     if (ClonesArrays->EFlowPhotonSum() > 0) Print(2, "Number of E Flow Photons", ClonesArrays->EFlowPhotonSum());
     if (ClonesArrays->PhotonSum() > 0) Print(2, "Number of Photons", ClonesArrays->PhotonSum());
     for (int EFlowPhotonNumber = 0; EFlowPhotonNumber < ClonesArrays->EFlowPhotonSum() ; ++EFlowPhotonNumber) {
 
         EFlowPhotonClone = (Tower *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
-//         JetCandidate = GetPseudoJet(EFlowPhotonClone->P4());
 
-        // Make sure this is not a photon
         if (Isolation) {
-//             Isolated = true;
 
-            Isolated = GetIsolation<Photon>(EFlowPhotonClone,
-// 				     PhotonClone,
-                                            ClonesArrays->PhotonClonesArray);
-//             for (int PhotonNumber = 0; PhotonNumber < ClonesArrays->PhotonSum(); ++PhotonNumber) {
-//
-//                 PhotonClone = (Photon *) ClonesArrays->PhotonClonesArray->At(PhotonNumber);
-//
-//                 Isolated = CheckIsolation(EFlowPhotonClone, PhotonClone);
-//
-//             }
-
+            Isolated = GetIsolation<Photon>(EFlowPhotonClone, ClonesArrays->PhotonClonesArray);
             if (!Isolated) continue;
 
         }
 
-
         EFlowJetVector.push_back(GetPseudoJet(EFlowPhotonClone->P4()));
+
         if (Tagging) {
 
             EFlowJetVector.back().set_user_info(new HJetInfo(GetJetId(EFlowPhotonClone)));
@@ -344,7 +310,6 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
 
     }
 
-    // Neutral Hadrons
     if (ClonesArrays->EFlowNeutralHadronSum() > 0) Print(2, "Number of EF Neut Had", ClonesArrays->EFlowNeutralHadronSum());
     for (int HadronNumber = 0; HadronNumber < ClonesArrays->EFlowNeutralHadronSum(); ++HadronNumber) {
 
@@ -371,17 +336,8 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
             EFlowMuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
 
             if (Isolation) {
-                // make sure this is not a muon
-//                 Isolated = true;
-                Isolated = GetIsolation<Muon>(EFlowMuonClone,
-// 						MuonClone,
-                                              ClonesArrays->MuonClonesArray);
-//                 for (int MuonNumber = 0; MuonNumber < ClonesArrays->MuonSum(); ++MuonNumber) {
-//
-//                     MuonClone = (Muon *) ClonesArrays->MuonClonesArray->At(MuonNumber);
-//                     Isolated = CheckIsolation(EFlowMuonClone, MuonClone);
-//
-//                 }
+
+                Isolated = GetIsolation<Muon>(EFlowMuonClone, ClonesArrays->MuonClonesArray);
                 if (!Isolated) continue;
 
             }

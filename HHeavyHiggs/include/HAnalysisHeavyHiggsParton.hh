@@ -63,7 +63,7 @@ private:
 
     void CloseFile();
 
-    virtual TString ClassName() {
+    virtual string ClassName() {
 
         return ("HAnalysisHeavyHiggsParton");
 

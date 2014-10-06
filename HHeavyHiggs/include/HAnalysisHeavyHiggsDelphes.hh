@@ -56,7 +56,7 @@ private:
     
 //     bool JetIsBottom(const PseudoJet &Jet);
 
-    TString ClassName() {
+    string ClassName() {
 
         return ("HAnalysisHeavyHiggsDelphes");
 

@@ -78,7 +78,7 @@ private:
     
     vector<string> GetStudyNameVector();
     
-    virtual TString ClassName() {
+    virtual string ClassName() {
         
         return ("HAnalysisDiscriminator");
         

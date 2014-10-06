@@ -136,9 +136,7 @@ private:
 
         }
 
-        Print(3,"Max fraction",JetInfo.GetMaximalFraction());
-
-        Print(3, "Jet ID", JetInfo.GetMaximalId());
+        Print(3, "Jet ID", JetInfo.GetMaximalId(),JetInfo.GetMaximalFraction());
 
         return JetInfo;
 
@@ -146,9 +144,7 @@ private:
 
 
     template<typename ParticleTemplate,typename EFlowTemplate>
-    bool GetIsolation(EFlowTemplate *EFlowClone,
-// 		      ParticleTemplate *ParticleClone,
-		      TClonesArray *ClonesArray) {
+    bool GetIsolation(EFlowTemplate *EFlowClone,TClonesArray *ClonesArray) {
 
         bool Isolated = true;
 
@@ -169,7 +165,7 @@ private:
 
     PseudoJet GetConstituents(Jet *);
 
-    TString ClassName() const {
+    string ClassName() const {
 
         return ("HJetDelphes");
 

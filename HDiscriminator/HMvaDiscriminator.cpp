@@ -9,9 +9,11 @@ HMvaDiscriminator::HMvaDiscriminator()
 
     AnalysisName = "Discriminator";
 
-    SignalVector = {"Higgs","HiggsTop"};
+//     SignalVector = {"Higgs","HiggsTop"};
+    SignalVector = {"Higgs"};
 
-    BackgroundVector = {"Top", "Jet","TwoTop"};
+//     BackgroundVector = {"Top", "Jet","TwoTop"};
+    BackgroundVector = {"Top", "Jet"};
 //         BackgroundVector = {"Top"};
 
     TestName = "Test";
@@ -88,6 +90,6 @@ void HMvaDiscriminator::DefineVariables()
     SpectatorVector.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag","Higgs Tag"));
     SpectatorVector.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag","Top Tag"));
 
-    if (Debug > 0) cout << "Variables defined" << endl;
+    Print(0,"Variables defined");
 
 }

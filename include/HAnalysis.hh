@@ -189,7 +189,7 @@ private:
 
     bool AnalysisNotEmpty;
 
-    virtual TString ClassName() const {
+    virtual string ClassName() const {
         
         return ("HAnalysis");
         

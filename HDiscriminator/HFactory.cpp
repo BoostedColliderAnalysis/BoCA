@@ -11,8 +11,6 @@ int main()
 
     delete Mva;
     
-    cout << "end main" << endl;
-
     return 0;
 
 }

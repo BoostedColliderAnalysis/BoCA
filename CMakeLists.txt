@@ -84,3 +84,4 @@ HAnalysis
 
 add_subdirectory(HDiscriminator)
 add_subdirectory(HHeavyHiggs)
+add_subdirectory(HJetProperties)

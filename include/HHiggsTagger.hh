@@ -204,7 +204,7 @@ private:
 
     float GetSubDeltaR();
     
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HHiggsTagger");
         

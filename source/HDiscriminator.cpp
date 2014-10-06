@@ -135,23 +135,27 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEF
 
     }
 
-    const int FatJetGoal = 3;
-    int FatJetPseudoGoal = FatJetGoal - 1;
+//     const int FatJetGoal = 3;
+//     int FatJetPseudoGoal = FatJetGoal - 1;
+// 
+//     while (FatJetSum() < FatJetGoal) {
+// 
+//         ++FatJetPseudoGoal;
+//         if (!GetSuperFatJetVector(FatJetPseudoGoal)) {
+// 
+//             return Jets;
+// 
+//             Print(0, "Not enough valid jets");
+// 
+//         }
+// 
+//         GetMassDropVector();
+// 
+//     }
 
-    while (FatJetSum() < FatJetGoal) {
+GetFatJetVector(1.2);
 
-        ++FatJetPseudoGoal;
-        if (!GetSuperFatJetVector(FatJetPseudoGoal)) {
-
-            return Jets;
-
-            Print(0, "Not enough valid jets");
-
-        }
-
-        GetMassDropVector();
-
-    }
+GetMassDropVector();
 
     GetFatJetTag();
 
@@ -526,11 +530,11 @@ void HDiscriminator::GetFatJetTag()
 
         FatJetVector[FatJetNumber].set_user_info(new HJetInfo(JetInfo));
         
-        FatJetVector[FatJetNumber].user_info<HJetInfo>().PrintAllInfos();
+        FatJetVector[FatJetNumber].set_user_index(FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId());
         
+//         FatJetVector[FatJetNumber].user_info<HJetInfo>().PrintAllInfos();
         
-        Print(-1, "Tag", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId());
-        Print(-1, "Part", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalFraction());
+        Print(3, "Tag", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId(),FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalFraction());
 
         JetInfo.Clear();
         

@@ -117,7 +117,7 @@ protected:
   
     virtual void DefineVariables() = 0;
 
-    virtual TString ClassName() const {
+    virtual string ClassName() const {
         
         return ("HMva");
         

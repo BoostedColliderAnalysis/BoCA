@@ -45,7 +45,7 @@ public:
 
 private:
     
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HLeptonDelphes");
         

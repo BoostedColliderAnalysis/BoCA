@@ -17,6 +17,8 @@
 
 # include "HMva.hh"
 
+using std::cout;
+using std::endl;
 using std::sort;
 using std::pair;
 using std::size_t;
@@ -60,14 +62,14 @@ vector<TypeName> CutFlowOrder(
 template<typename Template> void PrintData(Template PrintDataTemplate, const int &Width)
 {
     const char Separator = ' ';
-    cout << std::right << setw(Width) << setfill(Separator) << PrintDataTemplate;
+    std::cout << std::right << setw(Width) << setfill(Separator) << PrintDataTemplate;
 }
 
 
 template<typename Template> void PrintText(Template PrintDataTemplate, const int &Width)
 {
     const char Separator = ' ';
-    cout << left << setw(Width) << setfill(Separator) << PrintDataTemplate;
+    std::cout << left << setw(Width) << setfill(Separator) << PrintDataTemplate;
 }
 
 
@@ -77,7 +79,7 @@ template<typename Template> void PrintUnit(Template PrintDataTemplate, const int
     ss << " " << PrintDataTemplate;
 
     const char Separator = ' ';
-    cout << left << setw(Width) << setfill(Separator) << ss.str();
+    std::cout << left << setw(Width) << setfill(Separator) << ss.str();
 }
 
 
@@ -213,7 +215,7 @@ private:
 
     HMva *Mva;
         
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HReader");
         

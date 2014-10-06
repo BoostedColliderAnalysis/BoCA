@@ -28,7 +28,7 @@ private:
 
     void DefineVariables();
     
-    virtual TString ClassName() {
+    virtual string ClassName() {
         return ("HMvaHeavyHiggs");
     };
 

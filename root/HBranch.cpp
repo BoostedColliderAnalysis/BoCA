@@ -114,11 +114,12 @@ HConstituentBranch::~HConstituentBranch() {}
 void HConstituentBranch::reset()
 {
 
-    int InitialValue = -10;
+    int InitialValue = -100;
 
     Eta = InitialValue;
     Phi = InitialValue;
     Pt = InitialValue;
+    Id = InitialValue;
 
 }
 

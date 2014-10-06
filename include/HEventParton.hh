@@ -33,7 +33,7 @@ private:
     
     bool HasParticles;
     
-    TString ClassName() const {
+    string ClassName() const {
         
         return ("HEventParton");
         
