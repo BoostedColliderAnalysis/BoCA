@@ -115,6 +115,8 @@ bool HAnalysisDiscriminator::Analysis()
 
     vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates();
     int CandidateSum = CandidateJets.size();
+    
+    sort(CandidateJets.begin(),CandidateJets.end(),SortJetByMass());
 
     Print(1, "Number of Candidates", CandidateSum);
 
@@ -130,6 +132,10 @@ bool HAnalysisDiscriminator::Analysis()
 
         CandidateSum = min(CandidateSum, 3);
 
+    } else if (StudyName == "Higgs") {
+        
+        CandidateSum = min(CandidateSum, 1);
+        
     }
 
     bool HasCandidate = 0;

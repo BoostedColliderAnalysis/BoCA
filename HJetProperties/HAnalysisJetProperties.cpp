@@ -50,8 +50,8 @@ void HAnalysisJetProperties::NewFile()
     Print(0, "New File");
 
     ConstituentBranch = TreeWriter->NewBranch("Constituent", HConstituentBranch::Class());
-    LeptonBranch = TreeWriter->NewBranch("Leptons",HLeptonBranch::Class());
-    CandidateBranch = TreeWriter->NewBranch("Candidates",HCandidateBranch::Class());
+    LeptonBranch = TreeWriter->NewBranch("Leptons", HLeptonBranch::Class());
+    CandidateBranch = TreeWriter->NewBranch("Candidates", HCandidateBranch::Class());
 
 }
 
@@ -67,48 +67,79 @@ bool HAnalysisJetProperties::Analysis()
 {
 
     Event->GetLeptons();
-    
+
     vector<PseudoJet> LeptonJetVector = Event->Lepton->GetLeptonJetVector();
     
-    if (LeptonJetVector.size() <2 ) return 0; 
-    
+
+    if (LeptonJetVector.size() < 2) return 0;
+    sort(LeptonJetVector.begin(),LeptonJetVector.end(),SortJetByPt());
+
 //     for (unsigned LeptonNumber = 0; LeptonNumber < LeptonJetVector.size(); ++LeptonNumber) {
-//         
+//
 //         HLeptonBranch *Lepton= static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 //         Lepton->Eta = LeptonJetVector[LeptonNumber].eta();
 //         Lepton->Phi = LeptonJetVector[LeptonNumber].phi();
 //         Lepton->Pt = LeptonJetVector[LeptonNumber].pt();
-//         
+//
 //     }
 
-    HLeptonBranch *Lepton= static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
-    Lepton->Pt = LeptonJetVector[0].pt() - LeptonJetVector[1].pt();
-    Lepton->Mass = LeptonJetVector[0].pt() + LeptonJetVector[1].pt();
-    
+    HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
+    Lepton->Pt = 1. / (LeptonJetVector[0].pt() - LeptonJetVector[1].pt());
+    Lepton->Mass = 1. / (LeptonJetVector[0].pt() + LeptonJetVector[1].pt());
+
     Event->GetTaggedEFlow();
 
-    vector<PseudoJet> EFlowJetVector = Event->Jets->EFlowJetVector;
+    float PtSum;
+    
+    for (int ConstNumber = 0; ConstNumber < Event->Jets->EFlowJetVector.size(); ++ConstNumber) {
+        PtSum+=Event->Jets->EFlowJetVector[ConstNumber].pt();
+    }
+    
+    vector<PseudoJet> EFlowJetVector;// = Event->Jets->EFlowJetVector;
 
-    PseudoJet HiggsJet;
+
+    int Id = CpvHiggsId;
+    std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJetVector),
+    [Id](PseudoJet const & EFlowJet) {
+        return EFlowJet.user_index() == Id;
+    });
+
+
+
+    PseudoJet HiggsJet = fastjet::join(EFlowJetVector);
+
+    vector<float> DistanceVector;
+
+    for (int ConstNumber = 0; ConstNumber < EFlowJetVector.size(); ++ConstNumber) {
+        DistanceVector.push_back(HiggsJet.delta_R(EFlowJetVector[ConstNumber]));
+    }
+
+
+    std::nth_element(DistanceVector.begin(), DistanceVector.begin() + DistanceVector.size() / 2, DistanceVector.end());
+
+//     Print(-1, "Median", DistanceVector[DistanceVector.size() * 0.68]);
+
+    float RMax = 0;
 
     for (unsigned EFlowNumber = 0; EFlowNumber < EFlowJetVector.size(); ++EFlowNumber) {
 
-        if (EFlowJetVector[EFlowNumber].user_index() == CpvHiggsId) {
-
-            HiggsJet = fastjet::join(HiggsJet, EFlowJetVector[EFlowNumber]);
-
-        }
+        float DeltaR = HiggsJet.delta_R(EFlowJetVector[EFlowNumber]);
+        if (DeltaR > RMax) RMax = DeltaR;
 
     }
-    
-    
+
+//     Print(-1, "RMax", RMax);
+
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
-    
+
     Candidate->Mass = HiggsJet.m();
     Candidate->Pt = HiggsJet.pt();
     Candidate->Eta = HiggsJet.eta();
     Candidate->Phi = HiggsJet.phi_std();
-   
+    Candidate->Area = DistanceVector[DistanceVector.size() * 0.68];
+    Candidate->IsolationPt = 1. / PtSum;
+    Candidate->SubJet1Pt = 1./(PtSum + LeptonJetVector[0].pt() + LeptonJetVector[1].pt());
+
 
 
     for (unsigned EFlowNumber = 0; EFlowNumber < EFlowJetVector.size(); ++EFlowNumber) {

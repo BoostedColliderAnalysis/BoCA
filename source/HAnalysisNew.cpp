@@ -1,4 +1,7 @@
 # include "HAnalysis.hh"
+# include "HEventDelphes.hh"
+# include "HEventParton.hh"
+# include "HEventPgs.hh"
 
 HAnalysis::HAnalysis()
 {
@@ -6,15 +9,16 @@ HAnalysis::HAnalysis()
     Print(0, "Constructor");
 
     EventNumberMax = 100000;
-    
+
 }
 
-vector<string> HAnalysis::GetStudyNameVector(){
-    
+vector<string> HAnalysis::GetStudyNameVector()
+{
+
     vector<string> StudyNameVector = {ProjectName};
-    
+
     return StudyNameVector;
-    
+
 }
 
 void HAnalysis::AnalysisLoop()
@@ -22,11 +26,10 @@ void HAnalysis::AnalysisLoop()
 
     Print(0, "Analysis Loop");
 
-    cout << endl;
-    
-    
+    Print(0,"");
+
     vector<string> StudyNameVector = GetStudyNameVector();
-    
+
     SetFileVector();
 
     int StudySum = StudyNameVector.size();
@@ -37,34 +40,34 @@ void HAnalysis::AnalysisLoop()
         Print(0, "Analysing Mva Sample", StudyName);
 
         NewStudy();
-        
+
     }
 
-        int FileSum = FileVector.size();
-        for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
+    int FileSum = FileVector.size();
+    for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
 
-            Print(0, "Analysing File", FileNumber + 1);
-            NewFileBase();
+        Print(0, "Analysing File", FileNumber + 1);
+        NewFileBase();
 
-            ExRootProgressBar ProgressBar(EventSum);
+        ExRootProgressBar ProgressBar(EventSum);
 
-            for (EventNumber = 0; EventNumber < EventSum; ++ EventNumber) {
+        for (EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
 
-                Print(1, "Analysing Event", EventNumber + 1);
-                NewEvent();
-                ProgressBar.Update(EventNumber);
-                if (Debug > 1) cout << endl;
-
-            }
-            ProgressBar.Finish();
-            //             cout << endl;
-
-            Print(0, "All Events analysed", EventSum);
-            CloseFileBase();
-            if (Debug > 0) cout << endl;
+            Print(1, "Analysing Event", EventNumber + 1);
+            NewEvent();
+            ProgressBar.Update(EventNumber);
+            if (Debug > 1) cout << endl;
 
         }
-        Print(0, "All Files analysed", FileSum);
+        ProgressBar.Finish();
+        //             cout << endl;
+
+        Print(0, "All Events analysed", EventSum);
+        CloseFileBase();
+        if (Debug > 0) cout << endl;
+
+    }
+    Print(0, "All Files analysed", FileSum);
 
 //         DeleteStudy();
 
@@ -78,7 +81,7 @@ void HAnalysis::NewStudy()
 {
 
     Print(0, "New Mva", StudyName);
-    
+
 
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
@@ -96,18 +99,18 @@ void HAnalysis::NewFileBase()
 
     // Export tree
     TString ExportTreeName = FileVector[FileNumber]->Title;
-    
+
     vector<string> StudyNameVector = GetStudyNameVector();
     int StudySum = StudyNameVector.size();
     for (int StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
-        
-        
+
+
         ExRootTreeWriter TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
         ExRootTreeBranch InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
         TreeWriterVector.push_back(TreeWriter);
-        
+
     }
-    
+
 
     NewFile();
 
@@ -146,16 +149,16 @@ void HAnalysis::NewEvent()
     if (Successfull) {
 
         AnalysisNotEmpty = 1;
-        HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranchVector[]->NewEntry());
+        HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
         Info->Crosssection = FileVector[FileNumber]->Crosssection;
         Info->Error = FileVector[FileNumber]->Error;
         Info->EventNumber = EventSum;
 
-        TreeWriter->Fill();
+        TreeWriterVector[Successfull]->Fill();
 
     }
 
-    TreeWriter->Clear();
+    TreeWriterVector[Successfull]->Clear();
 
 }
 
@@ -164,8 +167,13 @@ void HAnalysis::CloseFileBase()
 {
     Print(0, "Clean Analysis");
 
-    if (AnalysisNotEmpty) TreeWriter->Write();
-
+    for (int StudyNumber = 0; StudyNumber < GetStudyNameVector().size(); ++StudyNumber) {
+        
+       TreeWriterVector[StudyNumber]->Write();
+       delete TreeWriterVector[StudyNumber];
+        
+    }
+    
     Event->CloseFile();
     CloseFile();
 
@@ -175,7 +183,6 @@ void HAnalysis::CloseFileBase()
     delete ImportTree;
     delete ImportFile;
 
-    delete TreeWriter;
 
 }
 
@@ -193,9 +200,9 @@ HAnalysis::~HAnalysis()
     Print(0, "Destructor");
 
     ExportFile->Close();
-    
+
     EmptyFileVector();
-    
+
     delete ExportFile;
     delete ClonesArrays;
     delete Event;
@@ -204,14 +211,15 @@ HAnalysis::~HAnalysis()
 
 }
 
-void HAnalysis::EmptyFileVector(){
-    
-        int PathSum = FileVector.size();
+void HAnalysis::EmptyFileVector()
+{
+
+    int PathSum = FileVector.size();
     for (int PathNumber = 0; PathNumber < PathSum; ++PathNumber) {
 
         delete FileVector[PathNumber];
 
     }
     FileVector.clear();
-    
+
 }

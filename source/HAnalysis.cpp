@@ -26,7 +26,7 @@ void HAnalysis::AnalysisLoop()
 
     Print(0, "Analysis Loop");
 
-    cout << endl;
+    Print(0,"");
 
     vector<string> StudyNameVector = GetStudyNameVector();
 
@@ -116,7 +116,7 @@ void HAnalysis::NewStudy()
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
     ExportFile = new TFile(ExportName, "Recreate");
-    Print(0, "ExportFile",ExportName);
+    Print(0, "ExportFile", ExportName);
 
 }
 
@@ -129,7 +129,7 @@ void HAnalysis::NewFileBase()
 
     // Export tree
     TString ExportTreeName = FileVector[FileNumber]->Title();
-    Print(0, "ExportTreeName",ExportTreeName);
+    Print(0, "ExportTreeName", ExportTreeName);
     TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
 
     NewFile();
@@ -194,7 +194,7 @@ void HAnalysis::CloseFileBase()
     CloseFile();
 
     ClonesArrays->ResetBranches();
-    
+
 
 //     delete TreeReader; // FIXME should get deleted here
 //     Print(0, "All deleted");

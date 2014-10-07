@@ -59,7 +59,10 @@ bool HJetDelphes::GetJets(bool Tagging, bool Structure)
 
         }
 
-        if (Tagging)JetVector.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
+        if (Tagging){
+            JetVector.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
+            JetVector.back().set_user_index(JetVector.back().user_info<HJetInfo>().GetMaximalId());            
+        }
 
         GetDelphesTags(JetClone);
 
@@ -118,7 +121,6 @@ void HJetDelphes::GetTau(Jet *JetClone)
 int HJetDelphes::GetMotherId(TObject *Object)
 {
 
-
     Print(1, "Get Mother Id", ClonesArrays->ParticleSum());
 
     GenParticle *ParticleClone;
@@ -170,7 +172,8 @@ int HJetDelphes::GetMotherId(TObject *Object)
 
     }
 
-    if(MotherId==EmptyId) Print(-1, "Mother Id", MotherId);
+    if (MotherId == EmptyId)
+        Print(-1, "Mother Id", MotherId);
 
     return MotherId;
 

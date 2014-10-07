@@ -33,11 +33,11 @@ void HAnalysisHeavyHiggsDelphes::SetFileVector()
 
 //     if (AnalysisName != "Signal") {
 
-    FileVector.push_back(new HFileFolder("5k_Pt20")); // FIXME we need this file
+    FileVector.push_back(new HFileFolder("BG_ttbb"));
 
 //     }
 
-    FileVector.push_back(new HFileFolder("Signal_5f"));
+    FileVector.push_back(new HFileFolder("hcpbb_ttbb"));
 //     FileVector.push_back(new HFileFolder("500GeV"));
 //     FileVector.push_back(new HFileFolder("600GeV"));
 //     FileVector.push_back(new HFileFolder("700GeV"));
@@ -47,7 +47,7 @@ void HAnalysisHeavyHiggsDelphes::SetFileVector()
 
     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
-    FileVector.front()->FileSuffix = "_Delphes.root";
+    FileVector.front()->FileSuffix = ".root";
     FileVector.front()->Snowmass = 1;
 
 //     FileVector.push_back(new HFileDelphes("pp-bbtt-4f", "background"));
@@ -128,11 +128,12 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
         if (abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
-
+        
     }
-
+    
     if (BottomJetVector.size() < 2)  return 0;
 
+    Print(-1,"Signal Bottom",BottomJetVector.size());
 
     sort(BottomJetVector.begin(), BottomJetVector.end(), SortJetByEta());
 
@@ -211,11 +212,11 @@ bool HAnalysisHeavyHiggsDelphes::Background()
                 if (TopJetVector[TopJetNumber].eta() > TopJetVector[BottomJetNumber].eta()) {
 
                     FrontJet = TopJetVector[TopJetNumber];
-                    BackJet = TopJetVector[BottomJetNumber];
+                    BackJet = BottomJetVector[BottomJetNumber];
 
                 } else {
 
-                    FrontJet = TopJetVector[BottomJetNumber];
+                    FrontJet = BottomJetVector[BottomJetNumber];
                     BackJet = TopJetVector[TopJetNumber];
 
                 }
