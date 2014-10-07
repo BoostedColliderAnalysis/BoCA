@@ -21,10 +21,10 @@ bool HParticleDelphes::GetParticles()
 {
 
     Print(1, "Get Particles");
-    
+
     GenParticle *GenParticleClone;
     int ParticleID;
-    
+
     Print(2, "Number of Particles", ClonesArrays->ParticleSum());
     for (int ParticleNumber = 0; ParticleNumber < ClonesArrays->ParticleSum(); ++ParticleNumber) {
 
@@ -91,19 +91,19 @@ bool HParticleDelphes::GetParticles()
 
             } // cp Higgs
 
-            
+
             if (abs(ParticleID) == BottomId) {
-                                
+
                 BottomJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
                 ParticleJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
                 ParticleJetVector.back().set_user_index(BottomId);
-                
+
                 Print(2, "Bottom");
-                
+
 //                 Print(-1, "Status 3 ", BottomJet.pt(), BottomJet.eta());
-                
+
             } // bottoms
-                
+
 
         }
 
@@ -113,17 +113,17 @@ bool HParticleDelphes::GetParticles()
             Print(3, "Particles Status", 3);
 
 //             if (abs(ParticleID) == BottomId) {
-// 
+//
 //                 PseudoJet BottomJet = GetPseudoJet(GenParticleClone->P4());
 //                 BottomJet.set_user_index(BottomId);
-// 
+//
 //                 BottomJetVector.push_back(BottomJet);
 //                 ParticleJetVector.push_back(BottomJet);
-// 
+//
 //                 Print(2, "Bottom");
-//                 
+//
 //                 Print(-1, "Status 3 ", BottomJet.pt(), BottomJet.eta());
-// 
+//
 //             } // bottoms
 
             if (abs(ParticleID) == TopId) {
@@ -162,7 +162,7 @@ bool HParticleDelphes::GetParticles()
         }
 
     }
-    
+
     return 1;
 
 }

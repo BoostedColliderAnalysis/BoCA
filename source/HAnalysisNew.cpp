@@ -10,6 +10,8 @@ HAnalysis::HAnalysis()
 
     EventNumberMax = 100000;
 
+    DebugLevel = 5;
+
 }
 
 vector<string> HAnalysis::GetStudyNameVector()
@@ -32,9 +34,41 @@ void HAnalysis::AnalysisLoop()
 
     SetFileVector();
 
+    if (FileVector.front()->GetTreeName() == "Delphes") {
+
+      if (FileVector.front()->Snowmass) {
+
+        ClonesArrays = new HClonesArraySnowmass();
+
+      } else {
+
+        ClonesArrays = new HClonesArrayDelphes();
+
+      }
+
+      Event = new HEventDelphes();
+
+    } else if (FileVector.front()->GetTreeName() == "LHEF") {
+
+      ClonesArrays = new HClonesArrayParton();
+
+      Event = new HEventParton();
+
+    } else if (FileVector.front()->GetTreeName() == "LHCO") {
+
+      ClonesArrays = new HClonesArrayPgs();
+
+      Event = new HEventPgs();
+
+    } else {
+
+      Print(-1, "unknown Tree String", FileVector.front()->GetTreeName());
+
+    }
+
     int StudySum = StudyNameVector.size();
 
-    for (int StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
+    for (unsigned StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
 
         StudyName = StudyNameVector[StudyNumber];
         Print(0, "Analysing Mva Sample", StudyName);
@@ -56,7 +90,7 @@ void HAnalysis::AnalysisLoop()
             Print(1, "Analysing Event", EventNumber + 1);
             NewEvent();
             ProgressBar.Update(EventNumber);
-            if (Debug > 1) cout << endl;
+            if (DebugLevel > 1) cout << endl;
 
         }
         ProgressBar.Finish();
@@ -64,7 +98,7 @@ void HAnalysis::AnalysisLoop()
 
         Print(0, "All Events analysed", EventSum);
         CloseFileBase();
-        if (Debug > 0) cout << endl;
+        if (DebugLevel > 0) cout << endl;
 
     }
     Print(0, "All Files analysed", FileSum);
@@ -85,7 +119,7 @@ void HAnalysis::NewStudy()
 
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
-    TFile ExportFile = new TFile(ExportName, "Recreate");
+    TFile *ExportFile = new TFile(ExportName, "Recreate");
     ExportFileVector.push_back(ExportFile);
 
 }
@@ -98,23 +132,19 @@ void HAnalysis::NewFileBase()
     AnalysisNotEmpty = 0;
 
     // Export tree
-    TString ExportTreeName = FileVector[FileNumber]->Title;
+    TString ExportTreeName = FileVector[FileNumber]->Title();
 
     vector<string> StudyNameVector = GetStudyNameVector();
     int StudySum = StudyNameVector.size();
-    for (int StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
 
-
-        ExRootTreeWriter TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
-        ExRootTreeBranch InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
-        TreeWriterVector.push_back(TreeWriter);
-
-    }
+    TreeWriter = new ExRootTreeWriter(ExportFileVector.front(), ExportTreeName);
+    InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
 
     NewFile();
 
-    Event->NewFile();
+//     Event->NewFile();
+
 
 
     // Import file
@@ -132,6 +162,7 @@ void HAnalysis::NewFileBase()
     EventSum = min((int)TreeReader->GetEntries(), EventNumberMax);
 
     ClonesArrays->UseBranches(TreeReader);
+    Print(2,"we have new branches");
 
 }
 
@@ -144,9 +175,13 @@ void HAnalysis::NewEvent()
 
     TreeReader->ReadEntry(EventNumber);
 
-    bool Successfull = Analysis();
+    int Successfull = Analysis();
 
-    if (Successfull) {
+//     if (Successfull) {
+
+    Print(-1,"File",ExportFileVector[Successfull]->GetName());
+
+        TreeWriter->SetTreeFile(ExportFileVector[Successfull]);
 
         AnalysisNotEmpty = 1;
         HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
@@ -154,11 +189,11 @@ void HAnalysis::NewEvent()
         Info->Error = FileVector[FileNumber]->Error;
         Info->EventNumber = EventSum;
 
-        TreeWriterVector[Successfull]->Fill();
+        TreeWriter->Fill();
 
-    }
+//     }
 
-    TreeWriterVector[Successfull]->Clear();
+    TreeWriter->Clear();
 
 }
 
@@ -167,19 +202,22 @@ void HAnalysis::CloseFileBase()
 {
     Print(0, "Clean Analysis");
 
-    for (int StudyNumber = 0; StudyNumber < GetStudyNameVector().size(); ++StudyNumber) {
-        
-       TreeWriterVector[StudyNumber]->Write();
-       delete TreeWriterVector[StudyNumber];
-        
+
+    for (unsigned StudyNumber = 0; StudyNumber < ExportFileVector.size(); ++StudyNumber) {
+
+      TreeWriter->SetTreeFile(ExportFileVector[StudyNumber]);
+    TreeWriter->Write();
+
     }
-    
+
+    delete TreeWriter;
+
     Event->CloseFile();
     CloseFile();
 
     ClonesArrays->ResetBranches();
 
-    delete TreeReader;
+//     delete TreeReader; // FIXME should get deleted here
     delete ImportTree;
     delete ImportFile;
 
@@ -199,7 +237,12 @@ HAnalysis::~HAnalysis()
 
     Print(0, "Destructor");
 
-    ExportFile->Close();
+    for (unsigned StudyNumber = 0; StudyNumber < ExportFileVector.size(); ++StudyNumber) {
+
+      ExportFileVector[StudyNumber]->Close();
+
+    }
+
 
     EmptyFileVector();
 

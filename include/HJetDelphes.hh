@@ -2,6 +2,7 @@
 # define HJetDelphes_hh
 
 # include "classes/DelphesClasses.h"
+
 # include <fastjet/ClusterSequence.hh>
 
 # include "HJet.hh"
@@ -54,19 +55,13 @@ public:
      *
      * @return void
      */
-    void GetTau(Jet *);
+    void GetTau(const Jet&);
 
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
     bool GetEFlow();
-
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
-    bool GetEFlow(bool,bool);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -81,15 +76,6 @@ public:
      * @return void
      */
     void GetGenJet();
-    GenParticle *GetMotherParticle(GenParticle*);
-
-//     template <typename Template>
-//     void GetParticlete(HObject *Object){
-//
-//
-//
-//     }
-
 
 private:
 
@@ -107,32 +93,21 @@ private:
     vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>);
 
     template <typename Template>
-    HJetInfo GetJetId(Template *Clone) {
+    HJetInfo GetJetId(const Template &Clone) const {
 
-        Print(1, "Get Jet Id");
-
-	GenParticle *ParticleClone;
+        Print(1, "Get Jet Id",Clone->Particles.GetEntriesFast());
         HJetInfo JetInfo;
-        TObject *Object;
 
-        Print(2, "Number of Particle", Clone->Particles.GetEntriesFast());
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 
-            Object = Clone->Particles.At(ParticleNumber);
+            const TObject* Object = Clone->Particles.At(ParticleNumber);
 
             if (Object == 0) continue;
+            if (Object->IsA() != GenParticle::Class()) continue;
 
-            if (Object->IsA() == GenParticle::Class()) {
+            const GenParticle *ParticleClone = (GenParticle *) Object;
 
-                ParticleClone = (GenParticle *) Object;
-
-            } else {
-
-                Print(-1, "Object is", Object->ClassName());
-                continue;
-            }
-
-            JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
+            JetInfo.AddConstituent(GetMotherId(*Object), ParticleClone->PT);
 
         }
 
@@ -144,13 +119,13 @@ private:
 
 
     template<typename ParticleTemplate,typename EFlowTemplate>
-    bool GetIsolation(EFlowTemplate *EFlowClone,TClonesArray *ClonesArray) {
+    bool GetIsolation(const EFlowTemplate &EFlowClone,const TClonesArray &ClonesArray) const {
 
         bool Isolated = true;
 
-        for (int ParticleNumber = 0; ParticleNumber < ClonesArray->GetEntriesFast(); ++ParticleNumber) {
+        for (int ParticleNumber = 0; ParticleNumber < ClonesArray.GetEntriesFast(); ++ParticleNumber) {
 
-            ParticleTemplate *ParticleClone = (ParticleTemplate *) ClonesArray->At(ParticleNumber);
+            ParticleTemplate *ParticleClone = (ParticleTemplate *) ClonesArray.At(ParticleNumber);
             Isolated = CheckIsolation(EFlowClone, ParticleClone);
 
         }
@@ -159,11 +134,25 @@ private:
     }
 
 
-    int GetMotherId(TObject *);
+    int GetMotherId(const TObject&) const;
 
-    void GetDelphesTags(Jet *);
+    void GetDelphesTags(const Jet&);
 
-    PseudoJet GetConstituents(Jet *);
+    /**
+     * @brief Analyses EFlow Variables of Jets
+     *
+     */
+    bool GetEFlow(bool,bool);
+
+    void GetTrackEFlow(bool,bool);
+
+    void GetPhotonEFlow(bool,bool);
+
+    void GetHadronEFlow(bool,bool);
+
+    void GetMuonEFlow(bool,bool);
+
+    PseudoJet GetConstituents(const Jet&) const;
 
     string ClassName() const {
 

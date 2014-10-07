@@ -52,7 +52,7 @@ void HAnalysis::AnalysisLoop()
                 Print(1, "Analysing Event", EventNumber + 1);
                 NewEvent();
                 ProgressBar.Update(EventNumber);
-                if (Debug > 1) cout << endl;
+                if (DebugLevel > 1) cout << endl;
 
             }
             ProgressBar.Finish();
@@ -60,7 +60,7 @@ void HAnalysis::AnalysisLoop()
 
             Print(0, "All Events analysed", EventSum);
             CloseFileBase();
-            if (Debug > 0) cout << endl;
+            if (DebugLevel > 0) cout << endl;
 
         }
         Print(0, "All Files analysed", FileSum);

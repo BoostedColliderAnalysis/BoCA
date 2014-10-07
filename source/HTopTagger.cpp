@@ -59,7 +59,7 @@ void HTopTagger::TaggingTop(vector< PseudoJet > EFlowJetVector)
     for (int JetNumber = 0; JetNumber < JetSum; JetNumber++) {
         
                         bool debug = false;
-                        if (Debug > 2) debug = true;
+                        if (DebugLevel > 2) debug = true;
         
         
         HEPTopTagger TopTag(GranulatedHadronClusterSequence, JetVector[JetNumber],TopMass,WMass,debug);
@@ -78,8 +78,8 @@ void HTopTagger::TaggingTop(vector< PseudoJet > EFlowJetVector)
             Print(1, "Bottom Mass", TopTag.top_subjets().at(0).m());
             Print(1, "W Mass 1", TopTag.top_subjets().at(1).m());
             Print(1, "W Mass 2", TopTag.top_subjets().at(2).m());
-            if (Debug > 2) TopTag.get_setting();
-            if (Debug > 1) TopTag.get_info();
+            if (DebugLevel > 2) TopTag.get_setting();
+            if (DebugLevel > 1) TopTag.get_info();
             //             if (debug > 1) cout <<  "  ",  endl;
             
             TLorentzVector TopLorentzVector;

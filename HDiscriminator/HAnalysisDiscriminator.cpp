@@ -4,29 +4,29 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 {
 
     Print(0, "Constructor");
-    
+
     ProjectName = "Discriminator";
 
     LeptonEventCounter = 0;
-        
+
 //     ClonesArrays = new HClonesArrayDelphes();
-//         
+//
 //     Event = new HEventDelphes();
-    
+
 //     Debug = 3;
-    
+
     EventNumberMax = 10000;
 
 }
 
 vector<string> HAnalysisDiscriminator::GetStudyNameVector(){
-    
+
 //     vector<string> StudyNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
     vector<string> StudyNameVector = {"Higgs", "Top", "Jet", "Test"};
     //     vector<string> StudyNameVector = {"Top"};
-    
+
     return StudyNameVector;
-    
+
 }
 
 void HAnalysisDiscriminator::SetFileVector()
@@ -42,7 +42,7 @@ void HAnalysisDiscriminator::SetFileVector()
         FileVector.push_back(Background);
 
     }
-    
+
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv","even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
@@ -52,7 +52,7 @@ void HAnalysisDiscriminator::SetFileVector()
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
     FileVector.push_back(Mix);
-    
+
     HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv","odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
@@ -79,14 +79,14 @@ void HAnalysisDiscriminator::NewFile()
 void HAnalysisDiscriminator::CloseFile()
 {
     Print(0, "Close File");
-    
+
 }
 
 
 
 bool HAnalysisDiscriminator::Analysis()
 {
-    
+
     Print(1, "Analysis", StudyName);
 
     vector<PseudoJet> LeptonVector = Leptons();
@@ -115,7 +115,7 @@ bool HAnalysisDiscriminator::Analysis()
 
     vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates();
     int CandidateSum = CandidateJets.size();
-    
+
     sort(CandidateJets.begin(),CandidateJets.end(),SortJetByMass());
 
     Print(1, "Number of Candidates", CandidateSum);
@@ -133,9 +133,9 @@ bool HAnalysisDiscriminator::Analysis()
         CandidateSum = min(CandidateSum, 3);
 
     } else if (StudyName == "Higgs") {
-        
+
         CandidateSum = min(CandidateSum, 1);
-        
+
     }
 
     bool HasCandidate = 0;
@@ -145,7 +145,7 @@ bool HAnalysisDiscriminator::Analysis()
         PseudoJet CandidateJet = CandidateJets[CandidateNumber];
 
         Print(2, "Candidate", CandidateNumber);
-        
+
         Print(2,"Candidate",CandidateJet.user_index());
 
         if (StudyName == "Higgs") {
@@ -164,48 +164,48 @@ bool HAnalysisDiscriminator::Analysis()
         }
 
         if (StudyName == "Top") {
-            
+
             if (abs(CandidateJet.user_index()) != TopId) {
-                
+
                 Print(2, "Not a Top");
                 continue;
-                
+
             }
-            
-            if (CandidateCounter > 1) Print(0, "Number of Tops", CandidateCounter);            
+
+            if (CandidateCounter > 1) Print(0, "Number of Tops", CandidateCounter);
             ++CandidateCounter;
             Print(1, "Top", CandidateCounter);
 
         }
-        
+
 //         if (StudyName == "TwoTop") {
-//             
+//
 //             if (CandidateJet.user_index() != 2 * TopUserIndex || CandidateJet.user_index() != 2* TopId){
-//                 
+//
 //                 Print(2, "Not two tops");
 //                 continue;
-//                 
+//
 //             }
-//             
-//             if (CandidateCounter > 0) Print(0, "Number TopPairs", CandidateCounter);            
+//
+//             if (CandidateCounter > 0) Print(0, "Number TopPairs", CandidateCounter);
 //             ++CandidateCounter;
 //             Print(1, "TwoTop", CandidateCounter);
-//             
+//
 //         }
-//         
+//
 //         if (StudyName == "HiggsTop") {
-//             
+//
 //             if (CandidateJet.user_index() != HiggsUserIndex + TopUserIndex || CandidateJet.user_index() != CpvHiggsId + TopId){
-//                 
+//
 //                 Print(2, "Not a Top Higgs pair");
 //                 continue;
-//                 
+//
 //             }
-//             
-//             if (CandidateCounter > 0) Print(0, "Number TopHiggsPairs", CandidateCounter);  
+//
+//             if (CandidateCounter > 0) Print(0, "Number TopHiggsPairs", CandidateCounter);
 //             ++CandidateCounter;
 //             Print(1, "HiggsTop", CandidateCounter);
-//             
+//
 //         }
 
         if (StudyName == "Jet") {
@@ -214,16 +214,16 @@ bool HAnalysisDiscriminator::Analysis()
 //                 ||
 //                 CandidateJet.user_index() == 2 * TopUserIndex ||CandidateJet.user_index() == 2 * TopId ||
 //                 CandidateJet.user_index() == TopUserIndex+ HiggsUserIndex || CandidateJet.user_index() == TopId + CpvHiggsId
-                
+
             ) {
-                
+
                 Print(2, "Not a light jet");
                 continue;
-                
+
             }
-            
-            if (CandidateCounter > 2) Print(0, "Number light jets", CandidateCounter);  
-            ++CandidateCounter;            
+
+            if (CandidateCounter > 2) Print(0, "Number light jets", CandidateCounter);
+            ++CandidateCounter;
             Print(1, "Jet", CandidateCounter);
 
         }
@@ -248,22 +248,22 @@ bool HAnalysisDiscriminator::Analysis()
         float CandidateArea = 0;
 
 //         if (CandidateJet.has_area()) {
-// 
+//
 //             float CandidateArea = CandidateJet.area();
-//             
+//
 //             cout << CandidateArea << endl;
-// 
+//
 // //             if (CandidateArea <= 0) {
-// // 
+// //
 // //                 Print("HAnalysisDiscriminator", "Candidate has no Area");
 // //                 continue;
-// // 
+// //
 // //             }
-// 
+//
 //         } else {
-//             
+//
 //             cout << 0 << endl;
-//             
+//
 //         }
 
         // Get Position of SubJets
@@ -541,7 +541,7 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
     vector<float> LeptonEta, LeptonPhi;
 
     Event->GetLeptons();
-    
+
     vector<PseudoJet> LeptonVector = Event->Lepton->LeptonJetVector;
     vector<PseudoJet> AntiLeptonVector = Event->Lepton->AntiLeptonJetVector;
 

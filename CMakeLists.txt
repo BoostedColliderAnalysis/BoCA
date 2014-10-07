@@ -1,8 +1,8 @@
 # Check if cmake has the required version
 cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 
-# Set name of our project to "Event". 
-# Has to be done after check of cmake version since this is a new feature                  
+# Set name of our project to "Event".
+# Has to be done after check of cmake version since this is a new feature
 project(HAnalysis)
 
 # set c++ flags
@@ -14,7 +14,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # Load some basic macros which are needed later on
 include(FindROOT.cmake)
 include(Findfastjet.cmake)
- 
+
 # set path to dependencies
 set(MadGraphDir "~/Development/MadGraph")
 set(ExRootDir "${MadGraphDir}/ExRootAnalysis")
@@ -30,7 +30,7 @@ find_library(DelphesLibrary
     NAMES Delphes
     HINTS "${DelphesDir}"
 )
- 
+
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
@@ -59,7 +59,7 @@ add_subdirectory(root)
 
 # Libraries
 set(IncludeDirectory
-${IncludeDirectory}   
+${IncludeDirectory}
 ${PROJECT_SOURCE_DIR}/include
 ${ExRootDir}
 ${DelphesDir}
@@ -77,11 +77,12 @@ set(LinkLibraries
 ${LinkLibraries}
 ${ExRootLibrary}
 HBranch
-HObject 
-HEvent 
+HObject
+HEvent
 HAnalysis
 )
 
 add_subdirectory(HDiscriminator)
 add_subdirectory(HHeavyHiggs)
 add_subdirectory(HJetProperties)
+add_subdirectory(HTest)

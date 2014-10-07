@@ -63,12 +63,6 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool GetEFlow(bool,bool);
-
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
     virtual bool GetEFlow();
 
     /**
@@ -142,7 +136,7 @@ public:
 protected:
 
     template<typename Template1, typename Template2>
-    bool CheckIsolation(Template1 Particle1, Template2 Particle2)
+    bool CheckIsolation(const Template1& Particle1, const Template2& Particle2) const
     {
 
         const float DeltaRIsolationMax = 0.01; // TODO decide on best value
@@ -154,7 +148,7 @@ protected:
 //         float Phi2 = Particle2->Phi;
 
 //         if (GetDistance(Eta1, Phi1, Eta2, Phi2) < DeltaRIsolationMax) {
-        if (GetPseudoJet(Particle1->P4()).delta_R(GetPseudoJet(Particle2->P4())) < DeltaRIsolationMax) {
+        if (GetPseudoJet(const_cast<Template1*>(&Particle1)->P4()).delta_R(GetPseudoJet(Particle2->P4())) < DeltaRIsolationMax) {
 
             Isolated = false;
 
@@ -163,7 +157,7 @@ protected:
 
         Isolated = true; // FIXME this destroys the isolation check (right now on purpose to get harder top jets)
 
-        return (Isolated);
+        return Isolated;
 
     }
 
@@ -184,3 +178,4 @@ private:
 };
 
 #endif
+

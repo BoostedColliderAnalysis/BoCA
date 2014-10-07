@@ -32,7 +32,7 @@ protected:
      * @param  Phi2
      * @return float distance
      */
-    float GetDistance(float, float, float, float) const;
+    float GetDistance(const float&, const float&, const float&, const float&) const;
 
     /**
      * @brief Calcualte distance from center in eta phi space
@@ -41,7 +41,7 @@ protected:
      * @param  Phi
      * @return float distance
      */
-    float GetDistance(float, float) const;
+    float GetDistance(const float&, const float&) const;
 
     /**
      * @brief Take care of phi angles around pi
@@ -50,24 +50,24 @@ protected:
      * @param RefPhi reference angle
      * @return float Phi angle
      */
-    float GetDeltaPhi(float, float) const;
+    float GetDeltaPhi(const float&, const float&) const;
 
-    void Print(int, string) const;
+    void Print(const int&, const string&) const;
 
-    void Printer(string) const;
+    void Printer(const string&) const;
 
     /**
      * @brief Get a PseudoJet from a TLorentzVector
-     * 
+     *
      * @param  TLorentzVector
      * @return fastjet::PseudoJet
      */
-    PseudoJet GetPseudoJet(TLorentzVector) const;
+    PseudoJet GetPseudoJet(const TLorentzVector&) const;
 
     template<typename Template>
-    void Print(int debug, string Function, Template Number) const {
+    void Print(const int& Severity, const string& Function, const Template& Number) const {
 
-        if (debug < Debug) {
+        if (Severity < DebugLevel) {
 
             Printer(Function);
             std::cout << " " << Number << std::endl;
@@ -77,12 +77,12 @@ protected:
     }
 
     template<typename Template, typename Template2>
-    void Print(int debug, string Function, Template Number, Template2 Number2) const {
+    void Print(const int& Severity, const string& Function, const Template& Number, const Template2& Number2) const {
 
-        if (debug < Debug) {
+        if (Severity < DebugLevel) {
 
             const char Separator = ' ';
-            int const FunctionWidth = 10;
+            const int FunctionWidth = 10;
 
             Printer(Function);
 
@@ -103,37 +103,37 @@ protected:
 
     /**
      * @brief Debug level
-     * 
+     *
      */
-    int Debug;
+    int DebugLevel;
 
     /**
      * @brief A large number
-     * 
+     *
      */
-    int const LargeNumber;
+    const int LargeNumber;
 
     /**
      * @brief Top quark mass
-     * 
+     *
      */
     float const TopMass;
 
     /**
      * @brief Higgs boson mass
-     * 
+     *
      */
     float const HiggsMass;
 
     /**
      * @brief W bsoson mass
-     * 
+     *
      */
     float const WMass;
 
     /**
      * @brief Tau lepton mass
-     * 
+     *
      */
     float const TauMass;
 
@@ -151,120 +151,120 @@ protected:
 
     /**
      * @brief Higgs boson user index
-     * 
+     *
      */
-    int const HiggsUserIndex;
+    const int HiggsUserIndex;
 
     /**
      * @brief Top quark user index
-     * 
+     *
      */
-    int const TopUserIndex;
+    const int TopUserIndex;
 
     /**
      * @brief Initial user index
-     * 
+     *
      */
-    int const EmptyUserIndex;
+    const int EmptyUserIndex;
 
     /**
      * @brief CP violating Higgs boson index
-     * 
+     *
      */
-    int const CpvHiggsId;
-    
+    const int CpvHiggsId;
+
     /**
      * @brief Proton index
-     * 
+     *
      */
-    int const ProtonId;
-    
+    const int ProtonId;
+
     /**
      * @brief Up-up di-quark index
-     * 
+     *
      */
-    int const UpUp1Id;
-    
+    const int UpUp1Id;
+
     /**
      * @brief Up-down di-quark index
-     * 
+     *
      */
-    int const UpDown1Id;
-    
+    const int UpDown1Id;
+
     /**
      * @brief Up-down di-quark index
-     * 
+     *
      */
-    int const UpDown0Id;
-    
+    const int UpDown0Id;
+
     /**
      * @brief Down-down di-quark index
-     * 
+     *
      */
-    int const DownDown1Id;
+    const int DownDown1Id;
 
     /**
      * @brief Heavy Higgs boson index
-     * 
+     *
      */
-    int const HeavyHiggsId;
-    
+    const int HeavyHiggsId;
+
     /**
      * @brief Gluon boson index
-     * 
+     *
      */
-    int const GluonId;
-    
+    const int GluonId;
+
     /**
      * @brief Top quark index
-     * 
+     *
      */
-    int const TopId;
+    const int TopId;
 
     /**
      * @brief Bottom quark index
-     * 
+     *
      */
-    int const BottomId;
-    
+    const int BottomId;
+
     /**
      * @brief Charm quark index
-     * 
+     *
      */
-    int const CharmId;
-    
+    const int CharmId;
+
     /**
      * @brief Strange quark index
-     * 
+     *
      */
-    int const StrangeId;
-    
+    const int StrangeId;
+
     /**
      * @brief Up quark index
-     * 
+     *
      */
-    int const UpId;
-    
+    const int UpId;
+
     /**
      * @brief Down quark index
-     * 
+     *
      */
-    int const DownId;
+    const int DownId;
 
     /**
      * @brief Initial index
-     * 
+     *
      */
-    int const EmptyId;
-    
+    const int EmptyId;
+
     /**
      * @brief Initial state radiation index
-     * 
+     *
      * Index for all possbile initial state radiation.
      * The value is self definied, be carfull with clashes.
-     * 
+     *
      */
-    int const IsrId;
+    const int IsrId;
 
 private:
 
@@ -309,9 +309,9 @@ struct SortPairs {
 
 //     inline bool operator()(const pair<Template1, Template2> &Pair1,
 //                            const pair<Template1, Template2> &Pair2) {
-// 
+//
 //         return (Pair1.second > Pair2.second);
-// 
+//
 //     }
 
     inline bool operator()(const std::pair<int, float> &Pair1,

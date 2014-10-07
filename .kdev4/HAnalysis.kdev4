@@ -8,7 +8,7 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/hajer/Projects/HAnalysis/build
-Build Type=
+Build Type=Debug
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
@@ -133,7 +133,7 @@ pattern=*.o
 targets=1
 
 [Launch]
-Launch Configurations=Launch Configuration 1,Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 4,Launch Configuration 5,Launch Configuration 6
+Launch Configurations=Launch Configuration 1,Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 4,Launch Configuration 5,Launch Configuration 6,Launch Configuration 7
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -259,4 +259,22 @@ External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=HAnalysis,HJetProperties,HJetProperties
 Use External Terminal=true
 Working Directory=file:///home/hajer/Projects/JetProperties/
+isExecutable=true
+
+[Launch][Launch Configuration 7]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HTest
+Type=Native Application
+
+[Launch][Launch Configuration 7][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x03\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\n\x00H\x00T\x00e\x00s\x00t\x00\x00\x00\n\x00H\x00T\x00e\x00s\x00t)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HTest
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=HAnalysis,HTest,HTest
+Use External Terminal=true
+Working Directory=file:///home/hajer/Development
 isExecutable=true

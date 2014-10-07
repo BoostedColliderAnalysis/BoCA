@@ -69,7 +69,7 @@ bool HAnalysisJetProperties::Analysis()
     Event->GetLeptons();
 
     vector<PseudoJet> LeptonJetVector = Event->Lepton->GetLeptonJetVector();
-    
+
 
     if (LeptonJetVector.size() < 2) return 0;
     sort(LeptonJetVector.begin(),LeptonJetVector.end(),SortJetByPt());
@@ -90,11 +90,11 @@ bool HAnalysisJetProperties::Analysis()
     Event->GetTaggedEFlow();
 
     float PtSum;
-    
-    for (int ConstNumber = 0; ConstNumber < Event->Jets->EFlowJetVector.size(); ++ConstNumber) {
+
+    for (unsigned ConstNumber = 0; ConstNumber < Event->Jets->EFlowJetVector.size(); ++ConstNumber) {
         PtSum+=Event->Jets->EFlowJetVector[ConstNumber].pt();
     }
-    
+
     vector<PseudoJet> EFlowJetVector;// = Event->Jets->EFlowJetVector;
 
 
@@ -110,7 +110,7 @@ bool HAnalysisJetProperties::Analysis()
 
     vector<float> DistanceVector;
 
-    for (int ConstNumber = 0; ConstNumber < EFlowJetVector.size(); ++ConstNumber) {
+    for (unsigned ConstNumber = 0; ConstNumber < EFlowJetVector.size(); ++ConstNumber) {
         DistanceVector.push_back(HiggsJet.delta_R(EFlowJetVector[ConstNumber]));
     }
 

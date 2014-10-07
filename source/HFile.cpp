@@ -39,18 +39,19 @@ HFile::HFile(TString Process, TString Run)
 }
 
 TString HFile::Title(){
-    
+
     return RunFolder;
-    
+
 }
 
 TString HFile::MadGraphFilePath() {
-    
+
     return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
-    
+
 }
 
-TString HFile::BasePath = "$HOME/Development/madgraph/";
+// TString HFile::BasePath = "$HOME/Development/madgraph/";
+TString HFile::BasePath = "$HOME/Development/MadGraph/";
 
 TString HFile::FileSuffix = "_delphes_events.root";
 

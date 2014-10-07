@@ -63,10 +63,10 @@ protected:
      * @return void
      */
     virtual void NewFile() = 0;
-    
+
     /**
      * @brief Clean Analysis
-     * 
+     *
      * @return void
      */
     virtual void CloseFile() = 0;
@@ -102,20 +102,20 @@ protected:
     int EventNumberMax;
 
     HEvent *Event;
-    
+
     /**
      * @brief Clones Arrays
      *
      */
     HClonesArray *ClonesArrays;
-    
+
     bool Cut;
-    
+
     virtual vector<string> GetStudyNameVector();
-    
-    vector<TFile> ExportFileVector;
-    
-    vector<ExRootTreeWriter> TreeWriterVector;
+
+    vector<TFile*> ExportFileVector;
+
+//     vector<ExRootTreeWriter*> TreeWriterVector;
 
     string StudyName;
 
@@ -190,9 +190,9 @@ private:
     bool AnalysisNotEmpty;
 
     virtual string ClassName() const {
-        
+
         return ("HAnalysis");
-        
+
     };
 
 };

@@ -53,7 +53,7 @@ PseudoJet HHiggsTagger::GetHiggsJet(vector<PseudoJet> InputJetVector, vector<Pse
 
         if (MassDropJet == 0) {
 
-            if (Debug > 2) cout << "No substructure found" << endl;
+            if (DebugLevel > 2) cout << "No substructure found" << endl;
             continue;
 
         }
@@ -103,7 +103,7 @@ vector<PseudoJet> HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector
     const float FatJetPtMin = 0.;
     vector<PseudoJet> InclusiveJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
     vector<PseudoJet> FatJetVector = sorted_by_E(InclusiveJetVector);
-    if (Debug > 1) cout << "Number of Fat Jets: " << FatJetVector.size() << endl;
+    if (DebugLevel > 1) cout << "Number of Fat Jets: " << FatJetVector.size() << endl;
     
     FatJetClusterSequence->delete_self_when_unused();
     delete FatJetDefinition;
@@ -124,7 +124,7 @@ PseudoJet HHiggsTagger::GetMassDropJet(PseudoJet FatJet)
     MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
     PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
 
-    if (Debug > 2) cout << "Mass Drop applied" << endl;
+    if (DebugLevel > 2) cout << "Mass Drop applied" << endl;
 
     return (MassDropJet);
 
@@ -153,7 +153,7 @@ PseudoJet HHiggsTagger::GetFilteredJet(PseudoJet MassDropJet, JetAlgorithm Filte
     Filter HiggsFilter(FilterJetDefinition, SelectorHardest);
     PseudoJet FilteredJet = HiggsFilter(MassDropJet);
 
-    if (Debug > 2) cout << "SubJets filtered" << endl;
+    if (DebugLevel > 2) cout << "SubJets filtered" << endl;
 
     return (FilteredJet);
 
@@ -218,7 +218,7 @@ int HHiggsTagger::BTagger()
 
         if (PieceEta < SubJetEtaMax && PiecePt > SubJetPtMin) {
 
-            if (Debug > 2) cout << "SubJet kinematics are fine" << endl;
+            if (DebugLevel > 2) cout << "SubJet kinematics are fine" << endl;
 
             float RandomPerMil = rand() % 1000;
             int PieceUserIndex = Piece.user_index();
@@ -228,16 +228,16 @@ int HHiggsTagger::BTagger()
 
                 ++BTagCounter;
 
-                if (Debug > 2) cout << "Subjet tagged" << endl;
+                if (DebugLevel > 2) cout << "Subjet tagged" << endl;
 
             } else {
 
-                if (Debug > 2) cout << "SubJet not tagged" << endl;
+                if (DebugLevel > 2) cout << "SubJet not tagged" << endl;
 
             }
         } else {
 
-            if (Debug > 2) cout << "SubJet has bad kinematics" << endl;
+            if (DebugLevel > 2) cout << "SubJet has bad kinematics" << endl;
 
         }
 
@@ -278,7 +278,7 @@ float HHiggsTagger::GetDipolarity(PseudoJet FatJet)
 
     vector<PseudoJet> Constituents = FilterJet.constituents();
     int ConstituentSum = Constituents.size();
-    if (Debug > 2) cout << "Number of Constituents: " << ConstituentSum << endl;
+    if (DebugLevel > 2) cout << "Number of Constituents: " << ConstituentSum << endl;
     for (int ConstituentNumber = 0; ConstituentNumber < ConstituentSum; ConstituentNumber++) {
 
         PseudoJet Constituent = Constituents[ConstituentNumber];

@@ -29,11 +29,11 @@ HJetInfo.cpp
 )
 
 set(HEventLinkLibraries
-${fastjet_LIBRARIES} 
+${fastjet_LIBRARIES}
 ${DelphesLibrary}
-HObject 
+HObject
 )
-set(EventSources ${EventSources}) 
+set(EventSources ${EventSources})
 add_library(HEvent SHARED ${EventSources} )
 target_link_libraries (HEvent ${HEventLinkLibraries})
 set_target_properties(HEvent PROPERTIES ${LibraryProperties})
@@ -41,7 +41,8 @@ install(TARGETS HEvent DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 # HAnalysis Library
 set(AnalysisSources
-HAnalysis.cpp
+# HAnalysis.cpp
+HAnalysisNew.cpp
 HFile.cpp
 HClonesArray.cpp
 )
@@ -49,9 +50,9 @@ HClonesArray.cpp
 set(HAnalysisLinkLibraries
 ${ExRootLibrary}
 HObject
-HEvent 
+HEvent
 )
-set(AnalysisSources ${AnalysisSources}) 
+set(AnalysisSources ${AnalysisSources})
 add_library(HAnalysis SHARED ${AnalysisSources})
 target_link_libraries (HAnalysis ${HAnalysisLinkLibraries})
 set_target_properties(HAnalysis PROPERTIES ${LibraryProperties})
@@ -70,7 +71,7 @@ ${ExRootLibrary}
 HObject
 HBranch
 )
-set(MvaSources ${MvaSources}) 
+set(MvaSources ${MvaSources})
 add_library(HMva SHARED ${MvaSources})
 target_link_libraries (HMva ${HMvaLinkLibraries})
 set_target_properties(HMva PROPERTIES ${LibraryProperties})

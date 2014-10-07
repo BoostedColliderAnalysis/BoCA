@@ -31,7 +31,7 @@ HObject::HObject() :
 
 //     Print(0, "Constructor");
 
-    Debug = 0;
+    DebugLevel = 0;
 
 }
 
@@ -42,7 +42,7 @@ HObject::~HObject()
 
 }
 
-float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2) const
+float HObject::GetDistance(const float& Eta1, const float& Phi1, const float& Eta2, const float& Phi2) const
 {
 
     Print(2, "GetDistance");
@@ -53,7 +53,7 @@ float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2) const
 
 }
 
-float HObject::GetDistance(float Eta, float Phi) const
+float HObject::GetDistance(const float& Eta, const float& Phi) const
 {
 
     Print(2, "GetDistance");
@@ -64,7 +64,7 @@ float HObject::GetDistance(float Eta, float Phi) const
 
 }
 
-float HObject::GetDeltaPhi(float Phi, float RefPhi) const
+float HObject::GetDeltaPhi(const float& Phi, const float& RefPhi) const
 {
 
     Print(3, "GetDeltaPhi");
@@ -97,10 +97,10 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi) const
 
 }
 
-void HObject::Print(int debug, string Function) const
+void HObject::Print(const int& Severity, const string &Function) const
 {
 
-    if (debug < Debug) {
+    if (Severity < DebugLevel) {
 
         Printer(Function);
         std::cout << std::endl;
@@ -109,7 +109,7 @@ void HObject::Print(int debug, string Function) const
 }
 
 
-void HObject::Printer(string Function) const
+void HObject::Printer(const string& Function) const
 {
 
     char const Separator = ' ';
@@ -123,10 +123,10 @@ void HObject::Printer(string Function) const
 }
 
 
-PseudoJet HObject::GetPseudoJet(TLorentzVector Vector) const
+PseudoJet HObject::GetPseudoJet(const TLorentzVector& Vector) const
 {
 
-    PseudoJet const Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
+    const PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
 
     return Jet;
 

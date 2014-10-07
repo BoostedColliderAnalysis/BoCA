@@ -10,7 +10,7 @@ HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
     EventNumberMax = 10000;
 
     Cut = 0;
-   
+
 
 }
 
@@ -19,7 +19,7 @@ vector<string> HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 
     vector<string> StudyNameVector = {"Signal", "Background", "Test"};
 //     vector<string> StudyNameVector = {"Background"};
-    
+
 
     return StudyNameVector;
 
@@ -95,7 +95,7 @@ bool HAnalysisHeavyHiggsDelphes::Analysis()
     Print(1, "Analysis", AnalysisName);
 
     bool Success = 0;
- 
+
     Event->GetLeptons();
 
     if (StudyName == "Signal") Success = Signal();
@@ -108,9 +108,9 @@ bool HAnalysisHeavyHiggsDelphes::Analysis()
 
 // bool HAnalysisHeavyHiggsDelphes::JetIsBottom(const PseudoJet &Jet)
 // {
-// 
+//
 //     return abs(Jet.user_index()) == BottomId;
-// 
+//
 // }
 
 
@@ -128,9 +128,9 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
         if (abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
-        
+
     }
-    
+
     if (BottomJetVector.size() < 2)  return 0;
 
     Print(-1,"Signal Bottom",BottomJetVector.size());
@@ -155,7 +155,7 @@ bool HAnalysisHeavyHiggsDelphes::Background()
     Event->GetTaggedJets();
 
     vector<PseudoJet> JetVector = Event->Jets->JetVector;
-    
+
     if (JetVector.size()<1) return 0;
 
     vector<PseudoJet> TopJetVector, BottomJetVector;
