@@ -2,13 +2,12 @@
 # define HLeptonPgs_hh
 
 # include "HLepton.hh"
-# include "HFourVector.hh"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class HLeptonPgs : public HLepton, HFourVector
+class HLeptonPgs : public HLepton
 {
 
 public:

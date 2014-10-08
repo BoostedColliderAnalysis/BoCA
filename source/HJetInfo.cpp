@@ -5,7 +5,7 @@ using std::pair;
 HJetInfo::HJetInfo()
 {
 
-    Print(2, "Constructor");
+    Print(3, "Constructor");
 //     Debug = 4;
 
 }
@@ -13,12 +13,12 @@ HJetInfo::HJetInfo()
 void HJetInfo::AddConstituent(int ConstituentId, float ParticlePt)
 {
 
-    Print(1, "Add Constituent", ConstituentId);
-    Print(3, "Constituent Pt", ParticlePt);
+    Print(2, "Add Constituent", ConstituentId);
+    Print(4, "Constituent Pt", ParticlePt);
 
     JetFractions[ConstituentId] += ParticlePt;
 
-    Print(3, "Saved Pt", JetFractions[ConstituentId]);
+    Print(4, "Saved Pt", JetFractions[ConstituentId]);
 
 
 }
@@ -26,9 +26,9 @@ void HJetInfo::AddConstituent(int ConstituentId, float ParticlePt)
 float HJetInfo::GetPtSum() const
 {
 
-    Print(1, "Get Sum");
+    Print(2, "Get Sum");
 
-    Print(3, "JetFraction size ", JetFractions.size());
+    Print(4, "JetFraction size ", JetFractions.size());
 
     float Result = accumulate(begin(JetFractions), end(JetFractions), 0.0, [](const float Previous, const pair<int, float> &Pair) {
 
@@ -36,7 +36,7 @@ float HJetInfo::GetPtSum() const
 
     });
 
-    Print(3, "Pt Sum", Result);
+    Print(4, "Pt Sum", Result);
 
     return Result;
 
@@ -45,7 +45,7 @@ float HJetInfo::GetPtSum() const
 float HJetInfo::GetFraction(int ParticleId)
 {
 
-    Print(1, "Get Fraction");
+    Print(2, "Get Fraction");
 
     if (GetPtSum() == 0) {
 
@@ -61,7 +61,7 @@ float HJetInfo::GetFraction(int ParticleId)
 float HJetInfo::GetMaximalFraction() const
 {
 
-    Print(1, "Get Maximal Fraction");
+    Print(2, "Get Maximal Fraction");
 
     pair<int, float> MaximalPt = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
@@ -80,7 +80,7 @@ float HJetInfo::GetMaximalFraction() const
 // float HJetInfo::GetMaximalFraction() const
 // {
 // 
-//     Print(1, "Get Maximal Fraction");
+//     Print(2, "Get Maximal Fraction");
 // 
 //     pair<int, float> MaximalPt = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 //     std::nth_element(JetFractions.begin(), JetFractions.begin() + 1, JetFractions.end(), SortPairs());
@@ -100,7 +100,7 @@ float HJetInfo::GetMaximalFraction() const
 int HJetInfo::GetMaximalId() const
 {
 
-    Print(1, "Get Maximal Id");
+    Print(2, "Get Maximal Id");
 
     pair<int, float> Max = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
@@ -111,7 +111,7 @@ int HJetInfo::GetMaximalId() const
 void HJetInfo::Clear()
 {
 
-    Print(1, "Clear");
+    Print(2, "Clear");
 
     JetFractions.clear();
 
@@ -120,17 +120,17 @@ void HJetInfo::Clear()
 void HJetInfo::PrintAllInfos() const
 {
 
-    Print(1, "Print All Infos");
+    Print(2, "Print All Infos");
 
     for (map<int, float>::const_iterator Iterator = JetFractions.begin(); Iterator != JetFractions.end(); ++Iterator) {
 
         if (GetPtSum() == 0) {
 
-            Print(-1, "FatJet", (*Iterator).first, 0);
+            Print(0, "FatJet", (*Iterator).first, 0);
 
         } else {
 
-            Print(-1, "FatJet", (*Iterator).first, (*Iterator).second / GetPtSum());
+            Print(0, "FatJet", (*Iterator).first, (*Iterator).second / GetPtSum());
 
         }
 

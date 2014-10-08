@@ -3,7 +3,7 @@
 HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     ProjectName = "HeavyHiggsPgs";
 
@@ -16,7 +16,7 @@ HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 void HAnalysisHeavyHiggsPgs::SetFileVector()
 {
 
-    Print(0, "Fill Analysis Vector", AnalysisName);
+    Print(1, "Fill Analysis Vector", AnalysisName);
 
     FileVector.push_back(new HFileFolder("Signal_5f"));
     FileVector.push_back(new HFileFolder("5f_10k_Pt20"));
@@ -26,14 +26,14 @@ void HAnalysisHeavyHiggsPgs::SetFileVector()
     FileVector.front()->FileSuffix = "_PGS.root";
     FileVector.front()->TreeString = "LHCO";
 
-    Print(0, "Files prepared", FileVector.size());
+    Print(1, "Files prepared", FileVector.size());
 
 }
 
 void HAnalysisHeavyHiggsPgs::NewFile()
 {
 
-    Print(0, "New File");
+    Print(1, "New File");
 
 
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
@@ -50,16 +50,16 @@ void HAnalysisHeavyHiggsPgs::NewFile()
 
 void HAnalysisHeavyHiggsPgs::CloseFile()
 {
-    Print(0, "Close File");
+    Print(1, "Close File");
 
     if (Cut) {
 
-        Print(0, "EventCounter", EventCounter);
-        Print(0, "JetCounter", JetCounter);
-        Print(0, "DeltaEtaCounter", DeltaEtaCounter);
-        Print(0, "BMassCounter", BMassCounter);
-        Print(0, "Jet2Counter", Jet2Counter);
-        Print(0, "TMassCounter", TMassCounter);
+        Print(1, "EventCounter", EventCounter);
+        Print(1, "JetCounter", JetCounter);
+        Print(1, "DeltaEtaCounter", DeltaEtaCounter);
+        Print(1, "BMassCounter", BMassCounter);
+        Print(1, "Jet2Counter", Jet2Counter);
+        Print(1, "TMassCounter", TMassCounter);
 
     }
 
@@ -69,17 +69,17 @@ void HAnalysisHeavyHiggsPgs::CloseFile()
 bool HAnalysisHeavyHiggsPgs::Analysis()
 {
 
-    Print(1, "Analysis");
+    Print(2, "Analysis");
 
     Event->GetJets();
 
     vector<PseudoJet> BJets = Event->Jets->BottomJetVector;
 
-    Print(1, "BJet Sum", BJets.size());
+    Print(2, "BJet Sum", BJets.size());
 
 //     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
 // 
-//         Print(1, "BJet Pt", BJets[BJetNumber].pt());
+//         Print(2, "BJet Pt", BJets[BJetNumber].pt());
 // 
 //     }
 // 
@@ -99,11 +99,11 @@ bool HAnalysisHeavyHiggsPgs::Analysis()
 //         return Jet.pt() < 1;
 //     }), BJets.end());
 // 
-//     Print(1, "BJet Sum", BJets.size());
+//     Print(2, "BJet Sum", BJets.size());
 // 
 //     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
 // 
-//         Print(1, "BJet Pt", BJets[BJetNumber].pt());
+//         Print(2, "BJet Pt", BJets[BJetNumber].pt());
 // 
 //     }
 
@@ -113,11 +113,11 @@ bool HAnalysisHeavyHiggsPgs::Analysis()
 
         for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
 
-            Print(1, "BJetNumber", BJetNumber);
+            Print(2, "BJetNumber", BJetNumber);
 
             for (unsigned BJetNumber2 = 0; BJetNumber2 < BJetNumber; ++BJetNumber2) {
 
-                Print(1, "BJetNumber2", BJetNumber2);
+                Print(2, "BJetNumber2", BJetNumber2);
 
                 PseudoJet FrontJet, BackJet;
 
@@ -133,30 +133,30 @@ bool HAnalysisHeavyHiggsPgs::Analysis()
 
                 } else {
 
-                    Print(0, "Comparison broken");
+                    Print(1, "Comparison broken");
 
                 }
 
                 float FrontPt = FrontJet.pt();
                 float FrontEta = FrontJet.eta();
                 float FrontPhi = FrontJet.phi_std();
-                Print(1, "FrontPt", FrontPt);
-                Print(1, "FrontEta", FrontEta);
-                Print(1, "FrontPhi", FrontPhi);
+                Print(2, "FrontPt", FrontPt);
+                Print(2, "FrontEta", FrontEta);
+                Print(2, "FrontPhi", FrontPhi);
 
                 float BackEta = BackJet.eta();
                 float BackPt = BackJet.pt();
                 float BackPhi = BackJet.phi_std();
 
-                Print(1, "BackPt", BackPt);
-                Print(1, "BackEta", BackEta);
-                Print(1, "BackPhi", BackPhi);
+                Print(2, "BackPt", BackPt);
+                Print(2, "BackEta", BackEta);
+                Print(2, "BackPhi", BackPhi);
 
                 float InvMass = (FrontJet + BackJet).m();
                 float DeltaEta = FrontEta - BackEta;
 
-                Print(1, "InvMass", InvMass);
-                Print(1, "DeltaEta", DeltaEta);
+                Print(2, "InvMass", InvMass);
+                Print(2, "DeltaEta", DeltaEta);
 
                 float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
 
@@ -185,7 +185,7 @@ bool HAnalysisHeavyHiggsPgs::Analysis()
 
     } else {
 
-        Print(1, "Just 1 B Jet");
+        Print(2, "Just 1 B Jet");
 
     }
 

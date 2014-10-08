@@ -3,7 +3,7 @@
 HMva::HMva()
 {
 
-    Print(0, "HMva", "Constructor");
+    Print(1, "HMva", "Constructor");
 
     CutMethodName = "Cut";
 
@@ -16,7 +16,7 @@ HMva::HMva()
 HMva::~HMva()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }
 
@@ -24,7 +24,7 @@ HMva::~HMva()
 HObservable HMva::NewObservable(float *Value, TString Expression, TString Title, TString Unit)
 {
 
-    Print(0, "New Observable", Title);
+    Print(1, "New Observable", Title);
 
     HObservable Observable;
 
@@ -43,7 +43,7 @@ HObservable HMva::NewObservable(float *Value, TString Expression, TString Title,
 HObservable HMva::NewObservable(float *Value, TString Expression, TString Title)
 {
     
-    Print(1, "New Observable", Expression);
+    Print(2, "New Observable", Expression);
 
     HObservable Observable = NewObservable(Value, Expression, Title, "");
 
@@ -54,7 +54,7 @@ HObservable HMva::NewObservable(float *Value, TString Expression, TString Title)
 HObservable HMva::NewObservable(float *Value, TString Expression)
 {
 
-    Print(1, "New Observable", Expression);
+    Print(2, "New Observable", Expression);
 
     HObservable Observable = NewObservable(Value, Expression, Expression, "");
 

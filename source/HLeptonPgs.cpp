@@ -3,14 +3,14 @@
 HLeptonPgs::HLeptonPgs()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
 }
 
 HLeptonPgs::~HLeptonPgs()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
     
 }
@@ -19,10 +19,10 @@ HLeptonPgs::~HLeptonPgs()
 void HLeptonPgs::GetElectrons()
 {
 
-    Print(1, "Get Electrons");
+    Print(2, "Get Electrons");
 
     int ElectronSum = ClonesArray->ElectronClonesArray->GetEntriesFast();
-    Print(2, "Number of Electrons", ElectronSum);
+    Print(3, "Number of Electrons", ElectronSum);
     for (int ElectronNumber = 0; ElectronNumber < ElectronSum; ElectronNumber++) {
 
         TRootElectron *ElectronClone = (TRootElectron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
@@ -34,18 +34,18 @@ void HLeptonPgs::GetElectrons()
             ElectronVector.push_back(GetLorentzVector(ElectronClone));
             ElectronJetVector.push_back(GetPseudoJet(ElectronClone));
 	    
-            Print(2, "Electron");
+            Print(3, "Electron");
 
         } else if (ElectronCharge == 1) {
 
             AntiElectronVector.push_back(GetLorentzVector(ElectronClone));
             AntiElectronJetVector.push_back(GetPseudoJet(ElectronClone));
 	    
-            Print(2, "Anti Electron");
+            Print(3, "Anti Electron");
 
         } else 
             
-            Print(0, "Electron Charge", ElectronCharge);
+            Print(1, "Electron Charge", ElectronCharge);
 
     }
 
@@ -54,10 +54,10 @@ void HLeptonPgs::GetElectrons()
 void HLeptonPgs::GetMuons()
 {
 
-    Print(1, "Get Muons");
+    Print(2, "Get Muons");
 
     int MuonSum = ClonesArray->MuonClonesArray->GetEntriesFast();
-    Print(2, "Number of Muons", MuonSum);
+    Print(3, "Number of Muons", MuonSum);
     for (int MuonNumber = 0; MuonNumber < MuonSum; ++MuonNumber) {
 
         TRootMuon *MuonClone = (TRootMuon *)ClonesArray->MuonClonesArray->At(MuonNumber);
@@ -68,18 +68,18 @@ void HLeptonPgs::GetMuons()
             MuonVector.push_back(GetLorentzVector(MuonClone));
             MuonJetVector.push_back(GetPseudoJet(MuonClone));
             
-	    Print(2, "Muon with Pt");
+	    Print(3, "Muon with Pt");
 
         } else if (MuonCharge == 1) {
 
             AntiMuonVector.push_back( GetLorentzVector(MuonClone));
             AntiMuonJetVector.push_back(GetPseudoJet(MuonClone));
             
-	    Print(2, "Anti Muon with Pt");
+	    Print(3, "Anti Muon with Pt");
 
         } else 
             
-            Print(0, "Muon Charge", MuonCharge);
+            Print(1, "Muon Charge", MuonCharge);
 
     }
 

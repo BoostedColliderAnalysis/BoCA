@@ -2,13 +2,12 @@
 # define HParticleParton_hh
 
 # include "HParticle.hh"
-# include "HFourVector.hh"
 
 /**
  * @brief stores all the information about the event topology
  *
  */
-class HParticleParton : public HParticle, HFourVector
+class HParticleParton : public HParticle
 {
 
 public:

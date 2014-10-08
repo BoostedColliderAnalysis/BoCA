@@ -3,10 +3,8 @@
 
 # include "TObjArray.h"
 
-# include "classes/DelphesClasses.h"
-
 # include "HClonesArray.hh"
-# include "HObject.hh"
+# include "HFourVector.hh"
 
 using std::vector;
 
@@ -14,7 +12,7 @@ using std::vector;
  * @brief stores all the information about the event topology
  *
  */
-class HJet : virtual public HObject
+class HJet : public HFourVector
 {
 
 public:
@@ -136,28 +134,22 @@ public:
 protected:
 
     template<typename Template1, typename Template2>
-    bool CheckIsolation(const Template1& Particle1, const Template2& Particle2) const
-    {
+    bool CheckIsolation(const Template1 &Particle1, const Template2 &Particle2, const float DeltaRIsolationMax) const {
 
-        const float DeltaRIsolationMax = 0.01; // TODO decide on best value
-        bool Isolated = true;
+        bool Isolated = 1;
 
-//         float Eta1 = Particle1->Eta;
-//         float Phi1 = Particle1->Phi;
-//         float Eta2 = Particle2->Eta;
-//         float Phi2 = Particle2->Phi;
-
-//         if (GetDistance(Eta1, Phi1, Eta2, Phi2) < DeltaRIsolationMax) {
-        if (GetPseudoJet(const_cast<Template1*>(&Particle1)->P4()).delta_R(GetPseudoJet(Particle2->P4())) < DeltaRIsolationMax) {
-
-            Isolated = false;
-
-        }
-
-
-        Isolated = true; // FIXME this destroys the isolation check (right now on purpose to get harder top jets)
+        if (GetPseudoJet(const_cast<Template1 *>(&Particle1)->P4()).delta_R(GetPseudoJet(Particle2->P4())) < DeltaRIsolationMax) Isolated = 0;
 
         return Isolated;
+
+    }
+
+    template<typename Template1, typename Template2>
+    bool CheckIsolation(const Template1 &Particle1, const Template2 &Particle2) const {
+
+        const float DeltaRIsolationMax = 0.01; // TODO decide on best value
+
+        return CheckIsolation(Particle1, Particle2, DeltaRIsolationMax);
 
     }
 

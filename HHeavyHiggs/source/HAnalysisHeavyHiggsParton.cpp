@@ -5,7 +5,7 @@
 HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     ProjectName = "HeavyHiggsParton";
 
@@ -22,7 +22,7 @@ HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 void HAnalysisHeavyHiggsParton::SetFileVector()
 {
 
-    Print(0, "Fill Analysis Vector", AnalysisName);
+    Print(1, "Fill Analysis Vector", AnalysisName);
 
     FileVector.push_back(new HFileFolder("Background/4f_10k"));
     FileVector.push_back(new HFileFolder("Signal/Signal_5f"));
@@ -31,14 +31,14 @@ void HAnalysisHeavyHiggsParton::SetFileVector()
     FileVector.front()->FileSuffix = "_MG5.root";
     FileVector.front()->TreeString = "LHEF";
 
-    Print(0, "Files prepared", FileVector.size());
+    Print(1, "Files prepared", FileVector.size());
 
 }
 
 void HAnalysisHeavyHiggsParton::NewFile()
 {
 
-    Print(0, "New File");
+    Print(1, "New File");
 
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
 
@@ -53,14 +53,14 @@ void HAnalysisHeavyHiggsParton::NewFile()
 
 void HAnalysisHeavyHiggsParton::CloseFile()
 {
-    Print(0, "Close File");
+    Print(1, "Close File");
 
-    Print(0, "EventCounter", EventCounter);
-    Print(0, "JetCounter", JetCounter);
-    Print(0, "DeltaEtaCounter", DeltaEtaCounter);
-    Print(0, "BMassCounter", BMassCounter);
-    Print(0, "Jet2Counter", Jet2Counter);
-    Print(0, "TMassCounter", TMassCounter);
+    Print(1, "EventCounter", EventCounter);
+    Print(1, "JetCounter", JetCounter);
+    Print(1, "DeltaEtaCounter", DeltaEtaCounter);
+    Print(1, "BMassCounter", BMassCounter);
+    Print(1, "Jet2Counter", Jet2Counter);
+    Print(1, "TMassCounter", TMassCounter);
 
 }
 
@@ -69,7 +69,7 @@ void HAnalysisHeavyHiggsParton::CloseFile()
 bool HAnalysisHeavyHiggsParton::Analysis()
 {
 
-    Print(1, "Analysis", AnalysisName);
+    Print(2, "Analysis", AnalysisName);
 
     HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
@@ -83,7 +83,7 @@ bool HAnalysisHeavyHiggsParton::Analysis()
 
     if (BottomSum != 2) {
 
-        Print(0, "BottomSum", BottomSum);
+        Print(1, "BottomSum", BottomSum);
         return 0;
 
     }
@@ -124,7 +124,7 @@ bool HAnalysisHeavyHiggsParton::Analysis()
 
     if (TopSum != 2) {
 
-        Print(0, "TopSum", TopSum);
+        Print(1, "TopSum", TopSum);
         return 0;
 
     }

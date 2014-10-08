@@ -3,21 +3,21 @@
 HJet::HJet()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
 }
 
 HJet::~HJet()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }
 
 void HJet::NewEvent(HClonesArray *NewClonesArrays)
 {
 
-    Print(1, "New Event");
+    Print(2, "New Event");
 
     ClonesArrays = NewClonesArrays;
 
@@ -44,7 +44,7 @@ void HJet::NewEvent(HClonesArray *NewClonesArrays)
 bool HJet::GetJets()
 {
 
-    Print(0,"Get Jets","No Jets");
+    Print(1,"Get Jets","No Jets");
 
     return 0;
 
@@ -53,7 +53,7 @@ bool HJet::GetJets()
 bool HJet::GetTaggedJets()
 {
 
-    Print(0,"Get Tagged Jets","No Jets");
+    Print(1,"Get Tagged Jets","No Jets");
 
     return 0;
 
@@ -62,7 +62,7 @@ bool HJet::GetTaggedJets()
 bool HJet::GetStructuredJets()
 {
 
-    Print(0,"Get Structured Jets","No Jets");
+    Print(1,"Get Structured Jets","No Jets");
 
     return 0;
 
@@ -71,7 +71,7 @@ bool HJet::GetStructuredJets()
 bool HJet::GetEFlow()
 {
 
-    Print(0,"Get EFlow","No EFlow");
+    Print(1,"Get EFlow","No EFlow");
 
     return 0;
 
@@ -80,7 +80,7 @@ bool HJet::GetEFlow()
 bool HJet::GetTaggedEFlow()
 {
 
-    Print(0,"Get Tagged EFlow","No EFlow");
+    Print(1,"Get Tagged EFlow","No EFlow");
 
     return 0;
 
@@ -89,6 +89,6 @@ bool HJet::GetTaggedEFlow()
 void HJet::GetGenJet()
 {
 
-    Print(0,"Get Gen Jets","No Gen Jets");
+    Print(1,"Get Gen Jets","No Gen Jets");
 
 }

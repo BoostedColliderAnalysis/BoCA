@@ -3,7 +3,7 @@
 HJetPgs::HJetPgs()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
 //     Debug = 4;
 
@@ -12,30 +12,30 @@ HJetPgs::HJetPgs()
 HJetPgs::~HJetPgs()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }
 
 bool HJetPgs::GetJets()
 {
 
-    Print(1, "Get Jet");
+    Print(2, "Get Jet");
 
     TClonesArray *JetClonesArray = ClonesArrays->JetClonesArray;
     int JetSum = JetClonesArray->GetEntriesFast();
-    Print(2, "Number of Jets", JetSum);
+    Print(3, "Number of Jets", JetSum);
 
     /// Loop over all jets
     for (int JetNumber = 0; JetNumber < JetSum; ++JetNumber) {
 
-        Print(3, "Jet Number", JetNumber);
+        Print(4, "Jet Number", JetNumber);
         TRootJet *JetClone = (TRootJet *)JetClonesArray->At(JetNumber);
 
         JetVector.push_back(GetPseudoJet(JetClone));
 
         if (JetClone->BTag > 0) {
 
-            Print(3, "Has B Tag");
+            Print(4, "Has B Tag");
 
             BottomLorentzVectorVector.push_back(GetLorentzVector(JetClone));
             BottomJetVector.push_back(GetPseudoJet(JetClone));
@@ -49,7 +49,7 @@ bool HJetPgs::GetJets()
 
     }
 
-    Print(2, "Untagged jets", JetLorentzVectorVector.size());
+    Print(3, "Untagged jets", JetLorentzVectorVector.size());
     
     return 1;
 

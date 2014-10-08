@@ -4,21 +4,21 @@ HTopTagger::HTopTagger()
 {
     
     
-    Print(0, "Constructor");
+    Print(1, "Constructor");
     
 }
 
 HTopTagger::~HTopTagger()
 {
     
-    Print(0, "Destructor");
+    Print(1, "Destructor");
     
 }
 
 void HTopTagger::NewEvent()
 {
     
-    Print(1, "New Event");
+    Print(2, "New Event");
     
     TopLorentzVectorVector.clear();
     
@@ -38,7 +38,7 @@ void HTopTagger::NewEvent()
 void HTopTagger::TaggingTop(vector< PseudoJet > EFlowJetVector)
 {
     
-    Print(1, "Tagging Top");
+    Print(2, "Tagging Top");
     
     float CellEta = 0.1;
     float CellPhi = 0.1;
@@ -55,7 +55,7 @@ void HTopTagger::TaggingTop(vector< PseudoJet > EFlowJetVector)
     
     /// Loop over all Top Jet Candidates
     int JetSum = JetVector.size();
-    Print(1, "Number of Top Jet Candidates", JetSum);
+    Print(2, "Number of Top Jet Candidates", JetSum);
     for (int JetNumber = 0; JetNumber < JetSum; JetNumber++) {
         
                         bool debug = false;
@@ -74,10 +74,10 @@ void HTopTagger::TaggingTop(vector< PseudoJet > EFlowJetVector)
             FirstWJetVector.push_back(TopTag.top_subjets().at(1));
             SecondWJetVector.push_back(TopTag.top_subjets().at(2));
             NumberOfTop = TopTag.top_count();
-            Print(1, "Top Mass", TopTag.top_candidate().m());
-            Print(1, "Bottom Mass", TopTag.top_subjets().at(0).m());
-            Print(1, "W Mass 1", TopTag.top_subjets().at(1).m());
-            Print(1, "W Mass 2", TopTag.top_subjets().at(2).m());
+            Print(2, "Top Mass", TopTag.top_candidate().m());
+            Print(2, "Bottom Mass", TopTag.top_subjets().at(0).m());
+            Print(2, "W Mass 1", TopTag.top_subjets().at(1).m());
+            Print(2, "W Mass 2", TopTag.top_subjets().at(2).m());
             if (DebugLevel > 2) TopTag.get_setting();
             if (DebugLevel > 1) TopTag.get_info();
             //             if (debug > 1) cout <<  "  ",  endl;
@@ -95,18 +95,18 @@ void HTopTagger::TaggingTop(vector< PseudoJet > EFlowJetVector)
 vector<PseudoJet> HTopTagger::GranulateJets(vector<PseudoJet> &EFlowJetVector, const float &CellEta, const float &CellPhi, const float &PtCutOff)
 {
     
-    Print(1, "Granulate Jets");
+    Print(2, "Granulate Jets");
     
     EFlowJetVector = sorted_by_pt(EFlowJetVector);
     int EFlowJetSum = EFlowJetVector.size();
-    Print(2, "Number of EFlow Jets", EFlowJetSum);
+    Print(3, "Number of EFlow Jets", EFlowJetSum);
     
     /// vector of containing only the hardest Jet Candidate
     vector<PseudoJet> GranulatedJetVector;
     GranulatedJetVector.clear();
     GranulatedJetVector.push_back(EFlowJetVector[0]);
     int GranulatedJetSum = GranulatedJetVector.size();
-    Print(1,  "Number of Granulated Jets", GranulatedJetSum);
+    Print(2,  "Number of Granulated Jets", GranulatedJetSum);
     
     /// Loop over all Hadrons
     for (int HadronNumber = 1; HadronNumber < EFlowJetSum; HadronNumber++) {
@@ -164,7 +164,7 @@ vector<PseudoJet> HTopTagger::GranulateJets(vector<PseudoJet> &EFlowJetVector, c
 void HTopTagger::RemoveBottomComingFromTop(vector<HPull *> BottomClassVector)
 {
     
-    Print(1, "Remove Bottom Coming From Top");
+    Print(2, "Remove Bottom Coming From Top");
     
     // loop over all bootom scomming from tops
     int BottomFromTopSum = BottomJetVector.size();
@@ -177,7 +177,7 @@ void HTopTagger::RemoveBottomComingFromTop(vector<HPull *> BottomClassVector)
         // loop over all delphes bottoms to Calculates the cylinder distance
         float MinimalCylinderDistance = 9999999;
         int BottomSum = BottomClassVector.size();
-        Print(1, "BottomSum", BottomSum);
+        Print(2, "BottomSum", BottomSum);
         for (int BottomNumber = 0; BottomNumber < BottomSum; BottomNumber++) {
             
             float CylinderDistance = BottomClassVector[BottomNumber]->BottomLorentzVector.DeltaR(BottomLorentzVector);
@@ -190,7 +190,7 @@ void HTopTagger::RemoveBottomComingFromTop(vector<HPull *> BottomClassVector)
         for (int BottomNumber = 0; BottomNumber < BottomSum; BottomNumber++) {
             
             float CylinderDistance = CylinderDistanceVector[BottomNumber];
-            Print(1, "CylinderDistance", CylinderDistance);
+            Print(2, "CylinderDistance", CylinderDistance);
             
             // delete matching bottoms
             if (CylinderDistance == MinimalCylinderDistance && MinimalCylinderDistance < 0.1) {
@@ -201,10 +201,10 @@ void HTopTagger::RemoveBottomComingFromTop(vector<HPull *> BottomClassVector)
         }                                                 // second loop
         
         int BottomSum2 =  BottomClassVector.size();
-        Print(1, "BottomSum2", BottomSum2);
+        Print(2, "BottomSum2", BottomSum2);
         
     }                                                     // loop over bottom from top
     
-    if (BottomFromTopSum > 0) Print(1, "Bottom comming from top removed");
+    if (BottomFromTopSum > 0) Print(2, "Bottom comming from top removed");
 }
 // RemoveBottomComingFromTop

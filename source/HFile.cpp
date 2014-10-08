@@ -3,7 +3,7 @@
 HFile::HFile()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     SetVariables();
 
@@ -12,7 +12,7 @@ HFile::HFile()
 HFile::HFile(TString Process)
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     SetVariables();
 
@@ -25,7 +25,7 @@ HFile::HFile(TString Process)
 HFile::HFile(TString Process, TString Run)
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     SetVariables();
 
@@ -62,7 +62,7 @@ bool HFile::Snowmass = 0;
 void HFile::SetVariables()
 {
 
-    Print(1, "Set Variables");
+    Print(2, "Set Variables");
 
     //     MadGraphPath = "/data/hajer/MadGraph/";
     //     MadGraphPath = "$HOME/Development/MadGraph/";
@@ -84,14 +84,14 @@ HFile::~HFile()
 {
 
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }
 
 TString HFileParton::GetTreeName()
 {
 
-    Print(1, "Get Tree String");
+    Print(2, "Get Tree String");
 
     TreeString = "LHEF";
 
@@ -102,7 +102,7 @@ TString HFileParton::GetTreeName()
 TString HFileParton::GetFilePath()
 {
 
-    Print(1, "FilePath");
+    Print(2, "FilePath");
 
     FileSuffix = "_unweighted_events.root";
 
@@ -115,7 +115,7 @@ TString HFileParton::GetFilePath()
 TString HFilePgs::GetTreeName()
 {
 
-    Print(1, "Get Tree String");
+    Print(2, "Get Tree String");
 
     TreeString = "LHCO";
 
@@ -126,7 +126,7 @@ TString HFilePgs::GetTreeName()
 TString HFilePgs::GetFilePath()
 {
 
-    Print(1, "FilePath");
+    Print(2, "FilePath");
 
     FileSuffix = "_pgs_events.root";
 
@@ -139,7 +139,7 @@ TString HFilePgs::GetFilePath()
 TString HFileDelphes::GetTreeName()
 {
 
-    Print(1, "Get Tree String");
+    Print(2, "Get Tree String");
 
     TreeString = "Delphes";
 
@@ -150,7 +150,7 @@ TString HFileDelphes::GetTreeName()
 TString HFileDelphes::GetFilePath()
 {
 
-    Print(1, "FilePath");
+    Print(2, "FilePath");
 
     FileSuffix = "_delphes_events.root";
 
@@ -163,7 +163,7 @@ TString HFileDelphes::GetFilePath()
 TString HFileFolder::GetTreeName()
 {
 
-    Print(1, "Get Tree String");
+    Print(2, "Get Tree String");
 
     return TreeString;
 
@@ -174,7 +174,7 @@ TString HFileFolder::GetTreeName()
 TString HFileFolder::GetFilePath()
 {
 
-    Print(1, "FilePath");
+    Print(2, "FilePath");
 
     TString FlatFilePath = BasePath + ProcessFolder + FileSuffix;
 

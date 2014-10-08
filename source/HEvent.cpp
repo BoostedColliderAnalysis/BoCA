@@ -3,13 +3,13 @@
 HEvent::HEvent()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
 }
 
 HEvent::~HEvent()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }

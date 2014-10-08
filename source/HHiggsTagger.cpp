@@ -3,7 +3,7 @@
 HHiggsTagger::HHiggsTagger()
 {
        
-    Print(0, "Constructor");
+    Print(1, "Constructor");
     
     BottomUserIndex = 2000;
 
@@ -21,13 +21,13 @@ HHiggsTagger::~HHiggsTagger()
 {
 
     
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }
 
 void HHiggsTagger::NewEvent(){
     
-    Print(1, "New Event");
+    Print(2, "New Event");
     
     DiPolarity=0;
     
@@ -40,7 +40,7 @@ void HHiggsTagger::NewEvent(){
 
 PseudoJet HHiggsTagger::GetHiggsJet(vector<PseudoJet> InputJetVector, vector<PseudoJet> BottomVector, vector<PseudoJet> CharmVector)
 {
-    Print(1, "GetHiggsJet");
+    Print(2, "GetHiggsJet");
 
     vector<PseudoJet> FatJetVector = GetFatJetVector(InputJetVector);
 
@@ -53,7 +53,7 @@ PseudoJet HHiggsTagger::GetHiggsJet(vector<PseudoJet> InputJetVector, vector<Pse
 
         if (MassDropJet == 0) {
 
-            if (DebugLevel > 2) cout << "No substructure found" << endl;
+            Print(3,"No substructure found");
             continue;
 
         }
@@ -93,7 +93,7 @@ PseudoJet HHiggsTagger::GetHiggsJet(vector<PseudoJet> InputJetVector, vector<Pse
 vector<PseudoJet> HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector)
 {
     
-    Print(1, "GetFatJetVector");
+    Print(2, "GetFatJetVector");
     
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
     const float FatJetCylinderDistanceMax = 1.2;
@@ -103,7 +103,7 @@ vector<PseudoJet> HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector
     const float FatJetPtMin = 0.;
     vector<PseudoJet> InclusiveJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
     vector<PseudoJet> FatJetVector = sorted_by_E(InclusiveJetVector);
-    if (DebugLevel > 1) cout << "Number of Fat Jets: " << FatJetVector.size() << endl;
+    Print(2,"Number of Fat Jets",FatJetVector.size());
     
     FatJetClusterSequence->delete_self_when_unused();
     delete FatJetDefinition;
@@ -115,7 +115,7 @@ vector<PseudoJet> HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector
 PseudoJet HHiggsTagger::GetMassDropJet(PseudoJet FatJet)
 {
     
-    Print(1, "GetMassDropJet");
+    Print(2, "GetMassDropJet");
     
     // MassDropMin = Jing: 0.667; fastjet: 0.667; Paper: 0.67
     const float MassDropMin = 0.667;
@@ -124,7 +124,7 @@ PseudoJet HHiggsTagger::GetMassDropJet(PseudoJet FatJet)
     MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
     PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
 
-    if (DebugLevel > 2) cout << "Mass Drop applied" << endl;
+    Print(3,"Mass Drop applied");
 
     return (MassDropJet);
 
@@ -133,10 +133,10 @@ PseudoJet HHiggsTagger::GetMassDropJet(PseudoJet FatJet)
 PseudoJet HHiggsTagger::GetFilteredJet(PseudoJet MassDropJet, JetAlgorithm FilterJetAlgorithm, int NumberHardestPieces)
 {
     
-    Print(1, "GetFilteredJet");
+    Print(2, "GetFilteredJet");
     
     vector<PseudoJet> MassDropPieces = sorted_by_E(MassDropJet.pieces());
-    if (MassDropPieces.size() != 2) cout << "Number of Subjets: " << MassDropPieces.size() << endl;
+    if (MassDropPieces.size() != 2) Print(0,"Number of Subjets",MassDropPieces.size());
 
     PseudoJet Parent1 = MassDropPieces[0];
     PseudoJet Parent2 = MassDropPieces[1];
@@ -153,7 +153,7 @@ PseudoJet HHiggsTagger::GetFilteredJet(PseudoJet MassDropJet, JetAlgorithm Filte
     Filter HiggsFilter(FilterJetDefinition, SelectorHardest);
     PseudoJet FilteredJet = HiggsFilter(MassDropJet);
 
-    if (DebugLevel > 2) cout << "SubJets filtered" << endl;
+    Print(3,"SubJets filtered");
 
     return (FilteredJet);
 
@@ -162,7 +162,7 @@ PseudoJet HHiggsTagger::GetFilteredJet(PseudoJet MassDropJet, JetAlgorithm Filte
 void HHiggsTagger::GetSubJetSource(vector<PseudoJet> ParticleVector, int UserIndex)
 {
     
-    Print(1, "GetSubJetSource");
+    Print(2, "GetSubJetSource");
     
     const float CylinderDistanceMax = 0.3;                          // Jing: 0.2
 
@@ -193,7 +193,7 @@ void HHiggsTagger::GetSubJetSource(vector<PseudoJet> ParticleVector, int UserInd
 
 int HHiggsTagger::BTagger()
 {
-    Print(1, "BTagger");
+    Print(2, "BTagger");
     
     // Jing: 700
     const int BottomPerMil = 750;   
@@ -218,7 +218,7 @@ int HHiggsTagger::BTagger()
 
         if (PieceEta < SubJetEtaMax && PiecePt > SubJetPtMin) {
 
-            if (DebugLevel > 2) cout << "SubJet kinematics are fine" << endl;
+            Print(3,"SubJet kinematics are fine");
 
             float RandomPerMil = rand() % 1000;
             int PieceUserIndex = Piece.user_index();
@@ -228,16 +228,16 @@ int HHiggsTagger::BTagger()
 
                 ++BTagCounter;
 
-                if (DebugLevel > 2) cout << "Subjet tagged" << endl;
+                Print(3,"Subjet tagged");
 
             } else {
 
-                if (DebugLevel > 2) cout << "SubJet not tagged" << endl;
+                Print(3,"SubJet not tagged");
 
             }
         } else {
 
-            if (DebugLevel > 2) cout << "SubJet has bad kinematics" << endl;
+            Print(3,"SubJet has bad kinematics");
 
         }
 
@@ -250,7 +250,7 @@ int HHiggsTagger::BTagger()
 
 float HHiggsTagger::GetDipolarity(PseudoJet FatJet)
 {
-    Print(1, "GetDipolarity");
+    Print(2, "GetDipolarity");
     
     DiPolarity = 0;
 
@@ -260,7 +260,7 @@ float HHiggsTagger::GetDipolarity(PseudoJet FatJet)
         FatJet;
 
     vector<PseudoJet> SubJetVector = sorted_by_E(FilterJet.pieces());
-    if (SubJetVector.size() != 2) cout << "Number of SubJets: " << SubJetVector.size() << endl;
+    if (SubJetVector.size() != 2) Print(0,"Number of SubJets",SubJetVector.size());
     PseudoJet SubJet1 = SubJetVector[0];
     PseudoJet SubJet2 = SubJetVector[1];
 
@@ -278,7 +278,7 @@ float HHiggsTagger::GetDipolarity(PseudoJet FatJet)
 
     vector<PseudoJet> Constituents = FilterJet.constituents();
     int ConstituentSum = Constituents.size();
-    if (DebugLevel > 2) cout << "Number of Constituents: " << ConstituentSum << endl;
+    Print(3,"Number of Constituents",ConstituentSum);
     for (int ConstituentNumber = 0; ConstituentNumber < ConstituentSum; ConstituentNumber++) {
 
         PseudoJet Constituent = Constituents[ConstituentNumber];
@@ -341,7 +341,7 @@ float HHiggsTagger::GetDipolarity(PseudoJet FatJet)
 
 void HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 {
-    Print(1, "SetEtaPhi");
+    Print(2, "SetEtaPhi");
     
     Eta1 = SubJet1.eta();
     Phi1 = SubJet1.phi_std();
@@ -353,7 +353,7 @@ void HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 float HHiggsTagger::GetSubDeltaR()
 {
     
-    Print(1, "GetSubDeltaR");
+    Print(2, "GetSubDeltaR");
     
     float SubDeltaR;
 

@@ -1,37 +1,26 @@
 # ifndef HPull_hh
 # define HPull_hh
 
-# include <iostream>
-
-# include "TLorentzVector.h"
-
 # include "fastjet/tools/Filter.hh"
-# include "fastjet/tools/MassDropTagger.hh"
-# include "fastjet/PseudoJet.hh"
 
-# ifndef MadGraph
-# include "classes/DelphesClasses.h"
-# endif
+# include "HFourVector.hh"
 
-using std::cout;
-using std::endl;
 using std::min;
 using std::vector;
 
-using fastjet::PseudoJet;
+using TMath::Pi;
+
 using fastjet::SelectorNHardest;
 using fastjet::antikt_algorithm;
 using fastjet::JetDefinition;
 using fastjet::Selector;
 using fastjet::Filter;
 
-using TMath::Pi;
-
 /**
  * @brief Calculates the pull to each Bottom
  *
  */
-class HPull
+class HPull : public HFourVector
 {
 
 public:
@@ -59,14 +48,14 @@ public:
      *
      * @param Jet
      */
-    void BTagCalculation(Jet *);
+    void BTagCalculation(const Jet&);
 
     /**
      * @brief Pull calculation as definied in arXiv:1001.5027
      *
      * @param Jet
      */
-    float SubPull(PseudoJet, PseudoJet, PseudoJet);
+    float SubPull(const PseudoJet&, const PseudoJet&, const PseudoJet&);
 
     /**
      * @brief DiPolarity as defined in arXiv:1102.1012
@@ -74,9 +63,9 @@ public:
      * @param  PseudoJet Jet containig two subjets
      * @return void
      */
-    float CalculateDiPolarity(PseudoJet, PseudoJet, PseudoJet);
+    float CalculateDiPolarity(const PseudoJet&, const PseudoJet&, const PseudoJet&);
 
-    float JingDipolarity(PseudoJet, PseudoJet);
+    float JingDipolarity(const PseudoJet&, const PseudoJet&);
 
     float DiPolarity;
 
@@ -84,7 +73,7 @@ public:
      * @brief constructor
      *
      */
-    HPull(int);
+    HPull();
 
     /**
      * @brief destructor
@@ -95,12 +84,6 @@ public:
 private:
 
     int InitialValue;
-
-    /**
-     * @brief debug variable
-     *
-     */
-    int Debug;
 
     /**
      * @brief Phi component of the pull variable

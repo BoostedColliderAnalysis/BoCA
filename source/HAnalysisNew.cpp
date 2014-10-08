@@ -6,7 +6,7 @@
 HAnalysis::HAnalysis()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     EventNumberMax = 100000;
 
@@ -26,9 +26,9 @@ vector<string> HAnalysis::GetStudyNameVector()
 void HAnalysis::AnalysisLoop()
 {
 
-    Print(0, "Analysis Loop");
+    Print(1, "Analysis Loop");
 
-    Print(0,"");
+    Print(1,"");
 
     vector<string> StudyNameVector = GetStudyNameVector();
 
@@ -62,7 +62,7 @@ void HAnalysis::AnalysisLoop()
 
     } else {
 
-      Print(-1, "unknown Tree String", FileVector.front()->GetTreeName());
+      Print(0, "unknown Tree String", FileVector.front()->GetTreeName());
 
     }
 
@@ -71,7 +71,7 @@ void HAnalysis::AnalysisLoop()
     for (unsigned StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
 
         StudyName = StudyNameVector[StudyNumber];
-        Print(0, "Analysing Mva Sample", StudyName);
+        Print(1, "Analysing Mva Sample", StudyName);
 
         NewStudy();
 
@@ -80,14 +80,14 @@ void HAnalysis::AnalysisLoop()
     int FileSum = FileVector.size();
     for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
 
-        Print(0, "Analysing File", FileNumber + 1);
+        Print(1, "Analysing File", FileNumber + 1);
         NewFileBase();
 
         ExRootProgressBar ProgressBar(EventSum);
 
         for (EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
 
-            Print(1, "Analysing Event", EventNumber + 1);
+            Print(2, "Analysing Event", EventNumber + 1);
             NewEvent();
             ProgressBar.Update(EventNumber);
             if (DebugLevel > 1) cout << endl;
@@ -96,25 +96,25 @@ void HAnalysis::AnalysisLoop()
         ProgressBar.Finish();
         //             cout << endl;
 
-        Print(0, "All Events analysed", EventSum);
+        Print(1, "All Events analysed", EventSum);
         CloseFileBase();
         if (DebugLevel > 0) cout << endl;
 
     }
-    Print(0, "All Files analysed", FileSum);
+    Print(1, "All Files analysed", FileSum);
 
 //         DeleteStudy();
 
 //     }
 
-//     Print(0, "All Mva Samples analysed", StudySum);
+//     Print(1, "All Mva Samples analysed", StudySum);
 
 }
 
 void HAnalysis::NewStudy()
 {
 
-    Print(0, "New Mva", StudyName);
+    Print(1, "New Mva", StudyName);
 
 
     // Export file
@@ -127,7 +127,7 @@ void HAnalysis::NewStudy()
 
 void HAnalysis::NewFileBase()
 {
-    Print(0, "New Analysis");
+    Print(1, "New Analysis");
 
     AnalysisNotEmpty = 0;
 
@@ -150,26 +150,26 @@ void HAnalysis::NewFileBase()
     // Import file
     TString ImportPath = FileVector[FileNumber]->GetFilePath();
     ImportFile = new TFile(ImportPath);
-    Print(0, "File", ImportPath);
+    Print(1, "File", ImportPath);
 
     // Import tree
     TString ImportTreeName = FileVector[FileNumber]->GetTreeName();
     ImportTree = (TTree *)ImportFile->Get(ImportTreeName);
-    Print(0, "Tree", ImportTreeName);
+    Print(1, "Tree", ImportTreeName);
 
     // TreeReader
     TreeReader = new ExRootTreeReader(ImportTree);
     EventSum = min((int)TreeReader->GetEntries(), EventNumberMax);
 
     ClonesArrays->UseBranches(TreeReader);
-    Print(2,"we have new branches");
+    Print(3,"we have new branches");
 
 }
 
 
 void HAnalysis::NewEvent()
 {
-    Print(1, "New Event");
+    Print(2, "New Event");
 
     Event->NewEvent(ClonesArrays);
 
@@ -179,7 +179,7 @@ void HAnalysis::NewEvent()
 
 //     if (Successfull) {
 
-    Print(-1,"File",ExportFileVector[Successfull]->GetName());
+    Print(0,"File",ExportFileVector[Successfull]->GetName());
 
         TreeWriter->SetTreeFile(ExportFileVector[Successfull]);
 
@@ -200,7 +200,7 @@ void HAnalysis::NewEvent()
 
 void HAnalysis::CloseFileBase()
 {
-    Print(0, "Clean Analysis");
+    Print(1, "Clean Analysis");
 
 
     for (unsigned StudyNumber = 0; StudyNumber < ExportFileVector.size(); ++StudyNumber) {
@@ -227,7 +227,7 @@ void HAnalysis::CloseFileBase()
 
 void HAnalysis::DeleteStudy()
 {
-    Print(0, "Clean Mva");
+    Print(1, "Clean Mva");
 
 }
 
@@ -235,7 +235,7 @@ void HAnalysis::DeleteStudy()
 HAnalysis::~HAnalysis()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
     for (unsigned StudyNumber = 0; StudyNumber < ExportFileVector.size(); ++StudyNumber) {
 

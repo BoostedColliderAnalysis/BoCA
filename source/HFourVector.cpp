@@ -6,7 +6,7 @@ HFourVector::HFourVector() :
     MassCheck(1)
 {
 
-    Print(1, "Constructor");
+    Print(2, "Constructor");
 
 }
 
@@ -14,14 +14,63 @@ HFourVector::~HFourVector()
 {
 
 
-    Print(1, "Destructor");
+    Print(2, "Destructor");
 
 }
+
+
+PseudoJet HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
+{
+
+    const PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
+
+    return Jet;
+
+}
+
+TLorentzVector HFourVector::GetConstituent(const TObject &Object) const
+{
+
+    TLorentzVector LorentzVector;
+
+    if (Object.IsA() == GenParticle::Class()) {
+
+        LorentzVector = const_cast<GenParticle *>((GenParticle *) &Object)->P4();
+
+    } else if (Object.IsA() == Track::Class()) {
+
+        LorentzVector = const_cast<Track *>((Track *) &Object)->P4();
+
+    } else if (Object.IsA() == Tower::Class()) {
+
+        LorentzVector = const_cast<Tower *>((Tower *) &Object)->P4();
+
+    } else if (Object.IsA() == Muon::Class()) {
+
+        LorentzVector = const_cast<Muon *>((Muon *) &Object)->P4();
+
+    } else {
+
+        Print(0, "Unkonw Object", Object.ClassName());
+
+    }
+
+    return LorentzVector;
+
+}
+
+PseudoJet HFourVector::GetConstituentJet(const TObject &Object) const
+{
+
+    return GetPseudoJet(GetConstituent(Object));
+
+}
+
 
 TLorentzVector HFourVector::GetLorentzVector(TRootElectron *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootElectron");
+    Print(3, "Get Lorentz Vector", "TRootElectron");
 
     TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, ElectronMass);
 
@@ -32,7 +81,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootElectron *Particle)
 TLorentzVector HFourVector::GetLorentzVector(TRootGenJet *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootGenJet");
+    Print(3, "Get Lorentz Vector", "TRootGenJet");
 
     TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle);
 
@@ -43,7 +92,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootGenJet *Particle)
 TLorentzVector HFourVector::GetLorentzVector(TRootGenParticle *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootGenParticle");
+    Print(3, "Get Lorentz Vector", "TRootGenParticle");
 
     TLorentzVector LorentzVector = GetLorentzVectorByEnergy(Particle);
 
@@ -54,7 +103,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootGenParticle *Particle)
 TLorentzVector HFourVector::GetLorentzVector(TRootJet *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootJet");
+    Print(3, "Get Lorentz Vector", "TRootJet");
 
     TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle);
 
@@ -65,7 +114,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootJet *Particle)
 TLorentzVector HFourVector::GetLorentzVector(TRootLHEFParticle *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootLHEFParticle");
+    Print(3, "Get Lorentz Vector", "TRootLHEFParticle");
 
     TLorentzVector LorentzVector = GetLorentzVectorByM(Particle);
 
@@ -76,7 +125,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootLHEFParticle *Particle)
 TLorentzVector HFourVector::GetLorentzVector(TRootMuon *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootMuon");
+    Print(3, "Get Lorentz Vector", "TRootMuon");
 
     TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, MuonMass);
 
@@ -87,7 +136,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootMuon *Particle)
 TLorentzVector HFourVector::GetLorentzVector(TRootPhoton *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootPhoton");
+    Print(3, "Get Lorentz Vector", "TRootPhoton");
 
     TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, 0);
 
@@ -98,7 +147,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootPhoton *Particle)
 TLorentzVector HFourVector::GetLorentzVector(TRootTau *Particle)
 {
 
-    Print(2, "Get Lorentz Vector", "TRootTau");
+    Print(3, "Get Lorentz Vector", "TRootTau");
 
     TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, TauMass);
 
@@ -109,7 +158,7 @@ TLorentzVector HFourVector::GetLorentzVector(TRootTau *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootElectron *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootElectron");
+    Print(3, "Get Pseudo Jet", "TRootElectron");
 
     PseudoJet Jet = GetPseudoJetByMass(Particle, ElectronMass);
 
@@ -120,7 +169,7 @@ PseudoJet HFourVector::GetPseudoJet(TRootElectron *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootGenJet *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootGenJet");
+    Print(3, "Get Pseudo Jet", "TRootGenJet");
 
     PseudoJet Jet = GetPseudoJetByMass(Particle);
 
@@ -131,7 +180,7 @@ PseudoJet HFourVector::GetPseudoJet(TRootGenJet *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootGenParticle *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootGenParticle");
+    Print(3, "Get Pseudo Jet", "TRootGenParticle");
 
     PseudoJet Jet = GetPseudoJetByEnergy(Particle);
 
@@ -142,7 +191,7 @@ PseudoJet HFourVector::GetPseudoJet(TRootGenParticle *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootJet *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootJet");
+    Print(3, "Get Pseudo Jet", "TRootJet");
 
     PseudoJet Jet = GetPseudoJetByMass(Particle);
 
@@ -153,7 +202,7 @@ PseudoJet HFourVector::GetPseudoJet(TRootJet *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootLHEFParticle *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootLHEFParticle");
+    Print(3, "Get Pseudo Jet", "TRootLHEFParticle");
 
     PseudoJet Jet = GetPseudoJetByM(Particle);
 
@@ -164,7 +213,7 @@ PseudoJet HFourVector::GetPseudoJet(TRootLHEFParticle *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootMuon *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootMuon");
+    Print(3, "Get Pseudo Jet", "TRootMuon");
 
     PseudoJet Jet = GetPseudoJetByMass(Particle, MuonMass);
 
@@ -175,7 +224,7 @@ PseudoJet HFourVector::GetPseudoJet(TRootMuon *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootPhoton *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootPhoton");
+    Print(3, "Get Pseudo Jet", "TRootPhoton");
 
     PseudoJet Jet = GetPseudoJetByMass(Particle, 0);
 
@@ -186,7 +235,7 @@ PseudoJet HFourVector::GetPseudoJet(TRootPhoton *Particle)
 PseudoJet HFourVector::GetPseudoJet(TRootTau *Particle)
 {
 
-    Print(2, "Get Pseudo Jet", "TRootTau");
+    Print(3, "Get Pseudo Jet", "TRootTau");
 
     PseudoJet Jet = GetPseudoJetByMass(Particle, TauMass);
 

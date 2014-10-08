@@ -3,7 +3,7 @@
 HAnalysisJetProperties::HAnalysisJetProperties()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     ProjectName = "Discriminator";
 
@@ -31,7 +31,7 @@ vector<string> HAnalysisJetProperties::GetStudyNameVector()
 void HAnalysisJetProperties::SetFileVector()
 {
 
-    Print(0, "Set File Vector", StudyName);
+    Print(1, "Set File Vector", StudyName);
 
 
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
@@ -40,14 +40,14 @@ void HAnalysisJetProperties::SetFileVector()
     FileVector.push_back(Even);
 
     int AnalysisSum = FileVector.size();
-    Print(0, "Files prepared", AnalysisSum);
+    Print(1, "Files prepared", AnalysisSum);
 
 }
 
 
 void HAnalysisJetProperties::NewFile()
 {
-    Print(0, "New File");
+    Print(1, "New File");
 
     ConstituentBranch = TreeWriter->NewBranch("Constituent", HConstituentBranch::Class());
     LeptonBranch = TreeWriter->NewBranch("Leptons", HLeptonBranch::Class());
@@ -57,7 +57,7 @@ void HAnalysisJetProperties::NewFile()
 
 void HAnalysisJetProperties::CloseFile()
 {
-    Print(0, "Close File");
+    Print(1, "Close File");
 
 }
 
@@ -117,7 +117,7 @@ bool HAnalysisJetProperties::Analysis()
 
     std::nth_element(DistanceVector.begin(), DistanceVector.begin() + DistanceVector.size() / 2, DistanceVector.end());
 
-//     Print(-1, "Median", DistanceVector[DistanceVector.size() * 0.68]);
+//     Print(0, "Median", DistanceVector[DistanceVector.size() * 0.68]);
 
     float RMax = 0;
 
@@ -128,7 +128,7 @@ bool HAnalysisJetProperties::Analysis()
 
     }
 
-//     Print(-1, "RMax", RMax);
+//     Print(0, "RMax", RMax);
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
 

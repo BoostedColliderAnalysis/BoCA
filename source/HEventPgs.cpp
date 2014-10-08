@@ -4,7 +4,7 @@
 HEventPgs::HEventPgs()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     Lepton = new HLeptonPgs();
     Jets = new HJetPgs();
@@ -17,7 +17,7 @@ HEventPgs::HEventPgs()
 HEventPgs::~HEventPgs()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
     delete Lepton;
     delete Jets;
@@ -27,7 +27,7 @@ HEventPgs::~HEventPgs()
 void HEventPgs::NewEvent(HClonesArray *ClonesArrays)
 {
 
-    Print(1, "New Event");
+    Print(2, "New Event");
 
     Lepton->NewEvent(ClonesArrays);
     Jets->NewEvent(ClonesArrays);
@@ -41,7 +41,7 @@ void HEventPgs::NewEvent(HClonesArray *ClonesArrays)
 vector<TLorentzVector> HEventPgs::GetLeptons()
 {
     
-    Print(1, "Get Leptons");
+    Print(2, "Get Leptons");
     
     vector<TLorentzVector> LeptonVector = Lepton->GetLeptonVector();
     
@@ -52,7 +52,7 @@ vector<TLorentzVector> HEventPgs::GetLeptons()
 
 void HEventPgs::GetJets()
 {
-    Print(1, "Get Jets");
+    Print(2, "Get Jets");
     
     if (!HasJets) HasJets = Jets->GetJets();
     

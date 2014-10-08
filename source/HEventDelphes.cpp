@@ -3,7 +3,7 @@
 HEventDelphes::HEventDelphes()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     Particles = new HParticleDelphes();
     Jets = new HJetDelphes();
@@ -23,7 +23,7 @@ HEventDelphes::HEventDelphes()
 HEventDelphes::~HEventDelphes()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
     delete Particles;
     delete Jets;
@@ -37,7 +37,7 @@ HEventDelphes::~HEventDelphes()
 void HEventDelphes::NewFile()
 {
 
-    Print(1, "New Analysis");
+    Print(2, "New Analysis");
 
     Discriminator->NewFile();
 
@@ -46,7 +46,7 @@ void HEventDelphes::NewFile()
 void HEventDelphes::CloseFile()
 {
 
-    Print(1, "Close File");
+    Print(2, "Close File");
 
     Discriminator->CloseFile();
 
@@ -55,7 +55,7 @@ void HEventDelphes::CloseFile()
 void HEventDelphes::NewEvent(HClonesArray *ClonesArrays)
 {
 
-    Print(1, "New Event");
+    Print(2, "New Event");
 
     Particles->NewEvent(ClonesArrays);
     Jets->NewEvent(ClonesArrays);
@@ -75,7 +75,7 @@ void HEventDelphes::NewEvent(HClonesArray *ClonesArrays)
 void HEventDelphes::GetParticles()
 {
 
-    Print(1, "Get Particles");
+    Print(2, "Get Particles");
 
     if (!HasParticles) HasParticles = Particles->GetParticles();
 
@@ -84,7 +84,7 @@ void HEventDelphes::GetParticles()
 
 vector<TLorentzVector> HEventDelphes::GetLeptons()
 {
-    Print(1, "Get Leptons");
+    Print(2, "Get Leptons");
 
     Lepton->GetElectrons();
     Lepton->GetMuons();
@@ -96,7 +96,7 @@ vector<TLorentzVector> HEventDelphes::GetLeptons()
 
 void HEventDelphes::GetJets()
 {
-    Print(1, "Get Jets");
+    Print(2, "Get Jets");
 
     if (!HasJets) HasJets = Jets->GetJets();
 
@@ -104,7 +104,7 @@ void HEventDelphes::GetJets()
 
 void HEventDelphes::GetTaggedJets()
 {
-    Print(1, "Get Tagged Jets");
+    Print(2, "Get Tagged Jets");
 
 //     GetJets();
 //     GetParticles();
@@ -121,7 +121,7 @@ void HEventDelphes::GetTaggedJets()
 void HEventDelphes::GetEFlow()
 {
     
-    Print(1, "Get EFlow");
+    Print(2, "Get EFlow");
     
     if (!HasEFlow) HasEFlow = Jets->GetEFlow();
         
@@ -131,7 +131,7 @@ void HEventDelphes::GetEFlow()
 void HEventDelphes::GetTaggedEFlow()
 {
     
-    Print(1, "Get EFlow");
+    Print(2, "Get EFlow");
     
     if (!HasEFlow) HasEFlow = Jets->GetTaggedEFlow();
     
@@ -141,7 +141,7 @@ void HEventDelphes::GetTaggedEFlow()
 PseudoJet HEventDelphes::GetHiggs()
 {
 
-    Print(1, "Get Higgs");
+    Print(2, "Get Higgs");
 
     GetEFlow();
     GetParticles();
@@ -158,7 +158,7 @@ PseudoJet HEventDelphes::GetHiggs()
 vector<PseudoJet> HEventDelphes::GetTops()
 {
 
-    Print(1, "Get Tops");
+    Print(2, "Get Tops");
 
     GetEFlow();
     if (Jets->EFlowJetVector.size() > 0) TopTagger->TaggingTop(Jets->EFlowJetVector);
@@ -171,7 +171,7 @@ vector<PseudoJet> HEventDelphes::GetTops()
 
 // vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(bool Higgs, bool Tops, bool Candidates)
 // {
-//     Print(1,"GetHiggsTopCandidates");
+//     Print(2,"GetHiggsTopCandidates");
 //
 //     vector<PseudoJet> CandidateJets;
 //
@@ -210,7 +210,7 @@ vector<PseudoJet> HEventDelphes::GetTops()
 
 vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates()
 {
-    Print(1, "GetHiggsTopCandidates");
+    Print(2, "GetHiggsTopCandidates");
 
     GetTaggedEFlow();
     GetParticles();

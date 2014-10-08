@@ -3,7 +3,7 @@
 HReader::HReader(HMva *NewMva)
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     Mva = NewMva;
 
@@ -17,7 +17,7 @@ HReader::HReader(HMva *NewMva)
 
 HReader::~HReader()
 {
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
     delete Reader;
 
@@ -27,7 +27,7 @@ HReader::~HReader()
 void HReader::AddVariable()
 {
 
-    Print(0, "Add Variable");
+    Print(1, "Add Variable");
 
     TString DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
@@ -50,7 +50,7 @@ void HReader::AddVariable()
 
 void HReader::BookMVA()
 {
-    Print(0, "Book Mva");
+    Print(1, "Book Mva");
 
     TString XmlName = ".weights.xml";
 
@@ -67,7 +67,7 @@ void HReader::BookMVA()
 void HReader::MVALoop()
 {
 
-    Print(0, "Mva Loop");
+    Print(1, "Mva Loop");
 
     // Export File
 //     TString ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
@@ -118,7 +118,7 @@ void HReader::MVALoop()
 
 void HReader::ApplyBdt(ExRootTreeReader *TreeReader, TString TreeName, TFile *ExportFile)
 {
-    Print(0, "Apply Bdt");
+    Print(1, "Apply Bdt");
 
     TClonesArray *CandidateClonesArray = TreeReader->UseBranch(Mva->CandidateBranchName);
     TClonesArray *LeptonClonesArray = TreeReader->UseBranch(Mva->LeptonBranchName);
@@ -185,7 +185,7 @@ void HReader::ApplyBdt(ExRootTreeReader *TreeReader, TString TreeName, TFile *Ex
 
 void HReader::GetCuts()
 {
-    Print(0, "Get Cuts");
+    Print(1, "Get Cuts");
 
     TMVA::MethodCuts *MethodCuts;
 
@@ -199,7 +199,7 @@ void HReader::GetCuts()
 void HReader::LatexHeader()
 {
 
-    Print(0, "LaTeX Header");
+    Print(1, "LaTeX Header");
 
     TString TexFileName = Mva->AnalysisName + "/" + "Cutflow" + TString(".tex");
 
@@ -221,7 +221,7 @@ void HReader::LatexHeader()
 void HReader::ApplyCuts(ExRootTreeReader *TreeReader, TString TreeName)
 {
 
-    Print(0, "Apply Cuts");
+    Print(1, "Apply Cuts");
 
     CutLoop(TreeReader);
 
@@ -254,7 +254,7 @@ void HReader::ApplyCuts(ExRootTreeReader *TreeReader, TString TreeName)
 void HReader::CutLoop(ExRootTreeReader *TreeReader)
 {
 
-    Print(0, "Cut Loop");
+    Print(1, "Cut Loop");
 
     int ObservableSum = Mva->ObservableVector.size();
     HiggsSum = 0;
@@ -428,7 +428,7 @@ void HReader::TabularOutput()
 void HReader::LatexContent(TString TreeName)
 {
 
-    Print(0, "LaTeX Content");
+    Print(1, "LaTeX Content");
 
     LatexFile << endl
               << "\\begin{table}" << endl
@@ -524,7 +524,7 @@ void HReader::LatexContent(TString TreeName)
 void HReader::LatexFooter()
 {
 
-    Print(0, "LaTeX Footer");
+    Print(1, "LaTeX Footer");
 
 
     LatexFile << endl << "\\end{document}" << endl;
@@ -557,7 +557,7 @@ float HReader::Ratio(float Nominator, float Denummertor)
 float HReader::Scaling(float Events, int Particles)
 {
 
-    Print(1 , "Scaling");
+    Print(2 , "Scaling");
 
     float Scaling;
 
@@ -580,7 +580,7 @@ float HReader::Scaling(float Events, int Particles)
 float HReader::Luminosity(float Number)
 {
 
-    Print(1 , "Luminosity");
+    Print(2 , "Luminosity");
 
     float Luminosity = Number / CrosssectionScaled;
 
@@ -591,7 +591,7 @@ float HReader::Luminosity(float Number)
 float HReader::LuminosityError(float Number)
 {
 
-    Print(1 , "Luminosity Error");
+    Print(2 , "Luminosity Error");
 
     float LuminosityError = Error(Number) / CrosssectionScaled
                             + Number / CrosssectionNorm * LuminosityScalingError
@@ -604,7 +604,7 @@ float HReader::LuminosityError(float Number)
 
 float HReader::Error(float Value)
 {
-    Print(1 , "Error");
+    Print(2 , "Error");
 
     float Error;
 
@@ -642,7 +642,7 @@ float HReader::RoundError(float Value)
 float HReader::RoundToDigits(float Value, int Digits)
 {
 
-    Print(1 , "Round To Digits");
+    Print(2 , "Round To Digits");
 
     if (Value == 0) {
 
@@ -660,7 +660,7 @@ float HReader::RoundToDigits(float Value, int Digits)
 float HReader::RoundToError(float Value, float Error)
 {
 
-    Print(1 , "Round To Digits");
+    Print(2 , "Round To Digits");
 
     if (Value == 0) {
 

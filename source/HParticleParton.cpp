@@ -3,7 +3,7 @@
 HParticleParton::HParticleParton()
 {
     
-    Print(0,"Constructor");
+    Print(1,"Constructor");
 
 //     Debug =5;
     
@@ -12,28 +12,28 @@ HParticleParton::HParticleParton()
 HParticleParton::~HParticleParton()
 {
     
-    Print(0,"Destructor");
+    Print(1,"Destructor");
 
 }
 
 bool HParticleParton::GetParticles()
 {
     
-    Print(1,"Get Particles");
+    Print(2,"Get Particles");
 
     int ParticleSum = ClonesArrays->ParticleClonesArray->GetEntriesFast();
     
-    Print(2,"Number of Particles",ParticleSum);
+    Print(3,"Number of Particles",ParticleSum);
     
     for (int ParticleNumber = 0; ParticleNumber < ParticleSum; ++ParticleNumber) {
 
         TRootLHEFParticle *ParticleClone = (TRootLHEFParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
 
         int ParticleStatus = ParticleClone->Status;
-        Print(3,"Particles Status",ParticleStatus);
+        Print(4,"Particles Status",ParticleStatus);
 
         int ParticleID = ParticleClone->PID;
-        Print(3,"Particles ID",ParticleID);
+        Print(4,"Particles ID",ParticleID);
 
         if (ParticleStatus == 1) {
 
@@ -44,12 +44,12 @@ bool HParticleParton::GetParticles()
                 if (ParticleID > 0) {
 
                     ElectronVector.push_back(ElectronParticle);
-                    Print(2,"Electron");
+                    Print(3,"Electron");
 
                 } else if (ParticleID < 0) {
 
                     AntiElectronVector.push_back(ElectronParticle);
-                    Print(2,"Anti Electron");
+                    Print(3,"Anti Electron");
 
                 }
 
@@ -62,12 +62,12 @@ bool HParticleParton::GetParticles()
                 if (ParticleID > 0) {
 
                     MuonVector.push_back(MuonParticle);
-                    Print(2,"Muon");
+                    Print(3,"Muon");
 
                 } else if (ParticleID < 0) {
 
                     AntiMuonVector.push_back(MuonParticle);
-                    Print(2,"Anti Muon");
+                    Print(3,"Anti Muon");
 
                 }
 
@@ -78,7 +78,7 @@ bool HParticleParton::GetParticles()
                 PseudoJet JetCandidate = GetPseudoJet(ParticleClone);
                 
                 BottomJetVector.push_back(JetCandidate);
-                Print(2,"Bottom");
+                Print(3,"Bottom");
                 
             } // bottoms
             
@@ -91,12 +91,12 @@ bool HParticleParton::GetParticles()
                 if (ParticleID > 0) {
                     
                     TopVector.push_back(TopQuark);
-                    Print(2,"Top");
+                    Print(3,"Top");
                     
                 } else if (ParticleID < 0) {
                     
                     AntiTopVector.push_back(TopQuark);
-                    Print(2,"Anti Top");
+                    Print(3,"Anti Top");
                     
                 }
                 
@@ -114,7 +114,7 @@ bool HParticleParton::GetParticles()
                 PseudoJet JetCandidate = GetPseudoJet(ParticleClone);
 
                 CharmJetVector.push_back(JetCandidate);
-                Print(2,"Charm");
+                Print(3,"Charm");
 
             } // charms
 
@@ -123,7 +123,7 @@ bool HParticleParton::GetParticles()
 //                 PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
 // 
 //                 BottomJetVector.push_back(JetCandidate);
-//                 Print(2,"Bottom");
+//                 Print(3,"Bottom");
 // 
 //             } // bottoms
             
@@ -132,7 +132,7 @@ bool HParticleParton::GetParticles()
                 PseudoJet HiggsParticle = GetPseudoJet(ParticleClone);
                 
                 HiggsJetVector.push_back(HiggsParticle);
-                Print(2,"CPV Higgs");
+                Print(3,"CPV Higgs");
                 
             } // cp Higgs
 
@@ -149,7 +149,7 @@ bool HParticleParton::GetParticles()
                 PseudoJet HiggsParticle = GetPseudoJet(ParticleClone);
                 
                 HiggsJetVector.push_back(HiggsParticle);
-                Print(2,"Heavy CPV Higgs");
+                Print(3,"Heavy CPV Higgs");
                 
             } // heavy higgs
 

@@ -29,7 +29,7 @@ HObject::HObject() :
     IsrId(10)
 {
 
-//     Print(0, "Constructor");
+//     Print(1, "Constructor");
 
     DebugLevel = 0;
 
@@ -38,14 +38,14 @@ HObject::HObject() :
 HObject::~HObject()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }
 
-float HObject::GetDistance(const float& Eta1, const float& Phi1, const float& Eta2, const float& Phi2) const
+float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2) const
 {
 
-    Print(2, "GetDistance");
+    Print(3, "GetDistance");
 
     float const Distance = sqrt(pow((Eta2 - Eta1), 2) + pow(GetDeltaPhi(Phi2, Phi1), 2));
 
@@ -53,10 +53,10 @@ float HObject::GetDistance(const float& Eta1, const float& Phi1, const float& Et
 
 }
 
-float HObject::GetDistance(const float& Eta, const float& Phi) const
+float HObject::GetDistance(float Eta, float Phi) const
 {
 
-    Print(2, "GetDistance");
+    Print(3, "GetDistance");
 
     float const Distance = sqrt(pow(Eta, 2) + pow(Phi, 2));
 
@@ -64,10 +64,10 @@ float HObject::GetDistance(const float& Eta, const float& Phi) const
 
 }
 
-float HObject::GetDeltaPhi(const float& Phi, const float& RefPhi) const
+float HObject::GetDeltaPhi(float Phi, float RefPhi) const
 {
 
-    Print(3, "GetDeltaPhi");
+    Print(4, "GetDeltaPhi");
 
     float const TwoPi = 2 * TMath::Pi();
 
@@ -90,17 +90,16 @@ float HObject::GetDeltaPhi(const float& Phi, const float& RefPhi) const
 
         }
 
-
     }
 
     return DeltaPhi;
 
 }
 
-void HObject::Print(const int& Severity, const string &Function) const
+void HObject::Print(int Severity, string Function) const
 {
 
-    if (Severity < DebugLevel) {
+    if (Severity <= DebugLevel) {
 
         Printer(Function);
         std::cout << std::endl;
@@ -109,27 +108,15 @@ void HObject::Print(const int& Severity, const string &Function) const
 }
 
 
-void HObject::Printer(const string& Function) const
+void HObject::Printer(string Function) const
 {
 
-    char const Separator = ' ';
-    int const ClassWidth = 28;
-    int const FunctionWidth = 25;
+    const char Separator = ' ';
+    const int ClassWidth = 28;
+    const int FunctionWidth = 25;
 
     std::cout << std::left << std::setw(ClassWidth) << std::setfill(Separator) << ClassName();
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Function;
 
 }
-
-
-PseudoJet HObject::GetPseudoJet(const TLorentzVector& Vector) const
-{
-
-    const PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
-
-    return Jet;
-
-}
-
-

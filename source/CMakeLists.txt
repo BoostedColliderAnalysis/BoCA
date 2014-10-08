@@ -41,8 +41,8 @@ install(TARGETS HEvent DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 # HAnalysis Library
 set(AnalysisSources
-# HAnalysis.cpp
-HAnalysisNew.cpp
+HAnalysis.cpp
+# HAnalysisNew.cpp
 HFile.cpp
 HClonesArray.cpp
 )

@@ -3,7 +3,7 @@
 HMvaHeavyHiggs::HMvaHeavyHiggs()
 {
 
-    Print(0 , "Constructor");
+    Print(1 , "Constructor");
 
     AnalysisName = "HeavyHiggs";
 
@@ -38,7 +38,7 @@ HMvaHeavyHiggs::HMvaHeavyHiggs()
 HMvaHeavyHiggs::~HMvaHeavyHiggs()
 {
 
-    Print(0 , "Constructor");
+    Print(1 , "Constructor");
     
     delete HeavyHiggs;
 
@@ -47,11 +47,11 @@ HMvaHeavyHiggs::~HMvaHeavyHiggs()
 void HMvaHeavyHiggs::DefineVariables()
 {
 
-    Print(0 , "Define Variables");
+    Print(1 , "Define Variables");
 
     ObservableVector.push_back(NewObservable(&HeavyHiggs->BottomDeltaEta, "HeavyHiggs.BottomDeltaEta", "BottomeDeltaEta"));
     ObservableVector.push_back(NewObservable(&HeavyHiggs->BottomDeltaPhi, "HeavyHiggs.BottomDeltaPhi", "BottomeDeltaPhi"));
 
-    Print(0,"Variables defined");
+    Print(1,"Variables defined");
 
 }

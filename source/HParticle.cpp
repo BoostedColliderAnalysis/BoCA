@@ -3,7 +3,7 @@
 HParticle::HParticle()
 {
     
-    Print(0,"Constructor");
+    Print(1,"Constructor");
 
 //     Debug =5;
     
@@ -12,13 +12,13 @@ HParticle::HParticle()
 HParticle::~HParticle()
 {
     
-    Print(0,"Destructor");
+    Print(1,"Destructor");
 
 }
 
 void HParticle::NewEvent(HClonesArray *NewClonesArrays){
     
-    Print(1,"New Event");
+    Print(2,"New Event");
     
     ClonesArrays = NewClonesArrays;
     
@@ -49,7 +49,7 @@ void HParticle::NewEvent(HClonesArray *NewClonesArrays){
 vector<TLorentzVector> HParticle::LeptonVector()
 {
     
-    Print(1,"LeptonVector");
+    Print(2,"LeptonVector");
     
     vector<TLorentzVector> TotalVector;
 
@@ -59,7 +59,7 @@ vector<TLorentzVector> HParticle::LeptonVector()
     sort(TotalVector.begin(), TotalVector.end(), SortByPt());
     
     int TotalVectorSum = TotalVector.size();
-    Print(1,"Lepton Particle",TotalVectorSum);
+    Print(2,"Lepton Particle",TotalVectorSum);
 
     return (TotalVector);
 
@@ -69,7 +69,7 @@ vector<TLorentzVector> HParticle::LeptonVector()
 vector<TLorentzVector> HParticle::AntiLeptonVector()
 {
     
-    Print(1,"AntiLeptonVector");
+    Print(2,"AntiLeptonVector");
     
     vector<TLorentzVector> TotalVector;
 
@@ -79,7 +79,7 @@ vector<TLorentzVector> HParticle::AntiLeptonVector()
     sort(TotalVector.begin(), TotalVector.end(), SortByPt());
     
     int TotalVectorSum = TotalVector.size();
-    Print(1,"Anti Lepton Particle",TotalVectorSum);
+    Print(2,"Anti Lepton Particle",TotalVectorSum);
     
     return (TotalVector);
 

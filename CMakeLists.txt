@@ -66,7 +66,7 @@ ${DelphesDir}
 )
 include_directories(${IncludeDirectory})
 
-set(LinkLibraries ${fastjet_LIBRARIES})
+set(LinkLibraries ${fastjet_LIBRARIES} ${DelphesLibrary})
 add_subdirectory(source)
 
 # Executables

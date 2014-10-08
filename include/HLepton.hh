@@ -3,9 +3,8 @@
 
 # include <algorithm>
 
-
 # include "HClonesArray.hh"
-# include "HObject.hh"
+# include "HFourVector.hh"
 
 using std::sort;
 using std::vector;
@@ -16,7 +15,7 @@ class Jet;
  * @brief calculation regarding leptons
  *
  */
-class HLepton : virtual public HObject
+class HLepton : public HFourVector
 {
 
 public:

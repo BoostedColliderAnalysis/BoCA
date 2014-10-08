@@ -1,93 +1,73 @@
 # include "HPull.hh"
 
-HPull::HPull(int debug)
+HPull::HPull()
 {
+    Print(2, "Constructor");
 
     InitialValue = -1000;
-    Debug = debug;
     PullPhi = 0;
     PullRap = 0;
     DiPolarity = 0;
-    if (Debug > 1) cout << "Pull created" << endl;
 
 }
 
 HPull::~HPull()
 {
 
-    if (Debug > 1) cout << "Pull deleted" << endl;
+    Print(2, "Destructor");
 
 }
 
 
-void HPull::BTagCalculation(Jet *JetClone)
+void HPull::BTagCalculation(const Jet& JetClone)
 {
 
-    float BottomPt = JetClone->PT;
-    float BottomPhi = JetClone->Phi;
-    float BottomEta = JetClone->Eta;
-    float BottomMass = JetClone->Mass;
-    BottomLorentzVector.SetPtEtaPhiM(BottomPt, BottomEta, BottomPhi, BottomMass);
-    float BottomY = BottomLorentzVector.Rapidity();
+    Print(2, "BTagCalculation");
 
-    BottomJet = PseudoJet(BottomPt * cos(BottomPhi), BottomPt * sin(BottomPhi), BottomPt * sinh(BottomEta), BottomPt * cosh(BottomEta));
+    BottomLorentzVector = const_cast<Jet*>(&JetClone)->P4();
+    BottomJet = GetPseudoJet(BottomLorentzVector);
 
-    if (BottomPt > 0) {
+    if (BottomJet.pt() > 0) {
 
-        TLorentzVector ConstituentLorentzVector;
         int ValidConstituentsSum = 0;
-        int ConstituentsSum = JetClone->Constituents.GetEntriesFast();
-        if (Debug > 1) cout << "Number of b Jet Constituents: " << ConstituentsSum << endl;
+        int ConstituentsSum = JetClone.Constituents.GetEntriesFast();
+        Print(2, "Number of b Jet Constituents", ConstituentsSum);
         for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ConstituentsNumber++) {
 
-            TObject *ConstituentObject = JetClone->Constituents.At(ConstituentsNumber);
+            TObject *ConstituentObject = JetClone.Constituents.At(ConstituentsNumber);
             if (ConstituentObject == 0) continue;
-            if (Debug > 2) cout << "Entering b Jet Constituent: " << ConstituentsNumber << endl;
+            Print(3, "Entering b Jet Constituent", ConstituentsNumber);
             ValidConstituentsSum++;
-            TClass *ConstituentClass = ConstituentObject->IsA();
 
-            if (ConstituentClass == GenParticle::Class()) {
-                ConstituentLorentzVector = ((GenParticle *) ConstituentObject)->P4();
-            } else if (ConstituentClass == Track::Class()) {
-                ConstituentLorentzVector += ((Track *) ConstituentObject)->P4();
-            } else if (ConstituentClass == Tower::Class()) {
-                ConstituentLorentzVector += ((Tower *) ConstituentObject)->P4();
-            } else if (ConstituentClass == Muon::Class()) {
-                ConstituentLorentzVector += ((Muon *) ConstituentObject)->P4();
-            } else {
-                cout << "Strange b jet constituent!" << endl;
-            }
+            const TLorentzVector ConstituentLorentzVector = GetConstituent(*ConstituentObject);
 
-            float ConstituentPhi = ConstituentLorentzVector.Phi();
-            float ConstituentDeltaPhi = ConstituentPhi - BottomPhi;
+            const float ConstituentPhi = ConstituentLorentzVector.Phi();
+            const float ConstituentDeltaPhi = ConstituentPhi - BottomJet.phi_std();
 
-            float ConstituentY = ConstituentLorentzVector.Rapidity();
-            float ConstituentDeltaY = ConstituentY - BottomY;
+            const float ConstituentY = ConstituentLorentzVector.Rapidity();
+            const float ConstituentDeltaY = ConstituentY - BottomLorentzVector.Rapidity();
 
-            float ConstituentR = sqrt(pow(ConstituentDeltaPhi, 2.) + pow(ConstituentDeltaY, 2.));
-            float ConstituentPt = ConstituentLorentzVector.Pt();
+            const float ConstituentR = sqrt(pow(ConstituentDeltaPhi, 2.) + pow(ConstituentDeltaY, 2.));
+            const float ConstituentPt = ConstituentLorentzVector.Pt();
 
-            float PullFactor = ConstituentPt * ConstituentR / BottomPt;
+            const float PullFactor = ConstituentPt * ConstituentR / BottomJet.pt();
             PullRap += PullFactor * ConstituentY;
             PullPhi += PullFactor * ConstituentPhi;
 
-        }                                                       //  Constituent Loop
+        }
 
-
-        if (Debug > 1 && ValidConstituentsSum != ConstituentsSum) cout << "Number of valid Jet Constituents: " << ValidConstituentsSum << endl;
-        if (Debug > 1) cout << "PullPhi: " << PullPhi << endl;
-        if (Debug > 1) cout << "PullY: " << PullRap << endl;
+        if (ValidConstituentsSum != ConstituentsSum) Print(3, "Number of valid Jet Constituents", ValidConstituentsSum);
+        Print(2, "PullPhi", PullPhi);
+        Print(2, "PullY", PullRap);
 
     }
 
 }
 
-
-
-
-
 float HPull::PullAngle(float Rap, float Phi)
 {
+
+    Print(2, "Pull Angle");
 
     float Theta = InitialValue;
     if (Rap != 0) {
@@ -104,7 +84,7 @@ float HPull::PullAngle(float Rap, float Phi)
     }
 
     if (fabs(Theta) > Pi()  && Theta !=  InitialValue) {
-        cout << "Error in Theta Calculation" <<  endl;
+        Print(0, "Error in Theta Calculation");
     }
 
     return (Theta);
@@ -112,10 +92,10 @@ float HPull::PullAngle(float Rap, float Phi)
 }
 
 
-
-
 float HPull::ConfineAngle(float Angle)
 {
+
+    Print(2, "Confine Angle");
 
     if (Angle > Pi()) {
         Angle -= 2 * Pi();
@@ -124,7 +104,7 @@ float HPull::ConfineAngle(float Angle)
         Angle += 2 * Pi();
     }
     if (fabs(Angle) > Pi()) {
-        cout << "Error in Angle Confinment: " << Angle << endl;
+        Print(0, "Error in Angle Confinment", Angle);
     }
 
     return (Angle);
@@ -132,15 +112,12 @@ float HPull::ConfineAngle(float Angle)
 }
 
 
-
-
-
-float HPull::SubPull(PseudoJet SubJet,  PseudoJet RefJet,  PseudoJet CandidateJet)
+float HPull::SubPull(const PseudoJet& SubJet, const PseudoJet& RefJet, const PseudoJet& CandidateJet)
 {
 
-//     Debug = 2;
+    Print(2, "Sub Pull");
 
-    if (Debug > 3) cout << CandidateJet.m() << endl;
+    Print(4, "Mass", CandidateJet.m());
 
     float SubJetPt = SubJet.pt();
 
@@ -152,19 +129,13 @@ float HPull::SubPull(PseudoJet SubJet,  PseudoJet RefJet,  PseudoJet CandidateJe
 
     float DeltaRSubJetRefJet = RefJet.delta_R(SubJet);
     float DeltaPhi = ConfineAngle(RefJetPhi - SubJetPhi);
-    if (Debug > 1) {
-        cout << "DeltaPhi: " << DeltaPhi << endl;
-    }
+    Print(2, "DeltaPhi", DeltaPhi);
 
     float DeltaRap = RefJetRap - SubJetRap;
-    if (Debug > 1) {
-        cout << "DeltaRap: " << DeltaRap << endl;
-    }
+    Print(2, "DeltaRap", DeltaRap);
 
     float RefTheta = PullAngle(DeltaRap, DeltaPhi);
-    if (Debug > 1) {
-        cout << "RefTheta: " << RefTheta << endl;
-    }
+    Print(2, "RefTheta", RefTheta);
 
     float SubPullRap = 0;
     float SubPullPhi = 0;
@@ -173,9 +144,7 @@ float HPull::SubPull(PseudoJet SubJet,  PseudoJet RefJet,  PseudoJet CandidateJe
     vector<PseudoJet> ConstVector = CandidateJet.constituents();
 //     vector<PseudoJet> ConstVector = SubJet.constituents();
     int ConstSum = ConstVector.size();
-    if (Debug > 1) {
-        cout << "Number of Constituents: " << ConstSum << endl;
-    }
+    Print(2, "Number of Constituents", ConstSum);
 
     for (int ConstNumber = 0; ConstNumber < ConstSum; ConstNumber++) {
 
@@ -211,16 +180,12 @@ float HPull::SubPull(PseudoJet SubJet,  PseudoJet RefJet,  PseudoJet CandidateJe
         }
 
     }
-    if (Debug > 1) {
-        cout << "Number of Valid Constituents: " << ValidConstituents << endl;
-        cout << "SubPullRap: " << SubPullRap << endl;
-        cout << "SubPullPhi: " << SubPullPhi << endl;
-    }
+    Print(2, "Number of Valid Constituents", ValidConstituents);
+    Print(2, "SubPullRap", SubPullRap);
+    Print(2, "SubPullPhi", SubPullPhi);
 
     float PullTheta = PullAngle(SubPullRap, SubPullPhi);
-    if (Debug > 1) {
-        cout << "PullTheta: " << PullTheta << endl;
-    }
+    Print(2, "PullTheta", PullTheta);
 
     float Result = InitialValue;
     if (ValidConstituents > ConstSum / 5) {
@@ -230,14 +195,12 @@ float HPull::SubPull(PseudoJet SubJet,  PseudoJet RefJet,  PseudoJet CandidateJe
         }
 
         if (fabs(Result) > Pi() && Result != InitialValue) {
-            cout << "Error in Result Calculation" <<  endl;
+            Print(0, "Error in Result Calculation");
         }
 
     }
 
-    if (Debug > 1) {
-        cout << "Result: " << Result << endl << endl;
-    }
+    Print(2, "Result", Result);
 
     return (Result);
 
@@ -245,19 +208,11 @@ float HPull::SubPull(PseudoJet SubJet,  PseudoJet RefJet,  PseudoJet CandidateJe
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-float HPull::CalculateDiPolarity(PseudoJet FatJet, PseudoJet FatJetPiece1, PseudoJet FatJetPiece2)
+float HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJetPiece1, const PseudoJet& FatJetPiece2)
 {
+
+    Print(2, "Calculate DiPolarity");
+
     // Filtering
 //     PseudoJet Parent1 = MassDropJet.pieces()[0];
 //     PseudoJet Parent2 = MassDropJet.pieces()[1];
@@ -279,11 +234,11 @@ float HPull::CalculateDiPolarity(PseudoJet FatJet, PseudoJet FatJetPiece1, Pseud
 
 
     float FatJetPt = FatJet.pt();
-    if (Debug > 1) cout << "FatJet Pt: " <<  FatJetPt << endl;
+    Print(2, "FatJet Pt", FatJetPt);
 
     vector<PseudoJet> FatJetPieceVector = FatJet.pieces();
     int PieceSum = FatJetPieceVector.size();
-    if (PieceSum != 2) cout << "Number of Fat Jet Pieces: " << PieceSum << endl;
+    if (PieceSum != 2) Print(0, "Number of Fat Jet Pieces", PieceSum);
 //     PseudoJet FatJetPiece1 = FatJetPieceVector[0];
 //     PseudoJet FatJetPiece2 = FatJetPieceVector[1];
 
@@ -296,7 +251,7 @@ float HPull::CalculateDiPolarity(PseudoJet FatJet, PseudoJet FatJetPiece1, Pseud
     float DeltaPhi = Piece2Phi - Piece1Phi;
 
     float PieceDistanceSqr = DeltaEta * DeltaEta + DeltaPhi * DeltaPhi;
-    if (Debug > 1) cout << "Piece Distance sqr: " <<  PieceDistanceSqr << endl;
+    Print(2, "Piece Distance sqr", PieceDistanceSqr);
     float DiPolaritySum = 0;
     float ConstituentPtSum = 0;
     float ConstituentRSqrSum = 0;
@@ -308,18 +263,18 @@ float HPull::CalculateDiPolarity(PseudoJet FatJet, PseudoJet FatJetPiece1, Pseud
 
         vector<PseudoJet> ConstituentsVector = FatJet.constituents();
         int ConstituentsSum = ConstituentsVector.size();
-        if (Debug > 1) cout << "Number of Fat Jet Constituents: " << ConstituentsSum << endl;
+        Print(2, "Number of Fat Jet Constituents", ConstituentsSum);
 
         for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ConstituentsNumber++) {
 
-            if (Debug > 2) cout << "Entering Fat Jet Constituent: " << ConstituentsNumber << endl;
+            Print(3, "Entering Fat Jet Constituent", ConstituentsNumber);
             PseudoJet ConstituentJet = ConstituentsVector[ConstituentsNumber];
 
             float ConstituentPhi = ConstituentJet.phi();
-            if (Debug > 2) cout << "Constituent Phi: " << ConstituentPhi << endl;
+            Print(3, "Constituent Phi", ConstituentPhi);
 
             float ConstituentEta = ConstituentJet.eta();
-            if (Debug > 2) cout << "Constituent Eta: " << ConstituentEta << endl;
+            Print(3, "Constituent Eta", ConstituentEta);
 
             float ConstituentDeltaEta = Piece1Eta - ConstituentEta;
             float ConstituentDeltaPhi = Piece1Phi - ConstituentPhi;
@@ -333,23 +288,22 @@ float HPull::CalculateDiPolarity(PseudoJet FatJet, PseudoJet FatJetPiece1, Pseud
 
             if (ConstituentDistance1Sqr > (PieceDistanceSqr / 2) && ConstituentDistance2Sqr > (PieceDistanceSqr / 2)) {
 
-                if (Debug > 2) cout << "out of cones" << endl;
-                if (Debug > 2) cout << endl;
+                Print(3, "out of cones");
                 continue;
 
             }
             ValidConstituents++;
 
             float ConstituentPt = ConstituentJet.pt();
-            if (Debug > 2) cout << "Constituent Pt: " << ConstituentPt << endl;
+            Print(3, "Constituent Pt", ConstituentPt);
 
             float ConstituentNumSqr = pow(DeltaEta * ConstituentDeltaPhi - DeltaPhi * ConstituentDeltaEta, 2);
 
-            if (Debug > 2) cout << ConstituentNumSqr << endl;
+            Print(3, "ConstituentNumSqr", ConstituentNumSqr);
             float ConstituentRSqr = ConstituentNumSqr / PieceDistanceSqr;
 
             DiPolaritySum += ConstituentRSqr * ConstituentPt / FatJetPt ;
-            if (Debug > 2) cout << "DiPolarity Sum: " << DiPolaritySum << endl;
+            Print(3, "DiPolarity Sum", DiPolaritySum);
 
             ConstituentPtSum += ConstituentPt;
 
@@ -359,31 +313,21 @@ float HPull::CalculateDiPolarity(PseudoJet FatJet, PseudoJet FatJetPiece1, Pseud
 
         }                                                   //  Constituent Loop
 
-        if (Debug > 2) cout << "Fraction of valid Constitueants: " <<  1 - (ConstituentsSum - ValidConstituents) / ConstituentsSum << endl;
+        Print(3, "Fraction of valid Constitueants", 1 - (ConstituentsSum - ValidConstituents) / ConstituentsSum);
 
         DiPolarity = DiPolaritySum / PieceDistanceSqr;
 
     }
 
     if (DiPolarity < 0.01 && DiPolarity > 0) {
-//         Debug = 2;
 
-
-
-        if (Debug > 1) cout << "Pt Ratio: " << ConstituentPtSum / FatJetPt << endl;
-
-        if (Debug > 1) cout << "RSqr Ratio: " << ConstituentRSqrSum / PieceDistanceSqr << endl;
-
-        if (Debug > 1) cout << "PieceDistanceSqr: " << PieceDistanceSqr << endl;
-
-        if (Debug > 1) cout << "ConstituentNumSqrSum: " << ConstituentNumSqrSum << endl;
-
-        if (Debug > 1) cout << "DiPolaritySum: " << DiPolaritySum  << endl;
-
-        if (Debug > 1) cout << "DiPolarity: " << DiPolarity << endl;
-
-        if (Debug > 1) cout <<  endl;
-
+        Print(2, "Pt Ratio", ConstituentPtSum / FatJetPt);
+        Print(2, "RSqr Ratio", ConstituentRSqrSum / PieceDistanceSqr);
+        Print(2, "PieceDistanceSqr", PieceDistanceSqr);
+        Print(2, "ConstituentNumSqrSum", ConstituentNumSqrSum);
+        Print(2, "DiPolaritySum", DiPolaritySum);
+        Print(2, "DiPolarity", DiPolarity);
+        
     }
 
     return (DiPolarity);
@@ -392,11 +336,13 @@ float HPull::CalculateDiPolarity(PseudoJet FatJet, PseudoJet FatJetPiece1, Pseud
 
 
 
-float HPull::JingDipolarity(PseudoJet CandidateJet, PseudoJet HiggsJet)
+float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &HiggsJet)
 {
 
+    Print(2, "Jing Dipolarity");
+
     vector<PseudoJet> SubJetVector = CandidateJet.pieces();
-    if (SubJetVector.size() != 2) cout << "not two subjets" << endl;
+    if (SubJetVector.size() != 2) Print(0, "not two subjets");
 
     PseudoJet SubJet1 = SubJetVector[0];
     PseudoJet SubJet2 = SubJetVector[1];
@@ -417,7 +363,7 @@ float HPull::JingDipolarity(PseudoJet CandidateJet, PseudoJet HiggsJet)
     vector<PseudoJet> CandidateConstituents = FilterJet.constituents();
 
     SubJetVector = FilterJet.pieces();
-    if (SubJetVector.size() != 2) cout << "not two subjets" << endl;
+    if (SubJetVector.size() != 2) Print(0, "not two subjets");
     SubJet1 = SubJetVector[0];
     SubJet2 = SubJetVector[1];
 
@@ -447,16 +393,16 @@ float HPull::JingDipolarity(PseudoJet CandidateJet, PseudoJet HiggsJet)
 
         PseudoJet Constituent = CandidateConstituents[ConstituentNumber];
 
-        float ConstituentEta = Constituent.eta();
+        const float ConstituentEta = Constituent.eta();
         float ConstituentPhi = Constituent.phi_std();
 
-        float DeltaPhi = Phi2 - Phi1;
-        float DeltaEta = -(Eta2 - Eta1);
-        float EtaPhi = Eta2 * Phi1 - Eta1 * Phi2;
+        const float DeltaPhi = Phi2 - Phi1;
+        const float DeltaEta = -(Eta2 - Eta1);
+        const float EtaPhi = Eta2 * Phi1 - Eta1 * Phi2;
 
-        float ConstituentDeltaR1 = Constituent.delta_R(SubJet1);
-        float ConstituentDeltaR2 = Constituent.delta_R(SubJet2);
-        float ConstituentDeltaR3 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
+        const float ConstituentDeltaR1 = Constituent.delta_R(SubJet1);
+        const float ConstituentDeltaR2 = Constituent.delta_R(SubJet2);
+        const float ConstituentDeltaR3 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
         float Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
         float Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
 
@@ -477,7 +423,7 @@ float HPull::JingDipolarity(PseudoJet CandidateJet, PseudoJet HiggsJet)
         Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
         Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
 
-        float ConstituntDeltaR4 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
+        const float ConstituntDeltaR4 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
 
         float DeltaR2;
         if ((Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi1 && Phi3 <= Phi2)
@@ -487,7 +433,7 @@ float HPull::JingDipolarity(PseudoJet CandidateJet, PseudoJet HiggsJet)
             DeltaR2 = min(ConstituentDeltaR1, ConstituentDeltaR2);
         }
 
-        float DeltaR = min(DeltaR1, DeltaR2);
+        const float DeltaR = min(DeltaR1, DeltaR2);
 
 //         float ConeSize = sqrt(2);
 

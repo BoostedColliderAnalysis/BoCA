@@ -1,8 +1,6 @@
 # ifndef HJetDelphes_hh
 # define HJetDelphes_hh
 
-# include "classes/DelphesClasses.h"
-
 # include <fastjet/ClusterSequence.hh>
 
 # include "HJet.hh"
@@ -95,7 +93,7 @@ private:
     template <typename Template>
     HJetInfo GetJetId(const Template &Clone) const {
 
-        Print(1, "Get Jet Id",Clone->Particles.GetEntriesFast());
+        Print(2, "Get Jet Id",Clone->Particles.GetEntriesFast());
         HJetInfo JetInfo;
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
@@ -111,7 +109,7 @@ private:
 
         }
 
-        Print(3, "Jet ID", JetInfo.GetMaximalId(),JetInfo.GetMaximalFraction());
+        Print(4, "Jet ID", JetInfo.GetMaximalId(),JetInfo.GetMaximalFraction());
 
         return JetInfo;
 

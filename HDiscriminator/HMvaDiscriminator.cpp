@@ -3,7 +3,7 @@
 HMvaDiscriminator::HMvaDiscriminator()
 {
 
-    Print(0 , "Constructor");
+    Print(1 , "Constructor");
 
 //     Debug = 1;
 
@@ -50,7 +50,7 @@ HMvaDiscriminator::HMvaDiscriminator()
 HMvaDiscriminator::~HMvaDiscriminator()
 {
 
-    Print(0 , "Constructor");
+    Print(1 , "Constructor");
     
     delete Candidate;
 
@@ -59,7 +59,7 @@ HMvaDiscriminator::~HMvaDiscriminator()
 void HMvaDiscriminator::DefineVariables()
 {
 
-    Print(0 , "Define Variables");
+    Print(1 , "Define Variables");
 
     ObservableVector.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV"));
     ObservableVector.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV"));
@@ -90,6 +90,6 @@ void HMvaDiscriminator::DefineVariables()
     SpectatorVector.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag","Higgs Tag"));
     SpectatorVector.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag","Top Tag"));
 
-    Print(0,"Variables defined");
+    Print(1,"Variables defined");
 
 }

@@ -1,12 +1,12 @@
 # ifndef HClonesArray_hh
 # define HClonesArray_hh
 
+# include "TObjArray.h"
 # include "TClonesArray.h"
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
 
 # include "HObject.hh"
-# include "TObjArray.h"
 
 /**
  * @brief small class loading the Branches into ClonesArrays

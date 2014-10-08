@@ -3,13 +3,13 @@
 HLeptonDelphes::HLeptonDelphes()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
 }
 
 HLeptonDelphes::~HLeptonDelphes()
 {
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 
 }
@@ -17,11 +17,11 @@ HLeptonDelphes::~HLeptonDelphes()
 void HLeptonDelphes::GetElectrons()
 {
 
-    Print(1, "Get Electrons");
+    Print(2, "Get Electrons");
     Electron* ElectronClone;
     int ElectronCharge;
 
-    Print(2, "Number of Electrons", ClonesArray->ElectronSum());
+    Print(3, "Number of Electrons", ClonesArray->ElectronSum());
     for (int ElectronNumber = 0; ElectronNumber < ClonesArray->ElectronSum(); ElectronNumber++) {
 
         ElectronClone = (Electron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
@@ -33,18 +33,18 @@ void HLeptonDelphes::GetElectrons()
             ElectronVector.push_back(ElectronClone->P4());
             ElectronJetVector.push_back(GetPseudoJet(ElectronClone->P4()));
 	    
-            Print(2, "Electron");
+            Print(3, "Electron");
 
         } else if (ElectronCharge == 1) {
 
             AntiElectronVector.push_back(ElectronClone->P4());
             AntiElectronJetVector.push_back(GetPseudoJet(ElectronClone->P4()));
             
-            Print(2, "Anti Electron");
+            Print(3, "Anti Electron");
 
         } else
 
-            Print(0,"Electron Charge", ElectronCharge);
+            Print(1,"Electron Charge", ElectronCharge);
 
     }
 
@@ -53,12 +53,12 @@ void HLeptonDelphes::GetElectrons()
 void HLeptonDelphes::GetMuons()
 {
 
-    Print(1, "Get Muons");
+    Print(2, "Get Muons");
     
     Muon* MuonClone;
     int MuonCharge;
     
-    Print(2, "Number of Muons", ClonesArray->MuonSum());
+    Print(3, "Number of Muons", ClonesArray->MuonSum());
     for (int MuonNumber = 0; MuonNumber < ClonesArray->MuonSum(); ++MuonNumber) {
 
         MuonClone = (Muon *)ClonesArray->MuonClonesArray->At(MuonNumber);
@@ -69,17 +69,17 @@ void HLeptonDelphes::GetMuons()
             MuonVector.push_back(MuonClone->P4());
             MuonJetVector.push_back(GetPseudoJet(MuonClone->P4()));
 	    
-            Print(2, "Muon");
+            Print(3, "Muon");
 
         } else if (MuonCharge == 1) {
 
             AntiMuonVector.push_back(MuonClone->P4());
             AntiMuonJetVector.push_back(GetPseudoJet(MuonClone->P4()));
-            Print(2, "Anti Muon");
+            Print(3, "Anti Muon");
 
         } else
 
-            Print(0,"Muon Charge", MuonCharge);
+            Print(1,"Muon Charge", MuonCharge);
 
     }
 

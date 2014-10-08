@@ -32,7 +32,7 @@ protected:
      * @param  Phi2
      * @return float distance
      */
-    float GetDistance(const float&, const float&, const float&, const float&) const;
+    float GetDistance(float, float, float, float) const;
 
     /**
      * @brief Calcualte distance from center in eta phi space
@@ -41,7 +41,7 @@ protected:
      * @param  Phi
      * @return float distance
      */
-    float GetDistance(const float&, const float&) const;
+    float GetDistance(float, float) const;
 
     /**
      * @brief Take care of phi angles around pi
@@ -50,24 +50,16 @@ protected:
      * @param RefPhi reference angle
      * @return float Phi angle
      */
-    float GetDeltaPhi(const float&, const float&) const;
+    float GetDeltaPhi(float, float) const;
 
-    void Print(const int&, const string&) const;
+    void Print(int, string) const;
 
-    void Printer(const string&) const;
-
-    /**
-     * @brief Get a PseudoJet from a TLorentzVector
-     *
-     * @param  TLorentzVector
-     * @return fastjet::PseudoJet
-     */
-    PseudoJet GetPseudoJet(const TLorentzVector&) const;
+    void Printer(string) const;
 
     template<typename Template>
     void Print(const int& Severity, const string& Function, const Template& Number) const {
 
-        if (Severity < DebugLevel) {
+        if (Severity <= DebugLevel) {
 
             Printer(Function);
             std::cout << " " << Number << std::endl;
@@ -79,7 +71,7 @@ protected:
     template<typename Template, typename Template2>
     void Print(const int& Severity, const string& Function, const Template& Number, const Template2& Number2) const {
 
-        if (Severity < DebugLevel) {
+        if (Severity <= DebugLevel) {
 
             const char Separator = ' ';
             const int FunctionWidth = 10;
@@ -103,6 +95,12 @@ protected:
 
     /**
      * @brief Debug level
+     * 
+     * 0: Errors
+     * 1: Analysis Information
+     * 2: Event Information
+     * 3: Detailed Information
+     * 4: Step ny Step Information
      *
      */
     int DebugLevel;

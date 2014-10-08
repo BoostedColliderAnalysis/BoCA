@@ -2,8 +2,7 @@
 # define HParticleDelphes_hh
 
 # include "HParticle.hh"
-# include "classes/DelphesClasses.h"
- 
+
 using std::abs;
  
 /**

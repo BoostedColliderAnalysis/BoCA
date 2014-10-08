@@ -3,6 +3,7 @@
 
 # include "HObject.hh"
 # include "ExRootAnalysis/ExRootClasses.h"
+# include "classes/DelphesClasses.h"
 
 class HFourVector : virtual public HObject
 {
@@ -15,11 +16,23 @@ public:
 
 
 protected:
+    
+    /**
+     * @brief Get a PseudoJet from a TLorentzVector
+     *
+     * @param  TLorentzVector
+     * @return fastjet::PseudoJet
+     */
+    PseudoJet GetPseudoJet(const TLorentzVector&) const;
+    
+    TLorentzVector GetConstituent(const TObject&) const;
+    
+    PseudoJet GetConstituentJet(const TObject&) const;
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByEnergy(Template *Particle) {
+    TLorentzVector GetLorentzVectorByEnergy(const Template *Particle) {
 
-        Print(2, "Get Lorentz Vector by Energy");
+        Print(3, "Get Lorentz Vector by Energy");
 
         TLorentzVector LorentzVector;
 
@@ -32,10 +45,10 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.Pt() - Pt > Check) Print(-1, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(-1, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(-1, "Phi", Phi, LorentzVector.Phi());
-            if (LorentzVector.E() - Energy > Check) Print(-1, "Energy", Energy, LorentzVector.E());
+            if (LorentzVector.Pt() - Pt > Check) Print(0, "Pt", Pt, LorentzVector.Pt());
+            if (LorentzVector.Eta() - Eta > Check) Print(0, "Eta", Eta, LorentzVector.Eta());
+            if (LorentzVector.Phi() - Phi > Check) Print(0, "Phi", Phi, LorentzVector.Phi());
+            if (LorentzVector.E() - Energy > Check) Print(0, "Energy", Energy, LorentzVector.E());
 
         }
 
@@ -44,9 +57,9 @@ protected:
     }
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByMass(Template *Particle, float Mass) {
+    TLorentzVector GetLorentzVectorByMass(const Template *Particle, float Mass) {
 
-        Print(2, "Get Lorentz Vector by Mass");
+        Print(3, "Get Lorentz Vector by Mass");
 
         TLorentzVector LorentzVector;
 
@@ -58,9 +71,9 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.Pt() - Pt > Check) Print(-1, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(-1, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(-1, "Phi", Phi, LorentzVector.Phi());
+            if (LorentzVector.Pt() - Pt > Check) Print(0, "Pt", Pt, LorentzVector.Pt());
+            if (LorentzVector.Eta() - Eta > Check) Print(0, "Eta", Eta, LorentzVector.Eta());
+            if (LorentzVector.Phi() - Phi > Check) Print(0, "Phi", Phi, LorentzVector.Phi());
 
         }
 
@@ -69,9 +82,9 @@ protected:
     }
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByMass(Template *Particle) {
+    TLorentzVector GetLorentzVectorByMass(const Template *Particle) {
 
-        Print(2, "Get Lorentz Vector by Mass");
+        Print(3, "Get Lorentz Vector by Mass");
 
         float Mass = Particle->Mass;
 
@@ -79,7 +92,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.M() - Mass > MassCheck) Print(-1, "Mass", Mass, LorentzVector.M());
+            if (LorentzVector.M() - Mass > MassCheck) Print(0, "Mass", Mass, LorentzVector.M());
 
         }
 
@@ -88,9 +101,9 @@ protected:
     }
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByM(Template *Particle) {
+    TLorentzVector GetLorentzVectorByM(const Template *Particle) {
 
-        Print(2, "Get Lorentz Vector by Mass");
+        Print(3, "Get Lorentz Vector by Mass");
 
         float Mass = Particle->M;
 
@@ -98,7 +111,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.M() - Mass > MassCheck) Print(-1, "Mass", Mass, LorentzVector.M());
+            if (LorentzVector.M() - Mass > MassCheck) Print(0, "Mass", Mass, LorentzVector.M());
 
         }
 
@@ -110,9 +123,9 @@ protected:
 
 
     template<typename Template>
-    PseudoJet GetPseudoJetByEnergy(Template *Particle, float Energy) {
+    PseudoJet GetPseudoJetByEnergy(const Template *Particle, float Energy) {
 
-        Print(2, "Get Pseudo Jet by Energy");
+        Print(3, "Get Pseudo Jet by Energy");
 
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
@@ -122,9 +135,9 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (Jet.pt() - Pt > Check) Print(-1, "Pt", Pt, Jet.pt());
-            if (Jet.eta() - Eta > Check) Print(-1, "Eta", Eta, Jet.eta());
-            if (Jet.phi_std() - Phi > Check) Print(-1, "Phi", Phi, Jet.phi_std());
+            if (Jet.pt() - Pt > Check) Print(0, "Pt", Pt, Jet.pt());
+            if (Jet.eta() - Eta > Check) Print(0, "Eta", Eta, Jet.eta());
+            if (Jet.phi_std() - Phi > Check) Print(0, "Phi", Phi, Jet.phi_std());
 
         }
 
@@ -134,9 +147,9 @@ protected:
 
 
     template<typename Template>
-    PseudoJet GetPseudoJetByEnergy(Template *Particle) {
+    PseudoJet GetPseudoJetByEnergy(const Template *Particle) {
 
-        Print(2, "Get Pseudo Jet by Energy");
+        Print(3, "Get Pseudo Jet by Energy");
 
         float Energy = Particle->E;
 
@@ -147,9 +160,9 @@ protected:
     }
 
     template<typename Template>
-    PseudoJet GetPseudoJetByMass(Template *Particle, float Mass) {
+    PseudoJet GetPseudoJetByMass(const Template *Particle, float Mass) {
 
-        Print(2, "Get Pseudo Jet by Mass");
+        Print(3, "Get Pseudo Jet by Mass");
 
         float Pt = Particle->PT;
         float Eta = Particle->Eta;
@@ -160,7 +173,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (Jet.e() - Energy > Check) Print(-1, "Energy", Energy, Jet.e());
+            if (Jet.e() - Energy > Check) Print(0, "Energy", Energy, Jet.e());
 
         }
 
@@ -169,9 +182,9 @@ protected:
     }
 
     template<typename Template>
-    PseudoJet GetPseudoJetByMass(Template *Particle) {
+    PseudoJet GetPseudoJetByMass(const Template *Particle) {
 
-        Print(2, "Get Pseudo Jet by Mass");
+        Print(3, "Get Pseudo Jet by Mass");
 
         float Mass = Particle->Mass;
 
@@ -179,7 +192,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (Jet.m() - Mass > MassCheck) Print(-1, "Mass", Mass, Jet.m());
+            if (Jet.m() - Mass > MassCheck) Print(0, "Mass", Mass, Jet.m());
 
         }
 
@@ -188,9 +201,9 @@ protected:
     }
 
     template<typename Template>
-    PseudoJet GetPseudoJetByM(Template *Particle) {
+    PseudoJet GetPseudoJetByM(const Template *Particle) {
 
-        Print(2, "Get Pseudo Jet By Mass");
+        Print(3, "Get Pseudo Jet By Mass");
 
         float Mass = Particle->M;
 
@@ -198,7 +211,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (Jet.m() - Mass > MassCheck) Print(-1, "Mass", Mass, Jet.m());
+            if (Jet.m() - Mass > MassCheck) Print(0, "Mass", Mass, Jet.m());
 
         }
 

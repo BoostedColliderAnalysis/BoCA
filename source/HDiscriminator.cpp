@@ -3,7 +3,7 @@
 HDiscriminator::HDiscriminator()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
 //     Debug = 5;
 
@@ -20,14 +20,14 @@ HDiscriminator::HDiscriminator()
 HDiscriminator::~HDiscriminator()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
 }
 
 void HDiscriminator::NewFile()
 {
 
-    Print(1, "New Analysis");
+    Print(2, "New Analysis");
 
     MinDeltaR = LargeNumber;
 
@@ -40,11 +40,11 @@ void HDiscriminator::NewFile()
 void HDiscriminator::CloseFile()
 {
 
-    Print(1, "Clean Analysis");
+    Print(2, "Clean Analysis");
 
-    Print(1, "Minimal Max DeltaR", MinDeltaR);
-    Print(1, "Top and Higgs overlap", Overlap);
-    Print(1, "LostHiggs", LostHiggs);
+    Print(2, "Minimal Max DeltaR", MinDeltaR);
+    Print(2, "Top and Higgs overlap", Overlap);
+    Print(2, "LostHiggs", LostHiggs);
 
 }
 
@@ -53,8 +53,8 @@ void HDiscriminator::CloseFile()
 void HDiscriminator::NewEvent()
 {
 
-    Print(3, " ");
-    Print(1, "New Event");
+    Print(4, " ");
+    Print(2, "New Event");
 
     EFlowJetVector.clear();
     HiggsParticleVector.clear();
@@ -71,7 +71,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(
     vector<PseudoJet> NewTopParticleVector)
 {
 
-    Print(1, "Get Tagged Candidate Jets");
+    Print(2, "Get Tagged Candidate Jets");
 
     EFlowJetVector = NewEFlowJetVector;
     HiggsParticleVector = NewHiggsParticleVector;
@@ -81,7 +81,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(
 
     if (EFlowJetSum() == 0) {
 
-        Print(1, "No EFlow Jets");
+        Print(2, "No EFlow Jets");
         return Jets;
 
     }
@@ -103,7 +103,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(
 
             return Jets;
 
-            Print(0, "Not enough valid jets");
+            Print(1, "Not enough valid jets");
 
         }
 
@@ -122,7 +122,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(
 vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEFlowJetVector)
 {
 
-    Print(1, "Get Tagged Candidate Jets");
+    Print(2, "Get Tagged Candidate Jets");
 
     EFlowJetVector = NewEFlowJetVector;
 
@@ -130,7 +130,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEF
 
     if (EFlowJetSum() == 0) {
 
-        Print(1, "No EFlow Jets");
+        Print(2, "No EFlow Jets");
         return Jets;
 
     }
@@ -145,7 +145,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEF
 //
 //             return Jets;
 //
-//             Print(0, "Not enough valid jets");
+//             Print(1, "Not enough valid jets");
 //
 //         }
 //
@@ -164,7 +164,7 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEF
 
     float DeltaR = 1000. / PtSum;
     
-    Print(3,"DeltaR",DeltaR);
+    Print(4,"DeltaR",DeltaR);
     
     GetFatJetVector(DeltaR);
 
@@ -184,21 +184,21 @@ vector<PseudoJet> HDiscriminator::GetTaggedCandidateJets(vector<PseudoJet> NewEF
 bool HDiscriminator::HiggsParticleChecker()
 {
 
-    Print(1, "Higgs Particle Checker");
+    Print(2, "Higgs Particle Checker");
 
-    Print(3, "Higgs Particles", HiggsParticleSum());
+    Print(4, "Higgs Particles", HiggsParticleSum());
 
     if (HiggsParticleSum() != 1) {
 
         if (HiggsParticleSum() == 0) {
 
-            Print(2, "No Higgs Particles", HiggsParticleSum());
+            Print(3, "No Higgs Particles", HiggsParticleSum());
 
             return 1;
 
         } else if (HiggsParticleSum() > 1) {
 
-            Print(0, "Number of Higgs Particles", HiggsParticleSum());
+            Print(1, "Number of Higgs Particles", HiggsParticleSum());
 
             return 0;
 
@@ -216,12 +216,12 @@ bool HDiscriminator::HiggsParticleChecker()
 bool HDiscriminator::TopParticleChecker()
 {
 
-    Print(1, "Top Particle Checker");
+    Print(2, "Top Particle Checker");
 
 
     if (TopParticleSum() != 2) {
 
-        Print(0, "Number of Top Particles", TopParticleSum());
+        Print(1, "Number of Top Particles", TopParticleSum());
 
         return 0;
 
@@ -234,13 +234,13 @@ bool HDiscriminator::TopParticleChecker()
 bool HDiscriminator::GetSuperFatJetVector(int FatJetGoal)
 {
 
-    Print(1, "Get Super Fat Jet Vector", FatJetGoal);
+    Print(2, "Get Super Fat Jet Vector", FatJetGoal);
 
     float DeltaR = 0;
     TestFatJetVector(DeltaR);
     int FatJetSumMax = FatJetSum();
 
-    Print(2, "MaxNumber of Jets", FatJetSumMax);
+    Print(3, "MaxNumber of Jets", FatJetSumMax);
 
     if (FatJetSumMax < FatJetGoal) return 0;
 
@@ -254,7 +254,7 @@ bool HDiscriminator::GetSuperFatJetVector(int FatJetGoal)
     }
 
 
-    Print(2, "Second Loop");
+    Print(3, "Second Loop");
 
     DeltaR -= 1;
     TestFatJetVector(DeltaR);
@@ -268,7 +268,7 @@ bool HDiscriminator::GetSuperFatJetVector(int FatJetGoal)
     }
 
 
-    Print(2, "Third Loop");
+    Print(3, "Third Loop");
 
     DeltaR -= .1;
     TestFatJetVector(DeltaR);
@@ -291,7 +291,7 @@ bool HDiscriminator::GetSuperFatJetVector(int FatJetGoal)
 void HDiscriminator::TestFatJetVector(float DeltaR)
 {
 
-    Print(3, "Test Fat Jet with DeltaR", DeltaR);
+    Print(4, "Test Fat Jet with DeltaR", DeltaR);
 
     JetDefinition FatJetDefinition(fastjet::cambridge_algorithm, DeltaR);
     ClusterSequence FatJetClusterSequence(EFlowJetVector, FatJetDefinition);
@@ -299,14 +299,14 @@ void HDiscriminator::TestFatJetVector(float DeltaR)
     const float FatJetPtMin = 0;
     FatJetVector = FatJetClusterSequence.inclusive_jets(FatJetPtMin);
 
-    Print(3, "Number of Fat Jets", FatJetSum());
+    Print(4, "Number of Fat Jets", FatJetSum());
 
 }
 
 void HDiscriminator::GetFatJetVector(float DeltaR)
 {
 
-    Print(1, "Get Fat Jet Vector", DeltaR);
+    Print(2, "Get Fat Jet Vector", DeltaR);
 
     JetDefinition FatJetDefinition(fastjet::cambridge_algorithm, DeltaR);
     ClusterSequence *FatJetClusterSequence = new ClusterSequence(EFlowJetVector, FatJetDefinition);
@@ -314,7 +314,7 @@ void HDiscriminator::GetFatJetVector(float DeltaR)
     const float FatJetPtMin = 0;
     FatJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
 
-    Print(2, "Number of Fat Jets", FatJetSum());
+    Print(3, "Number of Fat Jets", FatJetSum());
 
     if (FatJetSum() > 0) FatJetClusterSequence->delete_self_when_unused();
 
@@ -326,7 +326,7 @@ bool HDiscriminator::JetIsBad(const PseudoJet &Jet)
 
     if (abs(Jet.m()) <= 1) {
 
-//         Print(1, "Fat Jet Mass", Jet.m());
+//         Print(2, "Fat Jet Mass", Jet.m());
 
         return 1;
 
@@ -335,7 +335,7 @@ bool HDiscriminator::JetIsBad(const PseudoJet &Jet)
 
     if (Jet.pieces().size() != 2) {
 
-//         Print(1, "Pieces Sum", Jet.pieces().size());
+//         Print(2, "Pieces Sum", Jet.pieces().size());
 
         return 1;
 
@@ -343,7 +343,7 @@ bool HDiscriminator::JetIsBad(const PseudoJet &Jet)
 
 //     if (!Jet.has_structure()) {
 //
-// //         Print(1, "PseudoJet has no structure");
+// //         Print(2, "PseudoJet has no structure");
 //
 //         return 1;
 //
@@ -360,7 +360,7 @@ bool HDiscriminator::JetIsBad2(const PseudoJet &Jet)
 
     if (Jet.has_structure()) return 0;
 
-//             Print(1, "PseudoJet has no structure");
+//             Print(2, "PseudoJet has no structure");
 
     return 1;
 
@@ -370,7 +370,7 @@ bool HDiscriminator::JetIsBad2(const PseudoJet &Jet)
 void HDiscriminator::GetMassDropVector()
 {
 
-    Print(1, "Get Mass Drop Jet Vector");
+    Print(2, "Get Mass Drop Jet Vector");
 
 
 
@@ -391,7 +391,7 @@ void HDiscriminator::GetMassDropVector()
 //
 // //         if (FatJet.m() <= 10) {
 // //
-// //             Print(1, "Fat Jet Mass", FatJet.m());
+// //             Print(2, "Fat Jet Mass", FatJet.m());
 // //
 // //             FatJetVector.erase(FatJetVector.begin() + FatJetNumber);
 // //
@@ -405,7 +405,7 @@ void HDiscriminator::GetMassDropVector()
 // //
 // //         if (PiecesSum != 2) {
 // //
-// //             Print(1, "Pieces Sum", PiecesSum);
+// //             Print(2, "Pieces Sum", PiecesSum);
 // //
 // //             FatJetVector.erase(FatJetVector.begin() + FatJetNumber);
 // //             continue;
@@ -422,7 +422,7 @@ void HDiscriminator::GetMassDropVector()
 //
 //             FatJetVector.erase(FatJetVector.begin() + FatJetNumber);
 //
-//             Print(1, "PseudoJet has no structure");
+//             Print(2, "PseudoJet has no structure");
 //             continue;
 //
 //         }
@@ -434,7 +434,7 @@ void HDiscriminator::GetMassDropVector()
 PseudoJet HDiscriminator::GetMassDropJet(PseudoJet FatJet)
 {
 
-    Print(2, "Get Mass Drop Jet");
+    Print(3, "Get Mass Drop Jet");
 
 //     MassDropMin = Jing: 0.667; fastjet: 0.667; Paper: 0.67
     const float MassDropMin = 0.667;
@@ -451,11 +451,11 @@ PseudoJet HDiscriminator::GetMassDropJet(PseudoJet FatJet)
 void HDiscriminator::HiggsTagger()
 {
 
-    Print(1, "Higgs Tagger");
+    Print(2, "Higgs Tagger");
 
     PseudoJet HiggsParticle = HiggsParticleVector[0];
 
-    Print(3, "EFlow Jets", EFlowJetSum());
+    Print(4, "EFlow Jets", EFlowJetSum());
     int HiggsParticlePosition;
 
     float HiggsJetParticleDistance = LargeNumber;
@@ -476,7 +476,7 @@ void HDiscriminator::HiggsTagger()
 
     EFlowJetVector[HiggsParticlePosition].set_user_index(HiggsUserIndex);
 
-    Print(1, "Higgs Tagged", HiggsParticlePosition);
+    Print(2, "Higgs Tagged", HiggsParticlePosition);
 
 }
 
@@ -484,7 +484,7 @@ void HDiscriminator::HiggsTagger()
 void HDiscriminator::TopTagger()
 {
 
-    Print(1, "Top Tagger");
+    Print(2, "Top Tagger");
 
     for (int TopParticleNumber = 0; TopParticleNumber < TopParticleSum(); ++TopParticleNumber) {
 
@@ -510,7 +510,7 @@ void HDiscriminator::TopTagger()
 
         EFlowJetVector[TopParticlePosition].set_user_index(TopUserIndex);
 
-        Print(1, "Top Tagged", TopParticlePosition);
+        Print(2, "Top Tagged", TopParticlePosition);
 
     }
 
@@ -519,7 +519,7 @@ void HDiscriminator::TopTagger()
 void HDiscriminator::GetFatJetTag()
 {
 
-    Print(1, "Get Fat Jet Tag");
+    Print(2, "Get Fat Jet Tag");
 
     int ConstituentId;
     float ConstituentPt;
@@ -528,7 +528,7 @@ void HDiscriminator::GetFatJetTag()
 
     for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
 
-        Print(1, "Fat Jet", FatJetNumber);
+        Print(2, "Fat Jet", FatJetNumber);
 
         ConstituentsVector = FatJetVector[FatJetNumber].constituents();
 
@@ -547,26 +547,26 @@ void HDiscriminator::GetFatJetTag()
 
 //         FatJetVector[FatJetNumber].user_info<HJetInfo>().PrintAllInfos();
 
-        Print(3, "Tag", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId(), FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalFraction());
+        Print(4, "Tag", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId(), FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalFraction());
 
         JetInfo.Clear();
 
     }
 
-//     Print(-1, "");
+//     Print(0, "");
 
 }
 
 void HDiscriminator::TagFatJets()
 {
 
-    Print(1, "Tag FatJets");
+    Print(2, "Tag FatJets");
 
 //     bool HiggsLost = 1;
 
     for (int FatJetNumber = 0; FatJetNumber < FatJetSum(); ++FatJetNumber) {
 
-        Print(1, "Fat Jet", FatJetNumber);
+        Print(2, "Fat Jet", FatJetNumber);
         PseudoJet FatJet = FatJetVector[FatJetNumber];
 
         vector<PseudoJet> ConstituentsVector = FatJet.constituents();
@@ -584,9 +584,9 @@ void HDiscriminator::TagFatJets()
                         (UserIndex == CpvHiggsId && ConstUserIndex != CpvHiggsId) ||
                         (UserIndex == TopId && ConstUserIndex != TopId)) {
 
-                    Print(1, "ConstUserIndex", ConstUserIndex);
+                    Print(2, "ConstUserIndex", ConstUserIndex);
                     UserIndex += ConstUserIndex;
-                    Print(1, "UserIndex", UserIndex);
+                    Print(2, "UserIndex", UserIndex);
 
                 }
 
@@ -597,7 +597,7 @@ void HDiscriminator::TagFatJets()
         if (UserIndex > 0) {
 
             FatJetVector[FatJetNumber].set_user_index(UserIndex);
-            Print(1, "Tagged FatJet", UserIndex);
+            Print(2, "Tagged FatJet", UserIndex);
 
         }
 
@@ -608,14 +608,14 @@ void HDiscriminator::TagFatJets()
 void HDiscriminator::FatJetTagger()
 {
 
-    Print(1, "FatJetTagger");
+    Print(2, "FatJetTagger");
 
 
     if (HasHiggs) {
 
         PseudoJet HiggsParticle = HiggsParticleVector.front();
 
-        Print(3, "Fat Jets", FatJetSum());
+        Print(4, "Fat Jets", FatJetSum());
         int HiggsParticlePosition = -1;
 
         float HiggsJetParticleDistance = LargeNumber;
@@ -637,17 +637,17 @@ void HDiscriminator::FatJetTagger()
 //         PseudoJet Jet = FatJetVector[HiggsParticlePosition];
 
 //         if (Jet.delta_R(HiggsParticle) > (Jet.pieces()[0]).delta_R(Jet.pieces()[1]))
-//             Print(-1,"Higgs too far away", Jet.delta_R(HiggsParticle) / (Jet.pieces()[0]).delta_R(Jet.pieces()[1]));
+//             Print(0,"Higgs too far away", Jet.delta_R(HiggsParticle) / (Jet.pieces()[0]).delta_R(Jet.pieces()[1]));
 
         FatJetVector[HiggsParticlePosition].set_user_index(HiggsUserIndex);
-        Print(1, "Higgs Tagged", HiggsParticlePosition);
+        Print(2, "Higgs Tagged", HiggsParticlePosition);
 
 
     }
 
     if (TopParticleSum() != 2) {
 
-        Print(0, "Number of Top Particles", TopParticleSum());
+        Print(1, "Number of Top Particles", TopParticleSum());
         return ;
 
     }
@@ -691,7 +691,7 @@ void HDiscriminator::FatJetTagger()
 
         }
 
-        Print(1, "Top Tagged", TopParticlePostion);
+        Print(2, "Top Tagged", TopParticlePostion);
 
     }
 

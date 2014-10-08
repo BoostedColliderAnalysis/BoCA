@@ -3,7 +3,7 @@
 HParticleDelphes::HParticleDelphes()
 {
 
-    Print(2, "Constructor");
+    Print(3, "Constructor");
 
 //     Debug = 5;
 
@@ -12,7 +12,7 @@ HParticleDelphes::HParticleDelphes()
 HParticleDelphes::~HParticleDelphes()
 {
 
-    Print(2, "Destructor");
+    Print(3, "Destructor");
 
 }
 
@@ -20,21 +20,21 @@ HParticleDelphes::~HParticleDelphes()
 bool HParticleDelphes::GetParticles()
 {
 
-    Print(1, "Get Particles");
+    Print(2, "Get Particles");
 
     GenParticle *GenParticleClone;
     int ParticleID;
 
-    Print(2, "Number of Particles", ClonesArrays->ParticleSum());
+    Print(3, "Number of Particles", ClonesArrays->ParticleSum());
     for (int ParticleNumber = 0; ParticleNumber < ClonesArrays->ParticleSum(); ++ParticleNumber) {
 
         GenParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
 
         ParticleID = GenParticleClone->PID;
-        Print(3, "Particles ID", ParticleID);
+        Print(4, "Particles ID", ParticleID);
 
         if (GenParticleClone->Status == 1) {
-        Print(3, "Particles Status", 1);
+        Print(4, "Particles Status", 1);
 
             if (abs(ParticleID) == 11) {
 
@@ -43,12 +43,12 @@ bool HParticleDelphes::GetParticles()
                 if (ParticleID > 0) {
 
                     ElectronVector.push_back(ElectronParticle);
-                    Print(2, "Electron");
+                    Print(3, "Electron");
 
                 } else if (ParticleID < 0) {
 
                     AntiElectronVector.push_back(ElectronParticle);
-                    Print(2, "Anti Electron");
+                    Print(3, "Anti Electron");
 
                 }
 
@@ -59,12 +59,12 @@ bool HParticleDelphes::GetParticles()
                 if (ParticleID > 0) {
 
                     MuonVector.push_back(GenParticleClone->P4());
-                    Print(2, "Muon");
+                    Print(3, "Muon");
 
                 } else if (ParticleID < 0) {
 
                     AntiMuonVector.push_back(GenParticleClone->P4());
-                    Print(2, "Anti Muon");
+                    Print(3, "Anti Muon");
 
                 }
 
@@ -75,19 +75,19 @@ bool HParticleDelphes::GetParticles()
 
 
         if (GenParticleClone->Status == 2) {
-            Print(3, "Particles Status", 2);
+            Print(4, "Particles Status", 2);
 
             if (abs(ParticleID) == 4) {
 
                 CharmJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
-                Print(2, "Charm");
+                Print(3, "Charm");
 
             } // charms
 
             if (abs(ParticleID) == 5000000) {
 
                 HiggsJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
-                Print(2, "CPV Higgs");
+                Print(3, "CPV Higgs");
 
             } // cp Higgs
 
@@ -98,9 +98,9 @@ bool HParticleDelphes::GetParticles()
                 ParticleJetVector.push_back(GetPseudoJet(GenParticleClone->P4()));
                 ParticleJetVector.back().set_user_index(BottomId);
 
-                Print(2, "Bottom");
+                Print(3, "Bottom");
 
-//                 Print(-1, "Status 3 ", BottomJet.pt(), BottomJet.eta());
+//                 Print(0, "Status 3 ", BottomJet.pt(), BottomJet.eta());
 
             } // bottoms
 
@@ -110,7 +110,7 @@ bool HParticleDelphes::GetParticles()
 
 
         if (GenParticleClone->Status == 3) {
-            Print(3, "Particles Status", 3);
+            Print(4, "Particles Status", 3);
 
 //             if (abs(ParticleID) == BottomId) {
 //
@@ -120,9 +120,9 @@ bool HParticleDelphes::GetParticles()
 //                 BottomJetVector.push_back(BottomJet);
 //                 ParticleJetVector.push_back(BottomJet);
 //
-//                 Print(2, "Bottom");
+//                 Print(3, "Bottom");
 //
-//                 Print(-1, "Status 3 ", BottomJet.pt(), BottomJet.eta());
+//                 Print(0, "Status 3 ", BottomJet.pt(), BottomJet.eta());
 //
 //             } // bottoms
 
@@ -138,12 +138,12 @@ bool HParticleDelphes::GetParticles()
                 if (ParticleID > 0) {
 
                     TopVector.push_back(TopQuark);
-                    Print(2, "Top");
+                    Print(3, "Top");
 
                 } else if (ParticleID < 0) {
 
                     AntiTopVector.push_back(TopQuark);
-                    Print(2, "Anti Top");
+                    Print(3, "Anti Top");
 
                 }
 
@@ -155,7 +155,7 @@ bool HParticleDelphes::GetParticles()
                 PseudoJet HiggsParticle = GetPseudoJet(GenParticleClone->P4());
 
                 HiggsJetVector.push_back(HiggsParticle);
-                Print(2, "Heavy CPV Higgs");
+                Print(3, "Heavy CPV Higgs");
 
             } // heavy higgs
 

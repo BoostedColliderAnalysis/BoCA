@@ -6,7 +6,7 @@
 HAnalysis::HAnalysis()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     EventNumberMax = 100000;
 
@@ -24,9 +24,9 @@ vector<string> HAnalysis::GetStudyNameVector()
 void HAnalysis::AnalysisLoop()
 {
 
-    Print(0, "Analysis Loop");
+    Print(1, "Analysis Loop");
 
-    Print(0,"");
+    Print(1,"");
 
     vector<string> StudyNameVector = GetStudyNameVector();
 
@@ -35,21 +35,21 @@ void HAnalysis::AnalysisLoop()
     for (int StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
 
         StudyName = StudyNameVector[StudyNumber];
-        Print(0, "Analysing Mva Sample", StudyName);
+        Print(1, "Analysing Mva Sample", StudyName);
 
         NewStudy();
 
         int FileSum = FileVector.size();
         for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
 
-            Print(0, "Analysing File", FileNumber + 1);
+            Print(1, "Analysing File", FileNumber + 1);
             NewFileBase();
 
             ExRootProgressBar ProgressBar(EventSum);
 
             for (EventNumber = 0; EventNumber < EventSum; ++ EventNumber) {
 
-                Print(1, "Analysing Event", EventNumber + 1);
+                Print(2, "Analysing Event", EventNumber + 1);
                 NewEvent();
                 ProgressBar.Update(EventNumber);
                 if (DebugLevel > 1) cout << endl;
@@ -58,25 +58,25 @@ void HAnalysis::AnalysisLoop()
             ProgressBar.Finish();
             //             cout << endl;
 
-            Print(0, "All Events analysed", EventSum);
+            Print(1, "All Events analysed", EventSum);
             CloseFileBase();
             if (DebugLevel > 0) cout << endl;
 
         }
-        Print(0, "All Files analysed", FileSum);
+        Print(1, "All Files analysed", FileSum);
 
         DeleteStudy();
 
     }
 
-    Print(0, "All Mva Samples analysed", StudySum);
+    Print(1, "All Mva Samples analysed", StudySum);
 
 }
 
 void HAnalysis::NewStudy()
 {
 
-    Print(0, "New Mva", StudyName);
+    Print(1, "New Mva", StudyName);
 
     EmptyFileVector();
     SetFileVector();
@@ -109,27 +109,27 @@ void HAnalysis::NewStudy()
 
     } else {
 
-        Print(-1, "unknown Tree String", FileVector.front()->GetTreeName());
+        Print(0, "unknown Tree String", FileVector.front()->GetTreeName());
 
     }
 
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
     ExportFile = new TFile(ExportName, "Recreate");
-    Print(0, "ExportFile", ExportName);
+    Print(1, "ExportFile", ExportName);
 
 }
 
 
 void HAnalysis::NewFileBase()
 {
-    Print(0, "New File Base");
+    Print(1, "New File Base");
 
     AnalysisNotEmpty = 0;
 
     // Export tree
     TString ExportTreeName = FileVector[FileNumber]->Title();
-    Print(0, "ExportTreeName", ExportTreeName);
+    Print(1, "ExportTreeName", ExportTreeName);
     TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
 
     NewFile();
@@ -141,12 +141,12 @@ void HAnalysis::NewFileBase()
     // Import file
     TString ImportPath = FileVector[FileNumber]->GetFilePath();
     ImportFile = new TFile(ImportPath);
-    Print(0, "File", ImportPath);
+    Print(1, "File", ImportPath);
 
     // Import tree
     TString ImportTreeName = FileVector[FileNumber]->GetTreeName();
     ImportTree = (TTree *)ImportFile->Get(ImportTreeName);
-    Print(0, "Tree", ImportTreeName);
+    Print(1, "Tree", ImportTreeName);
 
     // TreeReader
     TreeReader = new ExRootTreeReader(ImportTree);
@@ -159,7 +159,7 @@ void HAnalysis::NewFileBase()
 
 void HAnalysis::NewEvent()
 {
-    Print(1, "New Event");
+    Print(2, "New Event");
 
     Event->NewEvent(ClonesArrays);
 
@@ -186,7 +186,7 @@ void HAnalysis::NewEvent()
 
 void HAnalysis::CloseFileBase()
 {
-    Print(0, "Clean Analysis");
+    Print(1, "Clean Analysis");
 
     if (AnalysisNotEmpty) TreeWriter->Write();
 
@@ -197,7 +197,7 @@ void HAnalysis::CloseFileBase()
 
 
 //     delete TreeReader; // FIXME should get deleted here
-//     Print(0, "All deleted");
+//     Print(1, "All deleted");
     delete ImportTree;
     delete ImportFile;
     delete TreeWriter;
@@ -208,7 +208,7 @@ void HAnalysis::CloseFileBase()
 
 void HAnalysis::DeleteStudy()
 {
-    Print(0, "Clean Mva");
+    Print(1, "Clean Mva");
 
 }
 
@@ -216,7 +216,7 @@ void HAnalysis::DeleteStudy()
 HAnalysis::~HAnalysis()
 {
 
-    Print(0, "Destructor");
+    Print(1, "Destructor");
 
     ExportFile->Close();
 

@@ -4,7 +4,7 @@
 # include "TObjArray.h"
 
 # include "HClonesArray.hh"
-# include "HObject.hh"
+# include "HFourVector.hh"
 
 using std::sort;
 using std::vector;
@@ -13,7 +13,7 @@ using std::vector;
  * @brief stores all the information about the event topology
  *
  */
-class HParticle : virtual public HObject
+class HParticle : public HFourVector
 {
 
 public:

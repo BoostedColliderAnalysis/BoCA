@@ -3,7 +3,7 @@
 HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     ProjectName = "HeavyHiggs";
 
@@ -17,8 +17,8 @@ HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
 vector<string> HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 {
 
-    vector<string> StudyNameVector = {"Signal", "Background", "Test"};
-//     vector<string> StudyNameVector = {"Background"};
+//     vector<string> StudyNameVector = {"Signal", "Background", "Test"};
+    vector<string> StudyNameVector = {"Signal"};
 
 
     return StudyNameVector;
@@ -28,7 +28,7 @@ vector<string> HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 void HAnalysisHeavyHiggsDelphes::SetFileVector()
 {
 
-    Print(0, "Fill Analysis Vector", AnalysisName);
+    Print(1, "Fill Analysis Vector", AnalysisName);
 
 
 //     if (AnalysisName != "Signal") {
@@ -52,14 +52,14 @@ void HAnalysisHeavyHiggsDelphes::SetFileVector()
 
 //     FileVector.push_back(new HFileDelphes("pp-bbtt-4f", "background"));
 
-    Print(0, "Files prepared", FileVector.size());
+    Print(1, "Files prepared", FileVector.size());
 
 }
 
 void HAnalysisHeavyHiggsDelphes::NewFile()
 {
 
-    Print(0, "New File");
+    Print(1, "New File");
 
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
 
@@ -74,16 +74,16 @@ void HAnalysisHeavyHiggsDelphes::NewFile()
 
 void HAnalysisHeavyHiggsDelphes::CloseFile()
 {
-    Print(0, "Close File");
+    Print(1, "Close File");
 
     if (Cut) {
 
-        Print(0, "EventCounter", EventCounter);
-        Print(0, "JetCounter", JetCounter);
-        Print(0, "DeltaEtaCounter", DeltaEtaCounter);
-        Print(0, "BMassCounter", BMassCounter);
-        Print(0, "Jet2Counter", Jet2Counter);
-        Print(0, "TMassCounter", TMassCounter);
+        Print(1, "EventCounter", EventCounter);
+        Print(1, "JetCounter", JetCounter);
+        Print(1, "DeltaEtaCounter", DeltaEtaCounter);
+        Print(1, "BMassCounter", BMassCounter);
+        Print(1, "Jet2Counter", Jet2Counter);
+        Print(1, "TMassCounter", TMassCounter);
 
     }
 
@@ -92,7 +92,7 @@ void HAnalysisHeavyHiggsDelphes::CloseFile()
 bool HAnalysisHeavyHiggsDelphes::Analysis()
 {
 
-    Print(1, "Analysis", AnalysisName);
+    Print(2, "Analysis", AnalysisName);
 
     bool Success = 0;
 
@@ -117,7 +117,7 @@ bool HAnalysisHeavyHiggsDelphes::Analysis()
 bool HAnalysisHeavyHiggsDelphes::Signal()
 {
 
-    Print(1, "Signal");
+    Print(2, "Signal");
 
     Event->GetTaggedJets();
 
@@ -133,7 +133,7 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
 
     if (BottomJetVector.size() < 2)  return 0;
 
-    Print(-1,"Signal Bottom",BottomJetVector.size());
+    Print(0,"Signal Bottom",BottomJetVector.size());
 
     sort(BottomJetVector.begin(), BottomJetVector.end(), SortJetByEta());
 
@@ -150,7 +150,7 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
 bool HAnalysisHeavyHiggsDelphes::Background()
 {
 
-    Print(1, "Background");
+    Print(2, "Background");
 
     Event->GetTaggedJets();
 
@@ -236,7 +236,7 @@ bool HAnalysisHeavyHiggsDelphes::Background()
 bool HAnalysisHeavyHiggsDelphes::Test()
 {
 
-    Print(1, "Test");
+    Print(2, "Test");
 
     Event->GetJets();
 

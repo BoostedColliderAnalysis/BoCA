@@ -3,7 +3,7 @@
 HAnalysisTest::HAnalysisTest()
 {
 
-    Print(0, "Constructor");
+    Print(1, "Constructor");
 
     ProjectName = "Test";
 
@@ -20,7 +20,7 @@ vector<string> HAnalysisTest::GetStudyNameVector(){
 void HAnalysisTest::SetFileVector()
 {
 
-    Print(0, "Set File Vector", StudyName);
+    Print(1, "Set File Vector", StudyName);
 
     HFileDelphes *Background = new HFileDelphes("pp-ttbb");
         FileVector.push_back(Background);
@@ -29,14 +29,14 @@ void HAnalysisTest::SetFileVector()
 //     FileVector.push_back(Even);
 
     int AnalysisSum = FileVector.size();
-    Print(0, "Files prepared", AnalysisSum);
+    Print(1, "Files prepared", AnalysisSum);
 
 }
 
 
 void HAnalysisTest::NewFile()
 {
-    Print(0, "New File");
+    Print(1, "New File");
 
     CandidateBranch = TreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
 
@@ -44,7 +44,7 @@ void HAnalysisTest::NewFile()
 
 void HAnalysisTest::CloseFile()
 {
-    Print(0, "Close File");
+    Print(1, "Close File");
 
 }
 
@@ -53,7 +53,7 @@ void HAnalysisTest::CloseFile()
 bool HAnalysisTest::Analysis()
 {
 
-    Print(1, "Analysis", StudyName);
+    Print(2, "Analysis", StudyName);
 
     Event->Jets->GetTaggedJets();
 
