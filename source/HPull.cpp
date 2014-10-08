@@ -7,7 +7,7 @@ HPull::HPull()
     InitialValue = -1000;
     PullPhi = 0;
     PullRap = 0;
-    DiPolarity = 0;
+//     DiPolarity = 0;
 
 }
 
@@ -258,6 +258,8 @@ float HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJe
     float ConstituentNumSqrSum = 0;
     int ValidConstituents = 0;
 
+    float DiPolarity;
+
     if (PieceDistanceSqr < 100000000) {
 
 
@@ -311,7 +313,7 @@ float HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJe
 
             ConstituentNumSqrSum += ConstituentNumSqr;
 
-        }                                                   //  Constituent Loop
+        }
 
         Print(3, "Fraction of valid Constitueants", 1 - (ConstituentsSum - ValidConstituents) / ConstituentsSum);
 
@@ -327,10 +329,10 @@ float HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJe
         Print(2, "ConstituentNumSqrSum", ConstituentNumSqrSum);
         Print(2, "DiPolaritySum", DiPolaritySum);
         Print(2, "DiPolarity", DiPolarity);
-        
+
     }
 
-    return (DiPolarity);
+    return DiPolarity;
 
 }
 
@@ -387,6 +389,8 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &Higg
     }
 
     float DeltaR12 = SubJet1.delta_R(SubJet2);
+
+    float DiPolarity;
 
     int ConstituentSum = CandidateConstituents.size();
     for (int ConstituentNumber = 0; ConstituentNumber < ConstituentSum; ConstituentNumber++) {
@@ -450,7 +454,7 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &Higg
 // 	}
     }
 
-    return (DiPolarity);
+    return DiPolarity;
 //     return (DiPolarity / ConstituentSum * 10000);
 
 }

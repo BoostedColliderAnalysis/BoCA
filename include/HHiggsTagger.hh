@@ -2,20 +2,22 @@
 # define HHiggsTagger_hh
 
 # include "fastjet/tools/Filter.hh"
-# include "fastjet/tools/MassDropTagger.hh"
+// # include "fastjet/tools/MassDropTagger.hh"
 
-# include "HPull.hh"
-# include "HObject.hh"
+// # include "HPull.hh"
+# include "HReconstruction.hh"
 
-using fastjet::sorted_by_E;
-using fastjet::cambridge_algorithm;
-using fastjet::JetDefinition;
-using fastjet::ClusterSequence;
-using fastjet::JetAlgorithm;
-using fastjet::MassDropTagger;
-using fastjet::Selector;
-using fastjet::Filter;
-using std::vector;
+// using fastjet::sorted_by_E;
+// using fastjet::cambridge_algorithm;
+// using fastjet::JetDefinition;
+// using fastjet::ClusterSequence;
+// using fastjet::JetAlgorithm;
+// using fastjet::MassDropTagger;
+// using fastjet::Selector;
+// using fastjet::Filter;
+// using std::vector;
+using std::min;
+using TMath::Pi;
 
 /**
  * @brief Higgs tagger as described in arXiv:0802.2470
@@ -23,7 +25,7 @@ using std::vector;
  * based on fastjet example 12
  *
  */
-class HHiggsTagger : public HObject
+class HHiggsTagger : public HReconstruction
 {
 
 public:
@@ -54,7 +56,7 @@ public:
      * @param  vector<PseudoJet> CharmVector
      * @return void
      */
-    PseudoJet GetHiggsJet(vector<PseudoJet>, vector<PseudoJet>, vector<PseudoJet>);
+    PseudoJet GetHiggsJet(const vector<PseudoJet>&, const vector<PseudoJet>&, const vector<PseudoJet>&);
 
     /**
      * @brief constructor
@@ -67,7 +69,7 @@ public:
      *
      */
     ~HHiggsTagger();
-    
+
     void NewEvent();
 
 private:
@@ -102,7 +104,7 @@ private:
      * @param  InputJetVector
      * @return FatJetVector
      */
-    vector<PseudoJet> GetFatJetVector(vector<PseudoJet>);
+//     vector<PseudoJet> GetFatJetVector(vector<PseudoJet>);
 
     /**
      * @brief Get mass drop jet
@@ -110,7 +112,7 @@ private:
      * @param  FatJet
      * @return MassDropJet
      */
-    PseudoJet GetMassDropJet(PseudoJet);
+//     PseudoJet GetMassDropJet(PseudoJet);
 
     /**
      * @brief Filter Jets
@@ -120,7 +122,7 @@ private:
      * @param  NumberHardestPieces
      * @return FilteredJet
      */
-    PseudoJet GetFilteredJet(PseudoJet, JetAlgorithm, int);
+    PseudoJet GetFilteredJet(const PseudoJet&, const fastjet::JetAlgorithm&, int);
 
     /**
      * @brief Compare subjets with particle quarks
@@ -129,7 +131,7 @@ private:
      * @param  ParticleUserIndex
      * @return void
      */
-    void GetSubJetSource(vector<PseudoJet>, int);
+    void GetSubJetSource(const vector<PseudoJet>&, int);
 
     /**
      * @brief Apply Bottom tagger
@@ -144,7 +146,7 @@ private:
      * @param FatJet ...
      * @return Dipolarity
      */
-    float GetDipolarity(PseudoJet FatJet);
+    float GetDipolarity(const PseudoJet &);
 
     /**
      * @brief Eta of Subjets and Constituent
@@ -203,11 +205,11 @@ private:
     void SetEtaPhi(PseudoJet, PseudoJet);
 
     float GetSubDeltaR();
-    
+
     string ClassName() const {
-        
+
         return ("HHiggsTagger");
-        
+
     };
 
 };

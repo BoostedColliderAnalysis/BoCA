@@ -67,7 +67,7 @@ public:
 
     float JingDipolarity(const PseudoJet&, const PseudoJet&);
 
-    float DiPolarity;
+//     float DiPolarity;
 
     /**
      * @brief constructor

@@ -1,36 +1,36 @@
 # ifndef HDiscriminator_hh
 # define HDiscriminator_hh
 
-# include <algorithm>
+// # include <algorithm>
 
-# include "fastjet/tools/Filter.hh"
-# include "fastjet/tools/MassDropTagger.hh"
-# include "fastjet/ClusterSequenceArea.hh"
+// # include "fastjet/tools/Filter.hh"
+// # include "fastjet/tools/MassDropTagger.hh"
+// # include "fastjet/ClusterSequenceArea.hh"
 
-# include "HObject.hh"
+# include "HReconstruction.hh"
 # include "HJetInfo.hh"
 
-using std::vector;
+// using std::vector;
 using std::sort;
-using std::max;
+// using std::max;
 
-using fastjet::sorted_by_E;
-using fastjet::cambridge_algorithm;
-using fastjet::JetDefinition;
-using fastjet::ClusterSequence;
-using fastjet::JetAlgorithm;
-using fastjet::MassDropTagger;
-using fastjet::AreaDefinition;
-using fastjet::ClusterSequenceArea;
-using fastjet::Selector;
-using fastjet::Filter;
+// using fastjet::sorted_by_E;
+// using fastjet::cambridge_algorithm;
+// using fastjet::JetDefinition;
+// using fastjet::ClusterSequence;
+// using fastjet::JetAlgorithm;
+// using fastjet::MassDropTagger;
+// using fastjet::AreaDefinition;
+// using fastjet::ClusterSequenceArea;
+// using fastjet::Selector;
+// using fastjet::Filter;
 
 /**
  * @brief Higgs Top Discriminator
  *
  *
  */
-class HDiscriminator : public HObject
+class HDiscriminator : public HReconstruction
 {
 
 public:
@@ -72,13 +72,10 @@ public:
      * @brief Get Fat Higgs Jets
      *
      * @param  EFlow Jet Vector
-     * @param  Higgs Particle Vector
-     * @param  Top Particle Vector
-     * @return Higgs Candidates
+     * @return Candidates
      */
-    vector<PseudoJet> GetTaggedCandidateJets(vector<PseudoJet>, vector<PseudoJet>, vector<PseudoJet>);
-    
-    vector<PseudoJet> GetTaggedCandidateJets(vector<PseudoJet>);
+
+    vector<PseudoJet> GetCandidateJets(vector<PseudoJet>);
 
 private:
 
@@ -86,40 +83,40 @@ private:
      * @brief Get vecto of all fatjets
      *
      */
-    void GetFatJetVector(float);
+//     void GetFatJetVector(float);
 
-    void TestFatJetVector(float);
+//     void TestFatJetVector(float);
 
-    bool GetSuperFatJetVector(int);
+//     bool GetSuperFatJetVector(int);
 
-    float GetHiggsTopDistance();
+//     float GetHiggsTopDistance();
 
-    float GetTopDistance();
+//     float GetTopDistance();
 
-    bool HiggsParticleChecker();
+//     bool HiggsParticleChecker();
 
-    bool TopParticleChecker();
+//     bool TopParticleChecker();
 
-    void HiggsTagger();
+//     void HiggsTagger();
 
-    void TopTagger();
+//     void TopTagger();
 
-    void TagFatJets();
-    
-    void GetFatJetTag();
+//     void TagFatJets();
 
-    void GetMassDropVector();
-    
-    static bool JetIsBad(const PseudoJet &);
-    static bool JetIsBad2(const PseudoJet &);
+//     void GetFatJetTag();
 
-    vector<PseudoJet> EFlowJetVector;
+//     void GetMassDropVector();
 
-    vector<PseudoJet> HiggsParticleVector;
+//     static bool JetIsBad(const PseudoJet &);
+//     static bool JetIsBad2(const PseudoJet &);
 
-    vector<PseudoJet> TopParticleVector;
+//     vector<PseudoJet> EFlowJetVector;
 
-    vector<PseudoJet> FatJetVector;
+//     vector<PseudoJet> HiggsParticleVector;
+
+//     vector<PseudoJet> TopParticleVector;
+
+//     vector<PseudoJet> FatJetVector;
 
     /**
      * @brief Get mass drop jet
@@ -127,7 +124,7 @@ private:
      * @param  FatJet
      * @return MassDropJet
      */
-    PseudoJet GetMassDropJet(PseudoJet);
+//     PseudoJet GetMassDropJet(PseudoJet);
 
     /**
      * @brief Filter Jets
@@ -135,46 +132,46 @@ private:
      * @param  MassDropJet
      * @return FilteredJet
      */
-    PseudoJet GetFilteredJet(PseudoJet);
+//     PseudoJet GetFilteredJet(PseudoJet);
 
-    void FatJetTagger();
+//     void FatJetTagger();
 
-    float MinDeltaR;
+//     float MinDeltaR;
 
-    int Overlap;
+//     int Overlap;
 
-    int LostHiggs;
+//     int LostHiggs;
 
-    int FatJetSum() {
+//     int FatJetSum() {
 
-        return FatJetVector.size();
+//         return FatJetVector.size();
 
-    };
+//     };
 
-    int EFlowJetSum() {
+//     int EFlowJetSum() {
 
-        return EFlowJetVector.size();
+//         return EFlowJetVector.size();
 
-    };
+//     };
 
-    int HiggsParticleSum() {
+//     int HiggsParticleSum() {
 
-        return HiggsParticleVector.size();
+//         return HiggsParticleVector.size();
 
-    };
+//     };
 
-    int TopParticleSum() {
+//     int TopParticleSum() {
 
-        return TopParticleVector.size();
+//         return TopParticleVector.size();
 
-    };
+//     };
 
-    bool HasHiggs;
+//     bool HasHiggs;
 
     string ClassName() const {
-        
+
         return ("HDiscriminator");
-        
+
     };
 
 };

@@ -47,7 +47,7 @@ set(LibraryProperties ${LibraryProperties}
 )
 
 # Branch dictionary
-include_directories(${IncludeDirectory})
+# include_directories(${IncludeDirectory})
 set(LinkLibraries ${ROOT_LIBRARIES})
 
 # set(IncludeDirectory ${ROOT_INCLUDE_DIR} ${PROJECT_SOURCE_DIR})
@@ -58,15 +58,19 @@ include_directories(${IncludeDirectory})
 add_subdirectory(root)
 
 # Libraries
-set(IncludeDirectory
-${IncludeDirectory}
+set(IncludeDirectory ${IncludeDirectory}
+${ROOT_INCLUDE_DIR}
 ${PROJECT_SOURCE_DIR}/include
+# ${PROJECT_SOURCE_DIR}/source
 ${ExRootDir}
 ${DelphesDir}
 )
 include_directories(${IncludeDirectory})
 
-set(LinkLibraries ${fastjet_LIBRARIES} ${DelphesLibrary})
+set(LinkLibraries ${LinkLibraries}
+${fastjet_LIBRARIES}
+${DelphesLibrary})
+
 add_subdirectory(source)
 
 # Executables

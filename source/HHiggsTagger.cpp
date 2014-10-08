@@ -2,9 +2,9 @@
 
 HHiggsTagger::HHiggsTagger()
 {
-       
+
     Print(1, "Constructor");
-    
+
     BottomUserIndex = 2000;
 
     CharmUserIndex = 1000;
@@ -12,7 +12,7 @@ HHiggsTagger::HHiggsTagger()
     InitialValue = -100;
 
     DiPolarity = InitialValue;
-    
+
     NewEvent();
 
 }
@@ -20,29 +20,29 @@ HHiggsTagger::HHiggsTagger()
 HHiggsTagger::~HHiggsTagger()
 {
 
-    
     Print(1, "Destructor");
 
 }
 
 void HHiggsTagger::NewEvent(){
-    
+
     Print(2, "New Event");
-    
+
     DiPolarity=0;
-    
+
     HiggsJet.reset(0,0,0,0);
-    
+
     FatJet.reset(0,0,0,0);
-    
+
 }
 
 
-PseudoJet HHiggsTagger::GetHiggsJet(vector<PseudoJet> InputJetVector, vector<PseudoJet> BottomVector, vector<PseudoJet> CharmVector)
+PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& InputJetVector, const vector<PseudoJet>& BottomVector, const vector<PseudoJet> &CharmVector)
 {
     Print(2, "GetHiggsJet");
 
-    vector<PseudoJet> FatJetVector = GetFatJetVector(InputJetVector);
+//     vector<PseudoJet> FatJetVector =
+    GetFatJetVector(InputJetVector);
 
     int FatJetSum = FatJetVector.size();
     for (int FatJetNumber = 0; FatJetNumber < FatJetSum; ++FatJetNumber) {
@@ -59,8 +59,8 @@ PseudoJet HHiggsTagger::GetHiggsJet(vector<PseudoJet> InputJetVector, vector<Pse
         }
 
         // fastjet: 3, paper: 3, Jing: 3
-        const int NumberHardestPieces = 3; // FIXME 
-        PseudoJet FilteredJet = GetFilteredJet(MassDropJet, cambridge_algorithm, NumberHardestPieces);
+        const int NumberHardestPieces = 3; // FIXME
+        PseudoJet FilteredJet = GetFilteredJet(MassDropJet, fastjet::cambridge_algorithm, NumberHardestPieces);
 
         FilteredJetPieceVector = sorted_by_E(FilteredJet.pieces());
 
@@ -90,51 +90,34 @@ PseudoJet HHiggsTagger::GetHiggsJet(vector<PseudoJet> InputJetVector, vector<Pse
 
 }
 
-vector<PseudoJet> HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector)
+// vector<PseudoJet> HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector)
+// {
+//
+//     Print(2, "GetFatJetVector");
+//
+//     const float FatJetCylinderDistanceMax = 1.2;
+//     JetDefinition *FatJetDefinition = new JetDefinition(fastjet::cambridge_algorithm, FatJetCylinderDistanceMax);
+//     ClusterSequence *FatJetClusterSequence = new ClusterSequence(InputJetVector, *FatJetDefinition);
+//
+//     const float FatJetPtMin = 0.;
+//     vector<PseudoJet> InclusiveJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
+//     vector<PseudoJet> FatJetVector = sorted_by_E(InclusiveJetVector);
+//     Print(2,"Number of Fat Jets",FatJetVector.size());
+//
+//     FatJetClusterSequence->delete_self_when_unused();
+//     delete FatJetDefinition;
+//
+//     return (FatJetVector);
+//
+// }
+
+
+
+PseudoJet HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, int NumberHardestPieces)
 {
-    
-    Print(2, "GetFatJetVector");
-    
-    // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
-    const float FatJetCylinderDistanceMax = 1.2;
-    JetDefinition *FatJetDefinition = new JetDefinition(cambridge_algorithm, FatJetCylinderDistanceMax);
-    ClusterSequence *FatJetClusterSequence = new ClusterSequence(InputJetVector, *FatJetDefinition);
-    // FatJetPtMin = Jing: 40; fastjet: 0
-    const float FatJetPtMin = 0.;
-    vector<PseudoJet> InclusiveJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
-    vector<PseudoJet> FatJetVector = sorted_by_E(InclusiveJetVector);
-    Print(2,"Number of Fat Jets",FatJetVector.size());
-    
-    FatJetClusterSequence->delete_self_when_unused();
-    delete FatJetDefinition;
 
-    return (FatJetVector);
-
-}
-
-PseudoJet HHiggsTagger::GetMassDropJet(PseudoJet FatJet)
-{
-    
-    Print(2, "GetMassDropJet");
-    
-    // MassDropMin = Jing: 0.667; fastjet: 0.667; Paper: 0.67
-    const float MassDropMin = 0.667;
-    // AsymmetryCut = Jing: 0.09; fastjet: 0.09; paper: 0.09
-    const float AsymmetryCut = 0.09;
-    MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
-    PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
-
-    Print(3,"Mass Drop applied");
-
-    return (MassDropJet);
-
-}
-
-PseudoJet HHiggsTagger::GetFilteredJet(PseudoJet MassDropJet, JetAlgorithm FilterJetAlgorithm, int NumberHardestPieces)
-{
-    
     Print(2, "GetFilteredJet");
-    
+
     vector<PseudoJet> MassDropPieces = sorted_by_E(MassDropJet.pieces());
     if (MassDropPieces.size() != 2) Print(0,"Number of Subjets",MassDropPieces.size());
 
@@ -143,14 +126,14 @@ PseudoJet HHiggsTagger::GetFilteredJet(PseudoJet MassDropJet, JetAlgorithm Filte
     float ParentCylinderDistance = Parent1.delta_R(Parent2);
 
     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
-    const float MinimalCylinderDistance = 0.35;
+    const float MinimalCylinderDistance = 0.3;
     float FilterCylinderDistance = min(ParentCylinderDistance / 2, MinimalCylinderDistance);
-    JetDefinition FilterJetDefinition(FilterJetAlgorithm, FilterCylinderDistance);
+    fastjet::JetDefinition FilterJetDefinition(FilterJetAlgorithm, FilterCylinderDistance);
 
     // number of pieces we'll take in the filtering = Jing: 3; fastjet: 3
 //     const int NumberHardestPieces = 3;
-    Selector SelectorHardest = SelectorNHardest(NumberHardestPieces);
-    Filter HiggsFilter(FilterJetDefinition, SelectorHardest);
+    fastjet::Selector SelectorHardest = fastjet::SelectorNHardest(NumberHardestPieces);
+    fastjet::Filter HiggsFilter(FilterJetDefinition, SelectorHardest);
     PseudoJet FilteredJet = HiggsFilter(MassDropJet);
 
     Print(3,"SubJets filtered");
@@ -159,11 +142,11 @@ PseudoJet HHiggsTagger::GetFilteredJet(PseudoJet MassDropJet, JetAlgorithm Filte
 
 }
 
-void HHiggsTagger::GetSubJetSource(vector<PseudoJet> ParticleVector, int UserIndex)
+void HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& ParticleVector, int UserIndex)
 {
-    
+
     Print(2, "GetSubJetSource");
-    
+
     const float CylinderDistanceMax = 0.3;                          // Jing: 0.2
 
     int ParticleSum = ParticleVector.size();
@@ -194,16 +177,16 @@ void HHiggsTagger::GetSubJetSource(vector<PseudoJet> ParticleVector, int UserInd
 int HHiggsTagger::BTagger()
 {
     Print(2, "BTagger");
-    
+
     // Jing: 700
-    const int BottomPerMil = 750;   
+    const int BottomPerMil = 750;
     // Jing: 200
-    const int CharmPerMil = 100;                  
+    const int CharmPerMil = 100;
     // Jing: 10
     const int LightJetPerMil = 5;
-    
+
     // Jing: 2.5
-    const float SubJetEtaMax = 2.5;        
+    const float SubJetEtaMax = 2.5;
     // Jing: 30
     const float SubJetPtMin = 20;
 
@@ -248,10 +231,10 @@ int HHiggsTagger::BTagger()
 }
 
 
-float HHiggsTagger::GetDipolarity(PseudoJet FatJet)
+float HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 {
     Print(2, "GetDipolarity");
-    
+
     DiPolarity = 0;
 
 //     const int NumberHardestPieces = 2;
@@ -342,7 +325,7 @@ float HHiggsTagger::GetDipolarity(PseudoJet FatJet)
 void HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 {
     Print(2, "SetEtaPhi");
-    
+
     Eta1 = SubJet1.eta();
     Phi1 = SubJet1.phi_std();
     Eta2 = SubJet2.eta();
@@ -352,9 +335,9 @@ void HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 
 float HHiggsTagger::GetSubDeltaR()
 {
-    
+
     Print(2, "GetSubDeltaR");
-    
+
     float SubDeltaR;
 
     float DeltaR = fabs(DeltaPhiEta0() + DeltaEtaPhi0() + EtaPhi()) / DeltaR12;

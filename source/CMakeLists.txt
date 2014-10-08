@@ -1,5 +1,21 @@
+# generate dictionary
+# set(HBranchSources HBranch.cpp)
+# set(HLinkDefHeader ../include/HLinkDef.hh)
+# set(HDictionarySource HBranchDict.cpp)
+# set(IncludeDirectory ${IncludeDirectory} ${PROJECT_SOURCE_DIR}/source)
+# ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
+
+# generate library
+# set(HBranchSources ${HDictionarySource})
+# add_library(HBranch SHARED ${HBranchSources})
+# target_link_libraries(HBranch ${LinkLibraries})
+# set_target_properties(HBranch PROPERTIES ${LibraryProperties})
+# install(TARGETS HBranch DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+
+
 # HObject Library
-set(HObjectSources HObject.cpp HFourVector.cpp)
+set(HObjectSources HObject.cpp HFourVector.cpp
+)
 add_library(HObject SHARED ${HObjectSources} )
 target_link_libraries(HObject ${LinkLibraries})
 set_target_properties(HObject PROPERTIES ${LibraryProperties})
@@ -20,6 +36,7 @@ HJetPgs.cpp
 HLepton.cpp
 HLeptonDelphes.cpp
 HLeptonPgs.cpp
+HReconstruction.cpp
 HTopTagger.cpp
 HDiscriminator.cpp
 HHiggsTagger.cpp

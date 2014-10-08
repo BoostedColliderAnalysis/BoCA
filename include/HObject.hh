@@ -95,7 +95,7 @@ protected:
 
     /**
      * @brief Debug level
-     * 
+     *
      * 0: Errors
      * 1: Analysis Information
      * 2: Event Information

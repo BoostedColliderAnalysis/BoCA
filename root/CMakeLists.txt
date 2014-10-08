@@ -1,9 +1,7 @@
 # generate dictionary
-set(HBranchSources HBranch.cpp 
-# DelphesClasses.cc DelphesFactory.cc
-)
+set(HBranchSources HBranch.cpp)
 set(HLinkDefHeader HLinkDef.hh)
-set(HDictionarySource ${CMAKE_CURRENT_BINARY_DIR}/HBranchDict.cpp) 
+set(HDictionarySource HBranchDict.cpp)
 ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
 
 # generate library
