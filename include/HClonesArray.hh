@@ -32,7 +32,7 @@ public:
 
     void ResetBranches();
 
-    virtual void UseBranches(ExRootTreeReader *) = 0;
+    virtual void UseBranches(const ExRootTreeReader * const) = 0;
 
     int ParticleSum() const {
         return ParticleClonesArray->GetEntriesFast();
@@ -207,7 +207,7 @@ private:
 class HClonesArrayDelphes : public HClonesArray
 {
 
-    void UseBranches(ExRootTreeReader *);
+    void UseBranches(const ExRootTreeReader * const);
 
 private:
 
@@ -222,7 +222,7 @@ private:
 class HClonesArraySnowmass : public HClonesArray
 {
 
-    void UseBranches(ExRootTreeReader *);
+    void UseBranches(const ExRootTreeReader * const);
 
 private:
 
@@ -237,7 +237,7 @@ private:
 class HClonesArrayPgs : public HClonesArray
 {
 
-    void UseBranches(ExRootTreeReader *);
+    void UseBranches(const ExRootTreeReader * const);
 
 private:
 
@@ -252,7 +252,7 @@ private:
 class HClonesArrayParton : public HClonesArray
 {
 
-    void UseBranches(ExRootTreeReader *);
+    void UseBranches(const ExRootTreeReader * const);
 
 private:
 

@@ -25,7 +25,7 @@ public:
      */
     ~HEventParton();
     
-    void NewEvent(HClonesArray *);
+    void NewEvent(const HClonesArray * const);
     
     void GetParticles();
 

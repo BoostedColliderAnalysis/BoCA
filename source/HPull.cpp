@@ -39,7 +39,7 @@ void HPull::BTagCalculation(const Jet& JetClone)
             Print(3, "Entering b Jet Constituent", ConstituentsNumber);
             ValidConstituentsSum++;
 
-            const TLorentzVector ConstituentLorentzVector = GetConstituent(*ConstituentObject);
+            const TLorentzVector ConstituentLorentzVector = GetConstituent(ConstituentObject);
 
             const float ConstituentPhi = ConstituentLorentzVector.Phi();
             const float ConstituentDeltaPhi = ConstituentPhi - BottomJet.phi_std();

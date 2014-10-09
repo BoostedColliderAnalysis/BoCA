@@ -26,7 +26,7 @@ public:
      */
     ~HEventPgs();
     
-    void NewEvent(HClonesArray *);
+    void NewEvent(const HClonesArray * const);
     
     vector<TLorentzVector> GetLeptons();
     

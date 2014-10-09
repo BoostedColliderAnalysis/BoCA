@@ -14,7 +14,7 @@ HJet::~HJet()
 
 }
 
-void HJet::NewEvent(HClonesArray *NewClonesArrays)
+void HJet::NewEvent(const HClonesArray * const NewClonesArrays)
 {
 
     Print(2, "New Event");

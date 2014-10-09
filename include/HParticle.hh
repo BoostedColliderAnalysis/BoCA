@@ -30,7 +30,7 @@ public:
      */
     ~HParticle();
 
-    void NewEvent(HClonesArray *);
+    void NewEvent(const HClonesArray * const);
 
     /**
      * @brief extract electrons and muon particle
@@ -87,7 +87,7 @@ protected:
      * @brief Clones Arrays
      *
      */
-    HClonesArray *ClonesArrays;
+    const HClonesArray *ClonesArrays;
     
     vector<PseudoJet> ParticleJetVector;
 

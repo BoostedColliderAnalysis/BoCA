@@ -32,7 +32,7 @@ public:
      */
     ~HLepton();
     
-    void NewEvent(HClonesArray *);
+    void NewEvent(const HClonesArray * const);
         
     vector<TLorentzVector> GetLeptonVector();
                 
@@ -141,7 +141,7 @@ public:
     
 protected:
     
-    HClonesArray *ClonesArray;
+    const HClonesArray *ClonesArray;
 
 private:
     

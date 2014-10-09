@@ -20,7 +20,7 @@ public:
 
     float GetPtSum() const;
 
-    float GetFraction(int);
+    float GetFraction(int) const;
 
     float GetMaximalFraction() const;
     

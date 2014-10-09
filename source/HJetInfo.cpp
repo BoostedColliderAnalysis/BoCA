@@ -42,7 +42,7 @@ float HJetInfo::GetPtSum() const
 
 }
 
-float HJetInfo::GetFraction(int ParticleId)
+float HJetInfo::GetFraction(int ParticleId) const
 {
 
     Print(2, "Get Fraction");
@@ -53,7 +53,7 @@ float HJetInfo::GetFraction(int ParticleId)
 
     } else {
 
-        return (JetFractions[ParticleId] / GetPtSum());
+        return (JetFractions.at(ParticleId) / GetPtSum());
 
     }
 }

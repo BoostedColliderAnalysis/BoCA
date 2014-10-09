@@ -23,7 +23,7 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *CandidateBranch;
+    ExRootTreeBranch *JetPropertiesBranch;
     
     /**
      * @brief Branch to write Lepton info into

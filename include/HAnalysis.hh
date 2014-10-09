@@ -16,8 +16,6 @@
 
 using std::string;
 
-class HAnlysis;
-
 /**
  * @brief Class defining the Analysis
  *

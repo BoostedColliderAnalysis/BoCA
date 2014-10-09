@@ -118,7 +118,7 @@ void HDiscriminator::NewEvent()
 //
 // }
 
-vector<PseudoJet> HDiscriminator::GetCandidateJets(vector<PseudoJet> EFlowJetVector)
+vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlowJetVector)
 {
 
     Print(2, "Get Tagged Candidate Jets");
@@ -159,7 +159,7 @@ vector<PseudoJet> HDiscriminator::GetCandidateJets(vector<PseudoJet> EFlowJetVec
 
     }
 
-    float DeltaR = 1000. / PtSum;
+    const float DeltaR = 1000. / PtSum;
 
     Print(4,"DeltaR",DeltaR);
 

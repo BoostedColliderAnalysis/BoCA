@@ -21,7 +21,7 @@ HEventParton::~HEventParton()
 
 }
 
-void HEventParton::NewEvent(HClonesArray *ClonesArrays)
+void HEventParton::NewEvent(const HClonesArray * const ClonesArrays)
 {
 
     Print(2, "New Event");

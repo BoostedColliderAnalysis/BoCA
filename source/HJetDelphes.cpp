@@ -45,110 +45,113 @@ bool HJetDelphes::GetJets(bool Tagging, bool Structure)
     for (int JetNumber = 0; JetNumber < ClonesArrays->JetSum(); ++JetNumber) {
 
         Print(4, "Jet Number", JetNumber);
-        const Jet* JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
+        const Jet *const JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
 
         if (Structure) {
 
-            JetVector.push_back(GetConstituents(*JetClone));
+            JetVector.push_back(GetConstituents(JetClone));
 
         } else {
 
-            JetVector.push_back(GetPseudoJet(const_cast<Jet*>(JetClone)->P4()));
+            JetVector.push_back(GetPseudoJet(const_cast<Jet *>(JetClone)->P4()));
 
         }
 
         if (Tagging) {
-            
+
             JetVector.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
             JetVector.back().set_user_index(JetVector.back().user_info<HJetInfo>().GetMaximalId());
-            
-            
+
+
         }
 
-        GetDelphesTags(*JetClone);
+        GetDelphesTags(JetClone);
 
 //         JetVector[JetNumber].user_info<HJetInfo>().PrintAllInfos();
         Print(0, "Tag", JetVector[JetNumber].user_info<HJetInfo>().GetMaximalId(), JetVector[JetNumber].user_info<HJetInfo>().GetMaximalFraction());
-    
+
     }
     Print(0, "Loop finished");
     return 1;
 
 }
 
-void HJetDelphes::GetDelphesTags(const Jet& JetClone)
+void HJetDelphes::GetDelphesTags(const Jet *const JetClone)
 {
     Print(2, "Get taggs");
 
-    if (JetClone.TauTag == 1) {
+    if (JetClone->TauTag == 1) {
 
         Print(4, "Has Tau Tag");
 
         GetTau(JetClone);
 
-    } else if (JetClone.BTag > 0) {
+    } else if (JetClone->BTag > 0) {
 
         Print(4, "Has B Tag");
 
-        BottomLorentzVectorVector.push_back(const_cast<Jet*>(&JetClone)->P4());
-        BottomJetVector.push_back(GetPseudoJet(const_cast<Jet*>(&JetClone)->P4()));
+        BottomLorentzVectorVector.push_back(const_cast<Jet *>(JetClone)->P4());
+        BottomJetVector.push_back(GetPseudoJet(const_cast<Jet *>(JetClone)->P4()));
 
     } else {
 
-        JetLorentzVectorVector.push_back(const_cast<Jet*>(&JetClone)->P4());
+        JetLorentzVectorVector.push_back(const_cast<Jet *>(JetClone)->P4());
 
     }
 
 }
 
 
-void HJetDelphes::GetTau(const Jet& JetClone)
+void HJetDelphes::GetTau(const Jet *const JetClone)
 {
 
     Print(2, "TauTagCalculations");
 
-    if (JetClone.Charge == - 1) {
+    if (JetClone->Charge == - 1) {
 
-        TauLorentzVectorVector.push_back(const_cast<Jet*>(&JetClone)->P4());
+        TauLorentzVectorVector.push_back(const_cast<Jet *>(JetClone)->P4());
         Print(3, "Tau Jet");
 
-    } else if (JetClone.Charge == 1) {
+    } else if (JetClone->Charge == 1) {
 
-        AntiTauLorentzVectorVector.push_back(const_cast<Jet*>(&JetClone)->P4());
+        AntiTauLorentzVectorVector.push_back(const_cast<Jet *>(JetClone)->P4());
         Print(3, "Anti Tau Jet");
 
-    } else Print(0, "Jet Charge: ", JetClone.Charge);
+    } else Print(0, "Jet Charge: ", JetClone->Charge);
 
 }
 
-int HJetDelphes::GetMotherId(const TObject& Object) const
+int HJetDelphes::GetMotherId(const TObject *const Object) const
 {
 
     Print(2, "Get Mother Id", ClonesArrays->ParticleSum());
 
 
-    if (Object.IsA() != GenParticle::Class()) {
+    if (Object->IsA() != GenParticle::Class()) {
 
-        Print(0, "it is", Object.ClassName());
+        Print(0, "it is", Object->ClassName());
         return 0;
 
     }
 
-    GenParticle *ParticleClone = (GenParticle *) &Object;
+    GenParticle *ParticleClone = (GenParticle *) Object;
+    int MotherPosition = 0;
 
     int MotherId = EmptyId;
-    int ParticleId = ParticleClone->PID;
-    int MotherPosition = ParticleClone->M1;
-    Print(4, "Particle M1", MotherPosition);
 
     while (MotherPosition != -1) {
+
+        const int ParticleId = ParticleClone->PID;
+        MotherPosition = ParticleClone->M1;
+        Print(3, "Particle Id", ParticleClone->PID);
+        Print(4, "Particle M1", MotherPosition);
 
         if (
             (abs(ParticleId) == GluonId || abs(ParticleId) == UpId || abs(ParticleId) == DownId || abs(ParticleId) == StrangeId || abs(ParticleId) == CharmId || abs(ParticleId) == UpDown0Id || abs(ParticleId) == UpDown1Id || abs(ParticleId) == UpUp1Id || abs(ParticleId) == DownDown1Id)
             && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId && abs(MotherId) != BottomId)) {
             MotherId = IsrId;
         } else if (abs(ParticleId) == BottomId
-                   && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId)) {
+                   && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId)) {
             MotherId = ParticleId;
         } else if (abs(ParticleId) == TopId && abs(MotherId) != HeavyHiggsId) {
             MotherId = ParticleId;
@@ -160,15 +163,17 @@ int HJetDelphes::GetMotherId(const TObject& Object) const
 
         if (MotherPosition > ClonesArrays->ParticleSum()) {
 
-          Print(0, "Faulty eMotherPositionvent");
+            Print(0, "Faulty eMotherPositionvent");
             continue;
 
         }
         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(MotherPosition);
-        ParticleId = ParticleClone->PID;
-        MotherPosition = ParticleClone->M1;
 
-        Print(4, "Particle Id", ParticleClone->PID);
+//         if (ParticleClone->M2 != -1) {
+// 
+//             Print(0, "M2", ParticleClone->M2);
+// 
+//         }
 
     }
 
@@ -180,20 +185,85 @@ int HJetDelphes::GetMotherId(const TObject& Object) const
 }
 
 
-PseudoJet HJetDelphes::GetConstituents(const Jet &JetClone) const
+
+// int HJetDelphes::GetMotherId(const GenParticle *const ParticleClone) const
+// {
+// 
+//     Print(2, "Get Mother Id", ClonesArrays->ParticleSum());
+// 
+// 
+// 
+//     int MotherId = EmptyId;
+//     int ParticleId = ParticleClone->PID;
+//     int MotherPosition = ParticleClone->M1;
+//     Print(4, "Particle M1", MotherPosition);
+// 
+//     while (MotherPosition != -1) {
+// 
+//         Print(3, "Particle Id", ParticleClone->PID);
+// 
+//         if (
+//             (abs(ParticleId) == GluonId || abs(ParticleId) == UpId || abs(ParticleId) == DownId || abs(ParticleId) == StrangeId || abs(ParticleId) == CharmId || abs(ParticleId) == UpDown0Id || abs(ParticleId) == UpDown1Id || abs(ParticleId) == UpUp1Id || abs(ParticleId) == DownDown1Id)
+//             && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId && abs(MotherId) != BottomId)) {
+//             MotherId = IsrId;
+//         } else if (abs(ParticleId) == BottomId
+//                    && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId)) {
+//             MotherId = ParticleId;
+//         } else if (abs(ParticleId) == TopId && abs(MotherId) != HeavyHiggsId) {
+//             MotherId = ParticleId;
+//         } else if (abs(ParticleId) == HeavyHiggsId || abs(ParticleId) == CpvHiggsId) {
+//             MotherId = ParticleId;
+//         }
+// 
+//         Print(4, "Mother Id", MotherId);
+// 
+//         if (MotherPosition > ClonesArrays->ParticleSum()) {
+// 
+//             Print(0, "Faulty eMotherPositionvent");
+//             continue;
+// 
+//         }
+//         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(MotherPosition);
+//         ParticleId = ParticleClone->PID;
+//         MotherPosition = ParticleClone->M1;
+// 
+//         if (ParticleClone->M2 != -1) {
+// 
+//             Print(0, "M2", ParticleClone->M2);
+// 
+//         }
+// 
+//     }
+// 
+//     if (MotherId == EmptyId)
+//         Print(0, "Mother Id", MotherId);
+// 
+//     return MotherId;
+// 
+// }
+
+
+
+
+
+
+
+
+
+PseudoJet HJetDelphes::GetConstituents(const Jet *const JetClone) const
 {
 
     Print(2, "Get Constituents");
 
     vector<PseudoJet> ConstituentsVector;
 
-    for (int ConstituentNumber = 0; ConstituentNumber < JetClone.Constituents.GetEntriesFast(); ++ConstituentNumber) {
+    for (int ConstituentNumber = 0; ConstituentNumber < JetClone->Constituents.GetEntriesFast(); ++ConstituentNumber) {
 
-        const TObject *Object = JetClone.Constituents.At(ConstituentNumber);
+        const TObject *const Object = JetClone->Constituents.At(ConstituentNumber);
 
         if (Object == 0) continue;
-        
-        ConstituentsVector.push_back(GetConstituentJet(*Object));
+
+        ConstituentsVector.push_back(GetConstituentJet(Object));
 
     }
 
@@ -220,10 +290,10 @@ bool HJetDelphes::GetEFlow(bool Tagging, bool Isolation)
 {
     Print(2, "Get EFlow");
 
-    if (ClonesArrays->EFlowTrackClonesArray) GetTrackEFlow(Tagging,Isolation);
-    if (ClonesArrays->EFlowPhotonClonesArray) GetPhotonEFlow(Tagging,Isolation);
-    if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(Tagging,Isolation);
-    if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(Tagging,Isolation);
+    if (ClonesArrays->EFlowTrackClonesArray) GetTrackEFlow(Tagging, Isolation);
+    if (ClonesArrays->EFlowPhotonClonesArray) GetPhotonEFlow(Tagging, Isolation);
+    if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(Tagging, Isolation);
+    if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(Tagging, Isolation);
 
     Print(3, "Number of EFlow Jet", EFlowJetVector.size());
 
@@ -240,22 +310,22 @@ void HJetDelphes::GetTrackEFlow(bool Tagging, bool Isolation)
     if (ClonesArrays->EFlowTrackSum() > 0) Print(3, "Number of E Flow Tracks", ClonesArrays->EFlowTrackSum());
     for (int EFlowTrackNumber = 0; EFlowTrackNumber < ClonesArrays->EFlowTrackSum() ; ++EFlowTrackNumber) {
 
-        const Track *EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
+        const Track *const EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
 
         if (Isolation) {
 
-            bool Isolated = GetIsolation<Electron>(*EFlowTrackClone, *ClonesArrays->ElectronClonesArray);
-            if (Isolated) Isolated = GetIsolation<Muon>(*EFlowTrackClone, *ClonesArrays->MuonClonesArray);
+            bool Isolated = GetIsolation<Electron>(EFlowTrackClone, ClonesArrays->ElectronClonesArray);
+            if (Isolated) Isolated = GetIsolation<Muon>(EFlowTrackClone, ClonesArrays->MuonClonesArray);
             if (!Isolated) continue;
 
         }
 
-        EFlowJetVector.push_back(GetPseudoJet(const_cast<Track*>(EFlowTrackClone)->P4()));
+        EFlowJetVector.push_back(GetPseudoJet(const_cast<Track *>(EFlowTrackClone)->P4()));
         const TObject *Object = EFlowTrackClone->Particle.GetObject();
 
         if (Tagging) {
 
-            EFlowJetVector.back().set_user_index(GetMotherId(*Object));
+            EFlowJetVector.back().set_user_index(GetMotherId(Object));
             Print(4, "EFlow Id", EFlowJetVector.back().user_index());
 
         }
@@ -272,16 +342,16 @@ void HJetDelphes::GetPhotonEFlow(bool Tagging, bool Isolation)
     if (ClonesArrays->PhotonSum() > 0) Print(3, "Number of Photons", ClonesArrays->PhotonSum());
     for (int EFlowPhotonNumber = 0; EFlowPhotonNumber < ClonesArrays->EFlowPhotonSum() ; ++EFlowPhotonNumber) {
 
-        const Tower *EFlowPhotonClone = (Tower *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
+        const Tower *const EFlowPhotonClone = (Tower *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
 
         if (Isolation) {
 
-            bool Isolated = GetIsolation<Photon>(*EFlowPhotonClone, *ClonesArrays->PhotonClonesArray);
+            bool Isolated = GetIsolation<Photon>(EFlowPhotonClone, ClonesArrays->PhotonClonesArray);
             if (!Isolated) continue;
 
         }
 
-        EFlowJetVector.push_back(GetPseudoJet(const_cast<Tower*>(EFlowPhotonClone)->P4()));
+        EFlowJetVector.push_back(GetPseudoJet(const_cast<Tower *>(EFlowPhotonClone)->P4()));
 
         if (Tagging) {
 
@@ -301,9 +371,9 @@ void HJetDelphes::GetHadronEFlow(bool Tagging, bool Isolation)
     if (ClonesArrays->EFlowNeutralHadronSum() > 0) Print(3, "Number of EF Neut Had", ClonesArrays->EFlowNeutralHadronSum());
     for (int HadronNumber = 0; HadronNumber < ClonesArrays->EFlowNeutralHadronSum(); ++HadronNumber) {
 
-        const Tower *HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
+        const Tower *const HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
 
-        EFlowJetVector.push_back(GetPseudoJet(const_cast<Tower*>(HadronClone)->P4()));
+        EFlowJetVector.push_back(GetPseudoJet(const_cast<Tower *>(HadronClone)->P4()));
         if (Tagging) {
 
             EFlowJetVector.back().set_user_info(new HJetInfo(GetJetId(HadronClone)));
@@ -323,19 +393,19 @@ void HJetDelphes::GetMuonEFlow(bool Tagging, bool Isolation)
 
     for (int MuonNumber = 0; MuonNumber < ClonesArrays->EFlowMuonSum(); ++MuonNumber) {
 
-        const Muon *EFlowMuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
+        const Muon *const EFlowMuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
 
         if (Isolation) {
 
-            bool Isolated = GetIsolation<Muon>(*EFlowMuonClone, *ClonesArrays->MuonClonesArray);
+            bool Isolated = GetIsolation<Muon>(EFlowMuonClone, ClonesArrays->MuonClonesArray);
             if (!Isolated) continue;
 
         }
 
-        EFlowJetVector.push_back(GetPseudoJet(const_cast<Muon*>(EFlowMuonClone)->P4()));
-        const TObject* Object = EFlowMuonClone->Particle.GetObject();
+        EFlowJetVector.push_back(GetPseudoJet(const_cast<Muon *>(EFlowMuonClone)->P4()));
+        const TObject *Object = EFlowMuonClone->Particle.GetObject();
         if (Tagging) {
-            EFlowJetVector.back().set_user_index(GetMotherId(*Object));
+            EFlowJetVector.back().set_user_index(GetMotherId(Object));
             Print(4, "EFlow Id", EFlowJetVector.back().user_index());
         }
 
@@ -352,9 +422,9 @@ void HJetDelphes::GetGenJet()
     Print(3, "Number of GenJets",  ClonesArrays->GenJetSum());
     for (int GenJetNumber = 0; GenJetNumber <  ClonesArrays->GenJetSum(); ++GenJetNumber) {
 
-        const Jet *GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
+        const Jet *const GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
 
-        GenJetVector.push_back(GetPseudoJet(const_cast<Jet*>(GenJetClone)->P4()));
+        GenJetVector.push_back(GetPseudoJet(const_cast<Jet *>(GenJetClone)->P4()));
 
     }
 

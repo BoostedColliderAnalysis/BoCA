@@ -41,7 +41,7 @@ void HReconstruction::GetFatJetVector(const vector<PseudoJet>& EFlowJetVector, c
 
   Print(2, "Get Fat Jet Vector");
 
-  fastjet::ClusterSequence *FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJetVector, FatJetDefinition);
+  fastjet::ClusterSequence * const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJetVector, FatJetDefinition);
 
   // FatJetPtMin = Jing: 40; fastjet: 0
   const float FatJetPtMin = 0;

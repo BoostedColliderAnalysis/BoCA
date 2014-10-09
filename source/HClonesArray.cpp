@@ -54,68 +54,68 @@ void HClonesArray::ResetBranches()
     Print(1,"Branches reset");
 }
 
-void HClonesArrayDelphes::UseBranches(ExRootTreeReader *TreeReader)
+void HClonesArrayDelphes::UseBranches(const ExRootTreeReader * const TreeReader)
 {
     
     Print(1, "Use Branches");
     
-    ParticleClonesArray = TreeReader->UseBranch("Particle");
-    PhotonClonesArray = TreeReader->UseBranch("Photon");
-    ElectronClonesArray = TreeReader->UseBranch("Electron");
-    MuonClonesArray = TreeReader->UseBranch("Muon");
-    JetClonesArray = TreeReader->UseBranch("Jet");
-    MissingEtClonesArray = TreeReader->UseBranch("MissingET");
-    TrackClonesArray = TreeReader->UseBranch("Track");
-    TowerClonesArray = TreeReader->UseBranch("Tower");
-    EFlowTrackClonesArray = TreeReader->UseBranch("EFlowTrack");
-    EFlowPhotonClonesArray = TreeReader->UseBranch("EFlowPhoton");
-    EFlowNeutralHadronClonesArray = TreeReader->UseBranch("EFlowNeutralHadron");
-//     EFlowMuonClonesArray = TreeReader->UseBranch("EFlowMuon");
-    GenJetClonesArray = TreeReader->UseBranch("GenJet");
-    ScalarHtClonesArray = TreeReader->UseBranch("ScalarHT");
+    ParticleClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Particle");
+    PhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Photon");
+    ElectronClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Electron");
+    MuonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Muon");
+    JetClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Jet");
+    MissingEtClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("MissingET");
+    TrackClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Track");
+    TowerClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Tower");
+    EFlowTrackClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowTrack");
+    EFlowPhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowPhoton");
+    EFlowNeutralHadronClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowNeutralHadron");
+//     EFlowMuonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowMuon");
+    GenJetClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("GenJet");
+    ScalarHtClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("ScalarHT");
     
 }
 
-void HClonesArraySnowmass::UseBranches(ExRootTreeReader *TreeReader)
+void HClonesArraySnowmass::UseBranches(const ExRootTreeReader *const TreeReader)
 {
     
     Print(1, "Use Branches");
     
-    ParticleClonesArray = TreeReader->UseBranch("Particle");
-    PhotonClonesArray = TreeReader->UseBranch("Photon");
-    ElectronClonesArray = TreeReader->UseBranch("Electron");
-    MuonClonesArray = TreeReader->UseBranch("Muon");
-    JetClonesArray = TreeReader->UseBranch("Jet");
-    MissingEtClonesArray = TreeReader->UseBranch("MissingET");
-    EFlowTrackClonesArray = TreeReader->UseBranch("EFlowTrack");
-    EFlowPhotonClonesArray = TreeReader->UseBranch("EFlowPhoton");
-    EFlowNeutralHadronClonesArray = TreeReader->UseBranch("EFlowNeutralHadron");
+    ParticleClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Particle");
+    PhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Photon");
+    ElectronClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Electron");
+    MuonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Muon");
+    JetClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Jet");
+    MissingEtClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("MissingET");
+    EFlowTrackClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowTrack");
+    EFlowPhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowPhoton");
+    EFlowNeutralHadronClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowNeutralHadron");
     Print(2,"We have EFlow Branches");
-    EFlowMuonClonesArray = TreeReader->UseBranch("EFlowMuon");
-    GenJetClonesArray = TreeReader->UseBranch("GenJet");
-    ScalarHtClonesArray = TreeReader->UseBranch("ScalarHT");
+    EFlowMuonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("EFlowMuon");
+    GenJetClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("GenJet");
+    ScalarHtClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("ScalarHT");
     
 }
 
-void HClonesArrayPgs::UseBranches(ExRootTreeReader *TreeReader)
+void HClonesArrayPgs::UseBranches(const ExRootTreeReader * const TreeReader)
 {
     
     Print(1, "Use Branches");
         
-    PhotonClonesArray = TreeReader->UseBranch("Photon");
-    ElectronClonesArray = TreeReader->UseBranch("Electron");
-    MuonClonesArray = TreeReader->UseBranch("Muon");
-    JetClonesArray = TreeReader->UseBranch("Jet");
-    MissingEtClonesArray = TreeReader->UseBranch("MissingET");   
-    TauClonesArray = TreeReader->UseBranch("Tau");
+    PhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Photon");
+    ElectronClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Electron");
+    MuonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Muon");
+    JetClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Jet");
+    MissingEtClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("MissingET");   
+    TauClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Tau");
     
 }
 
-void HClonesArrayParton::UseBranches(ExRootTreeReader *TreeReader)
+void HClonesArrayParton::UseBranches(const ExRootTreeReader * const TreeReader)
 {
     
     Print(1, "Use Branches");
 
-    ParticleClonesArray = TreeReader->UseBranch("Particle");
+    ParticleClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Particle");
     
 }

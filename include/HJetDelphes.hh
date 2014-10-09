@@ -53,7 +53,7 @@ public:
      *
      * @return void
      */
-    void GetTau(const Jet&);
+    void GetTau(const Jet*const);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -105,7 +105,7 @@ private:
 
             const GenParticle *ParticleClone = (GenParticle *) Object;
 
-            JetInfo.AddConstituent(GetMotherId(*Object), ParticleClone->PT);
+            JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
 
         }
 
@@ -117,13 +117,13 @@ private:
 
 
     template<typename ParticleTemplate,typename EFlowTemplate>
-    bool GetIsolation(const EFlowTemplate &EFlowClone,const TClonesArray &ClonesArray) const {
+    bool GetIsolation(const EFlowTemplate * const EFlowClone,const TClonesArray * const ClonesArray) const {
 
         bool Isolated = true;
 
-        for (int ParticleNumber = 0; ParticleNumber < ClonesArray.GetEntriesFast(); ++ParticleNumber) {
+        for (int ParticleNumber = 0; ParticleNumber < ClonesArray->GetEntriesFast(); ++ParticleNumber) {
 
-            ParticleTemplate *ParticleClone = (ParticleTemplate *) ClonesArray.At(ParticleNumber);
+            ParticleTemplate *ParticleClone = (ParticleTemplate *) ClonesArray->At(ParticleNumber);
             Isolated = CheckIsolation(EFlowClone, ParticleClone);
 
         }
@@ -132,9 +132,11 @@ private:
     }
 
 
-    int GetMotherId(const TObject&) const;
+    int GetMotherId(const TObject * const) const;
+    
+    int GetMotherId(const GenParticle * const) const;
 
-    void GetDelphesTags(const Jet&);
+    void GetDelphesTags(const Jet *const);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -150,7 +152,7 @@ private:
 
     void GetMuonEFlow(bool,bool);
 
-    PseudoJet GetConstituents(const Jet&) const;
+    PseudoJet GetConstituents(const Jet * const) const;
 
     string ClassName() const {
 

@@ -31,19 +31,8 @@ void HAnalysisHeavyHiggsDelphes::SetFileVector()
     Print(1, "Fill Analysis Vector", AnalysisName);
 
 
-//     if (AnalysisName != "Signal") {
-
     FileVector.push_back(new HFileFolder("BG_ttbb"));
-
-//     }
-
     FileVector.push_back(new HFileFolder("hcpbb_ttbb"));
-//     FileVector.push_back(new HFileFolder("500GeV"));
-//     FileVector.push_back(new HFileFolder("600GeV"));
-//     FileVector.push_back(new HFileFolder("700GeV"));
-//     FileVector.push_back(new HFileFolder("800GeV"));
-//     FileVector.push_back(new HFileFolder("900GeV"));
-//     FileVector.push_back(new HFileFolder("1000GeV"));
 
     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";

@@ -24,7 +24,7 @@ HEventPgs::~HEventPgs()
 
 }
 
-void HEventPgs::NewEvent(HClonesArray *ClonesArrays)
+void HEventPgs::NewEvent(const HClonesArray * const ClonesArrays)
 {
 
     Print(2, "New Event");

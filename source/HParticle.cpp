@@ -16,7 +16,7 @@ HParticle::~HParticle()
 
 }
 
-void HParticle::NewEvent(HClonesArray *NewClonesArrays){
+void HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
     
     Print(2,"New Event");
     

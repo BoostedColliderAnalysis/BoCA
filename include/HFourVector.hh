@@ -16,21 +16,21 @@ public:
 
 
 protected:
-    
+
     /**
      * @brief Get a PseudoJet from a TLorentzVector
      *
      * @param  TLorentzVector
      * @return fastjet::PseudoJet
      */
-    PseudoJet GetPseudoJet(const TLorentzVector&) const;
-    
-    TLorentzVector GetConstituent(const TObject&) const;
-    
-    PseudoJet GetConstituentJet(const TObject&) const;
+    PseudoJet GetPseudoJet(const TLorentzVector &) const;
+
+    TLorentzVector GetConstituent(const TObject *const) const;
+
+    PseudoJet GetConstituentJet(const TObject *const) const;
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByEnergy(const Template *Particle) {
+    TLorentzVector GetLorentzVectorByEnergy(const Template *const Particle) const {
 
         Print(3, "Get Lorentz Vector by Energy");
 
@@ -57,7 +57,7 @@ protected:
     }
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByMass(const Template *Particle, float Mass) {
+    TLorentzVector GetLorentzVectorByMass(const Template *const Particle, float Mass) const {
 
         Print(3, "Get Lorentz Vector by Mass");
 
@@ -82,7 +82,7 @@ protected:
     }
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByMass(const Template *Particle) {
+    TLorentzVector GetLorentzVectorByMass(const Template *const Particle) const {
 
         Print(3, "Get Lorentz Vector by Mass");
 
@@ -101,7 +101,7 @@ protected:
     }
 
     template<typename Template>
-    TLorentzVector GetLorentzVectorByM(const Template *Particle) {
+    TLorentzVector GetLorentzVectorByM(const Template *const Particle) const {
 
         Print(3, "Get Lorentz Vector by Mass");
 
@@ -123,7 +123,7 @@ protected:
 
 
     template<typename Template>
-    PseudoJet GetPseudoJetByEnergy(const Template *Particle, float Energy) {
+    PseudoJet GetPseudoJetByEnergy(const Template *const Particle, float Energy) const {
 
         Print(3, "Get Pseudo Jet by Energy");
 
@@ -147,7 +147,7 @@ protected:
 
 
     template<typename Template>
-    PseudoJet GetPseudoJetByEnergy(const Template *Particle) {
+    PseudoJet GetPseudoJetByEnergy(const Template *const Particle) const {
 
         Print(3, "Get Pseudo Jet by Energy");
 
@@ -160,7 +160,7 @@ protected:
     }
 
     template<typename Template>
-    PseudoJet GetPseudoJetByMass(const Template *Particle, float Mass) {
+    PseudoJet GetPseudoJetByMass(const Template *const Particle, float Mass) const {
 
         Print(3, "Get Pseudo Jet by Mass");
 
@@ -182,7 +182,7 @@ protected:
     }
 
     template<typename Template>
-    PseudoJet GetPseudoJetByMass(const Template *Particle) {
+    PseudoJet GetPseudoJetByMass(const Template *const Particle) const {
 
         Print(3, "Get Pseudo Jet by Mass");
 
@@ -201,7 +201,7 @@ protected:
     }
 
     template<typename Template>
-    PseudoJet GetPseudoJetByM(const Template *Particle) {
+    PseudoJet GetPseudoJetByM(const Template *const Particle) const {
 
         Print(3, "Get Pseudo Jet By Mass");
 
@@ -219,37 +219,37 @@ protected:
 
     }
 
-    TLorentzVector GetLorentzVector(TRootElectron *);
+    TLorentzVector GetLorentzVector(const TRootElectron *const) const;
 
-    TLorentzVector GetLorentzVector(TRootGenJet *);
+    TLorentzVector GetLorentzVector(const TRootGenJet *const) const;
 
-    TLorentzVector GetLorentzVector(TRootGenParticle *);
+    TLorentzVector GetLorentzVector(const TRootGenParticle *const) const;
 
-    TLorentzVector GetLorentzVector(TRootJet *);
+    TLorentzVector GetLorentzVector(const TRootJet *const) const;
 
-    TLorentzVector GetLorentzVector(TRootLHEFParticle *);
+    TLorentzVector GetLorentzVector(const TRootLHEFParticle *const) const;
 
-    TLorentzVector GetLorentzVector(TRootMuon *);
+    TLorentzVector GetLorentzVector(const TRootMuon *const) const;
 
-    TLorentzVector GetLorentzVector(TRootPhoton *);
+    TLorentzVector GetLorentzVector(const TRootPhoton *const) const;
 
-    TLorentzVector GetLorentzVector(TRootTau *);
+    TLorentzVector GetLorentzVector(const TRootTau *const) const;
 
-    PseudoJet GetPseudoJet(TRootElectron *);
+    PseudoJet GetPseudoJet(const TRootElectron *const) const;
 
-    PseudoJet GetPseudoJet(TRootGenJet *);
+    PseudoJet GetPseudoJet(const TRootGenJet *const) const;
 
-    PseudoJet GetPseudoJet(TRootGenParticle *);
+    PseudoJet GetPseudoJet(const TRootGenParticle *const) const;
 
-    PseudoJet GetPseudoJet(TRootJet *);
+    PseudoJet GetPseudoJet(const TRootJet *const) const;
 
-    PseudoJet GetPseudoJet(TRootLHEFParticle *);
+    PseudoJet GetPseudoJet(const TRootLHEFParticle *const) const;
 
-    PseudoJet GetPseudoJet(TRootMuon *);
+    PseudoJet GetPseudoJet(const TRootMuon *const) const;
 
-    PseudoJet GetPseudoJet(TRootPhoton *);
+    PseudoJet GetPseudoJet(const TRootPhoton *const) const;
 
-    PseudoJet GetPseudoJet(TRootTau *);
+    PseudoJet GetPseudoJet(const TRootTau *const) const;
 
     const bool CheckFourVectors;
 
@@ -260,9 +260,9 @@ protected:
 private:
 
     virtual string ClassName() const {
-        
+
         return ("HFourVector");
-        
+
     };
 
 };

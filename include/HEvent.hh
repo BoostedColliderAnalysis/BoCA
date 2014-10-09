@@ -34,7 +34,7 @@ public:
     
     virtual void CloseFile(){};
     
-    virtual void NewEvent(HClonesArray *) = 0;
+    virtual void NewEvent(const HClonesArray * const) = 0;
     
     virtual void GetParticles(){};
 

@@ -16,7 +16,7 @@ HLepton::~HLepton()
 
 }
 
-void HLepton::NewEvent(HClonesArray *NewClonesArray)
+void HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 {
 
     Print(2,"New Event");

@@ -170,3 +170,30 @@ void HHeavyHiggsBranch::reset()
 //     TopInvMass = InitialValue;
 
 }
+
+ClassImp(HJetPropertiesBranch)
+
+HJetPropertiesBranch::HJetPropertiesBranch()
+{
+    
+    reset();
+    
+}
+
+HJetPropertiesBranch::~HJetPropertiesBranch() {}
+
+void HJetPropertiesBranch::reset()
+{
+    
+    int InitialValue = -10;
+    
+    Mass = InitialValue;
+    Pt = InitialValue;
+    
+    Eta = InitialValue;
+    Phi = InitialValue;
+    Radius = InitialValue;
+    JetPtSum = InitialValue;
+    PtSum = InitialValue;
+    
+}

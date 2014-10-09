@@ -17,7 +17,7 @@ HObject::HObject() :
     UpDown1Id(2103),
     UpDown0Id(2101),
     DownDown1Id(1103),
-    HeavyHiggsId(26),
+    HeavyHiggsId(35),
     GluonId(21),
     TopId(6),
     BottomId(5),
