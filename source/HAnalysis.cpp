@@ -32,18 +32,18 @@ void HAnalysis::AnalysisLoop()
 
     int StudySum = StudyNameVector.size();
 
-    for (int StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
+    for (auto& StudyNameA : StudyNameVector) {
 
-        StudyName = StudyNameVector[StudyNumber];
+        StudyName = StudyNameA;
         Print(1, "Analysing Mva Sample", StudyName);
 
         NewStudy();
 
-        int FileSum = FileVector.size();
-        for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
+//         int FileSum = FileVector.size();
+        for (auto& File : FileVector) {
 
             Print(1, "Analysing File", FileNumber + 1);
-            NewFileBase();
+            NewFileBase(File);
 
             ExRootProgressBar ProgressBar(EventSum);
 
@@ -63,7 +63,7 @@ void HAnalysis::AnalysisLoop()
             if (DebugLevel > 0) cout << endl;
 
         }
-        Print(1, "All Files analysed", FileSum);
+//         Print(1, "All Files analysed", FileSum);
 
         DeleteStudy();
 
@@ -76,7 +76,7 @@ void HAnalysis::AnalysisLoop()
 void HAnalysis::NewStudy()
 {
 
-    Print(1, "New Mva", StudyName);
+//     Print(1, "New Mva", StudyName);
 
     EmptyFileVector();
     SetFileVector();
@@ -121,14 +121,14 @@ void HAnalysis::NewStudy()
 }
 
 
-void HAnalysis::NewFileBase()
+void HAnalysis::NewFileBase(const HFile * File)
 {
     Print(1, "New File Base");
 
     AnalysisNotEmpty = 0;
 
     // Export tree
-    TString ExportTreeName = FileVector[FileNumber]->Title();
+    TString ExportTreeName = File->Title();
     Print(1, "ExportTreeName", ExportTreeName);
     TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
 
@@ -139,12 +139,12 @@ void HAnalysis::NewFileBase()
     InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
     // Import file
-    TString ImportPath = FileVector[FileNumber]->GetFilePath();
+    TString ImportPath = File->GetFilePath();
     ImportFile = new TFile(ImportPath);
     Print(1, "File", ImportPath);
 
     // Import tree
-    TString ImportTreeName = FileVector[FileNumber]->GetTreeName();
+    TString ImportTreeName = File->GetTreeName();
     ImportTree = (TTree *)ImportFile->Get(ImportTreeName);
     Print(1, "Tree", ImportTreeName);
 
@@ -233,12 +233,12 @@ HAnalysis::~HAnalysis()
 void HAnalysis::EmptyFileVector()
 {
 
-    int PathSum = FileVector.size();
-    for (int PathNumber = 0; PathNumber < PathSum; ++PathNumber) {
+  for (auto& File : FileVector) {
 
-        delete FileVector[PathNumber];
+        delete File;
 
     }
+
     FileVector.clear();
 
 }

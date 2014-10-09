@@ -9,7 +9,7 @@ HFile::HFile()
 
 }
 
-HFile::HFile(TString Process)
+HFile::HFile(const string Process)
 {
 
     Print(1, "Constructor");
@@ -18,11 +18,9 @@ HFile::HFile(TString Process)
 
     ProcessFolder = Process;
 
-//     Title = Process;
-
 }
 
-HFile::HFile(TString Process, TString Run)
+HFile::HFile(const string Process, const string Run)
 {
 
     Print(1, "Constructor");
@@ -33,20 +31,17 @@ HFile::HFile(TString Process, TString Run)
 
     RunFolder = Run;
 
-//     Title = Process;
-
-
 }
 
-TString HFile::Title(){
+string HFile::Title() const {
 
     return RunFolder;
 
 }
 
-TString HFile::MadGraphFilePath() {
+string HFile::MadGraphFilePath() const {
 
-    return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
+    return string(TString(BasePath) + TString(ProcessFolder) + TString("/Events/") + TString(RunFolder) + TString("/"));
 
 }
 
@@ -55,7 +50,7 @@ TString HFile::BasePath = "$HOME/Development/MadGraph/";
 
 TString HFile::FileSuffix = "_delphes_events.root";
 
-TString HFile::TreeString = "Delphes";
+string HFile::TreeString = "Delphes";
 
 bool HFile::Snowmass = 0;
 
@@ -88,7 +83,7 @@ HFile::~HFile()
 
 }
 
-TString HFileParton::GetTreeName()
+string HFileParton::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -99,20 +94,18 @@ TString HFileParton::GetTreeName()
 
 }
 
-TString HFileParton::GetFilePath()
+string HFileParton::GetFilePath() const
 {
 
     Print(2, "FilePath");
 
     FileSuffix = "_unweighted_events.root";
 
-    TString PartonFilePath = MadGraphFilePath() + TagString +  FileSuffix;
-
-    return (PartonFilePath);
+    return string(MadGraphFilePath() + TagString +  FileSuffix);
 
 }
 
-TString HFilePgs::GetTreeName()
+string HFilePgs::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -123,63 +116,52 @@ TString HFilePgs::GetTreeName()
 
 }
 
-TString HFilePgs::GetFilePath()
+string HFilePgs::GetFilePath() const
 {
 
     Print(2, "FilePath");
 
     FileSuffix = "_pgs_events.root";
 
-    TString PgsFilePath = MadGraphFilePath() + TagString +  FileSuffix;
-
-    return PgsFilePath;
+    return string(MadGraphFilePath() + TagString +  FileSuffix);
 
 }
 
-TString HFileDelphes::GetTreeName()
+string HFileDelphes::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
 
-    TreeString = "Delphes";
-
-    return TreeString;
+    return "Delphes";
 
 }
 
-TString HFileDelphes::GetFilePath()
+string HFileDelphes::GetFilePath() const
 {
 
     Print(2, "FilePath");
 
     FileSuffix = "_delphes_events.root";
 
-    TString DelphesFilePath = MadGraphFilePath() + TagString +  FileSuffix;
-
-    return (DelphesFilePath);
+    return string(MadGraphFilePath() + TagString +  FileSuffix);
 
 }
 
-TString HFileFolder::GetTreeName()
+string HFileFolder::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
 
     return TreeString;
-
 }
 
 
 
-TString HFileFolder::GetFilePath()
+string HFileFolder::GetFilePath() const
 {
 
     Print(2, "FilePath");
 
-    TString FlatFilePath = BasePath + ProcessFolder + FileSuffix;
-
-//     Title = ProcessFolder;
-
-    return FlatFilePath;
+    return string(BasePath + ProcessFolder + FileSuffix);
 
 }

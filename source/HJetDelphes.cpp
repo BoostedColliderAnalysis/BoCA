@@ -121,87 +121,31 @@ void HJetDelphes::GetTau(const Jet *const JetClone)
 
 }
 
-int HJetDelphes::GetMotherId(const TObject *const Object) const
-{
-
-    Print(2, "Get Mother Id", ClonesArrays->ParticleSum());
-
-
-    if (Object->IsA() != GenParticle::Class()) {
-
-        Print(0, "it is", Object->ClassName());
-        return 0;
-
-    }
-
-    GenParticle *ParticleClone = (GenParticle *) Object;
-    int MotherPosition = 0;
-
-    int MotherId = EmptyId;
-
-    while (MotherPosition != -1) {
-
-        const int ParticleId = ParticleClone->PID;
-        MotherPosition = ParticleClone->M1;
-        Print(3, "Particle Id", ParticleClone->PID);
-        Print(4, "Particle M1", MotherPosition);
-
-        if (
-            (abs(ParticleId) == GluonId || abs(ParticleId) == UpId || abs(ParticleId) == DownId || abs(ParticleId) == StrangeId || abs(ParticleId) == CharmId || abs(ParticleId) == UpDown0Id || abs(ParticleId) == UpDown1Id || abs(ParticleId) == UpUp1Id || abs(ParticleId) == DownDown1Id)
-            && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId && abs(MotherId) != BottomId)) {
-            MotherId = IsrId;
-        } else if (abs(ParticleId) == BottomId
-                   && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId)) {
-            MotherId = ParticleId;
-        } else if (abs(ParticleId) == TopId && abs(MotherId) != HeavyHiggsId) {
-            MotherId = ParticleId;
-        } else if (abs(ParticleId) == HeavyHiggsId || abs(ParticleId) == CpvHiggsId) {
-            MotherId = ParticleId;
-        }
-
-        Print(4, "Mother Id", MotherId);
-
-        if (MotherPosition > ClonesArrays->ParticleSum()) {
-
-            Print(0, "Faulty eMotherPositionvent");
-            continue;
-
-        }
-        ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(MotherPosition);
-
-//         if (ParticleClone->M2 != -1) {
-// 
-//             Print(0, "M2", ParticleClone->M2);
-// 
-//         }
-
-    }
-
-    if (MotherId == EmptyId)
-        Print(0, "Mother Id", MotherId);
-
-    return MotherId;
-
-}
-
-
-
-// int HJetDelphes::GetMotherId(const GenParticle *const ParticleClone) const
+// int HJetDelphes::GetMotherId(const TObject *const Object) const
 // {
-// 
+//
 //     Print(2, "Get Mother Id", ClonesArrays->ParticleSum());
-// 
-// 
-// 
+//
+//
+//     if (Object->IsA() != GenParticle::Class()) {
+//
+//         Print(0, "it is", Object->ClassName());
+//         return 0;
+//
+//     }
+//
+//     GenParticle *ParticleClone = (GenParticle *) Object;
+//     int MotherPosition = 0;
+//
 //     int MotherId = EmptyId;
-//     int ParticleId = ParticleClone->PID;
-//     int MotherPosition = ParticleClone->M1;
-//     Print(4, "Particle M1", MotherPosition);
-// 
+//
 //     while (MotherPosition != -1) {
-// 
+//
+//         const int ParticleId = ParticleClone->PID;
+//         MotherPosition = ParticleClone->M1;
 //         Print(3, "Particle Id", ParticleClone->PID);
-// 
+//         Print(4, "Particle M1", MotherPosition);
+//
 //         if (
 //             (abs(ParticleId) == GluonId || abs(ParticleId) == UpId || abs(ParticleId) == DownId || abs(ParticleId) == StrangeId || abs(ParticleId) == CharmId || abs(ParticleId) == UpDown0Id || abs(ParticleId) == UpDown1Id || abs(ParticleId) == UpUp1Id || abs(ParticleId) == DownDown1Id)
 //             && (abs(MotherId) != TopId && abs(MotherId) != CpvHiggsId && abs(MotherId) != HeavyHiggsId && abs(MotherId) != BottomId)) {
@@ -214,37 +158,161 @@ int HJetDelphes::GetMotherId(const TObject *const Object) const
 //         } else if (abs(ParticleId) == HeavyHiggsId || abs(ParticleId) == CpvHiggsId) {
 //             MotherId = ParticleId;
 //         }
-// 
+//
 //         Print(4, "Mother Id", MotherId);
-// 
+//
 //         if (MotherPosition > ClonesArrays->ParticleSum()) {
-// 
+//
 //             Print(0, "Faulty eMotherPositionvent");
 //             continue;
-// 
+//
 //         }
 //         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(MotherPosition);
-//         ParticleId = ParticleClone->PID;
-//         MotherPosition = ParticleClone->M1;
-// 
-//         if (ParticleClone->M2 != -1) {
-// 
-//             Print(0, "M2", ParticleClone->M2);
-// 
-//         }
-// 
+//
+// //         if (ParticleClone->M2 != -1) {
+// //
+// //             Print(0, "M2", ParticleClone->M2);
+// //
+// //         }
+//
 //     }
-// 
+//
 //     if (MotherId == EmptyId)
 //         Print(0, "Mother Id", MotherId);
-// 
+//
 //     return MotherId;
-// 
+//
 // }
 
+int HJetDelphes::GetMotherId(const TObject *const Object)
+{
+
+    Print(2, "Get Mother Id", ClonesArrays->ParticleSum());
+
+    if (Object->IsA() != GenParticle::Class()) {
+
+        Print(0, "Object is", Object->ClassName());
+        return 0;
+
+    }
+
+    GenParticle *ParticleClone = (GenParticle *) Object;
+
+    int BranchId = EmptyId;
+    const int MotherId = GetMotherId(ParticleClone,BranchId);
+
+    if (MotherId == EmptyId)
+        Print(0, "Mother Id", MotherId);
+
+    return MotherId;
+
+}
 
 
 
+int HJetDelphes::GetMotherId(GenParticle *ParticleClone,int BranchId)
+{
+
+    do {
+
+        const int ParticleId = ParticleClone->PID;
+        Print(3, "Particle Id", ParticleClone->PID);
+
+        BranchId = GetBranchId(ParticleId,BranchId);
+
+        if (ParticleClone->M2 != -1) {
+
+            Print(0, "M2", ParticleClone->M2);
+            ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->M2);
+            BranchId = GetMotherId(ParticleClone,BranchId);
+
+        }
+
+        Print(4, "Particle M1", ParticleClone->M1);
+
+
+        if (ParticleClone->M1 > ClonesArrays->ParticleSum()) {
+
+            Print(0, "Faulty eMotherPositionvent");
+            continue;
+
+        }
+
+        ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->M1);
+
+    }  while (ParticleClone->M1 != -1);
+
+    return BranchId;
+
+}
+
+
+
+// int HJetDelphes::GetBranchId(const int ParticleId, int BranchId)
+// {
+//
+//     Print(2, "Get Mother Id");
+//
+//     if (
+//         (abs(ParticleId) == GluonId || abs(ParticleId) == UpId || abs(ParticleId) == DownId || abs(ParticleId) == StrangeId || abs(ParticleId) == CharmId || abs(ParticleId) == UpDown0Id || abs(ParticleId) == UpDown1Id || abs(ParticleId) == UpUp1Id || abs(ParticleId) == DownDown1Id)
+//         && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId && abs(BranchId) != BottomId)) {
+//         BranchId = IsrId;
+//     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+//         BranchId = ParticleId;
+//     } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+//         BranchId = ParticleId;
+//     }
+//
+//     Print(4, "Mother Id", BranchId);
+//
+//
+//     return BranchId;
+// }
+
+// int HJetDelphes::GetBranchId(const int ParticleId, int BranchId)
+// {
+//
+//     Print(2, "Get Mother Id");
+//
+//     if (
+//         (abs(ParticleId) == GluonId || abs(ParticleId) == UpId || abs(ParticleId) == DownId || abs(ParticleId) == StrangeId || abs(ParticleId) == CharmId || abs(ParticleId) == UpDown0Id || abs(ParticleId) == UpDown1Id || abs(ParticleId) == UpUp1Id || abs(ParticleId) == DownDown1Id)
+//         && (abs(BranchId) != TopId && abs(BranchId) != HeavyHiggsId && abs(BranchId) != BottomId)) {
+//         BranchId = IsrId;
+//     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != HeavyHiggsId)) {
+//         BranchId = ParticleId;
+//     } else if (abs(ParticleId) == TopId && abs(BranchId) != HeavyHiggsId) {
+//         BranchId = ParticleId;
+//     } else if (abs(ParticleId) == HeavyHiggsId) {
+//         BranchId = ParticleId;
+//     }
+//
+//     Print(4, "Mother Id", BranchId);
+//
+//     return BranchId;
+// }
+
+int HJetDelphes::GetBranchId(const int ParticleId, int BranchId)
+{
+
+    Print(2, "Get Mother Id");
+
+    std::set<int> InitialState = {GluonId,UpId,DownId,StrangeId,CharmId,UpDown0Id,UpDown1Id,UpUp1Id,DownDown1Id};
+    std::set<int> MotherParticle = {BottomId,TopId,HeavyHiggsId};
+
+    if (InitialState.find(ParticleId) != end( InitialState ) && MotherParticle.find(BranchId) == end( MotherParticle ) ) {
+            BranchId = IsrId;
+        } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != HeavyHiggsId)) {
+            BranchId = ParticleId;
+        } else if (abs(ParticleId) == TopId && abs(BranchId) != HeavyHiggsId) {
+            BranchId = ParticleId;
+        } else if (abs(ParticleId) == HeavyHiggsId) {
+            BranchId = ParticleId;
+        }
+
+    Print(4, "Mother Id", BranchId);
+
+    return BranchId;
+}
 
 
 

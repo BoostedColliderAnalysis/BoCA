@@ -59,9 +59,9 @@ void HReconstruction::GetMassDropVector()
 
     Print(2, "Get Mass Drop Jet Vector");
 
-    for (unsigned FatJetNumber = 0; FatJetNumber < FatJetVector.size(); ++FatJetNumber) {
+    for (auto& FatJet : FatJetVector) {
 
-        FatJetVector[FatJetNumber] = GetMassDropJet(FatJetVector[FatJetNumber]);
+        FatJet = GetMassDropJet(FatJet);
 
     }
 
@@ -86,13 +86,13 @@ PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet)
 
 
 
-PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet, float MassDropMin, float AsymmetryCut)
+PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet, const float MassDropMin, const float AsymmetryCut)
 {
 
     Print(3, "Get Mass Drop Jet");
 
-    fastjet::MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
-    PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
+    const fastjet::MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
+    const PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
 
     return MassDropJet;
 
@@ -134,36 +134,24 @@ void HReconstruction::GetFatJetTag()
 
     Print(2, "Get Fat Jet Tag");
 
-    HJetInfo JetInfo;
 
-    for (unsigned FatJetNumber = 0; FatJetNumber < FatJetVector.size(); ++FatJetNumber) {
+    for (auto& FatJet : FatJetVector) {
 
-        Print(2, "Fat Jet", FatJetNumber);
+        const vector<PseudoJet> ConstituentsVector = FatJet.constituents();
+        HJetInfo JetInfo;
 
-        const vector<PseudoJet> ConstituentsVector = FatJetVector[FatJetNumber].constituents();
+        for (auto& Constituent : ConstituentsVector) {
 
-        for (unsigned ConstituentsNumber = 0; ConstituentsNumber < ConstituentsVector.size(); ++ConstituentsNumber) {
-
-            const int ConstituentId = ConstituentsVector[ConstituentsNumber].user_index();
-            const float ConstituentPt = ConstituentsVector[ConstituentsNumber].pt();
-
-            JetInfo.AddConstituent(ConstituentId, ConstituentPt);
+            JetInfo.AddConstituent(Constituent.user_index(), Constituent.pt());
 
         }
 
-        FatJetVector[FatJetNumber].set_user_info(new HJetInfo(JetInfo));
-
-        FatJetVector[FatJetNumber].set_user_index(FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId());
-
+        FatJet.set_user_info(new HJetInfo(JetInfo));
+        FatJet.set_user_index(FatJet.user_info<HJetInfo>().GetMaximalId());
         //         FatJetVector[FatJetNumber].user_info<HJetInfo>().PrintAllInfos();
 
-        Print(4, "Tag", FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalId(), FatJetVector[FatJetNumber].user_info<HJetInfo>().GetMaximalFraction());
-
-        JetInfo.Clear();
+        Print(4, "Tag", FatJet.user_info<HJetInfo>().GetMaximalId(), FatJet.user_info<HJetInfo>().GetMaximalFraction());
 
     }
-
-    //     Print(0, "");
-
 
 }

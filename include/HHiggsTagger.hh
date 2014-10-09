@@ -2,20 +2,8 @@
 # define HHiggsTagger_hh
 
 # include "fastjet/tools/Filter.hh"
-// # include "fastjet/tools/MassDropTagger.hh"
-
-// # include "HPull.hh"
 # include "HReconstruction.hh"
 
-// using fastjet::sorted_by_E;
-// using fastjet::cambridge_algorithm;
-// using fastjet::JetDefinition;
-// using fastjet::ClusterSequence;
-// using fastjet::JetAlgorithm;
-// using fastjet::MassDropTagger;
-// using fastjet::Selector;
-// using fastjet::Filter;
-// using std::vector;
 using std::min;
 using TMath::Pi;
 
@@ -34,7 +22,7 @@ public:
      * @brief dipolarity of the HiggsJet
      *
      */
-    float DiPolarity;
+//     float DiPolarity;
 
     /**
      * @brief Jet tagged as Higgs
@@ -122,7 +110,7 @@ private:
      * @param  NumberHardestPieces
      * @return FilteredJet
      */
-    PseudoJet GetFilteredJet(const PseudoJet&, const fastjet::JetAlgorithm&, int);
+    PseudoJet GetFilteredJet(const PseudoJet&, const fastjet::JetAlgorithm&, const int);
 
     /**
      * @brief Compare subjets with particle quarks
@@ -131,7 +119,7 @@ private:
      * @param  ParticleUserIndex
      * @return void
      */
-    void GetSubJetSource(const vector<PseudoJet>&, int);
+    void GetSubJetSource(const vector<PseudoJet>&, const int);
 
     /**
      * @brief Apply Bottom tagger

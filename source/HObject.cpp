@@ -42,7 +42,7 @@ HObject::~HObject()
 
 }
 
-float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2) const
+float HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2, const float Phi2) const
 {
 
     Print(3, "GetDistance");
@@ -53,7 +53,7 @@ float HObject::GetDistance(float Eta1, float Phi1, float Eta2, float Phi2) const
 
 }
 
-float HObject::GetDistance(float Eta, float Phi) const
+float HObject::GetDistance(const float Eta, const float Phi) const
 {
 
     Print(3, "GetDistance");
@@ -64,7 +64,7 @@ float HObject::GetDistance(float Eta, float Phi) const
 
 }
 
-float HObject::GetDeltaPhi(float Phi, float RefPhi) const
+float HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
 {
 
     Print(4, "GetDeltaPhi");
@@ -96,7 +96,7 @@ float HObject::GetDeltaPhi(float Phi, float RefPhi) const
 
 }
 
-void HObject::Print(int Severity, string Function) const
+void HObject::Print(const int Severity, const string Function) const
 {
 
     if (Severity <= DebugLevel) {
@@ -108,7 +108,7 @@ void HObject::Print(int Severity, string Function) const
 }
 
 
-void HObject::Printer(string Function) const
+void HObject::Printer(const string Function) const
 {
 
     const char Separator = ' ';

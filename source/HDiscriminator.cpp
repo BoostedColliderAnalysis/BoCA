@@ -153,9 +153,9 @@ vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlo
 
     float PtSum;
 
-    for (unsigned ConstNumber = 0; ConstNumber < EFlowJetVector.size(); ++ConstNumber) {
+    for (auto& EFlowJet : EFlowJetVector) {
 
-        PtSum += EFlowJetVector[ConstNumber].pt();
+        PtSum += EFlowJet.pt();
 
     }
 

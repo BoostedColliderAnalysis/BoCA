@@ -32,7 +32,7 @@ protected:
      * @param  Phi2
      * @return float distance
      */
-    float GetDistance(float, float, float, float) const;
+    float GetDistance(const float, const float, const float, const float) const;
 
     /**
      * @brief Calcualte distance from center in eta phi space
@@ -41,7 +41,7 @@ protected:
      * @param  Phi
      * @return float distance
      */
-    float GetDistance(float, float) const;
+    float GetDistance(const float, const float) const;
 
     /**
      * @brief Take care of phi angles around pi
@@ -50,14 +50,14 @@ protected:
      * @param RefPhi reference angle
      * @return float Phi angle
      */
-    float GetDeltaPhi(float, float) const;
+    float GetDeltaPhi(const float, const float) const;
 
-    void Print(int, string) const;
+    void Print(const int, const string) const;
 
-    void Printer(string) const;
+    void Printer(const string) const;
 
-    template<typename Template>
-    void Print(const int& Severity, const string& Function, const Template& Number) const {
+    template<typename TNumber>
+    void Print(const int Severity, const string Function, const TNumber Number) const {
 
         if (Severity <= DebugLevel) {
 
@@ -68,8 +68,8 @@ protected:
 
     }
 
-    template<typename Template, typename Template2>
-    void Print(const int& Severity, const string& Function, const Template& Number, const Template2& Number2) const {
+    template<typename TNumber, typename TNumber2>
+    void Print(const int Severity, const string Function, const TNumber Number, const TNumber2 Number2) const {
 
         if (Severity <= DebugLevel) {
 
@@ -115,37 +115,37 @@ protected:
      * @brief Top quark mass
      *
      */
-    float const TopMass;
+    const float TopMass;
 
     /**
      * @brief Higgs boson mass
      *
      */
-    float const HiggsMass;
+    const float HiggsMass;
 
     /**
      * @brief W bsoson mass
      *
      */
-    float const WMass;
+    const float WMass;
 
     /**
      * @brief Tau lepton mass
      *
      */
-    float const TauMass;
+    const float TauMass;
 
     /**
      * @brief Muon mass
      *
      */
-    float const MuonMass;
+    const float MuonMass;
 
     /**
      * @brief Electron mass
      *
      */
-    float const ElectronMass;
+    const float ElectronMass;
 
     /**
      * @brief Higgs boson user index

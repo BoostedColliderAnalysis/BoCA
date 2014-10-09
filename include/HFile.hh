@@ -24,13 +24,13 @@ public:
      * @brief constructor defining default path
      *
      */
-    explicit HFile(TString Process);
+    explicit HFile(const string Process);
 
     /**
      * @brief constructor defining default path
      *
      */
-    explicit HFile(TString Process, TString Run);
+    explicit HFile(const string Process, const string Run);
 
     /**
      * @brief destructor
@@ -54,7 +54,7 @@ public:
      * @brief Run name use in the file path
      *
      */
-    TString RunFolder;
+    string RunFolder;
 
     /**
      * @brief Tag string used in the file name
@@ -66,13 +66,13 @@ public:
      * @brief String containing the name of the root tree
      *
      */
-    static TString TreeString;
+    static string TreeString;
 
     /**
      * @brief Name of Process
      *
      */
-    TString Title();
+    string Title() const;
 
     /**
      * @brief Crosssection of the event
@@ -91,27 +91,27 @@ public:
      *
      * @return TString file path
      */
-    virtual TString GetFilePath() = 0;
+    virtual string GetFilePath() const = 0;
 
-    virtual TString GetTreeName() = 0;
-    
+    virtual string GetTreeName() const = 0;
+
     static TString FileSuffix;
-    
+
     static bool Snowmass;
 
 protected:
 
-    TString MadGraphFilePath();
-    
+    string MadGraphFilePath() const;
+
 
 private:
 
     void  SetVariables();
 
     virtual string ClassName() {
-    
+
         return ("HFile");
-        
+
     };
 
 };
@@ -120,7 +120,7 @@ class HFileParton : public HFile
 {
 
 public:
-    
+
     using HFile::HFile;
 
     /**
@@ -128,16 +128,16 @@ public:
      *
      * @return TString file path
      */
-    TString GetFilePath();
+    string GetFilePath() const;
 
-    TString GetTreeName();
+    string GetTreeName() const;
 
 private:
-    
+
     string ClassName() {
-        
+
         return ("HFileFlat");
-        
+
     };
 
 };
@@ -146,7 +146,7 @@ class HFilePgs : public HFile
 {
 
 public:
-    
+
     using HFile::HFile;
 
     /**
@@ -154,16 +154,16 @@ public:
      *
      * @return TString file path
      */
-    TString GetFilePath();
+    string GetFilePath() const;
 
-    TString GetTreeName();
+    string GetTreeName() const;
 
 private:
-    
+
     string ClassName() {
-        
+
         return ("HFilePgs");
-        
+
     };
 
 };
@@ -179,16 +179,16 @@ public:
      *
      * @return TString file path
      */
-    TString GetFilePath();
+    string GetFilePath() const;
 
-    TString GetTreeName();
+    string GetTreeName() const;
 
 private:
-    
+
     string ClassName() {
-        
+
         return ("HFileDelphes");
-        
+
     };
 
 };
@@ -204,16 +204,16 @@ public:
      *
      * @return TString file path
      */
-    TString GetFilePath();
+    string GetFilePath() const;
 
-    TString GetTreeName();
-        
+    string GetTreeName() const;
+
 private:
-    
+
     string ClassName() const {
-        
+
         return ("HFileFolder");
-        
+
     };
 
 };

@@ -130,7 +130,7 @@ private:
      *
      * @return void
      */
-    void NewFileBase();
+    void NewFileBase(const HFile* const File);
 
     /**
      * @brief

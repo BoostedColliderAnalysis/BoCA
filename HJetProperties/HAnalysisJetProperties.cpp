@@ -90,42 +90,38 @@ bool HAnalysisJetProperties::Analysis()
     float PtSum;
 
 
-//     for (auto& EFlowJet: Event->Jets->EFlowJetVector) {
-//         // if the current index is needed:
-//         PtSum += &EFlowJet.pt();
-//
-//         // any code including continue, break, return
-//     }
-    
+    for (auto& EFlowJet: Event->Jets->EFlowJetVector) {
+        PtSum += EFlowJet.pt();
+    }
+
     Print(0, "New Event");
 
-    for (unsigned ConstNumber = 0; ConstNumber < Event->Jets->EFlowJetVector.size(); ++ConstNumber) {
-
-        
-        Print(0,"Index",Event->Jets->EFlowJetVector[ConstNumber].user_index());
-        
-        PtSum += Event->Jets->EFlowJetVector[ConstNumber].pt();
-
-    }
+//     for (unsigned ConstNumber = 0; ConstNumber < Event->Jets->EFlowJetVector.size(); ++ConstNumber) {
+//
+//
+//         Print(0,"Index",Event->Jets->EFlowJetVector[ConstNumber].user_index());
+//
+//         PtSum += Event->Jets->EFlowJetVector[ConstNumber].pt();
+//
+//     }
 
 //     int Id = CpvHiggsId;
     vector<int> IdVector = { -BottomId};
 //     vector<int> IdVector = {HeavyHiggsId};
 
-    for (unsigned IdNumber = 0; IdNumber < IdVector.size(); ++IdNumber) {
+    for (auto& Id : IdVector) {
 
         vector<PseudoJet> EFlowJetVector;
-        const int Id = IdVector[IdNumber];
         std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJetVector),
         [Id](const PseudoJet& EFlowJet) {
-            
+
             return EFlowJet.user_index() == Id;
 
         });
 
         if (EFlowJetVector.size() == 0) {
 
-            Print(0, "NoEflow", IdVector[IdNumber]);
+            Print(0, "NoEflow", Id);
 
             return 0;
 
@@ -135,9 +131,9 @@ bool HAnalysisJetProperties::Analysis()
 
         vector<float> DistanceVector;
 
-        for (unsigned ConstNumber = 0; ConstNumber < EFlowJetVector.size(); ++ConstNumber) {
+        for (auto& EFlowJet : EFlowJetVector) {
 
-            DistanceVector.push_back(CandidateJet.delta_R(EFlowJetVector[ConstNumber]));
+            DistanceVector.push_back(CandidateJet.delta_R(EFlowJet));
 
         }
 
@@ -147,9 +143,9 @@ bool HAnalysisJetProperties::Analysis()
 //     Print(0, "Median", DistanceVector[DistanceVector.size() * 0.68]);
 
         float RMax = 0;
-        for (unsigned EFlowNumber = 0; EFlowNumber < EFlowJetVector.size(); ++EFlowNumber) {
+        for (auto& EFlowJet : EFlowJetVector) {
 
-            float DeltaR = CandidateJet.delta_R(EFlowJetVector[EFlowNumber]);
+            float DeltaR = CandidateJet.delta_R(EFlowJet);
             if (DeltaR > RMax) RMax = DeltaR;
 
         }
@@ -170,13 +166,13 @@ bool HAnalysisJetProperties::Analysis()
 
 
 
-        for (unsigned EFlowNumber = 0; EFlowNumber < EFlowJetVector.size(); ++EFlowNumber) {
+        for (auto& EFlowJet : EFlowJetVector) {
 
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
-            Constituent->Eta = EFlowJetVector[EFlowNumber].eta() - CandidateJet.eta();
-            Constituent->Phi = EFlowJetVector[EFlowNumber].delta_phi_to(CandidateJet);
-            Constituent->Pt = EFlowJetVector[EFlowNumber].pt();
-            Constituent->Id = EFlowJetVector[EFlowNumber].user_index();
+            Constituent->Eta = EFlowJet.eta() - CandidateJet.eta();
+            Constituent->Phi = EFlowJet.delta_phi_to(CandidateJet);
+            Constituent->Pt = EFlowJet.pt();
+            Constituent->Id = EFlowJet.user_index();
 
         }
     }

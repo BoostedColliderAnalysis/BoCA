@@ -91,7 +91,7 @@ private:
     vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>);
 
     template <typename Template>
-    HJetInfo GetJetId(const Template &Clone) const {
+    HJetInfo GetJetId(const Template &Clone) {
 
         Print(2, "Get Jet Id",Clone->Particles.GetEntriesFast());
         HJetInfo JetInfo;
@@ -132,9 +132,11 @@ private:
     }
 
 
-    int GetMotherId(const TObject * const) const;
-    
-    int GetMotherId(const GenParticle * const) const;
+    int GetMotherId(const TObject * const);
+
+    int GetMotherId(GenParticle *, int);
+
+    int GetBranchId(int, int);
 
     void GetDelphesTags(const Jet *const);
 

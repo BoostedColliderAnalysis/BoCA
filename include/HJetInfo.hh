@@ -16,21 +16,21 @@ public:
 
     HJetInfo();
 
-    void AddConstituent(int, float);
-
-    float GetPtSum() const;
+    void AddConstituent(const int, const float);
 
     float GetFraction(int) const;
 
     float GetMaximalFraction() const;
-    
+
     int GetMaximalId() const;
-    
+
     void PrintAllInfos() const;
-    
+
     void Clear();
 
 private:
+
+    float GetPtSum() const;
 
     map<int, float> JetFractions;
 

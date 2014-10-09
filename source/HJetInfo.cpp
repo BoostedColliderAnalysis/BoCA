@@ -10,7 +10,7 @@ HJetInfo::HJetInfo()
 
 }
 
-void HJetInfo::AddConstituent(int ConstituentId, float ParticlePt)
+void HJetInfo::AddConstituent(const int ConstituentId, const float ParticlePt)
 {
 
     Print(2, "Add Constituent", ConstituentId);
@@ -42,7 +42,7 @@ float HJetInfo::GetPtSum() const
 
 }
 
-float HJetInfo::GetFraction(int ParticleId) const
+float HJetInfo::GetFraction(const int ParticleId) const
 {
 
     Print(2, "Get Fraction");
@@ -79,22 +79,22 @@ float HJetInfo::GetMaximalFraction() const
 
 // float HJetInfo::GetMaximalFraction() const
 // {
-// 
+//
 //     Print(2, "Get Maximal Fraction");
-// 
+//
 //     pair<int, float> MaximalPt = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 //     std::nth_element(JetFractions.begin(), JetFractions.begin() + 1, JetFractions.end(), SortPairs());
-// 
+//
 //     if (GetPtSum() == 0) {
-// 
+//
 //         return 0;
-// 
+//
 //     } else {
-// 
+//
 //         return (MaximalPt.second / GetPtSum());
-// 
+//
 //     }
-// 
+//
 // }
 
 int HJetInfo::GetMaximalId() const

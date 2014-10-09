@@ -11,7 +11,7 @@ HHiggsTagger::HHiggsTagger()
 
     InitialValue = -100;
 
-    DiPolarity = InitialValue;
+//     DiPolarity = InitialValue;
 
     NewEvent();
 
@@ -28,7 +28,7 @@ void HHiggsTagger::NewEvent(){
 
     Print(2, "New Event");
 
-    DiPolarity=0;
+//     DiPolarity=0;
 
     HiggsJet.reset(0,0,0,0);
 
@@ -79,7 +79,7 @@ PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& InputJetVector, con
         if (BTagCounter == BTagRequired && FilteredJetEta < FilteredJetEtaMax) {
 
             HiggsJet = FilteredJet;
-            DiPolarity = GetDipolarity(FatJet);
+//             DiPolarity = GetDipolarity(FatJet);
             break;
 
         }
@@ -113,7 +113,7 @@ PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& InputJetVector, con
 
 
 
-PseudoJet HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, int NumberHardestPieces)
+PseudoJet HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
 {
 
     Print(2, "GetFilteredJet");
@@ -142,7 +142,7 @@ PseudoJet HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastj
 
 }
 
-void HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& ParticleVector, int UserIndex)
+void HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& ParticleVector, const int UserIndex)
 {
 
     Print(2, "GetSubJetSource");
@@ -235,7 +235,7 @@ float HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 {
     Print(2, "GetDipolarity");
 
-    DiPolarity = 0;
+    float DiPolarity = 0;
 
 //     const int NumberHardestPieces = 2;
     // not from Jing

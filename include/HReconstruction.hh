@@ -67,7 +67,7 @@ protected:
      */
     PseudoJet GetMassDropJet(const PseudoJet&);
 
-    PseudoJet GetMassDropJet(const PseudoJet&, float, float);
+    PseudoJet GetMassDropJet(const PseudoJet&, const float, const float);
 
     /**
      * @brief Filter Jets
