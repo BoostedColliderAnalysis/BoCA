@@ -10,21 +10,21 @@ HMvaDiscriminator::HMvaDiscriminator()
     AnalysisName = "Discriminator";
 
 //     SignalVector = {"Higgs","HiggsTop"};
-    SignalVector = {"Higgs"};
+    SignalNameVector = {"Higgs"};
 
 //     BackgroundVector = {"Top", "Jet","TwoTop"};
-    BackgroundVector = {"Top", "Jet"};
+    BackgroundNameVector = {"Top", "Jet"};
 //         BackgroundVector = {"Top"};
 
     TestName = "Test";
 
-    SignalTreeVector = {"even", "mix", "odd"};
+    SignalTreeNameVector = {"even", "mix", "odd"};
 //         SignalTreeVector = {"even"};
 
-    BackgroundTreeVector = {"background", "even", "mix", "odd"};
+    BackgroundTreeNameVector = {"background", "even", "mix", "odd"};
 //         BackgroundTreeVector = {"even"};
 
-    TestTreeVector = {"background","even", "mix", "odd"};
+    TestTreeNameVector = {"background","even", "mix", "odd"};
 //         TestTreeVector = {"even"};
 
     CandidateBranchName = "Candidate";

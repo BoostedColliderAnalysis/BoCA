@@ -44,12 +44,12 @@ void HFactory::NewFactory()
 
     Print(1 , "New Factory");
 
-    TString FactoryOutputName = "Mva" + Mva->BackgroundName;
-    TString OutputFileName(Mva->AnalysisName + "/" + FactoryOutputName + ".root");
+    const string FactoryOutputName = "Mva" + Mva->BackgroundName;
+    const TString OutputFileName(Mva->AnalysisName + "/" + FactoryOutputName + ".root");
     OutputFile = TFile::Open(OutputFileName, "Recreate");
 
-//     TString FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
-    TString FactoryOptions = "";
+//     string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
+    const string FactoryOptions = "";
 
     Factory = new TMVA::Factory(Mva->AnalysisName, OutputFile, FactoryOptions);
 
@@ -63,18 +63,15 @@ void HFactory::AddVariables()
 
     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->AnalysisName;
 
-    int ObservableSum = Mva->ObservableVector.size();
+    for (auto& Observable : Mva->ObservableVector) {
 
-    for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
-
-        Factory->AddVariable(Mva->ObservableVector[ObservableNumber].Expression, Mva->ObservableVector[ObservableNumber].Title, Mva->ObservableVector[ObservableNumber].Unit, 'F');
+        Factory->AddVariable(Observable.Expression, Observable.Title, Observable.Unit, 'F');
 
     }
 
-    int SpectatorSum = Mva->SpectatorVector.size();
-    for (int SpectatorNumber = 0; SpectatorNumber < SpectatorSum; ++SpectatorNumber) {
+    for (auto& Spectator : Mva->SpectatorVector) {
 
-        Factory->AddSpectator(Mva->SpectatorVector[SpectatorNumber].Expression, Mva->SpectatorVector[SpectatorNumber].Title, Mva->SpectatorVector[SpectatorNumber].Unit, 'F');
+        Factory->AddSpectator(Spectator.Expression, Spectator.Title, Spectator.Unit, 'F');
 
     }
 
@@ -88,7 +85,7 @@ void HFactory::AddVariables()
 //     if (Debug > 0)PrintFunction("HFactory", "Get Trees");
 //
 //     // Signal
-//     TString SignalFileName = Mva->AnalysisName + "/" + Mva->SignalName + TString(".root");
+//     string SignalFileName = Mva->AnalysisName + "/" + Mva->SignalName + string(".root");
 //     if (gSystem->AccessPathName(SignalFileName)) cout << "File " << SignalFileName << " not found" << endl;
 //     TFile *SignalFile = TFile::Open(SignalFileName);
 //     if (Debug > 0)PrintFunction("HFactory", "Signal File", SignalFile->GetName());
@@ -108,9 +105,9 @@ void HFactory::AddVariables()
 //     int BackgroundSum = Mva->BackgroundVector.size();
 //     for (int BackgroundNumber = 0; BackgroundNumber < BackgroundSum; ++BackgroundNumber) {
 //
-//         TString InputBackgroundName = Mva->BackgroundVector[BackgroundNumber];
+//         string InputBackgroundName = Mva->BackgroundVector[BackgroundNumber];
 //
-//         TString BackgroundFileName = Mva->AnalysisName + "/" + InputBackgroundName + TString(".root");
+//         string BackgroundFileName = Mva->AnalysisName + "/" + InputBackgroundName + string(".root");
 //         if (gSystem->AccessPathName(BackgroundFileName)) cout << "File " << BackgroundFileName << " not found" << endl;
 //         TFile *BackgroundFile = TFile::Open(BackgroundFileName);
 //         if (Debug > 0)PrintFunction("HFactory", "Background File", BackgroundFile->GetName());
@@ -138,41 +135,34 @@ void HFactory::GetTrees()
     Print(1 , "Get Trees");
 
 // Signal
-    int SignalSum = Mva->SignalVector.size();
-    for (int SignalNumber = 0; SignalNumber < SignalSum; ++SignalNumber) {
+    for (auto& SignalName : Mva->SignalNameVector) {
 
-        TString SignalName = Mva->SignalVector[SignalNumber];
-
-        TString SignalFileName = Mva->AnalysisName + "/" + Mva->SignalVector[SignalNumber] + TString(".root");
+        TString SignalFileName = Mva->AnalysisName + "/" + SignalName + string(".root");
         if (gSystem->AccessPathName(SignalFileName)) Print(0, "File not found", SignalFileName);
         TFile *SignalFile = TFile::Open(SignalFileName);
         Print(1 , "Signal File", SignalFile->GetName());
 
-        int TreeSum = Mva->SignalTreeVector.size();
+        int TreeSum = Mva->SignalTreeNameVector.size();
 
         for (int TreeNumber = 0; TreeNumber < TreeSum; ++TreeNumber) {
 
-            AddTree(SignalFile, Mva->SignalTreeVector[TreeNumber], 1);
+            AddTree(SignalFile, Mva->SignalTreeNameVector[TreeNumber], 1);
 
         }
 
     }
 
 // Background
-    int BackgroundSum = Mva->BackgroundVector.size();
-    for (int BackgroundNumber = 0; BackgroundNumber < BackgroundSum; ++BackgroundNumber) {
+for (auto& BackgroundName : Mva->BackgroundNameVector){
 
-        TString InputBackgroundName = Mva->BackgroundVector[BackgroundNumber];
-
-        TString BackgroundFileName = Mva->AnalysisName + "/" + InputBackgroundName + TString(".root");
+        TString BackgroundFileName = Mva->AnalysisName + "/" + BackgroundName + string(".root");
         if (gSystem->AccessPathName(BackgroundFileName)) Print(0, "File not found",BackgroundFileName);
         TFile *BackgroundFile = TFile::Open(BackgroundFileName);
         Print(1 , "Background File", BackgroundFile->GetName());
 
-        int TreeSum = Mva->BackgroundTreeVector.size();
-        for (int TreeNumber = 0; TreeNumber < TreeSum; ++TreeNumber) {
+        for (auto& BackgroundTreeName : Mva->BackgroundTreeNameVector){
 
-            AddTree(BackgroundFile, Mva->BackgroundTreeVector[TreeNumber], 0);
+            AddTree(BackgroundFile, BackgroundTreeName, 0);
 
         }
 
@@ -180,18 +170,18 @@ void HFactory::GetTrees()
 
 }
 
-void HFactory::AddTree(TFile *File, TString TreeName, bool Signal)
+void HFactory::AddTree(const TFile * const File, const string TreeName, const bool Signal)
 {
 
     Print(1 , "Add Tree", TreeName);
 
-    TTree *Tree = (TTree *)File->Get(TreeName);
+    const TTree * const Tree = (TTree *)(const_cast<TFile*>(File)->Get(TString(TreeName)));
 
-    Tree->GetBranch(Mva->CandidateBranchName);
-    ExRootTreeReader *TreeReader = new ExRootTreeReader(Tree);
+    const_cast<TTree*>(Tree)->GetBranch(TString(Mva->CandidateBranchName));
+    const ExRootTreeReader * const TreeReader = new ExRootTreeReader(const_cast<TTree*>(Tree));
 
-    TClonesArray *ClonesArray = TreeReader->UseBranch(Mva->WeightBranchName);
-    TreeReader->ReadEntry(0);
+    const TClonesArray * const ClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->WeightBranchName));
+    const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(0);
     HInfoBranch *Info = (HInfoBranch *) ClonesArray->At(0);
 
 //     float Crosssection = Info->Crosssection;
@@ -204,11 +194,11 @@ void HFactory::AddTree(TFile *File, TString TreeName, bool Signal)
 
     if (Signal) {
 
-        Factory->AddSignalTree(Tree, Crosssection);
+        Factory->AddSignalTree(const_cast<TTree*>(Tree), Crosssection);
 
     } else {
 
-        Factory->AddBackgroundTree(Tree, Crosssection);
+        Factory->AddBackgroundTree(const_cast<TTree*>(Tree), Crosssection);
 
     }
 
@@ -220,11 +210,11 @@ void HFactory::PrepareTrainingAndTestTree()
 
     Print(1 , "PrepareTrainingAndTestTree");
 
-    TCut SignalCut = Mva->Cut;
-    TCut BackgroundCut = Mva->Cut;
+    const TCut SignalCut = Mva->Cut;
+    const TCut BackgroundCut = Mva->Cut;
 
-//     TString TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
-    TString TrainingAndTestOptions = "";
+//     string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
+    const string TrainingAndTestOptions = "";
 
     Factory->PrepareTrainingAndTestTree(SignalCut, BackgroundCut, TrainingAndTestOptions);
 
@@ -235,19 +225,19 @@ void HFactory::BookMethods()
 
     Print(1 , "Book Methods");
 
-//     TString CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
-//     TString CutOptions = "VarProp=FSmart:VarTransform=PCA";
-    TString CutOptions = "";
+//     string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
+//     string CutOptions = "VarProp=FSmart:VarTransform=PCA";
+    const string CutOptions = "";
 
-    TString MethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
+    const string CutMethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
 
-    Factory->BookMethod(Types::kCuts, MethodName, CutOptions);
+    Factory->BookMethod(Types::kCuts, CutMethodName, CutOptions);
 
-//     TString BDTOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-    TString BDTOptions = "";
+//     string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+    const string BdtOptions = "";
 
-    MethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
+    const string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
 
-    Factory->BookMethod(Types::kBDT, MethodName, BDTOptions);
+    Factory->BookMethod(Types::kBDT, BdtMethodName, BdtOptions);
 
 }

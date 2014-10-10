@@ -1,7 +1,7 @@
 # ifndef HMva_hh
 # define HMva_hh
 
-# include "TString.h"
+# include "string.h"
 # include "TCut.h"
 
 # include "HBranch.hh"
@@ -11,15 +11,22 @@
 using std::vector;
 
 
-struct HObservable {
+class HObservable// : public HObject
+{
 
+public :
+    
+    HObservable();
+    
+    HObservable(float * NewValue, const string NewExpression, const string NewTitle, const string NewUnit);
+    
     float *Value;
 
-    TString Expression;
+    string Expression;
 
-    TString Title;
+    string Title;
 
-    TString Unit;
+    string Unit;
 
 };
 
@@ -60,31 +67,31 @@ public:
      * @brief Name of the Analysis
      *
      */
-    TString AnalysisName;
+    string AnalysisName;
 
     /**
      * @brief Name of the Signal File
      *
      */
-    vector<TString> SignalVector;
+    vector<string> SignalNameVector;
 
     /**
      * @brief Name of the Test File
      *
      */
-    TString TestName;
+    string TestName;
 
-    TString CutMethodName;
+    string CutMethodName;
 
-    TString BdtMethodName;
+    string BdtMethodName;
 
-    TString CandidateBranchName;
+    string CandidateBranchName;
 
-    TString LeptonBranchName;
+    string LeptonBranchName;
 
-    TString WeightBranchName;
+    string WeightBranchName;
 
-    TString BackgroundName;
+    string BackgroundName;
 
 
     TCut Cut;
@@ -97,13 +104,13 @@ public:
      * @brief Names of the Background Files
      *
      */
-    vector<TString> BackgroundVector;
+    vector<string> BackgroundNameVector;
 
-    vector<TString> BackgroundTreeVector;
+    vector<string> BackgroundTreeNameVector;
 
-    vector<TString> SignalTreeVector;
+    vector<string> SignalTreeNameVector;
     
-    vector<TString> TestTreeVector;
+    vector<string> TestTreeNameVector;
 
     /**
      * @brief Vector containing the pointer to the Observable data
@@ -123,11 +130,11 @@ protected:
         
     };
 
-    HObservable NewObservable(float *, TString, TString, TString);
+    HObservable NewObservable(float *, const string, const string, const string);
 
-    HObservable NewObservable(float *, TString, TString);
+    HObservable NewObservable(float *, const string, const string);
 
-    HObservable NewObservable(float *, TString);
+    HObservable NewObservable(float *, const string);
     
 private:
 

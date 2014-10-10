@@ -52,7 +52,7 @@ void HEventDelphes::CloseFile()
 
 }
 
-void HEventDelphes::NewEvent(const HClonesArray * const ClonesArrays)
+void HEventDelphes::NewEvent(const HClonesArray *const ClonesArrays)
 {
 
     Print(2, "New Event");

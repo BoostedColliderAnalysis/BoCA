@@ -42,13 +42,13 @@ public:
      * @brief Path path to the MadGraph installation
      *
      */
-    static TString BasePath;
+    static string BasePath;
 
     /**
      * @brief Process name used in the file path
      *
      */
-    TString ProcessFolder;
+    string ProcessFolder;
 
     /**
      * @brief Run name use in the file path
@@ -60,7 +60,7 @@ public:
      * @brief Tag string used in the file name
      *
      */
-    TString TagString;
+    string TagString;
 
     /**
      * @brief String containing the name of the root tree
@@ -89,13 +89,13 @@ public:
     /**
      * @brief Compose file path
      *
-     * @return TString file path
+     * @return string file path
      */
     virtual string GetFilePath() const = 0;
 
     virtual string GetTreeName() const = 0;
 
-    static TString FileSuffix;
+    static string FileSuffix;
 
     static bool Snowmass;
 
@@ -126,7 +126,7 @@ public:
     /**
      * @brief Compose file path
      *
-     * @return TString file path
+     * @return string file path
      */
     string GetFilePath() const;
 
@@ -152,7 +152,7 @@ public:
     /**
      * @brief Compose file path
      *
-     * @return TString file path
+     * @return string file path
      */
     string GetFilePath() const;
 
@@ -177,7 +177,7 @@ public:
     /**
      * @brief Compose file path
      *
-     * @return TString file path
+     * @return string file path
      */
     string GetFilePath() const;
 
@@ -202,7 +202,7 @@ public:
     /**
      * @brief Compose file path
      *
-     * @return TString file path
+     * @return string file path
      */
     string GetFilePath() const;
 

@@ -100,10 +100,12 @@ PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet, const float M
 
 bool HReconstruction::JetIsBad(const PseudoJet &Jet)
 {
+    
+    HObject Object;
 
     if (fabs(Jet.m()) <= 0) {
 
-//         Print(2, "Fat Jet Mass", Jet.m());
+        Object.Print(2, "Fat Jet Mass", Jet.m());
         return 1;
 
     }
@@ -111,14 +113,14 @@ bool HReconstruction::JetIsBad(const PseudoJet &Jet)
 
     if (Jet.pieces().size() != 2) {
 
-//         Print(2, "Pieces Sum", Jet.pieces().size());
+        Object.Print(2, "Pieces Sum", Jet.pieces().size());
         return 1;
 
     }
 
     if (!Jet.has_structure()) {
 
-//         Print(2, "PseudoJet has no structure");
+        Object.Print(2, "PseudoJet has no structure");
         return 1;
 
     }

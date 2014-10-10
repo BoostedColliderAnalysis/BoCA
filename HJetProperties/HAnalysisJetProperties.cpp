@@ -62,9 +62,10 @@ void HAnalysisJetProperties::CloseFile()
 bool HAnalysisJetProperties::Analysis()
 {
 
-    Print(3, "Analysis");
+    Print(0, "Analysis");
 
-    Event->GetLeptons();
+    Event->GetParticles();
+//     Event->GetLeptons();
 
 //     vector<PseudoJet> LeptonJetVector = Event->Lepton->GetLeptonJetVector();
 //
@@ -94,7 +95,7 @@ bool HAnalysisJetProperties::Analysis()
         PtSum += EFlowJet.pt();
     }
 
-    Print(0, "New Event");
+    Print(3, "New Event");
 
 //     for (unsigned ConstNumber = 0; ConstNumber < Event->Jets->EFlowJetVector.size(); ++ConstNumber) {
 //
@@ -106,16 +107,24 @@ bool HAnalysisJetProperties::Analysis()
 //     }
 
 //     int Id = CpvHiggsId;
-    vector<int> IdVector = { -BottomId};
-//     vector<int> IdVector = {HeavyHiggsId};
+//     vector<int> IdVector = { BottomId,-BottomId};
+//     vector<int> IdVector = { TopId,-TopId};
+    vector<int> IdVector = {HeavyHiggsId};
 
     for (auto& Id : IdVector) {
 
         vector<PseudoJet> EFlowJetVector;
         std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJetVector),
         [Id](const PseudoJet& EFlowJet) {
-
-            return EFlowJet.user_index() == Id;
+            
+            if (EFlowJet.user_index() == Id) return 1;
+                     if (EFlowJet.has_user_info()){ 
+                         
+                         if (EFlowJet.user_info<HJetInfo>().HasParticle(Id)) return 1;
+                         
+                    }
+                    
+                    return 0;
 
         });
 

@@ -29,20 +29,18 @@ void HReader::AddVariable()
 
     Print(1, "Add Variable");
 
-    TString DefaultOptions = "";
+    const string DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
 
-    int ObservableSum = Mva->ObservableVector.size();
-    for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
+    for (auto& Observable : Mva->ObservableVector){
 
-        Reader->AddVariable(Mva->ObservableVector[ObservableNumber].Expression, Mva->ObservableVector[ObservableNumber].Value);
+        Reader->AddVariable(Observable.Expression, Observable.Value);
 
     }
 
-    int SpectatorSum = Mva->SpectatorVector.size();
-    for (int SpectatorNumber = 0; SpectatorNumber < SpectatorSum; ++SpectatorNumber) {
+    for (auto& Spectator : Mva->SpectatorVector){
 
-        Reader->AddSpectator(Mva->SpectatorVector[SpectatorNumber].Expression, Mva->SpectatorVector[SpectatorNumber].Value);
+        Reader->AddSpectator(Spectator.Expression, Spectator.Value);
 
     }
 
@@ -52,13 +50,13 @@ void HReader::BookMVA()
 {
     Print(1, "Book Mva");
 
-    TString XmlName = ".weights.xml";
+    const string XmlName = ".weights.xml";
 
-    TString CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
-    cout << "Opening Weight File: " << CutWeightFile << endl;
+    const string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
+    Print(0,"Opening Weight File",CutWeightFile);
     Reader->BookMVA(Mva->CutMethodName, CutWeightFile);
 
-//     TString BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
+//     string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
 //     cout << "Opening Weight File: " << BdtWeightFile << endl;
 //     Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
 
@@ -70,28 +68,25 @@ void HReader::MVALoop()
     Print(1, "Mva Loop");
 
     // Export File
-//     TString ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
+//     string ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
 //     TFile *ExportFile = TFile::Open(ExportFileName, "Recreate");
 
     // Input File
-    TString InputFileName = Mva->AnalysisName + "/" + Mva->TestName + TString(".root");
-    TFile *InputFile = TFile::Open(InputFileName);
+    const string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + string(".root");
+    const TFile *InputFile = TFile::Open(TString(InputFileName));
 
     cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << endl;
     if (Mva->Latex) LatexHeader();
 
     GetCuts();
 
-    int TreeSum = Mva->TestTreeVector.size();
-    for (int TreeNumber = 0; TreeNumber < TreeSum; ++TreeNumber) {
+    for (auto& TestTreeName : Mva->TestTreeNameVector){
 
-        TString TreeName = Mva->TestTreeVector[TreeNumber];
+        const TTree * const InputTree = (TTree *)const_cast<TFile*>(InputFile)->Get(TString(TestTreeName));
+        const ExRootTreeReader * const TreeReader = new ExRootTreeReader(const_cast<TTree*>(InputTree));
 
-        TTree *InputTree = (TTree *)InputFile->Get(TreeName);
-        ExRootTreeReader *TreeReader = new ExRootTreeReader(InputTree);
-
-        TClonesArray *ClonesArray = TreeReader->UseBranch(Mva->WeightBranchName);
-        TreeReader->ReadEntry(0);
+        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->WeightBranchName));
+        const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(0);
         HInfoBranch *Info = (HInfoBranch *) ClonesArray->At(0);
 //         Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
 //         CrosssectionError = Info->Error * TreeReader->GetEntries() / Info->EventNumber;
@@ -99,11 +94,11 @@ void HReader::MVALoop()
         CrosssectionError = Info->Error;
         EventGenerated = Info->EventNumber;
 
-        EventSum = TreeReader->GetEntries();
+        EventSum = const_cast<ExRootTreeReader*>(TreeReader)->GetEntries();
 
-//         ApplyBdt(TreeReader, TreeName, ExportFile);
+        //         ApplyBdt(TreeReader, TestTreeName, ExportFile);
 
-        ApplyCuts(TreeReader, TreeName);
+        ApplyCuts(TreeReader, TestTreeName);
 
         delete TreeReader;
 
@@ -116,21 +111,21 @@ void HReader::MVALoop()
 }
 
 
-void HReader::ApplyBdt(ExRootTreeReader *TreeReader, TString TreeName, TFile *ExportFile)
+void HReader::ApplyBdt(const ExRootTreeReader * const TreeReader, const string TreeName, const TFile * const ExportFile)
 {
     Print(1, "Apply Bdt");
 
-    TClonesArray *CandidateClonesArray = TreeReader->UseBranch(Mva->CandidateBranchName);
-    TClonesArray *LeptonClonesArray = TreeReader->UseBranch(Mva->LeptonBranchName);
+    TClonesArray *CandidateClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->CandidateBranchName));
+    TClonesArray *LeptonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->LeptonBranchName));
 
-    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(ExportFile, TreeName);
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(Mva->CandidateBranchName, HCandidateBranch::Class());
-    ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(Mva->LeptonBranchName, HLeptonBranch::Class());
+    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile*>(ExportFile), TString(TreeName));
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(TString(Mva->CandidateBranchName), HCandidateBranch::Class());
+    ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(TString(Mva->LeptonBranchName), HLeptonBranch::Class());
 
 
     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
 
-        TreeReader->ReadEntry(EventNumber);
+        const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(EventNumber);
 
         int CandidateSum = CandidateClonesArray->GetEntriesFast();
         for (int CandidateNumber = 0; CandidateNumber < CandidateSum; ++CandidateNumber) {
@@ -201,7 +196,7 @@ void HReader::LatexHeader()
 
     Print(1, "LaTeX Header");
 
-    TString TexFileName = Mva->AnalysisName + "/" + "Cutflow" + TString(".tex");
+    string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + string(".tex");
 
     LatexFile.open(TexFileName);
 
@@ -218,7 +213,7 @@ void HReader::LatexHeader()
 }
 
 
-void HReader::ApplyCuts(ExRootTreeReader *TreeReader, TString TreeName)
+void HReader::ApplyCuts(const ExRootTreeReader * const TreeReader, const string TreeName)
 {
 
     Print(1, "Apply Cuts");
@@ -251,7 +246,7 @@ void HReader::ApplyCuts(ExRootTreeReader *TreeReader, TString TreeName)
 }
 
 
-void HReader::CutLoop(ExRootTreeReader *TreeReader)
+void HReader::CutLoop(const ExRootTreeReader * const TreeReader)
 {
 
     Print(1, "Cut Loop");
@@ -272,11 +267,11 @@ void HReader::CutLoop(ExRootTreeReader *TreeReader)
     HiggsVector.assign(ObservableSum, 0);
     TopVector.assign(ObservableSum, 0);
 
-    TClonesArray *ClonesArray = TreeReader->UseBranch(Mva->CandidateBranchName);
+    TClonesArray *ClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->CandidateBranchName));
 
     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
 
-        TreeReader->ReadEntry(EventNumber);
+        const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(EventNumber);
 
         vector<bool> CandidateEventCut(ObservableSum, 1);
         vector<bool> TopEventCut(ObservableSum, 1);
@@ -425,7 +420,7 @@ void HReader::TabularOutput()
 
 }
 
-void HReader::LatexContent(TString TreeName)
+void HReader::LatexContent(string TreeName)
 {
 
     Print(1, "LaTeX Content");

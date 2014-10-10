@@ -84,19 +84,19 @@ private:
 
     TMVA::Factory *Factory;
 
-    TString Verbose;
+    string Verbose;
 
-    TString Silent;
+    string Silent;
 
-    TString VerboseLevel;
+    string VerboseLevel;
 
-    TString VerbosityLevel;
+    string VerbosityLevel;
 
-    TString Color;
+    string Color;
 
-    TString DefaultOptions;
+    string DefaultOptions;
 
-    void AddTree(TFile *, TString, bool);
+    void AddTree(const TFile * const, const string, const bool);
 
     HMva *Mva;
         

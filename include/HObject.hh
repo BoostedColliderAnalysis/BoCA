@@ -17,9 +17,56 @@ class HObject
 
 public:
 
+    /**
+     * @brief Constructor
+     * 
+     */
     HObject();
 
+    /**
+     * @brief Destructor
+     * 
+     */
     virtual ~HObject();
+
+    /**
+     * @brief Print Debug messages
+     * 
+     * @param  ...
+     * @param  ...
+     * @return void
+     */
+    void Print(const int, const string) const;
+
+    template<typename TNumber>
+    void Print(const int Severity, const string Function, const TNumber Number) const {
+
+        if (Severity <= DebugLevel) {
+
+            Printer(Function);
+            std::cout << " " << Number << std::endl;
+
+        }
+
+    }
+
+    template<typename TNumber, typename TNumber2>
+    void Print(const int Severity, const string Function, const TNumber Number, const TNumber2 Number2) const {
+
+        if (Severity <= DebugLevel) {
+
+            const char Separator = ' ';
+            const int FunctionWidth = 10;
+
+            Printer(Function);
+
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number2;
+            std::cout << std::endl;
+
+        }
+
+    }
 
 protected:
 
@@ -51,40 +98,6 @@ protected:
      * @return float Phi angle
      */
     float GetDeltaPhi(const float, const float) const;
-
-    void Print(const int, const string) const;
-
-    void Printer(const string) const;
-
-    template<typename TNumber>
-    void Print(const int Severity, const string Function, const TNumber Number) const {
-
-        if (Severity <= DebugLevel) {
-
-            Printer(Function);
-            std::cout << " " << Number << std::endl;
-
-        }
-
-    }
-
-    template<typename TNumber, typename TNumber2>
-    void Print(const int Severity, const string Function, const TNumber Number, const TNumber2 Number2) const {
-
-        if (Severity <= DebugLevel) {
-
-            const char Separator = ' ';
-            const int FunctionWidth = 10;
-
-            Printer(Function);
-
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number2;
-            std::cout << std::endl;
-
-        }
-
-    }
 
     virtual string ClassName() const {
 
@@ -212,6 +225,18 @@ protected:
      *
      */
     const int GluonId;
+    
+    /**
+     * @brief Muon index
+     *
+     */
+    const int MuonId;
+    
+    /**
+     * @brief Electron index
+     *
+     */
+    const int ElectronId;
 
     /**
      * @brief Top quark index
@@ -263,8 +288,34 @@ protected:
      *
      */
     const int IsrId;
+    
+    /**
+     * @brief Particle Status Undefined
+     *
+     */
+    const int Undefined;
+    
+    /**
+     * @brief Particle Status Unstable
+     *
+     */
+    const int Unstable;
+    
+    /**
+     * @brief Particle Status Stable
+     *
+     */
+    const int Stable;
 
 private:
+    
+    /**
+     * @brief Print Debug messages
+     * 
+     * @param  string Function Name
+     * @return void
+     */
+    void Printer(const string) const;
 
 };
 

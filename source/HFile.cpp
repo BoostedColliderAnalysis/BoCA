@@ -41,14 +41,14 @@ string HFile::Title() const {
 
 string HFile::MadGraphFilePath() const {
 
-    return string(TString(BasePath) + TString(ProcessFolder) + TString("/Events/") + TString(RunFolder) + TString("/"));
+    return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
 
 }
 
 // TString HFile::BasePath = "$HOME/Development/madgraph/";
-TString HFile::BasePath = "$HOME/Development/MadGraph/";
+string HFile::BasePath = "$HOME/Development/MadGraph/";
 
-TString HFile::FileSuffix = "_delphes_events.root";
+string HFile::FileSuffix = "_delphes_events.root";
 
 string HFile::TreeString = "Delphes";
 
@@ -101,7 +101,7 @@ string HFileParton::GetFilePath() const
 
     FileSuffix = "_unweighted_events.root";
 
-    return string(MadGraphFilePath() + TagString +  FileSuffix);
+    return (MadGraphFilePath() + TagString +  FileSuffix);
 
 }
 
@@ -123,7 +123,7 @@ string HFilePgs::GetFilePath() const
 
     FileSuffix = "_pgs_events.root";
 
-    return string(MadGraphFilePath() + TagString +  FileSuffix);
+    return (MadGraphFilePath() + TagString +  FileSuffix);
 
 }
 
@@ -143,7 +143,7 @@ string HFileDelphes::GetFilePath() const
 
     FileSuffix = "_delphes_events.root";
 
-    return string(MadGraphFilePath() + TagString +  FileSuffix);
+    return (MadGraphFilePath() + TagString +  FileSuffix);
 
 }
 
@@ -156,12 +156,11 @@ string HFileFolder::GetTreeName() const
 }
 
 
-
 string HFileFolder::GetFilePath() const
 {
 
     Print(2, "FilePath");
 
-    return string(BasePath + ProcessFolder + FileSuffix);
+    return (BasePath + ProcessFolder + FileSuffix);
 
 }

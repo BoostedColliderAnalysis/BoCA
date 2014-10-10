@@ -6,7 +6,7 @@
 using std::abs;
  
 /**
- * @brief stores all the information about the event topology
+ * @brief handels information about truth level particles
  *
  */
 class HParticleDelphes : public HParticle
@@ -27,9 +27,9 @@ public:
     ~HParticleDelphes();
     
     /**
-     * @brief extract electrons and muon particle
+     * @brief Extracts particles from Clones Array
      *
-     * @return void
+     * @return bool 
      */
     bool GetParticles();
       

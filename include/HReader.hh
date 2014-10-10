@@ -39,15 +39,15 @@ struct PairOrder {
 
 
 
-template <typename TypeName>
-vector<TypeName> CutFlowOrder(
-    vector<TypeName> const &Input,
+template <typename TCutFlow>
+vector<TCutFlow> CutFlowOrder(
+    vector<TCutFlow> const &Input,
     vector<pair<size_t, VectorIterator> > const &Reference
 )
 {
 
     size_t const OrderSum = Reference.size();
-    vector<TypeName> Output(OrderSum);
+    vector<TCutFlow> Output(OrderSum);
 
     for (size_t OrderSize = 0; OrderSize < OrderSum; ++OrderSize) {
 
@@ -112,7 +112,7 @@ private:
      *
      * @return void
      */
-    void ApplyCuts(ExRootTreeReader *, TString);
+    void ApplyCuts(const ExRootTreeReader * const, const string);
 
     void AddVariable();
 
@@ -122,15 +122,15 @@ private:
 
     void GetCuts();
 
-    void CutLoop(ExRootTreeReader *);
+    void CutLoop(const ExRootTreeReader * const);
 
-    void ApplyBdt(ExRootTreeReader *, TString, TFile *);
+    void ApplyBdt(const ExRootTreeReader * const, const string, const TFile * const);
 
     void LatexHeader();
 
     void LatexFooter();
 
-    void LatexContent(TString);
+    void LatexContent(string);
 
     float Luminosity(float);
 
@@ -174,15 +174,15 @@ private:
 
     float CrosssectionScaled;
 
-    TString Verbose;
+    string Verbose;
 
-    TString Silent;
+    string Silent;
 
-    TString VerboseLevel;
+    string VerboseLevel;
 
-    TString VerbosityLevel;
+    string VerbosityLevel;
 
-    TString Color;
+    string Color;
 
     vector<int> EventVector;
 

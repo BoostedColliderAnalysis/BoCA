@@ -21,28 +21,20 @@ HMva::~HMva()
 }
 
 
-HObservable HMva::NewObservable(float *Value, TString Expression, TString Title, TString Unit)
+HObservable HMva::NewObservable(float *Value, const string Expression, const string Title, const string Unit)
 {
 
     Print(1, "New Observable", Title);
 
-    HObservable Observable;
-
-    Observable.Value = Value;
-
-    Observable.Expression = Expression;
-
-    Observable.Title = Title;
-
-    Observable.Unit = Unit;
+    HObservable Observable(Value,Expression,Title,Unit);
 
     return Observable;
 
 }
 
-HObservable HMva::NewObservable(float *Value, TString Expression, TString Title)
+HObservable HMva::NewObservable(float *Value, const string Expression, const string Title)
 {
-    
+
     Print(2, "New Observable", Expression);
 
     HObservable Observable = NewObservable(Value, Expression, Title, "");
@@ -51,7 +43,7 @@ HObservable HMva::NewObservable(float *Value, TString Expression, TString Title)
 
 }
 
-HObservable HMva::NewObservable(float *Value, TString Expression)
+HObservable HMva::NewObservable(float *Value, const string Expression)
 {
 
     Print(2, "New Observable", Expression);
@@ -60,4 +52,25 @@ HObservable HMva::NewObservable(float *Value, TString Expression)
 
     return Observable;
 
+}
+
+HObservable::HObservable(float *NewValue, const string NewExpression, const string NewTitle, const string NewUnit)
+{
+    
+//     Print(1, "Constructor");
+    
+    Value = NewValue;
+    
+    Expression = NewExpression;
+    
+    Title = NewTitle;
+    
+    Unit = NewUnit;
+    
+}
+
+HObservable::HObservable()
+{
+    
+    
 }

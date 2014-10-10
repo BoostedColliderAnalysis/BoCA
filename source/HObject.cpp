@@ -19,6 +19,8 @@ HObject::HObject() :
     DownDown1Id(1103),
     HeavyHiggsId(35),
     GluonId(21),
+    MuonId(13),
+    ElectronId(11),
     TopId(6),
     BottomId(5),
     CharmId(4),
@@ -26,7 +28,10 @@ HObject::HObject() :
     UpId(2),
     DownId(1),
     EmptyId(0),
-    IsrId(10)
+    IsrId(10),
+    Undefined(3),
+    Unstable(2),
+    Stable(1)
 {
 
 //     Print(1, "Constructor");

@@ -7,17 +7,17 @@ HMvaHeavyHiggs::HMvaHeavyHiggs()
 
     AnalysisName = "HeavyHiggs";
 
-    SignalVector = {"Signal"};
+    SignalNameVector = {"Signal"};
 
-    BackgroundVector = {"Background"};
+    BackgroundNameVector = {"Background"};
 
     TestName = "Test";
 
-    SignalTreeVector = {"Signal_5f"};
+    SignalTreeNameVector = {"Signal_5f"};
 
-    BackgroundTreeVector = {"5k_Pt20"};
+    BackgroundTreeNameVector = {"5k_Pt20"};
 
-    TestTreeVector = {"Signal_5f","5k_Pt20"};
+    TestTreeNameVector = {"Signal_5f","5k_Pt20"};
 
     CandidateBranchName = "HeavyHiggs";
 

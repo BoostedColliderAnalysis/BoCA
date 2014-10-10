@@ -77,6 +77,17 @@ float HJetInfo::GetMaximalFraction() const
 
 }
 
+bool HJetInfo::HasParticle(const int ParticleId) const
+{
+    
+    Print(2, "Has Particle", ParticleId);
+    
+    if (JetFractions.find(ParticleId) == JetFractions.end()) return 0;
+    
+    return 1;
+    
+}
+
 // float HJetInfo::GetMaximalFraction() const
 // {
 //

@@ -82,7 +82,7 @@ private:
      *
      * @return void
      */
-    bool GetJets(bool,bool);
+    bool GetJets(const bool, const bool);
 
     vector<PseudoJet> TagJets(vector<PseudoJet>);
 
@@ -98,18 +98,19 @@ private:
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 
-            const TObject* Object = Clone->Particles.At(ParticleNumber);
+            const TObject*const Object = Clone->Particles.At(ParticleNumber);
 
             if (Object == 0) continue;
             if (Object->IsA() != GenParticle::Class()) continue;
 
-            const GenParticle *ParticleClone = (GenParticle *) Object;
+            const GenParticle * const ParticleClone = (GenParticle *) Object;
 
             JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
 
         }
 
         Print(4, "Jet ID", JetInfo.GetMaximalId(),JetInfo.GetMaximalFraction());
+//         JetInfo.PrintAllInfos();
 
         return JetInfo;
 
@@ -144,15 +145,15 @@ private:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetEFlow(bool,bool);
+    bool GetEFlow(const bool, const bool);
 
-    void GetTrackEFlow(bool,bool);
+    void GetTrackEFlow(const bool, const bool);
 
-    void GetPhotonEFlow(bool,bool);
+    void GetPhotonEFlow(const bool, const bool);
 
-    void GetHadronEFlow(bool,bool);
+    void GetHadronEFlow(const bool, const bool);
 
-    void GetMuonEFlow(bool,bool);
+    void GetMuonEFlow(const bool, const bool);
 
     PseudoJet GetConstituents(const Jet * const) const;
 

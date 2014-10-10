@@ -27,6 +27,8 @@ public:
     void PrintAllInfos() const;
 
     void Clear();
+    
+    bool HasParticle(const int) const;
 
 private:
 
