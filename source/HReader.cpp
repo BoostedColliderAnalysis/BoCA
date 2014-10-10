@@ -72,7 +72,7 @@ void HReader::MVALoop()
 //     TFile *ExportFile = TFile::Open(ExportFileName, "Recreate");
 
     // Input File
-    const string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + string(".root");
+    const string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + ".root";
     const TFile *InputFile = TFile::Open(TString(InputFileName));
 
     cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << endl;
@@ -87,7 +87,7 @@ void HReader::MVALoop()
 
         const TClonesArray *ClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->WeightBranchName));
         const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(0);
-        HInfoBranch *Info = (HInfoBranch *) ClonesArray->At(0);
+        const HInfoBranch * const Info = (HInfoBranch *) ClonesArray->At(0);
 //         Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
 //         CrosssectionError = Info->Error * TreeReader->GetEntries() / Info->EventNumber;
         Crosssection = Info->Crosssection;
@@ -115,10 +115,10 @@ void HReader::ApplyBdt(const ExRootTreeReader * const TreeReader, const string T
 {
     Print(1, "Apply Bdt");
 
-    TClonesArray *CandidateClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->CandidateBranchName));
-    TClonesArray *LeptonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->LeptonBranchName));
+    const TClonesArray * const CandidateClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->CandidateBranchName));
+    const TClonesArray * const LeptonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->LeptonBranchName));
 
-    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile*>(ExportFile), TString(TreeName));
+    ExRootTreeWriter * TreeWriter = new ExRootTreeWriter(const_cast<TFile*>(ExportFile), TString(TreeName));
     ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(TString(Mva->CandidateBranchName), HCandidateBranch::Class());
     ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(TString(Mva->LeptonBranchName), HLeptonBranch::Class());
 
@@ -196,7 +196,7 @@ void HReader::LatexHeader()
 
     Print(1, "LaTeX Header");
 
-    string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + string(".tex");
+    string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + ".tex";
 
     LatexFile.open(TexFileName);
 

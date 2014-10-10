@@ -141,9 +141,9 @@ private:
     float RoundToDigits(float, int);
 
     float RoundToDigits(float);
-    
+
     float RoundToError(float, float);
-    
+
     float RoundError(float);
 
     float Error(float);
@@ -163,7 +163,7 @@ private:
     float Crosssection;
 
     float CrosssectionError;
-    
+
     float EventGenerated;
 
     float CrosssectionNorm;
@@ -214,11 +214,11 @@ private:
     ofstream LatexFile;
 
     HMva *Mva;
-        
+
     string ClassName() const {
-        
+
         return ("HReader");
-        
+
     };
 
 

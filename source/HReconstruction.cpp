@@ -49,7 +49,7 @@ void HReconstruction::GetFatJetVector(const vector<PseudoJet>& EFlowJetVector, c
 
   Print(3, "Number of Fat Jets", FatJetVector.size());
 
-  if (FatJetVector.size() > 0) FatJetClusterSequence->delete_self_when_unused();
+  if (!FatJetVector.empty()) FatJetClusterSequence->delete_self_when_unused();
 
 }
 
@@ -100,7 +100,7 @@ PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet, const float M
 
 bool HReconstruction::JetIsBad(const PseudoJet &Jet)
 {
-    
+
     HObject Object;
 
     if (fabs(Jet.m()) <= 0) {
