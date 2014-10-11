@@ -8,6 +8,7 @@
 # include "HHiggsTagger.hh"
 # include "HDiscriminator.hh"
 # include "HObject.hh"
+# include "HJetTag.hh"
 
 /**
  * @brief stores all the information about the event topology
@@ -44,11 +45,11 @@ public:
     
     virtual void GetEFlow(){};
     
-    virtual void GetTaggedEFlow(){};
+    virtual void GetTaggedEFlow(const HJetTag *const){};
 
     virtual PseudoJet GetHiggs(){PseudoJet j; return j;};
     
-    virtual vector<PseudoJet> GetHiggsTopCandidates(){vector<PseudoJet> v; return v;};
+    virtual vector<PseudoJet> GetHiggsTopCandidates(const HJetTag *const){vector<PseudoJet> v; return v;};
 
     virtual vector<PseudoJet> GetTops(){vector<PseudoJet> v; return v;};
     

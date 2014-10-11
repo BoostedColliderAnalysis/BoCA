@@ -5,6 +5,7 @@
 
 # include "HClonesArray.hh"
 # include "HFourVector.hh"
+# include "HJetTag.hh"
 
 using std::vector;
 
@@ -48,7 +49,7 @@ public:
      *
      * @return void
      */
-    virtual bool GetTaggedJets();
+    virtual bool GetTaggedJets(const HJetTag * const);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -67,7 +68,7 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool GetTaggedEFlow();
+    virtual bool GetTaggedEFlow(const HJetTag * const);
 
     /**
      * @brief Get Gen Jet
@@ -158,6 +159,8 @@ protected:
      *
      */
     const HClonesArray *ClonesArrays;
+        
+    const HJetTag  * JetTag;
 
 private:
 

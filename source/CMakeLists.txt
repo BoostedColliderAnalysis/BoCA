@@ -43,6 +43,7 @@ HHiggsTagger.cpp
 HEPTopTagger.cpp
 HPull.cpp
 HJetInfo.cpp
+HJetTag.cpp
 )
 
 set(HEventLinkLibraries

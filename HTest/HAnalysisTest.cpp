@@ -48,14 +48,39 @@ void HAnalysisTest::CloseFile()
 
 }
 
+class HHeavyHiggsJetTag : public HJetTag {
+    
+    int GetBranchId(int, int);
+    
+};
 
+int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
+{
+    
+    Print(2, "Get Mother Id");
+    
+    if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
+        BranchId = IsrId;
+    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+        BranchId = ParticleId;
+    } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+        BranchId = ParticleId;
+    }
+    
+    Print(4, "Mother Id", BranchId);
+    
+    
+    return BranchId;
+    
+}
 
 bool HAnalysisTest::Analysis()
 {
 
     Print(2, "Analysis", StudyName);
-
-    Event->Jets->GetTaggedJets();
+    
+    const HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    Event->Jets->GetTaggedJets(HeavyHiggsJetTag);
 
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());

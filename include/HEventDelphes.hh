@@ -5,6 +5,7 @@
 # include "HParticleDelphes.hh"
 # include "HLeptonDelphes.hh"
 # include "HJetDelphes.hh"
+# include "HJetTag.hh"
 
 /**
  * @brief stores all the information about the event topology
@@ -39,17 +40,17 @@ public:
     
     void GetEFlow();
     
-    void GetTaggedEFlow();
+    void GetTaggedEFlow(const HJetTag * const);
     
     void GetParticles();
 
     PseudoJet GetHiggs();
     
-    vector<PseudoJet> GetHiggsTopCandidates();
+    vector<PseudoJet> GetHiggsTopCandidates(const HJetTag * const);
 
     vector<PseudoJet> GetTops();
     
-    void GetTaggedJets();
+    void GetTaggedJets(const HJetTag * const);
 
 private:
     

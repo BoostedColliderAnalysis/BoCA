@@ -23,8 +23,9 @@ bool HJetDelphes::GetJets()
 
 }
 
-bool HJetDelphes::GetTaggedJets()
+bool HJetDelphes::GetTaggedJets(const HJetTag * const NewJetTag)
 {
+    JetTag = NewJetTag;
 
     return GetJets(1, 0);
 
@@ -32,7 +33,7 @@ bool HJetDelphes::GetTaggedJets()
 
 bool HJetDelphes::GetStructuredJets()
 {
-
+    
     return GetJets(0, 1);
 
 }
@@ -161,7 +162,8 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId)
 //         if (ParticleClone->PID == -6) DebugLevel = 4;
         Print(3, "Particle Id", ParticleClone->PID);
 
-        BranchId = GetBranchId(ParticleClone->PID, BranchId);
+//         BranchId = GetBranchId(ParticleClone->PID, BranchId);
+        BranchId = JetTag->GetBranchId(int(ParticleClone->PID), BranchId);
 
 //         if (ParticleClone->PID == HeavyHiggsId) {
 //
@@ -212,27 +214,27 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId)
 
 
 
-int HJetDelphes::GetBranchId(const int ParticleId, int BranchId)
-{
-
-    Print(2, "Get Mother Id");
-
-    std::set<int> InitialState = {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
-    std::set<int> MotherParticle = {BottomId, TopId, HeavyHiggsId};
-
-    if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
-      BranchId = IsrId;
-    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
-        BranchId = ParticleId;
-    } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
-        BranchId = ParticleId;
-    }
-
-    Print(4, "Mother Id", BranchId);
-
-
-    return BranchId;
-}
+// int HJetDelphes::GetBranchId(const int ParticleId, int BranchId)
+// {
+// 
+//     Print(2, "Get Mother Id");
+// 
+//     std::set<int> InitialState = {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+//     std::set<int> MotherParticle = {BottomId, TopId, HeavyHiggsId};
+// 
+//     if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
+//       BranchId = IsrId;
+//     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+//         BranchId = ParticleId;
+//     } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+//         BranchId = ParticleId;
+//     }
+// 
+//     Print(4, "Mother Id", BranchId);
+// 
+// 
+//     return BranchId;
+// }
 
 // int HJetDelphes::GetBranchId(const int ParticleId, int BranchId)
 // {
@@ -289,8 +291,10 @@ bool HJetDelphes::GetEFlow()
 
 }
 
-bool HJetDelphes::GetTaggedEFlow()
+bool HJetDelphes::GetTaggedEFlow(const HJetTag * const NewJetTag)
 {
+    
+    JetTag = NewJetTag;
 
     return GetEFlow(1, 0);
 

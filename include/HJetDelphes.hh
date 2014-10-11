@@ -39,7 +39,7 @@ public:
      *
      * @return void
      */
-    bool GetTaggedJets();
+    bool GetTaggedJets(const HJetTag * const);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -65,7 +65,7 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetTaggedEFlow();
+    bool GetTaggedEFlow(const HJetTag * const);
 
     /**
      * @brief Get Gen Jet
@@ -83,7 +83,7 @@ private:
      * @return void
      */
     bool GetJets(const bool, const bool);
-
+    
     vector<PseudoJet> TagJets(vector<PseudoJet>);
 
     vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>, int);
@@ -137,7 +137,7 @@ private:
 
     int GetMotherId(GenParticle *, int);
 
-    int GetBranchId(int, int);
+//     int GetBranchId(int, int);
 
     void GetDelphesTags(const Jet *const);
 

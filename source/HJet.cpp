@@ -50,7 +50,7 @@ bool HJet::GetJets()
 
 }
 
-bool HJet::GetTaggedJets()
+bool HJet::GetTaggedJets(const HJetTag * const JetTag)
 {
 
     Print(1,"Get Tagged Jets","No Jets");
@@ -77,7 +77,7 @@ bool HJet::GetEFlow()
 
 }
 
-bool HJet::GetTaggedEFlow()
+bool HJet::GetTaggedEFlow(const HJetTag * const JetTag)
 {
 
     Print(1,"Get Tagged EFlow","No EFlow");

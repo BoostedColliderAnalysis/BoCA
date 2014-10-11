@@ -84,6 +84,40 @@ void HAnalysisDiscriminator::CloseFile()
 }
 
 
+class HDiscriminatorJetTag : public HJetTag {
+    
+    int GetBranchId(int, int) const;
+    
+    const set<int> MotherParticle = {BottomId,TopId,CpvHiggsId};
+    
+    string ClassName() const {
+        
+        return ("HDiscriminatorJetTag");
+        
+    };
+    
+    
+};
+
+int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
+{
+    
+    Print(3, "Get Branch Id", ParticleId);
+    
+    if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
+        BranchId = IsrId;
+    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+        BranchId = ParticleId;
+    } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+        BranchId = ParticleId;
+    }
+    
+    Print(3, "Branch Id", BranchId);
+    
+    
+    return BranchId;
+    
+}
 
 bool HAnalysisDiscriminator::Analysis()
 {
@@ -108,8 +142,9 @@ bool HAnalysisDiscriminator::Analysis()
     int CandidateCounter = 0;
 
     // Higgs properties
-
-    vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates();
+    
+    const HDiscriminatorJetTag * const DiscriminatorJetTag = new HDiscriminatorJetTag;
+    vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(DiscriminatorJetTag);
 
     sort(CandidateJets.begin(), CandidateJets.end(), SortJetByMass());
 
@@ -141,7 +176,7 @@ bool HAnalysisDiscriminator::Analysis()
 
             }
 
-            if (CandidateCounter > 1) {
+            if (CandidateCounter > 0) {
 
                 Print(1, "Number of Higgs", CandidateCounter);
                 break;

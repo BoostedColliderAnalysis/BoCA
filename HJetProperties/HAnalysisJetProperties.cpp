@@ -59,6 +59,37 @@ void HAnalysisJetProperties::CloseFile()
 
 
 
+class HHeavyHiggsJetTag : public HJetTag
+{
+
+    int GetBranchId(int, int) const;
+
+};
+
+
+int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId) const
+{
+
+    Print(2, "Get Mother Id");
+
+    if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
+        BranchId = IsrId;
+    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != HeavyHiggsId)) {
+        BranchId = ParticleId;
+    } else if (abs(ParticleId) == TopId && abs(BranchId) != HeavyHiggsId) {
+        BranchId = ParticleId;
+    } else if (abs(ParticleId) == HeavyHiggsId) {
+        BranchId = ParticleId;
+    }
+
+    Print(4, "Mother Id", BranchId);
+
+
+    return BranchId;
+
+}
+
+
 bool HAnalysisJetProperties::Analysis()
 {
 
@@ -86,12 +117,14 @@ bool HAnalysisJetProperties::Analysis()
 //     Lepton->Pt = 1. / (LeptonJetVector[0].pt() - LeptonJetVector[1].pt());
 //     Lepton->Mass = 1. / (LeptonJetVector[0].pt() + LeptonJetVector[1].pt());
 
-    Event->GetTaggedEFlow();
+    const HHeavyHiggsJetTag *const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+
+    Event->GetTaggedEFlow(HeavyHiggsJetTag);
 
     float PtSum;
 
 
-    for (auto& EFlowJet: Event->Jets->EFlowJetVector) {
+    for (auto & EFlowJet : Event->Jets->EFlowJetVector) {
         PtSum += EFlowJet.pt();
     }
 
@@ -111,20 +144,20 @@ bool HAnalysisJetProperties::Analysis()
 //     vector<int> IdVector = { TopId,-TopId};
     vector<int> IdVector = {HeavyHiggsId};
 
-    for (auto& Id : IdVector) {
+    for (auto & Id : IdVector) {
 
         vector<PseudoJet> EFlowJetVector;
         std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJetVector),
-        [Id](const PseudoJet& EFlowJet) {
-            
+        [Id](const PseudoJet & EFlowJet) {
+
             if (EFlowJet.user_index() == Id) return 1;
-                     if (EFlowJet.has_user_info()){ 
-                         
-                         if (EFlowJet.user_info<HJetInfo>().HasParticle(Id)) return 1;
-                         
-                    }
-                    
-                    return 0;
+            if (EFlowJet.has_user_info()) {
+
+                if (EFlowJet.user_info<HJetInfo>().HasParticle(Id)) return 1;
+
+            }
+
+            return 0;
 
         });
 
@@ -140,7 +173,7 @@ bool HAnalysisJetProperties::Analysis()
 
         vector<float> DistanceVector;
 
-        for (auto& EFlowJet : EFlowJetVector) {
+        for (auto & EFlowJet : EFlowJetVector) {
 
             DistanceVector.push_back(CandidateJet.delta_R(EFlowJet));
 
@@ -152,7 +185,7 @@ bool HAnalysisJetProperties::Analysis()
 //     Print(0, "Median", DistanceVector[DistanceVector.size() * 0.68]);
 
         float RMax = 0;
-        for (auto& EFlowJet : EFlowJetVector) {
+        for (auto & EFlowJet : EFlowJetVector) {
 
             float DeltaR = CandidateJet.delta_R(EFlowJet);
             if (DeltaR > RMax) RMax = DeltaR;
@@ -175,7 +208,7 @@ bool HAnalysisJetProperties::Analysis()
 
 
 
-        for (auto& EFlowJet : EFlowJetVector) {
+        for (auto & EFlowJet : EFlowJetVector) {
 
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
             Constituent->Eta = EFlowJet.eta() - CandidateJet.eta();
@@ -189,3 +222,6 @@ bool HAnalysisJetProperties::Analysis()
     return 1;
 
 }
+
+
+
