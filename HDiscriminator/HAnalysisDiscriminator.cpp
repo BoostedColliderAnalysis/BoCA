@@ -9,11 +9,7 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 
     LeptonEventCounter = 0;
 
-//     ClonesArrays = new HClonesArrayDelphes();
-//
-//     Event = new HEventDelphes();
-
-//     Debug = 3;
+//     DebugLevel = 3;
 
     EventNumberMax = 10000;
 
@@ -84,26 +80,29 @@ void HAnalysisDiscriminator::CloseFile()
 }
 
 
-class HDiscriminatorJetTag : public HJetTag {
-    
-    int GetBranchId(int, int) const;
-    
-    const set<int> MotherParticle = {BottomId,TopId,CpvHiggsId};
-    
+class HDiscriminatorJetTag : public HJetTag
+{
+
+    int GetBranchId(const int, int) const;
+
+    const set<int> MotherParticle = {BottomId, TopId, CpvHiggsId};
+
     string ClassName() const {
-        
+
         return ("HDiscriminatorJetTag");
-        
+
     };
-    
-    
+
+
 };
 
 int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 {
-    
+
     Print(3, "Get Branch Id", ParticleId);
-    
+
+    if (ParticleId == TopId && BranchId == CpvHiggsId) Print(0, "Higgs overwritten by top");
+
     if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
         BranchId = IsrId;
     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
@@ -111,12 +110,13 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
     } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
         BranchId = ParticleId;
     }
-    
+
     Print(3, "Branch Id", BranchId);
-    
-    
+
+//     if (BranchId == 0) Print(0, "ParticleId", ParticleId);
+
     return BranchId;
-    
+
 }
 
 bool HAnalysisDiscriminator::Analysis()
@@ -124,9 +124,7 @@ bool HAnalysisDiscriminator::Analysis()
 
     Print(2, "Analysis", StudyName);
 
-    vector<PseudoJet> LeptonVector = Leptons();
-
-    Print(2, "Number of Leptons", LeptonVector.size());
+    const vector<PseudoJet> LeptonVector = Leptons();
 
     if (LeptonVector.size() < 2) {
 
@@ -139,16 +137,16 @@ bool HAnalysisDiscriminator::Analysis()
 
     // Higgs stuff
 
-    int CandidateCounter = 0;
-
-    // Higgs properties
-    
-    const HDiscriminatorJetTag * const DiscriminatorJetTag = new HDiscriminatorJetTag;
-    vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(DiscriminatorJetTag);
-
-    sort(CandidateJets.begin(), CandidateJets.end(), SortJetByMass());
+    const HDiscriminatorJetTag *const DiscriminatorJetTag = new HDiscriminatorJetTag;
+    const vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(DiscriminatorJetTag);
+    delete DiscriminatorJetTag;
 
     Print(2, "Number of Candidates", CandidateJets.size());
+
+//     for (const auto & CandidateJet : CandidateJets) {
+//
+//         Print(0,"JetMass",CandidateJet.m());
+//     }
 
 
     if (CandidateJets.size() < 1) {
@@ -158,16 +156,24 @@ bool HAnalysisDiscriminator::Analysis()
 
     }
 
+    int CandidateCounter = 0;
     bool HasCandidate = 0;
     bool HiggsCounter = 0;
 
-    for (unsigned CandidateNumber = 0; CandidateNumber < CandidateJets.size(); ++CandidateNumber) {
+    for (const auto & CandidateJet : CandidateJets) {
 
-        PseudoJet CandidateJet = CandidateJets[CandidateNumber];
+//         CandidateJet.user_info<HJetInfo>().PrintAllInfos();
 
-        Print(3, "Candidate", CandidateNumber, CandidateJet.user_index());
+        Print(3, "Candidate", CandidateJet.user_index());
 
         if (StudyName == "Higgs") {
+
+            if (CandidateCounter > 0) {
+
+                Print(1, "Number of Higgs", CandidateCounter);
+                break;
+
+            }
 
             if (CandidateJet.user_index() != CpvHiggsId) {
 
@@ -176,14 +182,7 @@ bool HAnalysisDiscriminator::Analysis()
 
             }
 
-            if (CandidateCounter > 0) {
-
-                Print(1, "Number of Higgs", CandidateCounter);
-                break;
-
-            }
             ++CandidateCounter;
-            if (CandidateNumber > 2) Print(3, "Higgs", CandidateNumber);
 
         }
 
@@ -225,24 +224,24 @@ bool HAnalysisDiscriminator::Analysis()
 
         }
 
-        float CandidateMass = CandidateJet.m();
-        float CandidatePt = CandidateJet.perp();
+        const float CandidateMass = CandidateJet.m();
+        const float CandidatePt = CandidateJet.perp();
 
         if (CandidateJet == 0 || CandidateMass <= 0 || CandidatePt <= 0) {
 
-            Print(1, "Illeagal Candidate", CandidateMass);
+            Print(0, "Illeagal Candidate", CandidateMass);
             continue;
 
         }
 
-        float Shift = 1;
-        float Position2Eta = 2 * Shift;
-        float PosDistance = GetDistance(Position2Eta, 0); // Position2Eta
+        const float Shift = 1;
+        const float Position2Eta = 2 * Shift;
+        const float PosDistance = GetDistance(Position2Eta, 0); // Position2Eta
 
-        float CandidateEta = CandidateJet.eta();
-        float CandidatePhi = CandidateJet.phi_std();
+        const float CandidateEta = CandidateJet.eta();
+        const float CandidatePhi = CandidateJet.phi_std();
 
-        float CandidateArea = 0;
+//         float CandidateArea = 0;
 
 //         if (CandidateJet.has_area()) {
 //
@@ -265,13 +264,12 @@ bool HAnalysisDiscriminator::Analysis()
 
         // Get Position of SubJets
 
-        vector<PseudoJet> CandidatePieces = CandidateJet.pieces();
-        sort(CandidatePieces.begin(), CandidatePieces.end(), SortJetByMass());
-        int PiecesSum = CandidatePieces.size();
+        vector<PseudoJet> PiecesVector = CandidateJet.pieces();
+        sort(PiecesVector.begin(), PiecesVector.end(), SortJetByMass());
 
-        if (!(PiecesSum == 2 /*|| PiecesSum ==3*/)) {
+        if (!(PiecesVector.size() == 2 /*|| PiecesSum ==3*/)) {
 
-            Print(1, "Wrong Number of SubJets", PiecesSum);
+            Print(1, "Wrong Number of SubJets", PiecesVector.size());
             continue;
 
         }
@@ -281,11 +279,11 @@ bool HAnalysisDiscriminator::Analysis()
 
         // SubJets
 
-        PseudoJet SubJet1 = CandidatePieces[0];
-        PseudoJet SubJet2 = CandidatePieces[1];
+        const PseudoJet SubJet1 = PiecesVector[0];
+        const PseudoJet SubJet2 = PiecesVector[1];
 
-        float SubJet1Mass = SubJet1.m();
-        float SubJet2Mass = SubJet2.m();
+        const float SubJet1Mass = SubJet1.m();
+        const float SubJet2Mass = SubJet2.m();
 
         if (SubJet1Mass <= 0 || SubJet2Mass <= 0) {
 
@@ -294,8 +292,8 @@ bool HAnalysisDiscriminator::Analysis()
 
         }
 
-        float SubJet1Pt = SubJet1.perp();
-        float SubJet2Pt = SubJet2.perp();
+        const float SubJet1Pt = SubJet1.perp();
+        const float SubJet2Pt = SubJet2.perp();
 
         if (SubJet1Pt <= 0 || SubJet2Pt <= 0) {
 
@@ -305,17 +303,17 @@ bool HAnalysisDiscriminator::Analysis()
         }
 
 
-        float SubJetDeltaR = SubJet1.delta_R(SubJet2);
+        const float SubJetDeltaR = SubJet1.delta_R(SubJet2);
 
-        float SubJet1DeltaR = SubJet1.delta_R(CandidateJet);
-        float SubJet2DeltaR = SubJet2.delta_R(CandidateJet);
+        const float SubJet1DeltaR = SubJet1.delta_R(CandidateJet);
+        const float SubJet2DeltaR = SubJet2.delta_R(CandidateJet);
 
 //         float Asymmetry = SubJet2Pt * SubJetDeltaR / CandidateMass;
 
         // Get SubJet coordinates in Higgs Jet coordinates
 
-        float SubJet1Eta = SubJet1.eta() - CandidateEta;
-        float SubJet1Phi = GetDeltaPhi(SubJet1.phi_std(), CandidatePhi);
+        const float SubJet1Eta = SubJet1.eta() - CandidateEta;
+        const float SubJet1Phi = GetDeltaPhi(SubJet1.phi_std(), CandidatePhi);
 
         float SubJet2Eta = SubJet2.eta() - CandidateEta;
         float SubJet2Phi = GetDeltaPhi(SubJet2.phi_std(), CandidatePhi);
@@ -327,19 +325,16 @@ bool HAnalysisDiscriminator::Analysis()
 
         // scale subjet distance to reference value
 
-        float SubJetDistance = GetDistance(SubJet2Eta, SubJet2Phi);
-        float SubJetRatio =  PosDistance / SubJetDistance;
+        const float SubJetDistance = GetDistance(SubJet2Eta, SubJet2Phi);
+        const float SubJetRatio =  PosDistance / SubJetDistance;
 
         if (SubJetDistance == 0) continue;
 
-        vector<PseudoJet> ConstituentVector = CandidateJet.constituents();
-        int ConstituentSum = ConstituentVector.size();
+        const vector<PseudoJet> ConstituentVector = CandidateJet.constituents();
 
+        if (ConstituentVector.size() < 1) {
 
-
-        if (ConstituentSum < 1) {
-
-            Print(1, "Not enough Constituents", ConstituentSum);
+            Print(1, "Not enough Constituents", ConstituentVector.size());
             continue;
 
         }
@@ -349,32 +344,25 @@ bool HAnalysisDiscriminator::Analysis()
 
 
 
-
-
         // Isolation
 
-        int ClosestLepton = LargeNumber;
-        int ClosestPiece = LargeNumber;
         float IsolationDeltaR = LargeNumber;
 
-        float IsolationEta = 0;
-        float IsolationPhi = 0;
-        float IsolationPt = 0;
+        PseudoJet ClosestLepton;
+        PseudoJet ClosestPiece;
 
-        for (int PiecesNumber = 0; PiecesNumber < PiecesSum; ++PiecesNumber) {
+        for (const auto & Piece : PiecesVector) {
 
-            PseudoJet Piece = CandidatePieces[PiecesNumber];
+            for (const auto & Lepton : LeptonVector) {
 
-            for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
-
-                float DeltaR = LeptonVector[LeptonNumber].delta_R(Piece);
+                const float DeltaR = Lepton.delta_R(Piece);
                 Print(4, "DeltaR", DeltaR);
 
                 if (DeltaR < IsolationDeltaR) {
 
                     IsolationDeltaR = DeltaR;
-                    ClosestLepton = LeptonNumber;
-                    ClosestPiece = PiecesNumber;
+                    ClosestLepton = Lepton;
+                    ClosestPiece = Piece;
 
                 }
 
@@ -382,14 +370,18 @@ bool HAnalysisDiscriminator::Analysis()
 
         }
 
-        Print(3, "Closest Lepton", ClosestLepton);
+//         Print(3, "Closest Lepton", ClosestLepton);
 
 
+
+        float IsolationEta = 0;
+        float IsolationPhi = 0;
+        float IsolationPt = 0;
         if (IsolationDeltaR != LargeNumber) {
 
-            IsolationEta = LeptonVector[ClosestLepton].eta() - CandidatePieces[ClosestPiece].eta();
-            IsolationPhi = GetDeltaPhi(LeptonVector[ClosestLepton].phi(), CandidatePieces[ClosestPiece].phi());
-            IsolationPt = LeptonVector[ClosestLepton].pt() / CandidatePieces[ClosestPiece].pt();
+            IsolationEta = ClosestLepton.eta() - ClosestPiece.eta();
+            IsolationPhi = ClosestLepton.delta_phi_to(ClosestPiece);
+            IsolationPt = ClosestLepton.pt() / ClosestPiece.pt();
 
 
         }
@@ -407,9 +399,8 @@ bool HAnalysisDiscriminator::Analysis()
 
 
 
-        for (int ConstituentNumber = 0; ConstituentNumber < ConstituentSum; ++ConstituentNumber) {
+        for (const auto & ConstituentJet : ConstituentVector) {
 
-            PseudoJet ConstituentJet = ConstituentVector[ConstituentNumber];
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
 
             // Get Constituent coordinates in Higgs Jet coordinates
@@ -465,7 +456,7 @@ bool HAnalysisDiscriminator::Analysis()
         Candidate->IsolationPhi = IsolationPhi;
         Candidate->IsolationPt = IsolationPt;
 
-        Candidate->IsolationDeltaR = LeptonVector[ClosestLepton].delta_R(CandidatePieces[ClosestPiece]);
+        Candidate->IsolationDeltaR = ClosestLepton.delta_R(ClosestPiece);
         Candidate->IsolationAngle = atan2(IsolationPhi, IsolationEta);
 
         Print(3, "Isolation", Candidate->IsolationDeltaR);
@@ -505,7 +496,7 @@ bool HAnalysisDiscriminator::Analysis()
         Candidate->SubJetsDeltaR = SubJetDeltaR;
         Candidate->SubJet1DeltaR = SubJet1DeltaR / SubJetDeltaR ;
         Candidate->SubJet2DeltaR = SubJet2DeltaR / SubJetDeltaR ;
-        Candidate->Area = CandidateArea;
+//         Candidate->Area = CandidateArea;
 
 
 
@@ -552,47 +543,52 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
     sort(LeptonVector.begin(), LeptonVector.end(), SortJetByPt());
     sort(AntiLeptonVector.begin(), AntiLeptonVector.end(), SortJetByPt());
 
-    for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
+    bool HardestLepton = 1;
+    for (const auto & LeptonJet : LeptonVector) {
 
-        if (LeptonNumber == 0) {
+        if (HardestLepton) {
 
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
-            Lepton->Pt = LeptonVector[LeptonNumber].pt();
-            Lepton->Eta = LeptonVector[LeptonNumber].eta();
-            Lepton->Phi = LeptonVector[LeptonNumber].phi_std();
+            Lepton->Pt = LeptonJet.pt();
+            Lepton->Eta = LeptonJet.eta();
+            Lepton->Phi = LeptonJet.phi_std();
             Lepton->Charge = -1;
-            Lepton->Mass = LeptonVector[LeptonNumber].m();
-
+            Lepton->Mass = LeptonJet.m();
         }
+        HardestLepton = 0;
 
-        LeptonEta.push_back(LeptonVector[LeptonNumber].eta());
-        LeptonPhi.push_back(LeptonVector[LeptonNumber].phi_std());
+        LeptonEta.push_back(LeptonJet.eta());
+        LeptonPhi.push_back(LeptonJet.phi_std());
 
     }
 
-    for (unsigned LeptonNumber = 0; LeptonNumber < AntiLeptonVector.size(); ++LeptonNumber) {
+    HardestLepton = 1;
+    for (const auto & AntiLeptonJet : AntiLeptonVector) {
 
-        if (LeptonNumber == 0) {
+        if (HardestLepton) {
 
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
-            Lepton->Pt = AntiLeptonVector[LeptonNumber].pt();
-            Lepton->Eta = AntiLeptonVector[LeptonNumber].eta();
-            Lepton->Phi = AntiLeptonVector[LeptonNumber].phi_std();
+            Lepton->Pt = AntiLeptonJet.pt();
+            Lepton->Eta = AntiLeptonJet.eta();
+            Lepton->Phi = AntiLeptonJet.phi_std();
             Lepton->Charge = 1;
-            Lepton->Mass = AntiLeptonVector[LeptonNumber].m();
+            Lepton->Mass = AntiLeptonJet.m();
 
         }
+        HardestLepton = 0;
 
-        LeptonEta.push_back(AntiLeptonVector[LeptonNumber].eta());
-        LeptonPhi.push_back(AntiLeptonVector[LeptonNumber].phi_std());
+        LeptonEta.push_back(AntiLeptonJet.eta());
+        LeptonPhi.push_back(AntiLeptonJet.phi_std());
 
     }
 
     LeptonVector.insert(LeptonVector.end(), AntiLeptonVector.begin(), AntiLeptonVector.end());
 
-    return (LeptonVector);
+    Print(2, "Number of Leptons", LeptonVector.size());
+
+    return LeptonVector;
 
 }
 

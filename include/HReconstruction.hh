@@ -49,15 +49,15 @@ protected:
    * @brief Get vecto of all fatjets
    *
    */
-  void GetFatJetVector(const vector<PseudoJet>&);
+  vector<PseudoJet> GetFatJetVector(const vector<PseudoJet>&) const;
 
   /**
    * @brief Get vecto of all fatjets
    *
    */
-  void GetFatJetVector(const vector<PseudoJet>&,const fastjet::JetDefinition&);
+  vector<PseudoJet> GetFatJetVector(const vector<PseudoJet>&,const fastjet::JetDefinition&) const;
 
-  void GetMassDropVector();
+  vector<PseudoJet> GetMassDropVector(const vector<PseudoJet>&) const;
 
     /**
      * @brief Get mass drop jet
@@ -65,9 +65,9 @@ protected:
      * @param  FatJet
      * @return MassDropJet
      */
-    PseudoJet GetMassDropJet(const PseudoJet&);
+    PseudoJet GetMassDropJet(const PseudoJet&) const;
 
-    PseudoJet GetMassDropJet(const PseudoJet&, const float, const float);
+    PseudoJet GetMassDropJet(const PseudoJet&, const float, const float) const;
 
     /**
      * @brief Filter Jets
@@ -79,9 +79,9 @@ protected:
 
     static bool JetIsBad(const PseudoJet &);
 
-    void GetFatJetTag();
+    vector<PseudoJet> GetFatJetTag(vector<PseudoJet>&);
 
-    vector<PseudoJet> FatJetVector;
+//     vector<PseudoJet> FatJetVector;
 
     string ClassName() const {
 

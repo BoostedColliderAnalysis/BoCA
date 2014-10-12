@@ -37,55 +37,8 @@ struct PairOrder {
     }
 };
 
-
-
-template <typename TCutFlow>
-vector<TCutFlow> CutFlowOrder(
-    vector<TCutFlow> const &Input,
-    vector<pair<size_t, VectorIterator> > const &Reference
-)
-{
-
-    size_t const OrderSum = Reference.size();
-    vector<TCutFlow> Output(OrderSum);
-
-    for (size_t OrderSize = 0; OrderSize < OrderSum; ++OrderSize) {
-
-        Output[OrderSize] = Input[Reference[OrderSize].first];
-
-    }
-
-    return Output;
-}
-
-
-template<typename Template> void PrintData(Template PrintDataTemplate, const int &Width)
-{
-    const char Separator = ' ';
-    std::cout << std::right << setw(Width) << setfill(Separator) << PrintDataTemplate;
-}
-
-
-template<typename Template> void PrintText(Template PrintDataTemplate, const int &Width)
-{
-    const char Separator = ' ';
-    std::cout << left << setw(Width) << setfill(Separator) << PrintDataTemplate;
-}
-
-
-template<typename Template> void PrintUnit(Template PrintDataTemplate, const int &Width)
-{
-    std::stringstream ss;
-    ss << " " << PrintDataTemplate;
-
-    const char Separator = ' ';
-    std::cout << left << setw(Width) << setfill(Separator) << ss.str();
-}
-
-
-
 /**
- * @brief Prepares multivariant analysis
+ * @brief Presents result of multivariant analysis
  *
  */
 class HReader : public HObject
@@ -97,7 +50,7 @@ public:
      * @brief Constructor
      *
      */
-    HReader(HMva*);
+    HReader(HMva *);
 
     /**
      * @brief Destructor
@@ -106,6 +59,54 @@ public:
     ~HReader();
 
 private:
+    
+    
+    
+    template <typename TCutFlow>
+    vector<TCutFlow> CutFlowOrder(
+        vector<TCutFlow> const &Input,
+        vector<pair<size_t, VectorIterator> > const &Reference
+    )
+    {
+        
+        size_t const OrderSum = Reference.size();
+        vector<TCutFlow> Output(OrderSum);
+        
+        for (size_t OrderSize = 0; OrderSize < OrderSum; ++OrderSize) {
+            
+            Output[OrderSize] = Input[Reference[OrderSize].first];
+            
+        }
+        
+        return Output;
+    }
+    
+    
+    template<typename TData> 
+    void PrintData(const TData Data, const int Width) const
+    {
+        const char Separator = ' ';
+        std::cout << std::right << setw(Width) << setfill(Separator) << Data;
+    }
+    
+    
+    template<typename TText> 
+    void PrintText(const TText Text, const int Width) const
+    {
+        const char Separator = ' ';
+        std::cout << left << setw(Width) << setfill(Separator) << Text;
+    }
+    
+    
+    template<typename TData> 
+    void PrintUnit(const TData Data, const int Width) const
+    {
+        std::stringstream ss;
+        ss << " " << Data;
+        
+        const char Separator = ' ';
+        std::cout << left << setw(Width) << setfill(Separator) << ss.str();
+    }
 
     /**
      * @brief Apllication of cuts
@@ -130,23 +131,23 @@ private:
 
     void LatexFooter();
 
-    void LatexContent(string);
+    void LatexContent(const string);
 
-    float Luminosity(float);
+    float Luminosity(const float) const;
 
-    float Scaling(float, int);
+    float Scaling(const float, const int) const;
 
-    float LuminosityError(float);
+    float LuminosityError(const float) const;
 
-    float RoundToDigits(float, int);
+    float RoundToDigits(const float, const int) const;
 
-    float RoundToDigits(float);
+    float RoundToDigits(const float) const;
 
-    float RoundToError(float, float);
+    float RoundToError(const float, const float) const;
 
-    float RoundError(float);
+    float RoundError(const float) const;
 
-    float Error(float);
+    float Error(const float) const;
 
     int HiggsSum;
 
@@ -156,8 +157,8 @@ private:
 
     int FatJetSum;
 
-
     int TopEventSum;
+    
     int HiggsEventSum;
 
     float Crosssection;
@@ -202,8 +203,9 @@ private:
 
     vector<double> CutsMax;
 
-    float Ratio(float, float);
-    void TabularOutput();
+    float Ratio(const float, const float) const;
+
+    void TabularOutput() const;
 
     TMVA::Reader *Reader;
 
@@ -213,7 +215,7 @@ private:
 
     ofstream LatexFile;
 
-    HMva *Mva;
+    HMva * Mva;
 
     string ClassName() const {
 

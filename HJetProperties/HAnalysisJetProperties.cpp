@@ -124,7 +124,7 @@ bool HAnalysisJetProperties::Analysis()
     float PtSum;
 
 
-    for (auto & EFlowJet : Event->Jets->EFlowJetVector) {
+    for (const auto & EFlowJet : Event->Jets->EFlowJetVector) {
         PtSum += EFlowJet.pt();
     }
 
@@ -144,7 +144,7 @@ bool HAnalysisJetProperties::Analysis()
 //     vector<int> IdVector = { TopId,-TopId};
     vector<int> IdVector = {HeavyHiggsId};
 
-    for (auto & Id : IdVector) {
+    for (const auto & Id : IdVector) {
 
         vector<PseudoJet> EFlowJetVector;
         std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJetVector),
@@ -173,7 +173,7 @@ bool HAnalysisJetProperties::Analysis()
 
         vector<float> DistanceVector;
 
-        for (auto & EFlowJet : EFlowJetVector) {
+        for (const auto & EFlowJet : EFlowJetVector) {
 
             DistanceVector.push_back(CandidateJet.delta_R(EFlowJet));
 
@@ -185,7 +185,7 @@ bool HAnalysisJetProperties::Analysis()
 //     Print(0, "Median", DistanceVector[DistanceVector.size() * 0.68]);
 
         float RMax = 0;
-        for (auto & EFlowJet : EFlowJetVector) {
+        for (const auto & EFlowJet : EFlowJetVector) {
 
             float DeltaR = CandidateJet.delta_R(EFlowJet);
             if (DeltaR > RMax) RMax = DeltaR;
@@ -208,7 +208,7 @@ bool HAnalysisJetProperties::Analysis()
 
 
 
-        for (auto & EFlowJet : EFlowJetVector) {
+        for (const auto & EFlowJet : EFlowJetVector) {
 
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
             Constituent->Eta = EFlowJet.eta() - CandidateJet.eta();

@@ -42,12 +42,9 @@ PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& InputJetVector, con
     Print(2, "GetHiggsJet");
 
 //     vector<PseudoJet> FatJetVector =
-    GetFatJetVector(InputJetVector);
+    vector<PseudoJet> FatJetVector = GetFatJetVector(InputJetVector);
 
-    int FatJetSum = FatJetVector.size();
-    for (int FatJetNumber = 0; FatJetNumber < FatJetSum; ++FatJetNumber) {
-
-        FatJet = FatJetVector[FatJetNumber];
+    for (auto & FatJet : FatJetVector) {
 
         PseudoJet MassDropJet = GetMassDropJet(FatJet);
 

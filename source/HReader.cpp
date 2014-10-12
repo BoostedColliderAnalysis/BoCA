@@ -1,6 +1,6 @@
 # include "HReader.hh"
 
-HReader::HReader(HMva *NewMva)
+HReader::HReader(HMva   *NewMva)
 {
 
     Print(1, "Constructor");
@@ -32,13 +32,13 @@ void HReader::AddVariable()
     const string DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
 
-    for (auto& Observable : Mva->ObservableVector){
+    for (const auto & Observable : Mva->ObservableVector) {
 
         Reader->AddVariable(Observable.Expression, Observable.Value);
 
     }
 
-    for (auto& Spectator : Mva->SpectatorVector){
+    for (const auto & Spectator : Mva->SpectatorVector) {
 
         Reader->AddSpectator(Spectator.Expression, Spectator.Value);
 
@@ -53,12 +53,13 @@ void HReader::BookMVA()
     const string XmlName = ".weights.xml";
 
     const string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
-    Print(0,"Opening Weight File",CutWeightFile);
+    Print(0, "Opening Weight File", CutWeightFile);
+
     Reader->BookMVA(Mva->CutMethodName, CutWeightFile);
 
-//     string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
-//     cout << "Opening Weight File: " << BdtWeightFile << endl;
-//     Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
+    const string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
+    Print(0, "Opening Weight File", BdtWeightFile);
+    Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
 
 }
 
@@ -68,35 +69,35 @@ void HReader::MVALoop()
     Print(1, "Mva Loop");
 
     // Export File
-//     string ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
-//     TFile *ExportFile = TFile::Open(ExportFileName, "Recreate");
+    const string ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
+    const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
 
     // Input File
     const string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + ".root";
-    const TFile *InputFile = TFile::Open(TString(InputFileName));
+    const TFile *InputFile = TFile::Open(InputFileName.c_str());
 
     cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << endl;
     if (Mva->Latex) LatexHeader();
 
     GetCuts();
 
-    for (auto& TestTreeName : Mva->TestTreeNameVector){
+    for (const auto & TestTreeName : Mva->TestTreeNameVector) {
 
-        const TTree * const InputTree = (TTree *)const_cast<TFile*>(InputFile)->Get(TString(TestTreeName));
-        const ExRootTreeReader * const TreeReader = new ExRootTreeReader(const_cast<TTree*>(InputTree));
+        const TTree *const InputTree = (TTree *)const_cast<TFile *>(InputFile)->Get(TestTreeName.c_str());
+        const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(InputTree));
 
-        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->WeightBranchName));
-        const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(0);
-        const HInfoBranch * const Info = (HInfoBranch *) ClonesArray->At(0);
+        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+        const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
 //         Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
 //         CrosssectionError = Info->Error * TreeReader->GetEntries() / Info->EventNumber;
         Crosssection = Info->Crosssection;
         CrosssectionError = Info->Error;
         EventGenerated = Info->EventNumber;
 
-        EventSum = const_cast<ExRootTreeReader*>(TreeReader)->GetEntries();
+        EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 
-        //         ApplyBdt(TreeReader, TestTreeName, ExportFile);
+        ApplyBdt(TreeReader, TestTreeName, ExportFile);
 
         ApplyCuts(TreeReader, TestTreeName);
 
@@ -104,31 +105,30 @@ void HReader::MVALoop()
 
     }
 
-//     ExportFile->Close();
+    const_cast<TFile *>(ExportFile)->Close();
 
     if (Mva->Latex) LatexFooter();
 
 }
 
 
-void HReader::ApplyBdt(const ExRootTreeReader * const TreeReader, const string TreeName, const TFile * const ExportFile)
+void HReader::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile)
 {
     Print(1, "Apply Bdt");
 
-    const TClonesArray * const CandidateClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->CandidateBranchName));
-    const TClonesArray * const LeptonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->LeptonBranchName));
+    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->CandidateBranchName.c_str());
+    const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->SpectatorBranchName.c_str());
 
-    ExRootTreeWriter * TreeWriter = new ExRootTreeWriter(const_cast<TFile*>(ExportFile), TString(TreeName));
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(TString(Mva->CandidateBranchName), HCandidateBranch::Class());
-    ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(TString(Mva->LeptonBranchName), HLeptonBranch::Class());
+    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(Mva->CandidateBranchName.c_str(), HCandidateBranch::Class());
+    ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(Mva->SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
 
     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
 
-        const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(EventNumber);
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 
-        int CandidateSum = CandidateClonesArray->GetEntriesFast();
-        for (int CandidateNumber = 0; CandidateNumber < CandidateSum; ++CandidateNumber) {
+        for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
             (*Mva->Candidate) = *((HCandidateBranch *) CandidateClonesArray->At(CandidateNumber));
 
@@ -136,10 +136,10 @@ void HReader::ApplyBdt(const ExRootTreeReader * const TreeReader, const string T
 
             (*ExportCandidate) = *Mva->Candidate;
 
-//             float BdtEvaluation = Reader->EvaluateMVA(Mva->BdtMethodName);
+            const float BdtEvaluation = Reader->EvaluateMVA(Mva->BdtMethodName);
 
             float SigEff;
-            int StepSize = 50;
+            const int StepSize = 50;
             for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
                 bool CutEvaluation = Reader->EvaluateMVA(Mva->CutMethodName, SigEff / StepSize);
@@ -148,20 +148,17 @@ void HReader::ApplyBdt(const ExRootTreeReader * const TreeReader, const string T
 
             }
 
-            //             ExportCandidate->JetBdtTag = BdtEvaluation;
+            ExportCandidate->JetBdtTag = BdtEvaluation;
             ExportCandidate->JetCutSigEff = SigEff / StepSize;
 
-            //             ExportCandidate->TopBdtTag = BdtEvaluation;
+            ExportCandidate->TopBdtTag = BdtEvaluation;
             ExportCandidate->TopCutSigEff = SigEff / StepSize;
 
         }
 
+        for (int CandidateNumber = 0; CandidateNumber < SpectatorClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
-
-        CandidateSum = LeptonClonesArray->GetEntriesFast();
-        for (int CandidateNumber = 0; CandidateNumber < CandidateSum; ++CandidateNumber) {
-
-            HLeptonBranch *Lepton = (HLeptonBranch *) LeptonClonesArray->At(CandidateNumber);
+            HLeptonBranch *Lepton = (HLeptonBranch *) SpectatorClonesArray->At(CandidateNumber);
 
             HLeptonBranch *ExportLepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
             (*ExportLepton) = *Lepton;
@@ -196,7 +193,7 @@ void HReader::LatexHeader()
 
     Print(1, "LaTeX Header");
 
-    string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + ".tex";
+    const string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + ".tex";
 
     LatexFile.open(TexFileName);
 
@@ -213,7 +210,7 @@ void HReader::LatexHeader()
 }
 
 
-void HReader::ApplyCuts(const ExRootTreeReader * const TreeReader, const string TreeName)
+void HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const string TreeName)
 {
 
     Print(1, "Apply Cuts");
@@ -246,7 +243,7 @@ void HReader::ApplyCuts(const ExRootTreeReader * const TreeReader, const string 
 }
 
 
-void HReader::CutLoop(const ExRootTreeReader * const TreeReader)
+void HReader::CutLoop(const ExRootTreeReader *const TreeReader)
 {
 
     Print(1, "Cut Loop");
@@ -267,11 +264,11 @@ void HReader::CutLoop(const ExRootTreeReader * const TreeReader)
     HiggsVector.assign(ObservableSum, 0);
     TopVector.assign(ObservableSum, 0);
 
-    TClonesArray *ClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(TString(Mva->CandidateBranchName));
+    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->CandidateBranchName.c_str());
 
     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
 
-        const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(EventNumber);
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 
         vector<bool> CandidateEventCut(ObservableSum, 1);
         vector<bool> TopEventCut(ObservableSum, 1);
@@ -279,8 +276,7 @@ void HReader::CutLoop(const ExRootTreeReader * const TreeReader)
         bool HasHiggs = 0;;
         bool HasTop = 0;
 
-        int CandidateSum = ClonesArray->GetEntriesFast();
-        for (int CandidateNumber = 0; CandidateNumber < CandidateSum; ++CandidateNumber) {
+        for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
             ++FatJetSum;
 
@@ -358,7 +354,7 @@ void HReader::CutLoop(const ExRootTreeReader * const TreeReader)
 
 }
 
-void HReader::TabularOutput()
+void HReader::TabularOutput() const
 {
 
     const int NameWidth = 15;
@@ -396,8 +392,7 @@ void HReader::TabularOutput()
     PrintData(RoundToDigits(CandidatsPerEvent), DataWidth);
     cout << endl;
 
-    int ObservableSum = Mva->ObservableVector.size();
-    for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
+    for (unsigned ObservableNumber = 0; ObservableNumber < Mva->ObservableVector.size(); ++ObservableNumber) {
 
         CandidatsPerEvent = Ratio(FatJetVector[ObservableNumber], EventVector[ObservableNumber]);
 
@@ -420,7 +415,7 @@ void HReader::TabularOutput()
 
 }
 
-void HReader::LatexContent(string TreeName)
+void HReader::LatexContent(const string TreeName)
 {
 
     Print(1, "LaTeX Content");
@@ -442,7 +437,7 @@ void HReader::LatexContent(string TreeName)
               << " \\\\ \\midrule" << endl << "   ";
 
     CrosssectionNorm = Crosssection * 1000; // conversion from pico to femto
-    float CrosssectionNormError = CrosssectionError * 1000;
+    const float CrosssectionNormError = CrosssectionError * 1000;
 //     CrosssectionNormRelError =  CrosssectionNormError / CrosssectionNorm;
 
 
@@ -455,7 +450,7 @@ void HReader::LatexContent(string TreeName)
 //     float EventRatioNormError = EvenRatioError / EventRatio;
 
 
-    float Lumi = Mva->Luminosity / EventGenerated;
+    const float Lumi = Mva->Luminosity / EventGenerated;
 
     float EventLuminosity = EventSum * Lumi;
 //               float EventLuminosityError = EventLuminosity * EventRatioNormError;
@@ -510,7 +505,7 @@ void HReader::LatexContent(string TreeName)
 
     LatexFile << "\\bottomrule" << endl
               << "\\end{tabular}" << endl
-              << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit["<< RoundToError(CrosssectionNorm,CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError,2) << "]{fb}$, a signal efficiency of " << Mva->SignalEfficiency << " and a integrated Luminosity of $\\unit[" << Mva->Luminosity << "]{fb^{-1}}$.}" << endl
+              << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit[" << RoundToError(CrosssectionNorm, CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError, 2) << "]{fb}$, a signal efficiency of " << Mva->SignalEfficiency << " and a integrated Luminosity of $\\unit[" << Mva->Luminosity << "]{fb^{-1}}$.}" << endl
               //         << "\\label{tab:}" << Mva->BackgroundVector[BackgroundNumber] << endl;
               << "\\end{table}" << endl;
 
@@ -521,16 +516,14 @@ void HReader::LatexFooter()
 
     Print(1, "LaTeX Footer");
 
-
     LatexFile << endl << "\\end{document}" << endl;
 
     LatexFile.close();
 
 }
 
-float HReader::Ratio(float Nominator, float Denummertor)
+float HReader::Ratio(const float Nominator, const float Denummertor) const
 {
-
 
     float Ratio;
 
@@ -549,7 +542,7 @@ float HReader::Ratio(float Nominator, float Denummertor)
 }
 
 
-float HReader::Scaling(float Events, int Particles)
+float HReader::Scaling(const float Events, const int Particles) const
 {
 
     Print(2 , "Scaling");
@@ -572,7 +565,7 @@ float HReader::Scaling(float Events, int Particles)
 
 
 
-float HReader::Luminosity(float Number)
+float HReader::Luminosity(const float Number) const
 {
 
     Print(2 , "Luminosity");
@@ -583,7 +576,7 @@ float HReader::Luminosity(float Number)
 
 }
 
-float HReader::LuminosityError(float Number)
+float HReader::LuminosityError(const float Number) const
 {
 
     Print(2 , "Luminosity Error");
@@ -597,7 +590,7 @@ float HReader::LuminosityError(float Number)
 }
 
 
-float HReader::Error(float Value)
+float HReader::Error(const float Value) const
 {
     Print(2 , "Error");
 
@@ -613,12 +606,12 @@ float HReader::Error(float Value)
 
     }
 
-    return (Error);
+    return Error;
 
 }
 
 
-float HReader::RoundToDigits(float Value)
+float HReader::RoundToDigits(const float Value) const
 {
 
     return RoundToDigits(Value, 3);
@@ -626,7 +619,7 @@ float HReader::RoundToDigits(float Value)
 }
 
 
-float HReader::RoundError(float Value)
+float HReader::RoundError(const float Value) const
 {
 
     return RoundToDigits(Value, 2);
@@ -634,7 +627,7 @@ float HReader::RoundError(float Value)
 }
 
 
-float HReader::RoundToDigits(float Value, int Digits)
+float HReader::RoundToDigits(const float Value, const int Digits) const
 {
 
     Print(2 , "Round To Digits");
@@ -645,14 +638,14 @@ float HReader::RoundToDigits(float Value, int Digits)
 
     } else {
 
-        float Factor = pow(10.0, Digits - ceil(log10(fabs(Value))));
+        const float Factor = pow(10.0, Digits - ceil(log10(fabs(Value))));
         return (round(Value * Factor) / Factor);
 
     }
 }
 
 
-float HReader::RoundToError(float Value, float Error)
+float HReader::RoundToError(const float Value, const float Error) const
 {
 
     Print(2 , "Round To Digits");
@@ -663,8 +656,8 @@ float HReader::RoundToError(float Value, float Error)
 
     } else {
 
+        const float Factor = pow(10.0, 2 - ceil(log10(fabs(Error))));
 
-        float Factor = pow(10.0, 2 - ceil(log10(fabs(Error))));
         return (round(Value * Factor) / Factor);
 
     }

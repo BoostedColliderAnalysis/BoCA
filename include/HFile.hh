@@ -108,7 +108,7 @@ private:
 
     void  SetVariables();
 
-    virtual string ClassName() {
+    virtual string ClassName() const {
 
         return ("HFile");
 
@@ -134,7 +134,7 @@ public:
 
 private:
 
-    string ClassName() {
+    string ClassName() const {
 
         return ("HFileFlat");
 
@@ -160,7 +160,7 @@ public:
 
 private:
 
-    string ClassName() {
+    string ClassName() const {
 
         return ("HFilePgs");
 
@@ -185,7 +185,7 @@ public:
 
 private:
 
-    string ClassName() {
+    string ClassName() const {
 
         return ("HFileDelphes");
 

@@ -29,7 +29,7 @@ HMvaDiscriminator::HMvaDiscriminator()
 
     CandidateBranchName = "Candidate";
 
-    LeptonBranchName = "Lepton";
+    SpectatorBranchName = "Lepton";
 
     WeightBranchName = "Info";
 
@@ -61,14 +61,14 @@ void HMvaDiscriminator::DefineVariables()
 
     Print(1 , "Define Variables");
 
-    ObservableVector.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV"));
-    ObservableVector.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV"));
-    ObservableVector.push_back(NewObservable(&Candidate->Eta, "Candidate.Eta", "Eta"));
-    ObservableVector.push_back(NewObservable(&Candidate->Phi, "Candidate.Phi", "Phi"));
+    ObservableVector.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV","m_j"));
+    ObservableVector.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV","p^T_j"));
+    ObservableVector.push_back(NewObservable(&Candidate->Eta, "Candidate.Eta", "Eta","\\eta_j"));
+    ObservableVector.push_back(NewObservable(&Candidate->Phi, "Candidate.Phi", "Phi","\\phi_j"));
 
-    ObservableVector.push_back(NewObservable(&Candidate->SubJetsDeltaR, "Candidate.SubJetsDeltaR", "SubJet DeltaR"));
+    ObservableVector.push_back(NewObservable(&Candidate->SubJetsDeltaR, "Candidate.SubJetsDeltaR", "SubJet DeltaR","\\Delta R(j_1,j_2)"));
 
-    ObservableVector.push_back(NewObservable(&Candidate->SubJet1Mass, "Candidate.SubJet1Mass","SubJet1 Mass", "GeV"));
+    ObservableVector.push_back(NewObservable(&Candidate->SubJet1Mass, "Candidate.SubJet1Mass","SubJet1 Mass", "GeV","m_{j_1}"));
     ObservableVector.push_back(NewObservable(&Candidate->SubJet1Pt, "Candidate.SubJet1Pt","SubJet1 Pt", "GeV"));
     ObservableVector.push_back(NewObservable(&Candidate->SubJet1DeltaR,"Candidate.SubJet1DeltaR","SubJet1 DeltaR"));
 

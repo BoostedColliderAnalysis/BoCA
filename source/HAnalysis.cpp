@@ -32,7 +32,7 @@ void HAnalysis::AnalysisLoop()
 
     int StudySum = StudyNameVector.size();
 
-    for (auto& StudyNameA : StudyNameVector) {
+    for (const auto &StudyNameA : StudyNameVector) {
 
         StudyName = StudyNameA;
         Print(1, "Analysing Mva Sample", StudyName);
@@ -40,7 +40,7 @@ void HAnalysis::AnalysisLoop()
         NewStudy();
 
 //         int FileSum = FileVector.size();
-        for (auto& File : FileVector) {
+        for (const auto &File : FileVector) {
 
             Print(1, "Analysing File", FileNumber + 1);
             NewFileBase(File);
@@ -114,8 +114,8 @@ void HAnalysis::NewStudy()
     }
 
     // Export file
-    TString ExportName = ProjectName + "/" + StudyName + TString(".root");
-    ExportFile = new TFile(ExportName, "Recreate");
+    const string ExportName = ProjectName + "/" + StudyName + ".root";
+    ExportFile = new TFile(ExportName.c_str(), "Recreate");
     Print(1, "ExportFile", ExportName);
 
 }
@@ -128,9 +128,9 @@ void HAnalysis::NewFileBase(const HFile * File)
     AnalysisNotEmpty = 0;
 
     // Export tree
-    TString ExportTreeName = File->Title();
-    Print(1, "ExportTreeName", ExportTreeName);
-    TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName);
+    const string ExportTreeName = File->Title();
+    Print(1, "ExportTreeName", ExportTreeName.c_str());
+    TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName.c_str());
 
     NewFile();
 
@@ -139,13 +139,13 @@ void HAnalysis::NewFileBase(const HFile * File)
     InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
     // Import file
-    TString ImportPath = File->GetFilePath();
-    ImportFile = new TFile(ImportPath);
+    string ImportPath = File->GetFilePath();
+    ImportFile = new TFile(ImportPath.c_str());
     Print(1, "File", ImportPath);
 
     // Import tree
-    TString ImportTreeName = File->GetTreeName();
-    ImportTree = (TTree *)ImportFile->Get(ImportTreeName);
+    string ImportTreeName = File->GetTreeName();
+    ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
     Print(1, "Tree", ImportTreeName);
 
     // TreeReader
@@ -233,7 +233,7 @@ HAnalysis::~HAnalysis()
 void HAnalysis::EmptyFileVector()
 {
 
-  for (auto& File : FileVector) {
+  for (const auto &File : FileVector) {
 
         delete File;
 

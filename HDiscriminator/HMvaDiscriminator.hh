@@ -28,7 +28,7 @@ private:
 
     void DefineVariables();
     
-    virtual string ClassName() {
+    virtual string ClassName() const {
         return ("HMvaDiscriminator");
     };
 

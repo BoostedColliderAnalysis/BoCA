@@ -78,7 +78,7 @@ private:
 
     vector<string> GetStudyNameVector();
 
-    virtual string ClassName() {
+    virtual string ClassName() const {
 
         return ("HAnalysisTest");
 

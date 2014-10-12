@@ -3,80 +3,84 @@
 HReconstruction::HReconstruction()
 {
 
-  Print(1, "Constructor");
+    Print(1, "Constructor");
+    
+//     DebugLevel = 4;
 
 }
 
 HReconstruction::~HReconstruction()
 {
 
-  Print(1, "Destructor");
+    Print(1, "Destructor");
 
 }
 
 void HReconstruction::NewEvent()
 {
 
-  Print(2, "New Event");
+    Print(2, "New Event");
 
-  FatJetVector.clear();
-
-}
-
-void HReconstruction::GetFatJetVector(const vector<PseudoJet>& EFlowJetVector)
-{
-
-  // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
-  const float DeltaR = 1.2;
-  const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
-
-  const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-
-  GetFatJetVector(EFlowJetVector, FatJetDefinition);
+//     FatJetVector.clear();
 
 }
 
-void HReconstruction::GetFatJetVector(const vector<PseudoJet>& EFlowJetVector, const fastjet::JetDefinition& FatJetDefinition)
+vector<PseudoJet> HReconstruction::GetFatJetVector(const vector<PseudoJet> &EFlowJetVector) const
 {
 
-  Print(2, "Get Fat Jet Vector");
+    // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
+    const float DeltaR = 1.2;
+    const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
 
-  fastjet::ClusterSequence * const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJetVector, FatJetDefinition);
+    const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
 
-  // FatJetPtMin = Jing: 40; fastjet: 0
-  const float FatJetPtMin = 0;
-  FatJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
-
-  Print(3, "Number of Fat Jets", FatJetVector.size());
-
-  if (!FatJetVector.empty()) FatJetClusterSequence->delete_self_when_unused();
+    return GetFatJetVector(EFlowJetVector, FatJetDefinition);
 
 }
 
-
-void HReconstruction::GetMassDropVector()
+vector<PseudoJet> HReconstruction::GetFatJetVector(const vector<PseudoJet> &EFlowJetVector, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
-    Print(2, "Get Mass Drop Jet Vector");
+    Print(2, "Get Fat Jet Vector",FatJetDefinition.R());
+       
 
-    for (auto& FatJet : FatJetVector) {
+    fastjet::ClusterSequence *const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJetVector, FatJetDefinition);
 
-        FatJet = GetMassDropJet(FatJet);
+    // FatJetPtMin = Jing: 40; fastjet: 0
+    const float FatJetPtMin = 0;
+    const vector<PseudoJet> FatJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
+
+    if (!FatJetVector.empty()) FatJetClusterSequence->delete_self_when_unused();
+
+    return FatJetVector;
+    
+}
+
+
+vector<PseudoJet> HReconstruction::GetMassDropVector(const vector<PseudoJet> &FatJetVector) const
+{
+
+    Print(2, "Get Mass Drop Jet Vector", FatJetVector.size());
+    
+    vector<PseudoJet> MassDropVector;
+
+    for (auto & FatJet : FatJetVector) {
+
+        MassDropVector.push_back(GetMassDropJet(FatJet));
 
     }
-
-    FatJetVector.erase(std::remove_if(FatJetVector.begin(), FatJetVector.end(), JetIsBad), FatJetVector.end());
-
-
+    
+    return MassDropVector;
+    
 }
 
-PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet)
+PseudoJet HReconstruction::GetMassDropJet(const PseudoJet &FatJet) const
 {
 
-    Print(3, "Get Mass Drop Jet");
+//     Print(3, "Get Mass Drop Jet");
 
-    //     MassDropMin = Jing: 0.667; fastjet: 0.667; Paper: 0.67
-    const float MassDropMin = 0.667;
+    //     MassDropMin = Jing: 0.667; fastjet: 0.67; Paper: 0.67
+    const float MassDropMin = 0.67;
     //     AsymmetryCut = Jing: 0.09; fastjet: 0.09; paper: 0.09
     const float AsymmetryCut = 0.09;
 
@@ -86,14 +90,16 @@ PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet)
 
 
 
-PseudoJet HReconstruction::GetMassDropJet(const PseudoJet& FatJet, const float MassDropMin, const float AsymmetryCut)
+PseudoJet HReconstruction::GetMassDropJet(const PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
 {
 
     Print(3, "Get Mass Drop Jet");
 
     const fastjet::MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
     const PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
+     
 
+    
     return MassDropJet;
 
 }
@@ -131,18 +137,16 @@ bool HReconstruction::JetIsBad(const PseudoJet &Jet)
 
 
 
-void HReconstruction::GetFatJetTag()
+vector<PseudoJet> HReconstruction::GetFatJetTag(vector<PseudoJet>& FatJetVector)
 {
 
-    Print(2, "Get Fat Jet Tag");
+    Print(2, "Get Fat Jet Tag",FatJetVector.size());
 
+    for (auto & FatJet : FatJetVector) {
 
-    for (auto& FatJet : FatJetVector) {
-
-        const vector<PseudoJet> ConstituentsVector = FatJet.constituents();
         HJetInfo JetInfo;
 
-        for (auto& Constituent : ConstituentsVector) {
+        for (const auto & Constituent : FatJet.constituents()) {
 
             JetInfo.AddConstituent(Constituent.user_index(), Constituent.pt());
 
@@ -150,10 +154,12 @@ void HReconstruction::GetFatJetTag()
 
         FatJet.set_user_info(new HJetInfo(JetInfo));
         FatJet.set_user_index(FatJet.user_info<HJetInfo>().GetMaximalId());
-        //         FatJetVector[FatJetNumber].user_info<HJetInfo>().PrintAllInfos();
+        if(DebugLevel>=4) FatJet.user_info<HJetInfo>().PrintAllInfos();
 
-        Print(4, "Tag", FatJet.user_info<HJetInfo>().GetMaximalId(), FatJet.user_info<HJetInfo>().GetMaximalFraction());
+        Print(4, "Tag", FatJet.user_info<HJetInfo>().GetMaximalId(), FatJet.user_info<HJetInfo>().GetMaximalFraction(),FatJet.m());
 
     }
+    
+    return FatJetVector;
 
 }

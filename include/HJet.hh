@@ -134,21 +134,21 @@ public:
 
 protected:
 
-    template<typename Template1, typename Template2>
-    bool CheckIsolation(const Template1 * const Particle1, const Template2 * const Particle2, const float DeltaRIsolationMax) const {
+    template<typename TParticle1, typename TParticle2>
+    bool CheckIsolation(const TParticle1 * const Particle1, const TParticle2 * const Particle2, const float DeltaRIsolationMax) const {
 
         bool Isolated = 1;
 
-        if (GetPseudoJet(const_cast<Template1 *>(Particle1)->P4()).delta_R(GetPseudoJet(const_cast<Template2 *>(Particle2)->P4())) < DeltaRIsolationMax) Isolated = 0;
+        if (GetPseudoJet(const_cast<TParticle1 *>(Particle1)->P4()).delta_R(GetPseudoJet(const_cast<TParticle2 *>(Particle2)->P4())) < DeltaRIsolationMax) Isolated = 0;
 
         return Isolated;
 
     }
 
-    template<typename Template1, typename Template2>
-    bool CheckIsolation(const Template1 * const Particle1, const Template2 * const Particle2) const {
+    template<typename TParticle1, typename TParticle2>
+    bool CheckIsolation(const TParticle1 * const Particle1, const TParticle2 * const Particle2) const {
 
-        const float DeltaRIsolationMax = 0.01; // TODO decide on best value
+        const float DeltaRIsolationMax = 0.01; // TODO decide on best value // This is quiet large
 
         return CheckIsolation(Particle1, Particle2, DeltaRIsolationMax);
 

@@ -101,19 +101,19 @@ float HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
 
 }
 
-void HObject::Print(const int Severity, const string Function) const
+void HObject::Print(const int Severity, const string Description) const
 {
 
     if (Severity <= DebugLevel) {
 
-        Printer(Function);
+        Printer(Description);
         std::cout << std::endl;
     }
 
 }
 
 
-void HObject::Printer(const string Function) const
+void HObject::Printer(const string Description) const
 {
 
     const char Separator = ' ';
@@ -122,6 +122,6 @@ void HObject::Printer(const string Function) const
 
     std::cout << std::left << std::setw(ClassWidth) << std::setfill(Separator) << ClassName();
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
-    std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Function;
+    std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Description;
 
 }

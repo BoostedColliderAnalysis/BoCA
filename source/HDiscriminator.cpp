@@ -5,15 +5,7 @@ HDiscriminator::HDiscriminator()
 
     Print(1, "Constructor");
 
-//     Debug = 5;
-
-//     MinDeltaR = LargeNumber;
-
-//     Overlap = 0;
-
-//     HasHiggs = 0;
-
-//     LostHiggs = 0;
+    DebugLevel = 5;
 
 }
 
@@ -29,22 +21,12 @@ void HDiscriminator::NewFile()
 
     Print(2, "New Analysis");
 
-//     MinDeltaR = LargeNumber;
-
-//     Overlap = 0;
-
-//     LostHiggs = 0;
-
 }
 
 void HDiscriminator::CloseFile()
 {
 
     Print(2, "Clean Analysis");
-
-//     Print(2, "Minimal Max DeltaR", MinDeltaR);
-//     Print(2, "Top and Higgs overlap", Overlap);
-//     Print(2, "LostHiggs", LostHiggs);
 
 }
 
@@ -54,13 +36,6 @@ void HDiscriminator::NewEvent()
 {
 
     Print(2, "New Event");
-
-//     EFlowJetVector.clear();
-//     HiggsParticleVector.clear();
-//     TopParticleVector.clear();
-    FatJetVector.clear();
-
-//     HasHiggs = 0;
 
 }
 
@@ -121,7 +96,7 @@ void HDiscriminator::NewEvent()
 vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlowJetVector)
 {
 
-    Print(2, "Get Tagged Candidate Jets");
+    Print(2, "Get Tagged Candidate Jets",EFlowJetVector.size());
 
     const vector<PseudoJet> Jets;
 
@@ -153,7 +128,7 @@ vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlo
 
     float PtSum;
 
-    for (auto& EFlowJet : EFlowJetVector) {
+    for (const auto & EFlowJet : EFlowJetVector) {
 
         PtSum += EFlowJet.pt();
 
@@ -161,22 +136,21 @@ vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlo
 
     const float DeltaR = 1000. / PtSum;
 
-    Print(4,"DeltaR",DeltaR);
-
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-    GetFatJetVector(EFlowJetVector, FatJetDefinition);
+    const vector<PseudoJet> FatJetVector = GetFatJetVector(EFlowJetVector, FatJetDefinition);
 
-    GetMassDropVector();
+    vector<PseudoJet> MassDropVector = GetMassDropVector(FatJetVector);
+    //     vector<PseudoJet> MassDropVector = FatJetVector;
+    
+    MassDropVector.erase(std::remove_if(MassDropVector.begin(), MassDropVector.end(), JetIsBad), MassDropVector.end());
 
-    GetFatJetTag();
 
-//     TagFatJets();
+    sort(MassDropVector.begin(), MassDropVector.end(), SortJetByMass());
+    MassDropVector = GetFatJetTag(MassDropVector);
 
-    sort(FatJetVector.begin(), FatJetVector.end(), SortJetByMass());
-
-    return FatJetVector;
-
+    return MassDropVector;
+    
 }
 
 

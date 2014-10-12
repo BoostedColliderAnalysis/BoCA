@@ -15,11 +15,11 @@ class HObservable// : public HObject
 {
 
 public :
-    
+
     HObservable();
-    
-    HObservable(float * NewValue, const string NewExpression, const string NewTitle, const string NewUnit);
-    
+
+    HObservable(float *const NewValue, const string NewExpression, const string NewTitle, const string NewUnit, const string NewLatex);
+
     float *Value;
 
     string Expression;
@@ -27,6 +27,8 @@ public :
     string Title;
 
     string Unit;
+
+    string Latex;
 
 };
 
@@ -87,17 +89,16 @@ public:
 
     string CandidateBranchName;
 
-    string LeptonBranchName;
+    string SpectatorBranchName;
 
     string WeightBranchName;
 
     string BackgroundName;
 
-
     TCut Cut;
 
     HCandidateBranch *Candidate;
-    
+
     HHeavyHiggsBranch *HeavyHiggs;
 
     /**
@@ -109,7 +110,7 @@ public:
     vector<string> BackgroundTreeNameVector;
 
     vector<string> SignalTreeNameVector;
-    
+
     vector<string> TestTreeNameVector;
 
     /**
@@ -121,21 +122,23 @@ public:
     vector<HObservable> SpectatorVector;
 
 protected:
-  
+
     virtual void DefineVariables() = 0;
 
     virtual string ClassName() const {
-        
+
         return ("HMva");
-        
+
     };
 
-    HObservable NewObservable(float *, const string, const string, const string);
+    HObservable NewObservable(float *const, const string, const string, const string, const string) const;
 
-    HObservable NewObservable(float *, const string, const string);
+    HObservable NewObservable(float *const, const string, const string, const string) const;
 
-    HObservable NewObservable(float *, const string);
-    
+    HObservable NewObservable(float *const, const string, const string) const;
+
+    HObservable NewObservable(float *const, const string) const;
+
 private:
 
 };

@@ -142,7 +142,6 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
 //     if (MotherId == EmptyId)
     Print(3, "Mother Id", MotherId);
-    Print(3, "");
 //     DebugLevel = 0;
 
     return MotherId;
@@ -287,7 +286,7 @@ PseudoJet HJetDelphes::GetConstituents(const Jet *const JetClone) const
 bool HJetDelphes::GetEFlow()
 {
 
-    return GetEFlow(0, 0);
+    return GetEFlow(0, 1);
 
 }
 
@@ -296,7 +295,7 @@ bool HJetDelphes::GetTaggedEFlow(const HJetTag * const NewJetTag)
     
     JetTag = NewJetTag;
 
-    return GetEFlow(1, 0);
+    return GetEFlow(1, 1);
 
 }
 
@@ -341,7 +340,7 @@ void HJetDelphes::GetTrackEFlow(const bool Tagging, const bool Isolation)
         if (Tagging) {
 
             EFlowJetVector.back().set_user_index(GetMotherId(EFlowTrackClone->Particle.GetObject()));
-            Print(4, "EFlow Id", EFlowJetVector.back().user_index());
+            Print(4, "Track EFlow Id", EFlowJetVector.back().user_index());
 
         }
 
@@ -372,7 +371,7 @@ void HJetDelphes::GetPhotonEFlow(const bool Tagging, const bool Isolation)
 
             EFlowJetVector.back().set_user_info(new HJetInfo(GetJetId(EFlowPhotonClone)));
             EFlowJetVector.back().set_user_index(EFlowJetVector.back().user_info<HJetInfo>().GetMaximalId());
-            Print(4, "EFlow Id", EFlowJetVector.back().user_index());
+            Print(4, "Photon EFlow Id", EFlowJetVector.back().user_index());
 
         }
 
@@ -394,7 +393,7 @@ void HJetDelphes::GetHadronEFlow(const bool Tagging, const bool Isolation)
 
             EFlowJetVector.back().set_user_info(new HJetInfo(GetJetId(HadronClone)));
             EFlowJetVector.back().set_user_index(EFlowJetVector.back().user_info<HJetInfo>().GetMaximalId());
-            Print(4, "EFlow Id", EFlowJetVector.back().user_index());
+            Print(4, "Hadron EFlow Id", EFlowJetVector.back().user_index());
 
         }
 
@@ -422,7 +421,7 @@ void HJetDelphes::GetMuonEFlow(const bool Tagging, const bool Isolation)
 
         if (Tagging) {
             EFlowJetVector.back().set_user_index(GetMotherId(EFlowMuonClone->Particle.GetObject()));
-            Print(4, "EFlow Id", EFlowJetVector.back().user_index());
+            Print(4, "Muon EFlow Id", EFlowJetVector.back().user_index());
         }
 
     }

@@ -63,7 +63,7 @@ private:
 
     void CloseFile();
 
-    virtual string ClassName() {
+    virtual string ClassName() const {
 
         return ("HAnalysisHeavyHiggsParton");
 

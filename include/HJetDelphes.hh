@@ -39,7 +39,7 @@ public:
      *
      * @return void
      */
-    bool GetTaggedJets(const HJetTag * const);
+    bool GetTaggedJets(const HJetTag *const);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -53,7 +53,7 @@ public:
      *
      * @return void
      */
-    void GetTau(const Jet*const);
+    void GetTau(const Jet *const);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -65,7 +65,7 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetTaggedEFlow(const HJetTag * const);
+    bool GetTaggedEFlow(const HJetTag *const);
 
     /**
      * @brief Get Gen Jet
@@ -83,7 +83,7 @@ private:
      * @return void
      */
     bool GetJets(const bool, const bool);
-    
+
     vector<PseudoJet> TagJets(vector<PseudoJet>);
 
     vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>, int);
@@ -93,38 +93,42 @@ private:
     template <typename Template>
     HJetInfo GetJetId(const Template &Clone) {
 
-        Print(2, "Get Jet Id",Clone->Particles.GetEntriesFast());
+        
+        Print(3, "");
+        Print(2, "Get Jet Id", Clone->Particles.GetEntriesFast());
+        
         HJetInfo JetInfo;
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 
-            const TObject*const Object = Clone->Particles.At(ParticleNumber);
+            const TObject *const Object = Clone->Particles.At(ParticleNumber);
 
             if (Object == 0) continue;
             if (Object->IsA() != GenParticle::Class()) continue;
 
-            const GenParticle * const ParticleClone = (GenParticle *) Object;
-
+            const GenParticle *const ParticleClone = (GenParticle *) Object;
+            
+            Print(2, "constituent Pt", ParticleClone->PT);
             JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
 
         }
 
-        Print(4, "Jet ID", JetInfo.GetMaximalId(),JetInfo.GetMaximalFraction());
-//         JetInfo.PrintAllInfos();
+//         Print(4, "Jet ID", JetInfo.GetMaximalId(), JetInfo.GetMaximalFraction());
+        if (DebugLevel >=4 )JetInfo.PrintAllInfos();
 
         return JetInfo;
 
     }
 
 
-    template<typename ParticleTemplate,typename EFlowTemplate>
-    bool GetIsolation(const EFlowTemplate * const EFlowClone,const TClonesArray * const ClonesArray) const {
+    template<typename TParticle, typename TEFlow>
+    bool GetIsolation(const TEFlow *const EFlowClone, const TClonesArray *const ClonesArray) const {
 
         bool Isolated = true;
 
         for (int ParticleNumber = 0; ParticleNumber < ClonesArray->GetEntriesFast(); ++ParticleNumber) {
 
-            ParticleTemplate *ParticleClone = (ParticleTemplate *) ClonesArray->At(ParticleNumber);
+            TParticle *ParticleClone = (TParticle *) ClonesArray->At(ParticleNumber);
             Isolated = CheckIsolation(EFlowClone, ParticleClone);
 
         }
@@ -133,7 +137,7 @@ private:
     }
 
 
-    int GetMotherId(const TObject * const);
+    int GetMotherId(const TObject *const);
 
     int GetMotherId(GenParticle *, int);
 
@@ -155,7 +159,7 @@ private:
 
     void GetMuonEFlow(const bool, const bool);
 
-    PseudoJet GetConstituents(const Jet * const) const;
+    PseudoJet GetConstituents(const Jet *const) const;
 
     string ClassName() const {
 

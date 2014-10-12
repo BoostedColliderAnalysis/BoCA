@@ -196,7 +196,7 @@ public:
 
 private:
 
-    virtual string ClassName() {
+    virtual string ClassName() const {
         
         return ("HClonesArray");
         
@@ -211,7 +211,7 @@ class HClonesArrayDelphes : public HClonesArray
 
 private:
 
-    string ClassName() {
+    string ClassName() const {
         
         return ("HClonesArrayDelphes");
         
@@ -226,7 +226,7 @@ class HClonesArraySnowmass : public HClonesArray
 
 private:
 
-    string ClassName() {
+    string ClassName() const {
         
         return ("HClonesArraySnowmass");
         
@@ -241,7 +241,7 @@ class HClonesArrayPgs : public HClonesArray
 
 private:
 
-    string ClassName() {
+    string ClassName() const {
         
         return ("HClonesArrayPgs");
         

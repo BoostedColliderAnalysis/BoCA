@@ -30,42 +30,91 @@ public:
     virtual ~HObject();
 
     /**
-     * @brief Print Debug messages
+     * @brief Print a debug message
      * 
-     * @param  ...
-     * @param  ...
+     * @param  Severity of the debug message
+     * @param  Description of the debug message
      * @return void
      */
-    void Print(const int, const string) const;
-
-    template<typename TNumber>
-    void Print(const int Severity, const string Function, const TNumber Number) const {
+    void Print(const int Severity, const string Description) const;
+        
+    /**
+     * @brief Print a debug messages
+     * 
+     * @param  Severity of the debug message
+     * @param  Description of the debug message
+     * @param  Value relevant to the debug message
+     * 
+     * @return void
+     */
+    template<typename TValue>
+    void Print(const int Severity, const string Description, const TValue Value) const {
 
         if (Severity <= DebugLevel) {
 
-            Printer(Function);
-            std::cout << " " << Number << std::endl;
+            Printer(Description);
+            std::cout << " " << Value << std::endl;
 
         }
 
     }
 
-    template<typename TNumber, typename TNumber2>
-    void Print(const int Severity, const string Function, const TNumber Number, const TNumber2 Number2) const {
+    /**
+     * @brief Print a debug messages
+     * 
+     * @param  Severity of the debug message
+     * @param  Description of the debug message
+     * @param  Value relevant to the debug message
+     * @param  Value2 relevant to the debug message
+     * 
+     * @return void
+     */
+    template<typename TValue, typename TValue2>
+    void Print(const int Severity, const string Description, const TValue Value, const TValue2 Value2) const {
 
         if (Severity <= DebugLevel) {
 
             const char Separator = ' ';
             const int FunctionWidth = 10;
 
-            Printer(Function);
+            Printer(Description);
 
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Number2;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
             std::cout << std::endl;
 
         }
 
+    }
+    
+    /**
+     * @brief Print a debug messages
+     * 
+     * @param  Severity of the debug message
+     * @param  Description of the debug message
+     * @param  Value relevant to the debug message
+     * @param  Value2 relevant to the debug message
+     * @param  Value3 relevant to the debug message
+     * 
+     * @return void
+     */
+    template<typename TValue, typename TValue2, typename TValue3>
+    void Print(const int Severity, const string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
+        
+        if (Severity <= DebugLevel) {
+            
+            const char Separator = ' ';
+            const int FunctionWidth = 10;
+            
+            Printer(Description);
+            
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
+            std::cout << std::endl;
+            
+        }
+        
     }
 
 protected:
@@ -113,7 +162,7 @@ protected:
      * 1: Analysis Information
      * 2: Event Information
      * 3: Detailed Information
-     * 4: Step ny Step Information
+     * 4: Step by Step Information
      *
      */
     int DebugLevel;
