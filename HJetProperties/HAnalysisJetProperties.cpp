@@ -16,7 +16,7 @@ HAnalysisJetProperties::HAnalysisJetProperties()
 vector<string> HAnalysisJetProperties::GetStudyNameVector()
 {
 
-    vector<string> StudyNameVector = {"Constituents"};
+    vector<string> StudyNameVector = {"Higgs","Top"};
 
     return StudyNameVector;
 
@@ -46,7 +46,7 @@ void HAnalysisJetProperties::NewFile()
     Print(1, "New File");
 
     ConstituentBranch = TreeWriter->NewBranch("Constituent", HConstituentBranch::Class());
-    LeptonBranch = TreeWriter->NewBranch("Leptons", HLeptonBranch::Class());
+//     LeptonBranch = TreeWriter->NewBranch("Leptons", HLeptonBranch::Class());
     JetPropertiesBranch = TreeWriter->NewBranch("Candidates", HJetPropertiesBranch::Class());
 
 }
@@ -139,10 +139,11 @@ bool HAnalysisJetProperties::Analysis()
 //
 //     }
 
-//     int Id = CpvHiggsId;
-//     vector<int> IdVector = { BottomId,-BottomId};
-//     vector<int> IdVector = { TopId,-TopId};
-    vector<int> IdVector = {HeavyHiggsId};
+    vector<int> IdVector;
+//     if (StudyName == "Bottom")vector<int> IdVector = { BottomId,-BottomId};
+    if (StudyName == "Top") IdVector = { TopId,-TopId};
+//     if (StudyName == "Higgs") vector<int> IdVector = {HeavyHiggsId};
+    if (StudyName == "Higgs") IdVector = {CpvHiggsId};
 
     for (const auto & Id : IdVector) {
 

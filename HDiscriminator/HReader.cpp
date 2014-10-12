@@ -6,17 +6,17 @@
 
 int main()
 {
-        
+
     HMvaDiscriminator *Mva = new HMvaDiscriminator();
-  
+
     HReader *Reader = new HReader(Mva);
-    
+
     delete Reader;
-    
+
     delete Mva;
 
     cout << "end main" << endl;
-    
+
     return 0;
-    
+
 }

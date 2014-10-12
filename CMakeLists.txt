@@ -53,9 +53,9 @@ set(LinkLibraries ${ROOT_LIBRARIES})
 # set(IncludeDirectory ${ROOT_INCLUDE_DIR} ${PROJECT_SOURCE_DIR})
 # add_subdirectory(classes)
 
-set(IncludeDirectory ${ROOT_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/root)
-include_directories(${IncludeDirectory})
-add_subdirectory(root)
+# set(IncludeDirectory ${ROOT_INCLUDE_DIR})
+# include_directories(${IncludeDirectory})
+# add_subdirectory(root)
 
 # Libraries
 set(IncludeDirectory ${IncludeDirectory}
@@ -69,7 +69,8 @@ include_directories(${IncludeDirectory})
 
 set(LinkLibraries ${LinkLibraries}
 ${fastjet_LIBRARIES}
-${DelphesLibrary})
+${DelphesLibrary}
+)
 
 add_subdirectory(source)
 

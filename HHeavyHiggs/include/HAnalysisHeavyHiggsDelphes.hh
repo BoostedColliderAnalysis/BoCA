@@ -5,6 +5,8 @@
 # include "HEventDelphes.hh"
 # include <algorithm>
 
+# include "HBranchHeavyHiggs.hh"
+
 using std::iter_swap;
 using std::remove_if;
 
@@ -47,13 +49,13 @@ private:
     void NewFile();
 
     void CloseFile();
-    
+
     vector<string> GetStudyNameVector();
-    
+
     void FillBranch(PseudoJet, PseudoJet);
-    
+
     float Leptons(PseudoJet);
-    
+
 //     bool JetIsBottom(const PseudoJet &Jet);
 
     string ClassName() const {
@@ -61,7 +63,7 @@ private:
         return ("HAnalysisHeavyHiggsDelphes");
 
     };
-    
+
     bool Signal();
     bool Test();
     bool Background();

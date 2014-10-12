@@ -1,10 +1,30 @@
+set(IncludeDirectory
+${IncludeDirectory}
+${PROJECT_SOURCE_DIR}/HHeavyHiggs/include
+${PROJECT_SOURCE_DIR}/HHeavyHiggs/source
+)
+include_directories(${IncludeDirectory})
+
+# Branch dictionary
+set(HBranchSources HBranchHeavyHiggs.cpp)
+set(HLinkDefHeader ../include/HLinkDefHeavyHiggs.hh)
+set(HDictionarySource HBranchDict.cpp)
+ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
+
+# Branch library
+set(HBranchSources ${HDictionarySource})
+add_library(HBranchHeavyHiggs SHARED ${HBranchSources})
+target_link_libraries(HBranchHeavyHiggs ${LinkLibraries})
+set_target_properties(HBranchHeavyHiggs PROPERTIES ${LibraryProperties})
+install(TARGETS HBranchHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+
 # Library
-set(AnalysisSources 
-HAnalysisHeavyHiggsDelphes.cpp 
-HAnalysisHeavyHiggsParton.cpp 
+set(AnalysisSources
+HAnalysisHeavyHiggsDelphes.cpp
+HAnalysisHeavyHiggsParton.cpp
 HAnalysisHeavyHiggsPgs.cpp)
 add_library(HAnalysisHeavyHiggs SHARED ${AnalysisSources})
-target_link_libraries(HAnalysisHeavyHiggs HBranch HEvent)
+target_link_libraries(HAnalysisHeavyHiggs HBranchHeavyHiggs HEvent)
 set_target_properties(HAnalysisHeavyHiggs PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysisHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 

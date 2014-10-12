@@ -3,6 +3,7 @@
 
 # include "HAnalysis.hh"
 # include "HEventParton.hh"
+# include "HBranchHeavyHiggs.hh"
 
 using std::iter_swap;
 
@@ -34,10 +35,10 @@ private:
      *
      */
     int DeltaEtaCounter,
-        BMassCounter, 
-        TMassCounter, 
-        EventCounter, 
-        JetCounter, 
+        BMassCounter,
+        TMassCounter,
+        EventCounter,
+        JetCounter,
         Jet2Counter;
 
     /**

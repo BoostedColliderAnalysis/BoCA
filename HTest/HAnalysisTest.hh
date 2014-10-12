@@ -3,6 +3,7 @@
 
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
+# include "HBranchTest.hh"
 
 /**
  * @brief Class defining the Disciminator Analysis

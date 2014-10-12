@@ -4,11 +4,52 @@
 # include "string.h"
 # include "TCut.h"
 
+# include "TClonesArray.h"
+# include "TMVA/Reader.h"
+
+# include "ExRootAnalysis/ExRootTreeReader.h"
+# include "ExRootAnalysis/ExRootTreeWriter.h"
+# include "ExRootAnalysis/ExRootTreeBranch.h"
+
 # include "HBranch.hh"
 
 # include "HObject.hh"
 
 using std::vector;
+
+
+
+struct HReaderStruct {
+
+  int HiggsSum;
+
+  int TopSum;
+
+  int FatJetSum;
+
+  int TopEventSum;
+
+  int HiggsEventSum;
+
+  vector<int> EventVector;
+
+  vector<int> HiggsEventVector;
+
+  vector<int> TopEventVector;
+
+  vector<int> CutFlowVector;
+
+  vector<int> FatJetVector;
+
+  vector<int> HiggsVector;
+
+  vector<int> TopVector;
+
+  vector<double> CutsMin;
+
+  vector<double> CutsMax;
+
+};
 
 
 class HObservable// : public HObject
@@ -97,10 +138,6 @@ public:
 
     TCut Cut;
 
-    HCandidateBranch *Candidate;
-
-    HHeavyHiggsBranch *HeavyHiggs;
-
     /**
      * @brief Names of the Background Files
      *
@@ -120,6 +157,12 @@ public:
     vector<HObservable> ObservableVector;
 
     vector<HObservable> SpectatorVector;
+
+
+    virtual HReaderStruct CutLoop(const ExRootTreeReader * const) = 0;
+
+    virtual void ApplyBdt(const ExRootTreeReader * const, const string, const TFile * const, TMVA::Reader *) = 0;
+
 
 protected:
 

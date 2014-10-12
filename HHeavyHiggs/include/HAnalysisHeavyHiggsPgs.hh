@@ -3,6 +3,8 @@
 
 # include "HAnalysis.hh"
 
+# include "HBranchHeavyHiggs.hh"
+
 using std::iter_swap;
 
 /**

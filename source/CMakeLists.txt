@@ -1,16 +1,21 @@
-# generate dictionary
-# set(HBranchSources HBranch.cpp)
-# set(HLinkDefHeader ../include/HLinkDef.hh)
-# set(HDictionarySource HBranchDict.cpp)
-# set(IncludeDirectory ${IncludeDirectory} ${PROJECT_SOURCE_DIR}/source)
-# ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
+set(IncludeDirectory
+${IncludeDirectory}
+${PROJECT_SOURCE_DIR}/source
+)
+include_directories(${IncludeDirectory})
 
-# generate library
-# set(HBranchSources ${HDictionarySource})
-# add_library(HBranch SHARED ${HBranchSources})
-# target_link_libraries(HBranch ${LinkLibraries})
-# set_target_properties(HBranch PROPERTIES ${LibraryProperties})
-# install(TARGETS HBranch DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+# Branch dictionary
+set(HBranchSources HBranch.cpp)
+set(HLinkDefHeader ../include/HLinkDef.hh)
+set(HDictionarySource HBranchDict.cpp)
+ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
+
+# Branch library
+set(HBranchSources ${HDictionarySource})
+add_library(HBranch SHARED ${HBranchSources})
+target_link_libraries(HBranch ${LinkLibraries})
+set_target_properties(HBranch PROPERTIES ${LibraryProperties})
+install(TARGETS HBranch DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 
 # HObject Library

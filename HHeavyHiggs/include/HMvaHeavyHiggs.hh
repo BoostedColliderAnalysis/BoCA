@@ -3,6 +3,8 @@
 
 # include "HMva.hh"
 
+# include "HBranchHeavyHiggs.hh"
+
 /**
  * @brief Prepares multivariant analysis
  *
@@ -24,10 +26,16 @@ public:
     */
     ~HMvaHeavyHiggs();
 
+    HReaderStruct CutLoop(const ExRootTreeReader * const);
+
+    void ApplyBdt(const ExRootTreeReader * const, const string, const TFile * const, TMVA::Reader *);
+
 private:
 
+  HHeavyHiggsBranch *HeavyHiggs;
+
     void DefineVariables();
-    
+
     virtual string ClassName() const {
         return ("HMvaHeavyHiggs");
     };
