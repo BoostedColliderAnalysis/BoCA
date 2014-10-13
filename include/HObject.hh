@@ -19,32 +19,32 @@ public:
 
     /**
      * @brief Constructor
-     * 
+     *
      */
     HObject();
 
     /**
      * @brief Destructor
-     * 
+     *
      */
     virtual ~HObject();
 
     /**
      * @brief Print a debug message
-     * 
+     *
      * @param  Severity of the debug message
      * @param  Description of the debug message
      * @return void
      */
     void Print(const int Severity, const string Description) const;
-        
+
     /**
      * @brief Print a debug messages
-     * 
+     *
      * @param  Severity of the debug message
      * @param  Description of the debug message
      * @param  Value relevant to the debug message
-     * 
+     *
      * @return void
      */
     template<typename TValue>
@@ -61,12 +61,12 @@ public:
 
     /**
      * @brief Print a debug messages
-     * 
+     *
      * @param  Severity of the debug message
      * @param  Description of the debug message
      * @param  Value relevant to the debug message
      * @param  Value2 relevant to the debug message
-     * 
+     *
      * @return void
      */
     template<typename TValue, typename TValue2>
@@ -86,41 +86,43 @@ public:
         }
 
     }
-    
+
     /**
      * @brief Print a debug messages
-     * 
+     *
      * @param  Severity of the debug message
      * @param  Description of the debug message
      * @param  Value relevant to the debug message
      * @param  Value2 relevant to the debug message
      * @param  Value3 relevant to the debug message
-     * 
+     *
      * @return void
      */
     template<typename TValue, typename TValue2, typename TValue3>
     void Print(const int Severity, const string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
-        
+
         if (Severity <= DebugLevel) {
-            
+
             const char Separator = ' ';
             const int FunctionWidth = 10;
-            
+
             Printer(Description);
-            
+
             std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
             std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
             std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
             std::cout << std::endl;
-            
+
         }
-        
+
     }
 
 protected:
-    
+
     template <typename TValue> int sgn(const TValue Value) const {
+
         return (TValue(0) < Value) - (Value < TValue(0));
+
     }
 
     /**
@@ -236,7 +238,7 @@ protected:
      *
      */
     const int CpvHiggsId;
-    
+
     /**
      * @brief Proton index
      *
@@ -254,7 +256,7 @@ protected:
      *
      */
     const int UpUp1Id;
-    
+
     /**
      * @brief Up-down di-quark index
      *
@@ -272,7 +274,7 @@ protected:
      *
      */
     const int UpDown0Id;
-    
+
     /**
      * @brief Down-down di-quark index
      *
@@ -284,103 +286,103 @@ protected:
      *
      */
     const int DownDown1Id;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int BMesonSS0Id;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int BMesonS0Id;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int BMesonSId;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int BMesonId;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int BMeson0SId;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int BMeson0Id;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int DMesonS0Id;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int DMeson0Id;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int DMesonS2Id;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int DMesonSId;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int DMesonId;
-        
+
     /**
      * @brief Pion index
      *
      */
     const int KMesonSId;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int KMesonId;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int KMeson0SId;
-    
+
     /**
      * @brief Pion index
      *
      */
     const int KMeson0Id;
-        
+
     /**
      * @brief Pion index
      *
      */
     const int RhoMesonId;
-    
+
     /**
      * @brief Pion index
      *
@@ -392,7 +394,7 @@ protected:
      *
      */
     const int HeavyHiggsId;
-    
+
     /**
      * @brief Gluon boson index
      *
@@ -404,19 +406,19 @@ protected:
      *
      */
     const int GluonId;
-    
+
     /**
      * @brief Muon index
      *
      */
     const int TauLeptonId;
-    
+
     /**
      * @brief Muon index
      *
      */
     const int MuonId;
-    
+
     /**
      * @brief Electron index
      *
@@ -473,36 +475,36 @@ protected:
      *
      */
     const int IsrId;
-    
+
     /**
      * @brief Particle Status Undefined
      *
      */
     const int Undefined;
-    
+
     /**
      * @brief Particle Status Unstable
      *
      */
     const int Unstable;
-    
+
     /**
      * @brief Particle Status Stable
      *
      */
     const int Stable;
-    
+
     const float OneSigma;
-    
+
     const float TwoSigma;
-    
+
     const float ThreeSigma;
 
 private:
-    
+
     /**
      * @brief Print Debug messages
-     * 
+     *
      * @param  string Function Name
      * @return void
      */

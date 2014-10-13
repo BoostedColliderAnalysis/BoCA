@@ -110,7 +110,7 @@ HBranchStruct HDiscriminatorJetTag::GetBranchId(const int ParticleId, HBranchStr
 
 //     if (ParticleId  < 0 && (ChargeParticle.find(abs(ParticleId)) == end(ChargeParticle) && NeutralParticle.find(abs(ParticleId)) == end(NeutralParticle)) ) Print(0, "Charged Particle" , ParticleId);
 
-    if (ChargeParticle.find(abs(ParticleId)) != end(ChargeParticle)) BranchStruct.Charge += sgn(ParticleId);
+//     if (ChargeParticle.find(abs(ParticleId)) != end(ChargeParticle)) BranchStruct.Charge += sgn(ParticleId);
 
     return BranchStruct;
 

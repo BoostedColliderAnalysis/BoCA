@@ -127,7 +127,7 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    HBranchStruct GetMotherId(GenParticle *, HBranchStruct BranchStruct);
+    HBranchStruct GetMotherId(GenParticle* ParticleClone, HBranchStruct& BranchStruct);
 
 //     int GetBranchId(int, int);
 

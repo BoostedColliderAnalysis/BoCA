@@ -137,8 +137,8 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
     GenParticle *ParticleClone = (GenParticle *) Object;
 
-    int BranchId = EmptyId;
-    int BranchCharge = 0;
+//     int BranchId = EmptyId;
+//     int BranchCharge = 0;
 
     HBranchStruct BranchStruct;
 
@@ -160,7 +160,7 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
 
 
-HBranchStruct HJetDelphes::GetMotherId(GenParticle *ParticleClone, HBranchStruct BranchStruct)
+HBranchStruct HJetDelphes::GetMotherId(GenParticle *ParticleClone, HBranchStruct& BranchStruct)
 {
 
     Print(2, "Get Mother Id", ParticleClone->PID);
@@ -168,10 +168,19 @@ HBranchStruct HJetDelphes::GetMotherId(GenParticle *ParticleClone, HBranchStruct
 
     while (ParticleClone->M1 != EmptyPosition) {
 
+        if (ParticleClone->M2 != EmptyPosition) {
+
+            Print(3, "Mother 2");
+            ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->M2);
+            BranchStruct = GetMotherId(ParticleClone, BranchStruct);
+
+        }
+
 //         if (ParticleClone->PID == -6) DebugLevel = 4;
         Print(3, "Particle Id", ParticleClone->PID);
 
 //         BranchId = GetBranchId(ParticleClone->PID, BranchId);
+        BranchStruct.Charge+=ParticleClone->Charge;
         BranchStruct = JetTag->GetBranchId(int(ParticleClone->PID), BranchStruct);
 
 //         if (ParticleClone->PID == HeavyHiggsId) {
@@ -192,14 +201,6 @@ HBranchStruct HJetDelphes::GetMotherId(GenParticle *ParticleClone, HBranchStruct
 //
 //
 //         }
-
-        if (ParticleClone->M2 != EmptyPosition) {
-
-            Print(3, "Mother 2");
-            ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->M2);
-            BranchStruct = GetMotherId(ParticleClone, BranchStruct);
-
-        }
 
         Print(4, "Mother 1");
 
