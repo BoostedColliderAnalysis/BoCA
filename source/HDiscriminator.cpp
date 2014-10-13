@@ -5,7 +5,7 @@ HDiscriminator::HDiscriminator()
 
     Print(1, "Constructor");
 
-    DebugLevel = 5;
+//     DebugLevel = 5;
 
 }
 

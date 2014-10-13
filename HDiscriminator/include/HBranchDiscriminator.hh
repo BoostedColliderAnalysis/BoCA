@@ -138,4 +138,34 @@ private:
 
 };
 
+
+/**
+ * @brief Class for saving leptons to root
+ *
+ */
+class HJetPropertiesBranch : public TObject
+{
+    
+public:
+    
+    float Mass;
+    float Pt;
+    float Eta;
+    float Phi;
+    float Radius;
+    float EventPt;
+    
+    HJetPropertiesBranch();
+    
+    virtual ~HJetPropertiesBranch();
+    
+private:
+    
+    void reset();
+    
+    ClassDef(HJetPropertiesBranch, 1)
+    
+};
+
+
 # endif

@@ -7,6 +7,17 @@
 
 using std::set;
 
+
+
+
+struct HBranchStruct{
+    
+    int Id;
+    
+    int Charge;  
+    
+};
+
 /**
  * @brief defines how to tag a jet
  *
@@ -36,7 +47,7 @@ public:
      * @param BranchId former id of the Branch
      * @return int new Id of the Branch
      */
-    virtual int GetBranchId(const int ParticleId, int BranchId) const;
+    virtual HBranchStruct GetBranchId(const int ParticleId, HBranchStruct BranchStruct) const;
 
 protected:
 

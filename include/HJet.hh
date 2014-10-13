@@ -17,6 +17,9 @@ class HJet : public HFourVector
 {
 
 public:
+    
+    
+    enum HJetDetails {Plain,Tagging,Isolation,TaggingIsolation};
 
     /**
      * @brief constructor
@@ -57,19 +60,13 @@ public:
      * @return void
      */
     virtual bool GetStructuredJets();
-
+    
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool GetEFlow();
-
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
-    virtual bool GetTaggedEFlow(const HJetTag * const);
-
+    virtual bool GetEFlow(const HJetDetails);
+    
     /**
      * @brief Get Gen Jet
      *
@@ -131,6 +128,8 @@ public:
      *
      */
     vector<TLorentzVector> BottomLorentzVectorVector;
+        
+    const HJetTag  * JetTag;
 
 protected:
 
@@ -159,8 +158,6 @@ protected:
      *
      */
     const HClonesArray *ClonesArrays;
-        
-    const HJetTag  * JetTag;
 
 private:
 

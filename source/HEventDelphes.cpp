@@ -123,7 +123,7 @@ void HEventDelphes::GetEFlow()
 
     Print(2, "Get EFlow");
 
-    if (!HasEFlow) HasEFlow = Jets->GetEFlow();
+    if (!HasEFlow) HasEFlow = Jets->GetEFlow(HJet::Plain);
 
 }
 
@@ -132,9 +132,41 @@ void HEventDelphes::GetTaggedEFlow(const HJetTag * const JetTag)
 {
 
     Print(2, "Get EFlow");
+    
+    if (!HasEFlow) {
+     
+        Jets->JetTag = JetTag;
+        
+        HasEFlow = Jets->GetEFlow(HJet::Tagging);
+        
+    }
 
-    if (!HasEFlow) HasEFlow = Jets->GetTaggedEFlow(JetTag);
+}
 
+
+void HEventDelphes::GetIsolatedEFlow()
+{
+    
+    Print(2, "Get EFlow");
+    
+    if (!HasEFlow) HasEFlow = Jets->GetEFlow(HJet::Isolation);
+    
+}
+
+
+void HEventDelphes::GetIsoaltedTaggedEFlow(const HJetTag * const JetTag)
+{
+    
+    Print(2, "Get EFlow");
+    
+    if (!HasEFlow) {
+        
+        Jets->JetTag = JetTag;
+        
+        HasEFlow = Jets->GetEFlow(HJet::TaggingIsolation);
+        
+    }
+    
 }
 
 

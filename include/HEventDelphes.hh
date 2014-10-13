@@ -42,6 +42,10 @@ public:
     
     void GetTaggedEFlow(const HJetTag * const);
     
+    void GetIsolatedEFlow();
+    
+    void GetIsoaltedTaggedEFlow(const HJetTag * const);
+    
     void GetParticles();
 
     PseudoJet GetHiggs();

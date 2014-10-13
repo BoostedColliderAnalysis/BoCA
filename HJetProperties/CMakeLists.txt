@@ -7,7 +7,7 @@ include_directories(${IncludeDirectory})
 # Branch dictionary
 set(HBranchSources HJetPropertiesBranch.cpp)
 set(HLinkDefHeader HJetPropertiesLinkDef.hh)
-set(HDictionarySource HBranchDict.cpp)
+set(HDictionarySource HBranchDictJetProperties.cpp)
 ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
 
 # Branch library

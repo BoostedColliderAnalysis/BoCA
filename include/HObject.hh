@@ -118,6 +118,10 @@ public:
     }
 
 protected:
+    
+    template <typename TValue> int sgn(const TValue Value) const {
+        return (TValue(0) < Value) - (Value < TValue(0));
+    }
 
     /**
      * @brief Calcualte distance in eta phi space
@@ -232,6 +236,12 @@ protected:
      *
      */
     const int CpvHiggsId;
+    
+    /**
+     * @brief Proton index
+     *
+     */
+    const int DeltaBaryon2Id;
 
     /**
      * @brief Proton index
@@ -244,6 +254,12 @@ protected:
      *
      */
     const int UpUp1Id;
+    
+    /**
+     * @brief Up-down di-quark index
+     *
+     */
+    const int NeutronId;
 
     /**
      * @brief Up-down di-quark index
@@ -256,24 +272,144 @@ protected:
      *
      */
     const int UpDown0Id;
+    
+    /**
+     * @brief Down-down di-quark index
+     *
+     */
+    const int DeltaBaryonId;
 
     /**
      * @brief Down-down di-quark index
      *
      */
     const int DownDown1Id;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int BMesonSS0Id;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int BMesonS0Id;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int BMesonSId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int BMesonId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int BMeson0SId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int BMeson0Id;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int DMesonS0Id;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int DMeson0Id;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int DMesonS2Id;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int DMesonSId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int DMesonId;
+        
+    /**
+     * @brief Pion index
+     *
+     */
+    const int KMesonSId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int KMesonId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int KMeson0SId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int KMeson0Id;
+        
+    /**
+     * @brief Pion index
+     *
+     */
+    const int RhoMesonId;
+    
+    /**
+     * @brief Pion index
+     *
+     */
+    const int PionId;
 
     /**
      * @brief Heavy Higgs boson index
      *
      */
     const int HeavyHiggsId;
+    
+    /**
+     * @brief Gluon boson index
+     *
+     */
+    const int WId;
 
     /**
      * @brief Gluon boson index
      *
      */
     const int GluonId;
+    
+    /**
+     * @brief Muon index
+     *
+     */
+    const int TauLeptonId;
     
     /**
      * @brief Muon index
@@ -355,6 +491,12 @@ protected:
      *
      */
     const int Stable;
+    
+    const float OneSigma;
+    
+    const float TwoSigma;
+    
+    const float ThreeSigma;
 
 private:
     

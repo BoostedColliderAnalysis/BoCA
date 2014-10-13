@@ -68,19 +68,10 @@ bool HJet::GetStructuredJets()
 
 }
 
-bool HJet::GetEFlow()
+bool HJet::GetEFlow(const HJetDetails JetDetails)
 {
 
     Print(1,"Get EFlow","No EFlow");
-
-    return 0;
-
-}
-
-bool HJet::GetTaggedEFlow(const HJetTag * const JetTag)
-{
-
-    Print(1,"Get Tagged EFlow","No EFlow");
 
     return 0;
 

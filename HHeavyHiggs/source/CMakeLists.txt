@@ -8,7 +8,7 @@ include_directories(${IncludeDirectory})
 # Branch dictionary
 set(HBranchSources HBranchHeavyHiggs.cpp)
 set(HLinkDefHeader ../include/HLinkDefHeavyHiggs.hh)
-set(HDictionarySource HBranchDict.cpp)
+set(HDictionarySource HBranchDictHeavyHiggs.cpp)
 ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
 
 # Branch library
@@ -46,7 +46,7 @@ target_link_libraries(HHeavyHiggsPgs ${LinkLibraries})
 # Mva Library
 set(MvaSources HMvaHeavyHiggs.cpp)
 add_library(HMvaHeavyHiggs SHARED ${MvaSources})
-target_link_libraries(HMvaHeavyHiggs HMva)
+target_link_libraries(HMvaHeavyHiggs HMva HBranchHeavyHiggs)
 set_target_properties(HMvaHeavyHiggs PROPERTIES ${LibraryProperties})
 install(TARGETS HMvaHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 

@@ -56,18 +56,6 @@ public:
     void GetTau(const Jet *const);
 
     /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
-    bool GetEFlow();
-
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
-    bool GetTaggedEFlow(const HJetTag *const);
-
-    /**
      * @brief Get Gen Jet
      *
      * @param  ...
@@ -139,7 +127,7 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    int GetMotherId(GenParticle *, int);
+    HBranchStruct GetMotherId(GenParticle *, HBranchStruct BranchStruct);
 
 //     int GetBranchId(int, int);
 
@@ -149,15 +137,15 @@ private:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetEFlow(const bool, const bool);
+    bool GetEFlow(const HJetDetails);
 
-    void GetTrackEFlow(const bool, const bool);
+    void GetTrackEFlow(const HJetDetails);
 
-    void GetPhotonEFlow(const bool, const bool);
+    void GetPhotonEFlow(const HJetDetails);
 
-    void GetHadronEFlow(const bool, const bool);
+    void GetHadronEFlow(const HJetDetails);
 
-    void GetMuonEFlow(const bool, const bool);
+    void GetMuonEFlow(const HJetDetails);
 
     PseudoJet GetConstituents(const Jet *const) const;
 

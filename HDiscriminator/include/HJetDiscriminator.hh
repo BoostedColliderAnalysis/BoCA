@@ -1,15 +1,40 @@
-# ifndef HAnalysisDiscriminator_hh
-# define HAnalysisDiscriminator_hh
+# ifndef HJetDiscriminator_hh
+# define HJetDiscriminator_hh
 
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
-# include "HBranchDiscriminator.hh"
+
+#include "HBranchDiscriminator.hh"
+
+
+
+class HDiscriminatorJetTag : public HJetTag
+{
+
+    HBranchStruct GetBranchId(const int, HBranchStruct) const;
+
+    const set<int> MotherParticle = {TopId, CpvHiggsId};
+
+    const set<int> InitialState = {GluonId, UpId, DownId, StrangeId, CharmId, BottomId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+
+    const set<int> ChargeParticle = {UpId, DownId, StrangeId, CharmId, BottomId, TopId, PionId, RhoMesonId, ElectronId, MuonId, TauLeptonId, BMesonId, KMesonId, BMesonId, BMesonSId, ProtonId, DeltaBaryonId, KMesonSId, WId, DeltaBaryon2Id, DMesonId, DMesonS2Id, DMesonSId};
+
+    const set<int> NeutralParticle = {DMeson0Id, KMeson0Id, KMeson0SId, NeutronId, BMeson0Id, BMeson0SId, DMesonS0Id, BMesonS0Id, BMesonSS0Id};
+
+    string ClassName() const {
+
+        return ("HDiscriminatorJetTag");
+
+    };
+
+
+};
 
 /**
  * @brief Class defining the Disciminator Analysis
  *
  */
-class HAnalysisDiscriminator : public HAnalysis
+class HJetDiscriminator : public HAnalysis
 {
 
 public:
@@ -18,7 +43,13 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisDiscriminator();
+    HJetDiscriminator();
+
+    /**
+     * @brief Constructor
+     *
+     */
+    ~HJetDiscriminator();
 
     /**
      * @brief Branch to write Higgs info into
@@ -30,7 +61,7 @@ public:
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *LeptonBranch;
+    ExRootTreeBranch *SmallCandidateBranch;
 
     /**
      * @brief Branch to write Constituent info into
@@ -47,6 +78,8 @@ private:
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
     vector<PseudoJet> Leptons();
+
+    HDiscriminatorJetTag *HDiscriminatorTag;
 
     /**
      * @brief Lepton event counter
@@ -81,7 +114,7 @@ private:
 
     virtual string ClassName() const {
 
-        return ("HAnalysisDiscriminator");
+        return ("HJetDiscriminator");
 
     };
 

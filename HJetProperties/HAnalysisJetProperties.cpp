@@ -10,6 +10,8 @@ HAnalysisJetProperties::HAnalysisJetProperties()
     LeptonEventCounter = 0;
 
     EventNumberMax = 10000;
+    
+//     DebugLevel = 5;
 
 }
 
@@ -93,7 +95,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId) const
 bool HAnalysisJetProperties::Analysis()
 {
 
-    Print(0, "Analysis");
+    Print(1, "Analysis");
 
     Event->GetParticles();
 //     Event->GetLeptons();
@@ -164,7 +166,7 @@ bool HAnalysisJetProperties::Analysis()
 
         if (EFlowJetVector.size() == 0) {
 
-            Print(0, "NoEflow", Id);
+            Print(1, "NoEflow", Id);
 
             return 0;
 
