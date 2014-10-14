@@ -7,22 +7,18 @@ HJetDiscriminator::HJetDiscriminator()
 
     ProjectName = "JetProperties";
 
-    LeptonEventCounter = 0;
-
     EventNumberMax = 10000;
 
     HDiscriminatorTag = new HDiscriminatorJetTag();
-
-//     DebugLevel = 2;
 
 }
 
 HJetDiscriminator::~HJetDiscriminator()
 {
 
+    Print(1, "Destructor");
 
     delete HDiscriminatorTag;
-    Print(1, "Destructor");
 
 }
 
@@ -30,8 +26,8 @@ vector<string> HJetDiscriminator::GetStudyNameVector()
 {
 
 //     vector<string> StudyNameVector = {"Higgs", "Top", "Isr"};
-    vector<string> StudyNameVector = {"Higgs", "Top"};
-//     vector<string> StudyNameVector = {"Top"};
+//     vector<string> StudyNameVector = {"Higgs", "Top"};
+    vector<string> StudyNameVector = {"Top"};
 
     return StudyNameVector;
 
@@ -42,14 +38,14 @@ void HJetDiscriminator::SetFileVector()
 
     Print(1, "Set File Vector", StudyName);
 
-    if (StudyName != "Higgs") {
-
-        HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
-        Background->Crosssection = 3.215; // pb
-        Background->Error = 0.012; // pb
-        FileVector.push_back(Background);
-
-    }
+//     if (StudyName != "Higgs") {
+// 
+//         HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
+//         Background->Crosssection = 3.215; // pb
+//         Background->Error = 0.012; // pb
+//         FileVector.push_back(Background);
+// 
+//     }
 
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
@@ -76,9 +72,14 @@ void HJetDiscriminator::NewFile()
 {
     Print(1, "New File");
 
-    CandidateBranch = TreeWriter->NewBranch("Candidates", HJetPropertiesBranch::Class());
-    SmallCandidateBranch = TreeWriter->NewBranch("MiniCandidates", HJetPropertiesBranch::Class());
-    ConstituentBranch = TreeWriter->NewBranch("Constituent", HConstituentBranch::Class());
+    ParticleBranch = TreeWriter->NewBranch("Particle", HJetPropertiesBranch::Class());
+    TrimmedBranch = TreeWriter->NewBranch("Trimmed", HJetPropertiesBranch::Class());
+    CAFatJetBranch = TreeWriter->NewBranch("CAFatJet", HJetPropertiesBranch::Class());
+    CAMassDropBranch = TreeWriter->NewBranch("CAMassDrop", HJetPropertiesBranch::Class());
+    AktFatJetBranch = TreeWriter->NewBranch("AktFatJet", HJetPropertiesBranch::Class());
+    AktMassDropBranch = TreeWriter->NewBranch("AktMassDrop", HJetPropertiesBranch::Class());
+    ConstituentBranch = TreeWriter->NewBranch("Constituents", HConstituentBranch::Class());
+    EventBranch = TreeWriter->NewBranch("Event", HEventBranch::Class());
 
 }
 
@@ -88,31 +89,38 @@ void HJetDiscriminator::CloseFile()
 
 }
 
-
-
-
-
-HBranchStruct HDiscriminatorJetTag::GetBranchId(const int ParticleId, HBranchStruct BranchStruct) const
+int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 {
 
     Print(3, "Get Branch Id", ParticleId);
 
-    if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchStruct.Id)) == end(MotherParticle)) {
-        BranchStruct.Id = IsrId;
-    } else if (MotherParticle.find(abs(ParticleId)) != end(MotherParticle) && MotherParticle.find(abs(BranchStruct.Id)) == end(MotherParticle)) {
-        BranchStruct.Id = ParticleId;
+    if (ParticleId == -BranchId){
+        
+        Print(2,"");
+        Print(2,"");
+        Print(2,"");
+        Print(2,"");
+        Print(2,"");
+        Print(2,"");
+        Print(0, "ID CONFILICT", ParticleId, BranchId,999999999999);
+        
     }
 
-    Print(3, "Branch Id", BranchStruct.Id);
+    if (
+        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
+        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+    ) {
+        BranchId = IsrId;
+    } else if (
+        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
+//         && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+    ) {
+        BranchId = ParticleId;
+    }
 
-    //     if (BranchId == 0) Print(0, "ParticleId", ParticleId);
-    if (abs(ParticleId) == TopId && BranchStruct.Id == CpvHiggsId) Print(0, "Higgs overwritten by top");
+    Print(3, "Branch Id", BranchId);
 
-//     if (ParticleId  < 0 && (ChargeParticle.find(abs(ParticleId)) == end(ChargeParticle) && NeutralParticle.find(abs(ParticleId)) == end(NeutralParticle)) ) Print(0, "Charged Particle" , ParticleId);
-
-//     if (ChargeParticle.find(abs(ParticleId)) != end(ChargeParticle)) BranchStruct.Charge += sgn(ParticleId);
-
-    return BranchStruct;
+    return BranchId;
 
 }
 
@@ -131,45 +139,39 @@ bool HJetDiscriminator::Analysis()
 
     }
 
+    HEventBranch *EventB = static_cast<HEventBranch *>(EventBranch->NewEntry());
+    EventB->ScalarPtSum = 1. / EventPt;
+
     vector<int> IdVector;
     if (StudyName == "Top") IdVector = { TopId, -TopId};
+//     if (StudyName == "Top") IdVector = { TopId};
     if (StudyName == "Higgs") IdVector = {CpvHiggsId};
     if (StudyName == "Isr") IdVector = {IsrId};
 
     for (const auto & Id : IdVector) {
 
-        vector<PseudoJet> EFlowJetVector;
-        std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJetVector),
+        vector<PseudoJet> EFlowJets;
+        std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJets),
         [Id](const PseudoJet & EFlowJet) {
 
             if (EFlowJet.user_index() == Id) return 1;
-
             if (EFlowJet.user_index() != 5000000 && abs(EFlowJet.user_index()) != 6 && EFlowJet.user_index() != 10) cout << "EFlowId " << EFlowJet.user_index() << endl;
-
             return 0;
 
         });
 
-        if (EFlowJetVector.size() == 0) {
+        if (EFlowJets.size() == 0) {
 
             Print(0, "NoEflow", Id);
-
-            return 0;
-
-        }
-
-        float CandidatePt = 0;
-        for (const auto & EFlowJet : EFlowJetVector) {
-
-            CandidatePt += EFlowJet.pt();
+            continue;
 
         }
+        Print(1, "Eflowsize", EFlowJets.size());
 
-        const PseudoJet CandidateJet = fastjet::join(EFlowJetVector);
+        const PseudoJet CandidateJet = fastjet::join(EFlowJets);
 
         map<float, PseudoJet> JetMap;
-
-        for (const auto & EFlowJet : EFlowJetVector) {
+        for (const auto & EFlowJet : EFlowJets) {
 
             JetMap.insert(std::pair<float, PseudoJet>(CandidateJet.delta_R(EFlowJet), EFlowJet));
 
@@ -178,69 +180,152 @@ bool HJetDiscriminator::Analysis()
 
         if (JetMap.size() == 0) {
 
-            Print(0, "NoEflow", Id);
-
-            return 0;
+            Print(0, "No JetMap", Id);
+            continue;
 
         }
 
-        float SigmaPt = 0;
-        float SigmaRadius = 0;
-
-        Print(1, "Max Pt", CandidatePt);
-        vector<PseudoJet> MiniJetVector;
-        map<float, PseudoJet>::iterator Counter = JetMap.begin();
-        do {
-
-            SigmaRadius = (*Counter).first;
-            MiniJetVector.push_back(Counter->second);
-            SigmaPt += (*Counter).second.pt();
-
-            Print(2, "EFlow", SigmaRadius, SigmaPt);
-
-            ++Counter;
-
-        }   while (SigmaPt <= (TwoSigma * CandidatePt) && Counter != JetMap.end());
-
-
-
-        Print(1, "Eflowsize", EFlowJetVector.size());
-        Print(1, "Radius", SigmaRadius);
-
-        Counter = JetMap.end();
-        --Counter;
-        const float MaxRadius = (*Counter).first;
+        map<float, PseudoJet>::iterator JetPair = JetMap.end();
+        --JetPair;
+        const float MaxRadius = (*JetPair).first;
         Print(1, "MaxRadius", MaxRadius);
 
-        Print(1, "mini size", MiniJetVector.size());
-
-
-
-        const PseudoJet MiniCandidateJet = fastjet::join(MiniJetVector);
-
-        HJetPropertiesBranch *Jet = static_cast<HJetPropertiesBranch *>(CandidateBranch->NewEntry());
-
-//         Print(-1,"size",DistanceVector.size());
-
+        HJetPropertiesBranch *Jet = static_cast<HJetPropertiesBranch *>(ParticleBranch->NewEntry());
         Jet->Mass = CandidateJet.m();
         Jet->Pt = CandidateJet.pt();
         Jet->Eta = CandidateJet.eta();
         Jet->Phi = CandidateJet.phi_std();
         Jet->Radius = MaxRadius;
-        Jet->EventPt = 1. / EventPt;
 
-        HJetPropertiesBranch *MiniJet = static_cast<HJetPropertiesBranch *>(SmallCandidateBranch->NewEntry());
+        float CandidatePt = 0;
+        for (const auto & EFlowJet : EFlowJets) {
 
-        //         Print(-1,"size",DistanceVector.size());
+            CandidatePt += EFlowJet.pt();
 
-        MiniJet->Mass = MiniCandidateJet.m();
-        MiniJet->Pt = MiniCandidateJet.pt();
-        MiniJet->Eta = MiniCandidateJet.eta();
-        MiniJet->Phi = MiniCandidateJet.phi_std();
-        MiniJet->Radius = SigmaRadius;
-        MiniJet->EventPt = 1. / EventPt;
+        }
+        Print(1, "Max Pt", CandidatePt);
 
-        for (const auto & EFlowJet : EFlowJetVector) {
+        vector<PseudoJet> TrimmedJets;
+        float SigmaPt = 0;
+        float SigmaRadius = 0;
+        JetPair = JetMap.begin();
+        do {
+
+            SigmaRadius = (*JetPair).first;
+            TrimmedJets.push_back(JetPair->second);
+            SigmaPt += (*JetPair).second.pt();
+
+            Print(2, "EFlow", SigmaRadius, SigmaPt);
+
+            ++JetPair;
+
+        }   while (SigmaPt <= (TwoSigma * CandidatePt) && JetPair != JetMap.end());
+
+
+
+        Print(1, "Radius", SigmaRadius);
+        Print(1, "mini size", TrimmedJets.size());
+        const PseudoJet MiniCandidateJet = fastjet::join(TrimmedJets);
+
+        HJetPropertiesBranch *TrimmedJet = static_cast<HJetPropertiesBranch *>(TrimmedBranch->NewEntry());
+        TrimmedJet->Mass = MiniCandidateJet.m();
+        TrimmedJet->Pt = MiniCandidateJet.pt();
+        TrimmedJet->Eta = MiniCandidateJet.eta();
+        TrimmedJet->Phi = MiniCandidateJet.phi_std();
+        TrimmedJet->Radius = SigmaRadius;
+
+
+        JetDefinition CAJetDefinition(cambridge_algorithm, MaxRadius);
+
+        ClusterSequence CAClusterSequence(EFlowJets, CAJetDefinition);
+        vector<PseudoJet> CAInclusiveJets = CAClusterSequence.inclusive_jets(0);
+        Print(3, "InclusiveJets Number", CAInclusiveJets.size());
+
+        for (const auto & CAInclusiveJet : CAInclusiveJets) {
+
+            if (CAInclusiveJet == 0 || CAInclusiveJet.m() <= 0) continue;
+
+            float DeltaR = 0;
+            for (const auto & Constituent : CAInclusiveJet.constituents()) {
+
+                const float deltar = CAInclusiveJet.delta_R(Constituent);
+
+                if (deltar > DeltaR) DeltaR = deltar;
+
+            }
+
+
+            HJetPropertiesBranch *CAFatJet = static_cast<HJetPropertiesBranch *>(CAFatJetBranch->NewEntry());
+            CAFatJet->Mass = CAInclusiveJet.m();
+            CAFatJet->Pt = CAInclusiveJet.pt();
+            CAFatJet->Eta = CAInclusiveJet.eta();
+            CAFatJet->Phi = CAInclusiveJet.phi_std();
+            CAFatJet->Radius = DeltaR;
+
+
+            fastjet::MassDropTagger MDT(0.67, 0.09);
+
+            PseudoJet MDJet = MDT(CAInclusiveJet);
+            if (MDJet == 0 && MDJet.m() <= 0) continue;
+
+            HJetPropertiesBranch *CAMassDropJet = static_cast<HJetPropertiesBranch *>(CAMassDropBranch->NewEntry());
+            CAMassDropJet->Mass = MDJet.m();
+            CAMassDropJet->Pt = MDJet.pt();
+            CAMassDropJet->Eta = MDJet.eta();
+            CAMassDropJet->Phi = MDJet.phi_std();
+            CAMassDropJet->Radius = DeltaR;
+
+
+        }
+
+
+
+
+
+        JetDefinition AktJetDefinition(antikt_algorithm, MaxRadius);
+
+        ClusterSequence AktClusterSequence(EFlowJets, AktJetDefinition);
+        vector<PseudoJet> AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
+        Print(3, "InclusiveJets Number", AktInclusiveJets.size());
+
+        for (const auto & AktInclusiveJet : AktInclusiveJets) {
+
+            if (AktInclusiveJet == 0 || AktInclusiveJet.m() <= 0) continue;
+
+            float DeltaR = 0;
+            for (const auto & Constituent : AktInclusiveJet.constituents()) {
+
+                const float deltar = AktInclusiveJet.delta_R(Constituent);
+
+                if (deltar > DeltaR) DeltaR = deltar;
+
+            }
+
+
+            HJetPropertiesBranch *AktFatJet = static_cast<HJetPropertiesBranch *>(AktFatJetBranch->NewEntry());
+            AktFatJet->Mass = AktInclusiveJet.m();
+            AktFatJet->Pt = AktInclusiveJet.pt();
+            AktFatJet->Eta = AktInclusiveJet.eta();
+            AktFatJet->Phi = AktInclusiveJet.phi_std();
+            AktFatJet->Radius = DeltaR;
+
+
+            fastjet::MassDropTagger MDT(0.67, 0.09);
+
+            PseudoJet MDJet = MDT(AktInclusiveJet);
+            if (MDJet == 0 && MDJet.m() <= 0) continue;
+
+            HJetPropertiesBranch *AktMassDropJet = static_cast<HJetPropertiesBranch *>(AktMassDropBranch->NewEntry());
+            AktMassDropJet->Mass = MDJet.m();
+            AktMassDropJet->Pt = MDJet.pt();
+            AktMassDropJet->Eta = MDJet.eta();
+            AktMassDropJet->Phi = MDJet.phi_std();
+            AktMassDropJet->Radius = DeltaR;
+
+
+        }
+
+        for (const auto & EFlowJet : EFlowJets) {
 
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
             Constituent->Eta = EFlowJet.eta() - CandidateJet.eta();
@@ -249,6 +334,8 @@ bool HJetDiscriminator::Analysis()
             Constituent->Id = EFlowJet.user_index();
 
         }
+
+
     }
 
     return 1;

@@ -124,7 +124,6 @@ void HJetPropertiesBranch::reset()
     Eta = InitialValue;
     Phi = InitialValue;
     Radius = InitialValue;
-    EventPt = InitialValue;
     
 }
 

@@ -11,11 +11,11 @@
 class HDiscriminatorJetTag : public HJetTag
 {
 
-    HBranchStruct GetBranchId(const int, HBranchStruct) const;
+    int GetBranchId(const int, int) const;
 
-    const set<int> MotherParticle = {TopId, CpvHiggsId};
+    const set<int> HeavyParticles = {TopId, CpvHiggsId};
 
-    const set<int> InitialState = {GluonId, UpId, DownId, StrangeId, CharmId, BottomId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+    const set<int> RadiationParticles = {GluonId, UpId, DownId, StrangeId, CharmId, BottomId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
 
     const set<int> ChargeParticle = {UpId, DownId, StrangeId, CharmId, BottomId, TopId, PionId, RhoMesonId, ElectronId, MuonId, TauLeptonId, BMesonId, KMesonId, BMesonId, BMesonSId, ProtonId, DeltaBaryonId, KMesonSId, WId, DeltaBaryon2Id, DMesonId, DMesonS2Id, DMesonSId};
 
@@ -50,18 +50,49 @@ public:
      *
      */
     ~HJetDiscriminator();
+    
+    /**
+     * @brief Branch to write Higgs info into
+     *
+     */
+    ExRootTreeBranch *EventBranch;
 
     /**
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *CandidateBranch;
+    ExRootTreeBranch *ParticleBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *SmallCandidateBranch;
+    ExRootTreeBranch *TrimmedBranch;
+    
+    /**
+     * @brief Branch to write Constituent info into
+     *
+     */
+    ExRootTreeBranch *AktFatJetBranch;
+    
+    /**
+     * @brief Branch to write Constituent info into
+     *
+     */
+    ExRootTreeBranch *AktMassDropBranch;
+    
+    /**
+     * @brief Branch to write Constituent info into
+     *
+     */
+    ExRootTreeBranch *CAFatJetBranch;
+    
+    /**
+     * @brief Branch to write Constituent info into
+     *
+     */
+    ExRootTreeBranch *CAMassDropBranch;
+    
 
     /**
      * @brief Branch to write Constituent info into

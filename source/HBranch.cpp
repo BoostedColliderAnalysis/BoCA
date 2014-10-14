@@ -21,3 +21,24 @@ void HInfoBranch::reset()
     EventNumber = InitialValue;
 
 }
+
+
+ClassImp(HEventBranch)
+
+HEventBranch::HEventBranch()
+{
+    
+    reset();
+    
+}
+
+HEventBranch::~HEventBranch() {}
+
+void HEventBranch::reset()
+{
+    
+    int InitialValue = -10;
+    
+    ScalarPtSum = InitialValue;
+    
+}

@@ -99,6 +99,7 @@ private:
             Print(2, "constituent Pt", ParticleClone->PT);
             JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
 
+            
         }
 
 //         Print(4, "Jet ID", JetInfo.GetMaximalId(), JetInfo.GetMaximalFraction());
@@ -127,7 +128,7 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    HBranchStruct GetMotherId(GenParticle* ParticleClone, HBranchStruct& BranchStruct);
+    int GetMotherId(GenParticle* ParticleClone, int BranchId);
 
 //     int GetBranchId(int, int);
 

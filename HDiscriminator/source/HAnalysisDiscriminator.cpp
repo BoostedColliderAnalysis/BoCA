@@ -85,7 +85,7 @@ class HDiscriminatorJetTag : public HJetTag
 
     int GetBranchId(const int, int) const;
 
-    const set<int> MotherParticle = {BottomId, TopId, CpvHiggsId};
+    const set<int> HeavyParticles = {BottomId, TopId, CpvHiggsId};
 
     string ClassName() const {
 
@@ -103,7 +103,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
     if (ParticleId == TopId && BranchId == CpvHiggsId) Print(0, "Higgs overwritten by top");
 
-    if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
+    if (InitialState.find(abs(ParticleId)) != end(InitialState) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
         BranchId = IsrId;
     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
         BranchId = ParticleId;

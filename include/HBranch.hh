@@ -28,4 +28,27 @@ private:
 
 };
 
+/**
+ * @brief Class for saving Event informations to root
+ *
+ */
+class HEventBranch : public TObject
+{
+    
+public:
+    
+    float ScalarPtSum;
+    
+    HEventBranch();
+    
+    virtual ~HEventBranch();
+    
+private:
+    
+    void reset();
+    
+    ClassDef(HEventBranch, 1)
+    
+};
+
 # endif

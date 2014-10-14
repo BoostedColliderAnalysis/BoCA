@@ -153,7 +153,6 @@ public:
     float Eta;
     float Phi;
     float Radius;
-    float EventPt;
     
     HJetPropertiesBranch();
     
