@@ -81,10 +81,10 @@ private:
     template <typename Template>
     HJetInfo GetJetId(const Template &Clone) {
 
-        
+
         Print(3, "");
         Print(2, "Get Jet Id", Clone->Particles.GetEntriesFast());
-        
+
         HJetInfo JetInfo;
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
@@ -95,11 +95,11 @@ private:
             if (Object->IsA() != GenParticle::Class()) continue;
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-            
+
             Print(2, "constituent Pt", ParticleClone->PT);
             JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
 
-            
+
         }
 
 //         Print(4, "Jet ID", JetInfo.GetMaximalId(), JetInfo.GetMaximalFraction());
@@ -128,7 +128,7 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    int GetMotherId(GenParticle* ParticleClone, int BranchId);
+    int GetMotherId(GenParticle* ParticleClone, int BranchId,int);
 
 //     int GetBranchId(int, int);
 

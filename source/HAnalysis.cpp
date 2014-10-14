@@ -45,17 +45,17 @@ void HAnalysis::AnalysisLoop()
             Print(1, "Analysing File", FileNumber + 1);
             NewFileBase(File);
 
-            ExRootProgressBar ProgressBar(EventSum);
+//             ExRootProgressBar ProgressBar(EventSum);
 
             for (EventNumber = 0; EventNumber < EventSum; ++ EventNumber) {
 
                 Print(2, "Analysing Event", EventNumber + 1);
                 NewEvent();
-                ProgressBar.Update(EventNumber);
+//                 ProgressBar.Update(EventNumber);
                 if (DebugLevel > 1) cout << endl;
 
             }
-            ProgressBar.Finish();
+//             ProgressBar.Finish();
             //             cout << endl;
 
             Print(1, "All Events analysed", EventSum);

@@ -6,12 +6,12 @@
 
 #include "HBranchDiscriminator.hh"
 
-
+#include "fastjet/tools/Pruner.hh"
 
 class HDiscriminatorJetTag : public HJetTag
 {
 
-    int GetBranchId(const int, int) const;
+    int GetBranchId(const int, int,int) const;
 
     const set<int> HeavyParticles = {TopId, CpvHiggsId};
 
@@ -50,7 +50,7 @@ public:
      *
      */
     ~HJetDiscriminator();
-    
+
     /**
      * @brief Branch to write Higgs info into
      *
@@ -68,31 +68,33 @@ public:
      *
      */
     ExRootTreeBranch *TrimmedBranch;
-    
+
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *AktFatJetBranch;
-    
+
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *AktMassDropBranch;
-    
+    ExRootTreeBranch *AktPrunerBranch;
+
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *CAFatJetBranch;
-    
+
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *CAMassDropBranch;
-    
+    ExRootTreeBranch *CAPrunerBranch;
+
 
     /**
      * @brief Branch to write Constituent info into
@@ -102,13 +104,17 @@ public:
 
 private:
 
+
+
+    void FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const float DeltaR);
+
     /**
      * @brief Lepton calculations
      *
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> Leptons();
+//     vector<PseudoJet> Leptons();
 
     HDiscriminatorJetTag *HDiscriminatorTag;
 

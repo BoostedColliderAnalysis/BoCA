@@ -143,9 +143,9 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
     int MotherId = EmptyId;
 
-    MotherId = GetMotherId(ParticleClone, MotherId);
-    
-    DebugLevel = 0;
+    MotherId = GetMotherId(ParticleClone, MotherId,1);
+
+//     DebugLevel = 0;
 
 
 //     if (MotherId == EmptyId)
@@ -159,7 +159,7 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
 
 
-int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId)
+int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId, int WhichMother)
 {
 
     Print(2, "Get Mother Id", ParticleClone->PID);
@@ -167,20 +167,21 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId)
 
     while (ParticleClone->M1 != EmptyPosition) {
 
-//         if (ParticleClone->M2 != EmptyPosition) {
-// 
-//             Print(3, "Mother 2", ParticleClone->M2);
-//             BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->M2), BranchId);
-// 
-//         }
-        if (BranchId == - ParticleClone->PID) DebugLevel = 4;
+        if (ParticleClone->M2 != EmptyPosition) {
 
-        BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
-        
-        
+            Print(3, "Mother 2", ParticleClone->M2);
+            BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->M2), BranchId,2);
+
+        }
+//         if (BranchId == - ParticleClone->PID) DebugLevel = 4;
+
+        BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId,WhichMother);
+
+
         Print(3, "Mother 1", ParticleClone->M1);
         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->M1);
 
+        WhichMother =1;
     }
 
     Print(3, "Branch Id", BranchId);

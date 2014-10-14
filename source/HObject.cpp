@@ -61,7 +61,7 @@ HObject::HObject() :
 
 //     Print(1, "Constructor");
 
-    DebugLevel = 0;
+    DebugLevel =0;
 
 }
 
