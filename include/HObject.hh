@@ -160,6 +160,34 @@ protected:
 
     };
 
+    enum HStatus {
+        Stable = 1,
+        Unstable = 2,
+        Undefined = 3
+    };
+
+    enum HParticleId {
+        EmptyId = 0,
+        DownId = 1,
+        UpId = 2,
+        StrangeId = 3,
+        CharmId = 4,
+        BottomId = 5,
+        TopId = 6,
+        ElectronId = 11,
+        MuonId = 13,
+        TauLeptonId = 15,
+        GluonId = 21,
+        WId = 24,
+        HeavyHiggsId = 35,
+        DownDown1Id = 1103,
+        UpDown0Id = 2101,
+        UpDown1Id = 2103,
+        UpUp1Id = 2203,
+        ProtonId = 2212,
+        CpvHiggsId = 5000000,
+    };
+
 
     /**
      * @brief Debug level
@@ -237,7 +265,7 @@ protected:
      * @brief CP violating Higgs boson index
      *
      */
-    const int CpvHiggsId;
+//     const int CpvHiggsId;
 
     /**
      * @brief Proton index
@@ -249,13 +277,13 @@ protected:
      * @brief Proton index
      *
      */
-    const int ProtonId;
+//     const int ProtonId;
 
     /**
      * @brief Up-up di-quark index
      *
      */
-    const int UpUp1Id;
+//     const int UpUp1Id;
 
     /**
      * @brief Up-down di-quark index
@@ -267,13 +295,13 @@ protected:
      * @brief Up-down di-quark index
      *
      */
-    const int UpDown1Id;
+//     const int UpDown1Id;
 
     /**
      * @brief Up-down di-quark index
      *
      */
-    const int UpDown0Id;
+//     const int UpDown0Id;
 
     /**
      * @brief Down-down di-quark index
@@ -285,7 +313,7 @@ protected:
      * @brief Down-down di-quark index
      *
      */
-    const int DownDown1Id;
+//     const int DownDown1Id;
 
     /**
      * @brief Pion index
@@ -393,79 +421,79 @@ protected:
      * @brief Heavy Higgs boson index
      *
      */
-    const int HeavyHiggsId;
+//     const int HeavyHiggsId;
 
     /**
      * @brief Gluon boson index
      *
      */
-    const int WId;
+//     const int WId;
 
     /**
      * @brief Gluon boson index
      *
      */
-    const int GluonId;
+//     const int GluonId;
 
     /**
      * @brief Muon index
      *
      */
-    const int TauLeptonId;
+//     const int TauLeptonId;
 
     /**
      * @brief Muon index
      *
      */
-    const int MuonId;
+//     const int MuonId;
 
     /**
      * @brief Electron index
      *
      */
-    const int ElectronId;
+//     const int ElectronId;
 
     /**
      * @brief Top quark index
      *
      */
-    const int TopId;
+//     const int TopId;
 
     /**
      * @brief Bottom quark index
      *
      */
-    const int BottomId;
-
+//     const int BottomId;
+//
     /**
      * @brief Charm quark index
      *
      */
-    const int CharmId;
-
+//     const int CharmId;
+//
     /**
      * @brief Strange quark index
      *
      */
-    const int StrangeId;
+//     const int StrangeId;
 
     /**
      * @brief Up quark index
      *
      */
-    const int UpId;
+//     const int UpId;
 
     /**
      * @brief Down quark index
      *
      */
-    const int DownId;
+//     const int DownId;
 
     /**
      * @brief Initial index
      *
      */
-    const int EmptyId;
+//     const int EmptyId;
 
     /**
      * @brief Initial state radiation index
@@ -480,19 +508,19 @@ protected:
      * @brief Particle Status Undefined
      *
      */
-    const int Undefined;
+//     const int Undefined;
 
     /**
      * @brief Particle Status Unstable
      *
      */
-    const int Unstable;
+//     const int Unstable;
 
     /**
      * @brief Particle Status Stable
      *
      */
-    const int Stable;
+//     const int Stable;
 
     const float OneSigma;
 

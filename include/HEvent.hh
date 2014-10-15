@@ -53,7 +53,7 @@ public:
 
     virtual vector<PseudoJet> GetTops(){vector<PseudoJet> v; return v;};
     
-    virtual void GetTaggedJets(){};
+    virtual void GetTaggedJets(const HJetTag *const){};
 
     /**
      * @brief Particles

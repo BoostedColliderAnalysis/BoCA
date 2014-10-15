@@ -72,9 +72,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootElectron *const Particle
 
     Print(3, "Get Lorentz Vector", "TRootElectron");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, ElectronMass);
-
-    return LorentzVector;
+    return GetLorentzVectorByMass(Particle, ElectronMass);
 
 }
 
@@ -83,9 +81,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootGenJet *const Particle) 
 
     Print(3, "Get Lorentz Vector", "TRootGenJet");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle);
-
-    return LorentzVector;
+    return GetLorentzVectorByMass(Particle);
 
 }
 
@@ -94,9 +90,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootGenParticle *const Parti
 
     Print(3, "Get Lorentz Vector", "TRootGenParticle");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByEnergy(Particle);
-
-    return LorentzVector;
+    return GetLorentzVectorByEnergy(Particle);
 
 }
 
@@ -105,9 +99,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootJet *const Particle) con
 
     Print(3, "Get Lorentz Vector", "TRootJet");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle);
-
-    return LorentzVector;
+    return GetLorentzVectorByMass(Particle);
 
 }
 
@@ -116,9 +108,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootLHEFParticle *const Part
 
     Print(3, "Get Lorentz Vector", "TRootLHEFParticle");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByM(Particle);
-
-    return LorentzVector;
+    return GetLorentzVectorByM(Particle);
 
 }
 
@@ -127,9 +117,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootMuon *const Particle) co
 
     Print(3, "Get Lorentz Vector", "TRootMuon");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, MuonMass);
-
-    return LorentzVector;
+    return GetLorentzVectorByMass(Particle, MuonMass);
 
 }
 
@@ -138,9 +126,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootPhoton *const Particle) 
 
     Print(3, "Get Lorentz Vector", "TRootPhoton");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, 0);
-
-    return LorentzVector;
+    return GetLorentzVectorByMass(Particle, 0);
 
 }
 
@@ -149,9 +135,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootTau *const Particle) con
 
     Print(3, "Get Lorentz Vector", "TRootTau");
 
-    TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, TauMass);
-
-    return LorentzVector;
+    return GetLorentzVectorByMass(Particle, TauMass);
 
 }
 
@@ -160,9 +144,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
 
     Print(3, "Get Pseudo Jet", "TRootElectron");
 
-    PseudoJet Jet = GetPseudoJetByMass(Particle, ElectronMass);
-
-    return Jet;
+    return GetPseudoJet(GetLorentzVectorByMass(Particle, ElectronMass));
 
 }
 
@@ -171,9 +153,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootGenJet *const Particle) const
 
     Print(3, "Get Pseudo Jet", "TRootGenJet");
 
-    PseudoJet Jet = GetPseudoJetByMass(Particle);
-
-    return Jet;
+    return GetPseudoJet(GetLorentzVectorByMass(Particle));
 
 }
 
@@ -182,9 +162,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootGenParticle *const Particle) cons
 
     Print(3, "Get Pseudo Jet", "TRootGenParticle");
 
-    PseudoJet Jet = GetPseudoJetByEnergy(Particle);
-
-    return Jet;
+    return GetPseudoJet(GetLorentzVectorByEnergy(Particle));
 
 }
 
@@ -193,9 +171,8 @@ PseudoJet HFourVector::GetPseudoJet(const TRootJet *const Particle) const
 
     Print(3, "Get Pseudo Jet", "TRootJet");
 
-    PseudoJet Jet = GetPseudoJetByMass(Particle);
+    return GetPseudoJet(GetLorentzVectorByMass(Particle));
 
-    return Jet;
 
 }
 
@@ -204,9 +181,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootLHEFParticle *const Particle) con
 
     Print(3, "Get Pseudo Jet", "TRootLHEFParticle");
 
-    PseudoJet Jet = GetPseudoJetByM(Particle);
-
-    return Jet;
+    return GetPseudoJet(GetLorentzVectorByM(Particle));
 
 }
 
@@ -215,9 +190,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootMuon *const Particle) const
 
     Print(3, "Get Pseudo Jet", "TRootMuon");
 
-    PseudoJet Jet = GetPseudoJetByMass(Particle, MuonMass);
-
-    return Jet;
+    return GetPseudoJet(GetLorentzVectorByMass(Particle, MuonMass));
 
 }
 
@@ -226,9 +199,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootPhoton *const Particle) const
 
     Print(3, "Get Pseudo Jet", "TRootPhoton");
 
-    PseudoJet Jet = GetPseudoJetByMass(Particle, 0);
-
-    return Jet;
+    return GetPseudoJet(GetLorentzVectorByMass(Particle, 0));
 
 }
 
@@ -237,8 +208,6 @@ PseudoJet HFourVector::GetPseudoJet(const TRootTau *const Particle) const
 
     Print(3, "Get Pseudo Jet", "TRootTau");
 
-    PseudoJet Jet = GetPseudoJetByMass(Particle, TauMass);
-
-    return Jet;
+    return GetPseudoJet(GetLorentzVectorByMass(Particle, TauMass));
 
 }

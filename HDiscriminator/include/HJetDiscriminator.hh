@@ -7,12 +7,13 @@
 #include "HBranchDiscriminator.hh"
 
 #include "fastjet/tools/Pruner.hh"
+#include "fastjet/tools/CASubJetTagger.hh"
 
 class HDiscriminatorJetTag : public HJetTag
 {
 
     int GetBranchId(const int, int,int) const;
-
+    
     const set<int> HeavyParticles = {TopId, CpvHiggsId};
 
     const set<int> RadiationParticles = {GluonId, UpId, DownId, StrangeId, CharmId, BottomId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
@@ -94,6 +95,7 @@ public:
      */
     ExRootTreeBranch *CAMassDropBranch;
     ExRootTreeBranch *CAPrunerBranch;
+    ExRootTreeBranch *CASJTBranch;
 
 
     /**
@@ -107,6 +109,8 @@ private:
 
 
     void FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const float DeltaR);
+    void FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet);
+    float GetDeltaR(const PseudoJet& Jet);
 
     /**
      * @brief Lepton calculations

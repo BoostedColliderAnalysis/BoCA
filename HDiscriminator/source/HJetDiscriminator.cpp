@@ -10,6 +10,8 @@ HJetDiscriminator::HJetDiscriminator()
     EventNumberMax = 10000;
 
     HDiscriminatorTag = new HDiscriminatorJetTag();
+    
+//     DebugLevel = 4;
 
 }
 
@@ -26,7 +28,7 @@ vector<string> HJetDiscriminator::GetStudyNameVector()
 {
 
 //     vector<string> StudyNameVector = {"Higgs", "Top", "Isr"};
-    vector<string> StudyNameVector = {"Higgs", "Top"};
+    vector<string> StudyNameVector = {"Higgs", "Top","ATop"};
 //     vector<string> StudyNameVector = {"Top"};
 
     return StudyNameVector;
@@ -38,14 +40,14 @@ void HJetDiscriminator::SetFileVector()
 
     Print(1, "Set File Vector", StudyName);
 
-//     if (StudyName != "Higgs") {
-//
-//         HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
-//         Background->Crosssection = 3.215; // pb
-//         Background->Error = 0.012; // pb
-//         FileVector.push_back(Background);
-//
-//     }
+    if (StudyName != "Higgs") {
+
+        HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
+        Background->Crosssection = 3.215; // pb
+        Background->Error = 0.012; // pb
+        FileVector.push_back(Background);
+
+    }
 
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
@@ -77,6 +79,7 @@ void HJetDiscriminator::NewFile()
     CAFatJetBranch = TreeWriter->NewBranch("CAFatJet", HJetPropertiesBranch::Class());
     CAMassDropBranch = TreeWriter->NewBranch("CAMassDrop", HJetPropertiesBranch::Class());
     CAPrunerBranch = TreeWriter->NewBranch("CAPruner", HJetPropertiesBranch::Class());
+    CASJTBranch = TreeWriter->NewBranch("CASJT", HJetPropertiesBranch::Class());
     AktFatJetBranch = TreeWriter->NewBranch("AktFatJet", HJetPropertiesBranch::Class());
     AktMassDropBranch = TreeWriter->NewBranch("AktMassDrop", HJetPropertiesBranch::Class());
     AktPrunerBranch = TreeWriter->NewBranch("AktPruner", HJetPropertiesBranch::Class());
@@ -95,13 +98,13 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int Wh
 {
 
     Print(3, "Get Branch Id", ParticleId);
-
+    
     if (ParticleId == -BranchId) {
-
+        
         Print(4, "ID CONFILICT", ParticleId, BranchId);
-
+        
     }
-
+    
     if (
         RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
         HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
@@ -110,7 +113,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int Wh
     } else if (
         HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
         && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
-        && WhichMother ==2
+        && WhichMother == 2
     ) {
         BranchId = ParticleId;
     } else if (
@@ -119,9 +122,9 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int Wh
     ) {
         BranchId = ParticleId;
     }
-
+    
     Print(3, "Branch Id", BranchId);
-
+    
     return BranchId;
 
 }
@@ -135,7 +138,7 @@ bool HJetDiscriminator::Analysis()
     Event->GetTaggedEFlow(HDiscriminatorTag);
 
     float EventPt = 0;
-    for (const auto & EFlowJet : Event->Jets->EFlowJetVector) {
+    for (const auto & EFlowJet : Event->Jets->EFlowJets) {
 
         EventPt += EFlowJet.pt();
 
@@ -145,15 +148,16 @@ bool HJetDiscriminator::Analysis()
     EventB->ScalarPtSum = 1. / EventPt;
 
     vector<int> IdVector;
-    if (StudyName == "Top") IdVector = { TopId, -TopId};
-//     if (StudyName == "Top") IdVector = { TopId};
+//     if (StudyName == "Top") IdVector = { TopId, -TopId};
+    if (StudyName == "Top") IdVector = { TopId};
+    if (StudyName == "ATop") IdVector = { -TopId};
     if (StudyName == "Higgs") IdVector = {CpvHiggsId};
-    if (StudyName == "Isr") IdVector = {IsrId};
+//     if (StudyName == "Isr") IdVector = {IsrId};
 
     for (const auto & Id : IdVector) {
 
         vector<PseudoJet> EFlowJets;
-        std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJets),
+        std::copy_if(Event->Jets->EFlowJets.begin(), Event->Jets->EFlowJets.end(), std::back_inserter(EFlowJets),
         [Id](const PseudoJet & EFlowJet) {
 
             if (EFlowJet.user_index() == Id) return 1;
@@ -222,111 +226,58 @@ bool HJetDiscriminator::Analysis()
 
         Print(1, "Radius", SigmaRadius);
         Print(1, "mini size", TrimmedJets.size());
+        if (TrimmedJets.size() == 0) {
+            
+            Print(0, "No Trimmed Eflow", Id);
+            continue;
+            
+        }
+        
         const PseudoJet MiniCandidateJet = fastjet::join(TrimmedJets);
 
         FillTree(TrimmedBranch, MiniCandidateJet, SigmaRadius);
 
         JetDefinition CAJetDefinition(cambridge_algorithm, MaxRadius);
         ClusterSequence CAClusterSequence(EFlowJets, CAJetDefinition);
-        vector<PseudoJet> CAInclusiveJets = CAClusterSequence.inclusive_jets(0);
+        vector<PseudoJet> CAInclusiveJets = CAClusterSequence.inclusive_jets();
         Print(3, "InclusiveJets Number", CAInclusiveJets.size());
 
         for (const auto & CAInclusiveJet : CAInclusiveJets) {
+            
+            if (CAInclusiveJet == 0) continue;
 
-            if (CAInclusiveJet == 0 || CAInclusiveJet.m() <= 0) continue;
-
-            float DeltaR = 0;
-            for (const auto & Constituent : CAInclusiveJet.constituents()) {
-
-                const float deltar = CAInclusiveJet.delta_R(Constituent);
-
-                if (deltar > DeltaR) DeltaR = deltar;
-
-            }
-
-            FillTree(CAFatJetBranch, CAInclusiveJet, DeltaR);
+            FillTree(CAFatJetBranch, CAInclusiveJet);
 
             fastjet::MassDropTagger CAMassDropTagger(0.67, 0.09);
             PseudoJet CAMDJet = CAMassDropTagger(CAInclusiveJet);
-            if (CAMDJet == 0 && CAMDJet.m() <= 0) continue;
+            FillTree(CAMassDropBranch, CAMDJet);
 
-            DeltaR = 0;
-            for (const auto & Constituent : CAMDJet.constituents()) {
-
-                const float deltar = CAInclusiveJet.delta_R(Constituent);
-
-                if (deltar > DeltaR) DeltaR = deltar;
-
-            }
-
-            FillTree(CAMassDropBranch, CAMDJet, DeltaR);
-
-            fastjet::Pruner CAPruner(fastjet::cambridge_algorithm,CAInclusiveJet.m()/CAInclusiveJet.pt(),0.1);
+            fastjet::Pruner CAPruner(fastjet::cambridge_algorithm, CAInclusiveJet.m() / CAInclusiveJet.pt(), 0.1);
             PseudoJet CAPJet = CAPruner(CAInclusiveJet);
+            FillTree(CAPrunerBranch, CAPJet);
 
-            DeltaR = 0;
-            for (const auto & Constituent : CAPJet.constituents()) {
-
-                const float deltar = CAInclusiveJet.delta_R(Constituent);
-
-                if (deltar > DeltaR) DeltaR = deltar;
-
-            }
-            FillTree(CAPrunerBranch, CAPJet, DeltaR);
+            fastjet::CASubJetTagger CASJT;
+            PseudoJet CAJSTJet = CASJT.result(CAInclusiveJet);
+            FillTree(CASJTBranch, CAJSTJet);
 
         }
 
         JetDefinition AktJetDefinition(antikt_algorithm, MaxRadius);
-
         ClusterSequence AktClusterSequence(EFlowJets, AktJetDefinition);
         vector<PseudoJet> AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(3, "InclusiveJets Number", AktInclusiveJets.size());
 
         for (const auto & AktInclusiveJet : AktInclusiveJets) {
 
-            if (AktInclusiveJet == 0 || AktInclusiveJet.m() <= 0) continue;
-
-            float DeltaR = 0;
-            for (const auto & Constituent : AktInclusiveJet.constituents()) {
-
-                const float deltar = AktInclusiveJet.delta_R(Constituent);
-
-                if (deltar > DeltaR) DeltaR = deltar;
-
-            }
-
-
-            FillTree(AktFatJetBranch, AktInclusiveJet, DeltaR);
+            FillTree(AktFatJetBranch, AktInclusiveJet);
 
             fastjet::MassDropTagger MDT(0.67, 0.09);
-
             PseudoJet AktMDJet = MDT(AktInclusiveJet);
-            if (AktMDJet == 0 && AktMDJet.m() <= 0) continue;
+            FillTree(AktMassDropBranch, AktMDJet);
 
-            DeltaR = 0;
-            for (const auto & Constituent : AktMDJet.constituents()) {
-
-                const float deltar = AktInclusiveJet.delta_R(Constituent);
-
-                if (deltar > DeltaR) DeltaR = deltar;
-
-            }
-
-            FillTree(AktMassDropBranch, AktMDJet, DeltaR);
-
-            fastjet::Pruner AktPruner(fastjet::cambridge_algorithm,AktInclusiveJet.m()/AktInclusiveJet.pt(),0.1);
+            fastjet::Pruner AktPruner(fastjet::cambridge_algorithm, AktInclusiveJet.m() / AktInclusiveJet.pt(), 0.15);
             PseudoJet AktPJet = AktPruner(AktInclusiveJet);
-
-            DeltaR = 0;
-            for (const auto & Constituent : AktPJet.constituents()) {
-
-                const float deltar = AktInclusiveJet.delta_R(Constituent);
-
-                if (deltar > DeltaR) DeltaR = deltar;
-
-            }
-
-            FillTree(AktPrunerBranch, AktPJet, DeltaR);
+            FillTree(AktPrunerBranch, AktPJet);
 
         }
 
@@ -347,9 +298,10 @@ bool HJetDiscriminator::Analysis()
 
 }
 
-void HJetDiscriminator::FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const float DeltaR) {
+void HJetDiscriminator::FillTree(ExRootTreeBranch *TreeBranch, const PseudoJet &Jet, const float DeltaR)
+{
 
-    if(Jet.m()>0) {
+    if (Jet != 0 && Jet.m() > 0 && DeltaR > 0) {
 
         HJetPropertiesBranch *Branch = static_cast<HJetPropertiesBranch *>(TreeBranch->NewEntry());
 
@@ -360,6 +312,33 @@ void HJetDiscriminator::FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& 
         Branch->Radius = DeltaR;
 
     }
+
+}
+
+void HJetDiscriminator::FillTree(ExRootTreeBranch *TreeBranch, const PseudoJet &Jet)
+{
+
+    FillTree(TreeBranch, Jet, GetDeltaR(Jet));
+
+}
+
+float HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
+{
+    float DeltaR = 0;
+
+    if (Jet.has_constituents()) {
+        
+        for (const auto & Constituent : Jet.constituents()) {
+
+            const float ConstDistance = Jet.delta_R(Constituent);
+
+            if (ConstDistance > DeltaR) DeltaR = ConstDistance;
+
+        }
+        
+    }
+    
+    return DeltaR;
 
 }
 

@@ -4,6 +4,8 @@ HReader::HReader(HMva   *NewMva)
 {
 
     Print(1, "Constructor");
+    
+//     DebugLevel = 4;
 
     Mva = NewMva;
 
@@ -32,13 +34,13 @@ void HReader::AddVariable()
     const string DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
 
-    for (const auto & Observable : Mva->ObservableVector) {
+    for (const auto & Observable : Mva->Observables) {
 
         Reader->AddVariable(Observable.Expression, Observable.Value);
 
     }
 
-    for (const auto & Spectator : Mva->SpectatorVector) {
+    for (const auto & Spectator : Mva->Spectators) {
 
         Reader->AddSpectator(Spectator.Expression, Spectator.Value);
 
@@ -81,7 +83,7 @@ void HReader::MVALoop()
 
     GetCuts();
 
-    for (const auto & TestTreeName : Mva->TestTreeNameVector) {
+    for (const auto & TestTreeName : Mva->TestTreeNames) {
 
         const TTree *const InputTree = (TTree *)const_cast<TFile *>(InputFile)->Get(TestTreeName.c_str());
         const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(InputTree));
@@ -89,10 +91,10 @@ void HReader::MVALoop()
         const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
         const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
-//         Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
-//         CrosssectionError = Info->Error * TreeReader->GetEntries() / Info->EventNumber;
-        Crosssection = Info->Crosssection;
-        CrosssectionError = Info->Error;
+        Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
+        CrosssectionError = Info->Error * TreeReader->GetEntries() / Info->EventNumber;
+//         Crosssection = Info->Crosssection;
+//         CrosssectionError = Info->Error;
         EventGenerated = Info->EventNumber;
 
         EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
@@ -152,26 +154,26 @@ void HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const string T
 
     Print(1, "Apply Cuts");
 
-    ReaderStruct = Mva->CutLoop(TreeReader);
+    ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
 
-    vector<pair<size_t, VectorIterator> > OrderVector(ReaderStruct.CutFlowVector.size());
+    vector<pair<size_t, VectorIterator> > Priority(ReaderStruct.CutFlowVector.size());
 
     size_t OrderNumber = 0;
     for (VectorIterator Iterator = ReaderStruct.CutFlowVector.begin(); Iterator != ReaderStruct.CutFlowVector.end(); ++Iterator, ++OrderNumber)
-        OrderVector[OrderNumber] = std::make_pair(OrderNumber, Iterator);
+        Priority[OrderNumber] = std::make_pair(OrderNumber, Iterator);
 
-    sort(OrderVector.begin(), OrderVector.end(), PairOrder());
+    sort(Priority.begin(), Priority.end(), PairOrder());
 
-    ReaderStruct.CutFlowVector = CutFlowOrder(ReaderStruct.CutFlowVector, OrderVector);
-    Mva->ObservableVector = CutFlowOrder(Mva->ObservableVector, OrderVector);
-//     InputVarVector = CutFlowOrder(InputVarVector, OrderVector);
-    ReaderStruct.CutsMin = CutFlowOrder(ReaderStruct.CutsMin, OrderVector);
-    ReaderStruct.CutsMax = CutFlowOrder(ReaderStruct.CutsMax, OrderVector);
-    ReaderStruct.EventVector = CutFlowOrder(ReaderStruct.EventVector, OrderVector);
-    ReaderStruct.TopEventVector = CutFlowOrder(ReaderStruct.TopEventVector, OrderVector);
-    ReaderStruct.HiggsEventVector = CutFlowOrder(ReaderStruct.HiggsEventVector, OrderVector);
+    ReaderStruct.CutFlowVector = SortByPriority(ReaderStruct.CutFlowVector, Priority);
+    Mva->Observables = SortByPriority(Mva->Observables, Priority);
+//     InputVarVector = SortByPriority(InputVarVector, OrderVector);
+    ReaderStruct.CutsMin = SortByPriority(ReaderStruct.CutsMin, Priority);
+    ReaderStruct.CutsMax = SortByPriority(ReaderStruct.CutsMax, Priority);
+    ReaderStruct.EventVector = SortByPriority(ReaderStruct.EventVector, Priority);
+    ReaderStruct.TopEventVector = SortByPriority(ReaderStruct.TopEventVector, Priority);
+    ReaderStruct.HiggsEventVector = SortByPriority(ReaderStruct.HiggsEventVector, Priority);
 
-    Mva->CutLoop(TreeReader);
+    ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
 
     TabularOutput();
 
@@ -218,15 +220,15 @@ void HReader::TabularOutput() const
     PrintData(RoundToDigits(CandidatsPerEvent), DataWidth);
     cout << endl;
 
-    for (unsigned ObservableNumber = 0; ObservableNumber < Mva->ObservableVector.size(); ++ObservableNumber) {
+    for (unsigned ObservableNumber = 0; ObservableNumber < Mva->Observables.size(); ++ObservableNumber) {
 
       CandidatsPerEvent = Ratio(ReaderStruct.FatJetVector[ObservableNumber], ReaderStruct.EventVector[ObservableNumber]);
 
-        PrintText(Mva->ObservableVector[ObservableNumber].Title, NameWidth);
+        PrintText(Mva->Observables[ObservableNumber].Title, NameWidth);
         PrintData(RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]), DataWidth);
-        PrintUnit(Mva->ObservableVector[ObservableNumber].Unit, UnitWidth);
+        PrintUnit(Mva->Observables[ObservableNumber].Unit, UnitWidth);
         PrintData(RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]), DataWidth);
-        PrintUnit(Mva->ObservableVector[ObservableNumber].Unit, UnitWidth);
+        PrintUnit(Mva->Observables[ObservableNumber].Unit, UnitWidth);
         PrintData(ReaderStruct.FatJetVector[ObservableNumber], DataWidth);
         PrintData(ReaderStruct.TopVector[ObservableNumber], DataWidth);
         PrintData(ReaderStruct.HiggsVector[ObservableNumber], DataWidth);
@@ -301,7 +303,7 @@ void HReader::LatexContent(const string TreeName)
               << "  & " << RoundError(HiggsEventLuminosityError) << endl
               << " \\\\ ";
 
-    int ObservableSum = Mva->ObservableVector.size();
+    int ObservableSum = Mva->Observables.size();
     for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 
       EventLuminosity = ReaderStruct.EventVector[ObservableNumber] * Lumi;
@@ -316,7 +318,7 @@ void HReader::LatexContent(const string TreeName)
         TopEventLuminosityError = Error(TopEventLuminosity);
 //         TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
 
-        LatexFile << " " /*<< "$"*/ << Mva->ObservableVector[ObservableNumber].Title /*<< "$"*/ << endl
+        LatexFile << " " /*<< "$"*/ << Mva->Observables[ObservableNumber].Title /*<< "$"*/ << endl
         << "  & " << RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]) << endl
         << "  & " << RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]) << endl
                   << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << endl

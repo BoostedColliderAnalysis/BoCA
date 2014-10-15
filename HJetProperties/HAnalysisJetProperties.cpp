@@ -126,7 +126,7 @@ bool HAnalysisJetProperties::Analysis()
     float PtSum;
 
 
-    for (const auto & EFlowJet : Event->Jets->EFlowJetVector) {
+    for (const auto & EFlowJet : Event->Jets->EFlowJets) {
         PtSum += EFlowJet.pt();
     }
 
@@ -150,7 +150,7 @@ bool HAnalysisJetProperties::Analysis()
     for (const auto & Id : IdVector) {
 
         vector<PseudoJet> EFlowJetVector;
-        std::copy_if(Event->Jets->EFlowJetVector.begin(), Event->Jets->EFlowJetVector.end(), std::back_inserter(EFlowJetVector),
+        std::copy_if(Event->Jets->EFlowJets.begin(), Event->Jets->EFlowJets.end(), std::back_inserter(EFlowJetVector),
         [Id](const PseudoJet & EFlowJet) {
 
             if (EFlowJet.user_index() == Id) return 1;

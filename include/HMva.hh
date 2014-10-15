@@ -116,7 +116,7 @@ public:
      * @brief Name of the Signal File
      *
      */
-    vector<string> SignalNameVector;
+    vector<string> SignalNames;
 
     /**
      * @brief Name of the Test File
@@ -142,24 +142,24 @@ public:
      * @brief Names of the Background Files
      *
      */
-    vector<string> BackgroundNameVector;
+    vector<string> BackgroundNames;
 
-    vector<string> BackgroundTreeNameVector;
+    vector<string> BackgroundTreeNames;
 
-    vector<string> SignalTreeNameVector;
+    vector<string> SignalTreeNames;
 
-    vector<string> TestTreeNameVector;
+    vector<string> TestTreeNames;
 
     /**
      * @brief Vector containing the pointer to the Observable data
      *
      */
-    vector<HObservable> ObservableVector;
+    vector<HObservable> Observables;
 
-    vector<HObservable> SpectatorVector;
+    vector<HObservable> Spectators;
 
 
-    virtual HReaderStruct CutLoop(const ExRootTreeReader * const) = 0;
+    virtual HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&) = 0;
 
     virtual void ApplyBdt(const ExRootTreeReader * const, const string, const TFile * const, TMVA::Reader *) = 0;
 

@@ -31,15 +31,15 @@ void HLeptonPgs::GetElectrons()
 
         if (ElectronCharge == -1) {
             
-            ElectronVector.push_back(GetLorentzVector(ElectronClone));
-            ElectronJetVector.push_back(GetPseudoJet(ElectronClone));
+            ElectronLorentzVectors.push_back(GetLorentzVector(ElectronClone));
+            ElectronJets.push_back(GetPseudoJet(ElectronClone));
 	    
             Print(3, "Electron");
 
         } else if (ElectronCharge == 1) {
 
-            AntiElectronVector.push_back(GetLorentzVector(ElectronClone));
-            AntiElectronJetVector.push_back(GetPseudoJet(ElectronClone));
+            AntiElectronLorentzVectors.push_back(GetLorentzVector(ElectronClone));
+            AntiElectronJets.push_back(GetPseudoJet(ElectronClone));
 	    
             Print(3, "Anti Electron");
 
@@ -65,15 +65,15 @@ void HLeptonPgs::GetMuons()
 
         if (MuonCharge == -1) {
 
-            MuonVector.push_back(GetLorentzVector(MuonClone));
-            MuonJetVector.push_back(GetPseudoJet(MuonClone));
+            MuonLorentzVectors.push_back(GetLorentzVector(MuonClone));
+            MuonJets.push_back(GetPseudoJet(MuonClone));
             
 	    Print(3, "Muon with Pt");
 
         } else if (MuonCharge == 1) {
 
-            AntiMuonVector.push_back( GetLorentzVector(MuonClone));
-            AntiMuonJetVector.push_back(GetPseudoJet(MuonClone));
+            AntiMuonLorentzVectors.push_back( GetLorentzVector(MuonClone));
+            AntiMuonJets.push_back(GetPseudoJet(MuonClone));
             
 	    Print(3, "Anti Muon with Pt");
 

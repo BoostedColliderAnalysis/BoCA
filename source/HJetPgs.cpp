@@ -22,34 +22,32 @@ bool HJetPgs::GetJets()
     Print(2, "Get Jet");
 
     TClonesArray *JetClonesArray = ClonesArrays->JetClonesArray;
-    int JetSum = JetClonesArray->GetEntriesFast();
-    Print(3, "Number of Jets", JetSum);
+    Print(3, "Number of Jets", JetClonesArray->GetEntriesFast());
 
-    /// Loop over all jets
-    for (int JetNumber = 0; JetNumber < JetSum; ++JetNumber) {
+    for (int JetNumber = 0; JetNumber < JetClonesArray->GetEntriesFast(); ++JetNumber) {
 
         Print(4, "Jet Number", JetNumber);
         TRootJet *JetClone = (TRootJet *)JetClonesArray->At(JetNumber);
 
-        JetVector.push_back(GetPseudoJet(JetClone));
+        Jets.push_back(GetPseudoJet(JetClone));
 
         if (JetClone->BTag > 0) {
 
             Print(4, "Has B Tag");
 
-            BottomLorentzVectorVector.push_back(GetLorentzVector(JetClone));
-            BottomJetVector.push_back(GetPseudoJet(JetClone));
+            BottomLorentzVectors.push_back(GetLorentzVector(JetClone));
+            BottomJets.push_back(GetPseudoJet(JetClone));
 
 
         } else {
 
-            JetLorentzVectorVector.push_back(GetLorentzVector(JetClone));
+            JetLorentzVectors.push_back(GetLorentzVector(JetClone));
 
         }
 
     }
 
-    Print(3, "Untagged jets", JetLorentzVectorVector.size());
+    Print(3, "Untagged jets", JetLorentzVectors.size());
     
     return 1;
 

@@ -26,13 +26,13 @@ void HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
     
     AntiTopVector.clear();
     
-    ElectronVector.clear();
+    ElectronLorentzVectors.clear();
     
-    MuonVector.clear();
+    MuonLorentzVectors.clear();
     
-    AntiElectronVector.clear();
+    AntiElectronLorentzVectors.clear();
     
-    AntiMuonVector.clear();
+    AntiMuonLorentzVectors.clear();
     
     BottomJetVector.clear();
     
@@ -53,8 +53,8 @@ vector<TLorentzVector> HParticle::LeptonVector()
     
     vector<TLorentzVector> TotalVector;
 
-    TotalVector = ElectronVector;
-    TotalVector.insert(TotalVector.end(), MuonVector.begin(), MuonVector.end());
+    TotalVector = ElectronLorentzVectors;
+    TotalVector.insert(TotalVector.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
 
     sort(TotalVector.begin(), TotalVector.end(), SortByPt());
     
@@ -73,8 +73,8 @@ vector<TLorentzVector> HParticle::AntiLeptonVector()
     
     vector<TLorentzVector> TotalVector;
 
-    TotalVector = AntiElectronVector;
-    TotalVector.insert(TotalVector.end(), AntiMuonVector.begin(), AntiMuonVector.end());
+    TotalVector = AntiElectronLorentzVectors;
+    TotalVector.insert(TotalVector.end(), AntiMuonLorentzVectors.begin(), AntiMuonLorentzVectors.end());
 
     sort(TotalVector.begin(), TotalVector.end(), SortByPt());
     

@@ -88,8 +88,8 @@ vector<TLorentzVector> HEventDelphes::GetLeptons()
 
     Lepton->GetElectrons();
     Lepton->GetMuons();
-    vector<TLorentzVector > LeptonVector = Lepton->GetLeptonVector();
-    vector<PseudoJet> LeptonJetVector = Lepton->GetLeptonJetVector();
+    vector<TLorentzVector > LeptonVector = Lepton->GetLeptonLorentzVectors();
+    vector<PseudoJet> LeptonJetVector = Lepton->GetLeptonJets();
 
     return LeptonVector;
 }
@@ -98,7 +98,7 @@ void HEventDelphes::GetJets()
 {
     Print(2, "Get Jets");
 
-    if (!HasJets) HasJets = Jets->GetJets();
+    if (!HasJets) HasJets = Jets->GetJets(HJet::Plain);
 
 }
 
@@ -111,9 +111,12 @@ void HEventDelphes::GetTaggedJets(const HJetTag * const JetTag)
 //     Jets->JetVector = Particles->TagJets(Jets->JetVector);
 
 
-    if (!HasJets) HasJets = Jets->GetTaggedJets(JetTag);
-
-
+    if (!HasJets) {
+        
+        Jets->JetTag = JetTag;        
+        HasJets = Jets->GetJets(HJet::Tagging);
+        
+    }
 
 }
 
@@ -179,7 +182,7 @@ PseudoJet HEventDelphes::GetHiggs()
     GetParticles();
 
     PseudoJet HiggsJet = HiggsTagger->GetHiggsJet(
-                             Jets->EFlowJetVector,
+                             Jets->EFlowJets,
                              Particles->BottomJetVector,
                              Particles->CharmJetVector);
 
@@ -193,7 +196,7 @@ vector<PseudoJet> HEventDelphes::GetTops()
     Print(2, "Get Tops");
 
     GetEFlow();
-    if (Jets->EFlowJetVector.size() > 0) TopTagger->TaggingTop(Jets->EFlowJetVector);
+    if (Jets->EFlowJets.size() > 0) TopTagger->TaggingTop(Jets->EFlowJets);
     vector<PseudoJet> TopJetVector = TopTagger->TopJetVector;
 
     return (TopJetVector);
@@ -248,7 +251,7 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(const HJetTag * const Jet
 //     GetParticles();
 
 //     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
-    return Discriminator->GetCandidateJets(Jets->EFlowJetVector);
+    return Discriminator->GetCandidateJets(Jets->EFlowJets);
 
 }
 

@@ -27,15 +27,15 @@ void HLeptonDelphes::GetElectrons()
 
         if (ElectronCharge == -1) {
 
-            ElectronVector.push_back(const_cast<Electron*>(ElectronClone)->P4());
-            ElectronJetVector.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
+            ElectronLorentzVectors.push_back(const_cast<Electron*>(ElectronClone)->P4());
+            ElectronJets.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
 	    
             Print(3, "Electron");
 
         } else if (ElectronCharge == 1) {
 
-            AntiElectronVector.push_back(const_cast<Electron*>(ElectronClone)->P4());
-            AntiElectronJetVector.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
+            AntiElectronLorentzVectors.push_back(const_cast<Electron*>(ElectronClone)->P4());
+            AntiElectronJets.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
             
             Print(3, "Anti Electron");
 
@@ -59,15 +59,15 @@ void HLeptonDelphes::GetMuons()
 
         if (MuonCharge == -1) {
 
-            MuonVector.push_back(const_cast<Muon*>(MuonClone)->P4());
-            MuonJetVector.push_back(GetPseudoJet(const_cast<Muon*>(MuonClone)->P4()));
+            MuonLorentzVectors.push_back(const_cast<Muon*>(MuonClone)->P4());
+            MuonJets.push_back(GetPseudoJet(const_cast<Muon*>(MuonClone)->P4()));
 	    
             Print(3, "Muon");
 
         } else if (MuonCharge == 1) {
 
-            AntiMuonVector.push_back(const_cast<Muon*>(MuonClone)->P4());
-            AntiMuonJetVector.push_back(GetPseudoJet(const_cast<Muon*>(MuonClone)->P4()));
+            AntiMuonLorentzVectors.push_back(const_cast<Muon*>(MuonClone)->P4());
+            AntiMuonJets.push_back(GetPseudoJet(const_cast<Muon*>(MuonClone)->P4()));
             Print(3, "Anti Muon");
 
         } else

@@ -7,17 +7,17 @@ HMvaHeavyHiggs::HMvaHeavyHiggs()
 
     AnalysisName = "HeavyHiggs";
 
-    SignalNameVector = {"Signal"};
+    SignalNames = {"Signal"};
 
-    BackgroundNameVector = {"Background"};
+    BackgroundNames = {"Background"};
 
     TestName = "Test";
 
-    SignalTreeNameVector = {"Signal_5f"};
+    SignalTreeNames = {"Signal_5f"};
 
-    BackgroundTreeNameVector = {"5k_Pt20"};
+    BackgroundTreeNames = {"5k_Pt20"};
 
-    TestTreeNameVector = {"Signal_5f","5k_Pt20"};
+    TestTreeNames = {"Signal_5f","5k_Pt20"};
 
     CandidateBranchName = "HeavyHiggs";
 
@@ -49,8 +49,8 @@ void HMvaHeavyHiggs::DefineVariables()
 
     Print(1 , "Define Variables");
 
-    ObservableVector.push_back(NewObservable(&HeavyHiggs->BottomDeltaEta, "HeavyHiggs.BottomDeltaEta", "BottomeDeltaEta"));
-    ObservableVector.push_back(NewObservable(&HeavyHiggs->BottomDeltaPhi, "HeavyHiggs.BottomDeltaPhi", "BottomeDeltaPhi"));
+    Observables.push_back(NewObservable(&HeavyHiggs->BottomDeltaEta, "HeavyHiggs.BottomDeltaEta", "BottomeDeltaEta"));
+    Observables.push_back(NewObservable(&HeavyHiggs->BottomDeltaPhi, "HeavyHiggs.BottomDeltaPhi", "BottomeDeltaPhi"));
 
     Print(1,"Variables defined");
 
@@ -122,14 +122,12 @@ void HMvaHeavyHiggs::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 }
 
 
-HReaderStruct HMvaHeavyHiggs::CutLoop(const ExRootTreeReader *const TreeReader)
+HReaderStruct HMvaHeavyHiggs::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 {
 
   Print(1, "Cut Loop");
 
-  HReaderStruct ReaderStruct;
-
-  int ObservableSum = ObservableVector.size();
+  int ObservableSum = Observables.size();
   ReaderStruct.HiggsSum = 0;
   ReaderStruct.TopSum = 0;
   ReaderStruct.FatJetSum = 0;
@@ -182,8 +180,8 @@ HReaderStruct HMvaHeavyHiggs::CutLoop(const ExRootTreeReader *const TreeReader)
       bool ParticleCut = 0;
       for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 
-        if (*ObservableVector[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
-          || *ObservableVector[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
+        if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
+          || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
 
           ParticleCut = 1;
 

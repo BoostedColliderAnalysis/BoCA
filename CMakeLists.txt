@@ -46,45 +46,33 @@ set(LibraryProperties ${LibraryProperties}
     SUFFIX ".so"
 )
 
-# Branch dictionary
-# include_directories(${IncludeDirectory})
-set(LinkLibraries ${ROOT_LIBRARIES})
-
-# set(IncludeDirectory ${ROOT_INCLUDE_DIR} ${PROJECT_SOURCE_DIR})
-# add_subdirectory(classes)
-
-# set(IncludeDirectory ${ROOT_INCLUDE_DIR})
-# include_directories(${IncludeDirectory})
-# add_subdirectory(root)
-
 # Libraries
 set(IncludeDirectory ${IncludeDirectory}
 ${ROOT_INCLUDE_DIR}
 ${PROJECT_SOURCE_DIR}/include
-# ${PROJECT_SOURCE_DIR}/source
 ${ExRootDir}
 ${DelphesDir}
 )
 include_directories(${IncludeDirectory})
 
-set(LinkLibraries ${LinkLibraries}
+set(LinkLibraries 
+${ROOT_LIBRARIES}
 ${fastjet_LIBRARIES}
 ${DelphesLibrary}
+${ExRootLibrary}
 )
 
+add_subdirectory(ExRootAnalysis)
+add_subdirectory(classes)
 add_subdirectory(source)
-
-# Executables
-set(LinkDirectories ${ROOT_LIBRARY_DIR})
-link_directories(${LinkDirectories})
 
 set(LinkLibraries
 ${LinkLibraries}
-${ExRootLibrary}
-HBranch
 HObject
+HBranch
 HEvent
 HAnalysis
+HMva
 )
 
 add_subdirectory(HDiscriminator)

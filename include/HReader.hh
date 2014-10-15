@@ -60,21 +60,18 @@ public:
 
 private:
 
-
-
     template <typename TCutFlow>
-    vector<TCutFlow> CutFlowOrder(
+    vector<TCutFlow> SortByPriority(
         vector<TCutFlow> const &Input,
-        vector<pair<size_t, VectorIterator> > const &Reference
-    )
-    {
+        vector<pair<size_t, VectorIterator> > const &Priority
+    ) {
 
-        size_t const OrderSum = Reference.size();
+        size_t const OrderSum = Priority.size();
         vector<TCutFlow> Output(OrderSum);
 
         for (size_t OrderSize = 0; OrderSize < OrderSum; ++OrderSize) {
 
-            Output[OrderSize] = Input[Reference[OrderSize].first];
+            Output[OrderSize] = Input[Priority[OrderSize].first];
 
         }
 
@@ -83,24 +80,21 @@ private:
 
 
     template<typename TData>
-    void PrintData(const TData Data, const int Width) const
-    {
+    void PrintData(const TData Data, const int Width) const {
         const char Separator = ' ';
         std::cout << std::right << setw(Width) << setfill(Separator) << Data;
     }
 
 
     template<typename TText>
-    void PrintText(const TText Text, const int Width) const
-    {
+    void PrintText(const TText Text, const int Width) const {
         const char Separator = ' ';
         std::cout << left << setw(Width) << setfill(Separator) << Text;
     }
 
 
     template<typename TData>
-    void PrintUnit(const TData Data, const int Width) const
-    {
+    void PrintUnit(const TData Data, const int Width) const {
         std::stringstream ss;
         ss << " " << Data;
 
@@ -113,7 +107,7 @@ private:
      *
      * @return void
      */
-    void ApplyCuts(const ExRootTreeReader * const, const string);
+    void ApplyCuts(const ExRootTreeReader *const, const string);
 
     void AddVariable();
 
@@ -145,17 +139,7 @@ private:
 
     float Error(const float) const;
 
-//     int HiggsSum;
-
-//     int TopSum;
-
     int EventSum;
-
-//     int FatJetSum;
-
-//     int TopEventSum;
-
-//     int HiggsEventSum;
 
     float Crosssection;
 
@@ -181,24 +165,6 @@ private:
 
     string Color;
 
-//     vector<int> EventVector;
-
-//     vector<int> TopEventVector;
-
-//     vector<int> HiggsEventVector;
-
-//     vector<int> CutFlowVector;
-
-//     vector<int> FatJetVector;
-
-//     vector<int> HiggsVector;
-
-//     vector<int> TopVector;
-
-//     vector<double> CutsMin;
-
-//     vector<double> CutsMax;
-
     HReaderStruct ReaderStruct;
 
     float Ratio(const float, const float) const;
@@ -213,7 +179,7 @@ private:
 
     ofstream LatexFile;
 
-    HMva * Mva;
+    HMva *Mva;
 
     string ClassName() const {
 

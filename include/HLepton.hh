@@ -34,9 +34,9 @@ public:
     
     void NewEvent(const HClonesArray * const);
         
-    vector<TLorentzVector> GetLeptonVector();
+    vector<TLorentzVector> GetLeptonLorentzVectors();
                 
-    vector<PseudoJet> GetLeptonJetVector();
+    vector<PseudoJet> GetLeptonJets();
     
     /**
      * @brief Find the hardest of the light leptons
@@ -58,86 +58,86 @@ public:
      * @brief Electron Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> ElectronVector;
+    vector<TLorentzVector> ElectronLorentzVectors;
 
     /**
      * @brief Anti Electron Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiElectronVector;
+    vector<TLorentzVector> AntiElectronLorentzVectors;
 
     /**
      * @brief Muon Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> MuonVector;
+    vector<TLorentzVector> MuonLorentzVectors;
 
     /**
      * @brief Anti Muon Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiMuonVector;
+    vector<TLorentzVector> AntiMuonLorentzVectors;
 
     /**
      * @brief Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> TauVector;
+    vector<TLorentzVector> TauLorentzVectors;
 
     /**
      * @brief Anti Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiTauVector;
+    vector<TLorentzVector> AntiTauLorentzVectors;
 
     /**
      * @brief Lepton Lorentz Vector
      *
      */
-    vector<TLorentzVector> LeptonVector;
+    vector<TLorentzVector> LeptonLorentzVectors;
 
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
-    vector<TLorentzVector> AntiLeptonVector;
+    vector<TLorentzVector> AntiLeptonLorentzVectors;
        
 
     /**
      * @brief Electron Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> ElectronJetVector;
+    vector<PseudoJet> ElectronJets;
 
     /**
      * @brief Anti Electron Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> AntiElectronJetVector;
+    vector<PseudoJet> AntiElectronJets;
 
     /**
      * @brief Muon Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> MuonJetVector;
+    vector<PseudoJet> MuonJets;
 
     /**
      * @brief Anti Muon Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> AntiMuonJetVector;
+    vector<PseudoJet> AntiMuonJets;
     
     /**
      * @brief Lepton Lorentz Vector
      *
      */
-    vector<PseudoJet> LeptonJetVector;
+    vector<PseudoJet> LeptonJets;
     
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
-    vector<PseudoJet> AntiLeptonJetVector;
+    vector<PseudoJet> AntiLeptonJets;
     
 protected:
     

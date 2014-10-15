@@ -16,10 +16,9 @@ using std::vector;
 class HJet : public HFourVector
 {
 
-public:
+public:    
     
-    
-    enum HJetDetails {Plain,Tagging,Isolation,TaggingIsolation};
+    enum HJetDetails {Plain,Tagging,Isolation,Structure,TaggingIsolation};
 
     /**
      * @brief constructor
@@ -45,21 +44,7 @@ public:
      *
      * @return void
      */
-    virtual bool GetJets();
-
-    /**
-     * @brief AnalyseJet calls AnalyseEFlow
-     *
-     * @return void
-     */
-    virtual bool GetTaggedJets(const HJetTag * const);
-
-    /**
-     * @brief AnalyseJet calls AnalyseEFlow
-     *
-     * @return void
-     */
-    virtual bool GetStructuredJets();
+    virtual bool GetJets(const HJetDetails);
     
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -79,37 +64,37 @@ public:
      * @brief vector of Jet Lorentz Vectors
      *
      */
-    vector<TLorentzVector> JetLorentzVectorVector;
+    vector<TLorentzVector> JetLorentzVectors;
 
     /**
      * @brief Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> TauLorentzVectorVector;
+    vector<TLorentzVector> TauLorentzVectors;
 
     /**
      * @brief Anti Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiTauLorentzVectorVector;
+    vector<TLorentzVector> AntiTauLorentzVectors;
 
     /**
      * @brief Vector of EFlow JetCandidates
      *
      */
-    vector<PseudoJet> EFlowJetVector;
+    vector<PseudoJet> EFlowJets;
 
     /**
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    vector<PseudoJet> JetVector;
+    vector<PseudoJet> Jets;
 
     /**
      * @brief Vector of generator level Bottom Pseudo Jets
      *
      */
-    vector<PseudoJet> BottomJetVector;
+    vector<PseudoJet> BottomJets;
 
     /**
      * @brief Vector of generator level Charm Pseudo Jets
@@ -121,13 +106,13 @@ public:
      * @brief Vector of EFlow JetCandidates
      *
      */
-    vector<PseudoJet> GenJetVector;
+    vector<PseudoJet> GenJets;
 
     /**
      * @brief vector of Bottom Lorentz Vectors with their pull
      *
      */
-    vector<TLorentzVector> BottomLorentzVectorVector;
+    vector<TLorentzVector> BottomLorentzVectors;
         
     const HJetTag  * JetTag;
 

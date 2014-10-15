@@ -1,6 +1,7 @@
 set(IncludeDirectory
 ${IncludeDirectory}   
-./include
+${PROJECT_SOURCE_DIR}/HDiscriminator/include
+${PROJECT_SOURCE_DIR}/HDiscriminator/source
 )
 include_directories(${IncludeDirectory})
 

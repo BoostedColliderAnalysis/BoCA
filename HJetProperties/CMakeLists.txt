@@ -19,8 +19,12 @@ install(TARGETS HBranchJetProperties DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTOR
 
 # Analysis Library
 set(AnalysisSources HAnalysisJetProperties.cpp)
+set(LinkLibraries
+${LinkLibraries}
+HBranchJetProperties
+)
 add_library(HAnalysisJetProperties SHARED ${AnalysisSources})
-target_link_libraries(HAnalysisJetProperties HBranchJetProperties HEvent)
+target_link_libraries(HAnalysisJetProperties ${LinkLibraries})
 set_target_properties(HAnalysisJetProperties PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysisJetProperties DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 

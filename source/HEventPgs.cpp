@@ -43,7 +43,7 @@ vector<TLorentzVector> HEventPgs::GetLeptons()
     
     Print(2, "Get Leptons");
     
-    vector<TLorentzVector> LeptonVector = Lepton->GetLeptonVector();
+    vector<TLorentzVector> LeptonVector = Lepton->GetLeptonLorentzVectors();
     
     
     return LeptonVector;
@@ -54,7 +54,7 @@ void HEventPgs::GetJets()
 {
     Print(2, "Get Jets");
     
-    if (!HasJets) HasJets = Jets->GetJets();
+    if (!HasJets) HasJets = Jets->GetJets(HJet::Plain);
     
 }
 

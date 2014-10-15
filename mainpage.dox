@@ -1,6 +1,7 @@
 /**
-\mainpage The mainpage documentation
+\mainpage Readme
 
 HStudy analyses root files originiating in MadGraph / Pythia / PGS / Delphes.
-The boilerplate code is hidden in the HEvent and HStudy classes, whereas the core of an analysis is collected in the HAnalysis class. 
+The code concerning Particles and Jets is collected in the HEvent class.
+In order to create a new analysis the HAnalysis class has to be subclassed. 
 */

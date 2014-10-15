@@ -5,26 +5,26 @@ HMvaDiscriminator::HMvaDiscriminator()
 
     Print(1 , "Constructor");
 
-//     Debug = 1;
+//     DebugLevel = 4;
 
     AnalysisName = "Discriminator";
 
 //     SignalVector = {"Higgs","HiggsTop"};
-    SignalNameVector = {"Higgs"};
+    SignalNames = {"Higgs"};
 
 //     BackgroundVector = {"Top", "Jet","TwoTop"};
-    BackgroundNameVector = {"Top", "Jet"};
+    BackgroundNames = {"Top", "Jet"};
 //         BackgroundVector = {"Top"};
 
     TestName = "Test";
 
-    SignalTreeNameVector = {"even", "mix", "odd"};
+    SignalTreeNames = {"even", "mix", "odd"};
 //         SignalTreeVector = {"even"};
 
-    BackgroundTreeNameVector = {"background", "even", "mix", "odd"};
+    BackgroundTreeNames = {"background", "even", "mix", "odd"};
 //         BackgroundTreeVector = {"even"};
 
-    TestTreeNameVector = {"background","even", "mix", "odd"};
+    TestTreeNames = {"background","even", "mix", "odd"};
 //         TestTreeVector = {"even"};
 
     CandidateBranchName = "Candidate";
@@ -61,34 +61,34 @@ void HMvaDiscriminator::DefineVariables()
 
     Print(1 , "Define Variables");
 
-    ObservableVector.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV","m_j"));
-    ObservableVector.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV","p^T_j"));
-    ObservableVector.push_back(NewObservable(&Candidate->Eta, "Candidate.Eta", "Eta","\\eta_j"));
-    ObservableVector.push_back(NewObservable(&Candidate->Phi, "Candidate.Phi", "Phi","\\phi_j"));
+    Observables.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV","m_j"));
+    Observables.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV","p^T_j"));
+    Observables.push_back(NewObservable(&Candidate->Eta, "Candidate.Eta", "Eta","","\\eta_j"));
+    Observables.push_back(NewObservable(&Candidate->Phi, "Candidate.Phi", "Phi","","\\phi_j"));
 
-    ObservableVector.push_back(NewObservable(&Candidate->SubJetsDeltaR, "Candidate.SubJetsDeltaR", "SubJet DeltaR","\\Delta R(j_1,j_2)"));
+    Observables.push_back(NewObservable(&Candidate->SubJetsDeltaR, "Candidate.SubJetsDeltaR", "SubJet DeltaR","","\\Delta R(j_1,j_2)"));
 
-    ObservableVector.push_back(NewObservable(&Candidate->SubJet1Mass, "Candidate.SubJet1Mass","SubJet1 Mass", "GeV","m_{j_1}"));
-    ObservableVector.push_back(NewObservable(&Candidate->SubJet1Pt, "Candidate.SubJet1Pt","SubJet1 Pt", "GeV"));
-    ObservableVector.push_back(NewObservable(&Candidate->SubJet1DeltaR,"Candidate.SubJet1DeltaR","SubJet1 DeltaR"));
+    Observables.push_back(NewObservable(&Candidate->SubJet1Mass, "Candidate.SubJet1Mass","SubJet1 Mass", "GeV","m_{j_1}"));
+    Observables.push_back(NewObservable(&Candidate->SubJet1Pt, "Candidate.SubJet1Pt","SubJet1 Pt", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->SubJet1DeltaR,"Candidate.SubJet1DeltaR","SubJet1 DeltaR"));
 
-    ObservableVector.push_back(NewObservable(&Candidate->SubJet2Mass, "Candidate.SubJet2Mass","SubJet2 Mass", "GeV"));
-    ObservableVector.push_back(NewObservable(&Candidate->SubJet2Pt, "Candidate.SubJet2Pt","SubJet2 Pt", "GeV"));
-    ObservableVector.push_back(NewObservable(&Candidate->SubJet2DeltaR,"Candidate.SubJet2DeltaR","SubJet2 DeltaR"));
+    Observables.push_back(NewObservable(&Candidate->SubJet2Mass, "Candidate.SubJet2Mass","SubJet2 Mass", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->SubJet2Pt, "Candidate.SubJet2Pt","SubJet2 Pt", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->SubJet2DeltaR,"Candidate.SubJet2DeltaR","SubJet2 DeltaR"));
 
 //     ObservableVector.push_back(NewObservable(&Candidate->ConstEta, "Candidate.ConstEta", "Const Eta"));
 //     ObservableVector.push_back(NewObservable(&Candidate->ConstPhi, "Candidate.ConstPhi", "Const Phi"));
-    ObservableVector.push_back(NewObservable(&Candidate->ConstDeltaR, "Candidate.ConstDeltaR","Const DeltaR"));
-    ObservableVector.push_back(NewObservable(&Candidate->ConstAngle, "Candidate.ConstAngle","Const Angle"));
+    Observables.push_back(NewObservable(&Candidate->ConstDeltaR, "Candidate.ConstDeltaR","Const DeltaR"));
+    Observables.push_back(NewObservable(&Candidate->ConstAngle, "Candidate.ConstAngle","Const Angle"));
 
 //     ObservableVector.push_back(NewObservable(&Candidate->IsolationEta, "Candidate.IsolationEta"));
 //     ObservableVector.push_back(NewObservable(&Candidate->IsolationPhi, "Candidate.IsolationPhi"));
-    ObservableVector.push_back(NewObservable(&Candidate->IsolationDeltaR, "Candidate.IsolationDeltaR","Isol DeltaR"));
-    ObservableVector.push_back(NewObservable(&Candidate->IsolationAngle, "Candidate.IsolationAngle","Isol Angle"));
-    ObservableVector.push_back(NewObservable(&Candidate->IsolationPt, "Candidate.IsolationPt","Isol Pt", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->IsolationDeltaR, "Candidate.IsolationDeltaR","Isol DeltaR"));
+    Observables.push_back(NewObservable(&Candidate->IsolationAngle, "Candidate.IsolationAngle","Isol Angle"));
+    Observables.push_back(NewObservable(&Candidate->IsolationPt, "Candidate.IsolationPt","Isol Pt", "GeV"));
 
-    SpectatorVector.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag","Higgs Tag"));
-    SpectatorVector.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag","Top Tag"));
+    Spectators.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag","Higgs Tag"));
+    Spectators.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag","Top Tag"));
 
     Print(1,"Variables defined");
 
@@ -160,14 +160,15 @@ void HMvaDiscriminator::ApplyBdt(const ExRootTreeReader *const TreeReader, const
 }
 
 
-HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReader)
+HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 {
 
   Print(1, "Cut Loop");
 
-  HReaderStruct ReaderStruct;
-
-  int ObservableSum = ObservableVector.size();
+  int ObservableSum = Observables.size();
+  
+  Print(1,"Observables",Observables.size());
+  
   ReaderStruct.HiggsSum = 0;
   ReaderStruct.TopSum = 0;
   ReaderStruct.FatJetSum = 0;
@@ -182,12 +183,15 @@ HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReade
   ReaderStruct.FatJetVector.assign(ObservableSum, 0);
   ReaderStruct.HiggsVector.assign(ObservableSum, 0);
   ReaderStruct.TopVector.assign(ObservableSum, 0);
+  
+  Print(2,"Vectors assigned");
 
   const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
 
 
   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
   for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
+      Print(3,"Event Loop");
 
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 
@@ -198,7 +202,8 @@ HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReade
     bool HasTop = 0;
 
     for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
-
+        
+        Print(3,"Candidate Loop");
       ++ReaderStruct.FatJetSum;
 
       if (Candidate->TopTag) {
@@ -219,17 +224,25 @@ HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReade
 
       bool ParticleCut = 0;
       for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
+          
+          Print(3,"Observable Loop");
+          
+          Print(1,"Error",ReaderStruct.CutsMin[ObservableNumber]);
 
-        if (*ObservableVector[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
-          || *ObservableVector[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
+        if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
+          || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
 
-          ParticleCut = 1;
+            Print(3,"we are here",1);
+            
+            ParticleCut = 1;
 
           } else {
-
+              
+              Print(3,"we are here",2);
             ++ReaderStruct.CutFlowVector[ObservableNumber];
 
           }
+            Print(3,"Struct filled");
 
           if (!ParticleCut) {
 

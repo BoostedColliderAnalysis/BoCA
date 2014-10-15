@@ -25,7 +25,7 @@ void HReconstruction::NewEvent()
 
 }
 
-vector<PseudoJet> HReconstruction::GetFatJetVector(const vector<PseudoJet> &EFlowJetVector) const
+vector<PseudoJet> HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJetVector) const
 {
 
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
@@ -34,11 +34,11 @@ vector<PseudoJet> HReconstruction::GetFatJetVector(const vector<PseudoJet> &EFlo
 
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
 
-    return GetFatJetVector(EFlowJetVector, FatJetDefinition);
+    return GetFatJets(EFlowJetVector, FatJetDefinition);
 
 }
 
-vector<PseudoJet> HReconstruction::GetFatJetVector(const vector<PseudoJet> &EFlowJetVector, const fastjet::JetDefinition &FatJetDefinition) const
+vector<PseudoJet> HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJetVector, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
     Print(2, "Get Fat Jet Vector",FatJetDefinition.R());
@@ -57,7 +57,7 @@ vector<PseudoJet> HReconstruction::GetFatJetVector(const vector<PseudoJet> &EFlo
 }
 
 
-vector<PseudoJet> HReconstruction::GetMassDropVector(const vector<PseudoJet> &FatJetVector) const
+vector<PseudoJet> HReconstruction::GetMassDropJets(const vector<PseudoJet> &FatJetVector) const
 {
 
     Print(2, "Get Mass Drop Jet Vector", FatJetVector.size());
@@ -109,7 +109,7 @@ bool HReconstruction::JetIsBad(const PseudoJet &Jet)
 
     HObject Object;
 
-    if (fabs(Jet.m()) <= 0) {
+    if (fabs(Jet.m()) <= 10) {
 
         Object.Print(2, "Fat Jet Mass", Jet.m());
         return 1;

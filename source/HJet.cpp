@@ -21,48 +21,30 @@ void HJet::NewEvent(const HClonesArray * const NewClonesArrays)
 
     ClonesArrays = NewClonesArrays;
 
-    JetLorentzVectorVector.clear();
+    JetLorentzVectors.clear();
 
-    TauLorentzVectorVector.clear();
+    TauLorentzVectors.clear();
 
-    AntiTauLorentzVectorVector.clear();
+    AntiTauLorentzVectors.clear();
 
-    EFlowJetVector.clear();
+    EFlowJets.clear();
 
-    BottomJetVector.clear();
+    BottomJets.clear();
 
     CharmJetVector.clear();
 
-    GenJetVector.clear();
+    GenJets.clear();
 
-    BottomLorentzVectorVector.clear();
+    BottomLorentzVectors.clear();
 
-    JetVector.clear();
+    Jets.clear();
 
 }
 
-bool HJet::GetJets()
+bool HJet::GetJets(const HJetDetails JetDetails)
 {
 
     Print(1,"Get Jets","No Jets");
-
-    return 0;
-
-}
-
-bool HJet::GetTaggedJets(const HJetTag * const JetTag)
-{
-
-    Print(1,"Get Tagged Jets","No Jets");
-
-    return 0;
-
-}
-
-bool HJet::GetStructuredJets()
-{
-
-    Print(1,"Get Structured Jets","No Jets");
 
     return 0;
 

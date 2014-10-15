@@ -26,7 +26,7 @@ public:
     */
     ~HMvaDiscriminator();
 
-    HReaderStruct CutLoop(const ExRootTreeReader * const);
+    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
 
     void ApplyBdt(const ExRootTreeReader * const, const string, const TFile * const, TMVA::Reader *);
 

@@ -1,10 +1,3 @@
-set(IncludeDirectory
-${IncludeDirectory}
-${PROJECT_SOURCE_DIR}/HDiscriminator/source
-${PROJECT_SOURCE_DIR}/HDiscriminator/include
-)
-include_directories(${IncludeDirectory})
-
 # Branch dictionary
 set(HBranchSources HBranchDiscriminator.cpp)
 set(HLinkDefHeader ../include/HDiscriminatorLinkDef.hh)
@@ -19,9 +12,16 @@ set_target_properties(HBranchDiscriminator PROPERTIES ${LibraryProperties})
 install(TARGETS HBranchDiscriminator DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 # Jet Library
-set(JetSources HJetDiscriminator.cpp)
+set(JetSources 
+HJetDiscriminator.cpp
+)
+set(LinkLibraries
+${LinkLibraries}
+HBranchDiscriminator
+)
+
 add_library(HJetDiscriminator SHARED ${JetSources})
-target_link_libraries(HJetDiscriminator HBranchDiscriminator HEvent HBranch)
+target_link_libraries(HJetDiscriminator ${LinkLibraries})
 set_target_properties(HJetDiscriminator PROPERTIES ${LibraryProperties})
 install(TARGETS HJetDiscriminator DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
@@ -37,7 +37,7 @@ target_link_libraries(HJetDiscriminatorMain ${LinkLibraries})
 # Analysis Library
 set(AnalysisSources HAnalysisDiscriminator.cpp)
 add_library(HAnalysisDiscriminator SHARED ${AnalysisSources})
-target_link_libraries(HAnalysisDiscriminator HBranchDiscriminator HEvent HBranch)
+target_link_libraries(HAnalysisDiscriminator ${LinkLibraries})
 set_target_properties(HAnalysisDiscriminator PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysisDiscriminator DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
@@ -53,7 +53,7 @@ target_link_libraries(HDiscriminator ${LinkLibraries})
 # Mva Library
 set(MvaSources HMvaDiscriminator.cpp)
 add_library(HMvaDiscriminator SHARED ${MvaSources})
-target_link_libraries(HMvaDiscriminator HMva HBranchDiscriminator)
+target_link_libraries(HMvaDiscriminator ${LinkLibraries})
 set_target_properties(HMvaDiscriminator PROPERTIES ${LibraryProperties})
 install(TARGETS HMvaDiscriminator DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 

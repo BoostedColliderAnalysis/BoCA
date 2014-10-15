@@ -49,13 +49,13 @@ public:
 
     vector<TLorentzVector> AntiTopVector;
 
-    vector<TLorentzVector> ElectronVector;
+    vector<TLorentzVector> ElectronLorentzVectors;
 
-    vector<TLorentzVector> MuonVector;
+    vector<TLorentzVector> MuonLorentzVectors;
 
-    vector<TLorentzVector> AntiElectronVector;
+    vector<TLorentzVector> AntiElectronLorentzVectors;
 
-    vector<TLorentzVector> AntiMuonVector;
+    vector<TLorentzVector> AntiMuonLorentzVectors;
 
 
     /**

@@ -95,6 +95,32 @@ bool HAnalysisHeavyHiggsDelphes::Analysis()
 
 }
 
+class HHeavyHiggsJetTag : public HJetTag {
+    
+    int GetBranchId(int, int);
+    
+};
+
+int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
+{
+    
+    Print(2, "Get Mother Id");
+    
+    if (InitialState.find(abs(ParticleId)) != end(InitialState) && MotherParticle.find(abs(BranchId)) == end(MotherParticle)) {
+        BranchId = IsrId;
+    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+        BranchId = ParticleId;
+    } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+        BranchId = ParticleId;
+    }
+    
+    Print(4, "Mother Id", BranchId);
+    
+    
+    return BranchId;
+    
+}
+
 // bool HAnalysisHeavyHiggsDelphes::JetIsBottom(const PseudoJet &Jet)
 // {
 //
@@ -108,9 +134,10 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
 
     Print(2, "Signal");
 
-    Event->GetTaggedJets();
+    const HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->Jets->JetVector;
+    vector<PseudoJet> JetVector = Event->Jets->Jets;
 
     vector<PseudoJet> BottomJetVector;
 
@@ -141,9 +168,10 @@ bool HAnalysisHeavyHiggsDelphes::Background()
 
     Print(2, "Background");
 
-    Event->GetTaggedJets();
+    const HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->Jets->JetVector;
+    vector<PseudoJet> JetVector = Event->Jets->Jets;
 
     if (JetVector.size()<1) return 0;
 
@@ -229,7 +257,7 @@ bool HAnalysisHeavyHiggsDelphes::Test()
 
     Event->GetJets();
 
-    vector<PseudoJet> BottomJetVector = Event->Jets->BottomJetVector;
+    vector<PseudoJet> BottomJetVector = Event->Jets->BottomJets;
 
     if (BottomJetVector.size() < 2) return 0;
 
@@ -297,8 +325,8 @@ void HAnalysisHeavyHiggsDelphes::FillBranch(PseudoJet FrontJet, PseudoJet BackJe
     HeavyHiggs->BottomInvMass = InvMass;
     HeavyHiggs->BottomDeltaPt = DeltaPt;
 
-    HeavyHiggs->BTag = Event->Jets->BottomJetVector.size();
-    HeavyHiggs->JetNumber = Event->Jets->JetVector.size();
+    HeavyHiggs->BTag = Event->Jets->BottomJets.size();
+    HeavyHiggs->JetNumber = Event->Jets->Jets.size();
     HeavyHiggs->Isolation = Isolation;
 
 }
@@ -309,7 +337,7 @@ float HAnalysisHeavyHiggsDelphes::Leptons(PseudoJet Jet)
 
     float Isolation;
 
-    vector<PseudoJet> LeptonVector = Event->Lepton->GetLeptonJetVector();
+    vector<PseudoJet> LeptonVector = Event->Lepton->GetLeptonJets();
 
     for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
 

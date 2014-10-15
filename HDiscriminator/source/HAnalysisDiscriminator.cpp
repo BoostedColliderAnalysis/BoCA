@@ -79,42 +79,37 @@ void HAnalysisDiscriminator::CloseFile()
 
 }
 
-
-class HDiscriminatorJetTag : public HJetTag
-{
-
-    int GetBranchId(const int, int) const;
-
-    const set<int> HeavyParticles = {BottomId, TopId, CpvHiggsId};
-
-    string ClassName() const {
-
-        return ("HDiscriminatorJetTag");
-
-    };
-
-
-};
-
-int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
+int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int WhichMother) const
 {
 
     Print(3, "Get Branch Id", ParticleId);
-
-    if (ParticleId == TopId && BranchId == CpvHiggsId) Print(0, "Higgs overwritten by top");
-
-    if (InitialState.find(abs(ParticleId)) != end(InitialState) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
+    
+    if (ParticleId == -BranchId) {
+        
+        Print(4, "ID CONFILICT", ParticleId, BranchId);
+        
+    }
+    
+    if (
+        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
+        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+    ) {
         BranchId = IsrId;
-    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+    } else if (
+        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
+        && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        && WhichMother == 2
+    ) {
         BranchId = ParticleId;
-    } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+    } else if (
+        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
+        && WhichMother == 1
+    ) {
         BranchId = ParticleId;
     }
-
+    
     Print(3, "Branch Id", BranchId);
-
-//     if (BranchId == 0) Print(0, "ParticleId", ParticleId);
-
+    
     return BranchId;
 
 }
@@ -530,8 +525,8 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
 
     Event->GetLeptons();
 
-    vector<PseudoJet> LeptonVector = Event->Lepton->LeptonJetVector;
-    vector<PseudoJet> AntiLeptonVector = Event->Lepton->AntiLeptonJetVector;
+    vector<PseudoJet> LeptonVector = Event->Lepton->LeptonJets;
+    vector<PseudoJet> AntiLeptonVector = Event->Lepton->AntiLeptonJets;
 
 //     vector<TLorentzVector> LeptonVector = Event->Leptons->LeptonLorentzVectorVector;
 //     vector<TLorentzVector> AntiLeptonVector = Event->Leptons->AntiLeptonLorentzVectorVector;

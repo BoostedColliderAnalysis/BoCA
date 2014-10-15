@@ -43,12 +43,12 @@ bool HParticleParton::GetParticles()
 
                 if (ParticleID > 0) {
 
-                    ElectronVector.push_back(ElectronParticle);
+                    ElectronLorentzVectors.push_back(ElectronParticle);
                     Print(3,"Electron");
 
                 } else if (ParticleID < 0) {
 
-                    AntiElectronVector.push_back(ElectronParticle);
+                    AntiElectronLorentzVectors.push_back(ElectronParticle);
                     Print(3,"Anti Electron");
 
                 }
@@ -61,12 +61,12 @@ bool HParticleParton::GetParticles()
 
                 if (ParticleID > 0) {
 
-                    MuonVector.push_back(MuonParticle);
+                    MuonLorentzVectors.push_back(MuonParticle);
                     Print(3,"Muon");
 
                 } else if (ParticleID < 0) {
 
-                    AntiMuonVector.push_back(MuonParticle);
+                    AntiMuonLorentzVectors.push_back(MuonParticle);
                     Print(3,"Anti Muon");
 
                 }

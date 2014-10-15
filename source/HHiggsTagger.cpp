@@ -37,14 +37,11 @@ void HHiggsTagger::NewEvent(){
 }
 
 
-PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& InputJetVector, const vector<PseudoJet>& BottomVector, const vector<PseudoJet> &CharmVector)
+PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const vector<PseudoJet>& BottomJets, const vector<PseudoJet> &CharmJets)
 {
     Print(2, "GetHiggsJet");
 
-//     vector<PseudoJet> FatJetVector =
-    vector<PseudoJet> FatJetVector = GetFatJetVector(InputJetVector);
-
-    for (auto & FatJet : FatJetVector) {
+    for (auto & FatJet : GetFatJets(EFlowJets)) {
 
         PseudoJet MassDropJet = GetMassDropJet(FatJet);
 
@@ -59,12 +56,12 @@ PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& InputJetVector, con
         const int NumberHardestPieces = 3; // FIXME
         PseudoJet FilteredJet = GetFilteredJet(MassDropJet, fastjet::cambridge_algorithm, NumberHardestPieces);
 
-        FilteredJetPieceVector = sorted_by_E(FilteredJet.pieces());
+        FilteredJetPieces = sorted_by_E(FilteredJet.pieces());
 
 //         int FilteredJetPieceSum = FilteredJetPieceVector.size();
 
-        GetSubJetSource(CharmVector, CharmUserIndex);
-        GetSubJetSource(BottomVector, BottomUserIndex);
+        GetSubJetSource(CharmJets, CharmUserIndex);
+        GetSubJetSource(BottomJets, BottomUserIndex);
 
         int BTagCounter = BTagger();
 
@@ -139,27 +136,25 @@ PseudoJet HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastj
 
 }
 
-void HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& ParticleVector, const int UserIndex)
+void HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles, const int UserIndex)
 {
 
     Print(2, "GetSubJetSource");
 
     const float CylinderDistanceMax = 0.3;                          // Jing: 0.2
 
-    int ParticleSum = ParticleVector.size();
-    for (int ParticleNumber = 0; ParticleNumber < ParticleSum; ++ParticleNumber) {
+    for (unsigned ParticleNumber = 0; ParticleNumber < Particles.size(); ++ParticleNumber) {
 
-
-        PseudoJet ParticleJet = ParticleVector[ParticleNumber];
+        PseudoJet ParticleJet = Particles[ParticleNumber];
 
         const int PieceSum = 2;
 //         int PieceSum = FatJetPieceVector.size();
         for (int PieceNumber = 0; PieceNumber < PieceSum; ++PieceNumber) {
 
-            float CylinderDistance = FilteredJetPieceVector[PieceNumber].delta_R(ParticleJet);
+            float CylinderDistance = FilteredJetPieces[PieceNumber].delta_R(ParticleJet);
             if (CylinderDistance < CylinderDistanceMax) {
 
-                FilteredJetPieceVector[PieceNumber].set_user_index(UserIndex);
+                FilteredJetPieces[PieceNumber].set_user_index(UserIndex);
                 break;
 
 
@@ -189,10 +184,9 @@ int HHiggsTagger::BTagger()
 
     int BTagCounter = 0;
 //     const int PieceSum = 2;
-    int PieceSum = FilteredJetPieceVector.size();
-    for (int PieceNumber = 0; PieceNumber < PieceSum; ++PieceNumber) {
+    for (unsigned PieceNumber = 0; PieceNumber < FilteredJetPieces.size(); ++PieceNumber) {
 
-        PseudoJet Piece = FilteredJetPieceVector[PieceNumber];
+        PseudoJet Piece = FilteredJetPieces[PieceNumber];
         float PiecePt = Piece.perp();
         float PieceEta = fabs(Piece.eta());
 
@@ -239,10 +233,10 @@ float HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
     PseudoJet FilterJet = //GetFilteredJet(FatJet, antikt_algorithm, NumberHardestPieces);
         FatJet;
 
-    vector<PseudoJet> SubJetVector = sorted_by_E(FilterJet.pieces());
-    if (SubJetVector.size() != 2) Print(0,"Number of SubJets",SubJetVector.size());
-    PseudoJet SubJet1 = SubJetVector[0];
-    PseudoJet SubJet2 = SubJetVector[1];
+    vector<PseudoJet> SubJets = sorted_by_E(FilterJet.pieces());
+    if (SubJets.size() != 2) Print(0,"Number of SubJets",SubJets.size());
+    PseudoJet SubJet1 = SubJets[0];
+    PseudoJet SubJet2 = SubJets[1];
 
     if (SubJet1.eta() < SubJet2.eta()) {
 
@@ -257,9 +251,8 @@ float HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
     DeltaR12 = SubJet1.delta_R(SubJet2);
 
     vector<PseudoJet> Constituents = FilterJet.constituents();
-    int ConstituentSum = Constituents.size();
-    Print(3,"Number of Constituents",ConstituentSum);
-    for (int ConstituentNumber = 0; ConstituentNumber < ConstituentSum; ConstituentNumber++) {
+    Print(3,"Number of Constituents",Constituents.size());
+    for (unsigned ConstituentNumber = 0; ConstituentNumber < Constituents.size(); ConstituentNumber++) {
 
         PseudoJet Constituent = Constituents[ConstituentNumber];
 

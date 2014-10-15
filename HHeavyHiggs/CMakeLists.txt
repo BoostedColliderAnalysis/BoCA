@@ -1,6 +1,7 @@
 set(IncludeDirectory
 ${IncludeDirectory}   
-./include
+${PROJECT_SOURCE_DIR}/HHeavyHiggs/include
+${PROJECT_SOURCE_DIR}/HHeavyHiggs/source
 )
 include_directories(${IncludeDirectory})
 

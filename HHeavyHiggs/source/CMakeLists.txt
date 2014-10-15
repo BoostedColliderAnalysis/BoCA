@@ -1,10 +1,3 @@
-set(IncludeDirectory
-${IncludeDirectory}
-${PROJECT_SOURCE_DIR}/HHeavyHiggs/include
-${PROJECT_SOURCE_DIR}/HHeavyHiggs/source
-)
-include_directories(${IncludeDirectory})
-
 # Branch dictionary
 set(HBranchSources HBranchHeavyHiggs.cpp)
 set(HLinkDefHeader ../include/HLinkDefHeavyHiggs.hh)
@@ -22,9 +15,14 @@ install(TARGETS HBranchHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 set(AnalysisSources
 HAnalysisHeavyHiggsDelphes.cpp
 HAnalysisHeavyHiggsParton.cpp
-HAnalysisHeavyHiggsPgs.cpp)
+HAnalysisHeavyHiggsPgs.cpp
+)
+set(LinkLibraries
+${LinkLibraries}
+HBranchHeavyHiggs
+)
 add_library(HAnalysisHeavyHiggs SHARED ${AnalysisSources})
-target_link_libraries(HAnalysisHeavyHiggs HBranchHeavyHiggs HEvent)
+target_link_libraries(HAnalysisHeavyHiggs ${LinkLibraries})
 set_target_properties(HAnalysisHeavyHiggs PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysisHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
@@ -46,7 +44,7 @@ target_link_libraries(HHeavyHiggsPgs ${LinkLibraries})
 # Mva Library
 set(MvaSources HMvaHeavyHiggs.cpp)
 add_library(HMvaHeavyHiggs SHARED ${MvaSources})
-target_link_libraries(HMvaHeavyHiggs HMva HBranchHeavyHiggs)
+target_link_libraries(HMvaHeavyHiggs ${LinkLibraries})
 set_target_properties(HMvaHeavyHiggs PROPERTIES ${LibraryProperties})
 install(TARGETS HMvaHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 

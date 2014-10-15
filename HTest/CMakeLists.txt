@@ -18,9 +18,13 @@ set_target_properties(HBranchTest PROPERTIES ${LibraryProperties})
 install(TARGETS HBranchTest DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 # Analysis Library
+set(LinkLibraries
+${LinkLibraries}
+HBranchTest
+)
 set(AnalysisSources HAnalysisTest.cpp)
 add_library(HAnalysisTest SHARED ${AnalysisSources})
-target_link_libraries(HAnalysisTest HBranchTest HEvent)
+target_link_libraries(HAnalysisTest ${LinkLibraries})
 set_target_properties(HAnalysisTest PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysisTest DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 

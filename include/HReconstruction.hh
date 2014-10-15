@@ -49,15 +49,15 @@ protected:
    * @brief Get vecto of all fatjets
    *
    */
-  vector<PseudoJet> GetFatJetVector(const vector<PseudoJet>&) const;
+  vector<PseudoJet> GetFatJets(const vector<PseudoJet>&) const;
 
   /**
    * @brief Get vecto of all fatjets
    *
    */
-  vector<PseudoJet> GetFatJetVector(const vector<PseudoJet>&,const fastjet::JetDefinition&) const;
+  vector<PseudoJet> GetFatJets(const vector<PseudoJet>&,const fastjet::JetDefinition&) const;
 
-  vector<PseudoJet> GetMassDropVector(const vector<PseudoJet>&) const;
+  vector<PseudoJet> GetMassDropJets(const vector<PseudoJet>&) const;
 
     /**
      * @brief Get mass drop jet

@@ -19,7 +19,9 @@ install(TARGETS HBranch DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 
 # HObject Library
-set(HObjectSources HObject.cpp HFourVector.cpp
+set(HObjectSources 
+HObject.cpp 
+HFourVector.cpp
 )
 add_library(HObject SHARED ${HObjectSources} )
 target_link_libraries(HObject ${LinkLibraries})
@@ -51,14 +53,14 @@ HJetInfo.cpp
 HJetTag.cpp
 )
 
-set(HEventLinkLibraries
-${fastjet_LIBRARIES}
-${DelphesLibrary}
+set(LinkLibraries
+${LinkLibraries}
 HObject
+HBranch
 )
 set(EventSources ${EventSources})
 add_library(HEvent SHARED ${EventSources} )
-target_link_libraries (HEvent ${HEventLinkLibraries})
+target_link_libraries (HEvent ${LinkLibraries})
 set_target_properties(HEvent PROPERTIES ${LibraryProperties})
 install(TARGETS HEvent DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
@@ -70,14 +72,13 @@ HFile.cpp
 HClonesArray.cpp
 )
 
-set(HAnalysisLinkLibraries
-${ExRootLibrary}
-HObject
+set(LinkLibraries
+${LinkLibraries}
 HEvent
 )
 set(AnalysisSources ${AnalysisSources})
 add_library(HAnalysis SHARED ${AnalysisSources})
-target_link_libraries (HAnalysis ${HAnalysisLinkLibraries})
+target_link_libraries (HAnalysis ${LinkLibraries})
 set_target_properties(HAnalysis PROPERTIES ${LibraryProperties})
 install(TARGETS HAnalysis DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
@@ -88,14 +89,13 @@ HFactory.cpp
 HReader.cpp
 )
 
-set(HMvaLinkLibraries
+set(LinkLibraries
+${LinkLibraries}
+HAnalysis
 TMVA
-${ExRootLibrary}
-HObject
-HBranch
 )
 set(MvaSources ${MvaSources})
 add_library(HMva SHARED ${MvaSources})
-target_link_libraries (HMva ${HMvaLinkLibraries})
+target_link_libraries (HMva ${LinkLibraries})
 set_target_properties(HMva PROPERTIES ${LibraryProperties})
 install(TARGETS HMva DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})

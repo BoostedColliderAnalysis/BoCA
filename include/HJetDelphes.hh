@@ -32,21 +32,13 @@ public:
      *
      * @return void
      */
-    bool GetJets();
-
+    bool GetJets(const HJetDetails);
+    
     /**
-     * @brief AnalyseJet calls AnalyseEFlow
+     * @brief Analyses EFlow Variables of Jets
      *
-     * @return void
      */
-    bool GetTaggedJets(const HJetTag *const);
-
-    /**
-     * @brief AnalyseJet calls AnalyseEFlow
-     *
-     * @return void
-     */
-    bool GetStructuredJets();
+    bool GetEFlow(const HJetDetails);
 
     /**
      * @brief Get Tau Tag
@@ -62,9 +54,13 @@ public:
      * @return void
      */
     void GetGenJet();
+//     enum TMother{Mother1,Mother2};
 
 private:
+    
 
+    vector<int*> BranchVector;
+    
     /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
@@ -128,17 +124,11 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    int GetMotherId(GenParticle* ParticleClone, int BranchId,int);
+    int GetMotherId(GenParticle* ParticleClone, int BranchId,int/*,int**/);
 
 //     int GetBranchId(int, int);
 
     void GetDelphesTags(const Jet *const);
-
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
-    bool GetEFlow(const HJetDetails);
 
     void GetTrackEFlow(const HJetDetails);
 

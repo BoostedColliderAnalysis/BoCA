@@ -5,6 +5,29 @@
 # include "HEventDelphes.hh"
 # include "HBranchDiscriminator.hh"
 
+
+class HDiscriminatorJetTag : public HJetTag
+{
+    
+    int GetBranchId(const int, int,int) const;
+    
+    const set<int> HeavyParticles = {TopId, CpvHiggsId};
+    
+    const set<int> RadiationParticles = {GluonId, UpId, DownId, StrangeId, CharmId, BottomId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+    
+    const set<int> ChargeParticle = {UpId, DownId, StrangeId, CharmId, BottomId, TopId, PionId, RhoMesonId, ElectronId, MuonId, TauLeptonId, BMesonId, KMesonId, BMesonId, BMesonSId, ProtonId, DeltaBaryonId, KMesonSId, WId, DeltaBaryon2Id, DMesonId, DMesonS2Id, DMesonSId};
+    
+    const set<int> NeutralParticle = {DMeson0Id, KMeson0Id, KMeson0SId, NeutronId, BMeson0Id, BMeson0SId, DMesonS0Id, BMesonS0Id, BMesonSS0Id};
+    
+    string ClassName() const {
+        
+        return ("HDiscriminatorJetTag");
+        
+    };
+    
+    
+};
+
 /**
  * @brief Class defining the Disciminator Analysis
  *

@@ -138,9 +138,9 @@ vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlo
 
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-    const vector<PseudoJet> FatJetVector = GetFatJetVector(EFlowJetVector, FatJetDefinition);
+    const vector<PseudoJet> FatJetVector = GetFatJets(EFlowJetVector, FatJetDefinition);
 
-    vector<PseudoJet> MassDropVector = GetMassDropVector(FatJetVector);
+    vector<PseudoJet> MassDropVector = GetMassDropJets(FatJetVector);
     //     vector<PseudoJet> MassDropVector = FatJetVector;
     
     MassDropVector.erase(std::remove_if(MassDropVector.begin(), MassDropVector.end(), JetIsBad), MassDropVector.end());

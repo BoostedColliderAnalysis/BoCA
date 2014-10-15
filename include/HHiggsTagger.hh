@@ -84,7 +84,7 @@ private:
      * @brief Vector of Fat Jet Pieces
      *
      */
-    vector<PseudoJet> FilteredJetPieceVector;
+    vector<PseudoJet> FilteredJetPieces;
 
     /**
      * @brief Get vecto of all fatjets

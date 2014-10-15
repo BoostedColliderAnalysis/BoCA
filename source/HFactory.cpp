@@ -1,7 +1,7 @@
 # include "HFactory.hh"
 
 
-HFactory::HFactory(HMva* NewMva)
+HFactory::HFactory(HMva *NewMva)
 {
 
     Print(1 , "Constructor");
@@ -26,7 +26,7 @@ HFactory::HFactory(HMva* NewMva)
 
     OutputFile->Close();
 
-    DebugLevel =4;
+    DebugLevel = 4;
 
 }
 
@@ -45,7 +45,7 @@ void HFactory::NewFactory()
     Print(1 , "New Factory");
 
     const string FactoryOutputName = "Mva" + Mva->BackgroundName;
-    const string OutputFileName =Mva->AnalysisName + "/" + FactoryOutputName + ".root";
+    const string OutputFileName = Mva->AnalysisName + "/" + FactoryOutputName + ".root";
     OutputFile = TFile::Open(OutputFileName.c_str(), "Recreate");
 
 //     string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
@@ -63,13 +63,13 @@ void HFactory::AddVariables()
 
     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->AnalysisName;
 
-    for (const auto &Observable : Mva->ObservableVector) {
+    for (const auto & Observable : Mva->Observables) {
 
         Factory->AddVariable(Observable.Expression, Observable.Title, Observable.Unit, 'F');
 
     }
 
-    for (const auto &Spectator : Mva->SpectatorVector) {
+    for (const auto & Spectator : Mva->Spectators) {
 
         Factory->AddSpectator(Spectator.Expression, Spectator.Title, Spectator.Unit, 'F');
 
@@ -135,32 +135,32 @@ void HFactory::GetTrees()
     Print(1 , "Get Trees");
 
 // Signal
-    for (const auto &SignalName : Mva->SignalNameVector) {
+    for (const auto & SignalName : Mva->SignalNames) {
 
-        string SignalFileName = Mva->AnalysisName + "/" + SignalName +".root";
+        string SignalFileName = Mva->AnalysisName + "/" + SignalName + ".root";
         if (gSystem->AccessPathName(SignalFileName.c_str())) Print(0, "File not found", SignalFileName);
         TFile *SignalFile = TFile::Open(SignalFileName.c_str());
         Print(1 , "Signal File", SignalFile->GetName());
 
-        int TreeSum = Mva->SignalTreeNameVector.size();
+        int TreeSum = Mva->SignalTreeNames.size();
 
         for (int TreeNumber = 0; TreeNumber < TreeSum; ++TreeNumber) {
 
-            AddTree(SignalFile, Mva->SignalTreeNameVector[TreeNumber], 1);
+            AddTree(SignalFile, Mva->SignalTreeNames[TreeNumber], 1);
 
         }
 
     }
 
 // Background
-for (const auto &BackgroundName : Mva->BackgroundNameVector){
+    for (const auto & BackgroundName : Mva->BackgroundNames) {
 
         string BackgroundFileName = Mva->AnalysisName + "/" + BackgroundName + ".root";
-        if (gSystem->AccessPathName(BackgroundFileName.c_str())) Print(0, "File not found",BackgroundFileName);
+        if (gSystem->AccessPathName(BackgroundFileName.c_str())) Print(0, "File not found", BackgroundFileName);
         TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
         Print(1 , "Background File", BackgroundFile->GetName());
 
-        for (const auto &BackgroundTreeName : Mva->BackgroundTreeNameVector){
+        for (const auto & BackgroundTreeName : Mva->BackgroundTreeNames) {
 
             AddTree(BackgroundFile, BackgroundTreeName, 0);
 
@@ -170,18 +170,18 @@ for (const auto &BackgroundName : Mva->BackgroundNameVector){
 
 }
 
-void HFactory::AddTree(const TFile * const File, const string TreeName, const bool Signal)
+void HFactory::AddTree(const TFile *const File, const string TreeName, const bool Signal)
 {
 
     Print(1 , "Add Tree", TreeName);
 
-    const TTree * const Tree = (TTree *)(const_cast<TFile*>(File)->Get(TreeName.c_str()));
+    const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
-    const_cast<TTree*>(Tree)->GetBranch(Mva->CandidateBranchName.c_str());
-    const ExRootTreeReader * const TreeReader = new ExRootTreeReader(const_cast<TTree*>(Tree));
+    const_cast<TTree *>(Tree)->GetBranch(Mva->CandidateBranchName.c_str());
+    const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
-    const TClonesArray * const ClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
-    const_cast<ExRootTreeReader*>(TreeReader)->ReadEntry(0);
+    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
+    const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
     HInfoBranch *Info = (HInfoBranch *) ClonesArray->At(0);
 
 //     float Crosssection = Info->Crosssection;
@@ -194,11 +194,11 @@ void HFactory::AddTree(const TFile * const File, const string TreeName, const bo
 
     if (Signal) {
 
-        Factory->AddSignalTree(const_cast<TTree*>(Tree), Crosssection);
+        Factory->AddSignalTree(const_cast<TTree *>(Tree), Crosssection);
 
     } else {
 
-        Factory->AddBackgroundTree(const_cast<TTree*>(Tree), Crosssection);
+        Factory->AddBackgroundTree(const_cast<TTree *>(Tree), Crosssection);
 
     }
 
