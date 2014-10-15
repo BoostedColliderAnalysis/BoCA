@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 project(HAnalysis)
 
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-long-long -pedantic -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra")
 
 #C set build type to debug
 set(CMAKE_BUILD_TYPE Debug)
@@ -62,8 +62,16 @@ ${DelphesLibrary}
 ${ExRootLibrary}
 )
 
-add_subdirectory(ExRootAnalysis)
-add_subdirectory(classes)
+macro(HLibrary HName HSource)
+add_library(${HName} SHARED ${HSource})
+target_link_libraries(${HName} ${LinkLibraries})
+set_target_properties(${HName} PROPERTIES ${LibraryProperties})
+install(TARGETS ${HName} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+set(LinkLibraries ${LinkLibraries} ${HName})
+endmacro(HLibrary)
+
+# add_subdirectory(ExRootAnalysis)
+# add_subdirectory(classes)
 add_subdirectory(source)
 
 set(LinkLibraries

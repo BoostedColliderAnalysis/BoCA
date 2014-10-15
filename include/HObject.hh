@@ -608,8 +608,7 @@ struct SortJetByEta {
 struct SortJetByDistance {
 
     inline bool operator()(const PseudoJet &Jet1,
-                           const PseudoJet &Jet2,
-                           const PseudoJet &Jet3) {
+                           const PseudoJet &Jet2) {
 
         return (Jet1.eta() > Jet2.eta());
 
