@@ -16,71 +16,88 @@ include(FindROOT.cmake)
 include(Findfastjet.cmake)
 
 # set path to dependencies
-set(MadGraphDir "~/Development/MadGraph")
-set(ExRootDir "${MadGraphDir}/ExRootAnalysis")
-set(DelphesDir "${MadGraphDir}/Delphes")
+set(MadGraphDir ~/Development/MadGraph)
+set(ExRootDir ${MadGraphDir}/ExRootAnalysis)
+set(DelphesDir ${MadGraphDir}/Delphes)
 
 # find external libraries
-find_library(ExRootLibrary
-    NAMES ExRootAnalysis
-    HINTS "${ExRootDir}/lib"
+find_library(
+  ExRootLibrary
+  NAMES ExRootAnalysis
+  HINTS ${ExRootDir}/lib
 )
 
-find_library(DelphesLibrary
-    NAMES Delphes
-    HINTS "${DelphesDir}"
+find_library(
+  DelphesLibrary
+  NAMES Delphes
+  HINTS ${DelphesDir}
 )
 
 # set library and excecutable destination
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # set library versions
 set(MajorVersion 0)
 set(MinorVersion 0)
 set(PatchVersion 0)
-set(Version "${MajorVersion}.${MinorVersion}.${PatchVersion}")
-set(LibraryProperties ${LibraryProperties}
-    VERSION "${Version}"
-    SOVERSION "${MajorVersion}"
-    SUFFIX ".so"
+set(Version ${MajorVersion}.${MinorVersion}.${PatchVersion})
+set(LibraryProperties 
+  ${LibraryProperties}
+  VERSION ${Version}
+  SOVERSION ${MajorVersion}
+  SUFFIX .so
 )
 
 # Libraries
-set(IncludeDirectory ${IncludeDirectory}
-${ROOT_INCLUDE_DIR}
-${PROJECT_SOURCE_DIR}/include
-${ExRootDir}
-${DelphesDir}
+set(IncludeDirectory 
+  ${IncludeDirectory}
+  ${ROOT_INCLUDE_DIR}
+  ${PROJECT_SOURCE_DIR}/include
+  ${ExRootDir}
+  ${DelphesDir}
 )
 include_directories(${IncludeDirectory})
 
-set(LinkLibraries 
-${ROOT_LIBRARIES}
-${fastjet_LIBRARIES}
-${DelphesLibrary}
-${ExRootLibrary}
-)
-
 macro(HLibrary HName HSource)
-add_library(${HName} SHARED ${HSource})
-target_link_libraries(${HName} ${LinkLibraries})
-set_target_properties(${HName} PROPERTIES ${LibraryProperties})
-install(TARGETS ${HName} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-set(LinkLibraries ${LinkLibraries} ${HName})
+  add_library(${HName} SHARED ${HSource})
+  target_link_libraries(${HName} ${LinkLibraries})
+  set_target_properties(${HName} PROPERTIES ${LibraryProperties})
+  install(TARGETS ${HName} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+  set(LinkLibraries ${LinkLibraries} ${HName})
 endmacro(HLibrary)
 
-# add_subdirectory(ExRootAnalysis)
-# add_subdirectory(classes)
+macro(HDictionary HName HSource HLinkDef)
+  set(HDictionary ${HName}.cc)
+  ROOT_GENERATE_DICTIONARY("${HSource}" "${HLinkDef}" "${HDictionary}" "${IncludeDirectory}")
+  HLibrary(${HName} ${HDictionary})
+endmacro(HDictionary)
+
+macro(HExecutable HName HSource)
+  add_executable(${HName} ${HSource})
+  target_link_libraries(${HName} ${LinkLibraries})
+endmacro(HExecutable)
+
+set(LinkLibraries 
+  ${ROOT_LIBRARIES}
+  TMVA
+  ${fastjet_LIBRARIES}
+  ${DelphesLibrary}
+  ${ExRootLibrary}
+)
+
+
+add_subdirectory(ExRootAnalysis)
+add_subdirectory(classes)
 add_subdirectory(source)
 
 set(LinkLibraries
-${LinkLibraries}
-HObject
-HBranch
-HEvent
-HAnalysis
-HMva
+  ${LinkLibraries}
+  HObject
+  HBranch
+  HEvent
+  HAnalysis
+ HMva
 )
 
 add_subdirectory(HDiscriminator)

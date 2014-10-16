@@ -1,62 +1,17 @@
-# Branch dictionary
-set(HBranchSources HBranchHeavyHiggs.cpp)
-set(HLinkDefHeader ../include/HLinkDefHeavyHiggs.hh)
-set(HDictionarySource HBranchDictHeavyHiggs.cpp)
-ROOT_GENERATE_DICTIONARY("${HBranchSources}" "${HLinkDefHeader}" "${HDictionarySource}" "${IncludeDirectory}")
+HDictionary(HBranchHeavyHiggs HBranchHeavyHiggs.cpp ../include/HLinkDefHeavyHiggs.hh)
 
-# Branch library
-set(HBranchSources ${HDictionarySource})
-add_library(HBranchHeavyHiggs SHARED ${HBranchSources})
-target_link_libraries(HBranchHeavyHiggs ${LinkLibraries})
-set_target_properties(HBranchHeavyHiggs PROPERTIES ${LibraryProperties})
-install(TARGETS HBranchHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-
-# Library
 set(AnalysisSources
 HAnalysisHeavyHiggsDelphes.cpp
 HAnalysisHeavyHiggsParton.cpp
 HAnalysisHeavyHiggsPgs.cpp
 )
-set(LinkLibraries
-${LinkLibraries}
-HBranchHeavyHiggs
-)
-add_library(HAnalysisHeavyHiggs SHARED ${AnalysisSources})
-target_link_libraries(HAnalysisHeavyHiggs ${LinkLibraries})
-set_target_properties(HAnalysisHeavyHiggs PROPERTIES ${LibraryProperties})
-install(TARGETS HAnalysisHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")
 
-set(LinkLibraries
-${LinkLibraries}
-HAnalysisHeavyHiggs
-)
+HExecutable(HHeavyHiggsDelphes MainDelphes.cpp)
+HExecutable(HHeavyHiggsParton MainParton.cpp)
+HExecutable(HHeavyHiggsPgs MainPgs.cpp)
 
-# Executable
-add_executable(HHeavyHiggsDelphes MainDelphes.cpp)
-target_link_libraries(HHeavyHiggsDelphes ${LinkLibraries})
+HLibrary(HMvaHeavyHiggs HMvaHeavyHiggs.cpp)
 
-add_executable(HHeavyHiggsParton MainParton.cpp)
-target_link_libraries(HHeavyHiggsParton ${LinkLibraries})
-
-add_executable(HHeavyHiggsPgs MainPgs.cpp)
-target_link_libraries(HHeavyHiggsPgs ${LinkLibraries})
-
-# Mva Library
-set(MvaSources HMvaHeavyHiggs.cpp)
-add_library(HMvaHeavyHiggs SHARED ${MvaSources})
-target_link_libraries(HMvaHeavyHiggs ${LinkLibraries})
-set_target_properties(HMvaHeavyHiggs PROPERTIES ${LibraryProperties})
-install(TARGETS HMvaHeavyHiggs DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-
-set(LinkLibraries
-${LinkLibraries}
-HMvaHeavyHiggs
-)
-
-# Mva Executable
-
-add_executable(HHeavyHiggsFactory MainFactory.cpp)
-target_link_libraries(HHeavyHiggsFactory ${LinkLibraries})
-
-add_executable(HHeavyHiggsReader MainReader.cpp)
-target_link_libraries(HHeavyHiggsReader ${LinkLibraries})
+HExecutable(HHeavyHiggsFactory MainFactory.cpp)
+HExecutable(HHeavyHiggsReader MainReader.cpp)
