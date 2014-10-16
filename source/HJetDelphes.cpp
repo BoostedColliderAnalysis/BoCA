@@ -26,7 +26,7 @@ bool HJetDelphes::GetJets(HJetDetails JetDetails)
         Print(4, "Jet Number", JetNumber);
         const Jet *const JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
 
-        if (Structure) {
+        if (JetDetails == Structure) {
 
             Jets.push_back(GetConstituents(JetClone));
 
@@ -36,7 +36,7 @@ bool HJetDelphes::GetJets(HJetDetails JetDetails)
 
         }
 
-        if (Tagging) {
+        if (JetDetails == Tagging) {
 
             Jets.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
             Jets.back().set_user_index(Jets.back().user_info<HJetInfo>().GetMaximalId());
@@ -121,10 +121,10 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 //     Print(0,"This",*ThisBranch);
 
     MotherId = GetMotherId(ParticleClone, MotherId, 1/*, ThisBranch*/);
-        
+
 //     int *ThisBranch = &MotherId;
 //     Print(0,"This",*ThisBranch);
-    
+
 
 //     for (int i = 0; i < ClonesArrays->ParticleSum(); ++i) {
 //         Print(0, "Pointer", i, *(Particles.at(i)), MotherId);
@@ -159,7 +159,7 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId, int Which
 //         if (BranchId == - ParticleClone->PID) DebugLevel = 4;
 
         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId, WhichMother);
-        
+
         Print(3, "Mother 1", ParticleClone->M1);
 //         Print(0,"This",*ThisBranch);
 //         Particles[ParticleClone->M1] = ThisBranch;
@@ -250,7 +250,7 @@ void HJetDelphes::GetTrackEFlow(const HJetDetails JetDetails)
 
         const Track *const EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
 
-        if (Isolation || TaggingIsolation) {
+        if (JetDetails == Isolation || JetDetails ==  TaggingIsolation) {
 
             bool Isolated = GetIsolation<Electron>(EFlowTrackClone, ClonesArrays->ElectronClonesArray);
             if (Isolated) Isolated = GetIsolation<Muon>(EFlowTrackClone, ClonesArrays->MuonClonesArray);
@@ -260,7 +260,7 @@ void HJetDelphes::GetTrackEFlow(const HJetDetails JetDetails)
 
         EFlowJets.push_back(GetPseudoJet(const_cast<Track *>(EFlowTrackClone)->P4()));
 
-        if (Tagging || TaggingIsolation) {
+        if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
             EFlowJets.back().set_user_index(GetMotherId(EFlowTrackClone->Particle.GetObject()));
             Print(4, "Track EFlow Id", EFlowJets.back().user_index());
@@ -281,7 +281,7 @@ void HJetDelphes::GetPhotonEFlow(const HJetDetails JetDetails)
 
         const Tower *const EFlowPhotonClone = (Tower *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
 
-        if (Isolation || TaggingIsolation) {
+        if (JetDetails == Isolation || JetDetails == TaggingIsolation) {
 
             bool Isolated = GetIsolation<Photon>(EFlowPhotonClone, ClonesArrays->PhotonClonesArray);
             if (!Isolated) continue;
@@ -290,7 +290,7 @@ void HJetDelphes::GetPhotonEFlow(const HJetDetails JetDetails)
 
         EFlowJets.push_back(GetPseudoJet(const_cast<Tower *>(EFlowPhotonClone)->P4()));
 
-        if (Tagging || TaggingIsolation) {
+        if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
             EFlowJets.back().set_user_info(new HJetInfo(GetJetId(EFlowPhotonClone)));
             EFlowJets.back().set_user_index(EFlowJets.back().user_info<HJetInfo>().GetMaximalId());
@@ -312,7 +312,7 @@ void HJetDelphes::GetHadronEFlow(const HJetDetails JetDetails)
         const Tower *const HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
 
         EFlowJets.push_back(GetPseudoJet(const_cast<Tower *>(HadronClone)->P4()));
-        if (Tagging || TaggingIsolation) {
+        if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
             EFlowJets.back().set_user_info(new HJetInfo(GetJetId(HadronClone)));
             EFlowJets.back().set_user_index(EFlowJets.back().user_info<HJetInfo>().GetMaximalId());
@@ -333,7 +333,7 @@ void HJetDelphes::GetMuonEFlow(const HJetDetails JetDetails)
 
         const Muon *const EFlowMuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
 
-        if (Isolation || TaggingIsolation) {
+        if (JetDetails == Isolation || JetDetails ==  TaggingIsolation) {
 
             bool Isolated = GetIsolation<Muon>(EFlowMuonClone, ClonesArrays->MuonClonesArray);
             if (!Isolated) continue;
@@ -342,7 +342,7 @@ void HJetDelphes::GetMuonEFlow(const HJetDetails JetDetails)
 
         EFlowJets.push_back(GetPseudoJet(const_cast<Muon *>(EFlowMuonClone)->P4()));
 
-        if (Tagging || TaggingIsolation) {
+        if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
             EFlowJets.back().set_user_index(GetMotherId(EFlowMuonClone->Particle.GetObject()));
             Print(4, "Muon EFlow Id", EFlowJets.back().user_index());
         }

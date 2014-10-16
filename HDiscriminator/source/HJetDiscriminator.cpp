@@ -172,7 +172,7 @@ bool HJetDiscriminator::Analysis()
             continue;
 
         }
-        Print(1, "Eflowsize", EFlowJets.size());
+        Print(2, "Eflowsize", EFlowJets.size());
 
         const PseudoJet CandidateJet = fastjet::join(EFlowJets);
 
@@ -194,7 +194,7 @@ bool HJetDiscriminator::Analysis()
         map<float, PseudoJet>::iterator JetPair = JetMap.end();
         --JetPair;
         const float MaxRadius = (*JetPair).first;
-        Print(1, "MaxRadius", MaxRadius);
+        Print(2, "MaxRadius", MaxRadius);
 
         FillTree(ParticleBranch, CandidateJet, MaxRadius);
 
@@ -204,7 +204,7 @@ bool HJetDiscriminator::Analysis()
             CandidatePt += EFlowJet.pt();
 
         }
-        Print(1, "Max Pt", CandidatePt);
+        Print(2, "Max Pt", CandidatePt);
 
         vector<PseudoJet> TrimmedJets;
         float SigmaPt = 0;
@@ -224,8 +224,8 @@ bool HJetDiscriminator::Analysis()
 
 
 
-        Print(1, "Radius", SigmaRadius);
-        Print(1, "mini size", TrimmedJets.size());
+        Print(2, "Radius", SigmaRadius);
+        Print(2, "mini size", TrimmedJets.size());
         if (TrimmedJets.size() == 0) {
             
             Print(0, "No Trimmed Eflow", Id);
@@ -242,6 +242,8 @@ bool HJetDiscriminator::Analysis()
         vector<PseudoJet> CAInclusiveJets = CAClusterSequence.inclusive_jets();
         Print(3, "InclusiveJets Number", CAInclusiveJets.size());
 
+        sort(CAInclusiveJets.begin(),CAInclusiveJets.end(),SortJetByMass());
+        
         for (const auto & CAInclusiveJet : CAInclusiveJets) {
             
             if (CAInclusiveJet == 0) continue;
@@ -259,6 +261,8 @@ bool HJetDiscriminator::Analysis()
             fastjet::CASubJetTagger CASJT;
             PseudoJet CAJSTJet = CASJT.result(CAInclusiveJet);
             FillTree(CASJTBranch, CAJSTJet);
+            
+            continue;
 
         }
 
@@ -266,7 +270,8 @@ bool HJetDiscriminator::Analysis()
         ClusterSequence AktClusterSequence(EFlowJets, AktJetDefinition);
         vector<PseudoJet> AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(3, "InclusiveJets Number", AktInclusiveJets.size());
-
+        
+        sort(AktInclusiveJets.begin(),AktInclusiveJets.end(),SortJetByMass());
         for (const auto & AktInclusiveJet : AktInclusiveJets) {
 
             FillTree(AktFatJetBranch, AktInclusiveJet);
@@ -278,6 +283,8 @@ bool HJetDiscriminator::Analysis()
             fastjet::Pruner AktPruner(fastjet::cambridge_algorithm, AktInclusiveJet.m() / AktInclusiveJet.pt(), 0.15);
             PseudoJet AktPJet = AktPruner(AktInclusiveJet);
             FillTree(AktPrunerBranch, AktPJet);
+            
+            continue;
 
         }
 

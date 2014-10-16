@@ -262,28 +262,10 @@ protected:
     const int EmptyUserIndex;
 
     /**
-     * @brief CP violating Higgs boson index
-     *
-     */
-//     const int CpvHiggsId;
-
-    /**
      * @brief Proton index
      *
      */
     const int DeltaBaryon2Id;
-
-    /**
-     * @brief Proton index
-     *
-     */
-//     const int ProtonId;
-
-    /**
-     * @brief Up-up di-quark index
-     *
-     */
-//     const int UpUp1Id;
 
     /**
      * @brief Up-down di-quark index
@@ -292,28 +274,10 @@ protected:
     const int NeutronId;
 
     /**
-     * @brief Up-down di-quark index
-     *
-     */
-//     const int UpDown1Id;
-
-    /**
-     * @brief Up-down di-quark index
-     *
-     */
-//     const int UpDown0Id;
-
-    /**
      * @brief Down-down di-quark index
      *
      */
     const int DeltaBaryonId;
-
-    /**
-     * @brief Down-down di-quark index
-     *
-     */
-//     const int DownDown1Id;
 
     /**
      * @brief Pion index
@@ -418,84 +382,6 @@ protected:
     const int PionId;
 
     /**
-     * @brief Heavy Higgs boson index
-     *
-     */
-//     const int HeavyHiggsId;
-
-    /**
-     * @brief Gluon boson index
-     *
-     */
-//     const int WId;
-
-    /**
-     * @brief Gluon boson index
-     *
-     */
-//     const int GluonId;
-
-    /**
-     * @brief Muon index
-     *
-     */
-//     const int TauLeptonId;
-
-    /**
-     * @brief Muon index
-     *
-     */
-//     const int MuonId;
-
-    /**
-     * @brief Electron index
-     *
-     */
-//     const int ElectronId;
-
-    /**
-     * @brief Top quark index
-     *
-     */
-//     const int TopId;
-
-    /**
-     * @brief Bottom quark index
-     *
-     */
-//     const int BottomId;
-//
-    /**
-     * @brief Charm quark index
-     *
-     */
-//     const int CharmId;
-//
-    /**
-     * @brief Strange quark index
-     *
-     */
-//     const int StrangeId;
-
-    /**
-     * @brief Up quark index
-     *
-     */
-//     const int UpId;
-
-    /**
-     * @brief Down quark index
-     *
-     */
-//     const int DownId;
-
-    /**
-     * @brief Initial index
-     *
-     */
-//     const int EmptyId;
-
-    /**
      * @brief Initial state radiation index
      *
      * Index for all possbile initial state radiation.
@@ -503,24 +389,6 @@ protected:
      *
      */
     const int IsrId;
-
-    /**
-     * @brief Particle Status Undefined
-     *
-     */
-//     const int Undefined;
-
-    /**
-     * @brief Particle Status Unstable
-     *
-     */
-//     const int Unstable;
-
-    /**
-     * @brief Particle Status Stable
-     *
-     */
-//     const int Stable;
 
     const float OneSigma;
 

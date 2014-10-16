@@ -9,7 +9,7 @@ using std::map;
 using std::accumulate;
 
 
-class HJetInfo:public HObject, public PseudoJet::UserInfoBase
+class HJetInfo: public HObject, public PseudoJet::UserInfoBase
 {
 
 public:
@@ -27,20 +27,22 @@ public:
     void PrintAllInfos() const;
 
     void Clear();
-    
+
     bool HasParticle(const int) const;
+    
+protected:
+    
+    string ClassName() const {
+        
+        return ("HJetInfo");
+        
+    };
 
 private:
 
     float GetPtSum() const;
 
     map<int, float> JetFractions;
-
-    string ClassName() const {
-
-        return ("HJetInfo");
-
-    };
 
 };
 

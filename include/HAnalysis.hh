@@ -10,6 +10,9 @@
 # include "HFile.hh"
 
 # include "HEvent.hh"
+# include "HEventDelphes.hh"
+# include "HEventParton.hh"
+# include "HEventPgs.hh"
 
 # include "HBranch.hh"
 # include "HObject.hh"

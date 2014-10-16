@@ -143,14 +143,18 @@ protected:
      *
      */
     const HClonesArray *ClonesArrays;
+    
+protected:
+    
+    virtual string ClassName() const {
+        
+        return ("HJet");
+        
+    };
+    
+    
 
 private:
-
-    virtual string ClassName() const {
-
-        return ("HJet");
-
-    };
 
 };
 

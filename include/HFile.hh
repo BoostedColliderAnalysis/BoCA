@@ -103,16 +103,16 @@ protected:
 
     string MadGraphFilePath() const;
 
-
-private:
-
-    void  SetVariables();
-
     virtual string ClassName() const {
 
         return ("HFile");
 
     };
+
+
+private:
+
+    void  SetVariables();
 
 };
 
@@ -132,13 +132,15 @@ public:
 
     string GetTreeName() const;
 
-private:
+protected:
 
     string ClassName() const {
 
         return ("HFileFlat");
 
     };
+    
+private:
 
 };
 
@@ -158,13 +160,15 @@ public:
 
     string GetTreeName() const;
 
-private:
+protected:
 
     string ClassName() const {
 
         return ("HFilePgs");
 
     };
+    
+private:
 
 };
 
@@ -183,13 +187,15 @@ public:
 
     string GetTreeName() const;
 
-private:
+protected:
 
     string ClassName() const {
 
         return ("HFileDelphes");
 
     };
+    
+private:
 
 };
 
@@ -208,13 +214,15 @@ public:
 
     string GetTreeName() const;
 
-private:
+protected:
 
     string ClassName() const {
 
         return ("HFileFolder");
 
     };
+    
+private:
 
 };
 

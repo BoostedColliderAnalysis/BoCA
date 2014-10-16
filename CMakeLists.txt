@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 project(HAnalysis)
 
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra -Wshadow")
 
 #C set build type to debug
 set(CMAKE_BUILD_TYPE Debug)
@@ -87,8 +87,8 @@ set(LinkLibraries
 )
 
 
-add_subdirectory(ExRootAnalysis)
-add_subdirectory(classes)
+# add_subdirectory(ExRootAnalysis)
+# add_subdirectory(classes)
 add_subdirectory(source)
 
 set(LinkLibraries

@@ -11,15 +11,9 @@ HObject::HObject() :
     HiggsUserIndex(1000),
     TopUserIndex(2000),
     EmptyUserIndex(-1),
-//     CpvHiggsId(5000000),
     DeltaBaryon2Id(2224),
-//     ProtonId(2212),
-//     UpUp1Id(2203),
     NeutronId(2112),
-//     UpDown1Id(2103),
-//     UpDown0Id(2101),
     DeltaBaryonId(1114),
-//     DownDown1Id(1103),
     BMesonSS0Id(533),
     BMesonS0Id(531),
     BMesonSId(523),
@@ -37,38 +31,21 @@ HObject::HObject() :
     KMeson0Id(311),
     RhoMesonId(213),
     PionId(211),
-//     HeavyHiggsId(35),
-//     WId(24),
-//     GluonId(21),
-//     TauLeptonId(15),
-//     MuonId(13),
-//     ElectronId(11),
-//     TopId(6),
-//     BottomId(5),
-//     CharmId(4),
-//     StrangeId(3),
-//     UpId(2),
-//     DownId(1),
-//     EmptyId(0),
     IsrId(10),
-//     Undefined(3),
-//     Unstable(2),
-//     Stable(1),
     OneSigma(0.6827),
     TwoSigma(0.9545),
     ThreeSigma(0.9973)
 {
 
-//     Print(1, "Constructor");
-
-    DebugLevel = 0;
+    DebugLevel = 1;
+    Print(2, "Constructor");
 
 }
 
 HObject::~HObject()
 {
 
-    Print(1, "Destructor");
+    Print(2, "Destructor");
 
 }
 

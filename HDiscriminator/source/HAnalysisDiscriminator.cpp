@@ -165,7 +165,7 @@ bool HAnalysisDiscriminator::Analysis()
 
             if (CandidateCounter > 0) {
 
-                Print(1, "Number of Higgs", CandidateCounter);
+                Print(2, "Number of Higgs", CandidateCounter);
                 break;
 
             }
@@ -192,7 +192,7 @@ bool HAnalysisDiscriminator::Analysis()
 
             if (CandidateCounter > 1) Print(1, "Number of Tops", CandidateCounter);
             ++CandidateCounter;
-            Print(2, "Top", CandidateCounter);
+            Print(3, "Top", CandidateCounter);
 
         }
 

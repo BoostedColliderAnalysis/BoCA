@@ -12,7 +12,6 @@ HFourVector.cpp
 )
 HLibrary(HObject "${HObjectSources}")
 
-
 set(EventSources
 HEvent.cpp
 HEventDelphes.cpp
