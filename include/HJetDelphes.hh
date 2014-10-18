@@ -54,6 +54,9 @@ public:
      * @return void
      */
     void GetGenJet();
+    
+    float GetScalarHt();
+    
 //     enum TMother{Mother1,Mother2};
 
 private:

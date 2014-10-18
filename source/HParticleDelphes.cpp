@@ -35,15 +35,18 @@ bool HParticleDelphes::GetParticles()
             if (abs(ParticleID) == ElectronId) {
 
                 TLorentzVector ElectronLorentzVector = const_cast<GenParticle *>(ParticleClone)->P4();
+                PseudoJet ElectronJet = GetPseudoJet(ElectronLorentzVector);
 
                 if (ParticleID > 0) {
 
                     ElectronLorentzVectors.push_back(ElectronLorentzVector);
+                    ElectronJets.push_back(ElectronJet);
                     Print(3, "Electron");
 
                 } else if (ParticleID < 0) {
 
                     AntiElectronLorentzVectors.push_back(ElectronLorentzVector);
+                    AntiElectronJets.push_back(ElectronJet);
                     Print(3, "Anti Electron");
 
                 }
@@ -52,14 +55,19 @@ bool HParticleDelphes::GetParticles()
 
             if (abs(ParticleID) == MuonId) {
 
+                TLorentzVector MuonLorentzVector = const_cast<GenParticle *>(ParticleClone)->P4();
+                PseudoJet MuonJet = GetPseudoJet(MuonLorentzVector);
+
                 if (ParticleID > 0) {
 
-                    MuonLorentzVectors.push_back(const_cast<GenParticle *>(ParticleClone)->P4());
+                    MuonLorentzVectors.push_back(MuonLorentzVector);
+                    MuonJets.push_back(MuonJet);
                     Print(3, "Muon");
 
                 } else if (ParticleID < 0) {
 
-                    AntiMuonLorentzVectors.push_back(const_cast<GenParticle *>(ParticleClone)->P4());
+                    AntiMuonLorentzVectors.push_back(MuonLorentzVector);
+                    AntiMuonJets.push_back(MuonJet);
                     Print(3, "Anti Muon");
 
                 }

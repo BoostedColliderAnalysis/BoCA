@@ -51,4 +51,29 @@ private:
     
 };
 
+/**
+ * @brief Class for saving Event informations to root
+ *
+ */
+class HParticleBranch : public TObject
+{
+    
+public:
+    
+    float Pt;
+    float Eta;
+    float Phi;
+    
+    HParticleBranch();
+    
+    virtual ~HParticleBranch();
+    
+private:
+    
+    void reset();
+    
+    ClassDef(HParticleBranch, 1)
+    
+};
+
 # endif

@@ -1,8 +1,4 @@
-set(IncludeDirectory
-${IncludeDirectory}
-${PROJECT_SOURCE_DIR}/HJetProperties
-)
-include_directories(${IncludeDirectory})
+HInclude(${PROJECT_SOURCE_DIR}/HJetProperties)
 
 HDictionary(HJetPropertiesBranch HJetPropertiesBranch.cpp HJetPropertiesLinkDef.hh)
 

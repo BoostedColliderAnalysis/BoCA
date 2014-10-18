@@ -123,11 +123,11 @@ private:
 
     void LatexContent(const string);
 
-    float Luminosity(const float) const;
+    float GetLuminosity(const float) const;
 
-    float Scaling(const float, const int) const;
+    float GetScaling(const float, const int) const;
 
-    float LuminosityError(const float) const;
+    float GetLuminosityError(const float) const;
 
     float RoundToDigits(const float, const int) const;
 
@@ -137,7 +137,7 @@ private:
 
     float RoundError(const float) const;
 
-    float Error(const float) const;
+    float GetError(const float) const;
 
     int EventSum;
 
@@ -167,7 +167,7 @@ private:
 
     HReaderStruct ReaderStruct;
 
-    float Ratio(const float, const float) const;
+    float GetRatio(const float, const float) const;
 
     void TabularOutput() const;
 

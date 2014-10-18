@@ -20,7 +20,7 @@ void HCandidateBranch::reset()
     Pt = InitialValue;
     Eta = InitialValue;
     Phi = InitialValue;
-    Area = InitialValue;
+    DeltaR = InitialValue;
 
     SubJetsDeltaR = InitialValue;
 

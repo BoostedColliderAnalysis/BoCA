@@ -14,8 +14,8 @@ HJetTag::~HJetTag()
 
 int HJetTag::GetBranchId(const int Value, int BranchId, int) const {
 
-    Print(0, "No Jet Tagger defined");
-
+    Print(0, "No Jet Tagger defined", Value);
+    
     return BranchId;
 
 }

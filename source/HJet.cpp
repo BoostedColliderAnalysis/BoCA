@@ -14,7 +14,7 @@ HJet::~HJet()
 
 }
 
-void HJet::NewEvent(const HClonesArray * const NewClonesArrays)
+void HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 {
 
     Print(2, "New Event");
@@ -44,7 +44,7 @@ void HJet::NewEvent(const HClonesArray * const NewClonesArrays)
 bool HJet::GetJets(const HJetDetails JetDetails)
 {
 
-    Print(1,"Get Jets","No Jets");
+    Print(1, "Get Jets", "No Jets", JetDetails);
 
     return 0;
 
@@ -53,7 +53,7 @@ bool HJet::GetJets(const HJetDetails JetDetails)
 bool HJet::GetEFlow(const HJetDetails JetDetails)
 {
 
-    Print(1,"Get EFlow","No EFlow");
+    Print(1, "Get EFlow", "No EFlow", JetDetails);
 
     return 0;
 
@@ -62,6 +62,15 @@ bool HJet::GetEFlow(const HJetDetails JetDetails)
 void HJet::GetGenJet()
 {
 
-    Print(1,"Get Gen Jets","No Gen Jets");
+    Print(1, "Get Gen Jets", "No Gen Jets");
 
+}
+
+float HJet::GetScalarHt()
+{
+    
+    Print(1, "Get Scalar Ht", "No Scalar Ht");
+    
+    return 0;
+    
 }

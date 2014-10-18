@@ -6,6 +6,7 @@ HLibrary(HJetDiscriminator HJetDiscriminator.cpp)
 HExecutable(HJetDiscriminatorMain HJetDiscriminatorMain.cpp)
 
 HLibrary(HAnalysisDiscriminator HAnalysisDiscriminator.cpp)
+# HLibrary(HAnalysisDiscriminator HAnalysisOld.cpp)
 
 HExecutable(HDiscriminator main.cpp)
 

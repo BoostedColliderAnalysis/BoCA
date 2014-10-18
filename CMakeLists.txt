@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 project(HAnalysis)
 
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra -Wshadow")
 # -Wshadow
 
 #C set build type to debug
@@ -38,8 +38,6 @@ find_library(
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-
 # set library versions
 set(MajorVersion 0)
 set(MinorVersion 0)
@@ -52,15 +50,14 @@ set(LibraryProperties
   SUFFIX .so
 )
 
-# Libraries
+# define macros
+macro(HInclude HDirectory)
 set(IncludeDirectory
   ${IncludeDirectory}
-  ${ROOT_INCLUDE_DIR}
-  ${PROJECT_SOURCE_DIR}/include
-  ${ExRootDir}
-  ${DelphesDir}
+  ${HDirectory}
 )
-include_directories(${IncludeDirectory})
+include_directories(${ARGV1} ${IncludeDirectory})
+endmacro(HInclude)
 
 macro(HLibrary HName HSource)
   add_library(${HName} SHARED ${HSource})
@@ -71,7 +68,7 @@ macro(HLibrary HName HSource)
 endmacro(HLibrary)
 
 macro(HDictionary HName HSource HLinkDef)
-  set(HDictionary ${HName}.cc)
+  set(HDictionary ${HName}Dict.cpp)
   ROOT_GENERATE_DICTIONARY("${HSource}" "${HLinkDef}" "${HDictionary}" "${IncludeDirectory}")
   HLibrary(${HName} ${HDictionary})
 endmacro(HDictionary)
@@ -81,6 +78,16 @@ macro(HExecutable HName HSource)
   target_link_libraries(${HName} ${LinkLibraries})
 endmacro(HExecutable)
 
+# Library
+set(Directory
+  ${ROOT_INCLUDE_DIR}
+  ${ExRootDir}
+  ${DelphesDir} 
+)
+HInclude("${Directory}" SYSTEM)
+
+HInclude(${PROJECT_SOURCE_DIR}/include)
+
 set(LinkLibraries
   ${ROOT_LIBRARIES}
   TMVA
@@ -88,7 +95,6 @@ set(LinkLibraries
   ${DelphesLibrary}
   ${ExRootLibrary}
 )
-
 
 add_subdirectory(source)
 
@@ -101,7 +107,7 @@ set(LinkLibraries
   HMva
 )
 
-
+# Executables
 add_subdirectory(HDiscriminator)
 add_subdirectory(HHeavyHiggs)
 add_subdirectory(HJetProperties)

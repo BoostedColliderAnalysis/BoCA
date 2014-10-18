@@ -32,7 +32,15 @@ void HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
     
     AntiElectronLorentzVectors.clear();
     
-    AntiMuonLorentzVectors.clear();
+    AntiMuonJets.clear();
+    
+    ElectronJets.clear();
+    
+    MuonJets.clear();
+    
+    AntiElectronJets.clear();
+    
+    AntiMuonJets.clear();
     
     BottomJetVector.clear();
     
@@ -46,7 +54,7 @@ void HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
     
 }
 
-vector<TLorentzVector> HParticle::LeptonVector()
+vector<TLorentzVector> HParticle::GetLeptonLorentzVectors()
 {
     
     Print(2,"LeptonVector");
@@ -58,15 +66,14 @@ vector<TLorentzVector> HParticle::LeptonVector()
 
     sort(TotalVector.begin(), TotalVector.end(), SortByPt());
     
-    int TotalVectorSum = TotalVector.size();
-    Print(2,"Lepton Particle",TotalVectorSum);
+    Print(2,"Lepton Particle",TotalVector.size());
 
     return (TotalVector);
 
 
 }
 
-vector<TLorentzVector> HParticle::AntiLeptonVector()
+vector<TLorentzVector> HParticle::GetAntiLeptonLorentzVectors()
 {
     
     Print(2,"AntiLeptonVector");
@@ -78,10 +85,47 @@ vector<TLorentzVector> HParticle::AntiLeptonVector()
 
     sort(TotalVector.begin(), TotalVector.end(), SortByPt());
     
-    int TotalVectorSum = TotalVector.size();
-    Print(2,"Anti Lepton Particle",TotalVectorSum);
+    Print(2,"Anti Lepton Particle",TotalVector.size());
     
     return (TotalVector);
 
 
+}
+
+vector<PseudoJet> HParticle::GetLeptonJets()
+{
+    
+    Print(2,"LeptonVector");
+    
+    vector<PseudoJet> TotalVector;
+    
+    TotalVector = ElectronJets;
+    TotalVector.insert(TotalVector.end(), MuonJets.begin(), MuonJets.end());
+    
+    sort(TotalVector.begin(), TotalVector.end(), SortJetByPt());
+    
+    Print(2,"Lepton Particle",TotalVector.size());
+    
+    return (TotalVector);
+    
+    
+}
+
+vector<PseudoJet> HParticle::GetAntiLeptonJets()
+{
+    
+    Print(2,"AntiLeptonVector");
+    
+    vector<PseudoJet> TotalVector;
+    
+    TotalVector = AntiElectronJets;
+    TotalVector.insert(TotalVector.end(), AntiMuonJets.begin(), AntiMuonJets.end());
+    
+    sort(TotalVector.begin(), TotalVector.end(), SortJetByPt());
+    
+    Print(2,"Anti Lepton Particle",TotalVector.size());
+    
+    return (TotalVector);
+    
+    
 }

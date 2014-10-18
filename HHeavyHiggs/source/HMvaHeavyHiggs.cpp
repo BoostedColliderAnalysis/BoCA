@@ -27,7 +27,7 @@ HMvaHeavyHiggs::HMvaHeavyHiggs()
 
     Luminosity = 3000; // fb
 
-    Latex = 0;
+    DoLatex = 0;
 
     HeavyHiggs = new HHeavyHiggsBranch();
 

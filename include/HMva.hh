@@ -94,7 +94,7 @@ public:
     */
     ~HMva();
 
-    bool Latex;
+    bool DoLatex;
 
     int Luminosity;
 

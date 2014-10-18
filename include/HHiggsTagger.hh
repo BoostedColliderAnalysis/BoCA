@@ -34,7 +34,7 @@ public:
      * @brief Originial fat jet
      *
      */
-    PseudoJet FatJet;
+//     PseudoJet FatJet;
 
     /**
      * @brief Reconstruct the higgs fat jet

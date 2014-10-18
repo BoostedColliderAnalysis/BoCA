@@ -251,7 +251,7 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(const HJetTag * const Jet
 //     GetParticles();
 
 //     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
-    return Discriminator->GetCandidateJets(Jets->EFlowJets);
+    return Discriminator->GetCandidateJets(Jets->EFlowJets,Jets->GetScalarHt());
 
 }
 

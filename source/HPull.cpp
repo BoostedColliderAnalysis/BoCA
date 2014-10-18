@@ -446,8 +446,8 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &Higg
         float deltar = DeltaR / DeltaR12;
         float ConstDelR1 = ConstituentDeltaR1 / DeltaR12;
         float ConstDelR2 = ConstituentDeltaR2 / DeltaR12;
-//         float PtRatio =  Constituent.perp() / HiggsJet.perp();
-        float PtRatio =  Constituent.perp() / FilterJet.perp();
+        float PtRatio =  Constituent.perp() / HiggsJet.perp();
+        PtRatio =  Constituent.perp() / FilterJet.perp();
 
         DiPolarity += PtRatio * deltar * ConstDelR1 * ConstDelR2;
 

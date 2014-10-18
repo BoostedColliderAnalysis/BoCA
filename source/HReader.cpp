@@ -79,7 +79,7 @@ void HReader::MVALoop()
     const TFile *InputFile = TFile::Open(InputFileName.c_str());
 
     cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << endl;
-    if (Mva->Latex) LatexHeader();
+    if (Mva->DoLatex) LatexHeader();
 
     GetCuts();
 
@@ -109,7 +109,7 @@ void HReader::MVALoop()
 
     const_cast<TFile *>(ExportFile)->Close();
 
-    if (Mva->Latex) LatexFooter();
+    if (Mva->DoLatex) LatexFooter();
 
 }
 
@@ -177,7 +177,7 @@ void HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const string T
 
     TabularOutput();
 
-    if (Mva->Latex) LatexContent(TreeName);
+    if (Mva->DoLatex) LatexContent(TreeName);
 
 }
 
@@ -204,7 +204,7 @@ void HReader::TabularOutput() const
     cout << endl;
 
 
-    float CandidatsPerEvent = Ratio(ReaderStruct.FatJetSum, EventSum);
+    float CandidatsPerEvent = GetRatio(ReaderStruct.FatJetSum, EventSum);
 
     PrintText("Precut", NameWidth);
     PrintText("", DataWidth);
@@ -222,7 +222,7 @@ void HReader::TabularOutput() const
 
     for (unsigned ObservableNumber = 0; ObservableNumber < Mva->Observables.size(); ++ObservableNumber) {
 
-      CandidatsPerEvent = Ratio(ReaderStruct.FatJetVector[ObservableNumber], ReaderStruct.EventVector[ObservableNumber]);
+      CandidatsPerEvent = GetRatio(ReaderStruct.FatJetVector[ObservableNumber], ReaderStruct.EventVector[ObservableNumber]);
 
         PrintText(Mva->Observables[ObservableNumber].Title, NameWidth);
         PrintData(RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]), DataWidth);
@@ -282,15 +282,15 @@ void HReader::LatexContent(const string TreeName)
 
     float EventLuminosity = EventSum * Lumi;
 //               float EventLuminosityError = EventLuminosity * EventRatioNormError;
-    float EventLuminosityError = Error(EventLuminosity);
+    float EventLuminosityError = GetError(EventLuminosity);
 
     float HiggsEventLuminosity = ReaderStruct.HiggsEventSum * Lumi;
     //     float HiggsEventLuminosityError = HiggsEventLuminosity * EventRatioNormError;
-    float HiggsEventLuminosityError = Error(HiggsEventLuminosity);
+    float HiggsEventLuminosityError = GetError(HiggsEventLuminosity);
 
     float TopEventLuminosity = ReaderStruct.TopEventSum * Lumi;
     //     float TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
-    float TopEventLuminosityError = Error(TopEventLuminosity);
+    float TopEventLuminosityError = GetError(TopEventLuminosity);
 
     LatexFile << " " << "Initial" << endl
               << "  & " <<  endl
@@ -307,15 +307,15 @@ void HReader::LatexContent(const string TreeName)
     for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 
       EventLuminosity = ReaderStruct.EventVector[ObservableNumber] * Lumi;
-        EventLuminosityError = Error(EventLuminosity);
+        EventLuminosityError = GetError(EventLuminosity);
 //         EventLuminosityError = EventLuminosity * EventRatioNormError;
 
         HiggsEventLuminosity = ReaderStruct.HiggsEventVector[ObservableNumber] * Lumi;
-        HiggsEventLuminosityError = Error(HiggsEventLuminosity);
+        HiggsEventLuminosityError = GetError(HiggsEventLuminosity);
 //         HiggsEventLuminosityError = HiggsEventLuminosity * EventRatioNormError;
 
         TopEventLuminosity = ReaderStruct.TopEventVector[ObservableNumber] * Lumi;
-        TopEventLuminosityError = Error(TopEventLuminosity);
+        TopEventLuminosityError = GetError(TopEventLuminosity);
 //         TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
 
         LatexFile << " " /*<< "$"*/ << Mva->Observables[ObservableNumber].Title /*<< "$"*/ << endl
@@ -350,7 +350,7 @@ void HReader::LatexFooter()
 
 }
 
-float HReader::Ratio(const float Nominator, const float Denummertor) const
+float HReader::GetRatio(const float Nominator, const float Denummertor) const
 {
 
     float Ratio;
@@ -370,7 +370,7 @@ float HReader::Ratio(const float Nominator, const float Denummertor) const
 }
 
 
-float HReader::Scaling(const float Events, const int Particles) const
+float HReader::GetScaling(const float Events, const int Particles) const
 {
 
     Print(2 , "Scaling");
@@ -393,7 +393,7 @@ float HReader::Scaling(const float Events, const int Particles) const
 
 
 
-float HReader::Luminosity(const float Number) const
+float HReader::GetLuminosity(const float Number) const
 {
 
     Print(2 , "Luminosity");
@@ -404,21 +404,21 @@ float HReader::Luminosity(const float Number) const
 
 }
 
-float HReader::LuminosityError(const float Number) const
+float HReader::GetLuminosityError(const float Number) const
 {
 
     Print(2 , "Luminosity Error");
 
-    float LuminosityError = Error(Number) / CrosssectionScaled
+    float LuminosityError = GetError(Number) / CrosssectionScaled
                             + Number / CrosssectionNorm * LuminosityScalingError
-                            + Luminosity(Number) * CrosssectionNormRelError;
+                            + GetLuminosity(Number) * CrosssectionNormRelError;
 
     return LuminosityError;
 
 }
 
 
-float HReader::Error(const float Value) const
+float HReader::GetError(const float Value) const
 {
     Print(2 , "Error");
 

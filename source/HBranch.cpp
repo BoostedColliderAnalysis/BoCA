@@ -42,3 +42,25 @@ void HEventBranch::reset()
     ScalarPtSum = InitialValue;
     
 }
+
+ClassImp(HParticleBranch)
+
+HParticleBranch::HParticleBranch()
+{
+    
+    reset();
+    
+}
+
+HParticleBranch::~HParticleBranch() {}
+
+void HParticleBranch::reset()
+{
+    
+    int InitialValue = -10;
+    
+    Pt = InitialValue; 
+    Eta = InitialValue; 
+    Phi = InitialValue; 
+    
+}

@@ -367,3 +367,16 @@ void HJetDelphes::GetGenJet()
     }
 
 }
+
+
+
+float HJetDelphes::GetScalarHt()
+{
+
+    Print(2, "GetScalerHt");
+
+    const ScalarHT *const ScalarHtClone = (ScalarHT *) ClonesArrays->ScalarHtClonesArray->At(0);
+
+    return ScalarHtClone->HT;
+
+}

@@ -16,7 +16,7 @@ public:
     float Pt;
     float Eta;
     float Phi;
-    float Area;
+    float DeltaR;
 
     float SubJetsDeltaR;
 

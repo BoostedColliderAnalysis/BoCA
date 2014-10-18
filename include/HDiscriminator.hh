@@ -75,7 +75,7 @@ public:
      * @return Candidates
      */
 
-    vector<PseudoJet> GetCandidateJets(const vector<PseudoJet> &);
+    vector<PseudoJet> GetCandidateJets(const vector<PseudoJet> &, const float);
 
 private:
 

@@ -37,7 +37,7 @@ HMvaDiscriminator::HMvaDiscriminator()
 
     Luminosity = 3000; // fb
 
-    Latex = 1;
+    DoLatex = 1;
 
     Candidate = new HCandidateBranch();
 
@@ -227,7 +227,7 @@ HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReade
           
           Print(3,"Observable Loop");
           
-          Print(1,"Error",ReaderStruct.CutsMin[ObservableNumber]);
+          Print(3,"Error",ReaderStruct.CutsMin[ObservableNumber]);
 
         if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
           || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {

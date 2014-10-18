@@ -32,7 +32,7 @@ void HHiggsTagger::NewEvent(){
 
     HiggsJet.reset(0,0,0,0);
 
-    FatJet.reset(0,0,0,0);
+//     FatJet.reset(0,0,0,0);
 
 }
 

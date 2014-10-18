@@ -93,7 +93,7 @@ void HDiscriminator::NewEvent()
 //
 // }
 
-vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlowJetVector)
+vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlowJetVector, const float ScalarHt)
 {
 
     Print(2, "Get Tagged Candidate Jets",EFlowJetVector.size());
@@ -126,15 +126,15 @@ vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlo
 //     }
 
 
-    float PtSum;
+//     float PtSum;
+// 
+//     for (const auto & EFlowJet : EFlowJetVector) {
+// 
+//         PtSum += EFlowJet.pt();
+// 
+//     }
 
-    for (const auto & EFlowJet : EFlowJetVector) {
-
-        PtSum += EFlowJet.pt();
-
-    }
-
-    const float DeltaR = 1000. / PtSum;
+    const float DeltaR = 1000. / ScalarHt;
 
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);

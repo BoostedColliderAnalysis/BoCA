@@ -11,6 +11,8 @@ HJetDiscriminator::HJetDiscriminator()
 
     HDiscriminatorTag = new HDiscriminatorJetTag();
     
+    SubStructure = new HSubStructure();
+    
 //     DebugLevel = 4;
 
 }
@@ -21,6 +23,8 @@ HJetDiscriminator::~HJetDiscriminator()
     Print(1, "Destructor");
 
     delete HDiscriminatorTag;
+    
+    delete SubStructure;
 
 }
 
@@ -74,17 +78,18 @@ void HJetDiscriminator::NewFile()
 {
     Print(1, "New File");
 
-    ParticleBranch = TreeWriter->NewBranch("Particle", HJetPropertiesBranch::Class());
-    TrimmedBranch = TreeWriter->NewBranch("Trimmed", HJetPropertiesBranch::Class());
-    CAFatJetBranch = TreeWriter->NewBranch("CAFatJet", HJetPropertiesBranch::Class());
-    CAMassDropBranch = TreeWriter->NewBranch("CAMassDrop", HJetPropertiesBranch::Class());
-    CAPrunerBranch = TreeWriter->NewBranch("CAPruner", HJetPropertiesBranch::Class());
-    CASJTBranch = TreeWriter->NewBranch("CASJT", HJetPropertiesBranch::Class());
-    AktFatJetBranch = TreeWriter->NewBranch("AktFatJet", HJetPropertiesBranch::Class());
-    AktMassDropBranch = TreeWriter->NewBranch("AktMassDrop", HJetPropertiesBranch::Class());
-    AktPrunerBranch = TreeWriter->NewBranch("AktPruner", HJetPropertiesBranch::Class());
+    ParticleBranch = TreeWriter->NewBranch("Particle", HCandidateBranch::Class());
+    TrimmedBranch = TreeWriter->NewBranch("Trimmed", HCandidateBranch::Class());
+    CAFatJetBranch = TreeWriter->NewBranch("CAFatJet", HCandidateBranch::Class());
+    CAMassDropBranch = TreeWriter->NewBranch("CAMassDrop", HCandidateBranch::Class());
+    CAPrunerBranch = TreeWriter->NewBranch("CAPruner", HCandidateBranch::Class());
+    CASJTBranch = TreeWriter->NewBranch("CASJT", HCandidateBranch::Class());
+    AktFatJetBranch = TreeWriter->NewBranch("AktFatJet", HCandidateBranch::Class());
+    AktMassDropBranch = TreeWriter->NewBranch("AktMassDrop", HCandidateBranch::Class());
+    AktPrunerBranch = TreeWriter->NewBranch("AktPruner", HCandidateBranch::Class());
     ConstituentBranch = TreeWriter->NewBranch("Constituents", HConstituentBranch::Class());
     EventBranch = TreeWriter->NewBranch("Event", HEventBranch::Class());
+    LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
 
 }
 
@@ -134,18 +139,27 @@ bool HJetDiscriminator::Analysis()
 {
 
     Print(3, "Analysis");
-
-    Event->GetTaggedEFlow(HDiscriminatorTag);
-
-    float EventPt = 0;
-    for (const auto & EFlowJet : Event->Jets->EFlowJets) {
-
-        EventPt += EFlowJet.pt();
-
+    
+    const vector<PseudoJet> LeptonJets = Leptons();
+    
+    if (LeptonJets.size() < 2) {
+        
+        Print(2, "Not enough Leptons", LeptonJets.size());
+        return 0;
+        
     }
 
+    Event->GetTaggedEFlow(HDiscriminatorTag);
+// 
+//     float EventPt = 0;
+//     for (const auto & EFlowJet : Event->Jets->EFlowJets) {
+// 
+//         EventPt += EFlowJet.pt();
+// 
+//     }
+
     HEventBranch *EventB = static_cast<HEventBranch *>(EventBranch->NewEntry());
-    EventB->ScalarPtSum = 1. / EventPt;
+    EventB->ScalarPtSum = 1. / Event->Jets->GetScalarHt();
 
     vector<int> IdVector;
 //     if (StudyName == "Top") IdVector = { TopId, -TopId};
@@ -196,7 +210,7 @@ bool HJetDiscriminator::Analysis()
         const float MaxRadius = (*JetPair).first;
         Print(2, "MaxRadius", MaxRadius);
 
-        FillTree(ParticleBranch, CandidateJet, MaxRadius);
+        FillTree(ParticleBranch, CandidateJet, LeptonJets, MaxRadius);
 
         float CandidatePt = 0;
         for (const auto & EFlowJet : EFlowJets) {
@@ -235,7 +249,7 @@ bool HJetDiscriminator::Analysis()
         
         const PseudoJet MiniCandidateJet = fastjet::join(TrimmedJets);
 
-        FillTree(TrimmedBranch, MiniCandidateJet, SigmaRadius);
+        FillTree(TrimmedBranch, MiniCandidateJet, LeptonJets, SigmaRadius);
 
         JetDefinition CAJetDefinition(cambridge_algorithm, MaxRadius);
         ClusterSequence CAClusterSequence(EFlowJets, CAJetDefinition);
@@ -248,19 +262,19 @@ bool HJetDiscriminator::Analysis()
             
             if (CAInclusiveJet == 0) continue;
 
-            FillTree(CAFatJetBranch, CAInclusiveJet);
+            FillTree(CAFatJetBranch, CAInclusiveJet, LeptonJets);
 
             fastjet::MassDropTagger CAMassDropTagger(0.67, 0.09);
             PseudoJet CAMDJet = CAMassDropTagger(CAInclusiveJet);
-            FillTree(CAMassDropBranch, CAMDJet);
+            FillTree(CAMassDropBranch, CAMDJet, LeptonJets);
 
             fastjet::Pruner CAPruner(fastjet::cambridge_algorithm, CAInclusiveJet.m() / CAInclusiveJet.pt(), 0.1);
             PseudoJet CAPJet = CAPruner(CAInclusiveJet);
-            FillTree(CAPrunerBranch, CAPJet);
+            FillTree(CAPrunerBranch, CAPJet, LeptonJets);
 
             fastjet::CASubJetTagger CASJT;
             PseudoJet CAJSTJet = CASJT.result(CAInclusiveJet);
-            FillTree(CASJTBranch, CAJSTJet);
+            FillTree(CASJTBranch, CAJSTJet, LeptonJets);
             
             continue;
 
@@ -274,15 +288,15 @@ bool HJetDiscriminator::Analysis()
         sort(AktInclusiveJets.begin(),AktInclusiveJets.end(),SortJetByMass());
         for (const auto & AktInclusiveJet : AktInclusiveJets) {
 
-            FillTree(AktFatJetBranch, AktInclusiveJet);
+            FillTree(AktFatJetBranch, AktInclusiveJet, LeptonJets);
 
             fastjet::MassDropTagger MDT(0.67, 0.09);
             PseudoJet AktMDJet = MDT(AktInclusiveJet);
-            FillTree(AktMassDropBranch, AktMDJet);
+            FillTree(AktMassDropBranch, AktMDJet, LeptonJets);
 
             fastjet::Pruner AktPruner(fastjet::cambridge_algorithm, AktInclusiveJet.m() / AktInclusiveJet.pt(), 0.15);
             PseudoJet AktPJet = AktPruner(AktInclusiveJet);
-            FillTree(AktPrunerBranch, AktPJet);
+            FillTree(AktPrunerBranch, AktPJet, LeptonJets);
             
             continue;
 
@@ -305,27 +319,82 @@ bool HJetDiscriminator::Analysis()
 
 }
 
-void HJetDiscriminator::FillTree(ExRootTreeBranch *TreeBranch, const PseudoJet &Jet, const float DeltaR)
+bool HJetDiscriminator::FillTree(ExRootTreeBranch *TreeBranch, const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets, const float DeltaR)
 {
 
-    if (Jet != 0 && Jet.m() > 0 && DeltaR > 0) {
-
-        HJetPropertiesBranch *Branch = static_cast<HJetPropertiesBranch *>(TreeBranch->NewEntry());
-
-        Branch->Mass = Jet.m();
-        Branch->Pt = Jet.pt();
-        Branch->Eta = Jet.eta();
-        Branch->Phi = Jet.phi_std();
-        Branch->Radius = DeltaR;
+    if (CandidateJet != 0 && CandidateJet.m() > 0 && DeltaR > 0) {
+        
+        HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(TreeBranch->NewEntry());
+        
+        Candidate->Mass = CandidateJet.m();
+        Candidate->Pt = CandidateJet.pt();
+        Candidate->Eta = CandidateJet.eta();
+        Candidate->Phi = CandidateJet.phi_std();
+        Candidate->DeltaR = DeltaR;
+        
+        Print(3, "Candidate Mass", CandidateJet.m());
+        
+        // Tagging
+        
+        int UserIndex = abs(CandidateJet.user_index());
+        
+        if (UserIndex == CpvHiggsId) {
+            Candidate->HiggsTag = 1;
+            Candidate->TopTag = 0;
+            
+        } else if (UserIndex == TopId) {
+            
+            Candidate->TopTag = 1;
+            Candidate->HiggsTag = 0;
+            
+        } else {
+            
+            Candidate->TopTag = 0;
+            Candidate->HiggsTag = 0;
+            
+        }
+        
+        SubStructure->NewEvent();
+        if (!SubStructure->GetSubJets(CandidateJet)) return 0;
+        
+        Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
+        Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
+        Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
+        Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
+        Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
+        Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
+        Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
+        
+        
+        SubStructure->GetIsolation(CandidateJet,LeptonJets);
+        
+        Candidate->IsolationEta = SubStructure->GetIsolationEta();
+        Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
+        Candidate->IsolationPt = SubStructure->GetIsolationPt();
+        Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
+        Candidate->IsolationAngle = SubStructure->GetIsolationAngle();
+        
+        Print(3, "Isolation", Candidate->IsolationDeltaR);
+        
+        if(!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) return 0;
+        
+        Candidate->ConstEta = SubStructure->GetConstituentEta();
+        Candidate->ConstPhi = SubStructure->GetConstituentPhi();
+        Candidate->ConstDeltaR = SubStructure->GetConstituentDeltaR();
+        Candidate->ConstAngle = SubStructure->GetConstituentAngle();
+        
+        Print(3, "Pull", Candidate->ConstDeltaR);
 
     }
+    
+    return 1;
 
 }
 
-void HJetDiscriminator::FillTree(ExRootTreeBranch *TreeBranch, const PseudoJet &Jet)
+bool HJetDiscriminator::FillTree(ExRootTreeBranch *TreeBranch, const PseudoJet &Jet, const vector<PseudoJet> &LeptonJets)
 {
 
-    FillTree(TreeBranch, Jet, GetDeltaR(Jet));
+    return FillTree(TreeBranch, Jet, LeptonJets, GetDeltaR(Jet));
 
 }
 
@@ -347,5 +416,72 @@ float HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
     
     return DeltaR;
 
+}
+
+vector<PseudoJet> HJetDiscriminator::Leptons()
+{
+    
+    // Lepton Stuff
+    vector<float> LeptonEta, LeptonPhi;
+    
+//     Event->GetLeptons();
+    
+//     vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
+//     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+    
+        Event->GetParticles();
+        vector<PseudoJet> LeptonJets = Event->Particles->GetLeptonJets();
+        vector<PseudoJet> AntiLeptonJets = Event->Particles->GetAntiLeptonJets();
+    
+    sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
+    sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
+    
+    bool HardestLepton = 1;
+    for (const auto & LeptonJet : LeptonJets) {
+        
+        if (HardestLepton) {
+            
+            HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
+            
+            Lepton->Pt = LeptonJet.pt();
+            Lepton->Eta = LeptonJet.eta();
+            Lepton->Phi = LeptonJet.phi_std();
+            Lepton->Charge = -1;
+            Lepton->Mass = LeptonJet.m();
+        }
+        HardestLepton = 0;
+        
+        LeptonEta.push_back(LeptonJet.eta());
+        LeptonPhi.push_back(LeptonJet.phi_std());
+        
+    }
+    
+    HardestLepton = 1;
+    for (const auto & AntiLeptonJet : AntiLeptonJets) {
+        
+        if (HardestLepton) {
+            
+            HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
+            
+            Lepton->Pt = AntiLeptonJet.pt();
+            Lepton->Eta = AntiLeptonJet.eta();
+            Lepton->Phi = AntiLeptonJet.phi_std();
+            Lepton->Charge = 1;
+            Lepton->Mass = AntiLeptonJet.m();
+            
+        }
+        HardestLepton = 0;
+        
+        LeptonEta.push_back(AntiLeptonJet.eta());
+        LeptonPhi.push_back(AntiLeptonJet.phi_std());
+        
+    }
+    
+    LeptonJets.insert(LeptonJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
+    
+    Print(2, "Number of Leptons", LeptonJets.size());
+    
+    return LeptonJets;
+    
 }
 

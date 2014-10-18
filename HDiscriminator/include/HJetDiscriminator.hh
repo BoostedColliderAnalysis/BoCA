@@ -4,10 +4,11 @@
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 
-#include "HBranchDiscriminator.hh"
+# include "HBranchDiscriminator.hh"
+# include "HSubStructure.hh"
 
-#include "fastjet/tools/Pruner.hh"
-#include "fastjet/tools/CASubJetTagger.hh"
+# include "fastjet/tools/Pruner.hh"
+# include "fastjet/tools/CASubJetTagger.hh"
 
 class HDiscriminatorJetTag : public HJetTag
 {
@@ -51,6 +52,12 @@ public:
      *
      */
     ~HJetDiscriminator();
+    
+    /**
+     * @brief Branch to write Lepton info into
+     *
+     */
+    ExRootTreeBranch *LeptonBranch;
 
     /**
      * @brief Branch to write Higgs info into
@@ -105,12 +112,26 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
+    
+    
+    HDiscriminatorJetTag * DiscriminatorJetTag;
+    
+    HSubStructure * SubStructure;
 
 
-
-    void FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const float DeltaR);
-    void FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet);
+    bool FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const vector<PseudoJet>&, const float DeltaR);
+    
+    bool FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const vector<PseudoJet>&);
+    
     float GetDeltaR(const PseudoJet& Jet);
+    
+    /**
+     * @brief Lepton calculations
+     *
+     * @param Event ...
+     * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
+     */
+    vector<PseudoJet> Leptons();
 
     /**
      * @brief Lepton calculations

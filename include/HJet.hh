@@ -59,6 +59,8 @@ public:
      * @return void
      */
     virtual void GetGenJet();
+    
+    virtual float GetScalarHt();
 
     /**
      * @brief vector of Jet Lorentz Vectors

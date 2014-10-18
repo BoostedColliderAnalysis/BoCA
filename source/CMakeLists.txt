@@ -1,8 +1,4 @@
-set(IncludeDirectory
-${IncludeDirectory}
-${PROJECT_SOURCE_DIR}/source
-)
-include_directories(${IncludeDirectory})
+HInclude(${PROJECT_SOURCE_DIR}/source)
 
 HDictionary(HBranch HBranch.cpp ../include/HLinkDef.hh)
 
@@ -34,6 +30,7 @@ HHiggsTagger.cpp
 HTopTagger.cpp
 HEPTopTagger.cpp
 HPull.cpp
+HSubStructure.cpp
 )
 HLibrary(HEvent "${EventSources}")
 

@@ -4,6 +4,7 @@
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "HBranchDiscriminator.hh"
+# include "HSubStructure.hh"
 
 
 class HDiscriminatorJetTag : public HJetTag
@@ -42,6 +43,12 @@ public:
      *
      */
     HAnalysisDiscriminator();
+    
+    /**
+     * @brief Constructor
+     *
+     */
+    ~HAnalysisDiscriminator();
 
     /**
      * @brief Branch to write Higgs info into
@@ -62,6 +69,10 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
+    
+    HDiscriminatorJetTag * DiscriminatorJetTag;
+    
+    HSubStructure * SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -104,7 +115,7 @@ private:
 
     virtual string ClassName() const {
 
-        return ("HJetDiscriminator");
+        return ("HAnalysisDiscriminator");
 
     };
 

@@ -97,6 +97,10 @@ public:
     int TauSum() const {
         return TauClonesArray->GetEntriesFast();
     };
+    
+    int ScalerHtSum() const {
+        return ScalarHtClonesArray->GetEntriesFast();
+    };
 
     /**
      * @brief Particle Clones Array

@@ -41,9 +41,13 @@ public:
     
     virtual vector<PseudoJet> TagJets( vector<PseudoJet>){vector<PseudoJet> v; return v;};
 
-    virtual vector<TLorentzVector> LeptonVector();
+    virtual vector<TLorentzVector> GetLeptonLorentzVectors();
 
-    virtual vector<TLorentzVector> AntiLeptonVector();
+    virtual vector<TLorentzVector> GetAntiLeptonLorentzVectors();
+    
+    virtual vector<PseudoJet> GetLeptonJets();
+    
+    virtual vector<PseudoJet> GetAntiLeptonJets();
 
     vector<TLorentzVector> TopVector;
 
@@ -56,6 +60,14 @@ public:
     vector<TLorentzVector> AntiElectronLorentzVectors;
 
     vector<TLorentzVector> AntiMuonLorentzVectors;
+    
+    vector<PseudoJet> ElectronJets;
+    
+    vector<PseudoJet> MuonJets;
+    
+    vector<PseudoJet> AntiElectronJets;
+    
+    vector<PseudoJet> AntiMuonJets;
 
 
     /**
