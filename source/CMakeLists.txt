@@ -2,11 +2,11 @@ HInclude(${PROJECT_SOURCE_DIR}/source)
 
 HDictionary(HBranch HBranch.cpp ../include/HLinkDef.hh)
 
-set(HObjectSources 
-HObject.cpp 
+set(HObjectSources
+HObject.cpp
 HFourVector.cpp
 )
-HLibrary(HObject "${HObjectSources}")
+HLibrary(HObject "${HObjectSources}" PARENT_SCOPE)
 
 set(EventSources
 HJetTag.cpp
@@ -32,7 +32,7 @@ HEPTopTagger.cpp
 HPull.cpp
 HSubStructure.cpp
 )
-HLibrary(HEvent "${EventSources}")
+HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 
 set(AnalysisSources
 HClonesArray.cpp
@@ -40,12 +40,12 @@ HFile.cpp
 HAnalysis.cpp
 # HAnalysisNew.cpp
 )
-HLibrary(HAnalysis "${AnalysisSources}")
+HLibrary(HAnalysis "${AnalysisSources}" PARENT_SCOPE)
 
 set(MvaSources
 HMva.cpp
 HFactory.cpp
 HReader.cpp
 )
-HLibrary(HMva "${MvaSources}")
+HLibrary(HMva "${MvaSources}" PARENT_SCOPE)
 
