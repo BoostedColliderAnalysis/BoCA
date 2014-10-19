@@ -32,7 +32,7 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
     Global.Pt = CandidateJet.pt();
 
     vector<PseudoJet> PiecesVector = CandidateJet.pieces();
-    sort(PiecesVector.begin(), PiecesVector.end(), SortJetByMass());
+    std::sort(PiecesVector.begin(), PiecesVector.end(), SortJetByMass());
 
     if (!(PiecesVector.size() == 2)) {
 
@@ -165,7 +165,7 @@ bool HSubStructure::GetIsolation(const PseudoJet& CandidateJet,const vector<Pseu
     // Get Position of SubJets
     
     vector<PseudoJet> PiecesVector = CandidateJet.pieces();
-    sort(PiecesVector.begin(), PiecesVector.end(), SortJetByMass());
+    std::sort(PiecesVector.begin(), PiecesVector.end(), SortJetByMass());
     
     if (!(PiecesVector.size() == 2)) {
         
@@ -213,3 +213,119 @@ bool HSubStructure::GetIsolation(const PseudoJet& CandidateJet,const vector<Pseu
     return 1;
     
 }
+
+
+
+float HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet)
+{
+    
+    Print(2, "Jing Dipolarity");
+    
+//     vector<PseudoJet> SubJetVector = CandidateJet.pieces();
+//     if (SubJetVector.size() != 2) Print(0, "not two subjets");
+//     
+//     // Filtering
+//     float ParentCylinderDistance = SubJetVector[0].delta_R(SubJetVector[1]);
+//     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
+//     float MinimalCylinderDistance = 0.35;
+//     float FilterCylinderDistance = min(ParentCylinderDistance / 2, MinimalCylinderDistance);
+//     JetDefinition MassDropJetDefinition(fastjet::antikt_algorithm, FilterCylinderDistance);
+//     
+//     // number of pieces we'll take in the filtering = Jing: 3; fastjet: 3
+//     int NumberHardestPieces = 3;
+//     Selector ThreeHardest = SelectorNHardest(NumberHardestPieces);
+//     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
+//     PseudoJet FilterJet = FatJetFilter(CandidateJet);
+    
+    const vector<PseudoJet> SubJetVector = CandidateJet.pieces();
+    if (SubJetVector.size() != 2) Print(0, "not two subjets");
+    
+    
+    float Eta1, Eta2, Phi1, Phi2;
+    
+    if (SubJetVector[0].eta() < SubJetVector[1].eta()) {
+        
+        Eta1 = SubJetVector[0].eta();
+        Phi1 = SubJetVector[0].phi_std();
+        Eta2 = SubJetVector[1].eta();
+        Phi2 = SubJetVector[1].phi_std();
+        
+    } else {
+        
+        Eta1 = SubJetVector[1].eta();
+        Phi1 = SubJetVector[1].phi_std();
+        Eta2 = SubJetVector[0].eta();
+        Phi2 = SubJetVector[0].phi_std();
+        
+    }
+    
+    float DeltaR12 = SubJetVector[0].delta_R(SubJetVector[1]);
+    
+    float DiPolarity=0;
+    
+    for (const auto & Constituent : CandidateJet.constituents()){
+        
+        const float ConstituentEta = Constituent.eta();
+        float ConstituentPhi = Constituent.phi_std();
+        
+        const float DeltaPhi = Phi2 - Phi1;
+        const float DeltaEta = -(Eta2 - Eta1);
+        const float EtaPhi = Eta2 * Phi1 - Eta1 * Phi2;
+        
+        const float ConstituentDeltaR1 = Constituent.delta_R(SubJetVector[0]);
+        const float ConstituentDeltaR2 = Constituent.delta_R(SubJetVector[1]);
+        const float ConstituentDeltaR3 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
+        float Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
+        float Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
+        
+        float DeltaR1;
+        if ((Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi1 && Phi3 <= Phi2)
+            || (Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
+            DeltaR1 = ConstituentDeltaR3;
+            } else {
+                DeltaR1 = std::min(ConstituentDeltaR1, ConstituentDeltaR2);
+            }
+            
+            if (ConstituentPhi < 0) {
+                ConstituentPhi = ConstituentPhi + 2 * TMath::Pi();
+            } else {
+                ConstituentPhi = ConstituentPhi - 2 * TMath::Pi();
+            }
+            
+            Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
+            Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
+            
+            const float ConstituntDeltaR4 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
+            
+            float DeltaR2;
+            if ((Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi1 && Phi3 <= Phi2)
+                || (Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
+                DeltaR2 = ConstituntDeltaR4;
+                } else {
+                    DeltaR2 = std::min(ConstituentDeltaR1, ConstituentDeltaR2);
+                }
+                
+                const float DeltaR = std::min(DeltaR1, DeltaR2);
+            
+            const float ConeSize = sqrt(2);
+            
+            if (ConstituentDeltaR1 < DeltaR12 / ConeSize || ConstituentDeltaR2 < DeltaR12 / ConeSize) {
+                
+                const float deltar = DeltaR / DeltaR12;
+                //         float ConstDelR1 = ConstituentDeltaR1 / DeltaR12;
+                //         float ConstDelR2 = ConstituentDeltaR2 / DeltaR12;
+                //         float PtRatio =  Constituent.perp() / HiggsJet.perp();
+                const float PtRatio =  Constituent.pt() / CandidateJet.pt();
+                
+                DiPolarity += PtRatio * pow(deltar,2);
+                
+            }
+            
+    }
+    
+    return DiPolarity;
+    //     return (DiPolarity / ConstituentSum * 10000);
+    
+}
+
+

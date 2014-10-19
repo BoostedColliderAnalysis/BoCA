@@ -42,6 +42,8 @@ public:
     bool GetConstituents(const PseudoJet &, ExRootTreeBranch *const);
     
     bool GetIsolation(const PseudoJet &, const vector<PseudoJet>&);
+    
+    float GetDiPolarity(const PseudoJet&);
 
     float GetSubJet1Mass() const {
         return (SubJet1.Mass / Global.Mass);

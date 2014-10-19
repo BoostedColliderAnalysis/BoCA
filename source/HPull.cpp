@@ -338,7 +338,7 @@ float HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJe
 
 
 
-float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &HiggsJet)
+float HPull::JingDipolarity(const PseudoJet &CandidateJet)
 {
 
     Print(2, "Jing Dipolarity");
@@ -346,11 +346,8 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &Higg
     vector<PseudoJet> SubJetVector = CandidateJet.pieces();
     if (SubJetVector.size() != 2) Print(0, "not two subjets");
 
-    PseudoJet SubJet1 = SubJetVector[0];
-    PseudoJet SubJet2 = SubJetVector[1];
-
     // Filtering
-    float ParentCylinderDistance = SubJet1.delta_R(SubJet2);
+    float ParentCylinderDistance = SubJetVector[0].delta_R(SubJetVector[1]);
     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
     float MinimalCylinderDistance = 0.35;
     float FilterCylinderDistance = min(ParentCylinderDistance / 2, MinimalCylinderDistance);
@@ -362,40 +359,33 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &Higg
     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
     PseudoJet FilterJet = FatJetFilter(CandidateJet);
 
-    vector<PseudoJet> CandidateConstituents = FilterJet.constituents();
-
     SubJetVector = FilterJet.pieces();
     if (SubJetVector.size() != 2) Print(0, "not two subjets");
-    SubJet1 = SubJetVector[0];
-    SubJet2 = SubJetVector[1];
 
 
     float Eta1, Eta2, Phi1, Phi2;
 
-    if (SubJet1.eta() < SubJet2.eta()) {
+    if (SubJetVector[0].eta() < SubJetVector[1].eta()) {
 
-        Eta1 = SubJet1.eta();
-        Phi1 = SubJet1.phi_std();
-        Eta2 = SubJet2.eta();
-        Phi2 = SubJet2.phi_std();
+        Eta1 = SubJetVector[0].eta();
+        Phi1 = SubJetVector[0].phi_std();
+        Eta2 = SubJetVector[1].eta();
+        Phi2 = SubJetVector[1].phi_std();
 
     } else {
 
-        Eta1 = SubJet2.eta();
-        Phi1 = SubJet2.phi_std();
-        Eta2 = SubJet1.eta();
-        Phi2 = SubJet1.phi_std();
+        Eta1 = SubJetVector[1].eta();
+        Phi1 = SubJetVector[1].phi_std();
+        Eta2 = SubJetVector[0].eta();
+        Phi2 = SubJetVector[0].phi_std();
 
     }
 
-    float DeltaR12 = SubJet1.delta_R(SubJet2);
+    float DeltaR12 = SubJetVector[0].delta_R(SubJetVector[1]);
 
-    float DiPolarity;
+    float DiPolarity=0;
 
-    int ConstituentSum = CandidateConstituents.size();
-    for (int ConstituentNumber = 0; ConstituentNumber < ConstituentSum; ConstituentNumber++) {
-
-        PseudoJet Constituent = CandidateConstituents[ConstituentNumber];
+    for (const auto & Constituent : FilterJet.constituents()){
 
         const float ConstituentEta = Constituent.eta();
         float ConstituentPhi = Constituent.phi_std();
@@ -404,8 +394,8 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &Higg
         const float DeltaEta = -(Eta2 - Eta1);
         const float EtaPhi = Eta2 * Phi1 - Eta1 * Phi2;
 
-        const float ConstituentDeltaR1 = Constituent.delta_R(SubJet1);
-        const float ConstituentDeltaR2 = Constituent.delta_R(SubJet2);
+        const float ConstituentDeltaR1 = Constituent.delta_R(SubJetVector[0]);
+        const float ConstituentDeltaR2 = Constituent.delta_R(SubJetVector[1]);
         const float ConstituentDeltaR3 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
         float Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
         float Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
@@ -439,19 +429,20 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet, const PseudoJet &Higg
 
         const float DeltaR = min(DeltaR1, DeltaR2);
 
-//         float ConeSize = sqrt(2);
+        const float ConeSize = sqrt(2);
 
-//         if (ConstituentDeltaR1 < DeltaR12 / ConeSize || ConstituentDeltaR2 < DeltaR12 / ConeSize) {
+        if (ConstituentDeltaR1 < DeltaR12 / ConeSize || ConstituentDeltaR2 < DeltaR12 / ConeSize) {
 
-        float deltar = DeltaR / DeltaR12;
-        float ConstDelR1 = ConstituentDeltaR1 / DeltaR12;
-        float ConstDelR2 = ConstituentDeltaR2 / DeltaR12;
-        float PtRatio =  Constituent.perp() / HiggsJet.perp();
-        PtRatio =  Constituent.perp() / FilterJet.perp();
+        const float deltar = DeltaR / DeltaR12;
+//         float ConstDelR1 = ConstituentDeltaR1 / DeltaR12;
+//         float ConstDelR2 = ConstituentDeltaR2 / DeltaR12;
+//         float PtRatio =  Constituent.perp() / HiggsJet.perp();
+        const float PtRatio =  Constituent.perp() / FilterJet.perp();
 
-        DiPolarity += PtRatio * deltar * ConstDelR1 * ConstDelR2;
+        DiPolarity += PtRatio * pow(deltar,2);
 
-// 	}
+        }
+        
     }
 
     return DiPolarity;

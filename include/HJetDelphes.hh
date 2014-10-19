@@ -26,6 +26,13 @@ public:
      *
      */
     ~HJetDelphes();
+    
+    /**
+     * @brief Initialize new event
+     *
+     * @return void
+     */
+    void NewEvent(const HClonesArray * const);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -33,7 +40,7 @@ public:
      * @return void
      */
     bool GetJets(const HJetDetails);
-    
+
     /**
      * @brief Analyses EFlow Variables of Jets
      *
@@ -54,16 +61,14 @@ public:
      * @return void
      */
     void GetGenJet();
-    
+
     float GetScalarHt();
-    
-//     enum TMother{Mother1,Mother2};
 
 private:
-    
+    vector<int> Topology;
 
-    vector<int*> BranchVector;
-    
+    vector<int *> BranchVector;
+
     /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
@@ -88,6 +93,7 @@ private:
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 
+            Topology.at(ParticleNumber) = 100;
             const TObject *const Object = Clone->Particles.At(ParticleNumber);
 
             if (Object == 0) continue;
@@ -96,13 +102,14 @@ private:
             const GenParticle *const ParticleClone = (GenParticle *) Object;
 
             Print(2, "constituent Pt", ParticleClone->PT);
-            JetInfo.AddConstituent(GetMotherId(Object), ParticleClone->PT);
-
-
+            const int MotherId = GetMotherId(Object);
+            JetInfo.AddConstituent(MotherId, ParticleClone->PT);
+            std::replace(Topology.begin(), Topology.end(), 100, MotherId);
+            
         }
 
 //         Print(4, "Jet ID", JetInfo.GetMaximalId(), JetInfo.GetMaximalFraction());
-        if (DebugLevel >=4 )JetInfo.PrintAllInfos();
+        if (DebugLevel >= 4)JetInfo.PrintAllInfos();
 
         return JetInfo;
 
@@ -127,9 +134,7 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    int GetMotherId(GenParticle* ParticleClone, int BranchId,int/*,int**/);
-
-//     int GetBranchId(int, int);
+    int GetMotherId(GenParticle *ParticleClone, int BranchId, int/*,int**/);
 
     void GetDelphesTags(const Jet *const);
 

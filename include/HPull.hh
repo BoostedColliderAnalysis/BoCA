@@ -65,7 +65,7 @@ public:
      */
     float CalculateDiPolarity(const PseudoJet&, const PseudoJet&, const PseudoJet&);
 
-    float JingDipolarity(const PseudoJet&, const PseudoJet&);
+    float JingDipolarity(const PseudoJet &CandidateJet);
 
 //     float DiPolarity;
 

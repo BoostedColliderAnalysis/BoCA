@@ -27,15 +27,15 @@ void HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 
     AntiTauLorentzVectors.clear();
 
+    BottomLorentzVectors.clear();
+    
     EFlowJets.clear();
 
     BottomJets.clear();
 
-    CharmJetVector.clear();
+    CharmJets.clear();
 
     GenJets.clear();
-
-    BottomLorentzVectors.clear();
 
     Jets.clear();
 

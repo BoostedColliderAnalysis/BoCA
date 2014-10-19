@@ -13,8 +13,8 @@
 class HDiscriminatorJetTag : public HJetTag
 {
 
-    int GetBranchId(const int, int,int) const;
-    
+    int GetBranchId(const int, int, int) const;
+
     const set<int> HeavyParticles = {TopId, CpvHiggsId};
 
     const set<int> RadiationParticles = {GluonId, UpId, DownId, StrangeId, CharmId, BottomId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
@@ -52,7 +52,7 @@ public:
      *
      */
     ~HJetDiscriminator();
-    
+
     /**
      * @brief Branch to write Lepton info into
      *
@@ -70,39 +70,51 @@ public:
      *
      */
     ExRootTreeBranch *ParticleBranch;
+    ExRootTreeBranch *ParticleConstituentBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
     ExRootTreeBranch *TrimmedBranch;
+    ExRootTreeBranch *TrimmedConstituentBranch;
 
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *AktFatJetBranch;
+    ExRootTreeBranch *AktFatJetConstituentBranch;
 
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *AktMassDropBranch;
+    ExRootTreeBranch *AktMassDropConstituentBranch;
+
     ExRootTreeBranch *AktPrunerBranch;
+    ExRootTreeBranch *AktPrunerConstituentBranch;
 
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *CAFatJetBranch;
+    ExRootTreeBranch *CAFatJetConstituentBranch;
 
     /**
      * @brief Branch to write Constituent info into
      *
      */
     ExRootTreeBranch *CAMassDropBranch;
+    ExRootTreeBranch *CAMassDropConstituentBranch;
+
     ExRootTreeBranch *CAPrunerBranch;
+    ExRootTreeBranch *CAPrunerConstituentBranch;
+
     ExRootTreeBranch *CASJTBranch;
+    ExRootTreeBranch *CASJTConstituentBranch;
 
 
     /**
@@ -112,19 +124,19 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
-    
-    
-    HDiscriminatorJetTag * DiscriminatorJetTag;
-    
-    HSubStructure * SubStructure;
 
 
-    bool FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const vector<PseudoJet>&, const float DeltaR);
-    
-    bool FillTree(ExRootTreeBranch* TreeBranch, const PseudoJet& Jet, const vector<PseudoJet>&);
-    
-    float GetDeltaR(const PseudoJet& Jet);
-    
+    HDiscriminatorJetTag *DiscriminatorJetTag;
+
+    HSubStructure *SubStructure;
+
+
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const vector<PseudoJet> &, const float DeltaR);
+
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const vector<PseudoJet> &);
+
+    float GetDeltaR(const PseudoJet &Jet);
+
     /**
      * @brief Lepton calculations
      *

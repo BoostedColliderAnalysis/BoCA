@@ -37,7 +37,7 @@ public:
      *
      * @return void
      */
-    void NewEvent(const HClonesArray * const);
+    virtual void NewEvent(const HClonesArray * const);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -102,7 +102,7 @@ public:
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    vector<PseudoJet> CharmJetVector;
+    vector<PseudoJet> CharmJets;
 
     /**
      * @brief Vector of EFlow JetCandidates
