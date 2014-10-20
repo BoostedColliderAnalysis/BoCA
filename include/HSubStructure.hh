@@ -19,6 +19,8 @@ struct HMomentum {
     float Phi;
 
     float DeltaR;
+    
+    float Asymmetry;
 
 };
 
@@ -107,6 +109,10 @@ public:
 
     float GetIsolationAngle() {
         return atan2(Isolation.Phi, Isolation.Eta);
+    };
+    
+    float GetAsymmetry() {
+        return Global.Asymmetry;
     };
 
 protected:

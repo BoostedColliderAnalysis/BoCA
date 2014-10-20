@@ -68,6 +68,7 @@ macro(HLibrary HName HSource)
   set_target_properties(${HName} PROPERTIES ${LibraryProperties})
   install(TARGETS ${HName} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
   set(LinkLibraries ${LinkLibraries} ${HName})
+#   list(APPEND ${LinkLibraries} ${HName})
   set(LinkLibraries ${LinkLibraries} ${ARGV2})
 endmacro(HLibrary)
 
@@ -82,7 +83,6 @@ macro(HExecutable HName HSource)
   target_link_libraries(${HName} ${LinkLibraries})
 endmacro(HExecutable)
 
-# Library
 set(Directory
   ${ROOT_INCLUDE_DIR}
   ${ExRootDir}
@@ -90,6 +90,7 @@ set(Directory
 )
 HInclude("${Directory}" SYSTEM)
 
+# Library
 HInclude(${PROJECT_SOURCE_DIR}/include)
 
 set(LinkLibraries

@@ -116,7 +116,7 @@ public:
         }
 
     }
-
+    
 protected:
 
     template <typename TValue> int sgn(const TValue Value) const {

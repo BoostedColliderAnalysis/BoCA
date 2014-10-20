@@ -36,7 +36,13 @@ public:
      * @param BranchId former id of the Branch
      * @return int new Id of the Branch
      */
-    virtual int GetBranchId(const int ParticleId, int BranchId,int) const;
+    virtual int GetBranchId(const int ParticleId, int BranchId) const;
+
+    /**
+     * @brief set of particle Ids which are considerd relevant
+     *
+     */
+    const set<int> HeavyParticles = {BottomId, TopId, HeavyHiggsId};
 
 protected:
 
@@ -45,12 +51,6 @@ protected:
      *
      */
     const set<int> InitialState = {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
-
-    /**
-     * @brief set of particle Ids which are considerd relevant
-     *
-     */
-    const set<int> MotherParticle = {BottomId, TopId, HeavyHiggsId};
 
 private:
 

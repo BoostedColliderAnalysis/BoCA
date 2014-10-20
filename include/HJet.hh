@@ -16,9 +16,12 @@ using std::vector;
 class HJet : public HFourVector
 {
 
-public:    
-    
-    enum HJetDetails {Plain,Tagging,Isolation,Structure,TaggingIsolation};
+public:
+
+
+    enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation};
+
+//     HJetDetails JetDetails;
 
     /**
      * @brief constructor
@@ -32,12 +35,16 @@ public:
      */
     ~HJet();
 
+    vector<PseudoJet> GetEFlowJets() const {
+        return EFlowJets;
+    };
+
     /**
      * @brief Initialize new event
      *
      * @return void
      */
-    virtual void NewEvent(const HClonesArray * const);
+    virtual void NewEvent(const HClonesArray *const);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -45,13 +52,13 @@ public:
      * @return void
      */
     virtual bool GetJets(const HJetDetails);
-    
+
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool GetEFlow(const HJetDetails);
-    
+    virtual bool ReadEFlow(const HJetDetails);
+
     /**
      * @brief Get Gen Jet
      *
@@ -59,7 +66,7 @@ public:
      * @return void
      */
     virtual void GetGenJet();
-    
+
     virtual float GetScalarHt();
 
     /**
@@ -115,13 +122,13 @@ public:
      *
      */
     vector<TLorentzVector> BottomLorentzVectors;
-        
-    const HJetTag  * JetTag;
+
+    const HJetTag   *JetTag;
 
 protected:
 
     template<typename TParticle1, typename TParticle2>
-    bool CheckIsolation(const TParticle1 * const Particle1, const TParticle2 * const Particle2, const float DeltaRIsolationMax) const {
+    bool CheckIsolation(const TParticle1 *const Particle1, const TParticle2 *const Particle2, const float DeltaRIsolationMax) const {
 
         bool Isolated = 1;
 
@@ -132,7 +139,7 @@ protected:
     }
 
     template<typename TParticle1, typename TParticle2>
-    bool CheckIsolation(const TParticle1 * const Particle1, const TParticle2 * const Particle2) const {
+    bool CheckIsolation(const TParticle1 *const Particle1, const TParticle2 *const Particle2) const {
 
         const float DeltaRIsolationMax = 0.01; // TODO decide on best value // This is quiet large
 
@@ -145,16 +152,16 @@ protected:
      *
      */
     const HClonesArray *ClonesArrays;
-    
+
 protected:
-    
+
     virtual string ClassName() const {
-        
+
         return ("HJet");
-        
+
     };
-    
-    
+
+
 
 private:
 

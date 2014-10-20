@@ -19,6 +19,7 @@ public:
     float DeltaR;
 
     float SubJetsDeltaR;
+    float Asymmetry;
 
     float SubJet1Mass;
     float SubJet1DeltaR;

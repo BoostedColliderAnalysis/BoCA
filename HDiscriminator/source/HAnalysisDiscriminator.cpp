@@ -94,7 +94,7 @@ void HAnalysisDiscriminator::CloseFile()
 
 }
 
-int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int WhichMother) const
+int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 {
 
     Print(3, "Get Branch Id", ParticleId);
@@ -113,16 +113,10 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int Wh
     } else if (
         HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
         && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
-        && WhichMother == 2
     ) {
         BranchId = ParticleId;
-    } else if (
-        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
-        && WhichMother == 1
-    ) {
-        BranchId = ParticleId;
-    }
-
+    } 
+    
     Print(3, "Branch Id", BranchId);
 
     return BranchId;

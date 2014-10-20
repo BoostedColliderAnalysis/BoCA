@@ -50,7 +50,7 @@ bool HJet::GetJets(const HJetDetails JetDetails)
 
 }
 
-bool HJet::GetEFlow(const HJetDetails JetDetails)
+bool HJet::ReadEFlow(const HJetDetails JetDetails)
 {
 
     Print(1, "Get EFlow", "No EFlow", JetDetails);

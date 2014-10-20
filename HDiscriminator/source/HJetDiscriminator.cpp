@@ -117,7 +117,7 @@ void HJetDiscriminator::CloseFile()
 
 }
 
-int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int WhichMother) const
+int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 {
 
     Print(3, "Get Branch Id", ParticleId);
@@ -129,22 +129,16 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId, int Wh
     }
 
     if (
-        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
-        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
+        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = IsrId;
     } else if (
-        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
-        && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
-        && WhichMother == 2
+        HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles)
+        && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
-    } else if (
-        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
-        && WhichMother == 1
-    ) {
-        BranchId = ParticleId;
-    }
+    } 
 
     Print(3, "Branch Id", BranchId);
 
@@ -199,7 +193,7 @@ bool HJetDiscriminator::Analysis()
                 abs(EFlowJet.user_index()) != 6 &&
                 EFlowJet.user_index() != 10
             )
-                cout << "EFlowId " << EFlowJet.user_index() << endl;
+//                 cout << "EFlowId " << EFlowJet.user_index() << endl;
             return 0;
 
         });
@@ -390,14 +384,16 @@ bool HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeB
         SubStructure->NewEvent();
         if (!SubStructure->GetSubJets(CandidateJet)) return 0;
 
-        Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
-        Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
-        Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
-        Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
+        Candidate->Asymmetry = SubStructure->GetAsymmetry();
+        
+        Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
+        Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
         Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
+        
+        Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
+        Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
         Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
-
 
         if (!SubStructure->GetIsolation(CandidateJet, LeptonJets)) return 0;
 

@@ -10,7 +10,7 @@
 class HDiscriminatorJetTag : public HJetTag
 {
     
-    int GetBranchId(const int, int,int) const;
+    int GetBranchId(const int, int) const;
     
     const set<int> HeavyParticles = {TopId, CpvHiggsId};
     

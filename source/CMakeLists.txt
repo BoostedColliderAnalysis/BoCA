@@ -1,4 +1,5 @@
 HInclude(${PROJECT_SOURCE_DIR}/source)
+# HInclude(".")
 
 HDictionary(HBranch HBranch.cpp ../include/HLinkDef.hh)
 

@@ -126,7 +126,7 @@ void HEventDelphes::GetEFlow()
 
     Print(2, "Get EFlow");
 
-    if (!HasEFlow) HasEFlow = Jets->GetEFlow(HJet::Plain);
+    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Plain);
 
 }
 
@@ -140,7 +140,7 @@ void HEventDelphes::GetTaggedEFlow(const HJetTag * const JetTag)
      
         Jets->JetTag = JetTag;
         
-        HasEFlow = Jets->GetEFlow(HJet::Tagging);
+        HasEFlow = Jets->ReadEFlow(HJet::Tagging);
         
     }
 
@@ -152,7 +152,7 @@ void HEventDelphes::GetIsolatedEFlow()
     
     Print(2, "Get EFlow");
     
-    if (!HasEFlow) HasEFlow = Jets->GetEFlow(HJet::Isolation);
+    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Isolation);
     
 }
 
@@ -166,7 +166,7 @@ void HEventDelphes::GetIsoaltedTaggedEFlow(const HJetTag * const JetTag)
         
         Jets->JetTag = JetTag;
         
-        HasEFlow = Jets->GetEFlow(HJet::TaggingIsolation);
+        HasEFlow = Jets->ReadEFlow(HJet::TaggingIsolation);
         
     }
     
@@ -196,7 +196,7 @@ vector<PseudoJet> HEventDelphes::GetTops()
     Print(2, "Get Tops");
 
     GetEFlow();
-    if (Jets->EFlowJets.size() > 0) TopTagger->TaggingTop(Jets->EFlowJets);
+    if (Jets->GetEFlowJets().size() > 0) TopTagger->TaggingTop(Jets->GetEFlowJets());
     vector<PseudoJet> TopJetVector = TopTagger->TopJetVector;
 
     return (TopJetVector);
@@ -251,7 +251,7 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(const HJetTag * const Jet
 //     GetParticles();
 
 //     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
-    return Discriminator->GetCandidateJets(Jets->EFlowJets,Jets->GetScalarHt());
+    return Discriminator->GetCandidateJets(Jets->GetEFlowJets(),Jets->GetScalarHt());
 
 }
 

@@ -45,7 +45,7 @@ public:
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetEFlow(const HJetDetails);
+    bool ReadEFlow(const HJetDetails);
 
     /**
      * @brief Get Tau Tag
@@ -93,18 +93,12 @@ private:
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 
-            Topology.at(ParticleNumber) = 100;
             const TObject *const Object = Clone->Particles.At(ParticleNumber);
-
-            if (Object == 0) continue;
-            if (Object->IsA() != GenParticle::Class()) continue;
+            const int MotherId = GetMotherId(Object);
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-
-            Print(2, "constituent Pt", ParticleClone->PT);
-            const int MotherId = GetMotherId(Object);
             JetInfo.AddConstituent(MotherId, ParticleClone->PT);
-            std::replace(Topology.begin(), Topology.end(), 100, MotherId);
+            Print(2, "constituent Pt", ParticleClone->PT);
             
         }
 
