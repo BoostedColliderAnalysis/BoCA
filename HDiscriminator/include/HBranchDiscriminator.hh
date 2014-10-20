@@ -4,6 +4,10 @@
 # include "TObject.h"
 
 /**
+ * \class HCandidateBranch
+ *
+ * \ingroup HDiscriminator
+ *
  * @brief Class for saving reconstructed candidates to root
  *
  */
@@ -121,25 +125,25 @@ private:
  */
 class HJetPropertiesBranch : public TObject
 {
-    
+
 public:
-    
+
     float Mass;
     float Pt;
     float Eta;
     float Phi;
     float Radius;
-    
+
     HJetPropertiesBranch();
-    
+
     virtual ~HJetPropertiesBranch();
-    
+
 private:
-    
+
     void reset();
-    
+
     ClassDef(HJetPropertiesBranch, 1)
-    
+
 };
 
 

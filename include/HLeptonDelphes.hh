@@ -4,7 +4,7 @@
 # include "HLepton.hh"
 
 /**
- * @brief calculation regarding leptons
+ * @brief Delphes leptons
  *
  */
 class HLeptonDelphes : public HLepton
@@ -18,8 +18,8 @@ public:
      *
      */
     HLeptonDelphes();
-    
-    
+
+
     /**
      * @brief destructor
      *
@@ -43,11 +43,11 @@ public:
     void GetMuons();
 
 private:
-    
+
     string ClassName() const {
-        
+
         return ("HLeptonDelphes");
-        
+
     };
 
 };

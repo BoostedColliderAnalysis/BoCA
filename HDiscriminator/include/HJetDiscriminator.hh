@@ -35,6 +35,8 @@ class HDiscriminatorJetTag : public HJetTag
 /**
  * @brief Class defining the Disciminator Analysis
  *
+ * \class HDiscriminator
+ *
  */
 class HJetDiscriminator : public HAnalysis
 {

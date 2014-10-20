@@ -4,7 +4,7 @@
 # include "HParticle.hh"
 
 /**
- * @brief stores all the information about the event topology
+ * @brief MadGraph particles
  *
  */
 class HParticleParton : public HParticle
@@ -32,11 +32,11 @@ public:
     bool GetParticles();
 
 private:
-    
+
     string ClassName() const {
-        
+
         return ("HParticleParton");
-        
+
     };
 
 };

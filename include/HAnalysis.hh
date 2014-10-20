@@ -7,20 +7,19 @@
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 # include "ExRootAnalysis/ExRootProgressBar.h"
 
+# include "HBranch.hh"
 # include "HFile.hh"
+# include "HObject.hh"
 
 # include "HEvent.hh"
 # include "HEventDelphes.hh"
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
 
-# include "HBranch.hh"
-# include "HObject.hh"
-
 using std::string;
 
 /**
- * @brief Class defining the Analysis
+ * @brief Base for all analyses
  *
  */
 class HAnalysis : public HObject

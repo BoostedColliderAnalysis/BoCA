@@ -138,7 +138,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
         && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
-    } 
+    }
 
     Print(3, "Branch Id", BranchId);
 
@@ -386,11 +386,11 @@ bool HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeB
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
-        
+
         Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
         Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
         Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
-        
+
         Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
         Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
         Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();

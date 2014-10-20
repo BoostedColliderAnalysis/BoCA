@@ -11,8 +11,7 @@
 using std::vector;
 
 /**
- * @brief Higgs Top Discriminator
- *
+ * @brief FastJet calculations
  *
  */
 class HReconstruction : public HObject

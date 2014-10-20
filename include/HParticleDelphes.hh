@@ -4,9 +4,9 @@
 # include "HParticle.hh"
 
 using std::abs;
- 
+
 /**
- * @brief handels information about truth level particles
+ * @brief delphes particles
  *
  */
 class HParticleDelphes : public HParticle
@@ -25,20 +25,20 @@ public:
      *
      */
     ~HParticleDelphes();
-    
+
     /**
      * @brief Extracts particles from Clones Array
      *
-     * @return bool 
+     * @return bool
      */
     bool GetParticles();
-      
-private:    
-    
+
+private:
+
     string ClassName() const {
-        
+
         return ("HParticleDelphes");
-        
+
     };
 
 };

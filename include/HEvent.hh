@@ -1,17 +1,17 @@
 # ifndef HEvent_hh
 # define HEvent_hh
 
+# include "HObject.hh"
 # include "HParticle.hh"
 # include "HLepton.hh"
 # include "HJet.hh"
 # include "HTopTagger.hh"
 # include "HHiggsTagger.hh"
 # include "HDiscriminator.hh"
-# include "HObject.hh"
 # include "HJetTag.hh"
 
 /**
- * @brief stores all the information about the event topology
+ * @brief Base class for the Event Topology
  *
  */
 class HEvent : public HObject
@@ -30,30 +30,42 @@ public:
      *
      */
     ~HEvent();
-        
-    virtual void NewFile(){};
-    
-    virtual void CloseFile(){};
-    
+
+    virtual void NewFile() {};
+
+    virtual void CloseFile() {};
+
     virtual void NewEvent(const HClonesArray * const) = 0;
-    
-    virtual void GetParticles(){};
 
-    virtual vector<TLorentzVector> GetLeptons(){vector<TLorentzVector> v; return v;};
+    virtual void GetParticles() {};
 
-    virtual void GetJets(){};
-    
-    virtual void GetEFlow(){};
-    
-    virtual void GetTaggedEFlow(const HJetTag *const){};
+    virtual vector<TLorentzVector> GetLeptons() {
+        vector<TLorentzVector> v;
+        return v;
+    };
 
-    virtual PseudoJet GetHiggs(){PseudoJet j; return j;};
-    
-    virtual vector<PseudoJet> GetHiggsTopCandidates(const HJetTag *const){vector<PseudoJet> v; return v;};
+    virtual void GetJets() {};
 
-    virtual vector<PseudoJet> GetTops(){vector<PseudoJet> v; return v;};
-    
-    virtual void GetTaggedJets(const HJetTag *const){};
+    virtual void GetEFlow() {};
+
+    virtual void GetTaggedEFlow(const HJetTag *const) {};
+
+    virtual PseudoJet GetHiggs() {
+        PseudoJet j;
+        return j;
+    };
+
+    virtual vector<PseudoJet> GetHiggsTopCandidates(const HJetTag *const) {
+        vector<PseudoJet> v;
+        return v;
+    };
+
+    virtual vector<PseudoJet> GetTops() {
+        vector<PseudoJet> v;
+        return v;
+    };
+
+    virtual void GetTaggedJets(const HJetTag *const) {};
 
     /**
      * @brief Particles
@@ -90,21 +102,15 @@ public:
      *
      */
     HDiscriminator *Discriminator;
-        
+
 protected:
 
-    /**
-     * @brief Clones Arrays
-     *
-     */
-//     HClonesArray *ClonesArrays;
-
 private:
-    
+
     virtual string ClassName() const {
-        
+
         return ("HEvent");
-        
+
     };
 };
 

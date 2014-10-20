@@ -12,6 +12,10 @@
 using fastjet::PseudoJet;
 using std::string;
 
+/**
+ * @brief general base class for HAnalysis
+ *
+ */
 class HObject
 {
 
@@ -116,7 +120,7 @@ public:
         }
 
     }
-    
+
 protected:
 
     template <typename TValue> int sgn(const TValue Value) const {

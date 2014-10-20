@@ -6,7 +6,6 @@
 # include "TClonesArray.h"
 # include "TTree.h"
 # include "TROOT.h"
-// # include "TNamed.h"
 
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
@@ -42,7 +41,7 @@ public:
      *
      */
     ~HFactory();
-    
+
 private:
 
     /**
@@ -100,11 +99,11 @@ private:
     void AddTree(const TFile * const, const string, const bool);
 
     HMva *Mva;
-        
+
     string ClassName() const {
-        
+
         return ("HFactory");
-        
+
     };
 
 

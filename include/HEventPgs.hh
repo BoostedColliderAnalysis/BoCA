@@ -6,7 +6,7 @@
 # include "HJetPgs.hh"
 
 /**
- * @brief stores all the information about the event topology
+ * @brief event topology for PGS events
  *
  */
 class HEventPgs : public HEvent
@@ -25,25 +25,25 @@ public:
      *
      */
     ~HEventPgs();
-    
+
     void NewEvent(const HClonesArray * const);
-    
+
     vector<TLorentzVector> GetLeptons();
-    
+
     void GetJets();
 
 private:
-    
+
     bool HasLeptons;
-    
+
     bool HasJets;
-    
+
     string ClassName() const {
-        
+
         return ("HEventPgs");
-        
+
     };
-    
+
 };
 
 #endif

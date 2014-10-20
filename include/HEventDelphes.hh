@@ -5,10 +5,9 @@
 # include "HParticleDelphes.hh"
 # include "HLeptonDelphes.hh"
 # include "HJetDelphes.hh"
-# include "HJetTag.hh"
 
 /**
- * @brief stores all the information about the event topology
+ * @brief event topology for Delphes events
  *
  */
 class HEventDelphes : public HEvent
@@ -27,47 +26,47 @@ public:
      *
      */
     ~HEventDelphes();
-    
+
     void NewFile();
-    
+
     void CloseFile();
-    
+
     void NewEvent(const HClonesArray * const);
 
     vector<TLorentzVector>GetLeptons();
 
     void GetJets();
-    
+
     void GetEFlow();
-    
+
     void GetTaggedEFlow(const HJetTag * const);
-    
+
     void GetIsolatedEFlow();
-    
+
     void GetIsoaltedTaggedEFlow(const HJetTag * const);
-    
+
     void GetParticles();
 
     PseudoJet GetHiggs();
-    
+
     vector<PseudoJet> GetHiggsTopCandidates(const HJetTag * const);
 
     vector<PseudoJet> GetTops();
-    
+
     void GetTaggedJets(const HJetTag * const);
 
 private:
-    
+
     string ClassName() const {
-        
+
         return ("HEventDelphes");
-        
+
     };
-    
+
     bool HasEFlow;
-    
+
     bool HasParticles;
-    
+
     bool HasJets;
 
 };

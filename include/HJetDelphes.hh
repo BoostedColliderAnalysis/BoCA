@@ -4,10 +4,9 @@
 # include <fastjet/ClusterSequence.hh>
 
 # include "HJet.hh"
-# include "HJetInfo.hh"
 
 /**
- * @brief stores all the information about the event topology
+ * @brief Delphes jets
  *
  */
 class HJetDelphes : public HJet
@@ -26,7 +25,7 @@ public:
      *
      */
     ~HJetDelphes();
-    
+
     /**
      * @brief Initialize new event
      *
@@ -99,11 +98,11 @@ private:
             const GenParticle *const ParticleClone = (GenParticle *) Object;
             JetInfo.AddConstituent(MotherId, ParticleClone->PT);
             Print(2, "constituent Pt", ParticleClone->PT);
-            
+
         }
 
 //         Print(4, "Jet ID", JetInfo.GetMaximalId(), JetInfo.GetMaximalFraction());
-        if (DebugLevel >= 4)JetInfo.PrintAllInfos();
+        JetInfo.PrintAllInfos(4);
 
         return JetInfo;
 

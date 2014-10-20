@@ -6,11 +6,12 @@
 # include "HClonesArray.hh"
 # include "HFourVector.hh"
 # include "HJetTag.hh"
+# include "HJetInfo.hh"
 
 using std::vector;
 
 /**
- * @brief stores all the information about the event topology
+ * @brief Base class for jets
  *
  */
 class HJet : public HFourVector

@@ -1,3 +1,10 @@
+/** \defgroup HDiscriminator HDiscriminator
+ *
+ * \brief Cp violationg Higgs
+ *
+ */
+
+
 #ifdef __MAKECINT__
 
 #pragma link off all globals;

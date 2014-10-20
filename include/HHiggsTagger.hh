@@ -2,6 +2,7 @@
 # define HHiggsTagger_hh
 
 # include "fastjet/tools/Filter.hh"
+
 # include "HReconstruction.hh"
 
 using std::min;

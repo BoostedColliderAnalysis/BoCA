@@ -5,7 +5,7 @@
 # include "HParticleParton.hh"
 
 /**
- * @brief stores all the information about the event topology
+ * @brief Event topology for unweighted MadGraph events
  *
  */
 class HEventParton : public HEvent
@@ -24,19 +24,19 @@ public:
      *
      */
     ~HEventParton();
-    
+
     void NewEvent(const HClonesArray * const);
-    
+
     void GetParticles();
 
 private:
-    
+
     bool HasParticles;
-    
+
     string ClassName() const {
-        
+
         return ("HEventParton");
-        
+
     };
 };
 

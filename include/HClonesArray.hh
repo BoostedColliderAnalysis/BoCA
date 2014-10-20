@@ -9,7 +9,7 @@
 # include "HObject.hh"
 
 /**
- * @brief small class loading the Branches into ClonesArrays
+ * @brief Base class for loading the Branches into ClonesArrays
  *
  */
 class HClonesArray : public HObject
@@ -97,7 +97,7 @@ public:
     int TauSum() const {
         return TauClonesArray->GetEntriesFast();
     };
-    
+
     int ScalerHtSum() const {
         return ScalarHtClonesArray->GetEntriesFast();
     };
@@ -201,13 +201,17 @@ public:
 private:
 
     virtual string ClassName() const {
-        
-        return ("HClonesArray");
-        
+
+        return "HClonesArray";
+
     };
 
 };
 
+/**
+ * @brief Clonesarray subclass for delphes files
+ *
+ */
 class HClonesArrayDelphes : public HClonesArray
 {
 
@@ -216,13 +220,17 @@ class HClonesArrayDelphes : public HClonesArray
 private:
 
     string ClassName() const {
-        
-        return ("HClonesArrayDelphes");
-        
+
+        return "HClonesArrayDelphes";
+
     };
 
 };
 
+/**
+ * @brief ClonesArray subclass for Scnowmass files
+ *
+ */
 class HClonesArraySnowmass : public HClonesArray
 {
 
@@ -231,13 +239,17 @@ class HClonesArraySnowmass : public HClonesArray
 private:
 
     string ClassName() const {
-        
-        return ("HClonesArraySnowmass");
-        
+
+        return "HClonesArraySnowmass";
+
     };
 
 };
 
+/**
+ * @brief ClonesArray subclass for Pgs files
+ *
+ */
 class HClonesArrayPgs : public HClonesArray
 {
 
@@ -246,13 +258,17 @@ class HClonesArrayPgs : public HClonesArray
 private:
 
     string ClassName() const {
-        
-        return ("HClonesArrayPgs");
-        
+
+        return "HClonesArrayPgs";
+
     };
 
 };
 
+/**
+ * @brief ClonesArray Subclass for unweighted MadGraph files
+ *
+ */
 class HClonesArrayParton : public HClonesArray
 {
 
@@ -261,9 +277,9 @@ class HClonesArrayParton : public HClonesArray
 private:
 
     string ClassName() const {
-        
-        return ("HClonesArrayParton");
-        
+
+        return "HClonesArrayParton";
+
     };
 
 };

@@ -9,7 +9,7 @@
 using std::sort;
 using std::vector;
 
-class Jet;
+// class Jet;
 
 /**
  * @brief calculation regarding leptons
@@ -19,25 +19,25 @@ class HLepton : public HFourVector
 {
 
 public:
-    
+
     /**
      * @brief constructor
      *
      */
     HLepton();
-        
+
     /**
      * @brief destructor
      *
      */
     ~HLepton();
-    
+
     void NewEvent(const HClonesArray * const);
-        
+
     vector<TLorentzVector> GetLeptonLorentzVectors();
-                
+
     vector<PseudoJet> GetLeptonJets();
-    
+
     /**
      * @brief Find the hardest of the light leptons
      *
@@ -45,7 +45,7 @@ public:
      * @return void
      */
     virtual void GetElectrons() = 0;
-    
+
     /**
      * @brief Find the hardest of the light leptons
      *
@@ -101,7 +101,7 @@ public:
      *
      */
     vector<TLorentzVector> AntiLeptonLorentzVectors;
-       
+
 
     /**
      * @brief Electron Lorentz Vector Vector
@@ -126,29 +126,29 @@ public:
      *
      */
     vector<PseudoJet> AntiMuonJets;
-    
+
     /**
      * @brief Lepton Lorentz Vector
      *
      */
     vector<PseudoJet> LeptonJets;
-    
+
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
     vector<PseudoJet> AntiLeptonJets;
-    
+
 protected:
-    
+
     const HClonesArray *ClonesArray;
 
 private:
-    
+
     virtual string ClassName() const {
-        
+
         return ("HLepton");
-        
+
     };
 
 };

@@ -4,7 +4,7 @@
 # include "TObject.h"
 
 /**
- * @brief Class for saving leptons to root
+ * @brief Basic tree branches
  *
  */
 class HInfoBranch : public TObject
@@ -34,21 +34,21 @@ private:
  */
 class HEventBranch : public TObject
 {
-    
+
 public:
-    
+
     float ScalarPtSum;
-    
+
     HEventBranch();
-    
+
     virtual ~HEventBranch();
-    
+
 private:
-    
+
     void reset();
-    
+
     ClassDef(HEventBranch, 1)
-    
+
 };
 
 /**
@@ -57,23 +57,23 @@ private:
  */
 class HParticleBranch : public TObject
 {
-    
+
 public:
-    
+
     float Pt;
     float Eta;
     float Phi;
-    
+
     HParticleBranch();
-    
+
     virtual ~HParticleBranch();
-    
+
 private:
-    
+
     void reset();
-    
+
     ClassDef(HParticleBranch, 1)
-    
+
 };
 
 # endif

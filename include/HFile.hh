@@ -4,7 +4,7 @@
 # include "HObject.hh"
 
 /**
- * @brief Class dealing with pathes to delphes and the root files
+ * @brief Input file infos
  *
  * ProcessFolder has to be set
  *
@@ -116,6 +116,10 @@ private:
 
 };
 
+/**
+ * @brief unweighted MadGraph files
+ *
+ */
 class HFileParton : public HFile
 {
 
@@ -134,16 +138,20 @@ public:
 
 protected:
 
-    string ClassName() const {
+    virtual string ClassName() const {
 
         return ("HFileFlat");
 
     };
-    
+
 private:
 
 };
 
+/**
+ * @brief PGS files
+ *
+ */
 class HFilePgs : public HFile
 {
 
@@ -162,16 +170,20 @@ public:
 
 protected:
 
-    string ClassName() const {
+    virtual string ClassName() const {
 
         return ("HFilePgs");
 
     };
-    
+
 private:
 
 };
 
+/**
+ * @brief Delphes files
+ *
+ */
 class HFileDelphes : public HFile
 {
 
@@ -189,16 +201,20 @@ public:
 
 protected:
 
-    string ClassName() const {
+    virtual string ClassName() const {
 
         return ("HFileDelphes");
 
     };
-    
+
 private:
 
 };
 
+/**
+ * @brief Delphes files in plain folder
+ *
+ */
 class HFileFolder : public HFile
 {
 
@@ -216,12 +232,12 @@ public:
 
 protected:
 
-    string ClassName() const {
+    virtual string ClassName() const {
 
         return ("HFileFolder");
 
     };
-    
+
 private:
 
 };

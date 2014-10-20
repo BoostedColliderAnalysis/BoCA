@@ -6,6 +6,10 @@
 # include "HBranchDiscriminator.hh"
 
 /**
+ * \class HMvaDiscriminator
+ *
+ * \ingroup HDiscriminator
+ *
  * @brief Prepares multivariant analysis
  *
  */

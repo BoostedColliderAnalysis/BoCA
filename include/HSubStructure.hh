@@ -19,13 +19,13 @@ struct HMomentum {
     float Phi;
 
     float DeltaR;
-    
+
     float Asymmetry;
 
 };
 
 /**
- * @brief stores all the information about the event topology
+ * @brief subjet and constituent calculations
  *
  */
 class HSubStructure : public HObject
@@ -42,9 +42,9 @@ public:
     bool GetSubJets(const PseudoJet &);
 
     bool GetConstituents(const PseudoJet &, ExRootTreeBranch *const);
-    
+
     bool GetIsolation(const PseudoJet &, const vector<PseudoJet>&);
-    
+
     float GetDiPolarity(const PseudoJet&);
 
     float GetSubJet1Mass() const {
@@ -103,15 +103,15 @@ public:
         return Isolation.Pt;
     };
 
-    float GetIsolationDeltaR() {
+    float GetIsolationDeltaR() const {
         return Isolation.DeltaR;
     };
 
-    float GetIsolationAngle() {
+    float GetIsolationAngle() const {
         return atan2(Isolation.Phi, Isolation.Eta);
     };
-    
-    float GetAsymmetry() {
+
+    float GetAsymmetry() const {
         return Global.Asymmetry;
     };
 
