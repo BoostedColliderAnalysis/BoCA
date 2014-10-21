@@ -43,26 +43,38 @@ public:
 
 protected:
 
+    int GetEventSum(const ExRootTreeReader * const TreeReader) const {
+
+        return min((int)TreeReader->GetEntries(), EventNumberMax);
+
+    };
+
+    ExRootTreeWriter *GetTreeWriter(TFile* ExportFile, const string ExportTreeName);
+
+    ExRootTreeReader *GetTreeReader(const HFile*const File);
+
+    TFile *GetExportFile(const string StudyName);
+
     /**
      * @brief Main Analysis function
      *
      * @return void
      */
-    virtual bool Analysis() = 0;
+    virtual bool Analysis(HEvent*,string) = 0;
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    virtual void SetFileVector() = 0;
+    virtual vector<HFile*> GetFiles() = 0;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    virtual void NewFile() = 0;
+    virtual void NewFile(ExRootTreeWriter *TreeWriter) = 0;
 
     /**
      * @brief Clean Analysis
@@ -78,116 +90,33 @@ protected:
     string ProjectName;
 
     /**
-     * @brief Tree Writer
-     *
-     */
-    ExRootTreeWriter *TreeWriter;
-
-    /**
-     * @brief Name of Analysis
-     *
-     */
-    string AnalysisName;
-
-    /**
-     * @brief vector containing the string pairs describing the path to the root file
-     *
-     */
-    vector<HFile *> FileVector;
-
-    /**
      * @brief Maximal number of Entries to analyse
      *
      */
     int EventNumberMax;
 
-    HEvent *Event;
-
-    /**
-     * @brief Clones Arrays
-     *
-     */
-    HClonesArray *ClonesArrays;
-
     bool Cut;
 
     virtual vector<string> GetStudyNames();
 
-    vector<TFile*> ExportFileVector;
+    vector<TFile*> ExportFiles;
 
-//     vector<ExRootTreeWriter*> TreeWriterVector;
-
-    string StudyName;
 
 private:
 
     void EmptyFileVector();
 
-    void NewStudy();
+    HClonesArray* GetClonesArrays(const std::vector< HFile* > Files);
 
-    void DeleteStudy();
-
-    /**
-     * @brief New Analysis
-     *
-     * @return void
-     */
-    void NewFileBase(const HFile* const File);
-
-    /**
-     * @brief
-     *
-     * @return void
-     */
-    void NewEvent();
-
-    int EventNumber;
-
-
-    void CloseFileBase();
-
-
-    /**
-     * @brief Branch containing general tree infos
-     *
-     */
-    ExRootTreeBranch *InfoBranch;
+    HEvent* GetEvent(const std::vector< HFile* > Files);
 
     /**
      * @brief Initial value outside of histogram values
      *
      */
-    int InitialValue;
+//     int InitialValue;
 
-    /**
-     * @brief Number of this Analysis
-     *
-     */
-    int FileNumber;
-
-    /**
-     * @brief Import File
-     *
-     */
-    TFile *ImportFile;
-
-    /**
-     * @brief TFile for the exportet root
-     *
-     */
-    TFile *ExportFile;
-
-    /**
-     * @brief Tree Reader
-     *
-     */
-    ExRootTreeReader *TreeReader;
-
-    TTree *ImportTree;
-
-    int EventSum;
-
-    bool AnalysisNotEmpty;
+//     bool AnalysisNotEmpty;
 
     virtual string ClassName() const {
 

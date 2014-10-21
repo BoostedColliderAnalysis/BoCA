@@ -12,9 +12,7 @@ HAnalysis::HAnalysis()
 vector<string> HAnalysis::GetStudyNames()
 {
 
-    vector<string> StudyNameVector = {ProjectName};
-
-    return StudyNameVector;
+    return {ProjectName};
 
 }
 
@@ -25,61 +23,138 @@ void HAnalysis::AnalysisLoop()
 
     Print(1,"");
 
-    vector<string> StudyNameVector = GetStudyNames();
+    const vector<string> StudyNames = GetStudyNames();
 
-    int StudySum = StudyNameVector.size();
+    const vector<HFile*> Files = GetFiles();
 
-    for (const auto &StudyNameA : StudyNameVector) {
+    for (const auto &StudyName : StudyNames) {
 
-        StudyName = StudyNameA;
         Print(1, "Analysing Mva Sample", StudyName);
 
-        NewStudy();
+        HClonesArray* ClonesArrays = GetClonesArrays(Files);
 
-        for (const auto &File : FileVector) {
+        HEvent* Event = GetEvent(Files);
 
-            Print(1, "Analysing File", FileNumber + 1);
-            NewFileBase(File);
-            
-            ExRootProgressBar ProgressBar(EventSum);
+        TFile* ExportFile = GetExportFile(StudyName);
 
-            for (EventNumber = 0; EventNumber < EventSum; ++ EventNumber) {
+        for (const auto &File : Files) {
+
+            Print(1, "Analysing File", File);
+
+            bool AnalysisNotEmpty = 0;
+
+            ExRootTreeWriter *TreeWriter = GetTreeWriter(ExportFile,File->Title());
+
+            NewFile(TreeWriter);
+
+            Event->NewFile();
+
+            ExRootTreeBranch *InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
+
+            ExRootTreeReader *TreeReader = GetTreeReader(File);
+
+            ClonesArrays->UseBranches(TreeReader);
+
+            ExRootProgressBar *ProgressBar(GetEventSum(TreeReader));
+
+            for (int EventNumber : HRange(GetEventSum(TreeReader))) {
 
                 Print(2, "Analysing Event", EventNumber + 1);
-                NewEvent();
-                //ProgressBar.Update(EventNumber); // FIXME breaks
+//                 NewEvent(StudyName,File,EventNumber);
+
+                Event->NewEvent(ClonesArrays);
+
+                TreeReader->ReadEntry(EventNumber);
+
+                const bool Successfull = Analysis(Event,StudyName);
+
+                if (Successfull) {
+
+                    AnalysisNotEmpty = 1;
+                    HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
+                    Info->Crosssection = File->Crosssection;
+                    Info->Error = File->Error;
+                    Info->EventNumber = GetEventSum(TreeReader);
+
+                    TreeWriter->Fill();
+
+                }
+
+                TreeWriter->Clear();
+
+                //ProgressBar->Update(EventNumber); // FIXME breaks
                 if (DebugLevel > 1) cout << endl;
 
             }
-            ProgressBar.Finish();
+            ProgressBar->Finish();
             //             cout << endl;
 
-            Print(1, "All Events analysed", EventSum);
-            CloseFileBase();
+            Print(1, "All Events analysed", GetEventSum(TreeReader));
+//             CloseFileBase();
+
+            if (AnalysisNotEmpty) TreeWriter->Write();
+
+            Event->CloseFile();
+            CloseFile();
+
+            ClonesArrays->ResetBranches();
+
+
+            //     delete TreeReader; // FIXME should get deleted here
+            //     Print(1, "All deleted");
+            delete TreeWriter;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             if (DebugLevel > 0) cout << endl;
 
         }
 //         Print(1, "All Files analysed", FileSum);
 
-        DeleteStudy();
+
+        delete Event;
+        delete ClonesArrays;
+
+
+        ExportFile->Close();
+
+        //     EmptyFileVector();
+
+        delete ExportFile;
+
 
     }
 
-    Print(1, "All Mva Samples analysed", StudySum);
+
+    Print(1, "All Mva Samples analysed");
 
 }
 
-void HAnalysis::NewStudy()
+HClonesArray* HAnalysis::GetClonesArrays(const vector<HFile*> Files)
 {
 
-//     Print(1, "New Mva", StudyName);
+    Print(1, "Get Clones Arrays");
 
-    EmptyFileVector();
-    SetFileVector();
+    HClonesArray* ClonesArrays;
 
-    if (FileVector.front()->GetTreeName() == "Delphes") {
+    if (Files.front()->GetTreeName() == "Delphes") {
 
-        if (FileVector.front()->Snowmass) {
+        if (Files.front()->Snowmass) {
 
             ClonesArrays = new HClonesArraySnowmass();
 
@@ -89,122 +164,100 @@ void HAnalysis::NewStudy()
 
         }
 
-        Event = new HEventDelphes();
-
-    } else if (FileVector.front()->GetTreeName() == "LHEF") {
+    } else if (Files.front()->GetTreeName() == "LHEF") {
 
         ClonesArrays = new HClonesArrayParton();
 
-        Event = new HEventParton();
-
-    } else if (FileVector.front()->GetTreeName() == "LHCO") {
+    } else if (Files.front()->GetTreeName() == "LHCO") {
 
         ClonesArrays = new HClonesArrayPgs();
+
+    } else {
+
+        Print(0, "unknown Tree String", Files.front()->GetTreeName());
+
+    }
+
+    return ClonesArrays;
+
+}
+
+
+
+
+HEvent *HAnalysis::GetEvent(const vector<HFile*> Files)
+{
+
+    Print(1, "Get Event");
+
+    HEvent* Event;
+
+    if (Files.front()->GetTreeName() == "Delphes") {
+
+        Event = new HEventDelphes();
+
+    } else if (Files.front()->GetTreeName() == "LHEF") {
+
+        Event = new HEventParton();
+
+    } else if (Files.front()->GetTreeName() == "LHCO") {
 
         Event = new HEventPgs();
 
     } else {
 
-        Print(0, "unknown Tree String", FileVector.front()->GetTreeName());
+        Print(0, "unknown Tree String", Files.front()->GetTreeName());
 
     }
 
-    // Export file
-    const string ExportName = ProjectName + "/" + StudyName + ".root";
-    ExportFile = new TFile(ExportName.c_str(), "Recreate");
-    Print(1, "ExportFile", ExportName);
+    return Event;
 
 }
 
 
-void HAnalysis::NewFileBase(const HFile * File)
-{
-    Print(1, "New File Base");
 
-    AnalysisNotEmpty = 0;
+TFile *HAnalysis::GetExportFile(const string StudyName) {
 
-    // Export tree
-    const string ExportTreeName = File->Title();
+    const string ExportName = ProjectName + "/" + StudyName + ".root";
+    TFile *ExportFile = new TFile(ExportName.c_str(), "Recreate");
+    Print(1, "ExportFile", ExportName);
+
+    return ExportFile;
+
+}
+
+
+ExRootTreeWriter *HAnalysis::GetTreeWriter(TFile * ExportFile, const string ExportTreeName) {
+
     Print(1, "ExportTreeName", ExportTreeName.c_str());
-    TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName.c_str());
+    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName.c_str());
 
-    NewFile();
+    return TreeWriter;
 
-    Event->NewFile();
+}
 
-    InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
+
+ExRootTreeReader *HAnalysis::GetTreeReader(const HFile* const File) {
 
     // Import file
-    string ImportPath = File->GetFilePath();
-    ImportFile = new TFile(ImportPath.c_str());
+    const string ImportPath = File->GetFilePath();
+    TFile* ImportFile = new TFile(ImportPath.c_str());
     Print(1, "File", ImportPath);
 
     // Import tree
-    string ImportTreeName = File->GetTreeName();
-    ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
+    const string ImportTreeName = File->GetTreeName();
+    TTree* ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
     Print(1, "Tree", ImportTreeName);
 
     // TreeReader
-    TreeReader = new ExRootTreeReader(ImportTree);
-    EventSum = min((int)TreeReader->GetEntries(), EventNumberMax);
-
-    ClonesArrays->UseBranches(TreeReader);
-
-}
+    ExRootTreeReader *TreeReader = new ExRootTreeReader(ImportTree);
 
 
-void HAnalysis::NewEvent()
-{
-    Print(2, "New Event");
+    delete ImportFile; // FIXME Possible?
 
-    Event->NewEvent(ClonesArrays);
+    delete ImportTree; // FIXME Possible?
 
-    TreeReader->ReadEntry(EventNumber);
-
-    bool Successfull = Analysis();
-
-    if (Successfull) {
-
-        AnalysisNotEmpty = 1;
-        HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
-        Info->Crosssection = FileVector[FileNumber]->Crosssection;
-        Info->Error = FileVector[FileNumber]->Error;
-        Info->EventNumber = EventSum;
-
-        TreeWriter->Fill();
-
-    }
-
-    TreeWriter->Clear();
-
-}
-
-
-void HAnalysis::CloseFileBase()
-{
-    Print(1, "Clean Analysis");
-
-    if (AnalysisNotEmpty) TreeWriter->Write();
-
-    Event->CloseFile();
-    CloseFile();
-
-    ClonesArrays->ResetBranches();
-
-
-//     delete TreeReader; // FIXME should get deleted here
-//     Print(1, "All deleted");
-    delete ImportTree;
-    delete ImportFile;
-    delete TreeWriter;
-
-
-}
-
-
-void HAnalysis::DeleteStudy()
-{
-    Print(1, "Clean Mva");
+    return TreeReader;
 
 }
 
@@ -214,27 +267,17 @@ HAnalysis::~HAnalysis()
 
     Print(1, "Destructor");
 
-    ExportFile->Close();
-
-    EmptyFileVector();
-
-    delete ExportFile;
-    delete ClonesArrays;
-    delete Event;
-
-
-
 }
 
-void HAnalysis::EmptyFileVector()
-{
-
-  for (const auto &File : FileVector) {
-
-        delete File;
-
-    }
-
-    FileVector.clear();
-
-}
+// void HAnalysis::EmptyFileVector()
+// {
+//
+//   for (const auto &File : Files) {
+//
+//         delete File;
+//
+//     }
+//
+//     Files.clear();
+//
+// }

@@ -1,9 +1,10 @@
-/** \defgroup HDiscriminator HDiscriminator
+/**
+ *
+ * \defgroup HDiscriminator HDiscriminator
  *
  * \brief Cp violationg Higgs
  *
  */
-
 
 #ifdef __MAKECINT__
 

@@ -59,21 +59,21 @@ private:
      *
      * @return void
      */
-    bool Analysis();
+    bool Analysis(HEvent* Event, string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    void SetFileVector();
+    std::vector< HFile* > GetFiles();
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile();
+    void NewFile(ExRootTreeWriter *TreeWriter);
 
     void CloseFile();
 

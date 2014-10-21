@@ -10,7 +10,7 @@ HAnalysisJetProperties::HAnalysisJetProperties()
     LeptonEventCounter = 0;
 
     EventNumberMax = 10000;
-    
+
 //     DebugLevel = 5;
 
 }
@@ -24,26 +24,29 @@ vector<string> HAnalysisJetProperties::GetStudyNameVector()
 
 }
 
-void HAnalysisJetProperties::SetFileVector()
+vector<HFile*> HAnalysisJetProperties::GetFiles()
 {
 
-    Print(1, "Set File Vector", StudyName);
+    Print(1, "Set File Vector");
 
+    vector<HFile*> Files;
 
 //     FileVector.push_back(new HFileFolder("BG_ttbb"));
-    FileVector.push_back(new HFileFolder("h2bb_ttbb"));
+    Files.push_back(new HFileFolder("h2bb_ttbb"));
 
-    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-    FileVector.front()->FileSuffix = ".root";
+    Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+    Files.front()->FileSuffix = ".root";
 //     FileVector.front()->Snowmass = 1;
 
-    int AnalysisSum = FileVector.size();
+    int AnalysisSum = Files.size();
     Print(1, "Files prepared", AnalysisSum);
+
+    return Files;
 
 }
 
 
-void HAnalysisJetProperties::NewFile()
+void HAnalysisJetProperties::NewFile(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -92,7 +95,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId) const
 }
 
 
-bool HAnalysisJetProperties::Analysis()
+bool HAnalysisJetProperties::Analysis(HEvent* Event,string StudyName)
 {
 
     Print(1, "Analysis");

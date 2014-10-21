@@ -30,13 +30,13 @@ void HAnalysis::AnalysisLoop()
 
     Print(1,"");
 
-    vector<string> StudyNameVector = GetStudyNameVector();
+    vector<string> StudyNames = GetStudyNames();
 
-    SetFileVector();
+    GetFiles();
 
-    if (FileVector.front()->GetTreeName() == "Delphes") {
+    if (Files.front()->GetTreeName() == "Delphes") {
 
-      if (FileVector.front()->Snowmass) {
+      if (Files.front()->Snowmass) {
 
         ClonesArrays = new HClonesArraySnowmass();
 
@@ -48,13 +48,13 @@ void HAnalysis::AnalysisLoop()
 
       Event = new HEventDelphes();
 
-    } else if (FileVector.front()->GetTreeName() == "LHEF") {
+    } else if (Files.front()->GetTreeName() == "LHEF") {
 
       ClonesArrays = new HClonesArrayParton();
 
       Event = new HEventParton();
 
-    } else if (FileVector.front()->GetTreeName() == "LHCO") {
+    } else if (Files.front()->GetTreeName() == "LHCO") {
 
       ClonesArrays = new HClonesArrayPgs();
 
@@ -62,7 +62,7 @@ void HAnalysis::AnalysisLoop()
 
     } else {
 
-      Print(0, "unknown Tree String", FileVector.front()->GetTreeName());
+      Print(0, "unknown Tree String", Files.front()->GetTreeName());
 
     }
 
@@ -73,11 +73,11 @@ void HAnalysis::AnalysisLoop()
         StudyName = StudyNameVector[StudyNumber];
         Print(1, "Analysing Mva Sample", StudyName);
 
-        NewStudy();
+        GetClonesArrays();
 
     }
 
-    int FileSum = FileVector.size();
+    int FileSum = Files.size();
     for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
 
         Print(1, "Analysing File", FileNumber + 1);
@@ -120,7 +120,7 @@ void HAnalysis::NewStudy()
     // Export file
     TString ExportName = ProjectName + "/" + StudyName + TString(".root");
     TFile *ExportFile = new TFile(ExportName, "Recreate");
-    ExportFileVector.push_back(ExportFile);
+    ExportFiles.push_back(ExportFile);
 
 }
 
@@ -132,12 +132,12 @@ void HAnalysis::NewFileBase()
     AnalysisNotEmpty = 0;
 
     // Export tree
-    TString ExportTreeName = FileVector[FileNumber]->Title();
+    TString ExportTreeName = Files[FileNumber]->Title();
 
     vector<string> StudyNameVector = GetStudyNameVector();
     int StudySum = StudyNameVector.size();
 
-    TreeWriter = new ExRootTreeWriter(ExportFileVector.front(), ExportTreeName);
+    TreeWriter = new ExRootTreeWriter(ExportFiles.front(), ExportTreeName);
     InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
 
@@ -148,12 +148,12 @@ void HAnalysis::NewFileBase()
 
 
     // Import file
-    TString ImportPath = FileVector[FileNumber]->GetFilePath();
+    TString ImportPath = Files[FileNumber]->GetFilePath();
     ImportFile = new TFile(ImportPath);
     Print(1, "File", ImportPath);
 
     // Import tree
-    TString ImportTreeName = FileVector[FileNumber]->GetTreeName();
+    TString ImportTreeName = Files[FileNumber]->GetTreeName();
     ImportTree = (TTree *)ImportFile->Get(ImportTreeName);
     Print(1, "Tree", ImportTreeName);
 
@@ -179,14 +179,14 @@ void HAnalysis::NewEvent()
 
 //     if (Successfull) {
 
-    Print(0,"File",ExportFileVector[Successfull]->GetName());
+    Print(0,"File",ExportFiles[Successfull]->GetName());
 
-        TreeWriter->SetTreeFile(ExportFileVector[Successfull]);
+        TreeWriter->SetTreeFile(ExportFiles[Successfull]);
 
         AnalysisNotEmpty = 1;
         HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
-        Info->Crosssection = FileVector[FileNumber]->Crosssection;
-        Info->Error = FileVector[FileNumber]->Error;
+        Info->Crosssection = Files[FileNumber]->Crosssection;
+        Info->Error = Files[FileNumber]->Error;
         Info->EventNumber = EventSum;
 
         TreeWriter->Fill();
@@ -203,9 +203,9 @@ void HAnalysis::CloseFileBase()
     Print(1, "Clean Analysis");
 
 
-    for (unsigned StudyNumber = 0; StudyNumber < ExportFileVector.size(); ++StudyNumber) {
+    for (unsigned StudyNumber = 0; StudyNumber < ExportFiles.size(); ++StudyNumber) {
 
-      TreeWriter->SetTreeFile(ExportFileVector[StudyNumber]);
+      TreeWriter->SetTreeFile(ExportFiles[StudyNumber]);
     TreeWriter->Write();
 
     }
@@ -237,9 +237,9 @@ HAnalysis::~HAnalysis()
 
     Print(1, "Destructor");
 
-    for (unsigned StudyNumber = 0; StudyNumber < ExportFileVector.size(); ++StudyNumber) {
+    for (unsigned StudyNumber = 0; StudyNumber < ExportFiles.size(); ++StudyNumber) {
 
-      ExportFileVector[StudyNumber]->Close();
+      ExportFiles[StudyNumber]->Close();
 
     }
 
@@ -257,12 +257,12 @@ HAnalysis::~HAnalysis()
 void HAnalysis::EmptyFileVector()
 {
 
-    int PathSum = FileVector.size();
+    int PathSum = Files.size();
     for (int PathNumber = 0; PathNumber < PathSum; ++PathNumber) {
 
-        delete FileVector[PathNumber];
+        delete Files[PathNumber];
 
     }
-    FileVector.clear();
+    Files.clear();
 
 }

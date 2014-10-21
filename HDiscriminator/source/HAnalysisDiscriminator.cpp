@@ -14,7 +14,7 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 //     EventNumberMax = 10000;
 
     DiscriminatorJetTag = new HDiscriminatorJetTag();
-    
+
     SubStructure = new HSubStructure();
 
 }
@@ -25,7 +25,7 @@ HAnalysisDiscriminator::~HAnalysisDiscriminator()
     Print(1, "Destructor");
 
     delete DiscriminatorJetTag;
-    
+
     delete SubStructure;
 
 }
@@ -41,42 +41,41 @@ vector<string> HAnalysisDiscriminator::GetStudyNames()
 
 }
 
-void HAnalysisDiscriminator::SetFileVector()
+vector<HFile*> HAnalysisDiscriminator::GetFiles()
 {
 
-    Print(1, "Set File Vector", StudyName);
+    Print(1, "Set File Vector");
 
-    if (StudyName != "Higgs") {
+    vector<HFile*> Files;
 
         HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
-        FileVector.push_back(Background);
-
-    }
+        Files.push_back(Background);
 
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
-    FileVector.push_back(Even);
+    Files.push_back(Even);
 
     HFileDelphes *Mix = new HFileDelphes("pp-x0tt-bblvlv", "mix");
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
-    FileVector.push_back(Mix);
+    Files.push_back(Mix);
 
     HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv", "odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
-    FileVector.push_back(Odd);
+    Files.push_back(Odd);
 
-    int AnalysisSum = FileVector.size();
-    Print(1, "Files prepared", AnalysisSum);
+    Print(1, "Files prepared");
+
+    return Files;
 
 }
 
 
-void HAnalysisDiscriminator::NewFile()
+void HAnalysisDiscriminator::NewFile(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -115,20 +114,20 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
         && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
-    } 
-    
+    }
+
     Print(3, "Branch Id", BranchId);
 
     return BranchId;
 
 }
 
-bool HAnalysisDiscriminator::Analysis()
+bool HAnalysisDiscriminator::Analysis(HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
 
-    const vector<PseudoJet> Leptons = GetLeptonJets();
+    const vector<PseudoJet> Leptons = GetLeptonJets(Event);
 
     if (Leptons.size() < 2) {
 
@@ -265,11 +264,11 @@ bool HAnalysisDiscriminator::Analysis()
         Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
         Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
         Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
-        
+
         Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
         Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
         Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
-        
+
         SubStructure->GetIsolation(CandidateJet,Leptons);
 
         Candidate->IsolationEta = SubStructure->GetIsolationEta();
@@ -279,9 +278,9 @@ bool HAnalysisDiscriminator::Analysis()
         Candidate->IsolationAngle = SubStructure->GetIsolationAngle();
 
         Print(3, "Isolation", Candidate->IsolationDeltaR);
-        
+
         if(!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) return 0;
-        
+
         Candidate->ConstEta = SubStructure->GetConstituentEta();
         Candidate->ConstPhi = SubStructure->GetConstituentPhi();
         Candidate->ConstDeltaR = SubStructure->GetConstituentDeltaR();
@@ -301,7 +300,7 @@ bool HAnalysisDiscriminator::Analysis()
 }
 
 
-vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets()
+vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets(HEvent* Event)
 {
 
 // Lepton Stuff

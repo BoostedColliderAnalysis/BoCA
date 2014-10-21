@@ -32,29 +32,29 @@ private:
      *
      * @return void
      */
-    bool Analysis();
+    bool Analysis(HEvent* Event, const string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    void SetFileVector();
+    vector< HFile* > GetFiles();
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile();
+    void NewFile(ExRootTreeWriter* TreeWriter);
 
     void CloseFile();
 
     vector<string> GetStudyNameVector();
 
-    void FillBranch(PseudoJet, PseudoJet);
+    void FillBranch(HEvent* Event, PseudoJet FrontJet, PseudoJet BackJet);
 
-    float Leptons(PseudoJet);
+    float Leptons(HEvent* Event, PseudoJet Jet);
 
 //     bool JetIsBottom(const PseudoJet &Jet);
 
@@ -64,9 +64,9 @@ private:
 
     };
 
-    bool Signal();
-    bool Test();
-    bool Background();
+    bool Signal(HEvent* Event);
+    bool Test(HEvent* Event);
+    bool Background(HEvent* Event);
 
     /**
      * @brief Branch to write Heavy Higgs info into

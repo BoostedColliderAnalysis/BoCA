@@ -13,24 +13,28 @@ HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 
 }
 
-void HAnalysisHeavyHiggsPgs::SetFileVector()
+vector<HFile*> HAnalysisHeavyHiggsPgs::GetFiles()
 {
 
-    Print(1, "Fill Analysis Vector", AnalysisName);
+    Print(1, "Fill Analysis Vector");
 
-    FileVector.push_back(new HFileFolder("Signal_5f"));
-    FileVector.push_back(new HFileFolder("5f_10k_Pt20"));
+    vector<HFile*> Files;
+
+    Files.push_back(new HFileFolder("Signal_5f"));
+    Files.push_back(new HFileFolder("5f_10k_Pt20"));
 
 //     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-    FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
-    FileVector.front()->FileSuffix = "_PGS.root";
-    FileVector.front()->TreeString = "LHCO";
+    Files.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
+    Files.front()->FileSuffix = "_PGS.root";
+    Files.front()->TreeString = "LHCO";
 
-    Print(1, "Files prepared", FileVector.size());
+    Print(1, "Files prepared", Files.size());
+
+    return Files;
 
 }
 
-void HAnalysisHeavyHiggsPgs::NewFile()
+void HAnalysisHeavyHiggsPgs::NewFile(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -66,7 +70,7 @@ void HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-bool HAnalysisHeavyHiggsPgs::Analysis()
+bool HAnalysisHeavyHiggsPgs::Analysis(HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis");
@@ -78,11 +82,11 @@ bool HAnalysisHeavyHiggsPgs::Analysis()
     Print(2, "BJet Sum", BJets.size());
 
 //     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
-// 
+//
 //         Print(2, "BJet Pt", BJets[BJetNumber].pt());
-// 
+//
 //     }
-// 
+//
 // //     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
 // //
 // //         if (BJets[BJetNumber].pt() < 1 || BJets[BJetNumber].pt() > 10000) {
@@ -91,20 +95,20 @@ bool HAnalysisHeavyHiggsPgs::Analysis()
 // //
 // //         }
 // //     }
-// 
+//
 //     BJets.erase(std::remove_if(BJets.begin(), BJets.end(), [](PseudoJet Jet) {
 //         return Jet.pt() > 1000000;
 //     }), BJets.end());
 //     BJets.erase(std::remove_if(BJets.begin(), BJets.end(), [](PseudoJet Jet) {
 //         return Jet.pt() < 1;
 //     }), BJets.end());
-// 
+//
 //     Print(2, "BJet Sum", BJets.size());
-// 
+//
 //     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
-// 
+//
 //         Print(2, "BJet Pt", BJets[BJetNumber].pt());
-// 
+//
 //     }
 
 

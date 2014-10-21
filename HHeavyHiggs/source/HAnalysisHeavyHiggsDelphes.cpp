@@ -25,27 +25,30 @@ vector<string> HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 
 }
 
-void HAnalysisHeavyHiggsDelphes::SetFileVector()
+vector<HFile*> HAnalysisHeavyHiggsDelphes::GetFiles()
 {
 
-    Print(1, "Fill Analysis Vector", AnalysisName);
+    Print(1, "Fill Analysis Vector");
 
+    vector<HFile*> Files;
 
-    FileVector.push_back(new HFileFolder("BG_ttbb"));
-    FileVector.push_back(new HFileFolder("hcpbb_ttbb"));
+    Files.push_back(new HFileFolder("BG_ttbb"));
+    Files.push_back(new HFileFolder("hcpbb_ttbb"));
 
-    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+    Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
-    FileVector.front()->FileSuffix = ".root";
-    FileVector.front()->Snowmass = 1;
+    Files.front()->FileSuffix = ".root";
+    Files.front()->Snowmass = 1;
 
 //     FileVector.push_back(new HFileDelphes("pp-bbtt-4f", "background"));
 
-    Print(1, "Files prepared", FileVector.size());
+    Print(1, "Files prepared");
+
+    return Files;
 
 }
 
-void HAnalysisHeavyHiggsDelphes::NewFile()
+void HAnalysisHeavyHiggsDelphes::NewFile(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -78,34 +81,34 @@ void HAnalysisHeavyHiggsDelphes::CloseFile()
 
 }
 
-bool HAnalysisHeavyHiggsDelphes::Analysis()
+bool HAnalysisHeavyHiggsDelphes::Analysis(HEvent *Event, const string StudyName)
 {
 
-    Print(2, "Analysis", AnalysisName);
+    Print(2, "Analysis");
 
     bool Success = 0;
 
     Event->GetLeptons();
 
-    if (StudyName == "Signal") Success = Signal();
-    if (StudyName == "Background") Success = Background();
-    if (StudyName == "Test")  Success = Test();
+    if (StudyName == "Signal") Success = Signal(Event);
+    if (StudyName == "Background") Success = Background(Event);
+    if (StudyName == "Test")  Success = Test(Event);
 
     return Success;
 
 }
 
 class HHeavyHiggsJetTag : public HJetTag {
-    
+
     int GetBranchId(int, int);
-    
+
 };
 
 int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
-    
+
     Print(2, "Get Mother Id");
-    
+
     if (InitialState.find(abs(ParticleId)) != end(InitialState) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
         BranchId = IsrId;
     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
@@ -113,12 +116,12 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
     } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
         BranchId = ParticleId;
     }
-    
+
     Print(4, "Mother Id", BranchId);
-    
-    
+
+
     return BranchId;
-    
+
 }
 
 // bool HAnalysisHeavyHiggsDelphes::JetIsBottom(const PseudoJet &Jet)
@@ -129,7 +132,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 // }
 
 
-bool HAnalysisHeavyHiggsDelphes::Signal()
+bool HAnalysisHeavyHiggsDelphes::Signal(HEvent* Event)
 {
 
     Print(2, "Signal");
@@ -156,14 +159,14 @@ bool HAnalysisHeavyHiggsDelphes::Signal()
     PseudoJet FrontJet = BottomJetVector.front();
     PseudoJet BackJet = BottomJetVector.back();
 
-    FillBranch(FrontJet, BackJet);
+    FillBranch(Event,FrontJet, BackJet);
 
     return 1;
 
 }
 
 
-bool HAnalysisHeavyHiggsDelphes::Background()
+bool HAnalysisHeavyHiggsDelphes::Background(HEvent* Event)
 {
 
     Print(2, "Background");
@@ -208,7 +211,7 @@ bool HAnalysisHeavyHiggsDelphes::Background()
 
                 }
 
-                FillBranch(FrontJet, BackJet);
+                FillBranch(Event,FrontJet, BackJet);
 
             }
 
@@ -238,7 +241,7 @@ bool HAnalysisHeavyHiggsDelphes::Background()
 
                 }
 
-                FillBranch(FrontJet, BackJet);
+                FillBranch(Event,FrontJet, BackJet);
 
             }
 
@@ -250,7 +253,7 @@ bool HAnalysisHeavyHiggsDelphes::Background()
 
 }
 
-bool HAnalysisHeavyHiggsDelphes::Test()
+bool HAnalysisHeavyHiggsDelphes::Test(HEvent* Event)
 {
 
     Print(2, "Test");
@@ -279,7 +282,7 @@ bool HAnalysisHeavyHiggsDelphes::Test()
 
             }
 
-            FillBranch(FrontJet, BackJet);
+            FillBranch(Event,FrontJet, BackJet);
 
         }
 
@@ -288,7 +291,7 @@ bool HAnalysisHeavyHiggsDelphes::Test()
     return 1;
 
 }
-void HAnalysisHeavyHiggsDelphes::FillBranch(PseudoJet FrontJet, PseudoJet BackJet)
+void HAnalysisHeavyHiggsDelphes::FillBranch(HEvent* Event,PseudoJet FrontJet, PseudoJet BackJet)
 {
 
     float FrontPt = FrontJet.pt();
@@ -306,7 +309,7 @@ void HAnalysisHeavyHiggsDelphes::FillBranch(PseudoJet FrontJet, PseudoJet BackJe
     float SumPhi = FrontPhi + BackPhi; // FIXME constrain this
     float DeltaPt = FrontPt - BackPt;
 
-    float Isolation = min(Leptons(FrontJet), Leptons(BackJet));
+    float Isolation = min(Leptons(Event,FrontJet), Leptons(Event,BackJet));
 
     HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
@@ -332,7 +335,7 @@ void HAnalysisHeavyHiggsDelphes::FillBranch(PseudoJet FrontJet, PseudoJet BackJe
 }
 
 
-float HAnalysisHeavyHiggsDelphes::Leptons(PseudoJet Jet)
+float HAnalysisHeavyHiggsDelphes::Leptons(HEvent* Event,PseudoJet Jet)
 {
 
     float Isolation;

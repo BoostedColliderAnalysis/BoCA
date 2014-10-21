@@ -11,31 +11,35 @@ HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 
     EventNumberMax = 10000;
 
-    ClonesArrays = new HClonesArrayParton();
+//     ClonesArrays = new HClonesArrayParton();
 
-    Event = new HEventParton();
+//     Event = new HEventParton();
 
     Cut = 0;
 
 }
 
-void HAnalysisHeavyHiggsParton::SetFileVector()
+vector<HFile*> HAnalysisHeavyHiggsParton::GetFiles()
 {
 
-    Print(1, "Fill Analysis Vector", AnalysisName);
+    Print(1, "Fill Analysis Vector");
 
-    FileVector.push_back(new HFileFolder("Background/4f_10k"));
-    FileVector.push_back(new HFileFolder("Signal/Signal_5f"));
+    vector<HFile*> Files;
 
-    FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-    FileVector.front()->FileSuffix = "_MG5.root";
-    FileVector.front()->TreeString = "LHEF";
+    Files.push_back(new HFileFolder("Background/4f_10k"));
+    Files.push_back(new HFileFolder("Signal/Signal_5f"));
 
-    Print(1, "Files prepared", FileVector.size());
+    Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+    Files.front()->FileSuffix = "_MG5.root";
+    Files.front()->TreeString = "LHEF";
+
+    Print(1, "Files prepared", Files.size());
+
+    return Files;
 
 }
 
-void HAnalysisHeavyHiggsParton::NewFile()
+void HAnalysisHeavyHiggsParton::NewFile(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -66,10 +70,10 @@ void HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-bool HAnalysisHeavyHiggsParton::Analysis()
+bool HAnalysisHeavyHiggsParton::Analysis(HEvent* Event,string)
 {
 
-    Print(2, "Analysis", AnalysisName);
+    Print(2, "Analysis");
 
     HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 

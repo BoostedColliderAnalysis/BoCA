@@ -39,42 +39,43 @@ vector<string> HJetDiscriminator::GetStudyNames()
 
 }
 
-void HJetDiscriminator::SetFileVector()
+vector<HFile*> HJetDiscriminator::GetFiles()
 {
 
-    Print(1, "Set File Vector", StudyName);
+    Print(1, "Set File Vector");
 
-    if (StudyName != "Higgs") {
+    vector<HFile*> Files;
+//     if (StudyName != "Higgs") {
 
         HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
-        FileVector.push_back(Background);
+        Files.push_back(Background);
 
-    }
+//     }
 
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
-    FileVector.push_back(Even);
+    Files.push_back(Even);
 
     HFileDelphes *Mix = new HFileDelphes("pp-x0tt-bblvlv", "mix");
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
-    FileVector.push_back(Mix);
+    Files.push_back(Mix);
 
     HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv", "odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
-    FileVector.push_back(Odd);
+    Files.push_back(Odd);
 
-    int AnalysisSum = FileVector.size();
-    Print(1, "Files prepared", AnalysisSum);
+    Print(1, "Files prepared");
 
+    return Files;
 }
 
 
-void HJetDiscriminator::NewFile()
+void HJetDiscriminator::NewFile(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -147,12 +148,12 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 }
 
 
-bool HJetDiscriminator::Analysis()
+bool HJetDiscriminator::Analysis(HEvent* Event,string StudyName)
 {
 
     Print(3, "Analysis");
 
-    const vector<PseudoJet> LeptonJets = Leptons();
+    const vector<PseudoJet> LeptonJets = Leptons(Event);
 
     if (LeptonJets.size() < 2) {
 
@@ -452,7 +453,7 @@ float HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
 
 }
 
-vector<PseudoJet> HJetDiscriminator::Leptons()
+vector<PseudoJet> HJetDiscriminator::Leptons(HEvent* Event)
 {
 
     // Lepton Stuff

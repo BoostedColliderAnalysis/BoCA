@@ -10,6 +10,83 @@
 
 # include "fastjet/PseudoJet.hh"
 
+
+
+
+
+
+
+
+
+
+#include <boost/preprocessor.hpp>
+
+#define X_DEFINE_ENUM_WITH_STRING_CONVERSIONS_TOSTRING_CASE(r, data, elem) \
+case elem : return BOOST_PP_STRINGIZE(elem);
+
+#define DEFINE_ENUM_WITH_STRING_CONVERSIONS(name, enumerators) \
+enum name { \
+  BOOST_PP_SEQ_ENUM(enumerators) \
+}; \
+\
+inline const char* ToString(name v) \
+{ \
+  switch (v) \
+  { \
+    BOOST_PP_SEQ_FOR_EACH( \
+      X_DEFINE_ENUM_WITH_STRING_CONVERSIONS_TOSTRING_CASE, \
+      name, \
+      enumerators \
+      ) \
+    default: return "[Unknown " BOOST_PP_STRINGIZE(name) "]"; \
+  } \
+}
+
+
+
+
+
+
+
+
+
+
+
+
+class HRange {
+
+private:
+
+  int Last;
+
+  int Iter;
+
+public:
+
+  HRange(int End):
+  Last(End),
+  Iter(0)
+  {}
+
+  // Iterable functions
+  const HRange& begin() const { return *this; }
+  const HRange& end() const { return *this; }
+
+  // Iterator functions
+  bool operator!=(const HRange&) const { return Iter < Last; }
+  void operator++() { ++Iter; }
+  int operator*() const { return Iter; }
+
+};
+
+
+
+
+
+
+
+
+
 using fastjet::PseudoJet;
 using std::string;
 
@@ -172,7 +249,7 @@ protected:
     };
 
     enum HParticleId {
-        EmptyId = 0,
+        EmptyId = 0,///> 0
         DownId = 1,
         UpId = 2,
         StrangeId = 3,

@@ -17,24 +17,26 @@ vector<string> HAnalysisTest::GetStudyNameVector(){
 
 }
 
-void HAnalysisTest::SetFileVector()
+vector<HFile*> HAnalysisTest::GetFiles()
 {
 
-    Print(1, "Set File Vector", StudyName);
+    Print(1, "Set File Vector");
+
+    vector<HFile*> Files;
 
     HFileDelphes *Background = new HFileDelphes("pp-ttbb");
-        FileVector.push_back(Background);
+        Files.push_back(Background);
 
 //     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv","even");
 //     FileVector.push_back(Even);
 
-    int AnalysisSum = FileVector.size();
-    Print(1, "Files prepared", AnalysisSum);
+    Print(1, "Files prepared");
 
+    return Files;
 }
 
 
-void HAnalysisTest::NewFile()
+void HAnalysisTest::NewFile(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -49,16 +51,16 @@ void HAnalysisTest::CloseFile()
 }
 
 class HHeavyHiggsJetTag : public HJetTag {
-    
+
     int GetBranchId(int, int);
-    
+
 };
 
 int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
-    
+
     Print(2, "Get Mother Id");
-    
+
     if (InitialState.find(abs(ParticleId)) != end(InitialState) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
         BranchId = IsrId;
     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
@@ -66,19 +68,19 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
     } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
         BranchId = ParticleId;
     }
-    
+
     Print(4, "Mother Id", BranchId);
-    
-    
+
+
     return BranchId;
-    
+
 }
 
-bool HAnalysisTest::Analysis()
+bool HAnalysisTest::Analysis(HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
-    
+
     const HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
     Event->GetTaggedJets(HeavyHiggsJetTag);
 

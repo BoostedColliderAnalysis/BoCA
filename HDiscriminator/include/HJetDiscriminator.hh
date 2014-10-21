@@ -145,7 +145,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> Leptons();
+    vector<PseudoJet> Leptons(HEvent* Event);
 
     /**
      * @brief Lepton calculations
@@ -168,21 +168,21 @@ private:
      *
      * @return void
      */
-    bool Analysis();
+    bool Analysis(HEvent* Event, string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    void SetFileVector();
+    std::vector< HFile* > GetFiles();
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile();
+    void NewFile(ExRootTreeWriter* TreeWriter);
 
     void CloseFile();
 
