@@ -186,7 +186,7 @@ private:
 
     void CloseFile();
 
-    vector<string> GetStudyNameVector();
+    vector<string> GetStudyNames();
 
     virtual string ClassName() const {
 

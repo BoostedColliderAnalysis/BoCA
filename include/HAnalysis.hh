@@ -111,7 +111,7 @@ protected:
 
     bool Cut;
 
-    virtual vector<string> GetStudyNameVector();
+    virtual vector<string> GetStudyNames();
 
     vector<TFile*> ExportFileVector;
 

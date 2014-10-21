@@ -11,7 +11,7 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 
 //     DebugLevel = 3;
 
-    EventNumberMax = 10000;
+//     EventNumberMax = 10000;
 
     DiscriminatorJetTag = new HDiscriminatorJetTag();
     
@@ -30,7 +30,7 @@ HAnalysisDiscriminator::~HAnalysisDiscriminator()
 
 }
 
-vector<string> HAnalysisDiscriminator::GetStudyNameVector()
+vector<string> HAnalysisDiscriminator::GetStudyNames()
 {
 
 //     vector<string> StudyNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
@@ -128,11 +128,11 @@ bool HAnalysisDiscriminator::Analysis()
 
     Print(2, "Analysis", StudyName);
 
-    const vector<PseudoJet> LeptonVector = Leptons();
+    const vector<PseudoJet> Leptons = GetLeptonJets();
 
-    if (LeptonVector.size() < 2) {
+    if (Leptons.size() < 2) {
 
-        Print(2, "Not enough Leptons", LeptonVector.size());
+        Print(2, "Not enough Leptons", Leptons.size());
         return 0;
 
     }
@@ -258,16 +258,19 @@ bool HAnalysisDiscriminator::Analysis()
         SubStructure->NewEvent();
         if (!SubStructure->GetSubJets(CandidateJet)) return 0;
 
-        Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
-        Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
-        Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
-        Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
-        Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
-        Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
+        Candidate->Asymmetry= SubStructure->GetAsymmetry();
+        Candidate->DeltaR= SubStructure->GetDeltaR();
 
+        Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
+        Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
+        Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
         
-        SubStructure->GetIsolation(CandidateJet,LeptonVector);
+        Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
+        Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
+        Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
+        
+        SubStructure->GetIsolation(CandidateJet,Leptons);
 
         Candidate->IsolationEta = SubStructure->GetIsolationEta();
         Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
@@ -298,7 +301,7 @@ bool HAnalysisDiscriminator::Analysis()
 }
 
 
-vector<PseudoJet> HAnalysisDiscriminator::Leptons()
+vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets()
 {
 
 // Lepton Stuff
@@ -306,8 +309,8 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
 
     Event->GetLeptons();
 
-    vector<PseudoJet> LeptonVector = Event->Lepton->LeptonJets;
-    vector<PseudoJet> AntiLeptonVector = Event->Lepton->AntiLeptonJets;
+    vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
+    vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
 //     vector<TLorentzVector> LeptonVector = Event->Leptons->LeptonLorentzVectorVector;
 //     vector<TLorentzVector> AntiLeptonVector = Event->Leptons->AntiLeptonLorentzVectorVector;
@@ -316,11 +319,11 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
 //     vector<TLorentzVector> LeptonVector = Event->Particle->LeptonVector();
 //     vector<TLorentzVector> AntiLeptonVector = Event->Particle->AntiLeptonVector();
 
-    sort(LeptonVector.begin(), LeptonVector.end(), SortJetByPt());
-    sort(AntiLeptonVector.begin(), AntiLeptonVector.end(), SortJetByPt());
+    sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
+    sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
 
     bool HardestLepton = 1;
-    for (const auto & LeptonJet : LeptonVector) {
+    for (const auto & LeptonJet : LeptonJets) {
 
         if (HardestLepton) {
 
@@ -340,7 +343,7 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
     }
 
     HardestLepton = 1;
-    for (const auto & AntiLeptonJet : AntiLeptonVector) {
+    for (const auto & AntiLeptonJet : AntiLeptonJets) {
 
         if (HardestLepton) {
 
@@ -360,11 +363,11 @@ vector<PseudoJet> HAnalysisDiscriminator::Leptons()
 
     }
 
-    LeptonVector.insert(LeptonVector.end(), AntiLeptonVector.begin(), AntiLeptonVector.end());
+    LeptonJets.insert(LeptonJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
 
-    Print(2, "Number of Leptons", LeptonVector.size());
+    Print(2, "Number of Leptons", LeptonJets.size());
 
-    return LeptonVector;
+    return LeptonJets;
 
 }
 

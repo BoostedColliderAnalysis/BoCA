@@ -1,7 +1,7 @@
 # ifndef HJetDelphes_hh
 # define HJetDelphes_hh
 
-# include <fastjet/ClusterSequence.hh>
+// # include <fastjet/ClusterSequence.hh>
 
 # include "HJet.hh"
 
@@ -81,11 +81,9 @@ private:
 
     vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>);
 
-    template <typename Template>
-    HJetInfo GetJetId(const Template &Clone) {
+    template <typename TClone>
+    HJetInfo GetJetId(const TClone &Clone) {
 
-
-        Print(3, "");
         Print(2, "Get Jet Id", Clone->Particles.GetEntriesFast());
 
         HJetInfo JetInfo;
@@ -96,14 +94,11 @@ private:
             const int MotherId = GetMotherId(Object);
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-            JetInfo.AddConstituent(MotherId, ParticleClone->PT);
-            Print(2, "constituent Pt", ParticleClone->PT);
+            JetInfo.AddConstituent(MotherId, fabs(ParticleClone->Mass));
 
         }
 
-//         Print(4, "Jet ID", JetInfo.GetMaximalId(), JetInfo.GetMaximalFraction());
         JetInfo.PrintAllInfos(4);
-
         return JetInfo;
 
     }
@@ -127,7 +122,7 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    int GetMotherId(GenParticle *ParticleClone, int BranchId, int/*,int**/);
+    int GetMotherId(GenParticle *ParticleClone, int BranchId, int);
 
     void GetDelphesTags(const Jet *const);
 

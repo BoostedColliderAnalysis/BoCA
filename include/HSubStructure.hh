@@ -20,8 +20,6 @@ struct HMomentum {
 
     float DeltaR;
 
-    float Asymmetry;
-
 };
 
 /**
@@ -112,7 +110,11 @@ public:
     };
 
     float GetAsymmetry() const {
-        return Global.Asymmetry;
+        return Asymmetry;
+    };
+    
+    float GetDeltaR() const {
+        return DeltaR;
     };
 
 protected:
@@ -124,7 +126,10 @@ protected:
     };
 
 private:
-
+        
+    float Asymmetry;
+    
+    float DeltaR;
 
     HMomentum Global;
 

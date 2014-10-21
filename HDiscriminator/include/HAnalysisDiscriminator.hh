@@ -95,7 +95,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> Leptons();
+    vector<PseudoJet> GetLeptonJets();
 
     /**
      * @brief Lepton event counter
@@ -126,7 +126,7 @@ private:
 
     void CloseFile();
 
-    vector<string> GetStudyNameVector();
+    vector<string> GetStudyNames();
 
     virtual string ClassName() const {
 

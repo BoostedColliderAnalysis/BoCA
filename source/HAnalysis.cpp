@@ -9,7 +9,7 @@ HAnalysis::HAnalysis()
 
 }
 
-vector<string> HAnalysis::GetStudyNameVector()
+vector<string> HAnalysis::GetStudyNames()
 {
 
     vector<string> StudyNameVector = {ProjectName};
@@ -25,7 +25,7 @@ void HAnalysis::AnalysisLoop()
 
     Print(1,"");
 
-    vector<string> StudyNameVector = GetStudyNameVector();
+    vector<string> StudyNameVector = GetStudyNames();
 
     int StudySum = StudyNameVector.size();
 

@@ -29,28 +29,6 @@ public:
     ~HDiscriminator();
 
     /**
-     * @brief New File
-     *
-     * @return void
-     */
-    void NewFile();
-
-    /**
-     * @brief Clean after end of Analysis
-     *
-     * @return void
-     */
-
-    void CloseFile();
-
-    /**
-     * @brief New Event
-     *
-     * @return void
-     */
-    void NewEvent();
-
-    /**
      * @brief Get Fat Higgs Jets
      *
      * @param  EFlow Jet Vector

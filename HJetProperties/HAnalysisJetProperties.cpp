@@ -149,8 +149,8 @@ bool HAnalysisJetProperties::Analysis()
 
     for (const auto & Id : IdVector) {
 
-        vector<PseudoJet> EFlowJetVector;
-        std::copy_if(Event->Jets->EFlowJets.begin(), Event->Jets->EFlowJets.end(), std::back_inserter(EFlowJetVector),
+        vector<PseudoJet> EFlowJets;
+        std::copy_if(Event->Jets->EFlowJets.begin(), Event->Jets->EFlowJets.end(), std::back_inserter(EFlowJets),
         [Id](const PseudoJet & EFlowJet) {
 
             if (EFlowJet.user_index() == Id) return 1;
@@ -164,7 +164,7 @@ bool HAnalysisJetProperties::Analysis()
 
         });
 
-        if (EFlowJetVector.size() == 0) {
+        if (EFlowJets.size() == 0) {
 
             Print(1, "NoEflow", Id);
 
@@ -172,23 +172,23 @@ bool HAnalysisJetProperties::Analysis()
 
         }
 
-        const PseudoJet CandidateJet = fastjet::join(EFlowJetVector);
+        const PseudoJet CandidateJet = fastjet::join(EFlowJets);
 
-        vector<float> DistanceVector;
+        vector<float> Distances;
 
-        for (const auto & EFlowJet : EFlowJetVector) {
+        for (const auto & EFlowJet : EFlowJets) {
 
-            DistanceVector.push_back(CandidateJet.delta_R(EFlowJet));
+            Distances.push_back(CandidateJet.delta_R(EFlowJet));
 
         }
 
 
-        std::nth_element(DistanceVector.begin(), DistanceVector.begin() + DistanceVector.size() / 2, DistanceVector.end());
+        std::nth_element(Distances.begin(), Distances.begin() + Distances.size() / 2, Distances.end());
 
 //     Print(0, "Median", DistanceVector[DistanceVector.size() * 0.68]);
 
         float RMax = 0;
-        for (const auto & EFlowJet : EFlowJetVector) {
+        for (const auto & EFlowJet : EFlowJets) {
 
             float DeltaR = CandidateJet.delta_R(EFlowJet);
             if (DeltaR > RMax) RMax = DeltaR;
@@ -205,13 +205,13 @@ bool HAnalysisJetProperties::Analysis()
         Jet->Pt = CandidateJet.pt();
         Jet->Eta = CandidateJet.eta();
         Jet->Phi = CandidateJet.phi_std();
-        Jet->Radius = DistanceVector[int(DistanceVector.size() * 0.68)];
+        Jet->Radius = Distances[int(Distances.size() * 0.68)];
         Jet->JetPtSum = 1. / PtSum;
 //         Jet->PtSum= 1. / (PtSum + LeptonJetVector[0].pt() + LeptonJetVector[1].pt());
 
 
 
-        for (const auto & EFlowJet : EFlowJetVector) {
+        for (const auto & EFlowJet : EFlowJets) {
 
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
             Constituent->Eta = EFlowJet.eta() - CandidateJet.eta();

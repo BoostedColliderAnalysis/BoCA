@@ -28,7 +28,7 @@ HJetDiscriminator::~HJetDiscriminator()
 
 }
 
-vector<string> HJetDiscriminator::GetStudyNameVector()
+vector<string> HJetDiscriminator::GetStudyNames()
 {
 
 //     vector<string> StudyNameVector = {"Higgs", "Top", "Isr"};
@@ -193,7 +193,7 @@ bool HJetDiscriminator::Analysis()
                 abs(EFlowJet.user_index()) != 6 &&
                 EFlowJet.user_index() != 10
             )
-//                 cout << "EFlowId " << EFlowJet.user_index() << endl;
+                cout << "EFlowId " << EFlowJet.user_index() << endl;
             return 0;
 
         });

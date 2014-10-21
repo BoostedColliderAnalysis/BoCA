@@ -54,9 +54,7 @@ float HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2,
 
     Print(3, "GetDistance");
 
-    float const Distance = sqrt(pow((Eta2 - Eta1), 2) + pow(GetDeltaPhi(Phi2, Phi1), 2));
-
-    return Distance;
+    return( sqrt(pow((Eta2 - Eta1), 2) + pow(GetDeltaPhi(Phi2, Phi1), 2)));
 
 }
 
@@ -65,9 +63,7 @@ float HObject::GetDistance(const float Eta, const float Phi) const
 
     Print(3, "GetDistance");
 
-    float const Distance = sqrt(pow(Eta, 2) + pow(Phi, 2));
-
-    return Distance;
+    return (sqrt(pow(Eta, 2) + pow(Phi, 2)));
 
 }
 

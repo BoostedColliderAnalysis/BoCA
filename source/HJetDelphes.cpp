@@ -59,8 +59,8 @@ bool HJetDelphes::GetJets(HJetDetails JetDetails)
 
         GetDelphesTags(JetClone);
 
-//         Jets[JetNumber].user_info<HJetInfo>().PrintAllInfos();
-        Print(0, "Tag", Jets[JetNumber].user_info<HJetInfo>().GetMaximalId(), Jets[JetNumber].user_info<HJetInfo>().GetMaximalFraction());
+//         Jets.at(JetNumber).user_info<HJetInfo>().PrintAllInfos();
+        Print(0, "Tag", Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalFraction());
 
     }
 
@@ -118,7 +118,7 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
     Print(3, "Get Mother Id", ClonesArrays->ParticleSum());
 
-    if (Topology.size() != ClonesArrays->ParticleSum()) {
+    if (abs(Topology.size()) != ClonesArrays->ParticleSum()) {
         Print(2, "Resize", Topology.size(), ClonesArrays->ParticleSum()); // FIXME why is this necessary
         Topology.assign(ClonesArrays->ParticleSum(), EmptyId);
     }
@@ -130,10 +130,9 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
     }
 
-    GenParticle *const ParticleClone = (GenParticle *) Object;
-
     int MotherId = EmptyId;
     const int Position = ClonesArrays->ParticleClonesArray->IndexOf(Object);
+    GenParticle *const ParticleClone = (GenParticle *) Object;
 
     MotherId = GetMotherId(ParticleClone, MotherId, Position);
 
@@ -155,29 +154,30 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId, int Posit
 
         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
-        
-        if (Topology.at(Position) != EmptyId && Topology.at(Position) != TemporaryId) break;
+
+        if (Topology.at(Position) != EmptyId && Topology.at(Position) != TemporaryId) {
+            BranchId = Topology.at(Position);
+            break;
+        }
         Topology.at(Position) = TemporaryId;
-        
+
         if (std::abs(BranchId) == TopId || BranchId == CpvHiggsId) break;
         if (JetTag->HeavyParticles.find(std::abs(BranchId)) != end(JetTag->HeavyParticles)) break;
 
         if (ParticleClone->M2 != EmptyPosition) {
 
-            Print(3, "Mother 2", ParticleClone->M2);
-
             Position = ParticleClone->M2;
+            Print(3, "Mother 2", Position);
             BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(Position), BranchId, Position);
 
         }
 
         Position = ParticleClone->M1;
-        Print(3, "Mother 1", ParticleClone->M1);
+        Print(3, "Mother 1", Position);
 
     }
 
     Print(3, "Branch Id", BranchId);
-
     return BranchId;
 
 }
@@ -216,10 +216,10 @@ bool HJetDelphes::ReadEFlow(const HJetDetails JetDetails)
     if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(JetDetails);
     if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(JetDetails);
 
-//     for (int i = 0; i <= 30; ++i) {
+//     for (int i = 0; i <= 20; ++i) {
 //         GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(i);
 //         std::cout << std::left << std::setw(10) << std::setfill(' ') << i
-//                   << std::left << std::setw(10) << std::setfill(' ') << Topology[i]
+//                   << std::left << std::setw(10) << std::setfill(' ') << Topology.at(i)
 //                   << std::left << std::setw(10) << std::setfill(' ') << Particle->Status
 //                   << std::left << std::setw(10) << std::setfill(' ') << Particle->PID
 //                   << std::left << std::setw(10) << std::setfill(' ') << Particle->M1

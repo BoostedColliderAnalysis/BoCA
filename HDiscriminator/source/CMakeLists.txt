@@ -1,7 +1,7 @@
 
 HDictionary(HBranchDiscriminator HBranchDiscriminator.cpp ../include/HDiscriminatorLinkDef.hh)
 
-HLibrary(HJetDiscriminator HJetDiscriminator.cpp)
+HLibrary(HJetAnalysisDiscriminator HJetDiscriminator.cpp)
 
 HExecutable(HJetDiscriminatorMain HJetDiscriminatorMain.cpp)
 
@@ -12,6 +12,6 @@ HExecutable(HDiscriminator main.cpp)
 
 HLibrary(HMvaDiscriminator HMvaDiscriminator.cpp)
 
-HExecutable(HDiscriminatorFactory HFactory.cpp)
+HExecutable(HFactoryDiscriminator HFactory.cpp)
 
-HExecutable(HDiscriminatorReader HReader.cpp)
+HExecutable(HReaderDiscriminator HReader.cpp)

@@ -10,13 +10,13 @@ HJetInfo::HJetInfo()
 
 }
 
-void HJetInfo::AddConstituent(const int ConstituentId, const float ParticlePt)
+void HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
 {
 
     Print(2, "Add Constituent", ConstituentId);
-    Print(4, "Constituent Pt", ParticlePt);
+    Print(4, "Constituent Pt", Weight);
 
-    JetFractions[ConstituentId] += ParticlePt;
+    JetFractions[ConstituentId] += Weight;
 
     Print(4, "Saved Pt", JetFractions[ConstituentId]);
 
@@ -63,7 +63,7 @@ float HJetInfo::GetMaximalFraction() const
 
     Print(2, "Get Maximal Fraction");
 
-    pair<int, float> MaximalPt = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
+    pair<int, float> MaximalWeight = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
     if (GetPtSum() == 0) {
 
@@ -71,7 +71,7 @@ float HJetInfo::GetMaximalFraction() const
 
     } else {
 
-        return (MaximalPt.second / GetPtSum());
+        return (MaximalWeight.second / GetPtSum());
 
     }
 

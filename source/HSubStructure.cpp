@@ -32,20 +32,27 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
     Global.Mass = CandidateJet.m();
     Global.Pt = CandidateJet.pt();
 
-    vector<PseudoJet> PiecesVector = CandidateJet.pieces();
-    std::sort(PiecesVector.begin(), PiecesVector.end(), SortJetByMass());
+    vector<PseudoJet> PieceJets = CandidateJet.pieces();
+    std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
 
-    if (!(PiecesVector.size() == 2)) {
+    if (PieceJets.size() != 2) {
 
-//         Print(1, "Wrong Number of SubJets", PiecesVector.size()); // TODO reenable in smarter way
+        Print(4, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
         return 0;
 
+    }
+    
+    if (PieceJets[0] == PieceJets[1]) {
+        
+        Print(1, "Just one Piece Jet");
+        return 0;
+        
     }
 
     // SubJets
 
-    SubJet1.Mass = PiecesVector[0].m();
-    SubJet2.Mass = PiecesVector[1].m();
+    SubJet1.Mass = PieceJets[0].m();
+    SubJet2.Mass = PieceJets[1].m();
 
     if (SubJet1.Mass <= 0 || SubJet2.Mass <= 0) {
 
@@ -54,8 +61,8 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     }
 
-    SubJet1.Pt = PiecesVector[0].pt();
-    SubJet2.Pt = PiecesVector[1].pt();
+    SubJet1.Pt = PieceJets[0].pt();
+    SubJet2.Pt = PieceJets[1].pt();
 
     if (SubJet1.Pt <= 0 || SubJet2.Pt <= 0) {
 
@@ -65,20 +72,20 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
     }
 
 
-    Global.DeltaR = PiecesVector[0].delta_R(PiecesVector[1]);
+    Global.DeltaR = PieceJets[0].delta_R(PieceJets[1]);
 
-    SubJet1.DeltaR = PiecesVector[0].delta_R(CandidateJet);
-    SubJet2.DeltaR = PiecesVector[1].delta_R(CandidateJet);
+    SubJet1.DeltaR = PieceJets[0].delta_R(CandidateJet);
+    SubJet2.DeltaR = PieceJets[1].delta_R(CandidateJet);
 
     //         float Asymmetry = SubJet2Pt * SubJetDeltaR / CandidateMass;
 
     // Get SubJet coordinates in Higgs Jet coordinates
 
-    SubJet1.Eta = PiecesVector[0].eta() - CandidateJet.eta();
-    SubJet2.Eta = PiecesVector[1].eta() - CandidateJet.eta();
+    SubJet1.Eta = PieceJets[0].eta() - CandidateJet.eta();
+    SubJet2.Eta = PieceJets[1].eta() - CandidateJet.eta();
 
-    SubJet1.Phi = PiecesVector[0].delta_phi_to(CandidateJet);
-    SubJet2.Phi = PiecesVector[1].delta_phi_to(CandidateJet);
+    SubJet1.Phi = PieceJets[0].delta_phi_to(CandidateJet);
+    SubJet2.Phi = PieceJets[1].delta_phi_to(CandidateJet);
 
     // move subjet1 together with subjet2 to origin
 
@@ -88,13 +95,14 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
     // scale subjet distance to reference value
 
     const float SubJetDistance = GetDistance(SubJet2.Eta, SubJet2.Phi);
-    SubJetRatio =  GetPosDistance() / SubJetDistance;
 
     if (SubJetDistance <= 0) {
 
-        Print(1, "No subJet Distance", SubJetDistance);
+        Print(1, "No SubJet Distance", SubJetDistance);
         return 0;
     }
+    
+    SubJetRatio =  GetPosDistance() / SubJetDistance;
 
 
     return 1;
@@ -118,8 +126,13 @@ bool HSubStructure::GetConstituents(const PseudoJet &CandidateJet, ExRootTreeBra
     float SumInversePhi = 0;
     float SubJet1Pt = 0;
     float SubJet2Pt = 0;
+    DeltaR = 0;
 
     for (const auto & ConstituentJet : CandidateJet.constituents()) {
+
+        const float Distance = ConstituentJet.delta_R(CandidateJet);
+
+        if (Distance > DeltaR) DeltaR = Distance;
 
         const float Distance1 = ConstituentJet.delta_R(CandidateJet.pieces()[0]);
         const float Distance2 = ConstituentJet.delta_R(CandidateJet.pieces()[1]);
@@ -170,23 +183,23 @@ bool HSubStructure::GetConstituents(const PseudoJet &CandidateJet, ExRootTreeBra
 
     Global.Eta = CandidateJet.pt() / SumInverseEta;
     Global.Phi = CandidateJet.pt() / SumInversePhi;
-    Global.Asymmetry = SubJet2Pt / SubJet1Pt;
+    Asymmetry = SubJet2Pt / SubJet1Pt;
 
     return 1;
 
 }
 
-bool HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJetVector)
+bool HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets)
 {
 
     // Get Position of SubJets
 
-    vector<PseudoJet> PiecesVector = CandidateJet.pieces();
-    std::sort(PiecesVector.begin(), PiecesVector.end(), SortJetByMass());
+    vector<PseudoJet> PieceJets = CandidateJet.pieces();
+    std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
 
-    if (!(PiecesVector.size() == 2)) {
+    if (!(PieceJets.size() == 2)) {
 
-        Print(1, "Wrong Number of SubJets", PiecesVector.size());
+        Print(1, "Wrong Number of SubJets", PieceJets.size());
         return 0;
 
     }
@@ -194,23 +207,23 @@ bool HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<Pse
 
     // Isolation
 
-    int IsolationDeltaR = LargeNumber;
+    float IsolationDeltaR = LargeNumber;
 
     PseudoJet ClosestLepton;
     PseudoJet ClosestPiece;
 
-    for (const auto & Piece : PiecesVector) {
+    for (const auto & PieceJet : PieceJets) {
 
-        for (const auto & LeptonJet : LeptonJetVector) {
+        for (const auto & LeptonJet : LeptonJets) {
 
-            const float DeltaR = LeptonJet.delta_R(Piece);
-            Print(4, "DeltaR", DeltaR);
+            const float Distance = LeptonJet.delta_R(PieceJet);
+            Print(4, "DeltaR", Distance);
 
-            if (DeltaR < IsolationDeltaR) {
+            if (Distance < IsolationDeltaR) {
 
-                IsolationDeltaR = DeltaR;
+                IsolationDeltaR = Distance;
                 ClosestLepton = LeptonJet;
-                ClosestPiece = Piece;
+                ClosestPiece = PieceJet;
 
             }
 
@@ -322,13 +335,13 @@ float HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet)
             DeltaR2 = std::min(ConstituentDeltaR1, ConstituentDeltaR2);
         }
 
-        const float DeltaR = std::min(DeltaR1, DeltaR2);
+        const float Distance = std::min(DeltaR1, DeltaR2);
 
         const float ConeSize = sqrt(2);
 
         if (ConstituentDeltaR1 < DeltaR12 / ConeSize || ConstituentDeltaR2 < DeltaR12 / ConeSize) {
 
-            const float deltar = DeltaR / DeltaR12;
+            const float deltar = Distance / DeltaR12;
             //         float ConstDelR1 = ConstituentDeltaR1 / DeltaR12;
             //         float ConstDelR2 = ConstituentDeltaR2 / DeltaR12;
             //         float PtRatio =  Constituent.perp() / HiggsJet.perp();

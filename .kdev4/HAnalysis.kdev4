@@ -8,7 +8,7 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/hajer/Projects/HAnalysis/build
-Build Type=Debug
+Build Type=
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
@@ -133,7 +133,7 @@ pattern=*.o
 targets=1
 
 [Launch]
-Launch Configurations=Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 6,Launch Configuration 7,Launch Configuration 8,Launch Configuration 1,Launch Configuration 4,Launch Configuration 5
+Launch Configurations=Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 6,Launch Configuration 7,Launch Configuration 1,Launch Configuration 4,Launch Configuration 5,Launch Configuration 8
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -290,9 +290,9 @@ Arguments=
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1c\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00*\x00H\x00J\x00e\x00t\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00M\x00a\x00i\x00n)
 Dependency Action=Build
 EnvironmentGroup=default
-Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HJetDiscriminatorMain
+Executable=file:///home/hajer/Projects/HAnalysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=HAnalysis,HDiscriminator,source,HJetDiscriminatorMain
-Use External Terminal=true
+Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
-isExecutable=true
+isExecutable=false

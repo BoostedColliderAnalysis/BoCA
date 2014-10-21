@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <iomanip>
+# include <cmath>
 
 # include "TMath.h"
 # include "TLorentzVector.h"
@@ -435,7 +436,26 @@ struct SortJetByPt {
 
 };
 
-struct SortJetByMass {
+template <typename TParticle>
+class SortByMass
+{
+
+public:
+
+    inline bool operator()(const TParticle &Particle1,
+                           const TParticle &Particle2) {
+
+        return (Particle1.m() > Particle2.m());
+
+    }
+
+};
+
+
+class SortJetByMass
+{
+
+public:
 
     inline bool operator()(const PseudoJet &PseudoJet1,
                            const PseudoJet &PseudoJet2) {
