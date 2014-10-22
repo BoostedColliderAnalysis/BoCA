@@ -33,30 +33,6 @@ public:
 
     virtual void NewEvent();
 
-    /**
-     * @brief Get Fat Higgs Jets
-     *
-     * @param  EFlow Jet Vector
-     * @return Candidates
-     */
-    
-    /**
-     * @brief New File
-     *
-     * @return void
-     */
-    virtual void NewFile(){};
-    
-    /**
-     * @brief Clean after end of Analysis
-     *
-     * @return void
-     */
-    
-    virtual void CloseFile(){};
-
-//     virtual vector<PseudoJet> GetCandidateJets(vector<PseudoJet>) = 0;
-
 protected:
 
   /**

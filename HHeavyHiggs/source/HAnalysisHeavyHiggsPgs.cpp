@@ -5,18 +5,12 @@ HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 
     Print(1, "Constructor");
 
-    ProjectName = "HeavyHiggsPgs";
-
-    EventNumberMax = 10000;
-
-    Cut = 0;
-
 }
 
-vector<HFile*> HAnalysisHeavyHiggsPgs::GetFiles()
+vector<HFile*> HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName) const
 {
 
-    Print(1, "Fill Analysis Vector");
+    Print(1, "Fill Analysis Vector",StudyName);
 
     vector<HFile*> Files;
 
@@ -34,7 +28,7 @@ vector<HFile*> HAnalysisHeavyHiggsPgs::GetFiles()
 
 }
 
-void HAnalysisHeavyHiggsPgs::NewFile(ExRootTreeWriter *TreeWriter)
+void HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -56,7 +50,7 @@ void HAnalysisHeavyHiggsPgs::CloseFile()
 {
     Print(1, "Close File");
 
-    if (Cut) {
+//     if (Cut) {
 
         Print(1, "EventCounter", EventCounter);
         Print(1, "JetCounter", JetCounter);
@@ -65,7 +59,7 @@ void HAnalysisHeavyHiggsPgs::CloseFile()
         Print(1, "Jet2Counter", Jet2Counter);
         Print(1, "TMassCounter", TMassCounter);
 
-    }
+//     }
 
 }
 
@@ -73,7 +67,7 @@ void HAnalysisHeavyHiggsPgs::CloseFile()
 bool HAnalysisHeavyHiggsPgs::Analysis(HEvent* Event,string StudyName)
 {
 
-    Print(2, "Analysis");
+    Print(2, "Analysis",StudyName);
 
     Event->GetJets();
 

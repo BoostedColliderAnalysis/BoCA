@@ -219,6 +219,7 @@ class HFileFolder : public HFile
 {
 
 public:
+    
     using HFile::HFile;
 
     /**

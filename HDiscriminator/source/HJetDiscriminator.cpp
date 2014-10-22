@@ -5,10 +5,6 @@ HJetDiscriminator::HJetDiscriminator()
 
     Print(1, "Constructor");
 
-    ProjectName = "JetProperties";
-
-    EventNumberMax = 10000;
-
     HDiscriminatorTag = new HDiscriminatorJetTag();
 
     SubStructure = new HSubStructure();
@@ -16,6 +12,7 @@ HJetDiscriminator::HJetDiscriminator()
 //     DebugLevel = 4;
 
 }
+
 
 HJetDiscriminator::~HJetDiscriminator()
 {
@@ -28,31 +25,29 @@ HJetDiscriminator::~HJetDiscriminator()
 
 }
 
-vector<string> HJetDiscriminator::GetStudyNames()
+vector<string> HJetDiscriminator::GetStudyNames() const
 {
 
-//     vector<string> StudyNameVector = {"Higgs", "Top", "Isr"};
-    vector<string> StudyNameVector = {"Higgs", "Top", "ATop"};
-//     vector<string> StudyNameVector = {"Top"};
-
-    return StudyNameVector;
+//     return {"Higgs", "Top", "Isr"};
+    return {"Higgs", "Top", "ATop"};
+//     return {"Top"};
 
 }
 
-vector<HFile*> HJetDiscriminator::GetFiles()
+vector< HFile* > HJetDiscriminator::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
 
     vector<HFile*> Files;
-//     if (StudyName != "Higgs") {
+    if (StudyName != "Higgs") {
 
         HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
 
-//     }
+    }
 
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
@@ -75,7 +70,7 @@ vector<HFile*> HJetDiscriminator::GetFiles()
 }
 
 
-void HJetDiscriminator::NewFile(ExRootTreeWriter *TreeWriter)
+void HJetDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 

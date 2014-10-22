@@ -8,7 +8,7 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/hajer/Projects/HAnalysis/build
-Build Type=Debug
+Build Type=
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
@@ -220,7 +220,7 @@ Dependency Action=Build
 EnvironmentGroup=default
 Executable=file:///home/hajer/Projects/HAnalysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-Project Target=HAnalysis,HDiscriminator,source,HDiscriminatorFactory
+Project Target=HAnalysis,HDiscriminator,source,HFactoryDiscriminator
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
 isExecutable=false
@@ -238,7 +238,7 @@ Dependency Action=Build
 EnvironmentGroup=default
 Executable=file:///home/hajer/Projects/HAnalysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-Project Target=HAnalysis,HDiscriminator,source,HDiscriminatorReader
+Project Target=HAnalysis,HDiscriminator,source,HReaderDiscriminator
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
 isExecutable=false

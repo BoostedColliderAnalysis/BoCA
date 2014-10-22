@@ -43,7 +43,7 @@ public:
 
     bool GetIsolation(const PseudoJet &, const vector<PseudoJet>&);
 
-    float GetDiPolarity(const PseudoJet&);
+    float GetDiPolarity(const PseudoJet &CandidateJet) const;
 
     float GetSubJet1Mass() const {
         return (SubJet1.Mass / Global.Mass);

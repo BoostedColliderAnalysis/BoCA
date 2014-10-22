@@ -24,6 +24,7 @@ void HCandidateBranch::reset()
 
     SubJetsDeltaR = InitialValue;
     Asymmetry = InitialValue;
+    DiPolarity = InitialValue;
 
     SubJet1Mass = InitialValue;
     SubJet1Pt = InitialValue;

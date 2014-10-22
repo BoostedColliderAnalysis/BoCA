@@ -34,23 +34,23 @@ HEventDelphes::~HEventDelphes()
 
 }
 
-void HEventDelphes::NewFile()
-{
+// void HEventDelphes::NewFile()
+// {
+// 
+//     Print(2, "New Analysis");
+// 
+//     Discriminator->NewFile();
+// 
+// }
 
-    Print(2, "New Analysis");
-
-    Discriminator->NewFile();
-
-}
-
-void HEventDelphes::CloseFile()
-{
-
-    Print(2, "Close File");
-
-    Discriminator->CloseFile();
-
-}
+// void HEventDelphes::CloseFile()
+// {
+// 
+//     Print(2, "Close File");
+// 
+//     Discriminator->CloseFile();
+// 
+// }
 
 void HEventDelphes::NewEvent(const HClonesArray *const ClonesArrays)
 {

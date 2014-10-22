@@ -24,6 +24,7 @@ public:
 
     float SubJetsDeltaR;
     float Asymmetry;
+    float DiPolarity;
 
     float SubJet1Mass;
     float SubJet1DeltaR;

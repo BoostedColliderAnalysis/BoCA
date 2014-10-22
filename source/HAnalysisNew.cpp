@@ -141,7 +141,7 @@ void HAnalysis::NewFileBase()
     InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
 
-    NewFile();
+    NewBranches();
 
 //     Event->NewFile();
 

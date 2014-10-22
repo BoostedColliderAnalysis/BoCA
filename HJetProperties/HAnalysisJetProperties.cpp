@@ -5,11 +5,7 @@ HAnalysisJetProperties::HAnalysisJetProperties()
 
     Print(1, "Constructor");
 
-    ProjectName = "Discriminator";
-
     LeptonEventCounter = 0;
-
-    EventNumberMax = 10000;
 
 //     DebugLevel = 5;
 
@@ -24,10 +20,10 @@ vector<string> HAnalysisJetProperties::GetStudyNameVector()
 
 }
 
-vector<HFile*> HAnalysisJetProperties::GetFiles()
+vector<HFile*> HAnalysisJetProperties::GetFiles(const string StudyName) const
 {
 
-    Print(1, "Set File Vector");
+    Print(1, "Set File Vector",StudyName);
 
     vector<HFile*> Files;
 
@@ -46,7 +42,7 @@ vector<HFile*> HAnalysisJetProperties::GetFiles()
 }
 
 
-void HAnalysisJetProperties::NewFile(ExRootTreeWriter *TreeWriter)
+void HAnalysisJetProperties::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 

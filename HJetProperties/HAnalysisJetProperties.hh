@@ -40,6 +40,11 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
+        
+    int GetEventnumberMax()const{ return 10000;};
+    
+    string GetProjectName() const {
+        return "Discriminator";};
 
     /**
      * @brief Lepton calculations
@@ -67,14 +72,14 @@ private:
      *
      * @return void
      */
-    std::vector< HFile* > GetFiles();
+    std::vector< HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile(ExRootTreeWriter* TreeWriter);
+    void NewBranches(ExRootTreeWriter* TreeWriter);
 
     void CloseFile();
 

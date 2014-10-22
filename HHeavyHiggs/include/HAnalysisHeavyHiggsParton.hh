@@ -23,7 +23,13 @@ public:
     HAnalysisHeavyHiggsParton();
 
 private:
+    
+    int GetEventnumberMax()const{ return 10000;};
 
+    string GetProjectName()const{
+        return "HeavyHiggsParton";
+    }
+    
     /**
      * @brief Branch to write Heavy Higgs info into
      *
@@ -53,14 +59,14 @@ private:
      *
      * @return void
      */
-    vector<HFile* > GetFiles();
+    vector<HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile(ExRootTreeWriter* TreeWriter);
+    void NewBranches(ExRootTreeWriter* TreeWriter);
 
     void CloseFile();
 

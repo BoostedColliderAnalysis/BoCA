@@ -31,9 +31,9 @@ public:
      */
     ~HEvent();
 
-    virtual void NewFile() {};
+//     virtual void NewFile() {};
 
-    virtual void CloseFile() {};
+//     virtual void CloseFile() {};
 
     virtual void NewEvent(const HClonesArray * const) = 0;
 

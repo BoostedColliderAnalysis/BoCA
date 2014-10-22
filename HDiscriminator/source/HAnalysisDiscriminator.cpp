@@ -5,18 +5,12 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 
     Print(1, "Constructor");
 
-    ProjectName = "Discriminator";
-
-    LeptonEventCounter = 0;
-
-//     DebugLevel = 3;
-
-//     EventNumberMax = 10000;
-
     DiscriminatorJetTag = new HDiscriminatorJetTag();
 
     SubStructure = new HSubStructure();
 
+//     DebugLevel = 3;
+    
 }
 
 HAnalysisDiscriminator::~HAnalysisDiscriminator()
@@ -30,28 +24,30 @@ HAnalysisDiscriminator::~HAnalysisDiscriminator()
 
 }
 
-vector<string> HAnalysisDiscriminator::GetStudyNames()
+vector<string> HAnalysisDiscriminator::GetStudyNames() const
 {
 
-//     vector<string> StudyNameVector = {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
-    vector<string> StudyNameVector = {"Higgs", "Top", "Jet", "Test"};
-    //     vector<string> StudyNameVector = {"Top"};
-
-    return StudyNameVector;
+    //     return {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
+    return  {"Higgs", "Top", "Jet", "Test"};
+    //     return {"Top"};
 
 }
 
-vector<HFile*> HAnalysisDiscriminator::GetFiles()
+vector<HFile *> HAnalysisDiscriminator::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
 
     vector<HFile*> Files;
 
+    if (StudyName != "Higgs") {
+
         HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
+
+    }
 
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
@@ -75,15 +71,13 @@ vector<HFile*> HAnalysisDiscriminator::GetFiles()
 }
 
 
-void HAnalysisDiscriminator::NewFile(ExRootTreeWriter *TreeWriter)
+void HAnalysisDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
     CandidateBranch = TreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
     LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
     ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
-
-    LeptonEventCounter = 0;
 
 }
 
@@ -100,7 +94,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
     if (ParticleId == -BranchId) {
 
-        Print(4, "ID CONFILICT", ParticleId, BranchId);
+        Print(2, "ID CONFILICT", ParticleId, BranchId);
 
     }
 
@@ -122,7 +116,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
 }
 
-bool HAnalysisDiscriminator::Analysis(HEvent* Event,string StudyName)
+bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
@@ -258,8 +252,9 @@ bool HAnalysisDiscriminator::Analysis(HEvent* Event,string StudyName)
         if (!SubStructure->GetSubJets(CandidateJet)) return 0;
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
-        Candidate->Asymmetry= SubStructure->GetAsymmetry();
-        Candidate->DeltaR= SubStructure->GetDeltaR();
+        Candidate->Asymmetry = SubStructure->GetAsymmetry();
+        Candidate->DeltaR = SubStructure->GetDeltaR();
+        Candidate->DiPolarity = SubStructure->GetDiPolarity(CandidateJet);
 
         Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
         Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
@@ -269,7 +264,7 @@ bool HAnalysisDiscriminator::Analysis(HEvent* Event,string StudyName)
         Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
         Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
 
-        SubStructure->GetIsolation(CandidateJet,Leptons);
+        SubStructure->GetIsolation(CandidateJet, Leptons);
 
         Candidate->IsolationEta = SubStructure->GetIsolationEta();
         Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
@@ -279,7 +274,7 @@ bool HAnalysisDiscriminator::Analysis(HEvent* Event,string StudyName)
 
         Print(3, "Isolation", Candidate->IsolationDeltaR);
 
-        if(!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) return 0;
+        if (!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) return 0;
 
         Candidate->ConstEta = SubStructure->GetConstituentEta();
         Candidate->ConstPhi = SubStructure->GetConstituentPhi();
@@ -300,7 +295,7 @@ bool HAnalysisDiscriminator::Analysis(HEvent* Event,string StudyName)
 }
 
 
-vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets(HEvent* Event)
+vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets(HEvent * const Event)
 {
 
 // Lepton Stuff

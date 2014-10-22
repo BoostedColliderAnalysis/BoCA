@@ -43,38 +43,38 @@ public:
 
 protected:
 
-    int GetEventSum(const ExRootTreeReader * const TreeReader) const {
+    int GetEventSum(const ExRootTreeReader *const TreeReader) const {
 
-        return min((int)TreeReader->GetEntries(), EventNumberMax);
+        return min((int)TreeReader->GetEntries(), GetEventNumberMax());
 
     };
 
-    ExRootTreeWriter *GetTreeWriter(TFile* ExportFile, const string ExportTreeName);
+    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const string ExportTreeName);
 
-    ExRootTreeReader *GetTreeReader(const HFile*const File);
+    ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
-    TFile *GetExportFile(const string StudyName);
+    TFile *GetExportFile(const string StudyName) const;
 
     /**
      * @brief Main Analysis function
      *
      * @return void
      */
-    virtual bool Analysis(HEvent*,string) = 0;
+    virtual bool Analysis(HEvent *, const string) = 0;
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    virtual vector<HFile*> GetFiles() = 0;
+    virtual vector<HFile*> GetFiles(const string StudyName) const = 0;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    virtual void NewFile(ExRootTreeWriter *TreeWriter) = 0;
+    virtual void NewBranches(ExRootTreeWriter *TreeWriter) = 0;
 
     /**
      * @brief Clean Analysis
@@ -87,36 +87,38 @@ protected:
      * @brief Name of Analysis
      *
      */
-    string ProjectName;
+    virtual string GetProjectName() const {
+
+        return "ProjectName";
+
+    }
 
     /**
      * @brief Maximal number of Entries to analyse
      *
      */
-    int EventNumberMax;
+    virtual int GetEventNumberMax() const {
+        return 100000;
+    };
 
-    bool Cut;
+    virtual vector<string> GetStudyNames() const {
 
-    virtual vector<string> GetStudyNames();
+        return {GetProjectName()};
 
-    vector<TFile*> ExportFiles;
+    };
 
 
 private:
 
-    void EmptyFileVector();
+    void DeleteFiles(const vector<HFile *> Files) const;
 
-    HClonesArray* GetClonesArrays(const std::vector< HFile* > Files);
+    void SubLoop(TFile *const ExportFile, const HFile *const File, HClonesArray *const ClonesArrays, HEvent *const Event, const string StudyName);
 
-    HEvent* GetEvent(const std::vector< HFile* > Files);
+//     bool MiniLoop(ExRootTreeReader *TreeReader, ExRootTreeWriter *TreeWriter, ExRootTreeBranch *InfoBranch, HEvent *Event, ExRootProgressBar *ProgressBar, const HFile &File, HClonesArray *ClonesArrays, const string StudyName, const int EventNumber);
 
-    /**
-     * @brief Initial value outside of histogram values
-     *
-     */
-//     int InitialValue;
+    HClonesArray *GetClonesArrays(const string StudyName) const;
 
-//     bool AnalysisNotEmpty;
+    HEvent *GetEvent(const string StudyName) const;
 
     virtual string ClassName() const {
 

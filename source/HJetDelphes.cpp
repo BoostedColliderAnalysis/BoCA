@@ -34,7 +34,7 @@ bool HJetDelphes::GetJets(HJetDetails JetDetails)
 
     Print(2, "Get Jets", ClonesArrays->JetSum());
 
-    for (int JetNumber = 0; JetNumber < ClonesArrays->JetSum(); ++JetNumber) {
+    for (int JetNumber : HRange(ClonesArrays->JetSum())) {
 
         Print(4, "Jet Number", JetNumber);
         const Jet *const JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
@@ -189,7 +189,7 @@ PseudoJet HJetDelphes::GetConstituents(const Jet *const JetClone) const
 
     vector<PseudoJet> Constituents;
 
-    for (int ConstituentNumber = 0; ConstituentNumber < JetClone->Constituents.GetEntriesFast(); ++ConstituentNumber) {
+    for (int ConstituentNumber : HRange(JetClone->Constituents.GetEntriesFast())) {
 
         const TObject *const Object = JetClone->Constituents.At(ConstituentNumber);
 
@@ -216,7 +216,7 @@ bool HJetDelphes::ReadEFlow(const HJetDetails JetDetails)
     if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(JetDetails);
     if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(JetDetails);
 
-//     for (int i = 0; i <= 20; ++i) {
+//     for (int i : HRange(20)) {
 //         GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(i);
 //         std::cout << std::left << std::setw(10) << std::setfill(' ') << i
 //                   << std::left << std::setw(10) << std::setfill(' ') << Topology.at(i)
@@ -244,7 +244,7 @@ void HJetDelphes::GetTrackEFlow(const HJetDetails JetDetails)
     if (ClonesArrays->ElectronSum() > 0) Print(4, "Number of Electons", ClonesArrays->ElectronSum());
     if (ClonesArrays->MuonSum() > 0) Print(4, "Number of Muons", ClonesArrays->MuonSum());
 
-    for (int EFlowTrackNumber = 0; EFlowTrackNumber < ClonesArrays->EFlowTrackSum() ; ++EFlowTrackNumber) {
+    for (int EFlowTrackNumber : HRange(ClonesArrays->EFlowTrackSum())) {
 
         const Track *const EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
 
@@ -275,7 +275,7 @@ void HJetDelphes::GetPhotonEFlow(const HJetDetails JetDetails)
     Print(2, "Get Photon EFlow", ClonesArrays->EFlowPhotonSum());
 
     if (ClonesArrays->PhotonSum() > 0) Print(3, "Number of Photons", ClonesArrays->PhotonSum());
-    for (int EFlowPhotonNumber = 0; EFlowPhotonNumber < ClonesArrays->EFlowPhotonSum() ; ++EFlowPhotonNumber) {
+    for (int EFlowPhotonNumber : HRange(ClonesArrays->EFlowPhotonSum())) {
 
         const Tower *const EFlowPhotonClone = (Tower *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
 
@@ -305,7 +305,7 @@ void HJetDelphes::GetHadronEFlow(const HJetDetails JetDetails)
 
     Print(2, "Get Hadron EFlow", ClonesArrays->EFlowNeutralHadronSum());
 
-    for (int HadronNumber = 0; HadronNumber < ClonesArrays->EFlowNeutralHadronSum(); ++HadronNumber) {
+    for (int HadronNumber : HRange(ClonesArrays->EFlowNeutralHadronSum())) {
 
         const Tower *const HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
 
@@ -327,7 +327,7 @@ void HJetDelphes::GetMuonEFlow(const HJetDetails JetDetails)
 
     Print(2, "Get Muon EFlow", ClonesArrays->EFlowMuonSum());
 
-    for (int MuonNumber = 0; MuonNumber < ClonesArrays->EFlowMuonSum(); ++MuonNumber) {
+    for (int MuonNumber : HRange(ClonesArrays->EFlowMuonSum())) {
 
         const Muon *const EFlowMuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
 
@@ -356,7 +356,7 @@ void HJetDelphes::GetGenJet()
 
     Print(2, "GetGenJet", ClonesArrays->GenJetSum());
 
-    for (int GenJetNumber = 0; GenJetNumber <  ClonesArrays->GenJetSum(); ++GenJetNumber) {
+    for (int GenJetNumber : HRange(ClonesArrays->GenJetSum())) {
 
         const Jet *const GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
 

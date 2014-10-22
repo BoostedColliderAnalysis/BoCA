@@ -5,13 +5,6 @@ HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
 
     Print(1, "Constructor");
 
-    ProjectName = "HeavyHiggs";
-
-    EventNumberMax = 10000;
-
-    Cut = 0;
-
-
 }
 
 vector<string> HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
@@ -25,10 +18,10 @@ vector<string> HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 
 }
 
-vector<HFile*> HAnalysisHeavyHiggsDelphes::GetFiles()
+vector<HFile*> HAnalysisHeavyHiggsDelphes::GetFiles(const string StudyName) const
 {
 
-    Print(1, "Fill Analysis Vector");
+    Print(1, "Fill Analysis Vector", StudyName);
 
     vector<HFile*> Files;
 
@@ -48,7 +41,7 @@ vector<HFile*> HAnalysisHeavyHiggsDelphes::GetFiles()
 
 }
 
-void HAnalysisHeavyHiggsDelphes::NewFile(ExRootTreeWriter *TreeWriter)
+void HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -68,7 +61,7 @@ void HAnalysisHeavyHiggsDelphes::CloseFile()
 {
     Print(1, "Close File");
 
-    if (Cut) {
+//     if (Cut) {
 
         Print(1, "EventCounter", EventCounter);
         Print(1, "JetCounter", JetCounter);
@@ -77,7 +70,7 @@ void HAnalysisHeavyHiggsDelphes::CloseFile()
         Print(1, "Jet2Counter", Jet2Counter);
         Print(1, "TMassCounter", TMassCounter);
 
-    }
+//     }
 
 }
 
@@ -351,5 +344,6 @@ float HAnalysisHeavyHiggsDelphes::Leptons(HEvent* Event,PseudoJet Jet)
     return Isolation;
 
 }
+
 
 

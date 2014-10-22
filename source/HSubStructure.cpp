@@ -246,7 +246,7 @@ bool HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<Pse
 
 
 
-float HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet)
+float HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) const
 {
 
     Print(2, "Jing Dipolarity");

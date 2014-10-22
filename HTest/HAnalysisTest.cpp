@@ -5,8 +5,6 @@ HAnalysisTest::HAnalysisTest()
 
     Print(1, "Constructor");
 
-    ProjectName = "Test";
-
 }
 
 vector<string> HAnalysisTest::GetStudyNameVector(){
@@ -17,10 +15,10 @@ vector<string> HAnalysisTest::GetStudyNameVector(){
 
 }
 
-vector<HFile*> HAnalysisTest::GetFiles()
+vector<HFile*> HAnalysisTest::GetFiles(const string StudyName) const
 {
 
-    Print(1, "Set File Vector");
+    Print(1, "Set File Vector", StudyName);
 
     vector<HFile*> Files;
 
@@ -36,7 +34,7 @@ vector<HFile*> HAnalysisTest::GetFiles()
 }
 
 
-void HAnalysisTest::NewFile(ExRootTreeWriter *TreeWriter)
+void HAnalysisTest::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 

@@ -22,7 +22,7 @@ bool HParticleDelphes::GetParticles()
 
     Print(2, "Get Particles", ClonesArrays->ParticleSum());
 
-    for (int ParticleNumber = 0; ParticleNumber < ClonesArrays->ParticleSum(); ++ParticleNumber) {
+    for (int ParticleNumber : HRange(ClonesArrays->ParticleSum())) {
 
         const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
 

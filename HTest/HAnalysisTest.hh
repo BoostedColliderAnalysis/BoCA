@@ -39,6 +39,8 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
+    
+    string GetProjectName()const{return "Test";};
 
     /**
      * @brief Lepton calculations
@@ -66,14 +68,14 @@ private:
      *
      * @return void
      */
-    std::vector< HFile* > GetFiles();
+    std::vector< HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile(ExRootTreeWriter *TreeWriter);
+    void NewBranches(ExRootTreeWriter *TreeWriter);
 
     void CloseFile();
 

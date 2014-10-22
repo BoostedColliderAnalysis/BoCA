@@ -84,6 +84,9 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
+    
+    string GetProjectName()const{
+        return "Discriminator";};
 
     HDiscriminatorJetTag * DiscriminatorJetTag;
 
@@ -95,7 +98,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> GetLeptonJets(HEvent* Event);
+    vector<PseudoJet> GetLeptonJets(HEvent *const Event);
 
     /**
      * @brief Lepton event counter
@@ -108,25 +111,25 @@ private:
      *
      * @return void
      */
-    bool Analysis(HEvent* Event, string StudyName);
+    bool Analysis(HEvent *const Event, const string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< HFile* > GetFiles();
+    std::vector< HFile * > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile(ExRootTreeWriter* TreeWriter);
+    void NewBranches(ExRootTreeWriter* TreeWriter);
 
     void CloseFile();
 
-    vector<string> GetStudyNames();
+    vector<string> GetStudyNames() const;
 
     virtual string ClassName() const {
 

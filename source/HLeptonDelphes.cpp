@@ -19,7 +19,7 @@ void HLeptonDelphes::GetElectrons()
 
     Print(2, "Get Electrons", ClonesArray->ElectronSum());
 
-    for (int ElectronNumber = 0; ElectronNumber < ClonesArray->ElectronSum(); ElectronNumber++) {
+    for (int ElectronNumber : HRange(ClonesArray->ElectronSum())) {
 
         const Electron* const ElectronClone = (Electron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
 
@@ -52,7 +52,7 @@ void HLeptonDelphes::GetMuons()
 
     Print(2, "Get Muons", ClonesArray->MuonSum());
         
-    for (int MuonNumber = 0; MuonNumber < ClonesArray->MuonSum(); ++MuonNumber) {
+    for (int MuonNumber : HRange(ClonesArray->MuonSum())) {
 
         const Muon * const MuonClone = (Muon *)ClonesArray->MuonClonesArray->At(MuonNumber);
         const int MuonCharge = MuonClone->Charge;

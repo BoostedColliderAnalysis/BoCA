@@ -4,25 +4,14 @@
 
 HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 {
-
     Print(1, "Constructor");
-
-    ProjectName = "HeavyHiggsParton";
-
-    EventNumberMax = 10000;
-
-//     ClonesArrays = new HClonesArrayParton();
-
-//     Event = new HEventParton();
-
-    Cut = 0;
 
 }
 
-vector<HFile*> HAnalysisHeavyHiggsParton::GetFiles()
+vector<HFile*> HAnalysisHeavyHiggsParton::GetFiles(const string StudyName) const
 {
 
-    Print(1, "Fill Analysis Vector");
+    Print(1, "Fill Analysis Vector", StudyName);
 
     vector<HFile*> Files;
 
@@ -39,7 +28,7 @@ vector<HFile*> HAnalysisHeavyHiggsParton::GetFiles()
 
 }
 
-void HAnalysisHeavyHiggsParton::NewFile(ExRootTreeWriter *TreeWriter)
+void HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");

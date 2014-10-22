@@ -27,10 +27,6 @@ public:
      */
     ~HEventDelphes();
 
-    void NewFile();
-
-    void CloseFile();
-
     void NewEvent(const HClonesArray * const);
 
     vector<TLorentzVector>GetLeptons();

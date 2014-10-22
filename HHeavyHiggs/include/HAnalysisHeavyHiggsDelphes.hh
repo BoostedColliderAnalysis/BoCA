@@ -26,6 +26,12 @@ public:
     HAnalysisHeavyHiggsDelphes();
 
 private:
+    
+    int GetEventNumberMax() const { return 10000;};
+    
+    string GetProjectName() const {
+        return "HeavyHiggs";
+    };
 
     /**
      * @brief Main Analysis function
@@ -39,14 +45,14 @@ private:
      *
      * @return void
      */
-    vector< HFile* > GetFiles();
+    vector<HFile*> GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewFile(ExRootTreeWriter* TreeWriter);
+    void NewBranches(ExRootTreeWriter* TreeWriter);
 
     void CloseFile();
 
