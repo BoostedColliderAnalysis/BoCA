@@ -8,8 +8,8 @@
 # include "ExRootAnalysis/ExRootProgressBar.h"
 
 # include "HBranch.hh"
-# include "HFile.hh"
 # include "HObject.hh"
+# include "HFile.hh"
 
 # include "HEvent.hh"
 # include "HEventDelphes.hh"
@@ -60,7 +60,7 @@ protected:
      *
      * @return void
      */
-    virtual bool Analysis(HEvent *, const string) = 0;
+    virtual bool Analysis(HEvent * const, const string) = 0;
 
     /**
      * @brief prepares the vector describing the input root files
@@ -74,7 +74,7 @@ protected:
      *
      * @return void
      */
-    virtual void NewBranches(ExRootTreeWriter *TreeWriter) = 0;
+    virtual void NewBranches(ExRootTreeWriter * const TreeWriter) = 0;
 
     /**
      * @brief Clean Analysis
@@ -107,14 +107,9 @@ protected:
 
     };
 
-
 private:
 
     void DeleteFiles(const vector<HFile *> Files) const;
-
-    void SubLoop(TFile *const ExportFile, const HFile *const File, HClonesArray *const ClonesArrays, HEvent *const Event, const string StudyName);
-
-//     bool MiniLoop(ExRootTreeReader *TreeReader, ExRootTreeWriter *TreeWriter, ExRootTreeBranch *InfoBranch, HEvent *Event, ExRootProgressBar *ProgressBar, const HFile &File, HClonesArray *ClonesArrays, const string StudyName, const int EventNumber);
 
     HClonesArray *GetClonesArrays(const string StudyName) const;
 
@@ -122,11 +117,10 @@ private:
 
     virtual string ClassName() const {
 
-        return ("HAnalysis");
+        return "HAnalysis";
 
     };
 
 };
 
 #endif
-

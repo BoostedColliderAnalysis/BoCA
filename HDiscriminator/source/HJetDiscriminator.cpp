@@ -294,7 +294,7 @@ bool HJetDiscriminator::Analysis(HEvent* Event,string StudyName)
 //             if (!FillTree(CASJTBranch, CASJTConstituentBranch, CAJSTJet, LeptonJets)) return 0;
             FillTree(CASJTBranch, CASJTConstituentBranch, CAJSTJet, LeptonJets);
 
-            continue;
+            break;
 
         }
 
@@ -319,7 +319,7 @@ bool HJetDiscriminator::Analysis(HEvent* Event,string StudyName)
 //             if (!FillTree(AktPrunerBranch, AktPrunerConstituentBranch, AktPJet, LeptonJets)) return 0;
             FillTree(AktPrunerBranch, AktPrunerConstituentBranch, AktPJet, LeptonJets);
 
-            continue;
+            break;
 
         }
 
@@ -382,6 +382,7 @@ bool HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeB
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
+        Candidate->DiPolarity = SubStructure->GetDiPolarity(CandidateJet);
 
         Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
         Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();

@@ -172,25 +172,45 @@ protected:
     };
 
     enum HParticleId {
-        EmptyId = 0,///> 0
-        DownId = 1,
-        UpId = 2,
-        StrangeId = 3,
-        CharmId = 4,
-        BottomId = 5,
-        TopId = 6,
+      EmptyId = 0, ///> 0
+      DownId = 1,///> \f$d\f$
+      UpId = 2,///> \f$u\f$
+      StrangeId = 3,///> \f$s\f$
+      CharmId = 4,///> \f$c\f$
+      BottomId = 5,///> \f$b\f$
+      TopId = 6,///> \f$t\f$
         ElectronId = 11,
         MuonId = 13,
         TauLeptonId = 15,
         GluonId = 21,
         WId = 24,
         HeavyHiggsId = 35,
+        PionId = 211,
+        RhoMesonId=213,
+        KMeson0Id=311,
+        KMeson0SId=313,
+        KMesonId=321,
+        KMesonSId=323,
+        DMesonId=411,
+        DMesonSId=413,
+        DMesonS2Id=415,
+        DMeson0Id=421,
+        DMesonS0Id=423,
+        BMeson0Id=511,
+        BMeson0SId=513,
+        BMesonId=521,
+        BMesonSId=523,
+        BMesonS0Id=531,
+        BMesonSS0Id=533,
         DownDown1Id = 1103,
         UpDown0Id = 2101,
         UpDown1Id = 2103,
+        DeltaBaryonId =1114,
+        NeutronId = 2112,
         UpUp1Id = 2203,
         ProtonId = 2212,
-        CpvHiggsId = 5000000,
+        DeltaBaryon2Id =2224,
+        CpvHiggsId = 5000000
     };
 
 
@@ -265,126 +285,6 @@ protected:
      *
      */
     const int EmptyUserIndex;
-
-    /**
-     * @brief Proton index
-     *
-     */
-    const int DeltaBaryon2Id;
-
-    /**
-     * @brief Up-down di-quark index
-     *
-     */
-    const int NeutronId;
-
-    /**
-     * @brief Down-down di-quark index
-     *
-     */
-    const int DeltaBaryonId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int BMesonSS0Id;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int BMesonS0Id;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int BMesonSId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int BMesonId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int BMeson0SId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int BMeson0Id;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int DMesonS0Id;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int DMeson0Id;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int DMesonS2Id;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int DMesonSId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int DMesonId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int KMesonSId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int KMesonId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int KMeson0SId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int KMeson0Id;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int RhoMesonId;
-
-    /**
-     * @brief Pion index
-     *
-     */
-    const int PionId;
 
     /**
      * @brief Initial state radiation index
@@ -509,29 +409,39 @@ struct SortJetByDistance {
 };
 
 class HRange {
-    
+
 private:
-    
+
     int Last;
-    
+
     int Iter;
-    
+
 public:
-    
+
     HRange(int End):
-    Last(End),
-    Iter(0)
+        Last(End),
+        Iter(0)
     {}
-    
+
     // Iterable functions
-    const HRange& begin() const { return *this; }
-    const HRange& end() const { return *this; }
-    
+    const HRange& begin() const {
+        return *this;
+    }
+    const HRange& end() const {
+        return *this;
+    }
+
     // Iterator functions
-    bool operator!=(const HRange&) const { return Iter < Last; }
-    void operator++() { ++Iter; }
-    int operator*() const { return Iter; }
-    
+    bool operator!=(const HRange&) const {
+        return Iter < Last;
+    }
+    void operator++() {
+        ++Iter;
+    }
+    int operator*() const {
+        return Iter;
+    }
+
 };
 
 #endif
