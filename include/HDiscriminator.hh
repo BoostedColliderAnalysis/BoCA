@@ -35,6 +35,10 @@ public:
      * @return Candidates
      */
     vector<PseudoJet> GetCandidateJets(const vector<PseudoJet> &, const float);
+    
+    vector<PseudoJet> GetCandidateJetsForced(const vector<PseudoJet> &, const float);
+    
+    static bool JetIsBad(const PseudoJet &Jet);
 
 private:
 

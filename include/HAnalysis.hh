@@ -77,13 +77,6 @@ protected:
     virtual void NewBranches(ExRootTreeWriter * const TreeWriter) = 0;
 
     /**
-     * @brief Clean Analysis
-     *
-     * @return void
-     */
-    virtual void CloseFile() = 0;
-
-    /**
      * @brief Name of Analysis
      *
      */

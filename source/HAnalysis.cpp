@@ -70,8 +70,6 @@ void HAnalysis::AnalysisLoop()
 
             if (AnalysisNotEmpty) TreeWriter->Write();
 
-            CloseFile();
-
             ClonesArrays->ResetBranches();
 
             delete TreeReader;

@@ -127,8 +127,6 @@ private:
      */
     void NewBranches(ExRootTreeWriter *TreeWriter);
 
-    void CloseFile();
-
     vector<string> GetStudyNames() const;
 
     virtual string ClassName() const {

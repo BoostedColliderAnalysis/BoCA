@@ -34,8 +34,7 @@ vector<string> HAnalysisDiscriminator::GetStudyNames() const
 
 vector<HFile *> HAnalysisDiscriminator::GetFiles(const string StudyName) const
 {
-
-    Print(1, "Set File Vector");
+    Print(1, "Set File Vector", StudyName);
 
     vector<HFile*> Files;
 
@@ -80,12 +79,6 @@ void HAnalysisDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
     CandidateBranch = TreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
     LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
     ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
-
-}
-
-void HAnalysisDiscriminator::CloseFile()
-{
-    Print(1, "Close File");
 
 }
 

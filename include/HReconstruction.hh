@@ -72,7 +72,7 @@ protected:
      */
     PseudoJet GetFilteredJet(const PseudoJet&);
 
-    static bool JetIsBad(const PseudoJet &);
+    static bool JetIsBad(const PseudoJet & Jet);
 
     vector<PseudoJet> GetFatJetTag(vector<PseudoJet>&);
 
