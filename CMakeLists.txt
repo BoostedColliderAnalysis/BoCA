@@ -109,6 +109,7 @@ add_subdirectory(HDiscriminator)
 add_subdirectory(HHeavyHiggs)
 add_subdirectory(HJetProperties)
 add_subdirectory(HTest)
+add_subdirectory(HTopTagger)
 
 # option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
 # IF(BUILD_DOCUMENTATION)

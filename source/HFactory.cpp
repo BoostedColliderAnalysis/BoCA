@@ -184,11 +184,11 @@ void HFactory::AddTree(const TFile *const File, const string TreeName, const boo
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
     HInfoBranch *Info = (HInfoBranch *) ClonesArray->At(0);
 
-//     float Crosssection = Info->Crosssection;
-    float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
+//     const float Crosssection = Info->Crosssection;
+//     cosnt float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
     delete TreeReader;
 
-//     Crosssection = 1; //FIXME we dont use the crosssection
+    const float Crosssection = 1; //FIXME we dont use the crosssection
 
     Print(1 , "Weight", Crosssection);
 
@@ -225,16 +225,16 @@ void HFactory::BookMethods()
 
     Print(1 , "Book Methods");
 
-//     string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
+    const string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
 //     string CutOptions = "VarProp=FSmart:VarTransform=PCA";
-    const string CutOptions = "";
+//     const string CutOptions = "";
 
     const string CutMethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
 
     Factory->BookMethod(Types::kCuts, CutMethodName, CutOptions);
 
-//     string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-    const string BdtOptions = "";
+    const string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+//     const string BdtOptions = "";
 
     const string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
 

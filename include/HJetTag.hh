@@ -42,7 +42,7 @@ public:
      * @brief set of particle Ids which are considerd relevant
      *
      */
-    const set<int> HeavyParticles = {BottomId, TopId, HeavyHiggsId};
+    const set<int> HeavyParticles = {BottomId, TopId};
 
 protected:
 
@@ -50,13 +50,13 @@ protected:
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    const set<int> InitialState = {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+    const set<int> RadiationParticles = {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
 
 private:
 
     virtual string ClassName() const {
 
-        return ("HJetTag");
+        return "HJetTag";
 
     };
 

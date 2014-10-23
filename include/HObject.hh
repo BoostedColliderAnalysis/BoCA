@@ -4,6 +4,7 @@
 # include <iostream>
 # include <iomanip>
 # include <cmath>
+# include <vector>
 
 # include "TMath.h"
 # include "TLorentzVector.h"
@@ -12,6 +13,7 @@
 
 using fastjet::PseudoJet;
 using std::string;
+using std::vector;
 
 /**
  * @brief general base class for HAnalysis
@@ -172,13 +174,13 @@ protected:
     };
 
     enum HParticleId {
-      EmptyId = 0, ///> 0
-      DownId = 1,///> \f$d\f$
-      UpId = 2,///> \f$u\f$
-      StrangeId = 3,///> \f$s\f$
-      CharmId = 4,///> \f$c\f$
-      BottomId = 5,///> \f$b\f$
-      TopId = 6,///> \f$t\f$
+        EmptyId = 0, ///> 0
+        DownId = 1,///> \f$d\f$
+        UpId = 2,///> \f$u\f$
+        StrangeId = 3,///> \f$s\f$
+        CharmId = 4,///> \f$c\f$
+        BottomId = 5,///> \f$b\f$
+        TopId = 6,///> \f$t\f$
         ElectronId = 11,
         MuonId = 13,
         TauLeptonId = 15,
@@ -186,30 +188,30 @@ protected:
         WId = 24,
         HeavyHiggsId = 35,
         PionId = 211,
-        RhoMesonId=213,
-        KMeson0Id=311,
-        KMeson0SId=313,
-        KMesonId=321,
-        KMesonSId=323,
-        DMesonId=411,
-        DMesonSId=413,
-        DMesonS2Id=415,
-        DMeson0Id=421,
-        DMesonS0Id=423,
-        BMeson0Id=511,
-        BMeson0SId=513,
-        BMesonId=521,
-        BMesonSId=523,
-        BMesonS0Id=531,
-        BMesonSS0Id=533,
+        RhoMesonId = 213,
+        KMeson0Id = 311,
+        KMeson0SId = 313,
+        KMesonId = 321,
+        KMesonSId = 323,
+        DMesonId = 411,
+        DMesonSId = 413,
+        DMesonS2Id = 415,
+        DMeson0Id = 421,
+        DMesonS0Id = 423,
+        BMeson0Id = 511,
+        BMeson0SId = 513,
+        BMesonId = 521,
+        BMesonSId = 523,
+        BMesonS0Id = 531,
+        BMesonSS0Id = 533,
         DownDown1Id = 1103,
         UpDown0Id = 2101,
         UpDown1Id = 2103,
-        DeltaBaryonId =1114,
+        DeltaBaryonId = 1114,
         NeutronId = 2112,
         UpUp1Id = 2203,
         ProtonId = 2212,
-        DeltaBaryon2Id =2224,
+        DeltaBaryon2Id = 2224,
         CpvHiggsId = 5000000
     };
 
@@ -408,7 +410,8 @@ struct SortJetByDistance {
 
 };
 
-class HRange {
+class HRange
+{
 
 private:
 
@@ -424,15 +427,15 @@ public:
     {}
 
     // Iterable functions
-    const HRange& begin() const {
+    const HRange &begin() const {
         return *this;
     }
-    const HRange& end() const {
+    const HRange &end() const {
         return *this;
     }
 
     // Iterator functions
-    bool operator!=(const HRange&) const {
+    bool operator!=(const HRange &) const {
         return Iter < Last;
     }
     void operator++() {

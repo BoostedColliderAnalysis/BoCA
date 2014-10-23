@@ -16,8 +16,6 @@
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
 
-using std::string;
-
 /**
  * @brief Base for all analyses
  *
@@ -54,6 +52,8 @@ protected:
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
     TFile *GetExportFile(const string StudyName) const;
+    
+    void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 
     /**
      * @brief Main Analysis function
@@ -98,7 +98,9 @@ protected:
      *
      */
     virtual int GetEventNumberMax() const {
+        
         return 100000;
+        
     };
 
     virtual vector<string> GetStudyNames() const {

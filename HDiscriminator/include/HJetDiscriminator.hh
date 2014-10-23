@@ -10,6 +10,8 @@
 # include "fastjet/tools/Pruner.hh"
 # include "fastjet/tools/CASubJetTagger.hh"
 
+using fastjet::antikt_algorithm;
+
 class HDiscriminatorJetTag : public HJetTag
 {
 

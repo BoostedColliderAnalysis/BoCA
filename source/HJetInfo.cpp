@@ -1,6 +1,5 @@
 # include "HJetInfo.hh"
 
-using std::pair;
 
 HJetInfo::HJetInfo()
 {
@@ -13,49 +12,46 @@ HJetInfo::HJetInfo()
 void HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
 {
 
-    Print(2, "Add Constituent", ConstituentId);
-    Print(4, "Constituent Pt", Weight);
+    Print(2, "Add Constituent", ConstituentId, Weight);
 
     JetFractions[ConstituentId] += Weight;
 
-    Print(4, "Saved Pt", JetFractions[ConstituentId]);
-
+    Print(4, "Saved Weight", JetFractions[ConstituentId]);
 
 }
 
-float HJetInfo::GetPtSum() const
+float HJetInfo::GetWeightSum() const
 {
 
-    Print(2, "Get Sum");
+    Print(2, "Get Weight Sum", JetFractions.size());
 
-    Print(4, "JetFraction size ", JetFractions.size());
-
-    float Result = accumulate(begin(JetFractions), end(JetFractions), 0.0, [](const float Previous, const pair<int, float> &Pair) {
+    float WeightSum = std::accumulate(begin(JetFractions), end(JetFractions), 0.0, [](const float Previous, const pair<int, float> &Pair) {
 
         return (Previous + Pair.second);
 
     });
 
-    Print(4, "Pt Sum", Result);
+    Print(4, "Weight Sum", WeightSum);
 
-    return Result;
+    return WeightSum;
 
 }
 
 float HJetInfo::GetFraction(const int ParticleId) const
 {
 
-    Print(2, "Get Fraction");
+    Print(2, "Get Fraction", ParticleId);
 
-    if (GetPtSum() == 0) {
+    if (GetWeightSum() == 0) {
 
         return 0;
 
     } else {
 
-        return (JetFractions.at(ParticleId) / GetPtSum());
+        return (JetFractions.at(ParticleId) / GetWeightSum());
 
     }
+    
 }
 
 float HJetInfo::GetMaximalFraction() const
@@ -63,15 +59,15 @@ float HJetInfo::GetMaximalFraction() const
 
     Print(2, "Get Maximal Fraction");
 
-    pair<int, float> MaximalWeight = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
+    pair<int, float> MaximalWeight = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
-    if (GetPtSum() == 0) {
+    if (GetWeightSum() == 0) {
 
         return 0;
 
     } else {
 
-        return (MaximalWeight.second / GetPtSum());
+        return (MaximalWeight.second / GetWeightSum());
 
     }
 
@@ -96,13 +92,13 @@ bool HJetInfo::HasParticle(const int ParticleId) const
 //     pair<int, float> MaximalPt = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 //     std::nth_element(JetFractions.begin(), JetFractions.begin() + 1, JetFractions.end(), SortPairs());
 //
-//     if (GetPtSum() == 0) {
+//     if (GetWeightSum() == 0) {
 //
 //         return 0;
 //
 //     } else {
 //
-//         return (MaximalPt.second / GetPtSum());
+//         return (MaximalPt.second / GetWeightSum());
 //
 //     }
 //
@@ -113,7 +109,7 @@ int HJetInfo::GetMaximalId() const
 
     Print(2, "Get Maximal Id");
 
-    pair<int, float> Max = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
+    pair<int, float> Max = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
     return Max.first;
 
@@ -133,15 +129,15 @@ void HJetInfo::PrintAllInfos(int Severity) const
 
     Print(2, "Print All Infos");
 
-    for (map<int, float>::const_iterator Iterator = JetFractions.begin(); Iterator != JetFractions.end(); ++Iterator) {
+    for (map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 
-        if (GetPtSum() == 0) {
+        if (GetWeightSum() == 0) {
 
-            Print(Severity, "FatJet", (*Iterator).first, 0);
+            Print(Severity, "Jet Fraction", (*Pair).first, 0);
 
         } else {
 
-            Print(Severity, "FatJet", (*Iterator).first, (*Iterator).second / GetPtSum());
+            Print(Severity, "Jet Fraction", (*Pair).first, (*Pair).second / GetWeightSum());
 
         }
 

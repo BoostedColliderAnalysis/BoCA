@@ -60,7 +60,7 @@ public:
         return v;
     };
 
-    virtual vector<PseudoJet> GetTops() {
+    virtual vector<PseudoJet> GetTops(const HJetTag * const) {
         vector<PseudoJet> v;
         return v;
     };

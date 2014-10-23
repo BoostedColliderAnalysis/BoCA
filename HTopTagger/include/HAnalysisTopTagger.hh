@@ -1,9 +1,9 @@
-# ifndef HAnalysisDiscriminator_hh
-# define HAnalysisDiscriminator_hh
+# ifndef HAnalysisTopTagger_hh
+# define HAnalysisTopTagger_hh
 
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
-# include "HBranchDiscriminator.hh"
+# include "HBranchTopTagger.hh"
 # include "HSubStructure.hh"
 
 /**
@@ -30,7 +30,7 @@ class HDiscriminatorJetTag : public HJetTag
 };
 
 /**
- * \class HAnalysisDiscriminator
+ * \class HAnalysisTopTagger
  *
  * \ingroup HDiscriminator
  *
@@ -39,7 +39,7 @@ class HDiscriminatorJetTag : public HJetTag
  * \author Jan Hajer
  *
  */
-class HAnalysisDiscriminator : public HAnalysis
+class HAnalysisTopTagger : public HAnalysis
 {
 
 public:
@@ -48,13 +48,13 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisDiscriminator();
+    HAnalysisTopTagger();
 
     /**
      * @brief Constructor
      *
      */
-    ~HAnalysisDiscriminator();
+    ~HAnalysisTopTagger();
 
     /**
      * @brief Branch to write Higgs info into
@@ -84,7 +84,7 @@ private:
 
     string GetProjectName()const {
         
-        return "Discriminator";
+        return "TopTagger";
         
     };
 
@@ -133,7 +133,7 @@ private:
 
     virtual string ClassName() const {
 
-        return ("HAnalysisDiscriminator");
+        return ("HAnalysisTopTagger");
 
     };
 

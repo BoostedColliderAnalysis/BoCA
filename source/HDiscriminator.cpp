@@ -37,10 +37,12 @@ vector<PseudoJet> HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlo
     const vector<PseudoJet> FatJets = GetFatJets(EFlowJets, FatJetDefinition);
 
     vector<PseudoJet> MassDropJets = GetMassDropJets(FatJets);
+//     vector<PseudoJet> MassDropJets = GetSubJetTaggedJets(FatJets);
     
     MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
 
     sort(MassDropJets.begin(), MassDropJets.end(), SortJetByMass());
+    
     MassDropJets = GetFatJetTag(MassDropJets);
 
     return MassDropJets;

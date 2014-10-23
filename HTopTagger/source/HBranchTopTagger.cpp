@@ -1,4 +1,4 @@
-# include "HBranchDiscriminator.hh"
+# include "HBranchTopTagger.hh"
 
 ClassImp(HCandidateBranch)
 

@@ -8,7 +8,7 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/hajer/Projects/HAnalysis/build
-Build Type=Debug
+Build Type=
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
@@ -133,7 +133,7 @@ pattern=*.o
 targets=1
 
 [Launch]
-Launch Configurations=Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 6,Launch Configuration 7,Launch Configuration 1,Launch Configuration 4,Launch Configuration 5,Launch Configuration 8
+Launch Configurations=Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 6,Launch Configuration 7,Launch Configuration 1,Launch Configuration 8,Launch Configuration 4,Launch Configuration 5,Launch Configuration 9
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -210,12 +210,12 @@ isExecutable=true
 [Launch][Launch Configuration 4]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=HDiscriminatorFactory
+Name=HFactoryDiscriminator
 Type=Native Application
 
 [Launch][Launch Configuration 4][Data]
 Arguments=
-Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1c\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00*\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00F\x00a\x00c\x00t\x00o\x00r\x00y)
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1c\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00*\x00H\x00F\x00a\x00c\x00t\x00o\x00r\x00y\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r)
 Dependency Action=Build
 EnvironmentGroup=default
 Executable=file:///home/hajer/Projects/HAnalysis/
@@ -228,12 +228,12 @@ isExecutable=false
 [Launch][Launch Configuration 5]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=HDiscriminatorReader
+Name=HReaderDiscriminator
 Type=Native Application
 
 [Launch][Launch Configuration 5][Data]
 Arguments=
-Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1c\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00(\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00R\x00e\x00a\x00d\x00e\x00r)
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1c\x00H\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00(\x00H\x00R\x00e\x00a\x00d\x00e\x00r\x00D\x00i\x00s\x00c\x00r\x00i\x00m\x00i\x00n\x00a\x00t\x00o\x00r)
 Dependency Action=Build
 EnvironmentGroup=default
 Executable=file:///home/hajer/Projects/HAnalysis/
@@ -293,6 +293,24 @@ EnvironmentGroup=default
 Executable=file:///home/hajer/Projects/HAnalysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=HAnalysis,HDiscriminator,source,HJetDiscriminatorMain
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
+isExecutable=false
+
+[Launch][Launch Configuration 9]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HTopTaggerTest
+Type=Native Application
+
+[Launch][Launch Configuration 9][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x14\x00H\x00T\x00o\x00p\x00T\x00a\x00g\x00g\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1c\x00H\x00T\x00o\x00p\x00T\x00a\x00g\x00g\x00e\x00r\x00T\x00e\x00s\x00t)
+Dependency Action=Build
+EnvironmentGroup=default
+Executable=file:///home/hajer/Projects/HAnalysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=HAnalysis,HTopTagger,source,HTopTaggerTest
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
 isExecutable=false

@@ -6,8 +6,6 @@
 # include "HObject.hh"
 # include "HBranch.hh"
 
-using std::vector;
-
 struct HMomentum {
 
     float Pt;
@@ -41,7 +39,7 @@ public:
 
     bool GetConstituents(const PseudoJet &, ExRootTreeBranch *const);
 
-    bool GetIsolation(const PseudoJet &, const vector<PseudoJet>&);
+    bool GetIsolation(const PseudoJet &, const vector<PseudoJet> &);
 
     float GetDiPolarity(const PseudoJet &CandidateJet) const;
 
@@ -112,7 +110,7 @@ public:
     float GetAsymmetry() const {
         return Asymmetry;
     };
-    
+
     float GetDeltaR() const {
         return DeltaR;
     };
@@ -126,9 +124,9 @@ protected:
     };
 
 private:
-        
+
     float Asymmetry;
-    
+
     float DeltaR;
 
     HMomentum Global;

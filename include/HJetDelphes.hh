@@ -94,7 +94,7 @@ private:
             const int MotherId = GetMotherId(Object);
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-            JetInfo.AddConstituent(MotherId, fabs(ParticleClone->Mass));
+            JetInfo.AddConstituent(MotherId, fabs(ParticleClone->PT));
 
         }
 

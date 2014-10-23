@@ -204,7 +204,7 @@ bool HJetDiscriminator::Analysis(HEvent* Event,string StudyName)
 
         const PseudoJet CandidateJet = fastjet::join(EFlowJets);
 
-        map<float, PseudoJet> JetMap;
+        std::map<float, PseudoJet> JetMap;
         for (const auto & EFlowJet : EFlowJets) {
 
             JetMap.insert(std::pair<float, PseudoJet>(CandidateJet.delta_R(EFlowJet), EFlowJet));
@@ -219,12 +219,13 @@ bool HJetDiscriminator::Analysis(HEvent* Event,string StudyName)
 
         }
 
-        map<float, PseudoJet>::iterator JetPair = JetMap.end();
+        std::map<float, PseudoJet>::iterator JetPair = JetMap.end();
         --JetPair;
         const float MaxRadius = (*JetPair).first;
         Print(2, "MaxRadius", MaxRadius);
 
         FillTree(ParticleBranch, ParticleConstituentBranch, CandidateJet, LeptonJets, MaxRadius);
+
 
         float CandidatePt = 0;
         for (const auto & EFlowJet : EFlowJets) {

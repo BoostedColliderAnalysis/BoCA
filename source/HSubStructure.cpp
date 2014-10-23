@@ -37,29 +37,31 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     if (PieceJets.size() != 2) {
 
-        Print(4, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
+        Print(1, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
         return 0;
 
     }
-    
+
     if (PieceJets[0] == PieceJets[1]) {
-        
+
         Print(1, "Just one Piece Jet");
         return 0;
-        
+
     }
 
     // SubJets
 
     SubJet1.Mass = PieceJets[0].m();
-    SubJet2.Mass = PieceJets[1].m();
 
-    if (SubJet1.Mass <= 0 || SubJet2.Mass <= 0) {
+    if (SubJet1.Mass <= 0) {
 
-        Print(2, "No SubJet Mass");
+        Print(1, "No SubJet 1 Mass", SubJet1.Mass);
         return 0;
 
     }
+
+    SubJet2.Mass = PieceJets[1].m();
+    if (SubJet2.Mass <= 0) SubJet2.Mass = 0;
 
     SubJet1.Pt = PieceJets[0].pt();
     SubJet2.Pt = PieceJets[1].pt();
@@ -101,7 +103,7 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
         Print(1, "No SubJet Distance", SubJetDistance);
         return 0;
     }
-    
+
     SubJetRatio =  GetPosDistance() / SubJetDistance;
 
 

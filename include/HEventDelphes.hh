@@ -47,7 +47,7 @@ public:
 
     vector<PseudoJet> GetHiggsTopCandidates(const HJetTag * const);
 
-    vector<PseudoJet> GetTops();
+    vector<PseudoJet> GetTops(const HJetTag *const JetTag);
 
     void GetTaggedJets(const HJetTag * const);
 

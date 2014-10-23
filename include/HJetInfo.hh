@@ -6,8 +6,7 @@
 # include "HObject.hh"
 
 using std::map;
-using std::accumulate;
-
+using std::pair;
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -31,7 +30,7 @@ public:
      * @param  pT
      * @return void
      */
-    void AddConstituent(const int, const float);
+    void AddConstituent(const int ConstituentId, const float Weight);
 
     /**
      * @brief Get Fraction
@@ -39,7 +38,13 @@ public:
      * @param  ID
      * @return float
      */
-    float GetFraction(int) const;
+    float GetFraction(const int ParticleId) const;
+    
+    map<int,float> GetJetFractions() const{
+        
+        return JetFractions;
+        
+    }
 
     /**
      * @brief Get dominant Fraction
@@ -60,7 +65,7 @@ public:
      *
      * @return void
      */
-    void PrintAllInfos(int) const;
+    void PrintAllInfos(int Severity) const;
 
     /**
      * @brief Clear all infos
@@ -75,19 +80,19 @@ public:
      * @param  ID
      * @return bool
      */
-    bool HasParticle(const int) const;
+    bool HasParticle(const int ParticleId) const;
 
 protected:
 
     string ClassName() const {
 
-        return ("HJetInfo");
+        return "HJetInfo";
 
     };
 
 private:
 
-    float GetPtSum() const;
+    float GetWeightSum() const;
 
     map<int, float> JetFractions;
 

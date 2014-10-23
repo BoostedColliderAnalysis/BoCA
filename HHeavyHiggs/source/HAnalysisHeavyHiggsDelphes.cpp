@@ -102,7 +102,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 
     Print(2, "Get Mother Id");
 
-    if (InitialState.find(abs(ParticleId)) != end(InitialState) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
+    if (RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
         BranchId = IsrId;
     } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
         BranchId = ParticleId;

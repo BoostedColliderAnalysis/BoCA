@@ -27,9 +27,8 @@ HAnalysisDiscriminator::~HAnalysisDiscriminator()
 vector<string> HAnalysisDiscriminator::GetStudyNames() const
 {
 
-    //     return {"Higgs", "Top", "TwoTop","HiggsTop", "Jet", "Test"};
     return  {"Higgs", "Top", "Jet", "Test"};
-    //     return {"Top"};
+//         return {"Higgs"};
 
 }
 
@@ -52,16 +51,19 @@ vector<HFile *> HAnalysisDiscriminator::GetFiles(const string StudyName) const
     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
+//     Even->TagString="tag_2";
     Files.push_back(Even);
 
     HFileDelphes *Mix = new HFileDelphes("pp-x0tt-bblvlv", "mix");
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
+//     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
     HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv", "odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
+//     Odd->TagString="tag_2";
     Files.push_back(Odd);
 
     Print(1, "Files prepared");
@@ -92,20 +94,14 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
     Print(3, "Get Branch Id", ParticleId);
 
-    if (ParticleId == -BranchId) {
-
-        Print(2, "ID CONFILICT", ParticleId, BranchId);
-
-    }
-
     if (
         RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
         HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = IsrId;
     } else if (
-        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles)
-        && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles) && 
+        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
     }
@@ -125,7 +121,7 @@ bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyNa
 
     if (Leptons.size() < 2) {
 
-        Print(2, "Not enough Leptons", Leptons.size());
+        Print(1, "Not enough Leptons", Leptons.size());
         return 0;
 
     }
@@ -136,21 +132,20 @@ bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyNa
 
     const vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(DiscriminatorJetTag);
 
-
-
     if (CandidateJets.size() < 1) {
 
-        Print(2, "No a Candidates", CandidateJets.size());
+        Print(0, "No Candidates", CandidateJets.size());
+        
         return 0;
 
     } else Print(2, "Number of Candidates", CandidateJets.size());
 
     int CandidateCounter = 0;
     bool HasCandidate = 0;
-    bool HiggsCounter = 0;
+//     bool HiggsCounter = 0;
 
     for (const auto & CandidateJet : CandidateJets) {
-
+        
         Print(3, "Candidate", CandidateJet.user_index());
 
         if (StudyName == "Higgs") {
@@ -170,10 +165,19 @@ bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyNa
             }
 
             ++CandidateCounter;
+            
+            Print(3, "Higgs", CandidateCounter);
 
         }
 
         if (StudyName == "Top") {
+                
+                if (CandidateCounter > 0) {
+                    
+                    Print(2, "Number of Higgs", CandidateCounter);
+                    break;
+                    
+                }
 
             if (abs(CandidateJet.user_index()) != TopId) {
 
@@ -183,24 +187,28 @@ bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyNa
             }
 
             if (CandidateCounter > 1) Print(2, "Number of Tops", CandidateCounter);
+            
             ++CandidateCounter;
+            
             Print(3, "Top", CandidateCounter);
 
         }
 
         if (StudyName == "Jet") {
 
-            if (CandidateJet.user_index() == CpvHiggsId && HiggsCounter == 0) {
+            if (CandidateJet.user_index() == CpvHiggsId 
+//                 && HiggsCounter == 0) {
+            ){
 
-                HiggsCounter = 1;
-                Print(3, "Not a light jet");
+//                 HiggsCounter = 1;
+                Print(3, "First Higgs is not a light Jet", CandidateJet.user_index());
                 continue;
 
             }
 
             if (abs(CandidateJet.user_index()) == TopId) {
 
-                Print(3, "Not a light jet");
+                Print(3, "Top is not a light jet",CandidateJet.user_index());
                 continue;
 
             }
@@ -226,7 +234,7 @@ bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyNa
         Candidate->Eta = CandidateJet.eta();
         Candidate->Phi = CandidateJet.phi_std();
 
-        Print(3, "Candidate Mass", CandidateJet.m());
+        Print(2, "Candidate Mass", CandidateJet.m());
 
         // Tagging
 
@@ -249,7 +257,13 @@ bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyNa
         }
 
         SubStructure->NewEvent();
-        if (!SubStructure->GetSubJets(CandidateJet)) return 0;
+        if (!SubStructure->GetSubJets(CandidateJet)) {
+         
+            Print(0,"No SubJets");
+            
+            return 0;
+            
+        }
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
@@ -274,14 +288,21 @@ bool HAnalysisDiscriminator::Analysis(HEvent * const Event, const string StudyNa
 
         Print(3, "Isolation", Candidate->IsolationDeltaR);
 
-        if (!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) return 0;
+        if (!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) {
+            
+            Print(0,"No Constituents");
+            
+            return 0;
+            
+        }
 
         Candidate->ConstEta = SubStructure->GetConstituentEta();
         Candidate->ConstPhi = SubStructure->GetConstituentPhi();
         Candidate->ConstDeltaR = SubStructure->GetConstituentDeltaR();
         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
-
-        Print(3, "Pull", Candidate->ConstDeltaR);
+        
+//         CandidateJet.user_info<HJetInfo>().PrintAllInfos(4);
+//         Print(1, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;
     }
@@ -303,15 +324,12 @@ vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets(HEvent * const Event)
 
     Event->GetLeptons();
 
-    vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
-    vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+//     vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
+//     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
-//     vector<TLorentzVector> LeptonVector = Event->Leptons->LeptonLorentzVectorVector;
-//     vector<TLorentzVector> AntiLeptonVector = Event->Leptons->AntiLeptonLorentzVectorVector;
-
-//     Event->GetParticles();
-//     vector<TLorentzVector> LeptonVector = Event->Particle->LeptonVector();
-//     vector<TLorentzVector> AntiLeptonVector = Event->Particle->AntiLeptonVector();
+    Event->GetParticles();
+    vector<PseudoJet> LeptonJets = Event->Particles->GetLeptonJets();
+    vector<PseudoJet> AntiLeptonJets = Event->Particles->GetAntiLeptonJets();
 
     sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

@@ -3,12 +3,12 @@
 
 // # include "fastjet/tools/Filter.hh"
 # include "fastjet/tools/MassDropTagger.hh"
-# include "fastjet/ClusterSequenceArea.hh"
+# include "fastjet/tools/CASubJetTagger.hh"
+# include "fastjet/JetDefinition.hh"
+# include "fastjet/ClusterSequence.hh"
 
 # include "HObject.hh"
 # include "HJetInfo.hh"
-
-using std::vector;
 
 /**
  * @brief FastJet calculations
@@ -58,6 +58,11 @@ protected:
     PseudoJet GetMassDropJet(const PseudoJet&) const;
 
     PseudoJet GetMassDropJet(const PseudoJet&, const float, const float) const;
+    
+    
+    vector<PseudoJet> GetSubJetTaggedJets(const vector<PseudoJet> &FatJets) const;
+    
+    PseudoJet GetSubJetTaggedJet(const PseudoJet &FatJet) const;
 
     /**
      * @brief Filter Jets
