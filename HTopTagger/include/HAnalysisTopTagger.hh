@@ -14,7 +14,7 @@
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class HDiscriminatorJetTag : public HJetTag
+class HDiscriminatorJetTag : public Analysis::HJetTag
 {
 
     int GetBranchId(const int ParticleId, int BranchId) const;
@@ -39,7 +39,7 @@ class HDiscriminatorJetTag : public HJetTag
  * \author Jan Hajer
  *
  */
-class HAnalysisTopTagger : public HAnalysis
+class HAnalysisTopTagger : public Analysis::HAnalysis
 {
 
 public:
@@ -75,22 +75,22 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
-    
+
     inline int GetEventNumberMax() const {
-      
+
         return 10000;
-        
+
     };
 
     inline string GetProjectName()const {
-        
+
         return "TopTagger";
-        
+
     };
 
     HDiscriminatorJetTag *DiscriminatorJetTag;
 
-    HSubStructure *SubStructure;
+    Analysis::HSubStructure *SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -98,7 +98,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> GetLeptonJets(HEvent *const Event);
+    vector<PseudoJet> GetLeptonJets(Analysis::HEvent *const Event);
 
     /**
      * @brief Lepton event counter
@@ -111,14 +111,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(HEvent *const Event, const string StudyName);
+    bool Analysis(Analysis::HEvent *const Event, const string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< HFile * > GetFiles(const string StudyName) const;
+    std::vector< Analysis::HFile * > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis
@@ -133,7 +133,7 @@ private:
 
     virtual inline string ClassName() const {
 
-        return ("HAnalysisTopTagger");
+        return "HAnalysisTopTagger";
 
     };
 

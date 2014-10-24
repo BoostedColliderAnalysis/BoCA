@@ -1,6 +1,6 @@
 # include "HJetDelphes.hh"
 
-HJetDelphes::HJetDelphes()
+Analysis::HDelphes::HJet::HJet()
 {
 
     Print(1, "Constructor");
@@ -9,14 +9,14 @@ HJetDelphes::HJetDelphes()
 
 }
 
-HJetDelphes::~HJetDelphes()
+Analysis::HDelphes::HJet::~HJet()
 {
 
     Print(1, "Destructor");
 
 }
 
-void HJetDelphes::NewEvent(const HClonesArray *const NewClonesArrays)
+void Analysis::HDelphes::HJet::NewEvent(const Analysis::HClonesArray *const NewClonesArrays)
 {
 
     Print(2, "New Event");
@@ -29,7 +29,7 @@ void HJetDelphes::NewEvent(const HClonesArray *const NewClonesArrays)
 
 }
 
-bool HJetDelphes::GetJets(HJetDetails JetDetails)
+bool Analysis::HDelphes::HJet::GetJets(HJetDetails JetDetails)
 {
 
     Print(2, "Get Jets", ClonesArrays->JetSum());
@@ -51,8 +51,8 @@ bool HJetDelphes::GetJets(HJetDetails JetDetails)
 
         if (JetDetails == Tagging) {
 
-            Jets.back().set_user_info(new HJetInfo(GetJetId(JetClone)));
-            Jets.back().set_user_index(Jets.back().user_info<HJetInfo>().GetMaximalId());
+            Jets.back().set_user_info(new Analysis::HJetInfo(GetJetId(JetClone)));
+            Jets.back().set_user_index(Jets.back().user_info<Analysis::HJetInfo>().GetMaximalId());
 
 
         }
@@ -60,7 +60,7 @@ bool HJetDelphes::GetJets(HJetDetails JetDetails)
         GetDelphesTags(JetClone);
 
 //         Jets.at(JetNumber).user_info<HJetInfo>().PrintAllInfos();
-        Print(0, "Tag", Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalFraction());
+        Print(0, "Tag", Jets.at(JetNumber).user_info<Analysis::HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<Analysis::HJetInfo>().GetMaximalFraction());
 
     }
 
@@ -68,7 +68,7 @@ bool HJetDelphes::GetJets(HJetDetails JetDetails)
 
 }
 
-void HJetDelphes::GetDelphesTags(const Jet *const JetClone)
+void Analysis::HDelphes::HJet::GetDelphesTags(const Jet *const JetClone)
 {
     Print(2, "Get taggs");
 
@@ -94,7 +94,7 @@ void HJetDelphes::GetDelphesTags(const Jet *const JetClone)
 }
 
 
-void HJetDelphes::GetTau(const Jet *const JetClone)
+void Analysis::HDelphes::HJet::GetTau(const Jet *const JetClone)
 {
 
     Print(2, "TauTagCalculations");
@@ -113,7 +113,7 @@ void HJetDelphes::GetTau(const Jet *const JetClone)
 
 }
 
-int HJetDelphes::GetMotherId(const TObject *const Object)
+int Analysis::HDelphes::HJet::GetMotherId(const TObject *const Object)
 {
 
     Print(3, "Get Mother Id", ClonesArrays->ParticleSum());
@@ -138,14 +138,14 @@ int HJetDelphes::GetMotherId(const TObject *const Object)
 
     Print(3, "Mother Id", MotherId);
     std::replace(Topology.begin(), Topology.end(), 100, MotherId);
-    
+
     if(MotherId == EmptyId) Print(0,"No Mother Id",ParticleClone->PID);
 
     return MotherId;
 
 }
 
-int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId, int Position)
+int Analysis::HDelphes::HJet::GetMotherId(GenParticle *ParticleClone, int BranchId, int Position)
 {
 //     DebugLevel = 4;
 
@@ -156,12 +156,12 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId, int Posit
     while (Position != EmptyPosition) {
 
         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
-        
+
         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
         Topology.at(Position) = TemporaryId;
-        
+
         if (JetTag->HeavyParticles.find(abs(BranchId)) != end(JetTag->HeavyParticles)) break;
-        
+
         if (ParticleClone->M2 != EmptyPosition) {
 
             Position = ParticleClone->M2;
@@ -171,7 +171,7 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId, int Posit
             BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(Position), BranchId, Position);
 //             Print(3, "\n");
 //             DebugLevel = 1;
-            
+
         }
 
 //         if (Topology.at(Position) != EmptyId && Topology.at(Position) != TemporaryId) {
@@ -185,13 +185,13 @@ int HJetDelphes::GetMotherId(GenParticle *ParticleClone, int BranchId, int Posit
     }
 
     Print(3, "Branch Id", BranchId);
-    
+
 //     DebugLevel = 1;
     return BranchId;
 
 }
 
-PseudoJet HJetDelphes::GetConstituents(const Jet *const JetClone) const
+PseudoJet Analysis::HDelphes::HJet::GetConstituents(const Jet *const JetClone) const
 {
 
     Print(2, "Get Constituents");
@@ -212,7 +212,7 @@ PseudoJet HJetDelphes::GetConstituents(const Jet *const JetClone) const
 
 }
 
-bool HJetDelphes::ReadEFlow(const HJetDetails JetDetails)
+bool Analysis::HDelphes::HJet::ReadEFlow(const HJetDetails JetDetails)
 {
     Print(2, "Get EFlow");
 
@@ -247,7 +247,7 @@ bool HJetDelphes::ReadEFlow(const HJetDetails JetDetails)
 }
 
 
-void HJetDelphes::GetTrackEFlow(const HJetDetails JetDetails)
+void Analysis::HDelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
 {
     Print(2, "Get Track EFlow", ClonesArrays->EFlowTrackSum());
 
@@ -280,7 +280,7 @@ void HJetDelphes::GetTrackEFlow(const HJetDetails JetDetails)
 
 }
 
-void HJetDelphes::GetPhotonEFlow(const HJetDetails JetDetails)
+void Analysis::HDelphes::HJet::GetPhotonEFlow(const HJetDetails JetDetails)
 {
     Print(2, "Get Photon EFlow", ClonesArrays->EFlowPhotonSum());
 
@@ -300,8 +300,8 @@ void HJetDelphes::GetPhotonEFlow(const HJetDetails JetDetails)
 
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
-            EFlowJets.back().set_user_info(new HJetInfo(GetJetId(EFlowPhotonClone)));
-            EFlowJets.back().set_user_index(EFlowJets.back().user_info<HJetInfo>().GetMaximalId());
+            EFlowJets.back().set_user_info(new Analysis::HJetInfo(GetJetId(EFlowPhotonClone)));
+            EFlowJets.back().set_user_index(EFlowJets.back().user_info<Analysis::HJetInfo>().GetMaximalId());
             Print(4, "Photon EFlow Id", EFlowJets.back().user_index());
 
         }
@@ -310,7 +310,7 @@ void HJetDelphes::GetPhotonEFlow(const HJetDetails JetDetails)
 
 }
 
-void HJetDelphes::GetHadronEFlow(const HJetDetails JetDetails)
+void Analysis::HDelphes::HJet::GetHadronEFlow(const HJetDetails JetDetails)
 {
 
     Print(2, "Get Hadron EFlow", ClonesArrays->EFlowNeutralHadronSum());
@@ -322,8 +322,8 @@ void HJetDelphes::GetHadronEFlow(const HJetDetails JetDetails)
         EFlowJets.push_back(GetPseudoJet(const_cast<Tower *>(HadronClone)->P4()));
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
-            EFlowJets.back().set_user_info(new HJetInfo(GetJetId(HadronClone)));
-            EFlowJets.back().set_user_index(EFlowJets.back().user_info<HJetInfo>().GetMaximalId());
+          EFlowJets.back().set_user_info(new Analysis::HJetInfo(GetJetId(HadronClone)));
+          EFlowJets.back().set_user_index(EFlowJets.back().user_info<Analysis::HJetInfo>().GetMaximalId());
             Print(4, "Hadron EFlow Id", EFlowJets.back().user_index());
 
         }
@@ -332,7 +332,7 @@ void HJetDelphes::GetHadronEFlow(const HJetDetails JetDetails)
 
 }
 
-void HJetDelphes::GetMuonEFlow(const HJetDetails JetDetails)
+void Analysis::HDelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
 {
 
     Print(2, "Get Muon EFlow", ClonesArrays->EFlowMuonSum());
@@ -361,7 +361,7 @@ void HJetDelphes::GetMuonEFlow(const HJetDetails JetDetails)
 }
 
 
-void HJetDelphes::GetGenJet()
+void Analysis::HDelphes::HJet::GetGenJet()
 {
 
     Print(2, "GetGenJet", ClonesArrays->GenJetSum());
@@ -377,7 +377,7 @@ void HJetDelphes::GetGenJet()
 }
 
 
-float HJetDelphes::GetScalarHt()
+float Analysis::HDelphes::HJet::GetScalarHt()
 {
 
     Print(2, "GetScalerHt");

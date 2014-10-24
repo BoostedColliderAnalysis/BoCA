@@ -11,7 +11,7 @@
  * @brief prepares the data for the top tagger
  *
  */
-class HTopTagger : public HObject
+class Analysis::HTopTagger : public HObject
 {
 
 public:

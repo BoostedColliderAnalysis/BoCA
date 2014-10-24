@@ -7,7 +7,7 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 
     DiscriminatorJetTag = new HDiscriminatorJetTag();
 
-    SubStructure = new HSubStructure();
+    SubStructure = new Analysis::HSubStructure();
 
 //     DebugLevel = 3;
 
@@ -32,45 +32,45 @@ vector<string> HAnalysisDiscriminator::GetStudyNames() const
 
 }
 
-vector<HFile *> HAnalysisDiscriminator::GetFiles(const string StudyName) const
+vector<Analysis::HFile *> HAnalysisDiscriminator::GetFiles(const string StudyName) const
 {
     Print(1, "Set File Vector", StudyName);
 
-    vector<HFile *> Files;
+    vector<Analysis::HFile *> Files;
 
     if (StudyName != "Higgs") {
 
-        HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
+      Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
 
-//         HFileDelphes *Background2 = new HFileDelphes("pp-bbtt-bblvlv-HIGGS", "background");
+//         HFile *Background2 = new HFile("pp-bbtt-bblvlv-HIGGS", "background");
 //         Background2->Crosssection = 1.243; // pb
 //         Background2->Error = 0.1309; // pb
 //         Files.push_back(Background2);
 
     }
 
-//     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
+//     HFile *Even = new HFile("pp-x0tt-bblvlv", "even");
 //     Even->Crosssection = 0.02079; // pb
 //     Even->Error = 0.000078; // pb
 // //     Even->TagString="tag_2";
 //     Files.push_back(Even);
 
-//     HFileDelphes *Mix = new HFileDelphes("pp-x0tt-bblvlv", "mix");
+//     HFile *Mix = new HFile("pp-x0tt-bblvlv", "mix");
 //     Mix->Crosssection = 0.01172; // pb
 //     Mix->Error = 0.000045; // pb
 // //     Mix->TagString="tag_2";
 //     Files.push_back(Mix);
 //
-//     HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv", "odd");
+//     HFile *Odd = new HFile("pp-x0tt-bblvlv", "odd");
 //     Odd->Crosssection = 0.008951; // pb
 //     Odd->Error = 0.000035; // pb
 // //     Odd->TagString="tag_2";
 //     Files.push_back(Odd);
 
-    HFileDelphes *Signal = new HFileDelphes("pp-htt-bblvlv", "signal");
+Analysis::HDelphes::HFile *Signal = new Analysis::HDelphes::HFile("pp-htt-bblvlv", "signal");
     Signal->Crosssection = 0.01419; // pb
     Signal->Error = 0.000067; // pb
 //     Odd->TagString="tag_2";
@@ -97,7 +97,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
 //     if (HeavyParticles.find(abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
-    
+
     Print(3, "Get Branch Id", ParticleId, BranchId);
 
     if (
@@ -118,7 +118,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool HAnalysisDiscriminator::Analysis(HEvent *const Event, const string StudyName)
+bool HAnalysisDiscriminator::Analysis(Analysis::HEvent *const Event, const string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
@@ -230,9 +230,9 @@ bool HAnalysisDiscriminator::Analysis(HEvent *const Event, const string StudyNam
 
         }
 
-        if (CandidateJet.user_info<HJetInfo>().GetMaximalFraction() < .9) break;
+        if (CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalFraction() < .9) break;
 
-        Print(0, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
+        Print(0, "Tag", CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalId(), CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 
 //         vector<PseudoJet> Constituents = CandidateJet.constituents();
 //         sort(Constituents.begin(), Constituents.end(), SortJetByPt());
@@ -333,7 +333,7 @@ bool HAnalysisDiscriminator::Analysis(HEvent *const Event, const string StudyNam
 }
 
 
-vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets(HEvent *const Event)
+vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets(Analysis::HEvent *const Event)
 {
 
 // Lepton Stuff

@@ -12,7 +12,7 @@ using std::pair;
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class HJetInfo: public HObject, public PseudoJet::UserInfoBase
+class Analysis::HJetInfo: public HObject, public PseudoJet::UserInfoBase
 {
 
 public:
@@ -39,11 +39,11 @@ public:
      * @return float
      */
     float GetFraction(const int ParticleId) const;
-    
+
     map<int,float> GetJetFractions() const{
-        
+
         return JetFractions;
-        
+
     }
 
     /**

@@ -16,11 +16,13 @@
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
 
+typedef Analysis::HDelphes::HFile HFileDelphes;
+
 /**
  * @brief Base for all analyses
  *
  */
-class HAnalysis : public HObject
+class Analysis::HAnalysis : public HObject
 {
 
 public:

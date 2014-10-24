@@ -4,17 +4,17 @@
 
 int main()
 {
-        
+
     HMvaHeavyHiggs *Mva = new HMvaHeavyHiggs();
-  
-    HReader *Reader = new HReader(Mva);
-    
+
+    Analysis::HReader *Reader = new Analysis::HReader(Mva);
+
     delete Reader;
-    
+
     delete Mva;
 
     cout << "end main" << endl;
-    
+
     return 0;
-    
+
 }

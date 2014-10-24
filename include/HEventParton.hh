@@ -8,7 +8,7 @@
  * @brief Event topology for unweighted MadGraph events
  *
  */
-class HEventParton : public HEvent
+class HParton::HEvent : public Analysis::HEvent
 {
 
 public:
@@ -17,15 +17,15 @@ public:
     * @brief constructor
     *
     */
-    HEventParton();
+    HEvent();
 
     /**
      * @brief destructor
      *
      */
-    ~HEventParton();
+    ~HEvent();
 
-    void NewEvent(const HClonesArray * const);
+    void NewEvent(const Analysis::HClonesArray * const);
 
     void GetParticles();
 
@@ -35,7 +35,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HEventParton");
+        return ("HParton: HEvent");
 
     };
 };

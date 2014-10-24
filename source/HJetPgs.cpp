@@ -1,6 +1,6 @@
 # include "HJetPgs.hh"
 
-HJetPgs::HJetPgs()
+HPgs::HJet::HJet()
 {
 
     Print(1, "Constructor");
@@ -9,14 +9,14 @@ HJetPgs::HJetPgs()
 
 }
 
-HJetPgs::~HJetPgs()
+HPgs::HJet::~HJet()
 {
 
     Print(1, "Destructor");
 
 }
 
-bool HJetPgs::GetJets()
+bool HPgs::HJet::GetJets()
 {
 
     Print(2, "Get Jet");
@@ -48,7 +48,7 @@ bool HJetPgs::GetJets()
     }
 
     Print(3, "Untagged jets", JetLorentzVectors.size());
-    
+
     return 1;
 
 }

@@ -9,7 +9,7 @@
  * @brief event topology for PGS events
  *
  */
-class HEventPgs : public HEvent
+class HPgs::HEvent : public Analysis::HEvent
 {
 
 public:
@@ -18,15 +18,15 @@ public:
     * @brief constructor
     *
     */
-    HEventPgs();
+    HEvent();
 
     /**
      * @brief destructor
      *
      */
-    ~HEventPgs();
+    ~HEvent();
 
-    void NewEvent(const HClonesArray * const);
+    void NewEvent(const Analysis::HClonesArray*const ClonesArrays);
 
     vector<TLorentzVector> GetLeptons();
 
@@ -40,7 +40,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HEventPgs");
+        return ("Pgs: HEvent");
 
     };
 

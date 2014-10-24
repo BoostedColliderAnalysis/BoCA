@@ -10,7 +10,7 @@
  * @brief Class defining the Disciminator Analysis
  *
  */
-class HAnalysisJetProperties : public HAnalysis
+class HAnalysisJetProperties : public Analysis::HAnalysis
 {
 
 public:
@@ -40,9 +40,9 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
-        
+
     int GetEventnumberMax()const{ return 10000;};
-    
+
     inline string GetProjectName() const {
         return "Discriminator";};
 
@@ -65,14 +65,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(HEvent* Event, string StudyName);
+    bool Analysis(Analysis::HEvent* Event, string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< HFile* > GetFiles(const string StudyName) const;
+    std::vector< Analysis::HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis

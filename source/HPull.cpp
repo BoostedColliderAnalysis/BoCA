@@ -1,6 +1,6 @@
 # include "HPull.hh"
 
-HPull::HPull()
+Analysis::HPull::HPull()
 {
     Print(2, "Constructor");
 
@@ -11,7 +11,7 @@ HPull::HPull()
 
 }
 
-HPull::~HPull()
+Analysis::HPull::~HPull()
 {
 
     Print(2, "Destructor");
@@ -19,7 +19,7 @@ HPull::~HPull()
 }
 
 
-void HPull::BTagCalculation(const Jet& JetClone)
+void Analysis::HPull::BTagCalculation(const Jet& JetClone)
 {
 
     Print(2, "BTagCalculation");
@@ -64,7 +64,7 @@ void HPull::BTagCalculation(const Jet& JetClone)
 
 }
 
-float HPull::PullAngle(float Rap, float Phi)
+float Analysis::HPull::PullAngle(float Rap, float Phi)
 {
 
     Print(2, "Pull Angle");
@@ -92,7 +92,7 @@ float HPull::PullAngle(float Rap, float Phi)
 }
 
 
-float HPull::ConfineAngle(float Angle)
+float Analysis::HPull::ConfineAngle(float Angle)
 {
 
     Print(2, "Confine Angle");
@@ -112,7 +112,7 @@ float HPull::ConfineAngle(float Angle)
 }
 
 
-float HPull::SubPull(const PseudoJet& SubJet, const PseudoJet& RefJet, const PseudoJet& CandidateJet)
+float Analysis::HPull::SubPull(const PseudoJet& SubJet, const PseudoJet& RefJet, const PseudoJet& CandidateJet)
 {
 
     Print(2, "Sub Pull");
@@ -208,7 +208,7 @@ float HPull::SubPull(const PseudoJet& SubJet, const PseudoJet& RefJet, const Pse
 
 
 
-float HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJetPiece1, const PseudoJet& FatJetPiece2)
+float Analysis::HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJetPiece1, const PseudoJet& FatJetPiece2)
 {
 
     Print(2, "Calculate DiPolarity");
@@ -338,7 +338,7 @@ float HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJe
 
 
 
-float HPull::JingDipolarity(const PseudoJet &CandidateJet)
+float Analysis::HPull::JingDipolarity(const PseudoJet &CandidateJet)
 {
 
     Print(2, "Jing Dipolarity");
@@ -442,7 +442,7 @@ float HPull::JingDipolarity(const PseudoJet &CandidateJet)
         DiPolarity += PtRatio * pow(deltar,2);
 
         }
-        
+
     }
 
     return DiPolarity;

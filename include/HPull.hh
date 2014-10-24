@@ -20,7 +20,7 @@ using fastjet::Filter;
  * @brief Calculates the pull to each Bottom
  *
  */
-class HPull : public HFourVector
+class Analysis::HPull : public HFourVector
 {
 
 public:

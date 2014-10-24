@@ -24,7 +24,7 @@ struct HMomentum {
  * @brief subjet and constituent calculations
  *
  */
-class HSubStructure : public HObject
+class Analysis::HSubStructure : public HObject
 {
 
 public:
@@ -50,7 +50,7 @@ public:
     inline float GetSubJet2Mass() const {
         return (SubJet2.Mass / Global.Mass);
     };
-    inline 
+    inline
     float GetSubJet1Pt() const {
         return (SubJet1.Pt / Global.Pt);
     };

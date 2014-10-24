@@ -10,7 +10,7 @@
  * @brief event topology for Delphes events
  *
  */
-class HEventDelphes : public HEvent
+class Analysis::HDelphes::HEvent  : public Analysis::HEvent
 {
 
 public:
@@ -19,15 +19,15 @@ public:
     * @brief constructor
     *
     */
-    HEventDelphes();
+    HEvent();
 
     /**
      * @brief destructor
      *
      */
-    ~HEventDelphes();
+    ~HEvent();
 
-    void NewEvent(const HClonesArray * const);
+    void NewEvent(const Analysis::HClonesArray*const ClonesArrays);
 
     vector<TLorentzVector>GetLeptons();
 
@@ -35,27 +35,27 @@ public:
 
     void GetEFlow();
 
-    void GetTaggedEFlow(HJetTag *const JetTag);
+    void GetTaggedEFlow(Analysis::HJetTag *const JetTag);
 
     void GetIsolatedEFlow();
 
-    void GetIsoaltedTaggedEFlow(HJetTag *const JetTag);
+    void GetIsoaltedTaggedEFlow(Analysis::HJetTag *const JetTag);
 
     void GetParticles();
 
     PseudoJet GetHiggs();
 
-    vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const JetTag);
+    vector<PseudoJet> GetHiggsTopCandidates(Analysis::HJetTag *const JetTag);
 
-    vector<PseudoJet> GetTops(const HJetTag *const JetTag);
+    vector<PseudoJet> GetTops(const Analysis::HJetTag *const JetTag);
 
-    void GetTaggedJets(HJetTag *const JetTag);
+    void GetTaggedJets(Analysis::HJetTag *const JetTag);
 
 private:
 
     inline string ClassName() const {
 
-        return ("HEventDelphes");
+        return ("Delphes: HEvent");
 
     };
 

@@ -18,22 +18,22 @@ vector<string> HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 
 }
 
-vector<HFile*> HAnalysisHeavyHiggsDelphes::GetFiles(const string StudyName) const
+vector<Analysis::HFile*> HAnalysisHeavyHiggsDelphes::GetFiles(const string StudyName) const
 {
 
     Print(1, "Fill Analysis Vector", StudyName);
 
-    vector<HFile*> Files;
+    vector<Analysis::HFile*> Files;
 
-    Files.push_back(new HFileFolder("BG_ttbb"));
-    Files.push_back(new HFileFolder("hcpbb_ttbb"));
+    Files.push_back(new Analysis::HFileFolder("BG_ttbb"));
+    Files.push_back(new Analysis::HFileFolder("hcpbb_ttbb"));
 
     Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
     Files.front()->FileSuffix = ".root";
     Files.front()->Snowmass = 1;
 
-//     FileVector.push_back(new HFileDelphes("pp-bbtt-4f", "background"));
+//     FileVector.push_back(new HFile("pp-bbtt-4f", "background"));
 
     Print(1, "Files prepared");
 
@@ -74,7 +74,7 @@ void HAnalysisHeavyHiggsDelphes::CloseFile()
 
 }
 
-bool HAnalysisHeavyHiggsDelphes::Analysis(HEvent *Event, const string StudyName)
+bool HAnalysisHeavyHiggsDelphes::Analysis(Analysis::HEvent *Event, const string StudyName)
 {
 
     Print(2, "Analysis");
@@ -91,7 +91,7 @@ bool HAnalysisHeavyHiggsDelphes::Analysis(HEvent *Event, const string StudyName)
 
 }
 
-class HHeavyHiggsJetTag : public HJetTag {
+class HHeavyHiggsJetTag : public Analysis::HJetTag {
 
     int GetBranchId(int, int);
 
@@ -125,7 +125,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 // }
 
 
-bool HAnalysisHeavyHiggsDelphes::Signal(HEvent* Event)
+bool HAnalysisHeavyHiggsDelphes::Signal(Analysis::HEvent* Event)
 {
 
     Print(2, "Signal");
@@ -159,12 +159,12 @@ bool HAnalysisHeavyHiggsDelphes::Signal(HEvent* Event)
 }
 
 
-bool HAnalysisHeavyHiggsDelphes::Background(HEvent* Event)
+bool HAnalysisHeavyHiggsDelphes::Background(Analysis::HEvent* Event)
 {
 
     Print(2, "Background");
 
-    const HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
     Event->GetTaggedJets(HeavyHiggsJetTag);
 
     vector<PseudoJet> JetVector = Event->Jets->Jets;
@@ -246,7 +246,7 @@ bool HAnalysisHeavyHiggsDelphes::Background(HEvent* Event)
 
 }
 
-bool HAnalysisHeavyHiggsDelphes::Test(HEvent* Event)
+bool HAnalysisHeavyHiggsDelphes::Test(Analysis::HEvent* Event)
 {
 
     Print(2, "Test");
@@ -284,7 +284,7 @@ bool HAnalysisHeavyHiggsDelphes::Test(HEvent* Event)
     return 1;
 
 }
-void HAnalysisHeavyHiggsDelphes::FillBranch(HEvent* Event,PseudoJet FrontJet, PseudoJet BackJet)
+void HAnalysisHeavyHiggsDelphes::FillBranch(Analysis::HEvent* Event,PseudoJet FrontJet, PseudoJet BackJet)
 {
 
     float FrontPt = FrontJet.pt();
@@ -328,7 +328,7 @@ void HAnalysisHeavyHiggsDelphes::FillBranch(HEvent* Event,PseudoJet FrontJet, Ps
 }
 
 
-float HAnalysisHeavyHiggsDelphes::Leptons(HEvent* Event,PseudoJet Jet)
+float HAnalysisHeavyHiggsDelphes::Leptons(Analysis::HEvent* Event,PseudoJet Jet)
 {
 
     float Isolation;

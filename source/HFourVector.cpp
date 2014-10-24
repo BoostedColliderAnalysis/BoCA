@@ -1,6 +1,6 @@
 # include "HFourVector.hh"
 
-HFourVector::HFourVector() :
+Analysis::HFourVector::HFourVector() :
     CheckFourVectors(0),
     Check(0.00001),
     MassCheck(1)
@@ -10,7 +10,7 @@ HFourVector::HFourVector() :
 
 }
 
-HFourVector::~HFourVector()
+Analysis::HFourVector::~HFourVector()
 {
 
 
@@ -19,7 +19,7 @@ HFourVector::~HFourVector()
 }
 
 
-PseudoJet HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
 {
 
     const PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
@@ -28,7 +28,7 @@ PseudoJet HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
 
 }
 
-TLorentzVector HFourVector::GetConstituent(const TObject *const Object) const
+TLorentzVector Analysis::HFourVector::GetConstituent(const TObject *const Object) const
 {
 
     TLorentzVector LorentzVector;
@@ -59,7 +59,7 @@ TLorentzVector HFourVector::GetConstituent(const TObject *const Object) const
 
 }
 
-PseudoJet HFourVector::GetConstituentJet(const TObject *const Object) const
+PseudoJet Analysis::HFourVector::GetConstituentJet(const TObject *const Object) const
 {
 
     return GetPseudoJet(GetConstituent(Object));
@@ -67,7 +67,7 @@ PseudoJet HFourVector::GetConstituentJet(const TObject *const Object) const
 }
 
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootElectron *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootElectron *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootElectron");
@@ -76,7 +76,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootElectron *const Particle
 
 }
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootGenJet *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootGenJet *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootGenJet");
@@ -85,7 +85,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootGenJet *const Particle) 
 
 }
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootGenParticle *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootGenParticle *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootGenParticle");
@@ -94,7 +94,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootGenParticle *const Parti
 
 }
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootJet *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootJet *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootJet");
@@ -103,7 +103,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootJet *const Particle) con
 
 }
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootLHEFParticle *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootLHEFParticle *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootLHEFParticle");
@@ -112,7 +112,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootLHEFParticle *const Part
 
 }
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootMuon *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootMuon *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootMuon");
@@ -121,7 +121,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootMuon *const Particle) co
 
 }
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootPhoton *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootPhoton *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootPhoton");
@@ -130,7 +130,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootPhoton *const Particle) 
 
 }
 
-TLorentzVector HFourVector::GetLorentzVector(const TRootTau *const Particle) const
+TLorentzVector Analysis::HFourVector::GetLorentzVector(const TRootTau *const Particle) const
 {
 
     Print(3, "Get Lorentz Vector", "TRootTau");
@@ -139,7 +139,7 @@ TLorentzVector HFourVector::GetLorentzVector(const TRootTau *const Particle) con
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootElectron");
@@ -148,7 +148,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootGenJet *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootGenJet *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootGenJet");
@@ -157,7 +157,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootGenJet *const Particle) const
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootGenParticle *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootGenParticle *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootGenParticle");
@@ -166,7 +166,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootGenParticle *const Particle) cons
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootJet *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootJet *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootJet");
@@ -176,7 +176,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootJet *const Particle) const
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootLHEFParticle *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootLHEFParticle *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootLHEFParticle");
@@ -185,7 +185,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootLHEFParticle *const Particle) con
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootMuon *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootMuon *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootMuon");
@@ -194,7 +194,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootMuon *const Particle) const
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootPhoton *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootPhoton *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootPhoton");
@@ -203,7 +203,7 @@ PseudoJet HFourVector::GetPseudoJet(const TRootPhoton *const Particle) const
 
 }
 
-PseudoJet HFourVector::GetPseudoJet(const TRootTau *const Particle) const
+PseudoJet Analysis::HFourVector::GetPseudoJet(const TRootTau *const Particle) const
 {
 
     Print(3, "Get Pseudo Jet", "TRootTau");

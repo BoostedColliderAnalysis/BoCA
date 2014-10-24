@@ -3,7 +3,7 @@
 # include "TObjArray.h"
 
 
-HFactory::HFactory(HMva *NewMva)
+Analysis::HFactory::HFactory(HMva *NewMva)
 {
 
     Print(1 , "Constructor");
@@ -32,7 +32,7 @@ HFactory::HFactory(HMva *NewMva)
 
 }
 
-HFactory::~HFactory()
+Analysis::HFactory::~HFactory()
 {
 
     Print(1 , "Destructor");
@@ -41,15 +41,15 @@ HFactory::~HFactory()
 
 }
 
-void HFactory::NewFactory()
+void Analysis::HFactory::NewFactory()
 {
 
     Print(1 , "New Factory");
 
     const string FactoryOutputName = "Mva" + Mva->BackgroundName;
-    
+
     const string OutputFileName = Mva->AnalysisName + "/" + FactoryOutputName + ".root";
-    
+
     OutputFile = TFile::Open(OutputFileName.c_str(), "Recreate");
 
 //     string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
@@ -60,7 +60,7 @@ void HFactory::NewFactory()
 }
 
 
-void HFactory::AddVariables()
+void Analysis::HFactory::AddVariables()
 {
 
     Print(1 , "Add Variables");
@@ -82,7 +82,7 @@ void HFactory::AddVariables()
 }
 
 
-void HFactory::GetTrees()
+void Analysis::HFactory::GetTrees()
 {
 
     Print(1 , "Get Trees");
@@ -121,7 +121,7 @@ void HFactory::GetTrees()
 
 }
 
-void HFactory::AddTree(const TFile *const File, const string TreeName, const bool Signal)
+void Analysis::HFactory::AddTree(const TFile *const File, const string TreeName, const bool Signal)
 {
 
     Print(1 , "Add Tree", TreeName);
@@ -156,7 +156,7 @@ void HFactory::AddTree(const TFile *const File, const string TreeName, const boo
 
 }
 
-void HFactory::PrepareTrainingAndTestTree()
+void Analysis::HFactory::PrepareTrainingAndTestTree()
 {
 
     Print(1 , "PrepareTrainingAndTestTree");
@@ -171,7 +171,7 @@ void HFactory::PrepareTrainingAndTestTree()
 
 }
 
-void HFactory::BookMethods()
+void Analysis::HFactory::BookMethods()
 {
 
     Print(1 , "Book Methods");

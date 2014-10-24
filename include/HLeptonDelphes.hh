@@ -7,7 +7,7 @@
  * @brief Delphes leptons
  *
  */
-class HLeptonDelphes : public HLepton
+class Analysis::HDelphes::HLepton : public Analysis::HLepton
 {
 
 public:
@@ -17,14 +17,14 @@ public:
      * @brief constructor
      *
      */
-    HLeptonDelphes();
+    HLepton();
 
 
     /**
      * @brief destructor
      *
      */
-    ~HLeptonDelphes();
+    ~HLepton();
 
     /**
      * @brief Find the hardest of the light leptons
@@ -46,7 +46,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HLeptonDelphes");
+        return "HDelphes: HLepton";
 
     };
 

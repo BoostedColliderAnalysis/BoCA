@@ -11,7 +11,7 @@ using std::iter_swap;
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class HAnalysisHeavyHiggsParton : public HAnalysis
+class HAnalysisHeavyHiggsParton : public Analysis::HAnalysis
 {
 
 public:
@@ -23,13 +23,13 @@ public:
     HAnalysisHeavyHiggsParton();
 
 private:
-    
+
     int GetEventnumberMax()const{ return 10000;};
 
     inline string GetProjectName()const{
         return "HeavyHiggsParton";
     }
-    
+
     /**
      * @brief Branch to write Heavy Higgs info into
      *
@@ -52,14 +52,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(HEvent* Event, string);
+    bool Analysis(Analysis::HEvent* Event, string);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    vector<HFile* > GetFiles(const string StudyName) const;
+    vector<Analysis::HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis

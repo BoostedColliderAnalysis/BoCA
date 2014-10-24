@@ -12,18 +12,12 @@
 
 using fastjet::antikt_algorithm;
 
-class HDiscriminatorJetTag : public HJetTag
+class HDiscriminatorJetTag : public Analysis::HJetTag
 {
 
     int GetBranchId(const int, int) const;
 
     const set<int> HeavyParticles = {TopId, CpvHiggsId};
-
-    const set<int> RadiationParticles = {GluonId, UpId, DownId, StrangeId, CharmId, BottomId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
-
-    const set<int> ChargeParticle = {UpId, DownId, StrangeId, CharmId, BottomId, TopId, PionId, RhoMesonId, ElectronId, MuonId, TauLeptonId, BMesonId, KMesonId, BMesonId, BMesonSId, ProtonId, DeltaBaryonId, KMesonSId, WId, DeltaBaryon2Id, DMesonId, DMesonS2Id, DMesonSId};
-
-    const set<int> NeutralParticle = {DMeson0Id, KMeson0Id, KMeson0SId, NeutronId, BMeson0Id, BMeson0SId, DMesonS0Id, BMesonS0Id, BMesonSS0Id};
 
     inline string ClassName() const {
 
@@ -40,7 +34,7 @@ class HDiscriminatorJetTag : public HJetTag
  * \class HDiscriminator
  *
  */
-class HJetDiscriminator : public HAnalysis
+class HJetDiscriminator : public Analysis::HAnalysis
 {
 
 public:
@@ -56,8 +50,10 @@ public:
      *
      */
     ~HJetDiscriminator();
-    
-    int GetEventnumberMax()const{ return 10000;};
+
+    inline int GetEventnumberMax()const {
+        return 10000;
+    };
 
     inline string GetProjectName()const {
         return "JetProperties";
@@ -138,7 +134,7 @@ private:
 
     HDiscriminatorJetTag *DiscriminatorJetTag;
 
-    HSubStructure *SubStructure;
+    Analysis::HSubStructure *SubStructure;
 
 
     bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const vector<PseudoJet> &, const float DeltaR);
@@ -153,7 +149,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> Leptons(HEvent *Event);
+    vector<PseudoJet> Leptons(Analysis::HEvent* Event);
 
     /**
      * @brief Lepton calculations
@@ -176,14 +172,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(HEvent *Event, string StudyName);
+    bool Analysis(Analysis::HEvent* Event, string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< HFile*> GetFiles(const string StudyName) const;
+    std::vector< Analysis::HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis

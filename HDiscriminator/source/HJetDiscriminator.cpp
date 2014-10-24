@@ -7,7 +7,7 @@ HJetDiscriminator::HJetDiscriminator()
 
     HDiscriminatorTag = new HDiscriminatorJetTag();
 
-    SubStructure = new HSubStructure();
+    SubStructure = new Analysis::HSubStructure();
 
 //     DebugLevel = 4;
 
@@ -34,32 +34,32 @@ vector<string> HJetDiscriminator::GetStudyNames() const
 
 }
 
-vector< HFile* > HJetDiscriminator::GetFiles(const string StudyName) const
+vector< Analysis::HFile* > HJetDiscriminator::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
 
-    vector<HFile*> Files;
+    vector<Analysis::HFile*> Files;
     if (StudyName != "Higgs") {
 
-        HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
+      Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
 
     }
 
-    HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
+    Analysis::HDelphes::HFile *Even = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
     Files.push_back(Even);
 
-    HFileDelphes *Mix = new HFileDelphes("pp-x0tt-bblvlv", "mix");
+    Analysis::HDelphes::HFile *Mix = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
     Files.push_back(Mix);
 
-    HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv", "odd");
+    Analysis::HDelphes::HFile *Odd = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
     Files.push_back(Odd);
@@ -143,7 +143,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 }
 
 
-bool HJetDiscriminator::Analysis(HEvent* Event,string StudyName)
+bool HJetDiscriminator::Analysis(Analysis::HEvent* Event,string StudyName)
 {
 
     Print(3, "Analysis");
@@ -450,7 +450,7 @@ float HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
 
 }
 
-vector<PseudoJet> HJetDiscriminator::Leptons(HEvent* Event)
+vector<PseudoJet> HJetDiscriminator::Leptons(Analysis::HEvent* Event)
 {
 
     // Lepton Stuff

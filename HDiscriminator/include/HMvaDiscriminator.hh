@@ -13,7 +13,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class HMvaDiscriminator : public HMva
+class HMvaDiscriminator : public Analysis::HMva
 {
 
 public:

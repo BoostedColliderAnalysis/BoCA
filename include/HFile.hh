@@ -9,28 +9,28 @@
  * ProcessFolder has to be set
  *
  */
-class HFile : public HObject
+class Analysis::HFile : public HObject
 {
 
 public:
-    
-    /**
-     * @brief constructor defining default path
-     *
-     */
-    explicit HFile();
 
     /**
      * @brief constructor defining default path
      *
      */
-    explicit HFile(const string Process);
+    HFile();
 
     /**
      * @brief constructor defining default path
      *
      */
-    explicit HFile(const string Process, const string Run);
+    HFile(const string Process);
+
+    /**
+     * @brief constructor defining default path
+     *
+     */
+    HFile(const string Process, const string Run);
 
     /**
      * @brief destructor
@@ -101,18 +101,19 @@ public:
 
 protected:
 
+  void  SetVariables();
+
     string MadGraphFilePath() const;
 
     virtual inline string ClassName() const {
 
-        return ("HFile");
+        return "HFile";
 
     };
 
 
 private:
 
-    void  SetVariables();
 
 };
 
@@ -120,12 +121,28 @@ private:
  * @brief unweighted MadGraph files
  *
  */
-class HFileParton : public HFile
+class HParton::HFile : public Analysis::HFile
 {
 
 public:
 
-    using HFile::HFile;
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile();
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile(const string Process);
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile(const string Process, const string Run);
 
     /**
      * @brief Compose file path
@@ -140,7 +157,7 @@ protected:
 
     virtual inline string ClassName() const {
 
-        return ("HFileFlat");
+        return "HParton: HFile";
 
     };
 
@@ -152,12 +169,28 @@ private:
  * @brief PGS files
  *
  */
-class HFilePgs : public HFile
+class HPgs::HFile : public Analysis::HFile
 {
 
 public:
 
-    using HFile::HFile;
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile();
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile(const string Process);
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile(const string Process, const string Run);
 
     /**
      * @brief Compose file path
@@ -172,7 +205,7 @@ protected:
 
     virtual inline string ClassName() const {
 
-        return ("HFilePgs");
+        return "HPgs: HFile";
 
     };
 
@@ -184,11 +217,28 @@ private:
  * @brief Delphes files
  *
  */
-class HFileDelphes : public HFile
+class Analysis::HDelphes::HFile : public Analysis::HFile
 {
 
 public:
-    using HFile::HFile;
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile();
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile(const string Process);
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFile(const string Process, const string Run);
 
     /**
      * @brief Compose file path
@@ -203,7 +253,7 @@ protected:
 
     virtual inline string ClassName() const {
 
-        return ("HFileDelphes");
+        return "HDelphes: HFile";
 
     };
 
@@ -215,12 +265,28 @@ private:
  * @brief Delphes files in plain folder
  *
  */
-class HFileFolder : public HFile
+class Analysis::HFileFolder : public HFile
 {
 
 public:
-    
-    using HFile::HFile;
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFileFolder();
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFileFolder(const string Process);
+
+  /**
+   * @brief constructor defining default path
+   *
+   */
+  HFileFolder(const string Process, const string Run);
 
     /**
      * @brief Compose file path

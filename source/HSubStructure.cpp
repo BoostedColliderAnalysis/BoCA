@@ -1,6 +1,6 @@
 # include "HSubStructure.hh"
 
-HSubStructure::HSubStructure()
+Analysis::HSubStructure::HSubStructure()
 {
 
     Print(1, "Constructor");
@@ -10,21 +10,21 @@ HSubStructure::HSubStructure()
 
 }
 
-HSubStructure::~HSubStructure()
+Analysis::HSubStructure::~HSubStructure()
 {
 
     Print(1, "Destructor");
 
 }
 
-void HSubStructure::NewEvent()
+void Analysis::HSubStructure::NewEvent()
 {
 
     SubJets = 0;
 
 }
 
-bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
+bool Analysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 {
 
     SubJets = 1;
@@ -111,7 +111,7 @@ bool HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
 }
 
-bool HSubStructure::GetConstituents(const PseudoJet &CandidateJet, ExRootTreeBranch *const ConstituentBranch)
+bool Analysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, ExRootTreeBranch *const ConstituentBranch)
 {
 
     if (CandidateJet.constituents().size() < 1) {
@@ -198,7 +198,7 @@ bool HSubStructure::GetConstituents(const PseudoJet &CandidateJet, ExRootTreeBra
 
 }
 
-bool HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets)
+bool Analysis::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets)
 {
 
     // Get Position of SubJets
@@ -255,7 +255,7 @@ bool HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<Pse
 
 
 
-float HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) const
+float Analysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) const
 {
 
     Print(2, "Jing Dipolarity");

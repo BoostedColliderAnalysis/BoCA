@@ -1,6 +1,6 @@
 # include "HHiggsTagger.hh"
 
-HHiggsTagger::HHiggsTagger()
+Analysis::HHiggsTagger::HHiggsTagger()
 {
 
     Print(1, "Constructor");
@@ -17,14 +17,14 @@ HHiggsTagger::HHiggsTagger()
 
 }
 
-HHiggsTagger::~HHiggsTagger()
+Analysis::HHiggsTagger::~HHiggsTagger()
 {
 
     Print(1, "Destructor");
 
 }
 
-void HHiggsTagger::NewEvent(){
+void Analysis::HHiggsTagger::NewEvent(){
 
     Print(2, "New Event");
 
@@ -37,7 +37,7 @@ void HHiggsTagger::NewEvent(){
 }
 
 
-PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const vector<PseudoJet>& BottomJets, const vector<PseudoJet> &CharmJets)
+PseudoJet Analysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const vector<PseudoJet>& BottomJets, const vector<PseudoJet> &CharmJets)
 {
     Print(2, "GetHiggsJet");
 
@@ -84,7 +84,7 @@ PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const ve
 
 }
 
-// vector<PseudoJet> HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector)
+// vector<PseudoJet> Analysis::HHiggsTagger::GetFatJetVector(vector<PseudoJet> InputJetVector)
 // {
 //
 //     Print(2, "GetFatJetVector");
@@ -107,7 +107,7 @@ PseudoJet HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const ve
 
 
 
-PseudoJet HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
+PseudoJet Analysis::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
 {
 
     Print(2, "GetFilteredJet");
@@ -136,7 +136,7 @@ PseudoJet HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastj
 
 }
 
-void HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles, const int UserIndex)
+void Analysis::HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles, const int UserIndex)
 {
 
     Print(2, "GetSubJetSource");
@@ -166,7 +166,7 @@ void HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles, const int
 
 }
 
-int HHiggsTagger::BTagger()
+int Analysis::HHiggsTagger::BTagger()
 {
     Print(2, "BTagger");
 
@@ -222,7 +222,7 @@ int HHiggsTagger::BTagger()
 }
 
 
-float HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
+float Analysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 {
     Print(2, "GetDipolarity");
 
@@ -312,7 +312,7 @@ float HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 
 }
 
-void HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
+void Analysis::HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 {
     Print(2, "SetEtaPhi");
 
@@ -323,7 +323,7 @@ void HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 
 }
 
-float HHiggsTagger::GetSubDeltaR()
+float Analysis::HHiggsTagger::GetSubDeltaR()
 {
 
     Print(2, "GetSubDeltaR");

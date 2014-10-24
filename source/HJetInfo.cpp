@@ -1,7 +1,7 @@
 # include "HJetInfo.hh"
 
 
-HJetInfo::HJetInfo()
+Analysis::HJetInfo::HJetInfo()
 {
 
     Print(3, "Constructor");
@@ -9,7 +9,7 @@ HJetInfo::HJetInfo()
 
 }
 
-void HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
+void Analysis::HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
 {
 
     Print(2, "Add Constituent", ConstituentId, Weight);
@@ -20,7 +20,7 @@ void HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
 
 }
 
-float HJetInfo::GetWeightSum() const
+float Analysis::HJetInfo::GetWeightSum() const
 {
 
     Print(2, "Get Weight Sum", JetFractions.size());
@@ -37,7 +37,7 @@ float HJetInfo::GetWeightSum() const
 
 }
 
-float HJetInfo::GetFraction(const int ParticleId) const
+float Analysis::HJetInfo::GetFraction(const int ParticleId) const
 {
 
     Print(2, "Get Fraction", ParticleId);
@@ -51,10 +51,10 @@ float HJetInfo::GetFraction(const int ParticleId) const
         return (JetFractions.at(ParticleId) / GetWeightSum());
 
     }
-    
+
 }
 
-float HJetInfo::GetMaximalFraction() const
+float Analysis::HJetInfo::GetMaximalFraction() const
 {
 
     Print(2, "Get Maximal Fraction");
@@ -73,7 +73,7 @@ float HJetInfo::GetMaximalFraction() const
 
 }
 
-bool HJetInfo::HasParticle(const int ParticleId) const
+bool Analysis::HJetInfo::HasParticle(const int ParticleId) const
 {
 
     Print(2, "Has Particle", ParticleId);
@@ -84,7 +84,7 @@ bool HJetInfo::HasParticle(const int ParticleId) const
 
 }
 
-// float HJetInfo::GetMaximalFraction() const
+// float Analysis::HJetInfo::GetMaximalFraction() const
 // {
 //
 //     Print(2, "Get Maximal Fraction");
@@ -104,7 +104,7 @@ bool HJetInfo::HasParticle(const int ParticleId) const
 //
 // }
 
-int HJetInfo::GetMaximalId() const
+int Analysis::HJetInfo::GetMaximalId() const
 {
 
     Print(2, "Get Maximal Id");
@@ -115,7 +115,7 @@ int HJetInfo::GetMaximalId() const
 
 }
 
-void HJetInfo::Clear()
+void Analysis::HJetInfo::Clear()
 {
 
     Print(2, "Clear");
@@ -124,7 +124,7 @@ void HJetInfo::Clear()
 
 }
 
-void HJetInfo::PrintAllInfos(int Severity) const
+void Analysis::HJetInfo::PrintAllInfos(int Severity) const
 {
 
     Print(2, "Print All Infos");

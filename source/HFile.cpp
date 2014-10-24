@@ -1,6 +1,6 @@
 # include "HFile.hh"
 
-HFile::HFile()
+Analysis::HFile::HFile()
 {
 
     Print(1, "Constructor");
@@ -9,7 +9,7 @@ HFile::HFile()
 
 }
 
-HFile::HFile(const string Process)
+Analysis::HFile::HFile(const string Process)
 {
 
     Print(1, "Constructor");
@@ -20,7 +20,7 @@ HFile::HFile(const string Process)
 
 }
 
-HFile::HFile(const string Process, const string Run)
+Analysis::HFile::HFile(const string Process, const string Run)
 {
 
     Print(1, "Constructor");
@@ -33,28 +33,28 @@ HFile::HFile(const string Process, const string Run)
 
 }
 
-string HFile::Title() const {
+string Analysis::HFile::Title() const {
 
     return RunFolder;
 
 }
 
-string HFile::MadGraphFilePath() const {
+string Analysis::HFile::MadGraphFilePath() const {
 
     return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
 
 }
 
-// TString HFile::BasePath = "$HOME/Development/madgraph/";
-string HFile::BasePath = "$HOME/Development/MadGraph/";
+// TString Analysis::HFile::BasePath = "$HOME/Development/madgraph/";
+string Analysis::HFile::BasePath = "$HOME/Development/MadGraph/";
 
-string HFile::FileSuffix = "_delphes_events.root";
+string Analysis::HFile::FileSuffix = "_delphes_events.root";
 
-string HFile::TreeString = "Delphes";
+string Analysis::HFile::TreeString = "Delphes";
 
-bool HFile::Snowmass = 0;
+bool Analysis::HFile::Snowmass = 0;
 
-void HFile::SetVariables()
+void Analysis::HFile::SetVariables()
 {
 
     Print(2, "Set Variables");
@@ -75,7 +75,7 @@ void HFile::SetVariables()
 
 }
 
-HFile::~HFile()
+Analysis::HFile::~HFile()
 {
 
 
@@ -83,7 +83,40 @@ HFile::~HFile()
 
 }
 
-string HFileParton::GetTreeName() const
+HParton::HFile::HFile()
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+}
+
+HParton::HFile::HFile(const string Process)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+}
+
+HParton::HFile::HFile(const string Process, const string Run)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+  RunFolder = Run;
+
+}
+
+string HParton::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -94,7 +127,7 @@ string HFileParton::GetTreeName() const
 
 }
 
-string HFileParton::GetFilePath() const
+string HParton::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -105,7 +138,41 @@ string HFileParton::GetFilePath() const
 
 }
 
-string HFilePgs::GetTreeName() const
+
+HPgs::HFile::HFile()
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+}
+
+HPgs::HFile::HFile(const string Process)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+}
+
+HPgs::HFile::HFile(const string Process, const string Run)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+  RunFolder = Run;
+
+}
+
+string HPgs::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -116,7 +183,7 @@ string HFilePgs::GetTreeName() const
 
 }
 
-string HFilePgs::GetFilePath() const
+string HPgs::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -127,7 +194,40 @@ string HFilePgs::GetFilePath() const
 
 }
 
-string HFileDelphes::GetTreeName() const
+Analysis::HDelphes::HFile::HFile()
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+}
+
+Analysis::HDelphes::HFile::HFile(const string Process)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+}
+
+Analysis::HDelphes::HFile::HFile(const string Process, const string Run)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+  RunFolder = Run;
+
+}
+
+string Analysis::HDelphes::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -136,7 +236,7 @@ string HFileDelphes::GetTreeName() const
 
 }
 
-string HFileDelphes::GetFilePath() const
+string Analysis::HDelphes::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -147,7 +247,41 @@ string HFileDelphes::GetFilePath() const
 
 }
 
-string HFileFolder::GetTreeName() const
+
+Analysis::HFileFolder::HFileFolder()
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+}
+
+Analysis::HFileFolder::HFileFolder(const string Process)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+}
+
+Analysis::HFileFolder::HFileFolder(const string Process, const string Run)
+{
+
+  Print(1, "Constructor");
+
+  SetVariables();
+
+  ProcessFolder = Process;
+
+  RunFolder = Run;
+
+}
+
+string Analysis::HFileFolder::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -156,7 +290,7 @@ string HFileFolder::GetTreeName() const
 }
 
 
-string HFileFolder::GetFilePath() const
+string Analysis::HFileFolder::GetFilePath() const
 {
 
     Print(2, "FilePath");

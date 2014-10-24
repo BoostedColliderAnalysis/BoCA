@@ -9,7 +9,7 @@
  * @brief Delphes jets
  *
  */
-class HJetDelphes : public HJet
+class Analysis::HDelphes::HJet : public Analysis::HJet
 {
 
 public:
@@ -18,20 +18,20 @@ public:
      * @brief constructor
      *
      */
-    HJetDelphes();
+    HJet();
 
     /**
      * @brief Destructor
      *
      */
-    ~HJetDelphes();
+    ~HJet();
 
     /**
      * @brief Initialize new event
      *
      * @return void
      */
-    void NewEvent(const HClonesArray * const);
+    void NewEvent(const Analysis::HClonesArray*const NewClonesArrays);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -82,18 +82,18 @@ private:
     vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>);
 
     template <typename TClone>
-    HJetInfo GetJetId(const TClone &Clone) {
+    Analysis::HJetInfo GetJetId(const TClone &Clone) {
 
         Print(2, "Get Jet Id", Clone->Particles.GetEntriesFast());
 
-        HJetInfo JetInfo;
+        Analysis::HJetInfo JetInfo;
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 
             const TObject *const Object = Clone->Particles.At(ParticleNumber);
             const int MotherId = GetMotherId(Object);
             Print(3,"MotherId",MotherId);
-            
+
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
             JetInfo.AddConstituent(MotherId, fabs(ParticleClone->PT));
@@ -140,7 +140,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HJetDelphes");
+        return ("HDelphes: HJet");
 
     };
 

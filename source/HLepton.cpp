@@ -1,22 +1,22 @@
 # include "HLepton.hh"
 
-HLepton::HLepton()
+Analysis::HLepton::HLepton()
 {
 
     Print(1,"Constructor");
-    
+
 //     Debug = 5;
 
 }
 
-HLepton::~HLepton()
+Analysis::HLepton::~HLepton()
 {
 
     Print(1,"Destructor");
 
 }
 
-void HLepton::NewEvent(const HClonesArray * const NewClonesArray)
+void Analysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 {
 
     Print(2,"New Event");
@@ -38,13 +38,13 @@ void HLepton::NewEvent(const HClonesArray * const NewClonesArray)
     LeptonLorentzVectors.clear();
 
     AntiLeptonLorentzVectors.clear();
-    
+
     ElectronJets.clear();
-    
+
     AntiElectronJets.clear();
-    
+
     MuonJets.clear();
-    
+
     AntiMuonJets.clear();
 
     LeptonJets.clear();
@@ -53,7 +53,7 @@ void HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 
 }
 
-vector<TLorentzVector> HLepton::GetLeptonLorentzVectors()
+vector<TLorentzVector> Analysis::HLepton::GetLeptonLorentzVectors()
 {
 
     Print(2,"Get Leptons");
@@ -62,7 +62,7 @@ vector<TLorentzVector> HLepton::GetLeptonLorentzVectors()
     LeptonLorentzVectors.insert(LeptonLorentzVectors.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
 //     LeptonVector.insert(LeptonVector.end(), TauVector.begin(), TauVector.end());
     sort(LeptonLorentzVectors.begin(), LeptonLorentzVectors.end(), SortByPt());
-    
+
     Print(3,"Number of Leptons",LeptonLorentzVectors.size());
 
     AntiLeptonLorentzVectors = AntiElectronLorentzVectors;
@@ -76,14 +76,14 @@ vector<TLorentzVector> HLepton::GetLeptonLorentzVectors()
     vector<TLorentzVector> CompleteVector = LeptonLorentzVectors;
     CompleteVector.insert(CompleteVector.end(), AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end());
     sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
-        
+
     return CompleteVector;
-    
+
 }
 
 
 
-vector<PseudoJet> HLepton::GetLeptonJets()
+vector<PseudoJet> Analysis::HLepton::GetLeptonJets()
 {
 
     Print(2,"Get Lepton Jets");
@@ -104,9 +104,9 @@ vector<PseudoJet> HLepton::GetLeptonJets()
     vector<PseudoJet> CompleteJetVector = LeptonJets;
     CompleteJetVector.insert(CompleteJetVector.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
 //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
-        
+
     return CompleteJetVector;
-    
+
 }
 
 

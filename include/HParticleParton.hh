@@ -7,7 +7,7 @@
  * @brief MadGraph particles
  *
  */
-class HParticleParton : public HParticle
+class HParton::HParticle : public Analysis::HParticle
 {
 
 public:
@@ -16,13 +16,13 @@ public:
      * @brief constructor
      *
      */
-    HParticleParton();
+    HParticle();
 
     /**
      * @brief destructor
      *
      */
-    ~HParticleParton();
+    ~HParticle();
 
     /**
      * @brief extract electrons and muon particle
@@ -35,7 +35,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HParticleParton");
+        return "HParton: HParticle";
 
     };
 

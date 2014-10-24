@@ -4,13 +4,13 @@
 int main()
 {
     HMvaHeavyHiggs *Mva = new HMvaHeavyHiggs();
-  
-    HFactory *Factory = new HFactory(Mva);
+
+    Analysis::HFactory *Factory = new Analysis::HFactory(Mva);
 
     delete Factory;
 
     delete Mva;
-    
+
     return 0;
 
 }

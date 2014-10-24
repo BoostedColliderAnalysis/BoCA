@@ -1,20 +1,20 @@
 # include "HLeptonDelphes.hh"
 
-HLeptonDelphes::HLeptonDelphes()
+Analysis::HDelphes::HLepton::HLepton()
 {
 
     Print(1, "Constructor");
 
 }
 
-HLeptonDelphes::~HLeptonDelphes()
+Analysis::HDelphes::HLepton::~HLepton()
 {
     Print(1, "Destructor");
 
 
 }
 
-void HLeptonDelphes::GetElectrons()
+void Analysis::HDelphes::HLepton::GetElectrons()
 {
 
     Print(2, "Get Electrons", ClonesArray->ElectronSum());
@@ -29,14 +29,14 @@ void HLeptonDelphes::GetElectrons()
 
             ElectronLorentzVectors.push_back(const_cast<Electron*>(ElectronClone)->P4());
             ElectronJets.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
-	    
+
             Print(3, "Electron");
 
         } else if (ElectronCharge == 1) {
 
             AntiElectronLorentzVectors.push_back(const_cast<Electron*>(ElectronClone)->P4());
             AntiElectronJets.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
-            
+
             Print(3, "Anti Electron");
 
         } else
@@ -47,11 +47,11 @@ void HLeptonDelphes::GetElectrons()
 
 }
 
-void HLeptonDelphes::GetMuons()
+void Analysis::HDelphes::HLepton::GetMuons()
 {
 
     Print(2, "Get Muons", ClonesArray->MuonSum());
-        
+
     for (int MuonNumber : HRange(ClonesArray->MuonSum())) {
 
         const Muon * const MuonClone = (Muon *)ClonesArray->MuonClonesArray->At(MuonNumber);
@@ -61,7 +61,7 @@ void HLeptonDelphes::GetMuons()
 
             MuonLorentzVectors.push_back(const_cast<Muon*>(MuonClone)->P4());
             MuonJets.push_back(GetPseudoJet(const_cast<Muon*>(MuonClone)->P4()));
-	    
+
             Print(3, "Muon");
 
         } else if (MuonCharge == 1) {

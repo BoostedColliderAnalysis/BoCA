@@ -15,17 +15,17 @@ vector<string> HAnalysisTest::GetStudyNameVector(){
 
 }
 
-vector<HFile*> HAnalysisTest::GetFiles(const string StudyName) const
+vector<Analysis::HFile*> HAnalysisTest::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector", StudyName);
 
-    vector<HFile*> Files;
+    vector<Analysis::HFile*> Files;
 
-    HFileDelphes *Background = new HFileDelphes("pp-ttbb");
+    HFileDelphes *Background = new Analysis::HDelphes::HFile("pp-ttbb");
         Files.push_back(Background);
 
-//     HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv","even");
+//     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
 //     FileVector.push_back(Even);
 
     Print(1, "Files prepared");
@@ -48,7 +48,7 @@ void HAnalysisTest::CloseFile()
 
 }
 
-class HHeavyHiggsJetTag : public HJetTag {
+class HHeavyHiggsJetTag : public Analysis::HJetTag {
 
     int GetBranchId(int, int);
 
@@ -74,12 +74,12 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool HAnalysisTest::Analysis(HEvent* Event,string StudyName)
+bool HAnalysisTest::Analysis(Analysis::HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
 
-    const HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
     Event->GetTaggedJets(HeavyHiggsJetTag);
 
 

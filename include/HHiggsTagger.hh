@@ -14,7 +14,7 @@ using TMath::Pi;
  * based on fastjet example 12
  *
  */
-class HHiggsTagger : public HReconstruction
+class Analysis::HHiggsTagger : public HReconstruction
 {
 
 public:

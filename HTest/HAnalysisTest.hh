@@ -9,7 +9,7 @@
  * @brief Class defining the Disciminator Analysis
  *
  */
-class HAnalysisTest : public HAnalysis
+class HAnalysisTest : public Analysis::HAnalysis
 {
 
 public:
@@ -39,7 +39,7 @@ public:
     ExRootTreeBranch *ConstituentBranch;
 
 private:
-    
+
     inline string GetProjectName()const{return "Test";};
 
     /**
@@ -61,14 +61,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(HEvent* Event, string StudyName);
+    bool Analysis(Analysis::HEvent* Event, string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< HFile* > GetFiles(const string StudyName) const;
+    std::vector< Analysis::HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis

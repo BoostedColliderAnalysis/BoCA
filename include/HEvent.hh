@@ -14,7 +14,7 @@
  * @brief Base class for the Event Topology
  *
  */
-class HEvent : public HObject
+class Analysis::HEvent : public HObject
 {
 
 public:

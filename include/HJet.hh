@@ -14,7 +14,7 @@ using std::vector;
  * @brief Base class for jets
  *
  */
-class HJet : public HFourVector
+class Analysis::HJet : public HFourVector
 {
 
 public:

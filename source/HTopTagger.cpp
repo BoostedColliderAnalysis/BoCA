@@ -1,6 +1,6 @@
 # include "HTopTagger.hh"
 
-HTopTagger::HTopTagger()
+Analysis::HTopTagger::HTopTagger()
 {
 
 
@@ -8,14 +8,14 @@ HTopTagger::HTopTagger()
 
 }
 
-HTopTagger::~HTopTagger()
+Analysis::HTopTagger::~HTopTagger()
 {
 
     Print(1, "Destructor");
 
 }
 
-vector<PseudoJet> HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
+vector<PseudoJet> Analysis::HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
 {
 
     Print(2, "Tagging Top");
@@ -45,15 +45,15 @@ vector<PseudoJet> HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
     vector<PseudoJet> Jets = sorted_by_pt(ClusterSequence.inclusive_jets(PtMin));
 
 //     unsigned candsizesum = 0;
-    
+
     vector<PseudoJet> TopJets;
-    
+
     for (const auto & Jet : Jets) {
-        
+
         const float topmass = 172.3;
         const float wmass = 80.4;
         HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);
-        
+
         TopTagger.set_top_range(150., 200.);
         cout << "========= Top Tagger ============" << endl;
         TopTagger.run_tagger();
@@ -63,9 +63,9 @@ vector<PseudoJet> HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
 //         TopTagger.get_info();
 
         if (TopTagger.is_masscut_passed()) {
-            
+
             cout << "### masscut_passed ###" << endl;
-            
+
             PseudoJet top = TopTagger.top_candidate();
 //             PseudoJet b = TopTagger.top_subjets().at(0);
 //             PseudoJet W1 = TopTagger.top_subjets().at(1);
@@ -73,18 +73,18 @@ vector<PseudoJet> HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
             cout << "top mass: " << top.m() << endl;
 //             cout << "bottom mass: " << b.m() << endl;
 //             cout << "W mass: " << (W1 + W2).m() << endl;
-            
+
             TopJets.push_back(top);
-            
+
         }
 
-    } 
-    
+    }
+
     return TopJets;
 
 }
 
-vector<PseudoJet> HTopTagger::GetGranulatedJets(vector<PseudoJet> &EFlowJets,const float &CellDeltaEta, const float &CellDeltaPhi, const float &PtCutOff)
+vector<PseudoJet> Analysis::HTopTagger::GetGranulatedJets(vector<PseudoJet> &EFlowJets,const float &CellDeltaEta, const float &CellDeltaPhi, const float &PtCutOff)
 {
 
     float pi = 3.142592654;

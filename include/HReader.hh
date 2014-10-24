@@ -41,7 +41,7 @@ struct PairOrder {
  * @brief Presents result of multivariant analysis
  *
  */
-class HReader : public HObject
+class Analysis::HReader : public HObject
 {
 
 public:

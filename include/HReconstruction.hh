@@ -14,7 +14,7 @@
  * @brief FastJet calculations
  *
  */
-class HReconstruction : public HObject
+class Analysis::HReconstruction : public HObject
 {
 
 public:
@@ -58,10 +58,10 @@ protected:
     PseudoJet GetMassDropJet(const PseudoJet&) const;
 
     PseudoJet GetMassDropJet(const PseudoJet&, const float, const float) const;
-    
-    
+
+
     vector<PseudoJet> GetSubJetTaggedJets(const vector<PseudoJet> &FatJets) const;
-    
+
     PseudoJet GetSubJetTaggedJet(const PseudoJet &FatJet) const;
 
     /**

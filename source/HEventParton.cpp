@@ -1,18 +1,18 @@
 # include "HEventParton.hh"
 
 
-HEventParton::HEventParton()
+HParton::HEvent::HEvent()
 {
 
     Print(1, "Constructor");
 
-    Particles = new HParticleParton();
+    Particles = new HParticle();
 
     HasParticles = 0;
 
 }
 
-HEventParton::~HEventParton()
+HParton::HEvent::~HEvent()
 {
 
     Print(1, "Destructor");
@@ -21,7 +21,7 @@ HEventParton::~HEventParton()
 
 }
 
-void HEventParton::NewEvent(const HClonesArray * const ClonesArrays)
+void HParton::HEvent::NewEvent(const Analysis::HClonesArray * const ClonesArrays)
 {
 
     Print(2, "New Event");
@@ -31,13 +31,13 @@ void HEventParton::NewEvent(const HClonesArray * const ClonesArrays)
 }
 
 
-void HEventParton::GetParticles()
+void HParton::HEvent::GetParticles()
 {
-    
+
     Print(2, "Get Particles");
-    
+
     HasParticles = Particles->GetParticles();
-    
+
 }
 
 

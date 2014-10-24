@@ -3,7 +3,7 @@
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
 
-HAnalysis::HAnalysis()
+Analysis::HAnalysis()
 {
 
     Print(1, "Constructor");
@@ -14,7 +14,7 @@ HAnalysis::HAnalysis()
 
 }
 
-vector<string> HAnalysis::GetStudyNameVector()
+vector<string> Analysis::GetStudyNameVector()
 {
 
     vector<string> StudyNameVector = {ProjectName};
@@ -23,7 +23,7 @@ vector<string> HAnalysis::GetStudyNameVector()
 
 }
 
-void HAnalysis::AnalysisLoop()
+void Analysis::AnalysisLoop()
 {
 
     Print(1, "Analysis Loop");
@@ -42,23 +42,23 @@ void HAnalysis::AnalysisLoop()
 
       } else {
 
-        ClonesArrays = new HClonesArrayDelphes();
+        ClonesArrays = new HClonesArray();
 
       }
 
-      Event = new HEventDelphes();
+      Event = new HEvent();
 
     } else if (Files.front()->GetTreeName() == "LHEF") {
 
-      ClonesArrays = new HClonesArrayParton();
+      ClonesArrays = new HClonesArray();
 
-      Event = new HEventParton();
+      Event = new HEvent();
 
     } else if (Files.front()->GetTreeName() == "LHCO") {
 
-      ClonesArrays = new HClonesArrayPgs();
+      ClonesArrays = new HClonesArray();
 
-      Event = new HEventPgs();
+      Event = new HEvent();
 
     } else {
 
@@ -111,7 +111,7 @@ void HAnalysis::AnalysisLoop()
 
 }
 
-void HAnalysis::NewStudy()
+void Analysis::NewStudy()
 {
 
     Print(1, "New Mva", StudyName);
@@ -125,7 +125,7 @@ void HAnalysis::NewStudy()
 }
 
 
-void HAnalysis::NewFileBase()
+void Analysis::NewFileBase()
 {
     Print(1, "New Analysis");
 
@@ -167,7 +167,7 @@ void HAnalysis::NewFileBase()
 }
 
 
-void HAnalysis::NewEvent()
+void Analysis::NewEvent()
 {
     Print(2, "New Event");
 
@@ -198,7 +198,7 @@ void HAnalysis::NewEvent()
 }
 
 
-void HAnalysis::CloseFileBase()
+void Analysis::CloseFileBase()
 {
     Print(1, "Clean Analysis");
 
@@ -225,14 +225,14 @@ void HAnalysis::CloseFileBase()
 }
 
 
-void HAnalysis::DeleteStudy()
+void Analysis::DeleteStudy()
 {
     Print(1, "Clean Mva");
 
 }
 
 
-HAnalysis::~HAnalysis()
+Analysis::~HAnalysis()
 {
 
     Print(1, "Destructor");
@@ -254,7 +254,7 @@ HAnalysis::~HAnalysis()
 
 }
 
-void HAnalysis::EmptyFileVector()
+void Analysis::EmptyFileVector()
 {
 
     int PathSum = Files.size();

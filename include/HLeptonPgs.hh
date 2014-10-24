@@ -7,7 +7,7 @@
  * @brief PGS leptons
  *
  */
-class HLeptonPgs : public HLepton
+class HPgs::HLepton : public Analysis::HLepton
 {
 
 public:
@@ -16,14 +16,14 @@ public:
      * @brief constructor
      *
      */
-    HLeptonPgs();
+    HLepton();
 
 
     /**
      * @brief destructor
      *
      */
-    ~HLeptonPgs();
+    ~HLepton();
 
     /**
      * @brief Find the hardest of the light leptons
@@ -45,7 +45,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HLeptonPgs");
+        return "HPgs: HLepton";
 
     };
 

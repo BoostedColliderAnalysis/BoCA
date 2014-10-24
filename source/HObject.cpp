@@ -1,6 +1,6 @@
 # include "HObject.hh"
 
-HObject::HObject() :
+Analysis::HObject::HObject() :
     LargeNumber(999999999),
     TopMass(173.5),
     HiggsMass(125),
@@ -22,14 +22,14 @@ HObject::HObject() :
 
 }
 
-HObject::~HObject()
+Analysis::HObject::~HObject()
 {
 
     Print(2, "Destructor");
 
 }
 
-float HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2, const float Phi2) const
+float Analysis::HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2, const float Phi2) const
 {
 
     Print(3, "GetDistance");
@@ -38,7 +38,7 @@ float HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2,
 
 }
 
-float HObject::GetDistance(const float Eta, const float Phi) const
+float Analysis::HObject::GetDistance(const float Eta, const float Phi) const
 {
 
     Print(3, "GetDistance");
@@ -47,7 +47,7 @@ float HObject::GetDistance(const float Eta, const float Phi) const
 
 }
 
-float HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
+float Analysis::HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
 {
 
     Print(4, "GetDeltaPhi");
@@ -79,7 +79,7 @@ float HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
 
 }
 
-void HObject::Print(const int Severity, const string Description) const
+void Analysis::HObject::Print(const int Severity, const string Description) const
 {
 
     if (Severity <= DebugLevel) {
@@ -91,7 +91,7 @@ void HObject::Print(const int Severity, const string Description) const
 }
 
 
-void HObject::Printer(const string Description) const
+void Analysis::HObject::Printer(const string Description) const
 {
 
     const char Separator = ' ';
@@ -101,5 +101,57 @@ void HObject::Printer(const string Description) const
     std::cout << std::left << std::setw(ClassWidth) << std::setfill(Separator) << ClassName();
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Description;
+
+}
+
+string Analysis::HObject::GetStringFromEnum(const int ParticleId) const {
+
+  string Sign = "";
+  if (ParticleId < 0) Sign = "-";
+
+  switch (abs(ParticleId)) {
+    case DownId: return (Sign + "d");
+    case UpId: return (Sign + "u");
+    case StrangeId: return (Sign + "s");
+    case CharmId: return (Sign + "c");
+    case BottomId: return (Sign + "b");
+    case TopId: return (Sign + "t");
+    case ElectronId: return (Sign + "e");
+    case MuonId: return (Sign + "mu");
+    case TauLeptonId: return (Sign + "tau");
+    case GluonId: return (Sign + "g");
+    case PhotonId: return (Sign + "gamma");
+    case ZId: return (Sign + "Z");
+    case WId: return (Sign + "W");
+    case HiggsId: return (Sign + "h");
+    case HeavyHiggsId: return (Sign + "H");
+    case PionId: return (Sign + "pi");
+    case RhoMesonId: return (Sign + "rho");
+    case KMeson0Id: return (Sign + "K0");
+    case KMeson0SId: return (Sign + "K0*");
+    case KMesonId: return (Sign + "K");
+    case KMesonSId: return (Sign + "K*");
+    case DMesonId: return (Sign + "D");
+    case DMesonSId: return (Sign + "D*");
+    case DMesonS2Id: return (Sign + "D*2");
+    case DMeson0Id: return (Sign + "D0");
+    case DMesonS0Id: return (Sign + "D*0");
+    case BMeson0Id: return (Sign + "B0");
+    case BMeson0SId: return (Sign + "B0*");
+    case BMesonId: return (Sign + "B");
+    case BMesonSId: return (Sign + "B*");
+    case BMesonS0Id: return (Sign + "B*0");
+    case BMesonSS0Id: return (Sign + "Bs*0");
+    case DownDown1Id: return (Sign + "dd1");
+    case UpDown0Id: return (Sign + "ud0");
+    case UpDown1Id: return (Sign + "ud1");
+    case DeltaBaryonId: return (Sign + "Delta");
+    case NeutronId: return (Sign + "n");
+    case UpUp1Id: return (Sign + "uu1");
+    case ProtonId: return (Sign + "p");
+    case DeltaBaryon2Id: return (Sign + "Delta2");
+    case CpvHiggsId: return (Sign + "h");
+    default: return std::to_string(ParticleId);
+  }
 
 }

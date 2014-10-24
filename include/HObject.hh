@@ -15,11 +15,96 @@ using fastjet::PseudoJet;
 using std::string;
 using std::vector;
 
+
+
+namespace HParton{
+
+  class HClonesArray;
+  class HFile;
+  class HEvent;
+  class HParticle;
+
+}
+
+namespace HPgs{
+
+  class HClonesArray;
+  class HFile;
+  class HEvent;
+  class HLepton;
+  class HJet;
+
+}
+
+
+namespace Analysis{
+
+
+
+  namespace HDelphes{
+
+    class HClonesArray;
+    class HClonesArraySnowmass;
+    class HFile;
+    class HEvent;
+    class HJet;
+    class HLepton;
+    class HParticle;
+
+  }
+  
+
+  class HObject;
+  class HFourVector;
+  class HClonesArray;
+  class HParticle;
+  class HLepton;
+  class HTopTagger;
+  class HReconstruction;
+  class HHiggsTagger;
+  class HDiscriminator;
+  class HEvent;
+  class HFile;
+  class HFileFolder;
+  class HAnalysis;
+
+  class HJetTag;
+  class HJetInfo;
+  class HJet;
+  class HPull;
+  class HSubStructure;
+
+//   class HEvent;
+//   class HClonesArray;
+//   class HParticle;
+//   class HFile;
+
+//   class HClonesArray;
+//   class HLepton;
+//   class HEvent;
+//   class HFile;
+//   class HJet;
+
+//   class HEvent;
+//   class HClonesArraySnowmass;
+//   class HClonesArray;
+//   class HFile;
+//   class HParticle;
+//   class HLepton;
+//   class HJet;
+
+  class HMva;
+  class HFactory;
+  class HReader;
+
+
+}
+
 /**
  * @brief general base class for HAnalysis
  *
  */
-class HObject
+class Analysis::HObject
 {
 
 public:
@@ -218,22 +303,7 @@ protected:
         CpvHiggsId = 5000000
     };
 
-    string GetStringFromEnum(int ParticleId) {
-
-        string Sign = "";
-        if (ParticleId < 0) Sign = "-";
-
-        switch (abs(ParticleId)) {
-            case DownId: return (Sign + "d");
-            case UpId: return (Sign + "u");
-            case StrangeId: return (Sign + "s");
-            case CharmId: return (Sign + "c");
-            case BottomId: return (Sign + "b");
-            case TopId: return (Sign + "t");
-            default: return std::to_string(ParticleId);
-        }
-
-    };
+    string GetStringFromEnum(const int ParticleId) const;
 
 
     /**

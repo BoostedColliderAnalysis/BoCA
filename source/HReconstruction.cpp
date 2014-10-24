@@ -1,6 +1,6 @@
 # include "HReconstruction.hh"
 
-HReconstruction::HReconstruction()
+Analysis::HReconstruction::HReconstruction()
 {
 
     Print(1, "Constructor");
@@ -9,14 +9,14 @@ HReconstruction::HReconstruction()
 
 }
 
-HReconstruction::~HReconstruction()
+Analysis::HReconstruction::~HReconstruction()
 {
 
     Print(1, "Destructor");
 
 }
 
-void HReconstruction::NewEvent()
+void Analysis::HReconstruction::NewEvent()
 {
 
     Print(2, "New Event");
@@ -25,7 +25,7 @@ void HReconstruction::NewEvent()
 
 }
 
-vector<PseudoJet> HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets) const
+vector<PseudoJet> Analysis::HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets) const
 {
 
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
@@ -38,7 +38,7 @@ vector<PseudoJet> HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets
 
 }
 
-vector<PseudoJet> HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
+vector<PseudoJet> Analysis::HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
     Print(2, "Get Fat Jet Vector", FatJetDefinition.R());
@@ -57,7 +57,7 @@ vector<PseudoJet> HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets
 }
 
 
-vector<PseudoJet> HReconstruction::GetMassDropJets(const vector<PseudoJet> &FatJets) const
+vector<PseudoJet> Analysis::HReconstruction::GetMassDropJets(const vector<PseudoJet> &FatJets) const
 {
 
     Print(2, "Get Mass Drop Jets", FatJets.size());
@@ -74,7 +74,7 @@ vector<PseudoJet> HReconstruction::GetMassDropJets(const vector<PseudoJet> &FatJ
 
 }
 
-PseudoJet HReconstruction::GetMassDropJet(const PseudoJet &FatJet) const
+PseudoJet Analysis::HReconstruction::GetMassDropJet(const PseudoJet &FatJet) const
 {
 
 //     Print(3, "Get Mass Drop Jet");
@@ -90,7 +90,7 @@ PseudoJet HReconstruction::GetMassDropJet(const PseudoJet &FatJet) const
 
 
 
-PseudoJet HReconstruction::GetMassDropJet(const PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
+PseudoJet Analysis::HReconstruction::GetMassDropJet(const PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
 {
 
     Print(3, "Get Mass Drop Jet");
@@ -107,7 +107,7 @@ PseudoJet HReconstruction::GetMassDropJet(const PseudoJet &FatJet, const float M
 
 
 
-vector<PseudoJet> HReconstruction::GetSubJetTaggedJets(const vector<PseudoJet> &FatJets) const
+vector<PseudoJet> Analysis::HReconstruction::GetSubJetTaggedJets(const vector<PseudoJet> &FatJets) const
 {
 
     Print(2, "Get Sub Jet Tagged Jets", FatJets.size());
@@ -124,7 +124,7 @@ vector<PseudoJet> HReconstruction::GetSubJetTaggedJets(const vector<PseudoJet> &
 
 }
 
-PseudoJet HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet) const
+PseudoJet Analysis::HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet) const
 {
 
     Print(3, "Get Mass Drop Jet");
@@ -139,7 +139,7 @@ PseudoJet HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet) const
 }
 
 
-bool HReconstruction::JetIsBad(const PseudoJet &Jet)
+bool Analysis::HReconstruction::JetIsBad(const PseudoJet &Jet)
 {
 
     HObject Object;
@@ -172,7 +172,7 @@ bool HReconstruction::JetIsBad(const PseudoJet &Jet)
 
 
 
-vector<PseudoJet> HReconstruction::GetFatJetTag(vector<PseudoJet> &FatJets)
+vector<PseudoJet> Analysis::HReconstruction::GetFatJetTag(vector<PseudoJet> &FatJets)
 {
 
     Print(2, "Get Fat Jet Tag", FatJets.size());
@@ -199,7 +199,7 @@ vector<PseudoJet> HReconstruction::GetFatJetTag(vector<PseudoJet> &FatJets)
             Print(3,"Constituent index",Constituent.user_index());
 
             JetInfo.AddConstituent(Constituent.user_index(), Constituent.pt());
-            
+
             }
 
         }

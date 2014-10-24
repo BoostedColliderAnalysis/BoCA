@@ -7,15 +7,15 @@ HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 
 }
 
-vector<HFile*> HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName) const
+vector<Analysis::HFile*> HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName) const
 {
 
     Print(1, "Fill Analysis Vector",StudyName);
 
-    vector<HFile*> Files;
+    vector<Analysis::HFile*> Files;
 
-    Files.push_back(new HFileFolder("Signal_5f"));
-    Files.push_back(new HFileFolder("5f_10k_Pt20"));
+    Files.push_back(new Analysis::HFileFolder("Signal_5f"));
+    Files.push_back(new Analysis::HFileFolder("5f_10k_Pt20"));
 
 //     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
     Files.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
@@ -64,7 +64,7 @@ void HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-bool HAnalysisHeavyHiggsPgs::Analysis(HEvent* Event,string StudyName)
+bool HAnalysisHeavyHiggsPgs::Analysis(Analysis::HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis",StudyName);

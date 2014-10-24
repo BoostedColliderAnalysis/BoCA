@@ -1,20 +1,20 @@
 # include "HJet.hh"
 
-HJet::HJet()
+Analysis::HJet::HJet()
 {
 
     Print(1, "Constructor");
 
 }
 
-HJet::~HJet()
+Analysis::HJet::~HJet()
 {
 
     Print(1, "Destructor");
 
 }
 
-void HJet::NewEvent(const HClonesArray *const NewClonesArrays)
+void Analysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 {
 
     Print(2, "New Event");
@@ -28,7 +28,7 @@ void HJet::NewEvent(const HClonesArray *const NewClonesArrays)
     AntiTauLorentzVectors.clear();
 
     BottomLorentzVectors.clear();
-    
+
     EFlowJets.clear();
 
     BottomJets.clear();
@@ -41,7 +41,7 @@ void HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 
 }
 
-bool HJet::GetJets(const HJetDetails JetDetails)
+bool Analysis::HJet::GetJets(const HJetDetails JetDetails)
 {
 
     Print(1, "Get Jets", "No Jets", JetDetails);
@@ -50,7 +50,7 @@ bool HJet::GetJets(const HJetDetails JetDetails)
 
 }
 
-bool HJet::ReadEFlow(const HJetDetails JetDetails)
+bool Analysis::HJet::ReadEFlow(const HJetDetails JetDetails)
 {
 
     Print(1, "Get EFlow", "No EFlow", JetDetails);
@@ -59,18 +59,18 @@ bool HJet::ReadEFlow(const HJetDetails JetDetails)
 
 }
 
-void HJet::GetGenJet()
+void Analysis::HJet::GetGenJet()
 {
 
     Print(1, "Get Gen Jets", "No Gen Jets");
 
 }
 
-float HJet::GetScalarHt()
+float Analysis::HJet::GetScalarHt()
 {
-    
+
     Print(1, "Get Scalar Ht", "No Scalar Ht");
-    
+
     return 0;
-    
+
 }

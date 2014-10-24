@@ -9,7 +9,7 @@ using std::abs;
  * @brief delphes particles
  *
  */
-class HParticleDelphes : public HParticle
+class Analysis::HDelphes::HParticle  : public Analysis::HParticle
 {
 
 public:
@@ -18,13 +18,13 @@ public:
      * @brief constructor
      *
      */
-    HParticleDelphes();
+    HParticle();
 
     /**
      * @brief destructor
      *
      */
-    ~HParticleDelphes();
+    ~HParticle();
 
     /**
      * @brief Extracts particles from Clones Array
@@ -37,7 +37,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HParticleDelphes");
+        return "HDelphes: HParticle";
 
     };
 

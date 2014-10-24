@@ -7,10 +7,10 @@ HAnalysisTopTagger::HAnalysisTopTagger()
 
     DiscriminatorJetTag = new HDiscriminatorJetTag();
 
-    SubStructure = new HSubStructure();
+    SubStructure = new Analysis::HSubStructure();
 
 //     DebugLevel = 3;
-    
+
 }
 
 HAnalysisTopTagger::~HAnalysisTopTagger()
@@ -31,35 +31,35 @@ vector<string> HAnalysisTopTagger::GetStudyNames() const
 
 }
 
-vector<HFile *> HAnalysisTopTagger::GetFiles(const string StudyName) const
+vector<Analysis::HFile *> HAnalysisTopTagger::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
 
-    vector<HFile*> Files;
+    vector<Analysis::HFile*> Files;
 
     if (StudyName != "Higgs") {
 
-        HFileDelphes *Background = new HFileDelphes("pp-bbtt-bblvlv", "background");
+      Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
 
     }
 
-    HFileDelphes *Even = new HFileDelphes("pp-x0tt-bblvlv", "even");
+    Analysis::HDelphes::HFile *Even = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
-    HFileDelphes *Mix = new HFileDelphes("pp-x0tt-bblvlv", "mix");
+    Analysis::HDelphes::HFile *Mix = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
-    HFileDelphes *Odd = new HFileDelphes("pp-x0tt-bblvlv", "odd");
+    Analysis::HDelphes::HFile *Odd = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
 //     Odd->TagString="tag_2";
@@ -99,7 +99,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
     ) {
         BranchId = IsrId;
     } else if (
-        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles) && 
+        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles) &&
         HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
@@ -111,7 +111,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
 }
 
-bool HAnalysisTopTagger::Analysis(HEvent * const Event, const string StudyName)
+bool HAnalysisTopTagger::Analysis(Analysis::HEvent * const Event, const string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
@@ -122,11 +122,11 @@ bool HAnalysisTopTagger::Analysis(HEvent * const Event, const string StudyName)
     if (CandidateJets.size() < 1) {
 
         Print(0, "No Candidates", CandidateJets.size());
-        
+
         return 0;
 
     } else Print(2, "Number of Candidates", CandidateJets.size());
-    
+
     bool HasCandidate =0;
 
     for (const auto & CandidateJet : CandidateJets) {
@@ -170,49 +170,49 @@ bool HAnalysisTopTagger::Analysis(HEvent * const Event, const string StudyName)
 
 //         SubStructure->NewEvent();
 //         if (!SubStructure->GetSubJets(CandidateJet)) {
-//          
+//
 //             Print(0,"No SubJets");
-//             
+//
 //             return 0;
-//             
+//
 //         }
-// 
+//
 //         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
 //         Candidate->Asymmetry = SubStructure->GetAsymmetry();
 //         Candidate->DeltaR = SubStructure->GetDeltaR();
 //         Candidate->DiPolarity = SubStructure->GetDiPolarity(CandidateJet);
-// 
+//
 //         Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
 //         Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
 //         Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
-// 
+//
 //         Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
 //         Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
 //         Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
-// 
+//
 // //         SubStructure->GetIsolation(CandidateJet, Leptons);
-// 
+//
 //         Candidate->IsolationEta = SubStructure->GetIsolationEta();
 //         Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
 //         Candidate->IsolationPt = SubStructure->GetIsolationPt();
 //         Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
 //         Candidate->IsolationAngle = SubStructure->GetIsolationAngle();
-// 
+//
 //         Print(3, "Isolation", Candidate->IsolationDeltaR);
-// 
+//
 //         if (!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) {
-//             
+//
 //             Print(0,"No Constituents");
-//             
+//
 //             return 0;
-//             
+//
 //         }
-// 
+//
 //         Candidate->ConstEta = SubStructure->GetConstituentEta();
 //         Candidate->ConstPhi = SubStructure->GetConstituentPhi();
 //         Candidate->ConstDeltaR = SubStructure->GetConstituentDeltaR();
 //         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
-        
+
 //         CandidateJet.user_info<HJetInfo>().PrintAllInfos(4);
 //         Print(1, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 

@@ -7,7 +7,7 @@
  * @brief Pgs Jets
  *
  */
-class HJetPgs : public HJet
+class HPgs::HJet : public Analysis::HJet
 {
 
 public:
@@ -16,13 +16,13 @@ public:
      * @brief constructor
      *
      */
-    HJetPgs();
+    HJet();
 
     /**
      * @brief Destructor
      *
      */
-    ~HJetPgs();
+    ~HJet();
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -35,7 +35,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HJetPgs");
+        return ("HPgs: HJet");
 
     };
 

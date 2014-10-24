@@ -20,15 +20,15 @@ vector<string> HAnalysisJetProperties::GetStudyNameVector()
 
 }
 
-vector<HFile*> HAnalysisJetProperties::GetFiles(const string StudyName) const
+vector<Analysis::HFile*> HAnalysisJetProperties::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector",StudyName);
 
-    vector<HFile*> Files;
+    vector<Analysis::HFile*> Files;
 
 //     FileVector.push_back(new HFileFolder("BG_ttbb"));
-    Files.push_back(new HFileFolder("h2bb_ttbb"));
+    Files.push_back(new Analysis::HFileFolder("h2bb_ttbb"));
 
     Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
     Files.front()->FileSuffix = ".root";
@@ -60,7 +60,7 @@ void HAnalysisJetProperties::CloseFile()
 
 
 
-class HHeavyHiggsJetTag : public HJetTag
+class HHeavyHiggsJetTag : public Analysis::HJetTag
 {
 
     int GetBranchId(int, int) const;
@@ -91,7 +91,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId) const
 }
 
 
-bool HAnalysisJetProperties::Analysis(HEvent* Event,string StudyName)
+bool HAnalysisJetProperties::Analysis(Analysis::HEvent* Event,string StudyName)
 {
 
     Print(1, "Analysis");
@@ -155,7 +155,7 @@ bool HAnalysisJetProperties::Analysis(HEvent* Event,string StudyName)
             if (EFlowJet.user_index() == Id) return 1;
             if (EFlowJet.has_user_info()) {
 
-                if (EFlowJet.user_info<HJetInfo>().HasParticle(Id)) return 1;
+              if (EFlowJet.user_info<Analysis::HJetInfo>().HasParticle(Id)) return 1;
 
             }
 
