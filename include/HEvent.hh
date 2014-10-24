@@ -107,7 +107,7 @@ protected:
 
 private:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HEvent");
 

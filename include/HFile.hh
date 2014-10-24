@@ -103,7 +103,7 @@ protected:
 
     string MadGraphFilePath() const;
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HFile");
 
@@ -138,7 +138,7 @@ public:
 
 protected:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HFileFlat");
 
@@ -170,7 +170,7 @@ public:
 
 protected:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HFilePgs");
 
@@ -201,7 +201,7 @@ public:
 
 protected:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HFileDelphes");
 
@@ -233,7 +233,7 @@ public:
 
 protected:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HFileFolder");
 

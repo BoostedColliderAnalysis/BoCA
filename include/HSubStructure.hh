@@ -117,7 +117,7 @@ public:
 
 protected:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HSubStructure");
 

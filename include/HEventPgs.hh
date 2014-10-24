@@ -38,7 +38,7 @@ private:
 
     bool HasJets;
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return ("HEventPgs");
 

@@ -43,7 +43,7 @@ private:
         
     int GetEventnumberMax()const{ return 10000;};
     
-    string GetProjectName() const {
+    inline string GetProjectName() const {
         return "Discriminator";};
 
     /**
@@ -85,7 +85,7 @@ private:
 
     vector<string> GetStudyNameVector();
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HAnalysisJetProperties");
 

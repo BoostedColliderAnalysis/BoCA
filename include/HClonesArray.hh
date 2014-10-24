@@ -200,7 +200,7 @@ public:
 
 private:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return "HClonesArray";
 
@@ -219,7 +219,7 @@ class HClonesArrayDelphes : public HClonesArray
 
 private:
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return "HClonesArrayDelphes";
 
@@ -238,7 +238,7 @@ class HClonesArraySnowmass : public HClonesArray
 
 private:
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return "HClonesArraySnowmass";
 
@@ -257,7 +257,7 @@ class HClonesArrayPgs : public HClonesArray
 
 private:
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return "HClonesArrayPgs";
 
@@ -276,7 +276,7 @@ class HClonesArrayParton : public HClonesArray
 
 private:
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return "HClonesArrayParton";
 

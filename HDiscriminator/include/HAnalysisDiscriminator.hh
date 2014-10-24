@@ -21,7 +21,7 @@ class HDiscriminatorJetTag : public HJetTag
 
     const set<int> HeavyParticles = {TopId, CpvHiggsId};
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return "HDiscriminatorJetTag";
 
@@ -76,13 +76,13 @@ public:
 
 private:
     
-    int GetEventNumberMax() const {
+    inline int GetEventNumberMax() const {
       
         return 10000;
         
     };
 
-    string GetProjectName()const {
+    inline string GetProjectName()const {
         
         return "Discriminator";
         
@@ -127,9 +127,9 @@ private:
      */
     void NewBranches(ExRootTreeWriter *TreeWriter);
 
-    vector<string> GetStudyNames() const;
+    inline vector<string> GetStudyNames() const;
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HAnalysisDiscriminator");
 

@@ -78,7 +78,7 @@ protected:
 
 //     vector<PseudoJet> FatJetVector;
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return ("HReconstruction");
 

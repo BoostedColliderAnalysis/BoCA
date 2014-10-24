@@ -44,7 +44,7 @@ public:
 
 private:
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return ("HLeptonDelphes");
 

@@ -161,7 +161,7 @@ protected:
      */
     float GetDeltaPhi(const float, const float) const;
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HObject");
 
@@ -274,13 +274,13 @@ protected:
      * @brief Higgs boson user index
      *
      */
-    const int HiggsUserIndex;
+//     const int HiggsUserIndex;
 
     /**
      * @brief Top quark user index
      *
      */
-    const int TopUserIndex;
+//     const int TopUserIndex;
 
     /**
      * @brief Initial user index

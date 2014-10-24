@@ -52,7 +52,7 @@ protected:
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
     TFile *GetExportFile(const string StudyName) const;
-    
+
     void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 
     /**
@@ -80,7 +80,7 @@ protected:
      * @brief Name of Analysis
      *
      */
-    virtual string GetProjectName() const {
+    virtual inline string GetProjectName() const {
 
         return "ProjectName";
 
@@ -90,13 +90,13 @@ protected:
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual int GetEventNumberMax() const {
-        
+    virtual inline int GetEventNumberMax() const {
+
         return 100000;
-        
+
     };
 
-    virtual vector<string> GetStudyNames() const {
+    virtual inline vector<string> GetStudyNames() const {
 
         return {GetProjectName()};
 
@@ -110,7 +110,7 @@ private:
 
     HEvent *GetEvent(const string StudyName) const;
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return "HAnalysis";
 

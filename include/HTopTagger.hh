@@ -45,7 +45,7 @@ private:
      */
     vector<PseudoJet> GetGranulatedJets(vector<PseudoJet> &HadronVector, const float &CellEta, const float &CellPhi, const float &PtCutOff);
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return "HTopTagger";
 

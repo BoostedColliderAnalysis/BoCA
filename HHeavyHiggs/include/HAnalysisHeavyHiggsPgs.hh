@@ -27,7 +27,7 @@ private:
     
     int GetEventnumberMax()const{ return 10000;};
     
-    string GetProjectName()const{ return "HeavyHiggsPgs";};
+    inline string GetProjectName()const{ return "HeavyHiggsPgs";};
 
     /**
      * @brief Branch to write Heavy Higgs info into
@@ -69,7 +69,7 @@ private:
 
     void CloseFile();
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HAnalysisHeavyHiggsPgs");
 

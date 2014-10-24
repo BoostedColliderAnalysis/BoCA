@@ -136,7 +136,7 @@ private:
 
     PseudoJet GetConstituents(const Jet *const) const;
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return ("HJetDelphes");
 

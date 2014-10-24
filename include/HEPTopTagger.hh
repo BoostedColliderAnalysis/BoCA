@@ -97,7 +97,6 @@ public:
     double cos_theta_h() const;
     double dr_bjj() const;
     vector<double> dr_values() const;
-    bool debugg;
 
 private:
     const ClusterSequence *_cs;
@@ -112,6 +111,7 @@ private:
     // filtering algorithm
     JetAlgorithm _jet_algorithm;
     JetAlgorithm _jet_algorithm_recluster;
+    bool debugg;
 
     bool _is_masscut_passed;
     bool _is_maybe_top;

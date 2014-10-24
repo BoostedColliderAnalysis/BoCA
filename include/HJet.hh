@@ -156,7 +156,7 @@ protected:
 
 protected:
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HJet");
 

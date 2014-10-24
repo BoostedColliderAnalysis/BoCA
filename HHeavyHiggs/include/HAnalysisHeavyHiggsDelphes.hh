@@ -27,9 +27,9 @@ public:
 
 private:
     
-    int GetEventNumberMax() const { return 10000;};
+    inline int GetEventNumberMax() const { return 10000;};
     
-    string GetProjectName() const {
+    inline string GetProjectName() const {
         return "HeavyHiggs";
     };
 
@@ -64,7 +64,7 @@ private:
 
 //     bool JetIsBottom(const PseudoJet &Jet);
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return ("HAnalysisHeavyHiggsDelphes");
 

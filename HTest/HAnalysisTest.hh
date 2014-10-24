@@ -40,7 +40,7 @@ public:
 
 private:
     
-    string GetProjectName()const{return "Test";};
+    inline string GetProjectName()const{return "Test";};
 
     /**
      * @brief Lepton calculations
@@ -81,7 +81,7 @@ private:
 
     vector<string> GetStudyNameVector();
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HAnalysisTest");
 

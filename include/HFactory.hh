@@ -100,7 +100,7 @@ private:
 
     HMva *Mva;
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return ("HFactory");
 

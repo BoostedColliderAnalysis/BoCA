@@ -25,7 +25,7 @@ class HDiscriminatorJetTag : public HJetTag
 
     const set<int> NeutralParticle = {DMeson0Id, KMeson0Id, KMeson0SId, NeutronId, BMeson0Id, BMeson0SId, DMesonS0Id, BMesonS0Id, BMesonSS0Id};
 
-    string ClassName() const {
+    inline string ClassName() const {
 
         return ("HDiscriminatorJetTag");
 
@@ -59,7 +59,7 @@ public:
     
     int GetEventnumberMax()const{ return 10000;};
 
-    string GetProjectName()const {
+    inline string GetProjectName()const {
         return "JetProperties";
     }
 
@@ -194,9 +194,9 @@ private:
 
     void CloseFile();
 
-    vector<string> GetStudyNames() const;
+    inline vector<string> GetStudyNames() const;
 
-    virtual string ClassName() const {
+    virtual inline string ClassName() const {
 
         return ("HJetDiscriminator");
 
