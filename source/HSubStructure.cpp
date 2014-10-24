@@ -132,7 +132,14 @@ bool HSubStructure::GetConstituents(const PseudoJet &CandidateJet, ExRootTreeBra
 
     for (const auto & ConstituentJet : CandidateJet.constituents()) {
 
-        const float Distance = ConstituentJet.delta_R(CandidateJet);
+        if (ConstituentJet.user_index() != IsrId &&
+                ConstituentJet.user_index() != CpvHiggsId &&
+                abs(ConstituentJet.user_index()) != TopId &&
+                ConstituentJet.user_index() != HiggsId
+           )
+            Print(0, "Wrong UserId", ConstituentJet.user_index());
+
+            const float Distance = ConstituentJet.delta_R(CandidateJet);
 
         if (Distance > DeltaR) DeltaR = Distance;
 

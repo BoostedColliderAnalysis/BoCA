@@ -55,17 +55,17 @@ public:
         return j;
     };
 
-    virtual vector<PseudoJet> GetHiggsTopCandidates(const HJetTag *const) {
+    virtual vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const) {
         vector<PseudoJet> v;
         return v;
     };
 
-    virtual vector<PseudoJet> GetTops(const HJetTag * const) {
+    virtual vector<PseudoJet> GetTops(HJetTag * const) {
         vector<PseudoJet> v;
         return v;
     };
 
-    virtual void GetTaggedJets(const HJetTag *const) {};
+    virtual void GetTaggedJets(HJetTag *const) {};
 
     /**
      * @brief Particles

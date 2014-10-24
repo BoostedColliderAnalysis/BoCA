@@ -7,19 +7,22 @@
 # include "HSubStructure.hh"
 
 /**
+* \ingroup HDiscriminator
+* @{
+* */
+
+/**
  * \class HDiscriminatorJetTag
- *
- * \ingroup HDiscriminator
- *
+ * 
  * @brief HJetTag subclass for HDiscriminator
  *
  */
 class HDiscriminatorJetTag : public HJetTag
 {
 
-    int GetBranchId(const int ParticleId, int BranchId) const;
+    int GetBranchId(const int ParticleId, int BranchId);
 
-    const set<int> HeavyParticles = {TopId, CpvHiggsId};
+    const set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
 
     virtual inline string ClassName() const {
 
@@ -32,9 +35,7 @@ class HDiscriminatorJetTag : public HJetTag
 /**
  * \class HAnalysisDiscriminator
  *
- * \ingroup HDiscriminator
- *
- * @brief HAnalysis ubclass defining the Disciminator Analysis
+ * @brief HAnalysis subclass defining the Disciminator Analysis
  *
  * \author Jan Hajer
  *
@@ -88,9 +89,9 @@ private:
         
     };
 
-    HDiscriminatorJetTag *DiscriminatorJetTag;
+    HDiscriminatorJetTag * DiscriminatorJetTag;
 
-    HSubStructure *SubStructure;
+    HSubStructure * SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -137,6 +138,9 @@ private:
 
 };
 
+/**
+ * @}
+ */
 
 #endif
 

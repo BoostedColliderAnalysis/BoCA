@@ -130,7 +130,7 @@ bool HAnalysisHeavyHiggsDelphes::Signal(HEvent* Event)
 
     Print(2, "Signal");
 
-    const HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
     Event->GetTaggedJets(HeavyHiggsJetTag);
 
     vector<PseudoJet> JetVector = Event->Jets->Jets;

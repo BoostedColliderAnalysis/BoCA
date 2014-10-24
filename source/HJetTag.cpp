@@ -12,9 +12,10 @@ HJetTag::~HJetTag()
     Print(2,"Destructor");
 }
 
-int HJetTag::GetBranchId(const int Value, int BranchId) const {
+int HJetTag::GetBranchId(const int ParticleId, int BranchId)
+ {
 
-    Print(0, "No Jet Tagger defined", Value);
+     Print(0, "No Jet Tagger defined", ParticleId);
     
     return BranchId;
 

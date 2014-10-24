@@ -32,7 +32,7 @@ public:
 
     void ResetBranches();
 
-    virtual void UseBranches(const ExRootTreeReader * const) = 0;
+    virtual void GetBranches(const ExRootTreeReader * const) = 0;
 
     int ParticleSum() const {
         return ParticleClonesArray->GetEntriesFast();
@@ -66,7 +66,7 @@ public:
         return ElectronClonesArray->GetEntriesFast();
     };
 
-    int  MuonSum() const {
+    int MuonSum() const {
         return MuonClonesArray->GetEntriesFast();
     };
 
@@ -215,7 +215,7 @@ private:
 class HClonesArrayDelphes : public HClonesArray
 {
 
-    void UseBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader * const);
 
 private:
 
@@ -234,7 +234,7 @@ private:
 class HClonesArraySnowmass : public HClonesArray
 {
 
-    void UseBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader * const);
 
 private:
 
@@ -253,7 +253,7 @@ private:
 class HClonesArrayPgs : public HClonesArray
 {
 
-    void UseBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader * const);
 
 private:
 
@@ -272,7 +272,7 @@ private:
 class HClonesArrayParton : public HClonesArray
 {
 
-    void UseBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader * const);
 
 private:
 

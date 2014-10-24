@@ -106,8 +106,8 @@ void HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootT
 
 HClonesArray *HAnalysis::GetClonesArrays(const string StudyName) const
 {
-
-    Print(1, "Get Clones Arrays");
+    
+    Print(1, "Get Clones Arrays", StudyName);
 
     vector<HFile *> Files = GetFiles(StudyName);
 
@@ -224,7 +224,7 @@ ExRootTreeReader *HAnalysis::GetTreeReader(const HFile *const File, HClonesArray
     // TreeReader
     ExRootTreeReader * const TreeReader = new ExRootTreeReader(ImportTree);
 
-    ClonesArrays->UseBranches(TreeReader);
+    ClonesArrays->GetBranches(TreeReader);
 
 //     delete ImportFile; // FIXME Possible?
 //     delete ImportTree; // FIXME Possible?

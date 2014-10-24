@@ -92,6 +92,8 @@ private:
 
             const TObject *const Object = Clone->Particles.At(ParticleNumber);
             const int MotherId = GetMotherId(Object);
+            Print(3,"MotherId",MotherId);
+            
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
             JetInfo.AddConstituent(MotherId, fabs(ParticleClone->PT));

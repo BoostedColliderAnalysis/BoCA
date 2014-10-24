@@ -54,10 +54,10 @@ void HClonesArray::ResetBranches()
     Print(1,"Branches reset");
 }
 
-void HClonesArrayDelphes::UseBranches(const ExRootTreeReader * const TreeReader)
+void HClonesArrayDelphes::GetBranches(const ExRootTreeReader * const TreeReader)
 {
     
-    Print(1, "Use Branches");
+    Print(1, "Get Branches");
     
     ParticleClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Particle");
     PhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Photon");
@@ -76,10 +76,10 @@ void HClonesArrayDelphes::UseBranches(const ExRootTreeReader * const TreeReader)
     
 }
 
-void HClonesArraySnowmass::UseBranches(const ExRootTreeReader *const TreeReader)
+void HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const TreeReader)
 {
     
-    Print(1, "Use Branches");
+    Print(1, "Get Branches");
     
     ParticleClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Particle");
     PhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Photon");
@@ -97,10 +97,10 @@ void HClonesArraySnowmass::UseBranches(const ExRootTreeReader *const TreeReader)
     
 }
 
-void HClonesArrayPgs::UseBranches(const ExRootTreeReader * const TreeReader)
+void HClonesArrayPgs::GetBranches(const ExRootTreeReader * const TreeReader)
 {
     
-    Print(1, "Use Branches");
+    Print(1, "Get Branches");
         
     PhotonClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Photon");
     ElectronClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Electron");
@@ -111,10 +111,10 @@ void HClonesArrayPgs::UseBranches(const ExRootTreeReader * const TreeReader)
     
 }
 
-void HClonesArrayParton::UseBranches(const ExRootTreeReader * const TreeReader)
+void HClonesArrayParton::GetBranches(const ExRootTreeReader * const TreeReader)
 {
     
-    Print(1, "Use Branches");
+    Print(1, "Get Branches");
 
     ParticleClonesArray = const_cast<ExRootTreeReader*>(TreeReader)->UseBranch("Particle");
     

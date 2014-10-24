@@ -102,7 +102,7 @@ void HEventDelphes::GetJets()
 
 }
 
-void HEventDelphes::GetTaggedJets(const HJetTag * const JetTag)
+void HEventDelphes::GetTaggedJets(HJetTag * const JetTag)
 {
     Print(2, "Get Tagged Jets");
 
@@ -131,7 +131,7 @@ void HEventDelphes::GetEFlow()
 }
 
 
-void HEventDelphes::GetTaggedEFlow(const HJetTag * const JetTag)
+void HEventDelphes::GetTaggedEFlow(HJetTag * const JetTag)
 {
 
     Print(2, "Get EFlow");
@@ -157,7 +157,7 @@ void HEventDelphes::GetIsolatedEFlow()
 }
 
 
-void HEventDelphes::GetIsoaltedTaggedEFlow(const HJetTag * const JetTag)
+void HEventDelphes::GetIsoaltedTaggedEFlow(HJetTag * const JetTag)
 {
     
     Print(2, "Get EFlow");
@@ -243,7 +243,7 @@ vector<PseudoJet> HEventDelphes::GetTops(const HJetTag * const JetTag)
 // }
 
 
-vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(const HJetTag * const JetTag)
+vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(HJetTag * const JetTag)
 {
     Print(2, "GetHiggsTopCandidates");
 
@@ -251,7 +251,8 @@ vector<PseudoJet> HEventDelphes::GetHiggsTopCandidates(const HJetTag * const Jet
 //     GetParticles();
 
 //     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
-    return Discriminator->GetCandidateJetsForced(Jets->GetEFlowJets(),Jets->GetScalarHt());
+//     return Discriminator->GetCandidateJetsForced(Jets->GetEFlowJets(),Jets->GetScalarHt());
+    return Discriminator->GetCandidateJets(Jets->GetEFlowJets(),Jets->GetScalarHt());
 
 }
 

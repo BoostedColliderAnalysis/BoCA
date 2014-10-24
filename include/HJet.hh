@@ -124,7 +124,7 @@ public:
      */
     vector<TLorentzVector> BottomLorentzVectors;
 
-    const HJetTag   *JetTag;
+    HJetTag * JetTag;
 
 protected:
 

@@ -185,7 +185,10 @@ protected:
         MuonId = 13,
         TauLeptonId = 15,
         GluonId = 21,
+        PhotonId = 22,
+        ZId = 23,
         WId = 24,
+        HiggsId = 25,
         HeavyHiggsId = 35,
         PionId = 211,
         RhoMesonId = 213,
@@ -213,6 +216,23 @@ protected:
         ProtonId = 2212,
         DeltaBaryon2Id = 2224,
         CpvHiggsId = 5000000
+    };
+
+    string GetStringFromEnum(int ParticleId) {
+
+        string Sign = "";
+        if (ParticleId < 0) Sign = "-";
+
+        switch (abs(ParticleId)) {
+            case DownId: return (Sign + "d");
+            case UpId: return (Sign + "u");
+            case StrangeId: return (Sign + "s");
+            case CharmId: return (Sign + "c");
+            case BottomId: return (Sign + "b");
+            case TopId: return (Sign + "t");
+            default: return std::to_string(ParticleId);
+        }
+
     };
 
 
@@ -269,18 +289,6 @@ protected:
      *
      */
     const float ElectronMass;
-
-    /**
-     * @brief Higgs boson user index
-     *
-     */
-//     const int HiggsUserIndex;
-
-    /**
-     * @brief Top quark user index
-     *
-     */
-//     const int TopUserIndex;
 
     /**
      * @brief Initial user index

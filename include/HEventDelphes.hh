@@ -35,21 +35,21 @@ public:
 
     void GetEFlow();
 
-    void GetTaggedEFlow(const HJetTag * const);
+    void GetTaggedEFlow(HJetTag *const JetTag);
 
     void GetIsolatedEFlow();
 
-    void GetIsoaltedTaggedEFlow(const HJetTag * const);
+    void GetIsoaltedTaggedEFlow(HJetTag *const JetTag);
 
     void GetParticles();
 
     PseudoJet GetHiggs();
 
-    vector<PseudoJet> GetHiggsTopCandidates(const HJetTag * const);
+    vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const JetTag);
 
     vector<PseudoJet> GetTops(const HJetTag *const JetTag);
 
-    void GetTaggedJets(const HJetTag * const);
+    void GetTaggedJets(HJetTag *const JetTag);
 
 private:
 

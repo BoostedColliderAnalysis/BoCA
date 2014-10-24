@@ -1,5 +1,7 @@
 # include "HFactory.hh"
 
+# include "TObjArray.h"
+
 
 HFactory::HFactory(HMva *NewMva)
 {
@@ -45,7 +47,9 @@ void HFactory::NewFactory()
     Print(1 , "New Factory");
 
     const string FactoryOutputName = "Mva" + Mva->BackgroundName;
+    
     const string OutputFileName = Mva->AnalysisName + "/" + FactoryOutputName + ".root";
+    
     OutputFile = TFile::Open(OutputFileName.c_str(), "Recreate");
 
 //     string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
@@ -78,63 +82,11 @@ void HFactory::AddVariables()
 }
 
 
-
-// void HFactory::GetTrees()
-// {
-//
-//     if (Debug > 0)PrintFunction("HFactory", "Get Trees");
-//
-//     // Signal
-//     string SignalFileName = Mva->AnalysisName + "/" + Mva->SignalName + string(".root");
-//     if (gSystem->AccessPathName(SignalFileName)) cout << "File " << SignalFileName << " not found" << endl;
-//     TFile *SignalFile = TFile::Open(SignalFileName);
-//     if (Debug > 0)PrintFunction("HFactory", "Signal File", SignalFile->GetName());
-//
-//     int TreeSum = Mva->SignalTreeVector.size();
-//
-//
-//         TTree *Tree = (TTree *)SignalFile->Get(Mva->SignalTreeVector[0]);
-//         Tree->GetBranch(Mva->CandidateBranchName);
-//         float Crosssection = 1; //FIXME we dont use the crosssection
-//         if (Debug > 0)PrintFunction("HFactory", "Weight", Crosssection);
-//         Factory->AddSignalTree(Tree, Crosssection);
-//
-//
-//
-//     // Background
-//     int BackgroundSum = Mva->BackgroundVector.size();
-//     for (int BackgroundNumber = 0; BackgroundNumber < BackgroundSum; ++BackgroundNumber) {
-//
-//         string InputBackgroundName = Mva->BackgroundVector[BackgroundNumber];
-//
-//         string BackgroundFileName = Mva->AnalysisName + "/" + InputBackgroundName + string(".root");
-//         if (gSystem->AccessPathName(BackgroundFileName)) cout << "File " << BackgroundFileName << " not found" << endl;
-//         TFile *BackgroundFile = TFile::Open(BackgroundFileName);
-//         if (Debug > 0)PrintFunction("HFactory", "Background File", BackgroundFile->GetName());
-//
-//
-//             TTree *Tree = (TTree *)BackgroundFile->Get(Mva->BackgroundTreeVector[0]);
-//             Tree->GetBranch(Mva->CandidateBranchName);
-//             float Crosssection = 1; //FIXME we dont use the crosssection
-//             if (Debug > 0)PrintFunction("HFactory", "Weight", Crosssection);
-//             Factory->AddBackgroundTree(Tree, Crosssection);
-//
-//
-//
-//     }
-//
-// }
-
-
-
-
-
 void HFactory::GetTrees()
 {
 
     Print(1 , "Get Trees");
 
-// Signal
     for (const auto & SignalName : Mva->SignalNames) {
 
         string SignalFileName = Mva->AnalysisName + "/" + SignalName + ".root";
@@ -152,7 +104,6 @@ void HFactory::GetTrees()
 
     }
 
-// Background
     for (const auto & BackgroundName : Mva->BackgroundNames) {
 
         string BackgroundFileName = Mva->AnalysisName + "/" + BackgroundName + ".root";
@@ -182,7 +133,7 @@ void HFactory::AddTree(const TFile *const File, const string TreeName, const boo
 
     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
-    HInfoBranch *Info = (HInfoBranch *) ClonesArray->At(0);
+    HInfoBranch *Info = (HInfoBranch *) ClonesArray->First();
 
 //     const float Crosssection = Info->Crosssection;
 //     cosnt float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
@@ -233,6 +184,7 @@ void HFactory::BookMethods()
 
     Factory->BookMethod(Types::kCuts, CutMethodName, CutOptions);
 
+//     const string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
     const string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
 //     const string BdtOptions = "";
 

@@ -36,7 +36,7 @@ public:
      * @param BranchId former id of the Branch
      * @return int new Id of the Branch
      */
-    virtual int GetBranchId(const int ParticleId, int BranchId) const;
+    virtual int GetBranchId(const int ParticleId, int BranchId);
 
     /**
      * @brief set of particle Ids which are considerd relevant
