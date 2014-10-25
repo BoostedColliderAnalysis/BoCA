@@ -1,6 +1,6 @@
 # include "HMvaDiscriminator.hh"
 
-HMvaDiscriminator::HMvaDiscriminator()
+Discriminator::HMva::HMva()
 {
 
     Print(1 , "Constructor");
@@ -45,7 +45,7 @@ HMvaDiscriminator::HMvaDiscriminator()
 
 }
 
-HMvaDiscriminator::~HMvaDiscriminator()
+Discriminator::HMva::~HMva()
 {
 
     Print(1 , "Constructor");
@@ -54,7 +54,7 @@ HMvaDiscriminator::~HMvaDiscriminator()
 
 }
 
-void HMvaDiscriminator::DefineVariables()
+void Discriminator::HMva::DefineVariables()
 {
 
     Print(1 , "Define Variables");
@@ -63,7 +63,7 @@ void HMvaDiscriminator::DefineVariables()
     Observables.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV","p^T_j"));
     Observables.push_back(NewObservable(&Candidate->Eta, "Candidate.Eta", "Eta","","\\eta_j"));
     Observables.push_back(NewObservable(&Candidate->Phi, "Candidate.Phi", "Phi","","\\phi_j"));
-    
+
     Observables.push_back(NewObservable(&Candidate->DeltaR, "Candidate.DeltaR", "DeltaR","","\\Delta R"));
     Observables.push_back(NewObservable(&Candidate->SubJetsDeltaR, "Candidate.SubJetsDeltaR", "SubJet DeltaR","","\\Delta R(j_1,j_2)"));
     Observables.push_back(NewObservable(&Candidate->Asymmetry, "Candidate.Asymmetry", "Asymmetry","","A"));
@@ -96,7 +96,7 @@ void HMvaDiscriminator::DefineVariables()
 }
 
 
-void HMvaDiscriminator::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
+void Discriminator::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
 {
   Print(1, "Apply Bdt");
 
@@ -161,15 +161,15 @@ void HMvaDiscriminator::ApplyBdt(const ExRootTreeReader *const TreeReader, const
 }
 
 
-HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+HReaderStruct Discriminator::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 {
 
   Print(1, "Cut Loop");
 
   int ObservableSum = Observables.size();
-  
+
   Print(1,"Observables",Observables.size());
-  
+
   ReaderStruct.HiggsSum = 0;
   ReaderStruct.TopSum = 0;
   ReaderStruct.FatJetSum = 0;
@@ -184,7 +184,7 @@ HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReade
   ReaderStruct.FatJetVector.assign(ObservableSum, 0);
   ReaderStruct.HiggsVector.assign(ObservableSum, 0);
   ReaderStruct.TopVector.assign(ObservableSum, 0);
-  
+
   Print(2,"Vectors assigned");
 
   const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
@@ -203,7 +203,7 @@ HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReade
     bool HasTop = 0;
 
     for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
-        
+
         Print(3,"Candidate Loop");
       ++ReaderStruct.FatJetSum;
 
@@ -225,20 +225,20 @@ HReaderStruct HMvaDiscriminator::CutLoop(const ExRootTreeReader *const TreeReade
 
       bool ParticleCut = 0;
       for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
-          
+
           Print(3,"Observable Loop");
-          
+
           Print(3,"Error",ReaderStruct.CutsMin[ObservableNumber]);
 
         if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
           || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
 
             Print(3,"we are here",1);
-            
+
             ParticleCut = 1;
 
           } else {
-              
+
               Print(3,"we are here",2);
             ++ReaderStruct.CutFlowVector[ObservableNumber];
 

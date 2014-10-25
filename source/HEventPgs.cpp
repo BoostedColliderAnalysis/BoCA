@@ -1,7 +1,7 @@
 # include "HEventPgs.hh"
 
 
-HPgs::HEvent::HEvent()
+Analysis::HPgs::HEvent::HEvent()
 {
 
     Print(1, "Constructor");
@@ -14,7 +14,7 @@ HPgs::HEvent::HEvent()
 
 }
 
-HPgs::HEvent::~HEvent()
+Analysis::HPgs::HEvent::~HEvent()
 {
 
     Print(1, "Destructor");
@@ -24,7 +24,7 @@ HPgs::HEvent::~HEvent()
 
 }
 
-void HPgs::HEvent::NewEvent(const Analysis::HClonesArray*const ClonesArrays)
+void Analysis::HPgs::HEvent::NewEvent(const Analysis::HClonesArray*const ClonesArrays)
 {
 
     Print(2, "New Event");
@@ -38,7 +38,7 @@ void HPgs::HEvent::NewEvent(const Analysis::HClonesArray*const ClonesArrays)
 }
 
 
-vector<TLorentzVector> HPgs::HEvent::GetLeptons()
+vector<TLorentzVector> Analysis::HPgs::HEvent::GetLeptons()
 {
 
     Print(2, "Get Leptons");
@@ -50,7 +50,7 @@ vector<TLorentzVector> HPgs::HEvent::GetLeptons()
 
 }
 
-void HPgs::HEvent::GetJets()
+void Analysis::HPgs::HEvent::GetJets()
 {
     Print(2, "Get Jets");
 

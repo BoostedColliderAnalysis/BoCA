@@ -3,7 +3,7 @@
 
 int main()
 {
-    HMvaDiscriminator *Mva = new HMvaDiscriminator();
+  Discriminator::HMva *Mva = new Discriminator::HMva();
 
     Analysis::HFactory *Factory = new Analysis::HFactory(Mva);
 

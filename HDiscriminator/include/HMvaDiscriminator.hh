@@ -8,12 +8,10 @@
 /**
  * \class HMvaDiscriminator
  *
- * \ingroup HDiscriminator
- *
  * @brief Prepares multivariant analysis
  *
  */
-class HMvaDiscriminator : public Analysis::HMva
+class Discriminator::HMva : public Analysis::HMva
 {
 
 public:
@@ -22,13 +20,13 @@ public:
     * @brief Constructor
     *
     */
-    HMvaDiscriminator();
+    HMva();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMvaDiscriminator();
+    ~HMva();
 
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
 
@@ -44,7 +42,7 @@ private:
     void DefineVariables();
 
     virtual inline string ClassName() const {
-        return ("HMvaDiscriminator");
+      return ("Discriminator: HMva");
     };
 
 

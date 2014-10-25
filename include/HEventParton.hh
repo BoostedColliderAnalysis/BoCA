@@ -8,7 +8,7 @@
  * @brief Event topology for unweighted MadGraph events
  *
  */
-class HParton::HEvent : public Analysis::HEvent
+class Analysis::HParton::HEvent : public Analysis::HEvent
 {
 
 public:

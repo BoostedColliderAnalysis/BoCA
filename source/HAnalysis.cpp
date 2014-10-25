@@ -24,7 +24,7 @@ void Analysis::HAnalysis::AnalysisLoop()
 
         TFile *const ExportFile = GetExportFile(StudyName);
 
-        for (const auto * const File : GetFiles(StudyName)) {
+        for (auto * const File : GetFiles(StudyName)) {
 
             bool AnalysisNotEmpty = 0;
 
@@ -32,7 +32,9 @@ void Analysis::HAnalysis::AnalysisLoop()
 
             ExRootTreeBranch *const InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
-            const ExRootTreeReader *const TreeReader = GetTreeReader(File, ClonesArrays);
+            const ExRootTreeReader *const TreeReader = File->GetTreeReader();
+
+            ClonesArrays->GetBranches(TreeReader);
 
             ExRootProgressBar ProgressBar(GetEventSum(TreeReader));
 
@@ -152,7 +154,7 @@ Analysis::HEvent *Analysis::HAnalysis::GetEvent(const string StudyName) const
 
     vector<HFile *> Files = GetFiles(StudyName);
 
-    HEvent *Event;
+    HEvent * Event;
 
     if (Files.front()->GetTreeName() == "Delphes") {
 
@@ -204,34 +206,34 @@ ExRootTreeWriter *Analysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, co
 }
 
 
-ExRootTreeReader *Analysis::HAnalysis::GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays)
-{
-
-    Print(1, "Get Tree Reader",File->GetFilePath());
-
-    // Import file
-    const string ImportPath = File->GetFilePath();
-    TFile * const ImportFile = new TFile(ImportPath.c_str());
-//     TFile ImportFile = TFile(ImportPath.c_str());
-    Print(1, "File", ImportPath);
-
-    // Import tree
-    const string ImportTreeName = File->GetTreeName();
-    TTree * const ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
-//     TTree ImportTree = (TTree)ImportFile.Get(ImportTreeName.c_str());
-    Print(1, "Tree", ImportTreeName);
-
-    // TreeReader
-    ExRootTreeReader * const TreeReader = new ExRootTreeReader(ImportTree);
-
-    ClonesArrays->GetBranches(TreeReader);
-
-//     delete ImportFile; // FIXME Possible?
-//     delete ImportTree; // FIXME Possible?
-
-    return TreeReader;
-
-}
+// ExRootTreeReader *Analysis::HAnalysis::GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays)
+// {
+//
+//     Print(1, "Get Tree Reader",File->GetFilePath());
+//
+//     // Import file
+//     const string ImportPath = File->GetFilePath();
+//     TFile * const ImportFile = new TFile(ImportPath.c_str());
+// //     TFile ImportFile = TFile(ImportPath.c_str());
+//     Print(1, "File", ImportPath);
+//
+//     // Import tree
+//     const string ImportTreeName = File->GetTreeName();
+//     TTree * const ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
+// //     TTree ImportTree = (TTree)ImportFile.Get(ImportTreeName.c_str());
+//     Print(1, "Tree", ImportTreeName);
+//
+//     // TreeReader
+//     ExRootTreeReader * const TreeReader = new ExRootTreeReader(ImportTree);
+//
+//     ClonesArrays->GetBranches(TreeReader);
+//
+// //     delete ImportFile; // FIXME Possible?
+// //     delete ImportTree; // FIXME Possible?
+//
+//     return TreeReader;
+//
+// }
 
 
 Analysis::HAnalysis::~HAnalysis()

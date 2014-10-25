@@ -250,7 +250,7 @@ private:
  * @brief ClonesArray subclass for Pgs files
  *
  */
-class HPgs::HClonesArray : public Analysis::HClonesArray
+class Analysis::HPgs::HClonesArray : public Analysis::HClonesArray
 {
 
     void GetBranches(const ExRootTreeReader * const);
@@ -269,7 +269,7 @@ private:
  * @brief ClonesArray Subclass for unweighted MadGraph files
  *
  */
-class HParton::HClonesArray : public Analysis::HClonesArray
+class Analysis::HParton::HClonesArray : public Analysis::HClonesArray
 {
 
     void GetBranches(const ExRootTreeReader * const);

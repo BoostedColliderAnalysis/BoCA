@@ -27,7 +27,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const Analysis::HClonesArray*const ClonesArrays);
+    void NewEvent(const Analysis::HClonesArray *const ClonesArrays);
 
     vector<TLorentzVector>GetLeptons();
 

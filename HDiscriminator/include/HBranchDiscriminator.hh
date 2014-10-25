@@ -3,15 +3,27 @@
 
 # include "TObject.h"
 
+
+
+namespace Discriminator{
+
+  class HDiscriminator;
+  class HJetTag;
+  class HAnalysis;
+  class HBranchDiscriminator;
+  class HJetDiscriminator;
+  class HMva;
+  class HCandidateBranch;
+
+}
+
 /**
  * \class HCandidateBranch
- *
- * \ingroup HDiscriminator
  *
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class HCandidateBranch : public TObject
+class Discriminator::HCandidateBranch : public TObject
 {
 
 public:

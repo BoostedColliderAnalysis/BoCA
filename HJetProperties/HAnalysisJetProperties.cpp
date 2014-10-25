@@ -28,7 +28,7 @@ vector<Analysis::HFile*> HAnalysisJetProperties::GetFiles(const string StudyName
     vector<Analysis::HFile*> Files;
 
 //     FileVector.push_back(new HFileFolder("BG_ttbb"));
-    Files.push_back(new Analysis::HFileFolder("h2bb_ttbb"));
+    Files.push_back(new Analysis::HFile("h2bb_ttbb"));
 
     Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
     Files.front()->FileSuffix = ".root";

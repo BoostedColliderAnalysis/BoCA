@@ -1,6 +1,10 @@
 # ifndef HFile_hh
 # define HFile_hh
 
+# include "TFile.h"
+# include "TTree.h"
+# include "ExRootAnalysis/ExRootTreeReader.h"
+
 # include "HObject.hh"
 
 /**
@@ -31,6 +35,8 @@ public:
      *
      */
     HFile(const string Process, const string Run);
+
+    ExRootTreeReader *GetTreeReader();
 
     /**
      * @brief destructor
@@ -91,9 +97,9 @@ public:
      *
      * @return string file path
      */
-    virtual string GetFilePath() const = 0;
+    virtual string GetFilePath() const;
 
-    virtual string GetTreeName() const = 0;
+    virtual string GetTreeName() const;
 
     static string FileSuffix;
 
@@ -114,6 +120,9 @@ protected:
 
 private:
 
+  TFile* ImportFile;
+  TTree* ImportTree;
+
 
 };
 
@@ -121,7 +130,7 @@ private:
  * @brief unweighted MadGraph files
  *
  */
-class HParton::HFile : public Analysis::HFile
+class Analysis::HParton::HFile : public Analysis::HFile
 {
 
 public:
@@ -169,7 +178,7 @@ private:
  * @brief PGS files
  *
  */
-class HPgs::HFile : public Analysis::HFile
+class Analysis::HPgs::HFile : public Analysis::HFile
 {
 
 public:
@@ -261,52 +270,52 @@ private:
 
 };
 
-/**
- * @brief Delphes files in plain folder
- *
- */
-class Analysis::HFileFolder : public HFile
-{
-
-public:
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFileFolder();
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFileFolder(const string Process);
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFileFolder(const string Process, const string Run);
-
-    /**
-     * @brief Compose file path
-     *
-     * @return string file path
-     */
-    string GetFilePath() const;
-
-    string GetTreeName() const;
-
-protected:
-
-    virtual inline string ClassName() const {
-
-        return ("HFileFolder");
-
-    };
-
-private:
-
-};
+// /**
+//  * @brief Delphes files in plain folder
+//  *
+//  */
+// class Analysis::HFileFolder : public HFile
+// {
+//
+// public:
+//
+//   /**
+//    * @brief constructor defining default path
+//    *
+//    */
+//   HFileFolder();
+//
+//   /**
+//    * @brief constructor defining default path
+//    *
+//    */
+//   HFileFolder(const string Process);
+//
+//   /**
+//    * @brief constructor defining default path
+//    *
+//    */
+//   HFileFolder(const string Process, const string Run);
+//
+//     /**
+//      * @brief Compose file path
+//      *
+//      * @return string file path
+//      */
+//     string GetFilePath() const;
+//
+//     string GetTreeName() const;
+//
+// protected:
+//
+//     virtual inline string ClassName() const {
+//
+//         return ("HFileFolder");
+//
+//     };
+//
+// private:
+//
+// };
 
 # endif

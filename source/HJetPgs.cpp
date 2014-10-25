@@ -1,6 +1,6 @@
 # include "HJetPgs.hh"
 
-HPgs::HJet::HJet()
+Analysis::HPgs::HJet::HJet()
 {
 
     Print(1, "Constructor");
@@ -9,14 +9,14 @@ HPgs::HJet::HJet()
 
 }
 
-HPgs::HJet::~HJet()
+Analysis::HPgs::HJet::~HJet()
 {
 
     Print(1, "Destructor");
 
 }
 
-bool HPgs::HJet::GetJets()
+bool Analysis::HPgs::HJet::GetJets()
 {
 
     Print(2, "Get Jet");

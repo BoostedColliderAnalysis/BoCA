@@ -1,17 +1,19 @@
 # include "HBranchDiscriminator.hh"
 
+using Discriminator::HCandidateBranch;
+
 ClassImp(HCandidateBranch)
 
-HCandidateBranch::HCandidateBranch()
+Discriminator::HCandidateBranch::HCandidateBranch()
 {
 
     reset();
 
 }
 
-HCandidateBranch::~HCandidateBranch() {}
+Discriminator::HCandidateBranch::~HCandidateBranch() {}
 
-void HCandidateBranch::reset()
+void Discriminator::HCandidateBranch::reset()
 {
 
     int InitialValue = -10;
@@ -20,7 +22,7 @@ void HCandidateBranch::reset()
     Pt = InitialValue;
     Eta = InitialValue;
     Phi = InitialValue;
-    
+
     DeltaR = InitialValue;
     SubJetsDeltaR = InitialValue;
     Asymmetry = InitialValue;
@@ -108,25 +110,25 @@ ClassImp(HJetPropertiesBranch)
 
 HJetPropertiesBranch::HJetPropertiesBranch()
 {
-    
+
     reset();
-    
+
 }
 
 HJetPropertiesBranch::~HJetPropertiesBranch() {}
 
 void HJetPropertiesBranch::reset()
 {
-    
+
     int InitialValue = -10;
-    
+
     Mass = InitialValue;
     Pt = InitialValue;
-    
+
     Eta = InitialValue;
     Phi = InitialValue;
     Radius = InitialValue;
-    
+
 }
 
 

@@ -25,8 +25,8 @@ vector<Analysis::HFile*> HAnalysisHeavyHiggsDelphes::GetFiles(const string Study
 
     vector<Analysis::HFile*> Files;
 
-    Files.push_back(new Analysis::HFileFolder("BG_ttbb"));
-    Files.push_back(new Analysis::HFileFolder("hcpbb_ttbb"));
+    Files.push_back(new Analysis::HFile("BG_ttbb"));
+    Files.push_back(new Analysis::HFile("hcpbb_ttbb"));
 
     Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";

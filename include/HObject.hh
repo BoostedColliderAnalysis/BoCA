@@ -15,31 +15,7 @@ using fastjet::PseudoJet;
 using std::string;
 using std::vector;
 
-
-
-namespace HParton{
-
-  class HClonesArray;
-  class HFile;
-  class HEvent;
-  class HParticle;
-
-}
-
-namespace HPgs{
-
-  class HClonesArray;
-  class HFile;
-  class HEvent;
-  class HLepton;
-  class HJet;
-
-}
-
-
 namespace Analysis{
-
-
 
   namespace HDelphes{
 
@@ -52,7 +28,25 @@ namespace Analysis{
     class HParticle;
 
   }
-  
+
+  namespace HParton{
+
+    class HClonesArray;
+    class HFile;
+    class HEvent;
+    class HParticle;
+
+  }
+
+  namespace HPgs{
+
+    class HClonesArray;
+    class HFile;
+    class HEvent;
+    class HLepton;
+    class HJet;
+
+  }
 
   class HObject;
   class HFourVector;
@@ -73,25 +67,6 @@ namespace Analysis{
   class HJet;
   class HPull;
   class HSubStructure;
-
-//   class HEvent;
-//   class HClonesArray;
-//   class HParticle;
-//   class HFile;
-
-//   class HClonesArray;
-//   class HLepton;
-//   class HEvent;
-//   class HFile;
-//   class HJet;
-
-//   class HEvent;
-//   class HClonesArraySnowmass;
-//   class HClonesArray;
-//   class HFile;
-//   class HParticle;
-//   class HLepton;
-//   class HJet;
 
   class HMva;
   class HFactory;

@@ -2,12 +2,12 @@
 
 int main()
 {
-    HAnalysisDiscriminator *Analysis = new HAnalysisDiscriminator();
-        
+  Discriminator::HAnalysis *Analysis = new Discriminator::HAnalysis();
+
     Analysis->AnalysisLoop();
-    
+
     delete Analysis;
-    
+
     return 1;
-    
+
 }

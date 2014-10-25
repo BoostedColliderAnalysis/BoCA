@@ -7,17 +7,12 @@
 # include "HSubStructure.hh"
 
 /**
-* \ingroup HDiscriminator
-* @{
-* */
-
-/**
  * \class HDiscriminatorJetTag
  *
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class HDiscriminatorJetTag : public Analysis::HJetTag
+class Discriminator::HJetTag : public Analysis::HJetTag
 {
 
     int GetBranchId(const int ParticleId, int BranchId);
@@ -26,7 +21,7 @@ class HDiscriminatorJetTag : public Analysis::HJetTag
 
     virtual inline string ClassName() const {
 
-        return "HDiscriminatorJetTag";
+        return "Discriminator: HJetTag";
 
     };
 
@@ -35,12 +30,12 @@ class HDiscriminatorJetTag : public Analysis::HJetTag
 /**
  * \class HAnalysisDiscriminator
  *
- * @brief HAnalysis subclass defining the Disciminator Analysis
+ * @brief HAnalysis subclass defining the Discriminator Analysis
  *
  * \author Jan Hajer
  *
  */
-class HAnalysisDiscriminator : public Analysis::HAnalysis
+class Discriminator::HAnalysis : public Analysis::HAnalysis
 {
 
 public:
@@ -49,13 +44,13 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisDiscriminator();
+    HAnalysis();
 
     /**
      * @brief Constructor
      *
      */
-    ~HAnalysisDiscriminator();
+    ~HAnalysis();
 
     /**
      * @brief Branch to write Higgs info into
@@ -89,7 +84,7 @@ private:
 
     };
 
-    HDiscriminatorJetTag * DiscriminatorJetTag;
+    Discriminator::HJetTag * JetTag;
 
     Analysis::HSubStructure * SubStructure;
 
@@ -132,15 +127,11 @@ private:
 
     virtual inline string ClassName() const {
 
-        return ("HAnalysisDiscriminator");
+        return "Discriminator: HAnalysis";
 
     };
 
 };
-
-/**
- * @}
- */
 
 #endif
 

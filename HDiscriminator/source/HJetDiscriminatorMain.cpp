@@ -2,12 +2,12 @@
 
 int main()
 {
-    HJetDiscriminator *Analysis = new HJetDiscriminator();
-        
+    Discriminator::HJetDiscriminator *Analysis = new Discriminator::HJetDiscriminator();
+
     Analysis->AnalysisLoop();
-    
+
     delete Analysis;
-    
+
     return 1;
-    
+
 }

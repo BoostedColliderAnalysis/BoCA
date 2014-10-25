@@ -12,7 +12,7 @@
 
 using fastjet::antikt_algorithm;
 
-class HDiscriminatorJetTag : public Analysis::HJetTag
+class Discriminator::HJetTag : public Analysis::HJetTag
 {
 
     int GetBranchId(const int, int) const;
@@ -21,7 +21,7 @@ class HDiscriminatorJetTag : public Analysis::HJetTag
 
     inline string ClassName() const {
 
-        return ("HDiscriminatorJetTag");
+        return ("Discriminator: JetTag");
 
     };
 
@@ -34,7 +34,7 @@ class HDiscriminatorJetTag : public Analysis::HJetTag
  * \class HDiscriminator
  *
  */
-class HJetDiscriminator : public Analysis::HAnalysis
+class Discriminator::HJetDiscriminator : public Analysis::HAnalysis
 {
 
 public:
@@ -132,7 +132,7 @@ public:
 private:
 
 
-    HDiscriminatorJetTag *DiscriminatorJetTag;
+    Discriminator::HJetTag *JetTag;
 
     Analysis::HSubStructure *SubStructure;
 
@@ -159,7 +159,7 @@ private:
      */
 //     vector<PseudoJet> Leptons();
 
-    HDiscriminatorJetTag *HDiscriminatorTag;
+//     JetTag *HJetTag;
 
     /**
      * @brief Lepton event counter

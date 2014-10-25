@@ -7,7 +7,7 @@
 int main()
 {
 
-    HMvaDiscriminator *Mva = new HMvaDiscriminator();
+  Discriminator::HMva *Mva = new Discriminator::HMva();
 
     Analysis::HReader *Reader = new Analysis::HReader(Mva);
 

@@ -1,11 +1,11 @@
 # include "HAnalysisDiscriminator.hh"
 
-HAnalysisDiscriminator::HAnalysisDiscriminator()
+Discriminator::HAnalysis::HAnalysis()
 {
 
     Print(1, "Constructor");
 
-    DiscriminatorJetTag = new HDiscriminatorJetTag();
+    JetTag = new Discriminator::HJetTag();
 
     SubStructure = new Analysis::HSubStructure();
 
@@ -13,26 +13,26 @@ HAnalysisDiscriminator::HAnalysisDiscriminator()
 
 }
 
-HAnalysisDiscriminator::~HAnalysisDiscriminator()
+Discriminator::HAnalysis::~HAnalysis()
 {
 
     Print(1, "Destructor");
 
-    delete DiscriminatorJetTag;
+    delete JetTag;
 
     delete SubStructure;
 
 }
 
-vector<string> HAnalysisDiscriminator::GetStudyNames() const
+vector<string> Discriminator::HAnalysis::GetStudyNames() const
 {
 
 //     return  {"Higgs", "Top", "Jet", "Test"};
-    return {"Higgs","Top"};
+    return {"Higgs", "Top"};
 
 }
 
-vector<Analysis::HFile *> HAnalysisDiscriminator::GetFiles(const string StudyName) const
+vector<Analysis::HFile *> Discriminator::HAnalysis::GetFiles(const string StudyName) const
 {
     Print(1, "Set File Vector", StudyName);
 
@@ -40,7 +40,7 @@ vector<Analysis::HFile *> HAnalysisDiscriminator::GetFiles(const string StudyNam
 
     if (StudyName != "Higgs") {
 
-      Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-bbtt-bblvlv", "background");
+        Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
@@ -70,7 +70,7 @@ vector<Analysis::HFile *> HAnalysisDiscriminator::GetFiles(const string StudyNam
 // //     Odd->TagString="tag_2";
 //     Files.push_back(Odd);
 
-Analysis::HDelphes::HFile *Signal = new Analysis::HDelphes::HFile("pp-htt-bblvlv", "signal");
+    Analysis::HDelphes::HFile *Signal = new Analysis::HDelphes::HFile("pp-htt-bblvlv", "signal");
     Signal->Crosssection = 0.01419; // pb
     Signal->Error = 0.000067; // pb
 //     Odd->TagString="tag_2";
@@ -83,7 +83,7 @@ Analysis::HDelphes::HFile *Signal = new Analysis::HDelphes::HFile("pp-htt-bblvlv
 }
 
 
-void HAnalysisDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
+void Discriminator::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -93,7 +93,7 @@ void HAnalysisDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId)
+int Discriminator::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
 //     if (HeavyParticles.find(abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
@@ -118,7 +118,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool HAnalysisDiscriminator::Analysis(Analysis::HEvent *const Event, const string StudyName)
+bool Discriminator::HAnalysis::Analysis(Analysis::HEvent *const Event, const string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
@@ -136,7 +136,7 @@ bool HAnalysisDiscriminator::Analysis(Analysis::HEvent *const Event, const strin
 
     // Higgs stuff
 
-    const vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(DiscriminatorJetTag);
+    const vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(JetTag);
 
     if (CandidateJets.size() < 1) {
 
@@ -333,7 +333,7 @@ bool HAnalysisDiscriminator::Analysis(Analysis::HEvent *const Event, const strin
 }
 
 
-vector<PseudoJet> HAnalysisDiscriminator::GetLeptonJets(Analysis::HEvent *const Event)
+vector<PseudoJet> Discriminator::HAnalysis::GetLeptonJets(Analysis::HEvent *const Event)
 {
 
 // Lepton Stuff

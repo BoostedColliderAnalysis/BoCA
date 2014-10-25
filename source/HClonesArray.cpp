@@ -97,7 +97,7 @@ void Analysis::HDelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReade
 
 }
 
-void HPgs::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
+void Analysis::HPgs::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
 {
 
     Print(1, "Get Branches");
@@ -111,7 +111,7 @@ void HPgs::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
 
 }
 
-void HParton::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
+void Analysis::HParton::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
 {
 
     Print(1, "Get Branches");
