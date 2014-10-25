@@ -1,13 +1,13 @@
 # include "HAnalysisHeavyHiggsPgs.hh"
 
-HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
+HeavyHiggs::HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 {
 
     Print(1, "Constructor");
 
 }
 
-vector<Analysis::HFile*> HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName) const
+vector<Analysis::HFile*> HeavyHiggs::HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName) const
 {
 
     Print(1, "Fill Analysis Vector",StudyName);
@@ -28,7 +28,7 @@ vector<Analysis::HFile*> HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName
 
 }
 
-void HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWriter)
+void HeavyHiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -46,7 +46,7 @@ void HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-void HAnalysisHeavyHiggsPgs::CloseFile()
+void HeavyHiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 {
     Print(1, "Close File");
 
@@ -64,7 +64,7 @@ void HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-bool HAnalysisHeavyHiggsPgs::Analysis(Analysis::HEvent* Event,string StudyName)
+bool HeavyHiggs::HAnalysisHeavyHiggsPgs::Analysis(Analysis::HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis",StudyName);

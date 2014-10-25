@@ -2,12 +2,12 @@
 
 int main()
 {
-    HAnalysisHeavyHiggsDelphes *Analysis = new HAnalysisHeavyHiggsDelphes();
-        
+  HeavyHiggs::HAnalysisHeavyHiggsDelphes *Analysis = new HeavyHiggs::HAnalysisHeavyHiggsDelphes();
+
     Analysis->AnalysisLoop();
-    
+
     delete Analysis;
-    
+
     return 1;
-    
+
 }

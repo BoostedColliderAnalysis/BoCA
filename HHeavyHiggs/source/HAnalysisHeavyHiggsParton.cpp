@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
+HeavyHiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 {
     Print(1, "Constructor");
 
 }
 
-vector<Analysis::HFile*> HAnalysisHeavyHiggsParton::GetFiles(const string StudyName) const
+vector<Analysis::HFile*> HeavyHiggs::HAnalysisHeavyHiggsParton::GetFiles(const string StudyName) const
 {
 
     Print(1, "Fill Analysis Vector", StudyName);
@@ -28,7 +28,7 @@ vector<Analysis::HFile*> HAnalysisHeavyHiggsParton::GetFiles(const string StudyN
 
 }
 
-void HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWriter)
+void HeavyHiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -44,7 +44,7 @@ void HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-void HAnalysisHeavyHiggsParton::CloseFile()
+void HeavyHiggs::HAnalysisHeavyHiggsParton::CloseFile()
 {
     Print(1, "Close File");
 
@@ -59,7 +59,7 @@ void HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-bool HAnalysisHeavyHiggsParton::Analysis(Analysis::HEvent* Event,string)
+bool HeavyHiggs::HAnalysisHeavyHiggsParton::Analysis(Analysis::HEvent* Event,string)
 {
 
     Print(2, "Analysis");

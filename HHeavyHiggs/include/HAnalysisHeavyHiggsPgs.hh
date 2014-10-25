@@ -11,7 +11,7 @@ using std::iter_swap;
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class HAnalysisHeavyHiggsPgs : public Analysis::HAnalysis
+class HeavyHiggs::HAnalysisHeavyHiggsPgs : public Analysis::HAnalysis
 {
 
 public:

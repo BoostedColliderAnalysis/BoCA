@@ -3,7 +3,7 @@
 
 int main()
 {
-    HMvaHeavyHiggs *Mva = new HMvaHeavyHiggs();
+  HeavyHiggs::HMva *Mva = new HeavyHiggs::HMva();
 
     Analysis::HFactory *Factory = new Analysis::HFactory(Mva);
 

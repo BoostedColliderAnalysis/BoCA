@@ -9,7 +9,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class HMvaHeavyHiggs : public Analysis::HMva
+class HeavyHiggs::HMva : public Analysis::HMva
 {
 
 public:
@@ -18,13 +18,13 @@ public:
     * @brief Constructor
     *
     */
-    HMvaHeavyHiggs();
+    HMva();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMvaHeavyHiggs();
+    ~HMva();
 
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
 

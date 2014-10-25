@@ -5,7 +5,7 @@
 int main()
 {
 
-    HMvaHeavyHiggs *Mva = new HMvaHeavyHiggs();
+  HeavyHiggs::HMva *Mva = new HeavyHiggs::HMva();
 
     Analysis::HReader *Reader = new Analysis::HReader(Mva);
 

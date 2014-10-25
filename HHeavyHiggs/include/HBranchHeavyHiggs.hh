@@ -3,11 +3,24 @@
 
 # include "TObject.h"
 
+
+
+namespace HeavyHiggs{
+
+    class HAnalysisHeavyHiggsDelphes;
+    class HAnalysisHeavyHiggsPgs;
+    class HAnalysisHeavyHiggsParton;
+    class HHeavyHiggsJetTag;
+      class HMva;
+      class HHeavyHiggsBranch;
+
+}
+
 /**
  * @brief Class for saving leptons to root
  *
  */
-class HHeavyHiggsBranch : public TObject
+class HeavyHiggs::HHeavyHiggsBranch : public TObject
 {
 
 public:

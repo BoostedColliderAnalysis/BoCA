@@ -14,7 +14,7 @@ using std::remove_if;
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class HAnalysisHeavyHiggsDelphes : public Analysis::HAnalysis
+class HeavyHiggs::HAnalysisHeavyHiggsDelphes : public Analysis::HAnalysis
 {
 
 public:

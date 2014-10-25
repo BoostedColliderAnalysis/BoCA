@@ -1,6 +1,6 @@
 # include "HEventDelphes.hh"
 
-Analysis::HDelphes::HEvent ::HEvent()
+Analysis::HDelphes::HEvent::HEvent()
 {
 
     Print(1, "Constructor");
@@ -20,7 +20,7 @@ Analysis::HDelphes::HEvent ::HEvent()
 
 }
 
-Analysis::HDelphes::HEvent ::~HEvent()
+Analysis::HDelphes::HEvent::~HEvent()
 {
 
     Print(1, "Destructor");
@@ -34,7 +34,7 @@ Analysis::HDelphes::HEvent ::~HEvent()
 
 }
 
-// void HDelphes::HEvent ::NewFile()
+// void HDelphes::HEvent::NewFile()
 // {
 //
 //     Print(2, "New Analysis");
@@ -43,7 +43,7 @@ Analysis::HDelphes::HEvent ::~HEvent()
 //
 // }
 
-// void HDelphes::HEvent ::CloseFile()
+// void HDelphes::HEvent::CloseFile()
 // {
 //
 //     Print(2, "Close File");
@@ -52,7 +52,7 @@ Analysis::HDelphes::HEvent ::~HEvent()
 //
 // }
 
-void Analysis::HDelphes::HEvent ::NewEvent(const Analysis::HClonesArray *const ClonesArrays)
+void Analysis::HDelphes::HEvent::NewEvent(const Analysis::HClonesArray *const ClonesArrays)
 {
 
     Print(2, "New Event");
@@ -72,7 +72,7 @@ void Analysis::HDelphes::HEvent ::NewEvent(const Analysis::HClonesArray *const C
 }
 
 
-void Analysis::HDelphes::HEvent ::GetParticles()
+void Analysis::HDelphes::HEvent::GetParticles()
 {
 
     Print(2, "Get Particles");
@@ -82,7 +82,7 @@ void Analysis::HDelphes::HEvent ::GetParticles()
 }
 
 
-vector<TLorentzVector> Analysis::HDelphes::HEvent ::GetLeptons()
+vector<TLorentzVector> Analysis::HDelphes::HEvent::GetLeptons()
 {
     Print(2, "Get Leptons");
 
@@ -94,7 +94,7 @@ vector<TLorentzVector> Analysis::HDelphes::HEvent ::GetLeptons()
     return LeptonVector;
 }
 
-void Analysis::HDelphes::HEvent ::GetJets()
+void Analysis::HDelphes::HEvent::GetJets()
 {
     Print(2, "Get Jets");
 
@@ -102,7 +102,7 @@ void Analysis::HDelphes::HEvent ::GetJets()
 
 }
 
-void Analysis::HDelphes::HEvent ::GetTaggedJets(Analysis::HJetTag*const JetTag)
+void Analysis::HDelphes::HEvent::GetTaggedJets(Analysis::HJetTag*const JetTag)
 {
     Print(2, "Get Tagged Jets");
 
@@ -121,7 +121,7 @@ void Analysis::HDelphes::HEvent ::GetTaggedJets(Analysis::HJetTag*const JetTag)
 }
 
 
-void Analysis::HDelphes::HEvent ::GetEFlow()
+void Analysis::HDelphes::HEvent::GetEFlow()
 {
 
     Print(2, "Get EFlow");
@@ -131,7 +131,7 @@ void Analysis::HDelphes::HEvent ::GetEFlow()
 }
 
 
-void Analysis::HDelphes::HEvent ::GetTaggedEFlow(Analysis::HJetTag*const JetTag)
+void Analysis::HDelphes::HEvent::GetTaggedEFlow(Analysis::HJetTag*const JetTag)
 {
 
     Print(2, "Get EFlow");
@@ -147,7 +147,7 @@ void Analysis::HDelphes::HEvent ::GetTaggedEFlow(Analysis::HJetTag*const JetTag)
 }
 
 
-void Analysis::HDelphes::HEvent ::GetIsolatedEFlow()
+void Analysis::HDelphes::HEvent::GetIsolatedEFlow()
 {
 
     Print(2, "Get EFlow");
@@ -157,7 +157,7 @@ void Analysis::HDelphes::HEvent ::GetIsolatedEFlow()
 }
 
 
-void Analysis::HDelphes::HEvent ::GetIsoaltedTaggedEFlow(Analysis::HJetTag*const JetTag)
+void Analysis::HDelphes::HEvent::GetIsoaltedTaggedEFlow(Analysis::HJetTag*const JetTag)
 {
 
     Print(2, "Get EFlow");
@@ -173,7 +173,7 @@ void Analysis::HDelphes::HEvent ::GetIsoaltedTaggedEFlow(Analysis::HJetTag*const
 }
 
 
-PseudoJet Analysis::HDelphes::HEvent ::GetHiggs()
+PseudoJet Analysis::HDelphes::HEvent::GetHiggs()
 {
 
     Print(2, "Get Higgs");
@@ -190,7 +190,7 @@ PseudoJet Analysis::HDelphes::HEvent ::GetHiggs()
 
 }
 
-vector<PseudoJet> Analysis::HDelphes::HEvent ::GetTops(const Analysis::HJetTag*const JetTag)
+vector<PseudoJet> Analysis::HDelphes::HEvent::GetTops(const Analysis::HJetTag*const JetTag)
 {
 
     Print(2, "Get Tops");
@@ -204,7 +204,7 @@ vector<PseudoJet> Analysis::HDelphes::HEvent ::GetTops(const Analysis::HJetTag*c
 }
 
 
-// vector<PseudoJet> HDelphes::HEvent ::GetHiggsTopCandidates(bool Higgs, bool Tops, bool Candidates)
+// vector<PseudoJet> HDelphes::HEvent::GetHiggsTopCandidates(bool Higgs, bool Tops, bool Candidates)
 // {
 //     Print(2,"GetHiggsTopCandidates");
 //
@@ -243,7 +243,7 @@ vector<PseudoJet> Analysis::HDelphes::HEvent ::GetTops(const Analysis::HJetTag*c
 // }
 
 
-vector<PseudoJet> Analysis::HDelphes::HEvent ::GetHiggsTopCandidates(Analysis::HJetTag*const JetTag)
+vector<PseudoJet> Analysis::HDelphes::HEvent::GetHiggsTopCandidates(Analysis::HJetTag*const JetTag)
 {
     Print(2, "GetHiggsTopCandidates");
 
@@ -256,7 +256,7 @@ vector<PseudoJet> Analysis::HDelphes::HEvent ::GetHiggsTopCandidates(Analysis::H
 
 }
 
-// HDelphes::HEvent ::GetPhotons()
+// HDelphes::HEvent::GetPhotons()
 // {
 //
 //     int PhotonSum = ClonesArrays->PhotonClonesArray->GetEntriesFast();

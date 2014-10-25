@@ -1,17 +1,19 @@
 # include "HBranchHeavyHiggs.hh"
 
+using HeavyHiggs::HHeavyHiggsBranch;
+
 ClassImp(HHeavyHiggsBranch)
 
-HHeavyHiggsBranch::HHeavyHiggsBranch()
+HeavyHiggs::HHeavyHiggsBranch::HHeavyHiggsBranch()
 {
 
     reset();
 
 }
 
-HHeavyHiggsBranch::~HHeavyHiggsBranch() {}
+HeavyHiggs::HHeavyHiggsBranch::~HHeavyHiggsBranch() {}
 
-void HHeavyHiggsBranch::reset()
+void HeavyHiggs::HHeavyHiggsBranch::reset()
 {
 
     int InitialValue = -10;

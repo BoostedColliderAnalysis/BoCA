@@ -15,8 +15,16 @@ using fastjet::PseudoJet;
 using std::string;
 using std::vector;
 
+/**
+ * @brief Main Analysis Library
+ *
+ */
 namespace Analysis{
 
+  /**
+   * @brief Delphes analysis library parts
+   *
+   */
   namespace HDelphes{
 
     class HClonesArray;
@@ -29,6 +37,10 @@ namespace Analysis{
 
   }
 
+  /**
+   * @brief Parton level analysis library parts
+   *
+   */
   namespace HParton{
 
     class HClonesArray;
@@ -38,6 +50,10 @@ namespace Analysis{
 
   }
 
+  /**
+   * @brief Pgs analysis library parts
+   *
+   */
   namespace HPgs{
 
     class HClonesArray;
