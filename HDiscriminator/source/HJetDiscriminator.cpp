@@ -5,7 +5,7 @@ HiggsCPV::HJetDiscriminator::HJetDiscriminator()
 
     Print(1, "Constructor");
 
-    JetTag = new HiggsCPV::HJetTag();
+    JetTag = new HiggsCPV::JetHJetTag();
 
     SubStructure = new Analysis::HSubStructure();
 
@@ -113,7 +113,7 @@ void HiggsCPV::HJetDiscriminator::CloseFile()
 
 }
 
-int HiggsCPV::HJetTag::GetBranchId(const int ParticleId, int BranchId) const
+int HiggsCPV::JetHJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
     Print(3, "Get Branch Id", ParticleId);
@@ -187,7 +187,7 @@ bool HiggsCPV::HJetDiscriminator::Analysis(Analysis::HEvent* Event,string StudyN
             if (
                 EFlowJet.user_index() != 5000000 &&
                 abs(EFlowJet.user_index()) != 6 &&
-                EFlowJet.user_index() != 10
+                EFlowJet.user_index() != 81
             )
                 cout << "EFlowId " << EFlowJet.user_index() << endl;
             return 0;

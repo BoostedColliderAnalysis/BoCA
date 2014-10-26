@@ -56,7 +56,7 @@ private:
 
     virtual inline string ClassName() const {
 
-        return "HJetTag";
+        return "Analysis: HJetTag";
 
     };
 

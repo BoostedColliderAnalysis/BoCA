@@ -12,10 +12,10 @@
 
 using fastjet::antikt_algorithm;
 
-class HiggsCPV::HJetTag : public Analysis::HJetTag
+class HiggsCPV::JetHJetTag : public Analysis::HJetTag
 {
 
-    int GetBranchId(const int, int) const;
+    int GetBranchId(const int ParticleId, int BranchId);
 
     const set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
 

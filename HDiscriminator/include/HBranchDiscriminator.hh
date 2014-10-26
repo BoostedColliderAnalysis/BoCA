@@ -9,6 +9,7 @@ namespace HiggsCPV{
 
   class HDiscriminator;
   class HJetTag;
+  class JetHJetTag;
   class HAnalysis;
   class HBranchDiscriminator;
   class HJetDiscriminator;

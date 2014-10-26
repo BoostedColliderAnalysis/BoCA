@@ -141,7 +141,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HDelphes: HJet");
+        return "HDelphes: HJet";
 
     };
 
