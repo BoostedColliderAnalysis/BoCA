@@ -1,6 +1,6 @@
 # include "HMvaDiscriminator.hh"
 
-Discriminator::HMva::HMva()
+HiggsCPV::HMva::HMva()
 {
 
     Print(1 , "Constructor");
@@ -45,7 +45,7 @@ Discriminator::HMva::HMva()
 
 }
 
-Discriminator::HMva::~HMva()
+HiggsCPV::HMva::~HMva()
 {
 
     Print(1 , "Constructor");
@@ -54,7 +54,7 @@ Discriminator::HMva::~HMva()
 
 }
 
-void Discriminator::HMva::DefineVariables()
+void HiggsCPV::HMva::DefineVariables()
 {
 
     Print(1 , "Define Variables");
@@ -96,7 +96,7 @@ void Discriminator::HMva::DefineVariables()
 }
 
 
-void Discriminator::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
+void HiggsCPV::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
 {
   Print(1, "Apply Bdt");
 
@@ -161,7 +161,7 @@ void Discriminator::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, con
 }
 
 
-HReaderStruct Discriminator::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+HReaderStruct HiggsCPV::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 {
 
   Print(1, "Cut Loop");

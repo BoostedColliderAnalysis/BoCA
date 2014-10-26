@@ -44,9 +44,9 @@ void Analysis::HAnalysis::AnalysisLoop()
 
                 Print(2,"Event Number",EventNumber);
 
-                Event->NewEvent(ClonesArrays);
-
                 const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+                
+                Event->NewEvent(ClonesArrays);
 
                 const bool Successfull = Analysis(Event, StudyName);
 
@@ -55,7 +55,7 @@ void Analysis::HAnalysis::AnalysisLoop()
                     AnalysisNotEmpty = 1;
 
                     FillInfoBranch(TreeReader, InfoBranch, File);
-
+                    
                     TreeWriter->Fill();
 
                 }
@@ -141,7 +141,7 @@ Analysis::HClonesArray *Analysis::HAnalysis::GetClonesArrays(const string StudyN
 
     }
 
-    DeleteFiles(Files);
+    //     DeleteFiles(Files); // FIXME
 
     return ClonesArrays;
 
@@ -174,7 +174,7 @@ Analysis::HEvent *Analysis::HAnalysis::GetEvent(const string StudyName) const
 
     }
 
-    DeleteFiles(Files);
+//     DeleteFiles(Files); // FIXME
 
     return Event;
 

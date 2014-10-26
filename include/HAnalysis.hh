@@ -16,7 +16,6 @@
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
 
-typedef Analysis::HDelphes::HFile HFileDelphes;
 
 /**
  * @brief Base for all analyses

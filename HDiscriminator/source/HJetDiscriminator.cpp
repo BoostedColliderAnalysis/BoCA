@@ -1,11 +1,11 @@
 # include "HJetDiscriminator.hh"
 
-Discriminator::HJetDiscriminator::HJetDiscriminator()
+HiggsCPV::HJetDiscriminator::HJetDiscriminator()
 {
 
     Print(1, "Constructor");
 
-    JetTag = new Discriminator::HJetTag();
+    JetTag = new HiggsCPV::HJetTag();
 
     SubStructure = new Analysis::HSubStructure();
 
@@ -14,7 +14,7 @@ Discriminator::HJetDiscriminator::HJetDiscriminator()
 }
 
 
-Discriminator::HJetDiscriminator::~HJetDiscriminator()
+HiggsCPV::HJetDiscriminator::~HJetDiscriminator()
 {
 
     Print(1, "Destructor");
@@ -25,7 +25,7 @@ Discriminator::HJetDiscriminator::~HJetDiscriminator()
 
 }
 
-vector<string> Discriminator::HJetDiscriminator::GetStudyNames() const
+vector<string> HiggsCPV::HJetDiscriminator::GetStudyNames() const
 {
 
 //     return {"Higgs", "Top", "Isr"};
@@ -34,7 +34,7 @@ vector<string> Discriminator::HJetDiscriminator::GetStudyNames() const
 
 }
 
-vector< Analysis::HFile* > Discriminator::HJetDiscriminator::GetFiles(const string StudyName) const
+vector< Analysis::HFile* > HiggsCPV::HJetDiscriminator::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
@@ -70,7 +70,7 @@ vector< Analysis::HFile* > Discriminator::HJetDiscriminator::GetFiles(const stri
 }
 
 
-void Discriminator::HJetDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
+void HiggsCPV::HJetDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -107,13 +107,13 @@ void Discriminator::HJetDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-void Discriminator::HJetDiscriminator::CloseFile()
+void HiggsCPV::HJetDiscriminator::CloseFile()
 {
     Print(1, "Close File");
 
 }
 
-int Discriminator::HJetTag::GetBranchId(const int ParticleId, int BranchId) const
+int HiggsCPV::HJetTag::GetBranchId(const int ParticleId, int BranchId) const
 {
 
     Print(3, "Get Branch Id", ParticleId);
@@ -143,7 +143,7 @@ int Discriminator::HJetTag::GetBranchId(const int ParticleId, int BranchId) cons
 }
 
 
-bool Discriminator::HJetDiscriminator::Analysis(Analysis::HEvent* Event,string StudyName)
+bool HiggsCPV::HJetDiscriminator::Analysis(Analysis::HEvent* Event,string StudyName)
 {
 
     Print(3, "Analysis");
@@ -340,7 +340,7 @@ bool Discriminator::HJetDiscriminator::Analysis(Analysis::HEvent* Event,string S
 
 }
 
-bool Discriminator::HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets, const float DeltaR)
+bool HiggsCPV::HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets, const float DeltaR)
 {
 
 
@@ -420,14 +420,14 @@ bool Discriminator::HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBran
 
 }
 
-bool Discriminator::HJetDiscriminator::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &Jet, const vector<PseudoJet> &LeptonJets)
+bool HiggsCPV::HJetDiscriminator::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &Jet, const vector<PseudoJet> &LeptonJets)
 {
 
     return FillTree(TreeBranch, ConstituentTreeBranch, Jet, LeptonJets, GetDeltaR(Jet));
 
 }
 
-float Discriminator::HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
+float HiggsCPV::HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
 {
 
     Print(3, "Get DeltaR");
@@ -450,7 +450,7 @@ float Discriminator::HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
 
 }
 
-vector<PseudoJet> Discriminator::HJetDiscriminator::Leptons(Analysis::HEvent* Event)
+vector<PseudoJet> HiggsCPV::HJetDiscriminator::Leptons(Analysis::HEvent* Event)
 {
 
     // Lepton Stuff

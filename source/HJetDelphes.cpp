@@ -21,13 +21,32 @@ void Analysis::HDelphes::HJet::NewEvent(const Analysis::HClonesArray *const NewC
 
     Print(2, "New Event");
 
-    HJet::NewEvent(NewClonesArrays);
+    Analysis::HJet::NewEvent(NewClonesArrays);
 
     Topology.assign(ClonesArrays->ParticleSum(), EmptyId); // FIXME why is this not working at this stage
 
     Print(2, "Topology", Topology.size());
 
 }
+
+// void Analysis::HDelphes::HJet::GetTopology(){
+//
+//     Print(2, "GetTopology");
+//
+//
+//     for (const int ParticleNumber : HRange(ClonesArrays->ParticleSum())) {
+//
+//         const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
+//
+//         const int ParticleID = ParticleClone->PID;
+//         const int ParticleID = ParticleClone->PID;
+//         const int ParticleID = ParticleClone->PID;
+//
+//
+//
+//     }
+//
+// }
 
 bool Analysis::HDelphes::HJet::GetJets(HJetDetails JetDetails)
 {
@@ -118,11 +137,6 @@ int Analysis::HDelphes::HJet::GetMotherId(const TObject *const Object)
 
     Print(3, "Get Mother Id", ClonesArrays->ParticleSum());
 
-    if (abs(Topology.size()) != ClonesArrays->ParticleSum()) {
-        Print(1, "Resize", Topology.size(), ClonesArrays->ParticleSum()); // FIXME why is this necessary
-        Topology.assign(ClonesArrays->ParticleSum(), EmptyId);
-    }
-
     if (Object->IsA() != GenParticle::Class() || Object == 0) {
 
         Print(0, "Object is", Object->ClassName());
@@ -137,9 +151,9 @@ int Analysis::HDelphes::HJet::GetMotherId(const TObject *const Object)
     MotherId = GetMotherId(ParticleClone, MotherId, Position);
 
     Print(3, "Mother Id", MotherId);
-    std::replace(Topology.begin(), Topology.end(), 100, MotherId);
+    std::replace(Topology.begin(), Topology.end(), int(MarkerId), MotherId);
 
-    if(MotherId == EmptyId) Print(0,"No Mother Id",ParticleClone->PID);
+    if (MotherId == EmptyId) Print(0, "No Mother Id", Position, ParticleClone->PID);
 
     return MotherId;
 
@@ -147,34 +161,27 @@ int Analysis::HDelphes::HJet::GetMotherId(const TObject *const Object)
 
 int Analysis::HDelphes::HJet::GetMotherId(GenParticle *ParticleClone, int BranchId, int Position)
 {
-//     DebugLevel = 4;
 
     Print(3, "Get Mother Id", ParticleClone->PID);
+
     const int EmptyPosition = -1;
-    const int TemporaryId = 100;
 
     while (Position != EmptyPosition) {
-
-        ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
-
-        BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
-        Topology.at(Position) = TemporaryId;
-
-        if (JetTag->HeavyParticles.find(abs(BranchId)) != end(JetTag->HeavyParticles)) break;
 
         if (ParticleClone->M2 != EmptyPosition) {
 
             Position = ParticleClone->M2;
-//             DebugLevel = 4;
             Print(3, "Mother 2 Position", Position);
-//             Print(3, "Pre Branch Id", BranchId);
             BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(Position), BranchId, Position);
-//             Print(3, "\n");
-//             DebugLevel = 1;
 
         }
 
-//         if (Topology.at(Position) != EmptyId && Topology.at(Position) != TemporaryId) {
+        ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
+
+        BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
+        Topology.at(Position) = MarkerId;
+
+        //         if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
 //             BranchId = Topology.at(Position);
 //             break;
 //         }
@@ -182,11 +189,12 @@ int Analysis::HDelphes::HJet::GetMotherId(GenParticle *ParticleClone, int Branch
         Position = ParticleClone->M1;
         Print(3, "Mother 1 Position", Position);
 
+        if (JetTag->HeavyParticles.find(abs(BranchId)) != end(JetTag->HeavyParticles)) break;
+        
     }
 
     Print(3, "Branch Id", BranchId);
 
-//     DebugLevel = 1;
     return BranchId;
 
 }
@@ -217,6 +225,10 @@ bool Analysis::HDelphes::HJet::ReadEFlow(const HJetDetails JetDetails)
     Print(2, "Get EFlow");
 
 
+//     for(auto HeavyParticle : JetTag->HeavyParticles) {
+//         Print(0,"HeavyParticle",HeavyParticle);
+//     }
+
 //     int Empty = EmptyId;
 //     Particles.assign(ClonesArrays->ParticleSum(), &Empty);
 
@@ -225,20 +237,40 @@ bool Analysis::HDelphes::HJet::ReadEFlow(const HJetDetails JetDetails)
     if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(JetDetails);
     if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(JetDetails);
 
-//     for (int Position : HRange(100)) {
-    for (int Position : HRange(ClonesArrays->ParticleSum())) {
-        GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
-        std::cout << std::left << std::setw(10) << std::setfill(' ') << Position
-                  << std::left << std::setw(10) << std::setfill(' ') << Topology.at(Position)
-                  << std::left << std::setw(10) << std::setfill(' ') << Particle->Status
-                  << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Particle->PID)
-                  << std::left << std::setw(10) << std::setfill(' ') << Particle->M1
-                  << std::left << std::setw(10) << std::setfill(' ') << Particle->M2
-                  << std::left << std::setw(10) << std::setfill(' ') << Particle->D1
-                  << std::left << std::setw(10) << std::setfill(' ') << Particle->D2
-                  << std::endl;
-    }
-    Print(1, "");
+//     for (int Position : HRange(ClonesArrays->ParticleSum())) {
+//     for (const int Position : HRange(100)) {
+//         
+//         const GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
+//         
+//         std::cout << std::left << std::setw(10) << std::setfill(' ') << Position
+//                   << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Topology.at(Position))
+//                   << std::left << std::setw(10) << std::setfill(' ') << Particle->Status
+//                   << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Particle->PID)
+//                   << std::left << std::setw(10) << std::setfill(' ') << Particle->M1;
+//                   
+//         if (Particle->M1 != -1) {
+//             
+//             std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M1))->PID);
+//             
+//         } else {
+//             
+//             std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
+//             
+//         };
+//         
+//         std::cout << std::left << std::setw(10) << std::setfill(' ') << Particle->M2;
+//         
+//         if (Particle->M2 != -1) {
+//             std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M2))->PID);
+//         } else {
+//             std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
+//         };
+//         
+//         std::cout         << std::left << std::setw(10) << std::setfill(' ') << Particle->D1
+//                           << std::left << std::setw(10) << std::setfill(' ') << Particle->D2
+//                           << std::endl;
+//     }
+//     Print(1, "");
 
     Print(3, "Number of EFlow Jet", EFlowJets.size());
 
@@ -322,8 +354,8 @@ void Analysis::HDelphes::HJet::GetHadronEFlow(const HJetDetails JetDetails)
         EFlowJets.push_back(GetPseudoJet(const_cast<Tower *>(HadronClone)->P4()));
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
-          EFlowJets.back().set_user_info(new Analysis::HJetInfo(GetJetId(HadronClone)));
-          EFlowJets.back().set_user_index(EFlowJets.back().user_info<Analysis::HJetInfo>().GetMaximalId());
+            EFlowJets.back().set_user_info(new Analysis::HJetInfo(GetJetId(HadronClone)));
+            EFlowJets.back().set_user_index(EFlowJets.back().user_info<Analysis::HJetInfo>().GetMaximalId());
             Print(4, "Hadron EFlow Id", EFlowJets.back().user_index());
 
         }

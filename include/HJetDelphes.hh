@@ -64,6 +64,7 @@ public:
     float GetScalarHt();
 
 private:
+    
     vector<int> Topology;
 
     vector<int *> BranchVector;
@@ -84,7 +85,7 @@ private:
     template <typename TClone>
     Analysis::HJetInfo GetJetId(const TClone &Clone) {
 
-        Print(2, "Get Jet Id", Clone->Particles.GetEntriesFast());
+        Print(3, "Get Jet Id", Clone->Particles.GetEntriesFast());
 
         Analysis::HJetInfo JetInfo;
 

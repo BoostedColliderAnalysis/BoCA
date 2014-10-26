@@ -63,12 +63,16 @@ void HAnalysisJetProperties::CloseFile()
 class HHeavyHiggsJetTag : public Analysis::HJetTag
 {
 
-    int GetBranchId(int, int) const;
-
+public:
+    
+    int GetBranchId(const int ParticleId, int BranchId);
+    
+    const set<int> HeavyParticles {TopId, BottomId};
+    
 };
 
 
-int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId) const
+int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
     Print(2, "Get Mother Id");
@@ -84,8 +88,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId) const
     }
 
     Print(4, "Mother Id", BranchId);
-
-
+    
     return BranchId;
 
 }
@@ -118,7 +121,7 @@ bool HAnalysisJetProperties::Analysis(Analysis::HEvent* Event,string StudyName)
 //     Lepton->Pt = 1. / (LeptonJetVector[0].pt() - LeptonJetVector[1].pt());
 //     Lepton->Mass = 1. / (LeptonJetVector[0].pt() + LeptonJetVector[1].pt());
 
-    const HHeavyHiggsJetTag *const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    HHeavyHiggsJetTag *const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
 
     Event->GetTaggedEFlow(HeavyHiggsJetTag);
 

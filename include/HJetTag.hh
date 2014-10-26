@@ -42,15 +42,15 @@ public:
      * @brief set of particle Ids which are considerd relevant
      *
      */
-    const set<int> HeavyParticles = {BottomId, TopId};
-
+    const set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+    
 protected:
 
     /**
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    const set<int> RadiationParticles = {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+    const set<int> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
 
 private:
 

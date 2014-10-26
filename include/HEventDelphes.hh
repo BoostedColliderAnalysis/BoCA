@@ -55,7 +55,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("Delphes: HEvent");
+        return ("HDelphes: HEvent");
 
     };
 

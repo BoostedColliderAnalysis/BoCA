@@ -12,16 +12,18 @@
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class Discriminator::HJetTag : public Analysis::HJetTag
+class HiggsCPV::HJetTag : public Analysis::HJetTag
 {
+    
+public:
 
     int GetBranchId(const int ParticleId, int BranchId);
-
-    const set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
+    
+    const set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
 
     virtual inline string ClassName() const {
 
-        return "Discriminator: HJetTag";
+        return "HiggsCPV: HJetTag";
 
     };
 
@@ -30,12 +32,12 @@ class Discriminator::HJetTag : public Analysis::HJetTag
 /**
  * \class HAnalysisDiscriminator
  *
- * @brief HAnalysis subclass defining the Discriminator Analysis
+ * @brief HAnalysis subclass defining the HiggsCPV Analysis
  *
  * \author Jan Hajer
  *
  */
-class Discriminator::HAnalysis : public Analysis::HAnalysis
+class HiggsCPV::HAnalysis : public Analysis::HAnalysis
 {
 
 public:
@@ -84,7 +86,7 @@ private:
 
     };
 
-    Discriminator::HJetTag * JetTag;
+    HiggsCPV::HJetTag * JetTag;
 
     Analysis::HSubStructure * SubStructure;
 
@@ -127,11 +129,12 @@ private:
 
     virtual inline string ClassName() const {
 
-        return "Discriminator: HAnalysis";
+        return "HiggsCPV: HAnalysis";
 
     };
 
 };
 
 #endif
+
 

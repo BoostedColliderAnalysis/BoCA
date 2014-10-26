@@ -5,7 +5,7 @@
 
 
 
-namespace Discriminator{
+namespace HiggsCPV{
 
   class HDiscriminator;
   class HJetTag;
@@ -14,6 +14,9 @@ namespace Discriminator{
   class HJetDiscriminator;
   class HMva;
   class HCandidateBranch;
+  class HLeptonBranch;
+  class HConstituentBranch;
+  class HJetPropertiesBranch;
 
 }
 
@@ -23,7 +26,7 @@ namespace Discriminator{
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class Discriminator::HCandidateBranch : public TObject
+class HiggsCPV::HCandidateBranch : public TObject
 {
 
 public:
@@ -82,7 +85,7 @@ private:
 * @brief Class for saving leptons to root
 *
 */
-class HLeptonBranch : public TObject
+class HiggsCPV::HLeptonBranch : public TObject
 {
 
 public:
@@ -109,7 +112,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class HConstituentBranch : public TObject
+class HiggsCPV::HConstituentBranch : public TObject
 {
 
 public:
@@ -136,7 +139,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class HJetPropertiesBranch : public TObject
+class HiggsCPV::HJetPropertiesBranch : public TObject
 {
 
 public:

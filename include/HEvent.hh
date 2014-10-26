@@ -48,7 +48,7 @@ public:
 
     virtual void GetEFlow() {};
 
-    virtual void GetTaggedEFlow(const HJetTag *const) {};
+    virtual void GetTaggedEFlow(HJetTag *const) {};
 
     virtual PseudoJet GetHiggs() {
         PseudoJet j;

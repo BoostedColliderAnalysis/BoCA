@@ -44,7 +44,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HDiscriminator");
+        return "Analysis: HDiscriminator";
 
     };
 

@@ -66,7 +66,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HAnalysisHeavyHiggsDelphes");
+        return "HeavyHiggs: HAnalysisDelphes";
 
     };
 

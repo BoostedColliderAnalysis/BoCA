@@ -11,21 +11,20 @@ Analysis::HObject::HObject() :
 //     HiggsUserIndex(1000),
 //     TopUserIndex(2000),
     EmptyUserIndex(-1),
-    IsrId(10),
     OneSigma(0.6827),
     TwoSigma(0.9545),
     ThreeSigma(0.9973)
 {
 
     DebugLevel = 1;
-    Print(2, "Constructor");
+    Print(3, "Constructor");
 
 }
 
 Analysis::HObject::~HObject()
 {
 
-    Print(2, "Destructor");
+    Print(3, "Destructor");
 
 }
 
@@ -117,14 +116,19 @@ string Analysis::HObject::GetStringFromEnum(const int ParticleId) const {
     case BottomId: return (Sign + "b");
     case TopId: return (Sign + "t");
     case ElectronId: return (Sign + "e");
+    case ElectronNeutrinoId: return (Sign + "nue");
     case MuonId: return (Sign + "mu");
+    case MuonNeutrinoId: return (Sign + "numu");
     case TauLeptonId: return (Sign + "tau");
+    case TauNeutrinoId: return (Sign + "nutau");
     case GluonId: return (Sign + "g");
     case PhotonId: return (Sign + "gamma");
     case ZId: return (Sign + "Z");
     case WId: return (Sign + "W");
     case HiggsId: return (Sign + "h");
     case HeavyHiggsId: return (Sign + "H");
+    case IsrId: return (Sign + "ISR");
+    case MarkerId: return (Sign + "TEMP");
     case PionId: return (Sign + "pi");
     case RhoMesonId: return (Sign + "rho");
     case KMeson0Id: return (Sign + "K0");

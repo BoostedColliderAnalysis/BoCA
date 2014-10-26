@@ -12,19 +12,18 @@
 
 using fastjet::antikt_algorithm;
 
-class Discriminator::HJetTag : public Analysis::HJetTag
+class HiggsCPV::HJetTag : public Analysis::HJetTag
 {
 
     int GetBranchId(const int, int) const;
 
-    const set<int> HeavyParticles = {TopId, CpvHiggsId};
+    const set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
 
     inline string ClassName() const {
 
-        return ("Discriminator: JetTag");
+        return "HiggsCPV: JetTag";
 
     };
-
 
 };
 
@@ -34,7 +33,7 @@ class Discriminator::HJetTag : public Analysis::HJetTag
  * \class HDiscriminator
  *
  */
-class Discriminator::HJetDiscriminator : public Analysis::HAnalysis
+class HiggsCPV::HJetDiscriminator : public Analysis::HAnalysis
 {
 
 public:
@@ -132,7 +131,7 @@ public:
 private:
 
 
-    Discriminator::HJetTag *JetTag;
+    Analysis::HJetTag *JetTag;
 
     Analysis::HSubStructure *SubStructure;
 

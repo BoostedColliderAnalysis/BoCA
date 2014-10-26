@@ -1,11 +1,11 @@
 # include "HAnalysisDiscriminator.hh"
 
-Discriminator::HAnalysis::HAnalysis()
+HiggsCPV::HAnalysis::HAnalysis()
 {
 
     Print(1, "Constructor");
 
-    JetTag = new Discriminator::HJetTag();
+    JetTag = new HiggsCPV::HJetTag();
 
     SubStructure = new Analysis::HSubStructure();
 
@@ -13,7 +13,7 @@ Discriminator::HAnalysis::HAnalysis()
 
 }
 
-Discriminator::HAnalysis::~HAnalysis()
+HiggsCPV::HAnalysis::~HAnalysis()
 {
 
     Print(1, "Destructor");
@@ -24,7 +24,7 @@ Discriminator::HAnalysis::~HAnalysis()
 
 }
 
-vector<string> Discriminator::HAnalysis::GetStudyNames() const
+vector<string> HiggsCPV::HAnalysis::GetStudyNames() const
 {
 
 //     return  {"Higgs", "Top", "Jet", "Test"};
@@ -32,7 +32,7 @@ vector<string> Discriminator::HAnalysis::GetStudyNames() const
 
 }
 
-vector<Analysis::HFile *> Discriminator::HAnalysis::GetFiles(const string StudyName) const
+vector<Analysis::HFile *> HiggsCPV::HAnalysis::GetFiles(const string StudyName) const
 {
     Print(1, "Set File Vector", StudyName);
 
@@ -83,7 +83,7 @@ vector<Analysis::HFile *> Discriminator::HAnalysis::GetFiles(const string StudyN
 }
 
 
-void Discriminator::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
+void HiggsCPV::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -93,15 +93,24 @@ void Discriminator::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-int Discriminator::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+
+int HiggsCPV::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
 //     if (HeavyParticles.find(abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
 
+//     Print(0, "we are here", ParticleId, BranchId);
     Print(3, "Get Branch Id", ParticleId, BranchId);
+    
+    
+    
+//     for(auto HeavyParticle : HeavyParticles) {
+//         Print(0,"HeavyParticle",HeavyParticle);
+//     }   
+    
 
     if (
-        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
+        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&        
         HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = IsrId;
@@ -118,7 +127,7 @@ int Discriminator::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool Discriminator::HAnalysis::Analysis(Analysis::HEvent *const Event, const string StudyName)
+bool HiggsCPV::HAnalysis::Analysis(Analysis::HEvent *const Event, const string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
@@ -135,6 +144,10 @@ bool Discriminator::HAnalysis::Analysis(Analysis::HEvent *const Event, const str
     ++LeptonEventCounter;
 
     // Higgs stuff
+    
+/*    for(auto HeavyParticle : JetTag->HeavyParticles) {
+        Print(0,"HeavyParticle",HeavyParticle);
+    }  */ 
 
     const vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(JetTag);
 
@@ -232,7 +245,7 @@ bool Discriminator::HAnalysis::Analysis(Analysis::HEvent *const Event, const str
 
         if (CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalFraction() < .9) break;
 
-        Print(0, "Tag", CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalId(), CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalFraction(), CandidateJet.m());
+        Print(2, "Tag", CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalId(), CandidateJet.user_info<Analysis::HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 
 //         vector<PseudoJet> Constituents = CandidateJet.constituents();
 //         sort(Constituents.begin(), Constituents.end(), SortJetByPt());
@@ -258,6 +271,7 @@ bool Discriminator::HAnalysis::Analysis(Analysis::HEvent *const Event, const str
         int UserIndex = abs(CandidateJet.user_index());
 
         if (UserIndex == CpvHiggsId || UserIndex == HiggsId) {
+            
             Candidate->HiggsTag = 1;
             Candidate->TopTag = 0;
 
@@ -333,7 +347,7 @@ bool Discriminator::HAnalysis::Analysis(Analysis::HEvent *const Event, const str
 }
 
 
-vector<PseudoJet> Discriminator::HAnalysis::GetLeptonJets(Analysis::HEvent *const Event)
+vector<PseudoJet> HiggsCPV::HAnalysis::GetLeptonJets(Analysis::HEvent *const Event)
 {
 
 // Lepton Stuff

@@ -1,6 +1,9 @@
 # ifndef HMvaHeavyHiggs_hh
 # define HMvaHeavyHiggs_hh
 
+
+#include "TObjArray.h"
+
 # include "HMva.hh"
 
 # include "HBranchHeavyHiggs.hh"
@@ -37,7 +40,7 @@ private:
     void DefineVariables();
 
     virtual inline string ClassName() const {
-        return ("HMvaHeavyHiggs");
+        return "HeavyHiggs: HMva";
     };
 
 

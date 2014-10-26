@@ -44,7 +44,8 @@ private:
     int GetEventnumberMax()const{ return 10000;};
 
     inline string GetProjectName() const {
-        return "Discriminator";};
+        return "Discriminator";
+    };
 
     /**
      * @brief Lepton calculations

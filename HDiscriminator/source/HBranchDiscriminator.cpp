@@ -1,19 +1,19 @@
 # include "HBranchDiscriminator.hh"
 
-using Discriminator::HCandidateBranch;
+using HiggsCPV::HCandidateBranch;
 
 ClassImp(HCandidateBranch)
 
-Discriminator::HCandidateBranch::HCandidateBranch()
+HiggsCPV::HCandidateBranch::HCandidateBranch()
 {
 
     reset();
 
 }
 
-Discriminator::HCandidateBranch::~HCandidateBranch() {}
+HiggsCPV::HCandidateBranch::~HCandidateBranch() {}
 
-void Discriminator::HCandidateBranch::reset()
+void HiggsCPV::HCandidateBranch::reset()
 {
 
     int InitialValue = -10;
@@ -58,18 +58,18 @@ void Discriminator::HCandidateBranch::reset()
 
 }
 
-ClassImp(HLeptonBranch)
+ClassImp(HiggsCPV::HLeptonBranch)
 
-HLeptonBranch::HLeptonBranch()
+HiggsCPV::HLeptonBranch::HLeptonBranch()
 {
 
     reset();
 
 }
 
-HLeptonBranch::~HLeptonBranch() {}
+HiggsCPV::HLeptonBranch::~HLeptonBranch() {}
 
-void HLeptonBranch::reset()
+void HiggsCPV::HLeptonBranch::reset()
 {
 
     int InitialValue = -10;
@@ -83,18 +83,18 @@ void HLeptonBranch::reset()
 }
 
 
-ClassImp(HConstituentBranch)
+ClassImp(HiggsCPV::HConstituentBranch)
 
-HConstituentBranch::HConstituentBranch()
+HiggsCPV::HConstituentBranch::HConstituentBranch()
 {
 
   reset();
 
 }
 
-HConstituentBranch::~HConstituentBranch() {}
+HiggsCPV::HConstituentBranch::~HConstituentBranch() {}
 
-void HConstituentBranch::reset()
+void HiggsCPV::HConstituentBranch::reset()
 {
 
   int InitialValue = -100;
@@ -106,18 +106,18 @@ void HConstituentBranch::reset()
 
 }
 
-ClassImp(HJetPropertiesBranch)
+ClassImp(HiggsCPV::HJetPropertiesBranch)
 
-HJetPropertiesBranch::HJetPropertiesBranch()
+HiggsCPV::HJetPropertiesBranch::HJetPropertiesBranch()
 {
 
     reset();
 
 }
 
-HJetPropertiesBranch::~HJetPropertiesBranch() {}
+HiggsCPV::HJetPropertiesBranch::~HJetPropertiesBranch() {}
 
-void HJetPropertiesBranch::reset()
+void HiggsCPV::HJetPropertiesBranch::reset()
 {
 
     int InitialValue = -10;
@@ -132,4 +132,4 @@ void HJetPropertiesBranch::reset()
 }
 
 
-ClassImp(HConstituentBranch)
+ClassImp(HiggsCPV::HConstituentBranch)

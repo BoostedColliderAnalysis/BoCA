@@ -11,7 +11,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class Discriminator::HMva : public Analysis::HMva
+class HiggsCPV::HMva : public Analysis::HMva
 {
 
 public:
@@ -42,7 +42,7 @@ private:
     void DefineVariables();
 
     virtual inline string ClassName() const {
-      return ("Discriminator: HMva");
+        return "HiggsCPV: HMva";
     };
 
 

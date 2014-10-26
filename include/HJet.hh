@@ -19,10 +19,8 @@ class Analysis::HJet : public HFourVector
 
 public:
 
-
     enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation};
 
-//     HJetDetails JetDetails;
 
     /**
      * @brief constructor
@@ -158,7 +156,7 @@ protected:
 
     virtual inline string ClassName() const {
 
-        return ("HJet");
+        return "HJet";
 
     };
 

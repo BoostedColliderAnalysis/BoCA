@@ -39,7 +39,7 @@ Analysis::HDelphes::HEvent::~HEvent()
 //
 //     Print(2, "New Analysis");
 //
-//     Discriminator->NewFile();
+//     HDelphes->NewFile();
 //
 // }
 
@@ -48,7 +48,7 @@ Analysis::HDelphes::HEvent::~HEvent()
 //
 //     Print(2, "Close File");
 //
-//     Discriminator->CloseFile();
+//     HDelphes->CloseFile();
 //
 // }
 
@@ -102,7 +102,7 @@ void Analysis::HDelphes::HEvent::GetJets()
 
 }
 
-void Analysis::HDelphes::HEvent::GetTaggedJets(Analysis::HJetTag*const JetTag)
+void Analysis::HDelphes::HEvent::GetTaggedJets(Analysis::HJetTag *const JetTag)
 {
     Print(2, "Get Tagged Jets");
 
@@ -131,7 +131,7 @@ void Analysis::HDelphes::HEvent::GetEFlow()
 }
 
 
-void Analysis::HDelphes::HEvent::GetTaggedEFlow(Analysis::HJetTag*const JetTag)
+void Analysis::HDelphes::HEvent::GetTaggedEFlow(Analysis::HJetTag *const JetTag)
 {
 
     Print(2, "Get EFlow");
@@ -157,7 +157,7 @@ void Analysis::HDelphes::HEvent::GetIsolatedEFlow()
 }
 
 
-void Analysis::HDelphes::HEvent::GetIsoaltedTaggedEFlow(Analysis::HJetTag*const JetTag)
+void Analysis::HDelphes::HEvent::GetIsoaltedTaggedEFlow(Analysis::HJetTag *const JetTag)
 {
 
     Print(2, "Get EFlow");
@@ -190,7 +190,7 @@ PseudoJet Analysis::HDelphes::HEvent::GetHiggs()
 
 }
 
-vector<PseudoJet> Analysis::HDelphes::HEvent::GetTops(const Analysis::HJetTag*const JetTag)
+vector<PseudoJet> Analysis::HDelphes::HEvent::GetTops(const Analysis::HJetTag *const JetTag)
 {
 
     Print(2, "Get Tops");
@@ -215,26 +215,26 @@ vector<PseudoJet> Analysis::HDelphes::HEvent::GetTops(const Analysis::HJetTag*co
 //
 //     if (Particle->TopJetVector.size() > 0 && Tops && !Candidates) {
 //
-//         CandidateJets = Discriminator->GetTopJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
+//         CandidateJets = HDelphes->GetTopJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
 //
 //     }
 //
 //     if (Particle->HiggsJetVector.size() > 0 && Higgs && !Candidates) {
 //
-//        PseudoJet HiggsJet = Discriminator->GetHiggsJet(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
+//        PseudoJet HiggsJet = HDelphes->GetHiggsJet(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
 //        CandidateJets.push_back(HiggsJet);
 //
 //     }
 //
 //     if (Candidates && !(Higgs || Tops) ) {
 //
-//         CandidateJets = Discriminator->GetCandidateJets(Jets->EFlowJetVector);
+//         CandidateJets = HDelphes->GetCandidateJets(Jets->EFlowJetVector);
 //
 //     }
 //
 //     if (Higgs && Tops && Candidates) {
 //
-//         CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
+//         CandidateJets = HDelphes->GetTaggedCandidateJets(Jets->EFlowJetVector, Particle->HiggsJetVector, Particle->TopJetVector);
 //
 //     }
 //
@@ -243,16 +243,20 @@ vector<PseudoJet> Analysis::HDelphes::HEvent::GetTops(const Analysis::HJetTag*co
 // }
 
 
-vector<PseudoJet> Analysis::HDelphes::HEvent::GetHiggsTopCandidates(Analysis::HJetTag*const JetTag)
+vector<PseudoJet> Analysis::HDelphes::HEvent::GetHiggsTopCandidates(HJetTag * const JetTag) // FIXME why does this not work
 {
     Print(2, "GetHiggsTopCandidates");
+    
+//     for(auto HeavyParticle : JetTag->HeavyParticles) {
+//         Print(0,"HeavyParticle",HeavyParticle);
+//     }   
 
     GetIsoaltedTaggedEFlow(JetTag);
 //     GetParticles();
 
-//     CandidateJets = Discriminator->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
-//     return Discriminator->GetCandidateJetsForced(Jets->GetEFlowJets(),Jets->GetScalarHt());
-    return Discriminator->GetCandidateJets(Jets->GetEFlowJets(),Jets->GetScalarHt());
+//     CandidateJets = HDelphes->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
+//     return HDelphes->GetCandidateJetsForced(Jets->GetEFlowJets(),Jets->GetScalarHt());
+    return Discriminator->GetCandidateJets(Jets->GetEFlowJets(), Jets->GetScalarHt());
 
 }
 

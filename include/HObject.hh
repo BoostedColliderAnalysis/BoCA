@@ -21,49 +21,6 @@ using std::vector;
  */
 namespace Analysis{
 
-  /**
-   * @brief Delphes analysis library parts
-   *
-   */
-  namespace HDelphes{
-
-    class HClonesArray;
-    class HClonesArraySnowmass;
-    class HFile;
-    class HEvent;
-    class HJet;
-    class HLepton;
-    class HParticle;
-
-  }
-
-  /**
-   * @brief Parton level analysis library parts
-   *
-   */
-  namespace HParton{
-
-    class HClonesArray;
-    class HFile;
-    class HEvent;
-    class HParticle;
-
-  }
-
-  /**
-   * @brief Pgs analysis library parts
-   *
-   */
-  namespace HPgs{
-
-    class HClonesArray;
-    class HFile;
-    class HEvent;
-    class HLepton;
-    class HJet;
-
-  }
-
   class HObject;
   class HFourVector;
   class HClonesArray;
@@ -87,7 +44,51 @@ namespace Analysis{
   class HMva;
   class HFactory;
   class HReader;
-
+  
+  
+  
+  /**
+   * @brief Delphes analysis library parts
+   *
+   */
+  namespace HDelphes{
+      
+      class HClonesArray;
+      class HClonesArraySnowmass;
+      class HFile;
+      class HEvent;
+      class HJet;
+      class HLepton;
+      class HParticle;
+      
+  }
+  
+  /**
+   * @brief Parton level analysis library parts
+   *
+   */
+  namespace HParton{
+      
+      class HClonesArray;
+      class HFile;
+      class HEvent;
+      class HParticle;
+      
+  }
+  
+  /**
+   * @brief Pgs analysis library parts
+   *
+   */
+  namespace HPgs{
+      
+      class HClonesArray;
+      class HFile;
+      class HEvent;
+      class HLepton;
+      class HJet;
+      
+  }
 
 }
 
@@ -258,14 +259,19 @@ protected:
         BottomId = 5,///> \f$b\f$
         TopId = 6,///> \f$t\f$
         ElectronId = 11,
+        ElectronNeutrinoId= 12,
         MuonId = 13,
+        MuonNeutrinoId = 14,
         TauLeptonId = 15,
+        TauNeutrinoId = 16,
         GluonId = 21,
         PhotonId = 22,
         ZId = 23,
         WId = 24,
         HiggsId = 25,
         HeavyHiggsId = 35,
+        IsrId = 81,
+        MarkerId = 82,
         PionId = 211,
         RhoMesonId = 213,
         KMeson0Id = 311,
@@ -356,15 +362,6 @@ protected:
      *
      */
     const int EmptyUserIndex;
-
-    /**
-     * @brief Initial state radiation index
-     *
-     * Index for all possbile initial state radiation.
-     * The value is self definied, be carfull with clashes.
-     *
-     */
-    const int IsrId;
 
     const float OneSigma;
 

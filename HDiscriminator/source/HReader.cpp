@@ -7,7 +7,7 @@
 int main()
 {
 
-  Discriminator::HMva *Mva = new Discriminator::HMva();
+  HiggsCPV::HMva *Mva = new HiggsCPV::HMva();
 
     Analysis::HReader *Reader = new Analysis::HReader(Mva);
 

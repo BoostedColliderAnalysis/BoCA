@@ -12,7 +12,7 @@ Analysis::HJetInfo::HJetInfo()
 void Analysis::HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
 {
 
-    Print(2, "Add Constituent", ConstituentId, Weight);
+    Print(3, "Add Constituent", ConstituentId, Weight);
 
     JetFractions[ConstituentId] += Weight;
 
@@ -23,7 +23,7 @@ void Analysis::HJetInfo::AddConstituent(const int ConstituentId, const float Wei
 float Analysis::HJetInfo::GetWeightSum() const
 {
 
-    Print(2, "Get Weight Sum", JetFractions.size());
+    Print(3, "Get Weight Sum", JetFractions.size());
 
     float WeightSum = std::accumulate(begin(JetFractions), end(JetFractions), 0.0, [](const float Previous, const pair<int, float> &Pair) {
 
@@ -107,7 +107,7 @@ bool Analysis::HJetInfo::HasParticle(const int ParticleId) const
 int Analysis::HJetInfo::GetMaximalId() const
 {
 
-    Print(2, "Get Maximal Id");
+    Print(3, "Get Maximal Id");
 
     pair<int, float> Max = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
@@ -127,7 +127,7 @@ void Analysis::HJetInfo::Clear()
 void Analysis::HJetInfo::PrintAllInfos(int Severity) const
 {
 
-    Print(2, "Print All Infos");
+    Print(3, "Print All Infos");
 
     for (map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 

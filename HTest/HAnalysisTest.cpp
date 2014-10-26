@@ -22,7 +22,7 @@ vector<Analysis::HFile*> HAnalysisTest::GetFiles(const string StudyName) const
 
     vector<Analysis::HFile*> Files;
 
-    HFileDelphes *Background = new Analysis::HDelphes::HFile("pp-ttbb");
+    Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-ttbb");
         Files.push_back(Background);
 
 //     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
