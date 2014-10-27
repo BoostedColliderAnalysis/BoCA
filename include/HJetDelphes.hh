@@ -125,7 +125,7 @@ private:
 
     int GetMotherId(const TObject *const);
 
-    int GetMotherId(GenParticle *ParticleClone, int BranchId, int);
+    int GetMotherId(int BranchId, int Position);
 
     void GetDelphesTags(const Jet *const);
 

@@ -127,52 +127,58 @@ int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
 
     int MotherId = EmptyId;
     const int Position = ClonesArrays->ParticleClonesArray->IndexOf(Object);
-    GenParticle *const ParticleClone = (GenParticle *) Object;
+//     GenParticle *const ParticleClone = (GenParticle *) Object;
 
-    MotherId = GetMotherId(ParticleClone, MotherId, Position);
+    MotherId = GetMotherId(MotherId, Position);
 
     Print(3, "Mother Id", MotherId);
-    if (MotherId == EmptyId) Print(0, "No Mother Id", Position, ParticleClone->PID);
+    if (MotherId == EmptyId) Print(0, "No Mother Id", Position);
+
+//     Print(0,"12",Topology.at(12));
+
     std::replace(Topology.begin(), Topology.end(), int(MarkerId), MotherId);
 
     return MotherId;
 
 }
 
-int hanalysis::hdelphes::HJet::GetMotherId(GenParticle *ParticleClone, int BranchId, int Position)
+int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
 {
 
-    Print(3, "Get Mother Id", ParticleClone->PID);
-
+    Print(3, "Get Mother Id");
+    GenParticle *ParticleClone;
     const int EmptyPosition = -1;
+    
+    
 
-    while (Position != EmptyPosition) {
-        
-        Topology.at(Position) = MarkerId;
+    while (Position != EmptyPosition && 
+        JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles) 
+//         &&Topology.at(Position) == EmptyId
+    ) {
+
+//         if (Topology.at(Position) == EmptyId) {
+            Topology.at(Position) = MarkerId;
+//     Print(0,"120",Topology.at(12));
+//         } else {
+//             BranchId = Topology.at(Position);
+//             break;            
+//         }
 
         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
 
+//         if (Position == 12)Print(0, "HiggsBottom", Topology.at(Position));
+
         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
-        
+
         if (ParticleClone->M2 != EmptyPosition) {
 
             Position = ParticleClone->M2;
             Print(3, "Mother 2 Position", Position);
-            BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(Position), BranchId, Position);
+            BranchId = GetMotherId(BranchId, Position);
 
         }
-        
-//         Topology.at(Position) = MarkerId;
 
-        //         if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
-//             BranchId = Topology.at(Position);
-//             break;
-//         }
-
-        if (JetTag->HeavyParticles.find(abs(BranchId)) != end(JetTag->HeavyParticles)) break;
-        
-
-        Position = ParticleClone->M1;        
+        Position = ParticleClone->M1;
         Print(3, "Mother 1 Position", Position);
     }
 
@@ -181,6 +187,47 @@ int hanalysis::hdelphes::HJet::GetMotherId(GenParticle *ParticleClone, int Branc
     return BranchId;
 
 }
+
+// int hanalysis::hdelphes::HJet::GetMotherId(GenParticle *ParticleClone, int BranchId, int Position)
+// {
+//
+//     Print(3, "Get Mother Id", ParticleClone->PID);
+//     const int EmptyPosition = -1;
+//
+//     while (Position != EmptyPosition && JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles)) {
+//
+//         Topology.at(Position) = MarkerId;
+//
+//         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
+//
+//         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
+//
+//         if (ParticleClone->M2 != EmptyPosition) {
+//
+//             Position = ParticleClone->M2;
+//             Print(3, "Mother 2 Position", Position);
+//             BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(Position), BranchId, Position);
+//
+//         }
+//
+//
+//
+//         Position = ParticleClone->M1;
+//         Print(3, "Mother 1 Position", Position);
+//     }
+//
+//     Print(3, "Branch Id", BranchId);
+//
+//     return BranchId;
+//
+// }
+
+//         Topology.at(Position) = MarkerId;
+
+//         if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
+//             BranchId = Topology.at(Position);
+//             break;
+//         }
 
 PseudoJet hanalysis::hdelphes::HJet::GetConstituents(const Jet *const JetClone) const
 {
@@ -222,33 +269,33 @@ bool hanalysis::hdelphes::HJet::ReadEFlow(const HJetDetails JetDetails)
 
 //     for (int Position : HRange(ClonesArrays->ParticleSum())) {
 // //     for (const int Position : HRange(100)) {
-//         
+// 
 //         const GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
-//         
+// 
 //         std::cout << std::left << std::setw(10) << std::setfill(' ') << Position
 //                   << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Topology.at(Position))
 //                   << std::left << std::setw(10) << std::setfill(' ') << Particle->Status
 //                   << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Particle->PID)
 //                   << std::left << std::setw(10) << std::setfill(' ') << Particle->M1;
-//                   
+// 
 //         if (Particle->M1 != -1) {
-//             
+// 
 //             std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M1))->PID);
-//             
+// 
 //         } else {
-//             
+// 
 //             std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
-//             
+// 
 //         };
-//         
+// 
 //         std::cout << std::left << std::setw(10) << std::setfill(' ') << Particle->M2;
-//         
+// 
 //         if (Particle->M2 != -1) {
 //             std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M2))->PID);
 //         } else {
 //             std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
 //         };
-//         
+// 
 //         std::cout         << std::left << std::setw(10) << std::setfill(' ') << Particle->D1
 //                           << std::left << std::setw(10) << std::setfill(' ') << Particle->D2
 //                           << std::endl;

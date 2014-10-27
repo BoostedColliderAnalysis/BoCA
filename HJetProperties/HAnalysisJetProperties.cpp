@@ -174,7 +174,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
     if (StudyName == "Top") Ids = { TopId};
     if (StudyName == "ATop") Ids = { -TopId};
     if (StudyName == "Higgs") Ids = {CpvHiggsId};
-    //     if (StudyName == "Isr") Ids = {IsrId};
+        if (StudyName == "Isr") Ids = {IsrId};
     
     for (const auto & Id : Ids) {
         
