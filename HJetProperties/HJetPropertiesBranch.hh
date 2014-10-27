@@ -3,11 +3,21 @@
 
 # include "TObject.h"
 
+namespace hjetproperties{
+    
+    class HAnalysis;
+    class HJetTag;
+    class HCandidateBranch;
+    class HConstituentBranch;
+    class HLeptonBranch;
+    
+}
+
 /**
  * @brief Class for saving leptons to root
  *
  */
-class HJetPropertiesBranch : public TObject
+class hjetproperties::HCandidateBranch : public TObject
 {
 
 public:
@@ -16,19 +26,49 @@ public:
     float Pt;
     float Eta;
     float Phi;
-    float Radius;
-    float JetPtSum;
-    float PtSum;
+    float DeltaR;
+    
+    float SubJetsDeltaR;
+    float Asymmetry;
+    float DiPolarity;
+    
+    float SubJet1Mass;
+    float SubJet1DeltaR;
+    float SubJet1Pt;
+    
+    float SubJet2Mass;
+    float SubJet2Pt;
+    float SubJet2DeltaR;
+    
+    float ConstEta;
+    float ConstPhi;
+    float ConstDeltaR;
+    float ConstAngle;
+    
+    float IsolationEta;
+    float IsolationPhi;
+    float IsolationDeltaR;
+    float IsolationAngle;
+    float IsolationPt;
+    
+    float HiggsTag;
+    float TopTag;
+    
+    float TopBdtTag;
+    float JetBdtTag;
+    
+    float TopCutSigEff;
+    float JetCutSigEff;
 
-    HJetPropertiesBranch();
+    HCandidateBranch();
 
-    virtual ~HJetPropertiesBranch();
+    virtual ~HCandidateBranch();
 
 private:
 
     void reset();
 
-    ClassDef(HJetPropertiesBranch, 1)
+    ClassDef(HCandidateBranch, 1)
 
 };
 
@@ -37,7 +77,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class HConstituentBranch : public TObject
+class hjetproperties::HConstituentBranch : public TObject
 {
 
 public:
@@ -57,6 +97,33 @@ private:
 
   ClassDef(HConstituentBranch, 1)
 
+};
+
+/**
+ * @brief Class for saving leptons to root
+ *
+ */
+class hjetproperties::HLeptonBranch : public TObject
+{
+    
+public:
+    
+    float Mass;
+    float Pt;
+    float Eta;
+    float Phi;
+    int Charge;
+    
+    HLeptonBranch();
+    
+    virtual ~HLeptonBranch();
+    
+private:
+    
+    void reset();
+    
+    ClassDef(HLeptonBranch, 1)
+    
 };
 
 # endif

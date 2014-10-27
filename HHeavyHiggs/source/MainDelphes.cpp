@@ -2,7 +2,7 @@
 
 int main()
 {
-  HeavyHiggs::HAnalysisHeavyHiggsDelphes *Analysis = new HeavyHiggs::HAnalysisHeavyHiggsDelphes();
+  hheavyhiggs::HAnalysisHeavyHiggsDelphes *Analysis = new hheavyhiggs::HAnalysisHeavyHiggsDelphes();
 
     Analysis->AnalysisLoop();
 

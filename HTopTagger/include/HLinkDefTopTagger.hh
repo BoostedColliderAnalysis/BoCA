@@ -1,7 +1,5 @@
 /**
  *
- * \defgroup HDiscriminator HDiscriminator
- *
  * \brief Cp violationg Higgs
  *
  */

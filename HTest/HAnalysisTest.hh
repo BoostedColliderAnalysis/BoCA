@@ -9,7 +9,7 @@
  * @brief Class defining the Disciminator Analysis
  *
  */
-class HAnalysisTest : public Analysis::HAnalysis
+class HAnalysisTest : public hanalysis::HAnalysis
 {
 
 public:
@@ -61,14 +61,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(Analysis::HEvent* Event, string StudyName);
+    bool Analysis(hanalysis::HEvent* Event, string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< Analysis::HFile* > GetFiles(const string StudyName) const;
+    std::vector< hanalysis::HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis

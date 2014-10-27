@@ -41,7 +41,7 @@ HFile.cpp
 HAnalysis.cpp
 # HAnalysisNew.cpp
 )
-HLibrary(Analysis "${AnalysisSources}" PARENT_SCOPE)
+HLibrary(hanalysis "${AnalysisSources}" PARENT_SCOPE)
 
 set(MvaSources
 HMva.cpp

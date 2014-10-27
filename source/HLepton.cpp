@@ -1,6 +1,6 @@
 # include "HLepton.hh"
 
-Analysis::HLepton::HLepton()
+hanalysis::HLepton::HLepton()
 {
 
     Print(1,"Constructor");
@@ -9,14 +9,14 @@ Analysis::HLepton::HLepton()
 
 }
 
-Analysis::HLepton::~HLepton()
+hanalysis::HLepton::~HLepton()
 {
 
     Print(1,"Destructor");
 
 }
 
-void Analysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
+void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 {
 
     Print(2,"New Event");
@@ -53,7 +53,7 @@ void Analysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 
 }
 
-vector<TLorentzVector> Analysis::HLepton::GetLeptonLorentzVectors()
+vector<TLorentzVector> hanalysis::HLepton::GetLeptonLorentzVectors()
 {
 
     Print(2,"Get Leptons");
@@ -83,7 +83,7 @@ vector<TLorentzVector> Analysis::HLepton::GetLeptonLorentzVectors()
 
 
 
-vector<PseudoJet> Analysis::HLepton::GetLeptonJets()
+vector<PseudoJet> hanalysis::HLepton::GetLeptonJets()
 {
 
     Print(2,"Get Lepton Jets");

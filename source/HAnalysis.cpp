@@ -1,6 +1,6 @@
 # include "HAnalysis.hh"
 
-Analysis::HAnalysis::HAnalysis()
+hanalysis::HAnalysis::HAnalysis()
 {
 
     Print(1, "Constructor");
@@ -9,7 +9,7 @@ Analysis::HAnalysis::HAnalysis()
 
 }
 
-void Analysis::HAnalysis::AnalysisLoop()
+void hanalysis::HAnalysis::AnalysisLoop()
 {
 
     Print(1, "Analysis Loop");
@@ -18,13 +18,13 @@ void Analysis::HAnalysis::AnalysisLoop()
 
         Print(1, "Analysing Mva Sample", StudyName);
 
-        HClonesArray *const ClonesArrays = GetClonesArrays(StudyName);
-
-        HEvent *const Event = GetEvent(StudyName);
-
         TFile *const ExportFile = GetExportFile(StudyName);
 
         for (auto * const File : GetFiles(StudyName)) {
+
+            HClonesArray *const ClonesArrays = File->GetClonesArrays();
+
+            HEvent *const Event = File->GetEvent();
 
             bool AnalysisNotEmpty = 0;
 
@@ -38,14 +38,14 @@ void Analysis::HAnalysis::AnalysisLoop()
 
             ExRootProgressBar ProgressBar(GetEventSum(TreeReader));
 
-            Print(2,"Sum",GetEventSum(TreeReader));
+            Print(2, "Sum", GetEventSum(TreeReader));
 
             for (const int EventNumber : HRange(GetEventSum(TreeReader))) {
 
-                Print(2,"Event Number",EventNumber);
+                Print(2, "Event Number", EventNumber);
 
                 const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-                
+
                 Event->NewEvent(ClonesArrays);
 
                 const bool Successfull = Analysis(Event, StudyName);
@@ -55,7 +55,7 @@ void Analysis::HAnalysis::AnalysisLoop()
                     AnalysisNotEmpty = 1;
 
                     FillInfoBranch(TreeReader, InfoBranch, File);
-                    
+
                     TreeWriter->Fill();
 
                 }
@@ -78,6 +78,10 @@ void Analysis::HAnalysis::AnalysisLoop()
 
             delete TreeWriter;
 
+            delete Event;
+
+            delete ClonesArrays;
+
             if (DebugLevel > 0) cout << endl;
 
         }
@@ -86,17 +90,13 @@ void Analysis::HAnalysis::AnalysisLoop()
 
         delete ExportFile;
 
-        delete Event;
-
-        delete ClonesArrays;
-
     }
 
     Print(1, "All Samples analysed");
 
 }
 
-void Analysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File)
+void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File)
 {
 
     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
@@ -106,81 +106,81 @@ void Analysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeReade
 
 }
 
-Analysis::HClonesArray *Analysis::HAnalysis::GetClonesArrays(const string StudyName) const
-{
+// hanalysis::HClonesArray *hanalysis::HAnalysis::GetClonesArrays(const string StudyName) const
+// {
+//
+//     Print(1, "Get Clones Arrays", StudyName);
+//
+//     vector<HFile *> Files = GetFiles(StudyName);
+//
+//     HClonesArray *ClonesArrays;
+//
+//     if (Files.front()->GetTreeName() == "Delphes") {
+//
+//         if (Files.front()->Snowmass) {
+//
+//             ClonesArrays = new hdelphes::HClonesArraySnowmass();
+//
+//         } else {
+//
+//           ClonesArrays = new hdelphes::HClonesArray();
+//
+//         }
+//
+//     } else if (Files.front()->GetTreeName() == "LHEF") {
+//
+//         ClonesArrays = new hparton::HClonesArray();
+//
+//     } else if (Files.front()->GetTreeName() == "LHCO") {
+//
+//         ClonesArrays = new hpgs::HClonesArray();
+//
+//     } else {
+//
+//         Print(0, "unknown Tree String", Files.front()->GetTreeName());
+//
+//     }
+//
+//     //     DeleteFiles(Files); // FIXME
+//
+//     return ClonesArrays;
+//
+// }
 
-    Print(1, "Get Clones Arrays", StudyName);
+// hanalysis::HEvent *hanalysis::HAnalysis::GetEvent(const string StudyName) const
+// {
+//
+//     Print(1, "Get Event");
+//
+//     vector<HFile *> Files = GetFiles(StudyName);
+//
+//     HEvent * Event;
+//
+//     if (Files.front()->GetTreeName() == "Delphes") {
+//
+//       Event = new hdelphes::HEvent();
+//
+//     } else if (Files.front()->GetTreeName() == "LHEF") {
+//
+//         Event = new hparton::HEvent();
+//
+//     } else if (Files.front()->GetTreeName() == "LHCO") {
+//
+//         Event = new hpgs::HEvent();
+//
+//     } else {
+//
+//         Print(0, "unknown Tree String", Files.front()->GetTreeName());
+//
+//     }
+//
+// //     DeleteFiles(Files); // FIXME
+//
+//     return Event;
+//
+// }
 
-    vector<HFile *> Files = GetFiles(StudyName);
-
-    HClonesArray *ClonesArrays;
-
-    if (Files.front()->GetTreeName() == "Delphes") {
-
-        if (Files.front()->Snowmass) {
-
-            ClonesArrays = new HDelphes::HClonesArraySnowmass();
-
-        } else {
-
-          ClonesArrays = new HDelphes::HClonesArray();
-
-        }
-
-    } else if (Files.front()->GetTreeName() == "LHEF") {
-
-        ClonesArrays = new HParton::HClonesArray();
-
-    } else if (Files.front()->GetTreeName() == "LHCO") {
-
-        ClonesArrays = new HPgs::HClonesArray();
-
-    } else {
-
-        Print(0, "unknown Tree String", Files.front()->GetTreeName());
-
-    }
-
-    //     DeleteFiles(Files); // FIXME
-
-    return ClonesArrays;
-
-}
-
-Analysis::HEvent *Analysis::HAnalysis::GetEvent(const string StudyName) const
-{
-
-    Print(1, "Get Event");
-
-    vector<HFile *> Files = GetFiles(StudyName);
-
-    HEvent * Event;
-
-    if (Files.front()->GetTreeName() == "Delphes") {
-
-      Event = new HDelphes::HEvent();
-
-    } else if (Files.front()->GetTreeName() == "LHEF") {
-
-        Event = new HParton::HEvent();
-
-    } else if (Files.front()->GetTreeName() == "LHCO") {
-
-        Event = new HPgs::HEvent();
-
-    } else {
-
-        Print(0, "unknown Tree String", Files.front()->GetTreeName());
-
-    }
-
-//     DeleteFiles(Files); // FIXME
-
-    return Event;
-
-}
-
-TFile *Analysis::HAnalysis::GetExportFile(const string StudyName) const
+TFile *hanalysis::HAnalysis::GetExportFile(const string StudyName) const
 {
 
     const string ExportName = GetProjectName() + "/" + StudyName + ".root";
@@ -192,7 +192,7 @@ TFile *Analysis::HAnalysis::GetExportFile(const string StudyName) const
 }
 
 
-ExRootTreeWriter *Analysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, const string ExportTreeName)
+ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, const string ExportTreeName)
 {
 
     Print(1, "Get Tree Writer", ExportTreeName.c_str());
@@ -205,51 +205,20 @@ ExRootTreeWriter *Analysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, co
 
 }
 
-
-// ExRootTreeReader *Analysis::HAnalysis::GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays)
-// {
-//
-//     Print(1, "Get Tree Reader",File->GetFilePath());
-//
-//     // Import file
-//     const string ImportPath = File->GetFilePath();
-//     TFile * const ImportFile = new TFile(ImportPath.c_str());
-// //     TFile ImportFile = TFile(ImportPath.c_str());
-//     Print(1, "File", ImportPath);
-//
-//     // Import tree
-//     const string ImportTreeName = File->GetTreeName();
-//     TTree * const ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
-// //     TTree ImportTree = (TTree)ImportFile.Get(ImportTreeName.c_str());
-//     Print(1, "Tree", ImportTreeName);
-//
-//     // TreeReader
-//     ExRootTreeReader * const TreeReader = new ExRootTreeReader(ImportTree);
-//
-//     ClonesArrays->GetBranches(TreeReader);
-//
-// //     delete ImportFile; // FIXME Possible?
-// //     delete ImportTree; // FIXME Possible?
-//
-//     return TreeReader;
-//
-// }
-
-
-Analysis::HAnalysis::~HAnalysis()
+hanalysis::HAnalysis::~HAnalysis()
 {
 
     Print(1, "Destructor");
 
 }
 
-void Analysis::HAnalysis::DeleteFiles(const std::vector< HFile * > Files) const
-{
-
-    for (const auto * File : Files) {
-
-        delete File;
-
-    }
-
-}
+// void hanalysis::HAnalysis::DeleteFiles(const std::vector< HFile * > Files) const
+// {
+// 
+//     for (const auto * File : Files) {
+// 
+//         delete File;
+// 
+//     }
+// 
+// }

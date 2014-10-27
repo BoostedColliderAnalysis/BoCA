@@ -12,7 +12,7 @@
  * @brief Base class for loading the Branches into ClonesArrays
  *
  */
-class Analysis::HClonesArray : public HObject
+class hanalysis::HClonesArray : public HObject
 {
 
 public:
@@ -212,7 +212,7 @@ private:
  * @brief Clonesarray subclass for delphes files
  *
  */
-class Analysis::HDelphes::HClonesArray : public Analysis::HClonesArray
+class hanalysis::hdelphes::HClonesArray : public hanalysis::HClonesArray
 {
 
     void GetBranches(const ExRootTreeReader * const);
@@ -231,7 +231,7 @@ private:
  * @brief ClonesArray subclass for Scnowmass files
  *
  */
-class Analysis::HDelphes::HClonesArraySnowmass : public HClonesArray
+class hanalysis::hdelphes::HClonesArraySnowmass : public HClonesArray
 {
 
     void GetBranches(const ExRootTreeReader * const);
@@ -250,7 +250,7 @@ private:
  * @brief ClonesArray subclass for Pgs files
  *
  */
-class Analysis::HPgs::HClonesArray : public Analysis::HClonesArray
+class hanalysis::hpgs::HClonesArray : public hanalysis::HClonesArray
 {
 
     void GetBranches(const ExRootTreeReader * const);
@@ -269,7 +269,7 @@ private:
  * @brief ClonesArray Subclass for unweighted MadGraph files
  *
  */
-class Analysis::HParton::HClonesArray : public Analysis::HClonesArray
+class hanalysis::hparton::HClonesArray : public hanalysis::HClonesArray
 {
 
     void GetBranches(const ExRootTreeReader * const);

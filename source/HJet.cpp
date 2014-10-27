@@ -1,20 +1,20 @@
 # include "HJet.hh"
 
-Analysis::HJet::HJet()
+hanalysis::HJet::HJet()
 {
 
     Print(1, "Constructor");
 
 }
 
-Analysis::HJet::~HJet()
+hanalysis::HJet::~HJet()
 {
 
     Print(1, "Destructor");
 
 }
 
-void Analysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
+void hanalysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 {
 
     Print(2, "New Event");
@@ -41,7 +41,7 @@ void Analysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 
 }
 
-bool Analysis::HJet::GetJets(const HJetDetails JetDetails)
+bool hanalysis::HJet::GetJets(const HJetDetails JetDetails)
 {
 
     Print(1, "Get Jets", "No Jets", JetDetails);
@@ -50,7 +50,7 @@ bool Analysis::HJet::GetJets(const HJetDetails JetDetails)
 
 }
 
-bool Analysis::HJet::ReadEFlow(const HJetDetails JetDetails)
+bool hanalysis::HJet::ReadEFlow(const HJetDetails JetDetails)
 {
 
     Print(1, "Get EFlow", "No EFlow", JetDetails);
@@ -59,14 +59,14 @@ bool Analysis::HJet::ReadEFlow(const HJetDetails JetDetails)
 
 }
 
-void Analysis::HJet::GetGenJet()
+void hanalysis::HJet::GetGenJet()
 {
 
     Print(1, "Get Gen Jets", "No Gen Jets");
 
 }
 
-float Analysis::HJet::GetScalarHt()
+float hanalysis::HJet::GetScalarHt()
 {
 
     Print(1, "Get Scalar Ht", "No Scalar Ht");

@@ -13,7 +13,7 @@ using std::vector;
  * @brief particles for HAnalysis
  *
  */
-class Analysis::HParticle : public HFourVector
+class hanalysis::HParticle : public HFourVector
 {
 
 public:

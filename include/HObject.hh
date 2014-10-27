@@ -19,7 +19,7 @@ using std::vector;
  * @brief Main Analysis Library
  *
  */
-namespace Analysis{
+namespace hanalysis{
 
   class HObject;
   class HFourVector;
@@ -51,7 +51,7 @@ namespace Analysis{
    * @brief Delphes analysis library parts
    *
    */
-  namespace HDelphes{
+  namespace hdelphes{
       
       class HClonesArray;
       class HClonesArraySnowmass;
@@ -67,7 +67,7 @@ namespace Analysis{
    * @brief Parton level analysis library parts
    *
    */
-  namespace HParton{
+  namespace hparton{
       
       class HClonesArray;
       class HFile;
@@ -80,7 +80,7 @@ namespace Analysis{
    * @brief Pgs analysis library parts
    *
    */
-  namespace HPgs{
+  namespace hpgs{
       
       class HClonesArray;
       class HFile;
@@ -96,7 +96,7 @@ namespace Analysis{
  * @brief general base class for HAnalysis
  *
  */
-class Analysis::HObject
+class hanalysis::HObject
 {
 
 public:
@@ -270,8 +270,8 @@ protected:
         WId = 24,
         HiggsId = 25,
         HeavyHiggsId = 35,
-        IsrId = 81,
-        MarkerId = 82,
+        IsrId = 86,
+        MarkerId = 87,
         PionId = 211,
         RhoMesonId = 213,
         KMeson0Id = 311,

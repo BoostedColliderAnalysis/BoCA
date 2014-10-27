@@ -8,7 +8,7 @@
  * @brief Event topology for unweighted MadGraph events
  *
  */
-class Analysis::HParton::HEvent : public Analysis::HEvent
+class hanalysis::hparton::HEvent : public hanalysis::HEvent
 {
 
 public:
@@ -25,7 +25,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const Analysis::HClonesArray * const);
+    void NewEvent(const hanalysis::HClonesArray * const);
 
     void GetParticles();
 

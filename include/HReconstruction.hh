@@ -14,7 +14,7 @@
  * @brief FastJet calculations
  *
  */
-class Analysis::HReconstruction : public HObject
+class hanalysis::HReconstruction : public HObject
 {
 
 public:

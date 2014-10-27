@@ -1,6 +1,6 @@
 # include "HHiggsTagger.hh"
 
-Analysis::HHiggsTagger::HHiggsTagger()
+hanalysis::HHiggsTagger::HHiggsTagger()
 {
 
     Print(1, "Constructor");
@@ -17,14 +17,14 @@ Analysis::HHiggsTagger::HHiggsTagger()
 
 }
 
-Analysis::HHiggsTagger::~HHiggsTagger()
+hanalysis::HHiggsTagger::~HHiggsTagger()
 {
 
     Print(1, "Destructor");
 
 }
 
-void Analysis::HHiggsTagger::NewEvent(){
+void hanalysis::HHiggsTagger::NewEvent(){
 
     Print(2, "New Event");
 
@@ -37,7 +37,7 @@ void Analysis::HHiggsTagger::NewEvent(){
 }
 
 
-PseudoJet Analysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const vector<PseudoJet>& BottomJets, const vector<PseudoJet> &CharmJets)
+PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const vector<PseudoJet>& BottomJets, const vector<PseudoJet> &CharmJets)
 {
     Print(2, "GetHiggsJet");
 
@@ -107,7 +107,7 @@ PseudoJet Analysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets
 
 
 
-PseudoJet Analysis::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
+PseudoJet hanalysis::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
 {
 
     Print(2, "GetFilteredJet");
@@ -136,7 +136,7 @@ PseudoJet Analysis::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, c
 
 }
 
-void Analysis::HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles, const int UserIndex)
+void hanalysis::HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles, const int UserIndex)
 {
 
     Print(2, "GetSubJetSource");
@@ -166,7 +166,7 @@ void Analysis::HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles,
 
 }
 
-int Analysis::HHiggsTagger::BTagger()
+int hanalysis::HHiggsTagger::BTagger()
 {
     Print(2, "BTagger");
 
@@ -222,7 +222,7 @@ int Analysis::HHiggsTagger::BTagger()
 }
 
 
-float Analysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
+float hanalysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 {
     Print(2, "GetDipolarity");
 
@@ -312,7 +312,7 @@ float Analysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 
 }
 
-void Analysis::HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
+void hanalysis::HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 {
     Print(2, "SetEtaPhi");
 
@@ -323,7 +323,7 @@ void Analysis::HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
 
 }
 
-float Analysis::HHiggsTagger::GetSubDeltaR()
+float hanalysis::HHiggsTagger::GetSubDeltaR()
 {
 
     Print(2, "GetSubDeltaR");

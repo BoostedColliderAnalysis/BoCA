@@ -11,7 +11,7 @@ using std::sort;
  *
  *
  */
-class Analysis::HDiscriminator : public HReconstruction
+class hanalysis::HDiscriminator : public HReconstruction
 {
 
 public:

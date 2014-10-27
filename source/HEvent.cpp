@@ -1,13 +1,13 @@
 # include "HEvent.hh"
 
-Analysis::HEvent::HEvent()
+hanalysis::HEvent::HEvent()
 {
 
     Print(1, "Constructor");
 
 }
 
-Analysis::HEvent::~HEvent()
+hanalysis::HEvent::~HEvent()
 {
 
     Print(1, "Destructor");

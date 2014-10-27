@@ -1,7 +1,7 @@
 # include "HEventParton.hh"
 
 
-Analysis::HParton::HEvent::HEvent()
+hanalysis::hparton::HEvent::HEvent()
 {
 
     Print(1, "Constructor");
@@ -12,7 +12,7 @@ Analysis::HParton::HEvent::HEvent()
 
 }
 
-Analysis::HParton::HEvent::~HEvent()
+hanalysis::hparton::HEvent::~HEvent()
 {
 
     Print(1, "Destructor");
@@ -21,7 +21,7 @@ Analysis::HParton::HEvent::~HEvent()
 
 }
 
-void Analysis::HParton::HEvent::NewEvent(const Analysis::HClonesArray * const ClonesArrays)
+void hanalysis::hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const ClonesArrays)
 {
 
     Print(2, "New Event");
@@ -31,7 +31,7 @@ void Analysis::HParton::HEvent::NewEvent(const Analysis::HClonesArray * const Cl
 }
 
 
-void Analysis::HParton::HEvent::GetParticles()
+void hanalysis::hparton::HEvent::GetParticles()
 {
 
     Print(2, "Get Particles");

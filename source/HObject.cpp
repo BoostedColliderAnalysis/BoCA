@@ -1,6 +1,6 @@
 # include "HObject.hh"
 
-Analysis::HObject::HObject() :
+hanalysis::HObject::HObject() :
     LargeNumber(999999999),
     TopMass(173.5),
     HiggsMass(125),
@@ -21,14 +21,14 @@ Analysis::HObject::HObject() :
 
 }
 
-Analysis::HObject::~HObject()
+hanalysis::HObject::~HObject()
 {
 
     Print(3, "Destructor");
 
 }
 
-float Analysis::HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2, const float Phi2) const
+float hanalysis::HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2, const float Phi2) const
 {
 
     Print(3, "GetDistance");
@@ -37,7 +37,7 @@ float Analysis::HObject::GetDistance(const float Eta1, const float Phi1, const f
 
 }
 
-float Analysis::HObject::GetDistance(const float Eta, const float Phi) const
+float hanalysis::HObject::GetDistance(const float Eta, const float Phi) const
 {
 
     Print(3, "GetDistance");
@@ -46,7 +46,7 @@ float Analysis::HObject::GetDistance(const float Eta, const float Phi) const
 
 }
 
-float Analysis::HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
+float hanalysis::HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
 {
 
     Print(4, "GetDeltaPhi");
@@ -78,7 +78,7 @@ float Analysis::HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
 
 }
 
-void Analysis::HObject::Print(const int Severity, const string Description) const
+void hanalysis::HObject::Print(const int Severity, const string Description) const
 {
 
     if (Severity <= DebugLevel) {
@@ -90,7 +90,7 @@ void Analysis::HObject::Print(const int Severity, const string Description) cons
 }
 
 
-void Analysis::HObject::Printer(const string Description) const
+void hanalysis::HObject::Printer(const string Description) const
 {
 
     const char Separator = ' ';
@@ -103,7 +103,7 @@ void Analysis::HObject::Printer(const string Description) const
 
 }
 
-string Analysis::HObject::GetStringFromEnum(const int ParticleId) const {
+string hanalysis::HObject::GetStringFromEnum(const int ParticleId) const {
 
   string Sign = "";
   if (ParticleId < 0) Sign = "-";

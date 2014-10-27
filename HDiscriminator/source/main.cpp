@@ -2,7 +2,7 @@
 
 int main()
 {
-  HiggsCPV::HAnalysis *Analysis = new HiggsCPV::HAnalysis();
+  hcpvhiggs::HAnalysis *Analysis = new hcpvhiggs::HAnalysis();
 
     Analysis->AnalysisLoop();
 

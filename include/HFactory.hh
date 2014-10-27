@@ -25,7 +25,7 @@ using TMVA::Types;
  * @brief Prepares multivariant analysis
  *
  */
-class Analysis::HFactory : public HObject
+class hanalysis::HFactory : public HObject
 {
 
 public:

@@ -7,7 +7,7 @@
  * @brief Pgs Jets
  *
  */
-class Analysis::HPgs::HJet : public Analysis::HJet
+class hanalysis::hpgs::HJet : public hanalysis::HJet
 {
 
 public:

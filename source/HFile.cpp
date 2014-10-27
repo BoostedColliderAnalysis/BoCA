@@ -1,6 +1,6 @@
 # include "HFile.hh"
 
-Analysis::HFile::HFile()
+hanalysis::HFile::HFile()
 {
 
     Print(1, "Constructor");
@@ -9,7 +9,7 @@ Analysis::HFile::HFile()
 
 }
 
-Analysis::HFile::HFile(const string Process)
+hanalysis::HFile::HFile(const string Process)
 {
 
     Print(1, "Constructor");
@@ -20,7 +20,7 @@ Analysis::HFile::HFile(const string Process)
 
 }
 
-Analysis::HFile::HFile(const string Process, const string Run)
+hanalysis::HFile::HFile(const string Process, const string Run)
 {
 
     Print(1, "Constructor");
@@ -33,28 +33,28 @@ Analysis::HFile::HFile(const string Process, const string Run)
 
 }
 
-string Analysis::HFile::Title() const {
+string hanalysis::HFile::Title() const {
 
     return RunFolder;
 
 }
 
-string Analysis::HFile::MadGraphFilePath() const {
+string hanalysis::HFile::MadGraphFilePath() const {
 
     return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
 
 }
 
 // TString Analysis::HFile::BasePath = "$HOME/Development/madgraph/";
-string Analysis::HFile::BasePath = "$HOME/Development/MadGraph/";
+string hanalysis::HFile::BasePath = "$HOME/Development/MadGraph/";
 
-string Analysis::HFile::FileSuffix = "_delphes_events.root";
+string hanalysis::HFile::FileSuffix = "_delphes_events.root";
 
-string Analysis::HFile::TreeString = "Delphes";
+string hanalysis::HFile::TreeString = "Delphes";
 
-bool Analysis::HFile::Snowmass = 0;
+bool hanalysis::HFile::Snowmass = 0;
 
-void Analysis::HFile::SetVariables()
+void hanalysis::HFile::SetVariables()
 {
 
     Print(2, "Set Variables");
@@ -77,7 +77,7 @@ void Analysis::HFile::SetVariables()
 
 
 
-string Analysis::HFile::GetTreeName() const
+string hanalysis::HFile::GetTreeName() const
 {
 
   Print(2, "Get Tree String");
@@ -86,7 +86,7 @@ string Analysis::HFile::GetTreeName() const
 }
 
 
-string Analysis::HFile::GetFilePath() const
+string hanalysis::HFile::GetFilePath() const
 {
 
   Print(2, "FilePath");
@@ -97,7 +97,7 @@ string Analysis::HFile::GetFilePath() const
 
 
 
-ExRootTreeReader *Analysis::HFile::GetTreeReader()
+ExRootTreeReader *hanalysis::HFile::GetTreeReader()
 {
 
   Print(1, "Get Tree Reader",GetFilePath());
@@ -123,9 +123,75 @@ ExRootTreeReader *Analysis::HFile::GetTreeReader()
 
 }
 
+hanalysis::HClonesArray *hanalysis::HFile::GetClonesArrays() const
+{
+    
+    Print(1, "Get Clones Arrays");
+    
+    HClonesArray *ClonesArrays;
+    
+    if (GetTreeName() == "Delphes") {
+        
+        if (Snowmass) {
+            
+            ClonesArrays = new hdelphes::HClonesArraySnowmass();
+            
+        } else {
+            
+            ClonesArrays = new hdelphes::HClonesArray();
+            
+        }
+        
+    } else if (GetTreeName() == "LHEF") {
+        
+        ClonesArrays = new hparton::HClonesArray();
+        
+    } else if (GetTreeName() == "LHCO") {
+        
+        ClonesArrays = new hpgs::HClonesArray();
+        
+    } else {
+        
+        Print(0, "unknown Tree String", GetTreeName());
+        
+    }
+    
+    return ClonesArrays;
+    
+}
+
+hanalysis::HEvent *hanalysis::HFile::GetEvent() const
+{
+    
+    Print(1, "Get Event");
+    
+    HEvent *Event;
+    
+    if (GetTreeName() == "Delphes") {
+        
+        Event = new hdelphes::HEvent();
+        
+    } else if (GetTreeName() == "LHEF") {
+        
+        Event = new hparton::HEvent();
+        
+    } else if (GetTreeName() == "LHCO") {
+        
+        Event = new hpgs::HEvent();
+        
+    } else {
+        
+        Print(0, "unknown Tree String", GetTreeName());
+        
+    }
+    
+    return Event;
+    
+}
 
 
-Analysis::HFile::~HFile()
+
+hanalysis::HFile::~HFile()
 {
 
 
@@ -133,13 +199,13 @@ Analysis::HFile::~HFile()
 
 
 
-        delete ImportFile; // FIXME Possible?
-        delete ImportTree; // FIXME Possible?
+        delete ImportFile;
+        delete ImportTree;
 
 
 }
 
-Analysis::HParton::HFile::HFile()
+hanalysis::hparton::HFile::HFile()
 {
 
   Print(1, "Constructor");
@@ -148,7 +214,7 @@ Analysis::HParton::HFile::HFile()
 
 }
 
-Analysis::HParton::HFile::HFile(const string Process)
+hanalysis::hparton::HFile::HFile(const string Process)
 {
 
   Print(1, "Constructor");
@@ -159,7 +225,7 @@ Analysis::HParton::HFile::HFile(const string Process)
 
 }
 
-Analysis::HParton::HFile::HFile(const string Process, const string Run)
+hanalysis::hparton::HFile::HFile(const string Process, const string Run)
 {
 
   Print(1, "Constructor");
@@ -172,7 +238,7 @@ Analysis::HParton::HFile::HFile(const string Process, const string Run)
 
 }
 
-string Analysis::HParton::HFile::GetTreeName() const
+string hanalysis::hparton::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -183,7 +249,7 @@ string Analysis::HParton::HFile::GetTreeName() const
 
 }
 
-string Analysis::HParton::HFile::GetFilePath() const
+string hanalysis::hparton::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -195,7 +261,7 @@ string Analysis::HParton::HFile::GetFilePath() const
 }
 
 
-Analysis::HPgs::HFile::HFile()
+hanalysis::hpgs::HFile::HFile()
 {
 
   Print(1, "Constructor");
@@ -204,7 +270,7 @@ Analysis::HPgs::HFile::HFile()
 
 }
 
-Analysis::HPgs::HFile::HFile(const string Process)
+hanalysis::hpgs::HFile::HFile(const string Process)
 {
 
   Print(1, "Constructor");
@@ -215,7 +281,7 @@ Analysis::HPgs::HFile::HFile(const string Process)
 
 }
 
-Analysis::HPgs::HFile::HFile(const string Process, const string Run)
+hanalysis::hpgs::HFile::HFile(const string Process, const string Run)
 {
 
   Print(1, "Constructor");
@@ -228,7 +294,7 @@ Analysis::HPgs::HFile::HFile(const string Process, const string Run)
 
 }
 
-string Analysis::HPgs::HFile::GetTreeName() const
+string hanalysis::hpgs::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -239,7 +305,7 @@ string Analysis::HPgs::HFile::GetTreeName() const
 
 }
 
-string Analysis::HPgs::HFile::GetFilePath() const
+string hanalysis::hpgs::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -250,7 +316,7 @@ string Analysis::HPgs::HFile::GetFilePath() const
 
 }
 
-Analysis::HDelphes::HFile::HFile()
+hanalysis::hdelphes::HFile::HFile()
 {
 
   Print(1, "Constructor");
@@ -259,7 +325,7 @@ Analysis::HDelphes::HFile::HFile()
 
 }
 
-Analysis::HDelphes::HFile::HFile(const string Process)
+hanalysis::hdelphes::HFile::HFile(const string Process)
 {
 
   Print(1, "Constructor");
@@ -270,7 +336,7 @@ Analysis::HDelphes::HFile::HFile(const string Process)
 
 }
 
-Analysis::HDelphes::HFile::HFile(const string Process, const string Run)
+hanalysis::hdelphes::HFile::HFile(const string Process, const string Run)
 {
 
   Print(1, "Constructor");
@@ -283,7 +349,7 @@ Analysis::HDelphes::HFile::HFile(const string Process, const string Run)
 
 }
 
-string Analysis::HDelphes::HFile::GetTreeName() const
+string hanalysis::hdelphes::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -292,7 +358,7 @@ string Analysis::HDelphes::HFile::GetTreeName() const
 
 }
 
-string Analysis::HDelphes::HFile::GetFilePath() const
+string hanalysis::hdelphes::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");

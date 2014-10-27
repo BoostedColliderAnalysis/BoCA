@@ -1,21 +1,21 @@
 # include "HAnalysisHeavyHiggsPgs.hh"
 
-HeavyHiggs::HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
+hheavyhiggs::HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 {
 
     Print(1, "Constructor");
 
 }
 
-vector<Analysis::HFile*> HeavyHiggs::HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName) const
+vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const string StudyName) const
 {
 
     Print(1, "Fill Analysis Vector",StudyName);
 
-    vector<Analysis::HFile*> Files;
+    vector<hanalysis::HFile*> Files;
 
-    Files.push_back(new Analysis::HFile("Signal_5f"));
-    Files.push_back(new Analysis::HFile("5f_10k_Pt20"));
+    Files.push_back(new hanalysis::HFile("Signal_5f"));
+    Files.push_back(new hanalysis::HFile("5f_10k_Pt20"));
 
 //     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
     Files.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
@@ -28,7 +28,7 @@ vector<Analysis::HFile*> HeavyHiggs::HAnalysisHeavyHiggsPgs::GetFiles(const stri
 
 }
 
-void HeavyHiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWriter)
+void hheavyhiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -46,7 +46,7 @@ void HeavyHiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWrite
 
 }
 
-void HeavyHiggs::HAnalysisHeavyHiggsPgs::CloseFile()
+void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 {
     Print(1, "Close File");
 
@@ -64,7 +64,7 @@ void HeavyHiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-bool HeavyHiggs::HAnalysisHeavyHiggsPgs::Analysis(Analysis::HEvent* Event,string StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis",StudyName);

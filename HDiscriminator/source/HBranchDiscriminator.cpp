@@ -1,19 +1,19 @@
 # include "HBranchDiscriminator.hh"
 
-using HiggsCPV::HCandidateBranch;
+using hcpvhiggs::HCandidateBranch;
 
 ClassImp(HCandidateBranch)
 
-HiggsCPV::HCandidateBranch::HCandidateBranch()
+hcpvhiggs::HCandidateBranch::HCandidateBranch()
 {
 
     reset();
 
 }
 
-HiggsCPV::HCandidateBranch::~HCandidateBranch() {}
+hcpvhiggs::HCandidateBranch::~HCandidateBranch() {}
 
-void HiggsCPV::HCandidateBranch::reset()
+void hcpvhiggs::HCandidateBranch::reset()
 {
 
     int InitialValue = -10;
@@ -58,18 +58,18 @@ void HiggsCPV::HCandidateBranch::reset()
 
 }
 
-ClassImp(HiggsCPV::HLeptonBranch)
+ClassImp(hcpvhiggs::HLeptonBranch)
 
-HiggsCPV::HLeptonBranch::HLeptonBranch()
+hcpvhiggs::HLeptonBranch::HLeptonBranch()
 {
 
     reset();
 
 }
 
-HiggsCPV::HLeptonBranch::~HLeptonBranch() {}
+hcpvhiggs::HLeptonBranch::~HLeptonBranch() {}
 
-void HiggsCPV::HLeptonBranch::reset()
+void hcpvhiggs::HLeptonBranch::reset()
 {
 
     int InitialValue = -10;
@@ -83,18 +83,18 @@ void HiggsCPV::HLeptonBranch::reset()
 }
 
 
-ClassImp(HiggsCPV::HConstituentBranch)
+ClassImp(hcpvhiggs::HConstituentBranch)
 
-HiggsCPV::HConstituentBranch::HConstituentBranch()
+hcpvhiggs::HConstituentBranch::HConstituentBranch()
 {
 
   reset();
 
 }
 
-HiggsCPV::HConstituentBranch::~HConstituentBranch() {}
+hcpvhiggs::HConstituentBranch::~HConstituentBranch() {}
 
-void HiggsCPV::HConstituentBranch::reset()
+void hcpvhiggs::HConstituentBranch::reset()
 {
 
   int InitialValue = -100;
@@ -106,18 +106,18 @@ void HiggsCPV::HConstituentBranch::reset()
 
 }
 
-ClassImp(HiggsCPV::HJetPropertiesBranch)
+ClassImp(hcpvhiggs::HJetPropertiesBranch)
 
-HiggsCPV::HJetPropertiesBranch::HJetPropertiesBranch()
+hcpvhiggs::HJetPropertiesBranch::HJetPropertiesBranch()
 {
 
     reset();
 
 }
 
-HiggsCPV::HJetPropertiesBranch::~HJetPropertiesBranch() {}
+hcpvhiggs::HJetPropertiesBranch::~HJetPropertiesBranch() {}
 
-void HiggsCPV::HJetPropertiesBranch::reset()
+void hcpvhiggs::HJetPropertiesBranch::reset()
 {
 
     int InitialValue = -10;
@@ -132,4 +132,4 @@ void HiggsCPV::HJetPropertiesBranch::reset()
 }
 
 
-ClassImp(HiggsCPV::HConstituentBranch)
+ClassImp(hcpvhiggs::HConstituentBranch)

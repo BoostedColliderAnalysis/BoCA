@@ -15,7 +15,7 @@ using std::vector;
  * @brief calculation regarding leptons
  *
  */
-class Analysis::HLepton : public HFourVector
+class hanalysis::HLepton : public HFourVector
 {
 
 public:

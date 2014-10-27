@@ -1,6 +1,6 @@
 # include "HParticleParton.hh"
 
-Analysis::HParton::HParticle::HParticle()
+hanalysis::hparton::HParticle::HParticle()
 {
 
     Print(1, "Constructor");
@@ -9,14 +9,14 @@ Analysis::HParton::HParticle::HParticle()
 
 }
 
-Analysis::HParton::HParticle::~HParticle()
+hanalysis::hparton::HParticle::~HParticle()
 {
 
     Print(1, "Destructor");
 
 }
 
-bool Analysis::HParton::HParticle::GetParticles()
+bool hanalysis::hparton::HParticle::GetParticles()
 {
 
     Print(2, "Get Particles");

@@ -1,6 +1,6 @@
 # include "HReader.hh"
 
-Analysis::HReader::HReader(HMva   *NewMva)
+hanalysis::HReader::HReader(HMva   *NewMva)
 {
 
     Print(1, "Constructor");
@@ -17,7 +17,7 @@ Analysis::HReader::HReader(HMva   *NewMva)
 
 }
 
-Analysis::HReader::~HReader()
+hanalysis::HReader::~HReader()
 {
     Print(1, "Destructor");
 
@@ -26,7 +26,7 @@ Analysis::HReader::~HReader()
 }
 
 
-void Analysis::HReader::AddVariable()
+void hanalysis::HReader::AddVariable()
 {
 
     Print(1, "Add Variable");
@@ -48,7 +48,7 @@ void Analysis::HReader::AddVariable()
 
 }
 
-void Analysis::HReader::BookMVA()
+void hanalysis::HReader::BookMVA()
 {
     Print(1, "Book Mva");
 
@@ -65,7 +65,7 @@ void Analysis::HReader::BookMVA()
 
 }
 
-void Analysis::HReader::MVALoop()
+void hanalysis::HReader::MVALoop()
 {
 
     Print(1, "Mva Loop");
@@ -114,7 +114,7 @@ void Analysis::HReader::MVALoop()
 }
 
 
-void Analysis::HReader::GetCuts()
+void hanalysis::HReader::GetCuts()
 {
     Print(1, "Get Cuts");
 
@@ -127,7 +127,7 @@ void Analysis::HReader::GetCuts()
 
 }
 
-void Analysis::HReader::LatexHeader()
+void hanalysis::HReader::LatexHeader()
 {
 
     Print(1, "LaTeX Header");
@@ -149,7 +149,7 @@ void Analysis::HReader::LatexHeader()
 }
 
 
-void Analysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const string TreeName)
+void hanalysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const string TreeName)
 {
 
     Print(1, "Apply Cuts");
@@ -182,7 +182,7 @@ void Analysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, cons
 }
 
 
-void Analysis::HReader::TabularOutput() const
+void hanalysis::HReader::TabularOutput() const
 {
 
     const int NameWidth = 15;
@@ -243,7 +243,7 @@ void Analysis::HReader::TabularOutput() const
 
 }
 
-void Analysis::HReader::LatexContent(const string TreeName)
+void hanalysis::HReader::LatexContent(const string TreeName)
 {
 
     Print(1, "LaTeX Content");
@@ -339,7 +339,7 @@ void Analysis::HReader::LatexContent(const string TreeName)
 
 }
 
-void Analysis::HReader::LatexFooter()
+void hanalysis::HReader::LatexFooter()
 {
 
     Print(1, "LaTeX Footer");
@@ -350,7 +350,7 @@ void Analysis::HReader::LatexFooter()
 
 }
 
-float Analysis::HReader::GetRatio(const float Nominator, const float Denummertor) const
+float hanalysis::HReader::GetRatio(const float Nominator, const float Denummertor) const
 {
 
     float Ratio;
@@ -370,7 +370,7 @@ float Analysis::HReader::GetRatio(const float Nominator, const float Denummertor
 }
 
 
-float Analysis::HReader::GetScaling(const float Events, const int Particles) const
+float hanalysis::HReader::GetScaling(const float Events, const int Particles) const
 {
 
     Print(2 , "Scaling");
@@ -393,7 +393,7 @@ float Analysis::HReader::GetScaling(const float Events, const int Particles) con
 
 
 
-float Analysis::HReader::GetLuminosity(const float Number) const
+float hanalysis::HReader::GetLuminosity(const float Number) const
 {
 
     Print(2 , "Luminosity");
@@ -404,7 +404,7 @@ float Analysis::HReader::GetLuminosity(const float Number) const
 
 }
 
-float Analysis::HReader::GetLuminosityError(const float Number) const
+float hanalysis::HReader::GetLuminosityError(const float Number) const
 {
 
     Print(2 , "Luminosity Error");
@@ -418,7 +418,7 @@ float Analysis::HReader::GetLuminosityError(const float Number) const
 }
 
 
-float Analysis::HReader::GetError(const float Value) const
+float hanalysis::HReader::GetError(const float Value) const
 {
     Print(2 , "Error");
 
@@ -439,7 +439,7 @@ float Analysis::HReader::GetError(const float Value) const
 }
 
 
-float Analysis::HReader::RoundToDigits(const float Value) const
+float hanalysis::HReader::RoundToDigits(const float Value) const
 {
 
     return RoundToDigits(Value, 3);
@@ -447,7 +447,7 @@ float Analysis::HReader::RoundToDigits(const float Value) const
 }
 
 
-float Analysis::HReader::RoundError(const float Value) const
+float hanalysis::HReader::RoundError(const float Value) const
 {
 
     return RoundToDigits(Value, 2);
@@ -455,7 +455,7 @@ float Analysis::HReader::RoundError(const float Value) const
 }
 
 
-float Analysis::HReader::RoundToDigits(const float Value, const int Digits) const
+float hanalysis::HReader::RoundToDigits(const float Value, const int Digits) const
 {
 
     Print(2 , "Round To Digits");
@@ -473,7 +473,7 @@ float Analysis::HReader::RoundToDigits(const float Value, const int Digits) cons
 }
 
 
-float Analysis::HReader::RoundToError(const float Value, const float Error) const
+float hanalysis::HReader::RoundToError(const float Value, const float Error) const
 {
 
     Print(2 , "Round To Digits");

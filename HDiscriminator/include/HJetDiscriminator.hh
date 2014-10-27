@@ -12,7 +12,7 @@
 
 using fastjet::antikt_algorithm;
 
-class HiggsCPV::JetHJetTag : public Analysis::HJetTag
+class hcpvhiggs::JetHJetTag : public hanalysis::HJetTag
 {
 
     int GetBranchId(const int ParticleId, int BranchId);
@@ -33,7 +33,7 @@ class HiggsCPV::JetHJetTag : public Analysis::HJetTag
  * \class HDiscriminator
  *
  */
-class HiggsCPV::HJetDiscriminator : public Analysis::HAnalysis
+class hcpvhiggs::HJetDiscriminator : public hanalysis::HAnalysis
 {
 
 public:
@@ -131,9 +131,9 @@ public:
 private:
 
 
-    Analysis::HJetTag *JetTag;
+    hanalysis::HJetTag *JetTag;
 
-    Analysis::HSubStructure *SubStructure;
+    hanalysis::HSubStructure *SubStructure;
 
 
     bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const vector<PseudoJet> &, const float DeltaR);
@@ -148,7 +148,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> Leptons(Analysis::HEvent* Event);
+    vector<PseudoJet> Leptons(hanalysis::HEvent* Event);
 
     /**
      * @brief Lepton calculations
@@ -171,14 +171,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(Analysis::HEvent* Event, string StudyName);
+    bool Analysis(hanalysis::HEvent* Event, string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< Analysis::HFile* > GetFiles(const string StudyName) const;
+    std::vector< hanalysis::HFile* > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis

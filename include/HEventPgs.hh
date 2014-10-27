@@ -9,7 +9,7 @@
  * @brief event topology for PGS events
  *
  */
-class Analysis::HPgs::HEvent : public Analysis::HEvent
+class hanalysis::hpgs::HEvent : public hanalysis::HEvent
 {
 
 public:
@@ -26,7 +26,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const Analysis::HClonesArray*const ClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray*const ClonesArrays);
 
     vector<TLorentzVector> GetLeptons();
 

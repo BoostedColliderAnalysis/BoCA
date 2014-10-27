@@ -3,7 +3,7 @@
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
 
-Analysis::HAnalysis()
+hanalysis::HAnalysis()
 {
 
     Print(1, "Constructor");
@@ -14,7 +14,7 @@ Analysis::HAnalysis()
 
 }
 
-vector<string> Analysis::GetStudyNameVector()
+vector<string> hanalysis::GetStudyNameVector()
 {
 
     vector<string> StudyNameVector = {ProjectName};
@@ -23,7 +23,7 @@ vector<string> Analysis::GetStudyNameVector()
 
 }
 
-void Analysis::AnalysisLoop()
+void hanalysis::AnalysisLoop()
 {
 
     Print(1, "Analysis Loop");
@@ -111,7 +111,7 @@ void Analysis::AnalysisLoop()
 
 }
 
-void Analysis::NewStudy()
+void hanalysis::NewStudy()
 {
 
     Print(1, "New Mva", StudyName);
@@ -125,7 +125,7 @@ void Analysis::NewStudy()
 }
 
 
-void Analysis::NewFileBase()
+void hanalysis::NewFileBase()
 {
     Print(1, "New Analysis");
 
@@ -167,7 +167,7 @@ void Analysis::NewFileBase()
 }
 
 
-void Analysis::NewEvent()
+void hanalysis::NewEvent()
 {
     Print(2, "New Event");
 
@@ -175,7 +175,7 @@ void Analysis::NewEvent()
 
     TreeReader->ReadEntry(EventNumber);
 
-    int Successfull = Analysis();
+    int Successfull = hanalysis();
 
 //     if (Successfull) {
 
@@ -198,7 +198,7 @@ void Analysis::NewEvent()
 }
 
 
-void Analysis::CloseFileBase()
+void hanalysis::CloseFileBase()
 {
     Print(1, "Clean Analysis");
 
@@ -225,14 +225,14 @@ void Analysis::CloseFileBase()
 }
 
 
-void Analysis::DeleteStudy()
+void hanalysis::DeleteStudy()
 {
     Print(1, "Clean Mva");
 
 }
 
 
-Analysis::~HAnalysis()
+hanalysis::~HAnalysis()
 {
 
     Print(1, "Destructor");
@@ -254,7 +254,7 @@ Analysis::~HAnalysis()
 
 }
 
-void Analysis::EmptyFileVector()
+void hanalysis::EmptyFileVector()
 {
 
     int PathSum = Files.size();

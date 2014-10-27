@@ -11,7 +11,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class HiggsCPV::HMva : public Analysis::HMva
+class hcpvhiggs::HMva : public hanalysis::HMva
 {
 
 public:

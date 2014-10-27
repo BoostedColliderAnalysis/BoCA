@@ -9,7 +9,7 @@ using std::abs;
  * @brief delphes particles
  *
  */
-class Analysis::HDelphes::HParticle  : public Analysis::HParticle
+class hanalysis::hdelphes::HParticle  : public hanalysis::HParticle
 {
 
 public:

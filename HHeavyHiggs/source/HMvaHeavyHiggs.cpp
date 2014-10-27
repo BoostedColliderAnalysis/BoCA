@@ -1,6 +1,6 @@
 # include "HMvaHeavyHiggs.hh"
 
-HeavyHiggs::HMva::HMva()
+hheavyhiggs::HMva::HMva()
 {
 
     Print(1 , "Constructor");
@@ -35,7 +35,7 @@ HeavyHiggs::HMva::HMva()
 
 }
 
-HeavyHiggs::HMva::~HMva()
+hheavyhiggs::HMva::~HMva()
 {
 
     Print(1 , "Constructor");
@@ -44,7 +44,7 @@ HeavyHiggs::HMva::~HMva()
 
 }
 
-void HeavyHiggs::HMva::DefineVariables()
+void hheavyhiggs::HMva::DefineVariables()
 {
 
     Print(1 , "Define Variables");
@@ -57,7 +57,7 @@ void HeavyHiggs::HMva::DefineVariables()
 }
 
 
-void HeavyHiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
+void hheavyhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
 {
   Print(1, "Apply Bdt");
 
@@ -122,7 +122,7 @@ void HeavyHiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const 
 }
 
 
-HReaderStruct HeavyHiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+HReaderStruct hheavyhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 {
 
   Print(1, "Cut Loop");

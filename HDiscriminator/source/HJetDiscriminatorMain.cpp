@@ -2,7 +2,7 @@
 
 int main()
 {
-    Analysis::HAnalysis *Analysis = new HiggsCPV::HJetDiscriminator();
+    hanalysis::HAnalysis *Analysis = new hcpvhiggs::HJetDiscriminator();
 
     Analysis->AnalysisLoop();
 

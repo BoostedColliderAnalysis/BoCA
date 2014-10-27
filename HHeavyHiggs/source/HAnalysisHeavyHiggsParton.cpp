@@ -2,21 +2,21 @@
 
 #include <iostream>
 
-HeavyHiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
+hheavyhiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 {
     Print(1, "Constructor");
 
 }
 
-vector<Analysis::HFile*> HeavyHiggs::HAnalysisHeavyHiggsParton::GetFiles(const string StudyName) const
+vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const string StudyName) const
 {
 
     Print(1, "Fill Analysis Vector", StudyName);
 
-    vector<Analysis::HFile*> Files;
+    vector<hanalysis::HFile*> Files;
 
-    Files.push_back(new Analysis::HFile("Background/4f_10k"));
-    Files.push_back(new Analysis::HFile("Signal/Signal_5f"));
+    Files.push_back(new hanalysis::HFile("Background/4f_10k"));
+    Files.push_back(new hanalysis::HFile("Signal/Signal_5f"));
 
     Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
     Files.front()->FileSuffix = "_MG5.root";
@@ -28,7 +28,7 @@ vector<Analysis::HFile*> HeavyHiggs::HAnalysisHeavyHiggsParton::GetFiles(const s
 
 }
 
-void HeavyHiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWriter)
+void hheavyhiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
     Print(1, "New File");
@@ -44,7 +44,7 @@ void HeavyHiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWr
 
 }
 
-void HeavyHiggs::HAnalysisHeavyHiggsParton::CloseFile()
+void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 {
     Print(1, "Close File");
 
@@ -59,7 +59,7 @@ void HeavyHiggs::HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-bool HeavyHiggs::HAnalysisHeavyHiggsParton::Analysis(Analysis::HEvent* Event,string)
+bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent* Event,string)
 {
 
     Print(2, "Analysis");

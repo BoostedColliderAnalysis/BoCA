@@ -1,7 +1,7 @@
 # include "HJetInfo.hh"
 
 
-Analysis::HJetInfo::HJetInfo()
+hanalysis::HJetInfo::HJetInfo()
 {
 
     Print(3, "Constructor");
@@ -9,7 +9,7 @@ Analysis::HJetInfo::HJetInfo()
 
 }
 
-void Analysis::HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
+void hanalysis::HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
 {
 
     Print(3, "Add Constituent", ConstituentId, Weight);
@@ -20,7 +20,7 @@ void Analysis::HJetInfo::AddConstituent(const int ConstituentId, const float Wei
 
 }
 
-float Analysis::HJetInfo::GetWeightSum() const
+float hanalysis::HJetInfo::GetWeightSum() const
 {
 
     Print(3, "Get Weight Sum", JetFractions.size());
@@ -37,7 +37,7 @@ float Analysis::HJetInfo::GetWeightSum() const
 
 }
 
-float Analysis::HJetInfo::GetFraction(const int ParticleId) const
+float hanalysis::HJetInfo::GetFraction(const int ParticleId) const
 {
 
     Print(2, "Get Fraction", ParticleId);
@@ -54,7 +54,7 @@ float Analysis::HJetInfo::GetFraction(const int ParticleId) const
 
 }
 
-float Analysis::HJetInfo::GetMaximalFraction() const
+float hanalysis::HJetInfo::GetMaximalFraction() const
 {
 
     Print(2, "Get Maximal Fraction");
@@ -73,7 +73,7 @@ float Analysis::HJetInfo::GetMaximalFraction() const
 
 }
 
-bool Analysis::HJetInfo::HasParticle(const int ParticleId) const
+bool hanalysis::HJetInfo::HasParticle(const int ParticleId) const
 {
 
     Print(2, "Has Particle", ParticleId);
@@ -104,7 +104,7 @@ bool Analysis::HJetInfo::HasParticle(const int ParticleId) const
 //
 // }
 
-int Analysis::HJetInfo::GetMaximalId() const
+int hanalysis::HJetInfo::GetMaximalId() const
 {
 
     Print(3, "Get Maximal Id");
@@ -115,7 +115,7 @@ int Analysis::HJetInfo::GetMaximalId() const
 
 }
 
-void Analysis::HJetInfo::Clear()
+void hanalysis::HJetInfo::Clear()
 {
 
     Print(2, "Clear");
@@ -124,7 +124,7 @@ void Analysis::HJetInfo::Clear()
 
 }
 
-void Analysis::HJetInfo::PrintAllInfos(int Severity) const
+void hanalysis::HJetInfo::PrintAllInfos(int Severity) const
 {
 
     Print(3, "Print All Infos");

@@ -11,7 +11,7 @@
  * @brief converts Clones to LorentzVectors and PseudoJets
  *
  */
-class Analysis::HFourVector : virtual public HObject
+class hanalysis::HFourVector : virtual public HObject
 {
 
 public:

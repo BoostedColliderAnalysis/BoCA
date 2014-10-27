@@ -10,7 +10,7 @@
  * @brief event topology for Delphes events
  *
  */
-class Analysis::HDelphes::HEvent  : public Analysis::HEvent
+class hanalysis::hdelphes::HEvent  : public hanalysis::HEvent
 {
 
 public:
@@ -27,7 +27,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const Analysis::HClonesArray *const ClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
 
     vector<TLorentzVector>GetLeptons();
 
@@ -35,21 +35,21 @@ public:
 
     void GetEFlow();
 
-    void GetTaggedEFlow(Analysis::HJetTag *const JetTag);
+    void GetTaggedEFlow(hanalysis::HJetTag *const JetTag);
 
     void GetIsolatedEFlow();
 
-    void GetIsoaltedTaggedEFlow(Analysis::HJetTag *const JetTag);
+    void GetIsoaltedTaggedEFlow(hanalysis::HJetTag *const JetTag);
 
     void GetParticles();
 
     PseudoJet GetHiggs();
 
-    vector<PseudoJet> GetHiggsTopCandidates(Analysis::HJetTag *const JetTag);
+    vector<PseudoJet> GetHiggsTopCandidates(hanalysis::HJetTag *const JetTag);
 
-    vector<PseudoJet> GetTops(const Analysis::HJetTag *const JetTag);
+    vector<PseudoJet> GetTops(const hanalysis::HJetTag *const JetTag);
 
-    void GetTaggedJets(Analysis::HJetTag *const JetTag);
+    void GetTaggedJets(hanalysis::HJetTag *const JetTag);
 
 private:
 

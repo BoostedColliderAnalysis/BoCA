@@ -6,8 +6,6 @@
 /**
  * \class HCandidateBranch
  *
- * \ingroup HDiscriminator
- *
  * @brief Class for saving reconstructed candidates to root
  *
  */

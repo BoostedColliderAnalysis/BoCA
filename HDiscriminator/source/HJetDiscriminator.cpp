@@ -1,20 +1,20 @@
 # include "HJetDiscriminator.hh"
 
-HiggsCPV::HJetDiscriminator::HJetDiscriminator()
+hcpvhiggs::HJetDiscriminator::HJetDiscriminator()
 {
 
     Print(1, "Constructor");
 
-    JetTag = new HiggsCPV::JetHJetTag();
+    JetTag = new hcpvhiggs::JetHJetTag();
 
-    SubStructure = new Analysis::HSubStructure();
+    SubStructure = new hanalysis::HSubStructure();
 
 //     DebugLevel = 4;
 
 }
 
 
-HiggsCPV::HJetDiscriminator::~HJetDiscriminator()
+hcpvhiggs::HJetDiscriminator::~HJetDiscriminator()
 {
 
     Print(1, "Destructor");
@@ -25,7 +25,7 @@ HiggsCPV::HJetDiscriminator::~HJetDiscriminator()
 
 }
 
-vector<string> HiggsCPV::HJetDiscriminator::GetStudyNames() const
+vector<string> hcpvhiggs::HJetDiscriminator::GetStudyNames() const
 {
 
 //     return {"Higgs", "Top", "Isr"};
@@ -34,32 +34,32 @@ vector<string> HiggsCPV::HJetDiscriminator::GetStudyNames() const
 
 }
 
-vector< Analysis::HFile* > HiggsCPV::HJetDiscriminator::GetFiles(const string StudyName) const
+vector< hanalysis::HFile* > hcpvhiggs::HJetDiscriminator::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
 
-    vector<Analysis::HFile*> Files;
+    vector<hanalysis::HFile*> Files;
     if (StudyName != "Higgs") {
 
-      Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-bbtt-bblvlv", "background");
+      hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
 
     }
 
-    Analysis::HDelphes::HFile *Even = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "even");
+    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
     Files.push_back(Even);
 
-    Analysis::HDelphes::HFile *Mix = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
     Files.push_back(Mix);
 
-    Analysis::HDelphes::HFile *Odd = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
     Files.push_back(Odd);
@@ -70,7 +70,7 @@ vector< Analysis::HFile* > HiggsCPV::HJetDiscriminator::GetFiles(const string St
 }
 
 
-void HiggsCPV::HJetDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
+void hcpvhiggs::HJetDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -107,13 +107,13 @@ void HiggsCPV::HJetDiscriminator::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-void HiggsCPV::HJetDiscriminator::CloseFile()
+void hcpvhiggs::HJetDiscriminator::CloseFile()
 {
     Print(1, "Close File");
 
 }
 
-int HiggsCPV::JetHJetTag::GetBranchId(const int ParticleId, int BranchId)
+int hcpvhiggs::JetHJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
     Print(3, "Get Branch Id", ParticleId);
@@ -143,7 +143,7 @@ int HiggsCPV::JetHJetTag::GetBranchId(const int ParticleId, int BranchId)
 }
 
 
-bool HiggsCPV::HJetDiscriminator::Analysis(Analysis::HEvent* Event,string StudyName)
+bool hcpvhiggs::HJetDiscriminator::Analysis(hanalysis::HEvent* Event,string StudyName)
 {
 
     Print(3, "Analysis");
@@ -340,7 +340,7 @@ bool HiggsCPV::HJetDiscriminator::Analysis(Analysis::HEvent* Event,string StudyN
 
 }
 
-bool HiggsCPV::HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets, const float DeltaR)
+bool hcpvhiggs::HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets, const float DeltaR)
 {
 
 
@@ -420,14 +420,14 @@ bool HiggsCPV::HJetDiscriminator::FillTree(ExRootTreeBranch *const TreeBranch, E
 
 }
 
-bool HiggsCPV::HJetDiscriminator::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &Jet, const vector<PseudoJet> &LeptonJets)
+bool hcpvhiggs::HJetDiscriminator::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &Jet, const vector<PseudoJet> &LeptonJets)
 {
 
     return FillTree(TreeBranch, ConstituentTreeBranch, Jet, LeptonJets, GetDeltaR(Jet));
 
 }
 
-float HiggsCPV::HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
+float hcpvhiggs::HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
 {
 
     Print(3, "Get DeltaR");
@@ -450,7 +450,7 @@ float HiggsCPV::HJetDiscriminator::GetDeltaR(const PseudoJet &Jet)
 
 }
 
-vector<PseudoJet> HiggsCPV::HJetDiscriminator::Leptons(Analysis::HEvent* Event)
+vector<PseudoJet> hcpvhiggs::HJetDiscriminator::Leptons(hanalysis::HEvent* Event)
 {
 
     // Lepton Stuff

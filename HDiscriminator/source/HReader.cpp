@@ -7,9 +7,9 @@
 int main()
 {
 
-  HiggsCPV::HMva *Mva = new HiggsCPV::HMva();
+  hcpvhiggs::HMva *Mva = new hcpvhiggs::HMva();
 
-    Analysis::HReader *Reader = new Analysis::HReader(Mva);
+    hanalysis::HReader *Reader = new hanalysis::HReader(Mva);
 
     delete Reader;
 

@@ -15,14 +15,14 @@ vector<string> HAnalysisTest::GetStudyNameVector(){
 
 }
 
-vector<Analysis::HFile*> HAnalysisTest::GetFiles(const string StudyName) const
+vector<hanalysis::HFile*> HAnalysisTest::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector", StudyName);
 
-    vector<Analysis::HFile*> Files;
+    vector<hanalysis::HFile*> Files;
 
-    Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-ttbb");
+    hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-ttbb");
         Files.push_back(Background);
 
 //     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
@@ -48,7 +48,7 @@ void HAnalysisTest::CloseFile()
 
 }
 
-class HHeavyHiggsJetTag : public Analysis::HJetTag {
+class HHeavyHiggsJetTag : public hanalysis::HJetTag {
 
     int GetBranchId(int, int);
 
@@ -74,7 +74,7 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool HAnalysisTest::Analysis(Analysis::HEvent* Event,string StudyName)
+bool HAnalysisTest::Analysis(hanalysis::HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis", StudyName);

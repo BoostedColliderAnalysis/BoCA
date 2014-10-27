@@ -11,17 +11,12 @@
 # include "HObject.hh"
 # include "HFile.hh"
 
-# include "HEvent.hh"
-# include "HEventDelphes.hh"
-# include "HEventParton.hh"
-# include "HEventPgs.hh"
-
 
 /**
  * @brief Base for all analyses
  *
  */
-class Analysis::HAnalysis : public HObject
+class hanalysis::HAnalysis : public HObject
 {
 
 public:
@@ -103,19 +98,13 @@ protected:
 
     };
 
-private:
-
-    void DeleteFiles(const vector<HFile *> Files) const;
-
-    HClonesArray *GetClonesArrays(const string StudyName) const;
-
-    HEvent *GetEvent(const string StudyName) const;
-
     virtual inline string ClassName() const {
 
         return "HAnalysis";
 
     };
+
+private:
 
 };
 

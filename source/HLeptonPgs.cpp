@@ -1,13 +1,13 @@
 # include "HLeptonPgs.hh"
 
-Analysis::HPgs::HLepton::HLepton()
+hanalysis::hpgs::HLepton::HLepton()
 {
 
     Print(1, "Constructor");
 
 }
 
-Analysis::HPgs::HLepton::~HLepton()
+hanalysis::hpgs::HLepton::~HLepton()
 {
 
     Print(1, "Destructor");
@@ -16,7 +16,7 @@ Analysis::HPgs::HLepton::~HLepton()
 }
 
 
-void Analysis::HPgs::HLepton::GetElectrons()
+void hanalysis::hpgs::HLepton::GetElectrons()
 {
 
     Print(2, "Get Electrons");
@@ -51,7 +51,7 @@ void Analysis::HPgs::HLepton::GetElectrons()
 
 }
 
-void Analysis::HPgs::HLepton::GetMuons()
+void hanalysis::hpgs::HLepton::GetMuons()
 {
 
     Print(2, "Get Muons");

@@ -1,6 +1,6 @@
 # include "HParticleDelphes.hh"
 
-Analysis::HDelphes::HParticle ::HParticle()
+hanalysis::hdelphes::HParticle ::HParticle()
 {
 
     Print(3, "Constructor");
@@ -9,7 +9,7 @@ Analysis::HDelphes::HParticle ::HParticle()
 
 }
 
-Analysis::HDelphes::HParticle ::~HParticle()
+hanalysis::hdelphes::HParticle ::~HParticle()
 {
 
     Print(3, "Destructor");
@@ -17,7 +17,7 @@ Analysis::HDelphes::HParticle ::~HParticle()
 }
 
 
-bool Analysis::HDelphes::HParticle ::GetParticles()
+bool hanalysis::hdelphes::HParticle ::GetParticles()
 {
 
     Print(2, "Get Particles", ClonesArrays->ParticleSum());

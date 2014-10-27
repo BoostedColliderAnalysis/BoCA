@@ -1,45 +1,74 @@
 # include "HJetPropertiesBranch.hh"
 
-ClassImp(HJetPropertiesBranch)
+ClassImp(hjetproperties::HCandidateBranch)
 
-HJetPropertiesBranch::HJetPropertiesBranch()
+hjetproperties::HCandidateBranch::HCandidateBranch()
 {
 
     reset();
 
 }
 
-HJetPropertiesBranch::~HJetPropertiesBranch() {}
+hjetproperties::HCandidateBranch::~HCandidateBranch() {}
 
-void HJetPropertiesBranch::reset()
+void hjetproperties::HCandidateBranch::reset()
 {
 
     int InitialValue = -10;
 
     Mass = InitialValue;
     Pt = InitialValue;
-
     Eta = InitialValue;
     Phi = InitialValue;
-    Radius = InitialValue;
-    JetPtSum = InitialValue;
-    PtSum = InitialValue;
+    
+    DeltaR = InitialValue;
+    SubJetsDeltaR = InitialValue;
+    Asymmetry = InitialValue;
+    DiPolarity = InitialValue;
+    
+    SubJet1Mass = InitialValue;
+    SubJet1Pt = InitialValue;
+    SubJet1DeltaR = InitialValue;
+    
+    SubJet2Mass = InitialValue;
+    SubJet2Pt = InitialValue;
+    SubJet2DeltaR = InitialValue;
+    
+    ConstEta = InitialValue;
+    ConstPhi = InitialValue;
+    ConstDeltaR = InitialValue;
+    ConstAngle = InitialValue;
+    
+    IsolationEta = InitialValue;
+    IsolationPhi = InitialValue;
+    IsolationDeltaR = InitialValue;
+    IsolationAngle = InitialValue;
+    IsolationPt = InitialValue;
+    
+    HiggsTag = InitialValue;
+    TopTag = InitialValue;
+    
+    TopBdtTag = InitialValue;
+    JetBdtTag = InitialValue;
+    
+    TopCutSigEff = InitialValue;
+    JetCutSigEff = InitialValue;
 
 }
 
 
-ClassImp(HConstituentBranch)
+ClassImp(hjetproperties::HConstituentBranch)
 
-HConstituentBranch::HConstituentBranch()
+hjetproperties::HConstituentBranch::HConstituentBranch()
 {
 
   reset();
 
 }
 
-HConstituentBranch::~HConstituentBranch() {}
+hjetproperties::HConstituentBranch::~HConstituentBranch() {}
 
-void HConstituentBranch::reset()
+void hjetproperties::HConstituentBranch::reset()
 {
 
   int InitialValue = -100;
@@ -50,4 +79,29 @@ void HConstituentBranch::reset()
   Id = InitialValue;
 
 }
+
+ClassImp(hjetproperties::HLeptonBranch)
+
+hjetproperties::HLeptonBranch::HLeptonBranch()
+{
+    
+    reset();
+    
+}
+
+hjetproperties::HLeptonBranch::~HLeptonBranch() {}
+
+void hjetproperties::HLeptonBranch::reset()
+{
+    
+    int InitialValue = -10;
+    
+    Mass = InitialValue;
+    Pt = InitialValue;
+    Eta = InitialValue;
+    Phi = InitialValue;
+    Charge = InitialValue;
+    
+}
+
 

@@ -12,7 +12,7 @@ using std::set;
  *
  * has to be subclassed for each case
  */
-class Analysis::HJetTag : public HObject
+class hanalysis::HJetTag : public HObject
 {
 
 public:

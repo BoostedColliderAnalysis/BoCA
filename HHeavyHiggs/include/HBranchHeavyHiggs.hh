@@ -5,7 +5,7 @@
 
 
 
-namespace HeavyHiggs{
+namespace hheavyhiggs{
 
     class HAnalysisHeavyHiggsDelphes;
     class HAnalysisHeavyHiggsPgs;
@@ -20,7 +20,7 @@ namespace HeavyHiggs{
  * @brief Class for saving leptons to root
  *
  */
-class HeavyHiggs::HHeavyHiggsBranch : public TObject
+class hheavyhiggs::HHeavyHiggsBranch : public TObject
 {
 
 public:

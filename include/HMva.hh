@@ -77,7 +77,7 @@ public :
  * @brief Prepares multivariant analysis
  *
  */
-class Analysis::HMva : public HObject
+class hanalysis::HMva : public HObject
 {
 
 public:

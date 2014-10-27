@@ -1,6 +1,6 @@
 # include "HParticle.hh"
 
-Analysis::HParticle::HParticle()
+hanalysis::HParticle::HParticle()
 {
 
     Print(1,"Constructor");
@@ -9,14 +9,14 @@ Analysis::HParticle::HParticle()
 
 }
 
-Analysis::HParticle::~HParticle()
+hanalysis::HParticle::~HParticle()
 {
 
     Print(1,"Destructor");
 
 }
 
-void Analysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
+void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 
     Print(2,"New Event");
 
@@ -54,7 +54,7 @@ void Analysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 
 }
 
-vector<TLorentzVector> Analysis::HParticle::GetLeptonLorentzVectors()
+vector<TLorentzVector> hanalysis::HParticle::GetLeptonLorentzVectors()
 {
 
     Print(2,"LeptonVector");
@@ -73,7 +73,7 @@ vector<TLorentzVector> Analysis::HParticle::GetLeptonLorentzVectors()
 
 }
 
-vector<TLorentzVector> Analysis::HParticle::GetAntiLeptonLorentzVectors()
+vector<TLorentzVector> hanalysis::HParticle::GetAntiLeptonLorentzVectors()
 {
 
     Print(2,"AntiLeptonVector");
@@ -92,7 +92,7 @@ vector<TLorentzVector> Analysis::HParticle::GetAntiLeptonLorentzVectors()
 
 }
 
-vector<PseudoJet> Analysis::HParticle::GetLeptonJets()
+vector<PseudoJet> hanalysis::HParticle::GetLeptonJets()
 {
 
     Print(2,"LeptonVector");
@@ -111,7 +111,7 @@ vector<PseudoJet> Analysis::HParticle::GetLeptonJets()
 
 }
 
-vector<PseudoJet> Analysis::HParticle::GetAntiLeptonJets()
+vector<PseudoJet> hanalysis::HParticle::GetAntiLeptonJets()
 {
 
     Print(2,"AntiLeptonVector");

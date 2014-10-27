@@ -9,12 +9,10 @@
 /**
  * \class HDiscriminatorJetTag
  *
- * \ingroup HDiscriminator
- *
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class HDiscriminatorJetTag : public Analysis::HJetTag
+class HDiscriminatorJetTag : public hanalysis::HJetTag
 {
 
     int GetBranchId(const int ParticleId, int BranchId) const;
@@ -32,14 +30,12 @@ class HDiscriminatorJetTag : public Analysis::HJetTag
 /**
  * \class HAnalysisTopTagger
  *
- * \ingroup HDiscriminator
- *
  * @brief HAnalysis ubclass defining the Disciminator Analysis
  *
  * \author Jan Hajer
  *
  */
-class HAnalysisTopTagger : public Analysis::HAnalysis
+class HAnalysisTopTagger : public hanalysis::HAnalysis
 {
 
 public:
@@ -90,7 +86,7 @@ private:
 
     HDiscriminatorJetTag *DiscriminatorJetTag;
 
-    Analysis::HSubStructure *SubStructure;
+    hanalysis::HSubStructure *SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -98,7 +94,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> GetLeptonJets(Analysis::HEvent *const Event);
+    vector<PseudoJet> GetLeptonJets(hanalysis::HEvent *const Event);
 
     /**
      * @brief Lepton event counter
@@ -111,14 +107,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(Analysis::HEvent *const Event, const string StudyName);
+    bool Analysis(hanalysis::HEvent *const Event, const string StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< Analysis::HFile * > GetFiles(const string StudyName) const;
+    std::vector< hanalysis::HFile * > GetFiles(const string StudyName) const;
 
     /**
      * @brief New Analysis

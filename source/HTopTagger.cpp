@@ -1,6 +1,6 @@
 # include "HTopTagger.hh"
 
-Analysis::HTopTagger::HTopTagger()
+hanalysis::HTopTagger::HTopTagger()
 {
 
 
@@ -8,14 +8,14 @@ Analysis::HTopTagger::HTopTagger()
 
 }
 
-Analysis::HTopTagger::~HTopTagger()
+hanalysis::HTopTagger::~HTopTagger()
 {
 
     Print(1, "Destructor");
 
 }
 
-vector<PseudoJet> Analysis::HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
+vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
 {
 
     Print(2, "Tagging Top");
@@ -84,7 +84,7 @@ vector<PseudoJet> Analysis::HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
 
 }
 
-vector<PseudoJet> Analysis::HTopTagger::GetGranulatedJets(vector<PseudoJet> &EFlowJets,const float &CellDeltaEta, const float &CellDeltaPhi, const float &PtCutOff)
+vector<PseudoJet> hanalysis::HTopTagger::GetGranulatedJets(vector<PseudoJet> &EFlowJets,const float &CellDeltaEta, const float &CellDeltaPhi, const float &PtCutOff)
 {
 
     float pi = 3.142592654;

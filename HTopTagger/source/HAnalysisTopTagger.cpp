@@ -7,7 +7,7 @@ HAnalysisTopTagger::HAnalysisTopTagger()
 
     DiscriminatorJetTag = new HDiscriminatorJetTag();
 
-    SubStructure = new Analysis::HSubStructure();
+    SubStructure = new hanalysis::HSubStructure();
 
 //     DebugLevel = 3;
 
@@ -31,35 +31,35 @@ vector<string> HAnalysisTopTagger::GetStudyNames() const
 
 }
 
-vector<Analysis::HFile *> HAnalysisTopTagger::GetFiles(const string StudyName) const
+vector<hanalysis::HFile *> HAnalysisTopTagger::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
 
-    vector<Analysis::HFile*> Files;
+    vector<hanalysis::HFile*> Files;
 
     if (StudyName != "Higgs") {
 
-      Analysis::HDelphes::HFile *Background = new Analysis::HDelphes::HFile("pp-bbtt-bblvlv", "background");
+      hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->Crosssection = 3.215; // pb
         Background->Error = 0.012; // pb
         Files.push_back(Background);
 
     }
 
-    Analysis::HDelphes::HFile *Even = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "even");
+    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->Crosssection = 0.02079; // pb
     Even->Error = 0.000078; // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
-    Analysis::HDelphes::HFile *Mix = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->Crosssection = 0.01172; // pb
     Mix->Error = 0.000045; // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
-    Analysis::HDelphes::HFile *Odd = new Analysis::HDelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->Crosssection = 0.008951; // pb
     Odd->Error = 0.000035; // pb
 //     Odd->TagString="tag_2";
@@ -111,7 +111,7 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
 }
 
-bool HAnalysisTopTagger::Analysis(Analysis::HEvent * const Event, const string StudyName)
+bool HAnalysisTopTagger::Analysis(hanalysis::HEvent * const Event, const string StudyName)
 {
 
     Print(2, "Analysis", StudyName);

@@ -1,13 +1,13 @@
 # include "HClonesArray.hh"
 
-Analysis::HClonesArray::HClonesArray()
+hanalysis::HClonesArray::HClonesArray()
 {
 
     Print(1, "Constructor");
 
 }
 
-Analysis::HClonesArray::~HClonesArray()
+hanalysis::HClonesArray::~HClonesArray()
 {
 
     Print(1, "Destructor");
@@ -30,7 +30,7 @@ Analysis::HClonesArray::~HClonesArray()
 
 }
 
-void Analysis::HClonesArray::ResetBranches()
+void hanalysis::HClonesArray::ResetBranches()
 {
 
     Print(1, "Reset Branches");
@@ -54,7 +54,7 @@ void Analysis::HClonesArray::ResetBranches()
     Print(1,"Branches reset");
 }
 
-void Analysis::HDelphes::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
+void hanalysis::hdelphes::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
 {
 
     Print(1, "Get Branches");
@@ -76,7 +76,7 @@ void Analysis::HDelphes::HClonesArray::GetBranches(const ExRootTreeReader * cons
 
 }
 
-void Analysis::HDelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const TreeReader)
+void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const TreeReader)
 {
 
     Print(1, "Get Branches");
@@ -97,7 +97,7 @@ void Analysis::HDelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReade
 
 }
 
-void Analysis::HPgs::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
+void hanalysis::hpgs::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
 {
 
     Print(1, "Get Branches");
@@ -111,7 +111,7 @@ void Analysis::HPgs::HClonesArray::GetBranches(const ExRootTreeReader * const Tr
 
 }
 
-void Analysis::HParton::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
+void hanalysis::hparton::HClonesArray::GetBranches(const ExRootTreeReader * const TreeReader)
 {
 
     Print(1, "Get Branches");

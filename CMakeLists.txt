@@ -111,9 +111,13 @@ add_subdirectory(HJetProperties)
 add_subdirectory(HTest)
 add_subdirectory(HTopTagger)
 
-# option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
+# set(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
+# 
 # IF(BUILD_DOCUMENTATION)
-#   FIND_PACKAGE(Doxygen)
+# 
+# MESSAGE(${CMAKE_CURRENT_SOURCE_DIR})
+# 
+# FIND_PACKAGE(Doxygen)
 #   IF(NOT DOXYGEN_FOUND)
 #     MESSAGE(FATAL_ERROR
 #       "Doxygen is needed to build the documentation.")
@@ -123,7 +127,7 @@ add_subdirectory(HTopTagger)
 #   SET( doxyfile             ${PROJECT_BINARY_DIR}/Doxyfile              )
 #   SET( doxy_html_index_file ${CMAKE_CURRENT_BINARY_DIR}/html/index.html )
 #   SET( doxy_output_root     ${CMAKE_CURRENT_BINARY_DIR}                 ) # Pasted into Doxyfile.in
-#   SET( doxy_input           ${PROJECT_SOURCE_DIR}/src                   ) # Pasted into Doxyfile.in
+#   SET( doxy_input           ${CMAKE_CURRENT_SOURCE_DIR}                  ) # Pasted into Doxyfile.in
 #   SET( doxy_extra_files     ${CMAKE_CURRENT_SOURCE_DIR}/mainpage.dox    ) # Pasted into Doxyfile.in
 #  
 #   CONFIGURE_FILE( ${doxyfile_in} ${doxyfile} @ONLY )
@@ -136,7 +140,7 @@ add_subdirectory(HTopTagger)
 #                       # custom_command for ${doxyfile} generation
 #                       # but I still have to figure out how...
 #                       MAIN_DEPENDENCY ${doxyfile} ${doxyfile_in}
-#                       DEPENDS project_targets ${doxy_extra_files}
+#                       DEPENDS ${doxy_extra_files}
 #                       COMMENT "Generating HTML documentation")
 #  
 #   ADD_CUSTOM_TARGET( doc ALL DEPENDS ${doxy_html_index_file} )

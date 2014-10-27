@@ -6,6 +6,12 @@
 # include "ExRootAnalysis/ExRootTreeReader.h"
 
 # include "HObject.hh"
+# include "HClonesArray.hh"
+
+# include "HEvent.hh"
+# include "HEventDelphes.hh"
+# include "HEventParton.hh"
+# include "HEventPgs.hh"
 
 /**
  * @brief Input file infos
@@ -13,7 +19,7 @@
  * ProcessFolder has to be set
  *
  */
-class Analysis::HFile : public HObject
+class hanalysis::HFile : public HObject
 {
 
 public:
@@ -43,6 +49,10 @@ public:
      *
      */
     virtual ~HFile();
+    
+    HClonesArray *GetClonesArrays() const;
+    
+    HEvent *GetEvent() const;
 
     /**
      * @brief Path path to the MadGraph installation
@@ -130,7 +140,7 @@ private:
  * @brief unweighted MadGraph files
  *
  */
-class Analysis::HParton::HFile : public Analysis::HFile
+class hanalysis::hparton::HFile : public hanalysis::HFile
 {
 
 public:
@@ -178,7 +188,7 @@ private:
  * @brief PGS files
  *
  */
-class Analysis::HPgs::HFile : public Analysis::HFile
+class hanalysis::hpgs::HFile : public hanalysis::HFile
 {
 
 public:
@@ -226,7 +236,7 @@ private:
  * @brief Delphes files
  *
  */
-class Analysis::HDelphes::HFile : public Analysis::HFile
+class hanalysis::hdelphes::HFile : public hanalysis::HFile
 {
 
 public:

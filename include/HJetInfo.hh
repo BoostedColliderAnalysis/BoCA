@@ -12,7 +12,7 @@ using std::pair;
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class Analysis::HJetInfo: public HObject, public PseudoJet::UserInfoBase
+class hanalysis::HJetInfo: public HObject, public PseudoJet::UserInfoBase
 {
 
 public:

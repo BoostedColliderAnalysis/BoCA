@@ -9,7 +9,7 @@
  * @brief Delphes jets
  *
  */
-class Analysis::HDelphes::HJet : public Analysis::HJet
+class hanalysis::hdelphes::HJet : public hanalysis::HJet
 {
 
 public:
@@ -31,7 +31,7 @@ public:
      *
      * @return void
      */
-    void NewEvent(const Analysis::HClonesArray*const NewClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray*const NewClonesArrays);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -83,11 +83,11 @@ private:
     vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>);
 
     template <typename TClone>
-    Analysis::HJetInfo GetJetId(const TClone &Clone) {
+    hanalysis::HJetInfo GetJetId(const TClone &Clone) {
 
         Print(3, "Get Jet Id", Clone->Particles.GetEntriesFast());
 
-        Analysis::HJetInfo JetInfo;
+        hanalysis::HJetInfo JetInfo;
 
         for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
 

@@ -1,7 +1,7 @@
 # include "HEventPgs.hh"
 
 
-Analysis::HPgs::HEvent::HEvent()
+hanalysis::hpgs::HEvent::HEvent()
 {
 
     Print(1, "Constructor");
@@ -14,7 +14,7 @@ Analysis::HPgs::HEvent::HEvent()
 
 }
 
-Analysis::HPgs::HEvent::~HEvent()
+hanalysis::hpgs::HEvent::~HEvent()
 {
 
     Print(1, "Destructor");
@@ -24,7 +24,7 @@ Analysis::HPgs::HEvent::~HEvent()
 
 }
 
-void Analysis::HPgs::HEvent::NewEvent(const Analysis::HClonesArray*const ClonesArrays)
+void hanalysis::hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const ClonesArrays)
 {
 
     Print(2, "New Event");
@@ -38,7 +38,7 @@ void Analysis::HPgs::HEvent::NewEvent(const Analysis::HClonesArray*const ClonesA
 }
 
 
-vector<TLorentzVector> Analysis::HPgs::HEvent::GetLeptons()
+vector<TLorentzVector> hanalysis::hpgs::HEvent::GetLeptons()
 {
 
     Print(2, "Get Leptons");
@@ -50,11 +50,11 @@ vector<TLorentzVector> Analysis::HPgs::HEvent::GetLeptons()
 
 }
 
-void Analysis::HPgs::HEvent::GetJets()
+void hanalysis::hpgs::HEvent::GetJets()
 {
     Print(2, "Get Jets");
 
-    if (!HasJets) HasJets = Jets->GetJets(Analysis::HJet::Plain);
+    if (!HasJets) HasJets = Jets->GetJets(hanalysis::HJet::Plain);
 
 }
 
