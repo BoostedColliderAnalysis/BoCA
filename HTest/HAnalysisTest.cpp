@@ -1,13 +1,13 @@
 # include "HAnalysisTest.hh"
 
-HAnalysisTest::HAnalysisTest()
+htest::HAnalysis::HAnalysis()
 {
 
     Print(1, "Constructor");
 
 }
 
-vector<string> HAnalysisTest::GetStudyNameVector(){
+vector<string> htest::HAnalysis::GetStudyNameVector(){
 
     vector<string> StudyNameVector = {"Test","Second"};
 
@@ -15,7 +15,7 @@ vector<string> HAnalysisTest::GetStudyNameVector(){
 
 }
 
-vector<hanalysis::HFile*> HAnalysisTest::GetFiles(const string StudyName) const
+vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector", StudyName);
@@ -34,7 +34,7 @@ vector<hanalysis::HFile*> HAnalysisTest::GetFiles(const string StudyName) const
 }
 
 
-void HAnalysisTest::NewBranches(ExRootTreeWriter *TreeWriter)
+void htest::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -42,19 +42,19 @@ void HAnalysisTest::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-void HAnalysisTest::CloseFile()
+void htest::HAnalysis::CloseFile()
 {
     Print(1, "Close File");
 
 }
 
-class HHeavyHiggsJetTag : public hanalysis::HJetTag {
+class htest::HJetTag : public hanalysis::HJetTag {
 
     int GetBranchId(int, int);
 
 };
 
-int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
+int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
     Print(2, "Get Mother Id");
@@ -74,12 +74,12 @@ int HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool HAnalysisTest::Analysis(hanalysis::HEvent* Event,string StudyName)
+bool htest::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
 
-    HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    HJetTag * const HeavyHiggsJetTag = new HJetTag;
     Event->GetTaggedJets(HeavyHiggsJetTag);
 
 

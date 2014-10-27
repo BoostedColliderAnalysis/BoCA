@@ -50,13 +50,13 @@ public:
      *
      * @return void
      */
-    virtual bool GetJets(const HJetDetails);
+    virtual bool GetJets(const hanalysis::HJet::HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool ReadEFlow(const HJetDetails);
+    virtual bool ReadEFlow(const hanalysis::HJet::HJetDetails JetDetails);
 
     /**
      * @brief Get Gen Jet

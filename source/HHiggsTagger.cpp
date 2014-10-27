@@ -24,20 +24,21 @@ hanalysis::HHiggsTagger::~HHiggsTagger()
 
 }
 
-void hanalysis::HHiggsTagger::NewEvent(){
+void hanalysis::HHiggsTagger::NewEvent()
+{
 
     Print(2, "New Event");
 
 //     DiPolarity=0;
 
-    HiggsJet.reset(0,0,0,0);
+    HiggsJet.reset(0, 0, 0, 0);
 
 //     FatJet.reset(0,0,0,0);
 
 }
 
 
-PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJets, const vector<PseudoJet>& BottomJets, const vector<PseudoJet> &CharmJets)
+PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet> &EFlowJets, const vector<PseudoJet> &BottomJets, const vector<PseudoJet> &CharmJets)
 {
     Print(2, "GetHiggsJet");
 
@@ -47,7 +48,7 @@ PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJet
 
         if (MassDropJet == 0) {
 
-            Print(3,"No substructure found");
+            Print(3, "No substructure found");
             continue;
 
         }
@@ -80,7 +81,7 @@ PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet>& EFlowJet
 
     }                                                   // loop over fat jets
 
-    return (HiggsJet);
+    return HiggsJet;
 
 }
 
@@ -113,10 +114,10 @@ PseudoJet hanalysis::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, 
     Print(2, "GetFilteredJet");
 
     vector<PseudoJet> MassDropPieces = sorted_by_E(MassDropJet.pieces());
-    if (MassDropPieces.size() != 2) Print(0,"Number of Subjets",MassDropPieces.size());
+    if (MassDropPieces.size() != 2) Print(0, "Number of Subjets", MassDropPieces.size());
 
-    PseudoJet Parent1 = MassDropPieces[0];
-    PseudoJet Parent2 = MassDropPieces[1];
+    PseudoJet Parent1 = MassDropPieces.at(0);
+    PseudoJet Parent2 = MassDropPieces.at(1);
     float ParentCylinderDistance = Parent1.delta_R(Parent2);
 
     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
@@ -130,13 +131,13 @@ PseudoJet hanalysis::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, 
     fastjet::Filter HiggsFilter(FilterJetDefinition, SelectorHardest);
     PseudoJet FilteredJet = HiggsFilter(MassDropJet);
 
-    Print(3,"SubJets filtered");
+    Print(3, "SubJets filtered");
 
-    return (FilteredJet);
+    return FilteredJet;
 
 }
 
-void hanalysis::HHiggsTagger::GetSubJetSource(const vector<PseudoJet>& Particles, const int UserIndex)
+void hanalysis::HHiggsTagger::GetSubJetSource(const vector<PseudoJet> &Particles, const int UserIndex)
 {
 
     Print(2, "GetSubJetSource");
@@ -192,7 +193,7 @@ int hanalysis::HHiggsTagger::BTagger()
 
         if (PieceEta < SubJetEtaMax && PiecePt > SubJetPtMin) {
 
-            Print(3,"SubJet kinematics are fine");
+            Print(3, "SubJet kinematics are fine");
 
             float RandomPerMil = rand() % 1000;
             int PieceUserIndex = Piece.user_index();
@@ -202,22 +203,22 @@ int hanalysis::HHiggsTagger::BTagger()
 
                 ++BTagCounter;
 
-                Print(3,"Subjet tagged");
+                Print(3, "Subjet tagged");
 
             } else {
 
-                Print(3,"SubJet not tagged");
+                Print(3, "SubJet not tagged");
 
             }
         } else {
 
-            Print(3,"SubJet has bad kinematics");
+            Print(3, "SubJet has bad kinematics");
 
         }
 
     }
 
-    return (BTagCounter);
+    return BTagCounter;
 
 }
 
@@ -234,7 +235,7 @@ float hanalysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
         FatJet;
 
     vector<PseudoJet> SubJets = sorted_by_E(FilterJet.pieces());
-    if (SubJets.size() != 2) Print(0,"Number of SubJets",SubJets.size());
+    if (SubJets.size() != 2) Print(0, "Number of SubJets", SubJets.size());
     PseudoJet SubJet1 = SubJets[0];
     PseudoJet SubJet2 = SubJets[1];
 
@@ -251,7 +252,7 @@ float hanalysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
     DeltaR12 = SubJet1.delta_R(SubJet2);
 
     vector<PseudoJet> Constituents = FilterJet.constituents();
-    Print(3,"Number of Constituents",Constituents.size());
+    Print(3, "Number of Constituents", Constituents.size());
     for (unsigned ConstituentNumber = 0; ConstituentNumber < Constituents.size(); ConstituentNumber++) {
 
         PseudoJet Constituent = Constituents[ConstituentNumber];
@@ -308,11 +309,11 @@ float hanalysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 
     }
 
-    return (DiPolarity);
+    return DiPolarity;
 
 }
 
-void hanalysis::HHiggsTagger::SetEtaPhi(PseudoJet SubJet1, PseudoJet SubJet2)
+void hanalysis::HHiggsTagger::SetEtaPhi(PseudoJet &SubJet1, PseudoJet &SubJet2)
 {
     Print(2, "SetEtaPhi");
 
@@ -346,5 +347,5 @@ float hanalysis::HHiggsTagger::GetSubDeltaR()
     }
 
 
-    return (SubDeltaR);
+    return SubDeltaR;
 }

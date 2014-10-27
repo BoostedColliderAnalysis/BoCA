@@ -27,7 +27,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
+    void NewEvent(const HClonesArray *const ClonesArrays);
 
     vector<TLorentzVector>GetLeptons();
 
@@ -35,21 +35,21 @@ public:
 
     void GetEFlow();
 
-    void GetTaggedEFlow(hanalysis::HJetTag *const JetTag);
+    void GetTaggedEFlow(HJetTag *const JetTag);
 
     void GetIsolatedEFlow();
 
-    void GetIsoaltedTaggedEFlow(hanalysis::HJetTag *const JetTag);
+    void GetIsoaltedTaggedEFlow(HJetTag *const JetTag);
 
     void GetParticles();
 
     PseudoJet GetHiggs();
 
-    vector<PseudoJet> GetHiggsTopCandidates(hanalysis::HJetTag *const JetTag);
+    vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const JetTag);
 
-    vector<PseudoJet> GetTops(const hanalysis::HJetTag *const JetTag);
+    vector<PseudoJet> GetTops(HJetTag *const JetTag);
 
-    void GetTaggedJets(hanalysis::HJetTag *const JetTag);
+    void GetTaggedJets(HJetTag *const JetTag);
 
 private:
 

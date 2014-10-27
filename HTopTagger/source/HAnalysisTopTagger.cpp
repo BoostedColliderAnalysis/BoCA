@@ -1,11 +1,11 @@
 # include "HAnalysisTopTagger.hh"
 
-HAnalysisTopTagger::HAnalysisTopTagger()
+htoptagger::HAnalysis::HAnalysis()
 {
 
     Print(1, "Constructor");
 
-    DiscriminatorJetTag = new HDiscriminatorJetTag();
+    JetTag = new htoptagger::HJetTag();
 
     SubStructure = new hanalysis::HSubStructure();
 
@@ -13,25 +13,25 @@ HAnalysisTopTagger::HAnalysisTopTagger()
 
 }
 
-HAnalysisTopTagger::~HAnalysisTopTagger()
+htoptagger::HAnalysis::~HAnalysis()
 {
 
     Print(1, "Destructor");
 
-    delete DiscriminatorJetTag;
+    delete JetTag;
 
     delete SubStructure;
 
 }
 
-vector<string> HAnalysisTopTagger::GetStudyNames() const
+vector<string> htoptagger::HAnalysis::GetStudyNames() const
 {
 
     return  {"Top"};
 
 }
 
-vector<hanalysis::HFile *> HAnalysisTopTagger::GetFiles(const string StudyName) const
+vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const string StudyName) const
 {
 
     Print(1, "Set File Vector");
@@ -72,7 +72,7 @@ vector<hanalysis::HFile *> HAnalysisTopTagger::GetFiles(const string StudyName) 
 }
 
 
-void HAnalysisTopTagger::NewBranches(ExRootTreeWriter *TreeWriter)
+void htoptagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 {
     Print(1, "New File");
 
@@ -82,13 +82,13 @@ void HAnalysisTopTagger::NewBranches(ExRootTreeWriter *TreeWriter)
 
 }
 
-void HAnalysisTopTagger::CloseFile()
+void htoptagger::HAnalysis::CloseFile()
 {
     Print(1, "Close File");
 
 }
 
-int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
+int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId) const
 {
 
     Print(3, "Get Branch Id", ParticleId);
@@ -111,13 +111,13 @@ int HDiscriminatorJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
 }
 
-bool HAnalysisTopTagger::Analysis(hanalysis::HEvent * const Event, const string StudyName)
+bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent * const Event, const string StudyName)
 {
 
     Print(2, "Analysis", StudyName);
 
 
-    const vector<PseudoJet> CandidateJets = Event->GetTops(DiscriminatorJetTag);
+    const vector<PseudoJet> CandidateJets = Event->GetTops(JetTag);
 
     if (CandidateJets.size() < 1) {
 

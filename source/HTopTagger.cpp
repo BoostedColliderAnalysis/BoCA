@@ -15,7 +15,7 @@ hanalysis::HTopTagger::~HTopTagger()
 
 }
 
-vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > EFlowJets)
+vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > &EFlowJets)
 {
 
     Print(2, "Tagging Top");

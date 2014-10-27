@@ -8,8 +8,6 @@ hanalysis::HObject::HObject() :
     TauMass(1.776),
     MuonMass(0.1134),
     ElectronMass(0.000511),
-//     HiggsUserIndex(1000),
-//     TopUserIndex(2000),
     EmptyUserIndex(-1),
     OneSigma(0.6827),
     TwoSigma(0.9545),
@@ -78,7 +76,7 @@ float hanalysis::HObject::GetDeltaPhi(const float Phi, const float RefPhi) const
 
 }
 
-void hanalysis::HObject::Print(const int Severity, const string Description) const
+void hanalysis::HObject::Print(const int Severity, const string& Description) const
 {
 
     if (Severity <= DebugLevel) {
@@ -90,7 +88,7 @@ void hanalysis::HObject::Print(const int Severity, const string Description) con
 }
 
 
-void hanalysis::HObject::Printer(const string Description) const
+void hanalysis::HObject::Printer(const string& Description) const
 {
 
     const char Separator = ' ';

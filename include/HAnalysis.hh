@@ -43,11 +43,11 @@ protected:
 
     };
 
-    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const string ExportTreeName);
+    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const string &ExportTreeName);
 
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
-    TFile *GetExportFile(const string StudyName) const;
+    TFile *GetExportFile(const string &StudyName) const;
 
     void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 

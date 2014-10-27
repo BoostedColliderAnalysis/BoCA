@@ -3,7 +3,7 @@
 # include "TObjArray.h"
 
 
-hanalysis::HFactory::HFactory(HMva *NewMva)
+hanalysis::HFactory::HFactory(HMva * const NewMva)
 {
 
     Print(1 , "Constructor");
@@ -94,9 +94,7 @@ void hanalysis::HFactory::GetTrees()
         TFile *SignalFile = TFile::Open(SignalFileName.c_str());
         Print(1 , "Signal File", SignalFile->GetName());
 
-        int TreeSum = Mva->SignalTreeNames.size();
-
-        for (int TreeNumber = 0; TreeNumber < TreeSum; ++TreeNumber) {
+        for (int TreeNumber : HRange(Mva->SignalTreeNames.size())) {
 
             AddTree(SignalFile, Mva->SignalTreeNames[TreeNumber], 1);
 
@@ -121,7 +119,7 @@ void hanalysis::HFactory::GetTrees()
 
 }
 
-void hanalysis::HFactory::AddTree(const TFile *const File, const string TreeName, const bool Signal)
+void hanalysis::HFactory::AddTree(const TFile *const File, const string &TreeName, const bool Signal)
 {
 
     Print(1 , "Add Tree", TreeName);
@@ -136,10 +134,10 @@ void hanalysis::HFactory::AddTree(const TFile *const File, const string TreeName
     HInfoBranch *Info = (HInfoBranch *) ClonesArray->First();
 
 //     const float Crosssection = Info->Crosssection;
-//     cosnt float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
+    const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
     delete TreeReader;
 
-    const float Crosssection = 1; //FIXME we dont use the crosssection
+//     const float Crosssection = 1; //FIXME we dont use the crosssection
 
     Print(1 , "Weight", Crosssection);
 
@@ -161,13 +159,10 @@ void hanalysis::HFactory::PrepareTrainingAndTestTree()
 
     Print(1 , "PrepareTrainingAndTestTree");
 
-    const TCut SignalCut = Mva->Cut;
-    const TCut BackgroundCut = Mva->Cut;
-
 //     string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
     const string TrainingAndTestOptions = "";
 
-    Factory->PrepareTrainingAndTestTree(SignalCut, BackgroundCut, TrainingAndTestOptions);
+    Factory->PrepareTrainingAndTestTree(Mva->Cut, Mva->Cut, TrainingAndTestOptions);
 
 }
 

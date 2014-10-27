@@ -38,7 +38,7 @@ public:
      *
      * @return void
      */
-    bool GetJets(const HJetDetails);
+    bool GetJets(hanalysis::HJet::HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets

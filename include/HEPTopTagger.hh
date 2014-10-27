@@ -1,9 +1,6 @@
 #ifndef __HEPTOPTAGGER_HH__
 #define __HEPTOPTAGGER_HH__
 
-// using namespace std;
-// using namespace fastjet;
-
 # include "fastjet/JetDefinition.hh"
 # include "fastjet/ClusterSequence.hh"
 
@@ -14,11 +11,7 @@ using std::cout;
 using std::endl;
 using std::min;
 
-using fastjet::JetAlgorithm;
-using fastjet::ClusterSequence;
-using fastjet::JetDefinition;
 using fastjet::PseudoJet;
-using fastjet::cambridge_algorithm;
 
 class HEPTopTagger
 {
@@ -87,10 +80,10 @@ public:
     void set_nfilt(unsigned nfilt) {
         _nfilt = nfilt;
     }
-    void set_filtering_jetalgorithm(JetAlgorithm jet_algorithm) {
+    void set_filtering_jetalgorithm(fastjet::JetAlgorithm jet_algorithm) {
         _jet_algorithm = jet_algorithm;
     }
-    void set_reclustering_jetalgorithm(JetAlgorithm jet_algorithm) {
+    void set_reclustering_jetalgorithm(fastjet::JetAlgorithm jet_algorithm) {
         _jet_algorithm_recluster = jet_algorithm;
     }
     //
@@ -99,18 +92,18 @@ public:
     vector<double> dr_values() const;
 
 private:
-    const ClusterSequence *_cs;
+    const fastjet::ClusterSequence *_cs;
     const PseudoJet _jet;
     const double _mtmass, _mwmass;
     double _mass_drop_threshold;
-    double _max_subjet_mass; // stop when subjet mass < 30 GeV
+    double _max_subjet_mass; ///> stop when subjet mass < 30 GeV
     double _mtmin, _mtmax;
     double _rmin, _rmax;
     double _m23cut, _m13cutmin, _m13cutmax;
     size_t _nfilt;
     // filtering algorithm
-    JetAlgorithm _jet_algorithm;
-    JetAlgorithm _jet_algorithm_recluster;
+    fastjet::JetAlgorithm _jet_algorithm;
+    fastjet::JetAlgorithm _jet_algorithm_recluster;
     bool debugg;
 
     bool _is_masscut_passed;
@@ -125,7 +118,7 @@ private:
     vector<vector<PseudoJet> > _candjets;
 
     void FindHardSubst(const PseudoJet &jet, vector<fastjet::PseudoJet> &t_parts);
-    vector<PseudoJet> Filtering(const vector <PseudoJet> &top_constits, const JetDefinition &filtering_def);
+    vector<PseudoJet> Filtering(const vector <PseudoJet> &top_constits, const fastjet::JetDefinition &filtering_def);
     void store_topsubjets(const vector<PseudoJet> &top_subs);
     bool check_mass_criteria(const vector<fastjet::PseudoJet> &top_subs) const;
     double check_cos_theta(const PseudoJet &jet, const PseudoJet &subj1, const PseudoJet &subj2) const;

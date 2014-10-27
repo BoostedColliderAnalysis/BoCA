@@ -50,7 +50,7 @@ public:
      * @brief Constructor
      *
      */
-    HReader(HMva *);
+    HReader(hanalysis::HMva *NewMva);
 
     /**
      * @brief Destructor
@@ -121,7 +121,7 @@ private:
 
     void LatexFooter();
 
-    void LatexContent(const string);
+    void LatexContent(const string &TreeName);
 
     float GetLuminosity(const float) const;
 

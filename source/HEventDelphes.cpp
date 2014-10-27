@@ -52,7 +52,7 @@ hanalysis::hdelphes::HEvent::~HEvent()
 //
 // }
 
-void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray *const ClonesArrays)
+void hanalysis::hdelphes::HEvent::NewEvent(const HClonesArray *const ClonesArrays)
 {
 
     Print(2, "New Event");
@@ -98,11 +98,11 @@ void hanalysis::hdelphes::HEvent::GetJets()
 {
     Print(2, "Get Jets");
 
-    if (!HasJets) HasJets = Jets->GetJets(hanalysis::HJet::Plain);
+    if (!HasJets) HasJets = Jets->GetJets(HJet::Plain);
 
 }
 
-void hanalysis::hdelphes::HEvent::GetTaggedJets(hanalysis::HJetTag *const JetTag)
+void hanalysis::hdelphes::HEvent::GetTaggedJets(HJetTag *const JetTag)
 {
     Print(2, "Get Tagged Jets");
 
@@ -114,7 +114,7 @@ void hanalysis::hdelphes::HEvent::GetTaggedJets(hanalysis::HJetTag *const JetTag
     if (!HasJets) {
 
         Jets->JetTag = JetTag;
-        HasJets = Jets->GetJets(hanalysis::HJet::Tagging);
+        HasJets = Jets->GetJets(HJet::Tagging);
 
     }
 
@@ -126,12 +126,12 @@ void hanalysis::hdelphes::HEvent::GetEFlow()
 
     Print(2, "Get EFlow");
 
-    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(hanalysis::HJet::Plain);
+    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Plain);
 
 }
 
 
-void hanalysis::hdelphes::HEvent::GetTaggedEFlow(hanalysis::HJetTag *const JetTag)
+void hanalysis::hdelphes::HEvent::GetTaggedEFlow(HJetTag *const JetTag)
 {
 
     Print(2, "Get EFlow");
@@ -140,7 +140,7 @@ void hanalysis::hdelphes::HEvent::GetTaggedEFlow(hanalysis::HJetTag *const JetTa
 
         Jets->JetTag = JetTag;
 
-        HasEFlow = Jets->ReadEFlow(hanalysis::HJet::HJet::Tagging);
+        HasEFlow = Jets->ReadEFlow(HJet::Tagging);
 
     }
 
@@ -152,12 +152,12 @@ void hanalysis::hdelphes::HEvent::GetIsolatedEFlow()
 
     Print(2, "Get EFlow");
 
-    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(hanalysis::HJet::Isolation);
+    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Isolation);
 
 }
 
 
-void hanalysis::hdelphes::HEvent::GetIsoaltedTaggedEFlow(hanalysis::HJetTag *const JetTag)
+void hanalysis::hdelphes::HEvent::GetIsoaltedTaggedEFlow(HJetTag *const JetTag)
 {
 
     Print(2, "Get EFlow");
@@ -166,7 +166,7 @@ void hanalysis::hdelphes::HEvent::GetIsoaltedTaggedEFlow(hanalysis::HJetTag *con
 
         Jets->JetTag = JetTag;
 
-        HasEFlow = Jets->ReadEFlow(hanalysis::HJet::TaggingIsolation);
+        HasEFlow = Jets->ReadEFlow(HJet::TaggingIsolation);
 
     }
 
@@ -190,14 +190,16 @@ PseudoJet hanalysis::hdelphes::HEvent::GetHiggs()
 
 }
 
-vector<PseudoJet> hanalysis::hdelphes::HEvent::GetTops(const hanalysis::HJetTag *const JetTag)
+vector<PseudoJet> hanalysis::hdelphes::HEvent::GetTops(HJetTag *const JetTag)
 {
 
-    Print(2, "Get Tops");
+    Print(2, "Get Tops", JetTag->GetBranchId(0,0));
 
     GetEFlow();
 
-    vector<PseudoJet> TopJetVector = TopTagger->GetTops(Jets->GetEFlowJets());
+    vector<PseudoJet> EFlowJets = Jets->GetEFlowJets();
+
+    vector<PseudoJet> TopJetVector = TopTagger->GetTops(EFlowJets);
 
     return (TopJetVector);
 
@@ -246,10 +248,10 @@ vector<PseudoJet> hanalysis::hdelphes::HEvent::GetTops(const hanalysis::HJetTag 
 vector<PseudoJet> hanalysis::hdelphes::HEvent::GetHiggsTopCandidates(HJetTag * const JetTag) // FIXME why does this not work
 {
     Print(2, "GetHiggsTopCandidates");
-    
+
 //     for(auto HeavyParticle : JetTag->HeavyParticles) {
 //         Print(0,"HeavyParticle",HeavyParticle);
-//     }   
+//     }
 
     GetIsoaltedTaggedEFlow(JetTag);
 //     GetParticles();

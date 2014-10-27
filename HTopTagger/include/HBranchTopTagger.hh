@@ -3,13 +3,21 @@
 
 # include "TObject.h"
 
+namespace htoptagger{
+
+  class HAnalysis;
+  class HCandidateBranch;
+  class HJetTag;
+
+}
+
 /**
  * \class HCandidateBranch
  *
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class HCandidateBranch : public TObject
+class htoptagger::HCandidateBranch : public TObject
 {
 
 public:
@@ -64,86 +72,86 @@ private:
 
 };
 
-/**
-* @brief Class for saving leptons to root
-*
-*/
-class HLeptonBranch : public TObject
-{
-
-public:
-
-    float Mass;
-    float Pt;
-    float Eta;
-    float Phi;
-    int Charge;
-
-    HLeptonBranch();
-
-    virtual ~HLeptonBranch();
-
-private:
-
-    void reset();
-
-    ClassDef(HLeptonBranch, 1)
-
-};
-
-/**
- * @brief Class for saving leptons to root
- *
- */
-class HConstituentBranch : public TObject
-{
-
-public:
-
-    float Eta;
-    float Phi;
-    float Pt;
-    int Id;
-
-    HConstituentBranch();
-
-    virtual ~HConstituentBranch();
-
-private:
-
-    void reset();
-
-    ClassDef(HConstituentBranch, 1)
-
-};
-
-
-/**
- * @brief Class for saving leptons to root
- *
- */
-class HJetPropertiesBranch : public TObject
-{
-
-public:
-
-    float Mass;
-    float Pt;
-    float Eta;
-    float Phi;
-    float Radius;
-
-    HJetPropertiesBranch();
-
-    virtual ~HJetPropertiesBranch();
-
-private:
-
-    void reset();
-
-    ClassDef(HJetPropertiesBranch, 1)
-
-};
+// /**
+// * @brief Class for saving leptons to root
+// *
+// */
+// class HLeptonBranch : public TObject
+// {
+//
+// public:
+//
+//     float Mass;
+//     float Pt;
+//     float Eta;
+//     float Phi;
+//     int Charge;
+//
+//     HLeptonBranch();
+//
+//     virtual ~HLeptonBranch();
+//
+// private:
+//
+//     void reset();
+//
+//     ClassDef(HLeptonBranch, 1)
+//
+// };
+//
+// /**
+//  * @brief Class for saving leptons to root
+//  *
+//  */
+// class HConstituentBranch : public TObject
+// {
+//
+// public:
+//
+//     float Eta;
+//     float Phi;
+//     float Pt;
+//     int Id;
+//
+//     HConstituentBranch();
+//
+//     virtual ~HConstituentBranch();
+//
+// private:
+//
+//     void reset();
+//
+//     ClassDef(HConstituentBranch, 1)
+//
+// };
+//
+//
+// /**
+//  * @brief Class for saving leptons to root
+//  *
+//  */
+// class HJetPropertiesBranch : public TObject
+// {
+//
+// public:
+//
+//     float Mass;
+//     float Pt;
+//     float Eta;
+//     float Phi;
+//     float Radius;
+//
+//     HJetPropertiesBranch();
+//
+//     virtual ~HJetPropertiesBranch();
+//
+// private:
+//
+//     void reset();
+//
+//     ClassDef(HJetPropertiesBranch, 1)
+//
+// };
 
 
 # endif

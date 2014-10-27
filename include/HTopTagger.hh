@@ -22,7 +22,7 @@ public:
      * @param HadronVector ...
      * @return void
      */
-    vector< PseudoJet > GetTops(vector< PseudoJet > EFlowJets);
+    vector< PseudoJet > GetTops(vector< PseudoJet > &EFlowJets);
 
     /**
      * @brief constructor

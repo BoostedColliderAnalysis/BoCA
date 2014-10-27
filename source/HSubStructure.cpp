@@ -42,7 +42,7 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     }
 
-    if (PieceJets[0] == PieceJets[1]) {
+    if (PieceJets.at(0) == PieceJets.at(1)) {
 
         Print(1, "Just one Piece Jet");
         return 0;
@@ -51,7 +51,7 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     // SubJets
 
-    SubJet1.Mass = PieceJets[0].m();
+    SubJet1.Mass = PieceJets.at(0).m();
 
     if (SubJet1.Mass <= 0) {
 
@@ -60,11 +60,11 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     }
 
-    SubJet2.Mass = PieceJets[1].m();
+    SubJet2.Mass = PieceJets.at(1).m();
     if (SubJet2.Mass <= 0) SubJet2.Mass = 0;
 
-    SubJet1.Pt = PieceJets[0].pt();
-    SubJet2.Pt = PieceJets[1].pt();
+    SubJet1.Pt = PieceJets.at(0).pt();
+    SubJet2.Pt = PieceJets.at(1).pt();
 
     if (SubJet1.Pt <= 0 || SubJet2.Pt <= 0) {
 
@@ -74,20 +74,20 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
     }
 
 
-    Global.DeltaR = PieceJets[0].delta_R(PieceJets[1]);
+    Global.DeltaR = PieceJets.at(0).delta_R(PieceJets.at(1));
 
-    SubJet1.DeltaR = PieceJets[0].delta_R(CandidateJet);
-    SubJet2.DeltaR = PieceJets[1].delta_R(CandidateJet);
+    SubJet1.DeltaR = PieceJets.at(0).delta_R(CandidateJet);
+    SubJet2.DeltaR = PieceJets.at(1).delta_R(CandidateJet);
 
     //         float Asymmetry = SubJet2Pt * SubJetDeltaR / CandidateMass;
 
     // Get SubJet coordinates in Higgs Jet coordinates
 
-    SubJet1.Eta = PieceJets[0].eta() - CandidateJet.eta();
-    SubJet2.Eta = PieceJets[1].eta() - CandidateJet.eta();
+    SubJet1.Eta = PieceJets.at(0).eta() - CandidateJet.eta();
+    SubJet2.Eta = PieceJets.at(1).eta() - CandidateJet.eta();
 
-    SubJet1.Phi = PieceJets[0].delta_phi_to(CandidateJet);
-    SubJet2.Phi = PieceJets[1].delta_phi_to(CandidateJet);
+    SubJet1.Phi = PieceJets.at(0).delta_phi_to(CandidateJet);
+    SubJet2.Phi = PieceJets.at(1).delta_phi_to(CandidateJet);
 
     // move subjet1 together with subjet2 to origin
 
@@ -105,7 +105,6 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
     }
 
     SubJetRatio =  GetPosDistance() / SubJetDistance;
-
 
     return 1;
 
@@ -143,8 +142,8 @@ bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, Ex
 
         if (Distance > DeltaR) DeltaR = Distance;
 
-        const float Distance1 = ConstituentJet.delta_R(CandidateJet.pieces()[0]);
-        const float Distance2 = ConstituentJet.delta_R(CandidateJet.pieces()[1]);
+        const float Distance1 = ConstituentJet.delta_R(CandidateJet.pieces().at(0));
+        const float Distance2 = ConstituentJet.delta_R(CandidateJet.pieces().at(1));
 
         if (Distance1 < Distance2) {
             SubJet1Pt += ConstituentJet.pt();
@@ -206,13 +205,12 @@ bool hanalysis::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const
     vector<PseudoJet> PieceJets = CandidateJet.pieces();
     std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
 
-    if (!(PieceJets.size() == 2)) {
+    if (PieceJets.size() != 2) {
 
         Print(1, "Wrong Number of SubJets", PieceJets.size());
         return 0;
 
     }
-
 
     // Isolation
 
@@ -264,7 +262,7 @@ float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) con
 //     if (SubJetVector.size() != 2) Print(0, "not two subjets");
 //
 //     // Filtering
-//     float ParentCylinderDistance = SubJetVector[0].delta_R(SubJetVector[1]);
+//     float ParentCylinderDistance = SubJetVector.at(0).delta_R(SubJetVector.at(1));
 //     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
 //     float MinimalCylinderDistance = 0.35;
 //     float FilterCylinderDistance = min(ParentCylinderDistance / 2, MinimalCylinderDistance);
@@ -282,23 +280,23 @@ float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) con
 
     float Eta1, Eta2, Phi1, Phi2;
 
-    if (SubJetVector[0].eta() < SubJetVector[1].eta()) {
+    if (SubJetVector.at(0).eta() < SubJetVector.at(1).eta()) {
 
-        Eta1 = SubJetVector[0].eta();
-        Phi1 = SubJetVector[0].phi_std();
-        Eta2 = SubJetVector[1].eta();
-        Phi2 = SubJetVector[1].phi_std();
+        Eta1 = SubJetVector.at(0).eta();
+        Phi1 = SubJetVector.at(0).phi_std();
+        Eta2 = SubJetVector.at(1).eta();
+        Phi2 = SubJetVector.at(1).phi_std();
 
     } else {
 
-        Eta1 = SubJetVector[1].eta();
-        Phi1 = SubJetVector[1].phi_std();
-        Eta2 = SubJetVector[0].eta();
-        Phi2 = SubJetVector[0].phi_std();
+        Eta1 = SubJetVector.at(1).eta();
+        Phi1 = SubJetVector.at(1).phi_std();
+        Eta2 = SubJetVector.at(0).eta();
+        Phi2 = SubJetVector.at(0).phi_std();
 
     }
 
-    float DeltaR12 = SubJetVector[0].delta_R(SubJetVector[1]);
+    float DeltaR12 = SubJetVector.at(0).delta_R(SubJetVector.at(1));
 
     float DiPolarity = 0;
 
@@ -311,8 +309,8 @@ float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) con
         const float DeltaEta = -(Eta2 - Eta1);
         const float EtaPhi = Eta2 * Phi1 - Eta1 * Phi2;
 
-        const float ConstituentDeltaR1 = Constituent.delta_R(SubJetVector[0]);
-        const float ConstituentDeltaR2 = Constituent.delta_R(SubJetVector[1]);
+        const float ConstituentDeltaR1 = Constituent.delta_R(SubJetVector.at(0));
+        const float ConstituentDeltaR2 = Constituent.delta_R(SubJetVector.at(1));
         const float ConstituentDeltaR3 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
         float Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
         float Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);

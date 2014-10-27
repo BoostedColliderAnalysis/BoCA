@@ -191,7 +191,7 @@ private:
         return DeltaEta() * Phi0;
     }
 
-    void SetEtaPhi(PseudoJet, PseudoJet);
+    void SetEtaPhi(PseudoJet &SubJet1, PseudoJet &SubJet2);
 
     float GetSubDeltaR();
 

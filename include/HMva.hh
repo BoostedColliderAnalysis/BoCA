@@ -59,7 +59,7 @@ public :
 
     HObservable();
 
-    HObservable(float *const NewValue, const string NewExpression, const string NewTitle, const string NewUnit, const string NewLatex);
+    HObservable(float *const NewValue, const string &NewExpression, const string &NewTitle, const string &NewUnit, const string &NewLatex);
 
     float *Value;
 
@@ -174,13 +174,13 @@ protected:
 
     };
 
-    HObservable NewObservable(float *const, const string, const string, const string, const string) const;
+    HObservable NewObservable(float *const Value, const string &Expression, const string &Title, const string &Unit, const string &Latex) const;
 
-    HObservable NewObservable(float *const, const string, const string, const string) const;
+    HObservable NewObservable(float *const Value, const string &Expression, const string &Title, const string &Unit) const;
 
-    HObservable NewObservable(float *const, const string, const string) const;
+    HObservable NewObservable(float *const Value, const string &Expression, const string &Title) const;
 
-    HObservable NewObservable(float *const, const string) const;
+    HObservable NewObservable(float *const Value, const string &Expression) const;
 
 private:
 

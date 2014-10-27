@@ -44,15 +44,15 @@ namespace hanalysis{
   class HMva;
   class HFactory;
   class HReader;
-  
-  
-  
+
+
+
   /**
    * @brief Delphes analysis library parts
    *
    */
   namespace hdelphes{
-      
+
       class HClonesArray;
       class HClonesArraySnowmass;
       class HFile;
@@ -60,34 +60,34 @@ namespace hanalysis{
       class HJet;
       class HLepton;
       class HParticle;
-      
+
   }
-  
+
   /**
    * @brief Parton level analysis library parts
    *
    */
   namespace hparton{
-      
+
       class HClonesArray;
       class HFile;
       class HEvent;
       class HParticle;
-      
+
   }
-  
+
   /**
    * @brief Pgs analysis library parts
    *
    */
   namespace hpgs{
-      
+
       class HClonesArray;
       class HFile;
       class HEvent;
       class HLepton;
       class HJet;
-      
+
   }
 
 }
@@ -120,7 +120,7 @@ public:
      * @param  Description of the debug message
      * @return void
      */
-    void Print(const int Severity, const string Description) const;
+    void Print(const int Severity, const string &Description) const;
 
     /**
      * @brief Print a debug messages
@@ -377,7 +377,7 @@ private:
      * @param  string Function Name
      * @return void
      */
-    void Printer(const string) const;
+    void Printer(const string&) const;
 
 };
 

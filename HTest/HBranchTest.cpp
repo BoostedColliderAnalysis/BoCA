@@ -1,17 +1,17 @@
 # include "HBranchTest.hh"
 
-ClassImp(HCandidateBranch)
+ClassImp(htest::HCandidateBranch)
 
-HCandidateBranch::HCandidateBranch()
+htest::HCandidateBranch::HCandidateBranch()
 {
 
     reset();
 
 }
 
-HCandidateBranch::~HCandidateBranch() {}
+htest::HCandidateBranch::~HCandidateBranch() {}
 
-void HCandidateBranch::reset()
+void htest::HCandidateBranch::reset()
 {
 
     int InitialValue = -10;

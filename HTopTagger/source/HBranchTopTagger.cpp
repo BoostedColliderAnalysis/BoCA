@@ -1,17 +1,17 @@
 # include "HBranchTopTagger.hh"
 
-ClassImp(HCandidateBranch)
+ClassImp(htoptagger::HCandidateBranch)
 
-HCandidateBranch::HCandidateBranch()
+htoptagger::HCandidateBranch::HCandidateBranch()
 {
 
     reset();
 
 }
 
-HCandidateBranch::~HCandidateBranch() {}
+htoptagger::HCandidateBranch::~HCandidateBranch() {}
 
-void HCandidateBranch::reset()
+void htoptagger::HCandidateBranch::reset()
 {
 
     int InitialValue = -10;
@@ -20,7 +20,7 @@ void HCandidateBranch::reset()
     Pt = InitialValue;
     Eta = InitialValue;
     Phi = InitialValue;
-    
+
     DeltaR = InitialValue;
     SubJetsDeltaR = InitialValue;
     Asymmetry = InitialValue;
@@ -56,78 +56,78 @@ void HCandidateBranch::reset()
 
 }
 
-ClassImp(HLeptonBranch)
-
-HLeptonBranch::HLeptonBranch()
-{
-
-    reset();
-
-}
-
-HLeptonBranch::~HLeptonBranch() {}
-
-void HLeptonBranch::reset()
-{
-
-    int InitialValue = -10;
-
-    Mass = InitialValue;
-    Pt = InitialValue;
-    Eta = InitialValue;
-    Phi = InitialValue;
-    Charge = InitialValue;
-
-}
-
-
-ClassImp(HConstituentBranch)
-
-HConstituentBranch::HConstituentBranch()
-{
-
-  reset();
-
-}
-
-HConstituentBranch::~HConstituentBranch() {}
-
-void HConstituentBranch::reset()
-{
-
-  int InitialValue = -100;
-
-  Eta = InitialValue;
-  Phi = InitialValue;
-  Pt = InitialValue;
-  Id = InitialValue;
-
-}
-
-ClassImp(HJetPropertiesBranch)
-
-HJetPropertiesBranch::HJetPropertiesBranch()
-{
-    
-    reset();
-    
-}
-
-HJetPropertiesBranch::~HJetPropertiesBranch() {}
-
-void HJetPropertiesBranch::reset()
-{
-    
-    int InitialValue = -10;
-    
-    Mass = InitialValue;
-    Pt = InitialValue;
-    
-    Eta = InitialValue;
-    Phi = InitialValue;
-    Radius = InitialValue;
-    
-}
-
-
-ClassImp(HConstituentBranch)
+// ClassImp(HLeptonBranch)
+//
+// HLeptonBranch::HLeptonBranch()
+// {
+//
+//     reset();
+//
+// }
+//
+// HLeptonBranch::~HLeptonBranch() {}
+//
+// void HLeptonBranch::reset()
+// {
+//
+//     int InitialValue = -10;
+//
+//     Mass = InitialValue;
+//     Pt = InitialValue;
+//     Eta = InitialValue;
+//     Phi = InitialValue;
+//     Charge = InitialValue;
+//
+// }
+//
+//
+// ClassImp(HConstituentBranch)
+//
+// HConstituentBranch::HConstituentBranch()
+// {
+//
+//   reset();
+//
+// }
+//
+// HConstituentBranch::~HConstituentBranch() {}
+//
+// void HConstituentBranch::reset()
+// {
+//
+//   int InitialValue = -100;
+//
+//   Eta = InitialValue;
+//   Phi = InitialValue;
+//   Pt = InitialValue;
+//   Id = InitialValue;
+//
+// }
+//
+// ClassImp(HJetPropertiesBranch)
+//
+// HJetPropertiesBranch::HJetPropertiesBranch()
+// {
+//
+//     reset();
+//
+// }
+//
+// HJetPropertiesBranch::~HJetPropertiesBranch() {}
+//
+// void HJetPropertiesBranch::reset()
+// {
+//
+//     int InitialValue = -10;
+//
+//     Mass = InitialValue;
+//     Pt = InitialValue;
+//
+//     Eta = InitialValue;
+//     Phi = InitialValue;
+//     Radius = InitialValue;
+//
+// }
+//
+//
+// ClassImp(HConstituentBranch)

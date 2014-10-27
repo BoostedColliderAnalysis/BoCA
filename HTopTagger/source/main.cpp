@@ -2,12 +2,12 @@
 
 int main()
 {
-    HAnalysisTopTagger *Analysis = new HAnalysisTopTagger();
-        
+    hanalysis::HAnalysis *Analysis = new htoptagger::HAnalysis();
+
     Analysis->AnalysisLoop();
-    
+
     delete Analysis;
-    
+
     return 1;
-    
+
 }

@@ -29,7 +29,7 @@ void hanalysis::hdelphes::HJet::NewEvent(const hanalysis::HClonesArray *const Ne
 
 }
 
-bool hanalysis::hdelphes::HJet::GetJets(HJetDetails JetDetails)
+bool hanalysis::hdelphes::HJet::GetJets(const HJetDetails JetDetails)
 {
 
     Print(2, "Get Jets", ClonesArrays->JetSum());
@@ -125,10 +125,8 @@ int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
 
     }
 
-    int MotherId = EmptyId;
     const int Position = ClonesArrays->ParticleClonesArray->IndexOf(Object);
-//     GenParticle *const ParticleClone = (GenParticle *) Object;
-
+    int MotherId = EmptyId;
     MotherId = GetMotherId(MotherId, Position);
 
     Print(3, "Mother Id", MotherId);
@@ -145,14 +143,11 @@ int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
 int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
 {
 
-    Print(3, "Get Mother Id");
-    GenParticle *ParticleClone;
+    Print(3, "Get Mother Id", Position);
     const int EmptyPosition = -1;
-    
-    
 
-    while (Position != EmptyPosition && 
-        JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles) 
+    while (Position != EmptyPosition &&
+        JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles)
 //         &&Topology.at(Position) == EmptyId
     ) {
 
@@ -161,10 +156,10 @@ int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
 //     Print(0,"120",Topology.at(12));
 //         } else {
 //             BranchId = Topology.at(Position);
-//             break;            
+//             break;
 //         }
 
-        ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
+         const GenParticle * const ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
 
 //         if (Position == 12)Print(0, "HiggsBottom", Topology.at(Position));
 
@@ -267,40 +262,40 @@ bool hanalysis::hdelphes::HJet::ReadEFlow(const HJetDetails JetDetails)
     if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(JetDetails);
     if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(JetDetails);
 
-//     for (int Position : HRange(ClonesArrays->ParticleSum())) {
-// //     for (const int Position : HRange(100)) {
-// 
-//         const GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
-// 
-//         std::cout << std::left << std::setw(10) << std::setfill(' ') << Position
-//                   << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Topology.at(Position))
-//                   << std::left << std::setw(10) << std::setfill(' ') << Particle->Status
-//                   << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Particle->PID)
-//                   << std::left << std::setw(10) << std::setfill(' ') << Particle->M1;
-// 
-//         if (Particle->M1 != -1) {
-// 
-//             std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M1))->PID);
-// 
-//         } else {
-// 
-//             std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
-// 
-//         };
-// 
-//         std::cout << std::left << std::setw(10) << std::setfill(' ') << Particle->M2;
-// 
-//         if (Particle->M2 != -1) {
-//             std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M2))->PID);
-//         } else {
-//             std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
-//         };
-// 
-//         std::cout         << std::left << std::setw(10) << std::setfill(' ') << Particle->D1
-//                           << std::left << std::setw(10) << std::setfill(' ') << Particle->D2
-//                           << std::endl;
-//     }
-//     Print(1, "");
+    for (int Position : HRange(ClonesArrays->ParticleSum())) {
+//     for (const int Position : HRange(100)) {
+
+        const GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
+
+        std::cout << std::left << std::setw(10) << std::setfill(' ') << Position
+                  << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Topology.at(Position))
+                  << std::left << std::setw(10) << std::setfill(' ') << Particle->Status
+                  << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Particle->PID)
+                  << std::left << std::setw(10) << std::setfill(' ') << Particle->M1;
+
+        if (Particle->M1 != -1) {
+
+            std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M1))->PID);
+
+        } else {
+
+            std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
+
+        };
+
+        std::cout << std::left << std::setw(10) << std::setfill(' ') << Particle->M2;
+
+        if (Particle->M2 != -1) {
+            std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M2))->PID);
+        } else {
+            std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
+        };
+
+        std::cout         << std::left << std::setw(10) << std::setfill(' ') << Particle->D1
+                          << std::left << std::setw(10) << std::setfill(' ') << Particle->D2
+                          << std::endl;
+    }
+    Print(1, "");
 
     Print(3, "Number of EFlow Jet", EFlowJets.size());
 

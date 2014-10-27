@@ -34,7 +34,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(HMva*);
+    HFactory(hanalysis::HMva *const NewMva);
 
     /**
      * @brief Destructor
@@ -96,7 +96,7 @@ private:
 
     string DefaultOptions;
 
-    void AddTree(const TFile * const, const string, const bool);
+    void AddTree(const TFile *const File, const string &TreeName, const bool Signal);
 
     HMva *Mva;
 

@@ -12,7 +12,7 @@
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class HDiscriminatorJetTag : public hanalysis::HJetTag
+class htoptagger::HJetTag : public hanalysis::HJetTag
 {
 
     int GetBranchId(const int ParticleId, int BranchId) const;
@@ -35,7 +35,7 @@ class HDiscriminatorJetTag : public hanalysis::HJetTag
  * \author Jan Hajer
  *
  */
-class HAnalysisTopTagger : public hanalysis::HAnalysis
+class htoptagger::HAnalysis : public hanalysis::HAnalysis
 {
 
 public:
@@ -44,13 +44,13 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisTopTagger();
+    HAnalysis();
 
     /**
      * @brief Constructor
      *
      */
-    ~HAnalysisTopTagger();
+    ~HAnalysis();
 
     /**
      * @brief Branch to write Higgs info into
@@ -84,7 +84,7 @@ private:
 
     };
 
-    HDiscriminatorJetTag *DiscriminatorJetTag;
+    HJetTag *JetTag;
 
     hanalysis::HSubStructure *SubStructure;
 
@@ -129,7 +129,7 @@ private:
 
     virtual inline string ClassName() const {
 
-        return "HAnalysisTopTagger";
+        return "htoptagger: HAnalysis";
 
     };
 

@@ -21,7 +21,7 @@ hanalysis::HMva::~HMva()
 }
 
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expression, const string Title, const string Unit, const string Latex) const
+HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression, const string& Title, const string& Unit, const string& Latex) const
 {
 
     Print(1, "New Observable", Title);
@@ -33,7 +33,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expr
 }
 
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expression, const string Title, const string Unit) const
+HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression, const string& Title, const string& Unit) const
 {
 
     Print(1, "New Observable", Title);
@@ -44,7 +44,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expr
 
 }
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expression, const string Title) const
+HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression, const string& Title) const
 {
 
     Print(2, "New Observable", Expression);
@@ -55,7 +55,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expr
 
 }
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expression) const
+HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression) const
 {
 
     Print(2, "New Observable", Expression);
@@ -66,7 +66,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string Expr
 
 }
 
-HObservable::HObservable(float *const NewValue, const string NewExpression, const string NewTitle, const string NewUnit, const string NewLatex)
+HObservable::HObservable(float *const NewValue, const string& NewExpression, const string& NewTitle, const string& NewUnit, const string& NewLatex)
 {
 
 //     Print(1, "Constructor");

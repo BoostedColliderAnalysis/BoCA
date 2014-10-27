@@ -2,7 +2,7 @@
 
 int main()
 {
-    HAnalysisTest *Analysis = new HAnalysisTest();
+    hanalysis::HAnalysis *Analysis = new htest::HAnalysis();
 
     Analysis->AnalysisLoop();
 

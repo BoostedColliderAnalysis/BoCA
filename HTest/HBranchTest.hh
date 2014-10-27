@@ -3,11 +3,19 @@
 
 # include "TObject.h"
 
+namespace htest{
+
+  class HAnalysis;
+  class HCandidateBranch;
+  class HJetTag;
+
+}
+
 /**
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class HCandidateBranch : public TObject
+class htest::HCandidateBranch : public TObject
 {
 
 public:

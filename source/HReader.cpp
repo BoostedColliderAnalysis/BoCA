@@ -1,6 +1,6 @@
 # include "HReader.hh"
 
-hanalysis::HReader::HReader(HMva   *NewMva)
+hanalysis::HReader::HReader(HMva *NewMva)
 {
 
     Print(1, "Constructor");
@@ -243,7 +243,7 @@ void hanalysis::HReader::TabularOutput() const
 
 }
 
-void hanalysis::HReader::LatexContent(const string TreeName)
+void hanalysis::HReader::LatexContent(const string& TreeName)
 {
 
     Print(1, "LaTeX Content");

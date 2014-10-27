@@ -32,7 +32,7 @@ public:
 
     void ResetBranches();
 
-    virtual void GetBranches(const ExRootTreeReader * const) = 0;
+    virtual void GetBranches(const ExRootTreeReader *const) = 0;
 
     int ParticleSum() const {
         return ParticleClonesArray->GetEntriesFast();
@@ -59,7 +59,11 @@ public:
     };
 
     int JetSum() const {
+      if (JetClonesArray){
         return JetClonesArray->GetEntriesFast();
+      } else {
+        return 0;
+      }
     };
 
     int ElectronSum() const {
@@ -215,7 +219,7 @@ private:
 class hanalysis::hdelphes::HClonesArray : public hanalysis::HClonesArray
 {
 
-    void GetBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader *const);
 
 private:
 
@@ -234,7 +238,7 @@ private:
 class hanalysis::hdelphes::HClonesArraySnowmass : public HClonesArray
 {
 
-    void GetBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader *const);
 
 private:
 
@@ -253,7 +257,7 @@ private:
 class hanalysis::hpgs::HClonesArray : public hanalysis::HClonesArray
 {
 
-    void GetBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader *const);
 
 private:
 
@@ -272,7 +276,7 @@ private:
 class hanalysis::hparton::HClonesArray : public hanalysis::HClonesArray
 {
 
-    void GetBranches(const ExRootTreeReader * const);
+    void GetBranches(const ExRootTreeReader *const);
 
 private:
 

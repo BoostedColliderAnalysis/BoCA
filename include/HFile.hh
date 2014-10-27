@@ -34,13 +34,13 @@ public:
      * @brief constructor defining default path
      *
      */
-    HFile(const string Process);
+    HFile(const string &Process);
 
     /**
      * @brief constructor defining default path
      *
      */
-    HFile(const string Process, const string Run);
+    HFile(const string &Process, const string &Run);
 
     ExRootTreeReader *GetTreeReader();
 
@@ -155,13 +155,13 @@ public:
    * @brief constructor defining default path
    *
    */
-  HFile(const string Process);
+  HFile(const string &Process);
 
   /**
    * @brief constructor defining default path
    *
    */
-  HFile(const string Process, const string Run);
+  HFile(const string &Process, const string &Run);
 
     /**
      * @brief Compose file path
@@ -203,13 +203,13 @@ public:
    * @brief constructor defining default path
    *
    */
-  HFile(const string Process);
+  HFile(const string &Process);
 
   /**
    * @brief constructor defining default path
    *
    */
-  HFile(const string Process, const string Run);
+  HFile(const string &Process, const string &Run);
 
     /**
      * @brief Compose file path
@@ -251,13 +251,13 @@ public:
    * @brief constructor defining default path
    *
    */
-  HFile(const string Process);
+  HFile(const string &Process);
 
   /**
    * @brief constructor defining default path
    *
    */
-  HFile(const string Process, const string Run);
+  HFile(const string &Process, const string &Run);
 
     /**
      * @brief Compose file path

@@ -144,7 +144,7 @@ HEPTopTagger::HEPTopTagger(const fastjet::ClusterSequence &cs,
     _mass_drop_threshold(0.8), _max_subjet_mass(30.),
     _mtmin(172.3 - 25.), _mtmax(172.3 + 25.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
     _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3),
-    _nfilt(5), _jet_algorithm(cambridge_algorithm), _jet_algorithm_recluster(cambridge_algorithm),
+    _nfilt(5), _jet_algorithm(fastjet::cambridge_algorithm), _jet_algorithm_recluster(fastjet::cambridge_algorithm),
     debugg(false)
 {}
 
@@ -156,7 +156,7 @@ HEPTopTagger::HEPTopTagger(const fastjet::ClusterSequence &cs,
     _mass_drop_threshold(0.8), _max_subjet_mass(30.),
     _mtmin(mtmass - 25.), _mtmax(mtmass + 25.), _rmin(0.85 * mwmass / mtmass), _rmax(1.15 * mwmass / mtmass),
     _m23cut(0.35), _m13cutmin(0.2), _m13cutmax(1.3),
-    _nfilt(5), _jet_algorithm(cambridge_algorithm), _jet_algorithm_recluster(cambridge_algorithm),
+    _nfilt(5), _jet_algorithm(fastjet::cambridge_algorithm), _jet_algorithm_recluster(fastjet::cambridge_algorithm),
     debugg(false)
 {}
 
@@ -204,14 +204,14 @@ void HEPTopTagger::run_tagger()
                     = min(0.3, 0.5 * sqrt(min(_top_parts[kk].squared_distance(_top_parts[ll]),
                                               min(_top_parts[rr].squared_distance(_top_parts[ll]),
                                                   _top_parts[kk].squared_distance(_top_parts[rr])))));
-                JetDefinition filtering_def(_jet_algorithm, filt_top_R);
+                fastjet::JetDefinition filtering_def(_jet_algorithm, filt_top_R);
                 vector<PseudoJet> top_constits_filtered = Filtering(top_constits, filtering_def);
                 PseudoJet topcandidate = Sum(top_constits_filtered);
                 if (topcandidate.m() < _mtmin || _mtmax < topcandidate.m()) continue;
                 _top_count++;
                 // obtain 3 subjets
-                JetDefinition reclustering(_jet_algorithm_recluster, 3.14 / 2);
-                ClusterSequence cssubtop(top_constits_filtered, reclustering);
+                fastjet::JetDefinition reclustering(_jet_algorithm_recluster, 3.14 / 2);
+                fastjet::ClusterSequence cssubtop(top_constits_filtered, reclustering);
                 vector <PseudoJet> top_subs = sorted_by_pt(cssubtop.exclusive_jets(3));
                 _candjets.push_back(top_subs); //
 
@@ -233,7 +233,7 @@ void HEPTopTagger::run_tagger()
 }
 
 
-vector<PseudoJet> HEPTopTagger::Filtering(const vector <PseudoJet> &top_constits, const JetDefinition &filtering_def)
+vector<PseudoJet> HEPTopTagger::Filtering(const vector <PseudoJet> &top_constits, const fastjet::JetDefinition &filtering_def)
 {
     // perform filtering
     fastjet::ClusterSequence cstopfilt(top_constits, filtering_def);

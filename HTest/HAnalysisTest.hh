@@ -9,7 +9,7 @@
  * @brief Class defining the Disciminator Analysis
  *
  */
-class HAnalysisTest : public hanalysis::HAnalysis
+class htest::HAnalysis : public hanalysis::HAnalysis
 {
 
 public:
@@ -18,7 +18,7 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisTest();
+    HAnalysis();
 
     /**
      * @brief Branch to write Higgs info into

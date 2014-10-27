@@ -24,7 +24,7 @@ hanalysis::hpgs::HEvent::~HEvent()
 
 }
 
-void hanalysis::hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const ClonesArrays)
+void hanalysis::hpgs::HEvent::NewEvent(const HClonesArray*const ClonesArrays)
 {
 
     Print(2, "New Event");
@@ -54,7 +54,7 @@ void hanalysis::hpgs::HEvent::GetJets()
 {
     Print(2, "Get Jets");
 
-    if (!HasJets) HasJets = Jets->GetJets(hanalysis::HJet::Plain);
+    if (!HasJets) HasJets = Jets->GetJets(HJet::Plain);
 
 }
 

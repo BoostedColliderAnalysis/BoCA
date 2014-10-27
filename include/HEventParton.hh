@@ -25,7 +25,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::HClonesArray * const);
+    void NewEvent(const hanalysis::hparton::HClonesArray *const ClonesArrays);
 
     void GetParticles();
 
