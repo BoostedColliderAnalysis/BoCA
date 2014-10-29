@@ -21,7 +21,7 @@ hanalysis::hparton::HEvent::~HEvent()
 
 }
 
-void hanalysis::hparton::HEvent::NewEvent(const HClonesArray * const ClonesArrays)
+void hanalysis::hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const ClonesArrays)
 {
 
     Print(2, "New Event");

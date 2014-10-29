@@ -1,9 +1,10 @@
 # ifndef HJetDelphes_hh
 # define HJetDelphes_hh
 
-// # include <fastjet/ClusterSequence.hh>
+#include <sstream>
 
 # include "HJet.hh"
+
 
 /**
  * @brief Delphes jets
@@ -31,7 +32,7 @@ public:
      *
      * @return void
      */
-    void NewEvent(const hanalysis::HClonesArray*const NewClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -65,6 +66,16 @@ public:
 
 private:
     
+    template<typename TData>
+    void PrintCell(TData const Data) const {
+        
+        std::cout << std::right << std::setw(9) << std::setfill(' ') << Data;
+        
+    }
+    
+    void PrintTruthLevel(const int Severity) const;
+    string PrintParticle(const int Position) const;
+    
     vector<int> Topology;
 
     vector<int *> BranchVector;
@@ -97,7 +108,7 @@ private:
 
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-            JetInfo.AddConstituent(MotherId, fabs(ParticleClone->PT));
+            JetInfo.AddConstituent(MotherId, std::fabs(ParticleClone->PT));
 
         }
 

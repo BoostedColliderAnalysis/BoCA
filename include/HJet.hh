@@ -45,6 +45,10 @@ public:
      */
     virtual void NewEvent(const HClonesArray *const);
 
+    void SetJetTag(HJetTag *const NewJetTag) {
+        JetTag = NewJetTag;
+    }
+
     /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
@@ -122,7 +126,7 @@ public:
      */
     vector<TLorentzVector> BottomLorentzVectors;
 
-    HJetTag * JetTag;
+    HJetTag *JetTag;
 
 protected:
 

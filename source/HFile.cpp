@@ -258,6 +258,15 @@ string hanalysis::hparton::HFile::GetFilePath() const
 
 }
 
+hanalysis::HEvent *hanalysis::hparton::HFile::GetEvent() const
+{
+    
+    Print(1, "Get Event");
+    
+    return (new HEvent());
+    
+}
+
 
 hanalysis::hpgs::HFile::HFile()
 {
@@ -314,6 +323,15 @@ string hanalysis::hpgs::HFile::GetFilePath() const
 
 }
 
+hanalysis::HEvent *hanalysis::hpgs::HFile::GetEvent() const
+{
+    
+    Print(1, "Get Event");
+    
+    return (new HEvent());
+    
+}
+
 hanalysis::hdelphes::HFile::HFile()
 {
 
@@ -365,4 +383,34 @@ string hanalysis::hdelphes::HFile::GetFilePath() const
 
     return (MadGraphFilePath() + TagString +  FileSuffix);
 
+}
+
+hanalysis::HEvent *hanalysis::hdelphes::HFile::GetEvent() const
+{
+    
+    Print(1, "Get Event");
+           
+    return (new HEvent());
+    
+}
+
+hanalysis::HClonesArray *hanalysis::hdelphes::HFile::GetClonesArrays() const
+{
+    
+    Print(1, "Get Clones Arrays", "here");
+    
+    HClonesArray *ClonesArrays;
+        
+        if (Snowmass) {
+            
+            ClonesArrays = new HClonesArraySnowmass();
+            
+        } else {
+            
+            ClonesArrays = new HClonesArray();
+            
+        }
+    
+    return ClonesArrays;
+    
 }

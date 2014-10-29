@@ -19,7 +19,7 @@ hanalysis::hdelphes::HJet::~HJet()
 void hanalysis::hdelphes::HJet::NewEvent(const hanalysis::HClonesArray *const NewClonesArrays)
 {
 
-    Print(2, "New Event");
+    Print(2, "New Event", "delphes case");
 
     hanalysis::HJet::NewEvent(NewClonesArrays);
 
@@ -121,20 +121,20 @@ int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
     if (Object->IsA() != GenParticle::Class() || Object == 0) {
 
         Print(0, "Object is", Object->ClassName());
-        return 0;
+        return EmptyId;
 
     }
 
     const int Position = ClonesArrays->ParticleClonesArray->IndexOf(Object);
-    int MotherId = EmptyId;
+    int MotherId = Topology.at(Position);
+
     MotherId = GetMotherId(MotherId, Position);
 
-    Print(3, "Mother Id", MotherId);
-    if (MotherId == EmptyId) Print(0, "No Mother Id", Position);
+    Print(3, "Mother Id", GetParticleName(MotherId));
+    if (MotherId == EmptyId) Print(0, "No Mother Id", Position, Topology.at(Position));
 
-//     Print(0,"12",Topology.at(12));
-
-    std::replace(Topology.begin(), Topology.end(), int(MarkerId), MotherId);
+    int Marker = MarkerId;
+    std::replace(Topology.begin(), Topology.end(), Marker, MotherId);
 
     return MotherId;
 
@@ -143,32 +143,29 @@ int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
 int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
 {
 
-    Print(3, "Get Mother Id", Position);
+    Print(3, "Get Mother Id", GetParticleName(BranchId), Position);
     const int EmptyPosition = -1;
 
-    while (Position != EmptyPosition &&
-        JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles)
-//         &&Topology.at(Position) == EmptyId
-    ) {
+    while (Position != EmptyPosition && JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles)) {
 
-//         if (Topology.at(Position) == EmptyId) {
-            Topology.at(Position) = MarkerId;
-//     Print(0,"120",Topology.at(12));
-//         } else {
-//             BranchId = Topology.at(Position);
-//             break;
-//         }
+        if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
 
-         const GenParticle * const ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
+            Print(3, "Topology", GetParticleName(BranchId), GetParticleName(Topology.at(Position)));
+            BranchId = JetTag->GetBranchId(BranchId, Topology.at(Position));
 
-//         if (Position == 12)Print(0, "HiggsBottom", Topology.at(Position));
+        }
+
+        Topology.at(Position) = MarkerId;
+
+        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
 
         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
+        Print(3, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
 
         if (ParticleClone->M2 != EmptyPosition) {
 
             Position = ParticleClone->M2;
-            Print(3, "Mother 2 Position", Position);
+            Print(3, "Mother 2 Position", GetParticleName(BranchId), Position);
             BranchId = GetMotherId(BranchId, Position);
 
         }
@@ -177,52 +174,11 @@ int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
         Print(3, "Mother 1 Position", Position);
     }
 
-    Print(3, "Branch Id", BranchId);
+    Print(3, "Branch Id Result", GetParticleName(BranchId));
 
     return BranchId;
 
 }
-
-// int hanalysis::hdelphes::HJet::GetMotherId(GenParticle *ParticleClone, int BranchId, int Position)
-// {
-//
-//     Print(3, "Get Mother Id", ParticleClone->PID);
-//     const int EmptyPosition = -1;
-//
-//     while (Position != EmptyPosition && JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles)) {
-//
-//         Topology.at(Position) = MarkerId;
-//
-//         ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
-//
-//         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
-//
-//         if (ParticleClone->M2 != EmptyPosition) {
-//
-//             Position = ParticleClone->M2;
-//             Print(3, "Mother 2 Position", Position);
-//             BranchId = GetMotherId((GenParticle *) ClonesArrays->ParticleClonesArray->At(Position), BranchId, Position);
-//
-//         }
-//
-//
-//
-//         Position = ParticleClone->M1;
-//         Print(3, "Mother 1 Position", Position);
-//     }
-//
-//     Print(3, "Branch Id", BranchId);
-//
-//     return BranchId;
-//
-// }
-
-//         Topology.at(Position) = MarkerId;
-
-//         if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
-//             BranchId = Topology.at(Position);
-//             break;
-//         }
 
 PseudoJet hanalysis::hdelphes::HJet::GetConstituents(const Jet *const JetClone) const
 {
@@ -249,57 +205,58 @@ bool hanalysis::hdelphes::HJet::ReadEFlow(const HJetDetails JetDetails)
 {
     Print(2, "Get EFlow");
 
-
-//     for(auto HeavyParticle : JetTag->HeavyParticles) {
-//         Print(0,"HeavyParticle",HeavyParticle);
-//     }
-
-//     int Empty = EmptyId;
-//     Particles.assign(ClonesArrays->ParticleSum(), &Empty);
-
     if (ClonesArrays->EFlowTrackClonesArray) GetTrackEFlow(JetDetails);
     if (ClonesArrays->EFlowPhotonClonesArray) GetPhotonEFlow(JetDetails);
     if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(JetDetails);
     if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(JetDetails);
 
-    for (int Position : HRange(ClonesArrays->ParticleSum())) {
-//     for (const int Position : HRange(100)) {
-
-        const GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
-
-        std::cout << std::left << std::setw(10) << std::setfill(' ') << Position
-                  << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Topology.at(Position))
-                  << std::left << std::setw(10) << std::setfill(' ') << Particle->Status
-                  << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(Particle->PID)
-                  << std::left << std::setw(10) << std::setfill(' ') << Particle->M1;
-
-        if (Particle->M1 != -1) {
-
-            std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M1))->PID);
-
-        } else {
-
-            std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
-
-        };
-
-        std::cout << std::left << std::setw(10) << std::setfill(' ') << Particle->M2;
-
-        if (Particle->M2 != -1) {
-            std::cout << std::left << std::setw(10) << std::setfill(' ') << GetStringFromEnum(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Particle->M2))->PID);
-        } else {
-            std::cout << std::left << std::setw(10) << std::setfill(' ') << " ";
-        };
-
-        std::cout         << std::left << std::setw(10) << std::setfill(' ') << Particle->D1
-                          << std::left << std::setw(10) << std::setfill(' ') << Particle->D2
-                          << std::endl;
-    }
-    Print(1, "");
-
     Print(3, "Number of EFlow Jet", EFlowJets.size());
 
+    PrintTruthLevel(4);
+
     return 1;
+
+}
+
+void hanalysis::hdelphes::HJet::PrintTruthLevel(int const Severity) const
+{
+    if (Severity <= DebugLevel) {
+
+        for (const int Position : HRange(ClonesArrays->ParticleSum())) {
+            //     for (const int Position : HRange(100)) {
+
+            const GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
+
+            PrintCell(Position);
+            PrintCell(GetParticleName(Topology.at(Position)));
+            PrintCell(Particle->Status);
+            PrintCell(GetParticleName(Particle->PID));
+            PrintCell(Particle->M1);
+            PrintCell(PrintParticle(Particle->M1));
+            PrintCell(Particle->M2);
+            PrintCell(PrintParticle(Particle->M2));
+            PrintCell(Particle->D1);
+            PrintCell(PrintParticle(Particle->D1));
+            PrintCell(Particle->D2);
+            PrintCell(PrintParticle(Particle->D2));
+            std::cout << std::endl;
+
+        }
+
+        Print(1, "");
+
+    }
+
+}
+
+string hanalysis::hdelphes::HJet::PrintParticle(const int Position) const
+{
+
+    if (Position != -1) {
+        return GetParticleName(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Position))->PID);
+    } else {
+        return " ";
+    };
 
 }
 

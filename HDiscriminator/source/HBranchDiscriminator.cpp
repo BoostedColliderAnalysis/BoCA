@@ -1,8 +1,6 @@
 # include "HBranchDiscriminator.hh"
 
-using hcpvhiggs::HCandidateBranch;
-
-ClassImp(HCandidateBranch)
+ClassImp(hcpvhiggs::HCandidateBranch)
 
 hcpvhiggs::HCandidateBranch::HCandidateBranch()
 {

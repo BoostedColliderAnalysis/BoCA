@@ -70,7 +70,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent* Event,s
 
     Event->GetParticles();
 
-    vector<PseudoJet> BottomVector = Event->Particles->BottomJetVector;
+    vector<PseudoJet> BottomVector = Event->GetParticlesM()->BottomJetVector;
 
     int BottomSum = BottomVector.size();
 
@@ -111,7 +111,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent* Event,s
     HeavyHiggs->BottomDeltaEta = CombinedEta;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
-    vector<PseudoJet> TopVector = Event->Particles->TopJetVector;
+    vector<PseudoJet> TopVector = Event->GetParticlesM()->TopJetVector;
 
     int TopSum = TopVector.size();
 

@@ -71,7 +71,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent* Event,stri
 
     Event->GetJets();
 
-    vector<PseudoJet> BJets = Event->Jets->BottomJets;
+    vector<PseudoJet> BJets = Event->GetJetsM()->BottomJets;
 
     Print(2, "BJet Sum", BJets.size());
 
@@ -173,7 +173,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent* Event,stri
                 HeavyHiggs->BottomInvMass = InvMass;
 
                 HeavyHiggs->BTag = BJets.size();
-                HeavyHiggs->JetNumber = Event->Jets->Jets.size();
+                HeavyHiggs->JetNumber = Event->GetJetsM()->Jets.size();
 
             }
 

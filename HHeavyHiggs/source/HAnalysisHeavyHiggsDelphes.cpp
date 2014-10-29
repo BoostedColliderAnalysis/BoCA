@@ -133,7 +133,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent* Event)
     HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
     Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->Jets->Jets;
+    vector<PseudoJet> JetVector = Event->GetJetsM()->Jets;
 
     vector<PseudoJet> BottomJetVector;
 
@@ -167,7 +167,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent* Even
     HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
     Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->Jets->Jets;
+    vector<PseudoJet> JetVector = Event->GetJetsM()->Jets;
 
     if (JetVector.size()<1) return 0;
 
@@ -253,7 +253,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent* Event)
 
     Event->GetJets();
 
-    vector<PseudoJet> BottomJetVector = Event->Jets->BottomJets;
+    vector<PseudoJet> BottomJetVector = Event->GetJetsM()->BottomJets;
 
     if (BottomJetVector.size() < 2) return 0;
 
@@ -322,8 +322,8 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent* Even
     HeavyHiggs->BottomInvMass = InvMass;
     HeavyHiggs->BottomDeltaPt = DeltaPt;
 
-    HeavyHiggs->BTag = Event->Jets->BottomJets.size();
-    HeavyHiggs->JetNumber = Event->Jets->Jets.size();
+    HeavyHiggs->BTag = Event->GetJetsM()->BottomJets.size();
+    HeavyHiggs->JetNumber = Event->GetJetsM()->Jets.size();
     HeavyHiggs->Isolation = Isolation;
 
 }
@@ -334,7 +334,7 @@ float hheavyhiggs::HAnalysisHeavyHiggsDelphes::Leptons(hanalysis::HEvent* Event,
 
     float Isolation;
 
-    vector<PseudoJet> LeptonVector = Event->Lepton->GetLeptonJets();
+    vector<PseudoJet> LeptonVector = Event->GetLeptonsM()->GetLeptonJets();
 
     for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
 

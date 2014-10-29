@@ -4,37 +4,7 @@ hanalysis::HClonesArray::HClonesArray()
 {
 
     Print(1, "Constructor");
-
-}
-
-hanalysis::HClonesArray::~HClonesArray()
-{
-
-    Print(1, "Destructor");
-
-    delete ParticleClonesArray;
-    delete PhotonClonesArray;
-    delete ElectronClonesArray;
-    delete MuonClonesArray;
-    delete JetClonesArray;
-    delete MissingEtClonesArray;
-    delete TauClonesArray;
-    delete TrackClonesArray;
-    delete TowerClonesArray;
-    delete EFlowTrackClonesArray;
-    delete EFlowPhotonClonesArray;
-    delete EFlowNeutralHadronClonesArray;
-    delete EFlowMuonClonesArray;
-    delete GenJetClonesArray;
-    delete ScalarHtClonesArray;
-
-}
-
-void hanalysis::HClonesArray::ResetBranches()
-{
-
-    Print(1, "Reset Branches");
-
+    
     ParticleClonesArray = NULL;
     PhotonClonesArray = NULL;
     ElectronClonesArray = NULL;
@@ -51,13 +21,64 @@ void hanalysis::HClonesArray::ResetBranches()
     GenJetClonesArray = NULL;
     ScalarHtClonesArray = NULL;
 
-    Print(1, "Branches reset");
 }
+
+hanalysis::hdelphes::HClonesArray::HClonesArray()
+{
+    
+    Print(1, "Constructor", "delphes case");
+    
+}
+
+hanalysis::hdelphes::HClonesArraySnowmass::HClonesArraySnowmass()
+{
+    
+    Print(1, "Constructor");
+    
+}
+
+hanalysis::hpgs::HClonesArray::HClonesArray()
+{
+    
+    Print(1, "Constructor");
+    
+}
+
+hanalysis::hparton::HClonesArray::HClonesArray()
+{
+    
+    Print(1, "Constructor");
+    
+}
+
+hanalysis::HClonesArray::~HClonesArray()
+{
+
+    Print(1, "Destructor");
+
+//     delete ParticleClonesArray;
+//     delete PhotonClonesArray;
+//     delete ElectronClonesArray;
+//     delete MuonClonesArray;
+//     delete JetClonesArray;
+//     delete MissingEtClonesArray;
+//     delete TauClonesArray;
+//     delete TrackClonesArray;
+//     delete TowerClonesArray;
+//     delete EFlowTrackClonesArray;
+//     delete EFlowPhotonClonesArray;
+//     delete EFlowNeutralHadronClonesArray;
+//     delete EFlowMuonClonesArray;
+//     delete GenJetClonesArray;
+//     delete ScalarHtClonesArray;
+
+}
+
 
 void hanalysis::hdelphes::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
 {
 
-    Print(1, "Get Branches");
+    Print(1, "Get Branches", "delphes case");
 
     ParticleClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("Particle");
     PhotonClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("Photon");
@@ -74,6 +95,7 @@ void hanalysis::hdelphes::HClonesArray::GetBranches(const ExRootTreeReader *cons
     GenJetClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("GenJet");
     ScalarHtClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("ScalarHT");
 
+    Print(0,"Got all Branches");
 }
 
 void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const TreeReader)

@@ -11,10 +11,10 @@ HLibrary(HObject "${HObjectSources}" PARENT_SCOPE)
 
 set(EventSources
 HJetTag.cpp
-HEvent.cpp
 HEventDelphes.cpp
 HEventParton.cpp
 HEventPgs.cpp
+HEvent.cpp
 HParticle.cpp
 HParticleDelphes.cpp
 HParticleParton.cpp

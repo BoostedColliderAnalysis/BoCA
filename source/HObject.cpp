@@ -101,12 +101,13 @@ void hanalysis::HObject::Printer(const string& Description) const
 
 }
 
-string hanalysis::HObject::GetStringFromEnum(const int ParticleId) const {
+string hanalysis::HObject::GetParticleName(const int ParticleId) const {
 
   string Sign = "";
   if (ParticleId < 0) Sign = "-";
 
   switch (abs(ParticleId)) {
+//     case EmptyId: return (Sign + "Empty");
     case DownId: return (Sign + "d");
     case UpId: return (Sign + "u");
     case StrangeId: return (Sign + "s");
@@ -127,17 +128,27 @@ string hanalysis::HObject::GetStringFromEnum(const int ParticleId) const {
     case HeavyHiggsId: return (Sign + "H");
     case IsrId: return (Sign + "ISR");
     case MarkerId: return (Sign + "TEMP");
+    case ClusterId: return (Sign + "Cluster");
+    case StringId: return (Sign + "String");
+    case Pi0MesonId: return (Sign + "pi0");
+    case Rho0MesonId: return (Sign + "rho0");
+    case K0LMesonId: return (Sign + "K0l");
     case PionId: return (Sign + "pi");
     case RhoMesonId: return (Sign + "rho");
+    case EtaMesonId: return (Sign + "eta");
+    case OmegaMesonId: return (Sign + "omega");
+    case K0SMesonId: return (Sign + "K0s");
     case KMeson0Id: return (Sign + "K0");
     case KMeson0SId: return (Sign + "K0*");
     case KMesonId: return (Sign + "K");
     case KMesonSId: return (Sign + "K*");
+    case EtaPMesonId: return (Sign + "etaP");
     case DMesonId: return (Sign + "D");
     case DMesonSId: return (Sign + "D*");
     case DMesonS2Id: return (Sign + "D*2");
     case DMeson0Id: return (Sign + "D0");
     case DMesonS0Id: return (Sign + "D*0");
+    case EtaCMesonId: return (Sign + "etac");
     case BMeson0Id: return (Sign + "B0");
     case BMeson0SId: return (Sign + "B0*");
     case BMesonId: return (Sign + "B");

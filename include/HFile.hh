@@ -8,7 +8,7 @@
 # include "HObject.hh"
 # include "HClonesArray.hh"
 
-# include "HEvent.hh"
+// # include "HEvent.hh"
 # include "HEventDelphes.hh"
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
@@ -50,9 +50,9 @@ public:
      */
     virtual ~HFile();
     
-    HClonesArray *GetClonesArrays() const;
+    virtual HClonesArray *GetClonesArrays() const;
     
-    HEvent *GetEvent() const;
+    virtual HEvent *GetEvent() const;
 
     /**
      * @brief Path path to the MadGraph installation
@@ -171,6 +171,8 @@ public:
     string GetFilePath() const;
 
     string GetTreeName() const;
+    
+    hanalysis::HEvent *GetEvent() const;
 
 protected:
 
@@ -219,6 +221,8 @@ public:
     string GetFilePath() const;
 
     string GetTreeName() const;
+    
+    hanalysis::HEvent *GetEvent() const;
 
 protected:
 
@@ -267,6 +271,10 @@ public:
     string GetFilePath() const;
 
     string GetTreeName() const;
+    
+    hanalysis::HEvent *GetEvent() const;
+    
+    hanalysis::HClonesArray *GetClonesArrays() const;
 
 protected:
 
@@ -280,52 +288,5 @@ private:
 
 };
 
-// /**
-//  * @brief Delphes files in plain folder
-//  *
-//  */
-// class Analysis::HFileFolder : public HFile
-// {
-//
-// public:
-//
-//   /**
-//    * @brief constructor defining default path
-//    *
-//    */
-//   HFileFolder();
-//
-//   /**
-//    * @brief constructor defining default path
-//    *
-//    */
-//   HFileFolder(const string Process);
-//
-//   /**
-//    * @brief constructor defining default path
-//    *
-//    */
-//   HFileFolder(const string Process, const string Run);
-//
-//     /**
-//      * @brief Compose file path
-//      *
-//      * @return string file path
-//      */
-//     string GetFilePath() const;
-//
-//     string GetTreeName() const;
-//
-// protected:
-//
-//     virtual inline string ClassName() const {
-//
-//         return ("HFileFolder");
-//
-//     };
-//
-// private:
-//
-// };
 
 # endif

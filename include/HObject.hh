@@ -19,76 +19,100 @@ using std::vector;
  * @brief Main Analysis Library
  *
  */
-namespace hanalysis{
-
-  class HObject;
-  class HFourVector;
-  class HClonesArray;
-  class HParticle;
-  class HLepton;
-  class HTopTagger;
-  class HReconstruction;
-  class HHiggsTagger;
-  class HDiscriminator;
-  class HEvent;
-  class HFile;
-  class HFileFolder;
-  class HAnalysis;
-
-  class HJetTag;
-  class HJetInfo;
-  class HJet;
-  class HPull;
-  class HSubStructure;
-
-  class HMva;
-  class HFactory;
-  class HReader;
+namespace hanalysis
+{
 
 
 
-  /**
-   * @brief Delphes analysis library parts
-   *
-   */
-  namespace hdelphes{
+/**
+ * @brief Delphes analysis library parts
+ *
+ */
+namespace hdelphes
+{
 
-      class HClonesArray;
-      class HClonesArraySnowmass;
-      class HFile;
-      class HEvent;
-      class HJet;
-      class HLepton;
-      class HParticle;
+class HClonesArray;
+class HClonesArraySnowmass;
+class HFile;
+class HEvent;
+class HJet;
+class HLepton;
+class HParticle;
 
-  }
+inline string NameSpaceName()
+{
+    return ("HDelphes");
+}
 
-  /**
-   * @brief Parton level analysis library parts
-   *
-   */
-  namespace hparton{
+}
 
-      class HClonesArray;
-      class HFile;
-      class HEvent;
-      class HParticle;
+/**
+ * @brief Parton level analysis library parts
+ *
+ */
+namespace hparton
+{
 
-  }
+class HClonesArray;
+class HFile;
+class HEvent;
+class HParticle;
 
-  /**
-   * @brief Pgs analysis library parts
-   *
-   */
-  namespace hpgs{
+inline string NameSpaceName()
+{
+    return ("HParton");
+}
 
-      class HClonesArray;
-      class HFile;
-      class HEvent;
-      class HLepton;
-      class HJet;
+}
 
-  }
+/**
+ * @brief Pgs analysis library parts
+ *
+ */
+namespace hpgs
+{
+
+class HClonesArray;
+class HFile;
+class HEvent;
+class HLepton;
+class HJet;
+
+inline string NameSpaceName()
+{
+    return ("HPgs");
+}
+
+}
+
+class HObject;
+class HFourVector;
+class HClonesArray;
+class HParticle;
+class HLepton;
+class HTopTagger;
+class HReconstruction;
+class HHiggsTagger;
+class HDiscriminator;
+class HEvent;
+class HFile;
+class HFileFolder;
+class HAnalysis;
+
+class HJetTag;
+class HJetInfo;
+class HJet;
+class HPull;
+class HSubStructure;
+
+class HMva;
+class HFactory;
+class HReader;
+
+inline string NameSpaceName()
+{
+    return ("HAnalysis");
+}
 
 }
 
@@ -259,7 +283,7 @@ protected:
         BottomId = 5,///> \f$b\f$
         TopId = 6,///> \f$t\f$
         ElectronId = 11,
-        ElectronNeutrinoId= 12,
+        ElectronNeutrinoId = 12,
         MuonId = 13,
         MuonNeutrinoId = 14,
         TauLeptonId = 15,
@@ -272,17 +296,27 @@ protected:
         HeavyHiggsId = 35,
         IsrId = 86,
         MarkerId = 87,
+        ClusterId = 91,
+        StringId = 92,
+        Pi0MesonId = 111,
+        Rho0MesonId = 113,
+        K0LMesonId = 130,
         PionId = 211,
         RhoMesonId = 213,
+        EtaMesonId = 221,
+        OmegaMesonId = 223,
+        K0SMesonId = 310,
         KMeson0Id = 311,
         KMeson0SId = 313,
         KMesonId = 321,
         KMesonSId = 323,
+        EtaPMesonId = 331,
         DMesonId = 411,
         DMesonSId = 413,
         DMesonS2Id = 415,
         DMeson0Id = 421,
         DMesonS0Id = 423,
+        EtaCMesonId = 441,
         BMeson0Id = 511,
         BMeson0SId = 513,
         BMesonId = 521,
@@ -300,7 +334,7 @@ protected:
         CpvHiggsId = 5000000
     };
 
-    string GetStringFromEnum(const int ParticleId) const;
+    string GetParticleName(const int ParticleId) const;
 
 
     /**
@@ -377,7 +411,7 @@ private:
      * @param  string Function Name
      * @return void
      */
-    void Printer(const string&) const;
+    void Printer(const string &) const;
 
 };
 

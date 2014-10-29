@@ -24,7 +24,7 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
             HClonesArray *const ClonesArrays = File->GetClonesArrays();
 
-            HEvent *const Event = File->GetEvent();
+            HEvent *Event = File->GetEvent();
 
             bool AnalysisNotEmpty = 0;
 

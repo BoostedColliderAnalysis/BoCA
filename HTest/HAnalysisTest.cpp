@@ -85,7 +85,7 @@ bool htest::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyName)
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
 
-    Candidate->Pt = float(Event->Jets->Jets.front().pt());
+    Candidate->Pt = float(Event->GetJetsM()->Jets.front().pt());
 
     if (Candidate->Pt > 100 ) {
 

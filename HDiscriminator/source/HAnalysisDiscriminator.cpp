@@ -100,7 +100,7 @@ int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 //     if (HeavyParticles.find(abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
 
 //     Print(0, "we are here", ParticleId, BranchId);
-    Print(3, "Get Branch Id", ParticleId, BranchId);
+    Print(3, "HCPVHiggs: Get Branch Id", ParticleId, BranchId);
     
     
     
@@ -121,7 +121,7 @@ int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
         BranchId = ParticleId;
     }
 
-    Print(3, "Branch Id", BranchId);
+    Print(3, "HCPVHiggs: Branch Id", BranchId);
 //     DebugLevel =1;
     return BranchId;
 
@@ -353,14 +353,13 @@ vector<PseudoJet> hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const E
 // Lepton Stuff
     vector<float> LeptonEta, LeptonPhi;
 
-    Event->GetLeptons();
-
+//     Event->GetLeptons();
 //     vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
 //     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
     Event->GetParticles();
-    vector<PseudoJet> LeptonJets = Event->Particles->GetLeptonJets();
-    vector<PseudoJet> AntiLeptonJets = Event->Particles->GetAntiLeptonJets();
+    vector<PseudoJet> LeptonJets = Event->GetParticlesM()->GetLeptonJets();
+    vector<PseudoJet> AntiLeptonJets = Event->GetParticlesM()->GetAntiLeptonJets();
 
     sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

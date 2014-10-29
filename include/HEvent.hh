@@ -31,41 +31,95 @@ public:
      */
     ~HEvent();
 
-//     virtual void NewFile() {};
+    virtual void NewEvent(const HClonesArray * const ) = 0;
 
-//     virtual void CloseFile() {};
-
-    virtual void NewEvent(const HClonesArray * const){};
-
-    virtual void GetParticles() {};
+    virtual void GetParticles() {
+        Print(0, "Get Particles", "No Particles");
+    };
 
     virtual vector<TLorentzVector> GetLeptons() {
+        Print(0, "Get Leptons", "No Leptons");
         vector<TLorentzVector> v;
         return v;
     };
 
-    virtual void GetJets() {};
+    virtual void GetJets() {
+        Print(0, "Get Jets", "No Jets");
+    };
 
-    virtual void GetEFlow() {};
+    virtual void GetTaggedJets(HJetTag *const) {
+        Print(0, "Get Jets", "No Jets");
+    };
 
-    virtual void GetTaggedEFlow(HJetTag *const) {};
+    virtual void GetEFlow() {
+        Print(0, "Get EFlow", "No EFlow");
+    };
+
+    virtual void GetTaggedEFlow(HJetTag *const) {
+        Print(0, "Get EFlow", "No EFlow");
+    };
+
+    virtual void GetIsolatedEFlow() {
+        Print(0, "Get EFlow", "No EFlow");
+    };
+
+    virtual void GetIsoaltedTaggedEFlow(HJetTag *const) {
+        Print(0, "Get EFlow", "No EFlow");
+    };
+
+    virtual vector<PseudoJet> GetTops(HJetTag *const) {
+        Print(0, "Get Tops", "No Tops");
+        vector<PseudoJet> v;
+        return v;
+    }
 
     virtual PseudoJet GetHiggs() {
+        Print(0, "Get Higgs", "No Higgs");
         PseudoJet j;
         return j;
-    };
+    }
 
     virtual vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const) {
+        Print(0, "Get Candidates", "No Candidates");
         vector<PseudoJet> v;
         return v;
-    };
+    }
+    
+    void SetJetTag(HJetTag *const JetTag){
+        Jets->SetJetTag(JetTag);
+    }
 
-    virtual vector<PseudoJet> GetTops(HJetTag * const) {
-        vector<PseudoJet> v;
-        return v;
-    };
+    HParticle *GetParticlesM() {
+        return Particles;
+    }
 
-    virtual void GetTaggedJets(HJetTag *const) {};
+    HLepton *GetLeptonsM() {
+        return Lepton;
+    }
+
+    HJet *GetJetsM() {
+        return Jets;
+    }
+
+    HTopTagger *GetTopTaggerM() {
+        return TopTagger;
+    }
+
+    HHiggsTagger *GetHiggsTaggerM() {
+        return HiggsTagger;
+    }
+
+    HDiscriminator *GetDiscriminatorM() {
+        return Discriminator;
+    }
+
+protected:
+
+    virtual inline string ClassName() const {
+
+        return "HEvent";
+
+    };
 
     /**
      * @brief Particles
@@ -86,16 +140,16 @@ public:
     HJet *Jets;
 
     /**
-     * @brief Higgs
-     *
-     */
-    HHiggsTagger *HiggsTagger;
-
-    /**
      * @brief Tagged tops and their constituents
      *
      */
     HTopTagger *TopTagger;
+
+    /**
+     * @brief Higgs
+     *
+     */
+    HHiggsTagger *HiggsTagger;
 
     /**
      * @brief SubJetInformation
@@ -103,15 +157,8 @@ public:
      */
     HDiscriminator *Discriminator;
 
-protected:
-
 private:
 
-    virtual inline string ClassName() const {
-
-        return "HEvent";
-
-    };
 };
 
 #endif

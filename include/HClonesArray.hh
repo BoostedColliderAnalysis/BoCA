@@ -30,8 +30,6 @@ public:
      */
     ~HClonesArray();
 
-    void ResetBranches();
-
     virtual void GetBranches(const ExRootTreeReader *const) = 0;
 
     int ParticleSum() const {
@@ -59,11 +57,7 @@ public:
     };
 
     int JetSum() const {
-      if (JetClonesArray){
         return JetClonesArray->GetEntriesFast();
-      } else {
-        return 0;
-      }
     };
 
     int ElectronSum() const {
@@ -202,7 +196,7 @@ public:
      */
     TClonesArray *TauClonesArray;
 
-private:
+protected:
 
     virtual inline string ClassName() const {
 
@@ -218,10 +212,19 @@ private:
  */
 class hanalysis::hdelphes::HClonesArray : public hanalysis::HClonesArray
 {
+    
+public:
+    
+    
+    /**
+     * @brief Constructor
+     *
+     */
+    HClonesArray();
 
     void GetBranches(const ExRootTreeReader *const);
 
-private:
+protected:
 
     inline string ClassName() const {
 
@@ -237,10 +240,19 @@ private:
  */
 class hanalysis::hdelphes::HClonesArraySnowmass : public HClonesArray
 {
+    
+public:
+    
+    
+    /**
+     * @brief Constructor
+     *
+     */
+    HClonesArraySnowmass();
 
     void GetBranches(const ExRootTreeReader *const);
 
-private:
+protected:
 
     inline string ClassName() const {
 
@@ -256,10 +268,18 @@ private:
  */
 class hanalysis::hpgs::HClonesArray : public hanalysis::HClonesArray
 {
+    
+public:
+    
+    /**
+     * @brief Constructor
+     *
+     */
+    HClonesArray();
 
     void GetBranches(const ExRootTreeReader *const);
 
-private:
+protected:
 
     inline string ClassName() const {
 
@@ -275,10 +295,18 @@ private:
  */
 class hanalysis::hparton::HClonesArray : public hanalysis::HClonesArray
 {
+    
+public:
+    
+    /**
+     * @brief Constructor
+     *
+     */
+    HClonesArray();
 
     void GetBranches(const ExRootTreeReader *const);
 
-private:
+protected:
 
     inline string ClassName() const {
 

@@ -3,14 +3,14 @@
 hanalysis::hdelphes::HEvent::HEvent()
 {
 
-    Print(1, "Constructor");
+    Print(1, "Constructor", "Delphes case");
 
     Particles = new HParticle();
     Jets = new HJet();
     Lepton = new HLepton();
-    TopTagger = new hanalysis::HTopTagger();
-    HiggsTagger = new hanalysis::HHiggsTagger();
-    Discriminator = new hanalysis::HDiscriminator();
+    TopTagger = new HTopTagger();
+    HiggsTagger = new HHiggsTagger();
+    Discriminator = new HDiscriminator();
 
     HasParticles = 0;
     HasEFlow = 0;
@@ -34,28 +34,10 @@ hanalysis::hdelphes::HEvent::~HEvent()
 
 }
 
-// void HDelphes::HEvent::NewFile()
-// {
-//
-//     Print(2, "New Analysis");
-//
-//     HDelphes->NewFile();
-//
-// }
-
-// void HDelphes::HEvent::CloseFile()
-// {
-//
-//     Print(2, "Close File");
-//
-//     HDelphes->CloseFile();
-//
-// }
-
-void hanalysis::hdelphes::HEvent::NewEvent(const HClonesArray *const ClonesArrays)
+void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray *const ClonesArrays)
 {
 
-    Print(2, "New Event");
+    Print(2, "New Event", "delphes case");
 
     Particles->NewEvent(ClonesArrays);
     Jets->NewEvent(ClonesArrays);

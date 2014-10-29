@@ -29,7 +29,7 @@ vector<string> hjetproperties::HAnalysis::GetStudyNames() const
 {
 
     //     return {"Higgs", "Top", "Isr"};
-    return {"Higgs", "Top", "ATop"};
+    return {"Higgs", "Top", "ATop", "Isr"};
     //     return {"Top"};
 
 }
@@ -167,7 +167,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
     //     }
 
     HEventBranch *EventB = static_cast<HEventBranch *>(EventBranch->NewEntry());
-    EventB->ScalarPtSum = 1. / Event->Jets->GetScalarHt();
+    EventB->ScalarPtSum = 1. / Event->GetJetsM()->GetScalarHt();
 
     vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
@@ -179,7 +179,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
     for (const auto & Id : Ids) {
 
         vector<PseudoJet> EFlowJets;
-        std::copy_if(Event->Jets->EFlowJets.begin(), Event->Jets->EFlowJets.end(), std::back_inserter(EFlowJets),
+        std::copy_if(Event->GetJetsM()->EFlowJets.begin(), Event->GetJetsM()->EFlowJets.end(), std::back_inserter(EFlowJets),
                      [Id](const PseudoJet & EFlowJet) {
 
                          if (EFlowJet.user_index() == Id) return 1;
@@ -462,8 +462,8 @@ vector<PseudoJet> hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
     //     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
     Event->GetParticles();
-    vector<PseudoJet> LeptonJets = Event->Particles->GetLeptonJets();
-    vector<PseudoJet> AntiLeptonJets = Event->Particles->GetAntiLeptonJets();
+    vector<PseudoJet> LeptonJets = Event->GetParticlesM()->GetLeptonJets();
+    vector<PseudoJet> AntiLeptonJets = Event->GetParticlesM()->GetAntiLeptonJets();
 
     sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

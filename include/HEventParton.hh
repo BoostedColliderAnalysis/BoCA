@@ -25,7 +25,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::hparton::HClonesArray *const ClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
 
     void GetParticles();
 
@@ -35,7 +35,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("HParton: HEvent");
+        return "HParton: HEvent";
 
     };
 };

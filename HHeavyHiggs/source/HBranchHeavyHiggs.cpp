@@ -1,8 +1,6 @@
 # include "HBranchHeavyHiggs.hh"
 
-using hheavyhiggs::HHeavyHiggsBranch;
-
-ClassImp(HHeavyHiggsBranch)
+ClassImp(hheavyhiggs::HHeavyHiggsBranch)
 
 hheavyhiggs::HHeavyHiggsBranch::HHeavyHiggsBranch()
 {

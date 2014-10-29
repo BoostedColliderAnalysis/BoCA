@@ -26,7 +26,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::hpgs::HClonesArray *const ClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
 
     vector<TLorentzVector> GetLeptons();
 
@@ -40,7 +40,7 @@ private:
 
     inline string ClassName() const {
 
-        return ("Pgs: HEvent");
+        return "Pgs: HEvent";
 
     };
 
