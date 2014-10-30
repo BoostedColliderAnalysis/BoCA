@@ -243,7 +243,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
         }
 
-        if (CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .9) break;
+//         if (CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .9) break;
 
         Print(2, "Tag", CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 

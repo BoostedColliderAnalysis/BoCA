@@ -162,9 +162,9 @@ int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
         Print(3, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
 
-        if (ParticleClone->M2 != EmptyPosition) {
+        Position = ParticleClone->M2;
+        if (Position != EmptyPosition) {
 
-            Position = ParticleClone->M2;
             Print(3, "Mother 2 Position", GetParticleName(BranchId), Position);
             BranchId = GetMotherId(BranchId, Position);
 

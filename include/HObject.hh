@@ -275,13 +275,13 @@ protected:
     };
 
     enum HParticleId {
-        EmptyId = 0, ///> 0
-        DownId = 1,///> \f$d\f$
-        UpId = 2,///> \f$u\f$
-        StrangeId = 3,///> \f$s\f$
-        CharmId = 4,///> \f$c\f$
-        BottomId = 5,///> \f$b\f$
-        TopId = 6,///> \f$t\f$
+        EmptyId = 0, ///< 0
+        DownId = 1,///< \f$d\f$
+        UpId = 2,///< \f$u\f$
+        StrangeId = 3,///< \f$s\f$
+        CharmId = 4,///< \f$c\f$
+        BottomId = 5,///< \f$b\f$
+        TopId = 6,///< \f$t\f$
         ElectronId = 11,
         ElectronNeutrinoId = 12,
         MuonId = 13,
@@ -332,6 +332,14 @@ protected:
         ProtonId = 2212,
         DeltaBaryon2Id = 2224,
         CpvHiggsId = 5000000
+    };
+
+    enum HSeverity {
+        Error = 0,
+        Notification = 1,
+        Information = 2,
+        Debug = 3,
+        Detailed = 4
     };
 
     string GetParticleName(const int ParticleId) const;

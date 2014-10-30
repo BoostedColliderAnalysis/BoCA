@@ -30,7 +30,7 @@ vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJets(const vector<Pseud
 
     }
 
-    const float DeltaR = 1000. / ScalarHt;
+    const float DeltaR = 750. / ScalarHt;
 
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
