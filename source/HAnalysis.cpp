@@ -62,7 +62,6 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
                 TreeWriter->Clear();
 
-
 //                 ProgressBar.Update(EventNumber);
             }
 
@@ -89,8 +88,6 @@ void hanalysis::HAnalysis::AnalysisLoop()
         delete ExportFile;
 
     }
-
-    Print(1, "All Samples analysed");
 
 }
 
