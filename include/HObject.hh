@@ -335,11 +335,11 @@ protected:
     };
 
     enum HSeverity {
-        Error = 0,
-        Notification = 1,
-        Information = 2,
-        Debug = 3,
-        Detailed = 4
+        SeverityError = 0,
+        SeverityNotification = 1,
+        SeverityInformation = 2,
+        SeverityDebug = 3,
+        SeverityDetailed = 4
     };
 
     string GetParticleName(const int ParticleId) const;

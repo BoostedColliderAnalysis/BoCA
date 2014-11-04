@@ -5,7 +5,7 @@ hanalysis::hdelphes::HJet::HJet()
 
     Print(1, "Constructor");
 
-//     DebugLevel = 4;
+//     DebugLevel =5;
 
 }
 
@@ -60,7 +60,7 @@ bool hanalysis::hdelphes::HJet::GetJets(const HJetDetails JetDetails)
         GetDelphesTags(JetClone);
 
 //         Jets.at(JetNumber).user_info<HJetInfo>().PrintAllInfos();
-        Print(0, "Tag", Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalFraction());
+//         Print(0, "Tag", Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalFraction());
 
     }
 
@@ -87,6 +87,7 @@ void hanalysis::hdelphes::HJet::GetDelphesTags(const Jet *const JetClone)
 
     } else {
 
+        Print(4, "No Delphes Tag");
         JetLorentzVectors.push_back(const_cast<Jet *>(JetClone)->P4());
 
     }

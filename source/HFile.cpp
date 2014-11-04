@@ -119,7 +119,7 @@ ExRootTreeReader *hanalysis::HFile::GetTreeReader()
     Print(1, "Tree", ImportTreeName);
 
     // TreeReader
-    ExRootTreeReader *const TreeReader = new ExRootTreeReader(ImportTree);
+    TreeReader = new ExRootTreeReader(ImportTree);
 
     return TreeReader;
 
@@ -200,6 +200,7 @@ hanalysis::HFile::~HFile()
 
     delete ImportFile;
     delete ImportTree;
+    delete TreeReader;
 
 }
 
@@ -260,11 +261,11 @@ string hanalysis::hparton::HFile::GetFilePath() const
 
 hanalysis::HEvent *hanalysis::hparton::HFile::GetEvent() const
 {
-    
+
     Print(1, "Get Event");
-    
+
     return (new HEvent());
-    
+
 }
 
 
@@ -325,11 +326,11 @@ string hanalysis::hpgs::HFile::GetFilePath() const
 
 hanalysis::HEvent *hanalysis::hpgs::HFile::GetEvent() const
 {
-    
+
     Print(1, "Get Event");
-    
+
     return (new HEvent());
-    
+
 }
 
 hanalysis::hdelphes::HFile::HFile()
@@ -387,30 +388,30 @@ string hanalysis::hdelphes::HFile::GetFilePath() const
 
 hanalysis::HEvent *hanalysis::hdelphes::HFile::GetEvent() const
 {
-    
+
     Print(1, "Get Event");
-           
+
     return (new HEvent());
-    
+
 }
 
 hanalysis::HClonesArray *hanalysis::hdelphes::HFile::GetClonesArrays() const
 {
-    
+
     Print(1, "Get Clones Arrays", "here");
-    
+
     HClonesArray *ClonesArrays;
-        
+
         if (Snowmass) {
-            
+
             ClonesArrays = new HClonesArraySnowmass();
-            
+
         } else {
-            
+
             ClonesArrays = new HClonesArray();
-            
+
         }
-    
+
     return ClonesArrays;
-    
+
 }

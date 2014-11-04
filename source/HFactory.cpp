@@ -135,7 +135,7 @@ void hanalysis::HFactory::AddTree(const TFile *const File, const string &TreeNam
 
 //     const float Crosssection = Info->Crosssection;
     const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
-    delete TreeReader;
+//     delete TreeReader; // FixMe why
 
 //     const float Crosssection = 1; //FIXME we dont use the crosssection
 

@@ -38,6 +38,8 @@ public:
     float Phi;
     float DeltaR;
 
+    float ScalarHt;
+
     float SubJetsDeltaR;
     float Asymmetry;
     float DiPolarity;

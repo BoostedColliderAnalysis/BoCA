@@ -49,10 +49,12 @@ public:
      *
      */
     virtual ~HFile();
-    
+
     virtual HClonesArray *GetClonesArrays() const;
-    
+
     virtual HEvent *GetEvent() const;
+
+    ExRootTreeReader* TreeReader;
 
     /**
      * @brief Path path to the MadGraph installation
@@ -171,7 +173,7 @@ public:
     string GetFilePath() const;
 
     string GetTreeName() const;
-    
+
     hanalysis::HEvent *GetEvent() const;
 
 protected:
@@ -221,7 +223,7 @@ public:
     string GetFilePath() const;
 
     string GetTreeName() const;
-    
+
     hanalysis::HEvent *GetEvent() const;
 
 protected:
@@ -271,9 +273,9 @@ public:
     string GetFilePath() const;
 
     string GetTreeName() const;
-    
+
     hanalysis::HEvent *GetEvent() const;
-    
+
     hanalysis::HClonesArray *GetClonesArrays() const;
 
 protected:

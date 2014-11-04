@@ -101,16 +101,16 @@ int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 //     Print(0, "we are here", ParticleId, BranchId);
     Print(3, "HCPVHiggs: Get Branch Id", ParticleId, BranchId);
-    
-    
-    
+
+
+
 //     for(auto HeavyParticle : HeavyParticles) {
 //         Print(0,"HeavyParticle",HeavyParticle);
-//     }   
-    
+//     }
+
 
     if (
-        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&        
+        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
         HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = IsrId;
@@ -144,10 +144,10 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
     ++LeptonEventCounter;
 
     // Higgs stuff
-    
+
 /*    for(auto HeavyParticle : JetTag->HeavyParticles) {
         Print(0,"HeavyParticle",HeavyParticle);
-    }  */ 
+    }  */
 
     const vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(JetTag);
 
@@ -271,7 +271,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
         int UserIndex = abs(CandidateJet.user_index());
 
         if (UserIndex == CpvHiggsId || UserIndex == HiggsId) {
-            
+
             Candidate->HiggsTag = 1;
             Candidate->TopTag = 0;
 
@@ -295,6 +295,8 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
             return 0;
 
         }
+
+        Candidate->ScalarHt = Event->GetJetsM()->GetScalarHt();
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();

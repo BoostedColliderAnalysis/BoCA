@@ -71,8 +71,6 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
             if (AnalysisNotEmpty) TreeWriter->Write();
 
-            delete TreeReader;
-
             delete TreeWriter;
 
             delete Event;
