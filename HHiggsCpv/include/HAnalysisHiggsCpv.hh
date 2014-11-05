@@ -75,9 +75,9 @@ private:
 
     };
 
-    hhiggscpv::HJetTag * JetTag;
+    hhiggscpv::HJetTag *JetTag;
 
-    hanalysis::HSubStructure * SubStructure;
+    hanalysis::HSubStructure *SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -86,6 +86,13 @@ private:
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
     vector<PseudoJet> GetLeptonJets(hanalysis::HEvent *const Event);
+
+//     template <typename T, typename U>
+//     std::pair<T, U> operator+(const std::pair<T, U> &l, const std::pair<T, U> &r) {
+//         return {l.first + r.first, l.second + r.second};
+//     }
+
+    pair<float, float> GetPull(PseudoJet &CandidateJet);
 
     /**
      * @brief Lepton event counter

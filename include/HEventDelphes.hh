@@ -30,10 +30,11 @@ public:
     void NewEvent(const hanalysis::HClonesArray * const ClonesArrays);
 
     void GetParticles();
-    
+
     vector<TLorentzVector>GetLeptons();
 
     void GetJets();
+    void GetStructuredJets();
 
     void GetTaggedJets(HJetTag *const JetTag);
 
@@ -50,7 +51,7 @@ public:
     PseudoJet GetHiggs();
 
     vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const JetTag);
-    
+
 protected:
 
     inline string ClassName() const {

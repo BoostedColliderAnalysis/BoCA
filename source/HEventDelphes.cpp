@@ -84,6 +84,14 @@ void hanalysis::hdelphes::HEvent::GetJets()
 
 }
 
+void hanalysis::hdelphes::HEvent::GetStructuredJets()
+{
+  Print(2, "Get Jets");
+
+  if (!HasJets) HasJets = Jets->GetJets(HJet::Structure);
+
+}
+
 void hanalysis::hdelphes::HEvent::GetTaggedJets(HJetTag *const JetTag)
 {
     Print(2, "Get Tagged Jets");

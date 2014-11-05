@@ -20,7 +20,15 @@ void hhiggscpv::HCandidateBranch::reset()
     InvMass2 = InitialValue;
     InvMass3 = InitialValue;
     InvMass4 = InitialValue;
-    InvMass5 = InitialValue;
+
+    Pull11 = InitialValue;
+    Pull12 = InitialValue;
+    Pull21 = InitialValue;
+    Pull22 = InitialValue;
+    Pull31 = InitialValue;
+    Pull32 = InitialValue;
+    Pull41 = InitialValue;
+    Pull42 = InitialValue;
 
     ScalarHt = InitialValue;
 

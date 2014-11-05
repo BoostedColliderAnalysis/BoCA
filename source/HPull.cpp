@@ -24,35 +24,27 @@ void hanalysis::HPull::BTagCalculation(const Jet& JetClone)
 
     Print(2, "BTagCalculation");
 
-    BottomLorentzVector = const_cast<Jet*>(&JetClone)->P4();
-    BottomJet = GetPseudoJet(BottomLorentzVector);
+    PseudoJet CandidateJet = GetPseudoJet(const_cast<Jet*>(&JetClone)->P4());
 
-    if (BottomJet.pt() > 0) {
+//     if (Jet.pt() > 0) {
 
         int ValidConstituentsSum = 0;
         int ConstituentsSum = JetClone.Constituents.GetEntriesFast();
         Print(2, "Number of b Jet Constituents", ConstituentsSum);
-        for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ConstituentsNumber++) {
 
-            TObject *ConstituentObject = JetClone.Constituents.At(ConstituentsNumber);
+
+        for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ++ConstituentsNumber) {
+
+            const TObject * const ConstituentObject = JetClone.Constituents.At(ConstituentsNumber);
             if (ConstituentObject == 0) continue;
             Print(3, "Entering b Jet Constituent", ConstituentsNumber);
             ValidConstituentsSum++;
 
-            const TLorentzVector ConstituentLorentzVector = GetConstituent(ConstituentObject);
+            const PseudoJet ConstituentJet = GetConstituentJet(ConstituentObject);
 
-            const float ConstituentPhi = ConstituentLorentzVector.Phi();
-            const float ConstituentDeltaPhi = ConstituentPhi - BottomJet.phi_std();
-
-            const float ConstituentY = ConstituentLorentzVector.Rapidity();
-            const float ConstituentDeltaY = ConstituentY - BottomLorentzVector.Rapidity();
-
-            const float ConstituentR = sqrt(pow(ConstituentDeltaPhi, 2.) + pow(ConstituentDeltaY, 2.));
-            const float ConstituentPt = ConstituentLorentzVector.Pt();
-
-            const float PullFactor = ConstituentPt * ConstituentR / BottomJet.pt();
-            PullRap += PullFactor * ConstituentY;
-            PullPhi += PullFactor * ConstituentPhi;
+            const float PullFactor = ConstituentJet.pt() * ConstituentJet.delta_R(CandidateJet) / CandidateJet.pt();
+            PullRap += PullFactor * ConstituentJet.rap();
+            PullPhi += PullFactor * ConstituentJet.phi_std();
 
         }
 
@@ -60,7 +52,7 @@ void hanalysis::HPull::BTagCalculation(const Jet& JetClone)
         Print(2, "PullPhi", PullPhi);
         Print(2, "PullY", PullRap);
 
-    }
+//     }
 
 }
 

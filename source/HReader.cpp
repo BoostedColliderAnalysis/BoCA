@@ -103,7 +103,7 @@ void hanalysis::HReader::MVALoop()
 
         ApplyCuts(TreeReader, TestTreeName);
 
-        delete TreeReader;
+//         delete TreeReader; // FIXME why
 
     }
 

@@ -47,6 +47,10 @@ public:
         Print(0, "Get Jets", "No Jets");
     };
 
+    virtual void GetStructuredJets() {
+      Print(0, "Get Jets", "No Jets");
+    };
+
     virtual void GetTaggedJets(HJetTag *const) {
         Print(0, "Get Jets", "No Jets");
     };
@@ -84,7 +88,7 @@ public:
         vector<PseudoJet> v;
         return v;
     }
-    
+
     void SetJetTag(HJetTag *const JetTag){
         Jets->SetJetTag(JetTag);
     }

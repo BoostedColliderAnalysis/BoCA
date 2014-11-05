@@ -35,6 +35,8 @@ hhiggscpv::HMva::HMva()
 
     DefineVariables();
 
+    Cut = "abs(Candidate.Pull11)<3.2&&abs(Candidate.Pull12)<3.2&&abs(Candidate.Pull21)<3.2&&abs(Candidate.Pull22)<3.2&&abs(Candidate.Pull31)<3.2&&abs(Candidate.Pull32)<3.2&&abs(Candidate.Pull41)<3.2&&abs(Candidate.Pull42)<3.2";
+
 }
 
 hhiggscpv::HMva::~HMva()
@@ -55,7 +57,15 @@ void hhiggscpv::HMva::DefineVariables()
     Observables.push_back(NewObservable(&Candidate->InvMass1, "Candidate.InvMass2", "InvMass2", "GeV"));
     Observables.push_back(NewObservable(&Candidate->InvMass1, "Candidate.InvMass3", "InvMass3", "GeV"));
     Observables.push_back(NewObservable(&Candidate->InvMass1, "Candidate.InvMass4", "InvMass4", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->InvMass1, "Candidate.InvMass5", "InvMass5", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->ScalarHt, "Candidate.ScalarHt", "ScalarHt", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull11, "Candidate.Pull11", "Pull11", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull12, "Candidate.Pull12", "Pull12", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull21, "Candidate.Pull21", "Pull21", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull22, "Candidate.Pull22", "Pull22", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull31, "Candidate.Pull31", "Pull31", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull32, "Candidate.Pull32", "Pull32", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull41, "Candidate.Pull41", "Pull41", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->Pull42, "Candidate.Pull42", "Pull42", "GeV"));
 
     Spectators.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag","Higgs Tag"));
     Spectators.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag","Top Tag"));
@@ -74,7 +84,7 @@ void hhiggscpv::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 
   ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
   ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(CandidateBranchName.c_str(), HCandidateBranch::Class());
-  ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
+//   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 
@@ -110,14 +120,14 @@ void hhiggscpv::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 
     }
 
-    for (int CandidateNumber = 0; CandidateNumber < SpectatorClonesArray->GetEntriesFast(); ++CandidateNumber) {
+//     for (int CandidateNumber = 0; CandidateNumber < SpectatorClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
-      HLeptonBranch *Lepton = (HLeptonBranch *) SpectatorClonesArray->At(CandidateNumber);
+//       HLeptonBranch *Lepton = (HLeptonBranch *) SpectatorClonesArray->At(CandidateNumber);
 
-      HLeptonBranch *ExportLepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
-      (*ExportLepton) = *Lepton;
+//       HLeptonBranch *ExportLepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
+//       (*ExportLepton) = *Lepton;
 
-    }
+//     }
 
     TreeWriter->Fill();
     TreeWriter->Clear();
