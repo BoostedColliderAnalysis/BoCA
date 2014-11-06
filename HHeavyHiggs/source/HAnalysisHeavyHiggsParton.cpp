@@ -18,9 +18,9 @@ vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const
     Files.push_back(new hanalysis::HFile("Background/4f_10k"));
     Files.push_back(new hanalysis::HFile("Signal/Signal_5f"));
 
-    Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-    Files.front()->FileSuffix = "_MG5.root";
-    Files.front()->TreeString = "LHEF";
+    Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
+    Files.front()->SetFileSuffix("_MG5.root");
+    Files.front()->SetTreeName("LHEF");
 
     Print(1, "Files prepared", Files.size());
 
@@ -68,9 +68,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent* Event,s
 
     ++EventCounter;
 
-    Event->GetParticles();
+//     Event->GetParticlesM()->GetParticles();
 
-    vector<PseudoJet> BottomVector = Event->GetParticlesM()->BottomJetVector;
+    vector<PseudoJet> BottomVector = Event->GetParticles()->GetBottomJets();
 
     int BottomSum = BottomVector.size();
 
@@ -111,7 +111,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent* Event,s
     HeavyHiggs->BottomDeltaEta = CombinedEta;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
-    vector<PseudoJet> TopVector = Event->GetParticlesM()->TopJetVector;
+    vector<PseudoJet> TopVector = Event->GetParticles()->GetTopJets();
 
     int TopSum = TopVector.size();
 

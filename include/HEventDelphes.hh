@@ -29,44 +29,24 @@ public:
 
     void NewEvent(const hanalysis::HClonesArray * const ClonesArrays);
 
-    void GetParticles();
-
-    vector<TLorentzVector>GetLeptons();
-
-    void GetJets();
-    void GetStructuredJets();
-
-    void GetTaggedJets(HJetTag *const JetTag);
-
-    void GetEFlow();
-
-    void GetTaggedEFlow(HJetTag *const JetTag);
-
-    void GetIsolatedEFlow();
-
-    void GetIsoaltedTaggedEFlow(HJetTag *const JetTag);
-
     vector<PseudoJet> GetTops(HJetTag *const JetTag);
 
     PseudoJet GetHiggs();
 
-    vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const JetTag);
+    vector<PseudoJet> GetCandidates(hanalysis::HJetTag *const JetTag);
 
 protected:
 
+  inline string NameSpaceName() const
+  {
+    return "HDelphes";
+  }
+
     inline string ClassName() const {
-
-        return "HDelphes: HEvent";
-
+        return "HEvent";
     };
 
 private:
-
-    bool HasEFlow;
-
-    bool HasParticles;
-
-    bool HasJets;
 
 };
 

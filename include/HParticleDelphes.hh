@@ -3,7 +3,7 @@
 
 # include "HParticle.hh"
 
-using std::abs;
+// using std::abs;
 
 /**
  * @brief delphes particles
@@ -26,6 +26,8 @@ public:
      */
     ~HParticle();
 
+private:
+
     /**
      * @brief Extracts particles from Clones Array
      *
@@ -33,13 +35,13 @@ public:
      */
     bool GetParticles();
 
-private:
+    inline string NameSpaceName() const {
+        return "HDelphes";
+    }
 
     inline string ClassName() const {
-
-        return "HDelphes: HParticle";
-
-    };
+        return "HParticle";
+    }
 
 };
 

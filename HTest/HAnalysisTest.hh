@@ -2,6 +2,7 @@
 # define HAnalysisTest_hh
 
 # include "HAnalysis.hh"
+# include "HFileDelphes.hh"
 # include "HEventDelphes.hh"
 # include "HBranchTest.hh"
 

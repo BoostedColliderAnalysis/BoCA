@@ -185,9 +185,9 @@ vector<PseudoJet> hanalysis::HReconstruction::GetFatJetTag(vector<PseudoJet> &Fa
 
             if (Constituent.has_user_info()) {
 
-                map<int, float> JetFractions = Constituent.user_info<HJetInfo>().GetJetFractions();
+              std::map<int, float> JetFractions = Constituent.user_info<HJetInfo>().GetJetFractions();
 
-                for (map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
+              for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 
                     JetInfo.AddConstituent((*Pair).first, (*Pair).second * Constituent.pt());
 

@@ -24,6 +24,8 @@ public:
      */
     ~HParticle();
 
+private:
+
     /**
      * @brief extract electrons and muon particle
      *
@@ -31,13 +33,13 @@ public:
      */
     bool GetParticles();
 
-private:
+    inline string NameSpaceName() const {
+        return "HParton";
+    }
 
     inline string ClassName() const {
-
-        return "HParton: HParticle";
-
-    };
+        return "HParticle";
+    }
 
 };
 

@@ -43,25 +43,25 @@ vector< hanalysis::HFile* > hjetproperties::HAnalysis::GetFiles(const string Stu
     if (StudyName != "Higgs") {
 
         hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
-        Background->Crosssection = 3.215; // pb
-        Background->Error = 0.012; // pb
+        Background->SetCrosssection(3.215); // pb
+        Background->SetError(0.012); // pb
         Files.push_back(Background);
 
     }
 
     hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
-    Even->Crosssection = 0.02079; // pb
-    Even->Error = 0.000078; // pb
+    Even->SetCrosssection(0.02079); // pb
+    Even->SetError(0.000078); // pb
     Files.push_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
-    Mix->Crosssection = 0.01172; // pb
-    Mix->Error = 0.000045; // pb
+    Mix->SetCrosssection(0.01172); // pb
+    Mix->SetError(0.000045); // pb
     Files.push_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
-    Odd->Crosssection = 0.008951; // pb
-    Odd->Error = 0.000035; // pb
+    Odd->SetCrosssection(0.008951); // pb
+    Odd->SetError(0.000035); // pb
     Files.push_back(Odd);
 
     Print(1, "Files prepared");
@@ -157,7 +157,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
 
     }
 
-    Event->GetTaggedEFlow(JetTag);
+//     Event->GetTaggedEFlow(JetTag);
     //
     //     float EventPt = 0;
     //     for (const auto & EFlowJet : Event->Jets->EFlowJets) {
@@ -167,7 +167,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
     //     }
 
     HEventBranch *EventB = static_cast<HEventBranch *>(EventBranch->NewEntry());
-    EventB->ScalarPtSum = 1. / Event->GetJetsM()->GetScalarHt();
+    EventB->ScalarPtSum = 1. / Event->GetJets()->GetScalarHt();
 
     vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
@@ -179,7 +179,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
     for (const auto & Id : Ids) {
 
         vector<PseudoJet> EFlowJets;
-        std::copy_if(Event->GetJetsM()->EFlowJets.begin(), Event->GetJetsM()->EFlowJets.end(), std::back_inserter(EFlowJets),
+        std::copy_if(Event->GetJets()->GetTaggedEFlowJets(JetTag).begin(), Event->GetJets()->GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
                      [Id](const PseudoJet & EFlowJet) {
 
                          if (EFlowJet.user_index() == Id) return 1;
@@ -189,7 +189,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
                          abs(EFlowJet.user_index()) != 6 &&
                          EFlowJet.user_index() != 86
                      )
-                         cout << "EFlowId " << EFlowJet.user_index() << endl;
+                         std::cout << "EFlowId " << EFlowJet.user_index() << std::endl;
                          return 0;
 
                      });
@@ -299,7 +299,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyNa
 
         }
 
-        fastjet::JetDefinition AktJetDefinition(antikt_algorithm, MaxRadius);
+        fastjet::JetDefinition AktJetDefinition(fastjet::antikt_algorithm, MaxRadius);
         fastjet::ClusterSequence AktClusterSequence(EFlowJets, AktJetDefinition);
         vector<PseudoJet> AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(3, "InclusiveJets Number", AktInclusiveJets.size());
@@ -461,9 +461,9 @@ vector<PseudoJet> hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
     //     vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
     //     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
-    Event->GetParticles();
-    vector<PseudoJet> LeptonJets = Event->GetParticlesM()->GetLeptonJets();
-    vector<PseudoJet> AntiLeptonJets = Event->GetParticlesM()->GetAntiLeptonJets();
+//     Event->GetParticlesM()->GetParticles();
+    vector<PseudoJet> LeptonJets = Event->GetParticles()->GetLeptonJets();
+    vector<PseudoJet> AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
 
     sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

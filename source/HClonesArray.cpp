@@ -4,7 +4,7 @@ hanalysis::HClonesArray::HClonesArray()
 {
 
     Print(1, "Constructor");
-    
+
     ParticleClonesArray = NULL;
     PhotonClonesArray = NULL;
     ElectronClonesArray = NULL;
@@ -25,30 +25,30 @@ hanalysis::HClonesArray::HClonesArray()
 
 hanalysis::hdelphes::HClonesArray::HClonesArray()
 {
-    
-    Print(1, "Constructor", "delphes case");
-    
+
+    Print(1, "Constructor");
+
 }
 
 hanalysis::hdelphes::HClonesArraySnowmass::HClonesArraySnowmass()
 {
-    
+
     Print(1, "Constructor");
-    
+
 }
 
 hanalysis::hpgs::HClonesArray::HClonesArray()
 {
-    
+
     Print(1, "Constructor");
-    
+
 }
 
 hanalysis::hparton::HClonesArray::HClonesArray()
 {
-    
+
     Print(1, "Constructor");
-    
+
 }
 
 hanalysis::HClonesArray::~HClonesArray()
@@ -78,7 +78,7 @@ hanalysis::HClonesArray::~HClonesArray()
 void hanalysis::hdelphes::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
 {
 
-    Print(1, "Get Branches", "delphes case");
+    Print(1, "Get Branches");
 
     ParticleClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("Particle");
     PhotonClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("Photon");

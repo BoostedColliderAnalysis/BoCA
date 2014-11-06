@@ -5,8 +5,8 @@
 
 # include "HObject.hh"
 
-using std::map;
-using std::pair;
+// using std::map;
+// using std::pair;
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -40,7 +40,7 @@ public:
      */
     float GetFraction(const int ParticleId) const;
 
-    map<int,float> GetJetFractions() const{
+    std::map<int,float> GetJetFractions() const{
 
         return JetFractions;
 
@@ -85,16 +85,14 @@ public:
 protected:
 
     inline string ClassName() const {
-
         return "HJetInfo";
-
     };
 
 private:
 
     float GetWeightSum() const;
 
-    map<int, float> JetFractions;
+    std::map<int, float> JetFractions;
 
 };
 

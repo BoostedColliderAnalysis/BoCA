@@ -6,8 +6,8 @@
 # include "HClonesArray.hh"
 # include "HFourVector.hh"
 
-using std::sort;
-using std::vector;
+// using std::sort;
+// using std::vector;
 
 /**
  * @brief particles for HAnalysis
@@ -30,7 +30,32 @@ public:
      */
     ~HParticle();
 
-    void NewEvent(const HClonesArray * const);
+    void NewEvent(const HClonesArray *const);
+
+    vector<TLorentzVector> GetLeptonLorentzVectors();
+
+    vector<TLorentzVector> GetAntiLeptonLorentzVectors();
+
+    vector<PseudoJet> GetLeptonJets();
+
+    vector<PseudoJet> GetAntiLeptonJets();
+
+    vector<PseudoJet> GetBottomJets()  {
+        if(!GotParticles) GotParticles = GetParticles();
+        return BottomJetVector;
+    }
+
+    vector<PseudoJet> GetCharmJets() {
+      if(!GotParticles) GotParticles = GetParticles();
+        return CharmJetVector;
+    }
+
+    vector<PseudoJet> GetTopJets() {
+      if(!GotParticles) GotParticles = GetParticles();
+        return TopJetVector;
+    }
+
+protected:
 
     /**
      * @brief extract electrons and muon particle
@@ -39,15 +64,7 @@ public:
      */
     virtual bool GetParticles() = 0;
 
-    virtual vector<PseudoJet> TagJets( vector<PseudoJet>){vector<PseudoJet> v; return v;};
-
-    virtual vector<TLorentzVector> GetLeptonLorentzVectors();
-
-    virtual vector<TLorentzVector> GetAntiLeptonLorentzVectors();
-
-    virtual vector<PseudoJet> GetLeptonJets();
-
-    virtual vector<PseudoJet> GetAntiLeptonJets();
+    bool GotParticles;
 
     vector<TLorentzVector> TopVector;
 
@@ -92,9 +109,6 @@ public:
     vector<PseudoJet> CharmJetVector;
 
 
-protected:
-
-
     /**
      * @brief Clones Arrays
      *
@@ -103,14 +117,11 @@ protected:
 
     vector<PseudoJet> ParticleJetVector;
 
+    virtual inline string ClassName() const {
+        return ("HParticle");
+    };
 
 private:
-
-    virtual inline string ClassName() const {
-
-        return ("HParticle");
-
-    };
 
 };
 

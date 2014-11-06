@@ -19,15 +19,11 @@ hanalysis::hparton::HParticle::~HParticle()
 bool hanalysis::hparton::HParticle::GetParticles()
 {
 
-    Print(2, "Get Particles");
+    Print(2, "Get Particles", ClonesArrays->GetParticleSum());
 
-    int ParticleSum = ClonesArrays->ParticleClonesArray->GetEntriesFast();
+    for (const int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
 
-    Print(3, "Number of Particles", ParticleSum);
-
-    for (const auto & ParticleNumber : HRange(ParticleSum)) {
-
-        TRootLHEFParticle *ParticleClone = (TRootLHEFParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
+        TRootLHEFParticle *ParticleClone = (TRootLHEFParticle *) ClonesArrays->GetParticle(ParticleNumber);
 
         int ParticleStatus = ParticleClone->Status;
         Print(4, "Particles Status", ParticleStatus);

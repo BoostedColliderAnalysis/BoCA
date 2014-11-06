@@ -16,16 +16,13 @@ hanalysis::hpgs::HLepton::~HLepton()
 }
 
 
-void hanalysis::hpgs::HLepton::GetElectrons()
+bool hanalysis::hpgs::HLepton::GetElectrons()
 {
 
-    Print(2, "Get Electrons");
+  Print(2, "Get Electrons", ClonesArray->GetElectronSum());
+  for (const int ElectronNumber : HRange(ClonesArray->GetElectronSum())) {
 
-    int ElectronSum = ClonesArray->ElectronClonesArray->GetEntriesFast();
-    Print(3, "Number of Electrons", ElectronSum);
-    for (int ElectronNumber = 0; ElectronNumber < ElectronSum; ElectronNumber++) {
-
-        TRootElectron *ElectronClone = (TRootElectron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
+        TRootElectron *ElectronClone = (TRootElectron *)ClonesArray->GetElectron(ElectronNumber);
 
         int ElectronCharge = ElectronClone->Charge;
 
@@ -49,18 +46,17 @@ void hanalysis::hpgs::HLepton::GetElectrons()
 
     }
 
+    return 1;
+
 }
 
-void hanalysis::hpgs::HLepton::GetMuons()
+bool hanalysis::hpgs::HLepton::GetMuons()
 {
 
-    Print(2, "Get Muons");
+    Print(2, "Get Muons", ClonesArray->GetMuonSum());
+    for (const int MuonNumber : HRange(ClonesArray->GetMuonSum())) {
 
-    int MuonSum = ClonesArray->MuonClonesArray->GetEntriesFast();
-    Print(3, "Number of Muons", MuonSum);
-    for (int MuonNumber = 0; MuonNumber < MuonSum; ++MuonNumber) {
-
-        TRootMuon *MuonClone = (TRootMuon *)ClonesArray->MuonClonesArray->At(MuonNumber);
+        TRootMuon *MuonClone = (TRootMuon *)ClonesArray->GetMuon(MuonNumber);
         int MuonCharge = MuonClone->Charge;
 
         if (MuonCharge == -1) {
@@ -82,5 +78,7 @@ void hanalysis::hpgs::HLepton::GetMuons()
             Print(1, "Muon Charge", MuonCharge);
 
     }
+
+    return 1;
 
 }

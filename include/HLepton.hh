@@ -6,8 +6,8 @@
 # include "HClonesArray.hh"
 # include "HFourVector.hh"
 
-using std::sort;
-using std::vector;
+// using std::sort;
+// using std::vector;
 
 // class Jet;
 
@@ -32,27 +32,32 @@ public:
      */
     ~HLepton();
 
-    void NewEvent(const HClonesArray * const);
+    void NewEvent(const HClonesArray *const);
 
     vector<TLorentzVector> GetLeptonLorentzVectors();
 
     vector<PseudoJet> GetLeptonJets();
 
-    /**
-     * @brief Find the hardest of the light leptons
-     *
-     * @param ClonesArray ...
-     * @return void
-     */
-    virtual void GetElectrons() = 0;
+protected:
 
-    /**
-     * @brief Find the hardest of the light leptons
-     *
-     * @param ClonesArray ...
-     * @return void
-     */
-    virtual void GetMuons() = 0;
+  /**
+   * @brief Find the hardest of the light leptons
+   *
+   * @param ClonesArray ...
+   * @return void
+   */
+  virtual bool GetElectrons() = 0;
+
+  /**
+   * @brief Find the hardest of the light leptons
+   *
+   * @param ClonesArray ...
+   * @return void
+   */
+  virtual bool GetMuons() = 0;
+
+  bool GotElectrons;
+  bool GotMuons;
 
     /**
      * @brief Electron Lorentz Vector Vector
@@ -138,8 +143,6 @@ public:
      *
      */
     vector<PseudoJet> AntiLeptonJets;
-
-protected:
 
     const HClonesArray *ClonesArray;
 

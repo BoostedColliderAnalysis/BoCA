@@ -177,7 +177,7 @@ void hanalysis::HFactory::BookMethods()
 
     const string CutMethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
 
-    Factory->BookMethod(Types::kCuts, CutMethodName, CutOptions);
+    Factory->BookMethod(TMVA::Types::kCuts, CutMethodName, CutOptions);
 
 //     const string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
     const string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
@@ -185,6 +185,6 @@ void hanalysis::HFactory::BookMethods()
 
     const string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
 
-    Factory->BookMethod(Types::kBDT, BdtMethodName, BdtOptions);
+    Factory->BookMethod(TMVA::Types::kBDT, BdtMethodName, BdtOptions);
 
 }

@@ -5,7 +5,7 @@
 
 # include "HObject.hh"
 
-using std::set;
+// using std::set;
 
 /**
  * @brief defines how to tag a jet
@@ -42,21 +42,21 @@ public:
      * @brief set of particle Ids which are considerd relevant
      *
      */
-    const set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-    
+    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+
 protected:
 
     /**
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    const set<int> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+    const std::set<int> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
 
 private:
 
     virtual inline string ClassName() const {
 
-        return "Analysis: HJetTag";
+        return "HJetTag";
 
     };
 

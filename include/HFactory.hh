@@ -18,9 +18,6 @@
 
 # include "HObject.hh"
 
-using TMVA::Types;
-
-
 /**
  * @brief Prepares multivariant analysis
  *

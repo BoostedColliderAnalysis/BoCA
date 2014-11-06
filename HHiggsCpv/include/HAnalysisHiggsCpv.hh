@@ -1,10 +1,12 @@
 # ifndef HAnalysisHiggsCpv_hh
 # define HAnalysisHiggsCpv_hh
 
+# include "HFileDelphes.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "HBranchHiggsCpv.hh"
 # include "HSubStructure.hh"
+# include "HSuperStructure.hh"
 
 /**
  * \class HDiscriminatorJetTag
@@ -19,12 +21,16 @@ public:
 
     int GetBranchId(const int ParticleId, int BranchId);
 
-    const set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+
+    const std::set<int> IntermediateParticles {BottomId};
+
+    virtual inline string NameSpaceName() const {
+        return "HiggsCPV";
+    };
 
     virtual inline string ClassName() const {
-
-        return "HiggsCPV: HJetTag";
-
+        return "HJetTag";
     };
 
 };
@@ -92,7 +98,7 @@ private:
 //         return {l.first + r.first, l.second + r.second};
 //     }
 
-    pair<float, float> GetPull(PseudoJet &CandidateJet);
+    std::pair<float, float> GetPull(PseudoJet &CandidateJet);
 
     /**
      * @brief Lepton event counter
@@ -123,10 +129,12 @@ private:
 
     inline vector<string> GetStudyNames() const;
 
+    virtual inline string NameSpaceName() const {
+      return "HiggsCPV";
+    };
+
     virtual inline string ClassName() const {
-
-        return "HiggsCPV: HAnalysis";
-
+        return "HAnalysis";
     };
 
 };

@@ -28,7 +28,7 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
             bool AnalysisNotEmpty = 0;
 
-            ExRootTreeWriter *const TreeWriter = GetTreeWriter(ExportFile, File->Title());
+            ExRootTreeWriter *const TreeWriter = GetTreeWriter(ExportFile, File->GetTitle());
 
             ExRootTreeBranch *const InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
 
@@ -77,7 +77,7 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
             delete ClonesArrays;
 
-            if (DebugLevel > 0) cout << endl;
+            if (DebugLevel > 0) Print(0," ");
 
         }
 
@@ -93,8 +93,8 @@ void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeRead
 {
 
     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
-    Info->Crosssection = File->Crosssection;
-    Info->Error = File->Error;
+    Info->Crosssection = File->GetCrosssection();
+    Info->Error = File->GetError();
     Info->EventNumber = GetEventSum(TreeReader);
 
 }

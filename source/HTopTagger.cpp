@@ -55,7 +55,7 @@ vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > &EFlowJets)
         HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);
 
         TopTagger.set_top_range(150., 200.);
-        cout << "========= Top Tagger ============" << endl;
+        std::cout << "========= Top Tagger ============" << std::endl;
         TopTagger.run_tagger();
 //         cout << "-------- setting  --------" << endl;
 //         TopTagger.get_setting();
@@ -64,13 +64,13 @@ vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > &EFlowJets)
 
         if (TopTagger.is_masscut_passed()) {
 
-            cout << "### masscut_passed ###" << endl;
+          std::cout << "### masscut_passed ###" << std::endl;
 
             PseudoJet top = TopTagger.top_candidate();
 //             PseudoJet b = TopTagger.top_subjets().at(0);
 //             PseudoJet W1 = TopTagger.top_subjets().at(1);
 //             PseudoJet W2 = TopTagger.top_subjets().at(2);
-            cout << "top mass: " << top.m() << endl;
+            std::cout << "top mass: " << top.m() << std::endl;
 //             cout << "bottom mass: " << b.m() << endl;
 //             cout << "W mass: " << (W1 + W2).m() << endl;
 

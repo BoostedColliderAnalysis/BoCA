@@ -20,11 +20,11 @@ hanalysis::hdelphes::HParticle ::~HParticle()
 bool hanalysis::hdelphes::HParticle ::GetParticles()
 {
 
-    Print(2, "Get Particles", ClonesArrays->ParticleSum());
+    Print(2, "Get Particles", ClonesArrays->GetParticleSum());
 
-    for (const int ParticleNumber : HRange(ClonesArrays->ParticleSum())) {
+    for (const int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
 
-        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleNumber);
+        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(ParticleNumber);
 
         const int ParticleID = ParticleClone->PID;
         Print(4, "Particles ID", ParticleID);
@@ -115,8 +115,8 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 Print(3, "Heavy CPV Higgs");
 
                 Print(0, "HeavyHiggs", ParticleClone->Status);
-                if (ParticleClone->D1 != -1) Print(0, "Daughter1", ((GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->D1))->PID);
-                if (ParticleClone->D2 != -1) Print(0, "Daughter2", ((GenParticle *) ClonesArrays->ParticleClonesArray->At(ParticleClone->D2))->PID);
+                if (ParticleClone->D1 != -1) Print(0, "Daughter1", ((GenParticle *) ClonesArrays->GetParticle(ParticleClone->D1))->PID);
+                if (ParticleClone->D2 != -1) Print(0, "Daughter2", ((GenParticle *) ClonesArrays->GetParticle(ParticleClone->D2))->PID);
 
             }
 

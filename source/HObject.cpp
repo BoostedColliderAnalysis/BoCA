@@ -9,6 +9,7 @@ hanalysis::HObject::HObject() :
     MuonMass(0.1134),
     ElectronMass(0.000511),
     EmptyUserIndex(-1),
+    EmptyPosition(-1),
     OneSigma(0.6827),
     TwoSigma(0.9545),
     ThreeSigma(0.9973)
@@ -92,9 +93,11 @@ void hanalysis::HObject::Printer(const string& Description) const
 {
 
     const char Separator = ' ';
-    const int ClassWidth = 28;
+    const int NameSpaceWidth = 12;
+    const int ClassWidth = 17;
     const int FunctionWidth = 25;
 
+    std::cout << std::left << std::setw(NameSpaceWidth) << std::setfill(Separator) << NameSpaceName();
     std::cout << std::left << std::setw(ClassWidth) << std::setfill(Separator) << ClassName();
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Description;

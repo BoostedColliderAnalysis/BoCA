@@ -18,9 +18,9 @@ vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const st
     Files.push_back(new hanalysis::HFile("5f_10k_Pt20"));
 
 //     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-    Files.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
-    Files.front()->FileSuffix = "_PGS.root";
-    Files.front()->TreeString = "LHCO";
+    Files.front()->SetBasePath("~/Dropbox/Projects/HeavyHiggs/Simulation/");
+    Files.front()->SetFileSuffix("_PGS.root");
+    Files.front()->SetTreeName("LHCO");
 
     Print(1, "Files prepared", Files.size());
 
@@ -69,9 +69,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent* Event,stri
 
     Print(2, "Analysis",StudyName);
 
-    Event->GetJets();
+//     Event->GetJets();
 
-    vector<PseudoJet> BJets = Event->GetJetsM()->BottomJets;
+    vector<PseudoJet> BJets = Event->GetJets()->GetBottomJets();
 
     Print(2, "BJet Sum", BJets.size());
 
@@ -173,7 +173,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent* Event,stri
                 HeavyHiggs->BottomInvMass = InvMass;
 
                 HeavyHiggs->BTag = BJets.size();
-                HeavyHiggs->JetNumber = Event->GetJetsM()->Jets.size();
+                HeavyHiggs->JetNumber = Event->GetJets()->GetJets().size();
 
             }
 

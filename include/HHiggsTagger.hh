@@ -5,8 +5,8 @@
 
 # include "HReconstruction.hh"
 
-using std::min;
-using TMath::Pi;
+// using std::min;
+// using TMath::Pi;
 
 /**
  * @brief Higgs tagger as described in arXiv:0802.2470

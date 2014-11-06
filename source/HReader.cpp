@@ -78,7 +78,7 @@ void hanalysis::HReader::MVALoop()
     const string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + ".root";
     const TFile *InputFile = TFile::Open(InputFileName.c_str());
 
-    cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << endl;
+    std::cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << std::endl;
     if (Mva->DoLatex) LatexHeader();
 
     GetCuts();
@@ -136,15 +136,15 @@ void hanalysis::HReader::LatexHeader()
 
     LatexFile.open(TexFileName);
 
-    LatexFile << "\\documentclass[a4paper,11pt]{article}" << endl << endl
-              << "\\usepackage{booktabs}" << endl
-              << "\\usepackage{a4wide}" << endl
-              << "\\usepackage{units}" << endl
-              << "\\usepackage{siunitx}" << endl << endl
-              << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << endl
-              << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << endl
-              << "\\newcolumntype{E}{R@{$\\pm$}L}" << endl << endl
-              << "\\begin{document}" << endl << endl;
+    LatexFile << "\\documentclass[a4paper,11pt]{article}" << std::endl << std::endl
+    << "\\usepackage{booktabs}" << std::endl
+    << "\\usepackage{a4wide}" << std::endl
+    << "\\usepackage{units}" << std::endl
+    << "\\usepackage{siunitx}" << std::endl << std::endl
+    << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
+    << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << std::endl
+    << "\\newcolumntype{E}{R@{$\\pm$}L}" << std::endl << std::endl
+    << "\\begin{document}" << std::endl << std::endl;
 
 }
 
@@ -156,13 +156,13 @@ void hanalysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, con
 
     ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
 
-    vector<pair<size_t, VectorIterator> > Priority(ReaderStruct.CutFlowVector.size());
+    vector<std::pair<size_t, VectorIterator> > Priority(ReaderStruct.CutFlowVector.size());
 
     size_t OrderNumber = 0;
     for (VectorIterator Iterator = ReaderStruct.CutFlowVector.begin(); Iterator != ReaderStruct.CutFlowVector.end(); ++Iterator, ++OrderNumber)
         Priority[OrderNumber] = std::make_pair(OrderNumber, Iterator);
 
-    sort(Priority.begin(), Priority.end(), PairOrder());
+    std::sort(Priority.begin(), Priority.end(), PairOrder());
 
     ReaderStruct.CutFlowVector = SortByPriority(ReaderStruct.CutFlowVector, Priority);
     Mva->Observables = SortByPriority(Mva->Observables, Priority);
@@ -201,7 +201,7 @@ void hanalysis::HReader::TabularOutput() const
     PrintText("t Tag", DataWidth);
     PrintText("h Tag", DataWidth);
     PrintText("Per Event", DataWidth);
-    cout << endl;
+    std::cout << std::endl;
 
 
     float CandidatsPerEvent = GetRatio(ReaderStruct.FatJetSum, EventSum);
@@ -218,7 +218,7 @@ void hanalysis::HReader::TabularOutput() const
     PrintData(ReaderStruct.TopEventSum, DataWidth);
     PrintData(ReaderStruct.HiggsEventSum, DataWidth);
     PrintData(RoundToDigits(CandidatsPerEvent), DataWidth);
-    cout << endl;
+    std::cout << std::endl;
 
     for (unsigned ObservableNumber = 0; ObservableNumber < Mva->Observables.size(); ++ObservableNumber) {
 
@@ -236,7 +236,7 @@ void hanalysis::HReader::TabularOutput() const
         PrintData(ReaderStruct.TopEventVector[ObservableNumber], DataWidth);
         PrintData(ReaderStruct.HiggsEventVector[ObservableNumber], DataWidth);
         PrintData(RoundToDigits(CandidatsPerEvent), DataWidth);
-        cout << endl;
+        std::cout << std::endl;
 
 
     }
@@ -248,21 +248,21 @@ void hanalysis::HReader::LatexContent(const string& TreeName)
 
     Print(1, "LaTeX Content");
 
-    LatexFile << endl
-              << "\\begin{table}" << endl
-              << "\\centering" << endl
-              << "\\begin{tabular}{lSSEEE}" << endl
-              << " \\\\ \\toprule" << endl
-              << "    Cut Name" << endl
-              << "  & \\multicolumn{2}{c}{Cutvalues}" << endl
-              << "  & \\multicolumn{6}{c}{Luminosity in fb$^{-1}$}" << endl
-              << " \\\\ \\cmidrule(r){2-3} \\cmidrule(l){4-9}" << endl
-              << "  & \\multicolumn{1}{c}{Minimum}" << endl
-              << "  & \\multicolumn{1}{c}{Maximum}" << endl
-              << "  & \\multicolumn{2}{c}{fat jets}" << endl
-              << "  & \\multicolumn{2}{c}{Top}" << endl
-              << "  & \\multicolumn{2}{c}{Higgs}" << endl
-              << " \\\\ \\midrule" << endl << "   ";
+    LatexFile << std::endl
+    << "\\begin{table}" << std::endl
+    << "\\centering" << std::endl
+              << "\\begin{tabular}{lSSEEE}" << std::endl
+              << " \\\\ \\toprule" << std::endl
+              << "    Cut Name" << std::endl
+              << "  & \\multicolumn{2}{c}{Cutvalues}" << std::endl
+              << "  & \\multicolumn{6}{c}{Luminosity in fb$^{-1}$}" << std::endl
+              << " \\\\ \\cmidrule(r){2-3} \\cmidrule(l){4-9}" << std::endl
+              << "  & \\multicolumn{1}{c}{Minimum}" << std::endl
+              << "  & \\multicolumn{1}{c}{Maximum}" << std::endl
+              << "  & \\multicolumn{2}{c}{fat jets}" << std::endl
+              << "  & \\multicolumn{2}{c}{Top}" << std::endl
+              << "  & \\multicolumn{2}{c}{Higgs}" << std::endl
+              << " \\\\ \\midrule" << std::endl << "   ";
 
     CrosssectionNorm = Crosssection * 1000; // conversion from pico to femto
     const float CrosssectionNormError = CrosssectionError * 1000;
@@ -292,15 +292,15 @@ void hanalysis::HReader::LatexContent(const string& TreeName)
     //     float TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
     float TopEventLuminosityError = GetError(TopEventLuminosity);
 
-    LatexFile << " " << "Initial" << endl
-              << "  & " <<  endl
-              << "  & " <<  endl
-              << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << endl
-              << "  & " << RoundError(EventLuminosityError) << endl
-              << "  & " << RoundToError(TopEventLuminosity, TopEventLuminosityError) << endl
-              << "  & " << RoundError(TopEventLuminosityError) << endl
-              << "  & " << RoundToError(HiggsEventLuminosity, HiggsEventLuminosityError) << endl
-              << "  & " << RoundError(HiggsEventLuminosityError) << endl
+    LatexFile << " " << "Initial" << std::endl
+    << "  & " <<  std::endl
+              << "  & " <<  std::endl
+              << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << std::endl
+              << "  & " << RoundError(EventLuminosityError) << std::endl
+              << "  & " << RoundToError(TopEventLuminosity, TopEventLuminosityError) << std::endl
+              << "  & " << RoundError(TopEventLuminosityError) << std::endl
+              << "  & " << RoundToError(HiggsEventLuminosity, HiggsEventLuminosityError) << std::endl
+              << "  & " << RoundError(HiggsEventLuminosityError) << std::endl
               << " \\\\ ";
 
     int ObservableSum = Mva->Observables.size();
@@ -318,24 +318,24 @@ void hanalysis::HReader::LatexContent(const string& TreeName)
         TopEventLuminosityError = GetError(TopEventLuminosity);
 //         TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
 
-        LatexFile << " " /*<< "$"*/ << Mva->Observables[ObservableNumber].Title /*<< "$"*/ << endl
-        << "  & " << RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]) << endl
-        << "  & " << RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]) << endl
-                  << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << endl
-                  << "  & " << RoundError(EventLuminosityError) << endl
-                  << "  & " << RoundToError(TopEventLuminosity, TopEventLuminosityError) << endl
-                  << "  & " << RoundError(TopEventLuminosityError) << endl
-                  << "  & " << RoundToError(HiggsEventLuminosity, HiggsEventLuminosityError) << endl
-                  << "  & " << RoundError(HiggsEventLuminosityError) << endl
+        LatexFile << " " /*<< "$"*/ << Mva->Observables[ObservableNumber].Title /*<< "$"*/ << std::endl
+        << "  & " << RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]) << std::endl
+        << "  & " << RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]) << std::endl
+        << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << std::endl
+        << "  & " << RoundError(EventLuminosityError) << std::endl
+        << "  & " << RoundToError(TopEventLuminosity, TopEventLuminosityError) << std::endl
+        << "  & " << RoundError(TopEventLuminosityError) << std::endl
+        << "  & " << RoundToError(HiggsEventLuminosity, HiggsEventLuminosityError) << std::endl
+        << "  & " << RoundError(HiggsEventLuminosityError) << std::endl
                   << " \\\\ ";
 
     }
 
-    LatexFile << "\\bottomrule" << endl
-              << "\\end{tabular}" << endl
-              << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit[" << RoundToError(CrosssectionNorm, CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError, 2) << "]{fb}$, a signal efficiency of " << Mva->SignalEfficiency << " and a integrated Luminosity of $\\unit[" << Mva->Luminosity << "]{fb^{-1}}$.}" << endl
+    LatexFile << "\\bottomrule" << std::endl
+    << "\\end{tabular}" << std::endl
+    << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit[" << RoundToError(CrosssectionNorm, CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError, 2) << "]{fb}$, a signal efficiency of " << Mva->SignalEfficiency << " and a integrated Luminosity of $\\unit[" << Mva->Luminosity << "]{fb^{-1}}$.}" << std::endl
               //         << "\\label{tab:}" << Mva->BackgroundVector[BackgroundNumber] << endl;
-              << "\\end{table}" << endl;
+              << "\\end{table}" << std::endl;
 
 }
 
@@ -344,7 +344,7 @@ void hanalysis::HReader::LatexFooter()
 
     Print(1, "LaTeX Footer");
 
-    LatexFile << endl << "\\end{document}" << endl;
+    LatexFile << std::endl << "\\end{document}" << std::endl;
 
     LatexFile.close();
 

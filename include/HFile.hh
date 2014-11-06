@@ -8,10 +8,9 @@
 # include "HObject.hh"
 # include "HClonesArray.hh"
 
-// # include "HEvent.hh"
-# include "HEventDelphes.hh"
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
+# include "HEventDelphes.hh"
 
 /**
  * @brief Input file infos
@@ -42,19 +41,76 @@ public:
      */
     HFile(const string &Process, const string &Run);
 
-    ExRootTreeReader *GetTreeReader();
-
     /**
      * @brief destructor
      *
      */
     virtual ~HFile();
 
-    virtual HClonesArray *GetClonesArrays() const;
+    ExRootTreeReader *GetTreeReader();
 
-    virtual HEvent *GetEvent() const;
+    virtual HClonesArray *GetClonesArrays();
 
-    ExRootTreeReader* TreeReader;
+    virtual HEvent *GetEvent();
+
+    void SetBasePath(const string &NewBasePath) {
+        BasePath = NewBasePath;
+    }
+
+    /**
+     * @brief Name of Process
+     *
+     */
+    string GetTitle() const;
+
+    float GetCrosssection() const {
+        return Crosssection;
+    }
+
+    void SetCrosssection(const float NewCrosssection) {
+        Crosssection = NewCrosssection;
+    }
+
+    void SetError(const float NewError) {
+        Crosssection = NewError;
+    }
+
+    void SetFileSuffix(const string &NewFileSuffix) {
+        FileSuffix = NewFileSuffix;
+    }
+
+    float GetError() const {
+        return Error;
+    }
+
+    void SetSnowMass(const bool NewSnowMass) {
+        SnowMass = NewSnowMass;
+    }
+
+    void SetTreeName(const string &NewTreeName) {
+        TreeName = NewTreeName;
+    }
+
+    /**
+     * @brief Compose file path
+     *
+     * @return string file path
+     */
+    virtual string GetFilePath() const;
+
+    virtual string GetTreeName() const;
+
+protected:
+
+    ExRootTreeReader *TreeReader;
+
+    void  SetVariables();
+
+    string GetMadGraphFilePath() const;
+
+    virtual inline string ClassName() const {
+        return "HFile";
+    };
 
     /**
      * @brief Path path to the MadGraph installation
@@ -84,13 +140,7 @@ public:
      * @brief String containing the name of the root tree
      *
      */
-    static string TreeString;
-
-    /**
-     * @brief Name of Process
-     *
-     */
-    string Title() const;
+    static string TreeName;
 
     /**
      * @brief Crosssection of the event
@@ -104,191 +154,20 @@ public:
      */
     float Error;
 
-    /**
-     * @brief Compose file path
-     *
-     * @return string file path
-     */
-    virtual string GetFilePath() const;
-
-    virtual string GetTreeName() const;
-
     static string FileSuffix;
 
-    static bool Snowmass;
+    static bool SnowMass;
 
-protected:
+    HEvent * Event;
 
-  void  SetVariables();
-
-    string MadGraphFilePath() const;
-
-    virtual inline string ClassName() const {
-
-        return "HFile";
-
-    };
-
+    HClonesArray *ClonesArrays;
 
 private:
 
-  TFile* ImportFile;
-  TTree* ImportTree;
+    TFile *ImportFile;
 
-
-};
-
-/**
- * @brief unweighted MadGraph files
- *
- */
-class hanalysis::hparton::HFile : public hanalysis::HFile
-{
-
-public:
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile();
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile(const string &Process);
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile(const string &Process, const string &Run);
-
-    /**
-     * @brief Compose file path
-     *
-     * @return string file path
-     */
-    string GetFilePath() const;
-
-    string GetTreeName() const;
-
-    hanalysis::HEvent *GetEvent() const;
-
-protected:
-
-    virtual inline string ClassName() const {
-
-        return "HParton: HFile";
-
-    };
-
-private:
+    TTree *ImportTree;
 
 };
-
-/**
- * @brief PGS files
- *
- */
-class hanalysis::hpgs::HFile : public hanalysis::HFile
-{
-
-public:
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile();
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile(const string &Process);
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile(const string &Process, const string &Run);
-
-    /**
-     * @brief Compose file path
-     *
-     * @return string file path
-     */
-    string GetFilePath() const;
-
-    string GetTreeName() const;
-
-    hanalysis::HEvent *GetEvent() const;
-
-protected:
-
-    virtual inline string ClassName() const {
-
-        return "HPgs: HFile";
-
-    };
-
-private:
-
-};
-
-/**
- * @brief Delphes files
- *
- */
-class hanalysis::hdelphes::HFile : public hanalysis::HFile
-{
-
-public:
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile();
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile(const string &Process);
-
-  /**
-   * @brief constructor defining default path
-   *
-   */
-  HFile(const string &Process, const string &Run);
-
-    /**
-     * @brief Compose file path
-     *
-     * @return string file path
-     */
-    string GetFilePath() const;
-
-    string GetTreeName() const;
-
-    hanalysis::HEvent *GetEvent() const;
-
-    hanalysis::HClonesArray *GetClonesArrays() const;
-
-protected:
-
-    virtual inline string ClassName() const {
-
-        return "HDelphes: HFile";
-
-    };
-
-private:
-
-};
-
 
 # endif

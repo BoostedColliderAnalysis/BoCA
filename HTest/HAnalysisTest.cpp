@@ -80,12 +80,12 @@ bool htest::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyName)
     Print(2, "Analysis", StudyName);
 
     HJetTag * const HeavyHiggsJetTag = new HJetTag;
-    Event->GetTaggedJets(HeavyHiggsJetTag);
+//     Event->GetTaggedJets(HeavyHiggsJetTag);
 
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
 
-    Candidate->Pt = float(Event->GetJetsM()->Jets.front().pt());
+    Candidate->Pt = float(Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag).front().pt());
 
     if (Candidate->Pt > 100 ) {
 

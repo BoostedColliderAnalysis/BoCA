@@ -3,7 +3,7 @@
 hanalysis::hdelphes::HEvent::HEvent()
 {
 
-    Print(1, "Constructor", "Delphes case");
+    Print(1, "Constructor");
 
     Particles = new HParticle();
     Jets = new HJet();
@@ -12,9 +12,9 @@ hanalysis::hdelphes::HEvent::HEvent()
     HiggsTagger = new HHiggsTagger();
     Discriminator = new HDiscriminator();
 
-    HasParticles = 0;
-    HasEFlow = 0;
-    HasJets = 0;
+//     HasParticles = 0;
+//     HasEFlow = 0;
+//     HasJets = 0;
 
 //     Debug = 5;
 
@@ -37,7 +37,7 @@ hanalysis::hdelphes::HEvent::~HEvent()
 void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray *const ClonesArrays)
 {
 
-    Print(2, "New Event", "delphes case");
+    Print(2, "New Event");
 
     Particles->NewEvent(ClonesArrays);
     Jets->NewEvent(ClonesArrays);
@@ -47,120 +47,120 @@ void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray *const 
     HiggsTagger->NewEvent();
     Discriminator->NewEvent();
 
-    HasParticles = 0;
-    HasEFlow = 0;
-    HasJets = 0;
+//     HasParticles = 0;
+//     HasEFlow = 0;
+//     HasJets = 0;
 
 }
 
 
-void hanalysis::hdelphes::HEvent::GetParticles()
-{
-
-    Print(2, "Get Particles");
-
-    if (!HasParticles) HasParticles = Particles->GetParticles();
-
-}
-
-
-vector<TLorentzVector> hanalysis::hdelphes::HEvent::GetLeptons()
-{
-    Print(2, "Get Leptons");
-
-    Lepton->GetElectrons();
-    Lepton->GetMuons();
-    vector<TLorentzVector > LeptonVector = Lepton->GetLeptonLorentzVectors();
-    vector<PseudoJet> LeptonJetVector = Lepton->GetLeptonJets();
-
-    return LeptonVector;
-}
-
-void hanalysis::hdelphes::HEvent::GetJets()
-{
-    Print(2, "Get Jets");
-
-    if (!HasJets) HasJets = Jets->GetJets(HJet::Plain);
-
-}
-
-void hanalysis::hdelphes::HEvent::GetStructuredJets()
-{
-  Print(2, "Get Jets");
-
-  if (!HasJets) HasJets = Jets->GetJets(HJet::Structure);
-
-}
-
-void hanalysis::hdelphes::HEvent::GetTaggedJets(HJetTag *const JetTag)
-{
-    Print(2, "Get Tagged Jets");
-
-//     GetJets();
-//     GetParticles();
-//     Jets->JetVector = Particles->TagJets(Jets->JetVector);
+// void hanalysis::hdelphes::HEvent::GetParticles()
+// {
+//
+//     Print(2, "Get Particles");
+//
+//     if (!HasParticles) HasParticles = Particles->GetParticles();
+//
+// }
 
 
-    if (!HasJets) {
+// vector<TLorentzVector> hanalysis::hdelphes::HEvent::GetLeptons()
+// {
+//     Print(2, "Get Leptons");
+//
+// //     Lepton->GetElectrons();
+// //     Lepton->GetMuons();
+//     vector<TLorentzVector > LeptonVector = Lepton->GetLeptonLorentzVectors();
+//     vector<PseudoJet> LeptonJetVector = Lepton->GetLeptonJets();
+//
+//     return LeptonVector;
+// }
 
-        Jets->JetTag = JetTag;
-        HasJets = Jets->GetJets(HJet::Tagging);
+// void hanalysis::hdelphes::HEvent::GetJets()
+// {
+//     Print(2, "Get Jets");
+//
+//     if (!HasJets) HasJets = Jets->GetJets(HJet::Plain);
+//
+// }
 
-    }
+// void hanalysis::hdelphes::HEvent::GetStructuredJets()
+// {
+//   Print(2, "Get Jets");
+//
+//   Jets->GetStructuredJets();
+//
+// }
 
-}
-
-
-void hanalysis::hdelphes::HEvent::GetEFlow()
-{
-
-    Print(2, "Get EFlow");
-
-    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Plain);
-
-}
-
-
-void hanalysis::hdelphes::HEvent::GetTaggedEFlow(HJetTag *const JetTag)
-{
-
-    Print(2, "Get EFlow");
-
-    if (!HasEFlow) {
-
-        Jets->JetTag = JetTag;
-
-        HasEFlow = Jets->ReadEFlow(HJet::Tagging);
-
-    }
-
-}
-
-
-void hanalysis::hdelphes::HEvent::GetIsolatedEFlow()
-{
-
-    Print(2, "Get EFlow");
-
-    if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Isolation);
-
-}
+// void hanalysis::hdelphes::HEvent::GetTaggedJets(HJetTag *const JetTag)
+// {
+//     Print(2, "Get Tagged Jets");
+//
+// //     GetJets();
+// //     GetParticles();
+// //     Jets->JetVector = Particles->TagJets(Jets->JetVector);
+//
+//
+//     if (!HasJets) {
+//
+//         Jets->SetJetTag(JetTag);
+//         HasJets = Jets->GetTaggedJets();
+//
+//     }
+//
+// }
 
 
-void hanalysis::hdelphes::HEvent::GetIsoaltedTaggedEFlow(HJetTag *const JetTag)
-{
+// void hanalysis::hdelphes::HEvent::GetEFlow()
+// {
+//
+//     Print(2, "Get EFlow");
+//
+//     if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Plain);
+//
+// }
 
-    Print(2, "Get EFlow");
 
-    if (!HasEFlow) {
+// void hanalysis::hdelphes::HEvent::GetTaggedEFlow(HJetTag *const JetTag)
+// {
+//
+//     Print(2, "Get EFlow");
+//
+//     if (!HasEFlow) {
+//
+//         Jets->SetJetTag(JetTag);
+//
+//         HasEFlow = Jets->ReadEFlow(HJet::Tagging);
+//
+//     }
+//
+// }
 
-        Jets->JetTag = JetTag;
 
-        HasEFlow = Jets->ReadEFlow(HJet::TaggingIsolation);
+// void hanalysis::hdelphes::HEvent::GetIsolatedEFlow()
+// {
+//
+//     Print(2, "Get EFlow");
+//
+//     if (!HasEFlow) HasEFlow = Jets->ReadEFlow(HJet::Isolation);
+//
+// }
 
-    }
 
-}
+// void hanalysis::hdelphes::HEvent::GetIsoaltedTaggedEFlow(HJetTag *const JetTag)
+// {
+//
+//     Print(2, "Get EFlow");
+//
+//     if (!HasEFlow) {
+//
+//         Jets->SetJetTag(JetTag);
+//
+//         HasEFlow = Jets->ReadEFlow(HJet::TaggingIsolation);
+//
+//     }
+//
+// }
 
 
 PseudoJet hanalysis::hdelphes::HEvent::GetHiggs()
@@ -168,13 +168,10 @@ PseudoJet hanalysis::hdelphes::HEvent::GetHiggs()
 
     Print(2, "Get Higgs");
 
-    GetEFlow();
-    GetParticles();
+//     GetEFlow();
+//     GetParticlesM()->GetParticles();
 
-    PseudoJet HiggsJet = HiggsTagger->GetHiggsJet(
-                             Jets->EFlowJets,
-                             Particles->BottomJetVector,
-                             Particles->CharmJetVector);
+    PseudoJet HiggsJet = HiggsTagger->GetHiggsJet(Jets->GetEFlowJets(),Particles->GetBottomJets(),Particles->GetCharmJets());
 
     return (HiggsJet);
 
@@ -185,13 +182,16 @@ vector<PseudoJet> hanalysis::hdelphes::HEvent::GetTops(HJetTag *const JetTag)
 
     Print(2, "Get Tops", JetTag->GetBranchId(0,0));
 
-    GetEFlow();
+//     GetEFlow();
 
     vector<PseudoJet> EFlowJets = Jets->GetEFlowJets();
 
+//     vector<PseudoJet> TopJetVector = TopTagger->GetTops(Jets->GetEFlowJets());
     vector<PseudoJet> TopJetVector = TopTagger->GetTops(EFlowJets);
 
-    return (TopJetVector);
+//     return (TopTagger->GetTops(Jets->GetEFlowJets()));
+
+    return(TopJetVector);
 
 }
 
@@ -235,7 +235,7 @@ vector<PseudoJet> hanalysis::hdelphes::HEvent::GetTops(HJetTag *const JetTag)
 // }
 
 
-vector<PseudoJet> hanalysis::hdelphes::HEvent::GetHiggsTopCandidates(HJetTag * const JetTag) // FIXME why does this not work
+vector<PseudoJet> hanalysis::hdelphes::HEvent::GetCandidates(HJetTag * const JetTag) // FIXME why does this not work
 {
     Print(2, "GetHiggsTopCandidates");
 
@@ -243,12 +243,12 @@ vector<PseudoJet> hanalysis::hdelphes::HEvent::GetHiggsTopCandidates(HJetTag * c
 //         Print(0,"HeavyParticle",HeavyParticle);
 //     }
 
-    GetIsoaltedTaggedEFlow(JetTag);
+//     GetIsoaltedTaggedEFlow(JetTag);
 //     GetParticles();
 
 //     CandidateJets = HDelphes->GetTaggedCandidateJets(Jets->EFlowJetVector, Particles->HiggsJetVector, Particles->TopJetVector);
 //     return HDelphes->GetCandidateJetsForced(Jets->GetEFlowJets(),Jets->GetScalarHt());
-    return Discriminator->GetCandidateJets(Jets->GetEFlowJets(), Jets->GetScalarHt());
+    return Discriminator->GetCandidateJets(Jets->GetIsolatedTaggedEFlowJets(JetTag), Jets->GetScalarHt());
 
 }
 

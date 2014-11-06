@@ -33,14 +33,14 @@ hanalysis::HFile::HFile(const string &Process, const string &Run)
 
 }
 
-string hanalysis::HFile::Title() const
+string hanalysis::HFile::GetTitle() const
 {
 
     return RunFolder;
 
 }
 
-string hanalysis::HFile::MadGraphFilePath() const
+string hanalysis::HFile::GetMadGraphFilePath() const
 {
 
     return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
@@ -52,9 +52,9 @@ string hanalysis::HFile::BasePath = "$HOME/Development/MadGraph/";
 
 string hanalysis::HFile::FileSuffix = "_delphes_events.root";
 
-string hanalysis::HFile::TreeString = "Delphes";
+string hanalysis::HFile::TreeName = "Delphes";
 
-bool hanalysis::HFile::Snowmass = 0;
+bool hanalysis::HFile::SnowMass = 0;
 
 void hanalysis::HFile::SetVariables()
 {
@@ -84,7 +84,7 @@ string hanalysis::HFile::GetTreeName() const
 
     Print(2, "Get Tree String");
 
-    return TreeString;
+    return TreeName;
 }
 
 
@@ -125,16 +125,16 @@ ExRootTreeReader *hanalysis::HFile::GetTreeReader()
 
 }
 
-hanalysis::HClonesArray *hanalysis::HFile::GetClonesArrays() const
+hanalysis::HClonesArray *hanalysis::HFile::GetClonesArrays()
 {
 
     Print(1, "Get Clones Arrays");
 
-    HClonesArray *ClonesArrays;
+//     HClonesArray *ClonesArrays;
 
     if (GetTreeName() == "Delphes") {
 
-        if (Snowmass) {
+        if (SnowMass) {
 
             ClonesArrays = new hdelphes::HClonesArraySnowmass();
 
@@ -162,12 +162,12 @@ hanalysis::HClonesArray *hanalysis::HFile::GetClonesArrays() const
 
 }
 
-hanalysis::HEvent *hanalysis::HFile::GetEvent() const
+hanalysis::HEvent *hanalysis::HFile::GetEvent()
 {
 
     Print(1, "Get Event");
 
-    HEvent *Event;
+//     HEvent *Event;
 
     if (GetTreeName() == "Delphes") {
 
@@ -201,217 +201,5 @@ hanalysis::HFile::~HFile()
     delete ImportFile;
     delete ImportTree;
     delete TreeReader;
-
-}
-
-hanalysis::hparton::HFile::HFile()
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-}
-
-hanalysis::hparton::HFile::HFile(const string &Process)
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-    ProcessFolder = Process;
-
-}
-
-hanalysis::hparton::HFile::HFile(const string &Process, const string &Run)
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-    ProcessFolder = Process;
-
-    RunFolder = Run;
-
-}
-
-string hanalysis::hparton::HFile::GetTreeName() const
-{
-
-    Print(2, "Get Tree String");
-
-    TreeString = "LHEF";
-
-    return TreeString;
-
-}
-
-string hanalysis::hparton::HFile::GetFilePath() const
-{
-
-    Print(2, "FilePath");
-
-    FileSuffix = "_unweighted_events.root";
-
-    return (MadGraphFilePath() + TagString +  FileSuffix);
-
-}
-
-hanalysis::HEvent *hanalysis::hparton::HFile::GetEvent() const
-{
-
-    Print(1, "Get Event");
-
-    return (new HEvent());
-
-}
-
-
-hanalysis::hpgs::HFile::HFile()
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-}
-
-hanalysis::hpgs::HFile::HFile(const string &Process)
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-    ProcessFolder = Process;
-
-}
-
-hanalysis::hpgs::HFile::HFile(const string &Process, const string &Run)
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-    ProcessFolder = Process;
-
-    RunFolder = Run;
-
-}
-
-string hanalysis::hpgs::HFile::GetTreeName() const
-{
-
-    Print(2, "Get Tree String");
-
-    TreeString = "LHCO";
-
-    return TreeString;
-
-}
-
-string hanalysis::hpgs::HFile::GetFilePath() const
-{
-
-    Print(2, "FilePath");
-
-    FileSuffix = "_pgs_events.root";
-
-    return (MadGraphFilePath() + TagString +  FileSuffix);
-
-}
-
-hanalysis::HEvent *hanalysis::hpgs::HFile::GetEvent() const
-{
-
-    Print(1, "Get Event");
-
-    return (new HEvent());
-
-}
-
-hanalysis::hdelphes::HFile::HFile()
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-}
-
-hanalysis::hdelphes::HFile::HFile(const string &Process)
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-    ProcessFolder = Process;
-
-}
-
-hanalysis::hdelphes::HFile::HFile(const string &Process, const string &Run)
-{
-
-    Print(1, "Constructor");
-
-    SetVariables();
-
-    ProcessFolder = Process;
-
-    RunFolder = Run;
-
-}
-
-string hanalysis::hdelphes::HFile::GetTreeName() const
-{
-
-    Print(2, "Get Tree String");
-
-    return "Delphes";
-
-}
-
-string hanalysis::hdelphes::HFile::GetFilePath() const
-{
-
-    Print(2, "FilePath");
-
-    FileSuffix = "_delphes_events.root";
-
-    return (MadGraphFilePath() + TagString +  FileSuffix);
-
-}
-
-hanalysis::HEvent *hanalysis::hdelphes::HFile::GetEvent() const
-{
-
-    Print(1, "Get Event");
-
-    return (new HEvent());
-
-}
-
-hanalysis::HClonesArray *hanalysis::hdelphes::HFile::GetClonesArrays() const
-{
-
-    Print(1, "Get Clones Arrays", "here");
-
-    HClonesArray *ClonesArrays;
-
-        if (Snowmass) {
-
-            ClonesArrays = new HClonesArraySnowmass();
-
-        } else {
-
-            ClonesArrays = new HClonesArray();
-
-        }
-
-    return ClonesArrays;
 
 }

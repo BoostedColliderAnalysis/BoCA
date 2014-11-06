@@ -23,6 +23,10 @@ void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 
     ClonesArray = NewClonesArray;
 
+    GotElectrons = 0;
+
+    GotMuons = 0;
+
     ElectronLorentzVectors.clear();
 
     AntiElectronLorentzVectors.clear();
@@ -56,7 +60,10 @@ void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 vector<TLorentzVector> hanalysis::HLepton::GetLeptonLorentzVectors()
 {
 
-    Print(2,"Get Leptons");
+  Print(2,"Get Leptons");
+
+  if(!GotElectrons) GotElectrons = GetElectrons();
+  if(!GotMuons) GotMuons = GetMuons();
 
     LeptonLorentzVectors = ElectronLorentzVectors;
     LeptonLorentzVectors.insert(LeptonLorentzVectors.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
@@ -87,6 +94,9 @@ vector<PseudoJet> hanalysis::HLepton::GetLeptonJets()
 {
 
     Print(2,"Get Lepton Jets");
+
+    if(!GotElectrons) GotElectrons = GetElectrons();
+    if(!GotMuons) GotMuons = GetMuons();
 
     LeptonJets = ElectronJets;
     LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());

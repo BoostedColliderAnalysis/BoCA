@@ -13,8 +13,6 @@ int main()
 
     delete Mva;
 
-    cout << "end main" << endl;
-
-    return 0;
+    return 1;
 
 }

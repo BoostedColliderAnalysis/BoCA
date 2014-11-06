@@ -122,7 +122,7 @@ PseudoJet hanalysis::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, 
 
     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
     const float MinimalCylinderDistance = 0.3;
-    float FilterCylinderDistance = min(ParentCylinderDistance / 2, MinimalCylinderDistance);
+    float FilterCylinderDistance = std::min(ParentCylinderDistance / 2, MinimalCylinderDistance);
     fastjet::JetDefinition FilterJetDefinition(FilterJetAlgorithm, FilterCylinderDistance);
 
     // number of pieces we'll take in the filtering = Jing: 3; fastjet: 3
@@ -267,11 +267,11 @@ float hanalysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 
         if (Phi0 < 0) {
 
-            Phi0 = Phi0 + 2 * Pi();
+            Phi0 = Phi0 + 2 * TMath::Pi();
 
         } else {
 
-            Phi0 = Phi0 - 2 * Pi();
+            Phi0 = Phi0 - 2 * TMath::Pi();
 
         }
 
@@ -281,7 +281,7 @@ float hanalysis::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 
         if (DeltaR1 < DeltaR12 / ConeSize || DeltaR2 < DeltaR12 / ConeSize) {
 
-            float DeltaR = min(DeltaR1, DeltaR2);
+            float DeltaR = std::min(DeltaR1, DeltaR2);
             float DeltaRRatio = DeltaR / DeltaR12;
             float PtRatio =  Constituent.perp() / FatJet.perp();
 
@@ -342,7 +342,7 @@ float hanalysis::HHiggsTagger::GetSubDeltaR()
 
     } else {
 
-        SubDeltaR = min(DeltaR01, DeltaR02);
+        SubDeltaR = std::min(DeltaR01, DeltaR02);
 
     }
 

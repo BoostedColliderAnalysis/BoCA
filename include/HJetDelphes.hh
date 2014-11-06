@@ -34,18 +34,22 @@ public:
      */
     void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
 
+    float GetScalarHt();
+
+private:
+
     /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
      * @return void
      */
-    bool GetJets(hanalysis::HJet::HJetDetails JetDetails);
+    bool GetJets(const HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool ReadEFlow(const HJetDetails);
+    bool GetEFlow(const HJetDetails JetDetails);
 
     /**
      * @brief Get Tau Tag
@@ -62,20 +66,16 @@ public:
      */
     void GetGenJet();
 
-    float GetScalarHt();
-
-private:
-    
     template<typename TData>
     void PrintCell(TData const Data) const {
-        
+
         std::cout << std::right << std::setw(9) << std::setfill(' ') << Data;
-        
+
     }
-    
+
     void PrintTruthLevel(const int Severity) const;
     string PrintParticle(const int Position) const;
-    
+
     vector<int> Topology;
 
     vector<int *> BranchVector;
@@ -104,11 +104,11 @@ private:
 
             const TObject *const Object = Clone->Particles.At(ParticleNumber);
             const int MotherId = GetMotherId(Object);
-            Print(3,"MotherId",MotherId);
+            Print(3, "MotherId", MotherId);
 
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-            JetInfo.AddConstituent(MotherId, std::fabs(ParticleClone->PT));
+            JetInfo.AddConstituent(MotherId, abs(ParticleClone->PT));
 
         }
 
@@ -150,10 +150,12 @@ private:
 
     PseudoJet GetConstituents(const Jet *const) const;
 
+    inline string NameSpaceName() const {
+        return "HDelphes";
+    }
+
     inline string ClassName() const {
-
-        return "HDelphes: HJet";
-
+        return "HJet";
     };
 
 };

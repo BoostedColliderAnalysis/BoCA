@@ -25,7 +25,7 @@ float hanalysis::HJetInfo::GetWeightSum() const
 
     Print(3, "Get Weight Sum", JetFractions.size());
 
-    float WeightSum = std::accumulate(begin(JetFractions), end(JetFractions), 0.0, [](const float Previous, const pair<int, float> &Pair) {
+    float WeightSum = std::accumulate(begin(JetFractions), end(JetFractions), 0.0, [](const float Previous, const std::pair<int, float> &Pair) {
 
         return (Previous + Pair.second);
 
@@ -59,7 +59,7 @@ float hanalysis::HJetInfo::GetMaximalFraction() const
 
     Print(2, "Get Maximal Fraction");
 
-    pair<int, float> MaximalWeight = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
+    std::pair<int, float> MaximalWeight = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
     if (GetWeightSum() == 0) {
 
@@ -109,7 +109,7 @@ int hanalysis::HJetInfo::GetMaximalId() const
 
     Print(3, "Get Maximal Id");
 
-    pair<int, float> Max = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
+    std::pair<int, float> Max = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
     return Max.first;
 
@@ -129,7 +129,7 @@ void hanalysis::HJetInfo::PrintAllInfos(int Severity) const
 
     Print(3, "Print All Infos");
 
-    for (map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
+    for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 
         if (GetWeightSum() == 0) {
 

@@ -39,10 +39,14 @@ private:
 
       HCandidateBranch *Candidate;
 
-    void DefineVariables();
+      void DefineVariables();
+
+      virtual inline string NameSpaceName() const {
+        return "HiggsCPV";
+      };
 
     virtual inline string ClassName() const {
-        return "HiggsCPV: HMva";
+        return "HMva";
     };
 
 

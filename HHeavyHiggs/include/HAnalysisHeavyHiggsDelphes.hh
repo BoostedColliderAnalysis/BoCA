@@ -7,8 +7,8 @@
 
 # include "HBranchHeavyHiggs.hh"
 
-using std::iter_swap;
-using std::remove_if;
+// using std::iter_swap;
+// using std::remove_if;
 
 /**
  * @brief Class defining the Heavy Higgs Analysis

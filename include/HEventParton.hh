@@ -27,17 +27,15 @@ public:
 
     void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
 
-    void GetParticles();
-
 private:
 
-    bool HasParticles;
+    inline string NameSpaceName() const {
+        return "HParton";
+    }
 
     inline string ClassName() const {
-
-        return "HParton: HEvent";
-
-    };
+        return "HEvent";
+    }
 };
 
 #endif

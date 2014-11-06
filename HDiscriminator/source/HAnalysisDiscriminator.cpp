@@ -41,8 +41,8 @@ vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const string StudyName
     if (StudyName != "Higgs") {
 
         hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
-        Background->Crosssection = 3.215; // pb
-        Background->Error = 0.012; // pb
+        Background->SetCrosssection(3.215); // pb
+        Background->SetError(0.012); // pb
         Files.push_back(Background);
 
 //         HFile *Background2 = new HFile("pp-bbtt-bblvlv-HIGGS", "background");
@@ -53,20 +53,20 @@ vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const string StudyName
     }
 
     hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
-    Even->Crosssection = 0.02079; // pb
-    Even->Error = 0.000078; // pb
+    Even->SetCrosssection(0.02079); // pb
+    Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
-    Mix->Crosssection = 0.01172; // pb
-    Mix->Error = 0.000045; // pb
+    Mix->SetCrosssection(0.01172); // pb
+    Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
-    Odd->Crosssection = 0.008951; // pb
-    Odd->Error = 0.000035; // pb
+    Odd->SetCrosssection(0.008951); // pb
+    Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
     Files.push_back(Odd);
 
@@ -149,7 +149,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
         Print(0,"HeavyParticle",HeavyParticle);
     }  */
 
-    const vector<PseudoJet> CandidateJets = Event->GetHiggsTopCandidates(JetTag);
+    const vector<PseudoJet> CandidateJets = Event->GetCandidates(JetTag);
 
     if (CandidateJets.size() < 1) {
 
@@ -296,7 +296,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
         }
 
-        Candidate->ScalarHt = Event->GetJetsM()->GetScalarHt();
+        Candidate->ScalarHt = Event->GetJets()->GetScalarHt();
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
@@ -359,9 +359,9 @@ vector<PseudoJet> hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const E
 //     vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
 //     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
-    Event->GetParticles();
-    vector<PseudoJet> LeptonJets = Event->GetParticlesM()->GetLeptonJets();
-    vector<PseudoJet> AntiLeptonJets = Event->GetParticlesM()->GetAntiLeptonJets();
+//     Event->GetParticlesM()->GetParticles();
+    vector<PseudoJet> LeptonJets = Event->GetParticles()->GetLeptonJets();
+    vector<PseudoJet> AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
 
     sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

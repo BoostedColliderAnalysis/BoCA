@@ -30,7 +30,7 @@ HDiscriminator.cpp
 HHiggsTagger.cpp
 HTopTagger.cpp
 HEPTopTagger.cpp
-HPull.cpp
+HSuperStructure.cpp
 HSubStructure.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
@@ -38,6 +38,9 @@ HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 set(AnalysisSources
 HClonesArray.cpp
 HFile.cpp
+HFileParton.cpp
+HFilePgs.cpp
+HFileDelphes.cpp
 HAnalysis.cpp
 # HAnalysisNew.cpp
 )

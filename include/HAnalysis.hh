@@ -10,6 +10,7 @@
 # include "HBranch.hh"
 # include "HObject.hh"
 # include "HFile.hh"
+# include "HEvent.hh"
 
 
 /**
@@ -39,7 +40,7 @@ protected:
 
     int GetEventSum(const ExRootTreeReader *const TreeReader) const {
 
-        return min((int)TreeReader->GetEntries(), GetEventNumberMax());
+        return std::min((int)TreeReader->GetEntries(), GetEventNumberMax());
 
     };
 

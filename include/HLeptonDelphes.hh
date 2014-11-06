@@ -26,28 +26,30 @@ public:
      */
     ~HLepton();
 
-    /**
-     * @brief Find the hardest of the light leptons
-     *
-     * @param ClonesArray ...
-     * @return void
-     */
-    void GetElectrons();
-
-    /**
-     * @brief Find the hardest of the light leptons
-     *
-     * @param ClonesArray ...
-     * @return void
-     */
-    void GetMuons();
-
 private:
 
+  /**
+   * @brief Find the hardest of the light leptons
+   *
+   * @param ClonesArray ...
+   * @return void
+   */
+  bool GetElectrons();
+
+  /**
+   * @brief Find the hardest of the light leptons
+   *
+   * @param ClonesArray ...
+   * @return void
+   */
+  bool GetMuons();
+
+    inline string NameSpaceName() const {
+        return "HDelphes";
+    }
+
     inline string ClassName() const {
-
-        return "HDelphes: HLepton";
-
+        return "HLepton";
     };
 
 };

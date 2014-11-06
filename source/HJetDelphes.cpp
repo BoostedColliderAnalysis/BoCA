@@ -23,21 +23,21 @@ void hanalysis::hdelphes::HJet::NewEvent(const hanalysis::HClonesArray *const Ne
 
     hanalysis::HJet::NewEvent(NewClonesArrays);
 
-    Topology.assign(ClonesArrays->ParticleSum(), EmptyId);
+    Topology.assign(ClonesArrays->GetParticleSum(), EmptyId);
 
     Print(2, "Topology", Topology.size());
 
 }
 
-bool hanalysis::hdelphes::HJet::GetJets(const HJetDetails JetDetails)
+bool hanalysis::hdelphes::HJet::GetJets(hanalysis::HJet::HJetDetails JetDetails)
 {
 
-    Print(2, "Get Jets", ClonesArrays->JetSum());
+    Print(2, "Get Jets", ClonesArrays->GetJetSum());
 
-    for (int JetNumber : HRange(ClonesArrays->JetSum())) {
+    for (const int JetNumber : HRange(ClonesArrays->GetJetSum())) {
 
         Print(4, "Jet Number", JetNumber);
-        const Jet *const JetClone = (Jet *)ClonesArrays->JetClonesArray->At(JetNumber);
+        const Jet *const JetClone = (Jet *)ClonesArrays->GetJet(JetNumber);
 
         if (JetDetails == Structure) {
 
@@ -117,7 +117,7 @@ void hanalysis::hdelphes::HJet::GetTau(const Jet *const JetClone)
 int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
 {
 
-    Print(3, "Get Mother Id", ClonesArrays->ParticleSum());
+    Print(3, "Get Mother Id", ClonesArrays->GetParticleSum());
 
     if (Object->IsA() != GenParticle::Class() || Object == 0) {
 
@@ -126,7 +126,7 @@ int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
 
     }
 
-    const int Position = ClonesArrays->ParticleClonesArray->IndexOf(Object);
+    const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
     int MotherId = Topology.at(Position);
 
     MotherId = GetMotherId(MotherId, Position);
@@ -145,7 +145,6 @@ int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
 {
 
     Print(3, "Get Mother Id", GetParticleName(BranchId), Position);
-    const int EmptyPosition = -1;
 
     while (Position != EmptyPosition && JetTag->HeavyParticles.find(abs(BranchId)) == end(JetTag->HeavyParticles)) {
 
@@ -158,7 +157,7 @@ int hanalysis::hdelphes::HJet::GetMotherId(int BranchId, int Position)
 
         Topology.at(Position) = MarkerId;
 
-        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->ParticleClonesArray->At(Position);
+        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(Position);
 
         BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
         Print(3, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
@@ -202,14 +201,14 @@ PseudoJet hanalysis::hdelphes::HJet::GetConstituents(const Jet *const JetClone) 
 
 }
 
-bool hanalysis::hdelphes::HJet::ReadEFlow(const HJetDetails JetDetails)
+bool hanalysis::hdelphes::HJet::GetEFlow(const HJetDetails JetDetails)
 {
     Print(2, "Get EFlow");
 
-    if (ClonesArrays->EFlowTrackClonesArray) GetTrackEFlow(JetDetails);
-    if (ClonesArrays->EFlowPhotonClonesArray) GetPhotonEFlow(JetDetails);
-    if (ClonesArrays->EFlowNeutralHadronClonesArray) GetHadronEFlow(JetDetails);
-    if (ClonesArrays->EFlowMuonClonesArray) GetMuonEFlow(JetDetails);
+    if (ClonesArrays->GetEFlowTrackClonesArray()) GetTrackEFlow(JetDetails);
+    if (ClonesArrays->GetEFlowPhotonClonesArray()) GetPhotonEFlow(JetDetails);
+    if (ClonesArrays->GetEFlowNeutralHadronClonesArray()) GetHadronEFlow(JetDetails);
+    if (ClonesArrays->GetEFlowMuonClonesArray()) GetMuonEFlow(JetDetails);
 
     Print(3, "Number of EFlow Jet", EFlowJets.size());
 
@@ -223,10 +222,10 @@ void hanalysis::hdelphes::HJet::PrintTruthLevel(int const Severity) const
 {
     if (Severity <= DebugLevel) {
 
-        for (const int Position : HRange(ClonesArrays->ParticleSum())) {
+        for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
             //     for (const int Position : HRange(100)) {
 
-            const GenParticle *Particle = (GenParticle *)ClonesArrays->ParticleClonesArray->At(Position);
+            const GenParticle *Particle = (GenParticle *)ClonesArrays->GetParticle(Position);
 
             PrintCell(Position);
             PrintCell(GetParticleName(Topology.at(Position)));
@@ -254,7 +253,7 @@ string hanalysis::hdelphes::HJet::PrintParticle(const int Position) const
 {
 
     if (Position != -1) {
-        return GetParticleName(((GenParticle *)ClonesArrays->ParticleClonesArray->At(Position))->PID);
+        return GetParticleName(((GenParticle *)ClonesArrays->GetParticle(Position))->PID);
     } else {
         return " ";
     };
@@ -264,19 +263,19 @@ string hanalysis::hdelphes::HJet::PrintParticle(const int Position) const
 
 void hanalysis::hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
 {
-    Print(2, "Get Track EFlow", ClonesArrays->EFlowTrackSum());
+    Print(2, "Get Track EFlow", ClonesArrays->GetEFlowTrackSum());
 
-    if (ClonesArrays->ElectronSum() > 0) Print(4, "Number of Electons", ClonesArrays->ElectronSum());
-    if (ClonesArrays->MuonSum() > 0) Print(4, "Number of Muons", ClonesArrays->MuonSum());
+    if (ClonesArrays->GetElectronSum() > 0) Print(4, "Number of Electons", ClonesArrays->GetElectronSum());
+    if (ClonesArrays->GetMuonSum() > 0) Print(4, "Number of Muons", ClonesArrays->GetMuonSum());
 
-    for (int EFlowTrackNumber : HRange(ClonesArrays->EFlowTrackSum())) {
+    for (int EFlowTrackNumber : HRange(ClonesArrays->GetEFlowTrackSum())) {
 
-        const Track *const EFlowTrackClone = (Track *) ClonesArrays->EFlowTrackClonesArray->At(EFlowTrackNumber);
+        const Track *const EFlowTrackClone = (Track *) ClonesArrays->GetEFlowTrack(EFlowTrackNumber);
 
         if (JetDetails == Isolation || JetDetails ==  TaggingIsolation) {
 
-            bool Isolated = GetIsolation<Electron>(EFlowTrackClone, ClonesArrays->ElectronClonesArray);
-            if (Isolated) Isolated = GetIsolation<Muon>(EFlowTrackClone, ClonesArrays->MuonClonesArray);
+            bool Isolated = GetIsolation<Electron>(EFlowTrackClone, ClonesArrays->GetElectronClonesArray());
+            if (Isolated) Isolated = GetIsolation<Muon>(EFlowTrackClone, ClonesArrays->GetMuonClonesArray());
             if (!Isolated) continue;
 
         }
@@ -297,16 +296,16 @@ void hanalysis::hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
 
 void hanalysis::hdelphes::HJet::GetPhotonEFlow(const HJetDetails JetDetails)
 {
-    Print(2, "Get Photon EFlow", ClonesArrays->EFlowPhotonSum());
+    Print(2, "Get Photon EFlow", ClonesArrays->GetEFlowPhotonSum());
 
-    if (ClonesArrays->PhotonSum() > 0) Print(3, "Number of Photons", ClonesArrays->PhotonSum());
-    for (int EFlowPhotonNumber : HRange(ClonesArrays->EFlowPhotonSum())) {
+    if (ClonesArrays->GetPhotonSum() > 0) Print(3, "Number of Photons", ClonesArrays->GetPhotonSum());
+    for (int EFlowPhotonNumber : HRange(ClonesArrays->GetEFlowPhotonSum())) {
 
-        const Tower *const EFlowPhotonClone = (Tower *) ClonesArrays->EFlowPhotonClonesArray->At(EFlowPhotonNumber);
+        const Tower *const EFlowPhotonClone = (Tower *) ClonesArrays->GetEFlowPhoton(EFlowPhotonNumber);
 
         if (JetDetails == Isolation || JetDetails == TaggingIsolation) {
 
-            bool Isolated = GetIsolation<Photon>(EFlowPhotonClone, ClonesArrays->PhotonClonesArray);
+            bool Isolated = GetIsolation<Photon>(EFlowPhotonClone, ClonesArrays->GetPhotonClonesArray());
             if (!Isolated) continue;
 
         }
@@ -328,11 +327,11 @@ void hanalysis::hdelphes::HJet::GetPhotonEFlow(const HJetDetails JetDetails)
 void hanalysis::hdelphes::HJet::GetHadronEFlow(const HJetDetails JetDetails)
 {
 
-    Print(2, "Get Hadron EFlow", ClonesArrays->EFlowNeutralHadronSum());
+    Print(2, "Get Hadron EFlow", ClonesArrays->GetEFlowNeutralHadronSum());
 
-    for (int HadronNumber : HRange(ClonesArrays->EFlowNeutralHadronSum())) {
+    for (int HadronNumber : HRange(ClonesArrays->GetEFlowNeutralHadronSum())) {
 
-        const Tower *const HadronClone = (Tower *) ClonesArrays->EFlowNeutralHadronClonesArray->At(HadronNumber);
+        const Tower *const HadronClone = (Tower *) ClonesArrays->GetEFlowNeutralHadron(HadronNumber);
 
         EFlowJets.push_back(GetPseudoJet(const_cast<Tower *>(HadronClone)->P4()));
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
@@ -350,15 +349,15 @@ void hanalysis::hdelphes::HJet::GetHadronEFlow(const HJetDetails JetDetails)
 void hanalysis::hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
 {
 
-    Print(2, "Get Muon EFlow", ClonesArrays->EFlowMuonSum());
+    Print(2, "Get Muon EFlow", ClonesArrays->GetEFlowMuonSum());
 
-    for (int MuonNumber : HRange(ClonesArrays->EFlowMuonSum())) {
+    for (int MuonNumber : HRange(ClonesArrays->GetEFlowMuonSum())) {
 
-        const Muon *const EFlowMuonClone = (Muon *) ClonesArrays->EFlowMuonClonesArray->At(MuonNumber);
+        const Muon *const EFlowMuonClone = (Muon *) ClonesArrays->GetEFlowMuon(MuonNumber);
 
         if (JetDetails == Isolation || JetDetails ==  TaggingIsolation) {
 
-            bool Isolated = GetIsolation<Muon>(EFlowMuonClone, ClonesArrays->MuonClonesArray);
+            bool Isolated = GetIsolation<Muon>(EFlowMuonClone, ClonesArrays->GetMuonClonesArray());
             if (!Isolated) continue;
 
         }
@@ -379,11 +378,11 @@ void hanalysis::hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
 void hanalysis::hdelphes::HJet::GetGenJet()
 {
 
-    Print(2, "GetGenJet", ClonesArrays->GenJetSum());
+    Print(2, "GetGenJet", ClonesArrays->GetGenJetSum());
 
-    for (int GenJetNumber : HRange(ClonesArrays->GenJetSum())) {
+    for (int GenJetNumber : HRange(ClonesArrays->GetGenJetSum())) {
 
-        const Jet *const GenJetClone = (Jet *) ClonesArrays->GenJetClonesArray->At(GenJetNumber);
+        const Jet *const GenJetClone = (Jet *) ClonesArrays->GetGenJet(GenJetNumber);
 
         GenJets.push_back(GetPseudoJet(const_cast<Jet *>(GenJetClone)->P4()));
 
@@ -397,7 +396,7 @@ float hanalysis::hdelphes::HJet::GetScalarHt()
 
     Print(2, "GetScalerHt");
 
-    const ScalarHT *const ScalarHtClone = (ScalarHT *) ClonesArrays->ScalarHtClonesArray->First();
+    const ScalarHT *const ScalarHtClone = (ScalarHT *) ClonesArrays->GetScalarHt();
 
     return ScalarHtClone->HT;
 

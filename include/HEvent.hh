@@ -33,44 +33,6 @@ public:
 
     virtual void NewEvent(const HClonesArray * const ) = 0;
 
-    virtual void GetParticles() {
-        Print(0, "Get Particles", "No Particles");
-    };
-
-    virtual vector<TLorentzVector> GetLeptons() {
-        Print(0, "Get Leptons", "No Leptons");
-        vector<TLorentzVector> v;
-        return v;
-    };
-
-    virtual void GetJets() {
-        Print(0, "Get Jets", "No Jets");
-    };
-
-    virtual void GetStructuredJets() {
-      Print(0, "Get Jets", "No Jets");
-    };
-
-    virtual void GetTaggedJets(HJetTag *const) {
-        Print(0, "Get Jets", "No Jets");
-    };
-
-    virtual void GetEFlow() {
-        Print(0, "Get EFlow", "No EFlow");
-    };
-
-    virtual void GetTaggedEFlow(HJetTag *const) {
-        Print(0, "Get EFlow", "No EFlow");
-    };
-
-    virtual void GetIsolatedEFlow() {
-        Print(0, "Get EFlow", "No EFlow");
-    };
-
-    virtual void GetIsoaltedTaggedEFlow(HJetTag *const) {
-        Print(0, "Get EFlow", "No EFlow");
-    };
-
     virtual vector<PseudoJet> GetTops(HJetTag *const) {
         Print(0, "Get Tops", "No Tops");
         vector<PseudoJet> v;
@@ -83,46 +45,40 @@ public:
         return j;
     }
 
-    virtual vector<PseudoJet> GetHiggsTopCandidates(HJetTag *const) {
+    virtual vector<PseudoJet> GetCandidates(HJetTag *const) {
         Print(0, "Get Candidates", "No Candidates");
         vector<PseudoJet> v;
         return v;
     }
 
-    void SetJetTag(HJetTag *const JetTag){
-        Jets->SetJetTag(JetTag);
-    }
-
-    HParticle *GetParticlesM() {
+    HParticle *GetParticles() {
         return Particles;
     }
 
-    HLepton *GetLeptonsM() {
+    HLepton *GetLeptons() {
         return Lepton;
     }
 
-    HJet *GetJetsM() {
+    HJet *GetJets() {
         return Jets;
     }
 
-    HTopTagger *GetTopTaggerM() {
+    HTopTagger *GetTopTagger() {
         return TopTagger;
     }
 
-    HHiggsTagger *GetHiggsTaggerM() {
+    HHiggsTagger *GetHiggsTagger() {
         return HiggsTagger;
     }
 
-    HDiscriminator *GetDiscriminatorM() {
+    HDiscriminator *GetDiscriminator() {
         return Discriminator;
     }
 
 protected:
 
     virtual inline string ClassName() const {
-
         return "HEvent";
-
     };
 
     /**

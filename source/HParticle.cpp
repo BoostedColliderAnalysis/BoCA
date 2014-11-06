@@ -22,6 +22,8 @@ void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 
     ClonesArrays = NewClonesArrays;
 
+    GotParticles = 0;
+
     TopVector.clear();
 
     AntiTopVector.clear();
@@ -57,7 +59,9 @@ void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 vector<TLorentzVector> hanalysis::HParticle::GetLeptonLorentzVectors()
 {
 
-    Print(2,"LeptonVector");
+  Print(2,"LeptonVector");
+
+  GotParticles = GetParticles();
 
     vector<TLorentzVector> TotalVector;
 
@@ -76,7 +80,9 @@ vector<TLorentzVector> hanalysis::HParticle::GetLeptonLorentzVectors()
 vector<TLorentzVector> hanalysis::HParticle::GetAntiLeptonLorentzVectors()
 {
 
-    Print(2,"AntiLeptonVector");
+  Print(2,"AntiLeptonVector");
+
+  GotParticles = GetParticles();
 
     vector<TLorentzVector> TotalVector;
 
@@ -95,7 +101,9 @@ vector<TLorentzVector> hanalysis::HParticle::GetAntiLeptonLorentzVectors()
 vector<PseudoJet> hanalysis::HParticle::GetLeptonJets()
 {
 
-    Print(2,"LeptonVector");
+  Print(2,"LeptonVector");
+
+  GotParticles = GetParticles();
 
     vector<PseudoJet> TotalVector;
 
@@ -114,7 +122,9 @@ vector<PseudoJet> hanalysis::HParticle::GetLeptonJets()
 vector<PseudoJet> hanalysis::HParticle::GetAntiLeptonJets()
 {
 
-    Print(2,"AntiLeptonVector");
+  Print(2,"AntiLeptonVector");
+
+  GotParticles = GetParticles();
 
     vector<PseudoJet> TotalVector;
 

@@ -17,21 +17,21 @@
 
 # include "HMva.hh"
 
-using std::cout;
-using std::endl;
-using std::sort;
-using std::pair;
-using std::size_t;
-using std::left;
-using std::setw;
-using std::setfill;
+// using std::cout;
+// using std::endl;
+// using std::sort;
+// using std::pair;
+// using std::size_t;
+// using std::left;
+// using std::setw;
+// using std::setfill;
 
 typedef vector<int>::const_iterator VectorIterator;
 
 struct PairOrder {
     bool operator()(
-        pair<size_t, VectorIterator> const &First
-        , pair<size_t, VectorIterator> const &Second
+      std::pair<size_t, VectorIterator> const &First
+      , std::pair<size_t, VectorIterator> const &Second
     ) {
         return *(First.second) > *(Second.second);
     }
@@ -63,7 +63,7 @@ private:
     template <typename TCutFlow>
     vector<TCutFlow> SortByPriority(
         vector<TCutFlow> const &Input,
-        vector<pair<size_t, VectorIterator> > const &Priority
+        vector<std::pair<size_t, VectorIterator> > const &Priority
     ) {
 
         size_t const OrderSum = Priority.size();
@@ -82,14 +82,14 @@ private:
     template<typename TData>
     void PrintData(const TData Data, const int Width) const {
         const char Separator = ' ';
-        std::cout << std::right << setw(Width) << setfill(Separator) << Data;
+        std::cout << std::right << std::setw(Width) << std::setfill(Separator) << Data;
     }
 
 
     template<typename TText>
     void PrintText(const TText Text, const int Width) const {
         const char Separator = ' ';
-        std::cout << left << setw(Width) << setfill(Separator) << Text;
+        std::cout << std::left << std::setw(Width) << std::setfill(Separator) << Text;
     }
 
 
@@ -99,7 +99,7 @@ private:
         ss << " " << Data;
 
         const char Separator = ' ';
-        std::cout << left << setw(Width) << setfill(Separator) << ss.str();
+        std::cout << std::left << std::setw(Width) << std::setfill(Separator) << ss.str();
     }
 
     /**

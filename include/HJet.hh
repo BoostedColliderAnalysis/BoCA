@@ -8,7 +8,7 @@
 # include "HJetTag.hh"
 # include "HJetInfo.hh"
 
-using std::vector;
+// using std::vector;
 
 /**
  * @brief Base class for jets
@@ -18,9 +18,6 @@ class hanalysis::HJet : public HFourVector
 {
 
 public:
-
-    enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation};
-
 
     /**
      * @brief constructor
@@ -34,33 +31,93 @@ public:
      */
     ~HJet();
 
-    vector<PseudoJet> GetEFlowJets() const {
-        return EFlowJets;
-    };
-
     /**
      * @brief Initialize new event
      *
      * @return void
      */
-    virtual void NewEvent(const HClonesArray *const);
+    virtual void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
 
     void SetJetTag(HJetTag *const NewJetTag) {
         JetTag = NewJetTag;
     }
+
+    vector<PseudoJet> GetJets() {
+      if (!GotJets) GotJets = GetJets(Plain);
+      return Jets;
+    };
+
+    vector<PseudoJet> GetStructuredJets() {
+        if (!GotJets) GotJets = GetJets(Structure);
+        return Jets;
+    };
+
+    vector<PseudoJet> GetTaggedJets() {
+        if (!GotJets) GotJets = GetJets(Tagging);
+        return Jets;
+    };
+
+    vector<PseudoJet> GetTaggedJets(HJetTag *const NewJetTag) {
+        JetTag = NewJetTag;
+        if (!GotJets) GotJets = GetJets(Tagging);
+        return Jets;
+    };
+
+    vector<PseudoJet> GetBottomJets() {
+        if (!GotJets) GotJets = GetJets(Plain);
+        return BottomJets;
+    };
+
+    vector<PseudoJet> GetEFlowJets() {
+      if (!GotEFlow) GotEFlow = GetEFlow(Plain);
+      return EFlowJets;
+    };
+
+    vector<PseudoJet> GetIsolatedEFlowJets() {
+      if (!GotEFlow) GotEFlow = GetEFlow(Isolation);
+      return EFlowJets;
+    };
+
+    vector<PseudoJet> GetTaggedEFlowJets() {
+      if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
+      return EFlowJets;
+    };
+
+    vector<PseudoJet> GetTaggedEFlowJets(HJetTag *const NewJetTag) {
+      JetTag = NewJetTag;
+      if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
+      return EFlowJets;
+    };
+
+    vector<PseudoJet> GetIsolatedTaggedEFlowJets() {
+      if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
+      return EFlowJets;
+    };
+
+    vector<PseudoJet> GetIsolatedTaggedEFlowJets(HJetTag *const NewJetTag) {
+      JetTag = NewJetTag;
+      if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
+      return EFlowJets;
+    };
+
+    virtual float GetScalarHt();
+
+protected:
+
+    enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation};
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
      * @return void
      */
-    virtual bool GetJets(const hanalysis::HJet::HJetDetails JetDetails);
+    virtual bool GetJets(const HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool ReadEFlow(const hanalysis::HJet::HJetDetails JetDetails);
+    virtual bool GetEFlow(const HJetDetails JetDetails);
 
     /**
      * @brief Get Gen Jet
@@ -70,7 +127,9 @@ public:
      */
     virtual void GetGenJet();
 
-    virtual float GetScalarHt();
+    bool GotEFlow;
+
+    bool GotJets;
 
     /**
      * @brief vector of Jet Lorentz Vectors
@@ -128,8 +187,6 @@ public:
 
     HJetTag *JetTag;
 
-protected:
-
     template<typename TParticle1, typename TParticle2>
     bool CheckIsolation(const TParticle1 *const Particle1, const TParticle2 *const Particle2, const float DeltaRIsolationMax) const {
 
@@ -156,15 +213,9 @@ protected:
      */
     const HClonesArray *ClonesArrays;
 
-protected:
-
     virtual inline string ClassName() const {
-
         return "HJet";
-
     };
-
-
 
 private:
 

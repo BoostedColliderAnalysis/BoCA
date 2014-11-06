@@ -14,14 +14,14 @@ hanalysis::hdelphes::HLepton::~HLepton()
 
 }
 
-void hanalysis::hdelphes::HLepton::GetElectrons()
+bool hanalysis::hdelphes::HLepton::GetElectrons()
 {
 
-    Print(2, "Get Electrons", ClonesArray->ElectronSum());
+    Print(2, "Get Electrons", ClonesArray->GetElectronSum());
 
-    for (int ElectronNumber : HRange(ClonesArray->ElectronSum())) {
+    for (int ElectronNumber : HRange(ClonesArray->GetElectronSum())) {
 
-        const Electron* const ElectronClone = (Electron *)ClonesArray->ElectronClonesArray->At(ElectronNumber);
+        const Electron* const ElectronClone = (Electron *)ClonesArray->GetElectron(ElectronNumber);
 
         const int ElectronCharge = ElectronClone->Charge;
 
@@ -45,16 +45,18 @@ void hanalysis::hdelphes::HLepton::GetElectrons()
 
     }
 
+    return 1;
+
 }
 
-void hanalysis::hdelphes::HLepton::GetMuons()
+bool hanalysis::hdelphes::HLepton::GetMuons()
 {
 
-    Print(2, "Get Muons", ClonesArray->MuonSum());
+    Print(2, "Get Muons", ClonesArray->GetMuonSum());
 
-    for (int MuonNumber : HRange(ClonesArray->MuonSum())) {
+    for (int MuonNumber : HRange(ClonesArray->GetMuonSum())) {
 
-        const Muon * const MuonClone = (Muon *)ClonesArray->MuonClonesArray->At(MuonNumber);
+        const Muon * const MuonClone = (Muon *)ClonesArray->GetMuon(MuonNumber);
         const int MuonCharge = MuonClone->Charge;
 
         if (MuonCharge == -1) {
@@ -75,5 +77,7 @@ void hanalysis::hdelphes::HLepton::GetMuons()
             Print(1,"Muon Charge", MuonCharge);
 
     }
+
+    return 1;
 
 }

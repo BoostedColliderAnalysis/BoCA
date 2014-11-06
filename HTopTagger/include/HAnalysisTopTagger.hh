@@ -2,6 +2,7 @@
 # define HAnalysisTopTagger_hh
 
 # include "HAnalysis.hh"
+# include "HFileDelphes.hh"
 # include "HEventDelphes.hh"
 # include "HBranchTopTagger.hh"
 # include "HSubStructure.hh"
@@ -17,7 +18,7 @@ class htoptagger::HJetTag : public hanalysis::HJetTag
 
     int GetBranchId(const int ParticleId, int BranchId) const;
 
-    const set<int> HeavyParticles = {TopId, CpvHiggsId};
+    const std::set<int> HeavyParticles = {TopId, CpvHiggsId};
 
     virtual inline string ClassName() const {
 

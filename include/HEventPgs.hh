@@ -28,20 +28,14 @@ public:
 
     void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
 
-    vector<TLorentzVector> GetLeptons();
-
-    void GetJets();
-
 private:
 
-    bool HasLeptons;
-
-    bool HasJets;
+    inline string NameSpaceName() const {
+      return "HPgs";
+    }
 
     inline string ClassName() const {
-
-        return "Pgs: HEvent";
-
+        return "HEvent";
     };
 
 };

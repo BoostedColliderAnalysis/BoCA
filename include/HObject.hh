@@ -39,11 +39,6 @@ class HJet;
 class HLepton;
 class HParticle;
 
-inline string NameSpaceName()
-{
-    return ("HDelphes");
-}
-
 }
 
 /**
@@ -57,11 +52,6 @@ class HClonesArray;
 class HFile;
 class HEvent;
 class HParticle;
-
-inline string NameSpaceName()
-{
-    return ("HParton");
-}
 
 }
 
@@ -77,11 +67,6 @@ class HFile;
 class HEvent;
 class HLepton;
 class HJet;
-
-inline string NameSpaceName()
-{
-    return ("HPgs");
-}
 
 }
 
@@ -104,15 +89,11 @@ class HJetInfo;
 class HJet;
 class HPull;
 class HSubStructure;
+class HSuperStructure;
 
 class HMva;
 class HFactory;
 class HReader;
-
-inline string NameSpaceName()
-{
-    return ("HAnalysis");
-}
 
 }
 
@@ -262,6 +243,10 @@ protected:
      */
     float GetDeltaPhi(const float, const float) const;
 
+    virtual inline string NameSpaceName() const {
+        return ("HAnalysis");
+    }
+
     virtual inline string ClassName() const {
 
         return ("HObject");
@@ -404,6 +389,8 @@ protected:
      *
      */
     const int EmptyUserIndex;
+
+    const int EmptyPosition;
 
     const float OneSigma;
 

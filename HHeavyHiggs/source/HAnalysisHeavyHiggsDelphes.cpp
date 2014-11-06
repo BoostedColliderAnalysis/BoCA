@@ -28,10 +28,10 @@ vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(cons
     Files.push_back(new hanalysis::HFile("BG_ttbb"));
     Files.push_back(new hanalysis::HFile("hcpbb_ttbb"));
 
-    Files.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
+    Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
-    Files.front()->FileSuffix = ".root";
-    Files.front()->Snowmass = 1;
+    Files.front()->SetFileSuffix(".root");
+    Files.front()->SetSnowMass(true);
 
 //     FileVector.push_back(new HFile("pp-bbtt-4f", "background"));
 
@@ -81,7 +81,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event,
 
     bool Success = 0;
 
-    Event->GetLeptons();
+//     Event->GetLeptonsM()->GetLeptons();
 
     if (StudyName == "Signal") Success = Signal(Event);
     if (StudyName == "Background") Success = Background(Event);
@@ -131,9 +131,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent* Event)
     Print(2, "Signal");
 
     HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
-    Event->GetTaggedJets(HeavyHiggsJetTag);
+//     Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->GetJetsM()->Jets;
+    vector<PseudoJet> JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);
 
     vector<PseudoJet> BottomJetVector;
 
@@ -165,9 +165,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent* Even
     Print(2, "Background");
 
     HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
-    Event->GetTaggedJets(HeavyHiggsJetTag);
+//     Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->GetJetsM()->Jets;
+    vector<PseudoJet> JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);
 
     if (JetVector.size()<1) return 0;
 
@@ -251,9 +251,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent* Event)
 
     Print(2, "Test");
 
-    Event->GetJets();
+//     Event->GetJets();
 
-    vector<PseudoJet> BottomJetVector = Event->GetJetsM()->BottomJets;
+    vector<PseudoJet> BottomJetVector = Event->GetJets()->GetBottomJets();
 
     if (BottomJetVector.size() < 2) return 0;
 
@@ -303,7 +303,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent* Even
     float SumPhi = FrontPhi + BackPhi; // FIXME constrain this
     float DeltaPt = FrontPt - BackPt;
 
-    float Isolation = min(Leptons(Event,FrontJet), Leptons(Event,BackJet));
+    float Isolation = std::min(Leptons(Event,FrontJet), Leptons(Event,BackJet));
 
     HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
@@ -322,8 +322,8 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent* Even
     HeavyHiggs->BottomInvMass = InvMass;
     HeavyHiggs->BottomDeltaPt = DeltaPt;
 
-    HeavyHiggs->BTag = Event->GetJetsM()->BottomJets.size();
-    HeavyHiggs->JetNumber = Event->GetJetsM()->Jets.size();
+    HeavyHiggs->BTag = Event->GetJets()->GetBottomJets().size();
+    HeavyHiggs->JetNumber = Event->GetJets()->GetJets().size();
     HeavyHiggs->Isolation = Isolation;
 
 }
@@ -334,7 +334,7 @@ float hheavyhiggs::HAnalysisHeavyHiggsDelphes::Leptons(hanalysis::HEvent* Event,
 
     float Isolation;
 
-    vector<PseudoJet> LeptonVector = Event->GetLeptonsM()->GetLeptonJets();
+    vector<PseudoJet> LeptonVector = Event->GetLeptons()->GetLeptonJets();
 
     for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
 

@@ -41,27 +41,27 @@ vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const string StudyNam
     if (StudyName != "Higgs") {
 
       hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
-        Background->Crosssection = 3.215; // pb
-        Background->Error = 0.012; // pb
+        Background->SetCrosssection(3.215); // pb
+        Background->SetError(0.012); // pb
         Files.push_back(Background);
 
     }
 
     hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
-    Even->Crosssection = 0.02079; // pb
-    Even->Error = 0.000078; // pb
+    Even->SetCrosssection(0.02079); // pb
+    Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
-    Mix->Crosssection = 0.01172; // pb
-    Mix->Error = 0.000045; // pb
+    Mix->SetCrosssection(0.01172); // pb
+    Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
-    Odd->Crosssection = 0.008951; // pb
-    Odd->Error = 0.000035; // pb
+    Odd->SetCrosssection(0.008951); // pb
+    Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
     Files.push_back(Odd);
 

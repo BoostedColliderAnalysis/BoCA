@@ -4,7 +4,7 @@
 # include "HReconstruction.hh"
 # include "HJetInfo.hh"
 
-using std::sort;
+// using std::sort;
 
 /**
  * @brief Jet Discriminator
@@ -43,9 +43,7 @@ public:
 private:
 
     inline string ClassName() const {
-
-        return "Analysis: HDiscriminator";
-
+        return "HDiscriminator";
     };
 
 };

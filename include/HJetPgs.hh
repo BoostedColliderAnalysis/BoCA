@@ -33,9 +33,13 @@ public:
 
 private:
 
+  inline string NameSpaceName() const {
+    return "HPgs";
+  }
+
     inline string ClassName() const {
 
-        return ("HPgs: HJet");
+        return "HJet";
 
     };
 

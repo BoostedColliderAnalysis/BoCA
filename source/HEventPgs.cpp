@@ -9,8 +9,8 @@ hanalysis::hpgs::HEvent::HEvent()
     Lepton = new HLepton();
     Jets = new HJet();
 
-    HasLeptons = 0;
-    HasJets = 0;
+//     HasLeptons = 0;
+//     HasJets = 0;
 
 }
 
@@ -32,31 +32,31 @@ void hanalysis::hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const Clone
     Lepton->NewEvent(ClonesArrays);
     Jets->NewEvent(ClonesArrays);
 
-    HasLeptons = 0;
-    HasJets = 0;
+//     HasLeptons = 0;
+//     HasJets = 0;
 
 }
 
 
-vector<TLorentzVector> hanalysis::hpgs::HEvent::GetLeptons()
-{
+// vector<TLorentzVector> hanalysis::hpgs::HEvent::GetLeptons()
+// {
+//
+//     Print(2, "Get Leptons");
+//
+//     vector<TLorentzVector> LeptonVector = Lepton->GetLeptonLorentzVectors();
+//
+//
+//     return LeptonVector;
+//
+// }
 
-    Print(2, "Get Leptons");
-
-    vector<TLorentzVector> LeptonVector = Lepton->GetLeptonLorentzVectors();
-
-
-    return LeptonVector;
-
-}
-
-void hanalysis::hpgs::HEvent::GetJets()
-{
-    Print(2, "Get Jets");
-
-    if (!HasJets) HasJets = Jets->GetJets(HJet::Plain);
-
-}
+// void hanalysis::hpgs::HEvent::GetJets()
+// {
+//     Print(2, "Get Jets");
+//
+//     Jets->GetJets();
+//
+// }
 
 
 

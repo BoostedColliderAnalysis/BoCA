@@ -2,6 +2,7 @@
 # define HAnalysisDiscriminator_hh
 
 # include "HAnalysis.hh"
+# include "HFileDelphes.hh"
 # include "HEventDelphes.hh"
 # include "HBranchDiscriminator.hh"
 # include "HSubStructure.hh"
@@ -14,12 +15,12 @@
  */
 class hcpvhiggs::HJetTag : public hanalysis::HJetTag
 {
-    
+
 public:
 
     int GetBranchId(const int ParticleId, int BranchId);
-    
-    const set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+
+    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
 
     virtual inline string ClassName() const {
 
