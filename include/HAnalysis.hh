@@ -57,14 +57,14 @@ protected:
      *
      * @return void
      */
-    virtual bool Analysis(HEvent * const, const string) = 0;
+    virtual bool Analysis(HEvent * const, const string &StudyName) = 0;
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    virtual vector<HFile*> GetFiles(const string StudyName) const = 0;
+    virtual vector<HFile*> GetFiles(const string &StudyName) const = 0;
 
     /**
      * @brief New Analysis

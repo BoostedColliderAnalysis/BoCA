@@ -15,7 +15,7 @@ vector<string> htest::HAnalysis::GetStudyNameVector(){
 
 }
 
-vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const string StudyName) const
+vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const string &StudyName) const
 {
 
     Print(1, "Set File Vector", StudyName);
@@ -74,7 +74,7 @@ int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool htest::HAnalysis::Analysis(hanalysis::HEvent* Event,string StudyName)
+bool htest::HAnalysis::Analysis(hanalysis::HEvent *Event, const string &StudyName)
 {
 
     Print(2, "Analysis", StudyName);

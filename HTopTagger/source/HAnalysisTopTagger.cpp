@@ -31,7 +31,7 @@ vector<string> htoptagger::HAnalysis::GetStudyNames() const
 
 }
 
-vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const string StudyName) const
+vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const string &StudyName) const
 {
 
     Print(1, "Set File Vector");
@@ -111,7 +111,7 @@ int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId) const
 
 }
 
-bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent * const Event, const string StudyName)
+bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string &StudyName)
 {
 
     Print(2, "Analysis", StudyName);

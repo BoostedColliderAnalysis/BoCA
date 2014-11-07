@@ -54,9 +54,7 @@ protected:
     }
 
     virtual inline string ClassName() const {
-
         return "HFile";
-
     };
 
 private:

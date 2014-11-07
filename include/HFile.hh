@@ -134,7 +134,7 @@ protected:
      * @brief Tag string used in the file name
      *
      */
-    string TagString;
+    string TagName;
 
     /**
      * @brief String containing the name of the root tree

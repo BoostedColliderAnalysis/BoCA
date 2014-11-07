@@ -32,7 +32,7 @@ vector<string> hcpvhiggs::HAnalysis::GetStudyNames() const
 
 }
 
-vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const string StudyName) const
+vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const string &StudyName) const
 {
     Print(1, "Set File Vector", StudyName);
 
@@ -127,7 +127,7 @@ int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string StudyName)
+bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string &StudyName)
 {
 
     Print(2, "Analysis", StudyName);

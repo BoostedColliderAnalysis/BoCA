@@ -4,8 +4,8 @@ hanalysis::HSuperStructure::HSuperStructure()
 {
     Print(2, "Constructor");
 
-    Number1 = EmptyPosition;
-    Number2 = EmptyPosition;
+    Position1 = EmptyPosition;
+    Position2 = EmptyPosition;
 
 }
 
@@ -21,8 +21,8 @@ void hanalysis::HSuperStructure::operator=(const HSuperStructure &other)
 
     Jet1 = other.Jet1;
     Jet2 = other.Jet2;
-    Number1 = other.Number1;
-    Number2 = other.Number2;
+    Position1 = other.Position1;
+    Position2 = other.Position2;
 
 }
 

@@ -8,7 +8,7 @@ hheavyhiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 
 }
 
-vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const string StudyName) const
+vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const string &StudyName) const
 {
 
     Print(1, "Fill Analysis Vector", StudyName);
@@ -59,7 +59,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent* Event,string)
+bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, const string &StudyName)
 {
 
     Print(2, "Analysis");

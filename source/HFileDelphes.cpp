@@ -51,7 +51,7 @@ string hanalysis::hdelphes::HFile::GetFilePath() const
     Print(2, "FilePath");
 
 
-    return (GetMadGraphFilePath() + TagString +  FileSuffix);
+    return (GetMadGraphFilePath() + TagName +  FileSuffix);
 
 }
 

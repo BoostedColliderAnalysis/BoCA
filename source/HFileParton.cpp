@@ -51,7 +51,7 @@ string hanalysis::hparton::HFile::GetFilePath() const
 
     FileSuffix = "_unweighted_events.root";
 
-    return (GetMadGraphFilePath() + TagString +  FileSuffix);
+    return (GetMadGraphFilePath() + TagName +  FileSuffix);
 
 }
 

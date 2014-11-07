@@ -51,7 +51,7 @@ string hanalysis::hpgs::HFile::GetFilePath() const
 
     FileSuffix = "_pgs_events.root";
 
-    return (GetMadGraphFilePath() + TagString +  FileSuffix);
+    return (GetMadGraphFilePath() + TagName +  FileSuffix);
 
 }
 

@@ -67,7 +67,7 @@ void hanalysis::HFile::SetVariables()
 
     RunFolder = "run_01";
 
-    TagString = "tag_1";
+    TagName = "tag_1";
 
 //     TreeString = "Delphes";
 
@@ -201,5 +201,7 @@ hanalysis::HFile::~HFile()
     delete ImportFile;
     delete ImportTree;
     delete TreeReader;
+    delete ClonesArrays;
+    delete Event;
 
 }

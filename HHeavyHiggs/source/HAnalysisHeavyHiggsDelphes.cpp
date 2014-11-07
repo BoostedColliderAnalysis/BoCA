@@ -18,7 +18,7 @@ vector<string> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 
 }
 
-vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const string StudyName) const
+vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const string &StudyName) const
 {
 
     Print(1, "Fill Analysis Vector", StudyName);
@@ -74,7 +74,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 
 }
 
-bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event, const string StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event, const string &StudyName)
 {
 
     Print(2, "Analysis");

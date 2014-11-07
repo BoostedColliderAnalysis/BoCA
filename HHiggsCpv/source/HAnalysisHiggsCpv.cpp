@@ -29,7 +29,7 @@ vector<string> hhiggscpv::HAnalysis::GetStudyNames() const
 
 }
 
-vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const string StudyName) const
+vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const string &StudyName) const
 {
     Print(1, "Set File Vector", StudyName);
 
@@ -93,12 +93,12 @@ int hhiggscpv::HJetTag::GetBranchId(const int ParticleId, int BranchId)
         IntermediateParticles.find(abs(BranchId)) == end(IntermediateParticles) &&
         HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
-      BranchId = IsrId;
+        BranchId = IsrId;
     } else if (
-      IntermediateParticles.find(abs(ParticleId)) != end(IntermediateParticles) &&
-      HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        IntermediateParticles.find(abs(ParticleId)) != end(IntermediateParticles) &&
+        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
     ) {
-      BranchId = ParticleId;
+        BranchId = ParticleId;
     } else if (
         HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles) &&
         HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
@@ -125,7 +125,7 @@ struct SortByInvMass {
 
 };
 
-bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string StudyName)
+bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string &StudyName)
 {
 
     Print(2, "Analysis", StudyName);
@@ -139,51 +139,51 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
 
     vector<hanalysis::HSuperStructure> JetPairs;
-    for (unsigned JetNumber1 = 0; JetNumber1 < Jets.size(); ++JetNumber1) {
-        for (unsigned JetNumber2 = JetNumber1 + 1; JetNumber2 < Jets.size() ; ++JetNumber2) {
+    for (unsigned JetPosition1 = 0; JetPosition1 < Jets.size(); ++JetPosition1) {
+        for (unsigned JetPosition2 = JetPosition1 + 1; JetPosition2 < Jets.size() ; ++JetPosition2) {
             hanalysis::HSuperStructure JetPair;
-            JetPair.Jet1 = Jets[JetNumber1];
-            JetPair.Jet2 = Jets[JetNumber2];
-            JetPair.Number1 = JetNumber1;
-            JetPair.Number2 = JetNumber2;
+            JetPair.SetJet1(Jets[JetPosition1]);
+            JetPair.SetJet2(Jets[JetPosition2]);
+            JetPair.SetPosition1(JetPosition1);
+            JetPair.SetPosition2(JetPosition2);
             JetPairs.push_back(JetPair);
         }
     }
 
     Print(2, "Got pairs", JetPairs.size());
 
-    sort(JetPairs.begin(), JetPairs.end(), SortByInvMass());
+    std::sort(JetPairs.begin(), JetPairs.end(), SortByInvMass());
 
     if (JetPairs.size() == 0) return 0;
 
     hanalysis::HSuperStructure FirstPair = JetPairs.front();
     JetPairs.erase(JetPairs.begin());
-    Print(2, "Pair1", FirstPair.Number1, FirstPair.Number2, FirstPair.InvMass());
+    Print(2, "Pair1", FirstPair.GetPosition1(), FirstPair.GetPosition2(), FirstPair.InvMass());
 
     hanalysis::HSuperStructure SecondPair;
     for (unsigned i = 0; i < JetPairs.size(); ++i) {
 
-        if (FirstPair.Number1 == JetPairs.at(i).Number1 || FirstPair.Number1 == JetPairs.at(i).Number2 || FirstPair.Number2 == JetPairs.at(i).Number1 || FirstPair.Number2 == JetPairs.at(i).Number2) continue;
+        if (FirstPair.IsSamePair(JetPairs.at(i))) continue;
         SecondPair = JetPairs.at(i);
-        Print(2, "Pair2", SecondPair.Number1, SecondPair.Number2, SecondPair.InvMass());
+        Print(2, "Pair2", SecondPair.GetPosition1(), SecondPair.GetPosition2(), SecondPair.InvMass());
         JetPairs.erase(JetPairs.begin() + i);
         break;
     }
 
     hanalysis::HSuperStructure ThirdPair;
     for (unsigned i = 0; i < JetPairs.size(); ++i) {
-        if (FirstPair.Number1 == JetPairs.at(i).Number1 || FirstPair.Number1 == JetPairs.at(i).Number2 || FirstPair.Number2 == JetPairs.at(i).Number1 || FirstPair.Number2 == JetPairs.at(i).Number2 || SecondPair.Number1 == JetPairs.at(i).Number1 || SecondPair.Number1 == JetPairs.at(i).Number2 || SecondPair.Number2 == JetPairs.at(i).Number1 || SecondPair.Number2 == JetPairs.at(i).Number2) continue;
+        if (FirstPair.IsSamePair(JetPairs.at(i)) || SecondPair.IsSamePair(JetPairs.at(i))) continue;
         ThirdPair = JetPairs.at(i);
-        Print(2, "Pair3", ThirdPair.Number1, ThirdPair.Number2, ThirdPair.InvMass());
+        Print(2, "Pair3", ThirdPair.GetPosition1(), ThirdPair.GetPosition2(), ThirdPair.InvMass());
         JetPairs.erase(JetPairs.begin() + i);
         break;
     }
 
     hanalysis::HSuperStructure FourthPair;
     for (unsigned i = 0; i < JetPairs.size(); ++i) {
-        if (FirstPair.Number1 == JetPairs.at(i).Number1 || FirstPair.Number1 == JetPairs.at(i).Number2 || FirstPair.Number2 == JetPairs.at(i).Number1 || FirstPair.Number2 == JetPairs.at(i).Number2 || SecondPair.Number1 == JetPairs.at(i).Number1 || SecondPair.Number1 == JetPairs.at(i).Number2 || SecondPair.Number2 == JetPairs.at(i).Number1 || SecondPair.Number2 == JetPairs.at(i).Number2 || ThirdPair.Number1 == JetPairs.at(i).Number1 || ThirdPair.Number1 == JetPairs.at(i).Number2 || ThirdPair.Number2 == JetPairs.at(i).Number1 || ThirdPair.Number2 == JetPairs.at(i).Number2) continue;
+        if (FirstPair.IsSamePair(JetPairs.at(i)) || SecondPair.IsSamePair(JetPairs.at(i)) || ThirdPair.IsSamePair(JetPairs.at(i)))continue;
         FourthPair = JetPairs.at(i);
-        Print(2, "Pair4", FourthPair.Number1, FourthPair.Number2, FourthPair.InvMass());
+        Print(2, "Pair4", FourthPair.GetPosition1(), FourthPair.GetPosition2(), FourthPair.InvMass());
         JetPairs.erase(JetPairs.begin() + i);
         break;
     }
@@ -195,25 +195,25 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
     Candidate->ScalarHt = Event->GetJets()->GetScalarHt();
 
-    if (FirstPair.Number1 != -1) {
+    if (FirstPair.GetPosition1() != -1) {
         Candidate->InvMass1 = FirstPair.InvMass();
-        if (FirstPair.Jet1.has_constituents())  Candidate->Pull11 = FirstPair.GetPullAngle1();
-        if (FirstPair.Jet2.has_constituents())    Candidate->Pull12 = FirstPair.GetPullAngle2();
+        if (FirstPair.GetJet1().has_constituents())  Candidate->Pull11 = FirstPair.GetPullAngle1();
+        if (FirstPair.GetJet2().has_constituents())    Candidate->Pull12 = FirstPair.GetPullAngle2();
 
-        if (SecondPair.Number1 != -1) {
+        if (SecondPair.GetPosition1() != -1) {
             Candidate->InvMass2 = SecondPair.InvMass();
-            if (SecondPair.Jet1.has_constituents()) Candidate->Pull21 = SecondPair.GetPullAngle1();
-            if (SecondPair.Jet2.has_constituents()) Candidate->Pull22 = SecondPair.GetPullAngle2();
+            if (SecondPair.GetJet1().has_constituents()) Candidate->Pull21 = SecondPair.GetPullAngle1();
+            if (SecondPair.GetJet2().has_constituents()) Candidate->Pull22 = SecondPair.GetPullAngle2();
 
-            if (ThirdPair.Number1 != -1) {
+            if (ThirdPair.GetPosition1() != -1) {
                 Candidate->InvMass3 = ThirdPair.InvMass();
-                if (ThirdPair.Jet1.has_constituents()) Candidate->Pull31 = ThirdPair.GetPullAngle1();
-                if (ThirdPair.Jet2.has_constituents()) Candidate->Pull32 = ThirdPair.GetPullAngle2();
+                if (ThirdPair.GetJet1().has_constituents()) Candidate->Pull31 = ThirdPair.GetPullAngle1();
+                if (ThirdPair.GetJet2().has_constituents()) Candidate->Pull32 = ThirdPair.GetPullAngle2();
 
-                if (FourthPair.Number1 != -1) {
+                if (FourthPair.GetPosition1() != -1) {
                     Candidate->InvMass4 = FourthPair.InvMass();
-                    if (FourthPair.Jet1.has_constituents()) Candidate->Pull41 = FourthPair.GetPullAngle1();
-                    if (FourthPair.Jet2.has_constituents()) Candidate->Pull42 = FourthPair.GetPullAngle2();
+                    if (FourthPair.GetJet1().has_constituents()) Candidate->Pull41 = FourthPair.GetPullAngle1();
+                    if (FourthPair.GetJet2().has_constituents()) Candidate->Pull42 = FourthPair.GetPullAngle2();
 
                 }
 

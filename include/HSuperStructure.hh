@@ -30,15 +30,49 @@ public:
 
     float GetPullAngle2() const;
 
+    void SetJet1(const PseudoJet &NewJet) {
+        Jet1 = NewJet;
+    }
+    void SetJet2(const PseudoJet &NewJet) {
+        Jet2 = NewJet;
+    }
+    PseudoJet GetJet1() const {
+        return Jet1;
+    }
+    PseudoJet GetJet2() const {
+        return Jet2;
+    }
+
+    void SetPosition1(const int NewPosition) {
+        Position1 = NewPosition;
+    }
+    void SetPosition2(const int NewPosition) {
+        Position2 = NewPosition;
+    }
+    int GetPosition1() const {
+        return Position1;
+    }
+    int GetPosition2() const {
+        return Position2;
+    }
+
+    bool IsSamePair(const HSuperStructure &Pair) const {
+
+        if (Pair.GetPosition1() == Position1 || Pair.GetPosition1() == Position2 || Pair.GetPosition2() == Position1 || Pair.GetPosition2() == Position2) return 1;
+
+        return 0;
+
+    }
+
+protected:
+
     PseudoJet Jet1;
 
     PseudoJet Jet2;
 
-    int Number1;
+    int Position1;
 
-    int Number2;
-
-protected:
+    int Position2;
 
     virtual inline string ClassName() const {
 
@@ -50,13 +84,13 @@ private:
 
     inline float GetAngle1() const {
 
-        return (atan2(Jet2.delta_phi_to(Jet1), (Jet1.rap() - Jet2.rap())));
+        return (atan2(Jet2.delta_phi_to(Jet1), Jet1.rap() - Jet2.rap()));
 
     };
 
     inline float GetAngle2() const {
 
-        return (atan2(Jet1.delta_phi_to(Jet2), (Jet2.rap() - Jet1.rap())));
+        return (atan2(Jet1.delta_phi_to(Jet2), Jet2.rap() - Jet1.rap()));
 
     };
 

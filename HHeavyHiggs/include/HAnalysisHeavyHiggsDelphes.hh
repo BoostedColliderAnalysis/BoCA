@@ -38,14 +38,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent* Event, const string StudyName);
+    bool Analysis(hanalysis::HEvent* Event, const string &StudyName);
 
     /**
      * @brief prepares the vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::HFile* > GetFiles(const string StudyName) const;
+    std::vector< hanalysis::HFile* > GetFiles(const string &StudyName) const;
 
     /**
      * @brief New Analysis
