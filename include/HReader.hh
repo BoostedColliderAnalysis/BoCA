@@ -17,15 +17,6 @@
 
 # include "HMva.hh"
 
-// using std::cout;
-// using std::endl;
-// using std::sort;
-// using std::pair;
-// using std::size_t;
-// using std::left;
-// using std::setw;
-// using std::setfill;
-
 typedef vector<int>::const_iterator VectorIterator;
 
 struct PairOrder {

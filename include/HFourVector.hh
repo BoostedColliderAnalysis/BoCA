@@ -38,11 +38,7 @@ protected:
      * @return fastjet::PseudoJet
      */
     PseudoJet GetPseudoJet(const TLorentzVector &) const;
-
-    TLorentzVector GetConstituent(const TObject *const) const;
-
-    PseudoJet GetConstituentJet(const TObject *const) const;
-
+    
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByEnergy(const TParticle *const Particle) const {
 

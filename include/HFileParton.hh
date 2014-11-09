@@ -45,7 +45,7 @@ public:
 
     string GetTreeName() const;
 
-    hanalysis::HEvent *GetEvent() const;
+    hanalysis::HEvent *GetEvent();
 
 protected:
 

@@ -2,6 +2,7 @@
 # define HBranch_hh
 
 # include "TObject.h"
+# include "Rtypes.h"
 
 /**
  * @brief Basic tree branches

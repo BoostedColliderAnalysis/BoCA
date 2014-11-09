@@ -6,11 +6,6 @@
 # include "HClonesArray.hh"
 # include "HFourVector.hh"
 
-// using std::sort;
-// using std::vector;
-
-// class Jet;
-
 /**
  * @brief calculation regarding leptons
  *

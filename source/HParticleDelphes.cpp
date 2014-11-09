@@ -32,7 +32,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         if (ParticleClone->Status == Stable) {
             Print(4, "Particles Status", "stable");
 
-            if (abs(ParticleID) == ElectronId) {
+            if (std::abs(ParticleID) == ElectronId) {
 
                 TLorentzVector ElectronLorentzVector = const_cast<GenParticle *>(ParticleClone)->P4();
                 PseudoJet ElectronJet = GetPseudoJet(ElectronLorentzVector);
@@ -53,7 +53,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
             }
 
-            if (abs(ParticleID) == MuonId) {
+            if (std::abs(ParticleID) == MuonId) {
 
                 TLorentzVector MuonLorentzVector = const_cast<GenParticle *>(ParticleClone)->P4();
                 PseudoJet MuonJet = GetPseudoJet(MuonLorentzVector);
@@ -81,14 +81,14 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         if (ParticleClone->Status == Unstable) {
             Print(4, "Particles Status", "unstable");
 
-            if (abs(ParticleID) == CharmId) {
+            if (std::abs(ParticleID) == CharmId) {
 
                 CharmJetVector.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
                 Print(3, "Charm");
 
             }
 
-            if (abs(ParticleID) == CpvHiggsId) {
+            if (std::abs(ParticleID) == CpvHiggsId) {
 
                 HiggsJetVector.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
                 Print(3, "CPV Higgs");
@@ -96,7 +96,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             }
 
 
-            if (abs(ParticleID) == BottomId) {
+            if (std::abs(ParticleID) == BottomId) {
 
                 BottomJetVector.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
                 ParticleJetVector.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
@@ -107,7 +107,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             }
 
 
-            if (abs(ParticleID) == HeavyHiggsId) {
+            if (std::abs(ParticleID) == HeavyHiggsId) {
 
                 PseudoJet HiggsParticle = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
 
@@ -127,7 +127,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         if (ParticleClone->Status == Undefined) {
             Print(4, "Particles Status", "undefined");
 
-            if (abs(ParticleID) == TopId) {
+            if (std::abs(ParticleID) == TopId) {
 
                 TLorentzVector TopQuark = const_cast<GenParticle *>(ParticleClone)->P4();
                 PseudoJet TopJet = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());

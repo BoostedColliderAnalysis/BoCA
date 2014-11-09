@@ -2,7 +2,7 @@
 # define HBranchHiggsCpv_hh
 
 # include "TObject.h"
-
+# include "Rtypes.h"
 
 
 namespace hhiggscpv
@@ -66,6 +66,35 @@ private:
     ClassDef(HCandidateBranch, 1)
 
 };
+
+
+
+/**
+ * @brief Class for saving leptons to root
+ *
+ */
+// class hhiggscpv::HConstituentBranch : public TObject
+// {
+//
+// public:
+//
+//   float Eta;
+//   float Phi;
+//   float Pt;
+//   int Id;
+//
+//   HConstituentBranch();
+//
+//   virtual ~HConstituentBranch();
+//
+// private:
+//
+//   void reset();
+//
+//   ClassDef(HConstituentBranch, 1)
+//
+// };
+
 
 
 

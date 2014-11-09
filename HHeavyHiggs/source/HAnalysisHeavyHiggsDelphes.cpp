@@ -102,11 +102,11 @@ int hheavyhiggs::HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int Branch
 
     Print(2, "Get Mother Id");
 
-    if (RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
+    if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
         BranchId = IsrId;
-    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+    } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
         BranchId = ParticleId;
-    } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+    } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
         BranchId = ParticleId;
     }
 
@@ -120,7 +120,7 @@ int hheavyhiggs::HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int Branch
 // bool HAnalysisHeavyHiggsDelphes::JetIsBottom(const PseudoJet &Jet)
 // {
 //
-//     return abs(Jet.user_index()) == BottomId;
+//     return std::abs(Jet.user_index()) == BottomId;
 //
 // }
 
@@ -139,7 +139,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent* Event)
 
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
-        if (abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
+        if (std::abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
 
     }
 
@@ -147,7 +147,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent* Event)
 
     Print(0,"Signal Bottom",BottomJetVector.size());
 
-    sort(BottomJetVector.begin(), BottomJetVector.end(), SortJetByEta());
+    std::sort(BottomJetVector.begin(), BottomJetVector.end(), SortJetByEta());
 
     PseudoJet FrontJet = BottomJetVector.front();
     PseudoJet BackJet = BottomJetVector.back();
@@ -175,8 +175,8 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent* Even
 
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
-        if (abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
-        if (abs(JetVector[JetNumber].user_index()) == TopId) TopJetVector.push_back(JetVector[JetNumber]);
+        if (std::abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
+        if (std::abs(JetVector[JetNumber].user_index()) == TopId) TopJetVector.push_back(JetVector[JetNumber]);
 
     }
 

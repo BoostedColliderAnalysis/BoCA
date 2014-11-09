@@ -97,7 +97,7 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
-//     if (HeavyParticles.find(abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
+//     if (HeavyParticles.find(std::abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
 
 //     Print(0, "we are here", ParticleId, BranchId);
     Print(3, "HCPVHiggs: Get Branch Id", ParticleId, BranchId);
@@ -110,13 +110,13 @@ int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 
     if (
-        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
-        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
+        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = IsrId;
     } else if (
-        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles) &&
-        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) &&
+        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
     }
@@ -198,7 +198,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
             }
 
-            if (abs(CandidateJet.user_index()) != TopId) {
+            if (std::abs(CandidateJet.user_index()) != TopId) {
 
                 Print(3, "Not a Top");
                 continue;
@@ -223,7 +223,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
             }
 
-            if (abs(CandidateJet.user_index()) == TopId) {
+            if (std::abs(CandidateJet.user_index()) == TopId) {
 
                 Print(3, "Top is not a light jet", CandidateJet.user_index());
                 continue;
@@ -268,7 +268,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
         // Tagging
 
-        int UserIndex = abs(CandidateJet.user_index());
+        int UserIndex = std::abs(CandidateJet.user_index());
 
         if (UserIndex == CpvHiggsId || UserIndex == HiggsId) {
 
@@ -363,8 +363,8 @@ vector<PseudoJet> hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const E
     vector<PseudoJet> LeptonJets = Event->GetParticles()->GetLeptonJets();
     vector<PseudoJet> AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
 
-    sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
-    sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
+    std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
+    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
 
     bool HardestLepton = 1;
     for (const auto & LeptonJet : LeptonJets) {

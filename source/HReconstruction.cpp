@@ -144,7 +144,7 @@ bool hanalysis::HReconstruction::JetIsBad(const PseudoJet &Jet)
 
     HObject Object;
 
-    if (fabs(Jet.m()) <= 40) {
+    if (std::abs(Jet.m()) <= 40) {
 
         Object.Print(2, "Fat Jet Mass", Jet.m());
         return 1;

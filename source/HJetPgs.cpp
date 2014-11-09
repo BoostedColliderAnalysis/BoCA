@@ -16,10 +16,10 @@ hanalysis::hpgs::HJet::~HJet()
 
 }
 
-bool hanalysis::hpgs::HJet::GetJets()
+bool hanalysis::hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 {
 
-    Print(2, "Get Jet", ClonesArrays->GetJetSum());
+    Print(2, "Get Jet", ClonesArrays->GetJetSum(), JetDetails);
 
     for (const int JetNumber : HRange(ClonesArrays->GetJetSum())) {
 

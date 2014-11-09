@@ -44,6 +44,30 @@ void hhiggscpv::HCandidateBranch::reset()
 }
 
 
+// ClassImp(hhiggscpv::HConstituentBranch)
+//
+// hhiggscpv::HConstituentBranch::HConstituentBranch()
+// {
+//
+//   reset();
+//
+// }
+//
+// hhiggscpv::HConstituentBranch::~HConstituentBranch() {}
+//
+// void hhiggscpv::HConstituentBranch::reset()
+// {
+//
+//   int InitialValue = -100;
+//
+//   Eta = InitialValue;
+//   Phi = InitialValue;
+//   Pt = InitialValue;
+//   Id = InitialValue;
+//
+// }
+
+
 ClassImp(hhiggscpv::HLeptonBranch)
 
 hhiggscpv::HLeptonBranch::HLeptonBranch()

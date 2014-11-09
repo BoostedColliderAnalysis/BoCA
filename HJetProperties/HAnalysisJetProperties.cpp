@@ -186,7 +186,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
 
                      if (
                          EFlowJet.user_index() != 5000000 &&
-                         abs(EFlowJet.user_index()) != 6 &&
+                         std::abs(EFlowJet.user_index()) != 6 &&
                          EFlowJet.user_index() != 86
                      )
                          std::cout << "EFlowId " << EFlowJet.user_index() << std::endl;
@@ -271,7 +271,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
         vector<PseudoJet> CAInclusiveJets = CAClusterSequence.inclusive_jets();
         Print(3, "InclusiveJets Number", CAInclusiveJets.size());
 
-        sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), SortJetByMass());
+        std::sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), SortJetByMass());
 
         for (const auto & CAInclusiveJet : CAInclusiveJets) {
 
@@ -304,7 +304,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
         vector<PseudoJet> AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(3, "InclusiveJets Number", AktInclusiveJets.size());
 
-        sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), SortJetByMass());
+        std::sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), SortJetByMass());
         for (const auto & AktInclusiveJet : AktInclusiveJets) {
 
             //             if (!FillTree(AktFatJetBranch, AktFatJetConstituentBranch, AktInclusiveJet, LeptonJets)) return 0;
@@ -360,7 +360,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         // Tagging
 
-        int UserIndex = abs(CandidateJet.user_index());
+        int UserIndex = std::abs(CandidateJet.user_index());
 
         if (UserIndex == CpvHiggsId) {
             Candidate->HiggsTag = 1;
@@ -465,8 +465,8 @@ vector<PseudoJet> hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
     vector<PseudoJet> LeptonJets = Event->GetParticles()->GetLeptonJets();
     vector<PseudoJet> AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
 
-    sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
-    sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
+    std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
+    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
 
     bool HardestLepton = 1;
     for (const auto & LeptonJet : LeptonJets) {

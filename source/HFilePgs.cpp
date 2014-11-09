@@ -55,7 +55,7 @@ string hanalysis::hpgs::HFile::GetFilePath() const
 
 }
 
-hanalysis::HEvent *hanalysis::hpgs::HFile::GetEvent() const
+hanalysis::HEvent *hanalysis::hpgs::HFile::GetEvent()
 {
 
     Print(1, "Get Event");

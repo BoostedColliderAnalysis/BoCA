@@ -2,8 +2,7 @@
 # define HBranchDiscriminator_hh
 
 # include "TObject.h"
-
-
+# include "Rtypes.h"
 
 namespace hcpvhiggs{
 

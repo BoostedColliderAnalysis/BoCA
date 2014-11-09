@@ -96,9 +96,9 @@ vector<PseudoJet> hanalysis::HTopTagger::GetGranulatedJets(vector<PseudoJet> &EF
     for (unsigned i = 1; i < EFlowJets.size(); i++) {
         int new_jet = 0;
         for (unsigned j = 0; j < GranulatedJets.size(); j++) {
-            float eta_cell_diff = abs(EFlowJets[i].pseudorapidity() -
+            float eta_cell_diff = std::abs(EFlowJets[i].pseudorapidity() -
                                        GranulatedJets[j].pseudorapidity()) / CellDeltaEta;
-            float phi_cell_diff = abs(EFlowJets[i].phi() -
+            float phi_cell_diff = std::abs(EFlowJets[i].phi() -
                                        GranulatedJets[j].phi());
             if (phi_cell_diff > pi)     phi_cell_diff = 2 * pi - phi_cell_diff;
             phi_cell_diff = phi_cell_diff / CellDeltaPhi;

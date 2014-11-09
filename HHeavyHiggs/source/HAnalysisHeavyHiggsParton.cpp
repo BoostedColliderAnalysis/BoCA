@@ -62,7 +62,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, const string &StudyName)
 {
 
-    Print(2, "Analysis");
+    Print(2, "Analysis",StudyName);
 
     HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
@@ -89,7 +89,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     HeavyHiggs->JetNumber = BottomSum;
 
-    sort(BottomVector.begin(), BottomVector.end(), SortJetByEta());
+    std::sort(BottomVector.begin(), BottomVector.end(), SortJetByEta());
 
     PseudoJet FrontJet = BottomVector.front();
 //     double FrontPt = FrontJet.pt();
@@ -131,7 +131,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     HeavyHiggs->JetNumber += TopSum;
 
-    sort(TopVector.begin(), TopVector.end(), SortJetByEta());
+    std::sort(TopVector.begin(), TopVector.end(), SortJetByEta());
 
     FrontJet = TopVector.front();
     FrontEta = FrontJet.eta();
@@ -152,7 +152,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     JetVector.insert(JetVector.end(), TopVector.begin(), TopVector.end());
 
-    sort(JetVector.begin(), JetVector.end(), SortJetByEta());
+    std::sort(JetVector.begin(), JetVector.end(), SortJetByEta());
 
     FrontJet = JetVector.front();
     FrontEta = FrontJet.eta();
@@ -170,7 +170,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 //     HeavyHiggs->TopDeltaEta = CombinedEta;
 //     HeavyHiggs->TopInvMass = CombinedMass;
 
-    sort(JetVector.begin(), JetVector.end(), SortJetByPt());
+    std::sort(JetVector.begin(), JetVector.end(), SortJetByPt());
 
     Print (0, "Userindex" ,JetVector[0].user_index());
 //     Print (0, "Pt" , JetVector[0].pt());

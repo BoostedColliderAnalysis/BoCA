@@ -4,8 +4,6 @@
 # include "HReconstruction.hh"
 # include "HJetInfo.hh"
 
-// using std::sort;
-
 /**
  * @brief Jet Discriminator
  *

@@ -5,9 +5,6 @@
 
 # include "HObject.hh"
 
-// using std::map;
-// using std::pair;
-
 /**
  * @brief Jet infos subclassed from Fastjet
  *

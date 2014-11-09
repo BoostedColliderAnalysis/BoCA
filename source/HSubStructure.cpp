@@ -133,7 +133,7 @@ bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, Ex
 
         if (ConstituentJet.user_index() != IsrId &&
                 ConstituentJet.user_index() != CpvHiggsId &&
-                abs(ConstituentJet.user_index()) != TopId &&
+                std::abs(ConstituentJet.user_index()) != TopId &&
                 ConstituentJet.user_index() != HiggsId
            )
             Print(0, "Wrong UserId", ConstituentJet.user_index());
@@ -184,8 +184,8 @@ bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, Ex
         Constituent->Pt = ConstituentJet.pt();
 
 
-        SumInverseEta += ConstituentJet.pt() / fabs(ObservableEta);
-        SumInversePhi += ConstituentJet.pt() / fabs(ObservablePhi);
+        SumInverseEta += ConstituentJet.pt() / std::abs(ObservableEta);
+        SumInversePhi += ConstituentJet.pt() / std::abs(ObservablePhi);
 
     }
 
@@ -311,7 +311,7 @@ float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) con
 
         const float ConstituentDeltaR1 = Constituent.delta_R(SubJetVector.at(0));
         const float ConstituentDeltaR2 = Constituent.delta_R(SubJetVector.at(1));
-        const float ConstituentDeltaR3 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
+        const float ConstituentDeltaR3 = std::abs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
         float Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
         float Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
 
@@ -332,7 +332,7 @@ float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) con
         Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
         Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
 
-        const float ConstituntDeltaR4 = fabs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
+        const float ConstituntDeltaR4 = std::abs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
 
         float DeltaR2;
         if ((Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi1 && Phi3 <= Phi2)

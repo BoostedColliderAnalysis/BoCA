@@ -1,7 +1,10 @@
 # ifndef HSuperStructure_hh
 # define HSuperStructure_hh
 
+# include "ExRootAnalysis/ExRootTreeBranch.h"
+
 # include "HObject.hh"
+# include "HBranch.hh"
 
 class hanalysis::HSuperStructure : public hanalysis::HObject
 {
@@ -10,20 +13,22 @@ public:
 
     HSuperStructure();
 
+//     HSuperStructure(const HSuperStructure &other);
+
     void operator=(const HSuperStructure &other);
 
     ~HSuperStructure();
 
-    inline float InvMass() const {
+    inline float GetInvariantMass() const {
         return (Jet1 + Jet2).m();
     };
 
-    inline float HiggsDistance() const {
+    inline float GetHiggsDeltaM() const {
         return GetDeltaM(HiggsMass);
     };
 
     inline float GetDeltaM(const int ParticleMass) const {
-        return abs(InvMass() - ParticleMass);
+        return std::abs(GetInvariantMass() - ParticleMass);
     };
 
     float GetPullAngle1() const;
@@ -64,6 +69,8 @@ public:
 
     }
 
+    bool GetConstituents(ExRootTreeBranch *const ConstituentBranch);
+
 protected:
 
     PseudoJet Jet1;
@@ -82,17 +89,7 @@ protected:
 
 private:
 
-    inline float GetAngle1() const {
-
-        return (atan2(Jet2.delta_phi_to(Jet1), Jet1.rap() - Jet2.rap()));
-
-    };
-
-    inline float GetAngle2() const {
-
-        return (atan2(Jet1.delta_phi_to(Jet2), Jet2.rap() - Jet1.rap()));
-
-    };
+    float GetReferenceAngle(const PseudoJet &Jet, const PseudoJet &ReferenceJet) const;
 
     float GetPull(const PseudoJet &CandidateJet) const;
 
@@ -108,20 +105,18 @@ private:
 
 
 
+
+
+
+
+
+
+
+
+
 // # include "fastjet/tools/Filter.hh"
 //
 // # include "HFourVector.hh"
-//
-// using std::min;
-// using std::vector;
-//
-// using TMath::Pi;
-//
-// using fastjet::SelectorNHardest;
-// using fastjet::antikt_algorithm;
-// using fastjet::JetDefinition;
-// using fastjet::Selector;
-// using fastjet::Filter;
 //
 // /**
 //  * @brief Calculates the pull to each Bottom

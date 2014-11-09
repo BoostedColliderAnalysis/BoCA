@@ -59,11 +59,11 @@ int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
     Print(2, "Get Mother Id");
 
-    if (RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)) {
+    if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
         BranchId = IsrId;
-    } else if (abs(ParticleId) == BottomId && (abs(BranchId) != TopId && abs(BranchId) != CpvHiggsId)) {
+    } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
         BranchId = ParticleId;
-    } else if (abs(ParticleId) == TopId || abs(ParticleId) == CpvHiggsId) {
+    } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
         BranchId = ParticleId;
     }
 

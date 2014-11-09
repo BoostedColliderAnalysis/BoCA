@@ -72,7 +72,7 @@ double HEPTopTagger::check_cos_theta(const fastjet::PseudoJet &jet, const fastje
 
 void HEPTopTagger::FindHardSubst(const fastjet::PseudoJet &this_jet, std::vector<fastjet::PseudoJet> &t_parts)
 {
-  fastjet::PseudoJet parent1(0, 0, 0, 0), parent2(0, 0, 0, 0);
+    fastjet::PseudoJet parent1(0, 0, 0, 0), parent2(0, 0, 0, 0);
     if (this_jet.m() < _max_subjet_mass || !_cs->has_parents(this_jet, parent1, parent2)) {
         t_parts.push_back(this_jet);
     } else {
@@ -173,7 +173,7 @@ void HEPTopTagger::run_tagger()
     _top_parts.clear();
 
     if (debugg) {
-      std::cout << "mtmass in top_tagger: " << _mtmass << std::endl;
+        std::cout << "mtmass in top_tagger: " << _mtmass << std::endl;
         std::cout << "mwmass in top_tagger: " << _mwmass << std::endl;
         std::cout << "jet input HEPTopTagger: " << std::endl;
         //printjet(_jet);
@@ -195,15 +195,15 @@ void HEPTopTagger::run_tagger()
         for (unsigned ll = rr + 1; ll < _top_parts.size(); ll++) {
             for (unsigned kk = ll + 1; kk < _top_parts.size(); kk++) {
                 // define top_constituents candidate before filtering
-              std::vector <fastjet::PseudoJet> top_constits = _cs->constituents(_top_parts[rr]);
+                std::vector <fastjet::PseudoJet> top_constits = _cs->constituents(_top_parts[rr]);
                 _cs->add_constituents(_top_parts[ll], top_constits);
                 _cs->add_constituents(_top_parts[kk], top_constits);
 
                 // define Filtering: filt_top_R and jetdefinition
                 double filt_top_R
-                = std::min(0.3, 0.5 * sqrt(std::min(_top_parts[kk].squared_distance(_top_parts[ll]),
-                                                    std::min(_top_parts[rr].squared_distance(_top_parts[ll]),
-                                                  _top_parts[kk].squared_distance(_top_parts[rr])))));
+                    = std::min(0.3, 0.5 * sqrt(std::min(_top_parts[kk].squared_distance(_top_parts[ll]),
+                                                        std::min(_top_parts[rr].squared_distance(_top_parts[ll]),
+                                                                _top_parts[kk].squared_distance(_top_parts[rr])))));
                 fastjet::JetDefinition filtering_def(_jet_algorithm, filt_top_R);
                 std::vector<fastjet::PseudoJet> top_constits_filtered = Filtering(top_constits, filtering_def);
                 fastjet::PseudoJet topcandidate = Sum(top_constits_filtered);
@@ -252,7 +252,7 @@ std::vector<fastjet::PseudoJet> HEPTopTagger::Filtering(const std::vector <fastj
 
 fastjet::PseudoJet HEPTopTagger::Sum(const std::vector<fastjet::PseudoJet> &vec_pjet)
 {
-  fastjet::PseudoJet sum;
+    fastjet::PseudoJet sum;
     sum.reset(0., 0., 0., 0.);
     for (unsigned i = 0; i < vec_pjet.size(); i++) {
         sum += vec_pjet.at(i);
@@ -262,35 +262,35 @@ fastjet::PseudoJet HEPTopTagger::Sum(const std::vector<fastjet::PseudoJet> &vec_
 
 void HEPTopTagger::get_info() const
 {
-  std::cout << "maybe_top: " <<  _is_maybe_top << std::endl;
-  std::cout << "mascut_passed: " <<  _is_masscut_passed << std::endl;
-  std::cout << "top candidate mass:" <<  _top_candidate.m() << std::endl;
-  std::cout << "top candidate (pt, eta, phi): ("
-         <<  _top_candidate.perp() << ","
-         <<  _top_candidate.eta() << ","
-         <<  _top_candidate.phi_std() << ")" << std::endl;
-         std::cout << "hadrons size: " <<  _top_hadrons.size() << std::endl;
-         std::cout << "topcount: " <<  _top_count << std::endl;
-         std::cout << "parts size: " <<  _parts_size << std::endl;
-         std::cout << "delta_top: " <<  _delta_top << std::endl;
+    std::cout << "maybe_top: " <<  _is_maybe_top << std::endl;
+    std::cout << "mascut_passed: " <<  _is_masscut_passed << std::endl;
+    std::cout << "top candidate mass:" <<  _top_candidate.m() << std::endl;
+    std::cout << "top candidate (pt, eta, phi): ("
+              <<  _top_candidate.perp() << ","
+              <<  _top_candidate.eta() << ","
+              <<  _top_candidate.phi_std() << ")" << std::endl;
+    std::cout << "hadrons size: " <<  _top_hadrons.size() << std::endl;
+    std::cout << "topcount: " <<  _top_count << std::endl;
+    std::cout << "parts size: " <<  _parts_size << std::endl;
+    std::cout << "delta_top: " <<  _delta_top << std::endl;
     return;
 }
 
 
 void HEPTopTagger::get_setting() const
 {
-  std::cout << "top mass: " <<  _mtmass << std::endl;
-  std::cout << "W mass: " <<  _mwmass << std::endl;
-  std::cout << "top mass range: [" << _mtmin << ", " << _mtmax << "]" << std::endl;
-  std::cout << "W mass ratio range: [" << _rmin << ", " << _rmax << "] (["
-  << _rmin *_mtmass / _mwmass << "%, " << _rmax *_mtmass / _mwmass << "%])" << std::endl;
-         std::cout << "mass ratio cut: (m23cut, m13min, m13max)=("
-         << _m23cut << ", " << _m13cutmin << ", " << _m13cutmax << ")" << std::endl;
-         std::cout << "mass_drop_threshold: " << _mass_drop_threshold << std::endl;
-         std::cout << "max_subjet_mass: " << _max_subjet_mass << std::endl;
-         std::cout << "n_filtering: " << _nfilt << std::endl;
-         std::cout << "JetAlgorithm for filtering: " << _jet_algorithm << std::endl;
-         std::cout << "JetAlgorithm for reclustering: " << _jet_algorithm_recluster << std::endl;
+    std::cout << "top mass: " <<  _mtmass << std::endl;
+    std::cout << "W mass: " <<  _mwmass << std::endl;
+    std::cout << "top mass range: [" << _mtmin << ", " << _mtmax << "]" << std::endl;
+    std::cout << "W mass ratio range: [" << _rmin << ", " << _rmax << "] (["
+              << _rmin *_mtmass / _mwmass << "%, " << _rmax *_mtmass / _mwmass << "%])" << std::endl;
+    std::cout << "mass ratio cut: (m23cut, m13min, m13max)=("
+              << _m23cut << ", " << _m13cutmin << ", " << _m13cutmax << ")" << std::endl;
+    std::cout << "mass_drop_threshold: " << _mass_drop_threshold << std::endl;
+    std::cout << "max_subjet_mass: " << _max_subjet_mass << std::endl;
+    std::cout << "n_filtering: " << _nfilt << std::endl;
+    std::cout << "JetAlgorithm for filtering: " << _jet_algorithm << std::endl;
+    std::cout << "JetAlgorithm for reclustering: " << _jet_algorithm_recluster << std::endl;
     return;
 }
 

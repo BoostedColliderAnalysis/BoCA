@@ -466,7 +466,7 @@ float hanalysis::HReader::RoundToDigits(const float Value, const int Digits) con
 
     } else {
 
-        const float Factor = pow(10.0, Digits - ceil(log10(fabs(Value))));
+        const float Factor = pow(10.0, Digits - ceil(log10(std::abs(Value))));
         return (round(Value * Factor) / Factor);
 
     }
@@ -484,7 +484,7 @@ float hanalysis::HReader::RoundToError(const float Value, const float Error) con
 
     } else {
 
-        const float Factor = pow(10.0, 2 - ceil(log10(fabs(Error))));
+        const float Factor = pow(10.0, 2 - ceil(log10(std::abs(Error))));
 
         return (round(Value * Factor) / Factor);
 

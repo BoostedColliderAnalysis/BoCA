@@ -41,7 +41,7 @@ vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJets(const vector<Pseud
 
     MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
 
-    sort(MassDropJets.begin(), MassDropJets.end(), SortJetByMass());
+    std::sort(MassDropJets.begin(), MassDropJets.end(), SortJetByMass());
 
     MassDropJets = GetFatJetTag(MassDropJets);
 
@@ -80,7 +80,7 @@ vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJetsForced(const vector
         DeltaR += .25;
     }
 
-    sort(MassDropJets.begin(), MassDropJets.end(), SortJetByMass());
+    std::sort(MassDropJets.begin(), MassDropJets.end(), SortJetByMass());
 
     MassDropJets = GetFatJetTag(MassDropJets);
 
@@ -94,7 +94,7 @@ bool hanalysis::HDiscriminator::JetIsBad(const PseudoJet &Jet)
 
     HObject Object;
 
-    if (fabs(Jet.m()) <= 40) {
+    if (std::abs(Jet.m()) <= 40.) {
 
         Object.Print(2, "Fat Jet Mass", Jet.m());
         return 1;

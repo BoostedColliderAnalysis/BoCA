@@ -3,8 +3,6 @@
 
 # include "HParticle.hh"
 
-// using std::abs;
-
 /**
  * @brief delphes particles
  *

@@ -66,7 +66,7 @@ PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const vector<PseudoJet> &EFlowJet
 
         int BTagCounter = BTagger();
 
-        float FilteredJetEta = fabs(FilteredJet.eta());
+        float FilteredJetEta = std::abs(FilteredJet.eta());
         // Jing eta < 2.5
         const float FilteredJetEtaMax = 2.5;
         const int BTagRequired = 2;
@@ -189,7 +189,7 @@ int hanalysis::HHiggsTagger::BTagger()
 
         PseudoJet Piece = FilteredJetPieces[PieceNumber];
         float PiecePt = Piece.perp();
-        float PieceEta = fabs(Piece.eta());
+        float PieceEta = std::abs(Piece.eta());
 
         if (PieceEta < SubJetEtaMax && PiecePt > SubJetPtMin) {
 
@@ -331,7 +331,7 @@ float hanalysis::HHiggsTagger::GetSubDeltaR()
 
     float SubDeltaR;
 
-    float DeltaR = fabs(DeltaPhiEta0() + DeltaEtaPhi0() + EtaPhi()) / DeltaR12;
+    float DeltaR = std::abs(DeltaPhiEta0() + DeltaEtaPhi0() + EtaPhi()) / DeltaR12;
     float Eta = - (DeltaPhi() * EtaPhi() - DeltaEtaSqr() * Eta0 + DeltaPhi() * DeltaEtaPhi0()) / DeltaR12Sqr();
     float Phi = - (DeltaEta() * EtaPhi() + DeltaEta() * DeltaPhiEta0() - DeltaPhiSqr() * Phi0) / DeltaR12Sqr();
 

@@ -28,45 +28,6 @@ PseudoJet hanalysis::HFourVector::GetPseudoJet(const TLorentzVector &Vector) con
 
 }
 
-TLorentzVector hanalysis::HFourVector::GetConstituent(const TObject *const Object) const
-{
-
-    TLorentzVector LorentzVector;
-
-    if (Object->IsA() == GenParticle::Class()) {
-
-        LorentzVector = const_cast<GenParticle *>((GenParticle *) Object)->P4();
-
-    } else if (Object->IsA() == Track::Class()) {
-
-        LorentzVector = const_cast<Track *>((Track *) Object)->P4();
-
-    } else if (Object->IsA() == Tower::Class()) {
-
-        LorentzVector = const_cast<Tower *>((Tower *) Object)->P4();
-
-    } else if (Object->IsA() == Muon::Class()) {
-
-        LorentzVector = const_cast<Muon *>((Muon *) Object)->P4();
-
-    } else {
-
-        Print(0, "Unkonw Object", Object->ClassName());
-
-    }
-
-    return LorentzVector;
-
-}
-
-PseudoJet hanalysis::HFourVector::GetConstituentJet(const TObject *const Object) const
-{
-
-    return GetPseudoJet(GetConstituent(Object));
-
-}
-
-
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootElectron *const Particle) const
 {
 

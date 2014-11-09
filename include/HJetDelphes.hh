@@ -108,7 +108,7 @@ private:
 
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-            JetInfo.AddConstituent(MotherId, abs(ParticleClone->PT));
+            JetInfo.AddConstituent(MotherId, std::abs(ParticleClone->PT));
 
         }
 
@@ -148,7 +148,11 @@ private:
 
     void GetMuonEFlow(const HJetDetails);
 
-    PseudoJet GetConstituents(const Jet *const) const;
+    PseudoJet GetConstituents(const Jet *const JetClone, hanalysis::HJet::HJetDetails JetDetails);
+
+    std::pair< TLorentzVector, int > GetConstituent(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
+
+    PseudoJet GetConstituentJet(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
 
     inline string NameSpaceName() const {
         return "HDelphes";

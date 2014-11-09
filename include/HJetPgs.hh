@@ -29,7 +29,7 @@ public:
      *
      * @return void
      */
-    bool GetJets();
+    bool GetJets(const HJetDetails JetDetails);
 
 private:
 

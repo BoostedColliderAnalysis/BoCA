@@ -66,6 +66,8 @@ public:
      */
     ExRootTreeBranch *CandidateBranch;
 
+    ExRootTreeBranch *ConstituentBranch;
+
 
 private:
 

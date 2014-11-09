@@ -16,7 +16,7 @@
 class htoptagger::HJetTag : public hanalysis::HJetTag
 {
 
-    int GetBranchId(const int ParticleId, int BranchId) const;
+    int GetBranchId(const int ParticleId, int BranchId);
 
     const std::set<int> HeavyParticles = {TopId, CpvHiggsId};
 

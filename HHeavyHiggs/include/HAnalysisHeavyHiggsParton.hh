@@ -5,8 +5,6 @@
 # include "HEventParton.hh"
 # include "HBranchHeavyHiggs.hh"
 
-// using std::iter_swap;
-
 /**
  * @brief Class defining the Heavy Higgs Analysis
  *

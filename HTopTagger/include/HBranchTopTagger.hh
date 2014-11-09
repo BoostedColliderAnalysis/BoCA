@@ -2,6 +2,7 @@
 # define HBranchTopTagger_hh
 
 # include "TObject.h"
+# include "Rtypes.h"
 
 namespace htoptagger{
 

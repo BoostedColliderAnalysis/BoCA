@@ -33,7 +33,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
         if (ParticleStatus == Stable) {
 
-            if (abs(ParticleID) == ElectronId) {
+            if (std::abs(ParticleID) == ElectronId) {
 
                 TLorentzVector ElectronParticle = GetLorentzVector(ParticleClone);
 
@@ -51,7 +51,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             } // Electrons
 
-            if (abs(ParticleID) == MuonId) {
+            if (std::abs(ParticleID) == MuonId) {
 
                 TLorentzVector MuonParticle = GetLorentzVector(ParticleClone);
 
@@ -69,7 +69,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             } // Muons
 
-            if (abs(ParticleID) == BottomId) {
+            if (std::abs(ParticleID) == BottomId) {
 
                 PseudoJet JetCandidate = GetPseudoJet(ParticleClone);
 
@@ -78,7 +78,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             } // bottoms
 
-            if (abs(ParticleID) == TopId) {
+            if (std::abs(ParticleID) == TopId) {
 
                 TLorentzVector TopQuark = GetLorentzVector(ParticleClone);
                 PseudoJet TopJet = GetPseudoJet(ParticleClone);
@@ -105,7 +105,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
         if (ParticleStatus == Unstable) {
 
-            if (abs(ParticleID) == CharmId) {
+            if (std::abs(ParticleID) == CharmId) {
 
                 PseudoJet JetCandidate = GetPseudoJet(ParticleClone);
 
@@ -114,7 +114,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             } // charms
 
-//             if (abs(ParticleID) == 5) {
+//             if (std::abs(ParticleID) == 5) {
 //
 //                 PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
 //
@@ -123,7 +123,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 //
 //             } // bottoms
 
-            if (abs(ParticleID) == CpvHiggsId) {
+            if (std::abs(ParticleID) == CpvHiggsId) {
 
                 PseudoJet HiggsParticle = GetPseudoJet(ParticleClone);
 
@@ -140,7 +140,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
 
 
-            if (abs(ParticleID) == HeavyHiggsId) {
+            if (std::abs(ParticleID) == HeavyHiggsId) {
 
                 PseudoJet HiggsParticle = GetPseudoJet(ParticleClone);
 

@@ -8,8 +8,6 @@
 # include "HJetTag.hh"
 # include "HJetInfo.hh"
 
-// using std::vector;
-
 /**
  * @brief Base class for jets
  *
@@ -63,6 +61,12 @@ public:
         return Jets;
     };
 
+    vector<PseudoJet> GetStructuredTaggedJets(HJetTag *const NewJetTag) {
+      JetTag = NewJetTag;
+      if (!GotJets) GotJets = GetJets(TaggingStructure);
+      return Jets;
+    };
+
     vector<PseudoJet> GetBottomJets() {
         if (!GotJets) GotJets = GetJets(Plain);
         return BottomJets;
@@ -104,7 +108,7 @@ public:
 
 protected:
 
-    enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation};
+    enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation, TaggingStructure};
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

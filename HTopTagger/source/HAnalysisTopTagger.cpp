@@ -88,19 +88,19 @@ void htoptagger::HAnalysis::CloseFile()
 
 }
 
-int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId) const
+int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
     Print(3, "Get Branch Id", ParticleId);
 
     if (
-        RadiationParticles.find(abs(ParticleId)) != end(RadiationParticles) &&
-        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
+        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = IsrId;
     } else if (
-        HeavyParticles.find(abs(ParticleId)) != end(HeavyParticles) &&
-        HeavyParticles.find(abs(BranchId)) == end(HeavyParticles)
+        HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) &&
+        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
     }
@@ -150,7 +150,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const strin
 
         // Tagging
 
-        int UserIndex = abs(CandidateJet.user_index());
+        int UserIndex = std::abs(CandidateJet.user_index());
 
         if (UserIndex == CpvHiggsId) {
             Candidate->HiggsTag = 1;

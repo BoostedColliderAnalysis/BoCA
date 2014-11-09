@@ -6,9 +6,6 @@
 # include "HClonesArray.hh"
 # include "HFourVector.hh"
 
-// using std::sort;
-// using std::vector;
-
 /**
  * @brief particles for HAnalysis
  *

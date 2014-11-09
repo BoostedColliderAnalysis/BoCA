@@ -2,6 +2,7 @@
 # define HBranchTest_hh
 
 # include "TObject.h"
+# include "Rtypes.h"
 
 namespace htest{
 

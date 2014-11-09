@@ -5,8 +5,6 @@
 
 # include "HObject.hh"
 
-// using std::set;
-
 /**
  * @brief defines how to tag a jet
  *

@@ -125,7 +125,18 @@ public:
      * @param  Description of the debug message
      * @return void
      */
+
+    enum HSeverity {
+      SeverityError = 0,
+      SeverityNotification = 1,
+      SeverityInformation = 2,
+      SeverityDebug = 3,
+      SeverityDetailed = 4
+    };
+
     void Print(const int Severity, const string &Description) const;
+
+    void Print(HSeverity Severity, const string &Description) const;
 
     /**
      * @brief Print a debug messages
@@ -241,7 +252,7 @@ protected:
      * @param RefPhi reference angle
      * @return float Phi angle
      */
-    float GetDeltaPhi(const float, const float) const;
+    float GetDeltaPhi(const float Phi, const float ReferencePhi) const;
 
     virtual inline string NameSpaceName() const {
         return ("HAnalysis");
@@ -319,14 +330,6 @@ protected:
         CpvHiggsId = 5000000
     };
 
-    enum HSeverity {
-        SeverityError = 0,
-        SeverityNotification = 1,
-        SeverityInformation = 2,
-        SeverityDebug = 3,
-        SeverityDetailed = 4
-    };
-
     string GetParticleName(const int ParticleId) const;
 
 
@@ -391,6 +394,10 @@ protected:
     const int EmptyUserIndex;
 
     const int EmptyPosition;
+
+    const float Pi;
+
+    const float TwoPi;
 
     const float OneSigma;
 
