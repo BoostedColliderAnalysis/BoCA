@@ -55,12 +55,12 @@ bool hanalysis::hdelphes::HJet::GetJets(hanalysis::HJet::HJetDetails JetDetails)
             Jets.back().set_user_index(Jets.back().user_info<HJetInfo>().GetMaximalId());
 
 
+        Jets.at(JetNumber).user_info<HJetInfo>().PrintAllInfos(4);
+        Print(4, "Tag", Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalFraction());
+
         }
 
         GetDelphesTags(JetClone);
-
-        Jets.at(JetNumber).user_info<HJetInfo>().PrintAllInfos(4);
-        Print(4, "Tag", Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<HJetInfo>().GetMaximalFraction());
 
     }
 
@@ -129,6 +129,9 @@ int hanalysis::hdelphes::HJet::GetMotherId(const TObject *const Object)
     }
 
     const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
+
+if (Position == EmptyPosition) return EmptyId;
+
     int MotherId = Topology.at(Position);
 
     MotherId = GetMotherId(MotherId, Position);
@@ -231,7 +234,7 @@ std::pair<TLorentzVector, int> hanalysis::hdelphes::HJet::GetConstituent(const T
         Tower *TowerClone = const_cast<Tower *>((Tower *) Object);
         LorentzVector = TowerClone->P4();
         if (JetDetails == TaggingStructure) MotherId = GetJetId(TowerClone).GetMaximalId();
-        GetJetId(TowerClone).PrintAllInfos(4);
+//         GetJetId(TowerClone).PrintAllInfos(4);
 
     } else if (Object->IsA() == Muon::Class()) {
 

@@ -40,7 +40,10 @@ public:
      * @brief set of particle Ids which are considerd relevant
      *
      */
-    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+//     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+    const std::set<int> HeavyParticles {BottomId};
+
+    const std::set<int> IntermediateParticles {BottomId};
 
 protected:
 
@@ -53,7 +56,6 @@ protected:
 private:
 
     virtual inline string ClassName() const {
-
         return "HJetTag";
 
     };

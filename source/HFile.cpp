@@ -36,7 +36,7 @@ hanalysis::HFile::HFile(const string &Process, const string &Run)
 string hanalysis::HFile::GetTitle() const
 {
 
-    return RunFolder;
+  return (ProcessFolder + "-" + RunFolder);
 
 }
 

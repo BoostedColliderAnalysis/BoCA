@@ -7,6 +7,8 @@ hanalysis::HSuperStructure::HSuperStructure()
     Position1 = EmptyPosition;
     Position2 = EmptyPosition;
 
+//     DebugLevel = 2;
+
 }
 
 hanalysis::HSuperStructure::~HSuperStructure()
@@ -29,6 +31,8 @@ void hanalysis::HSuperStructure::operator=(const HSuperStructure &other)
 float hanalysis::HSuperStructure::GetReferenceAngle(const PseudoJet &Jet, const PseudoJet &ReferenceJet) const
 {
 
+    Print(2, "Get ReferenceAngle");
+
     const float Rap = Jet.rap() - ReferenceJet.rap();
     const float Phi = GetDeltaPhi(Jet.phi_std(), ReferenceJet.phi_std());
 
@@ -39,6 +43,9 @@ float hanalysis::HSuperStructure::GetReferenceAngle(const PseudoJet &Jet, const 
 
 float hanalysis::HSuperStructure::GetPullAngle1() const
 {
+
+    Print(2, "GetPullAngle1");
+
     const float Pull = GetPull(Jet1);
     const float ReferenceAngle = GetReferenceAngle(Jet1, Jet2);
     Print(3, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
@@ -56,6 +63,9 @@ float hanalysis::HSuperStructure::GetPullAngle1() const
 
 float hanalysis::HSuperStructure::GetPullAngle2() const
 {
+
+    Print(2, "GetPullAngle2");
+
     const float Pull = GetPull(Jet2);
     const float ReferenceAngle = GetReferenceAngle(Jet2, Jet1);
     Print(3, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
@@ -67,6 +77,9 @@ float hanalysis::HSuperStructure::GetPullAngle2() const
 
 float hanalysis::HSuperStructure::GetPull(const PseudoJet &CandidateJet) const
 {
+
+    Print(2, "GetPull");
+
     float Rap = 0;
     float Phi = 0;
 
@@ -88,139 +101,83 @@ float hanalysis::HSuperStructure::GetPull(const PseudoJet &CandidateJet) const
 }
 
 
-
-
-
-
-
-bool hanalysis::HSuperStructure::GetConstituents(ExRootTreeBranch *const ConstituentBranch)
+vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents() const
 {
 
-  if (Jet1.constituents().size() < 1 || Jet2.constituents().size() < 1) {
+    Print(2, "GetConstituents");
 
-    Print(1, "Not enough Constituents", Jet1.constituents().size(),Jet2.constituents().size());
-    return 0;
+    if (Jet1.constituents().size() < 1 || Jet2.constituents().size() < 1) {
 
-  }
+        Print(1, "Not enough Constituents", Jet1.constituents().size(), Jet2.constituents().size());
+//         return 0;
 
-  const float Shift = 3;
+    }
 
-  const float Theta = atan2(Jet2.phi_std(), Jet2.eta());
-      const float OriginEta = ( Jet1.eta() + Jet2.eta() ) / 2;
-      const float OriginPhi = ( Jet1.phi_std() + Jet2.phi_std() ) / 2;
-      const float Distance = Jet1.delta_R(Jet2);
-      const float SubJetRatio = 2. * Shift / Distance;
+    const float Shift = 1;
 
+    const float CenterEta = (Jet1.rap() + Jet2.rap()) / 2;
+//     const float CenterPhi = (Jet1.phi_std() + Jet2.phi_std()) / 2;
+    const float CenterPhi = GetDeltaPhi(Jet1.phi_std(), -Jet2.phi_std()) / 2;
 
+    const float Theta = atan2(GetDeltaPhi(Jet1.phi_std(), CenterPhi), Jet1.rap() - CenterEta);
 
+    const float Distance = Jet1.delta_R(Jet2);
+    const float SubJetRatio = 2. * Shift / Distance;
 
-  for (const auto & ConstituentJet : Jet1.constituents()) {
+    vector<TLorentzVector> ConstituentVectors1 = GetConstituents(Jet1, SubJetRatio, Theta, -Shift);
+    vector<TLorentzVector> ConstituentVectors2 = GetConstituents(Jet2, SubJetRatio, -Theta, Shift);
 
-    if (
-//       ConstituentJet.user_index() != IsrId &&
-      ConstituentJet.user_index() != CpvHiggsId &&
-//       std::abs(ConstituentJet.user_index()) != TopId &&
-      ConstituentJet.user_index() != HiggsId
-    )
-      Print(0, "Wrong UserId", ConstituentJet.user_index());
+    ConstituentVectors1.insert(ConstituentVectors1.end(), ConstituentVectors2.begin(), ConstituentVectors2.end());
 
-      // Get Constituent coordinates in Higgs Jet coordinates
-
-      float ConstEta = ConstituentJet.eta() - OriginEta;
-      float ConstPhi = GetDeltaPhi(ConstituentJet.phi_std(),OriginPhi);
-
-      // move subjet1 together with constituent to origin
-
-      ConstEta -= Jet1.eta();
-      ConstPhi = GetDeltaPhi(ConstPhi, Jet1.phi_std());
-
-      // scale distance to reference value
-
-      ConstEta *= SubJetRatio;
-      ConstPhi *= SubJetRatio;
-
-      // rotate Constituent according to subjet2
-
-      float ObservableEta = ConstEta * cos(Theta) + ConstPhi * sin(Theta);
-      const float ObservablePhi = ConstEta * sin(Theta) - ConstPhi * cos(Theta);
-
-      // move subjet2 to (1,0)
-      ObservableEta -= Shift;
-
-
-      Print(3,"eta",ObservableEta);
-
-      HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-      Constituent->Eta = ObservableEta;
-      Constituent->Phi = ObservablePhi;
-      Constituent->Pt = ConstituentJet.pt();
-
-  }
-
-
-/*
-
-  for (const auto & ConstituentJet : Jet2.constituents()) {
-
-    if (ConstituentJet.user_index() != IsrId &&
-      ConstituentJet.user_index() != CpvHiggsId &&
-      std::abs(ConstituentJet.user_index()) != TopId &&
-      ConstituentJet.user_index() != HiggsId
-    )
-      Print(0, "Wrong UserId", ConstituentJet.user_index());
-
-
-
-      //       const float DistanceJet1 = ConstituentJet.delta_R(Jet1);
-
-
-      // Get Constituent coordinates in Higgs Jet coordinates
-
-      float ConstEta = ConstituentJet.eta() - OriginEta;
-      float ConstPhi = GetDeltaPhi(ConstituentJet.phi_std(),OriginPhi);
-
-      // move subjet1 together with constituent to origin
-
-      ConstEta -= Jet1.eta();
-      ConstPhi = GetDeltaPhi(ConstPhi, Jet1.phi_std());
-
-      // scale distance to reference value
-
-      ConstEta = ConstEta * SubJetRatio;
-      ConstPhi = ConstPhi * SubJetRatio;
-
-      // rotate Constituent according to subjet2
-
-      float ObservableEta = ConstEta * cos(Theta) + ConstPhi * sin(Theta);
-      const float ObservablePhi = ConstEta * sin(Theta) - ConstPhi * cos(Theta);
-
-      // move subjet2 to (1,0)
-      ObservableEta -= Shift;
-
-
-      Print(3,"eta",ObservableEta);
-
-      HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-      Constituent->Eta = ObservableEta;
-      Constituent->Phi = ObservablePhi;
-      Constituent->Pt = ConstituentJet.pt();
-
-  }*/
-
-
-  return 1;
+    return ConstituentVectors1;
 
 }
 
 
+vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
+{
 
+    Print(2, "GetConstituents", JetRatio, Theta);
 
+//     const float Cut = 2. / JetRatio;
+//     const float Cut1 = 1. / JetRatio;
 
+    vector<TLorentzVector> ConstituentVectors;
 
+    for (const auto & ConstituentJet : Jet.constituents()) {
 
+//         if (Jet.delta_R(ConstituentJet) > Cut ) continue;
+//         if (Jet.delta_R(ConstituentJet) < Cut1 ) continue;
 
+        // Get Constituent coordinates in Jet coordinates
+        const float ConstEta = ConstituentJet.rap() - Jet.rap();
+        const float ConstPhi = GetDeltaPhi(ConstituentJet.phi_std(), Jet.phi_std());
 
+//         if (ConstPhi > Cut) Print(0, "phi", "too big");
+//         if (ConstEta > Cut) Print(0, "eta", "too big");
 
+        // rotate Constituent according to other jet
+        float ObservableEta = ConstEta * cos(Theta) + ConstPhi * sin(Theta);
+        float ObservablePhi = ConstEta * sin(Theta) - ConstPhi * cos(Theta);
+
+        // Scale according to Jet distance
+        ObservableEta *= JetRatio;
+        ObservablePhi *= JetRatio;
+
+        // move jet to (+-1,0)
+        ObservableEta -= Shift;
+        Print(3, "eta", ObservableEta);
+
+        TLorentzVector ConstituentVector;
+        ConstituentVector.SetPtEtaPhiE(ConstituentJet.pt(), ObservableEta, ObservablePhi, ConstituentJet.e());
+
+        ConstituentVectors.push_back(ConstituentVector);
+
+    }
+
+    return ConstituentVectors;
+
+}
 
 
 

@@ -37,7 +37,7 @@ public:
 
     bool GetSubJets(const PseudoJet &);
 
-    bool GetConstituents(const PseudoJet &, ExRootTreeBranch *const);
+    vector< TLorentzVector > GetConstituents(const PseudoJet &CandidateJet);
 
     bool GetIsolation(const PseudoJet &, const vector<PseudoJet> &);
 

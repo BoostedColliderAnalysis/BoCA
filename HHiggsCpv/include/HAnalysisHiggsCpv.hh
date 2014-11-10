@@ -21,9 +21,10 @@ public:
 
     int GetBranchId(const int ParticleId, int BranchId);
 
-    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+//     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+    const std::set<int> HeavyParticles {BottomId};
 
-    const std::set<int> IntermediateParticles {BottomId};
+//     const std::set<int> IntermediateParticles {BottomId};
 
     virtual inline string NameSpaceName() const {
         return "HiggsCPV";

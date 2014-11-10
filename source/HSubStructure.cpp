@@ -110,13 +110,13 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
 }
 
-bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, ExRootTreeBranch *const ConstituentBranch)
+vector<TLorentzVector> hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet)
 {
 
     if (CandidateJet.constituents().size() < 1) {
 
         Print(1, "Not enough Constituents", CandidateJet.constituents().size());
-        return 0;
+//         return 0;
 
     }
 
@@ -128,6 +128,8 @@ bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, Ex
     float SubJet1Pt = 0;
     float SubJet2Pt = 0;
     DeltaR = 0;
+
+    vector <TLorentzVector> ConstituentVectors;
 
     for (const auto & ConstituentJet : CandidateJet.constituents()) {
 
@@ -166,8 +168,8 @@ bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, Ex
 
         // scale distance to reference value
 
-        ConstEta = ConstEta * SubJetRatio;
-        ConstPhi = ConstPhi * SubJetRatio;
+        ConstEta *= SubJetRatio;
+        ConstPhi *= SubJetRatio;
 
         // rotate Constituent according to subjet2
 
@@ -177,12 +179,13 @@ bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, Ex
         // move subjet2 to (1,0)
         ObservableEta -= Shift;
 
+        const TLorentzVector ConstituentVector(ConstituentJet.pt(),ObservableEta,ObservablePhi,ConstituentJet.e());
+        ConstituentVectors.push_back(ConstituentVector);
 
-        HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-        Constituent->Eta = ObservableEta;
-        Constituent->Phi = ObservablePhi;
-        Constituent->Pt = ConstituentJet.pt();
-
+//         HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
+//         Constituent->Eta = ObservableEta;
+//         Constituent->Phi = ObservablePhi;
+//         Constituent->Pt = ConstituentJet.pt();
 
         SumInverseEta += ConstituentJet.pt() / std::abs(ObservableEta);
         SumInversePhi += ConstituentJet.pt() / std::abs(ObservablePhi);
@@ -193,7 +196,7 @@ bool hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet, Ex
     Global.Phi = CandidateJet.pt() / SumInversePhi;
     Asymmetry = SubJet2Pt / SubJet1Pt;
 
-    return 1;
+    return ConstituentVectors;
 
 }
 

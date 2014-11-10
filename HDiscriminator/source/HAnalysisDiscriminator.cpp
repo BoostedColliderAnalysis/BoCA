@@ -145,9 +145,9 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
     // Higgs stuff
 
-/*    for(auto HeavyParticle : JetTag->HeavyParticles) {
-        Print(0,"HeavyParticle",HeavyParticle);
-    }  */
+    /*    for(auto HeavyParticle : JetTag->HeavyParticles) {
+            Print(0,"HeavyParticle",HeavyParticle);
+        }  */
 
     const vector<PseudoJet> CandidateJets = Event->GetCandidates(JetTag);
 
@@ -321,12 +321,13 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
         Print(3, "Isolation", Candidate->IsolationDeltaR);
 
-        if (!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) {
+        vector<TLorentzVector> ConstituentVectors = SubStructure->GetConstituents(CandidateJet);
 
-            Print(0, "No Constituents");
-
-            return 0;
-
+        for (const auto & ConstituentVector : ConstituentVectors) {
+            HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
+            Constituent->Eta = ConstituentVector.Eta();
+            Constituent->Phi = ConstituentVector.Phi();
+            Constituent->Pt = ConstituentVector.Pt();
         }
 
         Candidate->ConstEta = SubStructure->GetConstituentEta();

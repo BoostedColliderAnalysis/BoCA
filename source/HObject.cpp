@@ -92,7 +92,7 @@ void hanalysis::HObject::Print(const int Severity, const string &Description) co
 
 void hanalysis::HObject::Print(HSeverity Severity, const string &Description) const
 {
-  
+
   if (Severity <= DebugLevel) {
 
     Printer(Description);

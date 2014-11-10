@@ -403,7 +403,16 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         Print(3, "Isolation", Candidate->IsolationDeltaR);
 
-        if (!SubStructure->GetConstituents(CandidateJet, ConstituentTreeBranch)) return 0;
+//         if (!SubStructure->GetConstituents(CandidateJet, ConstituentTreeBranch)) return 0;
+
+        vector<TLorentzVector> ConstituentVectors = SubStructure->GetConstituents(CandidateJet);
+
+        for (const auto & ConstituentVector : ConstituentVectors) {
+          HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentTreeBranch->NewEntry());
+          Constituent->Eta = ConstituentVector.Eta();
+          Constituent->Phi = ConstituentVector.Phi();
+          Constituent->Pt = ConstituentVector.Pt();
+        }
 
         Candidate->ConstEta = SubStructure->GetConstituentEta();
         Candidate->ConstPhi = SubStructure->GetConstituentPhi();

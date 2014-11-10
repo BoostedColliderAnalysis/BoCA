@@ -69,7 +69,8 @@ public:
 
     }
 
-    bool GetConstituents(ExRootTreeBranch *const ConstituentBranch);
+    vector< TLorentzVector > GetConstituents() const;
+
 
 protected:
 
@@ -80,6 +81,8 @@ protected:
     int Position1;
 
     int Position2;
+
+    vector<TLorentzVector> GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
 
     virtual inline string ClassName() const {
 
