@@ -1,6 +1,6 @@
 # include "HFileParton.hh"
 
-hanalysis::hparton::HFile::HFile()
+hparton::HFile::HFile()
 {
 
     Print(1, "Constructor");
@@ -9,7 +9,7 @@ hanalysis::hparton::HFile::HFile()
 
 }
 
-hanalysis::hparton::HFile::HFile(const string &Process)
+hparton::HFile::HFile(const std::string &Process)
 {
 
     Print(1, "Constructor");
@@ -20,7 +20,7 @@ hanalysis::hparton::HFile::HFile(const string &Process)
 
 }
 
-hanalysis::hparton::HFile::HFile(const string &Process, const string &Run)
+hparton::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
     Print(1, "Constructor");
@@ -33,7 +33,7 @@ hanalysis::hparton::HFile::HFile(const string &Process, const string &Run)
 
 }
 
-string hanalysis::hparton::HFile::GetTreeName() const
+std::string hparton::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -44,7 +44,7 @@ string hanalysis::hparton::HFile::GetTreeName() const
 
 }
 
-string hanalysis::hparton::HFile::GetFilePath() const
+std::string hparton::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -55,7 +55,7 @@ string hanalysis::hparton::HFile::GetFilePath() const
 
 }
 
-hanalysis::HEvent *hanalysis::hparton::HFile::GetEvent()
+hanalysis::HEvent *hparton::HFile::GetEvent()
 {
 
     Print(1, "Get Event");

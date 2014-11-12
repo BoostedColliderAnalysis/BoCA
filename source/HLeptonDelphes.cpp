@@ -1,20 +1,20 @@
 # include "HLeptonDelphes.hh"
 
-hanalysis::hdelphes::HLepton::HLepton()
+hdelphes::HLepton::HLepton()
 {
 
     Print(1, "Constructor");
 
 }
 
-hanalysis::hdelphes::HLepton::~HLepton()
+hdelphes::HLepton::~HLepton()
 {
     Print(1, "Destructor");
 
 
 }
 
-bool hanalysis::hdelphes::HLepton::GetElectrons()
+bool hdelphes::HLepton::GetElectrons()
 {
 
     Print(2, "Get Electrons", ClonesArray->GetElectronSum());
@@ -49,7 +49,7 @@ bool hanalysis::hdelphes::HLepton::GetElectrons()
 
 }
 
-bool hanalysis::hdelphes::HLepton::GetMuons()
+bool hdelphes::HLepton::GetMuons()
 {
 
     Print(2, "Get Muons", ClonesArray->GetMuonSum());

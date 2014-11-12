@@ -44,11 +44,11 @@ protected:
 
     };
 
-    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const string &ExportTreeName);
+    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName);
 
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
-    TFile *GetExportFile(const string &StudyName) const;
+    TFile *GetExportFile(const std::string &StudyName) const;
 
     void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 
@@ -57,14 +57,14 @@ protected:
      *
      * @return void
      */
-    virtual bool Analysis(HEvent * const, const string &StudyName) = 0;
+    virtual bool Analysis(HEvent * const, const std::string &StudyName) = 0;
 
     /**
-     * @brief prepares the vector describing the input root files
+     * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    virtual vector<HFile*> GetFiles(const string &StudyName) const = 0;
+    virtual std::vector<HFile*> GetFiles(const std::string &StudyName) const = 0;
 
     /**
      * @brief New Analysis
@@ -77,7 +77,7 @@ protected:
      * @brief Name of Analysis
      *
      */
-    virtual inline string GetProjectName() const {
+    virtual inline std::string GetProjectName() const {
 
         return "ProjectName";
 
@@ -93,13 +93,13 @@ protected:
 
     };
 
-    virtual inline vector<string> GetStudyNames() const {
+    virtual inline std::vector<std::string> GetStudyNames() const {
 
         return {GetProjectName()};
 
     };
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return "HAnalysis";
 

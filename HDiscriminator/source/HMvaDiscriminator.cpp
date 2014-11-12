@@ -96,7 +96,7 @@ void hcpvhiggs::HMva::DefineVariables()
 }
 
 
-void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
+void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
 {
   Print(1, "Apply Bdt");
 
@@ -196,9 +196,9 @@ HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader,
 
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 
-    vector<bool> CandidateEventCut(ObservableSum, 1);
-    vector<bool> TopEventCut(ObservableSum, 1);
-    vector<bool> HiggsEventCut(ObservableSum, 1);
+    std::vector<bool> CandidateEventCut(ObservableSum, 1);
+    std::vector<bool> TopEventCut(ObservableSum, 1);
+    std::vector<bool> HiggsEventCut(ObservableSum, 1);
     bool HasHiggs = 0;;
     bool HasTop = 0;
 

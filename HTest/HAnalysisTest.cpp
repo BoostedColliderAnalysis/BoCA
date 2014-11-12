@@ -7,22 +7,22 @@ htest::HAnalysis::HAnalysis()
 
 }
 
-vector<string> htest::HAnalysis::GetStudyNameVector(){
+std::vector<std::string> htest::HAnalysis::GetStudyNameVector(){
 
-    vector<string> StudyNameVector = {"Test","Second"};
+    std::vector<std::string> StudyNameVector = {"Test","Second"};
 
     return StudyNameVector;
 
 }
 
-vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const string &StudyName) const
+std::vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const std::string &StudyName) const
 {
 
     Print(1, "Set File Vector", StudyName);
 
-    vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> Files;
 
-    hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-ttbb");
+    hdelphes::HFile *Background = new hdelphes::HFile("pp-ttbb");
         Files.push_back(Background);
 
 //     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
@@ -74,7 +74,7 @@ int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool htest::HAnalysis::Analysis(hanalysis::HEvent *Event, const string &StudyName)
+bool htest::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
     Print(2, "Analysis", StudyName);

@@ -1,13 +1,13 @@
 # include "HLeptonPgs.hh"
 
-hanalysis::hpgs::HLepton::HLepton()
+hpgs::HLepton::HLepton()
 {
 
     Print(1, "Constructor");
 
 }
 
-hanalysis::hpgs::HLepton::~HLepton()
+hpgs::HLepton::~HLepton()
 {
 
     Print(1, "Destructor");
@@ -16,7 +16,7 @@ hanalysis::hpgs::HLepton::~HLepton()
 }
 
 
-bool hanalysis::hpgs::HLepton::GetElectrons()
+bool hpgs::HLepton::GetElectrons()
 {
 
   Print(2, "Get Electrons", ClonesArray->GetElectronSum());
@@ -50,7 +50,7 @@ bool hanalysis::hpgs::HLepton::GetElectrons()
 
 }
 
-bool hanalysis::hpgs::HLepton::GetMuons()
+bool hpgs::HLepton::GetMuons()
 {
 
     Print(2, "Get Muons", ClonesArray->GetMuonSum());

@@ -7,7 +7,7 @@
  * @brief MadGraph particles
  *
  */
-class hanalysis::hparton::HParticle : public hanalysis::HParticle
+class hparton::HParticle : public hanalysis::HParticle
 {
 
 public:
@@ -33,11 +33,11 @@ private:
      */
     bool GetParticles();
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HParton";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HParticle";
     }
 

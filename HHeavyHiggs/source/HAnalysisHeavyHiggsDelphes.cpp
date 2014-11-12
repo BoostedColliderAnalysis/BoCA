@@ -7,23 +7,23 @@ hheavyhiggs::HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
 
 }
 
-vector<string> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
+std::vector<std::string> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 {
 
-//     vector<string> StudyNameVector = {"Signal", "Background", "Test"};
-    vector<string> StudyNameVector = {"Signal"};
+//     std::vector<std::string> StudyNameVector = {"Signal", "Background", "Test"};
+    std::vector<std::string> StudyNameVector = {"Signal"};
 
 
     return StudyNameVector;
 
 }
 
-vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const string &StudyName) const
+std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const std::string &StudyName) const
 {
 
     Print(1, "Fill Analysis Vector", StudyName);
 
-    vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> Files;
 
     Files.push_back(new hanalysis::HFile("BG_ttbb"));
     Files.push_back(new hanalysis::HFile("hcpbb_ttbb"));
@@ -74,7 +74,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 
 }
 
-bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event, const string &StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
     Print(2, "Analysis");
@@ -133,9 +133,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent* Event)
     HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
 //     Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);
+    HJets JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> BottomJetVector;
+    HJets BottomJetVector;
 
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
@@ -167,11 +167,11 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent* Even
     HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
 //     Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    vector<PseudoJet> JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);
+    HJets JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);
 
     if (JetVector.size()<1) return 0;
 
-    vector<PseudoJet> TopJetVector, BottomJetVector;
+    HJets TopJetVector, BottomJetVector;
 
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
@@ -192,7 +192,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent* Even
 
                 PseudoJet FrontJet, BackJet;
 
-                if (TopJetVector[TopJetNumber].eta() > TopJetVector[SecondTopJetNumber].eta()) {
+                if (TopJetVector[TopJetNumber].rap() > TopJetVector[SecondTopJetNumber].rap()) {
 
                     FrontJet = TopJetVector[TopJetNumber];
                     BackJet = TopJetVector[SecondTopJetNumber];
@@ -222,7 +222,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent* Even
 
                 PseudoJet FrontJet, BackJet;
 
-                if (TopJetVector[TopJetNumber].eta() > TopJetVector[BottomJetNumber].eta()) {
+                if (TopJetVector[TopJetNumber].rap() > TopJetVector[BottomJetNumber].rap()) {
 
                     FrontJet = TopJetVector[TopJetNumber];
                     BackJet = BottomJetVector[BottomJetNumber];
@@ -253,7 +253,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent* Event)
 
 //     Event->GetJets();
 
-    vector<PseudoJet> BottomJetVector = Event->GetJets()->GetBottomJets();
+    HJets BottomJetVector = Event->GetJets()->GetBottomJets();
 
     if (BottomJetVector.size() < 2) return 0;
 
@@ -263,7 +263,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent* Event)
 
         for (unsigned SecondBottomJetNumber = 0; SecondBottomJetNumber < BottomJetNumber; ++SecondBottomJetNumber) {
 
-            if (BottomJetVector[BottomJetNumber].eta() > BottomJetVector[SecondBottomJetNumber].eta()) {
+            if (BottomJetVector[BottomJetNumber].rap() > BottomJetVector[SecondBottomJetNumber].rap()) {
 
                 FrontJet = BottomJetVector[BottomJetNumber];
                 BackJet = BottomJetVector[SecondBottomJetNumber];
@@ -289,10 +289,10 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent* Even
 {
 
     float FrontPt = FrontJet.pt();
-    float FrontEta = FrontJet.eta();
+    float FrontEta = FrontJet.rap();
     float FrontPhi = FrontJet.phi_std();
 
-    float BackEta = BackJet.eta();
+    float BackEta = BackJet.rap();
     float BackPt = BackJet.pt();
     float BackPhi = BackJet.phi_std();
 
@@ -334,7 +334,7 @@ float hheavyhiggs::HAnalysisHeavyHiggsDelphes::Leptons(hanalysis::HEvent* Event,
 
     float Isolation;
 
-    vector<PseudoJet> LeptonVector = Event->GetLeptons()->GetLeptonJets();
+    HJets LeptonVector = Event->GetLeptons()->GetLeptonJets();
 
     for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
 

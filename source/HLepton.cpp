@@ -57,7 +57,7 @@ void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 
 }
 
-vector<TLorentzVector> hanalysis::HLepton::GetLeptonLorentzVectors()
+HVectors hanalysis::HLepton::GetLeptonLorentzVectors()
 {
 
   Print(2,"Get Leptons");
@@ -80,7 +80,7 @@ vector<TLorentzVector> hanalysis::HLepton::GetLeptonLorentzVectors()
 
     Print(3,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
 
-    vector<TLorentzVector> CompleteVector = LeptonLorentzVectors;
+    HVectors CompleteVector = LeptonLorentzVectors;
     CompleteVector.insert(CompleteVector.end(), AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end());
     sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
 
@@ -90,7 +90,7 @@ vector<TLorentzVector> hanalysis::HLepton::GetLeptonLorentzVectors()
 
 
 
-vector<PseudoJet> hanalysis::HLepton::GetLeptonJets()
+HJets hanalysis::HLepton::GetLeptonJets()
 {
 
     Print(2,"Get Lepton Jets");
@@ -111,7 +111,7 @@ vector<PseudoJet> hanalysis::HLepton::GetLeptonJets()
 //     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
     Print(3,"Number of Anti Lepton Jets",AntiLeptonJets.size());
 
-    vector<PseudoJet> CompleteJetVector = LeptonJets;
+    HJets CompleteJetVector = LeptonJets;
     CompleteJetVector.insert(CompleteJetVector.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
 //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
 

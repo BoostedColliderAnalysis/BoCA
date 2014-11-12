@@ -1,6 +1,6 @@
 # include "HReader.hh"
 
-hanalysis::HReader::HReader(HMva *NewMva)
+hmva::HReader::HReader(HMva *NewMva)
 {
 
     Print(1, "Constructor");
@@ -17,7 +17,7 @@ hanalysis::HReader::HReader(HMva *NewMva)
 
 }
 
-hanalysis::HReader::~HReader()
+hmva::HReader::~HReader()
 {
     Print(1, "Destructor");
 
@@ -26,12 +26,12 @@ hanalysis::HReader::~HReader()
 }
 
 
-void hanalysis::HReader::AddVariable()
+void hmva::HReader::AddVariable()
 {
 
     Print(1, "Add Variable");
 
-    const string DefaultOptions = "";
+    const std::string DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
 
     for (const auto & Observable : Mva->Observables) {
@@ -48,34 +48,34 @@ void hanalysis::HReader::AddVariable()
 
 }
 
-void hanalysis::HReader::BookMVA()
+void hmva::HReader::BookMVA()
 {
     Print(1, "Book Mva");
 
-    const string XmlName = ".weights.xml";
+    const std::string XmlName = ".weights.xml";
 
-    const string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
+    const std::string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
     Print(0, "Opening Weight File", CutWeightFile);
 
     Reader->BookMVA(Mva->CutMethodName, CutWeightFile);
 
-    const string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
+    const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
     Print(0, "Opening Weight File", BdtWeightFile);
     Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
 
 }
 
-void hanalysis::HReader::MVALoop()
+void hmva::HReader::MVALoop()
 {
 
     Print(1, "Mva Loop");
 
     // Export File
-    const string ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
+    const std::string ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
 
     // Input File
-    const string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + ".root";
+    const std::string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + ".root";
     const TFile *InputFile = TFile::Open(InputFileName.c_str());
 
     std::cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << std::endl;
@@ -114,7 +114,7 @@ void hanalysis::HReader::MVALoop()
 }
 
 
-void hanalysis::HReader::GetCuts()
+void hmva::HReader::GetCuts()
 {
     Print(1, "Get Cuts");
 
@@ -127,12 +127,12 @@ void hanalysis::HReader::GetCuts()
 
 }
 
-void hanalysis::HReader::LatexHeader()
+void hmva::HReader::LatexHeader()
 {
 
     Print(1, "LaTeX Header");
 
-    const string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + ".tex";
+    const std::string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + ".tex";
 
     LatexFile.open(TexFileName);
 
@@ -149,14 +149,14 @@ void hanalysis::HReader::LatexHeader()
 }
 
 
-void hanalysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const string TreeName)
+void hmva::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const std::string TreeName)
 {
 
     Print(1, "Apply Cuts");
 
     ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
 
-    vector<std::pair<size_t, VectorIterator> > Priority(ReaderStruct.CutFlowVector.size());
+    std::vector<std::pair<size_t, VectorIterator> > Priority(ReaderStruct.CutFlowVector.size());
 
     size_t OrderNumber = 0;
     for (VectorIterator Iterator = ReaderStruct.CutFlowVector.begin(); Iterator != ReaderStruct.CutFlowVector.end(); ++Iterator, ++OrderNumber)
@@ -182,7 +182,7 @@ void hanalysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, con
 }
 
 
-void hanalysis::HReader::TabularOutput() const
+void hmva::HReader::TabularOutput() const
 {
 
     const int NameWidth = 15;
@@ -243,7 +243,7 @@ void hanalysis::HReader::TabularOutput() const
 
 }
 
-void hanalysis::HReader::LatexContent(const string& TreeName)
+void hmva::HReader::LatexContent(const std::string& TreeName)
 {
 
     Print(1, "LaTeX Content");
@@ -339,7 +339,7 @@ void hanalysis::HReader::LatexContent(const string& TreeName)
 
 }
 
-void hanalysis::HReader::LatexFooter()
+void hmva::HReader::LatexFooter()
 {
 
     Print(1, "LaTeX Footer");
@@ -350,7 +350,7 @@ void hanalysis::HReader::LatexFooter()
 
 }
 
-float hanalysis::HReader::GetRatio(const float Nominator, const float Denummertor) const
+float hmva::HReader::GetRatio(const float Nominator, const float Denummertor) const
 {
 
     float Ratio;
@@ -370,7 +370,7 @@ float hanalysis::HReader::GetRatio(const float Nominator, const float Denummerto
 }
 
 
-float hanalysis::HReader::GetScaling(const float Events, const int Particles) const
+float hmva::HReader::GetScaling(const float Events, const int Particles) const
 {
 
     Print(2 , "Scaling");
@@ -393,7 +393,7 @@ float hanalysis::HReader::GetScaling(const float Events, const int Particles) co
 
 
 
-float hanalysis::HReader::GetLuminosity(const float Number) const
+float hmva::HReader::GetLuminosity(const float Number) const
 {
 
     Print(2 , "Luminosity");
@@ -404,7 +404,7 @@ float hanalysis::HReader::GetLuminosity(const float Number) const
 
 }
 
-float hanalysis::HReader::GetLuminosityError(const float Number) const
+float hmva::HReader::GetLuminosityError(const float Number) const
 {
 
     Print(2 , "Luminosity Error");
@@ -418,7 +418,7 @@ float hanalysis::HReader::GetLuminosityError(const float Number) const
 }
 
 
-float hanalysis::HReader::GetError(const float Value) const
+float hmva::HReader::GetError(const float Value) const
 {
     Print(2 , "Error");
 
@@ -439,7 +439,7 @@ float hanalysis::HReader::GetError(const float Value) const
 }
 
 
-float hanalysis::HReader::RoundToDigits(const float Value) const
+float hmva::HReader::RoundToDigits(const float Value) const
 {
 
     return RoundToDigits(Value, 3);
@@ -447,7 +447,7 @@ float hanalysis::HReader::RoundToDigits(const float Value) const
 }
 
 
-float hanalysis::HReader::RoundError(const float Value) const
+float hmva::HReader::RoundError(const float Value) const
 {
 
     return RoundToDigits(Value, 2);
@@ -455,7 +455,7 @@ float hanalysis::HReader::RoundError(const float Value) const
 }
 
 
-float hanalysis::HReader::RoundToDigits(const float Value, const int Digits) const
+float hmva::HReader::RoundToDigits(const float Value, const int Digits) const
 {
 
     Print(2 , "Round To Digits");
@@ -473,7 +473,7 @@ float hanalysis::HReader::RoundToDigits(const float Value, const int Digits) con
 }
 
 
-float hanalysis::HReader::RoundToError(const float Value, const float Error) const
+float hmva::HReader::RoundToError(const float Value, const float Error) const
 {
 
     Print(2 , "Round To Digits");

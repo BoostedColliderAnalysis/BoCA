@@ -7,7 +7,7 @@
  * @brief Delphes leptons
  *
  */
-class hanalysis::hdelphes::HLepton : public hanalysis::HLepton
+class hdelphes::HLepton : public hanalysis::HLepton
 {
 
 public:
@@ -44,11 +44,11 @@ private:
    */
   bool GetMuons();
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HDelphes";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HLepton";
     };
 

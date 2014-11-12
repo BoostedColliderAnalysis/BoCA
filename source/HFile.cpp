@@ -9,7 +9,7 @@ hanalysis::HFile::HFile()
 
 }
 
-hanalysis::HFile::HFile(const string &Process)
+hanalysis::HFile::HFile(const std::string &Process)
 {
 
     Print(1, "Constructor");
@@ -20,7 +20,7 @@ hanalysis::HFile::HFile(const string &Process)
 
 }
 
-hanalysis::HFile::HFile(const string &Process, const string &Run)
+hanalysis::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
     Print(1, "Constructor");
@@ -33,14 +33,14 @@ hanalysis::HFile::HFile(const string &Process, const string &Run)
 
 }
 
-string hanalysis::HFile::GetTitle() const
+std::string hanalysis::HFile::GetTitle() const
 {
 
   return (ProcessFolder + "-" + RunFolder);
 
 }
 
-string hanalysis::HFile::GetMadGraphFilePath() const
+std::string hanalysis::HFile::GetMadGraphFilePath() const
 {
 
     return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
@@ -48,11 +48,11 @@ string hanalysis::HFile::GetMadGraphFilePath() const
 }
 
 // TString Analysis::HFile::BasePath = "$HOME/Development/madgraph/";
-string hanalysis::HFile::BasePath = "$HOME/Development/MadGraph/";
+std::string hanalysis::HFile::BasePath = "$HOME/Development/MadGraph/";
 
-string hanalysis::HFile::FileSuffix = "_delphes_events.root";
+std::string hanalysis::HFile::FileSuffix = "_delphes_events.root";
 
-string hanalysis::HFile::TreeName = "Delphes";
+std::string hanalysis::HFile::TreeName = "Delphes";
 
 bool hanalysis::HFile::SnowMass = 0;
 
@@ -79,7 +79,7 @@ void hanalysis::HFile::SetVariables()
 
 
 
-string hanalysis::HFile::GetTreeName() const
+std::string hanalysis::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -88,7 +88,7 @@ string hanalysis::HFile::GetTreeName() const
 }
 
 
-string hanalysis::HFile::GetFilePath() const
+std::string hanalysis::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -105,14 +105,14 @@ ExRootTreeReader *hanalysis::HFile::GetTreeReader()
     Print(1, "Get Tree Reader", GetFilePath());
 
     // Import file
-    const string ImportPath = GetFilePath();
+    const std::string ImportPath = GetFilePath();
 //   TFile * const
     ImportFile = new TFile(ImportPath.c_str());
     //     TFile ImportFile = TFile(ImportPath.c_str());
     Print(1, "File", ImportPath);
 
     // Import tree
-    const string ImportTreeName = GetTreeName();
+    const std::string ImportTreeName = GetTreeName();
 //   TTree * const
     ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
     //     TTree ImportTree = (TTree)ImportFile.Get(ImportTreeName.c_str());

@@ -56,14 +56,14 @@ void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 
 }
 
-vector<TLorentzVector> hanalysis::HParticle::GetLeptonLorentzVectors()
+HVectors hanalysis::HParticle::GetLeptonLorentzVectors()
 {
 
   Print(2,"LeptonVector");
 
   GotParticles = GetParticles();
 
-    vector<TLorentzVector> TotalVector;
+    HVectors TotalVector;
 
     TotalVector = ElectronLorentzVectors;
     TotalVector.insert(TotalVector.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
@@ -77,14 +77,14 @@ vector<TLorentzVector> hanalysis::HParticle::GetLeptonLorentzVectors()
 
 }
 
-vector<TLorentzVector> hanalysis::HParticle::GetAntiLeptonLorentzVectors()
+HVectors hanalysis::HParticle::GetAntiLeptonLorentzVectors()
 {
 
   Print(2,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
-    vector<TLorentzVector> TotalVector;
+    HVectors TotalVector;
 
     TotalVector = AntiElectronLorentzVectors;
     TotalVector.insert(TotalVector.end(), AntiMuonLorentzVectors.begin(), AntiMuonLorentzVectors.end());
@@ -98,14 +98,14 @@ vector<TLorentzVector> hanalysis::HParticle::GetAntiLeptonLorentzVectors()
 
 }
 
-vector<PseudoJet> hanalysis::HParticle::GetLeptonJets()
+HJets hanalysis::HParticle::GetLeptonJets()
 {
 
   Print(2,"LeptonVector");
 
   GotParticles = GetParticles();
 
-    vector<PseudoJet> TotalVector;
+    HJets TotalVector;
 
     TotalVector = ElectronJets;
     TotalVector.insert(TotalVector.end(), MuonJets.begin(), MuonJets.end());
@@ -119,14 +119,14 @@ vector<PseudoJet> hanalysis::HParticle::GetLeptonJets()
 
 }
 
-vector<PseudoJet> hanalysis::HParticle::GetAntiLeptonJets()
+HJets hanalysis::HParticle::GetAntiLeptonJets()
 {
 
   Print(2,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
-    vector<PseudoJet> TotalVector;
+    HJets TotalVector;
 
     TotalVector = AntiElectronJets;
     TotalVector.insert(TotalVector.end(), AntiMuonJets.begin(), AntiMuonJets.end());

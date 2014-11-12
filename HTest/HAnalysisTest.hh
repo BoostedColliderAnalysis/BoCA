@@ -41,7 +41,7 @@ public:
 
 private:
 
-    inline string GetProjectName()const{return "Test";};
+    inline std::string GetProjectName()const{return "Test";};
 
     /**
      * @brief Lepton calculations
@@ -49,7 +49,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> Leptons();
+    HJets Leptons();
 
     /**
      * @brief Lepton event counter
@@ -62,14 +62,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent* Event,const string &StudyName);
+    bool Analysis(hanalysis::HEvent* Event,const std::string &StudyName);
 
     /**
-     * @brief prepares the vector describing the input root files
+     * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::HFile* > GetFiles(const string &StudyName) const;
+    std::vector< hanalysis::HFile* > GetFiles(const std::string &StudyName) const;
 
     /**
      * @brief New Analysis
@@ -80,9 +80,9 @@ private:
 
     void CloseFile();
 
-    vector<string> GetStudyNameVector();
+    std::vector<std::string> GetStudyNameVector();
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return ("HAnalysisTest");
 

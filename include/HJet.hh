@@ -40,65 +40,65 @@ public:
         JetTag = NewJetTag;
     }
 
-    vector<PseudoJet> GetJets() {
+    HJets GetJets() {
       if (!GotJets) GotJets = GetJets(Plain);
       return Jets;
     };
 
-    vector<PseudoJet> GetStructuredJets() {
+    HJets GetStructuredJets() {
         if (!GotJets) GotJets = GetJets(Structure);
         return Jets;
     };
 
-    vector<PseudoJet> GetTaggedJets() {
+    HJets GetTaggedJets() {
         if (!GotJets) GotJets = GetJets(Tagging);
         return Jets;
     };
 
-    vector<PseudoJet> GetTaggedJets(HJetTag *const NewJetTag) {
+    HJets GetTaggedJets(HJetTag *const NewJetTag) {
         JetTag = NewJetTag;
         if (!GotJets) GotJets = GetJets(Tagging);
         return Jets;
     };
 
-    vector<PseudoJet> GetStructuredTaggedJets(HJetTag *const NewJetTag) {
+    HJets GetStructuredTaggedJets(HJetTag *const NewJetTag) {
       JetTag = NewJetTag;
       if (!GotJets) GotJets = GetJets(TaggingStructure);
       return Jets;
     };
 
-    vector<PseudoJet> GetBottomJets() {
+    HJets GetBottomJets() {
         if (!GotJets) GotJets = GetJets(Plain);
         return BottomJets;
     };
 
-    vector<PseudoJet> GetEFlowJets() {
+    HJets GetEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(Plain);
       return EFlowJets;
     };
 
-    vector<PseudoJet> GetIsolatedEFlowJets() {
+    HJets GetIsolatedEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(Isolation);
       return EFlowJets;
     };
 
-    vector<PseudoJet> GetTaggedEFlowJets() {
+    HJets GetTaggedEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
       return EFlowJets;
     };
 
-    vector<PseudoJet> GetTaggedEFlowJets(HJetTag *const NewJetTag) {
+    HJets GetTaggedEFlowJets(HJetTag *const NewJetTag) {
       JetTag = NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
       return EFlowJets;
     };
 
-    vector<PseudoJet> GetIsolatedTaggedEFlowJets() {
+    HJets GetIsolatedTaggedEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
       return EFlowJets;
     };
 
-    vector<PseudoJet> GetIsolatedTaggedEFlowJets(HJetTag *const NewJetTag) {
+    HJets GetIsolatedTaggedEFlowJets(HJetTag *const NewJetTag) {
       JetTag = NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
       return EFlowJets;
@@ -136,58 +136,58 @@ protected:
     bool GotJets;
 
     /**
-     * @brief vector of Jet Lorentz Vectors
+     * @brief std::vector of Jet Lorentz Vectors
      *
      */
-    vector<TLorentzVector> JetLorentzVectors;
+    HVectors JetLorentzVectors;
 
     /**
      * @brief Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> TauLorentzVectors;
+    HVectors TauLorentzVectors;
 
     /**
      * @brief Anti Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiTauLorentzVectors;
+    HVectors AntiTauLorentzVectors;
 
     /**
      * @brief Vector of EFlow JetCandidates
      *
      */
-    vector<PseudoJet> EFlowJets;
+    HJets EFlowJets;
 
     /**
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    vector<PseudoJet> Jets;
+    HJets Jets;
 
     /**
      * @brief Vector of generator level Bottom Pseudo Jets
      *
      */
-    vector<PseudoJet> BottomJets;
+    HJets BottomJets;
 
     /**
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    vector<PseudoJet> CharmJets;
+    HJets CharmJets;
 
     /**
      * @brief Vector of EFlow JetCandidates
      *
      */
-    vector<PseudoJet> GenJets;
+    HJets GenJets;
 
     /**
-     * @brief vector of Bottom Lorentz Vectors with their pull
+     * @brief std::vector of Bottom Lorentz Vectors with their pull
      *
      */
-    vector<TLorentzVector> BottomLorentzVectors;
+    HVectors BottomLorentzVectors;
 
     HJetTag *JetTag;
 
@@ -217,7 +217,7 @@ protected:
      */
     const HClonesArray *ClonesArrays;
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
         return "HJet";
     };
 

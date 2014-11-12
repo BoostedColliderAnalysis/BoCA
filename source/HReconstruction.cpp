@@ -1,6 +1,6 @@
 # include "HReconstruction.hh"
 
-hanalysis::HReconstruction::HReconstruction()
+hdelphes::HReconstruction::HReconstruction()
 {
 
     Print(1, "Constructor");
@@ -9,14 +9,14 @@ hanalysis::HReconstruction::HReconstruction()
 
 }
 
-hanalysis::HReconstruction::~HReconstruction()
+hdelphes::HReconstruction::~HReconstruction()
 {
 
     Print(1, "Destructor");
 
 }
 
-void hanalysis::HReconstruction::NewEvent()
+void hdelphes::HReconstruction::NewEvent()
 {
 
     Print(2, "New Event");
@@ -25,7 +25,7 @@ void hanalysis::HReconstruction::NewEvent()
 
 }
 
-vector<PseudoJet> hanalysis::HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets) const
+HJets hdelphes::HReconstruction::GetFatJets(const HJets &EFlowJets) const
 {
 
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
@@ -38,7 +38,7 @@ vector<PseudoJet> hanalysis::HReconstruction::GetFatJets(const vector<PseudoJet>
 
 }
 
-vector<PseudoJet> hanalysis::HReconstruction::GetFatJets(const vector<PseudoJet> &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
+HJets hdelphes::HReconstruction::GetFatJets(const HJets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
     Print(2, "Get Fat Jet Vector", FatJetDefinition.R());
@@ -48,7 +48,7 @@ vector<PseudoJet> hanalysis::HReconstruction::GetFatJets(const vector<PseudoJet>
 
     // FatJetPtMin = Jing: 40; fastjet: 0
     const float FatJetPtMin = 0;
-    const vector<PseudoJet> FatJets = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
+    const HJets FatJets = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
 
     if (!FatJets.empty()) FatJetClusterSequence->delete_self_when_unused();
 
@@ -57,12 +57,12 @@ vector<PseudoJet> hanalysis::HReconstruction::GetFatJets(const vector<PseudoJet>
 }
 
 
-vector<PseudoJet> hanalysis::HReconstruction::GetMassDropJets(const vector<PseudoJet> &FatJets) const
+HJets hdelphes::HReconstruction::GetMassDropJets(const HJets &FatJets) const
 {
 
     Print(2, "Get Mass Drop Jets", FatJets.size());
 
-    vector<PseudoJet> MassDropJets;
+    HJets MassDropJets;
 
     for (auto & FatJet : FatJets) {
 
@@ -74,7 +74,7 @@ vector<PseudoJet> hanalysis::HReconstruction::GetMassDropJets(const vector<Pseud
 
 }
 
-PseudoJet hanalysis::HReconstruction::GetMassDropJet(const PseudoJet &FatJet) const
+PseudoJet hdelphes::HReconstruction::GetMassDropJet(const PseudoJet &FatJet) const
 {
 
 //     Print(3, "Get Mass Drop Jet");
@@ -90,7 +90,7 @@ PseudoJet hanalysis::HReconstruction::GetMassDropJet(const PseudoJet &FatJet) co
 
 
 
-PseudoJet hanalysis::HReconstruction::GetMassDropJet(const PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
+PseudoJet hdelphes::HReconstruction::GetMassDropJet(const PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
 {
 
     Print(3, "Get Mass Drop Jet");
@@ -107,12 +107,12 @@ PseudoJet hanalysis::HReconstruction::GetMassDropJet(const PseudoJet &FatJet, co
 
 
 
-vector<PseudoJet> hanalysis::HReconstruction::GetSubJetTaggedJets(const vector<PseudoJet> &FatJets) const
+HJets hdelphes::HReconstruction::GetSubJetTaggedJets(const HJets &FatJets) const
 {
 
     Print(2, "Get Sub Jet Tagged Jets", FatJets.size());
 
-    vector<PseudoJet> SubJetTaggedJets;
+    HJets SubJetTaggedJets;
 
     for (auto & FatJet : FatJets) {
 
@@ -124,7 +124,7 @@ vector<PseudoJet> hanalysis::HReconstruction::GetSubJetTaggedJets(const vector<P
 
 }
 
-PseudoJet hanalysis::HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet) const
+PseudoJet hdelphes::HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet) const
 {
 
     Print(3, "Get Mass Drop Jet");
@@ -139,7 +139,7 @@ PseudoJet hanalysis::HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet
 }
 
 
-bool hanalysis::HReconstruction::JetIsBad(const PseudoJet &Jet)
+bool hdelphes::HReconstruction::JetIsBad(const PseudoJet &Jet)
 {
 
     HObject Object;
@@ -172,20 +172,20 @@ bool hanalysis::HReconstruction::JetIsBad(const PseudoJet &Jet)
 
 
 
-vector<PseudoJet> hanalysis::HReconstruction::GetFatJetTag(vector<PseudoJet> &FatJets)
+HJets hdelphes::HReconstruction::GetFatJetTag(HJets &FatJets)
 {
 
     Print(2, "Get Fat Jet Tag", FatJets.size());
 
     for (auto & FatJet : FatJets) {
 
-        HJetInfo JetInfo;
+        hanalysis::HJetInfo JetInfo;
 
         for (const auto & Constituent : FatJet.constituents()) {
 
             if (Constituent.has_user_info()) {
 
-              std::map<int, float> JetFractions = Constituent.user_info<HJetInfo>().GetJetFractions();
+              std::map<int, float> JetFractions = Constituent.user_info<hanalysis::HJetInfo>().GetJetFractions();
 
               for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 
@@ -193,7 +193,7 @@ vector<PseudoJet> hanalysis::HReconstruction::GetFatJetTag(vector<PseudoJet> &Fa
 
                 }
 
-                Constituent.user_info<HJetInfo>().PrintAllInfos(3);
+                Constituent.user_info<hanalysis::HJetInfo>().PrintAllInfos(3);
             } else {
 
             Print(3,"Constituent index",Constituent.user_index());
@@ -204,13 +204,13 @@ vector<PseudoJet> hanalysis::HReconstruction::GetFatJetTag(vector<PseudoJet> &Fa
 
         }
 
-        FatJet.set_user_info(new HJetInfo(JetInfo));
+        FatJet.set_user_info(new hanalysis::HJetInfo(JetInfo));
 
-        FatJet.set_user_index(FatJet.user_info<HJetInfo>().GetMaximalId());
+        FatJet.set_user_index(FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId());
 
-        FatJet.user_info<HJetInfo>().PrintAllInfos(4);
+        FatJet.user_info<hanalysis::HJetInfo>().PrintAllInfos(4);
 
-        Print(4, "Tag", FatJet.user_info<HJetInfo>().GetMaximalId(), FatJet.user_info<HJetInfo>().GetMaximalFraction(), FatJet.m());
+        Print(4, "Tag", FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), FatJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), FatJet.m());
 
     }
 

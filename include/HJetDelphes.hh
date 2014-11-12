@@ -1,16 +1,23 @@
 # ifndef HJetDelphes_hh
 # define HJetDelphes_hh
 
-#include <sstream>
+// # include <sstream>
 
 # include "HJet.hh"
 
+struct HConstituent{
+
+  TLorentzVector Momentum;
+  TLorentzVector Vertex;
+  int MotherId;
+
+};
 
 /**
  * @brief Delphes jets
  *
  */
-class hanalysis::hdelphes::HJet : public hanalysis::HJet
+class hdelphes::HJet : public hanalysis::HJet
 {
 
 public:
@@ -74,11 +81,12 @@ private:
     }
 
     void PrintTruthLevel(const int Severity) const;
-    string PrintParticle(const int Position) const;
 
-    vector<int> Topology;
+    std::string PrintParticle(const int Position) const;
 
-    vector<int *> BranchVector;
+    std::vector<int> Topology;
+
+    std::vector<int *> BranchVector;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -87,11 +95,11 @@ private:
      */
     bool GetJets(const bool, const bool);
 
-    vector<PseudoJet> TagJets(vector<PseudoJet>);
+    HJets TagJets(HJets);
 
-    vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>, int);
+    HJets JetTagger(HJets, HJets, int);
 
-    vector<PseudoJet> JetTagger(vector<PseudoJet>, vector<PseudoJet>);
+    HJets JetTagger(HJets, HJets);
 
     template <typename TClone>
     hanalysis::HJetInfo GetJetId(const TClone &Clone) {
@@ -150,15 +158,15 @@ private:
 
     PseudoJet GetConstituents(const Jet *const JetClone, hanalysis::HJet::HJetDetails JetDetails);
 
-    std::pair< TLorentzVector, int > GetConstituent(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
+    HConstituent GetConstituent(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
 
     PseudoJet GetConstituentJet(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HDelphes";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HJet";
     };
 

@@ -22,7 +22,7 @@ public:
 
     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return "HiggsCPV: HJetTag";
 
@@ -81,7 +81,7 @@ private:
 
     };
 
-    inline string GetProjectName()const {
+    inline std::string GetProjectName()const {
 
         return "Discriminator";
 
@@ -89,7 +89,7 @@ private:
 
     hcpvhiggs::HJetTag * JetTag;
 
-    hanalysis::HSubStructure * SubStructure;
+    hdelphes::HSubStructure * SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -97,7 +97,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> GetLeptonJets(hanalysis::HEvent *const Event);
+    HJets GetLeptonJets(hanalysis::HEvent *const Event);
 
     /**
      * @brief Lepton event counter
@@ -110,14 +110,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent *const Event, const string &StudyName);
+    bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName);
 
     /**
-     * @brief prepares the vector describing the input root files
+     * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector<hanalysis::HFile * > GetFiles(const string &StudyName) const;
+    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName) const;
 
     /**
      * @brief New Analysis
@@ -126,9 +126,9 @@ private:
      */
     void NewBranches(ExRootTreeWriter *TreeWriter);
 
-    inline vector<string> GetStudyNames() const;
+    inline std::vector<std::string> GetStudyNames() const;
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return "HiggsCPV: HAnalysis";
 

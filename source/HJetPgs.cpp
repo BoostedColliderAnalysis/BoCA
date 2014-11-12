@@ -1,6 +1,6 @@
 # include "HJetPgs.hh"
 
-hanalysis::hpgs::HJet::HJet()
+hpgs::HJet::HJet()
 {
 
     Print(1, "Constructor");
@@ -9,14 +9,14 @@ hanalysis::hpgs::HJet::HJet()
 
 }
 
-hanalysis::hpgs::HJet::~HJet()
+hpgs::HJet::~HJet()
 {
 
     Print(1, "Destructor");
 
 }
 
-bool hanalysis::hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
+bool hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 {
 
     Print(2, "Get Jet", ClonesArrays->GetJetSum(), JetDetails);

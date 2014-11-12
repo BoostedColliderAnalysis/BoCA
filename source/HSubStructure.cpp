@@ -1,6 +1,6 @@
 # include "HSubStructure.hh"
 
-hanalysis::HSubStructure::HSubStructure()
+hdelphes::HSubStructure::HSubStructure()
 {
 
     Print(1, "Constructor");
@@ -10,21 +10,21 @@ hanalysis::HSubStructure::HSubStructure()
 
 }
 
-hanalysis::HSubStructure::~HSubStructure()
+hdelphes::HSubStructure::~HSubStructure()
 {
 
     Print(1, "Destructor");
 
 }
 
-void hanalysis::HSubStructure::NewEvent()
+void hdelphes::HSubStructure::NewEvent()
 {
 
     SubJets = 0;
 
 }
 
-bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
+bool hdelphes::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 {
 
     SubJets = 1;
@@ -32,7 +32,7 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
     Global.Mass = CandidateJet.m();
     Global.Pt = CandidateJet.pt();
 
-    vector<PseudoJet> PieceJets = CandidateJet.pieces();
+    HJets PieceJets = CandidateJet.pieces();
     std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
 
     if (PieceJets.size() != 2) {
@@ -83,8 +83,8 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     // Get SubJet coordinates in Higgs Jet coordinates
 
-    SubJet1.Eta = PieceJets.at(0).eta() - CandidateJet.eta();
-    SubJet2.Eta = PieceJets.at(1).eta() - CandidateJet.eta();
+    SubJet1.Eta = PieceJets.at(0).rap() - CandidateJet.rap();
+    SubJet2.Eta = PieceJets.at(1).rap() - CandidateJet.rap();
 
     SubJet1.Phi = PieceJets.at(0).delta_phi_to(CandidateJet);
     SubJet2.Phi = PieceJets.at(1).delta_phi_to(CandidateJet);
@@ -110,7 +110,7 @@ bool hanalysis::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
 }
 
-vector<TLorentzVector> hanalysis::HSubStructure::GetConstituents(const PseudoJet &CandidateJet)
+HVectors hdelphes::HSubStructure::GetConstituents(const PseudoJet &CandidateJet)
 {
 
     if (CandidateJet.constituents().size() < 1) {
@@ -129,7 +129,7 @@ vector<TLorentzVector> hanalysis::HSubStructure::GetConstituents(const PseudoJet
     float SubJet2Pt = 0;
     DeltaR = 0;
 
-    vector <TLorentzVector> ConstituentVectors;
+    std::vector <TLorentzVector> ConstituentVectors;
 
     for (const auto & ConstituentJet : CandidateJet.constituents()) {
 
@@ -158,7 +158,7 @@ vector<TLorentzVector> hanalysis::HSubStructure::GetConstituents(const PseudoJet
 
         // Get Constituent coordinates in Higgs Jet coordinates
 
-        float ConstEta = ConstituentJet.eta() - CandidateJet.eta();
+        float ConstEta = ConstituentJet.rap() - CandidateJet.rap();
         float ConstPhi = ConstituentJet.delta_phi_to(CandidateJet);
 
         // move subjet1 together with constituent to origin
@@ -200,12 +200,12 @@ vector<TLorentzVector> hanalysis::HSubStructure::GetConstituents(const PseudoJet
 
 }
 
-bool hanalysis::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets)
+bool hdelphes::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const HJets &LeptonJets)
 {
 
     // Get Position of SubJets
 
-    vector<PseudoJet> PieceJets = CandidateJet.pieces();
+    HJets PieceJets = CandidateJet.pieces();
     std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
 
     if (PieceJets.size() != 2) {
@@ -243,7 +243,7 @@ bool hanalysis::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const
 
     if (IsolationDeltaR != LargeNumber) {
 
-        Isolation.Eta = ClosestLepton.eta() - ClosestPiece.eta();
+        Isolation.Eta = ClosestLepton.rap() - ClosestPiece.rap();
         Isolation.Phi = ClosestLepton.delta_phi_to(ClosestPiece);
         Isolation.Pt = ClosestLepton.pt() / ClosestPiece.pt();
         Isolation.DeltaR = ClosestLepton.delta_R(ClosestPiece);
@@ -256,12 +256,12 @@ bool hanalysis::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const
 
 
 
-float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) const
+float hdelphes::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) const
 {
 
     Print(2, "Jing Dipolarity");
 
-//     vector<PseudoJet> SubJetVector = CandidateJet.pieces();
+//     HJets SubJetVector = CandidateJet.pieces();
 //     if (SubJetVector.size() != 2) Print(0, "not two subjets");
 //
 //     // Filtering
@@ -277,24 +277,24 @@ float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) con
 //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
 //     PseudoJet FilterJet = FatJetFilter(CandidateJet);
 
-    const vector<PseudoJet> SubJetVector = CandidateJet.pieces();
+    const HJets SubJetVector = CandidateJet.pieces();
     if (SubJetVector.size() != 2) Print(0, "not two subjets");
 
 
     float Eta1, Eta2, Phi1, Phi2;
 
-    if (SubJetVector.at(0).eta() < SubJetVector.at(1).eta()) {
+    if (SubJetVector.at(0).rap() < SubJetVector.at(1).rap()) {
 
-        Eta1 = SubJetVector.at(0).eta();
+        Eta1 = SubJetVector.at(0).rap();
         Phi1 = SubJetVector.at(0).phi_std();
-        Eta2 = SubJetVector.at(1).eta();
+        Eta2 = SubJetVector.at(1).rap();
         Phi2 = SubJetVector.at(1).phi_std();
 
     } else {
 
-        Eta1 = SubJetVector.at(1).eta();
+        Eta1 = SubJetVector.at(1).rap();
         Phi1 = SubJetVector.at(1).phi_std();
-        Eta2 = SubJetVector.at(0).eta();
+        Eta2 = SubJetVector.at(0).rap();
         Phi2 = SubJetVector.at(0).phi_std();
 
     }
@@ -305,7 +305,7 @@ float hanalysis::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) con
 
     for (const auto & Constituent : CandidateJet.constituents()) {
 
-        const float ConstituentEta = Constituent.eta();
+        const float ConstituentEta = Constituent.rap();
         float ConstituentPhi = Constituent.phi_std();
 
         const float DeltaPhi = Phi2 - Phi1;

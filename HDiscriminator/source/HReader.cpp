@@ -9,7 +9,7 @@ int main()
 
   hcpvhiggs::HMva *Mva = new hcpvhiggs::HMva();
 
-    hanalysis::HReader *Reader = new hanalysis::HReader(Mva);
+    hmva::HReader *Reader = new hmva::HReader(Mva);
 
     delete Reader;
 

@@ -22,7 +22,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hanalysis::HFactory : public HObject
+class hmva::HFactory : public hanalysis::HObject
 {
 
 public:
@@ -31,7 +31,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(hanalysis::HMva *const NewMva);
+    HFactory(hmva::HMva *const NewMva);
 
     /**
      * @brief Destructor
@@ -81,26 +81,28 @@ private:
 
     TMVA::Factory *Factory;
 
-    string Verbose;
+    std::string Verbose;
 
-    string Silent;
+    std::string Silent;
 
-    string VerboseLevel;
+    std::string VerboseLevel;
 
-    string VerbosityLevel;
+    std::string VerbosityLevel;
 
-    string Color;
+    std::string Color;
 
-    string DefaultOptions;
+    std::string DefaultOptions;
 
-    void AddTree(const TFile *const File, const string &TreeName, const bool Signal);
+    void AddTree(const TFile *const File, const std::string &TreeName, const bool Signal);
 
     HMva *Mva;
 
-    inline string ClassName() const {
+    inline std::string NameSpaceName() const {
+      return "HMva";
+    };
 
-        return ("HFactory");
-
+    inline std::string ClassName() const {
+        return "HFactory";
     };
 
 

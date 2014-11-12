@@ -1,6 +1,6 @@
 # include "HFilePgs.hh"
 
-hanalysis::hpgs::HFile::HFile()
+hpgs::HFile::HFile()
 {
 
     Print(1, "Constructor");
@@ -9,7 +9,7 @@ hanalysis::hpgs::HFile::HFile()
 
 }
 
-hanalysis::hpgs::HFile::HFile(const string &Process)
+hpgs::HFile::HFile(const std::string &Process)
 {
 
     Print(1, "Constructor");
@@ -20,7 +20,7 @@ hanalysis::hpgs::HFile::HFile(const string &Process)
 
 }
 
-hanalysis::hpgs::HFile::HFile(const string &Process, const string &Run)
+hpgs::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
     Print(1, "Constructor");
@@ -33,7 +33,7 @@ hanalysis::hpgs::HFile::HFile(const string &Process, const string &Run)
 
 }
 
-string hanalysis::hpgs::HFile::GetTreeName() const
+std::string hpgs::HFile::GetTreeName() const
 {
 
     Print(2, "Get Tree String");
@@ -44,7 +44,7 @@ string hanalysis::hpgs::HFile::GetTreeName() const
 
 }
 
-string hanalysis::hpgs::HFile::GetFilePath() const
+std::string hpgs::HFile::GetFilePath() const
 {
 
     Print(2, "FilePath");
@@ -55,7 +55,7 @@ string hanalysis::hpgs::HFile::GetFilePath() const
 
 }
 
-hanalysis::HEvent *hanalysis::hpgs::HFile::GetEvent()
+hanalysis::HEvent *hpgs::HFile::GetEvent()
 {
 
     Print(1, "Get Event");

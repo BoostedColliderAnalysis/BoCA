@@ -5,9 +5,9 @@
 int main()
 {
 
-    hanalysis::HMva *Mva = new hheavyhiggs::HMva();
+    hmva::HMva *Mva = new hheavyhiggs::HMva();
 
-    hanalysis::HReader *Reader = new hanalysis::HReader(Mva);
+    hmva::HReader *Reader = new hmva::HReader(Mva);
 
     delete Reader;
 

@@ -1,6 +1,6 @@
 # include "HMva.hh"
 
-hanalysis::HMva::HMva()
+hmva::HMva::HMva()
 {
 
     Print(1, "HMva", "Constructor");
@@ -13,7 +13,7 @@ hanalysis::HMva::HMva()
 
 }
 
-hanalysis::HMva::~HMva()
+hmva::HMva::~HMva()
 {
 
     Print(1, "Destructor");
@@ -21,7 +21,7 @@ hanalysis::HMva::~HMva()
 }
 
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression, const string& Title, const string& Unit, const string& Latex) const
+HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression, const std::string& Title, const std::string& Unit, const std::string& Latex) const
 {
 
     Print(1, "New Observable", Title);
@@ -33,7 +33,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Exp
 }
 
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression, const string& Title, const string& Unit) const
+HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression, const std::string& Title, const std::string& Unit) const
 {
 
     Print(1, "New Observable", Title);
@@ -44,7 +44,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Exp
 
 }
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression, const string& Title) const
+HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression, const std::string& Title) const
 {
 
     Print(2, "New Observable", Expression);
@@ -55,7 +55,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Exp
 
 }
 
-HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Expression) const
+HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression) const
 {
 
     Print(2, "New Observable", Expression);
@@ -66,7 +66,7 @@ HObservable hanalysis::HMva::NewObservable(float *const Value, const string& Exp
 
 }
 
-HObservable::HObservable(float *const NewValue, const string& NewExpression, const string& NewTitle, const string& NewUnit, const string& NewLatex)
+HObservable::HObservable(float *const NewValue, const std::string& NewExpression, const std::string& NewTitle, const std::string& NewUnit, const std::string& NewLatex)
 {
 
 //     Print(1, "Constructor");

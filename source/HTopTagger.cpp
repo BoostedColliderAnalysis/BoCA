@@ -1,6 +1,6 @@
 # include "HTopTagger.hh"
 
-hanalysis::HTopTagger::HTopTagger()
+hdelphes::HTopTagger::HTopTagger()
 {
 
 
@@ -8,20 +8,20 @@ hanalysis::HTopTagger::HTopTagger()
 
 }
 
-hanalysis::HTopTagger::~HTopTagger()
+hdelphes::HTopTagger::~HTopTagger()
 {
 
     Print(1, "Destructor");
 
 }
 
-vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > &EFlowJets)
+HJets hdelphes::HTopTagger::GetTops(std::vector< PseudoJet > &EFlowJets)
 {
 
     Print(2, "Tagging Top");
 
 //     float CellEta = 0.1;
-//     vector<PseudoJet> hadrons;
+//     HJets hadrons;
 
 //     ifstream fin("sample_event.dat", ifstream::in);
 //     ReadEvent(fin, hadrons);
@@ -37,16 +37,16 @@ vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > &EFlowJets)
     const float CellDeltaEta = 0.1;
     const float CellDeltaPhi = 0.1;
     const float PtCutOff = 0.5;
-    vector<PseudoJet> GranulatedJets = GetGranulatedJets(EFlowJets, CellDeltaEta, CellDeltaPhi, PtCutOff);
+    HJets GranulatedJets = GetGranulatedJets(EFlowJets, CellDeltaEta, CellDeltaPhi, PtCutOff);
 
     // run the jet finding; find the hardest jet
     const fastjet::ClusterSequence ClusterSequence(GranulatedJets, JetDefinition);
     const float PtMin = 200.;
-    vector<PseudoJet> Jets = sorted_by_pt(ClusterSequence.inclusive_jets(PtMin));
+    HJets Jets = sorted_by_pt(ClusterSequence.inclusive_jets(PtMin));
 
 //     unsigned candsizesum = 0;
 
-    vector<PseudoJet> TopJets;
+    HJets TopJets;
 
     for (const auto & Jet : Jets) {
 
@@ -84,11 +84,11 @@ vector<PseudoJet> hanalysis::HTopTagger::GetTops(vector< PseudoJet > &EFlowJets)
 
 }
 
-vector<PseudoJet> hanalysis::HTopTagger::GetGranulatedJets(vector<PseudoJet> &EFlowJets,const float &CellDeltaEta, const float &CellDeltaPhi, const float &PtCutOff)
+HJets hdelphes::HTopTagger::GetGranulatedJets(HJets &EFlowJets,const float &CellDeltaEta, const float &CellDeltaPhi, const float &PtCutOff)
 {
 
     float pi = 3.142592654;
-    vector<PseudoJet> GranulatedJets;
+    HJets GranulatedJets;
     GranulatedJets.clear();
 
     EFlowJets = sorted_by_pt(EFlowJets);

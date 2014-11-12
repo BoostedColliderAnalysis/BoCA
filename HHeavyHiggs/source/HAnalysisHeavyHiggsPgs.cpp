@@ -7,12 +7,12 @@ hheavyhiggs::HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 
 }
 
-vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const string &StudyName) const
+std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const std::string &StudyName) const
 {
 
     Print(1, "Fill Analysis Vector",StudyName);
 
-    vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> Files;
 
     Files.push_back(new hanalysis::HFile("Signal_5f"));
     Files.push_back(new hanalysis::HFile("5f_10k_Pt20"));
@@ -64,14 +64,14 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, const string &StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
     Print(2, "Analysis",StudyName);
 
 //     Event->GetJets();
 
-    vector<PseudoJet> BJets = Event->GetJets()->GetBottomJets();
+    HJets BJets = Event->GetJets()->GetBottomJets();
 
     Print(2, "BJet Sum", BJets.size());
 
@@ -119,12 +119,12 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
 
                 PseudoJet FrontJet, BackJet;
 
-                if (BJets[BJetNumber].eta() > BJets[BJetNumber2].eta()) {
+                if (BJets[BJetNumber].rap() > BJets[BJetNumber2].rap()) {
 
                     FrontJet = BJets[BJetNumber];
                     BackJet = BJets[BJetNumber2];
 
-                } else if (BJets[BJetNumber].eta() < BJets[BJetNumber2].eta()) {
+                } else if (BJets[BJetNumber].rap() < BJets[BJetNumber2].rap()) {
 
                     FrontJet = BJets[BJetNumber2];
                     BackJet = BJets[BJetNumber];
@@ -136,13 +136,13 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
                 }
 
                 float FrontPt = FrontJet.pt();
-                float FrontEta = FrontJet.eta();
+                float FrontEta = FrontJet.rap();
                 float FrontPhi = FrontJet.phi_std();
                 Print(2, "FrontPt", FrontPt);
                 Print(2, "FrontEta", FrontEta);
                 Print(2, "FrontPhi", FrontPhi);
 
-                float BackEta = BackJet.eta();
+                float BackEta = BackJet.rap();
                 float BackPt = BackJet.pt();
                 float BackPhi = BackJet.phi_std();
 

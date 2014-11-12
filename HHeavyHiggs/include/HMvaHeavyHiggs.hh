@@ -12,7 +12,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HMva : public hanalysis::HMva
+class hheavyhiggs::HMva : public hmva::HMva
 {
 
 public:
@@ -31,7 +31,7 @@ public:
 
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
 
-    void ApplyBdt(const ExRootTreeReader * const, const string, const TFile * const, TMVA::Reader *);
+    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *);
 
 private:
 
@@ -39,7 +39,7 @@ private:
 
     void DefineVariables();
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
         return "HeavyHiggs: HMva";
     };
 

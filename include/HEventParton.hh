@@ -8,7 +8,7 @@
  * @brief Event topology for unweighted MadGraph events
  *
  */
-class hanalysis::hparton::HEvent : public hanalysis::HEvent
+class hparton::HEvent : public hanalysis::HEvent
 {
 
 public:
@@ -29,11 +29,11 @@ public:
 
 private:
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HParton";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HEvent";
     }
 };

@@ -7,7 +7,7 @@
  * @brief Pgs Jets
  *
  */
-class hanalysis::hpgs::HJet : public hanalysis::HJet
+class hpgs::HJet : public hanalysis::HJet
 {
 
 public:
@@ -33,11 +33,11 @@ public:
 
 private:
 
-  inline string NameSpaceName() const {
+  inline std::string NameSpaceName() const {
     return "HPgs";
   }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
 
         return "HJet";
 

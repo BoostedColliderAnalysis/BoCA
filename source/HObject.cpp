@@ -77,7 +77,7 @@ float hanalysis::HObject::GetDeltaPhi(const float Phi, const float ReferencePhi)
 
 }
 
-void hanalysis::HObject::Print(const int Severity, const string &Description) const
+void hanalysis::HObject::Print(const int Severity, const std::string &Description) const
 {
 
     if (Severity <= DebugLevel) {
@@ -90,7 +90,7 @@ void hanalysis::HObject::Print(const int Severity, const string &Description) co
 
 
 
-void hanalysis::HObject::Print(HSeverity Severity, const string &Description) const
+void hanalysis::HObject::Print(HSeverity Severity, const std::string &Description) const
 {
 
   if (Severity <= DebugLevel) {
@@ -101,7 +101,7 @@ void hanalysis::HObject::Print(HSeverity Severity, const string &Description) co
 
 }
 
-void hanalysis::HObject::Printer(const string &Description) const
+void hanalysis::HObject::Printer(const std::string &Description) const
 {
 
     const char Separator = ' ';
@@ -116,10 +116,10 @@ void hanalysis::HObject::Printer(const string &Description) const
 
 }
 
-string hanalysis::HObject::GetParticleName(const int ParticleId) const
+std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
 {
 
-    string Sign = "";
+    std::string Sign = "";
     if (ParticleId < 0) Sign = "-";
 
     switch (std::abs(ParticleId)) {

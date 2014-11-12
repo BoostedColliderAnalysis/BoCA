@@ -11,7 +11,7 @@
  * based on fastjet example 12
  *
  */
-class hanalysis::HHiggsTagger : public HReconstruction
+class hdelphes::HHiggsTagger : public HReconstruction
 {
 
 public:
@@ -37,12 +37,12 @@ public:
     /**
      * @brief Reconstruct the higgs fat jet
      *
-     * @param  vector<PseudoJet> InputJetVector
-     * @param  vector<PseudoJet> BottomVector
-     * @param  vector<PseudoJet> CharmVector
+     * @param  HJets InputJetVector
+     * @param  HJets BottomVector
+     * @param  HJets CharmVector
      * @return void
      */
-    PseudoJet GetHiggsJet(const vector<PseudoJet>&, const vector<PseudoJet>&, const vector<PseudoJet>&);
+    PseudoJet GetHiggsJet(const HJets&, const HJets&, const HJets&);
 
     /**
      * @brief constructor
@@ -82,7 +82,7 @@ private:
      * @brief Vector of Fat Jet Pieces
      *
      */
-    vector<PseudoJet> FilteredJetPieces;
+    HJets FilteredJetPieces;
 
     /**
      * @brief Get vecto of all fatjets
@@ -90,7 +90,7 @@ private:
      * @param  InputJetVector
      * @return FatJetVector
      */
-//     vector<PseudoJet> GetFatJetVector(vector<PseudoJet>);
+//     HJets GetFatJetVector(HJets);
 
     /**
      * @brief Get mass drop jet
@@ -117,7 +117,7 @@ private:
      * @param  ParticleUserIndex
      * @return void
      */
-    void GetSubJetSource(const vector<PseudoJet>&, const int);
+    void GetSubJetSource(const HJets&, const int);
 
     /**
      * @brief Apply Bottom tagger
@@ -192,10 +192,8 @@ private:
 
     float GetSubDeltaR();
 
-    inline string ClassName() const {
-
+    inline std::string ClassName() const {
         return ("HHiggsTagger");
-
     };
 
 };

@@ -38,7 +38,7 @@ protected:
      * @return fastjet::PseudoJet
      */
     PseudoJet GetPseudoJet(const TLorentzVector &) const;
-    
+
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByEnergy(const TParticle *const Particle) const {
 
@@ -129,105 +129,6 @@ protected:
 
     }
 
-
-
-
-//     template<typename TParticle>
-//     PseudoJet GetPseudoJetByEnergy(const TParticle *const Particle, const float Energy) const {
-//
-//         Print(3, "Get Pseudo Jet by Energy");
-//
-//         const float Pt = Particle->PT;
-//         const float Eta = Particle->Eta;
-//         const float Phi = Particle->Phi;
-//
-//         const PseudoJet Jet = PseudoJet(Pt * cos(Phi), Pt * sin(Phi), Pt * sinh(Eta), Energy);
-//
-//         if (CheckFourVectors) {
-//
-//             if (Jet.pt() - Pt > Check) Print(0, "Pt", Pt, Jet.pt());
-//             if (Jet.eta() - Eta > Check) Print(0, "Eta", Eta, Jet.eta());
-//             if (Jet.phi_std() - Phi > Check) Print(0, "Phi", Phi, Jet.phi_std());
-//
-//         }
-//
-//         return Jet;
-//
-//     }
-//
-//
-//     template<typename TParticle>
-//     PseudoJet GetPseudoJetByEnergy(const TParticle *const Particle) const {
-//
-//         Print(3, "Get Pseudo Jet by Energy");
-//
-//         const float Energy = Particle->E;
-//
-//         const PseudoJet Jet = GetPseudoJetByEnergy(Particle, Energy);
-//
-//         return Jet;
-//
-//     }
-//
-//     template<typename TParticle>
-//     PseudoJet GetPseudoJetByMass(const TParticle *const Particle, const float Mass) const {
-//
-//         Print(3, "Get Pseudo Jet by Mass");
-//
-//         const float Pt = Particle->PT;
-//         const float Eta = Particle->Eta;
-//         const float Energy = sqrt(pow(Mass, 2) + pow(Pt * cosh(Eta), 2));
-//
-//         const PseudoJet Jet = GetPseudoJetByEnergy(Particle, Energy);
-//
-//         if (CheckFourVectors) {
-//
-//             if (Jet.e() - Energy > Check) Print(0, "Energy", Energy, Jet.e());
-//
-//         }
-//
-//         return Jet;
-//
-//     }
-//
-//     template<typename TParticle>
-//     PseudoJet GetPseudoJetByMass(const TParticle *const Particle) const {
-//
-//         Print(3, "Get Pseudo Jet by Mass");
-//
-//         const float Mass = Particle->Mass;
-//
-//         const PseudoJet Jet = GetPseudoJetByMass(Particle, Mass);
-//
-//         if (CheckFourVectors) {
-//
-//             if (Jet.m() - Mass > MassCheck) Print(0, "Mass", Mass, Jet.m());
-//
-//         }
-//
-//         return Jet;
-//
-//     }
-//
-//     template<typename TParticle>
-//     PseudoJet GetPseudoJetByM(const TParticle *const Particle) const {
-//
-//         Print(3, "Get Pseudo Jet By Mass");
-//
-//         const float Mass = Particle->M;
-//
-//         const PseudoJet Jet = GetPseudoJetByMass(Particle, Mass);
-//
-//         if (CheckFourVectors) {
-//
-//             if (Jet.m() - Mass > MassCheck) Print(0, "Mass", Mass, Jet.m());
-//
-//         }
-//
-//         return Jet;
-//
-//     }
-
     TLorentzVector GetLorentzVector(const TRootElectron *const) const;
 
     TLorentzVector GetLorentzVector(const TRootGenJet *const) const;
@@ -268,7 +169,7 @@ protected:
 
 private:
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return ("HFourVector");
 

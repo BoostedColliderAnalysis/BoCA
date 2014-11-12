@@ -7,7 +7,7 @@ htoptagger::HAnalysis::HAnalysis()
 
     JetTag = new htoptagger::HJetTag();
 
-    SubStructure = new hanalysis::HSubStructure();
+    SubStructure = new hdelphes::HSubStructure();
 
 //     DebugLevel = 3;
 
@@ -24,42 +24,42 @@ htoptagger::HAnalysis::~HAnalysis()
 
 }
 
-vector<string> htoptagger::HAnalysis::GetStudyNames() const
+std::vector<std::string> htoptagger::HAnalysis::GetStudyNames() const
 {
 
     return  {"Top"};
 
 }
 
-vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const string &StudyName) const
+std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::string &StudyName) const
 {
 
     Print(1, "Set File Vector");
 
-    vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> Files;
 
     if (StudyName != "Higgs") {
 
-      hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
+      hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
         Files.push_back(Background);
 
     }
 
-    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
-    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
-    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
@@ -111,13 +111,13 @@ int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string &StudyName)
+bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
 {
 
     Print(2, "Analysis", StudyName);
 
 
-    const vector<PseudoJet> CandidateJets = Event->GetTops(JetTag);
+    const HJets CandidateJets = Event->GetTops(JetTag);
 
     if (CandidateJets.size() < 1) {
 
@@ -143,7 +143,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const strin
 
         Candidate->Mass = CandidateJet.m();
         Candidate->Pt = CandidateJet.pt();
-        Candidate->Eta = CandidateJet.eta();
+        Candidate->Eta = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
 
         Print(2, "Candidate Mass", CandidateJet.m());

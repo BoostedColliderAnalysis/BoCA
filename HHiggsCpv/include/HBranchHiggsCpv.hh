@@ -33,18 +33,31 @@ public:
 
     float InvMass1;
     float InvMass2;
-    float InvMass3;
-    float InvMass4;
+//     float InvMass3;
+//     float InvMass4;
     float ScalarHt;
+    float JetNumber;
+    float BottomNumber;
 
     float Pull11;
     float Pull12;
     float Pull21;
     float Pull22;
-    float Pull31;
-    float Pull32;
-    float Pull41;
-    float Pull42;
+//     float Pull31;
+//     float Pull32;
+//     float Pull41;
+//     float Pull42;
+
+    float Vertex11;
+    float Vertex12;
+    float Vertex21;
+    float Vertex22;
+//     float Vertex5;
+//     float Vertex6;
+
+    float DeltaR1;
+    float DeltaR2;
+//     float DeltaR3;
 
     float HiggsTag;
     float TopTag;

@@ -24,7 +24,7 @@ struct HMomentum {
  * @brief subjet and constituent calculations
  *
  */
-class hanalysis::HSubStructure : public HObject
+class hdelphes::HSubStructure : public hanalysis::HObject
 {
 
 public:
@@ -37,9 +37,9 @@ public:
 
     bool GetSubJets(const PseudoJet &);
 
-    vector< TLorentzVector > GetConstituents(const PseudoJet &CandidateJet);
+    std::vector< TLorentzVector > GetConstituents(const PseudoJet &CandidateJet);
 
-    bool GetIsolation(const PseudoJet &, const vector<PseudoJet> &);
+    bool GetIsolation(const PseudoJet &, const HJets &);
 
     float GetDiPolarity(const PseudoJet &CandidateJet) const;
 
@@ -117,11 +117,13 @@ public:
 
 protected:
 
-    virtual inline string ClassName() const {
+  virtual inline std::string ClassName() const {
+    return "HSubStructure";
+  };
 
-        return ("HSubStructure");
-
-    };
+  virtual inline std::string NameSpaceName() const {
+    return "HDelphes";
+  };
 
 private:
 

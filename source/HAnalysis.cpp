@@ -99,10 +99,10 @@ void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeRead
 
 }
 
-TFile *hanalysis::HAnalysis::GetExportFile(const string &StudyName) const
+TFile *hanalysis::HAnalysis::GetExportFile(const std::string &StudyName) const
 {
 
-    const string ExportName = GetProjectName() + "/" + StudyName + ".root";
+    const std::string ExportName = GetProjectName() + "/" + StudyName + ".root";
 
     Print(1, "ExportFile", ExportName);
 
@@ -111,7 +111,7 @@ TFile *hanalysis::HAnalysis::GetExportFile(const string &StudyName) const
 }
 
 
-ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, const string &ExportTreeName)
+ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName)
 {
 
     Print(1, "Get Tree Writer", ExportTreeName.c_str());

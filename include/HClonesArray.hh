@@ -455,7 +455,7 @@ protected:
      */
     TClonesArray *TauClonesArray;
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return "HClonesArray";
 
@@ -467,7 +467,7 @@ protected:
  * @brief Clonesarray subclass for delphes files
  *
  */
-class hanalysis::hdelphes::HClonesArray : public hanalysis::HClonesArray
+class hdelphes::HClonesArray : public hanalysis::HClonesArray
 {
 
 public:
@@ -483,11 +483,11 @@ public:
 
 protected:
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HDelphes";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HClonesArray";
     };
 
@@ -497,7 +497,7 @@ protected:
  * @brief ClonesArray subclass for Scnowmass files
  *
  */
-class hanalysis::hdelphes::HClonesArraySnowmass : public HClonesArray
+class hdelphes::HClonesArraySnowmass : public HClonesArray
 {
 
 public:
@@ -513,11 +513,11 @@ public:
 
 protected:
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HDelphes";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HClonesArraySnowmass";
     };
 
@@ -527,7 +527,7 @@ protected:
  * @brief ClonesArray subclass for Pgs files
  *
  */
-class hanalysis::hpgs::HClonesArray : public hanalysis::HClonesArray
+class hpgs::HClonesArray : public hanalysis::HClonesArray
 {
 
 public:
@@ -542,11 +542,11 @@ public:
 
 protected:
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HPgs";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
 
         return "HClonesArray";
 
@@ -558,7 +558,7 @@ protected:
  * @brief ClonesArray Subclass for unweighted MadGraph files
  *
  */
-class hanalysis::hparton::HClonesArray : public hanalysis::HClonesArray
+class hparton::HClonesArray : public hanalysis::HClonesArray
 {
 
 public:
@@ -573,11 +573,11 @@ public:
 
 protected:
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HParton";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
 
         return "HClonesArray";
 

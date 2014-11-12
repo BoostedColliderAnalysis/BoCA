@@ -8,12 +8,12 @@ hheavyhiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 
 }
 
-vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const string &StudyName) const
+std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const std::string &StudyName) const
 {
 
     Print(1, "Fill Analysis Vector", StudyName);
 
-    vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> Files;
 
     Files.push_back(new hanalysis::HFile("Background/4f_10k"));
     Files.push_back(new hanalysis::HFile("Signal/Signal_5f"));
@@ -59,7 +59,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, const string &StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
     Print(2, "Analysis",StudyName);
@@ -70,7 +70,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
 //     Event->GetParticlesM()->GetParticles();
 
-    vector<PseudoJet> BottomVector = Event->GetParticles()->GetBottomJets();
+    HJets BottomVector = Event->GetParticles()->GetBottomJets();
 
     int BottomSum = BottomVector.size();
 
@@ -93,10 +93,10 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     PseudoJet FrontJet = BottomVector.front();
 //     double FrontPt = FrontJet.pt();
-    double FrontEta = FrontJet.eta();
+    double FrontEta = FrontJet.rap();
 
     PseudoJet BackJet = BottomVector.back();
-    double BackEta = BackJet.eta();
+    double BackEta = BackJet.rap();
 //     double BackPt = BackJet.pt();
 
     PseudoJet CombinedJet = FrontJet + BackJet;
@@ -111,7 +111,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
     HeavyHiggs->BottomDeltaEta = CombinedEta;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
-    vector<PseudoJet> TopVector = Event->GetParticles()->GetTopJets();
+    HJets TopVector = Event->GetParticles()->GetTopJets();
 
     int TopSum = TopVector.size();
 
@@ -134,10 +134,10 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
     std::sort(TopVector.begin(), TopVector.end(), SortJetByEta());
 
     FrontJet = TopVector.front();
-    FrontEta = FrontJet.eta();
+    FrontEta = FrontJet.rap();
 
     BackJet = TopVector.back();
-    BackEta = BackJet.eta();
+    BackEta = BackJet.rap();
 
     CombinedJet = FrontJet + BackJet;
     CombinedMass = CombinedJet.m();
@@ -148,17 +148,17 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 //     HeavyHiggs->TopInvMass = CombinedMass;
 
 
-    vector<PseudoJet> JetVector = BottomVector;
+    HJets JetVector = BottomVector;
 
     JetVector.insert(JetVector.end(), TopVector.begin(), TopVector.end());
 
     std::sort(JetVector.begin(), JetVector.end(), SortJetByEta());
 
     FrontJet = JetVector.front();
-    FrontEta = FrontJet.eta();
+    FrontEta = FrontJet.rap();
 
     BackJet = JetVector.back();
-    BackEta = BackJet.eta();
+    BackEta = BackJet.rap();
 
 //     HeavyHiggs->TopEta1 = FrontEta;
 //     HeavyHiggs->TopEta2 = BackEta;

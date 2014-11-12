@@ -10,7 +10,7 @@
  * @brief event topology for Delphes events
  *
  */
-class hanalysis::hdelphes::HEvent  : public hanalysis::HEvent
+class hdelphes::HEvent  : public hanalysis::HEvent
 {
 
 public:
@@ -29,20 +29,20 @@ public:
 
     void NewEvent(const hanalysis::HClonesArray * const ClonesArrays);
 
-    vector<PseudoJet> GetTops(HJetTag *const JetTag);
+    HJets GetTops(hanalysis::HJetTag *const JetTag);
 
     PseudoJet GetHiggs();
 
-    vector<PseudoJet> GetCandidates(hanalysis::HJetTag *const JetTag);
+    HJets GetCandidates(hanalysis::HJetTag *const JetTag);
 
 protected:
 
-  inline string NameSpaceName() const
+  inline std::string NameSpaceName() const
   {
     return "HDelphes";
   }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HEvent";
     };
 

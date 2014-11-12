@@ -12,8 +12,9 @@
 # include "fastjet/PseudoJet.hh"
 
 using fastjet::PseudoJet;
-using std::string;
-using std::vector;
+
+typedef std::vector<fastjet::PseudoJet> HJets;
+typedef std::vector<TLorentzVector> HVectors;
 
 /**
  * @brief Main Analysis Library
@@ -22,24 +23,20 @@ using std::vector;
 namespace hanalysis
 {
 
-
-
-/**
- * @brief Delphes analysis library parts
- *
- */
-namespace hdelphes
-{
-
+class HObject;
+class HFourVector;
 class HClonesArray;
-class HClonesArraySnowmass;
-class HFile;
+class HAnalysis;
 class HEvent;
-class HJet;
-class HLepton;
+class HFile;
 class HParticle;
+class HLepton;
+class HJet;
+class HJetTag;
+class HJetInfo;
 
 }
+
 
 /**
  * @brief Parton level analysis library parts
@@ -54,6 +51,8 @@ class HEvent;
 class HParticle;
 
 }
+
+
 
 /**
  * @brief Pgs analysis library parts
@@ -70,32 +69,38 @@ class HJet;
 
 }
 
-class HObject;
-class HFourVector;
+/**
+ * @brief Delphes analysis library parts
+ *
+ */
+namespace hdelphes
+{
+
 class HClonesArray;
-class HParticle;
+class HClonesArraySnowmass;
+class HFile;
+class HEvent;
+class HJet;
 class HLepton;
-class HTopTagger;
+class HParticle;
+
 class HReconstruction;
 class HHiggsTagger;
 class HDiscriminator;
-class HEvent;
-class HFile;
-class HFileFolder;
-class HAnalysis;
-
-class HJetTag;
-class HJetInfo;
-class HJet;
-class HPull;
+class HTopTagger;
 class HSubStructure;
 class HSuperStructure;
+
+}
+
+namespace hmva
+{
 
 class HMva;
 class HFactory;
 class HReader;
-
 }
+
 
 /**
  * @brief general base class for HAnalysis
@@ -127,16 +132,16 @@ public:
      */
 
     enum HSeverity {
-      SeverityError = 0,
-      SeverityNotification = 1,
-      SeverityInformation = 2,
-      SeverityDebug = 3,
-      SeverityDetailed = 4
+        SeverityError = 0,
+        SeverityNotification = 1,
+        SeverityInformation = 2,
+        SeverityDebug = 3,
+        SeverityDetailed = 4
     };
 
-    void Print(const int Severity, const string &Description) const;
+    void Print(const int Severity, const std::string &Description) const;
 
-    void Print(HSeverity Severity, const string &Description) const;
+    void Print(HSeverity Severity, const std::string &Description) const;
 
     /**
      * @brief Print a debug messages
@@ -148,7 +153,7 @@ public:
      * @return void
      */
     template<typename TValue>
-    void Print(const int Severity, const string Description, const TValue Value) const {
+    void Print(const int Severity, const std::string Description, const TValue Value) const {
 
         if (Severity <= DebugLevel) {
 
@@ -170,7 +175,7 @@ public:
      * @return void
      */
     template<typename TValue, typename TValue2>
-    void Print(const int Severity, const string Description, const TValue Value, const TValue2 Value2) const {
+    void Print(const int Severity, const std::string Description, const TValue Value, const TValue2 Value2) const {
 
         if (Severity <= DebugLevel) {
 
@@ -199,7 +204,7 @@ public:
      * @return void
      */
     template<typename TValue, typename TValue2, typename TValue3>
-    void Print(const int Severity, const string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
+    void Print(const int Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
 
         if (Severity <= DebugLevel) {
 
@@ -254,11 +259,11 @@ protected:
      */
     float GetDeltaPhi(const float Phi, const float ReferencePhi) const;
 
-    virtual inline string NameSpaceName() const {
+    virtual inline std::string NameSpaceName() const {
         return ("HAnalysis");
     }
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return ("HObject");
 
@@ -330,7 +335,7 @@ protected:
         CpvHiggsId = 5000000
     };
 
-    string GetParticleName(const int ParticleId) const;
+    std::string GetParticleName(const int ParticleId) const;
 
 
     /**
@@ -410,10 +415,10 @@ private:
     /**
      * @brief Print Debug messages
      *
-     * @param  string Function Name
+     * @param  std::string Function Name
      * @return void
      */
-    void Printer(const string &) const;
+    void Printer(const std::string &) const;
 
 };
 
@@ -494,7 +499,7 @@ struct SortJetByEta {
     inline bool operator()(const PseudoJet &Jet1,
                            const PseudoJet &Jet2) {
 
-        return (Jet1.eta() > Jet2.eta());
+        return (Jet1.rap() > Jet2.rap());
 
     }
 
@@ -506,7 +511,7 @@ struct SortJetByDistance {
     inline bool operator()(const PseudoJet &Jet1,
                            const PseudoJet &Jet2) {
 
-        return (Jet1.eta() > Jet2.eta());
+        return (Jet1.rap() > Jet2.rap());
 
     }
 

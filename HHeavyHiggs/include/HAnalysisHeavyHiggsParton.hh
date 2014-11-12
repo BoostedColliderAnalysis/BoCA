@@ -24,7 +24,7 @@ private:
 
     int GetEventnumberMax()const{ return 10000;};
 
-    inline string GetProjectName()const{
+    inline std::string GetProjectName()const{
         return "HeavyHiggsParton";
     }
 
@@ -50,14 +50,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent* Event, const string &StudyName);
+    bool Analysis(hanalysis::HEvent* Event, const std::string &StudyName);
 
     /**
-     * @brief prepares the vector describing the input root files
+     * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    vector<hanalysis::HFile* > GetFiles(const string &StudyName) const;
+    std::vector<hanalysis::HFile* > GetFiles(const std::string &StudyName) const;
 
     /**
      * @brief New Analysis
@@ -68,7 +68,7 @@ private:
 
     void CloseFile();
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return ("HAnalysisHeavyHiggsParton");
 

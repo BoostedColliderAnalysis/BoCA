@@ -33,13 +33,13 @@ public:
      * @brief constructor defining default path
      *
      */
-    HFile(const string &Process);
+    HFile(const std::string &Process);
 
     /**
      * @brief constructor defining default path
      *
      */
-    HFile(const string &Process, const string &Run);
+    HFile(const std::string &Process, const std::string &Run);
 
     /**
      * @brief destructor
@@ -53,7 +53,7 @@ public:
 
     virtual HEvent *GetEvent();
 
-    void SetBasePath(const string &NewBasePath) {
+    void SetBasePath(const std::string &NewBasePath) {
         BasePath = NewBasePath;
     }
 
@@ -61,7 +61,7 @@ public:
      * @brief Name of Process
      *
      */
-    string GetTitle() const;
+    std::string GetTitle() const;
 
     float GetCrosssection() const {
         return Crosssection;
@@ -75,7 +75,7 @@ public:
         Crosssection = NewError;
     }
 
-    void SetFileSuffix(const string &NewFileSuffix) {
+    void SetFileSuffix(const std::string &NewFileSuffix) {
         FileSuffix = NewFileSuffix;
     }
 
@@ -87,18 +87,18 @@ public:
         SnowMass = NewSnowMass;
     }
 
-    void SetTreeName(const string &NewTreeName) {
+    void SetTreeName(const std::string &NewTreeName) {
         TreeName = NewTreeName;
     }
 
     /**
      * @brief Compose file path
      *
-     * @return string file path
+     * @return std::string file path
      */
-    virtual string GetFilePath() const;
+    virtual std::string GetFilePath() const;
 
-    virtual string GetTreeName() const;
+    virtual std::string GetTreeName() const;
 
 protected:
 
@@ -106,9 +106,9 @@ protected:
 
     void  SetVariables();
 
-    string GetMadGraphFilePath() const;
+    std::string GetMadGraphFilePath() const;
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
         return "HFile";
     };
 
@@ -116,31 +116,31 @@ protected:
      * @brief Path path to the MadGraph installation
      *
      */
-    static string BasePath;
+    static std::string BasePath;
 
     /**
      * @brief Process name used in the file path
      *
      */
-    string ProcessFolder;
+    std::string ProcessFolder;
 
     /**
      * @brief Run name use in the file path
      *
      */
-    string RunFolder;
+    std::string RunFolder;
 
     /**
-     * @brief Tag string used in the file name
+     * @brief Tag std::string used in the file name
      *
      */
-    string TagName;
+    std::string TagName;
 
     /**
      * @brief String containing the name of the root tree
      *
      */
-    static string TreeName;
+    static std::string TreeName;
 
     /**
      * @brief Crosssection of the event
@@ -154,7 +154,7 @@ protected:
      */
     float Error;
 
-    static string FileSuffix;
+    static std::string FileSuffix;
 
     static bool SnowMass;
 

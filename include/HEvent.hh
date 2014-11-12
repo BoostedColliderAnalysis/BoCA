@@ -33,9 +33,9 @@ public:
 
     virtual void NewEvent(const HClonesArray * const ) = 0;
 
-    virtual vector<PseudoJet> GetTops(HJetTag *const) {
+    virtual HJets GetTops(HJetTag *const) {
         Print(0, "Get Tops", "No Tops");
-        vector<PseudoJet> v;
+        HJets v;
         return v;
     }
 
@@ -45,9 +45,9 @@ public:
         return j;
     }
 
-    virtual vector<PseudoJet> GetCandidates(HJetTag *const) {
+    virtual HJets GetCandidates(HJetTag *const) {
         Print(0, "Get Candidates", "No Candidates");
-        vector<PseudoJet> v;
+        HJets v;
         return v;
     }
 
@@ -63,21 +63,21 @@ public:
         return Jets;
     }
 
-    HTopTagger *GetTopTagger() {
+    hdelphes::HTopTagger *GetTopTagger() {
         return TopTagger;
     }
 
-    HHiggsTagger *GetHiggsTagger() {
+    hdelphes::HHiggsTagger *GetHiggsTagger() {
         return HiggsTagger;
     }
 
-    HDiscriminator *GetDiscriminator() {
+    hdelphes::HDiscriminator *GetDiscriminator() {
         return Discriminator;
     }
 
 protected:
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
         return "HEvent";
     };
 
@@ -103,19 +103,19 @@ protected:
      * @brief Tagged tops and their constituents
      *
      */
-    HTopTagger *TopTagger;
+    hdelphes::HTopTagger *TopTagger;
 
     /**
      * @brief Higgs
      *
      */
-    HHiggsTagger *HiggsTagger;
+    hdelphes::HHiggsTagger *HiggsTagger;
 
     /**
      * @brief SubJetInformation
      *
      */
-    HDiscriminator *Discriminator;
+    hdelphes::HDiscriminator *Discriminator;
 
 private:
 

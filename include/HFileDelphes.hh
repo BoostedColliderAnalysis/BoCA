@@ -13,7 +13,7 @@
  * @brief Delphes files
  *
  */
-class hanalysis::hdelphes::HFile : public hanalysis::HFile
+class hdelphes::HFile : public hanalysis::HFile
 {
 
 public:
@@ -28,22 +28,22 @@ public:
      * @brief constructor defining default path
      *
      */
-    HFile(const string &Process);
+    HFile(const std::string &Process);
 
     /**
      * @brief constructor defining default path
      *
      */
-    HFile(const string &Process, const string &Run);
+    HFile(const std::string &Process, const std::string &Run);
 
     /**
      * @brief Compose file path
      *
-     * @return string file path
+     * @return std::string file path
      */
-    string GetFilePath() const;
+    std::string GetFilePath() const;
 
-//     string GetTreeName() const;
+//     std::string GetTreeName() const;
 
     hanalysis::HEvent *GetEvent();
 
@@ -51,11 +51,11 @@ public:
 
 protected:
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HDelphes";
     }
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
         return "HFile";
     };
 

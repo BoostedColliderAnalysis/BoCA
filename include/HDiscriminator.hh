@@ -9,7 +9,7 @@
  *
  *
  */
-class hanalysis::HDiscriminator : public HReconstruction
+class hdelphes::HDiscriminator : public HReconstruction
 {
 
 public:
@@ -32,15 +32,15 @@ public:
      * @param  EFlow Jet Vector
      * @return Candidates
      */
-    vector<PseudoJet> GetCandidateJets(const vector<PseudoJet> &, const float);
+    HJets GetCandidateJets(const HJets &, const float);
 
-    vector<PseudoJet> GetCandidateJetsForced(const vector<PseudoJet> &, const float);
+    HJets GetCandidateJetsForced(const HJets &, const float);
 
     static bool JetIsBad(const PseudoJet &Jet);
 
 private:
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HDiscriminator";
     };
 

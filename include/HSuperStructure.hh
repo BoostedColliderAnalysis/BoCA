@@ -6,7 +6,7 @@
 # include "HObject.hh"
 # include "HBranch.hh"
 
-class hanalysis::HSuperStructure : public hanalysis::HObject
+class hdelphes::HSuperStructure : public hanalysis::HObject
 {
 
 public:
@@ -30,6 +30,10 @@ public:
     inline float GetDeltaM(const int ParticleMass) const {
         return std::abs(GetInvariantMass() - ParticleMass);
     };
+
+    inline float GetDeltaR() const {
+        return Jet1.delta_R(Jet2);
+    }
 
     float GetPullAngle1() const;
 
@@ -69,7 +73,7 @@ public:
 
     }
 
-    vector< TLorentzVector > GetConstituents() const;
+    std::vector< TLorentzVector > GetConstituents() const;
 
 
 protected:
@@ -82,12 +86,14 @@ protected:
 
     int Position2;
 
-    vector<TLorentzVector> GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
+    HVectors GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
+      return "HSuperStructure";
+    };
 
-        return ("HSuperStructure");
-
+    virtual inline std::string NameSpaceName() const {
+      return "HDelphes";
     };
 
 private:

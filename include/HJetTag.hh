@@ -55,7 +55,7 @@ protected:
 
 private:
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
         return "HJetTag";
 
     };

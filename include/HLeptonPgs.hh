@@ -7,7 +7,7 @@
  * @brief PGS leptons
  *
  */
-class hanalysis::hpgs::HLepton : public hanalysis::HLepton
+class hpgs::HLepton : public hanalysis::HLepton
 {
 
 public:
@@ -43,11 +43,11 @@ private:
    */
   bool GetMuons();
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HPgs";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HLepton";
     };
 

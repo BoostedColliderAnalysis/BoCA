@@ -7,7 +7,7 @@
  * @brief delphes particles
  *
  */
-class hanalysis::hdelphes::HParticle  : public hanalysis::HParticle
+class hdelphes::HParticle  : public hanalysis::HParticle
 {
 
 public:
@@ -33,11 +33,11 @@ private:
      */
     bool GetParticles();
 
-    inline string NameSpaceName() const {
+    inline std::string NameSpaceName() const {
         return "HDelphes";
     }
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HParticle";
     }
 

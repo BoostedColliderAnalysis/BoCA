@@ -20,7 +20,7 @@ public:
 
     const std::set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
 
         return "HiggsCPV: JetTag";
 
@@ -53,7 +53,7 @@ public:
         return 10000;
     };
 
-    inline string GetProjectName()const {
+    inline std::string GetProjectName()const {
         return "JetProperties";
     }
 
@@ -132,12 +132,12 @@ private:
 
     hanalysis::HJetTag *JetTag;
 
-    hanalysis::HSubStructure *SubStructure;
+    hdelphes::HSubStructure *SubStructure;
 
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const vector<PseudoJet> &, const float DeltaR);
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const HJets &, const float DeltaR);
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const vector<PseudoJet> &);
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const HJets &);
 
     float GetDeltaR(const PseudoJet &Jet);
 
@@ -147,7 +147,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    vector<PseudoJet> Leptons(hanalysis::HEvent* Event);
+    HJets Leptons(hanalysis::HEvent* Event);
 
     /**
      * @brief Lepton calculations
@@ -155,7 +155,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    //     vector<PseudoJet> Leptons();
+    //     HJets Leptons();
 
     //     JetTag *HJetTag;
 
@@ -170,14 +170,14 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent* Event, const string &StudyName);
+    bool Analysis(hanalysis::HEvent* Event, const std::string &StudyName);
 
     /**
-     * @brief prepares the vector describing the input root files
+     * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::HFile* > GetFiles(const string &StudyName) const;
+    std::vector< hanalysis::HFile* > GetFiles(const std::string &StudyName) const;
 
     /**
      * @brief New Analysis
@@ -188,9 +188,9 @@ private:
 
     void CloseFile();
 
-    inline vector<string> GetStudyNames() const;
+    inline std::vector<std::string> GetStudyNames() const;
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return ("HAnalysisJetProperties");
 

@@ -14,7 +14,7 @@
  * @brief FastJet calculations
  *
  */
-class hanalysis::HReconstruction : public HObject
+class hdelphes::HReconstruction : public hanalysis::HObject
 {
 
 public:
@@ -39,15 +39,15 @@ protected:
    * @brief Get vecto of all fatjets
    *
    */
-  vector<PseudoJet> GetFatJets(const vector<PseudoJet>&) const;
+  HJets GetFatJets(const HJets&) const;
 
   /**
    * @brief Get vecto of all fatjets
    *
    */
-  vector<PseudoJet> GetFatJets(const vector<PseudoJet>&,const fastjet::JetDefinition&) const;
+  HJets GetFatJets(const HJets&,const fastjet::JetDefinition&) const;
 
-  vector<PseudoJet> GetMassDropJets(const vector<PseudoJet>&) const;
+  HJets GetMassDropJets(const HJets&) const;
 
     /**
      * @brief Get mass drop jet
@@ -60,7 +60,7 @@ protected:
     PseudoJet GetMassDropJet(const PseudoJet&, const float, const float) const;
 
 
-    vector<PseudoJet> GetSubJetTaggedJets(const vector<PseudoJet> &FatJets) const;
+    HJets GetSubJetTaggedJets(const HJets &FatJets) const;
 
     PseudoJet GetSubJetTaggedJet(const PseudoJet &FatJet) const;
 
@@ -74,14 +74,16 @@ protected:
 
     static bool JetIsBad(const PseudoJet & Jet);
 
-    vector<PseudoJet> GetFatJetTag(vector<PseudoJet>&);
+    HJets GetFatJetTag(HJets&);
 
-//     vector<PseudoJet> FatJetVector;
+//     HJets FatJetVector;
 
-    inline string ClassName() const {
+    inline std::string NameSpaceName() const {
+      return "HDelphes";
+    };
 
-        return ("HReconstruction");
-
+    inline std::string ClassName() const {
+        return "HReconstruction";
     };
 
 };

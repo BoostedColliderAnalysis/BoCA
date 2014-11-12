@@ -1,7 +1,7 @@
 # ifndef HMva_hh
 # define HMva_hh
 
-# include "string.h"
+// # include "string.h"
 # include "TCut.h"
 
 # include "TClonesArray.h"
@@ -26,23 +26,23 @@ struct HReaderStruct {
 
   int HiggsEventSum;
 
-  vector<int> EventVector;
+  std::vector<int> EventVector;
 
-  vector<int> HiggsEventVector;
+  std::vector<int> HiggsEventVector;
 
-  vector<int> TopEventVector;
+  std::vector<int> TopEventVector;
 
-  vector<int> CutFlowVector;
+  std::vector<int> CutFlowVector;
 
-  vector<int> FatJetVector;
+  std::vector<int> FatJetVector;
 
-  vector<int> HiggsVector;
+  std::vector<int> HiggsVector;
 
-  vector<int> TopVector;
+  std::vector<int> TopVector;
 
-  vector<double> CutsMin;
+  std::vector<double> CutsMin;
 
-  vector<double> CutsMax;
+  std::vector<double> CutsMax;
 
 };
 
@@ -54,17 +54,17 @@ public :
 
     HObservable();
 
-    HObservable(float *const NewValue, const string &NewExpression, const string &NewTitle, const string &NewUnit, const string &NewLatex);
+    HObservable(float *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex);
 
     float *Value;
 
-    string Expression;
+    std::string Expression;
 
-    string Title;
+    std::string Title;
 
-    string Unit;
+    std::string Unit;
 
-    string Latex;
+    std::string Latex;
 
 };
 
@@ -72,7 +72,7 @@ public :
  * @brief Prepares multivariant analysis
  *
  */
-class hanalysis::HMva : public HObject
+class hmva::HMva : public hanalysis::HObject
 {
 
 public:
@@ -105,31 +105,31 @@ public:
      * @brief Name of the Analysis
      *
      */
-    string AnalysisName;
+    std::string AnalysisName;
 
     /**
      * @brief Name of the Signal File
      *
      */
-    vector<string> SignalNames;
+    std::vector<std::string> SignalNames;
 
     /**
      * @brief Name of the Test File
      *
      */
-    string TestName;
+    std::string TestName;
 
-    string CutMethodName;
+    std::string CutMethodName;
 
-    string BdtMethodName;
+    std::string BdtMethodName;
 
-    string CandidateBranchName;
+    std::string CandidateBranchName;
 
-    string SpectatorBranchName;
+    std::string SpectatorBranchName;
 
-    string WeightBranchName;
+    std::string WeightBranchName;
 
-    string BackgroundName;
+    std::string BackgroundName;
 
     TCut Cut;
 
@@ -137,45 +137,47 @@ public:
      * @brief Names of the Background Files
      *
      */
-    vector<string> BackgroundNames;
+    std::vector<std::string> BackgroundNames;
 
-    vector<string> BackgroundTreeNames;
+    std::vector<std::string> BackgroundTreeNames;
 
-    vector<string> SignalTreeNames;
+    std::vector<std::string> SignalTreeNames;
 
-    vector<string> TestTreeNames;
+    std::vector<std::string> TestTreeNames;
 
     /**
      * @brief Vector containing the pointer to the Observable data
      *
      */
-    vector<HObservable> Observables;
+    std::vector<HObservable> Observables;
 
-    vector<HObservable> Spectators;
+    std::vector<HObservable> Spectators;
 
 
     virtual HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&) = 0;
 
-    virtual void ApplyBdt(const ExRootTreeReader * const, const string, const TFile * const, TMVA::Reader *) = 0;
+    virtual void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *) = 0;
 
 
 protected:
 
-    virtual void DefineVariables() = 0;
+  virtual void DefineVariables() = 0;
 
-    virtual inline string ClassName() const {
+  virtual inline std::string NameSpaceName() const {
+    return "HMva";
+  };
 
-        return ("HMva");
-
+    virtual inline std::string ClassName() const {
+        return "HMva";
     };
 
-    HObservable NewObservable(float *const Value, const string &Expression, const string &Title, const string &Unit, const string &Latex) const;
+    HObservable NewObservable(float *const Value, const std::string &Expression, const std::string &Title, const std::string &Unit, const std::string &Latex) const;
 
-    HObservable NewObservable(float *const Value, const string &Expression, const string &Title, const string &Unit) const;
+    HObservable NewObservable(float *const Value, const std::string &Expression, const std::string &Title, const std::string &Unit) const;
 
-    HObservable NewObservable(float *const Value, const string &Expression, const string &Title) const;
+    HObservable NewObservable(float *const Value, const std::string &Expression, const std::string &Title) const;
 
-    HObservable NewObservable(float *const Value, const string &Expression) const;
+    HObservable NewObservable(float *const Value, const std::string &Expression) const;
 
 private:
 

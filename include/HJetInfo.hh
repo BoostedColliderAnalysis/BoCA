@@ -37,10 +37,8 @@ public:
      */
     float GetFraction(const int ParticleId) const;
 
-    std::map<int,float> GetJetFractions() const{
-
+    std::map<int, float> GetJetFractions() const {
         return JetFractions;
-
     }
 
     /**
@@ -79,9 +77,18 @@ public:
      */
     bool HasParticle(const int ParticleId) const;
 
+    void SetVertex(const TLorentzVector &NewVertex) {
+        if (NewVertex.Vect().Mag() > Vertex.Vect().Mag())
+            Vertex = NewVertex;
+    }
+
+    TLorentzVector GetVertex() const {
+        return Vertex;
+    }
+
 protected:
 
-    inline string ClassName() const {
+    inline std::string ClassName() const {
         return "HJetInfo";
     };
 
@@ -90,6 +97,8 @@ private:
     float GetWeightSum() const;
 
     std::map<int, float> JetFractions;
+
+    TLorentzVector Vertex;
 
 };
 

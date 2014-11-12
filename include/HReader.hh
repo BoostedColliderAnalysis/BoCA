@@ -17,7 +17,7 @@
 
 # include "HMva.hh"
 
-typedef vector<int>::const_iterator VectorIterator;
+typedef std::vector<int>::const_iterator VectorIterator;
 
 struct PairOrder {
     bool operator()(
@@ -32,7 +32,7 @@ struct PairOrder {
  * @brief Presents result of multivariant analysis
  *
  */
-class hanalysis::HReader : public HObject
+class hmva::HReader : public hanalysis::HObject
 {
 
 public:
@@ -41,7 +41,7 @@ public:
      * @brief Constructor
      *
      */
-    HReader(hanalysis::HMva *NewMva);
+    HReader(hmva::HMva *NewMva);
 
     /**
      * @brief Destructor
@@ -52,13 +52,13 @@ public:
 private:
 
     template <typename TCutFlow>
-    vector<TCutFlow> SortByPriority(
-        vector<TCutFlow> const &Input,
-        vector<std::pair<size_t, VectorIterator> > const &Priority
+    std::vector<TCutFlow> SortByPriority(
+        std::vector<TCutFlow> const &Input,
+        std::vector<std::pair<size_t, VectorIterator> > const &Priority
     ) {
 
         size_t const OrderSum = Priority.size();
-        vector<TCutFlow> Output(OrderSum);
+        std::vector<TCutFlow> Output(OrderSum);
 
         for (size_t OrderSize = 0; OrderSize < OrderSum; ++OrderSize) {
 
@@ -98,7 +98,7 @@ private:
      *
      * @return void
      */
-    void ApplyCuts(const ExRootTreeReader *const, const string);
+    void ApplyCuts(const ExRootTreeReader *const, const std::string);
 
     void AddVariable();
 
@@ -112,7 +112,7 @@ private:
 
     void LatexFooter();
 
-    void LatexContent(const string &TreeName);
+    void LatexContent(const std::string &TreeName);
 
     float GetLuminosity(const float) const;
 
@@ -146,15 +146,15 @@ private:
 
     float CrosssectionScaled;
 
-    string Verbose;
+    std::string Verbose;
 
-    string Silent;
+    std::string Silent;
 
-    string VerboseLevel;
+    std::string VerboseLevel;
 
-    string VerbosityLevel;
+    std::string VerbosityLevel;
 
-    string Color;
+    std::string Color;
 
     HReaderStruct ReaderStruct;
 
@@ -164,18 +164,20 @@ private:
 
     TMVA::Reader *Reader;
 
-    vector<vector<double>> CutsMinMatrix;
+    std::vector<std::vector<double>> CutsMinMatrix;
 
-    vector<vector<double>> CutsMaxMatrix;
+    std::vector<std::vector<double>> CutsMaxMatrix;
 
     ofstream LatexFile;
 
     HMva *Mva;
 
-    inline string ClassName() const {
+    inline std::string NameSpaceName() const {
+      return "HMva";
+    };
 
-        return ("HReader");
-
+    inline std::string ClassName() const {
+        return "HReader";
     };
 
 

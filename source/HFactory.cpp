@@ -3,7 +3,7 @@
 # include "TObjArray.h"
 
 
-hanalysis::HFactory::HFactory(HMva * const NewMva)
+hmva::HFactory::HFactory(HMva * const NewMva)
 {
 
     Print(1 , "Constructor");
@@ -32,7 +32,7 @@ hanalysis::HFactory::HFactory(HMva * const NewMva)
 
 }
 
-hanalysis::HFactory::~HFactory()
+hmva::HFactory::~HFactory()
 {
 
     Print(1 , "Destructor");
@@ -41,26 +41,26 @@ hanalysis::HFactory::~HFactory()
 
 }
 
-void hanalysis::HFactory::NewFactory()
+void hmva::HFactory::NewFactory()
 {
 
     Print(1 , "New Factory");
 
-    const string FactoryOutputName = "Mva" + Mva->BackgroundName;
+    const std::string FactoryOutputName = "Mva" + Mva->BackgroundName;
 
-    const string OutputFileName = Mva->AnalysisName + "/" + FactoryOutputName + ".root";
+    const std::string OutputFileName = Mva->AnalysisName + "/" + FactoryOutputName + ".root";
 
     OutputFile = TFile::Open(OutputFileName.c_str(), "Recreate");
 
-//     string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
-    const string FactoryOptions = "";
+//     std::string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
+    const std::string FactoryOptions = "";
 
     Factory = new TMVA::Factory(Mva->AnalysisName, OutputFile, FactoryOptions);
 
 }
 
 
-void hanalysis::HFactory::AddVariables()
+void hmva::HFactory::AddVariables()
 {
 
     Print(1 , "Add Variables");
@@ -82,14 +82,14 @@ void hanalysis::HFactory::AddVariables()
 }
 
 
-void hanalysis::HFactory::GetTrees()
+void hmva::HFactory::GetTrees()
 {
 
     Print(1 , "Get Trees");
 
     for (const auto & SignalName : Mva->SignalNames) {
 
-        string SignalFileName = Mva->AnalysisName + "/" + SignalName + ".root";
+        std::string SignalFileName = Mva->AnalysisName + "/" + SignalName + ".root";
         if (gSystem->AccessPathName(SignalFileName.c_str())) Print(0, "File not found", SignalFileName);
         TFile *SignalFile = TFile::Open(SignalFileName.c_str());
         Print(1 , "Signal File", SignalFile->GetName());
@@ -104,7 +104,7 @@ void hanalysis::HFactory::GetTrees()
 
     for (const auto & BackgroundName : Mva->BackgroundNames) {
 
-        string BackgroundFileName = Mva->AnalysisName + "/" + BackgroundName + ".root";
+        std::string BackgroundFileName = Mva->AnalysisName + "/" + BackgroundName + ".root";
         if (gSystem->AccessPathName(BackgroundFileName.c_str())) Print(0, "File not found", BackgroundFileName);
         TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
         Print(1 , "Background File", BackgroundFile->GetName());
@@ -119,13 +119,14 @@ void hanalysis::HFactory::GetTrees()
 
 }
 
-void hanalysis::HFactory::AddTree(const TFile *const File, const string &TreeName, const bool Signal)
+void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
 {
 
     Print(1 , "Add Tree", TreeName);
 
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
+    Print(0,"Branch Name",Mva->CandidateBranchName.c_str());
     const_cast<TTree *>(Tree)->GetBranch(Mva->CandidateBranchName.c_str());
     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
@@ -154,36 +155,36 @@ void hanalysis::HFactory::AddTree(const TFile *const File, const string &TreeNam
 
 }
 
-void hanalysis::HFactory::PrepareTrainingAndTestTree()
+void hmva::HFactory::PrepareTrainingAndTestTree()
 {
 
     Print(1 , "PrepareTrainingAndTestTree");
 
-//     string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
-    const string TrainingAndTestOptions = "";
+//     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
+    const std::string TrainingAndTestOptions = "";
 
     Factory->PrepareTrainingAndTestTree(Mva->Cut, Mva->Cut, TrainingAndTestOptions);
 
 }
 
-void hanalysis::HFactory::BookMethods()
+void hmva::HFactory::BookMethods()
 {
 
     Print(1 , "Book Methods");
 
-    const string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
-//     string CutOptions = "VarProp=FSmart:VarTransform=PCA";
-//     const string CutOptions = "";
+    const std::string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
+//     std::string CutOptions = "VarProp=FSmart:VarTransform=PCA";
+//     const std::string CutOptions = "";
 
-    const string CutMethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
+    const std::string CutMethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
 
     Factory->BookMethod(TMVA::Types::kCuts, CutMethodName, CutOptions);
 
-//     const string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
-    const string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-//     const string BdtOptions = "";
+//     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
+    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+//     const std::string BdtOptions = "";
 
-    const string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
+    const std::string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
 
     Factory->BookMethod(TMVA::Types::kBDT, BdtMethodName, BdtOptions);
 

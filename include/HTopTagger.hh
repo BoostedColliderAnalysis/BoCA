@@ -11,7 +11,7 @@
  * @brief prepares the data for the top tagger
  *
  */
-class hanalysis::HTopTagger : public HObject
+class hdelphes::HTopTagger : public hanalysis::HObject
 {
 
 public:
@@ -22,7 +22,7 @@ public:
      * @param HadronVector ...
      * @return void
      */
-    vector< PseudoJet > GetTops(vector< PseudoJet > &EFlowJets);
+    std::vector< PseudoJet > GetTops(std::vector< PseudoJet > &EFlowJets);
 
     /**
      * @brief constructor
@@ -43,12 +43,14 @@ private:
      * @param PtCutOff Pt Cutoff for cells
      * @return std::vector< fastjet::PseudoJet, std::allocator >
      */
-    vector<PseudoJet> GetGranulatedJets(vector<PseudoJet> &HadronVector, const float &CellEta, const float &CellPhi, const float &PtCutOff);
+    HJets GetGranulatedJets(HJets &HadronVector, const float &CellEta, const float &CellPhi, const float &PtCutOff);
 
-    inline string ClassName() const {
+    inline std::string NameSpaceName() const {
+      return "HDelphes";
+    };
 
+    inline std::string ClassName() const {
         return "HTopTagger";
-
     };
 
 };

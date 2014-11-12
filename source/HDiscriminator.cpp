@@ -1,6 +1,6 @@
 # include "HDiscriminator.hh"
 
-hanalysis::HDiscriminator::HDiscriminator()
+hdelphes::HDiscriminator::HDiscriminator()
 {
 
     Print(1, "Constructor");
@@ -9,19 +9,19 @@ hanalysis::HDiscriminator::HDiscriminator()
 
 }
 
-hanalysis::HDiscriminator::~HDiscriminator()
+hdelphes::HDiscriminator::~HDiscriminator()
 {
 
     Print(1, "Destructor");
 
 }
 
-vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJets(const vector<PseudoJet> &EFlowJets, const float ScalarHt)
+HJets hdelphes::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const float ScalarHt)
 {
 
     Print(2, "Get Tagged Candidate Jets", EFlowJets.size());
 
-    const vector<PseudoJet> Jets;
+    const HJets Jets;
 
     if (EFlowJets.size() == 0) {
 
@@ -34,10 +34,10 @@ vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJets(const vector<Pseud
 
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-    const vector<PseudoJet> FatJets = GetFatJets(EFlowJets, FatJetDefinition);
+    const HJets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
 
-    vector<PseudoJet> MassDropJets = GetMassDropJets(FatJets);
-//     vector<PseudoJet> MassDropJets = GetSubJetTaggedJets(FatJets);
+    HJets MassDropJets = GetMassDropJets(FatJets);
+//     HJets MassDropJets = GetSubJetTaggedJets(FatJets);
 
     MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
 
@@ -50,12 +50,12 @@ vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJets(const vector<Pseud
 }
 
 
-vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJetsForced(const vector<PseudoJet> &EFlowJets, const float ScalarHt)
+HJets hdelphes::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, const float ScalarHt)
 {
 
     Print(2, "Get Tagged Candidate Jets", EFlowJets.size());
 
-    const vector<PseudoJet> Jets;
+    const HJets Jets;
 
     if (EFlowJets.size() == 0) {
 
@@ -67,12 +67,12 @@ vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJetsForced(const vector
 //     float DeltaR = 1000. / ScalarHt;
     float DeltaR = 750. / ScalarHt;
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
-    vector<PseudoJet> MassDropJets;
+    HJets MassDropJets;
 
     while (MassDropJets.size() < 1 && DeltaR < 7) {
 
         const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-        const vector<PseudoJet> FatJets = GetFatJets(EFlowJets, FatJetDefinition);
+        const HJets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
 
         MassDropJets = GetMassDropJets(FatJets);
         MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
@@ -89,7 +89,7 @@ vector<PseudoJet> hanalysis::HDiscriminator::GetCandidateJetsForced(const vector
 }
 
 
-bool hanalysis::HDiscriminator::JetIsBad(const PseudoJet &Jet)
+bool hdelphes::HDiscriminator::JetIsBad(const PseudoJet &Jet)
 {
 
     HObject Object;

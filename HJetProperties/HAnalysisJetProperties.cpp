@@ -7,7 +7,7 @@ hjetproperties::HAnalysis::HAnalysis()
 
     JetTag = new hjetproperties::HJetTag();
 
-    SubStructure = new hanalysis::HSubStructure();
+    SubStructure = new hdelphes::HSubStructure();
 
     //     DebugLevel = 4;
 
@@ -25,7 +25,7 @@ hjetproperties::HAnalysis::~HAnalysis()
 
 }
 
-vector<string> hjetproperties::HAnalysis::GetStudyNames() const
+std::vector<std::string> hjetproperties::HAnalysis::GetStudyNames() const
 {
 
     //     return {"Higgs", "Top", "Isr"};
@@ -34,32 +34,32 @@ vector<string> hjetproperties::HAnalysis::GetStudyNames() const
 
 }
 
-vector< hanalysis::HFile* > hjetproperties::HAnalysis::GetFiles(const string &StudyName) const
+std::vector< hanalysis::HFile* > hjetproperties::HAnalysis::GetFiles(const std::string &StudyName) const
 {
 
     Print(1, "Set File Vector");
 
-    vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> Files;
     if (StudyName != "Higgs") {
 
-        hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
+        hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
         Files.push_back(Background);
 
     }
 
-    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
     Files.push_back(Even);
 
-    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
     Files.push_back(Mix);
 
-    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
     Files.push_back(Odd);
@@ -143,12 +143,12 @@ int hjetproperties::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 }
 
 
-bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string &StudyName)
+bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
     Print(3, "Analysis");
 
-    const vector<PseudoJet> LeptonJets = Leptons(Event);
+    const HJets LeptonJets = Leptons(Event);
 
     if (LeptonJets.size() < 2) {
 
@@ -169,7 +169,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
     HEventBranch *EventB = static_cast<HEventBranch *>(EventBranch->NewEntry());
     EventB->ScalarPtSum = 1. / Event->GetJets()->GetScalarHt();
 
-    vector<int> Ids;
+    std::vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
     if (StudyName == "Top") Ids = { TopId};
     if (StudyName == "ATop") Ids = { -TopId};
@@ -178,7 +178,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
 
     for (const auto & Id : Ids) {
 
-        vector<PseudoJet> EFlowJets;
+        HJets EFlowJets;
         std::copy_if(Event->GetJets()->GetTaggedEFlowJets(JetTag).begin(), Event->GetJets()->GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
                      [Id](const PseudoJet & EFlowJet) {
 
@@ -235,7 +235,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
         }
         Print(2, "Max Pt", CandidatePt);
 
-        vector<PseudoJet> TrimmedJets;
+        HJets TrimmedJets;
         float SigmaPt = 0;
         float SigmaRadius = 0;
         JetPair = JetMap.begin();
@@ -268,7 +268,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
 
         fastjet::JetDefinition CAJetDefinition(fastjet::cambridge_algorithm, MaxRadius);
         fastjet::ClusterSequence CAClusterSequence(EFlowJets, CAJetDefinition);
-        vector<PseudoJet> CAInclusiveJets = CAClusterSequence.inclusive_jets();
+        HJets CAInclusiveJets = CAClusterSequence.inclusive_jets();
         Print(3, "InclusiveJets Number", CAInclusiveJets.size());
 
         std::sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), SortJetByMass());
@@ -301,7 +301,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
 
         fastjet::JetDefinition AktJetDefinition(fastjet::antikt_algorithm, MaxRadius);
         fastjet::ClusterSequence AktClusterSequence(EFlowJets, AktJetDefinition);
-        vector<PseudoJet> AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
+        HJets AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(3, "InclusiveJets Number", AktInclusiveJets.size());
 
         std::sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), SortJetByMass());
@@ -327,7 +327,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
         for (const auto & EFlowJet : EFlowJets) {
 
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
-            Constituent->Eta = EFlowJet.eta() - CandidateJet.eta();
+            Constituent->Eta = EFlowJet.rap() - CandidateJet.rap();
             Constituent->Phi = EFlowJet.delta_phi_to(CandidateJet);
             Constituent->Pt = EFlowJet.pt();
             Constituent->Id = EFlowJet.user_index();
@@ -340,7 +340,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const string 
 
 }
 
-bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &CandidateJet, const vector<PseudoJet> &LeptonJets, const float DeltaR)
+bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &CandidateJet, const HJets &LeptonJets, const float DeltaR)
 {
 
 
@@ -352,7 +352,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         Candidate->Mass = CandidateJet.m();
         Candidate->Pt = CandidateJet.pt();
-        Candidate->Eta = CandidateJet.eta();
+        Candidate->Eta = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
         Candidate->DeltaR = DeltaR;
 
@@ -405,7 +405,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
 //         if (!SubStructure->GetConstituents(CandidateJet, ConstituentTreeBranch)) return 0;
 
-        vector<TLorentzVector> ConstituentVectors = SubStructure->GetConstituents(CandidateJet);
+        HVectors ConstituentVectors = SubStructure->GetConstituents(CandidateJet);
 
         for (const auto & ConstituentVector : ConstituentVectors) {
           HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentTreeBranch->NewEntry());
@@ -429,7 +429,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
 }
 
-bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &Jet, const vector<PseudoJet> &LeptonJets)
+bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const PseudoJet &Jet, const HJets &LeptonJets)
 {
 
     return FillTree(TreeBranch, ConstituentTreeBranch, Jet, LeptonJets, GetDeltaR(Jet));
@@ -459,20 +459,20 @@ float hjetproperties::HAnalysis::GetDeltaR(const PseudoJet &Jet)
 
 }
 
-vector<PseudoJet> hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
+HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
 {
 
     // Lepton Stuff
-    vector<float> LeptonEta, LeptonPhi;
+    std::vector<float> LeptonEta, LeptonPhi;
 
     //     Event->GetLeptons();
 
-    //     vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
-    //     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+    //     HJets LeptonJets = Event->Lepton->LeptonJets;
+    //     HJets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
 //     Event->GetParticlesM()->GetParticles();
-    vector<PseudoJet> LeptonJets = Event->GetParticles()->GetLeptonJets();
-    vector<PseudoJet> AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
+    HJets LeptonJets = Event->GetParticles()->GetLeptonJets();
+    HJets AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
@@ -485,14 +485,14 @@ vector<PseudoJet> hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = LeptonJet.pt();
-            Lepton->Eta = LeptonJet.eta();
+            Lepton->Eta = LeptonJet.rap();
             Lepton->Phi = LeptonJet.phi_std();
             Lepton->Charge = -1;
             Lepton->Mass = LeptonJet.m();
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(LeptonJet.eta());
+        LeptonEta.push_back(LeptonJet.rap());
         LeptonPhi.push_back(LeptonJet.phi_std());
 
     }
@@ -505,7 +505,7 @@ vector<PseudoJet> hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = AntiLeptonJet.pt();
-            Lepton->Eta = AntiLeptonJet.eta();
+            Lepton->Eta = AntiLeptonJet.rap();
             Lepton->Phi = AntiLeptonJet.phi_std();
             Lepton->Charge = 1;
             Lepton->Mass = AntiLeptonJet.m();
@@ -513,7 +513,7 @@ vector<PseudoJet> hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(AntiLeptonJet.eta());
+        LeptonEta.push_back(AntiLeptonJet.rap());
         LeptonPhi.push_back(AntiLeptonJet.phi_std());
 
     }

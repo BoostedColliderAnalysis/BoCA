@@ -1,6 +1,6 @@
 # include "HSuperStructure.hh"
 
-hanalysis::HSuperStructure::HSuperStructure()
+hdelphes::HSuperStructure::HSuperStructure()
 {
     Print(2, "Constructor");
 
@@ -11,14 +11,14 @@ hanalysis::HSuperStructure::HSuperStructure()
 
 }
 
-hanalysis::HSuperStructure::~HSuperStructure()
+hdelphes::HSuperStructure::~HSuperStructure()
 {
 
     Print(2, "Destructor");
 
 }
 
-void hanalysis::HSuperStructure::operator=(const HSuperStructure &other)
+void hdelphes::HSuperStructure::operator=(const HSuperStructure &other)
 {
 
     Jet1 = other.Jet1;
@@ -28,7 +28,7 @@ void hanalysis::HSuperStructure::operator=(const HSuperStructure &other)
 
 }
 
-float hanalysis::HSuperStructure::GetReferenceAngle(const PseudoJet &Jet, const PseudoJet &ReferenceJet) const
+float hdelphes::HSuperStructure::GetReferenceAngle(const PseudoJet &Jet, const PseudoJet &ReferenceJet) const
 {
 
     Print(2, "Get ReferenceAngle");
@@ -41,7 +41,7 @@ float hanalysis::HSuperStructure::GetReferenceAngle(const PseudoJet &Jet, const 
 }
 
 
-float hanalysis::HSuperStructure::GetPullAngle1() const
+float hdelphes::HSuperStructure::GetPullAngle1() const
 {
 
     Print(2, "GetPullAngle1");
@@ -61,7 +61,7 @@ float hanalysis::HSuperStructure::GetPullAngle1() const
 
 }
 
-float hanalysis::HSuperStructure::GetPullAngle2() const
+float hdelphes::HSuperStructure::GetPullAngle2() const
 {
 
     Print(2, "GetPullAngle2");
@@ -75,7 +75,7 @@ float hanalysis::HSuperStructure::GetPullAngle2() const
 }
 
 
-float hanalysis::HSuperStructure::GetPull(const PseudoJet &CandidateJet) const
+float hdelphes::HSuperStructure::GetPull(const PseudoJet &CandidateJet) const
 {
 
     Print(2, "GetPull");
@@ -101,7 +101,7 @@ float hanalysis::HSuperStructure::GetPull(const PseudoJet &CandidateJet) const
 }
 
 
-vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents() const
+HVectors hdelphes::HSuperStructure::GetConstituents() const
 {
 
     Print(2, "GetConstituents");
@@ -124,8 +124,8 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents() const
     const float Distance = Jet1.delta_R(Jet2);
     const float SubJetRatio = 2. * Shift / Distance;
 
-    vector<TLorentzVector> ConstituentVectors1 = GetConstituents(Jet1, SubJetRatio, Theta, -Shift);
-    vector<TLorentzVector> ConstituentVectors2 = GetConstituents(Jet2, SubJetRatio, -Theta, Shift);
+    HVectors ConstituentVectors1 = GetConstituents(Jet1, SubJetRatio, Theta, -Shift);
+    HVectors ConstituentVectors2 = GetConstituents(Jet2, SubJetRatio, -Theta, Shift);
 
     ConstituentVectors1.insert(ConstituentVectors1.end(), ConstituentVectors2.begin(), ConstituentVectors2.end());
 
@@ -134,27 +134,27 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents() const
 }
 
 
-vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
+HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
 {
 
     Print(2, "GetConstituents", JetRatio, Theta);
 
-//     const float Cut = 2. / JetRatio;
-//     const float Cut1 = 1. / JetRatio;
+    const float Cut = 2. / JetRatio;
+    const float Cut1 = 1. / JetRatio;
 
-    vector<TLorentzVector> ConstituentVectors;
+    HVectors ConstituentVectors;
 
     for (const auto & ConstituentJet : Jet.constituents()) {
 
-//         if (Jet.delta_R(ConstituentJet) > Cut ) continue;
-//         if (Jet.delta_R(ConstituentJet) < Cut1 ) continue;
+        if (Jet.delta_R(ConstituentJet) > Cut ) continue;
+        if (Jet.delta_R(ConstituentJet) < Cut1 ) continue;
 
         // Get Constituent coordinates in Jet coordinates
         const float ConstEta = ConstituentJet.rap() - Jet.rap();
         const float ConstPhi = GetDeltaPhi(ConstituentJet.phi_std(), Jet.phi_std());
 
-//         if (ConstPhi > Cut) Print(0, "phi", "too big");
-//         if (ConstEta > Cut) Print(0, "eta", "too big");
+        if (ConstPhi > Cut) Print(0, "phi", "too big");
+        if (ConstEta > Cut) Print(0, "eta", "too big");
 
         // rotate Constituent according to other jet
         float ObservableEta = ConstEta * cos(Theta) + ConstPhi * sin(Theta);
@@ -193,7 +193,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 
 
 //
-// hanalysis::HPull::HPull()
+// hdelphes::HPull::HPull()
 // {
 //     Print(2, "Constructor");
 //
@@ -204,7 +204,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //
 // }
 //
-// hanalysis::HPull::~HPull()
+// hdelphes::HPull::~HPull()
 // {
 //
 //     Print(2, "Destructor");
@@ -212,7 +212,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 // }
 //
 //
-// void hanalysis::HPull::BTagCalculation(const Jet& JetClone)
+// void hdelphes::HPull::BTagCalculation(const Jet& JetClone)
 // {
 //
 //     Print(2, "BTagCalculation");
@@ -249,7 +249,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //
 // }
 //
-// float hanalysis::HPull::PullAngle(float Rap, float Phi)
+// float hdelphes::HPull::PullAngle(float Rap, float Phi)
 // {
 //
 //     Print(2, "Pull Angle");
@@ -277,7 +277,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 // }
 //
 //
-// float hanalysis::HPull::ConfineAngle(float Angle)
+// float hdelphes::HPull::ConfineAngle(float Angle)
 // {
 //
 //     Print(2, "Confine Angle");
@@ -297,7 +297,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 // }
 //
 //
-// float hanalysis::HPull::SubPull(const PseudoJet& SubJet, const PseudoJet& RefJet, const PseudoJet& CandidateJet)
+// float hdelphes::HPull::SubPull(const PseudoJet& SubJet, const PseudoJet& RefJet, const PseudoJet& CandidateJet)
 // {
 //
 //     Print(2, "Sub Pull");
@@ -326,8 +326,8 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //     float SubPullPhi = 0;
 //     int ValidConstituents = 0;
 //
-//     vector<PseudoJet> ConstVector = CandidateJet.constituents();
-// //     vector<PseudoJet> ConstVector = SubJet.constituents();
+//     HJets ConstVector = CandidateJet.constituents();
+// //     HJets ConstVector = SubJet.constituents();
 //     int ConstSum = ConstVector.size();
 //     Print(2, "Number of Constituents", ConstSum);
 //
@@ -393,7 +393,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //
 //
 //
-// float hanalysis::HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJetPiece1, const PseudoJet& FatJetPiece2)
+// float hdelphes::HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJetPiece1, const PseudoJet& FatJetPiece2)
 // {
 //
 //     Print(2, "Calculate DiPolarity");
@@ -421,15 +421,15 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //     float FatJetPt = FatJet.pt();
 //     Print(2, "FatJet Pt", FatJetPt);
 //
-//     vector<PseudoJet> FatJetPieceVector = FatJet.pieces();
+//     HJets FatJetPieceVector = FatJet.pieces();
 //     int PieceSum = FatJetPieceVector.size();
 //     if (PieceSum != 2) Print(0, "Number of Fat Jet Pieces", PieceSum);
 // //     PseudoJet FatJetPiece1 = FatJetPieceVector[0];
 // //     PseudoJet FatJetPiece2 = FatJetPieceVector[1];
 //
-//     float Piece1Eta = FatJetPiece1.eta();
+//     float Piece1Eta = FatJetPiece1.rap();
 //     float Piece1Phi = FatJetPiece1.phi();
-//     float Piece2Eta = FatJetPiece2.eta();
+//     float Piece2Eta = FatJetPiece2.rap();
 //     float Piece2Phi = FatJetPiece2.phi();
 //
 //     float DeltaEta = Piece2Eta - Piece1Eta;
@@ -448,7 +448,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //     if (PieceDistanceSqr < 100000000) {
 //
 //
-//         vector<PseudoJet> ConstituentsVector = FatJet.constituents();
+//         HJets ConstituentsVector = FatJet.constituents();
 //         int ConstituentsSum = ConstituentsVector.size();
 //         Print(2, "Number of Fat Jet Constituents", ConstituentsSum);
 //
@@ -460,7 +460,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //             float ConstituentPhi = ConstituentJet.phi();
 //             Print(3, "Constituent Phi", ConstituentPhi);
 //
-//             float ConstituentEta = ConstituentJet.eta();
+//             float ConstituentEta = ConstituentJet.rap();
 //             Print(3, "Constituent Eta", ConstituentEta);
 //
 //             float ConstituentDeltaEta = Piece1Eta - ConstituentEta;
@@ -523,12 +523,12 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //
 //
 //
-// float hanalysis::HPull::JingDipolarity(const PseudoJet &CandidateJet)
+// float hdelphes::HPull::JingDipolarity(const PseudoJet &CandidateJet)
 // {
 //
 //     Print(2, "Jing Dipolarity");
 //
-//     vector<PseudoJet> SubJetVector = CandidateJet.pieces();
+//     HJets SubJetVector = CandidateJet.pieces();
 //     if (SubJetVector.size() != 2) Print(0, "not two subjets");
 //
 //     // Filtering
@@ -550,18 +550,18 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //
 //     float Eta1, Eta2, Phi1, Phi2;
 //
-//     if (SubJetVector[0].eta() < SubJetVector[1].eta()) {
+//     if (SubJetVector[0].rap() < SubJetVector[1].rap()) {
 //
-//         Eta1 = SubJetVector[0].eta();
+//         Eta1 = SubJetVector[0].rap();
 //         Phi1 = SubJetVector[0].phi_std();
-//         Eta2 = SubJetVector[1].eta();
+//         Eta2 = SubJetVector[1].rap();
 //         Phi2 = SubJetVector[1].phi_std();
 //
 //     } else {
 //
-//         Eta1 = SubJetVector[1].eta();
+//         Eta1 = SubJetVector[1].rap();
 //         Phi1 = SubJetVector[1].phi_std();
-//         Eta2 = SubJetVector[0].eta();
+//         Eta2 = SubJetVector[0].rap();
 //         Phi2 = SubJetVector[0].phi_std();
 //
 //     }
@@ -572,7 +572,7 @@ vector<TLorentzVector> hanalysis::HSuperStructure::GetConstituents(const PseudoJ
 //
 //     for (const auto & Constituent : FilterJet.constituents()){
 //
-//         const float ConstituentEta = Constituent.eta();
+//         const float ConstituentEta = Constituent.rap();
 //         float ConstituentPhi = Constituent.phi_std();
 //
 //         const float DeltaPhi = Phi2 - Phi1;

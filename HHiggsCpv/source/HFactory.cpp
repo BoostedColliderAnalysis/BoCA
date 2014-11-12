@@ -3,9 +3,9 @@
 
 int main()
 {
-  hanalysis::HMva *Mva = new hhiggscpv::HMva();
+  hmva::HMva *Mva = new hhiggscpv::HMva();
 
-    hanalysis::HFactory *Factory = new hanalysis::HFactory(Mva);
+    hmva::HFactory *Factory = new hmva::HFactory(Mva);
 
     delete Factory;
 

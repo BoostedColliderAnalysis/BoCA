@@ -29,9 +29,9 @@ public:
 
     void NewEvent(const HClonesArray *const);
 
-    vector<TLorentzVector> GetLeptonLorentzVectors();
+    HVectors GetLeptonLorentzVectors();
 
-    vector<PseudoJet> GetLeptonJets();
+    HJets GetLeptonJets();
 
 protected:
 
@@ -58,92 +58,92 @@ protected:
      * @brief Electron Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> ElectronLorentzVectors;
+    HVectors ElectronLorentzVectors;
 
     /**
      * @brief Anti Electron Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiElectronLorentzVectors;
+    HVectors AntiElectronLorentzVectors;
 
     /**
      * @brief Muon Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> MuonLorentzVectors;
+    HVectors MuonLorentzVectors;
 
     /**
      * @brief Anti Muon Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiMuonLorentzVectors;
+    HVectors AntiMuonLorentzVectors;
 
     /**
      * @brief Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> TauLorentzVectors;
+    HVectors TauLorentzVectors;
 
     /**
      * @brief Anti Tau Lorentz Vector Vector
      *
      */
-    vector<TLorentzVector> AntiTauLorentzVectors;
+    HVectors AntiTauLorentzVectors;
 
     /**
      * @brief Lepton Lorentz Vector
      *
      */
-    vector<TLorentzVector> LeptonLorentzVectors;
+    HVectors LeptonLorentzVectors;
 
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
-    vector<TLorentzVector> AntiLeptonLorentzVectors;
+    HVectors AntiLeptonLorentzVectors;
 
 
     /**
      * @brief Electron Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> ElectronJets;
+    HJets ElectronJets;
 
     /**
      * @brief Anti Electron Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> AntiElectronJets;
+    HJets AntiElectronJets;
 
     /**
      * @brief Muon Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> MuonJets;
+    HJets MuonJets;
 
     /**
      * @brief Anti Muon Lorentz Vector Vector
      *
      */
-    vector<PseudoJet> AntiMuonJets;
+    HJets AntiMuonJets;
 
     /**
      * @brief Lepton Lorentz Vector
      *
      */
-    vector<PseudoJet> LeptonJets;
+    HJets LeptonJets;
 
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
-    vector<PseudoJet> AntiLeptonJets;
+    HJets AntiLeptonJets;
 
     const HClonesArray *ClonesArray;
 
 private:
 
-    virtual inline string ClassName() const {
+    virtual inline std::string ClassName() const {
 
         return ("HLepton");
 

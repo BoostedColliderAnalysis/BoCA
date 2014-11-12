@@ -7,7 +7,7 @@ hcpvhiggs::HAnalysis::HAnalysis()
 
     JetTag = new hcpvhiggs::HJetTag();
 
-    SubStructure = new hanalysis::HSubStructure();
+    SubStructure = new hdelphes::HSubStructure();
 
 //     DebugLevel = 3;
 
@@ -24,7 +24,7 @@ hcpvhiggs::HAnalysis::~HAnalysis()
 
 }
 
-vector<string> hcpvhiggs::HAnalysis::GetStudyNames() const
+std::vector<std::string> hcpvhiggs::HAnalysis::GetStudyNames() const
 {
 
     return  {"Higgs", "Top", "Jet", "Test"};
@@ -32,15 +32,15 @@ vector<string> hcpvhiggs::HAnalysis::GetStudyNames() const
 
 }
 
-vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const string &StudyName) const
+std::vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const std::string &StudyName) const
 {
     Print(1, "Set File Vector", StudyName);
 
-    vector<hanalysis::HFile *> Files;
+    std::vector<hanalysis::HFile *> Files;
 
     if (StudyName != "Higgs") {
 
-        hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
+        hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
         Files.push_back(Background);
@@ -52,25 +52,25 @@ vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const string &StudyNam
 
     }
 
-    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
-    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
-    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
     Files.push_back(Odd);
 
-//     hanalysis::hdelphes::HFile *Signal = new hanalysis::hdelphes::HFile("pp-htt-bblvlv", "signal");
+//     hdelphes::HFile *Signal = new hdelphes::HFile("pp-htt-bblvlv", "signal");
 //     Signal->Crosssection = 0.01419; // pb
 //     Signal->Error = 0.000067; // pb
 // //     Odd->TagString="tag_2";
@@ -127,12 +127,12 @@ int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string &StudyName)
+bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
 {
 
     Print(2, "Analysis", StudyName);
 
-    const vector<PseudoJet> Leptons = GetLeptonJets(Event);
+    const HJets Leptons = GetLeptonJets(Event);
 
     if (Leptons.size() < 2) {
 
@@ -149,7 +149,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
             Print(0,"HeavyParticle",HeavyParticle);
         }  */
 
-    const vector<PseudoJet> CandidateJets = Event->GetCandidates(JetTag);
+    const HJets CandidateJets = Event->GetCandidates(JetTag);
 
     if (CandidateJets.size() < 1) {
 
@@ -247,7 +247,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
         Print(2, "Tag", CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 
-//         vector<PseudoJet> Constituents = CandidateJet.constituents();
+//         HJets Constituents = CandidateJet.constituents();
 //         sort(Constituents.begin(), Constituents.end(), SortJetByPt());
 //         int Counter = 0;
 //         for (const auto & Constituent : Constituents) {
@@ -261,7 +261,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
         Candidate->Mass = CandidateJet.m();
         Candidate->Pt = CandidateJet.pt();
-        Candidate->Eta = CandidateJet.eta();
+        Candidate->Eta = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
 
         Print(2, "Candidate Mass", CandidateJet.m());
@@ -321,7 +321,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 
         Print(3, "Isolation", Candidate->IsolationDeltaR);
 
-        vector<TLorentzVector> ConstituentVectors = SubStructure->GetConstituents(CandidateJet);
+        HVectors ConstituentVectors = SubStructure->GetConstituents(CandidateJet);
 
         for (const auto & ConstituentVector : ConstituentVectors) {
             HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
@@ -350,19 +350,19 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const string
 }
 
 
-vector<PseudoJet> hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const Event)
+HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const Event)
 {
 
 // Lepton Stuff
-    vector<float> LeptonEta, LeptonPhi;
+    std::vector<float> LeptonEta, LeptonPhi;
 
 //     Event->GetLeptons();
-//     vector<PseudoJet> LeptonJets = Event->Lepton->LeptonJets;
-//     vector<PseudoJet> AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+//     HJets LeptonJets = Event->Lepton->LeptonJets;
+//     HJets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
 //     Event->GetParticlesM()->GetParticles();
-    vector<PseudoJet> LeptonJets = Event->GetParticles()->GetLeptonJets();
-    vector<PseudoJet> AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
+    HJets LeptonJets = Event->GetParticles()->GetLeptonJets();
+    HJets AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
@@ -375,14 +375,14 @@ vector<PseudoJet> hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const E
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = LeptonJet.pt();
-            Lepton->Eta = LeptonJet.eta();
+            Lepton->Eta = LeptonJet.rap();
             Lepton->Phi = LeptonJet.phi_std();
             Lepton->Charge = -1;
             Lepton->Mass = LeptonJet.m();
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(LeptonJet.eta());
+        LeptonEta.push_back(LeptonJet.rap());
         LeptonPhi.push_back(LeptonJet.phi_std());
 
     }
@@ -395,7 +395,7 @@ vector<PseudoJet> hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const E
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = AntiLeptonJet.pt();
-            Lepton->Eta = AntiLeptonJet.eta();
+            Lepton->Eta = AntiLeptonJet.rap();
             Lepton->Phi = AntiLeptonJet.phi_std();
             Lepton->Charge = 1;
             Lepton->Mass = AntiLeptonJet.m();
@@ -403,7 +403,7 @@ vector<PseudoJet> hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const E
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(AntiLeptonJet.eta());
+        LeptonEta.push_back(AntiLeptonJet.rap());
         LeptonPhi.push_back(AntiLeptonJet.phi_std());
 
     }
