@@ -1,9 +1,19 @@
 #ifndef __HEPTOPTAGGER_HH__
 #define __HEPTOPTAGGER_HH__
 
-# include "fastjet/JetDefinition.hh"
 # include "fastjet/ClusterSequence.hh"
 
+/*!
+ *  \brief     HEP Top Tagger
+ *  \details   A top tagger for Standard Model processes or new physics searches at intermediate transverse momenta.
+ *  \author    Tilman
+ *  \author    Gavin
+ *  \author    Michael
+ *  \author    Michihisa
+ *  \version   v1.0
+ *  \date      5/24/11
+ *  \warning   Note that this is not the final version, but it should work fine.
+ */
 class HEPTopTagger
 {
 public:

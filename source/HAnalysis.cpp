@@ -3,7 +3,7 @@
 hanalysis::HAnalysis::HAnalysis()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 //     DebugLevel=4;
 
@@ -12,11 +12,11 @@ hanalysis::HAnalysis::HAnalysis()
 void hanalysis::HAnalysis::AnalysisLoop()
 {
 
-    Print(1, "Analysis Loop");
+    Print(HNotification, "Analysis Loop");
 
     for (const auto & StudyName : GetStudyNames()) {
 
-        Print(1, "Analysing Mva Sample", StudyName);
+        Print(HNotification, "Analysing Mva Sample", StudyName);
 
         TFile *const ExportFile = GetExportFile(StudyName);
 
@@ -38,11 +38,11 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
             ExRootProgressBar ProgressBar(GetEventSum(TreeReader));
 
-            Print(2, "Sum", GetEventSum(TreeReader));
+            Print(HInformation, "Sum", GetEventSum(TreeReader));
 
             for (const int EventNumber : HRange(GetEventSum(TreeReader))) {
 
-                Print(2, "Event Number", EventNumber);
+                Print(HInformation, "Event Number", EventNumber);
 
                 const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 
@@ -65,7 +65,7 @@ void hanalysis::HAnalysis::AnalysisLoop()
 //                 ProgressBar.Update(EventNumber);
             }
 
-            Print(1, "All Events analysed", GetEventSum(TreeReader));
+            Print(HNotification, "All Events analysed", GetEventSum(TreeReader));
 
             ProgressBar.Finish();
 
@@ -77,7 +77,7 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
             delete ClonesArrays;
 
-            if (DebugLevel > 0) Print(0," ");
+            if (DebugLevel > 0) Print(HError," ");
 
         }
 
@@ -104,7 +104,7 @@ TFile *hanalysis::HAnalysis::GetExportFile(const std::string &StudyName) const
 
     const std::string ExportName = GetProjectName() + "/" + StudyName + ".root";
 
-    Print(1, "ExportFile", ExportName);
+    Print(HNotification, "ExportFile", ExportName);
 
     return (new TFile(ExportName.c_str(), "Recreate"));
 
@@ -114,7 +114,7 @@ TFile *hanalysis::HAnalysis::GetExportFile(const std::string &StudyName) const
 ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName)
 {
 
-    Print(1, "Get Tree Writer", ExportTreeName.c_str());
+    Print(HNotification, "Get Tree Writer", ExportTreeName.c_str());
 
     ExRootTreeWriter *const TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName.c_str());
 
@@ -127,6 +127,6 @@ ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, c
 hanalysis::HAnalysis::~HAnalysis()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }

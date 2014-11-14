@@ -13,6 +13,8 @@ public:
 
     HSuperStructure();
 
+    HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
+
 //     HSuperStructure(const HSuperStructure &other);
 
     void operator=(const HSuperStructure &other);
@@ -39,16 +41,16 @@ public:
 
     float GetPullAngle2() const;
 
-    void SetJet1(const PseudoJet &NewJet) {
+    void SetJet1(const fastjet::PseudoJet &NewJet) {
         Jet1 = NewJet;
     }
-    void SetJet2(const PseudoJet &NewJet) {
+    void SetJet2(const fastjet::PseudoJet &NewJet) {
         Jet2 = NewJet;
     }
-    PseudoJet GetJet1() const {
+    fastjet::PseudoJet GetJet1() const {
         return Jet1;
     }
-    PseudoJet GetJet2() const {
+    fastjet::PseudoJet GetJet2() const {
         return Jet2;
     }
 
@@ -78,29 +80,29 @@ public:
 
 protected:
 
-    PseudoJet Jet1;
+    fastjet::PseudoJet Jet1;
 
-    PseudoJet Jet2;
+    fastjet::PseudoJet Jet2;
 
     int Position1;
 
     int Position2;
 
-    HVectors GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
+    HVectors GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
 
     virtual inline std::string ClassName() const {
-      return "HSuperStructure";
+        return "HSuperStructure";
     };
 
     virtual inline std::string NameSpaceName() const {
-      return "HDelphes";
+        return "HDelphes";
     };
 
 private:
 
-    float GetReferenceAngle(const PseudoJet &Jet, const PseudoJet &ReferenceJet) const;
+    float GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const;
 
-    float GetPull(const PseudoJet &CandidateJet) const;
+    float GetPull(const fastjet::PseudoJet &CandidateJet) const;
 
 };
 
@@ -146,7 +148,7 @@ private:
 //      * @brief Pseudo Jet of Bottoms
 //      *
 //      */
-//     PseudoJet BottomJet;
+//     fastjet::PseudoJet BottomJet;
 //
 //     /**
 //      * @brief angle of the Pull Variable
@@ -166,17 +168,17 @@ private:
 //      *
 //      * @param Jet
 //      */
-//     float SubPull(const PseudoJet&, const PseudoJet&, const PseudoJet&);
+//     float SubPull(const fastjet::PseudoJet&, const fastjet::PseudoJet&, const fastjet::PseudoJet&);
 //
 //     /**
 //      * @brief DiPolarity as defined in arXiv:1102.1012
 //      *
-//      * @param  PseudoJet Jet containig two subjets
+//      * @param  fastjet::PseudoJet Jet containig two subjets
 //      * @return void
 //      */
-//     float CalculateDiPolarity(const PseudoJet&, const PseudoJet&, const PseudoJet&);
+//     float CalculateDiPolarity(const fastjet::PseudoJet&, const fastjet::PseudoJet&, const fastjet::PseudoJet&);
 //
-//     float JingDipolarity(const PseudoJet &CandidateJet);
+//     float JingDipolarity(const fastjet::PseudoJet &CandidateJet);
 //
 // //     float DiPolarity;
 //

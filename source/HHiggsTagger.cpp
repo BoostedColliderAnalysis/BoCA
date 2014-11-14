@@ -3,7 +3,7 @@
 hdelphes::HHiggsTagger::HHiggsTagger()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     BottomUserIndex = 2000;
 
@@ -20,14 +20,14 @@ hdelphes::HHiggsTagger::HHiggsTagger()
 hdelphes::HHiggsTagger::~HHiggsTagger()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
 void hdelphes::HHiggsTagger::NewEvent()
 {
 
-    Print(2, "New Event");
+    Print(HInformation, "New Event");
 
 //     DiPolarity=0;
 
@@ -38,24 +38,24 @@ void hdelphes::HHiggsTagger::NewEvent()
 }
 
 
-PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJets &BottomJets, const HJets &CharmJets)
+fastjet::PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJets &BottomJets, const HJets &CharmJets)
 {
-    Print(2, "GetHiggsJet");
+    Print(HInformation, "GetHiggsJet");
 
     for (auto & FatJet : GetFatJets(EFlowJets)) {
 
-        PseudoJet MassDropJet = GetMassDropJet(FatJet);
+        fastjet::PseudoJet MassDropJet = GetMassDropJet(FatJet);
 
         if (MassDropJet == 0) {
 
-            Print(3, "No substructure found");
+            Print(HDebug, "No substructure found");
             continue;
 
         }
 
         // fastjet: 3, paper: 3, Jing: 3
         const int NumberHardestPieces = 3; // FIXME
-        PseudoJet FilteredJet = GetFilteredJet(MassDropJet, fastjet::cambridge_algorithm, NumberHardestPieces);
+        fastjet::PseudoJet FilteredJet = GetFilteredJet(MassDropJet, fastjet::cambridge_algorithm, NumberHardestPieces);
 
         FilteredJetPieces = sorted_by_E(FilteredJet.pieces());
 
@@ -88,7 +88,7 @@ PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJet
 // HJets Analysis::HHiggsTagger::GetFatJetVector(HJets InputJetVector)
 // {
 //
-//     Print(2, "GetFatJetVector");
+//     Print(HInformation, "GetFatJetVector");
 //
 //     const float FatJetCylinderDistanceMax = 1.2;
 //     JetDefinition *FatJetDefinition = new JetDefinition(fastjet::cambridge_algorithm, FatJetCylinderDistanceMax);
@@ -97,7 +97,7 @@ PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJet
 //     const float FatJetPtMin = 0.;
 //     HJets InclusiveJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
 //     HJets FatJetVector = sorted_by_E(InclusiveJetVector);
-//     Print(2,"Number of Fat Jets",FatJetVector.size());
+//     Print(HInformation,"Number of Fat Jets",FatJetVector.size());
 //
 //     FatJetClusterSequence->delete_self_when_unused();
 //     delete FatJetDefinition;
@@ -108,16 +108,16 @@ PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJet
 
 
 
-PseudoJet hdelphes::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
+fastjet::PseudoJet hdelphes::HHiggsTagger::GetFilteredJet(const fastjet::PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
 {
 
-    Print(2, "GetFilteredJet");
+    Print(HInformation, "GetFilteredJet");
 
     HJets MassDropPieces = sorted_by_E(MassDropJet.pieces());
-    if (MassDropPieces.size() != 2) Print(0, "Number of Subjets", MassDropPieces.size());
+    if (MassDropPieces.size() != 2) Print(HError, "Number of Subjets", MassDropPieces.size());
 
-    PseudoJet Parent1 = MassDropPieces.at(0);
-    PseudoJet Parent2 = MassDropPieces.at(1);
+    fastjet::PseudoJet Parent1 = MassDropPieces.at(0);
+    fastjet::PseudoJet Parent2 = MassDropPieces.at(1);
     float ParentCylinderDistance = Parent1.delta_R(Parent2);
 
     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
@@ -129,9 +129,9 @@ PseudoJet hdelphes::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, c
 //     const int NumberHardestPieces = 3;
     fastjet::Selector SelectorHardest = fastjet::SelectorNHardest(NumberHardestPieces);
     fastjet::Filter HiggsFilter(FilterJetDefinition, SelectorHardest);
-    PseudoJet FilteredJet = HiggsFilter(MassDropJet);
+    fastjet::PseudoJet FilteredJet = HiggsFilter(MassDropJet);
 
-    Print(3, "SubJets filtered");
+    Print(HDebug, "SubJets filtered");
 
     return FilteredJet;
 
@@ -140,13 +140,13 @@ PseudoJet hdelphes::HHiggsTagger::GetFilteredJet(const PseudoJet &MassDropJet, c
 void hdelphes::HHiggsTagger::GetSubJetSource(const HJets &Particles, const int UserIndex)
 {
 
-    Print(2, "GetSubJetSource");
+    Print(HInformation, "GetSubJetSource");
 
     const float CylinderDistanceMax = 0.3;                          // Jing: 0.2
 
     for (unsigned ParticleNumber = 0; ParticleNumber < Particles.size(); ++ParticleNumber) {
 
-        PseudoJet ParticleJet = Particles[ParticleNumber];
+        fastjet::PseudoJet ParticleJet = Particles[ParticleNumber];
 
         const int PieceSum = 2;
 //         int PieceSum = FatJetPieceVector.size();
@@ -169,7 +169,7 @@ void hdelphes::HHiggsTagger::GetSubJetSource(const HJets &Particles, const int U
 
 int hdelphes::HHiggsTagger::BTagger()
 {
-    Print(2, "BTagger");
+    Print(HInformation, "BTagger");
 
     // Jing: 700
     const int BottomPerMil = 750;
@@ -187,13 +187,13 @@ int hdelphes::HHiggsTagger::BTagger()
 //     const int PieceSum = 2;
     for (unsigned PieceNumber = 0; PieceNumber < FilteredJetPieces.size(); ++PieceNumber) {
 
-        PseudoJet Piece = FilteredJetPieces[PieceNumber];
+        fastjet::PseudoJet Piece = FilteredJetPieces[PieceNumber];
         float PiecePt = Piece.perp();
         float PieceEta = std::abs(Piece.rap());
 
         if (PieceEta < SubJetEtaMax && PiecePt > SubJetPtMin) {
 
-            Print(3, "SubJet kinematics are fine");
+            Print(HDebug, "SubJet kinematics are fine");
 
             float RandomPerMil = rand() % 1000;
             int PieceUserIndex = Piece.user_index();
@@ -203,16 +203,16 @@ int hdelphes::HHiggsTagger::BTagger()
 
                 ++BTagCounter;
 
-                Print(3, "Subjet tagged");
+                Print(HDebug, "Subjet tagged");
 
             } else {
 
-                Print(3, "SubJet not tagged");
+                Print(HDebug, "SubJet not tagged");
 
             }
         } else {
 
-            Print(3, "SubJet has bad kinematics");
+            Print(HDebug, "SubJet has bad kinematics");
 
         }
 
@@ -223,21 +223,21 @@ int hdelphes::HHiggsTagger::BTagger()
 }
 
 
-float hdelphes::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
+float hdelphes::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
 {
-    Print(2, "GetDipolarity");
+    Print(HInformation, "GetDipolarity");
 
     float DiPolarity = 0;
 
 //     const int NumberHardestPieces = 2;
     // not from Jing
-    PseudoJet FilterJet = //GetFilteredJet(FatJet, antikt_algorithm, NumberHardestPieces);
+    fastjet::PseudoJet FilterJet = //GetFilteredJet(FatJet, antikt_algorithm, NumberHardestPieces);
         FatJet;
 
     HJets SubJets = sorted_by_E(FilterJet.pieces());
-    if (SubJets.size() != 2) Print(0, "Number of SubJets", SubJets.size());
-    PseudoJet SubJet1 = SubJets[0];
-    PseudoJet SubJet2 = SubJets[1];
+    if (SubJets.size() != 2) Print(HError, "Number of SubJets", SubJets.size());
+    fastjet::PseudoJet SubJet1 = SubJets[0];
+    fastjet::PseudoJet SubJet2 = SubJets[1];
 
     if (SubJet1.rap() < SubJet2.rap()) {
 
@@ -252,10 +252,10 @@ float hdelphes::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
     DeltaR12 = SubJet1.delta_R(SubJet2);
 
     HJets Constituents = FilterJet.constituents();
-    Print(3, "Number of Constituents", Constituents.size());
+    Print(HDebug, "Number of Constituents", Constituents.size());
     for (unsigned ConstituentNumber = 0; ConstituentNumber < Constituents.size(); ConstituentNumber++) {
 
-        PseudoJet Constituent = Constituents[ConstituentNumber];
+        fastjet::PseudoJet Constituent = Constituents[ConstituentNumber];
 
         Eta0 = Constituent.rap();
         Phi0 = Constituent.phi_std();
@@ -313,9 +313,9 @@ float hdelphes::HHiggsTagger::GetDipolarity(const PseudoJet &FatJet)
 
 }
 
-void hdelphes::HHiggsTagger::SetEtaPhi(PseudoJet &SubJet1, PseudoJet &SubJet2)
+void hdelphes::HHiggsTagger::SetEtaPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2)
 {
-    Print(2, "SetEtaPhi");
+    Print(HInformation, "SetEtaPhi");
 
     Eta1 = SubJet1.rap();
     Phi1 = SubJet1.phi_std();
@@ -327,7 +327,7 @@ void hdelphes::HHiggsTagger::SetEtaPhi(PseudoJet &SubJet1, PseudoJet &SubJet2)
 float hdelphes::HHiggsTagger::GetSubDeltaR()
 {
 
-    Print(2, "GetSubDeltaR");
+    Print(HInformation, "GetSubDeltaR");
 
     float SubDeltaR;
 

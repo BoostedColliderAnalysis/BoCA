@@ -3,7 +3,7 @@
 hmva::HReader::HReader(HMva *NewMva)
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 //     DebugLevel = 4;
 
@@ -19,7 +19,7 @@ hmva::HReader::HReader(HMva *NewMva)
 
 hmva::HReader::~HReader()
 {
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
     delete Reader;
 
@@ -29,7 +29,7 @@ hmva::HReader::~HReader()
 void hmva::HReader::AddVariable()
 {
 
-    Print(1, "Add Variable");
+    Print(HNotification, "Add Variable");
 
     const std::string DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
@@ -50,17 +50,17 @@ void hmva::HReader::AddVariable()
 
 void hmva::HReader::BookMVA()
 {
-    Print(1, "Book Mva");
+    Print(HNotification, "Book Mva");
 
     const std::string XmlName = ".weights.xml";
 
     const std::string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
-    Print(0, "Opening Weight File", CutWeightFile);
+    Print(HError, "Opening Weight File", CutWeightFile);
 
     Reader->BookMVA(Mva->CutMethodName, CutWeightFile);
 
     const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
-    Print(0, "Opening Weight File", BdtWeightFile);
+    Print(HError, "Opening Weight File", BdtWeightFile);
     Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
 
 }
@@ -68,7 +68,7 @@ void hmva::HReader::BookMVA()
 void hmva::HReader::MVALoop()
 {
 
-    Print(1, "Mva Loop");
+    Print(HNotification, "Mva Loop");
 
     // Export File
     const std::string ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
@@ -116,7 +116,7 @@ void hmva::HReader::MVALoop()
 
 void hmva::HReader::GetCuts()
 {
-    Print(1, "Get Cuts");
+    Print(HNotification, "Get Cuts");
 
     TMVA::MethodCuts *MethodCuts;
 
@@ -130,7 +130,7 @@ void hmva::HReader::GetCuts()
 void hmva::HReader::LatexHeader()
 {
 
-    Print(1, "LaTeX Header");
+    Print(HNotification, "LaTeX Header");
 
     const std::string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + ".tex";
 
@@ -152,7 +152,7 @@ void hmva::HReader::LatexHeader()
 void hmva::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const std::string TreeName)
 {
 
-    Print(1, "Apply Cuts");
+    Print(HNotification, "Apply Cuts");
 
     ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
 
@@ -246,7 +246,7 @@ void hmva::HReader::TabularOutput() const
 void hmva::HReader::LatexContent(const std::string& TreeName)
 {
 
-    Print(1, "LaTeX Content");
+    Print(HNotification, "LaTeX Content");
 
     LatexFile << std::endl
     << "\\begin{table}" << std::endl
@@ -342,7 +342,7 @@ void hmva::HReader::LatexContent(const std::string& TreeName)
 void hmva::HReader::LatexFooter()
 {
 
-    Print(1, "LaTeX Footer");
+    Print(HNotification, "LaTeX Footer");
 
     LatexFile << std::endl << "\\end{document}" << std::endl;
 
@@ -373,7 +373,7 @@ float hmva::HReader::GetRatio(const float Nominator, const float Denummertor) co
 float hmva::HReader::GetScaling(const float Events, const int Particles) const
 {
 
-    Print(2 , "Scaling");
+    Print(HInformation , "Scaling");
 
     float Scaling;
 
@@ -396,7 +396,7 @@ float hmva::HReader::GetScaling(const float Events, const int Particles) const
 float hmva::HReader::GetLuminosity(const float Number) const
 {
 
-    Print(2 , "Luminosity");
+    Print(HInformation , "Luminosity");
 
     float Luminosity = Number / CrosssectionScaled;
 
@@ -407,7 +407,7 @@ float hmva::HReader::GetLuminosity(const float Number) const
 float hmva::HReader::GetLuminosityError(const float Number) const
 {
 
-    Print(2 , "Luminosity Error");
+    Print(HInformation , "Luminosity Error");
 
     float LuminosityError = GetError(Number) / CrosssectionScaled
                             + Number / CrosssectionNorm * LuminosityScalingError
@@ -420,7 +420,7 @@ float hmva::HReader::GetLuminosityError(const float Number) const
 
 float hmva::HReader::GetError(const float Value) const
 {
-    Print(2 , "Error");
+    Print(HInformation , "Error");
 
     float Error;
 
@@ -458,7 +458,7 @@ float hmva::HReader::RoundError(const float Value) const
 float hmva::HReader::RoundToDigits(const float Value, const int Digits) const
 {
 
-    Print(2 , "Round To Digits");
+    Print(HInformation , "Round To Digits");
 
     if (Value == 0) {
 
@@ -476,7 +476,7 @@ float hmva::HReader::RoundToDigits(const float Value, const int Digits) const
 float hmva::HReader::RoundToError(const float Value, const float Error) const
 {
 
-    Print(2 , "Round To Digits");
+    Print(HInformation , "Round To Digits");
 
     if (Value == 0) {
 

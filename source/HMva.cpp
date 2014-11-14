@@ -3,7 +3,7 @@
 hmva::HMva::HMva()
 {
 
-    Print(1, "HMva", "Constructor");
+    Print(HNotification, "HMva", "Constructor");
 
     CutMethodName = "Cut";
 
@@ -16,7 +16,7 @@ hmva::HMva::HMva()
 hmva::HMva::~HMva()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
@@ -24,7 +24,7 @@ hmva::HMva::~HMva()
 HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression, const std::string& Title, const std::string& Unit, const std::string& Latex) const
 {
 
-    Print(1, "New Observable", Title);
+    Print(HNotification, "New Observable", Title);
 
     const HObservable Observable(Value, Expression, Title, Unit, Latex);
 
@@ -36,7 +36,7 @@ HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Exp
 HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression, const std::string& Title, const std::string& Unit) const
 {
 
-    Print(1, "New Observable", Title);
+    Print(HNotification, "New Observable", Title);
 
     const HObservable Observable(Value, Expression, Title, Unit, "");
 
@@ -47,7 +47,7 @@ HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Exp
 HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression, const std::string& Title) const
 {
 
-    Print(2, "New Observable", Expression);
+    Print(HInformation, "New Observable", Expression);
 
     const HObservable Observable = NewObservable(Value, Expression, Title, "", "");
 
@@ -58,7 +58,7 @@ HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Exp
 HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression) const
 {
 
-    Print(2, "New Observable", Expression);
+    Print(HInformation, "New Observable", Expression);
 
     const HObservable Observable = NewObservable(Value, Expression, Expression, "", "");
 
@@ -69,7 +69,7 @@ HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Exp
 HObservable::HObservable(float *const NewValue, const std::string& NewExpression, const std::string& NewTitle, const std::string& NewUnit, const std::string& NewLatex)
 {
 
-//     Print(1, "Constructor");
+//     Print(HNotification, "Constructor");
 
     Value = NewValue;
 
@@ -88,3 +88,20 @@ HObservable::HObservable()
 
 
 }
+
+
+
+
+
+// HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Title, const std::string& Unit) const
+// {
+//
+//   Print(HNotification, "New Observable", Title);
+//
+//   const std::string Expression = CandidateBranchName + "." + Title;
+//
+//   const HObservable Observable(Value, Expression, Title, Unit, "");
+//
+//   return Observable;
+//
+// }

@@ -2,8 +2,7 @@
 # define HBranchHeavyHiggs_hh
 
 # include "TObject.h"
-
-
+# include "Rtypes.h"
 
 namespace hheavyhiggs{
 

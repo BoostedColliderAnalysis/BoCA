@@ -3,7 +3,7 @@
 hanalysis::HParticle::HParticle()
 {
 
-    Print(1,"Constructor");
+    Print(HNotification,"Constructor");
 
 //     Debug =5;
 
@@ -12,27 +12,27 @@ hanalysis::HParticle::HParticle()
 hanalysis::HParticle::~HParticle()
 {
 
-    Print(1,"Destructor");
+    Print(HNotification,"Destructor");
 
 }
 
 void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 
-    Print(2,"New Event");
+    Print(HInformation,"New Event");
 
     ClonesArrays = NewClonesArrays;
 
     GotParticles = 0;
 
-    TopVector.clear();
+    TopVectors.clear();
 
     AntiTopVector.clear();
 
-    ElectronLorentzVectors.clear();
+    ElectronVectors.clear();
 
-    MuonLorentzVectors.clear();
+    MuonVectors.clear();
 
-    AntiElectronLorentzVectors.clear();
+    AntiElectronVectors.clear();
 
     AntiMuonJets.clear();
 
@@ -44,56 +44,56 @@ void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 
     AntiMuonJets.clear();
 
-    BottomJetVector.clear();
+    BottomJets.clear();
 
-    TopJetVector.clear();
+    TopJets.clear();
 
-    HiggsJetVector.clear();
+    HiggsJets.clear();
 
-    CharmJetVector.clear();
+    CharmJets.clear();
 
-    ParticleJetVector.clear();
+    ParticleJets.clear();
 
 }
 
 HVectors hanalysis::HParticle::GetLeptonLorentzVectors()
 {
 
-  Print(2,"LeptonVector");
+  Print(HInformation,"LeptonVector");
 
   GotParticles = GetParticles();
 
-    HVectors TotalVector;
+    HVectors LeptonVectors;
 
-    TotalVector = ElectronLorentzVectors;
-    TotalVector.insert(TotalVector.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
+    LeptonVectors = ElectronVectors;
+    LeptonVectors.insert(LeptonVectors.end(), MuonVectors.begin(), MuonVectors.end());
 
-    sort(TotalVector.begin(), TotalVector.end(), SortByPt());
+    std::sort(LeptonVectors.begin(), LeptonVectors.end(), SortByPt());
 
-    Print(2,"Lepton Particle",TotalVector.size());
+    Print(HInformation,"Lepton Particle",LeptonVectors.size());
 
-    return (TotalVector);
+    return LeptonVectors;
 
 
 }
 
-HVectors hanalysis::HParticle::GetAntiLeptonLorentzVectors()
+HVectors hanalysis::HParticle::GetAntiLeptonVectors()
 {
 
-  Print(2,"AntiLeptonVector");
+  Print(HInformation,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
-    HVectors TotalVector;
+    HVectors AntiLeptonVectors;
 
-    TotalVector = AntiElectronLorentzVectors;
-    TotalVector.insert(TotalVector.end(), AntiMuonLorentzVectors.begin(), AntiMuonLorentzVectors.end());
+    AntiLeptonVectors = AntiElectronVectors;
+    AntiLeptonVectors.insert(AntiLeptonVectors.end(), AntiMuonVectors.begin(), AntiMuonVectors.end());
 
-    sort(TotalVector.begin(), TotalVector.end(), SortByPt());
+    std::sort(AntiLeptonVectors.begin(), AntiLeptonVectors.end(), SortByPt());
 
-    Print(2,"Anti Lepton Particle",TotalVector.size());
+    Print(HInformation,"Anti Lepton Particle",AntiLeptonVectors.size());
 
-    return (TotalVector);
+    return AntiLeptonVectors;
 
 
 }
@@ -101,20 +101,20 @@ HVectors hanalysis::HParticle::GetAntiLeptonLorentzVectors()
 HJets hanalysis::HParticle::GetLeptonJets()
 {
 
-  Print(2,"LeptonVector");
+  Print(HInformation,"LeptonVector");
 
   GotParticles = GetParticles();
 
-    HJets TotalVector;
+    HJets LeptonJets;
 
-    TotalVector = ElectronJets;
-    TotalVector.insert(TotalVector.end(), MuonJets.begin(), MuonJets.end());
+    LeptonJets = ElectronJets;
+    LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());
 
-    sort(TotalVector.begin(), TotalVector.end(), SortJetByPt());
+    std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
 
-    Print(2,"Lepton Particle",TotalVector.size());
+    Print(HInformation,"Lepton Particle",LeptonJets.size());
 
-    return (TotalVector);
+    return LeptonJets;
 
 
 }
@@ -122,20 +122,20 @@ HJets hanalysis::HParticle::GetLeptonJets()
 HJets hanalysis::HParticle::GetAntiLeptonJets()
 {
 
-  Print(2,"AntiLeptonVector");
+  Print(HInformation,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
-    HJets TotalVector;
+    HJets AntiLeptonJets;
 
-    TotalVector = AntiElectronJets;
-    TotalVector.insert(TotalVector.end(), AntiMuonJets.begin(), AntiMuonJets.end());
+    AntiLeptonJets = AntiElectronJets;
+    AntiLeptonJets.insert(AntiLeptonJets.end(), AntiMuonJets.begin(), AntiMuonJets.end());
 
-    sort(TotalVector.begin(), TotalVector.end(), SortJetByPt());
+    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
 
-    Print(2,"Anti Lepton Particle",TotalVector.size());
+    Print(HInformation,"Anti Lepton Particle",AntiLeptonJets.size());
 
-    return (TotalVector);
+    return AntiLeptonJets;
 
 
 }

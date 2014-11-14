@@ -11,8 +11,6 @@
 
 # include "fastjet/PseudoJet.hh"
 
-using fastjet::PseudoJet;
-
 typedef std::vector<fastjet::PseudoJet> HJets;
 typedef std::vector<TLorentzVector> HVectors;
 
@@ -132,16 +130,29 @@ public:
      */
 
     enum HSeverity {
-        SeverityError = 0,
-        SeverityNotification = 1,
-        SeverityInformation = 2,
-        SeverityDebug = 3,
-        SeverityDetailed = 4
+        HError = 0,
+        HNotification = 1,
+        HInformation = 2,
+        HDebug = 3,
+        HDetailed = 4
     };
 
-    void Print(const int Severity, const std::string &Description) const;
+//     void Print(const int Severity, const std::string &Description) const;
 
-    void Print(HSeverity Severity, const std::string &Description) const;
+//     void Print(HSeverity Severity, const std::string &Description) const;
+
+
+    template <typename TSeverity>
+    void Print(TSeverity Severity, const std::string &Description) const
+    {
+
+      if (Severity <= DebugLevel) {
+
+        Printer(Description);
+        std::cout << std::endl;
+      }
+
+    }
 
     /**
      * @brief Print a debug messages
@@ -152,8 +163,8 @@ public:
      *
      * @return void
      */
-    template<typename TValue>
-    void Print(const int Severity, const std::string Description, const TValue Value) const {
+    template<typename TSeverity, typename TValue>
+    void Print(TSeverity Severity, const std::string Description, const TValue Value) const {
 
         if (Severity <= DebugLevel) {
 
@@ -174,8 +185,8 @@ public:
      *
      * @return void
      */
-    template<typename TValue, typename TValue2>
-    void Print(const int Severity, const std::string Description, const TValue Value, const TValue2 Value2) const {
+    template<typename TSeverity, typename TValue, typename TValue2>
+    void Print(TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2) const {
 
         if (Severity <= DebugLevel) {
 
@@ -203,8 +214,8 @@ public:
      *
      * @return void
      */
-    template<typename TValue, typename TValue2, typename TValue3>
-    void Print(const int Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
+    template<typename TSeverity, typename TValue, typename TValue2, typename TValue3>
+    void Print(TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
 
         if (Severity <= DebugLevel) {
 
@@ -224,10 +235,9 @@ public:
 
 protected:
 
-    template <typename TValue> int sgn(const TValue Value) const {
-
+    template <typename TValue>
+    int sgn(const TValue Value) const {
         return (TValue(0) < Value) - (Value < TValue(0));
-
     }
 
     /**
@@ -436,8 +446,8 @@ struct SortByPt {
 
 struct SortJetByPt {
 
-    inline bool operator()(const PseudoJet &Jet1,
-                           const PseudoJet &Jet2) {
+    inline bool operator()(const fastjet::PseudoJet &Jet1,
+                           const fastjet::PseudoJet &Jet2) {
 
         return (Jet1.pt() > Jet2.pt());
 
@@ -466,8 +476,8 @@ class SortJetByMass
 
 public:
 
-    inline bool operator()(const PseudoJet &PseudoJet1,
-                           const PseudoJet &PseudoJet2) {
+    inline bool operator()(const fastjet::PseudoJet &PseudoJet1,
+                           const fastjet::PseudoJet &PseudoJet2) {
 
         return (PseudoJet1.m() > PseudoJet2.m());
 
@@ -496,8 +506,8 @@ struct SortPairs {
 
 struct SortJetByEta {
 
-    inline bool operator()(const PseudoJet &Jet1,
-                           const PseudoJet &Jet2) {
+    inline bool operator()(const fastjet::PseudoJet &Jet1,
+                           const fastjet::PseudoJet &Jet2) {
 
         return (Jet1.rap() > Jet2.rap());
 
@@ -508,8 +518,8 @@ struct SortJetByEta {
 
 struct SortJetByDistance {
 
-    inline bool operator()(const PseudoJet &Jet1,
-                           const PseudoJet &Jet2) {
+    inline bool operator()(const fastjet::PseudoJet &Jet1,
+                           const fastjet::PseudoJet &Jet2) {
 
         return (Jet1.rap() > Jet2.rap());
 

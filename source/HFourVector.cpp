@@ -6,7 +6,7 @@ hanalysis::HFourVector::HFourVector() :
     MassCheck(1)
 {
 
-    Print(2, "Constructor");
+    Print(HInformation, "Constructor");
 
 }
 
@@ -14,15 +14,15 @@ hanalysis::HFourVector::~HFourVector()
 {
 
 
-    Print(2, "Destructor");
+    Print(HInformation, "Destructor");
 
 }
 
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
 {
 
-    const PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
+    const fastjet::PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
 
     return Jet;
 
@@ -31,7 +31,7 @@ PseudoJet hanalysis::HFourVector::GetPseudoJet(const TLorentzVector &Vector) con
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootElectron *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootElectron");
+    Print(HDebug, "Get Lorentz Vector", "TRootElectron");
 
     return GetLorentzVectorByMass(Particle, ElectronMass);
 
@@ -40,7 +40,7 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootElectron *con
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootGenJet *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootGenJet");
+    Print(HDebug, "Get Lorentz Vector", "TRootGenJet");
 
     return GetLorentzVectorByMass(Particle);
 
@@ -49,7 +49,7 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootGenJet *const
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootGenParticle *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootGenParticle");
+    Print(HDebug, "Get Lorentz Vector", "TRootGenParticle");
 
     return GetLorentzVectorByEnergy(Particle);
 
@@ -58,7 +58,7 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootGenParticle *
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootJet *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootJet");
+    Print(HDebug, "Get Lorentz Vector", "TRootJet");
 
     return GetLorentzVectorByMass(Particle);
 
@@ -67,7 +67,7 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootJet *const Pa
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootLHEFParticle *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootLHEFParticle");
+    Print(HDebug, "Get Lorentz Vector", "TRootLHEFParticle");
 
     return GetLorentzVectorByM(Particle);
 
@@ -76,7 +76,7 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootLHEFParticle 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootMuon *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootMuon");
+    Print(HDebug, "Get Lorentz Vector", "TRootMuon");
 
     return GetLorentzVectorByMass(Particle, MuonMass);
 
@@ -85,7 +85,7 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootMuon *const P
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootPhoton *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootPhoton");
+    Print(HDebug, "Get Lorentz Vector", "TRootPhoton");
 
     return GetLorentzVectorByMass(Particle, 0);
 
@@ -94,80 +94,80 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootPhoton *const
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootTau *const Particle) const
 {
 
-    Print(3, "Get Lorentz Vector", "TRootTau");
+    Print(HDebug, "Get Lorentz Vector", "TRootTau");
 
     return GetLorentzVectorByMass(Particle, TauMass);
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootElectron");
+    Print(HDebug, "Get Pseudo Jet", "TRootElectron");
 
     return GetPseudoJet(GetLorentzVectorByMass(Particle, ElectronMass));
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootGenJet *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootGenJet *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootGenJet");
+    Print(HDebug, "Get Pseudo Jet", "TRootGenJet");
 
     return GetPseudoJet(GetLorentzVectorByMass(Particle));
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootGenParticle *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootGenParticle *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootGenParticle");
+    Print(HDebug, "Get Pseudo Jet", "TRootGenParticle");
 
     return GetPseudoJet(GetLorentzVectorByEnergy(Particle));
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootJet *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootJet *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootJet");
+    Print(HDebug, "Get Pseudo Jet", "TRootJet");
 
     return GetPseudoJet(GetLorentzVectorByMass(Particle));
 
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootLHEFParticle *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootLHEFParticle *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootLHEFParticle");
+    Print(HDebug, "Get Pseudo Jet", "TRootLHEFParticle");
 
     return GetPseudoJet(GetLorentzVectorByM(Particle));
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootMuon *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootMuon *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootMuon");
+    Print(HDebug, "Get Pseudo Jet", "TRootMuon");
 
     return GetPseudoJet(GetLorentzVectorByMass(Particle, MuonMass));
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootPhoton *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootPhoton *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootPhoton");
+    Print(HDebug, "Get Pseudo Jet", "TRootPhoton");
 
     return GetPseudoJet(GetLorentzVectorByMass(Particle, 0));
 
 }
 
-PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Particle) const
+fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Particle) const
 {
 
-    Print(3, "Get Pseudo Jet", "TRootTau");
+    Print(HDebug, "Get Pseudo Jet", "TRootTau");
 
     return GetPseudoJet(GetLorentzVectorByMass(Particle, TauMass));
 

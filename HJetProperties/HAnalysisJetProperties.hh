@@ -135,11 +135,11 @@ private:
     hdelphes::HSubStructure *SubStructure;
 
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const HJets &, const float DeltaR);
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const HJets &, const float DeltaR);
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const PseudoJet &Jet, const HJets &);
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const HJets &);
 
-    float GetDeltaR(const PseudoJet &Jet);
+    float GetDeltaR(const fastjet::PseudoJet &Jet);
 
     /**
      * @brief Lepton calculations

@@ -3,7 +3,7 @@
 hcpvhiggs::HMva::HMva()
 {
 
-    Print(1 , "Constructor");
+    Print(HNotification , "Constructor");
 
 //     DebugLevel = 4;
 
@@ -48,7 +48,7 @@ hcpvhiggs::HMva::HMva()
 hcpvhiggs::HMva::~HMva()
 {
 
-    Print(1 , "Constructor");
+    Print(HNotification , "Constructor");
 
     delete Candidate;
 
@@ -57,7 +57,7 @@ hcpvhiggs::HMva::~HMva()
 void hcpvhiggs::HMva::DefineVariables()
 {
 
-    Print(1 , "Define Variables");
+    Print(HNotification , "Define Variables");
 
     Observables.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV","m_j"));
     Observables.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV","p^T_j"));
@@ -91,14 +91,14 @@ void hcpvhiggs::HMva::DefineVariables()
     Spectators.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag","Higgs Tag"));
     Spectators.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag","Top Tag"));
 
-    Print(1,"Variables defined");
+    Print(HNotification,"Variables defined");
 
 }
 
 
 void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
 {
-  Print(1, "Apply Bdt");
+  Print(HNotification, "Apply Bdt");
 
   const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
@@ -164,11 +164,11 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 {
 
-  Print(1, "Cut Loop");
+  Print(HNotification, "Cut Loop");
 
   int ObservableSum = Observables.size();
 
-  Print(1,"Observables",Observables.size());
+  Print(HNotification,"Observables",Observables.size());
 
   ReaderStruct.HiggsSum = 0;
   ReaderStruct.TopSum = 0;
@@ -185,14 +185,14 @@ HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader,
   ReaderStruct.HiggsVector.assign(ObservableSum, 0);
   ReaderStruct.TopVector.assign(ObservableSum, 0);
 
-  Print(2,"Vectors assigned");
+  Print(HInformation,"Vectors assigned");
 
   const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
 
 
   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
   for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
-      Print(3,"Event Loop");
+      Print(HDebug,"Event Loop");
 
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 
@@ -204,7 +204,7 @@ HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader,
 
     for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
-        Print(3,"Candidate Loop");
+        Print(HDebug,"Candidate Loop");
       ++ReaderStruct.FatJetSum;
 
       if (Candidate->TopTag) {
@@ -226,24 +226,24 @@ HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader,
       bool ParticleCut = 0;
       for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 
-          Print(3,"Observable Loop");
+          Print(HDebug,"Observable Loop");
 
-          Print(3,"Error",ReaderStruct.CutsMin[ObservableNumber]);
+          Print(HDebug,"Error",ReaderStruct.CutsMin[ObservableNumber]);
 
         if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
           || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
 
-            Print(3,"we are here",1);
+            Print(HDebug,"we are here",1);
 
             ParticleCut = 1;
 
           } else {
 
-              Print(3,"we are here",2);
+              Print(HDebug,"we are here",2);
             ++ReaderStruct.CutFlowVector[ObservableNumber];
 
           }
-            Print(3,"Struct filled");
+            Print(HDebug,"Struct filled");
 
           if (!ParticleCut) {
 

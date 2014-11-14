@@ -179,6 +179,8 @@ protected:
 
     HObservable NewObservable(float *const Value, const std::string &Expression) const;
 
+//     HObservable NewObservable(float *const Value, const std::string &Title, const std::string& Unit) const;
+
 private:
 
 };

@@ -3,21 +3,21 @@
 hanalysis::HJet::HJet()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 }
 
 hanalysis::HJet::~HJet()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
 void hanalysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 {
 
-    Print(2, "New Event");
+    Print(HInformation, "New Event");
 
     ClonesArrays = NewClonesArrays;
 
@@ -48,7 +48,7 @@ void hanalysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 bool hanalysis::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 {
 
-    Print(0, "Get Jets", "No Jets", JetDetails);
+    Print(HError, "Get Jets", "No Jets", JetDetails);
 
     return 0;
 
@@ -57,7 +57,7 @@ bool hanalysis::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 bool hanalysis::HJet::GetEFlow(const hanalysis::HJet::HJetDetails JetDetails)
 {
 
-    Print(0, "Get EFlow", "No EFlow", JetDetails);
+    Print(HError, "Get EFlow", "No EFlow", JetDetails);
 
     return 0;
 
@@ -66,14 +66,14 @@ bool hanalysis::HJet::GetEFlow(const hanalysis::HJet::HJetDetails JetDetails)
 void hanalysis::HJet::GetGenJet()
 {
 
-    Print(0, "Get Gen Jets", "No Gen Jets");
+    Print(HError, "Get Gen Jets", "No Gen Jets");
 
 }
 
 float hanalysis::HJet::GetScalarHt()
 {
 
-    Print(0, "Get Scalar Ht", "No Scalar Ht");
+    Print(HError, "Get Scalar Ht", "No Scalar Ht");
 
     return 0;
 

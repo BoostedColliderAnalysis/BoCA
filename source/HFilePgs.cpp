@@ -3,7 +3,7 @@
 hpgs::HFile::HFile()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -12,7 +12,7 @@ hpgs::HFile::HFile()
 hpgs::HFile::HFile(const std::string &Process)
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -23,7 +23,7 @@ hpgs::HFile::HFile(const std::string &Process)
 hpgs::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -36,7 +36,7 @@ hpgs::HFile::HFile(const std::string &Process, const std::string &Run)
 std::string hpgs::HFile::GetTreeName() const
 {
 
-    Print(2, "Get Tree String");
+    Print(HInformation, "Get Tree String");
 
     TreeName = "LHCO";
 
@@ -47,7 +47,7 @@ std::string hpgs::HFile::GetTreeName() const
 std::string hpgs::HFile::GetFilePath() const
 {
 
-    Print(2, "FilePath");
+    Print(HInformation, "FilePath");
 
     FileSuffix = "_pgs_events.root";
 
@@ -58,7 +58,7 @@ std::string hpgs::HFile::GetFilePath() const
 hanalysis::HEvent *hpgs::HFile::GetEvent()
 {
 
-    Print(1, "Get Event");
+    Print(HNotification, "Get Event");
 
     return (new HEvent());
 

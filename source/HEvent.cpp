@@ -3,13 +3,13 @@
 hanalysis::HEvent::HEvent()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 }
 
 hanalysis::HEvent::~HEvent()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }

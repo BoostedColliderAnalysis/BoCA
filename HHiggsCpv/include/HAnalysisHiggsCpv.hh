@@ -9,7 +9,6 @@
 # include "HSuperStructure.hh"
 
 /**
- * \class HDiscriminatorJetTag
  *
  * @brief HJetTag subclass for HDiscriminator
  *
@@ -37,7 +36,6 @@ public:
 };
 
 /**
- * \class HAnalysisDiscriminator
  *
  * @brief HAnalysis subclass defining the HiggsCPV Analysis
  *
@@ -101,7 +99,7 @@ private:
 //         return {l.first + r.first, l.second + r.second};
 //     }
 
-    std::pair<float, float> GetPull(PseudoJet &CandidateJet);
+    std::pair<float, float> GetPull(fastjet::PseudoJet &CandidateJet);
 
     /**
      * @brief Lepton event counter
@@ -115,6 +113,8 @@ private:
      * @return void
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
+
+    void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2) const;
 
     /**
      * @brief prepares the std::vector describing the input root files

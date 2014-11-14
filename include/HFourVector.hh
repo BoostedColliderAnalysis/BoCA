@@ -8,7 +8,7 @@
 # include "HObject.hh"
 
 /**
- * @brief converts Clones to LorentzVectors and PseudoJets
+ * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
  *
  */
 class hanalysis::HFourVector : virtual public HObject
@@ -32,17 +32,17 @@ public:
 protected:
 
     /**
-     * @brief Get a PseudoJet from a TLorentzVector
+     * @brief Get a fastjet::PseudoJet from a TLorentzVector
      *
      * @param  TLorentzVector
      * @return fastjet::PseudoJet
      */
-    PseudoJet GetPseudoJet(const TLorentzVector &) const;
+    fastjet::PseudoJet GetPseudoJet(const TLorentzVector &) const;
 
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByEnergy(const TParticle *const Particle) const {
 
-        Print(3, "Get Lorentz Vector by Energy");
+        Print(HDebug, "Get Lorentz Vector by Energy");
 
         TLorentzVector LorentzVector;
 
@@ -55,10 +55,10 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.Pt() - Pt > Check) Print(0, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(0, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(0, "Phi", Phi, LorentzVector.Phi());
-            if (LorentzVector.E() - Energy > Check) Print(0, "Energy", Energy, LorentzVector.E());
+            if (LorentzVector.Pt() - Pt > Check) Print(HError, "Pt", Pt, LorentzVector.Pt());
+            if (LorentzVector.Eta() - Eta > Check) Print(HError, "Eta", Eta, LorentzVector.Eta());
+            if (LorentzVector.Phi() - Phi > Check) Print(HError, "Phi", Phi, LorentzVector.Phi());
+            if (LorentzVector.E() - Energy > Check) Print(HError, "Energy", Energy, LorentzVector.E());
 
         }
 
@@ -69,7 +69,7 @@ protected:
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByMass(const TParticle *const Particle, const float Mass) const {
 
-        Print(3, "Get Lorentz Vector by Mass");
+        Print(HDebug, "Get Lorentz Vector by Mass");
 
         TLorentzVector LorentzVector;
 
@@ -81,9 +81,9 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.Pt() - Pt > Check) Print(0, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(0, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(0, "Phi", Phi, LorentzVector.Phi());
+            if (LorentzVector.Pt() - Pt > Check) Print(HError, "Pt", Pt, LorentzVector.Pt());
+            if (LorentzVector.Eta() - Eta > Check) Print(HError, "Eta", Eta, LorentzVector.Eta());
+            if (LorentzVector.Phi() - Phi > Check) Print(HError, "Phi", Phi, LorentzVector.Phi());
 
         }
 
@@ -94,7 +94,7 @@ protected:
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByMass(const TParticle *const Particle) const {
 
-        Print(3, "Get Lorentz Vector by Mass");
+        Print(HDebug, "Get Lorentz Vector by Mass");
 
         const float Mass = Particle->Mass;
 
@@ -102,7 +102,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.M() - Mass > MassCheck) Print(0, "Mass", Mass, LorentzVector.M());
+            if (LorentzVector.M() - Mass > MassCheck) Print(HError, "Mass", Mass, LorentzVector.M());
 
         }
 
@@ -113,7 +113,7 @@ protected:
     template<typename Template>
     TLorentzVector GetLorentzVectorByM(const Template *const Particle) const {
 
-        Print(3, "Get Lorentz Vector by Mass");
+        Print(HDebug, "Get Lorentz Vector by Mass");
 
         const float Mass = Particle->M;
 
@@ -121,7 +121,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.M() - Mass > MassCheck) Print(0, "Mass", Mass, LorentzVector.M());
+            if (LorentzVector.M() - Mass > MassCheck) Print(HError, "Mass", Mass, LorentzVector.M());
 
         }
 
@@ -145,21 +145,21 @@ protected:
 
     TLorentzVector GetLorentzVector(const TRootTau *const) const;
 
-    PseudoJet GetPseudoJet(const TRootElectron *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootElectron *const) const;
 
-    PseudoJet GetPseudoJet(const TRootGenJet *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootGenJet *const) const;
 
-    PseudoJet GetPseudoJet(const TRootGenParticle *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootGenParticle *const) const;
 
-    PseudoJet GetPseudoJet(const TRootJet *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootJet *const) const;
 
-    PseudoJet GetPseudoJet(const TRootLHEFParticle *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootLHEFParticle *const) const;
 
-    PseudoJet GetPseudoJet(const TRootMuon *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootMuon *const) const;
 
-    PseudoJet GetPseudoJet(const TRootPhoton *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootPhoton *const) const;
 
-    PseudoJet GetPseudoJet(const TRootTau *const) const;
+    fastjet::PseudoJet GetPseudoJet(const TRootTau *const) const;
 
     const bool CheckFourVectors;
 
@@ -170,9 +170,7 @@ protected:
 private:
 
     virtual inline std::string ClassName() const {
-
-        return ("HFourVector");
-
+        return "HFourVector";
     };
 
 };

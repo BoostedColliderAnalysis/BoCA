@@ -3,7 +3,7 @@
 hheavyhiggs::HMva::HMva()
 {
 
-    Print(1 , "Constructor");
+    Print(HNotification , "Constructor");
 
     AnalysisName = "HeavyHiggs";
 
@@ -38,7 +38,7 @@ hheavyhiggs::HMva::HMva()
 hheavyhiggs::HMva::~HMva()
 {
 
-    Print(1 , "Constructor");
+    Print(HNotification , "Constructor");
 
     delete HeavyHiggs;
 
@@ -47,19 +47,19 @@ hheavyhiggs::HMva::~HMva()
 void hheavyhiggs::HMva::DefineVariables()
 {
 
-    Print(1 , "Define Variables");
+    Print(HNotification , "Define Variables");
 
     Observables.push_back(NewObservable(&HeavyHiggs->BottomDeltaEta, "HeavyHiggs.BottomDeltaEta", "BottomeDeltaEta"));
     Observables.push_back(NewObservable(&HeavyHiggs->BottomDeltaPhi, "HeavyHiggs.BottomDeltaPhi", "BottomeDeltaPhi"));
 
-    Print(1,"Variables defined");
+    Print(HNotification,"Variables defined");
 
 }
 
 
 void hheavyhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader * Reader)
 {
-  Print(1, "Apply Bdt");
+  Print(HNotification, "Apply Bdt");
 
   const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
@@ -125,7 +125,7 @@ void hheavyhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const
 HReaderStruct hheavyhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 {
 
-  Print(1, "Cut Loop");
+  Print(HNotification, "Cut Loop");
 
   int ObservableSum = Observables.size();
   ReaderStruct.HiggsSum = 0;

@@ -6,7 +6,6 @@
 # include "HBranchHiggsCpv.hh"
 
 /**
- * \class HMvaDiscriminator
  *
  * @brief Prepares multivariant analysis
  *

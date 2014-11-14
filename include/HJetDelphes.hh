@@ -5,13 +5,13 @@
 
 # include "HJet.hh"
 
-struct HConstituent{
-
-  TLorentzVector Momentum;
-  TLorentzVector Vertex;
-  int MotherId;
-
-};
+// struct HConstituent{
+//
+//   TLorentzVector Momentum;
+//   TLorentzVector Position;
+//   int MotherId;
+//
+// };
 
 /**
  * @brief Delphes jets
@@ -104,7 +104,7 @@ private:
     template <typename TClone>
     hanalysis::HJetInfo GetJetId(const TClone &Clone) {
 
-        Print(3, "Get Jet Id", Clone->Particles.GetEntriesFast());
+        Print(HDebug, "Get Jet Id", Clone->Particles.GetEntriesFast());
 
         hanalysis::HJetInfo JetInfo;
 
@@ -112,7 +112,7 @@ private:
 
             const TObject *const Object = Clone->Particles.At(ParticleNumber);
             const int MotherId = GetMotherId(Object);
-            Print(3, "MotherId", MotherId);
+            Print(HDebug, "MotherId", MotherId);
 
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
@@ -156,11 +156,11 @@ private:
 
     void GetMuonEFlow(const HJetDetails);
 
-    PseudoJet GetConstituents(const Jet *const JetClone, hanalysis::HJet::HJetDetails JetDetails);
+    fastjet::PseudoJet GetConstituents(const Jet *const JetClone, hanalysis::HJet::HJetDetails JetDetails);
 
     HConstituent GetConstituent(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
 
-    PseudoJet GetConstituentJet(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
+    fastjet::PseudoJet GetConstituentJet(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";

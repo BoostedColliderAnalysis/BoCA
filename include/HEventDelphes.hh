@@ -31,7 +31,7 @@ public:
 
     HJets GetTops(hanalysis::HJetTag *const JetTag);
 
-    PseudoJet GetHiggs();
+    fastjet::PseudoJet GetHiggs();
 
     HJets GetCandidates(hanalysis::HJetTag *const JetTag);
 

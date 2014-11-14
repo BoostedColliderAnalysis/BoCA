@@ -21,7 +21,6 @@ class HLeptonBranch;
 }
 
 /**
- * \class HCandidateBranch
  *
  * @brief Class for saving reconstructed candidates to root
  *
@@ -33,7 +32,7 @@ public:
 
     float InvMass1;
     float InvMass2;
-//     float InvMass3;
+    float InvMass3;
 //     float InvMass4;
     float ScalarHt;
     float JetNumber;
@@ -43,8 +42,8 @@ public:
     float Pull12;
     float Pull21;
     float Pull22;
-//     float Pull31;
-//     float Pull32;
+    float Pull31;
+    float Pull32;
 //     float Pull41;
 //     float Pull42;
 
@@ -52,12 +51,12 @@ public:
     float Vertex12;
     float Vertex21;
     float Vertex22;
-//     float Vertex5;
-//     float Vertex6;
+    float Vertex31;
+    float Vertex32;
 
     float DeltaR1;
     float DeltaR2;
-//     float DeltaR3;
+    float DeltaR3;
 
     float HiggsTag;
     float TopTag;

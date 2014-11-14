@@ -8,7 +8,6 @@
 # include "HSubStructure.hh"
 
 /**
- * \class HDiscriminatorJetTag
  *
  * @brief HJetTag subclass for HDiscriminator
  *
@@ -29,7 +28,6 @@ class htoptagger::HJetTag : public hanalysis::HJetTag
 };
 
 /**
- * \class HAnalysisTopTagger
  *
  * @brief HAnalysis ubclass defining the Disciminator Analysis
  *

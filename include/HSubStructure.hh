@@ -35,13 +35,13 @@ public:
 
     void NewEvent();
 
-    bool GetSubJets(const PseudoJet &);
+    bool GetSubJets(const fastjet::PseudoJet &);
 
-    std::vector< TLorentzVector > GetConstituents(const PseudoJet &CandidateJet);
+    std::vector< TLorentzVector > GetConstituents(const fastjet::PseudoJet &CandidateJet);
 
-    bool GetIsolation(const PseudoJet &, const HJets &);
+    bool GetIsolation(const fastjet::PseudoJet &, const HJets &);
 
-    float GetDiPolarity(const PseudoJet &CandidateJet) const;
+    float GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const;
 
     inline float GetSubJet1Mass() const {
         return (SubJet1.Mass / Global.Mass);

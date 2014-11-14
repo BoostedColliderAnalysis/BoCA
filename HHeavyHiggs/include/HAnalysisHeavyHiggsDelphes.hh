@@ -55,11 +55,11 @@ private:
 
     std::vector<std::string> GetStudyNameVector();
 
-    void FillBranch(hanalysis::HEvent* Event, PseudoJet FrontJet, PseudoJet BackJet);
+    void FillBranch(hanalysis::HEvent* Event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
 
-    float Leptons(hanalysis::HEvent* Event, PseudoJet Jet);
+    float Leptons(hanalysis::HEvent* Event, fastjet::PseudoJet Jet);
 
-//     bool JetIsBottom(const PseudoJet &Jet);
+//     bool JetIsBottom(const fastjet::PseudoJet &Jet);
 
     inline std::string ClassName() const {
 

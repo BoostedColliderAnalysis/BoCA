@@ -26,13 +26,13 @@ public:
      * @brief Jet tagged as Higgs
      *
      */
-    PseudoJet HiggsJet;
+    fastjet::PseudoJet HiggsJet;
 
     /**
      * @brief Originial fat jet
      *
      */
-//     PseudoJet FatJet;
+//     fastjet::PseudoJet FatJet;
 
     /**
      * @brief Reconstruct the higgs fat jet
@@ -42,7 +42,7 @@ public:
      * @param  HJets CharmVector
      * @return void
      */
-    PseudoJet GetHiggsJet(const HJets&, const HJets&, const HJets&);
+    fastjet::PseudoJet GetHiggsJet(const HJets&, const HJets&, const HJets&);
 
     /**
      * @brief constructor
@@ -98,7 +98,7 @@ private:
      * @param  FatJet
      * @return MassDropJet
      */
-//     PseudoJet GetMassDropJet(PseudoJet);
+//     fastjet::PseudoJet GetMassDropJet(fastjet::PseudoJet);
 
     /**
      * @brief Filter Jets
@@ -108,7 +108,7 @@ private:
      * @param  NumberHardestPieces
      * @return FilteredJet
      */
-    PseudoJet GetFilteredJet(const PseudoJet&, const fastjet::JetAlgorithm&, const int);
+    fastjet::PseudoJet GetFilteredJet(const fastjet::PseudoJet&, const fastjet::JetAlgorithm&, const int);
 
     /**
      * @brief Compare subjets with particle quarks
@@ -132,7 +132,7 @@ private:
      * @param FatJet ...
      * @return Dipolarity
      */
-    float GetDipolarity(const PseudoJet &);
+    float GetDipolarity(const fastjet::PseudoJet &);
 
     /**
      * @brief Eta of Subjets and Constituent
@@ -188,7 +188,7 @@ private:
         return DeltaEta() * Phi0;
     }
 
-    void SetEtaPhi(PseudoJet &SubJet1, PseudoJet &SubJet2);
+    void SetEtaPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2);
 
     float GetSubDeltaR();
 

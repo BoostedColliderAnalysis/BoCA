@@ -4,14 +4,14 @@
 
 hheavyhiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
 {
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 }
 
 std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const std::string &StudyName) const
 {
 
-    Print(1, "Fill Analysis Vector", StudyName);
+    Print(HNotification, "Fill Analysis Vector", StudyName);
 
     std::vector<hanalysis::HFile*> Files;
 
@@ -22,7 +22,7 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(
     Files.front()->SetFileSuffix("_MG5.root");
     Files.front()->SetTreeName("LHEF");
 
-    Print(1, "Files prepared", Files.size());
+    Print(HNotification, "Files prepared", Files.size());
 
     return Files;
 
@@ -31,7 +31,7 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(
 void hheavyhiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
-    Print(1, "New File");
+    Print(HNotification, "New File");
 
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
 
@@ -46,14 +46,14 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeW
 
 void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 {
-    Print(1, "Close File");
+    Print(HNotification, "Close File");
 
-    Print(1, "EventCounter", EventCounter);
-    Print(1, "JetCounter", JetCounter);
-    Print(1, "DeltaEtaCounter", DeltaEtaCounter);
-    Print(1, "BMassCounter", BMassCounter);
-    Print(1, "Jet2Counter", Jet2Counter);
-    Print(1, "TMassCounter", TMassCounter);
+    Print(HNotification, "EventCounter", EventCounter);
+    Print(HNotification, "JetCounter", JetCounter);
+    Print(HNotification, "DeltaEtaCounter", DeltaEtaCounter);
+    Print(HNotification, "BMassCounter", BMassCounter);
+    Print(HNotification, "Jet2Counter", Jet2Counter);
+    Print(HNotification, "TMassCounter", TMassCounter);
 
 }
 
@@ -62,7 +62,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
-    Print(2, "Analysis",StudyName);
+    Print(HInformation, "Analysis",StudyName);
 
     HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
@@ -76,7 +76,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     if (BottomSum != 2) {
 
-        Print(1, "BottomSum", BottomSum);
+        Print(HNotification, "BottomSum", BottomSum);
         return 0;
 
     }
@@ -91,15 +91,15 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     std::sort(BottomVector.begin(), BottomVector.end(), SortJetByEta());
 
-    PseudoJet FrontJet = BottomVector.front();
+    fastjet::PseudoJet FrontJet = BottomVector.front();
 //     double FrontPt = FrontJet.pt();
     double FrontEta = FrontJet.rap();
 
-    PseudoJet BackJet = BottomVector.back();
+    fastjet::PseudoJet BackJet = BottomVector.back();
     double BackEta = BackJet.rap();
 //     double BackPt = BackJet.pt();
 
-    PseudoJet CombinedJet = FrontJet + BackJet;
+    fastjet::PseudoJet CombinedJet = FrontJet + BackJet;
     double CombinedMass = CombinedJet.m();
     double CombinedEta = FrontEta - BackEta;
 
@@ -117,7 +117,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     if (TopSum != 2) {
 
-        Print(1, "TopSum", TopSum);
+        Print(HNotification, "TopSum", TopSum);
         return 0;
 
     }

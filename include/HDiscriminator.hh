@@ -36,7 +36,7 @@ public:
 
     HJets GetCandidateJetsForced(const HJets &, const float);
 
-    static bool JetIsBad(const PseudoJet &Jet);
+    static bool JetIsBad(const fastjet::PseudoJet &Jet);
 
 private:
 

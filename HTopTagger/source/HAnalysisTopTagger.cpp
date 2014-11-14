@@ -3,7 +3,7 @@
 htoptagger::HAnalysis::HAnalysis()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     JetTag = new htoptagger::HJetTag();
 
@@ -16,7 +16,7 @@ htoptagger::HAnalysis::HAnalysis()
 htoptagger::HAnalysis::~HAnalysis()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
     delete JetTag;
 
@@ -34,7 +34,7 @@ std::vector<std::string> htoptagger::HAnalysis::GetStudyNames() const
 std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::string &StudyName) const
 {
 
-    Print(1, "Set File Vector");
+    Print(HNotification, "Set File Vector");
 
     std::vector<hanalysis::HFile*> Files;
 
@@ -65,7 +65,7 @@ std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::strin
 //     Odd->TagString="tag_2";
     Files.push_back(Odd);
 
-    Print(1, "Files prepared");
+    Print(HNotification, "Files prepared");
 
     return Files;
 
@@ -74,7 +74,7 @@ std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::strin
 
 void htoptagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 {
-    Print(1, "New File");
+    Print(HNotification, "New File");
 
     CandidateBranch = TreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
 //     LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
@@ -84,14 +84,14 @@ void htoptagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 
 void htoptagger::HAnalysis::CloseFile()
 {
-    Print(1, "Close File");
+    Print(HNotification, "Close File");
 
 }
 
 int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
-    Print(3, "Get Branch Id", ParticleId);
+    Print(HDebug, "Get Branch Id", ParticleId);
 
     if (
         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
@@ -105,7 +105,7 @@ int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
         BranchId = ParticleId;
     }
 
-    Print(3, "Branch Id", BranchId);
+    Print(HDebug, "Branch Id", BranchId);
 
     return BranchId;
 
@@ -114,18 +114,18 @@ int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
 {
 
-    Print(2, "Analysis", StudyName);
+    Print(HInformation, "Analysis", StudyName);
 
 
     const HJets CandidateJets = Event->GetTops(JetTag);
 
     if (CandidateJets.size() < 1) {
 
-        Print(0, "No Candidates", CandidateJets.size());
+        Print(HError, "No Candidates", CandidateJets.size());
 
         return 0;
 
-    } else Print(2, "Number of Candidates", CandidateJets.size());
+    } else Print(HInformation, "Number of Candidates", CandidateJets.size());
 
     bool HasCandidate =0;
 
@@ -133,7 +133,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 
         if (CandidateJet == 0 || CandidateJet.m() <= 0 || CandidateJet.pt() <= 0) {
 
-            Print(0, "Illeagal Candidate", CandidateJet.m());
+            Print(HError, "Illeagal Candidate", CandidateJet.m());
             continue;
 
         }
@@ -146,7 +146,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
         Candidate->Eta = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
 
-        Print(2, "Candidate Mass", CandidateJet.m());
+        Print(HInformation, "Candidate Mass", CandidateJet.m());
 
         // Tagging
 
@@ -171,7 +171,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 //         SubStructure->NewEvent();
 //         if (!SubStructure->GetSubJets(CandidateJet)) {
 //
-//             Print(0,"No SubJets");
+//             Print(HError,"No SubJets");
 //
 //             return 0;
 //
@@ -198,11 +198,11 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 //         Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
 //         Candidate->IsolationAngle = SubStructure->GetIsolationAngle();
 //
-//         Print(3, "Isolation", Candidate->IsolationDeltaR);
+//         Print(HDebug, "Isolation", Candidate->IsolationDeltaR);
 //
 //         if (!SubStructure->GetConstituents(CandidateJet, ConstituentBranch)) {
 //
-//             Print(0,"No Constituents");
+//             Print(HError,"No Constituents");
 //
 //             return 0;
 //
@@ -214,14 +214,14 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 //         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
 
 //         CandidateJet.user_info<HJetInfo>().PrintAllInfos(4);
-//         Print(1, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
+//         Print(HNotification, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;
     }
 
     if (HasCandidate) return 1;
 
-    Print(2, "No Candidates found");
+    Print(HInformation, "No Candidates found");
 
     return 0;
 

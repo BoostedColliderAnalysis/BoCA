@@ -22,7 +22,7 @@ public:
      * @param HadronVector ...
      * @return void
      */
-    std::vector< PseudoJet > GetTops(std::vector< PseudoJet > &EFlowJets);
+    std::vector< fastjet::PseudoJet > GetTops(std::vector< fastjet::PseudoJet > &EFlowJets);
 
     /**
      * @brief constructor
@@ -43,7 +43,7 @@ private:
      * @param PtCutOff Pt Cutoff for cells
      * @return std::vector< fastjet::PseudoJet, std::allocator >
      */
-    HJets GetGranulatedJets(HJets &HadronVector, const float &CellEta, const float &CellPhi, const float &PtCutOff);
+    HJets GetGranulatedJets(HJets& EFlowJets);
 
     inline std::string NameSpaceName() const {
       return "HDelphes";

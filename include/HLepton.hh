@@ -29,7 +29,7 @@ public:
 
     void NewEvent(const HClonesArray *const);
 
-    HVectors GetLeptonLorentzVectors();
+    HVectors GetLeptonVectors();
 
     HJets GetLeptonJets();
 

@@ -1,5 +1,5 @@
-# ifndef HAnalysisDiscriminator_hh
-# define HAnalysisDiscriminator_hh
+# ifndef __HAnalysisDiscriminator_hh__
+# define __HAnalysisDiscriminator_hh__
 
 # include "HAnalysis.hh"
 # include "HFileDelphes.hh"
@@ -8,7 +8,6 @@
 # include "HSubStructure.hh"
 
 /**
- * \class HDiscriminatorJetTag
  *
  * @brief HJetTag subclass for HDiscriminator
  *
@@ -31,7 +30,6 @@ public:
 };
 
 /**
- * \class HAnalysisDiscriminator
  *
  * @brief HAnalysis subclass defining the HiggsCPV Analysis
  *

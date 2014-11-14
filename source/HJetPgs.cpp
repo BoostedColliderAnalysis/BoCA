@@ -3,7 +3,7 @@
 hpgs::HJet::HJet()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 //     Debug = 4;
 
@@ -12,25 +12,25 @@ hpgs::HJet::HJet()
 hpgs::HJet::~HJet()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
 bool hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 {
 
-    Print(2, "Get Jet", ClonesArrays->GetJetSum(), JetDetails);
+    Print(HInformation, "Get Jet", ClonesArrays->GetJetSum(), JetDetails);
 
     for (const int JetNumber : HRange(ClonesArrays->GetJetSum())) {
 
-        Print(4, "Jet Number", JetNumber);
+        Print(HDetailed, "Jet Number", JetNumber);
         TRootJet *JetClone = (TRootJet *)ClonesArrays->GetJet(JetNumber);
 
         Jets.push_back(GetPseudoJet(JetClone));
 
         if (JetClone->BTag > 0) {
 
-            Print(4, "Has B Tag");
+            Print(HDetailed, "Has B Tag");
 
             BottomLorentzVectors.push_back(GetLorentzVector(JetClone));
             BottomJets.push_back(GetPseudoJet(JetClone));
@@ -44,7 +44,7 @@ bool hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 
     }
 
-    Print(3, "Untagged jets", JetLorentzVectors.size());
+    Print(HDebug, "Untagged jets", JetLorentzVectors.size());
 
     return 1;
 

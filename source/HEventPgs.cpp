@@ -4,7 +4,7 @@
 hpgs::HEvent::HEvent()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     Lepton = new HLepton();
     Jets = new HJet();
@@ -17,7 +17,7 @@ hpgs::HEvent::HEvent()
 hpgs::HEvent::~HEvent()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
     delete Lepton;
     delete Jets;
@@ -27,7 +27,7 @@ hpgs::HEvent::~HEvent()
 void hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const ClonesArrays)
 {
 
-    Print(2, "New Event");
+    Print(HInformation, "New Event");
 
     Lepton->NewEvent(ClonesArrays);
     Jets->NewEvent(ClonesArrays);
@@ -41,7 +41,7 @@ void hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const ClonesArrays)
 // HVectors hpgs::HEvent::GetLeptons()
 // {
 //
-//     Print(2, "Get Leptons");
+//     Print(HInformation, "Get Leptons");
 //
 //     HVectors LeptonVector = Lepton->GetLeptonLorentzVectors();
 //
@@ -52,7 +52,7 @@ void hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const ClonesArrays)
 
 // void hpgs::HEvent::GetJets()
 // {
-//     Print(2, "Get Jets");
+//     Print(HInformation, "Get Jets");
 //
 //     Jets->GetJets();
 //

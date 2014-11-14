@@ -3,7 +3,7 @@
 hdelphes::HFile::HFile()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -16,7 +16,7 @@ hdelphes::HFile::HFile()
 hdelphes::HFile::HFile(const std::string &Process)
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -31,7 +31,7 @@ hdelphes::HFile::HFile(const std::string &Process)
 hdelphes::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -48,7 +48,7 @@ hdelphes::HFile::HFile(const std::string &Process, const std::string &Run)
 std::string hdelphes::HFile::GetFilePath() const
 {
 
-    Print(2, "FilePath");
+    Print(HInformation, "FilePath");
 
 
     return (GetMadGraphFilePath() + TagName +  FileSuffix);
@@ -58,7 +58,7 @@ std::string hdelphes::HFile::GetFilePath() const
 hanalysis::HEvent *hdelphes::HFile::GetEvent()
 {
 
-    Print(1, "Get Event");
+    Print(HNotification, "Get Event");
 
     Event = new HEvent();
 
@@ -69,7 +69,7 @@ hanalysis::HEvent *hdelphes::HFile::GetEvent()
 hanalysis::HClonesArray *hdelphes::HFile::GetClonesArrays()
 {
 
-    Print(1, "Get Clones Arrays");
+    Print(HNotification, "Get Clones Arrays");
 
         if (SnowMass) {
 

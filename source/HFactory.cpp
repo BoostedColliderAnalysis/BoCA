@@ -6,7 +6,7 @@
 hmva::HFactory::HFactory(HMva * const NewMva)
 {
 
-    Print(1 , "Constructor");
+    Print(HNotification , "Constructor");
 
     Mva = NewMva;
 
@@ -35,7 +35,7 @@ hmva::HFactory::HFactory(HMva * const NewMva)
 hmva::HFactory::~HFactory()
 {
 
-    Print(1 , "Destructor");
+    Print(HNotification , "Destructor");
 
     delete Factory;
 
@@ -44,7 +44,7 @@ hmva::HFactory::~HFactory()
 void hmva::HFactory::NewFactory()
 {
 
-    Print(1 , "New Factory");
+    Print(HNotification , "New Factory");
 
     const std::string FactoryOutputName = "Mva" + Mva->BackgroundName;
 
@@ -63,7 +63,7 @@ void hmva::HFactory::NewFactory()
 void hmva::HFactory::AddVariables()
 {
 
-    Print(1 , "Add Variables");
+    Print(HNotification , "Add Variables");
 
     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->AnalysisName;
 
@@ -85,14 +85,14 @@ void hmva::HFactory::AddVariables()
 void hmva::HFactory::GetTrees()
 {
 
-    Print(1 , "Get Trees");
+    Print(HNotification , "Get Trees");
 
     for (const auto & SignalName : Mva->SignalNames) {
 
         std::string SignalFileName = Mva->AnalysisName + "/" + SignalName + ".root";
-        if (gSystem->AccessPathName(SignalFileName.c_str())) Print(0, "File not found", SignalFileName);
+        if (gSystem->AccessPathName(SignalFileName.c_str())) Print(HError, "File not found", SignalFileName);
         TFile *SignalFile = TFile::Open(SignalFileName.c_str());
-        Print(1 , "Signal File", SignalFile->GetName());
+        Print(HNotification , "Signal File", SignalFile->GetName());
 
         for (int TreeNumber : HRange(Mva->SignalTreeNames.size())) {
 
@@ -105,9 +105,9 @@ void hmva::HFactory::GetTrees()
     for (const auto & BackgroundName : Mva->BackgroundNames) {
 
         std::string BackgroundFileName = Mva->AnalysisName + "/" + BackgroundName + ".root";
-        if (gSystem->AccessPathName(BackgroundFileName.c_str())) Print(0, "File not found", BackgroundFileName);
+        if (gSystem->AccessPathName(BackgroundFileName.c_str())) Print(HError, "File not found", BackgroundFileName);
         TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
-        Print(1 , "Background File", BackgroundFile->GetName());
+        Print(HNotification , "Background File", BackgroundFile->GetName());
 
         for (const auto & BackgroundTreeName : Mva->BackgroundTreeNames) {
 
@@ -122,11 +122,11 @@ void hmva::HFactory::GetTrees()
 void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
 {
 
-    Print(1 , "Add Tree", TreeName);
+    Print(HNotification , "Add Tree", TreeName);
 
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
-    Print(0,"Branch Name",Mva->CandidateBranchName.c_str());
+    Print(HError,"Branch Name",Mva->CandidateBranchName.c_str());
     const_cast<TTree *>(Tree)->GetBranch(Mva->CandidateBranchName.c_str());
     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
@@ -140,7 +140,7 @@ void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeNam
 
 //     const float Crosssection = 1; //FIXME we dont use the crosssection
 
-    Print(1 , "Weight", Crosssection);
+    Print(HNotification , "Weight", Crosssection);
 
     if (Signal) {
 
@@ -158,7 +158,7 @@ void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeNam
 void hmva::HFactory::PrepareTrainingAndTestTree()
 {
 
-    Print(1 , "PrepareTrainingAndTestTree");
+    Print(HNotification , "PrepareTrainingAndTestTree");
 
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
     const std::string TrainingAndTestOptions = "";
@@ -170,7 +170,7 @@ void hmva::HFactory::PrepareTrainingAndTestTree()
 void hmva::HFactory::BookMethods()
 {
 
-    Print(1 , "Book Methods");
+    Print(HNotification , "Book Methods");
 
     const std::string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
 //     std::string CutOptions = "VarProp=FSmart:VarTransform=PCA";

@@ -3,13 +3,13 @@
 hdelphes::HLepton::HLepton()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 }
 
 hdelphes::HLepton::~HLepton()
 {
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 
 }
@@ -17,7 +17,7 @@ hdelphes::HLepton::~HLepton()
 bool hdelphes::HLepton::GetElectrons()
 {
 
-    Print(2, "Get Electrons", ClonesArray->GetElectronSum());
+    Print(HInformation, "Get Electrons", ClonesArray->GetElectronSum());
 
     for (int ElectronNumber : HRange(ClonesArray->GetElectronSum())) {
 
@@ -30,18 +30,18 @@ bool hdelphes::HLepton::GetElectrons()
             ElectronLorentzVectors.push_back(const_cast<Electron*>(ElectronClone)->P4());
             ElectronJets.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
 
-            Print(3, "Electron");
+            Print(HDebug, "Electron");
 
         } else if (ElectronCharge == 1) {
 
             AntiElectronLorentzVectors.push_back(const_cast<Electron*>(ElectronClone)->P4());
             AntiElectronJets.push_back(GetPseudoJet(const_cast<Electron*>(ElectronClone)->P4()));
 
-            Print(3, "Anti Electron");
+            Print(HDebug, "Anti Electron");
 
         } else
 
-            Print(1,"Electron Charge", ElectronCharge);
+            Print(HNotification,"Electron Charge", ElectronCharge);
 
     }
 
@@ -52,7 +52,7 @@ bool hdelphes::HLepton::GetElectrons()
 bool hdelphes::HLepton::GetMuons()
 {
 
-    Print(2, "Get Muons", ClonesArray->GetMuonSum());
+    Print(HInformation, "Get Muons", ClonesArray->GetMuonSum());
 
     for (int MuonNumber : HRange(ClonesArray->GetMuonSum())) {
 
@@ -64,17 +64,17 @@ bool hdelphes::HLepton::GetMuons()
             MuonLorentzVectors.push_back(const_cast<Muon*>(MuonClone)->P4());
             MuonJets.push_back(GetPseudoJet(const_cast<Muon*>(MuonClone)->P4()));
 
-            Print(3, "Muon");
+            Print(HDebug, "Muon");
 
         } else if (MuonCharge == 1) {
 
             AntiMuonLorentzVectors.push_back(const_cast<Muon*>(MuonClone)->P4());
             AntiMuonJets.push_back(GetPseudoJet(const_cast<Muon*>(MuonClone)->P4()));
-            Print(3, "Anti Muon");
+            Print(HDebug, "Anti Muon");
 
         } else
 
-            Print(1,"Muon Charge", MuonCharge);
+            Print(HNotification,"Muon Charge", MuonCharge);
 
     }
 

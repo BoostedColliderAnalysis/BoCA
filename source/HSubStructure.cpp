@@ -3,7 +3,7 @@
 hdelphes::HSubStructure::HSubStructure()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 //   Shift = 1;
 
@@ -13,7 +13,7 @@ hdelphes::HSubStructure::HSubStructure()
 hdelphes::HSubStructure::~HSubStructure()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
@@ -24,7 +24,7 @@ void hdelphes::HSubStructure::NewEvent()
 
 }
 
-bool hdelphes::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
+bool hdelphes::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
 {
 
     SubJets = 1;
@@ -37,14 +37,14 @@ bool hdelphes::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     if (PieceJets.size() != 2) {
 
-        Print(1, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
+        Print(HNotification, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
         return 0;
 
     }
 
     if (PieceJets.at(0) == PieceJets.at(1)) {
 
-        Print(1, "Just one Piece Jet");
+        Print(HNotification, "Just one Piece Jet");
         return 0;
 
     }
@@ -55,7 +55,7 @@ bool hdelphes::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     if (SubJet1.Mass <= 0) {
 
-        Print(1, "No SubJet 1 Mass", SubJet1.Mass);
+        Print(HNotification, "No SubJet 1 Mass", SubJet1.Mass);
         return 0;
 
     }
@@ -68,7 +68,7 @@ bool hdelphes::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     if (SubJet1.Pt <= 0 || SubJet2.Pt <= 0) {
 
-        Print(1, "No SubJet Pt");
+        Print(HNotification, "No SubJet Pt");
         return 0;
 
     }
@@ -100,7 +100,7 @@ bool hdelphes::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
     if (SubJetDistance <= 0) {
 
-        Print(1, "No SubJet Distance", SubJetDistance);
+        Print(HNotification, "No SubJet Distance", SubJetDistance);
         return 0;
     }
 
@@ -110,12 +110,12 @@ bool hdelphes::HSubStructure::GetSubJets(const PseudoJet &CandidateJet)
 
 }
 
-HVectors hdelphes::HSubStructure::GetConstituents(const PseudoJet &CandidateJet)
+HVectors hdelphes::HSubStructure::GetConstituents(const fastjet::PseudoJet &CandidateJet)
 {
 
     if (CandidateJet.constituents().size() < 1) {
 
-        Print(1, "Not enough Constituents", CandidateJet.constituents().size());
+        Print(HNotification, "Not enough Constituents", CandidateJet.constituents().size());
 //         return 0;
 
     }
@@ -138,7 +138,7 @@ HVectors hdelphes::HSubStructure::GetConstituents(const PseudoJet &CandidateJet)
                 std::abs(ConstituentJet.user_index()) != TopId &&
                 ConstituentJet.user_index() != HiggsId
            )
-            Print(0, "Wrong UserId", ConstituentJet.user_index());
+            Print(HError, "Wrong UserId", ConstituentJet.user_index());
 
             const float Distance = ConstituentJet.delta_R(CandidateJet);
 
@@ -152,7 +152,7 @@ HVectors hdelphes::HSubStructure::GetConstituents(const PseudoJet &CandidateJet)
         } else if (Distance2 < Distance1) {
             SubJet2Pt += ConstituentJet.pt();
         } else {
-            Print(0, "Constituent is exactly in the middle");
+            Print(HError, "Constituent is exactly in the middle");
         }
 
 
@@ -200,7 +200,7 @@ HVectors hdelphes::HSubStructure::GetConstituents(const PseudoJet &CandidateJet)
 
 }
 
-bool hdelphes::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const HJets &LeptonJets)
+bool hdelphes::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const HJets &LeptonJets)
 {
 
     // Get Position of SubJets
@@ -210,7 +210,7 @@ bool hdelphes::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const 
 
     if (PieceJets.size() != 2) {
 
-        Print(1, "Wrong Number of SubJets", PieceJets.size());
+        Print(HNotification, "Wrong Number of SubJets", PieceJets.size());
         return 0;
 
     }
@@ -219,15 +219,15 @@ bool hdelphes::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const 
 
     float IsolationDeltaR = LargeNumber;
 
-    PseudoJet ClosestLepton;
-    PseudoJet ClosestPiece;
+    fastjet::PseudoJet ClosestLepton;
+    fastjet::PseudoJet ClosestPiece;
 
     for (const auto & PieceJet : PieceJets) {
 
         for (const auto & LeptonJet : LeptonJets) {
 
             const float Distance = LeptonJet.delta_R(PieceJet);
-            Print(4, "DeltaR", Distance);
+            Print(HDetailed, "DeltaR", Distance);
 
             if (Distance < IsolationDeltaR) {
 
@@ -256,13 +256,13 @@ bool hdelphes::HSubStructure::GetIsolation(const PseudoJet &CandidateJet, const 
 
 
 
-float hdelphes::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) const
+float hdelphes::HSubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 {
 
-    Print(2, "Jing Dipolarity");
+    Print(HInformation, "Jing Dipolarity");
 
 //     HJets SubJetVector = CandidateJet.pieces();
-//     if (SubJetVector.size() != 2) Print(0, "not two subjets");
+//     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 //
 //     // Filtering
 //     float ParentCylinderDistance = SubJetVector.at(0).delta_R(SubJetVector.at(1));
@@ -275,10 +275,10 @@ float hdelphes::HSubStructure::GetDiPolarity(const PseudoJet &CandidateJet) cons
 //     int NumberHardestPieces = 3;
 //     Selector ThreeHardest = SelectorNHardest(NumberHardestPieces);
 //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
-//     PseudoJet FilterJet = FatJetFilter(CandidateJet);
+//     fastjet::PseudoJet FilterJet = FatJetFilter(CandidateJet);
 
     const HJets SubJetVector = CandidateJet.pieces();
-    if (SubJetVector.size() != 2) Print(0, "not two subjets");
+    if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 
 
     float Eta1, Eta2, Phi1, Phi2;

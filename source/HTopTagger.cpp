@@ -4,21 +4,21 @@ hdelphes::HTopTagger::HTopTagger()
 {
 
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 }
 
 hdelphes::HTopTagger::~HTopTagger()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
-HJets hdelphes::HTopTagger::GetTops(std::vector< PseudoJet > &EFlowJets)
+HJets hdelphes::HTopTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
 {
 
-    Print(2, "Tagging Top");
+    Print(HInformation, "Tagging Top");
 
 //     float CellEta = 0.1;
 //     HJets hadrons;
@@ -33,11 +33,7 @@ HJets hdelphes::HTopTagger::GetTops(std::vector< PseudoJet > &EFlowJets)
     const float ConeSize = 1.5;
     const fastjet::JetDefinition JetDefinition(fastjet::cambridge_algorithm, ConeSize);
 
-    // start of granularization of the hadronic calorimeter to redefine hadrons
-    const float CellDeltaEta = 0.1;
-    const float CellDeltaPhi = 0.1;
-    const float PtCutOff = 0.5;
-    HJets GranulatedJets = GetGranulatedJets(EFlowJets, CellDeltaEta, CellDeltaPhi, PtCutOff);
+    HJets GranulatedJets = GetGranulatedJets(EFlowJets);
 
     // run the jet finding; find the hardest jet
     const fastjet::ClusterSequence ClusterSequence(GranulatedJets, JetDefinition);
@@ -50,9 +46,10 @@ HJets hdelphes::HTopTagger::GetTops(std::vector< PseudoJet > &EFlowJets)
 
     for (const auto & Jet : Jets) {
 
-        const float topmass = 172.3;
-        const float wmass = 80.4;
-        HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);
+//         const float topmass = 172.3;
+//         const float wmass = 80.4;
+//         HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);
+        HEPTopTagger TopTagger(ClusterSequence, Jet);
 
         TopTagger.set_top_range(150., 200.);
         std::cout << "========= Top Tagger ============" << std::endl;
@@ -64,12 +61,12 @@ HJets hdelphes::HTopTagger::GetTops(std::vector< PseudoJet > &EFlowJets)
 
         if (TopTagger.is_masscut_passed()) {
 
-          std::cout << "### masscut_passed ###" << std::endl;
+            std::cout << "### masscut_passed ###" << std::endl;
 
-            PseudoJet top = TopTagger.top_candidate();
-//             PseudoJet b = TopTagger.top_subjets().at(0);
-//             PseudoJet W1 = TopTagger.top_subjets().at(1);
-//             PseudoJet W2 = TopTagger.top_subjets().at(2);
+            fastjet::PseudoJet top = TopTagger.top_candidate();
+//             fastjet::PseudoJet b = TopTagger.top_subjets().at(0);
+//             fastjet::PseudoJet W1 = TopTagger.top_subjets().at(1);
+//             fastjet::PseudoJet W2 = TopTagger.top_subjets().at(2);
             std::cout << "top mass: " << top.m() << std::endl;
 //             cout << "bottom mass: " << b.m() << endl;
 //             cout << "W mass: " << (W1 + W2).m() << endl;
@@ -84,60 +81,68 @@ HJets hdelphes::HTopTagger::GetTops(std::vector< PseudoJet > &EFlowJets)
 
 }
 
-HJets hdelphes::HTopTagger::GetGranulatedJets(HJets &EFlowJets,const float &CellDeltaEta, const float &CellDeltaPhi, const float &PtCutOff)
+HJets hdelphes::HTopTagger::GetGranulatedJets(HJets &EFlowJets)
 {
 
-    float pi = 3.142592654;
+
+    // start of granularization of the hadronic calorimeter to redefine hadrons
+    const float CellDeltaEta = 0.1;
+    const float CellDeltaPhi = 0.1;
+    const float PtCutOff = 0.5;
+
+//     float pi = 3.142592654;
     HJets GranulatedJets;
     GranulatedJets.clear();
 
     EFlowJets = sorted_by_pt(EFlowJets);
     GranulatedJets.push_back(EFlowJets[0]);
-    for (unsigned i = 1; i < EFlowJets.size(); i++) {
-        int new_jet = 0;
-        for (unsigned j = 0; j < GranulatedJets.size(); j++) {
-            float eta_cell_diff = std::abs(EFlowJets[i].pseudorapidity() -
-                                       GranulatedJets[j].pseudorapidity()) / CellDeltaEta;
-            float phi_cell_diff = std::abs(EFlowJets[i].phi() -
-                                       GranulatedJets[j].phi());
-            if (phi_cell_diff > pi)     phi_cell_diff = 2 * pi - phi_cell_diff;
-            phi_cell_diff = phi_cell_diff / CellDeltaPhi;
 
-            if (eta_cell_diff < 1 && phi_cell_diff < 1) {
-                new_jet = 1;
+    for (unsigned i = 1; i < EFlowJets.size(); ++i) {
+        int NewJet = 0;
 
-                float total_energy  = EFlowJets[i].e() + GranulatedJets[j].e();
-                float rescale_factor = sqrt(pow(EFlowJets[i].px() + GranulatedJets[j].px(), 2) +
-                                             pow(EFlowJets[i].py() + GranulatedJets[j].py(), 2) +
-                                             pow(EFlowJets[i].pz() + GranulatedJets[j].pz(), 2));
-                float rescaled_px = total_energy * (EFlowJets[i].px() + GranulatedJets[j].px()) / rescale_factor ;
-                float rescaled_py = total_energy * (EFlowJets[i].py() + GranulatedJets[j].py()) / rescale_factor ;
-                float rescaled_pz = total_energy * (EFlowJets[i].pz() + GranulatedJets[j].pz()) / rescale_factor ;
+        for (unsigned j = 0; j < GranulatedJets.size(); ++j) {
 
-                PseudoJet comb_jet(rescaled_px, rescaled_py, rescaled_pz, total_energy);
+            const float CellDiffEta = std::abs(EFlowJets[i].pseudorapidity() - GranulatedJets[j].pseudorapidity()) / CellDeltaEta;
+            float CellDiffPhi = std::abs(EFlowJets[i].phi() - GranulatedJets[j].phi());
+            if (CellDiffPhi > Pi) CellDiffPhi = TwoPi - CellDiffPhi;
+            CellDiffPhi = CellDiffPhi / CellDeltaPhi;
 
-                comb_jet.set_user_index(EFlowJets[i].user_index() + GranulatedJets[j].user_index());
+            if (CellDiffEta < 1 && CellDiffPhi < 1) {
+
+                NewJet = 1;
+
+                const float TotalEnergy  = EFlowJets[i].e() + GranulatedJets[j].e();
+                const float RescaleFactor = sqrt(pow(EFlowJets[i].px() + GranulatedJets[j].px(), 2) + pow(EFlowJets[i].py() + GranulatedJets[j].py(), 2) + pow(EFlowJets[i].pz() + GranulatedJets[j].pz(), 2));
+                const float RescaledPx = TotalEnergy * (EFlowJets[i].px() + GranulatedJets[j].px()) / RescaleFactor;
+                const float RescaledPy = TotalEnergy * (EFlowJets[i].py() + GranulatedJets[j].py()) / RescaleFactor;
+                const float RescaledPz = TotalEnergy * (EFlowJets[i].pz() + GranulatedJets[j].pz()) / RescaleFactor;
+
+                fastjet::PseudoJet CombinedJet(RescaledPx, RescaledPy, RescaledPz, TotalEnergy);
+
+                CombinedJet.set_user_index(EFlowJets[i].user_index() + GranulatedJets[j].user_index());
 
                 GranulatedJets.erase(GranulatedJets.begin() + j);
-                GranulatedJets.push_back(comb_jet);
+                GranulatedJets.push_back(CombinedJet);
                 break;
+
             }
         }
-        if (new_jet != 1) {
+
+        if (NewJet != 1) {
             GranulatedJets.push_back(EFlowJets[i]);
             GranulatedJets = sorted_by_pt(GranulatedJets);
         }
     }
 
 
-    for (unsigned ii = 0; ii < GranulatedJets.size(); ii++) {
+    for (unsigned ii = 0; ii < GranulatedJets.size(); ++ii) {
 
         if ((GranulatedJets[ii].perp() < PtCutOff)) {
             GranulatedJets.erase(GranulatedJets.begin() + ii);
-            ii--;
+            --ii;
         }
     }
 
-    return (GranulatedJets);
+    return GranulatedJets;
 
 }

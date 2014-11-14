@@ -34,19 +34,19 @@ public:
     virtual void NewEvent(const HClonesArray * const ) = 0;
 
     virtual HJets GetTops(HJetTag *const) {
-        Print(0, "Get Tops", "No Tops");
+        Print(HError, "Get Tops", "No Tops");
         HJets v;
         return v;
     }
 
-    virtual PseudoJet GetHiggs() {
-        Print(0, "Get Higgs", "No Higgs");
-        PseudoJet j;
+    virtual fastjet::PseudoJet GetHiggs() {
+        Print(HError, "Get Higgs", "No Higgs");
+        fastjet::PseudoJet j;
         return j;
     }
 
     virtual HJets GetCandidates(HJetTag *const) {
-        Print(0, "Get Candidates", "No Candidates");
+        Print(HError, "Get Candidates", "No Candidates");
         HJets v;
         return v;
     }

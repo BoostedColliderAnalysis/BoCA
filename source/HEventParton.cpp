@@ -4,7 +4,7 @@
 hparton::HEvent::HEvent()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     Particles = new HParticle();
 
@@ -13,7 +13,7 @@ hparton::HEvent::HEvent()
 hparton::HEvent::~HEvent()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
     delete Particles;
 
@@ -22,7 +22,7 @@ hparton::HEvent::~HEvent()
 void hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const ClonesArrays)
 {
 
-    Print(2, "New Event");
+    Print(HInformation, "New Event");
 
     Particles->NewEvent(ClonesArrays);
 
@@ -32,7 +32,7 @@ void hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const ClonesArray
 // void hparton::HEvent::GetParticles()
 // {
 // //
-//     Print(2, "Get Particles");
+//     Print(HInformation, "Get Particles");
 //
 //     HasParticles = Particles->GetParticles();
 //

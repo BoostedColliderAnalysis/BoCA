@@ -3,7 +3,7 @@
 hdelphes::HReconstruction::HReconstruction()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 //     DebugLevel = 4;
 
@@ -12,14 +12,14 @@ hdelphes::HReconstruction::HReconstruction()
 hdelphes::HReconstruction::~HReconstruction()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
 void hdelphes::HReconstruction::NewEvent()
 {
 
-    Print(2, "New Event");
+    Print(HInformation, "New Event");
 
 //     FatJetVector.clear();
 
@@ -41,7 +41,7 @@ HJets hdelphes::HReconstruction::GetFatJets(const HJets &EFlowJets) const
 HJets hdelphes::HReconstruction::GetFatJets(const HJets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
-    Print(2, "Get Fat Jet Vector", FatJetDefinition.R());
+    Print(HInformation, "Get Fat Jet Vector", FatJetDefinition.R());
 
 
     fastjet::ClusterSequence *const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJets, FatJetDefinition);
@@ -60,7 +60,7 @@ HJets hdelphes::HReconstruction::GetFatJets(const HJets &EFlowJets, const fastje
 HJets hdelphes::HReconstruction::GetMassDropJets(const HJets &FatJets) const
 {
 
-    Print(2, "Get Mass Drop Jets", FatJets.size());
+    Print(HInformation, "Get Mass Drop Jets", FatJets.size());
 
     HJets MassDropJets;
 
@@ -74,10 +74,10 @@ HJets hdelphes::HReconstruction::GetMassDropJets(const HJets &FatJets) const
 
 }
 
-PseudoJet hdelphes::HReconstruction::GetMassDropJet(const PseudoJet &FatJet) const
+fastjet::PseudoJet hdelphes::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet) const
 {
 
-//     Print(3, "Get Mass Drop Jet");
+//     Print(HDebug, "Get Mass Drop Jet");
 
     //     MassDropMin = Jing: 0.667; fastjet: 0.67; Paper: 0.67
     const float MassDropMin = 0.67;
@@ -90,13 +90,13 @@ PseudoJet hdelphes::HReconstruction::GetMassDropJet(const PseudoJet &FatJet) con
 
 
 
-PseudoJet hdelphes::HReconstruction::GetMassDropJet(const PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
+fastjet::PseudoJet hdelphes::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
 {
 
-    Print(3, "Get Mass Drop Jet");
+    Print(HDebug, "Get Mass Drop Jet");
 
     const fastjet::MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
-    const PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
+    const fastjet::PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
 
 
 
@@ -110,7 +110,7 @@ PseudoJet hdelphes::HReconstruction::GetMassDropJet(const PseudoJet &FatJet, con
 HJets hdelphes::HReconstruction::GetSubJetTaggedJets(const HJets &FatJets) const
 {
 
-    Print(2, "Get Sub Jet Tagged Jets", FatJets.size());
+    Print(HInformation, "Get Sub Jet Tagged Jets", FatJets.size());
 
     HJets SubJetTaggedJets;
 
@@ -124,13 +124,13 @@ HJets hdelphes::HReconstruction::GetSubJetTaggedJets(const HJets &FatJets) const
 
 }
 
-PseudoJet hdelphes::HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet) const
+fastjet::PseudoJet hdelphes::HReconstruction::GetSubJetTaggedJet(const fastjet::PseudoJet &FatJet) const
 {
 
-    Print(3, "Get Mass Drop Jet");
+    Print(HDebug, "Get Mass Drop Jet");
 
     const fastjet::CASubJetTagger SubJetTagger;
-    const PseudoJet MassDropJet = SubJetTagger.result(FatJet);
+    const fastjet::PseudoJet MassDropJet = SubJetTagger.result(FatJet);
 
 
 
@@ -139,14 +139,14 @@ PseudoJet hdelphes::HReconstruction::GetSubJetTaggedJet(const PseudoJet &FatJet)
 }
 
 
-bool hdelphes::HReconstruction::JetIsBad(const PseudoJet &Jet)
+bool hdelphes::HReconstruction::JetIsBad(const fastjet::PseudoJet &Jet)
 {
 
     HObject Object;
 
     if (std::abs(Jet.m()) <= 40) {
 
-        Object.Print(2, "Fat Jet Mass", Jet.m());
+        Object.Print(HInformation, "Fat Jet Mass", Jet.m());
         return 1;
 
     }
@@ -154,14 +154,14 @@ bool hdelphes::HReconstruction::JetIsBad(const PseudoJet &Jet)
 
     if (Jet.pieces().size() != 2) {
 
-        Object.Print(1, "Pieces Sum", Jet.pieces().size());
+        Object.Print(HNotification, "Pieces Sum", Jet.pieces().size());
         return 1;
 
     }
 
     if (!Jet.has_structure()) {
 
-        Object.Print(1, "PseudoJet has no structure");
+        Object.Print(HNotification, "fastjet::PseudoJet has no structure");
         return 1;
 
     }
@@ -175,7 +175,7 @@ bool hdelphes::HReconstruction::JetIsBad(const PseudoJet &Jet)
 HJets hdelphes::HReconstruction::GetFatJetTag(HJets &FatJets)
 {
 
-    Print(2, "Get Fat Jet Tag", FatJets.size());
+    Print(HInformation, "Get Fat Jet Tag", FatJets.size());
 
     for (auto & FatJet : FatJets) {
 
@@ -196,7 +196,7 @@ HJets hdelphes::HReconstruction::GetFatJetTag(HJets &FatJets)
                 Constituent.user_info<hanalysis::HJetInfo>().PrintAllInfos(3);
             } else {
 
-            Print(3,"Constituent index",Constituent.user_index());
+            Print(HDebug,"Constituent index",Constituent.user_index());
 
             JetInfo.AddConstituent(Constituent.user_index(), Constituent.pt());
 
@@ -210,7 +210,7 @@ HJets hdelphes::HReconstruction::GetFatJetTag(HJets &FatJets)
 
         FatJet.user_info<hanalysis::HJetInfo>().PrintAllInfos(4);
 
-        Print(4, "Tag", FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), FatJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), FatJet.m());
+        Print(HDetailed, "Tag", FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), FatJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), FatJet.m());
 
     }
 

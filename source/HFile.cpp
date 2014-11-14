@@ -3,7 +3,7 @@
 hanalysis::HFile::HFile()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -12,7 +12,7 @@ hanalysis::HFile::HFile()
 hanalysis::HFile::HFile(const std::string &Process)
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -23,7 +23,7 @@ hanalysis::HFile::HFile(const std::string &Process)
 hanalysis::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     SetVariables();
 
@@ -59,7 +59,7 @@ bool hanalysis::HFile::SnowMass = 0;
 void hanalysis::HFile::SetVariables()
 {
 
-    Print(2, "Set Variables");
+    Print(HInformation, "Set Variables");
 
     //     MadGraphPath = "/data/hajer/MadGraph/";
     //     MadGraphPath = "$HOME/Development/MadGraph/";
@@ -82,7 +82,7 @@ void hanalysis::HFile::SetVariables()
 std::string hanalysis::HFile::GetTreeName() const
 {
 
-    Print(2, "Get Tree String");
+    Print(HInformation, "Get Tree String");
 
     return TreeName;
 }
@@ -91,7 +91,7 @@ std::string hanalysis::HFile::GetTreeName() const
 std::string hanalysis::HFile::GetFilePath() const
 {
 
-    Print(2, "FilePath");
+    Print(HInformation, "FilePath");
 
     return (BasePath + ProcessFolder + FileSuffix);
 
@@ -102,21 +102,21 @@ std::string hanalysis::HFile::GetFilePath() const
 ExRootTreeReader *hanalysis::HFile::GetTreeReader()
 {
 
-    Print(1, "Get Tree Reader", GetFilePath());
+    Print(HNotification, "Get Tree Reader", GetFilePath());
 
     // Import file
     const std::string ImportPath = GetFilePath();
 //   TFile * const
     ImportFile = new TFile(ImportPath.c_str());
     //     TFile ImportFile = TFile(ImportPath.c_str());
-    Print(1, "File", ImportPath);
+    Print(HNotification, "File", ImportPath);
 
     // Import tree
     const std::string ImportTreeName = GetTreeName();
 //   TTree * const
     ImportTree = (TTree *)ImportFile->Get(ImportTreeName.c_str());
     //     TTree ImportTree = (TTree)ImportFile.Get(ImportTreeName.c_str());
-    Print(1, "Tree", ImportTreeName);
+    Print(HNotification, "Tree", ImportTreeName);
 
     // TreeReader
     TreeReader = new ExRootTreeReader(ImportTree);
@@ -128,7 +128,7 @@ ExRootTreeReader *hanalysis::HFile::GetTreeReader()
 hanalysis::HClonesArray *hanalysis::HFile::GetClonesArrays()
 {
 
-    Print(1, "Get Clones Arrays");
+    Print(HNotification, "Get Clones Arrays");
 
 //     HClonesArray *ClonesArrays;
 
@@ -154,7 +154,7 @@ hanalysis::HClonesArray *hanalysis::HFile::GetClonesArrays()
 
     } else {
 
-        Print(0, "unknown Tree String", GetTreeName());
+        Print(HError, "unknown Tree String", GetTreeName());
 
     }
 
@@ -165,7 +165,7 @@ hanalysis::HClonesArray *hanalysis::HFile::GetClonesArrays()
 hanalysis::HEvent *hanalysis::HFile::GetEvent()
 {
 
-    Print(1, "Get Event");
+    Print(HNotification, "Get Event");
 
 //     HEvent *Event;
 
@@ -183,7 +183,7 @@ hanalysis::HEvent *hanalysis::HFile::GetEvent()
 
     } else {
 
-        Print(0, "unknown Tree String", GetTreeName());
+        Print(HError, "unknown Tree String", GetTreeName());
 
     }
 
@@ -196,7 +196,7 @@ hanalysis::HEvent *hanalysis::HFile::GetEvent()
 hanalysis::HFile::~HFile()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
     delete ImportFile;
     delete ImportTree;

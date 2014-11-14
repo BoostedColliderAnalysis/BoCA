@@ -3,7 +3,7 @@
 hdelphes::HDiscriminator::HDiscriminator()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 //     DebugLevel = 5;
 
@@ -12,20 +12,20 @@ hdelphes::HDiscriminator::HDiscriminator()
 hdelphes::HDiscriminator::~HDiscriminator()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
 }
 
 HJets hdelphes::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const float ScalarHt)
 {
 
-    Print(2, "Get Tagged Candidate Jets", EFlowJets.size());
+    Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
 
     const HJets Jets;
 
     if (EFlowJets.size() == 0) {
 
-        Print(2, "No EFlow Jets");
+        Print(HInformation, "No EFlow Jets");
         return Jets;
 
     }
@@ -53,13 +53,13 @@ HJets hdelphes::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const f
 HJets hdelphes::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, const float ScalarHt)
 {
 
-    Print(2, "Get Tagged Candidate Jets", EFlowJets.size());
+    Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
 
     const HJets Jets;
 
     if (EFlowJets.size() == 0) {
 
-        Print(2, "No EFlow Jets");
+        Print(HInformation, "No EFlow Jets");
         return Jets;
 
     }
@@ -89,14 +89,14 @@ HJets hdelphes::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, c
 }
 
 
-bool hdelphes::HDiscriminator::JetIsBad(const PseudoJet &Jet)
+bool hdelphes::HDiscriminator::JetIsBad(const fastjet::PseudoJet &Jet)
 {
 
     HObject Object;
 
     if (std::abs(Jet.m()) <= 40.) {
 
-        Object.Print(2, "Fat Jet Mass", Jet.m());
+        Object.Print(HInformation, "Fat Jet Mass", Jet.m());
         return 1;
 
     }
@@ -104,14 +104,14 @@ bool hdelphes::HDiscriminator::JetIsBad(const PseudoJet &Jet)
 
     if (Jet.pieces().size() != 2) {
 
-        Object.Print(1, "Pieces Sum", Jet.pieces().size());
+        Object.Print(HNotification, "Pieces Sum", Jet.pieces().size());
         return 1;
 
     }
 
     if (!Jet.has_structure()) {
 
-        Object.Print(1, "PseudoJet has no structure");
+        Object.Print(HNotification, "fastjet::PseudoJet has no structure");
         return 1;
 
     }

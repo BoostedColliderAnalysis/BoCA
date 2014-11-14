@@ -4,7 +4,7 @@
 hanalysis::HJetInfo::HJetInfo()
 {
 
-    Print(3, "Constructor");
+    Print(HDebug, "Constructor");
 //     Debug = 4;
 
 }
@@ -12,18 +12,18 @@ hanalysis::HJetInfo::HJetInfo()
 void hanalysis::HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
 {
 
-    Print(3, "Add Constituent", ConstituentId, Weight);
+    Print(HDebug, "Add Constituent", ConstituentId, Weight);
 
     JetFractions[ConstituentId] += Weight;
 
-    Print(4, "Saved Weight", JetFractions[ConstituentId]);
+    Print(HDetailed, "Saved Weight", JetFractions[ConstituentId]);
 
 }
 
 float hanalysis::HJetInfo::GetWeightSum() const
 {
 
-    Print(3, "Get Weight Sum", JetFractions.size());
+    Print(HDebug, "Get Weight Sum", JetFractions.size());
 
     float WeightSum = std::accumulate(begin(JetFractions), end(JetFractions), 0.0, [](const float Previous, const std::pair<int, float> &Pair) {
 
@@ -31,7 +31,7 @@ float hanalysis::HJetInfo::GetWeightSum() const
 
     });
 
-    Print(4, "Weight Sum", WeightSum);
+    Print(HDetailed, "Weight Sum", WeightSum);
 
     return WeightSum;
 
@@ -40,7 +40,7 @@ float hanalysis::HJetInfo::GetWeightSum() const
 float hanalysis::HJetInfo::GetFraction(const int ParticleId) const
 {
 
-    Print(2, "Get Fraction", ParticleId);
+    Print(HInformation, "Get Fraction", ParticleId);
 
     if (GetWeightSum() == 0) {
 
@@ -57,7 +57,7 @@ float hanalysis::HJetInfo::GetFraction(const int ParticleId) const
 float hanalysis::HJetInfo::GetMaximalFraction() const
 {
 
-    Print(2, "Get Maximal Fraction");
+    Print(HInformation, "Get Maximal Fraction");
 
     std::pair<int, float> MaximalWeight = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
@@ -76,7 +76,7 @@ float hanalysis::HJetInfo::GetMaximalFraction() const
 bool hanalysis::HJetInfo::HasParticle(const int ParticleId) const
 {
 
-    Print(2, "Has Particle", ParticleId);
+    Print(HInformation, "Has Particle", ParticleId);
 
     if (JetFractions.find(ParticleId) == JetFractions.end()) return 0;
 
@@ -87,7 +87,7 @@ bool hanalysis::HJetInfo::HasParticle(const int ParticleId) const
 // float Analysis::HJetInfo::GetMaximalFraction() const
 // {
 //
-//     Print(2, "Get Maximal Fraction");
+//     Print(HInformation, "Get Maximal Fraction");
 //
 //     pair<int, float> MaximalPt = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 //     std::nth_element(JetFractions.begin(), JetFractions.begin() + 1, JetFractions.end(), SortPairs());
@@ -107,7 +107,7 @@ bool hanalysis::HJetInfo::HasParticle(const int ParticleId) const
 int hanalysis::HJetInfo::GetMaximalId() const
 {
 
-    Print(3, "Get Maximal Id");
+    Print(HDebug, "Get Maximal Id");
 
     std::pair<int, float> Max = *std::max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
 
@@ -118,7 +118,7 @@ int hanalysis::HJetInfo::GetMaximalId() const
 void hanalysis::HJetInfo::Clear()
 {
 
-    Print(2, "Clear");
+    Print(HInformation, "Clear");
 
     JetFractions.clear();
 
@@ -127,7 +127,7 @@ void hanalysis::HJetInfo::Clear()
 void hanalysis::HJetInfo::PrintAllInfos(int Severity) const
 {
 
-    Print(3, "Print All Infos");
+    Print(HDebug, "Print All Infos");
 
     for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 

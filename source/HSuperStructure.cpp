@@ -2,7 +2,7 @@
 
 hdelphes::HSuperStructure::HSuperStructure()
 {
-    Print(2, "Constructor");
+    Print(HInformation, "Constructor");
 
     Position1 = EmptyPosition;
     Position2 = EmptyPosition;
@@ -11,10 +11,24 @@ hdelphes::HSuperStructure::HSuperStructure()
 
 }
 
+hdelphes::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2) {
+
+  Print(HInformation, "Constructor");
+
+  Jet1 = NewJet1;
+  Jet2 = NewJet2;
+
+  Position1 = EmptyPosition;
+  Position2 = EmptyPosition;
+
+  //     DebugLevel = 2;
+
+}
+
 hdelphes::HSuperStructure::~HSuperStructure()
 {
 
-    Print(2, "Destructor");
+    Print(HInformation, "Destructor");
 
 }
 
@@ -28,10 +42,10 @@ void hdelphes::HSuperStructure::operator=(const HSuperStructure &other)
 
 }
 
-float hdelphes::HSuperStructure::GetReferenceAngle(const PseudoJet &Jet, const PseudoJet &ReferenceJet) const
+float hdelphes::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const
 {
 
-    Print(2, "Get ReferenceAngle");
+    Print(HInformation, "Get ReferenceAngle");
 
     const float Rap = Jet.rap() - ReferenceJet.rap();
     const float Phi = GetDeltaPhi(Jet.phi_std(), ReferenceJet.phi_std());
@@ -44,17 +58,17 @@ float hdelphes::HSuperStructure::GetReferenceAngle(const PseudoJet &Jet, const P
 float hdelphes::HSuperStructure::GetPullAngle1() const
 {
 
-    Print(2, "GetPullAngle1");
+    Print(HInformation, "GetPullAngle1");
 
     const float Pull = GetPull(Jet1);
     const float ReferenceAngle = GetReferenceAngle(Jet1, Jet2);
-    Print(3, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
+    Print(HDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
 
 //     if (std::abs(GetDeltaPhi(Pull, ReferenceAngle) > 3)) {
-//         Print(0, "extrema", Pull, ReferenceAngle);
-//         Print(0, "extrema", Jet1.rap(), Jet1.phi_std());
-//         Print(0, "extrema", Jet2.rap(), Jet2.phi_std());
-//         Print(0, " ");
+//         Print(HError, "extrema", Pull, ReferenceAngle);
+//         Print(HError, "extrema", Jet1.rap(), Jet1.phi_std());
+//         Print(HError, "extrema", Jet2.rap(), Jet2.phi_std());
+//         Print(HError, " ");
 //     }
 
     return GetDeltaPhi(Pull, ReferenceAngle);
@@ -64,21 +78,21 @@ float hdelphes::HSuperStructure::GetPullAngle1() const
 float hdelphes::HSuperStructure::GetPullAngle2() const
 {
 
-    Print(2, "GetPullAngle2");
+    Print(HInformation, "GetPullAngle2");
 
     const float Pull = GetPull(Jet2);
     const float ReferenceAngle = GetReferenceAngle(Jet2, Jet1);
-    Print(3, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
+    Print(HDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
 
     return GetDeltaPhi(Pull, ReferenceAngle);
 
 }
 
 
-float hdelphes::HSuperStructure::GetPull(const PseudoJet &CandidateJet) const
+float hdelphes::HSuperStructure::GetPull(const fastjet::PseudoJet &CandidateJet) const
 {
 
-    Print(2, "GetPull");
+    Print(HInformation, "GetPull");
 
     float Rap = 0;
     float Phi = 0;
@@ -104,11 +118,11 @@ float hdelphes::HSuperStructure::GetPull(const PseudoJet &CandidateJet) const
 HVectors hdelphes::HSuperStructure::GetConstituents() const
 {
 
-    Print(2, "GetConstituents");
+    Print(HInformation, "GetConstituents");
 
     if (Jet1.constituents().size() < 1 || Jet2.constituents().size() < 1) {
 
-        Print(1, "Not enough Constituents", Jet1.constituents().size(), Jet2.constituents().size());
+        Print(HNotification, "Not enough Constituents", Jet1.constituents().size(), Jet2.constituents().size());
 //         return 0;
 
     }
@@ -134,10 +148,10 @@ HVectors hdelphes::HSuperStructure::GetConstituents() const
 }
 
 
-HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
+HVectors hdelphes::HSuperStructure::GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
 {
 
-    Print(2, "GetConstituents", JetRatio, Theta);
+    Print(HInformation, "GetConstituents", JetRatio, Theta);
 
     const float Cut = 2. / JetRatio;
     const float Cut1 = 1. / JetRatio;
@@ -153,8 +167,8 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
         const float ConstEta = ConstituentJet.rap() - Jet.rap();
         const float ConstPhi = GetDeltaPhi(ConstituentJet.phi_std(), Jet.phi_std());
 
-        if (ConstPhi > Cut) Print(0, "phi", "too big");
-        if (ConstEta > Cut) Print(0, "eta", "too big");
+        if (ConstPhi > Cut) Print(HError, "phi", "too big");
+        if (ConstEta > Cut) Print(HError, "eta", "too big");
 
         // rotate Constituent according to other jet
         float ObservableEta = ConstEta * cos(Theta) + ConstPhi * sin(Theta);
@@ -166,7 +180,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 
         // move jet to (+-1,0)
         ObservableEta -= Shift;
-        Print(3, "eta", ObservableEta);
+        Print(HDebug, "eta", ObservableEta);
 
         TLorentzVector ConstituentVector;
         ConstituentVector.SetPtEtaPhiE(ConstituentJet.pt(), ObservableEta, ObservablePhi, ConstituentJet.e());
@@ -195,7 +209,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 // hdelphes::HPull::HPull()
 // {
-//     Print(2, "Constructor");
+//     Print(HInformation, "Constructor");
 //
 //     InitialValue = -1000;
 //     PullPhi = 0;
@@ -207,7 +221,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 // hdelphes::HPull::~HPull()
 // {
 //
-//     Print(2, "Destructor");
+//     Print(HInformation, "Destructor");
 //
 // }
 //
@@ -215,25 +229,25 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 // void hdelphes::HPull::BTagCalculation(const Jet& JetClone)
 // {
 //
-//     Print(2, "BTagCalculation");
+//     Print(HInformation, "BTagCalculation");
 //
-//     PseudoJet CandidateJet = GetPseudoJet(const_cast<Jet*>(&JetClone)->P4());
+//     fastjet::PseudoJet CandidateJet = GetPseudoJet(const_cast<Jet*>(&JetClone)->P4());
 //
 // //     if (Jet.pt() > 0) {
 //
 //         int ValidConstituentsSum = 0;
 //         int ConstituentsSum = JetClone.Constituents.GetEntriesFast();
-//         Print(2, "Number of b Jet Constituents", ConstituentsSum);
+//         Print(HInformation, "Number of b Jet Constituents", ConstituentsSum);
 //
 //
 //         for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ++ConstituentsNumber) {
 //
 //             const TObject * const ConstituentObject = JetClone.Constituents.At(ConstituentsNumber);
 //             if (ConstituentObject == 0) continue;
-//             Print(3, "Entering b Jet Constituent", ConstituentsNumber);
+//             Print(HDebug, "Entering b Jet Constituent", ConstituentsNumber);
 //             ValidConstituentsSum++;
 //
-//             const PseudoJet ConstituentJet = GetConstituentJet(ConstituentObject);
+//             const fastjet::PseudoJet ConstituentJet = GetConstituentJet(ConstituentObject);
 //
 //             const float PullFactor = ConstituentJet.pt() * ConstituentJet.delta_R(CandidateJet) / CandidateJet.pt();
 //             PullRap += PullFactor * ConstituentJet.rap();
@@ -241,9 +255,9 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //         }
 //
-//         if (ValidConstituentsSum != ConstituentsSum) Print(3, "Number of valid Jet Constituents", ValidConstituentsSum);
-//         Print(2, "PullPhi", PullPhi);
-//         Print(2, "PullY", PullRap);
+//         if (ValidConstituentsSum != ConstituentsSum) Print(HDebug, "Number of valid Jet Constituents", ValidConstituentsSum);
+//         Print(HInformation, "PullPhi", PullPhi);
+//         Print(HInformation, "PullY", PullRap);
 //
 // //     }
 //
@@ -252,7 +266,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 // float hdelphes::HPull::PullAngle(float Rap, float Phi)
 // {
 //
-//     Print(2, "Pull Angle");
+//     Print(HInformation, "Pull Angle");
 //
 //     float Theta = InitialValue;
 //     if (Rap != 0) {
@@ -269,7 +283,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //     }
 //
 //     if (fabs(Theta) > Pi()  && Theta !=  InitialValue) {
-//         Print(0, "Error in Theta Calculation");
+//         Print(HError, "Error in Theta Calculation");
 //     }
 //
 //     return (Theta);
@@ -280,7 +294,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 // float hdelphes::HPull::ConfineAngle(float Angle)
 // {
 //
-//     Print(2, "Confine Angle");
+//     Print(HInformation, "Confine Angle");
 //
 //     if (Angle > Pi()) {
 //         Angle -= 2 * Pi();
@@ -289,7 +303,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //         Angle += 2 * Pi();
 //     }
 //     if (fabs(Angle) > Pi()) {
-//         Print(0, "Error in Angle Confinment", Angle);
+//         Print(HError, "Error in Angle Confinment", Angle);
 //     }
 //
 //     return (Angle);
@@ -297,12 +311,12 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 // }
 //
 //
-// float hdelphes::HPull::SubPull(const PseudoJet& SubJet, const PseudoJet& RefJet, const PseudoJet& CandidateJet)
+// float hdelphes::HPull::SubPull(const fastjet::PseudoJet& SubJet, const fastjet::PseudoJet& RefJet, const fastjet::PseudoJet& CandidateJet)
 // {
 //
-//     Print(2, "Sub Pull");
+//     Print(HInformation, "Sub Pull");
 //
-//     Print(4, "Mass", CandidateJet.m());
+//     Print(HDetailed, "Mass", CandidateJet.m());
 //
 //     float SubJetPt = SubJet.pt();
 //
@@ -314,13 +328,13 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //     float DeltaRSubJetRefJet = RefJet.delta_R(SubJet);
 //     float DeltaPhi = ConfineAngle(RefJetPhi - SubJetPhi);
-//     Print(2, "DeltaPhi", DeltaPhi);
+//     Print(HInformation, "DeltaPhi", DeltaPhi);
 //
 //     float DeltaRap = RefJetRap - SubJetRap;
-//     Print(2, "DeltaRap", DeltaRap);
+//     Print(HInformation, "DeltaRap", DeltaRap);
 //
 //     float RefTheta = PullAngle(DeltaRap, DeltaPhi);
-//     Print(2, "RefTheta", RefTheta);
+//     Print(HInformation, "RefTheta", RefTheta);
 //
 //     float SubPullRap = 0;
 //     float SubPullPhi = 0;
@@ -329,11 +343,11 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //     HJets ConstVector = CandidateJet.constituents();
 // //     HJets ConstVector = SubJet.constituents();
 //     int ConstSum = ConstVector.size();
-//     Print(2, "Number of Constituents", ConstSum);
+//     Print(HInformation, "Number of Constituents", ConstSum);
 //
 //     for (int ConstNumber = 0; ConstNumber < ConstSum; ConstNumber++) {
 //
-//         PseudoJet ConstJet = ConstVector[ConstNumber];
+//         fastjet::PseudoJet ConstJet = ConstVector[ConstNumber];
 //
 //         float DeltaRConstSubJet = ConstJet.delta_R(SubJet);
 //         float DeltaRConstRefJet = ConstJet.delta_R(RefJet);
@@ -365,12 +379,12 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //         }
 //
 //     }
-//     Print(2, "Number of Valid Constituents", ValidConstituents);
-//     Print(2, "SubPullRap", SubPullRap);
-//     Print(2, "SubPullPhi", SubPullPhi);
+//     Print(HInformation, "Number of Valid Constituents", ValidConstituents);
+//     Print(HInformation, "SubPullRap", SubPullRap);
+//     Print(HInformation, "SubPullPhi", SubPullPhi);
 //
 //     float PullTheta = PullAngle(SubPullRap, SubPullPhi);
-//     Print(2, "PullTheta", PullTheta);
+//     Print(HInformation, "PullTheta", PullTheta);
 //
 //     float Result = InitialValue;
 //     if (ValidConstituents > ConstSum / 5) {
@@ -380,12 +394,12 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //         }
 //
 //         if (fabs(Result) > Pi() && Result != InitialValue) {
-//             Print(0, "Error in Result Calculation");
+//             Print(HError, "Error in Result Calculation");
 //         }
 //
 //     }
 //
-//     Print(2, "Result", Result);
+//     Print(HInformation, "Result", Result);
 //
 //     return (Result);
 //
@@ -393,14 +407,14 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //
 //
-// float hdelphes::HPull::CalculateDiPolarity(const PseudoJet& FatJet, const PseudoJet& FatJetPiece1, const PseudoJet& FatJetPiece2)
+// float hdelphes::HPull::CalculateDiPolarity(const fastjet::PseudoJet& FatJet, const fastjet::PseudoJet& FatJetPiece1, const fastjet::PseudoJet& FatJetPiece2)
 // {
 //
-//     Print(2, "Calculate DiPolarity");
+//     Print(HInformation, "Calculate DiPolarity");
 //
 //     // Filtering
-// //     PseudoJet Parent1 = MassDropJet.pieces()[0];
-// //     PseudoJet Parent2 = MassDropJet.pieces()[1];
+// //     fastjet::PseudoJet Parent1 = MassDropJet.pieces()[0];
+// //     fastjet::PseudoJet Parent2 = MassDropJet.pieces()[1];
 // //     float ParentCylinderDistance = Parent1.delta_R(Parent2);
 // //     // MinimalCylinderDistance = Jing: 0.35; fastjet: 0.3; paper: 0.3; somewhat arbitrary choice
 // //     float MinimalCylinderDistance = .3;
@@ -411,7 +425,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 // //     int NumberHardestPieces = 2;
 // //     Selector ThreeHardest = SelectorNHardest(NumberHardestPieces);
 // //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
-// //     PseudoJet FatJet = FatJetFilter(MassDropJet);
+// //     fastjet::PseudoJet FatJet = FatJetFilter(MassDropJet);
 // //
 // //
 // //
@@ -419,13 +433,13 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //
 //     float FatJetPt = FatJet.pt();
-//     Print(2, "FatJet Pt", FatJetPt);
+//     Print(HInformation, "FatJet Pt", FatJetPt);
 //
 //     HJets FatJetPieceVector = FatJet.pieces();
 //     int PieceSum = FatJetPieceVector.size();
-//     if (PieceSum != 2) Print(0, "Number of Fat Jet Pieces", PieceSum);
-// //     PseudoJet FatJetPiece1 = FatJetPieceVector[0];
-// //     PseudoJet FatJetPiece2 = FatJetPieceVector[1];
+//     if (PieceSum != 2) Print(HError, "Number of Fat Jet Pieces", PieceSum);
+// //     fastjet::PseudoJet FatJetPiece1 = FatJetPieceVector[0];
+// //     fastjet::PseudoJet FatJetPiece2 = FatJetPieceVector[1];
 //
 //     float Piece1Eta = FatJetPiece1.rap();
 //     float Piece1Phi = FatJetPiece1.phi();
@@ -436,7 +450,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //     float DeltaPhi = Piece2Phi - Piece1Phi;
 //
 //     float PieceDistanceSqr = DeltaEta * DeltaEta + DeltaPhi * DeltaPhi;
-//     Print(2, "Piece Distance sqr", PieceDistanceSqr);
+//     Print(HInformation, "Piece Distance sqr", PieceDistanceSqr);
 //     float DiPolaritySum = 0;
 //     float ConstituentPtSum = 0;
 //     float ConstituentRSqrSum = 0;
@@ -450,18 +464,18 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //         HJets ConstituentsVector = FatJet.constituents();
 //         int ConstituentsSum = ConstituentsVector.size();
-//         Print(2, "Number of Fat Jet Constituents", ConstituentsSum);
+//         Print(HInformation, "Number of Fat Jet Constituents", ConstituentsSum);
 //
 //         for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ConstituentsNumber++) {
 //
-//             Print(3, "Entering Fat Jet Constituent", ConstituentsNumber);
-//             PseudoJet ConstituentJet = ConstituentsVector[ConstituentsNumber];
+//             Print(HDebug, "Entering Fat Jet Constituent", ConstituentsNumber);
+//             fastjet::PseudoJet ConstituentJet = ConstituentsVector[ConstituentsNumber];
 //
 //             float ConstituentPhi = ConstituentJet.phi();
-//             Print(3, "Constituent Phi", ConstituentPhi);
+//             Print(HDebug, "Constituent Phi", ConstituentPhi);
 //
 //             float ConstituentEta = ConstituentJet.rap();
-//             Print(3, "Constituent Eta", ConstituentEta);
+//             Print(HDebug, "Constituent Eta", ConstituentEta);
 //
 //             float ConstituentDeltaEta = Piece1Eta - ConstituentEta;
 //             float ConstituentDeltaPhi = Piece1Phi - ConstituentPhi;
@@ -475,22 +489,22 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //             if (ConstituentDistance1Sqr > (PieceDistanceSqr / 2) && ConstituentDistance2Sqr > (PieceDistanceSqr / 2)) {
 //
-//                 Print(3, "out of cones");
+//                 Print(HDebug, "out of cones");
 //                 continue;
 //
 //             }
 //             ValidConstituents++;
 //
 //             float ConstituentPt = ConstituentJet.pt();
-//             Print(3, "Constituent Pt", ConstituentPt);
+//             Print(HDebug, "Constituent Pt", ConstituentPt);
 //
 //             float ConstituentNumSqr = pow(DeltaEta * ConstituentDeltaPhi - DeltaPhi * ConstituentDeltaEta, 2);
 //
-//             Print(3, "ConstituentNumSqr", ConstituentNumSqr);
+//             Print(HDebug, "ConstituentNumSqr", ConstituentNumSqr);
 //             float ConstituentRSqr = ConstituentNumSqr / PieceDistanceSqr;
 //
 //             DiPolaritySum += ConstituentRSqr * ConstituentPt / FatJetPt ;
-//             Print(3, "DiPolarity Sum", DiPolaritySum);
+//             Print(HDebug, "DiPolarity Sum", DiPolaritySum);
 //
 //             ConstituentPtSum += ConstituentPt;
 //
@@ -500,7 +514,7 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //         }
 //
-//         Print(3, "Fraction of valid Constitueants", 1 - (ConstituentsSum - ValidConstituents) / ConstituentsSum);
+//         Print(HDebug, "Fraction of valid Constitueants", 1 - (ConstituentsSum - ValidConstituents) / ConstituentsSum);
 //
 //         DiPolarity = DiPolaritySum / PieceDistanceSqr;
 //
@@ -508,12 +522,12 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //     if (DiPolarity < 0.01 && DiPolarity > 0) {
 //
-//         Print(2, "Pt Ratio", ConstituentPtSum / FatJetPt);
-//         Print(2, "RSqr Ratio", ConstituentRSqrSum / PieceDistanceSqr);
-//         Print(2, "PieceDistanceSqr", PieceDistanceSqr);
-//         Print(2, "ConstituentNumSqrSum", ConstituentNumSqrSum);
-//         Print(2, "DiPolaritySum", DiPolaritySum);
-//         Print(2, "DiPolarity", DiPolarity);
+//         Print(HInformation, "Pt Ratio", ConstituentPtSum / FatJetPt);
+//         Print(HInformation, "RSqr Ratio", ConstituentRSqrSum / PieceDistanceSqr);
+//         Print(HInformation, "PieceDistanceSqr", PieceDistanceSqr);
+//         Print(HInformation, "ConstituentNumSqrSum", ConstituentNumSqrSum);
+//         Print(HInformation, "DiPolaritySum", DiPolaritySum);
+//         Print(HInformation, "DiPolarity", DiPolarity);
 //
 //     }
 //
@@ -523,13 +537,13 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //
 //
 //
-// float hdelphes::HPull::JingDipolarity(const PseudoJet &CandidateJet)
+// float hdelphes::HPull::JingDipolarity(const fastjet::PseudoJet &CandidateJet)
 // {
 //
-//     Print(2, "Jing Dipolarity");
+//     Print(HInformation, "Jing Dipolarity");
 //
 //     HJets SubJetVector = CandidateJet.pieces();
-//     if (SubJetVector.size() != 2) Print(0, "not two subjets");
+//     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 //
 //     // Filtering
 //     float ParentCylinderDistance = SubJetVector[0].delta_R(SubJetVector[1]);
@@ -542,10 +556,10 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const PseudoJet &Jet, const 
 //     int NumberHardestPieces = 3;
 //     Selector ThreeHardest = SelectorNHardest(NumberHardestPieces);
 //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
-//     PseudoJet FilterJet = FatJetFilter(CandidateJet);
+//     fastjet::PseudoJet FilterJet = FatJetFilter(CandidateJet);
 //
 //     SubJetVector = FilterJet.pieces();
-//     if (SubJetVector.size() != 2) Print(0, "not two subjets");
+//     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 //
 //
 //     float Eta1, Eta2, Phi1, Phi2;

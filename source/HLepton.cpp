@@ -3,7 +3,7 @@
 hanalysis::HLepton::HLepton()
 {
 
-    Print(1,"Constructor");
+    Print(HNotification,"Constructor");
 
 //     Debug = 5;
 
@@ -12,14 +12,14 @@ hanalysis::HLepton::HLepton()
 hanalysis::HLepton::~HLepton()
 {
 
-    Print(1,"Destructor");
+    Print(HNotification,"Destructor");
 
 }
 
 void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 {
 
-    Print(2,"New Event");
+    Print(HInformation,"New Event");
 
     ClonesArray = NewClonesArray;
 
@@ -57,10 +57,10 @@ void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArray)
 
 }
 
-HVectors hanalysis::HLepton::GetLeptonLorentzVectors()
+HVectors hanalysis::HLepton::GetLeptonVectors()
 {
 
-  Print(2,"Get Leptons");
+  Print(HInformation,"Get Leptons");
 
   if(!GotElectrons) GotElectrons = GetElectrons();
   if(!GotMuons) GotMuons = GetMuons();
@@ -68,21 +68,21 @@ HVectors hanalysis::HLepton::GetLeptonLorentzVectors()
     LeptonLorentzVectors = ElectronLorentzVectors;
     LeptonLorentzVectors.insert(LeptonLorentzVectors.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
 //     LeptonVector.insert(LeptonVector.end(), TauVector.begin(), TauVector.end());
-    sort(LeptonLorentzVectors.begin(), LeptonLorentzVectors.end(), SortByPt());
+    std::sort(LeptonLorentzVectors.begin(), LeptonLorentzVectors.end(), SortByPt());
 
-    Print(3,"Number of Leptons",LeptonLorentzVectors.size());
+    Print(HDebug,"Number of Leptons",LeptonLorentzVectors.size());
 
     AntiLeptonLorentzVectors = AntiElectronLorentzVectors;
     AntiLeptonLorentzVectors.insert(AntiLeptonLorentzVectors.end(), AntiMuonLorentzVectors.begin(), AntiMuonLorentzVectors.end());
 //     AntiLeptonVector.insert(AntiLeptonVector.end(), AntiTauVector.begin(), AntiTauVector.end());
-    sort(AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end(), SortByPt());
+    std::sort(AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end(), SortByPt());
 
 
-    Print(3,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
+    Print(HDebug,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
 
     HVectors CompleteVector = LeptonLorentzVectors;
     CompleteVector.insert(CompleteVector.end(), AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end());
-    sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
+    std::sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
 
     return CompleteVector;
 
@@ -93,7 +93,7 @@ HVectors hanalysis::HLepton::GetLeptonLorentzVectors()
 HJets hanalysis::HLepton::GetLeptonJets()
 {
 
-    Print(2,"Get Lepton Jets");
+    Print(HInformation,"Get Lepton Jets");
 
     if(!GotElectrons) GotElectrons = GetElectrons();
     if(!GotMuons) GotMuons = GetMuons();
@@ -103,13 +103,13 @@ HJets hanalysis::HLepton::GetLeptonJets()
 //     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());
 //     sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
 
-    Print(3,"Number of Lepton Jets",LeptonJets.size());
+    Print(HDebug,"Number of Lepton Jets",LeptonJets.size());
 
     AntiLeptonJets = AntiElectronJets;
     AntiLeptonJets.insert(AntiLeptonJets.end(), AntiMuonJets.begin(), AntiMuonJets.end());
 //     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiTauJetVector.begin(), AntiTauJetVector.end());
 //     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
-    Print(3,"Number of Anti Lepton Jets",AntiLeptonJets.size());
+    Print(HDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
 
     HJets CompleteJetVector = LeptonJets;
     CompleteJetVector.insert(CompleteJetVector.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
@@ -169,7 +169,7 @@ void leptons::LeptonsAndMissingEt()
         if (ElectronPt > LeptonLowerPtCut && Abs(ElectronEta) < LeptonUpperEtaCut) {
 
             ElectronCounter++;
-            PseudoJet lepton = PseudoJet(ElectronPt * Cos(ElectronPhi), ElectronPt * Sin(ElectronPhi), ElectronPt * SinH(ElectronEta), ElectronPt * CosH(ElectronEta));
+            fastjet::PseudoJet lepton = fastjet::PseudoJet(ElectronPt * Cos(ElectronPhi), ElectronPt * Sin(ElectronPhi), ElectronPt * SinH(ElectronEta), ElectronPt * CosH(ElectronEta));
 
         }
 
@@ -187,7 +187,7 @@ void leptons::LeptonsAndMissingEt()
         if (MuonPt > LeptonLowerPtCut && Abs(MuonEta) < LeptonUpperEtaCut) {
 
             MuonCounter++;
-            PseudoJet lepton = PseudoJet(MuonPt * Cos(MuonPhi), MuonPt * Sin(MuonPhi), MuonPt * SinH(MuonEta), MuonPt * CosH(MuonEta));
+            fastjet::PseudoJet lepton = fastjet::PseudoJet(MuonPt * Cos(MuonPhi), MuonPt * Sin(MuonPhi), MuonPt * SinH(MuonEta), MuonPt * CosH(MuonEta));
 
         }
 

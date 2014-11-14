@@ -3,14 +3,14 @@
 hheavyhiggs::HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
 }
 
 std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const std::string &StudyName) const
 {
 
-    Print(1, "Fill Analysis Vector",StudyName);
+    Print(HNotification, "Fill Analysis Vector",StudyName);
 
     std::vector<hanalysis::HFile*> Files;
 
@@ -22,7 +22,7 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(con
     Files.front()->SetFileSuffix("_PGS.root");
     Files.front()->SetTreeName("LHCO");
 
-    Print(1, "Files prepared", Files.size());
+    Print(HNotification, "Files prepared", Files.size());
 
     return Files;
 
@@ -31,7 +31,7 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(con
 void hheavyhiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWriter)
 {
 
-    Print(1, "New File");
+    Print(HNotification, "New File");
 
 
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
@@ -48,16 +48,16 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWrit
 
 void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 {
-    Print(1, "Close File");
+    Print(HNotification, "Close File");
 
 //     if (Cut) {
 
-        Print(1, "EventCounter", EventCounter);
-        Print(1, "JetCounter", JetCounter);
-        Print(1, "DeltaEtaCounter", DeltaEtaCounter);
-        Print(1, "BMassCounter", BMassCounter);
-        Print(1, "Jet2Counter", Jet2Counter);
-        Print(1, "TMassCounter", TMassCounter);
+        Print(HNotification, "EventCounter", EventCounter);
+        Print(HNotification, "JetCounter", JetCounter);
+        Print(HNotification, "DeltaEtaCounter", DeltaEtaCounter);
+        Print(HNotification, "BMassCounter", BMassCounter);
+        Print(HNotification, "Jet2Counter", Jet2Counter);
+        Print(HNotification, "TMassCounter", TMassCounter);
 
 //     }
 
@@ -67,17 +67,17 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
-    Print(2, "Analysis",StudyName);
+    Print(HInformation, "Analysis",StudyName);
 
 //     Event->GetJets();
 
     HJets BJets = Event->GetJets()->GetBottomJets();
 
-    Print(2, "BJet Sum", BJets.size());
+    Print(HInformation, "BJet Sum", BJets.size());
 
 //     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
 //
-//         Print(2, "BJet Pt", BJets[BJetNumber].pt());
+//         Print(HInformation, "BJet Pt", BJets[BJetNumber].pt());
 //
 //     }
 //
@@ -90,18 +90,18 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
 // //         }
 // //     }
 //
-//     BJets.erase(std::remove_if(BJets.begin(), BJets.end(), [](PseudoJet Jet) {
+//     BJets.erase(std::remove_if(BJets.begin(), BJets.end(), [](fastjet::PseudoJet Jet) {
 //         return Jet.pt() > 1000000;
 //     }), BJets.end());
-//     BJets.erase(std::remove_if(BJets.begin(), BJets.end(), [](PseudoJet Jet) {
+//     BJets.erase(std::remove_if(BJets.begin(), BJets.end(), [](fastjet::PseudoJet Jet) {
 //         return Jet.pt() < 1;
 //     }), BJets.end());
 //
-//     Print(2, "BJet Sum", BJets.size());
+//     Print(HInformation, "BJet Sum", BJets.size());
 //
 //     for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
 //
-//         Print(2, "BJet Pt", BJets[BJetNumber].pt());
+//         Print(HInformation, "BJet Pt", BJets[BJetNumber].pt());
 //
 //     }
 
@@ -111,13 +111,13 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
 
         for (unsigned BJetNumber = 0; BJetNumber < BJets.size(); ++BJetNumber) {
 
-            Print(2, "BJetNumber", BJetNumber);
+            Print(HInformation, "BJetNumber", BJetNumber);
 
             for (unsigned BJetNumber2 = 0; BJetNumber2 < BJetNumber; ++BJetNumber2) {
 
-                Print(2, "BJetNumber2", BJetNumber2);
+                Print(HInformation, "BJetNumber2", BJetNumber2);
 
-                PseudoJet FrontJet, BackJet;
+                fastjet::PseudoJet FrontJet, BackJet;
 
                 if (BJets[BJetNumber].rap() > BJets[BJetNumber2].rap()) {
 
@@ -131,30 +131,30 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
 
                 } else {
 
-                    Print(1, "Comparison broken");
+                    Print(HNotification, "Comparison broken");
 
                 }
 
                 float FrontPt = FrontJet.pt();
                 float FrontEta = FrontJet.rap();
                 float FrontPhi = FrontJet.phi_std();
-                Print(2, "FrontPt", FrontPt);
-                Print(2, "FrontEta", FrontEta);
-                Print(2, "FrontPhi", FrontPhi);
+                Print(HInformation, "FrontPt", FrontPt);
+                Print(HInformation, "FrontEta", FrontEta);
+                Print(HInformation, "FrontPhi", FrontPhi);
 
                 float BackEta = BackJet.rap();
                 float BackPt = BackJet.pt();
                 float BackPhi = BackJet.phi_std();
 
-                Print(2, "BackPt", BackPt);
-                Print(2, "BackEta", BackEta);
-                Print(2, "BackPhi", BackPhi);
+                Print(HInformation, "BackPt", BackPt);
+                Print(HInformation, "BackEta", BackEta);
+                Print(HInformation, "BackPhi", BackPhi);
 
                 float InvMass = (FrontJet + BackJet).m();
                 float DeltaEta = FrontEta - BackEta;
 
-                Print(2, "InvMass", InvMass);
-                Print(2, "DeltaEta", DeltaEta);
+                Print(HInformation, "InvMass", InvMass);
+                Print(HInformation, "DeltaEta", DeltaEta);
 
                 float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
 
@@ -183,7 +183,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
 
     } else {
 
-        Print(2, "Just 1 B Jet");
+        Print(HInformation, "Just 1 B Jet");
 
     }
 

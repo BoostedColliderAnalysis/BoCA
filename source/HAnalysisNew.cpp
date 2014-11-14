@@ -6,7 +6,7 @@
 hanalysis::HAnalysis()
 {
 
-    Print(1, "Constructor");
+    Print(HNotification, "Constructor");
 
     EventNumberMax = 100000;
 
@@ -26,9 +26,9 @@ std::vector<std::string> hanalysis::GetStudyNameVector()
 void hanalysis::AnalysisLoop()
 {
 
-    Print(1, "Analysis Loop");
+    Print(HNotification, "Analysis Loop");
 
-    Print(1,"");
+    Print(HNotification,"");
 
     std::vector<std::string> StudyNames = GetStudyNames();
 
@@ -62,7 +62,7 @@ void hanalysis::AnalysisLoop()
 
     } else {
 
-      Print(0, "unknown Tree String", Files.front()->GetTreeName());
+      Print(HError, "unknown Tree String", Files.front()->GetTreeName());
 
     }
 
@@ -71,7 +71,7 @@ void hanalysis::AnalysisLoop()
     for (unsigned StudyNumber = 0; StudyNumber < StudySum; ++StudyNumber) {
 
         StudyName = StudyNameVector[StudyNumber];
-        Print(1, "Analysing Mva Sample", StudyName);
+        Print(HNotification, "Analysing Mva Sample", StudyName);
 
         GetClonesArrays();
 
@@ -80,14 +80,14 @@ void hanalysis::AnalysisLoop()
     int FileSum = Files.size();
     for (FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
 
-        Print(1, "Analysing File", FileNumber + 1);
+        Print(HNotification, "Analysing File", FileNumber + 1);
         NewFileBase();
 
         ExRootProgressBar ProgressBar(EventSum);
 
         for (EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
 
-            Print(2, "Analysing Event", EventNumber + 1);
+            Print(HInformation, "Analysing Event", EventNumber + 1);
             NewEvent();
             ProgressBar.Update(EventNumber);
             if (DebugLevel > 1) cout << endl;
@@ -96,25 +96,25 @@ void hanalysis::AnalysisLoop()
         ProgressBar.Finish();
         //             cout << endl;
 
-        Print(1, "All Events analysed", EventSum);
+        Print(HNotification, "All Events analysed", EventSum);
         CloseFileBase();
         if (DebugLevel > 0) cout << endl;
 
     }
-    Print(1, "All Files analysed", FileSum);
+    Print(HNotification, "All Files analysed", FileSum);
 
 //         DeleteStudy();
 
 //     }
 
-//     Print(1, "All Mva Samples analysed", StudySum);
+//     Print(HNotification, "All Mva Samples analysed", StudySum);
 
 }
 
 void hanalysis::NewStudy()
 {
 
-    Print(1, "New Mva", StudyName);
+    Print(HNotification, "New Mva", StudyName);
 
 
     // Export file
@@ -127,7 +127,7 @@ void hanalysis::NewStudy()
 
 void hanalysis::NewFileBase()
 {
-    Print(1, "New Analysis");
+    Print(HNotification, "New Analysis");
 
     AnalysisNotEmpty = 0;
 
@@ -150,26 +150,26 @@ void hanalysis::NewFileBase()
     // Import file
     TString ImportPath = Files[FileNumber]->GetFilePath();
     ImportFile = new TFile(ImportPath);
-    Print(1, "File", ImportPath);
+    Print(HNotification, "File", ImportPath);
 
     // Import tree
     TString ImportTreeName = Files[FileNumber]->GetTreeName();
     ImportTree = (TTree *)ImportFile->Get(ImportTreeName);
-    Print(1, "Tree", ImportTreeName);
+    Print(HNotification, "Tree", ImportTreeName);
 
     // TreeReader
     TreeReader = new ExRootTreeReader(ImportTree);
     EventSum = min((int)TreeReader->GetEntries(), EventNumberMax);
 
     ClonesArrays->UseBranches(TreeReader);
-    Print(3,"we have new branches");
+    Print(HDebug,"we have new branches");
 
 }
 
 
 void hanalysis::NewEvent()
 {
-    Print(2, "New Event");
+    Print(HInformation, "New Event");
 
     Event->NewEvent(ClonesArrays);
 
@@ -179,7 +179,7 @@ void hanalysis::NewEvent()
 
 //     if (Successfull) {
 
-    Print(0,"File",ExportFiles[Successfull]->GetName());
+    Print(HError,"File",ExportFiles[Successfull]->GetName());
 
         TreeWriter->SetTreeFile(ExportFiles[Successfull]);
 
@@ -200,7 +200,7 @@ void hanalysis::NewEvent()
 
 void hanalysis::CloseFileBase()
 {
-    Print(1, "Clean Analysis");
+    Print(HNotification, "Clean Analysis");
 
 
     for (unsigned StudyNumber = 0; StudyNumber < ExportFiles.size(); ++StudyNumber) {
@@ -227,7 +227,7 @@ void hanalysis::CloseFileBase()
 
 void hanalysis::DeleteStudy()
 {
-    Print(1, "Clean Mva");
+    Print(HNotification, "Clean Mva");
 
 }
 
@@ -235,7 +235,7 @@ void hanalysis::DeleteStudy()
 hanalysis::~HAnalysis()
 {
 
-    Print(1, "Destructor");
+    Print(HNotification, "Destructor");
 
     for (unsigned StudyNumber = 0; StudyNumber < ExportFiles.size(); ++StudyNumber) {
 
