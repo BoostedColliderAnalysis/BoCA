@@ -17,7 +17,7 @@ hanalysis::HObject::HObject() :
     ThreeSigma(0.9973)
 {
 
-    DebugLevel = 1;
+    DebugLevel = HError;
     Print(HDebug, "Constructor");
 
 }
@@ -34,7 +34,7 @@ float hanalysis::HObject::GetDistance(const float Eta1, const float Phi1, const 
 
     Print(HDebug, "GetDistance");
 
-    return (sqrt(pow((Eta2 - Eta1), 2) + pow(GetDeltaPhi(Phi2, Phi1), 2)));
+    return (std::sqrt(std::pow((Eta2 - Eta1), 2) + std::pow(GetDeltaPhi(Phi2, Phi1), 2)));
 
 }
 
@@ -43,7 +43,7 @@ float hanalysis::HObject::GetDistance(const float Eta, const float Phi) const
 
   Print(HDebug, "GetDistance");
 
-    return (sqrt(pow(Eta, 2) + pow(Phi, 2)));
+    return (std::sqrt(std::pow(Eta, 2) + std::pow(Phi, 2)));
 
 }
 

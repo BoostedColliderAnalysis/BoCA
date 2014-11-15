@@ -71,15 +71,11 @@ public:
 private:
 
     inline int GetEventNumberMax() const {
-
         return 10000;
-
     };
 
-    inline std::string GetProjectName()const {
-
+    inline std::string GetProjectName() const {
         return "HiggsCpv";
-
     };
 
     hhiggscpv::HJetTag *JetTag;
@@ -114,7 +110,7 @@ private:
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
 
-    void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2) const;
+    void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -133,7 +129,7 @@ private:
     inline std::vector<std::string> GetStudyNames() const;
 
     virtual inline std::string NameSpaceName() const {
-      return "HiggsCPV";
+        return "HiggsCPV";
     };
 
     virtual inline std::string ClassName() const {

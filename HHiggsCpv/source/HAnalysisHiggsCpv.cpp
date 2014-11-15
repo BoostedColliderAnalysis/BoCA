@@ -148,13 +148,14 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
     for (unsigned JetPosition1 = 0; JetPosition1 < Jets.size(); ++JetPosition1) {
 
         if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
-        if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag() <= 0) continue;
+//         hanalysis::HJetInfo = Jets[JetPosition1].user_info<hanalysis::HJetInfo>();
+        if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
 
-        Print(HDebug,"Distance",Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag());
+        Print(HDebug,"Distance",Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement());
         for (unsigned JetPosition2 = JetPosition1 + 1; JetPosition2 < Jets.size() ; ++JetPosition2) {
 
             if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
-            if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag() <= 0) continue;
+            if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
 
             hdelphes::HSuperStructure JetPair(Jets[JetPosition1], Jets[JetPosition2]);
             JetPair.SetPosition1(JetPosition1);
@@ -189,20 +190,21 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
     Candidate->ScalarHt = Event->GetJets()->GetScalarHt();
     Candidate->JetNumber = Event->GetJets()->GetJets().size();
     Candidate->BottomNumber = Event->GetJets()->GetBottomJets().size();
+    Candidate->VertexNumber = Event->GetJets()->GetBottomJets().size();
 
 
     if (JetPairs.size() > 0) {
         Print(HInformation, "Pair1", JetPairs.at(0).GetPosition1(), JetPairs.at(0).GetPosition2(), JetPairs.at(0).GetInvariantMass());
-        FillCandidate(JetPairs.at(0),&Candidate->InvMass1,&Candidate->DeltaR1,&Candidate->Pull11,&Candidate->Pull12,&Candidate->Vertex11,&Candidate->Vertex12);
+        FillCandidate(JetPairs.at(0),&Candidate->InvMass1,&Candidate->DeltaR1,&Candidate->Pull11,&Candidate->Pull12,&Candidate->Vertex11,&Candidate->Vertex12,&Candidate->Mass11,&Candidate->Mass12);
         if (JetPairs.size() > 1) {
-            FillCandidate(JetPairs.at(1),&Candidate->InvMass2,&Candidate->DeltaR2,&Candidate->Pull21,&Candidate->Pull22,&Candidate->Vertex21,&Candidate->Vertex22);
+            FillCandidate(JetPairs.at(1),&Candidate->InvMass2,&Candidate->DeltaR2,&Candidate->Pull21,&Candidate->Pull22,&Candidate->Vertex21,&Candidate->Vertex22,&Candidate->Mass21,&Candidate->Mass22);
             if (JetPairs.size() > 2) {
-                FillCandidate(JetPairs.at(2),&Candidate->InvMass3,&Candidate->DeltaR3,&Candidate->Pull31,&Candidate->Pull32,&Candidate->Vertex31,&Candidate->Vertex32);
-                return 1;
+                FillCandidate(JetPairs.at(2),&Candidate->InvMass3,&Candidate->DeltaR3,&Candidate->Pull31,&Candidate->Pull32,&Candidate->Vertex31,&Candidate->Vertex32,&Candidate->Mass31,&Candidate->Mass32);
             }
 
         }
 
+        if(Candidate->Pull31!=-10&&Candidate->Pull32!=-10)return 1;
 
 
 //         HVectors ConstituentVectors = FirstPair.GetConstituents();
@@ -227,7 +229,7 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
 }
 
-void hhiggscpv::HAnalysis::FillCandidate(const hdelphes::HSuperStructure &JetPair, float * const InvMass, float * const DeltaR, float * const Pull1, float * const Pull2, float * const Vertex1, float * const Vertex2) const {
+void hhiggscpv::HAnalysis::FillCandidate(const hdelphes::HSuperStructure &JetPair, float * const InvMass, float * const DeltaR, float * const Pull1, float * const Pull2, float * const Vertex1, float * const Vertex2, float* const Mass1, float * const Mass2) const {
 
     Print(HInformation,"FillCandidate",JetPair.GetPosition1(),JetPair.GetPosition2());
 
@@ -235,8 +237,14 @@ void hhiggscpv::HAnalysis::FillCandidate(const hdelphes::HSuperStructure &JetPai
     *DeltaR = JetPair.GetDeltaR();
     if (JetPair.GetJet1().has_constituents()) *Pull1 = JetPair.GetPullAngle1();
     if (JetPair.GetJet2().has_constituents()) *Pull2 = JetPair.GetPullAngle2();
-    if (JetPair.GetJet1().has_user_info<hanalysis::HJetInfo>()) *Vertex1 = JetPair.GetJet1().user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag();
-    if (JetPair.GetJet2().has_user_info<hanalysis::HJetInfo>()) *Vertex2 = JetPair.GetJet2().user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag();
+    if (JetPair.GetJet1().has_user_info<hanalysis::HJetInfo>()) {
+        *Vertex1 = JetPair.GetJet1().user_info<hanalysis::HJetInfo>().GetJetDisplacement();
+        *Mass1 = JetPair.GetJet1().user_info<hanalysis::HJetInfo>().GetVertexMass();
+    }
+    if (JetPair.GetJet2().has_user_info<hanalysis::HJetInfo>()) {
+        *Vertex2 = JetPair.GetJet2().user_info<hanalysis::HJetInfo>().GetJetDisplacement();
+        *Mass2 = JetPair.GetJet2().user_info<hanalysis::HJetInfo>().GetVertexMass();
+    }
 
 }
 

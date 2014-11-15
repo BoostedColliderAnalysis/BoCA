@@ -131,9 +131,12 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, ha
 
         Constituents.push_back(GetConstituentJet(Object, JetDetails));
 
-        Vertices.insert(Vertices.end(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().begin(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().end());
-            Print(HDetailed, "Vertex", Vertices.back().Position.Vect().Mag());
+        for(const auto & Vertex: Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices()){
 
+          Vertices.push_back(Vertex);
+//         Vertices.insert(Vertices.end(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().begin(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().end());
+            Print(HDetailed, "Vertex", Vertex.Position.Vect().Mag());
+        }
 //         if (Constituents.back().user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag() > Vertex.Vect().Mag()) {
 //             Vertex = Constituents.back().user_info<hanalysis::HJetInfo>().GetVertex();
 //             Print(HDetailed, "Vertex", Vertex.Vect().Mag());

@@ -19,20 +19,18 @@ struct HConstituent {
         return NewVertex;
     }
 
-    HConstituent& operator=(HConstituent other)
-    {
-        std::swap(*this, other);
-        return *this;
-    }
+//     HConstituent& operator=(HConstituent other)
+//     {
+//         std::swap(*this, other);
+//         return *this;
+//     }
 
 };
 
 struct SortByDistance {
 
-    inline bool operator()(const HConstituent &Vertex1,const HConstituent &Vertex2) {
-      const float Mag1 = Vertex1.Position.Vect().Mag();
-      const float Mag2 = Vertex2.Position.Vect().Mag();
-        return ( Mag1 > Mag2 );
+    inline bool operator()(const HConstituent &Vertex1,const HConstituent &Vertex2) const {
+        return ( Vertex1.Position.Vect().Mag() > Vertex2.Position.Vect().Mag() );
     }
 
 };
@@ -113,16 +111,15 @@ public:
         Vertices.push_back(Vertex);
     }
 
-
     void SetVertices(const std::vector<HConstituent> &NewVertices) {
-      Vertices = NewVertices;
+        Vertices = NewVertices;
     }
 
-    void SetVertex(const HConstituent &NewVertex) {
-      Vertices.push_back(NewVertex);
+    void SetVertex(HConstituent &NewVertex) {
+        Vertices.push_back(NewVertex);
     }
 
-    void AddVertices(const std::vector<HConstituent> &NewVertices) {
+    void AddVertices(std::vector<HConstituent> &NewVertices) {
         Vertices.insert(Vertices.end(),NewVertices.begin(),NewVertices.end());
     }
 
@@ -130,13 +127,30 @@ public:
         return Vertices;
     }
 
-    float GetJetDisplacement() const {
+    float GetJetDisplacement() {
+      Print(HDebug,"Get Jet Displacement");
+
+        if (Vertices.size()==0) return 0;
         std::sort(Vertices.begin(),Vertices.end(),SortByDistance());
-//         return (Vertices.begin()->Position.Vect.Mag());
-        return 0;
+        return (Vertices.front().Position.Vect().Mag());
+    }
+
+    int GetVertexNumber() const {
+      return Vertices.size();
+    }
+
+    float GetJetDisplacement() const {
+
+      Print(HDebug,"Get Jet Displacement");
+        // TODO is there a way to get rid of the const?
+        if (Vertices.size()==0) return 0;
+        std::vector<HConstituent> TempVertices= Vertices;
+        std::sort(TempVertices.begin(),TempVertices.end(),SortByDistance());
+        return (TempVertices.front().Position.Vect().Mag());
     }
 
     float GetVertexMass() const {
+      Print(HDebug,"Get Vertex Mass");
         HConstituent Vertex;
         return (std::accumulate(Vertices.begin(),Vertices.end(),Vertex).Momentum.M());//#include <numeric>
     }

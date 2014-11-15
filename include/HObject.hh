@@ -358,7 +358,7 @@ protected:
      * 4: Step by Step Information
      *
      */
-    int DebugLevel;
+    HSeverity DebugLevel;
 
     /**
      * @brief A large number

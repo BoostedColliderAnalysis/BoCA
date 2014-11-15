@@ -41,9 +41,17 @@ void hhiggscpv::HCandidateBranch::reset()
     Vertex31 = InitialValue;
     Vertex32 = InitialValue;
 
+    Mass11 = InitialValue;
+    Mass12 = InitialValue;
+    Mass21 = InitialValue;
+    Mass22 = InitialValue;
+    Mass31 = InitialValue;
+    Mass32 = InitialValue;
+
     ScalarHt = InitialValue;
     JetNumber = InitialValue;
     BottomNumber = InitialValue;
+    VertexNumber = InitialValue;
 
     HiggsTag = InitialValue;
     TopTag = InitialValue;

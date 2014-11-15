@@ -28,7 +28,7 @@ hmva::HFactory::HFactory(HMva * const NewMva)
 
     OutputFile->Close();
 
-    DebugLevel = 4;
+//     DebugLevel = 4;
 
 }
 

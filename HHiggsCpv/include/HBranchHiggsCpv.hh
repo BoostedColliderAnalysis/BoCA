@@ -37,6 +37,7 @@ public:
     float ScalarHt;
     float JetNumber;
     float BottomNumber;
+    float VertexNumber;
 
     float Pull11;
     float Pull12;
@@ -53,6 +54,13 @@ public:
     float Vertex22;
     float Vertex31;
     float Vertex32;
+
+    float Mass11;
+    float Mass12;
+    float Mass21;
+    float Mass22;
+    float Mass31;
+    float Mass32;
 
     float DeltaR1;
     float DeltaR2;
