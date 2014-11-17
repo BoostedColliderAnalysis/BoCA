@@ -84,26 +84,6 @@ bool hanalysis::HJetInfo::HasParticle(const int ParticleId) const
 
 }
 
-// float Analysis::HJetInfo::GetMaximalFraction() const
-// {
-//
-//     Print(HInformation, "Get Maximal Fraction");
-//
-//     pair<int, float> MaximalPt = *max_element(JetFractions.begin(), JetFractions.end(), SortPairs());
-//     std::nth_element(JetFractions.begin(), JetFractions.begin() + 1, JetFractions.end(), SortPairs());
-//
-//     if (GetWeightSum() == 0) {
-//
-//         return 0;
-//
-//     } else {
-//
-//         return (MaximalPt.second / GetWeightSum());
-//
-//     }
-//
-// }
-
 int hanalysis::HJetInfo::GetMaximalId() const
 {
 

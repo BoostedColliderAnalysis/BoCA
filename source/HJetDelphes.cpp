@@ -49,6 +49,10 @@ bool hdelphes::HJet::GetJets(hanalysis::HJet::HJetDetails JetDetails)
 
         if (JetDetails == Tagging || JetDetails == TaggingStructure) {
 
+          if(JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>()){
+            // TODO keep working
+          }
+
             Jets.back().set_user_info(new hanalysis::HJetInfo(GetJetId(JetClone)));
             Jets.back().set_user_index(Jets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
 

@@ -3,7 +3,7 @@
 
 
 # include "HMva.hh"
-# include "HBranchHiggsCpv.hh"
+# include "HBranchBTagger.hh"
 
 /**
  *
@@ -36,7 +36,7 @@ protected:
 
 private:
 
-      HCandidateBranch *Candidate;
+      HBTaggerBranch *Candidate;
 
       void DefineVariables();
 

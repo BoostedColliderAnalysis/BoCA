@@ -4,7 +4,7 @@
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
-# include "HBranchHiggsCpv.hh"
+# include "HBranchBTagger.hh"
 # include "HSubStructure.hh"
 # include "HSuperStructure.hh"
 
@@ -26,7 +26,7 @@ public:
 //     const std::set<int> IntermediateParticles {BottomId};
 
     virtual inline std::string NameSpaceName() const {
-        return "HiggsCPV";
+        return "hbtagger";
     };
 
     virtual inline std::string ClassName() const {
@@ -63,9 +63,9 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *CandidateBranch;
+    ExRootTreeBranch *BTaggerBranch;
 
-    ExRootTreeBranch *ConstituentBranch;
+//     ExRootTreeBranch *ConstituentBranch;
 
 
 private:
@@ -75,7 +75,7 @@ private:
     };
 
     inline std::string GetProjectName() const {
-        return "HiggsCpv";
+        return "BTagger";
     };
 
     hbtagger::HJetTag *JetTag;
@@ -88,20 +88,20 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    HJets GetLeptonJets(hanalysis::HEvent *const Event);
+//     HJets GetLeptonJets(hanalysis::HEvent *const Event);
 
 //     template <typename T, typename U>
 //     std::pair<T, U> operator+(const std::pair<T, U> &l, const std::pair<T, U> &r) {
 //         return {l.first + r.first, l.second + r.second};
 //     }
 
-    std::pair<float, float> GetPull(fastjet::PseudoJet &CandidateJet);
+//     std::pair<float, float> GetPull(fastjet::PseudoJet &CandidateJet);
 
     /**
      * @brief Lepton event counter
      *
      */
-    int LeptonEventCounter;
+//     int LeptonEventCounter;
 
     /**
      * @brief Main Analysis function
@@ -110,7 +110,7 @@ private:
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
 
-    void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
+//     void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -129,7 +129,7 @@ private:
     inline std::vector<std::string> GetStudyNames() const;
 
     virtual inline std::string NameSpaceName() const {
-        return "HiggsCPV";
+        return "hbtagger";
     };
 
     virtual inline std::string ClassName() const {
