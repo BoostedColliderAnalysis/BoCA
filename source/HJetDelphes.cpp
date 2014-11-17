@@ -48,12 +48,15 @@ bool hdelphes::HJet::GetJets(hanalysis::HJet::HJetDetails JetDetails)
         }
 
         if (JetDetails == Tagging || JetDetails == TaggingStructure) {
+                        
+              hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(GetJetId(JetClone));
 
           if(JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>()){
-            // TODO keep working
+
+              JetInfo->SetVertices(Jets.back().user_info<hanalysis::HJetInfo>().GetVertices());
           }
 
-            Jets.back().set_user_info(new hanalysis::HJetInfo(GetJetId(JetClone)));
+            Jets.back().set_user_info(JetInfo);
             Jets.back().set_user_index(Jets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
 
 

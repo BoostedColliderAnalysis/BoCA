@@ -1,4 +1,3 @@
-
 HDictionary(HBranchHiggsCpv HBranchHiggsCpv.cpp ../include/HLinkDefHiggsCpv.hh)
 
 HLibrary(HAnalysisHiggsCpv HAnalysisHiggsCpv.cpp)

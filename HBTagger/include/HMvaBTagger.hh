@@ -1,5 +1,5 @@
-# ifndef HMvaHiggsCpv_hh
-# define HMvaHiggsCpv_hh
+# ifndef HMvaBTagger_hh
+# define HMvaBTagger_hh
 
 
 # include "HMva.hh"

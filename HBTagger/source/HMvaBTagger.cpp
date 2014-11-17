@@ -5,19 +5,19 @@ hbtagger::HMva::HMva()
 
     Print(HNotification , "Constructor");
 
-    AnalysisName = "HiggsCpv";
+    AnalysisName = "BTagger";
 
-    SignalNames = {"JetPair"};
+    SignalNames = {"Bottom"};
 
-    BackgroundNames = {"JetPair"};
+    BackgroundNames = {"LightJet"};
 
-    TestName = "JetPair";
+    TestName = "Test";
 
-    SignalTreeNames = {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
+    SignalTreeNames = {"pp-hjj-bbjj-run_01"};
 
-    BackgroundTreeNames = {"pp-bbtt-bblvlv-background"};
+    BackgroundTreeNames = {"pp-hjj-bbjj-run_01"};
 
-    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
+    TestTreeNames = {"pp-hjj-bbjj-run_01"};
 
     CandidateBranchName = "Candidate";
 
@@ -53,12 +53,12 @@ void hbtagger::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Candidate->VertexMass, "Candidate.VertexMass", "VertexMass", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->JetMass, "Candidate.JetMass", "JetMass", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->DeltaR, "Candidate.DeltaR", "DeltaR"));
-    Observables.push_back(NewObservable(&Candidate->Vertex, "Candidate.Vertex", "Vertex"));
-
-    Spectators.push_back(NewObservable(&Candidate->BTag, "Candidate.HiggsTag", "Higgs Tag"));
+    Observables.push_back(NewObservable(&Candidate->VertexMass, "BTagger.VertexMass", "VertexMass", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->JetMass, "BTagger.JetMass", "JetMass", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->VertexNumber, "BTagger.VertexNumber", "VertexNumber"));
+    Observables.push_back(NewObservable(&Candidate->Vertex, "BTagger.Vertex", "Vertex"));
+    
+    Spectators.push_back(NewObservable(&Candidate->BTag, "BTagger.BTag", "BTag"));
 
     Print(HNotification, "Variables defined");
 
@@ -70,11 +70,9 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
     Print(HNotification, "Apply Bdt");
 
     const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
-//   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
     ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(CandidateBranchName.c_str(), HBTaggerBranch::Class());
-//   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 
@@ -107,14 +105,6 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 
         }
 
-//     for (int CandidateNumber = 0; CandidateNumber < SpectatorClonesArray->GetEntriesFast(); ++CandidateNumber) {
-
-//       HLeptonBranch *Lepton = (HLeptonBranch *) SpectatorClonesArray->At(CandidateNumber);
-
-//       HLeptonBranch *ExportLepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
-//       (*ExportLepton) = *Lepton;
-
-//     }
 
         TreeWriter->Fill();
         TreeWriter->Clear();

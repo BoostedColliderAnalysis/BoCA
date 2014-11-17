@@ -139,8 +139,11 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 {
 
     Print(HInformation, "Analysis", StudyName);
-//     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     HJets Jets = Event->GetJets()->GetStructuredJets();
+    
+    
+    
+    
 
     std::sort(Jets.begin(), Jets.end(), SortJetByPt());
 
@@ -183,6 +186,16 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
         Print(HInformation, "Number of Jet Pairs", JetPairs.size());
         return 0;
     }
+    
+    
+    
+    hbtagger::HMva *Mva = new hbtagger::HMva();
+    
+    hmva::HReader *Reader = new hmva::HReader(Mva);
+    
+    delete Reader;
+    
+    delete Mva;
 
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());

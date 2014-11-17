@@ -1,5 +1,5 @@
-# ifndef HBranchHiggsCpv_hh
-# define HBranchHiggsCpv_hh
+# ifndef HBranchBTagger_hh
+# define HBranchBTagger_hh
 
 # include "TObject.h"
 # include "Rtypes.h"

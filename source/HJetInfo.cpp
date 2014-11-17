@@ -124,4 +124,18 @@ void hanalysis::HJetInfo::PrintAllInfos(int Severity) const
     }
 
 }
+namespace hanalysis
+{
+float HJetInfo::GetJetDisplacement() const
+{
+
+    Print(HDebug, "Get Jet Displacement");
+    // TODO is there a way to get rid of the const?
+    if (Vertices.size() == 0) return 0;
+    std::vector<HConstituent> TempVertices = Vertices;
+    std::sort(TempVertices.begin(), TempVertices.end(), SortByDistance());
+    return (TempVertices.front().Position.Vect().Mag());
+}
+}
+
 

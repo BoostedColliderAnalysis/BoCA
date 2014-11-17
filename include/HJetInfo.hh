@@ -2,6 +2,7 @@
 # define HJetInfo_hh
 
 # include <map>
+# include <numeric>
 
 # include "HObject.hh"
 
@@ -11,8 +12,7 @@ struct HConstituent {
     TLorentzVector Momentum;
     int MotherId;
 
-    HConstituent operator+(const HConstituent& Vertex)
-    {
+    HConstituent operator+(const HConstituent &Vertex) {
         HConstituent NewVertex;
         NewVertex.Position = this->Position + Vertex.Position;
         NewVertex.Momentum = this->Momentum + Vertex.Momentum;
@@ -29,8 +29,8 @@ struct HConstituent {
 
 struct SortByDistance {
 
-    inline bool operator()(const HConstituent &Vertex1,const HConstituent &Vertex2) const {
-        return ( Vertex1.Position.Vect().Mag() > Vertex2.Position.Vect().Mag() );
+    inline bool operator()(const HConstituent &Vertex1, const HConstituent &Vertex2) const {
+        return (Vertex1.Position.Vect().Mag() > Vertex2.Position.Vect().Mag());
     }
 
 };
@@ -120,7 +120,7 @@ public:
     }
 
     void AddVertices(std::vector<HConstituent> &NewVertices) {
-        Vertices.insert(Vertices.end(),NewVertices.begin(),NewVertices.end());
+        Vertices.insert(Vertices.end(), NewVertices.begin(), NewVertices.end());
     }
 
     std::vector<HConstituent> GetVertices() const {
@@ -128,31 +128,23 @@ public:
     }
 
     float GetJetDisplacement() {
-      Print(HDebug,"Get Jet Displacement");
+        Print(HDebug, "Get Jet Displacement");
 
-        if (Vertices.size()==0) return 0;
-        std::sort(Vertices.begin(),Vertices.end(),SortByDistance());
+        if (Vertices.size() == 0) return 0;
+        std::sort(Vertices.begin(), Vertices.end(), SortByDistance());
         return (Vertices.front().Position.Vect().Mag());
     }
 
     int GetVertexNumber() const {
-      return Vertices.size();
+        return Vertices.size();
     }
 
-    float GetJetDisplacement() const {
-
-      Print(HDebug,"Get Jet Displacement");
-        // TODO is there a way to get rid of the const?
-        if (Vertices.size()==0) return 0;
-        std::vector<HConstituent> TempVertices= Vertices;
-        std::sort(TempVertices.begin(),TempVertices.end(),SortByDistance());
-        return (TempVertices.front().Position.Vect().Mag());
-    }
+    float GetJetDisplacement() const;
 
     float GetVertexMass() const {
-      Print(HDebug,"Get Vertex Mass");
+        Print(HDebug, "Get Vertex Mass");
         HConstituent Vertex;
-        return (std::accumulate(Vertices.begin(),Vertices.end(),Vertex).Momentum.M());//#include <numeric>
+        return (std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M());
     }
 
 

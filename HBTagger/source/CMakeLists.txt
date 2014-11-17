@@ -1,4 +1,3 @@
-
 HDictionary(HBranchBTagger HBranchBTagger.cpp ../include/HLinkDefBTagger.hh)
 
 HLibrary(HAnalysisBTagger HAnalysisBTagger.cpp)

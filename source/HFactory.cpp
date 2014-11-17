@@ -135,10 +135,10 @@ void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeNam
     HInfoBranch *Info = (HInfoBranch *) ClonesArray->First();
 
 //     const float Crosssection = Info->Crosssection;
-    const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
+//     const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
 //     delete TreeReader; // FixMe why
 
-//     const float Crosssection = 1; //FIXME we dont use the crosssection
+    const float Crosssection = 1; //FIXME we dont use the crosssection
 
     Print(HNotification , "Weight", Crosssection);
 

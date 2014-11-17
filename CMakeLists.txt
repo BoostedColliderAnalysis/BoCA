@@ -104,14 +104,22 @@ set(LinkLibraries
 
 add_subdirectory(source)
 
+# Tagger
+add_subdirectory(HBTagger)
+find_library(
+  BTaggerLibrary
+  NAMES HMvaBTagger
+  HINTS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+)
+set(LinkLibraries ${LinkLibraries} ${BTaggerLibrary})
+add_subdirectory(HTopTagger)
+add_subdirectory(HDiscriminator)
+
 # Executables
 add_subdirectory(HHiggsCpv)
-add_subdirectory(HDiscriminator)
 add_subdirectory(HHeavyHiggs)
 add_subdirectory(HJetProperties)
 add_subdirectory(HTest)
-add_subdirectory(HTopTagger)
-add_subdirectory(HBTagger)
 
 # set(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
 #

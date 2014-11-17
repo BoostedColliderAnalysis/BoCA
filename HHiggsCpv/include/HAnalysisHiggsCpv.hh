@@ -7,6 +7,8 @@
 # include "HBranchHiggsCpv.hh"
 # include "HSubStructure.hh"
 # include "HSuperStructure.hh"
+# include "HMvaBTagger.hh"
+# include "HReader.hh"
 
 /**
  *

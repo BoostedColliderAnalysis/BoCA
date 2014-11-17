@@ -25,7 +25,7 @@ hbtagger::HAnalysis::~HAnalysis()
 std::vector<std::string> hbtagger::HAnalysis::GetStudyNames() const
 {
 
-    return  {"Bottom","LightJet"};
+    return  {"Bottom", "LightJet", "Test"};
 
 }
 
@@ -119,20 +119,20 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
 
     Print(HInformation, "Analysis", StudyName);
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-//    Print(HError,"Number Jets",Jets.size());
+    Print(HInformation, "Number Jets", Jets.size());
 
-    if(StudyName == "Bottom") {
+    if (StudyName == "Bottom") {
 
         for (HJets::iterator it = Jets.begin(); it != Jets.end();) {
-//           Print(HError,"Truth Level",(*it).user_info<hanalysis::HJetInfo>().GetMaximalId() );
-            if (std::abs((*it).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId) {
+            Print(HInformation, "Truth Level", (*it).user_info<hanalysis::HJetInfo>().GetMaximalId());
+            if (std::abs((*it).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId || (*it).user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .8) {
                 it = Jets.erase(it);
             } else {
                 ++it;
             }
         }
 
-    } else if (StudyName == "Light") {
+    } else if (StudyName == "LightJet") {
 
         for (HJets::iterator it = Jets.begin(); it != Jets.end();) {
             if (std::abs((*it).user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
@@ -145,30 +145,29 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
     }
 
 
-   if (Jets.size()<1) {
-//      Print(HError,"Not Jets");
-     return 0;
-   }
-   Print(HError,"Number Jets",Jets.size());
-
-   for (const auto & Jet : Jets){
-
-    HBTaggerBranch *BTagger = static_cast<HBTaggerBranch *>(BTaggerBranch->NewEntry());
-
-    BTagger->JetMass = Jet.m();
-
-//     Print(HError,"Mass",Jet.m());
-//     if (Jet.has_constituents()) {
-//       SubStructure->
-//       BTagger->Pull = Jet.GetPullAngle1();
-//       BTagger->DeltaR = Jet.GetDeltaR();
-//     }
-    if (Jet.has_user_info<hanalysis::HJetInfo>()) {
-      Print(HError,"Has Info",BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
-      BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
-      BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
-      BTagger->VertexNumber = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
+    if (Jets.size() < 1) {
+        Print(HInformation, "Not Jets");
+        return 0;
     }
+    Print(HInformation, "Number Jets", Jets.size());
+
+    for (const auto & Jet : Jets) {
+
+        HBTaggerBranch *BTagger = static_cast<HBTaggerBranch *>(BTaggerBranch->NewEntry());
+
+        BTagger->JetMass = Jet.m();
+
+        Print(HInformation, "Mass", Jet.m());
+//         if (Jet.has_constituents()) {
+//             BTagger->Pull = SubStructure->GetDiPolarity(Jet);
+//             BTagger->DeltaR = SubStructure->GetDeltaR();
+//         }
+        if (Jet.has_user_info<hanalysis::HJetInfo>()) {
+            Print(HInformation, "Has Info", BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
+            BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
+            BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
+            BTagger->VertexNumber = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
+        }
 
 //         HVectors ConstituentVectors = FirstPair.GetConstituents();
 //         for (const auto & ConstituentVector : ConstituentVectors) {

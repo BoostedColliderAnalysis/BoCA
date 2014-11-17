@@ -1,5 +1,5 @@
-# ifndef HAnalysisHiggsCpv_hh
-# define HAnalysisHiggsCpv_hh
+# ifndef HAnalysisBTagger_hh
+# define HAnalysisBTagger_hh
 
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
