@@ -106,12 +106,12 @@ add_subdirectory(source)
 
 # Tagger
 add_subdirectory(HBTagger)
-find_library(
-  BTaggerLibrary
-  NAMES HMvaBTagger
-  HINTS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-)
-set(LinkLibraries ${LinkLibraries} ${BTaggerLibrary})
+# find_library(
+#   BTaggerLibrary
+#   NAMES HMvaBTagger
+#   HINTS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+# )
+# set(LinkLibraries ${LinkLibraries} ${BTaggerLibrary})
 add_subdirectory(HTopTagger)
 add_subdirectory(HDiscriminator)
 

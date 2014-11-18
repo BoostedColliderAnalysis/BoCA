@@ -9,6 +9,7 @@
 # include "HSuperStructure.hh"
 # include "HMvaBTagger.hh"
 # include "HReader.hh"
+# include "HFactory.hh"
 
 /**
  *
@@ -69,6 +70,7 @@ public:
 
     ExRootTreeBranch *ConstituentBranch;
 
+    ExRootTreeBranch * BTaggerBranch;
 
 private:
 
@@ -112,6 +114,10 @@ private:
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
 
+    bool GetEvent(hanalysis::HEvent*const Event, const std::string& StudyName);
+
+    bool GetBTag(hanalysis::HEvent*const Event, const std::string& StudyName);
+
     void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
 
     /**
@@ -128,7 +134,7 @@ private:
      */
     void NewBranches(ExRootTreeWriter *TreeWriter);
 
-    inline std::vector<std::string> GetStudyNames() const;
+    inline std::vector<std::string> GetStudyNames(const std::string& TaggerName) const;
 
     virtual inline std::string NameSpaceName() const {
         return "HiggsCPV";

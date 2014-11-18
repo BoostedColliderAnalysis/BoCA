@@ -65,6 +65,40 @@ void hhiggscpv::HCandidateBranch::reset()
 }
 
 
+
+ClassImp(hhiggscpv::HBTaggerBranch)
+
+hhiggscpv::HBTaggerBranch::HBTaggerBranch()
+{
+
+  reset();
+
+}
+
+hhiggscpv::HBTaggerBranch::~HBTaggerBranch() {}
+
+void hhiggscpv::HBTaggerBranch::reset()
+{
+
+  const int InitialValue = -10;
+
+  VertexMass = InitialValue;
+  JetMass = InitialValue;
+  Pull = InitialValue;
+  DeltaR = InitialValue;
+  Vertex = InitialValue;
+  VertexNumber = InitialValue;
+
+  BTag = InitialValue;
+
+  BdtBTag = InitialValue;
+
+  BCutSigEff = InitialValue;
+
+}
+
+
+
 // ClassImp(hhiggscpv::HConstituentBranch)
 //
 // hhiggscpv::HConstituentBranch::HConstituentBranch()

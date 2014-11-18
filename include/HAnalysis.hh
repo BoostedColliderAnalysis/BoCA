@@ -36,6 +36,8 @@ public:
 
     void AnalysisLoop();
 
+    void AnalysisLoop(const std::string Tagger);
+
 protected:
 
     int GetEventSum(const ExRootTreeReader *const TreeReader) const {
@@ -78,9 +80,7 @@ protected:
      *
      */
     virtual inline std::string GetProjectName() const {
-
         return "ProjectName";
-
     }
 
     /**
@@ -88,21 +88,20 @@ protected:
      *
      */
     virtual inline int GetEventNumberMax() const {
-
         return 100000;
-
     };
 
     virtual inline std::vector<std::string> GetStudyNames() const {
-
         return {GetProjectName()};
+    };
 
+    virtual inline std::vector<std::string> GetStudyNames(const std::string &TaggerName) const {
+      Print(HError,"GetStudyName","What are we doing here?",TaggerName);
+      return {GetProjectName()};
     };
 
     virtual inline std::string ClassName() const {
-
         return "HAnalysis";
-
     };
 
 private:

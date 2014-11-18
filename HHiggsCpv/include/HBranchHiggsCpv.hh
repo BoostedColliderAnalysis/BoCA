@@ -16,7 +16,9 @@ class HBranchDiscriminator;
 class HJetDiscriminator;
 class HMva;
 class HCandidateBranch;
+class HBTaggerBranch;
 class HLeptonBranch;
+class HMvaBTagger;
 
 }
 
@@ -87,6 +89,38 @@ private:
 
 };
 
+
+/**
+ *
+ * @brief Class for saving reconstructed candidates to root
+ *
+ */
+class hhiggscpv::HBTaggerBranch : public TObject
+{
+
+public:
+
+  float VertexMass;
+  float JetMass;
+  float VertexNumber;
+  float Pull;
+  float Vertex;
+  float DeltaR;
+  float BTag;
+  float BdtBTag;
+  float BCutSigEff;
+
+  HBTaggerBranch();
+
+  virtual ~HBTaggerBranch();
+
+private:
+
+  void reset();
+
+  ClassDef(HBTaggerBranch, 1)
+
+};
 
 
 /**

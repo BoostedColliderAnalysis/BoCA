@@ -2,9 +2,13 @@
 
 int main()
 {
-  hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
+    hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
 
-    Analysis->AnalysisLoop();
+    Analysis->AnalysisLoop("BTagger");
+
+    // TODO but conditional Factory here
+
+    Analysis->AnalysisLoop("Event");
 
     delete Analysis;
 
