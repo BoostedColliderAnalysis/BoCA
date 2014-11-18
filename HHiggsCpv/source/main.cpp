@@ -6,7 +6,14 @@ int main()
 
     Analysis->AnalysisLoop("BTagger");
 
-    // TODO but conditional Factory here
+
+    hanalysis::HMvaBTagger *Mva = new hhiggscpv::HMvaBTagger();
+
+    hmva::HFactory *Factory = new hmva::HFactory(Mva);
+
+    delete Factory;
+
+    delete Mva;
 
     Analysis->AnalysisLoop("Event");
 

@@ -466,8 +466,8 @@ float hmva::HReader::RoundToDigits(const float Value, const int Digits) const
 
     } else {
 
-        const float Factor = pow(10.0, Digits - ceil(log10(std::abs(Value))));
-        return (round(Value * Factor) / Factor);
+        const float Factor = std::pow(10.0, Digits - ceil(log10(std::abs(Value))));
+        return (std::round(Value * Factor) / Factor);
 
     }
 }
@@ -484,7 +484,7 @@ float hmva::HReader::RoundToError(const float Value, const float Error) const
 
     } else {
 
-        const float Factor = pow(10.0, 2 - ceil(log10(std::abs(Error))));
+        const float Factor = std::pow(10.0, 2 - ceil(log10(std::abs(Error))));
 
         return (round(Value * Factor) / Factor);
 

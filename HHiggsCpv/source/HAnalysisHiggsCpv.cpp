@@ -25,13 +25,13 @@ hhiggscpv::HAnalysis::~HAnalysis()
 std::vector<std::string> hhiggscpv::HAnalysis::GetStudyNames(const std::string &TaggerName) const
 {
 
-  if (TaggerName == "BTagger"){
-    return {"Bottom","LightJet"};
-  }
+    if (TaggerName == "BTagger") {
+        return {"Bottom","LightJet"};
+    }
 
-  if (TaggerName == "Event"){
-    return  {"JetPair"};
-  }
+    if (TaggerName == "Event") {
+        return  {"JetPair"};
+    }
 
 }
 
@@ -150,11 +150,11 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
     if (StudyName == "Bottom" || StudyName == "LightJet") {
 
-      if (GetBTag(Event, StudyName)) return 1;
+        if (GetBTag(Event, StudyName)) return 1;
 
-    } else if (StudyName == "JetPairs"){
+    } else if (StudyName == "JetPairs") {
 
-      if (GetEvent(Event, StudyName)) return 1;
+        if (GetEvent(Event, StudyName)) return 1;
 
     }
 
@@ -165,100 +165,113 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 bool hhiggscpv::HAnalysis::GetEvent(hanalysis::HEvent *const Event, const std::string &StudyName)
 {
 
-
-  HJets Jets = Event->GetJets()->GetStructuredJets();
-  std::sort(Jets.begin(), Jets.end(), SortJetByPt());
-
-  std::vector<hdelphes::HSuperStructure> JetPairs;
-  for (unsigned JetPosition1 = 0; JetPosition1 < Jets.size(); ++JetPosition1) {
-
-    if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
-    //         hanalysis::HJetInfo = Jets[JetPosition1].user_info<hanalysis::HJetInfo>();
-    if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
-
-    Print(HDebug,"Distance",Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement());
-    for (unsigned JetPosition2 = JetPosition1 + 1; JetPosition2 < Jets.size() ; ++JetPosition2) {
-
-      if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
-      if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
-
-      hdelphes::HSuperStructure JetPair(Jets[JetPosition1], Jets[JetPosition2]);
-      JetPair.SetPosition1(JetPosition1);
-      JetPair.SetPosition2(JetPosition2);
-      JetPairs.push_back(JetPair);
-    }
-  }
-  std::sort(JetPairs.begin(), JetPairs.end(), SortByInvMass());
-
-  Print(HInformation, "Got pairs", JetPairs.size());
-
-  for (std::vector<hdelphes::HSuperStructure>::iterator it = JetPairs.begin(); it != JetPairs.end(); ++it) {
-    for (std::vector<hdelphes::HSuperStructure>::iterator it2 = JetPairs.begin(); it2 != JetPairs.end();) {
-      if ((*it).IsSamePair(*it2) && it2 > it) {
-        it2 = JetPairs.erase(it2);
-      } else {
-        ++it2;
-      }
-    }
-    if (it == JetPairs.end()) break;
-  }
+    HJets Jets = Event->GetJets()->GetStructuredJets();
 
 
-  if (JetPairs.size() <= 1) {
-    Print(HInformation, "Number of Jet Pairs", JetPairs.size());
-    return 0;
-  }
+    HMvaBTagger *Mva = new HMvaBTagger();
 
+    hhiggscpv::HReader *Reader = new hhiggscpv::HReader(Mva);
 
+    std::map<int, fastjet::PseudoJet> JetsMap;
 
-  HMvaBTagger *Mva = new HMvaBTagger();
+    for(const auto& Jet : Jets) {
 
-  hmva::HReader *Reader = new hmva::HReader(Mva);
-
-  delete Reader;
-
-  delete Mva;
-
-
-  HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
-
-  Candidate->ScalarHt = Event->GetJets()->GetScalarHt();
-  Candidate->JetNumber = Event->GetJets()->GetJets().size();
-  Candidate->BottomNumber = Event->GetJets()->GetBottomJets().size();
-  Candidate->VertexNumber = Event->GetJets()->GetBottomJets().size();
-
-
-  if (JetPairs.size() > 0) {
-    Print(HInformation, "Pair1", JetPairs.at(0).GetPosition1(), JetPairs.at(0).GetPosition2(), JetPairs.at(0).GetInvariantMass());
-    FillCandidate(JetPairs.at(0),&Candidate->InvMass1,&Candidate->DeltaR1,&Candidate->Pull11,&Candidate->Pull12,&Candidate->Vertex11,&Candidate->Vertex12,&Candidate->Mass11,&Candidate->Mass12);
-    if (JetPairs.size() > 1) {
-      FillCandidate(JetPairs.at(1),&Candidate->InvMass2,&Candidate->DeltaR2,&Candidate->Pull21,&Candidate->Pull22,&Candidate->Vertex21,&Candidate->Vertex22,&Candidate->Mass21,&Candidate->Mass22);
-      if (JetPairs.size() > 2) {
-        FillCandidate(JetPairs.at(2),&Candidate->InvMass3,&Candidate->DeltaR3,&Candidate->Pull31,&Candidate->Pull32,&Candidate->Vertex31,&Candidate->Vertex32,&Candidate->Mass31,&Candidate->Mass32);
-      }
+        int Bdt = Reader->GetBdt(Jet);
+        std::pair<int,fastjet::PseudoJet> JetPair = std::make_pair(Bdt,Jet);
+        JetsMap.add(JetPair);
 
     }
 
-    if(Candidate->Pull31!=-10&&Candidate->Pull32!=-10)return 1;
+    delete Reader;
+
+    delete Mva;
 
 
-    //         HVectors ConstituentVectors = FirstPair.GetConstituents();
-    //         for (const auto & ConstituentVector : ConstituentVectors) {
-    //
-    //
-    //           if (std::abs(ConstituentVector.Eta()) > LargeNumber) {
-    //             Print(HError, "ERROR");
-    //             continue;
-    //           }
-    //
-    //             HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-    //             Constituent->Eta = ConstituentVector.Eta();
-    //             Constituent->Phi = ConstituentVector.Phi();
-    //             Constituent->Pt = ConstituentVector.Pt();
-    //
-    //         }
 
-  }
+
+    std::sort(Jets.begin(), Jets.end(), SortJetByPt());
+
+    std::vector<hdelphes::HSuperStructure> JetPairs;
+    for (unsigned JetPosition1 = 0; JetPosition1 < Jets.size(); ++JetPosition1) {
+
+        if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
+        //         hanalysis::HJetInfo = Jets[JetPosition1].user_info<hanalysis::HJetInfo>();
+        if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
+
+        Print(HDebug,"Distance",Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement());
+        for (unsigned JetPosition2 = JetPosition1 + 1; JetPosition2 < Jets.size() ; ++JetPosition2) {
+
+            if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
+            if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
+
+            hdelphes::HSuperStructure JetPair(Jets[JetPosition1], Jets[JetPosition2]);
+            JetPair.SetPosition1(JetPosition1);
+            JetPair.SetPosition2(JetPosition2);
+            JetPairs.push_back(JetPair);
+        }
+    }
+    std::sort(JetPairs.begin(), JetPairs.end(), SortByInvMass());
+
+    Print(HInformation, "Got pairs", JetPairs.size());
+
+    for (std::vector<hdelphes::HSuperStructure>::iterator it = JetPairs.begin(); it != JetPairs.end(); ++it) {
+        for (std::vector<hdelphes::HSuperStructure>::iterator it2 = JetPairs.begin(); it2 != JetPairs.end();) {
+            if ((*it).IsSamePair(*it2) && it2 > it) {
+                it2 = JetPairs.erase(it2);
+            } else {
+                ++it2;
+            }
+        }
+        if (it == JetPairs.end()) break;
+    }
+
+
+    if (JetPairs.size() <= 1) {
+        Print(HInformation, "Number of Jet Pairs", JetPairs.size());
+        return 0;
+    }
+
+
+
+    HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
+
+    Candidate->ScalarHt = Event->GetJets()->GetScalarHt();
+    Candidate->JetNumber = Event->GetJets()->GetJets().size();
+    Candidate->BottomNumber = Event->GetJets()->GetBottomJets().size();
+    Candidate->VertexNumber = Event->GetJets()->GetBottomJets().size();
+
+
+    if (JetPairs.size() > 0) {
+        Print(HInformation, "Pair1", JetPairs.at(0).GetPosition1(), JetPairs.at(0).GetPosition2(), JetPairs.at(0).GetInvariantMass());
+        FillCandidate(JetPairs.at(0),&Candidate->InvMass1,&Candidate->DeltaR1,&Candidate->Pull11,&Candidate->Pull12,&Candidate->Vertex11,&Candidate->Vertex12,&Candidate->Mass11,&Candidate->Mass12);
+        if (JetPairs.size() > 1) {
+            FillCandidate(JetPairs.at(1),&Candidate->InvMass2,&Candidate->DeltaR2,&Candidate->Pull21,&Candidate->Pull22,&Candidate->Vertex21,&Candidate->Vertex22,&Candidate->Mass21,&Candidate->Mass22);
+            if (JetPairs.size() > 2) {
+                FillCandidate(JetPairs.at(2),&Candidate->InvMass3,&Candidate->DeltaR3,&Candidate->Pull31,&Candidate->Pull32,&Candidate->Vertex31,&Candidate->Vertex32,&Candidate->Mass31,&Candidate->Mass32);
+            }
+
+        }
+
+        if(Candidate->Pull31!=-10&&Candidate->Pull32!=-10)return 1;
+
+
+        //         HVectors ConstituentVectors = FirstPair.GetConstituents();
+        //         for (const auto & ConstituentVector : ConstituentVectors) {
+        //
+        //
+        //           if (std::abs(ConstituentVector.Eta()) > LargeNumber) {
+        //             Print(HError, "ERROR");
+        //             continue;
+        //           }
+        //
+        //             HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
+        //             Constituent->Eta = ConstituentVector.Eta();
+        //             Constituent->Phi = ConstituentVector.Phi();
+        //             Constituent->Pt = ConstituentVector.Pt();
+        //
+        //         }
+
+    }
 
 }
 
@@ -316,7 +329,7 @@ bool hhiggscpv::HAnalysis::GetBTag(hanalysis::HEvent *const Event, const std::st
 
     if (Jets.size() < 1) {
         Print(HInformation, "Not Jets");
-    return 0;
+        return 0;
     }
     Print(HInformation, "Number Jets", Jets.size());
 
@@ -356,19 +369,6 @@ bool hhiggscpv::HAnalysis::GetBTag(hanalysis::HEvent *const Event, const std::st
     }
 
 //   return 1;
-
-
-
-
-
-
-    HMvaBTagger *Mva = new HMvaBTagger();
-
-    hmva::HFactory *Factory = new hmva::HFactory(Mva);
-
-    delete Factory;
-
-    delete Mva;
 
     return 1;
 

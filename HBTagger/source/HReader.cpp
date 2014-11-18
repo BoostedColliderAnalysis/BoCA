@@ -7,7 +7,7 @@
 int main()
 {
 
-  hbtagger::HMva *Mva = new hbtagger::HMva();
+    hbtagger::HMva *Mva = new hbtagger::HMva();
 
     hmva::HReader *Reader = new hmva::HReader(Mva);
 
