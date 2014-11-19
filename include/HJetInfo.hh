@@ -147,6 +147,14 @@ public:
         return (std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M());
     }
 
+    void SetBTag(const float NewBTag) {
+        BTag = NewBTag;
+    }
+
+    float GetBTag() const {
+        return BTag;
+    }
+
 
 protected:
 
@@ -155,6 +163,8 @@ protected:
     };
 
 private:
+
+    float BTag;
 
     float GetWeightSum() const;
 

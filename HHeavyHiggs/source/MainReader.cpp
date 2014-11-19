@@ -8,6 +8,8 @@ int main()
     hmva::HMva *Mva = new hheavyhiggs::HMva();
 
     hmva::HReader *Reader = new hmva::HReader(Mva);
+    
+    Reader->MVALoop();
 
     delete Reader;
 

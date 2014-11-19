@@ -13,8 +13,6 @@ hmva::HReader::HReader(HMva *NewMva)
 
     BookMVA();
 
-    MVALoop();
-
 }
 
 hmva::HReader::~HReader()
@@ -54,12 +52,14 @@ void hmva::HReader::BookMVA()
 
     const std::string XmlName = ".weights.xml";
 
-    const std::string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
+//     const std::string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
+    const std::string CutWeightFile = Mva->AnalysisName + "/" + Mva->TaggerName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
     Print(HError, "Opening Weight File", CutWeightFile);
 
     Reader->BookMVA(Mva->CutMethodName, CutWeightFile);
 
-    const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
+//     const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
+    const std::string BdtWeightFile = Mva->TaggerName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
     Print(HError, "Opening Weight File", BdtWeightFile);
     Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
 
@@ -467,7 +467,7 @@ float hmva::HReader::RoundToDigits(const float Value, const int Digits) const
     } else {
 
         const float Factor = std::pow(10.0, Digits - ceil(log10(std::abs(Value))));
-        return (std::round(Value * Factor) / Factor);
+        return (round(Value * Factor) / Factor);
 
     }
 }
@@ -489,5 +489,13 @@ float hmva::HReader::RoundToError(const float Value, const float Error) const
         return (round(Value * Factor) / Factor);
 
     }
+}
+
+float hmva::HReader::GetBdt() const {
+        
+    
+//     return Reader->EvaluateMVA(BdtMethodName);
+    return 1;
+    
 }
 

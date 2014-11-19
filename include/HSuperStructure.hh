@@ -40,6 +40,8 @@ public:
     float GetPullAngle1() const;
 
     float GetPullAngle2() const;
+    
+    float GetPullAngle() const{ return (GetPullAngle1()*GetPullAngle2());}
 
     void SetJet1(const fastjet::PseudoJet &NewJet) {
         Jet1 = NewJet;
@@ -74,6 +76,12 @@ public:
         return 0;
 
     }
+    
+    void SetBTag(const float BTag1, const float BTag2){
+        BTag = BTag1 * BTag2;
+    }
+    
+    float GetBTag()const{return BTag;}
 
     std::vector< TLorentzVector > GetConstituents() const;
 
@@ -99,6 +107,8 @@ protected:
     };
 
 private:
+    
+    float BTag;
 
     float GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const;
 

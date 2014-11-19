@@ -46,7 +46,7 @@ void hmva::HFactory::NewFactory()
 
     Print(HNotification , "New Factory");
 
-    const std::string FactoryOutputName = "Mva" + Mva->BackgroundName;
+    const std::string FactoryOutputName = "Mva" + Mva->TaggerName;
 
     const std::string OutputFileName = Mva->AnalysisName + "/" + FactoryOutputName + ".root";
 
@@ -55,7 +55,8 @@ void hmva::HFactory::NewFactory()
 //     std::string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
     const std::string FactoryOptions = "";
 
-    Factory = new TMVA::Factory(Mva->AnalysisName, OutputFile, FactoryOptions);
+//     Factory = new TMVA::Factory(Mva->AnalysisName, OutputFile, FactoryOptions);
+    Factory = new TMVA::Factory(Mva->TaggerName, OutputFile, FactoryOptions);
 
 }
 
@@ -66,6 +67,7 @@ void hmva::HFactory::AddVariables()
     Print(HNotification , "Add Variables");
 
     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->AnalysisName;
+//     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->TaggerName;
 
     for (const auto & Observable : Mva->Observables) {
 

@@ -5,7 +5,9 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
 
     Print(HNotification , "Constructor");
 
-    AnalysisName = "BTagger";
+    AnalysisName = "HiggsCpv";
+    
+    TaggerName = "BTagger";
 
     SignalNames = {"Bottom"};
 
@@ -13,15 +15,15 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
 
     TestName = "Test";
 
-    SignalTreeNames = {"pp-hjj-bbjj-run_01"};
+    SignalTreeNames = {"pp-x0tt-bblvlv-even"};
 
-    BackgroundTreeNames = {"pp-hjj-bbjj-run_01"};
+    BackgroundTreeNames = {"pp-bbtt-bblvlv-background"};
 
-    TestTreeNames = {"pp-hjj-bbjj-run_01"};
+    TestTreeNames = {"pp-bbtt-bblvlv-background","pp-x0tt-bblvlv-even"};
 
-    CandidateBranchName = "Candidate";
+    CandidateBranchName = "BTagger";
 
-    SpectatorBranchName = "Lepton";
+//     SpectatorBranchName = "Lepton";
 
     WeightBranchName = "Info";
 
@@ -64,16 +66,18 @@ void hhiggscpv::HMvaBTagger::DefineVariables()
 
 }
 
-
-float hhiggscpv::HMvaBTagger::GetBdt(const hhiggscpv::HBTaggerBranch &Branch) const {
-
-  Reader->AddVariables(Branch);
-
-  reader->BookMVA( methodName, weightfile );
-
-    return Reader->EvaluateMVA(BdtMethodName);
-
+float hhiggscpv::HMvaBTagger::GetBdt(HBTaggerBranch *Branch, TMVA::Reader *Reader){
+    
+    *Candidate = *Branch;
+    
+    const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);   
+    
+    Print(HDebug,"BTagger Bdt",BdtEvaluation);
+    
+    return ((BdtEvaluation+1)/2);
+    
 }
+
 
 void hhiggscpv::HMvaBTagger::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader)
 {

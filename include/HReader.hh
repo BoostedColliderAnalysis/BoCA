@@ -7,6 +7,7 @@
 
 # include "TFile.h"
 # include "TClonesArray.h"
+# include "TObjArray.h"
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "ExRootAnalysis/ExRootTreeWriter.h"
@@ -48,6 +49,12 @@ public:
      *
      */
     ~HReader();
+    
+    float GetBdt() const ;
+
+    void MVALoop();
+
+    TMVA::Reader *Reader;
 
 private:
 
@@ -104,8 +111,6 @@ private:
 
     void BookMVA();
 
-    void MVALoop();
-
     void GetCuts();
 
     void LatexHeader();
@@ -161,8 +166,6 @@ private:
     float GetRatio(const float, const float) const;
 
     void TabularOutput() const;
-
-    TMVA::Reader *Reader;
 
     std::vector<std::vector<double>> CutsMinMatrix;
 

@@ -6,6 +6,8 @@ hhiggscpv::HMva::HMva()
     Print(HNotification , "Constructor");
 
     AnalysisName = "HiggsCpv";
+    
+    TaggerName = "EventTagger";
 
     SignalNames = {"JetPair"};
 
@@ -13,11 +15,13 @@ hhiggscpv::HMva::HMva()
 
     TestName = "JetPair";
 
-    SignalTreeNames = {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
+//     SignalTreeNames = {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
+    SignalTreeNames = {"pp-x0tt-bblvlv-even"};
 
     BackgroundTreeNames = {"pp-bbtt-bblvlv-background"};
 
-    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
+//     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
+    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
 
     CandidateBranchName = "Candidate";
 
@@ -62,18 +66,12 @@ void hhiggscpv::HMva::DefineVariables()
     Observables.push_back(NewObservable(&Candidate->DeltaR3, "Candidate.DeltaR3", "DeltaR3"));
     Observables.push_back(NewObservable(&Candidate->JetNumber, "Candidate.JetNumber", "JetNumber"));
     Observables.push_back(NewObservable(&Candidate->BottomNumber, "Candidate.BottomNumber", "BottomNumber"));
-//     Observables.push_back(NewObservable(&Candidate->Pull11, "Candidate.Pull11", "Pull11"));
-//     Observables.push_back(NewObservable(&Candidate->Pull12, "Candidate.Pull12", "Pull12"));
-//     Observables.push_back(NewObservable(&Candidate->Pull21, "Candidate.Pull21", "Pull21"));
-//     Observables.push_back(NewObservable(&Candidate->Pull22, "Candidate.Pull22", "Pull22"));
-//     Observables.push_back(NewObservable(&Candidate->Pull31, "Candidate.Pull31", "Pull31"));
-//     Observables.push_back(NewObservable(&Candidate->Pull32, "Candidate.Pull32", "Pull32"));
-    Observables.push_back(NewObservable(&Candidate->Vertex11, "Candidate.Vertex11", "Vertex11"));
-    Observables.push_back(NewObservable(&Candidate->Vertex12, "Candidate.Vertex12", "Vertex12"));
-    Observables.push_back(NewObservable(&Candidate->Vertex21, "Candidate.Vertex21", "Vertex21"));
-    Observables.push_back(NewObservable(&Candidate->Vertex22, "Candidate.Vertex22", "Vertex22"));
-    Observables.push_back(NewObservable(&Candidate->Vertex31, "Candidate.Vertex31", "Vertex31"));
-    Observables.push_back(NewObservable(&Candidate->Vertex32, "Candidate.Vertex32", "Vertex32"));
+    Observables.push_back(NewObservable(&Candidate->Pull1, "Candidate.Pull1", "Pull1"));
+    Observables.push_back(NewObservable(&Candidate->Pull2, "Candidate.Pull2", "Pull2"));
+    Observables.push_back(NewObservable(&Candidate->Pull3, "Candidate.Pull3", "Pull3"));
+    Observables.push_back(NewObservable(&Candidate->BTag1, "Candidate.BTag1", "BTag1"));
+    Observables.push_back(NewObservable(&Candidate->BTag2, "Candidate.BTag2", "BTag2"));
+    Observables.push_back(NewObservable(&Candidate->BTag3, "Candidate.BTag3", "BTag3"));
 
     Spectators.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag", "Higgs Tag"));
     Spectators.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag", "Top Tag"));
@@ -81,7 +79,6 @@ void hhiggscpv::HMva::DefineVariables()
     Print(HNotification, "Variables defined");
 
 }
-
 
 void hhiggscpv::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader)
 {

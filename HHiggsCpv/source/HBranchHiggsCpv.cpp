@@ -19,34 +19,18 @@ void hhiggscpv::HCandidateBranch::reset()
     InvMass1 = InitialValue;
     InvMass2 = InitialValue;
     InvMass3 = InitialValue;
-//     InvMass4 = InitialValue;
 
-    Pull11 = InitialValue;
-    Pull12 = InitialValue;
-    Pull21 = InitialValue;
-    Pull22 = InitialValue;
-    Pull31 = InitialValue;
-    Pull32 = InitialValue;
-//     Pull41 = InitialValue;
-//     Pull42 = InitialValue;
+    Pull1 = InitialValue;
+    Pull2 = InitialValue;
+    Pull3 = InitialValue;
 
     DeltaR1 = InitialValue;
     DeltaR2 = InitialValue;
     DeltaR3 = InitialValue;
 
-    Vertex11 = InitialValue;
-    Vertex12 = InitialValue;
-    Vertex21 = InitialValue;
-    Vertex22 = InitialValue;
-    Vertex31 = InitialValue;
-    Vertex32 = InitialValue;
-
-    Mass11 = InitialValue;
-    Mass12 = InitialValue;
-    Mass21 = InitialValue;
-    Mass22 = InitialValue;
-    Mass31 = InitialValue;
-    Mass32 = InitialValue;
+    BTag1 = InitialValue;
+    BTag2 = InitialValue;
+    BTag3 = InitialValue;
 
     ScalarHt = InitialValue;
     JetNumber = InitialValue;

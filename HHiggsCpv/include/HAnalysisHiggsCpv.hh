@@ -70,10 +70,21 @@ public:
 
     ExRootTreeBranch *ConstituentBranch;
 
-    ExRootTreeBranch * BTaggerBranch;
+    ExRootTreeBranch *BTaggerBranch;
 
 private:
-
+    
+    
+    
+    
+    HMvaBTagger *Mva;
+    hmva::HReader *Reader;
+    
+    
+    
+    
+    void FillBTagger(const fastjet::PseudoJet &Jet, HBTaggerBranch *BTagger);
+        
     inline int GetEventNumberMax() const {
         return 10000;
     };
@@ -118,7 +129,7 @@ private:
 
     bool GetBTag(hanalysis::HEvent*const Event, const std::string& StudyName);
 
-    void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
+    void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
 
     /**
      * @brief prepares the std::vector describing the input root files

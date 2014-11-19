@@ -1,10 +1,9 @@
 # ifndef HMva_hh
 # define HMva_hh
 
-// # include "string.h"
 # include "TCut.h"
-
 # include "TClonesArray.h"
+# include "TObjArray.h"
 # include "TMVA/Reader.h"
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
@@ -106,6 +105,12 @@ public:
      *
      */
     std::string AnalysisName;
+    
+    /**
+     * @brief Name of the Analysis
+     *
+     */
+    std::string TaggerName;
 
     /**
      * @brief Name of the Signal File
@@ -157,7 +162,9 @@ public:
     virtual HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&) = 0;
 
     virtual void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *) = 0;
-
+    
+    template<typename TBranch>
+    float GetBdt(TBranch *Branch, TMVA::Reader *Reader);
 
 protected:
 

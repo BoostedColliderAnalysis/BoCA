@@ -35,34 +35,19 @@ public:
     float InvMass1;
     float InvMass2;
     float InvMass3;
-//     float InvMass4;
+
     float ScalarHt;
     float JetNumber;
     float BottomNumber;
     float VertexNumber;
 
-    float Pull11;
-    float Pull12;
-    float Pull21;
-    float Pull22;
-    float Pull31;
-    float Pull32;
-//     float Pull41;
-//     float Pull42;
+    float Pull1;
+    float Pull2;
+    float Pull3;
 
-    float Vertex11;
-    float Vertex12;
-    float Vertex21;
-    float Vertex22;
-    float Vertex31;
-    float Vertex32;
-
-    float Mass11;
-    float Mass12;
-    float Mass21;
-    float Mass22;
-    float Mass31;
-    float Mass32;
+    float BTag1;
+    float BTag2;
+    float BTag3;
 
     float DeltaR1;
     float DeltaR2;

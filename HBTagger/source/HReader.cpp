@@ -10,6 +10,8 @@ int main()
     hbtagger::HMva *Mva = new hbtagger::HMva();
 
     hmva::HReader *Reader = new hmva::HReader(Mva);
+    
+    Reader->MVALoop();
 
     delete Reader;
 

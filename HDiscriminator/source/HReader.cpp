@@ -9,7 +9,9 @@ int main()
 
   hcpvhiggs::HMva *Mva = new hcpvhiggs::HMva();
 
-    hmva::HReader *Reader = new hmva::HReader(Mva);
+  hmva::HReader *Reader = new hmva::HReader(Mva);
+  
+  Reader->MVALoop();
 
     delete Reader;
 
