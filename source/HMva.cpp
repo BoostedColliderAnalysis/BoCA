@@ -20,6 +20,13 @@ hmva::HMva::~HMva()
 
 }
 
+float hmva::HMva::GetBdt(TObject *Branch, TMVA::Reader *Reader){
+    
+    Print(HError,"Get Bdt","should be implemented somewhere else");
+    
+    return 0;        
+}
+
 
 HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Expression, const std::string& Title, const std::string& Unit, const std::string& Latex) const
 {

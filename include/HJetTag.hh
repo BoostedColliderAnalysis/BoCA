@@ -41,9 +41,13 @@ public:
      *
      */
 //     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-    const std::set<int> HeavyParticles {BottomId};
+    std::set<int> HeavyParticles {BottomId};
 
-    const std::set<int> IntermediateParticles {BottomId};
+    void SetHeavyParticles(std::set<int> NewHeavyParticles) {
+        HeavyParticles = NewHeavyParticles;
+    }
+
+//     const std::set<int> IntermediateParticles {BottomId};
 
 protected:
 

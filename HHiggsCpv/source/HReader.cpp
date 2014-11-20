@@ -4,7 +4,7 @@
 int main()
 {
 
-    hhiggscpv::HMva *Mva = new hhiggscpv::HMva();
+    hhiggscpv::HMvaEvent *Mva = new hhiggscpv::HMvaEvent();
 
     hmva::HReader *Reader = new hmva::HReader(Mva);
 

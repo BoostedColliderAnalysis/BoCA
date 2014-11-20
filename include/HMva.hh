@@ -163,8 +163,7 @@ public:
 
     virtual void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *) = 0;
     
-    template<typename TBranch>
-    float GetBdt(TBranch *Branch, TMVA::Reader *Reader);
+    virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader) = 0;
 
 protected:
 

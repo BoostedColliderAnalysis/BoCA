@@ -1,41 +1,24 @@
 # include "HBranchHiggsCpv.hh"
 
-ClassImp(hhiggscpv::HCandidateBranch)
+ClassImp(hhiggscpv::HEventBranch)
 
-hhiggscpv::HCandidateBranch::HCandidateBranch()
+hhiggscpv::HEventBranch::HEventBranch()
 {
 
     reset();
 
 }
 
-hhiggscpv::HCandidateBranch::~HCandidateBranch() {}
+hhiggscpv::HEventBranch::~HEventBranch() {}
 
-void hhiggscpv::HCandidateBranch::reset()
+void hhiggscpv::HEventBranch::reset()
 {
 
     const int InitialValue = -10;
 
-    InvMass1 = InitialValue;
-    InvMass2 = InitialValue;
-    InvMass3 = InitialValue;
-
-    Pull1 = InitialValue;
-    Pull2 = InitialValue;
-    Pull3 = InitialValue;
-
-    DeltaR1 = InitialValue;
-    DeltaR2 = InitialValue;
-    DeltaR3 = InitialValue;
-
-    BTag1 = InitialValue;
-    BTag2 = InitialValue;
-    BTag3 = InitialValue;
-
     ScalarHt = InitialValue;
     JetNumber = InitialValue;
     BottomNumber = InitialValue;
-    VertexNumber = InitialValue;
 
     HiggsTag = InitialValue;
     TopTag = InitialValue;
@@ -49,6 +32,37 @@ void hhiggscpv::HCandidateBranch::reset()
 }
 
 
+
+ClassImp(hhiggscpv::HPairBranch)
+
+hhiggscpv::HPairBranch::HPairBranch()
+{
+    
+    reset();
+    
+}
+
+hhiggscpv::HPairBranch::~HPairBranch() {}
+
+void hhiggscpv::HPairBranch::reset()
+{
+    
+    const int InitialValue = -10;
+    
+    InvMass = InitialValue;
+    
+    Pull1 = InitialValue;
+    Pull2 = InitialValue;
+    Pull = InitialValue;
+    
+    DeltaR = InitialValue;
+    
+    BTag = InitialValue;
+    
+    HiggsTag = InitialValue;
+    TopTag = InitialValue;
+        
+}
 
 ClassImp(hhiggscpv::HBTaggerBranch)
 

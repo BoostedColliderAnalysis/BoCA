@@ -85,6 +85,7 @@ public:
 
     std::vector< TLorentzVector > GetConstituents() const;
 
+    float Tag;
 
 protected:
 

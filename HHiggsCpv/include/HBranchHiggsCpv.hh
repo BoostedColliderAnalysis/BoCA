@@ -9,68 +9,89 @@ namespace hhiggscpv
 {
 
 class HDiscriminator;
-class HJetTag;
-class JetHJetTag;
+class HBottomTag;
+class HPairTag;
 class HAnalysis;
 class HBranchDiscriminator;
 class HJetDiscriminator;
-class HMva;
-class HCandidateBranch;
+class HMvaEvent;
+class HEventBranch;
 class HBTaggerBranch;
 class HLeptonBranch;
 class HMvaBTagger;
-
+class HMvaPair;
+class HPairBranch;
 }
+
+/**
+ * 
+ * @brief Class for saving reconstructed candidates to root
+ *
+ */
+class hhiggscpv::HEventBranch : public TObject
+{
+    
+public:
+        
+    float ScalarHt;
+    float JetNumber;
+    float BottomNumber;
+    
+    float HiggsTag;
+    float TopTag;
+    
+    float TopBdtTag;
+    float JetBdtTag;
+    
+    float TopCutSigEff;
+    float JetCutSigEff;
+    
+    HEventBranch();
+    
+    virtual ~HEventBranch();
+    
+private:
+    
+    void reset();
+    
+    ClassDef(HEventBranch, 1)
+    
+};
 
 /**
  *
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class hhiggscpv::HCandidateBranch : public TObject
+class hhiggscpv::HPairBranch : public TObject
 {
 
 public:
 
-    float InvMass1;
-    float InvMass2;
-    float InvMass3;
+    float InvMass;
 
-    float ScalarHt;
-    float JetNumber;
-    float BottomNumber;
     float VertexNumber;
 
     float Pull1;
     float Pull2;
-    float Pull3;
+    float Pull;
 
-    float BTag1;
-    float BTag2;
-    float BTag3;
+    float BTag;
 
-    float DeltaR1;
-    float DeltaR2;
-    float DeltaR3;
+    float DeltaR;
 
     float HiggsTag;
     float TopTag;
 
-    float TopBdtTag;
-    float JetBdtTag;
+    HPairBranch();
 
-    float TopCutSigEff;
-    float JetCutSigEff;
-
-    HCandidateBranch();
-
-    virtual ~HCandidateBranch();
+    virtual ~HPairBranch();
 
 private:
 
     void reset();
 
-    ClassDef(HCandidateBranch, 1)
+    ClassDef(HPairBranch, 1)
 
 };
 

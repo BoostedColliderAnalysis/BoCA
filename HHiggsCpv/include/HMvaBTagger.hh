@@ -31,7 +31,7 @@ public:
 
     void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *);
     
-    float GetBdt(hhiggscpv::HBTaggerBranch *Branch, TMVA::Reader *Reader);
+    float GetBdt(TObject *Branch, TMVA::Reader *Reader);
 
 protected:
 

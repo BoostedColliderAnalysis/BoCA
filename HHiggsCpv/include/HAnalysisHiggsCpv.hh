@@ -8,6 +8,7 @@
 # include "HSubStructure.hh"
 # include "HSuperStructure.hh"
 # include "HMvaBTagger.hh"
+# include "HMvaPairs.hh"
 # include "HReader.hh"
 # include "HFactory.hh"
 
@@ -16,26 +17,43 @@
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class hhiggscpv::HJetTag : public hanalysis::HJetTag
+class hhiggscpv::HBottomTag : public hanalysis::HJetTag
 {
 
 public:
 
-    int GetBranchId(const int ParticleId, int BranchId);
-
-//     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
     const std::set<int> HeavyParticles {BottomId};
-
-//     const std::set<int> IntermediateParticles {BottomId};
 
     virtual inline std::string NameSpaceName() const {
         return "HiggsCPV";
     };
 
     virtual inline std::string ClassName() const {
-        return "HJetTag";
+        return "HBottomTag";
     };
 
+};
+
+/**
+ * 
+ * @brief HJetTag subclass for HDiscriminator
+ *
+ */
+class hhiggscpv::HPairTag : public hanalysis::HJetTag
+{
+    
+public:
+    
+    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+    
+    virtual inline std::string NameSpaceName() const {
+        return "HiggsCPV";
+    };
+    
+    virtual inline std::string ClassName() const {
+        return "HPairTag";
+    };
+    
 };
 
 /**
@@ -67,23 +85,40 @@ public:
      *
      */
     ExRootTreeBranch *CandidateBranch;
+    
+    ExRootTreeBranch *PairBranch;
 
     ExRootTreeBranch *ConstituentBranch;
 
     ExRootTreeBranch *BTaggerBranch;
+    
+    template<typename TMva>
+    void SetMva(TMva *NewMva){      
+        
+        Print(HNotification,"Set Mva",NewMva->TaggerName);
+        
+        Mva = NewMva;        
+        Reader = new hmva::HReader(Mva);        
+        Reader->AddVariable();        
+        Reader->BookMVA();
+            
+    }
 
 private:
     
     
     
     
-    HMvaBTagger *Mva;
+    hmva::HMva *Mva;
+    
     hmva::HReader *Reader;
     
     
     
     
     void FillBTagger(const fastjet::PseudoJet &Jet, HBTaggerBranch *BTagger);
+    
+    void FillPairTagger(const hdelphes::HSuperStructure& Pair, HPairBranch *PairTagger);
         
     inline int GetEventNumberMax() const {
         return 10000;
@@ -93,7 +128,9 @@ private:
         return "HiggsCpv";
     };
 
-    hhiggscpv::HJetTag *JetTag;
+    hhiggscpv::HBottomTag *BottomTag;
+    
+    hhiggscpv::HPairTag *PairTag;
 
     hdelphes::HSubStructure *SubStructure;
 
@@ -126,6 +163,8 @@ private:
     bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
 
     bool GetEvent(hanalysis::HEvent*const Event, const std::string& StudyName);
+
+    bool GetPair(hanalysis::HEvent*const Event, const std::string& StudyName);
 
     bool GetBTag(hanalysis::HEvent*const Event, const std::string& StudyName);
 

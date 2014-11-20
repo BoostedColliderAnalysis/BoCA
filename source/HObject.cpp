@@ -17,7 +17,7 @@ hanalysis::HObject::HObject() :
     ThreeSigma(0.9973)
 {
 
-    DebugLevel = HNotification;
+    DebugLevel = hanalysis::HObject::HNotification;
     Print(HDebug, "Constructor");
 
 }

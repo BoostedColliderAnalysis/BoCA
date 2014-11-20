@@ -129,12 +129,12 @@ void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeNam
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
     Print(HError,"Branch Name",Mva->CandidateBranchName.c_str());
-    const_cast<TTree *>(Tree)->GetBranch(Mva->CandidateBranchName.c_str());
-    const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
+//     const_cast<TTree *>(Tree)->GetBranch(Mva->CandidateBranchName.c_str());
+//     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
-    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
-    const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
-    HInfoBranch *Info = (HInfoBranch *) ClonesArray->First();
+//     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
+//     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+//     HInfoBranch *Info = (HInfoBranch *) ClonesArray->First();
 
 //     const float Crosssection = Info->Crosssection;
 //     const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();

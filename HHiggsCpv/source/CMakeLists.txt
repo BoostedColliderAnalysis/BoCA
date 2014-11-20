@@ -2,9 +2,11 @@ HDictionary(HBranchHiggsCpv HBranchHiggsCpv.cpp ../include/HLinkDefHiggsCpv.hh)
 
 HLibrary(HMvaBTaggerCpv HMvaBTagger.cpp)
 
-HLibrary(HAnalysisHiggsCpv HAnalysisHiggsCpv.cpp)
+HLibrary(HMvaHiggsTagger HMvaPairs.cpp)
 
-HLibrary(HMvaHiggsCpv HMvaHiggsCpv.cpp)
+HLibrary(HMvaHiggsCpvTagger HMvaHiggsCpv.cpp)
+
+HLibrary(HAnalysisHiggsCpv HAnalysisHiggsCpv.cpp)
 
 HExecutable(HHiggsCpv main.cpp)
 

@@ -10,7 +10,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hhiggscpv::HMva : public hmva::HMva
+class hhiggscpv::HMvaEvent : public hmva::HMva
 {
 
 public:
@@ -19,24 +19,26 @@ public:
     * @brief Constructor
     *
     */
-    HMva();
+    HMvaEvent();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMva();
+    ~HMvaEvent();
 
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
 
     void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *);
+    
+    float GetBdt(TObject *Branch, TMVA::Reader *Reader){};
 
 protected:
 
 
 private:
 
-      HCandidateBranch *Candidate;
+      HEventBranch *Candidate;
 
       void DefineVariables();
 

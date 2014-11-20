@@ -15,15 +15,13 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
 
     TestName = "Test";
 
-    SignalTreeNames = {"pp-x0tt-bblvlv-even"};
-
-    BackgroundTreeNames = {"pp-bbtt-bblvlv-background"};
-
     TestTreeNames = {"pp-bbtt-bblvlv-background","pp-x0tt-bblvlv-even"};
+    
+    SignalTreeNames = TestTreeNames;
+
+    BackgroundTreeNames = TestTreeNames;
 
     CandidateBranchName = "BTagger";
-
-//     SpectatorBranchName = "Lepton";
 
     WeightBranchName = "Info";
 
@@ -68,11 +66,15 @@ void hhiggscpv::HMvaBTagger::DefineVariables()
 
 }
 
-float hhiggscpv::HMvaBTagger::GetBdt(HBTaggerBranch *Branch, TMVA::Reader *Reader){
+// float hhiggscpv::HMvaBTagger::GetBdt(HBTaggerBranch *Branch, TMVA::Reader *Reader){
+float hhiggscpv::HMvaBTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader){
 
   Print(HInformation, "Get Bdt",BdtMethodName);
-
-    *Candidate = *Branch;
+  
+//     *Candidate = *Branch;
+    
+  HBTaggerBranch *TempBranch = static_cast<HBTaggerBranch*>(Branch);
+    *Candidate = *TempBranch;
 
     Print(HInformation, "Mass", Candidate->VertexMass);
 

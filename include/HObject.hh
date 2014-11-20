@@ -233,58 +233,6 @@ public:
 
     }
 
-protected:
-
-    template <typename TValue>
-    int sgn(const TValue Value) const {
-        return (TValue(0) < Value) - (Value < TValue(0));
-    }
-
-    /**
-     * @brief Calcualte distance in eta phi space
-     *
-     * @param  Eta1
-     * @param  Phi1
-     * @param  Eta2
-     * @param  Phi2
-     * @return float distance
-     */
-    float GetDistance(const float, const float, const float, const float) const;
-
-    /**
-     * @brief Calcualte distance from center in eta phi space
-     *
-     * @param  Eta
-     * @param  Phi
-     * @return float distance
-     */
-    float GetDistance(const float, const float) const;
-
-    /**
-     * @brief Take care of phi angles around pi
-     *
-     * @param Phi angle
-     * @param RefPhi reference angle
-     * @return float Phi angle
-     */
-    float GetDeltaPhi(const float Phi, const float ReferencePhi) const;
-
-    virtual inline std::string NameSpaceName() const {
-        return ("HAnalysis");
-    }
-
-    virtual inline std::string ClassName() const {
-
-        return ("HObject");
-
-    };
-
-    enum HStatus {
-        Stable = 1,
-        Unstable = 2,
-        Undefined = 3
-    };
-
     enum HParticleId {
         EmptyId = 0, ///< 0
         DownId = 1,///< \f$d\f$
@@ -343,6 +291,58 @@ protected:
         ProtonId = 2212,
         DeltaBaryon2Id = 2224,
         CpvHiggsId = 5000000
+    };
+
+protected:
+
+    template <typename TValue>
+    int sgn(const TValue Value) const {
+        return (TValue(0) < Value) - (Value < TValue(0));
+    }
+
+    /**
+     * @brief Calcualte distance in eta phi space
+     *
+     * @param  Eta1
+     * @param  Phi1
+     * @param  Eta2
+     * @param  Phi2
+     * @return float distance
+     */
+    float GetDistance(const float, const float, const float, const float) const;
+
+    /**
+     * @brief Calcualte distance from center in eta phi space
+     *
+     * @param  Eta
+     * @param  Phi
+     * @return float distance
+     */
+    float GetDistance(const float, const float) const;
+
+    /**
+     * @brief Take care of phi angles around pi
+     *
+     * @param Phi angle
+     * @param RefPhi reference angle
+     * @return float Phi angle
+     */
+    float GetDeltaPhi(const float Phi, const float ReferencePhi) const;
+
+    virtual inline std::string NameSpaceName() const {
+        return ("HAnalysis");
+    }
+
+    virtual inline std::string ClassName() const {
+
+        return ("HObject");
+
+    };
+
+    enum HStatus {
+        Stable = 1,
+        Unstable = 2,
+        Undefined = 3
     };
 
     std::string GetParticleName(const int ParticleId) const;

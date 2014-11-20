@@ -3,7 +3,7 @@
 
 int main()
 {
-  hmva::HMva *Mva = new hhiggscpv::HMva();
+  hmva::HMva *Mva = new hhiggscpv::HMvaEvent();
 
     hmva::HFactory *Factory = new hmva::HFactory(Mva);
 
