@@ -9,10 +9,6 @@ hmva::HReader::HReader(HMva *NewMva)
 
     Mva = NewMva;
 
-    AddVariable();
-
-    BookMVA();
-
 }
 
 hmva::HReader::~HReader()
@@ -67,6 +63,12 @@ void hmva::HReader::BookMVA()
 
 void hmva::HReader::MVALoop()
 {
+
+
+
+  AddVariable();
+
+  BookMVA();
 
     Print(HNotification, "Mva Loop");
 
@@ -492,10 +494,10 @@ float hmva::HReader::RoundToError(const float Value, const float Error) const
 }
 
 float hmva::HReader::GetBdt() const {
-        
-    
+
+
 //     return Reader->EvaluateMVA(BdtMethodName);
     return 1;
-    
+
 }
 

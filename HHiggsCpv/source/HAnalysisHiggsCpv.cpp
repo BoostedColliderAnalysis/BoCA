@@ -10,6 +10,7 @@ hhiggscpv::HAnalysis::HAnalysis()
     SubStructure = new hdelphes::HSubStructure();
 
     Mva = new HMvaBTagger();
+
     Reader = new hmva::HReader(Mva);
 
 //     DebugLevel = hanalysis::HObject::HDebug;
@@ -193,6 +194,7 @@ bool hhiggscpv::HAnalysis::GetEvent(hanalysis::HEvent *const Event, const std::s
         JetInfo->SetBTag(Bdt);
         Jet.set_user_info(JetInfo);
 
+        Print(HError,"B Bdt",Bdt);
     }
 
 
@@ -300,9 +302,9 @@ void hhiggscpv::HAnalysis::FillCandidate(
     *InvMass = JetPair.GetInvariantMass();
     *DeltaR = JetPair.GetDeltaR();
     if (JetPair.GetJet1().has_constituents()) *Pull = JetPair.GetPullAngle();
-    
-    *BTag = JetPair.GetBTag();    
-    
+
+    *BTag = JetPair.GetBTag();
+
 
 
 }
@@ -323,9 +325,11 @@ bool hhiggscpv::HAnalysis::GetBTag(hanalysis::HEvent *const Event, const std::st
             if (std::abs((*it).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId || (*it).user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .8) {
                 it = Jets.erase(it);
             } else {
+//               (*it).user_info<hanalysis::HJetInfo>().SetBTag(1.);
                 ++it;
             }
         }
+
 
     } else if (StudyName == "LightJet") {
 
@@ -333,6 +337,7 @@ bool hhiggscpv::HAnalysis::GetBTag(hanalysis::HEvent *const Event, const std::st
             if (std::abs((*it).user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
                 it = Jets.erase(it);
             } else {
+//               (*it).user_info<hanalysis::HJetInfo>().SetBTag(0.);
                 ++it;
             }
         }

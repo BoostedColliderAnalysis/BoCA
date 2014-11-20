@@ -4,9 +4,9 @@ HLibrary(HMvaBTaggerCpv HMvaBTagger.cpp)
 
 HLibrary(HAnalysisHiggsCpv HAnalysisHiggsCpv.cpp)
 
-HExecutable(HHiggsCpv main.cpp)
-
 HLibrary(HMvaHiggsCpv HMvaHiggsCpv.cpp)
+
+HExecutable(HHiggsCpv main.cpp)
 
 HExecutable(HFactoryHiggsCpv HFactory.cpp)
 
