@@ -6,7 +6,7 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
     Print(HNotification , "Constructor");
 
     AnalysisName = "HiggsCpv";
-    
+
     TaggerName = "BTagger";
 
     SignalNames = {"Bottom"};
@@ -39,6 +39,8 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
 
 //     Cut = "abs(Candidate.Pull11)<3.2&&abs(Candidate.Pull12)<3.2&&abs(Candidate.Pull21)<3.2&&/*/*abs*/*/(Candidate.Pull22)<3.2&&abs(Candidate.Pull31)<3.2&&abs(Candidate.Pull32)<3.2&&abs(Candidate.Pull41)<3.2&&abs(Candidate.Pull42)<3.2";
 
+//     DebugLevel = HDebug;
+
 }
 
 hhiggscpv::HMvaBTagger::~HMvaBTagger()
@@ -67,15 +69,21 @@ void hhiggscpv::HMvaBTagger::DefineVariables()
 }
 
 float hhiggscpv::HMvaBTagger::GetBdt(HBTaggerBranch *Branch, TMVA::Reader *Reader){
-    
+
+  Print(HInformation, "Get Bdt",BdtMethodName);
+
     *Candidate = *Branch;
-    
-    const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);   
-    
-    Print(HDebug,"BTagger Bdt",BdtEvaluation);
-    
+
+    Print(HInformation, "Mass", Candidate->VertexMass);
+
+//     Reader->
+
+    const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
+
+    Print(HInformation,"BTagger Bdt",BdtEvaluation);
+
     return ((BdtEvaluation+1)/2);
-    
+
 }
 
 

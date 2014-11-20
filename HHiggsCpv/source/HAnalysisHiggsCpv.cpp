@@ -13,6 +13,10 @@ hhiggscpv::HAnalysis::HAnalysis()
 
     Reader = new hmva::HReader(Mva);
 
+    Reader->AddVariable();
+
+    Reader->BookMVA();
+
 //     DebugLevel = hanalysis::HObject::HDebug;
 
 }
@@ -194,7 +198,7 @@ bool hhiggscpv::HAnalysis::GetEvent(hanalysis::HEvent *const Event, const std::s
         JetInfo->SetBTag(Bdt);
         Jet.set_user_info(JetInfo);
 
-        Print(HError,"B Bdt",Bdt);
+        Print(HInformation,"B Bdt",Bdt);
     }
 
 

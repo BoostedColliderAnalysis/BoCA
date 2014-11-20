@@ -5,9 +5,10 @@ hmva::HReader::HReader(HMva *NewMva)
 
     Print(HNotification, "Constructor");
 
-//     DebugLevel = 4;
+//     DebugLevel = HDebug;
 
     Mva = NewMva;
+
 
 }
 
@@ -55,7 +56,7 @@ void hmva::HReader::BookMVA()
     Reader->BookMVA(Mva->CutMethodName, CutWeightFile);
 
 //     const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
-    const std::string BdtWeightFile = Mva->TaggerName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
+    const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->TaggerName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
     Print(HError, "Opening Weight File", BdtWeightFile);
     Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
 

@@ -49,12 +49,16 @@ public:
      *
      */
     ~HReader();
-    
+
     float GetBdt() const ;
 
     void MVALoop();
 
     TMVA::Reader *Reader;
+
+    void AddVariable();
+
+    void BookMVA();
 
 private:
 
@@ -106,10 +110,6 @@ private:
      * @return void
      */
     void ApplyCuts(const ExRootTreeReader *const, const std::string);
-
-    void AddVariable();
-
-    void BookMVA();
 
     void GetCuts();
 
