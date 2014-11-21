@@ -1,4 +1,4 @@
-# include "HMvaHiggsCpv.hh"
+# include "HMvaEvent.hh"
 # include "HFactory.hh"
 
 int main()

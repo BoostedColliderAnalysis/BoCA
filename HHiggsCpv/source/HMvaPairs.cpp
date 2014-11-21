@@ -6,7 +6,7 @@ hhiggscpv::HMvaPair::HMvaPair()
     Print(HNotification , "Constructor");
 
     AnalysisName = "HiggsCpv";
-    
+
     TaggerName = "EventTagger";
 
     SignalNames = {"Higgs"};
@@ -53,23 +53,23 @@ hhiggscpv::HMvaPair::~HMvaPair()
 }
 
 float hhiggscpv::HMvaPair::GetBdt(TObject *Branch, TMVA::Reader *Reader){
-    
+
     Print(HInformation, "Get Bdt",BdtMethodName);
-    
+
     //     *Pair = *Branch;
-    
+
     HPairBranch *TempBranch = static_cast<HPairBranch*>(Branch);
     *Pair = *TempBranch;
-    
+
     Print(HInformation, "Mass", Pair->InvMass);
-    
-    
+
+
     const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
-    
+
     Print(HInformation,"BTagger Bdt",BdtEvaluation);
-    
+
     return ((BdtEvaluation+1)/2);
-    
+
 }
 
 void hhiggscpv::HMvaPair::DefineVariables()
@@ -84,8 +84,8 @@ void hhiggscpv::HMvaPair::DefineVariables()
     Observables.push_back(NewObservable(&Pair->Pull, "Pair.Pull", "Pull"));
     Observables.push_back(NewObservable(&Pair->BTag, "Pair.BTag", "BTag3"));
 
-    Spectators.push_back(NewObservable(&Pair->HiggsTag, "Pair.HiggsTag", "Higgs Tag"));
-    Spectators.push_back(NewObservable(&Pair->TopTag, "Pair.TopTag", "Top Tag"));
+//     Spectators.push_back(NewObservable(&Pair->HiggsTag, "Pair.HiggsTag", "Higgs Tag"));
+//     Spectators.push_back(NewObservable(&Pair->TopTag, "Pair.TopTag", "Top Tag"));
 
     Print(HNotification, "Variables defined");
 
@@ -202,19 +202,19 @@ HReaderStruct hhiggscpv::HMvaPair::CutLoop(const ExRootTreeReader *const TreeRea
             Print(HDebug, "Pair Loop");
             ++ReaderStruct.FatJetSum;
 
-            if (Pair->TopTag) {
+//             if (Pair->TopTag) {
 
                 ++ReaderStruct.TopSum;
                 HasTop = 1;
+//
+//             }
 
-            }
-
-            if (Pair->HiggsTag) {
+//             if (Pair->HiggsTag) {
 
                 ++ReaderStruct.HiggsSum;
                 HasHiggs = 1;
 
-            }
+//             }
 
             (*Pair) = *((HPairBranch *) ClonesArray->At(PairNumber));
 
@@ -245,19 +245,19 @@ HReaderStruct hhiggscpv::HMvaPair::CutLoop(const ExRootTreeReader *const TreeRea
                     ++ReaderStruct.FatJetVector[ObservableNumber];
                     PairEventCut[ObservableNumber] = 0;
 
-                    if (Pair->TopTag) {
+//                     if (Pair->TopTag) {
 
                         ++ReaderStruct.TopVector[ObservableNumber];
                         TopEventCut[ObservableNumber] = 0;
 
-                    }
+//                     }
 
-                    if (Pair->HiggsTag) {
+//                     if (Pair->HiggsTag) {
 
                         ++ReaderStruct.HiggsVector[ObservableNumber];
                         HiggsEventCut[ObservableNumber] = 0;
 
-                    }
+//                     }
 
                 }
 

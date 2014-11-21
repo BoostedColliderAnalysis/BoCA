@@ -94,7 +94,7 @@ void hanalysis::HAnalysis::AnalysisLoop()
 
 void hanalysis::HAnalysis::AnalysisLoop(const std::string Tagger)
 {
-  
+
   Print(HNotification, "Analysis Loop");
 
   for (const auto & StudyName : GetStudyNames(Tagger)) {

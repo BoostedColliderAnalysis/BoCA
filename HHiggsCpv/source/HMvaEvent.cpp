@@ -1,4 +1,4 @@
-# include "HMvaHiggsCpv.hh"
+# include "HMvaEvent.hh"
 
 hhiggscpv::HMvaEvent::HMvaEvent()
 {
@@ -6,7 +6,7 @@ hhiggscpv::HMvaEvent::HMvaEvent()
     Print(HNotification , "Constructor");
 
     AnalysisName = "HiggsCpv";
-    
+
     TaggerName = "EventTagger";
 
     SignalNames = {"Signal"};
@@ -35,7 +35,7 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 
     DoLatex = 1;
 
-    Candidate = new HEventBranch();
+    EventBranch = new HEventBranch();
 
     DefineVariables();
 
@@ -48,7 +48,7 @@ hhiggscpv::HMvaEvent::~HMvaEvent()
 
     Print(HNotification , "Constructor");
 
-    delete Candidate;
+    delete EventBranch;
 
 }
 
@@ -57,13 +57,13 @@ void hhiggscpv::HMvaEvent::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Candidate->ScalarHt, "Candidate.ScalarHt", "ScalarHt", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->JetNumber, "Candidate.JetNumber", "JetNumber"));
-    Observables.push_back(NewObservable(&Candidate->BottomNumber, "Candidate.BottomNumber", "BottomNumber"));
-    Observables.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag", "BTag3"));
+    Observables.push_back(NewObservable(&EventBranch->ScalarHt, "Candidate.ScalarHt", "ScalarHt", "GeV"));
+    Observables.push_back(NewObservable(&EventBranch->JetNumber, "Candidate.JetNumber", "JetNumber"));
+    Observables.push_back(NewObservable(&EventBranch->BottomNumber, "Candidate.BottomNumber", "BottomNumber"));
+    Observables.push_back(NewObservable(&EventBranch->HiggsTag, "Candidate.HiggsTag", "BTag3"));
 
-    Spectators.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag", "Higgs Tag"));
-    Spectators.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag", "Top Tag"));
+    Spectators.push_back(NewObservable(&EventBranch->HiggsTag, "Candidate.HiggsTag", "Higgs Tag"));
+//     Spectators.push_back(NewObservable(&EventBranch->TopTag, "Candidate.TopTag", "Top Tag"));
 
     Print(HNotification, "Variables defined");
 
@@ -88,11 +88,11 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 
         for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
-            (*Candidate) = *((HEventBranch *) CandidateClonesArray->At(CandidateNumber));
+            (*EventBranch) = *((HEventBranch *) CandidateClonesArray->At(CandidateNumber));
 
             HEventBranch *ExportCandidate = static_cast<HEventBranch *>(CandidateBranch->NewEntry());
 
-            (*ExportCandidate) = *Candidate;
+            (*ExportCandidate) = *EventBranch;
 
             const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
 
@@ -106,11 +106,11 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 
             }
 
-            ExportCandidate->JetBdtTag = BdtEvaluation;
-            ExportCandidate->JetCutSigEff = SigEff / StepSize;
+//             ExportCandidate->JetBdtTag = BdtEvaluation;
+//             ExportCandidate->JetCutSigEff = SigEff / StepSize;
 
-            ExportCandidate->TopBdtTag = BdtEvaluation;
-            ExportCandidate->TopCutSigEff = SigEff / StepSize;
+//             ExportCandidate->TopBdtTag = BdtEvaluation;
+//             ExportCandidate->TopCutSigEff = SigEff / StepSize;
 
         }
 
@@ -180,21 +180,21 @@ HReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeRe
             Print(HDebug, "Candidate Loop");
             ++ReaderStruct.FatJetSum;
 
-            if (Candidate->TopTag) {
+//             if (EventBranch->TopTag) {
 
                 ++ReaderStruct.TopSum;
                 HasTop = 1;
 
-            }
+//             }
 
-            if (Candidate->HiggsTag) {
+//             if (EventBranch->HiggsTag) {
 
                 ++ReaderStruct.HiggsSum;
                 HasHiggs = 1;
 
-            }
+//             }
 
-            (*Candidate) = *((HEventBranch *) ClonesArray->At(CandidateNumber));
+            (*EventBranch) = *((HEventBranch *) ClonesArray->At(CandidateNumber));
 
             bool ParticleCut = 0;
             for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
@@ -223,19 +223,19 @@ HReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeRe
                     ++ReaderStruct.FatJetVector[ObservableNumber];
                     CandidateEventCut[ObservableNumber] = 0;
 
-                    if (Candidate->TopTag) {
+//                     if (EventBranch->TopTag) {
 
                         ++ReaderStruct.TopVector[ObservableNumber];
                         TopEventCut[ObservableNumber] = 0;
 
-                    }
+//                     }
 
-                    if (Candidate->HiggsTag) {
+//                     if (EventBranch->HiggsTag) {
 
                         ++ReaderStruct.HiggsVector[ObservableNumber];
                         HiggsEventCut[ObservableNumber] = 0;
 
-                    }
+//                     }
 
                 }
 

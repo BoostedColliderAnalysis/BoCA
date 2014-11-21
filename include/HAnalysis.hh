@@ -95,7 +95,7 @@ protected:
         return {GetProjectName()};
     };
 
-    virtual inline std::vector<std::string> GetStudyNames(const std::string &TaggerName) const {
+    virtual inline std::vector<std::string> GetStudyNames(const std::string &TaggerName) {
       Print(HError,"GetStudyName","What are we doing here?",TaggerName);
       return {GetProjectName()};
     };

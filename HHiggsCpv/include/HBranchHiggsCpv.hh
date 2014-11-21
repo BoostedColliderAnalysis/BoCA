@@ -24,38 +24,38 @@ class HPairBranch;
 }
 
 /**
- * 
+ *
  * @brief Class for saving reconstructed candidates to root
  *
  */
 class hhiggscpv::HEventBranch : public TObject
 {
-    
+
 public:
-        
+
     float ScalarHt;
     float JetNumber;
     float BottomNumber;
-    
+
     float HiggsTag;
-    float TopTag;
-    
-    float TopBdtTag;
-    float JetBdtTag;
-    
-    float TopCutSigEff;
-    float JetCutSigEff;
-    
+//     float TopTag;
+
+//     float TopBdtTag;
+//     float JetBdtTag;
+
+//     float TopCutSigEff;
+//     float JetCutSigEff;
+
     HEventBranch();
-    
+
     virtual ~HEventBranch();
-    
+
 private:
-    
+
     void reset();
-    
+
     ClassDef(HEventBranch, 1)
-    
+
 };
 
 /**
@@ -70,7 +70,7 @@ public:
 
     float InvMass;
 
-    float VertexNumber;
+//     float VertexNumber;
 
     float Pull1;
     float Pull2;
@@ -80,8 +80,8 @@ public:
 
     float DeltaR;
 
-    float HiggsTag;
-    float TopTag;
+//     float HiggsTag;
+//     float TopTag;
 
     HPairBranch();
 
@@ -107,14 +107,14 @@ class hhiggscpv::HBTaggerBranch : public TObject
 public:
 
   float VertexMass;
-  float JetMass;
+//   float JetMass;
   float VertexNumber;
-  float Pull;
+//   float Pull;
   float Vertex;
-  float DeltaR;
-  float BTag;
-  float BdtBTag;
-  float BCutSigEff;
+//   float DeltaR;
+//   float BTag;
+//   float BdtBTag;
+//   float BCutSigEff;
 
   HBTaggerBranch();
 

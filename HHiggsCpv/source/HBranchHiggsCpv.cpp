@@ -21,13 +21,13 @@ void hhiggscpv::HEventBranch::reset()
     BottomNumber = InitialValue;
 
     HiggsTag = InitialValue;
-    TopTag = InitialValue;
+//     TopTag = InitialValue;
 
-    TopBdtTag = InitialValue;
-    JetBdtTag = InitialValue;
+//     TopBdtTag = InitialValue;
+//     JetBdtTag = InitialValue;
 
-    TopCutSigEff = InitialValue;
-    JetCutSigEff = InitialValue;
+//     TopCutSigEff = InitialValue;
+//     JetCutSigEff = InitialValue;
 
 }
 
@@ -37,31 +37,31 @@ ClassImp(hhiggscpv::HPairBranch)
 
 hhiggscpv::HPairBranch::HPairBranch()
 {
-    
+
     reset();
-    
+
 }
 
 hhiggscpv::HPairBranch::~HPairBranch() {}
 
 void hhiggscpv::HPairBranch::reset()
 {
-    
+
     const int InitialValue = -10;
-    
+
     InvMass = InitialValue;
-    
+
     Pull1 = InitialValue;
     Pull2 = InitialValue;
     Pull = InitialValue;
-    
+
     DeltaR = InitialValue;
-    
+
     BTag = InitialValue;
-    
-    HiggsTag = InitialValue;
-    TopTag = InitialValue;
-        
+
+//     HiggsTag = InitialValue;
+//     TopTag = InitialValue;
+
 }
 
 ClassImp(hhiggscpv::HBTaggerBranch)
@@ -81,17 +81,17 @@ void hhiggscpv::HBTaggerBranch::reset()
   const int InitialValue = -10;
 
   VertexMass = InitialValue;
-  JetMass = InitialValue;
-  Pull = InitialValue;
-  DeltaR = InitialValue;
+//   JetMass = InitialValue;
+//   Pull = InitialValue;
+//   DeltaR = InitialValue;
   Vertex = InitialValue;
   VertexNumber = InitialValue;
 
-  BTag = InitialValue;
+//   BTag = InitialValue;
 
-  BdtBTag = InitialValue;
+//   BdtBTag = InitialValue;
 
-  BCutSigEff = InitialValue;
+//   BCutSigEff = InitialValue;
 
 }
 

@@ -21,6 +21,7 @@ namespace hcpvhiggs{
 }
 
 /**
+ * \class HCandidateBranch
  *
  * @brief Class for saving reconstructed candidates to root
  *

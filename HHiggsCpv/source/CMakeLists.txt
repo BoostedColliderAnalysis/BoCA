@@ -4,7 +4,7 @@ HLibrary(HMvaBTaggerCpv HMvaBTagger.cpp)
 
 HLibrary(HMvaHiggsTagger HMvaPairs.cpp)
 
-HLibrary(HMvaHiggsCpvTagger HMvaHiggsCpv.cpp)
+HLibrary(HMvaHiggsCpvTagger HMvaEvent.cpp)
 
 HLibrary(HAnalysisHiggsCpv HAnalysisHiggsCpv.cpp)
 

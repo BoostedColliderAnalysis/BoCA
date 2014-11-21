@@ -16,7 +16,7 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
     TestName = "Test";
 
     TestTreeNames = {"pp-bbtt-bblvlv-background","pp-x0tt-bblvlv-even"};
-    
+
     SignalTreeNames = TestTreeNames;
 
     BackgroundTreeNames = TestTreeNames;
@@ -56,11 +56,11 @@ void hhiggscpv::HMvaBTagger::DefineVariables()
     Print(HNotification , "Define Variables");
 
     Observables.push_back(NewObservable(&Candidate->VertexMass, "BTagger.VertexMass", "VertexMass", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->JetMass, "BTagger.JetMass", "JetMass", "GeV"));
+//     Observables.push_back(NewObservable(&Candidate->JetMass, "BTagger.JetMass", "JetMass", "GeV"));
     Observables.push_back(NewObservable(&Candidate->VertexNumber, "BTagger.VertexNumber", "VertexNumber"));
     Observables.push_back(NewObservable(&Candidate->Vertex, "BTagger.Vertex", "Vertex"));
 
-    Spectators.push_back(NewObservable(&Candidate->BTag, "BTagger.BTag", "BTag"));
+//     Spectators.push_back(NewObservable(&Candidate->BTag, "BTagger.BTag", "BTag"));
 
     Print(HNotification, "Variables defined");
 
@@ -70,9 +70,9 @@ void hhiggscpv::HMvaBTagger::DefineVariables()
 float hhiggscpv::HMvaBTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader){
 
   Print(HInformation, "Get Bdt",BdtMethodName);
-  
+
 //     *Candidate = *Branch;
-    
+
   HBTaggerBranch *TempBranch = static_cast<HBTaggerBranch*>(Branch);
     *Candidate = *TempBranch;
 
@@ -124,8 +124,8 @@ void hhiggscpv::HMvaBTagger::ApplyBdt(const ExRootTreeReader *const TreeReader, 
 
             }
 
-            ExportCandidate->BdtBTag = BdtEvaluation;
-            ExportCandidate->BCutSigEff = SigEff / StepSize;
+//             ExportCandidate->BdtBTag = BdtEvaluation;
+//             ExportCandidate->BCutSigEff = SigEff / StepSize;
 
         }
 
@@ -187,12 +187,12 @@ HReaderStruct hhiggscpv::HMvaBTagger::CutLoop(const ExRootTreeReader *const Tree
             Print(HDebug, "Candidate Loop");
             ++ReaderStruct.FatJetSum;
 
-            if (Candidate->BTag) {
+//             if (Candidate->BTag) {
 
                 ++ReaderStruct.TopSum;
                 HasTop = 1;
 
-            }
+//             }
 
             (*Candidate) = *((HBTaggerBranch *) ClonesArray->At(CandidateNumber));
 
@@ -223,12 +223,12 @@ HReaderStruct hhiggscpv::HMvaBTagger::CutLoop(const ExRootTreeReader *const Tree
                     ++ReaderStruct.FatJetVector[ObservableNumber];
                     CandidateEventCut[ObservableNumber] = 0;
 
-                    if (Candidate->BTag) {
+//                     if (Candidate->BTag) {
 
                         ++ReaderStruct.TopVector[ObservableNumber];
                         TopEventCut[ObservableNumber] = 0;
 
-                    }
+//                     }
 
                 }
 

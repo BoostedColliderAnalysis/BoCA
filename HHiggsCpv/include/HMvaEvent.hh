@@ -38,7 +38,7 @@ protected:
 
 private:
 
-      HEventBranch *Candidate;
+      HEventBranch *EventBranch;
 
       void DefineVariables();
 
