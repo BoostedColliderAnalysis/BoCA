@@ -45,7 +45,7 @@ struct HReaderStruct {
 
 };
 
-
+template<typename TValue>
 class HObservable// : public HObject
 {
 
@@ -53,9 +53,9 @@ public :
 
     HObservable();
 
-    HObservable(float *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex);
+    TValue *Value;
+    HObservable(TValue *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex);
 
-    float *Value;
 
     std::string Expression;
 
@@ -105,7 +105,7 @@ public:
      *
      */
     std::string AnalysisName;
-    
+
     /**
      * @brief Name of the Analysis
      *
@@ -162,7 +162,7 @@ public:
     virtual HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&) = 0;
 
     virtual void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *) = 0;
-    
+
     virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader) = 0;
 
 protected:
@@ -177,15 +177,34 @@ protected:
         return "HMva";
     };
 
-    HObservable NewObservable(float *const Value, const std::string &Expression, const std::string &Title, const std::string &Unit, const std::string &Latex) const;
+    template<typename TValue>
+    HObservable NewObservable(TValue *const Value, const std::string &Title) const{
 
-    HObservable NewObservable(float *const Value, const std::string &Expression, const std::string &Title, const std::string &Unit) const;
+      Print(HNotification, "New Observable", Title);
 
-    HObservable NewObservable(float *const Value, const std::string &Expression, const std::string &Title) const;
+      const std::string Expression = CandidateBranchName + "." + Title;
 
-    HObservable NewObservable(float *const Value, const std::string &Expression) const;
+      const HObservable Observable(Value, Expression, Title, "", "");
 
-//     HObservable NewObservable(float *const Value, const std::string &Title, const std::string& Unit) const;
+      return Observable;
+
+    };
+
+//     template<typename TValue>
+//     HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Unit) const;
+
+    template<typename TValue>
+    HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const{
+
+      Print(HNotification, "New Observable", Title);
+
+      const std::string Expression = CandidateBranchName + "." + Title;
+
+      const HObservable Observable(Value, Expression, Title, "", Latex);
+
+      return Observable;
+
+    };
 
 private:
 

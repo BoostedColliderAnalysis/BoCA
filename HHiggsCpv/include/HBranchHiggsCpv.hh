@@ -23,6 +23,73 @@ class HMvaPair;
 class HPairBranch;
 }
 
+
+/**
+ *
+ * @brief Class for saving reconstructed candidates to root
+ *
+ */
+class hhiggscpv::HBTaggerBranch : public TObject
+{
+
+public:
+
+    float Mass;
+    float Pt;
+    float Displacement;
+    float Multipliticity;
+
+    inline HBTaggerBranch() {
+        reset();
+    }
+
+    inline virtual ~HBTaggerBranch() {};
+
+private:
+
+    void reset();
+
+    ClassDef(HBTaggerBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Class for saving reconstructed candidates to root
+ *
+ */
+class hhiggscpv::HPairBranch : public TObject
+{
+
+public:
+
+    float Mass;
+    float Pt;
+
+    float DeltaEta;
+    float DeltaPhi;
+    float DeltaR;
+
+    float BTag;
+
+    float Pull1;
+    float Pull2;
+    float Pull;
+
+    inline HPairBranch(){
+      reset();
+    };
+
+    inline virtual ~HPairBranch(){};
+
+private:
+
+    void reset();
+
+    ClassDef(HPairBranch, 1)
+
+};
+
 /**
  *
  * @brief Class for saving reconstructed candidates to root
@@ -38,17 +105,12 @@ public:
     float BottomNumber;
 
     float HiggsTag;
-//     float TopTag;
 
-//     float TopBdtTag;
-//     float JetBdtTag;
+    inline HEventBranch(){
+      reset();
+    }
 
-//     float TopCutSigEff;
-//     float JetCutSigEff;
-
-    HEventBranch();
-
-    virtual ~HEventBranch();
+    inline virtual ~HEventBranch(){};
 
 private:
 
@@ -57,105 +119,6 @@ private:
     ClassDef(HEventBranch, 1)
 
 };
-
-/**
- *
- * @brief Class for saving reconstructed candidates to root
- *
- */
-class hhiggscpv::HPairBranch : public TObject
-{
-
-public:
-
-    float InvMass;
-
-//     float VertexNumber;
-
-    float Pull1;
-    float Pull2;
-    float Pull;
-
-    float BTag;
-
-    float DeltaR;
-
-//     float HiggsTag;
-//     float TopTag;
-
-    HPairBranch();
-
-    virtual ~HPairBranch();
-
-private:
-
-    void reset();
-
-    ClassDef(HPairBranch, 1)
-
-};
-
-
-/**
- *
- * @brief Class for saving reconstructed candidates to root
- *
- */
-class hhiggscpv::HBTaggerBranch : public TObject
-{
-
-public:
-
-  float VertexMass;
-//   float JetMass;
-  float VertexNumber;
-//   float Pull;
-  float Vertex;
-//   float DeltaR;
-//   float BTag;
-//   float BdtBTag;
-//   float BCutSigEff;
-
-  HBTaggerBranch();
-
-  virtual ~HBTaggerBranch();
-
-private:
-
-  void reset();
-
-  ClassDef(HBTaggerBranch, 1)
-
-};
-
-
-/**
- * @brief Class for saving leptons to root
- *
- */
-// class hhiggscpv::HConstituentBranch : public TObject
-// {
-//
-// public:
-//
-//   float Eta;
-//   float Phi;
-//   float Pt;
-//   int Id;
-//
-//   HConstituentBranch();
-//
-//   virtual ~HConstituentBranch();
-//
-// private:
-//
-//   void reset();
-//
-//   ClassDef(HConstituentBranch, 1)
-//
-// };
-
-
 
 
 /**

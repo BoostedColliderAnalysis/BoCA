@@ -61,7 +61,7 @@ float hhiggscpv::HMvaPair::GetBdt(TObject *Branch, TMVA::Reader *Reader){
     HPairBranch *TempBranch = static_cast<HPairBranch*>(Branch);
     *Pair = *TempBranch;
 
-    Print(HInformation, "Mass", Pair->InvMass);
+    Print(HInformation, "Mass", Pair->Mass);
 
 
     const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
@@ -77,7 +77,7 @@ void hhiggscpv::HMvaPair::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Pair->InvMass, "Pair.InvMass", "InvMass", "GeV"));
+    Observables.push_back(NewObservable(&Pair->Mass, "Pair.InvMass", "InvMass", "GeV"));
     Observables.push_back(NewObservable(&Pair->DeltaR, "Pair.DeltaR", "DeltaR1"));
     Observables.push_back(NewObservable(&Pair->Pull1, "Pair.Pull1", "Pull1"));
     Observables.push_back(NewObservable(&Pair->Pull2, "Pair.Pull2", "Pull2"));

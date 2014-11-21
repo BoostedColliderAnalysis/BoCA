@@ -56,13 +56,21 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 //     Files.push_back(Test3);
 //     return Files;
 
+    if(StudyName != "Higgs" && StudyName != "Signal"){
+
     hdelphes::HFile *Test4 = new hdelphes::HFile("pp-bbz-bbvv", "background");
-//     Files.push_back(Test4);
+    //     Files.push_back(Test4);
+
+    hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
+    //     Files.push_back(Test2);
+
 
     hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
     Background->SetCrosssection(3.215); // pb
     Background->SetError(0.012); // pb
     Files.push_back(Background);
+
+    }
 
     hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(30.02079); // pb
@@ -84,10 +92,6 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 
     hdelphes::HFile *Test = new hdelphes::HFile("pp-hjj-bbjj");
 //     Files.push_back(Test);
-
-    hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
-//     Files.push_back(Test2);
-
 //     hdelphes::HFile *Signal = new hdelphes::HFile("pp-htt-bblvlv", "signal");
 //     Signal->Crosssection = 0.01419; // pb
 //     Signal->Error = 0.000067; // pb
@@ -184,42 +188,19 @@ void hhiggscpv::HAnalysis::FillBTagger(const fastjet::PseudoJet &Jet, HBTaggerBr
     Print(HInformation, "Fill BTagger", Jet.m());
 
     if (Jet.has_user_info<hanalysis::HJetInfo>()) {
-        Print(HInformation, "Has Info", BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
-        BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
-        BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
-        BTagger->VertexNumber = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
+        Print(HInformation, "Has Info", BTagger->Displacement = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
+        BTagger->Displacement = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
+        BTagger->Mass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
+        BTagger->Multipliticity = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
     }
 
 }
-
-// struct SortByInvMass {
-//
-//     inline bool operator()(const hdelphes::HSuperStructure &JetPair1,
-//                            const hdelphes::HSuperStructure &JetPair2) {
-//
-//         return (JetPair1.GetHiggsDeltaM() < JetPair2.GetHiggsDeltaM());
-//
-//     }
-//
-// };
-
-// struct SortByLikeliness {
-//
-//     inline bool operator()(const fastjet::PseudoJet &Jet1,
-//                            const fastjet::PseudoJet &Jet2) {
-//
-//         return (Jet1.user_info<hanalysis::HJetInfo>().GetFraction(hanalysis::HObject::HParticleId::CpvHiggsId) < Jet2.user_info<hanalysis::HJetInfo>().GetFraction(hanalysis::HObject::HParticleId::CpvHiggsId));
-//
-//     }
-//
-// };
-
 
 bool hhiggscpv::HAnalysis::GetPair(hanalysis::HEvent *const Event, const std::string &StudyName)
 {
     Print(HInformation, "Get Event", StudyName);
 
-    JetTag->SetHeavyParticles( {CpvHiggsId, HiggsId});
+    JetTag->SetHeavyParticles({CpvHiggsId, HiggsId});
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     if (Jets.size() < 2) return 0;
 
@@ -297,7 +278,7 @@ bool hhiggscpv::HAnalysis::GetPair(hanalysis::HEvent *const Event, const std::st
 void hhiggscpv::HAnalysis::FillPairTagger(const hdelphes::HSuperStructure &Pair, HPairBranch *PairTagger)
 {
 
-    PairTagger->InvMass = Pair.GetInvariantMass();
+    PairTagger->Mass = Pair.GetInvariantMass();
     PairTagger->DeltaR = Pair.GetDeltaR();
     PairTagger->BTag = Pair.GetBTag();
 }
@@ -327,9 +308,9 @@ bool hhiggscpv::HAnalysis::GetEvent(hanalysis::HEvent *const Event, const std::s
 
     for (auto & JetPair : JetPairs) {
 
-        HPairBranch *PairBranch = new HPairBranch();
-        FillPairTagger(JetPair, PairBranch);
-        const float Bdt = Mva->GetBdt(PairBranch, Reader->Reader);
+        HPairBranch *PairTagger = new HPairBranch();
+        FillPairTagger(JetPair, PairTagger);
+        const float Bdt = Mva->GetBdt(PairTagger, Reader->Reader);
         JetPair.Tag = Bdt;
 
         Print(HInformation, "B Bdt", Bdt);

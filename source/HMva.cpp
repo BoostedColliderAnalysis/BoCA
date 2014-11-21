@@ -21,10 +21,10 @@ hmva::HMva::~HMva()
 }
 
 float hmva::HMva::GetBdt(TObject *Branch, TMVA::Reader *Reader){
-    
+
     Print(HError,"Get Bdt","should be implemented somewhere else");
-    
-    return 0;        
+
+    return 0;
 }
 
 
@@ -90,25 +90,4 @@ HObservable::HObservable(float *const NewValue, const std::string& NewExpression
 
 }
 
-HObservable::HObservable()
-{
-
-
-}
-
-
-
-
-
-// HObservable hmva::HMva::NewObservable(float *const Value, const std::string& Title, const std::string& Unit) const
-// {
-//
-//   Print(HNotification, "New Observable", Title);
-//
-//   const std::string Expression = CandidateBranchName + "." + Title;
-//
-//   const HObservable Observable(Value, Expression, Title, Unit, "");
-//
-//   return Observable;
-//
-// }
+// HObservable::HObservable(){}

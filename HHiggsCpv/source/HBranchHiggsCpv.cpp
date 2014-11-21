@@ -1,124 +1,57 @@
 # include "HBranchHiggsCpv.hh"
 
-ClassImp(hhiggscpv::HEventBranch)
 
-hhiggscpv::HEventBranch::HEventBranch()
+ClassImp(hhiggscpv::HBTaggerBranch)
+
+void hhiggscpv::HBTaggerBranch::reset()
 {
 
-    reset();
+  const int InitialValue = -10;
+  Mass = InitialValue;
+  Pt = InitialValue;
+  Displacement = InitialValue;
+  Multipliticity = InitialValue;
 
 }
-
-hhiggscpv::HEventBranch::~HEventBranch() {}
-
-void hhiggscpv::HEventBranch::reset()
-{
-
-    const int InitialValue = -10;
-
-    ScalarHt = InitialValue;
-    JetNumber = InitialValue;
-    BottomNumber = InitialValue;
-
-    HiggsTag = InitialValue;
-//     TopTag = InitialValue;
-
-//     TopBdtTag = InitialValue;
-//     JetBdtTag = InitialValue;
-
-//     TopCutSigEff = InitialValue;
-//     JetCutSigEff = InitialValue;
-
-}
-
-
 
 ClassImp(hhiggscpv::HPairBranch)
-
-hhiggscpv::HPairBranch::HPairBranch()
-{
-
-    reset();
-
-}
-
-hhiggscpv::HPairBranch::~HPairBranch() {}
 
 void hhiggscpv::HPairBranch::reset()
 {
 
     const int InitialValue = -10;
 
-    InvMass = InitialValue;
+    Mass = InitialValue;
+    Pt = InitialValue;
+
+    DeltaEta = InitialValue;
+    DeltaPhi = InitialValue;
+    DeltaR = InitialValue;
+
+    BTag = InitialValue;
 
     Pull1 = InitialValue;
     Pull2 = InitialValue;
     Pull = InitialValue;
 
-    DeltaR = InitialValue;
-
-    BTag = InitialValue;
-
-//     HiggsTag = InitialValue;
-//     TopTag = InitialValue;
-
 }
 
-ClassImp(hhiggscpv::HBTaggerBranch)
 
-hhiggscpv::HBTaggerBranch::HBTaggerBranch()
-{
+ClassImp(hhiggscpv::HEventBranch)
 
-  reset();
-
-}
-
-hhiggscpv::HBTaggerBranch::~HBTaggerBranch() {}
-
-void hhiggscpv::HBTaggerBranch::reset()
+void hhiggscpv::HEventBranch::reset()
 {
 
   const int InitialValue = -10;
 
-  VertexMass = InitialValue;
-//   JetMass = InitialValue;
-//   Pull = InitialValue;
-//   DeltaR = InitialValue;
-  Vertex = InitialValue;
-  VertexNumber = InitialValue;
+  ScalarHt = InitialValue;
+  JetNumber = InitialValue;
+  BottomNumber = InitialValue;
 
-//   BTag = InitialValue;
-
-//   BdtBTag = InitialValue;
-
-//   BCutSigEff = InitialValue;
+  HiggsTag = InitialValue;
 
 }
 
-
-
-// ClassImp(hhiggscpv::HConstituentBranch)
-//
-// hhiggscpv::HConstituentBranch::HConstituentBranch()
-// {
-//
-//   reset();
-//
-// }
-//
-// hhiggscpv::HConstituentBranch::~HConstituentBranch() {}
-//
-// void hhiggscpv::HConstituentBranch::reset()
-// {
-//
-//   int InitialValue = -100;
-//
-//   Eta = InitialValue;
-//   Phi = InitialValue;
-//   Pt = InitialValue;
-//   Id = InitialValue;
-//
-// }
 
 
 ClassImp(hhiggscpv::HLeptonBranch)

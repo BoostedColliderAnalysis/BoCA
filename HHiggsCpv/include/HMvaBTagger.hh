@@ -27,10 +27,10 @@ public:
     */
     ~HMvaBTagger();
 
-    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
+    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){};
 
-    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *);
-    
+    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *){};
+
     float GetBdt(TObject *Branch, TMVA::Reader *Reader);
 
 protected:
@@ -38,7 +38,7 @@ protected:
 
 private:
 
-      HBTaggerBranch *Candidate;
+      HBTaggerBranch *BTagger;
 
       void DefineVariables();
 
