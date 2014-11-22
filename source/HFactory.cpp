@@ -71,13 +71,13 @@ void hmva::HFactory::AddVariables()
 
     for (const auto & Observable : Mva->Observables) {
 
-        Factory->AddVariable(Observable.Expression, Observable.Title, Observable.Unit, 'F');
+        Factory->AddVariable(Observable.Expression, Observable.Title, Observable.Unit, Observable.Type);
 
     }
 
     for (const auto & Spectator : Mva->Spectators) {
 
-        Factory->AddSpectator(Spectator.Expression, Spectator.Title, Spectator.Unit, 'F');
+        Factory->AddSpectator(Spectator.Expression, Spectator.Title, Spectator.Unit, Spectator.Type);
 
     }
 

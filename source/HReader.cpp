@@ -5,7 +5,7 @@ hmva::HReader::HReader(HMva *NewMva)
 
     Print(HNotification, "Constructor");
 
-//     DebugLevel = HDebug;
+    DebugLevel = HDebug;
 
     Mva = NewMva;
 
@@ -29,16 +29,14 @@ void hmva::HReader::AddVariable()
     const std::string DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
 
-    for (const auto & Observable : Mva->Observables) {
-
-        Reader->AddVariable(Observable.Expression, Observable.Value);
-
+    for (auto & Observable : Mva->Observables) {
+        Print(HDebug, "Expression", Observable.Expression);
+        Print(HDebug, "Value", *(Observable.GetValue()));
+        Reader->AddVariable(Observable.Expression, Observable.GetValue());
     }
 
-    for (const auto & Spectator : Mva->Spectators) {
-
-        Reader->AddSpectator(Spectator.Expression, Spectator.Value);
-
+    for (auto & Spectator : Mva->Spectators) {
+        Reader->AddSpectator(Spectator.Expression, Spectator.GetValue());
     }
 
 }
@@ -67,9 +65,9 @@ void hmva::HReader::MVALoop()
 
 
 
-  AddVariable();
+    AddVariable();
 
-  BookMVA();
+    BookMVA();
 
     Print(HNotification, "Mva Loop");
 
@@ -140,14 +138,14 @@ void hmva::HReader::LatexHeader()
     LatexFile.open(TexFileName);
 
     LatexFile << "\\documentclass[a4paper,11pt]{article}" << std::endl << std::endl
-    << "\\usepackage{booktabs}" << std::endl
-    << "\\usepackage{a4wide}" << std::endl
-    << "\\usepackage{units}" << std::endl
-    << "\\usepackage{siunitx}" << std::endl << std::endl
-    << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
-    << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << std::endl
-    << "\\newcolumntype{E}{R@{$\\pm$}L}" << std::endl << std::endl
-    << "\\begin{document}" << std::endl << std::endl;
+              << "\\usepackage{booktabs}" << std::endl
+              << "\\usepackage{a4wide}" << std::endl
+              << "\\usepackage{units}" << std::endl
+              << "\\usepackage{siunitx}" << std::endl << std::endl
+              << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
+              << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << std::endl
+              << "\\newcolumntype{E}{R@{$\\pm$}L}" << std::endl << std::endl
+              << "\\begin{document}" << std::endl << std::endl;
 
 }
 
@@ -225,7 +223,7 @@ void hmva::HReader::TabularOutput() const
 
     for (unsigned ObservableNumber = 0; ObservableNumber < Mva->Observables.size(); ++ObservableNumber) {
 
-      CandidatsPerEvent = GetRatio(ReaderStruct.FatJetVector[ObservableNumber], ReaderStruct.EventVector[ObservableNumber]);
+        CandidatsPerEvent = GetRatio(ReaderStruct.FatJetVector[ObservableNumber], ReaderStruct.EventVector[ObservableNumber]);
 
         PrintText(Mva->Observables[ObservableNumber].Title, NameWidth);
         PrintData(RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]), DataWidth);
@@ -246,14 +244,14 @@ void hmva::HReader::TabularOutput() const
 
 }
 
-void hmva::HReader::LatexContent(const std::string& TreeName)
+void hmva::HReader::LatexContent(const std::string &TreeName)
 {
 
     Print(HNotification, "LaTeX Content");
 
     LatexFile << std::endl
-    << "\\begin{table}" << std::endl
-    << "\\centering" << std::endl
+              << "\\begin{table}" << std::endl
+              << "\\centering" << std::endl
               << "\\begin{tabular}{lSSEEE}" << std::endl
               << " \\\\ \\toprule" << std::endl
               << "    Cut Name" << std::endl
@@ -296,7 +294,7 @@ void hmva::HReader::LatexContent(const std::string& TreeName)
     float TopEventLuminosityError = GetError(TopEventLuminosity);
 
     LatexFile << " " << "Initial" << std::endl
-    << "  & " <<  std::endl
+              << "  & " <<  std::endl
               << "  & " <<  std::endl
               << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << std::endl
               << "  & " << RoundError(EventLuminosityError) << std::endl
@@ -309,7 +307,7 @@ void hmva::HReader::LatexContent(const std::string& TreeName)
     int ObservableSum = Mva->Observables.size();
     for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 
-      EventLuminosity = ReaderStruct.EventVector[ObservableNumber] * Lumi;
+        EventLuminosity = ReaderStruct.EventVector[ObservableNumber] * Lumi;
         EventLuminosityError = GetError(EventLuminosity);
 //         EventLuminosityError = EventLuminosity * EventRatioNormError;
 
@@ -322,21 +320,21 @@ void hmva::HReader::LatexContent(const std::string& TreeName)
 //         TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
 
         LatexFile << " " /*<< "$"*/ << Mva->Observables[ObservableNumber].Title /*<< "$"*/ << std::endl
-        << "  & " << RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]) << std::endl
-        << "  & " << RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]) << std::endl
-        << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << std::endl
-        << "  & " << RoundError(EventLuminosityError) << std::endl
-        << "  & " << RoundToError(TopEventLuminosity, TopEventLuminosityError) << std::endl
-        << "  & " << RoundError(TopEventLuminosityError) << std::endl
-        << "  & " << RoundToError(HiggsEventLuminosity, HiggsEventLuminosityError) << std::endl
-        << "  & " << RoundError(HiggsEventLuminosityError) << std::endl
+                  << "  & " << RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]) << std::endl
+                  << "  & " << RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]) << std::endl
+                  << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << std::endl
+                  << "  & " << RoundError(EventLuminosityError) << std::endl
+                  << "  & " << RoundToError(TopEventLuminosity, TopEventLuminosityError) << std::endl
+                  << "  & " << RoundError(TopEventLuminosityError) << std::endl
+                  << "  & " << RoundToError(HiggsEventLuminosity, HiggsEventLuminosityError) << std::endl
+                  << "  & " << RoundError(HiggsEventLuminosityError) << std::endl
                   << " \\\\ ";
 
     }
 
     LatexFile << "\\bottomrule" << std::endl
-    << "\\end{tabular}" << std::endl
-    << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit[" << RoundToError(CrosssectionNorm, CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError, 2) << "]{fb}$, a signal efficiency of " << Mva->SignalEfficiency << " and a integrated Luminosity of $\\unit[" << Mva->Luminosity << "]{fb^{-1}}$.}" << std::endl
+              << "\\end{tabular}" << std::endl
+              << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit[" << RoundToError(CrosssectionNorm, CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError, 2) << "]{fb}$, a signal efficiency of " << Mva->SignalEfficiency << " and a integrated Luminosity of $\\unit[" << Mva->Luminosity << "]{fb^{-1}}$.}" << std::endl
               //         << "\\label{tab:}" << Mva->BackgroundVector[BackgroundNumber] << endl;
               << "\\end{table}" << std::endl;
 
@@ -494,7 +492,8 @@ float hmva::HReader::RoundToError(const float Value, const float Error) const
     }
 }
 
-float hmva::HReader::GetBdt() const {
+float hmva::HReader::GetBdt() const
+{
 
 
 //     return Reader->EvaluateMVA(BdtMethodName);

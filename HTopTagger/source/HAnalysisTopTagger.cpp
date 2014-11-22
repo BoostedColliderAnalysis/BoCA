@@ -24,7 +24,7 @@ htoptagger::HAnalysis::~HAnalysis()
 
 }
 
-std::vector<std::string> htoptagger::HAnalysis::GetStudyNames() const
+HStrings htoptagger::HAnalysis::GetStudyNames() const
 {
 
     return  {"Top"};

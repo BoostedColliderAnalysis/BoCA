@@ -7,11 +7,11 @@ hheavyhiggs::HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
 
 }
 
-std::vector<std::string> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
+HStrings hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 {
 
-//     std::vector<std::string> StudyNameVector = {"Signal", "Background", "Test"};
-    std::vector<std::string> StudyNameVector = {"Signal"};
+//     HStrings StudyNameVector = {"Signal", "Background", "Test"};
+    HStrings StudyNameVector = {"Signal"};
 
 
     return StudyNameVector;

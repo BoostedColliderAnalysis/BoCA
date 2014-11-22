@@ -53,12 +53,12 @@ void hbtagger::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Candidate->VertexMass, "BTagger.VertexMass", "VertexMass", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->JetMass, "BTagger.JetMass", "JetMass", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->VertexNumber, "BTagger.VertexNumber", "VertexNumber"));
-    Observables.push_back(NewObservable(&Candidate->Vertex, "BTagger.Vertex", "Vertex"));
+    Observables.push_back(NewObservable(&Candidate->VertexMass, "VertexMass"));
+    Observables.push_back(NewObservable(&Candidate->JetMass, "JetMass"));
+    Observables.push_back(NewObservable(&Candidate->VertexNumber, "VertexNumber"));
+    Observables.push_back(NewObservable(&Candidate->Vertex, "Vertex"));
     
-    Spectators.push_back(NewObservable(&Candidate->BTag, "BTagger.BTag", "BTag"));
+    Spectators.push_back(NewObservable(&Candidate->BTag, "BTag"));
 
     Print(HNotification, "Variables defined");
 
@@ -179,8 +179,8 @@ HReaderStruct hbtagger::HMva::CutLoop(const ExRootTreeReader *const TreeReader, 
 
                 Print(HDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
 
-                if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
-                        || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
+                if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
+                        || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 
                     Print(HDebug, "we are here", 1);
 

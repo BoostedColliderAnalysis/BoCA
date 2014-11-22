@@ -14,10 +14,10 @@ hanalysis::HAnalysis()
 
 }
 
-std::vector<std::string> hanalysis::GetStudyNameVector()
+HStrings hanalysis::GetStudyNameVector()
 {
 
-    std::vector<std::string> StudyNameVector = {ProjectName};
+    HStrings StudyNameVector = {ProjectName};
 
     return StudyNameVector;
 
@@ -30,7 +30,7 @@ void hanalysis::AnalysisLoop()
 
     Print(HNotification,"");
 
-    std::vector<std::string> StudyNames = GetStudyNames();
+    HStrings StudyNames = GetStudyNames();
 
     GetFiles();
 
@@ -134,7 +134,7 @@ void hanalysis::NewFileBase()
     // Export tree
     TString ExportTreeName = Files[FileNumber]->Title();
 
-    std::vector<std::string> StudyNameVector = GetStudyNameVector();
+    HStrings StudyNameVector = GetStudyNameVector();
     int StudySum = StudyNameVector.size();
 
     TreeWriter = new ExRootTreeWriter(ExportFiles.front(), ExportTreeName);

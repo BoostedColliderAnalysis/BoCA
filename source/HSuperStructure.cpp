@@ -48,7 +48,7 @@ float hdelphes::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet
     Print(HInformation, "Get ReferenceAngle");
 
     const float Rap = Jet.rap() - ReferenceJet.rap();
-    const float Phi = GetDeltaPhi(Jet.phi_std(), ReferenceJet.phi_std());
+    const float Phi = Jet.delta_phi_to(ReferenceJet);
 
     return (std::atan2(-Phi, -Rap));
 
@@ -62,7 +62,7 @@ float hdelphes::HSuperStructure::GetPullAngle1() const
 
     const float Pull = GetPull(Jet1);
     const float ReferenceAngle = GetReferenceAngle(Jet1, Jet2);
-    Print(HDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
+//     Print(HDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
 
 //     if (std::abs(GetDeltaPhi(Pull, ReferenceAngle) > 3)) {
 //         Print(HError, "extrema", Pull, ReferenceAngle);

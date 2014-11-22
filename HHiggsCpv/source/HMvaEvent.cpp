@@ -57,12 +57,12 @@ void hhiggscpv::HMvaEvent::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&EventBranch->ScalarHt, "Candidate.ScalarHt", "ScalarHt", "GeV"));
-    Observables.push_back(NewObservable(&EventBranch->JetNumber, "Candidate.JetNumber", "JetNumber"));
-    Observables.push_back(NewObservable(&EventBranch->BottomNumber, "Candidate.BottomNumber", "BottomNumber"));
-    Observables.push_back(NewObservable(&EventBranch->HiggsTag, "Candidate.HiggsTag", "BTag3"));
+    Observables.push_back(NewObservable(&EventBranch->ScalarHt, "ScalarHt"));
+    Observables.push_back(NewObservable(&EventBranch->JetNumber, "JetNumber"));
+    Observables.push_back(NewObservable(&EventBranch->BottomNumber, "BottomNumber"));
+    Observables.push_back(NewObservable(&EventBranch->HiggsTag, "HiggsTag"));
 
-    Spectators.push_back(NewObservable(&EventBranch->HiggsTag, "Candidate.HiggsTag", "Higgs Tag"));
+    Spectators.push_back(NewObservable(&EventBranch->HiggsTag, "HiggsTag"));
 //     Spectators.push_back(NewObservable(&EventBranch->TopTag, "Candidate.TopTag", "Top Tag"));
 
     Print(HNotification, "Variables defined");
@@ -95,6 +95,8 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
             (*ExportCandidate) = *EventBranch;
 
             const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
+            
+            Print(HInformation,"Bdt",BdtEvaluation);
 
             float SigEff;
             const int StepSize = 50;
@@ -203,8 +205,8 @@ HReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeRe
 
                 Print(HDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
 
-                if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
-                        || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
+                if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
+                    || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 
                     Print(HDebug, "we are here", 1);
 

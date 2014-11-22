@@ -49,12 +49,11 @@ hhiggscpv::HMvaBTagger::~HMvaBTagger()
 void hhiggscpv::HMvaBTagger::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(HNotification , "Define Variables",BTagger->Mass);
 
-    Observables.push_back(NewObservable(&BTagger->Mass, "BTagger.VertexMass", "VertexMass", "GeV"));
-//    Observables.push_back(NewObservable(&Candidate->JetMass, "BTagger.JetMass", "JetMass", "GeV"));
-    Observables.push_back(NewObservable(&BTagger->Multipliticity, "BTagger.VertexNumber", "VertexNumber"));
-    Observables.push_back(NewObservable(&BTagger->Displacement, "BTagger.Vertex", "Vertex"));
+    Observables.push_back(NewObservable(&BTagger->Mass, "Mass"));
+    Observables.push_back(NewObservable(&BTagger->Multipliticity, "Multipliticity"));
+    Observables.push_back(NewObservable(&BTagger->Displacement, "Displacement"));
 
     Print(HNotification, "Variables defined");
 
@@ -62,10 +61,10 @@ void hhiggscpv::HMvaBTagger::DefineVariables()
 
 float hhiggscpv::HMvaBTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader)
 {
-
+    
     Print(HInformation, "Get Bdt", BdtMethodName);
 
-    BTagger = static_cast<HBTaggerBranch *>(Branch);
+    *BTagger = *static_cast<HBTaggerBranch *>(Branch);
     Print(HInformation, "Mass", BTagger->Mass);
 
     const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);

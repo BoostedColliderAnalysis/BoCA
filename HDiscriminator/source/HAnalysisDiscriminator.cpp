@@ -24,7 +24,7 @@ hcpvhiggs::HAnalysis::~HAnalysis()
 
 }
 
-std::vector<std::string> hcpvhiggs::HAnalysis::GetStudyNames() const
+HStrings hcpvhiggs::HAnalysis::GetStudyNames() const
 {
 
     return  {"Higgs", "Top", "Jet", "Test"};

@@ -7,9 +7,9 @@ htest::HAnalysis::HAnalysis()
 
 }
 
-std::vector<std::string> htest::HAnalysis::GetStudyNameVector(){
+HStrings htest::HAnalysis::GetStudyNameVector(){
 
-    std::vector<std::string> StudyNameVector = {"Test","Second"};
+    HStrings StudyNameVector = {"Test","Second"};
 
     return StudyNameVector;
 

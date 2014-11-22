@@ -27,7 +27,7 @@ public:
     */
     ~HMvaBTagger();
 
-    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){};
+    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){ HReaderStruct ReaderStruct; return ReaderStruct;};
 
     void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *){};
 

@@ -91,15 +91,15 @@ protected:
         return 100000;
     };
 
-    virtual inline std::vector<std::string> GetStudyNames() const {
-        return {GetProjectName()};
-    };
-
-    virtual inline std::vector<std::string> GetStudyNames(const std::string &TaggerName) {
+    virtual inline HStrings GetStudyNames(const std::string &TaggerName) {
       Print(HError,"GetStudyName","What are we doing here?",TaggerName);
       return {GetProjectName()};
     };
 
+
+    virtual inline HStrings GetStudyNames() const {
+        return {GetProjectName()};
+    };
     virtual inline std::string ClassName() const {
         return "HAnalysis";
     };

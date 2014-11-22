@@ -53,7 +53,7 @@ private:
 
     void CloseFile();
 
-    std::vector<std::string> GetStudyNameVector();
+    HStrings GetStudyNameVector();
 
     void FillBranch(hanalysis::HEvent* Event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
 

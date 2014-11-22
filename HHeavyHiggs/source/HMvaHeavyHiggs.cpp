@@ -180,8 +180,8 @@ HReaderStruct hheavyhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReade
       bool ParticleCut = 0;
       for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 
-        if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
-          || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
+        if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
+            || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 
           ParticleCut = 1;
 

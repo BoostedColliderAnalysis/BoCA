@@ -59,37 +59,37 @@ void hcpvhiggs::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Candidate->Mass, "Candidate.Mass", "Mass", "GeV","m_j"));
-    Observables.push_back(NewObservable(&Candidate->Pt, "Candidate.Pt","Pt", "GeV","p^T_j"));
-    Observables.push_back(NewObservable(&Candidate->Eta, "Candidate.Eta", "Eta","","\\eta_j"));
-    Observables.push_back(NewObservable(&Candidate->Phi, "Candidate.Phi", "Phi","","\\phi_j"));
+    Observables.push_back(NewObservable(&Candidate->Mass, "Mass", "m_j"));
+    Observables.push_back(NewObservable(&Candidate->Pt, "Pt", "p^T_j"));
+    Observables.push_back(NewObservable(&Candidate->Eta, "Eta","\\eta_j"));
+    Observables.push_back(NewObservable(&Candidate->Phi, "Phi","\\phi_j"));
 
-    Observables.push_back(NewObservable(&Candidate->DeltaR, "Candidate.DeltaR", "DeltaR","","\\Delta R"));
-    Observables.push_back(NewObservable(&Candidate->SubJetsDeltaR, "Candidate.SubJetsDeltaR", "SubJet DeltaR","","\\Delta R(j_1,j_2)"));
-    Observables.push_back(NewObservable(&Candidate->Asymmetry, "Candidate.Asymmetry", "Asymmetry","","A"));
-    Observables.push_back(NewObservable(&Candidate->DiPolarity, "Candidate.DiPolarity", "DiPolarity","","P"));
+    Observables.push_back(NewObservable(&Candidate->DeltaR, "DeltaR","Delta R"));
+    Observables.push_back(NewObservable(&Candidate->SubJetsDeltaR, "SubJetsDeltaR","\\Delta R(j_1,j_2)"));
+    Observables.push_back(NewObservable(&Candidate->Asymmetry, "Asymmetry","A"));
+    Observables.push_back(NewObservable(&Candidate->DiPolarity, "DiPolarity","P"));
 
-    Observables.push_back(NewObservable(&Candidate->SubJet1Mass, "Candidate.SubJet1Mass","SubJet1 Mass", "GeV","m_{j_1}"));
-    Observables.push_back(NewObservable(&Candidate->SubJet1Pt, "Candidate.SubJet1Pt","SubJet1 Pt", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->SubJet1DeltaR,"Candidate.SubJet1DeltaR","SubJet1 DeltaR"));
+    Observables.push_back(NewObservable(&Candidate->SubJet1Mass, "SubJet1Mass", "m_{j_1}"));
+    Observables.push_back(NewObservable(&Candidate->SubJet1Pt, "SubJet1Pt"));
+    Observables.push_back(NewObservable(&Candidate->SubJet1DeltaR,"SubJet1DeltaR"));
 
-    Observables.push_back(NewObservable(&Candidate->SubJet2Mass, "Candidate.SubJet2Mass","SubJet2 Mass", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->SubJet2Pt, "Candidate.SubJet2Pt","SubJet2 Pt", "GeV"));
-    Observables.push_back(NewObservable(&Candidate->SubJet2DeltaR,"Candidate.SubJet2DeltaR","SubJet2 DeltaR"));
+    Observables.push_back(NewObservable(&Candidate->SubJet2Mass, "SubJet2Mass"));
+    Observables.push_back(NewObservable(&Candidate->SubJet2Pt, "SubJet2Pt"));
+    Observables.push_back(NewObservable(&Candidate->SubJet2DeltaR,"SubJet2DeltaR"));
 
-    Observables.push_back(NewObservable(&Candidate->ConstEta, "Candidate.ConstEta", "Const Eta"));
-    Observables.push_back(NewObservable(&Candidate->ConstPhi, "Candidate.ConstPhi", "Const Phi"));
-    Observables.push_back(NewObservable(&Candidate->ConstDeltaR, "Candidate.ConstDeltaR","Const DeltaR"));
-    Observables.push_back(NewObservable(&Candidate->ConstAngle, "Candidate.ConstAngle","Const Angle"));
+    Observables.push_back(NewObservable(&Candidate->ConstEta,  "ConstEta"));
+    Observables.push_back(NewObservable(&Candidate->ConstPhi,  "ConstPhi"));
+    Observables.push_back(NewObservable(&Candidate->ConstDeltaR, "ConstDeltaR"));
+    Observables.push_back(NewObservable(&Candidate->ConstAngle, "ConstAngle"));
 
-    Observables.push_back(NewObservable(&Candidate->IsolationEta, "Candidate.IsolationEta","IsolationEta"));
-    Observables.push_back(NewObservable(&Candidate->IsolationPhi, "Candidate.IsolationPhi","IsolationPhi"));
-    Observables.push_back(NewObservable(&Candidate->IsolationDeltaR, "Candidate.IsolationDeltaR","Isol DeltaR"));
-    Observables.push_back(NewObservable(&Candidate->IsolationAngle, "Candidate.IsolationAngle","Isol Angle"));
-    Observables.push_back(NewObservable(&Candidate->IsolationPt, "Candidate.IsolationPt","Isol Pt", "GeV"));
+    Observables.push_back(NewObservable(&Candidate->IsolationEta, "IsolationEta"));
+    Observables.push_back(NewObservable(&Candidate->IsolationPhi, "IsolationPhi"));
+    Observables.push_back(NewObservable(&Candidate->IsolationDeltaR, "IsolationDeltaR"));
+    Observables.push_back(NewObservable(&Candidate->IsolationAngle, "IsolationAngle"));
+    Observables.push_back(NewObservable(&Candidate->IsolationPt, "IsolationPt"));
 
-    Spectators.push_back(NewObservable(&Candidate->HiggsTag, "Candidate.HiggsTag","Higgs Tag"));
-    Spectators.push_back(NewObservable(&Candidate->TopTag, "Candidate.TopTag","Top Tag"));
+    Spectators.push_back(NewObservable(&Candidate->HiggsTag, "HiggsTag"));
+    Spectators.push_back(NewObservable(&Candidate->TopTag, "TopTag"));
 
     Print(HNotification,"Variables defined");
 
@@ -230,8 +230,8 @@ HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader,
 
           Print(HDebug,"Error",ReaderStruct.CutsMin[ObservableNumber]);
 
-        if (*Observables[ObservableNumber].Value < ReaderStruct.CutsMin[ObservableNumber]
-          || *Observables[ObservableNumber].Value > ReaderStruct.CutsMax[ObservableNumber]) {
+        if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
+            || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 
             Print(HDebug,"we are here",1);
 

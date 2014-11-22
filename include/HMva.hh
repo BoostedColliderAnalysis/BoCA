@@ -15,47 +15,89 @@
 
 struct HReaderStruct {
 
-  int HiggsSum;
+    int HiggsSum;
 
-  int TopSum;
+    int TopSum;
 
-  int FatJetSum;
+    int FatJetSum;
 
-  int TopEventSum;
+    int TopEventSum;
 
-  int HiggsEventSum;
+    int HiggsEventSum;
 
-  std::vector<int> EventVector;
+    std::vector<int> EventVector;
 
-  std::vector<int> HiggsEventVector;
+    std::vector<int> HiggsEventVector;
 
-  std::vector<int> TopEventVector;
+    std::vector<int> TopEventVector;
 
-  std::vector<int> CutFlowVector;
+    std::vector<int> CutFlowVector;
 
-  std::vector<int> FatJetVector;
+    std::vector<int> FatJetVector;
 
-  std::vector<int> HiggsVector;
+    std::vector<int> HiggsVector;
 
-  std::vector<int> TopVector;
+    std::vector<int> TopVector;
 
-  std::vector<double> CutsMin;
+    std::vector<double> CutsMin;
 
-  std::vector<double> CutsMax;
+    std::vector<double> CutsMax;
 
 };
 
-template<typename TValue>
-class HObservable// : public HObject
+class HObservable //: public hanalysis::HObject
 {
 
-public :
+public:
+    
+    HObservable(){};
 
-    HObservable();
+    HObservable(float *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
 
-    TValue *Value;
-    HObservable(TValue *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex);
+//         Print(HInformation, "Float Constructor", *NewValue);
 
+        FloatValue = NewValue;
+//         IntValue = NULL;
+//         Print(HInformation, "Constructed");
+        Expression = NewExpression;
+        Title = NewTitle;
+        Unit = NewUnit;
+        Latex = NewLatex;
+        Type = 'F';
+
+
+    };
+    
+    
+
+//     HObservable(int *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
+//
+//         Print(HInformation, "Int Constructor", *NewValue);
+//
+//         IntValue = NewValue;
+//         FloatValue = NULL;
+//         Expression = NewExpression;
+//         Title = NewTitle;
+//         Unit = NewUnit;
+//         Latex = NewLatex;
+//         Type = 'I';
+//
+//     };
+
+    float *GetValue() {
+//         if (FloatValue != NULL) {
+        return FloatValue;
+//         } else if (IntValue != NULL) {
+//             return (float *)IntValue;
+//         }
+
+//         Print(HError, "which Value");
+//         return 0;
+    };
+
+    void SetValue(const float *NewValue);
+
+//     void SetValue(const int *NewValue);
 
     std::string Expression;
 
@@ -63,9 +105,22 @@ public :
 
     std::string Unit;
 
+    char Type = 'F';
+
     std::string Latex;
 
+private:
+
+    float *FloatValue;
+
+    int *IntValue;
+
+    inline std::string ClassName() const {
+        return "HObservable";
+    }
+
 };
+
 
 /**
  * @brief Prepares multivariant analysis
@@ -92,12 +147,6 @@ public:
 
     int Luminosity;
 
-    /**
-     * @brief Debug variable
-     *
-     */
-//     int Debug;
-
     float SignalEfficiency;
 
     /**
@@ -116,7 +165,7 @@ public:
      * @brief Name of the Signal File
      *
      */
-    std::vector<std::string> SignalNames;
+    HStrings SignalNames;
 
     /**
      * @brief Name of the Test File
@@ -142,13 +191,13 @@ public:
      * @brief Names of the Background Files
      *
      */
-    std::vector<std::string> BackgroundNames;
+    HStrings BackgroundNames;
 
-    std::vector<std::string> BackgroundTreeNames;
+    HStrings BackgroundTreeNames;
 
-    std::vector<std::string> SignalTreeNames;
+    HStrings SignalTreeNames;
 
-    std::vector<std::string> TestTreeNames;
+    HStrings TestTreeNames;
 
     /**
      * @brief Vector containing the pointer to the Observable data
@@ -159,52 +208,50 @@ public:
     std::vector<HObservable> Spectators;
 
 
-    virtual HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&) = 0;
+    virtual HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) = 0;
 
-    virtual void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *) = 0;
+    virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) = 0;
 
     virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader) = 0;
 
 protected:
 
-  virtual void DefineVariables() = 0;
+    virtual void DefineVariables() = 0;
 
-  virtual inline std::string NameSpaceName() const {
-    return "HMva";
-  };
+    virtual inline std::string NameSpaceName() const {
+        return "HMva";
+    };
 
     virtual inline std::string ClassName() const {
         return "HMva";
     };
 
-    template<typename TValue>
-    HObservable NewObservable(TValue *const Value, const std::string &Title) const{
+//     template<typename TValue>
+    HObservable NewObservable(float *const Value, const std::string &Title) const {
 
-      Print(HNotification, "New Observable", Title);
+        Print(HNotification, "New Observable", *Value);
 
-      const std::string Expression = CandidateBranchName + "." + Title;
+        const std::string Expression = CandidateBranchName + "." + Title;
 
-      const HObservable Observable(Value, Expression, Title, "", "");
+//         HObservableBase *Observable = new  HObservableBase(Value, Expression, Title, "", "");
+        HObservable Observable(Value, Expression, Title, "", "");
 
-      return Observable;
+        return Observable;
 
-    };
+    }
 
 //     template<typename TValue>
-//     HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Unit) const;
+    HObservable NewObservable(float *const Value, const std::string &Title, const std::string &Latex) const {
 
-    template<typename TValue>
-    HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const{
+        Print(HNotification, "New Observable", *Value);
 
-      Print(HNotification, "New Observable", Title);
+        const std::string Expression = CandidateBranchName + "." + Title;
 
-      const std::string Expression = CandidateBranchName + "." + Title;
+        HObservable Observable(Value, Expression, Title, "", Latex);
 
-      const HObservable Observable(Value, Expression, Title, "", Latex);
+        return Observable;
 
-      return Observable;
-
-    };
+    }
 
 private:
 

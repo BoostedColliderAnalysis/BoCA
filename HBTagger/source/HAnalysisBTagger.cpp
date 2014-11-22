@@ -22,7 +22,7 @@ hbtagger::HAnalysis::~HAnalysis()
 
 }
 
-std::vector<std::string> hbtagger::HAnalysis::GetStudyNames() const
+HStrings hbtagger::HAnalysis::GetStudyNames() const
 {
 
     return  {"Bottom", "LightJet", "Test"};
@@ -35,11 +35,11 @@ std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string 
 
     std::vector<hanalysis::HFile *> Files;
 
-    hdelphes::HFile *Test3 = new hdelphes::HFile("pp-hz-bbvv", "signal");
+//     hdelphes::HFile *Test3 = new hdelphes::HFile("pp-hz-bbvv", "signal");
 //     Files.push_back(Test3);
 //     return Files;
 
-    hdelphes::HFile *Test4 = new hdelphes::HFile("pp-bbz-bbvv", "background");
+//     hdelphes::HFile *Test4 = new hdelphes::HFile("pp-bbz-bbvv", "background");
 //     Files.push_back(Test4);
 
     hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
@@ -68,7 +68,7 @@ std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string 
     hdelphes::HFile *Test = new hdelphes::HFile("pp-hjj-bbjj");
     Files.push_back(Test);
 
-    hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
+//     hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
 //     Files.push_back(Test2);
 
 //     hdelphes::HFile *Signal = new hdelphes::HFile("pp-htt-bblvlv", "signal");

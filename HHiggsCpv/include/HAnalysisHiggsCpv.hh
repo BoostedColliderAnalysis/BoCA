@@ -178,7 +178,7 @@ private:
      */
     void NewBranches(ExRootTreeWriter *TreeWriter);
 
-    inline std::vector<std::string> GetStudyNames(const std::string& NewTaggerName);
+    inline HStrings GetStudyNames(const std::string& NewTaggerName);
 
     virtual inline std::string NameSpaceName() const {
         return "HiggsCPV";

@@ -13,6 +13,7 @@
 
 typedef std::vector<fastjet::PseudoJet> HJets;
 typedef std::vector<TLorentzVector> HVectors;
+typedef std::vector<std::string> HStrings;
 
 /**
  * @brief Main Analysis Library

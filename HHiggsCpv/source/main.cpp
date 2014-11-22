@@ -12,9 +12,9 @@ int main()
 
     hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
 
-//     Analysis->AnalysisLoop("BTagger");
+    Analysis->AnalysisLoop("BTagger");
     Mva = new hhiggscpv::HMvaBTagger();
-//     Factory = new hmva::HFactory(Mva);
+    Factory = new hmva::HFactory(Mva);
     Analysis->SetMva(Mva);
 
     Analysis->AnalysisLoop("JetPair");

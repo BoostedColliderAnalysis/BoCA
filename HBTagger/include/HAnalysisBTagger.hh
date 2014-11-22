@@ -126,7 +126,7 @@ private:
      */
     void NewBranches(ExRootTreeWriter *TreeWriter);
 
-    inline std::vector<std::string> GetStudyNames() const;
+    inline HStrings GetStudyNames() const;
 
     virtual inline std::string NameSpaceName() const {
         return "hbtagger";

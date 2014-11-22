@@ -36,7 +36,19 @@ public:
     inline float GetDeltaR() const {
         return Jet1.delta_R(Jet2);
     }
+    
+    inline float GetDeltaEta() const {
+        return (std::abs(Jet1.rap() - Jet2.rap()));
+    }
+    
+    inline float GetPhiDelta() const {
+        return (Jet1.delta_phi_to(Jet2));
+    }
 
+    inline float GetPtSum() const{
+        return (Jet1.pt() + Jet2.pt());
+    }
+    
     float GetPullAngle1() const;
 
     float GetPullAngle2() const;
@@ -81,7 +93,9 @@ public:
         BTag = BTag1 * BTag2;
     }
     
-    float GetBTag()const{return BTag;}
+    float GetBTag() const {
+        return BTag;
+     }
 
     std::vector< TLorentzVector > GetConstituents() const;
 

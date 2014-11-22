@@ -25,7 +25,7 @@ hjetproperties::HAnalysis::~HAnalysis()
 
 }
 
-std::vector<std::string> hjetproperties::HAnalysis::GetStudyNames() const
+HStrings hjetproperties::HAnalysis::GetStudyNames() const
 {
 
     //     return {"Higgs", "Top", "Isr"};
