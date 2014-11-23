@@ -2,16 +2,12 @@
 
 hdelphes::HJet::HJet()
 {
-
     Print(HNotification, "Constructor");
-
 }
 
 hdelphes::HJet::~HJet()
 {
-
     Print(HNotification, "Destructor");
-
 }
 
 void hdelphes::HJet::NewEvent(const hanalysis::HClonesArray *const NewClonesArrays)
@@ -22,7 +18,6 @@ void hdelphes::HJet::NewEvent(const hanalysis::HClonesArray *const NewClonesArra
     hanalysis::HJet::NewEvent(NewClonesArrays);
 
     Topology.assign(ClonesArrays->GetParticleSum(), EmptyId);
-
     Print(HInformation, "Topology", Topology.size());
 
 }
@@ -48,13 +43,13 @@ bool hdelphes::HJet::GetJets(hanalysis::HJet::HJetDetails JetDetails)
         }
 
         if (JetDetails == Tagging || JetDetails == TaggingStructure) {
-                        
-              hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(GetJetId(JetClone));
 
-          if(JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>()){
+            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(GetJetId(JetClone));
 
-              JetInfo->SetVertices(Jets.back().user_info<hanalysis::HJetInfo>().GetVertices());
-          }
+            if (JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>()) {
+
+                JetInfo->SetVertices(Jets.back().user_info<hanalysis::HJetInfo>().GetVertices());
+            }
 
             Jets.back().set_user_info(JetInfo);
             Jets.back().set_user_index(Jets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
@@ -138,9 +133,9 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, ha
 
         Constituents.push_back(GetConstituentJet(Object, JetDetails));
 
-        for(const auto & Vertex: Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices()){
+        for (const auto & Vertex : Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices()) {
 
-          Vertices.push_back(Vertex);
+            Vertices.push_back(Vertex);
 //         Vertices.insert(Vertices.end(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().begin(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().end());
             Print(HDetailed, "Vertex", Vertex.Position.Vect().Mag());
         }
@@ -164,20 +159,20 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, ha
 fastjet::PseudoJet hdelphes::HJet::GetConstituentJet(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails)
 {
 
-  HConstituent Constituent = GetConstituent(Object, JetDetails);
-  Print(HDetailed, "Vertex", Constituent.Position.Vect().Mag());
+    HConstituent Constituent = GetConstituent(Object, JetDetails);
+    Print(HDetailed, "Vertex", Constituent.Position.Vect().Mag());
 
-  fastjet::PseudoJet Jet = GetPseudoJet(Constituent.Momentum);
-  if (JetDetails == TaggingStructure) Jet.set_user_index(Constituent.MotherId);
+    fastjet::PseudoJet Jet = GetPseudoJet(Constituent.Momentum);
+    if (JetDetails == TaggingStructure) Jet.set_user_index(Constituent.MotherId);
 
-  hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-  JetInfo->SetVertex(Constituent);
-  Jet.set_user_info(JetInfo);
+    hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+    JetInfo->SetVertex(Constituent);
+    Jet.set_user_info(JetInfo);
 
 //   Print(HDetailed, "Vertex", Jet.user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag());
 
 
-  return Jet;
+    return Jet;
 
 }
 
@@ -191,7 +186,8 @@ HConstituent hdelphes::HJet::GetConstituent(const TObject *const Object, hanalys
         GenParticle *ParticleClone = const_cast<GenParticle *>((GenParticle *) Object);
         Constituent.Momentum = ParticleClone->P4();
         if (JetDetails == TaggingStructure) Constituent.MotherId = GetMotherId(Object);
-        Constituent.Position.SetXYZT(ParticleClone->X, ParticleClone->Y, ParticleClone->Z, ParticleClone->T);
+        //Constituent.Position.SetXYZT(ParticleClone->X, ParticleClone->Y, ParticleClone->Z, ParticleClone->T); 
+        // TODO should we take the GenParticle information into account or not?
 
     } else if (Object->IsA() == Track::Class()) {
 
@@ -361,113 +357,103 @@ void hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
 int hdelphes::HJet::GetMotherId(const TObject *const Object)
 {
 
-  Print(HDebug, "Get Mother Id", ClonesArrays->GetParticleSum());
+    Print(HDebug, "Get Mother Id", ClonesArrays->GetParticleSum());
 
-  if (Object->IsA() != GenParticle::Class() || Object == 0) {
+    if (Object->IsA() != GenParticle::Class() || Object == 0) {
+        Print(HError, "Object is", Object->ClassName());
+        return EmptyId;
+    }
 
-    Print(HError, "Object is", Object->ClassName());
-    return EmptyId;
+    const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
+    if (Position == EmptyPosition) return EmptyId;
 
-  }
+    int MotherId = Topology.at(Position);
+    MotherId = GetMotherId(MotherId, Position);
 
-  const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
+    Print(HDebug, "Mother Id", GetParticleName(MotherId));
+    if (MotherId == EmptyId) Print(HError, "No Mother Id", Position, Topology.at(Position));
 
-  if (Position == EmptyPosition) return EmptyId;
+    int Marker = MarkerId;
+    std::replace(Topology.begin(), Topology.end(), Marker, MotherId);
 
-  int MotherId = Topology.at(Position);
-
-  MotherId = GetMotherId(MotherId, Position);
-
-  Print(HDebug, "Mother Id", GetParticleName(MotherId));
-  if (MotherId == EmptyId) Print(HError, "No Mother Id", Position, Topology.at(Position));
-
-  int Marker = MarkerId;
-  std::replace(Topology.begin(), Topology.end(), Marker, MotherId);
-
-  return MotherId;
+    return MotherId;
 
 }
 
 int hdelphes::HJet::GetMotherId(int BranchId, int Position)
 {
 
-  Print(HDebug, "Get Mother Id", GetParticleName(BranchId), Position);
+    Print(HDebug, "Get Mother Id", GetParticleName(BranchId), Position);
 
-  while (Position != EmptyPosition && JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles)) {
+    while (Position != EmptyPosition && JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles)) {
 
-    if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
+        if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
+            Print(HDebug, "Topology", GetParticleName(BranchId), GetParticleName(Topology.at(Position)));
+            BranchId = JetTag->GetBranchId(BranchId, Topology.at(Position));
+        }
 
-      Print(HDebug, "Topology", GetParticleName(BranchId), GetParticleName(Topology.at(Position)));
-      BranchId = JetTag->GetBranchId(BranchId, Topology.at(Position));
+        Topology.at(Position) = MarkerId;
+        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(Position);
 
+        BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
+        Print(HDebug, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
+
+        Position = ParticleClone->M2;
+        if (Position != EmptyPosition) {
+            Print(HDebug, "Mother 2 Position", GetParticleName(BranchId), Position);
+            BranchId = GetMotherId(BranchId, Position);
+        }
+
+        Position = ParticleClone->M1;
+        Print(HDebug, "Mother 1 Position", Position);
     }
 
-    Topology.at(Position) = MarkerId;
+    if (Position == EmptyPosition) BranchId = IsrId;
+    Print(HDebug, "Branch Id Result", GetParticleName(BranchId));
 
-    const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(Position);
-
-    BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
-    Print(HDebug, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
-
-    Position = ParticleClone->M2;
-    if (Position != EmptyPosition) {
-
-      Print(HDebug, "Mother 2 Position", GetParticleName(BranchId), Position);
-      BranchId = GetMotherId(BranchId, Position);
-
-    }
-
-    Position = ParticleClone->M1;
-    Print(HDebug, "Mother 1 Position", Position);
-  }
-
-  if (Position == EmptyPosition) BranchId = IsrId;
-  //     Constituent
-  Print(HDebug, "Branch Id Result", GetParticleName(BranchId));
-
-  return BranchId;
+    return BranchId;
 
 }
 
 void hdelphes::HJet::PrintTruthLevel(int const Severity) const
 {
-  if (Severity <= DebugLevel) {
+    if (Severity <= DebugLevel) {
 
-    for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
-      //     for (const int Position : HRange(100)) {
+        for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
+            //     for (const int Position : HRange(100)) {
 
-      const GenParticle *Particle = (GenParticle *)ClonesArrays->GetParticle(Position);
+            const GenParticle *Particle = (GenParticle *)ClonesArrays->GetParticle(Position);
 
-      PrintCell(Position);
-      PrintCell(GetParticleName(Topology.at(Position)));
-      PrintCell(Particle->Status);
-      PrintCell(GetParticleName(Particle->PID));
-      PrintCell(Particle->M1);
-      PrintCell(PrintParticle(Particle->M1));
-      PrintCell(Particle->M2);
-      PrintCell(PrintParticle(Particle->M2));
-      PrintCell(Particle->D1);
-      PrintCell(PrintParticle(Particle->D1));
-      PrintCell(Particle->D2);
-      PrintCell(PrintParticle(Particle->D2));
-      std::cout << std::endl;
+            PrintCell(Position);
+            PrintCell(GetParticleName(Topology.at(Position)));
+            PrintCell(Particle->Status);
+            PrintCell(GetParticleName(Particle->PID));
+            PrintCell(Particle->M1);
+            PrintCell(PrintParticle(Particle->M1));
+            PrintCell(Particle->M2);
+            PrintCell(PrintParticle(Particle->M2));
+            PrintCell(Particle->D1);
+            PrintCell(PrintParticle(Particle->D1));
+            PrintCell(Particle->D2);
+            PrintCell(PrintParticle(Particle->D2));
+            std::cout << std::endl;
+
+        }
+
+        Print(HNotification, "");
 
     }
-
-    Print(HNotification, "");
-
-  }
 
 }
 
 std::string hdelphes::HJet::PrintParticle(const int Position) const
 {
 
-  if (Position != -1) {
-    return GetParticleName(((GenParticle *)ClonesArrays->GetParticle(Position))->PID);
-  } else {
-    return " ";
-  };
+    if (Position != -1) {
+        return GetParticleName(((GenParticle *)ClonesArrays->GetParticle(Position))->PID);
+    } else {
+        return " ";
+    };
 
 }
 

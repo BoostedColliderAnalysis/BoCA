@@ -177,7 +177,7 @@ void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeRead
 
     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
     Info->Crosssection = File->GetCrosssection();
-    Info->Error = File->GetError();
+    Info->CrosssectionError = File->GetError();
     Info->EventNumber = GetEventSum(TreeReader);
 
 }

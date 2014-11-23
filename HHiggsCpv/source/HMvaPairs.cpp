@@ -35,7 +35,7 @@ hhiggscpv::HMvaPair::HMvaPair()
 
     DoLatex = 1;
 
-    Pair = new HPairBranch();
+    Pair = new HHiggsBranch();
 
     DefineVariables();
 
@@ -54,12 +54,8 @@ float hhiggscpv::HMvaPair::GetBdt(TObject *Branch, TMVA::Reader *Reader){
 
     Print(HInformation, "Get Bdt",BdtMethodName);
 
-    *Pair = *static_cast<HPairBranch*>(Branch);
-
-    Print(HInformation, "Mass", Pair->Mass);
-
+    *Pair = *static_cast<HHiggsBranch*>(Branch);
     const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
-
     Print(HInformation,"BTagger Bdt",BdtEvaluation);
 
     return ((BdtEvaluation+1)/2);
@@ -76,13 +72,12 @@ void hhiggscpv::HMvaPair::DefineVariables()
     Observables.push_back(NewObservable(&Pair->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Pair->DeltaEta, "DeltaEta"));
     Observables.push_back(NewObservable(&Pair->DeltaR, "DeltaR"));
-//     Observables.push_back(NewObservable(&Pair->Pull1, "Pull1"));
-//     Observables.push_back(NewObservable(&Pair->Pull2,"Pull2"));
-//     Observables.push_back(NewObservable(&Pair->Pull, "Pull"));
+    Observables.push_back(NewObservable(&Pair->Pull1, "Pull1"));
+    Observables.push_back(NewObservable(&Pair->Pull2,"Pull2"));
+    Observables.push_back(NewObservable(&Pair->Pull, "Pull"));
     Observables.push_back(NewObservable(&Pair->BTag, "BTag"));
 
-//     Spectators.push_back(NewObservable(&Pair->HiggsTag, "Pair.HiggsTag", "Higgs Tag"));
-//     Spectators.push_back(NewObservable(&Pair->TopTag, "Pair.TopTag", "Top Tag"));
+    Spectators.push_back(NewObservable(&Pair->Higgs, "Higgs"));
 
     Print(HNotification, "Variables defined");
 

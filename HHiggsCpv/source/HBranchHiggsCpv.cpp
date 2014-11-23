@@ -1,25 +1,26 @@
 # include "HBranchHiggsCpv.hh"
 
 
-ClassImp(hhiggscpv::HBTaggerBranch)
+ClassImp(hhiggscpv::HBottomBranch)
 
-void hhiggscpv::HBTaggerBranch::reset()
+hhiggscpv::HBottomBranch::HBottomBranch()
 {
 
-  const int InitialValue = -10;
-  Mass = InitialValue;
-  Pt = InitialValue;
-  Displacement = InitialValue;
-  Multipliticity = InitialValue;
+    Mass = InitialValue;
+    VertexMass = InitialValue;
+    Pt = InitialValue;
+    Displacement = InitialValue;
+    Multipliticity = InitialValue;
+    DeltaR = InitialValue;
+    
+    Bottom = InitialValue;
 
 }
 
-ClassImp(hhiggscpv::HPairBranch)
+ClassImp(hhiggscpv::HHiggsBranch)
 
-void hhiggscpv::HPairBranch::reset()
+hhiggscpv::HHiggsBranch::HHiggsBranch()
 {
-
-    const int InitialValue = -10;
 
     Mass = InitialValue;
     Pt = InitialValue;
@@ -33,22 +34,41 @@ void hhiggscpv::HPairBranch::reset()
     Pull1 = InitialValue;
     Pull2 = InitialValue;
     Pull = InitialValue;
+    
+    Higgs = InitialValue;
 
+}
+
+ClassImp(hhiggscpv::HTopBranch)
+
+hhiggscpv::HTopBranch::HTopBranch()
+{
+    
+    Mass = InitialValue;
+    Pt = InitialValue;
+    
+    DeltaEta = InitialValue;
+    DeltaPhi = InitialValue;
+    DeltaR = InitialValue;
+    
+    BTag = InitialValue;
+    
+    Top = InitialValue;
+    
 }
 
 
 ClassImp(hhiggscpv::HEventBranch)
 
-void hhiggscpv::HEventBranch::reset()
+hhiggscpv::HEventBranch::HEventBranch()
 {
 
-  const int InitialValue = -10;
-
-  ScalarHt = InitialValue;
-  JetNumber = InitialValue;
-  BottomNumber = InitialValue;
-
-  HiggsTag = InitialValue;
+    ScalarHt = InitialValue;
+    JetNumber = InitialValue;
+    BottomNumber = InitialValue;
+    HiggsTag = InitialValue;
+    
+    Signal = InitialValue;
 
 }
 
@@ -59,21 +79,10 @@ ClassImp(hhiggscpv::HLeptonBranch)
 hhiggscpv::HLeptonBranch::HLeptonBranch()
 {
 
-  reset();
-
-}
-
-hhiggscpv::HLeptonBranch::~HLeptonBranch() {}
-
-void hhiggscpv::HLeptonBranch::reset()
-{
-
-  int InitialValue = -10;
-
-  Mass = InitialValue;
-  Pt = InitialValue;
-  Eta = InitialValue;
-  Phi = InitialValue;
-  Charge = InitialValue;
+    Mass = InitialValue;
+    Pt = InitialValue;
+    Eta = InitialValue;
+    Phi = InitialValue;
+    Charge = InitialValue;
 
 }

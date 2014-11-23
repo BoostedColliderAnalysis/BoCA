@@ -51,51 +51,39 @@ class HObservable //: public hanalysis::HObject
 public:
     
     HObservable(){};
-
+    
     HObservable(float *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
 
 //         Print(HInformation, "Float Constructor", *NewValue);
 
-        FloatValue = NewValue;
-//         IntValue = NULL;
-//         Print(HInformation, "Constructed");
+        Value = NewValue;
         Expression = NewExpression;
         Title = NewTitle;
         Unit = NewUnit;
         Latex = NewLatex;
         Type = 'F';
-
-
-    };
+    }
     
     
 
-//     HObservable(int *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
-//
+    HObservable(int *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
+
 //         Print(HInformation, "Int Constructor", *NewValue);
-//
-//         IntValue = NewValue;
-//         FloatValue = NULL;
-//         Expression = NewExpression;
-//         Title = NewTitle;
-//         Unit = NewUnit;
-//         Latex = NewLatex;
-//         Type = 'I';
-//
-//     };
+
+        Value = (float*)NewValue;
+        Expression = NewExpression;
+        Title = NewTitle;
+        Unit = NewUnit;
+        Latex = NewLatex;
+        Type = 'I';
+
+    }
 
     float *GetValue() {
-//         if (FloatValue != NULL) {
-        return FloatValue;
-//         } else if (IntValue != NULL) {
-//             return (float *)IntValue;
-//         }
+        return Value;
+    }
 
-//         Print(HError, "which Value");
-//         return 0;
-    };
-
-    void SetValue(const float *NewValue);
+//     void SetValue(const float *NewValue);
 
 //     void SetValue(const int *NewValue);
 
@@ -105,15 +93,13 @@ public:
 
     std::string Unit;
 
-    char Type = 'F';
+    char Type;
 
     std::string Latex;
 
 private:
 
-    float *FloatValue;
-
-    int *IntValue;
+    float *Value;
 
     inline std::string ClassName() const {
         return "HObservable";
@@ -226,29 +212,22 @@ protected:
         return "HMva";
     };
 
-//     template<typename TValue>
-    HObservable NewObservable(float *const Value, const std::string &Title) const {
+    template<typename TValue>
+    HObservable NewObservable(TValue *const Value, const std::string &Title) const {
 
         Print(HNotification, "New Observable", *Value);
-
         const std::string Expression = CandidateBranchName + "." + Title;
-
-//         HObservableBase *Observable = new  HObservableBase(Value, Expression, Title, "", "");
         HObservable Observable(Value, Expression, Title, "", "");
-
         return Observable;
 
     }
 
-//     template<typename TValue>
-    HObservable NewObservable(float *const Value, const std::string &Title, const std::string &Latex) const {
+    template<typename TValue>
+    HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const {
 
         Print(HNotification, "New Observable", *Value);
-
         const std::string Expression = CandidateBranchName + "." + Title;
-
         HObservable Observable(Value, Expression, Title, "", Latex);
-
         return Observable;
 
     }

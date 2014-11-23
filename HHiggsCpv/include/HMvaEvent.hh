@@ -38,7 +38,7 @@ protected:
 
 private:
 
-      HEventBranch *EventBranch;
+    hhiggscpv::HEventBranch *EventBranch;
 
       void DefineVariables();
 

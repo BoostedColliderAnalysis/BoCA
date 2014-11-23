@@ -15,14 +15,10 @@ public:
 
     HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
 
-//     HSuperStructure(const HSuperStructure &other);
-
-    void operator=(const HSuperStructure &other);
-
     ~HSuperStructure();
 
     inline float GetInvariantMass() const {
-        return (Jet1 + Jet2).m();
+        return ((Jet1 + Jet2).m());
     };
 
     inline float GetHiggsDeltaM() const {
@@ -34,26 +30,28 @@ public:
     };
 
     inline float GetDeltaR() const {
-        return Jet1.delta_R(Jet2);
+        return (Jet1.delta_R(Jet2));
     }
-    
+
     inline float GetDeltaEta() const {
         return (std::abs(Jet1.rap() - Jet2.rap()));
     }
-    
+
     inline float GetPhiDelta() const {
         return (Jet1.delta_phi_to(Jet2));
     }
 
-    inline float GetPtSum() const{
+    inline float GetPtSum() const {
         return (Jet1.pt() + Jet2.pt());
     }
-    
+
     float GetPullAngle1() const;
 
     float GetPullAngle2() const;
-    
-    float GetPullAngle() const{ return (GetPullAngle1()*GetPullAngle2());}
+
+    float GetPullAngle() const {
+        return (GetPullAngle1() * GetPullAngle2());
+    }
 
     void SetJet1(const fastjet::PseudoJet &NewJet) {
         Jet1 = NewJet;
@@ -88,14 +86,18 @@ public:
         return 0;
 
     }
-    
-    void SetBTag(const float BTag1, const float BTag2){
+
+    void SetBTag(const float BTag1, const float BTag2) {
         BTag = BTag1 * BTag2;
     }
     
+    void SetBTag(const float NewBTag) {
+        BTag = NewBTag;
+    }
+
     float GetBTag() const {
         return BTag;
-     }
+    }
 
     std::vector< TLorentzVector > GetConstituents() const;
 
@@ -122,7 +124,7 @@ protected:
     };
 
 private:
-    
+
     float BTag;
 
     float GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const;

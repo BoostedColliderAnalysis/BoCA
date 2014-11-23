@@ -108,7 +108,7 @@ private:
 
         hanalysis::HJetInfo JetInfo;
 
-        for (int ParticleNumber = 0; ParticleNumber < Clone->Particles.GetEntriesFast(); ++ParticleNumber) {
+        for (const int ParticleNumber : HRange(Clone->Particles.GetEntriesFast())) {
 
             const TObject *const Object = Clone->Particles.At(ParticleNumber);
             const int MotherId = GetMotherId(Object);

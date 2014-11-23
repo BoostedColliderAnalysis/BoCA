@@ -4,9 +4,7 @@ ClassImp(hheavyhiggs::HHeavyHiggsBranch)
 
 hheavyhiggs::HHeavyHiggsBranch::HHeavyHiggsBranch()
 {
-
     reset();
-
 }
 
 hheavyhiggs::HHeavyHiggsBranch::~HHeavyHiggsBranch() {}
@@ -33,17 +31,5 @@ void hheavyhiggs::HHeavyHiggsBranch::reset()
     BottomPt2 = InitialValue;
     BottomInvMass = InitialValue;
     BottomDeltaPt = InitialValue;
-
-//     TopEta1 = InitialValue;
-//     TopEta2 = InitialValue;
-//     TopDeltaEta = InitialValue;
-//
-//     TopPhi1 = InitialValue;
-//     TopPhi2 = InitialValue;
-//     TopDeltaPhi = InitialValue;
-//
-//     TopPt1 = InitialValue;
-//     TopPt2 = InitialValue;
-//     TopInvMass = InitialValue;
 
 }

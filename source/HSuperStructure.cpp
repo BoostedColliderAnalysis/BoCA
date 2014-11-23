@@ -7,21 +7,18 @@ hdelphes::HSuperStructure::HSuperStructure()
     Position1 = EmptyPosition;
     Position2 = EmptyPosition;
 
-//     DebugLevel = 2;
-
 }
 
-hdelphes::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2) {
+hdelphes::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
+{
 
-  Print(HInformation, "Constructor");
+    Print(HInformation, "Constructor");
 
-  Jet1 = NewJet1;
-  Jet2 = NewJet2;
+    Jet1 = NewJet1;
+    Jet2 = NewJet2;
 
-  Position1 = EmptyPosition;
-  Position2 = EmptyPosition;
-
-  //     DebugLevel = 2;
+    Position1 = EmptyPosition;
+    Position2 = EmptyPosition;
 
 }
 
@@ -29,16 +26,6 @@ hdelphes::HSuperStructure::~HSuperStructure()
 {
 
     Print(HInformation, "Destructor");
-
-}
-
-void hdelphes::HSuperStructure::operator=(const HSuperStructure &other)
-{
-
-    Jet1 = other.Jet1;
-    Jet2 = other.Jet2;
-    Position1 = other.Position1;
-    Position2 = other.Position2;
 
 }
 
@@ -160,8 +147,8 @@ HVectors hdelphes::HSuperStructure::GetConstituents(const fastjet::PseudoJet &Je
 
     for (const auto & ConstituentJet : Jet.constituents()) {
 
-        if (Jet.delta_R(ConstituentJet) > Cut ) continue;
-        if (Jet.delta_R(ConstituentJet) < Cut1 ) continue;
+        if (Jet.delta_R(ConstituentJet) > Cut) continue;
+        if (Jet.delta_R(ConstituentJet) < Cut1) continue;
 
         // Get Constituent coordinates in Jet coordinates
         const float ConstEta = ConstituentJet.rap() - Jet.rap();

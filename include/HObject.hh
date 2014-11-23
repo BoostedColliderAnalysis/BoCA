@@ -138,11 +138,6 @@ public:
         HDetailed = 4
     };
 
-//     void Print(const int Severity, const std::string &Description) const;
-
-//     void Print(HSeverity Severity, const std::string &Description) const;
-
-
     template <typename TSeverity>
     void Print(TSeverity Severity, const std::string &Description) const
     {
@@ -365,61 +360,61 @@ protected:
      * @brief A large number
      *
      */
-    const int LargeNumber;
+    static const int LargeNumber = 999999999;
 
     /**
      * @brief Top quark mass
      *
      */
-    const float TopMass;
+    constexpr static float TopMass = 173.5;
 
     /**
      * @brief Higgs boson mass
      *
      */
-    const float HiggsMass;
+    constexpr static float HiggsMass = 125;
 
     /**
      * @brief W bsoson mass
      *
      */
-    const float WMass;
+    constexpr static float WMass = 80.39;
 
     /**
      * @brief Tau lepton mass
      *
      */
-    const float TauMass;
+    constexpr static float TauMass = 1.776;
 
     /**
      * @brief Muon mass
      *
      */
-    const float MuonMass;
+    constexpr static float MuonMass = 0.1134;
 
     /**
      * @brief Electron mass
      *
      */
-    const float ElectronMass;
+    constexpr static float ElectronMass = 0.000511;
 
     /**
      * @brief Initial user index
      *
      */
-    const int EmptyUserIndex;
+    static const int EmptyUserIndex = -1;
 
-    const int EmptyPosition;
+    static const int EmptyPosition = -1;
 
-    const float Pi;
+    constexpr static float Pi = 3.14159265;
 
-    const float TwoPi;
+    constexpr static float TwoPi = 2 * Pi;
 
-    const float OneSigma;
+    constexpr static float OneSigma = 0.6827;
 
-    const float TwoSigma;
+    constexpr static float TwoSigma = 0.9545;
 
-    const float ThreeSigma;
+    constexpr static float ThreeSigma = 0.9973;
 
 private:
 

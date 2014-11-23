@@ -93,7 +93,7 @@ void hmva::HReader::MVALoop()
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
         const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
         Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
-        CrosssectionError = Info->Error * TreeReader->GetEntries() / Info->EventNumber;
+        CrosssectionError = Info->CrosssectionError * TreeReader->GetEntries() / Info->EventNumber;
 //         Crosssection = Info->Crosssection;
 //         CrosssectionError = Info->Error;
         EventGenerated = Info->EventNumber;

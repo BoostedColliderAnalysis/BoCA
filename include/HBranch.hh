@@ -3,27 +3,40 @@
 
 # include "TObject.h"
 # include "Rtypes.h"
+# include "TGenericClassInfo.h"
 
 /**
  * @brief Basic tree branches
  *
  */
-class HInfoBranch : public TObject
+class HBranch : public TObject
+{
+
+public:
+    HBranch() {};
+    virtual ~HBranch() {};
+
+protected:
+    static const int InitialValue = -10;
+
+};
+
+/**
+ * @brief Basic tree branches
+ *
+ */
+class HInfoBranch : public HBranch
 {
 
 public:
 
     float Crosssection;
-    float Error;
+    float CrosssectionError;
     float EventNumber;
 
     HInfoBranch();
 
-    virtual ~HInfoBranch();
-
 private:
-
-    void reset();
 
     ClassDef(HInfoBranch, 1)
 
@@ -33,21 +46,14 @@ private:
  * @brief Class for saving Event informations to root
  *
  */
-class HEventBranch : public TObject
+class HEventBranch : public HBranch
 {
 
 public:
-
     float ScalarPtSum;
-
     HEventBranch();
 
-    virtual ~HEventBranch();
-
 private:
-
-    void reset();
-
     ClassDef(HEventBranch, 1)
 
 };
@@ -56,23 +62,15 @@ private:
  * @brief Class for saving Event informations to root
  *
  */
-class HParticleBranch : public TObject
+class HParticleBranch : public HBranch
 {
-
 public:
-
     float Pt;
     float Eta;
     float Phi;
-
     HParticleBranch();
 
-    virtual ~HParticleBranch();
-
 private:
-
-    void reset();
-
     ClassDef(HParticleBranch, 1)
 
 };

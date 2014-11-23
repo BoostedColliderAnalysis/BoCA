@@ -39,7 +39,7 @@ protected:
 
 private:
 
-      HPairBranch *Pair;
+      HHiggsBranch *Pair;
 
       void DefineVariables();
 

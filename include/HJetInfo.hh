@@ -154,6 +154,14 @@ public:
     float GetBTag() const {
         return BTag;
     }
+    
+    void SetHiggsTag(const float NewHiggsTag) {
+        HiggsTag = NewHiggsTag;
+    }
+    
+    float GetHiggsTag() const {
+        return HiggsTag;
+    }
 
 
 protected:
@@ -165,6 +173,8 @@ protected:
 private:
 
     float BTag;
+    
+    float HiggsTag;
 
     float GetWeightSum() const;
 

@@ -186,7 +186,7 @@ void hanalysis::NewEvent()
         AnalysisNotEmpty = 1;
         HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
         Info->Crosssection = Files[FileNumber]->Crosssection;
-        Info->Error = Files[FileNumber]->Error;
+        Info->CrosssectionError = Files[FileNumber]->Error;
         Info->EventNumber = EventSum;
 
         TreeWriter->Fill();

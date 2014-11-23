@@ -3,6 +3,7 @@
 
 # include "TObject.h"
 # include "Rtypes.h"
+# include "TGenericClassInfo.h"
 
 namespace htest{
 

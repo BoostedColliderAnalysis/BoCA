@@ -7,54 +7,11 @@
 # include "HBranchHiggsCpv.hh"
 # include "HSubStructure.hh"
 # include "HSuperStructure.hh"
-# include "HMvaBTagger.hh"
+// # include "HMvaBTagger.hh"
 // # include "HMvaPairs.hh"
 # include "HReader.hh"
 # include "HFactory.hh"
 
-/**
- *
- * @brief HJetTag subclass for HDiscriminator
- *
- */
-// class hhiggscpv::HBottomTag : public hanalysis::HJetTag
-// {
-//
-// public:
-//
-//     const std::set<int> HeavyParticles {BottomId};
-//
-//     virtual inline std::string NameSpaceName() const {
-//         return "HiggsCPV";
-//     };
-//
-//     virtual inline std::string ClassName() const {
-//         return "HBottomTag";
-//     };
-//
-// };
-
-/**
- *
- * @brief HJetTag subclass for HDiscriminator
- *
- */
-// class hhiggscpv::HPairTag : public hanalysis::HJetTag
-// {
-//
-// public:
-//
-//     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-//
-//     virtual inline std::string NameSpaceName() const {
-//         return "HiggsCPV";
-//     };
-//
-//     virtual inline std::string ClassName() const {
-//         return "HPairTag";
-//     };
-//
-// };
 
 /**
  *
@@ -86,11 +43,13 @@ public:
      */
     ExRootTreeBranch *EventBranch;
 
-    ExRootTreeBranch *PairBranch;
+    ExRootTreeBranch *HiggsBranch;
 
-    ExRootTreeBranch *ConstituentBranch;
+//     ExRootTreeBranch *ConstituentBranch;
 
-    ExRootTreeBranch *BTaggerBranch;
+    ExRootTreeBranch *BottomBranch;
+    
+    ExRootTreeBranch *TopBranch;
 
     template<typename TMva>
     void SetMva(TMva *NewMva) {
@@ -111,10 +70,6 @@ private:
     hmva::HMva *Mva;
 
     hmva::HReader *Reader;
-
-    void FillBTagger(const fastjet::PseudoJet& Jet, hhiggscpv::HBTaggerBranch* BTagger);
-
-    void FillPairTagger(const hdelphes::HSuperStructure& Pair, HPairBranch *PairTagger);
 
     inline int GetEventNumberMax() const {
         return 10000;
@@ -156,13 +111,20 @@ private:
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
 
-    bool GetEvent(hanalysis::HEvent*const Event, const std::string& StudyName);
+    bool GetBottomTag(hanalysis::HEvent*const Event, const std::string& StudyName);
+    void FillBottomBranch(const fastjet::PseudoJet& Jet, hhiggscpv::HBottomBranch* BTagger);
+    float GetDeltaR(const fastjet::PseudoJet& Jet);
+    
+    bool GetTopTag(hanalysis::HEvent*const Event, const std::string& StudyName);
+    void FillTopBranch(const hdelphes::HSuperStructure &Pair, hhiggscpv::HTopBranch *PairTagger);
+    
+    bool GetHiggsTag(hanalysis::HEvent*const Event, const std::string& StudyName);
+    void FillHiggsBranch(const hdelphes::HSuperStructure& Pair, HHiggsBranch *PairTagger);
+    
+    bool GetSignalTag(hanalysis::HEvent*const Event, const std::string& StudyName);
 
-    bool GetPair(hanalysis::HEvent*const Event, const std::string& StudyName);
 
-    bool GetBTag(hanalysis::HEvent*const Event, const std::string& StudyName);
-
-    void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
+//     void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
 
     /**
      * @brief prepares the std::vector describing the input root files

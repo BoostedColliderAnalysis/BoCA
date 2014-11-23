@@ -1,13 +1,10 @@
 # ifndef HBranchHiggsCpv_hh
 # define HBranchHiggsCpv_hh
 
-# include "TObject.h"
-# include "Rtypes.h"
-
+# include "HBranch.hh"
 
 namespace hhiggscpv
 {
-
 class HDiscriminator;
 class HBottomTag;
 class HPairTag;
@@ -16,11 +13,12 @@ class HBranchDiscriminator;
 class HJetDiscriminator;
 class HMvaEvent;
 class HEventBranch;
-class HBTaggerBranch;
+class HBottomBranch;
+class HTopBranch;
 class HLeptonBranch;
 class HMvaBTagger;
 class HMvaPair;
-class HPairBranch;
+class HHiggsBranch;
 }
 
 
@@ -29,27 +27,25 @@ class HPairBranch;
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class hhiggscpv::HBTaggerBranch : public TObject
+class hhiggscpv::HBottomBranch : public HBranch
 {
 
 public:
-
+    
+    HBottomBranch();
+    
     float Mass;
+    float VertexMass;
     float Pt;
     float Displacement;
     float Multipliticity;
+    float DeltaR;
 
-    inline HBTaggerBranch() {
-        reset();
-    }
-
-    inline virtual ~HBTaggerBranch() {};
+    int Bottom;
 
 private:
-
-    void reset();
-
-    ClassDef(HBTaggerBranch, 1)
+    
+    ClassDef(HBottomBranch, 1)
 
 };
 
@@ -58,11 +54,13 @@ private:
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class hhiggscpv::HPairBranch : public TObject
+class hhiggscpv::HHiggsBranch : public HBranch
 {
 
 public:
 
+    HHiggsBranch();
+    
     float Mass;
     float Pt;
 
@@ -76,18 +74,41 @@ public:
     float Pull2;
     float Pull;
 
-    inline HPairBranch(){
-      reset();
-    };
-
-    inline virtual ~HPairBranch(){};
+    int Higgs;
 
 private:
 
-    void reset();
+    ClassDef(HHiggsBranch, 1)
 
-    ClassDef(HPairBranch, 1)
+};
 
+/**
+ * 
+ * @brief Class for saving reconstructed candidates to root
+ *
+ */
+class hhiggscpv::HTopBranch : public HBranch
+{
+    
+public:
+    
+    HTopBranch();
+    
+    float Mass;
+    float Pt;
+    
+    float DeltaEta;
+    float DeltaPhi;
+    float DeltaR;
+    
+    float BTag;
+    
+    int Top;
+    
+private:
+    
+    ClassDef(HTopBranch, 1)
+    
 };
 
 /**
@@ -95,26 +116,21 @@ private:
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class hhiggscpv::HEventBranch : public TObject
+class hhiggscpv::HEventBranch : public HBranch
 {
 
 public:
 
+    HEventBranch();
+    
     float ScalarHt;
-    float JetNumber;
-    float BottomNumber;
-
+    int JetNumber;
+    int BottomNumber;
     float HiggsTag;
 
-    inline HEventBranch(){
-      reset();
-    }
-
-    inline virtual ~HEventBranch(){};
+    int Signal;
 
 private:
-
-    void reset();
 
     ClassDef(HEventBranch, 1)
 
@@ -125,10 +141,12 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hhiggscpv::HLeptonBranch : public TObject
+class hhiggscpv::HLeptonBranch : public HBranch
 {
 
 public:
+
+    HLeptonBranch();
 
     float Mass;
     float Pt;
@@ -136,13 +154,7 @@ public:
     float Phi;
     int Charge;
 
-    HLeptonBranch();
-
-    virtual ~HLeptonBranch();
-
 private:
-
-    void reset();
 
     ClassDef(HLeptonBranch, 1)
 

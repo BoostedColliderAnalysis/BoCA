@@ -62,8 +62,7 @@ void hhiggscpv::HMvaEvent::DefineVariables()
     Observables.push_back(NewObservable(&EventBranch->BottomNumber, "BottomNumber"));
     Observables.push_back(NewObservable(&EventBranch->HiggsTag, "HiggsTag"));
 
-    Spectators.push_back(NewObservable(&EventBranch->HiggsTag, "HiggsTag"));
-//     Spectators.push_back(NewObservable(&EventBranch->TopTag, "Candidate.TopTag", "Top Tag"));
+    Spectators.push_back(NewObservable(&EventBranch->Signal, "Signal"));
 
     Print(HNotification, "Variables defined");
 

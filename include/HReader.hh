@@ -6,6 +6,7 @@
 # include <sstream>
 
 # include "TFile.h"
+# include "TDirectoryFile.h"
 # include "TClonesArray.h"
 # include "TObjArray.h"
 

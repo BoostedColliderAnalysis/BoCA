@@ -1,20 +1,6 @@
 # include "HObject.hh"
 
-hanalysis::HObject::HObject() :
-    LargeNumber(999999999),
-    TopMass(173.5),
-    HiggsMass(125),
-    WMass(80.39),
-    TauMass(1.776),
-    MuonMass(0.1134),
-    ElectronMass(0.000511),
-    EmptyUserIndex(-1),
-    EmptyPosition(-1),
-    Pi(TMath::Pi()),
-    TwoPi(2 * TMath::Pi()),
-    OneSigma(0.6827),
-    TwoSigma(0.9545),
-    ThreeSigma(0.9973)
+hanalysis::HObject::HObject() 
 {
 
     DebugLevel = HNotification;
