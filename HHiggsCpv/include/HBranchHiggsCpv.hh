@@ -31,9 +31,9 @@ class hhiggscpv::HBottomBranch : public HBranch
 {
 
 public:
-    
+
     HBottomBranch();
-    
+
     float Mass;
     float VertexMass;
     float Pt;
@@ -44,7 +44,7 @@ public:
     int Bottom;
 
 private:
-    
+
     ClassDef(HBottomBranch, 1)
 
 };
@@ -60,7 +60,7 @@ class hhiggscpv::HHiggsBranch : public HBranch
 public:
 
     HHiggsBranch();
-    
+
     float Mass;
     float Pt;
 
@@ -83,32 +83,32 @@ private:
 };
 
 /**
- * 
+ *
  * @brief Class for saving reconstructed candidates to root
  *
  */
 class hhiggscpv::HTopBranch : public HBranch
 {
-    
+
 public:
-    
+
     HTopBranch();
-    
+
     float Mass;
     float Pt;
-    
+
     float DeltaEta;
     float DeltaPhi;
     float DeltaR;
-    
+
     float BTag;
-    
+
     int Top;
-    
+
 private:
-    
+
     ClassDef(HTopBranch, 1)
-    
+
 };
 
 /**
@@ -122,11 +122,12 @@ class hhiggscpv::HEventBranch : public HBranch
 public:
 
     HEventBranch();
-    
+
     float ScalarHt;
     int JetNumber;
     int BottomNumber;
-    float HiggsTag;
+    int LeptonNumber;
+    float HeavyParticleTag;
 
     int Signal;
 

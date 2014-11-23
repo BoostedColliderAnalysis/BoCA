@@ -60,7 +60,8 @@ void hhiggscpv::HMvaEvent::DefineVariables()
     Observables.push_back(NewObservable(&EventBranch->ScalarHt, "ScalarHt"));
     Observables.push_back(NewObservable(&EventBranch->JetNumber, "JetNumber"));
     Observables.push_back(NewObservable(&EventBranch->BottomNumber, "BottomNumber"));
-    Observables.push_back(NewObservable(&EventBranch->HiggsTag, "HiggsTag"));
+    Observables.push_back(NewObservable(&EventBranch->LeptonNumber, "LeptonNumber"));
+    Observables.push_back(NewObservable(&EventBranch->HeavyParticleTag, "HiggsTag"));
 
     Spectators.push_back(NewObservable(&EventBranch->Signal, "Signal"));
 
@@ -94,7 +95,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
             (*ExportCandidate) = *EventBranch;
 
             const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
-            
+
             Print(HInformation,"Bdt",BdtEvaluation);
 
             float SigEff;

@@ -66,9 +66,15 @@ public:
         return Jet2;
     }
 
+    void SetPositions(const int NewPosition1, const int NewPosition2) {
+        Position1 = NewPosition1;
+        Position2 = NewPosition2;
+    }
+
     void SetPosition1(const int NewPosition) {
         Position1 = NewPosition;
     }
+
     void SetPosition2(const int NewPosition) {
         Position2 = NewPosition;
     }
@@ -90,7 +96,7 @@ public:
     void SetBTag(const float BTag1, const float BTag2) {
         BTag = BTag1 * BTag2;
     }
-    
+
     void SetBTag(const float NewBTag) {
         BTag = NewBTag;
     }
@@ -99,7 +105,7 @@ public:
         return BTag;
     }
 
-    std::vector< TLorentzVector > GetConstituents() const;
+    HVectors GetConstituents() const;
 
     float Tag;
 

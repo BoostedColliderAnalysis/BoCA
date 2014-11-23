@@ -13,6 +13,32 @@
 # include "HFactory.hh"
 
 
+
+class HHiggsCpv
+{
+
+public:
+
+  hdelphes::HSuperStructure Higgs;
+  hdelphes::HSuperStructure Top;
+  hdelphes::HSuperStructure AntiTop;
+
+  HHiggsCpv(const hdelphes::HSuperStructure &NewHiggs, const hdelphes::HSuperStructure &NewTop, const hdelphes::HSuperStructure &NewAntiTop) {
+    Higgs = NewHiggs;
+    Higgs.SetBTag(Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag(), Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
+    Top = NewTop;
+    Top.SetBTag(Top.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
+    AntiTop = NewAntiTop;
+    AntiTop.SetBTag(AntiTop.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
+  };
+
+  float GetBdt() const {
+    return (Higgs.Tag * Top.Tag * AntiTop.Tag);
+  }
+
+};
+
+
 /**
  *
  * @brief HAnalysis subclass defining the HiggsCPV Analysis
@@ -48,7 +74,7 @@ public:
 //     ExRootTreeBranch *ConstituentBranch;
 
     ExRootTreeBranch *BottomBranch;
-    
+
     ExRootTreeBranch *TopBranch;
 
     template<typename TMva>
@@ -114,15 +140,20 @@ private:
     bool GetBottomTag(hanalysis::HEvent*const Event, const std::string& StudyName);
     void FillBottomBranch(const fastjet::PseudoJet& Jet, hhiggscpv::HBottomBranch* BTagger);
     float GetDeltaR(const fastjet::PseudoJet& Jet);
-    
+    float GetBottomBdt(const fastjet::PseudoJet &Bottom);
+
     bool GetTopTag(hanalysis::HEvent*const Event, const std::string& StudyName);
     void FillTopBranch(const hdelphes::HSuperStructure &Pair, hhiggscpv::HTopBranch *PairTagger);
-    
+    float GetTopBdt(const hdelphes::HSuperStructure &Top);
+
     bool GetHiggsTag(hanalysis::HEvent*const Event, const std::string& StudyName);
     void FillHiggsBranch(const hdelphes::HSuperStructure& Pair, HHiggsBranch *PairTagger);
-    
+    float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
+
+
     bool GetSignalTag(hanalysis::HEvent*const Event, const std::string& StudyName);
 
+    std::vector<HHiggsCpv> GetHiggsCpvs(const HJets &Jets, const HJets &Leptons);
 
 //     void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
 
