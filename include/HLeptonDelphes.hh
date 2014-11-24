@@ -35,6 +35,7 @@ private:
    * @return void
    */
   bool GetElectrons();
+  bool GetElectrons(HJetDetails JetDetails);
 
   /**
    * @brief Find the hardest of the light leptons
@@ -43,6 +44,9 @@ private:
    * @return void
    */
   bool GetMuons();
+  bool GetMuons(HJetDetails JetDetails);
+  
+//   HJets GetLeptons(HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";

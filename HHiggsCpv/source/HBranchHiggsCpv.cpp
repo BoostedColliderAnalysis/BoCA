@@ -13,7 +13,7 @@ hhiggscpv::HBottomBranch::HBottomBranch()
     Multipliticity = InitialValue;
     DeltaR = InitialValue;
 
-    Bottom = InitialValue;
+    BottomTag = InitialValue;
 
 }
 
@@ -29,13 +29,13 @@ hhiggscpv::HHiggsBranch::HHiggsBranch()
     DeltaPhi = InitialValue;
     DeltaR = InitialValue;
 
-    BTag = InitialValue;
+    BottomTag = InitialValue;
 
     Pull1 = InitialValue;
     Pull2 = InitialValue;
     Pull = InitialValue;
 
-    Higgs = InitialValue;
+    HiggsTag = InitialValue;
 
 }
 
@@ -51,9 +51,9 @@ hhiggscpv::HTopBranch::HTopBranch()
     DeltaPhi = InitialValue;
     DeltaR = InitialValue;
 
-    BTag = InitialValue;
+    BottomTag = InitialValue;
 
-    Top = InitialValue;
+    TopTag = InitialValue;
 
 }
 

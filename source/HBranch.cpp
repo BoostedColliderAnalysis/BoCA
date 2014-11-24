@@ -24,3 +24,20 @@ HParticleBranch::HParticleBranch()
     Eta = InitialValue;
     Phi = InitialValue;
 }
+
+
+ClassImp(hhiggscpv::HBottomBranch)
+
+HBottomBranch::HBottomBranch()
+{
+    
+    Mass = InitialValue;
+    VertexMass = InitialValue;
+    Pt = InitialValue;
+    Displacement = InitialValue;
+    Multipliticity = InitialValue;
+    DeltaR = InitialValue;
+    
+    BottomTag = InitialValue;
+    
+}

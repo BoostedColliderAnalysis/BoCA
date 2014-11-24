@@ -16,13 +16,13 @@ hpgs::HLepton::~HLepton()
 }
 
 
-bool hpgs::HLepton::GetElectrons()
+bool hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
-  Print(HInformation, "Get Electrons", ClonesArray->GetElectronSum());
-  for (const int ElectronNumber : HRange(ClonesArray->GetElectronSum())) {
+  Print(HInformation, "Get Electrons", ClonesArrays->GetElectronSum());
+  for (const int ElectronNumber : HRange(ClonesArrays->GetElectronSum())) {
 
-        TRootElectron *ElectronClone = (TRootElectron *)ClonesArray->GetElectron(ElectronNumber);
+        TRootElectron *ElectronClone = (TRootElectron *)ClonesArrays->GetElectron(ElectronNumber);
 
         int ElectronCharge = ElectronClone->Charge;
 
@@ -50,13 +50,13 @@ bool hpgs::HLepton::GetElectrons()
 
 }
 
-bool hpgs::HLepton::GetMuons()
+bool hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
-    Print(HInformation, "Get Muons", ClonesArray->GetMuonSum());
-    for (const int MuonNumber : HRange(ClonesArray->GetMuonSum())) {
+    Print(HInformation, "Get Muons", ClonesArrays->GetMuonSum());
+    for (const int MuonNumber : HRange(ClonesArrays->GetMuonSum())) {
 
-        TRootMuon *MuonClone = (TRootMuon *)ClonesArray->GetMuon(MuonNumber);
+        TRootMuon *MuonClone = (TRootMuon *)ClonesArrays->GetMuon(MuonNumber);
         int MuonCharge = MuonClone->Charge;
 
         if (MuonCharge == -1) {

@@ -23,7 +23,7 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 //     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
 
-    CandidateBranchName = "Candidate";
+    CandidateBranchName = "Event";
 
     SpectatorBranchName = "Lepton";
 
@@ -60,8 +60,8 @@ void hhiggscpv::HMvaEvent::DefineVariables()
     Observables.push_back(NewObservable(&EventBranch->ScalarHt, "ScalarHt"));
     Observables.push_back(NewObservable(&EventBranch->JetNumber, "JetNumber"));
     Observables.push_back(NewObservable(&EventBranch->BottomNumber, "BottomNumber"));
-    Observables.push_back(NewObservable(&EventBranch->LeptonNumber, "LeptonNumber"));
-    Observables.push_back(NewObservable(&EventBranch->HeavyParticleTag, "HiggsTag"));
+//     Observables.push_back(NewObservable(&EventBranch->LeptonNumber, "LeptonNumber"));
+    Observables.push_back(NewObservable(&EventBranch->HeavyParticleTag, "HeavyParticleTag"));
 
     Spectators.push_back(NewObservable(&EventBranch->Signal, "Signal"));
 

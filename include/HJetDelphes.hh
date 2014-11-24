@@ -39,7 +39,7 @@ public:
      *
      * @return void
      */
-    void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
+//     void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
 
     float GetScalarHt();
 
@@ -50,7 +50,7 @@ private:
      *
      * @return void
      */
-    bool GetJets(const HJetDetails JetDetails);
+    bool GetJets(hanalysis::HFourVector::HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -72,19 +72,6 @@ private:
      * @return void
      */
     void GetGenJet();
-
-    template<typename TData>
-    void PrintCell(TData const Data) const {
-
-        std::cout << std::right << std::setw(9) << std::setfill(' ') << Data;
-
-    }
-
-    void PrintTruthLevel(const int Severity) const;
-
-    std::string PrintParticle(const int Position) const;
-
-    std::vector<int> Topology;
 
     std::vector<int *> BranchVector;
 
@@ -140,11 +127,6 @@ private:
 
         return Isolated;
     }
-
-
-    int GetMotherId(const TObject *const);
-
-    int GetMotherId(int BranchId, int Position);
 
     void GetDelphesTags(const Jet *const);
 

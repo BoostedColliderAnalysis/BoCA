@@ -128,6 +128,19 @@ public:
     *
     */
     ~HMva();
+    
+    void SetSignalTreeNames(const HStrings &NewSignalTreeNames){
+        SignalTreeNames = NewSignalTreeNames;
+    }
+    
+    void SetBackgroundTreeNames(const HStrings &NewBackgroundTreeNames){
+        BackgroundTreeNames = NewBackgroundTreeNames;
+    }
+    
+    void SetInputTreeNames(const HStrings &NewSignalTreeNames, const HStrings &NewBackgroundTreeNames){
+        SignalTreeNames = NewSignalTreeNames;
+        BackgroundTreeNames = NewBackgroundTreeNames;
+    }
 
     bool DoLatex;
 
@@ -215,7 +228,7 @@ protected:
     template<typename TValue>
     HObservable NewObservable(TValue *const Value, const std::string &Title) const {
 
-        Print(HNotification, "New Observable", *Value);
+        Print(HDebug, "New Observable", *Value);
         const std::string Expression = CandidateBranchName + "." + Title;
         HObservable Observable(Value, Expression, Title, "", "");
         return Observable;
@@ -225,7 +238,7 @@ protected:
     template<typename TValue>
     HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const {
 
-        Print(HNotification, "New Observable", *Value);
+        Print(HDebug, "New Observable", *Value);
         const std::string Expression = CandidateBranchName + "." + Title;
         HObservable Observable(Value, Expression, Title, "", Latex);
         return Observable;

@@ -1,10 +1,10 @@
 # include "HFactory.hh"
 
-# include "TObjArray.h"
 
 
 hmva::HFactory::HFactory(HMva * const NewMva)
 {
+//     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification , "Constructor");
 
@@ -28,7 +28,6 @@ hmva::HFactory::HFactory(HMva * const NewMva)
 
     OutputFile->Close();
 
-//     DebugLevel = 4;
 
 }
 
@@ -140,7 +139,7 @@ void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeNam
 //     const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
 //     delete TreeReader; // FixMe why
 
-    const float Crosssection = 1; //FIXME we dont use the crosssection
+    const float Crosssection = 1.; //FIXME we dont use the crosssection
 
     Print(HNotification , "Weight", Crosssection);
 
@@ -180,7 +179,7 @@ void hmva::HFactory::BookMethods()
 
     const std::string CutMethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
 
-    Factory->BookMethod(TMVA::Types::kCuts, CutMethodName, CutOptions);
+//     Factory->BookMethod(TMVA::Types::kCuts, CutMethodName, CutOptions);
 
 //     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";

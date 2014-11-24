@@ -19,8 +19,8 @@ void hanalysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 
     Print(HInformation, "New Event");
 
-    ClonesArrays = NewClonesArrays;
-
+    hanalysis::HFourVector::NewEvent(NewClonesArrays);
+    
     GotJets = 0;
 
     GotEFlow = 0;

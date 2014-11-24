@@ -1,17 +1,17 @@
-# include "HMvaBTagger.hh"
+# include "HMvaBottom.hh"
 
-hhiggscpv::HMvaBTagger::HMvaBTagger()
+hhiggscpv::HMvaBottom::HMvaBottom()
 {
 
     Print(HNotification , "Constructor");
 
     AnalysisName = "HiggsCpv";
 
-    TaggerName = "BTagger";
+    TaggerName = "Bottom";
 
     SignalNames = {"Bottom"};
 
-    BackgroundNames = {"LightJet"};
+    BackgroundNames = {"NotBottom"};
 
     TestName = "Test";
 
@@ -21,7 +21,7 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
 
     BackgroundTreeNames = TestTreeNames;
 
-    CandidateBranchName = "BTagger";
+    CandidateBranchName = "Bottom";
 
     WeightBranchName = "Info";
 
@@ -37,7 +37,7 @@ hhiggscpv::HMvaBTagger::HMvaBTagger()
 
 }
 
-hhiggscpv::HMvaBTagger::~HMvaBTagger()
+hhiggscpv::HMvaBottom::~HMvaBottom()
 {
 
     Print(HNotification , "Constructor");
@@ -46,7 +46,7 @@ hhiggscpv::HMvaBTagger::~HMvaBTagger()
 
 }
 
-void hhiggscpv::HMvaBTagger::DefineVariables()
+void hhiggscpv::HMvaBottom::DefineVariables()
 {
 
     Print(HNotification , "Define Variables",BTagger->Mass);
@@ -58,13 +58,13 @@ void hhiggscpv::HMvaBTagger::DefineVariables()
     Observables.push_back(NewObservable(&BTagger->DeltaR, "DeltaR"));
 
     Spectators.push_back(NewObservable(&BTagger->Mass, "Mass"));
-    Spectators.push_back(NewObservable(&BTagger->Bottom, "Bottom"));
+    Spectators.push_back(NewObservable(&BTagger->BottomTag, "BottomTag"));
     
     Print(HNotification, "Variables defined");
 
 }
 
-float hhiggscpv::HMvaBTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader)
+float hhiggscpv::HMvaBottom::GetBdt(TObject *Branch, TMVA::Reader *Reader)
 {
     
     Print(HInformation, "Get Bdt", BdtMethodName);

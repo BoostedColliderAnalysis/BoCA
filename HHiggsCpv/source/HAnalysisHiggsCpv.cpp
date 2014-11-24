@@ -16,29 +16,27 @@ hhiggscpv::HAnalysis::~HAnalysis()
 
     Print(HNotification, "Destructor");
 
-    delete Reader;
-//     delete Mva;
     delete JetTag;
     delete SubStructure;
 
 }
 
-HStrings hhiggscpv::HAnalysis::GetStudyNames(const std::string &NewTaggerName)
+HStrings hhiggscpv::HAnalysis::GetStudyNames(const HTagger Tagger)
 {
-    Print(HNotification, "Get Study Names", NewTaggerName);
+    Print(HNotification, "Get Study Names", Tagger);
 
-    TaggerName = NewTaggerName;
+//     Tagger = NewTagger;
 
-    if (TaggerName == "BottomTagger") {
-        return {"Bottom", "LightJet"};
-    } else if (TaggerName == "TopTagger") {
-        return  {"Top", "Light"};
-    } else if (TaggerName == "HiggsTagger") {
-        return  {"Higgs", "Pair"};
-    } else if (TaggerName == "EventTagger") {
+    if (Tagger == HBottomTagger) {
+        return {"Bottom", "NotBottom"};
+    } else if (Tagger == HTopTagger) {
+        return  {"Top", "NotTop"};
+    } else if (Tagger == HHiggsTagger) {
+        return  {"Higgs", "NotHiggs"};
+    } else if (Tagger == HEventTagger) {
         return  {"Signal", "Background"};
     } else {
-        Print(HError, "unexpected TaggerName", TaggerName);
+        Print(HError, "unexpected TaggerName", Tagger);
         return {};
     }
 }
@@ -79,13 +77,13 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
     Mix->SetCrosssection(30.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
-//     Files.push_back(Mix);
+    Files.push_back(Mix);
 
     hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(30.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
-//     Files.push_back(Odd);
+    Files.push_back(Odd);
 
 //     hdelphes::HFile *Test = new hdelphes::HFile("pp-hjj-bbjj");
 //     Files.push_back(Test);
@@ -102,38 +100,38 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 }
 
 
-void hhiggscpv::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
+void hhiggscpv::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter,const HTagger Tagger)
 {
-    Print(HNotification, "New Branches", TaggerName);
+    Print(HNotification, "New Branches", Tagger);
 
-    if (TaggerName == "EventTagger") {
-        EventBranch = TreeWriter->NewBranch("Event", HEventBranch::Class());
-    } else if (TaggerName == "HiggsTagger") {
-        HiggsBranch = TreeWriter->NewBranch("Higgs", HHiggsBranch::Class());
-    } else if (TaggerName == "TopTagger") {
-        TopBranch = TreeWriter->NewBranch("Top", HHiggsBranch::Class());
-    } else if (TaggerName == "BottomTagger") {
+    if (Tagger == HBottomTagger) {
         BottomBranch = TreeWriter->NewBranch("Bottom", HBottomBranch::Class());
+    } else if (Tagger == HTopTagger) {
+        TopBranch = TreeWriter->NewBranch("Top", HTopBranch::Class());
+    } else if (Tagger == HHiggsTagger) {
+        HiggsBranch = TreeWriter->NewBranch("Higgs", HHiggsBranch::Class());
+    } else if (Tagger == HEventTagger) {
+        EventBranch = TreeWriter->NewBranch("Event", HEventBranch::Class());
+    }
 //     } else {
 //         ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
-    }
 }
 
-bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
+bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName,const HTagger Tagger)
 {
 
     Print(HInformation, "Analysis", StudyName);
 
-    if (TaggerName == "BottomTagger") {
+    if (Tagger == HBottomTagger) {
         if (GetBottomTag(Event, StudyName)) return 1;
-    } else if (TaggerName == "TopTagger") {
+    } else if (Tagger == HTopTagger) {
         if (GetTopTag(Event, StudyName)) return 1;
-    } else if (TaggerName == "HiggsTagger") {
+    } else if (Tagger == HHiggsTagger) {
         if (GetHiggsTag(Event, StudyName)) return 1;
-    } else if (TaggerName == "EventTagger") {
+    } else if (Tagger == HEventTagger) {
         if (GetSignalTag(Event, StudyName)) return 1;
     } else {
-        Print(HError, "unknown Tagger", TaggerName);
+        Print(HError, "unknown Tagger", Tagger);
     }
 
     return 0;
@@ -151,7 +149,7 @@ bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const st
 
     if (StudyName == "Bottom") {
         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-            Print(HInformation, "Truth Level", (*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId());
+            Print(HInformation, "Truth Level", GetParticleName((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()));
             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId
 //                 || (*Jet).user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .8
                ) {
@@ -160,7 +158,7 @@ bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const st
                 ++Jet;
             }
         }
-    } else if (StudyName == "LightJet") {
+    } else if (StudyName == "NotBottom") {
         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
                 Jet = Jets.erase(Jet);
@@ -185,7 +183,7 @@ bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const st
 void hhiggscpv::HAnalysis::FillBottomBranch(const fastjet::PseudoJet &Jet, HBottomBranch *BTagger)
 {
 
-    Print(HInformation, "Fill BTagger", Jet.m());
+    Print(HInformation, "Fill Bottom Tagger");
 
     if (Jet.has_user_info<hanalysis::HJetInfo>()) {
         Print(HInformation, "Has Info", Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
@@ -196,11 +194,11 @@ void hhiggscpv::HAnalysis::FillBottomBranch(const fastjet::PseudoJet &Jet, HBott
         BTagger->Multipliticity = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
         BTagger->DeltaR = GetDeltaR(Jet);
         if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
-            BTagger->Bottom = 1;
+            BTagger->BottomTag = 1;
         } else {
-            BTagger->Bottom = 0;
+            BTagger->BottomTag = 0;
         }
-
+        
     } else {
         Print(HError, "BJet without user info");
     }
@@ -210,7 +208,7 @@ void hhiggscpv::HAnalysis::FillBottomBranch(const fastjet::PseudoJet &Jet, HBott
 float hhiggscpv::HAnalysis::GetDeltaR(const fastjet::PseudoJet &Jet)
 {
 
-    Print(HInformation, "GetDeltaR");
+    Print(HInformation, "Get Delta R");
 
     float DeltaR;
     for (const auto & Constituent : Jet.constituents()) {
@@ -235,24 +233,25 @@ float hhiggscpv::HAnalysis::GetBottomBdt(const fastjet::PseudoJet &Bottom)
 
 bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::string &StudyName)
 {
+    
     Print(HInformation, "Get Tops", StudyName);
 
     JetTag->SetHeavyParticles( {TopId});
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    Print(HInformation, "Jet Number", Jets.size());
     if (Jets.size() < 1) return 0;
 
     if (StudyName == "Top") {
         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-            Print(HInformation, "Truth Level", (*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId());
+            Print(HInformation, "Truth Level", GetParticleName((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()));
             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != TopId
-                    //                 || (*Jet).user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .8
                ) {
                 Jet = Jets.erase(Jet);
             } else {
                 ++Jet;
             }
         }
-    } else if (StudyName == "LightJet") {
+    } else if (StudyName == "NotTop") {
         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == TopId) {
                 Jet = Jets.erase(Jet);
@@ -262,7 +261,9 @@ bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::
         }
     }
 
-    HJets Leptons = Event->GetLeptons()->GetLeptonJets();
+
+    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
+    Print(HInformation, "Lepton Number", Leptons.size());
     if (Leptons.size() < 1) return 0;
 
     std::vector<hdelphes::HSuperStructure> JetPairs;
@@ -273,13 +274,18 @@ bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::
         JetInfo->SetBTag(Bdt);
         (*Jet).set_user_info(JetInfo);
         for (HJets::iterator Lepton = Leptons.begin(); Lepton != Leptons.end(); ++Lepton) {
-            hdelphes::HSuperStructure JetPair((*Jet), (*Lepton));
-            JetPair.SetBTag((*Jet).user_info<hanalysis::HJetInfo>().GetBTag());
-            JetPairs.push_back(JetPair);
+            Print(HDebug, "Lepton Tagging",GetParticleName((*Lepton).user_index()),GetParticleName ((*Jet).user_index()));
+            if ((StudyName == "Top" && (*Lepton).user_index() == (*Jet).user_index()) || (StudyName == "NotTop")) {
+                
+                hdelphes::HSuperStructure JetPair((*Jet), (*Lepton));
+                JetPair.SetBTag((*Jet).user_info<hanalysis::HJetInfo>().GetBTag());
+                if(std::abs((*Jet).user_index()) == TopId) JetPair.Tag = 1;
+                JetPairs.push_back(JetPair);
+            }
         }
     }
 
-    Print(HInformation, "Number Jets", Jets.size());
+    Print(HInformation, "Number JetPairs", JetPairs.size());
     if (JetPairs.size() < 1) return 0;
 
     for (const auto & JetPair : JetPairs) {
@@ -292,16 +298,21 @@ bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::
 
 }
 
-void hhiggscpv::HAnalysis::FillTopBranch(const hdelphes::HSuperStructure &Pair, HTopBranch *PairTagger)
+void hhiggscpv::HAnalysis::FillTopBranch(const hdelphes::HSuperStructure &Pair, HTopBranch *TopTagger)
 {
-    Print(HInformation, "FillPairTagger", Pair.GetBTag());
+    Print(HInformation, "Fill Top Tagger", Pair.GetBTag());
 
-    PairTagger->Mass = Pair.GetInvariantMass();
-    PairTagger->Pt = Pair.GetPtSum();
-    PairTagger->DeltaR = Pair.GetDeltaR();
-    PairTagger->DeltaEta = Pair.GetDeltaEta();
-    PairTagger->DeltaPhi = Pair.GetPhiDelta();
-    PairTagger->BTag = Pair.GetBTag();
+    TopTagger->Mass = Pair.GetInvariantMass();
+    TopTagger->Pt = Pair.GetPtSum();
+    TopTagger->DeltaR = Pair.GetDeltaR();
+    TopTagger->DeltaEta = Pair.GetDeltaEta();
+    TopTagger->DeltaPhi = Pair.GetPhiDelta();
+    TopTagger->BottomTag = Pair.GetBTag();
+    if (Pair.Tag == 1) {
+        TopTagger->TopTag = 1;
+    } else {
+        TopTagger->TopTag = 0;
+    }
 
 }
 
@@ -361,12 +372,13 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent *const Event, const std
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
                 hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
                 JetPair.SetBTag((*Jet1).user_info<hanalysis::HJetInfo>().GetBTag(), (*Jet2).user_info<hanalysis::HJetInfo>().GetBTag());
+                JetPair.Tag = 1;
                 JetPairs.push_back(JetPair);
             }
         }
     }
 
-    if (StudyName == "Pair") {
+    if (StudyName == "NotHiggs") {
         if (OtherJets.size() < 2 || (OtherJets.size() < 1 && HiggsJets.size() < 1)) return 0;
         for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
@@ -388,27 +400,32 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent *const Event, const std
     if (JetPairs.size() <= 1) return 0;
 
     for (const auto & Pair : JetPairs) {
-        HHiggsBranch *Pairs = static_cast<HHiggsBranch *>(HiggsBranch->NewEntry());
-        FillHiggsBranch(Pair, Pairs);
+        HHiggsBranch *HiggsTagger = static_cast<HHiggsBranch *>(HiggsBranch->NewEntry());
+        FillHiggsBranch(Pair, HiggsTagger);
     }
 
     return 1;
 
 }
 
-void hhiggscpv::HAnalysis::FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *PairTagger)
+void hhiggscpv::HAnalysis::FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *HiggsTagger)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBTag());
 
-    PairTagger->Mass = Pair.GetInvariantMass();
-    PairTagger->Pt = Pair.GetPtSum();
-    PairTagger->DeltaR = Pair.GetDeltaR();
-    PairTagger->DeltaEta = Pair.GetDeltaEta();
-    PairTagger->DeltaPhi = Pair.GetPhiDelta();
-    PairTagger->BTag = Pair.GetBTag();
-    PairTagger->Pull1 = Pair.GetPullAngle1();
-    PairTagger->Pull2 = Pair.GetPullAngle2();
-    PairTagger->Pull = Pair.GetPullAngle();
+    HiggsTagger->Mass = Pair.GetInvariantMass();
+    HiggsTagger->Pt = Pair.GetPtSum();
+    HiggsTagger->DeltaR = Pair.GetDeltaR();
+    HiggsTagger->DeltaEta = Pair.GetDeltaEta();
+    HiggsTagger->DeltaPhi = Pair.GetPhiDelta();
+    HiggsTagger->BottomTag = Pair.GetBTag();
+    HiggsTagger->Pull1 = Pair.GetPullAngle1();
+    HiggsTagger->Pull2 = Pair.GetPullAngle2();
+    HiggsTagger->Pull = Pair.GetPullAngle();
+    if (Pair.Tag == 1) {
+        HiggsTagger->HiggsTag = 1;
+    } else {
+        HiggsTagger->HiggsTag = 0;
+    }
 
 
 }

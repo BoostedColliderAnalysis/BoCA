@@ -1,5 +1,5 @@
-# ifndef HMvaPair_hh
-# define HMvaPair_hh
+# ifndef HMvaHiggs_hh
+# define HMvaHiggs_hh
 
 
 # include "HMva.hh"
@@ -10,7 +10,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hhiggscpv::HMvaPair : public hmva::HMva
+class hhiggscpv::HMvaHiggs : public hmva::HMva
 {
 
 public:
@@ -19,13 +19,13 @@ public:
     * @brief Constructor
     *
     */
-    HMvaPair();
+    HMvaHiggs();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMvaPair();
+    ~HMvaHiggs();
 
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct& ReaderStruct){ return ReaderStruct;};
 
@@ -39,7 +39,7 @@ protected:
 
 private:
 
-      HHiggsBranch *Pair;
+      HHiggsBranch *Higgs;
 
       void DefineVariables();
 

@@ -33,7 +33,7 @@ private:
    * @param ClonesArray ...
    * @return void
    */
-  bool GetElectrons();
+  bool GetElectrons(HJetDetails JetDetails);
 
   /**
    * @brief Find the hardest of the light leptons
@@ -41,7 +41,7 @@ private:
    * @param ClonesArray ...
    * @return void
    */
-  bool GetMuons();
+  bool GetMuons(HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {
         return "HPgs";

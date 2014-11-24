@@ -16,15 +16,16 @@ class HEventBranch;
 class HBottomBranch;
 class HTopBranch;
 class HLeptonBranch;
-class HMvaBTagger;
-class HMvaPair;
+class HMvaBottom;
+class HMvaHiggs;
+class HMvaTop;
 class HHiggsBranch;
 }
 
 
 /**
  *
- * @brief Class for saving reconstructed candidates to root
+ * @brief Bottom tagger root tree structure
  *
  */
 class hhiggscpv::HBottomBranch : public HBranch
@@ -41,7 +42,7 @@ public:
     float Multipliticity;
     float DeltaR;
 
-    int Bottom;
+    int BottomTag;
 
 private:
 
@@ -51,7 +52,7 @@ private:
 
 /**
  *
- * @brief Class for saving reconstructed candidates to root
+ * @brief Higgs tagger root tree structure
  *
  */
 class hhiggscpv::HHiggsBranch : public HBranch
@@ -68,13 +69,13 @@ public:
     float DeltaPhi;
     float DeltaR;
 
-    float BTag;
+    float BottomTag;
 
     float Pull1;
     float Pull2;
     float Pull;
 
-    int Higgs;
+    int HiggsTag;
 
 private:
 
@@ -84,7 +85,7 @@ private:
 
 /**
  *
- * @brief Class for saving reconstructed candidates to root
+ * @brief Top tagger root tree structure
  *
  */
 class hhiggscpv::HTopBranch : public HBranch
@@ -101,9 +102,9 @@ public:
     float DeltaPhi;
     float DeltaR;
 
-    float BTag;
+    float BottomTag;
 
-    int Top;
+    int TopTag;
 
 private:
 
@@ -113,7 +114,7 @@ private:
 
 /**
  *
- * @brief Class for saving reconstructed candidates to root
+ * @brief Higgs cpv tagger root tree structure
  *
  */
 class hhiggscpv::HEventBranch : public HBranch
@@ -139,7 +140,7 @@ private:
 
 
 /**
- * @brief Class for saving leptons to root
+ * @brief lepton tree structure
  *
  */
 class hhiggscpv::HLeptonBranch : public HBranch

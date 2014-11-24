@@ -144,9 +144,11 @@ public:
     float GetVertexMass() const {
         Print(HDebug, "Get Vertex Mass");
         HConstituent Vertex;
-        return (std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M());
+        const float VertexMass = std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M();
+        if (VertexMass < .1) return 0;
+        return VertexMass;        
     }
-
+    
     void SetBTag(const float NewBTag) {
         BTag = NewBTag;
     }

@@ -20,7 +20,8 @@ void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
 
     Print(HInformation,"New Event");
 
-    ClonesArrays = NewClonesArrays;
+//     ClonesArrays = NewClonesArrays;
+    hanalysis::HFourVector::NewEvent(NewClonesArrays);
 
     GotParticles = 0;
 

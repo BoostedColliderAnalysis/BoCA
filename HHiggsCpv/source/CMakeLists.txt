@@ -1,8 +1,10 @@
 HDictionary(HBranchHiggsCpv HBranchHiggsCpv.cpp ../include/HLinkDefHiggsCpv.hh)
 
-HLibrary(HMvaBTaggerCpv HMvaBTagger.cpp)
+HLibrary(HMvaBTaggerCpv HMvaBottom.cpp)
 
-HLibrary(HMvaHiggsTagger HMvaPairs.cpp)
+HLibrary(HMvaHiggsTagger HMvaHiggs.cpp)
+
+HLibrary(HMvaTopTagger HMvaTop.cpp)
 
 HLibrary(HMvaHiggsCpvTagger HMvaEvent.cpp)
 

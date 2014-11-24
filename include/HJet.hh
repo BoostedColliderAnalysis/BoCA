@@ -5,8 +5,6 @@
 
 # include "HClonesArray.hh"
 # include "HFourVector.hh"
-# include "HJetTag.hh"
-# include "HJetInfo.hh"
 
 /**
  * @brief Base class for jets
@@ -34,7 +32,7 @@ public:
      *
      * @return void
      */
-    virtual void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
 
     void SetJetTag(HJetTag *const NewJetTag) {
         JetTag = NewJetTag;
@@ -107,8 +105,6 @@ public:
     virtual float GetScalarHt();
 
 protected:
-
-    enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation, TaggingStructure};
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -189,8 +185,6 @@ protected:
      */
     HVectors BottomLorentzVectors;
 
-    HJetTag *JetTag;
-
     template<typename TParticle1, typename TParticle2>
     bool CheckIsolation(const TParticle1 *const Particle1, const TParticle2 *const Particle2, const float DeltaRIsolationMax) const {
 
@@ -210,12 +204,6 @@ protected:
         return CheckIsolation(Particle1, Particle2, DeltaRIsolationMax);
 
     }
-
-    /**
-     * @brief Clones Arrays
-     *
-     */
-    const HClonesArray *ClonesArrays;
 
     virtual inline std::string ClassName() const {
         return "HJet";

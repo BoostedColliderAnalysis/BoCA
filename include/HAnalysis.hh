@@ -34,11 +34,20 @@ public:
      */
     ~HAnalysis();
 
-    void AnalysisLoop();
+//     void AnalysisLoop();
+//     enum HTagger {EventTagger};
+      enum HTagger{HBottomTagger,HTopTagger,HHiggsTagger,HEventTagger};
 
-    void AnalysisLoop(const std::string Tagger);
+    void AnalysisLoop(const HTagger Tagger);
+
+    void AnalysisLoop() {
+        AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
+    };
 
 protected:
+
+//     HTagger Tagger;
+
 
     int GetEventSum(const ExRootTreeReader *const TreeReader) const {
 
@@ -46,7 +55,7 @@ protected:
 
     };
 
-    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName);
+    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const HTagger Tagger);
 
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
@@ -59,21 +68,35 @@ protected:
      *
      * @return void
      */
-    virtual bool Analysis(HEvent * const, const std::string &StudyName) = 0;
+    virtual bool Analysis(HEvent *const, const std::string &) {
+        Print(HError, "should be subclassed");
+        return 0;
+    }
+
+    virtual bool Analysis(HEvent *const, const std::string &, const HTagger){
+        Print(HError, "should be subclassed");
+        return 0;
+    }
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    virtual std::vector<HFile*> GetFiles(const std::string &StudyName) const = 0;
+    virtual std::vector<HFile *> GetFiles(const std::string &StudyName) const = 0;
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    virtual void NewBranches(ExRootTreeWriter * const TreeWriter) = 0;
+    virtual void NewBranches(ExRootTreeWriter *const, const HTagger) {
+        Print(HError, "Should be subclassed");
+    }
+
+    virtual void NewBranches(ExRootTreeWriter *const) {
+        Print(HError, "Should be subclassed");
+    };
 
     /**
      * @brief Name of Analysis
@@ -91,15 +114,16 @@ protected:
         return 100000;
     };
 
-    virtual inline HStrings GetStudyNames(const std::string &TaggerName) {
-      Print(HError,"GetStudyName","What are we doing here?",TaggerName);
-      return {GetProjectName()};
-    };
-
-
-    virtual inline HStrings GetStudyNames() const {
+    virtual inline HStrings GetStudyNames(const HTagger NewTagger) {
+        Print(HError, "GetStudyName", "What are we doing here?", NewTagger);
         return {GetProjectName()};
     };
+
+
+//     virtual inline HStrings GetStudyNames() const {
+//         return {GetProjectName()};
+//     };
+
     virtual inline std::string ClassName() const {
         return "HAnalysis";
     };
