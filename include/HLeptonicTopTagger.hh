@@ -1,26 +1,28 @@
-# ifndef HBottomTagger_hh
-# define HBottomTagger_hh
+# ifndef HLeptonicTopTagger_hh
+# define HLeptonicTopTagger_hh
 
 # include "HMva.hh"
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
+# include "HBottomTagger.hh"
+# include "HSuperStructure.hh"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HBottomTagger : public hmva::HMva
+class hdelphes::HLeptonicTopTagger : public hmva::HMva
 {
     
 public:
     
-    HBottomTagger();
+    HLeptonicTopTagger();
     
-    ~HBottomTagger();
+    ~HLeptonicTopTagger();
     
-    std::vector< HBottomBranch * > GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector< HLeptonicTopBranch * > GetTopTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, HBottomTagger *BottomTagger);
     
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){ HReaderStruct ReaderStruct; return ReaderStruct;};
     
@@ -28,7 +30,7 @@ public:
     
     float GetBdt(TObject *Branch, TMVA::Reader *Reader);
     
-//     std::vector<HBottomBranch *> GetBottomTag(hanalysis::HEvent *const Event, const HState State);
+    //     std::vector<HLeptonicTopBranch *> GetBottomTag(hanalysis::HEvent *const Event, const HState State);
     
    
 //     template<typename TMva>
@@ -42,19 +44,19 @@ public:
         
     }
     
-    float GetBottomBdt(const fastjet::PseudoJet &Bottom);
+    float GetTopBdt(const hdelphes::HSuperStructure &Top);
     
 private:
     
     hmva::HReader *Reader;
     
-    HBottomBranch *BTagger;
+    HLeptonicTopBranch *LeptonicTopTagger;
     
     hanalysis::HJetTag *JetTag;
     
     void DefineVariables();
     
-    void FillBottomBranch(const fastjet::PseudoJet &Jet, HBottomBranch *BTagger);
+    void FillTopBranch(const hdelphes::HSuperStructure &Pair, HLeptonicTopBranch *TopTagger);
     
     float GetDeltaR(const fastjet::PseudoJet &Jet);
     
@@ -64,7 +66,7 @@ private:
     };
 
     virtual inline std::string ClassName() const {
-        return "HBottomTagger";
+        return "HLeptonicTopTagger";
     };
 
 };

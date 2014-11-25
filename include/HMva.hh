@@ -49,9 +49,9 @@ class HObservable //: public hanalysis::HObject
 {
 
 public:
-    
-    HObservable(){};
-    
+
+    HObservable() {};
+
     HObservable(float *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
 
 //         Print(HInformation, "Float Constructor", *NewValue);
@@ -63,14 +63,14 @@ public:
         Latex = NewLatex;
         Type = 'F';
     }
-    
-    
+
+
 
     HObservable(int *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
 
 //         Print(HInformation, "Int Constructor", *NewValue);
 
-        Value = (float*)NewValue;
+        Value = (float *)NewValue;
         Expression = NewExpression;
         Title = NewTitle;
         Unit = NewUnit;
@@ -128,18 +128,22 @@ public:
     *
     */
     ~HMva();
-    
-    void SetSignalTreeNames(const HStrings &NewSignalTreeNames){
+
+    void SetSignalTreeNames(const HStrings &NewSignalTreeNames) {
         SignalTreeNames = NewSignalTreeNames;
     }
-    
-    void SetBackgroundTreeNames(const HStrings &NewBackgroundTreeNames){
+
+    void SetBackgroundTreeNames(const HStrings &NewBackgroundTreeNames) {
         BackgroundTreeNames = NewBackgroundTreeNames;
     }
-    
-    void SetInputTreeNames(const HStrings &NewSignalTreeNames, const HStrings &NewBackgroundTreeNames){
+
+    void SetInputTreeNames(const HStrings &NewSignalTreeNames, const HStrings &NewBackgroundTreeNames) {
         SignalTreeNames = NewSignalTreeNames;
         BackgroundTreeNames = NewBackgroundTreeNames;
+    }
+
+    void SetBranchName(const std::string &NewBranchName) {
+        CandidateBranchName = NewBranchName;
     }
 
     bool DoLatex;

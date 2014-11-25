@@ -32,6 +32,8 @@ HTopTagger.cpp
 HEPTopTagger.cpp
 HSuperStructure.cpp
 HSubStructure.cpp
+HBottomTagger.cpp
+HLeptonicTopTagger.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 

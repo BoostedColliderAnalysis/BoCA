@@ -39,7 +39,7 @@ protected:
 
 private:
 
-      HTopBranch *Top;
+      HLeptonicTopBranch *Top;
 
       void DefineVariables();
 

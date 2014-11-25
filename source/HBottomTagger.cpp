@@ -1,219 +1,156 @@
-# include "HLepton.hh"
+# include "HBottomTagger.hh"
 
-hanalysis::HLepton::HLepton()
+hdelphes::HBottomTagger::HBottomTagger()
 {
+//     DebugLevel = hanalysis::HObject::HDebug;
 
-    Print(HNotification,"Constructor");
+    Print(HNotification, "Constructor");
+    AnalysisName = "HiggsCpv";
+    TaggerName = "Bottom";
+    SignalNames = {"Bottom"};
+    BackgroundNames = {"NotBottom"};
+    TestName = "Test";
+    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
+    SignalTreeNames = TestTreeNames;
+    BackgroundTreeNames = TestTreeNames;
+    CandidateBranchName = "Bottom";
+    BTagger = new HBottomBranch();
+    JetTag = new hanalysis::HJetTag();
 
-//     Debug = 5;
+    DefineVariables();
 
 }
 
-hanalysis::HLepton::~HLepton()
+hdelphes::HBottomTagger::~HBottomTagger()
 {
-
-    Print(HNotification,"Destructor");
-
-}
-
-void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArrays)
-{
-
-    Print(HInformation,"New Event");
-
-//     ClonesArrays = NewClonesArray;
-    hanalysis::HFourVector::NewEvent(NewClonesArrays);
-
-    GotElectrons = 0;
-
-    GotMuons = 0;
-
-    ElectronLorentzVectors.clear();
-
-    AntiElectronLorentzVectors.clear();
-
-    MuonLorentzVectors.clear();
-
-    AntiMuonLorentzVectors.clear();
-
-    TauLorentzVectors.clear();
-
-    AntiTauLorentzVectors.clear();
-
-    LeptonLorentzVectors.clear();
-
-    AntiLeptonLorentzVectors.clear();
-
-    ElectronJets.clear();
-
-    AntiElectronJets.clear();
-
-    MuonJets.clear();
-
-    AntiMuonJets.clear();
-
-    LeptonJets.clear();
-
-    AntiLeptonJets.clear();
-
-}
-
-HVectors hanalysis::HLepton::GetLeptonVectors()
-{
-
-  Print(HInformation,"Get Leptons");
-
-  if(!GotElectrons) GotElectrons = GetElectrons(Plain);
-  if(!GotMuons) GotMuons = GetMuons(Plain);
-
-    LeptonLorentzVectors = ElectronLorentzVectors;
-    LeptonLorentzVectors.insert(LeptonLorentzVectors.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
-//     LeptonVector.insert(LeptonVector.end(), TauVector.begin(), TauVector.end());
-    std::sort(LeptonLorentzVectors.begin(), LeptonLorentzVectors.end(), SortByPt());
-
-    Print(HDebug,"Number of Leptons",LeptonLorentzVectors.size());
-
-    AntiLeptonLorentzVectors = AntiElectronLorentzVectors;
-    AntiLeptonLorentzVectors.insert(AntiLeptonLorentzVectors.end(), AntiMuonLorentzVectors.begin(), AntiMuonLorentzVectors.end());
-//     AntiLeptonVector.insert(AntiLeptonVector.end(), AntiTauVector.begin(), AntiTauVector.end());
-    std::sort(AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end(), SortByPt());
-
-
-    Print(HDebug,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
-
-    HVectors CompleteVector = LeptonLorentzVectors;
-    CompleteVector.insert(CompleteVector.end(), AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end());
-    std::sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
-
-    return CompleteVector;
-
-}
-
-HJets hanalysis::HLepton::GetLeptonJets()
-{
-    
-    Print(HInformation,"Get Lepton Jets");
-    
-    return GetLeptonJets(Plain);
-    
-}
-
-HJets hanalysis::HLepton::GetLeptonJets(HJetDetails JetDetails)
-{
-
-    Print(HInformation,"Get Lepton Jets");
-
-    if(!GotElectrons) GotElectrons = (JetDetails);
-    if(!GotMuons) GotMuons = GetMuons(JetDetails);
-
-    LeptonJets = ElectronJets;
-    LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());
-//     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());
-//     sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
-
-    Print(HDebug,"Number of Lepton Jets",LeptonJets.size());
-
-    AntiLeptonJets = AntiElectronJets;
-    AntiLeptonJets.insert(AntiLeptonJets.end(), AntiMuonJets.begin(), AntiMuonJets.end());
-//     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiTauJetVector.begin(), AntiTauJetVector.end());
-//     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
-    Print(HDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
-
-    HJets AllJets = LeptonJets;
-    AllJets.insert(AllJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
-//     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
-
-    return AllJets;
-
+    Print(HNotification, "Destructor");
+    delete BTagger;
 }
 
 
-// void  leptons::FindLargestLorentzVector()
-// {
-//
-//     TLorentzVector Lepton;
-//
-//     float ElectronPT = Electron.Pt();
-//     float MuonPT = Muon.Pt();
-//     float TauPT = Tau.Pt();
-//
-//     if (ElectronPT > MuonPT && ElectronPT > TauPT) {
-//         Lepton =  Electron;
-//     } else if (MuonPT > ElectronPT && MuonPT > TauPT) {
-//         LeptonLorentzVector = MuonLorentzVector;
-//     } else if (TauPT > ElectronPT && TauPT > MuonPT) {
-//         LeptonLorentzVector = TauLorentzVector;
-//     }
-//
-//     return (LeptonLorentzVector);
-//
-// }                                                           // FindLargestLorentzVector
-
-/*
-
-void leptons::LeptonsAndMissingEt()
+std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBottomTag(hanalysis::HEvent *const Event, const HState State)
 {
 
-    const float LeptonLowerPtCut = 25.0;
-    const float LeptonUpperEtaCut = 2.5;
+    Print(HInformation, "Get Bottom Tag", State);
 
-    int MuonCounter = 0, ElectronCounter = 0;                       //initial the varibles Important
+    JetTag->SetHeavyParticles( {BottomId});
+    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    Print(HInformation, "Number Jets", Jets.size());
 
-    float MissingPx, MissingPy, MissingEt, MissingPhi;
-    MissingPx = 0;
-    MissingPy = 0;
-    MissingEt = 0;
-    MissingPhi = 0;
+    if (State == HSignal) {
+        for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
+            Print(HInformation, "Truth Level", GetParticleName((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()));
+            if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId) {
+                Jet = Jets.erase(Jet);
+            } else {
+                ++Jet;
+            }
+        }
+    } else if (State == HBackground) {
+        for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
+            if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
+                Jet = Jets.erase(Jet);
+            } else {
+                ++Jet;
+            }
+        }
+    }
 
-    int ElectronSum = ClonesArrayClass->ElectronClonesArray->GetEntriesFast();
+    Print(HInformation, "Number Jets", Jets.size());
+//     if (Jets.size() < 1) return 0;
 
-    for (int ElectronNumber = 0; ElectronNumber < ElectronSum; ElectronNumber++) {
+    std::vector<HBottomBranch *> BottomTaggers;
 
-        Electron *electron = (Electron *) ClonesArrayClass->ElectronClonesArray->At(ElectronNumber);
-        float ElectronPt = electron->PT;
-        float ElectronEta = electron->Eta;
-        float ElectronPhi = electron->Phi;
+    for (const auto & Jet : Jets) {
+        HBottomBranch *BottomTagger = new HBottomBranch;
+        FillBottomBranch(Jet, BottomTagger);
+        BottomTaggers.push_back(BottomTagger);
+    }
 
-        if (ElectronPt > LeptonLowerPtCut && Abs(ElectronEta) < LeptonUpperEtaCut) {
+    return BottomTaggers;
 
-            ElectronCounter++;
-            fastjet::PseudoJet lepton = fastjet::PseudoJet(ElectronPt * Cos(ElectronPhi), ElectronPt * Sin(ElectronPhi), ElectronPt * SinH(ElectronEta), ElectronPt * CosH(ElectronEta));
+}
 
+void hdelphes::HBottomTagger::FillBottomBranch(const fastjet::PseudoJet &Jet, HBottomBranch *BTagger)
+{
+
+    Print(HInformation, "Fill Bottom Tagger");
+
+    if (Jet.has_user_info<hanalysis::HJetInfo>()) {
+        Print(HInformation, "Has Info", Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
+        BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
+        BTagger->Mass = Jet.m();
+        BTagger->Pt = Jet.pt();
+        BTagger->Displacement = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
+        BTagger->Multipliticity = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
+        Print(HDebug, "Multiplicity", Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber(), BTagger->Multipliticity);
+        BTagger->DeltaR = GetDeltaR(Jet);
+        if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
+            BTagger->BottomTag = 1;
+        } else {
+            BTagger->BottomTag = 0;
         }
 
+    } else {
+        Print(HError, "BJet without user info");
     }
 
-    int MuonSum = ClonesArrayClass->MuonClonesArray->GetEntriesFast();
+}
 
-    for (int MuonNumber = 0; MuonNumber < MuonSum; MuonNumber++) {
+float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet)
+{
 
-        Muon *muon = (Muon *) ClonesArrayClass->MuonClonesArray->At(MuonNumber);
-        float MuonPt = muon->PT;
-        float MuonEta = muon->Eta;
-        float MuonPhi = muon->Phi;
+    Print(HInformation, "Get Delta R");
 
-        if (MuonPt > LeptonLowerPtCut && Abs(MuonEta) < LeptonUpperEtaCut) {
-
-            MuonCounter++;
-            fastjet::PseudoJet lepton = fastjet::PseudoJet(MuonPt * Cos(MuonPhi), MuonPt * Sin(MuonPhi), MuonPt * SinH(MuonEta), MuonPt * CosH(MuonEta));
-
-        }
-
+    float DeltaR;
+    for (const auto & Constituent : Jet.constituents()) {
+        const float TempDeltaR = Jet.delta_R(Constituent);
+        if (TempDeltaR > DeltaR) DeltaR = TempDeltaR;
     }
+    return DeltaR;
 
-    int MissingEtSum = ClonesArrayClass->MissingEtClonesArray->GetEntriesFast();
+}
 
-    if (MissingEtSum > 0) {
+float hdelphes::HBottomTagger::GetBottomBdt(const fastjet::PseudoJet &Bottom)
+{
+    Print(HNotification , "Get Bottom Bdt");
 
-        MissingET *met = (MissingET *) ClonesArrayClass->MissingEtClonesArray->At(0);
+    HBottomBranch *BottomTagger = new HBottomBranch();
+    FillBottomBranch(Bottom, BottomTagger);
+    const float Bdt = GetBdt(BottomTagger, Reader->Reader);
+    delete BottomTagger;
 
-        MissingEt = met->MET;
-        MissingPhi = met->Phi;
+    return Bdt;
 
-        MissingPx = MissingEt * cos(MissingPhi);
-        MissingPy = MissingEt * sin(MissingPhi);
+}
 
-    }
+void hdelphes::HBottomTagger::DefineVariables()
+{
 
+    Print(HNotification , "Define Variables", BTagger->Mass);
 
-}*/
+    Observables.push_back(NewObservable(&BTagger->VertexMass, "VertexMass"));
+    Observables.push_back(NewObservable(&BTagger->Pt, "Pt"));
+    Observables.push_back(NewObservable(&BTagger->Displacement, "Displacement"));
+    Observables.push_back(NewObservable(&BTagger->Multipliticity, "Multipliticity"));
+    Observables.push_back(NewObservable(&BTagger->DeltaR, "DeltaR"));
+
+    Spectators.push_back(NewObservable(&BTagger->Mass, "Mass"));
+    Spectators.push_back(NewObservable(&BTagger->BottomTag, "BottomTag"));
+
+    Print(HNotification, "Variables defined");
+
+}
+
+float hdelphes::HBottomTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader)
+{
+
+    Print(HInformation, "Get Bdt", BdtMethodName);
+
+    *BTagger = *static_cast<HBottomBranch *>(Branch);
+    const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
+    Print(HInformation, "BTagger Bdt", BdtEvaluation);
+
+    return ((BdtEvaluation + 1.) / 2.);
+
+}

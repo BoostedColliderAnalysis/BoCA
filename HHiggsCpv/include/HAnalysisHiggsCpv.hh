@@ -11,6 +11,8 @@
 // # include "HMvaPairs.hh"
 # include "HReader.hh"
 # include "HFactory.hh"
+# include "HBottomTagger.hh"
+# include "HLeptonicTopTagger.hh"
 
 
 
@@ -89,19 +91,22 @@ public:
 
     }
     
+hdelphes::HBottomTagger *BottomTagger;    
+hdelphes::HLeptonicTopTagger *LeptonicTopTagger;    
 
 private:
     
 
 //     std::string TaggerName;
-    
+
+
 
     hmva::HMva *Mva;
 
     hmva::HReader *Reader;
 
     inline int GetEventNumberMax() const {
-        return 100000;
+        return 100;
     };
 
     inline std::string GetProjectName() const {
@@ -141,13 +146,13 @@ private:
     bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const hhiggscpv::HAnalysis::HTagger Tagger);
 
     bool GetBottomTag(hanalysis::HEvent*const Event, const std::string& StudyName);
-    void FillBottomBranch(const fastjet::PseudoJet& Jet, hhiggscpv::HBottomBranch* BTagger);
-    float GetDeltaR(const fastjet::PseudoJet& Jet);
-    float GetBottomBdt(const fastjet::PseudoJet &Bottom);
+//     void FillBottomBranch(const fastjet::PseudoJet& Jet, HBottomBranch* BTagger);
+//     float GetDeltaR(const fastjet::PseudoJet& Jet);
+//     float GetBottomBdt(const fastjet::PseudoJet &Bottom);
 
     bool GetTopTag(hanalysis::HEvent*const Event, const std::string& StudyName);
-    void FillTopBranch(const hdelphes::HSuperStructure &Pair, hhiggscpv::HTopBranch *TopTagger);
-    float GetTopBdt(const hdelphes::HSuperStructure &Top);
+//     void FillTopBranch(const hdelphes::HSuperStructure &Pair, HLeptonicTopBranch *TopTagger);
+//     float GetTopBdt(const hdelphes::HSuperStructure &Top);
 
     bool GetHiggsTag(hanalysis::HEvent*const Event, const std::string& StudyName);
     void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, hhiggscpv::HHiggsBranch *PairTagger);

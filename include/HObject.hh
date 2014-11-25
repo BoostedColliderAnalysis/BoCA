@@ -90,6 +90,9 @@ class HTopTagger;
 class HSubStructure;
 class HSuperStructure;
 
+class HBottomTagger;
+class HLeptonicTopTagger;
+
 }
 
 namespace hmva
@@ -137,9 +140,11 @@ public:
         HDebug = 3,
         HDetailed = 4
     };
+    
+    enum HState{HSignal, HBackground};
 
     template <typename TSeverity>
-    void Print(TSeverity Severity, const std::string &Description) const
+    void Print(const TSeverity Severity, const std::string &Description) const
     {
 
       if (Severity <= DebugLevel) {
@@ -160,7 +165,7 @@ public:
      * @return void
      */
     template<typename TSeverity, typename TValue>
-    void Print(TSeverity Severity, const std::string Description, const TValue Value) const {
+    void Print(const TSeverity Severity, const std::string Description, const TValue Value) const {
 
         if (Severity <= DebugLevel) {
 
@@ -182,7 +187,7 @@ public:
      * @return void
      */
     template<typename TSeverity, typename TValue, typename TValue2>
-    void Print(TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2) const {
+    void Print(const TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2) const {
 
         if (Severity <= DebugLevel) {
 
@@ -211,7 +216,7 @@ public:
      * @return void
      */
     template<typename TSeverity, typename TValue, typename TValue2, typename TValue3>
-    void Print(TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
+    void Print(const TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
 
         if (Severity <= DebugLevel) {
 

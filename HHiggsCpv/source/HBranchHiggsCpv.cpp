@@ -1,21 +1,6 @@
 # include "HBranchHiggsCpv.hh"
 
 
-ClassImp(hhiggscpv::HBottomBranch)
-
-hhiggscpv::HBottomBranch::HBottomBranch()
-{
-
-    Mass = InitialValue;
-    VertexMass = InitialValue;
-    Pt = InitialValue;
-    Displacement = InitialValue;
-    Multipliticity = InitialValue;
-    DeltaR = InitialValue;
-
-    BottomTag = InitialValue;
-
-}
 
 ClassImp(hhiggscpv::HHiggsBranch)
 
@@ -38,25 +23,6 @@ hhiggscpv::HHiggsBranch::HHiggsBranch()
     HiggsTag = InitialValue;
 
 }
-
-ClassImp(hhiggscpv::HTopBranch)
-
-hhiggscpv::HTopBranch::HTopBranch()
-{
-
-    Mass = InitialValue;
-    Pt = InitialValue;
-
-    DeltaEta = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
-
-    BottomTag = InitialValue;
-
-    TopTag = InitialValue;
-
-}
-
 
 ClassImp(hhiggscpv::HEventBranch)
 

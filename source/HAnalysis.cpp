@@ -130,7 +130,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
 
         Event->NewEvent(ClonesArrays);
 
-        const bool Successfull = Analysis(Event, StudyName);
+        const bool Successfull = Analysis(Event, StudyName,Tagger);
 
         if (Successfull) {
 

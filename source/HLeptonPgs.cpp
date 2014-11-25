@@ -19,7 +19,7 @@ hpgs::HLepton::~HLepton()
 bool hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
-  Print(HInformation, "Get Electrons", ClonesArrays->GetElectronSum());
+    Print(HInformation, "Get Electrons", JetDetails);
   for (const int ElectronNumber : HRange(ClonesArrays->GetElectronSum())) {
 
         TRootElectron *ElectronClone = (TRootElectron *)ClonesArrays->GetElectron(ElectronNumber);
@@ -53,7 +53,7 @@ bool hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
 bool hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
-    Print(HInformation, "Get Muons", ClonesArrays->GetMuonSum());
+    Print(HInformation, "Get Muons", JetDetails);
     for (const int MuonNumber : HRange(ClonesArrays->GetMuonSum())) {
 
         TRootMuon *MuonClone = (TRootMuon *)ClonesArrays->GetMuon(MuonNumber);

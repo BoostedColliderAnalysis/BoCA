@@ -69,12 +69,12 @@ protected:
      * @return void
      */
     virtual bool Analysis(HEvent *const, const std::string &) {
-        Print(HError, "should be subclassed");
+        Print(HError,"Analysis 0", "should be subclassed");
         return 0;
     }
 
     virtual bool Analysis(HEvent *const, const std::string &, const HTagger){
-        Print(HError, "should be subclassed");
+        Print(HError,"Analysis", "should be subclassed");
         return 0;
     }
 
@@ -91,11 +91,11 @@ protected:
      * @return void
      */
     virtual void NewBranches(ExRootTreeWriter *const, const HTagger) {
-        Print(HError, "Should be subclassed");
+        Print(HError,"NewBranches", "Should be subclassed");
     }
 
     virtual void NewBranches(ExRootTreeWriter *const) {
-        Print(HError, "Should be subclassed");
+        Print(HError,"NewBranches 0", "Should be subclassed");
     };
 
     /**

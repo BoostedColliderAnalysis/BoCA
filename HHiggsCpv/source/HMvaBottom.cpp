@@ -23,14 +23,6 @@ hhiggscpv::HMvaBottom::HMvaBottom()
 
     CandidateBranchName = "Bottom";
 
-    WeightBranchName = "Info";
-
-    SignalEfficiency = 0.5;
-
-    Luminosity = 3000; // fb
-
-    DoLatex = 1;
-
     BTagger = new HBottomBranch();
 
     DefineVariables();

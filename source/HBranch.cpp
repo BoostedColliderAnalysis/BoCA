@@ -26,7 +26,7 @@ HParticleBranch::HParticleBranch()
 }
 
 
-ClassImp(hhiggscpv::HBottomBranch)
+ClassImp(HBottomBranch)
 
 HBottomBranch::HBottomBranch()
 {
@@ -39,5 +39,23 @@ HBottomBranch::HBottomBranch()
     DeltaR = InitialValue;
     
     BottomTag = InitialValue;
+    
+}
+
+ClassImp(HLeptonicTopBranch)
+
+HLeptonicTopBranch::HLeptonicTopBranch()
+{
+    
+    Mass = InitialValue;
+    Pt = InitialValue;
+    
+    DeltaEta = InitialValue;
+    DeltaPhi = InitialValue;
+    DeltaR = InitialValue;
+    
+    BottomTag = InitialValue;
+    
+    TopTag = InitialValue;
     
 }

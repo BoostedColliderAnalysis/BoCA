@@ -13,8 +13,8 @@ class HBranchDiscriminator;
 class HJetDiscriminator;
 class HMvaEvent;
 class HEventBranch;
-class HBottomBranch;
-class HTopBranch;
+// class HBottomBranch;
+// class HTopBranch;
 class HLeptonBranch;
 class HMvaBottom;
 class HMvaHiggs;
@@ -23,32 +23,6 @@ class HHiggsBranch;
 }
 
 
-/**
- *
- * @brief Bottom tagger root tree structure
- *
- */
-class hhiggscpv::HBottomBranch : public HBranch
-{
-
-public:
-
-    HBottomBranch();
-
-    float Mass;
-    float VertexMass;
-    float Pt;
-    float Displacement;
-    float Multipliticity;
-    float DeltaR;
-
-    int BottomTag;
-
-private:
-
-    ClassDef(HBottomBranch, 1)
-
-};
 
 /**
  *
@@ -80,35 +54,6 @@ public:
 private:
 
     ClassDef(HHiggsBranch, 1)
-
-};
-
-/**
- *
- * @brief Top tagger root tree structure
- *
- */
-class hhiggscpv::HTopBranch : public HBranch
-{
-
-public:
-
-    HTopBranch();
-
-    float Mass;
-    float Pt;
-
-    float DeltaEta;
-    float DeltaPhi;
-    float DeltaR;
-
-    float BottomTag;
-
-    int TopTag;
-
-private:
-
-    ClassDef(HTopBranch, 1)
 
 };
 
