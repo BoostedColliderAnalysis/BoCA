@@ -30,32 +30,78 @@ ClassImp(HBottomBranch)
 
 HBottomBranch::HBottomBranch()
 {
-    
+
     Mass = InitialValue;
     VertexMass = InitialValue;
     Pt = InitialValue;
     Displacement = InitialValue;
     Multipliticity = InitialValue;
     DeltaR = InitialValue;
-    
+
     BottomTag = InitialValue;
-    
+
 }
 
 ClassImp(HLeptonicTopBranch)
 
 HLeptonicTopBranch::HLeptonicTopBranch()
 {
-    
+
     Mass = InitialValue;
     Pt = InitialValue;
-    
+
     DeltaEta = InitialValue;
     DeltaPhi = InitialValue;
     DeltaR = InitialValue;
-    
+
     BottomTag = InitialValue;
-    
+
     TopTag = InitialValue;
-    
+
+}
+
+
+ClassImp(HHiggsBranch)
+
+HHiggsBranch::HHiggsBranch()
+{
+
+  Mass = InitialValue;
+  Pt = InitialValue;
+
+  DeltaEta = InitialValue;
+  DeltaPhi = InitialValue;
+  DeltaR = InitialValue;
+
+  BottomTag = InitialValue;
+
+  Pull1 = InitialValue;
+  Pull2 = InitialValue;
+  Pull = InitialValue;
+
+  HiggsTag = InitialValue;
+
+}
+
+
+ClassImp(HHeavyHiggsBranch)
+
+HHeavyHiggsBranch::HHeavyHiggsBranch()
+{
+
+  Mass = InitialValue;
+  Pt = InitialValue;
+
+  DeltaEta = InitialValue;
+  DeltaPhi = InitialValue;
+  DeltaR = InitialValue;
+
+  TopTag = InitialValue;
+
+  Pull1 = InitialValue;
+  Pull2 = InitialValue;
+  Pull = InitialValue;
+
+  HeavyHiggsTag = InitialValue;
+
 }

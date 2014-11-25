@@ -7,7 +7,7 @@
 int main()
 {
 
-//     hmva::HMva *Mva;
+    hmva::HMva *Mva;
     hmva::HFactory *Factory;
     hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
 
@@ -16,24 +16,24 @@ int main()
     Factory = new hmva::HFactory(Analysis->BottomTagger);
 //     //     Analysis->SetMva(Mva);
     Analysis->BottomTagger->SetMva();
-//     
+//
     Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HTopTagger);
 //     Mva = new hhiggscpv::HMvaTop();
     Factory = new hmva::HFactory(Analysis->LeptonicTopTagger);
-    Analysis->SetMva();
-// 
-//     Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HHiggsTagger);
+    Analysis->LeptonicTopTagger->SetMva();
+//
+    Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HHiggsTagger);
 //     Mva = new hhiggscpv::HMvaHiggs();
-//     Factory = new hmva::HFactory(Mva);
-//     Analysis->SetMva(Mva);
-// 
-//     Analysis->AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
-//     Mva = new hhiggscpv::HMvaEvent();
-//     Factory = new hmva::HFactory(Mva);
-//     Analysis->SetMva(Mva);
+    Factory = new hmva::HFactory(Analysis->HiggsTagger);
+    Analysis->HiggsTagger->SetMva();
+//
+    Analysis->AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
+    Mva = new hhiggscpv::HMvaEvent();
+    Factory = new hmva::HFactory(Mva);
+    Analysis->SetMva(Mva);
 
-//     delete Factory;
-//     delete Mva;
+    delete Factory;
+    delete Mva;
     delete Analysis;
 
     return 1;

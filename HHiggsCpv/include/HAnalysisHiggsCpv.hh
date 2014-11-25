@@ -13,6 +13,7 @@
 # include "HFactory.hh"
 # include "HBottomTagger.hh"
 # include "HLeptonicTopTagger.hh"
+# include "HMvaHiggsTagger.hh"
 
 
 
@@ -90,12 +91,13 @@ public:
         Reader->BookMVA();
 
     }
-    
-hdelphes::HBottomTagger *BottomTagger;    
-hdelphes::HLeptonicTopTagger *LeptonicTopTagger;    
+
+hdelphes::HBottomTagger *BottomTagger;
+hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
+hdelphes::HMvaHiggsTagger *HiggsTagger;
 
 private:
-    
+
 
 //     std::string TaggerName;
 
@@ -155,8 +157,8 @@ private:
 //     float GetTopBdt(const hdelphes::HSuperStructure &Top);
 
     bool GetHiggsTag(hanalysis::HEvent*const Event, const std::string& StudyName);
-    void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, hhiggscpv::HHiggsBranch *PairTagger);
-    float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
+//     void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *PairTagger);
+//     float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
 
 
     bool GetSignalTag(hanalysis::HEvent*const Event, const std::string& StudyName);

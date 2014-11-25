@@ -27,7 +27,6 @@ hdelphes::HBottomTagger::~HBottomTagger()
     delete BTagger;
 }
 
-
 std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBottomTag(hanalysis::HEvent *const Event, const HState State)
 {
 

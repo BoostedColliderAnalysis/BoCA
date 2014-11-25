@@ -34,6 +34,8 @@ HSuperStructure.cpp
 HSubStructure.cpp
 HBottomTagger.cpp
 HLeptonicTopTagger.cpp
+HMvaHiggsTagger.cpp
+HHeavyHiggsTagger.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 

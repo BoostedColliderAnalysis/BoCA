@@ -2,27 +2,6 @@
 
 
 
-ClassImp(hhiggscpv::HHiggsBranch)
-
-hhiggscpv::HHiggsBranch::HHiggsBranch()
-{
-
-    Mass = InitialValue;
-    Pt = InitialValue;
-
-    DeltaEta = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
-
-    BottomTag = InitialValue;
-
-    Pull1 = InitialValue;
-    Pull2 = InitialValue;
-    Pull = InitialValue;
-
-    HiggsTag = InitialValue;
-
-}
 
 ClassImp(hhiggscpv::HEventBranch)
 

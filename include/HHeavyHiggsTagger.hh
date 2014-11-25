@@ -1,28 +1,29 @@
-# ifndef HMvaHiggsTagger_hh
-# define HMvaHiggsTagger_hh
+# ifndef HHeavyHiggsTagger_hh
+# define HHeavyHiggsTagger_hh
 
 # include "HMva.hh"
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
-# include "HBottomTagger.hh"
+// # include "HBottomTagger.hh"
+# include "HLeptonicTopTagger.hh"
 # include "HSuperStructure.hh"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HMvaHiggsTagger : public hmva::HMva
+class hdelphes::HHeavyHiggsTagger : public hmva::HMva
 {
 
 public:
 
-    HMvaHiggsTagger();
+    HHeavyHiggsTagger();
 
-    ~HMvaHiggsTagger();
+    ~HHeavyHiggsTagger();
 
-    std::vector< HHiggsBranch * > GetHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, HBottomTagger *BottomTagger);
+    std::vector<HHeavyHiggsBranch*> GetHeavyHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, hdelphes::HLeptonicTopTagger *TopTagger);
 
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){ HReaderStruct ReaderStruct; return ReaderStruct;};
 
@@ -44,19 +45,19 @@ public:
 
     }
 
-    float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
+    float GetHeavyHiggsBdt(const hdelphes::HSuperStructure &Higgs);
 
 private:
 
     hmva::HReader *Reader;
 
-    HHiggsBranch *Higgs;
+    HHeavyHiggsBranch *HeavyHiggs;
 
     hanalysis::HJetTag *JetTag;
 
     void DefineVariables();
 
-    void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *HiggsTagger);
+    void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHeavyHiggsBranch *HeavyHiggsTagger);
 
 //     float GetDeltaR(const fastjet::PseudoJet &Jet);
 
@@ -66,7 +67,7 @@ private:
     };
 
     virtual inline std::string ClassName() const {
-        return "HMvaHiggsTagger";
+        return "HHeavyHiggsTagger";
     };
 
 };

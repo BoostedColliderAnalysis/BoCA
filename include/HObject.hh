@@ -92,6 +92,8 @@ class HSuperStructure;
 
 class HBottomTagger;
 class HLeptonicTopTagger;
+class HMvaHiggsTagger;
+class HHeavyHiggsTagger;
 
 }
 
@@ -140,7 +142,7 @@ public:
         HDebug = 3,
         HDetailed = 4
     };
-    
+
     enum HState{HSignal, HBackground};
 
     template <typename TSeverity>

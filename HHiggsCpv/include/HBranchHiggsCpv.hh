@@ -19,43 +19,11 @@ class HLeptonBranch;
 class HMvaBottom;
 class HMvaHiggs;
 class HMvaTop;
-class HHiggsBranch;
+// class HHiggsBranch;
 }
 
 
 
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
-class hhiggscpv::HHiggsBranch : public HBranch
-{
-
-public:
-
-    HHiggsBranch();
-
-    float Mass;
-    float Pt;
-
-    float DeltaEta;
-    float DeltaPhi;
-    float DeltaR;
-
-    float BottomTag;
-
-    float Pull1;
-    float Pull2;
-    float Pull;
-
-    int HiggsTag;
-
-private:
-
-    ClassDef(HHiggsBranch, 1)
-
-};
 
 /**
  *
