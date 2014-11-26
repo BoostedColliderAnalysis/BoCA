@@ -17,26 +17,26 @@
 
 
 
-class HHiggsCpv
+class HHeavyHiggsEvent
 {
 
 public:
 
-  hdelphes::HSuperStructure Higgs;
-  hdelphes::HSuperStructure Top;
-  hdelphes::HSuperStructure AntiTop;
+  fastjet::PseudoJet Bottom;
+  fastjet::PseudoJet AntiBottom;
+  HHeavyHiggs HeavyHiggs;
 
-  HHiggsCpv(const hdelphes::HSuperStructure &NewHiggs, const hdelphes::HSuperStructure &NewTop, const hdelphes::HSuperStructure &NewAntiTop) {
-    Higgs = NewHiggs;
-    Higgs.SetBTag(Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag(), Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
-    Top = NewTop;
-    Top.SetBTag(Top.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
-    AntiTop = NewAntiTop;
-    AntiTop.SetBTag(AntiTop.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
+  HHiggsCpv(const HHeavyHiggs &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
+    HeavyHiggs = NewHeavyHiggs;
+//     HeavyHiggs.SetTopTag(Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag(), Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
+    Bottom = NewBottom;
+//     Top.SetBTag(Top.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
+    AntiBottom = NewAntiBottom;
+//     AntiTop.SetBTag(AntiTop.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
   };
 
   float GetBdt() const {
-    return (Higgs.Tag * Top.Tag * AntiTop.Tag);
+    return (HeavyHiggs.Tag * Bottom.has_user_info() * Bottom.has_user_info());
   }
 
 };
@@ -156,14 +156,14 @@ private:
 //     void FillTopBranch(const hdelphes::HSuperStructure &Pair, HLeptonicTopBranch *TopTagger);
 //     float GetTopBdt(const hdelphes::HSuperStructure &Top);
 
-    bool GetHiggsTag(hanalysis::HEvent*const Event, const std::string& StudyName);
+    bool GetHeavyHiggsTag(hanalysis::HEvent*const Event, const std::string& StudyName);
 //     void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *PairTagger);
 //     float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
 
 
     bool GetSignalTag(hanalysis::HEvent*const Event, const std::string& StudyName);
 
-    std::vector<HHiggsCpv> GetHiggsCpvs(const HJets &Jets, const HJets &Leptons);
+    std::vector<HHiggsCpv> GetHHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
 //     void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
 
