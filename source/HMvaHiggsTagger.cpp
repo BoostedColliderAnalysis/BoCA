@@ -11,7 +11,7 @@ hdelphes::HMvaHiggsTagger::HMvaHiggsTagger()
     BackgroundNames = {"NotHiggs"};
     TestName = "Test";
     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
-    SignalTreeNames = TestTreeNames;
+    SignalTreeNames = {"pp-x0tt-bblvlv-even"};
     BackgroundTreeNames = TestTreeNames;
     CandidateBranchName = "Higgs";
     Higgs = new HHiggsBranch();
@@ -61,7 +61,7 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetHiggsTag(hanalysis::HE
       }
     }
 
-    Print(HInformation, "Higgsness", Jets[0].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId), Jets[1].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId));
+//     Print(HInformation, "Higgsness", Jets[0].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId), Jets[1].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId));
 
     std::vector<hdelphes::HSuperStructure> JetPairs;
 

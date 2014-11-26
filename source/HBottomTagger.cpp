@@ -112,7 +112,7 @@ float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet)
 
 float hdelphes::HBottomTagger::GetBottomBdt(const fastjet::PseudoJet &Bottom)
 {
-    Print(HNotification , "Get Bottom Bdt");
+    Print(HInformation, "Get Bottom Bdt");
 
     HBottomBranch *BottomTagger = new HBottomBranch();
     FillBottomBranch(Bottom, BottomTagger);

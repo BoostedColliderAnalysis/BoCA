@@ -4,7 +4,7 @@
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
-# include "HBranchHiggsCpv.hh"
+# include "HBranchHeavyHiggs.hh"
 # include "HSubStructure.hh"
 # include "HSuperStructure.hh"
 // # include "HMvaBTagger.hh"
@@ -13,7 +13,7 @@
 # include "HFactory.hh"
 # include "HBottomTagger.hh"
 # include "HLeptonicTopTagger.hh"
-# include "HMvaHiggsTagger.hh"
+# include "HHeavyHiggsTagger.hh"
 
 
 
@@ -49,7 +49,7 @@ public:
  * \author Jan Hajer
  *
  */
-class hhiggscpv::HAnalysis : public hanalysis::HAnalysis
+class hheavyhiggs::HAnalysisMva : public hanalysis::HAnalysis
 {
 
 public:
@@ -58,13 +58,13 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysis();
+    HAnalysisMva();
 
     /**
      * @brief Constructor
      *
      */
-    ~HAnalysis();
+    ~HAnalysisMva();
 
     /**
      * @brief Branch to write Higgs info into
@@ -94,7 +94,7 @@ public:
 
 hdelphes::HBottomTagger *BottomTagger;
 hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
-hdelphes::HMvaHiggsTagger *HiggsTagger;
+hdelphes::HHeavyHiggsTagger *HeavyHiggsTagger;
 
 private:
 
@@ -145,7 +145,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const hhiggscpv::HAnalysis::HTagger Tagger);
+    bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const HTagger Tagger);
 
     bool GetBottomTag(hanalysis::HEvent*const Event, const std::string& StudyName);
 //     void FillBottomBranch(const fastjet::PseudoJet& Jet, HBottomBranch* BTagger);
@@ -181,7 +181,7 @@ private:
      */
     void NewBranches(ExRootTreeWriter *TreeWriter,const HTagger Tagger);
 
-    inline HStrings GetStudyNames(const hhiggscpv::HAnalysis::HTagger NewTagger);
+    inline HStrings GetStudyNames(const HTagger NewTagger);
 
     virtual inline std::string NameSpaceName() const {
         return "HiggsCPV";

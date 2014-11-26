@@ -10,6 +10,61 @@
 # include "HLeptonicTopTagger.hh"
 # include "HSuperStructure.hh"
 
+
+class HHeavyHiggs
+{
+
+public:
+
+    HHeavyHiggs(hdelphes::HSuperStructure NewPair1, hdelphes::HSuperStructure NewPair2) {
+        Pair1 = NewPair1;
+        Pair2 = NewPair2;
+    };
+
+    HHeavyHiggs(hdelphes::HSuperStructure NewPair1, hdelphes::HSuperStructure NewPair2, float NewMET) {
+        Pair1 = NewPair1;
+        Pair2 = NewPair2;
+        MET = NewMET;
+    };
+
+    float GetDeltaR() const {
+        return Pair1.GetPairJet().delta_R(Pair2.GetPairJet());
+    }
+
+    float GetInvariantMass() const {
+        return GetPairJet().m();
+    }
+
+    fastjet::PseudoJet GetPairJet() const {
+        return (Pair1.GetPairJet() + Pair2.GetPairJet());
+    }
+    
+    float GetPtSum() const {
+        return (Pair1.GetPtSum() + Pair2.GetPtSum());
+    }
+
+    float GetTopTag() const {
+        return (Pair1.GetHeavyParticleTag() * Pair2.GetHeavyParticleTag());
+    }
+    
+    float GetDeltaEta() const {
+        return (Pair1.GetPairJet().rap() - Pair2.GetPairJet().rap());
+    }
+    
+    float GetDeltaPhi() const {
+        return (Pair1.GetPairJet().delta_phi_to(Pair2.GetPairJet()));
+    }
+    
+    bool Tag;
+
+private:
+
+    hdelphes::HSuperStructure Pair1;
+    hdelphes::HSuperStructure Pair2;
+    float MET;
+
+};
+
 /**
  * @brief calculation regarding leptons
  *
@@ -23,11 +78,14 @@ public:
 
     ~HHeavyHiggsTagger();
 
-    std::vector<HHeavyHiggsBranch*> GetHeavyHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, hdelphes::HLeptonicTopTagger *TopTagger);
+    std::vector<HMvaHeavyHiggsBranch *> GetHeavyHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, hdelphes::HBottomTagger *BottomTagger, hdelphes::HLeptonicTopTagger *TopTagger);
 
-    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){ HReaderStruct ReaderStruct; return ReaderStruct;};
+    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {
+        HReaderStruct ReaderStruct;
+        return ReaderStruct;
+    };
 
-    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *){};
+    void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
 
     float GetBdt(TObject *Branch, TMVA::Reader *Reader);
 
@@ -37,7 +95,7 @@ public:
 //     template<typename TMva>
     void SetMva() {
 
-        Print(HNotification,"Set Mva");
+        Print(HNotification, "Set Mva");
 
         Reader = new hmva::HReader(this);
         Reader->AddVariable();
@@ -45,19 +103,19 @@ public:
 
     }
 
-    float GetHeavyHiggsBdt(const hdelphes::HSuperStructure &Higgs);
+    float GetHeavyHiggsBdt(const HHeavyHiggs &HeavyHiggsTagger);
 
 private:
 
     hmva::HReader *Reader;
 
-    HHeavyHiggsBranch *HeavyHiggs;
+    HMvaHeavyHiggsBranch *HeavyHiggs;
 
     hanalysis::HJetTag *JetTag;
 
     void DefineVariables();
 
-    void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHeavyHiggsBranch *HeavyHiggsTagger);
+    void FillHeavyHiggsBranch(const HHeavyHiggs &HeavyHiggs, HMvaHeavyHiggsBranch *HeavyHiggsRoot);
 
 //     float GetDeltaR(const fastjet::PseudoJet &Jet);
 

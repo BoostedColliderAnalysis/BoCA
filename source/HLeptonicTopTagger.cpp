@@ -135,6 +135,7 @@ float hdelphes::HLeptonicTopTagger::GetTopBdt(const hdelphes::HSuperStructure &T
     HLeptonicTopBranch *TopTagger = new HLeptonicTopBranch();
     FillTopBranch(Top, TopTagger);
     const float Bdt = GetBdt(TopTagger, Reader->Reader);
+    
     delete TopTagger;
 
     return Bdt;

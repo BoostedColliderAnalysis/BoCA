@@ -14,7 +14,7 @@ hdelphes::HHeavyHiggsTagger::HHeavyHiggsTagger()
     SignalTreeNames = TestTreeNames;
     BackgroundTreeNames = TestTreeNames;
     CandidateBranchName = "HeavyHiggs";
-    HeavyHiggs = new HHeavyHiggsBranch();
+    HeavyHiggs = new HMvaHeavyHiggsBranch();
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
@@ -27,157 +27,185 @@ hdelphes::HHeavyHiggsTagger::~HHeavyHiggsTagger()
 }
 
 
-std::vector< HHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetHeavyHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, hdelphes::HLeptonicTopTagger *TopTagger)
+std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetHeavyHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, hdelphes::HBottomTagger *BottomTagger, hdelphes::HLeptonicTopTagger *TopTagger)
 {
 
     Print(HInformation, "Get Higgs Tags");
 
     JetTag->SetHeavyParticles( {HeavyHiggsId});
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-//     if (Jets.size() < 2) return 0;
 
     HJets HeavyHiggsJets;
     HJets OtherJets;
     for (auto & Jet : Jets) {
 
-      Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()));
+        Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()));
 
-      hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-      if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == HeavyHiggsId) {
-        JetInfo->SetHiggsTag(1);
-      } else {
-        JetInfo->SetHiggsTag(0);
-      }
+        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+        if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == HeavyHiggsId) {
+            JetInfo->SetHiggsTag(1);
+        } else {
+            JetInfo->SetHiggsTag(0);
+        }
 
-      const float Bdt = TopTagger->GetTopBdt(Jet);
-      JetInfo->SetBTag(Bdt);
-      Jet.set_user_info(JetInfo);
-      Print(HInformation, "Top Bdt", Bdt);
+        const float Bdt = BottomTagger->GetBottomBdt(Jet);
+        JetInfo->SetBTag(Bdt);
+        Jet.set_user_info(JetInfo);
+        Print(HInformation, "Top Bdt", Bdt);
 
-      if (JetInfo->GetHiggsTag()) {
-        HeavyHiggsJets.push_back(Jet);
-      } else {
-        OtherJets.push_back(Jet);
-      }
+        if (JetInfo->GetHiggsTag()) {
+            HeavyHiggsJets.push_back(Jet);
+        } else {
+            OtherJets.push_back(Jet);
+        }
     }
 
-    Print(HInformation, "Higgsness", Jets[0].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId), Jets[1].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId));
+//     Print(HInformation, "Higgsness", Jets[0].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId), Jets[1].user_info<hanalysis::HJetInfo>().GetFraction(CpvHiggsId));
+
+
+    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
+    HJets HeavyHiggsLeptons;
+    HJets OtherLeptons;
+    for (auto & Lepton : Leptons) {
+
+//     hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+        if (Lepton.user_info<hanalysis::HJetInfo>().GetMaximalId() == HeavyHiggsId) {
+            HeavyHiggsLeptons.push_back(Lepton);
+        } else {
+            OtherLeptons.push_back(Lepton);
+        }
+
+    }
+
+
+
 
     std::vector<hdelphes::HSuperStructure> JetPairs;
-
-    if (State == HSignal) {
-//       if (HiggsJets.size() < 2) return 0;
-      Print(HInformation, "Higgs Jets", HeavyHiggsJets.size());
-      for (HJets::iterator Jet1 = HeavyHiggsJets.begin(); Jet1 != HeavyHiggsJets.end(); ++Jet1) {
-        for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != HeavyHiggsJets.end(); ++Jet2) {
-          hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
-          JetPair.SetBTag((*Jet1).user_info<hanalysis::HJetInfo>().GetBTag(), (*Jet2).user_info<hanalysis::HJetInfo>().GetBTag());
-          JetPair.Tag = 1;
-          JetPairs.push_back(JetPair);
+    if (State == hanalysis::HObject::HSignal) {
+        Print(HInformation, "Higgs Jets", HeavyHiggsJets.size());
+        for ( auto & Jet : HeavyHiggsJets) {
+            for (const auto & Lepton : HeavyHiggsLeptons) {
+                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
+                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
+                JetPair.Tag = 1;
+                JetPairs.push_back(JetPair);
+            }
         }
-      }
-    }
-
-    if (State == HBackground) {
-//       if (OtherJets.size() < 2 || (OtherJets.size() < 1 && HiggsJets.size() < 1)) return 0;
-      for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-        for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
-          hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
-          JetPair.SetBTag((*Jet1).user_info<hanalysis::HJetInfo>().GetBTag(), (*Jet2).user_info<hanalysis::HJetInfo>().GetBTag());
-          JetPairs.push_back(JetPair);
+    } else if (State == hanalysis::HObject::HBackground) {
+        for (const auto & Jet : OtherJets) {
+            for (const auto & Lepton : HeavyHiggsLeptons) {
+                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
+                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
+                JetPair.Tag = 0;
+                JetPairs.push_back(JetPair);
+            }
         }
-      }
-      for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-        for (HJets::iterator Jet2 = HeavyHiggsJets.begin(); Jet2 != HeavyHiggsJets.end(); ++Jet2) {
-          hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
-          JetPair.SetBTag((*Jet1).user_info<hanalysis::HJetInfo>().GetBTag(), (*Jet2).user_info<hanalysis::HJetInfo>().GetBTag());
-          JetPairs.push_back(JetPair);
+        for (const auto & Jet : HeavyHiggsJets) {
+            for (const auto & Lepton : OtherLeptons) {
+                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
+                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
+                JetPair.Tag = 0;
+                JetPairs.push_back(JetPair);
+            }
         }
-      }
-    }
-
-    Print(HInformation, "Number of Jet Pairs", JetPairs.size());
-//     if (JetPairs.size() <= 1) return 0;
-
-//     for (const auto & Pair : JetPairs) {
-//       HHiggsBranch *HiggsTagger = static_cast<HHiggsBranch *>(HiggsBranch->NewEntry());
-//       FillHiggsBranch(Pair, HiggsTagger);
-//     }
-
-    std::vector<HHiggsBranch *> HiggsBranches;
-    for (const auto & JetPair : JetPairs) {
-      HHiggsBranch *HiggsBranch = new HHiggsBranch();
-        FillHiggsBranch(JetPair, HiggsBranch);
-        HiggsBranches.push_back(HiggsBranch);
+        for (const auto & Jet : OtherJets) {
+            for (const auto & Lepton : OtherLeptons) {
+                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
+                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
+                JetPair.Tag = 0;
+                JetPairs.push_back(JetPair);
+            }
+        }
     }
 
 
-    return HiggsBranches;
+    for (auto & JetPair : JetPairs) {
+        const float Bdt = TopTagger->GetTopBdt(JetPair);
+        JetPair.SetHeavyParticleTag(Bdt);
+    }
+
+    std::vector<HHeavyHiggs> HeavyHiggses;
+    for (const auto & Pair1 : JetPairs) {
+        for (const auto & Pair2 : JetPairs) {
+            HHeavyHiggs HeavyHiggsTagger((Pair1), (Pair2));
+            HeavyHiggses.push_back(HeavyHiggsTagger);
+        }
+    }
+
+
+    Print(HInformation, "Number of Heavy Higgses", HeavyHiggses.size());
+
+    std::vector<HMvaHeavyHiggsBranch *> HeavyHiggsBranches;
+    for (const auto & HeavyHiggsTagger : HeavyHiggses) {
+        HMvaHeavyHiggsBranch *HeavyHiggsBranch = new HMvaHeavyHiggsBranch();
+        FillHeavyHiggsBranch(HeavyHiggsTagger, HeavyHiggsBranch);
+        HeavyHiggsBranches.push_back(HeavyHiggsBranch);
+    }
+
+
+    return HeavyHiggsBranches;
 
 }
 
-void hdelphes::HHeavyHiggsTagger::FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHeavyHiggsBranch *HiggsTagger)
+void hdelphes::HHeavyHiggsTagger::FillHeavyHiggsBranch(const HHeavyHiggs &HeavyHiggsTagger, HMvaHeavyHiggsBranch *HeavyHiggsRoot)
 {
-  Print(HInformation, "FillPairTagger", Pair.GetBTag());
+    Print(HInformation, "FillPairTagger", HeavyHiggsTagger.GetTopTag());
 
-  HiggsTagger->Mass = Pair.GetInvariantMass();
-  HiggsTagger->Pt = Pair.GetPtSum();
-  HiggsTagger->DeltaR = Pair.GetDeltaR();
-  HiggsTagger->DeltaEta = Pair.GetDeltaEta();
-  HiggsTagger->DeltaPhi = Pair.GetPhiDelta();
-  HiggsTagger->BottomTag = Pair.GetBTag();
-  HiggsTagger->Pull1 = Pair.GetPullAngle1();
-  HiggsTagger->Pull2 = Pair.GetPullAngle2();
-  HiggsTagger->Pull = Pair.GetPullAngle();
-  if (Pair.Tag == 1) {
-    HiggsTagger->HiggsTag = 1;
-  } else {
-    HiggsTagger->HiggsTag = 0;
-  }
+    HeavyHiggsRoot->Mass = HeavyHiggsTagger.GetInvariantMass();
+    HeavyHiggsRoot->Pt = HeavyHiggsTagger.GetPtSum();
+    HeavyHiggsRoot->DeltaR = HeavyHiggsTagger.GetDeltaR();
+    HeavyHiggsRoot->DeltaEta = HeavyHiggsTagger.GetDeltaEta();
+    HeavyHiggsRoot->DeltaPhi = HeavyHiggsTagger.GetDeltaPhi();
+    HeavyHiggsRoot->TopTag = HeavyHiggsTagger.GetTopTag();
+    if (HeavyHiggsTagger.Tag == 1) {
+        HeavyHiggsRoot->HeavyHiggsTag = 1;
+    } else {
+        HeavyHiggsRoot->HeavyHiggsTag = 0;
+    }
 
 
 }
 
-float hdelphes::HHeavyHiggsTagger::GetHiggsBdt(const hdelphes::HSuperStructure &Higgs)
+float hdelphes::HHeavyHiggsTagger::GetHeavyHiggsBdt(const HHeavyHiggs &HeavyHiggsTagger)
 {
 
-  HHiggsBranch *HiggsTagger = new HHiggsBranch();
-  FillHiggsBranch(Higgs, HiggsTagger);
-  const float Bdt = GetBdt(HiggsTagger, Reader->Reader);
-  delete HiggsTagger;
-  return Bdt;
+    HMvaHeavyHiggsBranch *HeavyHiggsBranch = new HMvaHeavyHiggsBranch();
+    FillHeavyHiggsBranch(HeavyHiggsTagger,HeavyHiggsBranch);
+    const float Bdt = GetBdt(HeavyHiggsBranch, Reader->Reader);
+    delete HeavyHiggsBranch;
+    return Bdt;
 }
 
 void hdelphes::HHeavyHiggsTagger::DefineVariables()
 {
 
-  Print(HNotification , "Define Variables");
+    Print(HNotification , "Define Variables");
 
-  Observables.push_back(NewObservable(&HeavyHiggs->Mass, "Mass"));
-  Observables.push_back(NewObservable(&HeavyHiggs->Pt, "Pt"));
-  Observables.push_back(NewObservable(&HeavyHiggs->DeltaPhi, "DeltaPhi"));
-  Observables.push_back(NewObservable(&HeavyHiggs->DeltaEta, "DeltaEta"));
-  Observables.push_back(NewObservable(&HeavyHiggs->DeltaR, "DeltaR"));
-  Observables.push_back(NewObservable(&HeavyHiggs->Pull1, "Pull1"));
-  Observables.push_back(NewObservable(&HeavyHiggs->Pull2,"Pull2"));
-  Observables.push_back(NewObservable(&HeavyHiggs->Pull, "Pull"));
-  Observables.push_back(NewObservable(&HeavyHiggs->TopTag, "BottomTag"));
+    Observables.push_back(NewObservable(&HeavyHiggs->Mass, "Mass"));
+    Observables.push_back(NewObservable(&HeavyHiggs->Pt, "Pt"));
+    Observables.push_back(NewObservable(&HeavyHiggs->DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&HeavyHiggs->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&HeavyHiggs->DeltaR, "DeltaR"));
+//     Observables.push_back(NewObservable(&HeavyHiggs->Pull1, "Pull1"));
+//     Observables.push_back(NewObservable(&HeavyHiggs->Pull2, "Pull2"));
+//     Observables.push_back(NewObservable(&HeavyHiggs->Pull, "Pull"));
+    Observables.push_back(NewObservable(&HeavyHiggs->TopTag, "TopTag"));
 
-  Spectators.push_back(NewObservable(&HeavyHiggs->HeavyHiggsTag, "HiggsTag"));
+    Spectators.push_back(NewObservable(&HeavyHiggs->HeavyHiggsTag, "HeavyHiggsTag"));
 
-  Print(HNotification, "Variables defined");
+    Print(HNotification, "Variables defined");
 
 }
 
-float hdelphes::HHeavyHiggsTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader)
+float hdelphes::HHeavyHiggsTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader2)
 {
 
-  Print(HInformation, "Get Bdt",BdtMethodName);
+    Print(HInformation, "Get Bdt", BdtMethodName);
 
-  *HeavyHiggs = *static_cast<HHiggsBranch*>(Branch);
-  const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
-  Print(HInformation,"BTagger Bdt",BdtEvaluation);
+    *HeavyHiggs = *static_cast<HMvaHeavyHiggsBranch *>(Branch);
+    const float BdtEvaluation = Reader2->EvaluateMVA(BdtMethodName);
+    Print(HInformation, "BTagger Bdt", BdtEvaluation);
 
-  return ((BdtEvaluation+1)/2);
+    return ((BdtEvaluation + 1) / 2);
 
 }

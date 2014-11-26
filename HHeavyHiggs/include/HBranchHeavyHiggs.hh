@@ -1,18 +1,18 @@
 # ifndef HBranchHeavyHiggs_hh
 # define HBranchHeavyHiggs_hh
 
-# include "TObject.h"
-# include "Rtypes.h"
-# include "TGenericClassInfo.h"
+# include "HBranch.hh"
 
 namespace hheavyhiggs{
 
     class HAnalysisHeavyHiggsDelphes;
     class HAnalysisHeavyHiggsPgs;
     class HAnalysisHeavyHiggsParton;
+    class HAnalysisMva;
     class HHeavyHiggsJetTag;
       class HMva;
       class HHeavyHiggsBranch;
+      class HEventBranch;
 
 }
 
@@ -20,7 +20,7 @@ namespace hheavyhiggs{
  * @brief Class for saving leptons to root
  *
  */
-class hheavyhiggs::HHeavyHiggsBranch : public TObject
+class hheavyhiggs::HHeavyHiggsBranch : public HBranch
 {
 
 public:
@@ -58,14 +58,41 @@ public:
 
     HHeavyHiggsBranch();
 
-    virtual ~HHeavyHiggsBranch();
+    virtual ~HHeavyHiggsBranch(){};
 
 private:
 
-    void reset();
-
     ClassDef(HHeavyHiggsBranch, 1)
 
+};
+
+
+
+
+/**
+ * 
+ * @brief Higgs cpv tagger root tree structure
+ *
+ */
+class hheavyhiggs::HEventBranch : public HBranch
+{
+    
+public:
+    
+    HEventBranch();
+    
+    float ScalarHt;
+    int JetNumber;
+    int BottomNumber;
+    int LeptonNumber;
+    float HeavyParticleTag;
+    
+    int Signal;
+    
+private:
+    
+    ClassDef(HEventBranch, 1)
+    
 };
 
 # endif

@@ -1,18 +1,16 @@
-# ifndef HMvaHeavyHiggs_hh
-# define HMvaHeavyHiggs_hh
+# ifndef HMvaHiggsCpv_hh
+# define HMvaHiggsCpv_hh
 
-
-#include "TObjArray.h"
 
 # include "HMva.hh"
-
-# include "HBranchHeavyHiggs.hh"
+# include "HBranchHiggsCpv.hh"
 
 /**
+ *
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HMva : public hmva::HMva
+class hhiggscpv::HMvaEvent : public hmva::HMva
 {
 
 public:
@@ -21,28 +19,35 @@ public:
     * @brief Constructor
     *
     */
-    HMva();
+    HMvaEvent();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMva();
+    ~HMvaEvent();
 
     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
 
     void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *);
     
-    float GetBdt(TObject *, TMVA::Reader *){return 0;};
+    float GetBdt(TObject *, TMVA::Reader *){ return 0;};
+
+protected:
+
 
 private:
 
-  HMvaHeavyHiggsBranch *HeavyHiggs;
+    hhiggscpv::HEventBranch *EventBranch;
 
-    void DefineVariables();
+      void DefineVariables();
+
+      virtual inline std::string NameSpaceName() const {
+        return "HiggsCPV";
+      };
 
     virtual inline std::string ClassName() const {
-        return "HeavyHiggs: HMva";
+        return "HMva";
     };
 
 

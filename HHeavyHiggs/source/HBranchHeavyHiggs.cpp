@@ -4,16 +4,6 @@ ClassImp(hheavyhiggs::HHeavyHiggsBranch)
 
 hheavyhiggs::HHeavyHiggsBranch::HHeavyHiggsBranch()
 {
-    reset();
-}
-
-hheavyhiggs::HHeavyHiggsBranch::~HHeavyHiggsBranch() {}
-
-void hheavyhiggs::HHeavyHiggsBranch::reset()
-{
-
-    int InitialValue = -10;
-
     JetNumber = InitialValue;
     BTag = InitialValue;
 
@@ -31,5 +21,20 @@ void hheavyhiggs::HHeavyHiggsBranch::reset()
     BottomPt2 = InitialValue;
     BottomInvMass = InitialValue;
     BottomDeltaPt = InitialValue;
+}
 
+
+ClassImp(hheavyhiggs::HEventBranch)
+
+hheavyhiggs::HEventBranch::HEventBranch()
+{
+    
+    ScalarHt = InitialValue;
+    JetNumber = InitialValue;
+    BottomNumber = InitialValue;
+    LeptonNumber = InitialValue;
+    HeavyParticleTag = InitialValue;
+    
+    Signal = InitialValue;
+    
 }

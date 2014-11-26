@@ -4,6 +4,7 @@ set(AnalysisSources
 HAnalysisHeavyHiggsDelphes.cpp
 HAnalysisHeavyHiggsParton.cpp
 HAnalysisHeavyHiggsPgs.cpp
+HAnalysisHeavyHiggsMva.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")
 

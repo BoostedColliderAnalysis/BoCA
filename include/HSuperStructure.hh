@@ -85,6 +85,10 @@ public:
         return Position2;
     }
 
+    fastjet::PseudoJet GetPairJet() const {
+        return (Jet1 + Jet2);
+    }
+
     bool IsSamePair(const HSuperStructure &Pair) const {
 
         if (Pair.GetPosition1() == Position1 || Pair.GetPosition1() == Position2 || Pair.GetPosition2() == Position1 || Pair.GetPosition2() == Position2) return 1;
@@ -103,6 +107,14 @@ public:
 
     float GetBTag() const {
         return BTag;
+    }
+
+    float GetHeavyParticleTag() const {
+        return HeavyParticleTag;
+    }
+
+    void SetHeavyParticleTag(const float NewHeavyParticleTag) {
+        HeavyParticleTag = NewHeavyParticleTag;
     }
 
     HVectors GetConstituents() const;
@@ -132,6 +144,8 @@ protected:
 private:
 
     float BTag;
+
+    float HeavyParticleTag;
 
     float GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const;
 
