@@ -129,6 +129,11 @@ public:
     */
     ~HMva();
 
+//     template<typename TBranch, typename TParticle>
+//     virtual void FillBranch(HBranch * const Branch, const fastjet::PseudoJet& Jet) {
+//         Print(HError, "Fill Branch", "Should be subclassed");
+//     }
+
     void SetSignalTreeNames(const HStrings &NewSignalTreeNames) {
         SignalTreeNames = NewSignalTreeNames;
     }
@@ -145,6 +150,130 @@ public:
     void SetBranchName(const std::string &NewBranchName) {
         CandidateBranchName = NewBranchName;
     }
+
+    std::string GetTaggerName() const {
+        return TaggerName;
+    }
+
+    std::string GetAnalysisName() const {
+        return AnalysisName;
+    }
+
+    std::vector<HObservable> GetObservables() const {
+        return Observables;
+    }
+
+    void SetObservables(std::vector<HObservable> NewObservables) {
+        Observables = NewObservables;
+    }
+
+    std::vector<HObservable> GetSpectators() const {
+        return Spectators;
+    }
+
+    HStrings GetSignalNames() const {
+        return SignalNames;
+    }
+
+    HStrings GetSignalTreeNames() const {
+        return SignalTreeNames;
+    }
+
+    HStrings GetBackgroundNames() const {
+        return BackgroundNames;
+    }
+
+    HStrings GetBackgroundTreeNames() const {
+        return BackgroundTreeNames;
+    }
+
+    std::string GetTestName() const {
+        return TestName;
+    }
+
+    HStrings GetTestTreeNames() const {
+        return TestTreeNames;
+    }
+
+
+    float GetSignalEfficiency() const {
+        return SignalEfficiency;
+    }
+
+    float GetLuminosity() const {
+        return Luminosity;
+    }
+
+    TCut GetCut() const {
+        return Cut;
+    }
+
+    void SetAnalysisName(const std::string NewAnalysisName) {
+        AnalysisName = NewAnalysisName;
+    }
+
+    void SetTestTreeNames(const HStrings NewTestTreeNames) {
+        TestTreeNames = NewTestTreeNames;
+    }
+
+    std::string GetCutMethodName()const {
+        return CutMethodName;
+    }
+
+    std::string GetBdtMethodName()const {
+        return BdtMethodName;
+    }
+
+    std::string GetWeightBranchName()const {
+        return WeightBranchName;
+    }
+
+    bool LaTeX()const {
+        return DoLatex;
+    }
+
+    virtual HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {
+        HReaderStruct ReaderStruct;
+        return ReaderStruct;
+    };
+
+    virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
+
+    virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader);
+
+protected:
+
+    virtual void DefineVariables() = 0;
+
+    virtual inline std::string NameSpaceName() const {
+        return "HMva";
+    };
+
+    virtual inline std::string ClassName() const {
+        return "HMva";
+    };
+
+    template<typename TValue>
+    HObservable NewObservable(TValue *const Value, const std::string &Title) const {
+
+        Print(HDebug, "New Observable", *Value);
+        const std::string Expression = CandidateBranchName + "." + Title;
+        HObservable Observable(Value, Expression, Title, "", "");
+        return Observable;
+
+    }
+
+    template<typename TValue>
+    HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const {
+
+        Print(HDebug, "New Observable", *Value);
+        const std::string Expression = CandidateBranchName + "." + Title;
+        HObservable Observable(Value, Expression, Title, "", Latex);
+        return Observable;
+
+    }
+
+
 
     bool DoLatex;
 
@@ -209,45 +338,6 @@ public:
     std::vector<HObservable> Observables;
 
     std::vector<HObservable> Spectators;
-
-
-    virtual HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) = 0;
-
-    virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) = 0;
-
-    virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader) = 0;
-
-protected:
-
-    virtual void DefineVariables() = 0;
-
-    virtual inline std::string NameSpaceName() const {
-        return "HMva";
-    };
-
-    virtual inline std::string ClassName() const {
-        return "HMva";
-    };
-
-    template<typename TValue>
-    HObservable NewObservable(TValue *const Value, const std::string &Title) const {
-
-        Print(HDebug, "New Observable", *Value);
-        const std::string Expression = CandidateBranchName + "." + Title;
-        HObservable Observable(Value, Expression, Title, "", "");
-        return Observable;
-
-    }
-
-    template<typename TValue>
-    HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const {
-
-        Print(HDebug, "New Observable", *Value);
-        const std::string Expression = CandidateBranchName + "." + Title;
-        HObservable Observable(Value, Expression, Title, "", Latex);
-        return Observable;
-
-    }
 
 private:
 

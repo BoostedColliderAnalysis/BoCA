@@ -51,7 +51,17 @@ public:
      */
     ~HReader();
 
-    float GetBdt() const ;
+//     template<typename TBranch, typename TParticle>
+//     float GetBdt(TBranch * const Branch, const TParticle &Particle) const
+    float GetBdt() const
+    {
+        Print(HInformation, "Get Bdt");        
+        
+//         Mva->FillBranch(Branch, Particle);
+        const float Bdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
+        return (Bdt + 1.);
+        
+    }
 
     void MVALoop();
 
@@ -60,8 +70,11 @@ public:
     void AddVariable();
 
     void BookMVA();
+    
+    void SetMva();
 
 private:
+    
 
     template <typename TCutFlow>
     std::vector<TCutFlow> SortByPriority(

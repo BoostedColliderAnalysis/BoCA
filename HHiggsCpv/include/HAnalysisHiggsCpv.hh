@@ -7,7 +7,7 @@
 # include "HBranchHiggsCpv.hh"
 # include "HSubStructure.hh"
 # include "HSuperStructure.hh"
-// # include "HMvaBTagger.hh"
+# include "HJetLeptonPair.hh"
 // # include "HMvaPairs.hh"
 # include "HReader.hh"
 # include "HFactory.hh"
@@ -22,22 +22,31 @@ class HHiggsCpv
 
 public:
 
-  hdelphes::HSuperStructure Higgs;
-  hdelphes::HSuperStructure Top;
-  hdelphes::HSuperStructure AntiTop;
+    hdelphes::HSuperStructure Higgs;
+    hanalysis::HJetLeptonPair Top;
+    hanalysis::HJetLeptonPair AntiTop;
 
-  HHiggsCpv(const hdelphes::HSuperStructure &NewHiggs, const hdelphes::HSuperStructure &NewTop, const hdelphes::HSuperStructure &NewAntiTop) {
-    Higgs = NewHiggs;
-    Higgs.SetBTag(Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag(), Higgs.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
-    Top = NewTop;
-    Top.SetBTag(Top.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
-    AntiTop = NewAntiTop;
-    AntiTop.SetBTag(AntiTop.GetJet1().user_info<hanalysis::HJetInfo>().GetBTag());
-  };
+    HHiggsCpv(const hdelphes::HSuperStructure &NewHiggs, const hanalysis::HJetLeptonPair &NewTop, const hanalysis::HJetLeptonPair &NewAntiTop) {
+        Higgs = NewHiggs;
+        Top = NewTop;
+        AntiTop = NewAntiTop;
+    };
 
-  float GetBdt() const {
-    return (Higgs.Tag * Top.Tag * AntiTop.Tag);
-  }
+    float GetBdt() const {
+        return (Higgs.GetBdt() * Top.GetBdt() * AntiTop.GetBdt());
+    }
+
+    float GetTopDeltaEta() const {
+        return (Top.GetJet().rap() - AntiTop.GetJet().rap()); 
+    }
+    
+    float GetTopDeltaPhi() const {
+        return (Top.GetJet().delta_phi_to(AntiTop.GetJet())); 
+    }
+    
+    float GetTopDeltaR() const {
+        return (Top.GetJet().delta_R(AntiTop.GetJet())); 
+    }
 
 };
 
@@ -66,79 +75,35 @@ public:
      */
     ~HAnalysis();
 
+    hdelphes::HBottomTagger *BottomTagger;
+    hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
+    hdelphes::HMvaHiggsTagger *HiggsTagger;
+
+private:
+
     /**
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *EventBranch;
-
-    ExRootTreeBranch *HiggsBranch;
-
-//     ExRootTreeBranch *ConstituentBranch;
 
     ExRootTreeBranch *BottomBranch;
-
+    ExRootTreeBranch *HiggsBranch;
     ExRootTreeBranch *TopBranch;
-
-    template<typename TMva>
-    void SetMva(TMva *NewMva) {
-
-        Print(HNotification,"Set Mva",NewMva->TaggerName);
-
-        Mva = NewMva;
-        Reader = new hmva::HReader(Mva);
-        Reader->AddVariable();
-        Reader->BookMVA();
-
-    }
-
-hdelphes::HBottomTagger *BottomTagger;
-hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
-hdelphes::HMvaHiggsTagger *HiggsTagger;
-
-private:
-
-
-//     std::string TaggerName;
-
-
-
-    hmva::HMva *Mva;
-
-    hmva::HReader *Reader;
+    ExRootTreeBranch *EventBranch;
+    
+    hmva::HReader *BottomReader;
+    hmva::HReader *TopReader;
+    hmva::HReader *HiggsReader;
 
     inline int GetEventNumberMax() const {
         return 100000;
-    };
+    }
 
     inline std::string GetProjectName() const {
         return "HiggsCpv";
-    };
+    }
 
     hanalysis::HJetTag *JetTag;
-
-    hdelphes::HSubStructure *SubStructure;
-
-    /**
-     * @brief Lepton calculations
-     *
-     * @param Event ...
-     * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
-     */
-    HJets GetLeptonJets(hanalysis::HEvent *const Event);
-
-//     template <typename T, typename U>
-//     std::pair<T, U> operator+(const std::pair<T, U> &l, const std::pair<T, U> &r) {
-//         return {l.first + r.first, l.second + r.second};
-//     }
-
-    std::pair<float, float> GetPull(fastjet::PseudoJet &CandidateJet);
-
-    /**
-     * @brief Lepton event counter
-     *
-     */
-    int LeptonEventCounter;
 
     /**
      * @brief Main Analysis function
@@ -147,26 +112,15 @@ private:
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const hhiggscpv::HAnalysis::HTagger Tagger);
 
-    bool GetBottomTag(hanalysis::HEvent*const Event, const std::string& StudyName);
-//     void FillBottomBranch(const fastjet::PseudoJet& Jet, HBottomBranch* BTagger);
-//     float GetDeltaR(const fastjet::PseudoJet& Jet);
-//     float GetBottomBdt(const fastjet::PseudoJet &Bottom);
+    bool GetBottomTag(hanalysis::HEvent *const Event, const std::string &StudyName);
 
-    bool GetTopTag(hanalysis::HEvent*const Event, const std::string& StudyName);
-//     void FillTopBranch(const hdelphes::HSuperStructure &Pair, HLeptonicTopBranch *TopTagger);
-//     float GetTopBdt(const hdelphes::HSuperStructure &Top);
+    bool GetTopTag(hanalysis::HEvent *const Event, const std::string &StudyName);
 
-    bool GetHiggsTag(hanalysis::HEvent*const Event, const std::string& StudyName);
-//     void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *PairTagger);
-//     float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
+    bool GetHiggsTag(hanalysis::HEvent *const Event, const std::string &StudyName);
 
-
-    bool GetSignalTag(hanalysis::HEvent*const Event, const std::string& StudyName);
+    bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
 
     std::vector<HHiggsCpv> GetHiggsCpvs(const HJets &Jets, const HJets &Leptons);
-
-//     void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
-
     /**
      * @brief prepares the std::vector describing the input root files
      *
@@ -179,12 +133,12 @@ private:
      *
      * @return void
      */
-    void NewBranches(ExRootTreeWriter *TreeWriter,const HTagger Tagger);
+    void NewBranches(ExRootTreeWriter *TreeWriter, const HTagger Tagger);
 
     inline HStrings GetStudyNames(const hhiggscpv::HAnalysis::HTagger NewTagger);
 
     virtual inline std::string NameSpaceName() const {
-        return "HiggsCPV";
+        return "higgscpv";
     };
 
     virtual inline std::string ClassName() const {

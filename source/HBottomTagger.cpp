@@ -9,12 +9,8 @@ hdelphes::HBottomTagger::HBottomTagger()
     TaggerName = "Bottom";
     SignalNames = {"Bottom"};
     BackgroundNames = {"NotBottom"};
-    TestName = "Test";
-    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
-    SignalTreeNames = TestTreeNames;
-    BackgroundTreeNames = TestTreeNames;
     CandidateBranchName = "Bottom";
-    BTagger = new HBottomBranch();
+    Branch = new HBottomBranch();
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
@@ -24,10 +20,29 @@ hdelphes::HBottomTagger::HBottomTagger()
 hdelphes::HBottomTagger::~HBottomTagger()
 {
     Print(HNotification, "Destructor");
-    delete BTagger;
+    delete Branch;
+    delete JetTag;
 }
 
-std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBottomTag(hanalysis::HEvent *const Event, const HState State)
+void hdelphes::HBottomTagger::DefineVariables()
+{
+
+    Print(HNotification , "Define Variables", Branch->Mass);
+
+    Observables.push_back(NewObservable(&Branch->VertexMass, "VertexMass"));
+    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch->Displacement, "Displacement"));
+    Observables.push_back(NewObservable(&Branch->Multipliticity, "Multipliticity"));
+    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+
+    Spectators.push_back(NewObservable(&Branch->Mass, "Mass"));
+    Spectators.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
+
+    Print(HNotification, "Variables defined");
+
+}
+
+std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEvent *const Event, const HState State)
 {
 
     Print(HInformation, "Get Bottom Tag", State);
@@ -54,40 +69,47 @@ std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBottomTag(hanalysis::HE
             }
         }
     }
-
     Print(HInformation, "Number Jets", Jets.size());
-//     if (Jets.size() < 1) return 0;
 
-    std::vector<HBottomBranch *> BottomTaggers;
-
+    std::vector<HBottomBranch *> BottomBranches;
     for (const auto & Jet : Jets) {
-        HBottomBranch *BottomTagger = new HBottomBranch;
-        FillBottomBranch(Jet, BottomTagger);
-        BottomTaggers.push_back(BottomTagger);
+        HBottomBranch *BottomBranch = new HBottomBranch;
+        FillBranch(BottomBranch, Jet);
+        BottomBranches.push_back(BottomBranch);
     }
 
-    return BottomTaggers;
+    return BottomBranches;
 
 }
 
-void hdelphes::HBottomTagger::FillBottomBranch(const fastjet::PseudoJet &Jet, HBottomBranch *BTagger)
+void hdelphes::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
 {
 
-    Print(HInformation, "Fill Bottom Tagger");
+    Print(HInformation, "Fill Bottom Branch");
+    FillBranch(Branch, Jet);
+
+}
+
+
+void hdelphes::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet)
+{
+
+    Print(HInformation, "Fill Bottom Branch");
 
     if (Jet.has_user_info<hanalysis::HJetInfo>()) {
-        Print(HInformation, "Has Info", Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
-        BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
-        BTagger->Mass = Jet.m();
-        BTagger->Pt = Jet.pt();
-        BTagger->Displacement = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
-        BTagger->Multipliticity = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
-        Print(HDebug, "Multiplicity", Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber(), BTagger->Multipliticity);
-        BTagger->DeltaR = GetDeltaR(Jet);
+        Print(HDebug, "Has Info", Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
+        Print(HDebug, "Multiplicity", Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber(), BottomBranch->Multipliticity);
+
+        BottomBranch->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
+        BottomBranch->Mass = Jet.m();
+        BottomBranch->Pt = Jet.pt();
+        BottomBranch->Displacement = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
+        BottomBranch->Multipliticity = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
+        BottomBranch->DeltaR = GetDeltaR(Jet);
         if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
-            BTagger->BottomTag = 1;
+            BottomBranch->BottomTag = 1;
         } else {
-            BTagger->BottomTag = 0;
+            BottomBranch->BottomTag = 0;
         }
 
     } else {
@@ -96,7 +118,7 @@ void hdelphes::HBottomTagger::FillBottomBranch(const fastjet::PseudoJet &Jet, HB
 
 }
 
-float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet)
+float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
 
     Print(HInformation, "Get Delta R");
@@ -107,49 +129,5 @@ float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet)
         if (TempDeltaR > DeltaR) DeltaR = TempDeltaR;
     }
     return DeltaR;
-
-}
-
-float hdelphes::HBottomTagger::GetBottomBdt(const fastjet::PseudoJet &Bottom)
-{
-    Print(HInformation, "Get Bottom Bdt");
-
-    HBottomBranch *BottomTagger = new HBottomBranch();
-    FillBottomBranch(Bottom, BottomTagger);
-    const float Bdt = GetBdt(BottomTagger, Reader->Reader);
-    delete BottomTagger;
-
-    return Bdt;
-
-}
-
-void hdelphes::HBottomTagger::DefineVariables()
-{
-
-    Print(HNotification , "Define Variables", BTagger->Mass);
-
-    Observables.push_back(NewObservable(&BTagger->VertexMass, "VertexMass"));
-    Observables.push_back(NewObservable(&BTagger->Pt, "Pt"));
-    Observables.push_back(NewObservable(&BTagger->Displacement, "Displacement"));
-    Observables.push_back(NewObservable(&BTagger->Multipliticity, "Multipliticity"));
-    Observables.push_back(NewObservable(&BTagger->DeltaR, "DeltaR"));
-
-    Spectators.push_back(NewObservable(&BTagger->Mass, "Mass"));
-    Spectators.push_back(NewObservable(&BTagger->BottomTag, "BottomTag"));
-
-    Print(HNotification, "Variables defined");
-
-}
-
-float hdelphes::HBottomTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader)
-{
-
-    Print(HInformation, "Get Bdt", BdtMethodName);
-
-    *BTagger = *static_cast<HBottomBranch *>(Branch);
-    const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
-    Print(HInformation, "BTagger Bdt", BdtEvaluation);
-
-    return ((BdtEvaluation + 1.) / 2.);
 
 }

@@ -127,7 +127,7 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, ha
 
     for (const int ConstituentNumber : HRange(JetClone->Constituents.GetEntriesFast())) {
 
-        const TObject *const Object = JetClone->Constituents.At(ConstituentNumber);
+         TObject * Object = JetClone->Constituents.At(ConstituentNumber);
 
         if (Object == 0) continue;
 
@@ -150,13 +150,13 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, ha
     hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
     JetInfo->SetVertices(Vertices);
     Jet.set_user_info(JetInfo);
-    Print(HDetailed, "Vertex", Jet.user_info<hanalysis::HJetInfo>().GetVertices().front().Position.Vect().Mag());
+//     Print(HDetailed, "Vertex", Jet.user_info<hanalysis::HJetInfo>().GetVertices().front().Position.Vect().Mag());
 
     return Jet;
 
 }
 
-fastjet::PseudoJet hdelphes::HJet::GetConstituentJet(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails)
+fastjet::PseudoJet hdelphes::HJet::GetConstituentJet( TObject * Object, hanalysis::HJet::HJetDetails JetDetails)
 {
 
     HConstituent Constituent = GetConstituent(Object, JetDetails);
@@ -176,7 +176,7 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituentJet(const TObject *const Object
 
 }
 
-HConstituent hdelphes::HJet::GetConstituent(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails)
+HConstituent hdelphes::HJet::GetConstituent(TObject *Object, hanalysis::HJet::HJetDetails JetDetails)
 {
 
     HConstituent Constituent;

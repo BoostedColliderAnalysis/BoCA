@@ -80,9 +80,13 @@ private:
      */
     void PrepareTrainingAndTestTree();
 
-    TFile *OutputFile;
+    void AddTree(const TFile *const File, const std::string &TreeName, const bool Signal);
+
+    HMva *Mva;
 
     TMVA::Factory *Factory;
+
+    TFile *OutputFile;
 
     std::string Verbose;
 
@@ -96,12 +100,8 @@ private:
 
     std::string DefaultOptions;
 
-    void AddTree(const TFile *const File, const std::string &TreeName, const bool Signal);
-
-    HMva *Mva;
-
     inline std::string NameSpaceName() const {
-      return "HMva";
+      return "hmva";
     };
 
     inline std::string ClassName() const {

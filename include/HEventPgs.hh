@@ -31,7 +31,7 @@ public:
 private:
 
     inline std::string NameSpaceName() const {
-      return "HPgs";
+      return "hpgs";
     }
 
     inline std::string ClassName() const {

@@ -18,51 +18,31 @@ class hdelphes::HMvaHiggsTagger : public hmva::HMva
 
 public:
 
-    HMvaHiggsTagger();
+    HMvaHiggsTagger(HBottomTagger *NewBottomTagger);
 
     ~HMvaHiggsTagger();
 
-    std::vector< HHiggsBranch * > GetHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, HBottomTagger *BottomTagger);
+    std::vector< HHiggsBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
-    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){ HReaderStruct ReaderStruct; return ReaderStruct;};
-
-    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *){};
-
-    float GetBdt(TObject *Branch, TMVA::Reader *Reader);
-
-    //     std::vector<HLeptonicTopBranch *> GetBottomTag(hanalysis::HEvent *const Event, const HState State);
-
-
-//     template<typename TMva>
-    void SetMva() {
-
-        Print(HNotification,"Set Mva");
-
-        Reader = new hmva::HReader(this);
-        Reader->AddVariable();
-        Reader->BookMVA();
-
-    }
-
-    float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
+    void FillBranch(const hdelphes::HSuperStructure &Pair);
 
 private:
 
-    hmva::HReader *Reader;
+    HBottomTagger *BottomTagger;
+    
+    hmva::HReader *BottomReader;
 
-    HHiggsBranch *Higgs;
+    HHiggsBranch *Branch;
 
     hanalysis::HJetTag *JetTag;
 
     void DefineVariables();
 
-    void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *HiggsTagger);
-
-//     float GetDeltaR(const fastjet::PseudoJet &Jet);
-
+    
+    void FillBranch(HHiggsBranch * const HiggsBranch, const hdelphes::HSuperStructure &Pair);
 
     virtual inline std::string NameSpaceName() const {
-        return "HDelphes";
+        return "hdelphes";
     };
 
     virtual inline std::string ClassName() const {

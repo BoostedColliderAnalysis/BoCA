@@ -3,16 +3,18 @@
 
 # include "HBranch.hh"
 
-namespace hheavyhiggs{
+namespace hheavyhiggs
+{
 
-    class HAnalysisHeavyHiggsDelphes;
-    class HAnalysisHeavyHiggsPgs;
-    class HAnalysisHeavyHiggsParton;
-    class HAnalysisMva;
-    class HHeavyHiggsJetTag;
-      class HMva;
-      class HHeavyHiggsBranch;
-      class HEventBranch;
+class HAnalysisHeavyHiggsDelphes;
+class HAnalysisHeavyHiggsPgs;
+class HAnalysisHeavyHiggsParton;
+class HAnalysisMva;
+class HHeavyHiggsJetTag;
+class HMva;
+class HHeavyHiggsBranch;
+class HEventBranch;
+class HMvaEvent;
 
 }
 
@@ -58,7 +60,7 @@ public:
 
     HHeavyHiggsBranch();
 
-    virtual ~HHeavyHiggsBranch(){};
+    virtual ~HHeavyHiggsBranch() {};
 
 private:
 
@@ -70,29 +72,32 @@ private:
 
 
 /**
- * 
+ *
  * @brief Higgs cpv tagger root tree structure
  *
  */
 class hheavyhiggs::HEventBranch : public HBranch
 {
-    
+
 public:
-    
+
     HEventBranch();
-    
+
     float ScalarHt;
     int JetNumber;
     int BottomNumber;
     int LeptonNumber;
     float HeavyParticleTag;
-    
+    float DeltaEta;
+    float DeltaPhi;
+    float DeltaR;
+
     int Signal;
-    
+
 private:
-    
+
     ClassDef(HEventBranch, 1)
-    
+
 };
 
 # endif

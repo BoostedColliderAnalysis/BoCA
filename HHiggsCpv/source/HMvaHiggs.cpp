@@ -68,7 +68,8 @@ void hhiggscpv::HMvaHiggs::DefineVariables()
     Print(HNotification , "Define Variables");
 
     Observables.push_back(NewObservable(&Higgs->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Higgs->Pt, "Pt"));
+    Observables.push_back(NewObservable(&Higgs->PtSum, "PtSum"));
+    Observables.push_back(NewObservable(&Higgs->PtDiff, "PtDiff"));
     Observables.push_back(NewObservable(&Higgs->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Higgs->DeltaEta, "DeltaEta"));
     Observables.push_back(NewObservable(&Higgs->DeltaR, "DeltaR"));

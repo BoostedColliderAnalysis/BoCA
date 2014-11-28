@@ -97,7 +97,7 @@ private:
 
         for (const int ParticleNumber : HRange(Clone->Particles.GetEntriesFast())) {
 
-            const TObject *const Object = Clone->Particles.At(ParticleNumber);
+            TObject * Object = Clone->Particles.At(ParticleNumber);
             const int MotherId = GetMotherId(Object);
             Print(HDebug, "MotherId", MotherId);
 
@@ -140,9 +140,9 @@ private:
 
     fastjet::PseudoJet GetConstituents(const Jet *const JetClone, hanalysis::HJet::HJetDetails JetDetails);
 
-    HConstituent GetConstituent(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
+    HConstituent GetConstituent( TObject * Object, hanalysis::HJet::HJetDetails JetDetails);
 
-    fastjet::PseudoJet GetConstituentJet(const TObject *const Object, hanalysis::HJet::HJetDetails JetDetails);
+    fastjet::PseudoJet GetConstituentJet(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";

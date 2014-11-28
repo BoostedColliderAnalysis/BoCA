@@ -33,6 +33,10 @@ class HLepton;
 class HJet;
 class HJetTag;
 class HJetInfo;
+class HPair;
+class HTag;
+class HJetLeptonPair;
+class HPairPair;
 
 }
 
@@ -349,6 +353,8 @@ protected:
     };
 
     std::string GetParticleName(const int ParticleId) const;
+    
+    float GetParticleMass(const hanalysis::HObject::HParticleId ParticleId) const;
 
 
     /**
@@ -380,6 +386,12 @@ protected:
      *
      */
     constexpr static float HiggsMass = 125;
+    
+    /**
+     * @brief W bsoson mass
+     *
+     */
+    constexpr static float ZMass = 91.188;
 
     /**
      * @brief W bsoson mass

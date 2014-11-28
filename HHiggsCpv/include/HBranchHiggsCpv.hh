@@ -42,6 +42,9 @@ public:
     int BottomNumber;
     int LeptonNumber;
     float HeavyParticleTag;
+    float TopDeltaEta;
+    float TopDeltaPhi;
+    float TopDeltaR;
 
     int Signal;
 

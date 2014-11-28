@@ -116,8 +116,8 @@ protected:
 
     }
 
-    template<typename Template>
-    TLorentzVector GetLorentzVectorByM(const Template *const Particle) const {
+    template<typename TParticle>
+    TLorentzVector GetLorentzVectorByM(const TParticle *const Particle) const {
 
         Print(HDebug, "Get Lorentz Vector by Mass");
 
@@ -167,7 +167,7 @@ protected:
 
     fastjet::PseudoJet GetPseudoJet(const TRootTau *const) const;
         
-    int GetMotherId(const TObject *const);
+    int GetMotherId(TObject *Object);
     
     int GetMotherId(int BranchId, int Position);
     

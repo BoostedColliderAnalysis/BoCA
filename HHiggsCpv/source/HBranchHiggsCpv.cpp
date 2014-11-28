@@ -1,8 +1,5 @@
 # include "HBranchHiggsCpv.hh"
 
-
-
-
 ClassImp(hhiggscpv::HEventBranch)
 
 hhiggscpv::HEventBranch::HEventBranch()
@@ -13,12 +10,13 @@ hhiggscpv::HEventBranch::HEventBranch()
     BottomNumber = InitialValue;
     LeptonNumber = InitialValue;
     HeavyParticleTag = InitialValue;
+    TopDeltaEta = InitialValue;
+    TopDeltaPhi = InitialValue;
+    TopDeltaR = InitialValue;
 
     Signal = InitialValue;
 
 }
-
-
 
 ClassImp(hhiggscpv::HLeptonBranch)
 

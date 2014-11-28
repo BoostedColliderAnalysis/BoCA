@@ -122,7 +122,8 @@ public:
     HLeptonicTopBranch();
 
     float Mass;
-    float Pt;
+    float JetPt;
+    float LeptonPt;
 
     float DeltaEta;
     float DeltaPhi;
@@ -151,7 +152,8 @@ public:
     HHiggsBranch();
 
     float Mass;
-    float Pt;
+    float PtSum;
+    float PtDiff;
 
     float DeltaEta;
     float DeltaPhi;

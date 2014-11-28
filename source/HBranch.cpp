@@ -48,7 +48,8 @@ HLeptonicTopBranch::HLeptonicTopBranch()
 {
 
     Mass = InitialValue;
-    Pt = InitialValue;
+    JetPt = InitialValue;
+    LeptonPt = InitialValue;
 
     DeltaEta = InitialValue;
     DeltaPhi = InitialValue;
@@ -67,7 +68,8 @@ HHiggsBranch::HHiggsBranch()
 {
 
   Mass = InitialValue;
-  Pt = InitialValue;
+  PtSum = InitialValue;
+  PtDiff = InitialValue;
 
   DeltaEta = InitialValue;
   DeltaPhi = InitialValue;

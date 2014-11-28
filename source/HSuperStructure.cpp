@@ -4,8 +4,8 @@ hdelphes::HSuperStructure::HSuperStructure()
 {
     Print(HInformation, "Constructor");
 
-    Position1 = EmptyPosition;
-    Position2 = EmptyPosition;
+//     Position1 = EmptyPosition;
+//     Position2 = EmptyPosition;
 
 }
 
@@ -17,8 +17,8 @@ hdelphes::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, co
     Jet1 = NewJet1;
     Jet2 = NewJet2;
 
-    Position1 = EmptyPosition;
-    Position2 = EmptyPosition;
+//     Position1 = EmptyPosition;
+//     Position2 = EmptyPosition;
 
 }
 

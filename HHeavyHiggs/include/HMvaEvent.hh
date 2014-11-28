@@ -3,14 +3,14 @@
 
 
 # include "HMva.hh"
-# include "HBranchHiggsCpv.hh"
+# include "HBranchHeavyHiggs.hh"
 
 /**
  *
  * @brief Prepares multivariant analysis
  *
  */
-class hhiggscpv::HMvaEvent : public hmva::HMva
+class hheavyhiggs::HMvaEvent : public hmva::HMva
 {
 
 public:
@@ -27,9 +27,9 @@ public:
     */
     ~HMvaEvent();
 
-    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
+    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){};
 
-    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *);
+    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *){};
     
     float GetBdt(TObject *, TMVA::Reader *){ return 0;};
 
@@ -38,16 +38,16 @@ protected:
 
 private:
 
-    hhiggscpv::HEventBranch *EventBranch;
+    hheavyhiggs::HEventBranch *EventBranch;
 
       void DefineVariables();
 
       virtual inline std::string NameSpaceName() const {
-        return "HiggsCPV";
+        return "hheavyhiggs";
       };
 
     virtual inline std::string ClassName() const {
-        return "HMva";
+        return "HMvaEvent";
     };
 
 

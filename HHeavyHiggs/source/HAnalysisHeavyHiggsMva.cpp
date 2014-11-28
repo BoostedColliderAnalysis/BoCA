@@ -6,11 +6,25 @@ hheavyhiggs::HAnalysisMva::HAnalysisMva()
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
 
-    SubStructure = new hdelphes::HSubStructure();
+//     SubStructure = new hdelphes::HSubStructure();
     JetTag = new hanalysis::HJetTag();
     BottomTagger = new hdelphes::HBottomTagger();
-    LeptonicTopTagger = new hdelphes::HLeptonicTopTagger();
-    HeavyHiggsTagger = new hdelphes::HHeavyHiggsTagger();
+    BottomTagger->SetAnalysisName(GetProjectName());
+    BottomTagger->SetTestTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
+    BottomTagger->SetSignalTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
+    BottomTagger->SetBackgroundTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
+    
+    LeptonicTopTagger = new hdelphes::HLeptonicTopTagger(BottomTagger);
+    LeptonicTopTagger->SetAnalysisName(GetProjectName());
+    LeptonicTopTagger->SetTestTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
+    LeptonicTopTagger->SetSignalTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
+    LeptonicTopTagger->SetBackgroundTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
+    
+    HeavyHiggsTagger = new hdelphes::HHeavyHiggsTagger(BottomTagger,LeptonicTopTagger);
+    HeavyHiggsTagger->SetAnalysisName(GetProjectName());
+    HeavyHiggsTagger->SetTestTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
+    HeavyHiggsTagger->SetSignalTreeNames({"BG_ttbb-run_01"});
+    HeavyHiggsTagger->SetBackgroundTreeNames({"BG_ttbb-run_01","h2bb_ttbb-run_01"});
 
 }
 
@@ -20,15 +34,12 @@ hheavyhiggs::HAnalysisMva::~HAnalysisMva()
     Print(HNotification, "Destructor");
 
     delete JetTag;
-    delete SubStructure;
 
 }
 
 HStrings hheavyhiggs::HAnalysisMva::GetStudyNames(const HTagger Tagger)
 {
     Print(HNotification, "Get Study Names", Tagger);
-
-//     Tagger = NewTagger;
 
     if (Tagger == HBottomTagger) {
         return {"Bottom", "NotBottom"};
@@ -50,51 +61,16 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const std::s
 
     std::vector<hanalysis::HFile *> Files;
 
-//     hdelphes::HFile *Test3 = new hdelphes::HFile("pp-hz-bbvv", "signal");
-//     Files.push_back(Test3);
-//     return Files;
-
-    if (StudyName != "Higgs" && StudyName != "Signal") {
-
-//     hdelphes::HFile *Test4 = new hdelphes::HFile("pp-bbz-bbvv", "background");
-        //     Files.push_back(Test4);
-
-//     hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
-        //     Files.push_back(Test2);
-
-
-        hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
-        Background->SetCrosssection(3.215); // pb
-        Background->SetError(0.012); // pb
-        Files.push_back(Background);
-
-    }
-
-    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
-    Even->SetCrosssection(30.02079); // pb
-    Even->SetError(0.000078); // pb
-//     Even->TagString="tag_2";
-    Files.push_back(Even);
-
-    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
-    Mix->SetCrosssection(30.01172); // pb
-    Mix->SetError(0.000045); // pb
-//     Mix->TagString="tag_2";
-    Files.push_back(Mix);
-
-    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
-    Odd->SetCrosssection(30.008951); // pb
-    Odd->SetError(0.000035); // pb
-//     Odd->TagString="tag_2";
-    Files.push_back(Odd);
-
-//     hdelphes::HFile *Test = new hdelphes::HFile("pp-hjj-bbjj");
-//     Files.push_back(Test);
-//     hdelphes::HFile *Signal = new hdelphes::HFile("pp-htt-bblvlv", "signal");
-//     Signal->Crosssection = 0.01419; // pb
-//     Signal->Error = 0.000067; // pb
-// //     Odd->TagString="tag_2";
-//     Files.push_back(Signal);
+    
+    Files.push_back(new hanalysis::HFile("BG_ttbb"));
+    Files.push_back(new hanalysis::HFile("h2bb_ttbb"));
+    
+    Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
+    //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
+    Files.front()->SetFileSuffix("_Delphes.root");
+    Files.front()->SetSnowMass(true);
+    
+    //     FileVector.push_back(new HFile("pp-bbtt-4f", "background"));
 
     Print(HNotification, "Files prepared");
 
@@ -151,7 +127,7 @@ bool hheavyhiggs::HAnalysisMva::GetBottomTag(hanalysis::HEvent *const Event, con
     if (StudyName == "Bottom") State = HSignal;
     if (StudyName == "NotBottom") State = HBackground;
 
-    std::vector<HBottomBranch *> Bottoms = BottomTagger->GetBottomTag(Event, State);
+    std::vector<HBottomBranch *> Bottoms = BottomTagger->GetBranches(Event, State);
 
     for (const auto & Bottom : Bottoms) {
         HBottomBranch *BTagger = static_cast<HBottomBranch *>(BottomBranch->NewEntry());
@@ -172,13 +148,12 @@ bool hheavyhiggs::HAnalysisMva::GetTopTag(hanalysis::HEvent *const Event, const 
     if (StudyName == "Top") State = HSignal;
     if (StudyName == "NotTop") State = HBackground;
 
-    std::vector<HLeptonicTopBranch *> Tops = LeptonicTopTagger->GetTopTag(Event, State, BottomTagger);
+    std::vector<HLeptonicTopBranch *> Tops = LeptonicTopTagger->GetBranches(Event, State);
 
     for (const auto & Top : Tops) {
         HLeptonicTopBranch *TopTagger = static_cast<HLeptonicTopBranch *>(TopBranch->NewEntry());
         *TopTagger = *Top;
     }
-
 
     return 1;
 
@@ -193,11 +168,11 @@ bool hheavyhiggs::HAnalysisMva::GetHeavyHiggsTag(hanalysis::HEvent *const Event,
     if (StudyName == "Higgs") State = HSignal;
     if (StudyName == "NotHiggs") State = HBackground;
 
-    std::vector<HMvaHeavyHiggsBranch *> Higgses = HeavyHiggsTagger->GetHeavyHiggsTag(Event, State, BottomTagger, LeptonicTopTagger);
+    std::vector<HMvaHeavyHiggsBranch *> Higgses = HeavyHiggsTagger->GetBranches(Event, State);
 
     for (const auto & Higgs : Higgses) {
-      HMvaHeavyHiggsBranch *HiggsTagger = static_cast<HMvaHeavyHiggsBranch *>(HiggsBranch->NewEntry());
-      *HiggsTagger = *Higgs;
+        HMvaHeavyHiggsBranch *HiggsTagger = static_cast<HMvaHeavyHiggsBranch *>(HiggsBranch->NewEntry());
+        *HiggsTagger = *Higgs;
     }
 
     return 1;
@@ -222,9 +197,11 @@ bool hheavyhiggs::HAnalysisMva::GetSignalTag(hanalysis::HEvent *const Event, con
     if (Jets.size() < 4) return 0;
 
     for (auto & Jet : Jets) {
-        const float Bdt = BottomTagger->GetBottomBdt(Jet);
+//         const float Bdt = BottomTagger->GetBdt(Jet,TopReader->Reader);
+        
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        JetInfo->SetBTag(Bdt);
+        BottomTagger->FillBranch(Jet);
+        JetInfo->SetBdt(BottomReader->GetBdt());
         Jet.set_user_info(JetInfo);
     }
 
@@ -239,7 +216,7 @@ bool hheavyhiggs::HAnalysisMva::GetSignalTag(hanalysis::HEvent *const Event, con
                     for (HJets::iterator Jet3 = Jet2 + 1; Jet3 != Jets.end(); ++Jet3) {
                         for (HJets::iterator Jet4 = Jet3 + 1; Jet4 != Jets.end(); ++Jet4) {
                             const HJets EventJets = {(*Jet1), (*Jet2), (*Jet3), (*Jet4)};
-                            std::vector<HHeavyHiggsEvents> NewHeavyHiggsEvents = GetHHeavyHiggsEvents(EventJets, EventLeptons);
+                            std::vector<HHeavyHiggsEvent> NewHeavyHiggsEvents = GetHeavyHiggsEvents(EventJets, EventLeptons);
                             HeavyHiggsEvents.insert(HeavyHiggsEvents.end(), NewHeavyHiggsEvents.begin(), NewHeavyHiggsEvents.end());
                         }
                     }
@@ -259,6 +236,10 @@ bool hheavyhiggs::HAnalysisMva::GetSignalTag(hanalysis::HEvent *const Event, con
     EventTagger->BottomNumber = Event->GetJets()->GetBottomJets().size();
     EventTagger->LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
     EventTagger->HeavyParticleTag = HeavyHiggsEvents.front().GetBdt();
+    EventTagger->HeavyParticleTag = HeavyHiggsEvents.front().GetBdt();
+    EventTagger->DeltaEta = HeavyHiggsEvents.front().GetDeltaEta();
+    EventTagger->DeltaPhi = HeavyHiggsEvents.front().GetDeltaPhi();
+    EventTagger->DeltaR = HeavyHiggsEvents.front().GetDeltaR();
     if (StudyName == "Signal") {
         EventTagger->Signal = 1;
     } else {
@@ -269,169 +250,105 @@ bool hheavyhiggs::HAnalysisMva::GetSignalTag(hanalysis::HEvent *const Event, con
 
 }
 
-std::vector<HHeavyHiggsEvent > hheavyhiggs::HAnalysisMva::GetHHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons)
+std::vector<HHeavyHiggsEvent > hheavyhiggs::HAnalysisMva::GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons)
 {
 
     std::vector<HHeavyHiggsEvent> HeavyHiggsEvents;
 
-    hdelphes::HSuperStructure HiggsPair01 = hdelphes::HSuperStructure(Jets[0], Jets[1]);
-    HiggsPair01.Tag = HeavyHiggsTagger->GetHeavyHiggsBdt(HiggsPair01);
-    hdelphes::HSuperStructure HiggsPair02 = hdelphes::HSuperStructure(Jets[0], Jets[2]);
-    HiggsPair02.Tag = HeavyHiggsTagger->GetHeavyHiggsBdt(HiggsPair02);
-    hdelphes::HSuperStructure HiggsPair03 = hdelphes::HSuperStructure(Jets[0], Jets[3]);
-    HiggsPair03.Tag = HeavyHiggsTagger->GetHeavyHiggsBdt(HiggsPair03);
-    hdelphes::HSuperStructure HiggsPair12 = hdelphes::HSuperStructure(Jets[1], Jets[2]);
-    HiggsPair12.Tag = HeavyHiggsTagger->GetHeavyHiggsBdt(HiggsPair12);
-    hdelphes::HSuperStructure HiggsPair13 = hdelphes::HSuperStructure(Jets[1], Jets[3]);
-    HiggsPair13.Tag = HeavyHiggsTagger->GetHeavyHiggsBdt(HiggsPair13);
-    hdelphes::HSuperStructure HiggsPair23 = hdelphes::HSuperStructure(Jets[2], Jets[3]);
-    HiggsPair23.Tag = HeavyHiggsTagger->GetHeavyHiggsBdt(HiggsPair23);
+//     std::vector<hanalysis::HJetLeptonPair> Tops;
+//     for (const auto & Jet : Jets) {
+//         hanalysis::HJetLeptonPair Top = hanalysis::HJetLeptonPair(Jet, Leptons[0]);
+//         Top.SetBdt(LeptonicTopTagger->GetTopBdt(Top));
+//         Tops.push_back(Top);
+//     }
+//     
+//     std::vector<hanalysis::HJetLeptonPair> AntiTops;
+//     for (const auto & Jet : Jets) {
+//         hanalysis::HJetLeptonPair AntiTop = hanalysis::HJetLeptonPair(Jet, Leptons[1]);
+//         AntiTop.SetBdt(LeptonicTopTagger->GetTopBdt(AntiTop));
+//         AntiTops.push_back(AntiTop);
+//     }
 
-    hdelphes::HSuperStructure Top0 = hdelphes::HSuperStructure(Jets[0], Leptons[0]);
-    Top0.Tag = LeptonicTopTagger->GetTopBdt(Top0);
-    hdelphes::HSuperStructure Top1 = hdelphes::HSuperStructure(Jets[1], Leptons[0]);
-    Top1.Tag = LeptonicTopTagger->GetTopBdt(Top1);
-    hdelphes::HSuperStructure Top2 = hdelphes::HSuperStructure(Jets[2], Leptons[0]);
-    Top2.Tag = LeptonicTopTagger->GetTopBdt(Top2);
-    hdelphes::HSuperStructure Top3 = hdelphes::HSuperStructure(Jets[3], Leptons[0]);
-    Top3.Tag = LeptonicTopTagger->GetTopBdt(Top3);
+    
+    hanalysis::HJetLeptonPair Top0 = hanalysis::HJetLeptonPair(Jets[0], Leptons[0]);
+    LeptonicTopTagger->FillBranch(Top0);
+    Top0.SetBdt(TopReader->GetBdt());
+    hanalysis::HJetLeptonPair Top1 = hanalysis::HJetLeptonPair(Jets[1], Leptons[0]);
+    LeptonicTopTagger->FillBranch(Top1);
+    Top1.SetBdt(TopReader->GetBdt());
+    hanalysis::HJetLeptonPair Top2 = hanalysis::HJetLeptonPair(Jets[2], Leptons[0]);
+    LeptonicTopTagger->FillBranch(Top2);
+    Top2.SetBdt(TopReader->GetBdt());
+    hanalysis::HJetLeptonPair Top3 = hanalysis::HJetLeptonPair(Jets[3], Leptons[0]);
+    LeptonicTopTagger->FillBranch(Top3);
+    Top3.SetBdt(TopReader->GetBdt());
 
-    hdelphes::HSuperStructure AntiTop0 = hdelphes::HSuperStructure(Jets[0], Leptons[1]);
-    AntiTop0.Tag = LeptonicTopTagger->GetTopBdt(AntiTop0);
-    hdelphes::HSuperStructure AntiTop1 = hdelphes::HSuperStructure(Jets[1], Leptons[1]);
-    AntiTop1.Tag = LeptonicTopTagger->GetTopBdt(AntiTop1);
-    hdelphes::HSuperStructure AntiTop2 = hdelphes::HSuperStructure(Jets[2], Leptons[1]);
-    AntiTop2.Tag = LeptonicTopTagger->GetTopBdt(AntiTop2);
-    hdelphes::HSuperStructure AntiTop3 = hdelphes::HSuperStructure(Jets[3], Leptons[1]);
-    AntiTop3.Tag = LeptonicTopTagger->GetTopBdt(AntiTop3);
+    hanalysis::HJetLeptonPair AntiTop0 = hanalysis::HJetLeptonPair(Jets[0], Leptons[1]);
+    LeptonicTopTagger->FillBranch(AntiTop0);
+    AntiTop0.SetBdt(TopReader->GetBdt());
+    hanalysis::HJetLeptonPair AntiTop1 = hanalysis::HJetLeptonPair(Jets[1], Leptons[1]);
+    LeptonicTopTagger->FillBranch(AntiTop1);
+    AntiTop1.SetBdt(TopReader->GetBdt());
+    hanalysis::HJetLeptonPair AntiTop2 = hanalysis::HJetLeptonPair(Jets[2], Leptons[1]);
+    LeptonicTopTagger->FillBranch(AntiTop2);
+    AntiTop2.SetBdt(TopReader->GetBdt());
+    hanalysis::HJetLeptonPair AntiTop3 = hanalysis::HJetLeptonPair(Jets[3], Leptons[1]);
+    LeptonicTopTagger->FillBranch(AntiTop3);
+    AntiTop3.SetBdt(TopReader->GetBdt());
 
-
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair01, Top2, AntiTop3));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair01, Top3, AntiTop2));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair02, Top1, AntiTop3));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair02, Top3, AntiTop1));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair03, Top1, AntiTop2));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair03, Top2, AntiTop1));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair12, Top0, AntiTop3));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair12, Top3, AntiTop0));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair13, Top0, AntiTop2));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair13, Top2, AntiTop0));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair23, Top0, AntiTop1));
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HiggsPair23, Top1, AntiTop0));
+    hanalysis::HPairPair HeavyHiggs01 = hanalysis::HPairPair(Top0, AntiTop1);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs01);
+    HeavyHiggs01.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs02 = hanalysis::HPairPair(Top0, AntiTop2);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs02);
+    HeavyHiggs02.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs03 = hanalysis::HPairPair(Top0, AntiTop3);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs03);
+    HeavyHiggs03.SetBdt(HeavyHiggsReader->GetBdt());
+    
+    hanalysis::HPairPair HeavyHiggs10 = hanalysis::HPairPair(Top1, AntiTop0);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs10);
+    HeavyHiggs10.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs12 = hanalysis::HPairPair(Top1, AntiTop2);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs12);
+    HeavyHiggs12.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs13 = hanalysis::HPairPair(Top1, AntiTop3);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs13);
+    HeavyHiggs13.SetBdt(HeavyHiggsReader->GetBdt());
+    
+    hanalysis::HPairPair HeavyHiggs20 = hanalysis::HPairPair(Top2, AntiTop0);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs20);
+    HeavyHiggs20.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs21 = hanalysis::HPairPair(Top2, AntiTop1);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs21);
+    HeavyHiggs21.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs23 = hanalysis::HPairPair(Top2, AntiTop3);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs23);
+    HeavyHiggs23.SetBdt(HeavyHiggsReader->GetBdt());
+    
+    hanalysis::HPairPair HeavyHiggs30 = hanalysis::HPairPair(Top3, AntiTop0);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs30);
+    HeavyHiggs30.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs31 = hanalysis::HPairPair(Top3, AntiTop1);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs31);
+    HeavyHiggs31.SetBdt(HeavyHiggsReader->GetBdt());
+    hanalysis::HPairPair HeavyHiggs32 = hanalysis::HPairPair(Top3, AntiTop2);
+    HeavyHiggsTagger->FillBranch(HeavyHiggs32);
+    HeavyHiggs32.SetBdt(HeavyHiggsReader->GetBdt());
+    
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs01,Jets[2],Jets[3]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs02,Jets[1],Jets[3]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs03,Jets[1],Jets[2]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs10,Jets[2],Jets[3]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs12,Jets[0],Jets[3]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs13,Jets[0],Jets[2]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs20,Jets[1],Jets[3]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs21,Jets[0],Jets[3]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs23,Jets[0],Jets[1]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs30,Jets[1],Jets[2]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs31,Jets[0],Jets[2]));
+    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs32,Jets[0],Jets[1]));
 
     return HeavyHiggsEvents;
 
 }
-
-
-
-
-
-//     if (JetPairs.size() > 0) {
-//         Print(HInformation, "Pair1", JetPairs.at(0).GetPosition1(), JetPairs.at(0).GetPosition2(), JetPairs.at(0).GetInvariantMass());
-//         FillCandidate(JetPairs.at(0), &Candidate->InvMass1, &Candidate->DeltaR1, &Candidate->Pull1, &Candidate->BTag1);
-//         if (JetPairs.size() > 1) {
-//             FillCandidate(JetPairs.at(1), &Candidate->InvMass2, &Candidate->DeltaR2, &Candidate->Pull2, &Candidate->BTag2);
-//             if (JetPairs.size() > 2) {
-//                 FillCandidate(JetPairs.at(2), &Candidate->InvMass3, &Candidate->DeltaR3, &Candidate->Pull3, &Candidate->BTag3);
-//             }
-//
-//         }
-//
-//         if (Candidate->Pull3 != -10)return 1;
-//
-//     }
-
-
-
-// void hheavyhiggs::HAnalysisMva::FillCandidate(
-//     const hdelphes::HSuperStructure &JetPair,
-//     float *const InvMass,
-//     float *const DeltaR,
-//     float *const Pull,
-//     float *const BTag
-// ) const
-// {
-//
-//     Print(HInformation, "FillCandidate", JetPair.GetPosition1(), JetPair.GetPosition2());
-//
-//     *InvMass = JetPair.GetInvariantMass();
-//     *DeltaR = JetPair.GetDeltaR();
-//     if (JetPair.GetJet1().has_constituents()) *Pull = JetPair.GetPullAngle();
-//
-//     *BTag = JetPair.GetBTag();
-//
-//
-//
-// }
-
-
-
-
-
-
-//         HVectors ConstituentVectors = FirstPair.GetConstituents();
-//         for (const auto & ConstituentVector : ConstituentVectors) {
-//
-//
-//           if (std::abs(ConstituentVector.Eta()) > LargeNumber) {
-//             Print(HError, "ERROR");
-//             continue;
-//           }
-//
-//             HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-//             Constituent->Eta = ConstituentVector.Eta();
-//             Constituent->Phi = ConstituentVector.Phi();
-//             Constituent->Pt = ConstituentVector.Pt();
-//
-//         }
-
-
-//     std::sort(Jets.begin(), Jets.end(), SortJetByPt());
-
-// std::vector<hdelphes::HSuperStructure> JetPairs;
-// for (unsigned JetPosition1 = 0; JetPosition1 < Jets.size(); ++JetPosition1)
-// {
-//
-//     //         if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
-//     //         hanalysis::HJetInfo = Jets[JetPosition1].user_info<hanalysis::HJetInfo>();
-//     //         if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
-//
-//     //         Print(HDebug, "Distance", Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement());
-//     for (unsigned JetPosition2 = JetPosition1 + 1; JetPosition2 < Jets.size() ; ++JetPosition2) {
-//
-//         //             if (!(Jets[JetPosition1].has_user_info<hanalysis::HJetInfo>())) continue;
-//         //             if (Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetJetDisplacement() <= 0) continue;
-//
-//         hdelphes::HSuperStructure JetPair(Jets[JetPosition1], Jets[JetPosition2]);
-//         JetPair.SetPosition1(JetPosition1);
-//         JetPair.SetPosition2(JetPosition2);
-//         JetPair.SetBTag(Jets[JetPosition1].user_info<hanalysis::HJetInfo>().GetBTag(), Jets[JetPosition2].user_info<hanalysis::HJetInfo>().GetBTag());
-//         JetPairs.push_back(JetPair);
-//     }
-// }
-//
-//
-// std::sort(JetPairs.begin(), JetPairs.end(), SortByInvMass());
-//
-// Print(HInformation, "Got pairs", JetPairs.size());
-//
-// for (std::vector<hdelphes::HSuperStructure>::iterator it = JetPairs.begin(); it != JetPairs.end(); ++it)
-// {
-//     for (std::vector<hdelphes::HSuperStructure>::iterator it2 = JetPairs.begin(); it2 != JetPairs.end();) {
-//         if ((*it).IsSamePair(*it2) && it2 > it) {
-//             it2 = JetPairs.erase(it2);
-//         } else {
-//             ++it2;
-//         }
-//     }
-//     if (it == JetPairs.end()) break;
-// }
-//
-//
-// if (JetPairs.size() <= 1)
-// {
-//     Print(HInformation, "Number of Jet Pairs", JetPairs.size());
-//     return 0;
-// }
-

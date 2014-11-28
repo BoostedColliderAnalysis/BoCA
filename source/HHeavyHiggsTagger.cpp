@@ -1,20 +1,20 @@
 # include "HHeavyHiggsTagger.hh"
 
-hdelphes::HHeavyHiggsTagger::HHeavyHiggsTagger()
+hdelphes::HHeavyHiggsTagger::HHeavyHiggsTagger(hdelphes::HBottomTagger *NewBottomTagger, hdelphes::HLeptonicTopTagger *NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
-    AnalysisName = "HiggsCpv";
+
+    BottomTagger = NewBottomTagger;
+    TopTagger = NewTopTagger;
+
     TaggerName = "HeavyHiggs";
     SignalNames = {"HeavyHiggs"};
     BackgroundNames = {"NotHeavyHiggs"};
-    TestName = "Test";
-    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
-    SignalTreeNames = TestTreeNames;
-    BackgroundTreeNames = TestTreeNames;
     CandidateBranchName = "HeavyHiggs";
-    HeavyHiggs = new HMvaHeavyHiggsBranch();
+
+    Branch = new HMvaHeavyHiggsBranch();
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
@@ -23,11 +23,15 @@ hdelphes::HHeavyHiggsTagger::HHeavyHiggsTagger()
 hdelphes::HHeavyHiggsTagger::~HHeavyHiggsTagger()
 {
     Print(HNotification, "Destructor");
-    delete HeavyHiggs;
+    delete Branch;
+    delete JetTag;
+    delete BottomTagger;
+    delete TopTagger;
+
 }
 
 
-std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetHeavyHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State, hdelphes::HBottomTagger *BottomTagger, hdelphes::HLeptonicTopTagger *TopTagger)
+std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get Higgs Tags");
@@ -43,17 +47,19 @@ std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetHeavyHiggs
 
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
         if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == HeavyHiggsId) {
-            JetInfo->SetHiggsTag(1);
+            JetInfo->SetTag(1);
         } else {
-            JetInfo->SetHiggsTag(0);
+            JetInfo->SetTag(0);
         }
 
-        const float Bdt = BottomTagger->GetBottomBdt(Jet);
-        JetInfo->SetBTag(Bdt);
+//         const float Bdt = BottomTagger->GetBdt(Jet,Reader->Reader);
+        BottomTagger->FillBranch(Jet);
+        const float Bdt = BottomReader->GetBdt();
+        JetInfo->SetBdt(Bdt);
         Jet.set_user_info(JetInfo);
         Print(HInformation, "Top Bdt", Bdt);
 
-        if (JetInfo->GetHiggsTag()) {
+        if (JetInfo->GetTag()) {
             HeavyHiggsJets.push_back(Jet);
         } else {
             OtherJets.push_back(Jet);
@@ -80,54 +86,53 @@ std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetHeavyHiggs
 
 
 
-    std::vector<hdelphes::HSuperStructure> JetPairs;
+    std::vector<hanalysis::HJetLeptonPair> JetPairs;
     if (State == hanalysis::HObject::HSignal) {
         Print(HInformation, "Higgs Jets", HeavyHiggsJets.size());
-        for ( auto & Jet : HeavyHiggsJets) {
+        for (auto & Jet : HeavyHiggsJets) {
             for (const auto & Lepton : HeavyHiggsLeptons) {
-                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
-                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
-                JetPair.Tag = 1;
+                hanalysis::HJetLeptonPair JetPair(Jet, Lepton);
+                JetPair.SetBdt(Jet.user_info<hanalysis::HJetInfo>().GetBdt());
+                JetPair.SetTag(1);
                 JetPairs.push_back(JetPair);
             }
         }
     } else if (State == hanalysis::HObject::HBackground) {
         for (const auto & Jet : OtherJets) {
             for (const auto & Lepton : HeavyHiggsLeptons) {
-                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
-                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
-                JetPair.Tag = 0;
+                hanalysis::HJetLeptonPair JetPair(Jet, Lepton);
+                JetPair.SetBdt(Jet.user_info<hanalysis::HJetInfo>().GetBdt());
+                JetPair.SetTag(0);
                 JetPairs.push_back(JetPair);
             }
         }
         for (const auto & Jet : HeavyHiggsJets) {
             for (const auto & Lepton : OtherLeptons) {
-                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
-                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
-                JetPair.Tag = 0;
+                hanalysis::HJetLeptonPair JetPair(Jet, Lepton);
+                JetPair.SetBdt(Jet.user_info<hanalysis::HJetInfo>().GetBdt());
+                JetPair.SetTag(0);
                 JetPairs.push_back(JetPair);
             }
         }
         for (const auto & Jet : OtherJets) {
             for (const auto & Lepton : OtherLeptons) {
-                hdelphes::HSuperStructure JetPair((Jet), (Lepton));
-                JetPair.SetBTag((Jet).user_info<hanalysis::HJetInfo>().GetBTag());
-                JetPair.Tag = 0;
+                hanalysis::HJetLeptonPair JetPair(Jet, Lepton);
+                JetPair.SetBdt(Jet.user_info<hanalysis::HJetInfo>().GetBdt());
+                JetPair.SetTag(0);
                 JetPairs.push_back(JetPair);
             }
         }
     }
 
-
     for (auto & JetPair : JetPairs) {
-        const float Bdt = TopTagger->GetTopBdt(JetPair);
-        JetPair.SetHeavyParticleTag(Bdt);
+        TopTagger->FillBranch(JetPair);
+        JetPair.SetBdt(TopReader->GetBdt());
     }
 
-    std::vector<HHeavyHiggs> HeavyHiggses;
+    std::vector<hanalysis::HPairPair> HeavyHiggses;
     for (const auto & Pair1 : JetPairs) {
         for (const auto & Pair2 : JetPairs) {
-            HHeavyHiggs HeavyHiggsTagger((Pair1), (Pair2));
+            hanalysis::HPairPair HeavyHiggsTagger(Pair1, Pair2);
             HeavyHiggses.push_back(HeavyHiggsTagger);
         }
     }
@@ -138,7 +143,7 @@ std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetHeavyHiggs
     std::vector<HMvaHeavyHiggsBranch *> HeavyHiggsBranches;
     for (const auto & HeavyHiggsTagger : HeavyHiggses) {
         HMvaHeavyHiggsBranch *HeavyHiggsBranch = new HMvaHeavyHiggsBranch();
-        FillHeavyHiggsBranch(HeavyHiggsTagger, HeavyHiggsBranch);
+        FillBranch(HeavyHiggsBranch,HeavyHiggsTagger);
         HeavyHiggsBranches.push_back(HeavyHiggsBranch);
     }
 
@@ -147,33 +152,31 @@ std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetHeavyHiggs
 
 }
 
-void hdelphes::HHeavyHiggsTagger::FillHeavyHiggsBranch(const HHeavyHiggs &HeavyHiggsTagger, HMvaHeavyHiggsBranch *HeavyHiggsRoot)
+void hdelphes::HHeavyHiggsTagger::FillBranch(const hanalysis::HPairPair &PairPair)
 {
-    Print(HInformation, "FillPairTagger", HeavyHiggsTagger.GetTopTag());
+    Print(HInformation, "FillPairTagger", PairPair.GetBdt());
 
-    HeavyHiggsRoot->Mass = HeavyHiggsTagger.GetInvariantMass();
-    HeavyHiggsRoot->Pt = HeavyHiggsTagger.GetPtSum();
-    HeavyHiggsRoot->DeltaR = HeavyHiggsTagger.GetDeltaR();
-    HeavyHiggsRoot->DeltaEta = HeavyHiggsTagger.GetDeltaEta();
-    HeavyHiggsRoot->DeltaPhi = HeavyHiggsTagger.GetDeltaPhi();
-    HeavyHiggsRoot->TopTag = HeavyHiggsTagger.GetTopTag();
-    if (HeavyHiggsTagger.Tag == 1) {
-        HeavyHiggsRoot->HeavyHiggsTag = 1;
-    } else {
-        HeavyHiggsRoot->HeavyHiggsTag = 0;
-    }
-
+    FillBranch(Branch, PairPair);
 
 }
 
-float hdelphes::HHeavyHiggsTagger::GetHeavyHiggsBdt(const HHeavyHiggs &HeavyHiggsTagger)
+void hdelphes::HHeavyHiggsTagger::FillBranch(HMvaHeavyHiggsBranch *HeavyHiggsBranch, const hanalysis::HPairPair &PairPair)
 {
+    Print(HInformation, "FillPairTagger", PairPair.GetBdt());
 
-    HMvaHeavyHiggsBranch *HeavyHiggsBranch = new HMvaHeavyHiggsBranch();
-    FillHeavyHiggsBranch(HeavyHiggsTagger,HeavyHiggsBranch);
-    const float Bdt = GetBdt(HeavyHiggsBranch, Reader->Reader);
-    delete HeavyHiggsBranch;
-    return Bdt;
+    HeavyHiggsBranch->Mass = PairPair.GetInvariantMass();
+    HeavyHiggsBranch->Pt = PairPair.GetPtSum();
+    HeavyHiggsBranch->DeltaR = PairPair.GetDeltaR();
+    HeavyHiggsBranch->DeltaEta = PairPair.GetDeltaEta();
+    HeavyHiggsBranch->DeltaPhi = PairPair.GetDeltaPhi();
+    HeavyHiggsBranch->TopTag = PairPair.GetBdt();
+    if (PairPair.GetTag() == 1) {
+        HeavyHiggsBranch->HeavyHiggsTag = 1;
+    } else {
+        HeavyHiggsBranch->HeavyHiggsTag = 0;
+    }
+
+
 }
 
 void hdelphes::HHeavyHiggsTagger::DefineVariables()
@@ -181,31 +184,19 @@ void hdelphes::HHeavyHiggsTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&HeavyHiggs->Mass, "Mass"));
-    Observables.push_back(NewObservable(&HeavyHiggs->Pt, "Pt"));
-    Observables.push_back(NewObservable(&HeavyHiggs->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&HeavyHiggs->DeltaEta, "DeltaEta"));
-    Observables.push_back(NewObservable(&HeavyHiggs->DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
 //     Observables.push_back(NewObservable(&HeavyHiggs->Pull1, "Pull1"));
 //     Observables.push_back(NewObservable(&HeavyHiggs->Pull2, "Pull2"));
 //     Observables.push_back(NewObservable(&HeavyHiggs->Pull, "Pull"));
-    Observables.push_back(NewObservable(&HeavyHiggs->TopTag, "TopTag"));
+    Observables.push_back(NewObservable(&Branch->TopTag, "TopTag"));
 
-    Spectators.push_back(NewObservable(&HeavyHiggs->HeavyHiggsTag, "HeavyHiggsTag"));
+    Spectators.push_back(NewObservable(&Branch->HeavyHiggsTag, "HeavyHiggsTag"));
 
     Print(HNotification, "Variables defined");
 
 }
 
-float hdelphes::HHeavyHiggsTagger::GetBdt(TObject *Branch, TMVA::Reader *Reader2)
-{
-
-    Print(HInformation, "Get Bdt", BdtMethodName);
-
-    *HeavyHiggs = *static_cast<HMvaHeavyHiggsBranch *>(Branch);
-    const float BdtEvaluation = Reader2->EvaluateMVA(BdtMethodName);
-    Print(HInformation, "BTagger Bdt", BdtEvaluation);
-
-    return ((BdtEvaluation + 1) / 2);
-
-}

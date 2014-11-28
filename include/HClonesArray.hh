@@ -2,6 +2,7 @@
 # define HClonesArray_hh
 
 # include "TObjArray.h"
+# include "TObject.h"
 # include "TClonesArray.h"
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
@@ -32,329 +33,329 @@ public:
 
     virtual void GetBranches(const ExRootTreeReader *const) = 0;
 
-    int GetParticleSum() const {
+    inline int GetParticleSum() const {
         return ParticleClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetTrackSum() const {
+    inline int GetTrackSum() const {
         return TrackClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetTowerSum() const {
+    inline int GetTowerSum() const {
         return TowerClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetEFlowTrackSum() const {
+    inline int GetEFlowTrackSum() const {
         return EFlowTrackClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetEFlowTowerSum() const {
+    inline int GetEFlowTowerSum() const {
         return EFlowTowerClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetGenJetSum() const {
+    inline int GetGenJetSum() const {
         return GenJetClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetJetSum() const {
+    inline int GetJetSum() const {
         return JetClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetElectronSum() const {
+    inline int GetElectronSum() const {
         return ElectronClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetMuonSum() const {
+    inline int GetMuonSum() const {
         return MuonClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetMissingEtSum() const {
+    inline int GetMissingEtSum() const {
         return MissingEtClonesArray->GetEntriesFast();
-    };
+    }
 
-    int ScalarHtSum() const {
+    inline int GetScalarHtSum() const {
         return ScalarHtClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetPhotonSum() const {
+    inline int GetPhotonSum() const {
         return PhotonClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetEFlowPhotonSum() const {
+    inline int GetEFlowPhotonSum() const {
         return EFlowPhotonClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetEFlowNeutralHadronSum() const {
+    inline int GetEFlowNeutralHadronSum() const {
         return EFlowNeutralHadronClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetEFlowMuonSum() const {
+    inline int GetEFlowMuonSum() const {
         return EFlowMuonClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetTauSum() const {
+    inline int GetTauSum() const {
         return TauClonesArray->GetEntriesFast();
-    };
+    }
 
-    int GetScalerHtSum() const {
+    inline int GetScalerHtSum() const {
         return ScalarHtClonesArray->GetEntriesFast();
-    };
+    }
 
     /**
      * @brief Particle Clones Array
      *
      */
-    TClonesArray *GetParticleClonesArray() const {
+    inline TClonesArray *GetParticleClonesArray() const {
         return ParticleClonesArray;
-    };
+    }
 
     /**
      * @brief Track Clones Array
      *
      */
-    TClonesArray *GetTrackClonesArray() const {
+    inline TClonesArray *GetTrackClonesArray() const {
         return TrackClonesArray;
-    };
+    }
 
     /**
      * @brief Tower Clones Array
      *
      */
-    TClonesArray *GetTowerClonesArray() const {
+    inline TClonesArray *GetTowerClonesArray() const {
         return TowerClonesArray;
-    };
+    }
 
     /**
      * @brief EFlow Track Clones Array
      *
      */
-    TClonesArray *GetEFlowTrackClonesArray() const {
+    inline TClonesArray *GetEFlowTrackClonesArray() const {
         return EFlowTowerClonesArray;
-    };
+    }
 
     /**
      * @brief EFlow Tower Clones Array
      *
      */
-    TClonesArray *GetEFlowTowerClonesArray() const {
+    inline TClonesArray *GetEFlowTowerClonesArray() const {
         return EFlowTowerClonesArray;
-    };
+    }
 
     /**
      * @brief GenJet Clones Array
      *
      */
-    TClonesArray *GetGenJetClonesArray() const {
+    inline TClonesArray *GetGenJetClonesArray() const {
         return GenJetClonesArray;
-    };
+    }
 
     /**
      * @brief Jet Clones Array
      *
      */
-    TClonesArray *GetJetClonesArray() const {
+    inline TClonesArray *GetJetClonesArray() const {
         return JetClonesArray;
-    };
+    }
 
     /**
      * @brief Electron Clones Array
      *
      */
-    TClonesArray *GetElectronClonesArray() const {
+    inline TClonesArray *GetElectronClonesArray() const {
         return ElectronClonesArray;
-    };
+    }
 
     /**
      * @brief Muon Clones Array
      *
      */
-    TClonesArray *GetMuonClonesArray() const {
+    inline TClonesArray *GetMuonClonesArray() const {
         return MuonClonesArray;
-    };
+    }
 
     /**
      * @brief Missing ET Clones Array
      *
      */
-    TClonesArray *GetMissingEtClonesArray() const {
+    inline TClonesArray *GetMissingEtClonesArray() const {
         return MissingEtClonesArray;
-    };
+    }
 
     /**
      * @brief Scalar HT Clones Array
      *
      */
-    TClonesArray *GetScalarHtClonesArray() const {
+    inline TClonesArray *GetScalarHtClonesArray() const {
         return ScalarHtClonesArray;
-    };
+    }
 
     /**
      * @brief Photon Clones Array
      *
      */
-    TClonesArray *GetPhotonClonesArray() const {
+    inline TClonesArray *GetPhotonClonesArray() const {
         return PhotonClonesArray;
-    };
+    }
 
     /**
      * @brief EFlow Photon Clones Array
      *
      */
-    TClonesArray *GetEFlowPhotonClonesArray() const {
+    inline TClonesArray *GetEFlowPhotonClonesArray() const {
         return EFlowPhotonClonesArray;
-    };
+    }
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TClonesArray *GetEFlowNeutralHadronClonesArray() const {
+    inline TClonesArray *GetEFlowNeutralHadronClonesArray() const {
         return EFlowNeutralHadronClonesArray;
-    };
+    }
 
     /**
      * @brief EFlow Muon Clones Array
      *
      */
-    TClonesArray *GetEFlowMuonClonesArray() const {
+    inline TClonesArray *GetEFlowMuonClonesArray() const {
         return EFlowMuonClonesArray;
-    };
+    }
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TClonesArray *GetTauClonesArray() const {
+    inline TClonesArray *GetTauClonesArray() const {
         return TauClonesArray;
-    };
+    }
 
     /**
      * @brief Particle Clones Array
      *
      */
-    TObject *GetParticle(const int ParticleNumber) const {
+    inline TObject *GetParticle(const int ParticleNumber) const {
         return ParticleClonesArray->At(ParticleNumber);
-    };
+    }
 
     /**
      * @brief Track Clones Array
      *
      */
-    TObject *GetTrack(const int TrackNumber) const {
+    inline TObject *GetTrack(const int TrackNumber) const {
         return TrackClonesArray->At(TrackNumber);
-    };
+    }
 
     /**
      * @brief Tower Clones Array
      *
      */
-    TObject *GetTower(const int TowerNumber) const {
+    inline TObject *GetTower(const int TowerNumber) const {
         return TowerClonesArray->At(TowerNumber);
-    };
+    }
 
     /**
      * @brief EFlow Track Clones Array
      *
      */
-    TObject *GetEFlowTrack(const int EFlowTrackNumber) const {
+    inline TObject *GetEFlowTrack(const int EFlowTrackNumber) const {
         return EFlowTowerClonesArray->At(EFlowTrackNumber);
-    };
+    }
 
     /**
      * @brief EFlow Tower Clones Array
      *
      */
-    TObject *GetEFlowTower(const int EFlowTowerNumber) const {
+    inline TObject *GetEFlowTower(const int EFlowTowerNumber) const {
         return EFlowTowerClonesArray->At(EFlowTowerNumber);
-    };
+    }
 
     /**
      * @brief GenJet Clones Array
      *
      */
-    TObject *GetGenJet(const int GenJetNumber) const {
+    inline TObject *GetGenJet(const int GenJetNumber) const {
         return GenJetClonesArray->At(GenJetNumber);
-    };
+    }
 
     /**
      * @brief Jet Clones Array
      *
      */
-    TObject *GetJet(const int JetNumber) const {
+    inline TObject *GetJet(const int JetNumber) const {
         return JetClonesArray->At(JetNumber);
-    };
+    }
 
     /**
      * @brief Electron Clones Array
      *
      */
-    TObject *GetElectron(const int ElectronNumber) const {
+    inline TObject *GetElectron(const int ElectronNumber) const {
         return ElectronClonesArray->At(ElectronNumber);
-    };
+    }
 
     /**
      * @brief Muon Clones Array
      *
      */
-    TObject *GetMuon(const int MuonNumber) const {
+    inline TObject *GetMuon(const int MuonNumber) const {
         return MuonClonesArray->At(MuonNumber);
-    };
+    }
 
     /**
      * @brief Missing ET Clones Array
      *
      */
-    TObject *GetMissingEt() const {
+    inline TObject *GetMissingEt() const {
         return MissingEtClonesArray->At(0);
-    };
+    }
 
     /**
      * @brief Scalar HT Clones Array
      *
      */
-    TObject *GetScalarHt() const {
+    inline TObject *GetScalarHt() const {
         return ScalarHtClonesArray->At(0);
-    };
+    }
 
     /**
      * @brief Photon Clones Array
      *
      */
-    TObject *GetPhoton(const int PhotonNumber) const {
+    inline TObject *GetPhoton(const int PhotonNumber) const {
         return PhotonClonesArray->At(PhotonNumber);
-    };
+    }
 
     /**
      * @brief EFlow Photon Clones Array
      *
      */
-    TObject *GetEFlowPhoton(const int EFlowPhotonNumber) const {
+    inline TObject *GetEFlowPhoton(const int EFlowPhotonNumber) const {
         return EFlowPhotonClonesArray->At(EFlowPhotonNumber);
-    };
+    }
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TObject *GetEFlowNeutralHadron(const int EFlowNeutralHadronNumber) const {
+    inline TObject *GetEFlowNeutralHadron(const int EFlowNeutralHadronNumber) const {
         return EFlowNeutralHadronClonesArray->At(EFlowNeutralHadronNumber);
-    };
+    }
 
     /**
      * @brief EFlow Muon Clones Array
      *
      */
-    TObject *GetEFlowMuon(const int EFlowMuonNumber) const {
+    inline TObject *GetEFlowMuon(const int EFlowMuonNumber) const {
         return EFlowMuonClonesArray->At(EFlowMuonNumber);
-    };
+    }
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TObject *GetTau(const int TauNumber) const {
+    inline TObject *GetTau(const int TauNumber) const {
         return TauClonesArray->At(TauNumber);
-    };
+    }
 
 
 protected:
@@ -454,12 +455,14 @@ protected:
      *
      */
     TClonesArray *TauClonesArray;
+    
+    inline std::string NameSpaceName() const {
+        return "hanalysis";
+    }
 
     virtual inline std::string ClassName() const {
-
         return "HClonesArray";
-
-    };
+    }
 
 };
 
@@ -484,12 +487,12 @@ public:
 protected:
 
     inline std::string NameSpaceName() const {
-        return "HDelphes";
+        return "hdelphes";
     }
 
     inline std::string ClassName() const {
         return "HClonesArray";
-    };
+    }
 
 };
 
@@ -514,12 +517,12 @@ public:
 protected:
 
     inline std::string NameSpaceName() const {
-        return "HDelphes";
+        return "hdelphes";
     }
 
     inline std::string ClassName() const {
         return "HClonesArraySnowmass";
-    };
+    }
 
 };
 
@@ -543,14 +546,12 @@ public:
 protected:
 
     inline std::string NameSpaceName() const {
-        return "HPgs";
+        return "hpgs";
     }
 
     inline std::string ClassName() const {
-
         return "HClonesArray";
-
-    };
+    }
 
 };
 
@@ -574,14 +575,12 @@ public:
 protected:
 
     inline std::string NameSpaceName() const {
-        return "HParton";
+        return "hparton";
     }
 
     inline std::string ClassName() const {
-
         return "HClonesArray";
-
-    };
+    }
 
 };
 

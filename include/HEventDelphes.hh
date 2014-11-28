@@ -27,7 +27,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::HClonesArray * const ClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
 
     HJets GetTops(hanalysis::HJetTag *const JetTag);
 
@@ -37,10 +37,9 @@ public:
 
 protected:
 
-  inline std::string NameSpaceName() const
-  {
-    return "HDelphes";
-  }
+    inline std::string NameSpaceName() const {
+        return "hdelphes";
+    }
 
     inline std::string ClassName() const {
         return "HEvent";

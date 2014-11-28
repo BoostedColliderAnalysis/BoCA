@@ -4,7 +4,7 @@
 # include <map>
 # include <numeric>
 
-# include "HObject.hh"
+# include "HTag.hh"
 
 struct HConstituent {
 
@@ -39,7 +39,7 @@ struct SortByDistance {
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class hanalysis::HJetInfo: public HObject, public fastjet::PseudoJet::UserInfoBase
+class hanalysis::HJetInfo: public HTag, public fastjet::PseudoJet::UserInfoBase
 {
 
 public:
@@ -148,23 +148,6 @@ public:
         if (VertexMass < .1) return 0;
         return VertexMass;        
     }
-    
-    void SetBTag(const float NewBTag) {
-        BTag = NewBTag;
-    }
-
-    float GetBTag() const {
-        return BTag;
-    }
-    
-    void SetHiggsTag(const float NewHiggsTag) {
-        HiggsTag = NewHiggsTag;
-    }
-    
-    float GetHiggsTag() const {
-        return HiggsTag;
-    }
-
 
 protected:
 
@@ -173,10 +156,6 @@ protected:
     };
 
 private:
-
-    float BTag;
-    
-    float HiggsTag;
 
     float GetWeightSum() const;
 

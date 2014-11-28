@@ -36,6 +36,10 @@ HBottomTagger.cpp
 HLeptonicTopTagger.cpp
 HMvaHiggsTagger.cpp
 HHeavyHiggsTagger.cpp
+HPair.cpp
+HJetLeptonPair.cpp
+HPairPair.cpp
+HTag.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 

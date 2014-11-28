@@ -20,47 +20,27 @@ public:
     
     ~HBottomTagger();
     
-    std::vector< HBottomBranch * > GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
-    
-    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){ HReaderStruct ReaderStruct; return ReaderStruct;};
-    
-    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *){};
-    
-    float GetBdt(TObject *Branch, TMVA::Reader *Reader);
-    
-//     std::vector<HBottomBranch *> GetBottomTag(hanalysis::HEvent *const Event, const HState State);
-    
-   
-//     template<typename TMva>
-    void SetMva() {
+    std::vector< HBottomBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
         
-        Print(HNotification,"Set Mva");
-        
-        Reader = new hmva::HReader(this);
-        Reader->AddVariable();
-        Reader->BookMVA();
-        
-    }
+//     float GetBdt(const fastjet::PseudoJet &Bottom, TMVA::Reader *Reader);
     
-    float GetBottomBdt(const fastjet::PseudoJet &Bottom);
+    HBottomBranch *Branch;
+    void FillBranch(const fastjet::PseudoJet &Jet);    
     
 private:
-    
-    hmva::HReader *Reader;
-    
-    HBottomBranch *BTagger;
-    
+        
     hanalysis::HJetTag *JetTag;
     
     void DefineVariables();
     
-    void FillBottomBranch(const fastjet::PseudoJet &Jet, HBottomBranch *BTagger);
+    void FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet);
+
     
-    float GetDeltaR(const fastjet::PseudoJet &Jet);
+    float GetDeltaR(const fastjet::PseudoJet &Jet) const;
     
 
     virtual inline std::string NameSpaceName() const {
-        return "HDelphes";
+        return "hdelphes";
     };
 
     virtual inline std::string ClassName() const {

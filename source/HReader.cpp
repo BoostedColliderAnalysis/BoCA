@@ -8,8 +8,7 @@ hmva::HReader::HReader(HMva *NewMva)
 //     DebugLevel = HDebug;
 
     Mva = NewMva;
-
-
+    SetMva();
 }
 
 hmva::HReader::~HReader()
@@ -18,6 +17,14 @@ hmva::HReader::~HReader()
 
     delete Reader;
 
+}
+
+void hmva::HReader::SetMva() {        
+
+    Print(HNotification,"Set Mva");    
+    
+    AddVariable();
+    BookMVA();        
 }
 
 
@@ -29,13 +36,13 @@ void hmva::HReader::AddVariable()
     const std::string DefaultOptions = "";
     Reader = new TMVA::Reader(DefaultOptions);
 
-    for (auto & Observable : Mva->Observables) {
+    for (auto & Observable : Mva->GetObservables()) {
         Print(HDebug, "Expression", Observable.Expression);
         Print(HDebug, "Value", *(Observable.GetValue()));
         Reader->AddVariable(Observable.Expression, Observable.GetValue());
     }
 
-    for (auto & Spectator : Mva->Spectators) {
+    for (auto & Spectator : Mva->GetSpectators()) {
         Reader->AddSpectator(Spectator.Expression, Spectator.GetValue());
     }
 
@@ -47,49 +54,51 @@ void hmva::HReader::BookMVA()
 
     const std::string XmlName = ".weights.xml";
 
-//     const std::string CutWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
-    const std::string CutWeightFile = Mva->AnalysisName + "/" + Mva->TaggerName + "_" + Mva->CutMethodName + "_" + Mva->BackgroundName + XmlName;
+//     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetAnalysisName() + "_" + Mva->GetCutMethodName() + "_" + Mva->BackgroundName + XmlName;
+//     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + "_" + Mva->BackgroundName + XmlName;
+    const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + XmlName;
     Print(HError, "Opening Weight File", CutWeightFile);
 
-//     Reader->BookMVA(Mva->CutMethodName, CutWeightFile);
+//     Reader->BookMVA(Mva->GetCutMethodName(), CutWeightFile);
 
-//     const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->AnalysisName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
-    const std::string BdtWeightFile = Mva->AnalysisName + "/" + Mva->TaggerName + "_" + Mva->BdtMethodName + "_" + Mva->BackgroundName + XmlName;
+//     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetAnalysisName() + "_" + Mva->GetBdtMethodName() + "_" + Mva->BackgroundName + XmlName;
+//     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + "_" + Mva->BackgroundName + XmlName;
+    const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + XmlName;
     Print(HError, "Opening Weight File", BdtWeightFile);
-    Reader->BookMVA(Mva->BdtMethodName, BdtWeightFile);
+    Reader->BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
 
 }
 
 void hmva::HReader::MVALoop()
 {
 
+    SetMva();
 
+//     AddVariable();
 
-    AddVariable();
-
-    BookMVA();
+//     BookMVA();
 
     Print(HNotification, "Mva Loop");
 
     // Export File
-    const std::string ExportFileName = Mva->AnalysisName + "/" + Mva->BdtMethodName + ".root";
+    const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetBdtMethodName() + ".root";
     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
 
     // Input File
-    const std::string InputFileName = Mva->AnalysisName + "/" + Mva->TestName + ".root";
+    const std::string InputFileName = Mva->GetAnalysisName() + "/" + Mva->GetTestName() + ".root";
     const TFile *InputFile = TFile::Open(InputFileName.c_str());
 
-    std::cout << "SignalEfficiency:\t" << Mva->SignalEfficiency << std::endl;
-    if (Mva->DoLatex) LatexHeader();
+    std::cout << "SignalEfficiency:\t" << Mva->GetSignalEfficiency() << std::endl;
+    if (Mva->LaTeX()) LatexHeader();
 
     GetCuts();
 
-    for (const auto & TestTreeName : Mva->TestTreeNames) {
+    for (const auto & TestTreeName : Mva->GetTestTreeNames()) {
 
         const TTree *const InputTree = (TTree *)const_cast<TFile *>(InputFile)->Get(TestTreeName.c_str());
         const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(InputTree));
 
-        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
+        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
         const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
         Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
@@ -110,7 +119,7 @@ void hmva::HReader::MVALoop()
 
     const_cast<TFile *>(ExportFile)->Close();
 
-    if (Mva->DoLatex) LatexFooter();
+    if (Mva->LaTeX()) LatexFooter();
 
 }
 
@@ -123,8 +132,8 @@ void hmva::HReader::GetCuts()
 
     ReaderStruct.CutsMin.clear();
     ReaderStruct.CutsMax.clear();
-    MethodCuts = Reader->FindCutsMVA(Mva->CutMethodName) ;
-    MethodCuts->GetCuts(Mva->SignalEfficiency, ReaderStruct.CutsMin, ReaderStruct.CutsMax);
+    MethodCuts = Reader->FindCutsMVA(Mva->GetCutMethodName()) ;
+    MethodCuts->GetCuts(Mva->GetSignalEfficiency(), ReaderStruct.CutsMin, ReaderStruct.CutsMax);
 
 }
 
@@ -133,7 +142,7 @@ void hmva::HReader::LatexHeader()
 
     Print(HNotification, "LaTeX Header");
 
-    const std::string TexFileName = Mva->AnalysisName + "/" + "Cutflow" + ".tex";
+    const std::string TexFileName = Mva->GetAnalysisName() + "/" + "Cutflow" + ".tex";
 
     LatexFile.open(TexFileName);
 
@@ -166,7 +175,7 @@ void hmva::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const st
     std::sort(Priority.begin(), Priority.end(), PairOrder());
 
     ReaderStruct.CutFlowVector = SortByPriority(ReaderStruct.CutFlowVector, Priority);
-    Mva->Observables = SortByPriority(Mva->Observables, Priority);
+    Mva->SetObservables(SortByPriority(Mva->GetObservables(), Priority));
 //     InputVarVector = SortByPriority(InputVarVector, OrderVector);
     ReaderStruct.CutsMin = SortByPriority(ReaderStruct.CutsMin, Priority);
     ReaderStruct.CutsMax = SortByPriority(ReaderStruct.CutsMax, Priority);
@@ -178,7 +187,7 @@ void hmva::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const st
 
     TabularOutput();
 
-    if (Mva->DoLatex) LatexContent(TreeName);
+    if (Mva->LaTeX()) LatexContent(TreeName);
 
 }
 
@@ -221,15 +230,15 @@ void hmva::HReader::TabularOutput() const
     PrintData(RoundToDigits(CandidatsPerEvent), DataWidth);
     std::cout << std::endl;
 
-    for (unsigned ObservableNumber = 0; ObservableNumber < Mva->Observables.size(); ++ObservableNumber) {
+    for (unsigned ObservableNumber = 0; ObservableNumber < Mva->GetObservables().size(); ++ObservableNumber) {
 
         CandidatsPerEvent = GetRatio(ReaderStruct.FatJetVector[ObservableNumber], ReaderStruct.EventVector[ObservableNumber]);
 
-        PrintText(Mva->Observables[ObservableNumber].Title, NameWidth);
+        PrintText(Mva->GetObservables()[ObservableNumber].Title, NameWidth);
         PrintData(RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]), DataWidth);
-        PrintUnit(Mva->Observables[ObservableNumber].Unit, UnitWidth);
+        PrintUnit(Mva->GetObservables()[ObservableNumber].Unit, UnitWidth);
         PrintData(RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]), DataWidth);
-        PrintUnit(Mva->Observables[ObservableNumber].Unit, UnitWidth);
+        PrintUnit(Mva->GetObservables()[ObservableNumber].Unit, UnitWidth);
         PrintData(ReaderStruct.FatJetVector[ObservableNumber], DataWidth);
         PrintData(ReaderStruct.TopVector[ObservableNumber], DataWidth);
         PrintData(ReaderStruct.HiggsVector[ObservableNumber], DataWidth);
@@ -279,7 +288,7 @@ void hmva::HReader::LatexContent(const std::string &TreeName)
 //     float EventRatioNormError = EvenRatioError / EventRatio;
 
 
-    const float Lumi = Mva->Luminosity / EventGenerated;
+    const float Lumi = Mva->GetLuminosity() / EventGenerated;
 
     float EventLuminosity = EventSum * Lumi;
 //               float EventLuminosityError = EventLuminosity * EventRatioNormError;
@@ -304,7 +313,7 @@ void hmva::HReader::LatexContent(const std::string &TreeName)
               << "  & " << RoundError(HiggsEventLuminosityError) << std::endl
               << " \\\\ ";
 
-    int ObservableSum = Mva->Observables.size();
+    int ObservableSum = Mva->GetObservables().size();
     for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 
         EventLuminosity = ReaderStruct.EventVector[ObservableNumber] * Lumi;
@@ -319,7 +328,7 @@ void hmva::HReader::LatexContent(const std::string &TreeName)
         TopEventLuminosityError = GetError(TopEventLuminosity);
 //         TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
 
-        LatexFile << " " /*<< "$"*/ << Mva->Observables[ObservableNumber].Title /*<< "$"*/ << std::endl
+        LatexFile << " " /*<< "$"*/ << Mva->GetObservables()[ObservableNumber].Title /*<< "$"*/ << std::endl
                   << "  & " << RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]) << std::endl
                   << "  & " << RoundToDigits(ReaderStruct.CutsMax[ObservableNumber]) << std::endl
                   << "  & " << RoundToError(EventLuminosity, EventLuminosityError) << std::endl
@@ -334,7 +343,7 @@ void hmva::HReader::LatexContent(const std::string &TreeName)
 
     LatexFile << "\\bottomrule" << std::endl
               << "\\end{tabular}" << std::endl
-              << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit[" << RoundToError(CrosssectionNorm, CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError, 2) << "]{fb}$, a signal efficiency of " << Mva->SignalEfficiency << " and a integrated Luminosity of $\\unit[" << Mva->Luminosity << "]{fb^{-1}}$.}" << std::endl
+              << "\\caption{Cutflow for data sample \"" << TreeName << "\" with a crosssection of $\\sigma= \\unit[" << RoundToError(CrosssectionNorm, CrosssectionNormError) << " \\pm " << RoundToDigits(CrosssectionNormError, 2) << "]{fb}$, a signal efficiency of " << Mva->GetSignalEfficiency() << " and a integrated Luminosity of $\\unit[" << Mva->GetLuminosity() << "]{fb^{-1}}$.}" << std::endl
               //         << "\\label{tab:}" << Mva->BackgroundVector[BackgroundNumber] << endl;
               << "\\end{table}" << std::endl;
 
@@ -492,12 +501,5 @@ float hmva::HReader::RoundToError(const float Value, const float Error) const
     }
 }
 
-float hmva::HReader::GetBdt() const
-{
 
-
-//     return Reader->EvaluateMVA(BdtMethodName);
-    return 1;
-
-}
 

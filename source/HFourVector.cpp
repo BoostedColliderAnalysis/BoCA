@@ -182,10 +182,32 @@ fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Pa
 
 }
 
-int hanalysis::HFourVector::GetMotherId(const TObject *const Object)
+int hanalysis::HFourVector::GetMotherId(TObject *Object)
 {
 
     Print(HDebug, "Get Mother Id", ClonesArrays->GetParticleSum());
+
+    if (Object == 0) {
+        Print(HError, "empty Object");
+        return EmptyId;
+    }
+
+    if (Object->IsA() == GenParticle::Class()) {
+    } else if (Object->IsA() == Track::Class()) {
+        Track *TrackClone = const_cast<Track *>((Track *) Object);
+        Print(HError, "Object is", Object->ClassName());
+        Object = TrackClone->Particle.GetObject();
+    } else if (Object->IsA() == Tower::Class()) {
+        Tower *TowerClone = const_cast<Tower *>((Tower *) Object);
+        Print(HError, "Object is", Object->ClassName());
+        Object = TowerClone->Particles.At(0); // FIXME do soemthing wiser
+    } else if (Object->IsA() == Muon::Class()) {
+        Muon *MuonClone = const_cast<Muon *>((Muon *) Object);
+        Print(HError, "Object is", Object->ClassName());
+        Object = MuonClone->Particle.GetObject();
+    } else {
+        Print(HError, "Unkonw Object", Object->ClassName());
+    }
 
     if (Object->IsA() != GenParticle::Class() || Object == 0) {
         Print(HError, "Object is", Object->ClassName());
