@@ -36,7 +36,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeW
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
 
     EventCounter = 0;
-    DeltaEtaCounter = 0;
+    DeltaRapCounter = 0;
     BMassCounter = 0;
     TMassCounter = 0;
     JetCounter = 0;
@@ -50,7 +50,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 
     Print(HNotification, "EventCounter", EventCounter);
     Print(HNotification, "JetCounter", JetCounter);
-    Print(HNotification, "DeltaEtaCounter", DeltaEtaCounter);
+    Print(HNotification, "DeltaRapCounter", DeltaRapCounter);
     Print(HNotification, "BMassCounter", BMassCounter);
     Print(HNotification, "Jet2Counter", Jet2Counter);
     Print(HNotification, "TMassCounter", TMassCounter);
@@ -89,26 +89,26 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     HeavyHiggs->JetNumber = BottomSum;
 
-    std::sort(BottomVector.begin(), BottomVector.end(), SortJetByEta());
+    std::sort(BottomVector.begin(), BottomVector.end(), SortJetByRap());
 
     fastjet::PseudoJet FrontJet = BottomVector.front();
 //     double FrontPt = FrontJet.pt();
-    double FrontEta = FrontJet.rap();
+    double FrontRap = FrontJet.rap();
 
     fastjet::PseudoJet BackJet = BottomVector.back();
-    double BackEta = BackJet.rap();
+    double BackRap = BackJet.rap();
 //     double BackPt = BackJet.pt();
 
     fastjet::PseudoJet CombinedJet = FrontJet + BackJet;
     double CombinedMass = CombinedJet.m();
-    double CombinedEta = FrontEta - BackEta;
+    double CombinedRap = FrontRap - BackRap;
 
 
-//     HeavyHiggs->MaxPt = FrontEta;
-//     HeavyHiggs->MinPt = BackEta;
-    HeavyHiggs->BottomEta1 = FrontEta;
-    HeavyHiggs->BottomEta2 = BackEta;
-    HeavyHiggs->BottomDeltaEta = CombinedEta;
+//     HeavyHiggs->MaxPt = FrontRap;
+//     HeavyHiggs->MinPt = BackRap;
+    HeavyHiggs->BottomRap1 = FrontRap;
+    HeavyHiggs->BottomRap2 = BackRap;
+    HeavyHiggs->BottomDeltaRap = CombinedRap;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
     HJets TopVector = Event->GetParticles()->GetTopJets();
@@ -131,20 +131,20 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     HeavyHiggs->JetNumber += TopSum;
 
-    std::sort(TopVector.begin(), TopVector.end(), SortJetByEta());
+    std::sort(TopVector.begin(), TopVector.end(), SortJetByRap());
 
     FrontJet = TopVector.front();
-    FrontEta = FrontJet.rap();
+    FrontRap = FrontJet.rap();
 
     BackJet = TopVector.back();
-    BackEta = BackJet.rap();
+    BackRap = BackJet.rap();
 
     CombinedJet = FrontJet + BackJet;
     CombinedMass = CombinedJet.m();
-    CombinedEta = FrontEta - BackEta;
+    CombinedRap = FrontRap - BackRap;
 
 
-//     HeavyHiggs->TopDeltaEta = CombinedEta;
+//     HeavyHiggs->TopDeltaRap = CombinedRap;
 //     HeavyHiggs->TopInvMass = CombinedMass;
 
 
@@ -152,22 +152,22 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     JetVector.insert(JetVector.end(), TopVector.begin(), TopVector.end());
 
-    std::sort(JetVector.begin(), JetVector.end(), SortJetByEta());
+    std::sort(JetVector.begin(), JetVector.end(), SortJetByRap());
 
     FrontJet = JetVector.front();
-    FrontEta = FrontJet.rap();
+    FrontRap = FrontJet.rap();
 
     BackJet = JetVector.back();
-    BackEta = BackJet.rap();
+    BackRap = BackJet.rap();
 
-//     HeavyHiggs->TopEta1 = FrontEta;
-//     HeavyHiggs->TopEta2 = BackEta;
+//     HeavyHiggs->TopRap1 = FrontRap;
+//     HeavyHiggs->TopRap2 = BackRap;
 
     CombinedJet = FrontJet + BackJet;
     CombinedMass = CombinedJet.m();
-    CombinedEta = FrontEta - BackEta;
+    CombinedRap = FrontRap - BackRap;
 
-//     HeavyHiggs->TopDeltaEta = CombinedEta;
+//     HeavyHiggs->TopDeltaRap = CombinedRap;
 //     HeavyHiggs->TopInvMass = CombinedMass;
 
     std::sort(JetVector.begin(), JetVector.end(), SortJetByPt());

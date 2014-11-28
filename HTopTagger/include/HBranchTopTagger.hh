@@ -25,7 +25,7 @@ public:
 
     float Mass;
     float Pt;
-    float Eta;
+    float Rap;
     float Phi;
     float DeltaR;
 
@@ -41,12 +41,12 @@ public:
     float SubJet2Pt;
     float SubJet2DeltaR;
 
-    float ConstEta;
+    float ConstRap;
     float ConstPhi;
     float ConstDeltaR;
     float ConstAngle;
 
-    float IsolationEta;
+    float IsolationRap;
     float IsolationPhi;
     float IsolationDeltaR;
     float IsolationAngle;
@@ -84,7 +84,7 @@ private:
 //
 //     float Mass;
 //     float Pt;
-//     float Eta;
+//     float Rap;
 //     float Phi;
 //     int Charge;
 //
@@ -109,7 +109,7 @@ private:
 //
 // public:
 //
-//     float Eta;
+//     float Rap;
 //     float Phi;
 //     float Pt;
 //     int Id;
@@ -138,7 +138,7 @@ private:
 //
 //     float Mass;
 //     float Pt;
-//     float Eta;
+//     float Rap;
 //     float Phi;
 //     float Radius;
 //

@@ -60,7 +60,7 @@ void hheavyhiggs::HMvaEvent::DefineVariables()
     Observables.push_back(NewObservable(&EventBranch->BottomNumber, "BottomNumber"));
     Observables.push_back(NewObservable(&EventBranch->LeptonNumber, "LeptonNumber"));
     Observables.push_back(NewObservable(&EventBranch->HeavyParticleTag, "HeavyParticleTag"));
-    Observables.push_back(NewObservable(&EventBranch->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&EventBranch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&EventBranch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&EventBranch->DeltaR, "DeltaR"));
 

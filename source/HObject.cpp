@@ -16,21 +16,21 @@ hanalysis::HObject::~HObject()
 
 }
 
-float hanalysis::HObject::GetDistance(const float Eta1, const float Phi1, const float Eta2, const float Phi2) const
+float hanalysis::HObject::GetDistance(const float Rap1, const float Phi1, const float Rap2, const float Phi2) const
 {
 
     Print(HDebug, "GetDistance");
 
-    return (std::sqrt(std::pow((Eta2 - Eta1), 2) + std::pow(GetDeltaPhi(Phi2, Phi1), 2)));
+    return (std::sqrt(std::pow((Rap2 - Rap1), 2) + std::pow(GetDeltaPhi(Phi2, Phi1), 2)));
 
 }
 
-float hanalysis::HObject::GetDistance(const float Eta, const float Phi) const
+float hanalysis::HObject::GetDistance(const float Rap, const float Phi) const
 {
 
   Print(HDebug, "GetDistance");
 
-    return (std::sqrt(std::pow(Eta, 2) + std::pow(Phi, 2)));
+    return (std::sqrt(std::pow(Rap, 2) + std::pow(Phi, 2)));
 
 }
 
@@ -166,7 +166,7 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
         return (Sign + "pi");
     case RhoMesonId:
         return (Sign + "rho");
-    case EtaMesonId:
+    case RapMesonId:
         return (Sign + "eta");
     case OmegaMesonId:
         return (Sign + "omega");
@@ -180,7 +180,7 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
         return (Sign + "K");
     case KMesonSId:
         return (Sign + "K*");
-    case EtaPMesonId:
+    case RapPMesonId:
         return (Sign + "etaP");
     case DMesonId:
         return (Sign + "D");
@@ -192,7 +192,7 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
         return (Sign + "D0");
     case DMesonS0Id:
         return (Sign + "D*0");
-    case EtaCMesonId:
+    case RapCMesonId:
         return (Sign + "etac");
     case BMeson0Id:
         return (Sign + "B0");
@@ -265,7 +265,7 @@ float hanalysis::HObject::GetParticleMass(const HParticleId ParticleId) const
             return 0.13957;
         case RhoMesonId:
             return 0.77549;
-        case EtaMesonId:
+        case RapMesonId:
             return 0.54785;
         case OmegaMesonId:
             return 0.78265;
@@ -279,7 +279,7 @@ float hanalysis::HObject::GetParticleMass(const HParticleId ParticleId) const
 //             return (Sign + "K");
 //         case KMesonSId:
 //             return (Sign + "K*");
-//         case EtaPMesonId:
+//         case RapPMesonId:
 //             return (Sign + "etaP");
 //         case DMesonId:
 //             return (Sign + "D");
@@ -291,7 +291,7 @@ float hanalysis::HObject::GetParticleMass(const HParticleId ParticleId) const
 //             return (Sign + "D0");
 //         case DMesonS0Id:
 //             return (Sign + "D*0");
-//         case EtaCMesonId:
+//         case RapCMesonId:
 //             return (Sign + "etac");
 //         case BMeson0Id:
 //             return (Sign + "B0");

@@ -264,9 +264,9 @@ HJets hdelphes::HEvent::GetCandidates(hanalysis::HJetTag * const JetTag) // FIXM
 //
 //         Photon *PhotonClone = (Photon *) ClonesArrays->GenJetClonesArray->At(PhotonNumber);
 //         float GenJetPt = PhotonClone->PT;
-//         float GenJetEta = PhotonClone->Eta;
+//         float GenJetRap = PhotonClone->Rap;
 //         float GenJetPhi = PhotonClone->Phi;
-//         fastjet::PseudoJet JetCandidate = FillJet(GenJetPt, GenJetEta, GenJetPhi);
+//         fastjet::PseudoJet JetCandidate = FillJet(GenJetPt, GenJetRap, GenJetPhi);
 //
 //         GenJetVector.push_back(JetCandidate);
 //

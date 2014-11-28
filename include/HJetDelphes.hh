@@ -50,7 +50,7 @@ private:
      *
      * @return void
      */
-    bool GetJets(hanalysis::HFourVector::HJetDetails JetDetails);
+    bool GetJets(const hanalysis::HFourVector::HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -82,11 +82,11 @@ private:
      */
     bool GetJets(const bool, const bool);
 
-    HJets TagJets(HJets);
+//     HJets TagJets(HJets);
 
-    HJets JetTagger(HJets, HJets, int);
+//     HJets JetTagger(HJets, HJets, int);
 
-    HJets JetTagger(HJets, HJets);
+//     HJets JetTagger(HJets, HJets);
 
     template <typename TClone>
     hanalysis::HJetInfo GetJetId(const TClone &Clone) {
@@ -107,7 +107,7 @@ private:
 
         }
 
-        JetInfo.PrintAllInfos(4);
+        JetInfo.PrintAllInfos(HDetailed);
         return JetInfo;
 
     }
@@ -138,7 +138,7 @@ private:
 
     void GetMuonEFlow(const HJetDetails);
 
-    fastjet::PseudoJet GetConstituents(const Jet *const JetClone, hanalysis::HJet::HJetDetails JetDetails);
+    fastjet::PseudoJet GetConstituents(const Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
 
     HConstituent GetConstituent( TObject * Object, hanalysis::HJet::HJetDetails JetDetails);
 

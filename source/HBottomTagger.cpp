@@ -106,6 +106,7 @@ void hdelphes::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, cons
         BottomBranch->Displacement = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
         BottomBranch->Multipliticity = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
         BottomBranch->DeltaR = GetDeltaR(Jet);
+        BottomBranch->Centrality = GetCentrality(Jet);
         if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
             BottomBranch->BottomTag = 1;
         } else {
@@ -129,5 +130,20 @@ float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
         if (TempDeltaR > DeltaR) DeltaR = TempDeltaR;
     }
     return DeltaR;
+
+}
+
+
+
+float hdelphes::HBottomTagger::GetCentrality(const fastjet::PseudoJet &Jet) const
+{
+
+    Print(HInformation, "Get Centrality");
+
+    float Centrality;
+    for (const auto & Constituent : Jet.constituents()) {
+        Centrality += Jet.delta_R(Constituent) * Constituent.pt();
+    }
+    return (Centrality / Jet.pt());
 
 }

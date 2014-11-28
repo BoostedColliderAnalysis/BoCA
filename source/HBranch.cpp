@@ -21,7 +21,7 @@ ClassImp(HParticleBranch)
 HParticleBranch::HParticleBranch()
 {
     Pt = InitialValue;
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
 }
 
@@ -37,6 +37,7 @@ HBottomBranch::HBottomBranch()
     Displacement = InitialValue;
     Multipliticity = InitialValue;
     DeltaR = InitialValue;
+    Centrality = InitialValue;
 
     BottomTag = InitialValue;
 
@@ -51,7 +52,7 @@ HLeptonicTopBranch::HLeptonicTopBranch()
     JetPt = InitialValue;
     LeptonPt = InitialValue;
 
-    DeltaEta = InitialValue;
+    DeltaRap = InitialValue;
     DeltaPhi = InitialValue;
     DeltaR = InitialValue;
 
@@ -71,7 +72,7 @@ HHiggsBranch::HHiggsBranch()
   PtSum = InitialValue;
   PtDiff = InitialValue;
 
-  DeltaEta = InitialValue;
+  DeltaRap = InitialValue;
   DeltaPhi = InitialValue;
   DeltaR = InitialValue;
 
@@ -94,7 +95,7 @@ HMvaHeavyHiggsBranch::HMvaHeavyHiggsBranch()
   Mass = InitialValue;
   Pt = InitialValue;
 
-  DeltaEta = InitialValue;
+  DeltaRap = InitialValue;
   DeltaPhi = InitialValue;
   DeltaR = InitialValue;
 

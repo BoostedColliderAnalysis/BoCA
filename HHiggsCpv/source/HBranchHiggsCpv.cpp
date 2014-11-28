@@ -10,7 +10,7 @@ hhiggscpv::HEventBranch::HEventBranch()
     BottomNumber = InitialValue;
     LeptonNumber = InitialValue;
     HeavyParticleTag = InitialValue;
-    TopDeltaEta = InitialValue;
+    TopDeltaRap = InitialValue;
     TopDeltaPhi = InitialValue;
     TopDeltaR = InitialValue;
 
@@ -25,7 +25,7 @@ hhiggscpv::HLeptonBranch::HLeptonBranch()
 
     Mass = InitialValue;
     Pt = InitialValue;
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
     Charge = InitialValue;
 

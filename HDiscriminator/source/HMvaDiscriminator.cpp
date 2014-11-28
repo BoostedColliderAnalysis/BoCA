@@ -61,7 +61,7 @@ void hcpvhiggs::HMva::DefineVariables()
 
     Observables.push_back(NewObservable(&Candidate->Mass, "Mass", "m_j"));
     Observables.push_back(NewObservable(&Candidate->Pt, "Pt", "p^T_j"));
-    Observables.push_back(NewObservable(&Candidate->Eta, "Eta","\\eta_j"));
+    Observables.push_back(NewObservable(&Candidate->Rap, "Rap","\\eta_j"));
     Observables.push_back(NewObservable(&Candidate->Phi, "Phi","\\phi_j"));
 
     Observables.push_back(NewObservable(&Candidate->DeltaR, "DeltaR","Delta R"));
@@ -77,12 +77,12 @@ void hcpvhiggs::HMva::DefineVariables()
     Observables.push_back(NewObservable(&Candidate->SubJet2Pt, "SubJet2Pt"));
     Observables.push_back(NewObservable(&Candidate->SubJet2DeltaR,"SubJet2DeltaR"));
 
-    Observables.push_back(NewObservable(&Candidate->ConstEta,  "ConstEta"));
+    Observables.push_back(NewObservable(&Candidate->ConstRap,  "ConstRap"));
     Observables.push_back(NewObservable(&Candidate->ConstPhi,  "ConstPhi"));
     Observables.push_back(NewObservable(&Candidate->ConstDeltaR, "ConstDeltaR"));
     Observables.push_back(NewObservable(&Candidate->ConstAngle, "ConstAngle"));
 
-    Observables.push_back(NewObservable(&Candidate->IsolationEta, "IsolationEta"));
+    Observables.push_back(NewObservable(&Candidate->IsolationRap, "IsolationRap"));
     Observables.push_back(NewObservable(&Candidate->IsolationPhi, "IsolationPhi"));
     Observables.push_back(NewObservable(&Candidate->IsolationDeltaR, "IsolationDeltaR"));
     Observables.push_back(NewObservable(&Candidate->IsolationAngle, "IsolationAngle"));

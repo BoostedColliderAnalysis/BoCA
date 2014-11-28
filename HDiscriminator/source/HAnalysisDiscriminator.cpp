@@ -261,7 +261,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
         Candidate->Mass = CandidateJet.m();
         Candidate->Pt = CandidateJet.pt();
-        Candidate->Eta = CandidateJet.rap();
+        Candidate->Rap = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
 
         Print(HInformation, "Candidate Mass", CandidateJet.m());
@@ -313,7 +313,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
         SubStructure->GetIsolation(CandidateJet, Leptons);
 
-        Candidate->IsolationEta = SubStructure->GetIsolationEta();
+        Candidate->IsolationRap = SubStructure->GetIsolationRap();
         Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
         Candidate->IsolationPt = SubStructure->GetIsolationPt();
         Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
@@ -325,17 +325,17 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
         for (const auto & ConstituentVector : ConstituentVectors) {
             HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-            Constituent->Eta = ConstituentVector.Eta();
+            Constituent->Rap = ConstituentVector.Rapidity();
             Constituent->Phi = ConstituentVector.Phi();
             Constituent->Pt = ConstituentVector.Pt();
         }
 
-        Candidate->ConstEta = SubStructure->GetConstituentEta();
+        Candidate->ConstRap = SubStructure->GetConstituentRap();
         Candidate->ConstPhi = SubStructure->GetConstituentPhi();
         Candidate->ConstDeltaR = SubStructure->GetConstituentDeltaR();
         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
 
-//         CandidateJet.user_info<HJetInfo>().PrintAllInfos(4);
+//         CandidateJet.user_info<HJetInfo>().PrintAllInfos(HDetailed);
 //         Print(HNotification, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;
@@ -354,7 +354,7 @@ HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const Event)
 {
 
 // Lepton Stuff
-    std::vector<float> LeptonEta, LeptonPhi;
+    std::vector<float> LeptonRap, LeptonPhi;
 
 //     Event->GetLeptons();
 //     HJets LeptonJets = Event->Lepton->LeptonJets;
@@ -375,14 +375,14 @@ HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const Event)
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = LeptonJet.pt();
-            Lepton->Eta = LeptonJet.rap();
+            Lepton->Rap = LeptonJet.rap();
             Lepton->Phi = LeptonJet.phi_std();
             Lepton->Charge = -1;
             Lepton->Mass = LeptonJet.m();
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(LeptonJet.rap());
+        LeptonRap.push_back(LeptonJet.rap());
         LeptonPhi.push_back(LeptonJet.phi_std());
 
     }
@@ -395,7 +395,7 @@ HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const Event)
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = AntiLeptonJet.pt();
-            Lepton->Eta = AntiLeptonJet.rap();
+            Lepton->Rap = AntiLeptonJet.rap();
             Lepton->Phi = AntiLeptonJet.phi_std();
             Lepton->Charge = 1;
             Lepton->Mass = AntiLeptonJet.m();
@@ -403,7 +403,7 @@ HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const Event)
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(AntiLeptonJet.rap());
+        LeptonRap.push_back(AntiLeptonJet.rap());
         LeptonPhi.push_back(AntiLeptonJet.phi_std());
 
     }

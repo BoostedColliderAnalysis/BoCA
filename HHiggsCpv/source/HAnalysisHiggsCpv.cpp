@@ -140,6 +140,7 @@ void hhiggscpv::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter, const HTagg
         TopBranch = TreeWriter->NewBranch("Top", HLeptonicTopBranch::Class());
     } else if (Tagger == HHiggsTagger) {
         HiggsBranch = TreeWriter->NewBranch("Higgs", HHiggsBranch::Class());
+        ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
     } else if (Tagger == HEventTagger) {
         EventBranch = TreeWriter->NewBranch("Event", HEventBranch::Class());
     }
@@ -173,7 +174,6 @@ bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const st
 {
 
     Print(HDebug, "Get Bottom Tag", StudyName);
-
 
     HState State;
     if (StudyName == "Bottom") State = HSignal;
@@ -226,6 +226,13 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent *const Event, const std
     for (const auto & Higgs : Higgses) {
         HHiggsBranch *HiggsTagger = static_cast<HHiggsBranch *>(HiggsBranch->NewEntry());
         *HiggsTagger = *Higgs;
+    }
+
+    std::vector<HParticleBranch *> Constitents = HiggsTagger->GetConstituentBranches();
+
+    for (const auto & Constituent : Constitents) {
+      HParticleBranch *HiggsTagger = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
+      *HiggsTagger = *Constituent;
     }
 
     return 1;
@@ -292,7 +299,7 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent *const Event, const st
     EventTagger->BottomNumber = Event->GetJets()->GetBottomJets().size();
     EventTagger->LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
     EventTagger->HeavyParticleTag = HiggsCpvs.front().GetBdt();
-    EventTagger->TopDeltaEta = HiggsCpvs.front().GetTopDeltaEta();
+    EventTagger->TopDeltaRap = HiggsCpvs.front().GetTopDeltaRap();
     EventTagger->TopDeltaPhi = HiggsCpvs.front().GetTopDeltaPhi();
     EventTagger->TopDeltaR = HiggsCpvs.front().GetTopDeltaR();
     if (StudyName == "Signal") {

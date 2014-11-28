@@ -193,7 +193,7 @@ HJets hdelphes::HReconstruction::GetFatJetTag(HJets &FatJets)
 
                 }
 
-                Constituent.user_info<hanalysis::HJetInfo>().PrintAllInfos(3);
+                Constituent.user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
             } else {
 
             Print(HDebug,"Constituent index",Constituent.user_index());
@@ -208,7 +208,7 @@ HJets hdelphes::HReconstruction::GetFatJetTag(HJets &FatJets)
 
         FatJet.set_user_index(FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId());
 
-        FatJet.user_info<hanalysis::HJetInfo>().PrintAllInfos(4);
+        FatJet.user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
 
         Print(HDetailed, "Tag", FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), FatJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), FatJet.m());
 

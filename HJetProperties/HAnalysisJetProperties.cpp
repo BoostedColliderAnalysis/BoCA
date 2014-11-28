@@ -327,7 +327,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::st
         for (const auto & EFlowJet : EFlowJets) {
 
             HConstituentBranch *Constituent = static_cast<HConstituentBranch *>(ConstituentBranch->NewEntry());
-            Constituent->Eta = EFlowJet.rap() - CandidateJet.rap();
+            Constituent->Rap = EFlowJet.rap() - CandidateJet.rap();
             Constituent->Phi = EFlowJet.delta_phi_to(CandidateJet);
             Constituent->Pt = EFlowJet.pt();
             Constituent->Id = EFlowJet.user_index();
@@ -352,7 +352,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         Candidate->Mass = CandidateJet.m();
         Candidate->Pt = CandidateJet.pt();
-        Candidate->Eta = CandidateJet.rap();
+        Candidate->Rap = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
         Candidate->DeltaR = DeltaR;
 
@@ -395,7 +395,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         if (!SubStructure->GetIsolation(CandidateJet, LeptonJets)) return 0;
 
-        Candidate->IsolationEta = SubStructure->GetIsolationEta();
+        Candidate->IsolationRap = SubStructure->GetIsolationRap();
         Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
         Candidate->IsolationPt = SubStructure->GetIsolationPt();
         Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
@@ -409,12 +409,12 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         for (const auto & ConstituentVector : ConstituentVectors) {
           HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentTreeBranch->NewEntry());
-          Constituent->Eta = ConstituentVector.Eta();
+          Constituent->Rap = ConstituentVector.Rapidity();
           Constituent->Phi = ConstituentVector.Phi();
           Constituent->Pt = ConstituentVector.Pt();
         }
 
-        Candidate->ConstEta = SubStructure->GetConstituentEta();
+        Candidate->ConstRap = SubStructure->GetConstituentRap();
         Candidate->ConstPhi = SubStructure->GetConstituentPhi();
         Candidate->ConstDeltaR = SubStructure->GetConstituentDeltaR();
         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
@@ -463,7 +463,7 @@ HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
 {
 
     // Lepton Stuff
-    std::vector<float> LeptonEta, LeptonPhi;
+    std::vector<float> LeptonRap, LeptonPhi;
 
     //     Event->GetLeptons();
 
@@ -485,14 +485,14 @@ HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = LeptonJet.pt();
-            Lepton->Eta = LeptonJet.rap();
+            Lepton->Rap = LeptonJet.rap();
             Lepton->Phi = LeptonJet.phi_std();
             Lepton->Charge = -1;
             Lepton->Mass = LeptonJet.m();
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(LeptonJet.rap());
+        LeptonRap.push_back(LeptonJet.rap());
         LeptonPhi.push_back(LeptonJet.phi_std());
 
     }
@@ -505,7 +505,7 @@ HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
             HLeptonBranch *Lepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 
             Lepton->Pt = AntiLeptonJet.pt();
-            Lepton->Eta = AntiLeptonJet.rap();
+            Lepton->Rap = AntiLeptonJet.rap();
             Lepton->Phi = AntiLeptonJet.phi_std();
             Lepton->Charge = 1;
             Lepton->Mass = AntiLeptonJet.m();
@@ -513,7 +513,7 @@ HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
         }
         HardestLepton = 0;
 
-        LeptonEta.push_back(AntiLeptonJet.rap());
+        LeptonRap.push_back(AntiLeptonJet.rap());
         LeptonPhi.push_back(AntiLeptonJet.phi_std());
 
     }

@@ -18,6 +18,7 @@ hdelphes::HLeptonicTopTagger::HLeptonicTopTagger(hdelphes::HBottomTagger *NewBot
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
+
 }
 
 hdelphes::HLeptonicTopTagger::~HLeptonicTopTagger()
@@ -37,7 +38,7 @@ void hdelphes::HLeptonicTopTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->JetPt, "JetPt"));
     Observables.push_back(NewObservable(&Branch->LeptonPt, "LeptonPt"));
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
     Observables.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
 
@@ -115,7 +116,7 @@ std::vector<HLeptonicTopBranch *> hdelphes::HLeptonicTopTagger::GetBranches(hana
             if ((State == HSignal && (*Lepton).user_index() == (*Jet).user_index()) || (State == HBackground)) {
 
                 hanalysis::HJetLeptonPair JetLeptonPair((*Jet), (*Lepton));
-                JetLeptonPair.SetBdt((*Jet).user_info<hanalysis::HJetInfo>().GetBdt());
+//                 JetLeptonPair.SetBdt((*Jet).user_info<hanalysis::HJetInfo>().GetBdt());
                 if (std::abs((*Jet).user_index()) == TopId) JetLeptonPair.SetTag(1);
                 JetLeptonPairs.push_back(JetLeptonPair);
             }
@@ -141,7 +142,7 @@ void hdelphes::HLeptonicTopTagger::FillBranch(const hanalysis::HJetLeptonPair &J
     Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
 
     FillBranch(Branch, JetLeptonPair);
-    
+
 }
 
 
@@ -153,7 +154,7 @@ void hdelphes::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch *LeptonicTopBra
     LeptonicTopBranch->JetPt = JetLeptonPair.GetJetPt();
     LeptonicTopBranch->LeptonPt = JetLeptonPair.GetLeptonPt();
     LeptonicTopBranch->DeltaR = JetLeptonPair.GetDeltaR();
-    LeptonicTopBranch->DeltaEta = JetLeptonPair.GetDeltaEta();
+    LeptonicTopBranch->DeltaRap = JetLeptonPair.GetDeltaRap();
     LeptonicTopBranch->DeltaPhi = JetLeptonPair.GetPhiDelta();
     LeptonicTopBranch->BottomTag = JetLeptonPair.GetBdt();
     if (JetLeptonPair.GetTag() == 1) {

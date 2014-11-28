@@ -33,8 +33,8 @@ public:
 
 
 protected:
-    
-    
+
+
     void NewEvent(const HClonesArray *const NewClonesArrays);
 
     /**
@@ -166,32 +166,32 @@ protected:
     fastjet::PseudoJet GetPseudoJet(const TRootPhoton *const) const;
 
     fastjet::PseudoJet GetPseudoJet(const TRootTau *const) const;
-        
+
     int GetMotherId(TObject *Object);
-    
+
     int GetMotherId(int BranchId, int Position);
-    
+
     template<typename TData>
     void PrintCell(TData const Data) const {
-        
+
         std::cout << std::right << std::setw(9) << std::setfill(' ') << Data;
-        
+
     }
-    
+
     void PrintTruthLevel(const int Severity) const;
-    
+
     std::string PrintParticle(const int Position) const;
-    
+
     /**
      * @brief Clones Arrays
      *
      */
     const HClonesArray *ClonesArrays;
-    
+
     std::vector<int> Topology;
-    
+
     HJetTag *JetTag;
-    
+
     enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation, TaggingStructure};
 
     const bool CheckFourVectors;

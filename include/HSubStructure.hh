@@ -12,7 +12,7 @@ struct HMomentum {
 
     float Mass;
 
-    float Eta;
+    float Rap;
 
     float Phi;
 
@@ -71,8 +71,8 @@ public:
         return Global.DeltaR;
     };
 
-    inline float GetConstituentEta() const {
-        return Global.Eta;
+    inline float GetConstituentRap() const {
+        return Global.Rap;
     };
 
     inline float GetConstituentPhi() const {
@@ -80,15 +80,15 @@ public:
     };
 
     inline float GetConstituentDeltaR() const {
-        return GetDistance(Global.Eta, Global.Phi);
+        return GetDistance(Global.Rap, Global.Phi);
     };
 
     inline float GetConstituentAngle() const {
-        return atan2(Global.Phi, Global.Eta);
+        return atan2(Global.Phi, Global.Rap);
     };
 
-    inline float GetIsolationEta() const {
-        return Isolation.Eta;
+    inline float GetIsolationRap() const {
+        return Isolation.Rap;
     };
 
     inline float GetIsolationPhi() const {
@@ -104,7 +104,7 @@ public:
     };
 
     inline float GetIsolationAngle() const {
-        return atan2(Isolation.Phi, Isolation.Eta);
+        return atan2(Isolation.Phi, Isolation.Rap);
     };
 
     inline float GetAsymmetry() const {
@@ -141,13 +141,13 @@ private:
 
     const float Shift = 1;
 
-    inline float GetPosition2Eta() const {
+    inline float GetPosition2Rap() const {
         return (2 * Shift);
     };
 
 
     inline float GetPosDistance() const {
-        return GetDistance(GetPosition2Eta(), 0);
+        return GetDistance(GetPosition2Rap(), 0);
     };
 
     float SubJetRatio;

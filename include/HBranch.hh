@@ -71,7 +71,7 @@ class HParticleBranch : public HBranch
 public:
 
     float Pt;
-    float Eta;
+    float Rap;
     float Phi;
 
     HParticleBranch();
@@ -100,6 +100,7 @@ public:
     float Displacement;
     int Multipliticity;
     float DeltaR;
+    float Centrality;
 
     int BottomTag;
 
@@ -125,7 +126,7 @@ public:
     float JetPt;
     float LeptonPt;
 
-    float DeltaEta;
+    float DeltaRap;
     float DeltaPhi;
     float DeltaR;
 
@@ -155,7 +156,7 @@ public:
     float PtSum;
     float PtDiff;
 
-    float DeltaEta;
+    float DeltaRap;
     float DeltaPhi;
     float DeltaR;
 
@@ -188,7 +189,7 @@ public:
     float Mass;
     float Pt;
 
-    float DeltaEta;
+    float DeltaRap;
     float DeltaPhi;
     float DeltaR;
 

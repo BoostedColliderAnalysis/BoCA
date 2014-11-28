@@ -49,7 +49,7 @@ void hheavyhiggs::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&HeavyHiggs->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&HeavyHiggs->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&HeavyHiggs->DeltaPhi, "DeltaPhi"));
 
     Print(HNotification,"Variables defined");

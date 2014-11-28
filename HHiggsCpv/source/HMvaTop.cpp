@@ -71,7 +71,7 @@ void hhiggscpv::HMvaTop::DefineVariables()
     Observables.push_back(NewObservable(&Top->JetPt, "Pt"));
     Observables.push_back(NewObservable(&Top->LeptonPt, "Pt"));
     Observables.push_back(NewObservable(&Top->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Top->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&Top->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Top->DeltaR, "DeltaR"));
     Observables.push_back(NewObservable(&Top->BottomTag, "BottomTag"));
 

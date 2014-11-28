@@ -83,20 +83,20 @@ bool hdelphes::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
 
     // Get SubJet coordinates in Higgs Jet coordinates
 
-    SubJet1.Eta = PieceJets.at(0).rap() - CandidateJet.rap();
-    SubJet2.Eta = PieceJets.at(1).rap() - CandidateJet.rap();
+    SubJet1.Rap = PieceJets.at(0).rap() - CandidateJet.rap();
+    SubJet2.Rap = PieceJets.at(1).rap() - CandidateJet.rap();
 
     SubJet1.Phi = PieceJets.at(0).delta_phi_to(CandidateJet);
     SubJet2.Phi = PieceJets.at(1).delta_phi_to(CandidateJet);
 
     // move subjet1 together with subjet2 to origin
 
-    SubJet2.Eta -= SubJet1.Eta;
+    SubJet2.Rap -= SubJet1.Rap;
     SubJet2.Phi -= SubJet1.Phi;
 
     // scale subjet distance to reference value
 
-    const float SubJetDistance = GetDistance(SubJet2.Eta, SubJet2.Phi);
+    const float SubJetDistance = GetDistance(SubJet2.Rap, SubJet2.Phi);
 
     if (SubJetDistance <= 0) {
 
@@ -121,9 +121,9 @@ HVectors hdelphes::HSubStructure::GetConstituents(const fastjet::PseudoJet &Cand
     }
 
     if (!SubJets) GetSubJets(CandidateJet);
-    const float Theta = atan2(SubJet2.Phi, SubJet2.Eta);
+    const float Theta = atan2(SubJet2.Phi, SubJet2.Rap);
 
-    float SumInverseEta = 0;
+    float SumInverseRap = 0;
     float SumInversePhi = 0;
     float SubJet1Pt = 0;
     float SubJet2Pt = 0;
@@ -158,41 +158,41 @@ HVectors hdelphes::HSubStructure::GetConstituents(const fastjet::PseudoJet &Cand
 
         // Get Constituent coordinates in Higgs Jet coordinates
 
-        float ConstEta = ConstituentJet.rap() - CandidateJet.rap();
+        float ConstRap = ConstituentJet.rap() - CandidateJet.rap();
         float ConstPhi = ConstituentJet.delta_phi_to(CandidateJet);
 
         // move subjet1 together with constituent to origin
 
-        ConstEta -= SubJet1.Eta;
+        ConstRap -= SubJet1.Rap;
         ConstPhi = GetDeltaPhi(ConstPhi, SubJet1.Phi);
 
         // scale distance to reference value
 
-        ConstEta *= SubJetRatio;
+        ConstRap *= SubJetRatio;
         ConstPhi *= SubJetRatio;
 
         // rotate Constituent according to subjet2
 
-        float ObservableEta = ConstEta * cos(Theta) + ConstPhi * sin(Theta);
-        const float ObservablePhi = ConstEta * sin(Theta) - ConstPhi * cos(Theta);
+        float ObservableRap = ConstRap * cos(Theta) + ConstPhi * sin(Theta);
+        const float ObservablePhi = ConstRap * sin(Theta) - ConstPhi * cos(Theta);
 
         // move subjet2 to (1,0)
-        ObservableEta -= Shift;
+        ObservableRap -= Shift;
 
-        const TLorentzVector ConstituentVector(ConstituentJet.pt(),ObservableEta,ObservablePhi,ConstituentJet.e());
+        const TLorentzVector ConstituentVector(ConstituentJet.pt(),ObservableRap,ObservablePhi,ConstituentJet.e());
         ConstituentVectors.push_back(ConstituentVector);
 
 //         HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-//         Constituent->Eta = ObservableEta;
+//         Constituent->Rap = ObservableRap;
 //         Constituent->Phi = ObservablePhi;
 //         Constituent->Pt = ConstituentJet.pt();
 
-        SumInverseEta += ConstituentJet.pt() / std::abs(ObservableEta);
+        SumInverseRap += ConstituentJet.pt() / std::abs(ObservableRap);
         SumInversePhi += ConstituentJet.pt() / std::abs(ObservablePhi);
 
     }
 
-    Global.Eta = CandidateJet.pt() / SumInverseEta;
+    Global.Rap = CandidateJet.pt() / SumInverseRap;
     Global.Phi = CandidateJet.pt() / SumInversePhi;
     Asymmetry = SubJet2Pt / SubJet1Pt;
 
@@ -243,7 +243,7 @@ bool hdelphes::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJe
 
     if (IsolationDeltaR != LargeNumber) {
 
-        Isolation.Eta = ClosestLepton.rap() - ClosestPiece.rap();
+        Isolation.Rap = ClosestLepton.rap() - ClosestPiece.rap();
         Isolation.Phi = ClosestLepton.delta_phi_to(ClosestPiece);
         Isolation.Pt = ClosestLepton.pt() / ClosestPiece.pt();
         Isolation.DeltaR = ClosestLepton.delta_R(ClosestPiece);
@@ -281,20 +281,20 @@ float hdelphes::HSubStructure::GetDiPolarity(const fastjet::PseudoJet &Candidate
     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 
 
-    float Eta1, Eta2, Phi1, Phi2;
+    float Rap1, Rap2, Phi1, Phi2;
 
     if (SubJetVector.at(0).rap() < SubJetVector.at(1).rap()) {
 
-        Eta1 = SubJetVector.at(0).rap();
+        Rap1 = SubJetVector.at(0).rap();
         Phi1 = SubJetVector.at(0).phi_std();
-        Eta2 = SubJetVector.at(1).rap();
+        Rap2 = SubJetVector.at(1).rap();
         Phi2 = SubJetVector.at(1).phi_std();
 
     } else {
 
-        Eta1 = SubJetVector.at(1).rap();
+        Rap1 = SubJetVector.at(1).rap();
         Phi1 = SubJetVector.at(1).phi_std();
-        Eta2 = SubJetVector.at(0).rap();
+        Rap2 = SubJetVector.at(0).rap();
         Phi2 = SubJetVector.at(0).phi_std();
 
     }
@@ -305,22 +305,22 @@ float hdelphes::HSubStructure::GetDiPolarity(const fastjet::PseudoJet &Candidate
 
     for (const auto & Constituent : CandidateJet.constituents()) {
 
-        const float ConstituentEta = Constituent.rap();
+        const float ConstituentRap = Constituent.rap();
         float ConstituentPhi = Constituent.phi_std();
 
         const float DeltaPhi = Phi2 - Phi1;
-        const float DeltaEta = -(Eta2 - Eta1);
-        const float EtaPhi = Eta2 * Phi1 - Eta1 * Phi2;
+        const float DeltaRap = -(Rap2 - Rap1);
+        const float RapPhi = Rap2 * Phi1 - Rap1 * Phi2;
 
         const float ConstituentDeltaR1 = Constituent.delta_R(SubJetVector.at(0));
         const float ConstituentDeltaR2 = Constituent.delta_R(SubJetVector.at(1));
-        const float ConstituentDeltaR3 = std::abs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
-        float Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
-        float Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
+        const float ConstituentDeltaR3 = std::abs(DeltaPhi * ConstituentRap + DeltaRap * ConstituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
+        float Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * ConstituentRap + DeltaPhi * DeltaRap * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
+        float Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * ConstituentRap - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
 
         float DeltaR1;
-        if ((Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi1 && Phi3 <= Phi2)
-                || (Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
+        if ((Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi1 && Phi3 <= Phi2)
+                || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
             DeltaR1 = ConstituentDeltaR3;
         } else {
             DeltaR1 = std::min(ConstituentDeltaR1, ConstituentDeltaR2);
@@ -332,14 +332,14 @@ float hdelphes::HSubStructure::GetDiPolarity(const fastjet::PseudoJet &Candidate
             ConstituentPhi = ConstituentPhi - 2 * TMath::Pi();
         }
 
-        Eta3 = - (DeltaPhi * EtaPhi - DeltaEta * DeltaEta * ConstituentEta + DeltaPhi * DeltaEta * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
-        Phi3 = - (DeltaEta * EtaPhi + DeltaPhi * DeltaEta * ConstituentEta - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaEta * DeltaEta);
+        Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * ConstituentRap + DeltaPhi * DeltaRap * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
+        Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * ConstituentRap - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
 
-        const float ConstituntDeltaR4 = std::abs(DeltaPhi * ConstituentEta + DeltaEta * ConstituentPhi + EtaPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaEta, 2));
+        const float ConstituntDeltaR4 = std::abs(DeltaPhi * ConstituentRap + DeltaRap * ConstituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
 
         float DeltaR2;
-        if ((Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi1 && Phi3 <= Phi2)
-                || (Eta3 >= Eta1 && Eta3 <= Eta2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
+        if ((Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi1 && Phi3 <= Phi2)
+                || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
             DeltaR2 = ConstituntDeltaR4;
         } else {
             DeltaR2 = std::min(ConstituentDeltaR1, ConstituentDeltaR2);

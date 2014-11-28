@@ -66,12 +66,12 @@ fastjet::PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, c
 
         int BTagCounter = BTagger();
 
-        float FilteredJetEta = std::abs(FilteredJet.rap());
+        float FilteredJetRap = std::abs(FilteredJet.rap());
         // Jing eta < 2.5
-        const float FilteredJetEtaMax = 2.5;
+        const float FilteredJetRapMax = 2.5;
         const int BTagRequired = 2;
 
-        if (BTagCounter == BTagRequired && FilteredJetEta < FilteredJetEtaMax) {
+        if (BTagCounter == BTagRequired && FilteredJetRap < FilteredJetRapMax) {
 
             HiggsJet = FilteredJet;
 //             DiPolarity = GetDipolarity(FatJet);
@@ -179,7 +179,7 @@ int hdelphes::HHiggsTagger::BTagger()
     const int LightJetPerMil = 5;
 
     // Jing: 2.5
-    const float SubJetEtaMax = 2.5;
+    const float SubJetRapMax = 2.5;
     // Jing: 30
     const float SubJetPtMin = 20;
 
@@ -189,9 +189,9 @@ int hdelphes::HHiggsTagger::BTagger()
 
         fastjet::PseudoJet Piece = FilteredJetPieces[PieceNumber];
         float PiecePt = Piece.perp();
-        float PieceEta = std::abs(Piece.rap());
+        float PieceRap = std::abs(Piece.rap());
 
-        if (PieceEta < SubJetEtaMax && PiecePt > SubJetPtMin) {
+        if (PieceRap < SubJetRapMax && PiecePt > SubJetPtMin) {
 
             Print(HDebug, "SubJet kinematics are fine");
 
@@ -241,11 +241,11 @@ float hdelphes::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
 
     if (SubJet1.rap() < SubJet2.rap()) {
 
-        SetEtaPhi(SubJet1, SubJet2);
+        SetRapPhi(SubJet1, SubJet2);
 
     } else {
 
-        SetEtaPhi(SubJet2, SubJet1);
+        SetRapPhi(SubJet2, SubJet1);
 
     }
 
@@ -257,7 +257,7 @@ float hdelphes::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
 
         fastjet::PseudoJet Constituent = Constituents[ConstituentNumber];
 
-        Eta0 = Constituent.rap();
+        Rap0 = Constituent.rap();
         Phi0 = Constituent.phi_std();
 
         DeltaR01 = Constituent.delta_R(SubJet1);
@@ -313,13 +313,13 @@ float hdelphes::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
 
 }
 
-void hdelphes::HHiggsTagger::SetEtaPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2)
+void hdelphes::HHiggsTagger::SetRapPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2)
 {
-    Print(HInformation, "SetEtaPhi");
+    Print(HInformation, "SetRapPhi");
 
-    Eta1 = SubJet1.rap();
+    Rap1 = SubJet1.rap();
     Phi1 = SubJet1.phi_std();
-    Eta2 = SubJet2.rap();
+    Rap2 = SubJet2.rap();
     Phi2 = SubJet2.phi_std();
 
 }
@@ -331,12 +331,12 @@ float hdelphes::HHiggsTagger::GetSubDeltaR()
 
     float SubDeltaR;
 
-    float DeltaR = std::abs(DeltaPhiEta0() + DeltaEtaPhi0() + EtaPhi()) / DeltaR12;
-    float Eta = - (DeltaPhi() * EtaPhi() - DeltaEtaSqr() * Eta0 + DeltaPhi() * DeltaEtaPhi0()) / DeltaR12Sqr();
-    float Phi = - (DeltaEta() * EtaPhi() + DeltaEta() * DeltaPhiEta0() - DeltaPhiSqr() * Phi0) / DeltaR12Sqr();
+    float DeltaR = std::abs(DeltaPhiRap0() + DeltaRapPhi0() + RapPhi()) / DeltaR12;
+    float Rap = - (DeltaPhi() * RapPhi() - DeltaRapSqr() * Rap0 + DeltaPhi() * DeltaRapPhi0()) / DeltaR12Sqr();
+    float Phi = - (DeltaRap() * RapPhi() + DeltaRap() * DeltaPhiRap0() - DeltaPhiSqr() * Phi0) / DeltaR12Sqr();
 
-    if ((Eta >= Eta1 && Eta <= Eta2 && Phi >= Phi1 && Phi <= Phi2)
-            || (Eta >= Eta1 && Eta <= Eta2 && Phi >= Phi2 && Phi <= Phi1)) {
+    if ((Rap >= Rap1 && Rap <= Rap2 && Phi >= Phi1 && Phi <= Phi2)
+            || (Rap >= Rap1 && Rap <= Rap2 && Phi >= Phi2 && Phi <= Phi1)) {
 
         SubDeltaR = DeltaR;
 

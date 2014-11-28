@@ -38,7 +38,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWrit
 
 
     EventCounter = 0;
-    DeltaEtaCounter = 0;
+    DeltaRapCounter = 0;
     BMassCounter = 0;
     TMassCounter = 0;
     JetCounter = 0;
@@ -54,7 +54,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 
         Print(HNotification, "EventCounter", EventCounter);
         Print(HNotification, "JetCounter", JetCounter);
-        Print(HNotification, "DeltaEtaCounter", DeltaEtaCounter);
+        Print(HNotification, "DeltaRapCounter", DeltaRapCounter);
         Print(HNotification, "BMassCounter", BMassCounter);
         Print(HNotification, "Jet2Counter", Jet2Counter);
         Print(HNotification, "TMassCounter", TMassCounter);
@@ -136,33 +136,33 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
                 }
 
                 float FrontPt = FrontJet.pt();
-                float FrontEta = FrontJet.rap();
+                float FrontRap = FrontJet.rap();
                 float FrontPhi = FrontJet.phi_std();
                 Print(HInformation, "FrontPt", FrontPt);
-                Print(HInformation, "FrontEta", FrontEta);
+                Print(HInformation, "FrontRap", FrontRap);
                 Print(HInformation, "FrontPhi", FrontPhi);
 
-                float BackEta = BackJet.rap();
+                float BackRap = BackJet.rap();
                 float BackPt = BackJet.pt();
                 float BackPhi = BackJet.phi_std();
 
                 Print(HInformation, "BackPt", BackPt);
-                Print(HInformation, "BackEta", BackEta);
+                Print(HInformation, "BackRap", BackRap);
                 Print(HInformation, "BackPhi", BackPhi);
 
                 float InvMass = (FrontJet + BackJet).m();
-                float DeltaEta = FrontEta - BackEta;
+                float DeltaRap = FrontRap - BackRap;
 
                 Print(HInformation, "InvMass", InvMass);
-                Print(HInformation, "DeltaEta", DeltaEta);
+                Print(HInformation, "DeltaRap", DeltaRap);
 
                 float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
 
                 HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
-                HeavyHiggs->BottomEta1 = FrontEta;
-                HeavyHiggs->BottomEta2 = BackEta;
-                HeavyHiggs->BottomDeltaEta = DeltaEta;
+                HeavyHiggs->BottomRap1 = FrontRap;
+                HeavyHiggs->BottomRap2 = BackRap;
+                HeavyHiggs->BottomDeltaRap = DeltaRap;
 
                 HeavyHiggs->BottomPhi1 = FrontPhi;
                 HeavyHiggs->BottomPhi2 = BackPhi;

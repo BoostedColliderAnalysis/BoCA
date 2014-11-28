@@ -18,7 +18,7 @@ void hjetproperties::HCandidateBranch::reset()
 
     Mass = InitialValue;
     Pt = InitialValue;
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
     
     DeltaR = InitialValue;
@@ -34,12 +34,12 @@ void hjetproperties::HCandidateBranch::reset()
     SubJet2Pt = InitialValue;
     SubJet2DeltaR = InitialValue;
     
-    ConstEta = InitialValue;
+    ConstRap = InitialValue;
     ConstPhi = InitialValue;
     ConstDeltaR = InitialValue;
     ConstAngle = InitialValue;
     
-    IsolationEta = InitialValue;
+    IsolationRap = InitialValue;
     IsolationPhi = InitialValue;
     IsolationDeltaR = InitialValue;
     IsolationAngle = InitialValue;
@@ -73,7 +73,7 @@ void hjetproperties::HConstituentBranch::reset()
 
   int InitialValue = -100;
 
-  Eta = InitialValue;
+  Rap = InitialValue;
   Phi = InitialValue;
   Pt = InitialValue;
   Id = InitialValue;
@@ -98,7 +98,7 @@ void hjetproperties::HLeptonBranch::reset()
     
     Mass = InitialValue;
     Pt = InitialValue;
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
     Charge = InitialValue;
     

@@ -135,10 +135,10 @@ private:
     float GetDipolarity(const fastjet::PseudoJet &);
 
     /**
-     * @brief Eta of Subjets and Constituent
+     * @brief Rap of Subjets and Constituent
      *
      */
-    float Eta0, Eta1, Eta2;
+    float Rap0, Rap1, Rap2;
 
     /**
      * @brief Phi of Subjets and Constituent
@@ -164,31 +164,31 @@ private:
         return pow(DeltaPhi(), 2);
     }
 
-    float DeltaEta() {
-        return -(Eta2 - Eta1);
+    float DeltaRap() {
+        return -(Rap2 - Rap1);
     }
 
-    float DeltaEtaSqr() {
-        return pow(DeltaEta(), 2);
+    float DeltaRapSqr() {
+        return pow(DeltaRap(), 2);
     }
 
-    float EtaPhi() {
-        return Eta2 * Phi1 - Eta1 * Phi2;
+    float RapPhi() {
+        return Rap2 * Phi1 - Rap1 * Phi2;
     }
 
-    float DeltaEtaPhi() {
-        return DeltaPhi() * DeltaEta();
+    float DeltaRapPhi() {
+        return DeltaPhi() * DeltaRap();
     }
 
-    float DeltaPhiEta0() {
-        return DeltaPhi() * Eta0;
+    float DeltaPhiRap0() {
+        return DeltaPhi() * Rap0;
     }
 
-    float DeltaEtaPhi0() {
-        return DeltaEta() * Phi0;
+    float DeltaRapPhi0() {
+        return DeltaRap() * Phi0;
     }
 
-    void SetEtaPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2);
+    void SetRapPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2);
 
     float GetSubDeltaR();
 

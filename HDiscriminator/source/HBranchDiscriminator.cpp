@@ -18,7 +18,7 @@ void hcpvhiggs::HCandidateBranch::reset()
 
     Mass = InitialValue;
     Pt = InitialValue;
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
 
     DeltaR = InitialValue;
@@ -34,12 +34,12 @@ void hcpvhiggs::HCandidateBranch::reset()
     SubJet2Pt = InitialValue;
     SubJet2DeltaR = InitialValue;
 
-    ConstEta = InitialValue;
+    ConstRap = InitialValue;
     ConstPhi = InitialValue;
     ConstDeltaR = InitialValue;
     ConstAngle = InitialValue;
 
-    IsolationEta = InitialValue;
+    IsolationRap = InitialValue;
     IsolationPhi = InitialValue;
     IsolationDeltaR = InitialValue;
     IsolationAngle = InitialValue;
@@ -74,7 +74,7 @@ void hcpvhiggs::HLeptonBranch::reset()
 
     Mass = InitialValue;
     Pt = InitialValue;
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
     Charge = InitialValue;
 
@@ -97,7 +97,7 @@ void hcpvhiggs::HConstituentBranch::reset()
 
   int InitialValue = -100;
 
-  Eta = InitialValue;
+  Rap = InitialValue;
   Phi = InitialValue;
   Pt = InitialValue;
   Id = InitialValue;
@@ -123,7 +123,7 @@ void hcpvhiggs::HJetPropertiesBranch::reset()
     Mass = InitialValue;
     Pt = InitialValue;
 
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
     Radius = InitialValue;
 

@@ -167,7 +167,7 @@ void hdelphes::HHeavyHiggsTagger::FillBranch(HMvaHeavyHiggsBranch *HeavyHiggsBra
     HeavyHiggsBranch->Mass = PairPair.GetInvariantMass();
     HeavyHiggsBranch->Pt = PairPair.GetPtSum();
     HeavyHiggsBranch->DeltaR = PairPair.GetDeltaR();
-    HeavyHiggsBranch->DeltaEta = PairPair.GetDeltaEta();
+    HeavyHiggsBranch->DeltaRap = PairPair.GetDeltaRap();
     HeavyHiggsBranch->DeltaPhi = PairPair.GetDeltaPhi();
     HeavyHiggsBranch->TopTag = PairPair.GetBdt();
     if (PairPair.GetTag() == 1) {
@@ -187,7 +187,7 @@ void hdelphes::HHeavyHiggsTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
     Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
 //     Observables.push_back(NewObservable(&HeavyHiggs->Pull1, "Pull1"));
 //     Observables.push_back(NewObservable(&HeavyHiggs->Pull2, "Pull2"));

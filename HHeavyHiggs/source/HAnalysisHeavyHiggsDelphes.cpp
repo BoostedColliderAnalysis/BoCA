@@ -49,7 +49,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *Tree
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
 
     EventCounter = 0;
-    DeltaEtaCounter = 0;
+    DeltaRapCounter = 0;
     BMassCounter = 0;
     TMassCounter = 0;
     JetCounter = 0;
@@ -65,7 +65,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 
         Print(HNotification, "EventCounter", EventCounter);
         Print(HNotification, "JetCounter", JetCounter);
-        Print(HNotification, "DeltaEtaCounter", DeltaEtaCounter);
+        Print(HNotification, "DeltaRapCounter", DeltaRapCounter);
         Print(HNotification, "BMassCounter", BMassCounter);
         Print(HNotification, "Jet2Counter", Jet2Counter);
         Print(HNotification, "TMassCounter", TMassCounter);
@@ -147,7 +147,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent* Event)
 
     Print(HError,"Signal Bottom",BottomJetVector.size());
 
-    std::sort(BottomJetVector.begin(), BottomJetVector.end(), SortJetByEta());
+    std::sort(BottomJetVector.begin(), BottomJetVector.end(), SortJetByRap());
 
     fastjet::PseudoJet FrontJet = BottomJetVector.front();
     fastjet::PseudoJet BackJet = BottomJetVector.back();
@@ -289,16 +289,16 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent* Even
 {
 
     float FrontPt = FrontJet.pt();
-    float FrontEta = FrontJet.rap();
+    float FrontRap = FrontJet.rap();
     float FrontPhi = FrontJet.phi_std();
 
-    float BackEta = BackJet.rap();
+    float BackRap = BackJet.rap();
     float BackPt = BackJet.pt();
     float BackPhi = BackJet.phi_std();
 
     float InvMass = (FrontJet + BackJet).m();
-    float DeltaEta = FrontEta - BackEta;
-    float SumEta = FrontEta + BackEta;
+    float DeltaRap = FrontRap - BackRap;
+    float SumRap = FrontRap + BackRap;
     float DeltaPhi = FrontJet.delta_phi_to(BackJet);
     float SumPhi = FrontPhi + BackPhi; // FIXME constrain this
     float DeltaPt = FrontPt - BackPt;
@@ -307,10 +307,10 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent* Even
 
     HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
 
-    HeavyHiggs->BottomEta1 = FrontEta;
-    HeavyHiggs->BottomEta2 = BackEta;
-    HeavyHiggs->BottomDeltaEta = DeltaEta;
-    HeavyHiggs->BottomSumEta = SumEta;
+    HeavyHiggs->BottomRap1 = FrontRap;
+    HeavyHiggs->BottomRap2 = BackRap;
+    HeavyHiggs->BottomDeltaRap = DeltaRap;
+    HeavyHiggs->BottomSumRap = SumRap;
 
     HeavyHiggs->BottomPhi1 = FrontPhi;
     HeavyHiggs->BottomPhi2 = BackPhi;

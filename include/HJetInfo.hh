@@ -90,7 +90,7 @@ public:
      *
      * @return void
      */
-    void PrintAllInfos(int Severity) const;
+    void PrintAllInfos(const hanalysis::HObject::HSeverity Severity) const;
 
     /**
      * @brief Clear all infos
@@ -146,7 +146,7 @@ public:
         HConstituent Vertex;
         const float VertexMass = std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M();
         if (VertexMass < .1) return 0;
-        return VertexMass;        
+        return VertexMass;
     }
 
 protected:

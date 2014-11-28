@@ -20,7 +20,7 @@ HJets hdelphes::HTopTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets
 
     Print(HInformation, "Tagging Top");
 
-//     float CellEta = 0.1;
+//     float CellRap = 0.1;
 //     HJets hadrons;
 
 //     ifstream fin("sample_event.dat", ifstream::in);
@@ -86,7 +86,7 @@ HJets hdelphes::HTopTagger::GetGranulatedJets(HJets &EFlowJets)
 
 
     // start of granularization of the hadronic calorimeter to redefine hadrons
-    const float CellDeltaEta = 0.1;
+    const float CellDeltaRap = 0.1;
     const float CellDeltaPhi = 0.1;
     const float PtCutOff = 0.5;
 
@@ -102,12 +102,12 @@ HJets hdelphes::HTopTagger::GetGranulatedJets(HJets &EFlowJets)
 
         for (unsigned j = 0; j < GranulatedJets.size(); ++j) {
 
-            const float CellDiffEta = std::abs(EFlowJets[i].pseudorapidity() - GranulatedJets[j].pseudorapidity()) / CellDeltaEta;
+            const float CellDiffRap = std::abs(EFlowJets[i].pseudorapidity() - GranulatedJets[j].pseudorapidity()) / CellDeltaRap;
             float CellDiffPhi = std::abs(EFlowJets[i].phi() - GranulatedJets[j].phi());
             if (CellDiffPhi > Pi) CellDiffPhi = TwoPi - CellDiffPhi;
             CellDiffPhi = CellDiffPhi / CellDeltaPhi;
 
-            if (CellDiffEta < 1 && CellDiffPhi < 1) {
+            if (CellDiffRap < 1 && CellDiffPhi < 1) {
 
                 NewJet = 1;
 

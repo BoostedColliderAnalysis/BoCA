@@ -40,7 +40,7 @@ public:
         return (Jet1.delta_phi_to(Jet2));
     }
 
-    inline float GetDeltaEta() const {
+    inline float GetDeltaRap() const {
         return (std::abs(Jet1.rap() - Jet2.rap()));
     }
 

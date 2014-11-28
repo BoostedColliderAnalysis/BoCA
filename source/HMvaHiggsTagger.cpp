@@ -37,7 +37,7 @@ void hdelphes::HMvaHiggsTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->PtSum, "PtSum"));
     Observables.push_back(NewObservable(&Branch->PtDiff, "PtDiff"));
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaEta, "DeltaEta"));
+    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
     Observables.push_back(NewObservable(&Branch->Pull1, "Pull1"));
     Observables.push_back(NewObservable(&Branch->Pull2, "Pull2"));
@@ -66,7 +66,7 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
         Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()));
 
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == CpvHiggsId) {
+        if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == HiggsId || Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == CpvHiggsId) {
             JetInfo->SetTag(1);
         } else {
             JetInfo->SetTag(0);
@@ -87,7 +87,6 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
     std::vector<hdelphes::HSuperStructure> JetPairs;
 
     if (State == HSignal) {
-//       if (HiggsJets.size() < 2) return 0;
         Print(HInformation, "Higgs Jets", HiggsJets.size());
         for (HJets::iterator Jet1 = HiggsJets.begin(); Jet1 != HiggsJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
@@ -116,24 +115,25 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
     }
 
     Print(HInformation, "Number of Jet Pairs", JetPairs.size());
+    if(State == HSignal && JetPairs.size() > 1 ) Print(HError, "Number of Higgses", JetPairs.size());
 
     std::vector<HHiggsBranch *> HiggsBranches;
     for (const auto & JetPair : JetPairs) {
         HHiggsBranch *HiggsBranch = new HHiggsBranch();
-        FillBranch(HiggsBranch,JetPair);
+        FillBranch(HiggsBranch, JetPair);
         HiggsBranches.push_back(HiggsBranch);
     }
 
     return HiggsBranches;
-    
+
 }
 
 void hdelphes::HMvaHiggsTagger::FillBranch(const hdelphes::HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
-    
-    FillBranch(Branch,Pair);
-    
+
+    FillBranch(Branch, Pair);
+
 }
 
 void hdelphes::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const hdelphes::HSuperStructure &Pair)
@@ -144,7 +144,7 @@ void hdelphes::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, cons
     HiggsBranch->PtSum = Pair.GetPtSum();
     HiggsBranch->PtDiff = Pair.GetPtDiff();
     HiggsBranch->DeltaR = Pair.GetDeltaR();
-    HiggsBranch->DeltaEta = Pair.GetDeltaEta();
+    HiggsBranch->DeltaRap = Pair.GetDeltaRap();
     HiggsBranch->DeltaPhi = Pair.GetPhiDelta();
     HiggsBranch->BottomTag = Pair.GetBdt();
     HiggsBranch->Pull1 = Pair.GetPullAngle1();
@@ -155,5 +155,37 @@ void hdelphes::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, cons
     } else {
         HiggsBranch->HiggsTag = 0;
     }
+
+}
+
+std::vector<HParticleBranch *> hdelphes::HMvaHiggsTagger::GetConstituentBranches()
+{
+
+    Print(HInformation, "Get Higgs Tags");
+
+    std::vector<hdelphes::HSuperStructure> JetPairs;
+
+    Print(HInformation, "Number of Jet Pairs", JetPairs.size());
+
+    std::vector<HParticleBranch *> ConstituentBranches;
+    for (const auto & JetPair : JetPairs) {
+        for (const auto & Constituent : JetPair.GetConstituents()) {
+            HParticleBranch *ConstituentBranch = new HParticleBranch();
+            FillBranch(ConstituentBranch, Constituent);
+            ConstituentBranches.push_back(ConstituentBranch);
+        }
+    }
+
+return ConstituentBranches;
+
+}
+
+void hdelphes::HMvaHiggsTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
+{
+    Print(HInformation, "Fill Constituent Branch");
+
+    ConstituentBranch->Pt = Vector.GetPt();
+    ConstituentBranch->Rap = Vector.GetRap();
+    ConstituentBranch->Phi = Vector.GetPhi();
 
 }

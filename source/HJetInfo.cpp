@@ -41,7 +41,7 @@ float hanalysis::HJetInfo::GetFraction(const int ParticleId) const
 {
 
     Print(HInformation, "Get Fraction", ParticleId);
-    
+
     if (!JetFractions.count(ParticleId)) return 0;
 
     if (GetWeightSum() == 0)   return 0;
@@ -100,7 +100,7 @@ void hanalysis::HJetInfo::Clear()
 
 }
 
-void hanalysis::HJetInfo::PrintAllInfos(int Severity) const
+void hanalysis::HJetInfo::PrintAllInfos(const HSeverity Severity) const
 {
 
     Print(HDebug, "Print All Infos");

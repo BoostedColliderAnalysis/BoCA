@@ -18,7 +18,7 @@ void htest::HCandidateBranch::reset()
 
     Mass = InitialValue;
     Pt = InitialValue;
-    Eta = InitialValue;
+    Rap = InitialValue;
     Phi = InitialValue;
     Area = InitialValue;
 
@@ -32,12 +32,12 @@ void htest::HCandidateBranch::reset()
     SubJet2Pt = InitialValue;
     SubJet2DeltaR = InitialValue;
 
-    ConstEta = InitialValue;
+    ConstRap = InitialValue;
     ConstPhi = InitialValue;
     ConstDeltaR = InitialValue;
     ConstAngle = InitialValue;
 
-    IsolationEta = InitialValue;
+    IsolationRap = InitialValue;
     IsolationPhi = InitialValue;
     IsolationDeltaR = InitialValue;
     IsolationAngle = InitialValue;

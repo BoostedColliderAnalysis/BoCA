@@ -7,10 +7,10 @@ hheavyhiggs::HHeavyHiggsBranch::HHeavyHiggsBranch()
     JetNumber = InitialValue;
     BTag = InitialValue;
 
-    BottomEta1 = InitialValue;
-    BottomEta2 = InitialValue;
-    BottomDeltaEta = InitialValue;
-    BottomSumEta = InitialValue;
+    BottomRap1 = InitialValue;
+    BottomRap2 = InitialValue;
+    BottomDeltaRap = InitialValue;
+    BottomSumRap = InitialValue;
 
     BottomPhi1 = InitialValue;
     BottomPhi2 = InitialValue;

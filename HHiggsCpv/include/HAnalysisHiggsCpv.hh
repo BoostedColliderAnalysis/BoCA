@@ -36,16 +36,16 @@ public:
         return (Higgs.GetBdt() * Top.GetBdt() * AntiTop.GetBdt());
     }
 
-    float GetTopDeltaEta() const {
-        return (Top.GetJet().rap() - AntiTop.GetJet().rap()); 
+    float GetTopDeltaRap() const {
+        return (Top.GetJet().rap() - AntiTop.GetJet().rap());
     }
-    
+
     float GetTopDeltaPhi() const {
-        return (Top.GetJet().delta_phi_to(AntiTop.GetJet())); 
+        return (Top.GetJet().delta_phi_to(AntiTop.GetJet()));
     }
-    
+
     float GetTopDeltaR() const {
-        return (Top.GetJet().delta_R(AntiTop.GetJet())); 
+        return (Top.GetJet().delta_R(AntiTop.GetJet()));
     }
 
 };
@@ -88,9 +88,10 @@ private:
 
     ExRootTreeBranch *BottomBranch;
     ExRootTreeBranch *HiggsBranch;
+    ExRootTreeBranch *ConstituentBranch;
     ExRootTreeBranch *TopBranch;
     ExRootTreeBranch *EventBranch;
-    
+
     hmva::HReader *BottomReader;
     hmva::HReader *TopReader;
     hmva::HReader *HiggsReader;

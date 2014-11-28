@@ -269,20 +269,20 @@ public:
         K0LMesonId = 130,
         PionId = 211,
         RhoMesonId = 213,
-        EtaMesonId = 221,
+        RapMesonId = 221,
         OmegaMesonId = 223,
         K0SMesonId = 310,
         KMeson0Id = 311,
         KMeson0SId = 313,
         KMesonId = 321,
         KMesonSId = 323,
-        EtaPMesonId = 331,
+        RapPMesonId = 331,
         DMesonId = 411,
         DMesonSId = 413,
         DMesonS2Id = 415,
         DMeson0Id = 421,
         DMesonS0Id = 423,
-        EtaCMesonId = 441,
+        RapCMesonId = 441,
         BMeson0Id = 511,
         BMeson0SId = 513,
         BMesonId = 521,
@@ -310,9 +310,9 @@ protected:
     /**
      * @brief Calcualte distance in eta phi space
      *
-     * @param  Eta1
+     * @param  Rap1
      * @param  Phi1
-     * @param  Eta2
+     * @param  Rap2
      * @param  Phi2
      * @return float distance
      */
@@ -321,7 +321,7 @@ protected:
     /**
      * @brief Calcualte distance from center in eta phi space
      *
-     * @param  Eta
+     * @param  Rap
      * @param  Phi
      * @return float distance
      */
@@ -519,7 +519,7 @@ struct SortPairs {
 
 };
 
-struct SortJetByEta {
+struct SortJetByRap {
 
     inline bool operator()(const fastjet::PseudoJet &Jet1,
                            const fastjet::PseudoJet &Jet2) {

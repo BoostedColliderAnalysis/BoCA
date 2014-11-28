@@ -34,7 +34,7 @@ public:
 
     float Mass;
     float Pt;
-    float Eta;
+    float Rap;
     float Phi;
     float DeltaR;
 
@@ -52,12 +52,12 @@ public:
     float SubJet2Pt;
     float SubJet2DeltaR;
 
-    float ConstEta;
+    float ConstRap;
     float ConstPhi;
     float ConstDeltaR;
     float ConstAngle;
 
-    float IsolationEta;
+    float IsolationRap;
     float IsolationPhi;
     float IsolationDeltaR;
     float IsolationAngle;
@@ -95,7 +95,7 @@ public:
 
     float Mass;
     float Pt;
-    float Eta;
+    float Rap;
     float Phi;
     int Charge;
 
@@ -120,7 +120,7 @@ class hcpvhiggs::HConstituentBranch : public TObject
 
 public:
 
-    float Eta;
+    float Rap;
     float Phi;
     float Pt;
     int Id;
@@ -149,7 +149,7 @@ public:
 
     float Mass;
     float Pt;
-    float Eta;
+    float Rap;
     float Phi;
     float Radius;
 

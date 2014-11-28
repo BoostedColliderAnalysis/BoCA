@@ -172,13 +172,13 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
 //         HVectors ConstituentVectors = FirstPair.GetConstituents();
 //         for (const auto & ConstituentVector : ConstituentVectors) {
 //
-//           if (std::abs(ConstituentVector.Eta()) > LargeNumber) {
+//           if (std::abs(ConstituentVector.Rap()) > LargeNumber) {
 //             Print(HError, "ERROR");
 //             continue;
 //           }
 //
 //             HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-//             Constituent->Eta = ConstituentVector.Eta();
+//             Constituent->Rap = ConstituentVector.Rap();
 //             Constituent->Phi = ConstituentVector.Phi();
 //             Constituent->Pt = ConstituentVector.Pt();
 //

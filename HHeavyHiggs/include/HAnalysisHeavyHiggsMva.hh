@@ -37,7 +37,7 @@ public:
         return (HeavyHiggs.GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt());
     }
 
-    float GetDeltaEta() const {
+    float GetDeltaRap() const {
         return (Bottom.rap() - AntiBottom.rap());
     }
 

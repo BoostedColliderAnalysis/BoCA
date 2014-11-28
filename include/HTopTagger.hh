@@ -38,7 +38,7 @@ private:
      * @brief Calculates Vector of granulated Jets
      *
      * @param HadronVector Vector of Jet Candidates derived from EFlow data
-     * @param CellEta Delta Eta of Cells
+     * @param CellRap Delta Rap of Cells
      * @param CellPhi Delta Phi of Cells
      * @param PtCutOff Pt Cutoff for cells
      * @return std::vector< fastjet::PseudoJet, std::allocator >

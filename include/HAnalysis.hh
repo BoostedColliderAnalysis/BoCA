@@ -36,13 +36,13 @@ public:
 
 //     void AnalysisLoop();
 //     enum HTagger {EventTagger};
-      enum HTagger{HBottomTagger,HTopTagger,HHiggsTagger,HEventTagger};
+    enum HTagger {HBottomTagger, HTopTagger, HHiggsTagger, HEventTagger};
 
     void AnalysisLoop(const HTagger Tagger);
 
     void AnalysisLoop() {
         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
-    };
+    }
 
 protected:
 
@@ -53,7 +53,7 @@ protected:
 
         return std::min((int)TreeReader->GetEntries(), GetEventNumberMax());
 
-    };
+    }
 
     ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const HTagger Tagger);
 
@@ -69,12 +69,12 @@ protected:
      * @return void
      */
     virtual bool Analysis(HEvent *const, const std::string &) {
-        Print(HError,"Analysis 0", "should be subclassed");
+        Print(HError, "Analysis 0", "should be subclassed");
         return 0;
     }
 
-    virtual bool Analysis(HEvent *const, const std::string &, const HTagger){
-        Print(HError,"Analysis", "should be subclassed");
+    virtual bool Analysis(HEvent *const, const std::string &, const HTagger) {
+        Print(HError, "Analysis", "should be subclassed");
         return 0;
     }
 
@@ -91,12 +91,12 @@ protected:
      * @return void
      */
     virtual void NewBranches(ExRootTreeWriter *const, const HTagger) {
-        Print(HError,"NewBranches", "Should be subclassed");
+        Print(HError, "NewBranches", "Should be subclassed");
     }
 
     virtual void NewBranches(ExRootTreeWriter *const) {
-        Print(HError,"NewBranches 0", "Should be subclassed");
-    };
+        Print(HError, "NewBranches 0", "Should be subclassed");
+    }
 
     /**
      * @brief Name of Analysis
@@ -112,12 +112,12 @@ protected:
      */
     virtual inline int GetEventNumberMax() const {
         return 100000;
-    };
+    }
 
     virtual inline HStrings GetStudyNames(const HTagger NewTagger) {
         Print(HError, "GetStudyName", "What are we doing here?", NewTagger);
         return {GetProjectName()};
-    };
+    }
 
 
 //     virtual inline HStrings GetStudyNames() const {
@@ -126,7 +126,7 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "HAnalysis";
-    };
+    }
 
 private:
 

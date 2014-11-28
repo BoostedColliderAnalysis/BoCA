@@ -4,6 +4,34 @@
 # include "HPair.hh"
 # include "HJetInfo.hh"
 
+class HKinematics
+{
+
+public:
+
+    HKinematics(const float NewPt, const float NewRap, const float NewPhi) {
+        Pt = NewPt;
+        Rap = NewRap;
+        Phi = NewPhi;
+    }
+
+    float GetPt() const {
+        return Pt;
+    }
+    float GetRap() const {
+        return Rap;
+    }
+    float GetPhi() const {
+        return Phi;
+    }
+
+private:
+
+    float Pt;
+    float Rap;
+    float Phi;
+};
+
 class hdelphes::HSuperStructure : public hanalysis::HPair
 {
 
@@ -23,31 +51,31 @@ public:
         return (GetPullAngle1() * GetPullAngle2());
     }
 
-    void SetJet1(const fastjet::PseudoJet &NewJet) {
-        Jet1 = NewJet;
-    }
-    void SetJet2(const fastjet::PseudoJet &NewJet) {
-        Jet2 = NewJet;
-    }
+//     void SetJet1(const fastjet::PseudoJet &NewJet) {
+//         Jet1 = NewJet;
+//     }
+//     void SetJet2(const fastjet::PseudoJet &NewJet) {
+//         Jet2 = NewJet;
+//     }
 
-    fastjet::PseudoJet GetJet1() const {
-        return Jet1;
-    }
+//     fastjet::PseudoJet GetJet1() const {
+//         return Jet1;
+//     }
 
-    fastjet::PseudoJet GetJet2() const {
-        return Jet2;
-    }
+//     fastjet::PseudoJet GetJet2() const {
+//         return Jet2;
+//     }
 
     float GetBdt() const {
         return (Jet1.user_info<hanalysis::HJetInfo>().GetBdt() * Jet2.user_info<hanalysis::HJetInfo>().GetBdt());
     }
 
-    HVectors GetConstituents() const;
+    std::vector< HKinematics > GetConstituents() const;
 
 protected:
 
 
-    HVectors GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
+    std::vector< HKinematics > GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
 
     virtual inline std::string ClassName() const {
         return "HSuperStructure";

@@ -237,7 +237,7 @@ bool hheavyhiggs::HAnalysisMva::GetSignalTag(hanalysis::HEvent *const Event, con
     EventTagger->LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
     EventTagger->HeavyParticleTag = HeavyHiggsEvents.front().GetBdt();
     EventTagger->HeavyParticleTag = HeavyHiggsEvents.front().GetBdt();
-    EventTagger->DeltaEta = HeavyHiggsEvents.front().GetDeltaEta();
+    EventTagger->DeltaRap = HeavyHiggsEvents.front().GetDeltaRap();
     EventTagger->DeltaPhi = HeavyHiggsEvents.front().GetDeltaPhi();
     EventTagger->DeltaR = HeavyHiggsEvents.front().GetDeltaR();
     if (StudyName == "Signal") {

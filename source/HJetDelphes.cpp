@@ -22,7 +22,7 @@ void hdelphes::HJet::NewEvent(const hanalysis::HClonesArray *const NewClonesArra
 
 }*/
 
-bool hdelphes::HJet::GetJets(HJetDetails JetDetails)
+bool hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Jets", ClonesArrays->GetJetSum());
@@ -46,16 +46,14 @@ bool hdelphes::HJet::GetJets(HJetDetails JetDetails)
 
             hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(GetJetId(JetClone));
 
-            if (JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>()) {
-
-                JetInfo->SetVertices(Jets.back().user_info<hanalysis::HJetInfo>().GetVertices());
-            }
+            if (JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>())
+              JetInfo->SetVertices(Jets.back().user_info<hanalysis::HJetInfo>().GetVertices());
 
             Jets.back().set_user_info(JetInfo);
             Jets.back().set_user_index(Jets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
 
 
-            Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().PrintAllInfos(4);
+            Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
             Print(HDetailed, "Tag", Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().GetMaximalFraction());
 
         }
@@ -116,7 +114,7 @@ void hdelphes::HJet::GetTau(const Jet *const JetClone)
 
 }
 
-fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, hanalysis::HJet::HJetDetails JetDetails)
+fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, const hanalysis::HJet::HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Constituents");
@@ -133,7 +131,7 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, ha
 
         Constituents.push_back(GetConstituentJet(Object, JetDetails));
 
-        for (const auto & Vertex : Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices()) {
+        for (auto & Vertex : Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices()) {
 
             Vertices.push_back(Vertex);
 //         Vertices.insert(Vertices.end(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().begin(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().end());
@@ -186,7 +184,7 @@ HConstituent hdelphes::HJet::GetConstituent(TObject *Object, hanalysis::HJet::HJ
         GenParticle *ParticleClone = const_cast<GenParticle *>((GenParticle *) Object);
         Constituent.Momentum = ParticleClone->P4();
         if (JetDetails == TaggingStructure) Constituent.MotherId = GetMotherId(Object);
-        //Constituent.Position.SetXYZT(ParticleClone->X, ParticleClone->Y, ParticleClone->Z, ParticleClone->T); 
+        //Constituent.Position.SetXYZT(ParticleClone->X, ParticleClone->Y, ParticleClone->Z, ParticleClone->T);
         // TODO should we take the GenParticle information into account or not?
 
     } else if (Object->IsA() == Track::Class()) {
@@ -203,7 +201,7 @@ HConstituent hdelphes::HJet::GetConstituent(TObject *Object, hanalysis::HJet::HJ
         Constituent.Momentum = TowerClone->P4();
         if (JetDetails == TaggingStructure) {
             Constituent.MotherId = GetJetId(TowerClone).GetMaximalId();
-            GetJetId(TowerClone).PrintAllInfos(4);
+            GetJetId(TowerClone).PrintAllInfos(HDetailed);
         }
 
     } else if (Object->IsA() == Muon::Class()) {
@@ -235,7 +233,7 @@ bool hdelphes::HJet::GetEFlow(const HJetDetails JetDetails)
 
     Print(HDebug, "Number of EFlow Jet", EFlowJets.size());
 
-    PrintTruthLevel(4);
+    PrintTruthLevel(HDetailed);
 
     return 1;
 

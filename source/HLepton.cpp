@@ -155,7 +155,7 @@ void leptons::LeptonsAndMissingEt()
 {
 
     const float LeptonLowerPtCut = 25.0;
-    const float LeptonUpperEtaCut = 2.5;
+    const float LeptonUpperRapCut = 2.5;
 
     int MuonCounter = 0, ElectronCounter = 0;                       //initial the varibles Important
 
@@ -171,13 +171,13 @@ void leptons::LeptonsAndMissingEt()
 
         Electron *electron = (Electron *) ClonesArrayClass->ElectronClonesArray->At(ElectronNumber);
         float ElectronPt = electron->PT;
-        float ElectronEta = electron->Eta;
+        float ElectronRap = electron->Rap;
         float ElectronPhi = electron->Phi;
 
-        if (ElectronPt > LeptonLowerPtCut && Abs(ElectronEta) < LeptonUpperEtaCut) {
+        if (ElectronPt > LeptonLowerPtCut && Abs(ElectronRap) < LeptonUpperRapCut) {
 
             ElectronCounter++;
-            fastjet::PseudoJet lepton = fastjet::PseudoJet(ElectronPt * Cos(ElectronPhi), ElectronPt * Sin(ElectronPhi), ElectronPt * SinH(ElectronEta), ElectronPt * CosH(ElectronEta));
+            fastjet::PseudoJet lepton = fastjet::PseudoJet(ElectronPt * Cos(ElectronPhi), ElectronPt * Sin(ElectronPhi), ElectronPt * SinH(ElectronRap), ElectronPt * CosH(ElectronRap));
 
         }
 
@@ -189,13 +189,13 @@ void leptons::LeptonsAndMissingEt()
 
         Muon *muon = (Muon *) ClonesArrayClass->MuonClonesArray->At(MuonNumber);
         float MuonPt = muon->PT;
-        float MuonEta = muon->Eta;
+        float MuonRap = muon->Rap;
         float MuonPhi = muon->Phi;
 
-        if (MuonPt > LeptonLowerPtCut && Abs(MuonEta) < LeptonUpperEtaCut) {
+        if (MuonPt > LeptonLowerPtCut && Abs(MuonRap) < LeptonUpperRapCut) {
 
             MuonCounter++;
-            fastjet::PseudoJet lepton = fastjet::PseudoJet(MuonPt * Cos(MuonPhi), MuonPt * Sin(MuonPhi), MuonPt * SinH(MuonEta), MuonPt * CosH(MuonEta));
+            fastjet::PseudoJet lepton = fastjet::PseudoJet(MuonPt * Cos(MuonPhi), MuonPt * Sin(MuonPhi), MuonPt * SinH(MuonRap), MuonPt * CosH(MuonRap));
 
         }
 

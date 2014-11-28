@@ -81,7 +81,7 @@ private:
      * @brief Cutflow counter
      *
      */
-    int DeltaEtaCounter,
+    int DeltaRapCounter,
         BMassCounter,
         TMassCounter,
         EventCounter,

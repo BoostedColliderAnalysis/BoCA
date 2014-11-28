@@ -44,7 +44,7 @@ public:
         return (Pair1.GetBdt() * Pair2.GetBdt());
     }
 
-    float GetDeltaEta() const {
+    float GetDeltaRap() const {
         return (Pair1.GetPairJet().rap() - Pair2.GetPairJet().rap());
     }
 

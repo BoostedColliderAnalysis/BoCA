@@ -31,10 +31,10 @@ public:
     int BTag;
     float Isolation;
 
-    float BottomEta1;
-    float BottomEta2;
-    float BottomDeltaEta;
-    float BottomSumEta;
+    float BottomRap1;
+    float BottomRap2;
+    float BottomDeltaRap;
+    float BottomSumRap;
 
     float BottomPhi1;
     float BottomPhi2;
@@ -46,9 +46,9 @@ public:
     float BottomInvMass;
     float BottomDeltaPt;
 
-//     float TopEta1;
-//     float TopEta2;
-//     float TopDeltaEta;
+//     float TopRap1;
+//     float TopRap2;
+//     float TopDeltaRap;
 //
 //     float TopPhi1;
 //     float TopPhi2;
@@ -88,7 +88,7 @@ public:
     int BottomNumber;
     int LeptonNumber;
     float HeavyParticleTag;
-    float DeltaEta;
+    float DeltaRap;
     float DeltaPhi;
     float DeltaR;
 

@@ -143,7 +143,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 
         Candidate->Mass = CandidateJet.m();
         Candidate->Pt = CandidateJet.pt();
-        Candidate->Eta = CandidateJet.rap();
+        Candidate->Rap = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
 
         Print(HInformation, "Candidate Mass", CandidateJet.m());
@@ -192,7 +192,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 //
 // //         SubStructure->GetIsolation(CandidateJet, Leptons);
 //
-//         Candidate->IsolationEta = SubStructure->GetIsolationEta();
+//         Candidate->IsolationRap = SubStructure->GetIsolationRap();
 //         Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
 //         Candidate->IsolationPt = SubStructure->GetIsolationPt();
 //         Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
@@ -208,12 +208,12 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 //
 //         }
 //
-//         Candidate->ConstEta = SubStructure->GetConstituentEta();
+//         Candidate->ConstRap = SubStructure->GetConstituentRap();
 //         Candidate->ConstPhi = SubStructure->GetConstituentPhi();
 //         Candidate->ConstDeltaR = SubStructure->GetConstituentDeltaR();
 //         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
 
-//         CandidateJet.user_info<HJetInfo>().PrintAllInfos(4);
+//         CandidateJet.user_info<HJetInfo>().PrintAllInfos(HDetailed);
 //         Print(HNotification, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;
