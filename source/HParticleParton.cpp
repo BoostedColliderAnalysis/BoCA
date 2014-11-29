@@ -31,7 +31,7 @@ bool hparton::HParticle::GetParticles()
         int ParticleID = ParticleClone->PID;
         Print(HDetailed, "Particles ID", ParticleID);
 
-        if (ParticleStatus == Stable) {
+        if (ParticleStatus == StableParticle) {
 
             if (std::abs(ParticleID) == ElectronId) {
 
@@ -103,7 +103,7 @@ bool hparton::HParticle::GetParticles()
 
 
 
-        if (ParticleStatus == Unstable) {
+        if (ParticleStatus == UnstableParticle) {
 
             if (std::abs(ParticleID) == CharmId) {
 
@@ -136,7 +136,7 @@ bool hparton::HParticle::GetParticles()
 
 
 
-        if (ParticleStatus == Undefined) {
+        if (ParticleStatus == GeneratorParticle) {
 
 
 

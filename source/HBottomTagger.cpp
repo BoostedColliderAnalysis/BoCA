@@ -47,7 +47,7 @@ std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEv
 
     Print(HInformation, "Get Bottom Tag", State);
 
-    JetTag->SetHeavyParticles( {BottomId});
+    JetTag->SetHeavyParticles( {BottomId, TopId});
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
 
@@ -57,6 +57,7 @@ std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEv
             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId) {
                 Jet = Jets.erase(Jet);
             } else {
+                Print(HError,"we have a bootom",(*Jet).m()); // FIXME where are the bottoms; check truth level tagger
                 ++Jet;
             }
         }

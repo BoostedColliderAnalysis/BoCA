@@ -260,8 +260,9 @@ public:
         WId = 24,
         HiggsId = 25,
         HeavyHiggsId = 35,
-        IsrId = 86,
-        MarkerId = 87,
+        IsrId = 87,
+        MarkerId = 88,
+        MixJetId = 90,
         ClusterId = 91,
         StringId = 92,
         Pi0MesonId = 111,
@@ -347,9 +348,9 @@ protected:
     };
 
     enum HStatus {
-        Stable = 1,
-        Unstable = 2,
-        Undefined = 3
+        StableParticle = 1,
+        UnstableParticle = 2,
+        GeneratorParticle = 3
     };
 
     std::string GetParticleName(const int ParticleId) const;

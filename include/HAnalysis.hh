@@ -83,7 +83,7 @@ protected:
      *
      * @return void
      */
-    virtual std::vector<HFile *> GetFiles(const std::string &StudyName) const = 0;
+    virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
 
     /**
      * @brief New Analysis

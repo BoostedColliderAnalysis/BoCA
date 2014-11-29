@@ -29,7 +29,7 @@ bool hdelphes::HParticle ::GetParticles()
         const int ParticleID = ParticleClone->PID;
         Print(HDetailed, "Particles ID", ParticleID);
 
-        if (ParticleClone->Status == Stable) {
+        if (ParticleClone->Status == StableParticle) {
             Print(HDetailed, "Particles Status", "stable");
 
             if (std::abs(ParticleID) == ElectronId) {
@@ -78,7 +78,7 @@ bool hdelphes::HParticle ::GetParticles()
 
 
 
-        if (ParticleClone->Status == Unstable) {
+        if (ParticleClone->Status == UnstableParticle) {
             Print(HDetailed, "Particles Status", "unstable");
 
             if (std::abs(ParticleID) == CharmId) {
@@ -124,8 +124,8 @@ bool hdelphes::HParticle ::GetParticles()
 
 
 
-        if (ParticleClone->Status == Undefined) {
-            Print(HDetailed, "Particles Status", "undefined");
+        if (ParticleClone->Status == GeneratorParticle) {
+            Print(HDetailed, "Particles Status", "Generator");
 
             if (std::abs(ParticleID) == TopId) {
 

@@ -5,181 +5,122 @@ hanalysis::HFourVector::HFourVector() :
     Check(0.00001),
     MassCheck(1)
 {
-
     Print(HInformation, "Constructor");
-
 }
 
 hanalysis::HFourVector::~HFourVector()
 {
-
-
     Print(HInformation, "Destructor");
-
 }
 
 void hanalysis::HFourVector::NewEvent(const HClonesArray *const NewClonesArrays)
 {
-
     ClonesArrays = NewClonesArrays;
     Topology.assign(ClonesArrays->GetParticleSum(), EmptyId);
     Print(HInformation, "Topology", Topology.size());
-
 }
 
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
 {
-
     const fastjet::PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
-
     return Jet;
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootElectron *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootElectron");
-
     return GetLorentzVectorByMass(Particle, ElectronMass);
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootGenJet *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootGenJet");
-
     return GetLorentzVectorByMass(Particle);
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootGenParticle *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootGenParticle");
-
     return GetLorentzVectorByEnergy(Particle);
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootJet *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootJet");
-
     return GetLorentzVectorByMass(Particle);
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootLHEFParticle *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootLHEFParticle");
-
     return GetLorentzVectorByM(Particle);
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootMuon *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootMuon");
-
     return GetLorentzVectorByMass(Particle, MuonMass);
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootPhoton *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootPhoton");
-
     return GetLorentzVectorByMass(Particle, 0);
-
 }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootTau *const Particle) const
 {
-
     Print(HDebug, "Get Lorentz Vector", "TRootTau");
-
     return GetLorentzVectorByMass(Particle, TauMass);
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootElectron");
-
     return GetPseudoJet(GetLorentzVectorByMass(Particle, ElectronMass));
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootGenJet *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootGenJet");
-
     return GetPseudoJet(GetLorentzVectorByMass(Particle));
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootGenParticle *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootGenParticle");
-
     return GetPseudoJet(GetLorentzVectorByEnergy(Particle));
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootJet *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootJet");
-
     return GetPseudoJet(GetLorentzVectorByMass(Particle));
-
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootLHEFParticle *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootLHEFParticle");
-
     return GetPseudoJet(GetLorentzVectorByM(Particle));
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootMuon *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootMuon");
-
     return GetPseudoJet(GetLorentzVectorByMass(Particle, MuonMass));
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootPhoton *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootPhoton");
-
     return GetPseudoJet(GetLorentzVectorByMass(Particle, 0));
-
 }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Particle) const
 {
-
     Print(HDebug, "Get Pseudo Jet", "TRootTau");
-
     return GetPseudoJet(GetLorentzVectorByMass(Particle, TauMass));
-
 }
 
 int hanalysis::HFourVector::GetMotherId(TObject *Object)
@@ -187,92 +128,130 @@ int hanalysis::HFourVector::GetMotherId(TObject *Object)
 
     Print(HDebug, "Get Mother Id", ClonesArrays->GetParticleSum());
 
-    if (Object == 0) {
-        Print(HError, "empty Object");
-        return EmptyId;
-    }
-
-    if (Object->IsA() == GenParticle::Class()) {
-    } else if (Object->IsA() == Track::Class()) {
-        Track *TrackClone = const_cast<Track *>((Track *) Object);
-        Print(HError, "Object is", Object->ClassName());
-        Object = TrackClone->Particle.GetObject();
-    } else if (Object->IsA() == Tower::Class()) {
-        Tower *TowerClone = const_cast<Tower *>((Tower *) Object);
-        Print(HError, "Object is", Object->ClassName());
-        Object = TowerClone->Particles.At(0); // FIXME do soemthing wiser
-    } else if (Object->IsA() == Muon::Class()) {
-        Muon *MuonClone = const_cast<Muon *>((Muon *) Object);
-        Print(HError, "Object is", Object->ClassName());
-        Object = MuonClone->Particle.GetObject();
-    } else {
-        Print(HError, "Unkonw Object", Object->ClassName());
-    }
+//     if (Object == 0) {
+//         Print(HError, "Empty Object");
+//         return EmptyId;
+//     }
+//
+//     if (Object->IsA() == GenParticle::Class()) {
+//     } else if (Object->IsA() == Track::Class()) {
+//         Track *TrackClone = const_cast<Track *>((Track *) Object);
+//         Print(HError, "Object is", Object->ClassName());
+//         Object = TrackClone->Particle.GetObject();
+//     } else if (Object->IsA() == Tower::Class()) {
+//         Tower *TowerClone = const_cast<Tower *>((Tower *) Object);
+//         Print(HError, "Object is", Object->ClassName());
+//         Object = TowerClone->Particles.At(0); // FIXME do soemthing wiser
+//     } else if (Object->IsA() == Muon::Class()) {
+//         Muon *MuonClone = const_cast<Muon *>((Muon *) Object);
+//         Print(HError, "Object is", Object->ClassName());
+//         Object = MuonClone->Particle.GetObject();
+//     } else {
+//         Print(HError, "Unkonw Object", Object->ClassName());
+//     }
 
     if (Object->IsA() != GenParticle::Class() || Object == 0) {
         Print(HError, "Object is", Object->ClassName());
         return EmptyId;
     }
 
-    Print(HDebug, "Object", Object->ClassName());
-
     const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
     if (Position == EmptyPosition) return EmptyId;
 
-    int MotherId = Topology.at(Position);
-    MotherId = GetMotherId(MotherId, Position);
+    int Status  = ((GenParticle *) ClonesArrays->GetParticle(Position))->Status;
+//     int MotherId = Topology.at(Position);
+    int MotherId = EmptyId;
+    Source = Topology.size();
+//     Topology.at(Position) = MarkerId;
+    MotherId = GetMotherId(MotherId, Position, Status);
 
     Print(HDebug, "Mother Id", GetParticleName(MotherId));
-    if (MotherId == EmptyId) Print(HError, "No Mother Id", Position, Topology.at(Position));
+//     if (MotherId == EmptyId) Print(HError, "No Mother Id", Position, GetParticleName(Topology.at(Position)));
+//     if(Source<5) MotherId = IsrId;
 
     int Marker = MarkerId;
+//     std::replace(Topology.begin(), Topology.begin()+20, Marker, EmptyId);
+//     if(std::find(Topology.begin(),Topology.end(),Marker)<Topology.begin()+3) MotherId = IsrId;
+
     std::replace(Topology.begin(), Topology.end(), Marker, MotherId);
 
     return MotherId;
 
 }
 
-int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
+int hanalysis::HFourVector::GetMotherId(int BranchId, int Position, int Status)
 {
 
     Print(HDebug, "Get Mother Id", GetParticleName(BranchId), Position);
 
-    while (Position != EmptyPosition && JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles)) {
-
-        if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
-            Print(HDebug, "Topology", GetParticleName(BranchId), GetParticleName(Topology.at(Position)));
-            BranchId = JetTag->GetBranchId(BranchId, Topology.at(Position));
-        }
+    while (Position != EmptyPosition
+        && (JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles) 
+//         || Status != GeneratorParticle
+            
+        )
+            && (Topology.at(Position) == EmptyId)
+          ) {
 
         Topology.at(Position) = MarkerId;
+        if (Position < Source) Source = Position;
         const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(Position);
+        Status = ParticleClone->Status;
 
-        BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
+        if (Status == GeneratorParticle) BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
         Print(HDebug, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
 
-        Position = ParticleClone->M2;
-        if (Position != EmptyPosition) {
-            Print(HDebug, "Mother 2 Position", GetParticleName(BranchId), Position);
-            BranchId = GetMotherId(BranchId, Position);
+        if (ParticleClone->M2 != EmptyPosition && ParticleClone->M2 != ParticleClone->M1
+//             && JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles)
+           ) {
+            if (ParticleClone->PID == StringId && ParticleClone->M1 < ParticleClone->M2) {
+                Print(HDebug, "String", ParticleClone->M1, Position);
+                for (int Counter = ParticleClone->M2; Counter >= ParticleClone->M1; --Counter) {
+                    BranchId = GetMotherId(BranchId, Counter, Status);
+                    Print(HDetailed, "StringPart", Counter, BranchId, Status);
+                }
+            } else {
+                Print(HDebug, "Mother 2 Position", GetParticleName(BranchId), Position);
+                BranchId = GetMotherId(BranchId, ParticleClone->M2, Status);
+            }
         }
 
         Position = ParticleClone->M1;
         Print(HDebug, "Mother 1 Position", Position);
     }
 
-    if (Position == EmptyPosition) BranchId = IsrId;
+    if (Source  < 4 && JetTag->HeavyParticles.find(std::abs(BranchId)) != end(JetTag->HeavyParticles)) BranchId = MixJetId;
+//     if (Position == EmptyPosition) BranchId = IsrId;
     Print(HDebug, "Branch Id Result", GetParticleName(BranchId));
 
     return BranchId;
 
 }
 
+//         if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
+//             Print(HDebug, "Topology", GetParticleName(BranchId), GetParticleName(Topology.at(Position)));
+//             BranchId = JetTag->GetBranchId(BranchId, Topology.at(Position));
+//         }
+
 void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
 {
     if (Severity <= DebugLevel) {
 
-        for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
-            //     for (const int Position : HRange(100)) {
+        PrintCell("Position");
+        PrintCell("Topology");
+        PrintCell("Status");
+        PrintCell("Particle");
+        PrintCell("Pos M1");
+        PrintCell("Mother 1");
+        PrintCell("Pos M2");
+        PrintCell("Mother 2");
+        PrintCell("Pos D1");
+        PrintCell("Child 1");
+        PrintCell("Pos D2");
+        PrintCell("Child 2");
+        std::cout << std::endl;
+
+//         for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
+        for (const int Position : HRange(20)) {
 
             const GenParticle *Particle = (GenParticle *)ClonesArrays->GetParticle(Position);
 
@@ -291,8 +270,6 @@ void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
             std::cout << std::endl;
 
         }
-
-        Print(HNotification, "");
 
     }
 

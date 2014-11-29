@@ -169,7 +169,7 @@ protected:
 
     int GetMotherId(TObject *Object);
 
-    int GetMotherId(int BranchId, int Position);
+    int GetMotherId(int BranchId, int Position, int Status);
 
     template<typename TData>
     void PrintCell(TData const Data) const {
@@ -189,6 +189,8 @@ protected:
     const HClonesArray *ClonesArrays;
 
     std::vector<int> Topology;
+    
+    int Source;
 
     HJetTag *JetTag;
 

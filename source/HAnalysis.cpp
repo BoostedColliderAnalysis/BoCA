@@ -99,45 +99,31 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
   for (const auto & StudyName : GetStudyNames(Tagger)) {
 
     Print(HNotification, "Analysing Mva Sample", StudyName);
-
     TFile *const ExportFile = GetExportFile(StudyName);
 
     for (auto * const File : GetFiles(StudyName)) {
 
       HClonesArray *const ClonesArrays = File->GetClonesArrays();
-
       HEvent *Event = File->GetEvent();
-
       bool AnalysisNotEmpty = 0;
-
       ExRootTreeWriter *const TreeWriter = GetTreeWriter(ExportFile, File->GetTitle(),Tagger);
-
       ExRootTreeBranch *const InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
-
       const ExRootTreeReader *const TreeReader = File->GetTreeReader();
-
       ClonesArrays->GetBranches(TreeReader);
-
       ExRootProgressBar ProgressBar(GetEventSum(TreeReader));
-
       Print(HInformation, "Sum", GetEventSum(TreeReader));
 
       for (const int EventNumber : HRange(GetEventSum(TreeReader))) {
 
         Print(HInformation, "Event Number", EventNumber);
-
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-
         Event->NewEvent(ClonesArrays);
-
         const bool Successfull = Analysis(Event, StudyName,Tagger);
-
+        
         if (Successfull) {
 
           AnalysisNotEmpty = 1;
-
           FillInfoBranch(TreeReader, InfoBranch, File);
-
           TreeWriter->Fill();
 
         }
@@ -148,23 +134,16 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
       }
 
       Print(HNotification, "All Events analysed", GetEventSum(TreeReader));
-
       ProgressBar.Finish();
-
       if (AnalysisNotEmpty) TreeWriter->Write();
-
       delete TreeWriter;
-
       delete Event;
-
       delete ClonesArrays;
-
       if (DebugLevel > 0) Print(HError," ");
 
     }
 
     ExportFile->Close();
-
     delete ExportFile;
 
   }

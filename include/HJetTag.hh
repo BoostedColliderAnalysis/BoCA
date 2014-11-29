@@ -41,7 +41,8 @@ public:
      *
      */
 //     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-    std::set<int> HeavyParticles {BottomId};
+    std::set<int> HeavyParticles {};
+    
 
     void SetHeavyParticles(std::set<int> NewHeavyParticles) {
         HeavyParticles = NewHeavyParticles;
@@ -55,8 +56,8 @@ protected:
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    const std::set<int> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
-
+    std::set<int> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+    
 private:
 
     virtual inline std::string ClassName() const {
