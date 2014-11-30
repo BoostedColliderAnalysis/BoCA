@@ -34,7 +34,7 @@ HStrings hjetproperties::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector< hanalysis::HFile* > hjetproperties::HAnalysis::GetFiles(const std::string &StudyName) const
+std::vector< hanalysis::HFile* > hjetproperties::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
     Print(HNotification, "Set File Vector");

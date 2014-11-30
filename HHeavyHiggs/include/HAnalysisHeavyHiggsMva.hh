@@ -92,14 +92,14 @@ public:
 
 //     template<typename TMva>
 //     void SetMva(TMva *NewMva) {
-// 
+//
 //         Print(HNotification, "Set Mva", NewMva->GetTaggerName());
-// 
+//
 //         Mva = NewMva;
 //         TopReader = new hmva::HReader(Mva);
 //         TopReader->AddVariable();
 //         TopReader->BookMVA();
-// 
+//
 //     }
 
     hdelphes::HBottomTagger *BottomTagger;
@@ -116,9 +116,9 @@ private:
     hmva::HMva *Mva;
 
     hmva::HReader *BottomReader;
-    
+
     hmva::HReader *TopReader;
-    
+
     hmva::HReader *HeavyHiggsReader;
 
     inline int GetEventNumberMax() const {
@@ -190,7 +190,7 @@ private:
      *
      * @return void
      */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName) const;
+    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName);
 
     /**
      * @brief New Analysis

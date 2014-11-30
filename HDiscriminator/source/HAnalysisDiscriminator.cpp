@@ -32,7 +32,7 @@ HStrings hcpvhiggs::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const std::string &StudyName) const
+std::vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const std::string &StudyName)
 {
     Print(HNotification, "Set File Vector", StudyName);
 

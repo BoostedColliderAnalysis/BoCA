@@ -34,6 +34,7 @@ void hdelphes::HBottomTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->Displacement, "Displacement"));
     Observables.push_back(NewObservable(&Branch->Multipliticity, "Multipliticity"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch->Centrality, "Centrality"));
 
     Spectators.push_back(NewObservable(&Branch->Mass, "Mass"));
     Spectators.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
@@ -57,7 +58,7 @@ std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEv
             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId) {
                 Jet = Jets.erase(Jet);
             } else {
-                Print(HError,"we have a bootom",(*Jet).m()); // FIXME where are the bottoms; check truth level tagger
+                Print(HDebug,"we have a bootom",(*Jet).m()); // FIXME where are the bottoms; check truth level tagger
                 ++Jet;
             }
         }
@@ -142,9 +143,7 @@ float hdelphes::HBottomTagger::GetCentrality(const fastjet::PseudoJet &Jet) cons
     Print(HInformation, "Get Centrality");
 
     float Centrality;
-    for (const auto & Constituent : Jet.constituents()) {
-        Centrality += Jet.delta_R(Constituent) * Constituent.pt();
-    }
-    return (Centrality / Jet.pt());
+    for (const auto & Constituent : Jet.constituents()) Centrality += Jet.delta_R(Constituent) * Constituent.pt();
+    return (Centrality / Jet.pt() / GetDeltaR(Jet));
 
 }

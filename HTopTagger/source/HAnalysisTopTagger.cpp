@@ -31,7 +31,7 @@ HStrings htoptagger::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::string &StudyName) const
+std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
     Print(HNotification, "Set File Vector");

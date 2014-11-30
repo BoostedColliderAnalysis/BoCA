@@ -55,7 +55,7 @@ HStrings hheavyhiggs::HAnalysisMva::GetStudyNames(const HTagger Tagger)
     }
 }
 
-std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const std::string &StudyName) const
+std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const std::string &StudyName)
 {
     Print(HNotification, "Set File Vector", StudyName);
 

@@ -128,28 +128,6 @@ int hanalysis::HFourVector::GetMotherId(TObject *Object)
 
     Print(HDebug, "Get Mother Id", ClonesArrays->GetParticleSum());
 
-//     if (Object == 0) {
-//         Print(HError, "Empty Object");
-//         return EmptyId;
-//     }
-//
-//     if (Object->IsA() == GenParticle::Class()) {
-//     } else if (Object->IsA() == Track::Class()) {
-//         Track *TrackClone = const_cast<Track *>((Track *) Object);
-//         Print(HError, "Object is", Object->ClassName());
-//         Object = TrackClone->Particle.GetObject();
-//     } else if (Object->IsA() == Tower::Class()) {
-//         Tower *TowerClone = const_cast<Tower *>((Tower *) Object);
-//         Print(HError, "Object is", Object->ClassName());
-//         Object = TowerClone->Particles.At(0); // FIXME do soemthing wiser
-//     } else if (Object->IsA() == Muon::Class()) {
-//         Muon *MuonClone = const_cast<Muon *>((Muon *) Object);
-//         Print(HError, "Object is", Object->ClassName());
-//         Object = MuonClone->Particle.GetObject();
-//     } else {
-//         Print(HError, "Unkonw Object", Object->ClassName());
-//     }
-
     if (Object->IsA() != GenParticle::Class() || Object == 0) {
         Print(HError, "Object is", Object->ClassName());
         return EmptyId;
@@ -158,12 +136,12 @@ int hanalysis::HFourVector::GetMotherId(TObject *Object)
     const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
     if (Position == EmptyPosition) return EmptyId;
 
-    int Status  = ((GenParticle *) ClonesArrays->GetParticle(Position))->Status;
+//     int Status  = ((GenParticle *) ClonesArrays->GetParticle(Position))->Status;
 //     int MotherId = Topology.at(Position);
     int MotherId = EmptyId;
     Source = Topology.size();
 //     Topology.at(Position) = MarkerId;
-    MotherId = GetMotherId(MotherId, Position, Status);
+    MotherId = GetMotherId(MotherId, Position);
 
     Print(HDebug, "Mother Id", GetParticleName(MotherId));
 //     if (MotherId == EmptyId) Print(HError, "No Mother Id", Position, GetParticleName(Topology.at(Position)));
@@ -179,39 +157,37 @@ int hanalysis::HFourVector::GetMotherId(TObject *Object)
 
 }
 
-int hanalysis::HFourVector::GetMotherId(int BranchId, int Position, int Status)
+int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
 {
 
     Print(HDebug, "Get Mother Id", GetParticleName(BranchId), Position);
 
     while (Position != EmptyPosition
-        && (JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles) 
-//         || Status != GeneratorParticle
-            
-        )
-            && (Topology.at(Position) == EmptyId)
+            && (JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles))
+//             && (Topology.at(Position) == EmptyId)
           ) {
 
         Topology.at(Position) = MarkerId;
         if (Position < Source) Source = Position;
         const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(Position);
-        Status = ParticleClone->Status;
+        const int Status = ParticleClone->Status;
 
         if (Status == GeneratorParticle) BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
         Print(HDebug, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
+        if (JetTag->HeavyParticles.find(std::abs(BranchId)) != end(JetTag->HeavyParticles)) break;
 
-        if (ParticleClone->M2 != EmptyPosition && ParticleClone->M2 != ParticleClone->M1
-//             && JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles)
-           ) {
-            if (ParticleClone->PID == StringId && ParticleClone->M1 < ParticleClone->M2) {
-                Print(HDebug, "String", ParticleClone->M1, Position);
-                for (int Counter = ParticleClone->M2; Counter >= ParticleClone->M1; --Counter) {
-                    BranchId = GetMotherId(BranchId, Counter, Status);
-                    Print(HDetailed, "StringPart", Counter, BranchId, Status);
+        if (ParticleClone->M2 != EmptyPosition && ParticleClone->M2 != ParticleClone->M1) {
+            if (ParticleClone->PID == StringId) {
+                if (ParticleClone->M1 < ParticleClone->M2) {
+                    Print(HDebug, "String", ParticleClone->M1, Position);
+                    for (int Counter = ParticleClone->M2; Counter >= ParticleClone->M1; --Counter) {
+                        BranchId = GetMotherId(BranchId, Counter);
+                        Print(HDetailed, "StringPart", Counter, BranchId);
+                    }
                 }
             } else {
                 Print(HDebug, "Mother 2 Position", GetParticleName(BranchId), Position);
-                BranchId = GetMotherId(BranchId, ParticleClone->M2, Status);
+                BranchId = GetMotherId(BranchId, ParticleClone->M2);
             }
         }
 

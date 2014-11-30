@@ -105,19 +105,19 @@ std::vector<HLeptonicTopBranch *> hdelphes::HLeptonicTopTagger::GetBranches(hana
 
     std::vector<hanalysis::HJetLeptonPair> JetLeptonPairs;
 
-    for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end(); ++Jet) {
+    for (auto &Jet : Jets) {
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        BottomTagger->FillBranch(*Jet);
+        BottomTagger->FillBranch(Jet);
         JetInfo->SetBdt(BottomReader->GetBdt());
-        (*Jet).set_user_info(JetInfo);
+        Jet.set_user_info(JetInfo);
 
-        for (HJets::iterator Lepton = Leptons.begin(); Lepton != Leptons.end(); ++Lepton) {
-            Print(HDebug, "Lepton Tagging", GetParticleName((*Lepton).user_index()), GetParticleName((*Jet).user_index()));
-            if ((State == HSignal && (*Lepton).user_index() == (*Jet).user_index()) || (State == HBackground)) {
+        for (auto & Lepton : Leptons) {
+            Print(HDebug, "Lepton Tagging", GetParticleName(Lepton.user_index()), GetParticleName(Jet.user_index()));
+            if ((State == HSignal && Lepton.user_index() == Jet.user_index()) || State == HBackground) {
 
-                hanalysis::HJetLeptonPair JetLeptonPair((*Jet), (*Lepton));
+                hanalysis::HJetLeptonPair JetLeptonPair(Jet, Lepton);
 //                 JetLeptonPair.SetBdt((*Jet).user_info<hanalysis::HJetInfo>().GetBdt());
-                if (std::abs((*Jet).user_index()) == TopId) JetLeptonPair.SetTag(1);
+                if (std::abs(Jet.user_index()) == TopId) JetLeptonPair.SetTag(1);
                 JetLeptonPairs.push_back(JetLeptonPair);
             }
         }

@@ -169,7 +169,7 @@ protected:
 
     int GetMotherId(TObject *Object);
 
-    int GetMotherId(int BranchId, int Position, int Status);
+    int GetMotherId(int BranchId, int Position);
 
     template<typename TData>
     void PrintCell(TData const Data) const {

@@ -29,7 +29,7 @@ HStrings hbtagger::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string &StudyName) const
+std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string &StudyName)
 {
     Print(HNotification, "Set File Vector", StudyName);
 

@@ -15,7 +15,7 @@ HStrings htest::HAnalysis::GetStudyNameVector(){
 
 }
 
-std::vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const std::string &StudyName) const
+std::vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
     Print(HNotification, "Set File Vector", StudyName);

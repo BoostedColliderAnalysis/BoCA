@@ -2,92 +2,51 @@
 
 
 
-hmva::HFactory::HFactory(HMva * const NewMva)
+hmva::HFactory::HFactory(HMva *const NewMva)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
-
     Print(HNotification , "Constructor");
-
     Mva = NewMva;
-
     NewFactory();
-
     AddVariables();
-
     GetTrees();
-
     PrepareTrainingAndTestTree();
-
     BookMethods();
-
     Factory->TrainAllMethods();
-
     Factory->TestAllMethods();
-
     Factory->EvaluateAllMethods();
-
     OutputFile->Close();
-
-
 }
 
 hmva::HFactory::~HFactory()
 {
-
     Print(HNotification , "Destructor");
-
     delete Factory;
-
 }
 
 void hmva::HFactory::NewFactory()
 {
-
     Print(HNotification , "New Factory");
-
     const std::string FactoryOutputName = "Mva" + Mva->GetTaggerName();
-
     const std::string OutputFileName = Mva->GetAnalysisName() + "/" + FactoryOutputName + ".root";
-
     OutputFile = TFile::Open(OutputFileName.c_str(), "Recreate");
-
-//     std::string FactoryOptions = "Transformations=I;D;P;G,D:AnalysisType=Classification";
     const std::string FactoryOptions = "";
-
-//     Factory = new TMVA::Factory(Mva->GetAnalysisName(), OutputFile, FactoryOptions);
     Factory = new TMVA::Factory(Mva->GetTaggerName(), OutputFile, FactoryOptions);
-
 }
-
 
 void hmva::HFactory::AddVariables()
 {
-
     Print(HNotification , "Add Variables");
-
     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->GetAnalysisName();
-//     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->TaggerName;
-
-    for (const auto & Observable : Mva->GetObservables()) {
-
+    for (const auto & Observable : Mva->GetObservables())
         Factory->AddVariable(Observable.Expression, Observable.Title, Observable.Unit, Observable.Type);
-
-    }
-
-    for (const auto & Spectator : Mva->GetSpectators()) {
-
+    for (const auto & Spectator : Mva->GetSpectators())
         Factory->AddSpectator(Spectator.Expression, Spectator.Title, Spectator.Unit, Spectator.Type);
-
-    }
-
 }
-
 
 void hmva::HFactory::GetTrees()
 {
-
     Print(HNotification , "Get Trees");
-
     for (const auto & SignalName : Mva->GetSignalNames()) {
 
         std::string SignalFileName = Mva->GetAnalysisName() + "/" + SignalName + ".root";
