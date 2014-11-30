@@ -105,7 +105,7 @@ std::vector<HLeptonicTopBranch *> hdelphes::HLeptonicTopTagger::GetBranches(hana
 
     std::vector<hanalysis::HJetLeptonPair> JetLeptonPairs;
 
-    for (auto &Jet : Jets) {
+    for (auto & Jet : Jets) {
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
         BottomTagger->FillBranch(Jet);
         JetInfo->SetBdt(BottomReader->GetBdt());
@@ -116,8 +116,7 @@ std::vector<HLeptonicTopBranch *> hdelphes::HLeptonicTopTagger::GetBranches(hana
             if ((State == HSignal && Lepton.user_index() == Jet.user_index()) || State == HBackground) {
 
                 hanalysis::HJetLeptonPair JetLeptonPair(Jet, Lepton);
-//                 JetLeptonPair.SetBdt((*Jet).user_info<hanalysis::HJetInfo>().GetBdt());
-                if (std::abs(Jet.user_index()) == TopId) JetLeptonPair.SetTag(1);
+                if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index()) JetLeptonPair.SetTag(1);
                 JetLeptonPairs.push_back(JetLeptonPair);
             }
         }

@@ -233,15 +233,15 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent *const Event, const std
     std::vector<HHiggsBranch *> Higgses = HiggsTagger->GetBranches(Event, State);
 
     for (const auto & Higgs : Higgses) {
-        HHiggsBranch *HiggsTagger = static_cast<HHiggsBranch *>(HiggsBranch->NewEntry());
-        *HiggsTagger = *Higgs;
+        HHiggsBranch *HiggsBranch1 = static_cast<HHiggsBranch *>(HiggsBranch->NewEntry());
+        *HiggsBranch1 = *Higgs;
     }
 
     std::vector<HParticleBranch *> Constitents = HiggsTagger->GetConstituentBranches();
 
     for (const auto & Constituent : Constitents) {
-        HParticleBranch *HiggsTagger = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
-        *HiggsTagger = *Constituent;
+        HParticleBranch *ConstituentBranch1 = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
+        *ConstituentBranch1 = *Constituent;
     }
 
     return 1;

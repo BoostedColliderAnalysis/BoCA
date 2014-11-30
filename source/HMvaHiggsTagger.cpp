@@ -51,6 +51,13 @@ void hdelphes::HMvaHiggsTagger::DefineVariables()
 }
 
 
+struct SortPairByMass {
+    inline bool operator()(const hdelphes::HSuperStructure &Pair1, const hdelphes::HSuperStructure &Pair2) {
+        return (Pair1.GetMassDifference(hanalysis::HObject::HiggsId) > Pair2.GetMassDifference(hanalysis::HObject::HiggsId));
+    }
+};
+
+
 std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
@@ -95,6 +102,9 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
                 JetPairs.push_back(JetPair);
             }
         }
+        std::sort(JetPairs.begin(), JetPairs.end(), SortPairByMass);
+        if (JetPairs.size() > 1)for (const auto & Pair : JetPairs) Print(HError, "Higgs Mass", Pair.GetInvariantMass());
+        // TODO delete the Higgses with the lowest mass
     }
 
     if (State == HBackground) {
@@ -115,7 +125,7 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
     }
 
     Print(HInformation, "Number of Jet Pairs", JetPairs.size());
-    if(State == HSignal && JetPairs.size() > 1 ) Print(HError, "Number of Higgses", JetPairs.size());
+    if (State == HSignal && JetPairs.size() > 1) Print(HError, "Number of Higgses", JetPairs.size());
 
     std::vector<HHiggsBranch *> HiggsBranches;
     for (const auto & JetPair : JetPairs) {
@@ -176,7 +186,7 @@ std::vector<HParticleBranch *> hdelphes::HMvaHiggsTagger::GetConstituentBranches
         }
     }
 
-return ConstituentBranches;
+    return ConstituentBranches;
 
 }
 
