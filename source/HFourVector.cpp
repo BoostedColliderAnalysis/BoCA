@@ -125,7 +125,6 @@ fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Pa
 
 int hanalysis::HFourVector::GetMotherId(TObject *Object)
 {
-
     Print(HDebug, "Get Mother Id", ClonesArrays->GetParticleSum());
 
     if (Object->IsA() != GenParticle::Class() || Object == 0) {
@@ -136,21 +135,14 @@ int hanalysis::HFourVector::GetMotherId(TObject *Object)
     const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
     if (Position == EmptyPosition) return EmptyId;
 
-//     int Status  = ((GenParticle *) ClonesArrays->GetParticle(Position))->Status;
-//     int MotherId = Topology.at(Position);
     int MotherId = EmptyId;
     Source = Topology.size();
-//     Topology.at(Position) = MarkerId;
+
     MotherId = GetMotherId(MotherId, Position);
 
     Print(HDebug, "Mother Id", GetParticleName(MotherId));
-//     if (MotherId == EmptyId) Print(HError, "No Mother Id", Position, GetParticleName(Topology.at(Position)));
-//     if(Source<5) MotherId = IsrId;
 
     int Marker = MarkerId;
-//     std::replace(Topology.begin(), Topology.begin()+20, Marker, EmptyId);
-//     if(std::find(Topology.begin(),Topology.end(),Marker)<Topology.begin()+3) MotherId = IsrId;
-
     std::replace(Topology.begin(), Topology.end(), Marker, MotherId);
 
     return MotherId;
@@ -163,9 +155,12 @@ int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
     Print(HDebug, "Get Mother Id", GetParticleName(BranchId), Position);
 
     while (Position != EmptyPosition
-            && (JetTag->HeavyParticles.find(std::abs(BranchId)) == end(JetTag->HeavyParticles))
-//             && (Topology.at(Position) == EmptyId)
+            && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) == end(JetTag->HeavyParticles)
           ) {
+
+        Print(HDebug, "Topology", Topology.at(Position));
+
+        if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) BranchId = Topology.at(Position);
 
         Topology.at(Position) = MarkerId;
         if (Position < Source) Source = Position;
@@ -174,7 +169,8 @@ int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
 
         if (Status == GeneratorParticle) BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
         Print(HDebug, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
-        if (JetTag->HeavyParticles.find(std::abs(BranchId)) != end(JetTag->HeavyParticles)) break;
+
+        if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) != end(JetTag->HeavyParticles)) break;
 
         if (ParticleClone->M2 != EmptyPosition && ParticleClone->M2 != ParticleClone->M1) {
             if (ParticleClone->PID == StringId) {
@@ -195,18 +191,12 @@ int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
         Print(HDebug, "Mother 1 Position", Position);
     }
 
-    if (Source  < 4 && JetTag->HeavyParticles.find(std::abs(BranchId)) != end(JetTag->HeavyParticles)) BranchId = MixJetId;
-//     if (Position == EmptyPosition) BranchId = IsrId;
+    if (Source  < 4 && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) != end(JetTag->HeavyParticles)) BranchId = MixedJetId;
     Print(HDebug, "Branch Id Result", GetParticleName(BranchId));
 
     return BranchId;
 
 }
-
-//         if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) {
-//             Print(HDebug, "Topology", GetParticleName(BranchId), GetParticleName(Topology.at(Position)));
-//             BranchId = JetTag->GetBranchId(BranchId, Topology.at(Position));
-//         }
 
 void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
 {

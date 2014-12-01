@@ -5,7 +5,7 @@ hjetproperties::HAnalysis::HAnalysis()
 
     Print(HNotification, "Constructor");
 
-    JetTag = new hjetproperties::HJetTag();
+    JetTag = new hanalysis::HJetTag();
 
     SubStructure = new hdelphes::HSubStructure();
 
@@ -113,34 +113,34 @@ void hjetproperties::HAnalysis::CloseFile()
 
 }
 
-int hjetproperties::HJetTag::GetBranchId(const int ParticleId, int BranchId)
-{
-
-    Print(HDebug, "Get Branch Id", ParticleId);
-
-    if (ParticleId == -BranchId) {
-
-        Print(HDetailed, "ID CONFILICT", ParticleId, BranchId);
-
-    }
-
-    if (
-        RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
-        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
-    ) {
-        BranchId = IsrId;
-    } else if (
-        HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles)
-        && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
-    ) {
-        BranchId = ParticleId;
-    }
-
-    Print(HDebug, "Branch Id", BranchId);
-
-    return BranchId;
-
-}
+// int hjetproperties::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+// {
+// 
+//     Print(HDebug, "Get Branch Id", ParticleId);
+// 
+//     if (ParticleId == -BranchId) {
+// 
+//         Print(HDetailed, "ID CONFILICT", ParticleId, BranchId);
+// 
+//     }
+// 
+//     if (
+//         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
+//         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
+//     ) {
+//         BranchId = IsrId;
+//     } else if (
+//         HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles)
+//         && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
+//     ) {
+//         BranchId = ParticleId;
+//     }
+// 
+//     Print(HDebug, "Branch Id", BranchId);
+// 
+//     return BranchId;
+// 
+// }
 
 
 bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)

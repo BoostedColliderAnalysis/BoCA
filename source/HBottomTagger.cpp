@@ -48,7 +48,7 @@ std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEv
 
     Print(HInformation, "Get Bottom Tag", State);
 
-    JetTag->SetHeavyParticles( {BottomId, TopId});
+    JetTag->HeavyParticles = {TopId, BottomId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
 
@@ -58,13 +58,12 @@ std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEv
             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId) {
                 Jet = Jets.erase(Jet);
             } else {
-                Print(HDebug,"we have a bootom",(*Jet).m()); // FIXME where are the bottoms; check truth level tagger
                 ++Jet;
             }
         }
     } else if (State == HBackground) {
         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-            if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
+            if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId || std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == MixedJetId) {
                 Jet = Jets.erase(Jet);
             } else {
                 ++Jet;
@@ -111,8 +110,10 @@ void hdelphes::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, cons
         BottomBranch->Centrality = GetCentrality(Jet);
         if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
             BottomBranch->BottomTag = 1;
+        } else if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == MixedJetId) {
+            BottomBranch->BottomTag = .5;
         } else {
-            BottomBranch->BottomTag = 0;
+            BottomBranch->BottomTag = 0;            
         }
 
     } else {

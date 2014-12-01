@@ -5,7 +5,7 @@ hbtagger::HAnalysis::HAnalysis()
 
     Print(HNotification, "Constructor");
 
-    JetTag = new hbtagger::HJetTag();
+    JetTag = new hanalysis::HJetTag();
 
     SubStructure = new hdelphes::HSubStructure();
 
@@ -93,26 +93,26 @@ void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 }
 
 
-int hbtagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
-{
-
-    Print(HDebug, "Get Branch Id", ParticleId, BranchId);
-
-    if (
-        HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
-    ) {
-        BranchId = ParticleId;
-    } else if (
-        RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles)
-    ) {
-        BranchId = IsrId;
-    }
-
-    Print(HDebug, "Branch Id", BranchId);
-
-    return BranchId;
-
-}
+// int hbtagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+// {
+// 
+//     Print(HDebug, "Get Branch Id", ParticleId, BranchId);
+// 
+//     if (
+//         HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
+//     ) {
+//         BranchId = ParticleId;
+//     } else if (
+//         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles)
+//     ) {
+//         BranchId = IsrId;
+//     }
+// 
+//     Print(HDebug, "Branch Id", BranchId);
+// 
+//     return BranchId;
+// 
+// }
 
 bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
 {

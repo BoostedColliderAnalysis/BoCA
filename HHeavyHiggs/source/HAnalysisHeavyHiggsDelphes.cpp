@@ -91,31 +91,31 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event,
 
 }
 
-class hheavyhiggs::HHeavyHiggsJetTag : public hanalysis::HJetTag {
+// class hheavyhiggs::HHeavyHiggsJetTag : public hanalysis::HJetTag {
+// 
+//     int GetBranchId(int, int);
+// 
+// };
 
-    int GetBranchId(int, int);
-
-};
-
-int hheavyhiggs::HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
-{
-
-    Print(HInformation, "Get Mother Id");
-
-    if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
-        BranchId = IsrId;
-    } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
-        BranchId = ParticleId;
-    } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
-        BranchId = ParticleId;
-    }
-
-    Print(HDetailed, "Mother Id", BranchId);
-
-
-    return BranchId;
-
-}
+// int hheavyhiggs::HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
+// {
+// 
+//     Print(HInformation, "Get Mother Id");
+// 
+//     if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
+//         BranchId = IsrId;
+//     } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
+//         BranchId = ParticleId;
+//     } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
+//         BranchId = ParticleId;
+//     }
+// 
+//     Print(HDetailed, "Mother Id", BranchId);
+// 
+// 
+//     return BranchId;
+// 
+// }
 
 // bool HAnalysisHeavyHiggsDelphes::JetIsBottom(const fastjet::PseudoJet &Jet)
 // {
@@ -130,10 +130,10 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent* Event)
 
     Print(HInformation, "Signal");
 
-    HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    hanalysis::HJetTag * const JetTag = new hanalysis::HJetTag;
 //     Event->GetTaggedJets(HeavyHiggsJetTag);
 
-    HJets JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);
+    HJets JetVector = Event->GetJets()->GetTaggedJets(JetTag);
 
     HJets BottomJetVector;
 
@@ -164,7 +164,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent* Even
 
     Print(HInformation, "Background");
 
-    HHeavyHiggsJetTag * const HeavyHiggsJetTag = new HHeavyHiggsJetTag;
+    hanalysis::HJetTag * const HeavyHiggsJetTag = new hanalysis::HJetTag;
 //     Event->GetTaggedJets(HeavyHiggsJetTag);
 
     HJets JetVector = Event->GetJets()->GetTaggedJets(HeavyHiggsJetTag);

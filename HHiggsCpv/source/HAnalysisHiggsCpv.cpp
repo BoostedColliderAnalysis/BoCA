@@ -5,7 +5,6 @@ hhiggscpv::HAnalysis::HAnalysis()
 
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-
     JetTag = new hanalysis::HJetTag();
 
 }
@@ -17,13 +16,13 @@ hhiggscpv::HAnalysis::~HAnalysis()
 
     delete JetTag;
 
-    delete BottomTagger;
-    delete LeptonicTopTagger;
-    delete HiggsTagger;
+    if (!BottomTagger)delete BottomTagger;
+    if (!LeptonicTopTagger) delete LeptonicTopTagger;
+    if (!HiggsTagger) delete HiggsTagger;
 
-    delete BottomReader;
-    delete LeptonicTopTagger;
-    delete HiggsReader;
+    if (!BottomReader) delete BottomReader;
+    if (!LeptonicTopTagger) delete LeptonicTopTagger;
+    if (!HiggsReader) delete HiggsReader;
 
 }
 
@@ -102,17 +101,18 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
     Print(HNotification, "Files prepared");
 
 
-
-        BottomTagger = new hdelphes::HBottomTagger();
-        BottomTagger->SetAnalysisName(GetProjectName());
-        BottomTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-        BottomTagger->SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-        BottomTagger->SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+    
+    
+    BottomTagger = new hdelphes::HBottomTagger();
+    BottomTagger->SetAnalysisName(GetProjectName());
+    BottomTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+    BottomTagger->SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+    BottomTagger->SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
     if (StudyName != "Bottom" && StudyName != "NotBottom") {
 
         BottomReader = new hmva::HReader(BottomTagger);
-
+        
         LeptonicTopTagger = new hdelphes::HLeptonicTopTagger(BottomTagger);
         LeptonicTopTagger->SetAnalysisName(GetProjectName());
         LeptonicTopTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
@@ -120,7 +120,7 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
         LeptonicTopTagger->SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
 
-
+        
         HiggsTagger = new hdelphes::HMvaHiggsTagger(BottomTagger);
         HiggsTagger->SetAnalysisName(GetProjectName());
         HiggsTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
@@ -128,8 +128,8 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
         HiggsTagger->SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
         if (StudyName != "Top" && StudyName != "NotTop" && StudyName != "Higgs" && StudyName != "NotHiggs") {
-        HiggsReader = new hmva::HReader(HiggsTagger);
-        TopReader = new hmva::HReader(LeptonicTopTagger);
+            HiggsReader = new hmva::HReader(HiggsTagger);
+            TopReader = new hmva::HReader(LeptonicTopTagger);
         }
 
     }

@@ -17,7 +17,7 @@ public:
     }
 
     inline float GetInvariantMass() const {
-        return (GetPairJet().m()); // TODO check if this is true
+        return (GetPairJet().m());
     }
 
     inline float GetMassDifference(const int ParticleMass) const {

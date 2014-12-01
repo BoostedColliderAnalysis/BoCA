@@ -69,6 +69,10 @@ public:
     float GetBdt() const {
         return (Jet1.user_info<hanalysis::HJetInfo>().GetBdt() * Jet2.user_info<hanalysis::HJetInfo>().GetBdt());
     }
+    
+    float GetTag() const {
+        return (Jet1.user_info<hanalysis::HJetInfo>().GetTag() * Jet2.user_info<hanalysis::HJetInfo>().GetTag());
+    }
 
     std::vector< HKinematics > GetConstituents() const;
 

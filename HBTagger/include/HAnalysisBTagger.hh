@@ -13,27 +13,27 @@
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class hbtagger::HJetTag : public hanalysis::HJetTag
-{
-
-public:
-
-    int GetBranchId(const int ParticleId, int BranchId);
-
-//     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-    const std::set<int> HeavyParticles {BottomId};
-
-//     const std::set<int> IntermediateParticles {BottomId};
-
-    virtual inline std::string NameSpaceName() const {
-        return "hbtagger";
-    };
-
-    virtual inline std::string ClassName() const {
-        return "HJetTag";
-    };
-
-};
+// class hbtagger::HJetTag : public hanalysis::HJetTag
+// {
+// 
+// public:
+// 
+//     int GetBranchId(const int ParticleId, int BranchId);
+// 
+// //     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
+//     const std::set<int> HeavyParticles {BottomId};
+// 
+// //     const std::set<int> IntermediateParticles {BottomId};
+// 
+//     virtual inline std::string NameSpaceName() const {
+//         return "hbtagger";
+//     };
+// 
+//     virtual inline std::string ClassName() const {
+//         return "HJetTag";
+//     };
+// 
+// };
 
 /**
  *
@@ -78,7 +78,7 @@ private:
         return "BTagger";
     };
 
-    hbtagger::HJetTag *JetTag;
+    hanalysis::HJetTag *JetTag;
 
     hdelphes::HSubStructure *SubStructure;
 

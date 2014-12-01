@@ -12,12 +12,6 @@ public:
 
     HPairPair(const HJetLeptonPair &NewPair1, const HJetLeptonPair &NewPair2);
 
-//     HPairPair(const HJetLeptonPair &NewPair1, const HJetLeptonPair &NewPair2, const float NewMet) {
-//         Pair1 = NewPair1;
-//         Pair2 = NewPair2;
-//         Met = NewMet;
-//     }
-
     void SetMet(const float NewMet) {
         Met = NewMet;
     }

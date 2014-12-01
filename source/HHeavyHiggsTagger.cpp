@@ -36,7 +36,7 @@ std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetBranches(h
 
     Print(HInformation, "Get Higgs Tags");
 
-    JetTag->SetHeavyParticles( {HeavyHiggsId});
+    JetTag->HeavyParticles= {HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
     HJets HeavyHiggsJets;

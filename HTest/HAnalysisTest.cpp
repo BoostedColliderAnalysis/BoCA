@@ -48,38 +48,38 @@ void htest::HAnalysis::CloseFile()
 
 }
 
-class htest::HJetTag : public hanalysis::HJetTag {
+// class htest::HJetTag : public hanalysis::HJetTag {
+// 
+//     int GetBranchId(int, int);
+// 
+// };
 
-    int GetBranchId(int, int);
-
-};
-
-int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
-{
-
-    Print(HInformation, "Get Mother Id");
-
-    if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
-        BranchId = IsrId;
-    } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
-        BranchId = ParticleId;
-    } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
-        BranchId = ParticleId;
-    }
-
-    Print(HDetailed, "Mother Id", BranchId);
-
-
-    return BranchId;
-
-}
+// int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+// {
+// 
+//     Print(HInformation, "Get Mother Id");
+// 
+//     if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
+//         BranchId = IsrId;
+//     } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
+//         BranchId = ParticleId;
+//     } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
+//         BranchId = ParticleId;
+//     }
+// 
+//     Print(HDetailed, "Mother Id", BranchId);
+// 
+// 
+//     return BranchId;
+// 
+// }
 
 bool htest::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
 {
 
     Print(HInformation, "Analysis", StudyName);
 
-    HJetTag * const HeavyHiggsJetTag = new HJetTag;
+    hanalysis::HJetTag * const HeavyHiggsJetTag = new hanalysis::HJetTag;
 //     Event->GetTaggedJets(HeavyHiggsJetTag);
 
 

@@ -4,6 +4,7 @@ hanalysis::HObject::HObject()
 {
 
     DebugLevel = HNotification;
+//     DebugLevel = HDebug;
     
     Print(HDebug, "Constructor");
 
@@ -156,6 +157,8 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
         return (Sign + "Cluster");
     case StringId:
         return (Sign + "String");
+    case MixedJetId:
+        return (Sign + "MixJet");
     case Pi0MesonId:
         return (Sign + "pi0");
     case Rho0MesonId:

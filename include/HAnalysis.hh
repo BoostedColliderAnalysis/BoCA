@@ -44,6 +44,14 @@ public:
         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
     }
 
+
+    /**
+     * @brief prepares the std::vector describing the input root files
+     *
+     * @return void
+     */
+    virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
+    
 protected:
 
 //     HTagger Tagger;
@@ -77,13 +85,6 @@ protected:
         Print(HError, "Analysis", "should be subclassed");
         return 0;
     }
-
-    /**
-     * @brief prepares the std::vector describing the input root files
-     *
-     * @return void
-     */
-    virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
 
     /**
      * @brief New Analysis

@@ -262,7 +262,7 @@ public:
         HeavyHiggsId = 35,
         IsrId = 87,
         MarkerId = 88,
-        MixJetId = 90,
+        MixedJetId = 90,
         ClusterId = 91,
         StringId = 92,
         Pi0MesonId = 111,

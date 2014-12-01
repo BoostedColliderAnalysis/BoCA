@@ -78,6 +78,13 @@ public:
     hdelphes::HBottomTagger *BottomTagger;
     hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
     hdelphes::HMvaHiggsTagger *HiggsTagger;
+    
+    /**
+     * @brief prepares the std::vector describing the input root files
+     *
+     * @return void
+     */
+    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName);
 
 private:
 
@@ -122,12 +129,6 @@ private:
     bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
 
     std::vector<HHiggsCpv> GetHiggsCpvs(const HJets &Jets, const HJets &Leptons);
-    /**
-     * @brief prepares the std::vector describing the input root files
-     *
-     * @return void
-     */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName);
 
     /**
      * @brief New Analysis

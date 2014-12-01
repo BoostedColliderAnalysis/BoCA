@@ -32,7 +32,7 @@ protected:
 
     float Bdt;
 
-    bool Tag;
+    float Tag;
 
     virtual inline std::string ClassName() const {
         return "HTag";

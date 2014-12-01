@@ -36,28 +36,29 @@ public:
      */
     virtual int GetBranchId(const int ParticleId, int BranchId);
 
+//     void SetHeavyParticles(const std::set<HParticleId> &NewHeavyParticles) {
+//         HeavyParticles = NewHeavyParticles;
+//     }
+// 
+//     std::set<HParticleId> GetHeavyParticles() const {
+//         return HeavyParticles;
+//     }
+    std::set<HParticleId> HeavyParticles;
+
+protected:
+
     /**
      * @brief set of particle Ids which are considerd relevant
      *
      */
-//     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-    std::set<int> HeavyParticles {};
-    
 
-    void SetHeavyParticles(std::set<int> NewHeavyParticles) {
-        HeavyParticles = NewHeavyParticles;
-    }
-
-//     const std::set<int> IntermediateParticles {BottomId};
-
-protected:
 
     /**
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    std::set<int> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
-    
+    std::set<HParticleId> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+
 private:
 
     virtual inline std::string ClassName() const {

@@ -4,6 +4,7 @@ hanalysis::HJetTag::HJetTag()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HInformation, "Constructor");
+//     HeavyParticles {BottomId, TopId};
 }
 
 hanalysis::HJetTag::~HJetTag()
@@ -17,12 +18,12 @@ int hanalysis::HJetTag::GetBranchId(const int ParticleId, int BranchId)
     Print(HDebug, "Get Branch Id", GetParticleName(ParticleId), GetParticleName(BranchId));
 
     if (
-        HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles)
-        && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(HeavyParticles)
+        && HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) == end(HeavyParticles)
     ) {
         BranchId = ParticleId;
     } else if (
-        RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles)
+        RadiationParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(RadiationParticles)
     ) {
         BranchId = IsrId;
     }

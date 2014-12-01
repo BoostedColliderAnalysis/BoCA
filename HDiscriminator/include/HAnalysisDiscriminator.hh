@@ -85,7 +85,7 @@ private:
 
     };
 
-    hcpvhiggs::HJetTag * JetTag;
+    hanalysis::HJetTag * JetTag;
 
     hdelphes::HSubStructure * SubStructure;
 

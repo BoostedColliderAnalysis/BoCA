@@ -5,7 +5,7 @@ hcpvhiggs::HAnalysis::HAnalysis()
 
     Print(HNotification, "Constructor");
 
-    JetTag = new hcpvhiggs::HJetTag();
+    JetTag = new hanalysis::HJetTag();
 
     SubStructure = new hdelphes::HSubStructure();
 
@@ -94,38 +94,38 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 }
 
 
-int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
-{
-
-//     if (HeavyParticles.find(std::abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
-
-//     Print(HError, "we are here", ParticleId, BranchId);
-    Print(HDebug, "HCPVHiggs: Get Branch Id", ParticleId, BranchId);
-
-
-
-//     for(auto HeavyParticle : HeavyParticles) {
-//         Print(HError,"HeavyParticle",HeavyParticle);
+// int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+// {
+// 
+// //     if (HeavyParticles.find(std::abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
+// 
+// //     Print(HError, "we are here", ParticleId, BranchId);
+//     Print(HDebug, "HCPVHiggs: Get Branch Id", ParticleId, BranchId);
+// 
+// 
+// 
+// //     for(auto HeavyParticle : HeavyParticles) {
+// //         Print(HError,"HeavyParticle",HeavyParticle);
+// //     }
+// 
+// 
+//     if (
+//         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
+//         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
+//     ) {
+//         BranchId = IsrId;
+//     } else if (
+//         HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) &&
+//         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
+//     ) {
+//         BranchId = ParticleId;
 //     }
-
-
-    if (
-        RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
-        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
-    ) {
-        BranchId = IsrId;
-    } else if (
-        HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) &&
-        HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
-    ) {
-        BranchId = ParticleId;
-    }
-
-    Print(HDebug, "HCPVHiggs: Branch Id", BranchId);
-//     DebugLevel =1;
-    return BranchId;
-
-}
+// 
+//     Print(HDebug, "HCPVHiggs: Branch Id", BranchId);
+// //     DebugLevel =1;
+//     return BranchId;
+// 
+// }
 
 bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
 {

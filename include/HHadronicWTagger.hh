@@ -1,5 +1,5 @@
-# ifndef HMvaHiggsTagger_hh
-# define HMvaHiggsTagger_hh
+# ifndef HHadronicWTagger_hh
+# define HHadronicWTagger_hh
 
 # include "HMva.hh"
 # include "HBranch.hh"
@@ -13,14 +13,14 @@
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HMvaHiggsTagger : public hmva::HMva
+class hdelphes::HHadronicWTagger : public hmva::HMva
 {
 
 public:
 
-    HMvaHiggsTagger(HBottomTagger *NewBottomTagger);
+    HHadronicWTagger(HBottomTagger *NewBottomTagger);
 
-    ~HMvaHiggsTagger();
+    ~HHadronicWTagger();
 
     std::vector< HHiggsBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
@@ -51,7 +51,7 @@ private:
     };
 
     virtual inline std::string ClassName() const {
-        return "HMvaHiggsTagger";
+        return "HHadronicWTagger";
     };
 
 };
