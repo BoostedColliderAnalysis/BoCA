@@ -25,7 +25,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hmva::HFactory : public hanalysis::HObject
+class hanalysis::HFactory : public HObject
 {
 
 public:
@@ -34,7 +34,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(hmva::HMva *const NewMva);
+    HFactory(HMva *const NewMva);
 
     /**
      * @brief Destructor

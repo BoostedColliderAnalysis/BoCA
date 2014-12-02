@@ -7,7 +7,7 @@
  * @brief MadGraph particles
  *
  */
-class hparton::HParticle : public hanalysis::HParticle
+class hanalysis::hparton::HParticle : public hanalysis::HParticle
 {
 
 public:

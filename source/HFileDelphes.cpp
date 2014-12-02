@@ -1,6 +1,6 @@
 # include "HFileDelphes.hh"
 
-hdelphes::HFile::HFile()
+hanalysis::hdelphes::HFile::HFile()
 {
 
     Print(HNotification, "Constructor");
@@ -13,7 +13,7 @@ hdelphes::HFile::HFile()
 
 }
 
-hdelphes::HFile::HFile(const std::string &Process)
+hanalysis::hdelphes::HFile::HFile(const std::string &Process)
 {
 
     Print(HNotification, "Constructor");
@@ -28,7 +28,7 @@ hdelphes::HFile::HFile(const std::string &Process)
 
 }
 
-hdelphes::HFile::HFile(const std::string &Process, const std::string &Run)
+hanalysis::hdelphes::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
     Print(HNotification, "Constructor");
@@ -45,7 +45,7 @@ hdelphes::HFile::HFile(const std::string &Process, const std::string &Run)
 
 }
 
-std::string hdelphes::HFile::GetFilePath() const
+std::string hanalysis::hdelphes::HFile::GetFilePath() const
 {
 
     Print(HInformation, "FilePath");
@@ -55,7 +55,7 @@ std::string hdelphes::HFile::GetFilePath() const
 
 }
 
-hanalysis::HEvent *hdelphes::HFile::GetEvent()
+hanalysis::HEvent *hanalysis::hdelphes::HFile::GetEvent()
 {
 
     Print(HNotification, "Get Event");
@@ -66,7 +66,7 @@ hanalysis::HEvent *hdelphes::HFile::GetEvent()
 
 }
 
-hanalysis::HClonesArray *hdelphes::HFile::GetClonesArrays()
+hanalysis::HClonesArray *hanalysis::hdelphes::HFile::GetClonesArrays()
 {
 
     Print(HNotification, "Get Clones Arrays");

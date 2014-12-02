@@ -1,6 +1,6 @@
 # include "HHiggsTagger.hh"
 
-hdelphes::HHiggsTagger::HHiggsTagger()
+hanalysis::HHiggsTagger::HHiggsTagger()
 {
 
     Print(HNotification, "Constructor");
@@ -17,14 +17,14 @@ hdelphes::HHiggsTagger::HHiggsTagger()
 
 }
 
-hdelphes::HHiggsTagger::~HHiggsTagger()
+hanalysis::HHiggsTagger::~HHiggsTagger()
 {
 
     Print(HNotification, "Destructor");
 
 }
 
-void hdelphes::HHiggsTagger::NewEvent()
+void hanalysis::HHiggsTagger::NewEvent()
 {
 
     Print(HInformation, "New Event");
@@ -38,7 +38,7 @@ void hdelphes::HHiggsTagger::NewEvent()
 }
 
 
-fastjet::PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJets &BottomJets, const HJets &CharmJets)
+fastjet::PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJets &BottomJets, const HJets &CharmJets)
 {
     Print(HInformation, "GetHiggsJet");
 
@@ -108,7 +108,7 @@ fastjet::PseudoJet hdelphes::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, c
 
 
 
-fastjet::PseudoJet hdelphes::HHiggsTagger::GetFilteredJet(const fastjet::PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
+fastjet::PseudoJet hanalysis::HHiggsTagger::GetFilteredJet(const fastjet::PseudoJet &MassDropJet, const fastjet::JetAlgorithm &FilterJetAlgorithm, const int NumberHardestPieces)
 {
 
     Print(HInformation, "GetFilteredJet");
@@ -137,7 +137,7 @@ fastjet::PseudoJet hdelphes::HHiggsTagger::GetFilteredJet(const fastjet::PseudoJ
 
 }
 
-void hdelphes::HHiggsTagger::GetSubJetSource(const HJets &Particles, const int UserIndex)
+void hanalysis::HHiggsTagger::GetSubJetSource(const HJets &Particles, const int UserIndex)
 {
 
     Print(HInformation, "GetSubJetSource");
@@ -167,7 +167,7 @@ void hdelphes::HHiggsTagger::GetSubJetSource(const HJets &Particles, const int U
 
 }
 
-int hdelphes::HHiggsTagger::BTagger()
+int hanalysis::HHiggsTagger::BTagger()
 {
     Print(HInformation, "BTagger");
 
@@ -223,7 +223,7 @@ int hdelphes::HHiggsTagger::BTagger()
 }
 
 
-float hdelphes::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
+float hanalysis::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
 {
     Print(HInformation, "GetDipolarity");
 
@@ -313,7 +313,7 @@ float hdelphes::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
 
 }
 
-void hdelphes::HHiggsTagger::SetRapPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2)
+void hanalysis::HHiggsTagger::SetRapPhi(fastjet::PseudoJet &SubJet1, fastjet::PseudoJet &SubJet2)
 {
     Print(HInformation, "SetRapPhi");
 
@@ -324,7 +324,7 @@ void hdelphes::HHiggsTagger::SetRapPhi(fastjet::PseudoJet &SubJet1, fastjet::Pse
 
 }
 
-float hdelphes::HHiggsTagger::GetSubDeltaR()
+float hanalysis::HHiggsTagger::GetSubDeltaR()
 {
 
     Print(HInformation, "GetSubDeltaR");

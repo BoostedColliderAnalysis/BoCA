@@ -14,7 +14,7 @@
  * @brief FastJet calculations
  *
  */
-class hdelphes::HReconstruction : public hanalysis::HObject
+class hanalysis::HReconstruction : public hanalysis::HObject
 {
 
 public:

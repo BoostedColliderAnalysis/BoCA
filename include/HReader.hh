@@ -34,7 +34,7 @@ struct PairOrder {
  * @brief Presents result of multivariant analysis
  *
  */
-class hmva::HReader : public hanalysis::HObject
+class hanalysis::HReader : public HObject
 {
 
 public:
@@ -43,7 +43,7 @@ public:
      * @brief Constructor
      *
      */
-    HReader(hmva::HMva *NewMva);
+    HReader(HMva *NewMva);
 
     /**
      * @brief Destructor
@@ -55,12 +55,12 @@ public:
 //     float GetBdt(TBranch * const Branch, const TParticle &Particle) const
     float GetBdt() const
     {
-        Print(HInformation, "Get Bdt");        
-        
+        Print(HInformation, "Get Bdt");
+
 //         Mva->FillBranch(Branch, Particle);
         const float Bdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
         return (Bdt + 1.);
-        
+
     }
 
     void MVALoop();
@@ -70,11 +70,11 @@ public:
     void AddVariable();
 
     void BookMVA();
-    
+
     void SetMva();
 
 private:
-    
+
 
     template <typename TCutFlow>
     std::vector<TCutFlow> SortByPriority(

@@ -22,7 +22,7 @@ std::vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const std::string &Stu
 
     std::vector<hanalysis::HFile*> Files;
 
-    hdelphes::HFile *Background = new hdelphes::HFile("pp-ttbb");
+    hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-ttbb");
         Files.push_back(Background);
 
 //     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
@@ -49,16 +49,16 @@ void htest::HAnalysis::CloseFile()
 }
 
 // class htest::HJetTag : public hanalysis::HJetTag {
-// 
+//
 //     int GetBranchId(int, int);
-// 
+//
 // };
 
 // int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 // {
-// 
+//
 //     Print(HInformation, "Get Mother Id");
-// 
+//
 //     if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
 //         BranchId = IsrId;
 //     } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
@@ -66,12 +66,12 @@ void htest::HAnalysis::CloseFile()
 //     } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
 //         BranchId = ParticleId;
 //     }
-// 
+//
 //     Print(HDetailed, "Mother Id", BranchId);
-// 
-// 
+//
+//
 //     return BranchId;
-// 
+//
 // }
 
 bool htest::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)

@@ -3,28 +3,46 @@ HInclude(${PROJECT_SOURCE_DIR}/source)
 
 HDictionary(HBranch HBranch.cpp ../include/HLinkDef.hh)
 
-set(HObjectSources
+set(EventSources
 HObject.cpp
 HFourVector.cpp
-)
-HLibrary(HObject "${HObjectSources}" PARENT_SCOPE)
-
-set(EventSources
-HJetTag.cpp
-HEventDelphes.cpp
-HEventParton.cpp
-HEventPgs.cpp
+HFile.cpp
+HClonesArray.cpp
 HEvent.cpp
 HParticle.cpp
-HParticleDelphes.cpp
-HParticleParton.cpp
-HJetInfo.cpp
-HJet.cpp
-HJetDelphes.cpp
-HJetPgs.cpp
 HLepton.cpp
-HLeptonDelphes.cpp
+HJet.cpp
+)
+HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
+
+set(PartonEventSources
+HEventParton.cpp
+HParticleParton.cpp
+HFileParton.cpp
+)
+HLibrary(HPartonEvent "${PartonEventSources}" PARENT_SCOPE)
+
+set(PgsEventSources
+HFilePgs.cpp
+HEventPgs.cpp
 HLeptonPgs.cpp
+HJetPgs.cpp
+)
+HLibrary(HPgsEvent "${PgsEventSources}" PARENT_SCOPE)
+
+set(DelphesEventSources
+HFileDelphes.cpp
+HEventDelphes.cpp
+HParticleDelphes.cpp
+HLeptonDelphes.cpp
+HJetDelphes.cpp
+)
+HLibrary(HDelphesEvent "${DelphesEventSources}" PARENT_SCOPE)
+
+set(AnalysisSources
+HAnalysis.cpp
+HJetTag.cpp
+HJetInfo.cpp
 HReconstruction.cpp
 HDiscriminator.cpp
 HHiggsTagger.cpp
@@ -32,35 +50,21 @@ HTopTagger.cpp
 HEPTopTagger.cpp
 HSuperStructure.cpp
 HSubStructure.cpp
-HBottomTagger.cpp
-HLeptonicTopTagger.cpp
-HMvaHiggsTagger.cpp
-HHeavyHiggsTagger.cpp
 HPair.cpp
 HJetLeptonPair.cpp
 HPairPair.cpp
 HTag.cpp
-HHadronicWTagger.cpp
 HPairJetPair.cpp
-HHadronicTopTagger.cpp
-)
-HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 
-set(AnalysisSources
-HClonesArray.cpp
-HFile.cpp
-HFileParton.cpp
-HFilePgs.cpp
-HFileDelphes.cpp
-HAnalysis.cpp
-# HAnalysisNew.cpp
-)
-HLibrary(hanalysis "${AnalysisSources}" PARENT_SCOPE)
-
-set(MvaSources
 HMva.cpp
 HFactory.cpp
 HReader.cpp
-)
-HLibrary(HMva "${MvaSources}" PARENT_SCOPE)
 
+HBottomTagger.cpp
+HLeptonicTopTagger.cpp
+HMvaHiggsTagger.cpp
+HHeavyHiggsTagger.cpp
+HHadronicWTagger.cpp
+HHadronicTopTagger.cpp
+)
+HLibrary(HAnalysis "${AnalysisSources}" PARENT_SCOPE)

@@ -96,15 +96,15 @@ public:
 //         Print(HNotification, "Set Mva", NewMva->GetTaggerName());
 //
 //         Mva = NewMva;
-//         TopReader = new hmva::HReader(Mva);
+//         TopReader = new HReader (Mva);
 //         TopReader->AddVariable();
 //         TopReader->BookMVA();
 //
 //     }
 
-    hdelphes::HBottomTagger *BottomTagger;
-    hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
-    hdelphes::HHeavyHiggsTagger *HeavyHiggsTagger;
+    hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
+    hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -124,13 +124,13 @@ private:
 
 
 
-    hmva::HMva *Mva;
+  hanalysis::HMva *Mva;
 
-    hmva::HReader *BottomReader;
+  hanalysis::HReader  *BottomReader;
 
-    hmva::HReader *TopReader;
+  hanalysis::HReader  *TopReader;
 
-    hmva::HReader *HeavyHiggsReader;
+  hanalysis::HReader  *HeavyHiggsReader;
 
     inline int GetEventNumberMax() const {
         return 1000;
@@ -138,7 +138,7 @@ private:
 
     hanalysis::HJetTag *JetTag;
 
-//     hdelphes::HSubStructure *SubStructure;
+//     hanalysis::HSubStructure *SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -174,12 +174,12 @@ private:
 //     float GetBottomBdt(const fastjet::PseudoJet &Bottom);
 
     bool GetTopTag(hanalysis::HEvent *const Event, const std::string &StudyName);
-//     void FillTopBranch(const hdelphes::HSuperStructure &Pair, HLeptonicTopBranch *TopTagger);
-//     float GetTopBdt(const hdelphes::HSuperStructure &Top);
+//     void FillTopBranch(const HSuperStructure &Pair, HLeptonicTopBranch *TopTagger);
+//     float GetTopBdt(const HSuperStructure &Top);
 
     bool GetHeavyHiggsTag(hanalysis::HEvent *const Event, const std::string &StudyName);
-//     void FillHiggsBranch(const hdelphes::HSuperStructure &Pair, HHiggsBranch *PairTagger);
-//     float GetHiggsBdt(const hdelphes::HSuperStructure &Higgs);
+//     void FillHiggsBranch(const HSuperStructure &Pair, HHiggsBranch *PairTagger);
+//     float GetHiggsBdt(const HSuperStructure &Higgs);
 
 
     bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
@@ -190,7 +190,7 @@ private:
 
     std::vector<hanalysis::HPairPair> GetTops(const HJets &Jets, const HJets &Leptons);
 
-//     void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
+//     void FillCandidate(const HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
 
     /**
      * @brief New Analysis

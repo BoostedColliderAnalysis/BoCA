@@ -13,7 +13,7 @@
  * @brief unweighted MadGraph files
  *
  */
-class hparton::HFile : public hanalysis::HFile
+class hanalysis::hparton::HFile : public hanalysis::HFile
 {
 
 public:

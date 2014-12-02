@@ -3,9 +3,9 @@
 
 int main()
 {
-  hmva::HMva *Mva = new hbtagger::HMva();
+  hanalysis::HMva *Mva = new hbtagger::HMva();
 
-    hmva::HFactory *Factory = new hmva::HFactory(Mva);
+  hanalysis::HFactory *Factory = new hanalysis::HFactory(Mva);
 
     delete Factory;
 

@@ -132,7 +132,7 @@ private:
 
     hanalysis::HJetTag *JetTag;
 
-    hdelphes::HSubStructure *SubStructure;
+    hanalysis::HSubStructure *SubStructure;
 
 
     bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const HJets &, const float DeltaR);

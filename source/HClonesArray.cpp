@@ -23,28 +23,28 @@ hanalysis::HClonesArray::HClonesArray()
 
 }
 
-hdelphes::HClonesArray::HClonesArray()
+hanalysis::hdelphes::HClonesArray::HClonesArray()
 {
 
     Print(HNotification, "Constructor");
 
 }
 
-hdelphes::HClonesArraySnowmass::HClonesArraySnowmass()
+hanalysis::hdelphes::HClonesArraySnowmass::HClonesArraySnowmass()
 {
 
     Print(HNotification, "Constructor");
 
 }
 
-hpgs::HClonesArray::HClonesArray()
+hanalysis::hpgs::HClonesArray::HClonesArray()
 {
 
     Print(HNotification, "Constructor");
 
 }
 
-hparton::HClonesArray::HClonesArray()
+hanalysis::hparton::HClonesArray::HClonesArray()
 {
 
     Print(HNotification, "Constructor");
@@ -75,7 +75,7 @@ hanalysis::HClonesArray::~HClonesArray()
 }
 
 
-void hdelphes::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
+void hanalysis::hdelphes::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
 {
 
     Print(HNotification, "Get Branches");
@@ -98,7 +98,7 @@ void hdelphes::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReade
     Print(HError,"Got all Branches");
 }
 
-void hdelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const TreeReader)
+void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const TreeReader)
 {
 
     Print(HNotification, "Get Branches");
@@ -119,7 +119,7 @@ void hdelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const T
 
 }
 
-void hpgs::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
+void hanalysis::hpgs::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
 {
 
     Print(HNotification, "Get Branches");
@@ -133,7 +133,7 @@ void hpgs::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
 
 }
 
-void hparton::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
+void hanalysis::hparton::HClonesArray::GetBranches(const ExRootTreeReader *const TreeReader)
 {
 
     Print(HNotification, "Get Branches");

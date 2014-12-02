@@ -65,26 +65,26 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
         //     Files.push_back(Test2);
 
 
-        hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
+      hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
         Files.push_back(Background);
 
     }
 
-    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(30.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
-    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(30.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
-    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(30.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
@@ -101,9 +101,9 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
     Print(HNotification, "Files prepared");
 
 
-    
-    
-    BottomTagger = new hdelphes::HBottomTagger();
+
+
+    BottomTagger = new hanalysis::HBottomTagger();
     BottomTagger->SetAnalysisName(GetProjectName());
     BottomTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
     BottomTagger->SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
@@ -111,25 +111,25 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 
     if (StudyName != "Bottom" && StudyName != "NotBottom") {
 
-        BottomReader = new hmva::HReader(BottomTagger);
-        
-        LeptonicTopTagger = new hdelphes::HLeptonicTopTagger(BottomTagger);
+      BottomReader = new hanalysis::HReader (BottomTagger);
+
+      LeptonicTopTagger = new hanalysis::HLeptonicTopTagger(BottomTagger);
         LeptonicTopTagger->SetAnalysisName(GetProjectName());
         LeptonicTopTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
         LeptonicTopTagger->SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
         LeptonicTopTagger->SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
 
-        
-        HiggsTagger = new hdelphes::HMvaHiggsTagger(BottomTagger);
+
+        HiggsTagger = new hanalysis::HMvaHiggsTagger(BottomTagger);
         HiggsTagger->SetAnalysisName(GetProjectName());
         HiggsTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
         HiggsTagger->SetSignalTreeNames( {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
         HiggsTagger->SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
         if (StudyName != "Top" && StudyName != "NotTop" && StudyName != "Higgs" && StudyName != "NotHiggs") {
-            HiggsReader = new hmva::HReader(HiggsTagger);
-            TopReader = new hmva::HReader(LeptonicTopTagger);
+          HiggsReader = new hanalysis::HReader (HiggsTagger);
+          TopReader = new hanalysis::HReader (LeptonicTopTagger);
         }
 
     }
@@ -326,22 +326,22 @@ std::vector< HHiggsCpv > hhiggscpv::HAnalysis::GetHiggsCpvs(const HJets &Jets, c
 
     std::vector<HHiggsCpv> HiggsCpvs;
 
-    hdelphes::HSuperStructure HiggsPair01 = hdelphes::HSuperStructure(Jets[0], Jets[1]);
+    hanalysis::HSuperStructure HiggsPair01 = hanalysis::HSuperStructure(Jets[0], Jets[1]);
     HiggsTagger->FillBranch(HiggsPair01);
     HiggsPair01.SetBdt(HiggsReader->GetBdt());
-    hdelphes::HSuperStructure HiggsPair02 = hdelphes::HSuperStructure(Jets[0], Jets[2]);
+    hanalysis::HSuperStructure HiggsPair02 = hanalysis::HSuperStructure(Jets[0], Jets[2]);
     HiggsTagger->FillBranch(HiggsPair02);
     HiggsPair02.SetBdt(HiggsReader->GetBdt());
-    hdelphes::HSuperStructure HiggsPair03 = hdelphes::HSuperStructure(Jets[0], Jets[3]);
+    hanalysis::HSuperStructure HiggsPair03 = hanalysis::HSuperStructure(Jets[0], Jets[3]);
     HiggsTagger->FillBranch(HiggsPair03);
     HiggsPair03.SetBdt(HiggsReader->GetBdt());
-    hdelphes::HSuperStructure HiggsPair12 = hdelphes::HSuperStructure(Jets[1], Jets[2]);
+    hanalysis::HSuperStructure HiggsPair12 = hanalysis::HSuperStructure(Jets[1], Jets[2]);
     HiggsTagger->FillBranch(HiggsPair12);
     HiggsPair12.SetBdt(HiggsReader->GetBdt());
-    hdelphes::HSuperStructure HiggsPair13 = hdelphes::HSuperStructure(Jets[1], Jets[3]);
+    hanalysis::HSuperStructure HiggsPair13 = hanalysis::HSuperStructure(Jets[1], Jets[3]);
     HiggsTagger->FillBranch(HiggsPair13);
     HiggsPair13.SetBdt(HiggsReader->GetBdt());
-    hdelphes::HSuperStructure HiggsPair23 = hdelphes::HSuperStructure(Jets[2], Jets[3]);
+    hanalysis::HSuperStructure HiggsPair23 = hanalysis::HSuperStructure(Jets[2], Jets[3]);
     HiggsTagger->FillBranch(HiggsPair23);
     HiggsPair23.SetBdt(HiggsReader->GetBdt());
 

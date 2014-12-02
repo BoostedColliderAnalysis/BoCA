@@ -6,7 +6,7 @@ hheavyhiggs::HAnalysisMva::HAnalysisMva()
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
 
-//     SubStructure = new hdelphes::HSubStructure();
+//     SubStructure = new hanalysis::HSubStructure();
     JetTag = new hanalysis::HJetTag();
 
 }
@@ -57,7 +57,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const std::s
 
     Print(HNotification, "Files prepared");
 
-    BottomTagger = new hdelphes::HBottomTagger();
+    BottomTagger = new hanalysis::HBottomTagger();
     BottomTagger->SetAnalysisName(GetProjectName());
     BottomTagger->SetTestTreeNames( {"BG_ttbb-run_01", "h2bb_ttbb-run_01"});
     BottomTagger->SetSignalTreeNames( {"BG_ttbb-run_01", "h2bb_ttbb-run_01"});
@@ -65,23 +65,23 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const std::s
 
     if (StudyName != "Bottom" && StudyName != "NotBottom") {
 
-        BottomReader = new hmva::HReader(BottomTagger);
+      BottomReader = new hanalysis::HReader (BottomTagger);
 
-        LeptonicTopTagger = new hdelphes::HLeptonicTopTagger(BottomTagger);
+        LeptonicTopTagger = new hanalysis::HLeptonicTopTagger(BottomTagger);
         LeptonicTopTagger->SetAnalysisName(GetProjectName());
         LeptonicTopTagger->SetTestTreeNames( {"BG_ttbb-run_01", "h2bb_ttbb-run_01"});
         LeptonicTopTagger->SetSignalTreeNames( {"BG_ttbb-run_01", "h2bb_ttbb-run_01"});
         LeptonicTopTagger->SetBackgroundTreeNames( {"BG_ttbb-run_01", "h2bb_ttbb-run_01"});
 
-        HeavyHiggsTagger = new hdelphes::HHeavyHiggsTagger(BottomTagger, LeptonicTopTagger);
+        HeavyHiggsTagger = new hanalysis::HHeavyHiggsTagger(BottomTagger, LeptonicTopTagger);
         HeavyHiggsTagger->SetAnalysisName(GetProjectName());
         HeavyHiggsTagger->SetTestTreeNames( {"BG_ttbb-run_01", "h2bb_ttbb-run_01"});
         HeavyHiggsTagger->SetSignalTreeNames( {"BG_ttbb-run_01"});
         HeavyHiggsTagger->SetBackgroundTreeNames( {"BG_ttbb-run_01", "h2bb_ttbb-run_01"});
 
         if (StudyName != "Top" && StudyName != "NotTop" && StudyName != "Higgs" && StudyName != "NotHiggs") {
-            HeavyHiggsReader = new hmva::HReader(HeavyHiggsTagger);
-            TopReader = new hmva::HReader(LeptonicTopTagger);
+          HeavyHiggsReader = new hanalysis::HReader (HeavyHiggsTagger);
+          TopReader = new hanalysis::HReader (LeptonicTopTagger);
         }
 
 

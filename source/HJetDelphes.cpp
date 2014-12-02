@@ -1,12 +1,12 @@
 # include "HJetDelphes.hh"
 
-hdelphes::HJet::HJet()
+hanalysis::hdelphes::HJet::HJet()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
 }
 
-hdelphes::HJet::~HJet()
+hanalysis::hdelphes::HJet::~HJet()
 {
     Print(HNotification, "Destructor");
 }
@@ -23,7 +23,7 @@ void hdelphes::HJet::NewEvent(const hanalysis::HClonesArray *const NewClonesArra
 
 }*/
 
-bool hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetails JetDetails)
+bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Jets", ClonesArrays->GetJetSum());
@@ -69,7 +69,7 @@ bool hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetails JetDetail
 
 }
 
-void hdelphes::HJet::GetDelphesTags(const Jet *const JetClone)
+void hanalysis::hdelphes::HJet::GetDelphesTags(const Jet *const JetClone)
 {
     Print(HInformation, "Get taggs");
 
@@ -96,7 +96,7 @@ void hdelphes::HJet::GetDelphesTags(const Jet *const JetClone)
 }
 
 
-void hdelphes::HJet::GetTau(const Jet *const JetClone)
+void hanalysis::hdelphes::HJet::GetTau(const Jet *const JetClone)
 {
 
     Print(HInformation, "TauTagCalculations");
@@ -115,7 +115,7 @@ void hdelphes::HJet::GetTau(const Jet *const JetClone)
 
 }
 
-fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, const hanalysis::HJet::HJetDetails JetDetails)
+fastjet::PseudoJet hanalysis::hdelphes::HJet::GetConstituents(const Jet *const JetClone, const hanalysis::HJet::HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Constituents");
@@ -155,7 +155,7 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituents(const Jet *const JetClone, co
 
 }
 
-fastjet::PseudoJet hdelphes::HJet::GetConstituentJet(TObject *Object, hanalysis::HJet::HJetDetails JetDetails)
+fastjet::PseudoJet hanalysis::hdelphes::HJet::GetConstituentJet(TObject *Object, hanalysis::HJet::HJetDetails JetDetails)
 {
 
     HConstituent Constituent = GetConstituent(Object, JetDetails);
@@ -175,7 +175,7 @@ fastjet::PseudoJet hdelphes::HJet::GetConstituentJet(TObject *Object, hanalysis:
 
 }
 
-HConstituent hdelphes::HJet::GetConstituent(TObject *Object, hanalysis::HJet::HJetDetails JetDetails)
+HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysis::HJet::HJetDetails JetDetails)
 {
 
     Print(HDebug, "GetConstituent", Object->ClassName());
@@ -227,7 +227,7 @@ HConstituent hdelphes::HJet::GetConstituent(TObject *Object, hanalysis::HJet::HJ
 
 }
 
-bool hdelphes::HJet::GetEFlow(const HJetDetails JetDetails)
+bool hanalysis::hdelphes::HJet::GetEFlow(const HJetDetails JetDetails)
 {
     Print(HInformation, "Get EFlow");
 
@@ -244,7 +244,7 @@ bool hdelphes::HJet::GetEFlow(const HJetDetails JetDetails)
 
 }
 
-void hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
+void hanalysis::hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
 {
     Print(HInformation, "Get Track EFlow", ClonesArrays->GetEFlowTrackSum());
 
@@ -277,7 +277,7 @@ void hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
 
 }
 
-void hdelphes::HJet::GetPhotonEFlow(const HJetDetails JetDetails)
+void hanalysis::hdelphes::HJet::GetPhotonEFlow(const HJetDetails JetDetails)
 {
     Print(HInformation, "Get Photon EFlow", ClonesArrays->GetEFlowPhotonSum());
 
@@ -307,7 +307,7 @@ void hdelphes::HJet::GetPhotonEFlow(const HJetDetails JetDetails)
 
 }
 
-void hdelphes::HJet::GetHadronEFlow(const HJetDetails JetDetails)
+void hanalysis::hdelphes::HJet::GetHadronEFlow(const HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Hadron EFlow", ClonesArrays->GetEFlowNeutralHadronSum());
@@ -329,7 +329,7 @@ void hdelphes::HJet::GetHadronEFlow(const HJetDetails JetDetails)
 
 }
 
-void hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
+void hanalysis::hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Muon EFlow", ClonesArrays->GetEFlowMuonSum());
@@ -360,7 +360,7 @@ void hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
 
 
 
-void hdelphes::HJet::GetGenJet()
+void hanalysis::hdelphes::HJet::GetGenJet()
 {
 
     Print(HInformation, "GetGenJet", ClonesArrays->GetGenJetSum());
@@ -376,7 +376,7 @@ void hdelphes::HJet::GetGenJet()
 }
 
 
-float hdelphes::HJet::GetScalarHt()
+float hanalysis::hdelphes::HJet::GetScalarHt()
 {
 
     Print(HInformation, "GetScalerHt");

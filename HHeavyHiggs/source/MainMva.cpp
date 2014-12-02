@@ -6,16 +6,16 @@
 
 // int main()
 // {
-// 
+//
 //     hmva::HMva *Mva;
 //     hmva::HFactory *Factory;
-// //     hmva::HReader* Reader;
+// //     HReader * Reader;
 //     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
-// 
+//
 // //     Analysis->AnalysisLoop(hheavyhiggs::HAnalysisMva::HBottomTagger);
 // // //     Mva = new hheavyhiggs::HMvaBottom();
 //     Factory = new hmva::HFactory(Analysis->BottomTagger);
-// //     Reader = new hmva::HReader(Analysis->BottomTagger);
+// //     Reader = new HReader (Analysis->BottomTagger);
 // //     //     Analysis->SetMva(Mva);
 // //     Analysis->BottomTagger->SetMva();
 // //
@@ -33,65 +33,65 @@
 // //     Mva = new hheavyhiggs::HMvaEvent();
 // //     Factory = new hmva::HFactory(Mva);
 // //     Analysis->SetMva(Mva);
-// 
+//
 //     delete Factory;
 //     delete Mva;
 //     delete Analysis;
-// 
+//
 //     return 1;
-// 
+//
 // }
 
 
 void RunTagger(const std::string TaggerName, const hheavyhiggs::HAnalysisMva::HTagger Tagger)
 {
-    
+
     std::cout << "Run Tagger " << TaggerName << std::endl;;
-    
-    hmva::HFactory *Factory;
+
+    hanalysis::HFactory *Factory;
     bool HasFactory = 0;
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
-    
+
     TFile *File(0);
     std::string FileName = Analysis->GetProjectName() + "/" + TaggerName + ".root";
     if (!gSystem->AccessPathName(FileName.c_str()))
         File = TFile::Open(FileName.c_str());
     else
         Analysis->AnalysisLoop(Tagger);
-    
+
     FileName = Analysis->GetProjectName() + "/Mva" + TaggerName + ".root";
     if (!gSystem->AccessPathName(FileName.c_str()))
         File = TFile::Open(FileName.c_str());
     else {
         Analysis->GetFiles(TaggerName);
         if (Tagger == hheavyhiggs::HAnalysisMva::HBottomTagger) {
-            Factory = new hmva::HFactory(Analysis->BottomTagger);
+          Factory = new hanalysis::HFactory(Analysis->BottomTagger);
         }
         if (Tagger == hanalysis::HAnalysis::HTopTagger){
-            Factory = new hmva::HFactory(Analysis->LeptonicTopTagger);
+          Factory = new hanalysis::HFactory(Analysis->LeptonicTopTagger);
         }
         if (Tagger == hheavyhiggs::HAnalysisMva::HHiggsTagger){
-            Factory = new hmva::HFactory(Analysis->HeavyHiggsTagger);
+          Factory = new hanalysis::HFactory(Analysis->HeavyHiggsTagger);
         }
         HasFactory = 1;
     }
-    
+
     if (HasFactory) delete Factory;
     delete Analysis;
 }
 
 int main()
 {
-    
+
     RunTagger("Bottom", hheavyhiggs::HAnalysisMva::HBottomTagger);
     RunTagger("Top", hanalysis::HAnalysis::HTopTagger);
     RunTagger("Higgs", hanalysis::HAnalysis::HHiggsTagger);
     //     RunTagger("EventTagger",hanalysis::HAnalysis::HEventTagger);
-    
-    
-    hmva::HFactory *Factory;
+
+
+    hanalysis::HFactory *Factory;
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
-    
+
     //     TFile *File(0);
     //     std::string FileName = "./Bottom.root";
     //     if (!gSystem->AccessPathName(FileName))
@@ -130,15 +130,15 @@ int main()
     //         File = TFile::Open(FileName);
     //     else
     //         Factory = new hmva::HFactory(Analysis->HiggsTagger);
-    
+
     Analysis->AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
-    hmva::HMva *Mva = new hheavyhiggs::HMvaEvent();
-    Factory = new hmva::HFactory(Mva);
-    
+    hanalysis::HMva *Mva = new hheavyhiggs::HMvaEvent();
+    Factory = new hanalysis::HFactory(Mva);
+
     delete Factory;
     delete Mva;
     delete Analysis;
-    
+
     return 1;
-    
+
 }

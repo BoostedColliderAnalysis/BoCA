@@ -24,7 +24,7 @@ struct HMomentum {
  * @brief subjet and constituent calculations
  *
  */
-class hdelphes::HSubStructure : public hanalysis::HObject
+class hanalysis::HSubStructure : public HObject
 {
 
 public:

@@ -13,7 +13,7 @@
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HHeavyHiggsTagger : public hmva::HMva
+class hanalysis::HHeavyHiggsTagger : public HMva
 {
 
 public:
@@ -23,17 +23,17 @@ public:
     ~HHeavyHiggsTagger();
 
     std::vector<HMvaHeavyHiggsBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
-    
+
     void FillBranch(const hanalysis::HPairPair &HeavyHiggs);
-    
-    hdelphes::HBottomTagger *BottomTagger;
-    hdelphes::HLeptonicTopTagger *TopTagger;
-    
+
+    HBottomTagger *BottomTagger;
+    HLeptonicTopTagger *TopTagger;
+
 private:
 
-    hmva::HReader *BottomReader;
-    
-    hmva::HReader *TopReader;
+    HReader  *BottomReader;
+
+    HReader  *TopReader;
 
     HMvaHeavyHiggsBranch *Branch;
 

@@ -7,7 +7,7 @@ hjetproperties::HAnalysis::HAnalysis()
 
     JetTag = new hanalysis::HJetTag();
 
-    SubStructure = new hdelphes::HSubStructure();
+    SubStructure = new hanalysis::HSubStructure();
 
     //     DebugLevel = 4;
 
@@ -42,24 +42,24 @@ std::vector< hanalysis::HFile* > hjetproperties::HAnalysis::GetFiles(const std::
     std::vector<hanalysis::HFile*> Files;
     if (StudyName != "Higgs") {
 
-        hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
+      hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
         Files.push_back(Background);
 
     }
 
-    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
     Files.push_back(Even);
 
-    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
     Files.push_back(Mix);
 
-    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
     Files.push_back(Odd);
@@ -115,15 +115,15 @@ void hjetproperties::HAnalysis::CloseFile()
 
 // int hjetproperties::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 // {
-// 
+//
 //     Print(HDebug, "Get Branch Id", ParticleId);
-// 
+//
 //     if (ParticleId == -BranchId) {
-// 
+//
 //         Print(HDetailed, "ID CONFILICT", ParticleId, BranchId);
-// 
+//
 //     }
-// 
+//
 //     if (
 //         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
@@ -135,11 +135,11 @@ void hjetproperties::HAnalysis::CloseFile()
 //     ) {
 //         BranchId = ParticleId;
 //     }
-// 
+//
 //     Print(HDebug, "Branch Id", BranchId);
-// 
+//
 //     return BranchId;
-// 
+//
 // }
 
 

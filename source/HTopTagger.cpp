@@ -1,6 +1,6 @@
 # include "HTopTagger.hh"
 
-hdelphes::HTopTagger::HTopTagger()
+hanalysis::HTopTagger::HTopTagger()
 {
 
 
@@ -8,14 +8,14 @@ hdelphes::HTopTagger::HTopTagger()
 
 }
 
-hdelphes::HTopTagger::~HTopTagger()
+hanalysis::HTopTagger::~HTopTagger()
 {
 
     Print(HNotification, "Destructor");
 
 }
 
-HJets hdelphes::HTopTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
+HJets hanalysis::HTopTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
 {
 
     Print(HInformation, "Tagging Top");
@@ -81,7 +81,7 @@ HJets hdelphes::HTopTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets
 
 }
 
-HJets hdelphes::HTopTagger::GetGranulatedJets(HJets &EFlowJets)
+HJets hanalysis::HTopTagger::GetGranulatedJets(HJets &EFlowJets)
 {
 
 

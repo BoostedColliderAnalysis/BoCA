@@ -8,7 +8,7 @@
  * @brief Delphes leptons
  *
  */
-class hdelphes::HLepton : public hanalysis::HLepton
+class hanalysis::hdelphes::HLepton : public hanalysis::HLepton
 {
 
 public:
@@ -46,7 +46,7 @@ private:
    */
   bool GetMuons();
   bool GetMuons(HJetDetails JetDetails);
-  
+
 //   HJets GetLeptons(HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {

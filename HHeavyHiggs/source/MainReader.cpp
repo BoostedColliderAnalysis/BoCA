@@ -5,10 +5,10 @@
 int main()
 {
 
-    hmva::HMva *Mva = new hheavyhiggs::HMva();
+  hanalysis::HMva *Mva = new hheavyhiggs::HMva();
 
-    hmva::HReader *Reader = new hmva::HReader(Mva);
-    
+  hanalysis::HReader  *Reader = new hanalysis::HReader (Mva);
+
     Reader->MVALoop();
 
     delete Reader;

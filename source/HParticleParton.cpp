@@ -1,6 +1,6 @@
 # include "HParticleParton.hh"
 
-hparton::HParticle::HParticle()
+hanalysis::hparton::HParticle::HParticle()
 {
 
     Print(HNotification, "Constructor");
@@ -9,14 +9,14 @@ hparton::HParticle::HParticle()
 
 }
 
-hparton::HParticle::~HParticle()
+hanalysis::hparton::HParticle::~HParticle()
 {
 
     Print(HNotification, "Destructor");
 
 }
 
-bool hparton::HParticle::GetParticles()
+bool hanalysis::hparton::HParticle::GetParticles()
 {
 
     Print(HInformation, "Get Particles", ClonesArrays->GetParticleSum());

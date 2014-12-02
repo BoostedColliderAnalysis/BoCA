@@ -7,7 +7,7 @@
  * @brief PGS leptons
  *
  */
-class hpgs::HLepton : public hanalysis::HLepton
+class hanalysis::hpgs::HLepton : public hanalysis::HLepton
 {
 
 public:

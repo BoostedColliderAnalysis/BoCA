@@ -9,7 +9,7 @@
  *
  *
  */
-class hdelphes::HDiscriminator : public HReconstruction
+class hanalysis::HDiscriminator : public HReconstruction
 {
 
 public:

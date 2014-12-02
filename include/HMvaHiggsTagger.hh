@@ -13,7 +13,7 @@
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HMvaHiggsTagger : public hmva::HMva
+class hanalysis::HMvaHiggsTagger : public HMva
 {
 
 public:
@@ -26,13 +26,13 @@ public:
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
-    void FillBranch(const hdelphes::HSuperStructure &Pair);
+    void FillBranch(const HSuperStructure &Pair);
 
 private:
 
     HBottomTagger *BottomTagger;
 
-    hmva::HReader *BottomReader;
+    HReader *BottomReader;
 
     HHiggsBranch *Branch;
 
@@ -40,10 +40,10 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HHiggsBranch * const HiggsBranch, const hdelphes::HSuperStructure &Pair);
+    void FillBranch(HHiggsBranch * const HiggsBranch, const HSuperStructure &Pair);
 
     void FillBranch(const HKinematics &Vector);
-    
+
     void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
 
     virtual inline std::string NameSpaceName() const {

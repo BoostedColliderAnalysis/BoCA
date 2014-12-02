@@ -1,7 +1,7 @@
 # include "HEventPgs.hh"
 
 
-hpgs::HEvent::HEvent()
+hanalysis::hpgs::HEvent::HEvent()
 {
 
     Print(HNotification, "Constructor");
@@ -14,7 +14,7 @@ hpgs::HEvent::HEvent()
 
 }
 
-hpgs::HEvent::~HEvent()
+hanalysis::hpgs::HEvent::~HEvent()
 {
 
     Print(HNotification, "Destructor");
@@ -24,7 +24,7 @@ hpgs::HEvent::~HEvent()
 
 }
 
-void hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const ClonesArrays)
+void hanalysis::hpgs::HEvent::NewEvent(const hanalysis::HClonesArray*const ClonesArrays)
 {
 
     Print(HInformation, "New Event");

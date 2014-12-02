@@ -1,7 +1,7 @@
 # include "HEventParton.hh"
 
 
-hparton::HEvent::HEvent()
+hanalysis::hparton::HEvent::HEvent()
 {
 
     Print(HNotification, "Constructor");
@@ -10,7 +10,7 @@ hparton::HEvent::HEvent()
 
 }
 
-hparton::HEvent::~HEvent()
+hanalysis::hparton::HEvent::~HEvent()
 {
 
     Print(HNotification, "Destructor");
@@ -19,7 +19,7 @@ hparton::HEvent::~HEvent()
 
 }
 
-void hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const ClonesArrays)
+void hanalysis::hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const ClonesArrays)
 {
 
     Print(HInformation, "New Event");

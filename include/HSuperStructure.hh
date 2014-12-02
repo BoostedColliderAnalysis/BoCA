@@ -32,7 +32,7 @@ private:
     float Phi;
 };
 
-class hdelphes::HSuperStructure : public hanalysis::HPair
+class hanalysis::HSuperStructure : public hanalysis::HPair
 {
 
 public:
@@ -69,7 +69,7 @@ public:
     float GetBdt() const {
         return (Jet1.user_info<hanalysis::HJetInfo>().GetBdt() * Jet2.user_info<hanalysis::HJetInfo>().GetBdt());
     }
-    
+
     float GetTag() const {
         return (Jet1.user_info<hanalysis::HJetInfo>().GetTag() * Jet2.user_info<hanalysis::HJetInfo>().GetTag());
     }

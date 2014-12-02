@@ -1,6 +1,6 @@
 # include "HHeavyHiggsTagger.hh"
 
-hdelphes::HHeavyHiggsTagger::HHeavyHiggsTagger(hdelphes::HBottomTagger *NewBottomTagger, hdelphes::HLeptonicTopTagger *NewTopTagger)
+hanalysis::HHeavyHiggsTagger::HHeavyHiggsTagger(HBottomTagger *NewBottomTagger, HLeptonicTopTagger *NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -20,7 +20,7 @@ hdelphes::HHeavyHiggsTagger::HHeavyHiggsTagger(hdelphes::HBottomTagger *NewBotto
     DefineVariables();
 }
 
-hdelphes::HHeavyHiggsTagger::~HHeavyHiggsTagger()
+hanalysis::HHeavyHiggsTagger::~HHeavyHiggsTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
@@ -31,7 +31,7 @@ hdelphes::HHeavyHiggsTagger::~HHeavyHiggsTagger()
 }
 
 
-std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector< HMvaHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get Higgs Tags");
@@ -152,7 +152,7 @@ std::vector< HMvaHeavyHiggsBranch * > hdelphes::HHeavyHiggsTagger::GetBranches(h
 
 }
 
-void hdelphes::HHeavyHiggsTagger::FillBranch(const hanalysis::HPairPair &PairPair)
+void hanalysis::HHeavyHiggsTagger::FillBranch(const hanalysis::HPairPair &PairPair)
 {
     Print(HInformation, "FillPairTagger", PairPair.GetBdt());
 
@@ -160,7 +160,7 @@ void hdelphes::HHeavyHiggsTagger::FillBranch(const hanalysis::HPairPair &PairPai
 
 }
 
-void hdelphes::HHeavyHiggsTagger::FillBranch(HMvaHeavyHiggsBranch *HeavyHiggsBranch, const hanalysis::HPairPair &PairPair)
+void hanalysis::HHeavyHiggsTagger::FillBranch(HMvaHeavyHiggsBranch *HeavyHiggsBranch, const hanalysis::HPairPair &PairPair)
 {
     Print(HInformation, "FillPairTagger", PairPair.GetBdt());
 
@@ -179,7 +179,7 @@ void hdelphes::HHeavyHiggsTagger::FillBranch(HMvaHeavyHiggsBranch *HeavyHiggsBra
 
 }
 
-void hdelphes::HHeavyHiggsTagger::DefineVariables()
+void hanalysis::HHeavyHiggsTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");

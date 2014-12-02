@@ -1,6 +1,6 @@
 # include "HBottomTagger.hh"
 
-hdelphes::HBottomTagger::HBottomTagger()
+hanalysis::HBottomTagger::HBottomTagger()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -11,20 +11,20 @@ hdelphes::HBottomTagger::HBottomTagger()
     BackgroundNames = {"NotBottom"};
     CandidateBranchName = "Bottom";
     Branch = new HBottomBranch();
-    JetTag = new hanalysis::HJetTag();
+    JetTag = new HJetTag();
 
     DefineVariables();
 
 }
 
-hdelphes::HBottomTagger::~HBottomTagger()
+hanalysis::HBottomTagger::~HBottomTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
     delete JetTag;
 }
 
-void hdelphes::HBottomTagger::DefineVariables()
+void hanalysis::HBottomTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables", Branch->Mass);
@@ -44,7 +44,7 @@ void hdelphes::HBottomTagger::DefineVariables()
 
 }
 
-std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEvent *const Event, const HState State)
+std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent *const Event, const HState State)
 {
 
     Print(HInformation, "Get Bottom Tag", State);
@@ -84,7 +84,7 @@ std::vector<HBottomBranch *> hdelphes::HBottomTagger::GetBranches(hanalysis::HEv
 
 }
 
-void hdelphes::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
+void hanalysis::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
 {
 
     Print(HInformation, "Fill Bottom Branch");
@@ -93,7 +93,7 @@ void hdelphes::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
 }
 
 
-void hdelphes::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet)
+void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet)
 {
 
     Print(HInformation, "Fill Bottom Branch");
@@ -115,7 +115,7 @@ void hdelphes::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, cons
         } else if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == MixedJetId) {
             BottomBranch->BottomTag = .5;
         } else {
-            BottomBranch->BottomTag = 0;            
+            BottomBranch->BottomTag = 0;
         }
 
     } else {
@@ -124,7 +124,7 @@ void hdelphes::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, cons
 
 }
 
-float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
+float hanalysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
 
     Print(HInformation, "Get Delta R");
@@ -140,7 +140,7 @@ float hdelphes::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 
 
 
-float hdelphes::HBottomTagger::GetCentrality(const fastjet::PseudoJet &Jet) const
+float hanalysis::HBottomTagger::GetCentrality(const fastjet::PseudoJet &Jet) const
 {
 
     Print(HInformation, "Get Centrality");
@@ -153,13 +153,13 @@ float hdelphes::HBottomTagger::GetCentrality(const fastjet::PseudoJet &Jet) cons
 
 
 
-// float hdelphes::HBottomTagger::GetEnergyFraction(const fastjet::PseudoJet &Jet) const
+// float hanalysis::HBottomTagger::GetEnergyFraction(const fastjet::PseudoJet &Jet) const
 // {
-//     
+//
 //     Print(HInformation, "Get Centrality");
-//     
+//
 //     float EnergyFraction;
 //     for (const auto & Constituent : Jet.constituents()) if(Jet.delta_R(Constituent)) EnergyFraction+= Constituent.e();
 //     return (Centrality / Jet.pt() / GetDeltaR(Jet));
-//     
+//
 // }

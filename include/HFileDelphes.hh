@@ -13,7 +13,7 @@
  * @brief Delphes files
  *
  */
-class hdelphes::HFile : public hanalysis::HFile
+class hanalysis::hdelphes::HFile : public hanalysis::HFile
 {
 
 public:

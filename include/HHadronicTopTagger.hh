@@ -11,23 +11,23 @@
 # include "HPairJetPair.hh"
 
 // class HTopTriple{
-// 
-//     HTopTriple(const hdelphes::HSuperStructure & NewJetPair, const fastjet::PseudoJet &NewBottom){
+//
+//     HTopTriple(const HSuperStructure & NewJetPair, const fastjet::PseudoJet &NewBottom){
 //         JetPair = NewJetPair;
 //         Bottom = NewBottom;
 //     }
-// 
-//     hdelphes::HSuperStructure JetPair;
-// 
+//
+//     HSuperStructure JetPair;
+//
 //     fastjet::PseuodJet Bottom;
-// 
+//
 // };
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HHadronicTopTagger : public hmva::HMva
+class hanalysis::HHadronicTopTagger : public HMva
 {
 
 public:
@@ -46,11 +46,11 @@ private:
 
     HHadronicWTagger *HadronicWTagger;
 
-    hmva::HReader *HadronicWReader;
+    HReader  *HadronicWReader;
 
     HBottomTagger *BottomTagger;
 
-    hmva::HReader *BottomReader;
+    HReader  *BottomReader;
 
     HHadronicTopBranch *Branch;
 

@@ -11,7 +11,7 @@
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HBottomTagger : public hmva::HMva
+class hanalysis::HBottomTagger : public HMva
 {
 
 public:

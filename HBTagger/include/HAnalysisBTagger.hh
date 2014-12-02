@@ -15,24 +15,24 @@
  */
 // class hbtagger::HJetTag : public hanalysis::HJetTag
 // {
-// 
+//
 // public:
-// 
+//
 //     int GetBranchId(const int ParticleId, int BranchId);
-// 
+//
 // //     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
 //     const std::set<int> HeavyParticles {BottomId};
-// 
+//
 // //     const std::set<int> IntermediateParticles {BottomId};
-// 
+//
 //     virtual inline std::string NameSpaceName() const {
 //         return "hbtagger";
 //     };
-// 
+//
 //     virtual inline std::string ClassName() const {
 //         return "HJetTag";
 //     };
-// 
+//
 // };
 
 /**
@@ -80,7 +80,7 @@ private:
 
     hanalysis::HJetTag *JetTag;
 
-    hdelphes::HSubStructure *SubStructure;
+    hanalysis::HSubStructure *SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -110,7 +110,7 @@ private:
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
 
-//     void FillCandidate(const hdelphes::HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
+//     void FillCandidate(const HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
 
     /**
      * @brief prepares the std::vector describing the input root files

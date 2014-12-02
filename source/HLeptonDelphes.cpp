@@ -1,20 +1,20 @@
 # include "HLeptonDelphes.hh"
 
-hdelphes::HLepton::HLepton()
+hanalysis::hdelphes::HLepton::HLepton()
 {
 
     Print(HNotification, "Constructor");
 
 }
 
-hdelphes::HLepton::~HLepton()
+hanalysis::hdelphes::HLepton::~HLepton()
 {
     Print(HNotification, "Destructor");
 
 
 }
 
-bool hdelphes::HLepton::GetElectrons()
+bool hanalysis::hdelphes::HLepton::GetElectrons()
 {
 
     Print(HInformation, "Get Electrons", ClonesArrays->GetElectronSum());
@@ -23,7 +23,7 @@ bool hdelphes::HLepton::GetElectrons()
 
 }
 
-bool hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
+bool hanalysis::hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Electrons", ClonesArrays->GetElectronSum());
@@ -68,7 +68,7 @@ bool hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDeta
 
 }
 
-bool hdelphes::HLepton::GetMuons()
+bool hanalysis::hdelphes::HLepton::GetMuons()
 {
 
     Print(HInformation, "Get Muons", ClonesArrays->GetMuonSum());
@@ -77,7 +77,7 @@ bool hdelphes::HLepton::GetMuons()
 
 }
 
-bool hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
+bool hanalysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Muons", ClonesArrays->GetMuonSum());

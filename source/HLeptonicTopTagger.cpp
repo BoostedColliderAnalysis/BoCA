@@ -1,13 +1,13 @@
 # include "HLeptonicTopTagger.hh"
 
-hdelphes::HLeptonicTopTagger::HLeptonicTopTagger(hdelphes::HBottomTagger *NewBottomTagger)
+hanalysis::HLeptonicTopTagger::HLeptonicTopTagger(HBottomTagger *NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new hmva::HReader(BottomTagger);
+    BottomReader = new HReader(BottomTagger);
 
     TaggerName = "Top";
     SignalNames = {"Top"};
@@ -21,7 +21,7 @@ hdelphes::HLeptonicTopTagger::HLeptonicTopTagger(hdelphes::HBottomTagger *NewBot
 
 }
 
-hdelphes::HLeptonicTopTagger::~HLeptonicTopTagger()
+hanalysis::HLeptonicTopTagger::~HLeptonicTopTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
@@ -29,7 +29,7 @@ hdelphes::HLeptonicTopTagger::~HLeptonicTopTagger()
     delete BottomReader;
 }
 
-void hdelphes::HLeptonicTopTagger::DefineVariables()
+void hanalysis::HLeptonicTopTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -49,7 +49,7 @@ void hdelphes::HLeptonicTopTagger::DefineVariables()
 }
 
 
-std::vector<HLeptonicTopBranch *> hdelphes::HLeptonicTopTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -151,7 +151,7 @@ std::vector<HLeptonicTopBranch *> hdelphes::HLeptonicTopTagger::GetBranches(hana
 
 }
 
-void hdelphes::HLeptonicTopTagger::FillBranch(const hanalysis::HJetLeptonPair &JetLeptonPair)
+void hanalysis::HLeptonicTopTagger::FillBranch(const hanalysis::HJetLeptonPair &JetLeptonPair)
 {
     Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
 
@@ -160,7 +160,7 @@ void hdelphes::HLeptonicTopTagger::FillBranch(const hanalysis::HJetLeptonPair &J
 }
 
 
-void hdelphes::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch *LeptonicTopBranch, const hanalysis::HJetLeptonPair &JetLeptonPair)
+void hanalysis::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch *LeptonicTopBranch, const hanalysis::HJetLeptonPair &JetLeptonPair)
 {
     Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
 

@@ -1,6 +1,6 @@
 # include "HMva.hh"
 
-hmva::HMva::HMva()
+hanalysis::HMva::HMva()
 {
 
     Print(HNotification, "HMva", "Constructor");
@@ -13,14 +13,14 @@ hmva::HMva::HMva()
 
 }
 
-hmva::HMva::~HMva()
+hanalysis::HMva::~HMva()
 {
 
     Print(HNotification, "Destructor");
 
 }
 
-float hmva::HMva::GetBdt(TObject *, TMVA::Reader *)
+float hanalysis::HMva::GetBdt(TObject *, TMVA::Reader *)
 {
 
     Print(HError, "Get Bdt", "should be implemented somewhere else");

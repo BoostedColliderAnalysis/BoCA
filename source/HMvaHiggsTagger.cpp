@@ -1,13 +1,13 @@
 # include "HMvaHiggsTagger.hh"
 
-hdelphes::HMvaHiggsTagger::HMvaHiggsTagger(hdelphes::HBottomTagger *NewBottomTagger)
+hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(HBottomTagger *NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new hmva::HReader(BottomTagger);
+    BottomReader = new HReader(BottomTagger);
 
     TaggerName = "Higgs";
     SignalNames = {"Higgs"};
@@ -20,7 +20,7 @@ hdelphes::HMvaHiggsTagger::HMvaHiggsTagger(hdelphes::HBottomTagger *NewBottomTag
     DefineVariables();
 }
 
-hdelphes::HMvaHiggsTagger::~HMvaHiggsTagger()
+hanalysis::HMvaHiggsTagger::~HMvaHiggsTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
@@ -28,7 +28,7 @@ hdelphes::HMvaHiggsTagger::~HMvaHiggsTagger()
     delete JetTag;
 }
 
-void hdelphes::HMvaHiggsTagger::DefineVariables()
+void hanalysis::HMvaHiggsTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -52,13 +52,13 @@ void hdelphes::HMvaHiggsTagger::DefineVariables()
 
 
 struct SortPairByMass {
-    inline bool operator()(const hdelphes::HSuperStructure &Pair1, const hdelphes::HSuperStructure &Pair2) {
+  inline bool operator()(const hanalysis::HSuperStructure &Pair1, const hanalysis::HSuperStructure &Pair2) {
         return (Pair1.GetMassDifference(hanalysis::HObject::HiggsId) > Pair2.GetMassDifference(hanalysis::HObject::HiggsId));
     }
 };
 
 
-std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get Higgs Tags");
@@ -93,13 +93,13 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
     }
 
 
-    std::vector<hdelphes::HSuperStructure> JetPairs;
+    std::vector<HSuperStructure> JetPairs;
 
     if (State == HSignal) {
         Print(HInformation, "Higgs Jets", HiggsJets.size());
         for (HJets::iterator Jet1 = HiggsJets.begin(); Jet1 != HiggsJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
-                hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
+                HSuperStructure JetPair((*Jet1), (*Jet2));
 //                 JetPair.SetTag(1);
                 JetPairs.push_back(JetPair);
             }
@@ -115,14 +115,14 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
     if (State == HBackground) {
         for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
-                hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
+                HSuperStructure JetPair((*Jet1), (*Jet2));
 //                 JetPair.SetTag(0);
                 JetPairs.push_back(JetPair);
             }
         }
         for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = HiggsJets.begin(); Jet2 != HiggsJets.end(); ++Jet2) {
-                hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
+                HSuperStructure JetPair((*Jet1), (*Jet2));
 //                 JetPair.SetTag(0);
                 JetPairs.push_back(JetPair);
             }
@@ -132,7 +132,7 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
     Print(HInformation, "Number of Jet Pairs", JetPairs.size());
 
     std::vector<HHiggsBranch *> HiggsBranches;
-    for (const auto & JetPair : JetPairs) {    
+    for (const auto & JetPair : JetPairs) {
         HHiggsBranch *HiggsBranch = new HHiggsBranch();
         FillBranch(HiggsBranch, JetPair);
         HiggsBranches.push_back(HiggsBranch);
@@ -142,7 +142,7 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
 
 }
 
-void hdelphes::HMvaHiggsTagger::FillBranch(const hdelphes::HSuperStructure &Pair)
+void hanalysis::HMvaHiggsTagger::FillBranch(const HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -150,7 +150,7 @@ void hdelphes::HMvaHiggsTagger::FillBranch(const hdelphes::HSuperStructure &Pair
 
 }
 
-void hdelphes::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const hdelphes::HSuperStructure &Pair)
+void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -168,12 +168,12 @@ void hdelphes::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, cons
 
 }
 
-std::vector<HParticleBranch *> hdelphes::HMvaHiggsTagger::GetConstituentBranches()
+std::vector<HParticleBranch *> hanalysis::HMvaHiggsTagger::GetConstituentBranches()
 {
 
     Print(HInformation, "Get Higgs Tags");
 
-    std::vector<hdelphes::HSuperStructure> JetPairs;
+    std::vector<HSuperStructure> JetPairs;
 
     Print(HInformation, "Number of Jet Pairs", JetPairs.size());
 
@@ -190,15 +190,15 @@ std::vector<HParticleBranch *> hdelphes::HMvaHiggsTagger::GetConstituentBranches
 
 }
 
-void hdelphes::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
+void hanalysis::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
 {
     Print(HInformation, "FillPairTagger", Vector.GetPt());
-    
+
     FillBranch(Vector);
-    
+
 }
 
-void hdelphes::HMvaHiggsTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
+void hanalysis::HMvaHiggsTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
 {
     Print(HInformation, "Fill Constituent Branch");
 

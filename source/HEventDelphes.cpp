@@ -1,6 +1,6 @@
 # include "HEventDelphes.hh"
 
-hdelphes::HEvent::HEvent()
+hanalysis::hdelphes::HEvent::HEvent()
 {
 
     Print(HNotification, "Constructor");
@@ -20,7 +20,7 @@ hdelphes::HEvent::HEvent()
 
 }
 
-hdelphes::HEvent::~HEvent()
+hanalysis::hdelphes::HEvent::~HEvent()
 {
 
     Print(HNotification, "Destructor");
@@ -34,7 +34,7 @@ hdelphes::HEvent::~HEvent()
 
 }
 
-void hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray *const ClonesArrays)
+void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray *const ClonesArrays)
 {
 
     Print(HInformation, "New Event");
@@ -166,7 +166,7 @@ void hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray *const ClonesArray
 // }
 
 
-fastjet::PseudoJet hdelphes::HEvent::GetHiggs()
+fastjet::PseudoJet hanalysis::hdelphes::HEvent::GetHiggs()
 {
 
     Print(HInformation, "Get Higgs");
@@ -180,7 +180,7 @@ fastjet::PseudoJet hdelphes::HEvent::GetHiggs()
 
 }
 
-HJets hdelphes::HEvent::GetTops(hanalysis::HJetTag *const JetTag)
+HJets hanalysis::hdelphes::HEvent::GetTops(hanalysis::HJetTag *const JetTag)
 {
 
     Print(HInformation, "Get Tops", JetTag->GetBranchId(0,0));
@@ -238,7 +238,7 @@ HJets hdelphes::HEvent::GetTops(hanalysis::HJetTag *const JetTag)
 // }
 
 
-HJets hdelphes::HEvent::GetCandidates(hanalysis::HJetTag * const JetTag) // FIXME why does this not work
+HJets hanalysis::hdelphes::HEvent::GetCandidates(hanalysis::HJetTag * const JetTag) // FIXME why does this not work
 {
     Print(HInformation, "GetHiggsTopCandidates");
 

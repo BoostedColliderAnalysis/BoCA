@@ -455,7 +455,7 @@ protected:
      *
      */
     TClonesArray *TauClonesArray;
-    
+
     inline std::string NameSpaceName() const {
         return "hanalysis";
     }
@@ -470,7 +470,7 @@ protected:
  * @brief Clonesarray subclass for delphes files
  *
  */
-class hdelphes::HClonesArray : public hanalysis::HClonesArray
+class hanalysis::hdelphes::HClonesArray : public hanalysis::HClonesArray
 {
 
 public:
@@ -500,7 +500,7 @@ protected:
  * @brief ClonesArray subclass for Scnowmass files
  *
  */
-class hdelphes::HClonesArraySnowmass : public HClonesArray
+class hanalysis::hdelphes::HClonesArraySnowmass : public hanalysis::HClonesArray
 {
 
 public:
@@ -530,7 +530,7 @@ protected:
  * @brief ClonesArray subclass for Pgs files
  *
  */
-class hpgs::HClonesArray : public hanalysis::HClonesArray
+class hanalysis::hpgs::HClonesArray : public hanalysis::HClonesArray
 {
 
 public:
@@ -559,7 +559,7 @@ protected:
  * @brief ClonesArray Subclass for unweighted MadGraph files
  *
  */
-class hparton::HClonesArray : public hanalysis::HClonesArray
+class hanalysis::hparton::HClonesArray : public hanalysis::HClonesArray
 {
 
 public:

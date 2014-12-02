@@ -1,6 +1,6 @@
 # include "HDiscriminator.hh"
 
-hdelphes::HDiscriminator::HDiscriminator()
+hanalysis::HDiscriminator::HDiscriminator()
 {
 
     Print(HNotification, "Constructor");
@@ -9,14 +9,14 @@ hdelphes::HDiscriminator::HDiscriminator()
 
 }
 
-hdelphes::HDiscriminator::~HDiscriminator()
+hanalysis::HDiscriminator::~HDiscriminator()
 {
 
     Print(HNotification, "Destructor");
 
 }
 
-HJets hdelphes::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const float ScalarHt)
+HJets hanalysis::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const float ScalarHt)
 {
 
     Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
@@ -50,7 +50,7 @@ HJets hdelphes::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const f
 }
 
 
-HJets hdelphes::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, const float ScalarHt)
+HJets hanalysis::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, const float ScalarHt)
 {
 
     Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
@@ -89,7 +89,7 @@ HJets hdelphes::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, c
 }
 
 
-bool hdelphes::HDiscriminator::JetIsBad(const fastjet::PseudoJet &Jet)
+bool hanalysis::HDiscriminator::JetIsBad(const fastjet::PseudoJet &Jet)
 {
 
     HObject Object;

@@ -63,15 +63,15 @@ public:
         return Jets;
     }
 
-    hdelphes::HTopTagger *GetTopTagger() {
+    hanalysis::HTopTagger *GetTopTagger() {
         return TopTagger;
     }
 
-    hdelphes::HHiggsTagger *GetHiggsTagger() {
+    hanalysis::HHiggsTagger *GetHiggsTagger() {
         return HiggsTagger;
     }
 
-    hdelphes::HDiscriminator *GetDiscriminator() {
+    hanalysis::HDiscriminator *GetDiscriminator() {
         return Discriminator;
     }
 
@@ -103,19 +103,19 @@ protected:
      * @brief Tagged tops and their constituents
      *
      */
-    hdelphes::HTopTagger *TopTagger;
+    hanalysis::HTopTagger *TopTagger;
 
     /**
      * @brief Higgs
      *
      */
-    hdelphes::HHiggsTagger *HiggsTagger;
+    hanalysis::HHiggsTagger *HiggsTagger;
 
     /**
      * @brief SubJetInformation
      *
      */
-    hdelphes::HDiscriminator *Discriminator;
+    hanalysis::HDiscriminator *Discriminator;
 
 private:
 

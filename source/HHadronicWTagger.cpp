@@ -1,13 +1,13 @@
 # include "HHadronicWTagger.hh"
 
-hdelphes::HHadronicWTagger::HHadronicWTagger(hdelphes::HBottomTagger *NewBottomTagger)
+hanalysis::HHadronicWTagger::HHadronicWTagger(HBottomTagger *NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new hmva::HReader(BottomTagger);
+    BottomReader = new HReader (BottomTagger);
 
     TaggerName = "WTagger";
     SignalNames = {"WTagger"};
@@ -15,12 +15,12 @@ hdelphes::HHadronicWTagger::HHadronicWTagger(hdelphes::HBottomTagger *NewBottomT
     CandidateBranchName = "WTagger";
 
     Branch = new HHadronicWBranch();
-    JetTag = new hanalysis::HJetTag();
+    JetTag = new HJetTag();
 
     DefineVariables();
 }
 
-hdelphes::HHadronicWTagger::~HHadronicWTagger()
+hanalysis::HHadronicWTagger::~HHadronicWTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
@@ -28,7 +28,7 @@ hdelphes::HHadronicWTagger::~HHadronicWTagger()
     delete JetTag;
 }
 
-void hdelphes::HHadronicWTagger::DefineVariables()
+void hanalysis::HHadronicWTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -52,13 +52,13 @@ void hdelphes::HHadronicWTagger::DefineVariables()
 
 
 struct SortPairByMass {
-    inline bool operator()(const hdelphes::HSuperStructure &Pair1, const hdelphes::HSuperStructure &Pair2) {
+  inline bool operator()(const hanalysis::HSuperStructure &Pair1, const hanalysis::HSuperStructure &Pair2) {
         return (Pair1.GetMassDifference(hanalysis::HObject::WId) > Pair2.GetMassDifference(hanalysis::HObject::WId));
     }
 };
 
 
-std::vector<HHadronicWBranch *> hdelphes::HHadronicWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HHadronicWBranch *> hanalysis::HHadronicWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get W Tags");
@@ -93,13 +93,13 @@ std::vector<HHadronicWBranch *> hdelphes::HHadronicWTagger::GetBranches(hanalysi
     }
 
 
-    std::vector<hdelphes::HSuperStructure> JetPairs;
+    std::vector<HSuperStructure> JetPairs;
 
     if (State == HSignal) {
         Print(HInformation, "W Jets", WJets.size());
         for (HJets::iterator Jet1 = WJets.begin(); Jet1 != WJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != WJets.end(); ++Jet2) {
-                hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
+                HSuperStructure JetPair((*Jet1), (*Jet2));
                 JetPairs.push_back(JetPair);
             }
         }
@@ -114,13 +114,13 @@ std::vector<HHadronicWBranch *> hdelphes::HHadronicWTagger::GetBranches(hanalysi
     if (State == HBackground) {
         for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
-                hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
+                HSuperStructure JetPair((*Jet1), (*Jet2));
                 JetPairs.push_back(JetPair);
             }
         }
         for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = WJets.begin(); Jet2 != WJets.end(); ++Jet2) {
-                hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
+                HSuperStructure JetPair((*Jet1), (*Jet2));
                 JetPairs.push_back(JetPair);
             }
         }
@@ -139,7 +139,7 @@ std::vector<HHadronicWBranch *> hdelphes::HHadronicWTagger::GetBranches(hanalysi
 
 }
 
-void hdelphes::HHadronicWTagger::FillBranch(const hdelphes::HSuperStructure &Pair)
+void hanalysis::HHadronicWTagger::FillBranch(const HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -147,7 +147,7 @@ void hdelphes::HHadronicWTagger::FillBranch(const hdelphes::HSuperStructure &Pai
 
 }
 
-void hdelphes::HHadronicWTagger::FillBranch(HHadronicWBranch *const WBranch, const hdelphes::HSuperStructure &Pair)
+void hanalysis::HHadronicWTagger::FillBranch(HHadronicWBranch *const WBranch, const HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -165,12 +165,12 @@ void hdelphes::HHadronicWTagger::FillBranch(HHadronicWBranch *const WBranch, con
 
 }
 
-std::vector<HParticleBranch *> hdelphes::HHadronicWTagger::GetConstituentBranches()
+std::vector<HParticleBranch *> hanalysis::HHadronicWTagger::GetConstituentBranches()
 {
 
     Print(HInformation, "Get Higgs Tags");
 
-    std::vector<hdelphes::HSuperStructure> JetPairs;
+    std::vector<HSuperStructure> JetPairs;
 
     Print(HInformation, "Number of Jet Pairs", JetPairs.size());
 
@@ -187,7 +187,7 @@ std::vector<HParticleBranch *> hdelphes::HHadronicWTagger::GetConstituentBranche
 
 }
 
-void hdelphes::HHadronicWTagger::FillBranch(const HKinematics &Vector)
+void hanalysis::HHadronicWTagger::FillBranch(const HKinematics &Vector)
 {
     Print(HInformation, "FillPairTagger", Vector.GetPt());
 
@@ -195,7 +195,7 @@ void hdelphes::HHadronicWTagger::FillBranch(const HKinematics &Vector)
 
 }
 
-void hdelphes::HHadronicWTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
+void hanalysis::HHadronicWTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
 {
     Print(HInformation, "Fill Constituent Branch");
 

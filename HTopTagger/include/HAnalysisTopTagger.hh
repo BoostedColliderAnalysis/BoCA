@@ -85,7 +85,7 @@ private:
 
     hanalysis::HJetTag *JetTag;
 
-    hdelphes::HSubStructure *SubStructure;
+    hanalysis::HSubStructure *SubStructure;
 
     /**
      * @brief Lepton calculations

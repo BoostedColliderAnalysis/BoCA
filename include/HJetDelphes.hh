@@ -17,7 +17,7 @@
  * @brief Delphes jets
  *
  */
-class hdelphes::HJet : public hanalysis::HJet
+class hanalysis::hdelphes::HJet : public hanalysis::HJet
 {
 
 public:

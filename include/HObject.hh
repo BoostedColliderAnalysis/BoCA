@@ -24,13 +24,15 @@ namespace hanalysis
 
 class HObject;
 class HFourVector;
+
 class HClonesArray;
-class HAnalysis;
 class HEvent;
 class HFile;
 class HParticle;
 class HLepton;
 class HJet;
+
+class HAnalysis;
 class HJetTag;
 class HJetInfo;
 class HPair;
@@ -38,8 +40,24 @@ class HTag;
 class HJetLeptonPair;
 class HPairPair;
 class HPairJetPair;
+class HSuperStructure;
 
-}
+class HReconstruction;
+class HHiggsTagger;
+class HDiscriminator;
+class HTopTagger;
+class HSubStructure;
+
+class HBottomTagger;
+class HLeptonicTopTagger;
+class HMvaHiggsTagger;
+class HHeavyHiggsTagger;
+class HHadronicWTagger;
+class HHadronicTopTagger;
+
+class HMva;
+class HFactory;
+class HReader;
 
 
 /**
@@ -49,13 +67,17 @@ class HPairJetPair;
 namespace hparton
 {
 
-class HClonesArray;
-class HFile;
-class HEvent;
-class HParticle;
+  class HClonesArray;
+  class HFile;
+  class HEvent;
+  class HParticle;
 
 }
 
+typedef hparton::HClonesArray HClonesArrayParton;
+typedef hparton::HFile HFileParton;
+typedef hparton::HEvent HEventParton;
+typedef hparton::HParticle HParticleParton;
 
 
 /**
@@ -65,13 +87,19 @@ class HParticle;
 namespace hpgs
 {
 
-class HClonesArray;
-class HFile;
-class HEvent;
-class HLepton;
-class HJet;
+  class HClonesArray;
+  class HFile;
+  class HEvent;
+  class HLepton;
+  class HJet;
 
 }
+
+typedef hpgs::HClonesArray HClonesArrayPgs;
+typedef hpgs::HFile HFilePgs;
+typedef hpgs::HEvent HEventPgs;
+typedef hpgs::HLepton HLeptonPgs;
+typedef hpgs::HJet HJetPgs;
 
 /**
  * @brief Delphes analysis library parts
@@ -80,36 +108,26 @@ class HJet;
 namespace hdelphes
 {
 
-class HClonesArray;
-class HClonesArraySnowmass;
-class HFile;
-class HEvent;
-class HJet;
-class HLepton;
-class HParticle;
-
-class HReconstruction;
-class HHiggsTagger;
-class HDiscriminator;
-class HTopTagger;
-class HSubStructure;
-class HSuperStructure;
-
-class HBottomTagger;
-class HLeptonicTopTagger;
-class HMvaHiggsTagger;
-class HHeavyHiggsTagger;
-class HHadronicWTagger;
-class HHadronicTopTagger;
+  class HClonesArray;
+  class HClonesArraySnowmass;
+  class HFile;
+  class HEvent;
+  class HParticle;
+  class HLepton;
+  class HJet;
 
 }
 
-namespace hmva
-{
+typedef hdelphes::HClonesArray HClonesArrayDelphes;
+typedef hdelphes::HClonesArraySnowmass HClonesArraySnowmass;
+typedef hdelphes::HFile HFileDelphes;
+typedef hdelphes::HEvent HEventDelphes;
+typedef hdelphes::HParticle HParticleDelphes;
+typedef hdelphes::HLepton HLeptonDelphes;
+typedef hdelphes::HJet HJetDelphes;
 
-class HMva;
-class HFactory;
-class HReader;
+
+
 }
 
 
@@ -143,11 +161,11 @@ public:
      */
 
     enum HSeverity {
-        HError = 0,
-        HNotification = 1,
-        HInformation = 2,
-        HDebug = 3,
-        HDetailed = 4
+        HError,
+        HNotification,
+        HInformation,
+        HDebug,
+        HDetailed
     };
 
     enum HState{HSignal, HBackground};
@@ -357,7 +375,7 @@ protected:
     };
 
     std::string GetParticleName(const int ParticleId) const;
-    
+
     float GetParticleMass(const hanalysis::HObject::HParticleId ParticleId) const;
 
 
@@ -390,7 +408,7 @@ protected:
      *
      */
     constexpr static float HiggsMass = 125;
-    
+
     /**
      * @brief W bsoson mass
      *

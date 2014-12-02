@@ -9,7 +9,7 @@
  * @brief event topology for PGS events
  *
  */
-class hpgs::HEvent : public hanalysis::HEvent
+class hanalysis::hpgs::HEvent : public hanalysis::HEvent
 {
 
 public:

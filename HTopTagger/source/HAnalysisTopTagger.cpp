@@ -7,7 +7,7 @@ htoptagger::HAnalysis::HAnalysis()
 
     JetTag = new hanalysis::HJetTag();
 
-    SubStructure = new hdelphes::HSubStructure();
+    SubStructure = new hanalysis::HSubStructure();
 
 //     DebugLevel = 3;
 
@@ -40,26 +40,26 @@ std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::strin
 
     if (StudyName != "Higgs") {
 
-      hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
+      hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
         Files.push_back(Background);
 
     }
 
-    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
     Files.push_back(Even);
 
-    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
     Files.push_back(Mix);
 
-    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
@@ -90,9 +90,9 @@ void htoptagger::HAnalysis::CloseFile()
 
 // int htoptagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 // {
-// 
+//
 //     Print(HDebug, "Get Branch Id", ParticleId);
-// 
+//
 //     if (
 //         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
@@ -104,11 +104,11 @@ void htoptagger::HAnalysis::CloseFile()
 //     ) {
 //         BranchId = ParticleId;
 //     }
-// 
+//
 //     Print(HDebug, "Branch Id", BranchId);
-// 
+//
 //     return BranchId;
-// 
+//
 // }
 
 bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)

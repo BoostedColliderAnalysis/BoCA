@@ -7,7 +7,7 @@ hbtagger::HAnalysis::HAnalysis()
 
     JetTag = new hanalysis::HJetTag();
 
-    SubStructure = new hdelphes::HSubStructure();
+    SubStructure = new hanalysis::HSubStructure();
 
 }
 
@@ -42,30 +42,30 @@ std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string 
 //     hdelphes::HFile *Test4 = new hdelphes::HFile("pp-bbz-bbvv", "background");
 //     Files.push_back(Test4);
 
-    hdelphes::HFile *Background = new hdelphes::HFile("pp-bbtt-bblvlv", "background");
+    hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
     Background->SetCrosssection(3.215); // pb
     Background->SetError(0.012); // pb
 //     Files.push_back(Background);
 
-    hdelphes::HFile *Even = new hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(30.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
 //     Files.push_back(Even);
 
-    hdelphes::HFile *Mix = new hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(30.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
 //     Files.push_back(Mix);
 
-    hdelphes::HFile *Odd = new hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(30.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
 //     Files.push_back(Odd);
 
-    hdelphes::HFile *Test = new hdelphes::HFile("pp-hjj-bbjj");
+    hanalysis::hdelphes::HFile *Test = new hanalysis::hdelphes::HFile("pp-hjj-bbjj");
     Files.push_back(Test);
 
 //     hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
@@ -95,9 +95,9 @@ void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 
 // int hbtagger::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 // {
-// 
+//
 //     Print(HDebug, "Get Branch Id", ParticleId, BranchId);
-// 
+//
 //     if (
 //         HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
@@ -107,11 +107,11 @@ void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 //     ) {
 //         BranchId = IsrId;
 //     }
-// 
+//
 //     Print(HDebug, "Branch Id", BranchId);
-// 
+//
 //     return BranchId;
-// 
+//
 // }
 
 bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)

@@ -2,7 +2,7 @@
 
 
 
-hmva::HFactory::HFactory(HMva *const NewMva)
+hanalysis::HFactory::HFactory(HMva *const NewMva)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification , "Constructor");
@@ -18,13 +18,13 @@ hmva::HFactory::HFactory(HMva *const NewMva)
     OutputFile->Close();
 }
 
-hmva::HFactory::~HFactory()
+hanalysis::HFactory::~HFactory()
 {
     Print(HNotification , "Destructor");
     delete Factory;
 }
 
-void hmva::HFactory::NewFactory()
+void hanalysis::HFactory::NewFactory()
 {
     Print(HNotification , "New Factory");
     const std::string FactoryOutputName = "Mva" + Mva->GetTaggerName();
@@ -34,7 +34,7 @@ void hmva::HFactory::NewFactory()
     Factory = new TMVA::Factory(Mva->GetTaggerName(), OutputFile, FactoryOptions);
 }
 
-void hmva::HFactory::AddVariables()
+void hanalysis::HFactory::AddVariables()
 {
     Print(HNotification , "Add Variables");
     (TMVA::gConfig().GetIONames()).fWeightFileDir = Mva->GetAnalysisName();
@@ -44,7 +44,7 @@ void hmva::HFactory::AddVariables()
         Factory->AddSpectator(Spectator.Expression, Spectator.Title, Spectator.Unit, Spectator.Type);
 }
 
-void hmva::HFactory::GetTrees()
+void hanalysis::HFactory::GetTrees()
 {
     Print(HNotification , "Get Trees");
     for (const auto & SignalName : Mva->GetSignalNames()) {
@@ -71,7 +71,7 @@ void hmva::HFactory::GetTrees()
 
 }
 
-void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
+void hanalysis::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
 {
 
     Print(HNotification , "Add Tree", TreeName);
@@ -107,7 +107,7 @@ void hmva::HFactory::AddTree(const TFile *const File, const std::string &TreeNam
 
 }
 
-void hmva::HFactory::PrepareTrainingAndTestTree()
+void hanalysis::HFactory::PrepareTrainingAndTestTree()
 {
 
     Print(HNotification , "PrepareTrainingAndTestTree");
@@ -119,7 +119,7 @@ void hmva::HFactory::PrepareTrainingAndTestTree()
 
 }
 
-void hmva::HFactory::BookMethods()
+void hanalysis::HFactory::BookMethods()
 {
 
     Print(HNotification , "Book Methods");

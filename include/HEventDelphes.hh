@@ -10,7 +10,7 @@
  * @brief event topology for Delphes events
  *
  */
-class hdelphes::HEvent  : public hanalysis::HEvent
+class hanalysis::hdelphes::HEvent  : public hanalysis::HEvent
 {
 
 public:

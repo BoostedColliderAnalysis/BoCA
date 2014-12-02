@@ -22,11 +22,11 @@ class HHiggsCpv
 
 public:
 
-    hdelphes::HSuperStructure Higgs;
+  hanalysis::HSuperStructure Higgs;
     hanalysis::HJetLeptonPair Top;
     hanalysis::HJetLeptonPair AntiTop;
 
-    HHiggsCpv(const hdelphes::HSuperStructure &NewHiggs, const hanalysis::HJetLeptonPair &NewTop, const hanalysis::HJetLeptonPair &NewAntiTop) {
+    HHiggsCpv(const hanalysis::HSuperStructure &NewHiggs, const hanalysis::HJetLeptonPair &NewTop, const hanalysis::HJetLeptonPair &NewAntiTop) {
         Higgs = NewHiggs;
         Top = NewTop;
         AntiTop = NewAntiTop;
@@ -75,10 +75,10 @@ public:
      */
     ~HAnalysis();
 
-    hdelphes::HBottomTagger *BottomTagger;
-    hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
-    hdelphes::HMvaHiggsTagger *HiggsTagger;
-    
+    hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
+    hanalysis::HMvaHiggsTagger *HiggsTagger;
+
     /**
      * @brief prepares the std::vector describing the input root files
      *
@@ -99,9 +99,9 @@ private:
     ExRootTreeBranch *TopBranch;
     ExRootTreeBranch *EventBranch;
 
-    hmva::HReader *BottomReader;
-    hmva::HReader *TopReader;
-    hmva::HReader *HiggsReader;
+    hanalysis::HReader  *BottomReader;
+    hanalysis::HReader  *TopReader;
+    hanalysis::HReader  *HiggsReader;
 
     inline int GetEventNumberMax() const {
         return 100000;

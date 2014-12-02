@@ -1,6 +1,6 @@
 # include "HSuperStructure.hh"
 
-hdelphes::HSuperStructure::HSuperStructure()
+hanalysis::HSuperStructure::HSuperStructure()
 {
     Print(HInformation, "Constructor");
 
@@ -9,7 +9,7 @@ hdelphes::HSuperStructure::HSuperStructure()
 
 }
 
-hdelphes::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
+hanalysis::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
 {
 
     Print(HInformation, "Constructor");
@@ -22,14 +22,14 @@ hdelphes::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, co
 
 }
 
-hdelphes::HSuperStructure::~HSuperStructure()
+hanalysis::HSuperStructure::~HSuperStructure()
 {
 
     Print(HInformation, "Destructor");
 
 }
 
-float hdelphes::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const
+float hanalysis::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const
 {
 
     Print(HInformation, "Get ReferenceAngle");
@@ -42,7 +42,7 @@ float hdelphes::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet
 }
 
 
-float hdelphes::HSuperStructure::GetPullAngle1() const
+float hanalysis::HSuperStructure::GetPullAngle1() const
 {
 
     Print(HInformation, "GetPullAngle1");
@@ -62,7 +62,7 @@ float hdelphes::HSuperStructure::GetPullAngle1() const
 
 }
 
-float hdelphes::HSuperStructure::GetPullAngle2() const
+float hanalysis::HSuperStructure::GetPullAngle2() const
 {
 
     Print(HInformation, "GetPullAngle2");
@@ -76,7 +76,7 @@ float hdelphes::HSuperStructure::GetPullAngle2() const
 }
 
 
-float hdelphes::HSuperStructure::GetPull(const fastjet::PseudoJet &CandidateJet) const
+float hanalysis::HSuperStructure::GetPull(const fastjet::PseudoJet &CandidateJet) const
 {
 
     Print(HInformation, "GetPull");
@@ -102,7 +102,7 @@ float hdelphes::HSuperStructure::GetPull(const fastjet::PseudoJet &CandidateJet)
 }
 
 
-std::vector<HKinematics> hdelphes::HSuperStructure::GetConstituents() const
+std::vector<HKinematics> hanalysis::HSuperStructure::GetConstituents() const
 {
 
     Print(HInformation, "GetConstituents");
@@ -135,7 +135,7 @@ std::vector<HKinematics> hdelphes::HSuperStructure::GetConstituents() const
 }
 
 
-std::vector<HKinematics> hdelphes::HSuperStructure::GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
+std::vector<HKinematics> hanalysis::HSuperStructure::GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
 {
 
     Print(HInformation, "GetConstituents", JetRatio, Theta);

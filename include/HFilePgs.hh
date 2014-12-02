@@ -13,7 +13,7 @@
  * @brief PGS files
  *
  */
-class hpgs::HFile : public hanalysis::HFile
+class hanalysis::hpgs::HFile : public hanalysis::HFile
 {
 
 public:

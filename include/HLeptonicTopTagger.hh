@@ -13,31 +13,31 @@
  * @brief calculation regarding leptons
  *
  */
-class hdelphes::HLeptonicTopTagger : public hmva::HMva
+class hanalysis::HLeptonicTopTagger : public HMva
 {
-    
+
 public:
-    
+
     HLeptonicTopTagger(HBottomTagger *NewBottomTagger);
-    
+
     ~HLeptonicTopTagger();
-    
+
     std::vector<HLeptonicTopBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
-    
+
     void FillBranch(const hanalysis::HJetLeptonPair &JetLeptonPair);
-    
+
 private:
-    
+
     HBottomTagger *BottomTagger;
-    
-    hmva::HReader *BottomReader;
-    
+
+    HReader *BottomReader;
+
     HLeptonicTopBranch *Branch;
-    
+
     hanalysis::HJetTag *JetTag;
-    
+
     void DefineVariables();
-    
+
     void FillBranch(HLeptonicTopBranch *LeptonicTopBranch, const hanalysis::HJetLeptonPair &JetLeptonPair);
 
     virtual inline std::string NameSpaceName() const {
