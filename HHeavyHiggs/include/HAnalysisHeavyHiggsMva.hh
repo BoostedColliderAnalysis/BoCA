@@ -106,6 +106,17 @@ public:
     hdelphes::HLeptonicTopTagger *LeptonicTopTagger;
     hdelphes::HHeavyHiggsTagger *HeavyHiggsTagger;
 
+    /**
+     * @brief prepares the std::vector describing the input root files
+     *
+     * @return void
+     */
+    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName);
+
+
+    inline std::string GetProjectName() const {
+        return "HeavyHiggsMva";
+    };
 private:
 
 
@@ -122,11 +133,7 @@ private:
     hmva::HReader *HeavyHiggsReader;
 
     inline int GetEventNumberMax() const {
-        return 10000;
-    };
-
-    inline std::string GetProjectName() const {
-        return "HeavyHiggsMva";
+        return 1000;
     };
 
     hanalysis::HJetTag *JetTag;
@@ -184,13 +191,6 @@ private:
     std::vector<hanalysis::HPairPair> GetTops(const HJets &Jets, const HJets &Leptons);
 
 //     void FillCandidate(const hdelphes::HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
-
-    /**
-     * @brief prepares the std::vector describing the input root files
-     *
-     * @return void
-     */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName);
 
     /**
      * @brief New Analysis

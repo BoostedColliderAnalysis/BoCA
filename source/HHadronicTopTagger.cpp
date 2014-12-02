@@ -9,7 +9,7 @@ hdelphes::HHadronicTopTagger::HHadronicTopTagger(HBottomTagger *NewBottomTagger,
     BottomTagger = NewBottomTagger;
     BottomReader = new hmva::HReader(BottomTagger);
 
-    HadronicWTagger = NewHadronicWTagger(BottomTagger);
+    HadronicWTagger = NewHadronicWTagger;
     HadronicWReader = new hmva::HReader(HadronicWTagger);
 
     TaggerName = "HadronicTop";
@@ -17,7 +17,7 @@ hdelphes::HHadronicTopTagger::HHadronicTopTagger(HBottomTagger *NewBottomTagger,
     BackgroundNames = {"NotHadronicTop"};
     CandidateBranchName = "HadronicTop";
 
-    Branch = new HLeptonicTopBranch();
+    Branch = new HHadronicTopBranch();
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
@@ -40,11 +40,11 @@ void hdelphes::HHadronicTopTagger::DefineVariables()
 
     Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
     Observables.push_back(NewObservable(&Branch->JetPt, "JetPt"));
-    Observables.push_back(NewObservable(&Branch->LeptonPt, "LeptonPt"));
+    Observables.push_back(NewObservable(&Branch->WPt, "WPt"));
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
+    Observables.push_back(NewObservable(&Branch->WBottomBdt, "WBottomTag"));
 
     Spectators.push_back(NewObservable(&Branch->TopTag, "TopTag"));
 
@@ -53,12 +53,12 @@ void hdelphes::HHadronicTopTagger::DefineVariables()
 }
 
 
-std::vector<HLeptonicTopBranch *> hdelphes::HHadronicTopTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HHadronicTopBranch *> hdelphes::HHadronicTopTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {TopId};
+    JetTag->HeavyParticles = {TopId,HiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
@@ -72,9 +72,9 @@ std::vector<HLeptonicTopBranch *> hdelphes::HHadronicTopTagger::GetBranches(hana
                 ++Jet;
 
                 hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-                BottomTagger->FillBranch(Jet);
+                BottomTagger->FillBranch(*Jet);
                 JetInfo->SetBdt(BottomReader->GetBdt());
-                Jet.set_user_info(JetInfo);
+                (*Jet).set_user_info(JetInfo);
             }
         }
     } else if (State == HBackground) {
@@ -85,9 +85,9 @@ std::vector<HLeptonicTopBranch *> hdelphes::HHadronicTopTagger::GetBranches(hana
                 ++Jet;
 
                 hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-                BottomTagger->FillBranch(Jet);
+                BottomTagger->FillBranch(*Jet);
                 JetInfo->SetBdt(BottomReader->GetBdt());
-                Jet.set_user_info(JetInfo);
+                (*Jet).set_user_info(JetInfo);
             }
         }
     }
@@ -97,43 +97,17 @@ std::vector<HLeptonicTopBranch *> hdelphes::HHadronicTopTagger::GetBranches(hana
         for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
             for (HJets::iterator Jet3 = Jet2 + 1; Jet3 != Jets.end(); ++Jet3) {
                 hdelphes::HSuperStructure JetPair((*Jet1), (*Jet2));
-                TopTriples.push_back(FillTriple(*Jet1, *Jet2, *Jet3));
+                std::vector<hanalysis::HPairJetPair> Triple = FillTriple(*Jet1, *Jet2, *Jet3);
+                TopTriples.insert(TopTriples.end(),Triple.begin(),Triple.end());
             }
         }
     }
 
 
-
-    std::vector<hanalysis::HPairJetPair> PairJetPairs;
-
-    for (auto & Jet : Jets) {
-        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        BottomTagger->FillBranch(Jet);
-        JetInfo->SetBdt(BottomReader->GetBdt());
-        Jet.set_user_info(JetInfo);
-
-        for (auto & Lepton : Leptons) {
-            Print(HDebug, "Lepton Tagging", GetParticleName(Lepton.user_index()), GetParticleName(Jet.user_index()));
-            if ((State == HSignal && Lepton.user_index() == Jet.user_index()) || State == HBackground) {
-
-                hanalysis::HJetLeptonPair JetLeptonPair(Jet, Lepton);
-                if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index())
-                    JetLeptonPair.SetTag(1);
-                else if (std::abs(Jet.user_index()) == MixedJetId && Jet.user_index() == Lepton.user_index())
-                    JetLeptonPair.SetTag(.5);
-                else
-                    JetLeptonPair.SetTag(0);
-                PairJetPairs.push_back(JetLeptonPair);
-            }
-        }
-    }
-
-    Print(HInformation, "Number JetPairs", PairJetPairs.size());
-
-    std::vector<HLeptonicTopBranch *> LeptonicTopBranches;
-    for (const auto & JetLeptonPair : PairJetPairs) {
-        HLeptonicTopBranch *LeptonicTopBranch = new HLeptonicTopBranch();
-        FillBranch(LeptonicTopBranch, JetLeptonPair);
+    std::vector<HHadronicTopBranch *> LeptonicTopBranches;
+    for (const auto & TopTriple : TopTriples) {
+        HHadronicTopBranch *LeptonicTopBranch = new HHadronicTopBranch();
+        FillBranch(LeptonicTopBranch, TopTriple);
         LeptonicTopBranches.push_back(LeptonicTopBranch);
     }
 
@@ -154,21 +128,21 @@ std::vector<hanalysis::HPairJetPair> hdelphes::HHadronicTopTagger::FillTriple(co
 
     hdelphes::HSuperStructure JetPair12(Jet1, Jet2);
     HadronicWTagger->FillBranch(JetPair12);
-    JetPair12->SetBdt(HadronicWReader->GetBdt());
+    JetPair12.SetBdt(HadronicWReader->GetBdt());
     hanalysis::HPairJetPair TopTriple1(JetPair12, Jet3);
     TopTriple1.SetTag(Tag);
     TopTriples.push_back(TopTriple1);
 
     hdelphes::HSuperStructure JetPair23(Jet2, Jet3);
     HadronicWTagger->FillBranch(JetPair23);
-    JetPair23->SetBdt(HadronicWReader->GetBdt());
+    JetPair23.SetBdt(HadronicWReader->GetBdt());
     hanalysis::HPairJetPair TopTriple2(JetPair23, Jet1);
     TopTriple2.SetTag(Tag);
     TopTriples.push_back(TopTriple2);
 
     hdelphes::HSuperStructure JetPair13(Jet1, Jet3);
     HadronicWTagger->FillBranch(JetPair13);
-    JetPair13->SetBdt(HadronicWReader->GetBdt());
+    JetPair13.SetBdt(HadronicWReader->GetBdt());
     hanalysis::HPairJetPair TopTriple3(JetPair13, Jet2);
     TopTriple3.SetTag(Tag);
     TopTriples.push_back(TopTriple3);
@@ -178,26 +152,26 @@ std::vector<hanalysis::HPairJetPair> hdelphes::HHadronicTopTagger::FillTriple(co
 }
 
 
-void hdelphes::HHadronicTopTagger::FillBranch(const hanalysis::HJetLeptonPair &JetLeptonPair)
+void hdelphes::HHadronicTopTagger::FillBranch(const hanalysis::HPairJetPair &PairJetPair)
 {
-    Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
+    Print(HInformation, "Fill Top Tagger", PairJetPair.GetBdt());
 
-    FillBranch(Branch, JetLeptonPair);
+    FillBranch(Branch, PairJetPair);
 
 }
 
 
-void hdelphes::HHadronicTopTagger::FillBranch(HLeptonicTopBranch *LeptonicTopBranch, const hanalysis::HJetLeptonPair &JetLeptonPair)
+void hdelphes::HHadronicTopTagger::FillBranch(HHadronicTopBranch *LeptonicTopBranch, const hanalysis::HPairJetPair &PairJetPair)
 {
-    Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
+    Print(HInformation, "Fill Top Tagger", PairJetPair.GetBdt());
 
-    LeptonicTopBranch->Mass = JetLeptonPair.GetInvariantMass();
-    LeptonicTopBranch->JetPt = JetLeptonPair.GetJetPt();
-    LeptonicTopBranch->LeptonPt = JetLeptonPair.GetLeptonPt();
-    LeptonicTopBranch->DeltaR = JetLeptonPair.GetDeltaR();
-    LeptonicTopBranch->DeltaRap = JetLeptonPair.GetDeltaRap();
-    LeptonicTopBranch->DeltaPhi = JetLeptonPair.GetPhiDelta();
-    LeptonicTopBranch->BottomTag = JetLeptonPair.GetBdt();
-    LeptonicTopBranch->TopTag = JetLeptonPair.GetTag();
+    LeptonicTopBranch->Mass = PairJetPair.GetInvariantMass();
+    LeptonicTopBranch->JetPt = PairJetPair.GetJetPt();
+    LeptonicTopBranch->WPt = PairJetPair.GetPairPt();
+    LeptonicTopBranch->DeltaR = PairJetPair.GetDeltaR();
+    LeptonicTopBranch->DeltaRap = PairJetPair.GetDeltaRap();
+    LeptonicTopBranch->DeltaPhi = PairJetPair.GetDeltaPhi();
+    LeptonicTopBranch->WBottomBdt = PairJetPair.GetBdt();
+    LeptonicTopBranch->TopTag = PairJetPair.GetTag();
 
 }

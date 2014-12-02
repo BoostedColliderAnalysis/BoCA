@@ -39,7 +39,7 @@ public:
     }
 
     float GetDeltaRap() const {
-        return (Pair1.GetPairJet().rap() - Pair2.GetPairJet().rap());
+        return (std::abs(Pair1.GetPairJet().rap() - Pair2.GetPairJet().rap()));
     }
 
     float GetDeltaPhi() const {

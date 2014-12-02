@@ -35,6 +35,7 @@ void hdelphes::HBottomTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->Multipliticity, "Multipliticity"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
     Observables.push_back(NewObservable(&Branch->Centrality, "Centrality"));
+    Observables.push_back(NewObservable(&Branch->EnergyFraction, "EnergyFraction"));
 
     Spectators.push_back(NewObservable(&Branch->Mass, "Mass"));
     Spectators.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
@@ -108,6 +109,7 @@ void hdelphes::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, cons
         BottomBranch->Multipliticity = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
         BottomBranch->DeltaR = GetDeltaR(Jet);
         BottomBranch->Centrality = GetCentrality(Jet);
+        BottomBranch->EnergyFraction= Jet.user_info<hanalysis::HJetInfo>().GetVertexEnergy() / Jet.e();
         if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
             BottomBranch->BottomTag = 1;
         } else if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == MixedJetId) {
@@ -148,3 +150,16 @@ float hdelphes::HBottomTagger::GetCentrality(const fastjet::PseudoJet &Jet) cons
     return (Centrality / Jet.pt() / GetDeltaR(Jet));
 
 }
+
+
+
+// float hdelphes::HBottomTagger::GetEnergyFraction(const fastjet::PseudoJet &Jet) const
+// {
+//     
+//     Print(HInformation, "Get Centrality");
+//     
+//     float EnergyFraction;
+//     for (const auto & Constituent : Jet.constituents()) if(Jet.delta_R(Constituent)) EnergyFraction+= Constituent.e();
+//     return (Centrality / Jet.pt() / GetDeltaR(Jet));
+//     
+// }

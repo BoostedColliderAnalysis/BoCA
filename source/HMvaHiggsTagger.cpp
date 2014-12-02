@@ -42,7 +42,7 @@ void hdelphes::HMvaHiggsTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->Pull1, "Pull1"));
     Observables.push_back(NewObservable(&Branch->Pull2, "Pull2"));
     Observables.push_back(NewObservable(&Branch->Pull, "Pull"));
-    Observables.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
+    Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
 
     Spectators.push_back(NewObservable(&Branch->HiggsTag, "HiggsTag"));
 
@@ -63,7 +63,7 @@ std::vector<HHiggsBranch *> hdelphes::HMvaHiggsTagger::GetBranches(hanalysis::HE
 
     Print(HInformation, "Get Higgs Tags");
 
-    JetTag->HeavyParticles = {CpvHiggsId, HiggsId};
+    JetTag->HeavyParticles = {CpvHiggsId, HiggsId,TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
     HJets HiggsJets;
@@ -160,7 +160,7 @@ void hdelphes::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, cons
     HiggsBranch->DeltaR = Pair.GetDeltaR();
     HiggsBranch->DeltaRap = Pair.GetDeltaRap();
     HiggsBranch->DeltaPhi = Pair.GetPhiDelta();
-    HiggsBranch->BottomTag = Pair.GetBdt();
+    HiggsBranch->BottomBdt = Pair.GetBdt();
     HiggsBranch->Pull1 = Pair.GetPullAngle1();
     HiggsBranch->Pull2 = Pair.GetPullAngle2();
     HiggsBranch->Pull = Pair.GetPullAngle();

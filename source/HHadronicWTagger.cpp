@@ -14,7 +14,7 @@ hdelphes::HHadronicWTagger::HHadronicWTagger(hdelphes::HBottomTagger *NewBottomT
     BackgroundNames = {"NotWTagger"};
     CandidateBranchName = "WTagger";
 
-    Branch = new HHiggsBranch();
+    Branch = new HHadronicWBranch();
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
@@ -42,9 +42,9 @@ void hdelphes::HHadronicWTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->Pull1, "Pull1"));
     Observables.push_back(NewObservable(&Branch->Pull2, "Pull2"));
     Observables.push_back(NewObservable(&Branch->Pull, "Pull"));
-    Observables.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
+    Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
 
-    Spectators.push_back(NewObservable(&Branch->HiggsTag, "HiggsTag"));
+    Spectators.push_back(NewObservable(&Branch->WTag, "WTag"));
 
     Print(HNotification, "Variables defined");
 
@@ -58,7 +58,7 @@ struct SortPairByMass {
 };
 
 
-std::vector<HHiggsBranch *> hdelphes::HHadronicWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HHadronicWBranch *> hdelphes::HHadronicWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get W Tags");
@@ -128,9 +128,9 @@ std::vector<HHiggsBranch *> hdelphes::HHadronicWTagger::GetBranches(hanalysis::H
 
     Print(HInformation, "Number of Jet Pairs", JetPairs.size());
 
-    std::vector<HHiggsBranch *> WBranches;
+    std::vector<HHadronicWBranch *> WBranches;
     for (const auto & JetPair : JetPairs) {
-        HHiggsBranch *WBranch = new HHiggsBranch();
+        HHadronicWBranch *WBranch = new HHadronicWBranch();
         FillBranch(WBranch, JetPair);
         WBranches.push_back(WBranch);
     }
@@ -147,7 +147,7 @@ void hdelphes::HHadronicWTagger::FillBranch(const hdelphes::HSuperStructure &Pai
 
 }
 
-void hdelphes::HHadronicWTagger::FillBranch(HHiggsBranch *const WBranch, const hdelphes::HSuperStructure &Pair)
+void hdelphes::HHadronicWTagger::FillBranch(HHadronicWBranch *const WBranch, const hdelphes::HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -157,11 +157,11 @@ void hdelphes::HHadronicWTagger::FillBranch(HHiggsBranch *const WBranch, const h
     WBranch->DeltaR = Pair.GetDeltaR();
     WBranch->DeltaRap = Pair.GetDeltaRap();
     WBranch->DeltaPhi = Pair.GetPhiDelta();
-    WBranch->BottomTag = Pair.GetBdt();
+    WBranch->BottomBdt = Pair.GetBdt();
     WBranch->Pull1 = Pair.GetPullAngle1();
     WBranch->Pull2 = Pair.GetPullAngle2();
     WBranch->Pull = Pair.GetPullAngle();
-    WBranch->HiggsTag = Pair.GetTag();
+    WBranch->WTag = Pair.GetTag();
 
 }
 

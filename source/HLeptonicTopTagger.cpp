@@ -40,7 +40,7 @@ void hdelphes::HLeptonicTopTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
+    Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
 
     Spectators.push_back(NewObservable(&Branch->TopTag, "TopTag"));
 
@@ -54,76 +54,86 @@ std::vector<HLeptonicTopBranch *> hdelphes::HLeptonicTopTagger::GetBranches(hana
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {TopId};
+    JetTag->HeavyParticles = {TopId, HiggsId, CpvHiggsId, HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
 
-    if (State == HSignal) {
-        for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-            Print(HInformation, "Truth Level", GetParticleName((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()));
-            if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != TopId) {
-                Jet = Jets.erase(Jet);
-            } else {
-                ++Jet;
-            }
-        }
-    } else if (State == HBackground) {
-        for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-            if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == TopId || std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == MixedJetId) {
-                Jet = Jets.erase(Jet);
-            } else {
-                ++Jet;
-            }
+//     if (State == HSignal) {
+//         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
+//             Print(HInformation, "Truth Level", GetParticleName((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()));
+//             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) != TopId) {
+//                 Jet = Jets.erase(Jet);
+//             } else {
+//                 ++Jet;
+//             }
+//         }
+//     } else if (State == HBackground) {
+//         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
+//             if (std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == TopId || std::abs((*Jet).user_info<hanalysis::HJetInfo>().GetMaximalId()) == MixedJetId) {
+//                 Jet = Jets.erase(Jet);
+//             } else {
+//                 ++Jet;
+//             }
+//         }
+//     }
+
+    for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
+        if (std::abs((*Jet).user_index()) == MixedJetId) {
+            Jet = Jets.erase(Jet);
+        } else {
+            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+            BottomTagger->FillBranch(*Jet);
+            JetInfo->SetBdt(BottomReader->GetBdt());
+            (*Jet).set_user_info(JetInfo);
+            ++Jet;
         }
     }
 
-//     HJets TopJets;
-//     HJets OtherJets;
-//     for (const auto & Jet : Jets) {
-//         if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == TopId) {
-//             TopJets.push_back(Jet);
-//         } else {
-//             OtherJets.push_back(Jet);
-//         }
+//     for (auto & Jet : Jets) {
+//         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+//         BottomTagger->FillBranch(Jet);
+//         JetInfo->SetBdt(BottomReader->GetBdt());
+// //         JetInfo->SetTag(Jet.user_index());
+//         Jet.set_user_info(JetInfo);
 //     }
-//
-//
+
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
-//
-//     HJets TopLeptons;
-//     HJets OtherLeptons;
-//     for (const auto & Lepton : Leptons) {
-//         if (std::abs(Lepton.user_info<hanalysis::HJetInfo>().GetMaximalId()) == TopId) {
-//             TopLeptons.push_back(Lepton);
-//         } else {
-//             OtherLeptons.push_back(Lepton);
-//         }
-//     }
+
+    for (HJets::iterator Lepton = Leptons.begin(); Lepton != Leptons.end();) {
+        if (std::abs((*Lepton).user_index()) == MixedJetId) {
+            Lepton = Leptons.erase(Lepton);
+        } else {
+            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+            BottomTagger->FillBranch(*Lepton);
+            JetInfo->SetBdt(BottomReader->GetBdt());
+            (*Lepton).set_user_info(JetInfo);
+            ++Lepton;
+        }
+    }
 
 
     std::vector<hanalysis::HJetLeptonPair> JetLeptonPairs;
 
-    for (auto & Jet : Jets) {
-        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        BottomTagger->FillBranch(Jet);
-        JetInfo->SetBdt(BottomReader->GetBdt());
-        Jet.set_user_info(JetInfo);
+    for (auto & Lepton : Leptons) {
+        if (State == HSignal && std::abs(Lepton.user_index() != TopId)) continue;
 
-        for (auto & Lepton : Leptons) {
+        for (auto & Jet : Jets) {
             Print(HDebug, "Lepton Tagging", GetParticleName(Lepton.user_index()), GetParticleName(Jet.user_index()));
-            if ((State == HSignal && Lepton.user_index() == Jet.user_index()) || State == HBackground) {
 
-                hanalysis::HJetLeptonPair JetLeptonPair(Jet, Lepton);
-                if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index())
-                    JetLeptonPair.SetTag(1);
-                else if (std::abs(Jet.user_index()) == MixedJetId && Jet.user_index() == Lepton.user_index())
-                    JetLeptonPair.SetTag(.5);
-                else
-                    JetLeptonPair.SetTag(0);
-                JetLeptonPairs.push_back(JetLeptonPair);
-            }
+            if (State == HSignal && std::abs(Jet.user_index() != TopId)) continue;
+            if (State == HSignal && Lepton.user_index() != Jet.user_index()) continue;
+
+            if (State == HBackground && (Lepton.user_index() == Jet.user_index() && Jet.user_index() == TopId)) continue;
+
+            hanalysis::HJetLeptonPair JetLeptonPair(Jet, Lepton);
+            if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index())
+                JetLeptonPair.SetTag(1);
+            else
+                JetLeptonPair.SetTag(0);
+            JetLeptonPairs.push_back(JetLeptonPair);
+
         }
     }
 
@@ -160,7 +170,7 @@ void hdelphes::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch *LeptonicTopBra
     LeptonicTopBranch->DeltaR = JetLeptonPair.GetDeltaR();
     LeptonicTopBranch->DeltaRap = JetLeptonPair.GetDeltaRap();
     LeptonicTopBranch->DeltaPhi = JetLeptonPair.GetPhiDelta();
-    LeptonicTopBranch->BottomTag = JetLeptonPair.GetBdt();
+    LeptonicTopBranch->BottomBdt = JetLeptonPair.GetBdt();
     LeptonicTopBranch->TopTag = JetLeptonPair.GetTag();
 
 }

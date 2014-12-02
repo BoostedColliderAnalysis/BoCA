@@ -38,9 +38,52 @@ HBottomBranch::HBottomBranch()
     Multipliticity = InitialValue;
     DeltaR = InitialValue;
     Centrality = InitialValue;
+    EnergyFraction = InitialValue;
 
     BottomTag = InitialValue;
 
+}
+
+ClassImp(HHadronicWBranch)
+
+HHadronicWBranch::HHadronicWBranch()
+{
+    
+    Mass = InitialValue;
+    PtSum = InitialValue;
+    PtDiff = InitialValue;
+    
+    DeltaRap = InitialValue;
+    DeltaPhi = InitialValue;
+    DeltaR = InitialValue;
+    
+    BottomBdt = InitialValue;
+    
+    Pull1 = InitialValue;
+    Pull2 = InitialValue;
+    Pull = InitialValue;
+    
+    WTag = InitialValue;
+    
+}
+
+ClassImp(HHadronicTopBranch)
+
+HHadronicTopBranch::HHadronicTopBranch()
+{
+    
+    Mass = InitialValue;
+    JetPt = InitialValue;
+    WPt = InitialValue;
+    
+    DeltaRap = InitialValue;
+    DeltaPhi = InitialValue;
+    DeltaR = InitialValue;
+    
+    WBottomBdt = InitialValue;
+    
+    TopTag = InitialValue;
+    
 }
 
 ClassImp(HLeptonicTopBranch)
@@ -56,7 +99,7 @@ HLeptonicTopBranch::HLeptonicTopBranch()
     DeltaPhi = InitialValue;
     DeltaR = InitialValue;
 
-    BottomTag = InitialValue;
+    BottomBdt = InitialValue;
 
     TopTag = InitialValue;
 
@@ -76,7 +119,7 @@ HHiggsBranch::HHiggsBranch()
   DeltaPhi = InitialValue;
   DeltaR = InitialValue;
 
-  BottomTag = InitialValue;
+  BottomBdt = InitialValue;
 
   Pull1 = InitialValue;
   Pull2 = InitialValue;
@@ -99,7 +142,7 @@ HMvaHeavyHiggsBranch::HMvaHeavyHiggsBranch()
   DeltaPhi = InitialValue;
   DeltaR = InitialValue;
 
-  TopTag = InitialValue;
+  TopBdt = InitialValue;
 
   Pull1 = InitialValue;
   Pull2 = InitialValue;

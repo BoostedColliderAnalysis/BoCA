@@ -7,8 +7,8 @@ class hanalysis::HPairJetPair : public HTag
 {
 
 public:
-    
-    HPairJetPair(){}
+
+    HPairJetPair() {}
 
     HPairJetPair(const HPair &NewPair, const fastjet::PseudoJet &NewJet);
 
@@ -26,22 +26,31 @@ public:
         return (Pair.GetPairJet() + Jet);
     }
 
-    float GetPtSum() const {
-        return (Pair.GetPtSum() + Jet.pt());
+//     float GetPtSum() const {
+//         return (Pair.GetPtSum() + Jet.pt());
+//     }
+
+    float GetJetPt() const {
+        return Jet.pt();
+    }
+
+    float GetPairPt() const {
+        return Pair.GetPtSum();
     }
 
     float GetBdt() const {
-        return (Pair.GetBdt() * Jet.user_info<HJetInfo*>().GetBdt());
+        return (Pair.GetBdt() * Jet.user_info<HJetInfo>().GetBdt());
     }
 
     float GetDeltaRap() const {
-        return (Pair.GetPairJet().rap() - Jet.rap());
+        return (std::abs(Pair.GetPairJet().rap() - Jet.rap()));
     }
 
+    /// returns delta phi between -pi and pi
     float GetDeltaPhi() const {
         return (Pair.GetPairJet().delta_phi_to(Jet));
     }
-    
+
 protected:
 
     virtual inline std::string ClassName() const {

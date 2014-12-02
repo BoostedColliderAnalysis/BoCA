@@ -10,18 +10,18 @@
 # include "HHadronicWTagger.hh"
 # include "HPairJetPair.hh"
 
-class HTopTriple{
-
-    TopTriple(const hdelphes::HSuperStructure & NewJetPair, const fastjet::PseudoJet &NewBottom){
-        JetPair = NewJetPair;
-        Bottom = NewBottom;
-    }
-
-    hdelphes::HSuperStructure JetPair;
-
-    fastjet::PseuodJet Bottom;
-
-};
+// class HTopTriple{
+// 
+//     HTopTriple(const hdelphes::HSuperStructure & NewJetPair, const fastjet::PseudoJet &NewBottom){
+//         JetPair = NewJetPair;
+//         Bottom = NewBottom;
+//     }
+// 
+//     hdelphes::HSuperStructure JetPair;
+// 
+//     fastjet::PseuodJet Bottom;
+// 
+// };
 
 /**
  * @brief calculation regarding leptons
@@ -36,11 +36,11 @@ public:
 
     ~HHadronicTopTagger();
 
-    std::vector<HLeptonicTopBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector<HHadronicTopBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
     void FillBranch(const hanalysis::HPairJetPair &PairJetPair);
 
-    std::vector<HTopTriple> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
+//     std::vector<hanalysis::HPairJetPair> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
 
 private:
 
@@ -52,7 +52,7 @@ private:
 
     hmva::HReader *BottomReader;
 
-    HLeptonicTopBranch *Branch;
+    HHadronicTopBranch *Branch;
 
     hanalysis::HJetTag *JetTag;
 
@@ -61,7 +61,7 @@ private:
     std::vector<hanalysis::HPairJetPair> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
 
 
-    void FillBranch(HLeptonicTopBranch *LeptonicTopBranch, const hanalysis::HJetLeptonPair &JetLeptonPair);
+    void FillBranch(HHadronicTopBranch *LeptonicTopBranch, const hanalysis::HPairJetPair &PairJetPair);
 
     virtual inline std::string NameSpaceName() const {
         return "hdelphes";

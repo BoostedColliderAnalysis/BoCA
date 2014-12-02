@@ -34,7 +34,6 @@ struct SortByDistance {
     }
 
 };
-
 /**
  * @brief Jet infos subclassed from Fastjet
  *
@@ -130,7 +129,10 @@ public:
     float GetJetDisplacement() {
         Print(HDebug, "Get Jet Displacement");
 
-        if (Vertices.size() == 0) return 0;
+        if (Vertices.size() == 0) {
+            Print(HError, "No secondary Vertices");
+            return 0;
+        }
         std::sort(Vertices.begin(), Vertices.end(), SortByDistance());
         return (Vertices.front().Position.Vect().Mag());
     }
@@ -141,13 +143,16 @@ public:
 
     float GetJetDisplacement() const;
 
-    float GetVertexMass() const {
-        Print(HDebug, "Get Vertex Mass");
-        HConstituent Vertex;
-        const float VertexMass = std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M();
-        if (VertexMass < .1) return 0;
-        return VertexMass;
+    float GetVertexMass() const;
+
+    float GetVertexEnergy() const {
+        Print(HDebug, "Get Energy Fraction");
+        float VertexEnergy = 0;
+        for (const auto & Vertex : Vertices) if (Vertex.Position.Vect().Mag() > SecondaryVertexResolution) VertexEnergy += Vertex.Momentum.E();
+        return VertexEnergy;
     }
+
+    const float SecondaryVertexResolution = 0.1;
 
 protected:
 
@@ -164,5 +169,8 @@ private:
     std::vector<HConstituent> Vertices;
 
 };
+
+
+
 
 # endif

@@ -22,7 +22,7 @@ public:
 
     ~HHadronicWTagger();
 
-    std::vector< HHiggsBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector< HHadronicWBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
@@ -34,13 +34,13 @@ private:
 
     hmva::HReader *BottomReader;
 
-    HHiggsBranch *Branch;
+    HHadronicWBranch *Branch;
 
     hanalysis::HJetTag *JetTag;
 
     void DefineVariables();
 
-    void FillBranch(HHiggsBranch * const HiggsBranch, const hdelphes::HSuperStructure &Pair);
+    void FillBranch(HHadronicWBranch * const HiggsBranch, const hdelphes::HSuperStructure &Pair);
 
     void FillBranch(const HKinematics &Vector);
     

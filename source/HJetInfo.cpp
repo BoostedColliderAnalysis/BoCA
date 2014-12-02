@@ -120,18 +120,33 @@ void hanalysis::HJetInfo::PrintAllInfos(const HSeverity Severity) const
     }
 
 }
-namespace hanalysis
-{
-float HJetInfo::GetJetDisplacement() const
-{
 
-    Print(HDebug, "Get Jet Displacement");
-    // TODO is there a way to get rid of the const?
+
+float hanalysis::HJetInfo::GetJetDisplacement() const
+{
+    Print(HDebug, "Get Jet Displacement"); // TODO is there a way to get rid of the const?
     if (Vertices.size() == 0) return 0;
     std::vector<HConstituent> TempVertices = Vertices;
     std::sort(TempVertices.begin(), TempVertices.end(), SortByDistance());
-    return (TempVertices.front().Position.Vect().Mag());
-}
+    if (TempVertices.front().Position.Vect().Mag() > SecondaryVertexResolution) return TempVertices.front().Position.Vect().Mag();
+    return 0;
 }
 
+
+float hanalysis::HJetInfo::GetVertexMass() const
+{
+    Print(HDebug, "Get Vertex Mass");
+    if (Vertices.size() == 0) return 0;
+    std::vector <HConstituent > RealVertices;
+    for (std::vector <HConstituent >::const_iterator Vertex = Vertices.begin(); Vertex != Vertices.end();++Vertex) {
+        if ((*Vertex).Position.Vect().Mag() < SecondaryVertexResolution) {
+            RealVertices.push_back(*Vertex);
+        }
+    }
+    HConstituent Vertex;
+    const float VertexMass = std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M();
+//     const float VertexMass = std::accumulate(RealVertices.begin(), RealVertices.end(), Vertex).Momentum.M();
+    if (VertexMass < .1) return 0;
+    return VertexMass;
+}
 

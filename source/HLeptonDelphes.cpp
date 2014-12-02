@@ -23,7 +23,7 @@ bool hdelphes::HLepton::GetElectrons()
 
 }
 
-bool hdelphes::HLepton::GetElectrons(HJetDetails JetDetails)
+bool hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(HInformation, "Get Electrons", ClonesArrays->GetElectronSum());
@@ -38,9 +38,10 @@ bool hdelphes::HLepton::GetElectrons(HJetDetails JetDetails)
 
             ElectronLorentzVectors.push_back(const_cast<Electron *>(ElectronClone)->P4());
             ElectronJets.push_back(GetPseudoJet(const_cast<Electron *>(ElectronClone)->P4()));
-            
+
             if (JetDetails == hanalysis::HFourVector::Tagging) {
                 ElectronJets.back().set_user_index(GetMotherId(ElectronClone->Particle.GetObject()));
+//                 Print(HDebug, "Electron Tag", ElectronJets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
             }
 
             Print(HDebug, "Electron");
@@ -49,9 +50,10 @@ bool hdelphes::HLepton::GetElectrons(HJetDetails JetDetails)
 
             AntiElectronLorentzVectors.push_back(const_cast<Electron *>(ElectronClone)->P4());
             AntiElectronJets.push_back(GetPseudoJet(const_cast<Electron *>(ElectronClone)->P4()));
-            
+
             if (JetDetails == hanalysis::HFourVector::Tagging) {
                 AntiElectronJets.back().set_user_index(GetMotherId(ElectronClone->Particle.GetObject()));
+//                 Print(HDebug, "Electron Tag", ElectronJets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
             }
 
             Print(HDebug, "Anti Electron");
@@ -118,32 +120,32 @@ bool hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
 
 // HJets hdelphes::HLepton::GetLeptons(HJetDetails JetDetails)
 // {
-// 
+//
 //     Print(HInformation, "Get Tagged Lepton Jets");
-// 
+//
 //     Print(HInformation,"Get Lepton Jets");
-//     
+//
 //     if(!GotElectrons) GotElectrons = GetElectrons(JetDetails);
 //     if(!GotMuons) GotMuons = GetMuons(JetDetails);
-//     
+//
 //     LeptonJets = ElectronJets;
 //     LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());
 //     //     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());
 //     //     sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
-//     
+//
 //     Print(HDebug,"Number of Lepton Jets",LeptonJets.size());
-//     
+//
 //     AntiLeptonJets = AntiElectronJets;
 //     AntiLeptonJets.insert(AntiLeptonJets.end(), AntiMuonJets.begin(), AntiMuonJets.end());
 //     //     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiTauJetVector.begin(), AntiTauJetVector.end());
 //     //     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
 //     Print(HDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
-//     
+//
 //     HJets AllJets = LeptonJets;
 //     AllJets.insert(AllJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
 //     //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
-//     
+//
 //     return AllJets;
-// 
+//
 // }
 

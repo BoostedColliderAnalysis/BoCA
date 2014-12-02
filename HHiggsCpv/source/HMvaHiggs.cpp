@@ -76,7 +76,7 @@ void hhiggscpv::HMvaHiggs::DefineVariables()
     Observables.push_back(NewObservable(&Higgs->Pull1, "Pull1"));
     Observables.push_back(NewObservable(&Higgs->Pull2,"Pull2"));
     Observables.push_back(NewObservable(&Higgs->Pull, "Pull"));
-    Observables.push_back(NewObservable(&Higgs->BottomTag, "BottomTag"));
+    Observables.push_back(NewObservable(&Higgs->BottomBdt, "BottomTag"));
 
     Spectators.push_back(NewObservable(&Higgs->HiggsTag, "HiggsTag"));
 

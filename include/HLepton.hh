@@ -36,7 +36,7 @@ public:
     
     HJets GetTaggedJets(HJetTag *const NewJetTag) {
         JetTag = NewJetTag;
-        return GetLeptonJets(Tagging);
+        return GetLeptonJets(hanalysis::HFourVector::Tagging);
     };
 
 protected:

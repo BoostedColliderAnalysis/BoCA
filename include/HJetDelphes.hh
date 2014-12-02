@@ -91,7 +91,7 @@ private:
     template <typename TClone>
     hanalysis::HJetInfo GetJetId(const TClone &Clone) {
 
-        Print(HDebug, "Get Jet Id", Clone->Particles.GetEntriesFast());
+        Print(HDetailed, "Get Jet Id", Clone->Particles.GetEntriesFast());
 
         hanalysis::HJetInfo JetInfo;
 
@@ -99,7 +99,7 @@ private:
 
             TObject * Object = Clone->Particles.At(ParticleNumber);
             const int MotherId = GetMotherId(Object);
-            Print(HDebug, "MotherId", MotherId);
+            Print(HDetailed, "MotherId", MotherId);
 
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;

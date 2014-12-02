@@ -98,12 +98,12 @@ HJets hanalysis::HLepton::GetLeptonJets()
     
 }
 
-HJets hanalysis::HLepton::GetLeptonJets(HJetDetails JetDetails)
+HJets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(HInformation,"Get Lepton Jets");
 
-    if(!GotElectrons) GotElectrons = (JetDetails);
+    if(!GotElectrons) GotElectrons = GetElectrons(JetDetails);
     if(!GotMuons) GotMuons = GetMuons(JetDetails);
 
     LeptonJets = ElectronJets;

@@ -40,6 +40,9 @@ HPair.cpp
 HJetLeptonPair.cpp
 HPairPair.cpp
 HTag.cpp
+HHadronicWTagger.cpp
+HPairJetPair.cpp
+HHadronicTopTagger.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 

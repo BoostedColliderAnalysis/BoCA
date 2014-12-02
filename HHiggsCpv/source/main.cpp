@@ -35,7 +35,7 @@ void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger
         if (Tagger == hhiggscpv::HAnalysis::HHiggsTagger){
             Factory = new hmva::HFactory(Analysis->HiggsTagger);
         }
-        HasFactory == 1;
+        HasFactory = 1;
     }
 
     if (HasFactory) delete Factory;

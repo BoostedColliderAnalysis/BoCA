@@ -37,6 +37,7 @@ class HPair;
 class HTag;
 class HJetLeptonPair;
 class HPairPair;
+class HPairJetPair;
 
 }
 
@@ -98,6 +99,8 @@ class HBottomTagger;
 class HLeptonicTopTagger;
 class HMvaHiggsTagger;
 class HHeavyHiggsTagger;
+class HHadronicWTagger;
+class HHadronicTopTagger;
 
 }
 
