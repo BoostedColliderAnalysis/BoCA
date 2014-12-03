@@ -8,7 +8,7 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/hajer/Projects/HAnalysis/build
-Build Type=Debug
+Build Type=
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
@@ -422,3 +422,6 @@ Project Target=HAnalysis,HTopTagger,source,HTopTaggerTest
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
 isExecutable=false
+
+[Project]
+VersionControlSupport=kdevgit

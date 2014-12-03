@@ -82,25 +82,13 @@ public:
      */
     ExRootTreeBranch *EventBranch;
 
-    ExRootTreeBranch *HiggsBranch;
+    ExRootTreeBranch *HeavyHiggsBranch;
 
 //     ExRootTreeBranch *ConstituentBranch;
 
     ExRootTreeBranch *BottomBranch;
 
     ExRootTreeBranch *TopBranch;
-
-//     template<typename TMva>
-//     void SetMva(TMva *NewMva) {
-//
-//         Print(HNotification, "Set Mva", NewMva->GetTaggerName());
-//
-//         Mva = NewMva;
-//         TopReader = new HReader (Mva);
-//         TopReader->AddVariable();
-//         TopReader->BookMVA();
-//
-//     }
 
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
@@ -124,13 +112,13 @@ private:
 
 
 
-  hanalysis::HMva *Mva;
+    hanalysis::HMva *Mva;
 
-  hanalysis::HReader  *BottomReader;
+    hanalysis::HReader  *BottomReader;
 
-  hanalysis::HReader  *TopReader;
+    hanalysis::HReader  *TopReader;
 
-  hanalysis::HReader  *HeavyHiggsReader;
+    hanalysis::HReader  *HeavyHiggsReader;
 
     inline int GetEventNumberMax() const {
         return 1000;
@@ -138,28 +126,6 @@ private:
 
     hanalysis::HJetTag *JetTag;
 
-//     hanalysis::HSubStructure *SubStructure;
-
-    /**
-     * @brief Lepton calculations
-     *
-     * @param Event ...
-     * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
-     */
-    HJets GetLeptonJets(hanalysis::HEvent *const Event);
-
-//     template <typename T, typename U>
-//     std::pair<T, U> operator+(const std::pair<T, U> &l, const std::pair<T, U> &r) {
-//         return {l.first + r.first, l.second + r.second};
-//     }
-
-    std::pair<float, float> GetPull(fastjet::PseudoJet &CandidateJet);
-
-    /**
-     * @brief Lepton event counter
-     *
-     */
-    int LeptonEventCounter;
 
     /**
      * @brief Main Analysis function
@@ -169,34 +135,15 @@ private:
     bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const HTagger Tagger);
 
     bool GetBottomTag(hanalysis::HEvent *const Event, const std::string &StudyName);
-//     void FillBottomBranch(const fastjet::PseudoJet& Jet, HBottomBranch* BTagger);
-//     float GetDeltaR(const fastjet::PseudoJet& Jet);
-//     float GetBottomBdt(const fastjet::PseudoJet &Bottom);
 
     bool GetTopTag(hanalysis::HEvent *const Event, const std::string &StudyName);
-//     void FillTopBranch(const HSuperStructure &Pair, HLeptonicTopBranch *TopTagger);
-//     float GetTopBdt(const HSuperStructure &Top);
 
     bool GetHeavyHiggsTag(hanalysis::HEvent *const Event, const std::string &StudyName);
-//     void FillHiggsBranch(const HSuperStructure &Pair, HHiggsBranch *PairTagger);
-//     float GetHiggsBdt(const HSuperStructure &Higgs);
-
 
     bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
 
     std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
-    std::vector<hanalysis::HPairPair> GetHeavyHiggses(const HJets &Jets, const HJets &Leptons);
-
-    std::vector<hanalysis::HPairPair> GetTops(const HJets &Jets, const HJets &Leptons);
-
-//     void FillCandidate(const HSuperStructure &JetPair, float *const InvMass, float *const DeltaR, float *const Pull, float *const BTag) const;
-
-    /**
-     * @brief New Analysis
-     *
-     * @return void
-     */
     void NewBranches(ExRootTreeWriter *TreeWriter, const HTagger Tagger);
 
     inline HStrings GetStudyNames(const HTagger NewTagger);

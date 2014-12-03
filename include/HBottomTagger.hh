@@ -8,7 +8,7 @@
 # include "HReader.hh"
 
 /**
- * @brief calculation regarding leptons
+ * @brief Bdt bottom tagger
  *
  */
 class hanalysis::HBottomTagger : public HMva
@@ -20,16 +20,15 @@ public:
 
     ~HBottomTagger();
 
-    std::vector< HBottomBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector< HBottomBranch * > GetBranches(HEvent *const Event, const hanalysis::HObject::HState State);
 
-//     float GetBdt(const fastjet::PseudoJet &Bottom, TMVA::Reader *Reader);
-
-    HBottomBranch *Branch;
     void FillBranch(const fastjet::PseudoJet &Jet);
 
 private:
 
-    hanalysis::HJetTag *JetTag;
+    HBottomBranch *Branch;
+
+    HJetTag *JetTag;
 
     void DefineVariables();
 
@@ -38,10 +37,6 @@ private:
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float GetCentrality(const fastjet::PseudoJet &Jet) const;
-
-    virtual inline std::string NameSpaceName() const {
-        return "hdelphes";
-    };
 
     virtual inline std::string ClassName() const {
         return "HBottomTagger";

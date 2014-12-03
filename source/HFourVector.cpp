@@ -191,7 +191,7 @@ int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
         Print(HDetailed, "Mother 1 Position", Position);
     }
 
-    if (Source  < 4 && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) != end(JetTag->HeavyParticles)) BranchId = MixedJetId;
+    if (Source  < 6 && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) != end(JetTag->HeavyParticles)) BranchId = MixedJetId;
     Print(HDetailed, "Branch Id Result", GetParticleName(BranchId));
 
     return BranchId;

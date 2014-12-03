@@ -7,10 +7,11 @@
 # include "HJetTag.hh"
 # include "HReader.hh"
 # include "HLeptonicTopTagger.hh"
+# include "HJetLeptonPair.hh"
 # include "HPairPair.hh"
 
 /**
- * @brief calculation regarding leptons
+ * @brief Bdt heavy higgs tagger
  *
  */
 class hanalysis::HHeavyHiggsTagger : public HMva
@@ -18,34 +19,31 @@ class hanalysis::HHeavyHiggsTagger : public HMva
 
 public:
 
-    HHeavyHiggsTagger(HBottomTagger *NewBottomTagger, HLeptonicTopTagger *NewTopTagger);
+    HHeavyHiggsTagger(HBottomTagger *const NewBottomTagger, HLeptonicTopTagger *const NewTopTagger);
 
     ~HHeavyHiggsTagger();
 
-    std::vector<HMvaHeavyHiggsBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector<HHeavyHiggsBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const hanalysis::HPairPair &HeavyHiggs);
-
-    HBottomTagger *BottomTagger;
-    HLeptonicTopTagger *TopTagger;
+    void FillBranch(const HPairPair &HeavyHiggs);
 
 private:
+
+    HBottomTagger *BottomTagger;
+    
+    HLeptonicTopTagger *TopTagger;
 
     HReader  *BottomReader;
 
     HReader  *TopReader;
 
-    HMvaHeavyHiggsBranch *Branch;
+    HHeavyHiggsBranch *Branch;
 
-    hanalysis::HJetTag *JetTag;
+    HJetTag *JetTag;
 
     void DefineVariables();
 
-    void FillBranch(HMvaHeavyHiggsBranch *HeavyHiggsRoot,const hanalysis::HPairPair &HeavyHiggs);
-
-    virtual inline std::string NameSpaceName() const {
-        return "HDelphes";
-    };
+    void FillBranch(HHeavyHiggsBranch *HeavyHiggsBranch, const hanalysis::HPairPair &PairPair);
 
     virtual inline std::string ClassName() const {
         return "HHeavyHiggsTagger";

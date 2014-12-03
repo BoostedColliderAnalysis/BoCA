@@ -305,7 +305,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent* Even
 
     float Isolation = std::min(Leptons(Event,FrontJet), Leptons(Event,BackJet));
 
-    HHeavyHiggsBranch *HeavyHiggs = static_cast<HHeavyHiggsBranch *>(HeavyHiggsBranch->NewEntry());
+    HBranchHeavyHiggs *HeavyHiggs = static_cast<HBranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
 
     HeavyHiggs->BottomRap1 = FrontRap;
     HeavyHiggs->BottomRap2 = BackRap;

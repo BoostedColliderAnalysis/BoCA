@@ -244,12 +244,12 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HMvaHeavyHiggsBranch : public HBranch
+class HHeavyHiggsBranch : public HBranch
 {
 
 public:
 
-    HMvaHeavyHiggsBranch();
+    HHeavyHiggsBranch();
 
     float Mass;
     float Pt;
@@ -268,7 +268,7 @@ public:
 
 private:
 
-    ClassDef(HMvaHeavyHiggsBranch, 1)
+    ClassDef(HHeavyHiggsBranch, 1)
 
 };
 

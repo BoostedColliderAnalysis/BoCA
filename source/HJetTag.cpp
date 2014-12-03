@@ -4,7 +4,6 @@ hanalysis::HJetTag::HJetTag()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HInformation, "Constructor");
-//     HeavyParticles {BottomId, TopId};
 }
 
 hanalysis::HJetTag::~HJetTag()

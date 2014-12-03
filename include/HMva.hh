@@ -245,10 +245,6 @@ protected:
 
     virtual void DefineVariables() = 0;
 
-    virtual inline std::string NameSpaceName() const {
-        return "HMva";
-    };
-
     virtual inline std::string ClassName() const {
         return "HMva";
     };

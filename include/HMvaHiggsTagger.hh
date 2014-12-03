@@ -18,11 +18,11 @@ class hanalysis::HMvaHiggsTagger : public HMva
 
 public:
 
-    HMvaHiggsTagger(HBottomTagger *NewBottomTagger);
+    HMvaHiggsTagger(hanalysis::HBottomTagger *const NewBottomTagger);
 
     ~HMvaHiggsTagger();
 
-    std::vector< HHiggsBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector< HHiggsBranch * > GetBranches(HEvent *const Event, const HObject::HState State);
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
@@ -36,7 +36,7 @@ private:
 
     HHiggsBranch *Branch;
 
-    hanalysis::HJetTag *JetTag;
+    HJetTag *JetTag;
 
     void DefineVariables();
 
@@ -45,10 +45,6 @@ private:
     void FillBranch(const HKinematics &Vector);
 
     void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
-
-    virtual inline std::string NameSpaceName() const {
-        return "hdelphes";
-    };
 
     virtual inline std::string ClassName() const {
         return "HMvaHiggsTagger";

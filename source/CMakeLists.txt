@@ -66,5 +66,7 @@ HMvaHiggsTagger.cpp
 HHeavyHiggsTagger.cpp
 HHadronicWTagger.cpp
 HHadronicTopTagger.cpp
+
+topology22.cpp
 )
 HLibrary(HAnalysis "${AnalysisSources}" PARENT_SCOPE)

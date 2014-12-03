@@ -48,10 +48,6 @@ protected:
         return "HJetLeptonPair";
     };
 
-    virtual inline std::string NameSpaceName() const {
-        return "hanalysis";
-    };
-
 private:
 
 };

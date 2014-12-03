@@ -1,8 +1,8 @@
 # include "HBranchHeavyHiggs.hh"
 
-ClassImp(hheavyhiggs::HHeavyHiggsBranch)
+ClassImp(hheavyhiggs::HBranchHeavyHiggs)
 
-hheavyhiggs::HHeavyHiggsBranch::HHeavyHiggsBranch()
+hheavyhiggs::HBranchHeavyHiggs::HBranchHeavyHiggs()
 {
     JetNumber = InitialValue;
     BTag = InitialValue;

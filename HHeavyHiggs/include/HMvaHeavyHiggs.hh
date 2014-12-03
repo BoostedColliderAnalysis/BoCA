@@ -37,7 +37,7 @@ public:
 
 private:
 
-  HMvaHeavyHiggsBranch *HeavyHiggs;
+  HHeavyHiggsBranch *HeavyHiggs;
 
     void DefineVariables();
 

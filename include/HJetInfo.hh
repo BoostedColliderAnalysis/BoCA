@@ -114,11 +114,11 @@ public:
         Vertices = NewVertices;
     }
 
-    void SetVertex(HConstituent &NewVertex) {
+    void SetVertex(const HConstituent &NewVertex) {
         Vertices.push_back(NewVertex);
     }
 
-    void AddVertices(std::vector<HConstituent> &NewVertices) {
+    void AddVertices(const std::vector<HConstituent> &NewVertices) {
         Vertices.insert(Vertices.end(), NewVertices.begin(), NewVertices.end());
     }
 
@@ -126,16 +126,16 @@ public:
         return Vertices;
     }
 
-    float GetJetDisplacement() {
-        Print(HDebug, "Get Jet Displacement");
-
-        if (Vertices.size() == 0) {
-            Print(HError, "No secondary Vertices");
-            return 0;
-        }
-        std::sort(Vertices.begin(), Vertices.end(), SortByDistance());
-        return (Vertices.front().Position.Vect().Mag());
-    }
+//     float GetJetDisplacement() {
+//         Print(HDebug, "Get Jet Displacement");
+// 
+//         if (Vertices.size() == 0) {
+//             Print(HError, "No secondary Vertices");
+//             return 0;
+//         }
+//         std::sort(Vertices.begin(), Vertices.end(), SortByDistance());
+//         return (Vertices.front().Position.Vect().Mag());
+//     }
 
     int GetVertexNumber() const {
         return Vertices.size();
@@ -145,14 +145,7 @@ public:
 
     float GetVertexMass() const;
 
-    float GetVertexEnergy() const {
-        Print(HDebug, "Get Energy Fraction");
-        float VertexEnergy = 0;
-        for (const auto & Vertex : Vertices) if (Vertex.Position.Vect().Mag() > SecondaryVertexResolution) VertexEnergy += Vertex.Momentum.E();
-        return VertexEnergy;
-    }
-
-    const float SecondaryVertexResolution = 0.1;
+    float GetVertexEnergy() const;
 
 protected:
 
@@ -161,6 +154,10 @@ protected:
     };
 
 private:
+    
+    std::vector<HConstituent> ApplyVertexResolution() const;
+
+    const float SecondaryVertexResolution = 0.1;
 
     float GetWeightSum() const;
 

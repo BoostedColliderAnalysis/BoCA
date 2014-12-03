@@ -130,9 +130,9 @@ HHiggsBranch::HHiggsBranch()
 }
 
 
-ClassImp(HMvaHeavyHiggsBranch)
+ClassImp(HHeavyHiggsBranch)
 
-HMvaHeavyHiggsBranch::HMvaHeavyHiggsBranch()
+HHeavyHiggsBranch::HHeavyHiggsBranch()
 {
 
   Mass = InitialValue;

@@ -12,7 +12,7 @@ class HAnalysisHeavyHiggsParton;
 class HAnalysisMva;
 class HHeavyHiggsJetTag;
 class HMva;
-class HHeavyHiggsBranch;
+class HBranchHeavyHiggs;
 class HEventBranch;
 class HMvaEvent;
 
@@ -22,7 +22,7 @@ class HMvaEvent;
  * @brief Class for saving leptons to root
  *
  */
-class hheavyhiggs::HHeavyHiggsBranch : public HBranch
+class hheavyhiggs::HBranchHeavyHiggs : public HBranch
 {
 
 public:
@@ -58,13 +58,13 @@ public:
 //     float TopPt2;
 //     float TopInvMass;
 
-    HHeavyHiggsBranch();
+    HBranchHeavyHiggs();
 
-    virtual ~HHeavyHiggsBranch() {};
+    virtual ~HBranchHeavyHiggs() {};
 
 private:
 
-    ClassDef(HHeavyHiggsBranch, 1)
+    ClassDef(HBranchHeavyHiggs, 1)
 
 };
 

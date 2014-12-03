@@ -11,6 +11,8 @@ public:
     HPairPair(){}
 
     HPairPair(const HJetLeptonPair &NewPair1, const HJetLeptonPair &NewPair2);
+    
+    HPairPair(const HJetLeptonPair &NewPair1, const HJetLeptonPair &NewPair2, const float NewMet);
 
     void SetMet(const float NewMet) {
         Met = NewMet;
@@ -25,6 +27,14 @@ public:
     float GetInvariantMass() const {
         return GetPairJet().m();
     }
+    
+    inline float GetMassDifference(const int ParticleMass) const {
+        return std::abs(GetInvariantMass() - ParticleMass);
+    }
+    
+    inline float GetMissDifference(const HParticleId ParticleId) const {
+        return std::abs(GetInvariantMass() - GetParticleMass(ParticleId));
+    }
 
     fastjet::PseudoJet GetPairJet() const {
         return (Pair1.GetPairJet() + Pair2.GetPairJet());
@@ -36,6 +46,10 @@ public:
 
     float GetBdt() const {
         return (Pair1.GetBdt() * Pair2.GetBdt());
+    }
+    
+    float GetTag() const {
+        return (Pair1.GetTag() * Pair2.GetTag());
     }
 
     float GetDeltaRap() const {
@@ -51,11 +65,6 @@ protected:
     virtual inline std::string ClassName() const {
         return "HPairPair";
     };
-
-    virtual inline std::string NameSpaceName() const {
-        return "hanalysis";
-    };
-
 
 private:
 

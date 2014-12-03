@@ -70,7 +70,7 @@ void RunTagger(const std::string TaggerName, const hheavyhiggs::HAnalysisMva::HT
         if (Tagger == hanalysis::HAnalysis::HTopTagger){
           Factory = new hanalysis::HFactory(Analysis->LeptonicTopTagger);
         }
-        if (Tagger == hheavyhiggs::HAnalysisMva::HHiggsTagger){
+        if (Tagger == hanalysis::HAnalysis::HHiggsTagger){
           Factory = new hanalysis::HFactory(Analysis->HeavyHiggsTagger);
         }
         HasFactory = 1;
@@ -85,51 +85,13 @@ int main()
 
     RunTagger("Bottom", hheavyhiggs::HAnalysisMva::HBottomTagger);
     RunTagger("Top", hanalysis::HAnalysis::HTopTagger);
-    RunTagger("Higgs", hanalysis::HAnalysis::HHiggsTagger);
+    RunTagger("HeavyHiggs", hanalysis::HAnalysis::HHiggsTagger);
     //     RunTagger("EventTagger",hanalysis::HAnalysis::HEventTagger);
 
 
     hanalysis::HFactory *Factory;
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
 
-    //     TFile *File(0);
-    //     std::string FileName = "./Bottom.root";
-    //     if (!gSystem->AccessPathName(FileName))
-    //         File = TFile::Open(FileName);
-    //     else
-    //         Analysis->AnalysisLoop(hheavyhiggs::HAnalysisMva::HBottomTagger);
-    //
-    //     FileName = "./MvaBottom.root";
-    //     if (!gSystem->AccessPathName(FileName))
-    //         File = TFile::Open(FileName);
-    //     else
-    //         Factory = new hmva::HFactory(Analysis->BottomTagger);
-    //
-    //
-    //     FileName = "./Top.root";
-    //     if (!gSystem->AccessPathName(FileName))
-    //         File = TFile::Open(FileName);
-    //     else
-    //         Analysis->AnalysisLoop(hheavyhiggs::HAnalysis::HTopTagger);
-    //
-    //     FileName = "./MvaTop.root";
-    //     if (!gSystem->AccessPathName(FileName))
-    //         File = TFile::Open(FileName);
-    //     else
-    //         Factory = new hmva::HFactory(Analysis->LeptonicTopTagger);
-    //
-    //
-    //     FileName = "./Higgs.root";
-    //     if (!gSystem->AccessPathName(FileName))
-    //         File = TFile::Open(FileName);
-    //     else
-    //         Analysis->AnalysisLoop(hheavyhiggs::HAnalysis::HHiggsTagger);
-    //
-    //     FileName = "./MvaHiggs.root";
-    //     if (!gSystem->AccessPathName(FileName))
-    //         File = TFile::Open(FileName);
-    //     else
-    //         Factory = new hmva::HFactory(Analysis->HiggsTagger);
 
     Analysis->AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
     hanalysis::HMva *Mva = new hheavyhiggs::HMvaEvent();

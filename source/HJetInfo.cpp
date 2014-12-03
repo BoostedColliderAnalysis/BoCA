@@ -136,17 +136,29 @@ float hanalysis::HJetInfo::GetJetDisplacement() const
 float hanalysis::HJetInfo::GetVertexMass() const
 {
     Print(HDebug, "Get Vertex Mass");
-    if (Vertices.size() == 0) return 0;
+    std::vector <HConstituent > RealVertices = ApplyVertexResolution();
+    HConstituent Vertex;
+    const float VertexMass = std::accumulate(RealVertices.begin(), RealVertices.end(), Vertex).Momentum.M();
+    if (VertexMass < .1) return 0;
+    return VertexMass;
+}
+
+float hanalysis::HJetInfo::GetVertexEnergy() const {
+    Print(HDebug, "Get Energy Fraction");
+    float VertexEnergy = 0;
+    for (const auto & Vertex : Vertices) if (Vertex.Position.Vect().Mag() > SecondaryVertexResolution) VertexEnergy += Vertex.Momentum.E();
+    return VertexEnergy;
+}
+
+std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const{
+    Print(HDebug, "Apply Vertex Resolution");
     std::vector <HConstituent > RealVertices;
-    for (std::vector <HConstituent >::const_iterator Vertex = Vertices.begin(); Vertex != Vertices.end();++Vertex) {
+    if (Vertices.size() == 0) return RealVertices;
+    for (std::vector <HConstituent >::const_iterator Vertex = Vertices.begin(); Vertex != Vertices.end(); ++Vertex) {
         if ((*Vertex).Position.Vect().Mag() < SecondaryVertexResolution) {
             RealVertices.push_back(*Vertex);
         }
     }
-    HConstituent Vertex;
-    const float VertexMass = std::accumulate(Vertices.begin(), Vertices.end(), Vertex).Momentum.M();
-//     const float VertexMass = std::accumulate(RealVertices.begin(), RealVertices.end(), Vertex).Momentum.M();
-    if (VertexMass < .1) return 0;
-    return VertexMass;
-}
+    return RealVertices;
+};
 
