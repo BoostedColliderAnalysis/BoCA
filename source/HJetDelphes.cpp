@@ -387,3 +387,14 @@ float hanalysis::hdelphes::HJet::GetScalarHt()
 
 }
 
+
+fastjet::PseudoJet hanalysis::hdelphes::HJet::GetMissingEt()
+{
+
+  Print(HInformation, "Get Missing ET");
+
+  const MissingET*const MissingEtClone = (MissingET *) ClonesArrays->GetMissingEt();
+
+  return GetPseudoJet(MissingEtClone);
+
+}

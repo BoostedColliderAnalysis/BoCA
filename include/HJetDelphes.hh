@@ -43,6 +43,8 @@ public:
 
     float GetScalarHt();
 
+    fastjet::PseudoJet hanalysis::hdelphes::HJet::GetMissingEt();
+
 private:
 
     /**

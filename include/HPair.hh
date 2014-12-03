@@ -23,15 +23,15 @@ public:
     inline float GetMassDifference(const int ParticleMass) const {
         return std::abs(GetInvariantMass() - ParticleMass);
     }
-    
+
     inline float GetMissDifference(const HParticleId ParticleId) const {
         return std::abs(GetInvariantMass() - GetParticleMass(ParticleId));
     }
-    
+
     inline float GetPtSum() const {
         return (Jet1.pt() + Jet2.pt());
     }
-    
+
     inline float GetPtDiff() const {
         return std::abs(Jet1.pt() - Jet2.pt());
     }
@@ -47,6 +47,10 @@ public:
     inline float GetDeltaR() const {
         return (Jet1.delta_R(Jet2));
     }
+
+    fastjet::PseudoJet GetJet1()const{return Jet1;}
+
+    fastjet::PseudoJet GetJet2()const{return Jet2;}
 
 protected:
 
