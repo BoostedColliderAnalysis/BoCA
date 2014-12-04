@@ -78,3 +78,13 @@ float hanalysis::HJet::GetScalarHt()
     return 0;
 
 }
+
+fastjet::PseudoJet hanalysis::HJet::GetMissingEt()
+{
+  
+  Print(HError, "Get Missing Et", "No Mising Et");
+  
+  fastjet::PseudoJet Jet;
+  return Jet;
+  
+}

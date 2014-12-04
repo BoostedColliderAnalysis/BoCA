@@ -47,6 +47,8 @@ class HHiggsTagger;
 class HDiscriminator;
 class HTopTagger;
 class HSubStructure;
+class HTriple;
+class HTriplePair;
 
 class HBottomTagger;
 class HLeptonicTopTagger;
@@ -359,7 +361,7 @@ protected:
     float GetDeltaPhi(const float Phi, const float ReferencePhi) const;
 
     virtual inline std::string NameSpaceName() const {
-        return ("HAnalysis");
+        return ("hanalysis");
     }
 
     virtual inline std::string ClassName() const {
@@ -438,6 +440,8 @@ protected:
      *
      */
     constexpr static float ElectronMass = 0.000511;
+    
+    constexpr static float NeutrinoMass = 0;
 
     /**
      * @brief Initial user index

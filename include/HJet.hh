@@ -103,6 +103,9 @@ public:
     };
 
     virtual float GetScalarHt();
+    
+    virtual fastjet::PseudoJet GetMissingEt();
+    
 
 protected:
 

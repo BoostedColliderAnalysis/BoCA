@@ -160,5 +160,5 @@ std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const{
         }
     }
     return RealVertices;
-};
+}
 

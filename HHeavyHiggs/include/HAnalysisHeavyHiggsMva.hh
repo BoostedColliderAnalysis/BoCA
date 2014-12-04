@@ -134,11 +134,11 @@ private:
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const HTagger Tagger);
 
-    bool GetBottomTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetBottomTag(hanalysis::HEvent*const Event, const hanalysis::HObject::HState State);
 
-    bool GetTopTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetTopTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
-    bool GetHeavyHiggsTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetHeavyHiggsTag(hanalysis::HEvent*const Event, const hanalysis::HObject::HState State);
 
     bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
 

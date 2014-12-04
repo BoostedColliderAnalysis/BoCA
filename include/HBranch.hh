@@ -251,19 +251,41 @@ public:
 
     HHeavyHiggsBranch();
 
-    float Mass;
-    float Pt;
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+    
+    float BetterTopMass;
+    float WorseTopMass;
+    
+    float BetterWMass;
+    float WorseWMass;
+    
+    float BetterNeutrinoMass;
+    float WorseNeutrinoMass;
 
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+    
+    float LargerWDeltaRap;
+    float LargerWDeltaPhi;
+    float LargerWDeltaR;
+    
+    float SmallerWDeltaRap;
+    float SmallerWDeltaPhi;
+    float SmallerWDeltaR;
+    
+    float LargerNeutrinoDeltaRap;
+    float LargerNeutrinoDeltaPhi;
+    float LargerNeutrinoDeltaR;
+    
+    float SmallerNeutrinoDeltaRap;
+    float SmallerNeutrinoDeltaPhi;
+    float SmallerNeutrinoDeltaR;
+    
 
     float TopBdt;
-
-    float Pull1;
-    float Pull2;
-    float Pull;
-
+    
     float HeavyHiggsTag;
 
 private:

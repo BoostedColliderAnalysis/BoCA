@@ -55,6 +55,8 @@ HJetLeptonPair.cpp
 HPairPair.cpp
 HTag.cpp
 HPairJetPair.cpp
+HTriple.cpp
+HTriplePair.cpp
 
 HMva.cpp
 HFactory.cpp

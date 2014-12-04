@@ -135,19 +135,39 @@ ClassImp(HHeavyHiggsBranch)
 HHeavyHiggsBranch::HHeavyHiggsBranch()
 {
 
-  Mass = InitialValue;
-  Pt = InitialValue;
+  HeavyHiggsMass = InitialValue;
+  HeavyHiggsPt = InitialValue;
 
-  DeltaRap = InitialValue;
-  DeltaPhi = InitialValue;
-  DeltaR = InitialValue;
+  BetterTopMass = InitialValue;
+  WorseTopMass = InitialValue;
+
+  BetterWMass = InitialValue;
+  WorseWMass = InitialValue;
+
+  BetterNeutrinoMass = InitialValue;
+  WorseNeutrinoMass = InitialValue;
+
+  TopDeltaRap = InitialValue;
+  TopDeltaPhi = InitialValue;
+  TopDeltaR = InitialValue;
+  
+  LargerWDeltaRap = InitialValue;
+  LargerWDeltaPhi = InitialValue;
+  LargerWDeltaR = InitialValue;
+  
+  SmallerWDeltaRap = InitialValue;
+  SmallerWDeltaPhi = InitialValue;
+  SmallerWDeltaR = InitialValue;
+  
+  LargerNeutrinoDeltaRap = InitialValue;
+  LargerNeutrinoDeltaPhi = InitialValue;
+  LargerNeutrinoDeltaR = InitialValue;
+  
+  SmallerNeutrinoDeltaRap = InitialValue;
+  SmallerNeutrinoDeltaPhi = InitialValue;
+  SmallerNeutrinoDeltaR = InitialValue;
 
   TopBdt = InitialValue;
-
-  Pull1 = InitialValue;
-  Pull2 = InitialValue;
-  Pull = InitialValue;
-
   HeavyHiggsTag = InitialValue;
 
 }

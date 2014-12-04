@@ -8,7 +8,9 @@ class hanalysis::HPair : public HTag
 
 public:
 
-    HPair();
+  HPair();
+  
+  HPair(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
 
     ~HPair();
 
@@ -24,7 +26,7 @@ public:
         return std::abs(GetInvariantMass() - ParticleMass);
     }
 
-    inline float GetMissDifference(const HParticleId ParticleId) const {
+    inline float GetMassDifference(const HParticleId ParticleId) const {
         return std::abs(GetInvariantMass() - GetParticleMass(ParticleId));
     }
 
@@ -60,10 +62,6 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "HPair";
-    };
-
-    virtual inline std::string NameSpaceName() const {
-        return "HDelphes";
     };
 
 private:

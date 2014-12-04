@@ -25,7 +25,7 @@ public:
 
     std::vector<HHeavyHiggsBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const HPairPair &HeavyHiggs);
+    void FillBranch(const hanalysis::HTriplePair& TriplePair);
 
 private:
 
@@ -43,7 +43,7 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HHeavyHiggsBranch *HeavyHiggsBranch, const hanalysis::HPairPair &PairPair);
+    void FillBranch(HHeavyHiggsBranch* HeavyHiggsBranch, const hanalysis::HTriplePair& TriplePair);
 
     virtual inline std::string ClassName() const {
         return "HHeavyHiggsTagger";

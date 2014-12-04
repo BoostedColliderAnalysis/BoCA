@@ -1,11 +1,11 @@
 # include "HObject.hh"
 
-hanalysis::HObject::HObject() 
+hanalysis::HObject::HObject()
 {
 
     DebugLevel = HNotification;
 //     DebugLevel = HDebug;
-    
+
     Print(HDebug, "Constructor");
 
 }
@@ -29,7 +29,7 @@ float hanalysis::HObject::GetDistance(const float Rap1, const float Phi1, const 
 float hanalysis::HObject::GetDistance(const float Rap, const float Phi) const
 {
 
-  Print(HDebug, "GetDistance");
+    Print(HDebug, "GetDistance");
 
     return (std::sqrt(std::pow(Rap, 2) + std::pow(Phi, 2)));
 
@@ -95,7 +95,7 @@ void hanalysis::HObject::Printer(const std::string &Description) const
 
     const char Separator = ' ';
     const int NameSpaceWidth = 12;
-    const int ClassWidth = 17;
+    const int ClassWidth = 19;
     const int FunctionWidth = 25;
 
     std::cout << std::left << std::setw(NameSpaceWidth) << std::setfill(Separator) << NameSpaceName();
@@ -236,42 +236,48 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
 
 float hanalysis::HObject::GetParticleMass(const HParticleId ParticleId) const
 {
-        
+
     switch (std::abs(ParticleId)) {
-        case StrangeId:
-            return 0.095;
-        case CharmId:
-            return 1.28;
-        case BottomId:
-            return 4.18;
-        case TopId:
-            return TopMass;
-        case ElectronId:
-            return ElectronMass;
-        case MuonId:
-            return MuonMass;
-        case TauLeptonId:
-            return TauMass;
-        case ZId:
-            return ZMass;
-        case WId:
-            return WMass;
-        case HiggsId:
-            return HiggsMass;
-        case Pi0MesonId:
-            return 0.13498;
+    case StrangeId:
+        return 0.095;
+    case CharmId:
+        return 1.28;
+    case BottomId:
+        return 4.18;
+    case TopId:
+        return TopMass;
+    case ElectronId:
+        return ElectronMass;
+    case ElectronNeutrinoId:
+        return NeutrinoMass;
+    case MuonId:
+        return MuonMass;
+    case MuonNeutrinoId:
+        return NeutrinoMass;
+    case TauLeptonId:
+        return TauMass;
+    case TauNeutrinoId:
+        return NeutrinoMass;
+    case ZId:
+        return ZMass;
+    case WId:
+        return WMass;
+    case HiggsId:
+        return HiggsMass;
+    case Pi0MesonId:
+        return 0.13498;
 //         case Rho0MesonId:
 //             return (Sign + "rho0");
 //         case K0LMesonId:
 //             return (Sign + "K0l");
-        case PionId:
-            return 0.13957;
-        case RhoMesonId:
-            return 0.77549;
-        case RapMesonId:
-            return 0.54785;
-        case OmegaMesonId:
-            return 0.78265;
+    case PionId:
+        return 0.13957;
+    case RhoMesonId:
+        return 0.77549;
+    case RapMesonId:
+        return 0.54785;
+    case OmegaMesonId:
+        return 0.78265;
 //         case K0SMesonId:
 //             return (Sign + "K0s");
 //         case KMeson0Id:
@@ -316,19 +322,19 @@ float hanalysis::HObject::GetParticleMass(const HParticleId ParticleId) const
 //             return (Sign + "ud1");
 //         case DeltaBaryonId:
 //             return (Sign + "Delta");
-        case NeutronId:
-            return 1.00866;
+    case NeutronId:
+        return 1.00866;
 //         case UpUp1Id:
 //             return (Sign + "uu1");
-        case ProtonId:
-            return 0.93827;
+    case ProtonId:
+        return 0.93827;
 //         case DeltaBaryon2Id:
 //             return (Sign + "Delta2");
-        case CpvHiggsId:
-            return HiggsMass;
-        default:
-            return 0;
+    case CpvHiggsId:
+        return HiggsMass;
+    default:
+        return 0;
     }
-    
+
 }
 
