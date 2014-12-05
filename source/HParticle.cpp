@@ -54,6 +54,8 @@ void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
     CharmJets.clear();
 
     ParticleJets.clear();
+    
+    NeutrinoJets.clear();
 
 }
 

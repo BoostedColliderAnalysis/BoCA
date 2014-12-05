@@ -100,10 +100,10 @@ public:
     float Displacement;
     int Multipliticity;
     float DeltaR;
-    float Centrality;
+    float Spread;
     float EnergyFraction;
 
-    float BottomTag;
+    int BottomTag;
 
 private:
 
@@ -197,7 +197,7 @@ public:
 
     float BottomBdt;
 
-    float TopTag;
+    int TopTag;
 
 private:
 

@@ -38,10 +38,6 @@ protected:
         return "HTag";
     };
 
-    virtual inline std::string NameSpaceName() const {
-        return "hanalysis";
-    };
-
 private:
 
 };

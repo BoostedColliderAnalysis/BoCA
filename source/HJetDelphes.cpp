@@ -63,7 +63,7 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
 
     }
 
-    PrintTruthLevel(HDebug);
+    PrintTruthLevel(HError);
 
     return 1;
 
@@ -391,10 +391,12 @@ float hanalysis::hdelphes::HJet::GetScalarHt()
 fastjet::PseudoJet hanalysis::hdelphes::HJet::GetMissingEt()
 {
 
-  Print(HInformation, "Get Missing ET");
+    Print(HInformation, "Get Missing ET");
 
-  const MissingET*const MissingEtClone = (MissingET *) ClonesArrays->GetMissingEt();
+    const MissingET *const MissingEtClone = (MissingET *) ClonesArrays->GetMissingEt();
 
-  return GetPseudoJet(MissingEtClone);
+    fastjet::PseudoJet Met= GetPseudoJet(const_cast<MissingET *>(MissingEtClone)->P4());
+    Print(HError, "Met", Met);
+    return Met;
 
 }

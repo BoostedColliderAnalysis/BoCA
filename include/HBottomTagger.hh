@@ -36,7 +36,7 @@ private:
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
-    float GetCentrality(const fastjet::PseudoJet &Jet) const;
+    float GetSpread(const fastjet::PseudoJet &Jet) const;
 
     virtual inline std::string ClassName() const {
         return "HBottomTagger";

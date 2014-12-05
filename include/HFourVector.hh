@@ -134,7 +134,7 @@ protected:
         return LorentzVector;
 
     }
-    TLorentzVector GetLorentzVector(const MissingET *const Particle) const;
+//     TLorentzVector GetLorentzVector(const MissingET *const Particle) const;
 
     TLorentzVector GetLorentzVector(const TRootElectron *const) const;
 
@@ -152,7 +152,7 @@ protected:
 
     TLorentzVector GetLorentzVector(const TRootTau *const) const;
     
-    fastjet::PseudoJet GetPseudoJet(const MissingET *const) const;
+//     fastjet::PseudoJet GetPseudoJet(const MissingET *const) const;
 
     fastjet::PseudoJet GetPseudoJet(const TRootElectron *const) const;
 

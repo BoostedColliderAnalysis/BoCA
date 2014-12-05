@@ -111,6 +111,9 @@ public:
         return Triple1.GetJet1MassDifference(ParticleId1)*      Triple1.GetPairMassDifference(ParticleId2)*      Triple1.GetTripleMassDifference(ParticleId3)*      Triple2.GetJet1MassDifference(ParticleId1)*      Triple2.GetPairMassDifference(ParticleId2)*      Triple2.GetTripleMassDifference(ParticleId3);
 
     }
+    
+    void SetMass(const float NewMass){Mass = NewMass;}
+    float GetMass() const {return Mass;}
 
 protected:
 
@@ -125,6 +128,8 @@ private:
 
     HTriple Triple2;
 
+    float Mass;
+    
 };
 
 #endif

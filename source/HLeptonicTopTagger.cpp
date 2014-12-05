@@ -63,6 +63,14 @@ void hanalysis::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch * const Lepton
 
 }
 
+void hanalysis::HLeptonicTopTagger::FillBranch(const HJetLeptonPair &JetLeptonPair)
+{
+    Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
+
+    FillBranch(Branch, JetLeptonPair);
+
+}
+
 
 std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(HEvent *const Event, const HObject::HState State)
 {
@@ -73,7 +81,7 @@ std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(HEv
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
+    for (auto Jet = Jets.begin(); Jet != Jets.end();) {
         if (std::abs((*Jet).user_index()) == MixedJetId) {
             Jet = Jets.erase(Jet);
         } else {
@@ -88,7 +96,7 @@ std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(HEv
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
-    for (HJets::iterator Lepton = Leptons.begin(); Lepton != Leptons.end();) {
+    for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
         if (std::abs((*Lepton).user_index()) == MixedJetId) {
             Lepton = Leptons.erase(Lepton);
         } else {
@@ -109,12 +117,9 @@ std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(HEv
             if (State == HBackground && (Lepton.user_index() == Jet.user_index() && std::abs(Jet.user_index()) == TopId)) continue;
 
             HJetLeptonPair JetLeptonPair(Jet, Lepton);
-            if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index())
-                JetLeptonPair.SetTag(1);
-            else
-                JetLeptonPair.SetTag(0);
+            if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index()) JetLeptonPair.SetTag(1);
+            else JetLeptonPair.SetTag(0);
             JetLeptonPairs.push_back(JetLeptonPair);
-
         }
     }
 
@@ -127,16 +132,7 @@ std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(HEv
         LeptonicTopBranches.push_back(LeptonicTopBranch);
     }
 
-
     return LeptonicTopBranches;
-
-}
-
-void hanalysis::HLeptonicTopTagger::FillBranch(const HJetLeptonPair &JetLeptonPair)
-{
-    Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
-
-    FillBranch(Branch, JetLeptonPair);
 
 }
 

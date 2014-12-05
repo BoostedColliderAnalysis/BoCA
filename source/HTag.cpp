@@ -2,13 +2,13 @@
 
 hanalysis::HTag::HTag()
 {
-    Print(HInformation, "Constructor");
+//     Print(HInformation, "Constructor");
 
 }
 
 hanalysis::HTag::~HTag()
 {
 
-    Print(HInformation, "Destructor");
+//     Print(HInformation, "Destructor");
 
 }

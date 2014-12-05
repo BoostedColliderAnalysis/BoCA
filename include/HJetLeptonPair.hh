@@ -15,13 +15,13 @@ public:
     
     ~HJetLeptonPair();
     
-    void SetJet(const fastjet::PseudoJet Jet){
-        Jet1 = Jet;
-    }
-    
-    void SetLepton(const fastjet::PseudoJet Lepton){
-        Jet2 = Lepton;
-    }
+//     void SetJet(const fastjet::PseudoJet Jet){
+//         Jet1 = Jet;
+//     }
+//     
+//     void SetLepton(const fastjet::PseudoJet Lepton){
+//         Jet2 = Lepton;
+//     }
     
     fastjet::PseudoJet GetJet() const {
         return Jet1;
@@ -42,6 +42,7 @@ public:
     float GetBdt() const {
         return Jet1.user_info<HJetInfo>().GetBdt();
     }
+    
 protected:
 
     virtual inline std::string ClassName() const {

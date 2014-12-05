@@ -37,7 +37,7 @@ HBottomBranch::HBottomBranch()
     Displacement = InitialValue;
     Multipliticity = InitialValue;
     DeltaR = InitialValue;
-    Centrality = InitialValue;
+    Spread = InitialValue;
     EnergyFraction = InitialValue;
 
     BottomTag = InitialValue;

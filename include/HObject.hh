@@ -262,6 +262,31 @@ public:
         }
 
     }
+    
+    template<typename TSeverity, typename TValue, typename TValue2, typename TValue3, typename TValue4>
+    void Print(const TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
+        
+        if (Severity <= DebugLevel) {
+            
+            const char Separator = ' ';
+            const int FunctionWidth = 10;
+            
+            Printer(Description);
+            
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
+            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value4;
+            std::cout << std::endl;
+            
+        }
+        
+    }
+    
+    template<typename TSeverity>
+    void Print(const TSeverity Severity, const std::string Description, const fastjet::PseudoJet Jet) const {        
+        if (Severity <= DebugLevel) Print(Severity,Description,Jet.e(),Jet.px(),Jet.py(),Jet.pz());
+       }
 
     enum HParticleId {
         EmptyId = 0, ///< 0

@@ -100,6 +100,8 @@ public:
      * @return void
      */
     std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName);
+    
+    std::vector<hanalysis::HFile *> GetFiles(const HTagger Tagger,const HState State);
 
 
     inline std::string GetProjectName() const {
@@ -133,16 +135,20 @@ private:
      * @return void
      */
     bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const HTagger Tagger);
-
+    
+    bool Analysis(hanalysis::HEvent *const Event, const HTagger Tagger, const HState State);
+    
     bool GetBottomTag(hanalysis::HEvent*const Event, const hanalysis::HObject::HState State);
 
     bool GetTopTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
     bool GetHeavyHiggsTag(hanalysis::HEvent*const Event, const hanalysis::HObject::HState State);
 
-    bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+//     bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetSignalTag(hanalysis::HEvent *const Event, const HState State);
 
     std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
+    
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const HTagger Tagger);
 

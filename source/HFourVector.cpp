@@ -1,7 +1,7 @@
 # include "HFourVector.hh"
 
 hanalysis::HFourVector::HFourVector() :
-    CheckFourVectors(0),
+    CheckFourVectors(1),
     Check(0.00001),
     MassCheck(1)
 {
@@ -23,33 +23,35 @@ void hanalysis::HFourVector::NewEvent(const HClonesArray *const NewClonesArrays)
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TLorentzVector &Vector) const
 {
+    // construct a pseudojet from explicit components
+    // PseudoJet(const double px, const double py, const double pz, const double E);
     const fastjet::PseudoJet Jet(Vector.Px(), Vector.Py(), Vector.Pz(), Vector.E());
     return Jet;
 }
 
-TLorentzVector hanalysis::HFourVector::GetLorentzVector(const MissingET *const Particle) const
-{
-    Print(HDebug, "Get Lorentz Vector", "MissingET");
-
-    TLorentzVector LorentzVector;
-
-    const float Met = Particle->MET;
-    const float Eta = Particle->Eta;
-    const float Phi = Particle->Phi;    
-    LorentzVector.SetPtEtaPhiM(Met, Eta, Phi, 0);
-
-    if (CheckFourVectors) {
-
-        const float LvMet = sqrt(std::pow(LorentzVector.M(),2)+std::pow(LorentzVector.Pt(),2));
-
-        if (std::abs(LvMet - Met) > Check) Print(HError, "Met", Met, LvMet);
-        if (std::abs(LorentzVector.Eta() - Eta) > Check) Print(HError, "Eta", Eta, LorentzVector.Eta());
-        if (std::abs(LorentzVector.Phi() - Phi) > Check) Print(HError, "Phi", Phi, LorentzVector.Phi());
-
-    }
-
-    return LorentzVector;
-}
+// TLorentzVector hanalysis::HFourVector::GetLorentzVector(const MissingET *const Particle) const
+// {
+//     Print(HDebug, "Get Lorentz Vector", "MissingET");
+// 
+//     TLorentzVector LorentzVector;
+// 
+//     const float Met = Particle->MET;
+//     const float Eta = Particle->Eta;
+//     const float Phi = Particle->Phi;    
+//     LorentzVector.SetPtEtaPhiM(Met, Eta, Phi, 0);
+// 
+//     if (CheckFourVectors) {
+// 
+//         const float LvMet = sqrt(std::pow(LorentzVector.M(),2)+std::pow(LorentzVector.Pt(),2));
+// 
+//         if (std::abs(LvMet - Met) > Check) Print(HError, "Met", Met, LvMet);
+//         if (std::abs(LorentzVector.Eta() - Eta) > Check) Print(HError, "Eta", Eta, LorentzVector.Eta());
+//         if (std::abs(LorentzVector.Phi() - Phi) > Check) Print(HError, "Phi", Phi, LorentzVector.Phi());
+// 
+//     }
+// 
+//     return LorentzVector;
+// }
 
 TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootElectron *const Particle) const
 {
@@ -99,11 +101,11 @@ TLorentzVector hanalysis::HFourVector::GetLorentzVector(const TRootTau *const Pa
     return GetLorentzVectorByMass(Particle, TauMass);
 }
 
-fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const MissingET *const Particle) const
-{
-    Print(HDebug, "Get Pseudo Jet", "TRootElectron");
-    return GetPseudoJet(GetLorentzVector(Particle));
-}
+// fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const MissingET *const Particle) const
+// {
+//     Print(HDebug, "Get Pseudo Jet", "TRootElectron");
+//     return GetPseudoJet(GetLorentzVector(Particle));
+// }
 
 fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootElectron *const Particle) const
 {

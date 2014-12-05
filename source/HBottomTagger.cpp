@@ -23,7 +23,6 @@ hanalysis::HBottomTagger::~HBottomTagger()
 
 void hanalysis::HBottomTagger::DefineVariables()
 {
-
     Print(HNotification , "Define Variables", Branch->Mass);
 
     Observables.push_back(NewObservable(&Branch->VertexMass, "VertexMass"));
@@ -31,51 +30,42 @@ void hanalysis::HBottomTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->Displacement, "Displacement"));
     Observables.push_back(NewObservable(&Branch->Multipliticity, "Multipliticity"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->Centrality, "Centrality"));
+    Observables.push_back(NewObservable(&Branch->Spread, "Spread"));
     Observables.push_back(NewObservable(&Branch->EnergyFraction, "EnergyFraction"));
 
     Spectators.push_back(NewObservable(&Branch->Mass, "Mass"));
     Spectators.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
-
-    Print(HNotification, "Variables defined");
-
 }
 
 
 void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet)
 {
-
     Print(HInformation, "Fill Bottom Branch");
 
     if (Jet.has_user_info<HJetInfo>()) {
-        Print(HDebug, "Has Info", Jet.user_info<HJetInfo>().GetJetDisplacement());
-        Print(HDebug, "Multiplicity", Jet.user_info<HJetInfo>().GetVertexNumber(), BottomBranch->Multipliticity);
-
         BottomBranch->VertexMass = Jet.user_info<HJetInfo>().GetVertexMass();
         BottomBranch->Mass = Jet.m();
         BottomBranch->Pt = Jet.pt();
         BottomBranch->Displacement = Jet.user_info<HJetInfo>().GetJetDisplacement();
         BottomBranch->Multipliticity = Jet.user_info<HJetInfo>().GetVertexNumber();
         BottomBranch->DeltaR = GetDeltaR(Jet);
-        BottomBranch->Centrality = GetCentrality(Jet);
-        BottomBranch->EnergyFraction= Jet.user_info<HJetInfo>().GetVertexEnergy() / Jet.e();
-        if (std::abs(Jet.user_info<HJetInfo>().GetMaximalId()) == BottomId) {
-            BottomBranch->BottomTag = 1;
-        } else if (std::abs(Jet.user_info<HJetInfo>().GetMaximalId()) == MixedJetId) {
-            BottomBranch->BottomTag = .5;
-        } else {
-            BottomBranch->BottomTag = 0;
-        }
+        BottomBranch->Spread = GetSpread(Jet);
+        BottomBranch->EnergyFraction = Jet.user_info<HJetInfo>().GetVertexEnergy() / Jet.e();
+        if (std::abs(Jet.user_info<HJetInfo>().GetMaximalId()) == BottomId) BottomBranch->BottomTag = 1;
+        else BottomBranch->BottomTag = 0;
+    } else Print(HError, "BJet without user info");
+}
 
-    } else {
-        Print(HError, "BJet without user info");
-    }
+void hanalysis::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
+{
+
+    Print(HInformation, "Fill Bottom Branch");
+    FillBranch(Branch, Jet);
 
 }
 
 std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(HEvent *const Event, const HState State)
 {
-
     Print(HInformation, "Get Bottom Tag", State);
 
     JetTag->HeavyParticles = {TopId, BottomId};
@@ -113,17 +103,8 @@ std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(HEvent *const
 
 }
 
-void hanalysis::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
-{
-
-    Print(HInformation, "Fill Bottom Branch");
-    FillBranch(Branch, Jet);
-
-}
-
 float hanalysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
-
     Print(HInformation, "Get Delta R");
 
     float DeltaR;
@@ -132,18 +113,15 @@ float hanalysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
         if (TempDeltaR > DeltaR) DeltaR = TempDeltaR;
     }
     return DeltaR;
-
 }
 
 
 
-float hanalysis::HBottomTagger::GetCentrality(const fastjet::PseudoJet &Jet) const
+float hanalysis::HBottomTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
-
     Print(HInformation, "Get Centrality");
 
-    float Centrality;
-    for (const auto & Constituent : Jet.constituents()) Centrality += Jet.delta_R(Constituent) * Constituent.pt();
-    return (Centrality / Jet.pt() / GetDeltaR(Jet));
-
+    float Spread;
+    for (const auto & Constituent : Jet.constituents()) Spread += Jet.delta_R(Constituent) * Constituent.pt();
+    return (Spread / Jet.pt() / GetDeltaR(Jet));
 }

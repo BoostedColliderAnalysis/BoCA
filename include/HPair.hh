@@ -8,9 +8,9 @@ class hanalysis::HPair : public HTag
 
 public:
 
-  HPair();
-  
-  HPair(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
+    HPair();
+
+    HPair(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
 
     ~HPair();
 
@@ -22,9 +22,9 @@ public:
         return (GetPairJet().m());
     }
 
-    inline float GetMassDifference(const int ParticleMass) const {
-        return std::abs(GetInvariantMass() - ParticleMass);
-    }
+//     inline float GetMassDifference(const int ParticleMass) const {
+//         return std::abs(GetInvariantMass() - ParticleMass);
+//     }
 
     inline float GetMassDifference(const HParticleId ParticleId) const {
         return std::abs(GetInvariantMass() - GetParticleMass(ParticleId));
@@ -50,9 +50,13 @@ public:
         return (Jet1.delta_R(Jet2));
     }
 
-    fastjet::PseudoJet GetJet1()const{return Jet1;}
+    fastjet::PseudoJet GetJet1()const {
+        return Jet1;
+    }
 
-    fastjet::PseudoJet GetJet2()const{return Jet2;}
+    fastjet::PseudoJet GetJet2()const {
+        return Jet2;
+    }
 
 protected:
 

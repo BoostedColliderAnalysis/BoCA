@@ -63,8 +63,9 @@ public:
     }
 
     std::vector<HTriplePair> GetTriplePairs() const;
+    std::vector<HTriplePair> GetTriplePairs(HJets Neutrinos) const;
     
-    HTriplePair GetTriplePair() const;
+    HTriplePair GetTriplePair(HJets Neutrinos) const;
 
 protected:
 

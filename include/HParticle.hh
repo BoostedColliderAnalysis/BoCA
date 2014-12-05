@@ -34,6 +34,11 @@ public:
     HVectors GetAntiLeptonVectors();
 
     HJets GetLeptonJets();
+    
+    HJets GetNeutrinos(){
+        if(!GotParticles) GotParticles = GetParticles();
+        return NeutrinoJets;
+    }
 
     HJets GetAntiLeptonJets();
 
@@ -82,6 +87,8 @@ protected:
     HJets AntiElectronJets;
 
     HJets AntiMuonJets;
+    
+    HJets NeutrinoJets;
 
 
     /**
@@ -110,7 +117,7 @@ protected:
      * @brief Clones Arrays
      *
      */
-    const HClonesArray *ClonesArrays;
+//     const HClonesArray *ClonesArrays;
 
     HJets ParticleJets;
 

@@ -68,6 +68,7 @@ protected:
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
     TFile *GetExportFile(const std::string &StudyName) const;
+    TFile *GetExportFile(const HTagger Tagger,const HState State) const;
 
     void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 

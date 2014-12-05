@@ -128,66 +128,55 @@ struct SortPairByMass {
 
 std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEvent *const Event, const HObject::HState State)
 {
-
     Print(HInformation, "Get Higgs Tags");
 
     std::vector<HHeavyHiggsBranch *> HeavyHiggsBranches;
 
     JetTag->HeavyParticles = {HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    if(Jets.size()<2) return HeavyHiggsBranches;
+    if (Jets.size() < 2) return HeavyHiggsBranches;
 
     HJets HeavyHiggsJets;
     HJets OtherJets;
-    for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-        Print(HInformation, "Jet Id", GetParticleName((*Jet).user_info<HJetInfo>().GetMaximalId()));
+    for (auto &Jet : Jets) {
+        Print(HInformation, "Jet Id", GetParticleName(Jet.user_info<HJetInfo>().GetMaximalId()));
 
-        if (std::abs((*Jet).user_index()) == MixedJetId) {
-            Jet = Jets.erase(Jet);
-        } else {
-            const int JetId = (*Jet).user_info<HJetInfo>().GetMaximalId();
+        if (std::abs(Jet.user_index()) != MixedJetId) {
+            const int JetId = Jet.user_info<HJetInfo>().GetMaximalId();
             HJetInfo *JetInfo = new HJetInfo;
-            BottomTagger->FillBranch(*Jet);
+            BottomTagger->FillBranch(Jet);
             JetInfo->SetBdt(BottomReader->GetBdt());
-            (*Jet).set_user_info(JetInfo);
-            if (JetId == HeavyHiggsId) {
-                HeavyHiggsJets.push_back(*Jet);
-            } else {
-                OtherJets.push_back(*Jet);
-            }
-            ++Jet;
+            Jet.set_user_info(JetInfo);
+            if (JetId == HeavyHiggsId) HeavyHiggsJets.push_back(Jet);
+            else OtherJets.push_back(Jet);
         }
     }
-    Print(HInformation, "Number of Higgs Jets", HeavyHiggsJets.size());
-    if(State == HSignal && HeavyHiggsJets.size()<2) return HeavyHiggsBranches;
+    Print(HError,"Jets",Jets.size(),HeavyHiggsJets.size(),OtherJets.size());
+    if (State == HSignal && HeavyHiggsJets.size() < 2) return HeavyHiggsBranches;
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
-    if(Leptons.size()<2) return HeavyHiggsBranches;
+    if (Leptons.size() < 2) return HeavyHiggsBranches;
 
     HJets HeavyHiggsLeptons;
     HJets OtherLeptons;
     for (auto & Lepton : Leptons) {
-
-        if (std::abs(Lepton.user_index()) == HeavyHiggsId) {
-            HeavyHiggsLeptons.push_back(Lepton);
-        } else {
-            OtherLeptons.push_back(Lepton);
-        }
-
+        if (std::abs(Lepton.user_index()) == HeavyHiggsId) HeavyHiggsLeptons.push_back(Lepton);
+        else OtherLeptons.push_back(Lepton);
     }
-    if(State == HSignal && HeavyHiggsLeptons.size()<2) return HeavyHiggsBranches;
+    if (State == HSignal && HeavyHiggsLeptons.size() < 2) return HeavyHiggsBranches;
+    Print(HError,"Leptons",Leptons.size(),HeavyHiggsLeptons.size(),OtherLeptons.size());
 
     std::vector<HJetLeptonPair> JetLeptonPairs;
-    if (State == HObject::HSignal) {
+    if (State == HSignal) {
         Print(HInformation, "Higgs Jets", HeavyHiggsJets.size());
-        for (auto & Jet : HeavyHiggsJets) {
+        for (const auto & Jet : HeavyHiggsJets) {
             for (const auto & Lepton : HeavyHiggsLeptons) {
                 HJetLeptonPair JetPair(Jet, Lepton);
                 JetPair.SetTag(1);
                 JetLeptonPairs.push_back(JetPair);
             }
         }
-    } else if (State == HObject::HBackground) {
+    } else if (State == HBackground) {
         for (const auto & Jet : OtherJets) {
             for (const auto & Lepton : HeavyHiggsLeptons) {
                 HJetLeptonPair JetPair(Jet, Lepton);
@@ -209,26 +198,30 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
                 JetLeptonPairs.push_back(JetPair);
             }
         }
-    }
-
+    }    
+    Print(HError,"Pairs",JetLeptonPairs.size());
+    if (JetLeptonPairs.size() < 2) return HeavyHiggsBranches;
+    
     for (auto & JetPair : JetLeptonPairs) {
         TopTagger->FillBranch(JetPair);
         JetPair.SetBdt(TopReader->GetBdt());
     }
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    HJets Neutrinos = Event->GetParticles()->GetNeutrinos();
+    
 
 //     std::vector<HPairPair> PairPairs;
     std::vector<HTriplePair> TriplePairs;
 
-    for (auto Pair1 = JetLeptonPairs.begin(); Pair1 != JetLeptonPairs.end(); ++Pair1) {
-        for (auto Pair2 = Pair1 + 1; Pair2 != JetLeptonPairs.end(); ++Pair2) {
+    for (std::vector<HJetLeptonPair>::iterator Pair1 = JetLeptonPairs.begin(); Pair1 != JetLeptonPairs.end(); ++Pair1) {
+        for (std::vector<HJetLeptonPair>::iterator Pair2 = std::next(Pair1); Pair2 != JetLeptonPairs.end(); ++Pair2) {
             Print(HInformation, "NextPair");
-            HPairPair PairPair((*Pair1), (*Pair2),MissingEt);
-            HTriplePair TriplePair = PairPair.GetTriplePair();
-//             PairPairs.push_back(PairPair);
+            if ((*Pair1).GetJet() == (*Pair2).GetJet()) continue;
+            if ((*Pair1).GetLepton() == (*Pair2).GetLepton()) continue;
+            HPairPair PairPair((*Pair1), (*Pair2), MissingEt);
+            HTriplePair TriplePair = PairPair.GetTriplePair(Neutrinos);
             TriplePairs.push_back(TriplePair);
-//             TriplePairs.insert(TriplePairs.end(),TriplePair.begin(),TriplePair.end());
         }
     }
 

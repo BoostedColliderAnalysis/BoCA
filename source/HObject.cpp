@@ -6,14 +6,14 @@ hanalysis::HObject::HObject()
     DebugLevel = HNotification;
 //     DebugLevel = HDebug;
 
-    Print(HDebug, "Constructor");
+//     Print(HDebug, "Constructor");
 
 }
 
 hanalysis::HObject::~HObject()
 {
 
-    Print(HDebug, "Destructor");
+//     Print(HDebug, "Destructor");
 
 }
 

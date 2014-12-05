@@ -171,6 +171,18 @@ TFile *hanalysis::HAnalysis::GetExportFile(const std::string &StudyName) const
 
 }
 
+TFile *hanalysis::HAnalysis::GetExportFile(const HTagger Tagger,const HState State) const
+{
+    
+    
+    const std::string ExportName = GetProjectName() + "/" + "State" + ".root";
+    
+    Print(HNotification, "ExportFile", ExportName);
+    
+    return (new TFile(ExportName.c_str(), "Recreate"));
+    
+}
+
 
 ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName,const HTagger Tagger)
 {
