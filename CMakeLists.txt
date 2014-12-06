@@ -8,7 +8,7 @@ project(HAnalysis)
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Woverloaded-virtual -fno-stack-protector ")
 # -Wcast-qual
-# -fno-stack-protector 
+# -fno-stack-protector
 
 #C set build type to debug
 set(CMAKE_BUILD_TYPE Debug)
@@ -89,6 +89,7 @@ set(Directory
   ${ROOT_INCLUDE_DIR}
   ${ExRootDir}
   ${DelphesDir}
+  ${PROJECT_SOURCE_DIR}/external/WIMPMASS/WIMPMASS
 )
 HInclude("${Directory}" SYSTEM)
 
@@ -101,8 +102,10 @@ set(LinkLibraries
   ${fastjet_LIBRARIES}
   ${DelphesLibrary}
   ${ExRootLibrary}
+  ${Topology}
 )
 
+add_subdirectory(external)
 add_subdirectory(source)
 
 # Tagger

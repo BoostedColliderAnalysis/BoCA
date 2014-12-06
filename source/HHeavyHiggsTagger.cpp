@@ -198,10 +198,10 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
                 JetLeptonPairs.push_back(JetPair);
             }
         }
-    }    
+    }
     Print(HError,"Pairs",JetLeptonPairs.size());
     if (JetLeptonPairs.size() < 2) return HeavyHiggsBranches;
-    
+
     for (auto & JetPair : JetLeptonPairs) {
         TopTagger->FillBranch(JetPair);
         JetPair.SetBdt(TopReader->GetBdt());
@@ -209,7 +209,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
     HJets Neutrinos = Event->GetParticles()->GetNeutrinos();
-    
+
 
 //     std::vector<HPairPair> PairPairs;
     std::vector<HTriplePair> TriplePairs;
@@ -220,7 +220,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
             if ((*Pair1).GetJet() == (*Pair2).GetJet()) continue;
             if ((*Pair1).GetLepton() == (*Pair2).GetLepton()) continue;
             HPairPair PairPair((*Pair1), (*Pair2), MissingEt);
-            HTriplePair TriplePair = PairPair.GetTriplePair(Neutrinos);
+            HTriplePair TriplePair /*= PairPair.GetTriplePair(Neutrinos)*/;
             TriplePairs.push_back(TriplePair);
         }
     }

@@ -361,7 +361,7 @@ std::vector<HHeavyHiggsEvent > hheavyhiggs::HAnalysisMva::GetHeavyHiggsEvents(co
     for (size_t TopNumber = 0; TopNumber < Tops.size(); ++TopNumber) {
         for (size_t AntiTopNumber = TopNumber + 1; AntiTopNumber < AntiTops.size(); ++AntiTopNumber) {
             hanalysis::HPairPair HeavyHiggs = hanalysis::HPairPair(Tops[TopNumber], AntiTops[AntiTopNumber]);
-            std::vector<hanalysis::HTriplePair> TriplePairs = HeavyHiggs.GetTriplePairs();
+            std::vector<hanalysis::HTriplePair> TriplePairs /*= HeavyHiggs.GetTriplePairs();*/;
 
             std::vector<hanalysis::HPairPair> Solutions;
             for (const auto & TriplePair : TriplePairs) {
@@ -375,8 +375,8 @@ std::vector<HHeavyHiggsEvent > hheavyhiggs::HAnalysisMva::GetHeavyHiggsEvents(co
     for (size_t AntiTopNumber = 0; AntiTopNumber < AntiTops.size(); ++AntiTopNumber) {
         for (size_t TopNumber = AntiTopNumber + 1; TopNumber < Tops.size(); ++TopNumber) {
             hanalysis::HPairPair HeavyHiggs = hanalysis::HPairPair(Tops[TopNumber], AntiTops[AntiTopNumber]);
-            std::vector<hanalysis::HTriplePair> TriplePairs = HeavyHiggs.GetTriplePairs();
-            
+            std::vector<hanalysis::HTriplePair> TriplePairs /*= HeavyHiggs.GetTriplePairs()*/;
+
             std::vector<hanalysis::HPairPair> Solutions;
             for (const auto & TriplePair : TriplePairs) {
                 HeavyHiggsTagger->FillBranch(TriplePair);

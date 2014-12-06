@@ -39,7 +39,7 @@ public:
     inline float GetJet1MassDifference(const HParticleId ParticleId) const {
         return std::abs(Jet1.m() - GetParticleMass(ParticleId));
     }
-    
+
     inline float GetPairMassDifference(const HParticleId ParticleId) const {
         return std::abs(GetPairInvariantMass() - GetParticleMass(ParticleId));
     }
@@ -103,6 +103,15 @@ public:
     inline fastjet::PseudoJet GetJet3()const {
         return Jet3;
     }
+
+//     inline void SetPair(const HPair &Pair) {
+//         Jet2 = Pair.GetJet1();
+//         Jet3 = Pair.GetJet2();
+//     }
+//
+//     inline void SetJet1(const fastjet::PseudoJet &Jet){
+//       Jet1 = Jet;
+//     }
 
 protected:
 

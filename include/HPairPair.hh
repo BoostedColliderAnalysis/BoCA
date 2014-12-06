@@ -3,7 +3,7 @@
 
 # include "HJetLeptonPair.hh"
 # include "HTriplePair.hh"
-# include "WIMPMASS.h"
+#include "WIMPMASS.h"
 
 class hanalysis::HPairPair : public HTag
 {
@@ -63,9 +63,21 @@ public:
     }
 
     std::vector<HTriplePair> GetTriplePairs() const;
+
     std::vector<HTriplePair> GetTriplePairs(HJets Neutrinos) const;
-    
+
     HTriplePair GetTriplePair(HJets Neutrinos) const;
+
+
+    std::vector<hanalysis::HTriplePair> GetTriplePairs(float Mass1, float Mass2, float Mass3);
+
+    void SetMomentum(double p3[4], const fastjet::PseudoJet &Jet);
+
+    inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
+        fastjet::PseudoJet Jet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
+        return Jet;
+    }
+
 
 protected:
 
@@ -81,6 +93,8 @@ private:
     HJetLeptonPair Pair2;
 
     fastjet::PseudoJet Met;
+
+    event22 Structure;
 
 };
 

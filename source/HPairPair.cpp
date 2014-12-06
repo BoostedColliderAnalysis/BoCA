@@ -22,6 +22,59 @@ hanalysis::HPairPair::~HPairPair()
 //     Print(HInformation, "Destructor");
 
 }
+
+void hanalysis::HPairPair::SetMomentum(double p3[4], const fastjet::PseudoJet &Jet)
+{
+  p3[0] = Jet.E();
+  p3[1] = Jet.px();
+  p3[2] = Jet.py();
+  p3[3] = Jet.pz();
+}
+
+std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs(float Mass1, float Mass2, float Mass3)
+{
+
+  SetMomentum(Structure.p3, Pair1.GetJet());
+  SetMomentum(Structure.p4, Pair1.GetLepton());
+  SetMomentum(Structure.p5, Pair2.GetJet());
+  SetMomentum(Structure.p6, Pair2.GetLepton());
+  SetMomentum(Structure.pmiss, Met);
+
+  double p1[4][4], p2[4][4];
+  int nsols;
+//   solve22(Structure, Mass1, Mass2, Mass3, nsols, p1, p2);
+
+  std::vector<hanalysis::HTriplePair> TriplePairs;
+  for (int i = 0 ; i < nsols; ++i) {
+    hanalysis::HTriple Triple1(GetJet(p1[i]), Pair1);
+    hanalysis::HTriple Triple2(GetJet(p2[i]), Pair2);
+    hanalysis::HTriplePair TriplePair(Triple1, Triple2);
+    TriplePairs.push_back(TriplePair);
+  }
+
+  return TriplePairs;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs() const
 {}
 
@@ -29,15 +82,15 @@ std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs(HJets N
 {
     Print(HInformation, "Get Triple Pairs");
     event22 evt;
-    evt.SetP5(Pair1.GetJet());
-    evt.SetP3(Pair1.GetLepton());
-
-    evt.SetP6(Pair2.GetJet());
-    evt.SetP4(Pair2.GetLepton());
+//     evt.SetP5(Pair1.GetJet());
+//     evt.SetP3(Pair1.GetLepton());
+//
+//     evt.SetP6(Pair2.GetJet());
+//     evt.SetP4(Pair2.GetLepton());
 
 //     evt.SetPMiss(Met);
     fastjet::PseudoJet met;
-    evt.SetPMiss(std::accumulate(Neutrinos.begin(), Neutrinos.end(), met));
+//     evt.SetPMiss(std::accumulate(Neutrinos.begin(), Neutrinos.end(), met));
 
     Print(HDebug, "Lepton 1 (p3)", evt.p3[0] , evt.p3[1] , evt.p3[2] , evt.p3[3]);
     Print(HDebug, "Lepton 2 (p4)" , evt.p4[0] , evt.p4[1] , evt.p4[2] , evt.p4[3]);
@@ -48,7 +101,7 @@ std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs(HJets N
 
     int nsols;
     double p1[4][4], p2[4][4];
-    evt.solve22(evt, NeutrinoMass, WMass, TopMass, nsols, p1, p2);
+//     solve22(evt, NeutrinoMass, WMass, TopMass, nsols, p1, p2);
     Print(HDebug, "Number solutions", nsols);
 
     std::vector<HTriplePair> TriplePairs;
