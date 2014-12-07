@@ -5,7 +5,7 @@
 # include "fastjet/ClusterSequence.hh"
 
 # include "HObject.hh"
-# include "HEPTopTagger.hh"
+// # include "HEPTopTagger.hh"
 
 /**
  * @brief prepares the data for the top tagger
@@ -44,10 +44,6 @@ private:
      * @return std::vector< fastjet::PseudoJet, std::allocator >
      */
     HJets GetGranulatedJets(HJets& EFlowJets);
-
-    inline std::string NameSpaceName() const {
-      return "HDelphes";
-    };
 
     inline std::string ClassName() const {
         return "HTopTagger";

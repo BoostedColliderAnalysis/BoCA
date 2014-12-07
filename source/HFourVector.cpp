@@ -192,7 +192,7 @@ int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
 
         Print(HDetailed, "Topology", Topology.at(Position));
 
-        if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) BranchId = Topology.at(Position);
+//         if (Topology.at(Position) != EmptyId && Topology.at(Position) != MarkerId) BranchId = Topology.at(Position);
 
         Topology.at(Position) = MarkerId;
         if (Position < Source) Source = Position;
@@ -223,7 +223,7 @@ int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
         Print(HDetailed, "Mother 1 Position", Position);
     }
 
-    if (Source  < 6 && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) != end(JetTag->HeavyParticles)) BranchId = MixedJetId;
+    if (Source < 6 && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) != end(JetTag->HeavyParticles)) BranchId = MixedJetId;
     Print(HDetailed, "Branch Id Result", GetParticleName(BranchId));
 
     return BranchId;
@@ -246,6 +246,10 @@ void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
         PrintCell("Child 1");
         PrintCell("Pos D2");
         PrintCell("Child 2");
+        PrintCell("Energy");
+        PrintCell("Px");
+        PrintCell("Py");
+        PrintCell("Pz");
         std::cout << std::endl;
 
 //         for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
@@ -265,6 +269,10 @@ void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
             PrintCell(PrintParticle(Particle->D1));
             PrintCell(Particle->D2);
             PrintCell(PrintParticle(Particle->D2));
+            PrintCell(Particle->E);
+            PrintCell(Particle->Px);
+            PrintCell(Particle->Py);
+            PrintCell(Particle->Pz);
             std::cout << std::endl;
 
         }

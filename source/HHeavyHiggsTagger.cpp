@@ -124,7 +124,11 @@ struct SortPairByMass {
     }
 };
 
-
+struct SortByError {
+    inline bool operator()(const hanalysis::HTriplePair &Pair1, const hanalysis::HTriplePair &Pair2) {
+        return (Pair1.GetError() < Pair2.GetError());
+    }
+};
 
 std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEvent *const Event, const HObject::HState State)
 {
@@ -138,7 +142,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
 
     HJets HeavyHiggsJets;
     HJets OtherJets;
-    for (auto &Jet : Jets) {
+    for (auto & Jet : Jets) {
         Print(HInformation, "Jet Id", GetParticleName(Jet.user_info<HJetInfo>().GetMaximalId()));
 
         if (std::abs(Jet.user_index()) != MixedJetId) {
@@ -151,7 +155,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
             else OtherJets.push_back(Jet);
         }
     }
-    Print(HError,"Jets",Jets.size(),HeavyHiggsJets.size(),OtherJets.size());
+    Print(HDebug, "Jets", Jets.size(), HeavyHiggsJets.size(), OtherJets.size());
     if (State == HSignal && HeavyHiggsJets.size() < 2) return HeavyHiggsBranches;
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
@@ -164,7 +168,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
         else OtherLeptons.push_back(Lepton);
     }
     if (State == HSignal && HeavyHiggsLeptons.size() < 2) return HeavyHiggsBranches;
-    Print(HError,"Leptons",Leptons.size(),HeavyHiggsLeptons.size(),OtherLeptons.size());
+    Print(HDebug, "Leptons", Leptons.size(), HeavyHiggsLeptons.size(), OtherLeptons.size());
 
     std::vector<HJetLeptonPair> JetLeptonPairs;
     if (State == HSignal) {
@@ -199,7 +203,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
             }
         }
     }
-    Print(HError,"Pairs",JetLeptonPairs.size());
+    Print(HDebug, "Pairs", JetLeptonPairs.size());
     if (JetLeptonPairs.size() < 2) return HeavyHiggsBranches;
 
     for (auto & JetPair : JetLeptonPairs) {
@@ -220,12 +224,18 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
             if ((*Pair1).GetJet() == (*Pair2).GetJet()) continue;
             if ((*Pair1).GetLepton() == (*Pair2).GetLepton()) continue;
             HPairPair PairPair((*Pair1), (*Pair2), MissingEt);
-            HTriplePair TriplePair /*= PairPair.GetTriplePair(Neutrinos)*/;
-            TriplePairs.push_back(TriplePair);
+            HTriplePair TriplePair = PairPair.GetTriplePair(Neutrinos);
+            if (TriplePair.GetError() > 0) TriplePairs.push_back(TriplePair);
         }
     }
 
-    Print(HInformation, "Number of Heavy Higgses", TriplePairs.size());
+    Print(HInformation, "Number of Heavy Higgses", TriplePairs.size());    
+    if (TriplePairs.size()<1) return HeavyHiggsBranches;
+    
+    if(State == HSignal){
+    std::sort(TriplePairs.begin(), TriplePairs.end(), SortByError());    
+    if (TriplePairs.size() > 1)  TriplePairs.erase (TriplePairs.begin()+1,TriplePairs.end());
+    }
 
     for (const auto & TriplePair : TriplePairs) {
         HHeavyHiggsBranch *HeavyHiggsBranch = new HHeavyHiggsBranch();

@@ -112,8 +112,8 @@ public:
 
     }
     
-    void SetMass(const float NewMass){Mass = NewMass;}
-    float GetMass() const {return Mass;}
+    void SetError(const float NewError){Error = NewError;}
+    float GetError() const {return Error;}
 
 protected:
 
@@ -128,7 +128,7 @@ private:
 
     HTriple Triple2;
 
-    float Mass;
+    float Error;
     
 };
 

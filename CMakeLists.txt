@@ -5,108 +5,72 @@ cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 # Has to be done after check of cmake version since this is a new feature
 project(HAnalysis)
 
-# set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Woverloaded-virtual -fno-stack-protector ")
-# -Wcast-qual
-# -fno-stack-protector
+include(CMakeFiles/CMakeConfig.cmake)
 
-#C set build type to debug
-set(CMAKE_BUILD_TYPE Debug)
+include(ExternalProject)
 
-# Load some basic macros which are needed later on
-include(FindROOT.cmake)
-include(Findfastjet.cmake)
-# find_package(Doxygen)
-
-# set path to dependencies
-set(MadGraphDir ~/Development/MadGraph)
-set(ExRootDir ${MadGraphDir}/ExRootAnalysis)
-set(DelphesDir ${MadGraphDir}/Delphes)
-
-# find external libraries
-find_library(
-  ExRootLibrary
-  NAMES ExRootAnalysis
-  HINTS ${ExRootDir}/lib
+ExternalProject_Add(
+WIMPMASS
+URL http://particle.physics.ucdavis.edu/hefti/projects/lib/exe/fetch.php?media=wimpmass-1.00.tar.gz
+URL_MD5 1068a6ab41bf52043dd42ce1cd88cbc2
+DOWNLOAD_NAME wimpmass-1.00.tar.gz
+SOURCE_DIR ${CMAKE_SOURCE_DIR}/External/WimpMass
+BINARY_DIR ${CMAKE_BINARY_DIR}/WimpMass
+PATCH_COMMAND 
+${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMass.cmake <SOURCE_DIR>/CMakeLists.txt 
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake  
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Findfastjet.cmake <SOURCE_DIR>/CMakeFiles/Findfastjet.cmake
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.txt 
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMassSrc.cmake <SOURCE_DIR>/src/CMakeLists.txt 
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMassExamples.cmake <SOURCE_DIR>/examples/CMakeLists.txt
+INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/examples/sqsq_pythia_events.lhe <BINARY_DIR>/bin/
 )
 
-find_library(
-  DelphesLibrary
-  NAMES Delphes
-  HINTS ${DelphesDir}
-)
+# ExternalProject_Add(
+# HepTopTagger
+# URL 
+# http://www.thphys.uni-heidelberg.de/~plehn/includes/heptoptagger/heptop_v1.0.tar.gz
+# URL_MD5 a92b1eaa8b009d32a3f5cc34b627d4d2
+# SOURCE_DIR  ${CMAKE_SOURCE_DIR}/External/HepTopTagger
+# BINARY_DIR ${CMAKE_BINARY_DIR}/HepTopTagger
+# PATCH_COMMAND 
+# ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/HepTopTagger.cmake <SOURCE_DIR>/CMakeLists.txt 
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake  
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Findfastjet.cmake <SOURCE_DIR>/CMakeFiles/Findfastjet.cmake
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake 
+# && patch <SOURCE_DIR>/example_toptagger.cc < ${CMAKE_SOURCE_DIR}/CMakeFiles/TopTaggerPatch.diff
+# INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagger/sample_event.dat <BINARY_DIR>/bin/
+# )
 
-# set library and excecutable destination
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-# set library versions
-set(MajorVersion 0)
-set(MinorVersion 0)
-set(PatchVersion 0)
-set(Version ${MajorVersion}.${MinorVersion}.${PatchVersion})
-set(LibraryProperties
-  ${LibraryProperties}
-  VERSION ${Version}
-  SOVERSION ${MajorVersion}
-  SUFFIX .so
-)
-
-# set(IncludeDirectory ${IncludeDirectory} ${PROJECT_SOURCE_DIR}/include)
-
-# define macros
-macro(HInclude HDirectory)
-set(IncludeDirectory
-  ${IncludeDirectory}
-  ${HDirectory}
-)
-#   list(APPEND ${IncludeDirectory} ${HDirectory})
-  include_directories(${ARGV1} ${IncludeDirectory})
-endmacro(HInclude)
-
-macro(HLibrary HName HSource)
-  add_library(${HName} SHARED ${HSource})
-  target_link_libraries(${HName} ${LinkLibraries})
-  set_target_properties(${HName} PROPERTIES ${LibraryProperties})
-  install(TARGETS ${HName} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-  set(LinkLibraries ${LinkLibraries} ${HName})
-#   list(APPEND ${LinkLibraries} ${HName})
-  set(LinkLibraries ${LinkLibraries} ${ARGV2})
-endmacro(HLibrary)
-
-macro(HDictionary HName HSource HLinkDef)
-  set(HDictionary ${HName}Dict.cpp)
-  ROOT_GENERATE_DICTIONARY("${HSource}" "${HLinkDef}" "${HDictionary}" "${IncludeDirectory}")
-  HLibrary(${HName} ${HDictionary} ${ARGV3})
-endmacro(HDictionary)
-
-macro(HExecutable HName HSource)
-  add_executable(${HName} ${HSource})
-  target_link_libraries(${HName} ${LinkLibraries})
-endmacro(HExecutable)
 
 set(Directory
-  ${ROOT_INCLUDE_DIR}
-  ${ExRootDir}
-  ${DelphesDir}
-  ${PROJECT_SOURCE_DIR}/external/WIMPMASS/WIMPMASS
+  External/WimpMass/WIMPMASS/
+  External/HepTopTagger/
 )
 HInclude("${Directory}" SYSTEM)
 
-# Library
-HInclude(${PROJECT_SOURCE_DIR}/include)
 
-set(LinkLibraries
-  ${ROOT_LIBRARIES}
-  TMVA
-  ${fastjet_LIBRARIES}
-  ${DelphesLibrary}
-  ${ExRootLibrary}
-  ${Topology}
+find_library(
+  WimpMassLibrary
+  NAMES WimpMass
+  HINTS ${CMAKE_BINARY_DIR}/WimpMass/lib
 )
 
-add_subdirectory(external)
+# find_library(
+#   HepTopTaggerLibrary
+#   NAMES HepTopTagger
+#   HINTS ${CMAKE_BINARY_DIR}/HepTopTagger/lib
+# )
+set(LinkLibraries
+  ${LinkLibraries}
+  ${WimpMassLibrary}
+)
+
+# Library
+HInclude(${PROJECT_SOURCE_DIR}/include)
 add_subdirectory(source)
+add_dependencies(HContainer WimpMass)
+add_dependencies(HAnalysis HepTopTagger)
 
 # Tagger
 add_subdirectory(HBTagger)
@@ -124,6 +88,20 @@ add_subdirectory(HHiggsCpv)
 add_subdirectory(HHeavyHiggs)
 add_subdirectory(HJetProperties)
 add_subdirectory(HTest)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # set(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
 #

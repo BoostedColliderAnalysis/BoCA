@@ -5,7 +5,7 @@ hanalysis::hdelphes::HParticle ::HParticle()
 
     Print(HDebug, "Constructor");
 
-    DebugLevel = hanalysis::HObject::HInformation;
+//     DebugLevel = hanalysis::HObject::HInformation;
 
 }
 

@@ -62,22 +62,11 @@ public:
         return (Pair1.GetPairJet().delta_phi_to(Pair2.GetPairJet()));
     }
 
-    std::vector<HTriplePair> GetTriplePairs() const;
+    std::vector<HTriplePair> GetTriplePairs();
 
-    std::vector<HTriplePair> GetTriplePairs(HJets Neutrinos) const;
+    std::vector<HTriplePair> GetTriplePairs(const float Mass1, const float Mass2, const float Mass3);
 
-    HTriplePair GetTriplePair(HJets Neutrinos) const;
-
-
-    std::vector<hanalysis::HTriplePair> GetTriplePairs(float Mass1, float Mass2, float Mass3);
-
-    void SetMomentum(double p3[4], const fastjet::PseudoJet &Jet);
-
-    inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
-        fastjet::PseudoJet Jet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
-        return Jet;
-    }
-
+    HTriplePair GetTriplePair(HJets Neutrinos);
 
 protected:
 
@@ -85,8 +74,16 @@ protected:
         return "HPairPair";
     };
 
-private:
+private:    
+    
+    void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
 
+    inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
+        fastjet::PseudoJet Jet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
+        return Jet;
+    }
+    
+    float GetTransverseError(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) const;
 
     HJetLeptonPair Pair1;
 

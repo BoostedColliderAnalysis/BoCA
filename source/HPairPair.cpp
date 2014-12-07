@@ -9,7 +9,7 @@ hanalysis::HPairPair::HPairPair(const HJetLeptonPair &NewPair1, const HJetLepton
 
 hanalysis::HPairPair::HPairPair(const HJetLeptonPair &NewPair1, const HJetLeptonPair &NewPair2, const fastjet::PseudoJet &NewMet)
 {
-    DebugLevel = HObject::HDebug;
+//     DebugLevel = HObject::HDebug;
 //     Print(HInformation, "Constructor");
     Pair1 = NewPair1;
     Pair2 = NewPair2;
@@ -23,106 +23,49 @@ hanalysis::HPairPair::~HPairPair()
 
 }
 
-void hanalysis::HPairPair::SetMomentum(double p3[4], const fastjet::PseudoJet &Jet)
+void hanalysis::HPairPair::SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet)
 {
-  p3[0] = Jet.E();
-  p3[1] = Jet.px();
-  p3[2] = Jet.py();
-  p3[3] = Jet.pz();
+    Momentum[0] = Jet.E();
+    Momentum[1] = Jet.px();
+    Momentum[2] = Jet.py();
+    Momentum[3] = Jet.pz();
 }
 
-std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs(float Mass1, float Mass2, float Mass3)
+std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs(const float Mass1, const float Mass2, const float Mass3)
 {
+        Print(HInformation, "Get Triple Pairs");
 
-  SetMomentum(Structure.p3, Pair1.GetJet());
-  SetMomentum(Structure.p4, Pair1.GetLepton());
-  SetMomentum(Structure.p5, Pair2.GetJet());
-  SetMomentum(Structure.p6, Pair2.GetLepton());
-  SetMomentum(Structure.pmiss, Met);
+    SetMomentum(Structure.p3, Pair1.GetLepton());
+    SetMomentum(Structure.p4, Pair2.GetLepton());
+    SetMomentum(Structure.p5, Pair1.GetJet());
+    SetMomentum(Structure.p6, Pair2.GetJet());
+    SetMomentum(Structure.pmiss, Met);
 
-  double p1[4][4], p2[4][4];
-  int nsols;
-//   solve22(Structure, Mass1, Mass2, Mass3, nsols, p1, p2);
+    Print(HDebug, "Lepton 1 (p3)", Structure.p3[0] , Structure.p3[1] , Structure.p3[2] , Structure.p3[3]);
+    Print(HDebug, "Lepton 2 (p4)" , Structure.p4[0] , Structure.p4[1] , Structure.p4[2] , Structure.p4[3]);
+    Print(HDebug, "Jet 1 (p5)" , Structure.p5[0] , Structure.p5[1] , Structure.p5[2] , Structure.p5[3]);
+    Print(HDebug, "Jet 2 (p6)" , Structure.p6[0] , Structure.p6[1] , Structure.p6[2] , Structure.p6[3]);
+    Print(HDebug, "PMiss" , Structure.pmiss[0] , Structure.pmiss[1] , Structure.pmiss[2], Structure.pmiss[3]);
 
-  std::vector<hanalysis::HTriplePair> TriplePairs;
-  for (int i = 0 ; i < nsols; ++i) {
-    hanalysis::HTriple Triple1(GetJet(p1[i]), Pair1);
-    hanalysis::HTriple Triple2(GetJet(p2[i]), Pair2);
-    hanalysis::HTriplePair TriplePair(Triple1, Triple2);
-    TriplePairs.push_back(TriplePair);
-  }
+    double P1[4][4], P2[4][4];
+    int SolutionSum;
+    solve22(Structure, Mass1, Mass2, Mass3, SolutionSum, P1, P2);
+    Print(HDebug, "Number solutions", SolutionSum);
 
-  return TriplePairs;
+    std::vector<hanalysis::HTriplePair> TriplePairs;
+    for (int SolutionNumber = 0 ; SolutionNumber < SolutionSum; ++SolutionNumber) {
+        Print(HDebug, "Solution ", SolutionNumber);
+        Print(HDebug, "Neutrino 1 (p1)" , P1[SolutionNumber][0] , P1[SolutionNumber][1] , P1[SolutionNumber][2] , P1[SolutionNumber][3]);
+        Print(HDebug, "Neutrino 2 (p2)" , P2[SolutionNumber][0] , P2[SolutionNumber][1] , P2[SolutionNumber][2] , P2[SolutionNumber][3]);
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs() const
-{}
-
-std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs(HJets Neutrinos) const
-{
-    Print(HInformation, "Get Triple Pairs");
-    event22 evt;
-//     evt.SetP5(Pair1.GetJet());
-//     evt.SetP3(Pair1.GetLepton());
-//
-//     evt.SetP6(Pair2.GetJet());
-//     evt.SetP4(Pair2.GetLepton());
-
-//     evt.SetPMiss(Met);
-    fastjet::PseudoJet met;
-//     evt.SetPMiss(std::accumulate(Neutrinos.begin(), Neutrinos.end(), met));
-
-    Print(HDebug, "Lepton 1 (p3)", evt.p3[0] , evt.p3[1] , evt.p3[2] , evt.p3[3]);
-    Print(HDebug, "Lepton 2 (p4)" , evt.p4[0] , evt.p4[1] , evt.p4[2] , evt.p4[3]);
-    Print(HDebug, "Jet 1 (p5)" , evt.p5[0] , evt.p5[1] , evt.p5[2] , evt.p5[3]);
-    Print(HDebug, "Jet 2 (p6)" , evt.p6[0] , evt.p6[1] , evt.p6[2] , evt.p6[3]);
-    Print(HDebug, "PMiss" , evt.pmiss[0] , evt.pmiss[1] , evt.pmiss[2], evt.pmiss[3]);
-
-
-    int nsols;
-    double p1[4][4], p2[4][4];
-//     solve22(evt, NeutrinoMass, WMass, TopMass, nsols, p1, p2);
-    Print(HDebug, "Number solutions", nsols);
-
-    std::vector<HTriplePair> TriplePairs;
-
-    for (int isol = 0; isol < nsols; ++isol) {
-        Print(HDebug, "solution ", isol);
-        Print(HDebug, "Neutrino 1 (p1)" , p1[isol][0] , p1[isol][1] , p1[isol][2] , p1[isol][3]);
-        Print(HDebug, "Neutrino 2 (p2)" , p2[isol][0] , p2[isol][1] , p2[isol][2] , p2[isol][3]);
-
-        fastjet::PseudoJet Jet1(p1[isol][1], p1[isol][2], p1[isol][3], p1[isol][0]);
-        HTriple Triple1(Jet1, Pair1);
-        fastjet::PseudoJet Jet2(p2[isol][1], p2[isol][2], p2[isol][3], p2[isol][0]);
-        HTriple Triple2(Jet2, Pair2);
+        HTriple Triple1(GetJet(P1[SolutionNumber]), Pair1);
+        HTriple Triple2(GetJet(P2[SolutionNumber]), Pair2);
         HTriplePair TriplePair(Triple1, Triple2);
         TriplePairs.push_back(TriplePair);
-
-//         HPair Pair(Jet1,Jet2);
-//         Print(HDebug, "Neutrino masses", Jet1.m(), Jet2.m());
-//         Print(HDebug, "W masses", (Jet1 + Pair1.GetJet2()).m(), (Jet2 + Pair2.GetJet2()).m());
-        Print(HDebug, "top masses", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1()).m(), (Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
-//         Print(HDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
+        //         Print(HDebug, "Neutrino masses", Jet1.m(), Jet2.m());
+        //         Print(HDebug, "W masses", (Jet1 + Pair1.GetJet2()).m(), (Jet2 + Pair2.GetJet2()).m());
+        Print(HDebug, "top masses", (GetJet(P1[SolutionNumber]) + Pair1.GetJet2() + Pair1.GetJet1()).m(), (GetJet(P2[SolutionNumber]) + Pair2.GetJet2() + Pair1.GetJet1()).m());
+        //         Print(HDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
     }
 
     return TriplePairs;
@@ -130,77 +73,71 @@ std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs(HJets N
 }
 
 
-
-struct SortByMassDiffernece {
-    inline bool operator()(const hanalysis::HTriplePair &Pair1, const hanalysis::HTriplePair &Pair2) {
-        return (Pair1.GetMassDifferences(hanalysis::HObject::ElectronNeutrinoId, hanalysis::HObject::WId, hanalysis::HObject::TopId) < Pair2.GetMassDifferences(hanalysis::HObject::ElectronNeutrinoId, hanalysis::HObject::WId, hanalysis::HObject::TopId));
-    }
-};
-
-struct SortByNeutrinoMass {
-    inline bool operator()(const hanalysis::HTriplePair &Pair1, const hanalysis::HTriplePair &Pair2) {
-        return (Pair1.GetMass() < Pair2.GetMass());
-    }
-};
-
-
-// struct NeutrinoStruct{
-//
-//     float Mass;
-//     int Pos1;
-//     int Pos2;
-// }
-
-hanalysis::HTriplePair hanalysis::HPairPair::GetTriplePair(HJets Neutrinos) const
+std::vector<hanalysis::HTriplePair> hanalysis::HPairPair::GetTriplePairs()
 {
-    Print(HError, "Get Triple Pair", Neutrinos.size());
+    return GetTriplePairs(NeutrinoMass, WMass, TopMass);
+}
 
-    std::vector<HTriplePair> TriplePairs = GetTriplePairs(Neutrinos);
-    Print(HError, "Number Solutions", TriplePairs.size());
+struct SortByError {
+    inline bool operator()(const hanalysis::HTriplePair &Pair1, const hanalysis::HTriplePair &Pair2) {
+        return (Pair1.GetError() < Pair2.GetError());
+    }
+};
+
+
+hanalysis::HTriplePair hanalysis::HPairPair::GetTriplePair(HJets Neutrinos)
+{
+    Print(HInformation, "Get Triple Pair");
+    fastjet::PseudoJet NeutrinoSum = Neutrinos[0] + Neutrinos[1];
+//     Met = MET;
+
+    std::vector<HTriplePair> TriplePairs = GetTriplePairs();
+    Print(HDebug, "Number Solutions", TriplePairs.size());
 
     if (TriplePairs.size() < 1) {
         HTriplePair TriplePair;
         return TriplePair;
     }
 
-    for (const auto & Neutrino : Neutrinos) Print(HDebug, "pN", Neutrino.E(), Neutrino.px(), Neutrino.py(), Neutrino.px());
+    for (const auto & Neutrino : Neutrinos) Print(HDebug, "Neutrino", Neutrino.E(), Neutrino.px(), Neutrino.py(), Neutrino.px());
 
-    fastjet::PseudoJet MET = Neutrinos[0] + Neutrinos[1];
-    Print(HDebug, "Met", MET);
+    Print(HDebug, "Neutrino Sum", NeutrinoSum);
 
     for (auto & TriplePair : TriplePairs) {
         fastjet::PseudoJet Neutrino1 = TriplePair.GetTriple1().GetJet1();
         fastjet::PseudoJet Neutrino2 = TriplePair.GetTriple2().GetJet1();
-        if (Neutrino1.m() > 1) Print(HError, "Neutrino1 Mass", Neutrino1.m());
-        if (Neutrino2.m() > 1) Print(HError, "Neutrino2 Mass", Neutrino2.m());
 
-        std::vector<float> Masses1, Masses2;
+        std::vector<float> Error1, Error2;
         for (const auto & Neutrino : Neutrinos) {
 //             Print(HError, "Neutrino Mass", Neutrino.m());
-            Masses1.push_back((Neutrino + Neutrino1).m());
-            Print(HError, "Neutrino 1 Error", (Neutrino + Neutrino1).m());
-            Masses2.push_back((Neutrino + Neutrino2).m());
-            Print(HError, "Neutrino 2 Error", (Neutrino + Neutrino2).m());
+            Error1.push_back(GetTransverseError(Neutrino,Neutrino1));
+            Print(HDebug, "Neutrino 1 Error", GetTransverseError(Neutrino,Neutrino1));
+            Error2.push_back(GetTransverseError(Neutrino,Neutrino2));
+            Print(HDebug, "Neutrino 2 Error", GetTransverseError(Neutrino,Neutrino2));
         }
 
-        float Mass = LargeNumber;
-        for (size_t i = 0; i < Masses1.size(); ++i) {
-            for (size_t j = i + 1; j < Masses2.size(); ++j) {
-                if (Masses1[i] + Masses2[j] < Mass) Mass = Masses1[i] + Masses2[j];
+        float Error = LargeNumber;
+        for (size_t i = 0; i < Error1.size(); ++i) {
+            for (size_t j = i + 1; j < Error2.size(); ++j) {
+                if (Error1[i] + Error2[j] < Error) Error = Error1[i] + Error2[j];
             }
         }
-        for (size_t j = 0; j < Masses2.size(); ++j) {
-            for (size_t i = j + 1; i < Masses1.size(); ++i) {
-                if (Masses1[i] + Masses2[j] < Mass) Mass = Masses1[i] + Masses2[j];
+        for (size_t j = 0; j < Error2.size(); ++j) {
+            for (size_t i = j + 1; i < Error1.size(); ++i) {
+                if (Error1[i] + Error2[j] < Error) Error = Error1[i] + Error2[j];
             }
         }
-        TriplePair.SetMass(Mass);
+        TriplePair.SetError(Error);
     }
 
-    std::sort(TriplePairs.begin(), TriplePairs.end(), SortByNeutrinoMass());
+    std::sort(TriplePairs.begin(), TriplePairs.end(), SortByError());
 
-    for (const auto & TriplePair : TriplePairs) Print(HError, "Neutrino Error Sum", TriplePair.GetMass());
+    for (const auto & TriplePair : TriplePairs) Print(HDebug, "Neutrino Error Sum", TriplePair.GetError());
 
     return TriplePairs.front();
 
+}
+
+float hanalysis::HPairPair::GetTransverseError(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) const {
+    return std::sqrt(std::pow(Jet1.px() - Jet2.px(),2) + std::pow(Jet1.py() - Jet2.py(),2));
 }

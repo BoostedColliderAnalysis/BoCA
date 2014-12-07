@@ -49,29 +49,30 @@ HJets hanalysis::HTopTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJet
 //         const float topmass = 172.3;
 //         const float wmass = 80.4;
 //         HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);
-        HEPTopTagger TopTagger(ClusterSequence, Jet);
+//         HEPTopTagger TopTagger(ClusterSequence, Jet);
 
-        TopTagger.set_top_range(150., 200.);
+//         TopTagger.set_top_range(150., 200.);
         std::cout << "========= Top Tagger ============" << std::endl;
-        TopTagger.run_tagger();
+//         TopTagger.run_tagger();
 //         cout << "-------- setting  --------" << endl;
 //         TopTagger.get_setting();
 //         cout << "-------- resutls  --------" << endl;
 //         TopTagger.get_info();
 
-        if (TopTagger.is_masscut_passed()) {
+//         if (TopTagger.is_masscut_passed()) 
+        {
 
             std::cout << "### masscut_passed ###" << std::endl;
 
-            fastjet::PseudoJet top = TopTagger.top_candidate();
+//             fastjet::PseudoJet top = TopTagger.top_candidate();
 //             fastjet::PseudoJet b = TopTagger.top_subjets().at(0);
 //             fastjet::PseudoJet W1 = TopTagger.top_subjets().at(1);
 //             fastjet::PseudoJet W2 = TopTagger.top_subjets().at(2);
-            std::cout << "top mass: " << top.m() << std::endl;
+//             std::cout << "top mass: " << top.m() << std::endl;
 //             cout << "bottom mass: " << b.m() << endl;
 //             cout << "W mass: " << (W1 + W2).m() << endl;
 
-            TopJets.push_back(top);
+//             TopJets.push_back(top);
 
         }
 

@@ -69,10 +69,10 @@ class HReader;
 namespace hparton
 {
 
-  class HClonesArray;
-  class HFile;
-  class HEvent;
-  class HParticle;
+class HClonesArray;
+class HFile;
+class HEvent;
+class HParticle;
 
 }
 
@@ -89,11 +89,11 @@ typedef hparton::HParticle HParticleParton;
 namespace hpgs
 {
 
-  class HClonesArray;
-  class HFile;
-  class HEvent;
-  class HLepton;
-  class HJet;
+class HClonesArray;
+class HFile;
+class HEvent;
+class HLepton;
+class HJet;
 
 }
 
@@ -110,13 +110,13 @@ typedef hpgs::HJet HJetPgs;
 namespace hdelphes
 {
 
-  class HClonesArray;
-  class HClonesArraySnowmass;
-  class HFile;
-  class HEvent;
-  class HParticle;
-  class HLepton;
-  class HJet;
+class HClonesArray;
+class HClonesArraySnowmass;
+class HFile;
+class HEvent;
+class HParticle;
+class HLepton;
+class HJet;
 
 }
 
@@ -170,17 +170,16 @@ public:
         HDetailed
     };
 
-    enum HState{HSignal, HBackground};
+    enum HState {HSignal, HBackground};
 
     template <typename TSeverity>
-    void Print(const TSeverity Severity, const std::string &Description) const
-    {
+    void Print(const TSeverity Severity, const std::string &Description) const {
 
-      if (Severity <= DebugLevel) {
+        if (Severity <= DebugLevel) {
 
-        Printer(Description);
-        std::cout << std::endl;
-      }
+            Printer(Description);
+            std::cout << std::endl;
+        }
 
     }
 
@@ -262,31 +261,36 @@ public:
         }
 
     }
-    
+
     template<typename TSeverity, typename TValue, typename TValue2, typename TValue3, typename TValue4>
     void Print(const TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
-        
+
         if (Severity <= DebugLevel) {
-            
+
             const char Separator = ' ';
             const int FunctionWidth = 10;
-            
+
             Printer(Description);
-            
+
             std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
             std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
             std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
             std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value4;
             std::cout << std::endl;
-            
+
         }
-        
+
     }
-    
+
     template<typename TSeverity>
-    void Print(const TSeverity Severity, const std::string Description, const fastjet::PseudoJet Jet) const {        
-        if (Severity <= DebugLevel) Print(Severity,Description,Jet.e(),Jet.px(),Jet.py(),Jet.pz());
-       }
+    void Print(const TSeverity Severity, const std::string Description, const fastjet::PseudoJet Jet) const {
+        if (Severity <= DebugLevel) Print(Severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
+    }
+
+    template<typename TSeverity>
+    void Print(const TSeverity Severity, const std::string Description, float Momentum[]) const {
+        if (Severity <= DebugLevel) Print(Severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
+    }
 
     enum HParticleId {
         EmptyId = 0, ///< 0
@@ -465,7 +469,7 @@ protected:
      *
      */
     constexpr static float ElectronMass = 0.000511;
-    
+
     constexpr static float NeutrinoMass = 0;
 
     /**
