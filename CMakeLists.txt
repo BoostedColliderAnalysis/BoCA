@@ -16,31 +16,36 @@ URL_MD5 1068a6ab41bf52043dd42ce1cd88cbc2
 DOWNLOAD_NAME wimpmass-1.00.tar.gz
 SOURCE_DIR ${CMAKE_SOURCE_DIR}/External/WimpMass
 BINARY_DIR ${CMAKE_BINARY_DIR}/WimpMass
-PATCH_COMMAND 
-${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMass.cmake <SOURCE_DIR>/CMakeLists.txt 
-&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake  
+PATCH_COMMAND
+${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMass.cmake <SOURCE_DIR>/CMakeLists.txt
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake
 && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Findfastjet.cmake <SOURCE_DIR>/CMakeFiles/Findfastjet.cmake
-&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.txt 
-&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMassSrc.cmake <SOURCE_DIR>/src/CMakeLists.txt 
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.txt
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMassSrc.cmake <SOURCE_DIR>/src/CMakeLists.txt
 && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMassExamples.cmake <SOURCE_DIR>/examples/CMakeLists.txt
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/examples/sqsq_pythia_events.lhe <BINARY_DIR>/bin/
 )
 
-# ExternalProject_Add(
-# HepTopTagger
-# URL 
-# http://www.thphys.uni-heidelberg.de/~plehn/includes/heptoptagger/heptop_v1.0.tar.gz
-# URL_MD5 a92b1eaa8b009d32a3f5cc34b627d4d2
-# SOURCE_DIR  ${CMAKE_SOURCE_DIR}/External/HepTopTagger
-# BINARY_DIR ${CMAKE_BINARY_DIR}/HepTopTagger
-# PATCH_COMMAND 
-# ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/HepTopTagger.cmake <SOURCE_DIR>/CMakeLists.txt 
-# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake  
-# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Findfastjet.cmake <SOURCE_DIR>/CMakeFiles/Findfastjet.cmake
-# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake 
-# && patch <SOURCE_DIR>/example_toptagger.cc < ${CMAKE_SOURCE_DIR}/CMakeFiles/TopTaggerPatch.diff
-# INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagger/sample_event.dat <BINARY_DIR>/bin/
-# )
+# ExternalProject_Get_Property(WIMPMASS install_dir)
+# include_directories(${install_dir}/include)
+# add_dependencies(project_b_exe WIMPMASS)
+# target_link_libraries(project_b_exe ${install_dir}/lib/alib.lib)
+
+ExternalProject_Add(
+HepTopTagger
+URL
+http://www.thphys.uni-heidelberg.de/~plehn/includes/heptoptagger/heptop_v1.0.tar.gz
+URL_MD5 a92b1eaa8b009d32a3f5cc34b627d4d2
+SOURCE_DIR  ${CMAKE_SOURCE_DIR}/External/HepTopTagger
+BINARY_DIR ${CMAKE_BINARY_DIR}/HepTopTagger
+PATCH_COMMAND
+${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/HepTopTagger.cmake <SOURCE_DIR>/CMakeLists.txt
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Findfastjet.cmake <SOURCE_DIR>/CMakeFiles/Findfastjet.cmake
+&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake
+&& patch <SOURCE_DIR>/example_toptagger.cc < ${CMAKE_SOURCE_DIR}/CMakeFiles/TopTaggerPatch.diff
+INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagger/sample_event.dat <BINARY_DIR>/bin/
+)
 
 
 set(Directory
@@ -55,6 +60,7 @@ find_library(
   NAMES WimpMass
   HINTS ${CMAKE_BINARY_DIR}/WimpMass/lib
 )
+# add_dependencies(WimpMassLibrary WimpMass)
 
 # find_library(
 #   HepTopTaggerLibrary

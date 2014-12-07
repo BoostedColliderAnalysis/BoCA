@@ -5,7 +5,6 @@
 # include "fastjet/ClusterSequence.hh"
 
 # include "HObject.hh"
-// # include "HEPTopTagger.hh"
 
 /**
  * @brief prepares the data for the top tagger

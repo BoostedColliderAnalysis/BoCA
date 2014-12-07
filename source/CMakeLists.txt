@@ -52,6 +52,13 @@ HTriplePair.cpp
 )
 HLibrary(HContainer "${WrapperSources}" PARENT_SCOPE)
 
+
+
+set(HepTaggerSource
+HTopTagger.cpp
+)
+HLibrary(HepTagger "${HepTaggerSource}" PARENT_SCOPE)
+
 set(AnalysisSources
 HAnalysis.cpp
 HJetTag.cpp
@@ -59,7 +66,7 @@ HJetInfo.cpp
 HReconstruction.cpp
 HDiscriminator.cpp
 HHiggsTagger.cpp
-HTopTagger.cpp
+# HTopTagger.cpp
 # HEPTopTagger.cpp
 HSuperStructure.cpp
 HSubStructure.cpp
