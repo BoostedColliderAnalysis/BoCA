@@ -33,7 +33,21 @@ hheavyhiggs::HEventBranch::HEventBranch()
     JetNumber = InitialValue;
     BottomNumber = InitialValue;
     LeptonNumber = InitialValue;
-    HeavyParticleTag = InitialValue;
+    
+    HeavyParticleBdt = InitialValue;
+    HeavyHiggsBdt = InitialValue;
+    
+    DeltaRap = InitialValue;
+    DeltaPhi = InitialValue;
+    DeltaR = InitialValue;
+    
+    DeltaRapSum = InitialValue;
+    DeltaPhiSum = InitialValue;
+    DeltaRSum = InitialValue;
+    
+    DeltaRapDiff = InitialValue;
+    DeltaPhiDiff = InitialValue;
+    DeltaRDiff = InitialValue;
     
     Signal = InitialValue;
     

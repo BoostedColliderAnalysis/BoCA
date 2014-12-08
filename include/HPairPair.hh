@@ -67,6 +67,9 @@ public:
     std::vector<HTriplePair> GetTriplePairs(const float Mass1, const float Mass2, const float Mass3);
 
     HTriplePair GetTriplePair(HJets Neutrinos);
+    
+    HPair GetPair1()const{return Pair1;}
+    HPair GetPair2()const{return Pair2;}
 
 protected:
 
@@ -79,6 +82,8 @@ private:
     void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
 
     inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
+        // wimpmass (E,px,py,pz)
+        // fastjet (px,py,pz,E)
         fastjet::PseudoJet Jet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
         return Jet;
     }

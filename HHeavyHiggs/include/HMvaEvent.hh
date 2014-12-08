@@ -4,6 +4,11 @@
 
 # include "HMva.hh"
 # include "HBranchHeavyHiggs.hh"
+# include "HEvent.hh"
+# include "HJetTag.hh"
+# include "HReader.hh"
+# include "HLeptonicTopTagger.hh"
+# include "HHeavyHiggsTagger.hh"
 
 /**
  *
@@ -19,7 +24,7 @@ public:
     * @brief Constructor
     *
     */
-    HMvaEvent();
+    HMvaEvent(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HLeptonicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -27,24 +32,44 @@ public:
     */
     ~HMvaEvent();
 
-    HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&){};
+    std::vector<hheavyhiggs::HEventBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
-    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, TMVA::Reader *){};
+    void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
 
-    float GetBdt(TObject *, TMVA::Reader *){ return 0;};
+    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {};
+
+    void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
+
+    float GetBdt(TObject *, TMVA::Reader *) {
+        return 0;
+    };
 
 protected:
 
 
 private:
+    
+    std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
-    hheavyhiggs::HEventBranch *EventBranch;
+    void FillBranch(hheavyhiggs::HEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
 
-      void DefineVariables();
+    void DefineVariables();
 
-      virtual inline std::string NameSpaceName() const {
+
+    hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
+    hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
+    hanalysis::HReader *BottomReader;
+    hanalysis::HReader *TopReader;
+    hanalysis::HReader *HeavyHiggsReader;
+    
+    hheavyhiggs::HEventBranch *Branch;
+
+    hanalysis::HJetTag *JetTag;
+       
+    virtual inline std::string NameSpaceName() const {
         return "hheavyhiggs";
-      };
+    };
 
     virtual inline std::string ClassName() const {
         return "HMvaEvent";

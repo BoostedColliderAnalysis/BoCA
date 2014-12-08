@@ -25,6 +25,8 @@ hanalysis::HTriple::HTriple(const fastjet::PseudoJet &NewJet1, const HJetLeptonP
   Jet1 = NewJet1;
   Jet2 = Pair.GetLepton();
   Jet3 = Pair.GetJet();
+  Bdt = Pair.GetBdt();
+  Tag = Pair.GetTag();
   
 }
 

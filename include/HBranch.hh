@@ -254,14 +254,14 @@ public:
     float HeavyHiggsMass;
     float HeavyHiggsPt;
     
-    float BetterTopMass;
-    float WorseTopMass;
+//     float BetterTopMass;
+//     float WorseTopMass;
     
-    float BetterWMass;
-    float WorseWMass;
+//     float BetterWMass;
+//     float WorseWMass;
     
-    float BetterNeutrinoMass;
-    float WorseNeutrinoMass;
+//     float BetterNeutrinoMass;
+//     float WorseNeutrinoMass;
 
     float TopDeltaRap;
     float TopDeltaPhi;

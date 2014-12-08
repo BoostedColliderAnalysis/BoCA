@@ -5,6 +5,7 @@ hanalysis::HTriplePair::HTriplePair(const hanalysis::HTriple& NewTriple1, const 
     Triple1 = NewTriple1;
     Triple2 = NewPair2;
     Error=0;
+    Bdt=Triple1.GetBdt() * Triple2.GetBdt();
 }
 
 hanalysis::HTriplePair::~HTriplePair()

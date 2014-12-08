@@ -138,14 +138,14 @@ HHeavyHiggsBranch::HHeavyHiggsBranch()
   HeavyHiggsMass = InitialValue;
   HeavyHiggsPt = InitialValue;
 
-  BetterTopMass = InitialValue;
-  WorseTopMass = InitialValue;
+//   BetterTopMass = InitialValue;
+//   WorseTopMass = InitialValue;
 
-  BetterWMass = InitialValue;
-  WorseWMass = InitialValue;
+//   BetterWMass = InitialValue;
+//   WorseWMass = InitialValue;
 
-  BetterNeutrinoMass = InitialValue;
-  WorseNeutrinoMass = InitialValue;
+//   BetterNeutrinoMass = InitialValue;
+//   WorseNeutrinoMass = InitialValue;
 
   TopDeltaRap = InitialValue;
   TopDeltaPhi = InitialValue;

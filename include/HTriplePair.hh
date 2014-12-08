@@ -19,51 +19,51 @@ public:
     }
 
     inline float GetBetterTripleMass(const HParticleId ParticleId)const {
-        return std::min(Triple1.GetTripleMassDifference(ParticleId),Triple2.GetTripleMassDifference(ParticleId));
+        return std::min(Triple1.GetTripleMassDifference(ParticleId), Triple2.GetTripleMassDifference(ParticleId));
     }
 
     inline float GetWorseTripleMass(const HParticleId ParticleId)const {
-        return std::max(Triple1.GetTripleMassDifference(ParticleId),Triple2.GetTripleMassDifference(ParticleId));
+        return std::max(Triple1.GetTripleMassDifference(ParticleId), Triple2.GetTripleMassDifference(ParticleId));
     }
 
     inline float GetBetterPairMass(const HParticleId ParticleId)const {
-        return std::min(Triple1.GetPairMassDifference(ParticleId),Triple2.GetPairMassDifference(ParticleId));
+        return std::min(Triple1.GetPairMassDifference(ParticleId), Triple2.GetPairMassDifference(ParticleId));
     }
 
     inline float GetWorsePairMass(const HParticleId ParticleId)const {
-        return std::max(Triple1.GetPairMassDifference(ParticleId),Triple2.GetPairMassDifference(ParticleId));
+        return std::max(Triple1.GetPairMassDifference(ParticleId), Triple2.GetPairMassDifference(ParticleId));
     }
 
     inline float GetBetterJetMass(const HParticleId ParticleId)const {
-        return std::min(Triple1.GetJet1MassDifference(ParticleId),Triple2.GetJet1MassDifference(ParticleId));
+        return std::min(Triple1.GetJet1MassDifference(ParticleId), Triple2.GetJet1MassDifference(ParticleId));
     }
 
     inline float GetWorseJetMass(const HParticleId ParticleId)const {
-        return std::max(Triple1.GetJet1MassDifference(ParticleId),Triple2.GetJet1MassDifference(ParticleId));
+        return std::max(Triple1.GetJet1MassDifference(ParticleId), Triple2.GetJet1MassDifference(ParticleId));
     }
 
     inline float GetLargerTripleDeltaR() const {
-        return std::max(Triple1.GetTripleDeltaR(),Triple2.GetTripleDeltaR());
+        return std::max(Triple1.GetTripleDeltaR(), Triple2.GetTripleDeltaR());
     }
 
     inline float GetSmallerTripleDeltaR() const {
-        return std::min(Triple1.GetTripleDeltaR(),Triple2.GetTripleDeltaR());
+        return std::min(Triple1.GetTripleDeltaR(), Triple2.GetTripleDeltaR());
     }
 
     inline float GetLargerTripleDeltaRap() const {
-        return std::max(Triple1.GetTripleDeltaRap(),Triple2.GetTripleDeltaRap());
+        return std::max(Triple1.GetTripleDeltaRap(), Triple2.GetTripleDeltaRap());
     }
 
     inline float GetSmallerTripleDeltaRap() const {
-        return std::min(Triple1.GetTripleDeltaRap(),Triple2.GetTripleDeltaRap());
+        return std::min(Triple1.GetTripleDeltaRap(), Triple2.GetTripleDeltaRap());
     }
-    
+
     inline float GetLargerTripleDeltaPhi() const {
-      return std::max(Triple1.GetTripleDeltaPhi(),Triple2.GetTripleDeltaPhi());
+        return std::max(std::abs(Triple1.GetTripleDeltaPhi()), std::abs(Triple2.GetTripleDeltaPhi()));
     }
-    
+
     inline float GetSmallerTripleDeltaPhi() const {
-      return std::min(Triple1.GetTripleDeltaPhi(),Triple2.GetTripleDeltaPhi());
+        return std::min(std::abs(Triple1.GetTripleDeltaPhi()), std::abs(Triple2.GetTripleDeltaPhi()));
     }
 
     inline float GetPtSum()const {
@@ -78,8 +78,12 @@ public:
 //         return (Triple1.GetTriplePtSum() + Triple2.GetTriplePtSum());
 //     }
 
+    inline void SetBdt(const float NewBdt) {
+        Bdt = NewBdt;
+    }
+
     inline float GetBdt() const {
-        return (Triple1.GetBdt() * Triple2.GetBdt());
+        return Bdt;
     }
 
 //     inline float GetTag() const {
@@ -106,14 +110,18 @@ public:
         return Triple2;
     }
 
-    inline float GetMassDifferences(HParticleId ParticleId1,HParticleId ParticleId2,HParticleId ParticleId3) const {
+    inline float GetMassDifferences(HParticleId ParticleId1, HParticleId ParticleId2, HParticleId ParticleId3) const {
 
-        return Triple1.GetJet1MassDifference(ParticleId1)*      Triple1.GetPairMassDifference(ParticleId2)*      Triple1.GetTripleMassDifference(ParticleId3)*      Triple2.GetJet1MassDifference(ParticleId1)*      Triple2.GetPairMassDifference(ParticleId2)*      Triple2.GetTripleMassDifference(ParticleId3);
+        return Triple1.GetJet1MassDifference(ParticleId1) *      Triple1.GetPairMassDifference(ParticleId2) *      Triple1.GetTripleMassDifference(ParticleId3) *      Triple2.GetJet1MassDifference(ParticleId1) *      Triple2.GetPairMassDifference(ParticleId2) *      Triple2.GetTripleMassDifference(ParticleId3);
 
     }
-    
-    void SetError(const float NewError){Error = NewError;}
-    float GetError() const {return Error;}
+
+    void SetError(const float NewError) {
+        Error = NewError;
+    }
+    float GetError() const {
+        return Error;
+    }
 
 protected:
 
@@ -129,7 +137,7 @@ private:
     HTriple Triple2;
 
     float Error;
-    
+
 };
 
 #endif

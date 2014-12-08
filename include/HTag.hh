@@ -20,11 +20,11 @@ public:
         return Bdt;
     }
 
-    void SetTag(const bool NewTag) {
+    void SetTag(const int NewTag) {
         Tag = NewTag;
     }
 
-    bool GetTag() const {
+    int GetTag() const {
         return Tag;
     }
 
@@ -32,7 +32,7 @@ protected:
 
     float Bdt;
 
-    float Tag;
+    int Tag;
 
     virtual inline std::string ClassName() const {
         return "HTag";
