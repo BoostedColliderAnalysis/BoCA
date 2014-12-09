@@ -30,6 +30,19 @@ hanalysis::HTriple::HTriple(const fastjet::PseudoJet &NewJet1, const HJetLeptonP
   
 }
 
+hanalysis::HTriple::HTriple(const fastjet::PseudoJet &NewJet1, const HSuperStructure &Pair)
+{
+    
+    Print(HInformation, "Constructor");
+    
+    Jet1 = NewJet1;
+    Jet2 = Pair.GetJet1();
+    Jet3 = Pair.GetJet2();
+    Bdt = Pair.GetBdt();
+    Tag = Pair.GetTag();
+    
+}
+
 hanalysis::HTriple::~HTriple()
 {
 

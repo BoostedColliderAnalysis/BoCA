@@ -5,7 +5,7 @@ HAnalysisHeavyHiggsDelphes.cpp
 HAnalysisHeavyHiggsParton.cpp
 HAnalysisHeavyHiggsPgs.cpp
 HAnalysisHeavyHiggsMva.cpp
-HMvaEvent.cpp
+HEventTagger.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")
 

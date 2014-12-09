@@ -7,7 +7,7 @@ hanalysis::HHadronicWTagger::HHadronicWTagger(HBottomTagger *NewBottomTagger)
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new HReader (BottomTagger);
+    BottomReader = new HReader(BottomTagger);
 
     TaggerName = "WTagger";
     SignalNames = {"WTagger"};
@@ -52,7 +52,7 @@ void hanalysis::HHadronicWTagger::DefineVariables()
 
 
 struct SortPairByMass {
-  inline bool operator()(const hanalysis::HSuperStructure &Pair1, const hanalysis::HSuperStructure &Pair2) {
+    inline bool operator()(const hanalysis::HSuperStructure &Pair1, const hanalysis::HSuperStructure &Pair2) {
         return (Pair1.GetMassDifference(hanalysis::HObject::WId) > Pair2.GetMassDifference(hanalysis::HObject::WId));
     }
 };
@@ -69,17 +69,13 @@ std::vector<HHadronicWBranch *> hanalysis::HHadronicWTagger::GetBranches(hanalys
     HJets WJets;
     HJets OtherJets;
     for (auto & Jet : Jets) {
-
         Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()));
+        if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == MixedJetId) continue;
 
+        Jet.set_user_index(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId());
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == WId) {
-            JetInfo->SetTag(1);
-        } else if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == MixedJetId) {
-            JetInfo->SetTag(0.5);
-        } else {
-            JetInfo->SetTag(0);
-        }
+        if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == WId) JetInfo->SetTag(1);
+        else JetInfo->SetTag(0);
 
         BottomTagger->FillBranch(Jet);
         JetInfo->SetBdt(BottomReader->GetBdt());
@@ -97,29 +93,27 @@ std::vector<HHadronicWBranch *> hanalysis::HHadronicWTagger::GetBranches(hanalys
 
     if (State == HSignal) {
         Print(HInformation, "W Jets", WJets.size());
-        for (HJets::iterator Jet1 = WJets.begin(); Jet1 != WJets.end(); ++Jet1) {
-            for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != WJets.end(); ++Jet2) {
+        for (auto Jet1 = WJets.begin(); Jet1 != WJets.end(); ++Jet1) {
+            for (auto Jet2 = Jet1 + 1; Jet2 != WJets.end(); ++Jet2) {
+                if ((*Jet1).user_index() != (*Jet2).user_index()) continue;
+                if (std::abs((*Jet1).user_index()) != WId) continue;
                 HSuperStructure JetPair((*Jet1), (*Jet2));
                 JetPairs.push_back(JetPair);
             }
         }
-//         if (JetPairs.size() > 1) {
-//         std::sort(JetPairs.begin(), JetPairs.end(), SortPairByMass());
-//             Print(HDebug, "Number of Higgses", JetPairs.size());
-//             for (const auto & Pair : JetPairs) Print(HDebug, "Higgs Mass", Pair.GetInvariantMass());
-//             JetPairs.erase(JetPairs.begin() + 1, JetPairs.end());
-//         }
     }
 
     if (State == HBackground) {
-        for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-            for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
+        for (auto Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
+            for (auto Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
+                if ((*Jet1).user_index() == (*Jet2).user_index() && std::abs((*Jet1).user_index()) == WId) continue;
                 HSuperStructure JetPair((*Jet1), (*Jet2));
                 JetPairs.push_back(JetPair);
             }
         }
-        for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-            for (HJets::iterator Jet2 = WJets.begin(); Jet2 != WJets.end(); ++Jet2) {
+        for (auto Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
+            for (auto Jet2 = WJets.begin(); Jet2 != WJets.end(); ++Jet2) {
+                if ((*Jet1).user_index() == (*Jet2).user_index() && std::abs((*Jet1).user_index()) == WId) continue;
                 HSuperStructure JetPair((*Jet1), (*Jet2));
                 JetPairs.push_back(JetPair);
             }

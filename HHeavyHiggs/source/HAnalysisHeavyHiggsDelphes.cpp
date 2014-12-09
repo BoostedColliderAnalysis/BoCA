@@ -46,7 +46,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *Tree
 
     Print(HNotification, "New File");
 
-    HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsBranch::Class());
+    HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
 
     EventCounter = 0;
     DeltaRapCounter = 0;

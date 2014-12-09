@@ -29,7 +29,7 @@ hheavyhiggs::HMva::HMva()
 
     DoLatex = 0;
 
-    HeavyHiggs = new HHeavyHiggsBranch();
+    HeavyHiggs = new HHeavyHiggsLeptonicBranch();
 
     DefineVariables();
 

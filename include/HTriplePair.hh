@@ -2,6 +2,7 @@
 # define HTriplePair_hh
 
 # include "HTriple.hh"
+# include "HPairJetPair.hh"
 
 class hanalysis::HTriplePair : public HTag
 {
@@ -11,6 +12,8 @@ public:
     HTriplePair() {}
 
     HTriplePair(const HTriple &NewTriple1, const HTriple &NewTriple2);
+    
+    HTriplePair(const HPairJetPair &NewTriple1, const HPairJetPair &NewTriple2);
 
     ~HTriplePair();
 

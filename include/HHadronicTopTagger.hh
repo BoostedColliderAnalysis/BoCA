@@ -57,6 +57,8 @@ private:
     hanalysis::HJetTag *JetTag;
 
     void DefineVariables();
+    
+    bool GetTripleTag(const hanalysis::HSuperStructure &JetPair, const fastjet::PseudoJet &Jet);
 
     std::vector<hanalysis::HPairJetPair> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
 

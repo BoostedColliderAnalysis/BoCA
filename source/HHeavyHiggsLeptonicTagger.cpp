@@ -1,6 +1,6 @@
-# include "HHeavyHiggsTagger.hh"
+# include "HHeavyHiggsLeptonicTagger.hh"
 
-hanalysis::HHeavyHiggsTagger::HHeavyHiggsTagger(HBottomTagger *const NewBottomTagger, HLeptonicTopTagger *const NewTopTagger)
+hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(HBottomTagger *const NewBottomTagger, HLeptonicTopTagger *const NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -16,13 +16,13 @@ hanalysis::HHeavyHiggsTagger::HHeavyHiggsTagger(HBottomTagger *const NewBottomTa
     BackgroundNames = {"NotHeavyHiggs"};
     CandidateBranchName = "HeavyHiggs";
 
-    Branch = new HHeavyHiggsBranch();
+    Branch = new HHeavyHiggsLeptonicBranch();
     JetTag = new HJetTag();
 
     DefineVariables();
 }
 
-hanalysis::HHeavyHiggsTagger::~HHeavyHiggsTagger()
+hanalysis::HHeavyHiggsLeptonicTagger::~HHeavyHiggsLeptonicTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
@@ -32,7 +32,7 @@ hanalysis::HHeavyHiggsTagger::~HHeavyHiggsTagger()
 
 }
 
-void hanalysis::HHeavyHiggsTagger::FillBranch(HHeavyHiggsBranch *HeavyHiggsBranch, const HTriplePair &TriplePair)
+void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const HTriplePair &TriplePair)
 {
     Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
 
@@ -61,10 +61,10 @@ void hanalysis::HHeavyHiggsTagger::FillBranch(HHeavyHiggsBranch *HeavyHiggsBranc
 
     HeavyHiggsBranch->TopBdt = TriplePair.GetBdt();
     HeavyHiggsBranch->HeavyHiggsTag = TriplePair.GetTag();
-    
+
 }
 
-void hanalysis::HHeavyHiggsTagger::DefineVariables()
+void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -112,11 +112,11 @@ struct SortByError {
     }
 };
 
-std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEvent *const Event, const HObject::HState State)
+std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HState State)
 {
     Print(HInformation, "Get Higgs Tags");
 
-    std::vector<HHeavyHiggsBranch *> HeavyHiggsBranches;
+    std::vector<HHeavyHiggsLeptonicBranch *> HeavyHiggsBranches;
 
     JetTag->HeavyParticles = {TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
@@ -130,17 +130,17 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
     for (auto & Jet : Jets) {
         Print(HInformation, "Jet Id", GetParticleName(Jet.user_info<HJetInfo>().GetMaximalId()));
 
-        if (std::abs(Jet.user_index()) != MixedJetId) {
-            const int JetId = Jet.user_info<HJetInfo>().GetMaximalId();
-            HJetInfo *JetInfo = new HJetInfo;
-            BottomTagger->FillBranch(Jet);
-            JetInfo->SetBdt(BottomReader->GetBdt());
-            JetInfo->SetTag(JetId);
-            Jet.set_user_info(JetInfo);
-            Print(HDebug, "User index", Jet.user_index(), JetId);
-            if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(JetId))) != end(JetTag->HeavyParticles)) HeavyHiggsJets.push_back(Jet);
-            else OtherJets.push_back(Jet);
-        }
+        if (std::abs(Jet.user_index()) == MixedJetId) continue;
+        const int JetId = Jet.user_info<HJetInfo>().GetMaximalId();
+        HJetInfo *JetInfo = new HJetInfo;
+        BottomTagger->FillBranch(Jet);
+        JetInfo->SetBdt(BottomReader->GetBdt());
+        JetInfo->SetTag(JetId);
+        Jet.set_user_info(JetInfo);
+        Print(HDebug, "User index", Jet.user_index(), JetId);
+        if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(JetId))) != end(JetTag->HeavyParticles)) HeavyHiggsJets.push_back(Jet);
+        else OtherJets.push_back(Jet);
+
     }
     Print(HDebug, "Jets", Jets.size(), HeavyHiggsJets.size(), OtherJets.size());
     if (State == HSignal && HeavyHiggsJets.size() < 2)  {
@@ -215,7 +215,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
     for (auto & JetPair : JetLeptonPairs) {
         TopTagger->FillBranch(JetPair);
         JetPair.SetBdt(TopReader->GetBdt());
-        Print(HDebug,"Top Bdt",JetPair.GetBdt());
+        Print(HDebug, "Top Bdt", JetPair.GetBdt());
     }
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
@@ -245,7 +245,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
     }
 
     for (const auto & TriplePair : TriplePairs) {
-        HHeavyHiggsBranch *HeavyHiggsBranch = new HHeavyHiggsBranch();
+        HHeavyHiggsLeptonicBranch *HeavyHiggsBranch = new HHeavyHiggsLeptonicBranch();
         FillBranch(HeavyHiggsBranch, TriplePair);
         HeavyHiggsBranches.push_back(HeavyHiggsBranch);
     }
@@ -255,7 +255,7 @@ std::vector< HHeavyHiggsBranch * > hanalysis::HHeavyHiggsTagger::GetBranches(HEv
 
 }
 
-void hanalysis::HHeavyHiggsTagger::FillBranch(const hanalysis::HTriplePair &TriplePair)
+void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(const hanalysis::HTriplePair &TriplePair)
 {
     Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
 

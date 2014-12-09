@@ -29,26 +29,32 @@ ClassImp(hheavyhiggs::HEventBranch)
 hheavyhiggs::HEventBranch::HEventBranch()
 {
     
-    ScalarHt = InitialValue;
+    LeptonNumber = InitialValue;
     JetNumber = InitialValue;
     BottomNumber = InitialValue;
-    LeptonNumber = InitialValue;
     
+    ScalarHt = InitialValue;    
     HeavyParticleBdt = InitialValue;
+    
     HeavyHiggsBdt = InitialValue;
+    HeavyHiggsMass = InitialValue;
+    HeavyHiggsPt = InitialValue;
     
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+    BottomSumPt = InitialValue;
+    BottomDeltaPt = InitialValue;
     
-    DeltaRapSum = InitialValue;
-    DeltaPhiSum = InitialValue;
-    DeltaRSum = InitialValue;
+    BottomDeltaRap = InitialValue;
+    BottomDeltaPhi = InitialValue;
+    BottomDeltaR = InitialValue;
     
-    DeltaRapDiff = InitialValue;
-    DeltaPhiDiff = InitialValue;
-    DeltaRDiff = InitialValue;
+    HbSumDeltaRap = InitialValue;
+    HbSumDeltaPhi = InitialValue;
+    HbSumDeltaR = InitialValue;
     
-    Signal = InitialValue;
+    HbDeltaDeltaRap = InitialValue;
+    HbDeltaDeltaPhi = InitialValue;
+    HbDeltaDeltaR = InitialValue;
+    
+    EventTag = InitialValue;
     
 }

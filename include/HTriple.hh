@@ -2,6 +2,7 @@
 # define HTriple_hh
 
 # include "HJetLeptonPair.hh"
+# include "HSuperStructure.hh"
 
 class hanalysis::HTriple : public HTag
 {
@@ -13,6 +14,8 @@ public:
     HTriple(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2, const fastjet::PseudoJet &NewJet3);
 
     HTriple(const fastjet::PseudoJet &NewJet, const HJetLeptonPair &Pair);
+    
+    HTriple(const fastjet::PseudoJet &NewJet, const HSuperStructure &Pair);
 
     ~HTriple();
 

@@ -130,22 +130,13 @@ HHiggsBranch::HHiggsBranch()
 }
 
 
-ClassImp(HHeavyHiggsBranch)
+ClassImp(HHeavyHiggsLeptonicBranch)
 
-HHeavyHiggsBranch::HHeavyHiggsBranch()
+HHeavyHiggsLeptonicBranch::HHeavyHiggsLeptonicBranch()
 {
 
   HeavyHiggsMass = InitialValue;
   HeavyHiggsPt = InitialValue;
-
-//   BetterTopMass = InitialValue;
-//   WorseTopMass = InitialValue;
-
-//   BetterWMass = InitialValue;
-//   WorseWMass = InitialValue;
-
-//   BetterNeutrinoMass = InitialValue;
-//   WorseNeutrinoMass = InitialValue;
 
   TopDeltaRap = InitialValue;
   TopDeltaPhi = InitialValue;
@@ -170,4 +161,39 @@ HHeavyHiggsBranch::HHeavyHiggsBranch()
   TopBdt = InitialValue;
   HeavyHiggsTag = InitialValue;
 
+}
+
+
+
+ClassImp(HHeavyHiggsHadronicBranch)
+
+HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
+{
+    
+    HeavyHiggsMass = InitialValue;
+    HeavyHiggsPt = InitialValue;
+    
+    TopDeltaRap = InitialValue;
+    TopDeltaPhi = InitialValue;
+    TopDeltaR = InitialValue;
+    
+//     LargerWDeltaRap = InitialValue;
+//     LargerWDeltaPhi = InitialValue;
+//     LargerWDeltaR = InitialValue;
+//     
+//     SmallerWDeltaRap = InitialValue;
+//     SmallerWDeltaPhi = InitialValue;
+//     SmallerWDeltaR = InitialValue;
+    
+//     LargerNeutrinoDeltaRap = InitialValue;
+//     LargerNeutrinoDeltaPhi = InitialValue;
+//     LargerNeutrinoDeltaR = InitialValue;
+//     
+//     SmallerNeutrinoDeltaRap = InitialValue;
+//     SmallerNeutrinoDeltaPhi = InitialValue;
+//     SmallerNeutrinoDeltaR = InitialValue;
+    
+    TopBdt = InitialValue;
+    HeavyHiggsTag = InitialValue;
+    
 }

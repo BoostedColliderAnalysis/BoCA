@@ -10,7 +10,7 @@ include(CMakeFiles/CMakeConfig.cmake)
 include(ExternalProject)
 
 ExternalProject_Add(
-WIMPMASS
+HWimpMass
 URL http://particle.physics.ucdavis.edu/hefti/projects/lib/exe/fetch.php?media=wimpmass-1.00.tar.gz
 URL_MD5 1068a6ab41bf52043dd42ce1cd88cbc2
 DOWNLOAD_NAME wimpmass-1.00.tar.gz
@@ -26,9 +26,9 @@ ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMass.cmake <SOURCE_D
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/examples/sqsq_pythia_events.lhe <BINARY_DIR>/bin/
 )
 
-# ExternalProject_Get_Property(WIMPMASS install_dir)
+# ExternalProject_Get_Property(HWimpMass install_dir)
 # include_directories(${install_dir}/include)
-# add_dependencies(project_b_exe WIMPMASS)
+# add_dependencies(project_b_exe HWimpMass)
 # target_link_libraries(project_b_exe ${install_dir}/lib/alib.lib)
 
 ExternalProject_Add(

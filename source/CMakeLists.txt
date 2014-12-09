@@ -78,7 +78,8 @@ HReader.cpp
 HBottomTagger.cpp
 HLeptonicTopTagger.cpp
 HMvaHiggsTagger.cpp
-HHeavyHiggsTagger.cpp
+HHeavyHiggsLeptonicTagger.cpp
+HHeavyHiggsHadronicTagger.cpp
 HHadronicWTagger.cpp
 HHadronicTopTagger.cpp
 

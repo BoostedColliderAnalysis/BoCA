@@ -1,5 +1,4 @@
 #include "HAnalysisHeavyHiggsMva.hh"
-#include "HMvaEvent.hh"
 
 
 void RunTagger(const std::string TaggerName, const hheavyhiggs::HAnalysisMva::HTagger Tagger)
@@ -23,18 +22,11 @@ void RunTagger(const std::string TaggerName, const hheavyhiggs::HAnalysisMva::HT
         File = TFile::Open(FileName.c_str());
     else {
         Analysis->GetFiles(TaggerName);
-        if (Tagger == hheavyhiggs::HAnalysisMva::HBottomTagger) {
-            Factory = new hanalysis::HFactory(Analysis->BottomTagger);
-        }
-        if (Tagger == hanalysis::HAnalysis::HTopTagger) {
-            Factory = new hanalysis::HFactory(Analysis->LeptonicTopTagger);
-        }
-        if (Tagger == hanalysis::HAnalysis::HHiggsTagger) {
-            Factory = new hanalysis::HFactory(Analysis->HeavyHiggsTagger);
-        }
-        if (Tagger == hanalysis::HAnalysis::HEventTagger) {
-            Factory = new hanalysis::HFactory(Analysis->HeavyHiggsEventTagger);
-        }
+        if (Tagger == hheavyhiggs::HAnalysisMva::HBottomTagger) Factory = new hanalysis::HFactory(Analysis->BottomTagger);
+        if (Tagger == hheavyhiggs::HAnalysisMva::HWTagger) Factory = new hanalysis::HFactory(Analysis->HadronicWTagger);
+        if (Tagger == hanalysis::HAnalysis::HTopTagger) Factory = new hanalysis::HFactory(Analysis->LeptonicTopTagger);
+        if (Tagger == hanalysis::HAnalysis::HHiggsTagger) Factory = new hanalysis::HFactory(Analysis->HeavyHiggsTagger);
+        if (Tagger == hanalysis::HAnalysis::HEventTagger) Factory = new hanalysis::HFactory(Analysis->HeavyHiggsEventTagger);        
         HasFactory = 1;
     }
 

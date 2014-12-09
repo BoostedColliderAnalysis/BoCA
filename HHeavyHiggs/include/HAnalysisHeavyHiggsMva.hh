@@ -8,9 +8,10 @@
 # include "HReader.hh"
 # include "HFactory.hh"
 # include "HBottomTagger.hh"
+# include "HHadronicWTagger.hh"
 # include "HLeptonicTopTagger.hh"
-# include "HHeavyHiggsTagger.hh"
-# include "HMvaEvent.hh"
+# include "HHeavyHiggsLeptonicTagger.hh"
+# include "HEventTagger.hh"
 
 
 
@@ -43,20 +44,18 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *EventBranch;
-
-    ExRootTreeBranch *HeavyHiggsBranch;
-
 //     ExRootTreeBranch *ConstituentBranch;
-
-    ExRootTreeBranch *BottomBranch;
-
+    ExRootTreeBranch *EventBranch;
+    ExRootTreeBranch *HeavyHiggsBranch;
     ExRootTreeBranch *TopBranch;
+    ExRootTreeBranch *HadronicWBranch;
+    ExRootTreeBranch *BottomBranch;
     
     hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::HHadronicWTagger *HadronicWTagger;
     hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
-    hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
-    hheavyhiggs::HMvaEvent *HeavyHiggsEventTagger;
+    hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsTagger;
+    hheavyhiggs::HEventTagger *HeavyHiggsEventTagger;
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -79,7 +78,7 @@ private:
     hanalysis::HReader *HeavyHiggsReader;
 
     inline int GetEventNumberMax() const {
-        return 1000;
+        return 100000;
     };
 
     hanalysis::HJetTag *JetTag;
@@ -94,6 +93,8 @@ private:
     bool Analysis(hanalysis::HEvent *const Event, const HTagger Tagger, const HState State);
 
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    
+    bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
     bool GetTopTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 

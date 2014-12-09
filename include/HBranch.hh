@@ -244,24 +244,15 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsBranch : public HBranch
+class HHeavyHiggsLeptonicBranch : public HBranch
 {
 
 public:
 
-    HHeavyHiggsBranch();
+    HHeavyHiggsLeptonicBranch();
 
     float HeavyHiggsMass;
     float HeavyHiggsPt;
-    
-//     float BetterTopMass;
-//     float WorseTopMass;
-    
-//     float BetterWMass;
-//     float WorseWMass;
-    
-//     float BetterNeutrinoMass;
-//     float WorseNeutrinoMass;
 
     float TopDeltaRap;
     float TopDeltaPhi;
@@ -290,8 +281,54 @@ public:
 
 private:
 
-    ClassDef(HHeavyHiggsBranch, 1)
+    ClassDef(HHeavyHiggsLeptonicBranch, 1)
 
+};
+
+/**
+ * 
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HHeavyHiggsHadronicBranch : public HBranch
+{
+    
+public:
+    
+    HHeavyHiggsHadronicBranch();
+    
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+    
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+    
+//     float LargerWDeltaRap;
+//     float LargerWDeltaPhi;
+//     float LargerWDeltaR;
+//     
+//     float SmallerWDeltaRap;
+//     float SmallerWDeltaPhi;
+//     float SmallerWDeltaR;
+//     
+//     float LargerNeutrinoDeltaRap;
+//     float LargerNeutrinoDeltaPhi;
+//     float LargerNeutrinoDeltaR;
+//     
+//     float SmallerNeutrinoDeltaRap;
+//     float SmallerNeutrinoDeltaPhi;
+//     float SmallerNeutrinoDeltaR;
+    
+    
+    float TopBdt;
+    
+    float HeavyHiggsTag;
+    
+private:
+    
+    ClassDef(HHeavyHiggsHadronicBranch, 1)
+    
 };
 
 # endif

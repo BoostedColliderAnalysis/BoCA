@@ -53,7 +53,8 @@ class HTriplePair;
 class HBottomTagger;
 class HLeptonicTopTagger;
 class HMvaHiggsTagger;
-class HHeavyHiggsTagger;
+class HHeavyHiggsHadronicTagger;
+class HHeavyHiggsLeptonicTagger;
 class HHadronicWTagger;
 class HHadronicTopTagger;
 

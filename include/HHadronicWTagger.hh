@@ -32,7 +32,7 @@ private:
 
     HBottomTagger *BottomTagger;
 
-    HReader  *BottomReader;
+    HReader *BottomReader;
 
     HHadronicWBranch *Branch;
 

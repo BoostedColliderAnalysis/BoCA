@@ -36,7 +36,7 @@ public:
 
 //     void AnalysisLoop();
 //     enum HTagger {EventTagger};
-    enum HTagger {HBottomTagger, HTopTagger, HHiggsTagger, HEventTagger};
+    enum HTagger {HBottomTagger, HWTagger, HTopTagger, HHiggsTagger, HEventTagger};
 
     void AnalysisLoop(const HTagger Tagger);
 
