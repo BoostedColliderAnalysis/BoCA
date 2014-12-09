@@ -13,14 +13,14 @@
  * @brief calculation regarding leptons
  *
  */
-class hanalysis::HHadronicWTagger : public HMva
+class hanalysis::HWTagger : public HMva
 {
 
 public:
 
-    HHadronicWTagger(HBottomTagger *NewBottomTagger);
+    HWTagger(HBottomTagger *NewBottomTagger);
 
-    ~HHadronicWTagger();
+    ~HWTagger();
 
     std::vector< HHadronicWBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 

@@ -36,7 +36,7 @@ public:
 
 //     void AnalysisLoop();
 //     enum HTagger {EventTagger};
-    enum HTagger {HBottomTagger, HWTagger, HTopTagger, HHiggsTagger, HEventTagger};
+    enum HTagger {HBottomTagger, HWTagger, HTopHadronicTagger,HTopLeptonicTagger, HHeavyHiggsHadronicTagger,HHeavyHiggsLeptonicTagger,HHiggsLeptonicTagger, HEventTagger,HLeptonicEventTagger,HHadronicEventTagger,HSemiEventTagger};
 
     void AnalysisLoop(const HTagger Tagger);
 
@@ -51,7 +51,7 @@ public:
      * @return void
      */
     virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
-    
+
 protected:
 
 //     HTagger Tagger;

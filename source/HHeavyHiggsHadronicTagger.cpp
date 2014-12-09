@@ -1,6 +1,6 @@
 # include "HHeavyHiggsHadronicTagger.hh"
 
-hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(HBottomTagger *const NewBottomTagger, HHadronicTopTagger *const NewTopTagger)
+hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(HBottomTagger *const NewBottomTagger,HWTagger *const NewWTagger, HHadronicTopTagger *const NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -8,13 +8,15 @@ hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(HBottomTagger *c
 
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
-    TopTagger = NewTopTagger;
-    TopReader = new HReader(TopTagger);
+    WTagger = NewWTagger;
+    WReader = new HReader(WTagger);
+    TopHadronicTagger = NewTopTagger;
+    TopHadronicReader = new HReader(TopHadronicTagger);
 
-    TaggerName = "HeavyHiggs";
-    SignalNames = {"HeavyHiggs"};
-    BackgroundNames = {"NotHeavyHiggs"};
-    CandidateBranchName = "HeavyHiggs";
+    TaggerName = "HeavyHiggsHadronic";
+    SignalNames = {"HeavyHiggsHadronic"};
+    BackgroundNames = {"NotHeavyHiggsHadronic"};
+    CandidateBranchName = "HeavyHiggsHadronic";
 
     Branch = new HHeavyHiggsHadronicBranch();
     JetTag = new HJetTag();
@@ -28,7 +30,7 @@ hanalysis::HHeavyHiggsHadronicTagger::~HHeavyHiggsHadronicTagger()
     delete Branch;
     delete JetTag;
     delete BottomReader;
-    delete TopReader;
+    delete TopHadronicReader;
 
 }
 
@@ -46,15 +48,15 @@ void hanalysis::HHeavyHiggsHadronicTagger::FillBranch(HHeavyHiggsHadronicBranch 
 //     HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
 //     HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
 //     HeavyHiggsBranch->LargerWDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
-// 
+//
 //     HeavyHiggsBranch->SmallerWDeltaR = TriplePair.GetSmallerTripleDeltaR();
 //     HeavyHiggsBranch->SmallerWDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
 //     HeavyHiggsBranch->SmallerWDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
-// 
+//
 //     HeavyHiggsBranch->LargerNeutrinoDeltaR = TriplePair.GetLargerTripleDeltaR();
 //     HeavyHiggsBranch->LargerNeutrinoDeltaRap = TriplePair.GetLargerTripleDeltaRap();
 //     HeavyHiggsBranch->LargerNeutrinoDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
-// 
+//
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaR = TriplePair.GetSmallerTripleDeltaR();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
@@ -78,15 +80,15 @@ void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
 //     Observables.push_back(NewObservable(&Branch->LargerWDeltaR, "LargerWDeltaR"));
 //     Observables.push_back(NewObservable(&Branch->LargerWDeltaRap, "LargerWDeltaRap"));
 //     Observables.push_back(NewObservable(&Branch->LargerWDeltaPhi, "LargerWDeltaPhi"));
-// 
+//
 //     Observables.push_back(NewObservable(&Branch->SmallerWDeltaR, "SmallerWDeltaR"));
 //     Observables.push_back(NewObservable(&Branch->SmallerWDeltaRap, "SmallerWDeltaRap"));
 //     Observables.push_back(NewObservable(&Branch->SmallerWDeltaPhi, "SmallerWDeltaPhi"));
-// 
+//
 //     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR"));
 //     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap"));
 //     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi"));
-// 
+//
 //     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR"));
 //     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap"));
 //     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi"));
@@ -195,8 +197,8 @@ std::vector< hanalysis::HTriplePair > hanalysis::HHeavyHiggsHadronicTagger::GetT
                 if (State == HSignal && std::abs((*Jet3).user_index()) != TopId) continue;
                 if (State == HSignal && sgn((*Jet3).user_index()) != sgn((*Jet1).user_index())) continue;
                 HPairJetPair Triple1(Pair1, *Jet3);
-                TopTagger->FillBranch(Triple1);
-                Triple1.SetBdt(TopReader->GetBdt());
+                TopHadronicTagger->FillBranch(Triple1);
+                Triple1.SetBdt(TopHadronicReader->GetBdt());
 
                 // W2
                 for (auto Jet4 = Jet3 + 1; Jet4 != Jets.end(); ++Jet4) {
@@ -219,8 +221,8 @@ std::vector< hanalysis::HTriplePair > hanalysis::HHeavyHiggsHadronicTagger::GetT
                             if (State == HSignal && (*Jet6).user_index() != (*Jet3).user_index()) continue;
                             if (State == HBackground && std::abs((*Jet1).user_index()) == WId && (*Jet2).user_index() == (*Jet1).user_index() && (*Jet4).user_index() == -(*Jet1).user_index() && (*Jet5).user_index() == (*Jet1).user_index() && std::abs((*Jet3).user_index()) == TopId && sgn((*Jet3).user_index()) == sgn((*Jet1).user_index()) && (*Jet6).user_index() == - (*Jet3).user_index()) continue;
                             HPairJetPair Triple2(Pair2, *Jet6);
-                            TopTagger->FillBranch(Triple2);
-                            Triple2.SetBdt(TopReader->GetBdt());
+                            TopHadronicTagger->FillBranch(Triple2);
+                            Triple2.SetBdt(TopHadronicReader->GetBdt());
 
                             HTriplePair TriplePair(Triple1, Triple2);
                             TriplePairs.push_back(TriplePair);

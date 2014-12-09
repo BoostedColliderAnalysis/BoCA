@@ -34,9 +34,9 @@ HStrings hhiggscpv::HAnalysis::GetStudyNames(const HTagger Tagger)
 
     if (Tagger == HBottomTagger) {
         return {"Bottom", "NotBottom"};
-    } else if (Tagger == HTopTagger) {
+    } else if (Tagger == HTopLeptonicTagger) {
         return  {"Top", "NotTop"};
-    } else if (Tagger == HHiggsTagger) {
+    } else if (Tagger == HHiggsLeptonicTagger) {
         return  {"Higgs", "NotHiggs"};
     } else if (Tagger == HEventTagger) {
         return  {"Signal", "Background"};
@@ -145,9 +145,9 @@ void hhiggscpv::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter, const HTagg
 
     if (Tagger == HBottomTagger) {
         BottomBranch = TreeWriter->NewBranch("Bottom", HBottomBranch::Class());
-    } else if (Tagger == HTopTagger) {
+    } else if (Tagger == HTopLeptonicTagger) {
         TopBranch = TreeWriter->NewBranch("Top", HLeptonicTopBranch::Class());
-    } else if (Tagger == HHiggsTagger) {
+    } else if (Tagger == HHiggsLeptonicTagger) {
         HiggsBranch = TreeWriter->NewBranch("Higgs", HHiggsBranch::Class());
         ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
     } else if (Tagger == HEventTagger) {
@@ -164,9 +164,9 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
     if (Tagger == HBottomTagger) {
         if (GetBottomTag(Event, StudyName)) return 1;
-    } else if (Tagger == HTopTagger) {
+    } else if (Tagger == HTopLeptonicTagger) {
         if (GetTopTag(Event, StudyName)) return 1;
-    } else if (Tagger == HHiggsTagger) {
+    } else if (Tagger == HHiggsLeptonicTagger) {
         if (GetHiggsTag(Event, StudyName)) return 1;
     } else if (Tagger == HEventTagger) {
         if (GetSignalTag(Event, StudyName)) return 1;

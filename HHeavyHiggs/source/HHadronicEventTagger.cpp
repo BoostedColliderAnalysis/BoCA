@@ -1,31 +1,33 @@
-# include "HEventTagger.hh"
+# include "HHadronicEventTagger.hh"
 
-hheavyhiggs::HEventTagger::HEventTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HLeptonicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger)
+hheavyhiggs::HHadronicEventTagger::HHadronicEventTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HHadronicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsHadronicTagger *const NewHeavyHiggsTagger)
 {
 
     Print(HNotification , "Constructor");
 
     BottomTagger = NewBottomTagger;
     BottomReader = new hanalysis::HReader(BottomTagger);
-    LeptonicTopTagger = NewTopTagger;
-    TopReader = new hanalysis::HReader(LeptonicTopTagger);
+    WTagger = NewWTagger;
+    WReader = new hanalysis::HReader(WTagger);
+    HadronicTopTagger = NewTopTagger;
+    TopReader = new hanalysis::HReader(HadronicTopTagger);
     HeavyHiggsTagger = NewHeavyHiggsTagger;
     HeavyHiggsReader = new hanalysis::HReader(HeavyHiggsTagger);
 
-    TaggerName = "Event";
-    SignalNames = {"Signal"};
-    BackgroundNames = {"Background"};
-    CandidateBranchName = "Event";
-    
+    TaggerName = "HadronicEvent";
+    SignalNames = {"HadronicEvent"};
+    BackgroundNames = {"NotHadronicEvent"};
+    CandidateBranchName = "HadronicEvent";
 
-    Branch = new hheavyhiggs::HEventBranch();
+
+    Branch = new hheavyhiggs::HHadronicEventBranch();
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
 
 }
 
-hheavyhiggs::HEventTagger::~HEventTagger()
+hheavyhiggs::HHadronicEventTagger::~HHadronicEventTagger()
 {
 
     Print(HNotification , "Constructor");
@@ -38,24 +40,24 @@ hheavyhiggs::HEventTagger::~HEventTagger()
 
 }
 
-void hheavyhiggs::HEventTagger::FillBranch(hheavyhiggs::HEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent)
+void hheavyhiggs::HHadronicEventTagger::FillBranch(hheavyhiggs::HHadronicEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent)
 {
     Print(HInformation, "FillPairTagger", HeavyHiggsEvent.GetBdt());
 
     EventBranch->LeptonNumber = HeavyHiggsEvent.GetLeptonNumber();
     EventBranch->JetNumber = HeavyHiggsEvent.GetJetNumber();
     EventBranch->BottomNumber = HeavyHiggsEvent.GetBottomNumber();
-    
+
     EventBranch->ScalarHt = HeavyHiggsEvent.GetScalarHt();
     EventBranch->HeavyParticleBdt = HeavyHiggsEvent.GetBdt();
-    
+
     EventBranch->HeavyHiggsBdt = HeavyHiggsEvent.GetHeavyHiggs().GetBdt();
     EventBranch->HeavyHiggsMass = HeavyHiggsEvent.GetHeavyHiggs().GetInvariantMass();
     EventBranch->HeavyHiggsPt = HeavyHiggsEvent.GetHeavyHiggs().GetPtSum();
 
     EventBranch->BottomSumPt = HeavyHiggsEvent.GetBottomSumPt();
     EventBranch->BottomDeltaPt = HeavyHiggsEvent.GetBottomDeltaPt();
-    
+
     EventBranch->BottomDeltaRap = HeavyHiggsEvent.GetBottomDeltaRap();
     EventBranch->BottomDeltaPhi = HeavyHiggsEvent.BottomDeltaPhi();
     EventBranch->BottomDeltaR = HeavyHiggsEvent.GetBottomDeltaR();
@@ -71,7 +73,7 @@ void hheavyhiggs::HEventTagger::FillBranch(hheavyhiggs::HEventBranch *EventBranc
     EventBranch->EventTag = HeavyHiggsEvent.GetTag();
 }
 
-void hheavyhiggs::HEventTagger::FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent)
+void hheavyhiggs::HHadronicEventTagger::FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent)
 {
     Print(HInformation, "FillPairTagger");
 
@@ -79,7 +81,7 @@ void hheavyhiggs::HEventTagger::FillBranch(const HHeavyHiggsEvent &HeavyHiggsEve
 
 }
 
-void hheavyhiggs::HEventTagger::DefineVariables()
+void hheavyhiggs::HHadronicEventTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -90,13 +92,13 @@ void hheavyhiggs::HEventTagger::DefineVariables()
 
     Observables.push_back(NewObservable(&Branch->ScalarHt, "ScalarHt"));
     Observables.push_back(NewObservable(&Branch->HeavyParticleBdt, "HeavyParticleBdt"));
-    
+
     Observables.push_back(NewObservable(&Branch->HeavyHiggsBdt, "HeavyHiggsBdt"));
     Observables.push_back(NewObservable(&Branch->HeavyHiggsPt, "HeavyHiggsPt"));
-    
+
     Observables.push_back(NewObservable(&Branch->BottomSumPt, "BottomSumPt"));
     Observables.push_back(NewObservable(&Branch->BottomDeltaPt, "BottomDeltaPt"));
-    
+
     Observables.push_back(NewObservable(&Branch->BottomDeltaRap, "BottomDeltaRap"));
     Observables.push_back(NewObservable(&Branch->BottomDeltaPhi, "BottomDeltaPhi"));
     Observables.push_back(NewObservable(&Branch->BottomDeltaR, "BottomDeltaR"));
@@ -108,7 +110,7 @@ void hheavyhiggs::HEventTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->HbDeltaDeltaRap, "HbDeltaDeltaRap"));
     Observables.push_back(NewObservable(&Branch->HbDeltaDeltaPhi, "HbDeltaDeltaPhi"));
     Observables.push_back(NewObservable(&Branch->HbDeltaDeltaR, "HbDeltaDeltaR"));
-    
+
     Spectators.push_back(NewObservable(&Branch->EventTag, "EventTag"));
     Spectators.push_back(NewObservable(&Branch->HeavyHiggsMass, "HeavyHiggsMass"));
 
@@ -124,9 +126,9 @@ struct SortHeavyHiggsEvents {
     }
 };
 
-std::vector<hheavyhiggs::HEventBranch * > hheavyhiggs::HEventTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HState State)
+std::vector<hheavyhiggs::HHadronicEventBranch * > hheavyhiggs::HHadronicEventTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HState State)
 {
-    std::vector<hheavyhiggs::HEventBranch*> EventBranches;
+    std::vector<hheavyhiggs::HHadronicEventBranch*> EventBranches;
     HJets Leptons = Event->GetLeptons()->GetLeptonJets();
     if (Leptons.size() < 2) return EventBranches;
 
@@ -166,7 +168,7 @@ std::vector<hheavyhiggs::HEventBranch * > hheavyhiggs::HEventTagger::GetBranches
     }
 
     for (auto & HeavyHiggsEvent : HeavyHiggsEvents) {
-    hheavyhiggs::HEventBranch *EventBranch = new hheavyhiggs::HEventBranch();
+    hheavyhiggs::HHadronicEventBranch *EventBranch = new hheavyhiggs::HHadronicEventBranch();
     HeavyHiggsEvent.SetLeptonNumber(Event->GetLeptons()->GetLeptonJets().size());
     HeavyHiggsEvent.SetJetNumber(Event->GetJets()->GetJets().size());
     HeavyHiggsEvent.SetBottomNumber(Event->GetJets()->GetBottomJets().size());
@@ -183,7 +185,7 @@ std::vector<hheavyhiggs::HEventBranch * > hheavyhiggs::HEventTagger::GetBranches
 
 
 
-std::vector<HHeavyHiggsEvent> hheavyhiggs::HEventTagger::GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons)
+std::vector<HHeavyHiggsEvent> hheavyhiggs::HHadronicEventTagger::GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons)
 {
     Print(HInformation, "Get Heavy Higgs Event");
 
@@ -192,7 +194,7 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HEventTagger::GetHeavyHiggsEvents(con
     std::vector<hanalysis::HJetLeptonPair> Tops;
     for (const auto & Jet : Jets) {
         hanalysis::HJetLeptonPair Top = hanalysis::HJetLeptonPair(Jet, Leptons[0]);
-        LeptonicTopTagger->FillBranch(Top);
+//         HadronicTopTagger->FillBranch(Top);
         Top.SetBdt(TopReader->GetBdt());
         Tops.push_back(Top);
     }
@@ -200,7 +202,7 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HEventTagger::GetHeavyHiggsEvents(con
     std::vector<hanalysis::HJetLeptonPair> AntiTops;
     for (const auto & Jet : Jets) {
         hanalysis::HJetLeptonPair AntiTop = hanalysis::HJetLeptonPair(Jet, Leptons[1]);
-        LeptonicTopTagger->FillBranch(AntiTop);
+//         HadronicTopTagger->FillBranch(AntiTop);
         AntiTop.SetBdt(TopReader->GetBdt());
         AntiTops.push_back(AntiTop);
     }

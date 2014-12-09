@@ -13,8 +13,10 @@ class HAnalysisMva;
 class HHeavyHiggsJetTag;
 class HMva;
 class HBranchHeavyHiggs;
-class HEventBranch;
-class HEventTagger;
+class HLeptonicEventBranch;
+class HHadronicEventBranch;
+class HLeptonicEventTagger;
+class HHadronicEventTagger;
 
 }
 
@@ -45,7 +47,7 @@ public:
     float BottomPt2;
     float BottomInvMass;
     float BottomDeltaPt;
-    
+
     HBranchHeavyHiggs();
 
     virtual ~HBranchHeavyHiggs() {};
@@ -64,27 +66,27 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventBranch : public HBranch
+class hheavyhiggs::HLeptonicEventBranch : public HBranch
 {
 
 public:
 
-    HEventBranch();
+    HLeptonicEventBranch();
 
-    int LeptonNumber;    
+    int LeptonNumber;
     int JetNumber;
     int BottomNumber;
-    
+
     float ScalarHt;
     float HeavyParticleBdt;
-    
-    float HeavyHiggsBdt;    
+
+    float HeavyHiggsBdt;
     float HeavyHiggsMass;
     float HeavyHiggsPt;
-    
+
     float BottomSumPt;
     float BottomDeltaPt;
-    
+
     float BottomDeltaRap;
     float BottomDeltaPhi;
     float BottomDeltaR;
@@ -101,7 +103,56 @@ public:
 
 private:
 
-    ClassDef(HEventBranch, 1)
+  ClassDef(HLeptonicEventBranch, 1)
+
+};
+
+
+
+
+/**
+ *
+ * @brief Higgs cpv tagger root tree structure
+ *
+ */
+class hheavyhiggs::HHadronicEventBranch : public HBranch
+{
+
+public:
+
+  HHadronicEventBranch();
+
+  int LeptonNumber;
+  int JetNumber;
+  int BottomNumber;
+
+  float ScalarHt;
+  float HeavyParticleBdt;
+
+  float HeavyHiggsBdt;
+  float HeavyHiggsMass;
+  float HeavyHiggsPt;
+
+  float BottomSumPt;
+  float BottomDeltaPt;
+
+  float BottomDeltaRap;
+  float BottomDeltaPhi;
+  float BottomDeltaR;
+
+  float HbSumDeltaRap;
+  float HbSumDeltaPhi;
+  float HbSumDeltaR;
+
+  float HbDeltaDeltaRap;
+  float HbDeltaDeltaPhi;
+  float HbDeltaDeltaR;
+
+  int EventTag;
+
+private:
+
+  ClassDef(HHadronicEventBranch, 1)
 
 };
 

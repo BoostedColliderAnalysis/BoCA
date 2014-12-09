@@ -8,10 +8,11 @@
 # include "HReader.hh"
 # include "HFactory.hh"
 # include "HBottomTagger.hh"
-# include "HHadronicWTagger.hh"
+# include "HWTagger.hh"
 # include "HLeptonicTopTagger.hh"
 # include "HHeavyHiggsLeptonicTagger.hh"
-# include "HEventTagger.hh"
+# include "HLeptonicEventTagger.hh"
+# include "HHadronicEventTagger.hh"
 
 
 
@@ -45,17 +46,23 @@ public:
      *
      */
 //     ExRootTreeBranch *ConstituentBranch;
-    ExRootTreeBranch *EventBranch;
-    ExRootTreeBranch *HeavyHiggsBranch;
-    ExRootTreeBranch *TopBranch;
-    ExRootTreeBranch *HadronicWBranch;
     ExRootTreeBranch *BottomBranch;
-    
+    ExRootTreeBranch *WBranch;
+    ExRootTreeBranch *TopLeptonicBranch;
+    ExRootTreeBranch *TopHadronicBranch;
+    ExRootTreeBranch *HeavyHiggsLeptonicBranch;
+    ExRootTreeBranch *HeavyHiggsHadronicBranch;
+    ExRootTreeBranch *LeptonicEventBranch;
+    ExRootTreeBranch *HadronicEventBranch;
+
     hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HHadronicWTagger *HadronicWTagger;
-    hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
-    hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsTagger;
-    hheavyhiggs::HEventTagger *HeavyHiggsEventTagger;
+    hanalysis::HWTagger *WTagger;
+    hanalysis::HLeptonicTopTagger *TopLeptonicTagger;
+    hanalysis::HHadronicTopTagger *TopHadronicTagger;
+    hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsLeptonicTagger;
+    hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsHadronicTagger;
+    hheavyhiggs::HLeptonicEventTagger *LeptonicEventTagger;
+    hheavyhiggs::HHadronicEventTagger *HadronicEventTagger;
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -70,12 +77,16 @@ public:
     inline std::string GetProjectName() const {
         return "HeavyHiggsMva";
     };
+
 private:
 
     hanalysis::HMva *Mva;
     hanalysis::HReader *BottomReader;
-    hanalysis::HReader *TopReader;
-    hanalysis::HReader *HeavyHiggsReader;
+    hanalysis::HReader *WReader;
+    hanalysis::HReader *TopLeptonicReader;
+    hanalysis::HReader *TopHadronicReader;
+    hanalysis::HReader *HeavyHiggsLeptonicReader;
+    hanalysis::HReader *HeavyHiggsHadronicReader;
 
     inline int GetEventNumberMax() const {
         return 100000;
@@ -93,14 +104,20 @@ private:
     bool Analysis(hanalysis::HEvent *const Event, const HTagger Tagger, const HState State);
 
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
-    
+
     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
-    bool GetTopTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    bool GetTopLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
-    bool GetHeavyHiggsTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    bool GetTopHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
-    bool GetSignalTag(hanalysis::HEvent *const Event, const HState State);
+    bool GetHeavyHiggsHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+
+    bool GetHeavyHiggsLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+
+    bool GetLeptonicEventTag(hanalysis::HEvent *const Event, const HState State);
+
+    bool GetHadronicEventTag(hanalysis::HEvent *const Event, const HState State);
 
     std::vector< HHeavyHiggsEvent > GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 

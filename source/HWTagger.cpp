@@ -1,6 +1,6 @@
-# include "HHadronicWTagger.hh"
+# include "HWTagger.hh"
 
-hanalysis::HHadronicWTagger::HHadronicWTagger(HBottomTagger *NewBottomTagger)
+hanalysis::HWTagger::HWTagger(HBottomTagger *NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -20,7 +20,7 @@ hanalysis::HHadronicWTagger::HHadronicWTagger(HBottomTagger *NewBottomTagger)
     DefineVariables();
 }
 
-hanalysis::HHadronicWTagger::~HHadronicWTagger()
+hanalysis::HWTagger::~HWTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
@@ -28,7 +28,7 @@ hanalysis::HHadronicWTagger::~HHadronicWTagger()
     delete JetTag;
 }
 
-void hanalysis::HHadronicWTagger::DefineVariables()
+void hanalysis::HWTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -58,7 +58,7 @@ struct SortPairByMass {
 };
 
 
-std::vector<HHadronicWBranch *> hanalysis::HHadronicWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HHadronicWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get W Tags");
@@ -133,7 +133,7 @@ std::vector<HHadronicWBranch *> hanalysis::HHadronicWTagger::GetBranches(hanalys
 
 }
 
-void hanalysis::HHadronicWTagger::FillBranch(const HSuperStructure &Pair)
+void hanalysis::HWTagger::FillBranch(const HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -141,7 +141,7 @@ void hanalysis::HHadronicWTagger::FillBranch(const HSuperStructure &Pair)
 
 }
 
-void hanalysis::HHadronicWTagger::FillBranch(HHadronicWBranch *const WBranch, const HSuperStructure &Pair)
+void hanalysis::HWTagger::FillBranch(HHadronicWBranch *const WBranch, const HSuperStructure &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -159,7 +159,7 @@ void hanalysis::HHadronicWTagger::FillBranch(HHadronicWBranch *const WBranch, co
 
 }
 
-std::vector<HParticleBranch *> hanalysis::HHadronicWTagger::GetConstituentBranches()
+std::vector<HParticleBranch *> hanalysis::HWTagger::GetConstituentBranches()
 {
 
     Print(HInformation, "Get Higgs Tags");
@@ -181,7 +181,7 @@ std::vector<HParticleBranch *> hanalysis::HHadronicWTagger::GetConstituentBranch
 
 }
 
-void hanalysis::HHadronicWTagger::FillBranch(const HKinematics &Vector)
+void hanalysis::HWTagger::FillBranch(const HKinematics &Vector)
 {
     Print(HInformation, "FillPairTagger", Vector.GetPt());
 
@@ -189,7 +189,7 @@ void hanalysis::HHadronicWTagger::FillBranch(const HKinematics &Vector)
 
 }
 
-void hanalysis::HHadronicWTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
+void hanalysis::HWTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
 {
     Print(HInformation, "Fill Constituent Branch");
 

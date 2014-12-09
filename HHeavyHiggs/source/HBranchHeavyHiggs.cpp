@@ -24,37 +24,73 @@ hheavyhiggs::HBranchHeavyHiggs::HBranchHeavyHiggs()
 }
 
 
-ClassImp(hheavyhiggs::HEventBranch)
+ClassImp(hheavyhiggs::HLeptonicEventBranch)
 
-hheavyhiggs::HEventBranch::HEventBranch()
+hheavyhiggs::HLeptonicEventBranch::HLeptonicEventBranch()
 {
-    
+  
+  LeptonNumber = InitialValue;
+  JetNumber = InitialValue;
+  BottomNumber = InitialValue;
+
+  ScalarHt = InitialValue;
+  HeavyParticleBdt = InitialValue;
+
+  HeavyHiggsBdt = InitialValue;
+  HeavyHiggsMass = InitialValue;
+  HeavyHiggsPt = InitialValue;
+
+  BottomSumPt = InitialValue;
+  BottomDeltaPt = InitialValue;
+
+  BottomDeltaRap = InitialValue;
+  BottomDeltaPhi = InitialValue;
+  BottomDeltaR = InitialValue;
+
+  HbSumDeltaRap = InitialValue;
+  HbSumDeltaPhi = InitialValue;
+  HbSumDeltaR = InitialValue;
+
+  HbDeltaDeltaRap = InitialValue;
+  HbDeltaDeltaPhi = InitialValue;
+  HbDeltaDeltaR = InitialValue;
+
+  EventTag = InitialValue;
+
+}
+
+
+ClassImp(hheavyhiggs::HHadronicEventBranch)
+
+hheavyhiggs::HHadronicEventBranch::HHadronicEventBranch()
+{
+
     LeptonNumber = InitialValue;
     JetNumber = InitialValue;
     BottomNumber = InitialValue;
-    
-    ScalarHt = InitialValue;    
+
+    ScalarHt = InitialValue;
     HeavyParticleBdt = InitialValue;
-    
+
     HeavyHiggsBdt = InitialValue;
     HeavyHiggsMass = InitialValue;
     HeavyHiggsPt = InitialValue;
-    
+
     BottomSumPt = InitialValue;
     BottomDeltaPt = InitialValue;
-    
+
     BottomDeltaRap = InitialValue;
     BottomDeltaPhi = InitialValue;
     BottomDeltaR = InitialValue;
-    
+
     HbSumDeltaRap = InitialValue;
     HbSumDeltaPhi = InitialValue;
     HbSumDeltaR = InitialValue;
-    
+
     HbDeltaDeltaRap = InitialValue;
     HbDeltaDeltaPhi = InitialValue;
     HbDeltaDeltaR = InitialValue;
-    
+
     EventTag = InitialValue;
-    
+
 }

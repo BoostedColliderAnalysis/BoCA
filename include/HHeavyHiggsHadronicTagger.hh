@@ -19,7 +19,7 @@ class hanalysis::HHeavyHiggsHadronicTagger : public HMva
 
 public:
 
-    HHeavyHiggsHadronicTagger(HBottomTagger *const NewBottomTagger, HHadronicTopTagger *const NewTopTagger);
+    HHeavyHiggsHadronicTagger(HBottomTagger *const NewBottomTagger,HWTagger *const NewWTagger, HHadronicTopTagger *const NewTopTagger);
 
     ~HHeavyHiggsHadronicTagger();
 
@@ -28,16 +28,16 @@ public:
     void FillBranch(const hanalysis::HTriplePair& TriplePair);
 
 private:
-    
+
     std::vector< hanalysis::HTriplePair > GetTriplePairs(const HJets &Jets, const hanalysis::HObject::HState State);
-    
-    HBottomTagger *BottomTagger;    
-    HHadronicWTagger *WTagger;
-    HHadronicTopTagger *TopTagger;
+
+    HBottomTagger *BottomTagger;
+    HWTagger *WTagger;
+    HHadronicTopTagger *TopHadronicTagger;
 
     HReader *BottomReader;
-    HReader *TopReader;
     HReader *WReader;
+    HReader *TopHadronicReader;
 
     HHeavyHiggsHadronicBranch *Branch;
 

@@ -1,6 +1,6 @@
 # include "HHadronicTopTagger.hh"
 
-hanalysis::HHadronicTopTagger::HHadronicTopTagger(HBottomTagger *NewBottomTagger, HHadronicWTagger *NewHadronicWTagger)
+hanalysis::HHadronicTopTagger::HHadronicTopTagger(HBottomTagger *NewBottomTagger, HWTagger *NewWTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -9,13 +9,13 @@ hanalysis::HHadronicTopTagger::HHadronicTopTagger(HBottomTagger *NewBottomTagger
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
 
-    HadronicWTagger = NewHadronicWTagger;
-    HadronicWReader = new HReader(HadronicWTagger);
+    WTagger = NewWTagger;
+    HadronicWReader = new HReader(WTagger);
 
-    TaggerName = "HadronicTop";
-    SignalNames = {"HadronicTop"};
-    BackgroundNames = {"NotHadronicTop"};
-    CandidateBranchName = "HadronicTop";
+    TaggerName = "TopHadronic";
+    SignalNames = {"TopHadronic"};
+    BackgroundNames = {"NotTopHadronic"};
+    CandidateBranchName = "TopHadronic";
 
     Branch = new HHadronicTopBranch();
     JetTag = new HJetTag();
@@ -34,27 +34,24 @@ hanalysis::HHadronicTopTagger::~HHadronicTopTagger()
 }
 
 
-void hanalysis::HHadronicTopTagger::FillBranch(HHadronicTopBranch *LeptonicTopBranch, const hanalysis::HPairJetPair &PairJetPair)
+void hanalysis::HHadronicTopTagger::FillBranch(HHadronicTopBranch *TopHadronicBranch, const hanalysis::HPairJetPair &PairJetPair)
 {
     Print(HInformation, "Fill Top Tagger", PairJetPair.GetBdt());
 
-    LeptonicTopBranch->Mass = PairJetPair.GetInvariantMass();
-    LeptonicTopBranch->JetPt = PairJetPair.GetJetPt();
-    LeptonicTopBranch->WPt = PairJetPair.GetPairPt();
-    LeptonicTopBranch->DeltaR = PairJetPair.GetDeltaR();
-    LeptonicTopBranch->DeltaRap = PairJetPair.GetDeltaRap();
-    LeptonicTopBranch->DeltaPhi = PairJetPair.GetDeltaPhi();
-    LeptonicTopBranch->WBottomBdt = PairJetPair.GetBdt();
-    LeptonicTopBranch->TopTag = PairJetPair.GetTag();
-
+    TopHadronicBranch->Mass = PairJetPair.GetInvariantMass();
+    TopHadronicBranch->JetPt = PairJetPair.GetJetPt();
+    TopHadronicBranch->WPt = PairJetPair.GetPairPt();
+    TopHadronicBranch->DeltaR = PairJetPair.GetDeltaR();
+    TopHadronicBranch->DeltaRap = PairJetPair.GetDeltaRap();
+    TopHadronicBranch->DeltaPhi = PairJetPair.GetDeltaPhi();
+    TopHadronicBranch->WBottomBdt = PairJetPair.GetBdt();
+    TopHadronicBranch->TopTag = PairJetPair.GetTag();
 }
 
 void hanalysis::HHadronicTopTagger::FillBranch(const hanalysis::HPairJetPair &PairJetPair)
 {
     Print(HInformation, "Fill Top Tagger", PairJetPair.GetBdt());
-
     FillBranch(Branch, PairJetPair);
-
 }
 
 void hanalysis::HHadronicTopTagger::DefineVariables()
@@ -141,21 +138,21 @@ std::vector<hanalysis::HPairJetPair> hanalysis::HHadronicTopTagger::FillTriple(c
     std::vector<hanalysis::HPairJetPair>  TopTriples;
 
     HSuperStructure JetPair12(Jet1, Jet2);
-    HadronicWTagger->FillBranch(JetPair12);
+    WTagger->FillBranch(JetPair12);
     JetPair12.SetBdt(HadronicWReader->GetBdt());
     hanalysis::HPairJetPair TopTriple1(JetPair12, Jet3);
     TopTriple1.SetTag(GetTripleTag(JetPair12, Jet3));
     TopTriples.push_back(TopTriple1);
 
     HSuperStructure JetPair23(Jet2, Jet3);
-    HadronicWTagger->FillBranch(JetPair23);
+    WTagger->FillBranch(JetPair23);
     JetPair23.SetBdt(HadronicWReader->GetBdt());
     hanalysis::HPairJetPair TopTriple2(JetPair23, Jet1);
     TopTriple2.SetTag(GetTripleTag(JetPair23, Jet1));
     TopTriples.push_back(TopTriple2);
 
     HSuperStructure JetPair13(Jet1, Jet3);
-    HadronicWTagger->FillBranch(JetPair13);
+    WTagger->FillBranch(JetPair13);
     JetPair13.SetBdt(HadronicWReader->GetBdt());
     hanalysis::HPairJetPair TopTriple3(JetPair13, Jet2);
     TopTriple3.SetTag(GetTripleTag(JetPair13, Jet2));

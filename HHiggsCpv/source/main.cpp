@@ -29,10 +29,10 @@ void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger
         if (Tagger == hhiggscpv::HAnalysis::HBottomTagger) {
           Factory = new hanalysis::HFactory(Analysis->BottomTagger);
         }
-        if (Tagger == hanalysis::HAnalysis::HTopTagger){
+        if (Tagger == hanalysis::HAnalysis::HTopLeptonicTagger){
           Factory = new hanalysis::HFactory(Analysis->LeptonicTopTagger);
         }
-        if (Tagger == hhiggscpv::HAnalysis::HHiggsTagger){
+        if (Tagger == hhiggscpv::HAnalysis::HHiggsLeptonicTagger){
           Factory = new hanalysis::HFactory(Analysis->HiggsTagger);
         }
         HasFactory = 1;
@@ -46,8 +46,8 @@ int main()
 {
 
     RunTagger("Bottom", hhiggscpv::HAnalysis::HBottomTagger);
-    RunTagger("Top", hanalysis::HAnalysis::HTopTagger);
-    RunTagger("Higgs", hanalysis::HAnalysis::HHiggsTagger);
+    RunTagger("Top", hanalysis::HAnalysis::HTopLeptonicTagger);
+    RunTagger("Higgs", hanalysis::HAnalysis::HHiggsLeptonicTagger);
 //     RunTagger("EventTagger",hanalysis::HAnalysis::HEventTagger);
 
 
@@ -72,7 +72,7 @@ int main()
 //     if (!gSystem->AccessPathName(FileName))
 //         File = TFile::Open(FileName);
 //     else
-//         Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HTopTagger);
+//         Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HTopLeptonicTagger);
 //
 //     FileName = "./MvaTop.root";
 //     if (!gSystem->AccessPathName(FileName))

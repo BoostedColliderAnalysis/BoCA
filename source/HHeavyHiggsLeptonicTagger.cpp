@@ -11,10 +11,10 @@ hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(HBottomTagger *c
     TopTagger = NewTopTagger;
     TopReader = new HReader(TopTagger);
 
-    TaggerName = "HeavyHiggs";
-    SignalNames = {"HeavyHiggs"};
-    BackgroundNames = {"NotHeavyHiggs"};
-    CandidateBranchName = "HeavyHiggs";
+    TaggerName = "HeavyHiggsLeptonic";
+    SignalNames = {"HeavyHiggsLeptonic"};
+    BackgroundNames = {"NotHeavyHiggsLeptonic"};
+    CandidateBranchName = "HeavyHiggsLeptonic";
 
     Branch = new HHeavyHiggsLeptonicBranch();
     JetTag = new HJetTag();
