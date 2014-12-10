@@ -197,3 +197,37 @@ HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
     HeavyHiggsTag = InitialValue;
     
 }
+
+
+ClassImp(HHeavyHiggsMixedBranch)
+
+HHeavyHiggsMixedBranch::HHeavyHiggsMixedBranch()
+{
+    
+    HeavyHiggsMass = InitialValue;
+    HeavyHiggsPt = InitialValue;
+    
+    TopDeltaRap = InitialValue;
+    TopDeltaPhi = InitialValue;
+    TopDeltaR = InitialValue;
+    
+    //     LargerWDeltaRap = InitialValue;
+    //     LargerWDeltaPhi = InitialValue;
+    //     LargerWDeltaR = InitialValue;
+    //     
+    //     SmallerWDeltaRap = InitialValue;
+    //     SmallerWDeltaPhi = InitialValue;
+    //     SmallerWDeltaR = InitialValue;
+    
+    //     LargerNeutrinoDeltaRap = InitialValue;
+    //     LargerNeutrinoDeltaPhi = InitialValue;
+    //     LargerNeutrinoDeltaR = InitialValue;
+    //     
+    //     SmallerNeutrinoDeltaRap = InitialValue;
+    //     SmallerNeutrinoDeltaPhi = InitialValue;
+    //     SmallerNeutrinoDeltaR = InitialValue;
+    
+    TopBdt = InitialValue;
+    HeavyHiggsTag = InitialValue;
+    
+}

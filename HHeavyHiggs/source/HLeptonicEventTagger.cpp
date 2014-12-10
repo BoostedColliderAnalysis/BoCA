@@ -142,13 +142,13 @@ std::vector<hheavyhiggs::HLeptonicEventBranch * > hheavyhiggs::HLeptonicEventTag
     }
 
     std::vector<HHeavyHiggsEvent> HeavyHiggsEvents;
-    for (HJets::iterator Lepton1 = Leptons.begin(); Lepton1 != Leptons.end(); ++Lepton1) {
-        for (HJets::iterator Lepton2 = Lepton1 + 1; Lepton2 != Leptons.end(); ++Lepton2) {
+    for (auto Lepton1 = Leptons.begin(); Lepton1 != Leptons.end(); ++Lepton1) {
+        for (auto Lepton2 = Lepton1 + 1; Lepton2 != Leptons.end(); ++Lepton2) {
             HJets EventLeptons  {(*Lepton1), (*Lepton2)};
-            for (HJets::iterator Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
-                for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
-                    for (HJets::iterator Jet3 = Jet2 + 1; Jet3 != Jets.end(); ++Jet3) {
-                        for (HJets::iterator Jet4 = Jet3 + 1; Jet4 != Jets.end(); ++Jet4) {
+            for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
+                for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+                    for (auto Jet3 = Jet2 + 1; Jet3 != Jets.end(); ++Jet3) {
+                        for (auto Jet4 = Jet3 + 1; Jet4 != Jets.end(); ++Jet4) {
                             HJets EventJets {(*Jet1), (*Jet2), (*Jet3), (*Jet4)};
                             std::vector<HHeavyHiggsEvent> NewHeavyHiggsEvents = GetHeavyHiggsEvents(EventJets, EventLeptons);
                             if (NewHeavyHiggsEvents.size() < 1)continue;
@@ -242,6 +242,11 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HLeptonicEventTagger::GetHeavyHiggsEv
                 HeavyHiggsEvents.push_back(HHeavyHiggsEvent(HeavyHiggs, Jet1, Jet2));
             }
         }
+    }
+    
+    if (HeavyHiggsEvents.size() > 1) {
+        std::sort(HeavyHiggsEvents.begin(), HeavyHiggsEvents.end(), SortHeavyHiggsEvents());
+        HeavyHiggsEvents.erase(HeavyHiggsEvents.begin() + 1, HeavyHiggsEvents.end());
     }
 
     return HeavyHiggsEvents;

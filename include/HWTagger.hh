@@ -31,11 +31,8 @@ public:
 private:
 
     HBottomTagger *BottomTagger;
-
     HReader *BottomReader;
-
     HHadronicWBranch *Branch;
-
     HJetTag *JetTag;
 
     void DefineVariables();

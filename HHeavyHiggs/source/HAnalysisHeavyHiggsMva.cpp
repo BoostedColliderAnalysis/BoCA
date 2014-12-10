@@ -36,74 +36,91 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const std::s
 
     std::vector<hanalysis::HFile *> Files;
 
-    if (StudyName != "HeavyHiggs" && StudyName != "Signal") Files.push_back(new hanalysis::HFile("BG"));
-    Files.push_back(new hanalysis::HFile("1TeV_h2bb"));
+
+    if (
+        StudyName != "W" && StudyName != "NotW" &&
+        StudyName != "TopHadronic" && StudyName != "NotTopHadronic" &&
+        StudyName != "HeavyHiggsHadronic" && StudyName != "NotHeavyHiggsHadronic" &&
+        StudyName != "HadronicEvent" && StudyName != "NotHadronicEvent"
+    ) {
+        if (StudyName != "NotHeavyHiggsLeptonic" && StudyName != "LeptonicEvent") Files.push_back(new hanalysis::HFile("BG_llbbbb"));
+        Files.push_back(new hanalysis::HFile("1TeV_h2bb_llbbbb"));
+    }
+
+    if (
+        StudyName != "TopLeptonic" && StudyName != "NotTopLeptonic" &&
+        StudyName != "HeavyHiggsLeptonic" && StudyName != "NotHeavyHiggsLeptonic" &&
+        StudyName != "LeptonicEvent" && StudyName != "NotLeptonicEvent"
+    ) {
+        if (StudyName != "HeavyHiggsHadronic" && StudyName != "HadronicEvent") Files.push_back(new hanalysis::HFile("BG_jjbbbb"));
+        Files.push_back(new hanalysis::HFile("1TeV_h2bb_jjbbbb"));
+    }
+
+
     Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
-    Files.front()->SetFileSuffix("_llbbbb_Delphes.root");
+    Files.front()->SetFileSuffix("_Delphes.root");
 
     Print(HNotification, "Files prepared");
 
     BottomTagger = new hanalysis::HBottomTagger();
     BottomTagger->SetAnalysisName(GetProjectName());
-    BottomTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    BottomTagger->SetSignalTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    BottomTagger->SetBackgroundTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    if (StudyName == "Bottom" && StudyName == "NotBottom") return Files;
+    BottomTagger->SetTestTreeNames( {"BG_llbbbb-run_01", "BG_jjbbbb-run_01",  "1TeV_h2bb_llbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    BottomTagger->SetSignalTreeNames( {"BG_llbbbb-run_01", "BG_jjbbbb-run_01",  "1TeV_h2bb_llbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    BottomTagger->SetBackgroundTreeNames( {"BG_llbbbb-run_01", "BG_jjbbbb-run_01", "1TeV_h2bb_llbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    if (StudyName == "Bottom" || StudyName == "NotBottom") return Files;
     BottomReader = new hanalysis::HReader(BottomTagger);
 
     WTagger = new hanalysis::HWTagger(BottomTagger);
     WTagger->SetAnalysisName(GetProjectName());
-    WTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    WTagger->SetSignalTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    WTagger->SetBackgroundTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    if (StudyName == "W" && StudyName == "NotW") return Files;
+    WTagger->SetTestTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    WTagger->SetSignalTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    WTagger->SetBackgroundTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    if (StudyName == "W" || StudyName == "NotW") return Files;
     WReader = new hanalysis::HReader(WTagger);
 
     TopLeptonicTagger = new hanalysis::HLeptonicTopTagger(BottomTagger);
     TopLeptonicTagger->SetAnalysisName(GetProjectName());
-    TopLeptonicTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    TopLeptonicTagger->SetSignalTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    TopLeptonicTagger->SetBackgroundTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    if (StudyName == "TopLeptonic" && StudyName != "NotTopLeptonic") return Files;
+    TopLeptonicTagger->SetTestTreeNames( {"BG_llbbbb-run_01", "1TeV_h2bb_llbbbb-run_01"});
+    TopLeptonicTagger->SetSignalTreeNames( {"BG_llbbbb-run_01", "1TeV_h2bb_llbbbb-run_01"});
+    TopLeptonicTagger->SetBackgroundTreeNames( {"BG_llbbbb-run_01", "1TeV_h2bb_llbbbb-run_01"});
+    if (StudyName == "TopLeptonic" || StudyName == "NotTopLeptonic") return Files;
     TopLeptonicReader = new hanalysis::HReader(TopLeptonicTagger);
 
-    TopHadronicTagger = new hanalysis::HHadronicTopTagger(BottomTagger,WTagger);
+    TopHadronicTagger = new hanalysis::HHadronicTopTagger(BottomTagger, WTagger);
     TopHadronicTagger->SetAnalysisName(GetProjectName());
-    TopHadronicTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    TopHadronicTagger->SetSignalTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    TopHadronicTagger->SetBackgroundTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    if (StudyName == "TopHadronic" && StudyName != "NotTopHadronic")return Files;
+    TopHadronicTagger->SetTestTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    TopHadronicTagger->SetSignalTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    TopHadronicTagger->SetBackgroundTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    if (StudyName == "TopHadronic" || StudyName == "NotTopHadronic")return Files;
     TopHadronicReader = new hanalysis::HReader(TopHadronicTagger);
 
     HeavyHiggsLeptonicTagger = new hanalysis::HHeavyHiggsLeptonicTagger(BottomTagger, TopLeptonicTagger);
     HeavyHiggsLeptonicTagger->SetAnalysisName(GetProjectName());
-    HeavyHiggsLeptonicTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    HeavyHiggsLeptonicTagger->SetSignalTreeNames( {"1TeV_h2bb-run_01"});
-    HeavyHiggsLeptonicTagger->SetBackgroundTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    if (StudyName == "HeavyHiggsLeptonic" && StudyName != "NotHeavyHiggsLeptonic" )return Files;
+    HeavyHiggsLeptonicTagger->SetTestTreeNames( {"BG_llbbbb-run_01", "1TeV_h2bb_llbbbb-run_01"});
+    HeavyHiggsLeptonicTagger->SetSignalTreeNames( {"1TeV_h2bb_llbbbb-run_01"});
+    HeavyHiggsLeptonicTagger->SetBackgroundTreeNames( {"BG_llbbbb-run_01", "1TeV_h2bb_llbbbb-run_01"});
+    if (StudyName == "HeavyHiggsLeptonic" || StudyName == "NotHeavyHiggsLeptonic")return Files;
     HeavyHiggsLeptonicReader = new hanalysis::HReader(HeavyHiggsLeptonicTagger);
 
-    HeavyHiggsHadronicTagger = new hanalysis::HHeavyHiggsHadronicTagger(BottomTagger,WTagger, TopHadronicTagger);
+    HeavyHiggsHadronicTagger = new hanalysis::HHeavyHiggsHadronicTagger(BottomTagger, WTagger, TopHadronicTagger);
     HeavyHiggsHadronicTagger->SetAnalysisName(GetProjectName());
-    HeavyHiggsHadronicTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    HeavyHiggsHadronicTagger->SetSignalTreeNames( {"1TeV_h2bb-run_01"});
-    HeavyHiggsHadronicTagger->SetBackgroundTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    if (StudyName == "HeavyHiggsHadronic" && StudyName != "NotHeavyHiggsHadronic" )return Files;
+    HeavyHiggsHadronicTagger->SetTestTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    HeavyHiggsHadronicTagger->SetSignalTreeNames( {"1TeV_h2bb_jjbbbb-run_01"});
+    HeavyHiggsHadronicTagger->SetBackgroundTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    if (StudyName == "HeavyHiggsHadronic" || StudyName == "NotHeavyHiggsHadronic")return Files;
     HeavyHiggsHadronicReader = new hanalysis::HReader(HeavyHiggsHadronicTagger);
-
 
     LeptonicEventTagger = new hheavyhiggs::HLeptonicEventTagger(BottomTagger, TopLeptonicTagger, HeavyHiggsLeptonicTagger);
     LeptonicEventTagger->SetAnalysisName(GetProjectName());
-    LeptonicEventTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    LeptonicEventTagger->SetSignalTreeNames( {"1TeV_h2bb-run_01"});
-    LeptonicEventTagger->SetBackgroundTreeNames( {"BG-run_01"});
+    LeptonicEventTagger->SetTestTreeNames( {"BG_llbbbb-run_01", "1TeV_h2bb_llbbbb-run_01"});
+    LeptonicEventTagger->SetSignalTreeNames( {"1TeV_h2bb_llbbbb-run_01"});
+    LeptonicEventTagger->SetBackgroundTreeNames( {"BG_llbbbb-run_01"});
 
-    HadronicEventTagger = new hheavyhiggs::HHadronicEventTagger(BottomTagger,WTagger, TopHadronicTagger, HeavyHiggsHadronicTagger);
+    HadronicEventTagger = new hheavyhiggs::HHadronicEventTagger(BottomTagger, WTagger, TopHadronicTagger, HeavyHiggsHadronicTagger);
     HadronicEventTagger->SetAnalysisName(GetProjectName());
-    HadronicEventTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
-    HadronicEventTagger->SetSignalTreeNames( {"1TeV_h2bb-run_01"});
-    HadronicEventTagger->SetBackgroundTreeNames( {"BG-run_01"});
-
+    HadronicEventTagger->SetTestTreeNames( {"BG_jjbbbb-run_01", "1TeV_h2bb_jjbbbb-run_01"});
+    HadronicEventTagger->SetSignalTreeNames( {"1TeV_h2bb_jjbbbb-run_01"});
+    HadronicEventTagger->SetBackgroundTreeNames( {"BG_jjbbbb-run_01"});
 
     return Files;
 
@@ -146,7 +163,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const HTagge
     if (Tagger == HTopLeptonicTagger)  return Files;
     TopLeptonicReader = new hanalysis::HReader(TopLeptonicTagger);
 
-    TopHadronicTagger = new hanalysis::HHadronicTopTagger(BottomTagger,WTagger);
+    TopHadronicTagger = new hanalysis::HHadronicTopTagger(BottomTagger, WTagger);
     TopHadronicTagger->SetAnalysisName(GetProjectName());
     TopHadronicTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
     TopHadronicTagger->SetSignalTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
@@ -162,7 +179,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const HTagge
     if (Tagger == HHeavyHiggsLeptonicTagger)  return Files;
     TopHadronicReader = new hanalysis::HReader(HeavyHiggsLeptonicTagger);
 
-    HeavyHiggsHadronicTagger = new hanalysis::HHeavyHiggsHadronicTagger(BottomTagger,WTagger, TopHadronicTagger);
+    HeavyHiggsHadronicTagger = new hanalysis::HHeavyHiggsHadronicTagger(BottomTagger, WTagger, TopHadronicTagger);
     HeavyHiggsHadronicTagger->SetAnalysisName(GetProjectName());
     HeavyHiggsHadronicTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
     HeavyHiggsHadronicTagger->SetSignalTreeNames( {"1TeV_h2bb-run_01"});
@@ -176,7 +193,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const HTagge
     LeptonicEventTagger->SetSignalTreeNames( {"1TeV_h2bb-run_01"});
     LeptonicEventTagger->SetBackgroundTreeNames( {"BG-run_01"});
 
-    HadronicEventTagger = new hheavyhiggs::HHadronicEventTagger(BottomTagger,WTagger, TopHadronicTagger, HeavyHiggsHadronicTagger);
+    HadronicEventTagger = new hheavyhiggs::HHadronicEventTagger(BottomTagger, WTagger, TopHadronicTagger, HeavyHiggsHadronicTagger);
     HadronicEventTagger->SetAnalysisName(GetProjectName());
     HadronicEventTagger->SetTestTreeNames( {"BG-run_01", "1TeV_h2bb-run_01"});
     HadronicEventTagger->SetSignalTreeNames( {"1TeV_h2bb-run_01"});
@@ -192,13 +209,13 @@ void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter *TreeWriter, const 
     Print(HNotification, "New Branches", Tagger);
 
     if (Tagger == HBottomTagger) BottomBranch = TreeWriter->NewBranch("Bottom", HBottomBranch::Class());
-    else if (Tagger == HWTagger) WBranch = TreeWriter->NewBranch("W", HLeptonicTopBranch::Class());
+    else if (Tagger == HWTagger) WBranch = TreeWriter->NewBranch("W", HHadronicWBranch::Class());
     else if (Tagger == HTopLeptonicTagger) TopLeptonicBranch = TreeWriter->NewBranch("TopLeptonic", HLeptonicTopBranch::Class());
-    else if (Tagger == HTopHadronicTagger) TopHadronicBranch = TreeWriter->NewBranch("TopHadronic", HLeptonicTopBranch::Class());
+    else if (Tagger == HTopHadronicTagger) TopHadronicBranch = TreeWriter->NewBranch("TopHadronic", HHadronicTopBranch::Class());
     else if (Tagger == HHeavyHiggsLeptonicTagger) HeavyHiggsLeptonicBranch = TreeWriter->NewBranch("HeavyHiggsLeptonic", HHeavyHiggsLeptonicBranch::Class());
     else if (Tagger == HHeavyHiggsHadronicTagger) HeavyHiggsHadronicBranch = TreeWriter->NewBranch("HeavyHiggsHadronic", HHeavyHiggsHadronicBranch::Class());
-    else if (Tagger == HLeptonicEventTagger) LeptonicEventBranch = TreeWriter->NewBranch("Event", HLeptonicEventBranch::Class());
-    else if (Tagger == HHadronicEventTagger) HadronicEventBranch = TreeWriter->NewBranch("Event", HHadronicEventBranch::Class());
+    else if (Tagger == HLeptonicEventTagger) LeptonicEventBranch = TreeWriter->NewBranch("LeptonicEvent", HLeptonicEventBranch::Class());
+    else if (Tagger == HHadronicEventTagger) HadronicEventBranch = TreeWriter->NewBranch("HadronicEvent", HHadronicEventBranch::Class());
 
 }
 
@@ -260,8 +277,8 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const H
                     else if (Tagger == HHeavyHiggsLeptonicTagger) if (GetHeavyHiggsLeptonicTag(Event, State)) return 1;
                         else if (Tagger == HHeavyHiggsHadronicTagger) if (GetHeavyHiggsHadronicTag(Event, State)) return 1;
                             else if (Tagger == HLeptonicEventTagger) if (GetLeptonicEventTag(Event, State)) return 1;
-                            else if (Tagger == HHadronicEventTagger) if (GetHadronicEventTag(Event, State)) return 1;
-                                else Print(HError, "unknown Tagger", Tagger);
+                                else if (Tagger == HHadronicEventTagger) if (GetHadronicEventTag(Event, State)) return 1;
+                                    else Print(HError, "unknown Tagger", Tagger);
 
     return 0;
 
@@ -338,7 +355,7 @@ bool hheavyhiggs::HAnalysisMva::GetTopHadronicTag(hanalysis::HEvent *const Event
 
 bool hheavyhiggs::HAnalysisMva::GetHeavyHiggsLeptonicTag(hanalysis::HEvent *const Event, const HState State)
 {
-    Print(HInformation, "Get HeavyHiggs Tag", State);
+    Print(HInformation, "Get Heavy Higgs Tag", State);
 
 
     std::vector<HHeavyHiggsLeptonicBranch *> Higgses = HeavyHiggsLeptonicTagger->GetBranches(Event, State);
@@ -393,17 +410,17 @@ bool hheavyhiggs::HAnalysisMva::GetLeptonicEventTag(hanalysis::HEvent *const Eve
 
 bool hheavyhiggs::HAnalysisMva::GetHadronicEventTag(hanalysis::HEvent *const Event, const HState State)
 {
-  Print(HInformation, "Get Event", State);
+    Print(HInformation, "Get Event", State);
 
 
-  std::vector<hheavyhiggs::HHadronicEventBranch *> Events = HadronicEventTagger->GetBranches(Event, State);
-  if (Events.size() < 1) return 0;
+    std::vector<hheavyhiggs::HHadronicEventBranch *> Events = HadronicEventTagger->GetBranches(Event, State);
+    if (Events.size() < 1) return 0;
 
-  for (const auto & Event : Events) {
-    HHadronicEventBranch *EventTagger = static_cast<HHadronicEventBranch *>(HadronicEventBranch->NewEntry());
-    *EventTagger = *Event;
-  }
+    for (const auto & Event : Events) {
+        HHadronicEventBranch *EventTagger = static_cast<HHadronicEventBranch *>(HadronicEventBranch->NewEntry());
+        *EventTagger = *Event;
+    }
 
-  return 1;
+    return 1;
 
 }

@@ -117,7 +117,9 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
 
         Print(HInformation, "Event Number", EventNumber);
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+//         Print(HInformation, "New Event");
         Event->NewEvent(ClonesArrays);
+//         Print(HInformation, "Analysis");
         const bool Successfull = Analysis(Event, StudyName,Tagger);
         
         if (Successfull) {

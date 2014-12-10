@@ -14,7 +14,7 @@ public:
     HTriple(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2, const fastjet::PseudoJet &NewJet3);
 
     HTriple(const fastjet::PseudoJet &NewJet, const HJetLeptonPair &Pair);
-    
+
     HTriple(const fastjet::PseudoJet &NewJet, const HSuperStructure &Pair);
 
     ~HTriple();
@@ -116,6 +116,12 @@ public:
 //       Jet1 = Jet;
 //     }
 
+    inline void SetJets(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2, const fastjet::PseudoJet &NewJet3) {
+        Jet1 = NewJet1;
+        Jet2 = NewJet2;
+        Jet3 = NewJet3;
+    }
+
 protected:
 
     fastjet::PseudoJet Jet1;
@@ -124,8 +130,8 @@ protected:
 
     fastjet::PseudoJet Jet3;
 
-    virtual inline std::string NameSpaceName() const {
-        return "HDelphes";
+    virtual inline std::string ClassName() const {
+        return "HTriple";
     };
 
 private:

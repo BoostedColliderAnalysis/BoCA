@@ -29,7 +29,7 @@ public:
 
 private:
 
-    std::vector< hanalysis::HTriplePair > GetTriplePairs(const HJets &Jets, const hanalysis::HObject::HState State);
+    HTriplePair GetTriplePair(HJets &Jets, const hanalysis::HObject::HState State);
 
     HBottomTagger *BottomTagger;
     HWTagger *WTagger;

@@ -2,7 +2,7 @@
 
 hanalysis::hdelphes::HEvent::HEvent()
 {
-
+// DebugLevel=HDebug;
     Print(HNotification, "Constructor");
 
     Particles = new HParticle();

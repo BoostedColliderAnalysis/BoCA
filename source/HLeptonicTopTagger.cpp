@@ -9,10 +9,10 @@ hanalysis::HLeptonicTopTagger::HLeptonicTopTagger(HBottomTagger *const NewBottom
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
 
-    TaggerName = "Top";
-    SignalNames = {"Top"};
-    BackgroundNames = {"NotTop"};
-    CandidateBranchName = "Top";
+    TaggerName = "TopLeptonic";
+    SignalNames = {"TopLeptonic"};
+    BackgroundNames = {"NotTopLeptonic"};
+    CandidateBranchName = "TopLeptonic";
 
     Branch = new HLeptonicTopBranch();
     JetTag = new HJetTag();

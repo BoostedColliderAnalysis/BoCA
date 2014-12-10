@@ -9,7 +9,7 @@ class hanalysis::HTriplePair : public HTag
 
 public:
 
-    HTriplePair() {}
+    HTriplePair() {Bdt=-10;}
 
     HTriplePair(const HTriple &NewTriple1, const HTriple &NewTriple2);
     

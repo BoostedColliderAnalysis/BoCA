@@ -52,6 +52,7 @@ class HTriplePair;
 
 class HBottomTagger;
 class HLeptonicTopTagger;
+class HTopLeptonicTagger;
 class HMvaHiggsTagger;
 class HHeavyHiggsHadronicTagger;
 class HHeavyHiggsLeptonicTagger;
@@ -171,7 +172,7 @@ public:
         HDetailed
     };
 
-    enum HState {HSignal, HBackground};
+    enum HState {HBackground = 0, HSignal = 1};
 
     template <typename TSeverity>
     void Print(const TSeverity Severity, const std::string &Description) const {

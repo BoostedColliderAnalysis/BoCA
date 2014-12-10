@@ -65,7 +65,7 @@ void hanalysis::HHadronicTopTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->WBottomBdt, "WBottomTag"));
+    Observables.push_back(NewObservable(&Branch->WBottomBdt, "WBottomBdt"));
 
     Spectators.push_back(NewObservable(&Branch->TopTag, "TopTag"));
 
@@ -83,35 +83,25 @@ std::vector<HHadronicTopBranch *> hanalysis::HHadronicTopTagger::GetBranches(han
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    HJets TopJets;
-    HJets OtherJets;
-    for (auto & Jet : Jets) {
-        Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()));
-        if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == MixedJetId) continue;
 
-        Jet.set_user_index(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId());
-        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == TopId) JetInfo->SetTag(1);
-        else if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == WId) JetInfo->SetTag(1);
-        else JetInfo->SetTag(0);
-
-        BottomTagger->FillBranch(Jet);
-        JetInfo->SetBdt(BottomReader->GetBdt());
-        Jet.set_user_info(JetInfo);
-
-        if (JetInfo->GetTag() == 1) {
-            TopJets.push_back(Jet);
+    for (auto Jet = Jets.begin(); Jet != Jets.end();) {
+        if (std::abs((*Jet).user_index()) == MixedJetId) {
+            Jet = Jets.erase(Jet);
         } else {
-            OtherJets.push_back(Jet);
+            HJetInfo *JetInfo = new HJetInfo;
+            BottomTagger->FillBranch(*Jet);
+            JetInfo->SetBdt(BottomReader->GetBdt());
+            (*Jet).set_user_info(JetInfo);
+            ++Jet;
         }
     }
 
     std::vector<hanalysis::HPairJetPair>  TopTriples;
-    for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
-        for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
-            for (auto Jet3 = Jet2 + 1; Jet3 != Jets.end(); ++Jet3) {
-                std::vector<hanalysis::HPairJetPair> Triples = FillTriple(*Jet1, *Jet2, *Jet3);
-                TopTriples.insert(TopTriples.end(), Triples.begin(), Triples.end());
+    for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1) {
+        for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
+            for (auto Jet3 = Jet2 + 1; Jet3 != JetsEnd; ++Jet3) {
+                std::vector<hanalysis::HPairJetPair> Triples = FillTriple(*Jet1, *Jet2, *Jet3, State);
+                if (Triples.size() > 0)TopTriples.insert(TopTriples.end(), Triples.begin(), Triples.end());
             }
         }
     }
@@ -128,46 +118,49 @@ std::vector<HHadronicTopBranch *> hanalysis::HHadronicTopTagger::GetBranches(han
 
 }
 
-std::vector<hanalysis::HPairJetPair> hanalysis::HHadronicTopTagger::FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3)
+std::vector<hanalysis::HPairJetPair> hanalysis::HHadronicTopTagger::FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State)
 {
-    Print(HInformation, "Fill Triples");
-    float Tag;
-    if (Jet1.user_index() == Jet2.user_index() && Jet2.user_index() == Jet3.user_index() && (std::abs(Jet3.user_index()) == TopId || std::abs(Jet3.user_index()) == WId)) Tag = 1;
-    else Tag = 0;
 
     std::vector<hanalysis::HPairJetPair>  TopTriples;
 
     HSuperStructure JetPair12(Jet1, Jet2);
-    WTagger->FillBranch(JetPair12);
-    JetPair12.SetBdt(HadronicWReader->GetBdt());
-    hanalysis::HPairJetPair TopTriple1(JetPair12, Jet3);
-    TopTriple1.SetTag(GetTripleTag(JetPair12, Jet3));
-    TopTriples.push_back(TopTriple1);
+    if (GetTripleTag(JetPair12, Jet3) == State) {
+        WTagger->FillBranch(JetPair12);
+        JetPair12.SetBdt(HadronicWReader->GetBdt());
+        hanalysis::HPairJetPair TopTriple1(JetPair12, Jet3);
+        TopTriple1.SetTag(State);
+        TopTriples.push_back(TopTriple1);
+    }
 
     HSuperStructure JetPair23(Jet2, Jet3);
-    WTagger->FillBranch(JetPair23);
-    JetPair23.SetBdt(HadronicWReader->GetBdt());
-    hanalysis::HPairJetPair TopTriple2(JetPair23, Jet1);
-    TopTriple2.SetTag(GetTripleTag(JetPair23, Jet1));
-    TopTriples.push_back(TopTriple2);
+    if (GetTripleTag(JetPair23, Jet1) == State) {
+        WTagger->FillBranch(JetPair23);
+        JetPair23.SetBdt(HadronicWReader->GetBdt());
+        hanalysis::HPairJetPair TopTriple2(JetPair23, Jet1);
+        TopTriple2.SetTag(State);
+        TopTriples.push_back(TopTriple2);
+    }
 
     HSuperStructure JetPair13(Jet1, Jet3);
-    WTagger->FillBranch(JetPair13);
-    JetPair13.SetBdt(HadronicWReader->GetBdt());
-    hanalysis::HPairJetPair TopTriple3(JetPair13, Jet2);
-    TopTriple3.SetTag(GetTripleTag(JetPair13, Jet2));
-    TopTriples.push_back(TopTriple3);
+    if (GetTripleTag(JetPair13, Jet2) == State) {
+        WTagger->FillBranch(JetPair13);
+        JetPair13.SetBdt(HadronicWReader->GetBdt());
+        hanalysis::HPairJetPair TopTriple3(JetPair13, Jet2);
+        TopTriple3.SetTag(State);
+        TopTriples.push_back(TopTriple3);
+    }
 
     return TopTriples;
 
 }
 
-bool hanalysis::HHadronicTopTagger::GetTripleTag(const HSuperStructure &JetPair,const fastjet::PseudoJet &Jet)
+hanalysis::HObject::HState hanalysis::HHadronicTopTagger::GetTripleTag(const HSuperStructure &JetPair, const fastjet::PseudoJet &Jet)
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (std::abs(Jet.user_index() != TopId)) return 0;
-    if (JetPair.GetJet1().user_index() != JetPair.GetJet2().user_index()) return 0;
-    if (std::abs(JetPair.GetJet1().user_index()) != WId) return 0;
-    return 1;
+    if (std::abs(Jet.user_index() != TopId)) return HBackground;
+    if (JetPair.GetJet1().user_index() != JetPair.GetJet2().user_index()) return HBackground;
+    if (std::abs(JetPair.GetJet1().user_index()) != WId) return HBackground;
+    if (sgn(JetPair.GetJet1().user_index()) != sgn(Jet.user_index())) return HBackground;
+    return HSignal;
 }

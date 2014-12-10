@@ -23,7 +23,7 @@ void RunTagger(const std::string TaggerName, const hheavyhiggs::HAnalysisMva::HT
         if (Tagger == hheavyhiggs::HAnalysisMva::HWTagger) Factory = new hanalysis::HFactory(Analysis->WTagger);
         if (Tagger == hanalysis::HAnalysis::HTopLeptonicTagger) Factory = new hanalysis::HFactory(Analysis->TopLeptonicTagger);
         if (Tagger == hanalysis::HAnalysis::HTopHadronicTagger) Factory = new hanalysis::HFactory(Analysis->TopHadronicTagger);
-        if (Tagger == hanalysis::HAnalysis::HHiggsLeptonicTagger) Factory = new hanalysis::HFactory(Analysis->HeavyHiggsLeptonicTagger);
+        if (Tagger == hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger) Factory = new hanalysis::HFactory(Analysis->HeavyHiggsLeptonicTagger);
         if (Tagger == hanalysis::HAnalysis::HHeavyHiggsHadronicTagger) Factory = new hanalysis::HFactory(Analysis->HeavyHiggsHadronicTagger);
         if (Tagger == hanalysis::HAnalysis::HLeptonicEventTagger) Factory = new hanalysis::HFactory(Analysis->LeptonicEventTagger);
         if (Tagger == hanalysis::HAnalysis::HHadronicEventTagger) Factory = new hanalysis::HFactory(Analysis->HadronicEventTagger);

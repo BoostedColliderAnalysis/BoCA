@@ -2,9 +2,8 @@
 
 hanalysis::HJet::HJet()
 {
-
+// DebugLevel=HDebug;
     Print(HNotification, "Constructor");
-
 }
 
 hanalysis::HJet::~HJet()

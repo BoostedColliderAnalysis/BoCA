@@ -43,9 +43,9 @@ private:
 
     void DefineVariables();
 
-    bool GetTripleTag(const hanalysis::HSuperStructure &JetPair, const fastjet::PseudoJet &Jet);
+    HState GetTripleTag(const hanalysis::HSuperStructure &JetPair, const fastjet::PseudoJet &Jet);
 
-    std::vector<hanalysis::HPairJetPair> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
+    std::vector<hanalysis::HPairJetPair> FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State);
 
     void FillBranch(HHadronicTopBranch *LeptonicTopBranch, const hanalysis::HPairJetPair &PairJetPair);
 

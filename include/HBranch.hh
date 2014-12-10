@@ -137,7 +137,7 @@ public:
     float Pull2;
     float Pull;
     
-    float WTag;
+    int WTag;
     
 private:
     
@@ -167,7 +167,7 @@ public:
     
     float WBottomBdt;
     
-    float TopTag;
+    int TopTag;
     
 private:
     
@@ -231,7 +231,7 @@ public:
     float Pull2;
     float Pull;
 
-    float HiggsTag;
+    int HiggsTag;
 
 private:
 
@@ -277,7 +277,7 @@ public:
 
     float TopBdt;
     
-    float HeavyHiggsTag;
+    int HeavyHiggsTag;
 
 private:
 
@@ -323,11 +323,57 @@ public:
     
     float TopBdt;
     
-    float HeavyHiggsTag;
+    int HeavyHiggsTag;
     
 private:
     
     ClassDef(HHeavyHiggsHadronicBranch, 1)
+    
+};
+
+/**
+ * 
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HHeavyHiggsMixedBranch : public HBranch
+{
+    
+public:
+    
+    HHeavyHiggsMixedBranch();
+    
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+    
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+    
+    //     float LargerWDeltaRap;
+    //     float LargerWDeltaPhi;
+    //     float LargerWDeltaR;
+    //     
+    //     float SmallerWDeltaRap;
+    //     float SmallerWDeltaPhi;
+    //     float SmallerWDeltaR;
+    //     
+    //     float LargerNeutrinoDeltaRap;
+    //     float LargerNeutrinoDeltaPhi;
+    //     float LargerNeutrinoDeltaR;
+    //     
+    //     float SmallerNeutrinoDeltaRap;
+    //     float SmallerNeutrinoDeltaPhi;
+    //     float SmallerNeutrinoDeltaR;
+    
+    
+    float TopBdt;
+    
+    int HeavyHiggsTag;
+    
+private:
+    
+    ClassDef(HHeavyHiggsMixedBranch, 1)
     
 };
 

@@ -9,10 +9,10 @@ hanalysis::HWTagger::HWTagger(HBottomTagger *NewBottomTagger)
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
 
-    TaggerName = "WTagger";
-    SignalNames = {"WTagger"};
-    BackgroundNames = {"NotWTagger"};
-    CandidateBranchName = "WTagger";
+    TaggerName = "W";
+    SignalNames = {"W"};
+    BackgroundNames = {"NotW"};
+    CandidateBranchName = "W";
 
     Branch = new HHadronicWBranch();
     JetTag = new HJetTag();
@@ -26,6 +26,32 @@ hanalysis::HWTagger::~HWTagger()
     delete Branch;
     delete BottomReader;
     delete JetTag;
+}
+
+void hanalysis::HWTagger::FillBranch(const HSuperStructure &Pair)
+{
+    Print(HInformation, "FillPairTagger", Pair.GetBdt());
+
+    FillBranch(Branch, Pair);
+
+}
+
+void hanalysis::HWTagger::FillBranch(HHadronicWBranch *const WBranch, const HSuperStructure &Pair)
+{
+    Print(HInformation, "FillPairTagger", Pair.GetBdt());
+
+    WBranch->Mass = Pair.GetInvariantMass();
+    WBranch->PtSum = Pair.GetPtSum();
+    WBranch->PtDiff = Pair.GetPtDiff();
+    WBranch->DeltaR = Pair.GetDeltaR();
+    WBranch->DeltaRap = Pair.GetDeltaRap();
+    WBranch->DeltaPhi = Pair.GetPhiDelta();
+    WBranch->BottomBdt = Pair.GetBdt();
+    WBranch->Pull1 = Pair.GetPullAngle1();
+    WBranch->Pull2 = Pair.GetPullAngle2();
+    WBranch->Pull = Pair.GetPullAngle();
+    WBranch->WTag = Pair.GetTag();
+
 }
 
 void hanalysis::HWTagger::DefineVariables()
@@ -69,12 +95,10 @@ std::vector<HHadronicWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEve
     HJets WJets;
     HJets OtherJets;
     for (auto & Jet : Jets) {
-        Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()));
-        if (Jet.user_info<hanalysis::HJetInfo>().GetMaximalId() == MixedJetId) continue;
-
-        Jet.set_user_index(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId());
+        Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_index()));
+        if (Jet.user_index() == MixedJetId) continue;
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        if (std::abs(Jet.user_info<hanalysis::HJetInfo>().GetMaximalId()) == WId) JetInfo->SetTag(1);
+        if (std::abs(Jet.user_index()) == WId) JetInfo->SetTag(1);
         else JetInfo->SetTag(0);
 
         BottomTagger->FillBranch(Jet);
@@ -133,31 +157,11 @@ std::vector<HHadronicWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEve
 
 }
 
-void hanalysis::HWTagger::FillBranch(const HSuperStructure &Pair)
-{
-    Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
-    FillBranch(Branch, Pair);
 
-}
 
-void hanalysis::HWTagger::FillBranch(HHadronicWBranch *const WBranch, const HSuperStructure &Pair)
-{
-    Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
-    WBranch->Mass = Pair.GetInvariantMass();
-    WBranch->PtSum = Pair.GetPtSum();
-    WBranch->PtDiff = Pair.GetPtDiff();
-    WBranch->DeltaR = Pair.GetDeltaR();
-    WBranch->DeltaRap = Pair.GetDeltaRap();
-    WBranch->DeltaPhi = Pair.GetPhiDelta();
-    WBranch->BottomBdt = Pair.GetBdt();
-    WBranch->Pull1 = Pair.GetPullAngle1();
-    WBranch->Pull2 = Pair.GetPullAngle2();
-    WBranch->Pull = Pair.GetPullAngle();
-    WBranch->WTag = Pair.GetTag();
 
-}
 
 std::vector<HParticleBranch *> hanalysis::HWTagger::GetConstituentBranches()
 {

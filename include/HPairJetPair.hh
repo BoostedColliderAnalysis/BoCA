@@ -51,16 +51,21 @@ public:
         return (Pair.GetPairJet().delta_phi_to(Jet));
     }
 
+    fastjet::PseudoJet GetJet() const {
+        return Jet;
+    }
+    fastjet::PseudoJet GetPairJet1() const {
+        return Pair.GetJet1();
+    }
+    fastjet::PseudoJet GetPairJet2() const {
+        return Pair.GetJet2();
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {
         return "HPairJetPair";
     };
-
-    virtual inline std::string NameSpaceName() const {
-        return "hanalysis";
-    };
-
 
 private:
 

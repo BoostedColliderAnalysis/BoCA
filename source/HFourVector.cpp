@@ -5,6 +5,7 @@ hanalysis::HFourVector::HFourVector() :
     Check(0.00001),
     MassCheck(1)
 {
+//     DebugLevel = HDebug;
     Print(HInformation, "Constructor");
 }
 
