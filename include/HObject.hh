@@ -33,12 +33,13 @@ class HLepton;
 class HJet;
 
 class HAnalysis;
+class HTag;
 class HJetTag;
 class HJetInfo;
-class HPair;
-class HTag;
+class HDoublet;
+class HTriplet;
 class HJetLeptonPair;
-class HPairPair;
+class HQuartet;
 class HPairJetPair;
 class HSuperStructure;
 
@@ -47,8 +48,7 @@ class HHiggsTagger;
 class HDiscriminator;
 class HTopTagger;
 class HSubStructure;
-class HTriple;
-class HTriplePair;
+class HSextet;
 
 class HBottomTagger;
 class HLeptonicTopTagger;

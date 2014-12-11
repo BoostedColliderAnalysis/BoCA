@@ -6,8 +6,7 @@
 # include "HEventDelphes.hh"
 # include "HBranchHiggsCpv.hh"
 # include "HSubStructure.hh"
-# include "HSuperStructure.hh"
-# include "HJetLeptonPair.hh"
+# include "HDoublet.hh"
 // # include "HMvaPairs.hh"
 # include "HReader.hh"
 # include "HFactory.hh"
@@ -22,11 +21,11 @@ class HHiggsCpv
 
 public:
 
-  hanalysis::HSuperStructure Higgs;
-    hanalysis::HJetLeptonPair Top;
-    hanalysis::HJetLeptonPair AntiTop;
+  hanalysis::HDoublet Higgs;
+    hanalysis::HDoublet Top;
+    hanalysis::HDoublet AntiTop;
 
-    HHiggsCpv(const hanalysis::HSuperStructure &NewHiggs, const hanalysis::HJetLeptonPair &NewTop, const hanalysis::HJetLeptonPair &NewAntiTop) {
+    HHiggsCpv(const hanalysis::HDoublet &NewHiggs, const hanalysis::HDoublet &NewTop, const hanalysis::HDoublet &NewAntiTop) {
         Higgs = NewHiggs;
         Top = NewTop;
         AntiTop = NewAntiTop;
@@ -37,15 +36,15 @@ public:
     }
 
     float GetTopDeltaRap() const {
-        return (Top.GetJet().rap() - AntiTop.GetJet().rap());
+        return (Top.GetJet1().rap() - AntiTop.GetJet1().rap());
     }
 
     float GetTopDeltaPhi() const {
-        return (Top.GetJet().delta_phi_to(AntiTop.GetJet()));
+        return (Top.GetJet1().delta_phi_to(AntiTop.GetJet1()));
     }
 
     float GetTopDeltaR() const {
-        return (Top.GetJet().delta_R(AntiTop.GetJet()));
+        return (Top.GetJet1().delta_R(AntiTop.GetJet1()));
     }
 
 };

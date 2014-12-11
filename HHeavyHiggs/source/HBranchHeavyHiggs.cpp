@@ -28,7 +28,7 @@ ClassImp(hheavyhiggs::HLeptonicEventBranch)
 
 hheavyhiggs::HLeptonicEventBranch::HLeptonicEventBranch()
 {
-  
+
   LeptonNumber = InitialValue;
   JetNumber = InitialValue;
   BottomNumber = InitialValue;
@@ -92,5 +92,41 @@ hheavyhiggs::HHadronicEventBranch::HHadronicEventBranch()
     HbDeltaDeltaR = InitialValue;
 
     EventTag = InitialValue;
+
+}
+
+
+ClassImp(hheavyhiggs::HMixedEventBranch)
+
+hheavyhiggs::HMixedEventBranch::HMixedEventBranch()
+{
+
+  LeptonNumber = InitialValue;
+  JetNumber = InitialValue;
+  BottomNumber = InitialValue;
+
+  ScalarHt = InitialValue;
+  HeavyParticleBdt = InitialValue;
+
+  HeavyHiggsBdt = InitialValue;
+  HeavyHiggsMass = InitialValue;
+  HeavyHiggsPt = InitialValue;
+
+  BottomSumPt = InitialValue;
+  BottomDeltaPt = InitialValue;
+
+  BottomDeltaRap = InitialValue;
+  BottomDeltaPhi = InitialValue;
+  BottomDeltaR = InitialValue;
+
+  HbSumDeltaRap = InitialValue;
+  HbSumDeltaPhi = InitialValue;
+  HbSumDeltaR = InitialValue;
+
+  HbDeltaDeltaRap = InitialValue;
+  HbDeltaDeltaPhi = InitialValue;
+  HbDeltaDeltaR = InitialValue;
+
+  EventTag = InitialValue;
 
 }

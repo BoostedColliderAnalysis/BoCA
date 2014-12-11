@@ -42,13 +42,11 @@ HLibrary(HDelphesEvent "${DelphesEventSources}" PARENT_SCOPE)
 
 
 set(WrapperSources
-HPair.cpp
-HJetLeptonPair.cpp
-HPairPair.cpp
 HTag.cpp
-HPairJetPair.cpp
-HTriple.cpp
-HTriplePair.cpp
+HDoublet.cpp
+HTriplet.cpp
+HQuartet.cpp
+HSextet.cpp
 )
 HLibrary(HContainer "${WrapperSources}" PARENT_SCOPE)
 
@@ -68,7 +66,7 @@ HDiscriminator.cpp
 HHiggsTagger.cpp
 # HTopTagger.cpp
 # HEPTopTagger.cpp
-HSuperStructure.cpp
+# HSuperStructure.cpp
 HSubStructure.cpp
 
 HMva.cpp

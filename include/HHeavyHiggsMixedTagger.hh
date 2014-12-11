@@ -8,8 +8,8 @@
 # include "HReader.hh"
 # include "HTopLeptonicTagger.hh"
 # include "HHadronicTopTagger.hh"
-# include "HJetLeptonPair.hh"
-# include "HPairPair.hh"
+# include "HDoublet.hh"
+# include "HQuartet.hh"
 
 /**
  * @brief Bdt heavy higgs tagger
@@ -26,11 +26,11 @@ public:
 
     std::vector<HHeavyHiggsMixedBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const hanalysis::HTriplePair& TriplePair);
+    void FillBranch(const hanalysis::HSextet& TriplePair);
 
 private:
 
-    HTriplePair GetTriplePair(HJets &Jets, fastjet::PseudoJet Lepton,fastjet::PseudoJet MissingEt,const hanalysis::HObject::HState State);
+    HSextet GetTriplePair(HJets &Jets, fastjet::PseudoJet Lepton,fastjet::PseudoJet MissingEt,const hanalysis::HObject::HState State);
 
     HBottomTagger *BottomTagger;
     HWTagger *WTagger;
@@ -48,7 +48,7 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HHeavyHiggsMixedBranch* HeavyHiggsBranch, const hanalysis::HTriplePair& TriplePair);
+    void FillBranch(HHeavyHiggsMixedBranch* HeavyHiggsBranch, const hanalysis::HSextet& TriplePair);
 
     virtual inline std::string ClassName() const {
         return "HHeavyHiggsMixedTagger";

@@ -7,8 +7,8 @@
 # include "HJetTag.hh"
 # include "HReader.hh"
 # include "HLeptonicTopTagger.hh"
-# include "HJetLeptonPair.hh"
-# include "HPairPair.hh"
+# include "HDoublet.hh"
+# include "HQuartet.hh"
 
 /**
  * @brief Bdt heavy higgs tagger
@@ -25,11 +25,11 @@ public:
 
     std::vector<HHeavyHiggsLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const hanalysis::HTriplePair& TriplePair);
+    void FillBranch(const hanalysis::HSextet& TriplePair);
 
 private:
 
-    HBottomTagger *BottomTagger;    
+    HBottomTagger *BottomTagger;
     HLeptonicTopTagger *TopTagger;
 
     HReader *BottomReader;
@@ -41,7 +41,7 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HHeavyHiggsLeptonicBranch* HeavyHiggsBranch, const hanalysis::HTriplePair& TriplePair);
+    void FillBranch(HHeavyHiggsLeptonicBranch* HeavyHiggsBranch, const hanalysis::HSextet& TriplePair);
 
     virtual inline std::string ClassName() const {
         return "HHeavyHiggsLeptonicTagger";

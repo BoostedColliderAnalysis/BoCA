@@ -7,7 +7,7 @@
 # include "HJetTag.hh"
 # include "HReader.hh"
 # include "HBottomTagger.hh"
-# include "HSuperStructure.hh"
+# include "HDoublet.hh"
 
 /**
  * @brief calculation regarding leptons
@@ -26,7 +26,7 @@ public:
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
-    void FillBranch(const HSuperStructure &Pair);
+    void FillBranch(const HDoublet &Pair);
 
 private:
 
@@ -40,7 +40,7 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HHiggsBranch * const HiggsBranch, const HSuperStructure &Pair);
+    void FillBranch(HHiggsBranch * const HiggsBranch, const HDoublet &Pair);
 
     void FillBranch(const HKinematics &Vector);
 

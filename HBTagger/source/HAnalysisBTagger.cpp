@@ -7,7 +7,7 @@ hbtagger::HAnalysis::HAnalysis()
 
     JetTag = new hanalysis::HJetTag();
 
-    SubStructure = new hanalysis::HSubStructure();
+    SubStructure = new hanalysis::HDoublet();
 
 }
 

@@ -1,17 +1,16 @@
 #ifndef HHeavyHiggsEvent_hh
 #define HHeavyHiggsEvent_hh
 
-# include "HTag.hh"
-# include "HTriplePair.hh"
+# include "HSextet.hh"
 
 class HHeavyHiggsEvent : public hanalysis::HTag
 {
 
 public:
 
-  HHeavyHiggsEvent(const hanalysis::HTriplePair &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom);
+  HHeavyHiggsEvent(const hanalysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom);
 
-  hanalysis::HTriplePair GetHeavyHiggs()const {
+  hanalysis::HSextet GetHeavyHiggs()const {
     return HeavyHiggs;
   }
 
@@ -94,32 +93,32 @@ public:
 private:
 
   float GetDeltaR1() const {
-    return HeavyHiggs.GetPairJet().delta_R(Bottom);
+    return HeavyHiggs.GetSextetJet().delta_R(Bottom);
   }
 
   float GetDeltaR2() const {
-    return HeavyHiggs.GetPairJet().delta_R(AntiBottom);
+    return HeavyHiggs.GetSextetJet().delta_R(AntiBottom);
   }
 
   float GetDeltaPhi1() const {
-    return HeavyHiggs.GetPairJet().delta_phi_to(Bottom);
+    return HeavyHiggs.GetSextetJet().delta_phi_to(Bottom);
   }
 
   float GetDeltaPhi2() const {
-    return HeavyHiggs.GetPairJet().delta_phi_to(AntiBottom);
+    return HeavyHiggs.GetSextetJet().delta_phi_to(AntiBottom);
   }
 
   float GetDeltaRap1() const {
-    return (HeavyHiggs.GetPairJet().rap() - Bottom.rap());
+    return (HeavyHiggs.GetSextetJet().rap() - Bottom.rap());
   }
 
   float GetDeltaRap2() const {
-    return (HeavyHiggs.GetPairJet().rap() - AntiBottom.rap());
+    return (HeavyHiggs.GetSextetJet().rap() - AntiBottom.rap());
   }
 
   fastjet::PseudoJet Bottom;
   fastjet::PseudoJet AntiBottom;
-  hanalysis::HTriplePair HeavyHiggs;
+  hanalysis::HSextet HeavyHiggs;
   int LeptonNumber;
   int BottomNumber;
   int JetNumber;

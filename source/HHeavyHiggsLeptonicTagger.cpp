@@ -32,35 +32,35 @@ hanalysis::HHeavyHiggsLeptonicTagger::~HHeavyHiggsLeptonicTagger()
 
 }
 
-void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const HTriplePair &TriplePair)
+void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const HSextet &Sextet)
 {
-    Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
+    Print(HInformation, "FillPairTagger", Sextet.GetBdt());
 
-    HeavyHiggsBranch->HeavyHiggsMass = TriplePair.GetInvariantMass();
-    HeavyHiggsBranch->HeavyHiggsPt = TriplePair.GetPtSum();
+    HeavyHiggsBranch->HeavyHiggsMass = Sextet.GetSextetJet().m();
+    HeavyHiggsBranch->HeavyHiggsPt = Sextet.GetSextetJet().m();
 
-    HeavyHiggsBranch->TopDeltaR = TriplePair.GetDeltaR();
-    HeavyHiggsBranch->TopDeltaRap = TriplePair.GetDeltaRap();
-    HeavyHiggsBranch->TopDeltaPhi = TriplePair.GetDeltaPhi();
+    HeavyHiggsBranch->TopDeltaR = Sextet.GetDeltaR();
+    HeavyHiggsBranch->TopDeltaRap = Sextet.GetDeltaRap();
+    HeavyHiggsBranch->TopDeltaPhi = Sextet.GetDeltaPhi();
 
-    HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
-    HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
-    HeavyHiggsBranch->LargerWDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
+    HeavyHiggsBranch->LargerWDeltaR = Sextet.GetLargerTripletDeltaR();
+    HeavyHiggsBranch->LargerWDeltaRap = Sextet.GetLargerTripletDeltaRap();
+    HeavyHiggsBranch->LargerWDeltaPhi = Sextet.GetLargerTripleDeltaPhi();
 
-    HeavyHiggsBranch->SmallerWDeltaR = TriplePair.GetSmallerTripleDeltaR();
-    HeavyHiggsBranch->SmallerWDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
-    HeavyHiggsBranch->SmallerWDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
+    HeavyHiggsBranch->SmallerWDeltaR = Sextet.GetSmallerTripletDeltaR();
+    HeavyHiggsBranch->SmallerWDeltaRap = Sextet.GetSmallerTripletDeltaRap();
+    HeavyHiggsBranch->SmallerWDeltaPhi = Sextet.GetSmallerTripletDeltaPhi();
 
-    HeavyHiggsBranch->LargerNeutrinoDeltaR = TriplePair.GetLargerTripleDeltaR();
-    HeavyHiggsBranch->LargerNeutrinoDeltaRap = TriplePair.GetLargerTripleDeltaRap();
-    HeavyHiggsBranch->LargerNeutrinoDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
+    HeavyHiggsBranch->LargerNeutrinoDeltaR = Sextet.GetLargerTripletDeltaR();
+    HeavyHiggsBranch->LargerNeutrinoDeltaRap = Sextet.GetLargerTripletDeltaRap();
+    HeavyHiggsBranch->LargerNeutrinoDeltaPhi = Sextet.GetLargerTripleDeltaPhi();
 
-    HeavyHiggsBranch->SmallerNeutrinoDeltaR = TriplePair.GetSmallerTripleDeltaR();
-    HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
-    HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
+    HeavyHiggsBranch->SmallerNeutrinoDeltaR = Sextet.GetSmallerTripletDeltaR();
+    HeavyHiggsBranch->SmallerNeutrinoDeltaRap = Sextet.GetSmallerTripletDeltaRap();
+    HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = Sextet.GetSmallerTripletDeltaPhi();
 
-    HeavyHiggsBranch->TopBdt = TriplePair.GetBdt();
-    HeavyHiggsBranch->HeavyHiggsTag = TriplePair.GetTag();
+    HeavyHiggsBranch->TopBdt = Sextet.GetBdt();
+    HeavyHiggsBranch->HeavyHiggsTag = Sextet.GetTag();
 
 }
 
@@ -101,13 +101,13 @@ void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
 }
 
 struct SortPairByMass {
-    inline bool operator()(const hanalysis::HPairPair &Pair1, const hanalysis::HPairPair &Pair2) {
+    inline bool operator()(const hanalysis::HQuartet &Pair1, const hanalysis::HQuartet &Pair2) {
         return (Pair1.GetMassDifference(400) > Pair2.GetMassDifference(400));
     }
 };
 
 struct SortByError {
-    inline bool operator()(const hanalysis::HTriplePair &Pair1, const hanalysis::HTriplePair &Pair2) {
+    inline bool operator()(const hanalysis::HSextet &Pair1, const hanalysis::HSextet &Pair2) {
         return (Pair1.GetError() < Pair2.GetError());
     }
 };
@@ -166,14 +166,14 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
     }
     Print(HDebug, "Leptons", Leptons.size(), HeavyHiggsLeptons.size(), OtherLeptons.size());
 
-    std::vector<HJetLeptonPair> JetLeptonPairs;
+    std::vector<HDoublet> JetLeptonPairs;
     if (State == HSignal) {
         Print(HInformation, "Higgs Jets", HeavyHiggsJets.size());
         for (const auto & Jet : HeavyHiggsJets) {
             for (const auto & Lepton : HeavyHiggsLeptons) {
                 Print(HDebug, "HeavyHiggs User Indices", Jet.user_index(), Lepton.user_index());
                 if (Lepton.user_index() != Jet.user_index()) continue;
-                HJetLeptonPair JetPair(Jet, Lepton);
+                HDoublet JetPair(Jet, Lepton);
                 JetPair.SetTag(1);
                 JetLeptonPairs.push_back(JetPair);
             }
@@ -182,28 +182,28 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
         for (const auto & Jet : HeavyHiggsJets) {
             for (const auto & Lepton : HeavyHiggsLeptons) {
                 if (Lepton.user_index() == Jet.user_index()) continue;
-                HJetLeptonPair JetPair(Jet, Lepton);
+                HDoublet JetPair(Jet, Lepton);
                 JetPair.SetTag(0);
                 JetLeptonPairs.push_back(JetPair);
             }
         }
         for (const auto & Jet : OtherJets) {
             for (const auto & Lepton : HeavyHiggsLeptons) {
-                HJetLeptonPair JetPair(Jet, Lepton);
+                HDoublet JetPair(Jet, Lepton);
                 JetPair.SetTag(0);
                 JetLeptonPairs.push_back(JetPair);
             }
         }
         for (const auto & Jet : HeavyHiggsJets) {
             for (const auto & Lepton : OtherLeptons) {
-                HJetLeptonPair JetPair(Jet, Lepton);
+                HDoublet JetPair(Jet, Lepton);
                 JetPair.SetTag(0);
                 JetLeptonPairs.push_back(JetPair);
             }
         }
         for (const auto & Jet : OtherJets) {
             for (const auto & Lepton : OtherLeptons) {
-                HJetLeptonPair JetPair(Jet, Lepton);
+                HDoublet JetPair(Jet, Lepton);
                 JetPair.SetTag(0);
                 JetLeptonPairs.push_back(JetPair);
             }
@@ -221,16 +221,16 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
     HJets Neutrinos = Event->GetParticles()->GetNeutrinos();
 
-    std::vector<HTriplePair> TriplePairs;
+    std::vector<HSextet> TriplePairs;
 
-    for (std::vector<HJetLeptonPair>::iterator Pair1 = JetLeptonPairs.begin(); Pair1 != JetLeptonPairs.end(); ++Pair1) {
-        for (std::vector<HJetLeptonPair>::iterator Pair2 = std::next(Pair1); Pair2 != JetLeptonPairs.end(); ++Pair2) {
+    for (std::vector<HDoublet>::iterator Pair1 = JetLeptonPairs.begin(); Pair1 != JetLeptonPairs.end(); ++Pair1) {
+        for (std::vector<HDoublet>::iterator Pair2 = std::next(Pair1); Pair2 != JetLeptonPairs.end(); ++Pair2) {
             Print(HInformation, "NextPair");
-            if ((*Pair1).GetJet() == (*Pair2).GetJet()) continue;
-            if ((*Pair1).GetLepton() == (*Pair2).GetLepton()) continue;
-            HPairPair PairPair((*Pair1), (*Pair2), MissingEt);
-            HTriplePair TriplePair = PairPair.GetTriplePair(Neutrinos);
-            if (TriplePair.GetInvariantMass() <= 0) continue;
+            if ((*Pair1).GetJet1() == (*Pair2).GetJet1()) continue;
+            if ((*Pair1).GetJet2() == (*Pair2).GetJet2()) continue;
+            HQuartet PairPair((*Pair1), (*Pair2), MissingEt);
+            HSextet TriplePair = PairPair.GetTriplePair(Neutrinos);
+            if (TriplePair.GetSextetJet().m() <= 0) continue;
             if (TriplePair.GetError() > 0) TriplePairs.push_back(TriplePair);
         }
     }
@@ -255,7 +255,7 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
 
 }
 
-void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(const hanalysis::HTriplePair &TriplePair)
+void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(const hanalysis::HSextet &TriplePair)
 {
     Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
 

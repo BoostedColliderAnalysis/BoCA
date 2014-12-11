@@ -1,5 +1,5 @@
-# ifndef HHadronicEventTagger_hh
-# define HHadronicEventTagger_hh
+# ifndef HMixedEventTagger_hh
+# define HMixedEventTagger_hh
 
 
 # include "HMva.hh"
@@ -8,8 +8,8 @@
 # include "HJetTag.hh"
 # include "HReader.hh"
 # include "HHadronicTopTagger.hh"
-# include "HHeavyHiggsHadronicTagger.hh"
-# include "HHeavyHiggsHadronicTagger.hh"
+# include "HTopLeptonicTagger.hh"
+# include "HHeavyHiggsMixedTagger.hh"
 # include "HHeavyHiggsEvent.hh"
 
 
@@ -19,7 +19,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HHadronicEventTagger : public hanalysis::HMva
+class hheavyhiggs::HMixedEventTagger : public hanalysis::HMva
 {
 
 public:
@@ -28,15 +28,15 @@ public:
     * @brief Constructor
     *
     */
-    HHadronicEventTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HHadronicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsHadronicTagger *const NewHeavyHiggsTagger);
+    HMixedEventTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HHadronicTopTagger *const NewTopHadronicTagger, hanalysis::HTopLeptonicTagger *const NewTopLeptonicTagger, hanalysis::HHeavyHiggsMixedTagger *const NewHeavyHiggsMixedTagger);
 
     /**
     * @brief Destructor
     *
     */
-    ~HHadronicEventTagger();
+    ~HMixedEventTagger();
 
-    std::vector<hheavyhiggs::HHadronicEventBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<hheavyhiggs::HMixedEventBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
     void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
 
@@ -55,7 +55,7 @@ private:
 
     std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(HJets &Jets);
 
-    void FillBranch(hheavyhiggs::HHadronicEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(hheavyhiggs::HMixedEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
 
     void DefineVariables();
 
@@ -63,13 +63,15 @@ private:
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HWTagger *WTagger;
     hanalysis::HHadronicTopTagger *TopHadronicTagger;
-    hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsTagger;
+    hanalysis::HTopLeptonicTagger *TopLeptonicTagger;
+    hanalysis::HHeavyHiggsMixedTagger *HeavyHiggsTagger;
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *WReader;
     hanalysis::HReader *TopHadronicReader;
+    hanalysis::HReader *TopLeptonicReader;
     hanalysis::HReader *HeavyHiggsReader;
 
-    hheavyhiggs::HHadronicEventBranch *Branch;
+    hheavyhiggs::HMixedEventBranch *Branch;
 
     hanalysis::HJetTag *JetTag;
 
@@ -78,7 +80,7 @@ private:
     };
 
     virtual inline std::string ClassName() const {
-        return "HHhHadEventTagger";
+        return "HHhMixEventTagger";
     };
 
 

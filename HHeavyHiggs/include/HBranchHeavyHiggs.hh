@@ -15,8 +15,10 @@ class HMva;
 class HBranchHeavyHiggs;
 class HLeptonicEventBranch;
 class HHadronicEventBranch;
+class HMixedEventBranch;
 class HLeptonicEventTagger;
 class HHadronicEventTagger;
+class HMixedEventTagger;
 
 }
 
@@ -155,5 +157,54 @@ private:
   ClassDef(HHadronicEventBranch, 1)
 
 };
+
+
+
+/**
+ *
+ * @brief Higgs cpv tagger root tree structure
+ *
+ */
+class hheavyhiggs::HMixedEventBranch : public HBranch
+{
+
+public:
+
+  HMixedEventBranch();
+
+  int LeptonNumber;
+  int JetNumber;
+  int BottomNumber;
+
+  float ScalarHt;
+  float HeavyParticleBdt;
+
+  float HeavyHiggsBdt;
+  float HeavyHiggsMass;
+  float HeavyHiggsPt;
+
+  float BottomSumPt;
+  float BottomDeltaPt;
+
+  float BottomDeltaRap;
+  float BottomDeltaPhi;
+  float BottomDeltaR;
+
+  float HbSumDeltaRap;
+  float HbSumDeltaPhi;
+  float HbSumDeltaR;
+
+  float HbDeltaDeltaRap;
+  float HbDeltaDeltaPhi;
+  float HbDeltaDeltaR;
+
+  int EventTag;
+
+private:
+
+  ClassDef(HMixedEventBranch, 1)
+
+};
+
 
 # endif

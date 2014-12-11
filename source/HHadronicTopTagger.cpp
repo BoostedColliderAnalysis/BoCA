@@ -34,21 +34,21 @@ hanalysis::HHadronicTopTagger::~HHadronicTopTagger()
 }
 
 
-void hanalysis::HHadronicTopTagger::FillBranch(HHadronicTopBranch *TopHadronicBranch, const hanalysis::HPairJetPair &PairJetPair)
+void hanalysis::HHadronicTopTagger::FillBranch(HHadronicTopBranch *TopHadronicBranch, const hanalysis::HTriplet &Triplet)
 {
-    Print(HInformation, "Fill Top Tagger", PairJetPair.GetBdt());
+    Print(HInformation, "Fill Top Tagger", Triplet.GetBdt());
 
-    TopHadronicBranch->Mass = PairJetPair.GetInvariantMass();
-    TopHadronicBranch->JetPt = PairJetPair.GetJetPt();
-    TopHadronicBranch->WPt = PairJetPair.GetPairPt();
-    TopHadronicBranch->DeltaR = PairJetPair.GetDeltaR();
-    TopHadronicBranch->DeltaRap = PairJetPair.GetDeltaRap();
-    TopHadronicBranch->DeltaPhi = PairJetPair.GetDeltaPhi();
-    TopHadronicBranch->WBottomBdt = PairJetPair.GetBdt();
-    TopHadronicBranch->TopTag = PairJetPair.GetTag();
+    TopHadronicBranch->Mass = Triplet.GetTripletJet().m();
+    TopHadronicBranch->JetPt = Triplet.GetJet().pt();
+    TopHadronicBranch->WPt = Triplet.GetDoubletJet().pt();
+    TopHadronicBranch->DeltaR = Triplet.GetDeltaR();
+    TopHadronicBranch->DeltaRap = Triplet.GetDeltaRap();
+    TopHadronicBranch->DeltaPhi = Triplet.GetDeltaPhi();
+    TopHadronicBranch->WBottomBdt = Triplet.GetBdt();
+    TopHadronicBranch->TopTag = Triplet.GetTag();
 }
 
-void hanalysis::HHadronicTopTagger::FillBranch(const hanalysis::HPairJetPair &PairJetPair)
+void hanalysis::HHadronicTopTagger::FillBranch(const hanalysis::HTriplet &PairJetPair)
 {
     Print(HInformation, "Fill Top Tagger", PairJetPair.GetBdt());
     FillBranch(Branch, PairJetPair);
@@ -96,11 +96,11 @@ std::vector<HHadronicTopBranch *> hanalysis::HHadronicTopTagger::GetBranches(han
         }
     }
 
-    std::vector<hanalysis::HPairJetPair>  TopTriples;
+    std::vector<hanalysis::HTriplet>  TopTriples;
     for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1) {
         for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
             for (auto Jet3 = Jet2 + 1; Jet3 != JetsEnd; ++Jet3) {
-                std::vector<hanalysis::HPairJetPair> Triples = FillTriple(*Jet1, *Jet2, *Jet3, State);
+                std::vector<hanalysis::HTriplet> Triples = FillTriple(*Jet1, *Jet2, *Jet3, State);
                 if (Triples.size() > 0)TopTriples.insert(TopTriples.end(), Triples.begin(), Triples.end());
             }
         }
@@ -118,34 +118,34 @@ std::vector<HHadronicTopBranch *> hanalysis::HHadronicTopTagger::GetBranches(han
 
 }
 
-std::vector<hanalysis::HPairJetPair> hanalysis::HHadronicTopTagger::FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State)
+std::vector<hanalysis::HTriplet> hanalysis::HHadronicTopTagger::FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State)
 {
 
-    std::vector<hanalysis::HPairJetPair>  TopTriples;
+    std::vector<hanalysis::HTriplet>  TopTriples;
 
-    HSuperStructure JetPair12(Jet1, Jet2);
+    HDoublet JetPair12(Jet1, Jet2);
     if (GetTripleTag(JetPair12, Jet3) == State) {
         WTagger->FillBranch(JetPair12);
         JetPair12.SetBdt(HadronicWReader->GetBdt());
-        hanalysis::HPairJetPair TopTriple1(JetPair12, Jet3);
+        hanalysis::HTriplet TopTriple1(JetPair12, Jet3);
         TopTriple1.SetTag(State);
         TopTriples.push_back(TopTriple1);
     }
 
-    HSuperStructure JetPair23(Jet2, Jet3);
+    HDoublet JetPair23(Jet2, Jet3);
     if (GetTripleTag(JetPair23, Jet1) == State) {
         WTagger->FillBranch(JetPair23);
         JetPair23.SetBdt(HadronicWReader->GetBdt());
-        hanalysis::HPairJetPair TopTriple2(JetPair23, Jet1);
+        hanalysis::HTriplet TopTriple2(JetPair23, Jet1);
         TopTriple2.SetTag(State);
         TopTriples.push_back(TopTriple2);
     }
 
-    HSuperStructure JetPair13(Jet1, Jet3);
+    HDoublet JetPair13(Jet1, Jet3);
     if (GetTripleTag(JetPair13, Jet2) == State) {
         WTagger->FillBranch(JetPair13);
         JetPair13.SetBdt(HadronicWReader->GetBdt());
-        hanalysis::HPairJetPair TopTriple3(JetPair13, Jet2);
+        hanalysis::HTriplet TopTriple3(JetPair13, Jet2);
         TopTriple3.SetTag(State);
         TopTriples.push_back(TopTriple3);
     }
@@ -154,7 +154,7 @@ std::vector<hanalysis::HPairJetPair> hanalysis::HHadronicTopTagger::FillTriple(c
 
 }
 
-hanalysis::HObject::HState hanalysis::HHadronicTopTagger::GetTripleTag(const HSuperStructure &JetPair, const fastjet::PseudoJet &Jet)
+hanalysis::HObject::HState hanalysis::HHadronicTopTagger::GetTripleTag(const HDoublet &JetPair, const fastjet::PseudoJet &Jet)
 {
     Print(HInformation, "Get Triple Tag");
 

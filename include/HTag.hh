@@ -34,6 +34,8 @@ protected:
 
     int Tag;
 
+    static const int InitialValue = -10;
+
     virtual inline std::string ClassName() const {
         return "HTag";
     };

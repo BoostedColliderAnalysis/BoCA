@@ -37,12 +37,12 @@ hanalysis::HHeavyHiggsMixedTagger::~HHeavyHiggsMixedTagger()
 
 }
 
-void hanalysis::HHeavyHiggsMixedTagger::FillBranch(HHeavyHiggsMixedBranch *HeavyHiggsBranch, const hanalysis::HTriplePair &TriplePair)
+void hanalysis::HHeavyHiggsMixedTagger::FillBranch(HHeavyHiggsMixedBranch *HeavyHiggsBranch, const hanalysis::HSextet &TriplePair)
 {
     Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
 
-    HeavyHiggsBranch->HeavyHiggsMass = TriplePair.GetInvariantMass();
-    HeavyHiggsBranch->HeavyHiggsPt = TriplePair.GetPtSum();
+    HeavyHiggsBranch->HeavyHiggsMass = TriplePair.GetSextetJet().m();
+    HeavyHiggsBranch->HeavyHiggsPt = TriplePair.GetSextetJet().pt();
 
     HeavyHiggsBranch->TopDeltaR = TriplePair.GetDeltaR();
     HeavyHiggsBranch->TopDeltaRap = TriplePair.GetDeltaRap();
@@ -148,14 +148,14 @@ std::vector< HHeavyHiggsMixedBranch * > hanalysis::HHeavyHiggsMixedTagger::GetBr
 
 
     Print(HDebug, "Jets", Jets.size());
-    std::vector<HTriplePair > TriplePairs;
+    std::vector<HSextet > TriplePairs;
     for (auto Lepton = Leptons.begin(); Lepton != Leptons.end(); ++Lepton)
         for (auto Jet1 = Jets.begin(), JetEnd = Jets.end(); Jet1 != JetEnd; ++Jet1)
             for (auto Jet2 = Jet1 + 1; Jet2 != JetEnd; ++Jet2)
                 for (auto Jet3 = Jet2 + 1; Jet3 != JetEnd; ++Jet3)
                     for (auto Jet4 = Jet3 + 1; Jet4 != JetEnd; ++Jet4) {
                         HJets HiggsJets {(*Jet1), (*Jet2), (*Jet3), (*Jet4)};
-                        HTriplePair Pair = GetTriplePair(HiggsJets, *Lepton, Met, State);
+                        HSextet Pair = GetTriplePair(HiggsJets, *Lepton, Met, State);
                         Print(HDebug, "Got Triple Pairs");
                         if (Pair.GetBdt() > -1)TriplePairs.push_back(Pair);
                     }
@@ -190,13 +190,13 @@ class HBestPair
 {
 
 public:
-    void Fill(const hanalysis::HSuperStructure &NewPair, const int Pos1, const int Pos2, const float NewBdt) {
+    void Fill(const hanalysis::HDoublet &NewPair, const int Pos1, const int Pos2, const float NewBdt) {
         Pair = NewPair;
         First = Pos1;
         Second = Pos2;
         Bdt = NewBdt;
     }
-    hanalysis::HSuperStructure Pair;
+    hanalysis::HDoublet Pair;
     float Bdt = -1;
     int First = -1;
     int Second = -1;
@@ -207,22 +207,22 @@ class HBestTriple
 {
 
 public:
-    void Fill(const hanalysis::HTriple &NewTriple, const int Pos, const float NewBdt) {
+    void Fill(const hanalysis::HTriplet &NewTriple, const int Pos, const float NewBdt) {
         Triple = NewTriple;
         Position = Pos;
         Bdt = NewBdt;
     }
-    hanalysis::HTriple Triple;
+    hanalysis::HTriplet Triple;
     float Bdt = -1;
     int Position = -1;
 
 };
 
-hanalysis::HTriplePair hanalysis::HHeavyHiggsMixedTagger::GetTriplePair(HJets &Jets, fastjet::PseudoJet Lepton, fastjet::PseudoJet MissingEt, const hanalysis::HObject::HState State)
+hanalysis::HSextet hanalysis::HHeavyHiggsMixedTagger::GetTriplePair(HJets &Jets, fastjet::PseudoJet Lepton, fastjet::PseudoJet MissingEt, const hanalysis::HObject::HState State)
 {
 
     Print(HDebug, "Get Triple Pairs", Jets.size());
-    HTriplePair TriplePair;
+    HSextet TriplePair;
 
     HBestPair WPair;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
@@ -230,7 +230,7 @@ hanalysis::HTriplePair hanalysis::HHeavyHiggsMixedTagger::GetTriplePair(HJets &J
         for (auto Jet2 = Jets.begin(); Jet2 != Jets.end(); ++Jet2) {
             if (Jet2 == Jet1) continue;
             if (State == HSignal && (*Jet2).user_index() != (*Jet1).user_index()) continue;
-            HSuperStructure Pair(*Jet1, *Jet2);
+            HDoublet Pair(*Jet1, *Jet2);
             Print(HDebug, "Pair");
             WTagger->FillBranch(Pair);
             Print(HDebug, "Bdt");
@@ -249,7 +249,8 @@ hanalysis::HTriplePair hanalysis::HHeavyHiggsMixedTagger::GetTriplePair(HJets &J
         if (State == HSignal && std::abs((*Jet).user_index()) != TopId) continue;
         HJets Neutrinos = TopLeptonicTagger->GetNeutrinos(Lepton, *Jet, MissingEt);
         for (const auto & Neutrino : Neutrinos) {
-            HTriple Triple(Neutrino, Lepton, *Jet);
+          HDoublet Doublet(Neutrino, Lepton);
+            HTriplet Triple(Doublet, *Jet);
             TopLeptonicTagger->FillBranch(Triple);
             const float Bdt = TopLeptonicReader->GetBdt();
             Triple.SetBdt(Bdt);
@@ -264,12 +265,12 @@ hanalysis::HTriplePair hanalysis::HHeavyHiggsMixedTagger::GetTriplePair(HJets &J
 
     Print(HDebug, "Got 2 Ws", Jets.size());
 
-    HPairJetPair Triple(WPair.Pair,Jets[0]);
+    HTriplet Triple(WPair.Pair,Jets[0]);
     TopHadronicTagger->FillBranch(Triple);
     const float Bdt = TopHadronicReader->GetBdt();
     Triple.SetBdt(Bdt);
 
-    HTriplePair TriplePair2(TopTriple.Triple, Triple);
+    HSextet TriplePair2(TopTriple.Triple, Triple);
 
     Print(HDebug, "Got TripelPair");
 
@@ -277,7 +278,7 @@ hanalysis::HTriplePair hanalysis::HHeavyHiggsMixedTagger::GetTriplePair(HJets &J
 
 }
 
-void hanalysis::HHeavyHiggsMixedTagger::FillBranch(const hanalysis::HTriplePair &TriplePair)
+void hanalysis::HHeavyHiggsMixedTagger::FillBranch(const hanalysis::HSextet &TriplePair)
 {
     Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
 
@@ -296,7 +297,7 @@ void hanalysis::HHeavyHiggsMixedTagger::FillBranch(const hanalysis::HTriplePair 
 //         Print(HDebug, "Second Loop", std::distance(JetsBegin, W1Jet2));
 //         if (W1Jet2 == W1Jet1)continue;
 //         if (State == HSignal && (*W1Jet2).user_index() != (*W1Jet1).user_index()) continue;
-//         HSuperStructure Pair1(*W1Jet1, *W1Jet2);
+//         HDoublet Pair1(*W1Jet1, *W1Jet2);
 //         WTagger->FillBranch(Pair1);
 //         Pair1.SetBdt(WReader->GetBdt());
 //         if (HBackground && Pair1.GetBdt() < 0) continue;
@@ -306,7 +307,7 @@ void hanalysis::HHeavyHiggsMixedTagger::FillBranch(const hanalysis::HTriplePair 
 //             if (Bottom1 == W1Jet2)continue;
 //             if (State == HSignal && std::abs((*Bottom1).user_index()) != TopId) continue;
 //             if (State == HSignal && sgn((*Bottom1).user_index()) != sgn((*W1Jet1).user_index())) continue;
-//             HPairJetPair Triple1(Pair1, *Bottom1);
+//             HTriplet Triple1(Pair1, *Bottom1);
 //             TopHadronicTagger->FillBranch(Triple1);
 //             Triple1.SetBdt(TopHadronicReader->GetBdt());
 //             if (HBackground && Triple1.GetBdt() < 0) continue;
@@ -320,7 +321,7 @@ void hanalysis::HHeavyHiggsMixedTagger::FillBranch(const hanalysis::HTriplePair 
 //                     Print(HDebug, "Fifth Loop", std::distance(JetsBegin, W2Jet2));
 //                     if (W2Jet2 == W2Jet1)continue;
 //                     if (State == HSignal && (*W2Jet2).user_index() != (*W2Jet1).user_index()) continue;
-//                     HSuperStructure Pair2(*W2Jet1, *W2Jet2);
+//                     HDoublet Pair2(*W2Jet1, *W2Jet2);
 //                     WTagger->FillBranch(Pair2);
 //                     Pair2.SetBdt(WReader->GetBdt());
 //                     if (HBackground && Pair2.GetBdt() < 0) continue;
@@ -340,7 +341,7 @@ void hanalysis::HHeavyHiggsMixedTagger::FillBranch(const hanalysis::HTriplePair 
 //                             (*Bottom2).user_index() == - (*Bottom1).user_index()
 //                         ) continue;
 //
-//                         HPairJetPair Triple2(Pair2, *Bottom2);
+//                         HTriplet Triple2(Pair2, *Bottom2);
 //                         TopHadronicTagger->FillBranch(Triple2);
 //                         Triple2.SetBdt(TopHadronicReader->GetBdt());
 //                         if (HBackground && Triple2.GetBdt() < 0) continue;

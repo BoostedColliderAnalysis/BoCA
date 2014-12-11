@@ -1,29 +1,29 @@
 # ifndef HPairPair_hh
 # define HPairPair_hh
 
-# include "HJetLeptonPair.hh"
-# include "HTriplePair.hh"
+# include "HDoublet.hh"
+# include "HSextet.hh"
 #include "WIMPMASS.h"
 
-class hanalysis::HPairPair : public HTag
+class hanalysis::HQuartet : public HTag
 {
 
 public:
 
-    HPairPair() {}
+    HQuartet() {}
 
-    HPairPair(const HJetLeptonPair &NewPair1, const HJetLeptonPair &NewPair2);
+    HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2);
 
-    HPairPair(const HJetLeptonPair &NewPair1, const HJetLeptonPair &NewPair2, const fastjet::PseudoJet &NewMet);
+    HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2, const fastjet::PseudoJet &NewMet);
 
     void SetMet(const fastjet::PseudoJet &NewMet) {
         Met = NewMet;
     }
 
-    ~HPairPair();
+    ~HQuartet();
 
     float GetDeltaR() const {
-        return Pair1.GetPairJet().delta_R(Pair2.GetPairJet());
+        return Pair1.GetDoubletJet().delta_R(Pair2.GetDoubletJet());
     }
 
     float GetInvariantMass() const {
@@ -39,11 +39,11 @@ public:
     }
 
     fastjet::PseudoJet GetPairJet() const {
-        return (Pair1.GetPairJet() + Pair2.GetPairJet());
+        return (Pair1.GetDoubletJet() + Pair2.GetDoubletJet());
     }
 
     float GetPtSum() const {
-        return (Pair1.GetPtSum() + Pair2.GetPtSum());
+        return (Pair1.GetDoubletJet().pt() + Pair2.GetDoubletJet().pt());
     }
 
     float GetBdt() const {
@@ -55,21 +55,21 @@ public:
     }
 
     float GetDeltaRap() const {
-        return (std::abs(Pair1.GetPairJet().rap() - Pair2.GetPairJet().rap()));
+        return (std::abs(Pair1.GetDoubletJet().rap() - Pair2.GetDoubletJet().rap()));
     }
 
     float GetDeltaPhi() const {
-        return (Pair1.GetPairJet().delta_phi_to(Pair2.GetPairJet()));
+        return (Pair1.GetDoubletJet().delta_phi_to(Pair2.GetDoubletJet()));
     }
 
-    std::vector<HTriplePair> GetTriplePairs();
+    std::vector<HSextet> GetTriplePairs();
 
-    std::vector<HTriplePair> GetTriplePairs(const float Mass1, const float Mass2, const float Mass3);
+    std::vector<HSextet> GetTriplePairs(const float Mass1, const float Mass2, const float Mass3);
 
-    HTriplePair GetTriplePair(HJets Neutrinos);
-    
-    HPair GetPair1()const{return Pair1;}
-    HPair GetPair2()const{return Pair2;}
+    HSextet GetTriplePair(HJets Neutrinos);
+
+    HDoublet GetPair1()const{return Pair1;}
+    HDoublet GetPair2()const{return Pair2;}
 
 protected:
 
@@ -77,8 +77,8 @@ protected:
         return "HPairPair";
     };
 
-private:    
-    
+private:
+
     void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
 
     inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
@@ -87,12 +87,12 @@ private:
         fastjet::PseudoJet Jet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
         return Jet;
     }
-    
+
     float GetTransverseError(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) const;
 
-    HJetLeptonPair Pair1;
+    HDoublet Pair1;
 
-    HJetLeptonPair Pair2;
+    HDoublet Pair2;
 
     fastjet::PseudoJet Met;
 

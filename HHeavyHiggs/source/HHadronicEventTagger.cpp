@@ -52,8 +52,8 @@ void hheavyhiggs::HHadronicEventTagger::FillBranch(hheavyhiggs::HHadronicEventBr
     EventBranch->HeavyParticleBdt = HeavyHiggsEvent.GetBdt();
 
     EventBranch->HeavyHiggsBdt = HeavyHiggsEvent.GetHeavyHiggs().GetBdt();
-    EventBranch->HeavyHiggsMass = HeavyHiggsEvent.GetHeavyHiggs().GetInvariantMass();
-    EventBranch->HeavyHiggsPt = HeavyHiggsEvent.GetHeavyHiggs().GetPtSum();
+    EventBranch->HeavyHiggsMass = HeavyHiggsEvent.GetHeavyHiggs().GetSextetJet().m();
+    EventBranch->HeavyHiggsPt = HeavyHiggsEvent.GetHeavyHiggs().GetSextetJet().pt();
 
     EventBranch->BottomSumPt = HeavyHiggsEvent.GetBottomSumPt();
     EventBranch->BottomDeltaPt = HeavyHiggsEvent.GetBottomDeltaPt();
@@ -182,13 +182,13 @@ class HBestPair
 {
 
 public:
-    void Fill(const hanalysis::HSuperStructure &NewPair, const int Pos1, const int Pos2, const float NewBdt) {
+    void Fill(const hanalysis::HDoublet &NewPair, const int Pos1, const int Pos2, const float NewBdt) {
         Pair = NewPair;
         First = Pos1;
         Second = Pos2;
         Bdt = NewBdt;
     }
-    hanalysis::HSuperStructure Pair;
+    hanalysis::HDoublet Pair;
     float Bdt = -1;
     int First = -1;
     int Second = -1;
@@ -199,12 +199,12 @@ class HBestTriple
 {
 
 public:
-    void Fill(const hanalysis::HPairJetPair &NewTriple, const int Pos, const float NewBdt) {
+    void Fill(const hanalysis::HTriplet &NewTriple, const int Pos, const float NewBdt) {
         Triple = NewTriple;
         Position = Pos;
         Bdt = NewBdt;
     }
-    hanalysis::HPairJetPair Triple;
+    hanalysis::HTriplet Triple;
     float Bdt = -1;
     int Position = -1;
 
@@ -216,13 +216,13 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HHadronicEventTagger::GetHeavyHiggsEv
 
     std::vector<HHeavyHiggsEvent> HeavyHiggsEvents;
 
-    std::vector<hanalysis::HSuperStructure> Pairs;
+    std::vector<hanalysis::HDoublet> Pairs;
     for (int i = 0; i < 2; ++i) {
         HBestPair BestPair;
         for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
             for (auto Jet2 = Jets.begin(); Jet2 != Jets.end(); ++Jet2) {
                 if (Jet2 == Jet1) continue;
-                hanalysis::HSuperStructure Pair(*Jet1, *Jet2);
+                hanalysis::HDoublet Pair(*Jet1, *Jet2);
                 WTagger->FillBranch(Pair);
                 const float Bdt = WReader->GetBdt();
                 Pair.SetBdt(Bdt);
@@ -238,7 +238,7 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HHadronicEventTagger::GetHeavyHiggsEv
         Pairs.push_back(BestPair.Pair);
     }
 
-    std::vector<hanalysis::HPairJetPair> Triples;
+    std::vector<hanalysis::HTriplet> Triples;
     for (int i = 0; i < 2; ++i) {
         Print(HDebug, "Tops");
         HBestTriple BestTriple;
@@ -246,7 +246,7 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HHadronicEventTagger::GetHeavyHiggsEv
             Print(HDebug, "Ws");
             for (auto Jet = Jets.begin(); Jet != Jets.end(); ++Jet) {
                 Print(HDebug, "Bottoms");
-                hanalysis::HPairJetPair Triple(*Pair, *Jet);
+                hanalysis::HTriplet Triple(*Pair, *Jet);
                 TopHadronicTagger->FillBranch(Triple);
                 const float Bdt = TopHadronicReader->GetBdt();
                 Triple.SetBdt(Bdt);
@@ -265,8 +265,8 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HHadronicEventTagger::GetHeavyHiggsEv
     }
 
     if (Triples.size() != 2 || Jets.size() != 2) Print(HError, "Firt Triple", Triples.size(),Jets.size());
-    
-    hanalysis::HTriplePair TriplePair(Triples[0], Triples[1]);
+
+    hanalysis::HSextet TriplePair(Triples[0], Triples[1]);
     HeavyHiggsTagger->FillBranch(TriplePair);
     TriplePair.SetBdt(HeavyHiggsReader->GetBdt());
     HeavyHiggsEvents.push_back(HHeavyHiggsEvent(TriplePair, Jets[0], Jets[1]));

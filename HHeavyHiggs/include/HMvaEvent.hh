@@ -17,13 +17,13 @@ class HHeavyHiggsEvent : public hanalysis::HTag
 
 public:
 
-  HHeavyHiggsEvent(const hanalysis::HTriplePair &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
+  HHeavyHiggsEvent(const hanalysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
     HeavyHiggs = NewHeavyHiggs;
     Bottom = NewBottom;
     AntiBottom = NewAntiBottom;
   }
 
-  hanalysis::HTriplePair GetHeavyHiggs()const {
+  hanalysis::HSextet GetHeavyHiggs()const {
     return HeavyHiggs;
   }
 
@@ -123,7 +123,7 @@ private:
 
   fastjet::PseudoJet Bottom;
   fastjet::PseudoJet AntiBottom;
-  hanalysis::HTriplePair HeavyHiggs;
+  hanalysis::HSextet HeavyHiggs;
   int LeptonNumber;
   int BottomNumber;
   int JetNumber;

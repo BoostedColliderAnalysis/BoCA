@@ -7,7 +7,7 @@
 # include "HJetTag.hh"
 # include "HReader.hh"
 # include "HBottomTagger.hh"
-# include "HTriple.hh"
+# include "HTriplet.hh"
 
 /**
  * @brief Bdt leptonic top tagger
@@ -24,8 +24,8 @@ public:
 
     std::vector<HTopLeptonicBranch*> GetBranches(HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const hanalysis::HTriple &Triple);
-    
+    void FillBranch(const hanalysis::HTriplet &Triple);
+
     HJets GetNeutrinos(const fastjet::PseudoJet &Lepton, const fastjet::PseudoJet &Bottom, const fastjet::PseudoJet &MissingEt)const;
 
 
@@ -40,9 +40,9 @@ private:
     HJetTag *JetTag;
 
     void DefineVariables();
-    void FillBranch(HTopLeptonicBranch *const LeptonicTopBranch, const hanalysis::HTriple &JetLeptonPair);
-   
-    
+    void FillBranch(HTopLeptonicBranch*const LeptonicTopBranch, const hanalysis::HTriplet& Triplet);
+
+
     virtual inline std::string NameSpaceName() const {
         return "hdelphes";
     };

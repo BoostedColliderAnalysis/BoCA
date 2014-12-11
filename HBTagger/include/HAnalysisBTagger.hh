@@ -5,8 +5,7 @@
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "HBranchBTagger.hh"
-# include "HSubStructure.hh"
-# include "HSuperStructure.hh"
+# include "HDoublet.hh"
 
 /**
  *
@@ -80,7 +79,7 @@ private:
 
     hanalysis::HJetTag *JetTag;
 
-    hanalysis::HSubStructure *SubStructure;
+    hanalysis::HDoublet *SubStructure;
 
     /**
      * @brief Lepton calculations

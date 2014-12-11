@@ -3,6 +3,8 @@
 hanalysis::HTag::HTag()
 {
 //     Print(HInformation, "Constructor");
+  Bdt = InitialValue;
+  Tag = InitialValue;
 
 }
 

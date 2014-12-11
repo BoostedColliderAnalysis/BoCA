@@ -36,20 +36,20 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
     Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
 
-    Observables.push_back(NewObservable(&Branch->TriplePt, "TriplePt"));    
-    Observables.push_back(NewObservable(&Branch->PairPt, "PairPt"));    
-    Observables.push_back(NewObservable(&Branch->JetPt, "JetPt"));    
+    Observables.push_back(NewObservable(&Branch->TriplePt, "TriplePt"));
+    Observables.push_back(NewObservable(&Branch->PairPt, "PairPt"));
+    Observables.push_back(NewObservable(&Branch->JetPt, "JetPt"));
     Observables.push_back(NewObservable(&Branch->LeptonPt, "LeptonPt"));
     Observables.push_back(NewObservable(&Branch->MissingEt, "MissingEt"));
-    
+
     Observables.push_back(NewObservable(&Branch->PairDeltaPhi, "PairDeltaPhi"));
     Observables.push_back(NewObservable(&Branch->PairDeltaRap, "PairDeltaRap"));
     Observables.push_back(NewObservable(&Branch->PairDeltaR, "PairDeltaR"));
-    
+
     Observables.push_back(NewObservable(&Branch->TripleDeltaPhi, "TripleDeltaPhi"));
     Observables.push_back(NewObservable(&Branch->TripleDeltaRap, "TripleDeltaRap"));
     Observables.push_back(NewObservable(&Branch->TripleDeltaR, "TripleDeltaR"));
-    
+
     Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
 
     Spectators.push_back(NewObservable(&Branch->TopTag, "TopTag"));
@@ -58,32 +58,32 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
 }
 
-void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const LeptonicTopBranch, const HTriple &Triple)
+void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const LeptonicTopBranch, const HTriplet &Triplet)
 {
-    Print(HInformation, "Fill Top Tagger", Triple.GetBdt());
+    Print(HInformation, "Fill Top Tagger", Triplet.GetBdt());
 
-    LeptonicTopBranch->Mass = Triple.GetTripleInvariantMass();
-    
-    LeptonicTopBranch->PairPt = Triple.GetTriplePtSum();
-    LeptonicTopBranch->PairPt = Triple.GetPairPtSum();
-    LeptonicTopBranch->JetPt = Triple.GetJet3().pt();
-    LeptonicTopBranch->LeptonPt = Triple.GetJet2().pt();
-    LeptonicTopBranch->MissingEt = Triple.GetJet1().pt();
-    
-    LeptonicTopBranch->TripleDeltaR = Triple.GetTripleDeltaR();
-    LeptonicTopBranch->TripleDeltaRap = Triple.GetTripleDeltaRap();
-    LeptonicTopBranch->TripleDeltaPhi = Triple.GetTripleDeltaPhi();
-    
-    LeptonicTopBranch->PairDeltaR = Triple.GetPairDeltaR();
-    LeptonicTopBranch->PairDeltaRap = Triple.GetPairDeltaRap();
-    LeptonicTopBranch->PairDeltaPhi = Triple.GetPairDeltaPhi();
-    
-    LeptonicTopBranch->BottomBdt = Triple.GetBdt();
-    LeptonicTopBranch->TopTag = Triple.GetTag();
+    LeptonicTopBranch->Mass = Triplet.GetTripletJet().m();
+
+    LeptonicTopBranch->PairPt = Triplet.GetTripletJet().pt();
+    LeptonicTopBranch->PairPt = Triplet.GetDoubletJet().pt();
+    LeptonicTopBranch->JetPt = Triplet.GetJet().pt();
+    LeptonicTopBranch->LeptonPt = Triplet.GetDoublet().GetJet1().pt();
+    LeptonicTopBranch->MissingEt = Triplet.GetDoublet().GetJet2().pt();
+
+    LeptonicTopBranch->TripleDeltaR = Triplet.GetDeltaR();
+    LeptonicTopBranch->TripleDeltaRap = Triplet.GetDeltaRap();
+    LeptonicTopBranch->TripleDeltaPhi = Triplet.GetDeltaPhi();
+
+    LeptonicTopBranch->PairDeltaR = Triplet.GetDoublet().GetDeltaR();
+    LeptonicTopBranch->PairDeltaRap = Triplet.GetDoublet().GetDeltaRap();
+    LeptonicTopBranch->PairDeltaPhi = Triplet.GetDoublet().GetPhiDelta();
+
+    LeptonicTopBranch->BottomBdt = Triplet.GetBdt();
+    LeptonicTopBranch->TopTag = Triplet.GetTag();
 
 }
 
-void hanalysis::HTopLeptonicTagger::FillBranch(const HTriple &Triple)
+void hanalysis::HTopLeptonicTagger::FillBranch(const HTriplet &Triple)
 {
     Print(HInformation, "Fill Top Tagger", Triple.GetBdt());
 
@@ -126,7 +126,7 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
-    std::vector<HTriple> Triples;
+    std::vector<HTriplet> Triples;
     for (const auto & Lepton : Leptons) {
         if (State == HSignal && std::abs(Lepton.user_index() != TopId)) continue;
 
@@ -139,7 +139,8 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
             if (State == HBackground && (Lepton.user_index() == Jet.user_index() && std::abs(Jet.user_index()) == TopId)) continue;
             HJets Neutrinos = GetNeutrinos(Lepton, Jet, MissingEt);
             for (const auto & Neutrino : Neutrinos) {
-                HTriple Triple(Neutrino, Lepton, Jet);
+              HDoublet Doublet(Lepton,Neutrino);
+                HTriplet Triple(Doublet, Jet);
                 if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index()) Triple.SetTag(1);
                 else Triple.SetTag(0);
                 Triples.push_back(Triple);
@@ -164,7 +165,7 @@ HJets hanalysis::HTopLeptonicTagger::GetNeutrinos(const fastjet::PseudoJet &Lept
 {
 
     HJets Neutrinos;
-    
+
     const float TopMass2 = std::pow(TopMass, 2);
     const float WMass2 = std::pow(WMass, 2);
 

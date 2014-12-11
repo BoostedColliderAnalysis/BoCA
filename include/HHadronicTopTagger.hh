@@ -8,7 +8,7 @@
 # include "HReader.hh"
 # include "HBottomTagger.hh"
 # include "HWTagger.hh"
-# include "HPairJetPair.hh"
+# include "HTriplet.hh"
 
 /**
  * @brief calculation regarding leptons
@@ -25,9 +25,9 @@ public:
 
     std::vector<HHadronicTopBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
-    void FillBranch(const hanalysis::HPairJetPair &PairJetPair);
+    void FillBranch(const hanalysis::HTriplet &PairJetPair);
 
-//     std::vector<hanalysis::HPairJetPair> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
+//     std::vector<hanalysis::HTriplet> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
 
 private:
 
@@ -43,11 +43,11 @@ private:
 
     void DefineVariables();
 
-    HState GetTripleTag(const hanalysis::HSuperStructure &JetPair, const fastjet::PseudoJet &Jet);
+    HState GetTripleTag(const hanalysis::HDoublet &JetPair, const fastjet::PseudoJet &Jet);
 
-    std::vector<hanalysis::HPairJetPair> FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State);
+    std::vector<hanalysis::HTriplet> FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State);
 
-    void FillBranch(HHadronicTopBranch *LeptonicTopBranch, const hanalysis::HPairJetPair &PairJetPair);
+    void FillBranch(HHadronicTopBranch *LeptonicTopBranch, const hanalysis::HTriplet &PairJetPair);
 
     virtual inline std::string ClassName() const {
         return "HHadronicTopTagger";

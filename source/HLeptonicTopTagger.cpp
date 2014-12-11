@@ -48,13 +48,13 @@ void hanalysis::HLeptonicTopTagger::DefineVariables()
 
 }
 
-void hanalysis::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch * const LeptonicTopBranch, const HJetLeptonPair &JetLeptonPair)
+void hanalysis::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch * const LeptonicTopBranch, const HDoublet &JetLeptonPair)
 {
     Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
 
-    LeptonicTopBranch->Mass = JetLeptonPair.GetInvariantMass();
-    LeptonicTopBranch->JetPt = JetLeptonPair.GetJetPt();
-    LeptonicTopBranch->LeptonPt = JetLeptonPair.GetLeptonPt();
+    LeptonicTopBranch->Mass = JetLeptonPair.GetDoubletJet().m();
+    LeptonicTopBranch->JetPt = JetLeptonPair.GetJet1().pt();
+    LeptonicTopBranch->LeptonPt = JetLeptonPair.GetJet2().pt();
     LeptonicTopBranch->DeltaR = JetLeptonPair.GetDeltaR();
     LeptonicTopBranch->DeltaRap = JetLeptonPair.GetDeltaRap();
     LeptonicTopBranch->DeltaPhi = JetLeptonPair.GetPhiDelta();
@@ -63,7 +63,7 @@ void hanalysis::HLeptonicTopTagger::FillBranch(HLeptonicTopBranch * const Lepton
 
 }
 
-void hanalysis::HLeptonicTopTagger::FillBranch(const HJetLeptonPair &JetLeptonPair)
+void hanalysis::HLeptonicTopTagger::FillBranch(const HDoublet &JetLeptonPair)
 {
     Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
 
@@ -104,7 +104,7 @@ std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(HEv
         }
     }
 
-    std::vector<HJetLeptonPair> JetLeptonPairs;
+    std::vector<HDoublet> JetLeptonPairs;
     for (const auto & Lepton : Leptons) {
         if (State == HSignal && std::abs(Lepton.user_index() != TopId)) continue;
 
@@ -116,7 +116,7 @@ std::vector<HLeptonicTopBranch *> hanalysis::HLeptonicTopTagger::GetBranches(HEv
 
             if (State == HBackground && (Lepton.user_index() == Jet.user_index() && std::abs(Jet.user_index()) == TopId)) continue;
 
-            HJetLeptonPair JetLeptonPair(Jet, Lepton);
+            HDoublet JetLeptonPair(Jet, Lepton);
             if (std::abs(Jet.user_index()) == TopId && Jet.user_index() == Lepton.user_index()) JetLeptonPair.SetTag(1);
             else JetLeptonPair.SetTag(0);
             JetLeptonPairs.push_back(JetLeptonPair);

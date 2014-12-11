@@ -116,49 +116,82 @@ add_subdirectory(HTest)
 
 
 
+ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles)
+ set(DOXYFILE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+ set(DOXYFILE_EXCLUDE_DIR ${CMAKE_SOURCE_DIR}/build)
+ set(PROJECT_VERSION ${Version})
+ set(DOXYFILE_GENERATE_LATEX NO)
+ set(DOXYFILE_CREATE_SUBDIRS YES)
+ set(DOXYFILE_WARN_IF_UNDOCUMENTED NO)
 
-
-
-
-
-
-
-
-
-
-# set(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
+ # Variables you may define are:
+#  DOXYFILE_SOURCE_DIR - Path where the Doxygen input files are.
+#       Defaults to the current source directory.
+#  DOXYFILE_EXTRA_SOURCES - Additional source diretories/files for Doxygen to scan.
+#       The Paths should be in double quotes and separated by space. e.g.:
+#        "${CMAKE_CURRENT_BINARY_DIR}/foo.c" "${CMAKE_CURRENT_BINARY_DIR}/bar/"
 #
-# IF(BUILD_DOCUMENTATION)
+#  DOXYFILE_OUTPUT_DIR - Path where the Doxygen output is stored.
+#       Defaults to "${CMAKE_CURRENT_BINARY_DIR}/doc".
 #
-# MESSAGE(${CMAKE_CURRENT_SOURCE_DIR})
+#  DOXYFILE_LATEX - ON/OFF; Set to "ON" if you want the LaTeX documentation
+#       to be built.
+#  DOXYFILE_LATEX_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where
+#       the Doxygen LaTeX output is stored. Defaults to "latex".
 #
-# FIND_PACKAGE(Doxygen)
-#   IF(NOT DOXYGEN_FOUND)
-#     MESSAGE(FATAL_ERROR
-#       "Doxygen is needed to build the documentation.")
-#   ENDIF()
+#  DOXYFILE_HTML_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where
+#       the Doxygen html output is stored. Defaults to "html".
 #
-#   SET( doxyfile_in          ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in     )
-#   SET( doxyfile             ${PROJECT_BINARY_DIR}/Doxyfile              )
-#   SET( doxy_html_index_file ${CMAKE_CURRENT_BINARY_DIR}/html/index.html )
-#   SET( doxy_output_root     ${CMAKE_CURRENT_BINARY_DIR}                 ) # Pasted into Doxyfile.in
-#   SET( doxy_input           ${CMAKE_CURRENT_SOURCE_DIR}                  ) # Pasted into Doxyfile.in
-#   SET( doxy_extra_files     ${CMAKE_CURRENT_SOURCE_DIR}/mainpage.dox    ) # Pasted into Doxyfile.in
+
+ include(UseDoxygen)
+
+
+
+# set(CMAKE_INSTALL_PREFIX ${CMAKE_ROOT})
+
+# install(FILES UseDoxygen.cmake Doxyfile.in
+#         DESTINATION "Modules")
+
+# configure_file(
+#   "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+#   "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+#   IMMEDIATE @ONLY)
 #
-#   CONFIGURE_FILE( ${doxyfile_in} ${doxyfile} @ONLY )
+# add_custom_target(uninstall
+#         COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
+
+
 #
-#   ADD_CUSTOM_COMMAND( OUTPUT ${doxy_html_index_file}
-#                       COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-#                       # The following should be ${doxyfile} only but it
-#                       # will break the dependency.
-#                       # The optimal solution would be creating a
-#                       # custom_command for ${doxyfile} generation
-#                       # but I still have to figure out how...
-#                       MAIN_DEPENDENCY ${doxyfile} ${doxyfile_in}
-#                       DEPENDS ${doxy_extra_files}
-#                       COMMENT "Generating HTML documentation")
 #
-#   ADD_CUSTOM_TARGET( doc ALL DEPENDS ${doxy_html_index_file} )
+# # add a target to generate API documentation with Doxygen
+# find_package(Doxygen)
+# option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
 #
-#   INSTALL( DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc )
-# ENDIF()
+# if(BUILD_DOCUMENTATION)
+#     if(NOT DOXYGEN_FOUND)
+#         message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+#     endif()
+#
+#     set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles/Doxyfile.in)
+#     set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+# #   SET( doxy_html_index_file ${CMAKE_CURRENT_BINARY_DIR}/html/index.html )
+# #     SET( INPUT     ${CMAKE_CURRENT_SOURCE_DIR}                 ) # Pasted into Doxyfile.in
+# #     SET( PROJECT_NAME            "HAnalysis"                 ) # Pasted into Doxyfile.in
+# #     SET( doxy_output_root     ${CMAKE_CURRENT_BINARY_DIR}                 ) # Pasted into Doxyfile.in
+# #     SET( doxy_input           ${PROJECT_SOURCE_DIR}/blub                   ) # Pasted into Doxyfile.in
+# #     SET( doxy_extra_files     ${CMAKE_CURRENT_SOURCE_DIR}/README.md    ) # Pasted into Doxyfile.in
+#
+#     configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+#
+#
+#
+#
+#     add_custom_target(doc ALL
+#         COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+#         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#         COMMENT "Generating API documentation with Doxygen"
+#         VERBATIM)
+#
+#     install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
+# endif()
