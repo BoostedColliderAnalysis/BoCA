@@ -24,7 +24,10 @@ public:
 
     std::vector<HTopLeptonicBranch*> GetBranches(HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const hanalysis::HTriple &JetLeptonPair);
+    void FillBranch(const hanalysis::HTriple &Triple);
+    
+    HJets GetNeutrinos(const fastjet::PseudoJet &Lepton, const fastjet::PseudoJet &Bottom, const fastjet::PseudoJet &MissingEt)const;
+
 
 private:
 
@@ -37,9 +40,6 @@ private:
     HJetTag *JetTag;
 
     void DefineVariables();
-    
-    HJets GetNeutrinos(const fastjet::PseudoJet &Lepton, const fastjet::PseudoJet &Bottom, const fastjet::PseudoJet &MissingEt)const;
-
     void FillBranch(HTopLeptonicBranch *const LeptonicTopBranch, const hanalysis::HTriple &JetLeptonPair);
    
     

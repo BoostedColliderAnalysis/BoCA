@@ -20,7 +20,7 @@ class hanalysis::HHeavyHiggsMixedTagger : public HMva
 
 public:
 
-    HHeavyHiggsMixedTagger(HBottomTagger *const NewBottomTagger,HWTagger *const NewWTagger, HLeptonicTopTagger *const NewTopLeptonicTagger, HHadronicTopTagger *const NewTopHadronicTagger);
+    HHeavyHiggsMixedTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopLeptonicTagger *const NewTopLeptonicTagger, hanalysis::HHadronicTopTagger *const NewTopHadronicTagger);
 
     ~HHeavyHiggsMixedTagger();
 

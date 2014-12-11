@@ -178,7 +178,7 @@ std::vector<hheavyhiggs::HHadronicEventBranch * > hheavyhiggs::HHadronicEventTag
 
 }
 
-class HBestPair
+class HBestTriple
 {
 
 public:
@@ -218,7 +218,7 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HHadronicEventTagger::GetHeavyHiggsEv
 
     std::vector<hanalysis::HSuperStructure> Pairs;
     for (int i = 0; i < 2; ++i) {
-        HBestPair BestPair;
+        HBestTriple BestPair;
         for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
             for (auto Jet2 = Jets.begin(); Jet2 != Jets.end(); ++Jet2) {
                 if (Jet2 == Jet1) continue;

@@ -83,11 +83,11 @@ void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const Leptoni
 
 }
 
-void hanalysis::HTopLeptonicTagger::FillBranch(const HTriple &JetLeptonPair)
+void hanalysis::HTopLeptonicTagger::FillBranch(const HTriple &Triple)
 {
-    Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
+    Print(HInformation, "Fill Top Tagger", Triple.GetBdt());
 
-    FillBranch(Branch, JetLeptonPair);
+    FillBranch(Branch, Triple);
 
 }
 
