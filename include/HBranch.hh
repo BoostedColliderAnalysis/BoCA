@@ -206,6 +206,46 @@ private:
 };
 
 /**
+ * 
+ * @brief Top tagger root tree structure
+ *
+ */
+class HTopLeptonicBranch : public HBranch
+{
+    
+public:
+    
+    HTopLeptonicBranch();
+    
+    float Mass;
+    
+    float TriplePt;
+    float PairPt;
+    
+    float JetPt;
+    float LeptonPt;
+    float MissingEt;
+    
+    float PairDeltaRap;
+    float PairDeltaPhi;
+    float PairDeltaR;
+    
+    float TripleDeltaRap;
+    float TripleDeltaPhi;
+    float TripleDeltaR;
+    
+    float BottomBdt;
+    
+    int TopTag;
+    
+private:
+    
+    ClassDef(HTopLeptonicBranch, 1)
+    
+};
+
+
+/**
  *
  * @brief Higgs tagger root tree structure
  *

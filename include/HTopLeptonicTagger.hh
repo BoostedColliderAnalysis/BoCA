@@ -22,7 +22,7 @@ public:
 
     ~HTopLeptonicTagger();
 
-    std::vector<HLeptonicTopBranch*> GetBranches(HEvent *const Event, const HObject::HState State);
+    std::vector<HTopLeptonicBranch*> GetBranches(HEvent *const Event, const HObject::HState State);
 
     void FillBranch(const hanalysis::HTriple &JetLeptonPair);
 
@@ -32,7 +32,7 @@ private:
 
     HReader *BottomReader;
 
-    HLeptonicTopBranch *Branch;
+    HTopLeptonicBranch *Branch;
 
     HJetTag *JetTag;
 
@@ -40,7 +40,7 @@ private:
     
     HJets GetNeutrinos(const fastjet::PseudoJet &Lepton, const fastjet::PseudoJet &Bottom, const fastjet::PseudoJet &MissingEt)const;
 
-    void FillBranch(HLeptonicTopBranch *const LeptonicTopBranch, const hanalysis::HTriple &JetLeptonPair);
+    void FillBranch(HTopLeptonicBranch *const LeptonicTopBranch, const hanalysis::HTriple &JetLeptonPair);
    
     
     virtual inline std::string NameSpaceName() const {

@@ -105,6 +105,34 @@ HLeptonicTopBranch::HLeptonicTopBranch()
 
 }
 
+ClassImp(HTopLeptonicBranch)
+
+HTopLeptonicBranch::HTopLeptonicBranch()
+{
+    
+    Mass = InitialValue;
+    
+    TriplePt = InitialValue;
+    PairPt = InitialValue;
+        
+    JetPt = InitialValue;
+    LeptonPt = InitialValue;
+    MissingEt = InitialValue;
+    
+    PairDeltaRap = InitialValue;
+    PairDeltaPhi = InitialValue;
+    PairDeltaR = InitialValue;
+    
+    TripleDeltaRap = InitialValue;
+    TripleDeltaPhi = InitialValue;
+    TripleDeltaR = InitialValue;
+    
+    BottomBdt = InitialValue;
+    
+    TopTag = InitialValue;
+    
+}
+
 
 ClassImp(HHiggsBranch)
 

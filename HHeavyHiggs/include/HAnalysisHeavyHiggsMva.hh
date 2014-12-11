@@ -89,7 +89,7 @@ private:
     hanalysis::HReader *HeavyHiggsHadronicReader;
 
     inline int GetEventNumberMax() const {
-        return 100;
+        return 100000;
     };
 
     hanalysis::HJetTag *JetTag;

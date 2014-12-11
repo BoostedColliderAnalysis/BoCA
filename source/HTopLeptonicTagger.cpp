@@ -14,7 +14,7 @@ hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(HBottomTagger *const NewBottom
     BackgroundNames = {"NotTopLeptonic"};
     CandidateBranchName = "TopLeptonic";
 
-    Branch = new HLeptonicTopBranch();
+    Branch = new HTopLeptonicBranch();
     JetTag = new HJetTag();
 
     DefineVariables();
@@ -35,11 +35,21 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
     Print(HNotification , "Define Variables");
 
     Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->JetPt, "JetPt"));
+
+    Observables.push_back(NewObservable(&Branch->TriplePt, "TriplePt"));    
+    Observables.push_back(NewObservable(&Branch->PairPt, "PairPt"));    
+    Observables.push_back(NewObservable(&Branch->JetPt, "JetPt"));    
     Observables.push_back(NewObservable(&Branch->LeptonPt, "LeptonPt"));
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch->MissingEt, "MissingEt"));
+    
+    Observables.push_back(NewObservable(&Branch->PairDeltaPhi, "PairDeltaPhi"));
+    Observables.push_back(NewObservable(&Branch->PairDeltaRap, "PairDeltaRap"));
+    Observables.push_back(NewObservable(&Branch->PairDeltaR, "PairDeltaR"));
+    
+    Observables.push_back(NewObservable(&Branch->TripleDeltaPhi, "TripleDeltaPhi"));
+    Observables.push_back(NewObservable(&Branch->TripleDeltaRap, "TripleDeltaRap"));
+    Observables.push_back(NewObservable(&Branch->TripleDeltaR, "TripleDeltaR"));
+    
     Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
 
     Spectators.push_back(NewObservable(&Branch->TopTag, "TopTag"));
@@ -48,18 +58,28 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
 }
 
-void hanalysis::HTopLeptonicTagger::FillBranch(HLeptonicTopBranch *const LeptonicTopBranch, const HTriple &JetLeptonPair)
+void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const LeptonicTopBranch, const HTriple &Triple)
 {
-    Print(HInformation, "Fill Top Tagger", JetLeptonPair.GetBdt());
+    Print(HInformation, "Fill Top Tagger", Triple.GetBdt());
 
-    LeptonicTopBranch->Mass = JetLeptonPair.GetInvariantMass();
-    LeptonicTopBranch->JetPt = JetLeptonPair.GetJetPt();
-    LeptonicTopBranch->LeptonPt = JetLeptonPair.GetLeptonPt();
-    LeptonicTopBranch->DeltaR = JetLeptonPair.GetDeltaR();
-    LeptonicTopBranch->DeltaRap = JetLeptonPair.GetDeltaRap();
-    LeptonicTopBranch->DeltaPhi = JetLeptonPair.GetPhiDelta();
-    LeptonicTopBranch->BottomBdt = JetLeptonPair.GetBdt();
-    LeptonicTopBranch->TopTag = JetLeptonPair.GetTag();
+    LeptonicTopBranch->Mass = Triple.GetTripleInvariantMass();
+    
+    LeptonicTopBranch->PairPt = Triple.GetTriplePtSum();
+    LeptonicTopBranch->PairPt = Triple.GetPairPtSum();
+    LeptonicTopBranch->JetPt = Triple.GetJet3().pt();
+    LeptonicTopBranch->LeptonPt = Triple.GetJet2().pt();
+    LeptonicTopBranch->MissingEt = Triple.GetJet1().pt();
+    
+    LeptonicTopBranch->TripleDeltaR = Triple.GetTripleDeltaR();
+    LeptonicTopBranch->TripleDeltaRap = Triple.GetTripleDeltaRap();
+    LeptonicTopBranch->TripleDeltaPhi = Triple.GetTripleDeltaPhi();
+    
+    LeptonicTopBranch->PairDeltaR = Triple.GetPairDeltaR();
+    LeptonicTopBranch->PairDeltaRap = Triple.GetPairDeltaRap();
+    LeptonicTopBranch->PairDeltaPhi = Triple.GetPairDeltaPhi();
+    
+    LeptonicTopBranch->BottomBdt = Triple.GetBdt();
+    LeptonicTopBranch->TopTag = Triple.GetTag();
 
 }
 
@@ -72,7 +92,7 @@ void hanalysis::HTopLeptonicTagger::FillBranch(const HTriple &JetLeptonPair)
 }
 
 
-std::vector<HLeptonicTopBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HState State)
+std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HState State)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -129,9 +149,9 @@ std::vector<HLeptonicTopBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
 
     Print(HInformation, "Number JetPairs", Triples.size());
 
-    std::vector<HLeptonicTopBranch *> LeptonicTopBranches;
+    std::vector<HTopLeptonicBranch *> LeptonicTopBranches;
     for (const auto & Triple : Triples) {
-        HLeptonicTopBranch *LeptonicTopBranch = new HLeptonicTopBranch();
+        HTopLeptonicBranch *LeptonicTopBranch = new HTopLeptonicBranch();
         FillBranch(LeptonicTopBranch, Triple);
         LeptonicTopBranches.push_back(LeptonicTopBranch);
     }
@@ -144,116 +164,61 @@ HJets hanalysis::HTopLeptonicTagger::GetNeutrinos(const fastjet::PseudoJet &Lept
 {
 
     HJets Neutrinos;
+    
+    const float TopMass2 = std::pow(TopMass, 2);
+    const float WMass2 = std::pow(WMass, 2);
 
-    const float Sqrt = sqrt(pow(Bottom.pz(), 2) * (
-                                4 * pow(Bottom.py(), 2) * pow(Lepton.py(), 2)
-                                + 8 * Bottom.py() * Bottom.pz() * Lepton.py() * Lepton.pz()
-                                + 4 * pow(Bottom.pz(), 2) * pow(Lepton.pz(), 2)
-                                - 4 * Bottom.py() * Lepton.py() * pow(TopMass, 2)
-                                - 4 * Bottom.pz() * Lepton.pz() * pow(TopMass, 2)
-                                + pow(TopMass, 4)
-                                + 4 * Bottom.py() * Lepton.py() * pow(WMass, 2)
-                                + 4 * Bottom.pz() * Lepton.pz() * pow(WMass, 2)
-                                - 2 * pow(TopMass, 2) * pow(WMass, 2)
-                                + pow(WMass, 4)
-                                + 4 * pow(Bottom.pz(), 2) * pow(MissingEt.px(), 2)
-                                + 4 * pow(Bottom.px(), 2) * pow(Lepton.px() + MissingEt.px(), 2)
-                                + 4 * Bottom.py() * (2 * Bottom.py() * Lepton.py() + 2 * Bottom.pz() * Lepton.pz() - pow(TopMass, 2) + pow(WMass, 2)) * MissingEt.py()
-                                + 4 * (pow(Bottom.py(), 2) + pow(Bottom.pz(), 2)) * pow(MissingEt.py(), 2)
-                                + 4 * pow(Bottom.E(), 2) * (pow(Lepton.E(), 2) - pow(MissingEt.px(), 2) - pow(MissingEt.py(), 2))
-                                + 4 * Bottom.px() * (Lepton.px() + MissingEt.px()) * (2 * Bottom.pz() * Lepton.pz() - pow(TopMass, 2) + pow(WMass, 2) + 2 * Bottom.py()(Lepton.py() + MissingEt.py()))
-                                - 4 * Bottom.E() * Lepton.E() * (2 * Bottom.pz() * Lepton.pz() - pow(TopMass, 2) + pow(WMass, 2) + 2 * Bottom.px() * (Lepton.px() + MissingEt.px()) + 2 * Bottom.py() * (Lepton.py() + MissingEt.py()))));
+    const float LeptonicPx = Lepton.px() + MissingEt.px();
+    const float LeptonicPy = Lepton.py() + MissingEt.py();
+
+    const float BPxLPx = 2 * Bottom.px() * LeptonicPx;
+    const float BPyLPy = 2 * Bottom.py() * LeptonicPy;
 
 
-    float NeutrinoE = (1 / (2 * (Bottom.E() - Bottom.pz()) * (Bottom.E() + Bottom.pz()))) * (Bottom.E() * (-2 * Bottom.E() * Lepton.E() + 2 * Bottom.pz() * Lepton.pz() - pow(TopMass, 2) + pow(WMass, 2) + 2 * Bottom.px() * (Lepton.px() + MissingEt.px()) + 2 * Bottom.py() * (Lepton.py() + MissingEt.py())) - Sqrt);
+    const float bElE = 2 * Bottom.e() * Lepton.e();
+    const float bPylPy = 2 * Bottom.py() * Lepton.py();
+    const float bPzlPz = 2 * Bottom.pz() * Lepton.pz();
 
-    float NeutrinoPz = (1 / (2 * (Bottom.E() - Bottom.pz()) * Bottom.pz() * (Bottom.E() + Bottom.pz()))) * (2 * pow(Bottom.pz(), 3) * Lepton.pz() + pow(Bottom.pz(), 2)(-2 * Bottom.E() * Lepton.E() - pow(TopMass, 2) + pow(WMass, 2) + 2 * Bottom.px()(Lepton.px() + MissingEt.px()) + 2 * Bottom.py() * (Lepton.py() + MissingEt.py())) - Bottom.E() * Sqrt);
+    const float Sum =  4 * std::pow(Bottom.py(), 2) * std::pow(Lepton.py(), 2)
+                       + 2 * bPylPy * bPzlPz
+                       + 4 * std::pow(Bottom.pz(), 2) * std::pow(Lepton.pz(), 2)
+                       - 2 * bPylPy * TopMass2
+                       - 2 * bPzlPz * TopMass2
+                       + std::pow(TopMass2, 2)
+                       + 2 * bPylPy * WMass2
+                       + 2 * bPzlPz * WMass2
+                       - 2 * TopMass2 * WMass2
+                       + std::pow(WMass, 4)
+                       + 4 * std::pow(Bottom.pz(), 2) * std::pow(MissingEt.px(), 2)
+                       + 4 * std::pow(Bottom.px(), 2) * std::pow(LeptonicPx, 2)
+                       + 4 * Bottom.py() * (bPylPy + bPzlPz - TopMass2 + WMass2) * MissingEt.py()
+                       + 4 * (std::pow(Bottom.py(), 2) + std::pow(Bottom.pz(), 2)) * std::pow(MissingEt.py(), 2)
+                       + 4 * std::pow(Bottom.E(), 2) * (std::pow(Lepton.E(), 2) - std::pow(MissingEt.px(), 2) - std::pow(MissingEt.py(), 2))
+                       + 2 * BPxLPx * (bPzlPz - TopMass2 + WMass2 + BPyLPy)
+                       - 2 * bElE * (bPzlPz - TopMass2 + WMass2 + BPxLPx + BPyLPy);
+
+    if (Sum < 0) {
+        Print(HError, "Imaginiary sqrt");
+        return Neutrinos;
+    }
+
+    const float Sqrt = std::sqrt(std::pow(Bottom.pz(), 2) * Sum);
+
+
+    float NeutrinoE = (1 / (2 * (Bottom.E() - Bottom.pz()) * (Bottom.E() + Bottom.pz()))) * (Bottom.E() * (-bElE + bPzlPz - TopMass2 + WMass2 + BPxLPx + BPyLPy) - Sqrt);
+
+    float NeutrinoPz = (1 / (2 * (Bottom.E() - Bottom.pz()) * Bottom.pz() * (Bottom.E() + Bottom.pz()))) * (2 * std::pow(Bottom.pz(), 3) * Lepton.pz() + std::pow(Bottom.pz(), 2) * (-bElE - TopMass2 + WMass2 + BPxLPx + BPyLPy) - Bottom.E() * Sqrt);
+
     fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), NeutrinoPz, NeutrinoE);
     Neutrinos.push_back(Neutrino1);
 
-    NeutrinoE = (1 / (2 * (Bottom.E() - Bottom.pz()) * (Bottom.E() + Bottom.pz()))) * (Bottom.E() * (-2 * Bottom.E() * Lepton.E() + 2 * Bottom.pz() * Lepton.pz() - pow(TopMass, 2) + pow(WMass, 2) + 2 * Bottom.px() * (Lepton.px() + MissingEt.px()) + 2 * Bottom.py()(Lepton.py() + MissingEt.py())) + Sqrt);
+    NeutrinoE = (1 / (2 * (Bottom.E() - Bottom.pz()) * (Bottom.E() + Bottom.pz()))) * (Bottom.E() * (-bElE + bPzlPz - TopMass2 + WMass2 + BPxLPx + BPyLPy) + Sqrt);
 
-    NeutrinoPz = (1 / (2 * (-pow(Bottom.E(), 2) * Bottom.pz() + pow(Bottom.pz(), 3)))) * (-2 * pow(Bottom.pz(), 3) * Lepton.pz() + pow(Bottom.pz(), 2) * (2 * Bottom.E() * Lepton.E() + pow(TopMass, 2) - pow(WMass, 2) - 2 * Bottom.px() * (Lepton.px() + MissingEt.px()) - 2 * Bottom.py() * (Lepton.py() + MissingEt.py())) - Bottom.E() * Sqrt);
+    NeutrinoPz = (1 / (2 * (-std::pow(Bottom.E(), 2) * Bottom.pz() + std::pow(Bottom.pz(), 3)))) * (-2 * std::pow(Bottom.pz(), 3) * Lepton.pz() + std::pow(Bottom.pz(), 2) * (bElE + TopMass2 - WMass2 - BPxLPx - BPyLPy) - Bottom.E() * Sqrt);
+
     fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), NeutrinoPz, NeutrinoE);
     Neutrinos.push_back(Neutrino2);
 
     return Neutrinos;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

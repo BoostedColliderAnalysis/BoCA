@@ -6,7 +6,7 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
-# include "HLeptonicTopTagger.hh"
+# include "HTopLeptonicTagger.hh"
 # include "HHadronicTopTagger.hh"
 # include "HJetLeptonPair.hh"
 # include "HPairPair.hh"
@@ -35,7 +35,7 @@ private:
     HBottomTagger *BottomTagger;
     HWTagger *WTagger;
     HHadronicTopTagger *TopHadronicTagger;
-    HLeptonicTopTagger *TopLeptonicTagger;
+    HTopLeptonicTagger *TopLeptonicTagger;
 
     HReader *BottomReader;
     HReader *WReader;
