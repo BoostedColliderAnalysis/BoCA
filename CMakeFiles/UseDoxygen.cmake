@@ -60,10 +60,11 @@ endmacro()
 find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
-	find_file(DOXYFILE_IN "Doxyfile.in"
-			PATHS "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_ROOT}/Modules/"
-			NO_DEFAULT_PATH
-			DOC "Path to the doxygen configuration template file")
+# 	find_file(DOXYFILE_IN Doxyfile.in
+# 			PATHS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles ${CMAKE_ROOT}/Modules/
+# # 			NO_DEFAULT_PATH
+# 			DOC "Path to the doxygen configuration template file")
+set(DOXYFILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles/Doxyfile.in)
 	set(DOXYFILE "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
 	include(FindPackageHandleStandardArgs)
 	find_package_handle_standard_args(DOXYFILE_IN DEFAULT_MSG "DOXYFILE_IN")
@@ -78,7 +79,8 @@ if(DOXYGEN_FOUND AND DOXYFILE_IN_FOUND)
 		PATH "Input files source directory")
 	usedoxygen_set_default(DOXYFILE_EXTRA_SOURCE_DIRS ""
 		STRING "Additional source files/directories separated by space")
-	set(DOXYFILE_SOURCE_DIRS "\"${DOXYFILE_SOURCE_DIR}\" ${DOXYFILE_EXTRA_SOURCES}")
+        set(DOXYFILE_SOURCE_DIRS "\"${DOXYFILE_SOURCE_DIR}\" ${DOXYFILE_EXTRA_SOURCES}")
+	set(DOXYFILE_EXCLUDE_DIR "\"${DOXYFILE_EXCLUDE_DIR}\" ${DOXYFILE_EXTRA_SOURCES}")
 
 	usedoxygen_set_default(DOXYFILE_LATEX YES BOOL "Generate LaTeX API documentation" OFF)
 	usedoxygen_set_default(DOXYFILE_LATEX_DIR "latex" STRING "LaTex output directory")

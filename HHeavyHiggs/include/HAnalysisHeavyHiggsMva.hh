@@ -107,7 +107,7 @@ public:
     inline std::string GetProjectName() const {
         return "HeavyHiggsMva";
     };
-    std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HState State) const;
+    std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
 
 private:
 

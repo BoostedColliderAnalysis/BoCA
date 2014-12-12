@@ -7,8 +7,6 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
-# include "HHadronicTopTagger.hh"
-# include "HHeavyHiggsHadronicTagger.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
 # include "HHeavyHiggsEvent.hh"
 

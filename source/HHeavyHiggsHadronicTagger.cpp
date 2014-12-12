@@ -112,17 +112,18 @@ std::vector< HHeavyHiggsHadronicBranch * > hanalysis::HHeavyHiggsHadronicTagger:
     JetTag->HeavyParticles = {WId, TopId, HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    for (auto Jet = Jets.begin(); Jet != Jets.end();) {
-        if (std::abs((*Jet).user_index()) == MixedJetId) {
-            Jet = Jets.erase(Jet);
-        } else {
-            HJetInfo *JetInfo = new HJetInfo;
-            BottomTagger->FillBranch(*Jet);
-            JetInfo->SetBdt(BottomReader->GetBdt());
-            (*Jet).set_user_info(JetInfo);
-            ++Jet;
-        }
-    }
+    Jets = BottomTagger->GetBottomBdt(Jets,BottomReader);
+//     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
+//         if (std::abs((*Jet).user_index()) == MixedJetId) {
+//             Jet = Jets.erase(Jet);
+//         } else {
+//             HJetInfo *JetInfo = new HJetInfo;
+//             BottomTagger->FillBranch(*Jet);
+//             JetInfo->SetBdt(BottomReader->GetBdt());
+//             (*Jet).set_user_info(JetInfo);
+//             ++Jet;
+//         }
+//     }
     if (Jets.size() < 6) {
         Print(HInformation, "Not enough jets", Jets.size());
         return HeavyHiggsHadronicBranches;

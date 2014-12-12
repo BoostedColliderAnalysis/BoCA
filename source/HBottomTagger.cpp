@@ -125,3 +125,21 @@ float hanalysis::HBottomTagger::GetSpread(const fastjet::PseudoJet &Jet) const
     for (const auto & Constituent : Jet.constituents()) Spread += Jet.delta_R(Constituent) * Constituent.pt();
     return (Spread / Jet.pt() / GetDeltaR(Jet));
 }
+
+
+HJets hanalysis::HBottomTagger::GetBottomBdt(HJets &Jets, const HReader * const BottomReader){
+  for (auto Jet = Jets.begin(); Jet != Jets.end();) {
+    if (std::abs((*Jet).user_index()) == MixedJetId) {
+      Jet = Jets.erase(Jet);
+    } else {
+      HJetInfo *JetInfo = new HJetInfo;
+      FillBranch(*Jet);
+      JetInfo->SetBdt(BottomReader->GetBdt());
+      (*Jet).set_user_info(JetInfo);
+      ++Jet;
+    }
+  }
+  return Jets;
+}
+
+

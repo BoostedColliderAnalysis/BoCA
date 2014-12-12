@@ -14,9 +14,9 @@ hheavyhiggs::HAnalysisMva::~HAnalysisMva()
 }
 
 
-std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HState State) const
+std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const
 {
-    Print(HNotification, "Get Study Names", Tagger, State);
+    Print(HNotification, "Get Study Names", Tagger);
 
     switch(Tagger) {
     case  HBottomTagger :
@@ -194,7 +194,6 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
     EventSemiTagger->SetSignalTreeNames( {"1TeV_h2bb_ljbbbb-run_01"});
     EventSemiTagger->SetBackgroundTreeNames( {"BG_ljbbbb-run_01"});
 
-
     return Files;
 
 }
@@ -206,37 +205,37 @@ void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter *TreeWriter, const 
 
     switch(Tagger) {
     case HBottomTagger :
-        BottomBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HBottomBranch::Class());
+        BottomBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HBottomBranch::Class());
         break;
     case HWTagger :
-        WBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HWBranch::Class());
+        WBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
         break;
     case HTopLeptonicTagger :
-        TopLeptonicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HTopLeptonicBranch::Class());
+        TopLeptonicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopLeptonicBranch::Class());
         break;
     case HTopHadronicTagger :
-        TopHadronicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HTopHadronicBranch::Class());
+        TopHadronicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopHadronicBranch::Class());
         break;
     case HTopSemiTagger :
-        TopSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HTopSemiBranch::Class());
+        TopSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopSemiBranch::Class());
         break;
     case HHeavyHiggsLeptonicTagger :
-        HeavyHiggsLeptonicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HHeavyHiggsLeptonicBranch::Class());
+        HeavyHiggsLeptonicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
         break;
     case HHeavyHiggsHadronicTagger :
-        HeavyHiggsHadronicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HHeavyHiggsHadronicBranch::Class());
+        HeavyHiggsHadronicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsHadronicBranch::Class());
         break;
     case HHeavyHiggsSemiTagger :
-        HeavyHiggsSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HHeavyHiggsSemiBranch::Class());
+        HeavyHiggsSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsSemiBranch::Class());
         break;
     case HEventLeptonicTagger :
-        EventLeptonicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HEventLeptonicBranch::Class());
+        EventLeptonicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventLeptonicBranch::Class());
         break;
     case HEventHadronicTagger :
-        EventHadronicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HEventHadronicBranch::Class());
+        EventHadronicBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventHadronicBranch::Class());
         break;
     case HEventSemiTagger :
-        EventSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger,HSignal).c_str(), HEventSemiBranch::Class());
+        EventSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventSemiBranch::Class());
         break;
     default :
         Print(HError,"No Branch filled");

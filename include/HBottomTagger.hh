@@ -24,6 +24,8 @@ public:
 
     void FillBranch(const fastjet::PseudoJet &Jet);
 
+    HJets GetBottomBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
+
 private:
 
     HBottomBranch *Branch;

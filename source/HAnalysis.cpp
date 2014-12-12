@@ -185,7 +185,7 @@ TFile *hanalysis::HAnalysis::GetExportFile(const HTagger Tagger,const HState Sta
 
     Print(HNotification, "Get Export File", Tagger, State);
 
-    std::string Name = GetStudyNames(Tagger,State);
+    std::string Name = GetStudyNames(Tagger);
 
     if(State == HBackground) Name = "Not" + Name ;
 

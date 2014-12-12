@@ -8,14 +8,14 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
     hanalysis::HObject::HState State = hanalysis::HObject::HSignal;
-    std::string Name = Analysis->GetStudyNames(Tagger,State);
-    
+    std::string Name = Analysis->GetStudyNames(Tagger);
+
     Analysis->Print(Analysis->HError,"Tagger",Tagger,Name);
 
     TFile *File(0);
     std::string FileName = Analysis->GetProjectName() + "/" + Name + ".root";
     if (!gSystem->AccessPathName(FileName.c_str()))File = TFile::Open(FileName.c_str());
-    
+
     else Analysis->AnalysisLoop(Tagger);
 
     FileName = Analysis->GetProjectName() + "/Mva" + Name + ".root";

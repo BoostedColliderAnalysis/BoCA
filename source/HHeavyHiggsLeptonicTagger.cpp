@@ -188,7 +188,7 @@ std::vector< HHeavyHiggsLeptonicBranch* > hanalysis::HHeavyHiggsLeptonicTagger::
         if (State == HSignal && std::abs(Lepton.user_index()) != WId) continue;
         for (const auto & Jet : Jets) {
             if (State == HSignal && std::abs(Jet.user_index()) != TopId) continue;
-            if (State == HSignal && sgn(Lepton.user_index()) != sgn(Jet.user_index()));
+            if (State == HSignal && sgn(Lepton.user_index()) != sgn(Jet.user_index())) continue;
             HDoublet Doublet(Jet, Lepton);
             TopLeptonicTagger->FillBranch(Doublet);
             Doublet.SetBdt(TopLeptonicReader->GetBdt());
