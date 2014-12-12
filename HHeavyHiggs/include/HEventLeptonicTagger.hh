@@ -7,9 +7,7 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
-# include "HLeptonicTopTagger.hh"
 # include "HHeavyHiggsLeptonicTagger.hh"
-# include "HHeavyHiggsHadronicTagger.hh"
 # include "HHeavyHiggsEvent.hh"
 
 
@@ -19,7 +17,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HLeptonicEventTagger : public hanalysis::HMva
+class hheavyhiggs::HEventLeptonicTagger : public hanalysis::HMva
 {
 
 public:
@@ -28,19 +26,19 @@ public:
     * @brief Constructor
     *
     */
-    HLeptonicEventTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HLeptonicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger);
+    HEventLeptonicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
     *
     */
-    ~HLeptonicEventTagger();
+    ~HEventLeptonicTagger();
 
-    std::vector<hheavyhiggs::HLeptonicEventBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
     void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
 
-    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {};
+    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &ReaderStruct) {return ReaderStruct;}
 
     void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
 
@@ -55,19 +53,19 @@ private:
 
     std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
-    void FillBranch(hheavyhiggs::HLeptonicEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
 
     void DefineVariables();
 
 
     hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
+    hanalysis::HTopLeptonicTagger *LeptonicTopTagger;
     hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsTagger;
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *TopReader;
     hanalysis::HReader *HeavyHiggsReader;
 
-    hheavyhiggs::HLeptonicEventBranch *Branch;
+    hheavyhiggs::HEventLeptonicBranch *Branch;
 
     hanalysis::HJetTag *JetTag;
 

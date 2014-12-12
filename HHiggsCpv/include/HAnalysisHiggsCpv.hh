@@ -11,7 +11,7 @@
 # include "HReader.hh"
 # include "HFactory.hh"
 # include "HBottomTagger.hh"
-# include "HLeptonicTopTagger.hh"
+# include "HTopLeptonicTagger.hh"
 # include "HMvaHiggsTagger.hh"
 
 
@@ -75,7 +75,7 @@ public:
     ~HAnalysis();
 
     hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
+    hanalysis::HTopLeptonicTagger *LeptonicTopTagger;
     hanalysis::HMvaHiggsTagger *HiggsTagger;
 
     /**

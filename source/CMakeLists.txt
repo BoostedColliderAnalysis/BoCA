@@ -75,13 +75,13 @@ HReader.cpp
 
 HBottomTagger.cpp
 HTopLeptonicTagger.cpp
-HLeptonicTopTagger.cpp
+HTopSemiTagger.cpp
 HMvaHiggsTagger.cpp
 HHeavyHiggsLeptonicTagger.cpp
 HHeavyHiggsHadronicTagger.cpp
-HHeavyHiggsMixedTagger.cpp
+HHeavyHiggsSemiTagger.cpp
 HWTagger.cpp
-HHadronicTopTagger.cpp
+HTopHadronicTagger.cpp
 
 # Wrapper.cpp
 # topology22.cpp

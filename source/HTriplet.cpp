@@ -40,9 +40,7 @@ hanalysis::HTriplet::HTriplet(const HDoublet &NewDoublet, const fastjet::PseudoJ
 
     Jet = NewJet;
     Doublet = NewDoublet;
-    Bdt = NewDoublet.GetBdt();
-    Tag = NewDoublet.GetTag();
-
+    if(Jet.has_user_info<HJetInfo>()) if(Jet.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt = Jet.user_info<HJetInfo>().GetBdt() * Doublet.GetBdt();
 }
 
 hanalysis::HTriplet::~HTriplet()

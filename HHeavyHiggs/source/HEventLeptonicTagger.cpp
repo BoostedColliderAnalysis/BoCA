@@ -1,6 +1,6 @@
-# include "HLeptonicEventTagger.hh"
+# include "HEventLeptonicTagger.hh"
 
-hheavyhiggs::HLeptonicEventTagger::HLeptonicEventTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HLeptonicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger)
+hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger)
 {
 
     Print(HNotification , "Constructor");
@@ -18,14 +18,14 @@ hheavyhiggs::HLeptonicEventTagger::HLeptonicEventTagger(hanalysis::HBottomTagger
     CandidateBranchName = "LeptonicEvent";
 
 
-    Branch = new hheavyhiggs::HLeptonicEventBranch();
+    Branch = new hheavyhiggs::HEventLeptonicBranch();
     JetTag = new hanalysis::HJetTag();
 
     DefineVariables();
 
 }
 
-hheavyhiggs::HLeptonicEventTagger::~HLeptonicEventTagger()
+hheavyhiggs::HEventLeptonicTagger::~HEventLeptonicTagger()
 {
 
     Print(HNotification , "Constructor");
@@ -38,7 +38,7 @@ hheavyhiggs::HLeptonicEventTagger::~HLeptonicEventTagger()
 
 }
 
-void hheavyhiggs::HLeptonicEventTagger::FillBranch(hheavyhiggs::HLeptonicEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent)
+void hheavyhiggs::HEventLeptonicTagger::FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent)
 {
     Print(HInformation, "FillPairTagger", HeavyHiggsEvent.GetBdt());
 
@@ -71,7 +71,7 @@ void hheavyhiggs::HLeptonicEventTagger::FillBranch(hheavyhiggs::HLeptonicEventBr
     EventBranch->EventTag = HeavyHiggsEvent.GetTag();
 }
 
-void hheavyhiggs::HLeptonicEventTagger::FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent)
+void hheavyhiggs::HEventLeptonicTagger::FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent)
 {
     Print(HInformation, "FillPairTagger");
 
@@ -79,7 +79,7 @@ void hheavyhiggs::HLeptonicEventTagger::FillBranch(const HHeavyHiggsEvent &Heavy
 
 }
 
-void hheavyhiggs::HLeptonicEventTagger::DefineVariables()
+void hheavyhiggs::HEventLeptonicTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -124,9 +124,9 @@ struct SortHeavyHiggsEvents {
     }
 };
 
-std::vector<hheavyhiggs::HLeptonicEventBranch * > hheavyhiggs::HLeptonicEventTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HState State)
+std::vector<hheavyhiggs::HEventLeptonicBranch * > hheavyhiggs::HEventLeptonicTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HState State)
 {
-    std::vector<hheavyhiggs::HLeptonicEventBranch*> EventBranches;
+    std::vector<hheavyhiggs::HEventLeptonicBranch*> EventBranches;
     HJets Leptons = Event->GetLeptons()->GetLeptonJets();
     if (Leptons.size() < 2) return EventBranches;
 
@@ -166,7 +166,7 @@ std::vector<hheavyhiggs::HLeptonicEventBranch * > hheavyhiggs::HLeptonicEventTag
     }
 
     for (auto & HeavyHiggsEvent : HeavyHiggsEvents) {
-    hheavyhiggs::HLeptonicEventBranch *EventBranch = new hheavyhiggs::HLeptonicEventBranch();
+    hheavyhiggs::HEventLeptonicBranch *EventBranch = new hheavyhiggs::HEventLeptonicBranch();
     HeavyHiggsEvent.SetLeptonNumber(Event->GetLeptons()->GetLeptonJets().size());
     HeavyHiggsEvent.SetJetNumber(Event->GetJets()->GetJets().size());
     HeavyHiggsEvent.SetBottomNumber(Event->GetJets()->GetBottomJets().size());
@@ -183,7 +183,7 @@ std::vector<hheavyhiggs::HLeptonicEventBranch * > hheavyhiggs::HLeptonicEventTag
 
 
 
-std::vector<HHeavyHiggsEvent> hheavyhiggs::HLeptonicEventTagger::GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons)
+std::vector<HHeavyHiggsEvent> hheavyhiggs::HEventLeptonicTagger::GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons)
 {
     Print(HInformation, "Get Heavy Higgs Event");
 
@@ -213,7 +213,7 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HLeptonicEventTagger::GetHeavyHiggsEv
         for (const auto & AntiTop : AntiTops) {
             if (Top.GetJet1() == AntiTop.GetJet1()) continue;
             hanalysis::HQuartet TopPair = hanalysis::HQuartet(Top, AntiTop);
-            std::vector<hanalysis::HSextet> TriplePairs = TopPair.GetTriplePairs();
+            std::vector<hanalysis::HSextet> TriplePairs = TopPair.GetSextets();
             Print(HDebug, "Got Triple Pairs", TriplePairs.size());
             if (TriplePairs.size() < 1)continue;
 

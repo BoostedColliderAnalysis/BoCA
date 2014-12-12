@@ -19,7 +19,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HHadronicEventTagger : public hanalysis::HMva
+class hheavyhiggs::HEventHadronicTagger : public hanalysis::HMva
 {
 
 public:
@@ -28,19 +28,19 @@ public:
     * @brief Constructor
     *
     */
-    HHadronicEventTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HHadronicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsHadronicTagger *const NewHeavyHiggsTagger);
+    HEventHadronicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopHadronicTagger *const NewTopTagger, hanalysis::HHeavyHiggsHadronicTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
     *
     */
-    ~HHadronicEventTagger();
+    ~HEventHadronicTagger();
 
-    std::vector<hheavyhiggs::HHadronicEventBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
     void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
 
-    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {};
+    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &ReaderStruct) {return ReaderStruct;};
 
     void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
 
@@ -55,21 +55,21 @@ private:
 
     std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(HJets &Jets);
 
-    void FillBranch(hheavyhiggs::HHadronicEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(hheavyhiggs::HEventHadronicBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
 
     void DefineVariables();
 
 
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HWTagger *WTagger;
-    hanalysis::HHadronicTopTagger *TopHadronicTagger;
+    hanalysis::HTopHadronicTagger *TopHadronicTagger;
     hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsTagger;
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *WReader;
     hanalysis::HReader *TopHadronicReader;
     hanalysis::HReader *HeavyHiggsReader;
 
-    hheavyhiggs::HHadronicEventBranch *Branch;
+    hheavyhiggs::HEventHadronicBranch *Branch;
 
     hanalysis::HJetTag *JetTag;
 

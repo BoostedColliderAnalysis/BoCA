@@ -21,7 +21,6 @@ public:
     /**
      * @brief Constructor
      *
-     * @param TreeReader ExRoot TreeReader
      */
     HClonesArray();
 

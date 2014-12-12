@@ -17,9 +17,7 @@ public:
 
     /**
      * @brief tagges the tops
-     *
-     * @param HadronVector ...
-     * @return void
+     * 
      */
     std::vector< fastjet::PseudoJet > GetTops(std::vector< fastjet::PseudoJet > &EFlowJets);
 
@@ -35,12 +33,7 @@ private:
 
     /**
      * @brief Calculates Vector of granulated Jets
-     *
-     * @param HadronVector Vector of Jet Candidates derived from EFlow data
-     * @param CellRap Delta Rap of Cells
-     * @param CellPhi Delta Phi of Cells
-     * @param PtCutOff Pt Cutoff for cells
-     * @return std::vector< fastjet::PseudoJet, std::allocator >
+     * 
      */
     HJets GetGranulatedJets(HJets& EFlowJets);
 

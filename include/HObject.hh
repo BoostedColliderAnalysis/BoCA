@@ -51,14 +51,14 @@ class HSubStructure;
 class HSextet;
 
 class HBottomTagger;
-class HLeptonicTopTagger;
+class HTopSemiTagger;
 class HTopLeptonicTagger;
 class HMvaHiggsTagger;
 class HHeavyHiggsHadronicTagger;
 class HHeavyHiggsLeptonicTagger;
 class HWTagger;
-class HHadronicTopTagger;
-class HHeavyHiggsMixedTagger;
+class HTopHadronicTagger;
+class HHeavyHiggsSemiTagger;
 
 class HMva;
 class HFactory;
@@ -356,6 +356,12 @@ public:
         CpvHiggsId = 5000000
     };
 
+    /**
+     * @brief Top quark mass
+     *
+     */
+    constexpr static float TopMass = 173.5;
+
 protected:
 
     template <typename TValue>
@@ -386,9 +392,6 @@ protected:
     /**
      * @brief Take care of phi angles around pi
      *
-     * @param Phi angle
-     * @param RefPhi reference angle
-     * @return float Phi angle
      */
     float GetDeltaPhi(const float Phi, const float ReferencePhi) const;
 
@@ -430,12 +433,6 @@ protected:
      *
      */
     static const int LargeNumber = 999999999;
-
-    /**
-     * @brief Top quark mass
-     *
-     */
-    constexpr static float TopMass = 173.5;
 
     /**
      * @brief Higgs boson mass

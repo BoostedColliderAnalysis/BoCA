@@ -3,8 +3,8 @@
 hanalysis::HQuartet::HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2)
 {
     Print(HInformation, "Constructor");
-    Pair1 = NewPair1;
-    Pair2 = NewPair2;
+    Doublet1 = NewPair1;
+    Doublet2 = NewPair2;
 //     Bdt = Pair1.GetBdt() * Pair2.GetBdt();
 //     Tag = Pair1.GetTag() * Pair2.GetTag();
 }
@@ -13,8 +13,8 @@ hanalysis::HQuartet::HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2
 {
 //     DebugLevel = HObject::HDebug;
     Print(HInformation, "Constructor");
-    Pair1 = NewPair1;
-    Pair2 = NewPair2;
+    Doublet1 = NewPair1;
+    Doublet2 = NewPair2;
     Met = NewMet;
 //     Bdt = Pair1.GetBdt() * Pair2.GetBdt();
 //     Tag = Pair1.GetTag() * Pair2.GetTag();
@@ -39,10 +39,10 @@ std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetTriplePairs(const float 
 {
     Print(HInformation, "Get Triple Pairs");
 
-    SetMomentum(Structure.p3, Pair1.GetJet2());
-    SetMomentum(Structure.p4, Pair2.GetJet2());
-    SetMomentum(Structure.p5, Pair1.GetJet1());
-    SetMomentum(Structure.p6, Pair2.GetJet1());
+    SetMomentum(Structure.p3, Doublet1.GetJet2());
+    SetMomentum(Structure.p4, Doublet2.GetJet2());
+    SetMomentum(Structure.p5, Doublet1.GetJet1());
+    SetMomentum(Structure.p6, Doublet2.GetJet1());
     SetMomentum(Structure.pmiss, Met);
 
     Print(HDebug, "Lepton 1 (p3)", GetJet(Structure.p3));
@@ -62,8 +62,8 @@ std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetTriplePairs(const float 
         Print(HDebug, "Neutrino 1 (p1)" , GetJet(P1[SolutionNumber]));
         Print(HDebug, "Neutrino 2 (p2)" , GetJet(P2[SolutionNumber]));
 
-        HTriplet Triple1(Pair1,GetJet(P1[SolutionNumber]));
-        HTriplet Triple2(Pair2,GetJet(P2[SolutionNumber]));
+        HTriplet Triple1(Doublet1,GetJet(P1[SolutionNumber]));
+        HTriplet Triple2(Doublet2,GetJet(P2[SolutionNumber]));
         HSextet TriplePair(Triple1, Triple2);
         if (TriplePair.GetSextetJet().m() <= 0) continue;
 //         TriplePair.SetBdt(Bdt);
@@ -71,8 +71,8 @@ std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetTriplePairs(const float 
         TriplePair.SetTag(Tag);
         TriplePairs.push_back(TriplePair);
         //         Print(HDebug, "Neutrino masses", Jet1.m(), Jet2.m());
-        Print(HDebug, "W masses", (GetJet(P1[SolutionNumber]) + Pair1.GetJet2()).m(), (GetJet(P2[SolutionNumber]) + Pair2.GetJet2()).m());
-        Print(HDebug, "top masses", (GetJet(P1[SolutionNumber]) + Pair1.GetJet2() + Pair1.GetJet1()).m(), (GetJet(P2[SolutionNumber]) + Pair2.GetJet2() + Pair1.GetJet1()).m());
+        Print(HDebug, "W masses", (GetJet(P1[SolutionNumber]) + Doublet1.GetJet2()).m(), (GetJet(P2[SolutionNumber]) + Doublet2.GetJet2()).m());
+        Print(HDebug, "top masses", (GetJet(P1[SolutionNumber]) + Doublet1.GetJet2() + Doublet1.GetJet1()).m(), (GetJet(P2[SolutionNumber]) + Doublet2.GetJet2() + Doublet1.GetJet1()).m());
         //         Print(HDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
     }
 
@@ -81,7 +81,7 @@ std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetTriplePairs(const float 
 }
 
 
-std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetTriplePairs()
+std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetSextets()
 {
     return GetTriplePairs(NeutrinoMass, WMass, TopMass);
 }
@@ -93,11 +93,11 @@ struct SortByError {
 };
 
 
-hanalysis::HSextet hanalysis::HQuartet::GetTriplePair(HJets Neutrinos)
+hanalysis::HSextet hanalysis::HQuartet::GetSextet(HJets Neutrinos)
 {
     Print(HInformation, "Get Triple Pair");
 
-    std::vector<HSextet> TriplePairs = GetTriplePairs();
+    std::vector<HSextet> TriplePairs = GetSextets();
     Print(HDebug, "Number Solutions", TriplePairs.size());
 
     if (TriplePairs.size() < 1) {

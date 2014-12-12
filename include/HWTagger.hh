@@ -10,7 +10,7 @@
 # include "HDoublet.hh"
 
 /**
- * @brief calculation regarding leptons
+ * @brief Bdt W tagger
  *
  */
 class hanalysis::HWTagger : public HMva
@@ -22,7 +22,7 @@ public:
 
     ~HWTagger();
 
-    std::vector< HHadronicWBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector< HWBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
@@ -32,20 +32,16 @@ private:
 
     HBottomTagger *BottomTagger;
     HReader *BottomReader;
-    HHadronicWBranch *Branch;
+    HWBranch *Branch;
     HJetTag *JetTag;
 
     void DefineVariables();
 
-    void FillBranch(HHadronicWBranch * const HiggsBranch, const HDoublet &Pair);
+    void FillBranch(HWBranch * const HiggsBranch, const HDoublet &Pair);
 
     void FillBranch(const HKinematics &Vector);
 
     void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
-
-    virtual inline std::string NameSpaceName() const {
-        return "hdelphes";
-    };
 
     virtual inline std::string ClassName() const {
         return "HHadronicWTagger";

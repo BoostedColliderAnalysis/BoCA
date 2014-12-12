@@ -13,12 +13,12 @@ class HAnalysisMva;
 class HHeavyHiggsJetTag;
 class HMva;
 class HBranchHeavyHiggs;
-class HLeptonicEventBranch;
-class HHadronicEventBranch;
-class HMixedEventBranch;
-class HLeptonicEventTagger;
-class HHadronicEventTagger;
-class HMixedEventTagger;
+class HEventLeptonicBranch;
+class HEventHadronicBranch;
+class HEventSemiBranch;
+class HEventLeptonicTagger;
+class HEventHadronicTagger;
+class HEventSemiTagger;
 
 }
 
@@ -68,12 +68,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HLeptonicEventBranch : public HBranch
+class hheavyhiggs::HEventLeptonicBranch : public HBranch
 {
 
 public:
 
-    HLeptonicEventBranch();
+    HEventLeptonicBranch();
 
     int LeptonNumber;
     int JetNumber;
@@ -105,7 +105,7 @@ public:
 
 private:
 
-  ClassDef(HLeptonicEventBranch, 1)
+  ClassDef(HEventLeptonicBranch, 1)
 
 };
 
@@ -117,12 +117,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HHadronicEventBranch : public HBranch
+class hheavyhiggs::HEventHadronicBranch : public HBranch
 {
 
 public:
 
-  HHadronicEventBranch();
+  HEventHadronicBranch();
 
   int LeptonNumber;
   int JetNumber;
@@ -154,7 +154,7 @@ public:
 
 private:
 
-  ClassDef(HHadronicEventBranch, 1)
+  ClassDef(HEventHadronicBranch, 1)
 
 };
 
@@ -165,12 +165,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HMixedEventBranch : public HBranch
+class hheavyhiggs::HEventSemiBranch : public HBranch
 {
 
 public:
 
-  HMixedEventBranch();
+  HEventSemiBranch();
 
   int LeptonNumber;
   int JetNumber;
@@ -202,7 +202,7 @@ public:
 
 private:
 
-  ClassDef(HMixedEventBranch, 1)
+  ClassDef(HEventSemiBranch, 1)
 
 };
 

@@ -14,7 +14,7 @@ hanalysis::HWTagger::HWTagger(HBottomTagger *NewBottomTagger)
     BackgroundNames = {"NotW"};
     CandidateBranchName = "W";
 
-    Branch = new HHadronicWBranch();
+    Branch = new HWBranch();
     JetTag = new HJetTag();
 
     DefineVariables();
@@ -36,7 +36,7 @@ void hanalysis::HWTagger::FillBranch(const HDoublet &Pair)
 
 }
 
-void hanalysis::HWTagger::FillBranch(HHadronicWBranch *const WBranch, const HDoublet &Pair)
+void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
 
@@ -84,7 +84,7 @@ struct SortPairByMass {
 };
 
 
-std::vector<HHadronicWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
 {
 
     Print(HInformation, "Get W Tags");
@@ -97,32 +97,28 @@ std::vector<HHadronicWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEve
     for (auto & Jet : Jets) {
         Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_index()));
         if (Jet.user_index() == MixedJetId) continue;
-        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        if (std::abs(Jet.user_index()) == WId) JetInfo->SetTag(1);
-        else JetInfo->SetTag(0);
 
+        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
         BottomTagger->FillBranch(Jet);
         JetInfo->SetBdt(BottomReader->GetBdt());
         Jet.set_user_info(JetInfo);
 
-        if (JetInfo->GetTag() == 1) {
+        if (std::abs(Jet.user_index()) == WId) {
             WJets.push_back(Jet);
         } else {
             OtherJets.push_back(Jet);
         }
     }
 
-
-    std::vector<HDoublet> JetPairs;
+    std::vector<HDoublet> Doublets;
 
     if (State == HSignal) {
         Print(HInformation, "W Jets", WJets.size());
         for (auto Jet1 = WJets.begin(); Jet1 != WJets.end(); ++Jet1) {
             for (auto Jet2 = Jet1 + 1; Jet2 != WJets.end(); ++Jet2) {
                 if ((*Jet1).user_index() != (*Jet2).user_index()) continue;
-                if (std::abs((*Jet1).user_index()) != WId) continue;
-                HDoublet JetPair((*Jet1), (*Jet2));
-                JetPairs.push_back(JetPair);
+                HDoublet Doublet((*Jet1), (*Jet2));
+                Doublets.push_back(Doublet);
             }
         }
     }
@@ -131,24 +127,24 @@ std::vector<HHadronicWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEve
         for (auto Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (auto Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
                 if ((*Jet1).user_index() == (*Jet2).user_index() && std::abs((*Jet1).user_index()) == WId) continue;
-                HDoublet JetPair((*Jet1), (*Jet2));
-                JetPairs.push_back(JetPair);
+                HDoublet Doublet((*Jet1), (*Jet2));
+                Doublets.push_back(Doublet);
             }
         }
         for (auto Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (auto Jet2 = WJets.begin(); Jet2 != WJets.end(); ++Jet2) {
                 if ((*Jet1).user_index() == (*Jet2).user_index() && std::abs((*Jet1).user_index()) == WId) continue;
-                HDoublet JetPair((*Jet1), (*Jet2));
-                JetPairs.push_back(JetPair);
+                HDoublet Doublet((*Jet1), (*Jet2));
+                Doublets.push_back(Doublet);
             }
         }
     }
 
-    Print(HInformation, "Number of Jet Pairs", JetPairs.size());
+    Print(HInformation, "Number of Jet Pairs", Doublets.size());
 
-    std::vector<HHadronicWBranch *> WBranches;
-    for (const auto & JetPair : JetPairs) {
-        HHadronicWBranch *WBranch = new HHadronicWBranch();
+    std::vector<HWBranch *> WBranches;
+    for (const auto & JetPair : Doublets) {
+        HWBranch *WBranch = new HWBranch();
         FillBranch(WBranch, JetPair);
         WBranches.push_back(WBranch);
     }

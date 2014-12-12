@@ -28,9 +28,7 @@ public:
 
     /**
      * @brief Get Fat Higgs Jets
-     *
-     * @param  EFlow Jet Vector
-     * @return Candidates
+     * 
      */
     HJets GetCandidateJets(const HJets &, const float);
 

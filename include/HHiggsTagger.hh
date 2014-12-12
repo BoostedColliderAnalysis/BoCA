@@ -36,11 +36,7 @@ public:
 
     /**
      * @brief Reconstruct the higgs fat jet
-     *
-     * @param  HJets InputJetVector
-     * @param  HJets BottomVector
-     * @param  HJets CharmVector
-     * @return void
+     * 
      */
     fastjet::PseudoJet GetHiggsJet(const HJets&, const HJets&, const HJets&);
 
@@ -83,54 +79,28 @@ private:
      *
      */
     HJets FilteredJetPieces;
-
-    /**
-     * @brief Get vecto of all fatjets
-     *
-     * @param  InputJetVector
-     * @return FatJetVector
-     */
-//     HJets GetFatJetVector(HJets);
-
-    /**
-     * @brief Get mass drop jet
-     *
-     * @param  FatJet
-     * @return MassDropJet
-     */
-//     fastjet::PseudoJet GetMassDropJet(fastjet::PseudoJet);
-
+    
     /**
      * @brief Filter Jets
-     *
-     * @param  MassDropJet
-     * @param  FilterJetAlgorithm
-     * @param  NumberHardestPieces
-     * @return FilteredJet
+     * 
      */
     fastjet::PseudoJet GetFilteredJet(const fastjet::PseudoJet&, const fastjet::JetAlgorithm&, const int);
 
     /**
      * @brief Compare subjets with particle quarks
-     *
-     * @param  ParticleJetVector
-     * @param  ParticleUserIndex
-     * @return void
+     * 
      */
     void GetSubJetSource(const HJets&, const int);
 
     /**
      * @brief Apply Bottom tagger
-     *
-     * @return SubBJetCounter
+     * 
      */
     int BTagger();
 
     /**
      * @brief Get Dipolarity
-     *
-     * @param FatJet ...
-     * @return Dipolarity
+     * 
      */
     float GetDipolarity(const fastjet::PseudoJet &);
 

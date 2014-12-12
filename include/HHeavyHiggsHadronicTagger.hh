@@ -6,9 +6,9 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
-# include "HHadronicTopTagger.hh"
 # include "HDoublet.hh"
 # include "HQuartet.hh"
+# include "HTopHadronicTagger.hh"
 
 /**
  * @brief Bdt heavy higgs tagger
@@ -19,7 +19,7 @@ class hanalysis::HHeavyHiggsHadronicTagger : public HMva
 
 public:
 
-    HHeavyHiggsHadronicTagger(HBottomTagger *const NewBottomTagger,HWTagger *const NewWTagger, HHadronicTopTagger *const NewTopTagger);
+    HHeavyHiggsHadronicTagger(HBottomTagger *const NewBottomTagger,HWTagger *const NewWTagger, HTopHadronicTagger *const NewTopTagger);
 
     ~HHeavyHiggsHadronicTagger();
 
@@ -29,11 +29,17 @@ public:
 
 private:
 
+    HState GetTripletTag(const hanalysis::HTriplet& Triplet);
+
+    HState GetDoubletTag(const HDoublet &Doublet);
+
+    HState GetSextetTag(const HSextet &Sextet);
+
     HSextet GetTriplePair(HJets &Jets, const hanalysis::HObject::HState State);
 
     HBottomTagger *BottomTagger;
     HWTagger *WTagger;
-    HHadronicTopTagger *TopHadronicTagger;
+    HTopHadronicTagger *TopHadronicTagger;
 
     HReader *BottomReader;
     HReader *WReader;

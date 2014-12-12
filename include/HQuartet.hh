@@ -23,7 +23,7 @@ public:
     ~HQuartet();
 
     float GetDeltaR() const {
-        return Pair1.GetDoubletJet().delta_R(Pair2.GetDoubletJet());
+        return Doublet1.GetDoubletJet().delta_R(Doublet2.GetDoubletJet());
     }
 
     float GetInvariantMass() const {
@@ -39,37 +39,37 @@ public:
     }
 
     fastjet::PseudoJet GetPairJet() const {
-        return (Pair1.GetDoubletJet() + Pair2.GetDoubletJet());
+        return (Doublet1.GetDoubletJet() + Doublet2.GetDoubletJet());
     }
 
     float GetPtSum() const {
-        return (Pair1.GetDoubletJet().pt() + Pair2.GetDoubletJet().pt());
+        return (Doublet1.GetDoubletJet().pt() + Doublet2.GetDoubletJet().pt());
     }
 
-    float GetBdt() const {
-        return (Pair1.GetBdt() * Pair2.GetBdt());
-    }
+//     float GetBdt() const {
+//         return (Doublet1.GetBdt() * Doublet2.GetBdt());
+//     }
 
-    float GetTag() const {
-        return (Pair1.GetTag() * Pair2.GetTag());
-    }
+//     float GetTag() const {
+//         return (Doublet1.GetTag() * Doublet2.GetTag());
+//     }
 
     float GetDeltaRap() const {
-        return (std::abs(Pair1.GetDoubletJet().rap() - Pair2.GetDoubletJet().rap()));
+        return (std::abs(Doublet1.GetDoubletJet().rap() - Doublet2.GetDoubletJet().rap()));
     }
 
     float GetDeltaPhi() const {
-        return (Pair1.GetDoubletJet().delta_phi_to(Pair2.GetDoubletJet()));
+        return (Doublet1.GetDoubletJet().delta_phi_to(Doublet2.GetDoubletJet()));
     }
 
-    std::vector<HSextet> GetTriplePairs();
+    std::vector<HSextet> GetSextets();
 
     std::vector<HSextet> GetTriplePairs(const float Mass1, const float Mass2, const float Mass3);
 
-    HSextet GetTriplePair(HJets Neutrinos);
+    HSextet GetSextet(HJets Neutrinos);
 
-    HDoublet GetPair1()const{return Pair1;}
-    HDoublet GetPair2()const{return Pair2;}
+    HDoublet GetDoublet1()const{return Doublet1;}
+    HDoublet GetDoublet2()const{return Doublet2;}
 
 protected:
 
@@ -90,9 +90,9 @@ private:
 
     float GetTransverseError(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) const;
 
-    HDoublet Pair1;
+    HDoublet Doublet1;
 
-    HDoublet Pair2;
+    HDoublet Doublet2;
 
     fastjet::PseudoJet Met;
 

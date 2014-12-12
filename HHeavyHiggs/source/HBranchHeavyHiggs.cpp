@@ -24,9 +24,9 @@ hheavyhiggs::HBranchHeavyHiggs::HBranchHeavyHiggs()
 }
 
 
-ClassImp(hheavyhiggs::HLeptonicEventBranch)
+ClassImp(hheavyhiggs::HEventLeptonicBranch)
 
-hheavyhiggs::HLeptonicEventBranch::HLeptonicEventBranch()
+hheavyhiggs::HEventLeptonicBranch::HEventLeptonicBranch()
 {
 
   LeptonNumber = InitialValue;
@@ -60,9 +60,9 @@ hheavyhiggs::HLeptonicEventBranch::HLeptonicEventBranch()
 }
 
 
-ClassImp(hheavyhiggs::HHadronicEventBranch)
+ClassImp(hheavyhiggs::HEventHadronicBranch)
 
-hheavyhiggs::HHadronicEventBranch::HHadronicEventBranch()
+hheavyhiggs::HEventHadronicBranch::HEventHadronicBranch()
 {
 
     LeptonNumber = InitialValue;
@@ -96,9 +96,9 @@ hheavyhiggs::HHadronicEventBranch::HHadronicEventBranch()
 }
 
 
-ClassImp(hheavyhiggs::HMixedEventBranch)
+ClassImp(hheavyhiggs::HEventSemiBranch)
 
-hheavyhiggs::HMixedEventBranch::HMixedEventBranch()
+hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
 {
 
   LeptonNumber = InitialValue;

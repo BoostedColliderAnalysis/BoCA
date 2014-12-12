@@ -6,9 +6,9 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
-# include "HLeptonicTopTagger.hh"
 # include "HDoublet.hh"
 # include "HQuartet.hh"
+# include "HTopLeptonicTagger.hh"
 
 /**
  * @brief Bdt heavy higgs tagger
@@ -19,7 +19,7 @@ class hanalysis::HHeavyHiggsLeptonicTagger : public HMva
 
 public:
 
-    HHeavyHiggsLeptonicTagger(HBottomTagger *const NewBottomTagger, HLeptonicTopTagger *const NewTopTagger);
+    HHeavyHiggsLeptonicTagger(hanalysis::HBottomTagger*const NewBottomTagger, hanalysis::HTopLeptonicTagger*const NewTopLeptonicTagger);
 
     ~HHeavyHiggsLeptonicTagger();
 
@@ -30,16 +30,18 @@ public:
 private:
 
     HBottomTagger *BottomTagger;
-    HLeptonicTopTagger *TopTagger;
+    HTopLeptonicTagger *TopLeptonicTagger;
 
     HReader *BottomReader;
-    HReader *TopReader;
+    HReader *TopLeptonicReader;
 
     HHeavyHiggsLeptonicBranch *Branch;
 
     HJetTag *JetTag;
 
     void DefineVariables();
+
+    hanalysis::HObject::HState GetQuartetTag(const HQuartet &Quartet);
 
     void FillBranch(HHeavyHiggsLeptonicBranch* HeavyHiggsBranch, const hanalysis::HSextet& TriplePair);
 

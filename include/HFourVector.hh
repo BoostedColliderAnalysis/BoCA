@@ -39,9 +39,7 @@ protected:
 
     /**
      * @brief Get a fastjet::PseudoJet from a TLorentzVector
-     *
-     * @param  TLorentzVector
-     * @return fastjet::PseudoJet
+     * 
      */
     fastjet::PseudoJet GetPseudoJet(const TLorentzVector &) const;
 

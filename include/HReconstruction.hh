@@ -51,9 +51,7 @@ protected:
 
     /**
      * @brief Get mass drop jet
-     *
-     * @param  FatJet
-     * @return MassDropJet
+     * 
      */
     fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet&) const;
 
@@ -66,9 +64,7 @@ protected:
 
     /**
      * @brief Filter Jets
-     *
-     * @param  MassDropJet
-     * @return FilteredJet
+     * 
      */
     fastjet::PseudoJet GetFilteredJet(const fastjet::PseudoJet&);
 

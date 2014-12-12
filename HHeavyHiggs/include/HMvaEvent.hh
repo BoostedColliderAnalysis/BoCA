@@ -131,7 +131,6 @@ private:
 
 };
 
-# endif
 
 
 /**
@@ -148,7 +147,7 @@ public:
     * @brief Constructor
     *
     */
-    HMvaEvent(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HLeptonicTopTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
+    HMvaEvent(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopSemiTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -156,7 +155,7 @@ public:
     */
     ~HMvaEvent();
 
-    std::vector<hheavyhiggs::HLeptonicEventBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
     void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
 
@@ -175,19 +174,19 @@ private:
 
     std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
-    void FillBranch(hheavyhiggs::HLeptonicEventBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
 
     void DefineVariables();
 
 
     hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HLeptonicTopTagger *LeptonicTopTagger;
+    hanalysis::HTopSemiTagger *LeptonicTopTagger;
     hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *TopReader;
     hanalysis::HReader *HeavyHiggsReader;
 
-    hheavyhiggs::HLeptonicEventBranch *Branch;
+    hheavyhiggs::HEventLeptonicBranch *Branch;
 
     hanalysis::HJetTag *JetTag;
 

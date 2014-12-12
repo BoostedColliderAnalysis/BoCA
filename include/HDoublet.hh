@@ -105,9 +105,9 @@ public:
       return (GetPullAngle1() * GetPullAngle2());
     }
 
-    float GetBdt() const {
-      return (Jet1.user_info<hanalysis::HJetInfo>().GetBdt() * Jet2.user_info<hanalysis::HJetInfo>().GetBdt());
-    }
+//     float GetBdt() const {
+//       return (Jet1.user_info<hanalysis::HJetInfo>().GetBdt() * Jet2.user_info<hanalysis::HJetInfo>().GetBdt());
+//     }
 
     std::vector< HKinematics > GetConstituents() const;
 

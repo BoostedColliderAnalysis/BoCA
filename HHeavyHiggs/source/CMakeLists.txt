@@ -5,9 +5,9 @@ HAnalysisHeavyHiggsDelphes.cpp
 HAnalysisHeavyHiggsParton.cpp
 HAnalysisHeavyHiggsPgs.cpp
 HAnalysisHeavyHiggsMva.cpp
-HLeptonicEventTagger.cpp
-HHadronicEventTagger.cpp
-HMixedEventTagger.cpp
+HEventLeptonicTagger.cpp
+HEventHadronicTagger.cpp
+HEventSemiTagger.cpp
 HHeavyHiggsEvent.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")

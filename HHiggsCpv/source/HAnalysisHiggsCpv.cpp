@@ -113,7 +113,7 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 
       BottomReader = new hanalysis::HReader (BottomTagger);
 
-      LeptonicTopTagger = new hanalysis::HLeptonicTopTagger(BottomTagger);
+      LeptonicTopTagger = new hanalysis::HTopLeptonicTagger(BottomTagger);
         LeptonicTopTagger->SetAnalysisName(GetProjectName());
         LeptonicTopTagger->SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
         LeptonicTopTagger->SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
@@ -146,7 +146,7 @@ void hhiggscpv::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter, const HTagg
     if (Tagger == HBottomTagger) {
         BottomBranch = TreeWriter->NewBranch("Bottom", HBottomBranch::Class());
     } else if (Tagger == HTopLeptonicTagger) {
-        TopBranch = TreeWriter->NewBranch("Top", HLeptonicTopBranch::Class());
+        TopBranch = TreeWriter->NewBranch("Top", HTopLeptonicBranch::Class());
     } else if (Tagger == HHiggsLeptonicTagger) {
         HiggsBranch = TreeWriter->NewBranch("Higgs", HHiggsBranch::Class());
         ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
@@ -209,11 +209,11 @@ bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::
     if (StudyName == "Top") State = HSignal;
     if (StudyName == "NotTop") State = HBackground;
 
-    std::vector<HLeptonicTopBranch *> Tops = LeptonicTopTagger->GetBranches(Event, State);
+    std::vector<HTopLeptonicBranch *> Tops = LeptonicTopTagger->GetBranches(Event, State);
 
 
     for (const auto & Top : Tops) {
-        HLeptonicTopBranch *TopTagger = static_cast<HLeptonicTopBranch *>(TopBranch->NewEntry());
+        HTopLeptonicBranch *TopTagger = static_cast<HTopLeptonicBranch *>(TopBranch->NewEntry());
         *TopTagger = *Top;
     }
 

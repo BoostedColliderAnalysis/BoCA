@@ -45,17 +45,13 @@ protected:
 
   /**
    * @brief Find the hardest of the light leptons
-   *
-   * @param ClonesArray ...
-   * @return void
+   * 
    */
   virtual bool GetElectrons(HJetDetails JetDetails) = 0;
 
   /**
    * @brief Find the hardest of the light leptons
-   *
-   * @param ClonesArray ...
-   * @return void
+   * 
    */
   virtual bool GetMuons(HJetDetails JetDetails) = 0;
 

@@ -1,33 +1,66 @@
 #include "HAnalysisHeavyHiggsMva.hh"
 
 
-void RunTagger(const std::string TaggerName, const hheavyhiggs::HAnalysisMva::HTagger Tagger)
+void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 {
-
-    std::cout << "Run Tagger " << TaggerName << std::endl;;
-
     hanalysis::HFactory *Factory;
     bool HasFactory = 0;
+
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
+    hanalysis::HObject::HState State = hanalysis::HObject::HSignal;
+    std::string Name = Analysis->GetStudyNames(Tagger,State);
+    
+    Analysis->Print(Analysis->HError,"Tagger",Tagger,Name);
 
     TFile *File(0);
-    std::string FileName = Analysis->GetProjectName() + "/" + TaggerName + ".root";
+    std::string FileName = Analysis->GetProjectName() + "/" + Name + ".root";
     if (!gSystem->AccessPathName(FileName.c_str()))File = TFile::Open(FileName.c_str());
+    
     else Analysis->AnalysisLoop(Tagger);
 
-    FileName = Analysis->GetProjectName() + "/Mva" + TaggerName + ".root";
+    FileName = Analysis->GetProjectName() + "/Mva" + Name + ".root";
     if (!gSystem->AccessPathName(FileName.c_str()))File = TFile::Open(FileName.c_str());
     else {
-        Analysis->GetFiles(TaggerName);
-        if (Tagger == hheavyhiggs::HAnalysisMva::HBottomTagger) Factory = new hanalysis::HFactory(Analysis->BottomTagger);
-        if (Tagger == hheavyhiggs::HAnalysisMva::HWTagger) Factory = new hanalysis::HFactory(Analysis->WTagger);
-        if (Tagger == hanalysis::HAnalysis::HTopLeptonicTagger) Factory = new hanalysis::HFactory(Analysis->TopLeptonicTagger);
-        if (Tagger == hanalysis::HAnalysis::HTopHadronicTagger) Factory = new hanalysis::HFactory(Analysis->TopHadronicTagger);
-        if (Tagger == hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger) Factory = new hanalysis::HFactory(Analysis->HeavyHiggsLeptonicTagger);
-        if (Tagger == hanalysis::HAnalysis::HHeavyHiggsHadronicTagger) Factory = new hanalysis::HFactory(Analysis->HeavyHiggsHadronicTagger);
-        if (Tagger == hanalysis::HAnalysis::HLeptonicEventTagger) Factory = new hanalysis::HFactory(Analysis->LeptonicEventTagger);
-        if (Tagger == hanalysis::HAnalysis::HHadronicEventTagger) Factory = new hanalysis::HFactory(Analysis->HadronicEventTagger);
+        Analysis->GetFiles(Tagger, hanalysis::HObject::HSignal);
+        switch(Tagger) {
+        case hanalysis::HAnalysis::HBottomTagger:
+            Factory = new hanalysis::HFactory(Analysis->BottomTagger);
+	break;
+        case hanalysis::HAnalysis::HWTagger:
+            Factory = new hanalysis::HFactory(Analysis->WTagger);
+	break;
+        case hanalysis::HAnalysis::HTopLeptonicTagger:
+            Factory = new hanalysis::HFactory(Analysis->TopLeptonicTagger);
+	break;
+        case hanalysis::HAnalysis::HTopHadronicTagger:
+            Factory = new hanalysis::HFactory(Analysis->TopHadronicTagger);
+	break;
+        case hanalysis::HAnalysis::HTopSemiTagger:
+            Factory = new hanalysis::HFactory(Analysis->TopSemiTagger);
+	break;
+
+        case hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger:
+            Factory = new hanalysis::HFactory(Analysis->HeavyHiggsLeptonicTagger);
+	break;
+        case hanalysis::HAnalysis::HHeavyHiggsHadronicTagger:
+            Factory = new hanalysis::HFactory(Analysis->HeavyHiggsHadronicTagger);
+	break;
+        case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
+            Factory = new hanalysis::HFactory(Analysis->HeavyHiggsSemiTagger);
+	break;
+
+        case hanalysis::HAnalysis::HEventLeptonicTagger:
+            Factory = new hanalysis::HFactory(Analysis->EventLeptonicTagger);
+	break;
+        case hanalysis::HAnalysis::HEventHadronicTagger:
+            Factory = new hanalysis::HFactory(Analysis->EventHadronicTagger);
+	break;
+        case hanalysis::HAnalysis::HEventSemiTagger:
+            Factory = new hanalysis::HFactory(Analysis->EventSemiTagger);
+	break;
+        }
         HasFactory = 1;
+
     }
 
     if (HasFactory) delete Factory;
@@ -37,14 +70,20 @@ void RunTagger(const std::string TaggerName, const hheavyhiggs::HAnalysisMva::HT
 int main()
 {
 
-    RunTagger("Bottom", hheavyhiggs::HAnalysisMva::HBottomTagger);
-    RunTagger("W", hheavyhiggs::HAnalysisMva::HWTagger);
-    RunTagger("TopLeptonic", hanalysis::HAnalysis::HTopLeptonicTagger);
-    RunTagger("TopHadronic", hanalysis::HAnalysis::HTopHadronicTagger);
-    RunTagger("HeavyHiggsLeptonic", hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
-    RunTagger("HeavyHiggsHadronic", hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
-    RunTagger("LeptonicEvent",hanalysis::HAnalysis::HLeptonicEventTagger);
-    RunTagger("HadronicEvent",hanalysis::HAnalysis::HHadronicEventTagger);
+    RunTagger(hanalysis::HAnalysis::HBottomTagger);
+    RunTagger(hanalysis::HAnalysis::HWTagger);
+
+    RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
+    RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
+    RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
+
+    RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
+    RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
+    RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
 
     return 1;
 

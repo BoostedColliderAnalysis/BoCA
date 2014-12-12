@@ -36,7 +36,21 @@ public:
 
 //     void AnalysisLoop();
 //     enum HTagger {EventTagger};
-    enum HTagger {HBottomTagger, HWTagger, HTopHadronicTagger,HTopLeptonicTagger, HHeavyHiggsHadronicTagger,HHeavyHiggsLeptonicTagger,HHiggsLeptonicTagger, HEventTagger,HLeptonicEventTagger,HHadronicEventTagger,HSemiEventTagger};
+    enum HTagger {
+      HBottomTagger, 
+      HWTagger, 
+      HTopHadronicTagger,
+      HTopSemiTagger, 
+      HTopLeptonicTagger, 
+      HHeavyHiggsHadronicTagger,
+      HHeavyHiggsLeptonicTagger,
+      HHeavyHiggsSemiTagger,
+      HEventLeptonicTagger,
+      HEventHadronicTagger,
+      HEventSemiTagger,
+      HEventTagger,
+      HHiggsLeptonicTagger
+    };
 
     void AnalysisLoop(const HTagger Tagger);
 
@@ -51,6 +65,8 @@ public:
      * @return void
      */
     virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
+    
+    virtual std::vector<HFile *> GetFiles(const HTagger, const HState){Print(HError,"GetFiles","Should be subclasses");}
 
 protected:
 
@@ -86,6 +102,12 @@ protected:
         Print(HError, "Analysis", "should be subclassed");
         return 0;
     }
+    
+        virtual bool Analysis(HEvent *const, const HTagger Tagger, const HState State) {
+        Print(HError, "Analysis", "should be subclassed");
+        return 0;
+    }
+
 
     /**
      * @brief New Analysis
@@ -116,9 +138,9 @@ protected:
         return 100000;
     }
 
-    virtual inline HStrings GetStudyNames(const HTagger NewTagger) {
-        Print(HError, "GetStudyName", "What are we doing here?", NewTagger);
-        return {GetProjectName()};
+    virtual inline std::string GetStudyNames(const HTagger Tagger, const HState State) const {
+        Print(HError, "GetStudyName", "What are we doing here?", Tagger);
+        return GetProjectName();
     }
 
 
