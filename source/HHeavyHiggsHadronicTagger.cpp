@@ -129,31 +129,36 @@ std::vector< HHeavyHiggsHadronicBranch * > hanalysis::HHeavyHiggsHadronicTagger:
         return HeavyHiggsHadronicBranches;
     }
 
-    std::vector<HDoublet>  Doublets;
-    for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
-        for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
-            if (Jet1 == Jet2) continue;
-            HDoublet Doublet(*Jet1, *Jet2);
-            Doublet.SetTag(GetDoubletTag(Doublet));
-            if (Doublet.GetTag() != State) continue;
-            WTagger->FillBranch(Doublet);
-            Doublet.SetBdt(WReader->GetBdt());
-            Doublets.push_back(Doublet);
-        }
+
+    std::vector<HDoublet> Doublets = WTagger->GetWBdt(Jets,WReader,State);
+
+//     std::vector<HDoublet>  Doublets;
+//     for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
+//         for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
+//             if (Jet1 == Jet2) continue;
+//             HDoublet Doublet(*Jet1, *Jet2);
+//             Doublet.SetTag(GetDoubletTag(Doublet));
+//             if (Doublet.GetTag() != State) continue;
+//             WTagger->FillBranch(Doublet);
+//             Doublet.SetBdt(WReader->GetBdt());
+//             Doublets.push_back(Doublet);
+//         }
 
 
-    std::vector<HTriplet>  Triplets;
-    for (const auto & Doublet : Doublets)
-        for (const auto & Jet : Jets) {
-            if (Jet == Doublet.GetJet1()) continue;
-            if (Jet == Doublet.GetJet2()) continue;
-            HTriplet Triplet(Doublet, Jet);
-            Triplet.SetTag(GetTripletTag(Triplet));
-            if (Triplet.GetTag() != State) continue;
-            TopHadronicTagger->FillBranch(Triplet);
-            Triplet.SetBdt(TopHadronicReader->GetBdt());
-            Triplets.push_back(Triplet);
-        }
+    std::vector<HTriplets> Triplets = TopHadronicTagger->GetTopHadronicBdt(Doublets,Jets,WReader,State);
+
+//     std::vector<HTriplet>  Triplets;
+//     for (const auto & Doublet : Doublets)
+//         for (const auto & Jet : Jets) {
+//             if (Jet == Doublet.GetJet1()) continue;
+//             if (Jet == Doublet.GetJet2()) continue;
+//             HTriplet Triplet(Doublet, Jet);
+//             Triplet.SetTag(GetTripletTag(Triplet));
+//             if (Triplet.GetTag() != State) continue;
+//             TopHadronicTagger->FillBranch(Triplet);
+//             Triplet.SetBdt(TopHadronicReader->GetBdt());
+//             Triplets.push_back(Triplet);
+//         }
 
 
     std::vector<HSextet> Sextets;
@@ -170,8 +175,9 @@ std::vector< HHeavyHiggsHadronicBranch * > hanalysis::HHeavyHiggsHadronicTagger:
             if (Triplet1.GetDoublet().GetJet2() == Triplet2.GetDoublet().GetJet1()) continue;
             if (Triplet1.GetDoublet().GetJet2() == Triplet2.GetDoublet().GetJet2()) continue;
             HSextet Sextet(Triplet1,Triplet2);
-            Sextets.push_back(Sextet);
             Sextet.SetTag(GetSextetTag(Sextet));
+            if(Sextet.GetTag()!=State) continue;
+            Sextets.push_back(Sextet);
         }
 
 

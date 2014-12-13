@@ -134,35 +134,51 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
     HJets Jets = Event->GetJets()->GetStructuredJets();
     if (Jets.size() < 8) return EventBranches;
 
-    for (auto & Jet : Jets) {
-        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        BottomTagger->FillBranch(Jet);
-        JetInfo->SetBdt(BottomReader->GetBdt());
-        Jet.set_user_info(JetInfo);
+    Jets = BottomTagger->GetBottomBdt(Jets,BottomReader);
+
+//     for (auto & Jet : Jets) {
+//         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+//         BottomTagger->FillBranch(Jet);
+//         JetInfo->SetBdt(BottomReader->GetBdt());
+//         Jet.set_user_info(JetInfo);
+//     }
+
+    std::vector<HDoublet> Doublets = WTagger->GetWBdt(Jets,WReader,State);
+
+    std::vector<HTriplet> Triplets = TopHadronicTagger->GetTopHadronicBdt(Doublets,Jets,TopHadronicReader,State);
+
+    std::vector<HSextet> Sextets HeavyHiggsTagger->GetBdt(Triplets,HeavyHiggsReader,State);
+
+    std::vector<HHeavyHiggsEvent> Octets;
+
+    for(const auto & Jet1 : Jets) for(const auto & Jet2 : Jets) {
+            if(Jet1==Jet2) continue;
+            for(const auto & Sextet : Sextets) {
+                if(Jet1==Sextet.GetTriplet1().GetJet()) continue; //TODO implement full check
+                Octets.push_back(HHeavyHiggsEvent(Sextet, Jet1, Jet2));
+            }
+        }
+
+//     for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
+//         for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2)
+//             for (auto Jet3 = Jet2 + 1; Jet3 != JetsEnd; ++Jet3)
+//                 for (auto Jet4 = Jet3 + 1; Jet4 != JetsEnd; ++Jet4)
+//                     for (auto Jet5 = Jet4 + 1; Jet5 != JetsEnd; ++Jet5)
+//                         for (auto Jet6 = Jet5 + 1; Jet6 != JetsEnd; ++Jet6)
+//                             for (auto Jet7 = Jet6 + 1; Jet7 != JetsEnd; ++Jet7)
+//                                 for (auto Jet8 = Jet7 + 1; Jet8 != JetsEnd; ++Jet8) {
+//                                     HJets EventJets {(*Jet1), (*Jet2), (*Jet3), (*Jet4),(*Jet5), (*Jet6), (*Jet7), (*Jet8)};
+//                                     std::vector<HHeavyHiggsEvent> NewHeavyHiggsEvents = GetHeavyHiggsEvents(EventJets);
+//                                     if (NewHeavyHiggsEvents.size() < 1)continue;
+//                                     Octets.insert(Octets.end(), NewHeavyHiggsEvents.begin(), NewHeavyHiggsEvents.end());
+//                                 }
+
+    if (Octets.size() > 1) {
+        std::sort(Octets.begin(), Octets.end(), SortHeavyHiggsEvents());
+        Octets.erase(Octets.begin() + 1, Octets.end());
     }
 
-    std::vector<HHeavyHiggsEvent> HeavyHiggsEvents;
-
-    for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
-        for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2)
-            for (auto Jet3 = Jet2 + 1; Jet3 != JetsEnd; ++Jet3)
-                for (auto Jet4 = Jet3 + 1; Jet4 != JetsEnd; ++Jet4)
-                    for (auto Jet5 = Jet4 + 1; Jet5 != JetsEnd; ++Jet5)
-                        for (auto Jet6 = Jet5 + 1; Jet6 != JetsEnd; ++Jet6)
-                            for (auto Jet7 = Jet6 + 1; Jet7 != JetsEnd; ++Jet7)
-                                for (auto Jet8 = Jet7 + 1; Jet8 != JetsEnd; ++Jet8) {
-                                    HJets EventJets {(*Jet1), (*Jet2), (*Jet3), (*Jet4),(*Jet5), (*Jet6), (*Jet7), (*Jet8)};
-                                    std::vector<HHeavyHiggsEvent> NewHeavyHiggsEvents = GetHeavyHiggsEvents(EventJets);
-                                    if (NewHeavyHiggsEvents.size() < 1)continue;
-                                    HeavyHiggsEvents.insert(HeavyHiggsEvents.end(), NewHeavyHiggsEvents.begin(), NewHeavyHiggsEvents.end());
-                                }
-
-    if (HeavyHiggsEvents.size() > 1) {
-        std::sort(HeavyHiggsEvents.begin(), HeavyHiggsEvents.end(), SortHeavyHiggsEvents());
-        HeavyHiggsEvents.erase(HeavyHiggsEvents.begin() + 1, HeavyHiggsEvents.end());
-    }
-
-    for (auto & HeavyHiggsEvent : HeavyHiggsEvents) {
+    for (auto & HeavyHiggsEvent : Octets) {
         hheavyhiggs::HEventHadronicBranch *EventBranch = new hheavyhiggs::HEventHadronicBranch();
         HeavyHiggsEvent.SetLeptonNumber(Event->GetLeptons()->GetLeptonJets().size());
         HeavyHiggsEvent.SetJetNumber(Event->GetJets()->GetJets().size());

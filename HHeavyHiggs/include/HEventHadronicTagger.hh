@@ -9,7 +9,7 @@
 # include "HReader.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
 # include "HHeavyHiggsEvent.hh"
-
+# include "HSextet.hh"
 
 
 /**

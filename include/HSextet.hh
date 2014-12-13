@@ -1,5 +1,5 @@
-# ifndef Sextet_hh
-# define Sextet_hh
+# ifndef HSextet_hh
+# define HSextet_hh
 
 # include "HTriplet.hh"
 

@@ -36,6 +36,8 @@ private:
 
     void FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet);
 
+    hanalysis::HObject::HState GetSingletTag(const fastjet::PseudoJet &Jet) const;
+
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;

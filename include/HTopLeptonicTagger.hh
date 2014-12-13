@@ -38,6 +38,8 @@ private:
 
     HState GetDoubletTag(const HDoublet &Doublet);
 
+    std::vector< HDoublet> GetTopLeptonicBdt(HJets Jets, HJets Leptons, const hanalysis::HReader*const TopLeptonicReader, const hanalysis::HObject::HState State);
+
     void FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const HDoublet &Doublet);
 
     virtual inline std::string ClassName() const {

@@ -45,6 +45,7 @@ private:
     HHeavyHiggsSemiBranch *Branch;
 
     HJetTag *JetTag;
+    HState GetSextetTag(const HSextet &Sextet);
 
     void DefineVariables();
 

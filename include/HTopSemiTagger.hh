@@ -28,6 +28,8 @@ public:
 
     HJets GetNeutrinos(const hanalysis::HTriplet &Triplet)const;
 
+    std::vector<HTriplet>  GetTopSemiBdt(HJets Jets, HJets Leptons,fastjet::PseudoJet MissingEt, const HReader * const TopSemiReader, const HState State);
+
 
 private:
 

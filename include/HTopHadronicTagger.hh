@@ -36,7 +36,7 @@ private:
     HWTagger *WTagger;
 
     HReader  *BottomReader;
-    HReader  *HadronicWReader;
+    HReader  *WReader;
 
     HTopHadronicBranch *Branch;
 
@@ -46,9 +46,11 @@ private:
 
     HState GetTripletTag(const hanalysis::HTriplet& Triplet);
 
-    HState GetDoubletTag(const HDoublet &Doublet);
+    std::vector<HTriplet>  GetTopHadronicBdt(std::vector<HDoublet> &Doublets, HJets Jets, const HReader * const TopHadronicReader, const HState State);
 
-    HState GetSextetTag(const HSextet &Sextet);
+//     HState GetDoubletTag(const HDoublet &Doublet);
+
+//     HState GetSextetTag(const HSextet &Sextet);
 
 //     std::vector<hanalysis::HTriplet> FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State);
 
