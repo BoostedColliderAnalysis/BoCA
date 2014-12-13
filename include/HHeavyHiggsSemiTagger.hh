@@ -28,6 +28,9 @@ public:
 
     void FillBranch(const HSextet& TriplePair);
 
+    std::vector<hanalysis::HSextet>  GetHeavyHiggsSemiBdt(std::vector<HTriplet> TripletsSemi ,std::vector<HTriplet> TripletsHadronic, const HReader *const HeavyHiggsSemiReader, const HState State);
+
+
 private:
 
     HSextet GetTriplePair(HJets &Jets, fastjet::PseudoJet Lepton,fastjet::PseudoJet MissingEt,const HObject::HState State);

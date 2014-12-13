@@ -100,7 +100,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
                 BottomJets.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
                 ParticleJets.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
-                ParticleJets.back().set_user_index(BottomId);
+                ParticleJets.back().set_user_index(ParticleId);
 
                 Print(HDebug, "Bottom");
 
@@ -139,7 +139,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
                 const TLorentzVector TopVector = const_cast<GenParticle *>(ParticleClone)->P4();
                 fastjet::PseudoJet TopJet = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
-                TopJet.set_user_index(TopId);
+                TopJet.set_user_index(ParticleId);
                 Print(HInformation, "Top", TopJet);
 
                 TopJets.push_back(TopJet);

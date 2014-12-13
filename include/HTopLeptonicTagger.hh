@@ -22,9 +22,10 @@ public:
 
     ~HTopLeptonicTagger();
 
-    std::vector<HTopLeptonicBranch*> GetBranches(HEvent *const Event, const HObject::HState State);
+    std::vector<HTopLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
 
     void FillBranch(const HDoublet &Doublet);
+    std::vector< HDoublet> GetTopLeptonicBdt(HJets Jets, HJets Leptons, const hanalysis::HReader *const TopLeptonicReader, const hanalysis::HObject::HState State);
 
 private:
 
@@ -38,7 +39,6 @@ private:
 
     HState GetDoubletTag(const HDoublet &Doublet);
 
-    std::vector< HDoublet> GetTopLeptonicBdt(HJets Jets, HJets Leptons, const hanalysis::HReader*const TopLeptonicReader, const hanalysis::HObject::HState State);
 
     void FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const HDoublet &Doublet);
 

@@ -29,6 +29,7 @@ public:
     void FillBranch(const hanalysis::HTriplet &PairJetPair);
 
 //     std::vector<hanalysis::HTriplet> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
+    std::vector<HTriplet>  GetTopHadronicBdt(std::vector<HDoublet> &Doublets, HJets Jets, const HReader * const TopHadronicReader, const HState State);
 
 private:
 
@@ -46,7 +47,6 @@ private:
 
     HState GetTripletTag(const hanalysis::HTriplet& Triplet);
 
-    std::vector<HTriplet>  GetTopHadronicBdt(std::vector<HDoublet> &Doublets, HJets Jets, const HReader * const TopHadronicReader, const HState State);
 
 //     HState GetDoubletTag(const HDoublet &Doublet);
 

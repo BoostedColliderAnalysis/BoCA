@@ -8,7 +8,7 @@ HAnalysisHeavyHiggsMva.cpp
 HEventLeptonicTagger.cpp
 HEventHadronicTagger.cpp
 HEventSemiTagger.cpp
-HHeavyHiggsEvent.cpp
+HOctet.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")
 

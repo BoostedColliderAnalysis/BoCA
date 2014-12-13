@@ -36,21 +36,21 @@ void hanalysis::HWTagger::FillBranch(const HDoublet &Pair)
 
 }
 
-void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Pair)
+void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Doublet)
 {
-    Print(HInformation, "FillPairTagger", Pair.GetBdt());
+    Print(HInformation, "FillPairTagger", Doublet.GetBdt());
 
-    WBranch->Mass = Pair.GetDoubletJet().m();
-    WBranch->PtSum = Pair.GetDoubletJet().pt();
-    WBranch->PtDiff = Pair.GetPtDiff();
-    WBranch->DeltaR = Pair.GetDeltaR();
-    WBranch->DeltaRap = Pair.GetDeltaRap();
-    WBranch->DeltaPhi = Pair.GetPhiDelta();
-    WBranch->BottomBdt = Pair.GetBdt();
-    WBranch->Pull1 = Pair.GetPullAngle1();
-    WBranch->Pull2 = Pair.GetPullAngle2();
-    WBranch->Pull = Pair.GetPullAngle();
-    WBranch->WTag = Pair.GetTag();
+    WBranch->Mass = Doublet.GetDoubletJet().m();
+    WBranch->PtSum = Doublet.GetDoubletJet().pt();
+    WBranch->PtDiff = Doublet.GetPtDiff();
+    WBranch->DeltaR = Doublet.GetDeltaR();
+    WBranch->DeltaRap = Doublet.GetDeltaRap();
+    WBranch->DeltaPhi = Doublet.GetPhiDelta();
+    WBranch->BottomBdt = Doublet.GetBdt();
+    WBranch->Pull1 = Doublet.GetPullAngle1();
+    WBranch->Pull2 = Doublet.GetPullAngle2();
+    WBranch->Pull = Doublet.GetPullAngle();
+    WBranch->WTag = Doublet.GetTag();
 
 }
 
@@ -92,64 +92,16 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
     JetTag->HeavyParticles = {WId, TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetBottomBdt(Jets,BottomReader);
+    Jets = BottomTagger->GetBottomBdt(Jets, BottomReader);
 
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
-            if(Jet1==Jet2) continue;
             HDoublet Doublet((*Jet1), (*Jet2));
-            if (GetDoubletTag(Doublet)!=State) continue;
+            Doublet.SetTag(GetDoubletTag(Doublet));
+            if (Doublet.GetTag() != State) continue;
             Doublets.push_back(Doublet);
         }
-
-
-//     HJets WJets;
-//     HJets OtherJets;
-//     for (auto & Jet : Jets) {
-//         Print(HInformation, "Dominant Fraction", GetParticleName(Jet.user_index()));
-//         if (Jet.user_index() == MixedJetId) continue;
-//
-//         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-//         BottomTagger->FillBranch(Jet);
-//         JetInfo->SetBdt(BottomReader->GetBdt());
-//         Jet.set_user_info(JetInfo);
-//
-//         if (std::abs(Jet.user_index()) == WId) {
-//             WJets.push_back(Jet);
-//         } else {
-//             OtherJets.push_back(Jet);
-//         }
-//     }
-//
-//
-//     if (State == HSignal) {
-//         Print(HInformation, "W Jets", WJets.size());
-//         for (auto Jet1 = WJets.begin(); Jet1 != WJets.end(); ++Jet1) {
-//             for (auto Jet2 = Jet1 + 1; Jet2 != WJets.end(); ++Jet2) {
-//                 if ((*Jet1).user_index() != (*Jet2).user_index()) continue;
-//                 HDoublet Doublet((*Jet1), (*Jet2));
-//                 Doublets.push_back(Doublet);
-//             }
-//         }
-//     }
-//
-//     if (State == HBackground) {
-//         for (auto Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-//             for (auto Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
-//                 if ((*Jet1).user_index() == (*Jet2).user_index() && std::abs((*Jet1).user_index()) == WId) continue;
-//                 HDoublet Doublet((*Jet1), (*Jet2));
-//                 Doublets.push_back(Doublet);
-//             }
-//         }
-//         for (auto Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-//             for (auto Jet2 = WJets.begin(); Jet2 != WJets.end(); ++Jet2) {
-//                 if ((*Jet1).user_index() == (*Jet2).user_index() && std::abs((*Jet1).user_index()) == WId) continue;
-//                 HDoublet Doublet((*Jet1), (*Jet2));
-//                 Doublets.push_back(Doublet);
-//             }
-//         }
-//     }
 
     Print(HInformation, "Number of Jet Pairs", Doublets.size());
 
@@ -175,14 +127,15 @@ hanalysis::HObject::HState hanalysis::HWTagger::GetDoubletTag(const HDoublet &Do
 
 
 
-std::vector<HDoublet>  hanalysis::HWTagger::GetWBdt(HJets &Jets, const HReader * const WReader, const HState State) {
+std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetWBdt(HJets &Jets, const HReader *const WReader, const HState State)
+{
     std::vector<HDoublet>  Doublets;
     for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
             if (Jet1 == Jet2) continue;
             HDoublet Doublet(*Jet1, *Jet2);
             Doublet.SetTag(GetDoubletTag(Doublet));
-            if (State==HSignal && Doublet.GetTag() == HBackground) continue;
+            if (State == HSignal && Doublet.GetTag() == HBackground) continue;
             FillBranch(Doublet);
             Doublet.SetBdt(WReader->GetBdt());
             Doublets.push_back(Doublet);

@@ -1,5 +1,5 @@
-# ifndef HMixedEventTagger_hh
-# define HMixedEventTagger_hh
+# ifndef HEventSemiTagger_hh
+# define HEventSemiTagger_hh
 
 
 # include "HMva.hh"
@@ -8,7 +8,7 @@
 # include "HJetTag.hh"
 # include "HReader.hh"
 # include "HHeavyHiggsSemiTagger.hh"
-# include "HHeavyHiggsEvent.hh"
+# include "HOctet.hh"
 
 
 
@@ -36,24 +36,17 @@ public:
 
     std::vector<HEventSemiBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(const HOctet &HeavyHiggsEvent);
 
-    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &ReaderStruct) {return ReaderStruct;};
-
-    void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
-
-    float GetBdt(TObject *, TMVA::Reader *) {
-        return 0;
-    };
 
 protected:
 
 
 private:
 
-    std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(HJets &Jets);
+    std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
 
-    void FillBranch(HEventSemiBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(HEventSemiBranch *EventBranch, const HOctet &HeavyHiggsEvent);
 
     void DefineVariables();
 
@@ -62,12 +55,12 @@ private:
     hanalysis::HWTagger *WTagger;
     hanalysis::HTopSemiTagger *TopSemiTagger;
     hanalysis::HTopHadronicTagger *TopHadronicTagger;
-    hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsTagger;
+    hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *WReader;
     hanalysis::HReader *TopHadronicReader;
-    hanalysis::HReader *TopLeptonicReader;
-    hanalysis::HReader *HeavyHiggsReader;
+    hanalysis::HReader *TopSemiReader;
+    hanalysis::HReader *HeavyHiggsSemiReader;
 
     HEventSemiBranch *Branch;
 
@@ -78,7 +71,7 @@ private:
     };
 
     virtual inline std::string ClassName() const {
-        return "HHhMixEventTagger";
+        return "HHhEventSemiTagger";
     };
 
 

@@ -116,41 +116,18 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
 
     Jets = BottomTagger->GetBottomBdt(Jets,BottomReader);
 
-//     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
-//         if (std::abs((*Jet).user_index()) == MixedJetId) {
-//             Jet = Jets.erase(Jet);
-//         } else {
-//             HJetInfo *JetInfo = new HJetInfo;
-//             BottomTagger->FillBranch(*Jet);
-//             JetInfo->SetBdt(BottomReader->GetBdt());
-//             (*Jet).set_user_info(JetInfo);
-//             ++Jet;
-//         }
-//     }
-//     std::vector<HTopSemiBranch *> TopSemiBranches;
-//     if (Jets.size() < 1) {
-//         return TopSemiBranches;
-//     }
-
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
     for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-        if (std::abs((*Lepton).user_index()) == MixedJetId) {
-            Lepton = Leptons.erase(Lepton);
-        } else {
-            ++Lepton;
-        }
+        if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
+        else ++Lepton;
     }
-//     if (Leptons.size() < 1) {
-//         return TopSemiBranches;
-//     }
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
     std::vector<HDoublet> Doublets;
     for (const auto & Lepton : Leptons) {
-        if (State == HSignal && std::abs(Lepton.user_index() != WId)) continue;
         HDoublet Doublet(Lepton, MissingEt);
         Doublets.push_back(Doublet);
     }
@@ -164,22 +141,18 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
             if (PreTriplet.GetTag() != State) continue;
             HJets Neutrinos = GetNeutrinos(PreTriplet);
             if (Neutrinos.size() < 1) continue;
-            const int Tag = PreTriplet.GetTag();
             for (const auto & Neutrino : Neutrinos) {
                 HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
                 HTriplet Triplet(Doublet, Jet);
                 if (Triplet.GetTripletJet().m() < 0) continue;
                 if (Triplet.GetDoubletJet().m() < 0) continue;
-                Triplet.SetTag(Tag);
+                Triplet.SetTag(PreTriplet.GetTag());
                 Triplets.push_back(Triplet);
             }
         }
 
-//     if (Triplets.size() < 1) {
-//         return TopSemiBranches;
-//     }
 
-    if (State == HSignal) {
+        if (State == HSignal && Triplets.size()>1) {
         std::sort(Triplets.begin(), Triplets.end(), SortJetByTopMass());
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
@@ -201,12 +174,9 @@ hanalysis::HObject::HState hanalysis::HTopSemiTagger::GetTripletTag(const HTripl
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (std::abs(Triplet.GetJet().user_index() != TopId)) {
-        return HBackground;
-    }
-    if (sgn(Triplet.GetDoublet().GetJet1().user_index()) != sgn(Triplet.GetJet().user_index())) {
-        return HBackground;
-    }
+    if (std::abs(Triplet.GetDoublet().GetJet1().user_index()) != WId) return HBackground;
+    if (std::abs(Triplet.GetJet().user_index()) != TopId) return HBackground;
+    if (sgn(Triplet.GetDoublet().GetJet1().user_index()) != sgn(Triplet.GetJet().user_index())) return HBackground;
     return HSignal;
 }
 

@@ -6,7 +6,6 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
-# include "HDoublet.hh"
 # include "HQuartet.hh"
 # include "HTopHadronicTagger.hh"
 
@@ -27,15 +26,18 @@ public:
 
     void FillBranch(const hanalysis::HSextet& TriplePair);
 
+
+    std::vector<hanalysis::HSextet> GetHeavyHiggsBdt(std::vector<hanalysis::HTriplet> Triplets, hanalysis::HReader *HeavyHiggsReader,hanalysis::HObject:: HState State);
+
 private:
 
-    HState GetTripletTag(const hanalysis::HTriplet& Triplet);
+//     HState GetTripletTag(const hanalysis::HTriplet& Triplet);
 
-    HState GetDoubletTag(const HDoublet &Doublet);
+//     HState GetDoubletTag(const HDoublet &Doublet);
 
     HState GetSextetTag(const HSextet &Sextet);
 
-    HSextet GetTriplePair(HJets &Jets, const hanalysis::HObject::HState State);
+//     HSextet GetTriplePair(HJets &Jets, const hanalysis::HObject::HState State);
 
     HBottomTagger *BottomTagger;
     HWTagger *WTagger;

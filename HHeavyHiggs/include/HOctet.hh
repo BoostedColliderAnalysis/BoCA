@@ -1,41 +1,57 @@
-#ifndef HHeavyHiggsEvent_hh
-#define HHeavyHiggsEvent_hh
+#ifndef HOctet_hh
+#define HOctet_hh
 
 # include "HSextet.hh"
 
-class HHeavyHiggsEvent : public hanalysis::HTag
+class HOctet : public hanalysis::HTag
 {
 
 public:
 
-  HHeavyHiggsEvent(const hanalysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom);
+  HOctet(const hanalysis::HSextet &NewSextet, const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
 
-  hanalysis::HSextet GetHeavyHiggs()const {
-    return HeavyHiggs;
+  hanalysis::HSextet GetSextet()const {
+    return Sextet;
   }
 
-  float GetBdt() const {
-    return (HeavyHiggs.GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt());
+  fastjet::PseudoJet GetJet1() const {
+    return Jet1;
   }
 
-  float GetBottomSumPt() const {
-    return (Bottom.pt() + AntiBottom.pt());
+  fastjet::PseudoJet GetJet2() const {
+    return Jet2;
   }
+
+  fastjet::PseudoJet GetSextetJet() const {
+    return Sextet.GetSextetJet();
+  }
+
+  fastjet::PseudoJet GetJetsJet() const {
+    return Jet1 + Jet2;
+  }
+
+//   float GetBdt() const {
+//     return (Sextet.GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt());
+//   }
+
+//   float GetBottomSumPt() const {
+//     return (Jet1.pt() + Jet2.pt());
+//   }
 
   float GetBottomDeltaPt() const {
-    return std::abs(Bottom.pt() - AntiBottom.pt());
+    return std::abs(Jet1.pt() - Jet2.pt());
   }
 
   float GetBottomDeltaRap() const {
-    return (Bottom.rap() - AntiBottom.rap());
+    return (Jet1.rap() - Jet2.rap());
   }
 
   float BottomDeltaPhi() const {
-    return Bottom.delta_phi_to(AntiBottom);
+    return Jet1.delta_phi_to(Jet2);
   }
 
   float GetBottomDeltaR() const {
-    return Bottom.delta_R(AntiBottom);
+    return Jet1.delta_R(Jet2);
   }
 
   float GetHbSumDeltaR() const {
@@ -93,32 +109,32 @@ public:
 private:
 
   float GetDeltaR1() const {
-    return HeavyHiggs.GetSextetJet().delta_R(Bottom);
+    return GetSextetJet().delta_R(Jet1);
   }
 
   float GetDeltaR2() const {
-    return HeavyHiggs.GetSextetJet().delta_R(AntiBottom);
+    return GetSextetJet().delta_R(Jet2);
   }
 
   float GetDeltaPhi1() const {
-    return HeavyHiggs.GetSextetJet().delta_phi_to(Bottom);
+    return GetSextetJet().delta_phi_to(Jet1);
   }
 
   float GetDeltaPhi2() const {
-    return HeavyHiggs.GetSextetJet().delta_phi_to(AntiBottom);
+    return GetSextetJet().delta_phi_to(Jet2);
   }
 
   float GetDeltaRap1() const {
-    return (HeavyHiggs.GetSextetJet().rap() - Bottom.rap());
+    return (GetSextetJet().rap() - Jet1.rap());
   }
 
   float GetDeltaRap2() const {
-    return (HeavyHiggs.GetSextetJet().rap() - AntiBottom.rap());
+    return (GetSextetJet().rap() - Jet2.rap());
   }
 
-  fastjet::PseudoJet Bottom;
-  fastjet::PseudoJet AntiBottom;
-  hanalysis::HSextet HeavyHiggs;
+  fastjet::PseudoJet Jet1;
+  fastjet::PseudoJet Jet2;
+  hanalysis::HSextet Sextet;
   int LeptonNumber;
   int BottomNumber;
   int JetNumber;

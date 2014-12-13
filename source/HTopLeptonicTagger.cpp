@@ -48,7 +48,7 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
 }
 
-void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch*const TopLeptonicBranch, const hanalysis::HDoublet& Doublet)
+void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const hanalysis::HDoublet &Doublet)
 {
     Print(HInformation, "Fill Top Tagger", Doublet.GetBdt());
 
@@ -77,40 +77,22 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {WId,TopId, HiggsId, CpvHiggsId, HeavyHiggsId};
+    JetTag->HeavyParticles = {WId, TopId, HiggsId, CpvHiggsId, HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-
-    Jets = BottomTagger->GetBottomBdt(Jets,BottomReader);
-
-//     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
-//         if (std::abs((*Jet).user_index()) == MixedJetId) {
-//             Jet = Jets.erase(Jet);
-//         } else {
-//             HJetInfo *JetInfo = new HJetInfo;
-//             BottomTagger->FillBranch(*Jet);
-//             JetInfo->SetBdt(BottomReader->GetBdt());
-//             (*Jet).set_user_info(JetInfo);
-//             ++Jet;
-//         }
-//     }
+    Jets = BottomTagger->GetBottomBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
     for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-        if (std::abs((*Lepton).user_index()) == MixedJetId) {
-            Lepton = Leptons.erase(Lepton);
-        } else {
-            ++Lepton;
-        }
+        if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
+        else ++Lepton;
     }
 
     std::vector<HDoublet> Doublets;
-    for (const auto & Lepton : Leptons) {
-        if (State == HSignal && std::abs(Lepton.user_index() != WId)) continue;
-
+    for (const auto & Lepton : Leptons)
         for (const auto & Jet : Jets) {
             Print(HDebug, "Lepton Tagging", GetParticleName(Lepton.user_index()), GetParticleName(Jet.user_index()));
             HDoublet Doublet(Jet, Lepton);
@@ -118,7 +100,7 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
             if (Doublet.GetTag() != State) continue;
             Doublets.push_back(Doublet);
         }
-    }
+
 
     Print(HInformation, "Number JetPairs", Doublets.size());
 
@@ -137,72 +119,40 @@ hanalysis::HObject::HState hanalysis::HTopLeptonicTagger::GetDoubletTag(const HD
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (std::abs(Doublet.GetJet1().user_index() != TopId)) return HBackground;
-    Print(HDebug,"its a top");
-    if (std::abs(Doublet.GetJet2().user_index() != WId)) return HBackground;
-    Print(HDebug,"its a W");
+    if (std::abs(Doublet.GetJet1().user_index()) != TopId) return HBackground;
+    Print(HDebug, "its a top");
+    if (std::abs(Doublet.GetJet2().user_index()) != WId) return HBackground;
+    Print(HDebug, "its a W");
     if (sgn(Doublet.GetJet1().user_index()) != sgn(Doublet.GetJet2().user_index())) return HBackground;
-    Print(HDebug,"its a Signal");
+    Print(HDebug, "its a Signal");
 
     return HSignal;
 }
 
 
 
-std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetTopLeptonicBdt(HJets Jets, HJets Leptons, const HReader * const TopLeptonicReader, const HState State) {
+std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetTopLeptonicBdt(HJets Jets, HJets Leptons, const HReader *const TopLeptonicReader, const HState State)
+{
 
-  for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-    if (std::abs((*Lepton).user_index()) == MixedJetId) {
-      Lepton = Leptons.erase(Lepton);
-    } else {
-      ++Lepton;
+    for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
+        if (std::abs((*Lepton).user_index()) == MixedJetId) {
+            Lepton = Leptons.erase(Lepton);
+        } else {
+            ++Lepton;
+        }
     }
-  }
 
-  std::vector<HDoublet> Doublets;
-  for (const auto & Lepton : Leptons){
-    if (State == HSignal && std::abs(Lepton.user_index()) != WId) continue;
-    for (const auto & Jet : Jets) {
-      if (State == HSignal && std::abs(Jet.user_index()) != TopId) continue;
-      if (State == HSignal && sgn(Lepton.user_index()) != sgn(Jet.user_index())) continue;
-      HDoublet Doublet(Jet, Lepton);
-      FillBranch(Doublet);
-      Doublet.SetBdt(TopLeptonicReader->GetBdt());
-      Doublets.push_back(Doublet);
+    std::vector<HDoublet> Doublets;
+    for (const auto & Lepton : Leptons) {
+        for (const auto & Jet : Jets) {
+            HDoublet Doublet(Jet, Lepton);
+            Doublet.SetTag(GetDoubletTag(Doublet));
+            if (State == HSignal && Doublet.GetTag() == HBackground) continue;
+            FillBranch(Doublet);
+            Doublet.SetBdt(TopLeptonicReader->GetBdt());
+            Doublets.push_back(Doublet);
+        }
     }
-  }
-  return Doublets;
+    return Doublets;
 
-
-//   for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-//     if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Jets.erase(Lepton);
-//     else  ++Lepton;
-//   }
-//
-//   std::vector<HDoublet> Doublets;
-//   for (const auto & Lepton : Leptons) {
-//     HDoublet Doublet(Lepton, MissingEt);
-//     Doublets.push_back(Doublet);
-//   }
-//   Print(HInformation, "Number Doublets", Doublets.size());
-//
-//   std::vector<HTriplet> Triplets;
-//   for (auto & PreDoublet : Doublets)
-//     for (const auto & Jet : Jets) {
-//       HTriplet PreTriplet(PreDoublet, Jet);
-//       PreTriplet.SetTag(GetTripletTag(PreTriplet));
-//       if (State == HSignal && PreTriplet.GetTag() != State) continue;
-//       HJets Neutrinos = GetNeutrinos(PreTriplet);
-//       if (Neutrinos.size() < 1) continue;
-//       const int Tag = PreTriplet.GetTag();
-//       for (const auto & Neutrino : Neutrinos) {
-//         HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
-//         HTriplet Triplet(Doublet, Jet);
-//         FillBranch(Triplet);
-//         Triplet.SetBdt(TopSemiReader->GetBdt());
-//         Triplets.push_back(Triplet);
-//       }
-//     }
-//     return Triplets;
 }
-

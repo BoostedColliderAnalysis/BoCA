@@ -12,35 +12,35 @@
 
 
 
-class HHeavyHiggsEvent : public hanalysis::HTag
+class HOctet : public hanalysis::HTag
 {
 
 public:
 
-  HHeavyHiggsEvent(const hanalysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
-    HeavyHiggs = NewHeavyHiggs;
-    Bottom = NewBottom;
-    AntiBottom = NewAntiBottom;
+  HOctet(const hanalysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
+    Sextet = NewHeavyHiggs;
+    Jet1 = NewBottom;
+    Jet2 = NewAntiBottom;
   }
 
-  hanalysis::HSextet GetHeavyHiggs()const {
-    return HeavyHiggs;
+  hanalysis::HSextet GetSextet()const {
+    return Sextet;
   }
 
   float GetBdt() const {
-    return (HeavyHiggs.GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt());
+    return (Sextet.GetBdt() * Jet1.user_info<hanalysis::HJetInfo>().GetBdt() * Jet1.user_info<hanalysis::HJetInfo>().GetBdt());
   }
 
   float GetDeltaRap() const {
-    return (Bottom.rap() - AntiBottom.rap());
+    return (Jet1.rap() - Jet2.rap());
   }
 
   float DeltaPhi() const {
-    return Bottom.delta_phi_to(AntiBottom);
+    return Jet1.delta_phi_to(Jet2);
   }
 
   float GetDeltaR() const {
-    return Bottom.delta_R(AntiBottom);
+    return Jet1.delta_R(Jet2);
   }
 
   float GetDeltaRSum() const {
@@ -98,32 +98,32 @@ public:
 private:
 
   float GetDeltaR1() const {
-    return HeavyHiggs.GetPairJet().delta_R(Bottom);
+    return Sextet.GetPairJet().delta_R(Bottom);
   }
 
   float GetDeltaR2() const {
-    return HeavyHiggs.GetPairJet().delta_R(AntiBottom);
+    return Sextet.GetPairJet().delta_R(AntiBottom);
   }
 
   float GetDeltaPhi1() const {
-    return HeavyHiggs.GetPairJet().delta_phi_to(Bottom);
+    return Sextet.GetPairJet().delta_phi_to(Bottom);
   }
 
   float GetDeltaPhi2() const {
-    return HeavyHiggs.GetPairJet().delta_phi_to(AntiBottom);
+    return Sextet.GetPairJet().delta_phi_to(AntiBottom);
   }
 
   float GetDeltaRap1() const {
-    return (HeavyHiggs.GetPairJet().rap() - Bottom.rap());
+    return (Sextet.GetPairJet().rap() - Jet1.rap());
   }
 
   float GetDeltaRap2() const {
-    return (HeavyHiggs.GetPairJet().rap() - AntiBottom.rap());
+    return (Sextet.GetPairJet().rap() - Jet2.rap());
   }
 
-  fastjet::PseudoJet Bottom;
-  fastjet::PseudoJet AntiBottom;
-  hanalysis::HSextet HeavyHiggs;
+  fastjet::PseudoJet Jet1;
+  fastjet::PseudoJet Jet2;
+  hanalysis::HSextet Sextet;
   int LeptonNumber;
   int BottomNumber;
   int JetNumber;
@@ -157,7 +157,7 @@ public:
 
     std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(const HOctet &HeavyHiggsEvent);
 
     HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {};
 
@@ -172,9 +172,9 @@ protected:
 
 private:
 
-    std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
+    std::vector<HOctet> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
-    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HOctet &HeavyHiggsEvent);
 
     void DefineVariables();
 

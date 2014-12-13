@@ -77,26 +77,6 @@ std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(HEvent *const
       else ++Jet;
     }
 
-
-
-//     if (State == HSignal) {
-//         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-//             Print(HInformation, "Truth Level", GetParticleName((*Jet).user_index()));
-//             if (std::abs((*Jet).user_index()) != BottomId || std::abs((*Jet).user_index()) == MixedJetId) {
-//                 Jet = Jets.erase(Jet);
-//             } else {
-//                 ++Jet;
-//             }
-//         }
-//     } else if (State == HBackground) {
-//         for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-//             if (std::abs((*Jet).user_index()) == BottomId || std::abs((*Jet).user_index()) == MixedJetId) {
-//                 Jet = Jets.erase(Jet);
-//             } else {
-//                 ++Jet;
-//             }
-//         }
-//     }
     Print(HInformation, "Number Jets", Jets.size());
 
     std::vector<HBottomBranch *> BottomBranches;
@@ -129,7 +109,6 @@ float hanalysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
     }
     return DeltaR;
 }
-
 
 
 float hanalysis::HBottomTagger::GetSpread(const fastjet::PseudoJet &Jet) const

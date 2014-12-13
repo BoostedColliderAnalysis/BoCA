@@ -27,6 +27,7 @@ public:
     std::vector<HParticleBranch *> GetConstituentBranches();
 
     void FillBranch(const HDoublet &Pair);
+    std::vector<HDoublet> GetWBdt(HJets& Jets, const hanalysis::HReader*const WReader, const hanalysis::HObject::HState State);
 
 private:
 
@@ -38,11 +39,10 @@ private:
     hanalysis::HObject::HState GetDoubletTag(const HDoublet &Doublet);
 
 
-    std::vector<HDoublet> GetWBdt(HJets& Jets, const hanalysis::HReader*const WReader, const hanalysis::HObject::HState State);
 
     void DefineVariables();
 
-    void FillBranch(HWBranch * const HiggsBranch, const HDoublet &Pair);
+    void FillBranch(HWBranch *const WBranch, const hanalysis::HDoublet &Doublet);
 
     void FillBranch(const HKinematics &Vector);
 

@@ -1,23 +1,23 @@
 # include "HQuartet.hh"
 
-hanalysis::HQuartet::HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2)
+hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDoublet2)
 {
     Print(HInformation, "Constructor");
-    Doublet1 = NewPair1;
-    Doublet2 = NewPair2;
-//     Bdt = Pair1.GetBdt() * Pair2.GetBdt();
-//     Tag = Pair1.GetTag() * Pair2.GetTag();
+    Doublet1 = NewDoublet1;
+    Doublet2 = NewDoublet2;
+    Bdt = Doublet1.GetBdt() * Doublet2.GetBdt();
+    Tag = Doublet1.GetTag() * Doublet2.GetTag();
 }
 
-hanalysis::HQuartet::HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2, const fastjet::PseudoJet &NewMet)
+hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDoublet2, const fastjet::PseudoJet &NewMet)
 {
 //     DebugLevel = HObject::HDebug;
     Print(HInformation, "Constructor");
-    Doublet1 = NewPair1;
-    Doublet2 = NewPair2;
+    Doublet1 = NewDoublet1;
+    Doublet2 = NewDoublet2;
     Met = NewMet;
-//     Bdt = Pair1.GetBdt() * Pair2.GetBdt();
-//     Tag = Pair1.GetTag() * Pair2.GetTag();
+    Bdt = Doublet1.GetBdt() * Doublet2.GetBdt();
+    Tag = Doublet1.GetTag() * Doublet2.GetTag();
 }
 
 hanalysis::HQuartet::~HQuartet()
@@ -35,7 +35,7 @@ void hanalysis::HQuartet::SetMomentum(double Momentum[4], const fastjet::PseudoJ
     Momentum[3] = Jet.pz();
 }
 
-std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetTriplePairs(const float Mass1, const float Mass2, const float Mass3)
+std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetSextets(const float Mass1, const float Mass2, const float Mass3)
 {
     Print(HInformation, "Get Triple Pairs");
 
@@ -56,34 +56,35 @@ std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetTriplePairs(const float 
     solve22(Structure, Mass1, Mass2, Mass3, SolutionSum, P1, P2);
     Print(HDebug, "Number solutions", SolutionSum);
 
-    std::vector<hanalysis::HSextet> TriplePairs;
+    std::vector<hanalysis::HSextet> Sextets;
     for (int SolutionNumber = 0; SolutionNumber < SolutionSum; ++SolutionNumber) {
         Print(HDebug, "Solution ", SolutionNumber);
         Print(HDebug, "Neutrino 1 (p1)" , GetJet(P1[SolutionNumber]));
         Print(HDebug, "Neutrino 2 (p2)" , GetJet(P2[SolutionNumber]));
 
-        HTriplet Triple1(Doublet1,GetJet(P1[SolutionNumber]));
-        HTriplet Triple2(Doublet2,GetJet(P2[SolutionNumber]));
-        HSextet TriplePair(Triple1, Triple2);
-        if (TriplePair.GetSextetJet().m() <= 0) continue;
+        HTriplet Triple1(Doublet1, GetJet(P1[SolutionNumber]));
+        HTriplet Triple2(Doublet2, GetJet(P2[SolutionNumber]));
+        HSextet Sextet(Triple1, Triple2);
+        if (Sextet.GetSextetJet().m() <= 0) continue;
 //         TriplePair.SetBdt(Bdt);
-        Print(HDebug,"TriplePair Bdt",TriplePair.GetBdt(),GetBdt());
-        TriplePair.SetTag(Tag);
-        TriplePairs.push_back(TriplePair);
+        Print(HDebug, "TriplePair Bdt", Sextet.GetBdt(), GetBdt());
+        Sextet.SetTag(Tag);
+        Sextet.SetBdt(Bdt);
+        Sextets.push_back(Sextet);
         //         Print(HDebug, "Neutrino masses", Jet1.m(), Jet2.m());
         Print(HDebug, "W masses", (GetJet(P1[SolutionNumber]) + Doublet1.GetJet2()).m(), (GetJet(P2[SolutionNumber]) + Doublet2.GetJet2()).m());
         Print(HDebug, "top masses", (GetJet(P1[SolutionNumber]) + Doublet1.GetJet2() + Doublet1.GetJet1()).m(), (GetJet(P2[SolutionNumber]) + Doublet2.GetJet2() + Doublet1.GetJet1()).m());
         //         Print(HDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
     }
 
-    return TriplePairs;
+    return Sextets;
 
 }
 
 
 std::vector<hanalysis::HSextet> hanalysis::HQuartet::GetSextets()
 {
-    return GetTriplePairs(NeutrinoMass, WMass, TopMass);
+    return GetSextets(NeutrinoMass, WMass, TopMass);
 }
 
 struct SortByError {
@@ -141,7 +142,7 @@ hanalysis::HSextet hanalysis::HQuartet::GetSextet(HJets Neutrinos)
             }
         }
         TriplePair.SetError(Error);
-        Print(HDebug,"TriplePair Bdt",TriplePair.GetBdt());
+        Print(HDebug, "TriplePair Bdt", TriplePair.GetBdt());
     }
 
     std::sort(TriplePairs.begin(), TriplePairs.end(), SortByError());

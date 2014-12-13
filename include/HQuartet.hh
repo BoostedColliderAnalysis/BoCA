@@ -12,9 +12,9 @@ public:
 
     HQuartet() {}
 
-    HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2);
+    HQuartet(const hanalysis::HDoublet &NewDoublet1, const hanalysis::HDoublet &NewDoublet2);
 
-    HQuartet(const HDoublet &NewPair1, const HDoublet &NewPair2, const fastjet::PseudoJet &NewMet);
+    HQuartet(const hanalysis::HDoublet &NewDoublet1, const hanalysis::HDoublet &NewDoublet2, const fastjet::PseudoJet &NewMet);
 
     void SetMet(const fastjet::PseudoJet &NewMet) {
         Met = NewMet;
@@ -64,7 +64,7 @@ public:
 
     std::vector<HSextet> GetSextets();
 
-    std::vector<HSextet> GetTriplePairs(const float Mass1, const float Mass2, const float Mass3);
+    std::vector<HSextet> GetSextets(const float Mass1, const float Mass2, const float Mass3);
 
     HSextet GetSextet(HJets Neutrinos);
 

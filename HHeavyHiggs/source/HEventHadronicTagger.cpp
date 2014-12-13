@@ -11,8 +11,8 @@ hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(hanalysis::HBottomTagger
     WReader = new hanalysis::HReader(WTagger);
     TopHadronicTagger = NewTopTagger;
     TopHadronicReader = new hanalysis::HReader(TopHadronicTagger);
-    HeavyHiggsTagger = NewHeavyHiggsTagger;
-    HeavyHiggsReader = new hanalysis::HReader(HeavyHiggsTagger);
+    HeavyHiggsHadronicTagger = NewHeavyHiggsTagger;
+    HeavyHiggsReader = new hanalysis::HReader(HeavyHiggsHadronicTagger);
 
     TaggerName = "HadronicEvent";
     SignalNames = {"HadronicEvent"};
@@ -40,7 +40,7 @@ hheavyhiggs::HEventHadronicTagger::~HEventHadronicTagger()
 
 }
 
-void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent)
+void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBranch *EventBranch, const HOctet &HeavyHiggsEvent)
 {
     Print(HInformation, "FillPairTagger", HeavyHiggsEvent.GetBdt());
 
@@ -51,11 +51,11 @@ void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBr
     EventBranch->ScalarHt = HeavyHiggsEvent.GetScalarHt();
     EventBranch->HeavyParticleBdt = HeavyHiggsEvent.GetBdt();
 
-    EventBranch->HeavyHiggsBdt = HeavyHiggsEvent.GetHeavyHiggs().GetBdt();
-    EventBranch->HeavyHiggsMass = HeavyHiggsEvent.GetHeavyHiggs().GetSextetJet().m();
-    EventBranch->HeavyHiggsPt = HeavyHiggsEvent.GetHeavyHiggs().GetSextetJet().pt();
+    EventBranch->HeavyHiggsBdt = HeavyHiggsEvent.GetSextet().GetBdt();
+    EventBranch->HeavyHiggsMass = HeavyHiggsEvent.GetSextet().GetSextetJet().m();
+    EventBranch->HeavyHiggsPt = HeavyHiggsEvent.GetSextet().GetSextetJet().pt();
 
-    EventBranch->BottomSumPt = HeavyHiggsEvent.GetBottomSumPt();
+    EventBranch->BottomSumPt = HeavyHiggsEvent.GetJetsJet().pt();
     EventBranch->BottomDeltaPt = HeavyHiggsEvent.GetBottomDeltaPt();
 
     EventBranch->BottomDeltaRap = HeavyHiggsEvent.GetBottomDeltaRap();
@@ -73,7 +73,7 @@ void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBr
     EventBranch->EventTag = HeavyHiggsEvent.GetTag();
 }
 
-void hheavyhiggs::HEventHadronicTagger::FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent)
+void hheavyhiggs::HEventHadronicTagger::FillBranch(const HOctet &HeavyHiggsEvent)
 {
     Print(HInformation, "FillPairTagger");
 
@@ -121,7 +121,7 @@ void hheavyhiggs::HEventHadronicTagger::DefineVariables()
 
 
 struct SortHeavyHiggsEvents {
-    inline bool operator()(const HHeavyHiggsEvent &Event1, const HHeavyHiggsEvent &Event2) {
+    inline bool operator()(const HOctet &Event1, const HOctet &Event2) {
         return (Event1.GetBdt() > Event2.GetBdt());
     }
 };
@@ -134,7 +134,7 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
     HJets Jets = Event->GetJets()->GetStructuredJets();
     if (Jets.size() < 8) return EventBranches;
 
-    Jets = BottomTagger->GetBottomBdt(Jets,BottomReader);
+    Jets = BottomTagger->GetBottomBdt(Jets, BottomReader);
 
 //     for (auto & Jet : Jets) {
 //         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
@@ -143,19 +143,19 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
 //         Jet.set_user_info(JetInfo);
 //     }
 
-    std::vector<HDoublet> Doublets = WTagger->GetWBdt(Jets,WReader,State);
+    std::vector<hanalysis::HDoublet> Doublets = WTagger->GetWBdt(Jets, WReader, State);
 
-    std::vector<HTriplet> Triplets = TopHadronicTagger->GetTopHadronicBdt(Doublets,Jets,TopHadronicReader,State);
+    std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger->GetTopHadronicBdt(Doublets, Jets, TopHadronicReader, State);
 
-    std::vector<HSextet> Sextets HeavyHiggsTagger->GetBdt(Triplets,HeavyHiggsReader,State);
+    std::vector<hanalysis::HSextet> Sextets = HeavyHiggsHadronicTagger->GetHeavyHiggsBdt(Triplets, HeavyHiggsReader, State);
 
-    std::vector<HHeavyHiggsEvent> Octets;
+    std::vector<HOctet> Octets;
 
-    for(const auto & Jet1 : Jets) for(const auto & Jet2 : Jets) {
-            if(Jet1==Jet2) continue;
-            for(const auto & Sextet : Sextets) {
-                if(Jet1==Sextet.GetTriplet1().GetJet()) continue; //TODO implement full check
-                Octets.push_back(HHeavyHiggsEvent(Sextet, Jet1, Jet2));
+    for (const auto & Jet1 : Jets) for (const auto & Jet2 : Jets) {
+            if (Jet1 == Jet2) continue;
+            for (const auto & Sextet : Sextets) {
+                if (Jet1 == Sextet.GetTriplet1().GetJet()) continue; //TODO implement full check
+                Octets.push_back(HOctet(Sextet, Jet1, Jet2));
             }
         }
 
@@ -226,11 +226,11 @@ public:
 
 };
 
-std::vector<HHeavyHiggsEvent> hheavyhiggs::HEventHadronicTagger::GetHeavyHiggsEvents(HJets &Jets)
+std::vector<HOctet> hheavyhiggs::HEventHadronicTagger::GetHeavyHiggsEvents(HJets &Jets)
 {
     Print(HInformation, "Get Heavy Higgs Event");
 
-    std::vector<HHeavyHiggsEvent> HeavyHiggsEvents;
+    std::vector<HOctet> HeavyHiggsEvents;
 
     std::vector<hanalysis::HDoublet> Pairs;
     for (int i = 0; i < 2; ++i) {
@@ -280,12 +280,12 @@ std::vector<HHeavyHiggsEvent> hheavyhiggs::HEventHadronicTagger::GetHeavyHiggsEv
         Triples.push_back(BestTriple.Triple);
     }
 
-    if (Triples.size() != 2 || Jets.size() != 2) Print(HError, "Firt Triple", Triples.size(),Jets.size());
+    if (Triples.size() != 2 || Jets.size() != 2) Print(HError, "Firt Triple", Triples.size(), Jets.size());
 
     hanalysis::HSextet TriplePair(Triples[0], Triples[1]);
-    HeavyHiggsTagger->FillBranch(TriplePair);
+    HeavyHiggsHadronicTagger->FillBranch(TriplePair);
     TriplePair.SetBdt(HeavyHiggsReader->GetBdt());
-    HeavyHiggsEvents.push_back(HHeavyHiggsEvent(TriplePair, Jets[0], Jets[1]));
+    HeavyHiggsEvents.push_back(HOctet(TriplePair, Jets[0], Jets[1]));
 
     return HeavyHiggsEvents;
 

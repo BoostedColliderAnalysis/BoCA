@@ -8,8 +8,7 @@
 # include "HJetTag.hh"
 # include "HReader.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
-# include "HHeavyHiggsEvent.hh"
-# include "HSextet.hh"
+# include "HOctet.hh"
 
 
 /**
@@ -36,7 +35,7 @@ public:
 
     std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
 
-    void FillBranch(const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(const HOctet &HeavyHiggsEvent);
 
     HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &ReaderStruct) {return ReaderStruct;};
 
@@ -46,14 +45,15 @@ public:
         return 0;
     };
 
+
 protected:
 
 
 private:
 
-    std::vector<HHeavyHiggsEvent> GetHeavyHiggsEvents(HJets &Jets);
+    std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
 
-    void FillBranch(hheavyhiggs::HEventHadronicBranch *EventBranch, const HHeavyHiggsEvent &HeavyHiggsEvent);
+    void FillBranch(hheavyhiggs::HEventHadronicBranch *EventBranch, const HOctet &HeavyHiggsEvent);
 
     void DefineVariables();
 
@@ -61,7 +61,7 @@ private:
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HWTagger *WTagger;
     hanalysis::HTopHadronicTagger *TopHadronicTagger;
-    hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsTagger;
+    hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsHadronicTagger;
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *WReader;
     hanalysis::HReader *TopHadronicReader;

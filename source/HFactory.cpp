@@ -113,7 +113,8 @@ void hanalysis::HFactory::PrepareTrainingAndTestTree()
     Print(HNotification , "PrepareTrainingAndTestTree");
 
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
-    const std::string TrainingAndTestOptions = "";
+    const std::string TrainingAndTestOptions ="";
+//     "nTrain_Background=1000000:nTest_Background=1000000";
 
     Factory->PrepareTrainingAndTestTree(Mva->GetCut(), Mva->GetCut(), TrainingAndTestOptions);
 
