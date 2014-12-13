@@ -100,7 +100,11 @@ public:
     /**
      * @brief prepares the std::vector describing the input root files
      */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName){Print(HError,"we dont want to end up her");}
+    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName) {
+        Print(HError,"we dont want to end up her",StudyName);
+        std::vector<hanalysis::HFile * > Files;
+        return Files;
+    }
 
     std::vector<hanalysis::HFile *> GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const HState State);
 

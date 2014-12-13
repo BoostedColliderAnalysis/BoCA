@@ -293,7 +293,12 @@ hanalysis::HObject::HState hanalysis::HHeavyHiggsHadronicTagger::GetSextetTag(co
 
 std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsHadronicTagger::GetHeavyHiggsBdt(std::vector<hanalysis::HTriplet> Triplets, hanalysis::HReader *HeavyHiggsReader, hanalysis::HObject:: HState State)
 {
+  Print(HInformation,"Get Heavy Higgs Bdt",State);
+  std::vector<hanalysis::HSextet> Sextets;
+for(const auto & Triplet1 : Triplets)
+for(const auto & Triplet2 : Triplets){HSextet Sextet(Triplet1,Triplet2);Sextets.push_back(Sextet);FillBranch(Sextet);Sextet.SetBdt(HeavyHiggsReader->GetBdt());}
 
+  return Sextets;
 }
 
 

@@ -64,7 +64,7 @@ public:
      *
      * @return void
      */
-    virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
+//     virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
 
     virtual std::vector<HFile *> GetFiles(const HTagger Tagger, const HState State) {
         Print(HError,"GetFiles","Should be subclasses", Tagger, State);
@@ -97,15 +97,15 @@ protected:
      *
      * @return void
      */
-    virtual bool Analysis(HEvent *const, const std::string &) {
-        Print(HError, "Analysis 0", "should be subclassed");
-        return 0;
-    }
+//     virtual bool Analysis(HEvent *const, const std::string &) {
+//         Print(HError, "Analysis 0", "should be subclassed");
+//         return 0;
+//     }
 
-    virtual bool Analysis(HEvent *const, const std::string &, const HTagger) {
-        Print(HError, "Analysis", "should be subclassed");
-        return 0;
-    }
+//     virtual bool Analysis(HEvent *const, const std::string &, const HTagger) {
+//         Print(HError, "Analysis", "should be subclassed");
+//         return 0;
+//     }
 
     virtual bool Analysis(HEvent *const, const HTagger Tagger, const HState State) {
         Print(HError, "Analysis", "should be subclassed",Tagger,State);

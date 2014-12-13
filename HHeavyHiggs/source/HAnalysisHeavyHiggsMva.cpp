@@ -119,6 +119,8 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
         if (State == HBackground) Files.push_back(new hanalysis::HFile("BG_ljbbbb"));
         if (State == HSignal) Files.push_back(new hanalysis::HFile("1TeV_h2bb_ljbbbb"));
         break;
+    default:
+      Print(HError,"unknown tagger name");
     }
 
     Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");

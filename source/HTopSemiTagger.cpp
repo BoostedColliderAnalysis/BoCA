@@ -208,6 +208,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetTopSemiBdt(HJets
         HTriplet Triplet(Doublet, Jet);
         FillBranch(Triplet);
         Triplet.SetBdt(TopSemiReader->GetBdt());
+        Triplet.SetTag(Tag);
         Triplets.push_back(Triplet);
       }
     }

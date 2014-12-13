@@ -7,7 +7,6 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
     bool HasFactory = 0;
 
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
-    hanalysis::HObject::HState State = hanalysis::HObject::HSignal;
     std::string Name = Analysis->GetStudyNames(Tagger);
 
     Analysis->Print(Analysis->HError, "Tagger", Tagger, Name);
@@ -58,6 +57,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HEventSemiTagger:
             Factory = new hanalysis::HFactory(Analysis->EventSemiTagger);
             break;
+        default:
+          std::cout << "Unhandled case" << std::endl;
         }
         HasFactory = 1;
 
