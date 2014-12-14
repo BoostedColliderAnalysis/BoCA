@@ -39,6 +39,7 @@ public:
     enum HTagger {
         HBottomTagger,
         HWTagger,
+        HJetPairTagger,
         HTopHadronicTagger,
         HTopSemiTagger,
         HTopLeptonicTagger,
@@ -66,7 +67,7 @@ public:
      */
 //     virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
 
-    virtual std::vector<HFile *> GetFiles(const HTagger Tagger, const HState State) {
+    virtual std::vector<HFile *> GetFiles(const HTagger Tagger, const HTag State) {
         Print(HError,"GetFiles","Should be subclasses", Tagger, State);
         std::vector<HFile *> Files;
         return Files;
@@ -88,7 +89,7 @@ protected:
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
     TFile *GetExportFile(const std::string &StudyName) const;
-    TFile *GetExportFile(const HTagger Tagger,const HState State) const;
+    TFile *GetExportFile(const HTagger Tagger,const HTag State) const;
 
     void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 
@@ -107,7 +108,7 @@ protected:
 //         return 0;
 //     }
 
-    virtual bool Analysis(HEvent *const, const HTagger Tagger, const HState State) {
+    virtual bool Analysis(HEvent *const, const HTagger Tagger, const HTag State) {
         Print(HError, "Analysis", "should be subclassed",Tagger,State);
         return 0;
     }

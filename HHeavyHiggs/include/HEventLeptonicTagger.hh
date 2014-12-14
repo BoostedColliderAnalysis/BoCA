@@ -1,21 +1,13 @@
 # ifndef HLeptonicEventTagger_hh
 # define HLeptonicEventTagger_hh
 
-
-# include "HMva.hh"
 # include "HBranchHeavyHiggs.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
 # include "HHeavyHiggsLeptonicTagger.hh"
 # include "HOctet.hh"
-# include "HSextet.hh"
-
-
 
 /**
  *
- * @brief Prepares multivariant analysis
+ * @brief Event BDT Tagger for leptonic heavy higgs
  *
  */
 class hheavyhiggs::HEventLeptonicTagger : public hanalysis::HMva
@@ -35,43 +27,11 @@ public:
     */
     ~HEventLeptonicTagger();
 
-    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    void FillBranch(const HOctet &HeavyHiggsEvent);
-
-    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &ReaderStruct) {return ReaderStruct;}
-
-    void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
-
-    float GetBdt(TObject *, TMVA::Reader *) {
-        return 0;
-    };
+    void FillBranch(const HOctet &Octet);
 
 protected:
-
-
-private:
-
-  hanalysis::HObject::HState GetOctetTag(const HOctet &Octet);
-
-
-    std::vector<HOctet> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
-
-    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HOctet &HeavyHiggsEvent);
-
-    void DefineVariables();
-
-
-    hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HTopLeptonicTagger *TopLeptonicTagger;
-    hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsLeptonicTagger;
-    hanalysis::HReader *BottomReader;
-    hanalysis::HReader *TopLeptonicReader;
-    hanalysis::HReader *HeavyHiggsLeptonicReader;
-
-    hheavyhiggs::HEventLeptonicBranch *Branch;
-
-    hanalysis::HJetTag *JetTag;
 
     virtual inline std::string NameSpaceName() const {
         return "hheavyhiggs";
@@ -81,6 +41,28 @@ private:
         return "HEventTagger";
     };
 
+
+private:
+
+    void DefineVariables();
+
+    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventLeptonicBranch, const HOctet &Octet);
+
+    std::vector<HOctet> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
+
+    hanalysis::HBottomTagger *BottomTagger;
+
+    hanalysis::HTopLeptonicTagger *TopLeptonicTagger;
+
+    hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsLeptonicTagger;
+
+    hanalysis::HReader *BottomReader;
+
+    hanalysis::HReader *TopLeptonicReader;
+
+    hanalysis::HReader *HeavyHiggsLeptonicReader;
+
+    hheavyhiggs::HEventLeptonicBranch *Branch;
 
 };
 

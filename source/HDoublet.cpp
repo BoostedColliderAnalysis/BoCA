@@ -15,14 +15,6 @@ hanalysis::HDoublet::HDoublet(const fastjet::PseudoJet &NewJet1, const fastjet::
     if(Jet2.has_user_info<HJetInfo>()) if(Jet2.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt *= Jet2.user_info<HJetInfo>().GetBdt();
 }
 
-// // hanalysis::HDoublet::HDoublet(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &Lepton)
-// {
-//     Print(HInformation, "Constructor");
-//     Jet1 = Jet;
-//     Jet2 = Lepton;
-//     Bdt = Jet1.user_info<HJetInfo>().GetBdt();
-// }
-
 hanalysis::HDoublet::~HDoublet()
 {
     Print(HInformation, "Destructor");
@@ -37,7 +29,7 @@ float hanalysis::HDoublet::GetReferenceAngle(const fastjet::PseudoJet &Jet, cons
   const float Rap = Jet.rap() - ReferenceJet.rap();
   const float Phi = Jet.delta_phi_to(ReferenceJet);
 
-  return (std::atan2(-Phi, -Rap));
+  return std::atan2(-Phi, -Rap);
 
 }
 
@@ -76,7 +68,7 @@ float hanalysis::HDoublet::GetPullAngle2() const
 }
 
 
-float hanalysis::HDoublet::GetPull(const fastjet::PseudoJet &CandidateJet) const
+float hanalysis::HDoublet::GetPull(const fastjet::PseudoJet &Jet) const
 {
 
   Print(HInformation, "GetPull");
@@ -84,15 +76,15 @@ float hanalysis::HDoublet::GetPull(const fastjet::PseudoJet &CandidateJet) const
   float Rap = 0;
   float Phi = 0;
 
-  for (const auto & Constituent : CandidateJet.constituents()) {
+  for (const auto & Constituent : Jet.constituents()) {
 
-    const float DeltaY = Constituent.rap() - CandidateJet.rap();
-    const float DeltaPhi = GetDeltaPhi(Constituent.phi_std(), CandidateJet.phi_std());
-    const float DeltaR = std::sqrt(std::pow(DeltaY, 2) + std::pow(DeltaPhi, 2));
-    const float PullFactor = Constituent.pt() / CandidateJet.pt() * DeltaR;
+    const float DeltaRap = Constituent.rap() - Jet.rap();
+    const float DeltaPhi = GetDeltaPhi(Constituent.phi_std(), Jet.phi_std());
+    const float DeltaR = std::sqrt(std::pow(DeltaRap, 2) + std::pow(DeltaPhi, 2));
+    const float PullFactor = Constituent.pt() / Jet.pt() * DeltaR;
     //         const float PullFactor = Constituent.pt() / CandidateJet.pt() * Constituent.delta_R(CandidateJet);
 
-    Rap += (PullFactor * DeltaY);
+    Rap += (PullFactor * DeltaRap);
     Phi += (PullFactor * DeltaPhi);
 
   }

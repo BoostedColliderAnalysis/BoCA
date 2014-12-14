@@ -1,57 +1,34 @@
 #ifndef HOctet_hh
 #define HOctet_hh
 
+# include "HDoublet.hh"
 # include "HSextet.hh"
 
+/**
+ * @brief An octet composed of a sextet an a doublet
+ *
+ */
 class HOctet : public hanalysis::HTag
 {
 
 public:
 
-  HOctet(const hanalysis::HSextet &NewSextet, const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
+  HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &Doublet);
 
   hanalysis::HSextet GetSextet()const {
     return Sextet;
   }
 
-  fastjet::PseudoJet GetJet1() const {
-    return Jet1;
-  }
-
-  fastjet::PseudoJet GetJet2() const {
-    return Jet2;
+  hanalysis::HDoublet GetDoublet() const{
+    return Doublet;
   }
 
   fastjet::PseudoJet GetSextetJet() const {
     return Sextet.GetSextetJet();
   }
 
-  fastjet::PseudoJet GetJetsJet() const {
-    return Jet1 + Jet2;
-  }
-
-//   float GetBdt() const {
-//     return (Sextet.GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt() * Bottom.user_info<hanalysis::HJetInfo>().GetBdt());
-//   }
-
-//   float GetBottomSumPt() const {
-//     return (Jet1.pt() + Jet2.pt());
-//   }
-
-  float GetBottomDeltaPt() const {
-    return std::abs(Jet1.pt() - Jet2.pt());
-  }
-
-  float GetBottomDeltaRap() const {
-    return (Jet1.rap() - Jet2.rap());
-  }
-
-  float BottomDeltaPhi() const {
-    return Jet1.delta_phi_to(Jet2);
-  }
-
-  float GetBottomDeltaR() const {
-    return Jet1.delta_R(Jet2);
+  fastjet::PseudoJet GetDoubletJet() const {
+    return Doublet.GetDoubletJet();
   }
 
   float GetHbSumDeltaR() const {
@@ -106,38 +83,48 @@ public:
     return LeptonNumber;
   }
 
+protected:
+
+  virtual inline std::string ClassName() const {
+    return "Octet";
+  }
+
 private:
 
   float GetDeltaR1() const {
-    return GetSextetJet().delta_R(Jet1);
+    return GetSextetJet().delta_R(Doublet.GetJet1());
   }
 
   float GetDeltaR2() const {
-    return GetSextetJet().delta_R(Jet2);
+    return GetSextetJet().delta_R(Doublet.GetJet2());
   }
 
   float GetDeltaPhi1() const {
-    return GetSextetJet().delta_phi_to(Jet1);
+    return GetSextetJet().delta_phi_to(Doublet.GetJet1());
   }
 
   float GetDeltaPhi2() const {
-    return GetSextetJet().delta_phi_to(Jet2);
+    return GetSextetJet().delta_phi_to(Doublet.GetJet2());
   }
 
   float GetDeltaRap1() const {
-    return (GetSextetJet().rap() - Jet1.rap());
+    return (GetSextetJet().rap() - Doublet.GetJet1().rap());
   }
 
   float GetDeltaRap2() const {
-    return (GetSextetJet().rap() - Jet2.rap());
+    return (GetSextetJet().rap() - Doublet.GetJet2().rap());
   }
 
-  fastjet::PseudoJet Jet1;
-  fastjet::PseudoJet Jet2;
   hanalysis::HSextet Sextet;
+
+  hanalysis::HDoublet Doublet;
+
   int LeptonNumber;
+
   int BottomNumber;
+
   int JetNumber;
+
   int ScalarHt;
 
 };

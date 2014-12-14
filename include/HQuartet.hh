@@ -2,8 +2,6 @@
 # define HPairPair_hh
 
 # include "HDoublet.hh"
-# include "HSextet.hh"
-#include "WIMPMASS.h"
 
 class hanalysis::HQuartet : public HTag
 {
@@ -13,12 +11,6 @@ public:
     HQuartet() {}
 
     HQuartet(const hanalysis::HDoublet &NewDoublet1, const hanalysis::HDoublet &NewDoublet2);
-
-    HQuartet(const hanalysis::HDoublet &NewDoublet1, const hanalysis::HDoublet &NewDoublet2, const fastjet::PseudoJet &NewMet);
-
-    void SetMet(const fastjet::PseudoJet &NewMet) {
-        Met = NewMet;
-    }
 
     ~HQuartet();
 
@@ -46,14 +38,6 @@ public:
         return (Doublet1.GetDoubletJet().pt() + Doublet2.GetDoubletJet().pt());
     }
 
-//     float GetBdt() const {
-//         return (Doublet1.GetBdt() * Doublet2.GetBdt());
-//     }
-
-//     float GetTag() const {
-//         return (Doublet1.GetTag() * Doublet2.GetTag());
-//     }
-
     float GetDeltaRap() const {
         return (std::abs(Doublet1.GetDoubletJet().rap() - Doublet2.GetDoubletJet().rap()));
     }
@@ -62,14 +46,13 @@ public:
         return (Doublet1.GetDoubletJet().delta_phi_to(Doublet2.GetDoubletJet()));
     }
 
-    std::vector<HSextet> GetSextets();
+    HDoublet GetDoublet1()const {
+        return Doublet1;
+    }
 
-    std::vector<HSextet> GetSextets(const float Mass1, const float Mass2, const float Mass3);
-
-    HSextet GetSextet(HJets Neutrinos);
-
-    HDoublet GetDoublet1()const{return Doublet1;}
-    HDoublet GetDoublet2()const{return Doublet2;}
+    HDoublet GetDoublet2()const {
+        return Doublet2;
+    }
 
 protected:
 
@@ -79,24 +62,9 @@ protected:
 
 private:
 
-    void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
-
-    inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
-        // wimpmass (E,px,py,pz)
-        // fastjet (px,py,pz,E)
-        fastjet::PseudoJet Jet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
-        return Jet;
-    }
-
-    float GetTransverseError(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) const;
-
     HDoublet Doublet1;
 
     HDoublet Doublet2;
-
-    fastjet::PseudoJet Met;
-
-    event22 Structure;
 
 };
 

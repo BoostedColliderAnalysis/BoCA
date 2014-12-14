@@ -22,7 +22,7 @@ public:
 
     ~HMvaHiggsTagger();
 
-    std::vector< HHiggsBranch * > GetBranches(HEvent *const Event, const HObject::HState State);
+    std::vector< HHiggsBranch * > GetBranches(HEvent *const Event, const HObject::HTag State);
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 

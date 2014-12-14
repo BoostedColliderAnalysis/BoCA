@@ -1,12 +1,7 @@
 # ifndef HHeavyHiggsHadronicTagger_hh
 # define HHeavyHiggsHadronicTagger_hh
 
-# include "HMva.hh"
-# include "HBranch.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
-# include "HQuartet.hh"
+# include "HSextet.hh"
 # include "HTopHadronicTagger.hh"
 
 /**
@@ -22,42 +17,41 @@ public:
 
     ~HHeavyHiggsHadronicTagger();
 
-    std::vector<HHeavyHiggsHadronicBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
+    std::vector<HHeavyHiggsHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     void FillBranch(const hanalysis::HSextet& TriplePair);
 
+    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::HTriplet > Triplets, hanalysis::HReader *Reader);
 
-    std::vector<hanalysis::HSextet> GetHeavyHiggsBdt(std::vector<hanalysis::HTriplet> Triplets, hanalysis::HReader *HeavyHiggsReader,hanalysis::HObject:: HState State);
+protected:
+
+    virtual inline std::string ClassName() const {
+        return "HHeavyHiggsHadronicTagger";
+    };
 
 private:
 
-//     HState GetTripletTag(const hanalysis::HTriplet& Triplet);
+    void DefineVariables();
 
-//     HState GetDoubletTag(const HDoublet &Doublet);
+    void FillBranch(HHeavyHiggsHadronicBranch* HeavyHiggsBranch, const hanalysis::HSextet& Sextet);
 
-    HState GetSextetTag(const HSextet &Sextet);
-
-//     HSextet GetTriplePair(HJets &Jets, const hanalysis::HObject::HState State);
+    HTag GetTag(const HSextet &Sextet);
 
     HBottomTagger *BottomTagger;
+
     HWTagger *WTagger;
+
     HTopHadronicTagger *TopHadronicTagger;
 
     HReader *BottomReader;
+
     HReader *WReader;
+
     HReader *TopHadronicReader;
 
     HHeavyHiggsHadronicBranch *Branch;
 
     HJetTag *JetTag;
-
-    void DefineVariables();
-
-    void FillBranch(HHeavyHiggsHadronicBranch* HeavyHiggsBranch, const hanalysis::HSextet& TriplePair);
-
-    virtual inline std::string ClassName() const {
-        return "HHeavyHiggsHadronicTagger";
-    };
 
 };
 

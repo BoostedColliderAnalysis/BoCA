@@ -96,7 +96,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
 
   Print(HNotification, "Analysis Loop");
 
-  std::vector<HState> States = {HSignal,HBackground};
+  std::vector<HTag> States = {HSignal,HBackground};
 
 //   for (const auto & StudyName : GetStudyNames(Tagger)) {
   for (const auto & State : States) {
@@ -180,7 +180,7 @@ void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeRead
 //
 // }
 
-TFile *hanalysis::HAnalysis::GetExportFile(const HTagger Tagger,const HState State) const
+TFile *hanalysis::HAnalysis::GetExportFile(const HTagger Tagger,const HTag State) const
 {
 
     Print(HNotification, "Get Export File", Tagger, State);

@@ -1,18 +1,12 @@
 # ifndef HTopHadronicTagger_hh
 # define HTopHadronicTagger_hh
 
-# include "HMva.hh"
-# include "HBranch.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
 # include "HTriplet.hh"
-# include "HSextet.hh"
 # include "HBottomTagger.hh"
 # include "HWTagger.hh"
 
 /**
- * @brief calculation regarding leptons
+ * @brief Hadronic top BDT tagger
  *
  */
 class hanalysis::HTopHadronicTagger : public HMva
@@ -24,14 +18,25 @@ public:
 
     ~HTopHadronicTagger();
 
-    std::vector<HTopHadronicBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State);
-
     void FillBranch(const hanalysis::HTriplet &PairJetPair);
 
-//     std::vector<hanalysis::HTriplet> FillTriple(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2,const fastjet::PseudoJet &Jet3);
-    std::vector<HTriplet>  GetTopHadronicBdt(std::vector<HDoublet> &Doublets, HJets Jets, const HReader * const TopHadronicReader, const HState State);
+    std::vector<HTopHadronicBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
+    std::vector<HTriplet>  GetBdt(std::vector< hanalysis::HDoublet > &Doublets, HJets Jets, const hanalysis::HReader *const TopHadronicReader);
+
+protected:
+
+    virtual inline std::string ClassName() const {
+        return "HTopHadronicTagger";
+    };
 
 private:
+
+    void DefineVariables();
+
+    void FillBranch(HTopHadronicBranch *TopHadronicBranch, const hanalysis::HTriplet &Triplet);
+
+    HTag GetTag(const hanalysis::HTriplet& Triplet);
 
     HBottomTagger *BottomTagger;
     HWTagger *WTagger;
@@ -40,25 +45,7 @@ private:
     HReader  *WReader;
 
     HTopHadronicBranch *Branch;
-
     hanalysis::HJetTag *JetTag;
-
-    void DefineVariables();
-
-    HState GetTripletTag(const hanalysis::HTriplet& Triplet);
-
-
-//     HState GetDoubletTag(const HDoublet &Doublet);
-
-//     HState GetSextetTag(const HSextet &Sextet);
-
-//     std::vector<hanalysis::HTriplet> FillTriple(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2, const fastjet::PseudoJet &Jet3, const hanalysis::HObject::HState State);
-
-    void FillBranch(HTopHadronicBranch *LeptonicTopBranch, const hanalysis::HTriplet &PairJetPair);
-
-    virtual inline std::string ClassName() const {
-        return "HTopHadronicTagger";
-    };
 
 };
 

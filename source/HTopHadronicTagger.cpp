@@ -12,10 +12,7 @@ hanalysis::HTopHadronicTagger::HTopHadronicTagger(HBottomTagger *NewBottomTagger
     WTagger = NewWTagger;
     WReader = new HReader(WTagger);
 
-    TaggerName = "TopHadronic";
-    SignalNames = {"TopHadronic"};
-    BackgroundNames = {"NotTopHadronic"};
-    CandidateBranchName = "TopHadronic";
+    SetTaggerName("TopHadronic");
 
     Branch = new HTopHadronicBranch();
     JetTag = new HJetTag();
@@ -74,7 +71,7 @@ void hanalysis::HTopHadronicTagger::DefineVariables()
 }
 
 
-std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HState State)
+std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -83,9 +80,9 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    Jets = BottomTagger->GetBottomBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
-    std::vector<HDoublet> Doublets = WTagger->GetWBdt(Jets, WReader, State);
+    std::vector<HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
 
     std::vector<hanalysis::HTriplet>  Triplets;
     for (const auto & Doublet : Doublets)
@@ -93,8 +90,8 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
             if (Jet == Doublet.GetJet1()) continue;
             if (Jet == Doublet.GetJet2()) continue;
             HTriplet Triplet(Doublet, Jet);
-            Triplet.SetTag(GetTripletTag(Triplet));
-            if (Triplet.GetTag() != State) continue;
+            Triplet.SetTag(GetTag(Triplet));
+            if (Triplet.GetTag() != Tag) continue;
             Triplets.push_back(Triplet);
         }
 
@@ -112,7 +109,7 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
 
 }
 
-hanalysis::HObject::HState hanalysis::HTopHadronicTagger::GetTripletTag(const HTriplet &Triplet)
+hanalysis::HObject::HTag hanalysis::HTopHadronicTagger::GetTag(const HTriplet &Triplet)
 {
     Print(HInformation, "Get Triple Tag");
 
@@ -122,7 +119,7 @@ hanalysis::HObject::HState hanalysis::HTopHadronicTagger::GetTripletTag(const HT
     return HSignal;
 }
 
-std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetTopHadronicBdt(std::vector<HDoublet> &Doublets, HJets Jets, const HReader *const TopHadronicReader, const HState State)
+std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetBdt(std::vector<HDoublet> &Doublets, HJets Jets, const HReader *const TopHadronicReader)
 {
     std::vector<HTriplet>  Triplets;
     for (const auto & Doublet : Doublets)
@@ -130,8 +127,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetTopHadronicB
             if (Jet == Doublet.GetJet1()) continue;
             if (Jet == Doublet.GetJet2()) continue;
             HTriplet Triplet(Doublet, Jet);
-            Triplet.SetTag(GetTripletTag(Triplet));
-            if (State == HSignal && Triplet.GetTag() == HBackground) continue;
+            Triplet.SetTag(GetTag(Triplet));
             FillBranch(Triplet);
             Triplet.SetBdt(TopHadronicReader->GetBdt());
             Triplets.push_back(Triplet);

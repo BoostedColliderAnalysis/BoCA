@@ -1,22 +1,22 @@
-# include "HWTagger.hh"
+# include "HJetPairTagger.hh"
 
-hanalysis::HWTagger::HWTagger(HBottomTagger *NewBottomTagger)
+hanalysis::HJetPairTagger::HJetPairTagger(HBottomTagger *NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
-    SetTaggerName("W");
+    SetTaggerName("JetPair");
 
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
 
     Branch = new HWBranch();
-    JetTag = new HJetTag();
+    JetTag = new HJetPairTag();
 
     DefineVariables();
 }
 
-hanalysis::HWTagger::~HWTagger()
+hanalysis::HJetPairTagger::~HJetPairTagger()
 {
     Print(HNotification, "Destructor");
     delete Branch;
@@ -24,13 +24,13 @@ hanalysis::HWTagger::~HWTagger()
     delete JetTag;
 }
 
-void hanalysis::HWTagger::FillBranch(const HDoublet &Pair)
+void hanalysis::HJetPairTagger::FillBranch(const HDoublet &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.GetBdt());
     FillBranch(Branch, Pair);
 }
 
-void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Doublet)
+void hanalysis::HJetPairTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Doublet)
 {
     Print(HInformation, "FillPairTagger", Doublet.GetBdt());
 
@@ -48,7 +48,7 @@ void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Do
 
 }
 
-void hanalysis::HWTagger::DefineVariables()
+void hanalysis::HJetPairTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
@@ -70,12 +70,13 @@ void hanalysis::HWTagger::DefineVariables()
 
 }
 
-std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector<HWBranch *> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
 
     Print(HInformation, "Get W Tags");
 
-    JetTag->HeavyParticles = {WId, TopId};
+    // FIXME this dows not work because the jet tagging algorithm stops after finding one of these particles
+    JetTag->HeavyParticles = {HeavyHiggsId, BottomId,TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
@@ -102,7 +103,7 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
 
 }
 
-hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
+hanalysis::HObject::HTag hanalysis::HJetPairTagger::GetTag(const HDoublet &Doublet)
 {
     Print(HInformation, "Get Doublet Tag");
 
@@ -113,7 +114,7 @@ hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
 
 
 
-std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(HJets &Jets, const hanalysis::HReader *const WReader)
+std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(HJets &Jets, const hanalysis::HReader *const WReader)
 {
     std::vector<HDoublet>  Doublets;
     for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
@@ -130,7 +131,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(HJets &Jets, const
 
 
 
-std::vector<HParticleBranch *> hanalysis::HWTagger::GetConstituentBranches()
+std::vector<HParticleBranch *> hanalysis::HJetPairTagger::GetConstituentBranches()
 {
 
     Print(HInformation, "Get Higgs Tags");
@@ -152,7 +153,7 @@ std::vector<HParticleBranch *> hanalysis::HWTagger::GetConstituentBranches()
 
 }
 
-void hanalysis::HWTagger::FillBranch(const HKinematics &Vector)
+void hanalysis::HJetPairTagger::FillBranch(const HKinematics &Vector)
 {
     Print(HInformation, "FillPairTagger", Vector.GetPt());
 
@@ -160,7 +161,7 @@ void hanalysis::HWTagger::FillBranch(const HKinematics &Vector)
 
 }
 
-void hanalysis::HWTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
+void hanalysis::HJetPairTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
 {
     Print(HInformation, "Fill Constituent Branch");
 

@@ -11,10 +11,7 @@ hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(HBottomTagger *c
     TopLeptonicTagger = NewTopLeptonicTagger;
     TopLeptonicReader = new HReader(TopLeptonicTagger);
 
-    TaggerName = "HeavyHiggsLeptonic";
-    SignalNames = {"HeavyHiggsLeptonic"};
-    BackgroundNames = {"NotHeavyHiggsLeptonic"};
-    CandidateBranchName = "HeavyHiggsLeptonic";
+    SetTaggerName("HeavyHiggsLeptonic");
 
     Branch = new HHeavyHiggsLeptonicBranch();
     JetTag = new HJetTag();
@@ -35,9 +32,7 @@ hanalysis::HHeavyHiggsLeptonicTagger::~HHeavyHiggsLeptonicTagger()
 void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(const hanalysis::HSextet &TriplePair)
 {
     Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
-
     FillBranch(Branch, TriplePair);
-
 }
 
 void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const HSextet &Sextet)
@@ -108,59 +103,41 @@ void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
 
 }
 
-struct SortPairByMass {
-    inline bool operator()(const hanalysis::HQuartet &Pair1, const hanalysis::HQuartet &Pair2) {
-        return (Pair1.GetMassDifference(400) > Pair2.GetMassDifference(400));
-    }
-};
 
-struct SortByError {
-    inline bool operator()(const hanalysis::HSextet &Pair1, const hanalysis::HSextet &Pair2) {
-        return (Pair1.GetError() < Pair2.GetError());
-    }
-};
-
-std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HState State)
+std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
-
 
     JetTag->HeavyParticles = {TopId, HeavyHiggsId, WId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetBottomBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
 
-    std::vector<HDoublet> Doublets = TopLeptonicTagger->GetTopLeptonicBdt(Jets, Leptons, TopLeptonicReader, State);
+    std::vector<HDoublet> Doublets = TopLeptonicTagger->GetBdt(Jets, Leptons, TopLeptonicReader);
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
     HJets Neutrinos = Event->GetParticles()->GetNeutrinos();
 
     Print(HInformation, "Number of Doublets", Doublets.size());
 
-
     std::vector<HSextet> Sextets;
     for (const auto & Doublet1 : Doublets) {
-      Print(HInformation, "Doublet 1", GetParticleName(Doublet1.GetJet1().user_index()),GetParticleName(Doublet1.GetJet2().user_index()));
+        Print(HInformation, "Doublet 1", GetParticleName(Doublet1.GetJet1().user_index()), GetParticleName(Doublet1.GetJet2().user_index()));
         for (const auto & Doublet2 : Doublets) {
-          Print(HInformation, "Doublet 2", GetParticleName(Doublet2.GetJet1().user_index()),GetParticleName(Doublet2.GetJet2().user_index()));
-        if (Doublet1.GetJet1() == Doublet2.GetJet1()) continue;
+            Print(HInformation, "Doublet 2", GetParticleName(Doublet2.GetJet1().user_index()), GetParticleName(Doublet2.GetJet2().user_index()));
+            if (Doublet1.GetJet1() == Doublet2.GetJet1()) continue;
             if (Doublet1.GetJet2() == Doublet2.GetJet2()) continue;
-            HQuartet Quartet(Doublet1, Doublet2, MissingEt);
-            Quartet.SetTag(GetQuartetTag(Quartet));
-            if (Quartet.GetTag() != State) continue;
+            HQuartet Quartet(Doublet1, Doublet2);
+            Quartet.SetTag(GetTag(Quartet));
+            if (Quartet.GetTag() != Tag) continue;
             std::vector<HSextet> PreSextets;
-            if (State == HSignal) {
-                HSextet Sextet = Quartet.GetSextet(Neutrinos);
-                PreSextets.push_back(Sextet);
-            } else PreSextets = Quartet.GetSextets();
-
+            if (Tag == HSignal) PreSextets = GetSextet(Quartet, MissingEt, Neutrinos);
+            else PreSextets = GetSextets(Quartet, MissingEt);
             for (auto & Sextet : PreSextets) {
-                if (Sextet.GetSextetJet().m() < 10) continue;
-                if (Sextet.GetError() < 0) continue; // FIXME Was mach das noch mal?
-                Sextet.SetTag(Quartet.GetTag());
+                if (Sextet.GetSextetJet().m() < 10) continue; // TODO do we need this
                 Sextets.push_back(Sextet);
             }
         }
@@ -168,9 +145,9 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
     Print(HInformation, "Numeber of Sextets", Sextets.size());
 
 
-    if (State == HSignal && Sextets.size() > 1) {
+    if (Tag == HSignal && Sextets.size() > 1) {
         Print(HError, "Higgs Candidates", Sextets.size());
-        std::sort(Sextets.begin(), Sextets.end(), SortByError());
+        std::sort(Sextets.begin(), Sextets.end(), SortByBdt());
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 
@@ -185,38 +162,159 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
 
 }
 
-hanalysis::HObject::HState hanalysis::HHeavyHiggsLeptonicTagger::GetQuartetTag(const HQuartet &Quartet)
+hanalysis::HObject::HTag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQuartet &Quartet)
 {
     Print(HInformation, "Get Triple Tag");
 
+    if(Quartet.GetDoublet1().GetTag() == HBackground) return HBackground;
+    if(Quartet.GetDoublet2().GetTag() == HBackground) return HBackground;
     if (Quartet.GetDoublet1().GetJet1().user_index() != -Quartet.GetDoublet2().GetJet1().user_index()) return HBackground;
-    if (Quartet.GetDoublet1().GetJet2().user_index() != -Quartet.GetDoublet2().GetJet2().user_index()) return HBackground;
-
     return HSignal;
 }
 
-std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsLeptonicTagger::GetHeavyHiggsLeptonicBdt(std::vector<HDoublet> Doublets ,fastjet::PseudoJet MissingEt, const HReader *const HeavyHiggsLeptonicReader, const HState State)
+std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsLeptonicTagger::GetBdt(const std::vector<HDoublet> &Doublets , const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
 {
+    Print(HInformation, "Get Bdt");
 
-  std::vector<HSextet> Sextets;
-  for (const auto & Doublet1 : Doublets) {
-    for (const auto & Doublet2 : Doublets) {
-      if (Doublet1.GetJet1() == Doublet2.GetJet1()) continue;
-      if (Doublet1.GetJet2() == Doublet2.GetJet2()) continue;
-      HQuartet Quartet(Doublet1, Doublet2, MissingEt);
-      Quartet.SetTag(GetQuartetTag(Quartet));
-      if (State == HSignal && Quartet.GetTag() == HBackground) continue;
-      std::vector<HSextet> PreSextets;
-      PreSextets = Quartet.GetSextets();
-      for (auto & Sextet : PreSextets) {
-        if (Sextet.GetSextetJet().m() < 10) continue;
-        if (Sextet.GetError() < 0) continue; // FIXME Was mach das noch mal?
-        FillBranch(Sextet);
-        Sextet.SetBdt(HeavyHiggsLeptonicReader->GetBdt());
-        Sextet.SetTag(Quartet.GetTag());
-        Sextets.push_back(Sextet);
-      }
+    std::vector<HSextet> Sextets;
+    for (const auto & Doublet1 : Doublets) {
+        for (const auto & Doublet2 : Doublets) {
+            if (Doublet1.GetJet1() == Doublet2.GetJet1()) continue;
+            if (Doublet1.GetJet2() == Doublet2.GetJet2()) continue;
+            HQuartet Quartet(Doublet1, Doublet2);
+            Quartet.SetTag(GetTag(Quartet));
+            std::vector<HSextet> PreSextets;
+            PreSextets = GetSextets(Quartet, MissingEt);
+            for (auto & Sextet : PreSextets) {
+                if (Sextet.GetSextetJet().m() < 10) continue; // TODO do we need this
+                FillBranch(Sextet);
+                Sextet.SetBdt(Reader->GetBdt());
+                Sextets.push_back(Sextet);
+            }
+        }
     }
-  }
-  return Sextets;
+    return Sextets;
 }
+
+
+void hanalysis::HHeavyHiggsLeptonicTagger::SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet)
+{
+    Momentum[0] = Jet.E();
+    Momentum[1] = Jet.px();
+    Momentum[2] = Jet.py();
+    Momentum[3] = Jet.pz();
+}
+
+std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextets(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt)
+{
+    Print(HInformation, "Get Triple Pairs");
+
+    SetMomentum(Structure.p3, Quartet.GetDoublet1().GetJet2());
+    SetMomentum(Structure.p4, Quartet.GetDoublet2().GetJet2());
+    SetMomentum(Structure.p5, Quartet.GetDoublet1().GetJet1());
+    SetMomentum(Structure.p6, Quartet.GetDoublet2().GetJet1());
+    SetMomentum(Structure.pmiss, MissingEt);
+
+    Print(HDebug, "Lepton 1 (p3)", GetJet(Structure.p3));
+    Print(HDebug, "Lepton 2 (p4)" , GetJet(Structure.p4));
+    Print(HDebug, "Jet 1 (p5)" , GetJet(Structure.p5));
+    Print(HDebug, "Jet 2 (p6)" , GetJet(Structure.p6));
+    Print(HDebug, "PMiss" , GetJet(Structure.pmiss));
+
+    double P1[4][4], P2[4][4];
+    int SolutionSum;
+    solve22(Structure, NeutrinoMass, WMass, TopMass, SolutionSum, P1, P2);
+    Print(HDebug, "Number solutions", SolutionSum);
+
+    std::vector<hanalysis::HSextet> Sextets;
+    for (const int SolutionNumber : HRange(SolutionSum)) {
+        Print(HDebug, "Solution ", SolutionNumber);
+        Print(HDebug, "Neutrino 1 (p1)" , GetJet(P1[SolutionNumber]));
+        Print(HDebug, "Neutrino 2 (p2)" , GetJet(P2[SolutionNumber]));
+
+        HDoublet Doublet1(Quartet.GetDoublet1().GetJet2(), GetJet(P1[SolutionNumber]));
+        if (Doublet1.GetDoubletJet().m() <= 0) continue;
+        HDoublet Doublet2(Quartet.GetDoublet2().GetJet2(), GetJet(P2[SolutionNumber]));
+        if (Doublet2.GetDoubletJet().m() <= 0) continue;
+
+        HTriplet Triplet1(Doublet1, Quartet.GetDoublet1().GetJet1());
+        if (Triplet1.GetTripletJet().m() <= 0) continue;
+        HTriplet Triplet2(Doublet2, Quartet.GetDoublet2().GetJet1());
+        if (Triplet2.GetTripletJet().m() <= 0) continue;
+
+        HSextet Sextet(Triplet1, Triplet2);
+        if (Sextet.GetSextetJet().m() <= 0) continue;
+        Sextet.SetTag(Quartet.GetTag());
+        Sextet.SetBdt(Quartet.GetBdt());
+        Sextets.push_back(Sextet);
+
+        Print(HDebug, "TriplePair Bdt", Sextet.GetBdt(), Quartet.GetBdt());
+        //         Print(HDebug, "Neutrino masses", Jet1.m(), Jet2.m());
+        Print(HDebug, "W masses", (GetJet(P1[SolutionNumber]) + Quartet.GetDoublet1().GetJet2()).m(), (GetJet(P2[SolutionNumber]) + Quartet.GetDoublet2().GetJet2()).m());
+        Print(HDebug, "top masses", (GetJet(P1[SolutionNumber]) + Quartet.GetDoublet1().GetJet2() + Quartet.GetDoublet1().GetJet1()).m(), (GetJet(P2[SolutionNumber]) + Quartet.GetDoublet2().GetJet2() + Quartet.GetDoublet1().GetJet1()).m());
+        //         Print(HDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
+    }
+
+    return Sextets;
+
+}
+
+std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos)
+{
+    Print(HInformation, "Get Triple Pair");
+
+    std::vector<HSextet> Sextets = GetSextets(Quartet, MissingEt);
+    Print(HDebug, "Number Solutions", Sextets.size());
+
+    if (Sextets.size() < 1) return Sextets;
+//     if (Neutrinos.size() < 2) return Sextets;
+
+    fastjet::PseudoJet NeutrinoSum = Neutrinos[0] + Neutrinos[1];
+    for (const auto & Neutrino : Neutrinos) Print(HDebug, "Neutrino", Neutrino);
+    Print(HDebug, "Neutrino Sum", NeutrinoSum);
+    Print(HDebug, "MET", MissingEt);
+
+    std::map<float, HSextet> Map;
+    for (const auto & Sextet : Sextets) {
+        fastjet::PseudoJet Neutrino1 = Sextet.GetTriplet1().GetDoublet().GetJet2();
+        fastjet::PseudoJet Neutrino2 = Sextet.GetTriplet2().GetDoublet().GetJet2();
+
+        std::vector<float> Error1, Error2;
+        for (const auto & Neutrino : Neutrinos) {
+            //             Print(HError, "Neutrino Mass", Neutrino.m());
+            Error1.push_back((Neutrino + Neutrino1).m());
+            Print(HDebug, "Neutrino 1 Error", (Neutrino + Neutrino1).m());
+            Error2.push_back((Neutrino + Neutrino2).m());
+            Print(HDebug, "Neutrino 2 Error", (Neutrino + Neutrino2).m());
+        }
+
+        float Error = LargeNumber;
+        for (size_t i = 0; i < Error1.size(); ++i) {
+            for (size_t j = i + 1; j < Error2.size(); ++j) {
+                if (Error1[i] + Error2[j] < Error) Error = Error1[i] + Error2[j];
+            }
+        }
+        for (size_t j = 0; j < Error2.size(); ++j) {
+            for (size_t i = j + 1; i < Error1.size(); ++i) {
+                if (Error1[i] + Error2[j] < Error) Error = Error1[i] + Error2[j];
+            }
+        }
+        Map[Error] = Sextet;
+//         Sextet.SetError(Error);
+        Print(HDebug, "TriplePair Bdt", Sextet.GetBdt());
+    }
+
+    for (const auto & Pair : Map) Print(HDebug, "Neutrino Error Sum", Pair.first);
+
+    std::vector<HSextet> FinalSextet;
+    std::pair<float , HSextet> Pair = *(Map.begin());
+    HSextet Sextet = Pair.second;
+    FinalSextet.push_back(Sextet);
+//     FinalSextet.push_back(*(Map.begin()).second);
+
+    return FinalSextet;
+}
+
+
+
+

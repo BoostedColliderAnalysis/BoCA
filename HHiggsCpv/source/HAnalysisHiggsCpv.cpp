@@ -184,7 +184,7 @@ bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const st
 
     Print(HDebug, "Get Bottom Tag", StudyName);
 
-    HState State;
+    HTag State;
     if (StudyName == "Bottom") State = HSignal;
     if (StudyName == "NotBottom") State = HBackground;
 
@@ -205,7 +205,7 @@ bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::
 
     Print(HInformation, "Get Tops", StudyName);
 
-    HState State;
+    HTag State;
     if (StudyName == "Top") State = HSignal;
     if (StudyName == "NotTop") State = HBackground;
 
@@ -226,7 +226,7 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent *const Event, const std
 {
     Print(HInformation, "Get Higgs Tag", StudyName);
 
-    HState State;
+    HTag State;
     if (StudyName == "Higgs") State = HSignal;
     if (StudyName == "NotHiggs") State = HBackground;
 

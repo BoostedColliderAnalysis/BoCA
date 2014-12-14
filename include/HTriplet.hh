@@ -10,10 +10,6 @@ public:
 
     HTriplet();
 
-//     HTriplet(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2, const fastjet::PseudoJet &NewJet3);
-
-//     HTriplet(const fastjet::PseudoJet &NewJet, const HDoublet &Pair);
-
     HTriplet(const hanalysis::HDoublet& NewDoublet, const fastjet::PseudoJet& NewJet);
 
     ~HTriplet();

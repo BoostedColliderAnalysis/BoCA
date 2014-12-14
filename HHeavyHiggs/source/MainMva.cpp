@@ -25,6 +25,9 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HBottomTagger:
             Factory = new hanalysis::HFactory(Analysis->BottomTagger);
             break;
+        case hanalysis::HAnalysis::HJetPairTagger:
+          Factory = new hanalysis::HFactory(Analysis->JetPairTagger);
+          break;
         case hanalysis::HAnalysis::HWTagger:
             Factory = new hanalysis::HFactory(Analysis->WTagger);
             break;
@@ -37,7 +40,6 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HTopSemiTagger:
             Factory = new hanalysis::HFactory(Analysis->TopSemiTagger);
             break;
-
         case hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger:
             Factory = new hanalysis::HFactory(Analysis->HeavyHiggsLeptonicTagger);
             break;
@@ -47,7 +49,6 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
             Factory = new hanalysis::HFactory(Analysis->HeavyHiggsSemiTagger);
             break;
-
         case hanalysis::HAnalysis::HEventLeptonicTagger:
             Factory = new hanalysis::HFactory(Analysis->EventLeptonicTagger);
             break;
@@ -72,6 +73,7 @@ int main()
 {
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
+//     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
     RunTagger(hanalysis::HAnalysis::HWTagger);
 
     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
@@ -79,13 +81,14 @@ int main()
     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
 
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
-
     RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
+
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
 
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
+    RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
+
     return 1;
 
 }

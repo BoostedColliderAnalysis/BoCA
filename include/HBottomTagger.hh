@@ -8,7 +8,7 @@
 # include "HReader.hh"
 
 /**
- * @brief Bdt bottom tagger
+ * @brief Bottom BDT tagger
  *
  */
 class hanalysis::HBottomTagger : public HMva
@@ -20,31 +20,33 @@ public:
 
     ~HBottomTagger();
 
-    std::vector< HBottomBranch * > GetBranches(HEvent *const Event, const hanalysis::HObject::HState State);
+    std::vector< HBottomBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     void FillBranch(const fastjet::PseudoJet &Jet);
 
-    HJets GetBottomBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
+    HJets GetBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
+
+protected:
+
+    virtual inline std::string ClassName() const {
+        return "HBottomTagger";
+    };
 
 private:
-
-    HBottomBranch *Branch;
-
-    HJetTag *JetTag;
 
     void DefineVariables();
 
     void FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet);
 
-    hanalysis::HObject::HState GetSingletTag(const fastjet::PseudoJet &Jet) const;
-
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
-    virtual inline std::string ClassName() const {
-        return "HBottomTagger";
-    };
+    hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
+
+    HBottomBranch *Branch;
+
+    HJetTag *JetTag;
 
 };
 

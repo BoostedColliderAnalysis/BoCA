@@ -1,17 +1,13 @@
 # ifndef HHeavyHiggsLeptonicTagger_hh
 # define HHeavyHiggsLeptonicTagger_hh
 
-# include "HMva.hh"
-# include "HBranch.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
-# include "HDoublet.hh"
 # include "HQuartet.hh"
+# include "HSextet.hh"
 # include "HTopLeptonicTagger.hh"
+# include "WIMPMASS.h"
 
 /**
- * @brief Bdt heavy higgs tagger
+ * @brief Leptonic heavy higgs BDT tagger
  *
  */
 class hanalysis::HHeavyHiggsLeptonicTagger : public HMva
@@ -23,34 +19,52 @@ public:
 
     ~HHeavyHiggsLeptonicTagger();
 
-    std::vector<HHeavyHiggsLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
+    std::vector<HHeavyHiggsLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
 
     void FillBranch(const hanalysis::HSextet& TriplePair);
-    
-    std::vector<hanalysis::HSextet> GetHeavyHiggsLeptonicBdt(std::vector<HDoublet> Doublets,fastjet::PseudoJet MissingEt, const HReader *const HeavyHiggsLeptonicReader, const HState State);
+
+    std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+
+protected:
+
+    virtual inline std::string ClassName() const {
+        return "HHeavyHiggsLeptonicTagger";
+    };
 
 private:
 
+    void DefineVariables();
+
+    void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
+
+    void FillBranch(HHeavyHiggsLeptonicBranch* HeavyHiggsBranch, const hanalysis::HSextet& TriplePair);
+
+    hanalysis::HObject::HTag GetTag(const HQuartet &Quartet);
+
+    inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
+      // wimpmass (E,px,py,pz)
+      // fastjet (px,py,pz,E)
+      fastjet::PseudoJet Jet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
+      return Jet;
+    }
+
+    std::vector< HSextet > GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos);
+
+    std::vector<HSextet> GetSextets(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt);
+
+    event22 Structure;
+
     HBottomTagger *BottomTagger;
+
     HTopLeptonicTagger *TopLeptonicTagger;
 
     HReader *BottomReader;
+
     HReader *TopLeptonicReader;
 
     HHeavyHiggsLeptonicBranch *Branch;
 
     HJetTag *JetTag;
-
-    void DefineVariables();
-
-    hanalysis::HObject::HState GetQuartetTag(const HQuartet &Quartet);
-
-
-    void FillBranch(HHeavyHiggsLeptonicBranch* HeavyHiggsBranch, const hanalysis::HSextet& TriplePair);
-
-    virtual inline std::string ClassName() const {
-        return "HHeavyHiggsLeptonicTagger";
-    };
 
 };
 

@@ -151,6 +151,14 @@ public:
         CandidateBranchName = NewBranchName;
     }
 
+    void SetTaggerName(const std::string &NewTaggerName){
+      TaggerName = NewTaggerName;
+      CandidateBranchName = NewTaggerName;
+      SignalNames = {NewTaggerName};
+      const std::string NewBackgroundName ="Not" + NewTaggerName;
+      BackgroundNames = {NewBackgroundName};
+    }
+
     std::string GetTaggerName() const {
         return TaggerName;
     }
@@ -337,6 +345,13 @@ protected:
 
 private:
 
+};
+
+struct SortByBdt {
+  template <typename TMultiplet>
+  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+    return (Multiplet1.GetBdt() > Multiplet2.GetBdt());
+  }
 };
 
 # endif

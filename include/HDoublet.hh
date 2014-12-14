@@ -32,6 +32,10 @@ private:
   float Phi;
 };
 
+/**
+ * @brief doublet of two fastjet::PseudoJet
+ *
+ */
 class hanalysis::HDoublet : public HTag
 {
 
@@ -65,7 +69,7 @@ public:
 //         return (Jet1.pt() + Jet2.pt());
 //     }
 
-    inline float GetPtDiff() const {
+    inline float GetDeltaPt() const {
         return std::abs(Jet1.pt() - Jet2.pt());
     }
 
@@ -113,10 +117,6 @@ public:
 
 protected:
 
-    fastjet::PseudoJet Jet1;
-
-    fastjet::PseudoJet Jet2;
-
     virtual inline std::string ClassName() const {
         return "HDoublet";
     };
@@ -127,7 +127,11 @@ private:
 
   float GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const;
 
-  float GetPull(const fastjet::PseudoJet &CandidateJet) const;
+  float GetPull(const fastjet::PseudoJet &Jet) const;
+
+    fastjet::PseudoJet Jet1;
+
+    fastjet::PseudoJet Jet2;
 
 };
 

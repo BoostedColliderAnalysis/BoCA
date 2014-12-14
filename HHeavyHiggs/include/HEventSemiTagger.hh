@@ -1,20 +1,13 @@
 # ifndef HEventSemiTagger_hh
 # define HEventSemiTagger_hh
 
-
-# include "HMva.hh"
 # include "HBranchHeavyHiggs.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
 # include "HHeavyHiggsSemiTagger.hh"
 # include "HOctet.hh"
 
-
-
 /**
  *
- * @brief Prepares multivariant analysis
+ * @brief Event BDT for semi leptonic heavy higgs
  *
  */
 class hheavyhiggs::HEventSemiTagger : public hanalysis::HMva
@@ -34,46 +27,49 @@ public:
     */
     ~HEventSemiTagger();
 
-    std::vector<HEventSemiBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<HEventSemiBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    void FillBranch(const HOctet &HeavyHiggsEvent);
-
+    void FillBranch(const HOctet &Octet);
 
 protected:
 
-
-private:
-
-    std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
-
-    void FillBranch(HEventSemiBranch *EventBranch, const HOctet &HeavyHiggsEvent);
-
-    void DefineVariables();
-
-
-    hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HWTagger *WTagger;
-    hanalysis::HTopSemiTagger *TopSemiTagger;
-    hanalysis::HTopHadronicTagger *TopHadronicTagger;
-    hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
-    hanalysis::HReader *BottomReader;
-    hanalysis::HReader *WReader;
-    hanalysis::HReader *TopHadronicReader;
-    hanalysis::HReader *TopSemiReader;
-    hanalysis::HReader *HeavyHiggsSemiReader;
-
-    HEventSemiBranch *Branch;
-
-    hanalysis::HJetTag *JetTag;
-
     virtual inline std::string NameSpaceName() const {
         return "hheavyhiggs";
-    };
+    }
 
     virtual inline std::string ClassName() const {
         return "HHhEventSemiTagger";
-    };
+    }
 
+private:
+
+    void FillBranch(hheavyhiggs::HEventSemiBranch *EventSemiBranch, const HOctet &Octet);
+
+    void DefineVariables();
+
+    std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
+
+    hanalysis::HBottomTagger *BottomTagger;
+
+    hanalysis::HWTagger *WTagger;
+
+    hanalysis::HTopSemiTagger *TopSemiTagger;
+
+    hanalysis::HTopHadronicTagger *TopHadronicTagger;
+
+    hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
+
+    hanalysis::HReader *BottomReader;
+
+    hanalysis::HReader *WReader;
+
+    hanalysis::HReader *TopHadronicReader;
+
+    hanalysis::HReader *TopSemiReader;
+
+    hanalysis::HReader *HeavyHiggsSemiReader;
+
+    HEventSemiBranch *Branch;
 
 };
 

@@ -1,16 +1,11 @@
 # ifndef HTopSemiTagger_hh
 # define HTopSemiTagger_hh
 
-# include "HMva.hh"
-# include "HBranch.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
-# include "HBottomTagger.hh"
 # include "HTriplet.hh"
+# include "HBottomTagger.hh"
 
 /**
- * @brief Bdt leptonic top tagger
+ * @brief Semi leptonic top BDT tagger
  *
  */
 class hanalysis::HTopSemiTagger : public HMva
@@ -22,16 +17,27 @@ public:
 
     ~HTopSemiTagger();
 
-    std::vector<HTopSemiBranch*> GetBranches(HEvent *const Event, const HObject::HState State);
+    std::vector<HTopSemiBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
 
     void FillBranch(const hanalysis::HTriplet &Triple);
 
-    HJets GetNeutrinos(const hanalysis::HTriplet &Triplet)const;
+    std::vector<HTriplet>  GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
 
-    std::vector<HTriplet>  GetTopSemiBdt(HJets Jets, HJets Leptons,fastjet::PseudoJet MissingEt, const HReader * const TopSemiReader, const HState State);
+protected:
 
+    virtual inline std::string ClassName() const {
+        return "HTopSemiTagger";
+    };
 
 private:
+
+    void DefineVariables();
+
+    void FillBranch(HTopSemiBranch *const TopSemiBranch, const hanalysis::HTriplet &Triplet);
+
+    HTag GetTag(const HTriplet &Triplet) const;
+
+    HJets GetNeutrinos(const hanalysis::HTriplet &Triplet)const;
 
     HBottomTagger *BottomTagger;
 
@@ -40,19 +46,6 @@ private:
     HTopSemiBranch *Branch;
 
     HJetTag *JetTag;
-    HState GetTripletTag(const hanalysis::HTriplet& Triplet);
-
-    void DefineVariables();
-    void FillBranch(HTopSemiBranch *const TopSemiBranch, const hanalysis::HTriplet &Triplet);
-
-
-    virtual inline std::string NameSpaceName() const {
-        return "hdelphes";
-    };
-
-    virtual inline std::string ClassName() const {
-        return "HTopSemiTagger";
-    };
 
 };
 

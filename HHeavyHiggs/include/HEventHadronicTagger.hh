@@ -1,19 +1,13 @@
 # ifndef HHadronicEventTagger_hh
 # define HHadronicEventTagger_hh
 
-
-# include "HMva.hh"
 # include "HBranchHeavyHiggs.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
 # include "HOctet.hh"
 
-
 /**
  *
- * @brief Prepares multivariant analysis
+ * @brief Event BDT tagger for hadronic heavy higgs
  *
  */
 class hheavyhiggs::HEventHadronicTagger : public hanalysis::HMva
@@ -33,43 +27,11 @@ public:
     */
     ~HEventHadronicTagger();
 
-    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag);
 
-    void FillBranch(const HOctet &HeavyHiggsEvent);
-
-    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &ReaderStruct) {return ReaderStruct;};
-
-    void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
-
-    float GetBdt(TObject *, TMVA::Reader *) {
-        return 0;
-    };
-
+    void FillBranch(const HOctet &Octet);
 
 protected:
-
-
-private:
-
-    std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
-
-    void FillBranch(hheavyhiggs::HEventHadronicBranch *EventBranch, const HOctet &HeavyHiggsEvent);
-
-    void DefineVariables();
-
-
-    hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HWTagger *WTagger;
-    hanalysis::HTopHadronicTagger *TopHadronicTagger;
-    hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsHadronicTagger;
-    hanalysis::HReader *BottomReader;
-    hanalysis::HReader *WReader;
-    hanalysis::HReader *TopHadronicReader;
-    hanalysis::HReader *HeavyHiggsReader;
-
-    hheavyhiggs::HEventHadronicBranch *Branch;
-
-    hanalysis::HJetTag *JetTag;
 
     virtual inline std::string NameSpaceName() const {
         return "hheavyhiggs";
@@ -79,6 +41,30 @@ private:
         return "HHhHadEventTagger";
     };
 
+
+private:
+
+    void FillBranch(hheavyhiggs::HEventHadronicBranch *EventHadronicBranch, const HOctet &Octet);
+
+    void DefineVariables();
+
+    hanalysis::HBottomTagger *BottomTagger;
+
+    hanalysis::HWTagger *WTagger;
+
+    hanalysis::HTopHadronicTagger *TopHadronicTagger;
+
+    hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsHadronicTagger;
+
+    hanalysis::HReader *BottomReader;
+
+    hanalysis::HReader *WReader;
+
+    hanalysis::HReader *TopHadronicReader;
+
+    hanalysis::HReader *HeavyHiggsHadronicReader;
+
+    hheavyhiggs::HEventHadronicBranch *Branch;
 
 };
 

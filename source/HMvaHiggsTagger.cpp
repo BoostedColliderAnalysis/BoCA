@@ -50,21 +50,21 @@ void hanalysis::HMvaHiggsTagger::DefineVariables()
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const HDoublet &Pair)
+void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const HDoublet &Doublet)
 {
-    Print(HInformation, "FillPairTagger", Pair.GetBdt());
+    Print(HInformation, "FillPairTagger", Doublet.GetBdt());
 
-    HiggsBranch->Mass = Pair.GetDoubletJet().m();
-    HiggsBranch->PtSum = Pair.GetDoubletJet().pt();
-    HiggsBranch->PtDiff = Pair.GetPtDiff();
-    HiggsBranch->DeltaR = Pair.GetDeltaR();
-    HiggsBranch->DeltaRap = Pair.GetDeltaRap();
-    HiggsBranch->DeltaPhi = Pair.GetPhiDelta();
-    HiggsBranch->BottomBdt = Pair.GetBdt();
-    HiggsBranch->Pull1 = Pair.GetPullAngle1();
-    HiggsBranch->Pull2 = Pair.GetPullAngle2();
-    HiggsBranch->Pull = Pair.GetPullAngle();
-    HiggsBranch->HiggsTag = Pair.GetTag();
+    HiggsBranch->Mass = Doublet.GetDoubletJet().m();
+    HiggsBranch->PtSum = Doublet.GetDoubletJet().pt();
+    HiggsBranch->PtDiff = Doublet.GetDeltaPt();
+    HiggsBranch->DeltaR = Doublet.GetDeltaR();
+    HiggsBranch->DeltaRap = Doublet.GetDeltaRap();
+    HiggsBranch->DeltaPhi = Doublet.GetPhiDelta();
+    HiggsBranch->BottomBdt = Doublet.GetBdt();
+    HiggsBranch->Pull1 = Doublet.GetPullAngle1();
+    HiggsBranch->Pull2 = Doublet.GetPullAngle2();
+    HiggsBranch->Pull = Doublet.GetPullAngle();
+    HiggsBranch->HiggsTag = Doublet.GetTag();
 
 }
 
@@ -76,7 +76,7 @@ struct SortPairByMass {
 };
 
 
-std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent *const Event, const HObject::HState State)
+std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent *const Event, const HObject::HTag State)
 {
 
     Print(HInformation, "Get Higgs Tags");

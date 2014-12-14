@@ -9,10 +9,7 @@ hanalysis::HTopSemiTagger::HTopSemiTagger(HBottomTagger *const NewBottomTagger)
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
 
-    TaggerName = "TopSemi";
-    SignalNames = {"TopSemi"};
-    BackgroundNames = {"NotTopSemi"};
-    CandidateBranchName = "TopSemi";
+    SetTaggerName("TopSemi");
 
     Branch = new HTopSemiBranch();
     JetTag = new HJetTag();
@@ -105,7 +102,7 @@ public:
 };
 
 
-std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *const Event, const HObject::HState State)
+std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -114,7 +111,7 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    Jets = BottomTagger->GetBottomBdt(Jets,BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
@@ -134,13 +131,12 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
     Print(HInformation, "Number Doublets", Doublets.size());
 
     std::vector<HTriplet> Triplets;
-    for (auto & PreDoublet : Doublets)
+    for (const auto & PreDoublet : Doublets)
         for (const auto & Jet : Jets) {
             HTriplet PreTriplet(PreDoublet, Jet);
-            PreTriplet.SetTag(GetTripletTag(PreTriplet));
-            if (PreTriplet.GetTag() != State) continue;
+            PreTriplet.SetTag(GetTag(PreTriplet));
+            if (PreTriplet.GetTag() != Tag) continue;
             HJets Neutrinos = GetNeutrinos(PreTriplet);
-            if (Neutrinos.size() < 1) continue;
             for (const auto & Neutrino : Neutrinos) {
                 HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
                 HTriplet Triplet(Doublet, Jet);
@@ -152,7 +148,7 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
         }
 
 
-        if (State == HSignal && Triplets.size()>1) {
+    if (Tag == HSignal && Triplets.size() > 1) {
         std::sort(Triplets.begin(), Triplets.end(), SortJetByTopMass());
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
@@ -165,12 +161,10 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
         FillBranch(TopSemiBranch, Triplet);
         TopSemiBranches.push_back(TopSemiBranch);
     }
-
     return TopSemiBranches;
-
 }
 
-hanalysis::HObject::HState hanalysis::HTopSemiTagger::GetTripletTag(const HTriplet &Triplet)
+hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTriplet &Triplet) const
 {
     Print(HInformation, "Get Triple Tag");
 
@@ -180,39 +174,39 @@ hanalysis::HObject::HState hanalysis::HTopSemiTagger::GetTripletTag(const HTripl
     return HSignal;
 }
 
-std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetTopSemiBdt(HJets Jets, HJets Leptons,fastjet::PseudoJet MissingEt, const HReader * const TopSemiReader, const HState State) {
+std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
+{
 
-  for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-    if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Jets.erase(Lepton);
-    else  ++Lepton;
-  }
-
-  std::vector<HDoublet> Doublets;
-  for (const auto & Lepton : Leptons) {
-    HDoublet Doublet(Lepton, MissingEt);
-    Doublets.push_back(Doublet);
-  }
-  Print(HInformation, "Number Doublets", Doublets.size());
-
-  std::vector<HTriplet> Triplets;
-  for (auto & PreDoublet : Doublets)
-    for (const auto & Jet : Jets) {
-      HTriplet PreTriplet(PreDoublet, Jet);
-      PreTriplet.SetTag(GetTripletTag(PreTriplet));
-      if (State == HSignal && PreTriplet.GetTag() != State) continue;
-      HJets Neutrinos = GetNeutrinos(PreTriplet);
-      if (Neutrinos.size() < 1) continue;
-      const int Tag = PreTriplet.GetTag();
-      for (const auto & Neutrino : Neutrinos) {
-        HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
-        HTriplet Triplet(Doublet, Jet);
-        FillBranch(Triplet);
-        Triplet.SetBdt(TopSemiReader->GetBdt());
-        Triplet.SetTag(Tag);
-        Triplets.push_back(Triplet);
-      }
+    for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
+      if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
+        else  ++Lepton;
     }
-return Triplets;
+
+    std::vector<HDoublet> Doublets;
+    for (const auto & Lepton : Leptons) {
+        HDoublet Doublet(Lepton, MissingEt);
+        Doublets.push_back(Doublet);
+    }
+
+    std::vector<HTriplet> Triplets;
+    for (const auto & PreDoublet : Doublets)
+        for (const auto & Jet : Jets) {
+            HTriplet PreTriplet(PreDoublet, Jet);
+            PreTriplet.SetTag(GetTag(PreTriplet));
+//             if (State == HSignal && PreTriplet.GetTag() != State) continue;
+            HJets Neutrinos = GetNeutrinos(PreTriplet);
+            if (Neutrinos.size() < 1) continue;
+            const int Tag = PreTriplet.GetTag();
+            for (const auto & Neutrino : Neutrinos) {
+                HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
+                HTriplet Triplet(Doublet, Jet);
+                FillBranch(Triplet);
+                Triplet.SetBdt(Reader->GetBdt());
+                Triplet.SetTag(Tag);
+                Triplets.push_back(Triplet);
+            }
+        }
+    return Triplets;
 }
 
 
@@ -222,29 +216,30 @@ HJets hanalysis::HTopSemiTagger::GetNeutrinos(const HTriplet &Triplet)const
     const fastjet::PseudoJet Lepton = Triplet.GetDoublet().GetJet1();
     const fastjet::PseudoJet MissingEt = Triplet.GetDoublet().GetJet2();
 
-    const float RHS = std::pow(TopMass, 2) - std::pow(WMass, 2) - (Lepton + Jet).m2() + Lepton.m2() + 2 * (MissingEt.px() * Jet.px() + MissingEt.py() * Jet.py());
+    const float LinearTerm = std::pow(TopMass, 2) - std::pow(WMass, 2) - (Lepton + Jet).m2() + Lepton.m2() + 2 * (MissingEt.px() * Jet.px() + MissingEt.py() * Jet.py());
 
     const float JetSq = std::pow(Jet.e(), 2) - std::pow(Jet.pz(), 2);
     const float MetSq = std::pow(MissingEt.px(), 2) + std::pow(MissingEt.py(), 2);
 
-    const float Rad = std::pow(Jet.e(), 2) * (-4 * JetSq * MetSq + std::pow(RHS, 2));
+    const float Radicand = std::pow(Jet.e(), 2) * (-4 * JetSq * MetSq + std::pow(LinearTerm, 2));
 
     HJets Neutrinos;
-    if (Rad < 0) {
-        Print(HError, "imaginary sqrt");
+    if (Radicand < 0) {
+        Print(HInformation, "imaginary sqrt");
         return Neutrinos;
     }
+    const float Sqrt = std::sqrt(Radicand);
 
-    const float Neutrino1Pz = (Jet.pz() * RHS - std::sqrt(Rad)) / 2 / JetSq;
-    const float Neutrino1E = (std::pow(Jet.e(), 2) * RHS - Jet.pz() * std::sqrt(Rad)) / 2 / Jet.e() / JetSq;
+    const float Neutrino1Pz = (Jet.pz() * LinearTerm - Sqrt) / 2 / JetSq;
+    const float Neutrino1E = (std::pow(Jet.e(), 2) * LinearTerm - Jet.pz() * Sqrt) / 2 / Jet.e() / JetSq;
     fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
-//     Print(HError, "Neutrnio 1", Neutrino1);
+    Print(HDebug, "Neutrnio 1", Neutrino1);
     Neutrinos.push_back(Neutrino1);
 
-    const float Neutrino2Pz = (Jet.pz() * RHS + std::sqrt(Rad)) / 2 / JetSq;
-    const float Neutrino2E = (std::pow(Jet.e(), 2) * RHS + Jet.pz() * std::sqrt(Rad)) / 2 / Jet.e() / JetSq;
+    const float Neutrino2Pz = (Jet.pz() * LinearTerm + Sqrt) / 2 / JetSq;
+    const float Neutrino2E = (std::pow(Jet.e(), 2) * LinearTerm + Jet.pz() * Sqrt) / 2 / Jet.e() / JetSq;
     fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
-//     Print(HError, "Neutrnio 2", Neutrino2);
+    Print(HDebug, "Neutrnio 2", Neutrino2);
     Neutrinos.push_back(Neutrino2);
 
     return Neutrinos;

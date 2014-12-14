@@ -1,16 +1,11 @@
 # ifndef HTopLeptonicTagger_hh
 # define HTopLeptonicTagger_hh
 
-# include "HMva.hh"
-# include "HBranch.hh"
-# include "HEvent.hh"
-# include "HJetTag.hh"
-# include "HReader.hh"
 # include "HBottomTagger.hh"
 # include "HDoublet.hh"
 
 /**
- * @brief Bdt top semi leptonic tagger
+ * @brief Top leptonic BDT tagger
  *
  */
 class hanalysis::HTopLeptonicTagger : public HMva
@@ -22,29 +17,33 @@ public:
 
     ~HTopLeptonicTagger();
 
-    std::vector<HTopLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HState State);
+    std::vector<HTopLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HTag Tag);
 
     void FillBranch(const HDoublet &Doublet);
-    std::vector< HDoublet> GetTopLeptonicBdt(HJets Jets, HJets Leptons, const hanalysis::HReader *const TopLeptonicReader, const hanalysis::HObject::HState State);
 
-private:
+    std::vector< HDoublet> GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader *const Reader);
 
-    HBottomTagger *BottomTagger;
-    HReader *BottomReader;
-    HTopLeptonicBranch *Branch;
-
-    HJetTag *JetTag;
-
-    void DefineVariables();
-
-    HState GetDoubletTag(const HDoublet &Doublet);
-
-
-    void FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const HDoublet &Doublet);
+protected:
 
     virtual inline std::string ClassName() const {
         return "HTopLeptonicTagger";
     };
+
+private:
+
+    void DefineVariables();
+
+    void FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const HDoublet &Doublet);
+
+    HTag GetTag(const HDoublet &Doublet);
+
+    HBottomTagger *BottomTagger;
+
+    HReader *BottomReader;
+
+    HTopLeptonicBranch *Branch;
+
+    HJetTag *JetTag;
 
 };
 
