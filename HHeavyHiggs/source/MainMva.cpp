@@ -96,20 +96,20 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 int main()
 {
 
-//     RunTagger(hanalysis::HAnalysis::HBottomTagger);
+    RunTagger(hanalysis::HAnalysis::HBottomTagger);
 // //     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
-//     RunTagger(hanalysis::HAnalysis::HWTagger);
+    RunTagger(hanalysis::HAnalysis::HWTagger);
 //
-//     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
-//     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+    RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
+    RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
+    RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
 //
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
+    RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
 //
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
+    RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
 //
 // //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
