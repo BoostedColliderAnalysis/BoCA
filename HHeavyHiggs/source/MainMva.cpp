@@ -72,19 +72,21 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 
     }
 
-//     switch (Tagger) {
-//       case hanalysis::HAnalysis::HEventLeptonicReader:
-//         Reader = new hanalysis::HReader(Analysis->EventLeptonicTagger);
-//         Reader->SimpleMVALoop();
-//         break;
-//       case hanalysis::HAnalysis::HEventSemiReader:
-//         Reader = new hanalysis::HReader(Analysis->EventSemiTagger);
-//         Reader->SimpleMVALoop();
-//         break;
-//       default:
-//         std::cout << "Unhandled case" << std::endl;
-//     }
-
+//     FileName = Analysis->GetProjectName() + "/Mva" + Name + ".root";
+//     if (gSystem->AccessPathName(FileName.c_str())) {
+    switch (Tagger) {
+      case hanalysis::HAnalysis::HEventLeptonicReader:
+        Reader = new hanalysis::HReader(Analysis->EventLeptonicTagger);
+        Reader->SimpleMVALoop();
+        break;
+      case hanalysis::HAnalysis::HEventSemiReader:
+        Reader = new hanalysis::HReader(Analysis->EventSemiTagger);
+        Reader->SimpleMVALoop();
+        break;
+      default:
+        std::cout << "Unhandled case" << std::endl;
+    }
+// }
 
 
     if (HasFactory) delete Factory;
@@ -94,25 +96,26 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 int main()
 {
 
-    RunTagger(hanalysis::HAnalysis::HBottomTagger);
-//     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
-    RunTagger(hanalysis::HAnalysis::HWTagger);
-
-    RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
-    RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
-
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
-
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
+//     RunTagger(hanalysis::HAnalysis::HBottomTagger);
+// //     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
+//     RunTagger(hanalysis::HAnalysis::HWTagger);
+//
+//     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
+//     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+//
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
+    RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
+//
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
+//     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
+    RunTagger(hanalysis::HAnalysis::HEventSemiReader);
+//
+// //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
+// //     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
 
     return 1;
 
 }
+

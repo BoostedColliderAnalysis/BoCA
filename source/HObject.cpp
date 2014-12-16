@@ -95,7 +95,7 @@ void hanalysis::HObject::Printer(const std::string &Description) const
 
     const char Separator = ' ';
     const int NameSpaceWidth = 12;
-    const int ClassWidth = 19;
+    const int ClassWidth = 21;
     const int FunctionWidth = 25;
 
     std::cout << std::left << std::setw(NameSpaceWidth) << std::setfill(Separator) << NameSpaceName();

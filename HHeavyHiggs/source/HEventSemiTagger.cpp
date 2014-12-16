@@ -19,11 +19,22 @@ hheavyhiggs::HEventSemiTagger::HEventSemiTagger(hanalysis::HBottomTagger *const 
 
     SetTaggerName("EventSemi");
 
-    TestName = "EventSemi";
-
     Branch = new hheavyhiggs::HEventSemiBranch();
 
     DefineVariables();
+
+}
+
+hheavyhiggs::HEventSemiTagger::HEventSemiTagger()
+{
+  //   DebugLevel = HDebug;
+
+  Print(HNotification , "Constructor");
+
+  SetTaggerName("EventSemi");
+  Branch = new hheavyhiggs::HEventSemiBranch();
+
+  DefineVariables();
 
 }
 
@@ -233,9 +244,8 @@ std::vector<int> hheavyhiggs::HEventSemiTagger::ApplyBdt2(const ExRootTreeReader
 
 
             for (int Step = 0; Step < Steps2; ++Step) {
-                const float Cut = float(Step) / Steps2 / 2;
+                const float Cut = float(Step-5) / Steps2 / 2;
                 if (Bdt > Cut) ++EventNumbers.at(Step);
-//                 if (Bdt > Cut && std::abs(Branch->HeavyHiggsMass -  )> 900 ) ++EventNumbers.at(Step);
             }
 
 

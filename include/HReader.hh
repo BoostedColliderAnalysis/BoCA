@@ -74,8 +74,6 @@ public:
 
     void BookMVA();
 
-    void SetMva();
-
 private:
 
 

@@ -5,10 +5,35 @@
 
 # include "HObject.hh"
 
+class HFamily
+{
+public:
+    HFamily(const int NewParticle, const int NewMother1, const int NewMother2) {
+        ParticleId = NewParticle;
+        Mother1Id = NewMother1;
+        Mother2Id = NewMother2;
+    }
+    int ParticleId;
+    int Mother1Id;
+    int Mother2Id;
+};
+
+class HFamilyId : public hanalysis::HObject
+{
+public:
+    HFamilyId(const HParticleId NewParticle, const HParticleId NewMother1, const HParticleId NewMother2) {
+        ParticleId = NewParticle;
+        Mother1Id = NewMother1;
+        Mother2Id = NewMother2;
+    }
+    HParticleId ParticleId;
+    HParticleId Mother1Id;
+    HParticleId Mother2Id;
+};
+
 /**
  * @brief defines how to tag a jet
  *
- * has to be subclassed for each case
  */
 class hanalysis::HJetTag : public HObject
 {
@@ -30,21 +55,16 @@ public:
     /**
      * @brief decide on the branch id based on the former branch id and the particle id
      *
-     * @param ParticleId Id of the Particle
-     * @param BranchId former id of the Branch
-     * @return int new Id of the Branch
      */
     virtual int GetBranchId(const int ParticleId, int BranchId);
 
+    virtual int GetBranchId(const HFamily Family, int BranchId);
+
     std::set<HParticleId> HeavyParticles;
 
+    std::set<HFamilyId> HeavyParticleFamilies;
+
 protected:
-
-    /**
-     * @brief set of particle Ids which are considerd relevant
-     *
-     */
-
 
     /**
      * @brief set of Particle Ids defiend as initial state radiation

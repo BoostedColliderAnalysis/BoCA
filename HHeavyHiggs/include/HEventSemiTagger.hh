@@ -21,6 +21,8 @@ public:
     */
     HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopLeptonicTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsMixedTagger);
 
+    HEventSemiTagger();
+
     /**
     * @brief Destructor
     *

@@ -33,24 +33,24 @@ fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TLorentzVector &Ve
 // TLorentzVector hanalysis::HFourVector::GetLorentzVector(const MissingET *const Particle) const
 // {
 //     Print(HDebug, "Get Lorentz Vector", "MissingET");
-// 
+//
 //     TLorentzVector LorentzVector;
-// 
+//
 //     const float Met = Particle->MET;
 //     const float Eta = Particle->Eta;
-//     const float Phi = Particle->Phi;    
+//     const float Phi = Particle->Phi;
 //     LorentzVector.SetPtEtaPhiM(Met, Eta, Phi, 0);
-// 
+//
 //     if (CheckFourVectors) {
-// 
+//
 //         const float LvMet = sqrt(std::pow(LorentzVector.M(),2)+std::pow(LorentzVector.Pt(),2));
-// 
+//
 //         if (std::abs(LvMet - Met) > Check) Print(HError, "Met", Met, LvMet);
 //         if (std::abs(LorentzVector.Eta() - Eta) > Check) Print(HError, "Eta", Eta, LorentzVector.Eta());
 //         if (std::abs(LorentzVector.Phi() - Phi) > Check) Print(HError, "Phi", Phi, LorentzVector.Phi());
-// 
+//
 //     }
-// 
+//
 //     return LorentzVector;
 // }
 
@@ -200,7 +200,9 @@ int hanalysis::HFourVector::GetMotherId(int BranchId, int Position)
         const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(Position);
         const int Status = ParticleClone->Status;
 
-        if (Status == GeneratorParticle) BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
+        HFamily Family(ParticleClone->PID,ParticleClone->M1,ParticleClone->M2);
+        if (Status == GeneratorParticle) BranchId = JetTag->GetBranchId(Family, BranchId);
+//         if (Status == GeneratorParticle) BranchId = JetTag->GetBranchId(ParticleClone->PID, BranchId);
         Print(HDetailed, "Branch Id", GetParticleName(ParticleClone->PID), GetParticleName(BranchId));
 
         if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) != end(JetTag->HeavyParticles)) break;

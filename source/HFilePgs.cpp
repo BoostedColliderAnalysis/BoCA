@@ -3,7 +3,7 @@
 hanalysis::hpgs::HFile::HFile()
 {
 
-    Print(HNotification, "Constructor");
+  Print(HInformation, "Constructor");
 
     SetVariables();
 
@@ -12,7 +12,7 @@ hanalysis::hpgs::HFile::HFile()
 hanalysis::hpgs::HFile::HFile(const std::string &Process)
 {
 
-    Print(HNotification, "Constructor");
+  Print(HInformation, "Constructor");
 
     SetVariables();
 
@@ -23,7 +23,7 @@ hanalysis::hpgs::HFile::HFile(const std::string &Process)
 hanalysis::hpgs::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
-    Print(HNotification, "Constructor");
+  Print(HInformation, "Constructor");
 
     SetVariables();
 

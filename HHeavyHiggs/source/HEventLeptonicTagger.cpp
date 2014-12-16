@@ -14,11 +14,21 @@ hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger(hanalysis::HBottomTagger
 
     SetTaggerName("EventLeptonic");
 
-    TestName = "EventLeptonic";
-
     Branch = new hheavyhiggs::HEventLeptonicBranch();
 
     DefineVariables();
+
+}
+
+hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger()
+{
+
+  Print(HNotification , "Constructor");
+
+  SetTaggerName("EventLeptonic");
+  Branch = new hheavyhiggs::HEventLeptonicBranch();
+
+  DefineVariables();
 
 }
 
@@ -228,8 +238,9 @@ std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeRe
             Export->Probability10 = Probabilities.at(9);
 
 
+
             for (int Step = 0; Step < Steps2; ++Step) {
-                const float Cut = float(Step) / Steps2 / 2;
+                const float Cut = float(Step-5) / Steps2 / 2;
                 if (Bdt > Cut) ++EventNumbers.at(Step);
             }
 

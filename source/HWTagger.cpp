@@ -59,11 +59,11 @@ void hanalysis::HWTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->Pull1, "Pull1"));
-    Observables.push_back(NewObservable(&Branch->Pull2, "Pull2"));
-    Observables.push_back(NewObservable(&Branch->Pull, "Pull"));
     Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
 
+//     Observables.push_back(NewObservable(&Branch->Pull1, "Pull1"));
+//     Observables.push_back(NewObservable(&Branch->Pull2, "Pull2"));
+//     Observables.push_back(NewObservable(&Branch->Pull, "Pull"));
     Spectators.push_back(NewObservable(&Branch->WTag, "WTag"));
 
     Print(HNotification, "Variables defined");

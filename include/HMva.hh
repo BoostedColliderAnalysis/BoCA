@@ -152,16 +152,17 @@ public:
     }
 
     std::string GetBranchName() const {
-      return EventBranchName;
+        return EventBranchName;
     }
 
-    void SetTaggerName(const std::string &NewTaggerName){
-      TaggerName = NewTaggerName;
-      EventBranchName = NewTaggerName;
-      SignalName = NewTaggerName;
-      SignalNames = {NewTaggerName};
-      BackgroundName ="Not" + NewTaggerName;
-      BackgroundNames = {BackgroundName};
+    void SetTaggerName(const std::string &NewTaggerName) {
+        TaggerName = NewTaggerName;
+        EventBranchName = NewTaggerName;
+        SignalName = NewTaggerName;
+        SignalNames = {NewTaggerName};
+        BackgroundName = "Not" + NewTaggerName;
+        BackgroundNames = {BackgroundName};
+        TestName = NewTaggerName;
     }
 
     std::string GetTaggerName() const {
@@ -246,11 +247,11 @@ public:
     }
 
     std::string GetBackgroundName() const {
-      return BackgroundName;
+        return BackgroundName;
     }
 
     std::string GetSignalName() const {
-      return SignalName;
+        return SignalName;
     }
 
     virtual HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {
@@ -260,7 +261,11 @@ public:
 
     virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
 
-    virtual std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader){Print(HError,"should be subclassed");};
+    virtual std::vector<int> ApplyBdt2(const ExRootTreeReader *const , const std::string , const TFile *const , TMVA::Reader *) {
+        Print(HError, "should be subclassed");
+        std::vector<int> Vector;
+        return Vector;
+    };
 
     virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader);
 
@@ -365,10 +370,10 @@ private:
 };
 
 struct SortByBdt {
-  template <typename TMultiplet>
-  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-    return (Multiplet1.GetBdt() > Multiplet2.GetBdt());
-  }
+    template <typename TMultiplet>
+    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+        return (Multiplet1.GetBdt() > Multiplet2.GetBdt());
+    }
 };
 
 # endif

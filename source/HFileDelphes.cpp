@@ -3,7 +3,7 @@
 hanalysis::hdelphes::HFile::HFile()
 {
 
-    Print(HNotification, "Constructor");
+  Print(HInformation, "Constructor");
 
     SetVariables();
 
@@ -16,7 +16,7 @@ hanalysis::hdelphes::HFile::HFile()
 hanalysis::hdelphes::HFile::HFile(const std::string &Process)
 {
 
-    Print(HNotification, "Constructor");
+  Print(HInformation, "Constructor");
 
     SetVariables();
 
@@ -31,7 +31,7 @@ hanalysis::hdelphes::HFile::HFile(const std::string &Process)
 hanalysis::hdelphes::HFile::HFile(const std::string &Process, const std::string &Run)
 {
 
-    Print(HNotification, "Constructor");
+  Print(HInformation, "Constructor");
 
     SetVariables();
 

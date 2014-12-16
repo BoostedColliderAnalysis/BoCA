@@ -21,6 +21,8 @@ public:
     */
     HEventLeptonicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger);
 
+    HEventLeptonicTagger();
+
     /**
     * @brief Destructor
     *

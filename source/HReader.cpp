@@ -8,7 +8,8 @@ hanalysis::HReader::HReader(HMva *NewMva)
 //     DebugLevel = HDebug;
 
     Mva = NewMva;
-    SetMva();
+    AddVariable();
+    BookMVA();
 }
 
 hanalysis::HReader::~HReader()
@@ -18,16 +19,6 @@ hanalysis::HReader::~HReader()
     delete Reader;
 
 }
-
-void hanalysis::HReader::SetMva()
-{
-
-    Print(HNotification, "Set Mva");
-
-    AddVariable();
-    BookMVA();
-}
-
 
 void hanalysis::HReader::AddVariable()
 {
@@ -55,15 +46,10 @@ void hanalysis::HReader::BookMVA()
 
     const std::string XmlName = ".weights.xml";
 
-//     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetAnalysisName() + "_" + Mva->GetCutMethodName() + "_" + Mva->BackgroundName + XmlName;
-//     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + "_" + Mva->BackgroundName + XmlName;
-    const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + XmlName;
-    Print(HError, "Opening Weight File", CutWeightFile);
-
+//     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + XmlName;
+//     Print(HError, "Opening Weight File", CutWeightFile);
 //     Reader->BookMVA(Mva->GetCutMethodName(), CutWeightFile);
 
-//     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetAnalysisName() + "_" + Mva->GetBdtMethodName() + "_" + Mva->BackgroundName + XmlName;
-//     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + "_" + Mva->BackgroundName + XmlName;
     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + XmlName;
     Print(HError, "Opening Weight File", BdtWeightFile);
 
@@ -71,13 +57,11 @@ void hanalysis::HReader::BookMVA()
 
 }
 
-
-
-
 void hanalysis::HReader::SimpleMVALoop()
 {
 
     Print(HNotification, "Mva Loop");
+    LatexHeader();
 
     const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + Mva->GetBdtMethodName() + ".root";
     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
@@ -87,7 +71,6 @@ void hanalysis::HReader::SimpleMVALoop()
 
     const int Steps = 10;
     std::vector<float> BackgroundNumbers(Steps);
-    float BackgroundCrosssection;
     for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
 
         const TTree *const BackgroundTree = (TTree *)const_cast<TFile *>(BackgroundFile)->Get(BackgroundTreeName.c_str());
@@ -96,15 +79,27 @@ void hanalysis::HReader::SimpleMVALoop()
         const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
         const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
-        BackgroundCrosssection = Info->Crosssection;
-
-
+        const float BackgroundCrosssection = Info->Crosssection / TreeReader->GetEntries();
 
         std::vector<int> NewBackgroundNumbers = Mva->ApplyBdt2(TreeReader, BackgroundTreeName, ExportFile, Reader);
-        for (int i = 0; i < Steps; i++) {
-          BackgroundNumbers[i] += float(NewBackgroundNumbers[i]) * BackgroundCrosssection;
-        }
+        for (int i = 0; i < Steps; i++) BackgroundNumbers[i] += float(NewBackgroundNumbers[i]) * BackgroundCrosssection;
     }
+
+    LatexFile << std::endl
+              << "\\begin{table}" << std::endl
+              << "\\centering" << std::endl
+              << "\\begin{tabular}{lrrrrrrrrrr}" << std::endl
+              << " \\\\ \\toprule" << std::endl
+              << "    Mass" << std::endl
+              << "  & \\multicolumn{10}{c}{BDT Cut}" << std::endl
+              << " \\\\ \\cmidrule(r){2-11}" << std::endl;
+
+    for (int Step = 0; Step < Steps; Step++) {
+        const float Cut = float(Step - 5) / Steps / 2;
+        LatexFile << "  & " << Cut << std::endl;
+    }
+
+    LatexFile << " \\\\ \\midrule" << std::endl;
 
     const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + ".root";
     const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
@@ -117,22 +112,34 @@ void hanalysis::HReader::SimpleMVALoop()
         const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
         const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
-        const float SignalCrosssection = Info->Crosssection * TreeReader->GetEntries();
+        const float SignalCrosssection = Info->Crosssection / TreeReader->GetEntries();
 
         std::vector<int> SignalNumbers = Mva->ApplyBdt2(TreeReader, SignalTreeName, ExportFile, Reader);
-        for (int i = 0; i < Steps; i++) {
-          SignalNumbers[i] = float(SignalNumbers[i]) * SignalCrosssection;
-        }
+        for (int i = 0; i < Steps; i++) SignalNumbers[i] = float(SignalNumbers[i]) * SignalCrosssection;
 
+        LatexFile << "\\verb|" << SignalTreeName << "|" << std::endl;
+        Print(HError, "Signal", SignalTreeName);
         for (int Step = 0; Step < Steps; Step++) {
-            const float Cut = float(Step) / Steps / 2;
+            const float Cut = float(Step - 5) / Steps / 2;
             const float Eff = float(SignalNumbers[Step]) / std::sqrt(SignalNumbers[Step] + BackgroundNumbers[Step]);
-            Print(HError, "Eff", Eff, Cut);
+            const float Norm = Eff * std::sqrt(1000.);
+            Print(HError, "Eff", Cut, Eff, Norm);
+            LatexFile << "  & " << RoundToDigits(Norm) << std::endl;
         }
+        LatexFile << " \\\\ ";
 
     }
 
     const_cast<TFile *>(ExportFile)->Close();
+
+
+
+    LatexFile << "\\bottomrule" << std::endl
+              << "\\end{tabular}" << std::endl
+              << "\\caption{" << Mva->GetTaggerName() << " Efficiency.}" << std::endl
+              //         << "\\label{tab:}" << Mva->BackgroundVector[BackgroundNumber] << endl;
+              << "\\end{table}" << std::endl;
+    LatexFooter();
 
 }
 
@@ -141,11 +148,12 @@ void hanalysis::HReader::SimpleMVALoop()
 void hanalysis::HReader::MVALoop()
 {
 
-    SetMva();
+//     SetMva();
 
-//     AddVariable();
+    AddVariable(); // TODO i dont nee dthese
 
-//     BookMVA();
+    BookMVA(); // TODO i dont need these
+
 
     Print(HNotification, "Mva Loop");
 
@@ -211,18 +219,18 @@ void hanalysis::HReader::LatexHeader()
 
     Print(HNotification, "LaTeX Header");
 
-    const std::string TexFileName = Mva->GetAnalysisName() + "/" + "Cutflow" + ".tex";
+    const std::string TexFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + ".tex";
 
     LatexFile.open(TexFileName);
 
     LatexFile << "\\documentclass[a4paper,11pt]{article}" << std::endl << std::endl
               << "\\usepackage{booktabs}" << std::endl
               << "\\usepackage{a4wide}" << std::endl
-              << "\\usepackage{units}" << std::endl
-              << "\\usepackage{siunitx}" << std::endl << std::endl
-              << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
-              << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << std::endl
-              << "\\newcolumntype{E}{R@{$\\pm$}L}" << std::endl << std::endl
+//               << "\\usepackage{units}" << std::endl
+//               << "\\usepackage{siunitx}" << std::endl << std::endl
+//               << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
+//               << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << std::endl
+//               << "\\newcolumntype{E}{R@{$\\pm$}L}" << std::endl << std::endl
               << "\\begin{document}" << std::endl << std::endl;
 
 }

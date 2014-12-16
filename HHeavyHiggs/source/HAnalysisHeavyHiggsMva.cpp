@@ -205,9 +205,9 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     if (Tagger == HEventLeptonicReader) {
 
-        EventLeptonicTagger = new hheavyhiggs::HEventLeptonicTagger(BottomTagger, TopLeptonicTagger, HeavyHiggsLeptonicTagger);
+        EventLeptonicTagger = new hheavyhiggs::HEventLeptonicTagger();
         EventLeptonicTagger->SetAnalysisName(GetProjectName());
-        EventLeptonicTagger->SetTestTreeNames(LeptonicTrees);
+//         EventLeptonicTagger->SetTestTreeNames(LeptonicTrees);
         EventLeptonicTagger->SetSignalTreeNames(SignalLeptonicTrees);
         EventLeptonicTagger->SetBackgroundTreeNames(BackgroundLeptonicTrees);
         Print(HError, "Tree names set");
@@ -221,7 +221,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     if (Tagger == HEventSemiReader) {
 
-        EventSemiTagger = new hheavyhiggs::HEventSemiTagger(BottomTagger, WTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger);
+        EventSemiTagger = new hheavyhiggs::HEventSemiTagger();
         EventSemiTagger->SetAnalysisName(GetProjectName());
 //         EventSemiTagger->SetTestTreeNames(SemiTrees);
         EventSemiTagger->SetSignalTreeNames(SignalSemiTrees);
@@ -240,21 +240,21 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     BottomTagger = new hanalysis::HBottomTagger();
     BottomTagger->SetAnalysisName(GetProjectName());
-    BottomTagger->SetTestTreeNames(CombinedTrees);
+//     BottomTagger->SetTestTreeNames(CombinedTrees);
     BottomTagger->SetSignalTreeNames(CombinedTrees);
     BottomTagger->SetBackgroundTreeNames(CombinedTrees);
     if (Tagger == HBottomTagger) return Files;
 
     JetPairTagger = new hanalysis::HJetPairTagger(BottomTagger);
     JetPairTagger->SetAnalysisName(GetProjectName());
-    JetPairTagger->SetTestTreeNames(CombinedTrees);
+//     JetPairTagger->SetTestTreeNames(CombinedTrees);
     JetPairTagger->SetSignalTreeNames(CombinedTrees);
     JetPairTagger->SetBackgroundTreeNames(CombinedTrees);
     if (Tagger == HJetPairTagger)  return Files;
 
     WTagger = new hanalysis::HWTagger(BottomTagger);
     WTagger->SetAnalysisName(GetProjectName());
-    WTagger->SetTestTreeNames(NotLeptonicTrees);
+//     WTagger->SetTestTreeNames(NotLeptonicTrees);
     WTagger->SetSignalTreeNames(NotLeptonicTrees);
     WTagger->SetBackgroundTreeNames(NotLeptonicTrees);
     if (Tagger == HWTagger)  return Files;
@@ -263,21 +263,21 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
         TopLeptonicTagger = new hanalysis::HTopLeptonicTagger(BottomTagger);
         TopLeptonicTagger->SetAnalysisName(GetProjectName());
-        TopLeptonicTagger->SetTestTreeNames(LeptonicTrees);
+//         TopLeptonicTagger->SetTestTreeNames(LeptonicTrees);
         TopLeptonicTagger->SetSignalTreeNames(LeptonicTrees);
         TopLeptonicTagger->SetBackgroundTreeNames(LeptonicTrees);
         if (Tagger == HTopLeptonicTagger)  return Files;
 
         HeavyHiggsLeptonicTagger = new hanalysis::HHeavyHiggsLeptonicTagger(BottomTagger, TopLeptonicTagger);
         HeavyHiggsLeptonicTagger->SetAnalysisName(GetProjectName());
-        HeavyHiggsLeptonicTagger->SetTestTreeNames(LeptonicTrees);
+//         HeavyHiggsLeptonicTagger->SetTestTreeNames(LeptonicTrees);
         HeavyHiggsLeptonicTagger->SetSignalTreeNames(SignalLeptonicTrees);
         HeavyHiggsLeptonicTagger->SetBackgroundTreeNames(LeptonicTrees);
         if (Tagger == HHeavyHiggsLeptonicTagger)  return Files;
 
         EventLeptonicTagger = new hheavyhiggs::HEventLeptonicTagger(BottomTagger, TopLeptonicTagger, HeavyHiggsLeptonicTagger);
         EventLeptonicTagger->SetAnalysisName(GetProjectName());
-        EventLeptonicTagger->SetTestTreeNames(LeptonicTrees);
+//         EventLeptonicTagger->SetTestTreeNames(LeptonicTrees);
         EventLeptonicTagger->SetSignalTreeNames(SignalLeptonicTrees);
         EventLeptonicTagger->SetBackgroundTreeNames(BackgroundLeptonicTrees);
         Print(HError, "Tree names set");
@@ -286,7 +286,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     TopHadronicTagger = new hanalysis::HTopHadronicTagger(BottomTagger, WTagger);
     TopHadronicTagger->SetAnalysisName(GetProjectName());
-    TopHadronicTagger->SetTestTreeNames(NotLeptonicTrees);
+//     TopHadronicTagger->SetTestTreeNames(NotLeptonicTrees);
     TopHadronicTagger->SetSignalTreeNames(NotLeptonicTrees);
     TopHadronicTagger->SetBackgroundTreeNames(NotLeptonicTrees);
     if (Tagger == HTopHadronicTagger)  return Files;
@@ -295,21 +295,21 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
         TopSemiTagger = new hanalysis::HTopSemiTagger(BottomTagger);
         TopSemiTagger->SetAnalysisName(GetProjectName());
-        TopSemiTagger->SetTestTreeNames(SemiTrees);
+//         TopSemiTagger->SetTestTreeNames(SemiTrees);
         TopSemiTagger->SetSignalTreeNames(SemiTrees);
         TopSemiTagger->SetBackgroundTreeNames(SemiTrees);
         if (Tagger == HTopSemiTagger) return Files;
 
         HeavyHiggsSemiTagger = new hanalysis::HHeavyHiggsSemiTagger(BottomTagger, WTagger, TopSemiTagger, TopHadronicTagger);
         HeavyHiggsSemiTagger->SetAnalysisName(GetProjectName());
-        HeavyHiggsSemiTagger->SetTestTreeNames(SemiTrees);
+//         HeavyHiggsSemiTagger->SetTestTreeNames(SemiTrees);
         HeavyHiggsSemiTagger->SetSignalTreeNames(SignalSemiTrees);
         HeavyHiggsSemiTagger->SetBackgroundTreeNames(SemiTrees);
         if (Tagger == HHeavyHiggsSemiTagger)  return Files;
 
         EventSemiTagger = new hheavyhiggs::HEventSemiTagger(BottomTagger, WTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger);
         EventSemiTagger->SetAnalysisName(GetProjectName());
-        EventSemiTagger->SetTestTreeNames(SemiTrees);
+//         EventSemiTagger->SetTestTreeNames(SemiTrees);
         EventSemiTagger->SetSignalTreeNames(SignalSemiTrees);
         EventSemiTagger->SetBackgroundTreeNames(BackgroundSemiTrees);
 
@@ -319,14 +319,14 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
         HeavyHiggsHadronicTagger = new hanalysis::HHeavyHiggsHadronicTagger(BottomTagger, WTagger, TopHadronicTagger);
         HeavyHiggsHadronicTagger->SetAnalysisName(GetProjectName());
-        HeavyHiggsHadronicTagger->SetTestTreeNames(HadronicTrees);
+//         HeavyHiggsHadronicTagger->SetTestTreeNames(HadronicTrees);
         HeavyHiggsHadronicTagger->SetSignalTreeNames(SignalHadronicTree);
         HeavyHiggsHadronicTagger->SetBackgroundTreeNames(HadronicTrees);
         if (Tagger == HHeavyHiggsHadronicTagger)  return Files;
 
         EventHadronicTagger = new hheavyhiggs::HEventHadronicTagger(BottomTagger, WTagger, TopHadronicTagger, HeavyHiggsHadronicTagger);
         EventHadronicTagger->SetAnalysisName(GetProjectName());
-        EventHadronicTagger->SetTestTreeNames(HadronicTrees);
+//         EventHadronicTagger->SetTestTreeNames(HadronicTrees);
         EventHadronicTagger->SetSignalTreeNames(SignalHadronicTree);
         EventHadronicTagger->SetBackgroundTreeNames(BackgroundHadronicTrees);
 
