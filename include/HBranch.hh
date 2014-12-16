@@ -35,6 +35,7 @@ public:
 
     float Crosssection;
     float CrosssectionError;
+    float Mass;
     int EventNumber;
 
     HInfoBranch();

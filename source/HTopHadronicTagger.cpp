@@ -80,7 +80,7 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
 
     std::vector<HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
 

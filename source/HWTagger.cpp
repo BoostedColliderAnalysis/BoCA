@@ -78,7 +78,7 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
     JetTag->HeavyParticles = {WId, TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
 
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)

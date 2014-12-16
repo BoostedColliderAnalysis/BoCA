@@ -130,3 +130,32 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
   EventTag = InitialValue;
 
 }
+
+
+
+ClassImp(hheavyhiggs::HBdtBranch)
+
+hheavyhiggs::HBdtBranch::HBdtBranch()
+{
+
+  EventTag = InitialValue;
+
+  Mass = InitialValue;
+  Bdt = InitialValue;
+  Error = InitialValue;
+  Rarity = InitialValue;
+
+  Probability01 = InitialValue;
+  Probability02 = InitialValue;
+  Probability03 = InitialValue;
+  Probability04 = InitialValue;
+  Probability05 = InitialValue;
+  Probability06 = InitialValue;
+  Probability07 = InitialValue;
+  Probability08 = InitialValue;
+  Probability09 = InitialValue;
+  Probability10 = InitialValue;
+
+  EventTag = InitialValue;
+
+}

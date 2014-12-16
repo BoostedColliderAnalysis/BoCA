@@ -23,7 +23,7 @@ hhiggscpv::HMvaHiggs::HMvaHiggs()
 
     BackgroundTreeNames = TestTreeNames;
 
-    CandidateBranchName = "Higgs";
+    EventBranchName = "Higgs";
 
     SpectatorBranchName = "Lepton";
 

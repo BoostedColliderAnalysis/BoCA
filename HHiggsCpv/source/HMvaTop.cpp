@@ -23,7 +23,7 @@ hhiggscpv::HMvaTop::HMvaTop()
 
     BackgroundTreeNames = TestTreeNames;
 
-    CandidateBranchName = "Top";
+    EventBranchName = "Top";
 
     SpectatorBranchName = "Lepton";
 

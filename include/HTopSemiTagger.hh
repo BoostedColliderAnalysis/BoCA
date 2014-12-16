@@ -21,7 +21,9 @@ public:
 
     void FillBranch(const hanalysis::HTriplet &Triple);
 
-    std::vector<HTriplet>  GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+    std::vector<HTriplet>  GetTruthBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+
+    std::vector<HTriplet> GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
 
 protected:
 

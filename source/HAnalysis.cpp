@@ -21,7 +21,7 @@ hanalysis::HAnalysis::HAnalysis()
 //
 //         for (auto * const File : GetFiles(StudyName)) {
 //
-//             HClonesArray *const ClonesArrays = File->GetClonesArrays();
+// //             HClonesArray *const ClonesArrays = File->GetClonesArrays();
 //
 //             HEvent *Event = File->GetEvent();
 //
@@ -164,6 +164,7 @@ void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader *const TreeRead
     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
     Info->Crosssection = File->GetCrosssection();
     Info->CrosssectionError = File->GetError();
+    Info->Mass = File->GetMass();
     Info->EventNumber = GetEventSum(TreeReader);
 
 }

@@ -19,7 +19,7 @@ hbtagger::HMva::HMva()
 
     TestTreeNames = {"pp-hjj-bbjj-run_01"};
 
-    CandidateBranchName = "Candidate";
+    EventBranchName = "Candidate";
 
     SpectatorBranchName = "Lepton";
 
@@ -69,10 +69,10 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 {
     Print(HNotification, "Apply Bdt");
 
-    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
+    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(CandidateBranchName.c_str(), HBTaggerBranch::Class());
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HBTaggerBranch::Class());
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 
@@ -143,7 +143,7 @@ HReaderStruct hbtagger::HMva::CutLoop(const ExRootTreeReader *const TreeReader, 
 
     Print(HInformation, "Vectors assigned");
 
-    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
+    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();

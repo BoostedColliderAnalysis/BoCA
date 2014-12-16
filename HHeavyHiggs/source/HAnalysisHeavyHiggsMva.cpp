@@ -20,9 +20,9 @@ std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis:
     case  HBottomTagger :
         return "Bottom";
     case HWTagger:
-      return  "W";
+        return  "W";
     case HJetPairTagger:
-      return  "JetPair";
+        return  "JetPair";
     case HTopLeptonicTagger:
         return  "TopLeptonic";
     case HTopHadronicTagger:
@@ -40,6 +40,10 @@ std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis:
     case HEventHadronicTagger:
         return  "EventHadronic";
     case HEventSemiTagger:
+        return  "EventSemi";
+    case HEventLeptonicReader:
+        return  "EventLeptonic";
+    case HEventSemiReader:
         return  "EventSemi";
     default :
         Print(HError, "unexpected TaggerName", Tagger);
@@ -75,18 +79,30 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     std::vector<hanalysis::HFile *> SignalLeptonicFiles;
     SignalLeptonicFiles.push_back(new hanalysis::HFile("400GeV_h2bb_llbbbb"));
+    SignalLeptonicFiles.back()->SetCrosssection(30.58);
+    SignalLeptonicFiles.back()->SetMass(400);
     SignalLeptonicFiles.push_back(new hanalysis::HFile("600GeV_h2bb_llbbbb"));
+    SignalLeptonicFiles.back()->SetCrosssection(9.501);
+    SignalLeptonicFiles.back()->SetMass(600);
     SignalLeptonicFiles.push_back(new hanalysis::HFile("800GeV_h2bb_llbbbb"));
+    SignalLeptonicFiles.back()->SetCrosssection(3.831);
+    SignalLeptonicFiles.back()->SetMass(800);
     SignalLeptonicFiles.push_back(new hanalysis::HFile("1TeV_h2bb_llbbbb"));
+    SignalLeptonicFiles.back()->SetCrosssection(1.812);
+    SignalLeptonicFiles.back()->SetMass(1000);
 
     std::vector<hanalysis::HFile *> BackgroundLeptonicFiles;
     BackgroundLeptonicFiles.push_back(new hanalysis::HFile("BG_llbbbb"));
+    BackgroundLeptonicFiles.back()->SetCrosssection(416.7);
 
     std::vector<hanalysis::HFile *> SignalSemiFiles;
     SignalSemiFiles.push_back(new hanalysis::HFile("1TeV_h2bb_ljbbbb"));
+    SignalSemiFiles.back()->SetCrosssection(1.812);
+    SignalSemiFiles.back()->SetMass(1000);
 
     std::vector<hanalysis::HFile *> BackgroundSemiFiles;
     BackgroundSemiFiles.push_back(new hanalysis::HFile("BG_ljbbbb"));
+    BackgroundSemiFiles.back()->SetCrosssection(416.7);
 
     std::vector<hanalysis::HFile *> SignalHadronicFiles;
     SignalHadronicFiles.push_back(new hanalysis::HFile("1TeV_h2bb_jjbbbb"));
@@ -110,8 +126,8 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
         Files = CombinedFiles;
         break;
     case HJetPairTagger:
-      Files = CombinedFiles;
-      break;
+        Files = CombinedFiles;
+        break;
     case HWTagger:
         Files = NotLeptonicFiles;
         break;
@@ -148,6 +164,12 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
         if (Tag == HBackground) Files = BackgroundSemiFiles;
         if (Tag == HSignal) Files = SignalSemiFiles;
         break;
+    case HEventLeptonicReader: // TODO do we need this?
+        Files = LeptonicFiles;
+        break;
+    case HEventSemiReader:
+        Files = SemiFiles;
+        break;
     default:
         Print(HError, "unknown tagger name");
     }
@@ -173,6 +195,47 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     HStrings NotLeptonicTrees = JoinHStrings(HadronicTrees, SemiTrees);
     HStrings CombinedTrees = JoinHStrings(NotLeptonicTrees, LeptonicTrees);
+
+
+
+
+
+
+
+
+    if (Tagger == HEventLeptonicReader) {
+
+        EventLeptonicTagger = new hheavyhiggs::HEventLeptonicTagger(BottomTagger, TopLeptonicTagger, HeavyHiggsLeptonicTagger);
+        EventLeptonicTagger->SetAnalysisName(GetProjectName());
+        EventLeptonicTagger->SetTestTreeNames(LeptonicTrees);
+        EventLeptonicTagger->SetSignalTreeNames(SignalLeptonicTrees);
+        EventLeptonicTagger->SetBackgroundTreeNames(BackgroundLeptonicTrees);
+        Print(HError, "Tree names set");
+        return Files;
+
+    }
+
+
+
+
+
+    if (Tagger == HEventSemiReader) {
+
+        EventSemiTagger = new hheavyhiggs::HEventSemiTagger(BottomTagger, WTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger);
+        EventSemiTagger->SetAnalysisName(GetProjectName());
+//         EventSemiTagger->SetTestTreeNames(SemiTrees);
+        EventSemiTagger->SetSignalTreeNames(SignalSemiTrees);
+        EventSemiTagger->SetBackgroundTreeNames(BackgroundSemiTrees);
+        Print(HError, "Tree names set");
+        return Files;
+
+    }
+
+
+
+
+
+
 
 
     BottomTagger = new hanalysis::HBottomTagger();
@@ -217,6 +280,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
         EventLeptonicTagger->SetTestTreeNames(LeptonicTrees);
         EventLeptonicTagger->SetSignalTreeNames(SignalLeptonicTrees);
         EventLeptonicTagger->SetBackgroundTreeNames(BackgroundLeptonicTrees);
+        Print(HError, "Tree names set");
 
     }
 
@@ -282,8 +346,8 @@ void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter *TreeWriter, const 
         BottomBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HBottomBranch::Class());
         break;
     case HJetPairTagger :
-      JetPairBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
-      break;
+        JetPairBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
+        break;
     case HWTagger :
         WBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
         break;
@@ -327,9 +391,9 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const h
 
     switch (Tagger) {
     case HBottomTagger :
-      return GetBottomTag(Event, Tag);
+        return GetBottomTag(Event, Tag);
     case HJetPairTagger :
-      return GetJetPairTag(Event, Tag);
+        return GetJetPairTag(Event, Tag);
     case HWTagger :
         return GetWTag(Event, Tag);
     case HTopLeptonicTagger :
@@ -349,7 +413,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const h
     case HEventHadronicTagger :
         return GetEventHadronicTag(Event, Tag);
     case HEventSemiTagger :
-        return GetEventSemiTag(Event, Tag);
+      return GetEventSemiTag(Event, Tag);
     default :
         Print(HError, "unknown Tagger", Tagger);
         return 0;
@@ -377,16 +441,16 @@ bool hheavyhiggs::HAnalysisMva::GetBottomTag(hanalysis::HEvent *const Event, con
 bool hheavyhiggs::HAnalysisMva::GetJetPairTag(hanalysis::HEvent *const Event, const HTag Tag)
 {
 
-  Print(HDebug, "Get W Tag", Tag);
+    Print(HDebug, "Get W Tag", Tag);
 
-  std::vector<HWBranch *> JetPairs = JetPairTagger->GetBranches(Event, Tag);
+    std::vector<HWBranch *> JetPairs = JetPairTagger->GetBranches(Event, Tag);
 
-  for (const auto & JetPair : JetPairs) {
-    HWBranch *NewWBranch = static_cast<HWBranch *>(WBranch->NewEntry());
-    *NewWBranch = *JetPair;
-  }
+    for (const auto & JetPair : JetPairs) {
+        HWBranch *NewWBranch = static_cast<HWBranch *>(WBranch->NewEntry());
+        *NewWBranch = *JetPair;
+    }
 
-  return 1;
+    return 1;
 
 }
 
@@ -568,3 +632,6 @@ bool hheavyhiggs::HAnalysisMva::GetEventHadronicTag(hanalysis::HEvent *const Eve
     return 1;
 
 }
+
+
+

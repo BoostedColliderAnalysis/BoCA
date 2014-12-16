@@ -21,7 +21,7 @@ public:
 
     std::vector<HHeavyHiggsLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
 
-    void FillBranch(const hanalysis::HSextet& TriplePair);
+    void FillBranch(const hanalysis::HSextet& Sextet);
 
     std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
 
@@ -48,7 +48,7 @@ private:
       return Jet;
     }
 
-    std::vector< HSextet > GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos);
+    std::vector< HSextet > GetSextet(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos, const hanalysis::HObject::HTag Tag);
 
     std::vector<HSextet> GetSextets(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt);
 

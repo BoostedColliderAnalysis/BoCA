@@ -29,6 +29,8 @@ public:
 
     std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
+    std::vector< int > ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader);
+
     void FillBranch(const HOctet &Octet);
 
 protected:
@@ -38,7 +40,7 @@ protected:
     };
 
     virtual inline std::string ClassName() const {
-        return "HEventTagger";
+        return "HEventLeptonicTagger";
     };
 
 

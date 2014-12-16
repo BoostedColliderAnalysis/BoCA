@@ -7,15 +7,6 @@
 # include "HBranchHeavyHiggs.hh"
 # include "HReader.hh"
 # include "HFactory.hh"
-// # include "HBottomTagger.hh"
-// # include "HWTagger.hh"
-
-// # include "HTopLeptonTagger.hh"
-// # include "HTopLeptonicTagger.hh"
-// # include "HTopHadronicTagger.hh"
-
-// # include "HHeavyHiggsLeptonicTagger.hh"
-// # include "HHeavyHiggsMixedTagger.hh"
 
 # include "HEventLeptonicTagger.hh"
 # include "HEventHadronicTagger.hh"
@@ -100,6 +91,8 @@ public:
     hheavyhiggs::HEventHadronicTagger *EventHadronicTagger;
     hheavyhiggs::HEventSemiTagger *EventSemiTagger;
 
+//     hanalysis::HReader *LeptonicReader;
+
     /**
      * @brief prepares the std::vector describing the input root files
      */
@@ -116,6 +109,16 @@ public:
     };
     std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
 
+protected:
+
+    virtual inline std::string NameSpaceName() const {
+        return "HHeavyHiggs";
+    };
+
+    virtual inline std::string ClassName() const {
+        return "HAnalysis";
+    };
+
 private:
 
   HStrings JoinHStrings(const HStrings &Strings1,const HStrings &Strings2);
@@ -123,8 +126,10 @@ private:
   std::vector<hanalysis::HFile *>  JoinFiles(std::vector<hanalysis::HFile *> Files1, std::vector<hanalysis::HFile *> Files2);
 
     inline int GetEventNumberMax() const {
-        return 10000;
+          return 10000;
     };
+
+    void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
     /**
      * @brief Main Analysis function
@@ -137,31 +142,28 @@ private:
 //     std::vector< HHeavyHiggsEvent > GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
     bool GetJetPairTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     bool GetTopLeptonicTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
+
     bool GetTopHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
     bool GetTopSemiTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
 
     bool GetHeavyHiggsHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
     bool GetHeavyHiggsLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
     bool GetHeavyHiggsSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     bool GetEventLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
     bool GetEventHadronicTag(hanalysis::HEvent *const Event, const HTag Tag);
 
     bool GetEventSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
-
-    void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
-
-    virtual inline std::string NameSpaceName() const {
-        return "HHeavyHiggs";
-    };
-
-    virtual inline std::string ClassName() const {
-        return "HAnalysis";
-    };
 
 };
 

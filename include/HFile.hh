@@ -72,7 +72,11 @@ public:
     }
 
     void SetError(const float NewError) {
-        Crosssection = NewError;
+        Error = NewError;
+    }
+
+    void SetMass(const float NewMass) {
+      Mass = NewMass;
     }
 
     void SetFileSuffix(const std::string &NewFileSuffix) {
@@ -82,6 +86,11 @@ public:
     float GetError() const {
         return Error;
     }
+
+    float GetMass() const {
+      return Mass;
+    }
+
 
     void SetSnowMass(const bool NewSnowMass) {
         SnowMass = NewSnowMass;
@@ -153,6 +162,8 @@ protected:
      *
      */
     float Error;
+
+    float Mass;
 
     static std::string FileSuffix;
 

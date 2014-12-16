@@ -79,7 +79,7 @@ std::vector<HWBranch *> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent
     JetTag->HeavyParticles = {HeavyHiggsId, BottomId,TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
 
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)

@@ -25,7 +25,7 @@ hcpvhiggs::HMva::HMva()
     TestTreeNames = {"background","even", "mix", "odd"};
 //         TestTreeVector = {"even"};
 
-    CandidateBranchName = "Candidate";
+    EventBranchName = "Candidate";
 
     SpectatorBranchName = "Lepton";
 
@@ -100,11 +100,11 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 {
   Print(HNotification, "Apply Bdt");
 
-  const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
+  const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
   ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-  ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(CandidateBranchName.c_str(), HCandidateBranch::Class());
+  ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HCandidateBranch::Class());
   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
@@ -187,7 +187,7 @@ HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader,
 
   Print(HInformation,"Vectors assigned");
 
-  const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
+  const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 
 
   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();

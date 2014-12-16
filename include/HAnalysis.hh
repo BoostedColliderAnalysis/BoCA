@@ -50,7 +50,9 @@ public:
         HEventHadronicTagger,
         HEventSemiTagger,
         HEventTagger,
-        HHiggsLeptonicTagger
+        HHiggsLeptonicTagger,
+        HEventLeptonicReader,
+        HEventSemiReader
     };
 
     void AnalysisLoop(const HTagger Tagger);

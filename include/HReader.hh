@@ -9,6 +9,7 @@
 # include "TDirectoryFile.h"
 # include "TClonesArray.h"
 # include "TObjArray.h"
+# include "TTree.h"
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "ExRootAnalysis/ExRootTreeWriter.h"
@@ -62,6 +63,8 @@ public:
         return (Bdt + 1.);
 
     }
+
+    void SimpleMVALoop();
 
     void MVALoop();
 

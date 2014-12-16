@@ -19,9 +19,10 @@ hanalysis::HReader::~HReader()
 
 }
 
-void hanalysis::HReader::SetMva() {
+void hanalysis::HReader::SetMva()
+{
 
-    Print(HNotification,"Set Mva");
+    Print(HNotification, "Set Mva");
 
     AddVariable();
     BookMVA();
@@ -65,9 +66,77 @@ void hanalysis::HReader::BookMVA()
 //     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + "_" + Mva->BackgroundName + XmlName;
     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + XmlName;
     Print(HError, "Opening Weight File", BdtWeightFile);
+
     Reader->BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
 
 }
+
+
+
+
+void hanalysis::HReader::SimpleMVALoop()
+{
+
+    Print(HNotification, "Mva Loop");
+
+    const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + Mva->GetBdtMethodName() + ".root";
+    const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
+
+    const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + ".root";
+    const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
+
+    const int Steps = 10;
+    std::vector<float> BackgroundNumbers(Steps);
+    float BackgroundCrosssection;
+    for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
+
+        const TTree *const BackgroundTree = (TTree *)const_cast<TFile *>(BackgroundFile)->Get(BackgroundTreeName.c_str());
+        const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(BackgroundTree));
+
+        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+        const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
+        BackgroundCrosssection = Info->Crosssection;
+
+
+
+        std::vector<int> NewBackgroundNumbers = Mva->ApplyBdt2(TreeReader, BackgroundTreeName, ExportFile, Reader);
+        for (int i = 0; i < Steps; i++) {
+          BackgroundNumbers[i] += float(NewBackgroundNumbers[i]) * BackgroundCrosssection;
+        }
+    }
+
+    const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + ".root";
+    const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
+
+    for (const auto & SignalTreeName : Mva->GetSignalTreeNames()) {
+
+        const TTree *const SignalTree = (TTree *)const_cast<TFile *>(SignalFile)->Get(SignalTreeName.c_str());
+        const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(SignalTree));
+
+        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+        const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
+        const float SignalCrosssection = Info->Crosssection * TreeReader->GetEntries();
+
+        std::vector<int> SignalNumbers = Mva->ApplyBdt2(TreeReader, SignalTreeName, ExportFile, Reader);
+        for (int i = 0; i < Steps; i++) {
+          SignalNumbers[i] = float(SignalNumbers[i]) * SignalCrosssection;
+        }
+
+        for (int Step = 0; Step < Steps; Step++) {
+            const float Cut = float(Step) / Steps / 2;
+            const float Eff = float(SignalNumbers[Step]) / std::sqrt(SignalNumbers[Step] + BackgroundNumbers[Step]);
+            Print(HError, "Eff", Eff, Cut);
+        }
+
+    }
+
+    const_cast<TFile *>(ExportFile)->Close();
+
+}
+
+
 
 void hanalysis::HReader::MVALoop()
 {

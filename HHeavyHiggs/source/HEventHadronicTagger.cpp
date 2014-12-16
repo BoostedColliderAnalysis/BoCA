@@ -115,7 +115,7 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
     std::vector<hheavyhiggs::HEventHadronicBranch *> EventHadronicBranches;
 
     HJets Jets = Event->GetJets()->GetStructuredJets();
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
     if (Jets.size() < 8) return EventHadronicBranches;
 
     std::vector<hanalysis::HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);

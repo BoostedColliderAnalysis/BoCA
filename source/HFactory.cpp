@@ -78,33 +78,24 @@ void hanalysis::HFactory::AddTree(const TFile *const File, const std::string &Tr
 
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
-//     Print(HError,"Branch Name",Mva->CandidateBranchName.c_str());
-//     const_cast<TTree *>(Tree)->GetBranch(Mva->CandidateBranchName.c_str());
-//     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
+    Print(HError,"Branch Name",Mva->GetBranchName().c_str());
+    const_cast<TTree *>(Tree)->GetBranch(Mva->GetBranchName().c_str());
+    const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
-//     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->WeightBranchName.c_str());
-//     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
-//     HInfoBranch *Info = (HInfoBranch *) ClonesArray->First();
+    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+    const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+    HInfoBranch *Info = (HInfoBranch *) ClonesArray->First();
 
-//     const float Crosssection = Info->Crosssection;
+    const float Crosssection = Info->Crosssection;
 //     const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
 //     delete TreeReader; // FixMe why
 
-    const float Crosssection = 1.; //FIXME we dont use the crosssection
+//     const float Crosssection = 1.; //FIXME we dont use the crosssection
 
     Print(HNotification , "Weight", Crosssection);
 
-    if (Signal) {
-
-        Factory->AddSignalTree(const_cast<TTree *>(Tree), Crosssection);
-
-    } else {
-
-        Factory->AddBackgroundTree(const_cast<TTree *>(Tree), Crosssection);
-
-    }
-
-
+    if (Signal) Factory->AddSignalTree(const_cast<TTree *>(Tree), Crosssection);
+    else Factory->AddBackgroundTree(const_cast<TTree *>(Tree), Crosssection);
 }
 
 void hanalysis::HFactory::PrepareTrainingAndTestTree()
@@ -135,7 +126,8 @@ void hanalysis::HFactory::BookMethods()
 //     Factory->BookMethod(TMVA::Types::kCuts, CutMethodName, CutOptions);
 
 //     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
-    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20:CreateMVAPdfs"
+    ;
 //     const std::string BdtOptions = "";
 
 //     const std::string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;

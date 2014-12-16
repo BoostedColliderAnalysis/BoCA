@@ -94,7 +94,7 @@ hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJ
 }
 
 
-HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomReader)
+HJets hanalysis::HBottomTagger::GetTruthBdt(HJets &Jets, const HReader *const BottomReader)
 {
     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
         if (std::abs((*Jet).user_index()) == MixedJetId) Jet = Jets.erase(Jet);
@@ -108,6 +108,19 @@ HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomR
         }
     }
     return Jets;
+}
+
+
+HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomReader)
+{
+  for (auto Jet = Jets.begin(); Jet != Jets.end();++Jet) {
+      HJetInfo *JetInfo = new HJetInfo;
+      FillBranch(*Jet);
+      JetInfo->SetBdt(BottomReader->GetBdt());
+      JetInfo->SetTag(GetTag(*Jet));
+      (*Jet).set_user_info(JetInfo);
+  }
+  return Jets;
 }
 
 float hanalysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const

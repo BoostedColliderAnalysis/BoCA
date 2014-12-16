@@ -12,7 +12,7 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(HBottomTagger *const NewBottomTagger
     TaggerName = "Higgs";
     SignalNames = {"Higgs"};
     BackgroundNames = {"NotHiggs"};
-    CandidateBranchName = "Higgs";
+    EventBranchName = "Higgs";
 
     Branch = new HHiggsBranch();
     JetTag = new HJetTag();

@@ -19,6 +19,7 @@ class HEventSemiBranch;
 class HEventLeptonicTagger;
 class HEventHadronicTagger;
 class HEventSemiTagger;
+class HBdtBranch;
 
 }
 
@@ -203,6 +204,37 @@ public:
 private:
 
   ClassDef(HEventSemiBranch, 1)
+
+};
+
+class hheavyhiggs::HBdtBranch : public HBranch
+{
+
+public:
+
+  HBdtBranch();
+
+  float Mass;
+  float Bdt;
+  float Error;
+  float Rarity;
+
+  float Probability01;
+  float Probability02;
+  float Probability03;
+  float Probability04;
+  float Probability05;
+  float Probability06;
+  float Probability07;
+  float Probability08;
+  float Probability09;
+  float Probability10;
+
+  int EventTag;
+
+private:
+
+  ClassDef(HBdtBranch, 1)
 
 };
 

@@ -111,7 +111,7 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
@@ -174,7 +174,7 @@ hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTri
     return HSignal;
 }
 
-std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
+std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetTruthBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
 {
 
     for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
@@ -206,6 +206,35 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const HJets 
                 Triplets.push_back(Triplet);
             }
         }
+    return Triplets;
+}
+
+std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
+{
+
+  std::vector<HDoublet> Doublets;
+  for (const auto & Lepton : Leptons) {
+    HDoublet Doublet(Lepton, MissingEt);
+    Doublets.push_back(Doublet);
+  }
+
+  std::vector<HTriplet> Triplets;
+  for (const auto & PreDoublet : Doublets)
+    for (const auto & Jet : Jets) {
+      HTriplet PreTriplet(PreDoublet, Jet);
+      PreTriplet.SetTag(GetTag(PreTriplet));
+      HJets Neutrinos = GetNeutrinos(PreTriplet);
+      if (Neutrinos.size() < 1) continue;
+      const int Tag = PreTriplet.GetTag();
+      for (const auto & Neutrino : Neutrinos) {
+        HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
+        HTriplet Triplet(Doublet, Jet);
+        FillBranch(Triplet);
+        Triplet.SetBdt(Reader->GetBdt());
+        Triplet.SetTag(Tag);
+        Triplets.push_back(Triplet);
+      }
+    }
     return Triplets;
 }
 

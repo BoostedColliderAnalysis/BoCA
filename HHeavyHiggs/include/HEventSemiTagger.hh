@@ -31,6 +31,9 @@ public:
 
     void FillBranch(const HOctet &Octet);
 
+    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader);
+
+
 protected:
 
     virtual inline std::string NameSpaceName() const {

@@ -3,13 +3,14 @@
 hanalysis::HMva::HMva()
 {
 
-    Print(HNotification, "HMva", "Constructor");
+    Print(HNotification, "Constructor");
 
     CutMethodName = "Cut";
 
     BdtMethodName = "Bdt";
 
     Cut = "";
+    WeightBranchName = "Info";
 
 }
 
@@ -26,4 +27,5 @@ float hanalysis::HMva::GetBdt(TObject *, TMVA::Reader *)
     Print(HError, "Get Bdt", "should be implemented somewhere else");
 
     return 0;
+
 }

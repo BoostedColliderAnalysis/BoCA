@@ -23,7 +23,7 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 //     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
 
-    CandidateBranchName = "Event";
+    EventBranchName = "Event";
 
     SpectatorBranchName = "Lepton";
 
@@ -73,11 +73,11 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 {
     Print(HNotification, "Apply Bdt");
 
-    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
+    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(CandidateBranchName.c_str(), HEventBranch::Class());
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HEventBranch::Class());
 //   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
@@ -162,7 +162,7 @@ HReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeRe
 
     Print(HInformation, "Vectors assigned");
 
-    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(CandidateBranchName.c_str());
+    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();

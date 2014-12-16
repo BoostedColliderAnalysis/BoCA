@@ -148,15 +148,20 @@ public:
     }
 
     void SetBranchName(const std::string &NewBranchName) {
-        CandidateBranchName = NewBranchName;
+        EventBranchName = NewBranchName;
+    }
+
+    std::string GetBranchName() const {
+      return EventBranchName;
     }
 
     void SetTaggerName(const std::string &NewTaggerName){
       TaggerName = NewTaggerName;
-      CandidateBranchName = NewTaggerName;
+      EventBranchName = NewTaggerName;
+      SignalName = NewTaggerName;
       SignalNames = {NewTaggerName};
-      const std::string NewBackgroundName ="Not" + NewTaggerName;
-      BackgroundNames = {NewBackgroundName};
+      BackgroundName ="Not" + NewTaggerName;
+      BackgroundNames = {BackgroundName};
     }
 
     std::string GetTaggerName() const {
@@ -240,12 +245,22 @@ public:
         return DoLatex;
     }
 
+    std::string GetBackgroundName() const {
+      return BackgroundName;
+    }
+
+    std::string GetSignalName() const {
+      return SignalName;
+    }
+
     virtual HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {
         HReaderStruct ReaderStruct;
         return ReaderStruct;
     };
 
     virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
+
+    virtual std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader){Print(HError,"should be subclassed");};
 
     virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader);
 
@@ -261,7 +276,7 @@ protected:
     HObservable NewObservable(TValue *const Value, const std::string &Title) const {
 
         Print(HDebug, "New Observable", *Value);
-        const std::string Expression = CandidateBranchName + "." + Title;
+        const std::string Expression = EventBranchName + "." + Title;
         HObservable Observable(Value, Expression, Title, "", "");
         return Observable;
 
@@ -271,7 +286,7 @@ protected:
     HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const {
 
         Print(HDebug, "New Observable", *Value);
-        const std::string Expression = CandidateBranchName + "." + Title;
+        const std::string Expression = EventBranchName + "." + Title;
         HObservable Observable(Value, Expression, Title, "", Latex);
         return Observable;
 
@@ -313,13 +328,15 @@ protected:
 
     std::string BdtMethodName;
 
-    std::string CandidateBranchName;
+    std::string EventBranchName;
 
     std::string SpectatorBranchName;
 
     std::string WeightBranchName;
 
     std::string BackgroundName;
+
+    std::string SignalName;
 
     TCut Cut;
 

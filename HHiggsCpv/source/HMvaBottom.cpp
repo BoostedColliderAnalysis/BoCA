@@ -21,7 +21,7 @@ hhiggscpv::HMvaBottom::HMvaBottom()
 
     BackgroundTreeNames = TestTreeNames;
 
-    CandidateBranchName = "Bottom";
+    EventBranchName = "Bottom";
 
     BTagger = new HBottomBranch();
 

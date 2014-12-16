@@ -19,7 +19,7 @@ hheavyhiggs::HMva::HMva()
 
     TestTreeNames = {"Signal_5f","5k_Pt20"};
 
-    CandidateBranchName = "HeavyHiggs";
+    EventBranchName = "HeavyHiggs";
 
     WeightBranchName = "Info";
 
@@ -64,6 +64,6 @@ void hheavyhiggs::HMva::DefineVariables()
 
 // HReaderStruct hheavyhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
 // {
-// 
+//
 // }
 
