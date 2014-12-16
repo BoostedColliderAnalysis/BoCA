@@ -78,15 +78,15 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
     Print(HNotification, "Set File Vector", Tagger, Tag);
 
     std::vector<hanalysis::HFile *> SignalLeptonicFiles;
-    SignalLeptonicFiles.push_back(new hanalysis::HFile("400GeV_h2bb_llbbbb"));
-    SignalLeptonicFiles.back()->SetCrosssection(30.58);
-    SignalLeptonicFiles.back()->SetMass(400);
-    SignalLeptonicFiles.push_back(new hanalysis::HFile("600GeV_h2bb_llbbbb"));
-    SignalLeptonicFiles.back()->SetCrosssection(9.501);
-    SignalLeptonicFiles.back()->SetMass(600);
-    SignalLeptonicFiles.push_back(new hanalysis::HFile("800GeV_h2bb_llbbbb"));
-    SignalLeptonicFiles.back()->SetCrosssection(3.831);
-    SignalLeptonicFiles.back()->SetMass(800);
+//     SignalLeptonicFiles.push_back(new hanalysis::HFile("400GeV_h2bb_llbbbb"));
+//     SignalLeptonicFiles.back()->SetCrosssection(30.58);
+//     SignalLeptonicFiles.back()->SetMass(400);
+//     SignalLeptonicFiles.push_back(new hanalysis::HFile("600GeV_h2bb_llbbbb"));
+//     SignalLeptonicFiles.back()->SetCrosssection(9.501);
+//     SignalLeptonicFiles.back()->SetMass(600);
+//     SignalLeptonicFiles.push_back(new hanalysis::HFile("800GeV_h2bb_llbbbb"));
+//     SignalLeptonicFiles.back()->SetCrosssection(3.831);
+//     SignalLeptonicFiles.back()->SetMass(800);
     SignalLeptonicFiles.push_back(new hanalysis::HFile("1TeV_h2bb_llbbbb"));
     SignalLeptonicFiles.back()->SetCrosssection(1.812);
     SignalLeptonicFiles.back()->SetMass(1000);
