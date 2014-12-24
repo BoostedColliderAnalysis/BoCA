@@ -1,6 +1,6 @@
 # include "HHeavyHiggsSemiTagger.hh"
 
-hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger(HBottomTagger *const NewBottomTagger, HWTagger *const NewWTagger, HTopSemiTagger *const NewTopSemiTagger, HTopHadronicTagger *const NewTopHadronicTagger)
+hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger(hanalysis::HBottomTagger*const NewBottomTagger, hanalysis::HWSemiTagger*const NewWSemiTagger, hanalysis::HWTagger*const NewWTagger, hanalysis::HTopSemiTagger*const NewTopSemiTagger, hanalysis::HTopHadronicTagger*const NewTopHadronicTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -8,6 +8,8 @@ hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger(HBottomTagger *const New
 
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
+    WSemiTagger = NewWSemiTagger;
+    WSemiReader = new HReader(WSemiTagger);
     WTagger = NewWTagger;
     WReader = new HReader(WTagger);
     TopSemiTagger = NewTopSemiTagger;
@@ -122,10 +124,12 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
-    std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetTruthBdt(Jets, Leptons, MissingEt, TopSemiReader);
+    std::vector<HDoublet> DoubletsSemi = WSemiTagger->GetTruthBdt(Leptons,MissingEt,WSemiReader);
 
-    std::vector<HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
-    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetBdt(Doublets, Jets, TopHadronicReader);
+    std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
+
+    std::vector<HDoublet> DoubletsHadronic = WTagger->GetBdt(Jets, WReader);
+    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
 
 
     std::vector<HSextet > Sextets;
@@ -207,4 +211,34 @@ std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(std::v
     }
 
   return Sextets;
+}
+
+
+std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetSextets(const HReader *const Reader)
+{
+
+  std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetTriplets(TopSemiReader);
+    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetTriplets(TopHadronicReader);
+
+  std::vector<HSextet > Sextets;
+  for (const auto & Triplet1 : TripletsSemi)
+    for (const auto & Triplet2 : TripletsHadronic) {
+      if (Triplet1.GetJet() == Triplet2.GetJet()) continue;
+      if (Triplet1.GetJet() == Triplet2.GetDoublet().GetJet1()) continue;
+      if (Triplet1.GetJet() == Triplet2.GetDoublet().GetJet2()) continue;
+      if (Triplet1.GetDoublet().GetJet1() == Triplet2.GetJet()) continue;
+      if (Triplet1.GetDoublet().GetJet1() == Triplet2.GetDoublet().GetJet1()) continue;
+      if (Triplet1.GetDoublet().GetJet1() == Triplet2.GetDoublet().GetJet2()) continue;
+      if (Triplet1.GetDoublet().GetJet2() == Triplet2.GetJet()) continue;
+      if (Triplet1.GetDoublet().GetJet2() == Triplet2.GetDoublet().GetJet1()) continue;
+      if (Triplet1.GetDoublet().GetJet2() == Triplet2.GetDoublet().GetJet2()) continue;
+      HSextet Sextet(Triplet1, Triplet2);
+      Sextet.SetTag(GetTag(Sextet));
+      if(Sextet.GetSextetJet().m()<0)continue;
+      FillBranch(Sextet);
+      Sextet.SetBdt(Reader->GetBdt());
+      Sextets.push_back(Sextet);
+    }
+
+    return Sextets;
 }

@@ -3,6 +3,7 @@
 
 # include "HTriplet.hh"
 # include "HBottomTagger.hh"
+# include "HWSemiTagger.hh"
 
 /**
  * @brief Semi leptonic top BDT tagger
@@ -13,7 +14,7 @@ class hanalysis::HTopSemiTagger : public HMva
 
 public:
 
-    HTopSemiTagger(HBottomTagger *const NewBottomTagger);
+    HTopSemiTagger(hanalysis::HBottomTagger*const NewBottomTagger, hanalysis::HWSemiTagger*const NewWSemiTagger);
 
     ~HTopSemiTagger();
 
@@ -21,9 +22,11 @@ public:
 
     void FillBranch(const hanalysis::HTriplet &Triple);
 
-    std::vector<HTriplet>  GetTruthBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet >& Doublets, const HJets& Jets, const hanalysis::HReader*const Reader);
 
-    std::vector<HTriplet> GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+//     std::vector<HTriplet> GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+
+    std::vector<HTriplet>  GetTriplets(HReader *TopSemiReader){};
 
 protected:
 
@@ -43,7 +46,11 @@ private:
 
     HBottomTagger *BottomTagger;
 
+    HWSemiTagger *WSemiTagger;
+
     HReader *BottomReader;
+
+    HReader *WSemiReader;
 
     HTopSemiBranch *Branch;
 

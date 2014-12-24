@@ -14,7 +14,7 @@ class hanalysis::HHeavyHiggsSemiTagger : public HMva
 
 public:
 
-    HHeavyHiggsSemiTagger(HBottomTagger *const NewBottomTagger, HWTagger *const NewWTagger, HTopSemiTagger *const NewTopSemiTagger, HTopHadronicTagger *const NewTopHadronicTagger);
+  HHeavyHiggsSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger *const NewSemiWTagger, HWTagger *const NewWTagger, HTopSemiTagger *const NewTopSemiTagger, HTopHadronicTagger *const NewTopHadronicTagger);
 
     ~HHeavyHiggsSemiTagger();
 
@@ -23,6 +23,8 @@ public:
     void FillBranch(const HSextet& Sextet);
 
     std::vector<hanalysis::HSextet>  GetBdt(std::vector< hanalysis::HTriplet > TripletsSemi, std::vector< hanalysis::HTriplet > TripletsHadronic, const hanalysis::HReader *const Reader);
+
+    std::vector<hanalysis::HSextet>  GetSextets(const HReader *const Reader);
 
 protected:
 
@@ -42,6 +44,8 @@ private:
 
     HBottomTagger *BottomTagger;
 
+    HWSemiTagger *WSemiTagger;
+
     HWTagger *WTagger;
 
     HTopHadronicTagger *TopHadronicTagger;
@@ -49,6 +53,8 @@ private:
     HTopSemiTagger *TopSemiTagger;
 
     HReader *BottomReader;
+
+    HReader *WSemiReader;
 
     HReader *WReader;
 

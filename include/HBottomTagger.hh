@@ -6,6 +6,7 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "HReader.hh"
+# include "HEvent.hh"
 
 /**
  * @brief Bottom BDT tagger
@@ -24,7 +25,10 @@ public:
 
     void FillBranch(const fastjet::PseudoJet &Jet);
 
+    HJets GetTruthJets(hanalysis::HEvent*const Event, const hanalysis::HReader*const BottomReader);
+
     HJets GetTruthBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
+
     HJets GetBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
 protected:

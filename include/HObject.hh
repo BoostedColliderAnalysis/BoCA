@@ -59,6 +59,7 @@ class HHeavyHiggsHadronicTagger;
 class HHeavyHiggsLeptonicTagger;
 class HJetPairTagger;
 class HWTagger;
+class HWSemiTagger;
 class HTopHadronicTagger;
 class HHeavyHiggsSemiTagger;
 
@@ -364,6 +365,12 @@ public:
      */
     constexpr static float TopMass = 173.5;
 
+    /**
+     * @brief W bsoson mass
+     *
+     */
+    constexpr static float WMass = 80.39;
+
 protected:
 
     template <typename TValue>
@@ -447,12 +454,6 @@ protected:
      *
      */
     constexpr static float ZMass = 91.188;
-
-    /**
-     * @brief W bsoson mass
-     *
-     */
-    constexpr static float WMass = 80.39;
 
     /**
      * @brief Tau lepton mass

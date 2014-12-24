@@ -34,8 +34,8 @@ ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMass.cmake <SOURCE_D
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/examples/sqsq_pythia_events.lhe <BINARY_DIR>/bin/
 )
 
-# ExternalProject_Get_Property(HWimpMass install_dir)
-# include_directories(${install_dir}/include)
+ExternalProject_Get_Property(HWimpMass install_dir)
+include_directories(${install_dir}/include)
 # add_dependencies(project_b_exe HWimpMass)
 # target_link_libraries(project_b_exe ${install_dir}/lib/alib.lib)
 
@@ -55,6 +55,10 @@ ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/HepTopTagger.cmake <SOUR
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagger/sample_event.dat <BINARY_DIR>/bin/
 )
 
+
+ExternalProject_Get_Property(HepTopTagger install_dir)
+include_directories(${install_dir}/include)
+
 set(Directory
   External/WimpMass/WIMPMASS/
   External/HepTopTagger/
@@ -68,11 +72,6 @@ find_library(
 )
 # add_dependencies(WimpMassLibrary WimpMass)
 
-# find_library(
-#   HepTopTaggerLibrary
-#   NAMES HepTopTagger
-#   HINTS ${CMAKE_BINARY_DIR}/HepTopTagger/lib
-# )
 set(LinkLibraries
   ${LinkLibraries}
   ${WimpMassLibrary}
@@ -111,6 +110,17 @@ add_subdirectory(HTest)
  set(DOXYFILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
  set(PROJECT_VERSION ${Version})
  set(DOXYFILE_GENERATE_LATEX NO)
+ set(DOXYFILE_LATEX OFF)
+
+#  DOXYFILE_EXTRA_SOURCES - Additional source diretories/files for Doxygen to scan.
+#       The Paths should be in double quotes and separated by space. e.g.:
+#        "${CMAKE_CURRENT_BINARY_DIR}/foo.c" "${CMAKE_CURRENT_BINARY_DIR}/bar/"
+#  DOXYFILE_LATEX_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where
+#       the Doxygen LaTeX output is stored. Defaults to "latex".
+#  DOXYFILE_HTML_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where
+#       the Doxygen html output is stored. Defaults to "html".
+#
+
 
 
  include(UseDoxygen)

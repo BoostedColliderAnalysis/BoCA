@@ -19,8 +19,10 @@ std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis:
     switch (Tagger) {
     case  HBottomTagger :
         return "Bottom";
+    case HWSemiTagger:
+      return  "WSemi";
     case HWTagger:
-        return  "W";
+      return  "W";
     case HJetPairTagger:
         return  "JetPair";
     case HTopLeptonicTagger:
@@ -127,6 +129,9 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
         break;
     case HJetPairTagger:
         Files = CombinedFiles;
+        break;
+    case HWSemiTagger:
+        Files = SemiFiles;
         break;
     case HWTagger:
         Files = NotLeptonicFiles;
@@ -293,21 +298,21 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     if (Tagger == HTopSemiTagger || Tagger == HHeavyHiggsSemiTagger || Tagger == HEventSemiTagger) {
 
-        TopSemiTagger = new hanalysis::HTopSemiTagger(BottomTagger);
-        TopSemiTagger->SetAnalysisName(GetProjectName());
-//         TopSemiTagger->SetTestTreeNames(SemiTrees);
-        TopSemiTagger->SetSignalTreeNames(SemiTrees);
-        TopSemiTagger->SetBackgroundTreeNames(SemiTrees);
-        if (Tagger == HTopSemiTagger) return Files;
+      WSemiTagger = new hanalysis::HWSemiTagger();
+      WSemiTagger->SetAnalysisName(GetProjectName());
+      //         WSemiTagger->SetTestTreeNames(SemiTrees);
+      WSemiTagger->SetSignalTreeNames(SemiTrees);
+      WSemiTagger->SetBackgroundTreeNames(SemiTrees);
+      if (Tagger == HWSemiTagger) return Files;
 
-        HeavyHiggsSemiTagger = new hanalysis::HHeavyHiggsSemiTagger(BottomTagger, WTagger, TopSemiTagger, TopHadronicTagger);
+        HeavyHiggsSemiTagger = new hanalysis::HHeavyHiggsSemiTagger(BottomTagger,WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
         HeavyHiggsSemiTagger->SetAnalysisName(GetProjectName());
 //         HeavyHiggsSemiTagger->SetTestTreeNames(SemiTrees);
         HeavyHiggsSemiTagger->SetSignalTreeNames(SignalSemiTrees);
         HeavyHiggsSemiTagger->SetBackgroundTreeNames(SemiTrees);
         if (Tagger == HHeavyHiggsSemiTagger)  return Files;
 
-        EventSemiTagger = new hheavyhiggs::HEventSemiTagger(BottomTagger, WTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger);
+        EventSemiTagger = new hheavyhiggs::HEventSemiTagger(BottomTagger,WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger);
         EventSemiTagger->SetAnalysisName(GetProjectName());
 //         EventSemiTagger->SetTestTreeNames(SemiTrees);
         EventSemiTagger->SetSignalTreeNames(SignalSemiTrees);
@@ -348,6 +353,9 @@ void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter *TreeWriter, const 
     case HJetPairTagger :
         JetPairBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
         break;
+    case HWSemiTagger :
+      WSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWSemiBranch::Class());
+      break;
     case HWTagger :
         WBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
         break;
@@ -396,6 +404,8 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const h
         return GetJetPairTag(Event, Tag);
     case HWTagger :
         return GetWTag(Event, Tag);
+    case HWSemiTagger :
+        return GetWSemiTag(Event, Tag);
     case HTopLeptonicTagger :
         return GetTopLeptonicTag(Event, Tag);
     case HTopHadronicTagger :
@@ -454,6 +464,23 @@ bool hheavyhiggs::HAnalysisMva::GetJetPairTag(hanalysis::HEvent *const Event, co
 
 }
 
+
+
+bool hheavyhiggs::HAnalysisMva::GetWSemiTag(hanalysis::HEvent *const Event, const HTag Tag)
+{
+
+  Print(HDebug, "Get WSemi Tag", Tag);
+
+  std::vector<HWSemiBranch *> WSemis = WSemiTagger->GetBranches(Event, Tag);
+
+  for (const auto & WSemi : WSemis) {
+    HWSemiBranch *NewWSemiBranch = static_cast<HWSemiBranch *>(WSemiBranch->NewEntry());
+    *NewWSemiBranch = *WSemi;
+  }
+
+  return 1;
+
+}
 
 bool hheavyhiggs::HAnalysisMva::GetWTag(hanalysis::HEvent *const Event, const HTag Tag)
 {

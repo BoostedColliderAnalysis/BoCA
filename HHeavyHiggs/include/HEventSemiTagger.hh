@@ -19,7 +19,7 @@ public:
     * @brief Constructor
     *
     */
-    HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopLeptonicTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsMixedTagger);
+    HEventSemiTagger(hanalysis::HBottomTagger*const NewBottomTagger, hanalysis::HWSemiTagger*const NewWSemiTagger, hanalysis::HWTagger*const NewWTagger, hanalysis::HTopSemiTagger*const NewTopSemiTagger, hanalysis::HTopHadronicTagger*const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger*const NewHeavyHiggsMixedTagger);
 
     HEventSemiTagger();
 
@@ -56,6 +56,8 @@ private:
 
     hanalysis::HBottomTagger *BottomTagger;
 
+    hanalysis::HWSemiTagger *WSemiTagger;
+
     hanalysis::HWTagger *WTagger;
 
     hanalysis::HTopSemiTagger *TopSemiTagger;
@@ -65,6 +67,8 @@ private:
     hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
 
     hanalysis::HReader *BottomReader;
+
+    hanalysis::HReader *WSemiReader;
 
     hanalysis::HReader *WReader;
 

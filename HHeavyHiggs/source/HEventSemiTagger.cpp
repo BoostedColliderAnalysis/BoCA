@@ -1,6 +1,6 @@
 # include "HEventSemiTagger.hh"
 
-hheavyhiggs::HEventSemiTagger::HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsMixedTagger)
+hheavyhiggs::HEventSemiTagger::HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWSemiTagger *const NewWSemiTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsMixedTagger)
 {
 //   DebugLevel = HDebug;
 
@@ -8,6 +8,8 @@ hheavyhiggs::HEventSemiTagger::HEventSemiTagger(hanalysis::HBottomTagger *const 
 
     BottomTagger = NewBottomTagger;
     BottomReader = new hanalysis::HReader(BottomTagger);
+    WSemiTagger = NewWSemiTagger;
+    WSemiReader = new hanalysis::HReader(WSemiTagger);
     WTagger = NewWTagger;
     WReader = new hanalysis::HReader(WTagger);
     TopHadronicTagger = NewTopHadronicTagger;
@@ -144,10 +146,12 @@ std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::Get
 
     HJets Leptons = Event->GetLeptons()->GetLeptonJets();
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-    std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger->GetBdt(Jets, Leptons, MissingEt, TopSemiReader);
+    std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons,MissingEt,WSemiReader);
 
-    std::vector<hanalysis::HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger->GetBdt(Doublets, Jets, TopHadronicReader);
+    std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
+
+    std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger->GetBdt(Jets, WReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger->GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger->GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 

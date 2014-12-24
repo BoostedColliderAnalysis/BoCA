@@ -38,6 +38,7 @@ public:
 //     enum HTagger {EventTagger};
     enum HTagger {
         HBottomTagger,
+        HWSemiTagger,
         HWTagger,
         HJetPairTagger,
         HTopHadronicTagger,

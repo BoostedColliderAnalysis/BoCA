@@ -24,6 +24,8 @@ public:
 
     std::vector<HTriplet>  GetBdt(std::vector< hanalysis::HDoublet > &Doublets, HJets Jets, const hanalysis::HReader *const TopHadronicReader);
 
+    std::vector<HTriplet>  GetTriplets(HReader *TopHadronicReader){};
+
 protected:
 
     virtual inline std::string ClassName() const {

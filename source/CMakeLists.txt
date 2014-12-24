@@ -56,6 +56,7 @@ set(HepTaggerSource
 HTopTagger.cpp
 )
 HLibrary(HepTagger "${HepTaggerSource}" PARENT_SCOPE)
+add_dependencies(HepTagger HepTopTagger)
 
 set(AnalysisSources
 HAnalysis.cpp
@@ -81,6 +82,7 @@ HHeavyHiggsLeptonicTagger.cpp
 HHeavyHiggsHadronicTagger.cpp
 HHeavyHiggsSemiTagger.cpp
 HWTagger.cpp
+HWSemiTagger.cpp
 HJetPairTagger.cpp
 HTopHadronicTagger.cpp
 
@@ -88,3 +90,4 @@ HTopHadronicTagger.cpp
 # topology22.cpp
 )
 HLibrary(HAnalysis "${AnalysisSources}" PARENT_SCOPE)
+add_dependencies(HAnalysis HWimpMass)

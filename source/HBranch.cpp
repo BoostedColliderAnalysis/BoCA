@@ -67,6 +67,28 @@ HWBranch::HWBranch()
 
 }
 
+ClassImp(HWSemiBranch)
+
+HWSemiBranch::HWSemiBranch()
+{
+
+  Mass = InitialValue;
+
+  Pt = InitialValue;
+
+  NeutrinoPt = InitialValue;
+  LeptonPt = InitialValue;
+  MissingEt = InitialValue;
+
+  DeltaRap = InitialValue;
+  DeltaPhi = InitialValue;
+  DeltaR = InitialValue;
+
+  WTag = InitialValue;
+
+}
+
+
 ClassImp(HTopHadronicBranch)
 
 HTopHadronicBranch::HTopHadronicBranch()

@@ -110,6 +110,25 @@ HJets hanalysis::HBottomTagger::GetTruthBdt(HJets &Jets, const HReader *const Bo
     return Jets;
 }
 
+HJets hanalysis::HBottomTagger::GetTruthJets(hanalysis::HEvent *const Event, const HReader *const BottomReader)
+{
+
+  JetTag->HeavyParticles = {TopId, BottomId};
+  HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+  for (auto Jet = Jets.begin(); Jet != Jets.end();) {
+    if (std::abs((*Jet).user_index()) == MixedJetId) Jet = Jets.erase(Jet);
+    else {
+      HJetInfo *JetInfo = new HJetInfo;
+      FillBranch(*Jet);
+      JetInfo->SetBdt(BottomReader->GetBdt());
+      JetInfo->SetTag(GetTag(*Jet));
+      (*Jet).set_user_info(JetInfo);
+      ++Jet;
+    }
+  }
+  return Jets;
+}
+
 
 HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomReader)
 {

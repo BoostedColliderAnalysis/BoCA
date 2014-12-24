@@ -61,6 +61,7 @@ public:
 //     ExRootTreeBranch *ConstituentBranch;
     ExRootTreeBranch *BottomBranch;
     ExRootTreeBranch *WBranch;
+    ExRootTreeBranch *WSemiBranch;
     ExRootTreeBranch *JetPairBranch;
 
     ExRootTreeBranch *TopLeptonicBranch;
@@ -76,6 +77,7 @@ public:
     ExRootTreeBranch *EventSemiBranch;
 
     hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::HWSemiTagger *WSemiTagger;
     hanalysis::HWTagger *WTagger;
     hanalysis::HJetPairTagger *JetPairTagger;
 
@@ -142,6 +144,8 @@ private:
 //     std::vector< HHeavyHiggsEvent > GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
+    bool GetWSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 

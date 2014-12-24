@@ -151,6 +151,38 @@ private:
  * @brief Top tagger root tree structure
  *
  */
+class HWSemiBranch : public HBranch
+{
+
+public:
+
+  HWSemiBranch();
+
+  float Mass;
+
+  float Pt;
+
+  float LeptonPt;
+  float NeutrinoPt;
+  float MissingEt;
+
+  float DeltaRap;
+  float DeltaPhi;
+  float DeltaR;
+
+  int WTag;
+
+private:
+
+  ClassDef(HWSemiBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
 class HTopHadronicBranch : public HBranch
 {
 
