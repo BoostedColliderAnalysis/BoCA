@@ -20,9 +20,9 @@ std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis:
     case  HBottomTagger :
         return "Bottom";
     case HWSemiTagger:
-      return  "WSemi";
+        return  "WSemi";
     case HWTagger:
-      return  "W";
+        return  "W";
     case HJetPairTagger:
         return  "JetPair";
     case HTopLeptonicTagger:
@@ -298,12 +298,12 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     if (Tagger == HTopSemiTagger || Tagger == HHeavyHiggsSemiTagger || Tagger == HEventSemiTagger || Tagger == HWSemiTagger) {
 
-      WSemiTagger = new hanalysis::HWSemiTagger();
-      WSemiTagger->SetAnalysisName(GetProjectName());
-      //         WSemiTagger->SetTestTreeNames(SemiTrees);
-      WSemiTagger->SetSignalTreeNames(SemiTrees);
-      WSemiTagger->SetBackgroundTreeNames(SemiTrees);
-      if (Tagger == HWSemiTagger) return Files;
+        WSemiTagger = new hanalysis::HWSemiTagger();
+        WSemiTagger->SetAnalysisName(GetProjectName());
+        //         WSemiTagger->SetTestTreeNames(SemiTrees);
+        WSemiTagger->SetSignalTreeNames(SemiTrees);
+        WSemiTagger->SetBackgroundTreeNames(SemiTrees);
+        if (Tagger == HWSemiTagger) return Files;
 
         HeavyHiggsSemiTagger = new hanalysis::HHeavyHiggsSemiTagger(BottomTagger,WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
         HeavyHiggsSemiTagger->SetAnalysisName(GetProjectName());
@@ -354,8 +354,8 @@ void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter *TreeWriter, const 
         JetPairBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
         break;
     case HWSemiTagger :
-      WSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWSemiBranch::Class());
-      break;
+        WSemiBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWSemiBranch::Class());
+        break;
     case HWTagger :
         WBranch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
         break;
@@ -423,7 +423,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const h
     case HEventHadronicTagger :
         return GetEventHadronicTag(Event, Tag);
     case HEventSemiTagger :
-      return GetEventSemiTag(Event, Tag);
+        return GetEventSemiTag(Event, Tag);
     default :
         Print(HError, "unknown Tagger", Tagger);
         return 0;
@@ -469,16 +469,18 @@ bool hheavyhiggs::HAnalysisMva::GetJetPairTag(hanalysis::HEvent *const Event, co
 bool hheavyhiggs::HAnalysisMva::GetWSemiTag(hanalysis::HEvent *const Event, const HTag Tag)
 {
 
-  Print(HDebug, "Get WSemi Tag", Tag);
+    Print(HDebug, "Get WSemi Tag", Tag);
 
-  std::vector<HWSemiBranch *> WSemis = WSemiTagger->GetBranches(Event, Tag);
+    std::vector<HWSemiBranch *> WSemis = WSemiTagger->GetBranches(Event, Tag);
 
-  for (const auto & WSemi : WSemis) {
-    HWSemiBranch *NewWSemiBranch = static_cast<HWSemiBranch *>(WSemiBranch->NewEntry());
-    *NewWSemiBranch = *WSemi;
-  }
+    if(WSemis.size()<1) return 0;
 
-  return 1;
+    for (const auto & WSemi : WSemis) {
+        HWSemiBranch *NewWSemiBranch = static_cast<HWSemiBranch *>(WSemiBranch->NewEntry());
+        *NewWSemiBranch = *WSemi;
+    }
+
+    return 1;
 
 }
 
