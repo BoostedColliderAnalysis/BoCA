@@ -296,7 +296,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
     TopHadronicTagger->SetBackgroundTreeNames(NotLeptonicTrees);
     if (Tagger == HTopHadronicTagger)  return Files;
 
-    if (Tagger == HTopSemiTagger || Tagger == HHeavyHiggsSemiTagger || Tagger == HEventSemiTagger) {
+    if (Tagger == HTopSemiTagger || Tagger == HHeavyHiggsSemiTagger || Tagger == HEventSemiTagger || Tagger == HWSemiTagger) {
 
       WSemiTagger = new hanalysis::HWSemiTagger();
       WSemiTagger->SetAnalysisName(GetProjectName());
