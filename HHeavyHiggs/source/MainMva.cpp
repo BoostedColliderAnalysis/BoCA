@@ -33,6 +33,9 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HWTagger:
             Factory = new hanalysis::HFactory(Analysis->WTagger);
             break;
+        case hanalysis::HAnalysis::HWSemiTagger:
+          Factory = new hanalysis::HFactory(Analysis->WSemiTagger);
+          break;
         case hanalysis::HAnalysis::HTopLeptonicTagger:
             Factory = new hanalysis::HFactory(Analysis->TopLeptonicTagger);
             break;
@@ -99,6 +102,7 @@ int main()
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
 // //     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
     RunTagger(hanalysis::HAnalysis::HWTagger);
+    RunTagger(hanalysis::HAnalysis::HWSemiTagger);
 //
     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
