@@ -128,7 +128,7 @@ private:
   std::vector<hanalysis::HFile *>  JoinFiles(std::vector<hanalysis::HFile *> Files1, std::vector<hanalysis::HFile *> Files2);
 
     inline int GetEventNumberMax() const {
-          return 10000;
+          return 100;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);

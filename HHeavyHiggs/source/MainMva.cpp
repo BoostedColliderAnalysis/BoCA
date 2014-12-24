@@ -75,8 +75,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 
     }
 
-//     FileName = Analysis->GetProjectName() + "/Mva" + Name + ".root";
-//     if (gSystem->AccessPathName(FileName.c_str())) {
+     FileName = Analysis->GetProjectName() + "/Bdt" + Name + ".root";
+     if (gSystem->AccessPathName(FileName.c_str())) {
     switch (Tagger) {
       case hanalysis::HAnalysis::HEventLeptonicReader:
         Reader = new hanalysis::HReader(Analysis->EventLeptonicTagger);
@@ -89,7 +89,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
       default:
         std::cout << "Unhandled case" << std::endl;
     }
-// }
+ }
 
 
     if (HasFactory) delete Factory;
