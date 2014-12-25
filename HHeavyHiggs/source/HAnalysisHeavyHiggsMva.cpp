@@ -184,7 +184,7 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 
     Print(HNotification, "Files prepared");
 
-    HStrings SignalLeptonicTrees {//"400GeV_h2bb_llbbbb-run_01", "600GeV_h2bb_llbbbb-run_01", "800GeV_h2bb_llbbbb-run_01", 
+    HStrings SignalLeptonicTrees {//"400GeV_h2bb_llbbbb-run_01", "600GeV_h2bb_llbbbb-run_01", "800GeV_h2bb_llbbbb-run_01",
 "1TeV_h2bb_llbbbb-run_01"};
     HStrings BackgroundLeptonicTrees {"BG_llbbbb-run_01"};
 
@@ -305,6 +305,13 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
         WSemiTagger->SetSignalTreeNames(SemiTrees);
         WSemiTagger->SetBackgroundTreeNames(SemiTrees);
         if (Tagger == HWSemiTagger) return Files;
+
+        TopSemiTagger = new hanalysis::HTopSemiTagger(BottomTagger,WSemiTagger);
+        TopSemiTagger->SetAnalysisName(GetProjectName());
+        //         TopSemiTagger->SetTestTreeNames(SemiTrees);
+        TopSemiTagger->SetSignalTreeNames(SemiTrees);
+        TopSemiTagger->SetBackgroundTreeNames(SemiTrees);
+        if (Tagger == HTopSemiTagger) return Files;
 
         HeavyHiggsSemiTagger = new hanalysis::HHeavyHiggsSemiTagger(BottomTagger,WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
         HeavyHiggsSemiTagger->SetAnalysisName(GetProjectName());

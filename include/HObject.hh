@@ -41,6 +41,7 @@ class HDoublet;
 class HTriplet;
 class HJetLeptonPair;
 class HQuartet;
+class HQuartet31;
 class HPairJetPair;
 class HSuperStructure;
 

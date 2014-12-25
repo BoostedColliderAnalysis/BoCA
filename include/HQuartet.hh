@@ -1,5 +1,5 @@
-# ifndef HPairPair_hh
-# define HPairPair_hh
+# ifndef HQuartet_hh
+# define HQuartet_hh
 
 # include "HDoublet.hh"
 
@@ -18,25 +18,25 @@ public:
         return Doublet1.GetDoubletJet().delta_R(Doublet2.GetDoubletJet());
     }
 
-    float GetInvariantMass() const {
-        return GetPairJet().m();
+//     float GetInvariantMass() const {
+//         return GetPairJet().m();
+//     }
+
+//     inline float GetMassDifference(const int ParticleMass) const {
+//       return std::abs(GetPairJet().m() - ParticleMass);
+//     }
+
+    inline float GetMassDifference(const HParticleId ParticleId) const {
+      return std::abs(GetQuartetJet().m() - GetParticleMass(ParticleId));
     }
 
-    inline float GetMassDifference(const int ParticleMass) const {
-        return std::abs(GetInvariantMass() - ParticleMass);
-    }
-
-    inline float GetMissDifference(const HParticleId ParticleId) const {
-        return std::abs(GetInvariantMass() - GetParticleMass(ParticleId));
-    }
-
-    fastjet::PseudoJet GetPairJet() const {
+    fastjet::PseudoJet GetQuartetJet() const {
         return (Doublet1.GetDoubletJet() + Doublet2.GetDoubletJet());
     }
 
-    float GetPtSum() const {
-        return (Doublet1.GetDoubletJet().pt() + Doublet2.GetDoubletJet().pt());
-    }
+//     float GetPtSum() const {
+//         return (Doublet1.GetDoubletJet().pt() + Doublet2.GetDoubletJet().pt());
+//     }
 
     float GetDeltaRap() const {
         return (std::abs(Doublet1.GetDoubletJet().rap() - Doublet2.GetDoubletJet().rap()));
@@ -57,7 +57,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HPairPair";
+        return "HQuartet";
     };
 
 private:

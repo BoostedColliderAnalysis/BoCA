@@ -46,6 +46,7 @@ HTag.cpp
 HDoublet.cpp
 HTriplet.cpp
 HQuartet.cpp
+HQuartet31.cpp
 HSextet.cpp
 )
 HLibrary(HContainer "${WrapperSources}" PARENT_SCOPE)
