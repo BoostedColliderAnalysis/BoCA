@@ -26,7 +26,7 @@ public:
 
 //     std::vector<HTriplet> GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
 
-    std::vector<HTriplet>  GetTriplets(HReader *TopSemiReader){};
+    std::vector<HTriplet>  GetTriplets(HReader *TopSemiReader){Print(HError,"NEVER USE  THIS FUNCTION");};
 
 protected:
 

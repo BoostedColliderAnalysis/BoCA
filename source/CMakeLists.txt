@@ -76,16 +76,19 @@ HFactory.cpp
 HReader.cpp
 
 HBottomTagger.cpp
+HWTagger.cpp
+HWSemiTagger.cpp
+HJetPairTagger.cpp
+HTopHadronicTagger.cpp
 HTopLeptonicTagger.cpp
 HTopSemiTagger.cpp
 HMvaHiggsTagger.cpp
 HHeavyHiggsLeptonicTagger.cpp
 HHeavyHiggsHadronicTagger.cpp
 HHeavyHiggsSemiTagger.cpp
-HWTagger.cpp
-HWSemiTagger.cpp
-HJetPairTagger.cpp
-HTopHadronicTagger.cpp
+HChargedHiggsSemiTagger.cpp
+HChargedHiggsHadronicTagger.cpp
+HChargedHiggsLeptonicTagger.cpp
 
 # Wrapper.cpp
 # topology22.cpp

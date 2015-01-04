@@ -14,7 +14,7 @@ public:
 
     ~HQuartet31();
 
-    float GetDeltaR() const {
+    inline float GetDeltaR() const {
         return Triplet.GetTripletJet().delta_R(Singlet);
     }
 
@@ -30,27 +30,31 @@ public:
       return std::abs(GetQuartetJet().m() - GetParticleMass(ParticleId));
     }
 
-    fastjet::PseudoJet GetQuartetJet() const {
+    inline fastjet::PseudoJet GetQuartetJet() const {
         return (Triplet.GetTripletJet() + Singlet);
     }
 
-    float GetPtSum() const {
-        return (Triplet.GetTripletJet().pt() + Singlet.pt());
+//     inline float GetPtSum() const {
+//         return (Triplet.GetTripletJet().pt() + Singlet.pt());
+//     }
+
+    inline float GetDeltaPt() const {
+      return abs(Triplet.GetTripletJet().pt() - Singlet.pt());
     }
 
-    float GetDeltaRap() const {
+    inline float GetDeltaRap() const {
         return (std::abs(Triplet.GetTripletJet().rap() - Singlet.rap()));
     }
 
-    float GetDeltaPhi() const {
+    inline float GetDeltaPhi() const {
         return (Triplet.GetTripletJet().delta_phi_to(Singlet));
     }
 
-    HTriplet GetTriplet()const {
+    inline HTriplet GetTriplet()const {
         return Triplet;
     }
 
-    fastjet::PseudoJet GetSinglet()const {
+    inline fastjet::PseudoJet GetSinglet()const {
         return Singlet;
     }
 

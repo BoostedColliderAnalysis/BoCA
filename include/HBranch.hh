@@ -451,4 +451,142 @@ private:
 
 };
 
+/**
+ *
+ * @brief Charged Higgs semi tagger root tree structure
+ *
+ */
+class HChargedHiggsSemiBranch : public HBranch
+{
+
+public:
+
+  HChargedHiggsSemiBranch();
+
+  float HeavyHiggsMass;
+  float HeavyHiggsPt;
+
+  float TopDeltaRap;
+  float TopDeltaPhi;
+  float TopDeltaR;
+
+  //     float LargerWDeltaRap;
+  //     float LargerWDeltaPhi;
+  //     float LargerWDeltaR;
+  //
+  //     float SmallerWDeltaRap;
+  //     float SmallerWDeltaPhi;
+  //     float SmallerWDeltaR;
+  //
+  //     float LargerNeutrinoDeltaRap;
+  //     float LargerNeutrinoDeltaPhi;
+  //     float LargerNeutrinoDeltaR;
+  //
+  //     float SmallerNeutrinoDeltaRap;
+  //     float SmallerNeutrinoDeltaPhi;
+  //     float SmallerNeutrinoDeltaR;
+
+
+  float TopBdt;
+
+  int HeavyHiggsTag;
+
+private:
+
+  ClassDef(HChargedHiggsSemiBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HChargedHiggsHadronicBranch : public HBranch
+{
+
+public:
+
+  HChargedHiggsHadronicBranch();
+
+  float HeavyHiggsMass;
+  float HeavyHiggsPt;
+
+  float TopDeltaRap;
+  float TopDeltaPhi;
+  float TopDeltaR;
+
+  //     float LargerWDeltaRap;
+  //     float LargerWDeltaPhi;
+  //     float LargerWDeltaR;
+  //
+  //     float SmallerWDeltaRap;
+  //     float SmallerWDeltaPhi;
+  //     float SmallerWDeltaR;
+  //
+  //     float LargerNeutrinoDeltaRap;
+  //     float LargerNeutrinoDeltaPhi;
+  //     float LargerNeutrinoDeltaR;
+  //
+  //     float SmallerNeutrinoDeltaRap;
+  //     float SmallerNeutrinoDeltaPhi;
+  //     float SmallerNeutrinoDeltaR;
+
+
+  float TopBdt;
+
+  int HeavyHiggsTag;
+
+private:
+
+  ClassDef(HChargedHiggsHadronicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HChargedHiggsLeptonicBranch : public HBranch
+{
+
+public:
+
+  HChargedHiggsLeptonicBranch();
+
+  float HeavyHiggsMass;
+  float HeavyHiggsPt;
+
+  float TopDeltaRap;
+  float TopDeltaPhi;
+  float TopDeltaR;
+
+  float LargerWDeltaRap;
+  float LargerWDeltaPhi;
+  float LargerWDeltaR;
+
+  float SmallerWDeltaRap;
+  float SmallerWDeltaPhi;
+  float SmallerWDeltaR;
+
+  float LargerNeutrinoDeltaRap;
+  float LargerNeutrinoDeltaPhi;
+  float LargerNeutrinoDeltaR;
+
+  float SmallerNeutrinoDeltaRap;
+  float SmallerNeutrinoDeltaPhi;
+  float SmallerNeutrinoDeltaR;
+
+
+  float TopBdt;
+
+  int HeavyHiggsTag;
+
+private:
+
+  ClassDef(HChargedHiggsLeptonicBranch, 1)
+
+};
+
 # endif

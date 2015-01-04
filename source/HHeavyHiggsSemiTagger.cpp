@@ -31,6 +31,8 @@ hanalysis::HHeavyHiggsSemiTagger::~HHeavyHiggsSemiTagger()
     delete Branch;
     delete JetTag;
     delete BottomReader;
+    delete WReader;
+    delete WSemiReader;
     delete TopHadronicReader;
     delete TopSemiReader;
 
@@ -42,16 +44,16 @@ void hanalysis::HHeavyHiggsSemiTagger::FillBranch(const hanalysis::HSextet &Sext
   FillBranch(Branch, Sextet);
 }
 
-void hanalysis::HHeavyHiggsSemiTagger::FillBranch(HHeavyHiggsSemiBranch *HeavyHiggsBranch, const HSextet &TriplePair)
+void hanalysis::HHeavyHiggsSemiTagger::FillBranch(HHeavyHiggsSemiBranch *HeavyHiggsBranch, const HSextet &Sextet)
 {
-    Print(HInformation, "FillPairTagger", TriplePair.GetBdt());
+    Print(HInformation, "FillPairTagger", Sextet.GetBdt());
 
-    HeavyHiggsBranch->HeavyHiggsMass = TriplePair.GetSextetJet().m();
-    HeavyHiggsBranch->HeavyHiggsPt = TriplePair.GetSextetJet().pt();
+    HeavyHiggsBranch->HeavyHiggsMass = Sextet.GetSextetJet().m();
+    HeavyHiggsBranch->HeavyHiggsPt = Sextet.GetSextetJet().pt();
 
-    HeavyHiggsBranch->TopDeltaR = TriplePair.GetDeltaR();
-    HeavyHiggsBranch->TopDeltaRap = TriplePair.GetDeltaRap();
-    HeavyHiggsBranch->TopDeltaPhi = TriplePair.GetDeltaPhi();
+    HeavyHiggsBranch->TopDeltaR = Sextet.GetDeltaR();
+    HeavyHiggsBranch->TopDeltaRap = Sextet.GetDeltaRap();
+    HeavyHiggsBranch->TopDeltaPhi = Sextet.GetDeltaPhi();
 
 //     HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
 //     HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
@@ -69,8 +71,8 @@ void hanalysis::HHeavyHiggsSemiTagger::FillBranch(HHeavyHiggsSemiBranch *HeavyHi
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
 
-    HeavyHiggsBranch->TopBdt = TriplePair.GetBdt();
-    HeavyHiggsBranch->HeavyHiggsTag = TriplePair.GetTag();
+    HeavyHiggsBranch->TopBdt = Sextet.GetBdt();
+    HeavyHiggsBranch->HeavyHiggsTag = Sextet.GetTag();
 
 }
 

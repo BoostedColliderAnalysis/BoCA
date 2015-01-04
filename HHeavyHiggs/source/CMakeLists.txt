@@ -8,7 +8,11 @@ HAnalysisHeavyHiggsMva.cpp
 HEventLeptonicTagger.cpp
 HEventHadronicTagger.cpp
 HEventSemiTagger.cpp
+HChargedSemiTagger.cpp
+HChargedSemi2Tagger.cpp
+HChargedHadronicTagger.cpp
 HOctet.cpp
+HOctet44.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")
 

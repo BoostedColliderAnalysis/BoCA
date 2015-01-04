@@ -4,7 +4,7 @@
 # include "HQuartet31.hh"
 
 /**
- * @brief An octet composed of a sextet an a doublet
+ * @brief An octet composed of two quartets
  *
  */
 class HOctet44 : public hanalysis::HTag
@@ -14,71 +14,79 @@ public:
 
     HOctet44(const hanalysis::HQuartet31& NewQuartet1, const hanalysis::HQuartet31& NewDoublet);
 
-    hanalysis::HQuartet31 GetQuartet1()const {
+    inline  fastjet::PseudoJet GetOctetJet() const{
+      return (GetQuartet1Jet() + GetQuartet2Jet());
+    }
+
+    inline hanalysis::HQuartet31 GetQuartet1()const {
         return Quartet1;
     }
 
-    hanalysis::HQuartet31 GetQuartet2() const {
+    inline hanalysis::HQuartet31 GetQuartet2() const {
         return Quartet2;
     }
 
-    fastjet::PseudoJet GetQuartet1Jet() const {
+    inline fastjet::PseudoJet GetQuartet1Jet() const {
         return Quartet1.GetQuartetJet();
     }
 
-    fastjet::PseudoJet GetQuartet2Jet() const {
+    inline fastjet::PseudoJet GetQuartet2Jet() const {
         return Quartet2.GetQuartetJet();
     }
 
-    float GetHbSumDeltaR() const {
+    inline float GetHbSumDeltaR() const {
         return (GetDeltaR1() + GetDeltaR2());
     }
 
-    float GetHbDeltaDeltaR() const {
+    inline float GetHbDeltaDeltaR() const {
         return std::abs(GetDeltaR1() - GetDeltaR2());
     }
 
-    float GetHbSumDeltaRap() const {
+    inline float GetHbSumDeltaRap() const {
         return GetDeltaRap1() + GetDeltaRap2();
     }
 
-    float GetHbDeltaDeltaRap() const {
+    inline float GetHbDeltaDeltaRap() const {
         return std::abs(GetDeltaRap1() - GetDeltaRap2());
     }
 
-    float GetHbSumDeltaPhi() const {
+    inline float GetHbSumDeltaPhi() const {
         return GetDeltaPhi1() + GetDeltaPhi2();
     }
 
-    float GetHbDeltaDeltaPhi() const {
+    inline float GetHbDeltaDeltaPhi() const {
         return GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
     }
 
-    void SetScalarHt(const float NewScalarHt) {
+    inline void SetScalarHt(const float NewScalarHt) {
         ScalarHt = NewScalarHt;
     }
 
-    void SetJetNumber(const int NewJetNumber) {
+    inline void SetJetNumber(const int NewJetNumber) {
         JetNumber = NewJetNumber;
     }
-    void SetBottomNumber(const int NewBottomNumber) {
+
+    inline void SetBottomNumber(const int NewBottomNumber) {
         BottomNumber = NewBottomNumber;
     }
 
-    void SetLeptonNumber(const int NewLeptonNumber) {
+    inline void SetLeptonNumber(const int NewLeptonNumber) {
         LeptonNumber = NewLeptonNumber;
     }
 
-    float GetScalarHt() const {
+    inline float GetScalarHt() const {
         return ScalarHt;
     }
-    int GetJetNumber()const {
+
+    inline int GetJetNumber()const {
         return JetNumber;
     }
-    int GetBottomNumber()const {
+
+    inline int GetBottomNumber()const {
         return BottomNumber;
     }
-    int GetLeptonNumber()const {
+
+    inline  int GetLeptonNumber()const {
         return LeptonNumber;
     }
 
@@ -90,28 +98,30 @@ protected:
 
 private:
 
-    float GetDeltaR1() const {
+// TODO the following is wrong
+
+    inline float GetDeltaR1() const {
         return GetQuartet1Jet().delta_R(GetQuartet2Jet());
     }
 
-    float GetDeltaR2() const {
-      return GetQuartet1Jet().delta_R(Quartet2.GetJet2());
+    inline float GetDeltaR2() const {
+      return GetQuartet1Jet().delta_R(GetQuartet2Jet());
     }
 
-    float GetDeltaPhi1() const {
-      return GetQuartet1Jet().delta_phi_to(Quartet2.GetJet1());
+    inline float GetDeltaPhi1() const {
+      return GetQuartet1Jet().delta_phi_to(GetQuartet2Jet());
     }
 
-    float GetDeltaPhi2() const {
-      return GetQuartet1Jet().delta_phi_to(Quartet2.GetJet2());
+    inline float GetDeltaPhi2() const {
+      return GetQuartet1Jet().delta_phi_to(GetQuartet2Jet());
     }
 
-    float GetDeltaRap1() const {
-      return (GetQuartet1Jet().rap() - Quartet2.GetJet1().rap());
+    inline float GetDeltaRap1() const {
+      return (GetQuartet1Jet().rap() - GetQuartet2Jet().rap());
     }
 
-    float GetDeltaRap2() const {
-        return (GetQuartet1Jet().rap() - Quartet2.GetJet2().rap());
+    inline float GetDeltaRap2() const {
+      return (GetQuartet1Jet().rap() - GetQuartet2Jet().rap());
     }
 
     hanalysis::HQuartet31 Quartet1;

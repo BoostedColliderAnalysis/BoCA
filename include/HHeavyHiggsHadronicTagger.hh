@@ -19,7 +19,7 @@ public:
 
     std::vector<HHeavyHiggsHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    void FillBranch(const hanalysis::HSextet& TriplePair);
+    void FillBranch(const hanalysis::HSextet &Sextet);
 
     std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::HTriplet > Triplets, hanalysis::HReader *Reader);
 
@@ -27,7 +27,7 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "HHeavyHiggsHadronicTagger";
-    };
+    }
 
 private:
 

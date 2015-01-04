@@ -63,6 +63,9 @@ class HWTagger;
 class HWSemiTagger;
 class HTopHadronicTagger;
 class HHeavyHiggsSemiTagger;
+class HChargedHiggsSemiTagger;
+class HChargedHiggsHadronicTagger;
+class HChargedHiggsLeptonicTagger;
 
 class HMva;
 class HFactory;
@@ -319,6 +322,7 @@ public:
         WId = 24,
         HiggsId = 25,
         HeavyHiggsId = 35,
+        ChargedHiggsId = 37,
         IsrId = 87,
         MarkerId = 88,
         MixedJetId = 90,

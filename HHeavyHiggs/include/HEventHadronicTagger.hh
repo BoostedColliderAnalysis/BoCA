@@ -1,5 +1,5 @@
-# ifndef HHadronicEventTagger_hh
-# define HHadronicEventTagger_hh
+# ifndef HEventHadronicTagger_hh
+# define HEventHadronicTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
@@ -38,7 +38,7 @@ protected:
     };
 
     virtual inline std::string ClassName() const {
-        return "HHhHadEventTagger";
+      return "HEventHadronicTagger";
     };
 
 

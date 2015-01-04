@@ -14,7 +14,7 @@ public:
 
     ~HQuartet();
 
-    float GetDeltaR() const {
+    inline float GetDeltaR() const {
         return Doublet1.GetDoubletJet().delta_R(Doublet2.GetDoubletJet());
     }
 
@@ -30,7 +30,7 @@ public:
       return std::abs(GetQuartetJet().m() - GetParticleMass(ParticleId));
     }
 
-    fastjet::PseudoJet GetQuartetJet() const {
+    inline fastjet::PseudoJet GetQuartetJet() const {
         return (Doublet1.GetDoubletJet() + Doublet2.GetDoubletJet());
     }
 
@@ -38,19 +38,19 @@ public:
 //         return (Doublet1.GetDoubletJet().pt() + Doublet2.GetDoubletJet().pt());
 //     }
 
-    float GetDeltaRap() const {
+inline float GetDeltaRap() const {
         return (std::abs(Doublet1.GetDoubletJet().rap() - Doublet2.GetDoubletJet().rap()));
     }
 
-    float GetDeltaPhi() const {
+    inline float GetDeltaPhi() const {
         return (Doublet1.GetDoubletJet().delta_phi_to(Doublet2.GetDoubletJet()));
     }
 
-    HDoublet GetDoublet1()const {
+    inline HDoublet GetDoublet1()const {
         return Doublet1;
     }
 
-    HDoublet GetDoublet2()const {
+    inline HDoublet GetDoublet2()const {
         return Doublet2;
     }
 

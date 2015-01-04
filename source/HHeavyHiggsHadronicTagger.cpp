@@ -27,6 +27,7 @@ hanalysis::HHeavyHiggsHadronicTagger::~HHeavyHiggsHadronicTagger()
     delete Branch;
     delete JetTag;
     delete BottomReader;
+    delete WReader;
     delete TopHadronicReader;
 
 }
@@ -144,11 +145,11 @@ std::vector< HHeavyHiggsHadronicBranch * > hanalysis::HHeavyHiggsHadronicTagger:
 
 }
 
-void hanalysis::HHeavyHiggsHadronicTagger::FillBranch(const hanalysis::HSextet &TriplePair)
+void hanalysis::HHeavyHiggsHadronicTagger::FillBranch(const hanalysis::HSextet &Sextet)
 {
-    Print(HInformation, "FillBranch", TriplePair.GetBdt());
+    Print(HInformation, "FillBranch", Sextet.GetBdt());
 
-    FillBranch(Branch, TriplePair);
+    FillBranch(Branch, Sextet);
 
 }
 

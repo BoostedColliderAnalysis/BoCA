@@ -43,7 +43,7 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HHhEventSemiTagger";
+        return "HHEventSemiTagger";
     }
 
 private:

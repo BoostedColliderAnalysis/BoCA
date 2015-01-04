@@ -30,7 +30,7 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "HHeavyHiggsSemiTagger";
-    };
+    }
 
 private:
 

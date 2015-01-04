@@ -282,3 +282,106 @@ HHeavyHiggsSemiBranch::HHeavyHiggsSemiBranch()
     HeavyHiggsTag = InitialValue;
 
 }
+
+
+ClassImp(HChargedHiggsSemiBranch)
+
+HChargedHiggsSemiBranch::HChargedHiggsSemiBranch()
+{
+
+  HeavyHiggsMass = InitialValue;
+  HeavyHiggsPt = InitialValue;
+
+  TopDeltaRap = InitialValue;
+  TopDeltaPhi = InitialValue;
+  TopDeltaR = InitialValue;
+
+  //     LargerWDeltaRap = InitialValue;
+  //     LargerWDeltaPhi = InitialValue;
+  //     LargerWDeltaR = InitialValue;
+  //
+  //     SmallerWDeltaRap = InitialValue;
+  //     SmallerWDeltaPhi = InitialValue;
+  //     SmallerWDeltaR = InitialValue;
+
+  //     LargerNeutrinoDeltaRap = InitialValue;
+  //     LargerNeutrinoDeltaPhi = InitialValue;
+  //     LargerNeutrinoDeltaR = InitialValue;
+  //
+  //     SmallerNeutrinoDeltaRap = InitialValue;
+  //     SmallerNeutrinoDeltaPhi = InitialValue;
+  //     SmallerNeutrinoDeltaR = InitialValue;
+
+  TopBdt = InitialValue;
+  HeavyHiggsTag = InitialValue;
+
+}
+
+
+
+ClassImp(HChargedHiggsHadronicBranch)
+
+HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
+{
+
+  HeavyHiggsMass = InitialValue;
+  HeavyHiggsPt = InitialValue;
+
+  TopDeltaRap = InitialValue;
+  TopDeltaPhi = InitialValue;
+  TopDeltaR = InitialValue;
+
+  //     LargerWDeltaRap = InitialValue;
+  //     LargerWDeltaPhi = InitialValue;
+  //     LargerWDeltaR = InitialValue;
+  //
+  //     SmallerWDeltaRap = InitialValue;
+  //     SmallerWDeltaPhi = InitialValue;
+  //     SmallerWDeltaR = InitialValue;
+
+  //     LargerNeutrinoDeltaRap = InitialValue;
+  //     LargerNeutrinoDeltaPhi = InitialValue;
+  //     LargerNeutrinoDeltaR = InitialValue;
+  //
+  //     SmallerNeutrinoDeltaRap = InitialValue;
+  //     SmallerNeutrinoDeltaPhi = InitialValue;
+  //     SmallerNeutrinoDeltaR = InitialValue;
+
+  TopBdt = InitialValue;
+  HeavyHiggsTag = InitialValue;
+
+}
+
+
+ClassImp(HChargedHiggsLeptonicBranch)
+
+HChargedHiggsLeptonicBranch::HChargedHiggsLeptonicBranch()
+{
+
+  HeavyHiggsMass = InitialValue;
+  HeavyHiggsPt = InitialValue;
+
+  TopDeltaRap = InitialValue;
+  TopDeltaPhi = InitialValue;
+  TopDeltaR = InitialValue;
+
+  LargerWDeltaRap = InitialValue;
+  LargerWDeltaPhi = InitialValue;
+  LargerWDeltaR = InitialValue;
+
+  SmallerWDeltaRap = InitialValue;
+  SmallerWDeltaPhi = InitialValue;
+  SmallerWDeltaR = InitialValue;
+
+  LargerNeutrinoDeltaRap = InitialValue;
+  LargerNeutrinoDeltaPhi = InitialValue;
+  LargerNeutrinoDeltaR = InitialValue;
+
+  SmallerNeutrinoDeltaRap = InitialValue;
+  SmallerNeutrinoDeltaPhi = InitialValue;
+  SmallerNeutrinoDeltaR = InitialValue;
+
+  TopBdt = InitialValue;
+  HeavyHiggsTag = InitialValue;
+
+}

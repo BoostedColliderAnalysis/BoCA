@@ -15,71 +15,75 @@ public:
 
   HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &Doublet);
 
-  hanalysis::HSextet GetSextet()const {
+  inline hanalysis::HSextet GetSextet()const {
     return Sextet;
   }
 
-  hanalysis::HDoublet GetDoublet() const{
+  inline hanalysis::HDoublet GetDoublet() const{
     return Doublet;
   }
 
-  fastjet::PseudoJet GetSextetJet() const {
+  inline fastjet::PseudoJet GetSextetJet() const {
     return Sextet.GetSextetJet();
   }
 
-  fastjet::PseudoJet GetDoubletJet() const {
+  inline fastjet::PseudoJet GetDoubletJet() const {
     return Doublet.GetDoubletJet();
   }
 
-  float GetHbSumDeltaR() const {
+  inline float GetHbSumDeltaR() const {
     return (GetDeltaR1() + GetDeltaR2());
   }
 
-  float GetHbDeltaDeltaR() const {
+  inline float GetHbDeltaDeltaR() const {
     return std::abs(GetDeltaR1() - GetDeltaR2());
   }
 
-  float GetHbSumDeltaRap() const {
+  inline float GetHbSumDeltaRap() const {
     return GetDeltaRap1() + GetDeltaRap2();
   }
 
-  float GetHbDeltaDeltaRap() const {
+  inline float GetHbDeltaDeltaRap() const {
     return std::abs(GetDeltaRap1() - GetDeltaRap2());
   }
 
-  float GetHbSumDeltaPhi() const {
+  inline float GetHbSumDeltaPhi() const {
     return GetDeltaPhi1() + GetDeltaPhi2();
   }
 
-  float GetHbDeltaDeltaPhi() const {
+  inline float GetHbDeltaDeltaPhi() const {
     return GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
   }
 
-  void SetScalarHt(const float NewScalarHt) {
+  inline void SetScalarHt(const float NewScalarHt) {
     ScalarHt = NewScalarHt;
   }
 
-  void SetJetNumber(const int NewJetNumber) {
+  inline void SetJetNumber(const int NewJetNumber) {
     JetNumber = NewJetNumber;
   }
-  void SetBottomNumber(const int NewBottomNumber) {
+
+  inline void SetBottomNumber(const int NewBottomNumber) {
     BottomNumber = NewBottomNumber;
   }
 
-  void SetLeptonNumber(const int NewLeptonNumber) {
+  inline void SetLeptonNumber(const int NewLeptonNumber) {
     LeptonNumber = NewLeptonNumber;
   }
 
-  float GetScalarHt() const {
+  inline float GetScalarHt() const {
     return ScalarHt;
   }
-  int GetJetNumber()const {
+
+  inline int GetJetNumber()const {
     return JetNumber;
   }
-  int GetBottomNumber()const {
+
+  inline int GetBottomNumber()const {
     return BottomNumber;
   }
-  int GetLeptonNumber()const {
+
+  inline int GetLeptonNumber()const {
     return LeptonNumber;
   }
 
@@ -91,27 +95,27 @@ protected:
 
 private:
 
-  float GetDeltaR1() const {
+  inline float GetDeltaR1() const {
     return GetSextetJet().delta_R(Doublet.GetJet1());
   }
 
-  float GetDeltaR2() const {
+  inline float GetDeltaR2() const {
     return GetSextetJet().delta_R(Doublet.GetJet2());
   }
 
-  float GetDeltaPhi1() const {
+  inline float GetDeltaPhi1() const {
     return GetSextetJet().delta_phi_to(Doublet.GetJet1());
   }
 
-  float GetDeltaPhi2() const {
+  inline float GetDeltaPhi2() const {
     return GetSextetJet().delta_phi_to(Doublet.GetJet2());
   }
 
-  float GetDeltaRap1() const {
+  inline float GetDeltaRap1() const {
     return (GetSextetJet().rap() - Doublet.GetJet1().rap());
   }
 
-  float GetDeltaRap2() const {
+  inline float GetDeltaRap2() const {
     return (GetSextetJet().rap() - Doublet.GetJet2().rap());
   }
 
