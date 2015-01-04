@@ -1,5 +1,5 @@
-#ifndef HOctet_hh
-#define HOctet_hh
+# ifndef HOctet_hh
+# define HOctet_hh
 
 # include "HDoublet.hh"
 # include "HSextet.hh"
@@ -86,7 +86,7 @@ public:
 protected:
 
   virtual inline std::string ClassName() const {
-    return "Octet";
+    return "HOctet";
   }
 
 private:
