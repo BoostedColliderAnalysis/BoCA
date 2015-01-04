@@ -224,7 +224,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
 
     const float Radicand = std::pow(Lepton.pz(), 2) * (std::pow(LinearTerm, 2)-  LeptonSq * MetSq );
 
-    std::vector<hanalysis::HDoublet> Doublets;
+    std::vector<HDoublet> Doublets;
     if (Radicand < 0) {
         Print(HInformation, "imaginary sqrt");
         return Doublets;

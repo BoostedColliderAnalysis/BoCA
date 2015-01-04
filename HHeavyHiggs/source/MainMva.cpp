@@ -6,6 +6,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
     hanalysis::HFactory *Factory;
     hanalysis::HReader *Reader;
     bool HasFactory = 0;
+    bool HasReader = 0;
 
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
     std::string Name = Analysis->GetStudyNames(Tagger);
@@ -15,13 +16,11 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
     TFile *File(0);
     std::string FileName = Analysis->GetProjectName() + "/" + Name + ".root";
 
-//     if (!gSystem->AccessPathName(FileName.c_str())) File = TFile::Open(FileName.c_str());
     if (gSystem->AccessPathName(FileName.c_str())) Analysis->AnalysisLoop(Tagger);
 
     FileName = Analysis->GetProjectName() + "/Mva" + Name + ".root";
 
-//     if (!gSystem->AccessPathName(FileName.c_str()))File = TFile::Open(FileName.c_str());
-      Analysis->GetFiles(Tagger,hanalysis::HObject::HSignal);
+    Analysis->GetFiles(Tagger, hanalysis::HObject::HSignal);
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HBottomTagger:
@@ -34,8 +33,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             Factory = new hanalysis::HFactory(Analysis->WTagger);
             break;
         case hanalysis::HAnalysis::HWSemiTagger:
-          Factory = new hanalysis::HFactory(Analysis->WSemiTagger);
-          break;
+            Factory = new hanalysis::HFactory(Analysis->WSemiTagger);
+            break;
         case hanalysis::HAnalysis::HTopLeptonicTagger:
             Factory = new hanalysis::HFactory(Analysis->TopLeptonicTagger);
             break;
@@ -63,36 +62,31 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HEventSemiTagger:
             Factory = new hanalysis::HFactory(Analysis->EventSemiTagger);
             break;
-//         case hanalysis::HAnalysis::HEventLeptonicReader:
-//           Analysis->Print(Analysis->HError,"do the reader");
-//             Reader = new hanalysis::HReader(Analysis->EventLeptonicTagger);
-//             Reader->SimpleMVALoop();
-          break;
-        default:
-            std::cout << "Unhandled case" << std::endl;
+//         default:
+//             std::cout << "Unhandled case" << std::endl;
         }
         HasFactory = 1;
-
     }
-
-     FileName = Analysis->GetProjectName() + "/Bdt" + Name + ".root";
-     if (gSystem->AccessPathName(FileName.c_str())) {
-    switch (Tagger) {
-      case hanalysis::HAnalysis::HEventLeptonicReader:
-        Reader = new hanalysis::HReader(Analysis->EventLeptonicTagger);
-        Reader->SimpleMVALoop();
-        break;
-      case hanalysis::HAnalysis::HEventSemiReader:
-        Reader = new hanalysis::HReader(Analysis->EventSemiTagger);
-        Reader->SimpleMVALoop();
-        break;
-      default:
-        std::cout << "Unhandled case" << std::endl;
-    }
- }
-
-
     if (HasFactory) delete Factory;
+
+    FileName = Analysis->GetProjectName() + "/" + Name + "Bdt.root";
+    if (gSystem->AccessPathName(FileName.c_str())) {
+        switch (Tagger) {
+        case hanalysis::HAnalysis::HEventLeptonicReader:
+            Reader = new hanalysis::HReader(Analysis->EventLeptonicTagger);
+            Reader->SimpleMVALoop();
+            break;
+        case hanalysis::HAnalysis::HEventSemiReader:
+            Reader = new hanalysis::HReader(Analysis->EventSemiTagger);
+            Reader->SimpleMVALoop();
+            break;
+//         default:
+//             std::cout << "Unhandled case" << std::endl;
+        }
+        HasReader = 1;
+    }
+//     if (HasReader) delete Reader;
+
     delete Analysis;
 }
 

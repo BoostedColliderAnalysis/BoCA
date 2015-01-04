@@ -30,7 +30,7 @@ void hanalysis::HFactory::NewFactory()
     const std::string FactoryOutputName = "Mva" + Mva->GetTaggerName();
     const std::string OutputFileName = Mva->GetAnalysisName() + "/" + FactoryOutputName + ".root";
     OutputFile = TFile::Open(OutputFileName.c_str(), "Recreate");
-    const std::string FactoryOptions = "";
+    const std::string FactoryOptions = "!Color";
     Factory = new TMVA::Factory(Mva->GetTaggerName(), OutputFile, FactoryOptions);
 }
 
@@ -78,7 +78,7 @@ void hanalysis::HFactory::AddTree(const TFile *const File, const std::string &Tr
 
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
-    Print(HError,"Branch Name",Mva->GetBranchName().c_str());
+    Print(HNotification,"Branch Name",Mva->GetBranchName().c_str());
     const_cast<TTree *>(Tree)->GetBranch(Mva->GetBranchName().c_str());
     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
@@ -104,8 +104,9 @@ void hanalysis::HFactory::PrepareTrainingAndTestTree()
     Print(HNotification , "PrepareTrainingAndTestTree");
 
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
-    const std::string TrainingAndTestOptions ="";
-//     "nTrain_Background=1000000:nTest_Background=1000000";
+    const std::string TrainingAndTestOptions =
+    "";
+//     "nTrain_Background=100000:nTest_Background=100000";
 
     Factory->PrepareTrainingAndTestTree(Mva->GetCut(), Mva->GetCut(), TrainingAndTestOptions);
 
@@ -126,7 +127,7 @@ void hanalysis::HFactory::BookMethods()
 //     Factory->BookMethod(TMVA::Types::kCuts, CutMethodName, CutOptions);
 
 //     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
-    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20:CreateMVAPdfs"
+    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20:CreateMVAPdfs:DoBoostMonitor"
     ;
 //     const std::string BdtOptions = "";
 

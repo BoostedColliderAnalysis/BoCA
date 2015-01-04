@@ -29,14 +29,14 @@ hheavyhiggs::HEventSemiTagger::HEventSemiTagger(hanalysis::HBottomTagger *const 
 
 hheavyhiggs::HEventSemiTagger::HEventSemiTagger()
 {
-  //   DebugLevel = HDebug;
+    //   DebugLevel = HDebug;
 
-  Print(HNotification , "Constructor");
+    Print(HNotification , "Constructor");
 
-  SetTaggerName("EventSemi");
-  Branch = new hheavyhiggs::HEventSemiBranch();
+    SetTaggerName("EventSemi");
+    Branch = new hheavyhiggs::HEventSemiBranch();
 
-  DefineVariables();
+    DefineVariables();
 
 }
 
@@ -46,8 +46,11 @@ hheavyhiggs::HEventSemiTagger::~HEventSemiTagger()
     Print(HNotification , "Constructor");
 
     delete Branch;
+    delete WSemiReader;
+    delete WReader;
     delete BottomReader;
     delete TopHadronicReader;
+    delete TopSemiReader;
     delete HeavyHiggsSemiReader;
 
 }
@@ -130,9 +133,9 @@ void hheavyhiggs::HEventSemiTagger::DefineVariables()
 
 
 struct SortBySextetMass {
-  inline bool operator()(const HOctet &Octet1, const HOctet &Octet2) {
-    return (Octet1.GetSextet().GetSextetJet().m() > Octet2.GetSextet().GetSextetJet().m());
-  }
+    inline bool operator()(const HOctet &Octet1, const HOctet &Octet2) {
+        return (Octet1.GetSextet().GetSextetJet().m() > Octet2.GetSextet().GetSextetJet().m());
+    }
 };
 
 std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
@@ -146,7 +149,7 @@ std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::Get
 
     HJets Leptons = Event->GetLeptons()->GetLeptonJets();
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-    std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons,MissingEt,WSemiReader);
+    std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
 
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
@@ -200,8 +203,8 @@ std::vector<int> hheavyhiggs::HEventSemiTagger::ApplyBdt2(const ExRootTreeReader
 {
     Print(HNotification, "Apply Bdt", EventBranchName);
 
-    const int Steps2 = 10;
-    std::vector<int> EventNumbers(Steps2);
+    const int Steps = 10;
+    std::vector<int> EventNumbers(Steps);
 
 
     const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
@@ -222,10 +225,10 @@ std::vector<int> hheavyhiggs::HEventSemiTagger::ApplyBdt2(const ExRootTreeReader
             const float Bdt = Reader->EvaluateMVA(BdtMethodName);
             const float Error = Reader->GetMVAError();
             const float Rarity = Reader->GetRarity(GetBdtMethodName());
-            const int Steps = 10;
+            const int Steps1 = 10;
             std::vector<float> Probabilities;
-            for (int Step = Steps; Step > 0; --Step) {
-                const float SignalFraction = float(Step) / Steps;
+            for (int Step = Steps1; Step > 0; --Step) {
+                const float SignalFraction = float(Step) / Steps1;
                 const float Probability = Reader->GetProba(GetBdtMethodName(), SignalFraction);
                 Probabilities.push_back(Probability);
             }
@@ -247,8 +250,8 @@ std::vector<int> hheavyhiggs::HEventSemiTagger::ApplyBdt2(const ExRootTreeReader
             Export->Probability10 = Probabilities.at(9);
 
 
-            for (int Step = 0; Step < Steps2; ++Step) {
-                const float Cut = float(Step-5) / Steps2 / 2;
+            for (int Step = 0; Step < Steps; ++Step) {
+                const float Cut = (float(Step) / Steps - 0.5) * 2;
                 if (Bdt > Cut) ++EventNumbers.at(Step);
             }
 

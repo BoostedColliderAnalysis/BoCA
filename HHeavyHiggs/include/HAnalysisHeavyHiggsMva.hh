@@ -20,7 +20,7 @@
  *
  * @brief HAnalysis subclass defining the HiggsCPV Analysis
  *
- * \author Jan Hajer
+ * @author Jan Hajer
  *
  */
 class hheavyhiggs::HAnalysisMva : public hanalysis::HAnalysis
@@ -99,7 +99,7 @@ public:
      * @brief prepares the std::vector describing the input root files
      */
     std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName) {
-        Print(HError,"we dont want to end up her",StudyName);
+        Print(HError, "we dont want to end up her", StudyName);
         std::vector<hanalysis::HFile * > Files;
         return Files;
     }
@@ -108,27 +108,28 @@ public:
 
     inline std::string GetProjectName() const {
         return "HeavyHiggsMva";
-    };
+    }
+
     std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
 
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "HHeavyHiggs";
-    };
+        return "hheavyhiggs";
+    }
 
     virtual inline std::string ClassName() const {
         return "HAnalysis";
-    };
+    }
 
 private:
 
-  HStrings JoinHStrings(const HStrings &Strings1,const HStrings &Strings2);
+    HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
 
-  std::vector<hanalysis::HFile *>  JoinFiles(std::vector<hanalysis::HFile *> Files1, std::vector<hanalysis::HFile *> Files2);
+    std::vector<hanalysis::HFile *>  JoinFiles(std::vector<hanalysis::HFile *> Files1, std::vector<hanalysis::HFile *> Files2);
 
     inline int GetEventNumberMax() const {
-          return 10000;
+        return 10000;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);

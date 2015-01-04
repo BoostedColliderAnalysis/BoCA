@@ -100,10 +100,6 @@ private:
 
     std::string DefaultOptions;
 
-    inline std::string NameSpaceName() const {
-      return "hmva";
-    };
-
     inline std::string ClassName() const {
         return "HFactory";
     };

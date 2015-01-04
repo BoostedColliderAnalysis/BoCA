@@ -95,7 +95,7 @@ void hanalysis::hdelphes::HClonesArray::GetBranches(const ExRootTreeReader *cons
     GenJetClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("GenJet");
     ScalarHtClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch("ScalarHT");
 
-    Print(HError,"Got all Branches");
+    Print(HNotification,"Got all Branches");
 }
 
 void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(const ExRootTreeReader *const TreeReader)

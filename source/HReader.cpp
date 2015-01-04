@@ -25,7 +25,7 @@ void hanalysis::HReader::AddVariable()
 
     Print(HNotification, "Add Variable");
 
-    const std::string DefaultOptions = "";
+    const std::string DefaultOptions = "!Color:Silent";
     Reader = new TMVA::Reader(DefaultOptions);
 
     for (auto & Observable : Mva->GetObservables()) {
@@ -51,7 +51,7 @@ void hanalysis::HReader::BookMVA()
 //     Reader->BookMVA(Mva->GetCutMethodName(), CutWeightFile);
 
     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + XmlName;
-    Print(HError, "Opening Weight File", BdtWeightFile);
+    Print(HNotification, "Opening Weight File", BdtWeightFile);
 
     Reader->BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
 
@@ -95,7 +95,7 @@ void hanalysis::HReader::SimpleMVALoop()
               << " \\\\ \\cmidrule(r){2-11}" << std::endl;
 
     for (int Step = 0; Step < Steps; Step++) {
-        const float Cut = float(Step - 5) / Steps / 2;
+        const float Cut = ( float(Step) / Steps - 0.5) * 2;
         LatexFile << "  & " << Cut << std::endl;
     }
 
@@ -120,7 +120,7 @@ void hanalysis::HReader::SimpleMVALoop()
         LatexFile << "\\verb|" << SignalTreeName << "|" << std::endl;
         Print(HError, "Signal", SignalTreeName);
         for (int Step = 0; Step < Steps; Step++) {
-            const float Cut = float(Step - 5) / Steps / 2;
+            const float Cut = ( float(Step) / Steps - 0.5) * 2;
             const float Eff = float(SignalNumbers[Step]) / std::sqrt(SignalNumbers[Step] + BackgroundNumbers[Step]);
             const float Norm = Eff * std::sqrt(1000.);
             Print(HError, "Eff", Cut, Eff, Norm);

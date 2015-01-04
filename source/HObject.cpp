@@ -3,7 +3,8 @@
 hanalysis::HObject::HObject()
 {
 
-    DebugLevel = HNotification;
+//     DebugLevel = HNotification;
+    DebugLevel = HError;
 //     DebugLevel = HDebug;
 
 //     Print(HDebug, "Constructor");

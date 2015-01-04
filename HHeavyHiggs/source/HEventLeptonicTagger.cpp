@@ -23,12 +23,12 @@ hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger(hanalysis::HBottomTagger
 hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger()
 {
 
-  Print(HNotification , "Constructor");
+    Print(HNotification , "Constructor");
 
-  SetTaggerName("EventLeptonic");
-  Branch = new hheavyhiggs::HEventLeptonicBranch();
+    SetTaggerName("EventLeptonic");
+    Branch = new hheavyhiggs::HEventLeptonicBranch();
 
-  DefineVariables();
+    DefineVariables();
 
 }
 
@@ -121,10 +121,10 @@ void hheavyhiggs::HEventLeptonicTagger::DefineVariables()
 
 }
 
-struct SortBySextetMass {
-  inline bool operator()(const HOctet &Octet1, const HOctet &Octet2) {
-    return (Octet1.GetSextet().GetSextetJet().m() > Octet2.GetSextet().GetSextetJet().m());
-  }
+struct SortBySextetBdt {
+    inline bool operator()(const HOctet &Octet1, const HOctet &Octet2) {
+        return (Octet1.GetSextet().GetBdt() > Octet2.GetSextet().GetBdt());
+    }
 };
 
 
@@ -165,7 +165,7 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
 
     if (Octets.size() > 1) {
         Print(HError, "more than one event");
-        std::sort(Octets.begin(), Octets.end(), SortBySextetMass());
+        std::sort(Octets.begin(), Octets.end(), SortBySextetBdt());
         Octets.erase(Octets.begin() + 1, Octets.end());
     }
 
@@ -191,8 +191,8 @@ std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeRe
 {
     Print(HNotification, "Apply Bdt", EventBranchName);
 
-    const int Steps2 = 10;
-    std::vector<int> EventNumbers(Steps2);
+    const int Steps = 10;
+    std::vector<int> EventNumbers(Steps);
 
     const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 
@@ -212,10 +212,10 @@ std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeRe
             const float Bdt = Reader->EvaluateMVA(BdtMethodName);
             const float Error = Reader->GetMVAError();
             const float Rarity = Reader->GetRarity(GetBdtMethodName());
-            const int Steps = 10;
+            const int Steps1 = 10;
             std::vector<float> Probabilities;
-            for (int Step = Steps; Step > 0; --Step) {
-                const float SignalFraction = float(Step) / Steps;
+            for (int Step = Steps1; Step > 0; --Step) {
+                const float SignalFraction = float(Step) / Steps1;
                 const float Probability = Reader->GetProba(GetBdtMethodName(), SignalFraction);
                 Probabilities.push_back(Probability);
 
@@ -237,10 +237,8 @@ std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeRe
             Export->Probability09 = Probabilities.at(8);
             Export->Probability10 = Probabilities.at(9);
 
-
-
-            for (int Step = 0; Step < Steps2; ++Step) {
-                const float Cut = float(Step-5) / Steps2 / 2;
+            for (int Step = 0; Step < Steps; ++Step) {
+                const float Cut = (float(Step) / Steps - 0.5) * 2;
                 if (Bdt > Cut) ++EventNumbers.at(Step);
             }
 

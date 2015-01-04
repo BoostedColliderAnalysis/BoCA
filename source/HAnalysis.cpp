@@ -146,7 +146,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
       delete TreeWriter;
       delete Event;
       delete ClonesArrays;
-      if (DebugLevel > 0) Print(HError," ");
+      Print(HNotification," ");
 
     }
 
