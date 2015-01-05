@@ -233,7 +233,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
 
     const float Neutrino1E = (Lepton.e() * LinearTerm - Sqrt) / LeptonSq;
     const float Neutrino1Pz = ( std::pow(Lepton.pz(), 2) * LinearTerm - Lepton.e() * Sqrt) / Lepton.pz() / LeptonSq;
-    fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
+    const fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
     Print(HDebug, "Neutrnio 1", Neutrino1);
     HDoublet Doublet1(Lepton,Neutrino1);
     Doublet1.SetTag(Doublet.GetTag());
@@ -241,7 +241,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
 
     const float Neutrino2E = (Lepton.e() * LinearTerm + Sqrt) / LeptonSq;
     const float Neutrino2Pz = (std::pow(Lepton.pz(), 2) * LinearTerm + Lepton.e() * Sqrt) / Lepton.pz() / LeptonSq;
-    fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
+    const fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
     Print(HDebug, "Neutrnio 2", Neutrino2);
     HDoublet Doublet2(Lepton,Neutrino2);
     Doublet2.SetTag(Doublet.GetTag());
