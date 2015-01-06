@@ -251,7 +251,8 @@ std::vector<int> hheavyhiggs::HEventSemiTagger::ApplyBdt2(const ExRootTreeReader
 
 
             for (int Step = 0; Step < Steps; ++Step) {
-                const float Cut = (float(Step) / Steps - 0.5) * 2;
+                const float Cut = (float(Step) / Steps - 0.5) * 2.;
+                Print(HError,"Bdt",Bdt,Cut);
                 if (Bdt > Cut) ++EventNumbers.at(Step);
             }
 
@@ -266,6 +267,5 @@ std::vector<int> hheavyhiggs::HEventSemiTagger::ApplyBdt2(const ExRootTreeReader
     delete TreeWriter;
 
     return EventNumbers;
-
 
 }

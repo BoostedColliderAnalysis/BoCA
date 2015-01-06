@@ -2,6 +2,7 @@
 # define HFactory_hh
 
 # include "TFile.h"
+# include "TNamed.h"
 # include "TSystem.h"
 # include "TClonesArray.h"
 # include "TTree.h"
@@ -47,40 +48,32 @@ private:
     /**
      * @brief Book MVA methods
      *
-     * @return void
-     *
      */
     void BookMethods();
 
     /**
-     * @brief ...
-     *
-     * @return void
+     * @brief New Factory
      */
     void NewFactory();
 
     /**
-     * @brief ...
-     *
-     * @return void
+     * @brief Add Variables
      */
     void AddVariables();
 
     /**
-     * @brief ...
+     * @brief Get Trees
      *
-     * @return void
      */
-    void GetTrees();
+    int GetTrees();
 
     /**
-     * @brief ...
+     * @brief Prepare Trainig and Test Trees
      *
-     * @return void
      */
-    void PrepareTrainingAndTestTree();
+    void PrepareTrainingAndTestTree(const int EventNumber);
 
-    void AddTree(const TFile *const File, const std::string &TreeName, const bool Signal);
+    int AddTree(const TFile *const File, const std::string &TreeName, const bool Signal);
 
     HMva *Mva;
 

@@ -27,6 +27,7 @@ hanalysis::HTopSemiTagger::~HTopSemiTagger()
     delete Branch;
     delete JetTag;
     delete BottomReader;
+    delete WSemiReader;
 }
 
 void hanalysis::HTopSemiTagger::DefineVariables()

@@ -24,8 +24,8 @@ typedef std::vector<int>::const_iterator VectorIterator;
 
 struct PairOrder {
     bool operator()(
-      std::pair<size_t, VectorIterator> const &First
-      , std::pair<size_t, VectorIterator> const &Second
+        std::pair<size_t, VectorIterator> const &First
+        , std::pair<size_t, VectorIterator> const &Second
     ) {
         return *(First.second) > *(Second.second);
     }
@@ -54,8 +54,7 @@ public:
 
 //     template<typename TBranch, typename TParticle>
 //     float GetBdt(TBranch * const Branch, const TParticle &Particle) const
-    float GetBdt() const
-    {
+    float GetBdt() const {
         Print(HInformation, "Get Bdt");
 
 //         Mva->FillBranch(Branch, Particle);
@@ -191,12 +190,14 @@ private:
     HMva *Mva;
 
     inline std::string NameSpaceName() const {
-      return "HMva";
+        return "HMva";
     };
 
     inline std::string ClassName() const {
         return "HReader";
     };
+
+    std::vector<float> ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile);
 
 
 };

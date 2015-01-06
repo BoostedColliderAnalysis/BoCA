@@ -48,6 +48,10 @@ protected:
 
 private:
 
+    SetBranch(const TObject Object) {
+        (*Branch) = *((HEventLeptonicBranch *) Object);
+    };
+
     void DefineVariables();
 
     void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventLeptonicBranch, const HOctet &Octet);

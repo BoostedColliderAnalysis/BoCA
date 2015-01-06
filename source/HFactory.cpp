@@ -9,8 +9,7 @@ hanalysis::HFactory::HFactory(HMva *const NewMva)
     Mva = NewMva;
     NewFactory();
     AddVariables();
-    GetTrees();
-    PrepareTrainingAndTestTree();
+    PrepareTrainingAndTestTree(GetTrees());
     BookMethods();
     Factory->TrainAllMethods();
     Factory->TestAllMethods();
@@ -44,9 +43,11 @@ void hanalysis::HFactory::AddVariables()
         Factory->AddSpectator(Spectator.Expression, Spectator.Title, Spectator.Unit, Spectator.Type);
 }
 
-void hanalysis::HFactory::GetTrees()
+int hanalysis::HFactory::GetTrees()
 {
     Print(HNotification , "Get Trees");
+
+    int SignalNumber = 0;
     for (const auto & SignalName : Mva->GetSignalNames()) {
 
         std::string SignalFileName = Mva->GetAnalysisName() + "/" + SignalName + ".root";
@@ -54,10 +55,11 @@ void hanalysis::HFactory::GetTrees()
         TFile *SignalFile = TFile::Open(SignalFileName.c_str());
         Print(HNotification , "Signal File", SignalFile->GetName());
 
-        for (int TreeNumber : HRange(Mva->GetSignalTreeNames().size())) AddTree(SignalFile, Mva->GetSignalTreeNames()[TreeNumber], 1);
+        for (int TreeNumber : HRange(Mva->GetSignalTreeNames().size())) SignalNumber += AddTree(SignalFile, Mva->GetSignalTreeNames()[TreeNumber], 1);
 
     }
 
+    int BackgroundNumber = 0;
     for (const auto & BackgroundName : Mva->GetBackgroundNames()) {
 
         std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + BackgroundName + ".root";
@@ -65,22 +67,27 @@ void hanalysis::HFactory::GetTrees()
         TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
         Print(HNotification , "Background File", BackgroundFile->GetName());
 
-        for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) AddTree(BackgroundFile, BackgroundTreeName, 0);
+        for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) BackgroundNumber += AddTree(BackgroundFile, BackgroundTreeName, 0);
 
     }
 
+    Print(HError, "Event Numbers", SignalNumber, BackgroundNumber);
+
+    return (std::min(SignalNumber, BackgroundNumber) / 2); // should discard the remainder
 }
 
-void hanalysis::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
+int hanalysis::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
 {
 
     Print(HNotification , "Add Tree", TreeName);
 
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
-    Print(HNotification,"Branch Name",Mva->GetBranchName().c_str());
+    Print(HNotification, "Branch Name", Mva->GetBranchName().c_str());
     const_cast<TTree *>(Tree)->GetBranch(Mva->GetBranchName().c_str());
     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
+
+    const int Entries = TreeReader->GetEntries();
 
     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
@@ -88,7 +95,7 @@ void hanalysis::HFactory::AddTree(const TFile *const File, const std::string &Tr
 
     const float Crosssection = Info->Crosssection;
 //     const float Crosssection = Info->Crosssection *  Info->EventNumber / TreeReader->GetEntries();
-//     delete TreeReader; // FixMe why
+//     delete TreeReader; // FIXME why
 
 //     const float Crosssection = 1.; //FIXME we dont use the crosssection
 
@@ -96,16 +103,20 @@ void hanalysis::HFactory::AddTree(const TFile *const File, const std::string &Tr
 
     if (Signal) Factory->AddSignalTree(const_cast<TTree *>(Tree), Crosssection);
     else Factory->AddBackgroundTree(const_cast<TTree *>(Tree), Crosssection);
+
+    return Entries;
 }
 
-void hanalysis::HFactory::PrepareTrainingAndTestTree()
+void hanalysis::HFactory::PrepareTrainingAndTestTree(const int EventNumber)
 {
-
     Print(HNotification , "PrepareTrainingAndTestTree");
 
+    std::string NumberOptions = "nTrain_Background=" + std::to_string(EventNumber) + ":nTest_Background=" + std::to_string(EventNumber) + ":nTrain_Signal=" + std::to_string(EventNumber) + ":nTest_Signal=" + std::to_string(EventNumber);
+
+    Print(HError, "NumberOptions", NumberOptions);
+
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
-    const std::string TrainingAndTestOptions =
-    "";
+    const std::string TrainingAndTestOptions = NumberOptions;
 //     "nTrain_Background=100000:nTest_Background=100000";
 
     Factory->PrepareTrainingAndTestTree(Mva->GetCut(), Mva->GetCut(), TrainingAndTestOptions);
@@ -122,18 +133,15 @@ void hanalysis::HFactory::BookMethods()
 //     const std::string CutOptions = "";
 
 //     const std::string CutMethodName = Mva->CutMethodName + "_" + Mva->BackgroundName;
-    const std::string CutMethodName = Mva->GetCutMethodName();
 
-//     Factory->BookMethod(TMVA::Types::kCuts, CutMethodName, CutOptions);
+    //     Factory->BookMethod(TMVA::Types::kCuts, Mva->GetCutMethodName(), CutOptions);
 
 //     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
-    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20:CreateMVAPdfs:DoBoostMonitor"
-    ;
+    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20:CreateMVAPdfs:DoBoostMonitor";
 //     const std::string BdtOptions = "";
 
 //     const std::string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
-    const std::string BdtMethodName = Mva->GetBdtMethodName();
 
-    Factory->BookMethod(TMVA::Types::kBDT, BdtMethodName, BdtOptions);
+    Factory->BookMethod(TMVA::Types::kBDT, Mva->GetBdtMethodName(), BdtOptions);
 
 }

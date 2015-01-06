@@ -60,6 +60,9 @@ void hanalysis::HReader::BookMVA()
 void hanalysis::HReader::SimpleMVALoop()
 {
 
+    float Luminosity = 3000; // 3000 fb-1
+    Luminosity *= 1000; //  * pb
+
     Print(HNotification, "Mva Loop");
     LatexHeader();
 
@@ -68,22 +71,32 @@ void hanalysis::HReader::SimpleMVALoop()
 
     const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + ".root";
     const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
+    Print(HError, "Open Background File", BackgroundFileName);
 
     const int Steps = 10;
-    std::vector<float> BackgroundNumbers(Steps);
+    std::vector<float> BackgroundResults(Steps);
+    std::vector<float> SignalResults(Steps);
+
     for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
 
         const TTree *const BackgroundTree = (TTree *)const_cast<TFile *>(BackgroundFile)->Get(BackgroundTreeName.c_str());
-        const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(BackgroundTree));
+        Print(HError, "Open Background Tree", BackgroundTreeName);
+        const ExRootTreeReader *const BackgroundTreeReader = new ExRootTreeReader(const_cast<TTree *>(BackgroundTree));
 
-        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
-        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
-        const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
-        const float BackgroundCrosssection = Info->Crosssection / TreeReader->GetEntries();
+        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(BackgroundTreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+        const_cast<ExRootTreeReader *>(BackgroundTreeReader)->ReadEntry(0);
+        const HInfoBranch *const BackgroundInfo = (HInfoBranch *) ClonesArray->At(0);
 
-        std::vector<int> NewBackgroundNumbers = Mva->ApplyBdt2(TreeReader, BackgroundTreeName, ExportFile, Reader);
-        for (int i = 0; i < Steps; i++) BackgroundNumbers[i] += float(NewBackgroundNumbers[i]) * BackgroundCrosssection;
+        std::vector<int> BackgroundNumbers = Mva->ApplyBdt2(BackgroundTreeReader, BackgroundTreeName, ExportFile, Reader);
+        for (int Step = 0; Step < Steps; ++Step) {
+            BackgroundResults[Step] += float(BackgroundNumbers[Step]) / float(BackgroundInfo->EventNumber) * BackgroundInfo->Crosssection * Luminosity;
+        }
+
+//         std::vector<float> NewBackgroundResults = ApplyBdt(BackgroundFile, BackgroundTree, ExportFile);
+//         for (int Step = 0; Step < Steps; ++Step) BackgroundResults[Step] += NewBackgroundResults[Step];
+
     }
+    for (int Step = 0; Step < Steps; ++Step) Print(HError, "Background Hong", BackgroundResults[Step] / Luminosity * 1000);
 
     LatexFile << std::endl
               << "\\begin{table}" << std::endl
@@ -94,8 +107,8 @@ void hanalysis::HReader::SimpleMVALoop()
               << "  & \\multicolumn{10}{c}{BDT Cut}" << std::endl
               << " \\\\ \\cmidrule(r){2-11}" << std::endl;
 
-    for (int Step = 0; Step < Steps; Step++) {
-        const float Cut = ( float(Step) / Steps - 0.5) * 2;
+    for (int Step = 0; Step < Steps; ++Step) {
+        const float Cut = float(Step) / Steps;
         LatexFile << "  & " << Cut << std::endl;
     }
 
@@ -103,28 +116,35 @@ void hanalysis::HReader::SimpleMVALoop()
 
     const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + ".root";
     const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
+    Print(HError, "Open Signal File", SignalFileName);
 
     for (const auto & SignalTreeName : Mva->GetSignalTreeNames()) {
 
         const TTree *const SignalTree = (TTree *)const_cast<TFile *>(SignalFile)->Get(SignalTreeName.c_str());
-        const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(SignalTree));
+        Print(HError, "Open Signal Tree", SignalTreeName);
+        const ExRootTreeReader *const SignalTreeReader = new ExRootTreeReader(const_cast<TTree *>(SignalTree));
 
-        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
-        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
-        const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
-        const float SignalCrosssection = Info->Crosssection / TreeReader->GetEntries();
+        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(SignalTreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+        const_cast<ExRootTreeReader *>(SignalTreeReader)->ReadEntry(0);
+        const HInfoBranch *const SignalInfo = (HInfoBranch *) ClonesArray->At(0);
 
-        std::vector<int> SignalNumbers = Mva->ApplyBdt2(TreeReader, SignalTreeName, ExportFile, Reader);
-        for (int i = 0; i < Steps; i++) SignalNumbers[i] = float(SignalNumbers[i]) * SignalCrosssection;
+        std::vector<int> SignalNumbers = Mva->ApplyBdt2(SignalTreeReader, SignalTreeName, ExportFile, Reader);
+
+        for (int Step = 0; Step < Steps; ++Step) {
+            SignalResults[Step] = float(SignalNumbers[Step]) / float(SignalInfo->EventNumber) * Luminosity * SignalInfo->Crosssection;
+            Print(HError, "Signal Hong", float(SignalNumbers[Step]) / float(SignalInfo->EventNumber));
+        }
+
+        // std::vector<float> SignalResults = ApplyBdt(SignalFile, SignalTreeName, ExportFile);
 
         LatexFile << "\\verb|" << SignalTreeName << "|" << std::endl;
         Print(HError, "Signal", SignalTreeName);
-        for (int Step = 0; Step < Steps; Step++) {
-            const float Cut = ( float(Step) / Steps - 0.5) * 2;
-            const float Eff = float(SignalNumbers[Step]) / std::sqrt(SignalNumbers[Step] + BackgroundNumbers[Step]);
-            const float Norm = Eff * std::sqrt(1000.);
-            Print(HError, "Eff", Cut, Eff, Norm);
-            LatexFile << "  & " << RoundToDigits(Norm) << std::endl;
+        for (int Step = 0; Step < Steps; ++Step) {
+            const float Cut = float(Step) / Steps;
+            const float Eff = SignalResults[Step] / std::sqrt(SignalResults[Step] + BackgroundResults[Step]);
+//             Print(HError, "Numbers",SignalNumbers[Step], BackgroundNumbers[Step]);
+//             Print(HError, "Eff", Cut, RoundToDigits(Eff), RoundToDigits(Norm));
+            LatexFile << "  & " << RoundToDigits(Eff) << std::endl;
         }
         LatexFile << " \\\\ ";
 
@@ -142,6 +162,105 @@ void hanalysis::HReader::SimpleMVALoop()
     LatexFooter();
 
 }
+
+
+std::vector<float> hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile)
+{
+    float Luminosity = 3000; // 3000 fb-1
+    Luminosity *= 1000; //  * pb
+    const int Steps = 10;
+    std::vector<float> Results(Steps);
+
+    const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());
+    Print(HError, "Open Background Tree", TreeName);
+    const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
+
+    const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+    const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+    const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
+
+    std::vector<int> Numbers = Mva->ApplyBdt2(TreeReader, TreeName, ExportFile, Reader);
+
+    for (int Step = 0; Step < Steps; ++Step) {
+        Results[Step] = float(Numbers[Step]) / float(Info->EventNumber) * Info->Crosssection * Luminosity;
+        // Print(HError, "Background", NewBackgroundNumbers[Step], RoundToDigits(BackgroundCrosssection), BackgroundNumbers[Step]);
+    }
+
+    return Results;
+}
+
+
+
+// std::vector<int> hanalysis::HReader::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader)
+// {
+//   Print(HNotification, "Apply Bdt", Mva->EventBranchName);
+//
+//   const int Steps = 10;
+//   std::vector<int> EventNumbers(Steps);
+//
+//   const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->EventBranchName.c_str());
+//
+//   ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
+//   ExRootTreeBranch *BdtBranch = TreeWriter->NewBranch(Mva->EventBranchName.c_str(), HBdtBranch::Class());
+//
+//   for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
+//
+//     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+//
+//     for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
+//
+// //       (*Branch) = *((HEventLeptonicBranch *) EventClonesArray->At(Entry));
+//       Mva->SetBranch(EventClonesArray->At(Entry));
+//       HBdtBranch *Export = static_cast<HBdtBranch *>(BdtBranch->NewEntry());
+//
+//       const float Bdt = Reader->EvaluateMVA(Mva->BdtMethodName);
+//       const float Error = Reader->GetMVAError();
+//       const float Rarity = Reader->GetRarity(Mva->GetBdtMethodName());
+//       const int Steps1 = 10;
+//       std::vector<float> Probabilities;
+//       for (int Step = Steps1; Step > 0; --Step) {
+//         const float SignalFraction = float(Step) / Steps1;
+//         const float Probability = Reader->GetProba(Mva->GetBdtMethodName(), SignalFraction);
+//         Probabilities.push_back(Probability);
+//
+//       }
+//       Print(HDebug, "Bdt", Bdt, Error, Rarity);
+//       Export->Mass = Mva->Branch->HeavyHiggsMass;
+//       Export->EventTag = Mva->Branch->EventTag;
+//       Export->Bdt = Bdt;
+//       Export->Error = Error;
+//       Export->Rarity = Rarity;
+//       Export->Probability01 = Probabilities.at(0);
+//       Export->Probability02 = Probabilities.at(1);
+//       Export->Probability03 = Probabilities.at(2);
+//       Export->Probability04 = Probabilities.at(3);
+//       Export->Probability05 = Probabilities.at(4);
+//       Export->Probability06 = Probabilities.at(5);
+//       Export->Probability07 = Probabilities.at(6);
+//       Export->Probability08 = Probabilities.at(7);
+//       Export->Probability09 = Probabilities.at(8);
+//       Export->Probability10 = Probabilities.at(9);
+//
+//       for (int Step = 0; Step < Steps; ++Step) {
+//         const float Cut = float(Step) / Steps;
+//         if (Bdt > Cut) ++EventNumbers.at(Step);
+//         Print(HDebug,"Bdt",Bdt,Cut,EventNumbers.at(Step));
+//       }
+//
+//     }
+//
+//     TreeWriter->Fill();
+//     TreeWriter->Clear();
+//
+//   }
+//
+//   TreeWriter->Write();
+//   delete TreeWriter;
+//
+//   return EventNumbers;
+// }
+
+
 
 
 
@@ -225,6 +344,7 @@ void hanalysis::HReader::LatexHeader()
 
     LatexFile << "\\documentclass[a4paper,11pt]{article}" << std::endl << std::endl
               << "\\usepackage{booktabs}" << std::endl
+              << "\\usepackage[landscape]{geometry}" << std::endl
               << "\\usepackage{a4wide}" << std::endl
 //               << "\\usepackage{units}" << std::endl
 //               << "\\usepackage{siunitx}" << std::endl << std::endl
