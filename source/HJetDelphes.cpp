@@ -188,7 +188,7 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
         Constituent.Momentum = ParticleClone->P4();
         if (JetDetails == TaggingStructure) Constituent.MotherId = GetMotherId(Object);
         Constituent.Position.SetXYZT(ParticleClone->X, ParticleClone->Y, ParticleClone->Z, ParticleClone->T);
-        Print(HDebug, "GenVertex", ParticleClone->X, ParticleClone->Y, ParticleClone->Z);
+        Print(HDebug, "Gen Vertex", ParticleClone->X, ParticleClone->Y, ParticleClone->Z);
         // TODO should we take the GenParticle information into account or not?
 
     } else if (Object->IsA() == Track::Class()) {
@@ -197,7 +197,7 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
         Constituent.Momentum = TrackClone->P4();
         if (JetDetails == TaggingStructure) Constituent.MotherId = GetMotherId(TrackClone->Particle.GetObject());
         TVector3 Vector(TrackClone->X, TrackClone->Y, TrackClone->Z);
-        Print(HDebug, "TrackVertex", TrackClone->X, TrackClone->Y, TrackClone->Z);
+        Print(HDebug, "Track Vertex", TrackClone->X, TrackClone->Y, TrackClone->Z);
         Constituent.Position.SetVect(Vector);
 
     } else if (Object->IsA() == Tower::Class()) {

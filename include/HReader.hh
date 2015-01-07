@@ -189,10 +189,6 @@ private:
 
     HMva *Mva;
 
-    inline std::string NameSpaceName() const {
-        return "HMva";
-    };
-
     inline std::string ClassName() const {
         return "HReader";
     };

@@ -323,6 +323,7 @@ public:
         HiggsId = 25,
         HeavyHiggsId = 35,
         ChargedHiggsId = 37,
+        AnyId = 86,
         IsrId = 87,
         MarkerId = 88,
         MixedJetId = 90,

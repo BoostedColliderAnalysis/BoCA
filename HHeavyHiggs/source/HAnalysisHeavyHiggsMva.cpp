@@ -237,11 +237,11 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
     };
 
     HStrings SignalSemiTrees {
-        "400GeV_h2bb_ljbbbb-run_01",
-        "600GeV_h2bb_ljbbbb-run_01",
-        "800GeV_h2bb_ljbbbb-run_01",
-        "1000GeV_h2bb_ljbbbb-run_01",
-        "1500GeV_h2bb_ljbbbb-run_01",
+//         "400GeV_h2bb_ljbbbb-run_01",
+//         "600GeV_h2bb_ljbbbb-run_01",
+//         "800GeV_h2bb_ljbbbb-run_01",
+//         "1000GeV_h2bb_ljbbbb-run_01",
+//         "1500GeV_h2bb_ljbbbb-run_01",
         "2000GeV_h2bb_ljbbbb-run_01",
         "2500GeV_h2bb_ljbbbb-run_01",
         "3000GeV_h2bb_ljbbbb-run_01"

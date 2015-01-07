@@ -39,7 +39,7 @@ protected:
 
     /**
      * @brief Get a fastjet::PseudoJet from a TLorentzVector
-     * 
+     *
      */
     fastjet::PseudoJet GetPseudoJet(const TLorentzVector &) const;
 
@@ -135,42 +135,26 @@ protected:
 //     TLorentzVector GetLorentzVector(const MissingET *const Particle) const;
 
     TLorentzVector GetLorentzVector(const TRootElectron *const) const;
-
     TLorentzVector GetLorentzVector(const TRootGenJet *const) const;
-
     TLorentzVector GetLorentzVector(const TRootGenParticle *const) const;
-
     TLorentzVector GetLorentzVector(const TRootJet *const) const;
-
     TLorentzVector GetLorentzVector(const TRootLHEFParticle *const) const;
-
     TLorentzVector GetLorentzVector(const TRootMuon *const) const;
-
     TLorentzVector GetLorentzVector(const TRootPhoton *const) const;
-
     TLorentzVector GetLorentzVector(const TRootTau *const) const;
-    
 //     fastjet::PseudoJet GetPseudoJet(const MissingET *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootElectron *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootGenJet *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootGenParticle *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootJet *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootLHEFParticle *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootMuon *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootPhoton *const) const;
-
     fastjet::PseudoJet GetPseudoJet(const TRootTau *const) const;
 
     int GetMotherId(TObject *Object);
 
-    int GetMotherId(int BranchId, int Position);
+    HFamily GetMotherId(HFamily &BranchId, int Position);
 
     template<typename TData>
     void PrintCell(TData const Data) const {
@@ -189,8 +173,8 @@ protected:
      */
     const HClonesArray *ClonesArrays;
 
-    std::vector<int> Topology;
-    
+    std::vector<HFamily> Topology;
+
     int Source;
 
     HJetTag *JetTag;

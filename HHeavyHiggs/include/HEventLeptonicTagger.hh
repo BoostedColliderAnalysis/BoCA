@@ -48,7 +48,7 @@ protected:
 
 private:
 
-    SetBranch(const TObject Object) {
+    void SetBranch(const TObject *Object) {
         (*Branch) = *((HEventLeptonicBranch *) Object);
     };
 
@@ -59,17 +59,11 @@ private:
     std::vector<HOctet> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
     hanalysis::HBottomTagger *BottomTagger;
-
     hanalysis::HTopLeptonicTagger *TopLeptonicTagger;
-
     hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsLeptonicTagger;
-
     hanalysis::HReader *BottomReader;
-
     hanalysis::HReader *TopLeptonicReader;
-
     hanalysis::HReader *HeavyHiggsLeptonicReader;
-
     hheavyhiggs::HEventLeptonicBranch *Branch;
 
 };
