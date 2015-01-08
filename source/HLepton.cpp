@@ -91,11 +91,11 @@ HVectors hanalysis::HLepton::GetLeptonVectors()
 
 HJets hanalysis::HLepton::GetLeptonJets()
 {
-    
+
     Print(HInformation,"Get Lepton Jets");
-    
+
     return GetLeptonJets(Plain);
-    
+
 }
 
 HJets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails)
@@ -121,7 +121,8 @@ HJets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetD
 
     HJets AllJets = LeptonJets;
     AllJets.insert(AllJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
-//     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
+    //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
+    PrintTruthLevel(HDebug);
 
     return AllJets;
 

@@ -154,7 +154,7 @@ protected:
 
     int GetMotherId(TObject *Object);
 
-    HFamily GetMotherId(HFamily &BranchId, int Position);
+    HFamily GetBranchFamily(HFamily &BranchId, int Position);
 
     template<typename TData>
     void PrintCell(TData const Data) const {

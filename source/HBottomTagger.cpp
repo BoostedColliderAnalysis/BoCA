@@ -61,14 +61,14 @@ std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(hanalysis::HE
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
-//     JetTag->HeavyParticles = {TopId, BottomId};
-    JetTag->HeavyFamily = {
-            HFamily(BottomId, TopId, EmptyId),
-            HFamily(BottomId, GluonId, GluonId),
-            HFamily(BottomId, GluonId, EmptyId),
-            HFamily(BottomId, GluonId, HeavyHiggsId),
-            HFamily(BottomId, BottomId, BottomId)
-    };
+    JetTag->HeavyParticles = {BottomId,HeavyHiggsId};
+//     JetTag->HeavyFamily = {
+//             HFamily(BottomId, TopId, EmptyId),
+//             HFamily(BottomId, GluonId, GluonId),
+//             HFamily(BottomId, GluonId, EmptyId),
+//             HFamily(BottomId, GluonId, HeavyHiggsId),
+//             HFamily(BottomId, BottomId, BottomId)
+//     };
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
 
@@ -117,15 +117,14 @@ HJets hanalysis::HBottomTagger::GetTruthBdt(HJets &Jets, const HReader *const Bo
 HJets hanalysis::HBottomTagger::GetTruthJets(hanalysis::HEvent *const Event, const HReader *const BottomReader)
 {
 
-    JetTag->HeavyParticles = {BottomId};
-//     JetTag->HeavyFamily = {
-//       HFamily(BottomId, TopId, EmptyId),
-//       HFamily(BottomId, GluonId, GluonId),
-//       HFamily(BottomId, GluonId, HeavyHiggsId),
-//       HFamily(BottomId, AnyId,AnyId)
-//       ,
-//       HFamily(-BottomId, -TopId, EmptyId)
-//     };
+  JetTag->HeavyParticles = {BottomId};
+//   JetTag->HeavyFamily = {
+//     HFamily(BottomId, TopId, EmptyId),
+//     HFamily(BottomId, GluonId, GluonId),
+//     HFamily(BottomId, GluonId, EmptyId),
+//     HFamily(BottomId, GluonId, HeavyHiggsId),
+//     HFamily(BottomId, BottomId, BottomId)
+//   };
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
         if (std::abs((*Jet).user_index()) == MixedJetId) Jet = Jets.erase(Jet);

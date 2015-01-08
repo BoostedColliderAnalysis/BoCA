@@ -63,7 +63,7 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
 
     }
 
-    PrintTruthLevel(HDebug);
+    PrintTruthLevel(HError);
 
     return 1;
 

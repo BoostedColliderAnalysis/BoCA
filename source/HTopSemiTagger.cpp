@@ -1,24 +1,18 @@
 # include "HTopSemiTagger.hh"
 
-hanalysis::HTopSemiTagger::HTopSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger * const NewWSemiTagger)
+hanalysis::HTopSemiTagger::HTopSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger *const NewWSemiTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
-
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
-
     WSemiTagger = NewWSemiTagger;
     WSemiReader = new HReader(WSemiTagger);
-
     SetTaggerName("TopSemi");
-
     Branch = new HTopSemiBranch();
     JetTag = new HJetTag();
-
     DefineVariables();
-
 }
 
 hanalysis::HTopSemiTagger::~HTopSemiTagger()
@@ -90,9 +84,7 @@ void hanalysis::HTopSemiTagger::FillBranch(HTopSemiBranch *const TopSemiBranch, 
 void hanalysis::HTopSemiTagger::FillBranch(const HTriplet &Triple)
 {
     Print(HInformation, "Fill Top Tagger", Triple.GetBdt());
-
     FillBranch(Branch, Triple);
-
 }
 
 
@@ -112,6 +104,10 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
     Print(HInformation, "Get Top Tags");
 
     JetTag->HeavyParticles = {WId, TopId, HiggsId, CpvHiggsId, HeavyHiggsId};
+//     JetTag->HeavyFamily = {
+//         HFamily(TopId, HeavyHiggsId, EmptyId),
+//         HFamily(TopId, EmptyId, EmptyId),
+//     };
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
@@ -120,13 +116,13 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
-    for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-        if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
-        else ++Lepton;
-    }
+//     for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
+//         if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
+//         else ++Lepton;
+//     }
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-    std::vector<HDoublet> Doublets = WSemiTagger->GetTruthBdt(Leptons,MissingEt,WSemiReader);
+    std::vector<HDoublet> Doublets = WSemiTagger->GetTruthBdt(Leptons, MissingEt, WSemiReader);
 
 //     std::vector<HDoublet> Doublets;
 //     for (const auto & Lepton : Leptons) {
@@ -144,26 +140,10 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
             Triplets.push_back(Triplet);
         }
 
-//     std::vector<HTriplet> Triplets;
-//     for (const auto & PreDoublet : Doublets)
-//         for (const auto & Jet : Jets) {
-//             HTriplet PreTriplet(PreDoublet, Jet);
-//             PreTriplet.SetTag(GetTag(PreTriplet));
-//             if (PreTriplet.GetTag() != Tag) continue;
-//             HJets Neutrinos = GetNeutrinos(PreTriplet);
-//             for (const auto & Neutrino : Neutrinos) {
-//                 HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
-//                 HTriplet Triplet(Doublet, Jet);
-//                 if (Triplet.GetTripletJet().m() < 0) continue;
-//                 if (Triplet.GetDoubletJet().m() < 0) continue;
-//                 Triplet.SetTag(PreTriplet.GetTag());
-//                 Triplets.push_back(Triplet);
-//             }
-//         }
-
 
     if (Tag == HSignal && Triplets.size() > 1) {
         std::sort(Triplets.begin(), Triplets.end(), SortJetByTopMass());
+        for (const auto Triplet : Triplets) Print(HInformation, "TopMass", Triplet.GetTripletJet().m());
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
 
@@ -180,9 +160,9 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
 
 hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTriplet &Triplet) const
 {
-    Print(HInformation, "Get Triple Tag");
+    Print(HInformation, "Get Triple Tag", GetParticleName(Triplet.GetJet().user_index()), GetParticleName(Triplet.GetDoublet().GetJet1().user_index()));
 
-    if (std::abs(Triplet.GetDoublet().GetJet1().user_index()) != WId) return HBackground;
+    if (std::abs(Triplet.GetDoublet().GetJet1().user_index()) != TopId) return HBackground;
     if (std::abs(Triplet.GetJet().user_index()) != TopId) return HBackground;
     if (sgn(Triplet.GetDoublet().GetJet1().user_index()) != sgn(Triplet.GetJet().user_index())) return HBackground;
     return HSignal;
@@ -203,11 +183,11 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
 //             for (const auto & Neutrino : Neutrinos) {
 //                 HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
 //                 HTriplet Triplet(Doublet, Jet);
-                FillBranch(Triplet);
-                Triplet.SetBdt(Reader->GetBdt());
+            FillBranch(Triplet);
+            Triplet.SetBdt(Reader->GetBdt());
 //                 Triplet.SetTag(Tag);
-                Triplets.push_back(Triplet);
-            }
+            Triplets.push_back(Triplet);
+        }
 
     return Triplets;
 }
@@ -242,38 +222,38 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
 // }
 
 
-HJets hanalysis::HTopSemiTagger::GetNeutrinos(const HTriplet &Triplet)const
-{
-    const fastjet::PseudoJet Jet = Triplet.GetJet();
-    const fastjet::PseudoJet Lepton = Triplet.GetDoublet().GetJet1();
-    const fastjet::PseudoJet MissingEt = Triplet.GetDoublet().GetJet2();
-
-    const float LinearTerm = std::pow(TopMass, 2) - std::pow(WMass, 2) - (Lepton + Jet).m2() + Lepton.m2() + 2 * (MissingEt.px() * Jet.px() + MissingEt.py() * Jet.py());
-
-    const float JetSq = std::pow(Jet.e(), 2) - std::pow(Jet.pz(), 2);
-    const float MetSq = std::pow(MissingEt.px(), 2) + std::pow(MissingEt.py(), 2);
-
-    const float Radicand = std::pow(Jet.e(), 2) * (-4 * JetSq * MetSq + std::pow(LinearTerm, 2));
-
-    HJets Neutrinos;
-    if (Radicand < 0) {
-        Print(HInformation, "imaginary sqrt");
-        return Neutrinos;
-    }
-    const float Sqrt = std::sqrt(Radicand);
-
-    const float Neutrino1Pz = (Jet.pz() * LinearTerm - Sqrt) / 2 / JetSq;
-    const float Neutrino1E = (std::pow(Jet.e(), 2) * LinearTerm - Jet.pz() * Sqrt) / 2 / Jet.e() / JetSq;
-    fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
-    Print(HDebug, "Neutrnio 1", Neutrino1);
-    Neutrinos.push_back(Neutrino1);
-
-    const float Neutrino2Pz = (Jet.pz() * LinearTerm + Sqrt) / 2 / JetSq;
-    const float Neutrino2E = (std::pow(Jet.e(), 2) * LinearTerm + Jet.pz() * Sqrt) / 2 / Jet.e() / JetSq;
-    fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
-    Print(HDebug, "Neutrnio 2", Neutrino2);
-    Neutrinos.push_back(Neutrino2);
-
-    return Neutrinos;
-
-}
+// HJets hanalysis::HTopSemiTagger::GetNeutrinos(const HTriplet &Triplet)const
+// {
+//     const fastjet::PseudoJet Jet = Triplet.GetJet();
+//     const fastjet::PseudoJet Lepton = Triplet.GetDoublet().GetJet1();
+//     const fastjet::PseudoJet MissingEt = Triplet.GetDoublet().GetJet2();
+//
+//     const float LinearTerm = std::pow(TopMass, 2) - std::pow(WMass, 2) - (Lepton + Jet).m2() + Lepton.m2() + 2 * (MissingEt.px() * Jet.px() + MissingEt.py() * Jet.py());
+//
+//     const float JetSq = std::pow(Jet.e(), 2) - std::pow(Jet.pz(), 2);
+//     const float MetSq = std::pow(MissingEt.px(), 2) + std::pow(MissingEt.py(), 2);
+//
+//     const float Radicand = std::pow(Jet.e(), 2) * (-4 * JetSq * MetSq + std::pow(LinearTerm, 2));
+//
+//     HJets Neutrinos;
+//     if (Radicand < 0) {
+//         Print(HInformation, "imaginary sqrt");
+//         return Neutrinos;
+//     }
+//     const float Sqrt = std::sqrt(Radicand);
+//
+//     const float Neutrino1Pz = (Jet.pz() * LinearTerm - Sqrt) / 2 / JetSq;
+//     const float Neutrino1E = (std::pow(Jet.e(), 2) * LinearTerm - Jet.pz() * Sqrt) / 2 / Jet.e() / JetSq;
+//     fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
+//     Print(HDebug, "Neutrnio 1", Neutrino1);
+//     Neutrinos.push_back(Neutrino1);
+//
+//     const float Neutrino2Pz = (Jet.pz() * LinearTerm + Sqrt) / 2 / JetSq;
+//     const float Neutrino2E = (std::pow(Jet.e(), 2) * LinearTerm + Jet.pz() * Sqrt) / 2 / Jet.e() / JetSq;
+//     fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
+//     Print(HDebug, "Neutrnio 2", Neutrino2);
+//     Neutrinos.push_back(Neutrino2);
+//
+//     return Neutrinos;
+//
+// }

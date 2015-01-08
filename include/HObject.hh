@@ -31,7 +31,7 @@ class HFile;
 class HParticle;
 class HLepton;
 class HJet;
-// class HFamily;
+class HFamily;
 
 class HAnalysis;
 class HTag;

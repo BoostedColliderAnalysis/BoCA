@@ -79,11 +79,11 @@ int hanalysis::HFactory::GetTrees()
 int hanalysis::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
 {
 
-    Print(HNotification , "Add Tree", TreeName);
+    Print(HError , "Add Tree", TreeName);
 
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
-    Print(HNotification, "Branch Name", Mva->GetBranchName().c_str());
+    Print(HError, "Branch Name", Mva->GetBranchName().c_str());
     const_cast<TTree *>(Tree)->GetBranch(Mva->GetBranchName().c_str());
     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 

@@ -5,20 +5,14 @@ hanalysis::HTopHadronicTagger::HTopHadronicTagger(HBottomTagger *NewBottomTagger
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
-
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
-
     WTagger = NewWTagger;
     WReader = new HReader(WTagger);
-
     SetTaggerName("TopHadronic");
-
     Branch = new HTopHadronicBranch();
     JetTag = new HJetTag();
-
     DefineVariables();
-
 }
 
 hanalysis::HTopHadronicTagger::~HTopHadronicTagger()
@@ -77,6 +71,10 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
     Print(HInformation, "Get Top Tags");
 
     JetTag->HeavyParticles = {WId, TopId, HiggsId, HeavyHiggsId, CpvHiggsId};
+//     JetTag->HeavyFamily = {
+//       HFamily(TopId, HeavyHiggsId, EmptyId),
+//       HFamily(TopId, EmptyId, EmptyId),
+//     };
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 

@@ -8,14 +8,10 @@ hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(HBottomTagger *const NewBottom
 
     BottomTagger = NewBottomTagger;
     BottomReader = new HReader(BottomTagger);
-
     SetTaggerName("TopLeptonic");
-
     Branch = new HTopLeptonicBranch();
     JetTag = new HJetTag();
-
     DefineVariables();
-
 }
 
 hanalysis::HTopLeptonicTagger::~HTopLeptonicTagger()
@@ -72,6 +68,10 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
     Print(HInformation, "Get Top Tags");
 
     JetTag->HeavyParticles = {WId, TopId, HiggsId, CpvHiggsId, HeavyHiggsId};
+//     JetTag->HeavyFamily = {
+//         HFamily(TopId, HeavyHiggsId, EmptyId),
+//         HFamily(TopId, EmptyId, EmptyId),
+//     };
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
@@ -111,11 +111,11 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
 
 hanalysis::HObject::HTag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &Doublet)
 {
-    Print(HInformation, "Get Triple Tag");
+    Print(HInformation, "Get Triple Tag", GetParticleName(Doublet.GetJet1().user_index()), GetParticleName(Doublet.GetJet2().user_index()));
 
     if (std::abs(Doublet.GetJet1().user_index()) != TopId) return HBackground;
     Print(HDebug, "its a top");
-    if (std::abs(Doublet.GetJet2().user_index()) != WId) return HBackground;
+    if (std::abs(Doublet.GetJet2().user_index()) != TopId) return HBackground;
     Print(HDebug, "its a W");
     if (sgn(Doublet.GetJet1().user_index()) != sgn(Doublet.GetJet2().user_index())) return HBackground;
     Print(HDebug, "its a Signal");

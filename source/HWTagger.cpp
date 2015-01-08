@@ -76,6 +76,9 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
     Print(HInformation, "Get W Tags");
 
     JetTag->HeavyParticles = {WId, TopId};
+//     JetTag->HeavyFamily = {
+//         HFamily(WId, TopId, EmptyId),
+//     };
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
     Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
