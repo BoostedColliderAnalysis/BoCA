@@ -100,12 +100,12 @@ private:
         for (const int ParticleNumber : HRange(Clone->Particles.GetEntriesFast())) {
 
             TObject * Object = Clone->Particles.At(ParticleNumber);
-            const int MotherId = GetMotherId(Object);
-            Print(HDetailed, "MotherId", MotherId);
-
+//             const int MotherId = GetMotherId(Object);
+            const HFamily MotherId = GetMotherId(Object);
+            Print(HDetailed, "MotherId", MotherId.ParticleId,MotherId.Mother1Id);
 
             const GenParticle *const ParticleClone = (GenParticle *) Object;
-            JetInfo.AddConstituent(MotherId, std::abs(ParticleClone->PT));
+            JetInfo.AddFamily(MotherId, std::abs(ParticleClone->PT));
 
         }
 

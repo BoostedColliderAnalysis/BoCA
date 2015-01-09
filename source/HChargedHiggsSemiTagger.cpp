@@ -207,7 +207,9 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetQuart
     // FIXME this is totally wrong and cant work
   Print(HError,"this is totally wrong and cant work");
     hanalysis::HEvent *Event;
-    std::vector<fastjet::PseudoJet> Jets = BottomTagger->GetTruthJets(Event, BottomReader);
+
+    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+//     std::vector<fastjet::PseudoJet> Jets = BottomTagger->GetTruthJets(Event, BottomReader); // FIXME BTagger missing
     std::vector<HTriplet> Triplets = TopSemiTagger->GetTriplets(TopSemiReader);
 //     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetTriplets(TopHadronicReader);
 

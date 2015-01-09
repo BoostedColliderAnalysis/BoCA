@@ -86,8 +86,20 @@ public:
         return Triplet1;
     }
 
+    inline fastjet::PseudoJet GetTriplet1Jet()const {
+      return Triplet1.GetTripletJet();
+    }
+
     inline HTriplet GetTriplet2()const {
         return Triplet2;
+    }
+
+    inline fastjet::PseudoJet GetTriplet2Jet()const {
+      return Triplet2.GetTripletJet();
+    }
+
+    inline float GetBdtProduct() const{
+      return Triplet1.GetBdt() * Triplet2.GetBdt();
     }
 
 protected:

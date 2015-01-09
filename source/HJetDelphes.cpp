@@ -63,7 +63,7 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
 
     }
 
-    PrintTruthLevel(HError);
+    PrintTruthLevel(HDebug);
 
     return 1;
 
@@ -186,7 +186,7 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
 
         GenParticle *ParticleClone = const_cast<GenParticle *>((GenParticle *) Object);
         Constituent.Momentum = ParticleClone->P4();
-        if (JetDetails == TaggingStructure) Constituent.MotherId = GetMotherId(Object);
+        if (JetDetails == TaggingStructure) Constituent.Family = GetMotherId(Object);
         Constituent.Position.SetXYZT(ParticleClone->X, ParticleClone->Y, ParticleClone->Z, ParticleClone->T);
         Print(HDebug, "Gen Vertex", ParticleClone->X, ParticleClone->Y, ParticleClone->Z);
         // TODO should we take the GenParticle information into account or not?
@@ -195,7 +195,7 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
 
         Track *TrackClone = const_cast<Track *>((Track *) Object);
         Constituent.Momentum = TrackClone->P4();
-        if (JetDetails == TaggingStructure) Constituent.MotherId = GetMotherId(TrackClone->Particle.GetObject());
+        if (JetDetails == TaggingStructure) Constituent.Family = GetMotherId(TrackClone->Particle.GetObject());
         TVector3 Vector(TrackClone->X, TrackClone->Y, TrackClone->Z);
         Print(HDebug, "Track Vertex", TrackClone->X, TrackClone->Y, TrackClone->Z);
         Constituent.Position.SetVect(Vector);
@@ -205,15 +205,16 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
         Tower *TowerClone = const_cast<Tower *>((Tower *) Object);
         Constituent.Momentum = TowerClone->P4();
         if (JetDetails == TaggingStructure) {
-            Constituent.MotherId = GetJetId(TowerClone).GetMaximalId();
-            GetJetId(TowerClone).PrintAllInfos(HDetailed);
+            Constituent.Family = GetJetId(TowerClone).GetMaximalId();
+            GetJetId(TowerClone).PrintAllInfos(HDebug);
+            GetJetId(TowerClone).PrintAllFamilyInfos(HDebug);
         }
 
     } else if (Object->IsA() == Muon::Class()) {
 
         Muon *MuonClone = const_cast<Muon *>((Muon *) Object);
         Constituent.Momentum = MuonClone->P4();
-        if (JetDetails == TaggingStructure) Constituent.MotherId = GetMotherId(MuonClone->Particle.GetObject());
+        if (JetDetails == TaggingStructure) Constituent.Family = GetMotherId(MuonClone->Particle.GetObject());
 
     } else {
 
@@ -267,7 +268,11 @@ void hanalysis::hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
 
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
-            EFlowJets.back().set_user_index(GetMotherId(EFlowTrackClone->Particle.GetObject()));
+          HJetInfo *JetInfo = new HJetInfo();
+          JetInfo->AddFamily(GetMotherId(EFlowTrackClone->Particle.GetObject()), std::abs(EFlowTrackClone->PT));
+          EFlowJets.back().set_user_info(JetInfo);
+
+//             EFlowJets.back().set_user_index(GetMotherId(EFlowTrackClone->Particle.GetObject()));
             Print(HDetailed, "Track EFlow Id", EFlowJets.back().user_index());
 
         }
@@ -348,7 +353,11 @@ void hanalysis::hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
         EFlowJets.push_back(GetPseudoJet(const_cast<Muon *>(EFlowMuonClone)->P4()));
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
-            EFlowJets.back().set_user_index(GetMotherId(EFlowMuonClone->Particle.GetObject()));
+          HJetInfo *JetInfo = new HJetInfo();
+          JetInfo->AddFamily(GetMotherId(EFlowMuonClone->Particle.GetObject()), std::abs(EFlowMuonClone->PT));
+          EFlowJets.back().set_user_info(JetInfo);
+
+//             EFlowJets.back().set_user_index(GetMotherId(EFlowMuonClone->Particle.GetObject()));
             Print(HDetailed, "Muon EFlow Id", EFlowJets.back().user_index());
 
         }

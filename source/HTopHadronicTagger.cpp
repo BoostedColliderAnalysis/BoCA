@@ -70,21 +70,16 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {WId, TopId, HiggsId, HeavyHiggsId, CpvHiggsId};
-//     JetTag->HeavyFamily = {
-//       HFamily(TopId, HeavyHiggsId, EmptyId),
-//       HFamily(TopId, EmptyId, EmptyId),
-//     };
+    JetTag->HeavyParticles = {WId, TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
-
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
     std::vector<HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
 
     std::vector<hanalysis::HTriplet>  Triplets;
-    for (const auto & Doublet : Doublets)
-        for (const auto & Jet : Jets) {
+    for (const auto & Jet : Jets)
+        for (const auto & Doublet : Doublets) {
             if (Jet == Doublet.GetJet1()) continue;
             if (Jet == Doublet.GetJet2()) continue;
             HTriplet Triplet(Doublet, Jet);
@@ -111,9 +106,17 @@ hanalysis::HObject::HTag hanalysis::HTopHadronicTagger::GetTag(const HTriplet &T
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (std::abs(Triplet.GetJet().user_index()) != TopId) return HBackground;
-    if (Triplet.GetDoublet().GetTag() == HBackground) return HBackground;
-    if (sgn(Triplet.GetDoublet().GetJet1().user_index()) != sgn(Triplet.GetJet().user_index())) return HBackground;
+    HJetInfo BJetInfo = Triplet.GetJet().user_info<HJetInfo>();
+    BJetInfo.ExtractFraction(TopId);
+    HJetInfo W1JetInfo = Triplet.GetDoublet().GetJet1().user_info<HJetInfo>();
+    W1JetInfo.ExtractFraction(WId);
+    HJetInfo W2JetInfo = Triplet.GetDoublet().GetJet2().user_info<HJetInfo>();
+    W2JetInfo.ExtractFraction(WId);
+
+    if (std::abs(W1JetInfo.GetMaximalId()) != WId) return HBackground;
+    if (W1JetInfo.GetMaximalId() != W2JetInfo.GetMaximalId()) return HBackground;
+    if (std::abs(BJetInfo.GetMaximalId()) != TopId) return HBackground;
+    if (sgn(BJetInfo.GetMaximalId()) != sgn(W1JetInfo.GetMaximalId())) return HBackground;
     return HSignal;
 }
 
@@ -125,7 +128,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetBdt(std::vec
             if (Jet == Doublet.GetJet1()) continue;
             if (Jet == Doublet.GetJet2()) continue;
             HTriplet Triplet(Doublet, Jet);
-            Triplet.SetTag(GetTag(Triplet));
+//             Triplet.SetTag(GetTag(Triplet));
             FillBranch(Triplet);
             Triplet.SetBdt(TopHadronicReader->GetBdt());
             Triplets.push_back(Triplet);

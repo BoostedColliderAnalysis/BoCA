@@ -25,7 +25,7 @@ public:
 
     void FillBranch(const fastjet::PseudoJet &Jet);
 
-    HJets GetTruthJets(hanalysis::HEvent*const Event, const hanalysis::HReader*const BottomReader);
+//     HJets GetTruthJets(hanalysis::HEvent*const Event, const hanalysis::HReader*const BottomReader);
 
     HJets GetTruthBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
@@ -48,6 +48,7 @@ private:
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
+    hanalysis::HObject::HTag GetTag(const HJetInfo &JetInfo) const;
 
     HBottomBranch *Branch;
 

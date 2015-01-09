@@ -87,13 +87,9 @@ void hanalysis::HTopSemiTagger::FillBranch(const HTriplet &Triple)
     FillBranch(Branch, Triple);
 }
 
-
-class SortJetByTopMass
-{
-public:
+struct SortByTopMass {
     inline bool operator()(const hanalysis::HTriplet &Triplet1, const hanalysis::HTriplet &Triplet2) {
-        hanalysis::HObject Object;
-        return (std::abs(Triplet1.GetTripletJet().m() - Object.TopMass) < std::abs(Triplet2.GetTripletJet().m() - Object.TopMass));
+        return (std::abs(Triplet1.GetTripletJet().m() - Triplet1.TopMass) < std::abs(Triplet2.GetTripletJet().m() - Triplet2.TopMass));
     }
 };
 
@@ -103,47 +99,35 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {WId, TopId, HiggsId, CpvHiggsId, HeavyHiggsId};
-//     JetTag->HeavyFamily = {
-//         HFamily(TopId, HeavyHiggsId, EmptyId),
-//         HFamily(TopId, EmptyId, EmptyId),
-//     };
+    JetTag->HeavyParticles = {TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
-//     for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-//         if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
-//         else ++Lepton;
-//     }
-
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-    std::vector<HDoublet> Doublets = WSemiTagger->GetTruthBdt(Leptons, MissingEt, WSemiReader);
-
-//     std::vector<HDoublet> Doublets;
-//     for (const auto & Lepton : Leptons) {
-//         HDoublet Doublet(Lepton, MissingEt);
-//         Doublets.push_back(Doublet);
-//     }
+    std::vector<HDoublet> Doublets = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
     Print(HInformation, "Number Doublets", Doublets.size());
 
     std::vector<HTriplet> Triplets;
-    for (const auto & Doublet : Doublets)
-        for (const auto & Jet : Jets) {
+    for (const auto & Jet : Jets) {
+        std::vector<HTriplet> PreTriplets;
+        for (const auto & Doublet : Doublets) {
             HTriplet Triplet(Doublet, Jet);
             Triplet.SetTag(GetTag(Triplet));
             if (Triplet.GetTag() != Tag) continue;
-            Triplets.push_back(Triplet);
+            PreTriplets.push_back(Triplet);
         }
-
+        if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
+        if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
+    }
 
     if (Tag == HSignal && Triplets.size() > 1) {
-        std::sort(Triplets.begin(), Triplets.end(), SortJetByTopMass());
-        for (const auto Triplet : Triplets) Print(HInformation, "TopMass", Triplet.GetTripletJet().m());
+        std::sort(Triplets.begin(), Triplets.end(), SortByTopMass());
+        for (const auto Triplet : Triplets) Print(HError, "Top Mass", Triplets.size(), Triplet.GetTripletJet().m());
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
 
@@ -162,9 +146,14 @@ hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTri
 {
     Print(HInformation, "Get Triple Tag", GetParticleName(Triplet.GetJet().user_index()), GetParticleName(Triplet.GetDoublet().GetJet1().user_index()));
 
-    if (std::abs(Triplet.GetDoublet().GetJet1().user_index()) != TopId) return HBackground;
-    if (std::abs(Triplet.GetJet().user_index()) != TopId) return HBackground;
-    if (sgn(Triplet.GetDoublet().GetJet1().user_index()) != sgn(Triplet.GetJet().user_index())) return HBackground;
+    HJetInfo BJetInfo = Triplet.GetJet().user_info<HJetInfo>();
+    BJetInfo.ExtractFraction(BottomId);
+    HJetInfo W1JetInfo = Triplet.GetDoublet().GetJet1().user_info<HJetInfo>();
+    W1JetInfo.ExtractFraction(WId);
+
+    if (std::abs(W1JetInfo.GetMaximalId()) != WId) return HBackground;
+    if (std::abs(BJetInfo.GetMaximalId()) != BottomId) return HBackground;
+    if (sgn(BJetInfo.GetMaximalId()) != sgn(W1JetInfo.GetMaximalId())) return HBackground;
     return HSignal;
 }
 
@@ -172,22 +161,17 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
 {
 
     std::vector<HTriplet> Triplets;
-    for (const auto & Doublet : Doublets)
-        for (const auto & Jet : Jets) {
+    for (const auto & Jet : Jets) {
+        std::vector<HTriplet> PreTriplets;
+        for (const auto & Doublet : Doublets) {
             HTriplet Triplet(Doublet, Jet);
-            Triplet.SetTag(GetTag(Triplet));
-//             if (State == HSignal && PreTriplet.GetTag() != State) continue;
-//             HJets Neutrinos = GetNeutrinos(PreTriplet);
-//             if (Neutrinos.size() < 1) continue;
-//             const int Tag = PreTriplet.GetTag();
-//             for (const auto & Neutrino : Neutrinos) {
-//                 HDoublet Doublet(PreTriplet.GetDoublet().GetJet1(), Neutrino);
-//                 HTriplet Triplet(Doublet, Jet);
             FillBranch(Triplet);
             Triplet.SetBdt(Reader->GetBdt());
-//                 Triplet.SetTag(Tag);
-            Triplets.push_back(Triplet);
+            PreTriplets.push_back(Triplet);
         }
+        if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
+        if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
+    }
 
     return Triplets;
 }

@@ -144,13 +144,11 @@ std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::Get
     std::vector<hheavyhiggs::HEventSemiBranch *> EventSemiBranches;
 
     HJets Jets = Event->GetJets()->GetStructuredJets();
-
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetLeptonJets();
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
-
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger->GetBdt(Jets, WReader);
@@ -165,12 +163,8 @@ std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::Get
             Doublets.push_back(Doublet);
         }
 
-
     std::vector<HOctet> Octets;
     for (const auto & Doublet : Doublets) {
-//     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
-//         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
-//             hanalysis::HDoublet Doublet(*Jet1, *Jet2);
         for (const auto & Sextet : Sextets) {
             if (Sextet.GetTriplet1().GetJet() == Doublet.GetJet1()) continue;
             if (Sextet.GetTriplet1().GetJet() == Doublet.GetJet2()) continue;

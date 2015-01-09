@@ -88,18 +88,14 @@ std::vector< HWSemiBranch* > hanalysis::HWSemiTagger::GetBranches(hanalysis::HEv
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {WId, TopId};
-//     JetTag->HeavyFamily = {
-//       HFamily(WId, TopId, EmptyId),
-//     };
-
+    JetTag->HeavyParticles = {WId};
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
-    for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
-        if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
-        else ++Lepton;
-    }
+//     for (auto Lepton = Leptons.begin(); Lepton != Leptons.end();) {
+//         if (std::abs((*Lepton).user_index()) == MixedJetId) Lepton = Leptons.erase(Lepton);
+//         else ++Lepton;
+//     }
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
@@ -108,7 +104,7 @@ std::vector< HWSemiBranch* > hanalysis::HWSemiTagger::GetBranches(hanalysis::HEv
         HDoublet PreDoublet(Lepton, MissingEt);
         PreDoublet.SetTag(GetTag(PreDoublet));
 //         if (PreDoublet.GetTag() != Tag) continue;
-        if (PreDoublet.GetTag() == HBackground && Tag == HSignal) continue;
+        if (PreDoublet.GetTag() != Tag) continue;
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         for (const auto & PostDoublet : PostDoublets)
         {
@@ -142,9 +138,11 @@ std::vector< HWSemiBranch* > hanalysis::HWSemiTagger::GetBranches(hanalysis::HEv
 
 hanalysis::HObject::HTag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoublet &Doublet) const
 {
-    Print(HInformation, "Get Triple Tag");
+  Print(HInformation, "Get Triple Tag");
+  HJetInfo JetInfo = Doublet.GetJet1().user_info<HJetInfo>();
+  JetInfo.ExtractFraction(WId);
 
-    if (std::abs(Doublet.GetJet1().user_index()) != WId) return HBackground;
+    if (std::abs(JetInfo.GetMaximalId()) != WId) return HBackground;
     return HSignal;
 }
 
@@ -211,7 +209,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(HJets &Leptons
     std::vector<HDoublet> Doublets;
     for (const auto & Lepton : Leptons) {
         HDoublet PreDoublet(Lepton, MissingEt);
-        PreDoublet.SetTag(GetTag(PreDoublet));
+//         PreDoublet.SetTag(GetTag(PreDoublet));
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         for (auto & PostDoublet : PostDoublets) {
             FillBranch(PostDoublet);
@@ -249,7 +247,8 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
     Print(HDebug, "Neutrnio 1", Neutrino1);
     HDoublet Doublet1(Lepton,Neutrino1);
     Doublet1.SetTag(Doublet.GetTag());
-//     if (Doublet1.GetDoubletJet().m() > 0) Doublets.push_back(Doublet1);
+//     if (Doublet1.GetDoubletJet().m() > 0)
+      Doublets.push_back(Doublet1);
 
     const float Neutrino2E = (Lepton.e() * LinearTerm + Sqrt) / LeptonSq;
     const float Neutrino2Pz = (std::pow(Lepton.pz(), 2) * LinearTerm + Lepton.e() * Sqrt) / Lepton.pz() / LeptonSq;
@@ -257,10 +256,11 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
     Print(HDebug, "Neutrnio 2", Neutrino2);
     HDoublet Doublet2(Lepton,Neutrino2);
     Doublet2.SetTag(Doublet.GetTag());
-//     if (Doublet2.GetDoubletJet().m() > 0) Doublets.push_back(Doublet2);
+//     if (Doublet2.GetDoubletJet().m() > 0)
+      Doublets.push_back(Doublet2);
 
-    if (std::abs(Neutrino1Pz) < std::abs(Neutrino2Pz)) Doublets.push_back(Doublet1);
-    else Doublets.push_back(Doublet2);
+//     if (std::abs(Neutrino1Pz) < std::abs(Neutrino2Pz)) Doublets.push_back(Doublet1);
+//     else Doublets.push_back(Doublet2);
 
     return Doublets;
 

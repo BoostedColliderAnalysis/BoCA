@@ -43,15 +43,15 @@ public:
         Marker = 0;
     }
 
-//     bool operator==(const HFamily &Family) const {
-// //         return (std::abs(ParticleId) == std::abs(Family.ParticleId)
-// //         && std::abs(Mother1Id) == std::abs(Family.Mother1Id)
-// //         && std::abs(Mother2Id) == std::abs(Family.Mother2Id));
-//         return (ParticleId == Family.ParticleId
-//                 && Mother1Id == Family.Mother1Id
-// //                 && Mother2Id == Family.Mother2Id
-//                );
-//     }
+    bool operator==(const HFamily &Family) const {
+//         return (std::abs(ParticleId) == std::abs(Family.ParticleId)
+//         && std::abs(Mother1Id) == std::abs(Family.Mother1Id)
+//         && std::abs(Mother2Id) == std::abs(Family.Mother2Id));
+        return (ParticleId == Family.ParticleId
+                && Mother1Id == Family.Mother1Id
+//                 && Mother2Id == Family.Mother2Id
+               );
+    }
 
 //     HFamily Abs() const {
 //         return HFamily(std::abs(ParticleId), std::abs(Mother1Id)
@@ -81,8 +81,6 @@ protected:
 
     bool Marker;
 
-
-
 };
 
 // class HFamilyId : public hanalysis::HObject
@@ -98,21 +96,21 @@ protected:
 //     HParticleId Mother2Id;
 // };
 
-// namespace std
-// {
-//
-// template <>
-// struct hash<hanalysis::HFamily> {
-//     std::size_t operator()(const hanalysis::HFamily &Family) const {
-//
-//         return ((std::hash<int>()(Family.ParticleId)
-//                  ^ (std::hash<int>()(Family.Mother1Id) << 1)) >> 1)
-// //                ^ (std::hash<int>()(Family.Mother2Id) << 1)
-//                ;
-//     }
-// };
-//
-// }
+namespace std
+{
+
+template <>
+struct hash<hanalysis::HFamily> {
+    std::size_t operator()(const hanalysis::HFamily &Family) const {
+
+        return ((std::hash<int>()(Family.ParticleId)
+                 ^ (std::hash<int>()(Family.Mother1Id) << 1)) >> 1)
+//                ^ (std::hash<int>()(Family.Mother2Id) << 1)
+               ;
+    }
+};
+
+}
 
 /**
  * @brief defines how to tag a jet

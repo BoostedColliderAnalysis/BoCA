@@ -75,13 +75,10 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
 
     Print(HInformation, "Get W Tags");
 
-    JetTag->HeavyParticles = {WId, TopId};
-//     JetTag->HeavyFamily = {
-//         HFamily(WId, TopId, EmptyId),
-//     };
+    JetTag->HeavyParticles = {WId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
@@ -109,8 +106,17 @@ hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
 {
     Print(HInformation, "Get Doublet Tag");
 
-    if (Doublet.GetJet1().user_index() != Doublet.GetJet2().user_index()) return HBackground;
-    if (std::abs(Doublet.GetJet1().user_index()) != WId) return HBackground;
+    HJetInfo JetInfo1 = Doublet.GetJet1().user_info<HJetInfo>();
+    JetInfo1.PrintAllFamilyInfos(HDebug);
+    JetInfo1.ExtractFraction(WId);
+    JetInfo1.PrintAllInfos(HDebug);
+    HJetInfo JetInfo2 = Doublet.GetJet2().user_info<HJetInfo>();
+    JetInfo2.ExtractFraction(WId);
+    JetInfo2.PrintAllInfos(HDebug);
+
+//     if (Doublet.GetJet1().user_index() != Doublet.GetJet2().user_index()) return HBackground;
+    if (std::abs(JetInfo1.GetMaximalId()) != WId) return HBackground;
+    if (JetInfo1.GetMaximalId() != JetInfo2.GetMaximalId()) return HBackground;
     return HSignal;
 }
 
@@ -122,7 +128,8 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(HJets &Jets, const
     for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
             HDoublet Doublet(*Jet1, *Jet2);
-            Doublet.SetTag(GetTag(Doublet));
+            if(Jet1 == Jet2) Print(HError,"WTF");
+//             Doublet.SetTag(GetTag(Doublet));
             FillBranch(Doublet);
             Doublet.SetBdt(WReader->GetBdt());
             Doublets.push_back(Doublet);

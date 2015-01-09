@@ -2,15 +2,18 @@
 # define HJetInfo_hh
 
 # include <map>
+# include <unordered_map>
 # include <numeric>
 
 # include "HTag.hh"
+# include "HJetTag.hh"
 
 struct HConstituent {
 
     TLorentzVector Position;
     TLorentzVector Momentum;
     int MotherId;
+    hanalysis::HFamily Family;
 
     HConstituent operator+(const HConstituent &Vertex) {
         HConstituent NewVertex;
@@ -51,15 +54,23 @@ public:
 
     /**
      * @brief Add Constituent...
-     * 
+     *
      */
     void AddConstituent(const int ConstituentId, const float Weight);
 
+    void AddFamily(const HFamily Family, const float Weight);
+
     /**
      * @brief Get Fraction
-     * 
+     *
      */
     float GetFraction(const int ParticleId) const;
+
+    void ExtractFraction(const int ParticleId);
+
+    float GetFamily(const HFamily Family) const;
+
+    float GetFamilyFraction(const HFamily Family) const;
 
     std::map<int, float> GetJetFractions() const {
         return JetFractions;
@@ -67,31 +78,33 @@ public:
 
     /**
      * @brief Get dominant Fraction
-     * 
+     *
      */
     float GetMaximalFraction() const;
 
     /**
      * @brief Get dominant Id
-     * 
+     *
      */
     int GetMaximalId() const;
 
     /**
      * @brief Print List of all infos
-     * 
+     *
      */
     void PrintAllInfos(const hanalysis::HObject::HSeverity Severity) const;
 
+    void PrintAllFamilyInfos(const hanalysis::HObject::HSeverity Severity) const;
+
     /**
      * @brief Clear all infos
-     * 
+     *
      */
     void Clear();
 
     /**
      * @brief Check for Particle Id
-     * 
+     *
      */
     bool HasParticle(const int ParticleId) const;
 
@@ -117,7 +130,7 @@ public:
 
 //     float GetJetDisplacement() {
 //         Print(HDebug, "Get Jet Displacement");
-// 
+//
 //         if (Vertices.size() == 0) {
 //             Print(HError, "No secondary Vertices");
 //             return 0;
@@ -143,14 +156,18 @@ protected:
     };
 
 private:
-    
+
     std::vector<HConstituent> ApplyVertexResolution() const;
 
-    const float SecondaryVertexResolution = 0.1;
+    float SecondaryVertexResolution = 0.1;
 
     float GetWeightSum() const;
 
+    float GetFamilyWeightSum() const;
+
     std::map<int, float> JetFractions;
+
+    std::unordered_map<HFamily, float> JetFamily;
 
     std::vector<HConstituent> Vertices;
 

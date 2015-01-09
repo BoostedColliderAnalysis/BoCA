@@ -152,7 +152,7 @@ protected:
     fastjet::PseudoJet GetPseudoJet(const TRootPhoton *const) const;
     fastjet::PseudoJet GetPseudoJet(const TRootTau *const) const;
 
-    int GetMotherId(TObject *Object);
+    HFamily GetMotherId(TObject *Object);
 
     HFamily GetBranchFamily(HFamily &BranchId, int Position);
 

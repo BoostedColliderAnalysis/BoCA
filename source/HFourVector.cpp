@@ -156,7 +156,7 @@ fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Pa
     return GetPseudoJet(GetLorentzVectorByMass(Particle, TauMass));
 }
 
-int hanalysis::HFourVector::GetMotherId(TObject *Object)
+hanalysis::HFamily hanalysis::HFourVector::GetMotherId(TObject *Object)
 {
     Print(HDetailed, "Get Mother Id", ClonesArrays->GetParticleSum());
 
@@ -170,10 +170,12 @@ int hanalysis::HFourVector::GetMotherId(TObject *Object)
 
     HFamily BranchFamily;
     BranchFamily = GetBranchFamily(BranchFamily, Position);
-    if (BranchFamily.Mother1Id == EmptyId) Print(HError, "Truth Level Tagging Failed");
+    if (BranchFamily.Mother1Id == EmptyId)
+        BranchFamily = HFamily(BranchFamily.ParticlePosition, IsrId, BranchFamily.Mother1Position, IsrId);
+//       Print(HError, "Truth Level Tagging Failed");
 
     for (auto & Node : Topology) if (Node.GetMarker()) Node = BranchFamily;
-    return BranchFamily.Mother1Id;
+    return BranchFamily;
 
 }
 
@@ -182,23 +184,27 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(HFamily &BranchFamily
     Print(HDetailed, "Get Mother Id", GetParticleName(BranchFamily.ParticleId), Position);
     if (Position == 0 && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) != end(JetTag->HeavyParticles)) Print(HError, "Proton", std::abs(BranchFamily.ParticleId));
 
-    while (Position != EmptyPosition
-            && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) == end(JetTag->HeavyParticles)
-            && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) == end(JetTag->HeavyParticles)
-          ) {
+    if (Position < 4 && std::abs(BranchFamily.ParticleId) == 5) Print(HError, "Hello");
+
+    while (
+//       Position != EmptyPosition
+        Position > 4 // FIXME make it work without this cheat
+        && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) == end(JetTag->HeavyParticles)
+        && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) == end(JetTag->HeavyParticles)
+    ) {
 
         Print(HDetailed, "Topology", Topology.at(Position).ParticleId);
 
         if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).Mother1Id))) != end(JetTag->HeavyParticles) || JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).ParticleId))) != end(JetTag->HeavyParticles)) {
-            Print(HError, "Abbort 1", Position);
+//             Print(HError, "Abbort 1", Position);
             return Topology.at(Position);
         }
 
         if (Topology.at(Position).Mother1Id != EmptyId && Topology.at(Position).ParticleId != EmptyId
-          && Topology.at(Position).GetMarker() == 0
+                && Topology.at(Position).GetMarker() == 0
 
            ) {
-            Print(HError, "Abbort 2", Position);
+//             Print(HError, "Abbort 2", Position);
             return Topology.at(Position);
         }
 
@@ -215,7 +221,8 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(HFamily &BranchFamily
         }
 
         HFamily NodeFamily(Position, ParticleClone->PID, ParticleClone->M1, M1Id);
-        if (Status == GeneratorParticle) BranchFamily = JetTag->GetBranchFamily(NodeFamily, BranchFamily);
+        if (Status == GeneratorParticle)
+            BranchFamily = JetTag->GetBranchFamily(NodeFamily, BranchFamily);
 
         Print(HDetailed, "Branch Id", GetParticleName(M1Id), GetParticleName(BranchFamily.Mother1Id));
 
@@ -261,8 +268,10 @@ void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
     if (Severity <= DebugLevel) {
 
         PrintCell("Position");
-        PrintCell("Topology");
-        PrintCell("Topology2");
+        PrintCell("Top Part");
+        PrintCell("Top PP");
+        PrintCell("Top Moth");
+        PrintCell("Top MP");
         PrintCell("Status");
         PrintCell("Particle");
         PrintCell("Pos M1");
@@ -286,7 +295,9 @@ void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
 
             PrintCell(Position);
             PrintCell(GetParticleName(Topology.at(Position).ParticleId));
+            PrintCell(Topology.at(Position).ParticlePosition);
             PrintCell(GetParticleName(Topology.at(Position).Mother1Id));
+            PrintCell(Topology.at(Position).Mother1Position);
             PrintCell(Particle->Status);
             PrintCell(GetParticleName(Particle->PID));
             PrintCell(Particle->M1);
