@@ -63,6 +63,22 @@ private:
 
 };
 
+
+class HResultBranch : public HBranch
+{
+public:
+
+  HResultBranch();
+
+  float Bdt;
+  float Tag;
+
+private:
+
+  ClassDef(HResultBranch, 1)
+
+};
+
 /**
  * @brief Class for saving Event informations to root
  *
@@ -71,13 +87,15 @@ class HParticleBranch : public HBranch
 {
 public:
 
+    HParticleBranch();
+
+    float Mass;
     float Pt;
     float Rap;
     float Phi;
 
-    HParticleBranch();
-
 private:
+
     ClassDef(HParticleBranch, 1)
 
 };
@@ -88,27 +106,46 @@ private:
  * @brief Bottom tagger root tree structure
  *
  */
-class HBottomBranch : public HBranch
+class HBottomBranch : public HParticleBranch
 {
 
 public:
 
     HBottomBranch();
 
-    float Mass;
     float VertexMass;
-    float Pt;
     float Displacement;
     int Multipliticity;
     float DeltaR;
     float Spread;
     float EnergyFraction;
 
-    int BottomTag;
+    int Tag;
 
 private:
 
     ClassDef(HBottomBranch, 1)
+
+};
+
+class HPairBranch : public HParticleBranch
+{
+
+public:
+
+  HPairBranch();
+
+  float DeltaPt;
+  float DeltaRap;
+  float DeltaPhi;
+  float DeltaR;
+
+  float Bdt;
+  int Tag;
+
+private:
+
+  ClassDef(HPairBranch, 1)
 
 };
 
@@ -117,28 +154,12 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HWBranch : public HBranch
+class HWBranch : public HPairBranch
 {
 
 public:
 
     HWBranch();
-
-    float Mass;
-    float PtSum;
-    float PtDiff;
-
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
-
-    float BottomBdt;
-
-    float Pull1;
-    float Pull2;
-    float Pull;
-
-    int WTag;
 
 private:
 
@@ -148,29 +169,42 @@ private:
 
 /**
  *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HJetPairBranch : public HPairBranch
+{
+
+public:
+
+  HJetPairBranch();
+
+private:
+
+  ClassDef(HJetPairBranch, 1)
+
+};
+
+/**
+ *
  * @brief Top tagger root tree structure
  *
  */
-class HWSemiBranch : public HBranch
+class HWSemiBranch : public HParticleBranch
 {
 
 public:
 
   HWSemiBranch();
 
-  float Mass;
-
-  float Pt;
-
   float LeptonPt;
   float NeutrinoPt;
-  float MissingEt;
 
   float DeltaRap;
   float DeltaPhi;
   float DeltaR;
 
-  int WTag;
+  int Tag;
 
 private:
 
@@ -183,24 +217,22 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopHadronicBranch : public HBranch
+class HTopHadronicBranch : public HParticleBranch
 {
 
 public:
 
     HTopHadronicBranch();
 
-    float Mass;
-    float JetPt;
+    float BottomPt;
     float WPt;
 
     float DeltaRap;
     float DeltaPhi;
     float DeltaR;
 
-    float WBottomBdt;
-
-    int TopTag;
+    float Bdt;
+    int Tag;
 
 private:
 
@@ -213,24 +245,22 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopLeptonicBranch : public HBranch
+class HTopLeptonicBranch : public HParticleBranch
 {
 
 public:
 
     HTopLeptonicBranch();
 
-    float Mass;
-    float JetPt;
+    float BottomPt;
     float LeptonPt;
 
     float DeltaRap;
     float DeltaPhi;
     float DeltaR;
 
-    float BottomBdt;
-
-    int TopTag;
+    float Bdt;
+    int Tag;
 
 private:
 
@@ -243,34 +273,22 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopSemiBranch : public HBranch
+class HTopSemiBranch : public HParticleBranch
 {
 
 public:
 
     HTopSemiBranch();
 
-    float Mass;
-    float PairMass;
+    float BottomPt;
+    float WPt;
 
-    float TriplePt;
-    float PairPt;
+    float DeltaRap;
+    float DeltaPhi;
+    float DeltaR;
 
-    float JetPt;
-    float LeptonPt;
-    float MissingEt;
-
-    float PairDeltaRap;
-    float PairDeltaPhi;
-    float PairDeltaR;
-
-    float TripleDeltaRap;
-    float TripleDeltaPhi;
-    float TripleDeltaR;
-
-    float BottomBdt;
-
-    int TopTag;
+    float Bdt;
+    int Tag;
 
 private:
 
@@ -318,19 +336,13 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsLeptonicBranch : public HBranch
+class HHeavyHiggsLeptonicBranch : public HPairBranch
 {
 
 public:
 
     HHeavyHiggsLeptonicBranch();
 
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float TopDeltaRap;
-    float TopDeltaPhi;
-    float TopDeltaR;
 
     float LargerWDeltaRap;
     float LargerWDeltaPhi;
@@ -348,10 +360,6 @@ public:
     float SmallerNeutrinoDeltaPhi;
     float SmallerNeutrinoDeltaR;
 
-
-    float TopBdt;
-
-    int HeavyHiggsTag;
 
 private:
 
@@ -410,40 +418,12 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsSemiBranch : public HBranch
+class HHeavyHiggsSemiBranch : public HPairBranch
 {
 
 public:
 
     HHeavyHiggsSemiBranch();
-
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float TopDeltaRap;
-    float TopDeltaPhi;
-    float TopDeltaR;
-
-    //     float LargerWDeltaRap;
-    //     float LargerWDeltaPhi;
-    //     float LargerWDeltaR;
-    //
-    //     float SmallerWDeltaRap;
-    //     float SmallerWDeltaPhi;
-    //     float SmallerWDeltaR;
-    //
-    //     float LargerNeutrinoDeltaRap;
-    //     float LargerNeutrinoDeltaPhi;
-    //     float LargerNeutrinoDeltaR;
-    //
-    //     float SmallerNeutrinoDeltaRap;
-    //     float SmallerNeutrinoDeltaPhi;
-    //     float SmallerNeutrinoDeltaR;
-
-
-    float TopBdt;
-
-    int HeavyHiggsTag;
 
 private:
 
@@ -469,23 +449,6 @@ public:
   float TopDeltaRap;
   float TopDeltaPhi;
   float TopDeltaR;
-
-  //     float LargerWDeltaRap;
-  //     float LargerWDeltaPhi;
-  //     float LargerWDeltaR;
-  //
-  //     float SmallerWDeltaRap;
-  //     float SmallerWDeltaPhi;
-  //     float SmallerWDeltaR;
-  //
-  //     float LargerNeutrinoDeltaRap;
-  //     float LargerNeutrinoDeltaPhi;
-  //     float LargerNeutrinoDeltaR;
-  //
-  //     float SmallerNeutrinoDeltaRap;
-  //     float SmallerNeutrinoDeltaPhi;
-  //     float SmallerNeutrinoDeltaR;
-
 
   float TopBdt;
 

@@ -28,6 +28,12 @@ public:
         return Tag;
     }
 
+    template<typename HMultiplet>
+    bool operator < (const HMultiplet& Multiplet) const {
+      // largest bdt in front
+      return (Bdt > Multiplet.Bdt);
+    }
+
 protected:
 
     float Bdt;

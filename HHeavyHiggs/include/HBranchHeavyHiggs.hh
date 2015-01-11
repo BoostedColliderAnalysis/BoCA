@@ -76,7 +76,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventLeptonicBranch : public HBranch
+class hheavyhiggs::HEventLeptonicBranch : public HPairBranch
 {
 
 public:
@@ -86,30 +86,7 @@ public:
     int LeptonNumber;
     int JetNumber;
     int BottomNumber;
-
     float ScalarHt;
-    float HeavyParticleBdt;
-
-    float HeavyHiggsBdt;
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float BottomSumPt;
-    float BottomDeltaPt;
-
-    float BottomDeltaRap;
-    float BottomDeltaPhi;
-    float BottomDeltaR;
-
-    float HbSumDeltaRap;
-    float HbSumDeltaPhi;
-    float HbSumDeltaR;
-
-    float HbDeltaDeltaRap;
-    float HbDeltaDeltaPhi;
-    float HbDeltaDeltaR;
-
-    int EventTag;
 
 private:
 
@@ -173,7 +150,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventSemiBranch : public HBranch
+class hheavyhiggs::HEventSemiBranch : public HPairBranch
 {
 
 public:
@@ -183,30 +160,7 @@ public:
   int LeptonNumber;
   int JetNumber;
   int BottomNumber;
-
   float ScalarHt;
-  float HeavyParticleBdt;
-
-  float HeavyHiggsBdt;
-  float HeavyHiggsMass;
-  float HeavyHiggsPt;
-
-  float BottomSumPt;
-  float BottomDeltaPt;
-
-  float BottomDeltaRap;
-  float BottomDeltaPhi;
-  float BottomDeltaR;
-
-  float HbSumDeltaRap;
-  float HbSumDeltaPhi;
-  float HbSumDeltaR;
-
-  float HbDeltaDeltaRap;
-  float HbDeltaDeltaPhi;
-  float HbDeltaDeltaR;
-
-  int EventTag;
 
 private:
 

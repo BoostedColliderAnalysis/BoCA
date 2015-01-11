@@ -50,21 +50,21 @@ void hhiggscpv::HMvaBottom::DefineVariables()
     Observables.push_back(NewObservable(&BTagger->DeltaR, "DeltaR"));
 
     Spectators.push_back(NewObservable(&BTagger->Mass, "Mass"));
-    Spectators.push_back(NewObservable(&BTagger->BottomTag, "BottomTag"));
-    
+    Spectators.push_back(NewObservable(&BTagger->Tag, "Tag"));
+
     Print(HNotification, "Variables defined");
 
 }
 
 float hhiggscpv::HMvaBottom::GetBdt(TObject *Branch, TMVA::Reader *Reader)
 {
-    
+
     Print(HInformation, "Get Bdt", BdtMethodName);
 
     *BTagger = *static_cast<HBottomBranch *>(Branch);
     const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
     Print(HInformation, "BTagger Bdt", BdtEvaluation);
-    
+
     return ((BdtEvaluation + 1.) / 2.);
 
 }

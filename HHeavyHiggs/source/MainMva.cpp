@@ -9,7 +9,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
     bool HasReader = 0;
 
     hheavyhiggs::HAnalysisMva *Analysis = new hheavyhiggs::HAnalysisMva();
-    std::string Name = Analysis->GetStudyNames(Tagger);
+    const std::string Name = Analysis->GetStudyNames(Tagger);
 
     Analysis->Print(Analysis->HError, "Tagger", Tagger, Name);
 
@@ -67,7 +67,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         }
         HasFactory = 1;
     }
-    if (HasFactory) delete Factory;
+//     if (HasFactory) delete Factory;
 
     FileName = Analysis->GetProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
@@ -94,26 +94,26 @@ int main()
 {
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
-// //     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
+    RunTagger(hanalysis::HAnalysis::HJetPairTagger);
     RunTagger(hanalysis::HAnalysis::HWTagger);
     RunTagger(hanalysis::HAnalysis::HWSemiTagger);
-//
+
     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-//
+
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
     RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
-//
+
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
-//
-// //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
-// //     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
 
-    return 1;
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
+//     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
+
+    return 0;
 
 }
 

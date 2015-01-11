@@ -56,9 +56,9 @@ void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBr
     EventHadronicBranch->BottomDeltaPhi = Octet.GetDoublet().GetPhiDelta();
     EventHadronicBranch->BottomDeltaR = Octet.GetDoublet().GetDeltaR();
 
-    EventHadronicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
-    EventHadronicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
-    EventHadronicBranch->HbSumDeltaR = Octet.GetHbSumDeltaR();
+    EventHadronicBranch->HbSumDeltaRap = Octet.GetDeltaRap();
+    EventHadronicBranch->HbSumDeltaPhi = Octet.GetDeltaPhi();
+    EventHadronicBranch->HbSumDeltaR = Octet.GetDeltaR();
 
     EventHadronicBranch->HbDeltaDeltaRap = Octet.GetHbDeltaDeltaRap();
     EventHadronicBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
@@ -115,7 +115,7 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
     std::vector<hheavyhiggs::HEventHadronicBranch *> EventHadronicBranches;
 
     HJets Jets = Event->GetJets()->GetStructuredJets();
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
     if (Jets.size() < 8) return EventHadronicBranches;
 
     std::vector<hanalysis::HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);

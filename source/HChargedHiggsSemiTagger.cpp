@@ -118,13 +118,13 @@ std::vector< HChargedHiggsSemiBranch * > hanalysis::HChargedHiggsSemiTagger::Get
     JetTag->HeavyParticles = {WId, TopId, ChargedHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
-    std::vector<HDoublet> Doublets = WSemiTagger->GetTruthBdt(Leptons, MissingEt, WSemiReader);
+    std::vector<HDoublet> Doublets = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
 
     std::vector<HTriplet> Triplets = TopSemiTagger->GetBdt(Doublets, Jets, TopSemiReader);
 

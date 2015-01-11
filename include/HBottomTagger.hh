@@ -27,7 +27,7 @@ public:
 
 //     HJets GetTruthJets(hanalysis::HEvent*const Event, const hanalysis::HReader*const BottomReader);
 
-    HJets GetTruthBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
+//     HJets GetTruthBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
     HJets GetBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
 

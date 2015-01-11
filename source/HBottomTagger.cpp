@@ -31,13 +31,15 @@ void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, con
         BottomBranch->VertexMass = Jet.user_info<HJetInfo>().GetVertexMass();
         BottomBranch->Mass = Jet.m();
         BottomBranch->Pt = Jet.pt();
+        BottomBranch->Rap = Jet.rap();
+        BottomBranch->Phi = Jet.phi();
         BottomBranch->Displacement = Jet.user_info<HJetInfo>().GetJetDisplacement();
         BottomBranch->Multipliticity = Jet.user_info<HJetInfo>().GetVertexNumber();
         BottomBranch->DeltaR = GetDeltaR(Jet);
         BottomBranch->Spread = GetSpread(Jet);
         BottomBranch->EnergyFraction = Jet.user_info<HJetInfo>().GetVertexEnergy() / Jet.e();
-        if (std::abs(Jet.user_index()) == BottomId) BottomBranch->BottomTag = 1;
-        else BottomBranch->BottomTag = 0;
+        if (std::abs(Jet.user_index()) == BottomId) BottomBranch->Tag = 1;
+        else BottomBranch->Tag = 0;
     } else Print(HError, "BJet without user info");
 }
 
@@ -47,6 +49,8 @@ void hanalysis::HBottomTagger::DefineVariables()
 
     Observables.push_back(NewObservable(&Branch->VertexMass, "VertexMass"));
     Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
     Observables.push_back(NewObservable(&Branch->Displacement, "Displacement"));
     Observables.push_back(NewObservable(&Branch->Multipliticity, "Multipliticity"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
@@ -54,14 +58,14 @@ void hanalysis::HBottomTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->EnergyFraction, "EnergyFraction"));
 
     Spectators.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Spectators.push_back(NewObservable(&Branch->BottomTag, "BottomTag"));
+    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
 }
 
 std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
-    JetTag->HeavyParticles = {BottomId, TopId};
+    JetTag->HeavyParticles = {BottomId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
 
@@ -108,21 +112,21 @@ hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const HJetInfo &JetInf
 }
 
 
-HJets hanalysis::HBottomTagger::GetTruthBdt(HJets &Jets, const HReader *const BottomReader)
-{
-    for (auto Jet = Jets.begin(); Jet != Jets.end();) {
-        if (std::abs((*Jet).user_index()) == MixedJetId) Jet = Jets.erase(Jet);
-        else {
-            HJetInfo *JetInfo = new HJetInfo;
-            FillBranch(*Jet);
-            JetInfo->SetBdt(BottomReader->GetBdt());
-            JetInfo->SetTag(GetTag(*Jet));
-            (*Jet).set_user_info(JetInfo);
-            ++Jet;
-        }
-    }
-    return Jets;
-}
+// HJets hanalysis::HBottomTagger::GetTruthBdt(HJets &Jets, const HReader *const BottomReader)
+// {
+//     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
+//         if (std::abs((*Jet).user_index()) == MixedJetId) Jet = Jets.erase(Jet);
+//         else {
+//             HJetInfo *JetInfo = new HJetInfo;
+//             FillBranch(*Jet);
+//             JetInfo->SetBdt(BottomReader->GetBdt());
+//             JetInfo->SetTag(GetTag(*Jet));
+//             (*Jet).set_user_info(JetInfo);
+//             ++Jet;
+//         }
+//     }
+//     return Jets;
+// }
 
 // HJets hanalysis::HBottomTagger::GetTruthJets(hanalysis::HEvent *const Event, const HReader *const BottomReader)
 // {
@@ -156,10 +160,9 @@ HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomR
 {
     for (auto Jet = Jets.begin(); Jet != Jets.end(); ++Jet) {
         HJetInfo *JetInfo = new HJetInfo();
-        *JetInfo = (*Jet).user_info<HJetInfo>();
+        if((*Jet).has_user_info<HJetInfo>()) *JetInfo = (*Jet).user_info<HJetInfo>();
         FillBranch(*Jet);
         JetInfo->SetBdt(BottomReader->GetBdt());
-//         JetInfo->SetTag(GetTag(*Jet));
         (*Jet).set_user_info(JetInfo);
     }
     return Jets;

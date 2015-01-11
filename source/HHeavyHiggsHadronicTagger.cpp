@@ -110,7 +110,7 @@ std::vector< HHeavyHiggsHadronicBranch * > hanalysis::HHeavyHiggsHadronicTagger:
     JetTag->HeavyParticles = {WId, TopId, HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     std::vector<HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
 

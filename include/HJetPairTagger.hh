@@ -5,37 +5,37 @@
 # include "HDoublet.hh"
 
 
-class HJetPairTag : public hanalysis::HJetTag
-{
-
-public:
-  virtual int GetBranchId(const int ParticleId, int BranchId){
-
-    Print(HDebug, "Get Branch Id", GetParticleName(ParticleId), GetParticleName(BranchId));
-
-    if (
-      HeavyParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(HeavyParticles)
-    ) {
-      BranchId = ParticleId;
-    } else if (
-      RadiationParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(RadiationParticles)
-    ) {
-      BranchId = IsrId;
-    }
-
-    Print(HDebug, "Branch Id", GetParticleName(BranchId));
-
-    return BranchId;
-
-  }
-
-protected:
-
-  virtual inline std::string ClassName() const {
-    return "HJetPairTag";
-  }
-
-};
+// class HJetPairTag : public hanalysis::HJetTag
+// {
+//
+// public:
+//   virtual int GetBranchId(const int ParticleId, int BranchId){
+//
+//     Print(HDebug, "Get Branch Id", GetParticleName(ParticleId), GetParticleName(BranchId));
+//
+//     if (
+//       HeavyParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(HeavyParticles)
+//     ) {
+//       BranchId = ParticleId;
+//     } else if (
+//       RadiationParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(RadiationParticles)
+//     ) {
+//       BranchId = IsrId;
+//     }
+//
+//     Print(HDebug, "Branch Id", GetParticleName(BranchId));
+//
+//     return BranchId;
+//
+//   }
+//
+// protected:
+//
+//   virtual inline std::string ClassName() const {
+//     return "HJetPairTag";
+//   }
+//
+// };
 
 /**
  * @brief JetPair BDT tagger
@@ -52,11 +52,9 @@ public:
 
     void FillBranch(const HDoublet &Pair);
 
-    std::vector< HWBranch * > GetBranches(HEvent *const Event, const HObject::HTag Tag);
+    std::vector< HJetPairBranch * > GetBranches(HEvent *const Event, const HObject::HTag Tag);
 
-    std::vector<HParticleBranch *> GetConstituentBranches();
-
-    std::vector<HDoublet> GetBdt(HJets &Jets, const hanalysis::HReader *const WReader);
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader *const JetPairReader);
 
 protected:
 
@@ -68,11 +66,7 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HWBranch *const WBranch, const HDoublet &Doublet);
-
-    void FillBranch(const HKinematics &Vector);
-
-    void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
+    void FillBranch(HJetPairBranch *const JetPairBranch, const hanalysis::HDoublet &Doublet);
 
     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
 
@@ -80,9 +74,9 @@ private:
 
     HReader *BottomReader;
 
-    HWBranch *Branch;
+    HJetPairBranch *Branch;
 
-    HJetPairTag *JetTag;
+    HJetTag *JetTag;
 
 };
 

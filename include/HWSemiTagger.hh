@@ -21,12 +21,12 @@ public:
 
     void FillBranch(const hanalysis::HDoublet& Doublet);
 
-    std::vector< HDoublet > GetTruthBdt(HJets& Leptons, const fastjet::PseudoJet& MissingEt, const hanalysis::HReader*const Reader);
+//     std::vector< HDoublet > GetTruthBdt(HJets& Leptons, const fastjet::PseudoJet& MissingEt, const hanalysis::HReader*const Reader);
 
     std::vector< HDoublet > GetBdt(HJets& Leptons, const fastjet::PseudoJet& MissingEt, const hanalysis::HReader*const Reader);
 
 
-    std::vector<hanalysis::HDoublet>  GetTruthDoublets(const hanalysis::HReader* Reader, hanalysis::HEvent*const Event);
+//     std::vector<hanalysis::HDoublet>  GetTruthDoublets(const hanalysis::HReader* Reader, hanalysis::HEvent*const Event);
 
 protected:
 

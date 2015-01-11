@@ -269,6 +269,10 @@ public:
 
     virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader);
 
+    HPairBranch *GetBranch() {
+      return Branch;
+    }
+
 protected:
 
     virtual void DefineVariables() = 0;
@@ -364,6 +368,10 @@ protected:
     std::vector<HObservable> Observables;
 
     std::vector<HObservable> Spectators;
+
+    int MaxCombi;
+
+    HPairBranch *Branch;
 
 private:
 

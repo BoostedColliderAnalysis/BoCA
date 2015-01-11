@@ -35,16 +35,57 @@ void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(const hanalysis::HSextet &
     FillBranch(Branch, Sextet);
 }
 
+void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
+{
+
+  Print(HNotification , "Define Variables");
+
+  Spectators.push_back(NewObservable(&Branch->Mass, "Mass"));
+  Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
+  Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
+  Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
+
+  Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
+  Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+  Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
+  Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
+
+  Observables.push_back(NewObservable(&Branch->LargerWDeltaR, "LargerWDeltaR"));
+  Observables.push_back(NewObservable(&Branch->LargerWDeltaRap, "LargerWDeltaRap"));
+  Observables.push_back(NewObservable(&Branch->LargerWDeltaPhi, "LargerWDeltaPhi"));
+
+  Observables.push_back(NewObservable(&Branch->SmallerWDeltaR, "SmallerWDeltaR"));
+  Observables.push_back(NewObservable(&Branch->SmallerWDeltaRap, "SmallerWDeltaRap"));
+  Observables.push_back(NewObservable(&Branch->SmallerWDeltaPhi, "SmallerWDeltaPhi"));
+
+  Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR"));
+  Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap"));
+  Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi"));
+
+  Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR"));
+  Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap"));
+  Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi"));
+
+  Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
+  Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
+
+  Print(HNotification, "Variables defined");
+
+}
+
 void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const HSextet &Sextet)
 {
     Print(HInformation, "FillPairTagger", Sextet.GetBdt());
 
-    HeavyHiggsBranch->HeavyHiggsMass = Sextet.GetSextetJet().m();
-    HeavyHiggsBranch->HeavyHiggsPt = Sextet.GetSextetJet().m();
+    HeavyHiggsBranch->Mass = Sextet.GetSextetJet().m();
+    HeavyHiggsBranch->Pt = Sextet.GetSextetJet().pt();
+    HeavyHiggsBranch->Rap = Sextet.GetSextetJet().rap();
+    HeavyHiggsBranch->Phi = Sextet.GetSextetJet().phi();
 
-    HeavyHiggsBranch->TopDeltaR = Sextet.GetDeltaR();
-    HeavyHiggsBranch->TopDeltaRap = Sextet.GetDeltaRap();
-    HeavyHiggsBranch->TopDeltaPhi = Sextet.GetDeltaPhi();
+    HeavyHiggsBranch->DeltaR = Sextet.GetDeltaR();
+    HeavyHiggsBranch->DeltaRap = Sextet.GetDeltaRap();
+    HeavyHiggsBranch->DeltaPhi = Sextet.GetDeltaPhi();
+    HeavyHiggsBranch->DeltaPt = Sextet.GetDeltaPt();
 
     HeavyHiggsBranch->LargerWDeltaR = Sextet.GetLargerTripletDeltaR();
     HeavyHiggsBranch->LargerWDeltaRap = Sextet.GetLargerTripletDeltaRap();
@@ -62,44 +103,8 @@ void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(HHeavyHiggsLeptonicBranch 
     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = Sextet.GetSmallerTripletDeltaRap();
     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = Sextet.GetSmallerTripletDeltaPhi();
 
-    HeavyHiggsBranch->TopBdt = Sextet.GetBdt();
-    HeavyHiggsBranch->HeavyHiggsTag = Sextet.GetTag();
-
-}
-
-void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
-{
-
-    Print(HNotification , "Define Variables");
-
-    Observables.push_back(NewObservable(&Branch->HeavyHiggsPt, "HeavyHiggsPt"));
-
-    Observables.push_back(NewObservable(&Branch->TopDeltaR, "TopDeltaR"));
-    Observables.push_back(NewObservable(&Branch->TopDeltaRap, "TopDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->TopDeltaPhi, "TopDeltaPhi"));
-
-    Observables.push_back(NewObservable(&Branch->LargerWDeltaR, "LargerWDeltaR"));
-    Observables.push_back(NewObservable(&Branch->LargerWDeltaRap, "LargerWDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->LargerWDeltaPhi, "LargerWDeltaPhi"));
-
-    Observables.push_back(NewObservable(&Branch->SmallerWDeltaR, "SmallerWDeltaR"));
-    Observables.push_back(NewObservable(&Branch->SmallerWDeltaRap, "SmallerWDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->SmallerWDeltaPhi, "SmallerWDeltaPhi"));
-
-    Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR"));
-    Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi"));
-
-    Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR"));
-    Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi"));
-
-    Observables.push_back(NewObservable(&Branch->TopBdt, "TopBdt"));
-
-    Spectators.push_back(NewObservable(&Branch->HeavyHiggsTag, "HeavyHiggsTag"));
-    Spectators.push_back(NewObservable(&Branch->HeavyHiggsMass, "HeavyHiggsMass"));
-
-    Print(HNotification, "Variables defined");
+    HeavyHiggsBranch->Bdt = Sextet.GetBdt();
+    HeavyHiggsBranch->Tag = Sextet.GetTag();
 
 }
 
@@ -108,10 +113,10 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
 {
     Print(HInformation, "Get Higgs Tags");
 
-    JetTag->HeavyParticles = {TopId, HeavyHiggsId, WId};
+    JetTag->HeavyParticles = {TopId, HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
@@ -125,9 +130,7 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
 
     std::vector<HSextet> Sextets;
     for (const auto & Doublet1 : Doublets) {
-        Print(HInformation, "Doublet 1", GetParticleName(Doublet1.GetJet1().user_index()), GetParticleName(Doublet1.GetJet2().user_index()));
         for (const auto & Doublet2 : Doublets) {
-            Print(HInformation, "Doublet 2", GetParticleName(Doublet2.GetJet1().user_index()), GetParticleName(Doublet2.GetJet2().user_index()));
             if (Doublet1.GetJet1() == Doublet2.GetJet1()) continue;
             if (Doublet1.GetJet2() == Doublet2.GetJet2()) continue;
             HQuartet Quartet(Doublet1, Doublet2);
@@ -165,11 +168,24 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
 
 hanalysis::HObject::HTag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQuartet &Quartet)
 {
-    Print(HInformation, "Get Triple Tag");
+    Print(HInformation, "Get Quartet Tag");
 
-    if (Quartet.GetDoublet1().GetTag() == HBackground) return HBackground;
-    if (Quartet.GetDoublet2().GetTag() == HBackground) return HBackground;
-    if (Quartet.GetDoublet1().GetJet1().user_index() != -Quartet.GetDoublet2().GetJet1().user_index()) return HBackground;
+    HJetInfo JetInfoB1 = Quartet.GetDoublet1().GetJet1().user_info<HJetInfo>();
+    JetInfoB1.ExtractFraction(BottomId);
+    HJetInfo JetInfoL1 = Quartet.GetDoublet1().GetJet2().user_info<HJetInfo>();
+    JetInfoL1.ExtractFraction(WId);
+    HJetInfo JetInfoB2 = Quartet.GetDoublet2().GetJet1().user_info<HJetInfo>();
+    JetInfoB2.ExtractFraction(BottomId);
+    HJetInfo JetInfoL2 = Quartet.GetDoublet2().GetJet2().user_info<HJetInfo>();
+    JetInfoL2.ExtractFraction(WId);
+
+    if (std::abs(JetInfoB1.GetMaximalId()) != BottomId) return HBackground;
+    if (JetInfoB1.GetMaximalId() != -JetInfoB2.GetMaximalId()) return HBackground;
+
+    if (std::abs(JetInfoL1.GetMaximalId()) != WId) return HBackground;
+    if (sgn(JetInfoL1.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
+
+    if (JetInfoL2.GetMaximalId() != -JetInfoL1.GetMaximalId()) return HBackground;
     return HSignal;
 }
 
@@ -183,17 +199,17 @@ std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsLeptonicTagger::GetBdt(co
             if (Doublet1.GetJet1() == Doublet2.GetJet1()) continue;
             if (Doublet1.GetJet2() == Doublet2.GetJet2()) continue;
             HQuartet Quartet(Doublet1, Doublet2);
-            Quartet.SetTag(GetTag(Quartet));
             std::vector<HSextet> PreSextets;
             PreSextets = GetSextets(Quartet, MissingEt);
             for (auto & Sextet : PreSextets) {
-//                 if (Sextet.GetSextetJet().m() < 10) continue; // TODO do we need this
                 FillBranch(Sextet);
                 Sextet.SetBdt(Reader->GetBdt());
                 Sextets.push_back(Sextet);
             }
         }
     }
+    std::sort(Sextets.begin(), Sextets.end());
+    Sextets.erase(Sextets.begin() + std::min(MaxCombi, int(Sextets.size())), Sextets.end());
     return Sextets;
 }
 

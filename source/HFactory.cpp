@@ -1,10 +1,8 @@
 # include "HFactory.hh"
 
-
-
 hanalysis::HFactory::HFactory(HMva *const NewMva)
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
+    DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification , "Constructor");
     Mva = NewMva;
     NewFactory();
@@ -81,6 +79,14 @@ int hanalysis::HFactory::AddTree(const TFile *const File, const std::string &Tre
 
     Print(HError , "Add Tree", TreeName);
 
+    if (!File->GetListOfKeys()->Contains(TreeName.c_str()))return 0;
+
+//     if (gSystem->Acces(FileName.c_str()))
+
+// //     for (int TreeNumber = 0; TreeNumber < const_cast<TFile *>(File)->GetListOfFree()->GetEntriesFast(); ++TreeNumber) D{
+//         if (static_cast<TBranch *>(const_cast<TTree *>(Tree)->GetListOfBranches()->At(TreeNumber))->GetName() != Mva->GetBranchName()) return 0;
+//     }
+
     const TTree *const Tree = (TTree *)(const_cast<TFile *>(File)->Get(TreeName.c_str()));
 
     Print(HError, "Branch Name", Mva->GetBranchName().c_str());
@@ -137,7 +143,7 @@ void hanalysis::HFactory::BookMethods()
     //     Factory->BookMethod(TMVA::Types::kCuts, Mva->GetCutMethodName(), CutOptions);
 
 //     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
-    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20:CreateMVAPdfs:DoBoostMonitor";
+    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";//:CreateMVAPdfs:DoBoostMonitor";
 //     const std::string BdtOptions = "";
 
 //     const std::string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;

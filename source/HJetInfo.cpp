@@ -52,9 +52,25 @@ void hanalysis::HJetInfo::ExtractFraction(const int ParticleId)
 {
     Print(HInformation, "Extract Fraction", ParticleId);
     for (std::unordered_map<HFamily, float>::const_iterator Pair = JetFamily.begin(); Pair != JetFamily.end(); ++Pair) {
+
         if ((*Pair).first.ParticleId == ParticleId || (*Pair).first.Mother1Id == ParticleId) AddConstituent(ParticleId, (*Pair).second);
+
         else if ((*Pair).first.ParticleId == -ParticleId || (*Pair).first.Mother1Id == -ParticleId) AddConstituent(-ParticleId, (*Pair).second);
+
         else AddConstituent((*Pair).first.ParticleId, (*Pair).second);
+    }
+}
+
+void hanalysis::HJetInfo::ExtractFraction(const int ParticleId, const int MotherId)
+{
+    Print(HInformation, "Extract Fraction", ParticleId, MotherId);
+
+    for (std::unordered_map<HFamily, float>::const_iterator Pair = JetFamily.begin(); Pair != JetFamily.end(); ++Pair) {
+
+      if (std::abs((*Pair).first.ParticleId) == ParticleId && std::abs((*Pair).first.Mother1Id) == MotherId) AddConstituent((*Pair).first.ParticleId, (*Pair).second);
+
+        else AddConstituent(IsrId, (*Pair).second);
+
     }
 }
 

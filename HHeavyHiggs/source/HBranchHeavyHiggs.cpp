@@ -34,28 +34,6 @@ hheavyhiggs::HEventLeptonicBranch::HEventLeptonicBranch()
   BottomNumber = InitialValue;
 
   ScalarHt = InitialValue;
-  HeavyParticleBdt = InitialValue;
-
-  HeavyHiggsBdt = InitialValue;
-  HeavyHiggsMass = InitialValue;
-  HeavyHiggsPt = InitialValue;
-
-  BottomSumPt = InitialValue;
-  BottomDeltaPt = InitialValue;
-
-  BottomDeltaRap = InitialValue;
-  BottomDeltaPhi = InitialValue;
-  BottomDeltaR = InitialValue;
-
-  HbSumDeltaRap = InitialValue;
-  HbSumDeltaPhi = InitialValue;
-  HbSumDeltaR = InitialValue;
-
-  HbDeltaDeltaRap = InitialValue;
-  HbDeltaDeltaPhi = InitialValue;
-  HbDeltaDeltaR = InitialValue;
-
-  EventTag = InitialValue;
 
 }
 
@@ -106,28 +84,6 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
   BottomNumber = InitialValue;
 
   ScalarHt = InitialValue;
-  HeavyParticleBdt = InitialValue;
-
-  HeavyHiggsBdt = InitialValue;
-  HeavyHiggsMass = InitialValue;
-  HeavyHiggsPt = InitialValue;
-
-  BottomSumPt = InitialValue;
-  BottomDeltaPt = InitialValue;
-
-  BottomDeltaRap = InitialValue;
-  BottomDeltaPhi = InitialValue;
-  BottomDeltaR = InitialValue;
-
-  HbSumDeltaRap = InitialValue;
-  HbSumDeltaPhi = InitialValue;
-  HbSumDeltaR = InitialValue;
-
-  HbDeltaDeltaRap = InitialValue;
-  HbDeltaDeltaPhi = InitialValue;
-  HbDeltaDeltaR = InitialValue;
-
-  EventTag = InitialValue;
 
 }
 

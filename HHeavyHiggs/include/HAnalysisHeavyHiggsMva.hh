@@ -75,6 +75,8 @@ public:
     ExRootTreeBranch *EventLeptonicBranch;
     ExRootTreeBranch *EventHadronicBranch;
     ExRootTreeBranch *EventSemiBranch;
+    ExRootTreeBranch *EventSemiReaderBranch;
+    ExRootTreeBranch *EventLeptonicReaderBranch;
 
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HWSemiTagger *WSemiTagger;
@@ -124,12 +126,26 @@ protected:
 
 private:
 
+
+
+  hanalysis::HReader *BottomReader;
+  hanalysis::HReader *JetPairReader;
+  hanalysis::HReader *WSemiReader;
+  hanalysis::HReader *WReader;
+  hanalysis::HReader *TopLeptonicReader;
+  hanalysis::HReader *TopHadronicReader;
+  hanalysis::HReader *TopSemiReader;
+  hanalysis::HReader *HeavyHiggsSemiReader;
+  hanalysis::HReader *HeavyHiggsLeptonicReader;
+  hanalysis::HReader *EventSemiReader;
+  hanalysis::HReader *EventLeptonicReader;
+
     HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
 
     std::vector<hanalysis::HFile *>  JoinFiles(const std::vector<hanalysis::HFile *> &Files1, const std::vector<hanalysis::HFile *> &Files2);
 
     inline int GetEventNumberMax() const {
-        return 1000;
+        return 10000;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
@@ -157,6 +173,9 @@ private:
     bool GetEventLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetEventHadronicTag(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetEventSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
+
+    bool GetEventSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
+    bool GetEventLeptonicReader(hanalysis::HEvent *const Event, const HTag Tag);
 
 };
 

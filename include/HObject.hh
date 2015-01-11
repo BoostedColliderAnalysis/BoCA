@@ -606,6 +606,15 @@ struct SortJetByDistance {
 
 };
 
+
+
+// template <typename TMultiplet>
+// struct SortByBdt {
+//   inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+//     return (Multiplet1.GetBdt() > Multiplet2.GetBdt());
+//   }
+// };
+
 class HRange
 {
 

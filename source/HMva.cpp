@@ -2,16 +2,12 @@
 
 hanalysis::HMva::HMva()
 {
-
     Print(HNotification, "Constructor");
-
     CutMethodName = "Cut";
-
     BdtMethodName = "Bdt";
-
     Cut = "";
     WeightBranchName = "Info";
-
+    MaxCombi = 4;
 }
 
 hanalysis::HMva::~HMva()

@@ -22,9 +22,9 @@ public:
 
     void FillBranch(const HSextet& Sextet);
 
-    std::vector<hanalysis::HSextet>  GetBdt(std::vector< hanalysis::HTriplet > TripletsSemi, std::vector< hanalysis::HTriplet > TripletsHadronic, const hanalysis::HReader *const Reader);
+    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::HTriplet > &TripletsSemi, const std::vector< hanalysis::HTriplet > &TripletsHadronic, const hanalysis::HReader *const Reader);
 
-    std::vector<hanalysis::HSextet>  GetSextets(const HReader *const Reader);
+//     std::vector<hanalysis::HSextet>  GetSextets(const HReader *const Reader);
 
 protected:
 
@@ -43,23 +43,15 @@ private:
     HJetTag *JetTag;
 
     HBottomTagger *BottomTagger;
-
     HWSemiTagger *WSemiTagger;
-
     HWTagger *WTagger;
-
     HTopHadronicTagger *TopHadronicTagger;
-
     HTopSemiTagger *TopSemiTagger;
 
     HReader *BottomReader;
-
     HReader *WSemiReader;
-
     HReader *WReader;
-
     HReader *TopHadronicReader;
-
     HReader *TopSemiReader;
 
     HHeavyHiggsSemiBranch *Branch;

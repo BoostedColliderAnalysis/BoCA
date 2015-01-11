@@ -35,16 +35,15 @@ void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Do
     Print(HInformation, "FillPairTagger", Doublet.GetBdt());
 
     WBranch->Mass = Doublet.GetDoubletJet().m();
-    WBranch->PtSum = Doublet.GetDoubletJet().pt();
-    WBranch->PtDiff = Doublet.GetDeltaPt();
+    WBranch->Pt = Doublet.GetDoubletJet().pt();
+    WBranch->Rap = Doublet.GetDoubletJet().rap();
+    WBranch->Phi = Doublet.GetDoubletJet().phi();
+    WBranch->DeltaPt = Doublet.GetDeltaPt();
     WBranch->DeltaR = Doublet.GetDeltaR();
     WBranch->DeltaRap = Doublet.GetDeltaRap();
     WBranch->DeltaPhi = Doublet.GetPhiDelta();
-    WBranch->BottomBdt = Doublet.GetBdt();
-    WBranch->Pull1 = Doublet.GetPullAngle1();
-    WBranch->Pull2 = Doublet.GetPullAngle2();
-    WBranch->Pull = Doublet.GetPullAngle();
-    WBranch->WTag = Doublet.GetTag();
+    WBranch->Bdt = Doublet.GetBdt();
+    WBranch->Tag = Doublet.GetTag();
 
 }
 
@@ -54,17 +53,16 @@ void hanalysis::HWTagger::DefineVariables()
     Print(HNotification , "Define Variables");
 
     Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->PtSum, "PtSum"));
-    Observables.push_back(NewObservable(&Branch->PtDiff, "PtDiff"));
+    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
+    Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
 
-//     Observables.push_back(NewObservable(&Branch->Pull1, "Pull1"));
-//     Observables.push_back(NewObservable(&Branch->Pull2, "Pull2"));
-//     Observables.push_back(NewObservable(&Branch->Pull, "Pull"));
-    Spectators.push_back(NewObservable(&Branch->WTag, "WTag"));
+    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
 
     Print(HNotification, "Variables defined");
 
@@ -128,12 +126,12 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(HJets &Jets, const
     for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
             HDoublet Doublet(*Jet1, *Jet2);
-            if(Jet1 == Jet2) Print(HError,"WTF");
-//             Doublet.SetTag(GetTag(Doublet));
             FillBranch(Doublet);
             Doublet.SetBdt(WReader->GetBdt());
             Doublets.push_back(Doublet);
         }
+    std::sort(Doublets.begin(), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
     return Doublets;
 }
 

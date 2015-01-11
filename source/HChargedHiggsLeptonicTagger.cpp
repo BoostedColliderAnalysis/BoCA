@@ -111,7 +111,7 @@ std::vector< HChargedHiggsLeptonicBranch * > hanalysis::HChargedHiggsLeptonicTag
     JetTag->HeavyParticles = {TopId, ChargedHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());

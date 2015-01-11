@@ -22,7 +22,7 @@ public:
 
     std::vector<HTopHadronicBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    std::vector<HTriplet>  GetBdt(std::vector< hanalysis::HDoublet > &Doublets, HJets Jets, const hanalysis::HReader *const TopHadronicReader);
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader *const TopHadronicReader);
 
     std::vector<HTriplet>  GetTriplets(HReader *TopHadronicReader){};
 

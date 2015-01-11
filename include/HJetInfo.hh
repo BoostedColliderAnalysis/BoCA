@@ -68,6 +68,8 @@ public:
 
     void ExtractFraction(const int ParticleId);
 
+    void ExtractFraction(const int ParticleId, const int MotherId);
+
     float GetFamily(const HFamily Family) const;
 
     float GetFamilyFraction(const HFamily Family) const;

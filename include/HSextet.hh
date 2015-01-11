@@ -12,7 +12,9 @@ class hanalysis::HSextet : public HTag
 
 public:
 
-    HSextet() {Bdt = -10;}
+    HSextet() {
+        Bdt = -10;
+    }
 
     HSextet(const HTriplet &NewTriple1, const HTriplet &NewTriple2);
 
@@ -44,6 +46,10 @@ public:
 
     inline float GetLargerTripletDeltaR() const {
         return std::max(Triplet1.GetDeltaR(), Triplet2.GetDeltaR());
+    }
+
+    inline float GetDeltaPt()const {
+        return std::abs(GetTriplet1Jet().pt() - GetTriplet2Jet().pt());
     }
 
     inline float GetSmallerTripletDeltaR() const {
@@ -87,7 +93,7 @@ public:
     }
 
     inline fastjet::PseudoJet GetTriplet1Jet()const {
-      return Triplet1.GetTripletJet();
+        return Triplet1.GetTripletJet();
     }
 
     inline HTriplet GetTriplet2()const {
@@ -95,11 +101,7 @@ public:
     }
 
     inline fastjet::PseudoJet GetTriplet2Jet()const {
-      return Triplet2.GetTripletJet();
-    }
-
-    inline float GetBdtProduct() const{
-      return Triplet1.GetBdt() * Triplet2.GetBdt();
+        return Triplet2.GetTripletJet();
     }
 
 protected:

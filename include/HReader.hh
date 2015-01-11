@@ -20,6 +20,23 @@
 
 # include "HMva.hh"
 
+
+
+class ResultStruct {
+
+public:
+  ResultStruct(){
+    Steps = 20;
+    Results.resize(Steps, 0);
+    Hong.resize(Steps, 0);
+  }
+
+  int Steps;
+  std::vector<float> Results;
+  std::vector<float> Hong;
+
+};
+
 typedef std::vector<int>::const_iterator VectorIterator;
 
 struct PairOrder {
@@ -60,6 +77,14 @@ public:
 //         Mva->FillBranch(Branch, Particle);
         const float Bdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
         return (Bdt + 1.);
+
+    }
+
+    float GetBdt2() const {
+
+      Print(HInformation, "Get Bdt 2");
+      const float Bdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
+      return Bdt;
 
     }
 
@@ -193,8 +218,10 @@ private:
         return "HReader";
     };
 
-    std::vector<float> ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile);
+    float GetMass(const TFile *File, const std::string &TreeName);
+    ResultStruct ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile);
 
+//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader);
 
 };
 
