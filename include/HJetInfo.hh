@@ -151,6 +151,14 @@ public:
 
     float GetVertexEnergy() const;
 
+    inline void SetBTag(const int NewBTag){
+      BTag = NewBTag;
+    }
+
+    inline int GetBTag() const {
+      return BTag;
+    }
+
 protected:
 
     inline std::string ClassName() const {
@@ -172,6 +180,8 @@ private:
     std::unordered_map<HFamily, float> JetFamily;
 
     std::vector<HConstituent> Vertices;
+
+    int BTag;
 
 };
 

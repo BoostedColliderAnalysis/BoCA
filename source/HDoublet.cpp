@@ -20,6 +20,16 @@ hanalysis::HDoublet::~HDoublet()
     Print(HInformation, "Destructor");
 }
 
+void hanalysis::HDoublet::SetJets(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
+{
+  Print(HInformation, "Constructor");
+  Jet1 = NewJet1;
+  Jet2 = NewJet2;
+  Bdt = 1;
+  if (Jet1.has_user_info<HJetInfo>()) if (Jet1.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt *= Jet1.user_info<HJetInfo>().GetBdt();
+  if (Jet2.has_user_info<HJetInfo>()) if (Jet2.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt *= Jet2.user_info<HJetInfo>().GetBdt();
+}
+
 
 float hanalysis::HDoublet::GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const
 {
@@ -50,7 +60,7 @@ float hanalysis::HDoublet::GetPullAngle1() const
     //         Print(HError, " ");
     //     }
 
-    return GetDeltaPhi(Pull, ReferenceAngle);
+    return HObject::GetDeltaPhi(Pull, ReferenceAngle);
 
 }
 
@@ -61,9 +71,9 @@ float hanalysis::HDoublet::GetPullAngle2() const
 
     const float Pull = GetPull(Jet2);
     const float ReferenceAngle = GetReferenceAngle(Jet2, Jet1);
-    Print(HDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
+    Print(HDebug, "Pull", Pull, ReferenceAngle, HObject::GetDeltaPhi(Pull, ReferenceAngle));
 
-    return GetDeltaPhi(Pull, ReferenceAngle);
+    return HObject::GetDeltaPhi(Pull, ReferenceAngle);
 
 }
 
@@ -79,7 +89,7 @@ float hanalysis::HDoublet::GetPull(const fastjet::PseudoJet &Jet) const
     for (const auto & Constituent : Jet.constituents()) {
 
         const float DeltaRap = Constituent.rap() - Jet.rap();
-        const float DeltaPhi = GetDeltaPhi(Constituent.phi_std(), Jet.phi_std());
+        const float DeltaPhi = HObject::GetDeltaPhi(Constituent.phi_std(), Jet.phi_std());
         const float DeltaR = std::sqrt(std::pow(DeltaRap, 2) + std::pow(DeltaPhi, 2));
         const float PullFactor = Constituent.pt() / Jet.pt() * DeltaR;
         //         const float PullFactor = Constituent.pt() / CandidateJet.pt() * Constituent.delta_R(CandidateJet);
@@ -110,9 +120,9 @@ std::vector<HKinematics> hanalysis::HDoublet::GetConstituents() const
 
     const float CenterRap = (Jet1.rap() + Jet2.rap()) / 2;
     //     const float CenterPhi = (Jet1.phi_std() + Jet2.phi_std()) / 2;
-    const float CenterPhi = GetDeltaPhi(Jet1.phi_std(), -Jet2.phi_std()) / 2;
+    const float CenterPhi = HObject::GetDeltaPhi(Jet1.phi_std(), -Jet2.phi_std()) / 2;
 
-    const float Theta = atan2(GetDeltaPhi(Jet1.phi_std(), CenterPhi), Jet1.rap() - CenterRap);
+    const float Theta = atan2(HObject::GetDeltaPhi(Jet1.phi_std(), CenterPhi), Jet1.rap() - CenterRap);
 
     const float Distance = Jet1.delta_R(Jet2);
     const float SubJetRatio = 2. * Shift / Distance;
@@ -144,7 +154,7 @@ std::vector<HKinematics> hanalysis::HDoublet::GetConstituents(const fastjet::Pse
 
         // Get Constituent coordinates in Jet coordinates
         const float ConstRap = ConstituentJet.rap() - Jet.rap();
-        const float ConstPhi = GetDeltaPhi(ConstituentJet.phi_std(), Jet.phi_std());
+        const float ConstPhi = HObject::GetDeltaPhi(ConstituentJet.phi_std(), Jet.phi_std());
 
         if (ConstPhi > Cut) Print(HError, "phi", "too big");
         if (ConstRap > Cut) Print(HError, "eta", "too big");

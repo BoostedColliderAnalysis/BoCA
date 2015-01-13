@@ -52,7 +52,7 @@ public:
 
     void FillBranch(const HDoublet &Pair);
 
-    std::vector< HJetPairBranch * > GetBranches(HEvent *const Event, const HObject::HTag Tag);
+    std::vector< HEventJetPairBranch * > GetBranches(HEvent *const Event, const HObject::HTag Tag);
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader *const JetPairReader);
 
@@ -66,7 +66,7 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HJetPairBranch *const JetPairBranch, const hanalysis::HDoublet &Doublet);
+    void FillBranch(HEventJetPairBranch *const JetPairBranch, const hanalysis::HDoublet &Doublet);
 
     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
 
@@ -74,7 +74,7 @@ private:
 
     HReader *BottomReader;
 
-    HJetPairBranch *Branch;
+    HEventJetPairBranch *Branch;
 
     HJetTag *JetTag;
 

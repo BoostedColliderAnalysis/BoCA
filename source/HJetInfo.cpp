@@ -4,6 +4,7 @@ hanalysis::HJetInfo::HJetInfo()
 {
 //     Debug = 4;
     Print(HDebug, "Constructor");
+    BTag=0;
 }
 
 void hanalysis::HJetInfo::AddConstituent(const int ConstituentId, const float Weight)

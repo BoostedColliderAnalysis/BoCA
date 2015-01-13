@@ -76,12 +76,25 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventLeptonicBranch : public HPairBranch
+class hheavyhiggs::HEventLeptonicBranch : public HBranch
 {
 
 public:
 
-    HEventLeptonicBranch();
+  HEventLeptonicBranch();
+
+  float Mass;
+  float Pt;
+  float Rap;
+  float Phi;
+
+  float DeltaPt;
+  float DeltaRap;
+  float DeltaPhi;
+  float DeltaR;
+
+  float Bdt;
+  int Tag;
 
     int LeptonNumber;
     int JetNumber;
@@ -150,17 +163,42 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventSemiBranch : public HPairBranch
+class hheavyhiggs::HEventSemiBranch : public HBranch
 {
 
 public:
 
   HEventSemiBranch();
 
+  float Mass;
+  float Pt;
+  float Rap;
+  float Phi;
+
+  float DeltaPt;
+  float DeltaRap;
+  float DeltaPhi;
+  float DeltaR;
+
+  float Bdt;
+  int Tag;
+
+  float HiggsMass;
+  float PairRap;
+
   int LeptonNumber;
   int JetNumber;
   int BottomNumber;
   float ScalarHt;
+
+  float RestHt;
+  float RestM;
+  float RestPt;
+  float RestRap;
+  float RestPhi;
+  float RestBTag;
+  float RestBBdt;
+
 
 private:
 

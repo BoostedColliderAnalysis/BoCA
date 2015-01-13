@@ -7,10 +7,17 @@
 
 struct HEventStruct {
 
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
-  int ScalarHt;
+  int LeptonNumber = 0;
+  int JetNumber = 0;
+  int BottomNumber = 0;
+  float ScalarHt = 0;
+  float RestHt = 0;
+  float RestM = 0;
+  float RestPt = 0;
+  float RestRap = 0;
+  float RestPhi = 0;
+  int RestBTag = 0;
+  float RestBBdt = 0;
 
 };
 
@@ -110,6 +117,16 @@ public:
     return EventStruct.LeptonNumber;
   }
 
+  inline HEventStruct GetEventStruct()const {
+    return EventStruct;
+  }
+
+  inline void SetEventStruct(const HEventStruct &NewEventStruct){
+    EventStruct = NewEventStruct;
+  }
+
+  HEventStruct EventStruct;
+
 protected:
 
   virtual inline std::string ClassName() const {
@@ -145,16 +162,6 @@ private:
   hanalysis::HSextet Sextet;
 
   hanalysis::HDoublet Doublet;
-
-  HEventStruct EventStruct;
-
-//   int LeptonNumber;
-
-//   int BottomNumber;
-
-//   int JetNumber;
-
-//   int ScalarHt;
 
 };
 

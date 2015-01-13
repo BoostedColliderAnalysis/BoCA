@@ -25,6 +25,8 @@ public:
 
     std::vector<HDoublet> GetBdt(HJets &Jets, const hanalysis::HReader *const WReader);
 
+    void FillBranch(HWBranch *const WBranch, const HDoublet &Doublet);
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -35,13 +37,13 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HWBranch *const WBranch, const HDoublet &Doublet);
-
     void FillBranch(const HKinematics &Vector);
 
     void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
 
     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
+
+    hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
 
     HBottomTagger *BottomTagger;
 

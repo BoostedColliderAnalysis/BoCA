@@ -269,9 +269,9 @@ public:
 
     virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader);
 
-    HPairBranch *GetBranch() {
-      return Branch;
-    }
+//     HPairBranch *GetBranch() {
+//       return Branch;
+//     }
 
 protected:
 
@@ -371,7 +371,7 @@ protected:
 
     int MaxCombi;
 
-    HPairBranch *Branch;
+//     HPairBranch *Branch;
 
 private:
 

@@ -13,6 +13,9 @@ hanalysis::HTopHadronicTagger::HTopHadronicTagger(HBottomTagger *NewBottomTagger
     Branch = new HTopHadronicBranch();
     JetTag = new HJetTag();
     DefineVariables();
+    float TopWindow = 50;
+    std::string TopCut = "TopHadronic.Mass>" + std::to_string(TopMass - TopWindow) + "&&TopHadronic.Mass<" + std::to_string(TopMass + TopWindow);
+    Cut = TopCut.c_str();
 }
 
 hanalysis::HTopHadronicTagger::~HTopHadronicTagger()
@@ -34,7 +37,7 @@ void hanalysis::HTopHadronicTagger::FillBranch(HTopHadronicBranch *TopHadronicBr
     TopHadronicBranch->Rap = Triplet.GetTripletJet().rap();
     TopHadronicBranch->Phi = Triplet.GetTripletJet().phi();
 
-    TopHadronicBranch->BottomPt = Triplet.GetJet().pt();
+    TopHadronicBranch->BottomPt = Triplet.GetSinglet().pt();
     TopHadronicBranch->WPt = Triplet.GetDoubletJet().pt();
 
     TopHadronicBranch->DeltaR = Triplet.GetDeltaR();
@@ -45,10 +48,10 @@ void hanalysis::HTopHadronicTagger::FillBranch(HTopHadronicBranch *TopHadronicBr
     TopHadronicBranch->Tag = Triplet.GetTag();
 }
 
-void hanalysis::HTopHadronicTagger::FillBranch(const hanalysis::HTriplet &PairJetPair)
+void hanalysis::HTopHadronicTagger::FillBranch(const hanalysis::HTriplet &Triplet)
 {
-    Print(HInformation, "Fill Top Tagger", PairJetPair.GetBdt());
-    FillBranch(Branch, PairJetPair);
+    Print(HInformation, "Fill Top Tagger", Triplet.GetBdt());
+    FillBranch(Branch, Triplet);
 }
 
 void hanalysis::HTopHadronicTagger::DefineVariables()
@@ -75,6 +78,13 @@ void hanalysis::HTopHadronicTagger::DefineVariables()
 
 }
 
+struct SortByTopMass {
+    inline bool operator()(const hanalysis::HTriplet &Triplet1, const hanalysis::HTriplet &Triplet2) {
+        hanalysis::HObject Object;
+        return (std::abs(Triplet1.TopMass - Triplet1.GetTripletJet().m()) < std::abs(Triplet2.TopMass - Triplet2.GetTripletJet().m()));
+    }
+};
+
 
 std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
@@ -99,6 +109,11 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
             Triplets.push_back(Triplet);
         }
 
+    if (Tag == HSignal && Triplets.size() > 1) { // FIXME assuming maximal one hadronic W
+        Print(HError, "Number of Jet Pairs", Triplets.size());
+        std::sort(Triplets.begin(), Triplets.end(), SortByTopMass());
+        Triplets.erase(Triplets.begin() + 1, Triplets.end());
+    }
 
 
     std::vector<HTopHadronicBranch *> HadronicTopBranches;
@@ -117,7 +132,7 @@ hanalysis::HObject::HTag hanalysis::HTopHadronicTagger::GetTag(const HTriplet &T
 {
     Print(HInformation, "Get Triple Tag");
 
-    HJetInfo BJetInfo = Triplet.GetJet().user_info<HJetInfo>();
+    HJetInfo BJetInfo = Triplet.GetSinglet().user_info<HJetInfo>();
     BJetInfo.ExtractFraction(BottomId);
     HJetInfo W1JetInfo = Triplet.GetDoublet().GetJet1().user_info<HJetInfo>();
     W1JetInfo.ExtractFraction(WId);

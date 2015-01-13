@@ -26,6 +26,8 @@ public:
 
 //     std::vector<hanalysis::HSextet>  GetSextets(const HReader *const Reader);
 
+    void FillBranch(HHeavyHiggsSemiBranch* HeavyHiggsBranch, const hanalysis::HSextet& Sextet);
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -35,8 +37,6 @@ protected:
 private:
 
     void DefineVariables();
-
-    void FillBranch(HHeavyHiggsSemiBranch* HeavyHiggsBranch, const hanalysis::HSextet& Sextet);
 
     HTag GetTag(const HSextet &Sextet);
 

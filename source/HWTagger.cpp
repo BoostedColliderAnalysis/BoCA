@@ -14,6 +14,9 @@ hanalysis::HWTagger::HWTagger(HBottomTagger *NewBottomTagger)
     JetTag = new HJetTag();
 
     DefineVariables();
+    float WMassWindow = 20;
+    std::string WCut = "W.Mass>" + std::to_string(WMass - WMassWindow) + "&&W.Mass<" + std::to_string(WMass + WMassWindow);
+    Cut = WCut.c_str();
 }
 
 hanalysis::HWTagger::~HWTagger()
@@ -41,7 +44,7 @@ void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Do
     WBranch->DeltaPt = Doublet.GetDeltaPt();
     WBranch->DeltaR = Doublet.GetDeltaR();
     WBranch->DeltaRap = Doublet.GetDeltaRap();
-    WBranch->DeltaPhi = Doublet.GetPhiDelta();
+    WBranch->DeltaPhi = Doublet.GetDeltaPhi();
     WBranch->Bdt = Doublet.GetBdt();
     WBranch->Tag = Doublet.GetTag();
 
@@ -68,6 +71,15 @@ void hanalysis::HWTagger::DefineVariables()
 
 }
 
+
+
+struct SortByWMass {
+    inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
+        hanalysis::HObject Object;
+        return (std::abs(Doublet1.WMass - Doublet1.GetDoubletJet().m()) < std::abs(Doublet2.WMass - Doublet2.GetDoubletJet().m()));
+    }
+};
+
 std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
 
@@ -77,8 +89,8 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
-
     std::vector<HDoublet> Doublets;
+
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
             HDoublet Doublet((*Jet1), (*Jet2));
@@ -87,7 +99,36 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
             Doublets.push_back(Doublet);
         }
 
-    Print(HInformation, "Number of Jet Pairs", Doublets.size());
+    if (Tag == HSignal && Doublets.size() < 1 || Tag == HBackground) {
+        for (auto & Jet : Jets) {
+            if (Jet.has_pieces()) {
+                HTag JetTag = GetTag(Jet);
+                if (JetTag != Tag) continue;
+                fastjet::JetDefinition JetDefinition(fastjet::cambridge_aachen_algorithm, .49);
+                fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
+                std::vector<fastjet::PseudoJet> Pieces = fastjet::sorted_by_pt(ClusterSequence.inclusive_jets());
+                Print(HInformation, "New Jet Number", Pieces.size());
+                if (Pieces.size() > 1) {
+                    for (auto & Piece : Pieces) {
+                        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+                        JetInfo->SetBdt(Jet.user_info<HJetInfo>().GetBdt());
+                        JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
+                        JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
+                        Piece.set_user_info(JetInfo);
+                    }
+                    HDoublet Doublet(Pieces.at(0), Pieces.at(1));
+                    Doublet.SetTag(JetTag);
+                    Doublets.push_back(Doublet);
+                }
+            }
+        }
+    }
+
+    if (Tag == HSignal && Doublets.size() > 1) { // FIXME assuming maximal one hadronic W
+        Print(HError, "Number of Jet Pairs", Doublets.size());
+        std::sort(Doublets.begin(), Doublets.end(), SortByWMass());
+        Doublets.erase(Doublets.begin() + 1, Doublets.end());
+    }
 
     std::vector<HWBranch *> WBranches;
     for (const auto & Doublet : Doublets) {
@@ -118,6 +159,16 @@ hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
     return HSignal;
 }
 
+hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const fastjet::PseudoJet &Singlet)
+{
+    Print(HInformation, "Get Singlet Tag");
+
+    HJetInfo JetInfo1 = Singlet.user_info<HJetInfo>();
+    JetInfo1.ExtractFraction(WId);
+
+    if (std::abs(JetInfo1.GetMaximalId()) != WId) return HBackground;
+    return HSignal;
+}
 
 
 std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(HJets &Jets, const hanalysis::HReader *const WReader)
@@ -130,7 +181,31 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(HJets &Jets, const
             Doublet.SetBdt(WReader->GetBdt());
             Doublets.push_back(Doublet);
         }
-    std::sort(Doublets.begin(), Doublets.end());
+
+    for (auto & Jet : Jets) {
+        if (Jet.has_pieces()) {
+            fastjet::JetDefinition JetDefinition(fastjet::cambridge_aachen_algorithm, .49);
+            fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
+            std::vector<fastjet::PseudoJet> Pieces = fastjet::sorted_by_pt(ClusterSequence.inclusive_jets());
+            if (Pieces.size() > 1) {
+                for (auto & Piece : Pieces) {
+                    hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+                    JetInfo->SetBdt(Jet.user_info<HJetInfo>().GetBdt());
+                    JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
+                    JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
+                    Piece.set_user_info(JetInfo);
+                    Print(HError,"Info",Piece.user_info<HJetInfo>().ExtractFraction(BottomId));//FIXME work to do
+                    Piece.user_info<HJetInfo>().PrintAllInfos(HError);
+                }
+                HDoublet Doublet(Pieces.at(0), Pieces.at(1));
+                FillBranch(Doublet);
+                Doublet.SetBdt(WReader->GetBdt());
+                Doublets.push_back(Doublet);
+            }
+        }
+    }
+
+    std::sort(Doublets.begin(), Doublets.end(), SortByWMass());
     Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
     return Doublets;
 }
@@ -177,3 +252,4 @@ void hanalysis::HWTagger::FillBranch(HParticleBranch *const ConstituentBranch, c
     ConstituentBranch->Phi = Vector.GetPhi();
 
 }
+

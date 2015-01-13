@@ -135,7 +135,7 @@ std::vector< HChargedHiggsSemiBranch * > hanalysis::HChargedHiggsSemiTagger::Get
     std::vector<HQuartet31 > Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Jets) {
-            if (Triplet.GetJet() == Jet) continue;
+            if (Triplet.GetSinglet() == Jet) continue;
             if (Triplet.GetDoublet().GetJet1() == Jet) continue;
             if (Triplet.GetDoublet().GetJet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);
@@ -173,7 +173,7 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuart
 
     if (Quartet.GetTriplet().GetTag() == HBackground)return HBackground;
 //     if (Quartet.GetTriplet2().GetTag() == HBackground)return HBackground;
-    if (sgn(Quartet.GetTriplet().GetJet().user_index()) != - sgn(Quartet.GetSinglet().user_index())) return HBackground;
+    if (sgn(Quartet.GetTriplet().GetSinglet().user_index()) != - sgn(Quartet.GetSinglet().user_index())) return HBackground;
 
     return HSignal;
 }
@@ -187,7 +187,7 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(s
     std::vector<HQuartet31> Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Siglets) {
-            if (Triplet.GetJet() == Jet) continue;
+            if (Triplet.GetSinglet() == Jet) continue;
             if (Triplet.GetDoublet().GetJet1() == Jet) continue;
             if (Triplet.GetDoublet().GetJet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);
@@ -209,14 +209,17 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetQuart
     hanalysis::HEvent *Event;
 
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-//     std::vector<fastjet::PseudoJet> Jets = BottomTagger->GetTruthJets(Event, BottomReader); // FIXME BTagger missing
-    std::vector<HTriplet> Triplets = TopSemiTagger->GetTriplets(TopSemiReader);
+    Jets = BottomTagger->GetBdt(Jets,BottomReader);
+    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
+    fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    std::vector<HDoublet> Doublets = WSemiTagger->GetBdt(Leptons,MissingEt,WSemiReader);
+    std::vector<HTriplet> Triplets = TopSemiTagger->GetBdt(Doublets,Jets,TopSemiReader);
 //     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetTriplets(TopHadronicReader);
 
     std::vector<HQuartet31> Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Jets) {
-            if (Triplet.GetJet() == Jet) continue;
+            if (Triplet.GetSinglet() == Jet) continue;
             if (Triplet.GetDoublet().GetJet1() == Jet) continue;
             if (Triplet.GetDoublet().GetJet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);

@@ -164,7 +164,7 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const HT
     if (Triplet.GetDoublet().GetTag() == HBackground) return HBackground;
 //     if (Quartet.GetDoublet2().GetTag() == HBackground) return HBackground;
     // TODO check the following
-    if (Triplet.GetDoublet().GetJet1().user_index() != -Triplet.GetJet().user_index()) return HBackground;
+    if (Triplet.GetDoublet().GetJet1().user_index() != -Triplet.GetSinglet().user_index()) return HBackground;
     return HSignal;
 }
 

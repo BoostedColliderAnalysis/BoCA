@@ -224,7 +224,7 @@ void hanalysis::HReader::SimpleMVALoop()
     SignificanceTable << TableFooter2.str();
 
     EventNumberTable << TableFooter1.str();
-    EventNumberTable << " Event Numbers";
+    EventNumberTable << " Efficiencies";
     EventNumberTable << TableFooter2.str();
 
     LatexFile << EventNumberTable.str();

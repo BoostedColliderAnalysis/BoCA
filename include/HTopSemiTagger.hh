@@ -26,7 +26,9 @@ public:
 
 //     std::vector<HTriplet> GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
 
-    std::vector<HTriplet>  GetTriplets(HReader *TopSemiReader){Print(HError,"NEVER USE  THIS FUNCTION");};
+//     std::vector<HTriplet>  GetTriplets(HReader *TopSemiReader){Print(HError,"NEVER USE  THIS FUNCTION");};
+
+    void FillBranch(HTopSemiBranch *const TopSemiBranch, const hanalysis::HTriplet &Triplet);
 
 protected:
 
@@ -37,8 +39,6 @@ protected:
 private:
 
     void DefineVariables();
-
-    void FillBranch(HTopSemiBranch *const TopSemiBranch, const hanalysis::HTriplet &Triplet);
 
     HTag GetTag(const HTriplet &Triplet) const;
 

@@ -59,7 +59,7 @@ void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, con
     HiggsBranch->PtDiff = Doublet.GetDeltaPt();
     HiggsBranch->DeltaR = Doublet.GetDeltaR();
     HiggsBranch->DeltaRap = Doublet.GetDeltaRap();
-    HiggsBranch->DeltaPhi = Doublet.GetPhiDelta();
+    HiggsBranch->DeltaPhi = Doublet.GetDeltaPhi();
     HiggsBranch->BottomBdt = Doublet.GetBdt();
     HiggsBranch->Pull1 = Doublet.GetPullAngle1();
     HiggsBranch->Pull2 = Doublet.GetPullAngle2();
@@ -71,7 +71,7 @@ void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, con
 
 struct SortPairByMass {
     inline bool operator()(const hanalysis::HDoublet &Pair1, const hanalysis::HDoublet &Pair2) {
-        return (Pair1.GetMassDifference(hanalysis::HObject::HiggsId) > Pair2.GetMassDifference(hanalysis::HObject::HiggsId));
+        return (Pair1.GetMassDiffTo(hanalysis::HObject::HiggsId) > Pair2.GetMassDiffTo(hanalysis::HObject::HiggsId));
     }
 };
 

@@ -53,7 +53,7 @@ void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBr
     EventHadronicBranch->BottomDeltaPt = Octet.GetDoublet().GetDeltaPt();
 
     EventHadronicBranch->BottomDeltaRap = Octet.GetDoublet().GetDeltaRap();
-    EventHadronicBranch->BottomDeltaPhi = Octet.GetDoublet().GetPhiDelta();
+    EventHadronicBranch->BottomDeltaPhi = Octet.GetDoublet().GetDeltaPhi();
     EventHadronicBranch->BottomDeltaR = Octet.GetDoublet().GetDeltaR();
 
     EventHadronicBranch->HbSumDeltaRap = Octet.GetDeltaRap();
@@ -129,16 +129,16 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
             if (Jet1 == Jet2) continue;
             hanalysis::HDoublet Doublet(Jet1,Jet2);
             for (const auto & Sextet : Sextets) {
-                if (Jet1 == Sextet.GetTriplet1().GetJet()) continue;
+                if (Jet1 == Sextet.GetTriplet1().GetSinglet()) continue;
                 if (Jet1 == Sextet.GetTriplet1().GetDoublet().GetJet1()) continue;
                 if (Jet1 == Sextet.GetTriplet1().GetDoublet().GetJet2()) continue;
-                if (Jet1 == Sextet.GetTriplet2().GetJet()) continue;
+                if (Jet1 == Sextet.GetTriplet2().GetSinglet()) continue;
                 if (Jet1 == Sextet.GetTriplet2().GetDoublet().GetJet1()) continue;
                 if (Jet1 == Sextet.GetTriplet2().GetDoublet().GetJet2()) continue;
-                if (Jet2 == Sextet.GetTriplet1().GetJet()) continue;
+                if (Jet2 == Sextet.GetTriplet1().GetSinglet()) continue;
                 if (Jet2 == Sextet.GetTriplet1().GetDoublet().GetJet1()) continue;
                 if (Jet2 == Sextet.GetTriplet1().GetDoublet().GetJet2()) continue;
-                if (Jet2 == Sextet.GetTriplet2().GetJet()) continue;
+                if (Jet2 == Sextet.GetTriplet2().GetSinglet()) continue;
                 if (Jet2 == Sextet.GetTriplet2().GetDoublet().GetJet1()) continue;
                 if (Jet2 == Sextet.GetTriplet2().GetDoublet().GetJet2()) continue;
                 Octets.push_back(HOctet(Sextet, Doublet));

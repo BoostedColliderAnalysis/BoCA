@@ -27,7 +27,8 @@ void hanalysis::HFactory::NewFactory()
     const std::string FactoryOutputName = "Mva" + Mva->GetTaggerName();
     const std::string OutputFileName = Mva->GetAnalysisName() + "/" + FactoryOutputName + ".root";
     OutputFile = TFile::Open(OutputFileName.c_str(), "Recreate");
-    const std::string FactoryOptions = "!Color";
+    const std::string FactoryOptions = "!Color:!Silent:V";
+//     const std::string FactoryOptions = "";
     Factory = new TMVA::Factory(Mva->GetTaggerName(), OutputFile, FactoryOptions);
 }
 
@@ -115,14 +116,14 @@ int hanalysis::HFactory::AddTree(const TFile *const File, const std::string &Tre
 
 void hanalysis::HFactory::PrepareTrainingAndTestTree(const int EventNumber)
 {
-    Print(HNotification , "PrepareTrainingAndTestTree");
+    Print(HError , "PrepareTrainingAndTestTree");
 
     std::string NumberOptions = "nTrain_Background=" + std::to_string(EventNumber) + ":nTest_Background=" + std::to_string(EventNumber) + ":nTrain_Signal=" + std::to_string(EventNumber) + ":nTest_Signal=" + std::to_string(EventNumber);
 
-    Print(HError, "NumberOptions", NumberOptions);
+//     Print(HError, "NumberOptions", NumberOptions);
 
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
-    const std::string TrainingAndTestOptions = NumberOptions;
+    const std::string TrainingAndTestOptions = NumberOptions + ":V";
 //     "nTrain_Background=100000:nTest_Background=100000";
 
     Factory->PrepareTrainingAndTestTree(Mva->GetCut(), Mva->GetCut(), TrainingAndTestOptions);
@@ -134,7 +135,7 @@ void hanalysis::HFactory::BookMethods()
 
     Print(HNotification , "Book Methods");
 
-    const std::string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
+//     const std::string CutOptions = "!H:!V:FitMethod=MC:EffSel:SampleSize=200000:VarProp=FSmart";
 //     std::string CutOptions = "VarProp=FSmart:VarTransform=PCA";
 //     const std::string CutOptions = "";
 
@@ -143,7 +144,9 @@ void hanalysis::HFactory::BookMethods()
     //     Factory->BookMethod(TMVA::Types::kCuts, Mva->GetCutMethodName(), CutOptions);
 
 //     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
-    const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";//:CreateMVAPdfs:DoBoostMonitor";
+    const std::string BdtOptions =
+//     "";
+    "H:V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";//:CreateMVAPdfs:DoBoostMonitor";
 //     const std::string BdtOptions = "";
 
 //     const std::string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;

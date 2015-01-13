@@ -61,16 +61,20 @@ public:
 //     ExRootTreeBranch *ConstituentBranch;
     ExRootTreeBranch *BottomBranch;
     ExRootTreeBranch *WBranch;
+    ExRootTreeBranch *WReaderBranch;
     ExRootTreeBranch *WSemiBranch;
     ExRootTreeBranch *JetPairBranch;
 
     ExRootTreeBranch *TopLeptonicBranch;
     ExRootTreeBranch *TopHadronicBranch;
     ExRootTreeBranch *TopSemiBranch;
+    ExRootTreeBranch *TopSemiReaderBranch;
+    ExRootTreeBranch *TopHadronicReaderBranch;
 
     ExRootTreeBranch *HeavyHiggsLeptonicBranch;
     ExRootTreeBranch *HeavyHiggsHadronicBranch;
     ExRootTreeBranch *HeavyHiggsSemiBranch;
+    ExRootTreeBranch *HeavyHiggsSemiReaderBranch;
 
     ExRootTreeBranch *EventLeptonicBranch;
     ExRootTreeBranch *EventHadronicBranch;
@@ -145,7 +149,7 @@ private:
     std::vector<hanalysis::HFile *>  JoinFiles(const std::vector<hanalysis::HFile *> &Files1, const std::vector<hanalysis::HFile *> &Files2);
 
     inline int GetEventNumberMax() const {
-        return 10000;
+        return 1000;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
@@ -163,13 +167,17 @@ private:
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    bool GetWReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetJetPairTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetTopLeptonicTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
     bool GetTopHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetTopSemiTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
+    bool GetTopHadronicReader(hanalysis::HEvent *const Event, const HTag Tag);
+    bool GetTopSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetHeavyHiggsHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetHeavyHiggsLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetHeavyHiggsSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    bool GetHeavyHiggsSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetEventLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetEventHadronicTag(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetEventSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
@@ -180,5 +188,3 @@ private:
 };
 
 #endif
-
-

@@ -66,7 +66,7 @@ void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const TopLept
 
     TopLeptonicBranch->DeltaR = Doublet.GetDeltaR();
     TopLeptonicBranch->DeltaRap = Doublet.GetDeltaRap();
-    TopLeptonicBranch->DeltaPhi = Doublet.GetPhiDelta();
+    TopLeptonicBranch->DeltaPhi = Doublet.GetDeltaPhi();
 
     TopLeptonicBranch->Bdt = Doublet.GetBdt();
     TopLeptonicBranch->Tag = Doublet.GetTag();

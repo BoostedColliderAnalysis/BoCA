@@ -162,17 +162,17 @@ std::vector<hheavyhiggs::HChargedSemi2Branch * > hheavyhiggs::HChargedSemi2Tagge
     std::vector<HOctet44> Octets;
     for (const auto Jet : Jets) {
         for (const auto Triplet  : TripletsSemi) {
-            if (Triplet.GetJet() == Jet) continue;
+            if (Triplet.GetSinglet() == Jet) continue;
             hanalysis::HQuartet31 Quartet2(Triplet, Jet);
             for (const auto & Quartet1 : Quartets) {
                 if (Quartet2.GetSinglet() == Quartet1.GetSinglet()) continue;
-                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().GetJet()) continue;
+                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().GetSinglet()) continue;
                 if (Quartet2.GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet1()) continue;
                 if (Quartet2.GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet2()) continue;
-                if (Quartet2.GetTriplet().GetJet() == Quartet1.GetSinglet()) continue;
-                if (Quartet2.GetTriplet().GetJet() == Quartet1.GetTriplet().GetJet()) continue;
-                if (Quartet2.GetTriplet().GetJet() == Quartet1.GetTriplet().GetDoublet().GetJet1()) continue;
-                if (Quartet2.GetTriplet().GetJet() == Quartet1.GetTriplet().GetDoublet().GetJet2()) continue;
+                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetSinglet()) continue;
+                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetTriplet().GetSinglet()) continue;
+                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet1()) continue;
+                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet2()) continue;
                 HOctet44 Octet(Quartet1, Quartet2);
                 Octets.push_back(Octet);
             }

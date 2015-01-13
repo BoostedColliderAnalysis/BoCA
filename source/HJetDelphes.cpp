@@ -39,16 +39,20 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
 
         } else {
 
-            Jets.push_back(GetPseudoJet(const_cast<Jet *>(JetClone)->P4()));
-
+          Jets.push_back(GetPseudoJet(const_cast<Jet *>(JetClone)->P4()));
+          hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+          JetInfo->SetBTag(JetClone->BTag);
+          Jets.at(JetNumber).set_user_info(JetInfo);
         }
 
         if (JetDetails == Tagging || JetDetails == TaggingStructure) {
 
             hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(GetJetId(JetClone));
 
-            if (JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>())
+            if (JetDetails == TaggingStructure && Jets.back().has_user_info<hanalysis::HJetInfo>()){
                 JetInfo->SetVertices(Jets.back().user_info<hanalysis::HJetInfo>().GetVertices());
+                JetInfo->SetBTag(Jets.back().user_info<hanalysis::HJetInfo>().GetBTag());
+            }
 
             Jets.back().set_user_info(JetInfo);
             Jets.back().set_user_index(Jets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
@@ -58,6 +62,7 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
             Print(HDebug, "Tag", Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().GetMaximalFraction());
 
         }
+
 
         GetDelphesTags(JetClone);
 
@@ -148,6 +153,7 @@ fastjet::PseudoJet hanalysis::hdelphes::HJet::GetConstituents(const Jet *const J
     fastjet::PseudoJet Jet = fastjet::join(Constituents);
     hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
     JetInfo->SetVertices(Vertices);
+    JetInfo->SetBTag(JetClone->BTag);
     Jet.set_user_info(JetInfo);
 //     Print(HDetailed, "Vertex", Jet.user_info<hanalysis::HJetInfo>().GetVertices().front().Position.Vect().Mag());
 

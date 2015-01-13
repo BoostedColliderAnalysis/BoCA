@@ -38,6 +38,7 @@ void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, con
         BottomBranch->DeltaR = GetDeltaR(Jet);
         BottomBranch->Spread = GetSpread(Jet);
         BottomBranch->EnergyFraction = Jet.user_info<HJetInfo>().GetVertexEnergy() / Jet.e();
+        BottomBranch->BTag = Jet.user_info<HJetInfo>().GetBTag();
         if (std::abs(Jet.user_index()) == BottomId) BottomBranch->Tag = 1;
         else BottomBranch->Tag = 0;
     } else Print(HError, "BJet without user info");
@@ -56,6 +57,7 @@ void hanalysis::HBottomTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
     Observables.push_back(NewObservable(&Branch->Spread, "Spread"));
     Observables.push_back(NewObservable(&Branch->EnergyFraction, "EnergyFraction"));
+    Observables.push_back(NewObservable(&Branch->BTag, "BTag"));
 
     Spectators.push_back(NewObservable(&Branch->Mass, "Mass"));
     Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
@@ -97,7 +99,6 @@ hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJ
 {
     Print(HDebug, "Get Bottom Tag", Jet.user_info<HJetInfo>().GetMaximalFraction());
 
-//     if (std::abs(Jet.user_index()) != BottomId) return HBackground;
     if (std::abs(Jet.user_info<HJetInfo>().GetMaximalFraction()) != BottomId) return HBackground;
     return HSignal;
 }
@@ -106,55 +107,10 @@ hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const HJetInfo &JetInf
 {
   Print(HDebug, "Get Bottom Tag", JetInfo.GetMaximalId(), JetInfo.GetMaximalFraction());
 
-    //     if (std::abs(Jet.user_index()) != BottomId) return HBackground;
     if (std::abs(JetInfo.GetMaximalId()) != BottomId) return HBackground;
     return HSignal;
 }
 
-
-// HJets hanalysis::HBottomTagger::GetTruthBdt(HJets &Jets, const HReader *const BottomReader)
-// {
-//     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
-//         if (std::abs((*Jet).user_index()) == MixedJetId) Jet = Jets.erase(Jet);
-//         else {
-//             HJetInfo *JetInfo = new HJetInfo;
-//             FillBranch(*Jet);
-//             JetInfo->SetBdt(BottomReader->GetBdt());
-//             JetInfo->SetTag(GetTag(*Jet));
-//             (*Jet).set_user_info(JetInfo);
-//             ++Jet;
-//         }
-//     }
-//     return Jets;
-// }
-
-// HJets hanalysis::HBottomTagger::GetTruthJets(hanalysis::HEvent *const Event, const HReader *const BottomReader)
-// {
-//
-//
-//     JetTag->HeavyParticles = {BottomId};
-// //   JetTag->HeavyFamily = {
-// //     HFamily(BottomId, TopId, EmptyId),
-// //     HFamily(BottomId, GluonId, GluonId),
-// //     HFamily(BottomId, GluonId, EmptyId),
-// //     HFamily(BottomId, GluonId, HeavyHiggsId),
-// //     HFamily(BottomId, BottomId, BottomId)
-// //   };
-//     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-//
-//     for (auto Jet = Jets.begin(); Jet != Jets.end();) {
-//         if (std::abs((*Jet).user_index()) == MixedJetId) Jet = Jets.erase(Jet);
-//         else {
-//             HJetInfo *JetInfo = new HJetInfo;
-//             FillBranch(*Jet);
-//             JetInfo->SetBdt(BottomReader->GetBdt());
-//             JetInfo->SetTag(GetTag(*Jet));
-//             (*Jet).set_user_info(JetInfo);
-//             ++Jet;
-//         }
-//     }
-//     return Jets;
-// }
 
 HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomReader)
 {

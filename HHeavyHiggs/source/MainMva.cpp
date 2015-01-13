@@ -80,6 +80,10 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             Reader = new hanalysis::HReader(Analysis->EventSemiTagger);
             Reader->SimpleMVALoop();
             break;
+//         case hanalysis::HAnalysis::HHeavyHiggsSemiReader:
+//           Reader = new hanalysis::HReader(Analysis->HeavyHiggsSemiTagger);
+//           Reader->SimpleMVALoop();
+//           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;
         }
@@ -96,17 +100,21 @@ int main()
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
     RunTagger(hanalysis::HAnalysis::HWTagger);
+    RunTagger(hanalysis::HAnalysis::HWReader);
     RunTagger(hanalysis::HAnalysis::HWSemiTagger);
 
-    RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
+    RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+    RunTagger(hanalysis::HAnalysis::HTopSemiReader);
 
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
 
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
 

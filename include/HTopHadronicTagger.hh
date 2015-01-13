@@ -18,13 +18,15 @@ public:
 
     ~HTopHadronicTagger();
 
-    void FillBranch(const hanalysis::HTriplet &PairJetPair);
+    void FillBranch(const hanalysis::HTriplet &Triplet);
 
     std::vector<HTopHadronicBranch*> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader *const TopHadronicReader);
 
-    std::vector<HTriplet>  GetTriplets(HReader *TopHadronicReader){};
+//     std::vector<HTriplet>  GetTriplets(HReader *TopHadronicReader){};
+
+    void FillBranch(HTopHadronicBranch *TopHadronicBranch, const hanalysis::HTriplet &Triplet);
 
 protected:
 
@@ -35,8 +37,6 @@ protected:
 private:
 
     void DefineVariables();
-
-    void FillBranch(HTopHadronicBranch *TopHadronicBranch, const hanalysis::HTriplet &Triplet);
 
     HTag GetTag(const hanalysis::HTriplet& Triplet);
 

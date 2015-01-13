@@ -13,6 +13,9 @@ hanalysis::HTopSemiTagger::HTopSemiTagger(HBottomTagger *const NewBottomTagger, 
     Branch = new HTopSemiBranch();
     JetTag = new HJetTag();
     DefineVariables();
+    float TopWindow = 50;
+    std::string TopCut = "TopSemi.Mass>" + std::to_string(TopMass - TopWindow) + "&&TopSemi.Mass<" + std::to_string(TopMass + TopWindow);
+    Cut = TopCut.c_str();
 }
 
 hanalysis::HTopSemiTagger::~HTopSemiTagger()
@@ -57,7 +60,7 @@ void hanalysis::HTopSemiTagger::FillBranch(HTopSemiBranch *const TopSemiBranch, 
     TopSemiBranch->Rap = Triplet.GetTripletJet().rap();
     TopSemiBranch->Phi = Triplet.GetTripletJet().phi();
 
-    TopSemiBranch->BottomPt = Triplet.GetJet().pt();
+    TopSemiBranch->BottomPt = Triplet.GetSinglet().pt();
     TopSemiBranch->WPt = Triplet.GetDoubletJet().pt();
 
     TopSemiBranch->DeltaR = Triplet.GetDeltaR();
@@ -132,9 +135,9 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
 
 hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTriplet &Triplet) const
 {
-    Print(HInformation, "Get Triple Tag", GetParticleName(Triplet.GetJet().user_index()), GetParticleName(Triplet.GetDoublet().GetJet1().user_index()));
+    Print(HInformation, "Get Triple Tag", GetParticleName(Triplet.GetSinglet().user_index()), GetParticleName(Triplet.GetDoublet().GetJet1().user_index()));
 
-    HJetInfo BJetInfo = Triplet.GetJet().user_info<HJetInfo>();
+    HJetInfo BJetInfo = Triplet.GetSinglet().user_info<HJetInfo>();
     BJetInfo.ExtractFraction(BottomId);
     BJetInfo.PrintAllInfos(HInformation);
     HJetInfo W1JetInfo = Triplet.GetDoublet().GetJet1().user_info<HJetInfo>();

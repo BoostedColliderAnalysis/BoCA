@@ -85,7 +85,7 @@ void hheavyhiggs::HEventLeptonicTagger::FillBranch(hheavyhiggs::HEventLeptonicBr
 
     EventLeptonicBranch->DeltaPt = Octet.GetDoublet().GetDeltaPt();
     EventLeptonicBranch->DeltaRap = Octet.GetDoublet().GetDeltaRap();
-    EventLeptonicBranch->DeltaPhi = Octet.GetDoublet().GetPhiDelta();
+    EventLeptonicBranch->DeltaPhi = Octet.GetDoublet().GetDeltaPhi();
     EventLeptonicBranch->DeltaR = Octet.GetDoublet().GetDeltaR();
 
     EventLeptonicBranch->Bdt = Octet.GetBdt();
@@ -128,10 +128,10 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
     std::vector<HOctet> Octets;
     for (const auto & Doublet : Doublets) {
         for (const auto & Sextet : Sextets) {
-            if (Sextet.GetTriplet1().GetJet() == Doublet.GetJet1()) continue;
-            if (Sextet.GetTriplet1().GetJet() == Doublet.GetJet2()) continue;
-            if (Sextet.GetTriplet2().GetJet() == Doublet.GetJet1()) continue;
-            if (Sextet.GetTriplet2().GetJet() == Doublet.GetJet2()) continue;
+            if (Sextet.GetTriplet1().GetSinglet() == Doublet.GetJet1()) continue;
+            if (Sextet.GetTriplet1().GetSinglet() == Doublet.GetJet2()) continue;
+            if (Sextet.GetTriplet2().GetSinglet() == Doublet.GetJet1()) continue;
+            if (Sextet.GetTriplet2().GetSinglet() == Doublet.GetJet2()) continue;
             HOctet Octet(Sextet, Doublet);
             Octet.SetTag(GetTag(Octet));
             if (Octet.GetTag() != Tag) continue;
@@ -166,7 +166,7 @@ hanalysis::HObject::HTag hheavyhiggs::HEventLeptonicTagger::GetTag(const HOctet 
 {
     Print(HInformation, "Get Sextet Tag");
 
-    hanalysis::HJetInfo JetInfoB1 = Octet.GetSextet().GetTriplet1().GetJet().user_info<hanalysis::HJetInfo>();
+    hanalysis::HJetInfo JetInfoB1 = Octet.GetSextet().GetTriplet1().GetSinglet().user_info<hanalysis::HJetInfo>();
     JetInfoB1.ExtractFraction(BottomId, TopId);
     if (std::abs(JetInfoB1.GetMaximalId()) != BottomId) return HBackground;
 
@@ -175,7 +175,7 @@ hanalysis::HObject::HTag hheavyhiggs::HEventLeptonicTagger::GetTag(const HOctet 
     if (std::abs(JetInfoL.GetMaximalId()) != WId) return HBackground;
     if (sgn(JetInfoL.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
 
-    hanalysis::HJetInfo JetInfoB2 = Octet.GetSextet().GetTriplet2().GetJet().user_info<hanalysis::HJetInfo>();
+    hanalysis::HJetInfo JetInfoB2 = Octet.GetSextet().GetTriplet2().GetSinglet().user_info<hanalysis::HJetInfo>();
     JetInfoB2.ExtractFraction(BottomId, TopId);
     if (JetInfoB1.GetMaximalId() != -JetInfoB2.GetMaximalId()) return HBackground;
 
@@ -205,10 +205,10 @@ std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector<
     std::vector<HOctet> Octets;
     for (const auto & Doublet : Doublets) {
         for (const auto & Sextet : Sextets) {
-            if (Sextet.GetTriplet1().GetJet() == Doublet.GetJet1()) continue;
-            if (Sextet.GetTriplet1().GetJet() == Doublet.GetJet2()) continue;
-            if (Sextet.GetTriplet2().GetJet() == Doublet.GetJet1()) continue;
-            if (Sextet.GetTriplet2().GetJet() == Doublet.GetJet2()) continue;
+            if (Sextet.GetTriplet1().GetSinglet() == Doublet.GetJet1()) continue;
+            if (Sextet.GetTriplet1().GetSinglet() == Doublet.GetJet2()) continue;
+            if (Sextet.GetTriplet2().GetSinglet() == Doublet.GetJet1()) continue;
+            if (Sextet.GetTriplet2().GetSinglet() == Doublet.GetJet2()) continue;
             HOctet Octet(Sextet, Doublet, EventStruct);
             FillBranch(Octet);
             Octet.SetBdt(EventSemiReader->GetBdt());
@@ -254,7 +254,6 @@ std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeRe
                 const float Cut = float(2 * Step) / Steps;
                 if (Bdt > Cut) ++EventNumbers.at(Step);
             }
-
 
         }
 
