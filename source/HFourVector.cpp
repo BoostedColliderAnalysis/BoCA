@@ -160,7 +160,7 @@ hanalysis::HFamily hanalysis::HFourVector::GetMotherId(TObject *Object)
 {
     Print(HDetailed, "Get Mother Id", ClonesArrays->GetParticleSum());
 
-    if (Object->IsA() != GenParticle::Class() || Object == 0) {
+    if (Object->IsA() != delphes::GenParticle::Class() || Object == 0) {
         Print(HError, "Object is", Object->ClassName());
         return EmptyId;
     }
@@ -211,12 +211,12 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(HFamily &BranchFamily
 
         Topology.at(Position).SetMarker();
 //         if (Position < Source) Source = Position;
-        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(Position);
+        const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(Position);
         const int Status = ParticleClone->Status;
 
         int M1Id = EmptyId;
         if (ParticleClone->M1 > 0) {
-            const GenParticle *const Mother1Clone = (GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
+            const delphes::GenParticle *const Mother1Clone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
             M1Id = Mother1Clone->PID;
         }
 
@@ -291,7 +291,7 @@ void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
 //         for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
         for (const int Position : HRange(30)) {
 
-            const GenParticle *Particle = (GenParticle *)ClonesArrays->GetParticle(Position);
+            const delphes::GenParticle *Particle = (delphes::GenParticle *)ClonesArrays->GetParticle(Position);
 
             PrintCell(Position);
             PrintCell(GetParticleName(Topology.at(Position).ParticleId));
@@ -324,7 +324,7 @@ std::string hanalysis::HFourVector::PrintParticle(const int Position) const
 {
 
     if (Position != -1) {
-        return GetParticleName(((GenParticle *)ClonesArrays->GetParticle(Position))->PID);
+        return GetParticleName(((delphes::GenParticle *)ClonesArrays->GetParticle(Position))->PID);
     } else {
         return " ";
     };

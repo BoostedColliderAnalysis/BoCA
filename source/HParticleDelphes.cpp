@@ -24,7 +24,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
     for (const int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
 
-        const GenParticle *const ParticleClone = (GenParticle *) ClonesArrays->GetParticle(ParticleNumber);
+        const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleNumber);
 
         const int ParticleId = ParticleClone->PID;
         Print(HDetailed, "Particles ID", ParticleId);
@@ -34,7 +34,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
             if (std::abs(ParticleId) == ElectronId) {
 
-                const TLorentzVector ElectronVector = const_cast<GenParticle *>(ParticleClone)->P4();
+                const TLorentzVector ElectronVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();
                 const fastjet::PseudoJet ElectronJet = GetPseudoJet(ElectronVector);
 
                 if (ParticleId > 0) {
@@ -55,7 +55,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
             if (std::abs(ParticleId) == MuonId) {
 
-                const TLorentzVector MuonVector = const_cast<GenParticle *>(ParticleClone)->P4();
+                const TLorentzVector MuonVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();
                 const fastjet::PseudoJet MuonJet = GetPseudoJet(MuonVector);
 
                 if (ParticleId > 0) {
@@ -83,14 +83,14 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
             if (std::abs(ParticleId) == CharmId) {
 
-                CharmJets.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
+                CharmJets.push_back(GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4()));
                 Print(HDebug, "Charm");
 
             }
 
             if (std::abs(ParticleId) == CpvHiggsId) {
 
-                HiggsJets.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
+                HiggsJets.push_back(GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4()));
                 Print(HDebug, "CPV Higgs");
 
             }
@@ -98,8 +98,8 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
             if (std::abs(ParticleId) == BottomId) {
 
-                BottomJets.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
-                ParticleJets.push_back(GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4()));
+                BottomJets.push_back(GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4()));
+                ParticleJets.push_back(GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4()));
                 ParticleJets.back().set_user_index(ParticleId);
 
                 Print(HDebug, "Bottom");
@@ -109,14 +109,14 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
             if (std::abs(ParticleId) == HeavyHiggsId) {
 
-                const fastjet::PseudoJet HiggsParticle = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
+                const fastjet::PseudoJet HiggsParticle = GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
 
                 HiggsJets.push_back(HiggsParticle);
                 Print(HDebug, "Heavy CPV Higgs");
 
                 Print(HDebug, "HeavyHiggs", ParticleClone->Status);
-                if (ParticleClone->D1 != -1) Print(HDebug, "Daughter1", ((GenParticle *) ClonesArrays->GetParticle(ParticleClone->D1))->PID);
-                if (ParticleClone->D2 != -1) Print(HDebug, "Daughter2", ((GenParticle *) ClonesArrays->GetParticle(ParticleClone->D2))->PID);
+                if (ParticleClone->D1 != -1) Print(HDebug, "Daughter1", ((delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->D1))->PID);
+                if (ParticleClone->D2 != -1) Print(HDebug, "Daughter2", ((delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->D2))->PID);
 
             }
 
@@ -128,8 +128,8 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             Print(HDetailed, "Particles Status", "Generator");
 
             if (std::abs(ParticleId) == ElectronNeutrinoId || std::abs(ParticleId) == MuonNeutrinoId) {
-                // const TLorentzVector TopVector = const_cast<GenParticle *>(ParticleClone)->P4();
-                fastjet::PseudoJet NeutrinoJet = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
+                // const TLorentzVector TopVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();
+                fastjet::PseudoJet NeutrinoJet = GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 NeutrinoJet.set_user_index(ParticleId);
                 Print(HInformation, "Neutrino", NeutrinoJet);
                 NeutrinoJets.push_back(NeutrinoJet);
@@ -137,8 +137,8 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
             if (std::abs(ParticleId) == TopId) {
 
-                const TLorentzVector TopVector = const_cast<GenParticle *>(ParticleClone)->P4();
-                fastjet::PseudoJet TopJet = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
+                const TLorentzVector TopVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();
+                fastjet::PseudoJet TopJet = GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 TopJet.set_user_index(ParticleId);
                 Print(HInformation, "Top", TopJet);
 
@@ -160,19 +160,19 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             }
 
             if (std::abs(ParticleId) == BottomId) {
-                fastjet::PseudoJet BottomJet = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
+                fastjet::PseudoJet BottomJet = GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
 //                 BottomJet.set_user_index(ParticleId);
                 Print(HInformation, "Bottom", BottomJet);
             }
 
             if (std::abs(ParticleId) == ElectronId || std::abs(ParticleId) == MuonId) {
-                fastjet::PseudoJet LeptonJet = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
+                fastjet::PseudoJet LeptonJet = GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 //                 BottomJet.set_user_index(ParticleId);
                 Print(HInformation, "Lepton", LeptonJet);
             }
 
             if (std::abs(ParticleId) == WId) {
-                fastjet::PseudoJet WJet = GetPseudoJet(const_cast<GenParticle *>(ParticleClone)->P4());
+                fastjet::PseudoJet WJet = GetPseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 //                 BottomJet.set_user_index(ParticleId);
                 Print(HInformation, "W", WJet);
             }

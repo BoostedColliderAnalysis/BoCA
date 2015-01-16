@@ -65,7 +65,7 @@ private:
      *
      * @return void
      */
-    void GetTau(const Jet *const);
+    void GetTau(const delphes::Jet *const);
 
     /**
      * @brief Get Gen Jet
@@ -104,7 +104,7 @@ private:
             const HFamily MotherId = GetMotherId(Object);
             Print(HDetailed, "MotherId", MotherId.ParticleId,MotherId.Mother1Id);
 
-            const GenParticle *const ParticleClone = (GenParticle *) Object;
+            const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) Object;
             JetInfo.AddFamily(MotherId, std::abs(ParticleClone->PT));
 
         }
@@ -130,7 +130,7 @@ private:
         return Isolated;
     }
 
-    void GetDelphesTags(const Jet *const);
+    void GetDelphesTags(const delphes::Jet *const);
 
     void GetTrackEFlow(const HJetDetails);
 
@@ -140,7 +140,7 @@ private:
 
     void GetMuonEFlow(const HJetDetails);
 
-    fastjet::PseudoJet GetConstituents(const Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
+    fastjet::PseudoJet GetConstituents(const delphes::Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
 
     HConstituent GetConstituent( TObject * Object, hanalysis::HJet::HJetDetails JetDetails);
 

@@ -11,6 +11,7 @@ hanalysis::HDoublet::HDoublet(const fastjet::PseudoJet &NewJet1, const fastjet::
     Jet1 = NewJet1;
     Jet2 = NewJet2;
     int NumberBdt = 0;
+    Bdt=0;
     if (Jet1.has_user_info<HJetInfo>()) if (Jet1.user_info<HJetInfo>().GetBdt() != InitialValue) {
             Bdt += Jet1.user_info<HJetInfo>().GetBdt();
             ++NumberBdt;
@@ -33,6 +34,7 @@ void hanalysis::HDoublet::SetJets(const fastjet::PseudoJet &NewJet1, const fastj
     Jet1 = NewJet1;
     Jet2 = NewJet2;
     int NumberBdt = 0;
+    Bdt=0;
     if (Jet1.has_user_info<HJetInfo>()) if (Jet1.user_info<HJetInfo>().GetBdt() != InitialValue) {
       Bdt += Jet1.user_info<HJetInfo>().GetBdt();
       ++NumberBdt;

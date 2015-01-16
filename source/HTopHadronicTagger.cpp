@@ -1,6 +1,6 @@
 # include "HTopHadronicTagger.hh"
 
-hanalysis::HTopHadronicTagger::HTopHadronicTagger(HBottomTagger *NewBottomTagger, HWTagger *NewWTagger)
+hanalysis::HTopHadronicTagger::HTopHadronicTagger(HBottomTagger *const NewBottomTagger, HWTagger * const NewWTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -14,7 +14,7 @@ hanalysis::HTopHadronicTagger::HTopHadronicTagger(HBottomTagger *NewBottomTagger
     JetTag = new HJetTag();
     DefineVariables();
     TopWindow = 50;
-    JetSize = 0.4;
+    JetRadiusParameter = 1;
 // //     std::string TopCut = "TopHadronic.Mass>" + std::to_string(TopMass - TopWindow) + "&&TopHadronic.Mass<" + std:D:to_string(TopMass + TopWindow);
 //     Cut = TopCut.c_str();
 }
@@ -24,12 +24,12 @@ hanalysis::HTopHadronicTagger::~HTopHadronicTagger()
     Print(HNotification, "Destructor");
     delete Branch;
     delete JetTag;
-    delete BottomReader;
+//     delete BottomReader;
     delete WReader;
 }
 
 
-void hanalysis::HTopHadronicTagger::FillBranch(HTopHadronicBranch *TopHadronicBranch, const hanalysis::HTriplet &Triplet)
+void hanalysis::HTopHadronicTagger::FillBranch(HTopHadronicBranch *const TopHadronicBranch, const hanalysis::HTriplet &Triplet)
 {
     Print(HInformation, "Fill Top Tagger", Triplet.GetBdt());
 
@@ -95,7 +95,7 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
 
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = WTagger->BottomTagger->GetBdt(Jets, WTagger->BottomReader);
     std::vector<HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
 
     std::vector<hanalysis::HTriplet>  Triplets;
@@ -110,11 +110,15 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
             Triplets.push_back(Triplet);
         }
 
-    for (auto & Jet : Jets) {
-        if (Jet.has_pieces()) {
-            fastjet::JetDefinition JetDefinition(fastjet::cambridge_aachen_algorithm, JetSize);
+        for (auto & Jet : Jets) {
+          if (Jet.has_pieces()) if(Jet.pieces().size()>2) {
+            fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, JetRadiusParameter);
             fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
-            std::vector<fastjet::PseudoJet> Pieces = fastjet::sorted_by_pt(ClusterSequence.inclusive_jets());
+            std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets(int(3));
+//         if (Jet.has_pieces()) {
+//             fastjet::JetDefinition JetDefinition(fastjet::cambridge_aachen_algorithm, JetSize);
+//             fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
+//             std::vector<fastjet::PseudoJet> Pieces = fastjet::sorted_by_pt(ClusterSequence.inclusive_jets());
             Print(HInformation, "New Jet Number", Pieces.size());
             if (Pieces.size() > 1) {
                 for (auto & Piece : Pieces) {
@@ -194,11 +198,15 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetBdt(const st
             Triplets.push_back(Triplet);
         }
 
-    for (const auto & Jet : Jets) {
-        if (Jet.has_pieces()) {
-            fastjet::JetDefinition JetDefinition(fastjet::cambridge_aachen_algorithm, JetSize);
+        for (const auto & Jet : Jets) {
+          if (Jet.has_pieces()) if(Jet.pieces().size()>2) {
+            fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, JetRadiusParameter);
             fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
-            std::vector<fastjet::PseudoJet> Pieces = fastjet::sorted_by_pt(ClusterSequence.inclusive_jets());
+            std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets(int(3));
+//         if (Jet.has_pieces()) {
+//             fastjet::JetDefinition JetDefinition(fastjet::cambridge_aachen_algorithm, JetSize);
+//             fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
+//             std::vector<fastjet::PseudoJet> Pieces = fastjet::sorted_by_pt(ClusterSequence.inclusive_jets());
             if (Pieces.size() > 2) {
                 for (auto & Piece : Pieces) {
                     hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;

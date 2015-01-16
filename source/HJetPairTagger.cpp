@@ -104,9 +104,9 @@ void hanalysis::HJetPairTagger::DefineVariables()
 
 }
 
-struct SortDoubletByPt {
+struct SortDoubletByDeltaRap {
     inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
-        return (Doublet1.GetDoubletJet().pt() > Doublet2.GetDoubletJet().pt());
+        return (Doublet1.GetDeltaRap() > Doublet2.GetDeltaRap());
     }
 };
 
@@ -117,7 +117,6 @@ std::vector<HEventJetPairBranch *> hanalysis::HJetPairTagger::GetBranches(hanaly
 
     JetTag->HeavyParticles = {GluonId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-//     for(const auto Jet :Jets) Print(HError,"B Tag",Jet.user_info<HJetInfo>().GetBTag());
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
     std::vector<HDoublet> Doublets;
@@ -131,15 +130,14 @@ std::vector<HEventJetPairBranch *> hanalysis::HJetPairTagger::GetBranches(hanaly
             Doublets.push_back(Doublet);
         }
 
-    std::vector<HEventJetPairBranch *> JetPairBranches;
-
     Print(HDebug, "Number of Jet Pairs", Doublets.size());
 
     if (Tag == HSignal && Doublets.size() > 1) {
-        std::sort(Doublets.begin(), Doublets.end(), SortDoubletByPt());
+        std::sort(Doublets.begin(), Doublets.end(), SortDoubletByDeltaRap());
         if (Doublets.size() > 1)Doublets.erase(Doublets.begin() + 1, Doublets.end());
     }
 
+    std::vector<HEventJetPairBranch *> JetPairBranches;
     for (const auto & Doublet : Doublets) {
         HEventJetPairBranch *JetPairBranch = new HEventJetPairBranch();
         FillBranch(JetPairBranch, Doublet);

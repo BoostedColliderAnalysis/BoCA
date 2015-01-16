@@ -26,7 +26,22 @@ public:
 
 //     std::vector<hanalysis::HSextet>  GetSextets(const HReader *const Reader);
 
+
+
+//     HBottomTagger *BottomTagger;
+//     HWTagger *WTagger;
+    HWSemiTagger *WSemiTagger;
+    HTopHadronicTagger *TopHadronicTagger;
+    HTopSemiTagger *TopSemiTagger;
+//     HReader *BottomReader;
+//     HReader *WReader;
+    HReader *WSemiReader;
+    HReader *TopHadronicReader;
+    HReader *TopSemiReader;
+
+
     void FillBranch(HHeavyHiggsSemiBranch* HeavyHiggsBranch, const hanalysis::HSextet& Sextet);
+
 
 protected:
 
@@ -41,19 +56,6 @@ private:
     HTag GetTag(const HSextet &Sextet);
 
     HJetTag *JetTag;
-
-    HBottomTagger *BottomTagger;
-    HWSemiTagger *WSemiTagger;
-    HWTagger *WTagger;
-    HTopHadronicTagger *TopHadronicTagger;
-    HTopSemiTagger *TopSemiTagger;
-
-    HReader *BottomReader;
-    HReader *WSemiReader;
-    HReader *WReader;
-    HReader *TopHadronicReader;
-    HReader *TopSemiReader;
-
     HHeavyHiggsSemiBranch *Branch;
 };
 

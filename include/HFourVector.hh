@@ -3,14 +3,17 @@
 
 # include "ExRootAnalysis/ExRootClasses.h"
 
-# include "classes/DelphesClasses.h"
-
 
 # include "HObject.hh"
 # include "HClonesArray.hh"
 # include "HJetTag.hh"
 # include "HJetInfo.hh"
 
+# include "HDelphes.hh"
+
+// namespace delphes{
+// # include "classes/DelphesClasses.h"
+// }
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
  *

@@ -14,7 +14,7 @@ class hanalysis::HTopHadronicTagger : public HMva
 
 public:
 
-    HTopHadronicTagger(HBottomTagger *NewBottomTagger, HWTagger *NewHadronicWTagger);
+    HTopHadronicTagger(hanalysis::HBottomTagger*const NewBottomTagger, hanalysis::HWTagger*const NewWTagger);
 
     ~HTopHadronicTagger();
 
@@ -26,7 +26,16 @@ public:
 
 //     std::vector<HTriplet>  GetTriplets(HReader *TopHadronicReader){};
 
+
+    HBottomTagger *BottomTagger;
+    HWTagger *WTagger;
+
+    HReader  *BottomReader;
+    HReader  *WReader;
+
+
     void FillBranch(HTopHadronicBranch *TopHadronicBranch, const hanalysis::HTriplet &Triplet);
+
 
 protected:
 
@@ -40,17 +49,11 @@ private:
 
     HTag GetTag(const hanalysis::HTriplet& Triplet);
 
-    HBottomTagger *BottomTagger;
-    HWTagger *WTagger;
-
-    HReader  *BottomReader;
-    HReader  *WReader;
-
     HTopHadronicBranch *Branch;
     hanalysis::HJetTag *JetTag;
 
     float TopWindow ;
-    float JetSize;
+    float JetRadiusParameter;
 
 };
 

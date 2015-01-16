@@ -56,6 +56,7 @@ public:
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader *const JetPairReader);
 
+    void FillBranch(HEventJetPairBranch *const JetPairBranch, const hanalysis::HDoublet &Doublet);
 protected:
 
     virtual inline std::string ClassName() const {
@@ -66,7 +67,6 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HEventJetPairBranch *const JetPairBranch, const hanalysis::HDoublet &Doublet);
 
     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
 

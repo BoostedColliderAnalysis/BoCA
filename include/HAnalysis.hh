@@ -39,6 +39,7 @@ public:
     enum HTagger {
         HBottomTagger,
         HJetPairTagger,
+        HJetPairReader,
         HWSemiTagger,
         HWTagger,
         HWReader,

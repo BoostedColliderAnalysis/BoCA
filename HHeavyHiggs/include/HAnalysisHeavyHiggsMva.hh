@@ -65,7 +65,9 @@ public:
     ExRootTreeBranch *WBranch;
     ExRootTreeBranch *WReaderBranch;
     ExRootTreeBranch *WSemiBranch;
+    
     ExRootTreeBranch *JetPairBranch;
+    ExRootTreeBranch *JetPairReaderBranch;
 
     ExRootTreeBranch *TopLeptonicBranch;
     ExRootTreeBranch *TopLeptonicReaderBranch;
@@ -174,6 +176,7 @@ private:
     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetJetPairTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    bool GetJetPairReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetTopLeptonicTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
     bool GetTopLeptonicReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetTopHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);

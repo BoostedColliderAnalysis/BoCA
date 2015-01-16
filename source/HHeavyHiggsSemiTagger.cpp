@@ -10,12 +10,12 @@ hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger(
 
     Print(HNotification, "Constructor");
 
-    BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
+//     BottomTagger = NewBottomTagger;
+//     BottomReader = new HReader(BottomTagger);
     WSemiTagger = NewWSemiTagger;
     WSemiReader = new HReader(WSemiTagger);
-    WTagger = NewWTagger;
-    WReader = new HReader(WTagger);
+//     WTagger = NewWTagger;
+//     WReader = new HReader(WTagger);
     TopSemiTagger = NewTopSemiTagger;
     TopSemiReader = new HReader(TopSemiTagger);
     TopHadronicTagger = NewTopHadronicTagger;
@@ -34,8 +34,8 @@ hanalysis::HHeavyHiggsSemiTagger::~HHeavyHiggsSemiTagger()
     Print(HNotification, "Destructor");
     delete Branch;
     delete JetTag;
-    delete BottomReader;
-    delete WReader;
+//     delete BottomReader;
+//     delete WReader;
     delete WSemiReader;
     delete TopHadronicReader;
     delete TopSemiReader;
@@ -104,7 +104,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
 
     JetTag->HeavyParticles = {TopId, HeavyHiggsId, CPOddHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = TopHadronicTagger->WTagger->BottomTagger->GetBdt(Jets, TopHadronicTagger->WTagger->BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
@@ -113,7 +113,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
     std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, MissingEt, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
-    std::vector<HDoublet> DoubletsHadronic = WTagger->GetBdt(Jets, WReader);
+    std::vector<HDoublet> DoubletsHadronic = TopHadronicTagger->WTagger->GetBdt(Jets, TopHadronicTagger->WReader);
     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
     Print(HDebug, "Number of Hadronic Tops", TripletsHadronic.size());
 

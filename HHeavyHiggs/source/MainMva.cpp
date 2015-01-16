@@ -101,33 +101,35 @@ int main()
 {
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
+
     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
+    RunTagger(hanalysis::HAnalysis::HJetPairReader);
 
     RunTagger(hanalysis::HAnalysis::HWTagger);
     RunTagger(hanalysis::HAnalysis::HWReader);
 
-    RunTagger(hanalysis::HAnalysis::HWSemiTagger);
+//     RunTagger(hanalysis::HAnalysis::HWSemiTagger);
 
-    RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HTopLeptonicReader);
+//     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HTopLeptonicReader);
 
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
     RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
 
-    RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HTopSemiReader);
+//     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+//     RunTagger(hanalysis::HAnalysis::HTopSemiReader);
 
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicReader);
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicReader);
 
-    RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
-    RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
+//     RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
+//     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
 
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
 
-    RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HEventSemiReader);
+//     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
+//     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
 
 //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
 //     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);

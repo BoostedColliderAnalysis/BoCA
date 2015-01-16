@@ -25,6 +25,10 @@ public:
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader *const WReader);
 
+    HBottomTagger *BottomTagger;
+
+    HReader *BottomReader;
+
     void FillBranch(HWBranch *const WBranch, const HDoublet &Doublet);
 
 protected:
@@ -45,17 +49,13 @@ private:
 
     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
 
-    HBottomTagger *BottomTagger;
-
-    HReader *BottomReader;
-
     HWBranch *Branch;
 
     HJetTag *JetTag;
 
 
     float WMassWindow;
-    float JetSize;
+    float JetRadiusParameter;
 };
 
 #endif
