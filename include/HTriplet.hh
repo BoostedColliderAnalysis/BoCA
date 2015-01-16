@@ -43,11 +43,15 @@ public:
     }
 
     inline float GetDeltaRap() const {
-        return (std::abs(Jet.rap() - GetDoubletJet().rap()));
+        float DeltaRap = std::abs(Jet.rap() - GetDoubletJet().rap());
+        if (DeltaRap > 100) DeltaRap = 0;
+        return DeltaRap;
     }
 
     inline float GetDeltaR() const {
-        return (Jet.delta_R(GetDoubletJet()));
+        float DeltaR = Jet.delta_R(GetDoubletJet());
+        if (DeltaR > 100) DeltaR = 0;
+        return DeltaR;
     }
 
     inline HDoublet GetDoublet()const {

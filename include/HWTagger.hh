@@ -23,7 +23,7 @@ public:
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
-    std::vector<HDoublet> GetBdt(HJets &Jets, const hanalysis::HReader *const WReader);
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader *const WReader);
 
     void FillBranch(HWBranch *const WBranch, const HDoublet &Doublet);
 
@@ -53,6 +53,9 @@ private:
 
     HJetTag *JetTag;
 
+
+    float WMassWindow;
+    float JetSize;
 };
 
 #endif

@@ -78,6 +78,10 @@ public:
         return JetFractions;
     }
 
+    void SetJetFractions(std::map<int, float> NewJetFractions) {
+        JetFractions = NewJetFractions;
+    }
+
     /**
      * @brief Get dominant Fraction
      *
@@ -151,12 +155,20 @@ public:
 
     float GetVertexEnergy() const;
 
-    inline void SetBTag(const int NewBTag){
-      BTag = NewBTag;
+    inline void SetBTag(const int NewBTag) {
+        BTag = NewBTag;
     }
 
     inline int GetBTag() const {
-      return BTag;
+        return BTag;
+    }
+
+    inline std::unordered_map<HFamily, float> GetJetFamily()const {
+        return JetFamily;
+    }
+
+    inline void SetJetFamily(const std::unordered_map<HFamily, float> &NewJetFamily) {
+        JetFamily = NewJetFamily;
     }
 
 protected:

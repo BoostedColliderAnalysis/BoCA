@@ -47,8 +47,10 @@ public:
         HTopHadronicReader,
         HTopSemiReader,
         HTopLeptonicTagger,
+        HTopLeptonicReader,
         HHeavyHiggsHadronicTagger,
         HHeavyHiggsLeptonicTagger,
+        HHeavyHiggsLeptonicReader,
         HHeavyHiggsSemiTagger,
         HHeavyHiggsSemiReader,
         HEventLeptonicTagger,
@@ -57,7 +59,8 @@ public:
         HEventTagger,
         HHiggsLeptonicTagger,
         HEventLeptonicReader,
-        HEventSemiReader
+        HEventSemiReader,
+        HChargedHiggsSemiTagger
     };
 
     void AnalysisLoop(const HTagger Tagger);

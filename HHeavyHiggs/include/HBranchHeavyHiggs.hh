@@ -101,6 +101,30 @@ public:
     int BottomNumber;
     float ScalarHt;
 
+    float HiggsMass;
+    float PairRap;
+
+    float DeltaPt1;
+    float DeltaR1;
+    float DeltaPhi1;
+    float DeltaRap1;
+
+    float DeltaPt2;
+    float DeltaR2;
+    float DeltaPhi2;
+    float DeltaRap2;
+
+    float RestHt;
+    float RestM;
+    float RestPt;
+    float RestRap;
+    float RestBBdt;
+    float MaxBBdt;
+    float TotalBBdt;
+    float RestPhi;
+    int RestBTag;
+    float ThirdBBdt;
+
 private:
 
   ClassDef(HEventLeptonicBranch, 1)
@@ -191,13 +215,26 @@ public:
   int BottomNumber;
   float ScalarHt;
 
+  float DeltaPt1;
+  float DeltaR1;
+  float DeltaPhi1;
+  float DeltaRap1;
+
+  float DeltaPt2;
+  float DeltaR2;
+  float DeltaPhi2;
+  float DeltaRap2;
+
   float RestHt;
   float RestM;
   float RestPt;
   float RestRap;
-  float RestPhi;
-  float RestBTag;
   float RestBBdt;
+  float MaxBBdt;
+  float TotalBBdt;
+  float RestPhi;
+  int RestBTag;
+  float ThirdBBdt;
 
 
 private:

@@ -4,15 +4,15 @@ HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &N
 {
     Sextet = NewSextet;
     Doublet = NewDoublet;
-    Bdt = Sextet.GetBdt() * Doublet.GetBdt();
+    Bdt = (Sextet.GetBdt() + Doublet.GetBdt()) / 2;
     Tag = Sextet.GetTag() * Doublet.GetTag();
 }
 
 HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet, const HEventStruct &NewEventStruct)
 {
-  Sextet = NewSextet;
-  Doublet = NewDoublet;
-  EventStruct = NewEventStruct;
-  Bdt = Sextet.GetBdt() * Doublet.GetBdt();
-  Tag = Sextet.GetTag() * Doublet.GetTag();
+    Sextet = NewSextet;
+    Doublet = NewDoublet;
+    EventStruct = NewEventStruct;
+    Bdt = (Sextet.GetBdt() + Doublet.GetBdt()) / 2;
+    Tag = Sextet.GetTag() * Doublet.GetTag();
 }

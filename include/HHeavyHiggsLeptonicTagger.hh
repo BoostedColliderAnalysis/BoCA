@@ -25,6 +25,9 @@ public:
 
     std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
 
+    void FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const hanalysis::HSextet &TriplePair);
+
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -36,9 +39,6 @@ private:
     void DefineVariables();
 
     void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
-
-    void FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const hanalysis::HSextet &TriplePair);
-
     hanalysis::HObject::HTag GetTag(const HQuartet &Quartet);
 
     inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {

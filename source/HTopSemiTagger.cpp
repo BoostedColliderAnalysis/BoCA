@@ -13,9 +13,9 @@ hanalysis::HTopSemiTagger::HTopSemiTagger(HBottomTagger *const NewBottomTagger, 
     Branch = new HTopSemiBranch();
     JetTag = new HJetTag();
     DefineVariables();
-    float TopWindow = 50;
-    std::string TopCut = "TopSemi.Mass>" + std::to_string(TopMass - TopWindow) + "&&TopSemi.Mass<" + std::to_string(TopMass + TopWindow);
-    Cut = TopCut.c_str();
+    TopWindow = 50;
+// //     std::string TopCut = "TopSemi.Mass>" + std::to_string(TopMass - TopWindow) + "&&TopSemi.Mass<" + std::to_string(TopMass + TopWindow);
+//     Cut = TopCut.c_str();
 }
 
 hanalysis::HTopSemiTagger::~HTopSemiTagger()
@@ -110,15 +110,28 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
             HTriplet Triplet(Doublet, Jet);
             Triplet.SetTag(GetTag(Triplet));
             if (Triplet.GetTag() != Tag) continue;
+            if (Tag == HSignal && std::abs(Triplet.GetTripletJet().m() - TopMass) > TopWindow) continue;
             PreTriplets.push_back(Triplet);
         }
         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
     }
 
+//     if (Tag == HBackground || (Tag == HSignal && Triplets.size() < 1)) {
+//         for (const auto Jet : Jets) {
+//             fastjet::PseudoJet EmptyJet(0, 0, 0, 0);
+//             HDoublet Doublet(EmptyJet, EmptyJet);
+//             Doublet.SetBdt(Jet.user_info<HJetInfo>().GetBdt());
+//             HTriplet Triplet(Doublet, Jet);
+//             Triplet.SetTag(GetTag(Jet));
+//             if (Triplet.GetTag() != Tag) continue;
+//             if (Tag == HSignal && std::abs(Triplet.GetTripletJet().m() - TopMass) > TopWindow) continue;
+//             Triplets.push_back(Triplet);
+//         }
+//     }
+
     if (Tag == HSignal && Triplets.size() > 1) {
         std::sort(Triplets.begin(), Triplets.end(), SortByTopMass());
-//         for (const auto Triplet : Triplets) Print(HInformation, "Top Mass", Triplets.size(), Triplet.GetTripletJet().m());
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
 
@@ -150,8 +163,22 @@ hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTri
     return HSignal;
 }
 
-std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::vector<HDoublet> &Doublets, const HJets &Jets, const HReader *const Reader)
+hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const fastjet::PseudoJet &Singlet) const
 {
+    Print(HInformation, "Get Triple Tag", GetParticleName(Singlet.user_index()));
+
+    HJetInfo JetInfo = Singlet.user_info<HJetInfo>();
+    JetInfo.ExtractFraction(TopId);
+    JetInfo.PrintAllInfos(HInformation);
+
+    if (std::abs(JetInfo.GetMaximalId()) != TopId) return HBackground;
+    return HSignal;
+}
+
+std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::vector<HDoublet> &Doublets, const HJets &Jets,const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
+{
+
+    Print(HInformation, "Get Bdt");
 
     std::vector<HTriplet> Triplets;
     for (const auto & Jet : Jets) {
@@ -165,6 +192,25 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
     }
+
+//     if (Triplets.size() < 1) {
+//     for (const auto Jet : Jets) {
+//         fastjet::PseudoJet EmptyJet(0, 0, 0, 0);
+//         if (Jet.has_user_info<HJetInfo>()) {
+//             HJetInfo *JetInfo = new HJetInfo();
+//             JetInfo->SetJetFamily(Jet.user_info<HJetInfo>().GetJetFamily());
+//             JetInfo->SetBdt(Jet.user_info<HJetInfo>().GetBdt());
+//             EmptyJet.set_user_info(JetInfo);
+//         }
+//         HDoublet Doublet(EmptyJet, EmptyJet);
+//         Doublet.SetBdt(Jet.user_info<HJetInfo>().GetBdt());
+//         HTriplet Triplet(Doublet, Jet);
+//         FillBranch(Triplet);
+//         Triplet.SetBdt(Reader->GetBdt());
+//         Triplets.push_back(Triplet);
+//         }
+//     }
+
     std::sort(Triplets.begin(), Triplets.end());
     Triplets.erase(Triplets.begin() + std::min(MaxCombi, int(Triplets.size())), Triplets.end());
 

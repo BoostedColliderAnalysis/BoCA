@@ -158,6 +158,21 @@ void hanalysis::HReader::SimpleMVALoop()
                 << "  & \\multicolumn{20}{c}{BDT Cut}" << std::endl
                 << " \\\\ \\cmidrule(r){2-21}" << std::endl;
 
+    std::stringstream PlotHeader;
+    PlotHeader << std::endl
+               << "\\begin{figure}" << std::endl
+               << "\\centering" << std::endl
+               << "\\begin{tikzpicture}" << std::endl
+               << "\\begin{axis}[" << std::endl
+               << ", ymin = 0" << std::endl
+               << ", xlabel = {BDT}" << std::endl
+               << ", ylabel = {Number of events per bin}" << std::endl
+               << "]" << std::endl;
+
+    std::stringstream PlotFooter;
+    PlotFooter << "\\end{axis}" << std::endl
+               << "\\end{tikzpicture};" << std::endl;
+
     for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
         const float Cut = float(2 * Step) / BackgroundResults.Steps;
         TableHeader << "  & " << Cut << std::endl;
@@ -179,20 +194,22 @@ void hanalysis::HReader::SimpleMVALoop()
     const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
     Print(HError, "Open Background File", BackgroundFileName);
 
-    std::stringstream EventNumberTable;
-    EventNumberTable << TableHeader.str();
+    std::stringstream EfficiencyTable;
+    EfficiencyTable << TableHeader.str();
+
+    std::stringstream BdtPlot;
+    BdtPlot << PlotHeader.str();
 
     for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
-        EventNumberTable << "\\verb|" << BackgroundTreeName << "|" << std::endl;
+        EfficiencyTable << "\\verb|" << BackgroundTreeName << "|" << std::endl;
 
         ResultStruct NewBackgroundResults = ApplyBdt(BackgroundFile, BackgroundTreeName, ExportFile);
         for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
             BackgroundResults.Results[Step] += NewBackgroundResults.Results[Step];
-            EventNumberTable << "  & " << RoundToDigits(NewBackgroundResults.Hong[Step]) << std::endl;
+            EfficiencyTable << "  & " << RoundToDigits(NewBackgroundResults.Hong[Step]) << std::endl;
         }
-        EventNumberTable << " \\\\ ";
+        EfficiencyTable << " \\\\ ";
     }
-
 
     std::stringstream SignificanceTable;
     SignificanceTable << TableHeader.str();
@@ -203,16 +220,16 @@ void hanalysis::HReader::SimpleMVALoop()
 
     for (const auto & SignalTreeName : Mva->GetSignalTreeNames()) {
         SignificanceTable << GetMass(SignalFile, SignalTreeName) << std::endl;
-        EventNumberTable << GetMass(SignalFile, SignalTreeName) << std::endl;
+        EfficiencyTable << GetMass(SignalFile, SignalTreeName) << std::endl;
 
         ResultStruct SignalResults = ApplyBdt(SignalFile, SignalTreeName, ExportFile);
 
         for (int Step = 0; Step < SignalResults.Steps; ++Step) {
             const float Significance = SignalResults.Results[Step] / std::sqrt(SignalResults.Results[Step] + BackgroundResults.Results[Step]);
             SignificanceTable << "  & " << RoundToDigits(Significance) << std::endl;
-            EventNumberTable << "  & " << RoundToDigits(SignalResults.Hong[Step]) << std::endl;
+            EfficiencyTable << "  & " << RoundToDigits(SignalResults.Hong[Step]) << std::endl;
         }
-        EventNumberTable << " \\\\ ";
+        EfficiencyTable << " \\\\ ";
         SignificanceTable << " \\\\ ";
 
     }
@@ -223,11 +240,11 @@ void hanalysis::HReader::SimpleMVALoop()
     SignificanceTable << " Significance";
     SignificanceTable << TableFooter2.str();
 
-    EventNumberTable << TableFooter1.str();
-    EventNumberTable << " Efficiencies";
-    EventNumberTable << TableFooter2.str();
+    EfficiencyTable << TableFooter1.str();
+    EfficiencyTable << " Efficiencies";
+    EfficiencyTable << TableFooter2.str();
 
-    LatexFile << EventNumberTable.str();
+    LatexFile << EfficiencyTable.str();
     LatexFile << SignificanceTable.str();
 
     LatexFooter();

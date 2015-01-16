@@ -23,6 +23,8 @@ public:
 
     std::vector< HDoublet> GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader *const Reader);
 
+    void FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const HDoublet &Doublet);
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -32,8 +34,6 @@ protected:
 private:
 
     void DefineVariables();
-
-    void FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const HDoublet &Doublet);
 
     HTag GetTag(const HDoublet &Doublet);
 

@@ -12,7 +12,7 @@ hanalysis::HTriplet::HTriplet(const HDoublet &NewDoublet, const fastjet::PseudoJ
 
     Jet = NewJet;
     Doublet = NewDoublet;
-    if(Jet.has_user_info<HJetInfo>()) if(Jet.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt = Jet.user_info<HJetInfo>().GetBdt() * Doublet.GetBdt();
+    if(Jet.has_user_info<HJetInfo>()) if(Jet.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt = (Jet.user_info<HJetInfo>().GetBdt() + Doublet.GetBdt()) / 2;
 }
 
 hanalysis::HTriplet::~HTriplet()

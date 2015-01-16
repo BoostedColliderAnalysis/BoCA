@@ -18,6 +18,9 @@ struct HEventStruct {
   float RestPhi = 0;
   int RestBTag = 0;
   float RestBBdt = 0;
+  float MaxBBdt = 0;
+  float TotalBBdt = 0;
+  float ThirdBBdt = 0;
 
 };
 
@@ -127,14 +130,6 @@ public:
 
   HEventStruct EventStruct;
 
-protected:
-
-  virtual inline std::string ClassName() const {
-    return "HOctet";
-  }
-
-private:
-
   inline float GetDeltaR1() const {
     return GetSextetJet().delta_R(Doublet.GetJet1());
   }
@@ -158,6 +153,23 @@ private:
   inline float GetDeltaRap2() const {
     return (GetSextetJet().rap() - Doublet.GetJet2().rap());
   }
+
+  inline float GetDeltaPt1() const {
+    return (GetSextetJet().pt() - Doublet.GetJet1().pt());
+  }
+
+  inline float GetDeltaPt2() const {
+    return (GetSextetJet().pt() - Doublet.GetJet2().pt());
+  }
+
+
+protected:
+
+  virtual inline std::string ClassName() const {
+    return "HOctet";
+  }
+
+private:
 
   hanalysis::HSextet Sextet;
 

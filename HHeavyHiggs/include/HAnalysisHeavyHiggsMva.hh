@@ -13,6 +13,8 @@
 # include "HEventSemiTagger.hh"
 # include "HJetPairTagger.hh"
 
+// # include "HChargedSemiTagger.hh"
+
 
 
 
@@ -66,12 +68,14 @@ public:
     ExRootTreeBranch *JetPairBranch;
 
     ExRootTreeBranch *TopLeptonicBranch;
+    ExRootTreeBranch *TopLeptonicReaderBranch;
     ExRootTreeBranch *TopHadronicBranch;
     ExRootTreeBranch *TopSemiBranch;
     ExRootTreeBranch *TopSemiReaderBranch;
     ExRootTreeBranch *TopHadronicReaderBranch;
 
     ExRootTreeBranch *HeavyHiggsLeptonicBranch;
+    ExRootTreeBranch *HeavyHiggsLeptonicReaderBranch;
     ExRootTreeBranch *HeavyHiggsHadronicBranch;
     ExRootTreeBranch *HeavyHiggsSemiBranch;
     ExRootTreeBranch *HeavyHiggsSemiReaderBranch;
@@ -81,6 +85,8 @@ public:
     ExRootTreeBranch *EventSemiBranch;
     ExRootTreeBranch *EventSemiReaderBranch;
     ExRootTreeBranch *EventLeptonicReaderBranch;
+
+    ExRootTreeBranch *ChargedHiggsSemiBranch;
 
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HWSemiTagger *WSemiTagger;
@@ -130,19 +136,18 @@ protected:
 
 private:
 
-
-
-  hanalysis::HReader *BottomReader;
-  hanalysis::HReader *JetPairReader;
-  hanalysis::HReader *WSemiReader;
-  hanalysis::HReader *WReader;
-  hanalysis::HReader *TopLeptonicReader;
-  hanalysis::HReader *TopHadronicReader;
-  hanalysis::HReader *TopSemiReader;
-  hanalysis::HReader *HeavyHiggsSemiReader;
-  hanalysis::HReader *HeavyHiggsLeptonicReader;
-  hanalysis::HReader *EventSemiReader;
-  hanalysis::HReader *EventLeptonicReader;
+    hanalysis::HReader *BottomReader;
+    hanalysis::HReader *JetPairReader;
+    hanalysis::HReader *WSemiReader;
+    hanalysis::HReader *WReader;
+    hanalysis::HReader *TopLeptonicReader;
+    hanalysis::HReader *TopHadronicReader;
+    hanalysis::HReader *TopSemiReader;
+    hanalysis::HReader *HeavyHiggsSemiReader;
+    hanalysis::HReader *HeavyHiggsLeptonicReader;
+    hanalysis::HReader *EventSemiReader;
+    hanalysis::HReader *EventLeptonicReader;
+    hanalysis::HReader *ChargedHiggsSemiReader;
 
     HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
 
@@ -170,12 +175,14 @@ private:
     bool GetWReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetJetPairTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetTopLeptonicTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
+    bool GetTopLeptonicReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetTopHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetTopSemiTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
     bool GetTopHadronicReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetTopSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetHeavyHiggsHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetHeavyHiggsLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    bool GetHeavyHiggsLeptonicReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetHeavyHiggsSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetHeavyHiggsSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetEventLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);

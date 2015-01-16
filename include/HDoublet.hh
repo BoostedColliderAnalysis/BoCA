@@ -116,7 +116,7 @@ private:
     fastjet::PseudoJet Jet1;
 
     fastjet::PseudoJet Jet2;
-
+    
 };
 
 #endif

@@ -48,6 +48,30 @@ hheavyhiggs::HEventLeptonicBranch::HEventLeptonicBranch()
 
   ScalarHt = InitialValue;
 
+    HiggsMass = InitialValue;
+    PairRap = InitialValue;
+
+    RestM = InitialValue;
+    RestPt = InitialValue;
+    RestHt = InitialValue;
+    RestRap = InitialValue;
+    RestPhi = InitialValue;
+    RestBBdt = InitialValue;
+    MaxBBdt = InitialValue;
+    TotalBBdt = InitialValue;
+    RestBTag = InitialValue;
+    ThirdBBdt = InitialValue;
+
+    DeltaPt1 = InitialValue;
+    DeltaRap1 = InitialValue;
+    DeltaPhi1 = InitialValue;
+    DeltaR1 = InitialValue;
+
+    DeltaPt2 = InitialValue;
+    DeltaRap2 = InitialValue;
+    DeltaPhi2 = InitialValue;
+    DeltaR2 = InitialValue;
+
 }
 
 
@@ -103,6 +127,16 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
   DeltaPhi = InitialValue;
   DeltaR = InitialValue;
 
+  DeltaPt1 = InitialValue;
+  DeltaRap1 = InitialValue;
+  DeltaPhi1 = InitialValue;
+  DeltaR1 = InitialValue;
+
+  DeltaPt2 = InitialValue;
+  DeltaRap2 = InitialValue;
+  DeltaPhi2 = InitialValue;
+  DeltaR2 = InitialValue;
+
   Bdt = InitialValue;
   Tag = InitialValue;
 
@@ -120,8 +154,11 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
   RestHt = InitialValue;
   RestRap = InitialValue;
   RestPhi = InitialValue;
-  RestBTag = InitialValue;
   RestBBdt = InitialValue;
+  MaxBBdt = InitialValue;
+  TotalBBdt = InitialValue;
+  RestBTag = InitialValue;
+  ThirdBBdt = InitialValue;
 
 }
 

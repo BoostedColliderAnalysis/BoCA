@@ -10,9 +10,16 @@ hanalysis::HDoublet::HDoublet(const fastjet::PseudoJet &NewJet1, const fastjet::
     Print(HInformation, "Constructor");
     Jet1 = NewJet1;
     Jet2 = NewJet2;
-    Bdt = 1;
-    if (Jet1.has_user_info<HJetInfo>()) if (Jet1.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt *= Jet1.user_info<HJetInfo>().GetBdt();
-    if (Jet2.has_user_info<HJetInfo>()) if (Jet2.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt *= Jet2.user_info<HJetInfo>().GetBdt();
+    int NumberBdt = 0;
+    if (Jet1.has_user_info<HJetInfo>()) if (Jet1.user_info<HJetInfo>().GetBdt() != InitialValue) {
+            Bdt += Jet1.user_info<HJetInfo>().GetBdt();
+            ++NumberBdt;
+        }
+    if (Jet2.has_user_info<HJetInfo>()) if (Jet2.user_info<HJetInfo>().GetBdt() != InitialValue) {
+            Bdt += Jet2.user_info<HJetInfo>().GetBdt();
+            ++NumberBdt;
+        }
+    if (NumberBdt != 0)Bdt /= NumberBdt;
 }
 
 hanalysis::HDoublet::~HDoublet()
@@ -22,12 +29,19 @@ hanalysis::HDoublet::~HDoublet()
 
 void hanalysis::HDoublet::SetJets(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
 {
-  Print(HInformation, "Constructor");
-  Jet1 = NewJet1;
-  Jet2 = NewJet2;
-  Bdt = 1;
-  if (Jet1.has_user_info<HJetInfo>()) if (Jet1.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt *= Jet1.user_info<HJetInfo>().GetBdt();
-  if (Jet2.has_user_info<HJetInfo>()) if (Jet2.user_info<HJetInfo>().GetBdt() != InitialValue) Bdt *= Jet2.user_info<HJetInfo>().GetBdt();
+    Print(HInformation, "Constructor");
+    Jet1 = NewJet1;
+    Jet2 = NewJet2;
+    int NumberBdt = 0;
+    if (Jet1.has_user_info<HJetInfo>()) if (Jet1.user_info<HJetInfo>().GetBdt() != InitialValue) {
+      Bdt += Jet1.user_info<HJetInfo>().GetBdt();
+      ++NumberBdt;
+    }
+    if (Jet2.has_user_info<HJetInfo>()) if (Jet2.user_info<HJetInfo>().GetBdt() != InitialValue) {
+      Bdt += Jet2.user_info<HJetInfo>().GetBdt();
+      ++NumberBdt;
+    }
+    if (NumberBdt != 0)Bdt /= NumberBdt;
 }
 
 

@@ -108,12 +108,20 @@ void hanalysis::HHeavyHiggsLeptonicTagger::FillBranch(HHeavyHiggsLeptonicBranch 
 
 }
 
+struct SortSextetByMass {
+  inline bool operator()(const hanalysis::HSextet &Sextet1, const hanalysis::HSextet &Sextet2) {
+    return (Sextet1.GetSextetJet().m() > Sextet2.GetSextetJet().m());
+  }
+};
+
 
 std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
 {
-    Print(HInformation, "Get Higgs Tags");
+  Print(HInformation, "Get Higgs Tags");
 
-    JetTag->HeavyParticles = {TopId, HeavyHiggsId};
+  float Mass = Event->GetMass();
+
+    JetTag->HeavyParticles = {TopId, HeavyHiggsId,CPOddHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
@@ -142,6 +150,7 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
 //             else PreSextets = GetSextets(Quartet, MissingEt);
             for (const auto & Sextet : PreSextets) {
 //                 if (Sextet.GetSextetJet().m() < 10) continue; // TODO do we need this
+            if (Tag == HSignal && Sextet.GetSextetJet().m() < Mass / 2)continue;
                 Sextets.push_back(Sextet);
             }
         }
@@ -151,7 +160,7 @@ std::vector< HHeavyHiggsLeptonicBranch * > hanalysis::HHeavyHiggsLeptonicTagger:
 
     if (Tag == HSignal && Sextets.size() > 1) {
         Print(HError, "Higgs Candidates", Sextets.size());
-        std::sort(Sextets.begin(), Sextets.end(), SortByBdt());
+        std::sort(Sextets.begin(), Sextets.end(), SortSextetByMass());
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 

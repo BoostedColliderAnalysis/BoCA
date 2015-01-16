@@ -12,7 +12,7 @@
 
 
 // ****** Compilation command *************************************************
-// g++ -o convertTH1 `root-config --cflags` convertTH1.cpp `root-config --glibs`
+// g++ -o RootBdt2Dat `root-config --cflags` RootBdt2Dat.cpp `root-config --glibs`
 // ****************************************************************************
 
 // Usage  : ./convertTH1 rootFile.root histName

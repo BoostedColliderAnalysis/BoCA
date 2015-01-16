@@ -1,6 +1,10 @@
 # include "HHeavyHiggsSemiTagger.hh"
 
-hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWSemiTagger *const NewWSemiTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger)
+hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger(
+    hanalysis::HBottomTagger *const NewBottomTagger,
+    hanalysis::HWSemiTagger *const NewWSemiTagger,
+    hanalysis::HWTagger *const NewWTagger,
+    hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
@@ -96,7 +100,9 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
 {
     Print(HInformation, "Get Higgs Tags");
 
-    JetTag->HeavyParticles = {TopId, HeavyHiggsId};
+    float Mass = Event->GetMass();
+
+    JetTag->HeavyParticles = {TopId, HeavyHiggsId, CPOddHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
@@ -104,7 +110,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
     std::vector<HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
-    std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
+    std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, MissingEt, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
     std::vector<HDoublet> DoubletsHadronic = WTagger->GetBdt(Jets, WReader);
@@ -121,7 +127,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
             HSextet Sextet(TripletSemi, TripletHadronic);
             Sextet.SetTag(GetTag(Sextet));
             if (Sextet.GetTag() != Tag) continue;
-            if (Tag == HSignal && Sextet.GetSextetJet().m() < 1500)continue;
+            if (Tag == HSignal && Sextet.GetSextetJet().m() < Mass / 2)continue;
             Sextets.push_back(Sextet);
         }
 
@@ -133,7 +139,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 
-    for(const auto & Sextet :Sextets) Print(HError, "Sextet Mass",Sextet.GetSextetJet().m(),Sextet.GetTriplet1().GetBdt(),Sextet.GetTriplet2().GetBdt());
+    for (const auto & Sextet : Sextets) Print(HError, "Sextet Mass", Sextet.GetSextetJet().m(), Sextet.GetTriplet1().GetBdt(), Sextet.GetTriplet2().GetBdt());
 
     std::vector<HHeavyHiggsSemiBranch *> HeavyHiggsBranches;
     for (const auto & Sextet : Sextets) {
@@ -153,7 +159,7 @@ hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet 
     HJetInfo JetInfoB1 = Sextet.GetTriplet1().GetSinglet().user_info<HJetInfo>();
     JetInfoB1.ExtractFraction(BottomId);
     HJetInfo JetInfoL = Sextet.GetTriplet1().GetDoublet().GetJet1().user_info<HJetInfo>();
-    JetInfoL.ExtractFraction(WId);
+    JetInfoL.ExtractFraction(TopId);
     HJetInfo JetInfoB2 = Sextet.GetTriplet2().GetSinglet().user_info<HJetInfo>();
     JetInfoB2.ExtractFraction(BottomId);
     HJetInfo JetInfoW1 = Sextet.GetTriplet2().GetDoublet().GetJet1().user_info<HJetInfo>();
@@ -164,7 +170,7 @@ hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet 
     if (std::abs(JetInfoB1.GetMaximalId()) != BottomId) return HBackground;
     if (JetInfoB1.GetMaximalId() != -JetInfoB2.GetMaximalId()) return HBackground;
 
-    if (std::abs(JetInfoL.GetMaximalId()) != WId) return HBackground;
+    if (std::abs(JetInfoL.GetMaximalId()) != TopId) return HBackground;
     if (sgn(JetInfoL.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
 
     if (std::abs(JetInfoW1.GetMaximalId()) != WId) return HBackground;

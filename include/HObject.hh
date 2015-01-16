@@ -322,6 +322,7 @@ public:
         WId = 24,
         HiggsId = 25,
         HeavyHiggsId = 35,
+        CPOddHiggsId = 36,
         ChargedHiggsId = 37,
         AnyId = 86,
         IsrId = 87,

@@ -5,7 +5,7 @@ hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDo
     Print(HInformation, "Constructor");
     Doublet1 = NewDoublet1;
     Doublet2 = NewDoublet2;
-    Bdt = Doublet1.GetBdt() * Doublet2.GetBdt();
+    Bdt = (Doublet1.GetBdt() + Doublet2.GetBdt())/2;
     Tag = Doublet1.GetTag() * Doublet2.GetTag();
 }
 

@@ -4,7 +4,7 @@ hanalysis::HJetInfo::HJetInfo()
 {
 //     Debug = 4;
     Print(HDebug, "Constructor");
-    BTag=0;
+    BTag = 0;
 }
 
 void hanalysis::HJetInfo::AddConstituent(const int ConstituentId, const float Weight)
@@ -68,7 +68,7 @@ void hanalysis::HJetInfo::ExtractFraction(const int ParticleId, const int Mother
 
     for (std::unordered_map<HFamily, float>::const_iterator Pair = JetFamily.begin(); Pair != JetFamily.end(); ++Pair) {
 
-      if (std::abs((*Pair).first.ParticleId) == ParticleId && std::abs((*Pair).first.Mother1Id) == MotherId) AddConstituent((*Pair).first.ParticleId, (*Pair).second);
+        if (std::abs((*Pair).first.ParticleId) == ParticleId && std::abs((*Pair).first.Mother1Id) == MotherId) AddConstituent((*Pair).first.ParticleId, (*Pair).second);
 
         else AddConstituent(IsrId, (*Pair).second);
 
@@ -119,9 +119,9 @@ void hanalysis::HJetInfo::PrintAllInfos(const HSeverity Severity) const
     Print(HDebug, "Print All Infos");
     for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
         if (GetWeightSum() == 0) {
-            Print(Severity, "Jet Fraction", (*Pair).first, 0);
+            Print(Severity, "Jet Fraction", GetParticleName((*Pair).first), 0);
         } else {
-            Print(Severity, "Jet Fraction", (*Pair).first, (*Pair).second / GetWeightSum());
+            Print(Severity, "Jet Fraction", GetParticleName((*Pair).first), (*Pair).second / GetWeightSum());
         }
     }
 }
@@ -132,9 +132,9 @@ void hanalysis::HJetInfo::PrintAllFamilyInfos(const HSeverity Severity) const
     int Counter = 1;
     for (std::unordered_map<HFamily, float>::const_iterator Pair = JetFamily.begin(); Pair != JetFamily.end(); ++Pair) {
         if (GetFamilyWeightSum() == 0) {
-            Print(Severity, "Jet Fraction", (*Pair).first.ParticleId, (*Pair).first.Mother1Id, 0);
+            Print(Severity, "Jet Family Fraction", GetParticleName((*Pair).first.ParticleId), GetParticleName((*Pair).first.Mother1Id), 0);
         } else {
-            Print(Severity, "Jet Fraction", Counter, (*Pair).first.ParticleId, (*Pair).first.Mother1Id, (*Pair).second / GetFamilyWeightSum());
+            Print(Severity, "Jet Family Fraction", Counter, GetParticleName((*Pair).first.ParticleId), GetParticleName((*Pair).first.Mother1Id), (*Pair).second / GetFamilyWeightSum());
         }
         ++Counter;
     }

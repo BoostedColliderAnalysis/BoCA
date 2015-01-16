@@ -3,6 +3,7 @@
 
 # include "HQuartet31.hh"
 # include "HTopSemiTagger.hh"
+# include "HTopHadronicTagger.hh"
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
@@ -13,7 +14,12 @@ class hanalysis::HChargedHiggsSemiTagger : public HMva
 
 public:
 
-  HChargedHiggsSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger *const NewSemiWTagger, HTopSemiTagger *const NewTopSemiTagger);
+  HChargedHiggsSemiTagger(
+    hanalysis::HBottomTagger *const NewBottomTagger,
+    hanalysis::HWSemiTagger *const NewWSemiTagger,
+    hanalysis::HWTagger *const NewWTagger,
+    hanalysis::HTopSemiTagger *const NewTopSemiTagger,
+    hanalysis::HTopHadronicTagger *const NewTopHadronicTagger);
 
     ~HChargedHiggsSemiTagger();
 
@@ -44,21 +50,17 @@ private:
     HBottomTagger *BottomTagger;
 
     HWSemiTagger *WSemiTagger;
+    HWTagger *WTagger;
 
-//     HWTagger *WTagger;
-
-//     HTopHadronicTagger *TopHadronicTagger;
-
+    HTopHadronicTagger *TopHadronicTagger;
     HTopSemiTagger *TopSemiTagger;
 
     HReader *BottomReader;
 
     HReader *WSemiReader;
+    HReader *WReader;
 
-//     HReader *WReader;
-
-//     HReader *TopHadronicReader;
-
+    HReader *TopHadronicReader;
     HReader *TopSemiReader;
 
     HChargedHiggsSemiBranch *Branch;

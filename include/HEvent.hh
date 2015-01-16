@@ -75,6 +75,9 @@ public:
         return Discriminator;
     }
 
+    float GetMass() const{return Mass;}
+    void SetMass(const float NewMass) {Mass=NewMass;}
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -118,6 +121,8 @@ protected:
     hanalysis::HDiscriminator *Discriminator;
 
 private:
+
+  float Mass;
 
 };
 

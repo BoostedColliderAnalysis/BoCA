@@ -49,6 +49,9 @@ private:
     HTopHadronicBranch *Branch;
     hanalysis::HJetTag *JetTag;
 
+    float TopWindow ;
+    float JetSize;
+
 };
 
 #endif

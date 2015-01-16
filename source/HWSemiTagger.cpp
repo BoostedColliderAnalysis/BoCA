@@ -130,6 +130,7 @@ hanalysis::HObject::HTag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoubl
 
 std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
 {
+  Print(HInformation, "Get Triple Bdt");
 
     std::vector<HDoublet> Doublets;
     for (const auto & Lepton : Leptons) {
@@ -150,6 +151,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(HJets &Leptons
 
 std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDoublet &Doublet)const
 {
+  Print(HInformation, "Get Neutrinos");
     const fastjet::PseudoJet Lepton = Doublet.GetJet1();
     const fastjet::PseudoJet MissingEt = Doublet.GetJet2();
     const float LinearTerm = (std::pow(WMass, 2) - Lepton.m2()) / 2 + MissingEt.px() * Lepton.px() + MissingEt.py() * Lepton.py();
@@ -169,14 +171,20 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
 
     const float Neutrino1E = (Lepton.e() * LinearTerm - Sqrt) / LeptonSq;
     const float Neutrino1Pz = (std::pow(Lepton.pz(), 2) * LinearTerm - Lepton.e() * Sqrt) / Lepton.pz() / LeptonSq;
-    const fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
+    fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
+    HJetInfo *JetInfo1 = new HJetInfo();
+//     JetInfo1->SetJetFamily(Lepton.user_info<HJetInfo>().GetJetFamily());
+    Neutrino1.set_user_info(JetInfo1);
     Print(HDebug, "Neutrnio 1", Neutrino1);
     HDoublet Doublet1(Lepton, Neutrino1);
     Doublet1.SetTag(Doublet.GetTag());
 
     const float Neutrino2E = (Lepton.e() * LinearTerm + Sqrt) / LeptonSq;
     const float Neutrino2Pz = (std::pow(Lepton.pz(), 2) * LinearTerm + Lepton.e() * Sqrt) / Lepton.pz() / LeptonSq;
-    const fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
+    fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
+    HJetInfo *JetInfo2 = new HJetInfo();
+//     JetInfo2->SetJetFamily(Lepton.user_info<HJetInfo>().GetJetFamily());
+    Neutrino2.set_user_info(JetInfo2);
     Print(HDebug, "Neutrnio 2", Neutrino2);
     HDoublet Doublet2(Lepton, Neutrino2);
     Doublet2.SetTag(Doublet.GetTag());
