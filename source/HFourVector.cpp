@@ -156,19 +156,19 @@ fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Pa
     return GetPseudoJet(GetLorentzVectorByMass(Particle, TauMass));
 }
 
-hanalysis::HFamily hanalysis::HFourVector::GetMotherId(TObject *Object)
+hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(TObject *Object)
 {
     Print(HDetailed, "Get Mother Id", ClonesArrays->GetParticleSum());
 
+    HFamily BranchFamily;
     if (Object->IsA() != delphes::GenParticle::Class() || Object == 0) {
         Print(HError, "Object is", Object->ClassName());
-        return EmptyId;
+        return BranchFamily;
     }
 
     const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(Object);
-    if (Position == EmptyPosition) return EmptyId;
+    if (Position == EmptyPosition) return BranchFamily;
 
-    HFamily BranchFamily;
     BranchFamily = GetBranchFamily(BranchFamily, Position);
     if (BranchFamily.Mother1Id == EmptyId)
         BranchFamily = HFamily(BranchFamily.ParticlePosition, IsrId, BranchFamily.Mother1Position, IsrId);

@@ -152,7 +152,7 @@ void hanalysis::HReader::SimpleMVALoop()
     TableHeader << std::endl
                 << "\\begin{table}" << std::endl
                 << "\\centering" << std::endl
-                << "\\begin{tabular}{lrrrrrrrrrrrrrrrrrrrr}" << std::endl
+                << "\\begin{tabular}{l@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r}" << std::endl
                 << " \\\\ \\toprule" << std::endl
                 << "    Mass" << std::endl
                 << "  & \\multicolumn{20}{c}{BDT Cut}" << std::endl
@@ -174,7 +174,7 @@ void hanalysis::HReader::SimpleMVALoop()
                << "\\end{tikzpicture};" << std::endl;
 
     for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
-        const float Cut = float(2 * Step) / BackgroundResults.Steps;
+        const float Cut = float(Step) / BackgroundResults.Steps + 1;
         TableHeader << "  & " << Cut << std::endl;
     }
     TableHeader << " \\\\ \\midrule" << std::endl;
@@ -225,7 +225,7 @@ void hanalysis::HReader::SimpleMVALoop()
         ResultStruct SignalResults = ApplyBdt(SignalFile, SignalTreeName, ExportFile);
 
         for (int Step = 0; Step < SignalResults.Steps; ++Step) {
-            const float Significance = SignalResults.Results[Step] / std::sqrt(SignalResults.Results[Step] + BackgroundResults.Results[Step]);
+            const float Significance = SignalResults.Results[Step] / std::sqrt(SignalResults.Results[Step] + BackgroundResults.Results[Step] + 15);
             SignificanceTable << "  & " << RoundToDigits(Significance) << std::endl;
             EfficiencyTable << "  & " << RoundToDigits(SignalResults.Hong[Step]) << std::endl;
         }
@@ -270,8 +270,8 @@ float hanalysis::HReader::GetMass(const TFile *File, const std::string &TreeName
 
 ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile)
 {
-    float Luminosity = 1; // 3000 fb-1
-    Luminosity *= 1000; //  * pb
+    float Luminosity = 3000; // 3000 fb-1
+    Luminosity *= 1000; // * pb
     ResultStruct Result;
 
     const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());

@@ -192,7 +192,7 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
 
         delphes::GenParticle *ParticleClone = const_cast<delphes::GenParticle *>((delphes::GenParticle *) Object);
         Constituent.Momentum = ParticleClone->P4();
-        if (JetDetails == TaggingStructure) Constituent.Family = GetMotherId(Object);
+        if (JetDetails == TaggingStructure) Constituent.Family = GetBranchFamily(Object);
         Constituent.Position.SetXYZT(ParticleClone->X, ParticleClone->Y, ParticleClone->Z, ParticleClone->T);
         Print(HDebug, "Gen Vertex", ParticleClone->X, ParticleClone->Y, ParticleClone->Z);
         // TODO should we take the GenParticle information into account or not?
@@ -201,7 +201,7 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
 
         delphes::Track *TrackClone = const_cast<delphes::Track *>((delphes::Track *) Object);
         Constituent.Momentum = TrackClone->P4();
-        if (JetDetails == TaggingStructure) Constituent.Family = GetMotherId(TrackClone->Particle.GetObject());
+        if (JetDetails == TaggingStructure) Constituent.Family = GetBranchFamily(TrackClone->Particle.GetObject());
         TVector3 Vector(TrackClone->X, TrackClone->Y, TrackClone->Z);
         Print(HDebug, "Track Vertex", TrackClone->X, TrackClone->Y, TrackClone->Z);
         Constituent.Position.SetVect(Vector);
@@ -220,7 +220,7 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
 
         delphes::Muon *MuonClone = const_cast<delphes::Muon *>((delphes::Muon *) Object);
         Constituent.Momentum = MuonClone->P4();
-        if (JetDetails == TaggingStructure) Constituent.Family = GetMotherId(MuonClone->Particle.GetObject());
+        if (JetDetails == TaggingStructure) Constituent.Family = GetBranchFamily(MuonClone->Particle.GetObject());
 
     } else {
 
@@ -275,7 +275,7 @@ void hanalysis::hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
           HJetInfo *JetInfo = new HJetInfo();
-          JetInfo->AddFamily(GetMotherId(EFlowTrackClone->Particle.GetObject()), std::abs(EFlowTrackClone->PT));
+          JetInfo->AddFamily(GetBranchFamily(EFlowTrackClone->Particle.GetObject()), std::abs(EFlowTrackClone->PT));
           EFlowJets.back().set_user_info(JetInfo);
 
 //             EFlowJets.back().set_user_index(GetMotherId(EFlowTrackClone->Particle.GetObject()));
@@ -360,7 +360,7 @@ void hanalysis::hdelphes::HJet::GetMuonEFlow(const HJetDetails JetDetails)
         if (JetDetails == Tagging || JetDetails ==  TaggingIsolation) {
 
           HJetInfo *JetInfo = new HJetInfo();
-          JetInfo->AddFamily(GetMotherId(EFlowMuonClone->Particle.GetObject()), std::abs(EFlowMuonClone->PT));
+          JetInfo->AddFamily(GetBranchFamily(EFlowMuonClone->Particle.GetObject()), std::abs(EFlowMuonClone->PT));
           EFlowJets.back().set_user_info(JetInfo);
 
 //             EFlowJets.back().set_user_index(GetMotherId(EFlowMuonClone->Particle.GetObject()));

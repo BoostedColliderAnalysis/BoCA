@@ -163,8 +163,8 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
 //             BTagger->DeltaR = SubStructure->GetDeltaR();
 //         }
         if (Jet.has_user_info<hanalysis::HJetInfo>()) {
-            Print(HInformation, "Has Info", BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement());
-            BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetDisplacement();
+            Print(HInformation, "Has Info", BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetMaxDisplacement());
+            BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetMaxDisplacement();
             BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
             BTagger->VertexNumber = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
         }

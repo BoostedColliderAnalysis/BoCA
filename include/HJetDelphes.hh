@@ -101,7 +101,7 @@ private:
 
             TObject * Object = Clone->Particles.At(ParticleNumber);
 //             const int MotherId = GetMotherId(Object);
-            const HFamily MotherId = GetMotherId(Object);
+            const HFamily MotherId = GetBranchFamily(Object);
             Print(HDetailed, "MotherId", MotherId.ParticleId,MotherId.Mother1Id);
 
             const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) Object;

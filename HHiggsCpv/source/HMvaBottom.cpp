@@ -45,7 +45,7 @@ void hhiggscpv::HMvaBottom::DefineVariables()
 
     Observables.push_back(NewObservable(&BTagger->VertexMass, "VertexMass"));
     Observables.push_back(NewObservable(&BTagger->Pt, "Pt"));
-    Observables.push_back(NewObservable(&BTagger->Displacement, "Displacement"));
+    Observables.push_back(NewObservable(&BTagger->MaxDisplacement, "Displacement"));
     Observables.push_back(NewObservable(&BTagger->Multipliticity, "Multipliticity"));
     Observables.push_back(NewObservable(&BTagger->DeltaR, "DeltaR"));
 

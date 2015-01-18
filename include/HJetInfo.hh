@@ -7,6 +7,7 @@
 
 # include "HTag.hh"
 # include "HJetTag.hh"
+# include "HFourVector.hh"
 
 struct HConstituent {
 
@@ -145,11 +146,16 @@ public:
 //         return (Vertices.front().Position.Vect().Mag());
 //     }
 
+    fastjet::PseudoJet GetVertexJet() const;
+
     int GetVertexNumber() const {
-        return Vertices.size();
+        std::vector <HConstituent > RealVertices = ApplyVertexResolution();
+        return RealVertices.size();
     }
 
-    float GetJetDisplacement() const;
+    float GetJetMaxDisplacement() const;
+    float GetJetMeanDisplacement() const;
+    float GetJetSumDisplacement() const;
 
     float GetVertexMass() const;
 

@@ -114,14 +114,19 @@ public:
     HBottomBranch();
 
     float VertexMass;
-    float Displacement;
+    float MaxDisplacement;
+    float MeanDisplacement;
+    float SumDisplacement;
     int Multipliticity;
     float DeltaR;
     float Spread;
+    float VertexDeltaR;
+    float VertexSpread;
     float EnergyFraction;
     int BTag;
 
     int Tag;
+    float Bdt;
 
 private:
 

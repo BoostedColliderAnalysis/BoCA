@@ -190,11 +190,11 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
     Doublet2.SetTag(Doublet.GetTag());
 
 
-//     Doublets.push_back(Doublet1);
-//     Doublets.push_back(Doublet2);
+    Doublets.push_back(Doublet1);
+    Doublets.push_back(Doublet2);
 
-    if (std::abs(Neutrino1Pz) < std::abs(Neutrino2Pz)) Doublets.push_back(Doublet1);
-    else Doublets.push_back(Doublet2);
+//     if (std::abs(Neutrino1Pz) < std::abs(Neutrino2Pz)) Doublets.push_back(Doublet1);
+//     else Doublets.push_back(Doublet2);
 
     return Doublets;
 

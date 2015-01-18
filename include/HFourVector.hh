@@ -35,17 +35,17 @@ public:
      */
     ~HFourVector();
 
-
-protected:
-
-
-    void NewEvent(const HClonesArray *const NewClonesArrays);
-
     /**
      * @brief Get a fastjet::PseudoJet from a TLorentzVector
      *
      */
     fastjet::PseudoJet GetPseudoJet(const TLorentzVector &) const;
+
+
+protected:
+
+
+    void NewEvent(const HClonesArray *const NewClonesArrays);
 
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByEnergy(const TParticle *const Particle) const {
@@ -156,7 +156,7 @@ protected:
     fastjet::PseudoJet GetPseudoJet(const TRootPhoton *const) const;
     fastjet::PseudoJet GetPseudoJet(const TRootTau *const) const;
 
-    HFamily GetMotherId(TObject *Object);
+    HFamily GetBranchFamily(TObject *Object);
 
     HFamily GetBranchFamily(HFamily &BranchId, int Position);
 

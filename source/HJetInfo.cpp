@@ -140,7 +140,62 @@ void hanalysis::HJetInfo::PrintAllFamilyInfos(const HSeverity Severity) const
     }
 }
 
-float hanalysis::HJetInfo::GetJetDisplacement() const
+struct Accu0 {
+    fastjet::PseudoJet operator()(fastjet::PseudoJet result, const HConstituent &obj) {
+        hanalysis::HFourVector Object;
+        return (result + Object.GetPseudoJet(obj.Momentum));
+    }
+
+};
+
+fastjet::PseudoJet hanalysis::HJetInfo::GetVertexJet() const
+{
+    std::vector <HConstituent > RealVertices = ApplyVertexResolution();
+    hanalysis::HFourVector Object;
+    fastjet::PseudoJet Jet;
+    for (const auto Vertex : RealVertices) {
+//       Print(HError,"JetPt",Object.GetPseudoJet(Vertex.Momentum).pt());
+        Jet = fastjet::join(Jet, Object.GetPseudoJet(Vertex.Momentum));
+    }
+    return Jet;
+//     return std::accumulate(RealVertices.rbegin(), RealVertices.rend(), Jet, Accu0());
+}
+
+struct Accu {
+    float operator()(float result, const HConstituent &obj) {
+        return (result + obj.Position.Vect().Mag());
+    }
+
+};
+
+float hanalysis::HJetInfo::GetJetSumDisplacement() const
+{
+    Print(HDebug, "Get Jet Displacement"); // TODO is there a way to get rid of the const?
+    if (Vertices.size() == 0) return 0;
+    std::vector<HConstituent> TempVertices = Vertices;
+    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [](HConstituent & Constituent) {
+        return Constituent.Position.Vect().Mag() < 0.1;
+    }), TempVertices.end());
+
+    return std::accumulate(TempVertices.rbegin(), TempVertices.rend(), 0, Accu());
+}
+
+float hanalysis::HJetInfo::GetJetMeanDisplacement() const
+{
+    Print(HDebug, "Get Jet Displacement"); // TODO is there a way to get rid of the const?
+    if (Vertices.size() == 0) return 0;
+    std::vector<HConstituent> TempVertices = Vertices;
+    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [](const HConstituent & Constituent) {
+        return Constituent.Position.Vect().Mag() < 0.1;
+    }), TempVertices.end());
+
+    if (TempVertices.size() < 1) return 0;
+    float Sum = std::accumulate(TempVertices.rbegin(), TempVertices.rend(), 0, Accu());
+
+    return Sum / TempVertices.size();
+}
+
+float hanalysis::HJetInfo::GetJetMaxDisplacement() const
 {
     Print(HDebug, "Get Jet Displacement"); // TODO is there a way to get rid of the const?
     if (Vertices.size() == 0) return 0;
@@ -175,7 +230,7 @@ std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const
     std::vector <HConstituent > RealVertices;
     if (Vertices.size() == 0) return RealVertices;
     for (std::vector <HConstituent >::const_iterator Vertex = Vertices.begin(); Vertex != Vertices.end(); ++Vertex) {
-        if ((*Vertex).Position.Vect().Mag() < SecondaryVertexResolution) {
+        if ((*Vertex).Position.Vect().Mag() > SecondaryVertexResolution) {
             RealVertices.push_back(*Vertex);
         }
     }

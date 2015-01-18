@@ -30,7 +30,9 @@ public:
 //     HJets GetTruthBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
     HJets GetBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
+    HJets GetBdt2(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
+    void FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet);
 protected:
 
     virtual inline std::string ClassName() const {
@@ -41,14 +43,13 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet);
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
-    hanalysis::HObject::HTag GetTag(const HJetInfo &JetInfo) const;
+//     hanalysis::HObject::HTag GetTag(const HJetInfo &JetInfo) const;
 
     HBottomBranch *Branch;
 

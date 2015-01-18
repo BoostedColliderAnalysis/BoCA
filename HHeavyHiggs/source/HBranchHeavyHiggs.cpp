@@ -159,6 +159,7 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
   TotalBBdt = InitialValue;
   RestBTag = InitialValue;
   ThirdBBdt = InitialValue;
+  LeptonPt = InitialValue;
 
 }
 

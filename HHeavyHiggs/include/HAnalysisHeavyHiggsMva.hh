@@ -7,6 +7,7 @@
 # include "HBranchHeavyHiggs.hh"
 # include "HReader.hh"
 # include "HFactory.hh"
+# include "HJetTag.hh"
 
 # include "HEventLeptonicTagger.hh"
 # include "HEventHadronicTagger.hh"
@@ -62,10 +63,11 @@ public:
      */
 //     ExRootTreeBranch *ConstituentBranch;
     ExRootTreeBranch *BottomBranch;
+    ExRootTreeBranch *BottomReaderBranch;
     ExRootTreeBranch *WBranch;
     ExRootTreeBranch *WReaderBranch;
     ExRootTreeBranch *WSemiBranch;
-    
+
     ExRootTreeBranch *JetPairBranch;
     ExRootTreeBranch *JetPairReaderBranch;
 
@@ -121,7 +123,15 @@ public:
     std::vector<hanalysis::HFile *> GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string GetProjectName() const {
-        return "HeavyHiggsMva";
+//         return "HeavyHiggsMva1000";
+//         return "HeavyHiggsMva2000";
+//         return "HeavyHiggsMva3000";
+//         return "HeavyHiggsMva4000";
+//         return "HeavyHiggsMva5000";
+        return "HeavyHiggsMva6000";
+//         return "HeavyHiggsMva7000";
+//         return "HeavyHiggsMva8000";
+//         return "HeavyHiggsMva9000";
     }
 
     std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -137,6 +147,7 @@ protected:
     }
 
 private:
+    hanalysis::HJetTag *JetTag;
 
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *JetPairReader;
@@ -156,7 +167,7 @@ private:
     std::vector<hanalysis::HFile *>  JoinFiles(const std::vector<hanalysis::HFile *> &Files1, const std::vector<hanalysis::HFile *> &Files2);
 
     inline int GetEventNumberMax() const {
-        return 1000;
+        return 100000;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
@@ -172,6 +183,7 @@ private:
 //     std::vector< HHeavyHiggsEvent > GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    bool GetBottomReader(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWReader(hanalysis::HEvent *const Event, const HTag Tag);

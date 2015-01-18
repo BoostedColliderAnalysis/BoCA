@@ -42,7 +42,7 @@ bool hanalysis::hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDeta
             if (JetDetails == hanalysis::HFourVector::Tagging) {
 
                 HJetInfo *JetInfo = new HJetInfo();
-                JetInfo->AddFamily(GetMotherId(ElectronClone->Particle.GetObject()), std::abs(ElectronClone->PT));
+                JetInfo->AddFamily(GetBranchFamily(ElectronClone->Particle.GetObject()), std::abs(ElectronClone->PT));
                 ElectronJets.back().set_user_info(JetInfo);
 //                 ElectronJets.back().set_user_index(GetMotherId(ElectronClone->Particle.GetObject()));
 //                 Print(HDebug, "Electron Tag", ElectronJets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
@@ -58,7 +58,7 @@ bool hanalysis::hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDeta
             if (JetDetails == hanalysis::HFourVector::Tagging) {
 
               HJetInfo *JetInfo = new HJetInfo();
-              JetInfo->AddFamily(GetMotherId(ElectronClone->Particle.GetObject()), std::abs(ElectronClone->PT));
+              JetInfo->AddFamily(GetBranchFamily(ElectronClone->Particle.GetObject()), std::abs(ElectronClone->PT));
               AntiElectronJets.back().set_user_info(JetInfo);
 //            AntiElectronJets.back().set_user_index(GetMotherId(ElectronClone->Particle.GetObject()));
 //            Print(HDebug, "Electron Tag", ElectronJets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
@@ -72,6 +72,7 @@ bool hanalysis::hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDeta
 
     }
 
+    PrintTruthLevel(HDebug);
     return 1;
 
 }
@@ -103,7 +104,7 @@ bool hanalysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
             if (JetDetails == hanalysis::HFourVector::Tagging) {
 
               HJetInfo *JetInfo = new HJetInfo();
-              JetInfo->AddFamily(GetMotherId(MuonClone->Particle.GetObject()), std::abs(MuonClone->PT));
+              JetInfo->AddFamily(GetBranchFamily(MuonClone->Particle.GetObject()), std::abs(MuonClone->PT));
               MuonJets.back().set_user_info(JetInfo);
 //                 MuonJets.back().set_user_index(GetMotherId(MuonClone->Particle.GetObject()));
             }
@@ -116,7 +117,7 @@ bool hanalysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
             AntiMuonJets.push_back(GetPseudoJet(const_cast<delphes::Muon *>(MuonClone)->P4()));
             if (JetDetails == hanalysis::HFourVector::Tagging) {
               HJetInfo *JetInfo = new HJetInfo();
-              JetInfo->AddFamily(GetMotherId(MuonClone->Particle.GetObject()), std::abs(MuonClone->PT));
+              JetInfo->AddFamily(GetBranchFamily(MuonClone->Particle.GetObject()), std::abs(MuonClone->PT));
               AntiMuonJets.back().set_user_info(JetInfo);
 //                 AntiMuonJets.back().set_user_index(GetMotherId(MuonClone->Particle.GetObject()));
             }

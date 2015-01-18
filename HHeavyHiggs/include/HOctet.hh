@@ -21,6 +21,7 @@ struct HEventStruct {
   float MaxBBdt = 0;
   float TotalBBdt = 0;
   float ThirdBBdt = 0;
+  float LeptonPt = 0;
 
 };
 

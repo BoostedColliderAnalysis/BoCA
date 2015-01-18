@@ -16,19 +16,7 @@ class hheavyhiggs::HEventSemiTagger : public hanalysis::HMva
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
-    HEventSemiTagger();
-
-    HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger,
-                     hanalysis::HJetPairTagger *const NewJetPairTagger,
-                     hanalysis::HWSemiTagger *const NewWSemiTagger,
-                     hanalysis::HWTagger *const NewWTagger,
-                     hanalysis::HTopSemiTagger *const NewTopSemiTagger,
-                     hanalysis::HTopHadronicTagger *const NewTopHadronicTagger,
-                     hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsSemiTagger);
+    HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HJetPairTagger *const NewJetPairTagger, hanalysis::HWSemiTagger *const NewWSemiTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsMixedTagger);
 
     /**
     * @brief Destructor
@@ -54,7 +42,7 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HHEventSemiTagger";
+        return "HHEventTtSemiTagger";
     }
 
 private:
@@ -71,7 +59,6 @@ private:
     hanalysis::HTopSemiTagger *TopSemiTagger;
     hanalysis::HTopHadronicTagger *TopHadronicTagger;
     hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
-    hanalysis::HJetPairTagger *JetPairTagger;
 
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *WSemiReader;
@@ -79,7 +66,6 @@ private:
     hanalysis::HReader *TopHadronicReader;
     hanalysis::HReader *TopSemiReader;
     hanalysis::HReader *HeavyHiggsSemiReader;
-    hanalysis::HReader *JetPairReader;
 
     HEventSemiBranch *Branch;
     hanalysis::HJetTag *JetTag;

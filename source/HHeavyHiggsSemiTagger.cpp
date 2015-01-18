@@ -124,6 +124,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
             if (TripletSemi.GetSinglet() == TripletHadronic.GetSinglet()) continue;
             if (TripletSemi.GetSinglet() == TripletHadronic.GetDoublet().GetJet1()) continue;
             if (TripletSemi.GetSinglet() == TripletHadronic.GetDoublet().GetJet2()) continue;
+            if (Tag == HSignal && TripletSemi.GetDeltaR() > 1.5) continue;
             HSextet Sextet(TripletSemi, TripletHadronic);
             Sextet.SetTag(GetTag(Sextet));
             if (Sextet.GetTag() != Tag) continue;
@@ -139,7 +140,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 
-    for (const auto & Sextet : Sextets) Print(HError, "Sextet Mass", Sextet.GetSextetJet().m(), Sextet.GetTriplet1().GetBdt(), Sextet.GetTriplet2().GetBdt());
+//     for (const auto & Sextet : Sextets) Print(HError, "Sextet Mass", Sextet.GetSextetJet().m(), Sextet.GetTriplet1().GetBdt(), Sextet.GetTriplet2().GetBdt());
 
     std::vector<HHeavyHiggsSemiBranch *> HeavyHiggsBranches;
     for (const auto & Sextet : Sextets) {
