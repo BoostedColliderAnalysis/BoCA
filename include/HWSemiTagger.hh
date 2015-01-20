@@ -27,6 +27,7 @@ public:
 
 
 //     std::vector<hanalysis::HDoublet>  GetTruthDoublets(const hanalysis::HReader* Reader, hanalysis::HEvent*const Event);
+    void FillBranch(HWSemiBranch*const WSemiBranch, const hanalysis::HDoublet& Triplet);
 
 protected:
 
@@ -38,15 +39,13 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HWSemiBranch*const WSemiBranch, const hanalysis::HDoublet& Triplet);
 
     HTag GetTag(const hanalysis::HDoublet& Doublet) const;
 
     std::vector< HDoublet > GetNeutrinos(const hanalysis::HDoublet& Doublet)const;
 
-//     HBottomTagger *BottomTagger;
 
-//     HReader *BottomReader;
+    std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const HJets &Neutrinos, const hanalysis::HObject::HTag Tag);
 
     HWSemiBranch *Branch;
 

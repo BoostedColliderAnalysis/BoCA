@@ -13,9 +13,8 @@ hanalysis::HTopSemiTagger::HTopSemiTagger(HBottomTagger *const NewBottomTagger, 
     Branch = new HTopSemiBranch();
     JetTag = new HJetTag();
     DefineVariables();
-    TopWindow = 50;
-// //     std::string TopCut = "TopSemi.Mass>" + std::to_string(TopMass - TopWindow) + "&&TopSemi.Mass<" + std::to_string(TopMass + TopWindow);
-//     Cut = TopCut.c_str();
+    TopWindow = 80;
+
 }
 
 hanalysis::HTopSemiTagger::~HTopSemiTagger()
@@ -96,7 +95,6 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
 
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
-
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
@@ -111,7 +109,7 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
             Triplet.SetTag(GetTag(Triplet));
             if (Triplet.GetTag() != Tag) continue;
             if (Tag == HSignal && std::abs(Triplet.GetTripletJet().m() - TopMass) > TopWindow) continue;
-            if (Tag == HSignal && Triplet.GetDeltaR() > 1) continue; // FIXME assumption of boost larger 400
+            if (Tag == HSignal && Triplet.GetDeltaR() > 1.5) continue; // FIXME assumption of boost larger 400
             PreTriplets.push_back(Triplet);
         }
         if (PreTriplets.size() > 2) Print(HError, "More than one semi lep W");
@@ -119,87 +117,6 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
     }
 
-
-
-//     for (const auto & Jet : Jets) {
-//         if (Jet.has_pieces()) if (Jet.pieces().size() > 2) {
-//                 fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
-//                 fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
-//                 std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(int(2));
-//                 if (Pieces.size() > 2) {
-//                     for (auto & Piece : Pieces) {
-//                         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-//                         JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-//                         JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-//                         Piece.set_user_info(JetInfo);
-//                     }
-//                     Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
-//
-//                     for (const auto & Piece : Pieces) {
-//                         std::vector<HTriplet> PreTriplets;
-//                         for (const auto & Doublet : Doublets) {
-//                             HTriplet Triplet(Doublet, Piece);
-//                             Triplet.SetTag(GetTag(Triplet));
-//                             if (Triplet.GetTag() != Tag) continue;
-//                             if (Tag == HSignal && std::abs(Triplet.GetTripletJet().m() - TopMass) > TopWindow) continue;
-//                             if (Triplet.GetDeltaR() > 1) continue;
-//                             PreTriplets.push_back(Triplet);
-//                         }
-//                         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
-//                         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
-//                     }
-//
-//                 }
-//             }
-//     }
-//
-//
-//
-//     for (const auto & Jet : Jets) {
-//         if (Jet.has_pieces()) if (Jet.pieces().size() > 3) {
-//                 fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
-//                 fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
-//                 std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(int(3));
-//                 if (Pieces.size() > 3) {
-//                     for (auto & Piece : Pieces) {
-//                         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-//                         JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-//                         JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-//                         Piece.set_user_info(JetInfo);
-//                     }
-//                     Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
-//
-//                     for (const auto & Piece : Pieces) {
-//                         std::vector<HTriplet> PreTriplets;
-//                         for (const auto & Doublet : Doublets) {
-//                             HTriplet Triplet(Doublet, Piece);
-//                             Triplet.SetTag(GetTag(Triplet));
-//                             if (Triplet.GetTag() != Tag) continue;
-//                             if (Tag == HSignal && std::abs(Triplet.GetTripletJet().m() - TopMass) > TopWindow) continue;
-//                             if (Triplet.GetDeltaR() > 1) continue;
-//                             PreTriplets.push_back(Triplet);
-//                         }
-//                         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
-//                         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
-//                     }
-//
-//                 }
-//             }
-//     }
-
-
-//     if (Tag == HBackground || (Tag == HSignal && Triplets.size() < 1)) {
-//         for (const auto Jet : Jets) {
-//             fastjet::PseudoJet EmptyJet(0, 0, 0, 0);
-//             HDoublet Doublet(EmptyJet, EmptyJet);
-//             Doublet.SetBdt(Jet.user_info<HJetInfo>().GetBdt());
-//             HTriplet Triplet(Doublet, Jet);
-//             Triplet.SetTag(GetTag(Jet));
-//             if (Triplet.GetTag() != Tag) continue;
-//             if (Tag == HSignal && std::abs(Triplet.GetTripletJet().m() - TopMass) > TopWindow) continue;
-//             Triplets.push_back(Triplet);
-//         }
-//     }
 
     if (Tag == HSignal && Triplets.size() > 1) {
         std::sort(Triplets.begin(), Triplets.end(), SortByTopMass());
@@ -255,7 +172,8 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
     for (const auto & Jet : Jets) {
         std::vector<HTriplet> PreTriplets;
         for (const auto & Doublet : Doublets) {
-            HTriplet Triplet(Doublet, Jet);
+          HTriplet Triplet(Doublet, Jet);
+          if (std::abs(Triplet.GetTripletJet().m() - TopMass) > 2*TopWindow) continue; //FIXME remove this hack again
             FillBranch(Triplet);
             Triplet.SetBdt(Reader->GetBdt());
             PreTriplets.push_back(Triplet);
@@ -263,71 +181,6 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
     }
-
-
-
-
-
-
-
-//     for (const auto & Jet : Jets) {
-//         if (Jet.has_pieces()) if (Jet.pieces().size() > 2) {
-//                 fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
-//                 fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
-//                 std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(int(2));
-//                 if (Pieces.size() > 2) {
-//                     for (auto & Piece : Pieces) {
-//                         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-//                         JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-//                         JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-//                         Piece.set_user_info(JetInfo);
-//                     }
-//                     Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
-//
-//
-//                     for (const auto & Piece : Pieces) {
-//                         std::vector<HTriplet> PreTriplets;
-//                         for (const auto & Doublet : Doublets) {
-//                             HTriplet Triplet(Doublet, Piece);
-//                             FillBranch(Triplet);
-//                             Triplet.SetBdt(Reader->GetBdt());
-//                             PreTriplets.push_back(Triplet);
-//                         }
-//                         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByTopMass());
-//                         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
-//                     }
-//
-//                 }
-//             }
-//     }
-
-
-
-
-
-
-
-
-
-
-
-//     if (Triplets.size() < 1) {
-//     for (const auto Jet : Jets) {
-//         fastjet::PseudoJet EmptyJet(0, 0, 0, 0);
-//         if (Jet.has_user_info<HJetInfo>()) {
-//             HJetInfo *JetInfo = new HJetInfo();
-//             JetInfo->SetJetFamily(Jet.user_info<HJetInfo>().GetJetFamily());
-//             JetInfo->SetBdt(Jet.user_info<HJetInfo>().GetBdt());
-//             EmptyJet.set_user_info(JetInfo);
-//         }
-//         HDoublet Doublet(EmptyJet, EmptyJet);
-//         Doublet.SetBdt(Jet.user_info<HJetInfo>().GetBdt());
-//         HTriplet Triplet(Doublet, Jet);
-//         FillBranch(Triplet);
-//         Triplet.SetBdt(Reader->GetBdt());
-//         Triplets.push_back(Triplet);
-//         }
-//     }
 
     std::sort(Triplets.begin(), Triplets.end());
     Triplets.erase(Triplets.begin() + std::min(MaxCombi, int(Triplets.size())), Triplets.end());

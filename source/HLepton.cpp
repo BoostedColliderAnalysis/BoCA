@@ -3,6 +3,7 @@
 hanalysis::HLepton::HLepton()
 {
 
+//   DebugLevel=HDebug;
     Print(HNotification,"Constructor");
 
 //     Debug = 5;
@@ -102,9 +103,43 @@ HJets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetD
 {
 
     Print(HInformation,"Get Lepton Jets");
+    GotElectrons = 0;
 
-    if(!GotElectrons) GotElectrons = GetElectrons(JetDetails);
-    if(!GotMuons) GotMuons = GetMuons(JetDetails);
+    GotMuons = 0;
+
+    ElectronLorentzVectors.clear();
+
+    AntiElectronLorentzVectors.clear();
+
+    MuonLorentzVectors.clear();
+
+    AntiMuonLorentzVectors.clear();
+
+    TauLorentzVectors.clear();
+
+    AntiTauLorentzVectors.clear();
+
+    LeptonLorentzVectors.clear();
+
+    AntiLeptonLorentzVectors.clear();
+
+    ElectronJets.clear();
+
+    AntiElectronJets.clear();
+
+    MuonJets.clear();
+
+    AntiMuonJets.clear();
+
+    LeptonJets.clear();
+
+    AntiLeptonJets.clear();
+
+
+//     if(!GotElectrons)
+      GotElectrons = GetElectrons(JetDetails);
+//     if(!GotMuons)
+      GotMuons = GetMuons(JetDetails);
 
     LeptonJets = ElectronJets;
     LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());

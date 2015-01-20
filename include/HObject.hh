@@ -278,7 +278,7 @@ public:
         if (Severity <= DebugLevel) {
 
             const char Separator = ' ';
-            const int FunctionWidth = 10;
+            const int FunctionWidth = 15;
 
             Printer(Description);
 

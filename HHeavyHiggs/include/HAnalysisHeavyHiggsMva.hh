@@ -67,6 +67,7 @@ public:
     ExRootTreeBranch *WBranch;
     ExRootTreeBranch *WReaderBranch;
     ExRootTreeBranch *WSemiBranch;
+    ExRootTreeBranch *WSemiReaderBranch;
 
     ExRootTreeBranch *JetPairBranch;
     ExRootTreeBranch *JetPairReaderBranch;
@@ -128,10 +129,11 @@ public:
 //         return "HeavyHiggsMva3000";
 //         return "HeavyHiggsMva4000";
 //         return "HeavyHiggsMva5000";
-        return "HeavyHiggsMva6000";
+//         return "HeavyHiggsMva6000";
 //         return "HeavyHiggsMva7000";
 //         return "HeavyHiggsMva8000";
 //         return "HeavyHiggsMva9000";
+        return "HeavyHiggsMvaTest";
     }
 
     std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -167,7 +169,8 @@ private:
     std::vector<hanalysis::HFile *>  JoinFiles(const std::vector<hanalysis::HFile *> &Files1, const std::vector<hanalysis::HFile *> &Files2);
 
     inline int GetEventNumberMax() const {
-        return 100000;
+//         return 100000;
+        return 10000;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
@@ -185,6 +188,7 @@ private:
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetBottomReader(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    bool GetWSemiReader(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetWReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetJetPairTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);

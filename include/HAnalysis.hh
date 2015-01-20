@@ -42,6 +42,7 @@ public:
         HJetPairTagger,
         HJetPairReader,
         HWSemiTagger,
+        HWSemiReader,
         HWTagger,
         HWReader,
         HTopHadronicTagger,
