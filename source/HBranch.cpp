@@ -58,31 +58,12 @@ HBottomBranch::HBottomBranch()
 
 }
 
-// ClassImp(HPairBranch)
-//
-// HPairBranch::HPairBranch()
-// {
-//
-//     DeltaPt = InitialValue;
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
-//
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
-//
-// }
+ClassImp(HPairBranch)
 
-ClassImp(HWBranch)
-
-HWBranch::HWBranch()
+HPairBranch::HPairBranch()
 {
 
-    Mass = InitialValue;
-    Pt = InitialValue;
-    Rap = InitialValue;
-    Phi = InitialValue;
-
+    Ht = InitialValue;
     DeltaPt = InitialValue;
     DeltaRap = InitialValue;
     DeltaPhi = InitialValue;
@@ -90,6 +71,27 @@ HWBranch::HWBranch()
 
     Bdt = InitialValue;
     Tag = InitialValue;
+
+}
+
+ClassImp(HWBranch)
+
+HWBranch::HWBranch()
+{
+
+//     Mass = InitialValue;
+//     Rap = InitialValue;
+//     Phi = InitialValue;
+//     Pt = InitialValue;
+//     Ht = InitialValue;
+
+//     DeltaPt = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
+
+//     Bdt = InitialValue;
+//     Tag = InitialValue;
 }
 
 ClassImp(HEventJetPairBranch)
@@ -98,17 +100,17 @@ HEventJetPairBranch::HEventJetPairBranch()
 {
 
     DeltaM = InitialValue;
-    Ht = InitialValue;
+//     Ht = InitialValue;
+//
+//     Mass = InitialValue;
+//     Pt = InitialValue;
+//     Rap = InitialValue;
+//     Phi = InitialValue;
 
-    Mass = InitialValue;
-    Pt = InitialValue;
-    Rap = InitialValue;
-    Phi = InitialValue;
-
-    DeltaPt = InitialValue;
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+//     DeltaPt = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
 
     Jet1Mass = InitialValue;
     Jet1Pt = InitialValue;
@@ -124,8 +126,8 @@ HEventJetPairBranch::HEventJetPairBranch()
     Jet2Bdt = InitialValue;
     Jet2BTag = InitialValue;
 
-    Bdt = InitialValue;
-    Tag = InitialValue;
+//     Bdt = InitialValue;
+//     Tag = InitialValue;
 
 }
 
@@ -133,14 +135,15 @@ ClassImp(HWSemiBranch)
 
 HWSemiBranch::HWSemiBranch()
 {
+//     Ht = InitialValue;
     NeutrinoPt = InitialValue;
     LeptonPt = InitialValue;
 
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
 
-    Tag = InitialValue;
+//     Tag = InitialValue;
 
 }
 
@@ -150,15 +153,17 @@ ClassImp(HTopHadronicBranch)
 HTopHadronicBranch::HTopHadronicBranch()
 {
 
+//     Ht = InitialValue;
+
     BottomPt = InitialValue;
     WPt = InitialValue;
 
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
 
-    Bdt = InitialValue;
-    Tag = InitialValue;
+//     Bdt = InitialValue;
+//     Tag = InitialValue;
 
 }
 
@@ -167,15 +172,16 @@ ClassImp(HTopSemiBranch)
 HTopSemiBranch::HTopSemiBranch()
 {
 
+//     Ht = InitialValue;
     BottomPt = InitialValue;
     WPt = InitialValue;
 
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
 
-    Bdt = InitialValue;
-    Tag = InitialValue;
+//     Bdt = InitialValue;
+//     Tag = InitialValue;
 
 }
 
@@ -187,12 +193,12 @@ HTopLeptonicBranch::HTopLeptonicBranch()
     BottomPt = InitialValue;
     LeptonPt = InitialValue;
 
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
 
-    Bdt = InitialValue;
-    Tag = InitialValue;
+//     Bdt = InitialValue;
+//     Tag = InitialValue;
 
 }
 
@@ -226,18 +232,18 @@ ClassImp(HHeavyHiggsLeptonicBranch)
 HHeavyHiggsLeptonicBranch::HHeavyHiggsLeptonicBranch()
 {
 
-    Mass = InitialValue;
-    Pt = InitialValue;
-    Rap = InitialValue;
-    Phi = InitialValue;
+//     Mass = InitialValue;
+//     Pt = InitialValue;
+//     Rap = InitialValue;
+//     Phi = InitialValue;
 
-    DeltaPt = InitialValue;
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+//     DeltaPt = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
 
-    Bdt = InitialValue;
-    Tag = InitialValue;
+//     Bdt = InitialValue;
+//     Tag = InitialValue;
 
     LargerWDeltaRap = InitialValue;
     LargerWDeltaPhi = InitialValue;
@@ -282,18 +288,19 @@ ClassImp(HHeavyHiggsSemiBranch)
 HHeavyHiggsSemiBranch::HHeavyHiggsSemiBranch()
 {
 
-    Mass = InitialValue;
-    Pt = InitialValue;
-    Rap = InitialValue;
-    Phi = InitialValue;
+//     Mass = InitialValue;
+//     Rap = InitialValue;
+//     Phi = InitialValue;
+//     Pt = InitialValue;
+//     Ht = InitialValue;
 
-    DeltaPt = InitialValue;
-    DeltaRap = InitialValue;
-    DeltaPhi = InitialValue;
-    DeltaR = InitialValue;
+//     DeltaPt = InitialValue;
+//     DeltaRap = InitialValue;
+//     DeltaPhi = InitialValue;
+//     DeltaR = InitialValue;
 
-    Bdt = InitialValue;
-    Tag = InitialValue;
+//     Bdt = InitialValue;
+//     Tag = InitialValue;
 
 }
 

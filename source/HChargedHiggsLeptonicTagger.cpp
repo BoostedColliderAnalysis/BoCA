@@ -31,20 +31,20 @@ hanalysis::HChargedHiggsLeptonicTagger::~HChargedHiggsLeptonicTagger()
 
 void hanalysis::HChargedHiggsLeptonicTagger::FillBranch(const hanalysis::HTriplet &Triplet)
 {
-    Print(HInformation, "FillPairTagger", Triplet.GetBdt());
+    Print(HInformation, "FillPairTagger", Triplet.Bdt());
     FillBranch(Branch, Triplet);
 }
 
 void hanalysis::HChargedHiggsLeptonicTagger::FillBranch(HChargedHiggsLeptonicBranch *ChargedHiggsBranch, const HTriplet &Triplet)
 {
-    Print(HInformation, "FillPairTagger", Triplet.GetBdt());
+    Print(HInformation, "FillPairTagger", Triplet.Bdt());
 
-    ChargedHiggsBranch->HeavyHiggsMass = Triplet.GetTripletJet().m();
-    ChargedHiggsBranch->HeavyHiggsPt = Triplet.GetTripletJet().m();
+    ChargedHiggsBranch->HeavyHiggsMass = Triplet.Jet().m();
+    ChargedHiggsBranch->HeavyHiggsPt = Triplet.Jet().m();
 
-    ChargedHiggsBranch->TopDeltaR = Triplet.GetDeltaR();
-    ChargedHiggsBranch->TopDeltaRap = Triplet.GetDeltaRap();
-    ChargedHiggsBranch->TopDeltaPhi = Triplet.GetDeltaPhi();
+    ChargedHiggsBranch->TopDeltaR = Triplet.DeltaR();
+    ChargedHiggsBranch->TopDeltaRap = Triplet.DeltaRap();
+    ChargedHiggsBranch->TopDeltaPhi = Triplet.DeltaPhi();
 
 //     HeavyHiggsBranch->LargerWDeltaR = Quartet.GetLargerTripletDeltaR();
 //     HeavyHiggsBranch->LargerWDeltaRap = Quartet.GetLargerTripletDeltaRap();
@@ -62,8 +62,8 @@ void hanalysis::HChargedHiggsLeptonicTagger::FillBranch(HChargedHiggsLeptonicBra
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = Quartet.GetSmallerTripletDeltaRap();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = Quartet.GetSmallerTripletDeltaPhi();
 
-    ChargedHiggsBranch->TopBdt = Triplet.GetBdt();
-    ChargedHiggsBranch->HeavyHiggsTag = Triplet.GetTag();
+    ChargedHiggsBranch->TopBdt = Triplet.Bdt();
+    ChargedHiggsBranch->HeavyHiggsTag = Triplet.Tag();
 
 }
 
@@ -126,10 +126,10 @@ std::vector< HChargedHiggsLeptonicBranch * > hanalysis::HChargedHiggsLeptonicTag
     std::vector<HTriplet> Triplets;
     for (const auto & Doublet : Doublets) {
         for (const auto & Jet : Jets) {
-            if (Doublet.GetJet1() == Jet) continue;
+            if (Doublet.Singlet1() == Jet) continue;
             HTriplet Triplet(Doublet, Jet);
             Triplet.SetTag(GetTag(Triplet));
-            if (Triplet.GetTag() != Tag) continue;
+            if (Triplet.Tag() != Tag) continue;
 //             std::vector<HQuartet31> PreQuartets;
 //             PreQuartets = GetQuartet(Quartet, MissingEt, Neutrinos, Tag);
 //             for (auto & Quartet : PreQuartets) {
@@ -161,10 +161,10 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const HT
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (Triplet.GetDoublet().GetTag() == HBackground) return HBackground;
-//     if (Quartet.GetDoublet2().GetTag() == HBackground) return HBackground;
+    if (Triplet.Doublet().Tag() == HBackground) return HBackground;
+//     if (Quartet.GetDoublet2().Tag() == HBackground) return HBackground;
     // TODO check the following
-    if (Triplet.GetDoublet().GetJet1().user_index() != -Triplet.GetSinglet().user_index()) return HBackground;
+    if (Triplet.Doublet().Singlet1().user_index() != -Triplet.Singlet().user_index()) return HBackground;
     return HSignal;
 }
 
@@ -175,14 +175,14 @@ std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt
     std::vector<HTriplet> Triplets;
     for (const auto & Doublet : Doublets) {
         for (const auto & Jet : Jets) {
-            if (Doublet.GetJet1() == Jet) continue;
+            if (Doublet.Singlet1() == Jet) continue;
             HTriplet Triplet(Doublet, Jet);
             Triplet.SetTag(GetTag(Triplet));
 //             std::vector<HQuartet31> PreQuartets;
 //             PreQuartets = GetQuartets(Quartet, MissingEt);
 //             for (auto & Quartet : PreQuartets) {
                 FillBranch(Triplet);
-                Triplet.SetBdt(Reader->GetBdt());
+                Triplet.SetBdt(Reader->Bdt());
                 Triplets.push_back(Triplet);
 //             }
         }

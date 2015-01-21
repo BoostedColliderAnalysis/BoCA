@@ -3,6 +3,8 @@
 
 # include "HDoublet.hh"
 
+class HTripletPrivate;
+
 class hanalysis::HTriplet : public HTag
 {
 
@@ -10,69 +12,70 @@ public:
 
     HTriplet();
 
-    HTriplet(const hanalysis::HDoublet &NewDoublet, const fastjet::PseudoJet &NewJet);
+    HTriplet(const hanalysis::HDoublet& NewDoublet, const fastjet::PseudoJet& NewSinglet);
+
+    HTriplet(const fastjet::PseudoJet &NewSinglet);
 
     ~HTriplet();
 
-    fastjet::PseudoJet GetDoubletJet() const {
-        return Doublet.GetDoubletJet();
-    }
+    HDoublet Doublet()const;
 
-    fastjet::PseudoJet GetTripletJet() const {
-        return (GetDoubletJet() + Jet);
+    fastjet::PseudoJet Singlet()const;
+
+    inline fastjet::PseudoJet DoubletJet() const {
+        return Doublet().Jet();
+    }
+    inline fastjet::PseudoJet Jet() const {
+        return DoubletJet() + Singlet();
     }
 
     inline float GetJetDeltaMass(const HParticleId ParticleId) const {
-        return std::abs(Jet.m() - GetParticleMass(ParticleId));
+        return std::abs(Singlet().m() - GetParticleMass(ParticleId));
     }
 
     inline float GetDeltaMass(const HParticleId ParticleId) const {
-        return std::abs(GetTripletJet().m() - GetParticleMass(ParticleId));
+        return std::abs(Jet().m() - GetParticleMass(ParticleId));
     }
 
-    inline float GetHt() const {
-        return (Jet.pt() + Doublet.GetHt());
+    inline float Ht() const {
+        return Doublet().Ht() + Singlet().pt();
     }
 
-    inline float GetDeltaPt() const {
-        return std::abs(Jet.pt() - GetDoubletJet().pt());
+    inline float DeltaPt() const {
+        return DoubletJet().pt() - Singlet().pt();
     }
 
-    inline float GetDeltaPhi() const {
-        return (Jet.delta_phi_to(GetDoubletJet()));
+    inline float DeltaPhi() const {
+        return DoubletJet().delta_phi_to(Singlet());
     }
 
-    inline float GetDeltaRap() const {
-        float DeltaRap = std::abs(Jet.rap() - GetDoubletJet().rap());
-        if (DeltaRap > 100) DeltaRap = 0;
-        return DeltaRap;
+    inline float DeltaRap() const {
+        float NewDeltaRap = DoubletJet().rap() - Singlet().rap();
+        if (NewDeltaRap > 100) NewDeltaRap = 0;
+        return NewDeltaRap;
     }
 
-    inline float GetDeltaR() const {
-        float DeltaR = Jet.delta_R(GetDoubletJet());
-        if (DeltaR > 100) DeltaR = 0;
-        return DeltaR;
-    }
-
-    inline HDoublet GetDoublet()const {
-        return Doublet;
-    }
-
-    inline fastjet::PseudoJet GetSinglet()const {
-        return Jet;
+    inline float DeltaR() const {
+        float NewDeltaR = DoubletJet().delta_R(Singlet());
+        if (NewDeltaR > 100) NewDeltaR = 0;
+        return NewDeltaR;
     }
 
 protected:
 
-    HDoublet Doublet;
-
-    fastjet::PseudoJet Jet;
+    HTriplet(HTripletPrivate& NewTripletPrivate) ;
 
     virtual inline std::string ClassName() const {
         return "HTriplet";
-    };
+    }
 
 private:
+
+//   HTripletPrivate * Triplet;
+
+//     HDoublet Doublet;
+
+//     fastjet::PseudoJet Singlet;
 
 };
 

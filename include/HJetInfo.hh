@@ -38,6 +38,8 @@ struct SortByDistance {
     }
 
 };
+
+
 /**
  * @brief Jet infos subclassed from Fastjet
  *
@@ -178,6 +180,8 @@ public:
     }
 
 protected:
+
+  HJetInfo(HJetInfoPrivate & JetInfoPrivate);
 
     inline std::string ClassName() const {
         return "HJetInfo";

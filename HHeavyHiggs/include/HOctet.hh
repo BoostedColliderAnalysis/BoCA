@@ -7,23 +7,25 @@
 
 struct HEventStruct {
 
-  int LeptonNumber = 0;
-  int JetNumber = 0;
-  int BottomNumber = 0;
-  float ScalarHt = 0;
-  float RestHt = 0;
-  float RestM = 0;
-  float RestPt = 0;
-  float RestRap = 0;
-  float RestPhi = 0;
-  int RestBTag = 0;
-  float RestBBdt = 0;
-  float MaxBBdt = 0;
-  float TotalBBdt = 0;
-  float ThirdBBdt = 0;
-  float LeptonPt = 0;
+    int LeptonNumber = 0;
+    int JetNumber = 0;
+    int BottomNumber = 0;
+    float ScalarHt = 0;
+    float RestHt = 0;
+    float RestM = 0;
+    float RestPt = 0;
+    float RestRap = 0;
+    float RestPhi = 0;
+    int RestBTag = 0;
+    float RestBBdt = 0;
+    float MaxBBdt = 0;
+    float TotalBBdt = 0;
+    float ThirdBBdt = 0;
+    float LeptonPt = 0;
 
 };
+
+class HOctetPrivate;
 
 /**
  * @brief An octet composed of a sextet an a doublet
@@ -34,147 +36,151 @@ class HOctet : public hanalysis::HTag
 
 public:
 
-  HOctet(){};
+    HOctet() {};
 
-  HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &Doublet);
+    HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet);
 
-  HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &Doublet, const HEventStruct &NewEventStruct);
+    HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet, const HEventStruct &NewEventStruct);
 
 
-  inline hanalysis::HSextet GetSextet()const {
-    return Sextet;
-  }
+    inline hanalysis::HSextet Sextet()const {
+        return SextetM;
+    }
 
-  inline hanalysis::HDoublet GetDoublet() const{
-    return Doublet;
-  }
+    inline hanalysis::HDoublet Doublet() const {
+        return DoubletM;
+    }
 
-  inline fastjet::PseudoJet GetSextetJet() const {
-    return Sextet.GetSextetJet();
-  }
+    inline fastjet::PseudoJet SextetJet() const {
+        return SextetM.Jet();
+    }
 
-  inline fastjet::PseudoJet GetDoubletJet() const {
-    return Doublet.GetDoubletJet();
-  }
+    inline fastjet::PseudoJet DoubletJet() const {
+        return DoubletM.Jet();
+    }
 
-  inline fastjet::PseudoJet GetOctetJet() const {
-    return (GetSextetJet() + GetDoubletJet());
-  }
+    inline fastjet::PseudoJet Jet() const {
+        return SextetJet() + DoubletJet();
+    }
 
-  inline float GetDeltaPt() const {
-    return GetSextetJet().pt() - GetDoubletJet().pt();
-  }
+    inline float Ht() const {
+        return SextetM.Ht() + DoubletM.Ht();
+    }
 
-  inline float GetDeltaR() const {
-    return GetSextetJet().delta_R(GetDoubletJet());
-  }
+    inline float DeltaPt() const {
+        return SextetJet().pt() - DoubletJet().pt();
+    }
 
-  inline float GetDeltaRap() const {
-    return std::abs(GetSextetJet().rap() + GetDoubletJet().rap());
-  }
+    inline float DeltaR() const {
+        return SextetJet().delta_R(DoubletJet());
+    }
 
-  inline float GetDeltaPhi() const {
-    return GetSextetJet().delta_phi_to(GetDoubletJet());
-  }
+    inline float DeltaRap() const {
+        return SextetJet().rap() - DoubletJet().rap();
+    }
 
-  inline float GetHbDeltaDeltaR() const {
-    return std::abs(GetDeltaR1() - GetDeltaR2());
-  }
+    inline float DeltaPhi() const {
+        return SextetJet().delta_phi_to(DoubletJet());
+    }
 
-  inline float GetHbDeltaDeltaRap() const {
-    return std::abs(GetDeltaRap1() - GetDeltaRap2());
-  }
+    inline float HbDeltaDeltaR() const {
+        return std::abs(GetDeltaR1() - GetDeltaR2());
+    }
 
-  inline float GetHbDeltaDeltaPhi() const {
-    return HObject::GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
-  }
+    inline float HbDeltaDeltaRap() const {
+        return std::abs(GetDeltaRap1() - GetDeltaRap2());
+    }
 
-  inline void SetScalarHt(const float NewScalarHt) {
-    EventStruct.ScalarHt = NewScalarHt;
-  }
+    inline float HbDeltaDeltaPhi() const {
+        return HObject::GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
+    }
 
-  inline void SetJetNumber(const int NewJetNumber) {
-    EventStruct.JetNumber = NewJetNumber;
-  }
+    inline void SetScalarHt(const float NewScalarHt) {
+        EventStructM.ScalarHt = NewScalarHt;
+    }
 
-  inline void SetBottomNumber(const int NewBottomNumber) {
-    EventStruct.BottomNumber = NewBottomNumber;
-  }
+    inline void SetJetNumber(const int NewJetNumber) {
+        EventStructM.JetNumber = NewJetNumber;
+    }
 
-  inline void SetLeptonNumber(const int NewLeptonNumber) {
-    EventStruct.LeptonNumber = NewLeptonNumber;
-  }
+    inline void SetBottomNumber(const int NewBottomNumber) {
+        EventStructM.BottomNumber = NewBottomNumber;
+    }
 
-  inline float GetScalarHt() const {
-    return EventStruct.ScalarHt;
-  }
+    inline void SetLeptonNumber(const int NewLeptonNumber) {
+        EventStructM.LeptonNumber = NewLeptonNumber;
+    }
 
-  inline int GetJetNumber()const {
-    return EventStruct.JetNumber;
-  }
+    inline float ScalarHt() const {
+        return EventStructM.ScalarHt;
+    }
 
-  inline int GetBottomNumber()const {
-    return EventStruct.BottomNumber;
-  }
+    inline int JetNumber()const {
+        return EventStructM.JetNumber;
+    }
 
-  inline int GetLeptonNumber()const {
-    return EventStruct.LeptonNumber;
-  }
+    inline int BottomNumber()const {
+        return EventStructM.BottomNumber;
+    }
 
-  inline HEventStruct GetEventStruct()const {
-    return EventStruct;
-  }
+    inline int LeptonNumber()const {
+        return EventStructM.LeptonNumber;
+    }
 
-  inline void SetEventStruct(const HEventStruct &NewEventStruct){
-    EventStruct = NewEventStruct;
-  }
+    inline HEventStruct EventStruct()const {
+        return EventStructM;
+    }
 
-  HEventStruct EventStruct;
+    inline void SetEventStruct(const HEventStruct &NewEventStruct) {
+        EventStructM = NewEventStruct;
+    }
 
-  inline float GetDeltaR1() const {
-    return GetSextetJet().delta_R(Doublet.GetJet1());
-  }
+    HEventStruct EventStructM;
 
-  inline float GetDeltaR2() const {
-    return GetSextetJet().delta_R(Doublet.GetJet2());
-  }
+    inline float GetDeltaR1() const {
+        return SextetJet().delta_R(DoubletM.Singlet1());
+    }
 
-  inline float GetDeltaPhi1() const {
-    return GetSextetJet().delta_phi_to(Doublet.GetJet1());
-  }
+    inline float GetDeltaR2() const {
+        return SextetJet().delta_R(DoubletM.Singlet2());
+    }
 
-  inline float GetDeltaPhi2() const {
-    return GetSextetJet().delta_phi_to(Doublet.GetJet2());
-  }
+    inline float GetDeltaPhi1() const {
+        return SextetJet().delta_phi_to(DoubletM.Singlet1());
+    }
 
-  inline float GetDeltaRap1() const {
-    return (GetSextetJet().rap() - Doublet.GetJet1().rap());
-  }
+    inline float GetDeltaPhi2() const {
+        return SextetJet().delta_phi_to(DoubletM.Singlet2());
+    }
 
-  inline float GetDeltaRap2() const {
-    return (GetSextetJet().rap() - Doublet.GetJet2().rap());
-  }
+    inline float GetDeltaRap1() const {
+        return (SextetJet().rap() - DoubletM.Singlet1().rap());
+    }
 
-  inline float GetDeltaPt1() const {
-    return (GetSextetJet().pt() - Doublet.GetJet1().pt());
-  }
+    inline float GetDeltaRap2() const {
+        return (SextetJet().rap() - DoubletM.Singlet2().rap());
+    }
 
-  inline float GetDeltaPt2() const {
-    return (GetSextetJet().pt() - Doublet.GetJet2().pt());
-  }
+    inline float GetDeltaPt1() const {
+        return (SextetJet().pt() - DoubletM.Singlet1().pt());
+    }
+
+    inline float GetDeltaPt2() const {
+        return (SextetJet().pt() - DoubletM.Singlet2().pt());
+    }
 
 
 protected:
 
-  virtual inline std::string ClassName() const {
-    return "HOctet";
-  }
+    virtual inline std::string ClassName() const {
+        return "HOctet";
+    }
 
 private:
 
-  hanalysis::HSextet Sextet;
+    hanalysis::HSextet SextetM;
 
-  hanalysis::HDoublet Doublet;
+    hanalysis::HDoublet DoubletM;
 
 };
 

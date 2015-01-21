@@ -134,49 +134,51 @@ private:
 
 };
 
-// class HPairBranch : public HParticleBranch
-// {
-//
-// public:
-//
-//     HPairBranch();
-//
-//     float DeltaPt;
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-//
-//     float Bdt;
-//     int Tag;
-//
-// private:
-//
-//     ClassDef(HPairBranch, 1)
-//
-// };
+class HPairBranch : public HParticleBranch
+{
+
+public:
+
+    HPairBranch();
+
+    float Ht;
+    float DeltaPt;
+    float DeltaRap;
+    float DeltaPhi;
+    float DeltaR;
+
+    float Bdt;
+    int Tag;
+
+private:
+
+    ClassDef(HPairBranch, 1)
+
+};
 
 /**
  *
  * @brief Higgs tagger root tree structure
  *
  */
-class HWBranch : public HBranch
+class HWBranch : public HPairBranch
 {
 
 public:
 
-  float Mass;
-  float Pt;
-  float Rap;
-  float Phi;
+//     float Mass;
+//     float Rap;
+//     float Phi;
+//     float Pt;
+//     float Ht;
 
-  float DeltaPt;
-  float DeltaRap;
-  float DeltaPhi;
-  float DeltaR;
+//     float DeltaPt;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-  float Bdt;
-  int Tag;
+//     float Bdt;
+//     int Tag;
 
     HWBranch();
 
@@ -191,46 +193,46 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HEventJetPairBranch : public HBranch
+class HEventJetPairBranch : public HPairBranch
 {
 
 public:
 
-  HEventJetPairBranch();
+    HEventJetPairBranch();
 
     float DeltaM;
-    float Ht;
+//     float Ht;
 
-  float Mass;
-  float Pt;
-  float Rap;
-  float Phi;
+//     float Mass;
+//     float Pt;
+//     float Rap;
+//     float Phi;
 
-  float DeltaPt;
-  float DeltaRap;
-  float DeltaPhi;
-  float DeltaR;
+//     float DeltaPt;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-  float Jet1Mass;
-  float Jet1Pt;
-  float Jet1Rap;
-  float Jet1Phi;
-  float Jet1Bdt;
-  float Jet1BTag;
+    float Jet1Mass;
+    float Jet1Pt;
+    float Jet1Rap;
+    float Jet1Phi;
+    float Jet1Bdt;
+    float Jet1BTag;
 
-  float Jet2Mass;
-  float Jet2Pt;
-  float Jet2Rap;
-  float Jet2Phi;
-  float Jet2Bdt;
-  float Jet2BTag;
+    float Jet2Mass;
+    float Jet2Pt;
+    float Jet2Rap;
+    float Jet2Phi;
+    float Jet2Bdt;
+    float Jet2BTag;
 
-  float Bdt;
-  int Tag;
+//     float Bdt;
+//     int Tag;
 
 private:
 
-  ClassDef(HEventJetPairBranch, 1)
+    ClassDef(HEventJetPairBranch, 1)
 
 };
 
@@ -239,21 +241,22 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HWSemiBranch : public HParticleBranch
+class HWSemiBranch : public HPairBranch
 {
 
 public:
 
     HWSemiBranch();
 
+//     float Ht;
     float LeptonPt;
     float NeutrinoPt;
 
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-    int Tag;
+//     int Tag;
 
 private:
 
@@ -266,22 +269,24 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopHadronicBranch : public HParticleBranch
+class HTopHadronicBranch : public HPairBranch
 {
 
 public:
 
     HTopHadronicBranch();
 
+//     float Ht;
+
     float BottomPt;
     float WPt;
 
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-    float Bdt;
-    int Tag;
+//     float Bdt;
+//     int Tag;
 
 private:
 
@@ -294,7 +299,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopLeptonicBranch : public HParticleBranch
+class HTopLeptonicBranch : public HPairBranch
 {
 
 public:
@@ -304,12 +309,12 @@ public:
     float BottomPt;
     float LeptonPt;
 
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-    float Bdt;
-    int Tag;
+//     float Bdt;
+//     int Tag;
 
 private:
 
@@ -322,22 +327,23 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopSemiBranch : public HParticleBranch
+class HTopSemiBranch : public HPairBranch
 {
 
 public:
 
     HTopSemiBranch();
 
+//     float Ht;
     float BottomPt;
     float WPt;
 
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-    float Bdt;
-    int Tag;
+//     float Bdt;
+//     int Tag;
 
 private:
 
@@ -385,25 +391,25 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsLeptonicBranch : public HBranch
+class HHeavyHiggsLeptonicBranch : public HPairBranch
 {
 
 public:
 
-  HHeavyHiggsLeptonicBranch();
+    HHeavyHiggsLeptonicBranch();
 
-  float Mass;
-  float Pt;
-  float Rap;
-  float Phi;
+//     float Mass;
+//     float Pt;
+//     float Rap;
+//     float Phi;
 
-  float DeltaPt;
-  float DeltaRap;
-  float DeltaPhi;
-  float DeltaR;
+//     float DeltaPt;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-  float Bdt;
-  int Tag;
+//     float Bdt;
+//     int Tag;
 
 
     float LargerWDeltaRap;
@@ -480,25 +486,26 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsSemiBranch : public HBranch
+class HHeavyHiggsSemiBranch : public HPairBranch
 {
 
 public:
 
-  HHeavyHiggsSemiBranch();
+    HHeavyHiggsSemiBranch();
 
-  float Mass;
-  float Pt;
-  float Rap;
-  float Phi;
+//     float Mass;
+//     float Rap;
+//     float Phi;
+//     float Pt;
+//     float Ht;
 
-  float DeltaPt;
-  float DeltaRap;
-  float DeltaPhi;
-  float DeltaR;
+//     float DeltaPt;
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
 
-  float Bdt;
-  int Tag;
+//     float Bdt;
+//     int Tag;
 
 private:
 

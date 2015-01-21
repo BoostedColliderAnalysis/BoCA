@@ -18,20 +18,20 @@ class HOctet : public hanalysis::HTag
 public:
 
   HOctet(const hanalysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
-    Sextet = NewHeavyHiggs;
+    SextetM = NewHeavyHiggs;
     Jet1 = NewBottom;
     Jet2 = NewAntiBottom;
   }
 
-  hanalysis::HSextet GetSextet()const {
-    return Sextet;
+  hanalysis::HSextet Sextet()const {
+    return SextetM;
   }
 
-  float GetBdt() const {
-    return (Sextet.GetBdt() * Jet1.user_info<hanalysis::HJetInfo>().GetBdt() * Jet1.user_info<hanalysis::HJetInfo>().GetBdt());
+  float Bdt() const {
+    return (SextetM.Bdt() * Jet1.user_info<hanalysis::HJetInfo>().Bdt() * Jet1.user_info<hanalysis::HJetInfo>().Bdt());
   }
 
-  float GetDeltaRap() const {
+  float DeltaRap() const {
     return (Jet1.rap() - Jet2.rap());
   }
 
@@ -39,7 +39,7 @@ public:
     return Jet1.delta_phi_to(Jet2);
   }
 
-  float GetDeltaR() const {
+  float DeltaR() const {
     return Jet1.delta_R(Jet2);
   }
 
@@ -82,48 +82,48 @@ public:
     LeptonNumber = NewLeptonNumber;
   }
 
-  float GetScalarHt() const {
+  float ScalarHt() const {
     return ScalarHt;
   }
-  int GetJetNumber()const {
+  int JetNumber()const {
     return JetNumber;
   }
-  int GetBottomNumber()const {
+  int BottomNumber()const {
     return BottomNumber;
   }
-  int GetLeptonNumber()const {
+  int LeptonNumber()const {
     return LeptonNumber;
   }
 
 private:
 
   float GetDeltaR1() const {
-    return Sextet.GetPairJet().delta_R(Bottom);
+    return SextetM.GetPairJet().delta_R(Bottom);
   }
 
   float GetDeltaR2() const {
-    return Sextet.GetPairJet().delta_R(AntiBottom);
+    return SextetM.GetPairJet().delta_R(AntiBottom);
   }
 
   float GetDeltaPhi1() const {
-    return Sextet.GetPairJet().delta_phi_to(Bottom);
+    return SextetM.GetPairJet().delta_phi_to(Bottom);
   }
 
   float GetDeltaPhi2() const {
-    return Sextet.GetPairJet().delta_phi_to(AntiBottom);
+    return SextetM.GetPairJet().delta_phi_to(AntiBottom);
   }
 
   float GetDeltaRap1() const {
-    return (Sextet.GetPairJet().rap() - Jet1.rap());
+    return (SextetM.GetPairJet().rap() - Jet1.rap());
   }
 
   float GetDeltaRap2() const {
-    return (Sextet.GetPairJet().rap() - Jet2.rap());
+    return (SextetM.GetPairJet().rap() - Jet2.rap());
   }
 
   fastjet::PseudoJet Jet1;
   fastjet::PseudoJet Jet2;
-  hanalysis::HSextet Sextet;
+  hanalysis::HSextet SextetM;
   int LeptonNumber;
   int BottomNumber;
   int JetNumber;

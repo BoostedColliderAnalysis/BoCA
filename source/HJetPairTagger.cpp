@@ -26,43 +26,43 @@ hanalysis::HJetPairTagger::~HJetPairTagger()
 
 void hanalysis::HJetPairTagger::FillBranch(const HDoublet &Pair)
 {
-    Print(HInformation, "FillPairTagger", Pair.GetBdt());
+    Print(HInformation, "FillPairTagger", Pair.Bdt());
     FillBranch(Branch, Pair);
 }
 
 void hanalysis::HJetPairTagger::FillBranch(HEventJetPairBranch *const JetPairBranch, const HDoublet &Doublet)
 {
 
-    Print(HInformation, "FillPairTagger", Doublet.GetBdt());
+    Print(HInformation, "FillPairTagger", Doublet.Bdt());
 
-    JetPairBranch->Mass = Doublet.GetDoubletJet().m();
-    JetPairBranch->Pt = Doublet.GetDoubletJet().pt();
-    JetPairBranch->Rap = Doublet.GetDoubletJet().rap();
-    JetPairBranch->Phi = Doublet.GetDoubletJet().phi();
-    JetPairBranch->Ht = Doublet.GetHt();
+    JetPairBranch->Mass = Doublet.Jet().m();
+    JetPairBranch->Pt = Doublet.Jet().pt();
+    JetPairBranch->Rap = Doublet.Jet().rap();
+    JetPairBranch->Phi = Doublet.Jet().phi();
+    JetPairBranch->Ht = Doublet.Ht();
 
-    JetPairBranch->DeltaM = Doublet.GetDeltaM();
-    JetPairBranch->DeltaPt = Doublet.GetDeltaPt();
-    JetPairBranch->DeltaR = Doublet.GetDeltaR();
-    JetPairBranch->DeltaRap = Doublet.GetDeltaRap();
-    JetPairBranch->DeltaPhi = Doublet.GetDeltaPhi();
+    JetPairBranch->DeltaM = Doublet.DeltaM();
+    JetPairBranch->DeltaPt = Doublet.DeltaPt();
+    JetPairBranch->DeltaR = Doublet.DeltaR();
+    JetPairBranch->DeltaRap = Doublet.DeltaRap();
+    JetPairBranch->DeltaPhi = Doublet.DeltaPhi();
 
-    JetPairBranch->Jet1Pt = Doublet.GetJet1().pt();
-    JetPairBranch->Jet1Rap = std::abs(Doublet.GetJet1().rap());
-    JetPairBranch->Jet1Phi = Doublet.GetJet1().phi();
-    JetPairBranch->Jet1Mass = Doublet.GetJet1().m();
-    JetPairBranch->Jet1Bdt = Doublet.GetJet1().user_info<HJetInfo>().GetBdt();
-    JetPairBranch->Jet1BTag = Doublet.GetJet1().user_info<HJetInfo>().GetBTag();
+    JetPairBranch->Jet1Pt = Doublet.Singlet1().pt();
+    JetPairBranch->Jet1Rap = std::abs(Doublet.Singlet1().rap());
+    JetPairBranch->Jet1Phi = Doublet.Singlet1().phi();
+    JetPairBranch->Jet1Mass = Doublet.Singlet1().m();
+    JetPairBranch->Jet1Bdt = Doublet.Singlet1().user_info<HJetInfo>().Bdt();
+    JetPairBranch->Jet1BTag = Doublet.Singlet1().user_info<HJetInfo>().GetBTag();
 
-    JetPairBranch->Jet2Pt = Doublet.GetJet2().pt();
-    JetPairBranch->Jet2Rap = std::abs(Doublet.GetJet2().rap());
-    JetPairBranch->Jet2Phi = Doublet.GetJet2().phi();
-    JetPairBranch->Jet2Mass = Doublet.GetJet2().m();
-    JetPairBranch->Jet2Bdt = Doublet.GetJet2().user_info<HJetInfo>().GetBdt();
-    JetPairBranch->Jet2BTag = Doublet.GetJet2().user_info<HJetInfo>().GetBTag();
+    JetPairBranch->Jet2Pt = Doublet.Singlet2().pt();
+    JetPairBranch->Jet2Rap = std::abs(Doublet.Singlet2().rap());
+    JetPairBranch->Jet2Phi = Doublet.Singlet2().phi();
+    JetPairBranch->Jet2Mass = Doublet.Singlet2().m();
+    JetPairBranch->Jet2Bdt = Doublet.Singlet2().user_info<HJetInfo>().Bdt();
+    JetPairBranch->Jet2BTag = Doublet.Singlet2().user_info<HJetInfo>().GetBTag();
 
-    JetPairBranch->Bdt = Doublet.GetBdt();
-    JetPairBranch->Tag = Doublet.GetTag();
+    JetPairBranch->Bdt = Doublet.Bdt();
+    JetPairBranch->Tag = Doublet.Tag();
 
 }
 
@@ -106,7 +106,7 @@ void hanalysis::HJetPairTagger::DefineVariables()
 
 struct SortDoubletByDeltaRap {
     inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
-        return (Doublet1.GetDeltaRap() > Doublet2.GetDeltaRap());
+        return (Doublet1.DeltaRap() > Doublet2.DeltaRap());
     }
 };
 
@@ -123,10 +123,10 @@ std::vector<HEventJetPairBranch *> hanalysis::HJetPairTagger::GetBranches(hanaly
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
             HDoublet Doublet;
-            if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetJets((*Jet1), (*Jet2));
-            else Doublet.SetJets((*Jet2), (*Jet1));
+            if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
+            else Doublet.SetSinglets((*Jet2), (*Jet1));
             Doublet.SetTag(GetTag(Doublet));
-            if (Doublet.GetTag() != Tag) continue;
+            if (Doublet.Tag() != Tag) continue;
             Doublets.push_back(Doublet);
         }
 
@@ -152,16 +152,16 @@ hanalysis::HObject::HTag hanalysis::HJetPairTagger::GetTag(const HDoublet &Doubl
 {
     Print(HInformation, "Get Doublet Tag");
 
-    HJetInfo JetInfo1 = Doublet.GetJet1().user_info<HJetInfo>();
+    HJetInfo JetInfo1 = Doublet.Singlet1().user_info<HJetInfo>();
 //     JetInfo1.PrintAllFamilyInfos(HError);
     JetInfo1.ExtractFraction(BottomId);
 //     JetInfo1.PrintAllInfos(HError);
-    HJetInfo JetInfo2 = Doublet.GetJet2().user_info<HJetInfo>();
+    HJetInfo JetInfo2 = Doublet.Singlet2().user_info<HJetInfo>();
 //     JetInfo2.PrintAllFamilyInfos(HError);
     JetInfo2.ExtractFraction(BottomId);
 //     JetInfo2.PrintAllInfos(HError);
 
-    Print(HDebug, "Pair is", JetInfo1.GetMaximalId(), JetInfo2.GetMaximalId(), Doublet.GetJet1().pt(), Doublet.GetJet2().pt());
+    Print(HDebug, "Pair is", JetInfo1.GetMaximalId(), JetInfo2.GetMaximalId(), Doublet.Singlet1().pt(), Doublet.Singlet2().pt());
 
     if (std::abs(JetInfo1.GetMaximalId()) != BottomId) return HBackground;
     if (JetInfo1.GetMaximalId() != -JetInfo2.GetMaximalId()) return HBackground;
@@ -176,10 +176,10 @@ std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets 
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
           HDoublet Doublet;
-          if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetJets((*Jet1), (*Jet2));
-          else Doublet.SetJets((*Jet2), (*Jet1));
+          if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
+          else Doublet.SetSinglets((*Jet2), (*Jet1));
             FillBranch(Doublet);
-            Doublet.SetBdt(JetPairReader->GetBdt());
+            Doublet.SetBdt(JetPairReader->Bdt());
             Doublets.push_back(Doublet);
         }
     std::sort(Doublets.begin(), Doublets.end());

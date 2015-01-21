@@ -95,7 +95,7 @@ public:
 
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HWSemiTagger *WSemiTagger;
-    hanalysis::HWTagger *WTagger;
+    hanalysis::HWTagger *WHadronicTagger;
     hanalysis::HJetPairTagger *JetPairTagger;
 
     hanalysis::HTopLeptonicTagger *TopLeptonicTagger;
@@ -154,7 +154,7 @@ private:
     hanalysis::HReader *BottomReader;
     hanalysis::HReader *JetPairReader;
     hanalysis::HReader *WSemiReader;
-    hanalysis::HReader *WReader;
+    hanalysis::HReader *WHadronicReader;
     hanalysis::HReader *TopLeptonicReader;
     hanalysis::HReader *TopHadronicReader;
     hanalysis::HReader *TopSemiReader;
@@ -170,7 +170,7 @@ private:
 
     inline int GetEventNumberMax() const {
 //         return 100000;
-        return 10000;
+        return 200;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);

@@ -3,6 +3,9 @@
 
 # include "HObject.hh"
 
+// namespace hanalysis{
+// class HTagPrivate;
+// }
 class hanalysis::HTag : public HObject
 {
 
@@ -12,39 +15,35 @@ public:
 
     ~HTag();
 
-    void SetBdt(const float NewBdt) {
-        Bdt = NewBdt;
-    }
+    void SetBdt(const float NewBdt);
 
-    virtual float GetBdt() const {
-        return Bdt;
-    }
+    virtual float Bdt() const;
 
-    void SetTag(const int NewTag) {
-        Tag = NewTag;
-    }
+    void SetTag(const int NewTag);
 
-    int GetTag() const {
-        return Tag;
-    }
+    int Tag() const;
 
     template<typename HMultiplet>
     bool operator < (const HMultiplet& Multiplet) const {
       // largest bdt in front
-      return (Bdt > Multiplet.Bdt);
+      return (Bdt() > Multiplet.Bdt());
     }
 
 protected:
 
-    float Bdt;
+//     float Bdt;
 
-    int Tag;
+//     int Tag;
 
-    static const int InitialValue = -10;
+//     static const int InitialValue = -10;
 
     virtual inline std::string ClassName() const {
         return "HTag";
     };
+
+    HTag(HTagPrivate &NewTagPrivate);
+
+    HTagPrivate * TagPrivate;
 
 private:
 

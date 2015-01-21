@@ -282,7 +282,7 @@ ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
     const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
 
-    std::vector<int> Numbers = Mva->ApplyBdt2(TreeReader, TreeName, ExportFile, Reader);
+    std::vector<int> Numbers = Mva->ApplyBdt2(TreeReader, TreeName, ExportFile);
 
     for (int Step = 0; Step < Result.Steps; ++Step) {
         Result.Results[Step] = float(Numbers[Step]) / float(Info->EventNumber) * Info->Crosssection * Luminosity;

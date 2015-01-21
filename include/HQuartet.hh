@@ -14,44 +14,48 @@ public:
 
     ~HQuartet();
 
-    inline float GetDeltaR() const {
-        return Doublet1.GetDoubletJet().delta_R(Doublet2.GetDoubletJet());
-    }
-
-//     float GetInvariantMass() const {
-//         return GetPairJet().m();
-//     }
-
-//     inline float GetMassDifference(const int ParticleMass) const {
-//       return std::abs(GetPairJet().m() - ParticleMass);
-//     }
-
-    inline float GetMassDifference(const HParticleId ParticleId) const {
-      return std::abs(GetQuartetJet().m() - GetParticleMass(ParticleId));
-    }
-
-    inline fastjet::PseudoJet GetQuartetJet() const {
-        return (Doublet1.GetDoubletJet() + Doublet2.GetDoubletJet());
-    }
-
-//     float GetPtSum() const {
-//         return (Doublet1.GetDoubletJet().pt() + Doublet2.GetDoubletJet().pt());
-//     }
-
-inline float GetDeltaRap() const {
-        return (std::abs(Doublet1.GetDoubletJet().rap() - Doublet2.GetDoubletJet().rap()));
-    }
-
-    inline float GetDeltaPhi() const {
-        return (Doublet1.GetDoubletJet().delta_phi_to(Doublet2.GetDoubletJet()));
-    }
-
     inline HDoublet GetDoublet1()const {
         return Doublet1;
     }
 
     inline HDoublet GetDoublet2()const {
         return Doublet2;
+    }
+
+    inline fastjet::PseudoJet GetDoublet1Jet() const {
+        return Doublet1.Jet();
+    }
+
+    inline fastjet::PseudoJet GetDoublet2Jet() const {
+        return Doublet2.Jet();
+    }
+
+    inline fastjet::PseudoJet GetJet() const {
+        return GetDoublet1Jet() + GetDoublet2Jet();
+    }
+
+    inline float GetHt() {
+        return Doublet1.Ht() + Doublet2.Ht();
+    }
+
+    inline float GetDeltaPt() const {
+        return GetDoublet1Jet().pt() - GetDoublet2Jet().pt();
+    }
+
+    inline float GetDeltaRap() const {
+        return std::abs(GetDoublet1Jet().rap() - GetDoublet2Jet().rap());
+    }
+
+    inline float GetDeltaPhi() const {
+        return GetDoublet1Jet().delta_phi_to(GetDoublet2Jet());
+    }
+
+    inline float GetDeltaR() const {
+        return GetDoublet1Jet().delta_R(GetDoublet2Jet());
+    }
+
+    inline float GetMassDifferenceTo(const HParticleId ParticleId) const {
+        return std::abs(GetJet().m() - GetParticleMass(ParticleId));
     }
 
 protected:

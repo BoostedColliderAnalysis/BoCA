@@ -36,35 +36,35 @@ hheavyhiggs::HEventHadronicTagger::~HEventHadronicTagger()
 
 void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBranch *EventHadronicBranch, const HOctet &Octet)
 {
-    Print(HInformation, "FillPairTagger", Octet.GetBdt());
+    Print(HInformation, "FillPairTagger", Octet.Bdt());
 
-    EventHadronicBranch->LeptonNumber = Octet.GetLeptonNumber();
-    EventHadronicBranch->JetNumber = Octet.GetJetNumber();
-    EventHadronicBranch->BottomNumber = Octet.GetBottomNumber();
+    EventHadronicBranch->LeptonNumber = Octet.LeptonNumber();
+    EventHadronicBranch->JetNumber = Octet.JetNumber();
+    EventHadronicBranch->BottomNumber = Octet.BottomNumber();
 
-    EventHadronicBranch->ScalarHt = Octet.GetScalarHt();
-    EventHadronicBranch->HeavyParticleBdt = Octet.GetBdt();
+    EventHadronicBranch->ScalarHt = Octet.ScalarHt();
+    EventHadronicBranch->HeavyParticleBdt = Octet.Bdt();
 
-    EventHadronicBranch->HeavyHiggsBdt = Octet.GetSextet().GetBdt();
-    EventHadronicBranch->HeavyHiggsMass = Octet.GetSextet().GetSextetJet().m();
-    EventHadronicBranch->HeavyHiggsPt = Octet.GetSextet().GetSextetJet().pt();
+    EventHadronicBranch->HeavyHiggsBdt = Octet.Sextet().Bdt();
+    EventHadronicBranch->HeavyHiggsMass = Octet.Sextet().Jet().m();
+    EventHadronicBranch->HeavyHiggsPt = Octet.Sextet().Jet().pt();
 
-    EventHadronicBranch->BottomSumPt = Octet.GetDoubletJet().pt();
-    EventHadronicBranch->BottomDeltaPt = Octet.GetDoublet().GetDeltaPt();
+    EventHadronicBranch->BottomSumPt = Octet.DoubletJet().pt();
+    EventHadronicBranch->BottomDeltaPt = Octet.Doublet().DeltaPt();
 
-    EventHadronicBranch->BottomDeltaRap = Octet.GetDoublet().GetDeltaRap();
-    EventHadronicBranch->BottomDeltaPhi = Octet.GetDoublet().GetDeltaPhi();
-    EventHadronicBranch->BottomDeltaR = Octet.GetDoublet().GetDeltaR();
+    EventHadronicBranch->BottomDeltaRap = Octet.Doublet().DeltaRap();
+    EventHadronicBranch->BottomDeltaPhi = Octet.Doublet().DeltaPhi();
+    EventHadronicBranch->BottomDeltaR = Octet.Doublet().DeltaR();
 
-    EventHadronicBranch->HbSumDeltaRap = Octet.GetDeltaRap();
-    EventHadronicBranch->HbSumDeltaPhi = Octet.GetDeltaPhi();
-    EventHadronicBranch->HbSumDeltaR = Octet.GetDeltaR();
+    EventHadronicBranch->HbSumDeltaRap = Octet.DeltaRap();
+    EventHadronicBranch->HbSumDeltaPhi = Octet.DeltaPhi();
+    EventHadronicBranch->HbSumDeltaR = Octet.DeltaR();
 
-    EventHadronicBranch->HbDeltaDeltaRap = Octet.GetHbDeltaDeltaRap();
-    EventHadronicBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
-    EventHadronicBranch->HbDeltaDeltaR = Octet.GetHbDeltaDeltaR();
+    EventHadronicBranch->HbDeltaDeltaRap = Octet.HbDeltaDeltaRap();
+    EventHadronicBranch->HbDeltaDeltaPhi = Octet.HbDeltaDeltaPhi();
+    EventHadronicBranch->HbDeltaDeltaR = Octet.HbDeltaDeltaR();
 
-    EventHadronicBranch->EventTag = Octet.GetTag();
+    EventHadronicBranch->EventTag = Octet.Tag();
 }
 
 void hheavyhiggs::HEventHadronicTagger::FillBranch(const HOctet &Octet)
@@ -129,18 +129,18 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
             if (Jet1 == Jet2) continue;
             hanalysis::HDoublet Doublet(Jet1,Jet2);
             for (const auto & Sextet : Sextets) {
-                if (Jet1 == Sextet.GetTriplet1().GetSinglet()) continue;
-                if (Jet1 == Sextet.GetTriplet1().GetDoublet().GetJet1()) continue;
-                if (Jet1 == Sextet.GetTriplet1().GetDoublet().GetJet2()) continue;
-                if (Jet1 == Sextet.GetTriplet2().GetSinglet()) continue;
-                if (Jet1 == Sextet.GetTriplet2().GetDoublet().GetJet1()) continue;
-                if (Jet1 == Sextet.GetTriplet2().GetDoublet().GetJet2()) continue;
-                if (Jet2 == Sextet.GetTriplet1().GetSinglet()) continue;
-                if (Jet2 == Sextet.GetTriplet1().GetDoublet().GetJet1()) continue;
-                if (Jet2 == Sextet.GetTriplet1().GetDoublet().GetJet2()) continue;
-                if (Jet2 == Sextet.GetTriplet2().GetSinglet()) continue;
-                if (Jet2 == Sextet.GetTriplet2().GetDoublet().GetJet1()) continue;
-                if (Jet2 == Sextet.GetTriplet2().GetDoublet().GetJet2()) continue;
+                if (Jet1 == Sextet.Triplet1().Singlet()) continue;
+                if (Jet1 == Sextet.Triplet1().Doublet().Singlet1()) continue;
+                if (Jet1 == Sextet.Triplet1().Doublet().Singlet2()) continue;
+                if (Jet1 == Sextet.Triplet2().Singlet()) continue;
+                if (Jet1 == Sextet.Triplet2().Doublet().Singlet1()) continue;
+                if (Jet1 == Sextet.Triplet2().Doublet().Singlet2()) continue;
+                if (Jet2 == Sextet.Triplet1().Singlet()) continue;
+                if (Jet2 == Sextet.Triplet1().Doublet().Singlet1()) continue;
+                if (Jet2 == Sextet.Triplet1().Doublet().Singlet2()) continue;
+                if (Jet2 == Sextet.Triplet2().Singlet()) continue;
+                if (Jet2 == Sextet.Triplet2().Doublet().Singlet1()) continue;
+                if (Jet2 == Sextet.Triplet2().Doublet().Singlet2()) continue;
                 Octets.push_back(HOctet(Sextet, Doublet));
             }
         }

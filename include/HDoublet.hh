@@ -32,6 +32,8 @@ private:
     float Phi;
 };
 
+class HDoubletPrivate;
+
 /**
  * @brief doublet of two fastjet::PseudoJet
  *
@@ -43,80 +45,76 @@ public:
 
     HDoublet();
 
-    HDoublet(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
+    HDoublet(const fastjet::PseudoJet& NewSinglet1, const fastjet::PseudoJet& NewSinglet2);
+
+    HDoublet(const fastjet::PseudoJet& NewSinglet);
 
     ~HDoublet();
 
-    void SetJets(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2);
+    void SetSinglets(const fastjet::PseudoJet &NewSinglet1, const fastjet::PseudoJet &NewSinglet2);
 
-    fastjet::PseudoJet GetDoubletJet() const {
-        return (Jet1 + Jet2);
+    void SetSinglets(const fastjet::PseudoJet &NewSinglet);
+
+    inline fastjet::PseudoJet Jet() const {
+        return Singlet1() + Singlet2();
     }
 
-    inline float GetMassDiffTo(const HParticleId ParticleId) const {
-        return std::abs(GetDoubletJet().m() - GetParticleMass(ParticleId));
+    inline float MassDifferenceTo(const HParticleId ParticleId) const {
+        return std::abs(Jet().m() - GetParticleMass(ParticleId));
     }
 
-    inline float GetHt() const {
-        return (Jet1.pt() + Jet2.pt());
+    inline float DeltaM() const {
+        return Singlet1().m() - Singlet2().m();
     }
 
-    inline float GetDeltaM() const {
-        return std::abs(Jet1.m() - Jet2.m());
+    inline float Ht() const {
+        return Singlet1().pt() + Singlet2().pt();
     }
 
-    inline float GetDeltaPt() const {
-        return std::abs(Jet1.pt() - Jet2.pt());
+    inline float DeltaPt() const {
+        return Singlet1().pt() - Singlet2().pt();
     }
 
-    inline float GetDeltaPhi() const {
-        return (Jet1.delta_phi_to(Jet2));
+    inline float DeltaPhi() const {
+        return Singlet1().delta_phi_to(Singlet2());
     }
 
-    inline float GetDeltaRap() const {
-        return (std::abs(Jet1.rap() - Jet2.rap()));
+    inline float DeltaRap() const {
+        float NewDeltaRap = Singlet1().rap() - Singlet2().rap();
+        if (NewDeltaRap > 100) NewDeltaRap = 0;
+        return NewDeltaRap;
     }
 
-    inline float GetDeltaR() const {
-        return (Jet1.delta_R(Jet2));
+    inline float DeltaR() const {
+        float NewDeltaR = Singlet1().delta_R(Singlet2());
+        if (NewDeltaR > 100) NewDeltaR = 0;
+        return NewDeltaR;
     }
 
-    fastjet::PseudoJet GetJet1()const {
-        return Jet1;
+    fastjet::PseudoJet Singlet1()const;
+
+    fastjet::PseudoJet Singlet2()const;
+
+    float PullAngle1() const;
+
+    float PullAngle2() const;
+
+    inline float PullAngle() const {
+        return PullAngle1() * PullAngle2();
     }
 
-    fastjet::PseudoJet GetJet2()const {
-        return Jet2;
-    }
-
-    float GetPullAngle1() const;
-
-    float GetPullAngle2() const;
-
-    float GetPullAngle() const {
-        return (GetPullAngle1() * GetPullAngle2());
-    }
-
-    std::vector< HKinematics > GetConstituents() const;
+    std::vector< HKinematics > Constituents() const;
 
 protected:
 
+  HDoublet(HDoubletPrivate& NewDoubletPrivate) ;
+
     virtual inline std::string ClassName() const {
         return "HDoublet";
-    };
+    }
 
 private:
 
-    std::vector< HKinematics > GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const;
-
-    float GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const;
-
-    float GetPull(const fastjet::PseudoJet &Jet) const;
-
-    fastjet::PseudoJet Jet1;
-
-    fastjet::PseudoJet Jet2;
-    
 };
 
 #endif

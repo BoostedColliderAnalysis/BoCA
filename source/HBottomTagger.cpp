@@ -2,6 +2,7 @@
 
 hanalysis::HBottomTagger::HBottomTagger()
 {
+//   DebugLevel=HDebug;
     Print(HNotification, "Constructor");
     SetTaggerName("Bottom");
     Branch = new HBottomBranch();
@@ -67,8 +68,8 @@ void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, con
         BottomBranch->VertexSpread = GetSpread(Jet.user_info<HJetInfo>().GetVertexJet());
         BottomBranch->EnergyFraction = Jet.user_info<HJetInfo>().GetVertexEnergy() / Jet.e();
         BottomBranch->BTag = Jet.user_info<HJetInfo>().GetBTag();
-        BottomBranch->Tag = Jet.user_info<HJetInfo>().GetTag();
-        BottomBranch->Bdt = Jet.user_info<HJetInfo>().GetBdt();
+        BottomBranch->Tag = Jet.user_info<HJetInfo>().Tag();
+        BottomBranch->Bdt = Jet.user_info<HJetInfo>().Bdt();
     } else Print(HError, "BJet without user info");
 
     if (BottomBranch->Bdt < -10) {
@@ -112,7 +113,7 @@ std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(hanalysis::HE
         JetInfo->PrintAllInfos(HDebug);
         JetInfo->SetTag(GetTag(*Jet));
         if (
-            JetInfo->GetTag() != Tag ||
+            JetInfo->Tag() != Tag ||
             (Tag == HSignal && JetInfo->GetMaximalFraction() < .8) ||
             (Tag == HSignal && JetInfo->GetJetMeanDisplacement() < .1) ||
             (Tag == HBackground && JetInfo->GetFraction(BottomId) > .2) ||
@@ -163,8 +164,8 @@ HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomR
         HJetInfo *JetInfo = new HJetInfo();
         if ((*Jet).has_user_info<HJetInfo>()) *JetInfo = (*Jet).user_info<HJetInfo>();
         FillBranch(*Jet);
-        JetInfo->SetBdt(BottomReader->GetBdt());
-        Print(HInformation, "Bdt", JetInfo->GetBdt());
+        JetInfo->SetBdt(BottomReader->Bdt());
+        Print(HInformation, "Bdt", JetInfo->Bdt());
         (*Jet).set_user_info(JetInfo);
     }
     return Jets;
@@ -177,9 +178,9 @@ HJets hanalysis::HBottomTagger::GetBdt2(HJets &Jets, const HReader *const Bottom
         HJetInfo *JetInfo = new HJetInfo();
         if ((*Jet).has_user_info<HJetInfo>()) *JetInfo = (*Jet).user_info<HJetInfo>();
         FillBranch(*Jet);
-        JetInfo->SetBdt(BottomReader->GetBdt());
+        JetInfo->SetBdt(BottomReader->Bdt());
         JetInfo->SetTag(GetTag(*Jet));
-        Print(HInformation, "Bdt", JetInfo->GetBdt(), JetInfo->GetTag());
+        Print(HInformation, "Bdt", JetInfo->Bdt(), JetInfo->Tag());
         (*Jet).set_user_info(JetInfo);
     }
     return Jets;

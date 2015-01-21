@@ -31,20 +31,20 @@ public:
         AntiTop = NewAntiTop;
     };
 
-    float GetBdt() const {
-        return (Higgs.GetBdt() * Top.GetBdt() * AntiTop.GetBdt());
+    float Bdt() const {
+        return (Higgs.Bdt() * Top.Bdt() * AntiTop.Bdt());
     }
 
     float GetTopDeltaRap() const {
-        return (Top.GetJet1().rap() - AntiTop.GetJet1().rap());
+        return (Top.Singlet1().rap() - AntiTop.Singlet1().rap());
     }
 
     float GetTopDeltaPhi() const {
-        return (Top.GetJet1().delta_phi_to(AntiTop.GetJet1()));
+        return (Top.Singlet1().delta_phi_to(AntiTop.Singlet1()));
     }
 
     float GetTopDeltaR() const {
-        return (Top.GetJet1().delta_R(AntiTop.GetJet1()));
+        return (Top.Singlet1().delta_R(AntiTop.Singlet1()));
     }
 
 };

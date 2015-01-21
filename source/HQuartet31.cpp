@@ -1,4 +1,5 @@
 # include "HQuartet31.hh"
+# include "HTagPrivate.hh"
 
 hanalysis::HQuartet31::HQuartet31(const HTriplet &NewTriplet, const fastjet::PseudoJet &NewSinglet)
 {
@@ -6,8 +7,8 @@ hanalysis::HQuartet31::HQuartet31(const HTriplet &NewTriplet, const fastjet::Pse
     Triplet = NewTriplet;
     Singlet = NewSinglet;
     if (Singlet.has_user_info<HJetInfo>()) {
-        Bdt = (Triplet.GetBdt() + Singlet.user_info<HJetInfo>().GetBdt()) / 2;
-        Tag = Triplet.GetTag() * Singlet.user_info<HJetInfo>().GetTag();
+      TagPrivate->Bdt = (Triplet.Bdt() + Singlet.user_info<HJetInfo>().Bdt()) / 2;
+      TagPrivate->Tag = Triplet.Tag() * Singlet.user_info<HJetInfo>().Tag();
     }
 }
 

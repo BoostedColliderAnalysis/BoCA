@@ -49,6 +49,8 @@ private:
 
     HTag GetTag(const hanalysis::HTriplet& Triplet);
 
+    std::vector<HTriplet> GetSubJets(const HJets &Jets,const int SubJetNumber, const HTag Tag);
+
     HTopHadronicBranch *Branch;
     hanalysis::HJetTag *JetTag;
 

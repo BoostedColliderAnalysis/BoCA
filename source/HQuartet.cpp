@@ -1,12 +1,22 @@
 # include "HQuartet.hh"
+# include "HTagPrivate.hh"
 
-hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDoublet2)
+class HQuartetPrivate : public hanalysis::HTagPrivate {
+
+public:
+
+  HQuartetPrivate() {}
+
+};
+
+
+hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDoublet2) : hanalysis::HTag(*new HQuartetPrivate)
 {
     Print(HInformation, "Constructor");
     Doublet1 = NewDoublet1;
     Doublet2 = NewDoublet2;
-    Bdt = (Doublet1.GetBdt() + Doublet2.GetBdt())/2;
-    Tag = Doublet1.GetTag() * Doublet2.GetTag();
+    TagPrivate->Bdt = (Doublet1.Bdt() + Doublet2.Bdt())/2;
+    TagPrivate->Tag = Doublet1.Tag() * Doublet2.Tag();
 }
 
 // hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDoublet2, const fastjet::PseudoJet &NewMet)
@@ -16,8 +26,8 @@ hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDo
 //     Doublet1 = NewDoublet1;
 //     Doublet2 = NewDoublet2;
 //     Met = NewMet;
-//     Bdt = Doublet1.GetBdt() * Doublet2.GetBdt();
-//     Tag = Doublet1.GetTag() * Doublet2.GetTag();
+//     Bdt = Doublet1.Bdt() * Doublet2.Bdt();
+//     Tag = Doublet1.Tag() * Doublet2.Tag();
 // }
 
 hanalysis::HQuartet::~HQuartet()

@@ -1,6 +1,38 @@
 # include "HJetInfo.hh"
+# include "HTagPrivate.hh"
 
-hanalysis::HJetInfo::HJetInfo()
+class hanalysis::HJetInfoPrivate : public HTagPrivate {
+
+public:
+
+  HJetInfoPrivate() {}
+
+  std::vector<HConstituent> ApplyVertexResolution() const;
+
+  float SecondaryVertexResolution = 0.1;
+
+  float GetWeightSum() const;
+
+  float GetFamilyWeightSum() const;
+
+  std::map<int, float> JetFractions;
+
+  std::unordered_map<HFamily, float> JetFamily;
+
+  std::vector<HConstituent> Vertices;
+
+  int BTag;
+
+};
+
+// void hanalysis::HJetInfoPrivate::SetBTag(const int NewBTag) {
+//   BTag = NewBTag;
+// }
+
+
+
+
+hanalysis::HJetInfo::HJetInfo() : hanalysis::HTag(* new HJetInfoPrivate)
 {
 //     Debug = 4;
     Print(HDebug, "Constructor");

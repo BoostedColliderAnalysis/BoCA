@@ -45,13 +45,13 @@ hanalysis::HChargedHiggsSemiTagger::~HChargedHiggsSemiTagger()
 
 void hanalysis::HChargedHiggsSemiTagger::FillBranch(const hanalysis::HQuartet31 &HQuartet)
 {
-    Print(HInformation, "FillPairTagger", HQuartet.GetBdt());
+    Print(HInformation, "FillPairTagger", HQuartet.Bdt());
     FillBranch(Branch, HQuartet);
 }
 
 void hanalysis::HChargedHiggsSemiTagger::FillBranch(HChargedHiggsSemiBranch *ChargedHiggsBranch, const HQuartet31 &Quartet)
 {
-    Print(HInformation, "FillPairTagger", Quartet.GetBdt());
+    Print(HInformation, "FillPairTagger", Quartet.Bdt());
 
     ChargedHiggsBranch->HeavyHiggsMass = Quartet.GetQuartetJet().m();
     ChargedHiggsBranch->HeavyHiggsPt = Quartet.GetQuartetJet().pt();
@@ -76,8 +76,8 @@ void hanalysis::HChargedHiggsSemiTagger::FillBranch(HChargedHiggsSemiBranch *Cha
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
 
-    ChargedHiggsBranch->TopBdt = Quartet.GetBdt();
-    ChargedHiggsBranch->HeavyHiggsTag = Quartet.GetTag();
+    ChargedHiggsBranch->TopBdt = Quartet.Bdt();
+    ChargedHiggsBranch->HeavyHiggsTag = Quartet.Tag();
 
 }
 
@@ -144,12 +144,12 @@ std::vector< HChargedHiggsSemiBranch * > hanalysis::HChargedHiggsSemiTagger::Get
     std::vector<HQuartet31 > Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Jets) {
-            if (Triplet.GetSinglet() == Jet) continue;
-            if (Triplet.GetDoublet().GetJet1() == Jet) continue;
-            if (Triplet.GetDoublet().GetJet2() == Jet) continue;
+            if (Triplet.Singlet() == Jet) continue;
+            if (Triplet.Doublet().Singlet1() == Jet) continue;
+            if (Triplet.Doublet().Singlet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);
             Quartet.SetTag(GetTag(Quartet));
-            if (Quartet.GetTag() != Tag) continue;
+            if (Quartet.Tag() != Tag) continue;
             if (Quartet.GetQuartetJet().m() < 0)continue;
             Quartets.push_back(Quartet);
         }
@@ -182,11 +182,11 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuart
 
     HJetInfo JetInfoB = Quartet.GetSinglet().user_info<HJetInfo>();
     JetInfoB.ExtractFraction(BottomId);
-    HJetInfo JetInfoB1 = Quartet.GetTriplet().GetSinglet().user_info<HJetInfo>();
+    HJetInfo JetInfoB1 = Quartet.GetTriplet().Singlet().user_info<HJetInfo>();
     JetInfoB1.ExtractFraction(BottomId);
-    HJetInfo JetInfoW1 = Quartet.GetTriplet().GetDoublet().GetJet1().user_info<HJetInfo>();
+    HJetInfo JetInfoW1 = Quartet.GetTriplet().Doublet().Singlet1().user_info<HJetInfo>();
     JetInfoW1.ExtractFraction(WId);
-    HJetInfo JetInfoW2 = Quartet.GetTriplet().GetDoublet().GetJet2().user_info<HJetInfo>();
+    HJetInfo JetInfoW2 = Quartet.GetTriplet().Doublet().Singlet2().user_info<HJetInfo>();
     JetInfoW2.ExtractFraction(WId);
 
     if (std::abs(JetInfoB.GetMaximalId()) != BottomId) return HBackground;
@@ -210,12 +210,12 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(s
     std::vector<HQuartet31> Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Siglets) {
-            if (Triplet.GetSinglet() == Jet) continue;
-            if (Triplet.GetDoublet().GetJet1() == Jet) continue;
-            if (Triplet.GetDoublet().GetJet2() == Jet) continue;
+            if (Triplet.Singlet() == Jet) continue;
+            if (Triplet.Doublet().Singlet1() == Jet) continue;
+            if (Triplet.Doublet().Singlet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);
             FillBranch(Quartet);
-            Quartet.SetBdt(Reader->GetBdt());
+            Quartet.SetBdt(Reader->Bdt());
             Quartets.push_back(Quartet);
         }
 
@@ -243,13 +243,13 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(s
 //     for (const auto & Triplet : Triplets)
 //         for (const auto & Jet : Jets) {
 //             if (Triplet.GetSinglet() == Jet) continue;
-//             if (Triplet.GetDoublet().GetJet1() == Jet) continue;
-//             if (Triplet.GetDoublet().GetJet2() == Jet) continue;
+//             if (Triplet.GetDoublet().Singlet1() == Jet) continue;
+//             if (Triplet.GetDoublet().Singlet2() == Jet) continue;
 //             HQuartet31 Quartet(Triplet, Jet);
 //             Quartet.SetTag(GetTag(Quartet));
 //             if (Quartet.GetQuartetJet().m() < 0)continue;
 //             FillBranch(Quartet);
-//             Quartet.SetBdt(Reader->GetBdt());
+//             Quartet.SetBdt(Reader->Bdt());
 //             Quartets.push_back(Quartet);
 //         }
 //

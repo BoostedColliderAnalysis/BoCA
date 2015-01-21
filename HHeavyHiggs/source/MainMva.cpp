@@ -29,8 +29,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HJetPairTagger:
             Factory = new hanalysis::HFactory(Analysis->JetPairTagger);
             break;
-        case hanalysis::HAnalysis::HWTagger:
-            Factory = new hanalysis::HFactory(Analysis->WTagger);
+        case hanalysis::HAnalysis::HWHadronicTagger:
+            Factory = new hanalysis::HFactory(Analysis->WHadronicTagger);
             break;
         case hanalysis::HAnalysis::HWSemiTagger:
             Factory = new hanalysis::HFactory(Analysis->WSemiTagger);
@@ -65,8 +65,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 //         case hanalysis::HAnalysis::HChargedHiggsSemiTagger:
 //           Factory = new hanalysis::HFactory(Analysis->ChargedHiggsSemiTagger);
 //           break;
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
+        default:
+            std::cout << "Unhandled case" << std::endl;
         }
         HasFactory = 1;
     }
@@ -87,8 +87,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 //           Reader = new hanalysis::HReader(Analysis->HeavyHiggsSemiTagger);
 //           Reader->SimpleMVALoop();
 //           break;
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
+        default:
+            std::cout << "Unhandled case" << std::endl;
         }
         HasReader = 1;
     }
@@ -106,7 +106,7 @@ int main()
     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
 //     RunTagger(hanalysis::HAnalysis::HJetPairReader);
 //
-    RunTagger(hanalysis::HAnalysis::HWTagger);
+    RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
 //     RunTagger(hanalysis::HAnalysis::HWReader);
 //
     RunTagger(hanalysis::HAnalysis::HWSemiTagger);

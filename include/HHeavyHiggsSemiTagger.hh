@@ -14,7 +14,7 @@ class hanalysis::HHeavyHiggsSemiTagger : public HMva
 
 public:
 
-  HHeavyHiggsSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger *const NewSemiWTagger, HWTagger *const NewWTagger, HTopSemiTagger *const NewTopSemiTagger, HTopHadronicTagger *const NewTopHadronicTagger);
+    HHeavyHiggsSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger *const NewSemiWTagger, HWTagger *const NewWTagger, HTopSemiTagger *const NewTopSemiTagger, HTopHadronicTagger *const NewTopHadronicTagger);
 
     ~HHeavyHiggsSemiTagger();
 
@@ -28,13 +28,13 @@ public:
 
 
 
-//     HBottomTagger *BottomTagger;
-//     HWTagger *WTagger;
+    HBottomTagger *BottomTagger;
+    HWTagger *WTagger;
     HWSemiTagger *WSemiTagger;
     HTopHadronicTagger *TopHadronicTagger;
     HTopSemiTagger *TopSemiTagger;
-//     HReader *BottomReader;
-//     HReader *WReader;
+    HReader *BottomReader;
+    HReader *WReader;
     HReader *WSemiReader;
     HReader *TopHadronicReader;
     HReader *TopSemiReader;

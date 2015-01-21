@@ -261,7 +261,7 @@ public:
 
     virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
 
-    virtual std::vector<int> ApplyBdt2(const ExRootTreeReader *const , const std::string , const TFile *const , TMVA::Reader *) {
+    virtual std::vector<int> ApplyBdt2(const ExRootTreeReader *const , const std::string , const TFile *const) {
         Print(HError, "should be subclassed");
         std::vector<int> Vector;
         return Vector;
@@ -380,8 +380,20 @@ private:
 struct SortByBdt {
     template <typename TMultiplet>
     inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        return (Multiplet1.GetBdt() > Multiplet2.GetBdt());
+        return (Multiplet1.Bdt() > Multiplet2.Bdt());
     }
+};
+
+template <typename TMultiplet>
+struct SortByMass {
+    SortByMass(float NewMass) {
+        this->Mass = NewMass;
+    }
+    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+        if (Multiplet1.Jet().m() != Multiplet2.Jet().m()) return std::abs(Multiplet1.Jet().m() - Mass) < std::abs(Multiplet2.Jet().m() - Mass);
+        else return Multiplet1.Bdt() > Multiplet2.Bdt();
+    }
+    float Mass;
 };
 
 # endif

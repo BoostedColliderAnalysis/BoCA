@@ -24,7 +24,7 @@ hanalysis::HTopLeptonicTagger::~HTopLeptonicTagger()
 
 void hanalysis::HTopLeptonicTagger::FillBranch(const HDoublet &Doublet)
 {
-    Print(HInformation, "Fill Top Tagger", Doublet.GetBdt());
+    Print(HInformation, "Fill Top Tagger", Doublet.Bdt());
     FillBranch(Branch, Doublet);
 }
 
@@ -54,28 +54,28 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
 void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const hanalysis::HDoublet &Doublet)
 {
-    Print(HInformation, "Fill Top Tagger", Doublet.GetBdt());
+    Print(HInformation, "Fill Top Tagger", Doublet.Bdt());
 
-    TopLeptonicBranch->Mass = Doublet.GetDoubletJet().m();
-    TopLeptonicBranch->Pt = Doublet.GetDoubletJet().pt();
-    TopLeptonicBranch->Rap = Doublet.GetDoubletJet().rap();
-    TopLeptonicBranch->Phi = Doublet.GetDoubletJet().phi();
+    TopLeptonicBranch->Mass = Doublet.Jet().m();
+    TopLeptonicBranch->Pt = Doublet.Jet().pt();
+    TopLeptonicBranch->Rap = Doublet.Jet().rap();
+    TopLeptonicBranch->Phi = Doublet.Jet().phi();
 
-    TopLeptonicBranch->BottomPt = Doublet.GetJet1().pt();
-    TopLeptonicBranch->LeptonPt = Doublet.GetJet2().pt();
+    TopLeptonicBranch->BottomPt = Doublet.Singlet1().pt();
+    TopLeptonicBranch->LeptonPt = Doublet.Singlet2().pt();
 
-    TopLeptonicBranch->DeltaR = Doublet.GetDeltaR();
-    TopLeptonicBranch->DeltaRap = Doublet.GetDeltaRap();
-    TopLeptonicBranch->DeltaPhi = Doublet.GetDeltaPhi();
+    TopLeptonicBranch->DeltaR = Doublet.DeltaR();
+    TopLeptonicBranch->DeltaRap = Doublet.DeltaRap();
+    TopLeptonicBranch->DeltaPhi = Doublet.DeltaPhi();
 
-    TopLeptonicBranch->Bdt = Doublet.GetBdt();
-    TopLeptonicBranch->Tag = Doublet.GetTag();
+    TopLeptonicBranch->Bdt = Doublet.Bdt();
+    TopLeptonicBranch->Tag = Doublet.Tag();
 
 }
 
 struct SortByTopMass {
     inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
-        return (std::abs(Doublet1.GetDoubletJet().m() - Doublet1.TopMass) < std::abs(Doublet2.GetDoubletJet().m() - Doublet2.TopMass));
+        return (std::abs(Doublet1.Jet().m() - Doublet1.TopMass) < std::abs(Doublet2.Jet().m() - Doublet2.TopMass));
     }
 };
 
@@ -97,8 +97,8 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
         for (const auto & Jet : Jets) {
             HDoublet Doublet(Jet, Lepton);
             Doublet.SetTag(GetTag(Doublet));
-            if (Doublet.GetTag() != Tag) continue;
-            if (Tag == HSignal && Doublet.GetDoubletJet().m() > TopMass) continue;
+            if (Doublet.Tag() != Tag) continue;
+            if (Tag == HSignal && Doublet.Jet().m() > TopMass) continue;
             Doublets.push_back(Doublet);
         }
 
@@ -123,11 +123,11 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
 
 hanalysis::HObject::HTag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &Doublet)
 {
-    Print(HInformation, "Get Triple Tag", GetParticleName(Doublet.GetJet1().user_index()), GetParticleName(Doublet.GetJet2().user_index()));
+    Print(HInformation, "Get Triple Tag", GetParticleName(Doublet.Singlet1().user_index()), GetParticleName(Doublet.Singlet2().user_index()));
 
-    HJetInfo BJetInfo = Doublet.GetJet1().user_info<HJetInfo>();
+    HJetInfo BJetInfo = Doublet.Singlet1().user_info<HJetInfo>();
     BJetInfo.ExtractFraction(BottomId);
-    HJetInfo LJetInfo = Doublet.GetJet2().user_info<HJetInfo>();
+    HJetInfo LJetInfo = Doublet.Singlet2().user_info<HJetInfo>();
     LJetInfo.ExtractFraction(WId);
 
     if (std::abs(LJetInfo.GetMaximalId()) != WId) return HBackground;
@@ -146,7 +146,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJ
         for (const auto & Jet : Jets) {
             HDoublet Doublet(Jet, Lepton);
             FillBranch(Doublet);
-            Doublet.SetBdt(Reader->GetBdt());
+            Doublet.SetBdt(Reader->Bdt());
             Doublets.push_back(Doublet);
         }
     }

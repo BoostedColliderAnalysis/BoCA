@@ -57,16 +57,16 @@ hheavyhiggs::HChargedSemi2Tagger::~HChargedSemi2Tagger()
 
 void hheavyhiggs::HChargedSemi2Tagger::FillBranch(hheavyhiggs::HChargedSemi2Branch *EventSemiBranch, const HOctet44 &Octet)
 {
-    Print(HInformation, "FillPairTagger", Octet.GetBdt());
+    Print(HInformation, "FillPairTagger", Octet.Bdt());
 
     EventSemiBranch->LeptonNumber = Octet.GetLeptonNumber();
     EventSemiBranch->JetNumber = Octet.GetJetNumber();
     EventSemiBranch->BottomNumber = Octet.GetBottomNumber();
 
     EventSemiBranch->ScalarHt = Octet.GetScalarHt();
-    EventSemiBranch->HeavyParticleBdt = Octet.GetBdt();
+    EventSemiBranch->HeavyParticleBdt = Octet.Bdt();
 
-    EventSemiBranch->HeavyHiggsBdt = Octet.GetQuartet1().GetBdt();
+    EventSemiBranch->HeavyHiggsBdt = Octet.GetQuartet1().Bdt();
     EventSemiBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
     EventSemiBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
 
@@ -85,7 +85,7 @@ void hheavyhiggs::HChargedSemi2Tagger::FillBranch(hheavyhiggs::HChargedSemi2Bran
     EventSemiBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
     EventSemiBranch->HbDeltaDeltaR = Octet.GetHbDeltaDeltaR();
 
-    EventSemiBranch->EventTag = Octet.GetTag();
+    EventSemiBranch->EventTag = Octet.Tag();
 }
 
 void hheavyhiggs::HChargedSemi2Tagger::FillBranch(const HOctet44 &Octet)
@@ -134,7 +134,7 @@ void hheavyhiggs::HChargedSemi2Tagger::DefineVariables()
 
 struct SortByQuartetBdt {
     inline bool operator()(const HOctet44 &Octet1, const HOctet44 &Octet2) {
-        return (Octet1.GetQuartet1().GetBdt() > Octet2.GetQuartet1().GetBdt());
+        return (Octet1.GetQuartet1().Bdt() > Octet2.GetQuartet1().Bdt());
     }
 };
 
@@ -162,17 +162,17 @@ std::vector<hheavyhiggs::HChargedSemi2Branch * > hheavyhiggs::HChargedSemi2Tagge
     std::vector<HOctet44> Octets;
     for (const auto Jet : Jets) {
         for (const auto Triplet  : TripletsSemi) {
-            if (Triplet.GetSinglet() == Jet) continue;
+            if (Triplet.Singlet() == Jet) continue;
             hanalysis::HQuartet31 Quartet2(Triplet, Jet);
             for (const auto & Quartet1 : Quartets) {
                 if (Quartet2.GetSinglet() == Quartet1.GetSinglet()) continue;
-                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().GetSinglet()) continue;
-                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet1()) continue;
-                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet2()) continue;
-                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetSinglet()) continue;
-                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetTriplet().GetSinglet()) continue;
-                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet1()) continue;
-                if (Quartet2.GetTriplet().GetSinglet() == Quartet1.GetTriplet().GetDoublet().GetJet2()) continue;
+                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().Singlet()) continue;
+                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().Doublet().Singlet1()) continue;
+                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().Doublet().Singlet2()) continue;
+                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetSinglet()) continue;
+                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetTriplet().Singlet()) continue;
+                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetTriplet().Doublet().Singlet1()) continue;
+                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetTriplet().Doublet().Singlet2()) continue;
                 HOctet44 Octet(Quartet1, Quartet2);
                 Octets.push_back(Octet);
             }
@@ -252,8 +252,8 @@ std::vector<int> hheavyhiggs::HChargedSemi2Tagger::ApplyBdt2(const ExRootTreeRea
 
 
             for (int Step = 0; Step < Steps2; ++Step) {
-                const float Cut = float(Step - 5) / Steps2 / 2;
-                if (Bdt > Cut) ++EventNumbers.at(Step);
+                const float CutValue = float(Step - 5) / Steps2 / 2;
+                if (Bdt > CutValue) ++EventNumbers.at(Step);
             }
 
 

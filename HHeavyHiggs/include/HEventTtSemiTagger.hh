@@ -1,38 +1,37 @@
-# ifndef HEventSemiTagger_hh
-# define HEventSemiTagger_hh
+# ifndef HEventTtSemiTagger_hh
+# define HEventTtSemiTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsSemiTagger.hh"
-# include "HJetPairTagger.hh"
-# include "HOctet.hh"
+# include "HSextet.hh"
 
 /**
  *
  * @brief Event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HEventSemiTagger : public hanalysis::HMva
+class hheavyhiggs::HEventTtSemiTagger : public hanalysis::HMva
 {
 
 public:
 
-    HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HJetPairTagger *const NewJetPairTagger, hanalysis::HWSemiTagger *const NewWSemiTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsMixedTagger);
+    HEventTtSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HJetPairTagger *const NewJetPairTagger, hanalysis::HWSemiTagger *const NewWSemiTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger, hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsMixedTagger);
 
     /**
     * @brief Destructor
     *
     */
-    ~HEventSemiTagger();
+    ~HEventTtSemiTagger();
 
     std::vector<HEventSemiBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    void FillBranch(const HOctet &Octet);
+    void FillBranch(const HSextet &Sextet);
 
-    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader *const EventSemiReader);
+    std::vector< HSextet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader *const EventSemiReader);
 
     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader);
 
-    void FillBranch(hheavyhiggs::HEventSemiBranch *EventSemiBranch, const HOctet &Octet);
+    void FillBranch(hheavyhiggs::HEventSemiBranch *EventSemiBranch, const HSextet &Sextet);
 
 
 protected:
@@ -47,11 +46,11 @@ protected:
 
 private:
 
-    HTag GetTag(const HOctet &Octet);
+    HTag GetTag(const HSextet &Sextet);
 
     void DefineVariables();
 
-    std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
+    std::vector<HSextet> GetHeavyHiggsEvents(HJets &Jets);
 
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HWSemiTagger *WSemiTagger;

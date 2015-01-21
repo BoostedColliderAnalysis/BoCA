@@ -251,7 +251,7 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent *const Event, const std
 
 struct SortHiggsCpv {
     inline bool operator()(const HHiggsCpv &Event1, const HHiggsCpv &Event2) {
-        return (Event1.GetBdt() > Event2.GetBdt());
+        return (Event1.Bdt() > Event2.Bdt());
     }
 };
 
@@ -275,7 +275,7 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent *const Event, const st
     for (auto & Jet : Jets) {
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
         BottomTagger->FillBranch(Jet);
-        JetInfo->SetBdt(BottomReader->GetBdt());
+        JetInfo->SetBdt(BottomReader->Bdt());
         Jet.set_user_info(JetInfo);
     }
 
@@ -307,7 +307,7 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent *const Event, const st
     EventTagger->JetNumber = Event->GetJets()->GetJets().size();
     EventTagger->BottomNumber = Event->GetJets()->GetBottomJets().size();
     EventTagger->LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
-    EventTagger->HeavyParticleTag = HiggsCpvs.front().GetBdt();
+    EventTagger->HeavyParticleTag = HiggsCpvs.front().Bdt();
     EventTagger->TopDeltaRap = HiggsCpvs.front().GetTopDeltaRap();
     EventTagger->TopDeltaPhi = HiggsCpvs.front().GetTopDeltaPhi();
     EventTagger->TopDeltaR = HiggsCpvs.front().GetTopDeltaR();
@@ -328,48 +328,48 @@ std::vector< HHiggsCpv > hhiggscpv::HAnalysis::GetHiggsCpvs(const HJets &Jets, c
 
     hanalysis::HDoublet HiggsPair01 = hanalysis::HDoublet(Jets[0], Jets[1]);
     HiggsTagger->FillBranch(HiggsPair01);
-    HiggsPair01.SetBdt(HiggsReader->GetBdt());
+    HiggsPair01.SetBdt(HiggsReader->Bdt());
     hanalysis::HDoublet HiggsPair02 = hanalysis::HDoublet(Jets[0], Jets[2]);
     HiggsTagger->FillBranch(HiggsPair02);
-    HiggsPair02.SetBdt(HiggsReader->GetBdt());
+    HiggsPair02.SetBdt(HiggsReader->Bdt());
     hanalysis::HDoublet HiggsPair03 = hanalysis::HDoublet(Jets[0], Jets[3]);
     HiggsTagger->FillBranch(HiggsPair03);
-    HiggsPair03.SetBdt(HiggsReader->GetBdt());
+    HiggsPair03.SetBdt(HiggsReader->Bdt());
     hanalysis::HDoublet HiggsPair12 = hanalysis::HDoublet(Jets[1], Jets[2]);
     HiggsTagger->FillBranch(HiggsPair12);
-    HiggsPair12.SetBdt(HiggsReader->GetBdt());
+    HiggsPair12.SetBdt(HiggsReader->Bdt());
     hanalysis::HDoublet HiggsPair13 = hanalysis::HDoublet(Jets[1], Jets[3]);
     HiggsTagger->FillBranch(HiggsPair13);
-    HiggsPair13.SetBdt(HiggsReader->GetBdt());
+    HiggsPair13.SetBdt(HiggsReader->Bdt());
     hanalysis::HDoublet HiggsPair23 = hanalysis::HDoublet(Jets[2], Jets[3]);
     HiggsTagger->FillBranch(HiggsPair23);
-    HiggsPair23.SetBdt(HiggsReader->GetBdt());
+    HiggsPair23.SetBdt(HiggsReader->Bdt());
 
     hanalysis::HDoublet Top0 = hanalysis::HDoublet(Jets[0], Leptons[0]);
     LeptonicTopTagger->FillBranch(Top0);
-    Top0.SetBdt(TopReader->GetBdt());
+    Top0.SetBdt(TopReader->Bdt());
     hanalysis::HDoublet Top1 = hanalysis::HDoublet(Jets[1], Leptons[0]);
     LeptonicTopTagger->FillBranch(Top1);
-    Top1.SetBdt(TopReader->GetBdt());
+    Top1.SetBdt(TopReader->Bdt());
     hanalysis::HDoublet Top2 = hanalysis::HDoublet(Jets[2], Leptons[0]);
     LeptonicTopTagger->FillBranch(Top2);
-    Top2.SetBdt(TopReader->GetBdt());
+    Top2.SetBdt(TopReader->Bdt());
     hanalysis::HDoublet Top3 = hanalysis::HDoublet(Jets[3], Leptons[0]);
     LeptonicTopTagger->FillBranch(Top3);
-    Top3.SetBdt(TopReader->GetBdt());
+    Top3.SetBdt(TopReader->Bdt());
 
     hanalysis::HDoublet AntiTop0 = hanalysis::HDoublet(Jets[0], Leptons[1]);
     LeptonicTopTagger->FillBranch(AntiTop0);
-    AntiTop0.SetBdt(TopReader->GetBdt());
+    AntiTop0.SetBdt(TopReader->Bdt());
     hanalysis::HDoublet AntiTop1 = hanalysis::HDoublet(Jets[1], Leptons[1]);
     LeptonicTopTagger->FillBranch(AntiTop1);
-    AntiTop1.SetBdt(TopReader->GetBdt());
+    AntiTop1.SetBdt(TopReader->Bdt());
     hanalysis::HDoublet AntiTop2 = hanalysis::HDoublet(Jets[2], Leptons[1]);
     LeptonicTopTagger->FillBranch(AntiTop2);
-    AntiTop2.SetBdt(TopReader->GetBdt());
+    AntiTop2.SetBdt(TopReader->Bdt());
     hanalysis::HDoublet AntiTop3 = hanalysis::HDoublet(Jets[3], Leptons[1]);
     LeptonicTopTagger->FillBranch(AntiTop3);
-    AntiTop3.SetBdt(TopReader->GetBdt());
+    AntiTop3.SetBdt(TopReader->Bdt());
 
 
     HiggsCpvs.push_back(HHiggsCpv(HiggsPair01, Top2, AntiTop3));

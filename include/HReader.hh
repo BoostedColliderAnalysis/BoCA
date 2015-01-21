@@ -71,20 +71,20 @@ public:
 
 //     template<typename TBranch, typename TParticle>
 //     float GetBdt(TBranch * const Branch, const TParticle &Particle) const
-    float GetBdt() const {
+    float Bdt() const {
         Print(HInformation, "Get Bdt");
 
 //         Mva->FillBranch(Branch, Particle);
-        const float Bdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
-        return (Bdt + 1.);
+        const float NewBdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
+        return (NewBdt + 1.);
 
     }
 
     float GetBdt2() const {
 
       Print(HInformation, "Get Bdt 2");
-      const float Bdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
-      return Bdt;
+      const float NewBdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
+      return NewBdt;
 
     }
 

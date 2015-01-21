@@ -43,6 +43,7 @@ HLibrary(HDelphesEvent "${DelphesEventSources}" PARENT_SCOPE)
 
 set(WrapperSources
 HTag.cpp
+HTagPrivate.cpp
 HDoublet.cpp
 HTriplet.cpp
 HQuartet.cpp
