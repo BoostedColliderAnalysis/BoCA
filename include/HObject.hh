@@ -43,14 +43,10 @@ public:
     enum HTag {HBackground = 0, HSignal = 1};
 
     template <typename TSeverity>
-    void Print(const TSeverity Severity, const std::string &Description) const {
-
-        if (Severity <= DebugLevel) {
-
-            Printer(Description);
-            std::cout << std::endl;
-        }
-
+    inline void Print(const TSeverity Severity, const std::string &Description) const {
+        if (Severity >= DebugLevel) return;
+        Printer(Description);
+        std::cout << std::endl;
     }
 
     /**
@@ -63,15 +59,10 @@ public:
      * @return void
      */
     template<typename TSeverity, typename TValue>
-    void Print(const TSeverity Severity, const std::string Description, const TValue Value) const {
-
-        if (Severity <= DebugLevel) {
-
-            Printer(Description);
-            std::cout << " " << Value << std::endl;
-
-        }
-
+    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value) const {
+        if (Severity >= DebugLevel) return;
+        Printer(Description);
+        std::cout << " " << Value << std::endl;
     }
 
     /**
@@ -85,21 +76,14 @@ public:
      * @return void
      */
     template<typename TSeverity, typename TValue, typename TValue2>
-    void Print(const TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2) const {
-
-        if (Severity <= DebugLevel) {
-
-            const char Separator = ' ';
-            const int FunctionWidth = 10;
-
-            Printer(Description);
-
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
-            std::cout << std::endl;
-
-        }
-
+    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2) const {
+        if (Severity >= DebugLevel) return;
+        const char Separator = ' ';
+        const int FunctionWidth = 10;
+        Printer(Description);
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
+        std::cout << std::endl;
     }
 
     /**
@@ -114,52 +98,40 @@ public:
      * @return void
      */
     template<typename TSeverity, typename TValue, typename TValue2, typename TValue3>
-    void Print(const TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
-
-        if (Severity <= DebugLevel) {
-
-            const char Separator = ' ';
-            const int FunctionWidth = 10;
-
-            Printer(Description);
-
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
-            std::cout << std::endl;
-
-        }
-
+    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
+        if (Severity >= DebugLevel) return;
+        const char Separator = ' ';
+        const int FunctionWidth = 10;
+        Printer(Description);
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
+        std::cout << std::endl;
     }
 
     template<typename TSeverity, typename TValue, typename TValue2, typename TValue3, typename TValue4>
-    void Print(const TSeverity Severity, const std::string Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
-
-        if (Severity <= DebugLevel) {
-
-            const char Separator = ' ';
-            const int FunctionWidth = 15;
-
-            Printer(Description);
-
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
-            std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value4;
-            std::cout << std::endl;
-
-        }
-
+    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
+        if (Severity >= DebugLevel) return;
+        const char Separator = ' ';
+        const int FunctionWidth = 15;
+        Printer(Description);
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value4;
+        std::cout << std::endl;
     }
 
     template<typename TSeverity>
-    void Print(const TSeverity Severity, const std::string Description, const fastjet::PseudoJet Jet) const {
-        if (Severity <= DebugLevel) Print(Severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
+    inline void Print(const TSeverity Severity, const std::string &Description, const fastjet::PseudoJet &Jet) const {
+        if (Severity >= DebugLevel) return;
+        Print(Severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
     }
 
     template<typename TSeverity>
-    void Print(const TSeverity Severity, const std::string Description, float Momentum[]) const {
-        if (Severity <= DebugLevel) Print(Severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
+    void Print(const TSeverity Severity, const std::string &Description, float Momentum[]) const {
+        if (Severity >= DebugLevel) return;
+        Print(Severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
     }
 
     enum HParticleId {
@@ -226,22 +198,10 @@ public:
         CpvHiggsId = 5000000
     };
 
-    /**
-     * @brief Top quark mass
-     *
-     */
-    constexpr static float TopMass = 173.5;
-
-    /**
-     * @brief W bsoson mass
-     *
-     */
-    constexpr static float WMass = 80.39;
-
 protected:
 
     template <typename TValue>
-    int sgn(const TValue Value) const {
+    inline int sgn(const TValue Value) const {
         return (TValue(0) < Value) - (Value < TValue(0));
     }
 
@@ -311,16 +271,28 @@ protected:
     static const int LargeNumber = 999999999;
 
     /**
+     * @brief Top quark mass
+     *
+     */
+    constexpr static float TopMass = 173.5;
+
+    /**
      * @brief Higgs boson mass
      *
      */
     constexpr static float HiggsMass = 125;
 
     /**
-     * @brief W bsoson mass
+     * @brief Z bsoson mass
      *
      */
     constexpr static float ZMass = 91.188;
+
+    /**
+     * @brief W bsoson mass
+     *
+     */
+    constexpr static float WMass = 80.39;
 
     /**
      * @brief Tau lepton mass
@@ -340,6 +312,10 @@ protected:
      */
     constexpr static float ElectronMass = 0.000511;
 
+    /**
+     * @brief Neutrino mass (0)
+     *
+     */
     constexpr static float NeutrinoMass = 0;
 
     /**
@@ -348,16 +324,40 @@ protected:
      */
     static const int EmptyUserIndex = -1;
 
+    /**
+     * @brief Position outside of a vector
+     *
+     */
     static const int EmptyPosition = -1;
 
+    /**
+     * @brief Pi
+     *
+     */
     constexpr static float Pi = 3.14159265;
 
+    /**
+     * @brief 2 * pi
+     *
+     */
     constexpr static float TwoPi = 2 * Pi;
 
+    /**
+     * @brief 1 sigma deviation
+     *
+     */
     constexpr static float OneSigma = 0.6827;
 
+    /**
+     * @brief 2 sigma deviation
+     *
+     */
     constexpr static float TwoSigma = 0.9545;
 
+    /**
+     * @brief 3 sigma deviation
+     *
+     */
     constexpr static float ThreeSigma = 0.9973;
 
 private:
@@ -368,7 +368,7 @@ private:
      * @param  std::string Function Name
      * @return void
      */
-    void Printer(const std::string &) const;
+    void Printer(const std::string &Description) const;
 
 };
 

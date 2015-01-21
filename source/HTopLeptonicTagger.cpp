@@ -73,11 +73,11 @@ void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const TopLept
 
 }
 
-struct SortByTopMass {
-    inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
-        return (std::abs(Doublet1.Jet().m() - Doublet1.TopMass) < std::abs(Doublet2.Jet().m() - Doublet2.TopMass));
-    }
-};
+// struct SortByTopMass {
+//     inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
+//         return (std::abs(Doublet1.Jet().m() - Doublet1.TopMass) < std::abs(Doublet2.Jet().m() - Doublet2.TopMass));
+//     }
+// };
 
 std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
 {
@@ -106,7 +106,7 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
     Print(HInformation, "Number JetPairs", Doublets.size());
 
     if (Tag == HSignal && Doublets.size() > 1) {
-        std::sort(Doublets.begin(), Doublets.end(), SortByTopMass());
+        std::sort(Doublets.begin(), Doublets.end(), SortByMass<HDoublet>(TopMass));
         Doublets.erase(Doublets.begin() + 1, Doublets.end());
     }
 

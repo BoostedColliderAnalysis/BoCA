@@ -175,6 +175,7 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(TObject *Object)
 //       Print(HError, "Truth Level Tagging Failed");
 
     for (auto & Node : Topology) if (Node.GetMarker()) Node = BranchFamily;
+    Print(HDebug,"Branch Family",BranchFamily.ParticleId,BranchFamily.Mother1Id);
     return BranchFamily;
 
 }

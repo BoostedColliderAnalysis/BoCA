@@ -63,6 +63,7 @@ public:
 
     void AddFamily(const HFamily Family, const float Weight);
 
+    void CalculateJetFamily();
     /**
      * @brief Get Fraction
      *
@@ -126,6 +127,7 @@ public:
     }
 
     void SetVertex(const HConstituent &NewVertex) {
+        Vertices.clear();// FIXME carefull do we assume everywhere that this is not dangerouse
         Vertices.push_back(NewVertex);
     }
 
@@ -136,7 +138,7 @@ public:
     std::vector<HConstituent> GetVertices() const {
         return Vertices;
     }
-
+//
 //     float GetJetDisplacement() {
 //         Print(HDebug, "Get Jet Displacement");
 //

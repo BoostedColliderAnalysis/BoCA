@@ -37,6 +37,7 @@ void hanalysis::HWSemiTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->NeutrinoPt, "NeutrinoPt"));
     Observables.push_back(NewObservable(&Branch->LeptonPt, "LeptonPt"));
 
+    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
@@ -60,6 +61,7 @@ void hanalysis::HWSemiTagger::FillBranch(HWSemiBranch *const WSemiBranch, const 
     WSemiBranch->NeutrinoPt = Doublet.Singlet2().pt();
     WSemiBranch->LeptonPt = Doublet.Singlet1().pt();
 
+    WSemiBranch->DeltaPt = Doublet.DeltaPt();
     WSemiBranch->DeltaR = Doublet.DeltaR();
     WSemiBranch->DeltaRap = Doublet.DeltaRap();
     WSemiBranch->DeltaPhi = Doublet.DeltaPhi();

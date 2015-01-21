@@ -53,6 +53,7 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
                 JetInfo->SetVertices(Jets.back().user_info<hanalysis::HJetInfo>().GetVertices());
                 JetInfo->SetBTag(Jets.back().user_info<hanalysis::HJetInfo>().GetBTag());
             }
+//             Print(HError, "Vertex", JetInfo->GetVertex.Family.ParticleId,Vertex.Family.Mother1Id);
 
             Jets.back().set_user_info(JetInfo);
             Jets.back().set_user_index(Jets.back().user_info<hanalysis::HJetInfo>().GetMaximalId());
@@ -61,6 +62,11 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
             Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
             Print(HDebug, "Tag", Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().GetMaximalId(), Jets.at(JetNumber).user_info<hanalysis::HJetInfo>().GetMaximalFraction());
 
+
+// for(auto Constituent : Jets.back().constituents()){
+//   std::vector<HConstituent> Vertices = Constituent.user_info<HJetInfo>().GetVertices();
+//   for(auto Vertex : Vertices) Print(HError, "Vertex",  Vertex.Family.ParticleId,Vertex.Family.Mother1Id);
+// }
         }
 
 
@@ -142,6 +148,7 @@ fastjet::PseudoJet hanalysis::hdelphes::HJet::GetConstituents(const delphes::Jet
             Vertices.push_back(Vertex);
 //         Vertices.insert(Vertices.end(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().begin(),Constituents.back().user_info<hanalysis::HJetInfo>().GetVertices().end());
             Print(HDetailed, "Vertex", Vertex.Position.Vect().Mag());
+            Print(HDetailed, "Vertex", Vertex.Family.ParticleId,Vertex.Family.Mother1Id);
         }
 //         if (Constituents.back().user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag() > Vertex.Vect().Mag()) {
 //             Vertex = Constituents.back().user_info<hanalysis::HJetInfo>().GetVertex();
@@ -151,6 +158,7 @@ fastjet::PseudoJet hanalysis::hdelphes::HJet::GetConstituents(const delphes::Jet
     }
 
     fastjet::PseudoJet Jet = fastjet::join(Constituents);
+
     hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
     JetInfo->SetVertices(Vertices);
     JetInfo->SetBTag(JetClone->BTag);
@@ -165,14 +173,19 @@ fastjet::PseudoJet hanalysis::hdelphes::HJet::GetConstituentJet(TObject *Object,
 {
 
     HConstituent Constituent = GetConstituent(Object, JetDetails);
-    Print(HDetailed, "Vertex", Constituent.Position.Vect().Mag());
+    Print(HDebug, "Vertex", GetParticleName(Constituent.Family.Mother1Id));
 
     fastjet::PseudoJet Jet = GetPseudoJet(Constituent.Momentum);
     if (JetDetails == TaggingStructure) Jet.set_user_index(Constituent.MotherId);
 
     hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
     JetInfo->SetVertex(Constituent);
+
+//     JetInfo->PrintAllFamilyInfos(HError);
+
     Jet.set_user_info(JetInfo);
+
+
 
 //   Print(HDetailed, "Vertex", Jet.user_info<hanalysis::HJetInfo>().GetVertex().Vect().Mag());
 
@@ -228,7 +241,9 @@ HConstituent hanalysis::hdelphes::HJet::GetConstituent(TObject *Object, hanalysi
 
     }
 
-    if (Constituent.Position.Vect().Mag() > 0) Print(HDebug, "Vertex", Constituent.Position.Vect().Mag());
+//     if (Constituent.Position.Vect().Mag() > 0) Print(HDebug, "Vertex", Constituent.Position.Vect().Mag());
+
+// Print(HError, "GetConstituent Vertex", GetParticleName(Constituent.Family.ParticleId), GetParticleName(Constituent.Family.Mother1Id));
 
     return Constituent;
 

@@ -4,6 +4,7 @@
 // # include <sstream>
 
 # include "HJet.hh"
+# include "HJetInfo.hh"
 
 // struct HConstituent{
 //
@@ -99,17 +100,17 @@ private:
 
         for (const int ParticleNumber : HRange(Clone->Particles.GetEntriesFast())) {
 
-            TObject * Object = Clone->Particles.At(ParticleNumber);
+            TObject *Object = Clone->Particles.At(ParticleNumber);
 //             const int MotherId = GetMotherId(Object);
-            const HFamily MotherId = GetBranchFamily(Object);
-            Print(HDetailed, "MotherId", MotherId.ParticleId,MotherId.Mother1Id);
+            const HFamily BranchFamily = GetBranchFamily(Object);
+            Print(HDebug, "MotherId", BranchFamily.ParticleId, BranchFamily.Mother1Id);
 
             const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) Object;
-            JetInfo.AddFamily(MotherId, std::abs(ParticleClone->PT));
+            JetInfo.AddFamily(BranchFamily, std::abs(ParticleClone->PT));
 
         }
 
-        JetInfo.PrintAllInfos(HDetailed);
+        JetInfo.PrintAllFamilyInfos(HDebug);
         return JetInfo;
 
     }
@@ -142,7 +143,7 @@ private:
 
     fastjet::PseudoJet GetConstituents(const delphes::Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
 
-    HConstituent GetConstituent( TObject * Object, hanalysis::HJet::HJetDetails JetDetails);
+    HConstituent GetConstituent(TObject *Object, hanalysis::HJet::HJetDetails JetDetails);
 
     fastjet::PseudoJet GetConstituentJet(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails);
 

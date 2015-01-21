@@ -45,7 +45,7 @@ private:
 
     void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
 
-    std::vector<HDoublet> GetSubJets(const HJets Jets, const int SubJetNumber, const hanalysis::HObject::HTag Tag);
+    std::vector<HDoublet> GetSubJets(const HJets &Jets, const int SubJetNumber, const hanalysis::HObject::HTag Tag);
 
     std::vector<HDoublet> GetSubBdt(const HJets Jets,const int SubJetNumber, const hanalysis::HReader *const WReader);
 

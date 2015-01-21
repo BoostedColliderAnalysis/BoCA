@@ -53,6 +53,17 @@ void hanalysis::HJetInfo::AddFamily(const HFamily Family, const float Weight)
 //   Print(HDetailed, "Saved Weight", JetFamily[Family].ParticleId, JetFamily[Family].Mother1Id);
 }
 
+void hanalysis::HJetInfo::CalculateJetFamily()
+{
+  for(const auto Vertex : Vertices){
+    AddFamily(Vertex.Family,Vertex.Momentum.Pt());
+  }
+
+}
+
+
+
+
 float hanalysis::HJetInfo::GetWeightSum() const
 {
     Print(HDebug, "Get Weight Sum", JetFractions.size());

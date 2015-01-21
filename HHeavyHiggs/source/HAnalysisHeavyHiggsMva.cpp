@@ -147,9 +147,9 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 //     SignalSemiFiles.push_back(new hanalysis::HFile("800GeV_Hbb_ttbb_ljbbbb"));
 //     SignalSemiFiles.back()->SetCrosssection(0.12290283022989924);
 //     SignalSemiFiles.back()->SetMass(800);
-    SignalSemiFiles.push_back(new hanalysis::HFile("1000GeV_Hbb_ttbb_ljbbbb"));
-    SignalSemiFiles.back()->SetCrosssection(0.06066398537600679);
-    SignalSemiFiles.back()->SetMass(1000);
+//     SignalSemiFiles.push_back(new hanalysis::HFile("1000GeV_Hbb_ttbb_ljbbbb"));
+//     SignalSemiFiles.back()->SetCrosssection(0.06066398537600679);
+//     SignalSemiFiles.back()->SetMass(1000);
 //     SignalSemiFiles.push_back(new hanalysis::HFile("1500GeV_Hbb_ttbb_ljbbbb"));
 //     SignalSemiFiles.back()->SetCrosssection(0.01463088296143972);
 //     SignalSemiFiles.back()->SetMass(1500);
@@ -174,9 +174,9 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
 //     SignalSemiFiles.push_back(new hanalysis::HFile("5000GeV_Hbb_ttbb_ljbbbb"));
 //     SignalSemiFiles.back()->SetCrosssection(0.00008901729172672865);
 //     SignalSemiFiles.back()->SetMass(5000);
-//     SignalSemiFiles.push_back(new hanalysis::HFile("6000GeV_Hbb_ttbb_ljbbbb"));
-//     SignalSemiFiles.back()->SetCrosssection(0.0000360296898244432);
-//     SignalSemiFiles.back()->SetMass(6000);
+    SignalSemiFiles.push_back(new hanalysis::HFile("6000GeV_Hbb_ttbb_ljbbbb"));
+    SignalSemiFiles.back()->SetCrosssection(0.0000360296898244432);
+    SignalSemiFiles.back()->SetMass(6000);
 //     SignalSemiFiles.push_back(new hanalysis::HFile("7000GeV_Hbb_ttbb_ljbbbb"));
 //     SignalSemiFiles.back()->SetCrosssection(0.00001576534159133895);
 //     SignalSemiFiles.back()->SetMass(7000);
@@ -230,14 +230,14 @@ std::vector<hanalysis::HFile *> hheavyhiggs::HAnalysisMva::GetFiles(const hanaly
         //         "500GeV_Hbb_ttbb_ljbbbb-run_01",
         //         "600GeV_Hbb_ttbb_ljbbbb-run_01",
         //         "800GeV_Hbb_ttbb_ljbbbb-run_01",
-              "1000GeV_Hbb_ttbb_ljbbbb-run_01",
+//               "1000GeV_Hbb_ttbb_ljbbbb-run_01",
         //         "1500GeV_Hbb_ttbb_ljbbbb-run_01",
 //               "2000GeV_Hbb_ttbb_ljbbbb-run_01",
         //         "2500GeV_Hbb_ttbb_ljbbbb-run_01",
 //               "3000GeV_Hbb_ttbb_ljbbbb-run_01"
 //               "4000GeV_Hbb_ttbb_ljbbbb-run_01"
 //               "5000GeV_Hbb_ttbb_ljbbbb-run_01"
-//         "6000GeV_Hbb_ttbb_ljbbbb-run_01"
+        "6000GeV_Hbb_ttbb_ljbbbb-run_01"
 //       "7000GeV_Hbb_ttbb_ljbbbb-run_01"
         //         "8000GeV_Hbb_ttbb_ljbbbb-run_01"
         //         "9000GeV_Hbb_ttbb_ljbbbb-run_01"
@@ -631,7 +631,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const h
 //     HJets Leptons = fastjet::sorted_by_pt(Event->GetLeptons()->GetLeptonJets());
 
 //     if (Leptons.size() < 1) return 0;
-//     if (Leptons.front().pt() < 300 || MissingEt.pt() < 300) return 0;
+//     if (Leptons.front().pt() < 300 || MissingEt.pt() < 400) return 0;
 
     switch (Tagger) {
     case HBottomTagger :

@@ -26,34 +26,6 @@ hanalysis::HTopHadronicTagger::~HTopHadronicTagger()
     delete WReader;
 }
 
-
-void hanalysis::HTopHadronicTagger::FillBranch(HTopHadronicBranch *const TopHadronicBranch, const hanalysis::HTriplet &Triplet)
-{
-    Print(HInformation, "Fill Top Tagger", Triplet.Bdt());
-
-    TopHadronicBranch->Mass = Triplet.Jet().m();
-    TopHadronicBranch->Rap = Triplet.Jet().rap();
-    TopHadronicBranch->Phi = Triplet.Jet().phi();
-    TopHadronicBranch->Pt = Triplet.Jet().pt();
-    TopHadronicBranch->Ht = Triplet.Ht();
-
-    TopHadronicBranch->BottomPt = Triplet.Singlet().pt();
-    TopHadronicBranch->WPt = Triplet.DoubletJet().pt();
-
-    TopHadronicBranch->DeltaR = Triplet.DeltaR();
-    TopHadronicBranch->DeltaRap = Triplet.DeltaRap();
-    TopHadronicBranch->DeltaPhi = Triplet.DeltaPhi();
-
-    TopHadronicBranch->Bdt = Triplet.Bdt();
-    TopHadronicBranch->Tag = Triplet.Tag();
-}
-
-void hanalysis::HTopHadronicTagger::FillBranch(const hanalysis::HTriplet &Triplet)
-{
-    Print(HInformation, "Fill Top Tagger", Triplet.Bdt());
-    FillBranch(Branch, Triplet);
-}
-
 void hanalysis::HTopHadronicTagger::DefineVariables()
 {
 
@@ -68,6 +40,7 @@ void hanalysis::HTopHadronicTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch->BottomPt, "BottomPt"));
     Observables.push_back(NewObservable(&Branch->WPt, "WPt"));
 
+    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
     Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
     Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
@@ -77,6 +50,34 @@ void hanalysis::HTopHadronicTagger::DefineVariables()
 
     Print(HNotification, "Variables defined");
 
+}
+
+void hanalysis::HTopHadronicTagger::FillBranch(HTopHadronicBranch *const TopHadronicBranch, const hanalysis::HTriplet &Triplet)
+{
+    Print(HInformation, "Fill Top Tagger", Triplet.Bdt());
+
+    TopHadronicBranch->Mass = Triplet.Jet().m();
+    TopHadronicBranch->Rap = Triplet.Jet().rap();
+    TopHadronicBranch->Phi = Triplet.Jet().phi();
+    TopHadronicBranch->Pt = Triplet.Jet().pt();
+    TopHadronicBranch->Ht = Triplet.Ht();
+
+    TopHadronicBranch->BottomPt = Triplet.Singlet().pt();
+    TopHadronicBranch->WPt = Triplet.DoubletJet().pt();
+
+    TopHadronicBranch->DeltaR = Triplet.DeltaPt();
+    TopHadronicBranch->DeltaR = Triplet.DeltaR();
+    TopHadronicBranch->DeltaRap = Triplet.DeltaRap();
+    TopHadronicBranch->DeltaPhi = Triplet.DeltaPhi();
+
+    TopHadronicBranch->Bdt = Triplet.Bdt();
+    TopHadronicBranch->Tag = Triplet.Tag();
+}
+
+void hanalysis::HTopHadronicTagger::FillBranch(const hanalysis::HTriplet &Triplet)
+{
+    Print(HInformation, "Fill Top Tagger", Triplet.Bdt());
+    FillBranch(Branch, Triplet);
 }
 
 // struct SortByTopMass {

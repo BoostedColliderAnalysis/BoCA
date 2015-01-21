@@ -101,13 +101,13 @@ int main()
 {
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
-//     RunTagger(hanalysis::HAnalysis::HBottomReader);
+    RunTagger(hanalysis::HAnalysis::HBottomReader);
 
     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
-//     RunTagger(hanalysis::HAnalysis::HJetPairReader);
+    RunTagger(hanalysis::HAnalysis::HJetPairReader);
 //
     RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HWReader);
+    RunTagger(hanalysis::HAnalysis::HWHadronicReader);
 //
     RunTagger(hanalysis::HAnalysis::HWSemiTagger);
     RunTagger(hanalysis::HAnalysis::HWSemiReader);
