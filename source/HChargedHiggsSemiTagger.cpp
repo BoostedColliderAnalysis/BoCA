@@ -189,12 +189,12 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuart
     HJetInfo JetInfoW2 = Quartet.GetTriplet().Doublet().Singlet2().user_info<HJetInfo>();
     JetInfoW2.ExtractFraction(WId);
 
-    if (std::abs(JetInfoB.GetMaximalId()) != BottomId) return HBackground;
-    if (JetInfoB.GetMaximalId() != -JetInfoB1.GetMaximalId()) return HBackground;
+    if (std::abs(JetInfoB.MaximalId()) != BottomId) return HBackground;
+    if (JetInfoB.MaximalId() != -JetInfoB1.MaximalId()) return HBackground;
 
-    if (std::abs(JetInfoW1.GetMaximalId()) != WId) return HBackground;
-    if (JetInfoW1.GetMaximalId() != JetInfoW2.GetMaximalId()) return HBackground;
-    if (sgn(JetInfoW1.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
+    if (std::abs(JetInfoW1.MaximalId()) != WId) return HBackground;
+    if (JetInfoW1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
+    if (sgn(JetInfoW1.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
 
     //FIXME how to remove intrinsic background !!
 

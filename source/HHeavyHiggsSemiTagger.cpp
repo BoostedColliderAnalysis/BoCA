@@ -192,15 +192,15 @@ hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet 
     HJetInfo JetInfoW2 = Sextet.Triplet2().Doublet().Singlet2().user_info<HJetInfo>();
     JetInfoW2.ExtractFraction(TopId);
 
-    if (std::abs(JetInfoB1.GetMaximalId()) != TopId) return HBackground;
-    if (JetInfoB1.GetMaximalId() != -JetInfoB2.GetMaximalId()) return HBackground;
+    if (std::abs(JetInfoB1.MaximalId()) != TopId) return HBackground;
+    if (JetInfoB1.MaximalId() != -JetInfoB2.MaximalId()) return HBackground;
 
-    if (std::abs(JetInfoL.GetMaximalId()) != TopId) return HBackground;
-    if (sgn(JetInfoL.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
+    if (std::abs(JetInfoL.MaximalId()) != TopId) return HBackground;
+    if (sgn(JetInfoL.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
 
-    if (std::abs(JetInfoW1.GetMaximalId()) != TopId) return HBackground;
-    if (JetInfoW1.GetMaximalId() != JetInfoW2.GetMaximalId()) return HBackground;
-    if (sgn(JetInfoW1.GetMaximalId()) != sgn(JetInfoB2.GetMaximalId())) return HBackground;
+    if (std::abs(JetInfoW1.MaximalId()) != TopId) return HBackground;
+    if (JetInfoW1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
+    if (sgn(JetInfoW1.MaximalId()) != sgn(JetInfoB2.MaximalId())) return HBackground;
 
     return HSignal;
 }
@@ -221,15 +221,15 @@ hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet 
 //     HJetInfo JetInfoW2 = Sextet.Triplet2().GetDoublet().GetJet2().user_info<HJetInfo>();
 //     JetInfoW2.ExtractFraction(WId);
 //
-//     if (std::abs(JetInfoB1.GetMaximalId()) != BottomId) return HBackground;
-//     if (JetInfoB1.GetMaximalId() != -JetInfoB2.GetMaximalId()) return HBackground;
+//     if (std::abs(JetInfoB1.MaximalId()) != BottomId) return HBackground;
+//     if (JetInfoB1.MaximalId() != -JetInfoB2.MaximalId()) return HBackground;
 //
-//     if (std::abs(JetInfoL.GetMaximalId()) != TopId) return HBackground;
-//     if (sgn(JetInfoL.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
+//     if (std::abs(JetInfoL.MaximalId()) != TopId) return HBackground;
+//     if (sgn(JetInfoL.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
 //
-//     if (std::abs(JetInfoW1.GetMaximalId()) != WId) return HBackground;
-//     if (JetInfoW1.GetMaximalId() != JetInfoW2.GetMaximalId()) return HBackground;
-//     if (sgn(JetInfoW1.GetMaximalId()) != sgn(JetInfoB2.GetMaximalId())) return HBackground;
+//     if (std::abs(JetInfoW1.MaximalId()) != WId) return HBackground;
+//     if (JetInfoW1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
+//     if (sgn(JetInfoW1.MaximalId()) != sgn(JetInfoB2.MaximalId())) return HBackground;
 //
 //     return HSignal;
 // }

@@ -124,8 +124,8 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
     if (StudyName == "Bottom") {
 
         for (HJets::iterator it = Jets.begin(); it != Jets.end();) {
-            Print(HInformation, "Truth Level", (*it).user_info<hanalysis::HJetInfo>().GetMaximalId());
-            if (std::abs((*it).user_info<hanalysis::HJetInfo>().GetMaximalId()) != BottomId || (*it).user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .8) {
+            Print(HInformation, "Truth Level", (*it).user_info<hanalysis::HJetInfo>().MaximalId());
+            if (std::abs((*it).user_info<hanalysis::HJetInfo>().MaximalId()) != BottomId || (*it).user_info<hanalysis::HJetInfo>().MaximalFraction() < .8) {
                 it = Jets.erase(it);
             } else {
                 ++it;
@@ -135,7 +135,7 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
     } else if (StudyName == "LightJet") {
 
         for (HJets::iterator it = Jets.begin(); it != Jets.end();) {
-            if (std::abs((*it).user_info<hanalysis::HJetInfo>().GetMaximalId()) == BottomId) {
+            if (std::abs((*it).user_info<hanalysis::HJetInfo>().MaximalId()) == BottomId) {
                 it = Jets.erase(it);
             } else {
                 ++it;
@@ -163,10 +163,10 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
 //             BTagger->DeltaR = SubStructure->GetDeltaR();
 //         }
         if (Jet.has_user_info<hanalysis::HJetInfo>()) {
-            Print(HInformation, "Has Info", BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetMaxDisplacement());
-            BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().GetJetMaxDisplacement();
-            BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().GetVertexMass();
-            BTagger->VertexNumber = Jet.user_info<hanalysis::HJetInfo>().GetVertexNumber();
+            Print(HInformation, "Has Info", BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().MaxDisplacement());
+            BTagger->Vertex = Jet.user_info<hanalysis::HJetInfo>().MaxDisplacement();
+            BTagger->VertexMass = Jet.user_info<hanalysis::HJetInfo>().VertexMass();
+            BTagger->VertexNumber = Jet.user_info<hanalysis::HJetInfo>().VertexNumber();
         }
 
 //         HVectors ConstituentVectors = FirstPair.GetConstituents();

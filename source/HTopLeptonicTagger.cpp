@@ -130,9 +130,9 @@ hanalysis::HObject::HTag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &D
     HJetInfo LJetInfo = Doublet.Singlet2().user_info<HJetInfo>();
     LJetInfo.ExtractFraction(WId);
 
-    if (std::abs(LJetInfo.GetMaximalId()) != WId) return HBackground;
-    if (std::abs(BJetInfo.GetMaximalId()) != BottomId) return HBackground;
-    if (sgn(BJetInfo.GetMaximalId()) != sgn(LJetInfo.GetMaximalId())) return HBackground;
+    if (std::abs(LJetInfo.MaximalId()) != WId) return HBackground;
+    if (std::abs(BJetInfo.MaximalId()) != BottomId) return HBackground;
+    if (sgn(BJetInfo.MaximalId()) != sgn(LJetInfo.MaximalId())) return HBackground;
 
     return HSignal;
 }

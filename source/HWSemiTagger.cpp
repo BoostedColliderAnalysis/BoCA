@@ -118,7 +118,7 @@ hanalysis::HObject::HTag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoubl
     HJetInfo JetInfo = Doublet.Singlet1().user_info<HJetInfo>();
     JetInfo.ExtractFraction(WId);
 
-    if (std::abs(JetInfo.GetMaximalId()) != WId) return HBackground;
+    if (std::abs(JetInfo.MaximalId()) != WId) return HBackground;
     return HSignal;
 }
 

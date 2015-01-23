@@ -243,9 +243,9 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
         }
 
-//         if (CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction() < .9) break;
+//         if (CandidateJet.user_info<hanalysis::HJetInfo>().MaximalFraction() < .9) break;
 
-        Print(HInformation, "Tag", CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), CandidateJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), CandidateJet.m());
+        Print(HInformation, "Tag", CandidateJet.user_info<hanalysis::HJetInfo>().MaximalId(), CandidateJet.user_info<hanalysis::HJetInfo>().MaximalFraction(), CandidateJet.m());
 
 //         HJets Constituents = CandidateJet.constituents();
 //         sort(Constituents.begin(), Constituents.end(), SortJetByPt());
@@ -336,7 +336,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
 
 //         CandidateJet.user_info<HJetInfo>().PrintAllInfos(HDetailed);
-//         Print(HNotification, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
+//         Print(HNotification, "Tag", CandidateJet.user_info<HJetInfo>().MaximalId(), CandidateJet.user_info<HJetInfo>().MaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;
     }

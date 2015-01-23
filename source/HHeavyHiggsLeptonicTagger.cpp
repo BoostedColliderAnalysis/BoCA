@@ -188,13 +188,13 @@ hanalysis::HObject::HTag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQua
     HJetInfo JetInfoL2 = Quartet.GetDoublet2().Singlet2().user_info<HJetInfo>();
     JetInfoL2.ExtractFraction(WId);
 
-    if (std::abs(JetInfoB1.GetMaximalId()) != BottomId) return HBackground;
-    if (JetInfoB1.GetMaximalId() != -JetInfoB2.GetMaximalId()) return HBackground;
+    if (std::abs(JetInfoB1.MaximalId()) != BottomId) return HBackground;
+    if (JetInfoB1.MaximalId() != -JetInfoB2.MaximalId()) return HBackground;
 
-    if (std::abs(JetInfoL1.GetMaximalId()) != WId) return HBackground;
-    if (sgn(JetInfoL1.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
+    if (std::abs(JetInfoL1.MaximalId()) != WId) return HBackground;
+    if (sgn(JetInfoL1.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
 
-    if (JetInfoL2.GetMaximalId() != -JetInfoL1.GetMaximalId()) return HBackground;
+    if (JetInfoL2.MaximalId() != -JetInfoL1.MaximalId()) return HBackground;
     return HSignal;
 }
 

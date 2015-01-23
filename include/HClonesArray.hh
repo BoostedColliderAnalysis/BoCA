@@ -56,7 +56,7 @@ public:
         return GenJetClonesArray->GetEntriesFast();
     }
 
-    inline int GetJetSum() const {
+    inline int JetSum() const {
         return JetClonesArray->GetEntriesFast();
     }
 
@@ -280,7 +280,7 @@ public:
      * @brief Jet Clones Array
      *
      */
-    inline TObject *GetJet(const int JetNumber) const {
+    inline TObject *Jet(const int JetNumber) const {
         return JetClonesArray->At(JetNumber);
     }
 

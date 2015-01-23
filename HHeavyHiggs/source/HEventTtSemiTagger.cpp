@@ -241,33 +241,33 @@ hanalysis::HObject::HTag hheavyhiggs::HEventTtSemiTagger::GetTag(const HSextet &
 
     hanalysis::HJetInfo JetInfoB1 = Sextet.GetSextet().Triplet1().GetSinglet().user_info<hanalysis::HJetInfo>();
     JetInfoB1.ExtractFraction(BottomId, TopId);
-    if (std::abs(JetInfoB1.GetMaximalId()) != BottomId) return HBackground;
+    if (std::abs(JetInfoB1.MaximalId()) != BottomId) return HBackground;
 
     hanalysis::HJetInfo JetInfoL = Sextet.GetSextet().Triplet1().GetDoublet().Singlet1().user_info<hanalysis::HJetInfo>();
     JetInfoL.ExtractFraction(WId);
-    if (std::abs(JetInfoL.GetMaximalId()) != WId) return HBackground;
-    if (sgn(JetInfoL.GetMaximalId()) != sgn(JetInfoB1.GetMaximalId())) return HBackground;
+    if (std::abs(JetInfoL.MaximalId()) != WId) return HBackground;
+    if (sgn(JetInfoL.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
 
     hanalysis::HJetInfo JetInfoB2 = Sextet.GetSextet().Triplet2().GetSinglet().user_info<hanalysis::HJetInfo>();
     JetInfoB2.ExtractFraction(BottomId, TopId);
-    if (JetInfoB1.GetMaximalId() != -JetInfoB2.GetMaximalId()) return HBackground;
+    if (JetInfoB1.MaximalId() != -JetInfoB2.MaximalId()) return HBackground;
 
     hanalysis::HJetInfo JetInfoW1 = Sextet.GetSextet().Triplet2().GetDoublet().Singlet1().user_info<hanalysis::HJetInfo>();
     JetInfoW1.ExtractFraction(WId, TopId);
-    if (std::abs(JetInfoW1.GetMaximalId()) != WId) return HBackground;
-    if (sgn(JetInfoW1.GetMaximalId()) != sgn(JetInfoB2.GetMaximalId())) return HBackground;
+    if (std::abs(JetInfoW1.MaximalId()) != WId) return HBackground;
+    if (sgn(JetInfoW1.MaximalId()) != sgn(JetInfoB2.MaximalId())) return HBackground;
 
     hanalysis::HJetInfo JetInfoW2 = Sextet.GetSextet().Triplet2().GetDoublet().Singlet2().user_info<hanalysis::HJetInfo>();
     JetInfoW2.ExtractFraction(WId, TopId);
-    if (JetInfoW1.GetMaximalId() != JetInfoW2.GetMaximalId()) return HBackground;
+    if (JetInfoW1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
 
     hanalysis::HJetInfo JetInfoB3 = Sextet.GetDoublet().Singlet1().user_info<hanalysis::HJetInfo>();
     JetInfoB3.ExtractFraction(BottomId, GluonId);
-    if (std::abs(JetInfoB3.GetMaximalId()) != BottomId) return HBackground;
+    if (std::abs(JetInfoB3.MaximalId()) != BottomId) return HBackground;
 
     hanalysis::HJetInfo JetInfoB4 = Sextet.GetDoublet().Singlet2().user_info<hanalysis::HJetInfo>();
     JetInfoB4.ExtractFraction(BottomId, GluonId);
-    if (JetInfoB3.GetMaximalId() != -JetInfoB4.GetMaximalId()) return HBackground;
+    if (JetInfoB3.MaximalId() != -JetInfoB4.MaximalId()) return HBackground;
 
     return HSignal;
 }

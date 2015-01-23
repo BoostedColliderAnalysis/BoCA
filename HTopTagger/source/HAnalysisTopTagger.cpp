@@ -214,7 +214,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::
 //         Candidate->ConstAngle = SubStructure->GetConstituentAngle();
 
 //         CandidateJet.user_info<HJetInfo>().PrintAllInfos(HDetailed);
-//         Print(HNotification, "Tag", CandidateJet.user_info<HJetInfo>().GetMaximalId(), CandidateJet.user_info<HJetInfo>().GetMaximalFraction(), CandidateJet.m());
+//         Print(HNotification, "Tag", CandidateJet.user_info<HJetInfo>().MaximalId(), CandidateJet.user_info<HJetInfo>().MaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;
     }

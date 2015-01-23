@@ -92,27 +92,18 @@ private:
 //     HJets JetTagger(HJets, HJets);
 
     template <typename TClone>
-    hanalysis::HJetInfo GetJetId(const TClone &Clone) {
-
+    hanalysis::HJetInfo GetJetId(TClone &Clone) {
         Print(HDetailed, "Get Jet Id", Clone->Particles.GetEntriesFast());
-
         hanalysis::HJetInfo JetInfo;
-
         for (const int ParticleNumber : HRange(Clone->Particles.GetEntriesFast())) {
-
             TObject *Object = Clone->Particles.At(ParticleNumber);
-//             const int MotherId = GetMotherId(Object);
             const HFamily BranchFamily = GetBranchFamily(Object);
             Print(HDebug, "MotherId", BranchFamily.ParticleId, BranchFamily.Mother1Id);
-
-            const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) Object;
-            JetInfo.AddFamily(BranchFamily, std::abs(ParticleClone->PT));
-
+//             delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) Object;
+            JetInfo.AddConstituent(HConstituent(Clone->P4(),BranchFamily));
         }
-
-        JetInfo.PrintAllFamilyInfos(HDebug);
+        JetInfo.PrintAllInfos(HDebug);
         return JetInfo;
-
     }
 
 
@@ -141,9 +132,9 @@ private:
 
     void GetMuonEFlow(const HJetDetails);
 
-    fastjet::PseudoJet GetConstituents(const delphes::Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
+    fastjet::PseudoJet StructuredJet(const delphes::Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
 
-    HConstituent GetConstituent(TObject *Object, hanalysis::HJet::HJetDetails JetDetails);
+    std::vector< HConstituent > GetConstituents(TObject* Object, hanalysis::HFourVector::HJetDetails JetDetails);
 
     fastjet::PseudoJet GetConstituentJet(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails);
 

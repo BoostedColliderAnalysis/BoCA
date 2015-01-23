@@ -230,9 +230,9 @@ hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTri
     W1JetInfo.ExtractFraction(WId);
     W1JetInfo.PrintAllInfos(HInformation);
 
-    if (std::abs(W1JetInfo.GetMaximalId()) != WId) return HBackground;
-    if (std::abs(BJetInfo.GetMaximalId()) != BottomId) return HBackground;
-    if (sgn(BJetInfo.GetMaximalId()) != sgn(W1JetInfo.GetMaximalId())) return HBackground;
+    if (std::abs(W1JetInfo.MaximalId()) != WId) return HBackground;
+    if (std::abs(BJetInfo.MaximalId()) != BottomId) return HBackground;
+    if (sgn(BJetInfo.MaximalId()) != sgn(W1JetInfo.MaximalId())) return HBackground;
     return HSignal;
 }
 
@@ -244,7 +244,7 @@ hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const fastjet::Pseudo
     JetInfo.ExtractFraction(TopId);
     JetInfo.PrintAllInfos(HInformation);
 
-    if (std::abs(JetInfo.GetMaximalId()) != TopId) return HBackground;
+    if (std::abs(JetInfo.MaximalId()) != TopId) return HBackground;
     return HSignal;
 }
 

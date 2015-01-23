@@ -103,9 +103,9 @@ public:
     };
 
     virtual float GetScalarHt();
-    
+
     virtual fastjet::PseudoJet GetMissingEt();
-    
+
 
 protected:
 
@@ -193,7 +193,7 @@ protected:
 
         bool Isolated = 1;
 
-        if (GetPseudoJet(const_cast<TParticle1 *>(Particle1)->P4()).delta_R(GetPseudoJet(const_cast<TParticle2 *>(Particle2)->P4())) < DeltaRIsolationMax) Isolated = 0;
+        if (PseudoJet(const_cast<TParticle1 *>(Particle1)->P4()).delta_R(PseudoJet(const_cast<TParticle2 *>(Particle2)->P4())) < DeltaRIsolationMax) Isolated = 0;
 
         return Isolated;
 

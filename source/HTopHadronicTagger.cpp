@@ -304,10 +304,11 @@ std::vector<hanalysis::HTriplet> hanalysis::HTopHadronicTagger::GetSubJets(const
         std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(SubJetNumber);
 
         for (auto & Piece : Pieces) {
-            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-            JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-            JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-            Piece.set_user_info(JetInfo);
+          hanalysis::HJetInfo JetInfo = Jet.user_info<HJetInfo>();
+//             hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+//             JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
+//             JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
+            Piece.set_user_info(&JetInfo);
         }
         Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
 
@@ -341,10 +342,10 @@ return Triplets;
 //     HJetInfo W2JetInfo = Triplet.GetDoublet().GetJet2().user_info<HJetInfo>();
 //     W2JetInfo.ExtractFraction(WId);
 //
-//     if (std::abs(W1JetInfo.GetMaximalId()) != WId) return HBackground;
-//     if (W1JetInfo.GetMaximalId() != W2JetInfo.GetMaximalId()) return HBackground;
-//     if (std::abs(BJetInfo.GetMaximalId()) != BottomId) return HBackground;
-//     if (sgn(BJetInfo.GetMaximalId()) != sgn(W1JetInfo.GetMaximalId())) return HBackground;
+//     if (std::abs(W1JetInfo.MaximalId()) != WId) return HBackground;
+//     if (W1JetInfo.MaximalId() != W2JetInfo.MaximalId()) return HBackground;
+//     if (std::abs(BJetInfo.MaximalId()) != BottomId) return HBackground;
+//     if (sgn(BJetInfo.MaximalId()) != sgn(W1JetInfo.MaximalId())) return HBackground;
 //     return HSignal;
 // }
 
@@ -368,10 +369,10 @@ hanalysis::HObject::HTag hanalysis::HTopHadronicTagger::GetTag(const HTriplet &T
     W2JetInfo.ExtractFraction(TopId);
 // >>>>>>> .r716
 
-    if (std::abs(W1JetInfo.GetMaximalId()) != TopId) return HBackground;
-    if (W1JetInfo.GetMaximalId() != W2JetInfo.GetMaximalId()) return HBackground;
-    if (std::abs(BJetInfo.GetMaximalId()) != TopId) return HBackground;
-//   if (sgn(BJetInfo.GetMaximalId()) != sgn(W1JetInfo.GetMaximalId())) return HBackground;
+    if (std::abs(W1JetInfo.MaximalId()) != TopId) return HBackground;
+    if (W1JetInfo.MaximalId() != W2JetInfo.MaximalId()) return HBackground;
+    if (std::abs(BJetInfo.MaximalId()) != TopId) return HBackground;
+//   if (sgn(BJetInfo.MaximalId()) != sgn(W1JetInfo.MaximalId())) return HBackground;
     return HSignal;
 }
 
@@ -420,10 +421,11 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetBdt(const st
                 std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(int(2));
 //                 if (Pieces.size() > 2) {
                 for (auto & Piece : Pieces) {
-                    hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-                    JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-                    JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-                    Piece.set_user_info(JetInfo);
+                  hanalysis::HJetInfo JetInfo = Jet.user_info<HJetInfo>();
+//                     hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+//                     JetInfo->SetBTag(Jet.user_info<HJetInfo>().BTag());
+//                     JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
+                    Piece.set_user_info(&JetInfo);
                 }
                 Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
                 std::vector<HDoublet> PiecesDoublets = WTagger->GetBdt(Pieces, WReader);
@@ -472,10 +474,11 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetBdt(const st
                 std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(int(3));
                 if (Pieces.size() > 2) {
                     for (auto & Piece : Pieces) {
-                        hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-                        JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-                        JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-                        Piece.set_user_info(JetInfo);
+                      hanalysis::HJetInfo JetInfo = Jet.user_info<HJetInfo>();
+//                         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+//                         JetInfo->SetBTag(Jet.user_info<HJetInfo>().BTag());
+//                         JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
+                        Piece.set_user_info(&JetInfo);
                     }
                     Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
                     std::vector<HDoublet> PiecesDoublets = WTagger->GetBdt(Pieces, WReader);

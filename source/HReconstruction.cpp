@@ -185,20 +185,22 @@ HJets hanalysis::HReconstruction::GetFatJetTag(HJets &FatJets)
 
             if (Constituent.has_user_info()) {
 
-              std::map<int, float> JetFractions = Constituent.user_info<hanalysis::HJetInfo>().GetJetFractions();
+              JetInfo.AddConstituents(Constituent.user_info<hanalysis::HJetInfo>().Constituents());
 
-              for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
+//               std::map<int, float> JetFractions = Constituent.user_info<hanalysis::HJetInfo>().GetJetFractions();
 
-                    JetInfo.AddConstituent((*Pair).first, (*Pair).second * Constituent.pt());
+//               for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 
-                }
+//                     JetInfo.AddConstituent((*Pair).first, (*Pair).second * Constituent.pt());
 
-                Constituent.user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
+//                 }
+
+//                 Constituent.user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
             } else {
 
-            Print(HDebug,"Constituent index",Constituent.user_index());
+            Print(HError,"No info in Constituent jet");
 
-            JetInfo.AddConstituent(Constituent.user_index(), Constituent.pt());
+//             JetInfo.AddConstituent(Constituent.user_index(), Constituent.pt());
 
             }
 
@@ -206,11 +208,11 @@ HJets hanalysis::HReconstruction::GetFatJetTag(HJets &FatJets)
 
         FatJet.set_user_info(new hanalysis::HJetInfo(JetInfo));
 
-        FatJet.set_user_index(FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId());
+//         FatJet.set_user_index(FatJet.user_info<hanalysis::HJetInfo>().MaximalId());
 
-        FatJet.user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
+//         FatJet.user_info<hanalysis::HJetInfo>().PrintAllInfos(HDetailed);
 
-        Print(HDetailed, "Tag", FatJet.user_info<hanalysis::HJetInfo>().GetMaximalId(), FatJet.user_info<hanalysis::HJetInfo>().GetMaximalFraction(), FatJet.m());
+//         Print(HDetailed, "Tag", FatJet.user_info<hanalysis::HJetInfo>().MaximalId(), FatJet.user_info<hanalysis::HJetInfo>().MaximalFraction(), FatJet.m());
 
     }
 

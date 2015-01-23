@@ -169,8 +169,9 @@ std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetSubJets(const HJets &Je
           //       }
 //         }
 
-            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-            JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
+          HJetInfo JetInfo = Piece.user_info<HJetInfo>();
+//             hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+//             JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
 
             std::vector<HConstituent> Vertices;
             std::unordered_map<HFamily, float>  Families;
@@ -179,14 +180,14 @@ std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetSubJets(const HJets &Je
 //                 if (Constituent.has_user_info<HJetInfo>())
 //                     Print(HError, "constituent");
 
-                for (auto & Vertex : Constituent.user_info<hanalysis::HJetInfo>().GetVertices()) {
-                    Vertices.push_back(Vertex);
+//                 for (auto & Vertex : Constituent.user_info<hanalysis::HJetInfo>().GetVertices()) {
+//                     Vertices.push_back(Vertex);
 
 //                     JetInfo->AddFamily(Vertex.Family,Vertex.Momentum.Pt());
 
 
 //                     Print(HError, "Vertex2", GetParticleName(Vertex.Family.ParticleId), GetParticleName(Vertex.Family.Mother1Id));
-                }
+//                 }
 
 //                 std::unordered_map<HFamily, float> families = Constituent.user_info<hanalysis::HJetInfo>().GetJetFamily();
 // //                 Print(HError,"Families",families.size());
@@ -203,12 +204,12 @@ std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetSubJets(const HJets &Je
 
             }
 //             JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-            JetInfo->SetVertices(Vertices);
-            JetInfo->CalculateJetFamily();
-            JetInfo->PrintAllFamilyInfos(HDebug);
+//             JetInfo->SetVertices(Vertices);
+//             JetInfo.CalculateJetFamily();
+//             JetInfo.PrintAllFamilyInfos(HDebug);
 //             JetInfo->SetJetFamily(Jet.user_info<HJetInfo>().GetJetFamily());
 //             JetInfo->SetJetFamily(Families);
-            Piece.set_user_info(JetInfo);
+            Piece.set_user_info(&JetInfo);
         }
         Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
 
@@ -243,14 +244,14 @@ hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
     HJetInfo JetInfo1 = Doublet.Singlet1().user_info<HJetInfo>();
     JetInfo1.ExtractFraction(WId);
     JetInfo1.PrintAllInfos(HDebug);
-//     if (JetInfo1.GetMaximalFraction() < .8) return HBackground;
-    if (std::abs(JetInfo1.GetMaximalId()) != WId) return HBackground;
+//     if (JetInfo1.MaximalFraction() < .8) return HBackground;
+    if (std::abs(JetInfo1.MaximalId()) != WId) return HBackground;
 
     HJetInfo JetInfo2 = Doublet.Singlet2().user_info<HJetInfo>();
     JetInfo2.ExtractFraction(WId);
     JetInfo2.PrintAllInfos(HDebug);
-//     if (JetInfo2.GetMaximalFraction() < .8) return HBackground;
-    if (JetInfo1.GetMaximalId() != JetInfo2.GetMaximalId()) return HBackground;
+//     if (JetInfo2.MaximalFraction() < .8) return HBackground;
+    if (JetInfo1.MaximalId() != JetInfo2.MaximalId()) return HBackground;
 
     return HSignal;
 }
@@ -262,7 +263,7 @@ hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const fastjet::PseudoJet &S
     HJetInfo JetInfo1 = Singlet.user_info<HJetInfo>();
     JetInfo1.ExtractFraction(WId);
 
-    if (std::abs(JetInfo1.GetMaximalId()) != WId) return HBackground;
+    if (std::abs(JetInfo1.MaximalId()) != WId) return HBackground;
     return HSignal;
 }
 
@@ -314,11 +315,13 @@ std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetSubBdt(const HJets Jets
         std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(SubJetNumber);
 
         for (auto & Piece : Pieces) {
-            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-            JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-            JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-            JetInfo->SetJetFamily(Jet.user_info<HJetInfo>().GetJetFamily());
-            Piece.set_user_info(JetInfo);
+
+          hanalysis::HJetInfo JetInfo = Jet.user_info<HJetInfo>();
+//             hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
+//             JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
+//             JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
+//             JetInfo->SetJetFamily(Jet.user_info<HJetInfo>().GetJetFamily());
+            Piece.set_user_info(&JetInfo);
         }
         Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
 

@@ -94,7 +94,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent *cons
             BottomTagger->FillBranch(*Jet);
             JetInfo->SetBdt(BottomReader->Bdt());
             (*Jet).set_user_info(JetInfo);
-            if ((*Jet).user_info<HJetInfo>().GetMaximalId() == HiggsId || (*Jet).user_info<HJetInfo>().GetMaximalId() == CpvHiggsId) {
+            if ((*Jet).user_info<HJetInfo>().MaximalId() == HiggsId || (*Jet).user_info<HJetInfo>().MaximalId() == CpvHiggsId) {
                 HiggsJets.push_back(*Jet);
             } else {
                 OtherJets.push_back(*Jet);

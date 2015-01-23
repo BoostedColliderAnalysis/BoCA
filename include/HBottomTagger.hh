@@ -25,6 +25,11 @@ public:
 
     void FillBranch(const fastjet::PseudoJet &Jet);
 
+    HJets CleanJets(const HJets &Jets, const HTag Tag);
+
+    HJets GetSubJets(const HJets &Jets, const int SubJetNumber, const HTag Tag);
+
+
 //     HJets GetTruthJets(hanalysis::HEvent*const Event, const hanalysis::HReader*const BottomReader);
 
 //     HJets GetTruthBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);

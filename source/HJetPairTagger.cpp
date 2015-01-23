@@ -52,14 +52,14 @@ void hanalysis::HJetPairTagger::FillBranch(HEventJetPairBranch *const JetPairBra
     JetPairBranch->Jet1Phi = Doublet.Singlet1().phi();
     JetPairBranch->Jet1Mass = Doublet.Singlet1().m();
     JetPairBranch->Jet1Bdt = Doublet.Singlet1().user_info<HJetInfo>().Bdt();
-    JetPairBranch->Jet1BTag = Doublet.Singlet1().user_info<HJetInfo>().GetBTag();
+    JetPairBranch->Jet1BTag = Doublet.Singlet1().user_info<HJetInfo>().BTag();
 
     JetPairBranch->Jet2Pt = Doublet.Singlet2().pt();
     JetPairBranch->Jet2Rap = std::abs(Doublet.Singlet2().rap());
     JetPairBranch->Jet2Phi = Doublet.Singlet2().phi();
     JetPairBranch->Jet2Mass = Doublet.Singlet2().m();
     JetPairBranch->Jet2Bdt = Doublet.Singlet2().user_info<HJetInfo>().Bdt();
-    JetPairBranch->Jet2BTag = Doublet.Singlet2().user_info<HJetInfo>().GetBTag();
+    JetPairBranch->Jet2BTag = Doublet.Singlet2().user_info<HJetInfo>().BTag();
 
     JetPairBranch->Bdt = Doublet.Bdt();
     JetPairBranch->Tag = Doublet.Tag();
@@ -161,10 +161,10 @@ hanalysis::HObject::HTag hanalysis::HJetPairTagger::GetTag(const HDoublet &Doubl
     JetInfo2.ExtractFraction(BottomId);
 //     JetInfo2.PrintAllInfos(HError);
 
-    Print(HDebug, "Pair is", JetInfo1.GetMaximalId(), JetInfo2.GetMaximalId(), Doublet.Singlet1().pt(), Doublet.Singlet2().pt());
+    Print(HDebug, "Pair is", JetInfo1.MaximalId(), JetInfo2.MaximalId(), Doublet.Singlet1().pt(), Doublet.Singlet2().pt());
 
-    if (std::abs(JetInfo1.GetMaximalId()) != BottomId) return HBackground;
-    if (JetInfo1.GetMaximalId() != -JetInfo2.GetMaximalId()) return HBackground;
+    if (std::abs(JetInfo1.MaximalId()) != BottomId) return HBackground;
+    if (JetInfo1.MaximalId() != -JetInfo2.MaximalId()) return HBackground;
     return HSignal;
 }
 
