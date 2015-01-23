@@ -2,7 +2,7 @@
 
 hanalysis::HBottomTagger::HBottomTagger()
 {
-    DebugLevel=HDebug;
+//     DebugLevel = HDebug;
     Print(HNotification, "Constructor");
     SetTaggerName("Bottom");
     Branch = new HBottomBranch();
@@ -47,47 +47,49 @@ void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, con
     Print(HInformation, "Fill Branch");
 
     if (Jet.has_user_info<HJetInfo>()) {
-        BottomBranch->VertexMass = Jet.user_info<HJetInfo>().VertexMass();
+        HJetInfo JetInfo = Jet.user_info<HJetInfo>();
+        JetInfo.ExtractAbsFraction(BottomId);
+        BottomBranch->VertexMass = JetInfo.VertexMass();
         BottomBranch->Mass = Jet.m();
         BottomBranch->Pt = Jet.pt();
         BottomBranch->Rap = Jet.rap();
         BottomBranch->Phi = Jet.phi();
-        float MaxDisp = Jet.user_info<HJetInfo>().MaxDisplacement();
+        float MaxDisp = JetInfo.MaxDisplacement();
         if (MaxDisp > 0)BottomBranch->MaxDisplacement = std::log(MaxDisp);
         else BottomBranch->MaxDisplacement = -3;
-        float MeanDisp = Jet.user_info<HJetInfo>().MeanDisplacement();
+        float MeanDisp = JetInfo.MeanDisplacement();
         if (MeanDisp > 0)BottomBranch->MeanDisplacement = std::log(MeanDisp);
         else BottomBranch->MeanDisplacement = -3;
-        float SumDisp = Jet.user_info<HJetInfo>().SumDisplacement();
+        float SumDisp = JetInfo.SumDisplacement();
         if (SumDisp > 0)BottomBranch->SumDisplacement = std::log(SumDisp);
         else BottomBranch->SumDisplacement = -3;
-        BottomBranch->Multipliticity = Jet.user_info<HJetInfo>().VertexNumber();
+        BottomBranch->Multipliticity = JetInfo.VertexNumber();
         BottomBranch->DeltaR = GetDeltaR(Jet);
         BottomBranch->Spread = GetSpread(Jet);
-        BottomBranch->VertexDeltaR = GetDeltaR(Jet.user_info<HJetInfo>().VertexJet());
-        BottomBranch->VertexSpread = GetSpread(Jet.user_info<HJetInfo>().VertexJet());
-        BottomBranch->EnergyFraction = Jet.user_info<HJetInfo>().VertexEnergy() / Jet.e();
-        BottomBranch->BTag = Jet.user_info<HJetInfo>().BTag();
-        BottomBranch->Tag = Jet.user_info<HJetInfo>().Tag();
-        BottomBranch->Bdt = Jet.user_info<HJetInfo>().Bdt();
+        BottomBranch->VertexDeltaR = GetDeltaR(JetInfo.VertexJet());
+        BottomBranch->VertexSpread = GetSpread(JetInfo.VertexJet());
+        BottomBranch->EnergyFraction = JetInfo.VertexEnergy() / Jet.e();
+        BottomBranch->BTag = JetInfo.BTag();
+        BottomBranch->Tag = JetInfo.Tag();
+        BottomBranch->Bdt = JetInfo.Bdt();
     } else Print(HError, "BJet without user info");
 
-    if (BottomBranch->Bdt < -10) {
-        Print(HError, "VertexMass", BottomBranch->VertexMass);
-        Print(HError, "Mass", BottomBranch->Mass);
-        Print(HError, "Pt", BottomBranch->Pt);
-        Print(HError, "Rap", BottomBranch->Rap);
-        Print(HError, "Phi", BottomBranch->Phi);
-        Print(HError, "Max", BottomBranch->MaxDisplacement);
-        Print(HError, "Mmmean", BottomBranch->MeanDisplacement);
-        Print(HError, "SumDisp", BottomBranch->SumDisplacement);
-        Print(HError, "Multi", BottomBranch->Multipliticity);
-        Print(HError, "DeltaR", BottomBranch->DeltaR);
-        Print(HError, "Spread", BottomBranch->Spread);
-        Print(HError, "DeltaR", BottomBranch->VertexDeltaR);
-        Print(HError, "Spread", BottomBranch->VertexSpread);
-        Print(HError, "Energy", BottomBranch->EnergyFraction);
-    }
+//     if (BottomBranch->Bdt <= -10) {
+//         Print(HError, "VertexMass", BottomBranch->VertexMass);
+//         Print(HError, "Mass", BottomBranch->Mass);
+//         Print(HError, "Pt", BottomBranch->Pt);
+//         Print(HError, "Rap", BottomBranch->Rap);
+//         Print(HError, "Phi", BottomBranch->Phi);
+//         Print(HError, "Max", BottomBranch->MaxDisplacement);
+//         Print(HError, "Mmmean", BottomBranch->MeanDisplacement);
+//         Print(HError, "SumDisp", BottomBranch->SumDisplacement);
+//         Print(HError, "Multi", BottomBranch->Multipliticity);
+//         Print(HError, "DeltaR", BottomBranch->DeltaR);
+//         Print(HError, "Spread", BottomBranch->Spread);
+//         Print(HError, "DeltaR", BottomBranch->VertexDeltaR);
+//         Print(HError, "Spread", BottomBranch->VertexSpread);
+//         Print(HError, "Energy", BottomBranch->EnergyFraction);
+//     }
 }
 
 void hanalysis::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
@@ -105,37 +107,18 @@ std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(hanalysis::HE
     Print(HInformation, "Number Jets", Jets.size());
 
 
-    Jets = CleanJets(Jets,Tag);
+    HJets FinalJets = CleanJets(Jets, Tag);
 
-    HJets Pieces = GetSubJets(Jets,2,Tag);
-    Jets.insert(Jets.end(),Pieces.begin(),Pieces.end());
+    HJets Pieces = GetSubJets(Jets, 2, Tag);
+    FinalJets.insert(FinalJets.end(), Pieces.begin(), Pieces.end());
 
-    Pieces = GetSubJets(Jets,3,Tag);
-    Jets.insert(Jets.end(),Pieces.begin(),Pieces.end());
-
-//     for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
-//         HJetInfo *JetInfo = new HJetInfo((*Jet).user_info<HJetInfo>());
-//         JetInfo->ExtractFraction(BottomId);
-//         JetInfo->PrintAllInfos(HDebug);
-//         JetInfo->SetTag(GetTag(*Jet));
-//         Print(HDebug,"New Jet",JetInfo->Tag());
-//         if (
-//             JetInfo->Tag() != Tag //||
-//             (Tag == HSignal && JetInfo->MaximalFraction() < .8) ||
-//             (Tag == HSignal && JetInfo->MeanDisplacement() < .1) ||
-//             (Tag == HBackground && JetInfo->Fraction(BottomId) > .2) ||
-//             std::abs((*Jet).rap()) > 2.5
-//         ) Jet = Jets.erase(Jet);
-//         else {
-//             (*Jet).set_user_info(JetInfo);
-//             ++Jet;
-//         }
-//     }
+    HJets Pieces2 = GetSubJets(Jets, 3, Tag);
+    FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
 
     Print(HDebug, "Number B Jets", Jets.size());
 
     std::vector<HBottomBranch *> BottomBranches;
-    for (const auto & Jet : Jets) {
+    for (auto & Jet : FinalJets) {
         HBottomBranch *BottomBranch = new HBottomBranch;
         FillBranch(BottomBranch, Jet);
         BottomBranches.push_back(BottomBranch);
@@ -144,43 +127,108 @@ std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(hanalysis::HE
     return BottomBranches;
 }
 
-
-HJets hanalysis::HBottomTagger::CleanJets(const HJets &Jets, const HTag Tag)
-{
-    Print(HInformation, "Clean Jets");
-    HJets NewCleanJets;
-    for (const auto Jet : Jets) {
-        if(!Jet.has_user_info<HJetInfo>()) {
-            Print(HError,"No JetInfo");
-            continue;
-        }
-        HJetInfo *JetInfo = new HJetInfo(Jet.user_info<HJetInfo>());
-        JetInfo->ExtractFraction(BottomId);
-        JetInfo->PrintAllInfos(HDebug);
-        JetInfo->SetTag(GetTag(Jet));
-        if (JetInfo->Tag() != Tag ||
-                (Tag == HSignal && JetInfo->MaximalFraction() < .8) ||
-                (Tag == HSignal && JetInfo->MeanDisplacement() < .1) ||
-                (Tag == HBackground && JetInfo->Fraction(BottomId) > .2) ||
-                std::abs(Jet.rap()) > 2.5) continue;
-        NewCleanJets.push_back(Jet);
-    }
-    return Jets;
-}
-
-
-
 HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const int SubJetNumber, const HTag Tag)
 {
     Print(HInformation, "Get Sub Jets");
     HJets Pieces;
     for (const auto & Jet : Jets) {
         if (!Jet.has_pieces()) {
+            Print(HError, "Pieceless jet");
+            continue;
+        }
+        if (!Jet.has_user_info<HJetInfo>()) {
+            Print(HError, "Get Sub Jets", "No Jet Info");
+            continue;
+        }
+        fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
+        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), JetDefinition);
+        Pieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
+        ClusterSequence->delete_self_when_unused();
+
+        for (auto & Piece : Pieces) {
+//             Print(HError, "Jet", Piece);
+            std::vector<HConstituent> Constituents;
+            for (const auto & PieceConstituent : Piece.constituents()) {
+                std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
+                Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+//                 for(HConstituent &NC :NewConstituents){Print(HError,"NC",NC.Momentum().Pt());}
+            }
+//             Print(HError, "Const size", Constituents.size());
+//             for (HConstituent Constituent : Constituents) Print(HError,"Const",Constituent.Position().Pt());
+            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(Constituents);
+//             Print(HError, "Inf", JetInfo->Constituents().size(),JetInfo->MaxDisplacement());
+            //         Print(HError,"Jet Info",JetInfo->MaximalId());
+//             for(HConstituent &NC2 :Constituents){Print(HError,"NC2",NC2.Momentum().Pt());}
+            Piece.set_user_info(JetInfo);
+        }
+    }
+    HJets NewPieces = CleanJets(Pieces, Tag);
+    return NewPieces;
+}
+
+
+HJets hanalysis::HBottomTagger::CleanJets(const HJets &Jets, const HTag Tag)
+{
+    Print(HInformation, "Clean Jets");
+    HJets NewCleanJets;
+    for (const auto & Jet : Jets) {
+        if (!Jet.has_user_info<HJetInfo>()) {
+            Print(HError, "Clean Jets", "No Jet Info");
+            continue;
+        }
+        if (std::abs(Jet.rap()) > 2.5) continue;
+        if (Jet.m() < 0) continue;
+        HJetInfo JetInfo = Jet.user_info<HJetInfo>();
+        JetInfo.ExtractAbsFraction(BottomId);
+        JetInfo.PrintAllInfos(HDebug);
+        if (Tag == HSignal && JetInfo.MaximalFraction() < .8) continue;
+        if (Tag == HSignal && JetInfo.MeanDisplacement() < .1) continue;
+        if (Tag == HBackground && JetInfo.Fraction(BottomId) > .2)continue;
+//         if (Jet.m() <= 0)continue;
+//         if (Jet == fastjet::PseudoJet(0,0,0,0))continue;
+//         if (!Jet.has_user_info<HJetInfo>())continue;
+        if (Tag == HBackground && std::log(JetInfo.SumDisplacement()) <= -3)continue;
+        JetInfo.SetTag(GetTag(Jet));
+        if (JetInfo.Tag() != Tag) continue;
+        NewCleanJets.push_back(Jet);
+    }
+    return NewCleanJets;
+}
+
+hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &Jet) const
+{
+    Print(HDebug, "Get Bottom Tag", Jet.user_info<HJetInfo>().MaximalFraction());
+
+    HJetInfo JetInfo = Jet.user_info<HJetInfo>();
+    JetInfo.ExtractAbsFraction(BottomId);
+    JetInfo.PrintAllInfos(HDebug);
+
+    Print(HDebug, "B Tag Info", Jet.rap(), JetInfo.MaximalId(), JetInfo.MaximalId());
+    if (std::abs(JetInfo.MaximalId()) != BottomId) return HBackground;
+    return HSignal;
+}
+
+HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomReader)
+{
+    HJets NewJets = GetJetBdt(Jets, BottomReader);
+    HJets DiJets = GetSubBdt(Jets, BottomReader, 2);
+    NewJets.insert(NewJets.end(), DiJets.begin(), DiJets.end());
+    HJets TriJets = GetSubBdt(Jets, BottomReader, 3);
+    NewJets.insert(NewJets.end(), TriJets.begin(), TriJets.end());
+    return NewJets;
+}
+
+HJets hanalysis::HBottomTagger::GetSubBdt(HJets &Jets, const HReader *const BottomReader, const int SubJetNumber)
+{
+    Print(HInformation, "Get Sub Bdt");
+    HJets Pieces;
+    for (const auto & Jet : Jets) {
+        if (!Jet.has_pieces()) {
             Print(HError, "pieceless jet");
             continue;
         }
-        if(!Jet.has_user_info<HJetInfo>()) {
-            Print(HDebug,"No JetInfo");
+        if (!Jet.has_user_info<HJetInfo>()) {
+            Print(HError, "Get Sub Bdt", "No Jet Info");
             continue;
         }
         fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
@@ -189,40 +237,31 @@ HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const int SubJetNu
         ClusterSequence->delete_self_when_unused();
 
         std::vector<HConstituent> Constituents;
-        for(auto Piece : Pieces) {
-            for(auto Constituent : Piece.constituents()) {
+        for (auto & Piece : Pieces) {
+            for (auto & Constituent : Piece.constituents()) {
+              if (!Constituent.has_user_info<HJetInfo>()) {
+                    Print(HError, "Get Constituent Bdt", "No Jet Info");
+                    continue;
+                }
                 std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
-                Constituents.insert(Constituents.end(),NewConstituents.begin(),NewConstituents.end());
+                Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
             }
             hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(Constituents);
-//         Print(HError,"Jet Info",JetInfo->MaximalId());
             Piece.set_user_info(JetInfo);
         }
     }
-    Pieces = CleanJets(Pieces,Tag);
-    return Pieces;
+    return GetJetBdt(Pieces, BottomReader);
 }
 
-
-
-
-
-hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &Jet) const
+HJets hanalysis::HBottomTagger::GetJetBdt(HJets &Jets, const HReader *const BottomReader)
 {
-    Print(HDebug, "Get Bottom Tag", Jet.user_info<HJetInfo>().MaximalFraction());
-
-    HJetInfo JetInfo = Jet.user_info<HJetInfo>();
-    JetInfo.ExtractFraction(BottomId);
-    JetInfo.PrintAllInfos(HDebug);
-
-    Print(HDebug, "B Tag Info", Jet.rap(), JetInfo.MaximalId());
-    if (std::abs(JetInfo.MaximalId()) != BottomId) return HBackground;
-    return HSignal;
-}
-
-HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomReader)
-{
+    Print(HInformation, "Get Jet Bdt");
     for (auto Jet = Jets.begin(); Jet != Jets.end(); ++Jet) {
+        Print(HInformation, "We are here");
+//         if (!(*Jet).has_user_info<HJetInfo>()) {
+//             Print(HError, "Get Jet Bdt", "No Jet Info");
+//             continue;
+//         }
         HJetInfo *JetInfo = new HJetInfo();
         if ((*Jet).has_user_info<HJetInfo>()) *JetInfo = (*Jet).user_info<HJetInfo>();
         FillBranch(*Jet);
@@ -236,6 +275,7 @@ HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomR
 
 HJets hanalysis::HBottomTagger::GetBdt2(HJets &Jets, const HReader *const BottomReader)
 {
+    Print(HInformation, "Get Bdt2");
     for (auto Jet = Jets.begin(); Jet != Jets.end(); ++Jet) {
         HJetInfo *JetInfo = new HJetInfo();
         if ((*Jet).has_user_info<HJetInfo>()) *JetInfo = (*Jet).user_info<HJetInfo>();

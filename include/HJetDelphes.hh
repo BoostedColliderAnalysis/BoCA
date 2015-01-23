@@ -66,7 +66,7 @@ private:
      *
      * @return void
      */
-    void GetTau(const delphes::Jet *const);
+    void TauTag(const delphes::Jet *const);
 
     /**
      * @brief Get Gen Jet
@@ -122,7 +122,7 @@ private:
         return Isolated;
     }
 
-    void GetDelphesTags(const delphes::Jet *const);
+    void DelphesTags(const delphes::Jet *const);
 
     void GetTrackEFlow(const HJetDetails);
 
@@ -134,9 +134,9 @@ private:
 
     fastjet::PseudoJet StructuredJet(const delphes::Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
 
-    std::vector< HConstituent > GetConstituents(TObject* Object, hanalysis::HFourVector::HJetDetails JetDetails);
+    fastjet::PseudoJet GetConstituents(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails);
 
-    fastjet::PseudoJet GetConstituentJet(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails);
+//     fastjet::PseudoJet ConstituentJet(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";

@@ -3,6 +3,9 @@
 
 # include "HGlobal.hh"
 
+
+
+
 /**
  * @brief general base class for HAnalysis
  *
@@ -23,6 +26,9 @@ public:
      *
      */
     virtual ~HObject();
+
+
+
 
     /**
      * @brief Print a debug message

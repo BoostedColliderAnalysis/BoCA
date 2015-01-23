@@ -1,10 +1,13 @@
 # include "HObject.hh"
 
+
+
+
 hanalysis::HObject::HObject()
 {
 
-    DebugLevel = HNotification;
-//     DebugLevel = HInformation;
+//     DebugLevel = HNotification;
+    DebugLevel = HInformation;
 //     DebugLevel = HError;
 //     DebugLevel = HDebug;
 

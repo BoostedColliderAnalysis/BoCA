@@ -1,5 +1,41 @@
 #include "HAnalysisHeavyHiggsMva.hh"
 
+#include "fastjet/LimitedWarning.hh"
+
+
+// #include <stdio.h>
+// #include <execinfo.h>
+// #include <signal.h>
+// #include <stdlib.h>
+// #include <unistd.h>
+
+
+// void handler(int sig) {
+//   void *array[10];
+//   size_t size;
+//
+//   // get void*'s for all entries on the stack
+//   size = backtrace(array, 10);
+//
+//   // print out all the frames to stderr
+//   fprintf(stderr, "Error: signal %d:\n", sig);
+//   backtrace_symbols_fd(array, size, STDERR_FILENO);
+//   exit(1);
+// }
+//
+// void handler2() {
+//   void *array[10];
+//   size_t size;
+//
+//   // get void*'s for all entries on the stack
+//   size = backtrace(array, 10);
+//
+//   // print out all the frames to stderr
+//   fprintf(stderr, "Error: signal %d:\n");
+//   backtrace_symbols_fd(array, size, STDERR_FILENO);
+//   exit(1);
+// }
+
 
 void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 {
@@ -99,6 +135,15 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 
 int main()
 {
+    /// controls whether the error message (and the backtrace, if its printing is enabled)
+    /// is printed out or not
+    fastjet::Error::set_print_errors(true);
+    /// controls whether the backtrace is printed out with the error message or not.
+    /// The default is "false".
+    fastjet::Error::set_print_backtrace(true);
+
+//   signal(SIGSEGV, handler);   // install our handler
+//   signal(fastjet::PseudoJet::InexistentUserInfo(), handler2);   // install our handler
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
     RunTagger(hanalysis::HAnalysis::HBottomReader);
@@ -137,6 +182,10 @@ int main()
 // //     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
 //
 // //     RunTagger(hanalysis::HAnalysis::HChargedHiggsSemiTagger);
+
+    std::cout << fastjet::LimitedWarning::summary() << std::endl;
+
+
 
     return 0;
 

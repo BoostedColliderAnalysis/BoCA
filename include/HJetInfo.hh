@@ -15,15 +15,24 @@ public:
 
     HConstituent() {};
 
-    HConstituent(const TLorentzVector &NewMomentum,const TLorentzVector NewPosition,const hanalysis::HFamily& NewFamily) {
+    HConstituent(const TLorentzVector &NewMomentum,const TLorentzVector &NewPosition,const hanalysis::HFamily& NewFamily) {
         MomentumM = NewMomentum;
         PositionM = NewPosition;
         FamilyM = NewFamily;
     }
 
+    HConstituent(const TLorentzVector &NewMomentum,const TLorentzVector &NewPosition) {
+      MomentumM = NewMomentum;
+      PositionM = NewPosition;
+    }
+
     HConstituent(const TLorentzVector &NewMomentum,const hanalysis::HFamily& NewFamily) {
         MomentumM = NewMomentum;
         FamilyM = NewFamily;
+    }
+
+    HConstituent(const TLorentzVector &NewMomentum) {
+      MomentumM = NewMomentum;
     }
 
     void SetPosition(const TLorentzVector &NewPosition) {
@@ -160,15 +169,23 @@ public:
 
     void ExtractFraction(const int ParticleId);
 
+    void ExtractAbsFraction(const int ParticleId);
+
     void ExtractFraction(const int ParticleId, const int MotherId);
 
     void PrintAllInfos(const hanalysis::HObject::HSeverity Severity) const;
 
     float MaximalFraction() const;
 
+//     float MaximalAbsFraction() const;
+
     float Fraction(const int ParticleId) const;
 
+//     float AbsFraction(const int ParticleId) const;
+
     int MaximalId() const;
+
+//     int MaximalAbsId() const;
 
 protected:
 

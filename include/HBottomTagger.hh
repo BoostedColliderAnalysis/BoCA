@@ -46,8 +46,10 @@ protected:
 
 private:
 
-    void DefineVariables();
+  void DefineVariables();
+  HJets GetSubBdt(HJets& Jets, const hanalysis::HReader*const BottomReader, const int SubJetNumber);
 
+  HJets GetJetBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 

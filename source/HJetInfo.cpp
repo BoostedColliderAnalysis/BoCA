@@ -106,6 +106,14 @@ float hanalysis::HJetInfo::Fraction(const int ParticleId) const
     return (IdFractions.at(ParticleId) / GetWeightSum());
 }
 
+// float hanalysis::HJetInfo::AbsFraction(const int ParticleId) const
+// {
+//   Print(HInformation, "Get Fraction", ParticleId);
+//   if (!IdFractions.count(std::abs(ParticleId))) return 0;
+//   if (GetWeightSum() == 0)   return 0;
+//   return (IdFractions.at(std::abs(ParticleId)) / GetWeightSum());
+// }
+
 void hanalysis::HJetInfo::ExtractFraction(const int ParticleId)
 {
     Print(HInformation, "Extract Fraction", ParticleId);
@@ -118,6 +126,18 @@ void hanalysis::HJetInfo::ExtractFraction(const int ParticleId)
 
         else AddParticle((*Pair).first.ParticleId, (*Pair).second);
     }
+}
+
+void hanalysis::HJetInfo::ExtractAbsFraction(const int ParticleId)
+{
+  Print(HInformation, "Extract Fraction", ParticleId);
+  ExtractFamilyFraction();
+  for (std::unordered_map<HFamily, float>::const_iterator Pair = FamilyFractions.begin(); Pair != FamilyFractions.end(); ++Pair) {
+
+    if (std::abs((*Pair).first.ParticleId) == ParticleId || std::abs((*Pair).first.Mother1Id) == ParticleId) AddParticle(ParticleId, (*Pair).second);
+
+    else AddParticle((*Pair).first.ParticleId, (*Pair).second);
+  }
 }
 
 void hanalysis::HJetInfo::ExtractFraction(const int ParticleId, const int MotherId)
@@ -152,6 +172,17 @@ float hanalysis::HJetInfo::MaximalFraction() const
     }
 }
 
+// float hanalysis::HJetInfo::MaximalAbsFraction() const
+// {
+//   Print(HInformation, "Get Maximal Fraction");
+//   std::pair<int, float> MaximalWeight = *std::max_element(IdFractions.begin(), IdFractions.end(), SortAbsPairs());
+//   if (GetWeightSum() == 0) {
+//     return 0;
+//   } else {
+//     return (MaximalWeight.second / GetWeightSum());
+//   }
+// }
+
 // bool hanalysis::HJetInfo::HasParticle(const int ParticleId) const
 // {
 //     Print(HInformation, "Has Particle", ParticleId);
@@ -165,6 +196,20 @@ int hanalysis::HJetInfo::MaximalId() const
     std::pair<int, float> Max = *std::max_element(IdFractions.begin(), IdFractions.end(), SortPairs());
     return Max.first;
 }
+
+// struct SortAbsPairs {
+//   inline bool operator()(const std::pair<int, float> &Pair1,const std::pair<int, float> &Pair2) {
+//     return (std::abs(Pair1.second) < std::abs(Pair2.second));
+//   }
+// };
+//
+//
+// int hanalysis::HJetInfo::MaximalAbsId() const
+// {
+//   Print(HDebug, "Get Maximal Id");
+//   std::pair<int, float> Max = *std::max_element(IdFractions.begin(), IdFractions.end(), SortAbsPairs());
+//   return Max.first;
+// }
 
 // void hanalysis::HJetInfo::Clear()
 // {
@@ -289,7 +334,7 @@ std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const
 {
     Print(HDebug, "Apply Vertex Resolution");
     std::vector <HConstituent > RealVertices;
-    Print(HError,"Vertex Number",ConstituentsM.size());
+    Print(HDebug,"Vertex Number",ConstituentsM.size());
     if (ConstituentsM.size() == 0) return RealVertices;
     for (std::vector <HConstituent >::const_iterator Constituent = ConstituentsM.begin(); Constituent != ConstituentsM.end(); ++Constituent) {
 //         Print(HError,"dist",(*Constituent).Position().Vect().Mag());
@@ -298,7 +343,7 @@ std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const
             RealVertices.push_back(*Constituent);
         }
     }
-    Print(HError,"Real Vertex Number",RealVertices.size());
+    Print(HDebug,"Real Vertex Number",RealVertices.size());
     return RealVertices;
 }
 
