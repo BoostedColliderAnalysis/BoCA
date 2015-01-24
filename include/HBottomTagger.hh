@@ -27,17 +27,19 @@ public:
 
     HJets CleanJets(const HJets &Jets, const HTag Tag);
 
-    HJets GetSubJets(const HJets &Jets, const int SubJetNumber, const HTag Tag);
+    HJets GetSubJets(const HJets &Jets, const HTag Tag, const int SubJetNumber);
 
 
 //     HJets GetTruthJets(hanalysis::HEvent*const Event, const hanalysis::HReader*const BottomReader);
 
 //     HJets GetTruthBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
-    HJets GetBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
-    HJets GetBdt2(HJets& Jets, const hanalysis::HReader*const BottomReader);
+    HJets GetBdt(HJets &Jets, const hanalysis::HReader *const BottomReader);
+//     HJets GetBdt2(HJets& Jets, const hanalysis::HReader*const BottomReader);
 
     void FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet);
+
+    hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
 protected:
 
     virtual inline std::string ClassName() const {
@@ -46,16 +48,14 @@ protected:
 
 private:
 
-  void DefineVariables();
-  HJets GetSubBdt(HJets& Jets, const hanalysis::HReader*const BottomReader, const int SubJetNumber);
+    void DefineVariables();
+    HJets GetSubBdt(HJets &Jets, const hanalysis::HReader *const BottomReader, const int SubJetNumber);
 
-  HJets GetJetBdt(HJets& Jets, const hanalysis::HReader*const BottomReader);
+    HJets GetJetBdt(HJets &Jets, const hanalysis::HReader *const BottomReader);
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
-
-    hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
 //     hanalysis::HObject::HTag GetTag(const HJetInfo &JetInfo) const;
 
     HBottomBranch *Branch;

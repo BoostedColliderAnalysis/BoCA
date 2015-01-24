@@ -23,14 +23,8 @@ public:
     ~HSextet();
 
     HTriplet Triplet1()const;
-//     {
-//         return Triplet1;
-//     }
 
     HTriplet Triplet2()const;
-//     {
-//         return Triplet2;
-//     }
 
     inline fastjet::PseudoJet Triplet1Jet()const {
         return Triplet1().Jet();

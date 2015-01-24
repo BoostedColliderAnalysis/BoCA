@@ -22,7 +22,7 @@ public:
 
     void FillBranch(const hanalysis::HTriplet &Triple);
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader *const Reader);
 
 //     std::vector<HTriplet> GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
 
@@ -42,7 +42,7 @@ private:
 
     HTag GetTag(const HTriplet &Triplet) const;
 
-    HTag GetTag(const fastjet::PseudoJet &Singlet) const;
+//     HTag GetTag(const fastjet::PseudoJet &Singlet) const;
 
     HJets GetNeutrinos(const hanalysis::HTriplet &Triplet)const;
 

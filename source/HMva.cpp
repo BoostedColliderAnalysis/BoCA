@@ -8,6 +8,7 @@ hanalysis::HMva::HMva()
     Cut = "";
     WeightBranchName = "Info";
     MaxCombi = 4;
+    MinCellResolution = .1;
 }
 
 hanalysis::HMva::~HMva()

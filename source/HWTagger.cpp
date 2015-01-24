@@ -41,10 +41,10 @@ void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Do
     WBranch->Phi = Doublet.Jet().phi();
     WBranch->Pt = Doublet.Jet().pt();
     WBranch->Ht = Doublet.Ht();
-    WBranch->DeltaPt = Doublet.DeltaPt();
+    WBranch->DeltaPt = std::abs(Doublet.DeltaPt());
     WBranch->DeltaR = Doublet.DeltaR();
-    WBranch->DeltaRap = Doublet.DeltaRap();
-    WBranch->DeltaPhi = Doublet.DeltaPhi();
+    WBranch->DeltaRap = std::abs(Doublet.DeltaRap());
+    WBranch->DeltaPhi = std::abs(Doublet.DeltaPhi());
     WBranch->Bdt = Doublet.Bdt();
     WBranch->Tag = Doublet.Tag();
 
@@ -80,11 +80,12 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
 
     JetTag->HeavyParticles = {WId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    Print(HInformation, "Jets Number", Jets.size());
 
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
-//     Print(HError, "We are here 2");
+    Print(HInformation, "Bottom Tagger Number", Jets.size());
 
-    for (const auto & Jet : Jets) if (!Jet.has_user_info()) Print(HError, "No user info from B");
+    for (const auto & Jet : Jets) static_cast<hanalysis::HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractFraction(WId);
 
     std::vector<HDoublet> Doublets;
 
@@ -100,34 +101,21 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
 
     // choose single jets
     for (const auto & Jet : Jets) {
-      if (!Jet.has_user_info<HJetInfo>()) {
-        Print(HError, "Jet without Jet Info");
-        continue;
-      }
-        HTag Jettag = GetTag(Jet);
-        if (Jettag != Tag) continue;
+        if (!Jet.has_user_info<HJetInfo>()) {
+            Print(HError, "Jet without Jet Info");
+            continue;
+        }
+        static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetTag(GetTag(Jet));
+        if (Jet.user_info<HJetInfo>().Tag() != Tag) continue;
         if (Tag == HSignal && std::abs(Jet.m() - WMass) > WMassWindow) continue;
         HDoublet Doublet(Jet);
         Doublets.push_back(Doublet);
     }
 
-//     Print(HError, "SubJets");
-
-    // combine subjets
-    std::vector<HDoublet> Doublets2 = GetSubJets(Jets, 2, Tag);
-    Doublets.insert(Doublets.end(), Doublets2.begin(), Doublets2.end());
-
-    std::vector<HDoublet> Doublets3 = GetSubJets(Jets, 3, Tag);
-    Doublets.insert(Doublets.end(), Doublets3.begin(), Doublets3.end());
-
-
-
-
-    Print(HError, "Number of Jet Pairs", Doublets.size());
-    if (Tag == HSignal && Doublets.size() > 1) { // FIXME assuming maximal one hadronic W
+    if (Tag == HSignal && Doublets.size() > 1) {
         Print(HInformation, "Number of Jet Pairs", Doublets.size());
         std::sort(Doublets.begin(), Doublets.end(), SortByMass<HDoublet>(WMass));
-        Doublets.erase(Doublets.begin() + 1, Doublets.end());
+        Doublets.erase(Doublets.begin() + 1, Doublets.end()); // FIXME assuming maximal one hadronic W
     }
 
     std::vector<HWBranch *> WBranches;
@@ -141,93 +129,14 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
 
 }
 
-std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetSubJets(const HJets &Jets, const int SubJetNumber, const HTag Tag)
-{
-
-    Print(HInformation, "Get Sub Jets");
-    std::vector<HDoublet> Doublets;
-
-    for (const auto & Jet : Jets) {
-        if (!Jet.has_pieces()) {
-            Print(HError, "pieceless jet");
-            continue;
-        }
-        if (!Jet.has_user_info<HJetInfo>()) {
-          Print(HError, "Piece without Jet Info");
-          continue;
-        }
-
-        fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, JetRadiusParameter);
-        fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
-        HJets Pieces = ClusterSequence.exclusive_jets_up_to(SubJetNumber);
-
-        for (auto & Piece : Pieces) {
-          if (!Piece.has_user_info<HJetInfo>()) {
-            Print(HError, "Piece without Jet Info");
-            continue;
-          }
-            std::vector<HConstituent> Constituents;
-            for (const auto & PieceConstituent : Piece.constituents()) {
-              if (!PieceConstituent.has_user_info<HJetInfo>()) {
-                Print(HError, "Piece without Jet Info");
-                continue;
-              }
-                std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
-                Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
-            }
-            hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(Constituents);
-            Piece.set_user_info(JetInfo);
-        }
-        Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
-
-        // Take piece pair
-        for (auto Piece1 = Pieces.begin(); Piece1 != Pieces.end(); ++Piece1)
-            for (auto Piece2 = Piece1 + 1; Piece2 != Pieces.end(); ++Piece2) {
-                HDoublet Doublet((*Piece1), (*Piece2));
-                Doublet.SetTag(GetTag(Doublet));
-                if (Doublet.Tag() != Tag) continue;
-                if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-                Doublets.push_back(Doublet);
-            }
-
-        // Take single piece
-        for (const auto & Piece : Pieces) {
-          if (!Piece.has_user_info<HJetInfo>()) {
-            Print(HError, "Piece without Jet Info");
-            continue;
-          }
-//                Print(HError, "we are here");
-               HTag PieceTag = GetTag(Piece);
-//                Print(HError, "got tag",PieceTag,Tag);
-               if (PieceTag != Tag) continue;
-//                Print(HError, "We Here");
-            if (Tag == HSignal && std::abs(Piece.m() - WMass) > WMassWindow) continue;
-//             Print(HError, "WE ARe Here");
-            HDoublet Doublet(Piece);
-            Doublets.push_back(Doublet);
-        }
-    }
-
-//     Print(HError, "Done");
-    return Doublets;
-}
-
 
 hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
 {
     Print(HInformation, "Get Doublet Tag");
 
-    HJetInfo JetInfo1 = Doublet.Singlet1().user_info<HJetInfo>();
-    JetInfo1.ExtractFraction(WId);
-    JetInfo1.PrintAllInfos(HDebug);
-//     if (JetInfo1.MaximalFraction() < .8) return HBackground;
-    if (std::abs(JetInfo1.MaximalId()) != WId) return HBackground;
+    if (std::abs(Doublet.Singlet1().user_info<HJetInfo>().MaximalId()) != WId) return HBackground;
 
-    HJetInfo JetInfo2 = Doublet.Singlet2().user_info<HJetInfo>();
-    JetInfo2.ExtractFraction(WId);
-    JetInfo2.PrintAllInfos(HDebug);
-//     if (JetInfo2.MaximalFraction() < .8) return HBackground;
-    if (JetInfo1.MaximalId() != JetInfo2.MaximalId()) return HBackground;
+    if (Doublet.Singlet1().user_info<HJetInfo>().MaximalId() != Doublet.Singlet2().user_info<HJetInfo>().MaximalId()) return HBackground;
 
     return HSignal;
 }
@@ -236,10 +145,7 @@ hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const fastjet::PseudoJet &S
 {
     Print(HInformation, "Get Singlet Tag");
 
-    HJetInfo JetInfo1 = Singlet.user_info<HJetInfo>();
-    JetInfo1.ExtractFraction(WId);
-
-    if (std::abs(JetInfo1.MaximalId()) != WId) return HBackground;
+    if (std::abs(Singlet.user_info<HJetInfo>().MaximalId()) != WId) return HBackground;
     return HSignal;
 }
 
@@ -249,23 +155,21 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets,
     Print(HInformation, "Get Doublet Bdt");
 
     std::vector<HDoublet>  Doublets;
-    for (auto Jet1 = Jets.begin(), JetsEnd = Jets.end(); Jet1 != JetsEnd; ++Jet1)
-        for (auto Jet2 = Jet1 + 1; Jet2 != JetsEnd; ++Jet2) {
+    for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
+        for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
             HDoublet Doublet(*Jet1, *Jet2);
+            if (Doublet.DeltaR() < MinCellResolution) continue;
+            if (std::abs(Doublet.Jet().rap()) > 100) continue;
+            if (std::abs(Doublet.Jet().m()) < 10) continue;
             FillBranch(Doublet);
             Doublet.SetBdt(WReader->Bdt());
             Doublets.push_back(Doublet);
         }
 
-    // combine subjets
-    std::vector<HDoublet> Doublets2 = GetSubBdt(Jets, 2, WReader);
-    Doublets.insert(Doublets.end(), Doublets2.begin(), Doublets2.end());
-
-    std::vector<HDoublet> Doublets3 = GetSubBdt(Jets, 3, WReader);
-    Doublets.insert(Doublets.end(), Doublets3.begin(), Doublets3.end());
-
     for (auto & Jet : Jets) {
         HDoublet Doublet(Jet);
+        if (std::abs(Doublet.Jet().rap()) > 100) continue;
+        if (std::abs(Doublet.Jet().m()) < 10) continue;
         FillBranch(Doublet);
         Doublet.SetBdt(WReader->Bdt());
         Doublets.push_back(Doublet);
@@ -275,53 +179,6 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets,
     Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
     return Doublets;
 }
-
-
-
-std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetSubBdt(const HJets Jets, const int SubJetNumber, const hanalysis::HReader *const WReader)
-{
-
-    std::vector<HDoublet> Doublets;
-
-    for (auto & Jet : Jets) {
-        if (!Jet.has_pieces()) continue;
-
-        fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, JetRadiusParameter);
-        fastjet::ClusterSequence ClusterSequence(Jet.pieces(), JetDefinition);
-        std::vector<fastjet::PseudoJet> Pieces = ClusterSequence.exclusive_jets_up_to(SubJetNumber);
-
-        for (auto & Piece : Pieces) {
-
-            hanalysis::HJetInfo JetInfo = Jet.user_info<HJetInfo>();
-//             hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-//             JetInfo->SetBTag(Jet.user_info<HJetInfo>().GetBTag());
-//             JetInfo->SetVertices(Jet.user_info<HJetInfo>().GetVertices());
-//             JetInfo->SetJetFamily(Jet.user_info<HJetInfo>().GetJetFamily());
-            Piece.set_user_info(&JetInfo);
-        }
-        Pieces = BottomTagger->GetBdt(Pieces, BottomReader);
-
-        for (auto Piece1 = Pieces.begin(); Piece1 != Pieces.end(); ++Piece1)
-            for (auto Piece2 = Piece1 + 1; Piece2 != Pieces.end(); ++Piece2) {
-                HDoublet Doublet((*Piece1), (*Piece2));
-                FillBranch(Doublet);
-                Doublet.SetBdt(WReader->Bdt());
-                Doublets.push_back(Doublet);
-            }
-
-        for (auto & Piece : Pieces) {
-            HDoublet Doublet(Piece);
-            FillBranch(Doublet);
-            Doublet.SetBdt(WReader->Bdt());
-            Doublets.push_back(Doublet);
-        }
-
-    }
-
-    return Doublets;
-}
-
-
 
 std::vector<HParticleBranch *> hanalysis::HWTagger::GetConstituentBranches()
 {

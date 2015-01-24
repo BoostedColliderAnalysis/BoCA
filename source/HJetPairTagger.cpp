@@ -119,6 +119,8 @@ std::vector<HEventJetPairBranch *> hanalysis::HJetPairTagger::GetBranches(hanaly
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
 
+    for (const auto Jet : Jets) static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractFraction(BottomId);
+
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
@@ -152,19 +154,10 @@ hanalysis::HObject::HTag hanalysis::HJetPairTagger::GetTag(const HDoublet &Doubl
 {
     Print(HInformation, "Get Doublet Tag");
 
-    HJetInfo JetInfo1 = Doublet.Singlet1().user_info<HJetInfo>();
-//     JetInfo1.PrintAllFamilyInfos(HError);
-    JetInfo1.ExtractFraction(BottomId);
-//     JetInfo1.PrintAllInfos(HError);
-    HJetInfo JetInfo2 = Doublet.Singlet2().user_info<HJetInfo>();
-//     JetInfo2.PrintAllFamilyInfos(HError);
-    JetInfo2.ExtractFraction(BottomId);
-//     JetInfo2.PrintAllInfos(HError);
+    if (std::abs(Doublet.Singlet1().user_info<HJetInfo>().MaximalId()) != BottomId) return HBackground;
 
-    Print(HDebug, "Pair is", JetInfo1.MaximalId(), JetInfo2.MaximalId(), Doublet.Singlet1().pt(), Doublet.Singlet2().pt());
+    if (Doublet.Singlet1().user_info<HJetInfo>().MaximalId() != -Doublet.Singlet2().user_info<HJetInfo>().MaximalId()) return HBackground;
 
-    if (std::abs(JetInfo1.MaximalId()) != BottomId) return HBackground;
-    if (JetInfo1.MaximalId() != -JetInfo2.MaximalId()) return HBackground;
     return HSignal;
 }
 
@@ -175,9 +168,10 @@ std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets 
     std::vector<HDoublet>  Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
-          HDoublet Doublet;
-          if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
-          else Doublet.SetSinglets((*Jet2), (*Jet1));
+            HDoublet Doublet;
+            if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
+            else Doublet.SetSinglets((*Jet2), (*Jet1));
+            if (Doublet.DeltaRap() < .5)continue;
             FillBranch(Doublet);
             Doublet.SetBdt(JetPairReader->Bdt());
             Doublets.push_back(Doublet);

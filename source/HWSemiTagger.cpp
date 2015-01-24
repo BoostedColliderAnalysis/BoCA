@@ -66,6 +66,7 @@ void hanalysis::HWSemiTagger::FillBranch(HWSemiBranch *const WSemiBranch, const 
     WSemiBranch->DeltaRap = Doublet.DeltaRap();
     WSemiBranch->DeltaPhi = Doublet.DeltaPhi();
 
+    WSemiBranch->Bdt = Doublet.Bdt();
     WSemiBranch->Tag = Doublet.Tag();
 
 }
@@ -91,13 +92,11 @@ std::vector< HWSemiBranch * > hanalysis::HWSemiTagger::GetBranches(hanalysis::HE
         HDoublet PreDoublet(Lepton, MissingEt);
         PreDoublet.SetTag(GetTag(PreDoublet));
         if (PreDoublet.Tag() != Tag) continue;
-//         std::vector<HDoublet> PostDoublets = GetNeutrino(PreDoublet,Neutrinos);
-//         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         std::vector<HDoublet> PostDoublets = GetDoublets(PreDoublet, Neutrinos, Tag);
         for (const auto & PostDoublet : PostDoublets) {
             Print(HInformation, "W Mass ", PostDoublet.Jet().m());
             if (Tag == HSignal && std::abs(PostDoublet.Jet().m() - WMass) > WMassWindow) continue;
-                Doublets.push_back(PostDoublet);
+            Doublets.push_back(PostDoublet);
         }
     }
 
@@ -115,10 +114,9 @@ std::vector< HWSemiBranch * > hanalysis::HWSemiTagger::GetBranches(hanalysis::HE
 hanalysis::HObject::HTag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoublet &Doublet) const
 {
     Print(HInformation, "Get Triple Tag");
-    HJetInfo JetInfo = Doublet.Singlet1().user_info<HJetInfo>();
-    JetInfo.ExtractFraction(WId);
+    static_cast<HJetInfo *>(Doublet.Singlet1().user_info_shared_ptr().get())->ExtractFraction(WId);
 
-    if (std::abs(JetInfo.MaximalId()) != WId) return HBackground;
+    if (std::abs(Doublet.Singlet1().user_info<HJetInfo>().MaximalId()) != WId) return HBackground;
     return HSignal;
 }
 
@@ -131,6 +129,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &L
         HDoublet PreDoublet(Lepton, MissingEt);
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         for (auto & PostDoublet : PostDoublets) {
+            if (PostDoublet.Jet().m() < 10) continue;
             FillBranch(PostDoublet);
             PostDoublet.SetBdt(Reader->Bdt());
             Doublets.push_back(PostDoublet);
@@ -150,94 +149,32 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
     const fastjet::PseudoJet Lepton = Doublet.Singlet1();
     const fastjet::PseudoJet MissingEt = Doublet.Singlet2();
 
-    float Alpha = 1;
-    float Beta = 1;
-    float Correction = 0;
-    float LinearTerm = (std::pow(WMass + Correction, 2) - Lepton.m2()) / 2 + Alpha * MissingEt.px() * Lepton.px() + Beta * MissingEt.py() * Lepton.py();
+    float LinearTerm = (std::pow(WMass, 2) - Lepton.m2()) / 2 + MissingEt.px() * Lepton.px() + MissingEt.py() * Lepton.py();
 
     float LeptonSq = std::pow(Lepton.e(), 2) - std::pow(Lepton.pz(), 2);
-    float MetSq = std::pow(Alpha * MissingEt.px(), 2) + std::pow(Beta * MissingEt.py(), 2);
+    float MetSq = std::pow(MissingEt.px(), 2) + std::pow(MissingEt.py(), 2);
 
     double Radicand = std::pow(Lepton.pz(), 2) * (std::pow(LinearTerm, 2) -  LeptonSq * MetSq);
 
-//     Print(HError, "Randicand", Radicand,std::pow(LinearTerm, 2), MetSq, LeptonSq);
-//     Print(HError, "Randicand", MissingEt.py(),MissingEt.px());
-//     Print(HError, "Randicand", (std::pow(WMass + Correction, 2) - Lepton.m2()) / 2,LeptonSq);
-
-//     int Counter = 0;
-//     int Sign = 1;
-//     while (Radicand < 0 && Correction < 50) {
-//         LinearTerm = (std::pow(WMass + Correction, 2) - Lepton.m2()) / 2 + Alpha * MissingEt.px() * Lepton.px() + Beta * MissingEt.py() * Lepton.py();
-//         LeptonSq = std::pow(Lepton.e(), 2) - std::pow(Lepton.pz(), 2);
-//         MetSq = std::pow(Alpha * MissingEt.px(), 2) + std::pow(Beta * MissingEt.py(), 2);
-//         Radicand = std::pow(Lepton.pz(), 2) * (std::pow(LinearTerm, 2) -  LeptonSq * MetSq);
-// //         Print(HError, "Correction", Correction, Sign, Counter);
-// //         Print(HError, "W", LinearTerm, LeptonSq, MetSq, Radicand);
-//         ++Counter;
-//         Correction += float(Sign) * float(Counter);
-//         Sign *= -1;
-//     }
-
-//     while (Radicand < 0 && Alpha > 0.1) {
-//         while (Radicand < 0 && Beta > 0.1) {
-//             Alpha *= 0.9;
-//             Beta *= 0.9;
-//             LinearTerm = (std::pow(WMass, 2) - Lepton.m2()) / 2 + Alpha * MissingEt.px() * Lepton.px() + Beta * MissingEt.py() * Lepton.py();
-//             LeptonSq = std::pow(Lepton.e(), 2) - std::pow(Lepton.pz(), 2);
-//             MetSq = std::pow(Alpha * MissingEt.px(), 2) + std::pow(Beta * MissingEt.py(), 2);
-//             Radicand = std::pow(Lepton.pz(), 2) * (std::pow(LinearTerm, 2) -  LeptonSq * MetSq);
-//         }
-//     }
-//     while (Radicand < 0 && Alpha > 0.1) {
-//         while (Radicand < 0 && Beta < 5) {
-//             Alpha *= 0.9;
-//             Beta *= 1.1;
-//             LinearTerm = (std::pow(WMass, 2) - Lepton.m2()) / 2 + Alpha * MissingEt.px() * Lepton.px() + Beta * MissingEt.py() * Lepton.py();
-//             LeptonSq = std::pow(Lepton.e(), 2) - std::pow(Lepton.pz(), 2);
-//             MetSq = std::pow(Alpha * MissingEt.px(), 2) + std::pow(Beta * MissingEt.py(), 2);
-//             Radicand = std::pow(Lepton.pz(), 2) * (std::pow(LinearTerm, 2) -  LeptonSq * MetSq);
-//         }
-//     }
-//
-//     while (Radicand < 0 && Alpha > 0.1) {
-//         while (Radicand < 0 && Beta < 5) {
-//             Alpha *= 0.9;
-//             Beta *= 1.1;
-//             LinearTerm = (std::pow(WMass, 2) - Lepton.m2()) / 2 + Alpha * MissingEt.px() * Lepton.px() + Beta * MissingEt.py() * Lepton.py();
-//             LeptonSq = std::pow(Lepton.e(), 2) - std::pow(Lepton.pz(), 2);
-//             MetSq = std::pow(Alpha * MissingEt.px(), 2) + std::pow(Beta * MissingEt.py(), 2);
-//             Radicand = std::pow(Lepton.pz(), 2) * (std::pow(LinearTerm, 2) -  LeptonSq * MetSq);
-//         }
-//     }
-//
-//     while (Radicand < 0 && Alpha < 5) {
-//         while (Radicand < 0 && Beta < 5) {
-//             Alpha *= 1.1;
-//             Beta *= 1.1;
-//             LinearTerm = (std::pow(WMass, 2) - Lepton.m2()) / 2 + Alpha * MissingEt.px() * Lepton.px() + Beta * MissingEt.py() * Lepton.py();
-//             LeptonSq = std::pow(Lepton.e(), 2) - std::pow(Lepton.pz(), 2);
-//             MetSq = std::pow(Alpha * MissingEt.px(), 2) + std::pow(Beta * MissingEt.py(), 2);
-//             Radicand = std::pow(Lepton.pz(), 2) * (std::pow(LinearTerm, 2) -  LeptonSq * MetSq);
-//         }
-//     }
-
     std::vector<HDoublet> Doublets;
     if (Radicand < 0) {
-        // TODO implemement a way to deal with these solutions
         HDoublet FakeDoublet(Lepton);
         Doublets.push_back(FakeDoublet);
-//         Print(HError, "imaginary sqrt");
         return Doublets;
-//         Radicand = 0;
     }
+
+    if (Radicand == 0) {
+        Print(HError, "Radicant exactly zero", "implement this case!");
+    }
+
     const float Sqrt = std::sqrt(Radicand);
 
     const float Neutrino1E = (Lepton.e() * LinearTerm - Sqrt) / LeptonSq;
     const float Neutrino1Pz = (std::pow(Lepton.pz(), 2) * LinearTerm - Lepton.e() * Sqrt) / Lepton.pz() / LeptonSq;
     fastjet::PseudoJet Neutrino1(MissingEt.px(), MissingEt.py(), Neutrino1Pz, Neutrino1E);
-    HJetInfo *JetInfo1 = new HJetInfo();
+//     HJetInfo *JetInfo1 = new HJetInfo();
 //     JetInfo1->SetJetFamily(Lepton.user_info<HJetInfo>().GetJetFamily());
-    Neutrino1.set_user_info(JetInfo1);
+//     Neutrino1.set_user_info(JetInfo1);
     Print(HDebug, "Neutrnio 1", Neutrino1);
     HDoublet Doublet1(Lepton, Neutrino1);
     Doublet1.SetTag(Doublet.Tag());
@@ -245,13 +182,12 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
     const float Neutrino2E = (Lepton.e() * LinearTerm + Sqrt) / LeptonSq;
     const float Neutrino2Pz = (std::pow(Lepton.pz(), 2) * LinearTerm + Lepton.e() * Sqrt) / Lepton.pz() / LeptonSq;
     fastjet::PseudoJet Neutrino2(MissingEt.px(), MissingEt.py(), Neutrino2Pz, Neutrino2E);
-    HJetInfo *JetInfo2 = new HJetInfo();
+//     HJetInfo *JetInfo2 = new HJetInfo();
 //     JetInfo2->SetJetFamily(Lepton.user_info<HJetInfo>().GetJetFamily());
-    Neutrino2.set_user_info(JetInfo2);
+//     Neutrino2.set_user_info(JetInfo2);
     Print(HDebug, "Neutrnio 2", Neutrino2);
     HDoublet Doublet2(Lepton, Neutrino2);
     Doublet2.SetTag(Doublet.Tag());
-
 
     Doublets.push_back(Doublet1);
     Doublets.push_back(Doublet2);
@@ -265,7 +201,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetNeutrinos(const HDo
 
 
 struct SortByError {
-    SortByError(fastjet::PseudoJet NewNeutrino) {
+    SortByError(const fastjet::PseudoJet &NewNeutrino) {
         this->Neutrino = NewNeutrino;
     }
     bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
@@ -274,6 +210,17 @@ struct SortByError {
     fastjet::PseudoJet Neutrino;
 };
 
+struct FindError {
+    FindError(const fastjet::PseudoJet &NewNeutrino, const float NewError) {
+        this->Neutrino = NewNeutrino;
+        this->Error = NewError;
+    }
+    bool operator()(const hanalysis::HDoublet &Doublet) {
+        return ((Doublet.Singlet2() + Neutrino).m() == Error);
+    }
+    fastjet::PseudoJet Neutrino;
+    float Error;
+};
 
 std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const HTag Tag)
 {
@@ -281,8 +228,6 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDou
 
     std::vector<HDoublet> Doublets = GetNeutrinos(Doublet);
     Print(HDebug, "Number Solutions", Doublets.size());
-
-    if (Tag == HBackground) return Doublets;
     if (Doublets.size() < 1) return Doublets;
 
     float BestError = LargeNumber;
@@ -296,8 +241,18 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDou
         }
     }
 
-    std::vector<HDoublet> FinalDoublet;
-    FinalDoublet.push_back(BestDoublet);
+    std::vector<HDoublet> FinalDoublets;
+    switch (Tag) {
+    case HSignal:
+        FinalDoublets.push_back(BestDoublet);
+        return FinalDoublets;
+    case HBackground:
+        for (const auto Neutrino : Neutrinos) Doublets.erase(std::remove_if(Doublets.begin(), Doublets.end(), FindError(Neutrino, BestError)), Doublets.end());
+        return Doublets;
+    default:
+        Print(HError, "we should never end up here");
+        return Doublets;
+    }
 
-    return FinalDoublet;
+
 }

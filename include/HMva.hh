@@ -371,6 +371,8 @@ protected:
 
     int MaxCombi;
 
+    float MinCellResolution;
+
 //     HPairBranch *Branch;
 
 private:

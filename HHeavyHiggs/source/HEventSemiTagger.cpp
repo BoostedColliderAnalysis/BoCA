@@ -188,7 +188,7 @@ std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::Get
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
-    std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, MissingEt, TopSemiReader);
+    std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger->GetBdt(Jets, WReader);
     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger->GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
@@ -321,6 +321,42 @@ hanalysis::HObject::HTag hheavyhiggs::HEventSemiTagger::GetTag(const HOctet &Oct
 }
 
 
+// hanalysis::HObject::HTag hheavyhiggs::HEventSemiTagger::GetTag(const HOctet &Octet)
+// {
+//   Print(HInformation, "Get Sextet Tag");
+//
+//   hanalysis::HJetInfo JetInfoB1 = Octet.Sextet().Triplet1().Singlet().user_info<hanalysis::HJetInfo>();
+//   JetInfoB1.ExtractFraction(BottomId, TopId);
+//   if (std::abs(JetInfoB1.MaximalId()) != BottomId) return HBackground;
+//
+//   hanalysis::HJetInfo JetInfoL = Octet.Sextet().Triplet1().Doublet().Singlet1().user_info<hanalysis::HJetInfo>();
+//   JetInfoL.ExtractFraction(WId);
+//   if (std::abs(JetInfoL.MaximalId()) != WId) return HBackground;
+//   if (sgn(JetInfoL.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
+//
+//   hanalysis::HJetInfo JetInfoB2 = Octet.Sextet().Triplet2().Singlet().user_info<hanalysis::HJetInfo>();
+//   JetInfoB2.ExtractFraction(BottomId, TopId);
+//   if (JetInfoB1.MaximalId() != -JetInfoB2.MaximalId()) return HBackground;
+//
+//   hanalysis::HJetInfo JetInfoW1 = Octet.Sextet().Triplet2().Doublet().Singlet1().user_info<hanalysis::HJetInfo>();
+//   JetInfoW1.ExtractFraction(WId, TopId);
+//   if (std::abs(JetInfoW1.MaximalId()) != WId) return HBackground;
+//   if (sgn(JetInfoW1.MaximalId()) != sgn(JetInfoB2.MaximalId())) return HBackground;
+//
+//   hanalysis::HJetInfo JetInfoW2 = Octet.Sextet().Triplet2().Doublet().Singlet2().user_info<hanalysis::HJetInfo>();
+//   JetInfoW2.ExtractFraction(WId, TopId);
+//   if (JetInfoW1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
+//
+//   hanalysis::HJetInfo JetInfoB3 = Octet.Doublet().Singlet1().user_info<hanalysis::HJetInfo>();
+//   JetInfoB3.ExtractFraction(BottomId, GluonId);
+//   if (std::abs(JetInfoB3.MaximalId()) != BottomId) return HBackground;
+//
+//   hanalysis::HJetInfo JetInfoB4 = Octet.Doublet().Singlet2().user_info<hanalysis::HJetInfo>();
+//   JetInfoB4.ExtractFraction(BottomId, GluonId);
+//   if (JetInfoB3.MaximalId() != -JetInfoB4.MaximalId()) return HBackground;
+//
+//   return HSignal;
+// }
 
 
 std::vector<HOctet> hheavyhiggs::HEventSemiTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector<fastjet::PseudoJet> &Jets, HEventStruct &EventStruct, const hanalysis::HReader *const EventSemiReader)

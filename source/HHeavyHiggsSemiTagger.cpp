@@ -34,8 +34,8 @@ hanalysis::HHeavyHiggsSemiTagger::~HHeavyHiggsSemiTagger()
     Print(HNotification, "Destructor");
     delete Branch;
     delete JetTag;
-//     delete BottomReader;
-//     delete WReader;
+    delete BottomReader;
+    delete WReader;
     delete WSemiReader;
     delete TopHadronicReader;
     delete TopSemiReader;
@@ -91,24 +91,6 @@ void hanalysis::HHeavyHiggsSemiTagger::FillBranch(const hanalysis::HSextet &Sext
     FillBranch(Branch, Sextet);
 }
 
-
-// struct SortSextetByMass {
-//     inline bool operator()(const hanalysis::HSextet &Sextet1, const hanalysis::HSextet &Sextet2) {
-//         return (Sextet1.GetSextetJet().m() > Sextet2.GetSextetJet().m());
-//     }
-// };
-
-// struct SortSextetByMass {
-//     SortSextetByMass(float NewMass) {
-//         this->Mass = NewMass;
-//     }
-//     inline bool operator()(const hanalysis::HSextet &Sextet1, const hanalysis::HSextet &Sextet2) {
-//         if (Sextet1.Jet().m() != Sextet2.Jet().m()) return std::abs(Sextet1.Jet().m() - Mass) < std::abs(Sextet2.Jet().m() - Mass);
-//         else return Sextet1.Bdt() > Sextet2.Bdt();
-//     }
-//     float Mass;
-// };
-
 std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
@@ -123,7 +105,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
     std::vector<HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
-    std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, MissingEt, TopSemiReader);
+    std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
     std::vector<HDoublet> DoubletsHadronic = TopHadronicTagger->WTagger->GetBdt(Jets, TopHadronicTagger->WReader);
@@ -137,7 +119,7 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
             if (TripletSemi.Singlet() == TripletHadronic.Singlet()) continue;
             if (TripletSemi.Singlet() == TripletHadronic.Doublet().Singlet1()) continue;
             if (TripletSemi.Singlet() == TripletHadronic.Doublet().Singlet2()) continue;
-            if (Tag == HSignal && TripletSemi.DeltaR() > 1.5) continue;
+//             if (Tag == HSignal && TripletSemi.DeltaR() > 1.5) continue;
             HSextet Sextet(TripletSemi, TripletHadronic);
             Sextet.SetTag(GetTag(Sextet));
             if (Sextet.Tag() != Tag) continue;
@@ -145,15 +127,13 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
             Sextets.push_back(Sextet);
         }
 
-    Print(HInformation, "Number of Heavy Higgses", Sextets.size());
+//     Print(HInformation, "Number of Heavy Higgses", Sextets.size());
 
     if (Tag == HSignal && Sextets.size() > 1) {
-        Print(HNotification, "Higgs Candidates", Sextets.size());
+        Print(HInformation, "Higgs Candidates", Sextets.size());
         std::sort(Sextets.begin(), Sextets.end(), SortByMass<HSextet>(Mass));
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
-
-//     for (const auto & Sextet : Sextets) Print(HError, "Sextet Mass", Sextet.GetSextetJet().m(), Sextet.Triplet1().Bdt(), Sextet.Triplet2().Bdt());
 
     std::vector<HHeavyHiggsSemiBranch *> HeavyHiggsBranches;
     for (const auto & Sextet : Sextets) {
@@ -166,20 +146,9 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
 }
 
 
-hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet &Sextet, const float Mass)
-{
-    Print(HInformation, "Get Sextet Tag");
-
-    if (std::abs(Sextet.Jet().m() - Mass) > Mass / 2) return HBackground;
-    if (Sextet.DeltaR() < 4) return HBackground;
-
-    return HSignal;
-}
-
-
 hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet &Sextet)
 {
-    Print(HInformation, "Get Sextet Tag");
+    Print(HInformation, "Get boosted Sextet Tag");
 
     HJetInfo JetInfoB1 = Sextet.Triplet1().Singlet().user_info<HJetInfo>();
     JetInfoB1.ExtractFraction(TopId);

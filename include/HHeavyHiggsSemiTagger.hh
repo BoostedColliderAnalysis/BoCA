@@ -53,7 +53,7 @@ private:
 
     void DefineVariables();
 
-    HTag GetTag(const HSextet &Sextet, const float Mass);
+//     HTag GetTag(const HSextet &Sextet, const float Mass);
 
     HTag GetTag(const HSextet &Sextet);
 

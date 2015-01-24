@@ -1,23 +1,24 @@
 # include "HDoublet.hh"
 # include "HTagPrivate.hh"
 
-class hanalysis::HDoubletPrivate : public HTagPrivate {
+class hanalysis::HDoubletPrivate : public HTagPrivate
+{
 
 public:
 
-  HDoubletPrivate() {}
+    HDoubletPrivate() {}
 
-  void SetSinglet1(const fastjet::PseudoJet &NewSinglet);
+    void SetSinglet1(const fastjet::PseudoJet &NewSinglet);
 
-  void SetSinglet2(const fastjet::PseudoJet &NewSinglet);
+    void SetSinglet2(const fastjet::PseudoJet &NewSinglet);
 
-  std::vector< HKinematics > Constituents(const fastjet::PseudoJet& NewJet, const float JetRatio, const float Theta, const float Shift) const;
+    std::vector< HKinematics > Constituents(const fastjet::PseudoJet &NewJet, const float JetRatio, const float Theta, const float Shift) const;
 
-  float ReferenceAngle(const fastjet::PseudoJet& NewJet, const fastjet::PseudoJet& ReferenceJet) const;
+    float ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const;
 
-  float Pull(const fastjet::PseudoJet &Jet) const;
+    float Pull(const fastjet::PseudoJet &Jet) const;
 
-  //   HDoublet(HDoubletPrivate &NewDoubletPrivate);
+    //   HDoublet(HDoubletPrivate &NewDoubletPrivate);
 
     fastjet::PseudoJet Singlet1;
 
@@ -31,7 +32,7 @@ hanalysis::HDoublet::HDoublet() : hanalysis::HTag(*new HDoubletPrivate)
 }
 
 
-hanalysis::HDoublet::HDoublet(HDoubletPrivate& NewDoubletPrivate) : HTag(NewDoubletPrivate)
+hanalysis::HDoublet::HDoublet(HDoubletPrivate &NewDoubletPrivate) : HTag(NewDoubletPrivate)
 {
     Print(HInformation, "Constructor");
 }
@@ -39,7 +40,7 @@ hanalysis::HDoublet::HDoublet(HDoubletPrivate& NewDoubletPrivate) : HTag(NewDoub
 hanalysis::HDoublet::HDoublet(const fastjet::PseudoJet &NewSinglet1, const fastjet::PseudoJet &NewSinglet2) : hanalysis::HTag(* new HDoubletPrivate)
 {
     Print(HInformation, "Constructor");
-    SetSinglets(NewSinglet1,NewSinglet2);
+    SetSinglets(NewSinglet1, NewSinglet2);
 }
 
 hanalysis::HDoublet::HDoublet(const fastjet::PseudoJet &NewSinglet) : HTag(* new HDoubletPrivate)
@@ -54,11 +55,13 @@ hanalysis::HDoublet::~HDoublet()
 //     delete Doublet;
 }
 
-fastjet::PseudoJet hanalysis::HDoublet::Singlet1()const {
+fastjet::PseudoJet hanalysis::HDoublet::Singlet1()const
+{
     return static_cast<HDoubletPrivate *>(TagPrivate)->Singlet1;
 }
 
-fastjet::PseudoJet hanalysis::HDoublet::Singlet2()const {
+fastjet::PseudoJet hanalysis::HDoublet::Singlet2()const
+{
     return static_cast<HDoubletPrivate *>(TagPrivate)->Singlet2;
 }
 
@@ -67,17 +70,19 @@ fastjet::PseudoJet hanalysis::HDoublet::Singlet2()const {
 //   d->text = text;
 // }
 
-void hanalysis::HDoubletPrivate::SetSinglet1(const fastjet::PseudoJet& NewSinglet) {
+void hanalysis::HDoubletPrivate::SetSinglet1(const fastjet::PseudoJet &NewSinglet)
+{
 //     static_cast<HDoubletPrivate *>(TagPrivate)->
     Singlet1 = NewSinglet;
 }
 
-void hanalysis::HDoubletPrivate::SetSinglet2(const fastjet::PseudoJet& NewSinglet) {
+void hanalysis::HDoubletPrivate::SetSinglet2(const fastjet::PseudoJet &NewSinglet)
+{
 //   static_cast<HDoubletPrivate *>(TagPrivate)->
-  Singlet2 = NewSinglet;
+    Singlet2 = NewSinglet;
 }
 
-void hanalysis::HDoublet::SetSinglets(const fastjet::PseudoJet& NewSinglet1, const fastjet::PseudoJet& NewSinglet2)
+void hanalysis::HDoublet::SetSinglets(const fastjet::PseudoJet &NewSinglet1, const fastjet::PseudoJet &NewSinglet2)
 {
     Print(HInformation, "Constructor");
     static_cast<HDoubletPrivate *>(TagPrivate)->SetSinglet1(NewSinglet1);
@@ -88,19 +93,20 @@ void hanalysis::HDoublet::SetSinglets(const fastjet::PseudoJet& NewSinglet1, con
             TagPrivate->Bdt += Singlet1().user_info<HJetInfo>().Bdt();
             ++NumberBdt;
         }
-        if (Singlet2().has_user_info<HJetInfo>()) if (Singlet2().user_info<HJetInfo>().Bdt() != TagPrivate->InitialValue) {
-          TagPrivate->Bdt += Singlet2().user_info<HJetInfo>().Bdt();
+    if (Singlet2().has_user_info<HJetInfo>()) if (Singlet2().user_info<HJetInfo>().Bdt() != TagPrivate->InitialValue) {
+            TagPrivate->Bdt += Singlet2().user_info<HJetInfo>().Bdt();
             ++NumberBdt;
         }
-        if (NumberBdt != 0)TagPrivate->Bdt /= NumberBdt;
+    if (NumberBdt != 0)TagPrivate->Bdt /= NumberBdt;
 }
 
-void hanalysis::HDoublet::SetSinglets(const fastjet::PseudoJet& NewSinglet1)
+void hanalysis::HDoublet::SetSinglets(const fastjet::PseudoJet &NewSinglet1)
 {
     Print(HInformation, "Constructor");
-    static_cast<HDoubletPrivate *>(TagPrivate)->SetSinglet1(NewSinglet1/2);
-    static_cast<HDoubletPrivate *>(TagPrivate)->SetSinglet2(NewSinglet1/2);
+    static_cast<HDoubletPrivate *>(TagPrivate)->SetSinglet1(NewSinglet1 / 2);
+    static_cast<HDoubletPrivate *>(TagPrivate)->SetSinglet2(NewSinglet1 / 2);
     if (NewSinglet1.has_user_info<HJetInfo>()) if (NewSinglet1.user_info<HJetInfo>().Bdt() != TagPrivate->InitialValue) TagPrivate->Bdt = NewSinglet1.user_info<HJetInfo>().Bdt();
+    if (NewSinglet1.has_user_info<HJetInfo>()) if (NewSinglet1.user_info<HJetInfo>().Tag() != TagPrivate->InitialValue) TagPrivate->Tag = NewSinglet1.user_info<HJetInfo>().Tag();
 }
 
 float hanalysis::HDoubletPrivate::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const

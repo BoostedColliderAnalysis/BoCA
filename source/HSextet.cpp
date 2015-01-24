@@ -45,8 +45,6 @@ hanalysis::HSextet::HSextet(const HTriplet &NewTriplet1, const HTriplet &NewTrip
     Print(HInformation, "Constructor");
     static_cast<HSextetPrivate *>(TagPrivate)->SetTriplet1(NewTriplet1);
     static_cast<HSextetPrivate *>(TagPrivate)->SetTriplet2(NewTriplet2);
-//     Triplet1 = NewTriplet1;
-//     Triplet2 = NewTriplet2;
     TagPrivate->Bdt = (NewTriplet1.Bdt() + NewTriplet2.Bdt()) / 2;
 }
 
