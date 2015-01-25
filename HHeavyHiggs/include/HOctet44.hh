@@ -27,11 +27,11 @@ public:
     }
 
     inline fastjet::PseudoJet GetQuartet1Jet() const {
-        return Quartet1.GetQuartetJet();
+        return Quartet1.Jet();
     }
 
     inline fastjet::PseudoJet GetQuartet2Jet() const {
-        return Quartet2.GetQuartetJet();
+        return Quartet2.Jet();
     }
 
     inline float GetHbSumDeltaR() const {

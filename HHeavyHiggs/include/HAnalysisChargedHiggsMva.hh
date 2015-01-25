@@ -1,5 +1,5 @@
-# ifndef HAnalysisHiggsCpv_hh
-# define HAnalysisHiggsCpv_hh
+# ifndef HAnalysisCharged_hh
+# define HAnalysisCharged_hh
 
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
@@ -26,7 +26,7 @@
  * @author Jan Hajer
  *
  */
-class hheavyhiggs::HAnalysisMva : public hanalysis::HAnalysis
+class hheavyhiggs::HAnalysisCharged : public hanalysis::HAnalysis
 {
 
 public:
@@ -35,13 +35,13 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisMva();
+    HAnalysisCharged();
 
     /**
      * @brief Constructor
      *
      */
-    ~HAnalysisMva();
+    ~HAnalysisCharged();
 
 //     enum HTagger {
 //       HBottomTagger,

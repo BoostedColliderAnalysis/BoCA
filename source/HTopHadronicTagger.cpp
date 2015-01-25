@@ -111,6 +111,10 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
         if (Jet.user_info<HJetInfo>().Tag() != Tag) continue;
         if (Tag == HSignal && std::abs(Jet.m() - TopMass) > TopWindow) continue;
         HTriplet Triplet(Jet);
+        if(Jet.m() != Triplet.Jet().m()) Print(HError,"Triplet Mass Error",Jet.m(),Triplet.Jet().m());
+        if(Jet.pt() != Triplet.Jet().pt()) Print(HError,"Triplet Pt Error",Jet.pt(),Triplet.Jet().pt());
+        if(Jet != Triplet.Jet()) Print(HError,"Triplet Jet Error 1",Jet);
+        if(Jet != Triplet.Jet()) Print(HError,"Triplet Jet Error 3",Triplet.Jet());
         Triplets.push_back(Triplet);
     }
 

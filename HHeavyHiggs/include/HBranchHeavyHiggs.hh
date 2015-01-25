@@ -10,6 +10,7 @@ class HAnalysisHeavyHiggsDelphes;
 class HAnalysisHeavyHiggsPgs;
 class HAnalysisHeavyHiggsParton;
 class HAnalysisMva;
+class HAnalysisCharged;
 class HHeavyHiggsJetTag;
 class HMva;
 class HBranchHeavyHiggs;

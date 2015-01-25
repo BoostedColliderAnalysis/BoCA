@@ -518,23 +518,23 @@ private:
  * @brief Charged Higgs semi tagger root tree structure
  *
  */
-class HChargedHiggsSemiBranch : public HBranch
+class HChargedHiggsSemiBranch : public HPairBranch
 {
 
 public:
 
     HChargedHiggsSemiBranch();
 
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
+//     float HeavyHiggsMass;
+//     float HeavyHiggsPt;
 
-    float TopDeltaRap;
-    float TopDeltaPhi;
-    float TopDeltaR;
+//     float TopDeltaRap;
+//     float TopDeltaPhi;
+//     float TopDeltaR;
 
-    float TopBdt;
+//     float TopBdt;
 
-    int HeavyHiggsTag;
+//     int HeavyHiggsTag;
 
 private:
 

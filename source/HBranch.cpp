@@ -310,12 +310,12 @@ ClassImp(HChargedHiggsSemiBranch)
 HChargedHiggsSemiBranch::HChargedHiggsSemiBranch()
 {
 
-    HeavyHiggsMass = InitialValue;
-    HeavyHiggsPt = InitialValue;
+//     HeavyHiggsMass = InitialValue;
+//     HeavyHiggsPt = InitialValue;
 
-    TopDeltaRap = InitialValue;
-    TopDeltaPhi = InitialValue;
-    TopDeltaR = InitialValue;
+//     TopDeltaRap = InitialValue;
+//     TopDeltaPhi = InitialValue;
+//     TopDeltaR = InitialValue;
 
     //     LargerWDeltaRap = InitialValue;
     //     LargerWDeltaPhi = InitialValue;
@@ -333,8 +333,8 @@ HChargedHiggsSemiBranch::HChargedHiggsSemiBranch()
     //     SmallerNeutrinoDeltaPhi = InitialValue;
     //     SmallerNeutrinoDeltaR = InitialValue;
 
-    TopBdt = InitialValue;
-    HeavyHiggsTag = InitialValue;
+//     TopBdt = InitialValue;
+//     HeavyHiggsTag = InitialValue;
 
 }
 

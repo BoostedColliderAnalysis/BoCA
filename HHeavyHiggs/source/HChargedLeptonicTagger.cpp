@@ -61,11 +61,11 @@ void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLepton
     EventLeptonicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
 
     EventLeptonicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-    EventLeptonicBranch->BottomDeltaPt = Octet.GetQuartet2().GetDeltaPt();
+    EventLeptonicBranch->BottomDeltaPt = Octet.GetQuartet2().DeltaPt();
 
-    EventLeptonicBranch->BottomDeltaRap = Octet.GetQuartet2().GetDeltaRap();
+    EventLeptonicBranch->BottomDeltaRap = Octet.GetQuartet2().DeltaRap();
     EventLeptonicBranch->BottomDeltaPhi = Octet.GetQuartet2().GetPhiDelta();
-    EventLeptonicBranch->BottomDeltaR = Octet.GetQuartet2().GetDeltaR();
+    EventLeptonicBranch->BottomDeltaR = Octet.GetQuartet2().DeltaR();
 
     EventLeptonicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
     EventLeptonicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
@@ -236,9 +236,9 @@ std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const hanal
         if (Triplet2.GetTripletJet().m() <= 0) continue;
 
         hanalysis::HQuartet31 Quartet1(Triplet1, Sextet.Triplet1().GetJet());
-        if (Quartet1.GetQuartetJet().m() <= 0) continue;
+        if (Quartet1.Jet().m() <= 0) continue;
         hanalysis::HQuartet31 Quartet2(Triplet2, Sextet.Triplet2().GetJet());
-        if (Quartet2.GetQuartetJet().m() <= 0) continue;
+        if (Quartet2.Jet().m() <= 0) continue;
 
         HOctet44 Octet(Quartet1, Quartet2);
         if (Octet.GetJet().m() <= 0) continue;

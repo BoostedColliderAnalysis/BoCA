@@ -171,7 +171,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets 
             HDoublet Doublet;
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
             else Doublet.SetSinglets((*Jet2), (*Jet1));
-            if (Doublet.DeltaRap() < .5)continue;
+            if (std::abs(Doublet.DeltaRap()) < .5)continue;
             FillBranch(Doublet);
             Doublet.SetBdt(JetPairReader->Bdt());
             Doublets.push_back(Doublet);

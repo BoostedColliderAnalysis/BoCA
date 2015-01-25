@@ -3,10 +3,8 @@
 
 # include "HTriplet.hh"
 
-class HSextetPrivate;
-
 /**
- * @brief A sextet formed from 2 triplets
+ * @brief A sextet of 2 triplets
  *
  */
 class hanalysis::HSextet : public HTag
@@ -14,9 +12,7 @@ class hanalysis::HSextet : public HTag
 
 public:
 
-    HSextet() {
-//         Bdt = -10;
-    }
+    HSextet();
 
     HSextet(const HTriplet &NewTriple1, const HTriplet &NewTriple2);
 
@@ -114,10 +110,6 @@ protected:
     }
 
 private:
-
-//     HTriplet Triplet1;
-
-//     HTriplet Triplet2;
 
 };
 

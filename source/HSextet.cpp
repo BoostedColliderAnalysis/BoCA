@@ -32,12 +32,8 @@ hanalysis::HSextet::HSextet(HSextetPrivate& NewSextetPrivate) : HTag(NewSextetPr
     Print(HInformation, "Constructor");
 }
 
-hanalysis::HTriplet hanalysis::HSextet::Triplet1() const {
-    return static_cast<HSextetPrivate *>(TagPrivate)->Triplet1;
-}
-
-hanalysis::HTriplet hanalysis::HSextet::Triplet2() const {
-    return static_cast<HSextetPrivate *>(TagPrivate)->Triplet2;
+hanalysis::HSextet::HSextet() {
+  Print(HInformation, "Default Constructor");
 }
 
 hanalysis::HSextet::HSextet(const HTriplet &NewTriplet1, const HTriplet &NewTriplet2) : hanalysis::HTag(*new HSextetPrivate)
@@ -48,10 +44,16 @@ hanalysis::HSextet::HSextet(const HTriplet &NewTriplet1, const HTriplet &NewTrip
     TagPrivate->Bdt = (NewTriplet1.Bdt() + NewTriplet2.Bdt()) / 2;
 }
 
-
 hanalysis::HSextet::~HSextet()
 {
     Print(HInformation, "Destructor");
-//     Error = 0;
+}
+
+hanalysis::HTriplet hanalysis::HSextet::Triplet1() const {
+    return static_cast<HSextetPrivate *>(TagPrivate)->Triplet1;
+}
+
+hanalysis::HTriplet hanalysis::HSextet::Triplet2() const {
+    return static_cast<HSextetPrivate *>(TagPrivate)->Triplet2;
 }
 

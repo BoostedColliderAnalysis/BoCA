@@ -71,11 +71,11 @@ void hheavyhiggs::HChargedSemi2Tagger::FillBranch(hheavyhiggs::HChargedSemi2Bran
     EventSemiBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
 
     EventSemiBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-    EventSemiBranch->BottomDeltaPt = Octet.GetQuartet2().GetDeltaPt();
+    EventSemiBranch->BottomDeltaPt = Octet.GetQuartet2().DeltaPt();
 
-    EventSemiBranch->BottomDeltaRap = Octet.GetQuartet2().GetDeltaRap();
-    EventSemiBranch->BottomDeltaPhi = Octet.GetQuartet2().GetDeltaPhi();
-    EventSemiBranch->BottomDeltaR = Octet.GetQuartet2().GetDeltaR();
+    EventSemiBranch->BottomDeltaRap = Octet.GetQuartet2().DeltaRap();
+    EventSemiBranch->BottomDeltaPhi = Octet.GetQuartet2().DeltaPhi();
+    EventSemiBranch->BottomDeltaR = Octet.GetQuartet2().DeltaR();
 
     EventSemiBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
     EventSemiBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
@@ -165,14 +165,14 @@ std::vector<hheavyhiggs::HChargedSemi2Branch * > hheavyhiggs::HChargedSemi2Tagge
             if (Triplet.Singlet() == Jet) continue;
             hanalysis::HQuartet31 Quartet2(Triplet, Jet);
             for (const auto & Quartet1 : Quartets) {
-                if (Quartet2.GetSinglet() == Quartet1.GetSinglet()) continue;
-                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().Singlet()) continue;
-                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().Doublet().Singlet1()) continue;
-                if (Quartet2.GetSinglet() == Quartet1.GetTriplet().Doublet().Singlet2()) continue;
-                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetSinglet()) continue;
-                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetTriplet().Singlet()) continue;
-                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetTriplet().Doublet().Singlet1()) continue;
-                if (Quartet2.GetTriplet().Singlet() == Quartet1.GetTriplet().Doublet().Singlet2()) continue;
+                if (Quartet2.Singlet() == Quartet1.Singlet()) continue;
+                if (Quartet2.Singlet() == Quartet1.Triplet().Singlet()) continue;
+                if (Quartet2.Singlet() == Quartet1.Triplet().Doublet().Singlet1()) continue;
+                if (Quartet2.Singlet() == Quartet1.Triplet().Doublet().Singlet2()) continue;
+                if (Quartet2.Triplet().Singlet() == Quartet1.Singlet()) continue;
+                if (Quartet2.Triplet().Singlet() == Quartet1.Triplet().Singlet()) continue;
+                if (Quartet2.Triplet().Singlet() == Quartet1.Triplet().Doublet().Singlet1()) continue;
+                if (Quartet2.Triplet().Singlet() == Quartet1.Triplet().Doublet().Singlet2()) continue;
                 HOctet44 Octet(Quartet1, Quartet2);
                 Octets.push_back(Octet);
             }

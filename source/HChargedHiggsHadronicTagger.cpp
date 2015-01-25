@@ -36,12 +36,12 @@ void hanalysis::HChargedHiggsHadronicTagger::FillBranch(HChargedHiggsHadronicBra
 {
     Print(HInformation, "FillPairTagger", Quartet.Bdt());
 
-    ChargedHiggsHadronicBranch->HeavyHiggsMass = Quartet.GetQuartetJet().m();
-    ChargedHiggsHadronicBranch->HeavyHiggsPt = Quartet.GetQuartetJet().pt();
+    ChargedHiggsHadronicBranch->HeavyHiggsMass = Quartet.Jet().m();
+    ChargedHiggsHadronicBranch->HeavyHiggsPt = Quartet.Jet().pt();
 
-    ChargedHiggsHadronicBranch->TopDeltaR = Quartet.GetDeltaR();
-    ChargedHiggsHadronicBranch->TopDeltaRap = Quartet.GetDeltaRap();
-    ChargedHiggsHadronicBranch->TopDeltaPhi = Quartet.GetDeltaPhi();
+    ChargedHiggsHadronicBranch->TopDeltaR = Quartet.DeltaR();
+    ChargedHiggsHadronicBranch->TopDeltaRap = Quartet.DeltaRap();
+    ChargedHiggsHadronicBranch->TopDeltaPhi = Quartet.DeltaPhi();
 
 //     HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
 //     HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
@@ -151,10 +151,10 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQ
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (Quartet.GetTriplet().Tag() == HBackground)return HBackground;
+    if (Quartet.Triplet().Tag() == HBackground)return HBackground;
 //     if (Quartet.GetTriplet2().Tag() == HBackground)return HBackground;
     // TODO compare with semi leptonic case
-    if (sgn(Quartet.GetTriplet().Singlet().user_index()) == sgn(Quartet.GetSinglet().user_index())) return HBackground;
+    if (sgn(Quartet.Triplet().Singlet().user_index()) == sgn(Quartet.Singlet().user_index())) return HBackground;
     return HSignal;
 }
 

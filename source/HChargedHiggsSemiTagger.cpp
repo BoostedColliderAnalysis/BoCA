@@ -43,92 +43,61 @@ hanalysis::HChargedHiggsSemiTagger::~HChargedHiggsSemiTagger()
 
 }
 
-void hanalysis::HChargedHiggsSemiTagger::FillBranch(const hanalysis::HQuartet31 &HQuartet)
+void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
 {
-    Print(HInformation, "FillPairTagger", HQuartet.Bdt());
-    FillBranch(Branch, HQuartet);
+
+    Print(HNotification , "Define Variables");
+
+    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch->Ht, "Ht"));
+
+    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
+    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
+
+    Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
+    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
+
+    Print(HNotification, "Variables defined");
+
 }
 
 void hanalysis::HChargedHiggsSemiTagger::FillBranch(HChargedHiggsSemiBranch *ChargedHiggsBranch, const HQuartet31 &Quartet)
 {
     Print(HInformation, "FillPairTagger", Quartet.Bdt());
 
-    ChargedHiggsBranch->HeavyHiggsMass = Quartet.GetQuartetJet().m();
-    ChargedHiggsBranch->HeavyHiggsPt = Quartet.GetQuartetJet().pt();
+    ChargedHiggsBranch->Mass = Quartet.Jet().m();
+    ChargedHiggsBranch->Rap = Quartet.Jet().rap();
+    ChargedHiggsBranch->Phi = Quartet.Jet().phi();
+    ChargedHiggsBranch->Pt = Quartet.Jet().pt();
+    ChargedHiggsBranch->Ht = Quartet.Ht();
 
-    ChargedHiggsBranch->TopDeltaR = Quartet.GetDeltaR();
-    ChargedHiggsBranch->TopDeltaRap = Quartet.GetDeltaRap();
-    ChargedHiggsBranch->TopDeltaPhi = Quartet.GetDeltaPhi();
+    ChargedHiggsBranch->DeltaR = Quartet.DeltaR();
+    ChargedHiggsBranch->DeltaRap = Quartet.DeltaRap();
+    ChargedHiggsBranch->DeltaPhi = Quartet.DeltaPhi();
 
-//     HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
-//     HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
-//     HeavyHiggsBranch->LargerWDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
-//
-//     HeavyHiggsBranch->SmallerWDeltaR = TriplePair.GetSmallerTripleDeltaR();
-//     HeavyHiggsBranch->SmallerWDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
-//     HeavyHiggsBranch->SmallerWDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
-//
-//     HeavyHiggsBranch->LargerNeutrinoDeltaR = TriplePair.GetLargerTripleDeltaR();
-//     HeavyHiggsBranch->LargerNeutrinoDeltaRap = TriplePair.GetLargerTripleDeltaRap();
-//     HeavyHiggsBranch->LargerNeutrinoDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
-//
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaR = TriplePair.GetSmallerTripleDeltaR();
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
-
-    ChargedHiggsBranch->TopBdt = Quartet.Bdt();
-    ChargedHiggsBranch->HeavyHiggsTag = Quartet.Tag();
+    ChargedHiggsBranch->Bdt = Quartet.Bdt();
+    ChargedHiggsBranch->Tag = Quartet.Tag();
 
 }
 
-void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
+void hanalysis::HChargedHiggsSemiTagger::FillBranch(const hanalysis::HQuartet31 &HQuartet)
 {
-
-    Print(HNotification , "Define Variables");
-
-    Observables.push_back(NewObservable(&Branch->HeavyHiggsPt, "HeavyHiggsPt"));
-
-    Observables.push_back(NewObservable(&Branch->TopDeltaR, "TopDeltaR"));
-    Observables.push_back(NewObservable(&Branch->TopDeltaRap, "TopDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->TopDeltaPhi, "TopDeltaPhi"));
-
-//     Observables.push_back(NewObservable(&Branch->LargerWDeltaR, "LargerWDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->LargerWDeltaRap, "LargerWDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->LargerWDeltaPhi, "LargerWDeltaPhi"));
-//
-//     Observables.push_back(NewObservable(&Branch->SmallerWDeltaR, "SmallerWDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->SmallerWDeltaRap, "SmallerWDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->SmallerWDeltaPhi, "SmallerWDeltaPhi"));
-//
-//     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi"));
-//
-//     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi"));
-
-    Observables.push_back(NewObservable(&Branch->TopBdt, "TopBdt"));
-
-    Spectators.push_back(NewObservable(&Branch->HeavyHiggsTag, "HeavyHiggsTag"));
-    Spectators.push_back(NewObservable(&Branch->HeavyHiggsMass, "HeavyHiggsMass"));
-
-    Print(HNotification, "Variables defined");
-
+    Print(HInformation, "FillPairTagger", HQuartet.Bdt());
+    FillBranch(Branch, HQuartet);
 }
-
-struct SortQuartetByMass {
-    inline bool operator()(const hanalysis::HQuartet31 &Quartet1, const hanalysis::HQuartet31 &Quartet2) {
-        return (Quartet1.GetQuartetJet().m() > Quartet2.GetQuartetJet().m());
-    }
-};
 
 std::vector< HChargedHiggsSemiBranch * > hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
-    JetTag->HeavyParticles = {TopId};
+    JetTag->HeavyParticles = {ChargedHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    float Mass = Event->GetMass();
 
     Jets = BottomTagger->GetBdt(Jets, BottomReader);
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
@@ -150,15 +119,15 @@ std::vector< HChargedHiggsSemiBranch * > hanalysis::HChargedHiggsSemiTagger::Get
             HQuartet31 Quartet(Triplet, Jet);
             Quartet.SetTag(GetTag(Quartet));
             if (Quartet.Tag() != Tag) continue;
-            if (Quartet.GetQuartetJet().m() < 0)continue;
+//             if (Quartet.Jet().m() < 0)continue;
             Quartets.push_back(Quartet);
         }
 
     Print(HInformation, "Number of Heavy Higgses", Quartets.size());
 
     if (Tag == HSignal && Quartets.size() > 1) {
-        Print(HError, "Higgs Candidates", Quartets.size());
-        std::sort(Quartets.begin(), Quartets.end(), SortQuartetByMass());
+        Print(HInformation, "Higgs Candidates", Quartets.size());
+        std::sort(Quartets.begin(), Quartets.end(), SortByMass<HQuartet31>(Mass));
         Quartets.erase(Quartets.begin() + 1, Quartets.end());
     }
 
@@ -179,24 +148,22 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuart
 {
     Print(HInformation, "Get Sextet Tag");
 
-
-    HJetInfo JetInfoB = Quartet.GetSinglet().user_info<HJetInfo>();
+    HJetInfo JetInfoB = Quartet.Singlet().user_info<HJetInfo>();
     JetInfoB.ExtractFraction(BottomId);
-    HJetInfo JetInfoB1 = Quartet.GetTriplet().Singlet().user_info<HJetInfo>();
-    JetInfoB1.ExtractFraction(BottomId);
-    HJetInfo JetInfoW1 = Quartet.GetTriplet().Doublet().Singlet1().user_info<HJetInfo>();
-    JetInfoW1.ExtractFraction(WId);
-    HJetInfo JetInfoW2 = Quartet.GetTriplet().Doublet().Singlet2().user_info<HJetInfo>();
-    JetInfoW2.ExtractFraction(WId);
-
     if (std::abs(JetInfoB.MaximalId()) != BottomId) return HBackground;
-    if (JetInfoB.MaximalId() != -JetInfoB1.MaximalId()) return HBackground;
 
-    if (std::abs(JetInfoW1.MaximalId()) != WId) return HBackground;
-    if (JetInfoW1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
-    if (sgn(JetInfoW1.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
+    HJetInfo JetInfoB1 = Quartet.Triplet().Singlet().user_info<HJetInfo>();
+    JetInfoB1.ExtractFraction(TopId);
+    if (JetInfoB1.MaximalId() != TopId) return HBackground;
+    if (sgn(JetInfoB.MaximalId()) != -sgn(JetInfoB1.MaximalId())) return HBackground;
 
-    //FIXME how to remove intrinsic background !!
+    HJetInfo JetInfoW1 = Quartet.Triplet().Doublet().Singlet1().user_info<HJetInfo>();
+    JetInfoW1.ExtractFraction(TopId);
+    if (JetInfoB1.MaximalId() != JetInfoW1.MaximalId()) return HBackground;
+
+    HJetInfo JetInfoW2 = Quartet.Triplet().Doublet().Singlet2().user_info<HJetInfo>();
+    JetInfoW2.ExtractFraction(TopId);
+    if (JetInfoB1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
 
     return HSignal;
 }
@@ -223,35 +190,3 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(s
     Quartets.erase(Quartets.begin() + std::min(MaxCombi, int(Quartets.size())), Quartets.end());
     return Quartets;
 }
-
-
-// std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetQuartets(const HReader *const Reader)
-// {
-//     // FIXME this is totally wrong and cant work
-//     Print(HError, "this is totally wrong and cant work");
-//     hanalysis::HEvent *Event;
-//
-//     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-//     Jets = BottomTagger->GetBdt(Jets, BottomReader);
-//     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
-//     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-//     std::vector<HDoublet> Doublets = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
-//     std::vector<HTriplet> Triplets = TopSemiTagger->GetBdt(Doublets, Jets, TopSemiReader);
-// //     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetTriplets(TopHadronicReader);
-//
-//     std::vector<HQuartet31> Quartets;
-//     for (const auto & Triplet : Triplets)
-//         for (const auto & Jet : Jets) {
-//             if (Triplet.GetSinglet() == Jet) continue;
-//             if (Triplet.GetDoublet().Singlet1() == Jet) continue;
-//             if (Triplet.GetDoublet().Singlet2() == Jet) continue;
-//             HQuartet31 Quartet(Triplet, Jet);
-//             Quartet.SetTag(GetTag(Quartet));
-//             if (Quartet.GetQuartetJet().m() < 0)continue;
-//             FillBranch(Quartet);
-//             Quartet.SetBdt(Reader->Bdt());
-//             Quartets.push_back(Quartet);
-//         }
-//
-//     return Quartets;
-// }
