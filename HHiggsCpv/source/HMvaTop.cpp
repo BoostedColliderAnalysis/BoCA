@@ -50,12 +50,12 @@ hhiggscpv::HMvaTop::~HMvaTop()
 
 }
 
-float hhiggscpv::HMvaTop::GetBdt(TObject *Branch, TMVA::Reader *Reader){
+float hhiggscpv::HMvaTop::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 
     Print(HInformation, "Get Bdt",BdtMethodName);
 
     *Top = *static_cast<HTopLeptonicBranch*>(Branch);
-    const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
+    const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName);
     Print(HInformation,"BTagger Bdt",BdtEvaluation);
 
     return ((BdtEvaluation+1)/2);

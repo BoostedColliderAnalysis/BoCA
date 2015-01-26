@@ -1,45 +1,44 @@
 # include "HHeavyHiggsSemiTagger.hh"
 
-hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger(
-    hanalysis::HBottomTagger *const NewBottomTagger,
-    hanalysis::HWSemiTagger *const NewWSemiTagger,
-    hanalysis::HWTagger *const NewWTagger,
-    hanalysis::HTopSemiTagger *const NewTopSemiTagger, hanalysis::HTopHadronicTagger *const NewTopHadronicTagger)
+hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger()
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
-
+    //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-
-    BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
-    WSemiTagger = NewWSemiTagger;
-    WSemiReader = new HReader(WSemiTagger);
-    WTagger = NewWTagger;
-    WReader = new HReader(WTagger);
-    TopSemiTagger = NewTopSemiTagger;
-    TopSemiReader = new HReader(TopSemiTagger);
-    TopHadronicTagger = NewTopHadronicTagger;
-    TopHadronicReader = new HReader(TopHadronicTagger);
-
     SetTaggerName("HeavyHiggsSemi");
-
-    Branch = new HHeavyHiggsSemiBranch();
-    JetTag = new HJetTag();
-
     DefineVariables();
 }
 
 hanalysis::HHeavyHiggsSemiTagger::~HHeavyHiggsSemiTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete JetTag;
-    delete BottomReader;
-    delete WReader;
-    delete WSemiReader;
-    delete TopHadronicReader;
-    delete TopSemiReader;
+}
 
+void hanalysis::HHeavyHiggsSemiTagger::SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
+{
+    Print(HNotification, "Constructor");
+
+    BottomTagger = NewBottomTagger;
+    BottomTagger.SetTagger();
+    BottomReader.SetMva(BottomTagger);
+
+    WSemiTagger = NewWSemiTagger;
+    WSemiTagger.SetTagger();
+    WSemiReader.SetMva(WSemiTagger);
+
+    WTagger = NewWTagger;
+    WTagger.SetTagger(BottomTagger);
+    WReader.SetMva(WTagger);
+
+    TopSemiTagger = NewTopSemiTagger;
+    TopSemiTagger.SetTagger(BottomTagger,WSemiTagger);
+    TopSemiReader.SetMva(TopSemiTagger);
+
+    TopHadronicTagger = NewTopHadronicTagger;
+    TopHadronicTagger.SetTagger(BottomTagger,WTagger);
+    TopHadronicReader.SetMva(TopHadronicTagger);
+
+    SetTaggerName("HeavyHiggsSemi");
+    DefineVariables();
 }
 
 void hanalysis::HHeavyHiggsSemiTagger::DefineVariables()
@@ -47,19 +46,22 @@ void hanalysis::HHeavyHiggsSemiTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch->Ht, "Ht"));
+    Observables.clear();
+    Spectators.clear();
 
-    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
-    Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
+    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+
+    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
 
     Print(HNotification, "Variables defined");
 
@@ -88,7 +90,7 @@ void hanalysis::HHeavyHiggsSemiTagger::FillBranch(HHeavyHiggsSemiBranch *HeavyHi
 void hanalysis::HHeavyHiggsSemiTagger::FillBranch(const hanalysis::HSextet &Sextet)
 {
     Print(HInformation, "FillPairTagger", Sextet.Bdt());
-    FillBranch(Branch, Sextet);
+    FillBranch(&Branch, Sextet);
 }
 
 std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
@@ -97,19 +99,19 @@ std::vector< HHeavyHiggsSemiBranch * > hanalysis::HHeavyHiggsSemiTagger::GetBran
 
     float Mass = Event->GetMass();
 
-    JetTag->HeavyParticles = {TopId, HeavyHiggsId, CPOddHiggsId};
+    JetTag.HeavyParticles = {TopId, HeavyHiggsId, CPOddHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = TopHadronicTagger->WTagger->BottomTagger->GetBdt(Jets, TopHadronicTagger->WTagger->BottomReader);
+    Jets = TopHadronicTagger.WTagger.BottomTagger.GetBdt(Jets, TopHadronicTagger.WTagger.BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
-    std::vector<HDoublet> DoubletsSemi = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
-    std::vector<HTriplet> TripletsSemi = TopSemiTagger->GetBdt(DoubletsSemi, Jets, TopSemiReader);
+    std::vector<HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
+    std::vector<HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
-    std::vector<HDoublet> DoubletsHadronic = TopHadronicTagger->WTagger->GetBdt(Jets, TopHadronicTagger->WReader);
-    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger->GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+    std::vector<HDoublet> DoubletsHadronic = TopHadronicTagger.WTagger.GetBdt(Jets, TopHadronicTagger.WReader);
+    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
     Print(HDebug, "Number of Hadronic Tops", TripletsHadronic.size());
 
 
@@ -203,7 +205,7 @@ hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet 
 //     return HSignal;
 // }
 
-std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const std::vector<HTriplet> &TripletsSemi, const std::vector<HTriplet> &TripletsHadronic, const HReader *const Reader)
+std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const std::vector<HTriplet> &TripletsSemi, const std::vector<HTriplet> &TripletsHadronic, const HReader &Reader)
 {
 
     std::vector<HSextet > Sextets;
@@ -215,7 +217,7 @@ std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const 
             HSextet Sextet(TripletSemi, TripletHadronic);
 //             if (Sextet.GetSextetJet().m() < 0)continue;
             FillBranch(Sextet);
-            Sextet.SetBdt(Reader->Bdt());
+            Sextet.SetBdt(Reader.Bdt());
             Sextets.push_back(Sextet);
         }
     std::sort(Sextets.begin(), Sextets.end());

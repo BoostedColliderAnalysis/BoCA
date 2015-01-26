@@ -6,17 +6,8 @@
 
 int main()
 {
-
-    hbtagger::HMva *Mva = new hbtagger::HMva();
-
-    hanalysis::HReader  *Reader = new hanalysis::HReader(Mva);
-
-    Reader->MVALoop();
-
-    delete Reader;
-
-    delete Mva;
-
+    hbtagger::HMva Mva;
+    hanalysis::HReader  Reader(Mva);
+    Reader.MVALoop();
     return 0;
-
 }

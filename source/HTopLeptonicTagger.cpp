@@ -1,31 +1,41 @@
 # include "HTopLeptonicTagger.hh"
 
-hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(HBottomTagger *const NewBottomTagger)
+hanalysis::HTopLeptonicTagger::HTopLeptonicTagger()
+{
+  //     DebugLevel = hanalysis::HObject::HDebug;
+
+  Print(HNotification, "Constructor");
+  SetTaggerName("TopLeptonic");
+
+
+}
+
+hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(const HBottomTagger &NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
+    BottomReader.SetMva(BottomTagger);
     SetTaggerName("TopLeptonic");
-    Branch = new HTopLeptonicBranch();
-    JetTag = new HJetTag();
+//     Branch = new HTopLeptonicBranch();
+    //JetTag = new HJetTag();
     DefineVariables();
 }
 
 hanalysis::HTopLeptonicTagger::~HTopLeptonicTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete JetTag;
-    delete BottomReader;
+    // delete Branch;
+    //delete JetTag;
+//     delete BottomReader;
 }
 
 void hanalysis::HTopLeptonicTagger::FillBranch(const HDoublet &Doublet)
 {
     Print(HInformation, "Fill Top Tagger", Doublet.Bdt());
-    FillBranch(Branch, Doublet);
+    FillBranch(&Branch, Doublet);
 }
 
 void hanalysis::HTopLeptonicTagger::DefineVariables()
@@ -33,20 +43,20 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
 
-    Observables.push_back(NewObservable(&Branch->BottomPt, "BottomPt"));
-    Observables.push_back(NewObservable(&Branch->LeptonPt, "LeptonPt"));
+    Observables.push_back(NewObservable(&Branch.BottomPt, "BottomPt"));
+    Observables.push_back(NewObservable(&Branch.LeptonPt, "LeptonPt"));
 
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
 
-    Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
+    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
 
     Print(HNotification, "Variables defined");
 
@@ -84,9 +94,9 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {TopId};
+    JetTag.HeavyParticles = {TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger.GetBdt(Jets, BottomReader);
     Print(HInformation, "Jet Number", Jets.size());
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
@@ -137,7 +147,7 @@ hanalysis::HObject::HTag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &D
     return HSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader *const Reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader & Reader)
 {
 
     Print(HInformation, "Get Bdt");
@@ -146,7 +156,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJ
         for (const auto & Jet : Jets) {
             HDoublet Doublet(Jet, Lepton);
             FillBranch(Doublet);
-            Doublet.SetBdt(Reader->Bdt());
+            Doublet.SetBdt(Reader.Bdt());
             Doublets.push_back(Doublet);
         }
     }

@@ -13,7 +13,9 @@ class hanalysis::HHeavyHiggsHadronicTagger : public HMva
 
 public:
 
-    HHeavyHiggsHadronicTagger(HBottomTagger *const NewBottomTagger,HWTagger *const NewWTagger, HTopHadronicTagger *const NewTopTagger);
+    HHeavyHiggsHadronicTagger();
+
+    HHeavyHiggsHadronicTagger(const HBottomTagger &NewBottomTagger, const HWTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger);
 
     ~HHeavyHiggsHadronicTagger();
 
@@ -21,7 +23,7 @@ public:
 
     void FillBranch(const hanalysis::HSextet &Sextet);
 
-    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::HTriplet > Triplets, hanalysis::HReader *Reader);
+    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::HTriplet > Triplets, const hanalysis::HReader &Reader);
 
 protected:
 
@@ -37,21 +39,17 @@ private:
 
     HTag GetTag(const HSextet &Sextet);
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
+    HWTagger WTagger;
+    HTopHadronicTagger TopHadronicTagger;
 
-    HWTagger *WTagger;
+    HReader BottomReader;
+    HReader WReader;
+    HReader TopHadronicReader;
 
-    HTopHadronicTagger *TopHadronicTagger;
+    HHeavyHiggsHadronicBranch Branch;
 
-    HReader *BottomReader;
-
-    HReader *WReader;
-
-    HReader *TopHadronicReader;
-
-    HHeavyHiggsHadronicBranch *Branch;
-
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
 };
 

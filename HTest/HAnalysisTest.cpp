@@ -79,7 +79,7 @@ bool htest::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::string &Stu
 
     Print(HInformation, "Analysis", StudyName);
 
-    hanalysis::HJetTag * const HeavyHiggsJetTag = new hanalysis::HJetTag;
+    hanalysis::HJetTag  HeavyHiggsJetTag;
 //     Event->GetTaggedJets(HeavyHiggsJetTag);
 
 

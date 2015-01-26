@@ -34,8 +34,8 @@ public:
      */
     void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
 
-    void SetJetTag(HJetTag *const NewJetTag) {
-        JetTag = NewJetTag;
+    void SetJetTag(HJetTag &NewJetTag) {
+        JetTag = &NewJetTag;
     }
 
     HJets GetJets() {
@@ -53,14 +53,14 @@ public:
         return Jets;
     };
 
-    HJets GetTaggedJets(HJetTag *const NewJetTag) {
-        JetTag = NewJetTag;
+    HJets GetTaggedJets(HJetTag &NewJetTag) {
+        JetTag = &NewJetTag;
         if (!GotJets) GotJets = GetJets(Tagging);
         return Jets;
     };
 
-    HJets GetStructuredTaggedJets(HJetTag *const NewJetTag) {
-      JetTag = NewJetTag;
+    HJets GetStructuredTaggedJets(HJetTag &NewJetTag) {
+      JetTag = &NewJetTag;
       if (!GotJets) GotJets = GetJets(TaggingStructure);
       return Jets;
     };
@@ -85,8 +85,8 @@ public:
       return EFlowJets;
     };
 
-    HJets GetTaggedEFlowJets(HJetTag *const NewJetTag) {
-      JetTag = NewJetTag;
+    HJets GetTaggedEFlowJets(HJetTag &NewJetTag) {
+      JetTag = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
       return EFlowJets;
     };
@@ -96,8 +96,8 @@ public:
       return EFlowJets;
     };
 
-    HJets GetIsolatedTaggedEFlowJets(HJetTag *const NewJetTag) {
-      JetTag = NewJetTag;
+    HJets GetIsolatedTaggedEFlowJets(HJetTag &NewJetTag) {
+      JetTag = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
       return EFlowJets;
     };

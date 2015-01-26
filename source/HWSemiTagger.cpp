@@ -3,46 +3,46 @@
 hanalysis::HWSemiTagger::HWSemiTagger()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
-
     Print(HNotification, "Constructor");
-
-    SetTaggerName("WSemi");
-
-    Branch = new HWSemiBranch();
-    JetTag = new HJetTag();
-
-    DefineVariables();
-    WMassWindow = 20;
-
+    SetTagger();
 }
 
 hanalysis::HWSemiTagger::~HWSemiTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete JetTag;
+}
+
+void hanalysis::HWSemiTagger::SetTagger()
+{
+  Print(HNotification, "Set Tagger");
+  WMassWindow = 20;
+  SetTaggerName("WSemi");
+  DefineVariables();
 }
 
 void hanalysis::HWSemiTagger::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+  Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch->Ht, "Ht"));
+  Observables.clear();
+  Spectators.clear();
 
-    Observables.push_back(NewObservable(&Branch->NeutrinoPt, "NeutrinoPt"));
-    Observables.push_back(NewObservable(&Branch->LeptonPt, "LeptonPt"));
+    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
-    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch.NeutrinoPt, "NeutrinoPt"));
+    Observables.push_back(NewObservable(&Branch.LeptonPt, "LeptonPt"));
 
-    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
+    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
+    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+
+    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
 
     Print(HNotification, "Variables defined");
 
@@ -74,7 +74,7 @@ void hanalysis::HWSemiTagger::FillBranch(HWSemiBranch *const WSemiBranch, const 
 void hanalysis::HWSemiTagger::FillBranch(const HDoublet &Doublet)
 {
     Print(HInformation, "Fill W Tagger", Doublet.Bdt());
-    FillBranch(Branch, Doublet);
+    FillBranch(&Branch, Doublet);
 }
 
 std::vector< HWSemiBranch * > hanalysis::HWSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
@@ -82,7 +82,7 @@ std::vector< HWSemiBranch * > hanalysis::HWSemiTagger::GetBranches(hanalysis::HE
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {WId};
+    JetTag.HeavyParticles = {WId};
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
     HJets Neutrinos = Event->GetParticles()->GetNeutrinos();
@@ -120,7 +120,7 @@ hanalysis::HObject::HTag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoubl
     return HSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader *const Reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader &Reader)
 {
     Print(HInformation, "Get Triple Bdt");
 
@@ -131,7 +131,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &L
         for (auto & PostDoublet : PostDoublets) {
             if (PostDoublet.Jet().m() < 10) continue;
             FillBranch(PostDoublet);
-            PostDoublet.SetBdt(Reader->Bdt());
+            PostDoublet.SetBdt(Reader.Bdt());
             Doublets.push_back(PostDoublet);
         }
     }

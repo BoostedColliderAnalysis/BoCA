@@ -22,18 +22,19 @@
 
 
 
-class ResultStruct {
+class ResultStruct
+{
 
 public:
-  ResultStruct(){
-    Steps = 20;
-    Results.resize(Steps, 0);
-    Hong.resize(Steps, 0);
-  }
+    ResultStruct() {
+        Steps = 20;
+        Results.resize(Steps, 0);
+        Hong.resize(Steps, 0);
+    }
 
-  int Steps;
-  std::vector<float> Results;
-  std::vector<float> Hong;
+    int Steps;
+    std::vector<float> Results;
+    std::vector<float> Hong;
 
 };
 
@@ -61,7 +62,20 @@ public:
      * @brief Constructor
      *
      */
-    HReader(HMva *NewMva);
+    HReader();
+
+    /**
+     * @brief Constructor
+     *
+     */
+//     HReader(HMva *NewMva);
+
+    /**
+     * @brief Constructor
+     *
+     */
+    HReader(hanalysis::HMva &NewMva);
+
 
     /**
      * @brief Destructor
@@ -69,22 +83,28 @@ public:
      */
     ~HReader();
 
+    void operator=(const hanalysis::HReader &) {
+        Print(HError, "invalid Reader copy!!","Dont end up here!!!");
+    }
+
+    void SetMva(hanalysis::HMva &NewMva);
+
 //     template<typename TBranch, typename TParticle>
 //     float GetBdt(TBranch * const Branch, const TParticle &Particle) const
     float Bdt() const {
         Print(HInformation, "Get Bdt");
 
-//         Mva->FillBranch(Branch, Particle);
-        const float NewBdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
+//         Mva->FillBranch(&Branch, Particle);
+        const float NewBdt = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(Mva->GetBdtMethodName());
         return (NewBdt + 1.);
 
     }
 
     float GetBdt2() const {
 
-      Print(HInformation, "Get Bdt 2");
-      const float NewBdt = Reader->EvaluateMVA(Mva->GetBdtMethodName());
-      return NewBdt;
+        Print(HInformation, "Get Bdt 2");
+        const float NewBdt = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(Mva->GetBdtMethodName());
+        return NewBdt;
 
     }
 
@@ -92,11 +112,16 @@ public:
 
     void MVALoop();
 
-    TMVA::Reader *Reader;
-
     void AddVariable();
 
-    void BookMVA();
+    void BookMva();
+
+    TMVA::Reader Reader; // FIXME what is wrong here?
+
+
+
+    HMva *Mva;
+    
 
 private:
 
@@ -210,9 +235,7 @@ private:
 
     std::vector<std::vector<double>> CutsMaxMatrix;
 
-    ofstream LatexFile;
-
-    HMva *Mva;
+    std::ofstream LatexFile;
 
     inline std::string ClassName() const {
         return "HReader";
@@ -221,7 +244,7 @@ private:
     float GetMass(const TFile *File, const std::string &TreeName);
     ResultStruct ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile);
 
-//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader);
+//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
 
 };
 

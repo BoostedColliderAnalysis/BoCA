@@ -21,12 +21,10 @@ class HEventLeptonicTagger;
 class HEventHadronicTagger;
 class HEventSemiTagger;
 class HChargedSemiTagger;
-class HChargedSemi2Tagger;
 class HChargedLeptonicTagger;
 class HChargedHadronicTagger;
 class HBdtBranch;
 class HChargedSemiBranch;
-class HChargedSemi2Branch;
 class HChargedLeptonicBranch;
 class HChargedHadronicBranch;
 }
@@ -324,53 +322,6 @@ private:
 
 };
 
-
-
-/**
- *
- * @brief Higgs cpv tagger root tree structure
- *
- */
-class hheavyhiggs::HChargedSemi2Branch : public HBranch
-{
-
-public:
-
-  HChargedSemi2Branch();
-
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
-
-  float ScalarHt;
-  float HeavyParticleBdt;
-
-  float HeavyHiggsBdt;
-  float HeavyHiggsMass;
-  float HeavyHiggsPt;
-
-  float BottomSumPt;
-  float BottomDeltaPt;
-
-  float BottomDeltaRap;
-  float BottomDeltaPhi;
-  float BottomDeltaR;
-
-  float HbSumDeltaRap;
-  float HbSumDeltaPhi;
-  float HbSumDeltaR;
-
-  float HbDeltaDeltaRap;
-  float HbDeltaDeltaPhi;
-  float HbDeltaDeltaR;
-
-  int EventTag;
-
-private:
-
-  ClassDef(HChargedSemi2Branch, 1)
-
-};
 
 /**
  *

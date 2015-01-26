@@ -13,7 +13,9 @@ class hanalysis::HTopLeptonicTagger : public HMva
 
 public:
 
-    HTopLeptonicTagger(HBottomTagger *const NewBottomTagger);
+    HTopLeptonicTagger();
+
+    HTopLeptonicTagger(const HBottomTagger &NewBottomTagger);
 
     ~HTopLeptonicTagger();
 
@@ -21,7 +23,7 @@ public:
 
     void FillBranch(const HDoublet &Doublet);
 
-    std::vector< HDoublet> GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader *const Reader);
+    std::vector< HDoublet> GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader & Reader);
 
     void FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const HDoublet &Doublet);
 
@@ -37,13 +39,13 @@ private:
 
     HTag GetTag(const HDoublet &Doublet);
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
 
-    HReader *BottomReader;
+    HReader BottomReader;
 
-    HTopLeptonicBranch *Branch;
+    HTopLeptonicBranch Branch;
 
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
 };
 

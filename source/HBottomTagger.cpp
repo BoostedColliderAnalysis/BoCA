@@ -4,42 +4,46 @@ hanalysis::HBottomTagger::HBottomTagger()
 {
 //     DebugLevel = HDebug;
     Print(HNotification, "Constructor");
-    SetTaggerName("Bottom");
-    Branch = new HBottomBranch();
-    JetTag = new HJetTag();
-    DefineVariables();
+    SetTagger();
 }
 
 hanalysis::HBottomTagger::~HBottomTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete JetTag;
 }
 
+void hanalysis::HBottomTagger::SetTagger()
+{
+    Print(HNotification, "Set Tagger");
+    SetTaggerName("Bottom");
+    DefineVariables();
+}
 
 void hanalysis::HBottomTagger::DefineVariables()
 {
-    Print(HNotification , "Define Variables");
+    Print(HInformation , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch->VertexMass, "VertexMass"));
-    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
-//     Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
-//     Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch->MaxDisplacement, "MaxDisplacement"));
-    Observables.push_back(NewObservable(&Branch->MeanDisplacement, "MeanDisplacement"));
-    Observables.push_back(NewObservable(&Branch->SumDisplacement, "SumDisplacement"));
-    Observables.push_back(NewObservable(&Branch->Multipliticity, "Multipliticity"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->Spread, "Spread"));
-    Observables.push_back(NewObservable(&Branch->VertexDeltaR, "VertexDeltaR"));
-    Observables.push_back(NewObservable(&Branch->VertexSpread, "VertexSpread"));
-    Observables.push_back(NewObservable(&Branch->EnergyFraction, "EnergyFraction"));
-    Observables.push_back(NewObservable(&Branch->BTag, "BTag"));
+    Observables.clear();
+    Spectators.clear();
 
-//     Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
-    Spectators.push_back(NewObservable(&Branch->Bdt, "Bdt"));
+    Observables.push_back(NewObservable(&Branch.VertexMass, "VertexMass"));
+    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+    Spectators.push_back(NewObservable(&Branch.Rap, "Rap"));
+    Spectators.push_back(NewObservable(&Branch.Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.MaxDisplacement, "MaxDisplacement"));
+    Observables.push_back(NewObservable(&Branch.MeanDisplacement, "MeanDisplacement"));
+    Observables.push_back(NewObservable(&Branch.SumDisplacement, "SumDisplacement"));
+    Observables.push_back(NewObservable(&Branch.Multipliticity, "Multipliticity"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch.Spread, "Spread"));
+    Observables.push_back(NewObservable(&Branch.VertexDeltaR, "VertexDeltaR"));
+    Observables.push_back(NewObservable(&Branch.VertexSpread, "VertexSpread"));
+    Observables.push_back(NewObservable(&Branch.EnergyFraction, "EnergyFraction"));
+    Observables.push_back(NewObservable(&Branch.BTag, "BTag"));
+
+    Spectators.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    Spectators.push_back(NewObservable(&Branch.Bdt, "Bdt"));
 }
 
 void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet)
@@ -80,14 +84,14 @@ void hanalysis::HBottomTagger::FillBranch(HBottomBranch *const BottomBranch, con
 void hanalysis::HBottomTagger::FillBranch(const fastjet::PseudoJet &Jet)
 {
     Print(HInformation, "Fill Branch");
-    FillBranch(Branch, Jet);
+    FillBranch(&Branch, Jet);
 }
 
 std::vector<HBottomBranch *> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
-    JetTag->HeavyParticles = {BottomId};
+    JetTag.HeavyParticles = {BottomId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
 
@@ -180,7 +184,7 @@ hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJ
     return HSignal;
 }
 
-HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomReader)
+HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader &BottomReader)
 {
     HJets NewJets = GetJetBdt(Jets, BottomReader);
 
@@ -193,7 +197,7 @@ HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader *const BottomR
     return NewJets;
 }
 
-HJets hanalysis::HBottomTagger::GetSubBdt(HJets &Jets, const HReader *const BottomReader, const int SubJetNumber)
+HJets hanalysis::HBottomTagger::GetSubBdt(HJets &Jets, const HReader &BottomReader, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Bdt");
     HJets Pieces;
@@ -229,7 +233,7 @@ HJets hanalysis::HBottomTagger::GetSubBdt(HJets &Jets, const HReader *const Bott
     return GetJetBdt(Pieces, BottomReader);
 }
 
-HJets hanalysis::HBottomTagger::GetJetBdt(HJets &Jets, const HReader *const BottomReader)
+HJets hanalysis::HBottomTagger::GetJetBdt(HJets &Jets, const HReader &BottomReader)
 {
     Print(HInformation, "Get Jet Bdt");
     for (const auto Jet : Jets) {
@@ -238,7 +242,12 @@ HJets hanalysis::HBottomTagger::GetJetBdt(HJets &Jets, const HReader *const Bott
             continue;
         }
         FillBranch(Jet);
-        static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetBdt(BottomReader->Bdt());
+        //         Print(HError, "Jet", Jet.pt(), Branch.Pt);
+        //         Print(HError, "Bdt", BottomReader.Mva->GetTaggerName());
+        //         Print(HError, "Bdt", BottomReader.Mva->GetObservables().size());
+//                 for (auto Obs : BottomReader.Mva->GetObservables()) Print(HError, "Obs", Obs.GetValue());
+        //         Print(HError, "Bdt", BottomReader.Mva->GetSpectators().size());
+        static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetBdt(BottomReader.Bdt());
         Print(HInformation, "Bdt", Jet.user_info<HJetInfo>().Bdt());
     }
     return Jets;

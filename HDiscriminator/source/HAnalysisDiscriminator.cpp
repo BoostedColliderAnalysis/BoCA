@@ -5,7 +5,7 @@ hcpvhiggs::HAnalysis::HAnalysis()
 
     Print(HNotification, "Constructor");
 
-    JetTag = new hanalysis::HJetTag();
+    //JetTag = new hanalysis::HJetTag();
 
     SubStructure = new hanalysis::HSubStructure();
 
@@ -18,7 +18,7 @@ hcpvhiggs::HAnalysis::~HAnalysis()
 
     Print(HNotification, "Destructor");
 
-    delete JetTag;
+    //delete JetTag;
 
     delete SubStructure;
 
@@ -145,7 +145,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
     // Higgs stuff
 
-    /*    for(auto HeavyParticle : JetTag->HeavyParticles) {
+    /*    for(auto HeavyParticle : JetTag.HeavyParticles) {
             Print(HError,"HeavyParticle",HeavyParticle);
         }  */
 

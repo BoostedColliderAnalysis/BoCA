@@ -6,15 +6,15 @@ hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(hanalysis::HBottomTa
     Print(HNotification , "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new hanalysis::HReader(BottomTagger);
+    BottomReader.SetMva(BottomTagger);
     TopLeptonicTagger = NewTopTagger;
-    TopLeptonicReader = new hanalysis::HReader(TopLeptonicTagger);
+    TopLeptonicReader.SetMva(TopLeptonicTagger);
     ChargedHiggsLeptonicTagger = NewHeavyHiggsTagger;
-    ChargedHiggsLeptonicReader = new hanalysis::HReader(ChargedHiggsLeptonicTagger);
+    ChargedHiggsLeptonicReader.SetMva(ChargedHiggsLeptonicTagger);
 
     SetTaggerName("EventLeptonic");
 
-    Branch = new hheavyhiggs::HChargedLeptonicBranch();
+//     Branch = new hheavyhiggs::HChargedLeptonicBranch();
 
     DefineVariables();
 
@@ -26,7 +26,7 @@ hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger()
     Print(HNotification , "Constructor");
 
     SetTaggerName("ChargedLeptonic");
-    Branch = new hheavyhiggs::HChargedLeptonicBranch();
+//     Branch = new hheavyhiggs::HChargedLeptonicBranch();
 
     DefineVariables();
 
@@ -38,7 +38,7 @@ hheavyhiggs::HChargedLeptonicTagger::~HChargedLeptonicTagger()
 
     Print(HNotification , "Constructor");
 
-    delete Branch;
+    // delete Branch;
     delete BottomReader;
     delete TopLeptonicReader;
     delete ChargedHiggsLeptonicReader;
@@ -81,7 +81,7 @@ void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLepton
 void hheavyhiggs::HChargedLeptonicTagger::FillBranch(const HOctet44 &Octet)
 {
     Print(HInformation, "FillPairTagger");
-    FillBranch(Branch, Octet);
+    FillBranch(&Branch, Octet);
 }
 
 void hheavyhiggs::HChargedLeptonicTagger::DefineVariables()
@@ -89,33 +89,33 @@ void hheavyhiggs::HChargedLeptonicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch->JetNumber, "JetNumber"));
-    Observables.push_back(NewObservable(&Branch->BottomNumber, "BottomNumber"));
+    Observables.push_back(NewObservable(&Branch.JetNumber, "JetNumber"));
+    Observables.push_back(NewObservable(&Branch.BottomNumber, "BottomNumber"));
 
-    Observables.push_back(NewObservable(&Branch->ScalarHt, "ScalarHt"));
-    Observables.push_back(NewObservable(&Branch->HeavyParticleBdt, "HeavyParticleBdt"));
+    Observables.push_back(NewObservable(&Branch.ScalarHt, "ScalarHt"));
+    Observables.push_back(NewObservable(&Branch.HeavyParticleBdt, "HeavyParticleBdt"));
 
-    Observables.push_back(NewObservable(&Branch->HeavyHiggsBdt, "HeavyHiggsBdt"));
-    Observables.push_back(NewObservable(&Branch->HeavyHiggsPt, "HeavyHiggsPt"));
+    Observables.push_back(NewObservable(&Branch.HeavyHiggsBdt, "HeavyHiggsBdt"));
+    Observables.push_back(NewObservable(&Branch.HeavyHiggsPt, "HeavyHiggsPt"));
 
-    Observables.push_back(NewObservable(&Branch->BottomSumPt, "BottomSumPt"));
-    Observables.push_back(NewObservable(&Branch->BottomDeltaPt, "BottomDeltaPt"));
+    Observables.push_back(NewObservable(&Branch.BottomSumPt, "BottomSumPt"));
+    Observables.push_back(NewObservable(&Branch.BottomDeltaPt, "BottomDeltaPt"));
 
-    Observables.push_back(NewObservable(&Branch->BottomDeltaRap, "BottomDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->BottomDeltaPhi, "BottomDeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->BottomDeltaR, "BottomDeltaR"));
+    Observables.push_back(NewObservable(&Branch.BottomDeltaRap, "BottomDeltaRap"));
+    Observables.push_back(NewObservable(&Branch.BottomDeltaPhi, "BottomDeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.BottomDeltaR, "BottomDeltaR"));
 
-    Observables.push_back(NewObservable(&Branch->HbSumDeltaRap, "HbSumDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->HbSumDeltaPhi, "HbSumDeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->HbSumDeltaR, "HbSumDeltaR"));
+    Observables.push_back(NewObservable(&Branch.HbSumDeltaRap, "HbSumDeltaRap"));
+    Observables.push_back(NewObservable(&Branch.HbSumDeltaPhi, "HbSumDeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.HbSumDeltaR, "HbSumDeltaR"));
 
-    Observables.push_back(NewObservable(&Branch->HbDeltaDeltaRap, "HbDeltaDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->HbDeltaDeltaPhi, "HbDeltaDeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->HbDeltaDeltaR, "HbDeltaDeltaR"));
+    Observables.push_back(NewObservable(&Branch.HbDeltaDeltaRap, "HbDeltaDeltaRap"));
+    Observables.push_back(NewObservable(&Branch.HbDeltaDeltaPhi, "HbDeltaDeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.HbDeltaDeltaR, "HbDeltaDeltaR"));
 
-    Spectators.push_back(NewObservable(&Branch->LeptonNumber, "LeptonNumber"));
-    Spectators.push_back(NewObservable(&Branch->EventTag, "EventTag"));
-    Spectators.push_back(NewObservable(&Branch->HeavyHiggsMass, "HeavyHiggsMass"));
+    Spectators.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
+    Spectators.push_back(NewObservable(&Branch.EventTag, "EventTag"));
+    Spectators.push_back(NewObservable(&Branch.HeavyHiggsMass, "HeavyHiggsMass"));
 
     Print(HNotification, "Variables defined");
 
@@ -311,7 +311,7 @@ HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet
 
 }
 
-std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader)
+std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
     Print(HNotification, "Apply Bdt", EventBranchName);
 
@@ -333,7 +333,7 @@ std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTree
 
             HBdtBranch *Export = static_cast<HBdtBranch *>(BdtBranch->NewEntry());
 
-            const float Bdt = Reader->EvaluateMVA(BdtMethodName);
+            const float Bdt = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName);
             const float Error = Reader->GetMVAError();
             const float Rarity = Reader->GetRarity(GetBdtMethodName());
             const int Steps = 10;

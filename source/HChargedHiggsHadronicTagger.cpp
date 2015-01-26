@@ -1,34 +1,62 @@
 # include "HChargedHiggsHadronicTagger.hh"
 
-hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger(HBottomTagger *const NewBottomTagger, HWTagger *const NewWTagger, HTopHadronicTagger *const NewTopTagger)
+hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger(const HBottomTagger &NewBottomTagger, const HWTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
+    BottomReader.SetMva(BottomTagger);
     WTagger = NewWTagger;
-    WReader = new HReader(WTagger);
+    WReader.SetMva(WTagger);
     TopHadronicTagger = NewTopTagger;
-    TopHadronicReader = new HReader(TopHadronicTagger);
+    TopHadronicReader.SetMva(TopHadronicTagger);
 
     SetTaggerName("ChargedHiggsHadronic");
 
-    Branch = new HChargedHiggsHadronicBranch();
-    JetTag = new HJetTag();
+//     Branch = new HChargedHiggsHadronicBranch();
+    //JetTag = new HJetTag();
 
     DefineVariables();
+}
+
+hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger()
+{
+  //     DebugLevel = hanalysis::HObject::HDebug;
+
+  Print(HNotification, "Constructor");
+  SetTaggerName("ChargedHiggsHadronic");
 }
 
 hanalysis::HChargedHiggsHadronicTagger::~HChargedHiggsHadronicTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete JetTag;
-    delete BottomReader;
-    delete WReader;
-    delete TopHadronicReader;
+    // delete Branch;
+    //delete JetTag;
+//     delete BottomReader;
+//     delete WReader;
+//     delete TopHadronicReader;
+
+}
+
+void hanalysis::HChargedHiggsHadronicTagger::DefineVariables()
+{
+
+    Print(HNotification , "Define Variables");
+
+    Observables.push_back(NewObservable(&Branch.HeavyHiggsPt, "HeavyHiggsPt"));
+
+    Observables.push_back(NewObservable(&Branch.TopDeltaR, "TopDeltaR"));
+    Observables.push_back(NewObservable(&Branch.TopDeltaRap, "TopDeltaRap"));
+    Observables.push_back(NewObservable(&Branch.TopDeltaPhi, "TopDeltaPhi"));
+
+    Observables.push_back(NewObservable(&Branch.TopBdt, "TopBdt"));
+
+    Spectators.push_back(NewObservable(&Branch.HeavyHiggsTag, "HeavyHiggsTag"));
+    Spectators.push_back(NewObservable(&Branch.HeavyHiggsMass, "HeavyHiggsMass"));
+
+    Print(HNotification, "Variables defined");
 
 }
 
@@ -43,60 +71,16 @@ void hanalysis::HChargedHiggsHadronicTagger::FillBranch(HChargedHiggsHadronicBra
     ChargedHiggsHadronicBranch->TopDeltaRap = Quartet.DeltaRap();
     ChargedHiggsHadronicBranch->TopDeltaPhi = Quartet.DeltaPhi();
 
-//     HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
-//     HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
-//     HeavyHiggsBranch->LargerWDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
-//
-//     HeavyHiggsBranch->SmallerWDeltaR = TriplePair.GetSmallerTripleDeltaR();
-//     HeavyHiggsBranch->SmallerWDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
-//     HeavyHiggsBranch->SmallerWDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
-//
-//     HeavyHiggsBranch->LargerNeutrinoDeltaR = TriplePair.GetLargerTripleDeltaR();
-//     HeavyHiggsBranch->LargerNeutrinoDeltaRap = TriplePair.GetLargerTripleDeltaRap();
-//     HeavyHiggsBranch->LargerNeutrinoDeltaPhi = TriplePair.GetLargerTripleDeltaPhi();
-//
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaR = TriplePair.GetSmallerTripleDeltaR();
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
-
     ChargedHiggsHadronicBranch->TopBdt = Quartet.Bdt();
     ChargedHiggsHadronicBranch->HeavyHiggsTag = Quartet.Tag();
 
 }
 
-void hanalysis::HChargedHiggsHadronicTagger::DefineVariables()
+void hanalysis::HChargedHiggsHadronicTagger::FillBranch(const hanalysis::HQuartet31 &Quartet)
 {
+    Print(HInformation, "FillBranch", Quartet.Bdt());
 
-    Print(HNotification , "Define Variables");
-
-    Observables.push_back(NewObservable(&Branch->HeavyHiggsPt, "HeavyHiggsPt"));
-
-    Observables.push_back(NewObservable(&Branch->TopDeltaR, "TopDeltaR"));
-    Observables.push_back(NewObservable(&Branch->TopDeltaRap, "TopDeltaRap"));
-    Observables.push_back(NewObservable(&Branch->TopDeltaPhi, "TopDeltaPhi"));
-
-//     Observables.push_back(NewObservable(&Branch->LargerWDeltaR, "LargerWDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->LargerWDeltaRap, "LargerWDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->LargerWDeltaPhi, "LargerWDeltaPhi"));
-//
-//     Observables.push_back(NewObservable(&Branch->SmallerWDeltaR, "SmallerWDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->SmallerWDeltaRap, "SmallerWDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->SmallerWDeltaPhi, "SmallerWDeltaPhi"));
-//
-//     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi"));
-//
-//     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR"));
-//     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch->SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi"));
-
-    Observables.push_back(NewObservable(&Branch->TopBdt, "TopBdt"));
-
-    Spectators.push_back(NewObservable(&Branch->HeavyHiggsTag, "HeavyHiggsTag"));
-    Spectators.push_back(NewObservable(&Branch->HeavyHiggsMass, "HeavyHiggsMass"));
-
-    Print(HNotification, "Variables defined");
+    FillBranch(&Branch, Quartet);
 
 }
 
@@ -107,14 +91,14 @@ std::vector< HChargedHiggsHadronicBranch * > hanalysis::HChargedHiggsHadronicTag
 
     std::vector<HChargedHiggsHadronicBranch *> ChargedHiggsHadronicBranches;
 
-    JetTag->HeavyParticles = {WId, TopId, ChargedHiggsId};
+    JetTag.HeavyParticles = {WId, TopId, ChargedHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger.GetBdt(Jets, BottomReader);
 
-    std::vector<HDoublet> Doublets = WTagger->GetBdt(Jets, WReader);
+    std::vector<HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
 
-    std::vector<HTriplet> Triplets = TopHadronicTagger->GetBdt(Doublets, Jets, TopHadronicReader);
+    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
 
 
     std::vector<HQuartet31> Quartets;
@@ -139,14 +123,6 @@ std::vector< HChargedHiggsHadronicBranch * > hanalysis::HChargedHiggsHadronicTag
 
 }
 
-void hanalysis::HChargedHiggsHadronicTagger::FillBranch(const hanalysis::HQuartet31 &Quartet)
-{
-    Print(HInformation, "FillBranch", Quartet.Bdt());
-
-    FillBranch(Branch, Quartet);
-
-}
-
 hanalysis::HObject::HTag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQuartet31 &Quartet)
 {
     Print(HInformation, "Get Triple Tag");
@@ -159,7 +135,7 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQ
 }
 
 
-std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<hanalysis::HTriplet> Triplets,std::vector<fastjet::PseudoJet> Jets, hanalysis::HReader *Reader)
+std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<hanalysis::HTriplet> Triplets,std::vector<fastjet::PseudoJet> Jets, const hanalysis::HReader &Reader)
 {
     Print(HInformation, "Get Heavy Higgs Bdt");
     std::vector<hanalysis::HQuartet31> Quartets;
@@ -171,7 +147,7 @@ std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBd
             HQuartet31 Quartet(Triplet, Jet);
             Quartets.push_back(Quartet);
             FillBranch(Quartet);
-            Quartet.SetBdt(Reader->Bdt());
+            Quartet.SetBdt(Reader.Bdt());
         }
 
     return Quartets;

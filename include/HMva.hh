@@ -54,7 +54,7 @@ public:
 
     HObservable(float *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
 
-//         Print(HInformation, "Float Constructor", *NewValue);
+//         Print(HDebug, "Float Constructor", *NewValue);
 
         Value = NewValue;
         Expression = NewExpression;
@@ -123,6 +123,13 @@ public:
     */
     HMva();
 
+    HMva(const HMva &NewMva){
+      Print(HInformation,"Copy Constructor");
+      SetObservables(NewMva.GetObservables());
+      SetSpectators(NewMva.GetSpectators());
+      SetTaggerName(GetTaggerName());
+    }
+
     /**
     * @brief Destructor
     *
@@ -177,12 +184,16 @@ public:
         return Observables;
     }
 
-    void SetObservables(std::vector<HObservable> NewObservables) {
+    void SetObservables(const std::vector<HObservable> &NewObservables) {
         Observables = NewObservables;
     }
 
     std::vector<HObservable> GetSpectators() const {
         return Spectators;
+    }
+
+    void SetSpectators(const std::vector<HObservable> &NewSpectators) {
+      Spectators = NewSpectators;
     }
 
     HStrings GetSignalNames() const {
@@ -222,11 +233,11 @@ public:
         return Cut;
     }
 
-    void SetAnalysisName(const std::string NewAnalysisName) {
+    void SetAnalysisName(const std::string &NewAnalysisName) {
         AnalysisName = NewAnalysisName;
     }
 
-    void SetTestTreeNames(const HStrings NewTestTreeNames) {
+    void SetTestTreeNames(const HStrings &NewTestTreeNames) {
         TestTreeNames = NewTestTreeNames;
     }
 
@@ -259,7 +270,9 @@ public:
         return ReaderStruct;
     };
 
-    virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
+    virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, const TMVA::Reader &){
+      Print(HError, "should be subclassed");
+    };
 
     virtual std::vector<int> ApplyBdt2(const ExRootTreeReader *const , const std::string , const TFile *const) {
         Print(HError, "should be subclassed");
@@ -267,7 +280,7 @@ public:
         return Vector;
     };
 
-    virtual float GetBdt(TObject *Branch, TMVA::Reader *Reader);
+    virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
 //     HPairBranch *GetBranch() {
 //       return Branch;
@@ -372,8 +385,6 @@ protected:
     int MaxCombi;
 
     float MinCellResolution;
-
-//     HPairBranch *Branch;
 
 private:
 

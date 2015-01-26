@@ -74,9 +74,9 @@ public:
      */
     ~HAnalysis();
 
-    hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HTopLeptonicTagger *LeptonicTopTagger;
-    hanalysis::HMvaHiggsTagger *HiggsTagger;
+    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::HTopLeptonicTagger LeptonicTopTagger;
+    hanalysis::HMvaHiggsTagger HiggsTagger;
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -98,9 +98,9 @@ private:
     ExRootTreeBranch *TopBranch;
     ExRootTreeBranch *EventBranch;
 
-    hanalysis::HReader  *BottomReader;
-    hanalysis::HReader  *TopReader;
-    hanalysis::HReader  *HiggsReader;
+    hanalysis::HReader BottomReader;
+    hanalysis::HReader TopReader;
+    hanalysis::HReader HiggsReader;
 
     inline int GetEventNumberMax() const {
         return 100000;
@@ -110,7 +110,7 @@ private:
         return "HiggsCpv";
     }
 
-    hanalysis::HJetTag *JetTag;
+    hanalysis::HJetTag JetTag;
 
     /**
      * @brief Main Analysis function

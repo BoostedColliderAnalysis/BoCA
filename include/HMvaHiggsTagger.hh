@@ -18,7 +18,9 @@ class hanalysis::HMvaHiggsTagger : public HMva
 
 public:
 
-    HMvaHiggsTagger(hanalysis::HBottomTagger *const NewBottomTagger);
+    HMvaHiggsTagger();
+
+    HMvaHiggsTagger(const hanalysis::HBottomTagger &NewBottomTagger);
 
     ~HMvaHiggsTagger();
 
@@ -30,13 +32,13 @@ public:
 
 private:
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
 
-    HReader *BottomReader;
+    HReader BottomReader;
 
-    HHiggsBranch *Branch;
+    HHiggsBranch Branch;
 
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
     void DefineVariables();
 

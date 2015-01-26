@@ -3,14 +3,7 @@
 
 int main()
 {
-  hanalysis::HMva *Mva = new hheavyhiggs::HMva();
-
-  hanalysis::HFactory *Factory = new hanalysis::HFactory(Mva);
-
-    delete Factory;
-
-    delete Mva;
-
+  hheavyhiggs::HMva Mva;
+  hanalysis::HFactory Factory(Mva);
     return 0;
-
 }

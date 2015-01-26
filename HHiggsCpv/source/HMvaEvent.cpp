@@ -35,7 +35,7 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 
     DoLatex = 1;
 
-    EventBranch = new HEventBranch();
+//     EventBranch = new HEventBranch();
 
     DefineVariables();
 
@@ -69,7 +69,7 @@ void hhiggscpv::HMvaEvent::DefineVariables()
 
 }
 
-void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader)
+void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
     Print(HNotification, "Apply Bdt");
 
@@ -94,7 +94,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 
             (*ExportCandidate) = *EventBranch;
 
-            const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
+            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName);
 
             Print(HInformation,"Bdt",BdtEvaluation);
 
@@ -102,7 +102,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
             const int StepSize = 50;
             for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
-                bool CutEvaluation = Reader->EvaluateMVA(CutMethodName, SigEff / StepSize);
+                bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(CutMethodName, SigEff / StepSize);
 
                 if (CutEvaluation) break;
 

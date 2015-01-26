@@ -15,11 +15,13 @@ class hanalysis::HChargedHiggsSemiTagger : public HMva
 public:
 
   HChargedHiggsSemiTagger(
-    hanalysis::HBottomTagger *const NewBottomTagger,
-    hanalysis::HWSemiTagger *const NewWSemiTagger,
-    hanalysis::HWTagger *const NewWTagger,
-    hanalysis::HTopSemiTagger *const NewTopSemiTagger,
-    hanalysis::HTopHadronicTagger *const NewTopHadronicTagger);
+    const hanalysis::HBottomTagger &NewBottomTagger,
+    const hanalysis::HWSemiTagger &NewWSemiTagger,
+    const hanalysis::HWTagger &NewWTagger,
+    const hanalysis::HTopSemiTagger &NewTopSemiTagger,
+    const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
+
+  HChargedHiggsSemiTagger();
 
     ~HChargedHiggsSemiTagger();
 
@@ -27,9 +29,9 @@ public:
 
     void FillBranch(const hanalysis::HQuartet31 &HQuartet);
 
-    std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::HTriplet > Triplets, std::vector< fastjet::PseudoJet > Siglets, const hanalysis::HReader *const Reader);
+    std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::HTriplet > Triplets, std::vector< fastjet::PseudoJet > Siglets, const hanalysis::HReader & Reader);
 
-    std::vector< HQuartet31 > GetQuartets(const hanalysis::HReader *const Reader);
+    std::vector< HQuartet31 > GetQuartets(const hanalysis::HReader & Reader);
 
 protected:
 
@@ -45,25 +47,23 @@ private:
 
     HTag GetTag(const hanalysis::HQuartet31 &Quartet);
 
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
+    HWSemiTagger WSemiTagger;
+    HWTagger WTagger;
+    HTopHadronicTagger TopHadronicTagger;
+    HTopSemiTagger TopSemiTagger;
 
-    HWSemiTagger *WSemiTagger;
-    HWTagger *WTagger;
+    HReader BottomReader;
 
-    HTopHadronicTagger *TopHadronicTagger;
-    HTopSemiTagger *TopSemiTagger;
+    HReader WSemiReader;
+    HReader WReader;
 
-    HReader *BottomReader;
+    HReader TopHadronicReader;
+    HReader TopSemiReader;
 
-    HReader *WSemiReader;
-    HReader *WReader;
-
-    HReader *TopHadronicReader;
-    HReader *TopSemiReader;
-
-    HChargedHiggsSemiBranch *Branch;
+    HChargedHiggsSemiBranch Branch;
 };
 
 #endif

@@ -180,10 +180,10 @@ fastjet::PseudoJet hanalysis::hdelphes::HEvent::GetHiggs()
 
 }
 
-HJets hanalysis::hdelphes::HEvent::GetTops(hanalysis::HJetTag *const JetTag)
+HJets hanalysis::hdelphes::HEvent::GetTops(hanalysis::HJetTag &JetTag)
 {
 
-    Print(HInformation, "Get Tops", JetTag->GetBranchId(0,0));
+    Print(HInformation, "Get Tops", JetTag.GetBranchId(0,0));
 
 //     GetEFlow();
 
@@ -238,11 +238,11 @@ HJets hanalysis::hdelphes::HEvent::GetTops(hanalysis::HJetTag *const JetTag)
 // }
 
 
-HJets hanalysis::hdelphes::HEvent::GetCandidates(hanalysis::HJetTag * const JetTag) // FIXME why does this not work
+HJets hanalysis::hdelphes::HEvent::GetCandidates(hanalysis::HJetTag  &JetTag) // FIXME why does this not work
 {
     Print(HInformation, "GetHiggsTopCandidates");
 
-//     for(auto HeavyParticle : JetTag->HeavyParticles) {
+//     for(auto HeavyParticle : JetTag.HeavyParticles) {
 //         Print(HError,"HeavyParticle",HeavyParticle);
 //     }
 

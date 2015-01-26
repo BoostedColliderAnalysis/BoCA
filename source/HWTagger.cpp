@@ -1,35 +1,57 @@
 # include "HWTagger.hh"
 
-hanalysis::HWTagger::HWTagger(HBottomTagger *NewBottomTagger)
+hanalysis::HWTagger::HWTagger()
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
+    //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
     SetTaggerName("WHadronic");
-
-    BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
-
-    Branch = new HWBranch();
-    JetTag = new HJetTag();
-
     DefineVariables();
-    WMassWindow = 20;
-    JetRadiusParameter = 1;
+
 }
 
 hanalysis::HWTagger::~HWTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete BottomReader;
-    delete JetTag;
 }
 
-void hanalysis::HWTagger::FillBranch(const HDoublet &Pair)
+void hanalysis::HWTagger::SetTagger(const HBottomTagger &NewBottomTagger)
 {
-    Print(HInformation, "FillPairTagger", Pair.Bdt());
-    FillBranch(Branch, Pair);
+
+    Print(HNotification, "Set Tagger");
+    BottomTagger = NewBottomTagger;
+    BottomTagger.SetTagger();
+    BottomReader.SetMva(BottomTagger);
+
+    WMassWindow = 20;
+    JetRadiusParameter = 1;
+    SetTaggerName("WHadronic");
+    DefineVariables();
+}
+
+void hanalysis::HWTagger::DefineVariables()
+{
+
+    Print(HNotification , "Define Variables");
+
+    Observables.clear();
+    Spectators.clear();
+
+    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
+    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
+    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+
+    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+
+    Print(HNotification, "Variables defined");
+
 }
 
 void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Doublet)
@@ -50,26 +72,10 @@ void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Do
 
 }
 
-void hanalysis::HWTagger::DefineVariables()
+void hanalysis::HWTagger::FillBranch(const hanalysis::HDoublet &Doublet)
 {
-
-    Print(HNotification , "Define Variables");
-
-    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch->Ht, "Ht"));
-    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
-
-    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
-
-    Print(HNotification, "Variables defined");
-
+    Print(HInformation, "FillPairTagger", Doublet.Bdt());
+    FillBranch(&Branch, Doublet);
 }
 
 
@@ -78,11 +84,11 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
 
     Print(HInformation, "Get W Tags");
 
-    JetTag->HeavyParticles = {WId};
+    JetTag.HeavyParticles = {WId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jets Number", Jets.size());
 
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger.GetBdt(Jets, BottomReader);
     Print(HInformation, "Bottom Tagger Number", Jets.size());
 
     for (const auto & Jet : Jets) static_cast<hanalysis::HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractFraction(WId);
@@ -150,7 +156,7 @@ hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const fastjet::PseudoJet &S
 }
 
 
-std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets, const hanalysis::HReader *const WReader)
+std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &WReader)
 {
     Print(HInformation, "Get Doublet Bdt");
 
@@ -162,7 +168,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets,
             if (std::abs(Doublet.Jet().rap()) > 100) continue;
             if (std::abs(Doublet.Jet().m()) < 10) continue;
             FillBranch(Doublet);
-            Doublet.SetBdt(WReader->Bdt());
+            Doublet.SetBdt(WReader.Bdt());
             Doublets.push_back(Doublet);
         }
 
@@ -171,7 +177,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets,
         if (std::abs(Doublet.Jet().rap()) > 100) continue;
         if (std::abs(Doublet.Jet().m()) < 10) continue;
         FillBranch(Doublet);
-        Doublet.SetBdt(WReader->Bdt());
+        Doublet.SetBdt(WReader.Bdt());
         Doublets.push_back(Doublet);
     }
 

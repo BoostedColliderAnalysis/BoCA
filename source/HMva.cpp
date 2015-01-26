@@ -13,12 +13,10 @@ hanalysis::HMva::HMva()
 
 hanalysis::HMva::~HMva()
 {
-
     Print(HNotification, "Destructor");
-
 }
 
-float hanalysis::HMva::GetBdt(TObject *, TMVA::Reader *)
+float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 {
 
     Print(HError, "Get Bdt", "should be implemented somewhere else");

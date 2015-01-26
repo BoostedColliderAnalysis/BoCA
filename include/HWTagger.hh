@@ -13,21 +13,23 @@ class hanalysis::HWTagger : public HMva
 
 public:
 
-    HWTagger(HBottomTagger *NewBottomTagger);
+    HWTagger();
 
     ~HWTagger();
 
-    void FillBranch(const HDoublet &Pair);
+    void SetTagger(const HBottomTagger &NewBottomTagger);
+
+    void FillBranch(const HDoublet &Doublet);
 
     std::vector< HWBranch * > GetBranches(HEvent *const Event, const HObject::HTag Tag);
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader *const WReader);
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader & WReader);
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
 
-    HReader *BottomReader;
+    HReader BottomReader;
 
     void FillBranch(HWBranch *const WBranch, const HDoublet &Doublet);
 
@@ -45,17 +47,13 @@ private:
 
     void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
 
-//     std::vector<HDoublet> GetSubJets(const HJets &Jets, const int SubJetNumber, const hanalysis::HObject::HTag Tag);
-
-//     std::vector<HDoublet> GetSubBdt(const HJets Jets,const int SubJetNumber, const hanalysis::HReader *const WReader);
-
     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
 
     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
 
-    HWBranch *Branch;
+    HWBranch Branch;
 
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
     float WMassWindow;
 

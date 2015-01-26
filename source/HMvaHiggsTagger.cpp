@@ -1,21 +1,29 @@
 # include "HMvaHiggsTagger.hh"
 
-hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(HBottomTagger *const NewBottomTagger)
+hanalysis::HMvaHiggsTagger::HMvaHiggsTagger()
+{
+  //     DebugLevel = hanalysis::HObject::HDebug;
+
+  Print(HNotification, "Constructor");
+  EventBranchName = "Higgs";
+}
+
+hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const HBottomTagger &NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
+    BottomReader.SetMva(BottomTagger);
 
     TaggerName = "Higgs";
     SignalNames = {"Higgs"};
     BackgroundNames = {"NotHiggs"};
     EventBranchName = "Higgs";
 
-    Branch = new HHiggsBranch();
-    JetTag = new HJetTag();
+//     Branch = new HHiggsBranch();
+    //JetTag = new HJetTag();
 
     DefineVariables();
 }
@@ -23,9 +31,9 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(HBottomTagger *const NewBottomTagger
 hanalysis::HMvaHiggsTagger::~HMvaHiggsTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete BottomReader;
-    delete JetTag;
+    // delete Branch;
+//     delete BottomReader;
+    //delete JetTag;
 }
 
 void hanalysis::HMvaHiggsTagger::DefineVariables()
@@ -33,18 +41,18 @@ void hanalysis::HMvaHiggsTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->PtSum, "PtSum"));
-    Observables.push_back(NewObservable(&Branch->PtDiff, "PtDiff"));
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch->Pull1, "Pull1"));
-    Observables.push_back(NewObservable(&Branch->Pull2, "Pull2"));
-    Observables.push_back(NewObservable(&Branch->Pull, "Pull"));
-    Observables.push_back(NewObservable(&Branch->BottomBdt, "BottomBdt"));
+    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch.PtSum, "PtSum"));
+    Observables.push_back(NewObservable(&Branch.PtDiff, "PtDiff"));
+    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch.Pull1, "Pull1"));
+    Observables.push_back(NewObservable(&Branch.Pull2, "Pull2"));
+    Observables.push_back(NewObservable(&Branch.Pull, "Pull"));
+    Observables.push_back(NewObservable(&Branch.BottomBdt, "BottomBdt"));
 
-    Spectators.push_back(NewObservable(&Branch->HiggsTag, "HiggsTag"));
+    Spectators.push_back(NewObservable(&Branch.HiggsTag, "HiggsTag"));
 
     Print(HNotification, "Variables defined");
 
@@ -81,7 +89,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent *cons
 
     Print(HInformation, "Get Higgs Tags");
 
-    JetTag->HeavyParticles = {CpvHiggsId, HiggsId, TopId};
+    JetTag.HeavyParticles = {CpvHiggsId, HiggsId, TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
 
     HJets HiggsJets;
@@ -91,8 +99,8 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent *cons
             Jet = Jets.erase(Jet);
         } else {
             HJetInfo *JetInfo = new HJetInfo;
-            BottomTagger->FillBranch(*Jet);
-            JetInfo->SetBdt(BottomReader->Bdt());
+            BottomTagger.FillBranch(*Jet);
+            JetInfo->SetBdt(BottomReader.Bdt());
             (*Jet).set_user_info(JetInfo);
             if ((*Jet).user_info<HJetInfo>().MaximalId() == HiggsId || (*Jet).user_info<HJetInfo>().MaximalId() == CpvHiggsId) {
                 HiggsJets.push_back(*Jet);
@@ -157,7 +165,7 @@ void hanalysis::HMvaHiggsTagger::FillBranch(const HDoublet &Pair)
 {
     Print(HInformation, "FillPairTagger", Pair.Bdt());
 
-    FillBranch(Branch, Pair);
+    FillBranch(&Branch, Pair);
 
 }
 

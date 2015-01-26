@@ -1,10 +1,10 @@
 # include "HFactory.hh"
 
-hanalysis::HFactory::HFactory(HMva *const NewMva)
+hanalysis::HFactory::HFactory(HMva &NewMva)
 {
     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification , "Constructor");
-    Mva = NewMva;
+    Mva = &NewMva;
     NewFactory();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
@@ -19,6 +19,7 @@ hanalysis::HFactory::~HFactory()
 {
     Print(HNotification , "Destructor");
     delete Factory;
+//     delete Mva; // TODO do I need this?
 }
 
 void hanalysis::HFactory::NewFactory()
@@ -54,7 +55,10 @@ int hanalysis::HFactory::GetTrees()
         TFile *SignalFile = TFile::Open(SignalFileName.c_str());
         Print(HNotification , "Signal File", SignalFile->GetName());
 
-        for (int TreeNumber : HRange(Mva->GetSignalTreeNames().size())) SignalNumber += AddTree(SignalFile, Mva->GetSignalTreeNames()[TreeNumber], 1);
+        for (int TreeNumber : HRange(Mva->GetSignalTreeNames().size())) {
+            Print(HNotification , "signal Tree Name", Mva->GetSignalTreeNames()[TreeNumber]);
+            SignalNumber += AddTree(SignalFile, Mva->GetSignalTreeNames()[TreeNumber], 1);
+        }
 
     }
 
@@ -66,7 +70,10 @@ int hanalysis::HFactory::GetTrees()
         TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
         Print(HNotification , "Background File", BackgroundFile->GetName());
 
-        for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) BackgroundNumber += AddTree(BackgroundFile, BackgroundTreeName, 0);
+        for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
+            Print(HNotification , "Background Tree Name", BackgroundTreeName);
+            BackgroundNumber += AddTree(BackgroundFile, BackgroundTreeName, 0);
+        }
 
     }
 
@@ -146,7 +153,7 @@ void hanalysis::HFactory::BookMethods()
 //     const std::string BdtOptions = "!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2";
     const std::string BdtOptions =
 //     "";
-    "H:V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";//:CreateMVAPdfs:DoBoostMonitor";
+        "H:V:NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";//:CreateMVAPdfs:DoBoostMonitor";
 //     const std::string BdtOptions = "";
 
 //     const std::string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;

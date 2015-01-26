@@ -92,24 +92,24 @@ public:
 
     ExRootTreeBranch *ChargedHiggsSemiBranch;
 
-    hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HWSemiTagger *WSemiTagger;
-    hanalysis::HWTagger *WHadronicTagger;
-    hanalysis::HJetPairTagger *JetPairTagger;
+    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::HJetPairTagger JetPairTagger;
+    hanalysis::HWSemiTagger WSemiTagger;
+    hanalysis::HWTagger WHadronicTagger;
 
-    hanalysis::HTopLeptonicTagger *TopLeptonicTagger;
-    hanalysis::HTopHadronicTagger *TopHadronicTagger;
-    hanalysis::HTopSemiTagger *TopSemiTagger;
+    hanalysis::HTopLeptonicTagger TopLeptonicTagger;
+    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::HTopSemiTagger TopSemiTagger;
 
-    hanalysis::HHeavyHiggsLeptonicTagger *HeavyHiggsLeptonicTagger;
-    hanalysis::HHeavyHiggsHadronicTagger *HeavyHiggsHadronicTagger;
-    hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
+    hanalysis::HHeavyHiggsLeptonicTagger HeavyHiggsLeptonicTagger;
+    hanalysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
+    hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
 
-    hheavyhiggs::HEventLeptonicTagger *EventLeptonicTagger;
-    hheavyhiggs::HEventHadronicTagger *EventHadronicTagger;
-    hheavyhiggs::HEventSemiTagger *EventSemiTagger;
+    hheavyhiggs::HEventLeptonicTagger EventLeptonicTagger;
+    hheavyhiggs::HEventHadronicTagger EventHadronicTagger;
+    hheavyhiggs::HEventSemiTagger EventSemiTagger;
 
-//     hanalysis::HReader *LeptonicReader;
+//     hanalysis::HReader LeptonicReader;
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -137,6 +137,8 @@ public:
 
     std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
 
+    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger);
+
 protected:
 
     virtual inline std::string NameSpaceName() const {
@@ -148,20 +150,20 @@ protected:
     }
 
 private:
-    hanalysis::HJetTag *JetTag;
+    hanalysis::HJetTag JetTag;
 
-    hanalysis::HReader *BottomReader;
-    hanalysis::HReader *JetPairReader;
-    hanalysis::HReader *WSemiReader;
-    hanalysis::HReader *WHadronicReader;
-    hanalysis::HReader *TopLeptonicReader;
-    hanalysis::HReader *TopHadronicReader;
-    hanalysis::HReader *TopSemiReader;
-    hanalysis::HReader *HeavyHiggsSemiReader;
-    hanalysis::HReader *HeavyHiggsLeptonicReader;
-    hanalysis::HReader *EventSemiReader;
-    hanalysis::HReader *EventLeptonicReader;
-    hanalysis::HReader *ChargedHiggsSemiReader;
+    hanalysis::HReader BottomReader;
+    hanalysis::HReader JetPairReader;
+    hanalysis::HReader WSemiReader;
+    hanalysis::HReader WHadronicReader;
+    hanalysis::HReader TopLeptonicReader;
+    hanalysis::HReader TopHadronicReader;
+    hanalysis::HReader TopSemiReader;
+    hanalysis::HReader HeavyHiggsSemiReader;
+    hanalysis::HReader HeavyHiggsLeptonicReader;
+    hanalysis::HReader EventSemiReader;
+    hanalysis::HReader EventLeptonicReader;
+    hanalysis::HReader ChargedHiggsSemiReader;
 
     HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
 

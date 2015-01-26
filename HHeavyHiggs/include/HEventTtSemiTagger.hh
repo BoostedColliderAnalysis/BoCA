@@ -27,9 +27,9 @@ public:
 
     void FillBranch(const HSextet &Sextet);
 
-    std::vector< HSextet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader *const EventSemiReader);
+    std::vector< HSextet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader & EventSemiReader);
 
-    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader);
+    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
 
     void FillBranch(hheavyhiggs::HEventSemiBranch *EventSemiBranch, const HSextet &Sextet);
 
@@ -59,15 +59,15 @@ private:
     hanalysis::HTopHadronicTagger *TopHadronicTagger;
     hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
 
-    hanalysis::HReader *BottomReader;
-    hanalysis::HReader *WSemiReader;
-    hanalysis::HReader *WReader;
-    hanalysis::HReader *TopHadronicReader;
-    hanalysis::HReader *TopSemiReader;
-    hanalysis::HReader *HeavyHiggsSemiReader;
+    hanalysis::HReader BottomReader;
+    hanalysis::HReader WSemiReader;
+    hanalysis::HReader WReader;
+    hanalysis::HReader TopHadronicReader;
+    hanalysis::HReader TopSemiReader;
+    hanalysis::HReader HeavyHiggsSemiReader;
 
-    HEventSemiBranch *Branch;
-    hanalysis::HJetTag *JetTag;
+    HEventSemiBranch Branch;
+    hanalysis::HJetTag JetTag;
 
 };
 

@@ -229,42 +229,6 @@ hheavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
 }
 
 
-ClassImp(hheavyhiggs::HChargedSemi2Branch)
-
-hheavyhiggs::HChargedSemi2Branch::HChargedSemi2Branch()
-{
-
-  LeptonNumber = InitialValue;
-  JetNumber = InitialValue;
-  BottomNumber = InitialValue;
-
-  ScalarHt = InitialValue;
-  HeavyParticleBdt = InitialValue;
-
-  HeavyHiggsBdt = InitialValue;
-  HeavyHiggsMass = InitialValue;
-  HeavyHiggsPt = InitialValue;
-
-  BottomSumPt = InitialValue;
-  BottomDeltaPt = InitialValue;
-
-  BottomDeltaRap = InitialValue;
-  BottomDeltaPhi = InitialValue;
-  BottomDeltaR = InitialValue;
-
-  HbSumDeltaRap = InitialValue;
-  HbSumDeltaPhi = InitialValue;
-  HbSumDeltaR = InitialValue;
-
-  HbDeltaDeltaRap = InitialValue;
-  HbDeltaDeltaPhi = InitialValue;
-  HbDeltaDeltaR = InitialValue;
-
-  EventTag = InitialValue;
-
-}
-
-
 ClassImp(hheavyhiggs::HChargedLeptonicBranch)
 
 hheavyhiggs::HChargedLeptonicBranch::HChargedLeptonicBranch()

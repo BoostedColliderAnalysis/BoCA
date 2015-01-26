@@ -1,29 +1,35 @@
 # include "HTopSemiTagger.hh"
 
-hanalysis::HTopSemiTagger::HTopSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger *const NewWSemiTagger)
+hanalysis::HTopSemiTagger::HTopSemiTagger()
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
-
+    //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-    BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
-    WSemiTagger = NewWSemiTagger;
-    WSemiReader = new HReader(WSemiTagger);
     SetTaggerName("TopSemi");
-    Branch = new HTopSemiBranch();
-    JetTag = new HJetTag();
     DefineVariables();
-    TopWindow = 50;
-
 }
 
 hanalysis::HTopSemiTagger::~HTopSemiTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete JetTag;
-    delete BottomReader;
-    delete WSemiReader;
+}
+
+void hanalysis::HTopSemiTagger::SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger)
+{
+    Print(HNotification, "SetTagger");
+
+    SetTaggerName("TopSemi");
+    DefineVariables();
+
+    BottomTagger = NewBottomTagger;
+    BottomTagger.SetTagger();
+    BottomReader.SetMva(BottomTagger);
+
+    WSemiTagger = NewWSemiTagger;
+    WSemiTagger.SetTagger();
+    WSemiReader.SetMva(WSemiTagger);
+
+    TopWindow = 50;
+
 }
 
 void hanalysis::HTopSemiTagger::DefineVariables()
@@ -31,22 +37,25 @@ void hanalysis::HTopSemiTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch->Ht, "Ht"));
+    Observables.clear();
+    Spectators.clear();
 
-    Observables.push_back(NewObservable(&Branch->BottomPt, "BottomPt"));
-    Observables.push_back(NewObservable(&Branch->WPt, "WPt"));
+    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
-    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
+    Observables.push_back(NewObservable(&Branch.BottomPt, "BottomPt"));
+    Observables.push_back(NewObservable(&Branch.WPt, "WPt"));
 
-    Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
+    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
+    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+
+    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
 
     Print(HNotification, "Variables defined");
 
@@ -78,7 +87,7 @@ void hanalysis::HTopSemiTagger::FillBranch(HTopSemiBranch *const TopSemiBranch, 
 void hanalysis::HTopSemiTagger::FillBranch(const HTriplet &Triple)
 {
     Print(HInformation, "Fill Top Tagger", Triple.Bdt());
-    FillBranch(Branch, Triple);
+    FillBranch(&Branch, Triple);
 }
 
 
@@ -87,15 +96,15 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
 
     Print(HInformation, "Get Top Tags");
 
-    JetTag->HeavyParticles = {TopId};
+    JetTag.HeavyParticles = {TopId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Jet Number", Jets.size());
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger.GetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-    std::vector<HDoublet> Doublets = WSemiTagger->GetBdt(Leptons, MissingEt, WSemiReader);
+    std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     Print(HInformation, "Number Doublets", Doublets.size());
 
     std::vector<HTriplet> Triplets;
@@ -147,7 +156,7 @@ hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTri
 }
 
 
-std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::vector<HDoublet> &Doublets, const HJets &Jets, const HReader *const Reader)
+std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::vector<HDoublet> &Doublets, const HJets &Jets, const HReader &Reader)
 {
 
     Print(HInformation, "Get Bdt");
@@ -157,9 +166,9 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
         std::vector<HTriplet> PreTriplets;
         for (const auto & Doublet : Doublets) {
             HTriplet Triplet(Doublet, Jet);
-            if(std::abs(Triplet.DeltaRap())>100) continue;
+            if (std::abs(Triplet.DeltaRap()) > 100) continue;
             FillBranch(Triplet);
-            Triplet.SetBdt(Reader->Bdt());
+            Triplet.SetBdt(Reader.Bdt());
             PreTriplets.push_back(Triplet);
         }
         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByMass<HTriplet>(TopMass));

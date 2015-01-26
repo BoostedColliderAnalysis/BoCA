@@ -22,25 +22,26 @@ public:
     */
     HEventSemiTagger();
 
-    HEventSemiTagger(hanalysis::HBottomTagger *const NewBottomTagger,
-                     hanalysis::HJetPairTagger *const NewJetPairTagger,
-                     hanalysis::HWSemiTagger *const NewWSemiTagger,
-                     hanalysis::HWTagger *const NewWTagger,
-                     hanalysis::HTopSemiTagger *const NewTopSemiTagger,
-                     hanalysis::HTopHadronicTagger *const NewTopHadronicTagger,
-                     hanalysis::HHeavyHiggsSemiTagger *const NewHeavyHiggsSemiTagger);
-
     /**
     * @brief Destructor
     *
     */
     ~HEventSemiTagger();
 
+    void SetTagger(
+        const hanalysis::HBottomTagger &NewBottomTagger,
+        const hanalysis::HJetPairTagger &NewJetPairTagger,
+        const hanalysis::HWSemiTagger &NewWSemiTagger,
+        const hanalysis::HWTagger &NewWTagger,
+        const hanalysis::HTopSemiTagger &NewTopSemiTagger,
+        const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
+        const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
+
     std::vector<HEventSemiBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     void FillBranch(const HOctet &Octet);
 
-    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader *const EventSemiReader);
+    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
 
     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -65,24 +66,24 @@ private:
 
     std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
 
-    hanalysis::HBottomTagger *BottomTagger;
-    hanalysis::HWSemiTagger *WSemiTagger;
-    hanalysis::HWTagger *WTagger;
-    hanalysis::HTopSemiTagger *TopSemiTagger;
-    hanalysis::HTopHadronicTagger *TopHadronicTagger;
-    hanalysis::HHeavyHiggsSemiTagger *HeavyHiggsSemiTagger;
-    hanalysis::HJetPairTagger *JetPairTagger;
+    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::HWSemiTagger WSemiTagger;
+    hanalysis::HWTagger WTagger;
+    hanalysis::HTopSemiTagger TopSemiTagger;
+    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+    hanalysis::HJetPairTagger JetPairTagger;
 
-    hanalysis::HReader *BottomReader;
-    hanalysis::HReader *WSemiReader;
-    hanalysis::HReader *WReader;
-    hanalysis::HReader *TopHadronicReader;
-    hanalysis::HReader *TopSemiReader;
-    hanalysis::HReader *HeavyHiggsSemiReader;
-    hanalysis::HReader *JetPairReader;
+    hanalysis::HReader BottomReader;
+    hanalysis::HReader WSemiReader;
+    hanalysis::HReader WReader;
+    hanalysis::HReader TopHadronicReader;
+    hanalysis::HReader TopSemiReader;
+    hanalysis::HReader HeavyHiggsSemiReader;
+    hanalysis::HReader JetPairReader;
 
-    HEventSemiBranch *Branch;
-    hanalysis::HJetTag *JetTag;
+    HEventSemiBranch Branch;
+    hanalysis::HJetTag JetTag;
 
 };
 

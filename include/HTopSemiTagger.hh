@@ -14,19 +14,17 @@ class hanalysis::HTopSemiTagger : public HMva
 
 public:
 
-    HTopSemiTagger(hanalysis::HBottomTagger*const NewBottomTagger, hanalysis::HWSemiTagger*const NewWSemiTagger);
+    HTopSemiTagger();
 
     ~HTopSemiTagger();
+
+    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger);
 
     std::vector<HTopSemiBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
 
     void FillBranch(const hanalysis::HTriplet &Triple);
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader *const Reader);
-
-//     std::vector<HTriplet> GetBdt(const HJets &Jets, HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
-
-//     std::vector<HTriplet>  GetTriplets(HReader *TopSemiReader){Print(HError,"NEVER USE  THIS FUNCTION");};
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & Reader);
 
     void FillBranch(HTopSemiBranch *const TopSemiBranch, const hanalysis::HTriplet &Triplet);
 
@@ -42,21 +40,19 @@ private:
 
     HTag GetTag(const HTriplet &Triplet) const;
 
-//     HTag GetTag(const fastjet::PseudoJet &Singlet) const;
-
     HJets GetNeutrinos(const hanalysis::HTriplet &Triplet)const;
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
 
-    HWSemiTagger *WSemiTagger;
+    HWSemiTagger WSemiTagger;
 
-    HReader *BottomReader;
+    HReader BottomReader;
 
-    HReader *WSemiReader;
+    HReader WSemiReader;
 
-    HTopSemiBranch *Branch;
+    HTopSemiBranch Branch;
 
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
     float TopWindow;
 

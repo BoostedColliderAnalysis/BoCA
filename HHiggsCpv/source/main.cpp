@@ -51,8 +51,7 @@ int main()
 //     RunTagger("EventTagger",hanalysis::HAnalysis::HEventTagger);
 
 
-    hanalysis::HFactory *Factory;
-    hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
+   hhiggscpv::HAnalysis Analysis;
 
 //     TFile *File(0);
 //     std::string FileName = "./Bottom.root";
@@ -93,13 +92,9 @@ int main()
 //     else
 //         Factory = new hmva::HFactory(Analysis->HiggsTagger);
 
-    Analysis->AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
-    hanalysis::HMva *Mva = new hhiggscpv::HMvaEvent();
-    Factory = new hanalysis::HFactory(Mva);
-
-    delete Factory;
-    delete Mva;
-    delete Analysis;
+    Analysis.AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
+    hhiggscpv::HMvaEvent Mva;
+    hanalysis::HFactory Factory(Mva);
 
     return 1;
 

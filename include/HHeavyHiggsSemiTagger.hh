@@ -14,30 +14,33 @@ class hanalysis::HHeavyHiggsSemiTagger : public HMva
 
 public:
 
-    HHeavyHiggsSemiTagger(HBottomTagger *const NewBottomTagger, HWSemiTagger *const NewSemiWTagger, HWTagger *const NewWTagger, HTopSemiTagger *const NewTopSemiTagger, HTopHadronicTagger *const NewTopHadronicTagger);
+    HHeavyHiggsSemiTagger();
 
     ~HHeavyHiggsSemiTagger();
+
+    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
 
     std::vector<HHeavyHiggsSemiBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
 
     void FillBranch(const HSextet& Sextet);
 
-    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::HTriplet > &TripletsSemi, const std::vector< hanalysis::HTriplet > &TripletsHadronic, const hanalysis::HReader *const Reader);
+    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::HTriplet > &TripletsSemi, const std::vector< hanalysis::HTriplet > &TripletsHadronic, const hanalysis::HReader & Reader);
 
-//     std::vector<hanalysis::HSextet>  GetSextets(const HReader *const Reader);
+//     std::vector<hanalysis::HSextet>  GetSextets(const HReader &Reader);
 
 
 
-    HBottomTagger *BottomTagger;
-    HWTagger *WTagger;
-    HWSemiTagger *WSemiTagger;
-    HTopHadronicTagger *TopHadronicTagger;
-    HTopSemiTagger *TopSemiTagger;
-    HReader *BottomReader;
-    HReader *WReader;
-    HReader *WSemiReader;
-    HReader *TopHadronicReader;
-    HReader *TopSemiReader;
+    HBottomTagger BottomTagger;
+    HWTagger WTagger;
+    HWSemiTagger WSemiTagger;
+    HTopHadronicTagger TopHadronicTagger;
+    HTopSemiTagger TopSemiTagger;
+
+    HReader BottomReader;
+    HReader WReader;
+    HReader WSemiReader;
+    HReader TopHadronicReader;
+    HReader TopSemiReader;
 
 
     void FillBranch(HHeavyHiggsSemiBranch* HeavyHiggsBranch, const hanalysis::HSextet& Sextet);
@@ -57,8 +60,8 @@ private:
 
     HTag GetTag(const HSextet &Sextet);
 
-    HJetTag *JetTag;
-    HHeavyHiggsSemiBranch *Branch;
+    HJetTag JetTag;
+    HHeavyHiggsSemiBranch Branch;
 };
 
 #endif

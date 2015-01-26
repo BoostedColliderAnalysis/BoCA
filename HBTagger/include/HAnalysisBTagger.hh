@@ -77,7 +77,7 @@ private:
         return "BTagger";
     };
 
-    hanalysis::HJetTag *JetTag;
+    hanalysis::HJetTag JetTag;
 
     hanalysis::HDoublet *SubStructure;
 

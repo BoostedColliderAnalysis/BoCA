@@ -7,16 +7,12 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 
     hheavyhiggs::HAnalysisMva Analysis;
     const std::string Name = Analysis.GetStudyNames(Tagger);
-
     Analysis.Print(Analysis.HError, "Tagger", Tagger, Name);
 
     std::string FileName = Analysis.GetProjectName() + "/" + Name + ".root";
-
     if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(Tagger);
 
     FileName = Analysis.GetProjectName() + "/Mva" + Name + ".root";
-
-    Analysis.GetFiles(Tagger, hanalysis::HObject::HSignal);
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HBottomTagger:
@@ -65,6 +61,12 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             std::cout << "Unhandled case" << std::endl;
         }
     }
+
+//     FileName = Analysis.GetProjectName() + "/Mva" + Name + ".root";
+//     if(!gSystem->AccessPathName(FileName.c_str())){
+//             Analysis.PrepareReader(Tagger);
+//     }
+
 
     FileName = Analysis.GetProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {

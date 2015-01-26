@@ -33,7 +33,7 @@ public:
 
     std::vector<hheavyhiggs::HChargedLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    std::vector< int > ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader);
+    std::vector< int > ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
 
     void FillBranch(const HOctet44 &Octet);
 
@@ -77,13 +77,13 @@ private:
 
     hanalysis::HChargedHiggsLeptonicTagger *ChargedHiggsLeptonicTagger;
 
-    hanalysis::HReader *BottomReader;
+    hanalysis::HReader BottomReader;
 
-    hanalysis::HReader *TopLeptonicReader;
+    hanalysis::HReader TopLeptonicReader;
 
-    hanalysis::HReader *ChargedHiggsLeptonicReader;
+    hanalysis::HReader ChargedHiggsLeptonicReader;
 
-    hheavyhiggs::HChargedLeptonicBranch *Branch;
+    hheavyhiggs::HChargedLeptonicBranch Branch;
 
 };
 

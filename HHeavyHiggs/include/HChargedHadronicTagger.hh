@@ -19,7 +19,11 @@ public:
     * @brief Constructor
     *
     */
-    HChargedHadronicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HWTagger *const NewWTagger, hanalysis::HTopHadronicTagger *const NewTopTagger, hanalysis::HChargedHiggsHadronicTagger *const NewHeavyHiggsTagger);
+    HChargedHadronicTagger(
+      const hanalysis::HBottomTagger &NewBottomTagger,
+      const hanalysis::HWTagger &NewWTagger,
+      const hanalysis::HTopHadronicTagger &NewTopTagger,
+      const hanalysis::HChargedHiggsHadronicTagger &NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -48,23 +52,17 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::HWTagger WTagger;
+    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::HChargedHiggsHadronicTagger ChargedHiggsHadronicTagger;
 
-    hanalysis::HWTagger *WTagger;
+    hanalysis::HReader BottomReader;
+    hanalysis::HReader WReader;
+    hanalysis::HReader TopHadronicReader;
+    hanalysis::HReader ChargedHiggsHadronicReader;
 
-    hanalysis::HTopHadronicTagger *TopHadronicTagger;
-
-    hanalysis::HChargedHiggsHadronicTagger *ChargedHiggsHadronicTagger;
-
-    hanalysis::HReader *BottomReader;
-
-    hanalysis::HReader *WReader;
-
-    hanalysis::HReader *TopHadronicReader;
-
-    hanalysis::HReader *ChargedHiggsHadronicReader;
-
-    hheavyhiggs::HChargedHadronicBranch *Branch;
+    hheavyhiggs::HChargedHadronicBranch Branch;
 
 };
 

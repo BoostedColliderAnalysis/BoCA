@@ -31,27 +31,27 @@ public:
 
     HVectors GetLeptonVectors();
 
-    
+
     HJets GetLeptonJets();
-    
-    HJets GetTaggedJets(HJetTag *const NewJetTag) {
-        JetTag = NewJetTag;
+
+    HJets GetTaggedJets(HJetTag &NewJetTag) {
+        JetTag = &NewJetTag;
         return GetLeptonJets(hanalysis::HFourVector::Tagging);
     };
 
 protected:
-    
+
     HJets GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails);
 
   /**
    * @brief Find the hardest of the light leptons
-   * 
+   *
    */
   virtual bool GetElectrons(HJetDetails JetDetails) = 0;
 
   /**
    * @brief Find the hardest of the light leptons
-   * 
+   *
    */
   virtual bool GetMuons(HJetDetails JetDetails) = 0;
 

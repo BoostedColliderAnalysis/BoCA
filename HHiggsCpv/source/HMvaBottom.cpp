@@ -56,13 +56,13 @@ void hhiggscpv::HMvaBottom::DefineVariables()
 
 }
 
-float hhiggscpv::HMvaBottom::GetBdt(TObject *Branch, TMVA::Reader *Reader)
+float hhiggscpv::HMvaBottom::GetBdt(TObject *Branch, const TMVA::Reader &Reader)
 {
 
     Print(HInformation, "Get Bdt", BdtMethodName);
 
     *BTagger = *static_cast<HBottomBranch *>(Branch);
-    const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
+    const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName);
     Print(HInformation, "BTagger Bdt", BdtEvaluation);
 
     return ((BdtEvaluation + 1.) / 2.);

@@ -83,7 +83,7 @@ private:
 
     };
 
-    hanalysis::HJetTag *JetTag;
+    hanalysis::HJetTag JetTag;
 
     hanalysis::HSubStructure *SubStructure;
 

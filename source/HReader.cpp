@@ -1,23 +1,28 @@
 # include "HReader.hh"
 
-hanalysis::HReader::HReader(HMva *NewMva)
+hanalysis::HReader::HReader()
 {
-
+    //     DebugLevel = HDebug;
     Print(HNotification, "Constructor");
+}
 
-//     DebugLevel = HDebug;
+hanalysis::HReader::HReader(hanalysis::HMva &NewMva)
+{
+    Print(HNotification, "Constructor");
+    SetMva(NewMva);
+}
 
-    Mva = NewMva;
+void hanalysis::HReader::SetMva(hanalysis::HMva &NewMva)
+{
+    Print(HNotification, "SetMva");
+    Mva = &NewMva;
     AddVariable();
-    BookMVA();
+    BookMva();
 }
 
 hanalysis::HReader::~HReader()
 {
     Print(HNotification, "Destructor");
-
-    delete Reader;
-
 }
 
 void hanalysis::HReader::AddVariable()
@@ -26,21 +31,22 @@ void hanalysis::HReader::AddVariable()
     Print(HNotification, "Add Variable");
 
     const std::string DefaultOptions = "!Color:Silent";
-    Reader = new TMVA::Reader(DefaultOptions);
+//     Reader = TMVA::Reader(DefaultOptions);
+//     Reader.
 
     for (auto & Observable : Mva->GetObservables()) {
         Print(HDebug, "Expression", Observable.Expression);
         Print(HDebug, "Value", *(Observable.GetValue()));
-        Reader->AddVariable(Observable.Expression, Observable.GetValue());
+        Reader.AddVariable(Observable.Expression, Observable.GetValue());
     }
 
     for (auto & Spectator : Mva->GetSpectators()) {
-        Reader->AddSpectator(Spectator.Expression, Spectator.GetValue());
+        Reader.AddSpectator(Spectator.Expression, Spectator.GetValue());
     }
 
 }
 
-void hanalysis::HReader::BookMVA()
+void hanalysis::HReader::BookMva()
 {
     Print(HNotification, "Book Mva");
 
@@ -48,12 +54,12 @@ void hanalysis::HReader::BookMVA()
 
 //     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + XmlName;
 //     Print(HError, "Opening Weight File", CutWeightFile);
-//     Reader->BookMVA(Mva->GetCutMethodName(), CutWeightFile);
+//     Reader.BookMVA(Mva->GetCutMethodName(), CutWeightFile);
 
     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + XmlName;
     Print(HNotification, "Opening Weight File", BdtWeightFile);
 
-    Reader->BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
+    Reader.BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
 
 }
 
@@ -190,7 +196,7 @@ void hanalysis::HReader::SimpleMVALoop()
     const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + Mva->GetBdtMethodName() + ".root";
     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
 
-    const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + "Reader.root";
+    const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + "Reader->root";
     const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
     Print(HError, "Open Background File", BackgroundFileName);
 
@@ -214,7 +220,7 @@ void hanalysis::HReader::SimpleMVALoop()
     std::stringstream SignificanceTable;
     SignificanceTable << TableHeader.str();
 
-    const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + "Reader.root";
+    const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + "Reader->root";
     const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
     Print(HError, "Open Signal File", SignalFileName);
 
@@ -294,7 +300,7 @@ ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &
 
 
 
-// std::vector<int> hanalysis::HReader::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader)
+// std::vector<int> hanalysis::HReader::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 // {
 //     Print(HNotification, "Apply Bdt", Mva->GetBranchName());
 //     std::string Temp = Mva->GetBranchName(); // TODO remove this dirty trick
@@ -351,7 +357,7 @@ void hanalysis::HReader::MVALoop()
 
     AddVariable(); // TODO i dont nee dthese
 
-    BookMVA(); // TODO i dont need these
+    BookMva(); // TODO i dont need these
 
 
     Print(HNotification, "Mva Loop");
@@ -408,7 +414,7 @@ void hanalysis::HReader::GetCuts()
 
     ReaderStruct.CutsMin.clear();
     ReaderStruct.CutsMax.clear();
-    MethodCuts = Reader->FindCutsMVA(Mva->GetCutMethodName()) ;
+    MethodCuts = Reader.FindCutsMVA(Mva->GetCutMethodName()) ;
     MethodCuts->GetCuts(Mva->GetSignalEfficiency(), ReaderStruct.CutsMin, ReaderStruct.CutsMax);
 
 }

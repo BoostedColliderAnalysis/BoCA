@@ -161,9 +161,9 @@ public:
 
     HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {};
 
-    void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, TMVA::Reader *) {};
+    void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, const TMVA::Reader &) {};
 
-    float GetBdt(TObject *, TMVA::Reader *) {
+    float GetBdt(TObject *, const TMVA::Reader &) {
         return 0;
     };
 
@@ -182,13 +182,13 @@ private:
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HTopSemiTagger *LeptonicTopTagger;
     hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
-    hanalysis::HReader *BottomReader;
-    hanalysis::HReader *TopReader;
-    hanalysis::HReader *HeavyHiggsReader;
+    hanalysis::HReader BottomReader;
+    hanalysis::HReader TopReader;
+    hanalysis::HReader HeavyHiggsReader;
 
-    hheavyhiggs::HEventLeptonicBranch *Branch;
+    hheavyhiggs::HEventLeptonicBranch Branch;
 
-    hanalysis::HJetTag *JetTag;
+    hanalysis::HJetTag JetTag;
 
     virtual inline std::string NameSpaceName() const {
         return "hheavyhiggs";

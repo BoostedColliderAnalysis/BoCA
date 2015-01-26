@@ -15,7 +15,9 @@ class hanalysis::HHeavyHiggsLeptonicTagger : public HMva
 
 public:
 
-    HHeavyHiggsLeptonicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopLeptonicTagger);
+    HHeavyHiggsLeptonicTagger();
+
+    HHeavyHiggsLeptonicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
 
     ~HHeavyHiggsLeptonicTagger();
 
@@ -23,7 +25,7 @@ public:
 
     void FillBranch(const hanalysis::HSextet &Sextet);
 
-    std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader *const Reader);
+    std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader & Reader);
 
     void FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const hanalysis::HSextet &TriplePair);
 
@@ -54,17 +56,17 @@ private:
 
     event22 Structure;
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
 
-    HTopLeptonicTagger *TopLeptonicTagger;
+    HTopLeptonicTagger TopLeptonicTagger;
 
-    HReader *BottomReader;
+    HReader BottomReader;
 
-    HReader *TopLeptonicReader;
+    HReader TopLeptonicReader;
 
-    HHeavyHiggsLeptonicBranch *Branch;
+    HHeavyHiggsLeptonicBranch Branch;
 
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
 };
 

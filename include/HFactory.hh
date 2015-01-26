@@ -35,7 +35,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(HMva *const NewMva);
+    HFactory(hanalysis::HMva &NewMva);
 
     /**
      * @brief Destructor

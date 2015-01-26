@@ -15,7 +15,7 @@ class hanalysis::HChargedHiggsLeptonicTagger : public HMva
 
 public:
 
-    HChargedHiggsLeptonicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopLeptonicTagger);
+    HChargedHiggsLeptonicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
 
     ~HChargedHiggsLeptonicTagger();
 
@@ -23,7 +23,7 @@ public:
 
     void FillBranch(const hanalysis::HTriplet &Quartet);
 
-    std::vector<hanalysis::HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const std::vector<fastjet::PseudoJet> Jets, const hanalysis::HReader *const Reader);
+    std::vector<hanalysis::HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const std::vector<fastjet::PseudoJet> Jets, const hanalysis::HReader & Reader);
 
 protected:
 
@@ -54,17 +54,15 @@ private:
 
 //     event22 Structure;
 
-    HBottomTagger *BottomTagger;
+    HBottomTagger BottomTagger;
+    HTopLeptonicTagger TopLeptonicTagger;
 
-    HTopLeptonicTagger *TopLeptonicTagger;
+    HReader BottomReader;
+    HReader TopLeptonicReader;
 
-    HReader *BottomReader;
+    HChargedHiggsLeptonicBranch Branch;
 
-    HReader *TopLeptonicReader;
-
-    HChargedHiggsLeptonicBranch *Branch;
-
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
 };
 

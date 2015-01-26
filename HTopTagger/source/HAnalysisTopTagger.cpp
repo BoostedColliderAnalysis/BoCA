@@ -5,7 +5,7 @@ htoptagger::HAnalysis::HAnalysis()
 
     Print(HNotification, "Constructor");
 
-    JetTag = new hanalysis::HJetTag();
+//     //JetTag = new hanalysis::HJetTag();
 
     SubStructure = new hanalysis::HSubStructure();
 
@@ -18,7 +18,7 @@ htoptagger::HAnalysis::~HAnalysis()
 
     Print(HNotification, "Destructor");
 
-    delete JetTag;
+    //delete JetTag;
 
     delete SubStructure;
 

@@ -65,7 +65,7 @@ void hbtagger::HMva::DefineVariables()
 }
 
 
-void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, TMVA::Reader *Reader)
+void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
     Print(HNotification, "Apply Bdt");
 
@@ -88,13 +88,13 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 
             (*ExportCandidate) = *Candidate;
 
-            const float BdtEvaluation = Reader->EvaluateMVA(BdtMethodName);
+            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName);
 
             float SigEff;
             const int StepSize = 50;
             for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
-                bool CutEvaluation = Reader->EvaluateMVA(CutMethodName, SigEff / StepSize);
+                bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(CutMethodName, SigEff / StepSize);
 
                 if (CutEvaluation) break;
 

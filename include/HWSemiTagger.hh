@@ -17,6 +17,8 @@ public:
 
     ~HWSemiTagger();
 
+    void SetTagger();
+
     std::vector<HWSemiBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
 
     void FillBranch(const hanalysis::HDoublet& Doublet);
@@ -25,7 +27,7 @@ public:
 
 //     std::vector< HDoublet > GetBdt(HJets& Leptons, const fastjet::PseudoJet& MissingEt, const hanalysis::HReader*const Reader);
 
-    std::vector<HDoublet>  GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader *const Reader);
+    std::vector<HDoublet>  GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader &Reader);
 
 
 //     std::vector<hanalysis::HDoublet>  GetTruthDoublets(const hanalysis::HReader* Reader, hanalysis::HEvent*const Event);
@@ -50,9 +52,9 @@ private:
     std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const HJets &Neutrinos, const hanalysis::HObject::HTag Tag);
 
 
-    HWSemiBranch *Branch;
+    HWSemiBranch Branch;
 
-    HJetTag *JetTag;
+    HJetTag JetTag;
 
     float WMassWindow;
 

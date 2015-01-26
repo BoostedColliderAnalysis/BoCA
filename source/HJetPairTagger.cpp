@@ -1,33 +1,68 @@
 # include "HJetPairTagger.hh"
 
-hanalysis::HJetPairTagger::HJetPairTagger(HBottomTagger *NewBottomTagger)
+hanalysis::HJetPairTagger::HJetPairTagger()
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
-
+    //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
     SetTaggerName("JetPair");
-
-    BottomTagger = NewBottomTagger;
-    BottomReader = new HReader(BottomTagger);
-
-    Branch = new HEventJetPairBranch();
-    JetTag = new HJetTag();
-
     DefineVariables();
 }
 
 hanalysis::HJetPairTagger::~HJetPairTagger()
 {
     Print(HNotification, "Destructor");
-    delete Branch;
-    delete BottomReader;
-    delete JetTag;
 }
 
-void hanalysis::HJetPairTagger::FillBranch(const HDoublet &Pair)
+void hanalysis::HJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger)
 {
-    Print(HInformation, "FillPairTagger", Pair.Bdt());
-    FillBranch(Branch, Pair);
+    Print(HNotification, "Set Tagger", NewBottomTagger.GetTaggerName());
+    BottomTagger = NewBottomTagger;
+    BottomTagger.SetTagger();
+    BottomReader.SetMva(BottomTagger);
+
+    SetTaggerName("JetPair");
+    DefineVariables();
+}
+
+void hanalysis::HJetPairTagger::DefineVariables()
+{
+
+    Print(HNotification , "Define Variables");
+
+    Observables.clear();
+    Spectators.clear();
+
+    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
+    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
+
+    Observables.push_back(NewObservable(&Branch.DeltaM, "DeltaM"));
+    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
+    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+
+    Observables.push_back(NewObservable(&Branch.Jet1Mass, "Jet1Mass"));
+    Observables.push_back(NewObservable(&Branch.Jet1Pt, "Jet1Pt"));
+    Observables.push_back(NewObservable(&Branch.Jet1Rap, "Jet1Rap"));
+    Observables.push_back(NewObservable(&Branch.Jet1Phi, "Jet1Phi"));
+    Observables.push_back(NewObservable(&Branch.Jet1Bdt, "Jet1Bdt"));
+    Observables.push_back(NewObservable(&Branch.Jet1BTag, "Jet1BTag"));
+
+    Observables.push_back(NewObservable(&Branch.Jet2Mass, "Jet2Mass"));
+    Observables.push_back(NewObservable(&Branch.Jet2Pt, "Jet2Pt"));
+    Observables.push_back(NewObservable(&Branch.Jet2Rap, "Jet2Rap"));
+    Observables.push_back(NewObservable(&Branch.Jet2Phi, "Jet2Phi"));
+    Observables.push_back(NewObservable(&Branch.Jet2Bdt, "Jet2Bdt"));
+    Observables.push_back(NewObservable(&Branch.Jet2BTag, "Jet2BTag"));
+
+    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+
+    Print(HNotification, "Variables defined");
+
 }
 
 void hanalysis::HJetPairTagger::FillBranch(HEventJetPairBranch *const JetPairBranch, const HDoublet &Doublet)
@@ -66,42 +101,10 @@ void hanalysis::HJetPairTagger::FillBranch(HEventJetPairBranch *const JetPairBra
 
 }
 
-void hanalysis::HJetPairTagger::DefineVariables()
+void hanalysis::HJetPairTagger::FillBranch(const HDoublet &Pair)
 {
-
-    Print(HNotification , "Define Variables");
-
-    Observables.push_back(NewObservable(&Branch->Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch->Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch->Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch->Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch->Ht, "Ht"));
-
-    Observables.push_back(NewObservable(&Branch->DeltaM, "DeltaM"));
-    Observables.push_back(NewObservable(&Branch->DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch->DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch->DeltaR, "DeltaR"));
-
-    Observables.push_back(NewObservable(&Branch->Jet1Mass, "Jet1Mass"));
-    Observables.push_back(NewObservable(&Branch->Jet1Pt, "Jet1Pt"));
-    Observables.push_back(NewObservable(&Branch->Jet1Rap, "Jet1Rap"));
-    Observables.push_back(NewObservable(&Branch->Jet1Phi, "Jet1Phi"));
-    Observables.push_back(NewObservable(&Branch->Jet1Bdt, "Jet1Bdt"));
-    Observables.push_back(NewObservable(&Branch->Jet1BTag, "Jet1BTag"));
-
-    Observables.push_back(NewObservable(&Branch->Jet2Mass, "Jet2Mass"));
-    Observables.push_back(NewObservable(&Branch->Jet2Pt, "Jet2Pt"));
-    Observables.push_back(NewObservable(&Branch->Jet2Rap, "Jet2Rap"));
-    Observables.push_back(NewObservable(&Branch->Jet2Phi, "Jet2Phi"));
-    Observables.push_back(NewObservable(&Branch->Jet2Bdt, "Jet2Bdt"));
-    Observables.push_back(NewObservable(&Branch->Jet2BTag, "Jet2BTag"));
-
-    Observables.push_back(NewObservable(&Branch->Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch->Tag, "Tag"));
-
-    Print(HNotification, "Variables defined");
-
+    Print(HInformation, "FillPairTagger", Pair.Bdt());
+    FillBranch(&Branch, Pair);
 }
 
 struct SortDoubletByDeltaRap {
@@ -115,9 +118,9 @@ std::vector<HEventJetPairBranch *> hanalysis::HJetPairTagger::GetBranches(hanaly
 
     Print(HInformation, "Get W Tags");
 
-    JetTag->HeavyParticles = {GluonId};
+    JetTag.HeavyParticles = {GluonId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = BottomTagger->GetBdt(Jets, BottomReader);
+    Jets = BottomTagger.GetBdt(Jets, BottomReader);
 
     for (const auto Jet : Jets) static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractFraction(BottomId);
 
@@ -163,7 +166,7 @@ hanalysis::HObject::HTag hanalysis::HJetPairTagger::GetTag(const HDoublet &Doubl
 
 
 
-std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets &Jets, const hanalysis::HReader *const JetPairReader)
+std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &JetPairReader)
 {
     std::vector<HDoublet>  Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
@@ -173,7 +176,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets 
             else Doublet.SetSinglets((*Jet2), (*Jet1));
             if (std::abs(Doublet.DeltaRap()) < .5)continue;
             FillBranch(Doublet);
-            Doublet.SetBdt(JetPairReader->Bdt());
+            Doublet.SetBdt(JetPairReader.Bdt());
             Doublets.push_back(Doublet);
         }
     std::sort(Doublets.begin(), Doublets.end());
