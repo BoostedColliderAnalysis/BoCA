@@ -20,15 +20,9 @@ public:
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
 
-    std::vector<HHeavyHiggsSemiBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
-
-    void FillBranch(const HSextet& Sextet);
+    std::vector< HHeavyHiggsSemiBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::HTriplet > &TripletsSemi, const std::vector< hanalysis::HTriplet > &TripletsHadronic, const hanalysis::HReader & Reader);
-
-//     std::vector<hanalysis::HSextet>  GetSextets(const HReader &Reader);
-
-
 
     HBottomTagger BottomTagger;
     HWTagger WTagger;
@@ -42,8 +36,7 @@ public:
     HReader TopHadronicReader;
     HReader TopSemiReader;
 
-
-    void FillBranch(HHeavyHiggsSemiBranch* HeavyHiggsBranch, const hanalysis::HSextet& Sextet);
+    HHeavyHiggsSemiBranch GetBranch(const hanalysis::HSextet& Sextet) const;
 
 
 protected:
@@ -55,8 +48,6 @@ protected:
 private:
 
     void DefineVariables();
-
-//     HTag GetTag(const HSextet &Sextet, const float Mass);
 
     HTag GetTag(const HSextet &Sextet);
 

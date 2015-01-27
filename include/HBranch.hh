@@ -238,6 +238,40 @@ private:
 
 /**
  *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HChargedJetPairBranch : public HPairBranch
+{
+
+public:
+
+  HChargedJetPairBranch();
+
+  float DeltaM;
+
+  float BottomMass;
+  float BottomPt;
+  float BottomRap;
+  float BottomPhi;
+  float BottomBdt;
+  float BottomBTag;
+
+  float TopMass;
+  float TopPt;
+  float TopRap;
+  float TopPhi;
+  float TopBdt;
+  float TopBTag;
+
+private:
+
+  ClassDef(HChargedJetPairBranch, 1)
+
+};
+
+/**
+ *
  * @brief Top tagger root tree structure
  *
  */

@@ -42,31 +42,31 @@ void hheavyhiggs::HChargedHadronicTagger::FillBranch(hheavyhiggs::HChargedHadron
 {
     Print(HInformation, "FillPairTagger", Octet.Bdt());
 
-    EventHadronicBranch->LeptonNumber = Octet.GetLeptonNumber();
-    EventHadronicBranch->JetNumber = Octet.GetJetNumber();
-    EventHadronicBranch->BottomNumber = Octet.GetBottomNumber();
-
-    EventHadronicBranch->ScalarHt = Octet.GetScalarHt();
-    EventHadronicBranch->HeavyParticleBdt = Octet.Bdt();
-
-    EventHadronicBranch->HeavyHiggsBdt = Octet.GetQuartet1().Bdt();
-    EventHadronicBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
-    EventHadronicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
-
-    EventHadronicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-    EventHadronicBranch->BottomDeltaPt = Octet.GetQuartet2().DeltaPt();
-
-    EventHadronicBranch->BottomDeltaRap = Octet.GetQuartet2().DeltaRap();
-    EventHadronicBranch->BottomDeltaPhi = Octet.GetQuartet2().DeltaPhi();
-    EventHadronicBranch->BottomDeltaR = Octet.GetQuartet2().DeltaR();
-
-    EventHadronicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
-    EventHadronicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
-    EventHadronicBranch->HbSumDeltaR = Octet.GetHbSumDeltaR();
-
-    EventHadronicBranch->HbDeltaDeltaRap = Octet.GetHbDeltaDeltaRap();
-    EventHadronicBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
-    EventHadronicBranch->HbDeltaDeltaR = Octet.GetHbDeltaDeltaR();
+//     EventHadronicBranch->LeptonNumber = Octet.GetLeptonNumber();
+//     EventHadronicBranch->JetNumber = Octet.GetJetNumber();
+//     EventHadronicBranch->BottomNumber = Octet.GetBottomNumber();
+//
+//     EventHadronicBranch->ScalarHt = Octet.GetScalarHt();
+//     EventHadronicBranch->HeavyParticleBdt = Octet.Bdt();
+//
+//     EventHadronicBranch->HeavyHiggsBdt = Octet.Quartet1().Bdt();
+//     EventHadronicBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
+//     EventHadronicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
+//
+//     EventHadronicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
+//     EventHadronicBranch->BottomDeltaPt = Octet.Quartet2().DeltaPt();
+//
+//     EventHadronicBranch->BottomDeltaRap = Octet.Quartet2().DeltaRap();
+//     EventHadronicBranch->BottomDeltaPhi = Octet.Quartet2().DeltaPhi();
+//     EventHadronicBranch->BottomDeltaR = Octet.Quartet2().DeltaR();
+//
+//     EventHadronicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
+//     EventHadronicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
+//     EventHadronicBranch->HbSumDeltaR = Octet.GetHbSumDeltaR();
+//
+//     EventHadronicBranch->HbDeltaDeltaRap = Octet.GetHbDeltaDeltaRap();
+//     EventHadronicBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
+//     EventHadronicBranch->HbDeltaDeltaR = Octet.GetHbDeltaDeltaR();
 
     EventHadronicBranch->EventTag = Octet.Tag();
 }

@@ -39,18 +39,22 @@ public:
     }
 
     inline float DeltaPt() const {
-      return std::abs(Triplet().Jet().pt() - Singlet().pt());
+      return Triplet().Jet().pt() - Singlet().pt();
     }
 
     inline float DeltaR() const {
         return Triplet().Jet().delta_R(Singlet());
     }
     inline float DeltaRap() const {
-        return (std::abs(Triplet().Jet().rap() - Singlet().rap()));
+        return Triplet().Jet().rap() - Singlet().rap();
     }
 
     inline float DeltaPhi() const {
-        return (Triplet().Jet().delta_phi_to(Singlet()));
+        return Triplet().Jet().delta_phi_to(Singlet());
+    }
+
+    inline float DeltaM() const {
+      return Triplet().Jet().m() - Singlet().m();
     }
 
 protected:

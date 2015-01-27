@@ -1,153 +1,179 @@
 # include "HChargedSemiTagger.hh"
 
-hheavyhiggs::HChargedSemiTagger::HChargedSemiTagger(
-  const hanalysis::HBottomTagger &NewBottomTagger,
-  const hanalysis::HWSemiTagger &NewWSemiTagger,
-  const hanalysis::HWTagger &NewWTagger,
-  const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-  const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
-  const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger)
-{
-//   DebugLevel = HDebug;
-
-    Print(HNotification , "Constructor");
-
-    BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
-    WSemiTagger = NewWSemiTagger;
-    WSemiReader.SetMva(WSemiTagger);
-    WTagger = NewWTagger;
-    WReader.SetMva(WTagger);
-    TopHadronicTagger = NewTopHadronicTagger;
-    TopHadronicReader.SetMva(TopHadronicTagger);
-    TopSemiTagger = NewTopSemiTagger;
-    TopSemiReader.SetMva(TopSemiTagger);
-    ChargedHiggsSemiTagger = NewChargedHiggsSemiTagger;
-    ChargedHiggsSemiReader.SetMva(ChargedHiggsSemiTagger);
-
-    SetTaggerName("EventSemi");
-
-//     Branch = new hheavyhiggs::HChargedSemiBranch();
-
-    DefineVariables();
-
-}
-
 hheavyhiggs::HChargedSemiTagger::HChargedSemiTagger()
 {
     //   DebugLevel = HDebug;
-
     Print(HNotification , "Constructor");
-
     SetTaggerName("ChargedSemi");
-//     Branch = new hheavyhiggs::HChargedSemiBranch();
-
     DefineVariables();
-
 }
 
 hheavyhiggs::HChargedSemiTagger::~HChargedSemiTagger()
 {
-
     Print(HNotification , "Constructor");
-
-    // delete Branch;
-//     delete BottomReader;
-//     delete WSemiReader;
-//     delete WReader;
-//     delete TopHadronicReader;
-//     delete TopSemiReader;
-//     delete ChargedHiggsSemiReader;
-
 }
 
-void hheavyhiggs::HChargedSemiTagger::FillBranch(hheavyhiggs::HChargedSemiBranch *EventSemiBranch, const HOctet44 &Octet)
+void hheavyhiggs::HChargedSemiTagger::SetTagger(
+    const hanalysis::HBottomTagger &NewBottomTagger,
+    const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
+    const hanalysis::HWSemiTagger &NewWSemiTagger,
+    const hanalysis::HWTagger &NewWTagger,
+    const hanalysis::HTopSemiTagger &NewTopSemiTagger,
+    const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
+    const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger)
 {
-    Print(HInformation, "FillPairTagger", Octet.Bdt());
 
-    EventSemiBranch->LeptonNumber = Octet.GetLeptonNumber();
-    EventSemiBranch->JetNumber = Octet.GetJetNumber();
-    EventSemiBranch->BottomNumber = Octet.GetBottomNumber();
+    BottomTagger = NewBottomTagger;
+    BottomTagger.SetTagger();
+    BottomReader.SetMva(BottomTagger);
 
-    EventSemiBranch->ScalarHt = Octet.GetScalarHt();
-    EventSemiBranch->HeavyParticleBdt = Octet.Bdt();
+    WSemiTagger = NewWSemiTagger;
+    WSemiTagger.SetTagger();
+    WSemiReader.SetMva(WSemiTagger);
 
-    EventSemiBranch->HeavyHiggsBdt = Octet.GetQuartet1().Bdt();
-    EventSemiBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
-    EventSemiBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
+    WTagger = NewWTagger;
+    WTagger.SetTagger(BottomTagger);
+    WReader.SetMva(WTagger);
 
-    EventSemiBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-    EventSemiBranch->BottomDeltaPt = Octet.GetQuartet2().DeltaPt();
+    TopHadronicTagger = NewTopHadronicTagger;
+    TopHadronicTagger.SetTagger(BottomTagger, WTagger);
+    TopHadronicReader.SetMva(TopHadronicTagger);
 
-    EventSemiBranch->BottomDeltaRap = Octet.GetQuartet2().DeltaRap();
-    EventSemiBranch->BottomDeltaPhi = Octet.GetQuartet2().DeltaPhi();
-    EventSemiBranch->BottomDeltaR = Octet.GetQuartet2().DeltaR();
+    TopSemiTagger = NewTopSemiTagger;
+    TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
+    TopSemiReader.SetMva(TopSemiTagger);
 
-    EventSemiBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
-    EventSemiBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
-    EventSemiBranch->HbSumDeltaR = Octet.GetHbSumDeltaR();
+    ChargedJetPairTagger = NewChargedJetPairTagger;
+    ChargedJetPairTagger.SetTagger(BottomTagger, WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
+    ChargedJetPairReader.SetMva(ChargedJetPairTagger);
 
-    EventSemiBranch->HbDeltaDeltaRap = Octet.GetHbDeltaDeltaRap();
-    EventSemiBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
-    EventSemiBranch->HbDeltaDeltaR = Octet.GetHbDeltaDeltaR();
 
-    EventSemiBranch->EventTag = Octet.Tag();
-}
+    ChargedHiggsSemiTagger = NewChargedHiggsSemiTagger;
+    ChargedHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
+    ChargedHiggsSemiReader.SetMva(ChargedHiggsSemiTagger);
 
-void hheavyhiggs::HChargedSemiTagger::FillBranch(const HOctet44 &Octet)
-{
-    Print(HInformation, "FillPairTagger");
-    FillBranch(&Branch, Octet);
+    SetTaggerName("EventSemi");
+    DefineVariables();
+
 }
 
 void hheavyhiggs::HChargedSemiTagger::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+  Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
-    Observables.push_back(NewObservable(&Branch.JetNumber, "JetNumber"));
-    Observables.push_back(NewObservable(&Branch.BottomNumber, "BottomNumber"));
+  Observables.clear();
+  Spectators.clear();
 
-    Observables.push_back(NewObservable(&Branch.ScalarHt, "ScalarHt"));
-    Observables.push_back(NewObservable(&Branch.HeavyParticleBdt, "HeavyParticleBdt"));
+  Spectators.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
+  Observables.push_back(NewObservable(&Branch.JetNumber, "JetNumber"));
+  Observables.push_back(NewObservable(&Branch.BottomNumber, "BottomNumber"));
+  Observables.push_back(NewObservable(&Branch.ScalarHt, "ScalarHt"));
 
-    Observables.push_back(NewObservable(&Branch.HeavyHiggsBdt, "HeavyHiggsBdt"));
-    Observables.push_back(NewObservable(&Branch.HeavyHiggsPt, "HeavyHiggsPt"));
+  Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
+  Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
+  Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
+  Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
 
-    Observables.push_back(NewObservable(&Branch.BottomSumPt, "BottomSumPt"));
-    Observables.push_back(NewObservable(&Branch.BottomDeltaPt, "BottomDeltaPt"));
+  Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
+  Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
+  Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+  Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
 
-    Observables.push_back(NewObservable(&Branch.BottomDeltaRap, "BottomDeltaRap"));
-    Observables.push_back(NewObservable(&Branch.BottomDeltaPhi, "BottomDeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.BottomDeltaR, "BottomDeltaR"));
+//   Observables.push_back(NewObservable(&Branch.DeltaPt1, "DeltaPt1"));
+//   Observables.push_back(NewObservable(&Branch.DeltaRap1, "DeltaRap1"));
+//   Observables.push_back(NewObservable(&Branch.DeltaPhi1, "DeltaPhi1"));
+//   Observables.push_back(NewObservable(&Branch.DeltaR1, "DeltaR1"));
+//
+//   Observables.push_back(NewObservable(&Branch.DeltaPt2, "DeltaPt2"));
+//   Observables.push_back(NewObservable(&Branch.DeltaRap2, "DeltaRap2"));
+//   Observables.push_back(NewObservable(&Branch.DeltaPhi2, "DeltaPhi2"));
+//   Observables.push_back(NewObservable(&Branch.DeltaR2, "DeltaR2"));
 
-    Observables.push_back(NewObservable(&Branch.HbSumDeltaRap, "HbSumDeltaRap"));
-    Observables.push_back(NewObservable(&Branch.HbSumDeltaPhi, "HbSumDeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.HbSumDeltaR, "HbSumDeltaR"));
+  Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
+  Observables.push_back(NewObservable(&Branch.PairRap, "PairRap"));
 
-    Observables.push_back(NewObservable(&Branch.HbDeltaDeltaRap, "HbDeltaDeltaRap"));
-    Observables.push_back(NewObservable(&Branch.HbDeltaDeltaPhi, "HbDeltaDeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.HbDeltaDeltaR, "HbDeltaDeltaR"));
+  Observables.push_back(NewObservable(&Branch.RestM, "RestM"));
+  Observables.push_back(NewObservable(&Branch.RestPt, "RestPt"));
+  Observables.push_back(NewObservable(&Branch.RestHt, "RestHt"));
+  Observables.push_back(NewObservable(&Branch.RestPhi, "RestPhi"));
+  Observables.push_back(NewObservable(&Branch.RestRap, "RestRap"));
+  Observables.push_back(NewObservable(&Branch.RestBTag, "RestBTag"));
+  Observables.push_back(NewObservable(&Branch.RestBBdt, "RestBBdt"));
+  Observables.push_back(NewObservable(&Branch.MaxBBdt, "MaxBBdt"));
+  Observables.push_back(NewObservable(&Branch.TotalBBdt, "TotalBBdt"));
+  Observables.push_back(NewObservable(&Branch.ThirdBBdt, "ThirdBBdt"));
+  Observables.push_back(NewObservable(&Branch.LeptonPt, "LeptonPt"));
 
-    Spectators.push_back(NewObservable(&Branch.EventTag, "EventTag"));
-    Spectators.push_back(NewObservable(&Branch.HeavyHiggsMass, "HeavyHiggsMass"));
+  Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+  Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
 
     Print(HNotification, "Variables defined");
 
 }
 
+hheavyhiggs::HChargedSemiBranch hheavyhiggs::HChargedSemiTagger::GetBranch(const HOctet44 &Octet) const
+{
+    Print(HInformation, "FillPairTagger", Octet.Bdt());
+
+    HChargedSemiBranch EventSemiBranch;
+    EventSemiBranch.LeptonNumber = Octet.LeptonNumber();
+    EventSemiBranch.JetNumber = Octet.JetNumber();
+    EventSemiBranch.BottomNumber = Octet.BottomNumber();
+    EventSemiBranch.ScalarHt = Octet.ScalarHt();
+
+    EventSemiBranch.Mass = Octet.Jet().m();
+    EventSemiBranch.Rap = Octet.Jet().rap();
+    EventSemiBranch.Phi = Octet.Jet().phi();
+    EventSemiBranch.Pt = Octet.Jet().pt();
+
+    EventSemiBranch.DeltaPt = Octet.DeltaPt();
+    EventSemiBranch.DeltaRap = Octet.DeltaRap();
+    EventSemiBranch.DeltaPhi = Octet.DeltaPhi();
+    EventSemiBranch.DeltaR = Octet.DeltaR();
+
+//     EventSemiBranch.DeltaPt1 = Octet.GetDeltaPt1();
+//     EventSemiBranch.DeltaRap1 = Octet.DeltaRap();
+//     EventSemiBranch.DeltaPhi1 = Octet.DeltaPhi();
+//     EventSemiBranch.DeltaR1 = Octet.DeltaR();
+//
+//     EventSemiBranch.DeltaPt2 = Octet.GetDeltaPt2();
+//     EventSemiBranch.DeltaRap2 = Octet.GetDeltaRap2();
+//     EventSemiBranch.DeltaPhi2 = Octet.GetDeltaPhi2();
+//     EventSemiBranch.DeltaR2 = Octet.GetDeltaR2();
+
+    EventSemiBranch.Bdt = Octet.Bdt();
+    EventSemiBranch.Tag = Octet.Tag();
+
+    EventSemiBranch.HiggsMass = Octet.Quartet1().Jet().m();
+    EventSemiBranch.PairRap = Octet.Quartet2().DeltaRap();
+
+    EventSemiBranch.RestM = Octet.EventStruct().RestM;
+    EventSemiBranch.RestPt = Octet.EventStruct().RestPt;
+    EventSemiBranch.RestHt = Octet.EventStruct().RestHt;
+    EventSemiBranch.RestRap = Octet.EventStruct().RestRap;
+    EventSemiBranch.RestPhi = Octet.EventStruct().RestPhi;
+    EventSemiBranch.RestBTag = Octet.EventStruct().RestBTag;
+    //     Print(HError,"Rest B Tag",EventSemiBranch.RestBTag,Octet.GetEventStruct().RestBTag);
+    EventSemiBranch.RestBBdt = Octet.EventStruct().RestBBdt;
+    EventSemiBranch.MaxBBdt = Octet.EventStruct().MaxBBdt;
+    EventSemiBranch.TotalBBdt = Octet.EventStruct().TotalBBdt;
+    EventSemiBranch.ThirdBBdt = Octet.EventStruct().ThirdBBdt;
+    EventSemiBranch.LeptonPt = Octet.EventStruct().LeptonPt;
+
+    EventSemiBranch.EventTag = Octet.Tag();
+}
+
 
 struct SortByQuartetBdt {
     inline bool operator()(const HOctet44 &Octet1, const HOctet44 &Octet2) {
-        return (Octet1.GetQuartet1().Bdt() > Octet2.GetQuartet1().Bdt());
+        return (Octet1.Quartet1().Bdt() > Octet2.Quartet1().Bdt());
     }
 };
 
-std::vector<hheavyhiggs::HChargedSemiBranch * > hheavyhiggs::HChargedSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Event Tags");
-    std::vector<hheavyhiggs::HChargedSemiBranch *> ChargedSemiBranches;
 
     HJets Jets = Event->GetJets()->GetStructuredJets();
 
@@ -193,20 +219,105 @@ std::vector<hheavyhiggs::HChargedSemiBranch * > hheavyhiggs::HChargedSemiTagger:
         Octets.erase(Octets.begin() + 1, Octets.end());
     }
 
+    std::vector<hheavyhiggs::HChargedSemiBranch> ChargedSemiBranches;
     for (auto & Octet : Octets) {
-      hheavyhiggs::HChargedSemiBranch *EventSemiBranch = new hheavyhiggs::HChargedSemiBranch();
         Octet.SetLeptonNumber(Event->GetLeptons()->GetLeptonJets().size());
         Octet.SetJetNumber(Event->GetJets()->GetJets().size());
         Octet.SetBottomNumber(Event->GetJets()->GetBottomJets().size());
         Octet.SetScalarHt(Event->GetJets()->GetScalarHt());
         Octet.SetTag(Tag);
-        FillBranch(EventSemiBranch, Octet);
-        ChargedSemiBranches.push_back(EventSemiBranch);
+        ChargedSemiBranches.push_back(GetBranch(Octet));
     }
 
     return ChargedSemiBranches;
 
 }
+
+struct SortJetsByBdt {
+  inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+    return (Jet1.user_info<hanalysis::HJetInfo>().Bdt() > Jet2.user_info<hanalysis::HJetInfo>().Bdt());
+  }
+};
+
+
+std::vector<HOctet44> hheavyhiggs::HChargedSemiTagger::GetBdt(
+  const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, HJets &Jets, HChargedEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader)
+{
+  Print(HInformation, "Get Event Tags");
+
+  std::vector<HOctet44> Octets;
+  for (const auto & JetQuartet : JetQuartets) {
+    for (const auto & HiggsQuartet : HiggsQuartets) {
+      if (HiggsQuartet.Singlet() == JetQuartet.Singlet()) continue;
+      if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Singlet()) continue;
+      if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
+      if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
+      if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Singlet()) continue;
+      if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Singlet()) continue;
+      if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
+      if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Singlet()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Singlet()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Singlet()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Singlet()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
+      if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
+      HOctet44 Octet(HiggsQuartet, JetQuartet, EventStruct);
+      Branch = GetBranch(Octet);
+      Octet.SetBdt(EventSemiReader.Bdt());
+      Octets.push_back(Octet);
+    }
+  }
+
+  std::sort(Octets.begin(), Octets.end());
+  if (Octets.size() > 1)Octets.erase(Octets.begin() + 1, Octets.end());
+  Print(HInformation, "Event Number", Octets.size(), Jets.size());
+
+  std::sort(Jets.begin(), Jets.end(), SortJetsByBdt());
+  float MaxBBdt = 0;
+  for (int i = 0; i < std::min(3, int(Jets.size())); ++i)
+    MaxBBdt += Jets.at(i).user_info<hanalysis::HJetInfo>().Bdt() / std::min(3, int(Jets.size()));
+
+  float ThirdBBdt = 0;
+  if (Jets.size() > 2) ThirdBBdt = Jets.at(2).user_info<hanalysis::HJetInfo>().Bdt();
+
+  for (auto & Octet : Octets) {
+    fastjet::PseudoJet RestJet(0., 0., 0., 0.);
+    int RestNumber = 0;
+    for (const auto & Jet : Jets) {
+      EventStruct.TotalBBdt  += Jet.user_info<hanalysis::HJetInfo>().Bdt();
+      if (Octet.Quartet1().Singlet() == Jet) continue;
+      if (Octet.Quartet1().Triplet().Singlet() == Jet) continue;
+      if (Octet.Quartet1().Triplet().Doublet().Singlet1() == Jet) continue;
+      if (Octet.Quartet1().Triplet().Doublet().Singlet2() == Jet) continue;
+      if (Octet.Quartet2().Singlet() == Jet) continue;
+      if (Octet.Quartet2().Triplet().Singlet() == Jet) continue;
+      if (Octet.Quartet2().Triplet().Doublet().Singlet1() == Jet) continue;
+      if (Octet.Quartet2().Triplet().Doublet().Singlet2() == Jet) continue;
+      ++RestNumber;
+      Octet.EventStructM.RestHt += Jet.pt();
+      Octet.EventStructM.RestBTag += Jet.user_info<hanalysis::HJetInfo>().BTag();
+      Octet.EventStructM.RestBBdt += Jet.user_info<hanalysis::HJetInfo>().Bdt();
+      Octet.EventStructM.MaxBBdt = MaxBBdt;
+      RestJet += Jet;
+    }
+    Octet.EventStructM.RestBBdt /= RestNumber;
+    Octet.EventStructM.ThirdBBdt = ThirdBBdt;
+    if (RestJet != fastjet::PseudoJet(0, 0, 0, 0)) {
+      Octet.EventStructM.RestM = RestJet.m();
+      Octet.EventStructM.RestPt = RestJet.pt();
+      Octet.EventStructM.RestRap = RestJet.rap();
+      Octet.EventStructM.RestPhi = RestJet.phi();
+    }
+
+  }
+
+  return Octets;
+}
+
+
 
 std::vector<int> hheavyhiggs::HChargedSemiTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
@@ -242,7 +353,7 @@ std::vector<int> hheavyhiggs::HChargedSemiTagger::ApplyBdt2(const ExRootTreeRead
                 Probabilities.push_back(Probability);
             }
             Print(HDebug, "Bdt", Bdt, Error, Rarity);
-            Export->Mass = Branch.HeavyHiggsMass;
+//             Export->Mass = Branch.HeavyHiggsMass;
             Export->EventTag = Branch.EventTag;
             Export->Bdt = Bdt;
             Export->Error = Error;

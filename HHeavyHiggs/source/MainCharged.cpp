@@ -1,25 +1,22 @@
-#include "HAnalysisHeavyHiggsMva.hh"
+#include "HAnalysisChargedHiggsMva.hh"
 
 #include "fastjet/LimitedWarning.hh"
 
 void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 {
-
-    hheavyhiggs::HAnalysisMva Analysis;
+    hheavyhiggs::HAnalysisCharged Analysis;
     const std::string Name = Analysis.GetStudyNames(Tagger);
-
     Analysis.Print(Analysis.HError, "Tagger", Tagger, Name);
 
     std::string FileName = Analysis.GetProjectName() + "/" + Name + ".root";
-
     if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(Tagger);
 
     FileName = Analysis.GetProjectName() + "/Mva" + Name + ".root";
-
-    Analysis.GetFiles(Tagger, hanalysis::HObject::HSignal);
     if (gSystem->AccessPathName(FileName.c_str())) {
+//     Analysis.GetFiles(Tagger,hanalysis::HAnalysis::HSignal);
         switch (Tagger) {
         case hanalysis::HAnalysis::HBottomTagger:
+            Analysis.BottomTagger.SetTagger();
             hanalysis::HFactory(Analysis.BottomTagger);
             break;
         case hanalysis::HAnalysis::HJetPairTagger:
@@ -41,19 +38,19 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             hanalysis::HFactory(Analysis.TopSemiTagger);
             break;
         case hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger:
-            hanalysis::HFactory(Analysis.HeavyHiggsLeptonicTagger);
+//             hanalysis::HFactory(Analysis.HeavyHiggsLeptonicTagger);
             break;
         case hanalysis::HAnalysis::HHeavyHiggsHadronicTagger:
-            hanalysis::HFactory(Analysis.HeavyHiggsHadronicTagger);
+//             hanalysis::HFactory(Analysis.HeavyHiggsHadronicTagger);
             break;
         case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
-            hanalysis::HFactory(Analysis.HeavyHiggsSemiTagger);
+            hanalysis::HFactory(Analysis.ChargedHiggsSemiTagger);
             break;
         case hanalysis::HAnalysis::HEventLeptonicTagger:
-            hanalysis::HFactory(Analysis.EventLeptonicTagger);
+//             hanalysis::HFactory(Analysis.EventLeptonicTagger);
             break;
         case hanalysis::HAnalysis::HEventHadronicTagger:
-            hanalysis::HFactory(Analysis.EventHadronicTagger);
+//             hanalysis::HFactory(Analysis.EventHadronicTagger);
             break;
         case hanalysis::HAnalysis::HEventSemiTagger:
             hanalysis::HFactory(Analysis.EventSemiTagger);
@@ -70,8 +67,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HEventLeptonicReader: {
-            hanalysis::HReader Reader(Analysis.EventLeptonicTagger);
-            Reader.SimpleMVALoop();
+//             hanalysis::HReader Reader(Analysis.EventLeptonicTagger);
+//             Reader.SimpleMVALoop();
             break;
         }
         case hanalysis::HAnalysis::HEventSemiReader: {
@@ -92,10 +89,6 @@ int main()
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
     RunTagger(hanalysis::HAnalysis::HBottomReader);
-
-    RunTagger(hanalysis::HAnalysis::HJetPairTagger);
-    RunTagger(hanalysis::HAnalysis::HJetPairReader);
-
     RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
     RunTagger(hanalysis::HAnalysis::HWHadronicReader);
 
@@ -120,6 +113,10 @@ int main()
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
 
+    RunTagger(hanalysis::HAnalysis::HJetPairTagger);
+    RunTagger(hanalysis::HAnalysis::HJetPairReader);
+
+
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
 
@@ -135,4 +132,3 @@ int main()
     return 0;
 
 }
-

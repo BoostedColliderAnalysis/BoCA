@@ -115,60 +115,55 @@ void hheavyhiggs::HEventSemiTagger::DefineVariables()
 
 }
 
-void hheavyhiggs::HEventSemiTagger::FillBranch(hheavyhiggs::HEventSemiBranch *EventSemiBranch, const HOctet &Octet)
+hheavyhiggs::HEventSemiBranch hheavyhiggs::HEventSemiTagger::GetBranch(const HOctet &Octet) const
 {
     Print(HInformation, "FillPairTagger", Octet.Bdt());
 
-    EventSemiBranch->LeptonNumber = Octet.LeptonNumber();
-    EventSemiBranch->JetNumber = Octet.JetNumber();
-    EventSemiBranch->BottomNumber = Octet.BottomNumber();
-    EventSemiBranch->ScalarHt = Octet.ScalarHt();
+    HEventSemiBranch EventSemiBranch;
+    EventSemiBranch.LeptonNumber = Octet.LeptonNumber();
+    EventSemiBranch.JetNumber = Octet.JetNumber();
+    EventSemiBranch.BottomNumber = Octet.BottomNumber();
+    EventSemiBranch.ScalarHt = Octet.ScalarHt();
 
-    EventSemiBranch->Mass = Octet.Jet().m();
-    EventSemiBranch->Rap = Octet.Jet().rap();
-    EventSemiBranch->Phi = Octet.Jet().phi();
-    EventSemiBranch->Pt = Octet.Jet().pt();
+    EventSemiBranch.Mass = Octet.Jet().m();
+    EventSemiBranch.Rap = Octet.Jet().rap();
+    EventSemiBranch.Phi = Octet.Jet().phi();
+    EventSemiBranch.Pt = Octet.Jet().pt();
 
-    EventSemiBranch->DeltaPt = Octet.DeltaPt();
-    EventSemiBranch->DeltaRap = Octet.DeltaRap();
-    EventSemiBranch->DeltaPhi = Octet.DeltaPhi();
-    EventSemiBranch->DeltaR = Octet.DeltaR();
+    EventSemiBranch.DeltaPt = Octet.DeltaPt();
+    EventSemiBranch.DeltaRap = Octet.DeltaRap();
+    EventSemiBranch.DeltaPhi = Octet.DeltaPhi();
+    EventSemiBranch.DeltaR = Octet.DeltaR();
 
-    EventSemiBranch->DeltaPt1 = Octet.GetDeltaPt1();
-    EventSemiBranch->DeltaRap1 = Octet.GetDeltaRap1();
-    EventSemiBranch->DeltaPhi1 = Octet.GetDeltaPhi1();
-    EventSemiBranch->DeltaR1 = Octet.GetDeltaR1();
+    EventSemiBranch.DeltaPt1 = Octet.GetDeltaPt1();
+    EventSemiBranch.DeltaRap1 = Octet.GetDeltaRap1();
+    EventSemiBranch.DeltaPhi1 = Octet.GetDeltaPhi1();
+    EventSemiBranch.DeltaR1 = Octet.GetDeltaR1();
 
-    EventSemiBranch->DeltaPt2 = Octet.GetDeltaPt2();
-    EventSemiBranch->DeltaRap2 = Octet.GetDeltaRap2();
-    EventSemiBranch->DeltaPhi2 = Octet.GetDeltaPhi2();
-    EventSemiBranch->DeltaR2 = Octet.GetDeltaR2();
+    EventSemiBranch.DeltaPt2 = Octet.GetDeltaPt2();
+    EventSemiBranch.DeltaRap2 = Octet.GetDeltaRap2();
+    EventSemiBranch.DeltaPhi2 = Octet.GetDeltaPhi2();
+    EventSemiBranch.DeltaR2 = Octet.GetDeltaR2();
 
-    EventSemiBranch->Bdt = Octet.Bdt();
-    EventSemiBranch->Tag = Octet.Tag();
+    EventSemiBranch.Bdt = Octet.Bdt();
+    EventSemiBranch.Tag = Octet.Tag();
 
-    EventSemiBranch->HiggsMass = Octet.Sextet().Jet().m();
-    EventSemiBranch->PairRap = Octet.Doublet().DeltaRap();
+    EventSemiBranch.HiggsMass = Octet.Sextet().Jet().m();
+    EventSemiBranch.PairRap = Octet.Doublet().DeltaRap();
 
-    EventSemiBranch->RestM = Octet.EventStruct().RestM;
-    EventSemiBranch->RestPt = Octet.EventStruct().RestPt;
-    EventSemiBranch->RestHt = Octet.EventStruct().RestHt;
-    EventSemiBranch->RestRap = Octet.EventStruct().RestRap;
-    EventSemiBranch->RestPhi = Octet.EventStruct().RestPhi;
-    EventSemiBranch->RestBTag = Octet.EventStruct().RestBTag;
-//     Print(HError,"Rest B Tag",EventSemiBranch->RestBTag,Octet.GetEventStruct().RestBTag);
-    EventSemiBranch->RestBBdt = Octet.EventStruct().RestBBdt;
-    EventSemiBranch->MaxBBdt = Octet.EventStruct().MaxBBdt;
-    EventSemiBranch->TotalBBdt = Octet.EventStruct().TotalBBdt;
-    EventSemiBranch->ThirdBBdt = Octet.EventStruct().ThirdBBdt;
-    EventSemiBranch->LeptonPt = Octet.EventStruct().LeptonPt;
+    EventSemiBranch.RestM = Octet.EventStruct().RestM;
+    EventSemiBranch.RestPt = Octet.EventStruct().RestPt;
+    EventSemiBranch.RestHt = Octet.EventStruct().RestHt;
+    EventSemiBranch.RestRap = Octet.EventStruct().RestRap;
+    EventSemiBranch.RestPhi = Octet.EventStruct().RestPhi;
+    EventSemiBranch.RestBTag = Octet.EventStruct().RestBTag;
+//     Print(HError,"Rest B Tag",EventSemiBranch.RestBTag,Octet.GetEventStruct().RestBTag);
+    EventSemiBranch.RestBBdt = Octet.EventStruct().RestBBdt;
+    EventSemiBranch.MaxBBdt = Octet.EventStruct().MaxBBdt;
+    EventSemiBranch.TotalBBdt = Octet.EventStruct().TotalBBdt;
+    EventSemiBranch.ThirdBBdt = Octet.EventStruct().ThirdBBdt;
+    EventSemiBranch.LeptonPt = Octet.EventStruct().LeptonPt;
 
-}
-
-void hheavyhiggs::HEventSemiTagger::FillBranch(const HOctet &Octet)
-{
-    Print(HInformation, "FillPairTagger");
-    FillBranch(&Branch, Octet);
 }
 
 struct SortJetsByBdt {
@@ -178,7 +173,7 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -269,18 +264,13 @@ std::vector<hheavyhiggs::HEventSemiBranch * > hheavyhiggs::HEventSemiTagger::Get
             EventStruct.RestPhi = RestJet.phi();
         }
         Octet.SetEventStruct(EventStruct);
+        Octet.SetTag(Tag);
     }
 
-    std::vector<hheavyhiggs::HEventSemiBranch *> EventSemiBranches;
-    for (auto & Octet : Octets) {
-        Octet.SetTag(Tag);
-        hheavyhiggs::HEventSemiBranch *EventSemiBranch = new hheavyhiggs::HEventSemiBranch();
-        FillBranch(EventSemiBranch, Octet);
-        EventSemiBranches.push_back(EventSemiBranch);
-    }
+    std::vector<hheavyhiggs::HEventSemiBranch> EventSemiBranches;
+    for (const auto & Octet : Octets) EventSemiBranches.push_back(GetBranch(Octet));
 
     return EventSemiBranches;
-
 }
 
 
@@ -376,7 +366,7 @@ std::vector<HOctet> hheavyhiggs::HEventSemiTagger::GetBdt(const std::vector< han
             if (Sextet.Triplet2().Doublet().Singlet2() == Doublet.Singlet1()) continue;
             if (Sextet.Triplet2().Doublet().Singlet2() == Doublet.Singlet2()) continue;
             HOctet Octet(Sextet, Doublet, EventStruct);
-            FillBranch(Octet);
+            Branch = GetBranch(Octet);
             Octet.SetBdt(EventSemiReader.Bdt());
             Octets.push_back(Octet);
         }

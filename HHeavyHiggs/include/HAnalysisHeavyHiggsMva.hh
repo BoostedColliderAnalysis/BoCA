@@ -14,11 +14,6 @@
 # include "HEventSemiTagger.hh"
 # include "HJetPairTagger.hh"
 
-// # include "HChargedSemiTagger.hh"
-
-
-
-
 /**
  *
  * @brief HAnalysis subclass defining the HiggsCPV Analysis
@@ -38,59 +33,16 @@ public:
     HAnalysisMva();
 
     /**
-     * @brief Constructor
+     * @brief Destructor
      *
      */
     ~HAnalysisMva();
 
-//     enum HTagger {
-//       HBottomTagger,
-//       HWTagger,
-//       HTopHadronicTagger,
-//       HTopSemiTagger,
-//       HTopLeptonicTagger,
-//       HHeavyHiggsHadronicTagger,
-//       HHeavyHiggsLeptonicTagger,
-//       HHeavyHiggsSemiTagger,
-//       HEventLeptonicTagger,
-//       HEventHadronicTagger,
-//       HEventSemiTagger,
-//     };
-
     /**
-     * @brief Branch to write Higgs info into
+     * @brief Branch to write results into
      *
      */
-    ExRootTreeBranch *BottomBranch;
-    ExRootTreeBranch *BottomReaderBranch;
-    ExRootTreeBranch *WBranch;
-    ExRootTreeBranch *WReaderBranch;
-    ExRootTreeBranch *WSemiBranch;
-    ExRootTreeBranch *WSemiReaderBranch;
-
-    ExRootTreeBranch *JetPairBranch;
-    ExRootTreeBranch *JetPairReaderBranch;
-
-    ExRootTreeBranch *TopLeptonicBranch;
-    ExRootTreeBranch *TopLeptonicReaderBranch;
-    ExRootTreeBranch *TopHadronicBranch;
-    ExRootTreeBranch *TopSemiBranch;
-    ExRootTreeBranch *TopSemiReaderBranch;
-    ExRootTreeBranch *TopHadronicReaderBranch;
-
-    ExRootTreeBranch *HeavyHiggsLeptonicBranch;
-    ExRootTreeBranch *HeavyHiggsLeptonicReaderBranch;
-    ExRootTreeBranch *HeavyHiggsHadronicBranch;
-    ExRootTreeBranch *HeavyHiggsSemiBranch;
-    ExRootTreeBranch *HeavyHiggsSemiReaderBranch;
-
-    ExRootTreeBranch *EventLeptonicBranch;
-    ExRootTreeBranch *EventHadronicBranch;
-    ExRootTreeBranch *EventSemiBranch;
-    ExRootTreeBranch *EventSemiReaderBranch;
-    ExRootTreeBranch *EventLeptonicReaderBranch;
-
-    ExRootTreeBranch *ChargedHiggsSemiBranch;
+    ExRootTreeBranch *Branch; // TODO make it a smart pointer
 
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HJetPairTagger JetPairTagger;
@@ -109,10 +61,9 @@ public:
     hheavyhiggs::HEventHadronicTagger EventHadronicTagger;
     hheavyhiggs::HEventSemiTagger EventSemiTagger;
 
-//     hanalysis::HReader LeptonicReader;
-
     /**
      * @brief prepares the std::vector describing the input root files
+     *
      */
     std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName) {
         Print(HError, "we dont want to end up her", StudyName);
@@ -163,30 +114,25 @@ private:
     hanalysis::HReader HeavyHiggsLeptonicReader;
     hanalysis::HReader EventSemiReader;
     hanalysis::HReader EventLeptonicReader;
-    hanalysis::HReader ChargedHiggsSemiReader;
-
-    HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
-
-    std::vector<hanalysis::HFile *>  JoinFiles(const std::vector<hanalysis::HFile *> &Files1, const std::vector<hanalysis::HFile *> &Files2);
+//     hanalysis::HReader ChargedHiggsSemiReader;
 
     inline int GetEventNumberMax() const {
 //         return 100000;
 //         return 10000;
-//         return 1000;
-        return 100;
+        return 1000;
+//         return 100;
     };
+
+
+    void ResetBranch();
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
     /**
      * @brief Main Analysis function
      *
-     * @return void
      */
-//     bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const HTagger Tagger);
     bool Analysis(hanalysis::HEvent *const Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
-
-//     std::vector< HHeavyHiggsEvent > GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
     bool GetBottomTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetBottomReader(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);

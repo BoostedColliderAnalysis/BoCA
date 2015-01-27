@@ -131,6 +131,29 @@ HEventJetPairBranch::HEventJetPairBranch()
 
 }
 
+ClassImp(HChargedJetPairBranch)
+
+HChargedJetPairBranch::HChargedJetPairBranch()
+{
+
+  DeltaM = InitialValue;
+
+  BottomMass = InitialValue;
+  BottomPt = InitialValue;
+  BottomRap = InitialValue;
+  BottomPhi = InitialValue;
+  BottomBdt = InitialValue;
+  BottomBTag = InitialValue;
+
+  TopMass = InitialValue;
+  TopPt = InitialValue;
+  TopRap = InitialValue;
+  TopPhi = InitialValue;
+  TopBdt = InitialValue;
+  TopBTag = InitialValue;
+
+}
+
 ClassImp(HWSemiBranch)
 
 HWSemiBranch::HWSemiBranch()

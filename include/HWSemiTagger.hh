@@ -19,19 +19,11 @@ public:
 
     void SetTagger();
 
-    std::vector<HWSemiBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
-
-    void FillBranch(const hanalysis::HDoublet& Doublet);
-
-//    std::vector< HDoublet > GetBdt(const HJets& Leptons, const fastjet::PseudoJet& MissingEt, const hanalysis::HReader*const Reader);
-
-//     std::vector< HDoublet > GetBdt(HJets& Leptons, const fastjet::PseudoJet& MissingEt, const hanalysis::HReader*const Reader);
+    std::vector<HWSemiBranch> GetBranches(HEvent *const Event, const HObject::HTag State);
 
     std::vector<HDoublet>  GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader &Reader);
 
-
-//     std::vector<hanalysis::HDoublet>  GetTruthDoublets(const hanalysis::HReader* Reader, hanalysis::HEvent*const Event);
-    void FillBranch(HWSemiBranch*const WSemiBranch, const hanalysis::HDoublet& Triplet);
+    HWSemiBranch GetBranch(const hanalysis::HDoublet& Triplet) const;
 
 protected:
 

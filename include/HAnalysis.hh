@@ -81,12 +81,16 @@ public:
 //     virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
 
     virtual std::vector<HFile *> GetFiles(const HTagger Tagger, const HTag State) {
-        Print(HError,"GetFiles","Should be subclasses", Tagger, State);
+        Print(HError, "GetFiles", "Should be subclasses", Tagger, State);
         std::vector<HFile *> Files;
         return Files;
     }
 
 protected:
+
+    virtual void ResetBranch() {
+        Print(HError, "Reset Branch", "should be subclassed");
+    }
 
 //     HTagger Tagger;
 
@@ -102,7 +106,7 @@ protected:
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
     TFile *GetExportFile(const std::string &StudyName) const;
-    TFile *GetExportFile(const HTagger Tagger,const HTag State) const;
+    TFile *GetExportFile(const HTagger Tagger, const HTag State) const;
 
     void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 
@@ -122,7 +126,7 @@ protected:
 //     }
 
     virtual bool Analysis(HEvent *const, const HTagger Tagger, const HTag State) {
-        Print(HError, "Analysis", "should be subclassed",Tagger,State);
+        Print(HError, "Analysis", "should be subclassed", Tagger, State);
         return 0;
     }
 
@@ -169,6 +173,11 @@ protected:
     virtual inline std::string ClassName() const {
         return "HAnalysis";
     }
+
+
+    HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
+
+    std::vector<hanalysis::HFile *>  JoinFiles(const std::vector<hanalysis::HFile *> &Files1, const std::vector<hanalysis::HFile *> &Files2);
 
 private:
 

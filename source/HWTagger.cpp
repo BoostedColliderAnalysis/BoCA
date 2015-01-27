@@ -54,32 +54,26 @@ void hanalysis::HWTagger::DefineVariables()
 
 }
 
-void hanalysis::HWTagger::FillBranch(HWBranch *const WBranch, const HDoublet &Doublet)
+HWBranch hanalysis::HWTagger::GetBranch(const HDoublet &Doublet) const
 {
     Print(HInformation, "FillPairTagger", Doublet.Bdt());
-
-    WBranch->Mass = Doublet.Jet().m();
-    WBranch->Rap = Doublet.Jet().rap();
-    WBranch->Phi = Doublet.Jet().phi();
-    WBranch->Pt = Doublet.Jet().pt();
-    WBranch->Ht = Doublet.Ht();
-    WBranch->DeltaPt = std::abs(Doublet.DeltaPt());
-    WBranch->DeltaR = Doublet.DeltaR();
-    WBranch->DeltaRap = std::abs(Doublet.DeltaRap());
-    WBranch->DeltaPhi = std::abs(Doublet.DeltaPhi());
-    WBranch->Bdt = Doublet.Bdt();
-    WBranch->Tag = Doublet.Tag();
+    HWBranch WBranch;
+    WBranch.Mass = Doublet.Jet().m();
+    WBranch.Rap = Doublet.Jet().rap();
+    WBranch.Phi = Doublet.Jet().phi();
+    WBranch.Pt = Doublet.Jet().pt();
+    WBranch.Ht = Doublet.Ht();
+    WBranch.DeltaPt = std::abs(Doublet.DeltaPt());
+    WBranch.DeltaR = Doublet.DeltaR();
+    WBranch.DeltaRap = std::abs(Doublet.DeltaRap());
+    WBranch.DeltaPhi = std::abs(Doublet.DeltaPhi());
+    WBranch.Bdt = Doublet.Bdt();
+    WBranch.Tag = Doublet.Tag();
+    return WBranch;
 
 }
 
-void hanalysis::HWTagger::FillBranch(const hanalysis::HDoublet &Doublet)
-{
-    Print(HInformation, "FillPairTagger", Doublet.Bdt());
-    FillBranch(&Branch, Doublet);
-}
-
-
-std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
 
     Print(HInformation, "Get W Tags");
@@ -124,17 +118,11 @@ std::vector<HWBranch *> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *cons
         Doublets.erase(Doublets.begin() + 1, Doublets.end()); // FIXME assuming maximal one hadronic W
     }
 
-    std::vector<HWBranch *> WBranches;
-    for (const auto & Doublet : Doublets) {
-        HWBranch *WBranch = new HWBranch();
-        FillBranch(WBranch, Doublet);
-        WBranches.push_back(WBranch);
-    }
-
+    std::vector<HWBranch> WBranches;
+    for (const auto & Doublet : Doublets) WBranches.push_back(GetBranch(Doublet));
     return WBranches;
 
 }
-
 
 hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
 {
@@ -167,7 +155,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets,
             if (Doublet.DeltaR() < MinCellResolution) continue;
             if (std::abs(Doublet.Jet().rap()) > 100) continue;
             if (std::abs(Doublet.Jet().m()) < 10) continue;
-            FillBranch(Doublet);
+            Branch = GetBranch(Doublet);
             Doublet.SetBdt(WReader.Bdt());
             Doublets.push_back(Doublet);
         }
@@ -176,7 +164,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets,
         HDoublet Doublet(Jet);
         if (std::abs(Doublet.Jet().rap()) > 100) continue;
         if (std::abs(Doublet.Jet().m()) < 10) continue;
-        FillBranch(Doublet);
+        Branch = GetBranch(Doublet);
         Doublet.SetBdt(WReader.Bdt());
         Doublets.push_back(Doublet);
     }

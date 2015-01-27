@@ -99,7 +99,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent *cons
             Jet = Jets.erase(Jet);
         } else {
             HJetInfo *JetInfo = new HJetInfo;
-            BottomTagger.FillBranch(*Jet);
+//             BottomTagger.FillBranch(*Jet); // FIXME Broken
             JetInfo->SetBdt(BottomReader.Bdt());
             (*Jet).set_user_info(JetInfo);
             if ((*Jet).user_info<HJetInfo>().MaximalId() == HiggsId || (*Jet).user_info<HJetInfo>().MaximalId() == CpvHiggsId) {

@@ -45,6 +45,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
             Print(HNotification, " ");
         }
         ExportFile->Close();
+                ResetBranch();
         delete ExportFile;
     }
 }
@@ -81,4 +82,24 @@ ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, c
 hanalysis::HAnalysis::~HAnalysis()
 {
     Print(HNotification, "Destructor");
+}
+
+HStrings hanalysis::HAnalysis::JoinHStrings(const HStrings &Strings1, const HStrings &Strings2)
+{
+
+  HStrings Combined;
+  Combined.reserve(Strings1.size() + Strings2.size());
+  Combined.insert(Combined.end(), Strings1.begin(), Strings1.end());
+  Combined.insert(Combined.end(), Strings2.begin(), Strings2.end());
+  return Combined;
+}
+
+std::vector<hanalysis::HFile *>  hanalysis::HAnalysis::JoinFiles(const std::vector< hanalysis::HFile * > &Files1, const std::vector< hanalysis::HFile * > &Files2)
+{
+
+  std::vector<hanalysis::HFile *>  Combined;
+  Combined.reserve(Files1.size() + Files2.size());
+  Combined.insert(Combined.end(), Files1.begin(), Files1.end());
+  Combined.insert(Combined.end(), Files2.begin(), Files2.end());
+  return Combined;
 }

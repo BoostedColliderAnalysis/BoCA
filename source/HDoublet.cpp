@@ -6,7 +6,7 @@ class hanalysis::HDoubletPrivate : public HTagPrivate
 
 public:
 
-    HDoubletPrivate() {}
+//     HDoubletPrivate() {}
 
     void SetSinglet1(const fastjet::PseudoJet &NewSinglet);
 
@@ -17,8 +17,6 @@ public:
     float ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const;
 
     float Pull(const fastjet::PseudoJet &Jet) const;
-
-    //   HDoublet(HDoubletPrivate &NewDoubletPrivate);
 
     fastjet::PseudoJet Singlet1;
 

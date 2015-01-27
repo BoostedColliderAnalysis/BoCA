@@ -53,7 +53,7 @@ int hanalysis::HFactory::GetTrees()
         std::string SignalFileName = Mva->GetAnalysisName() + "/" + SignalName + ".root";
         if (gSystem->AccessPathName(SignalFileName.c_str())) Print(HError, "File not found", SignalFileName);
         TFile *SignalFile = TFile::Open(SignalFileName.c_str());
-        Print(HNotification , "Signal File", SignalFile->GetName());
+        Print(HNotification , "Signal File", SignalFile->GetName(),Mva->GetSignalTreeNames().size());
 
         for (int TreeNumber : HRange(Mva->GetSignalTreeNames().size())) {
             Print(HNotification , "signal Tree Name", Mva->GetSignalTreeNames()[TreeNumber]);
@@ -68,7 +68,7 @@ int hanalysis::HFactory::GetTrees()
         std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + BackgroundName + ".root";
         if (gSystem->AccessPathName(BackgroundFileName.c_str())) Print(HError, "File not found", BackgroundFileName);
         TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
-        Print(HNotification , "Background File", BackgroundFile->GetName());
+        Print(HNotification , "Background File", BackgroundFile->GetName(),Mva->GetBackgroundTreeNames().size());
 
         for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
             Print(HNotification , "Background Tree Name", BackgroundTreeName);

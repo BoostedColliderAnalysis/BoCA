@@ -59,6 +59,7 @@ class HMvaHiggsTagger;
 class HHeavyHiggsHadronicTagger;
 class HHeavyHiggsLeptonicTagger;
 class HJetPairTagger;
+class HChargedJetPairTagger;
 class HWTagger;
 class HWSemiTagger;
 class HTopHadronicTagger;

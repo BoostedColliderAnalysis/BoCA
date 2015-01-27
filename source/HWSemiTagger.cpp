@@ -48,36 +48,34 @@ void hanalysis::HWSemiTagger::DefineVariables()
 
 }
 
-void hanalysis::HWSemiTagger::FillBranch(HWSemiBranch *const WSemiBranch, const hanalysis::HDoublet &Doublet)
+HWSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::HDoublet &Doublet) const
 {
     Print(HInformation, "Fill Top Tagger", Doublet.Bdt());
 
-    WSemiBranch->Mass = Doublet.Jet().m();
-    WSemiBranch->Rap = Doublet.Jet().rap();
-    WSemiBranch->Phi = Doublet.Jet().phi();
-    WSemiBranch->Pt = Doublet.Jet().pt();
-    WSemiBranch->Ht = Doublet.Ht();
+    HWSemiBranch WSemiBranch;
 
-    WSemiBranch->NeutrinoPt = Doublet.Singlet2().pt();
-    WSemiBranch->LeptonPt = Doublet.Singlet1().pt();
+    WSemiBranch.Mass = Doublet.Jet().m();
+    WSemiBranch.Rap = Doublet.Jet().rap();
+    WSemiBranch.Phi = Doublet.Jet().phi();
+    WSemiBranch.Pt = Doublet.Jet().pt();
+    WSemiBranch.Ht = Doublet.Ht();
 
-    WSemiBranch->DeltaPt = Doublet.DeltaPt();
-    WSemiBranch->DeltaR = Doublet.DeltaR();
-    WSemiBranch->DeltaRap = Doublet.DeltaRap();
-    WSemiBranch->DeltaPhi = Doublet.DeltaPhi();
+    WSemiBranch.NeutrinoPt = Doublet.Singlet2().pt();
+    WSemiBranch.LeptonPt = Doublet.Singlet1().pt();
 
-    WSemiBranch->Bdt = Doublet.Bdt();
-    WSemiBranch->Tag = Doublet.Tag();
+    WSemiBranch.DeltaPt = Doublet.DeltaPt();
+    WSemiBranch.DeltaR = Doublet.DeltaR();
+    WSemiBranch.DeltaRap = Doublet.DeltaRap();
+    WSemiBranch.DeltaPhi = Doublet.DeltaPhi();
+
+    WSemiBranch.Bdt = Doublet.Bdt();
+    WSemiBranch.Tag = Doublet.Tag();
+
+    return WSemiBranch;
 
 }
 
-void hanalysis::HWSemiTagger::FillBranch(const HDoublet &Doublet)
-{
-    Print(HInformation, "Fill W Tagger", Doublet.Bdt());
-    FillBranch(&Branch, Doublet);
-}
-
-std::vector< HWSemiBranch * > hanalysis::HWSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -102,12 +100,9 @@ std::vector< HWSemiBranch * > hanalysis::HWSemiTagger::GetBranches(hanalysis::HE
 
     Print(HInformation, "Number Doublets", Doublets.size());
 
-    std::vector<HWSemiBranch *> WSemiBranches;
-    for (const auto & Doublet : Doublets) {
-        HWSemiBranch *WSemiBranch = new HWSemiBranch();
-        FillBranch(WSemiBranch, Doublet);
-        WSemiBranches.push_back(WSemiBranch);
-    }
+    std::vector<HWSemiBranch> WSemiBranches;
+    for (const auto & Doublet : Doublets) WSemiBranches.push_back(GetBranch(Doublet));
+
     return WSemiBranches;
 }
 
@@ -130,7 +125,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &L
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         for (auto & PostDoublet : PostDoublets) {
             if (PostDoublet.Jet().m() < 10) continue;
-            FillBranch(PostDoublet);
+            Branch = GetBranch(PostDoublet);
             PostDoublet.SetBdt(Reader.Bdt());
             Doublets.push_back(PostDoublet);
         }

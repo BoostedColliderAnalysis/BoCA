@@ -20,13 +20,11 @@ public:
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger);
 
-    std::vector<HTopSemiBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
+    std::vector<HTopSemiBranch> GetBranches(HEvent *const Event, const HObject::HTag State);
 
-    void FillBranch(const hanalysis::HTriplet &Triple);
+    std::vector<HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & Reader);
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & Reader);
-
-    void FillBranch(HTopSemiBranch *const TopSemiBranch, const hanalysis::HTriplet &Triplet);
+    HTopSemiBranch GetBranch(const hanalysis::HTriplet &Triplet) const;
 
 protected:
 

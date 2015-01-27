@@ -198,34 +198,49 @@ ClassImp(hheavyhiggs::HChargedSemiBranch)
 hheavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
 {
 
+  Mass = InitialValue;
+  Pt = InitialValue;
+  Rap = InitialValue;
+  Phi = InitialValue;
+
+  DeltaPt = InitialValue;
+  DeltaRap = InitialValue;
+  DeltaPhi = InitialValue;
+  DeltaR = InitialValue;
+
+  DeltaPt1 = InitialValue;
+  DeltaRap1 = InitialValue;
+  DeltaPhi1 = InitialValue;
+  DeltaR1 = InitialValue;
+
+  DeltaPt2 = InitialValue;
+  DeltaRap2 = InitialValue;
+  DeltaPhi2 = InitialValue;
+  DeltaR2 = InitialValue;
+
+  Bdt = InitialValue;
+  Tag = InitialValue;
+
   LeptonNumber = InitialValue;
   JetNumber = InitialValue;
   BottomNumber = InitialValue;
 
   ScalarHt = InitialValue;
-  HeavyParticleBdt = InitialValue;
 
-  HeavyHiggsBdt = InitialValue;
-  HeavyHiggsMass = InitialValue;
-  HeavyHiggsPt = InitialValue;
+  HiggsMass = InitialValue;
+  PairRap = InitialValue;
 
-  BottomSumPt = InitialValue;
-  BottomDeltaPt = InitialValue;
-
-  BottomDeltaRap = InitialValue;
-  BottomDeltaPhi = InitialValue;
-  BottomDeltaR = InitialValue;
-
-  HbSumDeltaRap = InitialValue;
-  HbSumDeltaPhi = InitialValue;
-  HbSumDeltaR = InitialValue;
-
-  HbDeltaDeltaRap = InitialValue;
-  HbDeltaDeltaPhi = InitialValue;
-  HbDeltaDeltaR = InitialValue;
-
-  EventTag = InitialValue;
-
+  RestM = InitialValue;
+  RestPt = InitialValue;
+  RestHt = InitialValue;
+  RestRap = InitialValue;
+  RestPhi = InitialValue;
+  RestBBdt = InitialValue;
+  MaxBBdt = InitialValue;
+  TotalBBdt = InitialValue;
+  RestBTag = InitialValue;
+  ThirdBBdt = InitialValue;
+  LeptonPt = InitialValue;
 }
 
 

@@ -61,37 +61,32 @@ void hanalysis::HTopSemiTagger::DefineVariables()
 
 }
 
-void hanalysis::HTopSemiTagger::FillBranch(HTopSemiBranch *const TopSemiBranch, const HTriplet &Triplet)
+HTopSemiBranch hanalysis::HTopSemiTagger::GetBranch(const hanalysis::HTriplet &Triplet) const
 {
     Print(HInformation, "Fill Top Tagger", Triplet.Bdt());
 
-    TopSemiBranch->Mass = Triplet.Jet().m();
-    TopSemiBranch->Rap = Triplet.Jet().rap();
-    TopSemiBranch->Phi = Triplet.Jet().phi();
-    TopSemiBranch->Pt = Triplet.Jet().pt();
-    TopSemiBranch->Ht = Triplet.Ht();
+    HTopSemiBranch TopSemiBranch;
+    TopSemiBranch.Mass = Triplet.Jet().m();
+    TopSemiBranch.Rap = Triplet.Jet().rap();
+    TopSemiBranch.Phi = Triplet.Jet().phi();
+    TopSemiBranch.Pt = Triplet.Jet().pt();
+    TopSemiBranch.Ht = Triplet.Ht();
 
-    TopSemiBranch->BottomPt = Triplet.Singlet().pt();
-    TopSemiBranch->WPt = Triplet.DoubletJet().pt();
+    TopSemiBranch.BottomPt = Triplet.Singlet().pt();
+    TopSemiBranch.WPt = Triplet.DoubletJet().pt();
 
-    TopSemiBranch->DeltaPt = Triplet.DeltaPt();
-    TopSemiBranch->DeltaR = Triplet.DeltaR();
-    TopSemiBranch->DeltaRap = Triplet.DeltaRap();
-    TopSemiBranch->DeltaPhi = Triplet.DeltaPhi();
+    TopSemiBranch.DeltaPt = Triplet.DeltaPt();
+    TopSemiBranch.DeltaR = Triplet.DeltaR();
+    TopSemiBranch.DeltaRap = Triplet.DeltaRap();
+    TopSemiBranch.DeltaPhi = Triplet.DeltaPhi();
 
-    TopSemiBranch->Bdt = Triplet.Bdt();
-    TopSemiBranch->Tag = Triplet.Tag();
+    TopSemiBranch.Bdt = Triplet.Bdt();
+    TopSemiBranch.Tag = Triplet.Tag();
 
+    return TopSemiBranch;
 }
 
-void hanalysis::HTopSemiTagger::FillBranch(const HTriplet &Triple)
-{
-    Print(HInformation, "Fill Top Tagger", Triple.Bdt());
-    FillBranch(&Branch, Triple);
-}
-
-
-std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
+std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag State)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -113,8 +108,8 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
         for (const auto & Doublet : Doublets) {
             HTriplet Triplet(Doublet, Jet);
             Triplet.SetTag(GetTag(Triplet));
-            if (Triplet.Tag() != Tag) continue;
-            if (Tag == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
+            if (Triplet.Tag() != State) continue;
+            if (State == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
 //             if (Tag == HSignal && Triplet.DeltaR() > 1.5) continue; // FIXME assumption of boost larger 400
             PreTriplets.push_back(Triplet);
         }
@@ -122,19 +117,16 @@ std::vector<HTopSemiBranch *> hanalysis::HTopSemiTagger::GetBranches(HEvent *con
         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
     }
 
-    if (Tag == HSignal && Triplets.size() > 1) {
+    if (State == HSignal && Triplets.size() > 1) {
         std::sort(Triplets.begin(), Triplets.end(), SortByMass<HTriplet>(TopMass));
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
 
     Print(HInformation, "Number Triplets", Triplets.size());
 
-    std::vector<HTopSemiBranch *> TopSemiBranches;
-    for (const auto & Triplet : Triplets) {
-        HTopSemiBranch *TopSemiBranch = new HTopSemiBranch();
-        FillBranch(TopSemiBranch, Triplet);
-        TopSemiBranches.push_back(TopSemiBranch);
-    }
+    std::vector<HTopSemiBranch> TopSemiBranches;
+    for (const auto & Triplet : Triplets) TopSemiBranches.push_back(GetBranch(Triplet));
+
     return TopSemiBranches;
 }
 
@@ -167,7 +159,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
         for (const auto & Doublet : Doublets) {
             HTriplet Triplet(Doublet, Jet);
             if (std::abs(Triplet.DeltaRap()) > 100) continue;
-            FillBranch(Triplet);
+            Branch = GetBranch(Triplet);
             Triplet.SetBdt(Reader.Bdt());
             PreTriplets.push_back(Triplet);
         }

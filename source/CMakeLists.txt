@@ -80,6 +80,7 @@ HBottomTagger.cpp
 HWTagger.cpp
 HWSemiTagger.cpp
 HJetPairTagger.cpp
+HChargedJetPairTagger.cpp
 HTopHadronicTagger.cpp
 HTopLeptonicTagger.cpp
 HTopSemiTagger.cpp

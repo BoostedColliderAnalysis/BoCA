@@ -62,35 +62,32 @@ void hanalysis::HTopHadronicTagger::DefineVariables()
 
 }
 
-void hanalysis::HTopHadronicTagger::FillBranch(HTopHadronicBranch *const TopHadronicBranch, const hanalysis::HTriplet &Triplet)
+HTopHadronicBranch hanalysis::HTopHadronicTagger::GetBranch(const hanalysis::HTriplet &Triplet) const
 {
     Print(HInformation, "Fill Top Tagger", Triplet.Bdt());
 
-    TopHadronicBranch->Mass = Triplet.Jet().m();
-    TopHadronicBranch->Rap = Triplet.Jet().rap();
-    TopHadronicBranch->Phi = Triplet.Jet().phi();
-    TopHadronicBranch->Pt = Triplet.Jet().pt();
-    TopHadronicBranch->Ht = Triplet.Ht();
+    HTopHadronicBranch TopHadronicBranch;
 
-    TopHadronicBranch->BottomPt = Triplet.Singlet().pt();
-    TopHadronicBranch->WPt = Triplet.DoubletJet().pt();
+    TopHadronicBranch.Mass = Triplet.Jet().m();
+    TopHadronicBranch.Rap = Triplet.Jet().rap();
+    TopHadronicBranch.Phi = Triplet.Jet().phi();
+    TopHadronicBranch.Pt = Triplet.Jet().pt();
+    TopHadronicBranch.Ht = Triplet.Ht();
 
-    TopHadronicBranch->DeltaPt = Triplet.DeltaPt();
-    TopHadronicBranch->DeltaR = Triplet.DeltaR();
-    TopHadronicBranch->DeltaRap = Triplet.DeltaRap();
-    TopHadronicBranch->DeltaPhi = Triplet.DeltaPhi();
+    TopHadronicBranch.BottomPt = Triplet.Singlet().pt();
+    TopHadronicBranch.WPt = Triplet.DoubletJet().pt();
 
-    TopHadronicBranch->Bdt = Triplet.Bdt();
-    TopHadronicBranch->Tag = Triplet.Tag();
+    TopHadronicBranch.DeltaPt = Triplet.DeltaPt();
+    TopHadronicBranch.DeltaR = Triplet.DeltaR();
+    TopHadronicBranch.DeltaRap = Triplet.DeltaRap();
+    TopHadronicBranch.DeltaPhi = Triplet.DeltaPhi();
+
+    TopHadronicBranch.Bdt = Triplet.Bdt();
+    TopHadronicBranch.Tag = Triplet.Tag();
+    return TopHadronicBranch;
 }
 
-void hanalysis::HTopHadronicTagger::FillBranch(const hanalysis::HTriplet &Triplet)
-{
-    Print(HInformation, "Fill Top Tagger", Triplet.Bdt());
-    FillBranch(&Branch, Triplet);
-}
-
-std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -135,13 +132,8 @@ std::vector<HTopHadronicBranch *> hanalysis::HTopHadronicTagger::GetBranches(han
     }
 
 
-    std::vector<HTopHadronicBranch *> HadronicTopBranches;
-    for (const auto & Triplet : Triplets) {
-        HTopHadronicBranch *HadronicTopBranch = new HTopHadronicBranch();
-        FillBranch(HadronicTopBranch, Triplet);
-        HadronicTopBranches.push_back(HadronicTopBranch);
-    }
-
+    std::vector<HTopHadronicBranch> HadronicTopBranches;
+    for (const auto & Triplet : Triplets) HadronicTopBranches.push_back(GetBranch(Triplet));
 
     return HadronicTopBranches;
 
@@ -188,7 +180,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetBdt(const st
             if (Triplet.DeltaR() < MinCellResolution) continue;
             if (std::abs(Triplet.Jet().rap()) > 100) continue;
             if (std::abs(Triplet.Jet().m()) < 10) continue;
-            FillBranch(Triplet);
+            Branch = GetBranch(Triplet);
             Triplet.SetBdt(TopHadronicReader.Bdt());
             Triplets.push_back(Triplet);
         }
@@ -197,7 +189,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopHadronicTagger::GetBdt(const st
         HTriplet Triplet(Jet);
         if (std::abs(Triplet.Jet().rap()) > 100) continue;
         if (std::abs(Triplet.Jet().m()) < 10) continue;
-        FillBranch(Triplet);
+        Branch = GetBranch(Triplet);
         Triplet.SetBdt(TopHadronicReader.Bdt());
         Triplets.push_back(Triplet);
     }

@@ -188,12 +188,12 @@ bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const st
     if (StudyName == "Bottom") State = HSignal;
     if (StudyName == "NotBottom") State = HBackground;
 
-    std::vector<HBottomBranch *> Bottoms = BottomTagger.GetBranches(Event, State);
-
-    for (const auto & Bottom : Bottoms) {
-        HBottomBranch *BTagger = static_cast<HBottomBranch *>(BottomBranch->NewEntry());
-        *BTagger = *Bottom;
-    }
+//     std::vector<HBottomBranch *> Bottoms = BottomTagger.GetBranches(Event, State);
+//
+//     for (const auto & Bottom : Bottoms) {
+//         HBottomBranch *BTagger = static_cast<HBottomBranch *>(BottomBranch->NewEntry());
+//         *BTagger = *Bottom;
+//     }
 
     return 1;
 
@@ -274,7 +274,7 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent *const Event, const st
 
     for (auto & Jet : Jets) {
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
-        BottomTagger.FillBranch(Jet);
+//         BottomTagger.Branch = BottomTagger.GetBranch(Jet); // FIXME reenable this 
         JetInfo->SetBdt(BottomReader.Bdt());
         Jet.set_user_info(JetInfo);
     }

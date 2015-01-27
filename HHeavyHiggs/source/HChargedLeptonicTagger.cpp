@@ -56,16 +56,16 @@ void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLepton
     EventLeptonicBranch->ScalarHt = Octet.GetScalarHt();
     EventLeptonicBranch->HeavyParticleBdt = Octet.Bdt();
 
-    EventLeptonicBranch->HeavyHiggsBdt = Octet.GetQuartet1().Bdt();
+    EventLeptonicBranch->HeavyHiggsBdt = Octet.Quartet1().Bdt();
     EventLeptonicBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
     EventLeptonicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
 
     EventLeptonicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-    EventLeptonicBranch->BottomDeltaPt = Octet.GetQuartet2().DeltaPt();
+    EventLeptonicBranch->BottomDeltaPt = Octet.Quartet2().DeltaPt();
 
-    EventLeptonicBranch->BottomDeltaRap = Octet.GetQuartet2().DeltaRap();
-    EventLeptonicBranch->BottomDeltaPhi = Octet.GetQuartet2().GetPhiDelta();
-    EventLeptonicBranch->BottomDeltaR = Octet.GetQuartet2().DeltaR();
+    EventLeptonicBranch->BottomDeltaRap = Octet.Quartet2().DeltaRap();
+    EventLeptonicBranch->BottomDeltaPhi = Octet.Quartet2().GetPhiDelta();
+    EventLeptonicBranch->BottomDeltaR = Octet.Quartet2().DeltaR();
 
     EventLeptonicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
     EventLeptonicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();

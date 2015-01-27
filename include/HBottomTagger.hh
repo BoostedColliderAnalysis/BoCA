@@ -19,23 +19,15 @@ public:
 
     HBottomTagger();
 
-
-//     HBottomTagger(const HBottomTagger &NewBottomTagger): HMva(NewBottomTagger) {
-//         Print(HInformation, "Copy Constructor");
-//         DefineVariables();
-//     }
-
     ~HBottomTagger();
 
     void SetTagger();
 
-    std::vector< HBottomBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-
-    void FillBranch(const fastjet::PseudoJet &Jet);
+    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     HJets GetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
 
-    void FillBranch(HBottomBranch *const BottomBranch, const fastjet::PseudoJet &Jet);
+    HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
 

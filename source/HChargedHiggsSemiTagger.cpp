@@ -1,59 +1,56 @@
 # include "HChargedHiggsSemiTagger.hh"
+hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
+{
+    //     DebugLevel = hanalysis::HObject::HDebug;
+    Print(HNotification, "Constructor");
+    SetTaggerName("ChargedHiggsSemi");
+    DefineVariables();
+}
 
-hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger(
+hanalysis::HChargedHiggsSemiTagger::~HChargedHiggsSemiTagger()
+{
+    Print(HNotification, "Destructor");
+}
+
+void hanalysis::HChargedHiggsSemiTagger::SetTagger(
     const hanalysis::HBottomTagger &NewBottomTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
     const hanalysis::HWTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger)
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
-
-    Print(HNotification, "Constructor");
-
     BottomTagger = NewBottomTagger;
+    BottomTagger.SetTagger();
     BottomReader.SetMva(BottomTagger);
+
     WSemiTagger = NewWSemiTagger;
+    WSemiTagger.SetTagger();
     WSemiReader.SetMva(WSemiTagger);
+
     WTagger = NewWTagger;
+    WTagger.SetTagger(BottomTagger);
     WReader.SetMva(WTagger);
+
     TopSemiTagger = NewTopSemiTagger;
+    TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
     TopSemiReader.SetMva(TopSemiTagger);
+
     TopHadronicTagger = NewTopHadronicTagger;
+    TopHadronicTagger.SetTagger(BottomTagger, WTagger);
     TopHadronicReader.SetMva(TopHadronicTagger);
 
     SetTaggerName("ChargedHiggsSemi");
-
-//     Branch = new HChargedHiggsSemiBranch();
-    //JetTag = new HJetTag();
-
     DefineVariables();
 }
 
-hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
-{
-  //     DebugLevel = hanalysis::HObject::HDebug;
-  Print(HNotification, "Constructor");
-  SetTaggerName("ChargedHiggsSemi");
-}
-
-hanalysis::HChargedHiggsSemiTagger::~HChargedHiggsSemiTagger()
-{
-    Print(HNotification, "Destructor");
-    // delete Branch;
-    //delete JetTag;
-//     delete BottomReader;
-//     delete WReader;
-//     delete WSemiReader;
-//     delete TopHadronicReader;
-//     delete TopSemiReader;
-
-}
 
 void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
+
+    Observables.clear();
+    Spectators.clear();
 
     Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
     Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
@@ -73,32 +70,28 @@ void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
 
 }
 
-void hanalysis::HChargedHiggsSemiTagger::FillBranch(HChargedHiggsSemiBranch *ChargedHiggsBranch, const HQuartet31 &Quartet)
+HChargedHiggsSemiBranch hanalysis::HChargedHiggsSemiTagger::GetBranch(const HQuartet31 &Quartet)const
 {
     Print(HInformation, "FillPairTagger", Quartet.Bdt());
+    HChargedHiggsSemiBranch ChargedHiggsBranch;
+    ChargedHiggsBranch.Mass = Quartet.Jet().m();
+    ChargedHiggsBranch.Rap = Quartet.Jet().rap();
+    ChargedHiggsBranch.Phi = Quartet.Jet().phi();
+    ChargedHiggsBranch.Pt = Quartet.Jet().pt();
+    ChargedHiggsBranch.Ht = Quartet.Ht();
 
-    ChargedHiggsBranch->Mass = Quartet.Jet().m();
-    ChargedHiggsBranch->Rap = Quartet.Jet().rap();
-    ChargedHiggsBranch->Phi = Quartet.Jet().phi();
-    ChargedHiggsBranch->Pt = Quartet.Jet().pt();
-    ChargedHiggsBranch->Ht = Quartet.Ht();
+    ChargedHiggsBranch.DeltaPt = Quartet.DeltaPt();
+    ChargedHiggsBranch.DeltaR = Quartet.DeltaR();
+    ChargedHiggsBranch.DeltaRap = Quartet.DeltaRap();
+    ChargedHiggsBranch.DeltaPhi = Quartet.DeltaPhi();
 
-    ChargedHiggsBranch->DeltaR = Quartet.DeltaR();
-    ChargedHiggsBranch->DeltaRap = Quartet.DeltaRap();
-    ChargedHiggsBranch->DeltaPhi = Quartet.DeltaPhi();
-
-    ChargedHiggsBranch->Bdt = Quartet.Bdt();
-    ChargedHiggsBranch->Tag = Quartet.Tag();
+    ChargedHiggsBranch.Bdt = Quartet.Bdt();
+    ChargedHiggsBranch.Tag = Quartet.Tag();
+    return ChargedHiggsBranch;
 
 }
 
-void hanalysis::HChargedHiggsSemiTagger::FillBranch(const hanalysis::HQuartet31 &HQuartet)
-{
-    Print(HInformation, "FillPairTagger", HQuartet.Bdt());
-    FillBranch(&Branch, HQuartet);
-}
-
-std::vector< HChargedHiggsSemiBranch * > hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
@@ -138,16 +131,10 @@ std::vector< HChargedHiggsSemiBranch * > hanalysis::HChargedHiggsSemiTagger::Get
         Quartets.erase(Quartets.begin() + 1, Quartets.end());
     }
 
-    std::vector<HChargedHiggsSemiBranch *> ChargedHiggsBranches;
-    for (const auto & Quartet : Quartets) {
-        HChargedHiggsSemiBranch *ChargedHiggsSemiBranch = new HChargedHiggsSemiBranch();
-        FillBranch(ChargedHiggsSemiBranch, Quartet);
-        ChargedHiggsBranches.push_back(ChargedHiggsSemiBranch);
-    }
-
+    std::vector<HChargedHiggsSemiBranch> ChargedHiggsBranches;
+    for (const auto & Quartet : Quartets) ChargedHiggsBranches.push_back(GetBranch(Quartet));
 
     return ChargedHiggsBranches;
-
 }
 
 
@@ -168,9 +155,11 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuart
     JetInfoW1.ExtractFraction(TopId);
     if (JetInfoB1.MaximalId() != JetInfoW1.MaximalId()) return HBackground;
 
-    HJetInfo JetInfoW2 = Quartet.Triplet().Doublet().Singlet2().user_info<HJetInfo>();
-    JetInfoW2.ExtractFraction(TopId);
-    if (JetInfoB1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
+    if (Quartet.Triplet().Doublet().Singlet2().has_user_info<HJetInfo>()) {
+        HJetInfo JetInfoW2 = Quartet.Triplet().Doublet().Singlet2().user_info<HJetInfo>();
+        JetInfoW2.ExtractFraction(TopId);
+        if (JetInfoB1.MaximalId() != JetInfoW2.MaximalId()) return HBackground;
+    }
 
     return HSignal;
 }
@@ -188,7 +177,7 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(s
             if (Triplet.Doublet().Singlet1() == Jet) continue;
             if (Triplet.Doublet().Singlet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);
-            FillBranch(Quartet);
+            Branch = GetBranch(Quartet);
             Quartet.SetBdt(Reader.Bdt());
             Quartets.push_back(Quartet);
         }

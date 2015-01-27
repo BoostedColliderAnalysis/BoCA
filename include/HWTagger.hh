@@ -19,9 +19,7 @@ public:
 
     void SetTagger(const HBottomTagger &NewBottomTagger);
 
-    void FillBranch(const HDoublet &Doublet);
-
-    std::vector< HWBranch * > GetBranches(HEvent *const Event, const HObject::HTag Tag);
+    std::vector< HWBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 
@@ -31,7 +29,7 @@ public:
 
     HReader BottomReader;
 
-    void FillBranch(HWBranch *const WBranch, const HDoublet &Doublet);
+    HWBranch GetBranch(const HDoublet &Doublet) const;
 
 protected:
 

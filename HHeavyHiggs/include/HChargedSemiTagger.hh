@@ -4,6 +4,7 @@
 # include "HBranchHeavyHiggs.hh"
 # include "HTopHadronicTagger.hh"
 # include "HChargedHiggsSemiTagger.hh"
+# include "HChargedJetPairTagger.hh"
 # include "HOctet44.hh"
 
 /**
@@ -20,14 +21,6 @@ public:
     * @brief Constructor
     *
     */
-    HChargedSemiTagger(
-      const hanalysis::HBottomTagger &NewBottomTagger,
-      const hanalysis::HWSemiTagger &NewWSemiTagger,
-      const hanalysis::HWTagger &NewWTagger,
-      const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-      const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
-      const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
-
     HChargedSemiTagger();
 
     /**
@@ -36,11 +29,25 @@ public:
     */
     ~HChargedSemiTagger();
 
-    std::vector< HChargedSemiBranch * > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    void SetTagger(
+      const hanalysis::HBottomTagger &NewBottomTagger,
+      const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
+      const hanalysis::HWSemiTagger &NewWSemiTagger,
+      const hanalysis::HWTagger &NewWTagger,
+      const hanalysis::HTopSemiTagger &NewTopSemiTagger,
+      const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
+      const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
 
-    void FillBranch(const HOctet44 &Octet);
+
+    std::vector< HChargedSemiBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+
+    HChargedSemiBranch GetBranch(const HOctet44 &Octet) const;
 
     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
+
+
+    std::vector<HOctet44> GetBdt(
+        const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, HJets &Jets, HChargedEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
 
 
 protected:
@@ -55,11 +62,8 @@ protected:
 
 private:
 
-    void FillBranch(hheavyhiggs::HChargedSemiBranch *EventSemiBranch, const HOctet44 &Octet);
-
     void DefineVariables();
 
-//     std::vector<HOctet44> GetHeavyHiggsEvents(HJets &Jets);
 
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HWSemiTagger WSemiTagger;
@@ -67,6 +71,7 @@ private:
     hanalysis::HTopSemiTagger TopSemiTagger;
     hanalysis::HTopHadronicTagger TopHadronicTagger;
     hanalysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
+    hanalysis::HChargedJetPairTagger ChargedJetPairTagger;
 
     hanalysis::HReader BottomReader;
     hanalysis::HReader WSemiReader;
@@ -74,6 +79,7 @@ private:
     hanalysis::HReader TopHadronicReader;
     hanalysis::HReader TopSemiReader;
     hanalysis::HReader ChargedHiggsSemiReader;
+    hanalysis::HReader ChargedJetPairReader;
 
     HChargedSemiBranch Branch;
 
