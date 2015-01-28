@@ -139,8 +139,9 @@ HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HTag Tag, co
                 Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
             }
             Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
+            Pieces.push_back(Piece);
         }
-        Pieces.insert(Pieces.end(), NewPieces.begin(), NewPieces.end());
+//         Pieces.insert(Pieces.end(), NewPieces.begin(), NewPieces.end());
     }
     return CleanJets(Pieces, Tag);
 }
@@ -178,7 +179,7 @@ hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJ
     return HSignal;
 }
 
-HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader &BottomReader)
+HJets hanalysis::HBottomTagger::GetBdt(const HJets &Jets, const HReader &BottomReader)
 {
     HJets NewJets = GetJetBdt(Jets, BottomReader);
 
@@ -191,7 +192,7 @@ HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader &BottomReader)
     return NewJets;
 }
 
-HJets hanalysis::HBottomTagger::GetSubBdt(HJets &Jets, const HReader &BottomReader, const int SubJetNumber)
+HJets hanalysis::HBottomTagger::GetSubBdt(const HJets &Jets, const HReader &BottomReader, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Bdt");
     HJets Pieces;
@@ -242,14 +243,7 @@ HJets hanalysis::HBottomTagger::GetJetBdt(const HJets &Jets, const HReader &Bott
             continue;
         }
         Branch = GetBranch(Jet);
-        //         Print(HError, "Jet", Jet.pt(), Branch.Pt);
-        //         Print(HError, "Bdt", BottomReader.Mva->GetTaggerName());
-        //         Print(HError, "Bdt", BottomReader.Mva->GetObservables().size());
-//                 for (auto Obs : BottomReader.Mva->GetObservables()) Print(HError, "Obs", Obs.GetValue());
-        //         Print(HError, "Bdt", BottomReader.Mva->GetSpectators().size());
         static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetBdt(BottomReader.Bdt());
-//         Print(HError, "Bdt", Jet.user_info<HJetInfo>().Bdt());
-//         Print(HError, "Jet", Jet);
         NewJets.push_back(Jet);
     }
     return NewJets;

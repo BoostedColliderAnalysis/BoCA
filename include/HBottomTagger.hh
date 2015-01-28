@@ -25,7 +25,7 @@ public:
 
     std::vector< HBottomBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    HJets GetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
+    HJets GetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
 
     HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
@@ -45,7 +45,7 @@ private:
 
     HJets GetSubJets(const HJets &Jets, const HTag Tag, const int SubJetNumber);
 
-    HJets GetSubBdt(HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
+    HJets GetSubBdt(const HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
 
     HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
 

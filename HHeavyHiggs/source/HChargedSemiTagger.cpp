@@ -2,7 +2,7 @@
 
 hheavyhiggs::HChargedSemiTagger::HChargedSemiTagger()
 {
-      DebugLevel = HDebug;
+//       DebugLevel = HDebug;
     Print(HNotification , "Constructor");
     SetTaggerName("ChargedSemi");
     DefineVariables();

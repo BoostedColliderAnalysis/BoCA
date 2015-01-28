@@ -34,8 +34,6 @@ public:
      */
     ~HAnalysis();
 
-//     void AnalysisLoop();
-//     enum HTagger {EventTagger};
     enum HTagger {
         HBottomTagger,
         HBottomReader,
@@ -72,14 +70,6 @@ public:
         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
     }
 
-
-    /**
-     * @brief prepares the std::vector describing the input root files
-     *
-     * @return void
-     */
-//     virtual std::vector<HFile *> GetFiles(const std::string &StudyName) = 0;
-
     virtual std::vector<HFile *> GetFiles(const HTagger Tagger, const HTag State) {
         Print(HError, "GetFiles", "Should be subclasses", Tagger, State);
         std::vector<HFile *> Files;
@@ -92,13 +82,8 @@ protected:
         Print(HError, "Reset Branch", "should be subclassed");
     }
 
-//     HTagger Tagger;
-
-
     int GetEventSum(const ExRootTreeReader *const TreeReader) const {
-
         return std::min((int)TreeReader->GetEntries(), GetEventNumberMax());
-
     }
 
     ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const HTagger Tagger);
@@ -110,31 +95,13 @@ protected:
 
     void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
 
-    /**
-     * @brief Main Analysis function
-     *
-     * @return void
-     */
-//     virtual bool Analysis(HEvent *const, const std::string &) {
-//         Print(HError, "Analysis 0", "should be subclassed");
-//         return 0;
-//     }
-
-//     virtual bool Analysis(HEvent *const, const std::string &, const HTagger) {
-//         Print(HError, "Analysis", "should be subclassed");
-//         return 0;
-//     }
-
     virtual bool Analysis(HEvent *const, const HTagger Tagger, const HTag State) {
         Print(HError, "Analysis", "should be subclassed", Tagger, State);
         return 0;
     }
 
-
     /**
      * @brief New Analysis
-     *
-     * @return void
      */
     virtual void NewBranches(ExRootTreeWriter *const, const HTagger) {
         Print(HError, "NewBranches", "Should be subclassed");
@@ -165,15 +132,9 @@ protected:
         return GetProjectName();
     }
 
-
-//     virtual inline HStrings GetStudyNames() const {
-//         return {GetProjectName()};
-//     };
-
     virtual inline std::string ClassName() const {
         return "HAnalysis";
     }
-
 
     HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
 

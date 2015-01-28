@@ -118,8 +118,8 @@ private:
     inline int GetEventNumberMax() const {
 //         return 100000;
 //         return 10000;
-//         return 1000;
-        return 100;
+        return 1000;
+//         return 100;
     };
 
     void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
