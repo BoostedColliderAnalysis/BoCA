@@ -47,13 +47,14 @@ private:
 
     HJets GetSubBdt(HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
 
-    HJets GetJetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
+    HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
     HBottomBranch Branch;
+
     HJetTag JetTag;
 
 };

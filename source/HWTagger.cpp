@@ -118,9 +118,9 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const 
         Doublets.erase(Doublets.begin() + 1, Doublets.end()); // FIXME assuming maximal one hadronic W
     }
 
-    std::vector<HWBranch> WBranches;
-    for (const auto & Doublet : Doublets) WBranches.push_back(GetBranch(Doublet));
-    return WBranches;
+    std::vector<HWBranch> Branches;
+    for (const auto & Doublet : Doublets) Branches.push_back(GetBranch(Doublet));
+    return Branches;
 
 }
 

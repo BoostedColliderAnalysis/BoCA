@@ -36,7 +36,7 @@ class HOctet : public hanalysis::HTag
 
 public:
 
-    HOctet() {};
+//     HOctet() {};
 
     HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet);
 

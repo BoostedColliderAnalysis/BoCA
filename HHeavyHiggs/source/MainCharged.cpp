@@ -13,10 +13,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 
     FileName = Analysis.GetProjectName() + "/Mva" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) {
-//     Analysis.GetFiles(Tagger,hanalysis::HAnalysis::HSignal);
         switch (Tagger) {
         case hanalysis::HAnalysis::HBottomTagger:
-            Analysis.BottomTagger.SetTagger();
             hanalysis::HFactory(Analysis.BottomTagger);
             break;
         case hanalysis::HAnalysis::HJetPairTagger:
@@ -72,6 +70,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             break;
         }
         case hanalysis::HAnalysis::HEventSemiReader: {
+          Analysis.SetTrees(Tagger,hanalysis::HAnalysis::HSignal);
             hanalysis::HReader Reader(Analysis.EventSemiTagger);
             Reader.SimpleMVALoop();
             break;

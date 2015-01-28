@@ -314,6 +314,26 @@ protected:
 
     }
 
+    template<typename TValue>
+    HObservable NewObservable(const TValue &Value, const std::string &Title) const {
+
+      Print(HDebug, "New Observable", Value);
+      const std::string Expression = EventBranchName + "." + Title;
+      HObservable Observable(*Value, Expression, Title, "", "");
+      return Observable;
+
+    }
+
+    template<typename TValue>
+    HObservable NewObservable(const TValue &Value, const std::string &Title, const std::string &Latex) const {
+
+      Print(HDebug, "New Observable", *Value);
+      const std::string Expression = EventBranchName + "." + Title;
+      HObservable Observable(*Value, Expression, Title, "", Latex);
+      return Observable;
+
+    }
+
 
 
     bool DoLatex;

@@ -2,12 +2,13 @@
 
 hanalysis::HReader::HReader()
 {
-    //     DebugLevel = HDebug;
+//         DebugLevel = HDebug;
     Print(HNotification, "Constructor");
 }
 
 hanalysis::HReader::HReader(hanalysis::HMva &NewMva)
 {
+          DebugLevel = HDebug;
     Print(HNotification, "Constructor");
     SetMva(NewMva);
 }
@@ -196,9 +197,9 @@ void hanalysis::HReader::SimpleMVALoop()
     const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + Mva->GetBdtMethodName() + ".root";
     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
 
-    const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + "Reader->root";
+    const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + "Reader.root";
     const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
-    Print(HError, "Open Background File", BackgroundFileName);
+    Print(HError, "Open Background File", BackgroundFileName,Mva->GetBackgroundTreeNames().size());
 
     std::stringstream EfficiencyTable;
     EfficiencyTable << TableHeader.str();
@@ -213,6 +214,7 @@ void hanalysis::HReader::SimpleMVALoop()
         for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
             BackgroundResults.Results[Step] += NewBackgroundResults.Results[Step];
             EfficiencyTable << "  & " << RoundToDigits(NewBackgroundResults.Hong[Step]) << std::endl;
+            Print(HError, "Background Results", NewBackgroundResults.Results[Step]);
         }
         EfficiencyTable << " \\\\ ";
     }
@@ -220,7 +222,7 @@ void hanalysis::HReader::SimpleMVALoop()
     std::stringstream SignificanceTable;
     SignificanceTable << TableHeader.str();
 
-    const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + "Reader->root";
+    const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + "Reader.root";
     const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
     Print(HError, "Open Signal File", SignalFileName);
 
@@ -289,6 +291,7 @@ ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &
     const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
 
     std::vector<int> Numbers = Mva->ApplyBdt2(TreeReader, TreeName, ExportFile);
+    Print(HError, "Cut Values", Numbers.size());
 
     for (int Step = 0; Step < Result.Steps; ++Step) {
         Result.Results[Step] = float(Numbers[Step]) / float(Info->EventNumber) * Info->Crosssection * Luminosity;

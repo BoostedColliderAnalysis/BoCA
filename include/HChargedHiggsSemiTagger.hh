@@ -27,14 +27,14 @@ public:
 
     std::vector< HChargedHiggsSemiBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
+    HChargedHiggsSemiBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
+
     std::vector< HQuartet31 > GetBdt(
         std::vector< hanalysis::HTriplet > Triplets,
         std::vector< fastjet::PseudoJet > Siglets,
         const hanalysis::HReader &Reader);
 
     std::vector< HQuartet31 > GetQuartets(const hanalysis::HReader &Reader);
-
-    HChargedHiggsSemiBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 
 protected:
 
@@ -57,10 +57,8 @@ private:
     HTopSemiTagger TopSemiTagger;
 
     HReader BottomReader;
-
     HReader WSemiReader;
     HReader WReader;
-
     HReader TopHadronicReader;
     HReader TopSemiReader;
 

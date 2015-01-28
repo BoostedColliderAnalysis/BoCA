@@ -43,7 +43,7 @@ public:
 
     HChargedSemiBranch GetBranch(const HOctet44 &Octet) const;
 
-    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
+    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
 
     std::vector<HOctet44> GetBdt(

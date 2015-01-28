@@ -1,4 +1,5 @@
 # include "HChargedHiggsSemiTagger.hh"
+
 hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
 {
     //     DebugLevel = hanalysis::HObject::HDebug;
