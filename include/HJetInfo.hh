@@ -9,57 +9,58 @@
 # include "HJetTag.hh"
 # include "HFourVector.hh"
 
-class HConstituent {
+class HConstituent
+{
 
 public:
 
     HConstituent() {};
 
-    HConstituent(const TLorentzVector &NewMomentum,const TLorentzVector &NewPosition,const hanalysis::HFamily& NewFamily) {
+    HConstituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition, const hanalysis::HFamily &NewFamily) {
         MomentumM = NewMomentum;
         PositionM = NewPosition;
         FamilyM = NewFamily;
     }
 
-    HConstituent(const TLorentzVector &NewMomentum,const TLorentzVector &NewPosition) {
-      MomentumM = NewMomentum;
-      PositionM = NewPosition;
-    }
-
-    HConstituent(const TLorentzVector &NewMomentum,const hanalysis::HFamily& NewFamily) {
+    HConstituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition) {
         MomentumM = NewMomentum;
-        FamilyM = NewFamily;
-    }
-
-    HConstituent(const TLorentzVector &NewMomentum) {
-      MomentumM = NewMomentum;
-    }
-
-    void SetPosition(const TLorentzVector &NewPosition) {
         PositionM = NewPosition;
     }
 
-    void SetPosition(const float X,const float Y, const float Z, const float T) {
-        PositionM.SetXYZT(X,Y,Z,T);
-    }
-
-    void SetMomentum(const TLorentzVector &NewMomentum) {
+    HConstituent(const TLorentzVector &NewMomentum, const hanalysis::HFamily &NewFamily) {
         MomentumM = NewMomentum;
-    }
-
-    void SetFamily(const hanalysis::HFamily &NewFamily) {
         FamilyM = NewFamily;
     }
 
-    TLorentzVector Position() const {
+    inline HConstituent(const TLorentzVector &NewMomentum) {
+        MomentumM = NewMomentum;
+    }
+
+    inline  void SetPosition(const TLorentzVector &NewPosition) {
+        PositionM = NewPosition;
+    }
+
+    inline void SetPosition(const float X, const float Y, const float Z, const float T) {
+        PositionM.SetXYZT(X, Y, Z, T);
+    }
+
+    inline void SetMomentum(const TLorentzVector &NewMomentum) {
+        MomentumM = NewMomentum;
+    }
+
+    inline void SetFamily(const hanalysis::HFamily &NewFamily) {
+        FamilyM = NewFamily;
+    }
+
+    inline TLorentzVector Position() const {
         return PositionM;
     }
 
-    TLorentzVector Momentum() const {
+    inline TLorentzVector Momentum() const {
         return MomentumM;
     }
 
-    hanalysis::HFamily Family() const {
+    inline hanalysis::HFamily Family() const {
         return FamilyM;
     }
 
@@ -112,31 +113,22 @@ public:
      */
     HJetInfo();
 
-    HJetInfo(const int NewBTag) {
-        BTagM = NewBTag;
-    };
+    HJetInfo(const int NewBTag);
 
-    HJetInfo(const HConstituent &NewConstituent) {
-        ConstituentsM.push_back(NewConstituent);
-        BTagM=0;
-    };
+    HJetInfo(const HConstituent &NewConstituent);
 
-    HJetInfo(const std::vector<HConstituent> &NewConstituents) {
-        ConstituentsM = NewConstituents;
-        BTagM=0;
-    };
+    HJetInfo(const std::vector<HConstituent> &NewConstituents);
 
-    HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag) {
-        ConstituentsM = NewConstituents;
-        BTagM=NewBTag;
-    };
+    HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag);
+
+//     HJetInfo(const HJetInfo &NewJetInfo);
 
     void AddConstituent(const HConstituent &NewConstituent) {
         ConstituentsM.push_back(NewConstituent);
     }
 
     void AddConstituents(const std::vector<HConstituent> &NewConstituents) {
-        ConstituentsM.insert(ConstituentsM.end(),NewConstituents.begin(),NewConstituents.end());
+        ConstituentsM.insert(ConstituentsM.end(), NewConstituents.begin(), NewConstituents.end());
     }
 
     std::vector<HConstituent> Constituents() const {
@@ -149,6 +141,11 @@ public:
 
     inline int BTag() const {
         return BTagM;
+    }
+
+
+    inline std::unordered_map<HFamily, float> FamilyFractions(){
+      return FamilyFractionsM;
     }
 
     float VertexMass() const;
@@ -175,21 +172,25 @@ public:
 
     void PrintAllInfos(const hanalysis::HObject::HSeverity Severity) const;
 
-    float MaximalFraction() const;
+    void PrintAllConstituentInfos(const hanalysis::HObject::HSeverity Severity) const;
 
-//     float MaximalAbsFraction() const;
+    void PrintAllFamInfos(const hanalysis::HObject::HSeverity Severity) const;
+
+    float MaximalFraction() const;
 
     float Fraction(const int ParticleId) const;
 
-//     float AbsFraction(const int ParticleId) const;
-
     int MaximalId() const;
 
-//     int MaximalAbsId() const;
+    void AddFamily(const HFamily &Family, const float Weight);
+
+    void ExtractFamilyFraction();
+
+    HFamily MaximalFamily();
 
 protected:
 
-//     HJetInfo(HJetInfoPrivate & JetInfoPrivate);
+//     HJetInfo(HJetInfoPrivate &JetInfoPrivate);
 
     inline std::string ClassName() const {
         return "HJetInfo";
@@ -197,70 +198,16 @@ protected:
 
 private:
 
-  void ExtractFamilyFraction();
 
     void AddParticle(const int ConstituentId, const float Weight);
 
-    void AddFamily(const HFamily &Family, const float Weight);
-//
-//     void AddFamily(const HFamily Family, const float Weight);
-//
-//     void CalculateJetFamily();
-//
-//     float GetFamily(const HFamily Family) const;
-//
-//     float GetFamilyFraction(const HFamily Family) const;
-//
-//     std::map<int, float> GetJetFractions() const {
-//         return JetFractions;
-//     }
-//
-//     void SetJetFractions(std::map<int, float> NewJetFractions) {
-//         JetFractions = NewJetFractions;
-//     }
-//
-//     void PrintAllFamilyInfos(const hanalysis::HObject::HSeverity Severity) const;
-//
-//     void Clear();
-//
-//     bool HasParticle(const int ParticleId) const;
-//
-//     void SetConstituents(const std::vector<HConstituent> &NewConstituents) {
-//         ConstituentsM = NewConstituents;
-//     }
-//
-//     void SetVertex(const HConstituent &NewVertex) {
-//         ConstituentsM.clear();// FIXME carefull do we assume everywhere that this is not dangerouse
-//         ConstituentsM.push_back(NewVertex);
-//     }
-//
-//     void AddVertices(const std::vector<HConstituent> &NewVertices) {
-//         ConstituentsM.insert(ConstituentsM.end(), NewVertices.begin(), NewVertices.end());
-//     }
-//
-//     std::vector<HConstituent> GetVertices() const {
-//         return ConstituentsM;
-//     }
-//
-//     inline std::unordered_map<HFamily, float> GetJetFamily()const {
-//         return JetFamily;
-//     }
-//
-//     inline void SetJetFamily(const std::unordered_map<HFamily, float> &NewJetFamily) {
-//         JetFamily = NewJetFamily;
-//     }
-//
-//
-//
-//     float GetFamilyWeightSum() const;
-//
     float GetWeightSum() const;
 
     std::vector<HConstituent> ApplyVertexResolution() const;
 
     std::vector<HConstituent> ConstituentsM;
 
-    std::unordered_map<HFamily, float> FamilyFractions;
+    std::unordered_map<HFamily, float> FamilyFractionsM;
 
     std::map<int, float> IdFractions;
 

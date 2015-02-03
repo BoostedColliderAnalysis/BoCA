@@ -70,9 +70,9 @@ public:
         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
     }
 
-    virtual std::vector<HFile *> GetFiles(const HTagger Tagger, const HTag State) {
+    virtual std::vector<HFile> GetFiles(const HTagger Tagger, const HTag State) {
         Print(HError, "GetFiles", "Should be subclasses", Tagger, State);
-        std::vector<HFile *> Files;
+        std::vector<HFile> Files;
         return Files;
     }
 
@@ -82,18 +82,18 @@ protected:
         Print(HError, "Reset Branch", "should be subclassed");
     }
 
-    int GetEventSum(const ExRootTreeReader *const TreeReader) const {
+    int GetEventSum(const std::shared_ptr<ExRootTreeReader> &TreeReader) const {
         return std::min((int)TreeReader->GetEntries(), GetEventNumberMax());
     }
 
-    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const HTagger Tagger);
+    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
 
     ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
     TFile *GetExportFile(const std::string &StudyName) const;
-    TFile *GetExportFile(const HTagger Tagger, const HTag State) const;
+    TFile *GetExportFile(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag State) const;
 
-    void FillInfoBranch(const ExRootTreeReader *const TreeReader, ExRootTreeBranch *const InfoBranch, const HFile *const File);
+    void FillInfoBranch(const std::shared_ptr< ExRootTreeReader > &TreeReader, ExRootTreeBranch *const InfoBranch, const hanalysis::HFile &File);
 
     virtual bool Analysis(HEvent *const, const HTagger Tagger, const HTag State) {
         Print(HError, "Analysis", "should be subclassed", Tagger, State);
@@ -138,7 +138,9 @@ protected:
 
     HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
 
-    std::vector<hanalysis::HFile *>  JoinFiles(const std::vector<hanalysis::HFile *> &Files1, const std::vector<hanalysis::HFile *> &Files2);
+    std::vector<hanalysis::HFile>  JoinFiles(const std::vector<hanalysis::HFile> &Files1, const std::vector<hanalysis::HFile> &Files2);
+
+    int EventSum;
 
 private:
 

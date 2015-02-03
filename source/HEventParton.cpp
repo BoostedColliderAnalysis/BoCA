@@ -27,19 +27,3 @@ void hanalysis::hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const 
     Particles->NewEvent(ClonesArrays);
 
 }
-
-
-// void hparton::HEvent::GetParticles()
-// {
-// //
-//     Print(HInformation, "Get Particles");
-//
-//     HasParticles = Particles->GetParticles();
-//
-// }
-
-
-
-
-
-

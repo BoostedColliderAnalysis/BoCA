@@ -136,15 +136,12 @@ struct SortDoubletByDeltaRap {
 
 std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
-
-    Print(HInformation, "Get W Tags");
-
+    Print(HInformation, "Get Jet Pair Tags");
     JetTag.HeavyParticles = {GluonId};
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    HJets Jets = GetJets(Event,JetTag);
     Jets = BottomTagger.GetBdt(Jets, BottomReader);
 
     for (const auto Jet : Jets) static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractFraction(BottomId);
-
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {

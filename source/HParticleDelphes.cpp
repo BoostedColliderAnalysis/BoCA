@@ -29,6 +29,12 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         const int ParticleId = ParticleClone->PID;
         Print(HDetailed, "Particles ID", ParticleId);
 
+        int MotherId = EmptyId;
+        if (ParticleClone->M1 != EmptyPosition) {
+            const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
+
+            MotherId = MotherParticle->PID;
+        }
         if (ParticleClone->Status == StableParticle) {
             Print(HDetailed, "Particles Status", "stable");
 
@@ -126,6 +132,12 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
         if (ParticleClone->Status == GeneratorParticle) {
             Print(HDetailed, "Particles Status", "Generator");
+
+            HFamily Family(ParticleId, MotherId);
+            HConstituent Constituent(const_cast<delphes::GenParticle *>(ParticleClone)->P4(), Family);
+            fastjet::PseudoJet GeneratorJet = PseudoJet(Constituent.Momentum());
+            GeneratorJet.set_user_info(new HJetInfo(Constituent));
+            GeneratorJets.push_back(GeneratorJet);
 
             if (std::abs(ParticleId) == ElectronNeutrinoId || std::abs(ParticleId) == MuonNeutrinoId) {
                 // const TLorentzVector TopVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();

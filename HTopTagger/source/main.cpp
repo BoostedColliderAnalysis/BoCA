@@ -2,12 +2,8 @@
 
 int main()
 {
-    hanalysis::HAnalysis *Analysis = new htoptagger::HAnalysis();
-
-    Analysis->AnalysisLoop();
-
-    delete Analysis;
-
-    return 1;
+    htoptagger::HAnalysis Analysis;
+    Analysis.AnalysisLoop();
+    return 0;
 
 }

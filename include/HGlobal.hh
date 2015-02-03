@@ -150,13 +150,13 @@ typedef hdelphes::HJet HJetDelphes;
 }
 
 struct SortByPt {
-    inline bool operator()(const TLorentzVector &Lorentzvector1,const TLorentzVector &Lorentzvector2) {
+    inline bool operator()(const TLorentzVector &Lorentzvector1, const TLorentzVector &Lorentzvector2) {
         return (Lorentzvector1.Pt() > Lorentzvector2.Pt());
     }
 };
 
 struct SortJetByPt {
-    inline bool operator()(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2) {
+    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
         return (Jet1.pt() > Jet2.pt());
     }
 };
@@ -177,38 +177,46 @@ struct SortJetByPt {
 // };
 
 
-class SortJetByMass{
+class SortJetByMass
+{
 public:
-    inline bool operator()(const fastjet::PseudoJet &PseudoJet1,const fastjet::PseudoJet &PseudoJet2) {
+    inline bool operator()(const fastjet::PseudoJet &PseudoJet1, const fastjet::PseudoJet &PseudoJet2) {
         return (PseudoJet1.m() > PseudoJet2.m());
     }
 };
 
-// template <typename Template1, typename Template2>
-struct SortPairs {
-//     inline bool operator()(const pair<Template1, Template2> &Pair1,
-//                            const pair<Template1, Template2> &Pair2) {
-//
-//         return (Pair1.second > Pair2.second);
-//
+// // template <typename Template1, typename Template2>
+// struct SortPairs {
+// //     inline bool operator()(const pair<Template1, Template2> &Pair1,
+// //                            const pair<Template1, Template2> &Pair2) {
+// //
+// //         return (Pair1.second > Pair2.second);
+// //
+// //     }
+//     inline bool operator()(const std::pair<int, float> &Pair1,const std::pair<int, float> &Pair2) {
+//         return (Pair1.second < Pair2.second);
 //     }
-    inline bool operator()(const std::pair<int, float> &Pair1,const std::pair<int, float> &Pair2) {
+// };
+
+struct SortPairs {
+template <typename Template1>
+    inline bool operator()(const std::pair<Template1, float> &Pair1, const std::pair<Template1, float> &Pair2) {
         return (Pair1.second < Pair2.second);
     }
 };
 
 struct SortJetByRap {
-    inline bool operator()(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2) {
+    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
         return (Jet1.rap() > Jet2.rap());
     }
 };
 
 
-struct SortJetByDistance {
-    inline bool operator()(const fastjet::PseudoJet &Jet1,const fastjet::PseudoJet &Jet2) {
-        return (Jet1.rap() > Jet2.rap());
-    }
-};
+// struct SortJetByDistance {
+//     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+//         return (Jet1.rap() > Jet2.rap());
+//     }
+// };
 
 
 // template <typename TMultiplet>

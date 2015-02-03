@@ -359,6 +359,8 @@ HChargedHiggsSemiBranch::HChargedHiggsSemiBranch()
 //     TopBdt = InitialValue;
 //     HeavyHiggsTag = InitialValue;
 
+  Flag=0;
+
 }
 
 

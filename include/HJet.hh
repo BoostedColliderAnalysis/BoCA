@@ -28,9 +28,7 @@ public:
     ~HJet();
 
     /**
-     * @brief Initialize new event
-     *
-     * @return void
+     * @brief Initialize New event
      */
     void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
 
@@ -39,39 +37,52 @@ public:
     }
 
     HJets GetJets() {
-      if (!GotJets) GotJets = GetJets(Plain);
+      NewEvent(ClonesArrays);
+//       if (!GotJets)
+        GotJets = GetJets(Plain);
       return Jets;
     };
 
     HJets GetStructuredJets() {
-        if (!GotJets) GotJets = GetJets(Structure);
+      NewEvent(ClonesArrays);
+//         if (!GotJets)
+          GotJets = GetJets(Structure);
         return Jets;
     };
 
     HJets GetTaggedJets() {
-        if (!GotJets) GotJets = GetJets(Tagging);
+      NewEvent(ClonesArrays);
+//         if (!GotJets)
+          GotJets = GetJets(Tagging);
         return Jets;
     };
 
     HJets GetTaggedJets(HJetTag &NewJetTag) {
-        JetTag = &NewJetTag;
-        if (!GotJets) GotJets = GetJets(Tagging);
+      JetTag = &NewJetTag;
+      NewEvent(ClonesArrays);
+//         if (!GotJets)
+          GotJets = GetJets(Tagging);
         return Jets;
     };
 
     HJets GetStructuredTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
-      if (!GotJets) GotJets = GetJets(TaggingStructure);
+      NewEvent(ClonesArrays);
+//       if (!GotJets)
+        GotJets = GetJets(TaggingStructure);
       return Jets;
     };
 
     HJets GetBottomJets() {
-        if (!GotJets) GotJets = GetJets(Plain);
+      //         if (!GotJets)
+      NewEvent(ClonesArrays);
+          GotJets = GetJets(Plain);
         return BottomJets;
     };
 
     HJets GetEFlowJets() {
-      if (!GotEFlow) GotEFlow = GetEFlow(Plain);
+      if (!GotEFlow)
+        GotEFlow = GetEFlow(Plain);
       return EFlowJets;
     };
 
@@ -88,6 +99,17 @@ public:
     HJets GetTaggedEFlowJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
+      return EFlowJets;
+    };
+
+    HJets GetStructuredTaggedEFlowJets(HJetTag &NewJetTag) {
+      JetTag = &NewJetTag;
+      if (!GotEFlow) GotEFlow = GetEFlow(TaggingStructure);
+      return EFlowJets;
+    };
+
+    HJets GetStructuredEFlowJets() {
+      if (!GotEFlow) GotEFlow = GetEFlow(Structure);
       return EFlowJets;
     };
 
@@ -202,7 +224,8 @@ protected:
     template<typename TParticle1, typename TParticle2>
     bool CheckIsolation(const TParticle1 *const Particle1, const TParticle2 *const Particle2) const {
 
-        const float DeltaRIsolationMax = 0.01; // TODO decide on best value // This is quiet large
+//         const float DeltaRIsolationMax = 0.01; // TODO decide on best value // This is quiet large
+        const float DeltaRIsolationMax = 0; // TODO decide on best value // This is quiet large
 
         return CheckIsolation(Particle1, Particle2, DeltaRIsolationMax);
 

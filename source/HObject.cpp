@@ -6,8 +6,8 @@
 hanalysis::HObject::HObject()
 {
 
-//     DebugLevel = HNotification;
-    DebugLevel = HInformation;
+//     DebugLevel = HInformation;
+    DebugLevel = HNotification;
 //     DebugLevel = HError;
 //     DebugLevel = HDebug;
 
@@ -153,7 +153,9 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
     case HiggsId:
         return (Sign + "h");
     case HeavyHiggsId:
-        return (Sign + "H");
+      return (Sign + "H");
+    case ChargedHiggsId:
+      return (Sign + "H+");
     case IsrId:
         return (Sign + "ISR");
     case MarkerId:

@@ -1,6 +1,7 @@
 # ifndef HClonesArray_hh
 # define HClonesArray_hh
 
+#include <memory>
 # include "TObjArray.h"
 # include "TObject.h"
 # include "TClonesArray.h"
@@ -30,7 +31,7 @@ public:
      */
     ~HClonesArray();
 
-    virtual void GetBranches(const ExRootTreeReader *const) = 0;
+    virtual void GetBranches(const std::shared_ptr< ExRootTreeReader > &) = 0;
 
     inline int GetParticleSum() const {
         return ParticleClonesArray->GetEntriesFast();
@@ -129,7 +130,7 @@ public:
      *
      */
     inline TClonesArray *GetEFlowTrackClonesArray() const {
-        return EFlowTowerClonesArray;
+        return EFlowTrackClonesArray;
     }
 
     /**
@@ -257,7 +258,7 @@ public:
      *
      */
     inline TObject *GetEFlowTrack(const int EFlowTrackNumber) const {
-        return EFlowTowerClonesArray->At(EFlowTrackNumber);
+        return EFlowTrackClonesArray->At(EFlowTrackNumber);
     }
 
     /**
@@ -363,97 +364,97 @@ protected:
      * @brief Particle Clones Array
      *
      */
-    TClonesArray *ParticleClonesArray;
+    TClonesArray *ParticleClonesArray = NULL;
 
     /**
      * @brief Track Clones Array
      *
      */
-    TClonesArray *TrackClonesArray;
+    TClonesArray *TrackClonesArray = NULL;
 
     /**
      * @brief Tower Clones Array
      *
      */
-    TClonesArray *TowerClonesArray;
+    TClonesArray *TowerClonesArray = NULL;
 
     /**
      * @brief EFlow Track Clones Array
      *
      */
-    TClonesArray *EFlowTrackClonesArray;
+    TClonesArray *EFlowTrackClonesArray = NULL;
 
     /**
      * @brief EFlow Tower Clones Array
      *
      */
-    TClonesArray *EFlowTowerClonesArray;
+    TClonesArray *EFlowTowerClonesArray = NULL;
 
     /**
      * @brief GenJet Clones Array
      *
      */
-    TClonesArray *GenJetClonesArray;
+    TClonesArray *GenJetClonesArray = NULL;
 
     /**
      * @brief Jet Clones Array
      *
      */
-    TClonesArray *JetClonesArray;
+    TClonesArray *JetClonesArray = NULL;
 
     /**
      * @brief Electron Clones Array
      *
      */
-    TClonesArray *ElectronClonesArray;
+    TClonesArray *ElectronClonesArray = NULL;
 
     /**
      * @brief Muon Clones Array
      *
      */
-    TClonesArray *MuonClonesArray;
+    TClonesArray *MuonClonesArray = NULL;
 
     /**
      * @brief Missing ET Clones Array
      *
      */
-    TClonesArray *MissingEtClonesArray;
+    TClonesArray *MissingEtClonesArray = NULL;
 
     /**
      * @brief Scalar HT Clones Array
      *
      */
-    TClonesArray *ScalarHtClonesArray;
+    TClonesArray *ScalarHtClonesArray = NULL;
 
     /**
      * @brief Photon Clones Array
      *
      */
-    TClonesArray *PhotonClonesArray;
+    TClonesArray *PhotonClonesArray = NULL;
 
     /**
      * @brief EFlow Photon Clones Array
      *
      */
-    TClonesArray *EFlowPhotonClonesArray;
+    TClonesArray *EFlowPhotonClonesArray = NULL;
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TClonesArray *EFlowNeutralHadronClonesArray;
+    TClonesArray *EFlowNeutralHadronClonesArray = NULL;
 
     /**
      * @brief EFlow Muon Clones Array
      *
      */
-    TClonesArray *EFlowMuonClonesArray;
+    TClonesArray *EFlowMuonClonesArray = NULL;
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TClonesArray *TauClonesArray;
+    TClonesArray *TauClonesArray = NULL;
 
     inline std::string NameSpaceName() const {
         return "hanalysis";
@@ -481,7 +482,7 @@ public:
      */
     HClonesArray();
 
-    void GetBranches(const ExRootTreeReader *const);
+    void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
 
 protected:
 
@@ -511,7 +512,7 @@ public:
      */
     HClonesArraySnowmass();
 
-    void GetBranches(const ExRootTreeReader *const);
+    void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
 
 protected:
 
@@ -540,7 +541,7 @@ public:
      */
     HClonesArray();
 
-    void GetBranches(const ExRootTreeReader *const);
+    void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
 
 protected:
 
@@ -569,7 +570,7 @@ public:
      */
     HClonesArray();
 
-    void GetBranches(const ExRootTreeReader *const);
+    void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
 
 protected:
 

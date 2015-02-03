@@ -16,7 +16,7 @@ public:
         ParticleId = EmptyId;
         Mother1Position = EmptyPosition;
         Mother1Id = EmptyId;
-        Marker = 0;
+        MarkerM = 0;
     }
 
     HFamily(const int NewParticle) {
@@ -24,7 +24,7 @@ public:
         Mother1Id = NewParticle;
         ParticlePosition = EmptyPosition;
         Mother1Position = EmptyPosition;
-        Marker = 0;
+        MarkerM = 0;
     }
 
     HFamily(const int NewParticle, const int NewMother1) {
@@ -32,7 +32,7 @@ public:
         Mother1Id = NewMother1;
         ParticlePosition = EmptyPosition;
         Mother1Position = EmptyPosition;
-        Marker = 0;
+        MarkerM = 0;
     }
 
     HFamily(const int NewParticlePosition, const int NewParticleId, const int NewMotherPosition, const int NewMotherId) {
@@ -40,7 +40,17 @@ public:
         ParticleId = NewParticleId;
         Mother1Position = NewMotherPosition;
         Mother1Id = NewMotherId;
-        Marker = 0;
+        MarkerM = 0;
+    }
+
+    HFamily(const TLorentzVector &NewParticleVector, const TLorentzVector &NewMotherVector,const int NewParticlePosition, const int NewParticleId, const int NewMotherPosition, const int NewMotherId) {
+      ParticleVector = NewParticleVector;
+      MotherVector = NewMotherVector;
+      ParticlePosition = NewParticlePosition;
+      ParticleId = NewParticleId;
+      Mother1Position = NewMotherPosition;
+      Mother1Id = NewMotherId;
+      MarkerM = 0;
     }
 
     bool operator==(const HFamily &Family) const {
@@ -53,48 +63,31 @@ public:
                );
     }
 
-//     HFamily Abs() const {
-//         return HFamily(std::abs(ParticleId), std::abs(Mother1Id)
-// //         , std::abs(Mother2Id)
-//                       );
-//     }
 
     int ParticlePosition;
     int ParticleId;
     int Mother1Position;
     int Mother1Id;
-//     int Mother2Position = 0;
-//     int Mother2Id = 0;
+    float Pt;
 
+    TLorentzVector ParticleVector;
+    TLorentzVector MotherVector;
 
     void SetMarker() {
-        Marker = 1;
+        MarkerM = 1;
     }
     void UnSetMarker() {
-        Marker = 0;
+        MarkerM = 0;
     }
-    bool GetMarker()const {
-        return Marker;
+    bool Marker()const {
+        return MarkerM;
     }
 
 protected:
 
-    bool Marker;
+    bool MarkerM;
 
 };
-
-// class HFamilyId : public hanalysis::HObject
-// {
-// public:
-//     HFamilyId(const HParticleId NewParticle, const HParticleId NewMother1, const HParticleId NewMother2) {
-//         ParticleId = NewParticle;
-//         Mother1Id = NewMother1;
-//         Mother2Id = NewMother2;
-//     }
-//     HParticleId ParticleId;
-//     HParticleId Mother1Id;
-//     HParticleId Mother2Id;
-// };
 
 namespace std
 {
@@ -154,7 +147,7 @@ protected:
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    std::set<HParticleId> RadiationParticles {GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id};
+    std::set<HParticleId> RadiationParticles {ProtonId/*, GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id*/};
 
 private:
 

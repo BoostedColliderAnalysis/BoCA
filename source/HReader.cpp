@@ -3,13 +3,13 @@
 hanalysis::HReader::HReader()
 {
 //         DebugLevel = HDebug;
-    Print(HNotification, "Constructor");
+    Print(HInformation, "Constructor");
 }
 
 hanalysis::HReader::HReader(hanalysis::HMva &NewMva)
 {
-          DebugLevel = HDebug;
-    Print(HNotification, "Constructor");
+//           DebugLevel = HDebug;
+          Print(HInformation, "Constructor");
     SetMva(NewMva);
 }
 
@@ -23,7 +23,7 @@ void hanalysis::HReader::SetMva(hanalysis::HMva &NewMva)
 
 hanalysis::HReader::~HReader()
 {
-    Print(HNotification, "Destructor");
+  Print(HInformation, "Destructor");
 }
 
 void hanalysis::HReader::AddVariable()

@@ -34,27 +34,32 @@ public:
     HVectors GetAntiLeptonVectors();
 
     HJets GetLeptonJets();
-    
-    HJets GetNeutrinos(){
-        if(!GotParticles) GotParticles = GetParticles();
+
+    HJets GetNeutrinos() {
+        if (!GotParticles) GotParticles = GetParticles();
         return NeutrinoJets;
     }
 
     HJets GetAntiLeptonJets();
 
     HJets GetBottomJets()  {
-        if(!GotParticles) GotParticles = GetParticles();
+        if (!GotParticles) GotParticles = GetParticles();
         return BottomJets;
     }
 
     HJets GetCharmJets() {
-      if(!GotParticles) GotParticles = GetParticles();
+        if (!GotParticles) GotParticles = GetParticles();
         return CharmJets;
     }
 
     HJets GetTopJets() {
-      if(!GotParticles) GotParticles = GetParticles();
+        if (!GotParticles) GotParticles = GetParticles();
         return TopJets;
+    }
+
+    HJets GetGeneratorJets() {
+      if (!GotParticles) GotParticles = GetParticles();
+        return GeneratorJets;
     }
 
 protected:
@@ -87,8 +92,10 @@ protected:
     HJets AntiElectronJets;
 
     HJets AntiMuonJets;
-    
+
     HJets NeutrinoJets;
+
+    HJets GeneratorJets;
 
 
     /**

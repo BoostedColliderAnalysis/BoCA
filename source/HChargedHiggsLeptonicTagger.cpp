@@ -13,38 +13,25 @@ hanalysis::HChargedHiggsLeptonicTagger::HChargedHiggsLeptonicTagger(const HBotto
 
     SetTaggerName("ChargedHiggsLeptonic");
 
-//     Branch = new HChargedHiggsLeptonicBranch();
-    //JetTag = new HJetTag();
-
     DefineVariables();
 }
 
 hanalysis::HChargedHiggsLeptonicTagger::~HChargedHiggsLeptonicTagger()
 {
     Print(HNotification, "Destructor");
-    // delete Branch;
-    //delete JetTag;
-//     delete BottomReader;
-//     delete TopLeptonicReader;
-
 }
 
-void hanalysis::HChargedHiggsLeptonicTagger::FillBranch(const hanalysis::HTriplet &Triplet)
-{
-    Print(HInformation, "FillPairTagger", Triplet.Bdt());
-    FillBranch(&Branch, Triplet);
-}
-
-void hanalysis::HChargedHiggsLeptonicTagger::FillBranch(HChargedHiggsLeptonicBranch *ChargedHiggsBranch, const HTriplet &Triplet)
+HChargedHiggsLeptonicBranch hanalysis::HChargedHiggsLeptonicTagger::GetBranch(const HTriplet &Triplet)
 {
     Print(HInformation, "FillPairTagger", Triplet.Bdt());
 
-    ChargedHiggsBranch->HeavyHiggsMass = Triplet.Jet().m();
-    ChargedHiggsBranch->HeavyHiggsPt = Triplet.Jet().m();
+    HChargedHiggsLeptonicBranch ChargedHiggsBranch;
+    ChargedHiggsBranch.HeavyHiggsMass = Triplet.Jet().m();
+    ChargedHiggsBranch.HeavyHiggsPt = Triplet.Jet().m();
 
-    ChargedHiggsBranch->TopDeltaR = Triplet.DeltaR();
-    ChargedHiggsBranch->TopDeltaRap = Triplet.DeltaRap();
-    ChargedHiggsBranch->TopDeltaPhi = Triplet.DeltaPhi();
+    ChargedHiggsBranch.TopDeltaR = Triplet.DeltaR();
+    ChargedHiggsBranch.TopDeltaRap = Triplet.DeltaRap();
+    ChargedHiggsBranch.TopDeltaPhi = Triplet.DeltaPhi();
 
 //     HeavyHiggsBranch->LargerWDeltaR = Quartet.GetLargerTripletDeltaR();
 //     HeavyHiggsBranch->LargerWDeltaRap = Quartet.GetLargerTripletDeltaRap();
@@ -62,9 +49,9 @@ void hanalysis::HChargedHiggsLeptonicTagger::FillBranch(HChargedHiggsLeptonicBra
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = Quartet.GetSmallerTripletDeltaRap();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = Quartet.GetSmallerTripletDeltaPhi();
 
-    ChargedHiggsBranch->TopBdt = Triplet.Bdt();
-    ChargedHiggsBranch->HeavyHiggsTag = Triplet.Tag();
-
+    ChargedHiggsBranch.TopBdt = Triplet.Bdt();
+    ChargedHiggsBranch.HeavyHiggsTag = Triplet.Tag();
+return ChargedHiggsBranch;
 }
 
 void hanalysis::HChargedHiggsLeptonicTagger::DefineVariables()
@@ -104,7 +91,7 @@ void hanalysis::HChargedHiggsLeptonicTagger::DefineVariables()
 }
 
 
-std::vector< HChargedHiggsLeptonicBranch * > hanalysis::HChargedHiggsLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
+std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
@@ -146,12 +133,8 @@ std::vector< HChargedHiggsLeptonicBranch * > hanalysis::HChargedHiggsLeptonicTag
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
 
-    std::vector<HChargedHiggsLeptonicBranch *> ChargedHiggsBranches;
-    for (const auto & Triplet : Triplets) {
-        HChargedHiggsLeptonicBranch *ChargedHiggsLeptonicBranch = new HChargedHiggsLeptonicBranch();
-        FillBranch(ChargedHiggsLeptonicBranch, Triplet);
-        ChargedHiggsBranches.push_back(ChargedHiggsLeptonicBranch);
-    }
+    std::vector<HChargedHiggsLeptonicBranch> ChargedHiggsBranches;
+    for (const auto & Triplet : Triplets) ChargedHiggsBranches.push_back(GetBranch(Triplet));
 
     return ChargedHiggsBranches;
 
@@ -181,7 +164,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt
 //             std::vector<HQuartet31> PreQuartets;
 //             PreQuartets = GetQuartets(Quartet, MissingEt);
 //             for (auto & Quartet : PreQuartets) {
-                FillBranch(Triplet);
+                Branch = GetBranch(Triplet);
                 Triplet.SetBdt(Reader.Bdt());
                 Triplets.push_back(Triplet);
 //             }

@@ -71,7 +71,7 @@ public:
         return Files;
     }
 
-    std::vector<hanalysis::HFile *> GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    std::vector<hanalysis::HFile> GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string GetProjectName() const {
 //         return "HeavyHiggsMva1000";

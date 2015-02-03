@@ -21,13 +21,11 @@ public:
 
     ~HHeavyHiggsLeptonicTagger();
 
-    std::vector<HHeavyHiggsLeptonicBranch *> GetBranches(HEvent *const Event, const HObject::HTag State);
-
-    void FillBranch(const hanalysis::HSextet &Sextet);
+    std::vector< HHeavyHiggsLeptonicBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader & Reader);
 
-    void FillBranch(HHeavyHiggsLeptonicBranch *HeavyHiggsBranch, const hanalysis::HSextet &TriplePair);
+    HHeavyHiggsLeptonicBranch GetBranch(const hanalysis::HSextet &Sextet);
 
 
 protected:

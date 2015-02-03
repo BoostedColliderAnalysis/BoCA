@@ -27,18 +27,6 @@ public:
 
     HChargedJetPairBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "HChargedJetPairTagger";
-    }
-
-private:
-
-    void DefineVariables();
-
-    hanalysis::HObject::HTag GetTag(const hanalysis::HQuartet31 &Quartet);
-
     HBottomTagger BottomTagger;
     HWTagger WTagger;
     HWSemiTagger WSemiTagger;
@@ -50,6 +38,18 @@ private:
     HReader WSemiReader;
     HReader TopHadronicReader;
     HReader TopSemiReader;
+
+protected:
+
+    virtual inline std::string ClassName() const {
+        return "HChargedJetPairTagger";
+    }
+
+private:
+
+    void DefineVariables();
+
+    hanalysis::HObject::HTag GetTag(const hanalysis::HQuartet31 &Quartet);
 
     HChargedJetPairBranch Branch;
 

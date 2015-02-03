@@ -45,7 +45,7 @@ public:
 
     std::string GetTreeName() const;
 
-    hanalysis::HEvent *GetEvent();
+    std::shared_ptr<hanalysis::HEvent> GetEvent();
 
 protected:
 
@@ -55,7 +55,7 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "HFile";
-    };
+    }
 
 private:
 

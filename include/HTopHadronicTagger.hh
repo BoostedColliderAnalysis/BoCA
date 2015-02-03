@@ -50,6 +50,7 @@ private:
     hanalysis::HJetTag JetTag;
 
     float TopWindow ;
+
     float JetRadiusParameter;
 
 };

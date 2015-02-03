@@ -22,34 +22,25 @@ hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const HBottomTag
     TopHadronicReader.SetMva(TopHadronicTagger);
 
     SetTaggerName("HeavyHiggsHadronic");
-
-//     Branch = new HHeavyHiggsHadronicBranch();
-    //JetTag = new HJetTag();
-
     DefineVariables();
 }
 
 hanalysis::HHeavyHiggsHadronicTagger::~HHeavyHiggsHadronicTagger()
 {
     Print(HNotification, "Destructor");
-    // delete Branch;
-    //delete JetTag;
-//     delete BottomReader;
-//     delete WReader;
-//     delete TopHadronicReader;
-
 }
 
-void hanalysis::HHeavyHiggsHadronicTagger::FillBranch(HHeavyHiggsHadronicBranch *HeavyHiggsHadronicBranch, const hanalysis::HSextet &Sextet)
+HHeavyHiggsHadronicBranch hanalysis::HHeavyHiggsHadronicTagger::GetBranch(const hanalysis::HSextet &Sextet)
 {
     Print(HInformation, "FillPairTagger", Sextet.Bdt());
 
-    HeavyHiggsHadronicBranch->HeavyHiggsMass = Sextet.Jet().m();
-    HeavyHiggsHadronicBranch->HeavyHiggsPt = Sextet.Jet().pt();
+    HHeavyHiggsHadronicBranch HeavyHiggsHadronicBranch;
+    HeavyHiggsHadronicBranch.HeavyHiggsMass = Sextet.Jet().m();
+    HeavyHiggsHadronicBranch.HeavyHiggsPt = Sextet.Jet().pt();
 
-    HeavyHiggsHadronicBranch->TopDeltaR = Sextet.DeltaR();
-    HeavyHiggsHadronicBranch->TopDeltaRap = Sextet.DeltaRap();
-    HeavyHiggsHadronicBranch->TopDeltaPhi = Sextet.DeltaPhi();
+    HeavyHiggsHadronicBranch.TopDeltaR = Sextet.DeltaR();
+    HeavyHiggsHadronicBranch.TopDeltaRap = Sextet.DeltaRap();
+    HeavyHiggsHadronicBranch.TopDeltaPhi = Sextet.DeltaPhi();
 
 //     HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
 //     HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
@@ -67,9 +58,10 @@ void hanalysis::HHeavyHiggsHadronicTagger::FillBranch(HHeavyHiggsHadronicBranch 
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
 
-    HeavyHiggsHadronicBranch->TopBdt = Sextet.Bdt();
-    HeavyHiggsHadronicBranch->HeavyHiggsTag = Sextet.Tag();
+    HeavyHiggsHadronicBranch.TopBdt = Sextet.Bdt();
+    HeavyHiggsHadronicBranch.HeavyHiggsTag = Sextet.Tag();
 
+    return HeavyHiggsHadronicBranch;
 }
 
 void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
@@ -109,11 +101,11 @@ void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
 }
 
 
-std::vector< HHeavyHiggsHadronicBranch * > hanalysis::HHeavyHiggsHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
-    std::vector<HHeavyHiggsHadronicBranch *> HeavyHiggsHadronicBranches;
+    std::vector<HHeavyHiggsHadronicBranch> HeavyHiggsHadronicBranches;
 
     JetTag.HeavyParticles = {WId, TopId, HeavyHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
@@ -143,21 +135,9 @@ std::vector< HHeavyHiggsHadronicBranch * > hanalysis::HHeavyHiggsHadronicTagger:
             Sextets.push_back(Sextet);
         }
 
-    for (const auto & Sextet : Sextets) {
-        HHeavyHiggsHadronicBranch *HeavyHiggsHadronicBranch = new HHeavyHiggsHadronicBranch();
-        FillBranch(HeavyHiggsHadronicBranch, Sextet);
-        HeavyHiggsHadronicBranches.push_back(HeavyHiggsHadronicBranch);
-    }
+        for (const auto & Sextet : Sextets) HeavyHiggsHadronicBranches.push_back(GetBranch(Sextet));
 
     return HeavyHiggsHadronicBranches;
-
-}
-
-void hanalysis::HHeavyHiggsHadronicTagger::FillBranch(const hanalysis::HSextet &Sextet)
-{
-    Print(HInformation, "FillBranch", Sextet.Bdt());
-
-    FillBranch(&Branch, Sextet);
 
 }
 
@@ -189,7 +169,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsHadronicTagger::GetBdt(std
         if (Triplet1.Doublet().Singlet2() == Triplet2.Doublet().Singlet2()) continue;
             HSextet Sextet(Triplet1, Triplet2);
             Sextets.push_back(Sextet);
-            FillBranch(Sextet);
+            Branch = GetBranch(Sextet);
             Sextet.SetBdt(Reader.Bdt());
         }
 

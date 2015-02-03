@@ -50,21 +50,6 @@ public:
         const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, HJets &Jets, HChargedEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
 
 
-protected:
-
-    virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "HChargedSemiTagger";
-    }
-
-private:
-
-    void DefineVariables();
-
-
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HWSemiTagger WSemiTagger;
     hanalysis::HWTagger WTagger;
@@ -80,6 +65,21 @@ private:
     hanalysis::HReader TopSemiReader;
     hanalysis::HReader ChargedHiggsSemiReader;
     hanalysis::HReader ChargedJetPairReader;
+
+
+protected:
+
+    virtual inline std::string NameSpaceName() const {
+        return "hheavyhiggs";
+    }
+
+    virtual inline std::string ClassName() const {
+        return "HChargedSemiTagger";
+    }
+
+private:
+
+    void DefineVariables();
 
     HChargedSemiBranch Branch;
 

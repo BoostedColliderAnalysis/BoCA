@@ -19,9 +19,9 @@ public:
 
     ~HChargedHiggsHadronicTagger();
 
-    std::vector<HChargedHiggsHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector<HChargedHiggsHadronicBranch> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    void FillBranch(const hanalysis::HQuartet31 &Quartet);
+    HChargedHiggsHadronicBranch GetBranch(const hanalysis::HQuartet31 &Quartet);
 
     std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::HTriplet > Triplets, std::vector< fastjet::PseudoJet > Jets, const hanalysis::HReader &Reader);
 
@@ -35,7 +35,6 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HChargedHiggsHadronicBranch *ChargedHiggsHadronicBranch, const hanalysis::HQuartet31 &Quartet);
 
     HTag GetTag(const hanalysis::HQuartet31 &Quartet);
 

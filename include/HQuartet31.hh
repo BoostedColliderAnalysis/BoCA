@@ -35,18 +35,18 @@ public:
     }
 
     inline float Ht() const {
-      return Triplet().Ht() + Singlet().pt();
+      return (Triplet().Ht() + Singlet().pt());
     }
 
     inline float DeltaPt() const {
-      return Triplet().Jet().pt() - Singlet().pt();
+      return (Triplet().Jet().pt() - Singlet().pt());
     }
 
     inline float DeltaR() const {
         return Triplet().Jet().delta_R(Singlet());
     }
     inline float DeltaRap() const {
-        return Triplet().Jet().rap() - Singlet().rap();
+        return (Triplet().Jet().rap() - Singlet().rap());
     }
 
     inline float DeltaPhi() const {
@@ -54,7 +54,7 @@ public:
     }
 
     inline float DeltaM() const {
-      return Triplet().Jet().m() - Singlet().m();
+      return (Triplet().Jet().m() - Singlet().m());
     }
 
 protected:
@@ -65,7 +65,15 @@ protected:
 
 private:
 
-    HQuartet31(HQuartet31Private& NewQuartet31Private);
+  //     HQuartet31(HQuartet31Private& NewQuartet31Private);
+
+  void SetTriplet(const HTriplet &NewTriplet);
+
+  void SetSinglet(const fastjet::PseudoJet &NewSinglet);
+
+  HTriplet TripletM;
+
+  fastjet::PseudoJet SingletM;
 
 };
 

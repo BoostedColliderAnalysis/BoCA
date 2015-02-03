@@ -39,15 +39,12 @@ public:
     /**
      * @brief Compose file path
      *
-     * @return std::string file path
      */
     std::string GetFilePath() const;
 
-//     std::string GetTreeName() const;
+    std::shared_ptr<hanalysis::HEvent> GetEvent();
 
-    hanalysis::HEvent *GetEvent();
-
-    hanalysis::HClonesArray *GetClonesArrays();
+    std::shared_ptr<hanalysis::HClonesArray> GetClonesArrays();
 
 protected:
 

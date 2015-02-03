@@ -17,25 +17,25 @@ void hanalysis::HHeavyHiggsSemiTagger::SetTagger(const HBottomTagger &NewBottomT
 {
     Print(HNotification, "Constructor");
 
-    BottomTagger = NewBottomTagger;
-    BottomTagger.SetTagger();
-    BottomReader.SetMva(BottomTagger);
-
-    WSemiTagger = NewWSemiTagger;
-    WSemiTagger.SetTagger();
-    WSemiReader.SetMva(WSemiTagger);
-
-    WTagger = NewWTagger;
-    WTagger.SetTagger(BottomTagger);
-    WReader.SetMva(WTagger);
+//     BottomTagger = NewBottomTagger;
+//     BottomTagger.SetTagger();
+//     BottomReader.SetMva(BottomTagger);
+//
+//     WSemiTagger = NewWSemiTagger;
+//     WSemiTagger.SetTagger();
+//     WSemiReader.SetMva(WSemiTagger);
+//
+//     WTagger = NewWTagger;
+//     WTagger.SetTagger(BottomTagger);
+//     WReader.SetMva(WTagger);
 
     TopSemiTagger = NewTopSemiTagger;
-    TopSemiTagger.SetTagger(BottomTagger,WSemiTagger);
-    TopSemiReader.SetMva(TopSemiTagger);
+//     TopSemiTagger.SetTagger(NewBottomTagger,NewWSemiTagger);
+//     TopSemiReader.SetMva(TopSemiTagger);
 
     TopHadronicTagger = NewTopHadronicTagger;
-    TopHadronicTagger.SetTagger(BottomTagger,WTagger);
-    TopHadronicReader.SetMva(TopHadronicTagger);
+//     TopHadronicTagger.SetTagger(NewBottomTagger,NewWTagger);
+//     TopHadronicReader.SetMva(TopHadronicTagger);
 
     SetTaggerName("HeavyHiggsSemi");
     DefineVariables();
@@ -101,7 +101,7 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
 
-    std::vector<HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
+    std::vector<HDoublet> DoubletsSemi = TopSemiTagger.WSemiTagger.GetBdt(Leptons, MissingEt, TopSemiTagger.WSemiReader);
     std::vector<HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
@@ -128,7 +128,7 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
 
     if (Tag == HSignal && Sextets.size() > 1) {
         Print(HInformation, "Higgs Candidates", Sextets.size());
-        std::sort(Sextets.begin(), Sextets.end(), SortByMass<HSextet>(Mass));
+        std::sort(Sextets.begin(), Sextets.end(), SortByMass(Mass));
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 

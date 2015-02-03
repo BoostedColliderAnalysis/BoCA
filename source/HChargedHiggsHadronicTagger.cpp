@@ -14,10 +14,6 @@ hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger(const HBotto
     TopHadronicReader.SetMva(TopHadronicTagger);
 
     SetTaggerName("ChargedHiggsHadronic");
-
-//     Branch = new HChargedHiggsHadronicBranch();
-    //JetTag = new HJetTag();
-
     DefineVariables();
 }
 
@@ -32,12 +28,6 @@ hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger()
 hanalysis::HChargedHiggsHadronicTagger::~HChargedHiggsHadronicTagger()
 {
     Print(HNotification, "Destructor");
-    // delete Branch;
-    //delete JetTag;
-//     delete BottomReader;
-//     delete WReader;
-//     delete TopHadronicReader;
-
 }
 
 void hanalysis::HChargedHiggsHadronicTagger::DefineVariables()
@@ -60,36 +50,28 @@ void hanalysis::HChargedHiggsHadronicTagger::DefineVariables()
 
 }
 
-void hanalysis::HChargedHiggsHadronicTagger::FillBranch(HChargedHiggsHadronicBranch *ChargedHiggsHadronicBranch, const hanalysis::HQuartet31 &Quartet)
+HChargedHiggsHadronicBranch hanalysis::HChargedHiggsHadronicTagger::GetBranch(const hanalysis::HQuartet31 &Quartet)
 {
     Print(HInformation, "FillPairTagger", Quartet.Bdt());
 
-    ChargedHiggsHadronicBranch->HeavyHiggsMass = Quartet.Jet().m();
-    ChargedHiggsHadronicBranch->HeavyHiggsPt = Quartet.Jet().pt();
+    HChargedHiggsHadronicBranch ChargedHiggsHadronicBranch;
+    ChargedHiggsHadronicBranch.HeavyHiggsMass = Quartet.Jet().m();
+    ChargedHiggsHadronicBranch.HeavyHiggsPt = Quartet.Jet().pt();
 
-    ChargedHiggsHadronicBranch->TopDeltaR = Quartet.DeltaR();
-    ChargedHiggsHadronicBranch->TopDeltaRap = Quartet.DeltaRap();
-    ChargedHiggsHadronicBranch->TopDeltaPhi = Quartet.DeltaPhi();
+    ChargedHiggsHadronicBranch.TopDeltaR = Quartet.DeltaR();
+    ChargedHiggsHadronicBranch.TopDeltaRap = Quartet.DeltaRap();
+    ChargedHiggsHadronicBranch.TopDeltaPhi = Quartet.DeltaPhi();
 
-    ChargedHiggsHadronicBranch->TopBdt = Quartet.Bdt();
-    ChargedHiggsHadronicBranch->HeavyHiggsTag = Quartet.Tag();
-
-}
-
-void hanalysis::HChargedHiggsHadronicTagger::FillBranch(const hanalysis::HQuartet31 &Quartet)
-{
-    Print(HInformation, "FillBranch", Quartet.Bdt());
-
-    FillBranch(&Branch, Quartet);
-
+    ChargedHiggsHadronicBranch.TopBdt = Quartet.Bdt();
+    ChargedHiggsHadronicBranch.HeavyHiggsTag = Quartet.Tag();
+return ChargedHiggsHadronicBranch;
 }
 
 
-std::vector< HChargedHiggsHadronicBranch * > hanalysis::HChargedHiggsHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
-    std::vector<HChargedHiggsHadronicBranch *> ChargedHiggsHadronicBranches;
 
     JetTag.HeavyParticles = {WId, TopId, ChargedHiggsId};
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
@@ -99,6 +81,7 @@ std::vector< HChargedHiggsHadronicBranch * > hanalysis::HChargedHiggsHadronicTag
     std::vector<HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
 
     std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
+
 
 
     std::vector<HQuartet31> Quartets;
@@ -113,11 +96,9 @@ std::vector< HChargedHiggsHadronicBranch * > hanalysis::HChargedHiggsHadronicTag
             Quartets.push_back(Quartet);
         }
 
-    for (const auto & Quartet : Quartets) {
-        HChargedHiggsHadronicBranch *ChargedHiggsHadronicBranch = new HChargedHiggsHadronicBranch();
-        FillBranch(ChargedHiggsHadronicBranch, Quartet);
-        ChargedHiggsHadronicBranches.push_back(ChargedHiggsHadronicBranch);
-    }
+    std::vector<HChargedHiggsHadronicBranch> ChargedHiggsHadronicBranches;
+        for (const auto & Quartet : Quartets) ChargedHiggsHadronicBranches.push_back(GetBranch(Quartet));
+
 
     return ChargedHiggsHadronicBranches;
 
@@ -146,7 +127,7 @@ std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBd
         if (Triplet.Doublet().Singlet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);
             Quartets.push_back(Quartet);
-            FillBranch(Quartet);
+            GetBranch(Quartet);
             Quartet.SetBdt(Reader.Bdt());
         }
 

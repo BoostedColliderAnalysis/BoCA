@@ -158,7 +158,7 @@ fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau *const Pa
 
 hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(TObject *Object)
 {
-    Print(HDetailed, "Get Mother Id", ClonesArrays->GetParticleSum());
+    Print(HInformation, "Get Mother Id", ClonesArrays->GetParticleSum());
 
     HFamily BranchFamily;
     if (Object->IsA() != delphes::GenParticle::Class() || Object == 0) {
@@ -174,56 +174,70 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(TObject *Object)
         BranchFamily = HFamily(BranchFamily.ParticlePosition, IsrId, BranchFamily.Mother1Position, IsrId);
 //       Print(HError, "Truth Level Tagging Failed");
 
-    for (auto & Node : Topology) if (Node.GetMarker()) Node = BranchFamily;
-    Print(HDebug,"Branch Family",BranchFamily.ParticleId,BranchFamily.Mother1Id);
+    for (auto & Node : Topology) if (Node.Marker()) Node = BranchFamily;
+    //
+    Print(HDebug, "Branch Family", GetParticleName(BranchFamily.ParticleId), GetParticleName(BranchFamily.Mother1Id));
+
+    if (BranchFamily.ParticleId == EmptyId || BranchFamily.Mother1Id == EmptyId) Print(HError, "Branch Family", GetParticleName(BranchFamily.ParticleId), GetParticleName(BranchFamily.Mother1Id));
     return BranchFamily;
 
 }
 
 hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(HFamily &BranchFamily, int Position)
 {
-    Print(HDetailed, "Get Mother Id", GetParticleName(BranchFamily.ParticleId), Position);
-    if (Position == 0 && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) != end(JetTag->HeavyParticles)) Print(HError, "Proton", std::abs(BranchFamily.ParticleId));
+    Print(HInformation, "Get Branch Family ", GetParticleName(BranchFamily.ParticleId), Position);
 
-    if (Position < 4 && std::abs(BranchFamily.ParticleId) == 5) Print(HError, "Hello");
+    if (
+        JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).Mother1Id))) != end(JetTag->HeavyParticles) ||
+        JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).ParticleId))) != end(JetTag->HeavyParticles) ||
+        Topology.at(Position).ParticleId == IsrId
+    ) {
+        return Topology.at(Position);
+    }
 
     while (
-//       Position != EmptyPosition
-        Position > 4 // FIXME make it work without this cheat
-        && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) == end(JetTag->HeavyParticles)
-        && JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) == end(JetTag->HeavyParticles)
+        Position != EmptyPosition &&
+        JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) == end(JetTag->HeavyParticles) &&
+        JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) == end(JetTag->HeavyParticles)
     ) {
 
-        Print(HDetailed, "Topology", Topology.at(Position).ParticleId);
+      Print(HDebug, "Topology", Position, GetParticleName(Topology.at(Position).ParticleId), GetParticleName(Topology.at(Position).Mother1Id));
 
-        if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).Mother1Id))) != end(JetTag->HeavyParticles) || JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).ParticleId))) != end(JetTag->HeavyParticles)) {
-//             Print(HError, "Abbort 1", Position);
+        if (
+            JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).Mother1Id))) != end(JetTag->HeavyParticles) ||
+            JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(Topology.at(Position).ParticleId))) != end(JetTag->HeavyParticles) ||
+            Topology.at(Position).ParticleId == IsrId
+        ) {
             return Topology.at(Position);
         }
 
         if (Topology.at(Position).Mother1Id != EmptyId && Topology.at(Position).ParticleId != EmptyId
-                && Topology.at(Position).GetMarker() == 0
+                && Topology.at(Position).Marker() == 0
 
            ) {
-//             Print(HError, "Abbort 2", Position);
             return Topology.at(Position);
         }
 
-
         Topology.at(Position).SetMarker();
-//         if (Position < Source) Source = Position;
-        const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(Position);
+//         if (Position < 3) return HFamily(Position, IsrId, EmptyPosition, IsrId);
+
+
+        delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(Position);
         const int Status = ParticleClone->Status;
 
         int M1Id = EmptyId;
+        int Mother1Status = EmptyStatus;
+        TLorentzVector MotherVector;
         if (ParticleClone->M1 > 0) {
-            const delphes::GenParticle *const Mother1Clone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
+            delphes::GenParticle *const Mother1Clone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
             M1Id = Mother1Clone->PID;
+            MotherVector = Mother1Clone->P4();
+            Mother1Status = Mother1Clone->Status;
         }
 
-        HFamily NodeFamily(Position, ParticleClone->PID, ParticleClone->M1, M1Id);
-        if (Status == GeneratorParticle)
-            BranchFamily = JetTag->GetBranchFamily(NodeFamily, BranchFamily);
+        HFamily NodeFamily(ParticleClone->P4(), MotherVector, Position, ParticleClone->PID, ParticleClone->M1, M1Id);
+        if (Mother1Status == GeneratorParticle)
+        BranchFamily = JetTag->GetBranchFamily(NodeFamily, BranchFamily);
 
         Print(HDetailed, "Branch Id", GetParticleName(M1Id), GetParticleName(BranchFamily.Mother1Id));
 
@@ -233,35 +247,38 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(HFamily &BranchFamily
         if (ParticleClone->M2 != EmptyPosition && ParticleClone->M2 != ParticleClone->M1) {
             if (ParticleClone->PID == StringId) {
                 if (ParticleClone->M1 < ParticleClone->M2) {
-                    Print(HDetailed, "String", ParticleClone->M1, Position);
-                    for (int Counter = ParticleClone->M2; Counter >= ParticleClone->M1; --Counter) {
-                        BranchFamily = GetBranchFamily(BranchFamily, Counter);
-//                         Print(HError, "Position", Position, BranchFamily.ParticlePosition, BranchFamily.Mother1Position);
-                        Print(HDetailed, "StringPart", Counter, BranchFamily.ParticleId);
-//                         if (JetTag->HeavyFamily.find(BranchId.Abs()) != end(JetTag->HeavyFamily)) break;
-                        if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) != end(JetTag->HeavyParticles)) return BranchFamily;
-                        if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) != end(JetTag->HeavyParticles)) return BranchFamily;
+                  Print(HDebug, "String", Position, ParticleClone->M1, ParticleClone->M2);
+                    HJetInfo JetInfo;
+//                     for (int Counter = ParticleClone->M2; Counter >= ParticleClone->M1; --Counter) {
+                    for (int Counter = ParticleClone->M1; Counter <= ParticleClone->M2; ++Counter) {
+//                         BranchFamily = GetBranchFamily(BranchFamily, Counter);
+                        HFamily NewFamily = GetBranchFamily(BranchFamily, Counter);
+                        JetInfo.AddFamily(NewFamily, NewFamily.Pt);
+                        Print(HDebug, "StringPart", Counter, GetParticleName(BranchFamily.ParticleId));
+//                         if (std::abs(BranchFamily.ParticleId) == IsrId) return BranchFamily;
                     }
+                        JetInfo.PrintAllFamInfos(HDebug);
+                    if (JetInfo.FamilyFractions().size() > 1) {
+                      for (int Counter = ParticleClone->M1; Counter <= ParticleClone->M2; ++Counter) {
+                        Topology.at(Counter).UnSetMarker();
+                      }
+                      Print(HDebug,"To many String fractions");
+                    };
+                    BranchFamily = JetInfo.MaximalFamily();
+                } else {
+                    Print(HError, "Strange Particle String");
                 }
-//             } else {
-//                 Print(HDetailed, "Mother 2 Position", GetParticleName(BranchFamily.ParticleId), Position);
-//                 BranchFamily = GetBranchFamily(BranchFamily, ParticleClone->M2);
-// //                 if (JetTag->HeavyFamily.find(BranchId.Abs()) != end(JetTag->HeavyFamily)) break;
-//                 if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) != end(JetTag->HeavyParticles)) return BranchFamily;
-//                 if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) != end(JetTag->HeavyParticles)) return BranchFamily;
+                if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) != end(JetTag->HeavyParticles)) return BranchFamily;
+                if (JetTag->HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) != end(JetTag->HeavyParticles)) return BranchFamily;
+            } else {
+                Print(HDebug, "Not a String", Position, ParticleClone->M1, ParticleClone->M2);
             }
         }
 
         Position = ParticleClone->M1;
         Print(HDetailed, "Mother 1 Position", Position);
     }
-
-//     if (Source < 4 && JetTag->HeavyFamily.find(BranchId.Abs()) != end(JetTag->HeavyFamily)) BranchId = HFamily(MixedJetId,EmptyId,EmptyId);
-//     Print(HDetailed, "Branch Id Result", GetParticleName(BranchId));
-
-// Print(HError,"Source",Source);
     return BranchFamily;
-
 }
 
 void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const

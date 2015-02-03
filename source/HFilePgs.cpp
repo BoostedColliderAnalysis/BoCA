@@ -2,64 +2,41 @@
 
 hanalysis::hpgs::HFile::HFile()
 {
-
-  Print(HInformation, "Constructor");
-
+    Print(HInformation, "Constructor");
     SetVariables();
-
 }
 
 hanalysis::hpgs::HFile::HFile(const std::string &Process)
 {
-
-  Print(HInformation, "Constructor");
-
+    Print(HInformation, "Constructor");
     SetVariables();
-
     ProcessFolder = Process;
-
 }
 
 hanalysis::hpgs::HFile::HFile(const std::string &Process, const std::string &Run)
 {
-
-  Print(HInformation, "Constructor");
-
+    Print(HInformation, "Constructor");
     SetVariables();
-
     ProcessFolder = Process;
-
     RunFolder = Run;
-
 }
 
 std::string hanalysis::hpgs::HFile::GetTreeName() const
 {
-
     Print(HInformation, "Get Tree String");
-
     TreeName = "LHCO";
-
     return TreeName;
-
 }
 
 std::string hanalysis::hpgs::HFile::GetFilePath() const
 {
-
     Print(HInformation, "FilePath");
-
     FileSuffix = "_pgs_events.root";
-
-    return (GetMadGraphFilePath() + TagName +  FileSuffix);
-
+    return GetMadGraphFilePath() + TagName +  FileSuffix;
 }
 
-hanalysis::HEvent *hanalysis::hpgs::HFile::GetEvent()
+std::shared_ptr<hanalysis::HEvent> hanalysis::hpgs::HFile::GetEvent()
 {
-
     Print(HNotification, "Get Event");
-
-    return (new HEvent());
-
+    return std::shared_ptr<hanalysis::HEvent>(new HEvent());
 }

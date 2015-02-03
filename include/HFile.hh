@@ -47,11 +47,11 @@ public:
      */
     virtual ~HFile();
 
-    ExRootTreeReader *GetTreeReader();
+    std::shared_ptr< ExRootTreeReader > GetTreeReader();
 
-    virtual HClonesArray *GetClonesArrays();
+    virtual std::shared_ptr<hanalysis::HClonesArray> GetClonesArrays();
 
-    virtual HEvent *GetEvent();
+    virtual std::shared_ptr<hanalysis::HEvent> GetEvent();
 
     void SetBasePath(const std::string &NewBasePath) {
         BasePath = NewBasePath;
@@ -111,7 +111,7 @@ public:
 
 protected:
 
-    ExRootTreeReader *TreeReader;
+//     ExRootTreeReader *TreeReader;
 
     void  SetVariables();
 
@@ -169,16 +169,17 @@ protected:
 
     static bool SnowMass;
 
-    HEvent * Event;
+//     HEvent * Event = NULL;
 
-    HClonesArray *ClonesArrays;
+//     HClonesArray *ClonesArrays = NULL;
+
+//     std::shared_ptr<HEvent> Event;
+
+//     std::shared_ptr<HClonesArray> ClonesArrays;
 
 private:
 
-    TFile *ImportFile;
-
-    TTree *ImportTree;
-
+  TFile *ImportFile = NULL;
 };
 
 # endif

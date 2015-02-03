@@ -103,13 +103,21 @@ public:
 
 protected:
 
-    HSextet(HSextetPrivate& NewSextetPrivate) ;
+//     HSextet(HSextetPrivate& NewSextetPrivate) ;
 
     virtual inline std::string ClassName() const {
         return "HSextet";
     }
 
 private:
+
+  void SetTriplet1(const HTriplet &NewTriplet1);
+
+  void SetTriplet2(const HTriplet &NewTriplet2);
+
+  HTriplet Triplet1M;
+
+  HTriplet Triplet2M;
 
 };
 

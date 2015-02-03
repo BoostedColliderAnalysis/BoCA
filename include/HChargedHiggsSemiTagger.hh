@@ -36,6 +36,18 @@ public:
 
     std::vector< HQuartet31 > GetQuartets(const hanalysis::HReader &Reader);
 
+    HBottomTagger BottomTagger;
+    HWSemiTagger WSemiTagger;
+    HWTagger WTagger;
+    HTopHadronicTagger TopHadronicTagger;
+    HTopSemiTagger TopSemiTagger;
+
+    HReader BottomReader;
+    HReader WSemiReader;
+    HReader WReader;
+    HReader TopHadronicReader;
+    HReader TopSemiReader;
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -49,18 +61,6 @@ private:
     HTag GetTag(const hanalysis::HQuartet31 &Quartet);
 
     HJetTag JetTag;
-
-    HBottomTagger BottomTagger;
-    HWSemiTagger WSemiTagger;
-    HWTagger WTagger;
-    HTopHadronicTagger TopHadronicTagger;
-    HTopSemiTagger TopSemiTagger;
-
-    HReader BottomReader;
-    HReader WSemiReader;
-    HReader WReader;
-    HReader TopHadronicReader;
-    HReader TopSemiReader;
 
     HChargedHiggsSemiBranch Branch;
 };

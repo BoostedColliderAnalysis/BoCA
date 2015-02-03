@@ -21,7 +21,7 @@ public:
 
     std::vector< HWBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    std::vector<HParticleBranch *> GetConstituentBranches();
+    std::vector<HParticleBranch> GetConstituentBranches();
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader & WReader);
 
@@ -30,20 +30,20 @@ public:
     HReader BottomReader;
 
     HWBranch GetBranch(const HDoublet &Doublet) const;
+    
+    HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
 protected:
 
     virtual inline std::string ClassName() const {
         return "HHadronicWTagger";
-    };
+    }
 
 private:
 
     void DefineVariables();
 
-    void FillBranch(const HKinematics &Vector);
-
-    void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
+    HParticleBranch GetBranch(const HKinematics &Vector);
 
     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
 

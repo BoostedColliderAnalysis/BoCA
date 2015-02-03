@@ -26,6 +26,14 @@ public:
 
     HTopSemiBranch GetBranch(const hanalysis::HTriplet &Triplet) const;
 
+    HBottomTagger BottomTagger;
+
+    HWSemiTagger WSemiTagger;
+
+    HReader BottomReader;
+
+    HReader WSemiReader;
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -39,14 +47,6 @@ private:
     HTag GetTag(const HTriplet &Triplet) const;
 
     HJets GetNeutrinos(const hanalysis::HTriplet &Triplet)const;
-
-    HBottomTagger BottomTagger;
-
-    HWSemiTagger WSemiTagger;
-
-    HReader BottomReader;
-
-    HReader WSemiReader;
 
     HTopSemiBranch Branch;
 

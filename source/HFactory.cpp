@@ -79,7 +79,7 @@ int hanalysis::HFactory::GetTrees()
 
     Print(HError, "Event Numbers", SignalNumber, BackgroundNumber);
 
-    return (std::min(SignalNumber, BackgroundNumber) / 2); // should discard the remainder
+    return (std::min(SignalNumber, BackgroundNumber) / 2);
 }
 
 int hanalysis::HFactory::AddTree(const TFile *const File, const std::string &TreeName, const bool Signal)
@@ -126,6 +126,12 @@ void hanalysis::HFactory::PrepareTrainingAndTestTree(const int EventNumber)
     Print(HError , "PrepareTrainingAndTestTree");
 
     std::string NumberOptions = "nTrain_Background=" + std::to_string(EventNumber) + ":nTest_Background=" + std::to_string(EventNumber) + ":nTrain_Signal=" + std::to_string(EventNumber) + ":nTest_Signal=" + std::to_string(EventNumber);
+
+//     std::string NumberOptions = "nTrain_Background=" + std::to_string(2*EventNumber)
+//     + ":nTest_Background=" + std::to_string(EventNumber)
+//     + ":nTrain_Signal=" + std::to_string(2*EventNumber)
+//     + ":nTest_Signal=" + std::to_string(EventNumber)
+    ;
 
 //     Print(HError, "NumberOptions", NumberOptions);
 

@@ -248,6 +248,7 @@ protected:
     };
 
     enum HStatus {
+        EmptyStatus = 0,
         StableParticle = 1,
         UnstableParticle = 2,
         GeneratorParticle = 3

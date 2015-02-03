@@ -570,6 +570,8 @@ public:
 
 //     int HeavyHiggsTag;
 
+    int Flag;
+
 private:
 
     ClassDef(HChargedHiggsSemiBranch, 1)

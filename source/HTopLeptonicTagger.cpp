@@ -19,23 +19,12 @@ hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(const HBottomTagger &NewBottom
     BottomTagger = NewBottomTagger;
     BottomReader.SetMva(BottomTagger);
     SetTaggerName("TopLeptonic");
-//     Branch = new HTopLeptonicBranch();
-    //JetTag = new HJetTag();
     DefineVariables();
 }
 
 hanalysis::HTopLeptonicTagger::~HTopLeptonicTagger()
 {
     Print(HNotification, "Destructor");
-    // delete Branch;
-    //delete JetTag;
-//     delete BottomReader;
-}
-
-void hanalysis::HTopLeptonicTagger::FillBranch(const HDoublet &Doublet)
-{
-    Print(HInformation, "Fill Top Tagger", Doublet.Bdt());
-    FillBranch(&Branch, Doublet);
 }
 
 void hanalysis::HTopLeptonicTagger::DefineVariables()
@@ -62,34 +51,30 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
 }
 
-void hanalysis::HTopLeptonicTagger::FillBranch(HTopLeptonicBranch *const TopLeptonicBranch, const hanalysis::HDoublet &Doublet)
+HTopLeptonicBranch hanalysis::HTopLeptonicTagger::GetBranch(const hanalysis::HDoublet &Doublet)
 {
     Print(HInformation, "Fill Top Tagger", Doublet.Bdt());
 
-    TopLeptonicBranch->Mass = Doublet.Jet().m();
-    TopLeptonicBranch->Pt = Doublet.Jet().pt();
-    TopLeptonicBranch->Rap = Doublet.Jet().rap();
-    TopLeptonicBranch->Phi = Doublet.Jet().phi();
+    HTopLeptonicBranch TopLeptonicBranch;
+    TopLeptonicBranch.Mass = Doublet.Jet().m();
+    TopLeptonicBranch.Pt = Doublet.Jet().pt();
+    TopLeptonicBranch.Rap = Doublet.Jet().rap();
+    TopLeptonicBranch.Phi = Doublet.Jet().phi();
 
-    TopLeptonicBranch->BottomPt = Doublet.Singlet1().pt();
-    TopLeptonicBranch->LeptonPt = Doublet.Singlet2().pt();
+    TopLeptonicBranch.BottomPt = Doublet.Singlet1().pt();
+    TopLeptonicBranch.LeptonPt = Doublet.Singlet2().pt();
 
-    TopLeptonicBranch->DeltaR = Doublet.DeltaR();
-    TopLeptonicBranch->DeltaRap = Doublet.DeltaRap();
-    TopLeptonicBranch->DeltaPhi = Doublet.DeltaPhi();
+    TopLeptonicBranch.DeltaR = Doublet.DeltaR();
+    TopLeptonicBranch.DeltaRap = Doublet.DeltaRap();
+    TopLeptonicBranch.DeltaPhi = Doublet.DeltaPhi();
 
-    TopLeptonicBranch->Bdt = Doublet.Bdt();
-    TopLeptonicBranch->Tag = Doublet.Tag();
+    TopLeptonicBranch.Bdt = Doublet.Bdt();
+    TopLeptonicBranch.Tag = Doublet.Tag();
+    return TopLeptonicBranch;
 
 }
 
-// struct SortByTopMass {
-//     inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
-//         return (std::abs(Doublet1.Jet().m() - Doublet1.TopMass) < std::abs(Doublet2.Jet().m() - Doublet2.TopMass));
-//     }
-// };
-
-std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
+std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -116,16 +101,12 @@ std::vector<HTopLeptonicBranch *> hanalysis::HTopLeptonicTagger::GetBranches(HEv
     Print(HInformation, "Number JetPairs", Doublets.size());
 
     if (Tag == HSignal && Doublets.size() > 1) {
-        std::sort(Doublets.begin(), Doublets.end(), SortByMass<HDoublet>(TopMass));
+        std::sort(Doublets.begin(), Doublets.end(), SortByMass(TopMass));
         Doublets.erase(Doublets.begin() + 1, Doublets.end());
     }
 
-    std::vector<HTopLeptonicBranch *> TopLeptonicBranches;
-    for (const auto & Doublet : Doublets) {
-        HTopLeptonicBranch *TopLeptonicBranch = new HTopLeptonicBranch();
-        FillBranch(TopLeptonicBranch, Doublet);
-        TopLeptonicBranches.push_back(TopLeptonicBranch);
-    }
+    std::vector<HTopLeptonicBranch> TopLeptonicBranches;
+    for (const auto & Doublet : Doublets) TopLeptonicBranches.push_back(GetBranch(Doublet));
 
     return TopLeptonicBranches;
 
@@ -155,7 +136,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJ
     for (const auto & Lepton : Leptons) {
         for (const auto & Jet : Jets) {
             HDoublet Doublet(Jet, Lepton);
-            FillBranch(Doublet);
+            Branch = GetBranch(Doublet);
             Doublet.SetBdt(Reader.Bdt());
             Doublets.push_back(Doublet);
         }
