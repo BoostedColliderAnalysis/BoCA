@@ -114,7 +114,7 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
     if (WParticles.size() != 1) {
         Print(HError, "Where is the W?", WParticles.size());
     } else {
-        std::sort(Doublets.begin(), Doublets.end(), SortByDeltaR(WParticles.front()));
+        std::sort(Doublets.begin(), Doublets.end(), MinDeltaR(WParticles.front()));
         if (Tag == HSignal && Doublets.size() > 1) Doublets.erase(Doublets.begin() + 1, Doublets.end());
 //         if (Tag == HBackground && Doublets.size() > 0) Doublets.erase(Doublets.begin());
     }
@@ -124,7 +124,7 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
     if (BParticles.size() != 1) {
         Print(HError, "Where is the Bottom?");
     } else {
-        std::sort(Jets.begin(), Jets.end(), SortByDeltaR(BParticles.front()));
+        std::sort(Jets.begin(), Jets.end(), MinDeltaR(BParticles.front()));
 //         if (Tag == HSignal && Jets.size() > 2) {
 //             Jets.erase(Jets.begin() + 2, Jets.end());
 //         } else
@@ -165,7 +165,7 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
         if (TopParticles.size() != 1) {
             Print(HError, "Where is the Top?");
         } else {
-            std::sort(Triplets.begin(), Triplets.end(), SortByDeltaR(TopParticles.front()));
+            std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
 //             if (Tag == HSignal && Triplets.size() > 1) Triplets.erase(Triplets.begin() + 1, Triplets.end());
             if (Tag == HBackground && Triplets.size() > 0) Triplets.erase(Triplets.begin());
         }

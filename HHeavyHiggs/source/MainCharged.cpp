@@ -87,22 +87,22 @@ int main()
     fastjet::Error::set_print_backtrace(true);
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
-    RunTagger(hanalysis::HAnalysis::HBottomReader);
+//     RunTagger(hanalysis::HAnalysis::HBottomReader);
 
     RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
-    RunTagger(hanalysis::HAnalysis::HWHadronicReader);
+//     RunTagger(hanalysis::HAnalysis::HWHadronicReader);
 
     RunTagger(hanalysis::HAnalysis::HWSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HWSemiReader);
+//     RunTagger(hanalysis::HAnalysis::HWSemiReader);
 
 //     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
 //     RunTagger(hanalysis::HAnalysis::HTopLeptonicReader);
 
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
-    RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
+//     RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
 
     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HTopSemiReader);
+//     RunTagger(hanalysis::HAnalysis::HTopSemiReader);
 
 //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
 //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicReader);
@@ -111,10 +111,10 @@ int main()
 //     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
 //
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
+//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
 
     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
-    RunTagger(hanalysis::HAnalysis::HJetPairReader);
+//     RunTagger(hanalysis::HAnalysis::HJetPairReader);
 
 
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);

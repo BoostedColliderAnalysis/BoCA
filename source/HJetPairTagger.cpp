@@ -17,8 +17,8 @@ void hanalysis::HJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger)
 {
     Print(HNotification, "Set Tagger", NewBottomTagger.GetTaggerName());
     BottomTagger = NewBottomTagger;
-    BottomTagger.SetTagger();
-    BottomReader.SetMva(BottomTagger);
+//     BottomTagger.SetTagger();
+//     BottomReader.SetMva(BottomTagger);
 
     SetTaggerName("JetPair");
     DefineVariables();
@@ -49,14 +49,14 @@ void hanalysis::HJetPairTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch.Jet1Rap, "Jet1Rap"));
     Observables.push_back(NewObservable(&Branch.Jet1Phi, "Jet1Phi"));
     Observables.push_back(NewObservable(&Branch.Jet1Bdt, "Jet1Bdt"));
-    Observables.push_back(NewObservable(&Branch.Jet1BTag, "Jet1BTag"));
+//     Observables.push_back(NewObservable(&Branch.Jet1BTag, "Jet1BTag"));
 
     Observables.push_back(NewObservable(&Branch.Jet2Mass, "Jet2Mass"));
     Observables.push_back(NewObservable(&Branch.Jet2Pt, "Jet2Pt"));
     Observables.push_back(NewObservable(&Branch.Jet2Rap, "Jet2Rap"));
     Observables.push_back(NewObservable(&Branch.Jet2Phi, "Jet2Phi"));
     Observables.push_back(NewObservable(&Branch.Jet2Bdt, "Jet2Bdt"));
-    Observables.push_back(NewObservable(&Branch.Jet2BTag, "Jet2BTag"));
+//     Observables.push_back(NewObservable(&Branch.Jet2BTag, "Jet2BTag"));
 
     Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
     Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
@@ -89,14 +89,14 @@ HEventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const HDoublet &Doublet
     JetPairBranch.Jet1Phi = Doublet.Singlet1().phi();
     JetPairBranch.Jet1Mass = Doublet.Singlet1().m();
     JetPairBranch.Jet1Bdt = Doublet.Singlet1().user_info<HJetInfo>().Bdt();
-    JetPairBranch.Jet1BTag = Doublet.Singlet1().user_info<HJetInfo>().BTag();
+//     JetPairBranch.Jet1BTag = Doublet.Singlet1().user_info<HJetInfo>().BTag();
 
     JetPairBranch.Jet2Pt = Doublet.Singlet2().pt();
     JetPairBranch.Jet2Rap = std::abs(Doublet.Singlet2().rap());
     JetPairBranch.Jet2Phi = Doublet.Singlet2().phi();
     JetPairBranch.Jet2Mass = Doublet.Singlet2().m();
     JetPairBranch.Jet2Bdt = Doublet.Singlet2().user_info<HJetInfo>().Bdt();
-    JetPairBranch.Jet2BTag = Doublet.Singlet2().user_info<HJetInfo>().BTag();
+//     JetPairBranch.Jet2BTag = Doublet.Singlet2().user_info<HJetInfo>().BTag();
 
     JetPairBranch.Bdt = Doublet.Bdt();
     JetPairBranch.Tag = Doublet.Tag();
@@ -128,35 +128,40 @@ HEventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const HDoublet &Doublet
     return JetPairBranch;
 }
 
-struct SortDoubletByDeltaRap {
-    inline bool operator()(const hanalysis::HDoublet &Doublet1, const hanalysis::HDoublet &Doublet2) {
-        return (Doublet1.DeltaRap() > Doublet2.DeltaRap());
-    }
-};
-
-std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Jet Pair Tags");
     JetTag.HeavyParticles = {GluonId};
-    HJets Jets = GetJets(Event,JetTag);
-    Jets = BottomTagger.GetBdt(Jets, BottomReader);
+    HJets Jets = GetJets(Event);
+    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
-    for (const auto Jet : Jets) static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractFraction(BottomId);
+
+    HJets Particles = Event.GetParticles()->GetGeneratorJets();
+    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsFamily(BottomId, GluonId)), Particles.end());
+    if (Particles.size() != 2) Print(HError, "Where are the Bottoms?", Particles.size());
+    HJets BottomJets;
+    for (const auto & Particle : Particles) {
+        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+        if (Tag == HSignal) BottomJets.push_back(Jets.front());
+        if (Jets.size() > 1) Jets.erase(Jets.begin());
+    }
+    if (Tag == HBackground) BottomJets = Jets;
+
     std::vector<HDoublet> Doublets;
-    for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
-        for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+    for (auto Jet1 = BottomJets.begin(); Jet1 != BottomJets.end(); ++Jet1)
+      for (auto Jet2 = Jet1 + 1; Jet2 != BottomJets.end(); ++Jet2) {
             HDoublet Doublet;
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
             else Doublet.SetSinglets((*Jet2), (*Jet1));
-            Doublet.SetTag(GetTag(Doublet));
-            if (Doublet.Tag() != Tag) continue;
+//             Doublet.SetTag(GetTag(Doublet));
+//             if (Doublet.Tag() != Tag) continue;
             Doublets.push_back(Doublet);
         }
 
     Print(HDebug, "Number of Jet Pairs", Doublets.size());
 
     if (Tag == HSignal && Doublets.size() > 1) {
-        std::sort(Doublets.begin(), Doublets.end(), SortDoubletByDeltaRap());
+        std::sort(Doublets.begin(), Doublets.end(), MaxDeltaRap());
         if (Doublets.size() > 1)Doublets.erase(Doublets.begin() + 1, Doublets.end());
     }
 
@@ -183,10 +188,10 @@ hanalysis::HObject::HTag hanalysis::HJetPairTagger::GetTag(const HDoublet &Doubl
 std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &JetPairReader)
 {
     std::vector<HDoublet>  Doublets;
-    int Counter = 0;
+//     int Counter = 0;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
-            ++Counter;
+//             ++Counter;
             HDoublet Doublet;
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
             else Doublet.SetSinglets((*Jet2), (*Jet1));

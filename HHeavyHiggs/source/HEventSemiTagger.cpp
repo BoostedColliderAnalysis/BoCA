@@ -27,32 +27,32 @@ void hheavyhiggs::HEventSemiTagger::SetTagger(
     Print(HNotification , "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomTagger.SetTagger();
-    BottomReader.SetMva(BottomTagger);
+//     BottomTagger.SetTagger();
+//     BottomReader.SetMva(BottomTagger);
 
     WSemiTagger = NewWSemiTagger;
-    WSemiTagger.SetTagger();
-    WSemiReader.SetMva(WSemiTagger);
+//     WSemiTagger.SetTagger();
+//     WSemiReader.SetMva(WSemiTagger);
 
     WTagger = NewWTagger;
-    WTagger.SetTagger(BottomTagger);
-    WReader.SetMva(WTagger);
+//     WTagger.SetTagger(BottomTagger);
+//     WReader.SetMva(WTagger);
 
     TopSemiTagger = NewTopSemiTagger;
-    TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
-    TopSemiReader.SetMva(TopSemiTagger);
+//     TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
+//     TopSemiReader.SetMva(TopSemiTagger);
 
     TopHadronicTagger = NewTopHadronicTagger;
-    TopHadronicTagger.SetTagger(BottomTagger, WTagger);
-    TopHadronicReader.SetMva(TopHadronicTagger);
+//     TopHadronicTagger.SetTagger(BottomTagger, WTagger);
+//     TopHadronicReader.SetMva(TopHadronicTagger);
 
     HeavyHiggsSemiTagger = NewHeavyHiggsSemiTagger;
-    HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
-    HeavyHiggsSemiReader.SetMva(HeavyHiggsSemiTagger);
+//     HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
+//     HeavyHiggsSemiReader.SetMva(HeavyHiggsSemiTagger);
 
     JetPairTagger = NewJetPairTagger;
-    JetPairTagger.SetTagger(BottomTagger);
-    JetPairReader.SetMva(JetPairTagger);
+//     JetPairTagger.SetTagger(BottomTagger);
+//     JetPairReader.SetMva(JetPairTagger);
 
     SetTaggerName("EventSemi");
     DefineVariables();
@@ -100,7 +100,7 @@ void hheavyhiggs::HEventSemiTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch.RestHt, "RestHt"));
     Observables.push_back(NewObservable(&Branch.RestPhi, "RestPhi"));
     Observables.push_back(NewObservable(&Branch.RestRap, "RestRap"));
-    Observables.push_back(NewObservable(&Branch.RestBTag, "RestBTag"));
+//     Observables.push_back(NewObservable(&Branch.RestBTag, "RestBTag"));
     Observables.push_back(NewObservable(&Branch.RestBBdt, "RestBBdt"));
     Observables.push_back(NewObservable(&Branch.MaxBBdt, "MaxBBdt"));
     Observables.push_back(NewObservable(&Branch.TotalBBdt, "TotalBBdt"));
@@ -156,13 +156,15 @@ hheavyhiggs::HEventSemiBranch hheavyhiggs::HEventSemiTagger::GetBranch(const HOc
     EventSemiBranch.RestHt = Octet.EventStruct().RestHt;
     EventSemiBranch.RestRap = Octet.EventStruct().RestRap;
     EventSemiBranch.RestPhi = Octet.EventStruct().RestPhi;
-    EventSemiBranch.RestBTag = Octet.EventStruct().RestBTag;
+//     EventSemiBranch.RestBTag = Octet.EventStruct().RestBTag;
 //     Print(HError,"Rest B Tag",EventSemiBranch.RestBTag,Octet.GetEventStruct().RestBTag);
     EventSemiBranch.RestBBdt = Octet.EventStruct().RestBBdt;
     EventSemiBranch.MaxBBdt = Octet.EventStruct().MaxBBdt;
     EventSemiBranch.TotalBBdt = Octet.EventStruct().TotalBBdt;
     EventSemiBranch.ThirdBBdt = Octet.EventStruct().ThirdBBdt;
     EventSemiBranch.LeptonPt = Octet.EventStruct().LeptonPt;
+
+    return EventSemiBranch;
 
 }
 
@@ -177,9 +179,9 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
 {
     Print(HInformation, "Get Event Tags");
 
-    JetTag.HeavyParticles = {GluonId, TopId};
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = BottomTagger.GetBdt(Jets, BottomReader);
+//     JetTag.HeavyParticles = {GluonId, TopId};
+    HJets Jets = GetJets(Event);
+    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
@@ -250,8 +252,8 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
             if (Octet.Doublet().Singlet2() == Jet) continue;
             ++RestNumber;
             EventStruct.RestHt += Jet.pt();
-            EventStruct.RestBTag += Jet.user_info<hanalysis::HJetInfo>().BTag();
-            Print(HInformation, "Rest BTag", EventStruct.RestBTag);
+//             EventStruct.RestBTag += Jet.user_info<hanalysis::HJetInfo>().BTag();
+//             Print(HInformation, "Rest BTag", EventStruct.RestBTag);
             EventStruct.RestBBdt += Jet.user_info<hanalysis::HJetInfo>().Bdt();
             RestJet += Jet;
         }
@@ -402,7 +404,7 @@ std::vector<HOctet> hheavyhiggs::HEventSemiTagger::GetBdt(const std::vector< han
             if (Octet.Doublet().Singlet2() == Jet) continue;
             ++RestNumber;
             Octet.EventStructM.RestHt += Jet.pt();
-            Octet.EventStructM.RestBTag += Jet.user_info<hanalysis::HJetInfo>().BTag();
+//             Octet.EventStructM.RestBTag += Jet.user_info<hanalysis::HJetInfo>().BTag();
             Octet.EventStructM.RestBBdt += Jet.user_info<hanalysis::HJetInfo>().Bdt();
             Octet.EventStructM.MaxBBdt = MaxBBdt;
             RestJet += Jet;

@@ -134,7 +134,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     if (TopParticles.size() != 1) {
         Print(HError, "Where is the Top?", TopParticles.size());
     } else {
-        std::sort(Triplets.begin(), Triplets.end(), SortByDeltaR(TopParticles.front()));
+        std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
 //         if (Tag == HSignal && Triplets.size() > 2) {
 //             Triplets.erase(Triplets.begin() + 2, Triplets.end());
 //         } else
@@ -151,7 +151,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     if (BottomParticles.size() != 1) {
         Print(HError, "Where is the Bottom?");
     } else {
-        std::sort(BottomJets.begin(), BottomJets.end(), SortJetByDeltaR(BottomParticles.front()));
+        std::sort(BottomJets.begin(), BottomJets.end(), MinDeltaR(BottomParticles.front()));
 //         if (Tag == HSignal && BottomJets.size() > 2) {
 //             BottomJets.erase(BottomJets.begin() + 2, BottomJets.end());
 //         } else

@@ -113,7 +113,7 @@ std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(han
     HJets TopParticles = Event->GetParticles()->GetGeneratorJets();
     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(-TopId)), TopParticles.end());
     if (TopParticles.size() != 1) Print(HError, "Where is the Top?", TopParticles.size());
-    std::sort(Jets.begin(), Jets.end(), SortByDeltaR(TopParticles.front()));
+    std::sort(Jets.begin(), Jets.end(), MinDeltaR(TopParticles.front()));
     if (Tag == HSignal && Jets.size() > 1) Jets.erase(Jets.begin() + 1, Jets.end());
     if (Tag == HBackground && Jets.size() > 0) Jets.erase(Jets.begin());
 
@@ -152,7 +152,7 @@ std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(han
 
 
 
-    std::sort(Triplets.begin(), Triplets.end(), SortByDeltaR(TopParticles.front()));
+    std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
     if (Tag == HSignal && Triplets.size() > 1) Triplets.erase(Triplets.begin() + 1, Triplets.end());
     if (Tag == HBackground && Triplets.size() > 0) Triplets.erase(Triplets.begin());
 

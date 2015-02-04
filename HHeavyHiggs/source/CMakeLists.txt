@@ -5,6 +5,7 @@ HAnalysisHeavyHiggsDelphes.cpp
 HAnalysisHeavyHiggsParton.cpp
 HAnalysisHeavyHiggsPgs.cpp
 HAnalysisHeavyHiggsMva.cpp
+HAnalysisHeavyHiggsTt.cpp
 HAnalysisChargedHiggsMva.cpp
 HEventLeptonicTagger.cpp
 HEventHadronicTagger.cpp
@@ -13,6 +14,8 @@ HChargedSemiTagger.cpp
 HChargedHadronicTagger.cpp
 HOctet.cpp
 HOctet44.cpp
+HSextetEvent.cpp
+HEventTtSemiTagger.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")
 
@@ -20,6 +23,7 @@ HExecutable(HHeavyHiggsDelphes MainDelphes.cpp)
 HExecutable(HHeavyHiggsParton MainParton.cpp)
 HExecutable(HHeavyHiggsPgs MainPgs.cpp)
 HExecutable(HHeavyHiggsMva MainMva.cpp)
+HExecutable(HHeavyHiggsTt MainTt.cpp)
 HExecutable(HHeavyHiggsCharged MainCharged.cpp)
 
 HLibrary(HMvaHeavyHiggs HMvaHeavyHiggs.cpp)

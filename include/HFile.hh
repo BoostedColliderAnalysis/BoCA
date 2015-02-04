@@ -35,6 +35,10 @@ public:
      */
     HFile(const std::string &Process);
 
+    HFile(const std::string &Process, float NewCrosssection);
+
+    HFile(const std::string &Process, float NewCrosssection, float NewMass);
+
     /**
      * @brief constructor defining default path
      *
@@ -76,7 +80,7 @@ public:
     }
 
     void SetMass(const float NewMass) {
-      Mass = NewMass;
+        Mass = NewMass;
     }
 
     void SetFileSuffix(const std::string &NewFileSuffix) {
@@ -88,7 +92,7 @@ public:
     }
 
     float GetMass() const {
-      return Mass;
+        return Mass;
     }
 
 
@@ -179,7 +183,7 @@ protected:
 
 private:
 
-  TFile *ImportFile = NULL;
+    TFile *ImportFile = NULL;
 };
 
 # endif

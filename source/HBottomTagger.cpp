@@ -94,22 +94,12 @@ HBottomBranch hanalysis::HBottomTagger::GetBranch(const fastjet::PseudoJet &Jet)
 
 }
 
-// struct MinPt {
-//   MinPt(const float NewPt) {
-//     this->Pt = NewPt;
-//   }
-//   bool operator()(const fastjet::PseudoJet &Jet) {
-//     return (Jet.pt() < Pt);
-//   }
-//   float Pt;
-// };
-
-std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
     JetTag.HeavyParticles = {BottomId};
-    HJets Jets = GetJets(Event, JetTag);
+    HJets Jets = GetJets(Event);
 
 //     Print(HError, "Jet size", Jets.size());
 
@@ -117,7 +107,7 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
     Print(HInformation, "Number Jets", Jets.size());
     //     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), MinPt(40)), Jets.end() );
 
-    HJets Particles = Event->GetParticles()->GetGeneratorJets();
+    HJets Particles = Event.GetParticles()->GetGeneratorJets();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
         Print(HInformation, "Particle size", Particles.size());
 
@@ -178,7 +168,7 @@ HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, c
     Print(HInformation, "Clean Jets");
 
     for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), SortByDeltaR(Particle));
+        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
         static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
     }
 
@@ -229,8 +219,6 @@ hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJ
 
 HJets hanalysis::HBottomTagger::GetBdt(HJets &Jets, const HReader &BottomReader)
 {
-
-//   Jets.erase(std::remove_if(Jets.begin(), Jets.end(), MinPt(40)), Jets.end());
 
     HJets NewJets = GetJetBdt(Jets, BottomReader);
 

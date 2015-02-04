@@ -74,15 +74,16 @@ public:
     std::vector< hanalysis::HFile > GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string GetProjectName() const {
-//         return "HeavyHiggsMva1000";
-        return "ChargedHiggs2";
+//         return "ChargedHiggs1";
+//         return "ChargedHiggs2";
 //         return "ChargedHiggs3";
 //         return "ChargedHiggs4";
 //         return "ChargedHiggs5";
 //         return "ChargedHiggs6";
 //         return "ChargedHiggs7";
-//         return "HeavyHiggsMva8000";
-//         return "HeavyHiggsMva9000";
+//         return "ChargedHiggs8";
+        return "ChargedHiggs9";
+//         return "ChargedHiggs10";
     }
 
     std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -117,8 +118,8 @@ private:
     inline int GetEventNumberMax() const {
 //         return 100000;
 //         return 10000;
-        return 5000;
-//         return 1000;
+//         return 5000;
+        return 1000;
 //         return 100;
 //         return 500;
     };

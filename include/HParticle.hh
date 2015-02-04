@@ -69,7 +69,10 @@ protected:
      *
      * @return void
      */
-    virtual bool GetParticles() = 0;
+    virtual bool GetParticles() {
+      Print(HError,"should be subclassed");
+      return 0;
+    }
 
     bool GotParticles;
 

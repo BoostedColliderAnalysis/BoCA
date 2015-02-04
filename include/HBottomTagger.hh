@@ -23,7 +23,7 @@ public:
 
     void SetTagger();
 
-    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     HJets GetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
 

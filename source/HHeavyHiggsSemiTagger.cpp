@@ -13,19 +13,24 @@ hanalysis::HHeavyHiggsSemiTagger::~HHeavyHiggsSemiTagger()
     Print(HNotification, "Destructor");
 }
 
-void hanalysis::HHeavyHiggsSemiTagger::SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
+void hanalysis::HHeavyHiggsSemiTagger::SetTagger(
+    const HBottomTagger &NewBottomTagger,
+    const HWSemiTagger &NewWSemiTagger,
+    const HWTagger &NewWTagger,
+    const HTopSemiTagger &NewTopSemiTagger,
+    const HTopHadronicTagger &NewTopHadronicTagger)
 {
     Print(HNotification, "Constructor");
 
-//     BottomTagger = NewBottomTagger;
+    BottomTagger = NewBottomTagger;
 //     BottomTagger.SetTagger();
 //     BottomReader.SetMva(BottomTagger);
 //
-//     WSemiTagger = NewWSemiTagger;
+    WSemiTagger = NewWSemiTagger;
 //     WSemiTagger.SetTagger();
 //     WSemiReader.SetMva(WSemiTagger);
 //
-//     WTagger = NewWTagger;
+    WTagger = NewWTagger;
 //     WTagger.SetTagger(BottomTagger);
 //     WReader.SetMva(WTagger);
 
@@ -88,24 +93,24 @@ HHeavyHiggsSemiBranch hanalysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet 
     return HeavyHiggsBranch;
 }
 
-std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
-    float Mass = Event->GetMass();
+    float Mass = Event.GetMass();
 
-    JetTag.HeavyParticles = {TopId, HeavyHiggsId, CPOddHiggsId};
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = TopHadronicTagger.WTagger.BottomTagger.GetBdt(Jets, TopHadronicTagger.WTagger.BottomReader);
+    JetTag.HeavyParticles = {HeavyHiggsId, CPOddHiggsId};
+    HJets Jets = GetJets(Event);
+    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
-    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 
-    std::vector<HDoublet> DoubletsSemi = TopSemiTagger.WSemiTagger.GetBdt(Leptons, MissingEt, TopSemiTagger.WSemiReader);
+    std::vector<HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
-    std::vector<HDoublet> DoubletsHadronic = TopHadronicTagger.WTagger.GetBdt(Jets, TopHadronicTagger.WReader);
+    std::vector<HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
     Print(HDebug, "Number of Hadronic Tops", TripletsHadronic.size());
 
@@ -118,11 +123,27 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
             if (TripletSemi.Singlet() == TripletHadronic.Doublet().Singlet2()) continue;
 //             if (Tag == HSignal && TripletSemi.DeltaR() > 1.5) continue;
             HSextet Sextet(TripletSemi, TripletHadronic);
-            Sextet.SetTag(GetTag(Sextet));
-            if (Sextet.Tag() != Tag) continue;
-            if (Tag == HSignal && Sextet.Jet().m() < Mass / 2)continue;
+//             Sextet.SetTag(GetTag(Sextet));
+//             if (Sextet.Tag() != Tag) continue;
+//             if (Tag == HSignal && Sextet.Jet().m() < Mass / 2)continue;
+//             if (Tag == HSignal && Sextet.DeltaPhi() < 1 )continue;
             Sextets.push_back(Sextet);
         }
+
+    HJets HiggsParticles = Event.GetParticles()->GetGeneratorJets();
+    HJets Even = HiggsParticles;
+    Even.erase(std::remove_if(Even.begin(), Even.end(), WrongAbsFamily(HeavyHiggsId, GluonId)), Even.end());
+    HJets Odd = HiggsParticles;
+    Odd.erase(std::remove_if(Odd.begin(), Odd.end(), WrongAbsFamily(CPOddHiggsId, GluonId)), Odd.end());
+    HiggsParticles=Even;
+    HiggsParticles.insert(HiggsParticles.end(),Odd.begin(),Odd.end());
+    if (HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
+    std::sort(Sextets.begin(), Sextets.end(), MinDeltaR(HiggsParticles.front()));
+    if (Tag == HSignal && Sextets.size() > 1) Sextets.erase(Sextets.begin() + 1, Sextets.end());
+    if (Tag == HBackground && Sextets.size() > 0) Sextets.erase(Sextets.begin());
+
+
+
 
 //     Print(HInformation, "Number of Heavy Higgses", Sextets.size());
 

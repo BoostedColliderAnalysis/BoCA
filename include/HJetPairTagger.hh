@@ -19,11 +19,15 @@ public:
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger);
 
-    std::vector< HEventJetPairBranch> GetBranches(HEvent *const Event, const HObject::HTag Tag);
+    std::vector< HEventJetPairBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &JetPairReader);
 
     HEventJetPairBranch GetBranch(const hanalysis::HDoublet &Doublet) const;
+
+    HBottomTagger BottomTagger;
+
+    HReader BottomReader;
 
 protected:
 
@@ -36,10 +40,6 @@ private:
     void DefineVariables();
 
     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
-
-    HBottomTagger BottomTagger;
-
-    HReader BottomReader;
 
     HEventJetPairBranch Branch;
 

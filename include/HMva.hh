@@ -74,7 +74,7 @@ public:
 
 //         Print(HInformation, "Int Constructor", *NewValue);
 
-        Value = (float *)NewValue;
+        Value = (float*)NewValue;
         Expression = NewExpression;
         Title = NewTitle;
         Unit = NewUnit;
@@ -82,6 +82,33 @@ public:
         Type = 'I';
 
     }
+
+//     HObservable(const float NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
+//
+//       //         Print(HDebug, "Float Constructor", *NewValue);
+//
+//       Value = NewValue;
+//       Expression = NewExpression;
+//       Title = NewTitle;
+//       Unit = NewUnit;
+//       Latex = NewLatex;
+//       Type = 'F';
+//     }
+//
+//
+//
+//     HObservable(const int NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
+//
+//       //         Print(HInformation, "Int Constructor", *NewValue);
+//
+//       Value = (float)NewValue;
+//       Expression = NewExpression;
+//       Title = NewTitle;
+//       Unit = NewUnit;
+//       Latex = NewLatex;
+//       Type = 'I';
+//
+//     }
 
     float *GetValue() {
         return Value;
@@ -290,6 +317,7 @@ public:
 
     HJets GetJets(hanalysis::HEvent *const Event, hanalysis::HJetTag &JetTag);
     HJets GetJets(hanalysis::HEvent *const Event);
+    HJets GetJets(hanalysis::HEvent &Event);
 
 //     HPairBranch *GetBranch() {
 //       return Branch;
@@ -323,25 +351,25 @@ protected:
 
     }
 
-    template<typename TValue>
-    HObservable NewObservable(const TValue &Value, const std::string &Title) const {
-
-        Print(HDebug, "New Observable", Value);
-        const std::string Expression = EventBranchName + "." + Title;
-        HObservable Observable(*Value, Expression, Title, "", "");
-        return Observable;
-
-    }
-
-    template<typename TValue>
-    HObservable NewObservable(const TValue &Value, const std::string &Title, const std::string &Latex) const {
-
-        Print(HDebug, "New Observable", *Value);
-        const std::string Expression = EventBranchName + "." + Title;
-        HObservable Observable(*Value, Expression, Title, "", Latex);
-        return Observable;
-
-    }
+//     template<typename TValue>
+//     HObservable NewObservable(const TValue Value, const std::string &Title) const {
+//
+//         Print(HDebug, "New Observable", Value);
+//         const std::string Expression = EventBranchName + "." + Title;
+//         HObservable Observable(Value, Expression, Title, "", "");
+//         return Observable;
+//
+//     }
+//
+//     template<typename TValue>
+//     HObservable NewObservable(const TValue Value, const std::string &Title, const std::string &Latex) const {
+//
+//         Print(HDebug, "New Observable", *Value);
+//         const std::string Expression = EventBranchName + "." + Title;
+//         HObservable Observable(Value, Expression, Title, "", Latex);
+//         return Observable;
+//
+//     }
 
 
 
@@ -419,12 +447,12 @@ private:
 
 };
 
-struct SortByBdt {
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        return (Multiplet1.Bdt() > Multiplet2.Bdt());
-    }
-};
+// struct SortByBdt {
+//     template <typename TMultiplet>
+//     inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+//         return (Multiplet1.Bdt() > Multiplet2.Bdt());
+//     }
+// };
 
 struct SortByMass {
     SortByMass(const float NewMass) {
@@ -438,8 +466,8 @@ struct SortByMass {
     float Mass;
 };
 
-struct SortByDeltaR {
-    SortByDeltaR(const fastjet::PseudoJet &NewParticle) {
+struct MinDeltaR {
+    MinDeltaR(const fastjet::PseudoJet &NewParticle) {
         this->Particle = NewParticle;
     }
     template <typename TMultiplet>
@@ -452,14 +480,21 @@ struct SortByDeltaR {
     fastjet::PseudoJet Particle;
 };
 
-struct SortJetByDeltaR {
-    SortJetByDeltaR(const fastjet::PseudoJet &NewParticle) {
-        this->Particle = NewParticle;
-    }
-    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return Jet1.delta_R(Particle)  < Jet2.delta_R(Particle);
-    }
-    fastjet::PseudoJet Particle;
+// struct SortJetByDeltaR {
+//     SortJetByDeltaR(const fastjet::PseudoJet &NewParticle) {
+//         this->Particle = NewParticle;
+//     }
+//     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+//         return Jet1.delta_R(Particle)  < Jet2.delta_R(Particle);
+//     }
+//     fastjet::PseudoJet Particle;
+// };
+
+struct MaxDeltaRap {
+  template <typename TMultiplet>
+  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+    return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
+  }
 };
 
 

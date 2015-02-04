@@ -151,3 +151,27 @@ HJets hanalysis::HMva::GetJets(hanalysis::HEvent *const Event)
   }
   return Jets;
 }
+
+HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
+{
+
+  HJets EFlowJets = Event.GetJets()->GetStructuredEFlowJets();
+  HJets GranulatedJets = GetGranulatedJets(EFlowJets);
+  Print(HInformation,"Jets",GranulatedJets.size());
+  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets, fastjet::JetDefinition(fastjet::cambridge_algorithm, 0.4));
+  HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(40));
+  if (Jets.size() < 1) {
+    delete ClusterSequence;
+    return Jets;
+  }
+  ClusterSequence->delete_self_when_unused();
+  for (auto & Jet : Jets) {
+    std::vector<HConstituent> Constituents;
+    for (const auto & Constituent : Jet.constituents()) {
+      std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
+      Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+    }
+    Jet.set_user_info(new HJetInfo(Constituents));
+  }
+  return Jets;
+}

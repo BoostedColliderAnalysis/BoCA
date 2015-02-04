@@ -45,6 +45,22 @@ public:
 
     HEventSemiBranch GetBranch(const HOctet &Octet) const;
 
+    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::HWSemiTagger WSemiTagger;
+    hanalysis::HWTagger WTagger;
+    hanalysis::HTopSemiTagger TopSemiTagger;
+    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+    hanalysis::HJetPairTagger JetPairTagger;
+
+    hanalysis::HReader BottomReader;
+    hanalysis::HReader WSemiReader;
+    hanalysis::HReader WReader;
+    hanalysis::HReader TopHadronicReader;
+    hanalysis::HReader TopSemiReader;
+    hanalysis::HReader HeavyHiggsSemiReader;
+    hanalysis::HReader JetPairReader;
+
 
 protected:
 
@@ -63,22 +79,6 @@ private:
     void DefineVariables();
 
     std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
-
-    hanalysis::HBottomTagger BottomTagger;
-    hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::HWTagger WTagger;
-    hanalysis::HTopSemiTagger TopSemiTagger;
-    hanalysis::HTopHadronicTagger TopHadronicTagger;
-    hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
-    hanalysis::HJetPairTagger JetPairTagger;
-
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader WSemiReader;
-    hanalysis::HReader WReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopSemiReader;
-    hanalysis::HReader HeavyHiggsSemiReader;
-    hanalysis::HReader JetPairReader;
 
     HEventSemiBranch Branch;
     hanalysis::HJetTag JetTag;

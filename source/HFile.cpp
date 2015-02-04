@@ -13,6 +13,23 @@ hanalysis::HFile::HFile(const std::string &Process)
     ProcessFolder = Process;
 }
 
+hanalysis::HFile::HFile(const std::string &Process, float NewCrosssection)
+{
+  Print(HInformation, "Constructor");
+  SetVariables();
+  ProcessFolder = Process;
+  Crosssection = NewCrosssection;
+}
+
+hanalysis::HFile::HFile(const std::string &Process, float NewCrosssection, float NewMass)
+{
+  Print(HInformation, "Constructor");
+  SetVariables();
+  ProcessFolder = Process;
+  Crosssection = NewCrosssection;
+  Mass = NewMass;
+}
+
 hanalysis::HFile::HFile(const std::string &Process, const std::string &Run)
 {
     Print(HInformation, "Constructor");

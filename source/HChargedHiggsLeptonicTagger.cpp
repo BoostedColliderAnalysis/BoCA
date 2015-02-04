@@ -129,7 +129,7 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
 
     if (Tag == HSignal && Triplets.size() > 1) {
         Print(HError, "Higgs Candidates", Triplets.size());
-        std::sort(Triplets.begin(), Triplets.end(), SortByBdt());
+        std::sort(Triplets.begin(), Triplets.end());
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
     }
 

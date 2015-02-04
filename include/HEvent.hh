@@ -31,7 +31,7 @@ public:
      */
     ~HEvent();
 
-    virtual void NewEvent(const HClonesArray * const ) = 0;
+    virtual void NewEvent(const HClonesArray *const) = 0;
 
     virtual HJets GetTops(HJetTag &) {
         Print(HError, "Get Tops", "No Tops");
@@ -63,6 +63,18 @@ public:
         return Jets;
     }
 
+    HJet Hadrons() const {
+        return *Jets;
+    }
+
+    HLepton Leptons() const {
+        return *Lepton;
+    }
+
+    HParticle Partons() const {
+        return *Particles;
+    }
+
     hanalysis::HTopTagger *GetTopTagger() {
         return TopTagger;
     }
@@ -75,8 +87,13 @@ public:
         return Discriminator;
     }
 
-    float GetMass() const{return Mass;}
-    void SetMass(const float NewMass) {Mass=NewMass;}
+    float GetMass() const {
+        return Mass;
+    }
+
+    void SetMass(const float NewMass) {
+        Mass = NewMass;
+    }
 
 protected:
 
@@ -122,7 +139,7 @@ protected:
 
 private:
 
-  float Mass;
+    float Mass;
 
 };
 

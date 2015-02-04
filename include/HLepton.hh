@@ -47,13 +47,19 @@ protected:
    * @brief Find the hardest of the light leptons
    *
    */
-  virtual bool GetElectrons(HJetDetails JetDetails) = 0;
+  virtual bool GetElectrons(HJetDetails JetDetails) {
+    Print(HError,"should be subclassed",JetDetails);
+    return 0;
+  }
 
   /**
    * @brief Find the hardest of the light leptons
    *
    */
-  virtual bool GetMuons(HJetDetails JetDetails) = 0;
+  virtual bool GetMuons(HJetDetails JetDetails) {
+    Print(HError,"should be subclassed",JetDetails);
+    return 0;
+  }
 
   bool GotElectrons;
   bool GotMuons;

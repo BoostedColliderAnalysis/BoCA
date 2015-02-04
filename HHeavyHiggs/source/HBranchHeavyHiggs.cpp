@@ -165,6 +165,59 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
 
 
 
+ClassImp(hheavyhiggs::HEventTtSemiBranch)
+
+hheavyhiggs::HEventTtSemiBranch::HEventTtSemiBranch()
+{
+
+
+  Mass = InitialValue;
+  Pt = InitialValue;
+  Rap = InitialValue;
+  Phi = InitialValue;
+  
+  DeltaPt = InitialValue;
+  DeltaRap = InitialValue;
+  DeltaPhi = InitialValue;
+  DeltaR = InitialValue;
+
+  DeltaPt1 = InitialValue;
+  DeltaRap1 = InitialValue;
+  DeltaPhi1 = InitialValue;
+  DeltaR1 = InitialValue;
+
+  DeltaPt2 = InitialValue;
+  DeltaRap2 = InitialValue;
+  DeltaPhi2 = InitialValue;
+  DeltaR2 = InitialValue;
+
+  Bdt = InitialValue;
+  Tag = InitialValue;
+
+  LeptonNumber = InitialValue;
+  JetNumber = InitialValue;
+  BottomNumber = InitialValue;
+
+  ScalarHt = InitialValue;
+
+  HiggsMass = InitialValue;
+  PairRap = InitialValue;
+
+  RestM = InitialValue;
+  RestPt = InitialValue;
+  RestHt = InitialValue;
+  RestRap = InitialValue;
+  RestPhi = InitialValue;
+  RestBBdt = InitialValue;
+  MaxBBdt = InitialValue;
+  TotalBBdt = InitialValue;
+  RestBTag = InitialValue;
+  ThirdBBdt = InitialValue;
+  LeptonPt = InitialValue;
+
+}
+
+
 ClassImp(hheavyhiggs::HBdtBranch)
 
 hheavyhiggs::HBdtBranch::HBdtBranch()

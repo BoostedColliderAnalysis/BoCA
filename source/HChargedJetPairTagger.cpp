@@ -170,14 +170,14 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     HJets TopParticles = Event->GetParticles()->GetGeneratorJets();
     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongAbsFamily(TopId, GluonId)), TopParticles.end());
     if (TopParticles.size() != 1 && Tag == HSignal) Print(HError, "Where is the Top?", TopParticles.size());
-    std::sort(Triplets.begin(), Triplets.end(), SortByDeltaR(TopParticles.front()));
+    std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
     if (Tag == HSignal && Triplets.size() > 1) Triplets.erase(Triplets.begin() + 1, Triplets.end());
     if (Tag == HBackground && Triplets.size() > 0) Triplets.erase(Triplets.begin());
 
     HJets BottomParticles = Event->GetParticles()->GetGeneratorJets();
     BottomParticles.erase(std::remove_if(BottomParticles.begin(), BottomParticles.end(), WrongAbsFamily(BottomId, GluonId)), BottomParticles.end());
     if (BottomParticles.size() != 1 && Tag == HSignal) Print(HError, "Where is the Bottom?", BottomParticles.size());
-    std::sort(Jets.begin(), Jets.end(), SortByDeltaR(BottomParticles.front()));
+    std::sort(Jets.begin(), Jets.end(), MinDeltaR(BottomParticles.front()));
     if (Tag == HSignal && Triplets.size() > 1) Jets.erase(Jets.begin() + 1, Jets.end());
     if (Tag == HBackground && Jets.size() > 0) Jets.erase(Jets.begin());
 

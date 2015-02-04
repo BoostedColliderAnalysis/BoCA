@@ -151,7 +151,7 @@ std::vector<hheavyhiggs::HChargedHadronicBranch * > hheavyhiggs::HChargedHadroni
     }
 
     if (Octets.size() > 1) {
-        std::sort(Octets.begin(), Octets.end(), SortByBdt());
+        std::sort(Octets.begin(), Octets.end());
         Octets.erase(Octets.begin() + 1, Octets.end());
     }
 

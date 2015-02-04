@@ -90,7 +90,7 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const 
     HJets WParticles = Event->GetParticles()->GetGeneratorJets();
     WParticles.erase(std::remove_if(WParticles.begin(), WParticles.end(), WrongFamily(-WId, -TopId)), WParticles.end());
     if (WParticles.size() != 1) Print(HError, "Where is the W?", WParticles.size());
-    std::sort(Jets.begin(), Jets.end(), SortByDeltaR(WParticles.front()));
+    std::sort(Jets.begin(), Jets.end(), MinDeltaR(WParticles.front()));
 
     // 2 Jets in 1 W
     HJets W2Jets = Jets;
@@ -130,7 +130,7 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const 
     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(-TopId)), TopParticles.end());
     Print(HInformation, "Particle size", TopParticles.size());
     if (TopParticles.size() != 1) Print(HError, "Where is the Top?", TopParticles.size());
-    std::sort(Jets.begin(), Jets.end(), SortByDeltaR(TopParticles.front()));
+    std::sort(Jets.begin(), Jets.end(), MinDeltaR(TopParticles.front()));
     if (Tag == HSignal && Jets.size() > 1) Jets.erase(Jets.begin() + 1, Jets.end());
     if (Tag == HBackground && Jets.size() > 0) Jets.erase(Jets.begin());
 
@@ -146,7 +146,7 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const 
                 if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
                 PiecePairs.push_back(Doublet);
             }
-        std::sort(PiecePairs.begin(), PiecePairs.end(), SortByDeltaR(WParticles.front()));
+        std::sort(PiecePairs.begin(), PiecePairs.end(), MinDeltaR(WParticles.front()));
         if (Tag == HSignal && PiecePairs.size() > 1) PiecePairs.erase(PiecePairs.begin() + 1, PiecePairs.end());
         for (const auto & Pair : PiecePairs)Doublets.push_back(Pair);
     }
@@ -161,7 +161,7 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const 
             if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
             PieceDoublets.push_back(Doublet);
         }
-        std::sort(PieceDoublets.begin(), PieceDoublets.end(), SortByDeltaR(WParticles.front()));
+        std::sort(PieceDoublets.begin(), PieceDoublets.end(), MinDeltaR(WParticles.front()));
         if (Tag == HSignal && PieceDoublets.size() > 1) PieceDoublets.erase(PieceDoublets.begin() + 1, PieceDoublets.end());
         for (const auto & Doublet : PieceDoublets)Doublets.push_back(Doublet);
     }
