@@ -53,6 +53,7 @@ class HSubStructure;
 class HSextet;
 
 class HBottomTagger;
+class HTauTagger;
 class HTopSemiTagger;
 class HTopLeptonicTagger;
 class HMvaHiggsTagger;
@@ -64,6 +65,7 @@ class HWTagger;
 class HWSemiTagger;
 class HTopHadronicTagger;
 class HHeavyHiggsSemiTagger;
+class HHeavyHiggsTauTagger;
 class HChargedHiggsSemiTagger;
 class HChargedHiggsHadronicTagger;
 class HChargedHiggsLeptonicTagger;

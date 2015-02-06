@@ -24,9 +24,9 @@ public:
 
 private:
 
-    inline int GetEventNumberMax() const { return 10000;};
+    inline int EventNumberMax() const { return 10000;};
 
-    inline std::string GetProjectName() const {
+    inline std::string ProjectName() const {
         return "HeavyHiggs";
     };
 
@@ -35,21 +35,21 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent* Event, const std::string &StudyName);
+    bool Analysis(hanalysis::HEvent *Event, const std::string &Name);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::HFile* > GetFiles(const std::string &StudyName);
+    std::vector< hanalysis::HFile* > GetFiles(const std::string &Study);
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewBranches(ExRootTreeWriter* TreeWriter);
+    void NewBranches(ExRootTreeWriter *NewTreeWriter);
 
     void CloseFile();
 

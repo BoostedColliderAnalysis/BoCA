@@ -74,7 +74,7 @@ public:
 
 //         Print(HInformation, "Int Constructor", *NewValue);
 
-        Value = (float*)NewValue;
+        Value = (float *)NewValue;
         Expression = NewExpression;
         Title = NewTitle;
         Unit = NewUnit;
@@ -491,10 +491,10 @@ struct MinDeltaR {
 // };
 
 struct MaxDeltaRap {
-  template <typename TMultiplet>
-  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-    return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
-  }
+    template <typename TMultiplet>
+    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+        return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
+    }
 };
 
 
@@ -502,30 +502,24 @@ struct WrongId {
     WrongId(const int NewId) {
         this->Id = NewId;
     }
-//     bool operator()(const fastjet::PseudoJet &Jet) {
-//         return (std::abs(Jet.user_index()) != Id);
-//     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-      hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-      hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-      return (Family.ParticleId != Id);
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return (Family.ParticleId != Id);
     }
     int Id;
 };
 
 struct WrongAbsId {
-  WrongAbsId(const int NewId) {
-    this->Id = NewId;
-  }
-  //     bool operator()(const fastjet::PseudoJet &Jet) {
-  //         return (std::abs(Jet.user_index()) != Id);
-  //     }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (std::abs(Family.ParticleId) != Id);
-  }
-  int Id;
+    WrongAbsId(const int NewId) {
+        this->Id = NewId;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return (std::abs(Family.ParticleId) != Id);
+    }
+    int Id;
 };
 
 struct WrongAbsFamily {

@@ -25,7 +25,7 @@ private:
 
     inline int GetEventnumberMax()const{ return 10000;};
 
-    inline std::string GetProjectName()const{ return "HeavyHiggsPgs";};
+    inline std::string ProjectName()const{ return "HeavyHiggsPgs";};
 
     /**
      * @brief Branch to write Heavy Higgs info into

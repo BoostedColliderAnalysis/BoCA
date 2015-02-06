@@ -4,14 +4,14 @@ hheavyhiggs::HAnalysisMva::HAnalysisMva()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-    BottomTagger.SetAnalysisName(GetProjectName());
-    JetPairTagger.SetAnalysisName(GetProjectName());
-    WHadronicTagger.SetAnalysisName(GetProjectName());
-    WSemiTagger.SetAnalysisName(GetProjectName());
-    TopHadronicTagger.SetAnalysisName(GetProjectName());
-    TopSemiTagger.SetAnalysisName(GetProjectName());
-    HeavyHiggsSemiTagger.SetAnalysisName(GetProjectName());
-    EventSemiTagger.SetAnalysisName(GetProjectName());
+    BottomTagger.SetAnalysisName(ProjectName());
+    JetPairTagger.SetAnalysisName(ProjectName());
+    WHadronicTagger.SetAnalysisName(ProjectName());
+    WSemiTagger.SetAnalysisName(ProjectName());
+    TopHadronicTagger.SetAnalysisName(ProjectName());
+    TopSemiTagger.SetAnalysisName(ProjectName());
+    HeavyHiggsSemiTagger.SetAnalysisName(ProjectName());
+    EventSemiTagger.SetAnalysisName(ProjectName());
 }
 
 hheavyhiggs::HAnalysisMva::~HAnalysisMva()
@@ -19,8 +19,7 @@ hheavyhiggs::HAnalysisMva::~HAnalysisMva()
     Print(HNotification, "Destructor");
 }
 
-
-std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const
+std::string hheavyhiggs::HAnalysisMva::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
 {
     Print(HNotification, "Get Study Names", Tagger);
 
@@ -77,62 +76,31 @@ std::string hheavyhiggs::HAnalysisMva::GetStudyNames(const hanalysis::HAnalysis:
         Print(HError, "unexpected TaggerName", Tagger);
         return "";
     }
-
 }
 
-std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::Files(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
 {
     Print(HNotification, "Set File Vector", Tagger, Tag);
 
     std::vector<hanalysis::HFile> SignalLeptonicFiles;
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("400GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(3.31);
-    //     SignalLeptonicFiles.back()->SetMass(400);
-//         SignalLeptonicFiles.push_back(hanalysis::HFile("500GeV_Hbb_ttbb_llbbbb"));
-//         SignalLeptonicFiles.back()->SetCrosssection(3.31);
-//         SignalLeptonicFiles.back()->SetMass(500);
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("600GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(0.933);
-//     SignalLeptonicFiles.back()->SetMass(600);
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("800GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(0.359);
-//     SignalLeptonicFiles.back()->SetMass(800);
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("1000GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(0.167);
-//     SignalLeptonicFiles.back()->SetMass(1000);
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("1500GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(0.0379);
-//     SignalLeptonicFiles.back()->SetMass(1500);
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("2000GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(0.0563);
-//     SignalLeptonicFiles.back()->SetMass(2000);
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("2500GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(0.0224);
-//     SignalLeptonicFiles.back()->SetMass(2500);
-//     SignalLeptonicFiles.push_back(hanalysis::HFile("3000GeV_Hbb_ttbb_llbbbb"));
-//     SignalLeptonicFiles.back()->SetCrosssection(0.0104);
-//     SignalLeptonicFiles.back()->SetMass(3000);
 
     std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
-//     BackgroundLeptonicFiles.push_back(hanalysis::HFile("BG_ttbb_llbbbb"));
-//     BackgroundLeptonicFiles.back()->SetCrosssection(4.773);
-//     BackgroundLeptonicFiles.push_back(hanalysis::HFile("BG_ttcc_llbbcc"));
-//     BackgroundLeptonicFiles.back()->SetCrosssection(4.161);
 
     std::vector<hanalysis::HFile> SignalSemiFiles;
 
-//         SignalSemiFiles.push_back(hanalysis::HFile("1000GeV_Hbb_ttbb_ljbbbb",0.06066398537600679,1000));
-//         SignalSemiFiles.push_back(hanalysis::HFile("2000GeV_Hbb_ttbb_ljbbbb",0.0049222865674137285,2000));
-//         SignalSemiFiles.push_back(hanalysis::HFile("3000GeV_Hbb_ttbb_ljbbbb",0.0009236377918540127,3000));
-//         SignalSemiFiles.push_back(hanalysis::HFile("4000GeV_Hbb_ttbb_ljbbbb",0.0002574230655570727,4000));
-//         SignalSemiFiles.push_back(hanalysis::HFile("5000GeV_Hbb_ttbb_ljbbbb",0.00008901729172672865,5000));
-//         SignalSemiFiles.push_back(hanalysis::HFile("6000GeV_Hbb_ttbb_ljbbbb",0.0000360296898244432,6000));
-//     SignalSemiFiles.push_back(hanalysis::HFile("7000GeV_Hbb_ttbb_ljbbbb",0.00001576534159133895,7000));
-//     SignalSemiFiles.push_back(hanalysis::HFile("8000GeV_Hbb_ttbb_ljbbbb", 7.67e-6, 8000));
-//             SignalSemiFiles.push_back(hanalysis::HFile("9000GeV_Hbb_ttbb_ljbbbb",3.9016557786192155e-6,9000));
-        SignalSemiFiles.push_back(hanalysis::HFile("10000GeV_Hbb_ttbb_ljbbbb",2.076468481227161e-6,10000));
-//     SignalSemiFiles.push_back(hanalysis::HFile("zbb"));
-//     SignalSemiFiles.back().SetCrosssection(22.25);
+    //         SignalSemiFiles.push_back(hanalysis::HFile("1000GeV_Hbb_ttbb_ljbbbb",60.62802137818876,1000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("2000GeV_Hbb_ttbb_ljbbbb",4.920796866551275,2000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("3000GeV_Hbb_ttbb_ljbbbb",0.9234071865754303,3000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("4000GeV_Hbb_ttbb_ljbbbb",0.25736547733711523,4000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("5000GeV_Hbb_ttbb_ljbbbb",0.08899831451027759,5000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("6000GeV_Hbb_ttbb_ljbbbb",0.03602204622881514,6000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("7000GeV_Hbb_ttbb_ljbbbb",0.01576206604679042,7000));
+//             SignalSemiFiles.push_back(hanalysis::HFile("8000GeV_Hbb_ttbb_ljbbbb", 0.0076693087930297206, 8000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("9000GeV_Hbb_ttbb_ljbbbb",0.0039008532687324735,9000));
+//     SignalSemiFiles.push_back(hanalysis::HFile("10000GeV_Hbb_ttbb_ljbbbb",0.002076042904956223,10000));
+//     SignalSemiFiles.push_back(hanalysis::HFile("12000GeV_Hbb_ttbb_ljbbbb",0.0006621537122277095,12000));
+//         SignalSemiFiles.push_back(hanalysis::HFile("15000GeV_Hbb_ttbb_ljbbbb",0.0001442241864611344,15000));
+        SignalSemiFiles.push_back(hanalysis::HFile("20000GeV_Hbb_ttbb_ljbbbb",0.000015425841205626978,20000));
 
     std::vector<hanalysis::HFile> BackgroundSemiFiles;
     BackgroundSemiFiles.push_back(hanalysis::HFile("BG_ttbb_ljbbbb"));
@@ -141,10 +109,6 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::GetFiles(const hanalysi
     BackgroundSemiFiles.push_back(hanalysis::HFile("BG_ttcc_ljbbcc"));
 //     BackgroundSemiFiles.back().SetCrosssection(22.25);
     BackgroundSemiFiles.back().SetCrosssection(0.03072);
-//     BackgroundSemiFiles.push_back(hanalysis::HFile("zcc"));
-//     BackgroundSemiFiles.back().SetCrosssection(22.25);
-//     BackgroundSemiFiles.push_back(hanalysis::HFile("zjj"));
-//     BackgroundSemiFiles.back().SetCrosssection(22.25);
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 //     SignalHadronicFiles.push_back(hanalysis::HFile("1TeV_Hbb_ttbb_jjbbbb"));
@@ -160,121 +124,115 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::GetFiles(const hanalysi
     std::vector<hanalysis::HFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
     std::vector<hanalysis::HFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
 
-
     std::vector<hanalysis::HFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
     std::vector<hanalysis::HFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
 
-    std::vector<hanalysis::HFile> Files;
+    std::vector<hanalysis::HFile> NewFiles;
 
     switch (Tagger) {
     case  HBottomTagger :
-        Files = CombinedFiles;
+        NewFiles = CombinedFiles;
         break;
     case  HBottomReader :
-        Files = CombinedFiles;
+        NewFiles = CombinedFiles;
         break;
     case HJetPairTagger:
-        if (Tag == HSignal) Files = CombinedSignalFiles;
-        else Files = CombinedFiles;
+        if (Tag == HSignal) NewFiles = CombinedSignalFiles;
+        else NewFiles = CombinedFiles;
         break;
     case HJetPairReader:
-        if (Tag == HSignal) Files = CombinedSignalFiles;
-        else Files = CombinedFiles;
+        if (Tag == HSignal) NewFiles = CombinedSignalFiles;
+        else NewFiles = CombinedFiles;
         break;
     case HWSemiTagger:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = SemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = SemiFiles;
         break;
     case HWSemiReader:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = SemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = SemiFiles;
         break;
     case HWHadronicTagger:
-        if (Tag == HSignal) Files = NonLeptonicSignalFiles;
-        else Files = NotLeptonicFiles;
+        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        else NewFiles = NotLeptonicFiles;
         break;
     case HWHadronicReader:
-        if (Tag == HSignal) Files = NonLeptonicSignalFiles;
-        else Files = NotLeptonicFiles;
+        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        else NewFiles = NotLeptonicFiles;
         break;
     case HTopLeptonicTagger:
-        if (Tag == HSignal) Files = SignalLeptonicFiles;
-        else Files = LeptonicFiles;
+        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        else NewFiles = LeptonicFiles;
         break;
     case HTopLeptonicReader:
-        if (Tag == HSignal) Files = SignalLeptonicFiles;
-        else Files = LeptonicFiles;
+        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        else NewFiles = LeptonicFiles;
         break;
     case HTopHadronicTagger:
-        if (Tag == HSignal) Files = NonLeptonicSignalFiles;
-        else Files = NotLeptonicFiles;
+        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        else NewFiles = NotLeptonicFiles;
         break;
     case HTopSemiTagger:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = SemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = SemiFiles;
         break;
     case HTopHadronicReader:
-        if (Tag == HSignal) Files = NonLeptonicSignalFiles;
-        else Files = NotLeptonicFiles;
+        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        else NewFiles = NotLeptonicFiles;
         break;
     case HTopSemiReader:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = SemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = SemiFiles;
         break;
     case HHeavyHiggsLeptonicTagger:
-        if (Tag == HSignal) Files = SignalLeptonicFiles;
-        else Files = LeptonicFiles;
+        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        else NewFiles = LeptonicFiles;
         break;
     case HHeavyHiggsLeptonicReader:
-        if (Tag == HSignal) Files = SignalLeptonicFiles;
-        else Files = LeptonicFiles;
+        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        else NewFiles = LeptonicFiles;
         break;
     case HHeavyHiggsHadronicTagger:
-        if (Tag == HSignal) Files = SignalHadronicFiles;
-        else Files = HadronicFiles;
+        if (Tag == HSignal) NewFiles = SignalHadronicFiles;
+        else NewFiles = HadronicFiles;
         break;
     case HHeavyHiggsSemiTagger:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = BackgroundSemiFiles;
         break;
     case HHeavyHiggsSemiReader:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = BackgroundSemiFiles;
         break;
     case HEventLeptonicTagger:
-        if (Tag == HSignal) Files = SignalLeptonicFiles;
-        else Files = BackgroundLeptonicFiles;
+        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        else NewFiles = BackgroundLeptonicFiles;
         break;
     case HEventHadronicTagger:
-        if (Tag == HSignal) Files = SignalHadronicFiles;
-        else Files = BackgroundHadronicFiles;
+        if (Tag == HSignal) NewFiles = SignalHadronicFiles;
+        else NewFiles = BackgroundHadronicFiles;
         break;
     case HEventSemiTagger:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = BackgroundSemiFiles;
         break;
     case HEventLeptonicReader:
-        if (Tag == HSignal) Files = SignalLeptonicFiles;
-        else Files = BackgroundLeptonicFiles;
+        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        else NewFiles = BackgroundLeptonicFiles;
         break;
     case HEventSemiReader:
-        if (Tag == HSignal) Files = SignalSemiFiles;
-        else Files = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = BackgroundSemiFiles;
         break;
     default:
         Print(HError, "unknown tagger name");
     }
 
-    Files.front().SetBasePath("~/Projects/HeavyHiggs/Mass/");
-    Files.front().SetFileSuffix(".root");
-
-    Print(HNotification, "Files prepared");
-
+    NewFiles.front().SetBasePath("~/Projects/HeavyHiggs/Mass/");
+    NewFiles.front().SetFileSuffix(".root");
     SetTrees(Tagger, Tag);
-
     PrepareReader(Tagger, Tag);
-
-    return Files;
+    return NewFiles;
 
 }
 
@@ -283,18 +241,8 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
 {
 
     HStrings SignalLeptonicTrees {
-        //         "400GeV_Hbb_ttbb_llbbbb-run_01",
-        //         "600GeV_Hbb_ttbb_llbbbb-run_01",
-        //         "800GeV_Hbb_ttbb_llbbbb-run_01",
-        //         "1000GeV_Hbb_ttbb_llbbbb-run_01",
-        //         "1500GeV_Hbb_ttbb_llbbbb-run_01",
-        //         "2000GeV_Hbb_ttbb_llbbbb-run_01",
-        //         "2500GeV_Hbb_ttbb_llbbbb-run_01",
-        //         "3000GeV_Hbb_ttbb_llbbbb-run_01"
     };
     HStrings BackgroundLeptonicTrees {
-        //         "BG_ttbb_llbbbb-run_01",
-        //         "BG_ttcc_llbbcc-run_01"
     };
 
     HStrings SignalSemiTrees {
@@ -307,21 +255,20 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
 //         "7000GeV_Hbb_ttbb_ljbbbb-run_01"
 //         "8000GeV_Hbb_ttbb_ljbbbb-run_01"
 //         "9000GeV_Hbb_ttbb_ljbbbb-run_01"
-           "10000GeV_Hbb_ttbb_ljbbbb-run_01"
+//         "10000GeV_Hbb_ttbb_ljbbbb-run_01"
+//         "12000GeV_Hbb_ttbb_ljbbbb-run_01"
+//         "15000GeV_Hbb_ttbb_ljbbbb-run_01"
+        "20000GeV_Hbb_ttbb_ljbbbb-run_01"
     };
 
     HStrings BackgroundSemiTrees {
         "BG_ttbb_ljbbbb-run_01",
         "BG_ttcc_ljbbcc-run_01"
-        //         "zcc-run_01",
-        //         "zjj-run_01"
     };
 
     HStrings SignalHadronicTree {
-        //       "1TeV_Hbb_ttbb_jjbbbb-run_01"
     };
     HStrings BackgroundHadronicTrees {
-        //       "BG_jjbbbb-run_01"
     };
 
     HStrings LeptonicTrees = JoinHStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
@@ -394,19 +341,15 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
         EventSemiTagger.SetSignalTreeNames(SignalSemiTrees);
         EventSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
         break;
-
+    default :
+      Print(HError,"unhandeled case");
     }
-
 }
-
-
 
 void hheavyhiggs::HAnalysisMva::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
 {
     Print(HInformation, "Prepare Reader", Tagger);
-
     if (Tag == HBackground) return;
-
     switch (Tagger) {
     case HBottomTagger:
         break;
@@ -471,21 +414,9 @@ void hheavyhiggs::HAnalysisMva::PrepareReader(const hanalysis::HAnalysis::HTagge
     case HJetPairTagger :
         JetPairTagger.BottomTagger.SetTagger();
         JetPairTagger.BottomReader.SetMva(JetPairTagger.BottomTagger);
-//         JetPairTagger.WSemiTagger.SetTagger();
-//         JetPairTagger.WSemiReader.SetMva(JetPairTagger.WSemiTagger);
-//         JetPairTagger.WTagger.SetTagger(BottomTagger);
-//         JetPairTagger.WReader.SetMva(JetPairTagger.WTagger);
-//         JetPairTagger.TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
-//         JetPairTagger.TopSemiReader.SetMva(JetPairTagger.TopSemiTagger);
-//         JetPairTagger.TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         JetPairTagger.TopHadronicReader.SetMva(JetPairTagger.TopHadronicTagger);
         break;
     case HJetPairReader :
         BottomReader.SetMva(BottomTagger);
-//         WSemiReader.SetMva(WSemiTagger);
-//         TopSemiReader.SetMva(TopSemiTagger);
-//         WHadronicReader.SetMva(WHadronicTagger);
-//         TopHadronicReader.SetMva(TopHadronicTagger);
         JetPairReader.SetMva(JetPairTagger);
         break;
     case HEventSemiTagger :
@@ -517,114 +448,84 @@ void hheavyhiggs::HAnalysisMva::PrepareReader(const hanalysis::HAnalysis::HTagge
     default :
         Print(HError, "unhandled case");
     }
-
-}
-void hheavyhiggs::HAnalysisMva::ResetBranch()
-{
-//         Branch.reset();
 }
 
-void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
+void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
 {
     Print(HNotification, "New Branches", Tagger);
 
     switch (Tagger) {
-    case HBottomTagger : {
-//         BottomBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HBottomBranch::Class());
+    case HBottomTagger :
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
         break;
-    }
     case HBottomReader :
-        //         BottomReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HBottomBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
         break;
     case HJetPairTagger :
-//         JetPairBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventJetPairBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
         break;
     case HJetPairReader :
-//         JetPairReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventJetPairBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
         break;
     case HWSemiTagger :
-//         WSemiBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWSemiBranch::Class());
         break;
     case HWSemiReader :
-//         WSemiReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWSemiBranch::Class());
         break;
     case HWHadronicTagger :
-//         WBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
         break;
     case HWHadronicReader :
-//         WReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HWBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
         break;
     case HTopLeptonicTagger :
-//         TopLeptonicBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopLeptonicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
         break;
     case HTopLeptonicReader :
-//         TopLeptonicReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopLeptonicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
         break;
     case HTopHadronicTagger :
-//         TopHadronicBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopHadronicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronicBranch::Class());
         break;
     case HTopSemiTagger :
-//         TopSemiBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopSemiBranch::Class());
         break;
     case HTopHadronicReader :
-//         TopHadronicReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopHadronicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronicBranch::Class());
         break;
     case HTopSemiReader :
-//         TopSemiReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HTopSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopSemiBranch::Class());
         break;
     case HHeavyHiggsLeptonicTagger :
-//         HeavyHiggsLeptonicBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
         break;
     case HHeavyHiggsLeptonicReader:
-//         HeavyHiggsLeptonicReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
         break;
     case HHeavyHiggsHadronicTagger :
-//         HeavyHiggsHadronicBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsHadronicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsHadronicBranch::Class());
         break;
     case HHeavyHiggsSemiTagger :
-//         HeavyHiggsSemiBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsSemiBranch::Class());
         break;
     case HHeavyHiggsSemiReader :
-//         HeavyHiggsSemiReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsSemiBranch::Class());
         break;
     case HEventLeptonicTagger :
-//         EventLeptonicBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventLeptonicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventLeptonicBranch::Class());
         break;
     case HEventHadronicTagger :
-//         EventHadronicBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventHadronicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventHadronicBranch::Class());
         break;
     case HEventSemiTagger :
-//         EventSemiBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventSemiBranch::Class());
         break;
     case HEventSemiReader :
-//         EventSemiReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventSemiBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventSemiBranch::Class());
         break;
     case HEventLeptonicReader :
-//         EventLeptonicReaderBranch
-        Branch = TreeWriter->NewBranch(GetStudyNames(Tagger).c_str(), HEventLeptonicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventLeptonicBranch::Class());
         break;
     default :
         Print(HError, "No Branch filled");
@@ -634,15 +535,11 @@ void hheavyhiggs::HAnalysisMva::NewBranches(ExRootTreeWriter *TreeWriter, const 
 
 bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
 {
-
     Print(HInformation, "Analysis", Tagger);
-
-//     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
     HJets Leptons = fastjet::sorted_by_pt(Event->GetLeptons()->GetLeptonJets());
-
     if (Leptons.size() < 1) return 0;
     if (Leptons.front().pt() < 300) return 0;
-    ++EventSum;
+    ++EventSumM;
 
     switch (Tagger) {
     case HBottomTagger :
@@ -708,7 +605,6 @@ bool hheavyhiggs::HAnalysisMva::GetBottomTag(hanalysis::HEvent *const Event, con
     for (const auto & Bottom : Bottoms) *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
     return 1;
 }
-
 
 bool hheavyhiggs::HAnalysisMva::GetBottomReader(hanalysis::HEvent *const Event, const HTag Tag)
 {

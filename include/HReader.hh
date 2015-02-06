@@ -28,13 +28,13 @@ class ResultStruct
 public:
     ResultStruct() {
         Steps = 20;
-        Results.resize(Steps, 0);
-        Hong.resize(Steps, 0);
+        Events.resize(Steps, 0);
+        Efficiency.resize(Steps, 0);
     }
 
     int Steps;
-    std::vector<float> Results;
-    std::vector<float> Hong;
+    std::vector<float> Events;
+    std::vector<float> Efficiency;
 
 };
 
@@ -121,7 +121,7 @@ public:
 
 
     HMva *Mva;
-    
+
 
 private:
 

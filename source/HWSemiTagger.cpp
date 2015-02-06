@@ -137,14 +137,14 @@ hanalysis::HObject::HTag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoubl
     return HSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader &Reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader &Reader)
 {
     Print(HInformation, "Get Triple Bdt");
-    Leptons = fastjet::sorted_by_pt(Leptons);
-    if (Leptons.size() > 1) Leptons.erase(Leptons.begin() + 1, Leptons.end());
+    HJets NewLeptons = fastjet::sorted_by_pt(Leptons);
+    if (NewLeptons.size() > 1) NewLeptons.erase(NewLeptons.begin() + 1, NewLeptons.end());
 
     std::vector<HDoublet> Doublets;
-    for (const auto & Lepton : Leptons) {
+    for (const auto & Lepton : NewLeptons) {
         HDoublet PreDoublet(Lepton, MissingEt);
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         for (auto & PostDoublet : PostDoublets) {

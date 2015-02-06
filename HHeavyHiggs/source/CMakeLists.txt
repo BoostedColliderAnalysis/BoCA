@@ -7,6 +7,7 @@ HAnalysisHeavyHiggsPgs.cpp
 HAnalysisHeavyHiggsMva.cpp
 HAnalysisHeavyHiggsTt.cpp
 HAnalysisChargedHiggsMva.cpp
+HAnalysisTau.cpp
 HEventLeptonicTagger.cpp
 HEventHadronicTagger.cpp
 HEventSemiTagger.cpp
@@ -25,6 +26,7 @@ HExecutable(HHeavyHiggsPgs MainPgs.cpp)
 HExecutable(HHeavyHiggsMva MainMva.cpp)
 HExecutable(HHeavyHiggsTt MainTt.cpp)
 HExecutable(HHeavyHiggsCharged MainCharged.cpp)
+HExecutable(HHeavyHiggsTau MainTau.cpp)
 
 HLibrary(HMvaHeavyHiggs HMvaHeavyHiggs.cpp)
 

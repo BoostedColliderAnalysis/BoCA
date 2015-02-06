@@ -77,6 +77,7 @@ HFactory.cpp
 HReader.cpp
 
 HBottomTagger.cpp
+HTauTagger.cpp
 HWTagger.cpp
 HWSemiTagger.cpp
 HJetPairTagger.cpp
@@ -88,6 +89,7 @@ HMvaHiggsTagger.cpp
 HHeavyHiggsLeptonicTagger.cpp
 HHeavyHiggsHadronicTagger.cpp
 HHeavyHiggsSemiTagger.cpp
+HHeavyHiggsTauTagger.cpp
 HChargedHiggsSemiTagger.cpp
 HChargedHiggsHadronicTagger.cpp
 HChargedHiggsLeptonicTagger.cpp

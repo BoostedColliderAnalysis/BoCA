@@ -53,7 +53,7 @@ public:
         return 10000;
     };
 
-    inline std::string GetProjectName()const {
+    inline std::string ProjectName()const {
         return "JetProperties";
     }
 

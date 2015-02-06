@@ -21,7 +21,7 @@ public:
 
     std::vector<HWSemiBranch> GetBranches(HEvent *const Event, const HObject::HTag State);
 
-    std::vector<HDoublet>  GetBdt(HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader);
+    std::vector<HDoublet>  GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader);
 
     HWSemiBranch GetBranch(const hanalysis::HDoublet& Triplet) const;
 

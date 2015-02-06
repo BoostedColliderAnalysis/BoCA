@@ -103,7 +103,7 @@ private:
 
     fastjet::PseudoJet StructuredJet(const delphes::Jet *const JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
 
-    fastjet::PseudoJet GetConstituents(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails);
+    fastjet::PseudoJet GetConstituents(TObject *Object, hanalysis::HFourVector::HJetDetails JetDetails, HConstituent::HDetector Detector = HConstituent::HNone);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";

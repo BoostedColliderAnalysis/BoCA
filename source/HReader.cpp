@@ -2,14 +2,14 @@
 
 hanalysis::HReader::HReader()
 {
-//         DebugLevel = HDebug;
+//     DebugLevel = HDebug;
     Print(HInformation, "Constructor");
 }
 
 hanalysis::HReader::HReader(hanalysis::HMva &NewMva)
 {
 //           DebugLevel = HDebug;
-          Print(HInformation, "Constructor");
+    Print(HInformation, "Constructor");
     SetMva(NewMva);
 }
 
@@ -23,7 +23,7 @@ void hanalysis::HReader::SetMva(hanalysis::HMva &NewMva)
 
 hanalysis::HReader::~HReader()
 {
-  Print(HInformation, "Destructor");
+    Print(HInformation, "Destructor");
 }
 
 void hanalysis::HReader::AddVariable()
@@ -199,7 +199,7 @@ void hanalysis::HReader::SimpleMVALoop()
 
     const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + "Reader.root";
     const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
-    Print(HError, "Open Background File", BackgroundFileName,Mva->GetBackgroundTreeNames().size());
+    Print(HError, "Open Background File", BackgroundFileName, Mva->GetBackgroundTreeNames().size());
 
     std::stringstream EfficiencyTable;
     EfficiencyTable << TableHeader.str();
@@ -212,9 +212,9 @@ void hanalysis::HReader::SimpleMVALoop()
 
         ResultStruct NewBackgroundResults = ApplyBdt(BackgroundFile, BackgroundTreeName, ExportFile);
         for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
-            BackgroundResults.Results[Step] += NewBackgroundResults.Results[Step];
-            EfficiencyTable << "  & " << RoundToDigits(NewBackgroundResults.Hong[Step]) << std::endl;
-            Print(HError, "Background Results", NewBackgroundResults.Results[Step]);
+            BackgroundResults.Events[Step] += NewBackgroundResults.Events[Step];
+            EfficiencyTable << "  & " << RoundToDigits(NewBackgroundResults.Efficiency[Step]) << std::endl;
+            Print(HError, "Background Results", NewBackgroundResults.Events[Step]);
         }
         EfficiencyTable << " \\\\ ";
     }
@@ -224,8 +224,8 @@ void hanalysis::HReader::SimpleMVALoop()
 
     const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + "Reader.root";
     const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
-    Print(HError, "Open Signal File", SignalFileName);
 
+    Print(HError, "Open Signal File", SignalFileName, Mva->GetSignalTreeNames().size());
     for (const auto & SignalTreeName : Mva->GetSignalTreeNames()) {
         SignificanceTable << GetMass(SignalFile, SignalTreeName) << std::endl;
         EfficiencyTable << GetMass(SignalFile, SignalTreeName) << std::endl;
@@ -233,9 +233,9 @@ void hanalysis::HReader::SimpleMVALoop()
         ResultStruct SignalResults = ApplyBdt(SignalFile, SignalTreeName, ExportFile);
 
         for (int Step = 0; Step < SignalResults.Steps; ++Step) {
-            const float Significance = SignalResults.Results[Step] / std::sqrt(SignalResults.Results[Step] + BackgroundResults.Results[Step] + 15);
+            const float Significance = SignalResults.Events[Step] / std::sqrt(SignalResults.Events[Step] + BackgroundResults.Events[Step] + 15);
             SignificanceTable << "  & " << RoundToDigits(Significance) << std::endl;
-            EfficiencyTable << "  & " << RoundToDigits(SignalResults.Hong[Step]) << std::endl;
+            EfficiencyTable << "  & " << RoundToDigits(SignalResults.Efficiency[Step]) << std::endl;
         }
         EfficiencyTable << " \\\\ ";
         SignificanceTable << " \\\\ ";
@@ -279,7 +279,7 @@ float hanalysis::HReader::GetMass(const TFile *File, const std::string &TreeName
 ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile)
 {
     float Luminosity = 3000; // 3000 fb-1
-    Luminosity *= 1000; // * pb
+//     Luminosity *= 1000; // * pb
     ResultStruct Result;
 
     const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());
@@ -294,8 +294,8 @@ ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &
     Print(HError, "Cut Values", Numbers.size());
 
     for (int Step = 0; Step < Result.Steps; ++Step) {
-        Result.Results[Step] = float(Numbers[Step]) / float(Info->EventNumber) * Info->Crosssection * Luminosity;
-        Result.Hong[Step] = float(Numbers[Step]) / float(Info->EventNumber);
+        Result.Events[Step] = float(Numbers[Step]) / float(Info->EventNumber) * Info->Crosssection * Luminosity;
+        Result.Efficiency[Step] = float(Numbers[Step]) / float(Info->EventNumber);
     }
 
     return Result;

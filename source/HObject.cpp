@@ -138,7 +138,7 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
         return (Sign + "mu");
     case MuonNeutrinoId:
         return (Sign + "numu");
-    case TauLeptonId:
+    case TauId:
         return (Sign + "tau");
     case TauNeutrinoId:
         return (Sign + "nutau");
@@ -261,7 +261,7 @@ float hanalysis::HObject::GetParticleMass(const HParticleId ParticleId) const
         return MuonMass;
     case MuonNeutrinoId:
         return NeutrinoMass;
-    case TauLeptonId:
+    case TauId:
         return TauMass;
     case TauNeutrinoId:
         return NeutrinoMass;

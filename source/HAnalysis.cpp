@@ -3,7 +3,7 @@
 hanalysis::HAnalysis::HAnalysis()
 {
     Print(HNotification, "Constructor");
-    EventSum=0;
+    EventSumM = 0;
 }
 
 void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
@@ -12,72 +12,69 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
     std::vector<HTag> Tags = {HSignal, HBackground};
     for (const auto & Tag : Tags) {
         Print(HNotification, "Analysing Mva Sample", Tag);
-        TFile *const ExportFile = GetExportFile(Tagger, Tag);
-        for (auto &File : GetFiles(Tagger, Tag)) {
-          Print(HNotification, "Analysing File", File.GetTreeName());
-          EventSum=0;
-            std::shared_ptr<hanalysis::HClonesArray> ClonesArrays = File.GetClonesArrays();
-            std::shared_ptr<hanalysis::HEvent> Event = File.GetEvent();
+        TFile NewExportFile(ExportName(Tagger, Tag).c_str(), "Recreate");
+        for (auto & File : Files(Tagger, Tag)) {
+            Print(HNotification, "Analysing File", File.TreeName());
+            EventSumM = 0;
+            std::shared_ptr<hanalysis::HClonesArray> ClonesArrays = File.ClonesArrays();
+            std::shared_ptr<hanalysis::HEvent> Event = File.Event();
             bool AnalysisNotEmpty = 0;
-            ExRootTreeWriter *const TreeWriter = GetTreeWriter(ExportFile, File.GetTitle(), Tagger);
-            ExRootTreeBranch *const InfoBranch = TreeWriter->NewBranch("Info", HInfoBranch::Class());
-            const std::shared_ptr<ExRootTreeReader> TreeReader = File.GetTreeReader();
-            ClonesArrays->GetBranches(TreeReader);
-            ExRootProgressBar ProgressBar(GetEventSum(TreeReader));
-            Print(HInformation, "Sum", GetEventSum(TreeReader));
-            for (const int EventNumber : HRange(GetEventSum(TreeReader))) {
+            ExRootTreeWriter ExTreeWriter = TreeWriter(NewExportFile, File.GetTitle(), Tagger);
+            ExRootTreeBranch *const InfoBranch = ExTreeWriter.NewBranch("Info", HInfoBranch::Class());
+            const std::shared_ptr<ExRootTreeReader> NewTreeReader = File.TreeReader();
+            ClonesArrays->GetBranches(NewTreeReader);
+            ExRootProgressBar ProgressBar(EventSum(NewTreeReader));
+            Print(HInformation, "Sum", EventSum(NewTreeReader));
+            for (const int EventNumber : HRange(EventSum(NewTreeReader))) {
                 Print(HInformation, "Event Number", EventNumber);
-                std::const_pointer_cast<ExRootTreeReader>(TreeReader)->ReadEntry(EventNumber);
+                std::const_pointer_cast<ExRootTreeReader>(NewTreeReader)->ReadEntry(EventNumber);
                 Event->NewEvent(ClonesArrays.get());
-                Event->SetMass(File.GetMass());
+                Event->SetMass(File.Mass());
                 const bool Successfull = Analysis(Event.get(), Tagger, Tag);
                 if (Successfull) {
                     AnalysisNotEmpty = 1;
-                    FillInfoBranch(TreeReader, InfoBranch, File);
-                    TreeWriter->Fill();
+                    FillInfoBranch(NewTreeReader, InfoBranch, File);
+                    ExTreeWriter.Fill();
                 }
-                TreeWriter->Clear();
+                ExTreeWriter.Clear();
                 //                 ProgressBar.Update(EventNumber);
             }
-            Print(HNotification, "All Events analysed", GetEventSum(TreeReader));
+            Print(HNotification, "All Events analysed", EventSum(NewTreeReader));
             ProgressBar.Finish();
-            if (AnalysisNotEmpty) TreeWriter->Write();
-            delete TreeWriter;
-        Print(HError,"Number of Events",EventSum,GetEventSum(TreeReader));
+            if (AnalysisNotEmpty) ExTreeWriter.Write();
+            Print(HError, "Number of Events", EventSumM, EventSum(NewTreeReader));
         }
-        ExportFile->Close();
+        NewExportFile.Close();
         ResetBranch();
-        delete ExportFile;
     }
 }
 
 
-void hanalysis::HAnalysis::FillInfoBranch(const std::shared_ptr<ExRootTreeReader> &TreeReader, ExRootTreeBranch *const InfoBranch, const HFile &File)
+void hanalysis::HAnalysis::FillInfoBranch(const std::shared_ptr<ExRootTreeReader> &NewTreeReader, ExRootTreeBranch *const InfoBranch, const HFile &File)
 {
     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
-    Info->Crosssection = File.GetCrosssection();
-    Info->CrosssectionError = File.GetError();
-    Info->Mass = File.GetMass();
-    Info->EventNumber = GetEventSum(TreeReader);
-}
-
-TFile *hanalysis::HAnalysis::GetExportFile(const HTagger Tagger, const HTag State) const
-{
-    Print(HNotification, "Get Export File", Tagger, State);
-    std::string Name = GetStudyNames(Tagger);
-    if (State == HBackground) Name = "Not" + Name ;
-    const std::string ExportName = GetProjectName() + "/" + Name + ".root";
-    Print(HNotification, "ExportFile", ExportName);
-    return (new TFile(ExportName.c_str(), "Recreate"));
+    Info->Crosssection = File.Crosssection();
+    Info->CrosssectionError = File.CrosssectionError();
+    Info->Mass = File.Mass();
+    Info->EventNumber = EventSum(NewTreeReader);
 }
 
 
-ExRootTreeWriter *hanalysis::HAnalysis::GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const HTagger Tagger)
+
+std::string hanalysis::HAnalysis::ExportName(const HTagger Tagger, const HTag State) const
 {
-    Print(HNotification, "Get Tree Writer", ExportTreeName.c_str());
-    ExRootTreeWriter *const TreeWriter = new ExRootTreeWriter(ExportFile, ExportTreeName.c_str());
-    NewBranches(TreeWriter, Tagger);
-    return TreeWriter;
+  Print(HNotification, "Get Export File", Tagger, State);
+  std::string Name = StudyName(Tagger);
+  if (State == HBackground) Name = "Not" + Name ;
+  return ProjectName() + "/" + Name + ".root";
+}
+
+ExRootTreeWriter hanalysis::HAnalysis::TreeWriter(const TFile &NewExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger)
+{
+  Print(HNotification, "Get Tree Writer", ExportTreeName.c_str());
+  ExRootTreeWriter TreeWriterM(const_cast<TFile*>(&NewExportFile), ExportTreeName.c_str());
+  NewBranches(TreeWriterM, Tagger);
+  return TreeWriterM;
 }
 
 hanalysis::HAnalysis::~HAnalysis()

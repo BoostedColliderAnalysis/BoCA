@@ -1,9 +1,7 @@
 # ifndef HSextetEvent_hh
 # define HSextetEvent_hh
 
-# include "HDoublet.hh"
 # include "HSextet.hh"
-
 
 struct HEventStruct {
 
@@ -11,17 +9,6 @@ struct HEventStruct {
     int JetNumber = 0;
     int BottomNumber = 0;
     float ScalarHt = 0;
-    float RestHt = 0;
-    float RestM = 0;
-    float RestPt = 0;
-    float RestRap = 0;
-    float RestPhi = 0;
-    int RestBTag = 0;
-    float RestBBdt = 0;
-    float MaxBBdt = 0;
-    float TotalBBdt = 0;
-    float ThirdBBdt = 0;
-    float LeptonPt = 0;
 
 };
 
@@ -36,8 +23,6 @@ class HSextetEvent : public hanalysis::HTag
 
 public:
 
-//     HSextetEvent() {};
-
     HSextetEvent(const hanalysis::HSextet &NewSextet);
 
     HSextetEvent(const hanalysis::HSextet &NewSextet, const HEventStruct &NewEventStruct);
@@ -50,9 +35,14 @@ public:
         return SextetM.Jet();
     }
 
-
     inline fastjet::PseudoJet Jet() const {
-        return SextetJet();
+        return SextetJet() + RestJet();
+    }
+
+    inline float Ht() const {
+        float ht = Sextet().Ht();
+        for (const auto & jet : Jets) ht += jet.pt();
+        return ht;
     }
 
     inline void SetScalarHt(const float NewScalarHt) {
@@ -94,7 +84,67 @@ public:
     inline void SetEventStruct(const HEventStruct &NewEventStruct) {
         EventM = NewEventStruct;
     }
+
     HEventStruct EventM;
+
+    inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
+        BdtM *= JetNumber() + 1;
+        Jets.push_back(NewJet);
+        BdtM += NewJet.user_info<hanalysis::HJetInfo>().Bdt();
+        BdtM /= JetNumber() + 1;
+    }
+
+    inline int RestNumber() const {
+        return Jets.size();
+    }
+
+    fastjet::PseudoJet RestJet() const {
+        fastjet::PseudoJet jet;
+        return std::accumulate(Jets.begin(), Jets.end(), jet);
+    }
+
+    float RestHt() const {
+        float ht = 0;
+        for (const auto & jet : Jets)ht += jet.pt();
+        return ht;
+    }
+
+    float RestBdt() const {
+        if (RestNumber() < 1) return 0;
+        float bdt = 0;
+        for (const auto & jet : Jets)bdt += jet.user_info<hanalysis::HJetInfo>().Bdt();
+        return bdt / RestNumber();
+    }
+
+    void SetLeptons(const HJets &NewLeptons) {
+        LeptonsM = NewLeptons;
+    }
+
+    float LeptonHt() const {
+        float ht = 0;
+        for (const auto & jet : LeptonsM)ht += jet.pt();
+        return ht;
+    }
+
+    float DeltaPt() const {
+        return SextetJet().pt() - RestJet().pt();
+    }
+
+    float DeltaPhi() const {
+        return SextetJet().delta_phi_to(RestJet());
+    }
+
+    float DeltaRap() const {
+        float NewDeltaRap = SextetJet().rap() - RestJet().rap();
+        if (std::abs(NewDeltaRap) > 100) NewDeltaRap = 0;
+        return NewDeltaRap;
+    }
+
+    float DeltaR() const {
+        float NewDeltaR = SextetJet().delta_R(RestJet());
+        if (std::abs(NewDeltaR) > 100) NewDeltaR = 0;
+        return NewDeltaR;
+    }
 
 
 protected:
@@ -106,6 +156,10 @@ protected:
 private:
 
     hanalysis::HSextet SextetM;
+
+    HJets Jets;
+
+    HJets LeptonsM;
 
 };
 

@@ -9,33 +9,35 @@ hanalysis::hparton::HFile::HFile()
 hanalysis::hparton::HFile::HFile(const std::string &Process)
 {
     Print(HInformation, "Constructor");
-    SetVariables();
-    ProcessFolder = Process;
+//     SetVariables();
+//     ProcessFolder = Process;
 }
 
 hanalysis::hparton::HFile::HFile(const std::string &Process, const std::string &Run)
 {
     Print(HInformation, "Constructor");
-    SetVariables();
-    ProcessFolder = Process;
-    RunFolder = Run;
+//     SetVariables();
+//     ProcessFolder = Process;
+//     RunFolder = Run;
 }
 
-std::string hanalysis::hparton::HFile::GetTreeName() const
+std::string hanalysis::hparton::HFile::TreeName() const
 {
     Print(HInformation, "Get Tree String");
-    TreeName = "LHEF";
-    return TreeName;
+    TreeNameM = "LHEF";
+    return TreeNameM;
 }
 
-std::string hanalysis::hparton::HFile::GetFilePath() const
+HStrings hanalysis::hparton::HFile::Paths() const
 {
     Print(HInformation, "FilePath");
     FileSuffix = "_unweighted_events.root";
-    return GetMadGraphFilePath() + TagName +  FileSuffix;
+    HStrings FilePaths;
+    FilePaths.push_back(GetMadGraphFilePath() + TagName +  FileSuffix);
+    return FilePaths;
 }
 
-std::shared_ptr<hanalysis::HEvent> hanalysis::hparton::HFile::GetEvent()
+std::shared_ptr<hanalysis::HEvent> hanalysis::hparton::HFile::Event()
 {
     Print(HNotification, "Get Event");
     return std::shared_ptr<hanalysis::HEvent>(new HEvent());

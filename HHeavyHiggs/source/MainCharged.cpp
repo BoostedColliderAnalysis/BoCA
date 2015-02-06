@@ -5,13 +5,13 @@
 void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 {
     hheavyhiggs::HAnalysisCharged Analysis;
-    const std::string Name = Analysis.GetStudyNames(Tagger);
+    const std::string Name = Analysis.StudyName(Tagger);
     Analysis.Print(Analysis.HError, "Tagger", Tagger, Name);
 
-    std::string FileName = Analysis.GetProjectName() + "/" + Name + ".root";
+    std::string FileName = Analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(Tagger);
 
-    FileName = Analysis.GetProjectName() + "/Mva" + Name + ".root";
+    FileName = Analysis.ProjectName() + "/Mva" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HBottomTagger:
@@ -61,7 +61,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         }
     }
 
-    FileName = Analysis.GetProjectName() + "/" + Name + "Bdt.root";
+    FileName = Analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HEventLeptonicReader: {
@@ -70,7 +70,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             break;
         }
         case hanalysis::HAnalysis::HEventSemiReader: {
-//           Analysis.SetTrees(Tagger,hanalysis::HAnalysis::HSignal);
+          Analysis.SetTrees(Tagger,hanalysis::HAnalysis::HSignal);
             hanalysis::HReader Reader(Analysis.EventSemiTagger);
             Reader.SimpleMVALoop();
             break;
@@ -127,8 +127,5 @@ int main()
 
     std::cout << fastjet::LimitedWarning::summary() << std::endl;
 
-
-
     return 0;
-
 }

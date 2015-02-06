@@ -58,6 +58,27 @@ HBottomBranch::HBottomBranch()
 
 }
 
+
+ClassImp(HTauBranch)
+
+HTauBranch::HTauBranch()
+{
+
+  EmRadius = InitialValue;
+  TrackRadius = InitialValue;
+  MomentumFraction = InitialValue;
+  CoreEnergyFraction = InitialValue;
+  EmFraction = InitialValue;
+  ClusterMass = InitialValue;
+  TrackMass = InitialValue;
+  FlightPath = InitialValue;
+  TrtHtFraction = InitialValue;
+
+  Tag = InitialValue;
+  Bdt = InitialValue;
+
+}
+
 ClassImp(HPairBranch)
 
 HPairBranch::HPairBranch()
@@ -158,15 +179,17 @@ ClassImp(HWSemiBranch)
 
 HWSemiBranch::HWSemiBranch()
 {
-//     Ht = InitialValue;
     NeutrinoPt = InitialValue;
     LeptonPt = InitialValue;
 
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
+}
 
-//     Tag = InitialValue;
+ClassImp(HHeavyHiggsTauBranch)
+
+HHeavyHiggsTauBranch::HHeavyHiggsTauBranch()
+{
+  NeutrinoPt = InitialValue;
+  LeptonPt = InitialValue;
 
 }
 

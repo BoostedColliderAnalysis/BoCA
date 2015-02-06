@@ -22,43 +22,19 @@ void hheavyhiggs::HChargedSemiTagger::SetTagger(
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
     const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger)
 {
-
     BottomTagger = NewBottomTagger;
-//     BottomTagger.SetTagger();
-//     BottomReader.SetMva(BottomTagger);
-
     WSemiTagger = NewWSemiTagger;
-//     WSemiTagger.SetTagger();
-//     WSemiReader.SetMva(WSemiTagger);
-
     WTagger = NewWTagger;
-//     WTagger.SetTagger(BottomTagger);
-//     WReader.SetMva(WTagger);
-
     TopHadronicTagger = NewTopHadronicTagger;
-//     TopHadronicTagger.SetTagger(BottomTagger, WTagger);
-//     TopHadronicReader.SetMva(TopHadronicTagger);
-
     TopSemiTagger = NewTopSemiTagger;
-//     TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
-//     TopSemiReader.SetMva(TopSemiTagger);
-
     ChargedJetPairTagger = NewChargedJetPairTagger;
-//     ChargedJetPairTagger.SetTagger(BottomTagger, WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
-//     ChargedJetPairReader.SetMva(ChargedJetPairTagger);
-
     ChargedHiggsSemiTagger = NewChargedHiggsSemiTagger;
-//     ChargedHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WTagger, TopSemiTagger, TopHadronicTagger);
-//     ChargedHiggsSemiReader.SetMva(ChargedHiggsSemiTagger);
-
     SetTaggerName("ChargedSemi");
     DefineVariables();
-
 }
 
 void hheavyhiggs::HChargedSemiTagger::DefineVariables()
 {
-
     Print(HNotification , "Define Variables");
 
     Observables.clear();
@@ -79,16 +55,6 @@ void hheavyhiggs::HChargedSemiTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
     Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
 
-//   Observables.push_back(NewObservable(&Branch.DeltaPt1, "DeltaPt1"));
-//   Observables.push_back(NewObservable(&Branch.DeltaRap1, "DeltaRap1"));
-//   Observables.push_back(NewObservable(&Branch.DeltaPhi1, "DeltaPhi1"));
-//   Observables.push_back(NewObservable(&Branch.DeltaR1, "DeltaR1"));
-//
-//   Observables.push_back(NewObservable(&Branch.DeltaPt2, "DeltaPt2"));
-//   Observables.push_back(NewObservable(&Branch.DeltaRap2, "DeltaRap2"));
-//   Observables.push_back(NewObservable(&Branch.DeltaPhi2, "DeltaPhi2"));
-//   Observables.push_back(NewObservable(&Branch.DeltaR2, "DeltaR2"));
-
     Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
     Observables.push_back(NewObservable(&Branch.PairRap, "PairRap"));
 
@@ -97,7 +63,6 @@ void hheavyhiggs::HChargedSemiTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch.RestHt, "RestHt"));
     Observables.push_back(NewObservable(&Branch.RestPhi, "RestPhi"));
     Observables.push_back(NewObservable(&Branch.RestRap, "RestRap"));
-//     Observables.push_back(NewObservable(&Branch.RestBTag, "RestBTag"));
     Observables.push_back(NewObservable(&Branch.RestBBdt, "RestBBdt"));
     Observables.push_back(NewObservable(&Branch.MaxBBdt, "MaxBBdt"));
     Observables.push_back(NewObservable(&Branch.TotalBBdt, "TotalBBdt"));
@@ -132,16 +97,6 @@ hheavyhiggs::HChargedSemiBranch hheavyhiggs::HChargedSemiTagger::GetBranch(const
     EventSemiBranch.DeltaPhi = Octet.DeltaPhi();
     EventSemiBranch.DeltaR = Octet.DeltaR();
 
-//     EventSemiBranch.DeltaPt1 = Octet.GetDeltaPt1();
-//     EventSemiBranch.DeltaRap1 = Octet.DeltaRap();
-//     EventSemiBranch.DeltaPhi1 = Octet.DeltaPhi();
-//     EventSemiBranch.DeltaR1 = Octet.DeltaR();
-//
-//     EventSemiBranch.DeltaPt2 = Octet.GetDeltaPt2();
-//     EventSemiBranch.DeltaRap2 = Octet.GetDeltaRap2();
-//     EventSemiBranch.DeltaPhi2 = Octet.GetDeltaPhi2();
-//     EventSemiBranch.DeltaR2 = Octet.GetDeltaR2();
-
     EventSemiBranch.Bdt = Octet.Bdt();
     EventSemiBranch.Tag = Octet.Tag();
 
@@ -153,21 +108,15 @@ hheavyhiggs::HChargedSemiBranch hheavyhiggs::HChargedSemiTagger::GetBranch(const
     EventSemiBranch.RestHt = Octet.EventStruct().RestHt;
     EventSemiBranch.RestRap = Octet.EventStruct().RestRap;
     EventSemiBranch.RestPhi = Octet.EventStruct().RestPhi;
-//     EventSemiBranch.RestBTag = Octet.EventStruct().RestBTag;
-    //     Print(HError,"Rest B Tag",EventSemiBranch.RestBTag,Octet.GetEventStruct().RestBTag);
     EventSemiBranch.RestBBdt = Octet.EventStruct().RestBBdt;
     EventSemiBranch.MaxBBdt = Octet.EventStruct().MaxBBdt;
     EventSemiBranch.TotalBBdt = Octet.EventStruct().TotalBBdt;
     EventSemiBranch.ThirdBBdt = Octet.EventStruct().ThirdBBdt;
     EventSemiBranch.LeptonPt = Octet.EventStruct().LeptonPt;
-
     EventSemiBranch.EventTag = Octet.Tag();
 
     return EventSemiBranch;
-
 }
-
-
 
 struct SortJetsByBdt {
   inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
@@ -189,8 +138,6 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedSemiTagger::Ge
 
     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-
-//     Triplets.insert(Triplets.end(), TripletsHadronic.begin(), TripletsHadronic.end());
 
     std::vector<hanalysis::HQuartet31> HiggsQuartets = ChargedHiggsSemiTagger.GetBdt(TripletsSemi, Jets, ChargedHiggsSemiReader);
     std::vector<hanalysis::HQuartet31> JetQuartets = ChargedJetPairTagger.GetBdt(TripletsHadronic, Jets, ChargedJetPairReader);
@@ -358,8 +305,6 @@ std::vector<HOctet44> hheavyhiggs::HChargedSemiTagger::GetBdt(
     return Octets;
 }
 
-
-
 std::vector<int> hheavyhiggs::HChargedSemiTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 {
   Print(HNotification, "Apply Bdt", EventBranchName);
@@ -371,41 +316,25 @@ std::vector<int> hheavyhiggs::HChargedSemiTagger::ApplyBdt2(const ExRootTreeRead
   std::vector<int> EventNumbers(Steps, 0);
 
   const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
-
   ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
   ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HResultBranch::Class());
-
   for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
-
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-
     for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
-
-
       HChargedSemiBranch *Test = (HChargedSemiBranch *) EventClonesArray->At(Entry);
       const float Bdt = Test->Bdt;
-
       HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
       Export->Bdt = Bdt;
-
-
       for (int Step = 0; Step < Steps; ++Step) {
         const float CutValue = (float(Step) / Steps + 1);
         if (Bdt > CutValue) ++EventNumbers.at(Step);
       }
-
-
     }
-
     TreeWriter->Fill();
     TreeWriter->Clear();
   }
-
   TreeWriter->Write();
   delete TreeWriter;
   EventBranchName = Temp;
-
   return EventNumbers;
-
-
 }

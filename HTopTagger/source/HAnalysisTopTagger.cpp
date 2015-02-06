@@ -31,19 +31,19 @@ HStrings htoptagger::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::string &StudyName)
+std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::string &Name)
 {
 
     Print(HNotification, "Set File Vector");
 
-    std::vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> NewFiles;
 
-    if (StudyName != "Higgs") {
+    if (Name != "Higgs") {
 
       hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
-        Files.push_back(Background);
+        NewFiles.push_back(Background);
 
     }
 
@@ -51,34 +51,34 @@ std::vector<hanalysis::HFile *> htoptagger::HAnalysis::GetFiles(const std::strin
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
-    Files.push_back(Even);
+    NewFiles.push_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
-    Files.push_back(Mix);
+    NewFiles.push_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
-    Files.push_back(Odd);
+    NewFiles.push_back(Odd);
 
     Print(HNotification, "Files prepared");
 
-    return Files;
+    return NewFiles;
 
 }
 
 
-void htoptagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
+void htoptagger::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 {
     Print(HNotification, "New File");
 
-    CandidateBranch = TreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
+    CandidateBranch = NewTreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
 //     LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
-    ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
+    ConstituentBranch = NewTreeWriter->NewBranch("Constituent", HParticleBranch::Class());
 
 }
 
@@ -111,10 +111,10 @@ void htoptagger::HAnalysis::CloseFile()
 //
 // }
 
-bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
+bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &Name)
 {
 
-    Print(HInformation, "Analysis", StudyName);
+    Print(HInformation, "Analysis", Name);
 
 
     const HJets CandidateJets = Event->GetTops(JetTag);

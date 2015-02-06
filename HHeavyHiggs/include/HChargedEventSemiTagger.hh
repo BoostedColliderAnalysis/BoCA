@@ -12,7 +12,7 @@
  * @brief Event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedSemiTagger : public hanalysis::HMva
+class hheavyhiggs::HChargedEventSemiTagger : public hanalysis::HMva
 {
 
 public:
@@ -21,13 +21,13 @@ public:
     * @brief Constructor
     *
     */
-    HChargedSemiTagger();
+    HChargedEventSemiTagger();
 
     /**
     * @brief Destructor
     *
     */
-    ~HChargedSemiTagger();
+    ~HChargedEventSemiTagger();
 
     void SetTagger(
       const hanalysis::HBottomTagger &NewBottomTagger,

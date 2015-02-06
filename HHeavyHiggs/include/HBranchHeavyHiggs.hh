@@ -11,6 +11,7 @@ class HAnalysisHeavyHiggsPgs;
 class HAnalysisHeavyHiggsParton;
 class HAnalysisMva;
 class HAnalysisTt;
+class HAnalysisTau;
 class HAnalysisCharged;
 class HHeavyHiggsJetTag;
 class HMva;
@@ -252,56 +253,30 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventTtSemiBranch : public HBranch
+class hheavyhiggs::HEventTtSemiBranch : public HPairBranch
 {
 
 public:
 
   HEventTtSemiBranch();
 
-  float Mass;
-  float Pt;
-  float Rap;
-  float Phi;
-
-  float DeltaPt;
-  float DeltaRap;
-  float DeltaPhi;
-  float DeltaR;
-
-  float Bdt;
-  int Tag;
 
   float HiggsMass;
-  float PairRap;
+  float HiggsBdt;
 
   int LeptonNumber;
   int JetNumber;
   int BottomNumber;
   float ScalarHt;
 
-  float DeltaPt1;
-  float DeltaR1;
-  float DeltaPhi1;
-  float DeltaRap1;
-
-  float DeltaPt2;
-  float DeltaR2;
-  float DeltaPhi2;
-  float DeltaRap2;
-
+  int RestNumber;
   float RestHt;
   float RestM;
   float RestPt;
   float RestRap;
-  float RestBBdt;
-  float MaxBBdt;
-  float TotalBBdt;
+  float RestBdt;
   float RestPhi;
-  int RestBTag;
-  float ThirdBBdt;
-  float LeptonPt;
-
+  float LeptonHt;
 
 private:
 

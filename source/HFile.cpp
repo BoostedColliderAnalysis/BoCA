@@ -6,52 +6,76 @@ hanalysis::HFile::HFile()
     SetVariables();
 }
 
-hanalysis::HFile::HFile(const std::string &Process)
+hanalysis::HFile::HFile(const std::string &NewProcess)
 {
     Print(HInformation, "Constructor");
     SetVariables();
-    ProcessFolder = Process;
+    ProcessFolders.push_back(NewProcess);
 }
 
-hanalysis::HFile::HFile(const std::string &Process, float NewCrosssection)
+hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssection)
 {
   Print(HInformation, "Constructor");
   SetVariables();
-  ProcessFolder = Process;
-  Crosssection = NewCrosssection;
+  ProcessFolders.push_back(NewProcess);
+  CrosssectionM = NewCrosssection;
 }
 
-hanalysis::HFile::HFile(const std::string &Process, float NewCrosssection, float NewMass)
+hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssection, const float NewMass)
 {
   Print(HInformation, "Constructor");
   SetVariables();
-  ProcessFolder = Process;
-  Crosssection = NewCrosssection;
-  Mass = NewMass;
+  ProcessFolders.push_back(NewProcess);
+  CrosssectionM = NewCrosssection;
+  MassM = NewMass;
 }
 
-hanalysis::HFile::HFile(const std::string &Process, const std::string &Run)
+hanalysis::HFile::HFile(const HStrings &NewProcesses)
+{
+  Print(HInformation, "Constructor");
+  SetVariables();
+  ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
+}
+
+hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection)
+{
+  Print(HInformation, "Constructor");
+  SetVariables();
+  ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
+  CrosssectionM = NewCrosssection;
+}
+
+hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection, const float NewMass)
+{
+  Print(HInformation, "Constructor");
+  SetVariables();
+  ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
+  CrosssectionM = NewCrosssection;
+  MassM = NewMass;
+}
+
+hanalysis::HFile::HFile(const std::string &NewProcess, const std::string &Run)
 {
     Print(HInformation, "Constructor");
     SetVariables();
-    ProcessFolder = Process;
+    ProcessFolders.push_back(NewProcess);
     RunFolder = Run;
 }
 
 std::string hanalysis::HFile::GetTitle() const
 {
-    return (ProcessFolder + "-" + RunFolder);
+    return (ProcessFolders.front() + "-" + RunFolder);
 }
 
 std::string hanalysis::HFile::GetMadGraphFilePath() const
 {
-    return (BasePath + ProcessFolder + "/Events/" + RunFolder + "/");
+    return (BasePath + ProcessFolders.front() + "/Events/" + RunFolder + "/");
 }
 
 // TString Analysis::HFile::BasePath = "$HOME/Development/madgraph/";
 std::string hanalysis::HFile::BasePath = "$HOME/Development/MadGraph/";
 std::string hanalysis::HFile::FileSuffix = "_delphes_events.root";
-std::string hanalysis::HFile::TreeName = "Delphes";
+std::string hanalysis::HFile::TreeNameM = "Delphes";
 
 bool hanalysis::HFile::SnowMass = 0;
 void hanalysis::HFile::SetVariables()
@@ -63,88 +87,91 @@ void hanalysis::HFile::SetVariables()
     RunFolder = "run_01";
     TagName = "tag_1";
 //     TreeString = "Delphes";
-    Crosssection = 0;
-    Error = 0;
-
-//     ClonesArrays = NULL;
-//     Event = NULL;
-    ImportFile = NULL;
+    CrosssectionM = 0;
+    ErrorM = 0;
+    File = NULL;
+    Chain = NULL;
 }
 
-std::string hanalysis::HFile::GetTreeName() const
+std::string hanalysis::HFile::TreeName() const
 {
     Print(HInformation, "Get Tree String");
-    return TreeName;
+    return TreeNameM;
 }
 
 
-std::string hanalysis::HFile::GetFilePath() const
+HStrings hanalysis::HFile::Paths() const
 {
 
     Print(HInformation, "FilePath");
 
-    return BasePath + ProcessFolder + FileSuffix;
+    HStrings FilePaths;
+    for(const auto& ProcessFolder : ProcessFolders)FilePaths.push_back(BasePath + ProcessFolders.front() + FileSuffix);
+
+    return FilePaths;
 
 }
 
 
 
-std::shared_ptr<ExRootTreeReader> hanalysis::HFile::GetTreeReader()
+std::shared_ptr<ExRootTreeReader> hanalysis::HFile::TreeReader()
 {
-    Print(HNotification, "Get Tree Reader", GetFilePath());
+    Print(HNotification, "Get Tree Reader", Paths().front());
 
-    const std::string ImportPath = GetFilePath();
-    ImportFile =  new TFile(ImportPath.c_str());
-    Print(HNotification, "File", ImportPath);
-    const std::string ImportTreeName = GetTreeName();
-    Print(HNotification, "Tree", ImportTreeName);
-    return std::shared_ptr<ExRootTreeReader>(new ExRootTreeReader((TTree *)ImportFile->Get(ImportTreeName.c_str())));
+//     const std::string Path = GetFilePath();
+//     File =  new TFile(Path.c_str());
+//     Print(HNotification, "File", Path);
+//     const std::string TreeName = GetTreeName();
+//     Print(HNotification, "Tree", TreeName);
+//     return std::shared_ptr<ExRootTreeReader>(new ExRootTreeReader((TTree *)File->Get(TreeName.c_str())));
+
+//     TChain Chain(GetTreeName().c_str());
+    Chain = new TChain(TreeName().c_str());
+    for(const auto& FilePath : Paths()) Chain->Add(FilePath.c_str());
+    return std::shared_ptr<ExRootTreeReader>(new ExRootTreeReader(Chain));
 }
 
-std::shared_ptr<hanalysis::HClonesArray> hanalysis::HFile::GetClonesArrays()
+std::shared_ptr<hanalysis::HClonesArray> hanalysis::HFile::ClonesArrays()
 {
 
     Print(HNotification, "Get Clones Arrays");
-    if (GetTreeName() == "Delphes") {
+    if (TreeName() == "Delphes") {
         if (SnowMass) {
           return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArraySnowmass());
         } else {
           return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArray());
         }
-    } else if (GetTreeName() == "LHEF") {
+    } else if (TreeName() == "LHEF") {
       return std::shared_ptr<HClonesArray>(new hparton::HClonesArray());
-    } else if (GetTreeName() == "LHCO") {
+    } else if (TreeName() == "LHCO") {
       return std::shared_ptr<HClonesArray>(new hpgs::HClonesArray());
     } else {
-      Print(HError, "unknown Tree String", GetTreeName());
+      Print(HError, "unknown Tree String", TreeName());
 //       return std::shared_ptr<HClonesArray>(new HClonesArray());
     }
 }
 
-std::shared_ptr<hanalysis::HEvent> hanalysis::HFile::GetEvent()
+std::shared_ptr<hanalysis::HEvent> hanalysis::HFile::Event()
 {
     Print(HNotification, "Get Event");
 //     HEvent *Event;
-    if (GetTreeName() == "Delphes") {
+    if (TreeName() == "Delphes") {
 //       Event = new hdelphes::HEvent();
       return std::shared_ptr<HEvent>(new hdelphes::HEvent());
-    } else if (GetTreeName() == "LHEF") {
+    } else if (TreeName() == "LHEF") {
 //       Event = new hparton::HEvent();
       return std::shared_ptr<HEvent>(new hparton::HEvent());
-    } else if (GetTreeName() == "LHCO") {
+    } else if (TreeName() == "LHCO") {
 //       Event = new hpgs::HEvent();
       return std::shared_ptr<HEvent>(new hpgs::HEvent());
     } else {
-        Print(HError, "unknown Tree String", GetTreeName());
+        Print(HError, "unknown Tree String", TreeName());
     }
 }
 
 hanalysis::HFile::~HFile()
 {
     Print(HNotification, "Destructor");
-//     delete ImportTree;
-//     delete TreeReader;
-//     if (Event != NULL) delete Event;
-//     if (ClonesArrays != NULL)  delete ClonesArrays;
-    delete ImportFile;
+    delete File;
+    delete Chain;
 }

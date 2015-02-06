@@ -41,11 +41,11 @@ public:
      *
      * @return std::string file path
      */
-    std::string GetFilePath() const;
+    HStrings Paths() const;
 
-    std::string GetTreeName() const;
+    std::string TreeName() const;
 
-    std::shared_ptr<hanalysis::HEvent> GetEvent();
+    std::shared_ptr<hanalysis::HEvent> Event();
 
 protected:
 

@@ -65,15 +65,15 @@ public:
     /**
      * @brief prepares the std::vector describing the input root files
      */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName) {
-        Print(HError, "we dont want to end up her", StudyName);
-        std::vector<hanalysis::HFile * > Files;
-        return Files;
+    std::vector<hanalysis::HFile * > GetFiles(const std::string &Name) {
+        Print(HError, "we dont want to end up her", Name);
+        std::vector<hanalysis::HFile * > NewFiles;
+        return NewFiles;
     }
 
-    std::vector< hanalysis::HFile > GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    std::vector< hanalysis::HFile > Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
-    inline std::string GetProjectName() const {
+    inline std::string ProjectName() const {
 //         return "ChargedHiggs1";
 //         return "ChargedHiggs2";
 //         return "ChargedHiggs3";
@@ -82,11 +82,14 @@ public:
 //         return "ChargedHiggs6";
 //         return "ChargedHiggs7";
 //         return "ChargedHiggs8";
-        return "ChargedHiggs9";
+//         return "ChargedHiggs9";
 //         return "ChargedHiggs10";
+//         return "ChargedHiggs12";
+//         return "ChargedHiggs15";
+        return "ChargedHiggs20";
     }
 
-    std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
+    std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
     void ResetBranch();
 
@@ -115,16 +118,15 @@ private:
     hanalysis::HReader ChargedHiggsSemiReader;
     hanalysis::HReader EventSemiReader;
 
-    inline int GetEventNumberMax() const {
+    inline int EventNumberMax() const {
 //         return 100000;
-//         return 10000;
-//         return 5000;
-        return 1000;
+        return 10000;
+//         return 1000;
 //         return 100;
 //         return 500;
     };
 
-    void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
+    void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
     void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 

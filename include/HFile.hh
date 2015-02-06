@@ -24,26 +24,23 @@ class hanalysis::HFile : public HObject
 public:
 
     /**
-     * @brief constructor defining default path
+     * @brief constructor
      *
      */
     HFile();
 
-    /**
-     * @brief constructor defining default path
-     *
-     */
-    HFile(const std::string &Process);
+    HFile(const std::string &NewProcess);
 
-    HFile(const std::string &Process, float NewCrosssection);
+    HFile(const std::string &NewProcess, const float NewCrosssection);
 
-    HFile(const std::string &Process, float NewCrosssection, float NewMass);
+    HFile(const std::string &NewProcess, const float NewCrosssection, const float NewMass);
+    HFile(const std::string &NewProcess, const std::string &Run);
 
-    /**
-     * @brief constructor defining default path
-     *
-     */
-    HFile(const std::string &Process, const std::string &Run);
+    HFile(const HStrings &NewProcesses);
+
+    HFile(const HStrings &NewProcesses, const float NewCrosssection);
+
+    HFile(const HStrings &NewProcesses, const float NewCrosssection, const float NewMass);
 
     /**
      * @brief destructor
@@ -51,11 +48,11 @@ public:
      */
     virtual ~HFile();
 
-    std::shared_ptr< ExRootTreeReader > GetTreeReader();
+    std::shared_ptr< ExRootTreeReader > TreeReader();
 
-    virtual std::shared_ptr<hanalysis::HClonesArray> GetClonesArrays();
+    virtual std::shared_ptr<hanalysis::HClonesArray> ClonesArrays();
 
-    virtual std::shared_ptr<hanalysis::HEvent> GetEvent();
+    virtual std::shared_ptr<hanalysis::HEvent> Event();
 
     void SetBasePath(const std::string &NewBasePath) {
         BasePath = NewBasePath;
@@ -67,32 +64,32 @@ public:
      */
     std::string GetTitle() const;
 
-    float GetCrosssection() const {
-        return Crosssection;
+    float Crosssection() const {
+        return CrosssectionM;
     }
 
     void SetCrosssection(const float NewCrosssection) {
-        Crosssection = NewCrosssection;
+        CrosssectionM = NewCrosssection;
     }
 
     void SetError(const float NewError) {
-        Error = NewError;
+        ErrorM = NewError;
     }
 
     void SetMass(const float NewMass) {
-        Mass = NewMass;
+        MassM = NewMass;
     }
 
     void SetFileSuffix(const std::string &NewFileSuffix) {
         FileSuffix = NewFileSuffix;
     }
 
-    float GetError() const {
-        return Error;
+    float CrosssectionError() const {
+        return ErrorM;
     }
 
-    float GetMass() const {
-        return Mass;
+    float Mass() const {
+        return MassM;
     }
 
 
@@ -101,7 +98,7 @@ public:
     }
 
     void SetTreeName(const std::string &NewTreeName) {
-        TreeName = NewTreeName;
+        TreeNameM = NewTreeName;
     }
 
     /**
@@ -109,13 +106,12 @@ public:
      *
      * @return std::string file path
      */
-    virtual std::string GetFilePath() const;
 
-    virtual std::string GetTreeName() const;
+    virtual std::string TreeName() const;
+
+    virtual HStrings Paths() const;
 
 protected:
-
-//     ExRootTreeReader *TreeReader;
 
     void  SetVariables();
 
@@ -135,7 +131,7 @@ protected:
      * @brief Process name used in the file path
      *
      */
-    std::string ProcessFolder;
+    HStrings ProcessFolders;
 
     /**
      * @brief Run name use in the file path
@@ -153,37 +149,30 @@ protected:
      * @brief String containing the name of the root tree
      *
      */
-    static std::string TreeName;
+    static std::string TreeNameM;
 
     /**
      * @brief Crosssection of the event
      *
      */
-    float Crosssection;
+    float CrosssectionM;
 
     /**
      * @brief Error of the Crosssection
      *
      */
-    float Error;
+    float ErrorM;
 
-    float Mass;
+    float MassM;
 
     static std::string FileSuffix;
 
     static bool SnowMass;
 
-//     HEvent * Event = NULL;
-
-//     HClonesArray *ClonesArrays = NULL;
-
-//     std::shared_ptr<HEvent> Event;
-
-//     std::shared_ptr<HClonesArray> ClonesArrays;
-
 private:
 
-    TFile *ImportFile = NULL;
+    TFile *File = NULL;
+    TChain * Chain = NULL;
 };
 
 # endif

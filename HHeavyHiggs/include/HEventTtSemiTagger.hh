@@ -38,7 +38,7 @@ public:
 
     std::vector< HEventTtSemiBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    std::vector< HSextetEvent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+    std::vector< HSextetEvent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, HJets &Jets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
 
     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -70,13 +70,12 @@ protected:
 
 private:
 
-    HTag GetTag(const HSextetEvent &Octet);
-
     void DefineVariables();
 
     std::vector<HSextetEvent> GetHeavyHiggsEvents(HJets &Jets);
 
     HEventTtSemiBranch Branch;
+
     hanalysis::HJetTag JetTag;
 
 };

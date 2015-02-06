@@ -13,6 +13,8 @@ class HConstituent
 {
 
 public:
+    enum HDetector {HGenParticle, HTrack, HPhoton, HTower, HMuon, HNone};
+
 
     HConstituent() {};
 
@@ -27,6 +29,12 @@ public:
         PositionM = NewPosition;
     }
 
+    HConstituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition, const HDetector NewDetector) {
+        MomentumM = NewMomentum;
+        PositionM = NewPosition;
+        DetectorM = NewDetector;
+    }
+
     HConstituent(const TLorentzVector &NewMomentum, const hanalysis::HFamily &NewFamily) {
         MomentumM = NewMomentum;
         FamilyM = NewFamily;
@@ -34,6 +42,11 @@ public:
 
     inline HConstituent(const TLorentzVector &NewMomentum) {
         MomentumM = NewMomentum;
+    }
+
+    inline HConstituent(const TLorentzVector &NewMomentum, const HDetector NewDetector) {
+      MomentumM = NewMomentum;
+      DetectorM = NewDetector;
     }
 
     inline  void SetPosition(const TLorentzVector &NewPosition) {
@@ -65,32 +78,31 @@ public:
     }
 
     HConstituent operator+(HConstituent &Constituent) {
-//         HConstituent NewVertex;
-//         NewVertex.Position = this->Position + Constituent.Position;
-//         NewVertex.Momentum = this->Momentum + Constituent.Momentum;
         Constituent.PositionM += this->PositionM;
         Constituent.MomentumM += this->MomentumM;
         return Constituent;
     }
 
+    void SetDetector(const HDetector NewDetector) {
+      DetectorM = NewDetector;
+    }
+
+    HDetector Detector() const {
+      return DetectorM;
+    }
+
 private:
+
+    HDetector DetectorM = HNone;
 
     TLorentzVector PositionM;
 
     TLorentzVector MomentumM;
 
     hanalysis::HFamily FamilyM;
-
-//     int MotherId;
-//     HConstituent& operator=(HConstituent other)
-//     {
-//         std::swap(*this, other);
-//         return *this;
-//     }
-
 };
 
-struct SortByDistance {
+struct MaxDistance {
     inline bool operator()(const HConstituent &Constituent1, const HConstituent &Constituent2) const {
         return (Constituent1.Position().Vect().Mag() > Constituent2.Position().Vect().Mag());
     }
@@ -144,8 +156,8 @@ public:
     }
 
 
-    inline std::unordered_map<HFamily, float> FamilyFractions(){
-      return FamilyFractionsM;
+    inline std::unordered_map<HFamily, float> FamilyFractions() {
+        return FamilyFractionsM;
     }
 
     float VertexMass() const;
@@ -187,6 +199,20 @@ public:
     void ExtractFamilyFraction();
 
     HFamily MaximalFamily();
+
+    float ElectroMagneticRadius(const fastjet::PseudoJet &Jet) const;
+
+    float TrackRadius(const fastjet::PseudoJet &Jet) const;
+
+    float LeadingTrackMomentumFraction() const;
+
+    float CoreEnergyFraction(const fastjet::PseudoJet &Jet) const;
+
+    float ElectroMagneticFraction() const;
+
+    float ClusterMass() const;
+
+    float TrackMass() const;
 
 protected:
 

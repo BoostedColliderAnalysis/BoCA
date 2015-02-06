@@ -18,35 +18,35 @@ HStrings hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 
 }
 
-std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const std::string &StudyName)
+std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const std::string &Study)
 {
 
-    Print(HNotification, "Fill Analysis Vector", StudyName);
+    Print(HNotification, "Fill Analysis Vector", Study);
 
-    std::vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::HFile*> NewFiles;
 
-    Files.push_back(new hanalysis::HFile("BG_ttbb"));
-    Files.push_back(new hanalysis::HFile("hcpbb_ttbb"));
+    NewFiles.push_back(new hanalysis::HFile("BG_ttbb"));
+    NewFiles.push_back(new hanalysis::HFile("hcpbb_ttbb"));
 
-    Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
+    NewFiles.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
-    Files.front()->SetFileSuffix(".root");
-    Files.front()->SetSnowMass(true);
+    NewFiles.front()->SetFileSuffix(".root");
+    NewFiles.front()->SetSnowMass(true);
 
 //     FileVector.push_back(new HFile("pp-bbtt-4f", "background"));
 
     Print(HNotification, "Files prepared");
 
-    return Files;
+    return NewFiles;
 
 }
 
-void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *TreeWriter)
+void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *NewTreeWriter)
 {
 
     Print(HNotification, "New File");
 
-    HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
+    HeavyHiggsBranch = NewTreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
 
     EventCounter = 0;
     DeltaRapCounter = 0;
@@ -74,7 +74,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 
 }
 
-bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event, const std::string &Name)
 {
 
     Print(HInformation, "Analysis");
@@ -83,9 +83,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent *Event,
 
 //     Event->GetLeptonsM()->GetLeptons();
 
-    if (StudyName == "Signal") Success = Signal(Event);
-    if (StudyName == "Background") Success = Background(Event);
-    if (StudyName == "Test")  Success = Test(Event);
+    if (Name == "Signal") Success = Signal(Event);
+    if (Name == "Background") Success = Background(Event);
+    if (Name == "Test")  Success = Test(Event);
 
     return Success;
 

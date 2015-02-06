@@ -41,7 +41,7 @@ public:
 
 private:
 
-    inline std::string GetProjectName()const{return "Test";};
+    inline std::string ProjectName()const{return "Test";};
 
     /**
      * @brief Lepton calculations

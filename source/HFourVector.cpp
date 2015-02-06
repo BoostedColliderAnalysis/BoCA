@@ -223,7 +223,7 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(HFamily &BranchFamily
 
 
         delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(Position);
-        const int Status = ParticleClone->Status;
+//         const int Status = ParticleClone->Status;
 
         int M1Id = EmptyId;
         int Mother1Status = EmptyStatus;

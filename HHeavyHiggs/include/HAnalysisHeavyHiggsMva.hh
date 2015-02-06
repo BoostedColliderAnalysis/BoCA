@@ -61,19 +61,15 @@ public:
     hheavyhiggs::HEventHadronicTagger EventHadronicTagger;
     hheavyhiggs::HEventSemiTagger EventSemiTagger;
 
-    /**
-     * @brief prepares the std::vector describing the input root files
-     *
-     */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName) {
-        Print(HError, "we dont want to end up her", StudyName);
-        std::vector<hanalysis::HFile * > Files;
-        return Files;
-    }
+    std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
-    std::vector<hanalysis::HFile> GetFiles(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
 
-    inline std::string GetProjectName() const {
+    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
+
+    std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+
+    inline std::string ProjectName() const {
 //         return "HeavyHiggsMva1000";
 //         return "HeavyHiggsMva2000";
 //         return "HeavyHiggsMva3000";
@@ -83,15 +79,12 @@ public:
 //         return "HeavyHiggsMva7000";
 //         return "HeavyHiggsMva8000";
 //         return "HeavyHiggsMva9000";
-        return "HeavyHiggsMva10000";
+//         return "HeavyHiggsMva10000";
+//         return "HeavyHiggsMva12000";
+//         return "HeavyHiggsMva15000";
+        return "HeavyHiggsMva20000";
 //         return "HeavyHiggsMvaTest";
     }
-
-    std::string GetStudyNames(const hanalysis::HAnalysis::HTagger Tagger) const;
-
-    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
-
-    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
 
 protected:
 
@@ -104,6 +97,14 @@ protected:
     }
 
 private:
+
+    inline int EventNumberMax() const {
+//         return 100000;
+        return 10000;
+//         return 1000;
+//         return 100;
+    };
+
     hanalysis::HJetTag JetTag;
 
     hanalysis::HReader BottomReader;
@@ -117,19 +118,8 @@ private:
     hanalysis::HReader HeavyHiggsLeptonicReader;
     hanalysis::HReader EventSemiReader;
     hanalysis::HReader EventLeptonicReader;
-//     hanalysis::HReader ChargedHiggsSemiReader;
 
-    inline int GetEventNumberMax() const {
-//         return 100000;
-        return 10000;
-//         return 1000;
-//         return 100;
-    };
-
-
-    void ResetBranch();
-
-    void NewBranches(ExRootTreeWriter *TreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
+    void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
     /**
      * @brief Main Analysis function

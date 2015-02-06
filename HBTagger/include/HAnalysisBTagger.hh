@@ -69,11 +69,11 @@ public:
 
 private:
 
-    inline int GetEventNumberMax() const {
+    inline int EventNumberMax() const {
         return 10000;
     };
 
-    inline std::string GetProjectName() const {
+    inline std::string ProjectName() const {
         return "BTagger";
     };
 

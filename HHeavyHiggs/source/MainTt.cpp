@@ -5,13 +5,13 @@
 void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 {
     hheavyhiggs::HAnalysisTt Analysis;
-    const std::string Name = Analysis.GetStudyNames(Tagger);
+    const std::string Name = Analysis.StudyName(Tagger);
     Analysis.Print(Analysis.HError, "Tagger", Tagger, Name);
 
-    std::string FileName = Analysis.GetProjectName() + "/" + Name + ".root";
+    std::string FileName = Analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(Tagger);
 
-    FileName = Analysis.GetProjectName() + "/Mva" + Name + ".root";
+    FileName = Analysis.ProjectName() + "/Mva" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HBottomTagger:
@@ -40,7 +40,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         }
     }
 
-    FileName = Analysis.GetProjectName() + "/" + Name + "Bdt.root";
+    FileName = Analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HEventSemiReader: {

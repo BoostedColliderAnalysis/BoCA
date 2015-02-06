@@ -152,7 +152,7 @@ public:
         ElectronNeutrinoId = 12,
         MuonId = 13,
         MuonNeutrinoId = 14,
-        TauLeptonId = 15,
+        TauId = 15,
         TauNeutrinoId = 16,
         GluonId = 21,
         PhotonId = 22,

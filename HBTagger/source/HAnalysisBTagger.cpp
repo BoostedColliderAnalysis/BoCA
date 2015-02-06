@@ -29,11 +29,11 @@ HStrings hbtagger::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string &StudyName)
+std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string &Name)
 {
-    Print(HNotification, "Set File Vector", StudyName);
+    Print(HNotification, "Set File Vector", Name);
 
-    std::vector<hanalysis::HFile *> Files;
+    std::vector<hanalysis::HFile *> NewFiles;
 
 //     hdelphes::HFile *Test3 = new hdelphes::HFile("pp-hz-bbvv", "signal");
 //     Files.push_back(Test3);
@@ -66,7 +66,7 @@ std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string 
 //     Files.push_back(Odd);
 
     hanalysis::hdelphes::HFile *Test = new hanalysis::hdelphes::HFile("pp-hjj-bbjj");
-    Files.push_back(Test);
+    NewFiles.push_back(Test);
 
 //     hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
 //     Files.push_back(Test2);
@@ -79,16 +79,16 @@ std::vector<hanalysis::HFile *> hbtagger::HAnalysis::GetFiles(const std::string 
 
     Print(HNotification, "Files prepared");
 
-    return Files;
+    return NewFiles;
 
 }
 
 
-void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
+void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 {
     Print(HNotification, "New File");
 
-    BTaggerBranch = TreeWriter->NewBranch("BTagger", HBTaggerBranch::Class());
+    BTaggerBranch = NewTreeWriter->NewBranch("BTagger", HBTaggerBranch::Class());
 
 }
 
@@ -114,14 +114,14 @@ void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 //
 // }
 
-bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName)
+bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &Name)
 {
 
-    Print(HInformation, "Analysis", StudyName);
+    Print(HInformation, "Analysis", Name);
     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
 
-    if (StudyName == "Bottom") {
+    if (Name == "Bottom") {
 
         for (HJets::iterator it = Jets.begin(); it != Jets.end();) {
             Print(HInformation, "Truth Level", (*it).user_info<hanalysis::HJetInfo>().MaximalId());
@@ -132,7 +132,7 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::st
             }
         }
 
-    } else if (StudyName == "LightJet") {
+    } else if (Name == "LightJet") {
 
         for (HJets::iterator it = Jets.begin(); it != Jets.end();) {
             if (std::abs((*it).user_info<hanalysis::HJetInfo>().MaximalId()) == BottomId) {

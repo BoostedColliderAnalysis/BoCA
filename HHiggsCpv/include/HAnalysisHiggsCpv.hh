@@ -102,11 +102,11 @@ private:
     hanalysis::HReader TopReader;
     hanalysis::HReader HiggsReader;
 
-    inline int GetEventNumberMax() const {
+    inline int EventNumberMax() const {
         return 100000;
     }
 
-    inline std::string GetProjectName() const {
+    inline std::string ProjectName() const {
         return "HiggsCpv";
     }
 

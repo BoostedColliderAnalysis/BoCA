@@ -134,6 +134,39 @@ private:
 
 };
 
+
+/**
+ *
+ * @brief Tau tagger root tree structure
+ *
+ */
+class HTauBranch : public HParticleBranch
+{
+
+public:
+
+  HTauBranch();
+
+  float EmRadius;
+  float TrackRadius;
+  float MomentumFraction;
+  float CoreEnergyFraction;
+  float EmFraction;
+  float ClusterMass;
+  float TrackMass;
+  float FlightPath;
+  float TrtHtFraction;
+
+  int Tag;
+  float Bdt;
+
+private:
+
+  ClassDef(HTauBranch, 1)
+
+};
+
+
 class HPairBranch : public HParticleBranch
 {
 
@@ -295,6 +328,27 @@ public:
 private:
 
     ClassDef(HWSemiBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class HHeavyHiggsTauBranch : public HPairBranch
+{
+
+public:
+
+  HHeavyHiggsTauBranch();
+
+  float LeptonPt;
+  float NeutrinoPt;
+
+private:
+
+  ClassDef(HHeavyHiggsTauBranch, 1)
 
 };
 

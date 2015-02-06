@@ -37,6 +37,8 @@ public:
     enum HTagger {
         HBottomTagger,
         HBottomReader,
+        HTauTagger,
+        HTauReader,
         HJetPairTagger,
         HJetPairReader,
         HWSemiTagger,
@@ -51,9 +53,11 @@ public:
         HTopLeptonicReader,
         HHeavyHiggsHadronicTagger,
         HHeavyHiggsLeptonicTagger,
+        HHeavyHiggsTauTagger,
         HHeavyHiggsLeptonicReader,
         HHeavyHiggsSemiTagger,
         HHeavyHiggsSemiReader,
+        HHeavyHiggsTauReader,
         HEventLeptonicTagger,
         HEventHadronicTagger,
         HEventSemiTagger,
@@ -70,10 +74,10 @@ public:
         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
     }
 
-    virtual std::vector<HFile> GetFiles(const HTagger Tagger, const HTag State) {
+    virtual std::vector<HFile> Files(const HTagger Tagger, const HTag State) {
         Print(HError, "GetFiles", "Should be subclasses", Tagger, State);
-        std::vector<HFile> Files;
-        return Files;
+        std::vector<HFile> NewFiles;
+        return NewFiles;
     }
 
 protected:
@@ -82,16 +86,19 @@ protected:
         Print(HError, "Reset Branch", "should be subclassed");
     }
 
-    int GetEventSum(const std::shared_ptr<ExRootTreeReader> &TreeReader) const {
-        return std::min((int)TreeReader->GetEntries(), GetEventNumberMax());
+    int EventSum(const std::shared_ptr<ExRootTreeReader> &NewTreeReader) const {
+        return std::min((int)NewTreeReader->GetEntries(), EventNumberMax());
     }
 
-    ExRootTreeWriter *GetTreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
+//     ExRootTreeWriter *TreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
 
-    ExRootTreeReader *GetTreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
+    ExRootTreeWriter TreeWriter(const TFile &NewExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
 
-    TFile *GetExportFile(const std::string &StudyName) const;
-    TFile *GetExportFile(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag State) const;
+    ExRootTreeReader *TreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
+
+    TFile *ExportFile(const std::string &StudyName) const;
+
+    std::string ExportName(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag State) const;
 
     void FillInfoBranch(const std::shared_ptr< ExRootTreeReader > &TreeReader, ExRootTreeBranch *const InfoBranch, const hanalysis::HFile &File);
 
@@ -103,7 +110,7 @@ protected:
     /**
      * @brief New Analysis
      */
-    virtual void NewBranches(ExRootTreeWriter *const, const HTagger) {
+    virtual void NewBranches(ExRootTreeWriter &, const HTagger) {
         Print(HError, "NewBranches", "Should be subclassed");
     }
 
@@ -115,7 +122,7 @@ protected:
      * @brief Name of Analysis
      *
      */
-    virtual inline std::string GetProjectName() const {
+    virtual inline std::string ProjectName() const {
         return "ProjectName";
     }
 
@@ -123,13 +130,13 @@ protected:
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual inline int GetEventNumberMax() const {
+    virtual inline int EventNumberMax() const {
         return 100000;
     }
 
-    virtual inline std::string GetStudyNames(const HTagger Tagger) const {
+    virtual inline std::string StudyName(const HTagger Tagger) const {
         Print(HError, "GetStudyName", "What are we doing here?", Tagger);
-        return GetProjectName();
+        return ProjectName();
     }
 
     virtual inline std::string ClassName() const {
@@ -140,7 +147,7 @@ protected:
 
     std::vector<hanalysis::HFile>  JoinFiles(const std::vector<hanalysis::HFile> &Files1, const std::vector<hanalysis::HFile> &Files2);
 
-    int EventSum;
+    int EventSumM;
 
 private:
 
