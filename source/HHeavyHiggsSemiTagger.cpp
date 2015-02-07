@@ -4,7 +4,6 @@ hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger()
 {
     //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-    SetTaggerName("HeavyHiggsSemi");
     DefineVariables();
 }
 
@@ -23,34 +22,17 @@ void hanalysis::HHeavyHiggsSemiTagger::SetTagger(
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-//     BottomTagger.SetTagger();
-//     BottomReader.SetMva(BottomTagger);
-//
     WSemiTagger = NewWSemiTagger;
-//     WSemiTagger.SetTagger();
-//     WSemiReader.SetMva(WSemiTagger);
-//
     WTagger = NewWTagger;
-//     WTagger.SetTagger(BottomTagger);
-//     WReader.SetMva(WTagger);
-
     TopSemiTagger = NewTopSemiTagger;
-//     TopSemiTagger.SetTagger(NewBottomTagger,NewWSemiTagger);
-//     TopSemiReader.SetMva(TopSemiTagger);
-
     TopHadronicTagger = NewTopHadronicTagger;
-//     TopHadronicTagger.SetTagger(NewBottomTagger,NewWTagger);
-//     TopHadronicReader.SetMva(TopHadronicTagger);
-
-    SetTaggerName("HeavyHiggsSemi");
     DefineVariables();
 }
 
 void hanalysis::HHeavyHiggsSemiTagger::DefineVariables()
 {
-
     Print(HNotification , "Define Variables");
-
+    SetTaggerName("HeavyHiggsSemi");
     Observables.clear();
     Spectators.clear();
 

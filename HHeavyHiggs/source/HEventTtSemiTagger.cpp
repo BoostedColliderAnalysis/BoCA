@@ -140,7 +140,7 @@ std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::Ge
     if (Sextets.size() < 1) return EventSemiBranches;
 
     if (Tag == HSignal && Sextets.size() > 1) {
-        Print(HInformation, "more than one event", Sextets.size());
+        Print(HError, "more than one event", Sextets.size());
         std::sort(Sextets.begin(), Sextets.end());
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }

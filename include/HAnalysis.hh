@@ -61,10 +61,12 @@ public:
         HEventLeptonicTagger,
         HEventHadronicTagger,
         HEventSemiTagger,
+        HEventSemiReader,
+        HSignatureSemiTagger,
+        HSignatureSemiReader,
         HEventTagger,
         HHiggsLeptonicTagger,
         HEventLeptonicReader,
-        HEventSemiReader,
         HChargedHiggsSemiTagger
     };
 

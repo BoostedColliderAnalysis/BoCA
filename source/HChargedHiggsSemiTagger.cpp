@@ -21,24 +21,10 @@ void hanalysis::HChargedHiggsSemiTagger::SetTagger(
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger)
 {
     BottomTagger = NewBottomTagger;
-//     BottomTagger.SetTagger();
-//     BottomReader.SetMva(BottomTagger);
-//
     WSemiTagger = NewWSemiTagger;
-//     WSemiTagger.SetTagger();
-//     WSemiReader.SetMva(WSemiTagger);
-//
     WTagger = NewWTagger;
-//     WTagger.SetTagger(BottomTagger);
-//     WReader.SetMva(WTagger);
-
     TopSemiTagger = NewTopSemiTagger;
-//     TopSemiTagger.SetTagger(NewBottomTagger, NewWSemiTagger);
-//     TopSemiReader.SetMva(TopSemiTagger);
-
     TopHadronicTagger = NewTopHadronicTagger;
-//     TopHadronicTagger.SetTagger(NewBottomTagger, NewWTagger);
-//     TopHadronicReader.SetMva(TopHadronicTagger);
 
     SetTaggerName("ChargedHiggsSemi");
     DefineVariables();

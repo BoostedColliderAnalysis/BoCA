@@ -13,7 +13,7 @@
 # include "HEventHadronicTagger.hh"
 # include "HEventSemiTagger.hh"
 
-# include "HChargedSemiTagger.hh"
+// # include "HChargedSemiTagger.hh"
 # include "HChargedJetPairTagger.hh"
 # include "HTauTagger.hh"
 # include "HHeavyHiggsTauTagger.hh"

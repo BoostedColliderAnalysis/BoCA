@@ -1,5 +1,5 @@
-# ifndef HChargedSemiTagger_hh
-# define HChargedSemiTagger_hh
+# ifndef HChargedSignatureSemiTagger_hh
+# define HChargedSignatureSemiTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
 # include "HTopHadronicTagger.hh"
@@ -12,7 +12,7 @@
  * @brief Event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedEventSemiTagger : public hanalysis::HMva
+class hheavyhiggs::HChargedSignatureSemiTagger : public hanalysis::HMva
 {
 
 public:
@@ -21,13 +21,13 @@ public:
     * @brief Constructor
     *
     */
-    HChargedEventSemiTagger();
+    HChargedSignatureSemiTagger();
 
     /**
     * @brief Destructor
     *
     */
-    ~HChargedEventSemiTagger();
+    ~HChargedSignatureSemiTagger();
 
     void SetTagger(
       const hanalysis::HBottomTagger &NewBottomTagger,
@@ -39,15 +39,15 @@ public:
       const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
 
 
-    std::vector< HChargedSemiBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HChargedOctetBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    HChargedSemiBranch GetBranch(const HOctet44 &Octet) const;
+    HChargedOctetBranch GetBranch(const HOctet44 &Octet) const;
 
-    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
 
     std::vector<HOctet44> GetBdt(
-        const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, HJets &Jets, HChargedEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+        const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, const hanalysis::HReader &EventSemiReader);
 
 
     hanalysis::HBottomTagger BottomTagger;
@@ -81,7 +81,7 @@ private:
 
     void DefineVariables();
 
-    HChargedSemiBranch Branch;
+    HChargedOctetBranch Branch;
 
 };
 

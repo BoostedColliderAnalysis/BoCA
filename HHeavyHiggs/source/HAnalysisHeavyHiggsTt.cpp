@@ -104,7 +104,7 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTt::Files(const hanalysis::H
              SignalSemiFiles.push_back(hanalysis::HFile("sig_12000",2.5117159473593533e-6,12000));
 
     std::vector<hanalysis::HFile> BackgroundSemiFiles;
-    BackgroundSemiFiles.push_back(hanalysis::HFile( {"tt_semi_400_0", "tt_semi_400_1", "tt_semi_400_2", "tt_semi_400_3", "tt_semi_400_4", "tt_semi_400_5", "tt_semi_400_6"}, 3100));
+    BackgroundSemiFiles.push_back(hanalysis::HFile( {"tt_semi_400_0", "tt_semi_400_1", "tt_semi_400_2", "tt_semi_400_3", "tt_semi_400_4", "tt_semi_400_5", "tt_semi_400_6"}, 3100.));
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 

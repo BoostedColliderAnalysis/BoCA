@@ -32,6 +32,8 @@ class HOctet44 : public hanalysis::HTag
 
 public:
 
+  HOctet44(){};
+
     HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewDoublet);
 
     HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedEventStruct &NewEventStruct);

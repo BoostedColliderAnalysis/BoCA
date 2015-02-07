@@ -1,26 +1,26 @@
-# include "HChargedSemiTagger.hh"
+# include "HChargedEventSemiTagger.hh"
 
-hheavyhiggs::HChargedSemiTagger::HChargedSemiTagger()
+hheavyhiggs::HChargedEventSemiTagger::HChargedEventSemiTagger()
 {
 //       DebugLevel = HDebug;
-  Print(HInformation , "Constructor");
-    SetTaggerName("ChargedSemi");
+    Print(HInformation , "Constructor");
     DefineVariables();
 }
 
-hheavyhiggs::HChargedSemiTagger::~HChargedSemiTagger()
+hheavyhiggs::HChargedEventSemiTagger::~HChargedEventSemiTagger()
 {
-  Print(HInformation , "Destructor");
+    Print(HInformation , "Destructor");
 }
 
-void hheavyhiggs::HChargedSemiTagger::SetTagger(
+void hheavyhiggs::HChargedEventSemiTagger::SetTagger(
     const hanalysis::HBottomTagger &NewBottomTagger,
     const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
     const hanalysis::HWTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
-    const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger)
+    const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger,
+    const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger)
 {
     BottomTagger = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;
@@ -29,14 +29,14 @@ void hheavyhiggs::HChargedSemiTagger::SetTagger(
     TopSemiTagger = NewTopSemiTagger;
     ChargedJetPairTagger = NewChargedJetPairTagger;
     ChargedHiggsSemiTagger = NewChargedHiggsSemiTagger;
-    SetTaggerName("ChargedSemi");
+    SignatureSemiTagger = NewChargedSignatureTagger;
     DefineVariables();
 }
 
-void hheavyhiggs::HChargedSemiTagger::DefineVariables()
+void hheavyhiggs::HChargedEventSemiTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
-
+    SetTaggerName("ChargedEventSemi");
     Observables.clear();
     Spectators.clear();
 
@@ -49,6 +49,7 @@ void hheavyhiggs::HChargedSemiTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
     Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
     Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
     Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
     Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
@@ -58,16 +59,14 @@ void hheavyhiggs::HChargedSemiTagger::DefineVariables()
     Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
     Observables.push_back(NewObservable(&Branch.PairRap, "PairRap"));
 
+    Observables.push_back(NewObservable(&Branch.RestNumber, "RestNumber"));
     Observables.push_back(NewObservable(&Branch.RestM, "RestM"));
     Observables.push_back(NewObservable(&Branch.RestPt, "RestPt"));
     Observables.push_back(NewObservable(&Branch.RestHt, "RestHt"));
     Observables.push_back(NewObservable(&Branch.RestPhi, "RestPhi"));
     Observables.push_back(NewObservable(&Branch.RestRap, "RestRap"));
-    Observables.push_back(NewObservable(&Branch.RestBBdt, "RestBBdt"));
-    Observables.push_back(NewObservable(&Branch.MaxBBdt, "MaxBBdt"));
-    Observables.push_back(NewObservable(&Branch.TotalBBdt, "TotalBBdt"));
-    Observables.push_back(NewObservable(&Branch.ThirdBBdt, "ThirdBBdt"));
-    Observables.push_back(NewObservable(&Branch.LeptonPt, "LeptonPt"));
+    Observables.push_back(NewObservable(&Branch.RestBdt, "RestBdt"));
+    Observables.push_back(NewObservable(&Branch.LeptonHt, "LeptonHt"));
 
     Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
     Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
@@ -76,55 +75,54 @@ void hheavyhiggs::HChargedSemiTagger::DefineVariables()
 
 }
 
-hheavyhiggs::HChargedSemiBranch hheavyhiggs::HChargedSemiTagger::GetBranch(const HOctet44 &Octet) const
+hheavyhiggs::HChargedSemiBranch hheavyhiggs::HChargedEventSemiTagger::GetBranch(const HEventMultiplet< HOctet44 > &Event) const
 {
-    Print(HInformation, "FillPairTagger", Octet.Bdt());
+    Print(HInformation, "FillPairTagger", Event.Bdt());
 
     HChargedSemiBranch EventSemiBranch;
-    EventSemiBranch.LeptonNumber = Octet.LeptonNumber();
-    EventSemiBranch.JetNumber = Octet.JetNumber();
-    EventSemiBranch.BottomNumber = Octet.BottomNumber();
-    EventSemiBranch.ScalarHt = Octet.ScalarHt();
+    EventSemiBranch.LeptonNumber = Event.LeptonNumber();
+    EventSemiBranch.JetNumber = Event.JetNumber();
+    EventSemiBranch.BottomNumber = Event.BottomNumber();
+    EventSemiBranch.ScalarHt = Event.ScalarHt();
 
-    EventSemiBranch.Mass = Octet.Jet().m();
-    EventSemiBranch.Rap = Octet.Jet().rap();
-    EventSemiBranch.Phi = Octet.Jet().phi();
-    EventSemiBranch.Pt = Octet.Jet().pt();
-//     EventSemiBranch.Ht = Octet.Ht();
+    EventSemiBranch.Mass = Event.Jet().m();
+    EventSemiBranch.Rap = Event.Jet().rap();
+    EventSemiBranch.Phi = Event.Jet().phi();
+    EventSemiBranch.Pt = Event.Jet().pt();
+    EventSemiBranch.Ht = Event.Ht();
 
-    EventSemiBranch.DeltaPt = Octet.DeltaPt();
-    EventSemiBranch.DeltaRap = Octet.DeltaRap();
-    EventSemiBranch.DeltaPhi = Octet.DeltaPhi();
-    EventSemiBranch.DeltaR = Octet.DeltaR();
+    EventSemiBranch.DeltaPt = Event.DeltaPt();
+    EventSemiBranch.DeltaRap = Event.DeltaRap();
+    EventSemiBranch.DeltaPhi = Event.DeltaPhi();
+    EventSemiBranch.DeltaR = Event.DeltaR();
 
-    EventSemiBranch.Bdt = Octet.Bdt();
-    EventSemiBranch.Tag = Octet.Tag();
+    EventSemiBranch.Bdt = Event.Bdt();
+    EventSemiBranch.Tag = Event.Tag();
 
-    EventSemiBranch.HiggsMass = Octet.Quartet1().Jet().m();
-    EventSemiBranch.PairRap = Octet.Quartet2().DeltaRap();
+    EventSemiBranch.HiggsMass = Event.Octet().Quartet1().Jet().m();
+    EventSemiBranch.PairRap = Event.Octet().Quartet2().DeltaRap();
 
-    EventSemiBranch.RestM = Octet.EventStruct().RestM;
-    EventSemiBranch.RestPt = Octet.EventStruct().RestPt;
-    EventSemiBranch.RestHt = Octet.EventStruct().RestHt;
-    EventSemiBranch.RestRap = Octet.EventStruct().RestRap;
-    EventSemiBranch.RestPhi = Octet.EventStruct().RestPhi;
-    EventSemiBranch.RestBBdt = Octet.EventStruct().RestBBdt;
-    EventSemiBranch.MaxBBdt = Octet.EventStruct().MaxBBdt;
-    EventSemiBranch.TotalBBdt = Octet.EventStruct().TotalBBdt;
-    EventSemiBranch.ThirdBBdt = Octet.EventStruct().ThirdBBdt;
-    EventSemiBranch.LeptonPt = Octet.EventStruct().LeptonPt;
-    EventSemiBranch.EventTag = Octet.Tag();
+    EventSemiBranch.RestNumber = Event.RestNumber();
+    EventSemiBranch.RestM = Event.RestJet().m();
+    EventSemiBranch.RestPt = Event.RestJet().pt();
+    EventSemiBranch.RestHt = Event.RestHt();
+    EventSemiBranch.RestRap = Event.RestJet().rap();
+    if (std::abs(EventSemiBranch.RestRap) > 100) EventSemiBranch.RestRap = 0;
+    EventSemiBranch.RestPhi = Event.RestJet().phi();
+    EventSemiBranch.RestBdt = Event.RestBdt();
+
+    EventSemiBranch.LeptonHt = Event.LeptonHt();
 
     return EventSemiBranch;
 }
 
 struct SortJetsByBdt {
-  inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-    return (Jet1.user_info<hanalysis::HJetInfo>().Bdt() > Jet2.user_info<hanalysis::HJetInfo>().Bdt());
-  }
+    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+        return (Jet1.user_info<hanalysis::HJetInfo>().Bdt() > Jet2.user_info<hanalysis::HJetInfo>().Bdt());
+    }
 };
 
-std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -142,199 +140,125 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedSemiTagger::Ge
     std::vector<hanalysis::HQuartet31> HiggsQuartets = ChargedHiggsSemiTagger.GetBdt(TripletsSemi, Jets, ChargedHiggsSemiReader);
     std::vector<hanalysis::HQuartet31> JetQuartets = ChargedJetPairTagger.GetBdt(TripletsHadronic, Jets, ChargedJetPairReader);
 
-    std::vector<HOctet44> Octets;
-    for (const auto HiggsQuartet  : HiggsQuartets)
-        for (const auto & JetQuartet : JetQuartets) {
-            if (HiggsQuartet.Singlet() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            HOctet44 Octet(HiggsQuartet, JetQuartet);
-            Octets.push_back(Octet);
-        }
 
-    if (Tag == HSignal && Octets.size() > 1) {
-        Print(HInformation, "more than one event");
-        std::sort(Octets.begin(), Octets.end());
-        Octets.erase(Octets.begin() + 1, Octets.end());
+    HJets HiggsParticles = Event->GetParticles()->GetGeneratorJets();
+    HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
+    if (HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
+    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaR(HiggsParticles.front()));
+    if (Tag == HSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
+    if (Tag == HBackground && HiggsQuartets.size() > 0) HiggsQuartets.erase(HiggsQuartets.begin());
+
+
+    HJets TopParticles = Event->GetParticles()->GetGeneratorJets();
+    TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongAbsFamily(TopId, GluonId)), TopParticles.end());
+    if (TopParticles.size() != 1) Print(HError, "Where is the Top?");
+    HJets BottomParticles = Event->GetParticles()->GetGeneratorJets();
+    BottomParticles.erase(std::remove_if(BottomParticles.begin(), BottomParticles.end(), WrongAbsFamily(BottomId, GluonId)), BottomParticles.end());
+    if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?");
+
+    if (TopParticles.size() > 0 && BottomParticles.size() > 0) {
+        hanalysis::HDoublet ParticlePair(TopParticles.front(), BottomParticles.front());
+        std::sort(JetQuartets.begin(), JetQuartets.end(), MinDeltaR(ParticlePair.Jet()));
+        if (Tag == HSignal && JetQuartets.size() > 1) JetQuartets.erase(JetQuartets.begin() + 1, JetQuartets.end());
+        if (Tag == HBackground && JetQuartets.size() > 0) JetQuartets.erase(JetQuartets.begin());
     }
 
-    std::sort(Jets.begin(), Jets.end(), SortJetsByBdt());
-    float MaxBBdt = 0;
-    for (int i = 0; i < std::min(3, int(Jets.size())); ++i) {
-        MaxBBdt += Jets.at(i).user_info<hanalysis::HJetInfo>().Bdt() / std::min(3, int(Jets.size()));
-        Print(HInformation, "BDt", Jets.at(i).user_info<hanalysis::HJetInfo>().Bdt(), MaxBBdt);
-    }
+    std::vector<HOctet44> Octets = SignatureSemiTagger.GetBdt(HiggsQuartets, JetQuartets, SignatureSemiReader);
 
-    float ThirdBBdt = 0;
-    if (Jets.size() > 2) ThirdBBdt = Jets.at(2).user_info<hanalysis::HJetInfo>().Bdt();
 
-    for (auto & Octet : Octets) {
-        HChargedEventStruct EventStruct;
+    std::vector<HEventMultiplet<HOctet44>> Events;
+    for (const auto & Octet : Octets) {
+      HEventMultiplet<HOctet44> OctetEvent(Octet);
+        HEventStruct EventStruct;
         EventStruct.LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
         EventStruct.JetNumber = Event->GetJets()->GetJets().size();
         EventStruct.BottomNumber = Event->GetJets()->GetBottomJets().size();
         EventStruct.ScalarHt = Event->GetJets()->GetScalarHt();
-        EventStruct.MaxBBdt = MaxBBdt;
-        EventStruct.ThirdBBdt = ThirdBBdt;
-        if (EventStruct.LeptonNumber > 0) EventStruct.LeptonPt = fastjet::sorted_by_pt(Event->GetLeptons()->GetLeptonJets()).front().pt();
-        fastjet::PseudoJet RestJet(0., 0., 0., 0.);
-        int  RestNumber = 0;
+        OctetEvent.SetEventStruct(EventStruct);
+        OctetEvent.SetLeptons(Leptons);
+        OctetEvent.SetTag(Tag);
         for (const auto & Jet : Jets) {
-            EventStruct.TotalBBdt  += Jet.user_info<hanalysis::HJetInfo>().Bdt() / Jets.size();
-            if (Octet.Quartet1().Singlet() == Jet) continue;
-            if (Octet.Quartet1().Triplet().Singlet() == Jet) continue;
-            if (Octet.Quartet1().Triplet().Doublet().Singlet1() == Jet) continue;
-            if (Octet.Quartet1().Triplet().Doublet().Singlet2() == Jet) continue;
-            if (Octet.Quartet2().Singlet() == Jet) continue;
-            if (Octet.Quartet2().Triplet().Singlet() == Jet) continue;
-            if (Octet.Quartet2().Triplet().Doublet().Singlet1() == Jet) continue;
-            if (Octet.Quartet2().Triplet().Doublet().Singlet2() == Jet) continue;
-            ++RestNumber;
-            EventStruct.RestHt += Jet.pt();
-//             EventStruct.RestBTag += Jet.user_info<hanalysis::HJetInfo>().BTag();
-            Print(HInformation, "Rest BTag", EventStruct.RestBTag);
-            EventStruct.RestBBdt += Jet.user_info<hanalysis::HJetInfo>().Bdt();
-            RestJet += Jet;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Singlet()) < .4) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Singlet()) < .4) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Doublet().Singlet1()) < .4) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Doublet().Singlet2()) < .4) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet2().Singlet()) < .4) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet2().Triplet().Singlet()) < .4) continue;
+            OctetEvent.AddRestJet(Jet);
         }
-        EventStruct.RestBBdt /= RestNumber;
-        if (RestJet != fastjet::PseudoJet(0, 0, 0, 0)) {
-            EventStruct.RestM = RestJet.m();
-            EventStruct.RestPt = RestJet.pt();
-            EventStruct.RestRap = RestJet.rap();
-            EventStruct.RestPhi = RestJet.phi();
-        }
-        Octet.SetEventStruct(EventStruct);
-        Octet.SetTag(Tag);
+        Events.push_back(OctetEvent);
     }
 
     std::vector<hheavyhiggs::HChargedSemiBranch> EventSemiBranches;
-    for (const auto & Octet : Octets) EventSemiBranches.push_back(GetBranch(Octet));
+    for (const auto & event : Events)EventSemiBranches.push_back(GetBranch(event));
 
     return EventSemiBranches;
 
 }
 
-
-std::vector<HOctet44> hheavyhiggs::HChargedSemiTagger::GetBdt(
-    const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, HJets &Jets, HChargedEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader)
+std::vector<HEventMultiplet<HOctet44>> hheavyhiggs::HChargedEventSemiTagger::GetBdt(
+    const std::vector< HOctet44 > &Octets, HJets &Jets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader)
 {
     Print(HInformation, "Get Event Tags");
 
-    std::vector<HOctet44> Octets;
-    for (const auto & JetQuartet : JetQuartets) {
-        for (const auto & HiggsQuartet : HiggsQuartets) {
-            if (HiggsQuartet.Singlet() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Singlet() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Triplet().Singlet() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Singlet()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Doublet().Singlet1()) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2() == JetQuartet.Triplet().Doublet().Singlet2()) continue;
-            HOctet44 Octet(HiggsQuartet, JetQuartet, EventStruct);
-            Branch = GetBranch(Octet);
-            Octet.SetBdt(EventSemiReader.Bdt());
-            Octets.push_back(Octet);
-        }
-    }
 
-    std::sort(Octets.begin(), Octets.end());
-    if (Octets.size() > 1)Octets.erase(Octets.begin() + 1, Octets.end());
-    Print(HInformation, "Event Number", Octets.size(), Jets.size());
-
-    std::sort(Jets.begin(), Jets.end(), SortJetsByBdt());
-    float MaxBBdt = 0;
-    for (int i = 0; i < std::min(3, int(Jets.size())); ++i)
-        MaxBBdt += Jets.at(i).user_info<hanalysis::HJetInfo>().Bdt() / std::min(3, int(Jets.size()));
-
-    float ThirdBBdt = 0;
-    if (Jets.size() > 2) ThirdBBdt = Jets.at(2).user_info<hanalysis::HJetInfo>().Bdt();
-
+    std::vector<HEventMultiplet<HOctet44>> Events;
     for (auto & Octet : Octets) {
-        fastjet::PseudoJet RestJet(0., 0., 0., 0.);
-        int RestNumber = 0;
+      HEventMultiplet<HOctet44> OctetEvent(Octet, EventStruct);
         for (const auto & Jet : Jets) {
-            EventStruct.TotalBBdt  += Jet.user_info<hanalysis::HJetInfo>().Bdt();
-            if (Octet.Quartet1().Singlet() == Jet) continue;
-            if (Octet.Quartet1().Triplet().Singlet() == Jet) continue;
-            if (Octet.Quartet1().Triplet().Doublet().Singlet1() == Jet) continue;
-            if (Octet.Quartet1().Triplet().Doublet().Singlet2() == Jet) continue;
-            if (Octet.Quartet2().Singlet() == Jet) continue;
-            if (Octet.Quartet2().Triplet().Singlet() == Jet) continue;
-            if (Octet.Quartet2().Triplet().Doublet().Singlet1() == Jet) continue;
-            if (Octet.Quartet2().Triplet().Doublet().Singlet2() == Jet) continue;
-            ++RestNumber;
-            Octet.EventStructM.RestHt += Jet.pt();
-            Octet.EventStructM.RestBTag += Jet.user_info<hanalysis::HJetInfo>().BTag();
-            Octet.EventStructM.RestBBdt += Jet.user_info<hanalysis::HJetInfo>().Bdt();
-            Octet.EventStructM.MaxBBdt = MaxBBdt;
-            RestJet += Jet;
+            if (Octet.Quartet1().Singlet().delta_R(Jet) < 0.4) continue;
+            if (Octet.Quartet1().Triplet().Singlet().delta_R(Jet) < 0.4) continue;
+            if (Octet.Quartet1().Triplet().Doublet().Singlet1().delta_R(Jet) < 0.4) continue;
+            if (Octet.Quartet1().Triplet().Doublet().Singlet2().delta_R(Jet) < 0.4) continue;
+            if (Octet.Quartet2().Singlet().delta_R(Jet) < 0.4) continue;
+            if (Octet.Quartet2().Triplet().Singlet().delta_R(Jet) < 0.4) continue;
+            if (Octet.Quartet2().Triplet().Doublet().Singlet1().delta_R(Jet) < 0.4) continue;
+            if (Octet.Quartet2().Triplet().Doublet().Singlet2().delta_R(Jet) < 0.4) continue;
+            OctetEvent.AddRestJet(Jet);
         }
-        Octet.EventStructM.RestBBdt /= RestNumber;
-        Octet.EventStructM.ThirdBBdt = ThirdBBdt;
-        if (RestJet != fastjet::PseudoJet(0, 0, 0, 0)) {
-            Octet.EventStructM.RestM = RestJet.m();
-            Octet.EventStructM.RestPt = RestJet.pt();
-            Octet.EventStructM.RestRap = RestJet.rap();
-            Octet.EventStructM.RestPhi = RestJet.phi();
-        }
-
+        OctetEvent.SetLeptons(Leptons);
+        Branch = GetBranch(OctetEvent);
+        OctetEvent.SetBdt(EventSemiReader.Bdt());
+        Events.push_back(OctetEvent);
     }
 
-    return Octets;
+    std::sort(Events.begin(), Events.end());
+    if (Events.size() > 1)Events.erase(Events.begin() + 1, Events.end());
+    Print(HInformation, "Event Number", Events.size(), Jets.size());
+
+    return Events;
 }
 
-std::vector<int> hheavyhiggs::HChargedSemiTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
+std::vector<int> hheavyhiggs::HChargedEventSemiTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 {
-  Print(HNotification, "Apply Bdt", EventBranchName);
+    Print(HNotification, "Apply Bdt", EventBranchName);
 
-  std::string Temp = EventBranchName; // TODO remove this dirty trick
-  EventBranchName += "Reader";
+    std::string Temp = EventBranchName; // TODO remove this dirty trick
+    EventBranchName += "Reader";
 
-  const int Steps = 20;
-  std::vector<int> EventNumbers(Steps, 0);
+    const int Steps = 20;
+    std::vector<int> EventNumbers(Steps, 0);
 
-  const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
-  ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-  ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HResultBranch::Class());
-  for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
-    const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-    for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
-      HChargedSemiBranch *Test = (HChargedSemiBranch *) EventClonesArray->At(Entry);
-      const float Bdt = Test->Bdt;
-      HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
-      Export->Bdt = Bdt;
-      for (int Step = 0; Step < Steps; ++Step) {
-        const float CutValue = (float(Step) / Steps + 1);
-        if (Bdt > CutValue) ++EventNumbers.at(Step);
-      }
+    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
+    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HResultBranch::Class());
+    for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+        for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
+            HChargedSemiBranch *Test = (HChargedSemiBranch *) EventClonesArray->At(Entry);
+            const float Bdt = Test->Bdt;
+            HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
+            Export->Bdt = Bdt;
+            for (int Step = 0; Step < Steps; ++Step) {
+                const float CutValue = (float(Step) / Steps + 1);
+                if (Bdt > CutValue) ++EventNumbers.at(Step);
+            }
+        }
+        TreeWriter->Fill();
+        TreeWriter->Clear();
     }
-    TreeWriter->Fill();
-    TreeWriter->Clear();
-  }
-  TreeWriter->Write();
-  delete TreeWriter;
-  EventBranchName = Temp;
-  return EventNumbers;
+    TreeWriter->Write();
+    delete TreeWriter;
+    EventBranchName = Temp;
+    return EventNumbers;
 }

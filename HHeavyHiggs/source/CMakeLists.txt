@@ -11,10 +11,13 @@ HAnalysisTau.cpp
 HEventLeptonicTagger.cpp
 HEventHadronicTagger.cpp
 HEventSemiTagger.cpp
-HChargedSemiTagger.cpp
+HChargedSignatureSemiTagger.cpp
+HSignatureSemiTagger.cpp
+HChargedEventSemiTagger.cpp
 HChargedHadronicTagger.cpp
 HOctet.cpp
 HOctet44.cpp
+HOctet44Event.cpp
 HSextetEvent.cpp
 HEventTtSemiTagger.cpp
 )

@@ -9,12 +9,12 @@
 # include "HFactory.hh"
 # include "HJetTag.hh"
 
-# include "HEventLeptonicTagger.hh"
-# include "HEventHadronicTagger.hh"
-# include "HEventSemiTagger.hh"
+// # include "HEventLeptonicTagger.hh"
+// # include "HEventHadronicTagger.hh"
+// # include "HEventSemiTagger.hh"
 
-# include "HChargedSemiTagger.hh"
-# include "HChargedJetPairTagger.hh"
+# include "HChargedEventSemiTagger.hh"
+// # include "HChargedJetPairTagger.hh"
 
 
 
@@ -53,28 +53,20 @@ public:
     hanalysis::HWSemiTagger WSemiTagger;
     hanalysis::HWTagger WHadronicTagger;
 
-    hanalysis::HTopLeptonicTagger TopLeptonicTagger;
+//     hanalysis::HTopLeptonicTagger TopLeptonicTagger;
     hanalysis::HTopHadronicTagger TopHadronicTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;
 
     hanalysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
     hanalysis::HChargedJetPairTagger JetPairTagger;
 
-    hheavyhiggs::HChargedSemiTagger EventSemiTagger;
-
-    /**
-     * @brief prepares the std::vector describing the input root files
-     */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &Name) {
-        Print(HError, "we dont want to end up her", Name);
-        std::vector<hanalysis::HFile * > NewFiles;
-        return NewFiles;
-    }
+    hheavyhiggs::HChargedSignatureSemiTagger SignatureSemiTagger;
+    hheavyhiggs::HChargedEventSemiTagger EventSemiTagger;
 
     std::vector< hanalysis::HFile > Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string ProjectName() const {
-//         return "ChargedHiggs1";
+        return "ChargedHiggs1";
 //         return "ChargedHiggs2";
 //         return "ChargedHiggs3";
 //         return "ChargedHiggs4";
@@ -86,7 +78,8 @@ public:
 //         return "ChargedHiggs10";
 //         return "ChargedHiggs12";
 //         return "ChargedHiggs15";
-        return "ChargedHiggs20";
+//         return "ChargedHiggs20";
+//         return "ChargedHiggsTest";
     }
 
     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -116,14 +109,15 @@ private:
     hanalysis::HReader TopHadronicReader;
     hanalysis::HReader TopSemiReader;
     hanalysis::HReader ChargedHiggsSemiReader;
+    hanalysis::HReader SignatureSemiReader;
     hanalysis::HReader EventSemiReader;
 
     inline int EventNumberMax() const {
+//         return 1000000;
 //         return 100000;
         return 10000;
 //         return 1000;
 //         return 100;
-//         return 500;
     };
 
     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
@@ -152,8 +146,9 @@ private:
     bool GetTopSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetChargedHiggsSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetChargdHiggsSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
+    bool GetSignatureSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
+    bool GetSignatureSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetEventSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
-
     bool GetEventSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
 
 };
