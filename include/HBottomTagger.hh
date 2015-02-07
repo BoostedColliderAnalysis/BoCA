@@ -35,6 +35,10 @@ public:
 
     HJets GetSubBdt(const HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
 
+    void PrepareReader(){
+      Reader.SetMva(*this);
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -57,6 +61,8 @@ private:
     HBottomBranch Branch;
 
     HJetTag JetTag;
+
+    HReader Reader;
 
 };
 

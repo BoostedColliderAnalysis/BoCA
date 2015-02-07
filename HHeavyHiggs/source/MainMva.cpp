@@ -53,6 +53,9 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
         case hanalysis::HAnalysis::HEventSemiTagger:
             hanalysis::HFactory(Analysis.EventSemiTagger);
             break;
+        case hanalysis::HAnalysis::HSignatureSemiTagger:
+          hanalysis::HFactory(Analysis.SignatureSemiTagger);
+          break;
 //         case hanalysis::HAnalysis::HChargedHiggsSemiTagger:
 //           hanalysis::HFactory(Analysis.ChargedHiggsSemiTagger);
 //           break;
@@ -119,7 +122,10 @@ int main()
 //     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
 //
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
+    //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
+
+    RunTagger(hanalysis::HAnalysis::HSignatureSemiTagger);
+    RunTagger(hanalysis::HAnalysis::HSignatureSemiReader);
 
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);

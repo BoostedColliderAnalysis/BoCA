@@ -1,5 +1,5 @@
-# ifndef HEventSemiTagger_hh
-# define HEventSemiTagger_hh
+# ifndef HSignatureSemiTagger_hh
+# define HSignatureSemiTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsSemiTagger.hh"
@@ -11,7 +11,7 @@
  * @brief Event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HEventSemiTagger : public hanalysis::HMva
+class hheavyhiggs::HSignatureSemiTagger : public hanalysis::HMva
 {
 
 public:
@@ -20,13 +20,13 @@ public:
     * @brief Constructor
     *
     */
-    HEventSemiTagger();
+    HSignatureSemiTagger();
 
     /**
     * @brief Destructor
     *
     */
-    ~HEventSemiTagger();
+    ~HSignatureSemiTagger();
 
     void SetTagger(
         const hanalysis::HBottomTagger &NewBottomTagger,
@@ -37,13 +37,13 @@ public:
         const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
         const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
-    std::vector<HEventSemiBranch> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector<HOctetBranch> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
 
-    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, const hanalysis::HReader &Reader);
 
-    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
-    HEventSemiBranch GetBranch(const HOctet &Octet) const;
+    HOctetBranch GetBranch(const HOctet &Octet) const;
 
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HWSemiTagger WSemiTagger;
@@ -69,7 +69,7 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HHEventSemiTagger";
+        return "HSignatureSemiTagger";
     }
 
 private:
@@ -80,7 +80,7 @@ private:
 
     std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
 
-    HEventSemiBranch Branch;
+    HOctetBranch Branch;
     hanalysis::HJetTag JetTag;
 
 };

@@ -5,25 +5,25 @@
 # include "HSextet.hh"
 
 
-struct HEventStruct {
-
-    int LeptonNumber = 0;
-    int JetNumber = 0;
-    int BottomNumber = 0;
-    float ScalarHt = 0;
-    float RestHt = 0;
-    float RestM = 0;
-    float RestPt = 0;
-    float RestRap = 0;
-    float RestPhi = 0;
-    int RestBTag = 0;
-    float RestBBdt = 0;
-    float MaxBBdt = 0;
-    float TotalBBdt = 0;
-    float ThirdBBdt = 0;
-    float LeptonPt = 0;
-
-};
+// struct HEventStruct {
+//
+//     int LeptonNumber = 0;
+//     int JetNumber = 0;
+//     int BottomNumber = 0;
+//     float ScalarHt = 0;
+//     float RestHt = 0;
+//     float RestM = 0;
+//     float RestPt = 0;
+//     float RestRap = 0;
+//     float RestPhi = 0;
+//     int RestBTag = 0;
+//     float RestBBdt = 0;
+//     float MaxBBdt = 0;
+//     float TotalBBdt = 0;
+//     float ThirdBBdt = 0;
+//     float LeptonPt = 0;
+//
+// };
 
 class HOctetPrivate;
 
@@ -36,11 +36,11 @@ class HOctet : public hanalysis::HTag
 
 public:
 
-//     HOctet() {};
+    HOctet() {};
 
     HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet);
 
-    HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet, const HEventStruct &NewEventStruct);
+//     HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet, const HEventStruct &NewEventStruct);
 
 
     inline hanalysis::HSextet Sextet()const {
@@ -95,47 +95,47 @@ public:
         return HObject::GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
     }
 
-    inline void SetScalarHt(const float NewScalarHt) {
-        EventStructM.ScalarHt = NewScalarHt;
-    }
+//     inline void SetScalarHt(const float NewScalarHt) {
+//         EventStructM.ScalarHt = NewScalarHt;
+//     }
+//
+//     inline void SetJetNumber(const int NewJetNumber) {
+//         EventStructM.JetNumber = NewJetNumber;
+//     }
+//
+//     inline void SetBottomNumber(const int NewBottomNumber) {
+//         EventStructM.BottomNumber = NewBottomNumber;
+//     }
+//
+//     inline void SetLeptonNumber(const int NewLeptonNumber) {
+//         EventStructM.LeptonNumber = NewLeptonNumber;
+//     }
+//
+//     inline float ScalarHt() const {
+//         return EventStructM.ScalarHt;
+//     }
+//
+//     inline int JetNumber()const {
+//         return EventStructM.JetNumber;
+//     }
+//
+//     inline int BottomNumber()const {
+//         return EventStructM.BottomNumber;
+//     }
+//
+//     inline int LeptonNumber()const {
+//         return EventStructM.LeptonNumber;
+//     }
+//
+//     inline HEventStruct EventStruct()const {
+//         return EventStructM;
+//     }
+//
+//     inline void SetEventStruct(const HEventStruct &NewEventStruct) {
+//         EventStructM = NewEventStruct;
+//     }
 
-    inline void SetJetNumber(const int NewJetNumber) {
-        EventStructM.JetNumber = NewJetNumber;
-    }
-
-    inline void SetBottomNumber(const int NewBottomNumber) {
-        EventStructM.BottomNumber = NewBottomNumber;
-    }
-
-    inline void SetLeptonNumber(const int NewLeptonNumber) {
-        EventStructM.LeptonNumber = NewLeptonNumber;
-    }
-
-    inline float ScalarHt() const {
-        return EventStructM.ScalarHt;
-    }
-
-    inline int JetNumber()const {
-        return EventStructM.JetNumber;
-    }
-
-    inline int BottomNumber()const {
-        return EventStructM.BottomNumber;
-    }
-
-    inline int LeptonNumber()const {
-        return EventStructM.LeptonNumber;
-    }
-
-    inline HEventStruct EventStruct()const {
-        return EventStructM;
-    }
-
-    inline void SetEventStruct(const HEventStruct &NewEventStruct) {
-        EventStructM = NewEventStruct;
-    }
-
-    HEventStruct EventStructM;
+//     HEventStruct EventStructM;
 
     inline float GetDeltaR1() const {
         return SextetJet().delta_R(DoubletM.Singlet1());

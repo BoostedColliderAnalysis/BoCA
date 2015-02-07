@@ -34,6 +34,7 @@ class HEventTtSemiTagger;
 class HChargedSignatureSemiTagger;
 class HSignatureSemiTagger;
 class HChargedOctetBranch;
+class HOctetBranch;
 }
 
 /**
@@ -193,55 +194,31 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventSemiBranch : public HBranch
+class hheavyhiggs::HEventSemiBranch : public HPairBranch
 {
 
 public:
 
   HEventSemiBranch();
 
-  float Mass;
-  float Pt;
-  float Rap;
-  float Phi;
-
-  float DeltaPt;
-  float DeltaRap;
-  float DeltaPhi;
-  float DeltaR;
-
-  float Bdt;
-  int Tag;
-
   float HiggsMass;
   float PairRap;
+  float HiggsBdt;
+  float SignatureBdt;
 
   int LeptonNumber;
   int JetNumber;
   int BottomNumber;
   float ScalarHt;
 
-  float DeltaPt1;
-  float DeltaR1;
-  float DeltaPhi1;
-  float DeltaRap1;
-
-  float DeltaPt2;
-  float DeltaR2;
-  float DeltaPhi2;
-  float DeltaRap2;
-
+  int RestNumber;
   float RestHt;
   float RestM;
   float RestPt;
   float RestRap;
-  float RestBBdt;
-  float MaxBBdt;
-  float TotalBBdt;
+  float RestBdt;
   float RestPhi;
-  int RestBTag;
-  float ThirdBBdt;
-  float LeptonPt;
+  float LeptonHt;
 
 
 private:
@@ -325,6 +302,27 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
+class hheavyhiggs::HOctetBranch : public HPairBranch
+{
+
+public:
+
+  HOctetBranch();
+
+  float HiggsMass;
+  float PairRap;
+
+private:
+
+  ClassDef(HOctetBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs cpv tagger root tree structure
+ *
+ */
 class hheavyhiggs::HChargedOctetBranch : public HPairBranch
 {
 
@@ -355,6 +353,8 @@ public:
 
   float HiggsMass;
   float PairRap;
+  float HiggsBdt;
+  float SignatureBdt;
 
   int LeptonNumber;
   int JetNumber;

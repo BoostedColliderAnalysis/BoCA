@@ -37,7 +37,6 @@ public:
      *
      */
     ~HAnalysisMva();
-
     /**
      * @brief Branch to write results into
      *
@@ -59,6 +58,8 @@ public:
 
     hheavyhiggs::HEventLeptonicTagger EventLeptonicTagger;
     hheavyhiggs::HEventHadronicTagger EventHadronicTagger;
+
+    hheavyhiggs::HSignatureSemiTagger SignatureSemiTagger;
     hheavyhiggs::HEventSemiTagger EventSemiTagger;
 
     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -82,8 +83,8 @@ public:
 //         return "HeavyHiggsMva10000";
 //         return "HeavyHiggsMva12000";
 //         return "HeavyHiggsMva15000";
-        return "HeavyHiggsMva20000";
-//         return "HeavyHiggsMvaTest";
+//         return "HeavyHiggsMva20000";
+        return "HeavyHiggsMvaTest";
     }
 
 protected:
@@ -99,9 +100,10 @@ protected:
 private:
 
     inline int EventNumberMax() const {
+//         return 1000000;
 //         return 100000;
-        return 10000;
-//         return 1000;
+//         return 10000;
+        return 1000;
 //         return 100;
     };
 
@@ -116,6 +118,7 @@ private:
     hanalysis::HReader TopSemiReader;
     hanalysis::HReader HeavyHiggsSemiReader;
     hanalysis::HReader HeavyHiggsLeptonicReader;
+    hanalysis::HReader SignatureSemiReader;
     hanalysis::HReader EventSemiReader;
     hanalysis::HReader EventLeptonicReader;
 
@@ -148,7 +151,11 @@ private:
     bool GetHeavyHiggsSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetEventLeptonicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
     bool GetEventHadronicTag(hanalysis::HEvent *const Event, const HTag Tag);
+
     bool GetEventSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
+
+    bool GetSignatureSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
+    bool GetSignatureSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
 
     bool GetEventSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
     bool GetEventLeptonicReader(hanalysis::HEvent *const Event, const HTag Tag);

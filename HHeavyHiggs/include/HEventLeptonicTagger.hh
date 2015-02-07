@@ -5,6 +5,7 @@
 # include "HHeavyHiggsLeptonicTagger.hh"
 # include "HJetPairTagger.hh"
 # include "HOctet.hh"
+# include "HOctet44Event.hh"
 
 /**
  *

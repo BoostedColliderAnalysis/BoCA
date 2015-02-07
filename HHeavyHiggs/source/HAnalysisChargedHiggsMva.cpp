@@ -94,7 +94,7 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisCharged::Files(const hanalys
 
     std::vector<hanalysis::HFile> SignalSemiFiles;
 
-    SignalSemiFiles.push_back(hanalysis::HFile("1TeV",38.501952876819495/2,1000));
+//     SignalSemiFiles.push_back(hanalysis::HFile("1TeV",38.501952876819495/2,1000));
     //     SignalSemiFiles.push_back(hanalysis::HFile("2TeV",3.7429107249252125/2,2000));
 //         SignalSemiFiles.push_back(hanalysis::HFile("3TeV",0.7636108315783771/2,3000));
     //     SignalSemiFiles.push_back(hanalysis::HFile("4TeV",0.22232809767415665/2,4000));
@@ -104,7 +104,7 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisCharged::Files(const hanalys
     //     SignalSemiFiles.push_back(hanalysis::HFile("10TeV",0.002068335074918064/2,10000));
 //         SignalSemiFiles.push_back(hanalysis::HFile("12TeV",0.0006693740636689783/2,12000));
 //         SignalSemiFiles.push_back(hanalysis::HFile("15TeV",0.00015145887990818783/2,15000));
-//     SignalSemiFiles.push_back(hanalysis::HFile("20TeV", 0.000016677670760729152 / 2, 20000));
+    SignalSemiFiles.push_back(hanalysis::HFile("20TeV", 0.000016677670760729152 / 2, 20000));
 
     std::vector<hanalysis::HFile> BackgroundSemiFiles;
     HStrings BG1 = {"BG_ttbb_ljbbbb", "BG_ttbb_ljbbbb_1"};
@@ -254,7 +254,7 @@ void hheavyhiggs::HAnalysisCharged::SetTrees(const hanalysis::HAnalysis::HTagger
     };
 
     HStrings SignalSemiTrees {
-        "1TeV-run_01",
+//         "1TeV-run_01",
 //         "2TeV-run_01",
 //         "3TeV-run_01"
 //         "4TeV-run_01"
@@ -266,7 +266,7 @@ void hheavyhiggs::HAnalysisCharged::SetTrees(const hanalysis::HAnalysis::HTagger
 //         "10TeV-run_01"
 //         "12TeV-run_01"
 //         "15TeV-run_01"
-//         "20TeV-run_01"
+        "20TeV-run_01"
     };
 
     HStrings BackgroundSemiTrees {

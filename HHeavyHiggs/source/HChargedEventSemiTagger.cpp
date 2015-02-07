@@ -40,7 +40,7 @@ void hheavyhiggs::HChargedEventSemiTagger::DefineVariables()
     Observables.clear();
     Spectators.clear();
 
-    Spectators.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
+    Observables.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
     Observables.push_back(NewObservable(&Branch.JetNumber, "JetNumber"));
     Observables.push_back(NewObservable(&Branch.BottomNumber, "BottomNumber"));
     Observables.push_back(NewObservable(&Branch.ScalarHt, "ScalarHt"));
@@ -58,6 +58,8 @@ void hheavyhiggs::HChargedEventSemiTagger::DefineVariables()
 
     Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
     Observables.push_back(NewObservable(&Branch.PairRap, "PairRap"));
+    Observables.push_back(NewObservable(&Branch.HiggsBdt, "HiggsBdt"));
+    Observables.push_back(NewObservable(&Branch.SignatureBdt, "SignatureBdt"));
 
     Observables.push_back(NewObservable(&Branch.RestNumber, "RestNumber"));
     Observables.push_back(NewObservable(&Branch.RestM, "RestM"));
@@ -101,6 +103,8 @@ hheavyhiggs::HChargedSemiBranch hheavyhiggs::HChargedEventSemiTagger::GetBranch(
 
     EventSemiBranch.HiggsMass = Event.Octet().Quartet1().Jet().m();
     EventSemiBranch.PairRap = Event.Octet().Quartet2().DeltaRap();
+    EventSemiBranch.HiggsBdt = Event.Octet().Quartet1().Bdt();
+    EventSemiBranch.SignatureBdt = Event.Octet().Bdt();
 
     EventSemiBranch.RestNumber = Event.RestNumber();
     EventSemiBranch.RestM = Event.RestJet().m();
