@@ -88,26 +88,20 @@ HTopSemiBranch hanalysis::HTopSemiTagger::GetBranch(const hanalysis::HTriplet &T
 
 std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
 {
-
     Print(HInformation, "Get Top Tags");
 
-    JetTag.HeavyParticles = {TopId};
-//     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
-    HJets Jets = GetJets(Event,JetTag);
+    HJets Jets = GetJets(Event);
     Print(HInformation, "Jet Number", Jets.size());
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
     HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
-
     Print(HInformation, "Lepton Number", Leptons.size());
     Leptons = fastjet::sorted_by_pt(Leptons);
     if (Leptons.size() > 1) Leptons.erase(Leptons.begin() + 1, Leptons.end());
 
     fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-//     std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-//     Print(HInformation, "Number Doublets", Doublets.size());
-    std::vector<HDoublet> Doublets;
-    Doublets.push_back(HDoublet(Leptons.front(),Leptons.front()));
+    std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
+    Print(HInformation, "Number Doublets", Doublets.size());
 
     HJets WParticles = Event->GetParticles()->GetGeneratorJets();
     WParticles.erase(std::remove_if(WParticles.begin(), WParticles.end(), WrongFamily(WId, TopId)), WParticles.end());
@@ -116,7 +110,6 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
     } else {
         std::sort(Doublets.begin(), Doublets.end(), MinDeltaR(WParticles.front()));
         if (Tag == HSignal && Doublets.size() > 1) Doublets.erase(Doublets.begin() + 1, Doublets.end());
-//         if (Tag == HBackground && Doublets.size() > 0) Doublets.erase(Doublets.begin());
     }
 
     HJets BParticles = Event->GetParticles()->GetGeneratorJets();

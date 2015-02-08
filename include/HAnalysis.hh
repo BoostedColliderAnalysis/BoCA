@@ -84,15 +84,13 @@ public:
 
 protected:
 
-    virtual void ResetBranch() {
-        Print(HError, "Reset Branch", "should be subclassed");
-    }
-
     int EventSum(const std::shared_ptr<ExRootTreeReader> &NewTreeReader) const {
         return std::min((int)NewTreeReader->GetEntries(), EventNumberMax());
     }
-
-//     ExRootTreeWriter *TreeWriter(TFile *const ExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
+    
+    int EventSum(const ExRootTreeReader &NewTreeReader) const {
+      return std::min((int)NewTreeReader.GetEntries(), EventNumberMax());
+    }
 
     ExRootTreeWriter TreeWriter(const TFile &NewExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
 
@@ -102,7 +100,7 @@ protected:
 
     std::string ExportName(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag State) const;
 
-    void FillInfoBranch(const std::shared_ptr< ExRootTreeReader > &TreeReader, ExRootTreeBranch *const InfoBranch, const hanalysis::HFile &File);
+    void FillInfoBranch(const ExRootTreeReader &TreeReader, ExRootTreeBranch *const InfoBranch, const hanalysis::HFile &File);
 
     virtual bool Analysis(HEvent *const, const HTagger Tagger, const HTag State) {
         Print(HError, "Analysis", "should be subclassed", Tagger, State);

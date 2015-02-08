@@ -217,37 +217,7 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent *const 
 
 }
 
-HJets hanalysis::HWTagger::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
-{
-    Print(HInformation, "Get Sub Jets");
-    HJets Pieces;
-    if (!Jet.has_constituents()) {
-        Print(HError, "Pieceless jet");
-        return Pieces;
-    }
-    if (!Jet.has_user_info<HJetInfo>()) {
-        Print(HError, "Get Sub Jets", "No Jet Info");
-        return Pieces;
-    }
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, 0.4));
-    HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
-    ClusterSequence->delete_self_when_unused();
 
-    for (auto & Piece : NewPieces) {
-        std::vector<HConstituent> Constituents;
-        for (const auto & PieceConstituent : Piece.constituents()) {
-            if (!PieceConstituent.has_user_info<HJetInfo>()) {
-                Print(HError, "Get Sub Jets", "No Piece Constituent Info");
-                continue;
-            }
-            std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
-            Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
-        }
-        Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
-        Pieces.push_back(Piece);
-    }
-    return Pieces;
-}
 
 hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
 {

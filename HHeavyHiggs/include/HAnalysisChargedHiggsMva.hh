@@ -84,8 +84,6 @@ public:
 
     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
-    void ResetBranch();
-
     void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
 
 protected:

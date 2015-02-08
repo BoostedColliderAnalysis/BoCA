@@ -41,10 +41,8 @@ public:
 typedef std::vector<int>::const_iterator VectorIterator;
 
 struct PairOrder {
-    bool operator()(
-        std::pair<size_t, VectorIterator> const &First
-        , std::pair<size_t, VectorIterator> const &Second
-    ) {
+    bool operator()(std::pair<size_t, VectorIterator> const &First, std::pair<size_t, VectorIterator> const &Second
+                   ) {
         return *(First.second) > *(Second.second);
     }
 };
@@ -84,7 +82,7 @@ public:
     ~HReader();
 
     void operator=(const hanalysis::HReader &) {
-        Print(HError, "invalid Reader copy!!","Dont end up here!!!");
+        Print(HError, "invalid Reader copy!!", "Dont end up here!!!");
     }
 
     void SetMva(hanalysis::HMva &NewMva);
@@ -119,6 +117,9 @@ public:
     TMVA::Reader Reader; // FIXME what is wrong here?
 
 
+    HMva *Tagger() const{
+      return Mva;
+    }
 
     HMva *Mva;
 

@@ -33,7 +33,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
                 const bool Successfull = Analysis(Event.get(), Tagger, Tag);
                 if (Successfull) {
                     AnalysisNotEmpty = 1;
-                    FillInfoBranch(NewTreeReader, InfoBranch, File);
+                    FillInfoBranch(*NewTreeReader.get(), InfoBranch, File);
                     ExTreeWriter.Fill();
                 }
                 ExTreeWriter.Clear();
@@ -45,12 +45,11 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
             Print(HError, "Number of Events", EventSumM, EventSum(NewTreeReader));
         }
         NewExportFile.Close();
-        ResetBranch();
     }
 }
 
 
-void hanalysis::HAnalysis::FillInfoBranch(const std::shared_ptr<ExRootTreeReader> &NewTreeReader, ExRootTreeBranch *const InfoBranch, const HFile &File)
+void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &NewTreeReader, ExRootTreeBranch *const InfoBranch, const HFile &File)
 {
     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
     Info->Crosssection = File.Crosssection();

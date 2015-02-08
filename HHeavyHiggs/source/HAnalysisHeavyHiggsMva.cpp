@@ -92,13 +92,17 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::Files(const hanalysis::
     std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
 
     std::vector<hanalysis::HFile> SignalSemiFiles;
-
-    //         SignalSemiFiles.push_back(hanalysis::HFile("1000GeV_Hbb_ttbb_ljbbbb",60.62802137818876,1000));
+    // LHC
+            SignalSemiFiles.push_back(hanalysis::HFile("500GeV_Hbb_ttbb_ljbbbb",12,500));
+//             SignalSemiFiles.push_back(hanalysis::HFile("1000GeV_Hbb_ttbb_ljbbbb",6,1000));
+    //         SignalSemiFiles.push_back(hanalysis::HFile("2000GeV_Hbb_ttbb_ljbbbb",4,2000));
+// 100 TeV
+//             SignalSemiFiles.push_back(hanalysis::HFile("1000GeV_Hbb_ttbb_ljbbbb",60.62802137818876,1000));
     //         SignalSemiFiles.push_back(hanalysis::HFile("2000GeV_Hbb_ttbb_ljbbbb",4.920796866551275,2000));
-    //         SignalSemiFiles.push_back(hanalysis::HFile("3000GeV_Hbb_ttbb_ljbbbb",0.9234071865754303,3000));
+//             SignalSemiFiles.push_back(hanalysis::HFile("3000GeV_Hbb_ttbb_ljbbbb",0.9234071865754303,3000));
     //         SignalSemiFiles.push_back(hanalysis::HFile("4000GeV_Hbb_ttbb_ljbbbb",0.25736547733711523,4000));
     //         SignalSemiFiles.push_back(hanalysis::HFile("5000GeV_Hbb_ttbb_ljbbbb",0.08899831451027759,5000));
-            SignalSemiFiles.push_back(hanalysis::HFile("6000GeV_Hbb_ttbb_ljbbbb",0.03602204622881514,6000));
+//             SignalSemiFiles.push_back(hanalysis::HFile("6000GeV_Hbb_ttbb_ljbbbb",0.03602204622881514,6000));
     //         SignalSemiFiles.push_back(hanalysis::HFile("7000GeV_Hbb_ttbb_ljbbbb",0.01576206604679042,7000));
 //             SignalSemiFiles.push_back(hanalysis::HFile("8000GeV_Hbb_ttbb_ljbbbb", 0.0076693087930297206, 8000));
     //         SignalSemiFiles.push_back(hanalysis::HFile("9000GeV_Hbb_ttbb_ljbbbb",0.0039008532687324735,9000));
@@ -107,9 +111,13 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::Files(const hanalysis::
 //         SignalSemiFiles.push_back(hanalysis::HFile("15000GeV_Hbb_ttbb_ljbbbb",0.0001442241864611344,15000));
 //     SignalSemiFiles.push_back(hanalysis::HFile("20000GeV_Hbb_ttbb_ljbbbb", 0.000015425841205626978, 20000));
 
-    std::vector<hanalysis::HFile> BackgroundSemiFiles;
-    BackgroundSemiFiles.push_back(hanalysis::HFile("BG_ttbb_ljbbbb", 35.04));
-    BackgroundSemiFiles.push_back(hanalysis::HFile("BG_ttcc_ljbbcc", 30.72));
+            std::vector<hanalysis::HFile> BackgroundSemiFiles;
+            HStrings BG1 = {"BG_ttbb_ljbbbb_0", "BG_ttbb_ljbbbb_1"};
+//             BackgroundSemiFiles.push_back(hanalysis::HFile( BG1 , 35.04));// 100 TeV
+            BackgroundSemiFiles.push_back(hanalysis::HFile( BG1 , 89.32));// LHC
+            HStrings BG2 = {"BG_ttcc_ljbbcc_0", "BG_ttcc_ljbbcc_1"};
+//             BackgroundSemiFiles.push_back(hanalysis::HFile( BG2 , 30.72));// 100 TeV
+            BackgroundSemiFiles.push_back(hanalysis::HFile( BG2 , 78.42));// LHC
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 
@@ -252,12 +260,13 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
     };
 
     HStrings SignalSemiTrees {
+        "500GeV_Hbb_ttbb_ljbbbb-run_01",
 //         "1000GeV_Hbb_ttbb_ljbbbb-run_01",
 //         "2000GeV_Hbb_ttbb_ljbbbb-run_01",
 //         "3000GeV_Hbb_ttbb_ljbbbb-run_01"
 //         "4000GeV_Hbb_ttbb_ljbbbb-run_01"
 //         "5000GeV_Hbb_ttbb_ljbbbb-run_01"
-        "6000GeV_Hbb_ttbb_ljbbbb-run_01"
+//         "6000GeV_Hbb_ttbb_ljbbbb-run_01"
 //         "7000GeV_Hbb_ttbb_ljbbbb-run_01"
 //         "8000GeV_Hbb_ttbb_ljbbbb-run_01"
 //         "9000GeV_Hbb_ttbb_ljbbbb-run_01"
@@ -268,8 +277,8 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
     };
 
     HStrings BackgroundSemiTrees {
-        "BG_ttbb_ljbbbb-run_01",
-        "BG_ttcc_ljbbcc-run_01"
+        "BG_ttbb_ljbbbb_0-run_01",
+        "BG_ttcc_ljbbcc_0-run_01"
     };
 
     HStrings SignalHadronicTree {
@@ -586,7 +595,8 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent *const Event, const h
     Print(HInformation, "Analysis", Tagger);
     HJets Leptons = fastjet::sorted_by_pt(Event->GetLeptons()->GetLeptonJets());
     if (Leptons.size() < 1) return 0;
-    if (Leptons.front().pt() < 300) return 0;
+//     if (Leptons.front().pt() < 300) return 0;
+    if (Leptons.front().pt() < 80) return 0;
     ++EventSumM;
 
     switch (Tagger) {
@@ -663,6 +673,8 @@ bool hheavyhiggs::HAnalysisMva::GetBottomReader(hanalysis::HEvent *const Event, 
     Print(HDebug, "Get Bottom Reader", Tag);
     HJets Jets = BottomTagger.GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+
+//     Jets = static_cast<hanalysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(Jets);
 
     HJets Particles = Event->GetParticles()->GetGeneratorJets();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());

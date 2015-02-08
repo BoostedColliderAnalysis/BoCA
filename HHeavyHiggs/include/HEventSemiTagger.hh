@@ -77,8 +77,6 @@ protected:
 
 private:
 
-    HTag GetTag(const HOctet &Octet);
-
     void DefineVariables();
 
     std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);

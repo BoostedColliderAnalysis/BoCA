@@ -125,7 +125,7 @@ int main()
     //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
 
     RunTagger(hanalysis::HAnalysis::HSignatureSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HSignatureSemiReader);
+//     RunTagger(hanalysis::HAnalysis::HSignatureSemiReader);
 
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);

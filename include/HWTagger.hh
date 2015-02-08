@@ -30,8 +30,8 @@ public:
     HReader BottomReader;
 
     HWBranch GetBranch(const HDoublet &Doublet) const;
-    
-    HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
+
+//     HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
 protected:
 

@@ -84,7 +84,9 @@ public:
 //         return "HeavyHiggsMva12000";
 //         return "HeavyHiggsMva15000";
 //         return "HeavyHiggsMva20000";
-        return "HeavyHiggsMvaTest";
+//         return "HeavyHiggsMvaTest";
+        return "LHCTest";
+        return "LHC500";
     }
 
 protected:
@@ -102,8 +104,8 @@ private:
     inline int EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
-//         return 10000;
-        return 1000;
+        return 10000;
+//         return 1000;
 //         return 100;
     };
 

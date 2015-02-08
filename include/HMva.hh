@@ -313,11 +313,12 @@ public:
 
     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
-    HJets GetGranulatedJets(HJets &EFlowJets);
+    HJets GranulatedJets(HJets &EFlowJets);
 
     HJets GetJets(hanalysis::HEvent *const Event, hanalysis::HJetTag &JetTag);
     HJets GetJets(hanalysis::HEvent *const Event);
     HJets GetJets(hanalysis::HEvent &Event);
+    HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
 //     HPairBranch *GetBranch() {
 //       return Branch;
@@ -548,6 +549,30 @@ struct WrongFamily {
     }
     int Id;
     int Mother;
+};
+
+struct LargeDistance {
+    LargeDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
+        this->JetM = NewJet;
+        this->Distance = NewDistance;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        return (JetM.delta_R(Jet) > Distance);
+    }
+    fastjet::PseudoJet JetM;
+    float Distance;
+};
+
+struct SmallDistance {
+  SmallDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
+    this->JetM = NewJet;
+    this->Distance = NewDistance;
+  }
+  bool operator()(const fastjet::PseudoJet &Jet) {
+    return (JetM.delta_R(Jet) < Distance);
+  }
+  fastjet::PseudoJet JetM;
+  float Distance;
 };
 
 # endif

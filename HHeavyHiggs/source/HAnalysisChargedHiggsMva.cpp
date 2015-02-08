@@ -518,11 +518,6 @@ void hheavyhiggs::HAnalysisCharged::PrepareReader(const hanalysis::HAnalysis::HT
 
 }
 
-void hheavyhiggs::HAnalysisCharged::ResetBranch()
-{
-    //         Branch.reset();
-}
-
 void hheavyhiggs::HAnalysisCharged::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
 {
     Print(HNotification, "New Branches", Tagger);
