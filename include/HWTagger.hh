@@ -15,15 +15,13 @@ public:
 
     HWTagger();
 
-    ~HWTagger();
-
     void SetTagger(const HBottomTagger &NewBottomTagger);
 
-    std::vector< HWBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<HParticleBranch> GetConstituentBranches();
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader & WReader);
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &WReader);
 
     HBottomTagger BottomTagger;
 
@@ -31,7 +29,9 @@ public:
 
     HWBranch GetBranch(const HDoublet &Doublet) const;
 
-//     HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
+    int GetWHadId(hanalysis::HEvent &Event) {
+      return GetWHadId(GetWDaughters(Event));
+    };
 
 protected:
 
@@ -40,6 +40,10 @@ protected:
     }
 
 private:
+
+    HJets GetWDaughters(hanalysis::HEvent &Event);
+
+    int GetWHadId(const HJets &Jets);
 
     void DefineVariables();
 
@@ -50,12 +54,8 @@ private:
     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
 
     HWBranch Branch;
-
     HJetTag JetTag;
-
     float WMassWindow;
-
-    float JetRadiusParameter;
 };
 
 #endif

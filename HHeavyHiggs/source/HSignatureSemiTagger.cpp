@@ -92,14 +92,14 @@ hheavyhiggs::HOctetBranch hheavyhiggs::HSignatureSemiTagger::GetBranch(const HOc
 
 }
 
-std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Event Tags");
     HJets Jets = GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
-    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
@@ -112,7 +112,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
 
 
 
-    HJets HiggsParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets HiggsParticles = Event.GetParticles()->Generator();
     HJets Even = HiggsParticles;
     Even.erase(std::remove_if(Even.begin(), Even.end(), WrongAbsFamily(HeavyHiggsId, GluonId)), Even.end());
     HJets Odd = HiggsParticles;
@@ -124,7 +124,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     if (Tag == HSignal && Sextets.size() > 1) Sextets.erase(Sextets.begin() + 1, Sextets.end());
 
 
-    HJets BottomParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets BottomParticles = Event.GetParticles()->Generator();
     BottomParticles.erase(std::remove_if(BottomParticles.begin(), BottomParticles.end(), WrongAbsFamily(BottomId, GluonId)), BottomParticles.end());
     if (BottomParticles.size() != 2) Print(HError, "Where is the Bottom?",BottomParticles.size());
 

@@ -155,7 +155,7 @@ public:
     */
     ~HMvaEvent();
 
-    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HState State);
+    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const HObject::HState State);
 
     void FillBranch(const HOctet &HeavyHiggsEvent);
 

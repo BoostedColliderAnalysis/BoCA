@@ -21,11 +21,6 @@ void hanalysis::HReader::SetMva(hanalysis::HMva &NewMva)
     BookMva();
 }
 
-hanalysis::HReader::~HReader()
-{
-    Print(HInformation, "Destructor");
-}
-
 void hanalysis::HReader::AddVariable()
 {
 
@@ -63,89 +58,6 @@ void hanalysis::HReader::BookMva()
     Reader.BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
 
 }
-
-
-
-
-
-// void hanalysis::HReader::SimpleMVALoop()
-// {
-//
-//     float Luminosity = 3000; // 3000 fb-1
-//     Luminosity *= 1000; //  * pb
-//
-//     Print(HNotification, "Mva Loop");
-//     LatexHeader();
-//
-//     const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + Mva->GetBdtMethodName() + ".root";
-//     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
-//
-//     const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + ".root";
-//     const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
-//     Print(HError, "Open Background File", BackgroundFileName);
-//
-//     const int Steps = 10;
-//     std::vector<float> BackgroundResults(Steps, 0);
-//     std::vector<float> SignalResults(Steps, 0);
-//
-//     for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
-//
-//         std::vector<float> NewBackgroundResults = ApplyBdt(BackgroundFile, BackgroundTreeName, ExportFile);
-//         for (int Step = 0; Step < Steps; ++Step) BackgroundResults[Step] += NewBackgroundResults[Step];
-//
-//     }
-//
-// //     for (int Step = 0; Step < Steps; ++Step) Print(HError, "BGR", BackgroundResults[Step]);
-//
-//     LatexFile << std::endl
-//               << "\\begin{table}" << std::endl
-//               << "\\centering" << std::endl
-//               << "\\begin{tabular}{lrrrrrrrrrr}" << std::endl
-//               << " \\\\ \\toprule" << std::endl
-//               << "    Mass" << std::endl
-//               << "  & \\multicolumn{10}{c}{BDT Cut}" << std::endl
-//               << " \\\\ \\cmidrule(r){2-11}" << std::endl;
-//
-//     for (int Step = 0; Step < Steps; ++Step) {
-//         const float Cut = float(Step) / Steps;
-//         LatexFile << "  & " << Cut << std::endl;
-//     }
-//
-//     LatexFile << " \\\\ \\midrule" << std::endl;
-//
-//     const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + ".root";
-//     const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
-//     Print(HError, "Open Signal File", SignalFileName);
-//
-//     for (const auto & SignalTreeName : Mva->GetSignalTreeNames()) {
-//
-//         std::vector<float> SignalResults = ApplyBdt(SignalFile, SignalTreeName, ExportFile);
-//
-//         LatexFile << "\\verb|" << SignalTreeName << "|" << std::endl;
-// //         Print(HError, "Signal", SignalTreeName);
-//         for (int Step = 0; Step < Steps; ++Step) {
-// //             const float Cut = float(Step) / Steps;
-//             const float Significance = SignalResults[Step] / std::sqrt(SignalResults[Step] + BackgroundResults[Step]);
-// //             Print(HError, "Numbers",SignalNumbers[Step], BackgroundNumbers[Step]);
-// //             Print(HError, "Eff", Cut, RoundToDigits(Eff), RoundToDigits(Norm));
-//             LatexFile << "  & " << RoundToDigits(Significance) << std::endl;
-//         }
-//         LatexFile << " \\\\ ";
-//
-//     }
-//
-//     const_cast<TFile *>(ExportFile)->Close();
-//
-//
-//
-//     LatexFile << "\\bottomrule" << std::endl
-//               << "\\end{tabular}" << std::endl
-//               << "\\caption{" << Mva->GetTaggerName() << " Significance.}" << std::endl
-//               //         << "\\label{tab:}" << Mva->BackgroundVector[BackgroundNumber] << endl;
-//               << "\\end{table}" << std::endl;
-//     LatexFooter();
-//
-// }
 
 
 void hanalysis::HReader::SimpleMVALoop()
@@ -302,126 +214,72 @@ ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &
 }
 
 
-
-// std::vector<int> hanalysis::HReader::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
+// void hanalysis::HReader::MVALoop()
 // {
-//     Print(HNotification, "Apply Bdt", Mva->GetBranchName());
-//     std::string Temp = Mva->GetBranchName(); // TODO remove this dirty trick
-//     Mva->GetBranchName() += "Reader";
 //
-//     const int Steps = 10;
-//     std::vector<int> EventNumbers(Steps);
+// //     SetMva();
 //
-//     const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetBranchName().c_str());
+//     AddVariable(); // TODO i dont nee dthese
 //
-//     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-//     ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(Mva->GetBranchName().c_str(), HResultBranch::Class());
-//
-//     for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
-//
-//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-//
-//         for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
-//
-// //             HEventSemiBranch *Test = (HEventSemiBranch *) EventClonesArray->At(Entry);
-//           Mva->GetBranch() =  (HBranch *) EventClonesArray->At(Entry);
-//             const float Bdt = Mva->GetBranch()->Bdt;
-//
-//             HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
-//             Export->Bdt = Bdt;
+//     BookMva(); // TODO i dont need these
 //
 //
-//             for (int Step = 0; Step < Steps; ++Step) {
-//                 const float Cut = float(Step) / Steps;
-//                 if (Bdt > Cut) ++EventNumbers.at(Step);
-//             }
+//     Print(HNotification, "Mva Loop");
 //
-//         }
+//     // Export File
+//     const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetBdtMethodName() + ".root";
+//     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
 //
-//         TreeWriter->Fill();
-//         TreeWriter->Clear();
+//     // Input File
+//     const std::string InputFileName = Mva->GetAnalysisName() + "/" + Mva->GetTestName() + ".root";
+//     const TFile *InputFile = TFile::Open(InputFileName.c_str());
+//
+//     std::cout << "SignalSignificance:\t" << Mva->GetSignalEfficiency() << std::endl;
+//     if (Mva->LaTeX()) LatexHeader();
+//
+//     GetCuts();
+//
+//     for (const auto & TestTreeName : Mva->GetTestTreeNames()) {
+//
+//         const TTree *const InputTree = (TTree *)const_cast<TFile *>(InputFile)->Get(TestTreeName.c_str());
+//         const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(InputTree));
+//
+//         const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+//         const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
+//         Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
+//         CrosssectionError = Info->CrosssectionError * TreeReader->GetEntries() / Info->EventNumber;
+// //         Crosssection = Info->Crosssection;
+// //         CrosssectionError = Info->Error;
+//         EventGenerated = Info->EventNumber;
+//
+//         EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
+//
+//         Mva->ApplyBdt(TreeReader, TestTreeName, ExportFile, Reader);
+//
+//         ApplyCuts(TreeReader, TestTreeName);
+//
+// //         delete TreeReader; // FIXME why
+//
 //     }
 //
-//     TreeWriter->Write();
-//     delete TreeWriter;
-//     Mva->GetBranchName() = Temp;
+//     const_cast<TFile *>(ExportFile)->Close();
 //
-//     return EventNumbers;
+//     if (Mva->LaTeX()) LatexFooter();
+//
 // }
-
-
-
-
-
-void hanalysis::HReader::MVALoop()
-{
-
-//     SetMva();
-
-    AddVariable(); // TODO i dont nee dthese
-
-    BookMva(); // TODO i dont need these
-
-
-    Print(HNotification, "Mva Loop");
-
-    // Export File
-    const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetBdtMethodName() + ".root";
-    const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
-
-    // Input File
-    const std::string InputFileName = Mva->GetAnalysisName() + "/" + Mva->GetTestName() + ".root";
-    const TFile *InputFile = TFile::Open(InputFileName.c_str());
-
-    std::cout << "SignalSignificance:\t" << Mva->GetSignalEfficiency() << std::endl;
-    if (Mva->LaTeX()) LatexHeader();
-
-    GetCuts();
-
-    for (const auto & TestTreeName : Mva->GetTestTreeNames()) {
-
-        const TTree *const InputTree = (TTree *)const_cast<TFile *>(InputFile)->Get(TestTreeName.c_str());
-        const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(InputTree));
-
-        const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
-        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
-        const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
-        Crosssection = Info->Crosssection * TreeReader->GetEntries() / Info->EventNumber;
-        CrosssectionError = Info->CrosssectionError * TreeReader->GetEntries() / Info->EventNumber;
-//         Crosssection = Info->Crosssection;
-//         CrosssectionError = Info->Error;
-        EventGenerated = Info->EventNumber;
-
-        EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
-
-        Mva->ApplyBdt(TreeReader, TestTreeName, ExportFile, Reader);
-
-        ApplyCuts(TreeReader, TestTreeName);
-
-//         delete TreeReader; // FIXME why
-
-    }
-
-    const_cast<TFile *>(ExportFile)->Close();
-
-    if (Mva->LaTeX()) LatexFooter();
-
-}
-
-
-void hanalysis::HReader::GetCuts()
-{
-    Print(HNotification, "Get Cuts");
-
-    TMVA::MethodCuts *MethodCuts;
-
-    ReaderStruct.CutsMin.clear();
-    ReaderStruct.CutsMax.clear();
-    MethodCuts = Reader.FindCutsMVA(Mva->GetCutMethodName()) ;
-    MethodCuts->GetCuts(Mva->GetSignalEfficiency(), ReaderStruct.CutsMin, ReaderStruct.CutsMax);
-
-}
-
+//
+//
+// void hanalysis::HReader::GetCuts()
+// {
+//     Print(HNotification, "Get Cuts");
+//     ReaderStruct.CutsMin.clear();
+//     ReaderStruct.CutsMax.clear();
+//     TMVA::MethodCuts *MethodCuts = Reader.FindCutsMVA(Mva->GetCutMethodName()) ;
+//     MethodCuts->GetCuts(Mva->GetSignalEfficiency(), ReaderStruct.CutsMin, ReaderStruct.CutsMax);
+//
+// }
+//
 void hanalysis::HReader::LatexHeader()
 {
 
@@ -434,7 +292,7 @@ void hanalysis::HReader::LatexHeader()
     LatexFile << "\\documentclass[a4paper,10pt]{article}" << std::endl << std::endl
               << "\\usepackage{booktabs}" << std::endl
               << "\\usepackage[landscape]{geometry}" << std::endl
-              << "\\usepackage{fullpage}" << std::endl
+              << "\\usepackage[cm]{fullpage}" << std::endl
 //               << "\\usepackage{units}" << std::endl
 //               << "\\usepackage{siunitx}" << std::endl << std::endl
 //               << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
@@ -443,39 +301,39 @@ void hanalysis::HReader::LatexHeader()
               << "\\begin{document}" << std::endl << std::endl;
 
 }
-
-
-void hanalysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const std::string TreeName)
-{
-
-    Print(HNotification, "Apply Cuts");
-
-    ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
-
-    std::vector<std::pair<size_t, VectorIterator> > Priority(ReaderStruct.CutFlowVector.size());
-
-    size_t OrderNumber = 0;
-    for (VectorIterator Iterator = ReaderStruct.CutFlowVector.begin(); Iterator != ReaderStruct.CutFlowVector.end(); ++Iterator, ++OrderNumber)
-        Priority[OrderNumber] = std::make_pair(OrderNumber, Iterator);
-
-    std::sort(Priority.begin(), Priority.end(), PairOrder());
-
-    ReaderStruct.CutFlowVector = SortByPriority(ReaderStruct.CutFlowVector, Priority);
-    Mva->SetObservables(SortByPriority(Mva->GetObservables(), Priority));
-//     InputVarVector = SortByPriority(InputVarVector, OrderVector);
-    ReaderStruct.CutsMin = SortByPriority(ReaderStruct.CutsMin, Priority);
-    ReaderStruct.CutsMax = SortByPriority(ReaderStruct.CutsMax, Priority);
-    ReaderStruct.EventVector = SortByPriority(ReaderStruct.EventVector, Priority);
-    ReaderStruct.TopEventVector = SortByPriority(ReaderStruct.TopEventVector, Priority);
-    ReaderStruct.HiggsEventVector = SortByPriority(ReaderStruct.HiggsEventVector, Priority);
-
-    ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
-
-    TabularOutput();
-
-    if (Mva->LaTeX()) LatexContent(TreeName);
-
-}
+//
+//
+// void hanalysis::HReader::ApplyCuts(const ExRootTreeReader *const TreeReader, const std::string TreeName)
+// {
+//
+//     Print(HNotification, "Apply Cuts");
+//
+//     ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
+//
+//     std::vector<std::pair<size_t, VectorIterator> > Priority(ReaderStruct.CutFlowVector.size());
+//
+//     size_t OrderNumber = 0;
+//     for (VectorIterator Iterator = ReaderStruct.CutFlowVector.begin(); Iterator != ReaderStruct.CutFlowVector.end(); ++Iterator, ++OrderNumber)
+//         Priority[OrderNumber] = std::make_pair(OrderNumber, Iterator);
+//
+//     std::sort(Priority.begin(), Priority.end(), PairOrder());
+//
+//     ReaderStruct.CutFlowVector = SortByPriority(ReaderStruct.CutFlowVector, Priority);
+//     Mva->SetObservables(SortByPriority(Mva->GetObservables(), Priority));
+// //     InputVarVector = SortByPriority(InputVarVector, OrderVector);
+//     ReaderStruct.CutsMin = SortByPriority(ReaderStruct.CutsMin, Priority);
+//     ReaderStruct.CutsMax = SortByPriority(ReaderStruct.CutsMax, Priority);
+//     ReaderStruct.EventVector = SortByPriority(ReaderStruct.EventVector, Priority);
+//     ReaderStruct.TopEventVector = SortByPriority(ReaderStruct.TopEventVector, Priority);
+//     ReaderStruct.HiggsEventVector = SortByPriority(ReaderStruct.HiggsEventVector, Priority);
+//
+//     ReaderStruct = Mva->CutLoop(TreeReader, ReaderStruct);
+//
+//     TabularOutput();
+//
+//     if (Mva->LaTeX()) LatexContent(TreeName);
+//
+// }
 
 
 void hanalysis::HReader::TabularOutput() const

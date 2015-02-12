@@ -36,6 +36,7 @@ private:
    * @return void
    */
   bool GetElectrons();
+
   bool GetElectrons(HJetDetails JetDetails);
 
   /**
@@ -45,6 +46,7 @@ private:
    * @return void
    */
   bool GetMuons();
+
   bool GetMuons(HJetDetails JetDetails);
 
 //   HJets GetLeptons(HJetDetails JetDetails);

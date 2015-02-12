@@ -17,6 +17,7 @@ public:
         Mother1Position = EmptyPosition;
         Mother1Id = EmptyId;
         MarkerM = 0;
+        Daughters.reserve(2);
     }
 
     HFamily(const int NewParticle) {
@@ -25,6 +26,7 @@ public:
         ParticlePosition = EmptyPosition;
         Mother1Position = EmptyPosition;
         MarkerM = 0;
+        Daughters.reserve(2);
     }
 
     HFamily(const int NewParticle, const int NewMother1) {
@@ -33,6 +35,7 @@ public:
         ParticlePosition = EmptyPosition;
         Mother1Position = EmptyPosition;
         MarkerM = 0;
+        Daughters.reserve(2);
     }
 
     HFamily(const int NewParticlePosition, const int NewParticleId, const int NewMotherPosition, const int NewMotherId) {
@@ -41,16 +44,18 @@ public:
         Mother1Position = NewMotherPosition;
         Mother1Id = NewMotherId;
         MarkerM = 0;
+        Daughters.reserve(2);
     }
 
-    HFamily(const TLorentzVector &NewParticleVector, const TLorentzVector &NewMotherVector,const int NewParticlePosition, const int NewParticleId, const int NewMotherPosition, const int NewMotherId) {
-      ParticleVector = NewParticleVector;
-      MotherVector = NewMotherVector;
-      ParticlePosition = NewParticlePosition;
-      ParticleId = NewParticleId;
-      Mother1Position = NewMotherPosition;
-      Mother1Id = NewMotherId;
-      MarkerM = 0;
+    HFamily(const TLorentzVector &NewParticleVector, const TLorentzVector &NewMotherVector, const int NewParticlePosition, const int NewParticleId, const int NewMotherPosition, const int NewMotherId) {
+        ParticleVector = NewParticleVector;
+        MotherVector = NewMotherVector;
+        ParticlePosition = NewParticlePosition;
+        ParticleId = NewParticleId;
+        Mother1Position = NewMotherPosition;
+        Mother1Id = NewMotherId;
+        MarkerM = 0;
+        Daughters.reserve(2);
     }
 
     bool operator==(const HFamily &Family) const {
@@ -59,8 +64,13 @@ public:
 //         && std::abs(Mother2Id) == std::abs(Family.Mother2Id));
         return (ParticleId == Family.ParticleId
                 && Mother1Id == Family.Mother1Id
+                && Daughters == Family.Daughters
 //                 && Mother2Id == Family.Mother2Id
                );
+    }
+
+    void AddDaughter(const int NewDaughter){
+      Daughters.push_back(NewDaughter);
     }
 
 
@@ -68,7 +78,10 @@ public:
     int ParticleId;
     int Mother1Position;
     int Mother1Id;
+    std::vector<int> Daughters;
     float Pt;
+
+
 
     TLorentzVector ParticleVector;
     TLorentzVector MotherVector;

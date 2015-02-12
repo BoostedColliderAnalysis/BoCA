@@ -111,13 +111,13 @@ void htoptagger::HAnalysis::CloseFile()
 //
 // }
 
-bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &Name)
+bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &Name)
 {
 
     Print(HInformation, "Analysis", Name);
 
 
-    const HJets CandidateJets = Event->GetTops(JetTag);
+    const HJets CandidateJets = Event.GetTops(JetTag);
 
     if (CandidateJets.size() < 1) {
 

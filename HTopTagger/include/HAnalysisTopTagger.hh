@@ -93,7 +93,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    HJets GetLeptonJets(hanalysis::HEvent *const Event);
+    HJets GetLeptonJets(hanalysis::HEvent &Event);
 
     /**
      * @brief Lepton event counter
@@ -106,7 +106,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent *const Event, const std::string &Name);
+    bool Analysis(hanalysis::HEvent &Event, const std::string &Name);
 
     /**
      * @brief prepares the std::vector describing the input root files

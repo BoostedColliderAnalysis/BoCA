@@ -21,7 +21,7 @@ float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 
     Print(HError, "Get Bdt", "should be implemented somewhere else");
 
-    return 0;
+    return -10;
 
 }
 
@@ -59,8 +59,6 @@ HJets hanalysis::HMva::GranulatedJets(HJets &EFlowJets)
 
                 fastjet::PseudoJet CombinedJet(RescaledPx, RescaledPy, RescaledPz, TotalEnergy);
 
-//                 CombinedJet.set_user_index(EFlowJets[i].user_index() + GranulatedJets[j].user_index());
-
 
                 std::vector<HConstituent> Constituents;
                 std::vector<HConstituent> NewConstituents = EFlowJets[i].user_info<hanalysis::HJetInfo>().Constituents();
@@ -68,14 +66,6 @@ HJets hanalysis::HMva::GranulatedJets(HJets &EFlowJets)
                 NewConstituents = NewGranulatedJets[j].user_info<hanalysis::HJetInfo>().Constituents();
                 Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
 
-//                 for (const auto & Constituent : EFlowJets[i].constituents()) {
-//                   std::vector<HConstituent> NewConstituents =Constituent .user_info<hanalysis::HJetInfo>().Constituents();
-//                   Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
-//                 }
-//                 for (const auto & Constituent : GranulatedJets[j].constituents()) {
-//                   std::vector<HConstituent> NewConstituents = Constituent.user_info<hanalysis::HJetInfo>().Constituents();
-//                   Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
-//                 }
                 CombinedJet.set_user_info(new HJetInfo(Constituents));
 
                 NewGranulatedJets.erase(NewGranulatedJets.begin() + j);
@@ -104,64 +94,18 @@ HJets hanalysis::HMva::GranulatedJets(HJets &EFlowJets)
 
 }
 
-HJets hanalysis::HMva::GetJets(hanalysis::HEvent *const Event, HJetTag &JetTag)
+HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 {
   Print(HInformation,"JetTag",JetTag.HeavyParticles.size());
-  return GetJets(*Event);
-
-//     HJets EFlowJets = Event->GetJets()->GetStructuredEFlowJets();
-//     HJets GranulatedJets = GetGranulatedJets(EFlowJets);
-//     Print(HInformation,"Jets",GranulatedJets.size());
-//     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets, fastjet::JetDefinition(fastjet::cambridge_algorithm, 0.4));
-//     HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(40));
-//     if (Jets.size() < 1) {
-//         delete ClusterSequence;
-//         return Jets;
-//     }
-//     ClusterSequence->delete_self_when_unused();
-//     for (auto & Jet : Jets) {
-//         std::vector<HConstituent> Constituents;
-//         for (const auto & Constituent : Jet.constituents()) {
-//             std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
-//             Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
-//         }
-//         Jet.set_user_info(new HJetInfo(Constituents));
-//     }
-//     return Jets;
-}
-
-HJets hanalysis::HMva::GetJets(hanalysis::HEvent *const Event)
-{
-
-  return GetJets(*Event);
-
-//   HJets EFlowJets = Event->GetJets()->GetStructuredEFlowJets();
-//   HJets GranulatedJets = GetGranulatedJets(EFlowJets);
-//   Print(HInformation,"Jets",GranulatedJets.size());
-//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets, fastjet::JetDefinition(fastjet::cambridge_algorithm, 0.4));
-//   HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(40));
-//   if (Jets.size() < 1) {
-//     delete ClusterSequence;
-//     return Jets;
-//   }
-//   ClusterSequence->delete_self_when_unused();
-//   for (auto & Jet : Jets) {
-//     std::vector<HConstituent> Constituents;
-//     for (const auto & Constituent : Jet.constituents()) {
-//       std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
-//       Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
-//     }
-//     Jet.set_user_info(new HJetInfo(Constituents));
-//   }
-//   return Jets;
+  return GetJets(Event);
 }
 
 HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
 {
 
   HJets EFlowJets = Event.GetJets()->GetStructuredEFlowJets();
-  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(EFlowJets), fastjet::JetDefinition(fastjet::cambridge_algorithm, 0.5));
-  HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(20));
+  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(EFlowJets), fastjet::JetDefinition(fastjet::cambridge_algorithm, JetConeSize));
+  HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(JetMinPt));
   if (Jets.size() < 1) {
     delete ClusterSequence;
     return Jets;
@@ -190,7 +134,7 @@ HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJe
     Print(HError, "Get Sub Jets", "No Jet Info");
     return Pieces;
   }
-  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, 0.5));
+  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize));
   HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
   ClusterSequence->delete_self_when_unused();
 

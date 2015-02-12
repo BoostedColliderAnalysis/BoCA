@@ -74,17 +74,17 @@ HTopLeptonicBranch hanalysis::HTopLeptonicTagger::GetBranch(const hanalysis::HDo
 
 }
 
-std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEvent *const Event, const HObject::HTag Tag)
+std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEvent &Event, const HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
 
     JetTag.HeavyParticles = {TopId};
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
     Jets = BottomTagger.GetBdt(Jets, BottomReader);
     Print(HInformation, "Jet Number", Jets.size());
 
-    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
+    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
     std::vector<HDoublet> Doublets;

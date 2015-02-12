@@ -157,7 +157,7 @@ void hhiggscpv::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter, const HTagg
 //         ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
 }
 
-bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const HTagger Tagger)
+bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName, const HTagger Tagger)
 {
 
     Print(HInformation, "Analysis", StudyName);
@@ -179,7 +179,7 @@ bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 }
 
 
-bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const std::string &StudyName)
+bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HDebug, "Get Bottom Tag", StudyName);
@@ -200,7 +200,7 @@ bool hhiggscpv::HAnalysis::GetBottomTag(hanalysis::HEvent *const Event, const st
 }
 
 
-bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::string &StudyName)
+bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HInformation, "Get Tops", StudyName);
@@ -218,7 +218,7 @@ bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent *const Event, const std::
 }
 
 
-bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent *const Event, const std::string &StudyName)
+bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent &Event, const std::string &StudyName)
 {
     Print(HInformation, "Get Higgs Tag", StudyName);
 
@@ -251,17 +251,17 @@ struct SortHiggsCpv {
     }
 };
 
-bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName)
+bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent &Event, const std::string &StudyName)
 {
     Print(HInformation, "Get Event", StudyName);
 
-    HJets Leptons = Event->GetLeptons()->GetLeptonJets();
+    HJets Leptons = Event.GetLeptons()->GetLeptonJets();
     if (Leptons.size() < 2) {
         Print(HNotification, "Not enough Leptons", Leptons.size());
         return 0;
     }
 
-    HJets Jets = Event->GetJets()->GetStructuredJets();
+    HJets Jets = Event.GetJets()->GetStructuredJets();
     if (Jets.size() < 4) {
         Print(HNotification, "Not enough Jets", Jets.size());
         return 0;
@@ -299,10 +299,10 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent *const Event, const st
 
     HEventBranch *EventTagger = static_cast<HEventBranch *>(EventBranch->NewEntry());
 
-    EventTagger->ScalarHt = Event->GetJets()->GetScalarHt();
-    EventTagger->JetNumber = Event->GetJets()->GetJets().size();
-    EventTagger->BottomNumber = Event->GetJets()->GetBottomJets().size();
-    EventTagger->LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
+    EventTagger->ScalarHt = Event.GetJets()->GetScalarHt();
+    EventTagger->JetNumber = Event.GetJets()->GetJets().size();
+    EventTagger->BottomNumber = Event.GetJets()->GetBottomJets().size();
+    EventTagger->LeptonNumber = Event.GetLeptons()->GetLeptonJets().size();
     EventTagger->HeavyParticleTag = HiggsCpvs.front().Bdt();
     EventTagger->TopDeltaRap = HiggsCpvs.front().GetTopDeltaRap();
     EventTagger->TopDeltaPhi = HiggsCpvs.front().GetTopDeltaPhi();

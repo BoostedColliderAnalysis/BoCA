@@ -160,21 +160,21 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Branches");
 
     JetTag.HeavyParticles = {GluonId, TopId};
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
     Jets = BottomTagger.GetBdt(Jets, BottomReader);
 
-    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
+    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
 
     std::vector<hanalysis::HDoublet> TopDoublets = TopLeptonicTagger.GetBdt(Jets, Leptons, TopLeptonicReader);
 
-    fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsLeptonicTagger.GetBdt(TopDoublets, MissingEt, HeavyHiggsLeptonicReader);
 
@@ -212,10 +212,10 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
 
     for (auto & Octet : Octets) {
 //         HEventStruct EventStruct;
-//         EventStruct.LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
-//         EventStruct.JetNumber = Event->GetJets()->GetJets().size();
-//         EventStruct.BottomNumber = Event->GetJets()->GetBottomJets().size();
-//         EventStruct.ScalarHt = Event->GetJets()->GetScalarHt();
+//         EventStruct.LeptonNumber = Event.GetLeptons()->GetLeptonJets().size();
+//         EventStruct.JetNumber = Event.GetJets()->GetJets().size();
+//         EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
+//         EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
 //         EventStruct.MaxBBdt = MaxBBdt;
 //         EventStruct.ThirdBBdt = ThirdBBdt;
 //         fastjet::PseudoJet RestJet(0., 0., 0., 0.);

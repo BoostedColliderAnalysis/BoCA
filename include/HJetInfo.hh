@@ -45,8 +45,8 @@ public:
     }
 
     inline HConstituent(const TLorentzVector &NewMomentum, const HDetector NewDetector) {
-      MomentumM = NewMomentum;
-      DetectorM = NewDetector;
+        MomentumM = NewMomentum;
+        DetectorM = NewDetector;
     }
 
     inline  void SetPosition(const TLorentzVector &NewPosition) {
@@ -84,11 +84,11 @@ public:
     }
 
     void SetDetector(const HDetector NewDetector) {
-      DetectorM = NewDetector;
+        DetectorM = NewDetector;
     }
 
     HDetector Detector() const {
-      return DetectorM;
+        return DetectorM;
     }
 
 private:
@@ -141,6 +141,15 @@ public:
 
     void AddConstituents(const std::vector<HConstituent> &NewConstituents) {
         ConstituentsM.insert(ConstituentsM.end(), NewConstituents.begin(), NewConstituents.end());
+    }
+
+    void AddDaughter(const int NewDaughter) {
+        if (Constituents().size() > 0) {
+          Print(HError, "Constituents", Constituents().size(),Constituents().front().Family().ParticleId);
+            Constituents().front().Family().AddDaughter(NewDaughter);
+            return;
+        }
+        Print(HError, "No Constituent");
     }
 
     std::vector<HConstituent> Constituents() const {

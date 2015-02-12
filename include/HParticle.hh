@@ -57,7 +57,8 @@ public:
         return TopJets;
     }
 
-    HJets GetGeneratorJets() {
+    HJets Generator() {
+//       Print(HError,"we are here");
       if (!GotParticles) GotParticles = GetParticles();
         return GeneratorJets;
     }

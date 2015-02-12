@@ -126,15 +126,15 @@ struct SortJetsByBdt {
     }
 };
 
-std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
     HJets Jets = GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
-    HJets Leptons = Event->GetLeptons()->GetLeptonJets();
-    fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
@@ -145,7 +145,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     std::vector<hanalysis::HQuartet31> JetQuartets = ChargedJetPairTagger.GetBdt(TripletsHadronic, Jets, ChargedJetPairReader);
 
 
-    HJets HiggsParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets HiggsParticles = Event.GetParticles()->Generator();
     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
     if (HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
     std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaR(HiggsParticles.front()));
@@ -153,10 +153,10 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     if (Tag == HBackground && HiggsQuartets.size() > 0) HiggsQuartets.erase(HiggsQuartets.begin());
 
 
-    HJets TopParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets TopParticles = Event.GetParticles()->Generator();
     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongAbsFamily(TopId, GluonId)), TopParticles.end());
     if (TopParticles.size() != 1) Print(HError, "Where is the Top?");
-    HJets BottomParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets BottomParticles = Event.GetParticles()->Generator();
     BottomParticles.erase(std::remove_if(BottomParticles.begin(), BottomParticles.end(), WrongAbsFamily(BottomId, GluonId)), BottomParticles.end());
     if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?");
 
@@ -174,10 +174,10 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     for (const auto & Octet : Octets) {
       HEventMultiplet<HOctet44> OctetEvent(Octet);
         HEventStruct EventStruct;
-        EventStruct.LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
-        EventStruct.JetNumber = Event->GetJets()->GetJets().size();
-        EventStruct.BottomNumber = Event->GetJets()->GetBottomJets().size();
-        EventStruct.ScalarHt = Event->GetJets()->GetScalarHt();
+        EventStruct.LeptonNumber = Event.GetLeptons()->GetLeptonJets().size();
+        EventStruct.JetNumber = Event.GetJets()->GetJets().size();
+        EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
+        EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
         OctetEvent.SetEventStruct(EventStruct);
         OctetEvent.SetLeptons(Leptons);
         OctetEvent.SetTag(Tag);

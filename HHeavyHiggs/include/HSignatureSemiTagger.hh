@@ -37,7 +37,7 @@ public:
         const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
         const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
-    std::vector<HOctetBranch> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector<HOctetBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, const hanalysis::HReader &Reader);
 

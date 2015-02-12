@@ -66,23 +66,11 @@ public:
      * @brief Constructor
      *
      */
-//     HReader(HMva *NewMva);
-
-    /**
-     * @brief Constructor
-     *
-     */
     HReader(hanalysis::HMva &NewMva);
 
 
-    /**
-     * @brief Destructor
-     *
-     */
-    ~HReader();
-
     void operator=(const hanalysis::HReader &) {
-        Print(HError, "invalid Reader copy!!", "Dont end up here!!!");
+        Print(HError, "invalid Reader copy!!", "Dont end up here!!!","Actually it still seems to work");
     }
 
     void SetMva(hanalysis::HMva &NewMva);
@@ -108,7 +96,7 @@ public:
 
     void SimpleMVALoop();
 
-    void MVALoop();
+//     void MVALoop();
 
     void AddVariable();
 
@@ -174,9 +162,9 @@ private:
      *
      * @return void
      */
-    void ApplyCuts(const ExRootTreeReader *const, const std::string);
+//     void ApplyCuts(const ExRootTreeReader *const, const std::string);
 
-    void GetCuts();
+//     void GetCuts();
 
     void LatexHeader();
 

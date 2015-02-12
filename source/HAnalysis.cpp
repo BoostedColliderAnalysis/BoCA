@@ -30,10 +30,10 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
                 std::const_pointer_cast<ExRootTreeReader>(NewTreeReader)->ReadEntry(EventNumber);
                 Event->NewEvent(ClonesArrays.get());
                 Event->SetMass(File.Mass());
-                const bool Successfull = Analysis(Event.get(), Tagger, Tag);
+                const bool Successfull = Analysis(*Event.get(), Tagger, Tag);
                 if (Successfull) {
                     AnalysisNotEmpty = 1;
-                    FillInfoBranch(*NewTreeReader.get(), InfoBranch, File);
+                    *static_cast<HInfoBranch *>(InfoBranch->NewEntry()) = FillInfoBranch(*NewTreeReader.get(), File);
                     ExTreeWriter.Fill();
                 }
                 ExTreeWriter.Clear();
@@ -49,13 +49,15 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
 }
 
 
-void hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &NewTreeReader, ExRootTreeBranch *const InfoBranch, const HFile &File)
+HInfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &NewTreeReader, const HFile &File)
 {
-    HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
-    Info->Crosssection = File.Crosssection();
-    Info->CrosssectionError = File.CrosssectionError();
-    Info->Mass = File.Mass();
-    Info->EventNumber = EventSum(NewTreeReader);
+//     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
+    HInfoBranch Info;
+    Info.Crosssection = File.Crosssection();
+    Info.CrosssectionError = File.CrosssectionError();
+    Info.Mass = File.Mass();
+    Info.EventNumber = EventSum(NewTreeReader);
+    return Info;
 }
 
 

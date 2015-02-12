@@ -117,15 +117,15 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent *const Event, const std::string &StudyName, const hhiggscpv::HAnalysis::HTagger Tagger);
+    bool Analysis(hanalysis::HEvent &Event, const std::string &StudyName, const hhiggscpv::HAnalysis::HTagger Tagger);
 
-    bool GetBottomTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetBottomTag(hanalysis::HEvent &Event, const std::string &StudyName);
 
-    bool GetTopTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetTopTag(hanalysis::HEvent &Event, const std::string &StudyName);
 
-    bool GetHiggsTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetHiggsTag(hanalysis::HEvent &Event, const std::string &StudyName);
 
-    bool GetSignalTag(hanalysis::HEvent *const Event, const std::string &StudyName);
+    bool GetSignalTag(hanalysis::HEvent &Event, const std::string &StudyName);
 
     std::vector<HHiggsCpv> GetHiggsCpvs(const HJets &Jets, const HJets &Leptons);
 

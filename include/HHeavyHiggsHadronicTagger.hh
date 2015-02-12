@@ -19,7 +19,7 @@ public:
 
     ~HHeavyHiggsHadronicTagger();
 
-    std::vector<HHeavyHiggsHadronicBranch> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector<HHeavyHiggsHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     HHeavyHiggsHadronicBranch GetBranch(const hanalysis::HSextet &Sextet);
 

@@ -68,13 +68,13 @@ return ChargedHiggsHadronicBranch;
 }
 
 
-std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
 
     JetTag.HeavyParticles = {WId, TopId, ChargedHiggsId};
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
     Jets = BottomTagger.GetBdt(Jets, BottomReader);
 

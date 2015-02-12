@@ -84,11 +84,11 @@ public:
 
 protected:
 
-    int EventSum(const std::shared_ptr<ExRootTreeReader> &NewTreeReader) const {
-        return std::min((int)NewTreeReader->GetEntries(), EventNumberMax());
+    inline int EventSum(const std::shared_ptr<ExRootTreeReader> &NewTreeReader) const {
+        return EventSum(*NewTreeReader.get());
     }
-    
-    int EventSum(const ExRootTreeReader &NewTreeReader) const {
+
+    inline int EventSum(const ExRootTreeReader &NewTreeReader) const {
       return std::min((int)NewTreeReader.GetEntries(), EventNumberMax());
     }
 
@@ -100,9 +100,9 @@ protected:
 
     std::string ExportName(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag State) const;
 
-    void FillInfoBranch(const ExRootTreeReader &TreeReader, ExRootTreeBranch *const InfoBranch, const hanalysis::HFile &File);
+    HInfoBranch FillInfoBranch(const ExRootTreeReader &NewTreeReader, const hanalysis::HFile &File);
 
-    virtual bool Analysis(HEvent *const, const HTagger Tagger, const HTag State) {
+    virtual bool Analysis(HEvent &, const HTagger Tagger, const HTag State) {
         Print(HError, "Analysis", "should be subclassed", Tagger, State);
         return 0;
     }
@@ -148,6 +148,11 @@ protected:
     std::vector<hanalysis::HFile>  JoinFiles(const std::vector<hanalysis::HFile> &Files1, const std::vector<hanalysis::HFile> &Files2);
 
     int EventSumM;
+    /**
+     * @brief Branch to write results into
+     *
+     */
+    ExRootTreeBranch *Branch;
 
 private:
 

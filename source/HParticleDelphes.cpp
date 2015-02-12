@@ -2,27 +2,16 @@
 
 hanalysis::hdelphes::HParticle ::HParticle()
 {
-
     Print(HDebug, "Constructor");
-
-//     DebugLevel = hanalysis::HObject::HInformation;
-
+//     DebugLevel = hanalysis::HObject::HDebug;
 }
-
-hanalysis::hdelphes::HParticle ::~HParticle()
-{
-
-    Print(HDebug, "Destructor");
-
-}
-
 
 bool hanalysis::hdelphes::HParticle ::GetParticles()
 {
 
     Print(HInformation, "Get Particles", ClonesArrays->GetParticleSum());
 
-    for (const int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
+    for (int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
 
         const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleNumber);
 
@@ -30,11 +19,19 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         Print(HDetailed, "Particles ID", ParticleId);
 
         int MotherId = EmptyId;
+        int MotherStatus = EmptyId;
         if (ParticleClone->M1 != EmptyPosition) {
             const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
 
             MotherId = MotherParticle->PID;
+            MotherStatus = MotherParticle->Status;
         }
+
+
+
+
+
+
         if (ParticleClone->Status == StableParticle) {
             Print(HDetailed, "Particles Status", "stable");
 
@@ -139,6 +136,9 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             GeneratorJet.set_user_info(new HJetInfo(Constituent));
             GeneratorJets.push_back(GeneratorJet);
 
+
+
+
             if (std::abs(ParticleId) == ElectronNeutrinoId || std::abs(ParticleId) == MuonNeutrinoId) {
                 // const TLorentzVector TopVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();
                 fastjet::PseudoJet NeutrinoJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
@@ -188,9 +188,24 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 //                 BottomJet.set_user_index(ParticleId);
                 Print(HInformation, "W", WJet);
             }
-
         }
 
+
+//         if (MotherStatus == GeneratorParticle) {
+//           if (ParticleClone->M1 < ParticleNumber) {
+//
+//
+//             Print(HError, "Daughter 0",static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->Constituents().front().Family().ParticleId,static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->Constituents().front().Family().Mother1Id);
+//
+//                 Print(HError, "Daughter",
+//                       ParticleNumber, ParticleId, ParticleClone->M1, MotherId);
+// 
+//                 static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->AddDaughter(ParticleId);
+//
+//                 Print(HError, "Daughter 2",
+//                       static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->Constituents().front().Family().Daughters.size());
+//             }
+//         }
     }
 
     fastjet::PseudoJet Met;

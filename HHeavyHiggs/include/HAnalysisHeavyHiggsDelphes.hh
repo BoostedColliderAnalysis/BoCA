@@ -35,7 +35,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent *Event, const std::string &Name);
+    bool Analysis(hanalysis::HEvent &Event, const std::string &Name);
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -55,9 +55,9 @@ private:
 
     HStrings GetStudyNameVector();
 
-    void FillBranch(hanalysis::HEvent* Event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
+    void FillBranch(hanalysis::HEvent &Event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
 
-    float Leptons(hanalysis::HEvent* Event, fastjet::PseudoJet Jet);
+    float Leptons(hanalysis::HEvent &Event, fastjet::PseudoJet Jet);
 
 //     bool JetIsBottom(const fastjet::PseudoJet &Jet);
 
@@ -67,9 +67,9 @@ private:
 
     };
 
-    bool Signal(hanalysis::HEvent* Event);
-    bool Test(hanalysis::HEvent* Event);
-    bool Background(hanalysis::HEvent* Event);
+    bool Signal(hanalysis::HEvent &Event);
+    bool Test(hanalysis::HEvent &Event);
+    bool Background(hanalysis::HEvent &Event);
 
     /**
      * @brief Branch to write Heavy Higgs info into

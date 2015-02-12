@@ -143,7 +143,7 @@ void hjetproperties::HAnalysis::CloseFile()
 // }
 
 
-bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
+bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HDebug, "Analysis");
@@ -157,7 +157,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::st
 
     }
 
-//     Event->GetTaggedEFlow(JetTag);
+//     Event.GetTaggedEFlow(JetTag);
     //
     //     float EventPt = 0;
     //     for (const auto & EFlowJet : Event->Jets->EFlowJets) {
@@ -167,7 +167,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::st
     //     }
 
     HEventBranch *EventB = static_cast<HEventBranch *>(EventBranch->NewEntry());
-    EventB->ScalarPtSum = 1. / Event->GetJets()->GetScalarHt();
+    EventB->ScalarPtSum = 1. / Event.GetJets()->GetScalarHt();
 
     std::vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
@@ -179,7 +179,7 @@ bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent *Event, const std::st
     for (const auto & Id : Ids) {
 
         HJets EFlowJets;
-        std::copy_if(Event->GetJets()->GetTaggedEFlowJets(JetTag).begin(), Event->GetJets()->GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
+        std::copy_if(Event.GetJets()->GetTaggedEFlowJets(JetTag).begin(), Event.GetJets()->GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
                      [Id](const fastjet::PseudoJet & EFlowJet) {
 
                          if (EFlowJet.user_index() == Id) return 1;
@@ -459,20 +459,20 @@ float hjetproperties::HAnalysis::GetDeltaR(const fastjet::PseudoJet &Jet)
 
 }
 
-HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent* Event)
+HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent &Event)
 {
 
     // Lepton Stuff
     std::vector<float> LeptonRap, LeptonPhi;
 
-    //     Event->GetLeptons();
+    //     Event.GetLeptons();
 
     //     HJets LeptonJets = Event->Lepton->LeptonJets;
     //     HJets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
-//     Event->GetParticlesM()->GetParticles();
-    HJets LeptonJets = Event->GetParticles()->GetLeptonJets();
-    HJets AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
+//     Event.GetParticlesM()->GetParticles();
+    HJets LeptonJets = Event.GetParticles()->GetLeptonJets();
+    HJets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

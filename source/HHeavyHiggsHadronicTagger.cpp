@@ -101,14 +101,14 @@ void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
 }
 
 
-std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
     std::vector<HHeavyHiggsHadronicBranch> HeavyHiggsHadronicBranches;
 
     JetTag.HeavyParticles = {WId, TopId, HeavyHiggsId};
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
     Jets = BottomTagger.GetBdt(Jets, BottomReader);
 

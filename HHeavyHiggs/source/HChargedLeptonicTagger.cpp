@@ -128,20 +128,20 @@ struct SortByQuartetBdt {
 };
 
 
-std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
 {
 
-    HJets Jets = Event->GetJets()->GetStructuredJets();
+    HJets Jets = Event.GetJets()->GetStructuredJets();
 
     Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
 
-    HJets Leptons = Event->GetLeptons()->GetLeptonJets();
+    HJets Leptons = Event.GetLeptons()->GetLeptonJets();
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
 
     std::vector<hanalysis::HDoublet> TopDoublets = TopLeptonicTagger->GetBdt(Jets, Leptons, TopLeptonicReader);
 
-    fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-    HJets Neutrinos = Event->GetParticles()->GetNeutrinos();
+    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
+    HJets Neutrinos = Event.GetParticles()->GetNeutrinos();
 
     std::vector<hanalysis::HTriplet> Triplets1 = ChargedHiggsLeptonicTagger->GetBdt(TopDoublets, ChargedHiggsLeptonicReader);
 
@@ -174,10 +174,10 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
     std::vector<hheavyhiggs::HChargedLeptonicBranch *> EventLeptonicBranches;
     for (auto & Octet : Octets) {
         hheavyhiggs::HChargedLeptonicBranch *EventLeptonicBranch = new hheavyhiggs::HChargedLeptonicBranch();
-        Octet.SetLeptonNumber(Event->GetLeptons()->GetLeptonJets().size());
-        Octet.SetJetNumber(Event->GetJets()->GetJets().size());
-        Octet.SetBottomNumber(Event->GetJets()->GetBottomJets().size());
-        Octet.SetScalarHt(Event->GetJets()->GetScalarHt());
+        Octet.SetLeptonNumber(Event.GetLeptons()->GetLeptonJets().size());
+        Octet.SetJetNumber(Event.GetJets()->GetJets().size());
+        Octet.SetBottomNumber(Event.GetJets()->GetBottomJets().size());
+        Octet.SetScalarHt(Event.GetJets()->GetScalarHt());
         Octet.SetTag(Tag);
         FillBranch(EventLeptonicBranch, Octet);
         EventLeptonicBranches.push_back(EventLeptonicBranch);

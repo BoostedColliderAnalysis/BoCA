@@ -75,23 +75,23 @@ HWSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::HDoublet &Doubl
 
 }
 
-std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
 
     JetTag.HeavyParticles = {WId};
-    HJets Leptons = fastjet::sorted_by_pt(Event->GetLeptons()->GetTaggedJets(JetTag));
+    HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetTaggedJets(JetTag));
     if (Leptons.size() > 1) Leptons.erase(Leptons.begin() + 1, Leptons.end());
 
-    const fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
-//     HJets Neutrinos = Event->GetParticles()->GetNeutrinos();
+    const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
+//     HJets Neutrinos = Event.GetParticles()->GetNeutrinos();
 //     if (Neutrinos.size() != 1)Print(HError, "wrong number of neutrinos", Neutrinos.size());
 
 //     Print(HError, "MissingEt check", MissingEt.px(), MissingEt.py(), Neutrinos.front().px(), Neutrinos.front().py());
 //     MissingEt = Neutrinos.front();
 
-    HJets Particles = Event->GetParticles()->GetGeneratorJets();
+    HJets Particles = Event.GetParticles()->Generator();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongFamily(WId, TopId)), Particles.end());
     if (Particles.size() != 1) Print(HError, "Where is the W?", Particles.size());
 

@@ -127,7 +127,7 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 //
 // }
 
-bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &Study)
+bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &Study)
 {
 
     Print(HInformation, "Analysis", Study);
@@ -149,7 +149,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
             Print(HError,"HeavyParticle",HeavyParticle);
         }  */
 
-    const HJets CandidateJets = Event->GetCandidates(JetTag);
+    const HJets CandidateJets = Event.GetCandidates(JetTag);
 
     if (CandidateJets.size() < 1) {
 
@@ -296,7 +296,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 
         }
 
-        Candidate->ScalarHt = Event->GetJets()->GetScalarHt();
+        Candidate->ScalarHt = Event.GetJets()->GetScalarHt();
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
@@ -350,19 +350,19 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::s
 }
 
 
-HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent *const Event)
+HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent &Event)
 {
 
 // Lepton Stuff
     std::vector<float> LeptonRap, LeptonPhi;
 
-//     Event->GetLeptons();
+//     Event.GetLeptons();
 //     HJets LeptonJets = Event->Lepton->LeptonJets;
 //     HJets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
-//     Event->GetParticlesM()->GetParticles();
-    HJets LeptonJets = Event->GetParticles()->GetLeptonJets();
-    HJets AntiLeptonJets = Event->GetParticles()->GetAntiLeptonJets();
+//     Event.GetParticlesM()->GetParticles();
+    HJets LeptonJets = Event.GetParticles()->GetLeptonJets();
+    HJets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

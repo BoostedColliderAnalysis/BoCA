@@ -112,7 +112,7 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
             Sextets.push_back(Sextet);
         }
 
-    HJets HiggsParticles = Event.GetParticles()->GetGeneratorJets();
+    HJets HiggsParticles = Event.GetParticles()->Generator();
     HJets Even = HiggsParticles;
     Even.erase(std::remove_if(Even.begin(), Even.end(), WrongAbsFamily(HeavyHiggsId, GluonId)), Even.end());
     HJets Odd = HiggsParticles;
@@ -136,7 +136,10 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     }
 
     std::vector<HHeavyHiggsSemiBranch> HeavyHiggsBranches;
-    for (const auto & Sextet : Sextets) HeavyHiggsBranches.push_back(GetBranch(Sextet));
+    for (auto & Sextet : Sextets) {
+      Sextet.SetTag(Tag);
+      HeavyHiggsBranches.push_back(GetBranch(Sextet));
+    }
 
     return HeavyHiggsBranches;
 }

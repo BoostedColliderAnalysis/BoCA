@@ -5,9 +5,9 @@ hanalysis::hdelphes::HEvent::HEvent()
 // DebugLevel=HDebug;
     Print(HNotification, "Constructor");
 
-    Particles = new HParticle();
-    Jets = new HJet();
-    Lepton = new HLepton();
+    Particles = new hdelphes::HParticle();
+    Jets = new hdelphes::HJet();
+    Lepton = new hdelphes::HLepton();
     TopTagger = new HTopTagger();
     HiggsTagger = new HHiggsTagger();
     Discriminator = new HDiscriminator();

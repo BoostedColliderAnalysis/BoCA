@@ -136,7 +136,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
 
-    HJets Particles = Event.GetParticles()->GetGeneratorJets();
+    HJets Particles = Event.GetParticles()->Generator();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsFamily(BottomId, GluonId)), Particles.end());
     if (Particles.size() != 2) Print(HError, "Where are the Bottoms?", Particles.size());
     HJets BottomJets;

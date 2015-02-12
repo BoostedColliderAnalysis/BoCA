@@ -26,7 +26,7 @@ bool hanalysis::hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetail
         Print(HDetailed, "Jet Number", JetNumber);
         TRootJet *JetClone = (TRootJet *)ClonesArrays->Jet(JetNumber);
 
-        Jets.push_back(GetPseudoJet(JetClone));
+        JetsM.push_back(GetPseudoJet(JetClone));
 
         if (JetClone->BTag > 0) {
 

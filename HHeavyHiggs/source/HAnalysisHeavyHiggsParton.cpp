@@ -59,7 +59,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HInformation, "Analysis",StudyName);
@@ -68,9 +68,9 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
 
     ++EventCounter;
 
-//     Event->GetParticlesM()->GetParticles();
+//     Event.GetParticlesM()->GetParticles();
 
-    HJets BottomVector = Event->GetParticles()->GetBottomJets();
+    HJets BottomVector = Event.GetParticles()->GetBottomJets();
 
     int BottomSum = BottomVector.size();
 
@@ -111,7 +111,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent *Event, 
     HeavyHiggs->BottomDeltaRap = CombinedRap;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
-    HJets TopVector = Event->GetParticles()->GetTopJets();
+    HJets TopVector = Event.GetParticles()->GetTopJets();
 
     int TopSum = TopVector.size();
 

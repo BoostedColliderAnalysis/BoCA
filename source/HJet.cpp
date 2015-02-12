@@ -8,9 +8,7 @@ hanalysis::HJet::HJet()
 
 hanalysis::HJet::~HJet()
 {
-
     Print(HNotification, "Destructor");
-
 }
 
 void hanalysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
@@ -19,7 +17,7 @@ void hanalysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
     Print(HInformation, "New Event");
 
     hanalysis::HFourVector::NewEvent(NewClonesArrays);
-    
+
     GotJets = 0;
 
     GotEFlow = 0;
@@ -40,17 +38,14 @@ void hanalysis::HJet::NewEvent(const HClonesArray *const NewClonesArrays)
 
     GenJets.clear();
 
-    Jets.clear();
+    JetsM.clear();
 
 }
 
 bool hanalysis::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 {
-
     Print(HError, "Get Jets", "No Jets", JetDetails);
-
     return 0;
-
 }
 
 bool hanalysis::HJet::GetEFlow(const hanalysis::HJet::HJetDetails JetDetails)
@@ -80,10 +75,10 @@ float hanalysis::HJet::GetScalarHt()
 
 fastjet::PseudoJet hanalysis::HJet::GetMissingEt()
 {
-  
+
   Print(HError, "Get Missing Et", "No Mising Et");
-  
+
   fastjet::PseudoJet Jet;
   return Jet;
-  
+
 }

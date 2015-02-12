@@ -29,7 +29,7 @@ public:
     */
     ~HEventHadronicTagger();
 
-    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag);
+    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag);
 
     void FillBranch(const HOctet &Octet);
 

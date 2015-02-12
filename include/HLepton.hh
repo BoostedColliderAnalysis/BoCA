@@ -62,6 +62,7 @@ protected:
   }
 
   bool GotElectrons;
+
   bool GotMuons;
 
     /**

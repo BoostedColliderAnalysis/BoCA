@@ -120,14 +120,14 @@ struct SortJetsByBdt {
     }
 };
 
-std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
     HJets Jets = GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
@@ -147,10 +147,10 @@ std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::Ge
 
     HSextetEvent SextetEvent(Sextets.front());
     HEventStruct EventStruct;
-    EventStruct.LeptonNumber = Event->GetLeptons()->GetLeptonJets().size();
-    EventStruct.JetNumber = Event->GetJets()->GetJets().size();
-    EventStruct.BottomNumber = Event->GetJets()->GetBottomJets().size();
-    EventStruct.ScalarHt = Event->GetJets()->GetScalarHt();
+    EventStruct.LeptonNumber = Event.GetLeptons()->GetLeptonJets().size();
+    EventStruct.JetNumber = Event.GetJets()->GetJets().size();
+    EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
+    EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
     SextetEvent.SetEventStruct(EventStruct);
     SextetEvent.SetLeptons(Leptons);
     SextetEvent.SetTag(Tag);

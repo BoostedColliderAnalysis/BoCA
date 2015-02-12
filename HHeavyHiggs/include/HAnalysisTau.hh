@@ -127,27 +127,27 @@ private:
      * @brief Main Analysis function
      *
      */
-    bool Analysis(hanalysis::HEvent *const Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    bool Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
-    bool GetTauTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-    bool GetTauReader(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-    bool GetHeavyHiggsTauTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-    bool GetHeavyHiggsTauReader(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-//     bool GetWTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-//     bool GetWReader(hanalysis::HEvent *const Event, const HTag Tag);
-//     bool GetJetPairTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-//     bool GetJetPairReader(hanalysis::HEvent *const Event, const HTag Tag);
-//     bool GetTopLeptonicTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
-//     bool GetTopLeptonicReader(hanalysis::HEvent *const Event, const HTag Tag);
-//     bool GetTopHadronicTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-//     bool GetTopSemiTag(hanalysis::HEvent *const Event, hanalysis::HObject::HTag Tag);
-//     bool GetTopHadronicReader(hanalysis::HEvent *const Event, const HTag Tag);
-//     bool GetTopSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
-//     bool GetHiggsTauSemiTag(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
-//     bool GetChargdHiggsSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
-//     bool GetEventSemiTag(hanalysis::HEvent *const Event, const HTag Tag);
+    bool GetTauTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    bool GetTauReader(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    bool GetHeavyHiggsTauTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    bool GetHeavyHiggsTauReader(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+//     bool GetWTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+//     bool GetWReader(hanalysis::HEvent &Event, const HTag Tag);
+//     bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+//     bool GetJetPairReader(hanalysis::HEvent &Event, const HTag Tag);
+//     bool GetTopLeptonicTag(hanalysis::HEvent &Event, hanalysis::HObject::HTag Tag);
+//     bool GetTopLeptonicReader(hanalysis::HEvent &Event, const HTag Tag);
+//     bool GetTopHadronicTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+//     bool GetTopSemiTag(hanalysis::HEvent &Event, hanalysis::HObject::HTag Tag);
+//     bool GetTopHadronicReader(hanalysis::HEvent &Event, const HTag Tag);
+//     bool GetTopSemiReader(hanalysis::HEvent &Event, const HTag Tag);
+//     bool GetHiggsTauSemiTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+//     bool GetChargdHiggsSemiReader(hanalysis::HEvent &Event, const HTag Tag);
+//     bool GetEventSemiTag(hanalysis::HEvent &Event, const HTag Tag);
 //
-//     bool GetEventSemiReader(hanalysis::HEvent *const Event, const HTag Tag);
+//     bool GetEventSemiReader(hanalysis::HEvent &Event, const HTag Tag);
 
 };
 

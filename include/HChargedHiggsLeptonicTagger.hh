@@ -19,7 +19,7 @@ public:
 
     ~HChargedHiggsLeptonicTagger();
 
-    std::vector< HChargedHiggsLeptonicBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HChargedHiggsLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     HChargedHiggsLeptonicBranch GetBranch(const hanalysis::HTriplet &Triplet);
 

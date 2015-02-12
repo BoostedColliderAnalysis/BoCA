@@ -84,20 +84,20 @@ HChargedHiggsSemiBranch hanalysis::HChargedHiggsSemiTagger::GetBranch(const HQua
 
 
 
-std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
-    float Mass = Event->GetMass();
+    float Mass = Event.GetMass();
     JetTag.HeavyParticles = {ChargedHiggsId};
-//     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+//     HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
     HJets Jets = GetJets(Event,JetTag);
 
     HJets BottomJets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
-    HJets Leptons = Event->GetLeptons()->GetTaggedJets(JetTag);
-    const fastjet::PseudoJet MissingEt = Event->GetJets()->GetMissingEt();
+    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 
     std::vector<HTriplet> Triplets = TopSemiTagger.GetBdt(Doublets, BottomJets, TopSemiReader);
@@ -115,7 +115,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     std::vector<HQuartet31 > Quartets;
 //     HTriplet Triplet;
 //     if (Tag == HSignal) {
-    HJets TopParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets TopParticles = Event.GetParticles()->Generator();
     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongAbsFamily(TopId, ChargedHiggsId)), TopParticles.end());
     if (TopParticles.size() != 1) {
         Print(HError, "Where is the Top?", TopParticles.size());
@@ -132,7 +132,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     }
 
 //     if (Tag == HSignal) {
-    HJets  BottomParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets  BottomParticles = Event.GetParticles()->Generator();
     BottomParticles.erase(std::remove_if(BottomParticles.begin(), BottomParticles.end(), WrongAbsFamily(BottomId, ChargedHiggsId)), BottomParticles.end());
     if (BottomParticles.size() != 1) {
         Print(HError, "Where is the Bottom?");
@@ -188,7 +188,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
 
 //     }
 
-//     HJets HiggsParticles = Event->GetParticles()->GetGeneratorJets();
+//     HJets HiggsParticles = Event.GetParticles()->GetGeneratorJets();
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsFamily(ChargedHiggsId, GluonId)), HiggsParticles.end());
 //     if (HiggsParticles.size() != 1) {
 //         Print(HError, "Where is the Higgs?");

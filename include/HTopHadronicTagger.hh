@@ -20,7 +20,7 @@ public:
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWTagger &NewWTagger);
 
-    std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & TopHadronicReader);
 
@@ -51,7 +51,7 @@ private:
 
     float TopWindow ;
 
-    float JetRadiusParameter;
+//     float JetRadiusParameter;
 
 };
 

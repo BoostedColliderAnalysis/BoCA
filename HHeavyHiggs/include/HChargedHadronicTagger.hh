@@ -31,7 +31,7 @@ public:
     */
     ~HChargedHadronicTagger();
 
-    std::vector<hheavyhiggs::HChargedHadronicBranch *> GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag);
+    std::vector<hheavyhiggs::HChargedHadronicBranch *> GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag);
 
     void FillBranch(const HOctet44 &Octet);
 

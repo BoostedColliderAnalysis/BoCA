@@ -87,7 +87,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-//     HJets GetLeptonJets(hanalysis::HEvent *const Event);
+//     HJets GetLeptonJets(hanalysis::HEvent &Event);
 
 //     template <typename T, typename U>
 //     std::pair<T, U> operator+(const std::pair<T, U> &l, const std::pair<T, U> &r) {
@@ -107,7 +107,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent *const Event, const std::string& StudyName);
+    bool Analysis(hanalysis::HEvent &Event, const std::string& StudyName);
 
 //     void FillCandidate(const HSuperStructure& JetPair, float*const InvMass, float*const DeltaR, float*const Pull1, float*const Pull2, float*const Vertex1, float*const Vertex2, float*const Mass1, float*const Mass2) const;
 

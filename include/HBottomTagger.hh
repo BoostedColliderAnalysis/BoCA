@@ -19,7 +19,7 @@ public:
 
     HBottomTagger();
 
-    ~HBottomTagger();
+    HBottomTagger(const std::string &ProjectName);
 
     void SetTagger();
 
@@ -34,6 +34,21 @@ public:
     HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
 
     HJets GetSubBdt(const HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
+
+    ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter) {
+        return NewTreeWriter.NewBranch(GetTaggerName().c_str(), HBottomBranch::Class());
+    }
+
+    ExRootTreeBranch *SetReaderBranch(ExRootTreeWriter &NewTreeWriter) {
+        return NewTreeWriter.NewBranch(ReaderName().c_str(), HBottomBranch::Class());
+    }
+
+//     bool SetBranch(hanalysis::HEvent &Event, const HTag Tag){
+//       std::vector<HBottomBranch> Bottoms = GetBranches(Event, Tag);
+//       if (Bottoms.size() < 1) return 0;
+//       for (const auto & Bottom : Bottoms) *static_cast<HBottomBranch *>(ExRootBranch->NewEntry()) = Bottom;
+//       return 1;
+//     }
 
 //     void PrepareReader(){
 //       Reader.SetMva(*this);
@@ -51,7 +66,7 @@ private:
 
     HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::HTag Tag);
 
-    HJets GetSubJets(const HJets &Jets,const HJets &Particles, const HTag Tag, const int SubJetNumber);
+    HJets GetSubJets(const HJets &Jets, const HJets &Particles, const HTag Tag, const int SubJetNumber);
 
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;

@@ -64,14 +64,14 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, const std::string &StudyName)
+bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HInformation, "Analysis",StudyName);
 
-//     Event->GetJets();
+//     Event.GetJets();
 
-    HJets BJets = Event->GetJets()->GetBottomJets();
+    HJets BJets = Event.GetJets()->GetBottomJets();
 
     Print(HInformation, "BJet Sum", BJets.size());
 
@@ -173,7 +173,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent *Event, con
                 HeavyHiggs->BottomInvMass = InvMass;
 
                 HeavyHiggs->BTag = BJets.size();
-                HeavyHiggs->JetNumber = Event->GetJets()->GetJets().size();
+                HeavyHiggs->JetNumber = Event.GetJets()->GetJets().size();
 
             }
 

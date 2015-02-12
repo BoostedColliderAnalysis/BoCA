@@ -38,7 +38,7 @@ public:
         const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
         const HSignatureSemiTagger &NewSignatureSemiTagger);
 
-    std::vector<HEventSemiBranch> GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector<HEventSemiBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     std::vector< HEventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const HJets &Jets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
 

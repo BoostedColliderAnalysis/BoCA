@@ -4,7 +4,6 @@ hanalysis::HTopHadronicTagger::HTopHadronicTagger()
 {
 //         DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-    SetTaggerName("TopHadronic");
     DefineVariables();
 }
 
@@ -15,29 +14,18 @@ hanalysis::HTopHadronicTagger::~HTopHadronicTagger()
 
 void hanalysis::HTopHadronicTagger::SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWTagger &NewWTagger)
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
-
     Print(HNotification, "Constructor");
     BottomTagger = NewBottomTagger;
-//     BottomTagger.SetTagger();
-//     BottomReader.SetMva(BottomTagger);
-
     WTagger = NewWTagger;
-//     WTagger.SetTagger(NewBottomTagger);
-//     WReader.SetMva(WTagger);
-
-    SetTaggerName("TopHadronic");
     DefineVariables();
-
     TopWindow = 50;
-    JetRadiusParameter = 1;
 }
 
 void hanalysis::HTopHadronicTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
-
+    SetTaggerName("TopHadronic");
     Observables.clear();
     Spectators.clear();
 
@@ -57,9 +45,6 @@ void hanalysis::HTopHadronicTagger::DefineVariables()
 
     Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
     Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
-
-    Print(HNotification, "Variables defined");
-
 }
 
 HTopHadronicBranch hanalysis::HTopHadronicTagger::GetBranch(const hanalysis::HTriplet &Triplet) const
@@ -87,10 +72,12 @@ HTopHadronicBranch hanalysis::HTopHadronicTagger::GetBranch(const hanalysis::HTr
     return TopHadronicBranch;
 }
 
-std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag)
+std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
+
+    int WHadId = WTagger.GetWHadId(Event);
 
     HJets Jets = GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
@@ -144,7 +131,7 @@ std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(han
 
 
 
-    HJets TopParticles = Event->GetParticles()->GetGeneratorJets();
+    HJets TopParticles = Event.GetParticles()->Generator();
     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(-TopId)), TopParticles.end());
     if (TopParticles.size() != 1) Print(HError, "Where is the Top?", TopParticles.size());
     if(Tag == HSignal) Jets.erase(std::remove_if(Jets.begin(), Jets.end(), LargeDistance(TopParticles.front(),1)), Jets.end());
@@ -172,7 +159,7 @@ std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(han
 
 
     std::vector<HTopHadronicBranch> HadronicTopBranches;
-    for (const auto & Triplet : Triplets) {
+    for (auto & Triplet : Triplets) {
       Triplet.SetTag(Tag);
       HadronicTopBranches.push_back(GetBranch(Triplet));
     }

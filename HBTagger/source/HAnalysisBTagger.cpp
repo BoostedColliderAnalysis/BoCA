@@ -114,11 +114,11 @@ void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 //
 // }
 
-bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent *const Event, const std::string &Name)
+bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &Name)
 {
 
     Print(HInformation, "Analysis", Name);
-    HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
 
     if (Name == "Bottom") {

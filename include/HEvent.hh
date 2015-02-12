@@ -63,17 +63,17 @@ public:
         return Jets;
     }
 
-    HJet Hadrons() const {
-        return *Jets;
-    }
-
-    HLepton Leptons() const {
-        return *Lepton;
-    }
-
-    HParticle Partons() const {
-        return *Particles;
-    }
+//     virtual HJet Hadrons() const {
+//         return *Jets;
+//     }
+//
+//     virtual  HLepton Leptons() const {
+//         return *Lepton;
+//     }
+//
+//     virtual HParticle Partons() const {
+//         return *Particles;
+//     }
 
     hanalysis::HTopTagger *GetTopTagger() {
         return TopTagger;

@@ -19,7 +19,7 @@ public:
 
     void SetTagger(const HTauTagger &NewTauTagger);
 
-    std::vector<HHeavyHiggsTauBranch> GetBranches(HEvent *const Event, const HObject::HTag State);
+    std::vector<HHeavyHiggsTauBranch> GetBranches(HEvent &Event, const HObject::HTag State);
 
     std::vector<HDoublet>  GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader);
 

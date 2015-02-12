@@ -50,7 +50,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent* Event, const std::string &StudyName);
+    bool Analysis(hanalysis::HEvent &Event, const std::string &StudyName);
 
     /**
      * @brief prepares the std::vector describing the input root files

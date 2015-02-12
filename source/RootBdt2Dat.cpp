@@ -39,7 +39,7 @@ void Help()
     cout << "     2) Value of bin" << endl;
     cout << " **********************" << endl;
 
-    exit(0);			// normal
+    exit(0); // normal
 }
 
 int main(int ArgumentNumber, char *ArgumentVector[])

@@ -22,7 +22,7 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
         case Plain: {
             fastjet::PseudoJet Jet = PseudoJet(JetClone->P4());
             Jet.set_user_info(new HJetInfo(JetClone->BTag));
-            Jets.push_back(Jet);
+            JetsM.push_back(Jet);
         }
         break;
         case Tagging: {
@@ -30,14 +30,14 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
             HJetInfo *JetInfo = new HJetInfo(GetJetId(JetClone));
             JetInfo->SetBTag(JetClone->BTag);
             Jet.set_user_info(JetInfo);
-            Jets.push_back(Jet);
+            JetsM.push_back(Jet);
         }
         break;
         case Structure:
-            Jets.push_back(StructuredJet(JetClone, JetDetails));
+            JetsM.push_back(StructuredJet(JetClone, JetDetails));
             break;
         case TaggingStructure: {
-            Jets.push_back(StructuredJet(JetClone, JetDetails));
+            JetsM.push_back(StructuredJet(JetClone, JetDetails));
         }
         break;
         default:

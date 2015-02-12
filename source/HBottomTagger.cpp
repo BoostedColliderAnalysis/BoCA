@@ -1,15 +1,18 @@
 # include "HBottomTagger.hh"
 
+hanalysis::HBottomTagger::HBottomTagger(const std::string &ProjectName)
+{
+  //     DebugLevel = HDebug;
+  Print(HInformation, "Constructor");
+  SetAnalysisName(ProjectName);
+  SetTagger();
+}
+
 hanalysis::HBottomTagger::HBottomTagger()
 {
 //     DebugLevel = HDebug;
     Print(HInformation, "Constructor");
     SetTagger();
-}
-
-hanalysis::HBottomTagger::~HBottomTagger()
-{
-    Print(HInformation, "Destructor");
 }
 
 void hanalysis::HBottomTagger::SetTagger()
@@ -103,11 +106,11 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
 
 //     Print(HError, "Jet size", Jets.size());
 
-//     HJets Jets = Event->GetJets()->GetStructuredTaggedJets(JetTag);
+//     HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
     Print(HInformation, "Number Jets", Jets.size());
     //     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), MinPt(40)), Jets.end() );
 
-    HJets Particles = Event.GetParticles()->GetGeneratorJets();
+    HJets Particles = Event.GetParticles()->Generator();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
         Print(HInformation, "Particle size", Particles.size());
 

@@ -89,7 +89,7 @@ std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::HEvent &Ev
     HJets Jets = GetJets(Event);
     Print(HInformation, "Number Jets", Jets.size());
 
-    HJets Particles = Event.GetParticles()->GetGeneratorJets();
+    HJets Particles = Event.GetParticles()->Generator();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
 //     if(Particles.size()!=1)
     Print(HInformation, "Tau Partilces", Particles.size());

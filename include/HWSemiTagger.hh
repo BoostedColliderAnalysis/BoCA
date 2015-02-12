@@ -19,7 +19,7 @@ public:
 
     void SetTagger();
 
-    std::vector<HWSemiBranch> GetBranches(HEvent *const Event, const HObject::HTag State);
+    std::vector<HWSemiBranch> GetBranches(HEvent &Event, const HObject::HTag State);
 
     std::vector<HDoublet>  GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader);
 

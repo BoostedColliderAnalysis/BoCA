@@ -116,11 +116,11 @@ void hheavyhiggs::HEventHadronicTagger::DefineVariables()
 
 }
 
-std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTagger::GetBranches(hanalysis::HEvent *const Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
 {
     std::vector<hheavyhiggs::HEventHadronicBranch *> EventHadronicBranches;
 
-    HJets Jets = Event->GetJets()->GetStructuredJets();
+    HJets Jets = Event.GetJets()->GetStructuredJets();
     Jets = BottomTagger.GetBdt(Jets, BottomReader);
     if (Jets.size() < 8) return EventHadronicBranches;
 
@@ -158,10 +158,10 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
 
     for (auto & Octet : Octets) {
         hheavyhiggs::HEventHadronicBranch *EventHadronicBranch = new hheavyhiggs::HEventHadronicBranch();
-//         Octet.SetLeptonNumber(Event->GetLeptons()->GetLeptonJets().size());
-//         Octet.SetJetNumber(Event->GetJets()->GetJets().size());
-//         Octet.SetBottomNumber(Event->GetJets()->GetBottomJets().size());
-//         Octet.SetScalarHt(Event->GetJets()->GetScalarHt());
+//         Octet.SetLeptonNumber(Event.GetLeptons()->GetLeptonJets().size());
+//         Octet.SetJetNumber(Event.GetJets()->GetJets().size());
+//         Octet.SetBottomNumber(Event.GetJets()->GetBottomJets().size());
+//         Octet.SetScalarHt(Event.GetJets()->GetScalarHt());
         Octet.SetTag(Tag);
         FillBranch(EventHadronicBranch, Octet);
         EventHadronicBranches.push_back(EventHadronicBranch);

@@ -39,7 +39,7 @@ public:
       const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
 
 
-    std::vector< HChargedOctetBranch > GetBranches(hanalysis::HEvent *const Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HChargedOctetBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     HChargedOctetBranch GetBranch(const HOctet44 &Octet) const;
 
