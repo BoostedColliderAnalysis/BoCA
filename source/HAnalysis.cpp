@@ -51,7 +51,6 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger Tagger)
 
 HInfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &NewTreeReader, const HFile &File)
 {
-//     HInfoBranch *Info = static_cast<HInfoBranch *>(InfoBranch->NewEntry());
     HInfoBranch Info;
     Info.Crosssection = File.Crosssection();
     Info.CrosssectionError = File.CrosssectionError();

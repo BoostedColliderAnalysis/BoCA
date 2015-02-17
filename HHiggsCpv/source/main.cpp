@@ -14,17 +14,18 @@ void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger
     bool HasFactory = 0;
     hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
 
-    TFile *File(0);
+//     TFile *File;
     std::string FileName = "HiggsCpv/" + TaggerName + ".root";
-    if (!gSystem->AccessPathName(FileName.c_str()))
-        File = TFile::Open(FileName.c_str());
-    else
+    if (gSystem->AccessPathName(FileName.c_str()))
+//         File = TFile::Open(FileName.c_str());
+//     else
         Analysis->AnalysisLoop(Tagger);
 
     FileName = "HiggsCpv/Mva" + TaggerName + ".root";
-    if (!gSystem->AccessPathName(FileName.c_str()))
-        File = TFile::Open(FileName.c_str());
-    else {
+    if (gSystem->AccessPathName(FileName.c_str()))
+//         File = TFile::Open(FileName.c_str());
+//     else
+    {
             Analysis->GetFiles(TaggerName);
         if (Tagger == hhiggscpv::HAnalysis::HBottomTagger) {
           Factory = new hanalysis::HFactory(Analysis->BottomTagger);

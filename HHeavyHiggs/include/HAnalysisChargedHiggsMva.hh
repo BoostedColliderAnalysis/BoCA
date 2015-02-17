@@ -51,8 +51,8 @@ public:
 //         return "ChargedLHC500";
 //         return "ChargedLHC1000";
 //         return "ChargedLHC2000";
-//         return "ChargedLHC3000";
-        return "ChargedLHC4000";
+        return "ChargedLHC3000";
+//         return "ChargedLHC4000";
 
         // 100 TeV
 //         return "ChargedHiggs1";
@@ -102,9 +102,9 @@ private:
     hanalysis::HReader EventSemiReader;
 
     inline int EventNumberMax() const {
-//         return 1000000;
+        return 1000000;
 //         return 100000;
-        return 10000;
+//         return 10000;
 //         return 1000;
 //         return 100;
     };

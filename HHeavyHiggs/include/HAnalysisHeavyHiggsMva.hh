@@ -65,10 +65,14 @@ public:
 //         return "LHC400";
 //         return "LHC500";
 //         return "LHC1000";
+//         return "LHC2000";
 
       // 100 TeV
+//         return "HeavyHiggsMva400";
 //         return "HeavyHiggsMva500";
+//         return "HeavyHiggsMva600";
 //         return "HeavyHiggsMva1000";
+//         return "HeavyHiggsMva1500";
 //         return "HeavyHiggsMva2000";
 //         return "HeavyHiggsMva3000";
 //         return "HeavyHiggsMva4000";
@@ -81,7 +85,15 @@ public:
 //         return "HeavyHiggsMva12000";
 //         return "HeavyHiggsMva15000";
 //         return "HeavyHiggsMva20000";
-//         return "HeavyHiggsMvaTest";
+      //         return "HeavyHiggsMvaTest";
+
+
+//               return "NeutralLow400";
+              return "NeutralLow500";
+//               return "NeutralLow600";
+//               return "NeutralLow1000";
+//               return "NeutralLow1500";
+//               return "NeutralLow2000";
     }
 
 protected:
@@ -97,9 +109,9 @@ protected:
 private:
 
     inline int EventNumberMax() const {
-//         return 1000000;
+        return 1000000;
 //         return 100000;
-        return 10000;
+//         return 10000;
 //         return 1000;
 //         return 100;
     };

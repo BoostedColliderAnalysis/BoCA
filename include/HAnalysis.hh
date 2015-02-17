@@ -70,6 +70,11 @@ public:
         HChargedHiggsSemiTagger
     };
 
+    enum HStage{
+      HTrainer,
+      HReader
+    };
+
     void AnalysisLoop(const HTagger Tagger);
 
     void AnalysisLoop() {

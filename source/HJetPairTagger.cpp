@@ -135,13 +135,18 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
     HJets Jets = GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
+    std::vector<HEventJetPairBranch> JetPairBranches;
+    if (Jets.size() < 1) return JetPairBranches;
 
     HJets Particles = Event.GetParticles()->Generator();
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsFamily(BottomId, GluonId)), Particles.end());
-    if (Particles.size() != 2) Print(HError, "Where are the Bottoms?", Particles.size());
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsFamily(BottomId, GluonId)), Particles.end());
+//     if (Tag == HSignal)
+    Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
+    if (Tag == HSignal && Particles.size() != 2) Print(HError, "Where are the Bottoms?", Particles.size());
     HJets BottomJets;
+
     for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+        Jets = SortByDeltaRTo(Jets, Particle);
         if (Tag == HSignal) BottomJets.push_back(Jets.front());
         if (Jets.size() > 1) Jets.erase(Jets.begin());
     }
@@ -149,7 +154,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
 
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = BottomJets.begin(); Jet1 != BottomJets.end(); ++Jet1)
-      for (auto Jet2 = Jet1 + 1; Jet2 != BottomJets.end(); ++Jet2) {
+        for (auto Jet2 = Jet1 + 1; Jet2 != BottomJets.end(); ++Jet2) {
             HDoublet Doublet;
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
             else Doublet.SetSinglets((*Jet2), (*Jet1));
@@ -161,11 +166,10 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
     Print(HDebug, "Number of Jet Pairs", Doublets.size());
 
     if (Tag == HSignal && Doublets.size() > 1) {
-        std::sort(Doublets.begin(), Doublets.end(), MaxDeltaRap());
-        if (Doublets.size() > 1)Doublets.erase(Doublets.begin() + 1, Doublets.end());
+        Doublets = SortByMaxDeltaRap(Doublets);
+        if (Doublets.size() > 1) Doublets.erase(Doublets.begin() + 1, Doublets.end());
     }
 
-    std::vector<HEventJetPairBranch> JetPairBranches;
     for (const auto & Doublet : Doublets) JetPairBranches.push_back(GetBranch(Doublet));
 
     return JetPairBranches;

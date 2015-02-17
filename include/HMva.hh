@@ -534,11 +534,13 @@ public:
 
 protected:
 
-  float JetMinPt = 20; // LHC
-  float JetConeSize = 0.5; // LHC
+//   float JetMinPt = 20; // LHC
+//   float JetConeSize = 0.5; // LHC
 
-//   float JetMinPt = 40; // 100 TeV
-//   float JetConeSize = 0.4; // 100 TeV
+  float JetMinPt = 40; // 100 TeV
+  float JetConeSize = 0.4; // 100 TeV
+
+  ExRootTreeBranch *TreeBranch;
 
 
 
@@ -547,14 +549,27 @@ protected:
    return Jets;
   }
 
+
   inline HJets RemoveIfLetpons(HJets &Jets){
     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongLeptons()), Jets.end());
     return Jets;
   }
 
+  inline HJets RemoveIfWrongAbsFamily(HJets &Jets, const int ParticleId, int MotherId){
+    Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsFamily(ParticleId, MotherId)), Jets.end());
+  return Jets;
+}
 
+inline HJets SortByDeltaRTo(HJets &Jets, fastjet::PseudoJet Jet){
+  std::sort(Jets.begin(), Jets.end(), MinDeltaR(Jet));
+  return Jets;
+}
 
-
+template <class HMultiplet>
+inline std::vector<HMultiplet> SortByMaxDeltaRap(std::vector<HMultiplet> &Multiplets){
+  std::sort(Multiplets.begin(), Multiplets.end(), MaxDeltaRap());
+  return Multiplets;
+}
 
 
     virtual void DefineVariables() = 0;

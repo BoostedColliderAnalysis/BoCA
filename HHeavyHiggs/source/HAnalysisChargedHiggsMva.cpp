@@ -22,7 +22,7 @@ std::string hheavyhiggs::HAnalysisCharged::StudyName(const hanalysis::HAnalysis:
     case  HBottomTagger :
         return BottomTagger.GetTaggerName();
     case  HBottomReader :
-      return BottomTagger.GetTaggerName() + "Reader";
+        return BottomTagger.GetTaggerName() + "Reader";
     case HWSemiTagger:
         return  "WSemi";
     case HWSemiReader:
@@ -95,14 +95,14 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisCharged::Files(const hanalys
 //     SignalSemiFiles.push_back(hanalysis::HFile("H+tb-bbbbjjlnu-14TeV-500GeV", 2.8815551913608317, 500));
 //     SignalSemiFiles.push_back(hanalysis::HFile("H+tb-bbbbjjlnu-14TeV-1000GeV",0.21859989068163246,1000));
 //     SignalSemiFiles.push_back(hanalysis::HFile("H+tb-bbbbjjlnu-14TeV-2000GeV",0.005602117167462312,2000));
-//     SignalSemiFiles.push_back(hanalysis::HFile("H+tb-bbbbjjlnu-14TeV-3000GeV",0.00029931623544508237,3000));
-        SignalSemiFiles.push_back(hanalysis::HFile("H+tb-bbbbjjlnu-14TeV-4000GeV",0.000020365970226322686,4000));
+    SignalSemiFiles.push_back(hanalysis::HFile("H+tb-bbbbjjlnu-14TeV-3000GeV", 0.00029931623544508237, 3000));
+//         SignalSemiFiles.push_back(hanalysis::HFile("H+tb-bbbbjjlnu-14TeV-4000GeV",0.000020365970226322686,4000));
 
     HStrings BG1 = {"ttbb-ljbbbb-14TeV-80pt_0", "ttbb-ljbbbb-14TeV-80pt_1"}; // LHC
-    BackgroundSemiFiles.push_back(hanalysis::HFile( BG1 , 89.32));// LHC
+    BackgroundSemiFiles.push_back(hanalysis::HFile(BG1 , 89.32)); // LHC
 
     HStrings BG2 = {"ttcc-ljbbcc-14TeV-80pt_0", "ttcc-ljbbcc-14TeV-80pt_1"}; // LHC
-    BackgroundSemiFiles.push_back(hanalysis::HFile( BG2 , 78.42));// LHC
+    BackgroundSemiFiles.push_back(hanalysis::HFile(BG2 , 78.42)); // LHC
 
     // 100 TeV
 
@@ -252,8 +252,8 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisCharged::Files(const hanalys
 //         else NewFiles = BackgroundSemiFiles;
 //         break;
     default:
-      if (Tag == HSignal) NewFiles = SignalSemiFiles;
-      else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        else NewFiles = BackgroundSemiFiles;
     }
 
     NewFiles.front().SetBasePath("~/Projects/HeavyHiggs/Mass/");
@@ -277,8 +277,8 @@ void hheavyhiggs::HAnalysisCharged::SetTrees(const hanalysis::HAnalysis::HTagger
 //         "H+tb-bbbbjjlnu-14TeV-500GeV-run_01"
 //               "H+tb-bbbbjjlnu-14TeV-1000GeV-run_01"
 //               "H+tb-bbbbjjlnu-14TeV-2000GeV-run_01"
-//               "H+tb-bbbbjjlnu-14TeV-3000GeV-run_01"
-              "H+tb-bbbbjjlnu-14TeV-4000GeV-run_01"
+        "H+tb-bbbbjjlnu-14TeV-3000GeV-run_01"
+//               "H+tb-bbbbjjlnu-14TeV-4000GeV-run_01"
 
         // 100 TeV
 
@@ -560,10 +560,10 @@ void hheavyhiggs::HAnalysisCharged::NewBranches(ExRootTreeWriter &NewTreeWriter,
 
     switch (Tagger) {
     case HBottomTagger :
-        Branch = BottomTagger.SetBranch(NewTreeWriter);
+        Branch = BottomTagger.SetBranch(NewTreeWriter, HTrainer);
         break;
     case HBottomReader :
-        Branch = BottomTagger.SetReaderBranch(NewTreeWriter);
+        Branch = BottomTagger.SetBranch(NewTreeWriter, HReader);
         break;
     case HJetPairTagger :
         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HChargedJetPairBranch::Class());

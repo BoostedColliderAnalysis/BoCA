@@ -198,6 +198,7 @@ ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &
     Print(HError, "Open Tree", TreeName);
     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
+    Print(HError, "Branch", Mva->GetWeightBranchName());
     const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
     const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
