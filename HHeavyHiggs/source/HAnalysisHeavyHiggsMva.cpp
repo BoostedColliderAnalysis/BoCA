@@ -102,8 +102,8 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::Files(const hanalysis::
 
 // 100 TeV
 
-//     SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-400GeV",465.78976127779805,400));
-   SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-500GeV",403.1726637894434,500));
+    SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-400GeV",465.78976127779805,400));
+//    SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-500GeV",403.1726637894434,500));
 //     SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-600GeV",272.6441648068077,600));
 // SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-1000GeV",60.62802137818876,1000));
 //     SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-1500GeV",14.625345866484361,1500));
@@ -132,10 +132,15 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::Files(const hanalysis::
 //     HStrings BG2_150 = {"ttcc-ljbbcc-100TeV-150pt_0", "ttcc-ljbbcc-100TeV-150pt_1","ttcc-ljbbcc-100TeV-150pt_2", "ttcc-ljbbcc-100TeV-150pt_3"}; // 100TeV
 //     BackgroundSemiFiles.push_back(hanalysis::HFile( BG2_150 , 298.8)); // 100TeV 150 GeV
 
-    HStrings BG1_80 = {"ttbb-ljbbbb-100TeV-80pt_0", "ttbb-ljbbbb-100TeV-80pt_1", "ttbb-ljbbbb-100TeV-80pt_2", "ttbb-ljbbbb-100TeV-80pt_3", "ttbb-ljbbbb-100TeV-80pt_4"}; // 100TeV 80 GeV
-    BackgroundSemiFiles.push_back(hanalysis::HFile(BG1_80 , 1171.6));  // 100TeV 150 GeV
-    HStrings BG2_80 = {"ttcc-ljbbcc-100TeV-80pt_0", "ttcc-ljbbcc-100TeV-80pt_1", "ttcc-ljbbcc-100TeV-80pt_2", "ttcc-ljbbcc-100TeV-80pt_3", "ttcc-ljbbcc-100TeV-80pt_4"}; // 100TeV 80 GeV
-    BackgroundSemiFiles.push_back(hanalysis::HFile(BG2_80 , 1042.0));  // 100TeV 150 GeV
+//     HStrings BG1_80 = {"ttbb-ljbbbb-100TeV-80pt_0", "ttbb-ljbbbb-100TeV-80pt_1", "ttbb-ljbbbb-100TeV-80pt_2", "ttbb-ljbbbb-100TeV-80pt_3", "ttbb-ljbbbb-100TeV-80pt_4"}; // 100TeV 80 GeV
+//     BackgroundSemiFiles.push_back(hanalysis::HFile(BG1_80 , 1171.6));  // 100TeV 80 GeV
+//     HStrings BG2_80 = {"ttcc-ljbbcc-100TeV-80pt_0", "ttcc-ljbbcc-100TeV-80pt_1", "ttcc-ljbbcc-100TeV-80pt_2", "ttcc-ljbbcc-100TeV-80pt_3", "ttcc-ljbbcc-100TeV-80pt_4"}; // 100TeV 80 GeV
+//     BackgroundSemiFiles.push_back(hanalysis::HFile(BG2_80 , 1042.0));  // 100TeV 80 GeV
+
+    HStrings BG1_80 = {"ttbb-ljbbbb-100TeV-30pt_0", "ttbb-ljbbbb-100TeV-30pt_1", "ttbb-ljbbbb-100TeV-30pt_2", "ttbb-ljbbbb-100TeV-30pt_3", "ttbb-ljbbbb-100TeV-30pt_4"}; // 100TeV 30 GeV
+    BackgroundSemiFiles.push_back(hanalysis::HFile(BG1_80 , 2990));  // 100TeV 30 GeV
+    HStrings BG2_80 = {"ttcc-ljbbcc-100TeV-30pt_0", "ttcc-ljbbcc-100TeV-30pt_1", "ttcc-ljbbcc-100TeV-30pt_2", "ttcc-ljbbcc-100TeV-30pt_3", "ttcc-ljbbcc-100TeV-30pt_4"}; // 100TeV 30 GeV
+    BackgroundSemiFiles.push_back(hanalysis::HFile(BG2_80 , 2684));  // 100TeV 30 GeV
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 
@@ -286,8 +291,8 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
 
         // 100TeV
 
-//               "H0bb-ljbbbb-100TeV-400GeV-run_01"
-              "H0bb-ljbbbb-100TeV-500GeV-run_01"
+              "H0bb-ljbbbb-100TeV-400GeV-run_01"
+//               "H0bb-ljbbbb-100TeV-500GeV-run_01"
 //               "H0bb-ljbbbb-100TeV-600GeV-run_01"
 //               "H0bb-ljbbbb-100TeV-1000GeV-run_01"
 //               "H0bb-ljbbbb-100TeV-1500GeV-run_01"
@@ -312,8 +317,10 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
         //         "ttcc-ljbbcc-100TeV-300pt_0-run_01"
 //       "ttbb-ljbbbb-100TeV-150pt_0-run_01",
 //       "ttcc-ljbbcc-100TeV-150pt_0-run_01"
-        "ttbb-ljbbbb-100TeV-80pt_0-run_01",
-        "ttcc-ljbbcc-100TeV-80pt_0-run_01"
+//         "ttbb-ljbbbb-100TeV-80pt_0-run_01",
+//         "ttcc-ljbbcc-100TeV-80pt_0-run_01"
+        "ttbb-ljbbbb-100TeV-30pt_0-run_01",
+        "ttcc-ljbbcc-100TeV-30pt_0-run_01"
     };
 
     HStrings SignalHadronicTree {};
@@ -630,7 +637,8 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &Event, const hanalys
     if (Leptons.size() < 1) return 0;
 //     if (Leptons.front().pt() < 300) return 0;
 //     if (Leptons.front().pt() < 150) return 0;
-    if (Leptons.front().pt() < 80) return 0;
+//     if (Leptons.front().pt() < 80) return 0;
+    if (Leptons.front().pt() < 30) return 0;
     ++EventSumM;
 
     switch (Tagger) {

@@ -114,6 +114,8 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
         Print(HInformation, "Particle size", Particles.size());
 
+    std::vector<HBottomBranch> BottomBranches;
+        if (Jets.size()<1) return BottomBranches;
     HJets FinalJets = CleanJets(Jets, Particles, Tag);
 
     HJets Pieces = GetSubJets(Jets, Particles, Tag, 2);
@@ -124,7 +126,6 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
 
     Print(HDebug, "Number B Jets", Jets.size());
 
-    std::vector<HBottomBranch> BottomBranches;
     for (const auto & Jet : FinalJets) BottomBranches.push_back(GetBranch(Jet));
 
     return BottomBranches;

@@ -89,11 +89,14 @@ public:
 
 
 //               return "NeutralLow400";
-              return "NeutralLow500";
+//               return "NeutralLow500";
 //               return "NeutralLow600";
 //               return "NeutralLow1000";
 //               return "NeutralLow1500";
 //               return "NeutralLow2000";
+
+      return "Neutral-100TeV-30GeV-400GeV";
+//       return "Neutral-100TeV-30GeV-500GeV";
     }
 
 protected:
@@ -109,9 +112,9 @@ protected:
 private:
 
     inline int EventNumberMax() const {
-        return 1000000;
+//         return 1000000;
 //         return 100000;
-//         return 10000;
+        return 10000;
 //         return 1000;
 //         return 100;
     };
