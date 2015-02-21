@@ -182,9 +182,9 @@ HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, c
             Print(HError, "Clean Jets", "No Jet Info");
             continue;
         }
-        if (std::abs(Jet.rap()) > 2.5) {
-            continue;
-        }
+//         if (std::abs(Jet.rap()) > 2.5) {
+//             continue;
+//         }
         if (Jet.m() < 0) {
             continue;
         }
