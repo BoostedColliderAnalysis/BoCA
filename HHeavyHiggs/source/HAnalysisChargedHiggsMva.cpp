@@ -747,7 +747,7 @@ bool hheavyhiggs::HAnalysisCharged::GetBottomReader(hanalysis::HEvent &Event, co
 //         static_cast<hanalysis::HJetInfo *>(Jet.user_info_shared_ptr().get())->SetTag(BottomTagger.GetTag(Jet));
         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
 //         if (Tag == HSignal && Jet.user_info<hanalysis::HJetInfo>().MaximalFraction() < .8)continue;
-        if (std::abs(Jet.rap()) > 2.5) continue;
+//         if (std::abs(Jet.rap()) > 2.5) continue;
         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
     }
     return 1;

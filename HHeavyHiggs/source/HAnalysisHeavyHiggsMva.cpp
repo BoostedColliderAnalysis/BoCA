@@ -110,12 +110,12 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisMva::Files(const hanalysis::
 //     SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-400GeV",465.78976127779805,400));
 //    SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-500GeV",403.1726637894434,500));
 //     SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-600GeV",272.6441648068077,600));
-SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-1000GeV",60.62802137818876,1000));
+// SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-1000GeV",60.62802137818876,1000));
 //     SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-1500GeV",14.625345866484361,1500));
 //     SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-2000GeV", 4.920796866551275, 2000));
 // SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-3000GeV",0.9234071865754303,3000));
 // SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-4000GeV",0.25736547733711523,4000));
-// SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-5000GeV",0.08899831451027759,5000));
+SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-5000GeV",0.08899831451027759,5000));
 // SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-6000GeV",0.03602204622881514,6000));
 // SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-7000GeV",0.01576206604679042,7000));
 // SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-8000GeV",0.0076693087930297206, 8000));
@@ -127,25 +127,32 @@ SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-1000GeV",60.62802
 
 //             HStrings BG1 = {"ttbb-ljbbbb-100TeV-300pt_0", "ttbb-ljbbbb-100TeV-300pt_1"}; // 100TeV 300 GeV
 //             BackgroundSemiFiles.push_back(hanalysis::HFile( BG1 , 35.04)); // 100 TeV 300 GeV
-
 //             HStrings BG2 = {"ttcc-ljbbcc-100TeV-300pt_0", "ttcc-ljbbcc-100TeV-300pt_1"}; // 100 TeV 300 GeV
 //             BackgroundSemiFiles.push_back(hanalysis::HFile( BG2 , 30.72)); // 100 TeV 300 GeV
 
 
-//     HStrings BG1_150 = {"ttbb-ljbbbb-100TeV-150pt_0", "ttbb-ljbbbb-100TeV-150pt_1", "ttbb-ljbbbb-100TeV-150pt_2", "ttbb-ljbbbb-100TeV-150pt_3"}; // 100TeV 150 GeV
-//     BackgroundSemiFiles.push_back(hanalysis::HFile( BG1_150 , 342.8)); // 100TeV 150 GeV
-//     HStrings BG2_150 = {"ttcc-ljbbcc-100TeV-150pt_0", "ttcc-ljbbcc-100TeV-150pt_1","ttcc-ljbbcc-100TeV-150pt_2", "ttcc-ljbbcc-100TeV-150pt_3"}; // 100TeV 150 GeV
-//     BackgroundSemiFiles.push_back(hanalysis::HFile( BG2_150 , 298.8)); // 100TeV 150 GeV
+    HStrings BG1_150 = {"ttbb-ljbbbb-100TeV-150pt_0", "ttbb-ljbbbb-100TeV-150pt_1", "ttbb-ljbbbb-100TeV-150pt_2", "ttbb-ljbbbb-100TeV-150pt_3"}; // 100TeV 150 GeV
+    BackgroundSemiFiles.push_back(hanalysis::HFile( BG1_150 , 342.8)); // 100TeV 150 GeV
+    HStrings BG2_150 = {"ttcc-ljbbcc-100TeV-150pt_0", "ttcc-ljbbcc-100TeV-150pt_1","ttcc-ljbbcc-100TeV-150pt_2", "ttcc-ljbbcc-100TeV-150pt_3"}; // 100TeV 150 GeV
+    BackgroundSemiFiles.push_back(hanalysis::HFile( BG2_150 , 298.8)); // 100TeV 150 GeV
 
 //     HStrings BG1_80 = {"ttbb-ljbbbb-100TeV-80pt_0", "ttbb-ljbbbb-100TeV-80pt_1", "ttbb-ljbbbb-100TeV-80pt_2", "ttbb-ljbbbb-100TeV-80pt_3", "ttbb-ljbbbb-100TeV-80pt_4"}; // 100TeV 80 GeV
 //     BackgroundSemiFiles.push_back(hanalysis::HFile(BG1_80 , 1171.6));  // 100TeV 80 GeV
 //     HStrings BG2_80 = {"ttcc-ljbbcc-100TeV-80pt_0", "ttcc-ljbbcc-100TeV-80pt_1", "ttcc-ljbbcc-100TeV-80pt_2", "ttcc-ljbbcc-100TeV-80pt_3", "ttcc-ljbbcc-100TeV-80pt_4"}; // 100TeV 80 GeV
 //     BackgroundSemiFiles.push_back(hanalysis::HFile(BG2_80 , 1042.0));  // 100TeV 80 GeV
 
-    HStrings BG1_80 = {"ttbb-ljbbbb-100TeV-30pt_0", "ttbb-ljbbbb-100TeV-30pt_1", "ttbb-ljbbbb-100TeV-30pt_2", "ttbb-ljbbbb-100TeV-30pt_3", "ttbb-ljbbbb-100TeV-30pt_4"}; // 100TeV 30 GeV
-    BackgroundSemiFiles.push_back(hanalysis::HFile(BG1_80 , 2990));  // 100TeV 30 GeV
-    HStrings BG2_80 = {"ttcc-ljbbcc-100TeV-30pt_0", "ttcc-ljbbcc-100TeV-30pt_1", "ttcc-ljbbcc-100TeV-30pt_2", "ttcc-ljbbcc-100TeV-30pt_3", "ttcc-ljbbcc-100TeV-30pt_4"}; // 100TeV 30 GeV
-    BackgroundSemiFiles.push_back(hanalysis::HFile(BG2_80 , 2684));  // 100TeV 30 GeV
+//     HStrings BG1_80 = {"ttbb-ljbbbb-100TeV-30pt_0", "ttbb-ljbbbb-100TeV-30pt_1", "ttbb-ljbbbb-100TeV-30pt_2", "ttbb-ljbbbb-100TeV-30pt_3", "ttbb-ljbbbb-100TeV-30pt_4"}; // 100TeV 30 GeV
+//     BackgroundSemiFiles.push_back(hanalysis::HFile(BG1_80 , 2990));  // 100TeV 30 GeV
+//     HStrings BG2_80 = {"ttcc-ljbbcc-100TeV-30pt_0", "ttcc-ljbbcc-100TeV-30pt_1", "ttcc-ljbbcc-100TeV-30pt_2", "ttcc-ljbbcc-100TeV-30pt_3", "ttcc-ljbbcc-100TeV-30pt_4"}; // 100TeV 30 GeV
+//                 BackgroundSemiFiles.push_back(hanalysis::HFile(BG2_80 , 2684));  // 100TeV 30 GeV
+
+
+//             SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-H-1000GeV",60.62802137818876,1000));
+//             SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-A-1000GeV",60.62802137818876,1000));
+// SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-H-5000GeV",0.08899831451027759,5000));
+// SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-A-5000GeV",0.08899831451027759,5000));
+// SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-H-10000GeV",0.002076042904956223,10000));
+// SignalSemiFiles.push_back(hanalysis::HFile("H0bb-ljbbbb-100TeV-A-10000GeV",0.002076042904956223,10000));
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 
@@ -299,20 +306,29 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
 //               "H0bb-ljbbbb-100TeV-400GeV-run_01"
 //               "H0bb-ljbbbb-100TeV-500GeV-run_01"
 //               "H0bb-ljbbbb-100TeV-600GeV-run_01"
-              "H0bb-ljbbbb-100TeV-1000GeV-run_01"
+//               "H0bb-ljbbbb-100TeV-1000GeV-run_01"
 //               "H0bb-ljbbbb-100TeV-1500GeV-run_01"
 //         "H0bb-ljbbbb-100TeV-2000GeV-run_01"
         //         "H0bb-ljbbbb-100TeV-3000GeV-run_01"
         //         "H0bb-ljbbbb-100TeV-4000GeV-run_01"
-        //         "H0bb-ljbbbb-100TeV-5000GeV-run_01"
+                "H0bb-ljbbbb-100TeV-5000GeV-run_01"
         //         "H0bb-ljbbbb-100TeV-6000GeV-run_01"
         //         "H0bb-ljbbbb-100TeV-7000GeV-run_01"
         //         "H0bb-ljbbbb-100TeV-8000GeV-run_01"
         //         "H0bb-ljbbbb-100TeV-9000GeV-run_01"
-        //         "H0bb-ljbbbb-100TeV-10000GeV-run_01"
+//                 "H0bb-ljbbbb-100TeV-10000GeV-run_01"
         //         "H0bb-ljbbbb-100TeV-12000GeV-run_01"
-        //         "H0bb-ljbbbb-100TeV-15000GeV-run_01"
-        //         "H0bb-ljbbbb-100TeV-20000GeV-run_01"
+//                 "H0bb-ljbbbb-100TeV-15000GeV-run_01"
+//                 "H0bb-ljbbbb-100TeV-20000GeV-run_01"
+
+      // separated
+
+//               "H0bb-ljbbbb-100TeV-H-1000GeV-run_01"
+//               "H0bb-ljbbbb-100TeV-A-1000GeV-run_01"
+//               "H0bb-ljbbbb-100TeV-H-5000GeV-run_01"
+      //               "H0bb-ljbbbb-100TeV-A-5000GeV-run_01"
+//                     "H0bb-ljbbbb-100TeV-H-10000GeV-run_01"
+//                     "H0bb-ljbbbb-100TeV-A-10000GeV-run_01"
     };
 
     HStrings BackgroundSemiTrees {
@@ -320,14 +336,14 @@ void hheavyhiggs::HAnalysisMva::SetTrees(const hanalysis::HAnalysis::HTagger Tag
       //         "ttcc-ljbbcc-14TeV-80pt_0-run_01"
 //               "ttbb-ljbbbb-14TeV-30pt_0-run_01",
 //               "ttcc-ljbbcc-14TeV-30pt_0-run_01"
-        //         "ttbb-ljbbbb-100TeV-300pt_0-run_01",
-        //         "ttcc-ljbbcc-100TeV-300pt_0-run_01"
-//       "ttbb-ljbbbb-100TeV-150pt_0-run_01",
-//       "ttcc-ljbbcc-100TeV-150pt_0-run_01"
+//                 "ttbb-ljbbbb-100TeV-300pt_0-run_01",
+//                 "ttcc-ljbbcc-100TeV-300pt_0-run_01"
+      "ttbb-ljbbbb-100TeV-150pt_0-run_01",
+      "ttcc-ljbbcc-100TeV-150pt_0-run_01"
 //         "ttbb-ljbbbb-100TeV-80pt_0-run_01",
 //         "ttcc-ljbbcc-100TeV-80pt_0-run_01"
-        "ttbb-ljbbbb-100TeV-30pt_0-run_01",
-        "ttcc-ljbbcc-100TeV-30pt_0-run_01"
+//         "ttbb-ljbbbb-100TeV-30pt_0-run_01",
+//         "ttcc-ljbbcc-100TeV-30pt_0-run_01"
     };
 
     HStrings SignalHadronicTree {};
@@ -642,10 +658,10 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &Event, const hanalys
     Print(HInformation, "Analysis", Tagger);
     HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
     if (Leptons.size() < 1) return 0;
-//     if (Leptons.front().pt() < 300) return 0;
+    if (Leptons.front().pt() < 300) return 0;
 //     if (Leptons.front().pt() < 150) return 0;
 //     if (Leptons.front().pt() < 80) return 0;
-    if (Leptons.front().pt() < 30) return 0;
+//     if (Leptons.front().pt() < 30) return 0;
     ++EventSumM;
 
     switch (Tagger) {
@@ -735,7 +751,7 @@ bool hheavyhiggs::HAnalysisMva::GetBottomReader(hanalysis::HEvent &Event, const 
 
     for (const auto & Jet : Jets) {
         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
-        if (std::abs(Jet.rap()) > 2.5) continue;
+//         if (std::abs(Jet.rap()) > 2.5) continue;
         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
     }
     return 1;

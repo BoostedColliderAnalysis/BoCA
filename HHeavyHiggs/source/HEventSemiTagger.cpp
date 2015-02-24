@@ -240,53 +240,45 @@ std::vector<HEventMultiplet<HOctet>> hheavyhiggs::HEventSemiTagger::GetBdt(const
     return Events;
 }
 
-
+float hheavyhiggs::HEventSemiTagger::ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
+  HEventSemiBranch *Test = (HEventSemiBranch *) EventClonesArray.At(Entry);
+  return Test->Bdt;
+}
 
 
 std::vector<int> hheavyhiggs::HEventSemiTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 {
     Print(HNotification, "Apply Bdt", EventBranchName);
-    std::string Temp = EventBranchName; // TODO remove this dirty trick
-    EventBranchName += "Reader";
-
+    std::string NewEventBranchName = EventBranchName + "Reader";
     const int Steps = 20;
     std::vector<int> EventNumbers(Steps, 0);
 
-    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+    const int BinSum = 100;
+    std::vector<int> Bins(BinSum, 0);
 
+    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(NewEventBranchName.c_str());
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HResultBranch::Class());
-
+    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(NewEventBranchName.c_str(), HResultBranch::Class());
     for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
-
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-
         for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
-
-
             HEventSemiBranch *Test = (HEventSemiBranch *) EventClonesArray->At(Entry);
             const float Bdt = Test->Bdt;
-
             HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
             Export->Bdt = Bdt;
 
+            ++Bins.at(floor(Bdt * BinSum / 2));
 
             for (int Step = 0; Step < Steps; ++Step) {
                 const float CutValue = (float(Step) / Steps + 1);
                 if (Bdt > CutValue) ++EventNumbers.at(Step);
             }
-
-
         }
-
         TreeWriter->Fill();
         TreeWriter->Clear();
     }
-
     TreeWriter->Write();
     delete TreeWriter;
-    EventBranchName = Temp;
 
     return EventNumbers;
-
 }

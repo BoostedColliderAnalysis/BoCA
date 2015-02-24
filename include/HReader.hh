@@ -10,6 +10,7 @@
 # include "TClonesArray.h"
 # include "TObjArray.h"
 # include "TTree.h"
+# include "TH1F.h"
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "ExRootAnalysis/ExRootTreeWriter.h"
@@ -19,22 +20,61 @@
 # include "TMVA/MethodCuts.h"
 
 # include "HMva.hh"
+# include <math.h>
 
 
-
-class ResultStruct
+class ResultStruct : hanalysis::HObject
 {
 
 public:
-    ResultStruct() {
-        Steps = 20;
+
+    ResultStruct()  {
+        BinSum = 2000;
+        Steps = 2000;
+        Bins.resize(BinSum, 0);
         Events.resize(Steps, 0);
         Efficiency.resize(Steps, 0);
     }
 
+//   ResultStruct(const std::string Name){
+//     BinSum = 100;
+//     Plot = TH1F(Name.c_str(), Name.c_str(), BinSum, 0, 2);
+//     Steps = 20;
+//     Events.resize(Steps, 0);
+//     Efficiency.resize(Steps, 0);
+//   }
+
+//   void NewPlot(const std::string Name){
+//     BinSum = 100;
+//     Plot = TH1F(Name.c_str(), Name.c_str(), BinSum, 0, 2);
+//     }
+
+    std::vector<double> Events;
+    std::vector<double> Efficiency;
+    int BinSum;
     int Steps;
-    std::vector<float> Events;
-    std::vector<float> Efficiency;
+
+    std::vector<int> Bins;
+
+    //     TH1F Plot;
+
+    std::vector<int> CutIntegral(std::vector<int> Vector) {
+//         Print(HError, "Cut Integral", Bins.size());
+        std::vector<int> Integrals(BinSum,0);
+        Integrals.at(BinSum - 1) = Vector.at(BinSum - 1);
+        for (int BinNumber = BinSum - 2; BinNumber >= 0; --BinNumber){ Integrals.at(BinNumber) = Integrals.at(BinNumber + 1) + Vector.at(BinNumber);
+          Print(HError, "Cut Integral",Vector.at(BinNumber), Integrals.at(BinNumber));
+        }
+        return Integrals;
+    }
+
+//     std::vector<int> CutIntegral(){
+//       std::vector<int> Integrals(BinSum);
+//       for(int BinNumber; BinNumber<=BinSum; ++BinNumber){
+//         Integrals.at(BinNumber) = Plot.Integral(BinNumber,BinSum);
+//       }
+//       return Integrals;
+//     }
 
 };
 
@@ -70,7 +110,7 @@ public:
 
 
     void operator=(const hanalysis::HReader &) {
-        Print(HError, "invalid Reader copy!!", "Dont end up here!!!","Actually it still seems to work");
+        Print(HError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
     }
 
     void SetMva(hanalysis::HMva &NewMva);
@@ -105,14 +145,16 @@ public:
     TMVA::Reader Reader; // FIXME what is wrong here?
 
 
-    HMva *Tagger() const{
-      return Mva;
+    HMva *Tagger() const {
+        return Mva;
     }
 
     HMva *Mva;
 
 
 private:
+
+    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
 
     template <typename TCutFlow>
@@ -231,7 +273,10 @@ private:
     };
 
     float GetMass(const TFile *File, const std::string &TreeName);
+
     ResultStruct ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile);
+
+    std::vector< int > GetSignificance(const TFile *File, const std::string &TreeName, const float XSec);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
 

@@ -528,6 +528,11 @@ public:
 //     HJets GetJets(hanalysis::HEvent &Event);
     HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
+
+    virtual float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
+      Print(HError,"Read Bdt","should be subclassed");
+    };
+
 //     HPairBranch *GetBranch() {
 //       return Branch;
 //     }

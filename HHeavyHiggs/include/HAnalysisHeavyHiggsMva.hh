@@ -101,7 +101,20 @@ public:
 //       return "Neutral-100TeV-30GeV-400GeV";
 //       return "Neutral-100TeV-30GeV-500GeV";
 //       return "Neutral-100TeV-30GeV-600GeV";
-      return "Neutral-100TeV-30GeV-1000GeV";
+//       return "Neutral-100TeV-30GeV-1000GeV";
+
+      return "Neutral-100TeV-300GeV-5000GeV";
+//       return "Neutral-100TeV-300GeV-10000GeV";
+//       return "Neutral-100TeV-300GeV-20000GeV";
+
+//       return "H-100TeV-30GeV-1000GeV";
+//       return "A-100TeV-30GeV-1000GeV";
+//       return "H-100TeV-300GeV-1000GeV";
+//       return "A-100TeV-300GeV-1000GeV";
+//       return "H-100TeV-300GeV-5000GeV";
+//       return "A-100TeV-300GeV-5000GeV";
+//       return "H-100TeV-300GeV-10000GeV";
+//       return "A-100TeV-300GeV-10000GeV";
     }
 
 protected:
@@ -118,8 +131,8 @@ private:
 
     inline int EventNumberMax() const {
 //         return 1000000;
-//         return 100000;
-        return 10000;
+        return 100000;
+//         return 10000;
 //         return 1000;
 //         return 100;
     };

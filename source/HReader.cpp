@@ -2,13 +2,13 @@
 
 hanalysis::HReader::HReader()
 {
-//     DebugLevel = HDebug;
+    DebugLevel = HDebug;
     Print(HInformation, "Constructor");
 }
 
 hanalysis::HReader::HReader(hanalysis::HMva &NewMva)
 {
-//           DebugLevel = HDebug;
+    DebugLevel = HDebug;
     Print(HInformation, "Constructor");
     SetMva(NewMva);
 }
@@ -27,8 +27,8 @@ void hanalysis::HReader::AddVariable()
     Print(HNotification, "Add Variable");
 
     const std::string DefaultOptions = "!Color:Silent";
-//     Reader = TMVA::Reader(DefaultOptions);
-//     Reader.
+    //     Reader = TMVA::Reader(DefaultOptions);
+    //     Reader.
 
     for (auto & Observable : Mva->GetObservables()) {
         Print(HDebug, "Expression", Observable.Expression);
@@ -48,9 +48,9 @@ void hanalysis::HReader::BookMva()
 
     const std::string XmlName = ".weights.xml";
 
-//     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + XmlName;
-//     Print(HError, "Opening Weight File", CutWeightFile);
-//     Reader.BookMVA(Mva->GetCutMethodName(), CutWeightFile);
+    //     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + XmlName;
+    //     Print(HError, "Opening Weight File", CutWeightFile);
+    //     Reader.BookMVA(Mva->GetCutMethodName(), CutWeightFile);
 
     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + XmlName;
     Print(HNotification, "Opening Weight File", BdtWeightFile);
@@ -65,46 +65,61 @@ void hanalysis::HReader::SimpleMVALoop()
     Print(HNotification, "Mva Loop");
 
     LatexHeader();
-    ResultStruct BackgroundResults;
+    std::vector<ResultStruct> BackgroundResults;
+
+//     std::stringstream TableHeader;
+//     TableHeader << std::endl
+//                 << "\\begin{table}" << std::endl
+//                 << "\\centering" << std::endl
+//                 << "\\begin{tabular}{l@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r}" << std::endl
+//                 << " \\\\ \\toprule" << std::endl
+//                 << "    Mass" << std::endl
+//                 << "  & \\multicolumn{20}{c}{BDT Cut}" << std::endl
+    //                 << " \\\\ \\cmidrule(r){2-21}" << std::endl;
 
     std::stringstream TableHeader;
     TableHeader << std::endl
                 << "\\begin{table}" << std::endl
                 << "\\centering" << std::endl
-                << "\\begin{tabular}{l@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r@{ }r}" << std::endl
-                << " \\\\ \\toprule" << std::endl
-                << "    Mass" << std::endl
-                << "  & \\multicolumn{20}{c}{BDT Cut}" << std::endl
-                << " \\\\ \\cmidrule(r){2-21}" << std::endl;
+                << "\\begin{tabular}{lr}" << std::endl
+                << " \\\\ \\toprule" << std::endl;
 
-    std::stringstream PlotHeader;
-    PlotHeader << std::endl
-               << "\\begin{figure}" << std::endl
-               << "\\centering" << std::endl
-               << "\\begin{tikzpicture}" << std::endl
-               << "\\begin{axis}[" << std::endl
-               << ", ymin = 0" << std::endl
-               << ", xlabel = {BDT}" << std::endl
-               << ", ylabel = {Number of events per bin}" << std::endl
-               << "]" << std::endl;
 
-    std::stringstream PlotFooter;
-    PlotFooter << "\\end{axis}" << std::endl
-               << "\\end{tikzpicture};" << std::endl;
+//     std::stringstream PlotHeader;
+//     PlotHeader << std::endl
+//                << "\\begin{figure}" << std::endl
+//                << "\\centering" << std::endl
+//                << "\\begin{tikzpicture}" << std::endl
+//                << "\\begin{axis}[" << std::endl
+//                << ", ymin = 0" << std::endl
+//                << ", xlabel = {BDT}" << std::endl
+//                << ", ylabel = {Number of events per bin}" << std::endl
+//                << "]" << std::endl;
 
-    for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
-        const float Cut = float(Step) / BackgroundResults.Steps + 1;
-        TableHeader << "  & " << Cut << std::endl;
-    }
-    TableHeader << " \\\\ \\midrule" << std::endl;
+//     std::stringstream PlotFooter;
+//     PlotFooter << "\\end{axis}" << std::endl
+//                << "\\end{tikzpicture};" << std::endl;
 
-    std::stringstream TableFooter1;
-    TableFooter1 << "\\bottomrule" << std::endl
-                 << "\\end{tabular}" << std::endl
-                 << "\\caption{" << Mva->GetTaggerName();
+//     for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
+//         const float Cut = float(Step) / BackgroundResults.Steps + 1;
+//         TableHeader << "  & " << Cut << std::endl;
+//     }
+//     TableHeader << " \\\\ \\midrule" << std::endl;
 
-    std::stringstream TableFooter2;
-    TableFooter2 << ".}" << std::endl << "\\end{table}" << std::endl;
+
+    std::stringstream TableFooter;
+    TableFooter << "\\bottomrule" << std::endl
+                << "\\end{tabular}" << std::endl
+                << "\\caption{Significance and Efficiencies.}" << std::endl;
+
+
+//     std::stringstream TableFooter1;
+//     TableFooter1 << "\\bottomrule" << std::endl
+//                  << "\\end{tabular}" << std::endl
+//                  << "\\caption{" << Mva->GetTaggerName();
+
+//     std::stringstream TableFooter2;
+//     TableFooter2 << ".}" << std::endl << "\\end{table}" << std::endl;
 
     const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + Mva->GetBdtMethodName() + ".root";
     const TFile *ExportFile = TFile::Open(ExportFileName.c_str(), "Recreate");
@@ -113,68 +128,111 @@ void hanalysis::HReader::SimpleMVALoop()
     const TFile *BackgroundFile = TFile::Open(BackgroundFileName.c_str());
     Print(HError, "Open Background File", BackgroundFileName, Mva->GetBackgroundTreeNames().size());
 
-    std::stringstream EfficiencyTable;
-    EfficiencyTable << TableHeader.str();
+//     std::stringstream EfficiencyTable;
+//     EfficiencyTable << TableHeader.str();
 
-    std::stringstream BdtPlot;
-    BdtPlot << PlotHeader.str();
+//     std::stringstream BdtPlot;
+//     BdtPlot << PlotHeader.str();
 
     for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) {
-        EfficiencyTable << "\\verb|" << BackgroundTreeName << "|" << std::endl;
+        //         EfficiencyTable << "\\verb|" << BackgroundTreeName << "|" << std::endl;
 
-        ResultStruct NewBackgroundResults = ApplyBdt(BackgroundFile, BackgroundTreeName, ExportFile);
-        for (int Step = 0; Step < BackgroundResults.Steps; ++Step) {
-            BackgroundResults.Events[Step] += NewBackgroundResults.Events[Step];
-            EfficiencyTable << "  & " << RoundToDigits(NewBackgroundResults.Efficiency[Step]) << std::endl;
-            Print(HError, "Background Results", NewBackgroundResults.Events[Step]);
-        }
-        EfficiencyTable << " \\\\ ";
+        BackgroundResults.push_back(ApplyBdt(BackgroundFile, BackgroundTreeName, ExportFile));
+
+//       for (int Step = 0; Step < BackgroundResults.back().Steps; ++Step) {
+
+//             BackgroundResults.Events[Step] += NewBackgroundResults.Events[Step];
+//             BackgroundResults.Efficiency[Step] += NewBackgroundResults.Efficiency[Step];
+//             EfficiencyTable << "  & " << RoundToDigits(NewBackgroundResults.Efficiency[Step]) << std::endl;
+//             for (int Bin = 0; Bin <= BackgroundResults.BinSum; ++Bin) BackgroundResults.Bins[Bin] += NewBackgroundResults.Bins[Bin];
+//             Print(HError, "Background Results", NewBackgroundResults.Events[Step]);
+//         }
+//         EfficiencyTable << " \\\\ ";
     }
 
-    std::stringstream SignificanceTable;
-    SignificanceTable << TableHeader.str();
+//     std::stringstream SignificanceTable;
+//     SignificanceTable << TableHeader.str();
 
     const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + "Reader.root";
     const TFile *SignalFile = TFile::Open(SignalFileName.c_str());
 
+
+    ResultStruct SignalResults;
+    std::vector<double> Significances(SignalResults.Steps, 0);
     Print(HError, "Open Signal File", SignalFileName, Mva->GetSignalTreeNames().size());
     for (const auto & SignalTreeName : Mva->GetSignalTreeNames()) {
-        SignificanceTable << GetMass(SignalFile, SignalTreeName) << std::endl;
-        EfficiencyTable << GetMass(SignalFile, SignalTreeName) << std::endl;
+//         SignificanceTable << GetMass(SignalFile, SignalTreeName) << std::endl;
+//         EfficiencyTable << GetMass(SignalFile, SignalTreeName) << std::endl;
 
-        ResultStruct SignalResults = ApplyBdt(SignalFile, SignalTreeName, ExportFile);
+        SignalResults = ApplyBdt(SignalFile, SignalTreeName, ExportFile);
 
         for (int Step = 0; Step < SignalResults.Steps; ++Step) {
-            const float Significance = SignalResults.Events[Step] / std::sqrt(SignalResults.Events[Step] + BackgroundResults.Events[Step] + 15);
-            SignificanceTable << "  & " << RoundToDigits(Significance) << std::endl;
-            EfficiencyTable << "  & " << RoundToDigits(SignalResults.Efficiency[Step]) << std::endl;
+
+            float BackgroundEvents = 0;
+            for (int bgnr = 0; bgnr < BackgroundResults.size(); ++bgnr) BackgroundEvents += BackgroundResults.at(bgnr).Events[Step];
+
+            const double Significance = SignalResults.Events[Step] / std::sqrt(SignalResults.Events[Step] + BackgroundEvents + 15);
+//             SignificanceTable << "  & " << RoundToDigits(Significance) << std::endl;
+//             EfficiencyTable << "  & " << RoundToDigits(SignalResults.Efficiency[Step]) << std::endl;
+            Significances.at(Step) = Significance;
         }
-        EfficiencyTable << " \\\\ ";
-        SignificanceTable << " \\\\ ";
+//         EfficiencyTable << " \\\\ ";
+//         SignificanceTable << " \\\\ ";
 
     }
 
+//     for (int Step = 0; Step < SignalResults.Steps; ++Step) Print(HError, "p-Value", double(Step) * 2 / SignalResults.BinSum, Significances.at(Step), SignalResults.Events[Step], BackgroundResults.Events[Step]);
+
+    auto MaxIt = std::max_element(std::begin(Significances), std::end(Significances));
+    int MaxBin = std::distance(Significances.begin(), MaxIt);
+    Print(HError, "Max Bin", MaxBin);
+    float MaxSignificance = Significances.at(MaxBin);
+    float SignalEfficiency = SignalResults.Efficiency.at(MaxBin);
+//     float BackgroundRejection = BackgroundResults.Efficiency.at(MaxBin);
+
+    std::stringstream Summary;
+    Summary << "Best Significance for Higgs mass of " << GetMass(SignalFile, Mva->GetSignalTreeNames().at(0)) << " of " << MaxSignificance << " for a BDT-cut of " << double(MaxBin) * 2 / SignalResults.BinSum << " which leads to a Signal Efficiency of " << SignalEfficiency;
+
+    std::stringstream Table;
+    Table << TableHeader.str();
+    Table << " \\\\ Mass" << std::endl << "  & " << GetMass(SignalFile, Mva->GetSignalTreeNames().at(0)) << std::endl;
+    Table << " \\\\ $p$-value" << std::endl << "  & " << MaxSignificance << std::endl;
+    Table << " \\\\ BDT-cut" << std::endl << "  & " << double(MaxBin) * 2 / SignalResults.BinSum << std::endl;
+    Table << " \\\\ Efficiency" << std::endl << "  & " << SignalEfficiency << std::endl;
+
+    for (int bgnr = 0; bgnr < BackgroundResults.size(); ++bgnr) {
+        Summary << " and background rejection for \\verb|" << Mva->GetBackgroundTreeNames().at(bgnr) << "| of " << BackgroundResults.at(bgnr).Efficiency.at(MaxBin);
+        Table << " \\\\ \\verb|" << Mva->GetBackgroundTreeNames().at(bgnr) << "|" << std::endl << "  & " << BackgroundResults.at(bgnr).Efficiency.at(MaxBin) << std::endl;
+    }
+
+    Summary << std::endl << std::endl;
+
+//     Print(HError, "Significance", MaxBin, MaxSignificance, SignalEfficiency, BackgroundRejection);
+
     const_cast<TFile *>(ExportFile)->Close();
 
-    SignificanceTable << TableFooter1.str();
-    SignificanceTable << " Significance";
-    SignificanceTable << TableFooter2.str();
+//     SignificanceTable << TableFooter1.str();
+//     SignificanceTable << " Significance";
+//     SignificanceTable << TableFooter2.str();
 
-    EfficiencyTable << TableFooter1.str();
-    EfficiencyTable << " Efficiencies";
-    EfficiencyTable << TableFooter2.str();
+//     EfficiencyTable << TableFooter1.str();
+//     EfficiencyTable << " Efficiencies";
+//     EfficiencyTable << TableFooter2.str();
 
-    LatexFile << EfficiencyTable.str();
-    LatexFile << SignificanceTable.str();
+//     LatexFile << EfficiencyTable.str();
+//     LatexFile << SignificanceTable.str();
+    LatexFile << Summary.str();
+    Table << TableFooter.str();
+    LatexFile << Table.str();
 
     LatexFooter();
 
 }
 
 
-
 float hanalysis::HReader::GetMass(const TFile *File, const std::string &TreeName)
 {
+    Print(HNotification, "Get Mass", TreeName);
 
     const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());
     Print(HError, "Open Tree", TreeName);
@@ -186,19 +244,22 @@ float hanalysis::HReader::GetMass(const TFile *File, const std::string &TreeName
     return Info->Mass;
 
 }
-
+/*
 
 ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile)
 {
+    Print(HNotification, "Apply Bdt", TreeName);
+
     float Luminosity = 3000; // 3000 fb-1
-//     Luminosity *= 1000; // * pb
+    //     Luminosity *= 1000; // * pb
     ResultStruct Result;
 
-    const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());
     Print(HError, "Open Tree", TreeName);
+    const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());
+    Print(HError, "Tree Reader", Tree->GetEntries());
     const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
 
-    Print(HError, "Branch", Mva->GetWeightBranchName());
+    Print(HError, "Branch", Mva->GetWeightBranchName(), TreeReader->GetEntries());
     const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
     const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
@@ -211,8 +272,100 @@ ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &
         Result.Efficiency[Step] = float(Numbers[Step]) / float(Info->EventNumber);
     }
 
+    Result.Bins = GetSignificance(ExportFile, TreeName, Info->Crosssection);
+
+    return Result;
+}*/
+
+
+
+ResultStruct hanalysis::HReader::ApplyBdt(const TFile *File, const std::string &TreeName, const TFile *ExportFile)
+{
+    Print(HNotification, "Apply Bdt", TreeName);
+    float Luminosity = 3000; // 3000 fb-1
+    ResultStruct Result;
+
+    Print(HError, "Open Tree", TreeName);
+    const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());
+
+    Print(HError, "Tree Reader", Tree->GetEntries());
+    const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
+
+    Print(HError, "Branch", Mva->GetWeightBranchName(), TreeReader->GetEntries());
+    const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(Mva->GetWeightBranchName().c_str());
+    const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(0);
+    const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
+
+    std::vector<int> Bins = ApplyBdt2(TreeReader, TreeName, ExportFile);
+    Print(HError, "Bins", Bins.size());
+
+    std::vector<int> Integral = Result.CutIntegral(Bins);
+
+    for (int Step = 0; Step < Result.BinSum; ++Step) {
+        Result.Events[Step] = double(Integral[Step]) / double(Info->EventNumber) * Info->Crosssection * Luminosity;
+        Result.Efficiency[Step] = double(Integral[Step]) / double(Info->EventNumber);
+        Print(HError, "Result", Result.Efficiency[Step], Result.Events[Step]);
+    }
+
     return Result;
 }
+
+std::vector<int> hanalysis::HReader::GetSignificance(const TFile *File, const std::string &TreeName, const float XSec)
+{
+    Print(HNotification, "Get Significance", TreeName);
+
+    const TTree *const Tree = (TTree *)const_cast<TFile *>(File)->Get(TreeName.c_str());
+    const ExRootTreeReader *const TreeReader = new ExRootTreeReader(const_cast<TTree *>(Tree));
+
+    const std::string BranchName = Mva->GetBranchName() + "Reader";
+    const TClonesArray *ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(BranchName.c_str());
+
+    ResultStruct Result;
+    std::vector<int> Bins(Result.BinSum, 0);
+
+    for (int EventNumber = 0; EventNumber < ClonesArray->GetEntriesFast(); ++EventNumber) {
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+        const HResultBranch *const ResultBranch = (HResultBranch *) ClonesArray->At(EventNumber);
+        ++Bins.at(floor(ResultBranch->Bdt * Result.BinSum / 2));
+        Print(HError, "Bin", floor(ResultBranch->Bdt * Result.BinSum / 2), Bins.at(floor(ResultBranch->Bdt * Result.BinSum / 2)));
+    }
+
+    return Bins;
+}
+
+
+
+
+
+
+std::vector<int> hanalysis::HReader::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
+{
+    Print(HNotification, "Apply Bdt", Mva->GetBranchName());
+    std::string NewEventBranchName = Mva->GetBranchName() + "Reader";
+
+    ResultStruct Result;
+    std::vector<int> Bins(Result.BinSum, 0);
+
+    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(NewEventBranchName.c_str());
+    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
+    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(NewEventBranchName.c_str(), HResultBranch::Class());
+    for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+        for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
+            const float Bdt = Mva->ReadBdt(*EventClonesArray, Entry);
+            HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
+            Export->Bdt = Bdt;
+
+            ++Bins.at(floor(Bdt * Result.BinSum / 2));
+        }
+        TreeWriter->Fill();
+        TreeWriter->Clear();
+    }
+    TreeWriter->Write();
+    delete TreeWriter;
+    return Bins;
+}
+
 
 
 // void hanalysis::HReader::MVALoop()
@@ -292,13 +445,13 @@ void hanalysis::HReader::LatexHeader()
 
     LatexFile << "\\documentclass[a4paper,10pt]{article}" << std::endl << std::endl
               << "\\usepackage{booktabs}" << std::endl
-              << "\\usepackage[landscape]{geometry}" << std::endl
-              << "\\usepackage[cm]{fullpage}" << std::endl
-//               << "\\usepackage{units}" << std::endl
-//               << "\\usepackage{siunitx}" << std::endl << std::endl
-//               << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
-//               << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << std::endl
-//               << "\\newcolumntype{E}{R@{$\\pm$}L}" << std::endl << std::endl
+//               << "\\usepackage[landscape]{geometry}" << std::endl
+//               << "\\usepackage[cm]{fullpage}" << std::endl
+              //               << "\\usepackage{units}" << std::endl
+              //               << "\\usepackage{siunitx}" << std::endl << std::endl
+              //               << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}" << std::endl
+              //               << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}" << std::endl
+              //               << "\\newcolumntype{E}{R@{$\\pm$}L}" << std::endl << std::endl
               << "\\begin{document}" << std::endl << std::endl;
 
 }
@@ -421,22 +574,22 @@ void hanalysis::HReader::LatexContent(const std::string &TreeName)
 
     CrosssectionNorm = Crosssection * 1000; // conversion from pico to femto
     const float CrosssectionNormError = CrosssectionError * 1000;
-//     CrosssectionNormRelError =  CrosssectionNormError / CrosssectionNorm;
+    //     CrosssectionNormRelError =  CrosssectionNormError / CrosssectionNorm;
 
 
-//     float EventNorm = Mva->Luminosity * CrosssectionNorm; // both are in fb
-//     float EventNormError = EventNorm * CrosssectionNormRelError;
+    //     float EventNorm = Mva->Luminosity * CrosssectionNorm; // both are in fb
+    //     float EventNormError = EventNorm * CrosssectionNormRelError;
 
 
-//               float EventRatio = EventNorm / EventGenerated;
-//     float EvenRatioError = EventNormError / EventGenerated;
-//     float EventRatioNormError = EvenRatioError / EventRatio;
+    //               float EventRatio = EventNorm / EventGenerated;
+    //     float EvenRatioError = EventNormError / EventGenerated;
+    //     float EventRatioNormError = EvenRatioError / EventRatio;
 
 
     const float Lumi = Mva->GetLuminosity() / EventGenerated;
 
     float EventLuminosity = EventSum * Lumi;
-//               float EventLuminosityError = EventLuminosity * EventRatioNormError;
+    //               float EventLuminosityError = EventLuminosity * EventRatioNormError;
     float EventLuminosityError = GetError(EventLuminosity);
 
     float HiggsEventLuminosity = ReaderStruct.HiggsEventSum * Lumi;
@@ -463,15 +616,15 @@ void hanalysis::HReader::LatexContent(const std::string &TreeName)
 
         EventLuminosity = ReaderStruct.EventVector[ObservableNumber] * Lumi;
         EventLuminosityError = GetError(EventLuminosity);
-//         EventLuminosityError = EventLuminosity * EventRatioNormError;
+        //         EventLuminosityError = EventLuminosity * EventRatioNormError;
 
         HiggsEventLuminosity = ReaderStruct.HiggsEventVector[ObservableNumber] * Lumi;
         HiggsEventLuminosityError = GetError(HiggsEventLuminosity);
-//         HiggsEventLuminosityError = HiggsEventLuminosity * EventRatioNormError;
+        //         HiggsEventLuminosityError = HiggsEventLuminosity * EventRatioNormError;
 
         TopEventLuminosity = ReaderStruct.TopEventVector[ObservableNumber] * Lumi;
         TopEventLuminosityError = GetError(TopEventLuminosity);
-//         TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
+        //         TopEventLuminosityError = TopEventLuminosity * EventRatioNormError;
 
         LatexFile << " " /*<< "$"*/ << Mva->GetObservables()[ObservableNumber].Title /*<< "$"*/ << std::endl
                   << "  & " << RoundToDigits(ReaderStruct.CutsMin[ObservableNumber]) << std::endl
