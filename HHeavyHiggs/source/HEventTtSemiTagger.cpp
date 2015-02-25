@@ -194,6 +194,10 @@ std::vector<HSextetEvent> hheavyhiggs::HEventTtSemiTagger::GetBdt(const std::vec
     return SextetEvents;
 }
 
+float hheavyhiggs::HEventTtSemiTagger::ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
+  return ((HEventTtSemiBranch *) EventClonesArray.At(Entry))->Bdt;
+}
+
 std::vector<int> hheavyhiggs::HEventTtSemiTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 {
     Print(HNotification, "Apply Bdt", EventBranchName);

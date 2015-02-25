@@ -42,6 +42,8 @@ public:
 
     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
+    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
+
     HEventTtSemiBranch GetBranch(const HSextetEvent &Event) const;
 
     hanalysis::HBottomTagger BottomTagger;

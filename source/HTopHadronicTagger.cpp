@@ -77,7 +77,7 @@ std::vector< HTopHadronicBranch > hanalysis::HTopHadronicTagger::GetBranches(han
 
     Print(HInformation, "Get Top Tags");
 
-    int WHadId = WTagger.GetWHadId(Event);
+//     int WHadId = WTagger.GetWHadId(Event);
 
     HJets Jets = GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);

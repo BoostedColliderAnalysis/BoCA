@@ -39,7 +39,9 @@ public:
 
 
     std::vector<HEventMultiplet<HOctet44>> GetBdt(
-        const std::vector< HOctet44 > &Octets, HJets &Jets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+      const std::vector< HOctet44 > &Octets, HJets &Jets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+
+    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
 
 
     hanalysis::HBottomTagger BottomTagger;

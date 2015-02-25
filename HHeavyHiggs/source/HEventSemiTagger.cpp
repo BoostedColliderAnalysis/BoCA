@@ -241,8 +241,7 @@ std::vector<HEventMultiplet<HOctet>> hheavyhiggs::HEventSemiTagger::GetBdt(const
 }
 
 float hheavyhiggs::HEventSemiTagger::ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
-  HEventSemiBranch *Test = (HEventSemiBranch *) EventClonesArray.At(Entry);
-  return Test->Bdt;
+  return ((HEventSemiBranch *) EventClonesArray.At(Entry))->Bdt;
 }
 
 

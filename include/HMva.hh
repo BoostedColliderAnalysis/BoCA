@@ -37,29 +37,29 @@
 // };
 
 struct SortByMass {
-  SortByMass(const float NewMass) {
-    this->Mass = NewMass;
-  }
-  template <typename TMultiplet>
-  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-    if (Multiplet1.Jet().m() != Multiplet2.Jet().m()) return std::abs(Multiplet1.Jet().m() - Mass) < std::abs(Multiplet2.Jet().m() - Mass);
-    else return Multiplet1.Bdt() > Multiplet2.Bdt();
-  }
-  float Mass;
+    SortByMass(const float NewMass) {
+        this->Mass = NewMass;
+    }
+    template <typename TMultiplet>
+    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+        if (Multiplet1.Jet().m() != Multiplet2.Jet().m()) return std::abs(Multiplet1.Jet().m() - Mass) < std::abs(Multiplet2.Jet().m() - Mass);
+        else return Multiplet1.Bdt() > Multiplet2.Bdt();
+    }
+    float Mass;
 };
 
 struct MinDeltaR {
-  MinDeltaR(const fastjet::PseudoJet &NewParticle) {
-    this->Particle = NewParticle;
-  }
-  template <typename TMultiplet>
-  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-    return Multiplet1.Jet().delta_R(Particle)  < Multiplet2.Jet().delta_R(Particle);
-  }
-  inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-    return Jet1.delta_R(Particle)  < Jet2.delta_R(Particle);
-  }
-  fastjet::PseudoJet Particle;
+    MinDeltaR(const fastjet::PseudoJet &NewParticle) {
+        this->Particle = NewParticle;
+    }
+    template <typename TMultiplet>
+    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+        return Multiplet1.Jet().delta_R(Particle)  < Multiplet2.Jet().delta_R(Particle);
+    }
+    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+        return Jet1.delta_R(Particle)  < Jet2.delta_R(Particle);
+    }
+    fastjet::PseudoJet Particle;
 };
 
 // struct SortJetByDeltaR {
@@ -73,87 +73,87 @@ struct MinDeltaR {
 // };
 
 struct MaxDeltaRap {
-  template <typename TMultiplet>
-  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-    return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
-  }
+    template <typename TMultiplet>
+    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+        return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
+    }
 };
 
 
 struct WrongId {
-  WrongId(const int NewId) {
-    this->Id = NewId;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (Family.ParticleId != Id);
-  }
-  int Id;
+    WrongId(const int NewId) {
+        this->Id = NewId;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return (Family.ParticleId != Id);
+    }
+    int Id;
 };
 
 struct WrongAbsId {
-  WrongAbsId(const int NewId) {
-    this->Id = NewId;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (std::abs(Family.ParticleId) != Id);
-  }
-  int Id;
+    WrongAbsId(const int NewId) {
+        this->Id = NewId;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return (std::abs(Family.ParticleId) != Id);
+    }
+    int Id;
 };
 
 struct WrongAbsFamily {
-  WrongAbsFamily(const int NewId, const int NewMother) {
-    this->Id = NewId;
-    this->Mother = NewMother;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (std::abs(Family.ParticleId) != Id || std::abs(Family.Mother1Id) != Mother);
-  }
-  int Id;
-  int Mother;
+    WrongAbsFamily(const int NewId, const int NewMother) {
+        this->Id = NewId;
+        this->Mother = NewMother;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return (std::abs(Family.ParticleId) != Id || std::abs(Family.Mother1Id) != Mother);
+    }
+    int Id;
+    int Mother;
 };
 
 struct WrongFamily {
-  WrongFamily(const int NewId, const int NewMother) {
-    this->Id = NewId;
-    this->Mother = NewMother;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (Family.ParticleId != Id || Family.Mother1Id != Mother);
-  }
-  int Id;
-  int Mother;
+    WrongFamily(const int NewId, const int NewMother) {
+        this->Id = NewId;
+        this->Mother = NewMother;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return (Family.ParticleId != Id || Family.Mother1Id != Mother);
+    }
+    int Id;
+    int Mother;
 };
 
 struct WrongMother {
-  WrongMother(const int NewMother) {
-    this->Mother = NewMother;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return Family.Mother1Id != Mother;
-  }
-  int Mother;
+    WrongMother(const int NewMother) {
+        this->Mother = NewMother;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return Family.Mother1Id != Mother;
+    }
+    int Mother;
 };
 
 struct WrongAbsMother {
-  WrongAbsMother(const int NewMother) {
-    this->Mother = NewMother;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return std::abs(Family.Mother1Id) != Mother;
-  }
-  int Mother;
+    WrongAbsMother(const int NewMother) {
+        this->Mother = NewMother;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return std::abs(Family.Mother1Id) != Mother;
+    }
+    int Mother;
 };
 
 
@@ -162,41 +162,41 @@ struct WrongAbsMother {
 
 
 struct WrongLeptons {
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (std::abs(Family.ParticleId) == Family.ElectronId ||
-    std::abs(Family.ParticleId) == Family.MuonId ||
-    std::abs(Family.ParticleId) == Family.TauId ||
-    std::abs(Family.ParticleId) == Family.TauNeutrinoId ||
-    std::abs(Family.ParticleId) == Family.MuonNeutrinoId ||
-    std::abs(Family.ParticleId) == Family.ElectronNeutrinoId
-    );
-  }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+        return (std::abs(Family.ParticleId) == Family.ElectronId ||
+                std::abs(Family.ParticleId) == Family.MuonId ||
+                std::abs(Family.ParticleId) == Family.TauId ||
+                std::abs(Family.ParticleId) == Family.TauNeutrinoId ||
+                std::abs(Family.ParticleId) == Family.MuonNeutrinoId ||
+                std::abs(Family.ParticleId) == Family.ElectronNeutrinoId
+               );
+    }
 };
 
 struct LargeDistance {
-  LargeDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
-    this->JetM = NewJet;
-    this->Distance = NewDistance;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    return (JetM.delta_R(Jet) > Distance);
-  }
-  fastjet::PseudoJet JetM;
-  float Distance;
+    LargeDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
+        this->JetM = NewJet;
+        this->Distance = NewDistance;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        return (JetM.delta_R(Jet) > Distance);
+    }
+    fastjet::PseudoJet JetM;
+    float Distance;
 };
 
 struct SmallDistance {
-  SmallDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
-    this->JetM = NewJet;
-    this->Distance = NewDistance;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    return (JetM.delta_R(Jet) < Distance);
-  }
-  fastjet::PseudoJet JetM;
-  float Distance;
+    SmallDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
+        this->JetM = NewJet;
+        this->Distance = NewDistance;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        return (JetM.delta_R(Jet) < Distance);
+    }
+    fastjet::PseudoJet JetM;
+    float Distance;
 };
 
 
@@ -371,8 +371,8 @@ public:
 //     }
 
     void SetTreeNames(const HStrings &NewTreeNames) {
-      SignalTreeNames = NewTreeNames;
-      BackgroundTreeNames = NewTreeNames;
+        SignalTreeNames = NewTreeNames;
+        BackgroundTreeNames = NewTreeNames;
     }
 
     void SetSignalTreeNames(const HStrings &NewSignalTreeNames) {
@@ -411,8 +411,8 @@ public:
     }
 
     std::string ReaderName() const {
-      const std::string Name = TaggerName + "Reader";
-      return Name;
+        const std::string Name = TaggerName + "Reader";
+        return Name;
     }
 
     std::string GetAnalysisName() const {
@@ -507,17 +507,17 @@ public:
     virtual HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {
         HReaderStruct ReaderStruct;
         return ReaderStruct;
-    };
+    }
 
     virtual void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, const TMVA::Reader &) {
         Print(HError, "should be subclassed");
-    };
+    }
 
     virtual std::vector<int> ApplyBdt2(const ExRootTreeReader *const , const std::string , const TFile *const) {
         Print(HError, "should be subclassed");
         std::vector<int> Vector;
         return Vector;
-    };
+    }
 
     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
@@ -529,9 +529,11 @@ public:
     HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
 
-    virtual float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
-      Print(HError,"Read Bdt","should be subclassed");
-    };
+    virtual float ReadBdt(const TClonesArray &, const int) {
+        Print(HError, "Read Bdt", "should be subclassed");
+        float Bdt = 0;
+        return Bdt;
+    }
 
 //     HPairBranch *GetBranch() {
 //       return Branch;
@@ -542,46 +544,46 @@ protected:
 //   float JetMinPt = 20; // LHC
 //   float JetConeSize = 0.5; // LHC
 
-  float JetMinPt = 40; // 100 TeV
-  float JetConeSize = 0.4; // 100 TeV
+    float JetMinPt = 40; // 100 TeV
+    float JetConeSize = 0.4; // 100 TeV
 
-  ExRootTreeBranch *TreeBranch;
-
-
-
-  inline HJets RemoveIfWrongAbsMother(HJets &Jets, const int Id){
-   Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsMother(Id)), Jets.end());
-   return Jets;
-  }
+    ExRootTreeBranch *TreeBranch;
 
 
-  inline HJets RemoveIfLetpons(HJets &Jets){
-    Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongLeptons()), Jets.end());
-    return Jets;
-  }
 
-  inline HJets RemoveIfWrongAbsFamily(HJets &Jets, const int ParticleId, int MotherId){
-    Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsFamily(ParticleId, MotherId)), Jets.end());
-  return Jets;
-}
+    inline HJets RemoveIfWrongAbsMother(HJets &Jets, const int Id) {
+        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsMother(Id)), Jets.end());
+        return Jets;
+    }
 
-inline HJets SortByDeltaRTo(HJets &Jets, fastjet::PseudoJet Jet){
-  std::sort(Jets.begin(), Jets.end(), MinDeltaR(Jet));
-  return Jets;
-}
 
-template <class HMultiplet>
-inline std::vector<HMultiplet> SortByMaxDeltaRap(std::vector<HMultiplet> &Multiplets){
-  std::sort(Multiplets.begin(), Multiplets.end(), MaxDeltaRap());
-  return Multiplets;
-}
+    inline HJets RemoveIfLetpons(HJets &Jets) {
+        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongLeptons()), Jets.end());
+        return Jets;
+    }
+
+    inline HJets RemoveIfWrongAbsFamily(HJets &Jets, const int ParticleId, int MotherId) {
+        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsFamily(ParticleId, MotherId)), Jets.end());
+        return Jets;
+    }
+
+    inline HJets SortByDeltaRTo(HJets &Jets, fastjet::PseudoJet Jet) {
+        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Jet));
+        return Jets;
+    }
+
+    template <class HMultiplet>
+    inline std::vector<HMultiplet> SortByMaxDeltaRap(std::vector<HMultiplet> &Multiplets) {
+        std::sort(Multiplets.begin(), Multiplets.end(), MaxDeltaRap());
+        return Multiplets;
+    }
 
 
     virtual void DefineVariables() = 0;
 
     virtual inline std::string ClassName() const {
         return "HMva";
-    };
+    }
 
     template<typename TValue>
     HObservable NewObservable(TValue *const Value, const std::string &Title) const {
