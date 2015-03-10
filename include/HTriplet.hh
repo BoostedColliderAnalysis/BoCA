@@ -45,6 +45,14 @@ public:
         return (DoubletJet().pt() - Singlet().pt());
     }
 
+    inline float DeltaM() const {
+      return (DoubletJet().m() - Singlet().m());
+    }
+
+    inline float DeltaHt() const {
+      return (Doublet().Ht() - Singlet().pt());
+    }
+
     inline float DeltaPhi() const {
         return DoubletJet().delta_phi_to(Singlet());
     }

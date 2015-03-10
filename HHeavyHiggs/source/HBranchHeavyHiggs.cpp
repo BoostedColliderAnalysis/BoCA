@@ -124,6 +124,8 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
   HiggsMass = InitialValue;
   HiggsBdt = InitialValue;
   SignatureBdt = InitialValue;
+  BottomBdt = InitialValue;
+  PairBottomBdt = InitialValue;
 
   RestNumber = InitialValue;
   RestM = InitialValue;
@@ -133,6 +135,35 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
   RestPhi = InitialValue;
   RestBdt = InitialValue;
   LeptonHt = InitialValue;
+
+  HardTopPt = InitialValue;
+  SoftTopPt = InitialValue;
+
+  BottomBdt1 = InitialValue;
+  BottomBdt2 = InitialValue;
+  BottomBdt3 = InitialValue;
+  BottomBdt4 = InitialValue;
+  BottomBdt5 = InitialValue;
+  BottomBdt6 = InitialValue;
+  BottomBdt7 = InitialValue;
+  BottomBdt8 = InitialValue;
+  BottomBdt12 = InitialValue;
+  BottomBdt34 = InitialValue;
+  BottomBdt56 = InitialValue;
+  BottomBdt78 = InitialValue;
+
+  SubBottomBdt1 = InitialValue;
+  SubBottomBdt2 = InitialValue;
+  SubBottomBdt3 = InitialValue;
+  SubBottomBdt4 = InitialValue;
+  SubBottomBdt5 = InitialValue;
+  SubBottomBdt6 = InitialValue;
+  SubBottomBdt7 = InitialValue;
+  SubBottomBdt8 = InitialValue;
+  SubBottomBdt12 = InitialValue;
+  SubBottomBdt34 = InitialValue;
+  SubBottomBdt56 = InitialValue;
+  SubBottomBdt78 = InitialValue;
 
 }
 
@@ -197,6 +228,12 @@ hheavyhiggs::HOctetBranch::HOctetBranch()
 {
   HiggsMass = InitialValue;
   PairRap = InitialValue;
+  BottomBdt = InitialValue;
+  PairBottomBdt = InitialValue;
+  HiggsBdt = InitialValue;
+  PairBdt = InitialValue;
+  HardTopPt = InitialValue;
+  SoftTopPt = InitialValue;
 }
 
 
@@ -206,6 +243,10 @@ hheavyhiggs::HChargedOctetBranch::HChargedOctetBranch()
 {
     HiggsMass = InitialValue;
     PairRap = InitialValue;
+    BottomBdt = InitialValue;
+    PairBottomBdt = InitialValue;
+    HiggsBdt = InitialValue;
+    PairBdt = InitialValue;
 }
 
 ClassImp(hheavyhiggs::HChargedSemiBranch)
@@ -225,6 +266,8 @@ hheavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
     PairRap = InitialValue;
     HiggsBdt = InitialValue;
     SignatureBdt = InitialValue;
+    BottomBdt = InitialValue;
+    PairBottomBdt = InitialValue;
 
     RestM = InitialValue;
     RestPt = InitialValue;
@@ -233,6 +276,32 @@ hheavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
     RestPhi = InitialValue;
     RestNumber = InitialValue;
     LeptonHt = InitialValue;
+
+    BottomBdt1 = InitialValue;
+    BottomBdt2 = InitialValue;
+    BottomBdt3 = InitialValue;
+    BottomBdt4 = InitialValue;
+    BottomBdt5 = InitialValue;
+    BottomBdt6 = InitialValue;
+    BottomBdt7 = InitialValue;
+    BottomBdt8 = InitialValue;
+    BottomBdt12 = InitialValue;
+    BottomBdt34 = InitialValue;
+    BottomBdt56 = InitialValue;
+    BottomBdt78 = InitialValue;
+
+    SubBottomBdt1 = InitialValue;
+    SubBottomBdt2 = InitialValue;
+    SubBottomBdt3 = InitialValue;
+    SubBottomBdt4 = InitialValue;
+    SubBottomBdt5 = InitialValue;
+    SubBottomBdt6 = InitialValue;
+    SubBottomBdt7 = InitialValue;
+    SubBottomBdt8 = InitialValue;
+    SubBottomBdt12 = InitialValue;
+    SubBottomBdt34 = InitialValue;
+    SubBottomBdt56 = InitialValue;
+    SubBottomBdt78 = InitialValue;
 }
 
 

@@ -1,6 +1,8 @@
 # ifndef HAnalysisHiggsCpv_hh
 # define HAnalysisHiggsCpv_hh
 
+#include <sys/stat.h>
+
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
@@ -28,13 +30,6 @@ public:
      */
     HAnalysisTt();
 
-    /**
-     * @brief Destructor
-     *
-     */
-    ~HAnalysisTt();
-
-
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HWSemiTagger WSemiTagger;
     hanalysis::HWTagger WHadronicTagger;
@@ -49,23 +44,11 @@ public:
 
     std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
+
     inline std::string ProjectName() const {
-//         return "HeavyHiggsTt400";
-//         return "HeavyHiggsTt800";
-//         return "HeavyHiggsTt1000";
-//         return "HeavyHiggsTt1500";
-//         return "HeavyHiggsTt2000";
-//         return "HeavyHiggsTt3000";
-        return "HeavyHiggsTt4000";
-//         return "HeavyHiggsTt5000";
-//         return "HeavyHiggsTt6000";
-//         return "HeavyHiggsTt7000";
-//         return "HeavyHiggsTt8000";
-//         return "HeavyHiggsTt9000";
-//         return "HeavyHiggsTt10000";
-//         return "HeavyHiggsTt12000";
-//         return "HeavyHiggsTtTest";
+        return  "Fusion-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
+
 
     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
@@ -84,29 +67,297 @@ protected:
     }
 
 private:
+
+    enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt,H0};
+    enum HColliderType {LHC, FHC, LE};
+
+    // in GeV
+    inline int Mass() const {
+        //     return 0;
+        //     return 400;
+        //     return 600;
+        //         return 1000;
+//                 return 2000;
+                return 3000;
+//         return 4000;
+//                 return 5000;
+        //     return 6000;
+        //     return 7000;
+        //     return 8000;
+        //     return 9000;
+        //         return 10000;
+    }
+
+    // in GeV
+    inline int PreCut() const {
+        return 1000;
+        //     return 30;
+        //     return 80;
+        //         return 150;
+        //         return 300;
+    }
+
+    inline int EventNumberMax() const {
+//                 return 1000000;
+//         return 100000;
+                return 10000;
+        //         return 1000;
+//                 return 100;
+    };
+
+    inline HColliderType ColliderType() const {
+        //       return LHC;
+        //       return FHC;
+        return LE;
+    }
+
+    inline int BackgroundFileNumber() const {
+        //         return 1;
+        //         return 2;
+        //       return 4;
+        return 5;
+        //       return 10;
+    }
+
+
+    // in fb
+    float SignalCrosssection() const {
+        switch (ColliderType()) {
+        case LHC:
+            switch (Mass()) {
+            case 400 :
+                return 15.457345846238557;
+            case 500:
+                return 10.57186928542166;
+            case 1000:
+                return 0.6300105025483057;
+            case 2000:
+                return 0.011364910695033002;
+            default:
+                Print(HError, "Signal Crosssection", "unhandled case");
+                return 1;
+            } ;
+        case FHC:
+        case LE:
+          switch (Mass()) {
+            case 400 :
+              return 131.94947391305232;
+            case 700 :
+              return 30.221882093141176;
+            case 800:
+              return 17.100219340176437;
+            case 1000:
+              return 6.146859900494059;
+            case 1500:
+              return 0.8522475589106505;
+            case 2000:
+              return 0.19108540463151014;
+            case 3000:
+              return 0.020689601081729285;
+            case 4000:
+              return 0.0038886961414115293;
+            case 5000:
+              return 0.0010087505187664622;
+            case 6000:
+              return 0.0003169949319582519;
+            case 8000:
+              return 0.00004684534698668758;
+            case 10000:
+              return 9.81016234854116e-6;
+            case 12000:
+              return 2.5117159473593533e-6;
+            default:
+              Print(HError,  "Signal Crosssection", "unhandled case");
+              return 1;
+          }
+        default:
+            Print(HError,  "Signal Crosssection", "unhandled case");
+            return 1;
+        }
+    }
+
+    inline hanalysis::HFile BackgroundFile(const ProcessType Background) const {
+        return BackgroundFile(Background, BackgroundFileNumber());
+    }
+
+    hanalysis::HFile BackgroundFile(const ProcessType Background, const int FileSum) const {
+        std::string FileName = ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV";
+        HStrings FileNames;
+        for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
+            FileNames.push_back(FileName + "_" + std::to_string(FileNumber));
+        }
+        return hanalysis::HFile(FileNames , BackgroundCrosssection(Background));
+    }
+
+    std::string BackgroundTree(const ProcessType Process) const {
+        return ProcessName(Process) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV_0-run_01";
+    }
+
+    float BackgroundCrosssection(const ProcessType Proccess) const {
+        switch (ColliderType()) {
+        case LHC :
+            switch (PreCut()) {
+            case 30 :
+                switch (Proccess) {
+                case ttbb :
+                    return 298.2;
+                case ttcc:
+                    return 264.6;
+                case ttjj:
+                    return 9999999999;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                };
+            case 80 :
+                switch (Proccess) {
+                case ttbb :
+                    return 89.32;
+                case ttcc:
+                    return 78.42;
+                case ttjj:
+                    return 9999999999;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            }
+        case FHC:
+            switch (PreCut()) {
+            case 30 :
+                switch (Proccess) {
+                case ttbb :
+                    return 2990;
+                case ttcc:
+                    return 2684;
+                case ttjj:
+                    return 9999999999;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 80 :
+                switch (Proccess) {
+                case ttbb :
+                    return 1171.6;
+                case ttcc:
+                    return 1042.0;
+                case ttjj:
+                    return 9999999999;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 150 :
+                switch (Proccess) {
+                case ttbb :
+                    return 605.199003171 * 2;
+                case ttcc:
+                    return 468.061778817 * 2;
+                case ttjj:
+                    return 61.9287096863 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 300 :
+                switch (Proccess) {
+                case ttbb :
+                    return 242;
+                case ttcc:
+                    return 176;
+                case ttjj:
+                    return 26000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            }
+        case LE:
+            switch (PreCut()) {
+            case 300 :
+                switch (Proccess) {
+                case ttbb :
+                    return 263;
+                case ttcc:
+                    return 192.82;
+                case ttjj:
+                    return 28200;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 150 :
+                switch (Proccess) {
+                case ttbb :
+                    return 688;
+                case ttcc:
+                    return 534;
+                case ttjj:
+                    return 70289;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 1000 :
+                switch (Proccess) {
+                case tt :
+                    return 1.532 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            }
+        default:
+            Print(HError, "Background Crosssection",  "unhandled case");
+            return 1;
+        }
+    }
+
+    std::string ColliderName(const HColliderType Collider) const {
+        switch (Collider) {
+        case LHC :
+            return "14TeV";
+        case FHC:
+            return "100TeV";
+        case LE:
+            return "LE";
+        default:
+            Print(HError, "unhandled case");
+            return "";
+        }
+    }
+
+    std::string ProcessName(const ProcessType Process) const {
+        switch (Process) {
+        case Hbb:
+          return "H0bb-ljbbbb";
+        case H0:
+          return "H0-ljbb";
+        case ttbb :
+            return "ttbb-ljbbbb";
+        case ttcc:
+            return "ttcc-ljbbcc";
+        case ttjj:
+            return "ttjj-ljbbjj";
+        case tt:
+            return "tt_inc";
+        default:
+            Print(HError, "unhandled case");
+            return "";
+        }
+    }
+
     hanalysis::HJetTag JetTag;
 
     hanalysis::HReader BottomReader;
-//     hanalysis::HReader JetPairReader;
     hanalysis::HReader WSemiReader;
     hanalysis::HReader WHadronicReader;
     hanalysis::HReader TopLeptonicReader;
     hanalysis::HReader TopHadronicReader;
     hanalysis::HReader TopSemiReader;
     hanalysis::HReader HeavyHiggsSemiReader;
-//     hanalysis::HReader HeavyHiggsLeptonicReader;
     hanalysis::HReader EventSemiReader;
-//     hanalysis::HReader EventLeptonicReader;
-//     hanalysis::HReader ChargedHiggsSemiReader;
-
-    inline int EventNumberMax() const {
-        return 1000000;
-//         return 100000;
-//         return 10000;
-//         return 1000;
-//         return 100;
-    };
-
 
     void ResetBranch();
 

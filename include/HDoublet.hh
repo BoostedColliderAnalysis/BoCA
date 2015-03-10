@@ -113,6 +113,36 @@ public:
         return PullAngle1() * PullAngle2();
     }
 
+    inline void SetRestJets(const HJets &NewJets) {
+        RestJetsM = NewJets;
+        std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
+    }
+
+    inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
+        RestJetsM.push_back(NewJet);
+        std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
+    }
+
+    HJets RestJets() const {
+        return RestJetsM;
+    }
+
+    float BdtRatio1(const int Number) const {
+        if (unsigned(Number) > RestJetsM.size()) return 0;
+        return Singlet1M.user_info<HJetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<HJetInfo>().Bdt();
+    }
+
+    float BdtRatio2(const int Number)const {
+        if (unsigned(Number) > RestJetsM.size()) return 0;
+        return Singlet1M.user_info<HJetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<HJetInfo>().Bdt();
+    }
+
+//     bool Overlap()const {
+//         if (Singlet1().delta_R(Singlet2()) < DetectorGeometry.JetConeSize) return true;
+//         else return false;
+//     }
+
+
     std::vector< HKinematics > Constituents() const;
 
 protected:
@@ -134,6 +164,8 @@ protected:
     fastjet::PseudoJet Singlet1M;
 
     fastjet::PseudoJet Singlet2M;
+
+    HJets RestJetsM;
 
     virtual inline std::string ClassName() const {
         return "HDoublet";

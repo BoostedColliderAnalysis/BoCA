@@ -16,13 +16,20 @@ public:
 
     HTopHadronicTagger();
 
-    ~HTopHadronicTagger();
-
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWTagger &NewWTagger);
 
     std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & TopHadronicReader);
+
+    HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::HReader &TopHadronicReader);
+
+    std::vector<HTriplet> GetBdt(HJets &Jets, const HReader &TopHadronicReader);
+
+
+    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
+      return ((HTopHadronicBranch *) EventClonesArray.At(Entry))->Bdt;
+    }
 
     HBottomTagger BottomTagger;
     HWTagger WTagger;

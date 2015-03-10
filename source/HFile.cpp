@@ -3,7 +3,8 @@
 hanalysis::HFile::HFile()
 {
   Print(HInformation, "Constructor");
-    SetVariables();
+  SetVariables();
+  MassM = 0;
 }
 
 hanalysis::HFile::HFile(const std::string &NewProcess)
@@ -11,6 +12,7 @@ hanalysis::HFile::HFile(const std::string &NewProcess)
     Print(HInformation, "Constructor");
     SetVariables();
     ProcessFolders.push_back(NewProcess);
+    MassM = 0;
 }
 
 hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssection)
@@ -19,6 +21,7 @@ hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssecti
   SetVariables();
   ProcessFolders.push_back(NewProcess);
   CrosssectionM = NewCrosssection;
+  MassM = 0;
 }
 
 hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssection, const float NewMass)
@@ -35,6 +38,7 @@ hanalysis::HFile::HFile(const HStrings &NewProcesses)
   Print(HInformation, "Constructor");
   SetVariables();
   ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
+  MassM = 0;
 }
 
 hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection)
@@ -43,6 +47,7 @@ hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssectio
   SetVariables();
   ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
   CrosssectionM = NewCrosssection;
+  MassM = 0;
 }
 
 hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection, const float NewMass)
@@ -60,6 +65,7 @@ hanalysis::HFile::HFile(const std::string &NewProcess, const std::string &Run)
     SetVariables();
     ProcessFolders.push_back(NewProcess);
     RunFolder = Run;
+    MassM = 0;
 }
 
 std::string hanalysis::HFile::GetTitle() const

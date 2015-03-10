@@ -9,6 +9,8 @@
 # include "HJetTag.hh"
 # include "HFourVector.hh"
 
+
+
 class HConstituent
 {
 
@@ -250,6 +252,17 @@ private:
 
     int BTagM;
 
+};
+
+
+/**
+ * @brief sort vector of jets with largest bdt at the front
+ *
+ */
+struct SortByBdt {
+  inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+    return (Jet1.user_info<hanalysis::HJetInfo>().Bdt() > Jet2.user_info<hanalysis::HJetInfo>().Bdt());
+  }
 };
 
 # endif

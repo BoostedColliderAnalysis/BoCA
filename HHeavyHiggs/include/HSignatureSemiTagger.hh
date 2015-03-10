@@ -22,12 +22,6 @@ public:
     */
     HSignatureSemiTagger();
 
-    /**
-    * @brief Destructor
-    *
-    */
-    ~HSignatureSemiTagger();
-
     void SetTagger(
         const hanalysis::HBottomTagger &NewBottomTagger,
         const hanalysis::HJetPairTagger &NewJetPairTagger,
@@ -41,7 +35,6 @@ public:
 
     std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, const hanalysis::HReader &Reader);
 
-//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
     HOctetBranch GetBranch(const HOctet &Octet) const;
 

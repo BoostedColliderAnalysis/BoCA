@@ -81,7 +81,7 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEven
 
     JetTag.HeavyParticles = {TopId};
     HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = BottomTagger.GetBdt(Jets, BottomReader);
+    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
     Print(HInformation, "Jet Number", Jets.size());
 
     HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);

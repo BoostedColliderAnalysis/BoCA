@@ -107,21 +107,12 @@ int main()
     RunTagger(hanalysis::HAnalysis::HWSemiTagger);
 //     RunTagger(hanalysis::HAnalysis::HWSemiReader);
 
-//     RunTagger(hanalysis::HAnalysis::HTopLeptonicTagger);
-//     RunTagger(hanalysis::HAnalysis::HTopLeptonicReader);
-
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
 //     RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
 
     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
 //     RunTagger(hanalysis::HAnalysis::HTopSemiReader);
 
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger);
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsLeptonicReader);
-
-//     RunTagger(hanalysis::HAnalysis::HEventLeptonicTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventLeptonicReader);
-//
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
 //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
 
@@ -131,14 +122,7 @@ int main()
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
 
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
-
-//     RunTagger(hanalysis::HAnalysis::HChargedHiggsSemiTagger);
-
     std::cout << fastjet::LimitedWarning::summary() << std::endl;
-
-
 
     return 0;
 

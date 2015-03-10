@@ -71,6 +71,14 @@ public:
         return SextetJet().pt() - DoubletJet().pt();
     }
 
+    inline float DeltaHt() const {
+        return Sextet().Ht() - Doublet().Ht();
+    }
+
+    inline float DeltaM() const {
+        return SextetJet().m() - DoubletJet().m();
+    }
+
     inline float DeltaR() const {
         return SextetJet().delta_R(DoubletJet());
     }
@@ -95,9 +103,13 @@ public:
         return HObject::GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
     }
 
-//     inline void SetScalarHt(const float NewScalarHt) {
-//         EventStructM.ScalarHt = NewScalarHt;
-//     }
+    inline float BottomBdt() const {
+        return Doublet().Singlet1().user_info<hanalysis::HJetInfo>().Bdt() + Doublet().Singlet2().user_info<hanalysis::HJetInfo>().Bdt() + Sextet().Triplet1().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Sextet().Triplet2().Singlet().user_info<hanalysis::HJetInfo>().Bdt();
+    }
+
+    inline float PairBottomBdt() const {
+        return Doublet().Singlet1().user_info<hanalysis::HJetInfo>().Bdt() + Doublet().Singlet2().user_info<hanalysis::HJetInfo>().Bdt();
+    }
 //
 //     inline void SetJetNumber(const int NewJetNumber) {
 //         EventStructM.JetNumber = NewJetNumber;

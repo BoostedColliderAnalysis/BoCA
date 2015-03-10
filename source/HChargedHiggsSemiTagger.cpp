@@ -251,7 +251,7 @@ hanalysis::HObject::HTag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuart
 
 
 
-std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(std::vector<HTriplet> Triplets , std::vector<fastjet::PseudoJet> Siglets, const HReader &Reader)
+std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(const std::vector<HTriplet> Triplets , const std::vector<fastjet::PseudoJet> Siglets, const HReader &Reader)
 {
 
     std::vector<HQuartet31> Quartets;

@@ -146,6 +146,14 @@ public:
         return NewDeltaR;
     }
 
+    float DeltaHt() const {
+      return Sextet().Ht() - RestJet().pt();
+    }
+
+    float DeltaM() const {
+      return SextetJet().m() - RestJet().m();
+    }
+
 
 protected:
 

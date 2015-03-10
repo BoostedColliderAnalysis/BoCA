@@ -1,5 +1,12 @@
 # include "HBranch.hh"
 
+ClassImp(HBranch)
+HBranch::HBranch()
+{
+    InitialValue = -10;
+}
+HBranch::~HBranch() {}
+
 ClassImp(HInfoBranch)
 
 HInfoBranch::HInfoBranch()
@@ -64,18 +71,18 @@ ClassImp(HTauBranch)
 HTauBranch::HTauBranch()
 {
 
-  EmRadius = InitialValue;
-  TrackRadius = InitialValue;
-  MomentumFraction = InitialValue;
-  CoreEnergyFraction = InitialValue;
-  EmFraction = InitialValue;
-  ClusterMass = InitialValue;
-  TrackMass = InitialValue;
-  FlightPath = InitialValue;
-  TrtHtFraction = InitialValue;
+    EmRadius = InitialValue;
+    TrackRadius = InitialValue;
+    MomentumFraction = InitialValue;
+    CoreEnergyFraction = InitialValue;
+    EmFraction = InitialValue;
+    ClusterMass = InitialValue;
+    TrackMass = InitialValue;
+    FlightPath = InitialValue;
+    TrtHtFraction = InitialValue;
 
-  Tag = InitialValue;
-  Bdt = InitialValue;
+    Tag = InitialValue;
+    Bdt = InitialValue;
 
 }
 
@@ -86,10 +93,14 @@ HPairBranch::HPairBranch()
 
     Ht = InitialValue;
     DeltaPt = InitialValue;
+    DeltaHt = InitialValue;
+    DeltaM = InitialValue;
     DeltaRap = InitialValue;
     DeltaPhi = InitialValue;
     DeltaR = InitialValue;
 
+    WBdt = InitialValue;
+    BBdt = InitialValue;
     Bdt = InitialValue;
     Tag = InitialValue;
 
@@ -100,38 +111,13 @@ ClassImp(HWBranch)
 HWBranch::HWBranch()
 {
 
-//     Mass = InitialValue;
-//     Rap = InitialValue;
-//     Phi = InitialValue;
-//     Pt = InitialValue;
-//     Ht = InitialValue;
-
-//     DeltaPt = InitialValue;
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
-
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
 }
 
 ClassImp(HEventJetPairBranch)
 
 HEventJetPairBranch::HEventJetPairBranch()
 {
-
     DeltaM = InitialValue;
-//     Ht = InitialValue;
-//
-//     Mass = InitialValue;
-//     Pt = InitialValue;
-//     Rap = InitialValue;
-//     Phi = InitialValue;
-
-//     DeltaPt = InitialValue;
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
 
     Jet1Mass = InitialValue;
     Jet1Pt = InitialValue;
@@ -147,9 +133,14 @@ HEventJetPairBranch::HEventJetPairBranch()
     Jet2Bdt = InitialValue;
     Jet2BTag = InitialValue;
 
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
-
+    BdtRatio11 = InitialValue;
+    BdtRatio12 = InitialValue;
+    BdtRatio13 = InitialValue;
+    BdtRatio14 = InitialValue;
+    BdtRatio21 = InitialValue;
+    BdtRatio22 = InitialValue;
+    BdtRatio23 = InitialValue;
+    BdtRatio24 = InitialValue;
 }
 
 ClassImp(HChargedJetPairBranch)
@@ -157,21 +148,19 @@ ClassImp(HChargedJetPairBranch)
 HChargedJetPairBranch::HChargedJetPairBranch()
 {
 
-  DeltaM = InitialValue;
+    BottomMass = InitialValue;
+    BottomPt = InitialValue;
+    BottomRap = InitialValue;
+    BottomPhi = InitialValue;
+    BottomBdt = InitialValue;
+    BottomBTag = InitialValue;
 
-  BottomMass = InitialValue;
-  BottomPt = InitialValue;
-  BottomRap = InitialValue;
-  BottomPhi = InitialValue;
-  BottomBdt = InitialValue;
-  BottomBTag = InitialValue;
-
-  TopMass = InitialValue;
-  TopPt = InitialValue;
-  TopRap = InitialValue;
-  TopPhi = InitialValue;
-  TopBdt = InitialValue;
-  TopBTag = InitialValue;
+    TopMass = InitialValue;
+    TopPt = InitialValue;
+    TopRap = InitialValue;
+    TopPhi = InitialValue;
+    TopBdt = InitialValue;
+    TopBTag = InitialValue;
 
 }
 
@@ -188,8 +177,8 @@ ClassImp(HHeavyHiggsTauBranch)
 
 HHeavyHiggsTauBranch::HHeavyHiggsTauBranch()
 {
-  NeutrinoPt = InitialValue;
-  LeptonPt = InitialValue;
+    NeutrinoPt = InitialValue;
+    LeptonPt = InitialValue;
 
 }
 
@@ -199,17 +188,8 @@ ClassImp(HTopHadronicBranch)
 HTopHadronicBranch::HTopHadronicBranch()
 {
 
-//     Ht = InitialValue;
-
     BottomPt = InitialValue;
     WPt = InitialValue;
-
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
-
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
 
 }
 
@@ -217,17 +197,8 @@ ClassImp(HTopSemiBranch)
 
 HTopSemiBranch::HTopSemiBranch()
 {
-
-//     Ht = InitialValue;
     BottomPt = InitialValue;
     WPt = InitialValue;
-
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
-
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
 
 }
 
@@ -235,17 +206,8 @@ ClassImp(HTopLeptonicBranch)
 
 HTopLeptonicBranch::HTopLeptonicBranch()
 {
-
     BottomPt = InitialValue;
     LeptonPt = InitialValue;
-
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
-
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
-
 }
 
 
@@ -277,19 +239,6 @@ ClassImp(HHeavyHiggsLeptonicBranch)
 
 HHeavyHiggsLeptonicBranch::HHeavyHiggsLeptonicBranch()
 {
-
-//     Mass = InitialValue;
-//     Pt = InitialValue;
-//     Rap = InitialValue;
-//     Phi = InitialValue;
-
-//     DeltaPt = InitialValue;
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
-
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
 
     LargerWDeltaRap = InitialValue;
     LargerWDeltaPhi = InitialValue;
@@ -334,20 +283,6 @@ ClassImp(HHeavyHiggsSemiBranch)
 HHeavyHiggsSemiBranch::HHeavyHiggsSemiBranch()
 {
 
-//     Mass = InitialValue;
-//     Rap = InitialValue;
-//     Phi = InitialValue;
-//     Pt = InitialValue;
-//     Ht = InitialValue;
-
-//     DeltaPt = InitialValue;
-//     DeltaRap = InitialValue;
-//     DeltaPhi = InitialValue;
-//     DeltaR = InitialValue;
-
-//     Bdt = InitialValue;
-//     Tag = InitialValue;
-
 }
 
 
@@ -356,33 +291,7 @@ ClassImp(HChargedHiggsSemiBranch)
 HChargedHiggsSemiBranch::HChargedHiggsSemiBranch()
 {
 
-//     HeavyHiggsMass = InitialValue;
-//     HeavyHiggsPt = InitialValue;
-
-//     TopDeltaRap = InitialValue;
-//     TopDeltaPhi = InitialValue;
-//     TopDeltaR = InitialValue;
-
-    //     LargerWDeltaRap = InitialValue;
-    //     LargerWDeltaPhi = InitialValue;
-    //     LargerWDeltaR = InitialValue;
-    //
-    //     SmallerWDeltaRap = InitialValue;
-    //     SmallerWDeltaPhi = InitialValue;
-    //     SmallerWDeltaR = InitialValue;
-
-    //     LargerNeutrinoDeltaRap = InitialValue;
-    //     LargerNeutrinoDeltaPhi = InitialValue;
-    //     LargerNeutrinoDeltaR = InitialValue;
-    //
-    //     SmallerNeutrinoDeltaRap = InitialValue;
-    //     SmallerNeutrinoDeltaPhi = InitialValue;
-    //     SmallerNeutrinoDeltaR = InitialValue;
-
-//     TopBdt = InitialValue;
-//     HeavyHiggsTag = InitialValue;
-
-  Flag=0;
+    Flag = 0;
 
 }
 
@@ -399,22 +308,6 @@ HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
     TopDeltaRap = InitialValue;
     TopDeltaPhi = InitialValue;
     TopDeltaR = InitialValue;
-
-    //     LargerWDeltaRap = InitialValue;
-    //     LargerWDeltaPhi = InitialValue;
-    //     LargerWDeltaR = InitialValue;
-    //
-    //     SmallerWDeltaRap = InitialValue;
-    //     SmallerWDeltaPhi = InitialValue;
-    //     SmallerWDeltaR = InitialValue;
-
-    //     LargerNeutrinoDeltaRap = InitialValue;
-    //     LargerNeutrinoDeltaPhi = InitialValue;
-    //     LargerNeutrinoDeltaR = InitialValue;
-    //
-    //     SmallerNeutrinoDeltaRap = InitialValue;
-    //     SmallerNeutrinoDeltaPhi = InitialValue;
-    //     SmallerNeutrinoDeltaR = InitialValue;
 
     TopBdt = InitialValue;
     HeavyHiggsTag = InitialValue;
@@ -452,5 +345,36 @@ HChargedHiggsLeptonicBranch::HChargedHiggsLeptonicBranch()
 
     TopBdt = InitialValue;
     HeavyHiggsTag = InitialValue;
+
+}
+
+
+
+ClassImp(HEventBottomTaggerBranch)
+
+HEventBottomTaggerBranch::HEventBottomTaggerBranch()
+{
+    Bdt = InitialValue;
+    Tag = InitialValue;
+    BottomBdt1 = InitialValue;
+    BottomBdt2 = InitialValue;
+    BottomBdt3 = InitialValue;
+    BottomBdt4 = InitialValue;
+    BottomBdt5 = InitialValue;
+    BottomBdt6 = InitialValue;
+
+    BottomBdt12 = InitialValue;
+    BottomBdt34 = InitialValue;
+    BottomBdt56 = InitialValue;
+
+    BottomBdt123 = InitialValue;
+    BottomBdt1234 = InitialValue;
+
+}
+
+ClassImp(HTopLeptonBranch)
+
+HTopLeptonBranch::HTopLeptonBranch()
+{
 
 }

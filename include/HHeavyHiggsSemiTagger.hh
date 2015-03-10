@@ -15,9 +15,7 @@ class hanalysis::HHeavyHiggsSemiTagger : public HMva
 public:
 
     HHeavyHiggsSemiTagger();
-
-    ~HHeavyHiggsSemiTagger();
-
+    
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
 
     std::vector< HHeavyHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);

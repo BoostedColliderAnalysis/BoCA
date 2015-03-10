@@ -28,12 +28,6 @@ public:
      */
     HAnalysis();
 
-    /**
-     * @brief Destructor
-     *
-     */
-    ~HAnalysis();
-
     enum HTagger {
         HBottomTagger,
         HBottomReader,
@@ -94,7 +88,8 @@ protected:
     }
 
     inline int EventSum(const ExRootTreeReader &NewTreeReader) const {
-      return std::min((int)NewTreeReader.GetEntries(), EventNumberMax());
+//       return std::min((int)NewTreeReader.GetEntries(), EventNumberMax());
+      return NewTreeReader.GetEntries();
     }
 
     ExRootTreeWriter TreeWriter(const TFile &NewExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
@@ -158,6 +153,8 @@ protected:
      *
      */
     ExRootTreeBranch *Branch;
+
+    int ObjectNumber;
 
 private:
 

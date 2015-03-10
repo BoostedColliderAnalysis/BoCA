@@ -65,6 +65,14 @@ public:
         return GetQuartet1Jet().pt() - GetQuartet2Jet().pt();
     }
 
+    inline float DeltaHt() const {
+      return Quartet1().Ht() - Quartet2().Ht();
+    }
+
+    inline float DeltaM() const {
+      return GetQuartet1Jet().m() - GetQuartet2Jet().m();
+    }
+
     inline float DeltaR() const {
         return GetQuartet1Jet().delta_R(GetQuartet2Jet());
     }
@@ -75,6 +83,14 @@ public:
 
     inline float DeltaRap() const {
         return GetQuartet1Jet().rap() - GetQuartet2Jet().rap();
+    }
+
+    inline float BottomBdt() const {
+      return Quartet1().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet1().Triplet().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet2().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet2().Triplet().Singlet().user_info<hanalysis::HJetInfo>().Bdt();
+    }
+
+    inline float PairBottomBdt() const {
+      return Quartet2().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet2().Triplet().Singlet().user_info<hanalysis::HJetInfo>().Bdt();
     }
 
 //     inline float GetDeltaPt1() const {

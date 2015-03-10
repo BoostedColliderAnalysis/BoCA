@@ -29,11 +29,11 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 
     WeightBranchName = "Info";
 
-    SignalEfficiency = 0.5;
+//     SignalEfficiency = 0.5;
 
-    Luminosity = 3000; // fb
+//     Luminosity = 3000; // fb
 
-    DoLatex = 1;
+//     DoLatex = 1;
 
 //     EventBranch = new HEventBranch();
 
@@ -136,132 +136,132 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 }
 
 
-HReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
-{
-
-    Print(HNotification, "Cut Loop");
-
-    int ObservableSum = Observables.size();
-
-    Print(HNotification, "Observables", Observables.size());
-
-    ReaderStruct.HiggsSum = 0;
-    ReaderStruct.TopSum = 0;
-    ReaderStruct.FatJetSum = 0;
-
-    ReaderStruct.TopEventSum = 0;
-    ReaderStruct.HiggsEventSum = 0;
-
-    ReaderStruct.EventVector.assign(ObservableSum, 0);
-    ReaderStruct.TopEventVector.assign(ObservableSum, 0);
-    ReaderStruct.HiggsEventVector.assign(ObservableSum, 0);
-    ReaderStruct.CutFlowVector.assign(ObservableSum, 0);
-    ReaderStruct.FatJetVector.assign(ObservableSum, 0);
-    ReaderStruct.HiggsVector.assign(ObservableSum, 0);
-    ReaderStruct.TopVector.assign(ObservableSum, 0);
-
-    Print(HInformation, "Vectors assigned");
-
-    const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
-
-
-    const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
-    for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
-        Print(HDebug, "Event Loop");
-
-        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-
-        std::vector<bool> CandidateEventCut(ObservableSum, 1);
-        std::vector<bool> TopEventCut(ObservableSum, 1);
-        std::vector<bool> HiggsEventCut(ObservableSum, 1);
-        bool HasHiggs = 0;;
-        bool HasTop = 0;
-
-        for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
-
-            Print(HDebug, "Candidate Loop");
-            ++ReaderStruct.FatJetSum;
-
-//             if (EventBranch->TopTag) {
-
-                ++ReaderStruct.TopSum;
-                HasTop = 1;
-
+// HReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+// {
+//
+//     Print(HNotification, "Cut Loop");
+//
+//     int ObservableSum = Observables.size();
+//
+//     Print(HNotification, "Observables", Observables.size());
+//
+//     ReaderStruct.HiggsSum = 0;
+//     ReaderStruct.TopSum = 0;
+//     ReaderStruct.FatJetSum = 0;
+//
+//     ReaderStruct.TopEventSum = 0;
+//     ReaderStruct.HiggsEventSum = 0;
+//
+//     ReaderStruct.EventVector.assign(ObservableSum, 0);
+//     ReaderStruct.TopEventVector.assign(ObservableSum, 0);
+//     ReaderStruct.HiggsEventVector.assign(ObservableSum, 0);
+//     ReaderStruct.CutFlowVector.assign(ObservableSum, 0);
+//     ReaderStruct.FatJetVector.assign(ObservableSum, 0);
+//     ReaderStruct.HiggsVector.assign(ObservableSum, 0);
+//     ReaderStruct.TopVector.assign(ObservableSum, 0);
+//
+//     Print(HInformation, "Vectors assigned");
+//
+//     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+//
+//
+//     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
+//     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
+//         Print(HDebug, "Event Loop");
+//
+//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+//
+//         std::vector<bool> CandidateEventCut(ObservableSum, 1);
+//         std::vector<bool> TopEventCut(ObservableSum, 1);
+//         std::vector<bool> HiggsEventCut(ObservableSum, 1);
+//         bool HasHiggs = 0;;
+//         bool HasTop = 0;
+//
+//         for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
+//
+//             Print(HDebug, "Candidate Loop");
+//             ++ReaderStruct.FatJetSum;
+//
+// //             if (EventBranch->TopTag) {
+//
+//                 ++ReaderStruct.TopSum;
+//                 HasTop = 1;
+//
+// //             }
+//
+// //             if (EventBranch->HiggsTag) {
+//
+//                 ++ReaderStruct.HiggsSum;
+//                 HasHiggs = 1;
+//
+// //             }
+//
+//             (*EventBranch) = *((HEventBranch *) ClonesArray->At(CandidateNumber));
+//
+//             bool ParticleCut = 0;
+//             for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
+//
+//                 Print(HDebug, "Observable Loop");
+//
+//                 Print(HDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
+//
+//                 if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
+//                     || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
+//
+//                     Print(HDebug, "we are here", 1);
+//
+//                     ParticleCut = 1;
+//
+//                 } else {
+//
+//                     Print(HDebug, "we are here", 2);
+//                     ++ReaderStruct.CutFlowVector[ObservableNumber];
+//
+//                 }
+//                 Print(HDebug, "Struct filled");
+//
+//                 if (!ParticleCut) {
+//
+//                     ++ReaderStruct.FatJetVector[ObservableNumber];
+//                     CandidateEventCut[ObservableNumber] = 0;
+//
+// //                     if (EventBranch->TopTag) {
+//
+//                         ++ReaderStruct.TopVector[ObservableNumber];
+//                         TopEventCut[ObservableNumber] = 0;
+//
+// //                     }
+//
+// //                     if (EventBranch->HiggsTag) {
+//
+//                         ++ReaderStruct.HiggsVector[ObservableNumber];
+//                         HiggsEventCut[ObservableNumber] = 0;
+//
+// //                     }
+//
+//                 }
+//
 //             }
-
-//             if (EventBranch->HiggsTag) {
-
-                ++ReaderStruct.HiggsSum;
-                HasHiggs = 1;
-
+//
+//         }
+//
+//         if (HasHiggs) ++ReaderStruct.HiggsEventSum;
+//         if (HasTop) ++ReaderStruct.TopEventSum;
+//
+//         for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
+//
+//             if (!CandidateEventCut[ObservableNumber]) {
+//
+//                 ++ReaderStruct.EventVector[ObservableNumber];
+//                 if (!HiggsEventCut[ObservableNumber]) ++ReaderStruct.HiggsEventVector[ObservableNumber];
+//                 if (!TopEventCut[ObservableNumber]) ++ReaderStruct.TopEventVector[ObservableNumber];
+//
 //             }
-
-            (*EventBranch) = *((HEventBranch *) ClonesArray->At(CandidateNumber));
-
-            bool ParticleCut = 0;
-            for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
-
-                Print(HDebug, "Observable Loop");
-
-                Print(HDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
-
-                if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
-                    || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
-
-                    Print(HDebug, "we are here", 1);
-
-                    ParticleCut = 1;
-
-                } else {
-
-                    Print(HDebug, "we are here", 2);
-                    ++ReaderStruct.CutFlowVector[ObservableNumber];
-
-                }
-                Print(HDebug, "Struct filled");
-
-                if (!ParticleCut) {
-
-                    ++ReaderStruct.FatJetVector[ObservableNumber];
-                    CandidateEventCut[ObservableNumber] = 0;
-
-//                     if (EventBranch->TopTag) {
-
-                        ++ReaderStruct.TopVector[ObservableNumber];
-                        TopEventCut[ObservableNumber] = 0;
-
-//                     }
-
-//                     if (EventBranch->HiggsTag) {
-
-                        ++ReaderStruct.HiggsVector[ObservableNumber];
-                        HiggsEventCut[ObservableNumber] = 0;
-
-//                     }
-
-                }
-
-            }
-
-        }
-
-        if (HasHiggs) ++ReaderStruct.HiggsEventSum;
-        if (HasTop) ++ReaderStruct.TopEventSum;
-
-        for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
-
-            if (!CandidateEventCut[ObservableNumber]) {
-
-                ++ReaderStruct.EventVector[ObservableNumber];
-                if (!HiggsEventCut[ObservableNumber]) ++ReaderStruct.HiggsEventVector[ObservableNumber];
-                if (!TopEventCut[ObservableNumber]) ++ReaderStruct.TopEventVector[ObservableNumber];
-
-            }
-
-        }
-
-    }
-
-    return ReaderStruct;
-
-}
+//
+//         }
+//
+//     }
+//
+//     return ReaderStruct;
+//
+// }

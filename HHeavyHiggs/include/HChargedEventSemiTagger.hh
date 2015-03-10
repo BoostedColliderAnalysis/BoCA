@@ -21,12 +21,6 @@ public:
     */
     HChargedEventSemiTagger();
 
-    /**
-    * @brief Destructor
-    *
-    */
-    ~HChargedEventSemiTagger();
-
     void SetTagger(
         const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger, const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger);
 
@@ -35,11 +29,11 @@ public:
 
     HChargedSemiBranch GetBranch(const HEventMultiplet<HOctet44> &Event) const;
 
-    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
 
     std::vector<HEventMultiplet<HOctet44>> GetBdt(
-      const std::vector< HOctet44 > &Octets, HJets &Jets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+                                            const std::vector< HOctet44 > &Octets, HJets &Jets, const HJets &SubJets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
 

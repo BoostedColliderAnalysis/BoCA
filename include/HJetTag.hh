@@ -38,6 +38,16 @@ public:
         Daughters.reserve(2);
     }
 
+    HFamily(const int NewParticle, const int NewMother1, const int NewMother2) {
+      ParticleId = NewParticle;
+      Mother1Id = NewMother1;
+      Mother2Id = NewMother2;
+      ParticlePosition = EmptyPosition;
+      Mother1Position = EmptyPosition;
+      MarkerM = 0;
+      Daughters.reserve(2);
+    }
+
     HFamily(const int NewParticlePosition, const int NewParticleId, const int NewMotherPosition, const int NewMotherId) {
         ParticlePosition = NewParticlePosition;
         ParticleId = NewParticleId;
@@ -78,6 +88,8 @@ public:
     int ParticleId;
     int Mother1Position;
     int Mother1Id;
+    int Mother2Position;
+    int Mother2Id;
     std::vector<int> Daughters;
     float Pt;
 

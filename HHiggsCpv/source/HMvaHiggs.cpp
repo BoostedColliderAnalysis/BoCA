@@ -29,11 +29,11 @@ hhiggscpv::HMvaHiggs::HMvaHiggs()
 
     WeightBranchName = "Info";
 
-    SignalEfficiency = 0.5;
+//     SignalEfficiency = 0.5;
 
-    Luminosity = 3000; // fb
+//     Luminosity = 3000; // fb
 
-    DoLatex = 1;
+//     DoLatex = 1;
 
     Higgs = new HHiggsBranch();
 

@@ -23,11 +23,11 @@ hheavyhiggs::HMva::HMva()
 
     WeightBranchName = "Info";
 
-    SignalEfficiency = 0.5;
+//     SignalEfficiency = 0.5;
 
-    Luminosity = 3000; // fb
+//     Luminosity = 3000; // fb
 
-    DoLatex = 0;
+//     DoLatex = 0;
 
     HeavyHiggs = new HHeavyHiggsLeptonicBranch();
 

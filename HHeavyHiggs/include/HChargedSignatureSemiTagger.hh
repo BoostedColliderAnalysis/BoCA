@@ -74,7 +74,7 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HChargedSemiTagger";
+        return "HChargedSignatureSemiTagger";
     }
 
 private:

@@ -20,11 +20,19 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
         int MotherId = EmptyId;
         int MotherStatus = EmptyId;
+        int Mother2Id = EmptyId;
+        int Mother2Status = EmptyId;
         if (ParticleClone->M1 != EmptyPosition) {
             const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
 
             MotherId = MotherParticle->PID;
             MotherStatus = MotherParticle->Status;
+        }
+        if (ParticleClone->M2 != EmptyPosition) {
+          const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M2);
+
+          Mother2Id = MotherParticle->PID;
+          Mother2Status = MotherParticle->Status;
         }
 
 
@@ -128,9 +136,9 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
 
         if (ParticleClone->Status == GeneratorParticle) {
-            Print(HDetailed, "Particles Status", "Generator");
+            Print(HInformation, "Particles Status", "Generator");
 
-            HFamily Family(ParticleId, MotherId);
+            HFamily Family(ParticleId, MotherId, Mother2Id);
             HConstituent Constituent(const_cast<delphes::GenParticle *>(ParticleClone)->P4(), Family);
             fastjet::PseudoJet GeneratorJet = PseudoJet(Constituent.Momentum());
             GeneratorJet.set_user_info(new HJetInfo(Constituent));
@@ -174,7 +182,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             if (std::abs(ParticleId) == BottomId) {
                 fastjet::PseudoJet BottomJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
 //                 BottomJet.set_user_index(ParticleId);
-                Print(HInformation, "Bottom", BottomJet);
+                Print(HInformation, "Bottom", MotherId,Mother2Id);
             }
 
             if (std::abs(ParticleId) == ElectronId || std::abs(ParticleId) == MuonId) {
@@ -199,7 +207,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 //
 //                 Print(HError, "Daughter",
 //                       ParticleNumber, ParticleId, ParticleClone->M1, MotherId);
-// 
+//
 //                 static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->AddDaughter(ParticleId);
 //
 //                 Print(HError, "Daughter 2",

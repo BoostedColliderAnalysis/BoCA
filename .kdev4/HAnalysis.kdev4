@@ -133,7 +133,7 @@ pattern=*.o
 targets=1
 
 [Launch]
-Launch Configurations=Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 7,Launch Configuration 1,Launch Configuration 8,Launch Configuration 4,Launch Configuration 5,Launch Configuration 9,Launch Configuration 6,Launch Configuration 10,Launch Configuration 11,Launch Configuration 12,Launch Configuration 13,Launch Configuration 14,Launch Configuration 15,Launch Configuration 16,Launch Configuration 17,Launch Configuration 18
+Launch Configurations=Launch Configuration 3,Launch Configuration 2,Launch Configuration 0,Launch Configuration 7,Launch Configuration 1,Launch Configuration 8,Launch Configuration 4,Launch Configuration 5,Launch Configuration 9,Launch Configuration 6,Launch Configuration 10,Launch Configuration 11,Launch Configuration 12,Launch Configuration 13,Launch Configuration 14,Launch Configuration 15,Launch Configuration 16,Launch Configuration 17,Launch Configuration 18,Launch Configuration 19,Launch Configuration 20
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -240,7 +240,7 @@ Executable=file:///home/hajer/Projects/HAnalysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=HAnalysis,HBTagger,source,HBTagger
 Use External Terminal=false
-Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
+Working Directory=file:///home/hajer/Projects/BTagging
 isExecutable=false
 
 [Launch][Launch Configuration 14]
@@ -333,6 +333,24 @@ Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/HeavyHiggs
 isExecutable=true
 
+[Launch][Launch Configuration 19]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HPairTagger
+Type=Native Application
+
+[Launch][Launch Configuration 19][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x16\x00H\x00P\x00a\x00i\x00r\x00T\x00a\x00g\x00g\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x16\x00H\x00P\x00a\x00i\x00r\x00T\x00a\x00g\x00g\x00e\x00r)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HPairTagger
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=HAnalysis,HPairTagger,source,HPairTagger
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/PairTagging
+isExecutable=true
+
 [Launch][Launch Configuration 2]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
@@ -349,6 +367,24 @@ External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=
 Use External Terminal=true
 Working Directory=file:///home/hajer/Projects/HeavyHiggs/
+isExecutable=true
+
+[Launch][Launch Configuration 20]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HBottomSumTagger
+Type=Native Application
+
+[Launch][Launch Configuration 20][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x12\x00H\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00 \x00H\x00B\x00o\x00t\x00t\x00o\x00m\x00S\x00u\x00m\x00T\x00a\x00g\x00g\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00 \x00H\x00B\x00o\x00t\x00t\x00o\x00m\x00S\x00u\x00m\x00T\x00a\x00g\x00g\x00e\x00r)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Projects/HAnalysis/build/bin/HBottomSumTagger
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=HAnalysis,HBottomSumTagger,source,HBottomSumTagger
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/MultiBTagging
 isExecutable=true
 
 [Launch][Launch Configuration 3]
@@ -474,7 +510,7 @@ Executable=file:///home/hajer/Projects/HAnalysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=HAnalysis,HTopTagger,source,HTopTaggerTest
 Use External Terminal=false
-Working Directory=file:///home/hajer/Projects/HiggsCPV/MadGraph
+Working Directory=file:///home/hajer/Projects/HTopTagger/
 isExecutable=false
 
 [Project]

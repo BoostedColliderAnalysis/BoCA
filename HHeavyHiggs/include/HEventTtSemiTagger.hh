@@ -22,12 +22,6 @@ public:
     */
     HEventTtSemiTagger();
 
-    /**
-    * @brief Destructor
-    *
-    */
-    ~HEventTtSemiTagger();
-
     void SetTagger(
         const hanalysis::HBottomTagger &NewBottomTagger,
         const hanalysis::HWSemiTagger &NewWSemiTagger,
@@ -39,8 +33,6 @@ public:
     std::vector< HEventTtSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
     std::vector< HSextetEvent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, HJets &Jets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
-
-    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
 

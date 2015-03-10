@@ -40,9 +40,9 @@ public:
 
     std::vector<HEventSemiBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
-    std::vector< HEventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const HJets &Jets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+    std::vector< HEventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const HJets &Jets, const HJets &SubJets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
 
-    std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
 

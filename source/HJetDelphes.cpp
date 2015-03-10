@@ -63,6 +63,8 @@ void hanalysis::hdelphes::HJet::DelphesTags(const delphes::Jet *const JetClone)
         Print(HDetailed, "No Delphes Tag");
         JetLorentzVectors.push_back(const_cast<delphes::Jet *>(JetClone)->P4());
     }
+
+    Print(HDebug,"Btag",JetClone->BTag);
 }
 
 void hanalysis::hdelphes::HJet::TauTag(const delphes::Jet *const JetClone)

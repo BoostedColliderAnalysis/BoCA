@@ -1,6 +1,11 @@
 
 HDictionary(HBranchTopTagger HBranchTopTagger.cpp ../include/HLinkDefTopTagger.hh)
 
-HLibrary(HAnalysisTopTagger HAnalysisTopTagger.cpp)
+set(HTopTaggerLib
+HAnalysisTopTagger.cpp
+HTopLeptonTagger.cpp
+)
+
+HLibrary(HAnalysisTopTagger "${HTopTaggerLib}")
 
 HExecutable(HTopTaggerTest main.cpp)

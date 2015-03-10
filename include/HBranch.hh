@@ -13,11 +13,11 @@ class HBranch : public TObject
 {
 
 public:
-    HBranch() {};
-    virtual ~HBranch() {};
+    HBranch();
+    virtual ~HBranch();
 
 protected:
-    static const int InitialValue = -10;
+    int InitialValue;
 
 private:
     ClassDef(HBranch, 1)
@@ -145,24 +145,24 @@ class HTauBranch : public HParticleBranch
 
 public:
 
-  HTauBranch();
+    HTauBranch();
 
-  float EmRadius;
-  float TrackRadius;
-  float MomentumFraction;
-  float CoreEnergyFraction;
-  float EmFraction;
-  float ClusterMass;
-  float TrackMass;
-  float FlightPath;
-  float TrtHtFraction;
+    float EmRadius;
+    float TrackRadius;
+    float MomentumFraction;
+    float CoreEnergyFraction;
+    float EmFraction;
+    float ClusterMass;
+    float TrackMass;
+    float FlightPath;
+    float TrtHtFraction;
 
-  int Tag;
-  float Bdt;
+    int Tag;
+    float Bdt;
 
 private:
 
-  ClassDef(HTauBranch, 1)
+    ClassDef(HTauBranch, 1)
 
 };
 
@@ -176,10 +176,14 @@ public:
 
     float Ht;
     float DeltaPt;
+    float DeltaHt;
+    float DeltaM;
     float DeltaRap;
     float DeltaPhi;
     float DeltaR;
 
+    float WBdt;
+    float BBdt;
     float Bdt;
     int Tag;
 
@@ -198,20 +202,6 @@ class HWBranch : public HPairBranch
 {
 
 public:
-
-//     float Mass;
-//     float Rap;
-//     float Phi;
-//     float Pt;
-//     float Ht;
-
-//     float DeltaPt;
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-
-//     float Bdt;
-//     int Tag;
 
     HWBranch();
 
@@ -234,17 +224,6 @@ public:
     HEventJetPairBranch();
 
     float DeltaM;
-//     float Ht;
-
-//     float Mass;
-//     float Pt;
-//     float Rap;
-//     float Phi;
-
-//     float DeltaPt;
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
 
     float Jet1Mass;
     float Jet1Pt;
@@ -260,8 +239,14 @@ public:
     float Jet2Bdt;
     float Jet2BTag;
 
-//     float Bdt;
-//     int Tag;
+    float BdtRatio11;
+    float BdtRatio12;
+    float BdtRatio13;
+    float BdtRatio14;
+    float BdtRatio21;
+    float BdtRatio22;
+    float BdtRatio23;
+    float BdtRatio24;
 
 private:
 
@@ -279,27 +264,25 @@ class HChargedJetPairBranch : public HPairBranch
 
 public:
 
-  HChargedJetPairBranch();
+    HChargedJetPairBranch();
 
-  float DeltaM;
+    float BottomMass;
+    float BottomPt;
+    float BottomRap;
+    float BottomPhi;
+    float BottomBdt;
+    float BottomBTag;
 
-  float BottomMass;
-  float BottomPt;
-  float BottomRap;
-  float BottomPhi;
-  float BottomBdt;
-  float BottomBTag;
-
-  float TopMass;
-  float TopPt;
-  float TopRap;
-  float TopPhi;
-  float TopBdt;
-  float TopBTag;
+    float TopMass;
+    float TopPt;
+    float TopRap;
+    float TopPhi;
+    float TopBdt;
+    float TopBTag;
 
 private:
 
-  ClassDef(HChargedJetPairBranch, 1)
+    ClassDef(HChargedJetPairBranch, 1)
 
 };
 
@@ -315,15 +298,8 @@ public:
 
     HWSemiBranch();
 
-//     float Ht;
     float LeptonPt;
     float NeutrinoPt;
-
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-
-//     int Tag;
 
 private:
 
@@ -341,14 +317,14 @@ class HHeavyHiggsTauBranch : public HPairBranch
 
 public:
 
-  HHeavyHiggsTauBranch();
+    HHeavyHiggsTauBranch();
 
-  float LeptonPt;
-  float NeutrinoPt;
+    float LeptonPt;
+    float NeutrinoPt;
 
 private:
 
-  ClassDef(HHeavyHiggsTauBranch, 1)
+    ClassDef(HHeavyHiggsTauBranch, 1)
 
 };
 
@@ -364,17 +340,8 @@ public:
 
     HTopHadronicBranch();
 
-//     float Ht;
-
     float BottomPt;
     float WPt;
-
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-
-//     float Bdt;
-//     int Tag;
 
 private:
 
@@ -397,17 +364,8 @@ public:
     float BottomPt;
     float LeptonPt;
 
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-
-//     float Bdt;
-//     int Tag;
-
 private:
-
     ClassDef(HTopLeptonicBranch, 1)
-
 };
 
 /**
@@ -421,17 +379,8 @@ class HTopSemiBranch : public HPairBranch
 public:
 
     HTopSemiBranch();
-
-//     float Ht;
     float BottomPt;
     float WPt;
-
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-
-//     float Bdt;
-//     int Tag;
 
 private:
 
@@ -486,20 +435,6 @@ public:
 
     HHeavyHiggsLeptonicBranch();
 
-//     float Mass;
-//     float Pt;
-//     float Rap;
-//     float Phi;
-
-//     float DeltaPt;
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-
-//     float Bdt;
-//     int Tag;
-
-
     float LargerWDeltaRap;
     float LargerWDeltaPhi;
     float LargerWDeltaR;
@@ -542,23 +477,6 @@ public:
     float TopDeltaPhi;
     float TopDeltaR;
 
-//     float LargerWDeltaRap;
-//     float LargerWDeltaPhi;
-//     float LargerWDeltaR;
-//
-//     float SmallerWDeltaRap;
-//     float SmallerWDeltaPhi;
-//     float SmallerWDeltaR;
-//
-//     float LargerNeutrinoDeltaRap;
-//     float LargerNeutrinoDeltaPhi;
-//     float LargerNeutrinoDeltaR;
-//
-//     float SmallerNeutrinoDeltaRap;
-//     float SmallerNeutrinoDeltaPhi;
-//     float SmallerNeutrinoDeltaR;
-
-
     float TopBdt;
 
     int HeavyHiggsTag;
@@ -581,20 +499,6 @@ public:
 
     HHeavyHiggsSemiBranch();
 
-//     float Mass;
-//     float Rap;
-//     float Phi;
-//     float Pt;
-//     float Ht;
-
-//     float DeltaPt;
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-
-//     float Bdt;
-//     int Tag;
-
 private:
 
     ClassDef(HHeavyHiggsSemiBranch, 1)
@@ -612,18 +516,6 @@ class HChargedHiggsSemiBranch : public HPairBranch
 public:
 
     HChargedHiggsSemiBranch();
-
-//     float HeavyHiggsMass;
-//     float HeavyHiggsPt;
-
-//     float TopDeltaRap;
-//     float TopDeltaPhi;
-//     float TopDeltaR;
-
-//     float TopBdt;
-
-//     int HeavyHiggsTag;
-
     int Flag;
 
 private:
@@ -650,23 +542,6 @@ public:
     float TopDeltaRap;
     float TopDeltaPhi;
     float TopDeltaR;
-
-    //     float LargerWDeltaRap;
-    //     float LargerWDeltaPhi;
-    //     float LargerWDeltaR;
-    //
-    //     float SmallerWDeltaRap;
-    //     float SmallerWDeltaPhi;
-    //     float SmallerWDeltaR;
-    //
-    //     float LargerNeutrinoDeltaRap;
-    //     float LargerNeutrinoDeltaPhi;
-    //     float LargerNeutrinoDeltaR;
-    //
-    //     float SmallerNeutrinoDeltaRap;
-    //     float SmallerNeutrinoDeltaPhi;
-    //     float SmallerNeutrinoDeltaR;
-
 
     float TopBdt;
 
@@ -713,7 +588,6 @@ public:
     float SmallerNeutrinoDeltaPhi;
     float SmallerNeutrinoDeltaR;
 
-
     float TopBdt;
 
     int HeavyHiggsTag;
@@ -721,6 +595,56 @@ public:
 private:
 
     ClassDef(HChargedHiggsLeptonicBranch, 1)
+
+};
+
+class HEventBottomTaggerBranch : public HBranch
+{
+
+public:
+
+  HEventBottomTaggerBranch();
+
+  float Bdt;
+  float Tag;
+
+  float BottomBdt1;
+  float BottomBdt2;
+  float BottomBdt3;
+  float BottomBdt4;
+  float BottomBdt5;
+  float BottomBdt6;
+  float BottomBdt7;
+
+  float BottomBdt12;
+  float BottomBdt34;
+  float BottomBdt56;
+
+  float BottomBdt123;
+  float BottomBdt1234;
+
+
+private:
+
+  ClassDef(HEventBottomTaggerBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class HTopLeptonBranch : public HPairBranch
+{
+
+public:
+
+  HTopLeptonBranch();
+
+private:
+
+  ClassDef(HTopLeptonBranch, 1)
 
 };
 

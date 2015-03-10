@@ -19,9 +19,11 @@ public:
 
     std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
-    std::vector<HParticleBranch> GetConstituentBranches();
+//     std::vector<HParticleBranch> GetConstituentBranches();
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &WReader);
+
+    HDoublet GetBdt(HDoublet &Doublet, const hanalysis::HReader &WReader);
 
     HBottomTagger BottomTagger;
 
@@ -47,11 +49,11 @@ private:
 
     void DefineVariables();
 
-    HParticleBranch GetBranch(const HKinematics &Vector);
+//     HParticleBranch GetBranch(const HKinematics &Vector);
 
-    hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
+//     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
 
-    hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
+//     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
 
     HWBranch Branch;
     HJetTag JetTag;

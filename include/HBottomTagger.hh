@@ -26,7 +26,7 @@ public:
 
     std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 
-    HJets GetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
+    HJets GetMultiJetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
 
     HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
@@ -35,6 +35,10 @@ public:
     HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
 
     HJets GetSubBdt(const HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
+
+    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
+      return ((HBottomBranch *) EventClonesArray.At(Entry))->Bdt;
+    }
 
     ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
       switch(Stage){
@@ -73,7 +77,7 @@ public:
 
       for (const auto & Jet : Jets) {
         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
-//         if (std::abs(Jet.rap()) > 2.5) continue;
+        if (std::abs(Jet.rap()) > DetectorGeometry.TrackerEtaMax) continue;
         *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = GetBranch(Jet);
       }
       return 1;
@@ -82,7 +86,6 @@ public:
 //     void PrepareReader(){
 //       Reader.SetMva(*this);
 //     }
-
 protected:
 
     virtual inline std::string ClassName() const {
@@ -94,6 +97,7 @@ private:
     void DefineVariables();
 
     HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::HTag Tag);
+
 
     HJets GetSubJets(const HJets &Jets, const HJets &Particles, const HTag Tag, const int SubJetNumber);
 

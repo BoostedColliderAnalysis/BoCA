@@ -205,6 +205,8 @@ public:
   float PairRap;
   float HiggsBdt;
   float SignatureBdt;
+  float BottomBdt;
+  float PairBottomBdt;
 
   int LeptonNumber;
   int JetNumber;
@@ -219,6 +221,35 @@ public:
   float RestBdt;
   float RestPhi;
   float LeptonHt;
+
+  float HardTopPt;
+  float SoftTopPt;
+
+  float BottomBdt1;
+  float BottomBdt2;
+  float BottomBdt3;
+  float BottomBdt4;
+  float BottomBdt5;
+  float BottomBdt6;
+  float BottomBdt7;
+  float BottomBdt8;
+  float BottomBdt12;
+  float BottomBdt34;
+  float BottomBdt56;
+  float BottomBdt78;
+
+  float SubBottomBdt1;
+  float SubBottomBdt2;
+  float SubBottomBdt3;
+  float SubBottomBdt4;
+  float SubBottomBdt5;
+  float SubBottomBdt6;
+  float SubBottomBdt7;
+  float SubBottomBdt8;
+  float SubBottomBdt12;
+  float SubBottomBdt34;
+  float SubBottomBdt56;
+  float SubBottomBdt78;
 
 
 private:
@@ -311,6 +342,12 @@ public:
 
   float HiggsMass;
   float PairRap;
+  float BottomBdt;
+  float PairBottomBdt;
+  float HiggsBdt;
+  float PairBdt;
+  float HardTopPt;
+  float SoftTopPt;
 
 private:
 
@@ -332,6 +369,10 @@ public:
 
   float HiggsMass;
   float PairRap;
+  float BottomBdt;
+  float PairBottomBdt;
+  float HiggsBdt;
+  float PairBdt;
 
 private:
 
@@ -355,6 +396,8 @@ public:
   float PairRap;
   float HiggsBdt;
   float SignatureBdt;
+  float BottomBdt;
+  float PairBottomBdt;
 
   int LeptonNumber;
   int JetNumber;
@@ -369,6 +412,32 @@ public:
   float RestBdt;
   float RestPhi;
   float LeptonHt;
+
+  float BottomBdt1;
+  float BottomBdt2;
+  float BottomBdt3;
+  float BottomBdt4;
+  float BottomBdt5;
+  float BottomBdt6;
+  float BottomBdt7;
+  float BottomBdt8;
+  float BottomBdt12;
+  float BottomBdt34;
+  float BottomBdt56;
+  float BottomBdt78;
+
+  float SubBottomBdt1;
+  float SubBottomBdt2;
+  float SubBottomBdt3;
+  float SubBottomBdt4;
+  float SubBottomBdt5;
+  float SubBottomBdt6;
+  float SubBottomBdt7;
+  float SubBottomBdt8;
+  float SubBottomBdt12;
+  float SubBottomBdt34;
+  float SubBottomBdt56;
+  float SubBottomBdt78;
 
 private:
 

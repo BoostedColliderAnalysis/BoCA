@@ -66,7 +66,6 @@ protected:
 //     std::unique_ptr<HTagPrivate> TagPrivate;
 //     std::shared_ptr<HTagPrivate> TagPrivate;
 
-    float BdtM;
 
     int TagM;
 
@@ -74,7 +73,10 @@ protected:
 
     bool FlagM;
 
+    float BdtM;
+    
 private:
+
 
 };
 

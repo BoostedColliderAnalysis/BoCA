@@ -219,7 +219,7 @@ fastjet::PseudoJet hanalysis::HJetInfo::VertexJet() const
 
 struct Accu {
     float operator()(float result, const HConstituent &obj) {
-        return (result + obj.Position().Vect().Mag());
+      return (result + obj.Position().Vect().Pt());
     }
 
 };
@@ -230,7 +230,7 @@ float hanalysis::HJetInfo::SumDisplacement() const
     if (ConstituentsM.size() == 0) return 0;
     std::vector<HConstituent> TempVertices = ConstituentsM;
     TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [](HConstituent & Constituent) {
-        return Constituent.Position().Vect().Mag() < 0.1;
+      return Constituent.Position().Vect().Pt() < 0.1;
     }), TempVertices.end());
 
     return std::accumulate(TempVertices.rbegin(), TempVertices.rend(), 0, Accu());
@@ -242,7 +242,7 @@ float hanalysis::HJetInfo::MeanDisplacement() const
     if (ConstituentsM.size() == 0) return 0;
     std::vector<HConstituent> TempVertices = ConstituentsM;
     TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [](const HConstituent & Constituent) {
-        return Constituent.Position().Vect().Mag() < 0.1;
+        return Constituent.Position().Vect().Pt() < 0.1;
     }), TempVertices.end());
 
     if (TempVertices.size() < 1) return 0;
@@ -257,7 +257,7 @@ float hanalysis::HJetInfo::MaxDisplacement() const
     if (ConstituentsM.size() == 0) return 0;
     std::vector<HConstituent> TempVertices = ConstituentsM;
     std::sort(TempVertices.begin(), TempVertices.end(), MaxDistance());
-    if (TempVertices.front().Position().Vect().Mag() > SecondaryVertexResolution) return TempVertices.front().Position().Vect().Mag();
+    if (TempVertices.front().Position().Vect().Pt() > SecondaryVertexResolution) return TempVertices.front().Position().Vect().Pt();
     return 0;
 }
 
@@ -279,7 +279,7 @@ float hanalysis::HJetInfo::VertexEnergy() const
 {
     Print(HDebug, "Get Energy Fraction");
     float NewVertexEnergy = 0;
-    for (const auto & Vertex : ConstituentsM) if (Vertex.Position().Vect().Mag() > SecondaryVertexResolution) NewVertexEnergy += Vertex.Momentum().E();
+    for (const auto & Vertex : ConstituentsM) if (Vertex.Position().Vect().Pt() > SecondaryVertexResolution) NewVertexEnergy += Vertex.Momentum().E();
     return NewVertexEnergy;
 }
 
@@ -290,9 +290,9 @@ std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const
     Print(HDebug, "Vertex Number", ConstituentsM.size());
     if (ConstituentsM.size() == 0) return RealVertices;
     for (std::vector <HConstituent >::const_iterator Constituent = ConstituentsM.begin(); Constituent != ConstituentsM.end(); ++Constituent) {
-//         Print(HError,"dist",(*Constituent).Position().Vect().Mag());
+      //         Print(HError,"dist",(*Constituent).Position().Vect().Pt());
 //         Print(HError,"pt",(*Constituent).Momentum().Pt());
-        if ((*Constituent).Position().Vect().Mag() > SecondaryVertexResolution) {
+      if ((*Constituent).Position().Vect().Pt() > SecondaryVertexResolution) {
             RealVertices.push_back(*Constituent);
         }
     }

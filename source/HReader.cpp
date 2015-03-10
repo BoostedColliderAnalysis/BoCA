@@ -1,4 +1,5 @@
 # include "HReader.hh"
+# include "TPad.h"
 
 hanalysis::HReader::HReader()
 {
@@ -42,18 +43,17 @@ void hanalysis::HReader::BookMva()
     Reader.BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
 }
 
-
 void hanalysis::HReader::SimpleMVALoop()
 {
     Print(HNotification, "Mva Loop");
     std::stringstream TableHeader;
-    TableHeader << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rl}\n\\toprule\n";
+    TableHeader << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rlll}\n\\toprule\n";
 
-    const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + Mva->GetBdtMethodName() + ".root";
+    const std::string ExportFileName = Mva->GetAnalysisName() + "/" + Mva->GetAnalysisName() + ".root";
     TFile ExportFile(ExportFileName.c_str(), "Recreate");
 
     const std::string BackgroundFileName = Mva->GetAnalysisName() + "/" + Mva->GetBackgroundName() + "Reader.root";
-    const TFile BackgroundFile(BackgroundFileName.c_str(),"Read");
+    const TFile BackgroundFile(BackgroundFileName.c_str(), "Read");
     Print(HError, "Open Background File", BackgroundFileName, Mva->GetBackgroundTreeNames().size());
 
 
@@ -61,7 +61,7 @@ void hanalysis::HReader::SimpleMVALoop()
     for (const auto & BackgroundTreeName : Mva->GetBackgroundTreeNames()) BackgroundResults.push_back(BdtResult(BackgroundFile, BackgroundTreeName, ExportFile));
 
     const std::string SignalFileName = Mva->GetAnalysisName() + "/" + Mva->GetSignalName() + "Reader.root";
-    const TFile SignalFile(SignalFileName.c_str(),"Read");
+    const TFile SignalFile(SignalFileName.c_str(), "Read");
     Print(HError, "Open Signal File", SignalFileName, Mva->GetSignalTreeNames().size());
 
     HMvaResult SignalResults;
@@ -78,42 +78,84 @@ void hanalysis::HReader::SimpleMVALoop()
     }
     ExportFile.Close();
 
-    auto MaxIt = std::max_element(std::begin(Significances), std::end(Significances));
-    int MaxBin = std::distance(Significances.begin(), MaxIt);
-    float MaxSignificance = Significances.at(MaxBin);
-    float SignalEfficiency = SignalResults.Efficiency.at(MaxBin);
+    std::vector<float> BGs(BackgroundResults.size(), 0);
+    int BestBin = 0;
+    int Counter = 0;
+    for (size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
+        while (BGs.at(BackgroundNumber) == 0 && Counter < SignalResults.Steps) {
+            BestBin = std::distance(Significances.begin(), std::max_element(std::begin(Significances), std::end(Significances) - Counter));
+            BGs.at(BackgroundNumber) = BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin);
+            ++Counter;
+        }
+    }
+
+    float MaxSignificance = Significances.at(BestBin);
+    float SignalEfficiency = SignalResults.Efficiency.at(BestBin);
+    const HInfoBranch SignalInfo = InfoBranch(SignalFile, Mva->GetSignalTreeNames().front());
     std::stringstream Table;
     Table << TableHeader.str();
-    Table << "    Mass\n" << "  & " << GetMass(SignalFile, Mva->GetSignalTreeNames().at(0));
+    Table << "    Mass\n" << "  & " << SignalInfo.Mass;
     Table << "\n \\\\ \\midrule\n";
-    Table << "    BDT-cut\n" << "  & " << float(MaxBin) * 2 / SignalResults.Steps;
+    Table << "    BDT-cut\n" << "  & " << float(BestBin) * 2 / SignalResults.Steps;
     Table << "\n \\\\ $p$-value\n  & " << MaxSignificance;
-    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << std::endl;
+    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << SignalResults.AnalysisEventNumber.at(BestBin) << "\n  & " << SignalResults.TotalEventNumber << "\n";
 
     for (size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
-        Table << " \\\\ \\verb|" << Mva->GetBackgroundTreeNames().at(BackgroundNumber) << "|\n  & " << BackgroundResults.at(BackgroundNumber).Efficiency.at(MaxBin) << std::endl;
+        Table << " \\\\ \\verb|" << Mva->GetBackgroundTreeNames().at(BackgroundNumber) << "|\n  & " << BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).AnalysisEventNumber.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).TotalEventNumber << "\n";
     }
 
     TCanvas EfficiencyCanvas;
+    EfficiencyCanvas.SetLogy();
     TMultiGraph MultiGraph;
-    for (const auto & BackgroundResult : BackgroundResults) {
-      TGraph RejectionGraph(BackgroundResult.Steps, &XValues[0], &BackgroundResult.Efficiency[0]);
-        RejectionGraph.SetTitle("");
-        MultiGraph.Add(&RejectionGraph);
-    }
+    std::vector<TGraph> RejectionGraphs;
+    for (const auto & BackgroundResult : BackgroundResults) RejectionGraphs.push_back(TGraph(BackgroundResult.Steps, &XValues[0], &BackgroundResult.Efficiency[0]));
+    for (auto & RejectionGraph : RejectionGraphs) MultiGraph.Add(&RejectionGraph);
     TGraph EfficiencyGraph(SignalResults.Steps, &XValues[0], &SignalResults.Efficiency[0]);
-    EfficiencyGraph.SetTitle("");
+    EfficiencyGraph.SetLineColor(kRed);
     MultiGraph.Add(&EfficiencyGraph);
-    MultiGraph.Draw();
-    const std::string EfficiencyFileName = Mva->GetAnalysisName() + "/" + "Efficiency.pdf";
-    EfficiencyCanvas.Print(EfficiencyFileName.c_str());
+    MultiGraph.Draw("al");
+    TLine EfficiencyLine(float(BestBin) * 2 / SignalResults.Steps, MultiGraph.GetYaxis()->GetXmin(), float(BestBin) * 2 / SignalResults.Steps, MultiGraph.GetYaxis()->GetXmax());
+    EfficiencyLine.SetLineStyle(2);
+    EfficiencyLine.Draw();
+    const std::string EfficiencyFileName = Mva->GetAnalysisName() + "-Efficiency.tex";
+    const std::string EfficiencyFilePath = Mva->GetAnalysisName() + "/" + EfficiencyFileName;
+    EfficiencyCanvas.Print(EfficiencyFilePath.c_str());
 
     TCanvas SignificanceCanvas;
     TGraph SignificanceGraph(SignalResults.Steps, &XValues[0], &Significances[0]);
     SignificanceGraph.SetTitle("");
-    SignificanceGraph.Draw();
-    const std::string SignificanceFileName = Mva->GetAnalysisName() + "/" + "Significance.pdf";
-    SignificanceCanvas.Print(SignificanceFileName.c_str());
+    SignificanceGraph.Draw("al");
+    SignificanceCanvas.Update();
+    TLine SignificanceLine(float(BestBin) * 2 / SignalResults.Steps, gPad->GetUymin(), float(BestBin) * 2 / SignalResults.Steps, gPad->GetUymax());
+    SignificanceLine.SetLineStyle(2);
+    SignificanceLine.Draw();
+    const std::string SignificanceFileName = Mva->GetAnalysisName() + "-Significance.tex";
+    const std::string SignificanceFilePath = Mva->GetAnalysisName() + "/" + SignificanceFileName;
+    SignificanceCanvas.Print(SignificanceFilePath.c_str());
+
+//     TCanvas BdtCanvas;
+//     std::vector<TH1F> Histograms;
+//     for (const auto & BackgroundResult : BackgroundResults) {
+//       TH1F BackgroundHistogram("","",50,0,2);
+//       for(const auto Bdt : BackgroundResult.Bdt) BackgroundHistogram.Fill(Bdt);
+//       Histograms.push_back(BackgroundHistogram);
+//     }
+//     TH1F SignalHistogram("","",50,0,2);
+//     for(const auto Bdt : SignalResults.Bdt) SignalHistogram.Fill(Bdt);
+//     SignalHistogram.SetLineColor(kRed);
+//     Histograms.push_back(SignalHistogram);
+//     float YMax = 0;
+//     for(const auto & Histogram : Histograms) if(Histogram.GetBinContent(Histogram.GetMaximumBin())> YMax) YMax = Histogram.GetBinContent(Histogram.GetMaximumBin());
+//     for(auto & Histogram : Histograms) {
+//       Histogram.SetAxisRange(0, 1.05 * YMax , "Y");
+//     Histogram.Draw("same");
+//     }
+//     TLine BdtLine(float(BestBin) * 2 / SignalResults.Steps, 0, float(BestBin) * 2 / SignalResults.Steps, YMax);
+//     BdtLine.SetLineStyle(2);
+//     BdtLine.Draw();
+//     const std::string BdtFileName = Mva->GetAnalysisName() + "-Bdt.pdf";
+//     const std::string BdtFilePath = Mva->GetAnalysisName() + "/" + BdtFileName;
+//     BdtCanvas.Print(BdtFilePath.c_str());
 
 
     std::stringstream TableFooter;
@@ -124,24 +166,11 @@ void hanalysis::HReader::SimpleMVALoop()
     LatexHeader(LatexFile);
     LatexFile << Table.str();
 
-    LatexFile << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.7\\textwidth]{Efficiency.pdf}\n\\caption{Efficiency}\n\\end{figure}\n";
-
-    LatexFile << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.7\\textwidth]{Significance.pdf}\n\\caption{Significance}\n\\end{figure}\n";
+    LatexFile << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << EfficiencyFileName << "}}\n\\caption{Efficiency.}\n\\end{figure}\n";
+    LatexFile << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << SignificanceFileName << "}}\n\\caption{Significance.}\n\\end{figure}\n";
+//     LatexFile << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << BdtFileName << "}}\n\\caption{Bdt.}\n\\end{figure}\n";
 
     LatexFooter(LatexFile);
-}
-
-
-float hanalysis::HReader::GetMass(const TFile &File, const std::string &TreeName) const
-{
-    Print(HNotification, "Get Mass", TreeName);
-    const TTree *const Tree = (TTree *)const_cast<TFile *>(&File)->Get(TreeName.c_str());
-    Print(HError, "Open Tree", TreeName);
-    ExRootTreeReader TreeReader(const_cast<TTree *>(Tree));
-    const TClonesArray *ClonesArray = TreeReader.UseBranch(Mva->GetWeightBranchName().c_str());
-    TreeReader.ReadEntry(0);
-    const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
-    return Info->Mass;
 }
 
 HMvaResult hanalysis::HReader::BdtResult(const TFile &File, const std::string &TreeName, const TFile &ExportFile) const
@@ -150,31 +179,27 @@ HMvaResult hanalysis::HReader::BdtResult(const TFile &File, const std::string &T
     const float Luminosity = 3000; // 3000 fb-1
 
     Print(HError, "Open Tree", TreeName);
-    const TTree *const Tree = (TTree *)const_cast<TFile *>(&File)->Get(TreeName.c_str());
-
-    Print(HError, "Tree Reader", Tree->GetEntries());
-    ExRootTreeReader TreeReader(const_cast<TTree *>(Tree));
-
-    Print(HError, "Branch", Mva->GetWeightBranchName(), TreeReader.GetEntries());
-    const TClonesArray *ClonesArray = TreeReader.UseBranch(Mva->GetWeightBranchName().c_str());
-    TreeReader.ReadEntry(0);
-    const HInfoBranch *const Info = (HInfoBranch *) ClonesArray->At(0);
+    ExRootTreeReader TreeReader((TTree *)const_cast<TFile *>(&File)->Get(TreeName.c_str()));
+    const HInfoBranch Info = InfoBranch(File, TreeName);
 
     HMvaResult Result;
+    Result.TotalEventNumber = Info.EventNumber;
     std::vector<int> Bins = BdtDistribution(TreeReader, TreeName, ExportFile);
     std::vector<int> Integral = Result.CutIntegral(Bins);
 
     for (int Step = 0; Step < Result.Steps; ++Step) {
-        Result.Events[Step] = float(Integral[Step]) / float(Info->EventNumber) * Info->Crosssection * Luminosity;
-        Result.Efficiency[Step] = float(Integral[Step]) / float(Info->EventNumber);
+        Result.Events[Step] = float(Integral[Step]) / float(Info.EventNumber) * Info.Crosssection * Luminosity;
+        Result.Efficiency[Step] = float(Integral[Step]) / float(Info.EventNumber);
+        Result.AnalysisEventNumber[Step] = Integral[Step];
+        Result.Bdt[Step] = Bins[Step];
         Print(HDebug, "Result", Result.Efficiency[Step], Result.Events[Step]);
     }
     return Result;
 }
 
-std::vector<int> hanalysis::HReader::BdtDistribution(const ExRootTreeReader &TreeReader, const std::string TreeName, const TFile &ExportFile) const
+std::vector<int> hanalysis::HReader::BdtDistribution(const ExRootTreeReader &TreeReader, const std::string &TreeName, const TFile &ExportFile) const
 {
-    Print(HNotification, "Apply Bdt", Mva->GetBranchName());
+    Print(HNotification, "Bdt Distribution", Mva->GetBranchName());
     std::string NewEventBranchName = Mva->GetBranchName() + "Reader";
 
     HMvaResult Result;
@@ -182,15 +207,14 @@ std::vector<int> hanalysis::HReader::BdtDistribution(const ExRootTreeReader &Tre
 
     const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(&TreeReader)->UseBranch(NewEventBranchName.c_str());
     ExRootTreeWriter TreeWriter(const_cast<TFile *>(&ExportFile), TreeName.c_str());
-//     ExRootTreeBranch *ResultBranch = TreeWriter.NewBranch(NewEventBranchName.c_str(), HResultBranch::Class());
+    ExRootTreeBranch *ResultBranch = TreeWriter.NewBranch(NewEventBranchName.c_str(), HResultBranch::Class());
     for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(&TreeReader)->GetEntries())) {
         const_cast<ExRootTreeReader *>(&TreeReader)->ReadEntry(EventNumber);
         for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
             const float BdtValue = Mva->ReadBdt(*EventClonesArray, Entry);
-//             HResultBranch *Export = static_cast<HResultBranch *>(TreeWriter.NewBranch(NewEventBranchName.c_str(), HResultBranch::Class())->NewEntry());
-//             Export->Bdt = BdtValue;
-            static_cast<HResultBranch *>(TreeWriter.NewBranch(NewEventBranchName.c_str(), HResultBranch::Class())->NewEntry())->Bdt = BdtValue;
-            ++Bins.at(floor(BdtValue * Result.Steps / 2));
+            if (BdtValue < 0 || BdtValue > 2) Print(HError, "Bdt Value" , BdtValue);
+            static_cast<HResultBranch *>(ResultBranch->NewEntry())->Bdt = BdtValue;
+            ++Bins.at(floor(BdtValue * Result.Steps / 2) - 1);
         }
         TreeWriter.Fill();
         TreeWriter.Clear();
@@ -199,22 +223,33 @@ std::vector<int> hanalysis::HReader::BdtDistribution(const ExRootTreeReader &Tre
     return Bins;
 }
 
+HInfoBranch hanalysis::HReader::InfoBranch(const TFile &File, const std::string &TreeName) const
+{
+    ExRootTreeReader TreeReader((TTree *)const_cast<TFile *>(&File)->Get(TreeName.c_str()));
+    const TClonesArray *ClonesArray = TreeReader.UseBranch(Mva->GetWeightBranchName().c_str());
+    TreeReader.ReadEntry(0);
+    return *(HInfoBranch *) ClonesArray->At(0);
+}
 
-void hanalysis::HReader::LatexHeader(ofstream &LatexFile) const
+
+void hanalysis::HReader::LatexHeader(std::ofstream &LatexFile) const
 {
     Print(HNotification, "LaTeX Header");
-    const std::string TexFileName = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + ".tex";
+    const std::string TexFileName = Mva->GetAnalysisName() + "/" + Mva->GetAnalysisName() + ".tex";
     LatexFile.open(TexFileName);
     LatexFile << "\\documentclass[a4paper,10pt]{article}\n\n"
-              << "\\usepackage{booktabs\n}"
+              << "\\usepackage{booktabs}\n"
               << "\\usepackage{graphicx}\n"
               //               << "\\usepackage[landscape]{geometry}\n"
-              //               << "\\usepackage[cm]{fullpage}\n"
+              << "\\usepackage[cm]{fullpage}\n"
               //               << "\\usepackage{units}\n"
               //               << "\\usepackage{siunitx}\n\n"
               //               << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}\n"
               //               << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}\n"
               //               << "\\newcolumntype{E}{R@{$\\pm$}L}\n"
+              << "\\usepackage{tikz}\n"
+              << "\\usetikzlibrary{patterns}\n"
+              << "\\usetikzlibrary{plotmarks}\n"
               << "\n\\begin{document}\n";
 }
 

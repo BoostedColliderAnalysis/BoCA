@@ -1,14 +1,12 @@
 # ifndef HReader_hh
 # define HReader_hh
 
-// # include "TFile.h"
-// # include "TDirectoryFile.h"
-// # include "TClonesArray.h"
-// # include "TObjArray.h"
+# include "TDirectoryFile.h"
 # include "TTree.h"
 # include "TCanvas.h"
 # include "TGraph.h"
 # include "TMultiGraph.h"
+# include "TLine.h"
 
 # include "TMVA/Reader.h"
 # include "TMVA/MethodCuts.h"
@@ -29,13 +27,18 @@ public:
         Steps = 2000;
         Events.resize(Steps, 0);
         Efficiency.resize(Steps, 0);
+        AnalysisEventNumber.resize(Steps, 0);
+        Bdt.resize(Steps, 0);
     }
 
     int Steps;
     std::vector<float> Events;
     std::vector<float> Efficiency;
+    std::vector<int> AnalysisEventNumber;
+    std::vector<float> Bdt;
+    int TotalEventNumber;
 
-    std::vector<int> CutIntegral(std::vector<int> Vector) {
+    std::vector<int> CutIntegral(const std::vector<int> &Vector) const {
         std::vector<int> Integrals(Steps, 0);
         Integrals.at(Steps - 1) = Vector.at(Steps - 1);
         for (int BinNumber = Steps - 2; BinNumber >= 0; --BinNumber) Integrals.at(BinNumber) = Integrals.at(BinNumber + 1) + Vector.at(BinNumber);
@@ -71,13 +74,17 @@ public:
 
     void SetMva(hanalysis::HMva &NewMva);
 
+    void SimpleMVALoop();
+
     float Bdt() const {
         Print(HInformation, "Get Bdt");
         const float NewBdt = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(Mva->GetBdtMethodName());
         return (NewBdt + 1.);
     }
 
-    void SimpleMVALoop();
+private:
+
+    HMva *Mva;
 
     TMVA::Reader Reader;
 
@@ -85,21 +92,17 @@ public:
         return Mva;
     }
 
-    HMva *Mva;
-
-private:
-
     void BookMva();
 
     void AddVariable();
 
-    std::vector<int> BdtDistribution(const ExRootTreeReader &TreeReader, const std::string TreeName, const TFile &ExportFile) const;
+    HInfoBranch InfoBranch(const TFile &File, const std::string &TreeName) const;
+
+    std::vector<int> BdtDistribution(const ExRootTreeReader &TreeReader, const std::string &TreeName, const TFile &ExportFile) const;
 
     HMvaResult BdtResult(const TFile &File, const std::string &TreeName, const TFile &ExportFile) const;
 
-    float GetMass(const TFile &File, const std::string &TreeName) const;
-
-    void LatexHeader(std::ofstream &LatexFile) const;
+    void LatexHeader(ofstream &LatexFile) const;
 
     void LatexFooter(std::ofstream &LatexFile) const;
 

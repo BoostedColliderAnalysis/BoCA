@@ -41,6 +41,14 @@ public:
         return Triplet1Jet().pt() - Triplet2Jet().pt();
     }
 
+    inline float DeltaHt()const {
+      return Triplet1().Ht() - Triplet2().Ht();
+    }
+
+    inline float DeltaM()const {
+      return Triplet1Jet().m() - Triplet2Jet().m();
+    }
+
     inline float DeltaRap() const {
         return Triplet1Jet().rap() - Triplet2Jet().rap();
     }
@@ -51,6 +59,14 @@ public:
 
     inline float DeltaR() const {
         return Triplet1Jet().delta_R(Triplet2Jet());
+    }
+
+    inline float HardTopPt() const {
+      return std::max(Triplet1().Jet().pt(), Triplet2().Jet().pt());
+    }
+
+    inline float SoftTopPt() const {
+      return std::min(Triplet1().Jet().pt(), Triplet2().Jet().pt());
     }
 
     inline float GetLargerTripletDeltaR() const {

@@ -1,6 +1,7 @@
 # include "HMva.hh"
 
-hanalysis::HMva::HMva()
+hanalysis::HMva::HMva() :
+    DetectorGeometry(HDetectorGeometry::HDetectorType::Spp)
 {
     Print(HInformation, "Constructor");
     CutMethodName = "Cut";
@@ -8,13 +9,16 @@ hanalysis::HMva::HMva()
     Cut = "";
     WeightBranchName = "Info";
     MaxCombi = 4;
-    MinCellResolution = .1;
+//     MinCellResolution = .1;
 }
 
-hanalysis::HMva::~HMva()
-{
-    Print(HInformation, "Destructor");
-}
+// hanalysis::HMva::HMva(const HMva &NewMva)
+// {
+//     Print(HInformation, "Copy Constructor");
+//     SetObservables(NewMva.GetObservables());
+//     SetSpectators(NewMva.GetSpectators());
+//     SetTaggerName(GetTaggerName());
+// }
 
 float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 {
@@ -25,22 +29,22 @@ float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 
 }
 
-HJets hanalysis::HMva::GranulatedJets(HJets &EFlowJets)
+HJets hanalysis::HMva::GranulatedJets(const HJets &NewEFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
-    const float CellDeltaRap = 0.1;
-    const float CellDeltaPhi = 0.1;
-    const float PtCutOff = 0.5;
+    const float CellDeltaRap = DetectorGeometry.MinCellResolution;
+    const float CellDeltaPhi = DetectorGeometry.MinCellResolution;
+    const float PtCutOff = DetectorGeometry.MinCellPt;
 
+
+    HJets EFlowJets = sorted_by_pt(NewEFlowJets);
     HJets NewGranulatedJets;
-
-    EFlowJets = sorted_by_pt(EFlowJets);
     NewGranulatedJets.push_back(EFlowJets[0]);
 
-    for (unsigned i = 1; i < EFlowJets.size(); ++i) {
+    for (size_t i = 1; i < EFlowJets.size(); ++i) {
         int NewJet = 0;
 
-        for (unsigned j = 0; j < NewGranulatedJets.size(); ++j) {
+        for (size_t j = 0; j < NewGranulatedJets.size(); ++j) {
 
             const float CellDiffRap = std::abs(EFlowJets[i].pseudorapidity() - NewGranulatedJets[j].pseudorapidity()) / CellDeltaRap;
             float CellDiffPhi = std::abs(EFlowJets[i].phi() - NewGranulatedJets[j].phi());
@@ -82,7 +86,7 @@ HJets hanalysis::HMva::GranulatedJets(HJets &EFlowJets)
     }
 
 
-    for (unsigned ii = 0; ii < NewGranulatedJets.size(); ++ii) {
+    for (size_t ii = 0; ii < NewGranulatedJets.size(); ++ii) {
 
         if ((NewGranulatedJets[ii].perp() < PtCutOff)) {
             NewGranulatedJets.erase(NewGranulatedJets.begin() + ii);
@@ -96,60 +100,60 @@ HJets hanalysis::HMva::GranulatedJets(HJets &EFlowJets)
 
 HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 {
-  Print(HInformation,"JetTag",JetTag.HeavyParticles.size());
-  return GetJets(Event);
+    Print(HInformation, "JetTag", JetTag.HeavyParticles.size());
+    return GetJets(Event);
 }
 
 HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
 {
 
-  HJets EFlowJets = Event.GetJets()->GetStructuredEFlowJets();
-  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(EFlowJets), fastjet::JetDefinition(fastjet::cambridge_algorithm, JetConeSize));
-  HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(JetMinPt));
-  if (Jets.size() < 1) {
-    delete ClusterSequence;
-    return Jets;
-  }
-  ClusterSequence->delete_self_when_unused();
-  for (auto & Jet : Jets) {
-    std::vector<HConstituent> Constituents;
-    for (const auto & Constituent : Jet.constituents()) {
-      std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
-      Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+    HJets EFlowJets = Event.GetJets()->GetStructuredEFlowJets();
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(EFlowJets), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
+    HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
+    if (Jets.size() < 1) {
+        delete ClusterSequence;
+        return Jets;
     }
-    Jet.set_user_info(new HJetInfo(Constituents));
-  }
-  return Jets;
+    ClusterSequence->delete_self_when_unused();
+    for (auto & Jet : Jets) {
+        std::vector<HConstituent> Constituents;
+        for (const auto & Constituent : Jet.constituents()) {
+            std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
+            Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+        }
+        Jet.set_user_info(new HJetInfo(Constituents));
+    }
+    return Jets;
 }
 
 HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
 {
-  Print(HInformation, "Get Sub Jets");
-  HJets Pieces;
-  if (!Jet.has_constituents()) {
-    Print(HError, "Pieceless jet");
-    return Pieces;
-  }
-  if (!Jet.has_user_info<HJetInfo>()) {
-    Print(HError, "Get Sub Jets", "No Jet Info");
-    return Pieces;
-  }
-  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize));
-  HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
-  ClusterSequence->delete_self_when_unused();
-
-  for (auto & Piece : NewPieces) {
-    std::vector<HConstituent> Constituents;
-    for (const auto & PieceConstituent : Piece.constituents()) {
-      if (!PieceConstituent.has_user_info<HJetInfo>()) {
-        Print(HError, "Get Sub Jets", "No Piece Constituent Info");
-        continue;
-      }
-      std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
-      Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+    Print(HInformation, "Get Sub Jets");
+    HJets Pieces;
+    if (!Jet.has_constituents()) {
+        Print(HError, "Pieceless jet");
+        return Pieces;
     }
-    Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
-    Pieces.push_back(Piece);
-  }
-  return Pieces;
+    if (!Jet.has_user_info<HJetInfo>()) {
+        Print(HError, "Get Sub Jets", "No Jet Info");
+        return Pieces;
+    }
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry.JetConeSize));
+    HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
+    ClusterSequence->delete_self_when_unused();
+
+    for (auto & Piece : NewPieces) {
+        std::vector<HConstituent> Constituents;
+        for (const auto & PieceConstituent : Piece.constituents()) {
+            if (!PieceConstituent.has_user_info<HJetInfo>()) {
+                Print(HError, "Get Sub Jets", "No Piece Constituent Info");
+                continue;
+            }
+            std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
+            Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+        }
+        Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
+        Pieces.push_back(Piece);
+    }
+    return Pieces;
 }

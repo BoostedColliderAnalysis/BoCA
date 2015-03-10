@@ -103,7 +103,22 @@ std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEven
 //         std::vector<HDoublet> PostDoublets = GetDoublets(PreDoublet, Neutrinos, Tag);
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
 
+
+        
+//         for (const auto & Particle : Particles) {
+//           PostDoublets = SortByDeltaRTo(PostDoublets, Particle);
+//           if (PostDoublets.front().delta_R(Particle) > DetectorGeometry.JetConeSize) continue;
+//           if (Tag == HSignal) BottomJets.push_back(PostDoublets.front());
+//           if (PostDoublets.size() > 1) PostDoublets.erase(PostDoublets.begin());
+//         }
+
+
+
+
+
+
         std::sort(PostDoublets.begin(), PostDoublets.end(), MinDeltaR(Particles.front()));
+
         if (Tag == HSignal && PostDoublets.size() > 1) PostDoublets.erase(PostDoublets.begin() + 1, PostDoublets.end());
         if (Tag == HBackground && PostDoublets.size() > 0) PostDoublets.erase(PostDoublets.begin());
 
