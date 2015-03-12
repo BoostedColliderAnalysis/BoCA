@@ -2,6 +2,7 @@
 
 hheavyhiggs::HAnalysisMva::HAnalysisMva()
 {
+    ReadConfig();
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
     BottomTagger.SetAnalysisName(ProjectName());
@@ -14,6 +15,17 @@ hheavyhiggs::HAnalysisMva::HAnalysisMva()
     SignatureSemiTagger.SetAnalysisName(ProjectName());
     EventSemiTagger.SetAnalysisName(ProjectName());
     mkdir(ProjectName().c_str(), 0700);
+}
+
+void hheavyhiggs::HAnalysisMva::ReadConfig()
+{
+    try {
+        Config_.readFile("HeavyHiggs.cfg");
+    } catch (const libconfig::FileIOException &FileIOException) {
+        std::cerr << "I/O error while reading file." << std::endl;
+    } catch (const libconfig::ParseException &ParseException) {
+        std::cerr << "Parse error at " << ParseException.getFile() << ":" << ParseException.getLine() << " - " << ParseException.getError() << std::endl;
+    }
 }
 
 std::string hheavyhiggs::HAnalysisMva::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
@@ -579,8 +591,8 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &Event, const hanalys
         Print(HError, "Not enough top quarks", Particles.size());
         return 0;
     } else {
-      if (Particles.at(0).pt() < PreCut()) return 0;
-      if (Particles.at(1).pt() < PreCut()) return 0;
+        if (Particles.at(0).pt() < PreCut()) return 0;
+        if (Particles.at(1).pt() < PreCut()) return 0;
     }
 
 //     Print(HError, "Top pt", Particles.at(0).pt(), Particles.at(1).pt());

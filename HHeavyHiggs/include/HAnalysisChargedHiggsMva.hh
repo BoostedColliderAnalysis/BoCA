@@ -75,10 +75,10 @@ private:
         //     return 600;
         //     return 1000;
 //         return 2000;
-//         return 3000;
+        return 3000;
 //             return 4000;
 //             return 5000;
-            return 6000;
+//             return 6000;
 //             return 7000;
 //         return 8000;
         //     return 9000;
@@ -113,7 +113,8 @@ private:
 //         return 1;
 //         return 2;
         //       return 4;
-        return 5;
+//         return 5;
+        return 8;
         //       return 10;
     }
 

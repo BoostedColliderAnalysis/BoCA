@@ -10,6 +10,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # Load some basic macros which are needed later on
 include(CMakeFiles/FindROOT.cmake)
 include(CMakeFiles/Findfastjet.cmake)
+include(CMakeFiles/FindLibConfig.cmake)
 # find_package(Doxygen)
 
 # set path to dependencies
@@ -86,10 +87,12 @@ set(Directory
   ${ROOT_INCLUDE_DIR}
   ${ExRootDir}
   ${DelphesDir}
+#   ${LIBCONFIG_INCLUDE_DIR}
 )
 HInclude("${Directory}" SYSTEM)
 
 set(LinkLibraries
+  ${LIBCONFIGPP_LIBRARIES}
   ${ROOT_LIBRARIES}
   TMVA
   ${fastjet_LIBRARIES}

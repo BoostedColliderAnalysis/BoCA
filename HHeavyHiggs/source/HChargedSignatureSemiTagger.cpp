@@ -144,9 +144,9 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
         else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.at(0)) < DetectorGeometry.JetConeSize)) FinalTriplets.push_back(Triplet);
     } else FinalTriplets = TripletsHadronic;
 
-    if(FinalTriplets.size()>1){
-    std::sort(FinalTriplets.begin(), FinalTriplets.end());
-    FinalTriplets.erase(FinalTriplets.begin() + 1, FinalTriplets.end());
+    if (Tag == HSignal && FinalTriplets.size() > 1) {
+        std::sort(FinalTriplets.begin(), FinalTriplets.end());
+        FinalTriplets.erase(FinalTriplets.begin() + 1, FinalTriplets.end());
     }
 
     HJets FinalBottoms;
