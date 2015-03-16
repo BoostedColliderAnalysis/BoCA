@@ -46,8 +46,10 @@ public:
 
     std::vector< hanalysis::HFile > Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
+    inline std::string ProcessName()const{return "Charged";}
+
     inline std::string ProjectName() const {
-        return  "Charged-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+      return  ProcessName() + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
 
     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -67,56 +69,56 @@ protected:
 private:
 
     enum HProcessType {Htb, ttbb, ttcc, ttjj, tt};
-    enum HColliderType {LHC, FHC, LE};
+//     enum HColliderType {LHC, FHC, LE};
 
-    // in GeV
-    inline int Mass() const {
-        //     return 400;
-        //     return 600;
-        //     return 1000;
-//         return 2000;
-        return 3000;
-//             return 4000;
-//             return 5000;
-//             return 6000;
-//             return 7000;
-//         return 8000;
-        //     return 9000;
-        //         return 10000;
-    }
-
-    // in GeV
-    inline int PreCut() const {
-        //     return 30;
-        //     return 80;
-        //     return 150;
-//         return 300;
-        return 1000;
-    }
-
-    inline int EventNumberMax() const {
-//         return 1000000;
-        //         return 100000;
-        return 10000;
-        //         return 1000;
-//                 return 100;
-    };
-
-    inline HColliderType ColliderType() const {
-        //       return LHC;
-        //       return FHC;
-        return LE;
-    }
-
-
-    inline int BackgroundFileNumber() const {
-//         return 1;
-//         return 2;
-        //       return 4;
-//         return 5;
-        return 8;
-        //       return 10;
-    }
+//     // in GeV
+//     inline int Mass() const {
+//         //     return 400;
+//         //     return 600;
+//         //     return 1000;
+// //         return 2000;
+//         return 3000;
+// //             return 4000;
+// //             return 5000;
+// //             return 6000;
+// //             return 7000;
+// //         return 8000;
+//         //     return 9000;
+//         //         return 10000;
+//     }
+//
+//     // in GeV
+//     inline int PreCut() const {
+//         //     return 30;
+//         //     return 80;
+//         //     return 150;
+// //         return 300;
+//         return 1000;
+//     }
+//
+//     inline int EventNumberMax() const {
+// //         return 1000000;
+//         //         return 100000;
+//         return 10000;
+//         //         return 1000;
+// //                 return 100;
+//     };
+//
+//     inline HColliderType ColliderType() const {
+//         //       return LHC;
+//         //       return FHC;
+//         return LE;
+//     }
+//
+//
+//     inline int BackgroundFileNumber() const {
+// //         return 1;
+// //         return 2;
+//         //       return 4;
+// //         return 5;
+//         return 8;
+//         //       return 10;
+//     }
 
     // in fb
     float SignalCrosssection() const {

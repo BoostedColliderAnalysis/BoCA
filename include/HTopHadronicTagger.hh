@@ -24,7 +24,9 @@ public:
 
     HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::HReader &TopHadronicReader);
 
-    std::vector<HTriplet> GetBdt(HJets &Jets, const HReader &TopHadronicReader);
+    std::vector<HTriplet> GetBdt(HJets &Jets, const hanalysis::HReader &TopHadronicReader,  hanalysis::HWTagger &WTagger, hanalysis::HReader &WReader,hanalysis::HBottomTagger &BottomTagger,hanalysis::HReader &BottomReader);
+
+//     std::vector<HTriplet> GetBdt(HJets &Jets, const HReader &TopHadronicReader);
 
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
@@ -49,7 +51,7 @@ private:
 
     void DefineVariables();
 
-    HTag GetTag(const hanalysis::HTriplet& Triplet);
+    HTag GetTag(const hanalysis::HTriplet &);
 
     HTag GetTag(const fastjet::PseudoJet& Jet);
 
@@ -57,6 +59,7 @@ private:
     hanalysis::HJetTag JetTag;
 
     float TopWindow ;
+    float WMassWindow ;
 
 //     float JetRadiusParameter;
 

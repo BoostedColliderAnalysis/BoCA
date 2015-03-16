@@ -1,10 +1,5 @@
 # ifndef HAnalysisHiggsCpv_hh
 # define HAnalysisHiggsCpv_hh
-
-#include <sys/stat.h>
-
-# include "libconfig.h++"
-
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
@@ -64,7 +59,63 @@ public:
     std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string ProjectName() const {
-        return  "Neutral-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+        return  ProcessName() + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+    }
+
+    inline std::string ProcessName() const {
+        return "Neutral";
+    }
+
+    // in GeV
+    inline int Mass() const {
+        //     return 400;
+        //     return 600;
+//                 return 1000;
+//             return 2000;
+//             return 3000;
+//                 return 4000;
+//                 return 5000;
+//                 return 6000;
+        //             return 7000;
+        return 8000;
+        //     return 9000;
+        //         return 10000;
+    }
+
+    // in GeV
+    inline int PreCut() const {
+        //     return 30;
+        //     return 80;
+        //     return 150;
+//             return 300;
+//             return 1000;
+//             return 1500;
+        return 2000;
+    }
+
+    inline int EventNumberMax() const {
+        //         return 1000000;
+        //         return 100000;
+        return 10000;
+        //         return 1000;
+        //                 return 100;
+    };
+
+    inline HColliderType ColliderType() const {
+        //       return LHC;
+        //       return FHC;
+        return LE;
+    }
+
+
+    inline int BackgroundFileNumber() const {
+        //         return 1;
+        //         return 2;
+        //       return 4;
+        //         return 5;
+//             return 8;
+        //       return 10;
+        return 21;
     }
 
 protected:
@@ -79,65 +130,7 @@ protected:
 
 private:
 
-    void ReadConfig();
-
     enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt};
-    enum HColliderType {LHC, FHC, LE};
-
-    // in GeV
-    inline int Mass() const {
-        try {
-            return Config_.lookup("Mass");
-        } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
-            std::cerr << "No 'Mass' setting in configuration file." << std::endl;
-        } catch (const libconfig::SettingTypeException &SettingTypeException) {
-            std::cerr << "'Mass' setting has wrong type." << std::endl;
-        }
-    }
-
-    // in GeV
-    inline int PreCut() const {
-        try {
-            return Config_.lookup("PreCut");
-        } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
-            std::cerr << "No 'PreCut' setting in configuration file." << std::endl;
-        } catch (const libconfig::SettingTypeException &SettingTypeException) {
-            std::cerr << "'PreCut' setting has wrong type." << std::endl;
-        }
-    }
-
-    inline int EventNumberMax() const {
-        try {
-            return Config_.lookup("EventNumberMax");
-        } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
-            std::cerr << "No 'EventNumberMax' setting in configuration file." << std::endl;
-        } catch (const libconfig::SettingTypeException &SettingTypeException) {
-            std::cerr << "'EventNumberMax' setting has wrong type." << std::endl;
-        }
-    };
-
-    inline HColliderType ColliderType() const {
-        try {
-            std::string Collider = Config_.lookup("ColliderType");
-            if (Collider == "LHC") return LHC;
-            else if (Collider == "LE") return LE;
-            else if (Collider == "FHC") return FHC;
-        } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
-            std::cerr << "No 'ColliderType' setting in configuration file." << std::endl;
-        } catch (const libconfig::SettingTypeException &SettingTypeException) {
-            std::cerr << "'ColliderType' setting has wrong type." << std::endl;
-        }
-    }
-
-    inline int BackgroundFileNumber() const {
-        try {
-            return Config_.lookup("BackgroundFileNumber");
-        } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
-            std::cerr << "No 'BackgroundFileNumber' setting in configuration file." << std::endl;
-        } catch (const libconfig::SettingTypeException &SettingTypeException) {
-            std::cerr << "'BackgroundFileNumber' setting has wrong type." << std::endl;
-        }
-    }
 
     // in fb
     float SignalCrosssection() const {
@@ -344,6 +337,22 @@ private:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
+            case 2000 :
+                switch (Proccess) {
+                case tt :
+                    return 0.09014 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 2500 :
+                switch (Proccess) {
+                case tt :
+                    return 0.03038 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
             }
         default:
             Print(HError, "Background Crosssection",  "unhandled case");
@@ -436,7 +445,6 @@ private:
     bool GetEventSemiReader(hanalysis::HEvent &Event, const HTag Tag);
     bool GetEventLeptonicReader(hanalysis::HEvent &Event, const HTag Tag);
 
-    libconfig::Config Config_;
 
 };
 

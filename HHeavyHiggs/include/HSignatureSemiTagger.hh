@@ -67,7 +67,7 @@ protected:
 
 private:
 
-    HTag GetTag(const HOctet &Octet);
+    HTag GetTag(const HOctet &);
 
     void DefineVariables();
 

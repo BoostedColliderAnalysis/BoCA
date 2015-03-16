@@ -68,13 +68,12 @@ int main()
     RunTagger(hanalysis::HAnalysis::HWSemiTagger);
 //     RunTagger(hanalysis::HAnalysis::HWSemiReader);
 
-
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
 //     RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
 
     RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
 //     RunTagger(hanalysis::HAnalysis::HTopSemiReader);
-//
+
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
 //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
 

@@ -211,8 +211,9 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
-    std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+//     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
+//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 
@@ -232,17 +233,18 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
 
     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
 
-    HJets Particles = Event.GetParticles()->Generator();
     std::vector<hanalysis::HDoublet> FinalDoublets;
+    HJets Particles = Event.GetParticles()->Generator();
     if (Tag == HSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
             for (const auto & Doublet : Doublets) {
                 if ((Doublet.Singlet1().delta_R(Particles.at(0)) < DetectorGeometry.JetConeSize && Doublet.Singlet2().delta_R(Particles.at(1)) < DetectorGeometry.JetConeSize) || (Doublet.Singlet1().delta_R(Particles.at(1)) < DetectorGeometry.JetConeSize && Doublet.Singlet2().delta_R(Particles.at(0)) < DetectorGeometry.JetConeSize)) FinalDoublets.push_back(Doublet);
             }
-        }
+        } else Print(HError, "Where is the Quark Pair", Particles.size());
     }
-    if (Tag == HBackground) FinalDoublets = Doublets;
+    if (Tag == HBackground)
+        FinalDoublets = Doublets;
 
     std::vector<HOctet> Octets = SignatureSemiTagger.GetBdt(Sextets, FinalDoublets, SignatureSemiReader);
 

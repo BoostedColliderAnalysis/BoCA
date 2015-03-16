@@ -25,6 +25,12 @@ public:
 
     HWSemiBranch GetBranch(const hanalysis::HDoublet& Triplet) const;
 
+
+
+    int GetWSemiId(hanalysis::HEvent &Event) {
+      return GetWSemiId(GetWDaughters(Event));
+    };
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -32,6 +38,10 @@ protected:
     };
 
 private:
+
+    HJets GetWDaughters(hanalysis::HEvent &Event);
+
+    int GetWSemiId(const HJets &Jets);
 
     void DefineVariables();
 

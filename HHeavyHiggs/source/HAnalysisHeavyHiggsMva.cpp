@@ -2,7 +2,7 @@
 
 hheavyhiggs::HAnalysisMva::HAnalysisMva()
 {
-    ReadConfig();
+//     ReadConfig();
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
     BottomTagger.SetAnalysisName(ProjectName());
@@ -15,17 +15,6 @@ hheavyhiggs::HAnalysisMva::HAnalysisMva()
     SignatureSemiTagger.SetAnalysisName(ProjectName());
     EventSemiTagger.SetAnalysisName(ProjectName());
     mkdir(ProjectName().c_str(), 0700);
-}
-
-void hheavyhiggs::HAnalysisMva::ReadConfig()
-{
-    try {
-        Config_.readFile("HeavyHiggs.cfg");
-    } catch (const libconfig::FileIOException &FileIOException) {
-        std::cerr << "I/O error while reading file." << std::endl;
-    } catch (const libconfig::ParseException &ParseException) {
-        std::cerr << "Parse error at " << ParseException.getFile() << ":" << ParseException.getLine() << " - " << ParseException.getError() << std::endl;
-    }
 }
 
 std::string hheavyhiggs::HAnalysisMva::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
@@ -800,8 +789,7 @@ bool hheavyhiggs::HAnalysisMva::GetWReader(hanalysis::HEvent &Event, const HTag 
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
     if (Jets.size() < 1) return 0;
 
-
-    std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(Jets, WHadronicReader);
+    std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(Jets, WHadronicReader, BottomTagger, BottomReader);
 
     if (Doublets.size() > 1) {
         std::sort(Doublets.begin(), Doublets.end());
@@ -1010,8 +998,9 @@ bool hheavyhiggs::HAnalysisMva::GetHeavyHiggsSemiReader(hanalysis::HEvent &Event
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
-    std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+//     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
+//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WHadronicTagger, WHadronicReader, BottomTagger, BottomReader);
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 
@@ -1126,8 +1115,9 @@ bool hheavyhiggs::HAnalysisMva::GetSignatureSemiReader(hanalysis::HEvent &Event,
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
 
-    std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+//     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
+    //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WHadronicTagger, WHadronicReader, BottomTagger, BottomReader);
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 
@@ -1177,8 +1167,9 @@ bool hheavyhiggs::HAnalysisMva::GetEventSemiReader(hanalysis::HEvent &Event, con
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
 //     Print(HError, "Triplets Semi", TripletsSemi.size());
 
-    std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+//     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
+//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WHadronicTagger, WHadronicReader, BottomTagger, BottomReader);
 //     Print(HError, "Triplets Hadronic", TripletsHadronic.size());
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);

@@ -65,7 +65,6 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent &Event,
 
     HJets Jets = GetJets(Event);
     Print(HInformation, "Jets Number", Jets.size());
-
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
     Print(HInformation, "Bottom Tagger Number", Jets.size());
 
@@ -73,49 +72,54 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent &Event,
     int WHadId = WId;
     if (WKids.size() > 0) WHadId = GetWHadId(WKids);
 
-//     // 2 Jets form 1 W
-//     HJets JetPairs;
-//     if (WKids.size() > 0) std::sort(Jets.begin(), Jets.end(), MinDeltaR(WKids.at(0)));
-//     if (Tag == HSignal && Jets.size() > 1) JetPairs.push_back(Jets.front());
-//     if (Tag == HBackground && Jets.size() > 1) JetPairs.insert(JetPairs.end(), Jets.begin() + 1 , Jets.end());
-//
-//     if (WKids.size() > 1) std::sort(Jets.begin(), Jets.end(), MinDeltaR(WKids.at(1)));
-//     if (Tag == HSignal && Jets.size() > 1) JetPairs.push_back(Jets.front());
-//     if (Tag == HSignal && JetPairs.size() != 2) Print(HError, "lost the W jets", JetPairs.size());
-//
-//     for (const auto & Jet1 : JetPairs) {
-//         for (const auto & Jet2 : JetPairs) {
-//             if (Jet1 == Jet2) continue;
-//             HDoublet Doublet(Jet1, Jet2);
-//             if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-//             Doublets.push_back(Doublet);
-//         }
-//     }
-//
-//     fastjet::PseudoJet WParticle = WKids.at(0) + WKids.at(1);
+    // 2 Jets form 1 W
+    HJets JetPairs;
+    if (WKids.size() > 0) std::sort(Jets.begin(), Jets.end(), MinDeltaR(WKids.at(0)));
+    if (Tag == HSignal && Jets.size() > 1) JetPairs.push_back(Jets.front());
+    if (Tag == HBackground && Jets.size() > 1) JetPairs.insert(JetPairs.end(), Jets.begin() + 1 , Jets.end());
+
+    if (WKids.size() > 1) std::sort(Jets.begin(), Jets.end(), MinDeltaR(WKids.at(1)));
+    if (Tag == HSignal && Jets.size() > 1) JetPairs.push_back(Jets.front());
+    if (Tag == HSignal && JetPairs.size() != 2) Print(HError, "lost the W jets", JetPairs.size());
+
+    for (const auto & Jet1 : JetPairs) {
+        for (const auto & Jet2 : JetPairs) {
+            if (Jet1.delta_R(Jet2) < DetectorGeometry.JetConeSize) continue;
+            HDoublet Doublet(Jet1, Jet2);
+            if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+            Doublets.push_back(Doublet);
+        }
+    }
 
 
     HJets WParticles = Event.GetParticles()->Generator();
-    WParticles.erase(std::remove_if(WParticles.begin(), WParticles.end(), WrongId(WHadId)), WParticles.end());
-    if (Tag == HSignal && WParticles.size() != 1) Print(HError, "Where is the W?", WParticles.size());
-    std::sort(Jets.begin(), Jets.end(), MinDeltaR(WParticles.front()));
+    WParticles = RemoveIfWrongParticle(WParticles, WHadId);
+    fastjet::PseudoJet WParticle;
+    if (Tag == HSignal) {
+        if (WParticles.size() == 1) {
+            WParticle = WParticles.front();
+            std::sort(Jets.begin(), Jets.end(), MinDeltaR(WParticle));
+        } else Print(HError, "Where is the W?", WParticles.size());
+    }
 
 //  1 Jet (2 subjets) form(s) 1 W
-//     HJets WJets;
-//     if (Tag == HSignal && Jets.size() > 1) WJets.push_back(Jets.front());
-//     if (Tag == HBackground && Jets.size() > 1) WJets.insert(WJets.end(), Jets.begin() + 1 , Jets.end());
-//     for (const auto & Jet : WJets) {
-//         HJets Pieces = GetSubJets(Jet, 2);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
-//         for (const auto & Piece1 : Pieces) {
-//             for (const auto & Piece2 : Pieces) {
-//                 if (Piece1 == Piece2) continue;
-//                 HDoublet Doublet(Piece1, Piece2);
-//                 if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-//                 Doublets.push_back(Doublet);
-//             }
-//         }
-//     }
+    HJets WJets;
+    if (Tag == HSignal && Jets.size() > 1) WJets.push_back(Jets.front());
+    if (Tag == HBackground && Jets.size() > 1) WJets.insert(WJets.end(), Jets.begin() + 1 , Jets.end());
+    for (const auto & Jet : WJets) {
+        HJets Pieces = GetSubJets(Jet, 2);
+        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        for (const auto & Piece1 : Pieces) {
+            for (const auto & Piece2 : Pieces) {
+                if (Piece1 == Piece2) continue;
+                HDoublet Doublet(Piece1, Piece2);
+                if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+                if (Tag == HSignal && Doublet.Jet().delta_R(WParticle) > DetectorGeometry.JetConeSize) continue;
+                if (Tag == HBackground && Doublet.Jet().delta_R(WParticle) < DetectorGeometry.JetConeSize) continue;
+                Doublets.push_back(Doublet);
+            }
+        }
+    }
 //
 //     HJets TopParticles = Event.GetParticles()->Generator();
 //     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(sgn(WHadId)*TopId)), TopParticles.end());
@@ -126,34 +130,38 @@ std::vector<HWBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent &Event,
 //     if (Tag == HBackground && Jets.size() > 0) Jets.erase(Jets.begin());
 
     // W is in 2 of 3 subjets
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : WJets) {
         HJets Pieces = GetSubJets(Jet, 3);
         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
         for (const auto & Piece1 : Pieces)
             for (const auto & Piece2 : Pieces) {
-                if (Piece1 == Piece2)continue;
+                if (Piece1 == Piece2) continue;
                 HDoublet Doublet(Piece1, Piece2);
                 if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+                if (Tag == HSignal && Doublet.Jet().delta_R(WParticle) > DetectorGeometry.JetConeSize) continue;
+                if (Tag == HBackground && Doublet.Jet().delta_R(WParticle) < DetectorGeometry.JetConeSize) continue;
                 Doublets.push_back(Doublet);
             }
     }
 
-//     // W is in 1 of 2 subjet
-//     for (const auto & Jet : Jets) {
-//         HJets Pieces = GetSubJets(Jet, 2);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
-//         for (const auto & Piece : Pieces) {
-//             HDoublet Doublet(Piece, Piece);
-//             if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-//             Doublets.push_back(Doublet);
-//         }
-//     }
+    // W is in 1 of 2 subjet
+    for (const auto & Jet : Jets) {
+        HJets Pieces = GetSubJets(Jet, 2);
+        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        for (const auto & Piece : Pieces) {
+            HDoublet Doublet(Piece);
+            if (Tag == HSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+            if (Tag == HSignal && Doublet.Jet().delta_R(WParticle) > DetectorGeometry.JetConeSize) continue;
+            if (Tag == HBackground && Doublet.Jet().delta_R(WParticle) < DetectorGeometry.JetConeSize) continue;
+            Doublets.push_back(Doublet);
+        }
+    }
 
 
 
     const int WNumber = 1; // MUST BE 1 FOR THE ANALYSIS
-    std::sort(Doublets.begin(), Doublets.end(), MinDeltaR(WParticles.front()));
-//     std::sort(Doublets.begin(), Doublets.end(), SortByMass(WMass));
+//     std::sort(Doublets.begin(), Doublets.end(), MinDeltaR(WParticles));
+    std::sort(Doublets.begin(), Doublets.end(), SortByMass(WMass));
     if (Tag == HSignal && Doublets.size() > WNumber) Doublets.erase(Doublets.begin() + WNumber, Doublets.end());
     if (Tag == HBackground && Doublets.size() > WNumber) Doublets.erase(Doublets.begin());
 
@@ -200,29 +208,95 @@ int hanalysis::HWTagger::GetWHadId(const HJets &Jets)
 }
 
 
-std::vector<hanalysis::HDoublet>  hanalysis::HWTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &WReader)
+std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader)
 {
     Print(HInformation, "Get Doublet Bdt");
 
+    // W in 2 jets
     std::vector<HDoublet>  Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
             HDoublet Doublet(*Jet1, *Jet2);
             if (Doublet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
-            if (Doublet.Jet().m() < 10) continue;
-            if (Doublet.Jet().m() > (TopMass + WMass) / 2) continue;
+            if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
             Branch = GetBranch(Doublet);
             Doublet.SetBdt(WReader.Bdt());
             Doublets.push_back(Doublet);
         }
 
-    for (auto & Jet : Jets) {
-        HDoublet Doublet(Jet);
-        if (Doublet.Jet().m() < 10) continue;
-        if (Doublet.Jet().m() > (TopMass + WMass) / 2) continue;
-        Branch = GetBranch(Doublet);
-        Doublet.SetBdt(WReader.Bdt());
-        Doublets.push_back(Doublet);
+//  1 Jet (2 subjets) form(s) 1 W
+    for (const auto & Jet : Jets) {
+        HJets Pieces = GetSubJets(Jet, 2);
+        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        for (const auto & Piece1 : Pieces) {
+            for (const auto & Piece2 : Pieces) {
+                if (Piece1 == Piece2) continue;
+                HDoublet Doublet(Piece1, Piece2);
+                if (Doublet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
+                if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+                Branch = GetBranch(Doublet);
+                Doublet.SetBdt(WReader.Bdt());
+                Doublets.push_back(Doublet);
+            }
+        }
+    }
+
+
+// W is in 2 of 3 subjets
+    for (const auto & Jet : Jets) {
+        HJets Pieces = GetSubJets(Jet, 3);
+        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        for (const auto & Piece1 : Pieces)
+            for (const auto & Piece2 : Pieces) {
+                if (Piece1 == Piece2)continue;
+                HDoublet Doublet(Piece1, Piece2);
+                if (Doublet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
+                if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+                Branch = GetBranch(Doublet);
+                Doublet.SetBdt(WReader.Bdt());
+                Doublets.push_back(Doublet);
+            }
+    }
+
+    //  1 of 2 subjets are the W
+    for (const auto & Jet : Jets) {
+      HJets Pieces = GetSubJets(Jet, 2);
+      Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+      for (const auto & Piece : Pieces) {
+          HDoublet Doublet(Piece);
+          if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+          Branch = GetBranch(Doublet);
+          Doublet.SetBdt(WReader.Bdt());
+          Doublets.push_back(Doublet);
+        }
+    }
+
+    std::sort(Doublets.begin(), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
+    return Doublets;
+}
+
+std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &WReader)
+{
+  Print(HInformation, "Get Doublet Bdt");
+
+  std::vector<HDoublet>  Doublets;
+  for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
+    for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+      HDoublet Doublet(*Jet1, *Jet2);
+      if (Doublet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
+      if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+      Branch = GetBranch(Doublet);
+      Doublet.SetBdt(WReader.Bdt());
+      Doublets.push_back(Doublet);
+    }
+
+  for (const auto & Jet : Jets){
+      HDoublet Doublet(Jet);
+      if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+      Branch = GetBranch(Doublet);
+      Doublet.SetBdt(WReader.Bdt());
+      Doublets.push_back(Doublet);
     }
 
     std::sort(Doublets.begin(), Doublets.end());

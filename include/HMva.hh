@@ -168,6 +168,20 @@ struct WrongLeptons {
     }
 };
 
+struct WrongQuark {
+  bool operator()(const fastjet::PseudoJet &Jet) {
+    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+    return (std::abs(Family.ParticleId) == Family.UpId ||
+    std::abs(Family.ParticleId) == Family.DownId ||
+    std::abs(Family.ParticleId) == Family.CharmId ||
+    std::abs(Family.ParticleId) == Family.StrangeId ||
+    std::abs(Family.ParticleId) == Family.BottomId ||
+    std::abs(Family.ParticleId) == Family.TopId
+    );
+  }
+};
+
 struct LargeDistance {
     LargeDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
         JetM = NewJet;
@@ -562,6 +576,11 @@ protected:
     inline HJets RemoveIfLetpons(HJets &Jets) {
         Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongLeptons()), Jets.end());
         return Jets;
+    }
+
+    inline HJets RemoveIfQuark(HJets &Jets) {
+      Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongQuark()), Jets.end());
+      return Jets;
     }
 
 

@@ -20,7 +20,7 @@ void hanalysis::HTopSemiTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
     SetTaggerName("TopSemi");
-    TopWindow = 50;
+    TopWindow = (TopMass - WMass) / 2;
     Observables.clear();
     Spectators.clear();
 
@@ -78,6 +78,15 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
 {
     Print(HInformation, "Get Top Tags");
 
+    int WSemiId = WSemiTagger.GetWSemiId(Event);
+    HJets TopParticles = Event.GetParticles()->Generator();
+    int TopSemiId = sgn(WSemiId) * std::abs(TopId);
+    TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
+    fastjet::PseudoJet TopQuark;
+    if (TopParticles.size() == 1) TopQuark = TopParticles.front();
+    else Print(HError, "Where is the Top?", TopParticles.size());
+
+
     HJets Jets = GetJets(Event);
     Print(HInformation, "Jet Number", Jets.size());
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
@@ -93,61 +102,40 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
     for (const auto & Jet : Jets) {
         for (const auto & Doublet : Doublets) {
             HTriplet Triplet(Doublet, Jet);
-//             if (Tag == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue; // should be enabled again
+            if (Tag == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue; // should be enabled again
+            if (Tag == HSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
+            if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
             Triplet.SetTag(Tag);
             Triplets.push_back(Triplet);
         }
     }
 
-    std::vector<HTriplet> FinalTriplets;
+    for (const auto & Jet : Jets) {
+      for (const auto & Lepton : Leptons) {
+        HDoublet Doublet(Lepton);
+        HTriplet Triplet(Doublet, Jet);
+        if (Tag == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue; // should be enabled again
+        if (Tag == HSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
+        if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
+        Triplet.SetTag(Tag);
+        Triplets.push_back(Triplet);
+      }
+    }
+
     std::vector<HTopSemiBranch> TopSemiBranches;
-    if (Triplets.size() < 1) return TopSemiBranches;
-
-    HJets TopParticles = Event.GetParticles()->Generator();
-    TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
-    if (TopParticles.size() != 2) {
-        Print(HInformation, "Where is the Top?", TopParticles.size());
-        if (Tag == HBackground) FinalTriplets = Triplets;
-    } else {
-        for (const auto & TopParticle : TopParticles) {
-            for (const auto & Triplet : Triplets) {
-                if (Tag == HSignal && Triplet.Jet().delta_R(TopParticle) < DetectorGeometry.JetConeSize)
-                    FinalTriplets.push_back(Triplet);
-                if (Tag == HBackground && Triplet.Jet().delta_R(TopParticle) > DetectorGeometry.JetConeSize)
-                    FinalTriplets.push_back(Triplets.front());
-            }
-        }
-    }
-
-    int SemiLeptonicTopNumber = 2; // Must be 1 for the analysis!!;
+    int SemiLeptonicTopNumber = 1; // Must be 1 for the analysis!!;
     if (Tag == HSignal &&
-        FinalTriplets.size() > SemiLeptonicTopNumber) {
-        std::sort(FinalTriplets.begin(), FinalTriplets.end(), SortByMass(TopMass));
-        FinalTriplets.erase(FinalTriplets.begin() + SemiLeptonicTopNumber, FinalTriplets.end());
+            Triplets.size() > SemiLeptonicTopNumber) {
+        std::sort(Triplets.begin(), Triplets.end(), SortByMass(TopMass));
+        Triplets.erase(Triplets.begin() + SemiLeptonicTopNumber, Triplets.end());
     }
-    Print(HInformation, "Number Triplets", FinalTriplets.size());
+    Print(HInformation, "Number Triplets", Triplets.size());
 
-    for (const auto & Triplet : FinalTriplets) TopSemiBranches.push_back(GetBranch(Triplet));
+    for (const auto & Triplet : Triplets) TopSemiBranches.push_back(GetBranch(Triplet));
 
     return TopSemiBranches;
 }
 
-// hanalysis::HObject::HTag hanalysis::HTopSemiTagger::GetTag(const hanalysis::HTriplet &Triplet) const
-// {
-//     Print(HInformation, "Get Triple Tag");
-//
-//     HJetInfo BJetInfo = Triplet.Singlet().user_info<HJetInfo>();
-//     BJetInfo.ExtractFraction(BottomId);
-//     BJetInfo.PrintAllInfos(HInformation);
-//     HJetInfo W1JetInfo = Triplet.Doublet().Singlet1().user_info<HJetInfo>();
-//     W1JetInfo.ExtractFraction(WId);
-//     W1JetInfo.PrintAllInfos(HInformation);
-//
-//     if (std::abs(W1JetInfo.MaximalId()) != WId) return HBackground;
-//     if (std::abs(BJetInfo.MaximalId()) != BottomId) return HBackground;
-//     if (sgn(BJetInfo.MaximalId()) != sgn(W1JetInfo.MaximalId())) return HBackground;
-//     return HSignal;
-// }
 
 
 std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::vector<HDoublet> &Doublets, const HJets &Jets, const HReader &Reader)
@@ -157,17 +145,24 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetBdt(const std::v
 
     std::vector<HTriplet> Triplets;
     for (const auto & Jet : Jets) {
-//         std::vector<HTriplet> PreTriplets;
         for (const auto & Doublet : Doublets) {
             HTriplet Triplet(Doublet, Jet);
-//             if (std::abs(Triplet.DeltaRap()) > 100) continue;
+            if (std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
             Branch = GetBranch(Triplet);
             Triplet.SetBdt(Reader.Bdt());
-//             PreTriplets.push_back(Triplet);
             Triplets.push_back(Triplet);
         }
-//         if (PreTriplets.size() > 1) std::sort(PreTriplets.begin(), PreTriplets.end(), SortByMass(TopMass));
-//         if (PreTriplets.size() > 0) Triplets.push_back(PreTriplets.front());
+    }
+
+    for (const auto & Jet : Jets) {
+      for (const auto & PreDoublet : Doublets) {
+        HDoublet Doublet(PreDoublet.Singlet1());
+        HTriplet Triplet(Doublet, Jet);
+        if (std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
+        Branch = GetBranch(Triplet);
+        Triplet.SetBdt(Reader.Bdt());
+        Triplets.push_back(Triplet);
+      }
     }
 
     std::sort(Triplets.begin(), Triplets.end());

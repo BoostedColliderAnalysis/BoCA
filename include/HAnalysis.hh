@@ -1,6 +1,8 @@
 # ifndef HAnalysis_hh
 # define HAnalysis_hh
 
+#include <sys/stat.h>
+
 # include "TTree.h"
 
 # include "ExRootAnalysis/ExRootTreeWriter.h"
@@ -11,6 +13,7 @@
 # include "HObject.hh"
 # include "HFile.hh"
 # include "HEvent.hh"
+# include "HConfig.hh"
 
 
 /**
@@ -64,9 +67,9 @@ public:
         HChargedHiggsSemiTagger
     };
 
-    enum HStage{
-      HTrainer,
-      HReader
+    enum HStage {
+        HTrainer,
+        HReader
     };
 
     void AnalysisLoop(const HTagger Tagger);
@@ -81,6 +84,10 @@ public:
         return NewFiles;
     }
 
+    void SetConfig(const HConfig &config) {
+        config_ = config;
+    }
+
 protected:
 
     inline int EventSum(const std::shared_ptr<ExRootTreeReader> &NewTreeReader) const {
@@ -89,7 +96,7 @@ protected:
 
     inline int EventSum(const ExRootTreeReader &NewTreeReader) const {
 //       return std::min((int)NewTreeReader.GetEntries(), EventNumberMax());
-      return NewTreeReader.GetEntries();
+        return NewTreeReader.GetEntries();
     }
 
     ExRootTreeWriter TreeWriter(const TFile &NewExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
@@ -126,13 +133,13 @@ protected:
         return "ProjectName";
     }
 
-    /**
-     * @brief Maximal number of Entries to analyse
-     *
-     */
-    virtual inline int EventNumberMax() const {
-        return 100000;
-    }
+//     /**
+//      * @brief Maximal number of Entries to analyse
+//      *
+//      */
+//     virtual inline int EventNumberMax() const {
+//         return 100000;
+//     }
 
     virtual inline std::string StudyName(const HTagger Tagger) const {
         Print(HError, "GetStudyName", "What are we doing here?", Tagger);
@@ -143,9 +150,23 @@ protected:
         return "HAnalysis";
     }
 
-    HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2);
+    template <typename HElement>
+    std::vector<HElement>  JoinVectors(const std::vector<HElement> &Vector1, const std::vector<HElement> &Vector2) {
+        std::vector<HElement>  Combined;
+        Combined.reserve(Vector1.size() + Vector2.size());
+        Combined.insert(Combined.end(), Vector1.begin(), Vector1.end());
+        Combined.insert(Combined.end(), Vector2.begin(), Vector2.end());
+        return Combined;
+    }
 
-    std::vector<hanalysis::HFile>  JoinFiles(const std::vector<hanalysis::HFile> &Files1, const std::vector<hanalysis::HFile> &Files2);
+
+    HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2) {
+        return JoinVectors(Strings1, Strings2);
+    };
+
+    std::vector<hanalysis::HFile>  JoinFiles(const std::vector<hanalysis::HFile> &Files1, const std::vector<hanalysis::HFile> &Files2) {
+        return JoinVectors(Files1, Files2);
+    };
 
     int EventSumM;
     /**
@@ -156,8 +177,41 @@ protected:
 
     int ObjectNumber;
 
+    virtual inline std::string ProcessName() const {
+        return "Process";
+    }
+
+
+    // in GeV
+    inline int Mass() const {
+        return config_.Mass();
+    }
+
+    // in GeV
+    inline int PreCut() const {
+        return config_.PreCut();
+    }
+
+    inline int EventNumberMax() const {
+        return config_.EventNumberMax();
+    };
+
+    inline int BackgroundFileNumber() const {
+        return config_.BackgroundFileNumber();
+    }
+
+    inline HColliderType ColliderType() const {
+        return config_.ColliderType();
+    }
+
 private:
+
+    HConfig config_;
+
 
 };
 
 #endif
+
+
+

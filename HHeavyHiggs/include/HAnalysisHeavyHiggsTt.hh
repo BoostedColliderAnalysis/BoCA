@@ -44,9 +44,12 @@ public:
 
     std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
+    inline std::string ProcessName() const {
+        return "Fusion";
+    }
 
     inline std::string ProjectName() const {
-        return  "Fusion-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+        return  ProcessName() + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
 
 
@@ -68,8 +71,8 @@ protected:
 
 private:
 
-    enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt,H0};
-    enum HColliderType {LHC, FHC, LE};
+    enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt, H0};
+//     enum HColliderType {LHC, FHC, LE};
 
     // in GeV
     inline int Mass() const {
@@ -78,29 +81,31 @@ private:
         //     return 600;
         //         return 1000;
 //                 return 2000;
-                return 3000;
-//         return 4000;
+//                 return 3000;
+        return 4000;
 //                 return 5000;
-        //     return 6000;
+//         return 6000;
         //     return 7000;
-        //     return 8000;
+//             return 8000;
         //     return 9000;
         //         return 10000;
     }
 
     // in GeV
     inline int PreCut() const {
-        return 1000;
         //     return 30;
         //     return 80;
         //         return 150;
         //         return 300;
+        return 1000;
+//         return 1500;
+//         return 2000;
     }
 
     inline int EventNumberMax() const {
 //                 return 1000000;
 //         return 100000;
-                return 10000;
+        return 10000;
         //         return 1000;
 //                 return 100;
     };
@@ -115,8 +120,9 @@ private:
         //         return 1;
         //         return 2;
         //       return 4;
-        return 5;
+//         return 5;
         //       return 10;
+        return 32;
     }
 
 
@@ -139,37 +145,65 @@ private:
             } ;
         case FHC:
         case LE:
-          switch (Mass()) {
+            switch (Mass()) {
+                // tan beta = 2
             case 400 :
-              return 131.94947391305232;
+                return 48385.16604388162;
             case 700 :
-              return 30.221882093141176;
+                return 5388.806849750459;
             case 800:
-              return 17.100219340176437;
+                return 2987.6531326979493;
             case 1000:
-              return 6.146859900494059;
+                return 1062.9847850641604;
             case 1500:
-              return 0.8522475589106505;
+                return 148.78718745483314;
             case 2000:
-              return 0.19108540463151014;
+                return 33.76298845204924;
             case 3000:
-              return 0.020689601081729285;
+                return 3.715444262833449;
             case 4000:
-              return 0.0038886961414115293;
+                return 0.7052693313851425;
             case 5000:
-              return 0.0010087505187664622;
+                return 0.1841745400744028;
             case 6000:
-              return 0.0003169949319582519;
+                return 0.058156868371520024;
             case 8000:
-              return 0.00004684534698668758;
+                return 0.008651760976852958;
             case 10000:
-              return 9.81016234854116e-6;
+                return 0.0018198636858628185;
             case 12000:
-              return 2.5117159473593533e-6;
+                return 0.0004674423191995998;
+                // tan beta = 10
+//             case 400 :
+//                 return 131.94947391305232;
+//             case 700 :
+//                 return 30.221882093141176;
+//             case 800:
+//                 return 17.100219340176437;
+//             case 1000:
+//                 return 6.146859900494059;
+//             case 1500:
+//                 return 0.8522475589106505;
+//             case 2000:
+//                 return 0.19108540463151014;
+//             case 3000:
+//                 return 0.020689601081729285;
+//             case 4000:
+//                 return 0.0038886961414115293;
+//             case 5000:
+//                 return 0.0010087505187664622;
+//             case 6000:
+//                 return 0.0003169949319582519;
+//             case 8000:
+//                 return 0.00004684534698668758;
+//             case 10000:
+//                 return 9.81016234854116e-6;
+//             case 12000:
+//                 return 2.5117159473593533e-6;
             default:
-              Print(HError,  "Signal Crosssection", "unhandled case");
-              return 1;
-          }
+                Print(HError,  "Signal Crosssection", "unhandled case");
+                return 1;
+            }
         default:
             Print(HError,  "Signal Crosssection", "unhandled case");
             return 1;
@@ -307,9 +341,33 @@ private:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
+            case 1500 :
+                switch (Proccess) {
+                case tt :
+                    return 0.2447 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 2000 :
+                switch (Proccess) {
+                case tt :
+                    return 0.09014 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 2500 :
+                switch (Proccess) {
+                case tt :
+                    return 0.03038 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
             }
         default:
-            Print(HError, "Background Crosssection",  "unhandled case");
+            Print(HError, "Background Crosssection",  "unhandled pre cut", PreCut());
             return 1;
         }
     }
@@ -331,9 +389,9 @@ private:
     std::string ProcessName(const ProcessType Process) const {
         switch (Process) {
         case Hbb:
-          return "H0bb-ljbbbb";
+            return "H0bb-ljbbbb";
         case H0:
-          return "H0-ljbb";
+            return "H0-ljbb";
         case ttbb :
             return "ttbb-ljbbbb";
         case ttcc:

@@ -2,11 +2,14 @@
 
 #include "fastjet/LimitedWarning.hh"
 
-void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
+#include "HConfig.hh"
+
+void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config)
 {
     hheavyhiggs::HAnalysisMva Analysis;
     const std::string Name = Analysis.StudyName(Tagger);
     Analysis.Print(Analysis.HError, "Tagger", Tagger, Name);
+    Analysis.SetConfig(config);
 
     std::string FileName = Analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(Tagger);
@@ -95,32 +98,34 @@ int main()
     fastjet::Error::set_print_errors(true);
     fastjet::Error::set_print_backtrace(true);
 
-    RunTagger(hanalysis::HAnalysis::HBottomTagger);
-//     RunTagger(hanalysis::HAnalysis::HBottomReader);
+    HConfig config("Neutral");
 
-    RunTagger(hanalysis::HAnalysis::HJetPairTagger);
-//     RunTagger(hanalysis::HAnalysis::HJetPairReader);
+    RunTagger(hanalysis::HAnalysis::HBottomTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HBottomReader,config);
 
-    RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HWHadronicReader);
+    RunTagger(hanalysis::HAnalysis::HJetPairTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HJetPairReader,config);
 
-    RunTagger(hanalysis::HAnalysis::HWSemiTagger);
-//     RunTagger(hanalysis::HAnalysis::HWSemiReader);
+    RunTagger(hanalysis::HAnalysis::HWHadronicTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HWHadronicReader,config);
 
-    RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
+    RunTagger(hanalysis::HAnalysis::HWSemiTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HWSemiReader,config);
 
-    RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-//     RunTagger(hanalysis::HAnalysis::HTopSemiReader);
+    RunTagger(hanalysis::HAnalysis::HTopHadronicTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HTopHadronicReader,config);
 
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger);
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
+    RunTagger(hanalysis::HAnalysis::HTopSemiTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HTopSemiReader,config);
 
-    RunTagger(hanalysis::HAnalysis::HSignatureSemiTagger);
-//     RunTagger(hanalysis::HAnalysis::HSignatureSemiReader);
+    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader,config);
 
-    RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
-    RunTagger(hanalysis::HAnalysis::HEventSemiReader);
+    RunTagger(hanalysis::HAnalysis::HSignatureSemiTagger,config);
+//         RunTagger(hanalysis::HAnalysis::HSignatureSemiReader,config);
+
+    RunTagger(hanalysis::HAnalysis::HEventSemiTagger,config);
+    RunTagger(hanalysis::HAnalysis::HEventSemiReader,config);
 
     std::cout << fastjet::LimitedWarning::summary() << std::endl;
 

@@ -21,6 +21,8 @@ public:
 
 //     std::vector<HParticleBranch> GetConstituentBranches();
 
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
+
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &WReader);
 
     HDoublet GetBdt(HDoublet &Doublet, const hanalysis::HReader &WReader);

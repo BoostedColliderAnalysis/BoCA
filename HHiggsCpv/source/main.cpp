@@ -10,7 +10,6 @@ void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger
 
     std::cout << "Run Tagger " << TaggerName << std::endl;;
 
-    hanalysis::HFactory *Factory;
     bool HasFactory = 0;
     hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
 
@@ -28,18 +27,15 @@ void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger
     {
             Analysis->GetFiles(TaggerName);
         if (Tagger == hhiggscpv::HAnalysis::HBottomTagger) {
-          Factory = new hanalysis::HFactory(Analysis->BottomTagger);
+          hanalysis::HFactory Factory = hanalysis::HFactory(Analysis->BottomTagger);
         }
         if (Tagger == hanalysis::HAnalysis::HTopLeptonicTagger){
-          Factory = new hanalysis::HFactory(Analysis->LeptonicTopTagger);
+          hanalysis::HFactory Factory = hanalysis::HFactory(Analysis->LeptonicTopTagger);
         }
         if (Tagger == hhiggscpv::HAnalysis::HHiggsLeptonicTagger){
-          Factory = new hanalysis::HFactory(Analysis->HiggsTagger);
+          hanalysis::HFactory Factory = hanalysis::HFactory(Analysis->HiggsTagger);
         }
-        HasFactory = 1;
     }
-
-    if (HasFactory) delete Factory;
     delete Analysis;
 }
 

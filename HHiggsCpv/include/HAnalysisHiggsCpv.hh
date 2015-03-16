@@ -119,11 +119,11 @@ private:
      */
     bool Analysis(hanalysis::HEvent &Event, const std::string &StudyName, const hhiggscpv::HAnalysis::HTagger Tagger);
 
-    bool GetBottomTag(hanalysis::HEvent &Event, const std::string &StudyName);
+    bool GetBottomTag(hanalysis::HEvent &, const std::string &StudyName);
 
-    bool GetTopTag(hanalysis::HEvent &Event, const std::string &StudyName);
+    bool GetTopTag(hanalysis::HEvent &Event, const std::string &NewStudyName);
 
-    bool GetHiggsTag(hanalysis::HEvent &Event, const std::string &StudyName);
+    bool GetHiggsTag(hanalysis::HEvent &Event, const std::string &NewStudyName);
 
     bool GetSignalTag(hanalysis::HEvent &Event, const std::string &StudyName);
 
