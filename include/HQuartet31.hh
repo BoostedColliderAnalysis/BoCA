@@ -42,6 +42,10 @@ public:
       return (Triplet().Jet().pt() - Singlet().pt());
     }
 
+    inline float DeltaHt() const {
+      return (Triplet().Ht() - Singlet().pt());
+    }
+
     inline float DeltaR() const {
         return Triplet().Jet().delta_R(Singlet());
     }

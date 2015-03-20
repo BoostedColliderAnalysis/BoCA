@@ -75,9 +75,9 @@ public:
 //             return 3000;
 //                 return 4000;
 //                 return 5000;
-//                 return 6000;
+                return 6000;
         //             return 7000;
-        return 8000;
+//         return 8000;
         //     return 9000;
         //         return 10000;
     }
@@ -423,10 +423,10 @@ private:
     bool GetWReader(hanalysis::HEvent &Event, const HTag Tag);
     bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
     bool GetJetPairReader(hanalysis::HEvent &Event, const HTag Tag);
-    bool GetTopLeptonicTag(hanalysis::HEvent &Event, hanalysis::HObject::HTag Tag);
+    bool GetTopLeptonicTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
     bool GetTopLeptonicReader(hanalysis::HEvent &Event, const HTag Tag);
     bool GetTopHadronicTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-    bool GetTopSemiTag(hanalysis::HEvent &Event, hanalysis::HObject::HTag Tag);
+    bool GetTopSemiTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
     bool GetTopHadronicReader(hanalysis::HEvent &Event, const HTag Tag);
     bool GetTopSemiReader(hanalysis::HEvent &Event, const HTag Tag);
     bool GetHeavyHiggsHadronicTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);

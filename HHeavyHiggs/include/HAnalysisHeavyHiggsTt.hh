@@ -79,10 +79,10 @@ private:
         //     return 0;
         //     return 400;
         //     return 600;
-        //         return 1000;
+                return 1000;
 //                 return 2000;
 //                 return 3000;
-        return 4000;
+//         return 4000;
 //                 return 5000;
 //         return 6000;
         //     return 7000;
@@ -96,8 +96,8 @@ private:
         //     return 30;
         //     return 80;
         //         return 150;
-        //         return 300;
-        return 1000;
+                return 300;
+//         return 1000;
 //         return 1500;
 //         return 2000;
     }
@@ -309,18 +309,6 @@ private:
             }
         case LE:
             switch (PreCut()) {
-            case 300 :
-                switch (Proccess) {
-                case ttbb :
-                    return 263;
-                case ttcc:
-                    return 192.82;
-                case ttjj:
-                    return 28200;
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
             case 150 :
                 switch (Proccess) {
                 case ttbb :
@@ -329,6 +317,20 @@ private:
                     return 534;
                 case ttjj:
                     return 70289;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
+            case 300 :
+                switch (Proccess) {
+                case ttbb :
+                    return 263;
+                case ttcc:
+                    return 192.82;
+                case ttjj:
+                  return 28200;
+                case tt :
+                  return 214.1 * 2 * 1000;
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;

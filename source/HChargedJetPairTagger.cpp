@@ -111,8 +111,10 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     Print(HInformation, "Get W Tags");
     HJets Jets = GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-    std::vector<HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
-    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
+//     std::vector<HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
+    //     std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
+    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
+    Print(HDebug, "Number of Hadronic Tops", Triplets.size());
 
     for (const auto & Jet : Jets) {
         HJets Pieces = WTagger.GetSubJets(Jet, 2);
@@ -142,19 +144,19 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
     std::vector<hanalysis::HTriplet> FinalTriplets;
     if (Tag == HSignal) for (const auto & Triplet : Triplets) if (Triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry.JetConeSize) FinalTriplets.push_back(Triplet);
-    else FinalTriplets = Triplets;
+            else FinalTriplets = Triplets;
 
 //     std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
 //     if (Tag == HSignal && Triplets.size() > 1) Triplets.erase(Triplets.begin() + 1, Triplets.end());
 //     if (Tag == HBackground && Triplets.size() > 0) Triplets.erase(Triplets.begin());
 
     HJets BottomParticles = Event.GetParticles()->Generator();
-    BottomParticles = RemoveIfWrongAbsFamily(BottomParticles,BottomId, GluonId);
+    BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, BottomId, GluonId);
     if (BottomParticles.size() != 1 && Tag == HSignal) Print(HError, "Where is the Bottom?", BottomParticles.size());
 
     HJets FinalJets;
     if (Tag == HSignal) for (const auto & Jet : Jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry.JetConeSize) FinalJets.push_back(Jet);
-    else FinalJets = Jets;
+            else FinalJets = Jets;
 
 //     std::sort(Jets.begin(), Jets.end(), MinDeltaR(BottomParticles.front()));
 //     if (Tag == HSignal && Triplets.size() > 1) Jets.erase(Jets.begin() + 1, Jets.end());
@@ -202,8 +204,10 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedJetPairTagger::GetBdt(con
     std::vector<HQuartet31>  Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Jets) {
+            if (Triplet.Singlet().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
+            if (Triplet.Doublet().Singlet1().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
+            if (Triplet.Doublet().Singlet2().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
             HQuartet31 Quartet(Triplet, Jet);
-//             if (std::abs(Quartet.DeltaRap()) < .5)continue;
             Branch = GetBranch(Quartet);
             Quartet.SetBdt(JetPairReader.Bdt());
             Quartets.push_back(Quartet);

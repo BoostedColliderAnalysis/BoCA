@@ -49,6 +49,16 @@ public:
       }
     }
 
+    void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
+      switch(Stage){
+        case HAnalysis::HTrainer :
+          TreeBranch = NewTreeWriter.NewBranch(GetTaggerName().c_str(), HBottomBranch::Class());
+        case HAnalysis::HReader :
+          TreeBranch = NewTreeWriter.NewBranch(ReaderName().c_str(), HBottomBranch::Class());
+      }
+    }
+
+
 //     ExRootTreeBranch *SetReaderBranch(ExRootTreeWriter &NewTreeWriter) {
 //         return NewTreeWriter.NewBranch(ReaderName().c_str(), HBottomBranch::Class());
 //     }

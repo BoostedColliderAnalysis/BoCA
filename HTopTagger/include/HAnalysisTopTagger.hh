@@ -71,8 +71,8 @@ private:
     enum HDecay {Leptonic, Hadronic, Semi};
 
     inline HDecay TopDecay() const {
-//       return Hadronic;
-      return Leptonic;
+      return Hadronic;
+//       return Leptonic;
     }
 
     // in GeV
@@ -81,8 +81,8 @@ private:
         //     return 400;
         //     return 600;
         //         return 1000;
-        //         return 2000;
-        return 3000;
+                return 2000;
+//         return 3000;
         //     return 4000;
         //         return 5000;
         //     return 6000;

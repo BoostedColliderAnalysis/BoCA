@@ -5,7 +5,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -Wsha
 # -g -rdynamic
 
 #C set build type to debug
-set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_BUILD_TYPE Debug)
 
 # Load some basic macros which are needed later on
 include(CMakeFiles/FindROOT.cmake)

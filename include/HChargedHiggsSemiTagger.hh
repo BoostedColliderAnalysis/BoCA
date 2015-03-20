@@ -56,7 +56,7 @@ private:
 
     void DefineVariables();
 
-    HTag GetTag(const hanalysis::HQuartet31 &Quartet);
+    HTag GetTag(const hanalysis::HQuartet31 &);
 
     HJetTag JetTag;
 

@@ -44,7 +44,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             Reader.SimpleMVALoop();
             break;
         }
-        case hanalysis::HAnalysis::HTopHadronicTagger: {
+        case hanalysis::HAnalysis::HTopHadronicReader: {
             Analysis.SetTrees(hanalysis::HAnalysis::HTopHadronicTagger, hanalysis::HObject::HBackground);
             hanalysis::HReader Reader(Analysis.TopHadronicTagger);
             Reader.SimpleMVALoop();
@@ -66,17 +66,17 @@ int main()
         RunTagger(hanalysis::HAnalysis::HBottomTagger);
         RunTagger(hanalysis::HAnalysis::HBottomReader);
 
-//         RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
-//         RunTagger(hanalysis::HAnalysis::HWHadronicReader);
-//         RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
-//         RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
+        RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
+        RunTagger(hanalysis::HAnalysis::HWHadronicReader);
+        RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
+        RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
 
 
-        RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-        RunTagger(hanalysis::HAnalysis::HTopSemiReader);
+//         RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+//         RunTagger(hanalysis::HAnalysis::HTopSemiReader);
 
-//         RunTagger(hanalysis::HAnalysis::HWSemiTagger);
-//         RunTagger(hanalysis::HAnalysis::HWSemiReader);
+        RunTagger(hanalysis::HAnalysis::HWSemiTagger);
+        RunTagger(hanalysis::HAnalysis::HWSemiReader);
     } catch (std::exception &e) {
         std::cout << "Standard exception: " << e.what() << std::endl;
     }

@@ -92,7 +92,6 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
-//     JetTag.HeavyParticles = {BottomId};
     HJets Jets = GetJets(Event);
     Print(HInformation, "Number Jets", Jets.size());
 
@@ -130,7 +129,7 @@ HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Parti
             Print(HError, "Get Sub Jets", "No Jet Info");
             continue;
         }
-        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, 0.4));
+        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), DetectorGeometry.JetDefinition);
         HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
         ClusterSequence->delete_self_when_unused();
 
@@ -230,8 +229,7 @@ HJets hanalysis::HBottomTagger::GetSubBdt(const HJets &Jets, const HReader &Bott
             Print(HError, "Get Sub Bdt", "No Jet Info");
             continue;
         }
-        fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
-        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), JetDefinition);
+        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), DetectorGeometry.JetDefinition);
         HJets SubPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
         ClusterSequence->delete_self_when_unused();
 

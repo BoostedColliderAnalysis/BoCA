@@ -206,39 +206,6 @@ struct SmallDistance {
     float Distance;
 };
 
-
-// struct HReaderStruct {
-//
-//     int HiggsSum;
-//
-//     int TopSum;
-//
-//     int FatJetSum;
-//
-//     int TopEventSum;
-//
-//     int HiggsEventSum;
-//
-//     std::vector<int> EventVector;
-//
-//     std::vector<int> HiggsEventVector;
-//
-//     std::vector<int> TopEventVector;
-//
-//     std::vector<int> CutFlowVector;
-//
-//     std::vector<int> FatJetVector;
-//
-//     std::vector<int> HiggsVector;
-//
-//     std::vector<int> TopVector;
-//
-//     std::vector<double> CutsMin;
-//
-//     std::vector<double> CutsMax;
-//
-// };
-
 class HDetectorGeometry
 {
 public:
@@ -252,12 +219,14 @@ public:
             MinCellResolution = .1;
             MinCellPt = .5;
             TrackerEtaMax = 2.5;
+            JetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, 1);
         case Spp:
             JetMinPt = 40;
             JetConeSize = 0.5;
             MinCellResolution = .1;
             MinCellPt = .5;
             TrackerEtaMax = 5;
+            JetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, 1);
         }
     }
     float JetMinPt;
@@ -265,6 +234,8 @@ public:
     float MinCellPt;
     float MinCellResolution;
     float TrackerEtaMax;
+    float JetRadiusParameter;
+    fastjet::JetDefinition JetDefinition;
 };
 
 class HObservable //: public hanalysis::HObject
