@@ -96,7 +96,7 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
     Print(HInformation, "Number Jets", Jets.size());
 
     HJets Particles = Event.GetParticles()->Generator();
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId,TopId)), Particles.end());
     Print(HInformation, "Particle size", Particles.size());
 
     std::vector<HBottomBranch> BottomBranches;
@@ -195,10 +195,6 @@ Print(HDebug,"Jet Tag",Jet.user_info<HJetInfo>().Tag());
 hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &Jet) const
 {
 
-    Print(HDebug, "Get Bottom Tag", Jet.rap(), Jet.user_info<HJetInfo>().MaximalId());
-    if (std::abs(Jet.user_info<HJetInfo>().MaximalId()) != BottomId) {
-        return HBackground;
-    }
     return HSignal;
 }
 

@@ -33,13 +33,19 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
     std::vector<hanalysis::HFile> BackgroundSemiFiles;
 
 //     SignalSemiFiles.push_back(hanalysis::HFile(FileName(bb), SignalCrosssection()));
-    SignalSemiFiles.push_back(hanalysis::HFile(FileName(Hbb), SignalCrosssection()));
-    SignalSemiFiles.push_back(hanalysis::HFile(FileName(ttbb), SignalCrosssection()));
+//     SignalSemiFiles.push_back(hanalysis::HFile(FileName(Hbb), SignalCrosssection()));
+//     SignalSemiFiles.push_back(hanalysis::HFile(FileName(ttbb), SignalCrosssection()));
+    SignalSemiFiles.push_back(hanalysis::HFile(FileName(tt), SignalCrosssection()));
 
-//     BackgroundSemiFiles.push_back(BackgroundFile(cc));
-    //     BackgroundSemiFiles.push_back(BackgroundFile(jj));
-        BackgroundSemiFiles.push_back(BackgroundFile(ttcc));
-        BackgroundSemiFiles.push_back(BackgroundFile(ttjj));
+//     SignalSemiFiles.push_back(BackgroundFile(bb));
+    BackgroundSemiFiles.push_back(BackgroundFile(bb));
+    BackgroundSemiFiles.push_back(BackgroundFile(cc));
+//     BackgroundSemiFiles.push_back(BackgroundFile(jj));
+//     BackgroundSemiFiles.push_back(BackgroundFile(tt));
+//         BackgroundSemiFiles.push_back(BackgroundFile(ttcc));
+//         BackgroundSemiFiles.push_back(BackgroundFile(ttjj));
+    BackgroundSemiFiles.push_back(BackgroundFile(qq));
+    BackgroundSemiFiles.push_back(BackgroundFile(gg));
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 
@@ -66,16 +72,18 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
         case HObject::HBackground :
             NewFiles = BackgroundSemiFiles;
             break;
-        } break;
+        }
+        break;
     case  HBottomReader :
         switch (Tag) {
         case HObject::HSignal :
-          NewFiles = SignalSemiFiles;
+            NewFiles = SignalSemiFiles;
             break;
         case HObject::HBackground :
-          NewFiles = BackgroundSemiFiles;
+            NewFiles = BackgroundSemiFiles;
             break;
-        } break;
+        }
+        break;
     default:
         Print(HError, "Files", "unknown tagger name", Tagger);
     }
@@ -96,17 +104,21 @@ void hbtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, c
     HStrings BackgroundLeptonicTrees {};
 
     HStrings SignalSemiTrees {
-//       TreeName(bb)
-      TreeName(Hbb),
-      TreeName(ttbb),
-
+//         TreeName(bb)
+//         TreeName(Hbb),
+//         TreeName(ttbb),
+        TreeName(tt),
     };
 
     HStrings BackgroundSemiTrees {
-//         TreeName(cc),
-//         TreeName(jj)
-      TreeName(ttcc),
-      TreeName(ttjj),
+        TreeName(bb),
+        TreeName(cc),
+//         TreeName(jj),
+//         TreeName(tt),
+        TreeName(qq),
+        TreeName(gg)
+//         TreeName(ttcc),
+//         TreeName(ttjj),
     };
 
     HStrings SignalHadronicTree {};
@@ -189,7 +201,10 @@ bool hbtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag Tag)
     Print(HDebug, "Get Bottom Tag", Tag);
     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
     if (Bottoms.size() < 1) return 0;
-    for (const auto & Bottom : Bottoms) *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
+    for (const auto & Bottom : Bottoms) {
+        *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
+        ++ObjectNumber;
+    }
     return 1;
 }
 
@@ -200,18 +215,23 @@ bool hbtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTag T
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
     if (Jets.size() < 1) return 0;
 
-    HJets Particles = Event.GetParticles()->Generator();
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+//     HJets Particles = Event.GetParticles()->Generator();
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+//
+//     for (const auto & Particle : Particles) {
+//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+//         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+//     }
 
-    for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
-    }
+    Jets.erase(std::remove_if(Jets.begin(), Jets.end(), TooSmallPt(PreCut() / 2 * 3)), Jets.end());
+    std::sort(Jets.begin(), Jets.end(), SortByBdt());
 
     for (const auto & Jet : Jets) {
-        if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
-        if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax && ProductionChannel() == DYP ) continue;
+//         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
+//         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax && ProductionChannel() == DYP) continue;
         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
+        ++ObjectNumber;
+        break;
     }
     return 1;
 }

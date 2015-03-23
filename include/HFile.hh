@@ -172,7 +172,14 @@ protected:
 private:
 
     TFile *File = NULL;
+
     TChain * Chain = NULL;
+
+//     hdelphes::HEvent DelphesEvent;
+//
+//     hparton::HEvent PartonEvent;
+//
+//     hpgs::HEvent PgsEvent;
 };
 
 # endif

@@ -44,7 +44,7 @@ public:
     std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string ProjectName() const {
-        return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector());
+        return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector()) + "_" + std::to_string(PreCut()) + "GeV";
     }
 
 protected:
@@ -59,16 +59,16 @@ protected:
 
 private:
 
-    enum ProcessType {bb, cc, jj, ttjj, ttbb, ttcc, Hbb};
-    enum HProductionChannel {DYP, VBF,Associated};
+    enum ProcessType {bb, cc, jj, ttjj, ttbb, ttcc, Hbb, tt, qq, gg};
+    enum HProductionChannel {DYP, VBF, Associated};
     enum HDetectorType {LHC, FHC, LE};
 
     inline int EventNumberMax() const {
         //         return 1000000;
-        return 100000;
+//         return 100000;
 //                 return 10000;
 //         return 1000;
-//                 return 100;
+        return 100;
     };
 
     inline HDetectorType Detector() const {
@@ -78,9 +78,13 @@ private:
     }
 
     inline HProductionChannel ProductionChannel() const {
-//         return DY;
-      //         return VBF;
-      return Associated;
+        return DYP;
+        //         return VBF;
+//         return Associated;
+    }
+
+    inline int PreCut() const {
+        return 1000;
     }
 
     inline std::string DetectorName(const HDetectorType DetectorType) const {
@@ -92,21 +96,21 @@ private:
         case LE :
             return "LE";
         default:
-          return "";
+            return "";
         }
     }
 
 
     inline std::string ProductionChannelName(const HProductionChannel PC) const {
-      switch (PC) {
+        switch (PC) {
         case Associated :
-          return "llbb_";
+            return "llbb_";
         case DYP :
             return "pp_z_";
         case VBF :
-          return "VBF_";
+            return "VBF_";
         default:
-          return "";
+            return "";
         }
     }
 
@@ -121,14 +125,14 @@ private:
 
 
     inline std::string FileName(const ProcessType Process) const {
-        return ProductionChannelName(ProductionChannel()) + ProcessName(Process) + "_" + DetectorName(Detector());
+        return ProductionChannelName(ProductionChannel()) + ProcessName(Process) + "_" + DetectorName(Detector()) + "_" + std::to_string(PreCut()) + "GeV";
     }
 
     inline hanalysis::HFile BackgroundFile(const ProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 
-    hanalysis::HFile BackgroundFile(const ProcessType Background, const int ) const {
+    hanalysis::HFile BackgroundFile(const ProcessType Background, const int) const {
         HStrings FileNames;
         FileNames.push_back(FileName(Background));
         return hanalysis::HFile(FileNames , BackgroundCrosssection(Background));
@@ -138,7 +142,7 @@ private:
         return FileName(Process) + "-run_01";
     }
 
-    float BackgroundCrosssection(const ProcessType ) const {
+    float BackgroundCrosssection(const ProcessType) const {
         return 1;
     }
 
@@ -158,8 +162,14 @@ private:
             return "ttcc";
         case ttjj:
             return "ttjj";
+        case tt:
+            return "tt";
+        case qq:
+            return "qq";
+        case gg:
+            return "gg";
         default :
-          return "";
+            return "";
         }
     }
 

@@ -76,28 +76,8 @@ std::string hanalysis::HAnalysis::ExportName(const HTagger Tagger, const HTag St
 ExRootTreeWriter hanalysis::HAnalysis::TreeWriter(const TFile &NewExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger)
 {
     Print(HNotification, "Get Tree Writer", ExportTreeName.c_str());
-    ExRootTreeWriter TreeWriterM(const_cast<TFile *>(&NewExportFile), ExportTreeName.c_str());
-    NewBranches(TreeWriterM, Tagger);
-    return TreeWriterM;
+    ExRootTreeWriter tree_writer_(&const_cast<TFile &>(NewExportFile), ExportTreeName.c_str());
+    NewBranches(tree_writer_, Tagger);
+    return tree_writer_;
 }
-
-// HStrings hanalysis::HAnalysis::JoinHStrings(const HStrings &Strings1, const HStrings &Strings2)
-// {
-//     HStrings Combined;
-//     Combined.reserve(Strings1.size() + Strings2.size());
-//     Combined.insert(Combined.end(), Strings1.begin(), Strings1.end());
-//     Combined.insert(Combined.end(), Strings2.begin(), Strings2.end());
-//     return Combined;
-// }
-//
-// std::vector<hanalysis::HFile>  hanalysis::HAnalysis::JoinFiles(const std::vector< hanalysis::HFile> &Files1, const std::vector< hanalysis::HFile> &Files2)
-// {
-//     std::vector<hanalysis::HFile>  Combined;
-//     Combined.reserve(Files1.size() + Files2.size());
-//     Combined.insert(Combined.end(), Files1.begin(), Files1.end());
-//     Combined.insert(Combined.end(), Files2.begin(), Files2.end());
-//     return Combined;
-// }
-
-
 

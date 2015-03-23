@@ -27,8 +27,8 @@ void hanalysis::HReader::AddVariable()
     Print(HNotification, "Add Variable");
     const std::string DefaultOptions = "!Color:Silent";
     //     Reader = TMVA::Reader(DefaultOptions);
-    for (auto & Observable : Mva->GetObservables())Reader.AddVariable(Observable.Expression, Observable.GetValue());
-    for (auto & Spectator : Mva->GetSpectators()) Reader.AddSpectator(Spectator.Expression, Spectator.GetValue());
+    for (auto & Observable : Mva->GetObservables())reader_.AddVariable(Observable.Expression, Observable.GetValue());
+    for (auto & Spectator : Mva->GetSpectators()) reader_.AddSpectator(Spectator.Expression, Spectator.GetValue());
 }
 
 void hanalysis::HReader::BookMva()
@@ -38,9 +38,9 @@ void hanalysis::HReader::BookMva()
     //     const std::string CutWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetCutMethodName() + XmlName;
     //     Print(HError, "Opening Weight File", CutWeightFile);
     //     Reader.BookMVA(Mva->GetCutMethodName(), CutWeightFile);
-    const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->GetBdtMethodName() + XmlName;
+    const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->BdtMethodName() + XmlName;
     Print(HNotification, "Opening Weight File", BdtWeightFile);
-    Reader.BookMVA(Mva->GetBdtMethodName(), BdtWeightFile);
+    reader_.BookMVA(Mva->BdtMethodName(), BdtWeightFile);
 }
 
 void hanalysis::HReader::SimpleMVALoop()

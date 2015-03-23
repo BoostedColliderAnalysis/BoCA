@@ -36,19 +36,6 @@ public:
     HJets GetCandidates(hanalysis::HJetTag &JetTag);
 
 
-
-//     HJet Hadrons() const {
-//       return *Jets;
-//     }
-//
-//     HLepton Leptons() const {
-//       return *Lepton;
-//     }
-//
-//     HParticle Partons() const {
-//       return *Particles;
-//     }
-
 protected:
 
     inline std::string NameSpaceName() const {

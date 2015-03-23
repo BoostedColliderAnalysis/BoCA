@@ -51,7 +51,8 @@ public:
     std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string ProjectName() const {
-        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV-" + std::to_string(Mass()) + "GeV-" + ProcessName(tt);
+//         return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV-" + std::to_string(Mass()) + "GeV-" + ProcessName(tt);
+        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV-" + ProcessName(tt);
     }
 
 protected:
@@ -66,48 +67,50 @@ protected:
 
 private:
 
-    enum ProcessType {Hbb, ttbb, ttcc, ttjj, bbjj, tt, bb, cc, qq, gg};
+    enum ProcessType {Hbb, ttbb, ttcc, ttjj, bbjj, tt, bb, cc, qq, gg, wg, wq, wc, wb, wu, wcb, wbu, ttlep};
     enum HColliderType {LHC, FHC, LE};
     enum HDecay {Leptonic, Hadronic, Semi};
 
     inline HDecay TopDecay() const {
-      return Hadronic;
-//       return Leptonic;
+//       return Hadronic;
+      return Leptonic;
+//         return Semi;
     }
 
     // in GeV
-    inline int Mass() const {
-        //     return 0;
-        //     return 400;
-        //     return 600;
-        //         return 1000;
-                return 2000;
-//         return 3000;
-        //     return 4000;
-        //         return 5000;
-        //     return 6000;
-        //     return 7000;
-        //     return 8000;
-        //     return 9000;
-        //         return 10000;
-    }
+//     inline int Mass() const {
+//         //     return 0;
+//         //     return 400;
+//         //     return 600;
+//         //         return 1000;
+//                 return 2000;
+// //         return 3000;
+//         //     return 4000;
+//         //         return 5000;
+//         //     return 6000;
+//         //     return 7000;
+//         //     return 8000;
+//         //     return 9000;
+//         //         return 10000;
+//     }
 
     // in GeV
     inline int PreCut() const {
 //             return 0;
+        return 1;
         //     return 30;
         //     return 80;
 //                 return 150;
 //         return 300;
-        return 1;
+//         return 1000;
     }
 
     inline int EventNumberMax() const {
         //         return 1000000;
         //         return 100000;
 //         return 10000;
-        return 1000;
-//         return 100;
+//         return 1000;
+        return 100;
     };
 
     inline HColliderType ColliderType() const {
@@ -194,6 +197,7 @@ private:
 
     hanalysis::HFile BackgroundFile(const ProcessType Background, const int FileSum) const {
 //         std::string FileName = ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV";
+//         std::string FileName = ProcessName(Background) + "_" + std::to_string(PreCut()) + "TeV";
         std::string FileName = ProcessName(Background) + "_" + std::to_string(PreCut()) + "TeV";
         HStrings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
@@ -205,7 +209,8 @@ private:
 
     std::string BackgroundTree(const ProcessType Process) const {
 //         return ProcessName(Process) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV-run_01";
-        return ProcessName(Process) + "_" + std::to_string(PreCut()) + "TeV-run_01";
+//         return ProcessName(Process) + "_" + std::to_string(PreCut()) + "TeV-run_01";
+      return ProcessName(Process)+ "_" + std::to_string(PreCut()) + "TeV" + "-run_01";
     }
 
     float BackgroundCrosssection(const ProcessType Proccess) const {
@@ -348,14 +353,17 @@ private:
         case bbjj:
             return "bbjj";
         case tt:
-          switch (TopDecay()) {
+            switch (TopDecay()) {
             case Hadronic :
-                return "tt_hadronic";
+                return "tt_hadronic_1TeV";
             case  Leptonic :
+//                 return "tt_leptonic_1TeV";
                 return "tt_leptonic";
             case Semi :
-                return "tt";
+                return "tt_semi_nopre";
             }
+        case ttlep:
+            return "tt_leptonic_1TeV";
         case bb:
             return "bb";
         case cc:
@@ -364,6 +372,20 @@ private:
             return "qq";
         case gg:
             return "gg";
+        case wg:
+            return "wgg";
+        case wq:
+            return "wq";
+        case wc:
+            return "wc";
+        case wcb:
+            return "wc_b_pre";
+        case wb:
+            return "wb_u_pre";
+        case wu:
+            return "wu_b_pre";
+        case wbu:
+            return "wbu_nopre";
         default:
             Print(HError, "unhandled case");
             return "";

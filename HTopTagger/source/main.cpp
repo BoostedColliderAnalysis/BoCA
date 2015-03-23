@@ -66,17 +66,17 @@ int main()
         RunTagger(hanalysis::HAnalysis::HBottomTagger);
         RunTagger(hanalysis::HAnalysis::HBottomReader);
 
-        RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
-        RunTagger(hanalysis::HAnalysis::HWHadronicReader);
-        RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
-        RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
+//         RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
+//         RunTagger(hanalysis::HAnalysis::HWHadronicReader);
+//         RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
+//         RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
 
 
-//         RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-//         RunTagger(hanalysis::HAnalysis::HTopSemiReader);
 
-        RunTagger(hanalysis::HAnalysis::HWSemiTagger);
-        RunTagger(hanalysis::HAnalysis::HWSemiReader);
+//         RunTagger(hanalysis::HAnalysis::HWSemiTagger);
+//         RunTagger(hanalysis::HAnalysis::HWSemiReader);
+        RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+        RunTagger(hanalysis::HAnalysis::HTopSemiReader);
     } catch (std::exception &e) {
         std::cout << "Standard exception: " << e.what() << std::endl;
     }

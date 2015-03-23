@@ -84,11 +84,12 @@ std::vector<hanalysis::HFile> htoptagger::HAnalysis::Files(const hanalysis::HAna
     std::vector<hanalysis::HFile> SignalSemiFiles;
     std::vector<hanalysis::HFile> BackgroundSemiFiles;
 
-    std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
+//     std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
 //   SignalSemiFiles.push_back(hanalysis::HFile(SignalName, SignalCrosssection(), Mass()));
     //     SignalSemiFiles.push_back(BackgroundFile(ttbb));
 //     SignalSemiFiles.push_back(BackgroundFile(ttjj));
     SignalSemiFiles.push_back(BackgroundFile(tt));
+//     SignalSemiFiles.push_back(BackgroundFile(ttlep));
 
 //   BackgroundSemiFiles.push_back(BackgroundFile(ttbb));
 //   BackgroundSemiFiles.push_back(BackgroundFile(ttcc));
@@ -98,6 +99,13 @@ std::vector<hanalysis::HFile> htoptagger::HAnalysis::Files(const hanalysis::HAna
     BackgroundSemiFiles.push_back(BackgroundFile(cc));
     BackgroundSemiFiles.push_back(BackgroundFile(qq));
     BackgroundSemiFiles.push_back(BackgroundFile(gg));
+//     BackgroundSemiFiles.push_back(BackgroundFile(wb));
+//     BackgroundSemiFiles.push_back(BackgroundFile(wc));
+//     BackgroundSemiFiles.push_back(BackgroundFile(wq));
+//     BackgroundSemiFiles.push_back(BackgroundFile(wg));
+//     BackgroundSemiFiles.push_back(BackgroundFile(wu));
+//     BackgroundSemiFiles.push_back(BackgroundFile(wcb));
+//     BackgroundSemiFiles.push_back(BackgroundFile(wbu));
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 
@@ -173,12 +181,13 @@ void htoptagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger,
     HStrings SignalLeptonicTrees {};
     HStrings BackgroundLeptonicTrees {};
 
-    std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
+//     std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
     HStrings SignalSemiTrees {
 //     SignalTree
 //         BackgroundTree(ttjj)
-        BackgroundTree(tt)
+        BackgroundTree(tt),
+//         BackgroundTree(ttlep)
     };
 
     HStrings BackgroundSemiTrees {
@@ -190,6 +199,13 @@ void htoptagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger,
         BackgroundTree(cc),
         BackgroundTree(qq),
         BackgroundTree(gg)
+//         BackgroundTree(wb),
+//         BackgroundTree(wc),
+//         BackgroundTree(wq),
+//         BackgroundTree(wg),
+//         BackgroundTree(wcb),
+//         BackgroundTree(wu),
+//         BackgroundTree(wbu),
     };
 
     HStrings SignalHadronicTree {};
@@ -398,11 +414,11 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::
     case HWSemiTagger :
 //         if (TopDecay() == Leptonic || TopDecay() == Semi) return GetWSemiTag(Event, Tag);
 //         else
-      return 0;
+        return 0;
     case HWSemiReader :
 //         if (TopDecay() == Leptonic || TopDecay() == Semi) return GetWSemiReader(Event, Tag);
 //         else
-      return 0;
+        return 0;
     case HTopHadronicTagger :
         if (TopDecay() == Hadronic || TopDecay() == Semi) return GetTopHadronicTag(Event, Tag);
         else return 0;
@@ -439,6 +455,7 @@ bool htoptagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTag
     Print(HDebug, "Get Bottom Reader", Tag);
     HJets Jets = BottomTagger.GetJets(Event);
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    if (Jets.size() < 1) return 0;
 
     //     Jets = static_cast<hanalysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(Jets);
 
@@ -454,6 +471,7 @@ bool htoptagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTag
         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) continue;
         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
+        ++ObjectNumber;
     }
     return 1;
 }
@@ -536,6 +554,7 @@ bool htoptagger::HAnalysis::GetWReader(hanalysis::HEvent &Event, const HTag Tag)
 
     for (const auto & Doublet : Doublets) {
         *static_cast<HWBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(Doublet);
+        ++ObjectNumber;
     }
     return 1;
 }
@@ -548,6 +567,7 @@ bool htoptagger::HAnalysis::GetTopHadronicTag(hanalysis::HEvent &Event,  HTag Ta
     for (const auto & Top : Tops) {
 //         ++ObjectNumber;
         *static_cast<HTopHadronicBranch *>(Branch->NewEntry()) = Top;
+        ++ObjectNumber;
     }
     return 1;
 }
@@ -589,6 +609,7 @@ bool htoptagger::HAnalysis::GetTopHadronicReader(hanalysis::HEvent &Event, const
 
     for (const auto & Triplet : Triplets) {
         *static_cast<HTopHadronicBranch *>(Branch->NewEntry()) = TopHadronicTagger.GetBranch(Triplet);
+        ++ObjectNumber;
     }
     return 1;
 }
@@ -603,6 +624,7 @@ bool htoptagger::HAnalysis::GetTopSemiTag(hanalysis::HEvent &Event,  HTag Tag)
     for (const auto & Top : Tops) {
         ++ObjectNumber;
         *static_cast<HTopLeptonBranch *>(Branch->NewEntry()) = Top;
+        ++ObjectNumber;
     }
     return 1;
 }
@@ -627,6 +649,7 @@ bool htoptagger::HAnalysis::GetTopSemiReader(hanalysis::HEvent &Event, const HTa
     for (const auto & Triplet : Doublets) {
         //         ++ObjectNumber;
         *static_cast<HTopLeptonBranch *>(Branch->NewEntry()) = TopLeptonTagger.GetBranch(Triplet);
+        ++ObjectNumber;
     }
     return 1;
 }

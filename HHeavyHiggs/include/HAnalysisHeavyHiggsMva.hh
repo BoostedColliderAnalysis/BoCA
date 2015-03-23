@@ -72,14 +72,14 @@ public:
         //     return 600;
 //                 return 1000;
 //             return 2000;
-//             return 3000;
+            return 3000;
 //                 return 4000;
 //                 return 5000;
-                return 6000;
+//                 return 6000;
         //             return 7000;
 //         return 8000;
         //     return 9000;
-        //         return 10000;
+//                 return 10000;
     }
 
     // in GeV
@@ -87,10 +87,12 @@ public:
         //     return 30;
         //     return 80;
         //     return 150;
+//             return 250;
 //             return 300;
-//             return 1000;
+            return 1000;
 //             return 1500;
-        return 2000;
+//         return 2000;
+//         return 2500;
     }
 
     inline int EventNumberMax() const {
@@ -102,7 +104,7 @@ public:
     };
 
     inline HColliderType ColliderType() const {
-        //       return LHC;
+//               return LHC;
         //       return FHC;
         return LE;
     }
@@ -115,7 +117,7 @@ public:
         //         return 5;
 //             return 8;
         //       return 10;
-        return 21;
+        return 32;
     }
 
 protected:
@@ -213,12 +215,12 @@ private:
         return ProcessName(Process) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV_0-run_01";
     }
 
-    float BackgroundCrosssection(const ProcessType Proccess) const {
+    float BackgroundCrosssection(const ProcessType Process) const {
         switch (ColliderType()) {
         case LHC :
             switch (PreCut()) {
             case 30 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 298.2;
                 case ttcc:
@@ -230,7 +232,7 @@ private:
                     return 1;
                 };
             case 80 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 89.32;
                 case ttcc:
@@ -241,11 +243,19 @@ private:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
+                case 250 :
+                  switch (Process) {
+                    case tt :
+                      return 5.698 * 2 * 1000;
+                    default :
+                      Print(HError,"Background Crosssection", "unhandled case");
+                      return 1;
+                  }
             }
         case FHC:
             switch (PreCut()) {
             case 30 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 2990;
                 case ttcc:
@@ -257,7 +267,7 @@ private:
                     return 1;
                 }
             case 80 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 1171.6;
                 case ttcc:
@@ -269,7 +279,7 @@ private:
                     return 1;
                 }
             case 150 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 605.199003171 * 2;
                 case ttcc:
@@ -281,7 +291,7 @@ private:
                     return 1;
                 }
             case 300 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 242;
                 case ttcc:
@@ -296,7 +306,7 @@ private:
         case LE:
             switch (PreCut()) {
             case 150 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 688;
                 case ttcc:
@@ -308,7 +318,7 @@ private:
                     return 1;
                 }
             case 300 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 263;
                 case ttcc:
@@ -322,7 +332,7 @@ private:
                     return 1;
                 }
             case 1000 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 1.532 * 2 * 1000;
                 default:
@@ -330,7 +340,7 @@ private:
                     return 1;
                 }
             case 1500 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 0.2447 * 2 * 1000;
                 default:
@@ -338,7 +348,7 @@ private:
                     return 1;
                 }
             case 2000 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 0.09014 * 2 * 1000;
                 default:
@@ -346,7 +356,7 @@ private:
                     return 1;
                 }
             case 2500 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 0.03038 * 2 * 1000;
                 default:

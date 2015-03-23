@@ -44,6 +44,8 @@ struct MinDeltaR {
     fastjet::PseudoJet Particle;
 };
 
+
+
 struct MaxDeltaRap {
     template <typename TMultiplet>
     inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
@@ -51,6 +53,17 @@ struct MaxDeltaRap {
     }
 };
 
+
+
+struct TooSmallPt {
+  TooSmallPt(const int pt) {
+    pt_ = pt;
+  }
+  bool operator()(const fastjet::PseudoJet &jet) {
+    return (jet.pt() < pt_);
+  }
+  int pt_;
+};
 
 struct WrongId {
     WrongId(const int NewId) {
@@ -74,6 +87,20 @@ struct WrongAbsId {
         return (std::abs(Family.ParticleId) != Id);
     }
     int Id;
+};
+
+struct WrongAbsPairId {
+  WrongAbsPairId(const int NewId, const int NewId2) {
+    Id = NewId;
+    Id2 = NewId2;
+  }
+  bool operator()(const fastjet::PseudoJet &Jet) {
+    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
+    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
+    return (std::abs(Family.ParticleId) != Id && std::abs(Family.ParticleId) != Id2);
+  }
+  int Id;
+  int Id2;
 };
 
 struct WrongAbsFamily {
@@ -459,8 +486,8 @@ public:
         return CutMethodName;
     }
 
-    std::string GetBdtMethodName()const {
-        return BdtMethodName;
+    std::string BdtMethodName()const {
+        return bdt_method_name;
     }
 
     std::string GetWeightBranchName()const {
@@ -488,6 +515,8 @@ public:
     HJets GetJets(hanalysis::HEvent &Event);
 
     HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
+
+    fastjet::PseudoJet GetMissingEt(hanalysis::HEvent &Event);
 
     virtual float ReadBdt(const TClonesArray &, const int) {
         Print(HError, "Read Bdt", "should be subclassed");
@@ -655,7 +684,7 @@ protected:
 
     std::string CutMethodName;
 
-    std::string BdtMethodName;
+    std::string bdt_method_name;
 
     std::string EventBranchName;
 

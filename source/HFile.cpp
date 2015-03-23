@@ -2,9 +2,9 @@
 
 hanalysis::HFile::HFile()
 {
-  Print(HInformation, "Constructor");
-  SetVariables();
-  MassM = 0;
+    Print(HInformation, "Constructor");
+    SetVariables();
+    MassM = 0;
 }
 
 hanalysis::HFile::HFile(const std::string &NewProcess)
@@ -17,46 +17,46 @@ hanalysis::HFile::HFile(const std::string &NewProcess)
 
 hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssection)
 {
-  Print(HInformation, "Constructor");
-  SetVariables();
-  ProcessFolders.push_back(NewProcess);
-  CrosssectionM = NewCrosssection;
-  MassM = 0;
+    Print(HInformation, "Constructor");
+    SetVariables();
+    ProcessFolders.push_back(NewProcess);
+    CrosssectionM = NewCrosssection;
+    MassM = 0;
 }
 
 hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssection, const float NewMass)
 {
-  Print(HInformation, "Constructor");
-  SetVariables();
-  ProcessFolders.push_back(NewProcess);
-  CrosssectionM = NewCrosssection;
-  MassM = NewMass;
+    Print(HInformation, "Constructor");
+    SetVariables();
+    ProcessFolders.push_back(NewProcess);
+    CrosssectionM = NewCrosssection;
+    MassM = NewMass;
 }
 
 hanalysis::HFile::HFile(const HStrings &NewProcesses)
 {
-  Print(HInformation, "Constructor");
-  SetVariables();
-  ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
-  MassM = 0;
+    Print(HInformation, "Constructor");
+    SetVariables();
+    ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
+    MassM = 0;
 }
 
 hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection)
 {
-  Print(HInformation, "Constructor");
-  SetVariables();
-  ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
-  CrosssectionM = NewCrosssection;
-  MassM = 0;
+    Print(HInformation, "Constructor");
+    SetVariables();
+    ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
+    CrosssectionM = NewCrosssection;
+    MassM = 0;
 }
 
 hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection, const float NewMass)
 {
-  Print(HInformation, "Constructor");
-  SetVariables();
-  ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
-  CrosssectionM = NewCrosssection;
-  MassM = NewMass;
+    Print(HInformation, "Constructor");
+    SetVariables();
+    ProcessFolders.insert(ProcessFolders.end(), NewProcesses.begin(), NewProcesses.end());
+    CrosssectionM = NewCrosssection;
+    MassM = NewMass;
 }
 
 hanalysis::HFile::HFile(const std::string &NewProcess, const std::string &Run)
@@ -112,7 +112,7 @@ HStrings hanalysis::HFile::Paths() const
     Print(HInformation, "FilePath");
 
     HStrings FilePaths;
-    for(const auto& ProcessFolder : ProcessFolders)FilePaths.push_back(BasePath + ProcessFolders.front() + FileSuffix);
+    for (const auto & ProcessFolder : ProcessFolders)FilePaths.push_back(BasePath + ProcessFolders.front() + FileSuffix);
 
     return FilePaths;
 
@@ -133,7 +133,7 @@ std::shared_ptr<ExRootTreeReader> hanalysis::HFile::TreeReader()
 
 //     TChain Chain(GetTreeName().c_str());
     Chain = new TChain(TreeName().c_str());
-    for(const auto& FilePath : Paths()) Chain->Add(FilePath.c_str());
+    for (const auto & FilePath : Paths()) Chain->Add(FilePath.c_str());
     return std::shared_ptr<ExRootTreeReader>(new ExRootTreeReader(Chain));
 }
 
@@ -143,16 +143,16 @@ std::shared_ptr<hanalysis::HClonesArray> hanalysis::HFile::ClonesArrays()
     Print(HNotification, "Get Clones Arrays");
     if (TreeName() == "Delphes") {
         if (SnowMass) {
-          return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArraySnowmass());
+            return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArraySnowmass());
         } else {
-          return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArray());
+            return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArray());
         }
     } else if (TreeName() == "LHEF") {
-      return std::shared_ptr<HClonesArray>(new hparton::HClonesArray());
+        return std::shared_ptr<HClonesArray>(new hparton::HClonesArray());
     } else if (TreeName() == "LHCO") {
-      return std::shared_ptr<HClonesArray>(new hpgs::HClonesArray());
+        return std::shared_ptr<HClonesArray>(new hpgs::HClonesArray());
     } else {
-      Print(HError, "unknown Tree String", TreeName());
+        Print(HError, "unknown Tree String", TreeName());
 //       return std::shared_ptr<HClonesArray>(new HClonesArray());
     }
 }
@@ -163,17 +163,27 @@ std::shared_ptr<hanalysis::HEvent> hanalysis::HFile::Event()
 //     HEvent *Event;
     if (TreeName() == "Delphes") {
 //       Event = new hdelphes::HEvent();
-      return std::shared_ptr<HEvent>(new hdelphes::HEvent());
+        return std::shared_ptr<HEvent>(new hdelphes::HEvent());
     } else if (TreeName() == "LHEF") {
 //       Event = new hparton::HEvent();
-      return std::shared_ptr<HEvent>(new hparton::HEvent());
+        return std::shared_ptr<HEvent>(new hparton::HEvent());
     } else if (TreeName() == "LHCO") {
 //       Event = new hpgs::HEvent();
-      return std::shared_ptr<HEvent>(new hpgs::HEvent());
+        return std::shared_ptr<HEvent>(new hpgs::HEvent());
     } else {
         Print(HError, "unknown Tree String", TreeName());
     }
 }
+
+// hanalysis::HEvent &hanalysis::HFile::Event()
+// {
+//   Print(HNotification, "Get Event");
+//   if (TreeName() == "Delphes") return DelphesEvent;
+//   else if (TreeName() == "LHEF") return PartonEvent;
+//   else if (TreeName() == "LHCO") return PgsEvent;
+//   else Print(HError, "unknown Tree String", TreeName());
+//
+// }
 
 hanalysis::HFile::~HFile()
 {

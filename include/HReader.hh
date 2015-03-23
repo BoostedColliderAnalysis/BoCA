@@ -24,7 +24,7 @@ class HMvaResult : hanalysis::HObject
 public:
 
     HMvaResult()  {
-        Steps = 2000;
+        Steps = 20000;
         Events.resize(Steps, 0);
         Efficiency.resize(Steps, 0);
         AnalysisEventNumber.resize(Steps, 0);
@@ -57,7 +57,7 @@ class hanalysis::HReader : public HObject
 public:
 
     /**
-     * @brief Constructor
+     * @brief Default constructor
      *
      */
     HReader();
@@ -76,20 +76,32 @@ public:
 
     void SimpleMVALoop();
 
+//     float Bdt() const {
+//         Print(HInformation, "Bdt");
+//         const float bdt = const_cast<TMVA::Reader *>(&reader_)->EvaluateMVA(Mva->BdtMethodName());
+//         return (bdt + 1.);
+//     }
+
     float Bdt() const {
-        Print(HInformation, "Get Bdt");
-        const float NewBdt = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(Mva->GetBdtMethodName());
-        return (NewBdt + 1.);
+        Print(HInformation, "Bdt");
+        const float bdt = const_cast<TMVA::Reader &>(reader_).EvaluateMVA(Tagger().BdtMethodName());
+        return bdt + 1;
     }
+
 
 private:
 
+
+//     TMVA::Reader Reader() const {
+//         return reader_;
+//     }
+
     HMva *Mva;
 
-    TMVA::Reader Reader;
+    TMVA::Reader reader_;
 
-    HMva *Tagger() const {
-        return Mva;
+    const HMva &Tagger() const {
+        return *Mva;
     }
 
     void BookMva();
@@ -102,7 +114,7 @@ private:
 
     HMvaResult BdtResult(const TFile &File, const std::string &TreeName, const TFile &ExportFile) const;
 
-    void LatexHeader(ofstream &LatexFile) const;
+    void LatexHeader(std::ofstream &LatexFile) const;
 
     void LatexFooter(std::ofstream &LatexFile) const;
 
@@ -113,3 +125,4 @@ private:
 };
 
 # endif
+

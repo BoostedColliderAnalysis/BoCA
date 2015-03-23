@@ -24,13 +24,6 @@ public:
     *
     */
     HEvent();
-
-    /**
-     * @brief destructor
-     *
-     */
-    ~HEvent();
-
     virtual void NewEvent(const HClonesArray *const) = 0;
 
     virtual HJets GetTops(HJetTag &) {
@@ -63,17 +56,17 @@ public:
         return Jets;
     }
 
-//     virtual HJet Hadrons() const {
-//         return *Jets;
-//     }
-//
-//     virtual  HLepton Leptons() const {
-//         return *Lepton;
-//     }
-//
-//     virtual HParticle Partons() const {
-//         return *Particles;
-//     }
+    const HJet &Hadrons() const {
+        return *Jets;
+    }
+
+    const HLepton &Leptons() const {
+        return *Lepton;
+    }
+
+    const HParticle &Partons() const {
+        return *Particles;
+    }
 
     hanalysis::HTopTagger *GetTopTagger() {
         return TopTagger;

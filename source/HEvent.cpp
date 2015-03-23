@@ -7,9 +7,3 @@ hanalysis::HEvent::HEvent()
 
 }
 
-hanalysis::HEvent::~HEvent()
-{
-
-    Print(HNotification, "Destructor");
-
-}

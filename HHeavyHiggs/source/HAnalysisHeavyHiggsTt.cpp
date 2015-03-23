@@ -726,7 +726,10 @@ bool hheavyhiggs::HAnalysisTt::GetTopSemiTag(hanalysis::HEvent &Event,  HTag Tag
     Print(HInformation, "Get Tops", Tag);
     std::vector<HTopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag);
     if (Tops.size() < 1) return 0;
-    for (const auto & Top : Tops) *static_cast<HTopSemiBranch *>(Branch->NewEntry()) = Top;
+    for (const auto & Top : Tops) {
+      *static_cast<HTopSemiBranch *>(Branch->NewEntry()) = Top;
+      ++ObjectNumber;
+    }
     return 1;
 }
 

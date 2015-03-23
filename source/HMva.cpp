@@ -5,7 +5,7 @@ hanalysis::HMva::HMva() :
 {
     Print(HInformation, "Constructor");
     CutMethodName = "Cut";
-    BdtMethodName = "Bdt";
+    bdt_method_name = "Bdt";
     Cut = "";
     WeightBranchName = "Info";
     MaxCombi = 4;
@@ -106,9 +106,7 @@ HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 
 HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
 {
-
-    HJets EFlowJets = Event.GetJets()->GetStructuredEFlowJets();
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(EFlowJets), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
+  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
     HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
     if (Jets.size() < 1) {
         delete ClusterSequence;
@@ -156,4 +154,11 @@ HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJe
         Pieces.push_back(Piece);
     }
     return Pieces;
+}
+
+fastjet::PseudoJet hanalysis::HMva::GetMissingEt(hanalysis::HEvent &Event)
+{
+    HJets granulated_jets = GranulatedJets(Event.GetJets()->GetStructuredEFlowJets());
+    fastjet::PseudoJet sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
+    return fastjet::PseudoJet(-sum.px(), -sum.py(), -sum.pz(), sum.e());
 }

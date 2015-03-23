@@ -57,7 +57,7 @@ private:
      */
     void GetGenJet();
 
-    std::vector<int *> BranchVector;
+//     std::vector<int *> BranchVector;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

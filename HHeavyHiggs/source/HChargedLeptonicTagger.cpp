@@ -333,7 +333,7 @@ std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTree
 
             HBdtBranch *Export = static_cast<HBdtBranch *>(BdtBranch->NewEntry());
 
-            const float Bdt = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName);
+            const float Bdt = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name);
             const float Error = Reader->GetMVAError();
             const float Rarity = Reader->GetRarity(GetBdtMethodName());
             const int Steps = 10;

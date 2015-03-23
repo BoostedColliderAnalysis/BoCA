@@ -11,7 +11,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
     Print(HInformation, "Get Particles", ClonesArrays->GetParticleSum());
 
-    for (int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
+    for (const int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
 
         const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleNumber);
 
@@ -29,16 +29,11 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             MotherStatus = MotherParticle->Status;
         }
         if (ParticleClone->M2 != EmptyPosition) {
-          const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M2);
+            const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M2);
 
-          Mother2Id = MotherParticle->PID;
-          Mother2Status = MotherParticle->Status;
+            Mother2Id = MotherParticle->PID;
+            Mother2Status = MotherParticle->Status;
         }
-
-
-
-
-
 
         if (ParticleClone->Status == StableParticle) {
             Print(HDetailed, "Particles Status", "stable");
@@ -182,7 +177,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             if (std::abs(ParticleId) == BottomId) {
                 fastjet::PseudoJet BottomJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
 //                 BottomJet.set_user_index(ParticleId);
-                Print(HInformation, "Bottom", MotherId,Mother2Id);
+                Print(HInformation, "Bottom", MotherId, Mother2Id);
             }
 
             if (std::abs(ParticleId) == ElectronId || std::abs(ParticleId) == MuonId) {

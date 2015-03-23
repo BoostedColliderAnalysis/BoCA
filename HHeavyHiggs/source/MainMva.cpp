@@ -101,28 +101,28 @@ int main()
     HConfig config("Neutral");
 
     RunTagger(hanalysis::HAnalysis::HBottomTagger,config);
-        RunTagger(hanalysis::HAnalysis::HBottomReader,config);
+//         RunTagger(hanalysis::HAnalysis::HBottomReader,config);
 
     RunTagger(hanalysis::HAnalysis::HJetPairTagger,config);
-        RunTagger(hanalysis::HAnalysis::HJetPairReader,config);
+//         RunTagger(hanalysis::HAnalysis::HJetPairReader,config);
 
     RunTagger(hanalysis::HAnalysis::HWHadronicTagger,config);
-        RunTagger(hanalysis::HAnalysis::HWHadronicReader,config);
+//         RunTagger(hanalysis::HAnalysis::HWHadronicReader,config);
 
     RunTagger(hanalysis::HAnalysis::HWSemiTagger,config);
-        RunTagger(hanalysis::HAnalysis::HWSemiReader,config);
+//         RunTagger(hanalysis::HAnalysis::HWSemiReader,config);
 
     RunTagger(hanalysis::HAnalysis::HTopHadronicTagger,config);
-        RunTagger(hanalysis::HAnalysis::HTopHadronicReader,config);
+//         RunTagger(hanalysis::HAnalysis::HTopHadronicReader,config);
 
     RunTagger(hanalysis::HAnalysis::HTopSemiTagger,config);
-        RunTagger(hanalysis::HAnalysis::HTopSemiReader,config);
+//         RunTagger(hanalysis::HAnalysis::HTopSemiReader,config);
 
     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger,config);
-        RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader,config);
+//         RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader,config);
 
     RunTagger(hanalysis::HAnalysis::HSignatureSemiTagger,config);
-        RunTagger(hanalysis::HAnalysis::HSignatureSemiReader,config);
+//         RunTagger(hanalysis::HAnalysis::HSignatureSemiReader,config);
 
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger,config);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader,config);

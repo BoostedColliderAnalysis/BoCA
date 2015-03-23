@@ -181,7 +181,7 @@ void hanalysis::HFactory::BookMethods()
 
 //     const std::string BdtMethodName = Mva->BdtMethodName + "_" + Mva->BackgroundName;
 
-    Factory->BookMethod(TMVA::Types::kBDT, Mva->GetBdtMethodName(), BdtOptions);
+    Factory->BookMethod(TMVA::Types::kBDT, Mva->BdtMethodName(), BdtOptions);
 
 }
 

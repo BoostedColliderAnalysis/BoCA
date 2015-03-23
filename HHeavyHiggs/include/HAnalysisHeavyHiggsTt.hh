@@ -79,11 +79,11 @@ private:
         //     return 0;
         //     return 400;
         //     return 600;
-                return 1000;
-//                 return 2000;
+//         return 1000;
+//         return 2000;
 //                 return 3000;
 //         return 4000;
-//                 return 5000;
+                return 5000;
 //         return 6000;
         //     return 7000;
 //             return 8000;
@@ -96,10 +96,12 @@ private:
         //     return 30;
         //     return 80;
         //         return 150;
-                return 300;
-//         return 1000;
+//         return 250;
+//         return 300;
+        return 1000;
 //         return 1500;
 //         return 2000;
+//         return 2500;
     }
 
     inline int EventNumberMax() const {
@@ -111,7 +113,7 @@ private:
     };
 
     inline HColliderType ColliderType() const {
-        //       return LHC;
+//         return LHC;
         //       return FHC;
         return LE;
     }
@@ -132,13 +134,13 @@ private:
         case LHC:
             switch (Mass()) {
             case 400 :
-                return 15.457345846238557;
+                return 1463.1219866990498;
             case 500:
-                return 10.57186928542166;
+                return 512.5992335098167;
             case 1000:
-                return 0.6300105025483057;
+                return 10.942712198242141;
             case 2000:
-                return 0.011364910695033002;
+                return 0.10283305582403454;
             default:
                 Print(HError, "Signal Crosssection", "unhandled case");
                 return 1;
@@ -227,12 +229,12 @@ private:
         return ProcessName(Process) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV_0-run_01";
     }
 
-    float BackgroundCrosssection(const ProcessType Proccess) const {
+    float BackgroundCrosssection(const ProcessType Process) const {
         switch (ColliderType()) {
         case LHC :
             switch (PreCut()) {
             case 30 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 298.2;
                 case ttcc:
@@ -244,7 +246,7 @@ private:
                     return 1;
                 };
             case 80 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 89.32;
                 case ttcc:
@@ -255,11 +257,19 @@ private:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
+            case 250 :
+                switch (Process) {
+                case tt :
+                    return 5.698 * 2 * 1000;
+                default :
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
             }
         case FHC:
             switch (PreCut()) {
             case 30 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 2990;
                 case ttcc:
@@ -271,7 +281,7 @@ private:
                     return 1;
                 }
             case 80 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 1171.6;
                 case ttcc:
@@ -283,7 +293,7 @@ private:
                     return 1;
                 }
             case 150 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 605.199003171 * 2;
                 case ttcc:
@@ -295,7 +305,7 @@ private:
                     return 1;
                 }
             case 300 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 242;
                 case ttcc:
@@ -310,7 +320,7 @@ private:
         case LE:
             switch (PreCut()) {
             case 150 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 688;
                 case ttcc:
@@ -322,21 +332,21 @@ private:
                     return 1;
                 }
             case 300 :
-                switch (Proccess) {
+                switch (Process) {
                 case ttbb :
                     return 263;
                 case ttcc:
                     return 192.82;
                 case ttjj:
-                  return 28200;
+                    return 28200;
                 case tt :
-                  return 214.1 * 2 * 1000;
+                    return 214.1 * 2 * 1000;
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 1000 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 1.532 * 2 * 1000;
                 default:
@@ -344,7 +354,7 @@ private:
                     return 1;
                 }
             case 1500 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 0.2447 * 2 * 1000;
                 default:
@@ -352,7 +362,7 @@ private:
                     return 1;
                 }
             case 2000 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 0.09014 * 2 * 1000;
                 default:
@@ -360,7 +370,7 @@ private:
                     return 1;
                 }
             case 2500 :
-                switch (Proccess) {
+                switch (Process) {
                 case tt :
                     return 0.03038 * 2 * 1000;
                 default:
