@@ -5,7 +5,7 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger()
   //     DebugLevel = hanalysis::HObject::HDebug;
 
   Print(HNotification, "Constructor");
-  EventBranchName = "Higgs";
+  SetBranchName("Higgs");
 }
 
 hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const HBottomTagger &NewBottomTagger)
@@ -17,10 +17,10 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const HBottomTagger &NewBottomTagger
     BottomTagger = NewBottomTagger;
     BottomReader.SetMva(BottomTagger);
 
-    TaggerName = "Higgs";
-    SignalNames = {"Higgs"};
-    BackgroundNames = {"NotHiggs"};
-    EventBranchName = "Higgs";
+    SetTaggerName("Higgs");
+//     SignalNames = {"Higgs"};
+//     BackgroundNames = {"NotHiggs"};
+//     SetBranchName("Higgs");
 
 //     Branch = new HHiggsBranch();
     //JetTag = new HJetTag();
@@ -41,18 +41,18 @@ void hanalysis::HMvaHiggsTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.PtSum, "PtSum"));
-    Observables.push_back(NewObservable(&Branch.PtDiff, "PtDiff"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch.Pull1, "Pull1"));
-    Observables.push_back(NewObservable(&Branch.Pull2, "Pull2"));
-    Observables.push_back(NewObservable(&Branch.Pull, "Pull"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt, "BottomBdt"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.PtSum, "PtSum");
+    AddObservable(Branch.PtDiff, "PtDiff");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaR, "DeltaR");
+    AddObservable(Branch.Pull1, "Pull1");
+    AddObservable(Branch.Pull2, "Pull2");
+    AddObservable(Branch.Pull, "Pull");
+    AddObservable(Branch.BottomBdt, "BottomBdt");
 
-    Spectators.push_back(NewObservable(&Branch.HiggsTag, "HiggsTag"));
+    AddSpectator(Branch.HiggsTag, "HiggsTag");
 
     Print(HNotification, "Variables defined");
 

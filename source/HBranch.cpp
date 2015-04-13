@@ -3,7 +3,7 @@
 ClassImp(HBranch)
 HBranch::HBranch()
 {
-    InitialValue = -10;
+    InitialValue = -11.1111111; // should be non integer
 }
 HBranch::~HBranch() {}
 
@@ -13,7 +13,7 @@ HInfoBranch::HInfoBranch()
 {
     Crosssection = InitialValue;
     CrosssectionError = InitialValue;
-    EventNumber = InitialValue;
+    EventNumber = int(InitialValue);
     Mass = InitialValue;
 }
 
@@ -39,7 +39,7 @@ ClassImp(HResultBranch)
 HResultBranch::HResultBranch()
 {
     Bdt = InitialValue;
-    Tag = InitialValue;
+    Tag = int(InitialValue);
 }
 
 
@@ -52,16 +52,16 @@ HBottomBranch::HBottomBranch()
     MaxDisplacement = InitialValue;
     MeanDisplacement = InitialValue;
     SumDisplacement = InitialValue;
-    Multipliticity = InitialValue;
+    Multipliticity = int(InitialValue);
     DeltaR = InitialValue;
     Spread = InitialValue;
     VertexDeltaR = InitialValue;
     VertexSpread = InitialValue;
     EnergyFraction = InitialValue;
 
-    Tag = InitialValue;
+    Tag = int(InitialValue);
     Bdt = InitialValue;
-    BTag = InitialValue;
+    BTag = int(InitialValue);
 
 }
 
@@ -81,7 +81,7 @@ HTauBranch::HTauBranch()
     FlightPath = InitialValue;
     TrtHtFraction = InitialValue;
 
-    Tag = InitialValue;
+    Tag = int(InitialValue);
     Bdt = InitialValue;
 
 }
@@ -102,7 +102,7 @@ HPairBranch::HPairBranch()
     WBdt = InitialValue;
     BBdt = InitialValue;
     Bdt = InitialValue;
-    Tag = InitialValue;
+    Tag = int(InitialValue);
 
 }
 
@@ -191,6 +191,28 @@ HTopHadronicBranch::HTopHadronicBranch()
     BottomPt = InitialValue;
     WPt = InitialValue;
 
+    Tau1_1 = InitialValue;
+    Tau2_1 = InitialValue;
+    Tau3_1 = InitialValue;
+    Tau21_1 = InitialValue;
+    Tau32_1 = InitialValue;
+
+    Tau1_2 = InitialValue;
+    Tau2_2 = InitialValue;
+    Tau3_2 = InitialValue;
+    Tau21_2 = InitialValue;
+    Tau32_2 = InitialValue;
+
+    VertexMass = InitialValue;
+    MaxDisplacement = InitialValue;
+    MeanDisplacement = InitialValue;
+    SumDisplacement = InitialValue;
+    Multipliticity = int(InitialValue);
+    Spread = InitialValue;
+    VertexDeltaR = InitialValue;
+    VertexSpread = InitialValue;
+    EnergyFraction = InitialValue;
+
 }
 
 ClassImp(HTopSemiBranch)
@@ -230,7 +252,7 @@ HHiggsBranch::HHiggsBranch()
     Pull2 = InitialValue;
     Pull = InitialValue;
 
-    HiggsTag = InitialValue;
+    HiggsTag = int(InitialValue);
 
 }
 
@@ -273,7 +295,7 @@ HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
     TopDeltaR = InitialValue;
 
     TopBdt = InitialValue;
-    HeavyHiggsTag = InitialValue;
+    HeavyHiggsTag = int(InitialValue);
 
 }
 
@@ -291,7 +313,7 @@ ClassImp(HChargedHiggsSemiBranch)
 HChargedHiggsSemiBranch::HChargedHiggsSemiBranch()
 {
 
-    Flag = 0;
+    Flag = int(InitialValue);
 
 }
 
@@ -310,7 +332,7 @@ HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
     TopDeltaR = InitialValue;
 
     TopBdt = InitialValue;
-    HeavyHiggsTag = InitialValue;
+    HeavyHiggsTag = int(InitialValue);
 
 }
 
@@ -344,7 +366,7 @@ HChargedHiggsLeptonicBranch::HChargedHiggsLeptonicBranch()
     SmallerNeutrinoDeltaR = InitialValue;
 
     TopBdt = InitialValue;
-    HeavyHiggsTag = InitialValue;
+    HeavyHiggsTag = int(InitialValue);
 
 }
 
@@ -376,5 +398,16 @@ ClassImp(HTopLeptonBranch)
 
 HTopLeptonBranch::HTopLeptonBranch()
 {
-
+    VertexMass = InitialValue;
+    MaxDisplacement = InitialValue;
+    MeanDisplacement = InitialValue;
+    SumDisplacement = InitialValue;
+    Multipliticity = int(InitialValue);
+    DeltaR = InitialValue;
+    Spread = InitialValue;
+    VertexDeltaR = InitialValue;
+    VertexSpread = InitialValue;
+    EnergyFraction = InitialValue;
+    JetMass = InitialValue;
+    LeptonPt = InitialValue;
 }

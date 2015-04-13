@@ -20,13 +20,6 @@ public:
      */
     HLepton();
 
-
-    /**
-     * @brief destructor
-     *
-     */
-    ~HLepton();
-
 private:
 
   /**

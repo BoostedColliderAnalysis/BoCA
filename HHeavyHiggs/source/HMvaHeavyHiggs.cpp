@@ -5,23 +5,23 @@ hheavyhiggs::HMva::HMva()
 
     Print(HNotification , "Constructor");
 
-    AnalysisName = "HeavyHiggs";
+    SetTaggerName("HeavyHiggs");
 
-    SignalNames = {"Signal"};
+//     SignalNames = {"Signal"};
 
-    BackgroundNames = {"Background"};
+//     BackgroundNames = {"Background"};
 
-    TestName = "Test";
+//     TestName = "Test";
 
-    SignalTreeNames = {"Signal_5f"};
+//     SignalTreeNames = {"Signal_5f"};
 
-    BackgroundTreeNames = {"5k_Pt20"};
+//     BackgroundTreeNames = {"5k_Pt20"};
 
-    TestTreeNames = {"Signal_5f","5k_Pt20"};
+//     TestTreeNames = {"Signal_5f","5k_Pt20"};
 
-    EventBranchName = "HeavyHiggs";
+//     SetBranchName("HeavyHiggs");
 
-    WeightBranchName = "Info";
+//     WeightBranchName = "Info";
 
 //     SignalEfficiency = 0.5;
 
@@ -49,8 +49,8 @@ void hheavyhiggs::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&HeavyHiggs->DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&HeavyHiggs->DeltaPhi, "DeltaPhi"));
+    AddObservable(HeavyHiggs->DeltaRap, "DeltaRap");
+    AddObservable(HeavyHiggs->DeltaPhi, "DeltaPhi");
 
     Print(HNotification,"Variables defined");
 

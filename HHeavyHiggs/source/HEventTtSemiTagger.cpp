@@ -29,40 +29,40 @@ void hheavyhiggs::HEventTtSemiTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
     SetTaggerName("EventSemi");
-    Observables.clear();
-    Spectators.clear();
-    Observables.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
-    Observables.push_back(NewObservable(&Branch.JetNumber, "JetNumber"));
-    Observables.push_back(NewObservable(&Branch.BottomNumber, "BottomNumber"));
-    Observables.push_back(NewObservable(&Branch.ScalarHt, "ScalarHt"));
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
+    AddObservable(Branch.LeptonNumber, "LeptonNumber");
+    AddObservable(Branch.JetNumber, "JetNumber");
+    AddObservable(Branch.BottomNumber, "BottomNumber");
+    AddObservable(Branch.ScalarHt, "ScalarHt");
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch.DeltaHt, "DeltaHt"));
-    Observables.push_back(NewObservable(&Branch.DeltaM, "DeltaM"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Ht, "Ht");
 
-    Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
-    Observables.push_back(NewObservable(&Branch.HiggsBdt, "HiggsBdt"));
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaR, "DeltaR");
+    AddObservable(Branch.DeltaHt, "DeltaHt");
+    AddObservable(Branch.DeltaM, "DeltaM");
 
-    Observables.push_back(NewObservable(&Branch.RestNumber, "RestNumber"));
-    Observables.push_back(NewObservable(&Branch.RestM, "RestM"));
-    Observables.push_back(NewObservable(&Branch.RestPt, "RestPt"));
-    Observables.push_back(NewObservable(&Branch.RestHt, "RestHt"));
-    Observables.push_back(NewObservable(&Branch.RestPhi, "RestPhi"));
-    Observables.push_back(NewObservable(&Branch.RestRap, "RestRap"));
-    Observables.push_back(NewObservable(&Branch.RestBdt, "RestBdt"));
-    Observables.push_back(NewObservable(&Branch.LeptonHt, "LeptonHt"));
+    AddObservable(Branch.HiggsMass, "HiggsMass");
+    AddObservable(Branch.HiggsBdt, "HiggsBdt");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.RestNumber, "RestNumber");
+    AddObservable(Branch.RestM, "RestM");
+    AddObservable(Branch.RestPt, "RestPt");
+    AddObservable(Branch.RestHt, "RestHt");
+    AddObservable(Branch.RestPhi, "RestPhi");
+    AddObservable(Branch.RestRap, "RestRap");
+    AddObservable(Branch.RestBdt, "RestBdt");
+    AddObservable(Branch.LeptonHt, "LeptonHt");
+
+    AddObservable(Branch.Bdt, "Bdt");
+    AddSpectator(Branch.Tag, "Tag");
 
 
     Print(HNotification, "Variables defined");

@@ -11,346 +11,42 @@
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 
-# include "fastjet/JetDefinition.hh"
-
 # include "HBranch.hh"
 # include "HObject.hh"
 # include "HJetInfo.hh"
 # include "HEvent.hh"
+# include "HJetDelphes.hh"
+# include "Predicate.hh"
+# include "HAnalysis.hh"
 
-struct SortByMass {
-    SortByMass(const float NewMass) {
-        Mass = NewMass;
-    }
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        if (Multiplet1.Jet().m() != Multiplet2.Jet().m()) return std::abs(Multiplet1.Jet().m() - Mass) < std::abs(Multiplet2.Jet().m() - Mass);
-        else return Multiplet1.Bdt() > Multiplet2.Bdt();
-    }
-    float Mass;
-};
-
-struct MinDeltaR {
-    MinDeltaR(const fastjet::PseudoJet &NewParticle) {
-        Particle = NewParticle;
-    }
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        return Multiplet1.Jet().delta_R(Particle)  < Multiplet2.Jet().delta_R(Particle);
-    }
-    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return Jet1.delta_R(Particle)  < Jet2.delta_R(Particle);
-    }
-    fastjet::PseudoJet Particle;
-};
-
-
-
-struct MaxDeltaRap {
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
-    }
-};
-
-
-
-struct TooSmallPt {
-  TooSmallPt(const int pt) {
-    pt_ = pt;
-  }
-  bool operator()(const fastjet::PseudoJet &jet) {
-    return (jet.pt() < pt_);
-  }
-  int pt_;
-};
-
-struct WrongId {
-    WrongId(const int NewId) {
-        Id = NewId;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return (Family.ParticleId != Id);
-    }
-    int Id;
-};
-
-struct WrongAbsId {
-    WrongAbsId(const int NewId) {
-        Id = NewId;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return (std::abs(Family.ParticleId) != Id);
-    }
-    int Id;
-};
-
-struct WrongAbsPairId {
-  WrongAbsPairId(const int NewId, const int NewId2) {
-    Id = NewId;
-    Id2 = NewId2;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (std::abs(Family.ParticleId) != Id && std::abs(Family.ParticleId) != Id2);
-  }
-  int Id;
-  int Id2;
-};
-
-struct WrongAbsFamily {
-    WrongAbsFamily(const int NewId, const int NewMother) {
-        Id = NewId;
-        Mother = NewMother;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return (std::abs(Family.ParticleId) != Id || std::abs(Family.Mother1Id) != Mother);
-    }
-    int Id;
-    int Mother;
-};
-
-struct WrongFamily {
-    WrongFamily(const int NewId, const int NewMother) {
-        Id = NewId;
-        Mother = NewMother;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return (Family.ParticleId != Id || Family.Mother1Id != Mother);
-    }
-    int Id;
-    int Mother;
-};
-
-struct WrongMother {
-    WrongMother(const int NewMother) {
-        Mother = NewMother;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return Family.Mother1Id != Mother;
-    }
-    int Mother;
-};
-
-struct WrongAbsMother {
-    WrongAbsMother(const int NewMother) {
-        Mother = NewMother;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return std::abs(Family.Mother1Id) != Mother;
-    }
-    int Mother;
-};
-
-struct WrongAbsStepFamily {
-    WrongAbsStepFamily(const int NewParticleId, const int NewMother2) {
-        Mother2 = NewMother2;
-        ParticleId = NewParticleId;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return (std::abs(Family.ParticleId) != ParticleId || std::abs(Family.Mother2Id) != Mother2);
-    }
-    int Mother2;
-    int ParticleId;
-};
-
-struct WrongAbsStepMother {
-    WrongAbsStepMother(const int NewMother2) {
-        Mother2 = NewMother2;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return std::abs(Family.Mother2Id) != Mother2;
-    }
-    int Mother2;
-};
-
-struct WrongLeptons {
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-        hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-        return (std::abs(Family.ParticleId) == Family.ElectronId ||
-                std::abs(Family.ParticleId) == Family.MuonId ||
-                std::abs(Family.ParticleId) == Family.TauId ||
-                std::abs(Family.ParticleId) == Family.TauNeutrinoId ||
-                std::abs(Family.ParticleId) == Family.MuonNeutrinoId ||
-                std::abs(Family.ParticleId) == Family.ElectronNeutrinoId
-               );
-    }
-};
-
-struct WrongQuark {
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    hanalysis::HJetInfo JetInfo = Jet.user_info<hanalysis::HJetInfo>();
-    hanalysis::HFamily Family = JetInfo.Constituents().front().Family();
-    return (std::abs(Family.ParticleId) == Family.UpId ||
-    std::abs(Family.ParticleId) == Family.DownId ||
-    std::abs(Family.ParticleId) == Family.CharmId ||
-    std::abs(Family.ParticleId) == Family.StrangeId ||
-    std::abs(Family.ParticleId) == Family.BottomId ||
-    std::abs(Family.ParticleId) == Family.TopId
-    );
-  }
-};
-
-struct LargeDistance {
-    LargeDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
-        JetM = NewJet;
-        Distance = NewDistance;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        return (JetM.delta_R(Jet) > Distance);
-    }
-    fastjet::PseudoJet JetM;
-    float Distance;
-};
-
-struct SmallDistance {
-    SmallDistance(const fastjet::PseudoJet NewJet, const float NewDistance) {
-        JetM = NewJet;
-        Distance = NewDistance;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        return (JetM.delta_R(Jet) < Distance);
-    }
-    fastjet::PseudoJet JetM;
-    float Distance;
-};
-
-class HDetectorGeometry
-{
-public:
-    enum HDetectorType {CMS, Spp};
-
-    HDetectorGeometry(const HDetectorType DetectorType) {
-        switch (DetectorType) {
-        case CMS :
-            JetMinPt = 20;
-            JetConeSize = 0.5;
-            MinCellResolution = .1;
-            MinCellPt = .5;
-            TrackerEtaMax = 2.5;
-            JetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, 1);
-        case Spp:
-            JetMinPt = 40;
-            JetConeSize = 0.5;
-            MinCellResolution = .1;
-            MinCellPt = .5;
-            TrackerEtaMax = 5;
-            JetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, 1);
-        }
-    }
-    float JetMinPt;
-    float JetConeSize;
-    float MinCellPt;
-    float MinCellResolution;
-    float TrackerEtaMax;
-    float JetRadiusParameter;
-    fastjet::JetDefinition JetDefinition;
-};
-
-class HObservable //: public hanalysis::HObject
+class HObservable
 {
 
 public:
 
-    HObservable() {};
+    HObservable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex);
 
-    HObservable(float *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
+    float *value() const;
 
-//         Print(HDebug, "Float Constructor", *NewValue);
+    std::string expression() const;
 
-        Value = NewValue;
-        Expression = NewExpression;
-        Title = NewTitle;
-        Unit = NewUnit;
-        Latex = NewLatex;
-        Type = 'F';
-    }
+    std::string title() const;
 
+    std::string unit() const;
 
-
-    HObservable(int *const NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
-
-//         Print(HInformation, "Int Constructor", *NewValue);
-
-        Value = (float *)NewValue;
-        Expression = NewExpression;
-        Title = NewTitle;
-        Unit = NewUnit;
-        Latex = NewLatex;
-        Type = 'I';
-
-    }
-
-//     HObservable(const float NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
-//
-//       //         Print(HDebug, "Float Constructor", *NewValue);
-//
-//       Value = NewValue;
-//       Expression = NewExpression;
-//       Title = NewTitle;
-//       Unit = NewUnit;
-//       Latex = NewLatex;
-//       Type = 'F';
-//     }
-//
-//
-//
-//     HObservable(const int NewValue, const std::string &NewExpression, const std::string &NewTitle, const std::string &NewUnit, const std::string &NewLatex) {
-//
-//       //         Print(HInformation, "Int Constructor", *NewValue);
-//
-//       Value = (float)NewValue;
-//       Expression = NewExpression;
-//       Title = NewTitle;
-//       Unit = NewUnit;
-//       Latex = NewLatex;
-//       Type = 'I';
-//
-//     }
-
-    float *GetValue() {
-        return Value;
-    }
-
-//     void SetValue(const float *NewValue);
-
-//     void SetValue(const int *NewValue);
-
-    std::string Expression;
-
-    std::string Title;
-
-    std::string Unit;
-
-    char Type;
-
-    std::string Latex;
+    char type() const;
 
 private:
 
-    float *Value;
+    std::string expression_;
 
-    inline std::string ClassName() const {
-        return "HObservable";
-    }
+    std::string title_;
+
+    std::string unit_;
+
+    char type_;
+
+    float *value_;
 
 };
 
@@ -369,8 +65,6 @@ public:
     *
     */
     HMva();
-
-//     HMva(const HMva &NewMva);
 
     void SetTreeNames(const HStrings &NewTreeNames) {
         SignalTreeNames = NewTreeNames;
@@ -421,21 +115,14 @@ public:
         return AnalysisName;
     }
 
-    std::vector<HObservable> GetObservables() const {
-        return Observables;
+    std::vector<HObservable> observables() const {
+        return observables_;
     }
 
-    void SetObservables(const std::vector<HObservable> &NewObservables) {
-        Observables = NewObservables;
+    std::vector<HObservable> spectators() const {
+        return spectators_;
     }
 
-    std::vector<HObservable> GetSpectators() const {
-        return Spectators;
-    }
-
-    void SetSpectators(const std::vector<HObservable> &NewSpectators) {
-        Spectators = NewSpectators;
-    }
 
     HStrings GetSignalNames() const {
         return SignalNames;
@@ -457,18 +144,10 @@ public:
         return TestName;
     }
 
-    HStrings GetTestTreeNames() const {
-        return TestTreeNames;
-    }
-
-
-//     float GetSignalEfficiency() const {
-//         return SignalEfficiency;
+//     HStrings GetTestTreeNames() const {
+//         return TestTreeNames;
 //     }
 
-//     float GetLuminosity() const {
-//         return Luminosity;
-//     }
 
     TCut GetCut() const {
         return Cut;
@@ -478,9 +157,9 @@ public:
         AnalysisName = NewAnalysisName;
     }
 
-    void SetTestTreeNames(const HStrings &NewTestTreeNames) {
-        TestTreeNames = NewTestTreeNames;
-    }
+//     void SetTestTreeNames(const HStrings &NewTestTreeNames) {
+//         TestTreeNames = NewTestTreeNames;
+//     }
 
     std::string GetCutMethodName()const {
         return CutMethodName;
@@ -493,10 +172,6 @@ public:
     std::string GetWeightBranchName()const {
         return WeightBranchName;
     }
-
-//     bool LaTeX()const {
-//         return DoLatex;
-//     }
 
     std::string GetBackgroundName() const {
         return BackgroundName;
@@ -526,82 +201,45 @@ public:
 
     HDetectorGeometry DetectorGeometry;
 
-    inline HJets RemoveIfWrongAbsFamily(const HJets &NewJets, const int ParticleId, int MotherId) {
-        HJets Jets = NewJets;
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsFamily(ParticleId, MotherId)), Jets.end());
-        return Jets;
-    }
-
-    inline HJets RemoveIfWrongFamily(const HJets &NewJets, const int ParticleId, int MotherId) {
-        HJets Jets = NewJets;
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongFamily(ParticleId, MotherId)), Jets.end());
-        return Jets;
-    }
-
-    inline HJets RemoveIfWrongAbsStepFamily(const HJets &NewJets, const int ParticleId , const int Mother2Id) {
-        HJets Jets = NewJets;
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsStepFamily(ParticleId, Mother2Id)), Jets.end());
-        return Jets;
-    }
-
-    inline HJets RemoveIfWrongAbsStepMother(const HJets &NewJets, const int Mother2Id) {
-        HJets Jets = NewJets;
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsStepMother(Mother2Id)), Jets.end());
-        return Jets;
-    }
-
-    inline HJets RemoveIfWrongParticle(const HJets &NewJets, const int ParticleId) {
-        HJets Jets = NewJets;
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongId(ParticleId)), Jets.end());
-        return Jets;
-    }
-
-    inline HJets RemoveIfWrongAbsParticle(const HJets &NewJets, const int ParticleId) {
-        HJets Jets = NewJets;
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsId(ParticleId)), Jets.end());
-        return Jets;
-    }
-
-    inline HJets RemoveIfWrongAbsMother(const HJets &NewJets, const int MotherId) {
-        HJets Jets = NewJets;
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsMother(MotherId)), Jets.end());
-        return Jets;
-    }
+//     HJets RemoveIfWrongAbsFamily(const HJets &jets, const int particle_id, int mother_id);
+//
+//     HJets RemoveIfWrongFamily(const HJets &jets, const int particle_id, int mother_id);
+//
+//     HJets RemoveIfWrongAbsStepFamily(const HJets &NewJets, const int ParticleId , const int Mother2Id);
+//
+//     HJets RemoveIfWrongAbsStepMother(const HJets &jets, const int mother_2_id);
+//
+//     HJets RemoveIfWrongParticle(const HJets &NewJets, const int ParticleId);
+//
+//     HJets RemoveIfWrongAbsParticle(const HJets &NewJets, const int ParticleId);
+//
+//     HJets RemoveIfWrongAbsMother(const HJets &NewJets, const int MotherId);
+//
+//     HJets RemoveIfAbsMother(const HJets &NewJets, const int MotherId);
 
 protected:
 
-    ExRootTreeBranch *TreeBranch;
+//     HJets RemoveIfLetpons(HJets &Jets);
+//
+//     HJets RemoveIfQuark(HJets &Jets);
 
-
-    inline HJets RemoveIfLetpons(HJets &Jets) {
-        Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongLeptons()), Jets.end());
-        return Jets;
-    }
-
-    inline HJets RemoveIfQuark(HJets &Jets) {
-      Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongQuark()), Jets.end());
-      return Jets;
-    }
-
-
-
-    template<typename TMultiplet>
-    inline std::vector<TMultiplet> SortByDeltaRTo(std::vector<TMultiplet> &Multiplets, fastjet::PseudoJet Jet) {
-        std::sort(Multiplets.begin(), Multiplets.end(), MinDeltaR(Jet));
-        return Multiplets;
-    }
-
-    template <class HMultiplet>
-    inline std::vector<HMultiplet> SortByMaxDeltaRap(std::vector<HMultiplet> &Multiplets) {
-        std::sort(Multiplets.begin(), Multiplets.end(), MaxDeltaRap());
-        return Multiplets;
-    }
-
-    template <class HMultiplet>
-    inline std::vector<HMultiplet> SortByMassTo(std::vector<HMultiplet> &Multiplets, const float Mass) {
-        std::sort(Multiplets.begin(), Multiplets.end(), SortByMass(Mass));
-        return Multiplets;
-    }
+//     template<typename TMultiplet>
+//     inline std::vector<TMultiplet> SortByDeltaRTo(std::vector<TMultiplet> &Multiplets, fastjet::PseudoJet Jet) {
+//         std::sort(Multiplets.begin(), Multiplets.end(), MinDeltaR(Jet));
+//         return Multiplets;
+//     }
+//
+//     template <class HMultiplet>
+//     inline std::vector<HMultiplet> SortByMaxDeltaRap(std::vector<HMultiplet> &Multiplets) {
+//         std::sort(Multiplets.begin(), Multiplets.end(), MaxDeltaRap());
+//         return Multiplets;
+//     }
+//
+//     template <class HMultiplet>
+//     inline std::vector<HMultiplet> SortByMassTo(std::vector<HMultiplet> &Multiplets, const float Mass) {
+//         std::sort(Multiplets.begin(), Multiplets.end(), SortByMass(Mass));
+//         return Multiplets;
+//     }
 
 
     virtual void DefineVariables() = 0;
@@ -610,53 +248,44 @@ protected:
         return "HMva";
     }
 
-    template<typename TValue>
-    HObservable NewObservable(TValue *const Value, const std::string &Title) const {
+    HObservable NewObservable(float &Value, const std::string &Title) const;
 
-        Print(HDebug, "New Observable", *Value);
-        const std::string Expression = EventBranchName + "." + Title;
-        HObservable Observable(Value, Expression, Title, "", "");
-        return Observable;
+    HObservable NewObservable(float &Value, const std::string &Title, const std::string &Latex) const;
 
+    void AddObservable(float &Value, const std::string &Title) {
+        observables_.push_back(NewObservable(Value, Title));
+    };
+
+    void AddObservable(float &Value, const std::string &Title, const std::string &Latex) {
+        observables_.push_back(NewObservable(Value, Title, Latex));
+    };
+
+    void AddSpectator(float &Value, const std::string &Title) {
+        spectators_.push_back(NewObservable(Value, Title));
+    };
+
+    void ClearVectors() {
+        observables_.clear();
+        spectators_.clear();
     }
 
-    template<typename TValue>
-    HObservable NewObservable(TValue *const Value, const std::string &Title, const std::string &Latex) const {
-
-        Print(HDebug, "New Observable", *Value);
-        const std::string Expression = EventBranchName + "." + Title;
-        HObservable Observable(Value, Expression, Title, "", Latex);
-        return Observable;
-
+    int max_combi() {
+        return max_combi_;
     }
 
-//     template<typename TValue>
-//     HObservable NewObservable(const TValue Value, const std::string &Title) const {
-//
-//         Print(HDebug, "New Observable", Value);
-//         const std::string Expression = EventBranchName + "." + Title;
-//         HObservable Observable(Value, Expression, Title, "", "");
-//         return Observable;
-//
-//     }
-//
-//     template<typename TValue>
-//     HObservable NewObservable(const TValue Value, const std::string &Title, const std::string &Latex) const {
-//
-//         Print(HDebug, "New Observable", *Value);
-//         const std::string Expression = EventBranchName + "." + Title;
-//         HObservable Observable(Value, Expression, Title, "", Latex);
-//         return Observable;
-//
+//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, TClass &Class, const hanalysis::HAnalysis::HStage Stage) {
+//       switch (Stage) {
+//         case HAnalysis::HTrainer :
+//           TreeBranch = NewTreeWriter.NewBranch(GetTaggerName().c_str(), &Class);
+//         case HAnalysis::HReader :
+//           TreeBranch = NewTreeWriter.NewBranch(ReaderName().c_str(), &Class);
+//       }
 //     }
 
+private:
 
+    ExRootTreeBranch *TreeBranch;
 
-//     bool DoLatex;
-
-//     int Luminosity;
-
-//     float SignalEfficiency;
 
     /**
      * @brief Name of the Analysis
@@ -708,21 +337,13 @@ protected:
 
     HStrings SignalTreeNames;
 
-    HStrings TestTreeNames;
+//     HStrings TestTreeNames;
 
-    /**
-     * @brief Vector containing the pointer to the Observable data
-     *
-     */
-    std::vector<HObservable> Observables;
+    std::vector<HObservable> observables_;
 
-    std::vector<HObservable> Spectators;
+    std::vector<HObservable> spectators_;
 
-    int MaxCombi;
-
-//     float MinCellResolution;
-
-private:
+    int max_combi_;
 
 };
 

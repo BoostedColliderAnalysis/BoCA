@@ -1,33 +1,158 @@
 # include "HMva.hh"
 
-hanalysis::HMva::HMva() :
-    DetectorGeometry(HDetectorGeometry::HDetectorType::Spp)
+HObservable::HObservable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
 {
+    value_ = &value;
+    expression_ = expression;
+    title_ = title;
+    unit_ = unit;
+    if (value == int(value)) type_ = 'I';
+    else type_ = 'F';
+}
+
+float *HObservable::value() const
+{
+    return value_;
+}
+
+std::string HObservable::expression() const
+{
+    return expression_;
+}
+
+std::string HObservable::title() const
+{
+    return title_;
+}
+
+std::string HObservable::unit() const
+{
+    return unit_;
+}
+
+char HObservable::type() const
+{
+    return type_;
+}
+
+/**
+ * @brief Constructor
+ *
+ *
+ * choose HDetectorType according to LHC or 100TeV
+ *
+ * LHC: CMS
+ * 100TeV: Spp
+ *
+ */
+
+hanalysis::HMva::HMva() : DetectorGeometry(HDetectorGeometry::HDetectorType::Spp)
+{
+
+//   DebugLevel = HNotification;
     Print(HInformation, "Constructor");
     CutMethodName = "Cut";
     bdt_method_name = "Bdt";
     Cut = "";
     WeightBranchName = "Info";
-    MaxCombi = 4;
+    max_combi_ = 4;
 //     MinCellResolution = .1;
 }
 
-// hanalysis::HMva::HMva(const HMva &NewMva)
-// {
-//     Print(HInformation, "Copy Constructor");
-//     SetObservables(NewMva.GetObservables());
-//     SetSpectators(NewMva.GetSpectators());
-//     SetTaggerName(GetTaggerName());
-// }
-
 float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 {
-
     Print(HError, "Get Bdt", "should be implemented somewhere else");
-
     return -10;
+}
+
+HObservable hanalysis::HMva::NewObservable(float &Value, const std::string &Title) const
+{
+    Print(HInformation, "New Observable", Title, Value);
+    const std::string Expression = EventBranchName + "." + Title;
+    return HObservable(Value, Expression, Title, "", "");
+}
+
+HObservable hanalysis::HMva::NewObservable(float &Value, const std::string &Title, const std::string &Latex) const
+{
+    Print(HInformation, "New Observable", Title,  Value);
+    const std::string Expression = EventBranchName + "." + Title;
+    return HObservable(Value, Expression, Title, "", Latex);
 
 }
+
+
+
+
+// HJets hanalysis::HMva::RemoveIfWrongAbsFamily(const HJets &jets, const int particle_id, int mother_id)
+// {
+//     HJets jets_ = jets;
+//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsFamily(particle_id, mother_id)), jets_.end());
+//     return jets_;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfWrongFamily(const HJets &jets, const int particle_id, int mother_id)
+// {
+//     HJets jets_ = jets;
+//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongFamily(particle_id, mother_id)), jets_.end());
+//     return jets_;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfWrongAbsStepFamily(const HJets &jets, const int particle_id , const int mother_2_id)
+// {
+//     HJets jets_ = jets;
+//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepFamily(particle_id, mother_2_id)), jets_.end());
+//     return jets_;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfWrongAbsStepMother(const HJets &jets, const int mother_2_id)
+// {
+//     HJets jets_ = jets;
+//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepMother(mother_2_id)), jets_.end());
+//     return jets_;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfWrongParticle(const HJets &NewJets, const int ParticleId)
+// {
+//     HJets Jets = NewJets;
+//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongId(ParticleId)), Jets.end());
+//     return Jets;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfWrongAbsParticle(const HJets &NewJets, const int ParticleId)
+// {
+//     HJets Jets = NewJets;
+//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsId(ParticleId)), Jets.end());
+//     return Jets;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfWrongAbsMother(const HJets &NewJets, const int MotherId)
+// {
+//     HJets Jets = NewJets;
+//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsMother(MotherId)), Jets.end());
+//     return Jets;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfAbsMother(const HJets &NewJets, const int MotherId)
+// {
+//     HJets Jets = NewJets;
+//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), AbsMother(MotherId)), Jets.end());
+//     return Jets;
+// }
+//
+//
+// HJets hanalysis::HMva::RemoveIfLetpons(HJets &Jets)
+// {
+//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongLeptons()), Jets.end());
+//     return Jets;
+// }
+//
+// HJets hanalysis::HMva::RemoveIfQuark(HJets &Jets)
+// {
+//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongQuark()), Jets.end());
+//     return Jets;
+// }
+
+
 
 HJets hanalysis::HMva::GranulatedJets(const HJets &NewEFlowJets)
 {
@@ -106,7 +231,8 @@ HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 
 HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
 {
-  fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
+//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), DetectorGeometry.JetDefinition);
     HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
     if (Jets.size() < 1) {
         delete ClusterSequence;
@@ -136,7 +262,8 @@ HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJe
         Print(HError, "Get Sub Jets", "No Jet Info");
         return Pieces;
     }
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry.JetConeSize));
+//     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry.JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), DetectorGeometry.SubJetDefinition);
     HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
     ClusterSequence->delete_self_when_unused();
 
@@ -159,6 +286,6 @@ HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJe
 fastjet::PseudoJet hanalysis::HMva::GetMissingEt(hanalysis::HEvent &Event)
 {
     HJets granulated_jets = GranulatedJets(Event.GetJets()->GetStructuredEFlowJets());
-    fastjet::PseudoJet sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
-    return fastjet::PseudoJet(-sum.px(), -sum.py(), -sum.pz(), sum.e());
+    fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
+    return fastjet::PseudoJet(-jet_sum.px(), -jet_sum.py(), -jet_sum.pz(), jet_sum.e());
 }

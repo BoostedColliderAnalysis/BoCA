@@ -2,7 +2,6 @@
 # define HEventParton_hh
 
 # include "HEvent.hh"
-# include "HParticleParton.hh"
 
 /**
  * @brief Event topology for unweighted MadGraph events
@@ -25,7 +24,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray &ClonesArrays);
 
 private:
 

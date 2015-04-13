@@ -1,6 +1,12 @@
 HDictionary(HBranchBTagger HBranchBTagger.cpp ../include/HLinkDefBTagger.hh)
 
-HLibrary(HAnalysisBTagger HAnalysisBTagger.cpp)
+set(
+Btaggerlibs
+HBottomTagger.cpp
+HAnalysisBTagger.cpp
+)
+
+HLibrary(HAnalysisBTagger "${Btaggerlibs}")
 
 HExecutable(HBTagger main.cpp)
 

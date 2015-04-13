@@ -24,24 +24,21 @@ public:
     *
     */
     HEvent();
-    virtual void NewEvent(const HClonesArray *const) = 0;
+    virtual void NewEvent(const HClonesArray &) = 0;
 
     virtual HJets GetTops(HJetTag &) {
         Print(HError, "Get Tops", "No Tops");
-        HJets v;
-        return v;
+        return HJets{};
     }
 
     virtual fastjet::PseudoJet GetHiggs() {
         Print(HError, "Get Higgs", "No Higgs");
-        fastjet::PseudoJet j;
-        return j;
+        return fastjet::PseudoJet();
     }
 
     virtual HJets GetCandidates(HJetTag &) {
         Print(HError, "Get Candidates", "No Candidates");
-        HJets v;
-        return v;
+         return HJets{};
     }
 
     HParticle *GetParticles() {
@@ -68,17 +65,17 @@ public:
         return *Particles;
     }
 
-    hanalysis::HTopTagger *GetTopTagger() {
-        return TopTagger;
-    }
-
-    hanalysis::HHiggsTagger *GetHiggsTagger() {
-        return HiggsTagger;
-    }
-
-    hanalysis::HDiscriminator *GetDiscriminator() {
-        return Discriminator;
-    }
+//     hanalysis::HTopTagger *GetTopTagger() {
+//         return TopTagger;
+//     }
+//
+//     hanalysis::HHiggsTagger *GetHiggsTagger() {
+//         return HiggsTagger;
+//     }
+//
+//     hanalysis::HDiscriminator *GetDiscriminator() {
+//         return Discriminator;
+//     }
 
     float GetMass() const {
         return Mass;
@@ -116,19 +113,19 @@ protected:
      * @brief Tagged tops and their constituents
      *
      */
-    hanalysis::HTopTagger *TopTagger;
+//     hanalysis::HTopTagger *TopTagger;
 
     /**
      * @brief Higgs
      *
      */
-    hanalysis::HHiggsTagger *HiggsTagger;
+//     hanalysis::HHiggsTagger *HiggsTagger;
 
     /**
      * @brief SubJetInformation
      *
      */
-    hanalysis::HDiscriminator *Discriminator;
+//     hanalysis::HDiscriminator *Discriminator;
 
 private:
 

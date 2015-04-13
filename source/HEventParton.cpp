@@ -1,4 +1,5 @@
 # include "HEventParton.hh"
+# include "HParticleParton.hh"
 
 
 hanalysis::hparton::HEvent::HEvent()
@@ -19,7 +20,7 @@ hanalysis::hparton::HEvent::~HEvent()
 
 }
 
-void hanalysis::hparton::HEvent::NewEvent(const hanalysis::HClonesArray * const ClonesArrays)
+void hanalysis::hparton::HEvent::NewEvent(const hanalysis::HClonesArray &ClonesArrays)
 {
 
     Print(HInformation, "New Event");

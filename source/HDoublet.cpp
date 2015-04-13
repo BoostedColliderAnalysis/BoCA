@@ -179,8 +179,9 @@ void hanalysis::HDoublet::SetSinglets(const fastjet::PseudoJet &NewSinglet1)
 //     static_cast<HDoubletPrivate *>(TagPrivate.get())->SetSinglet2(NewSinglet1 / 2);
     SetSinglet1(NewSinglet1 / 2);
     SetSinglet2(NewSinglet1 / 2);
-    if (NewSinglet1.has_user_info<HJetInfo>()) if (NewSinglet1.user_info<HJetInfo>().Bdt() != InitialValue) SetBdt(NewSinglet1.user_info<HJetInfo>().Bdt());
-    if (NewSinglet1.has_user_info<HJetInfo>()) if (NewSinglet1.user_info<HJetInfo>().Tag() != InitialValue) SetTag(NewSinglet1.user_info<HJetInfo>().Tag());
+    SetDegenerate();
+    if (NewSinglet1.has_user_info<HJetInfo>()) if (NewSinglet1.user_info<HJetInfo>().Bdt() != initial_value()) SetBdt(NewSinglet1.user_info<HJetInfo>().Bdt());
+    if (NewSinglet1.has_user_info<HJetInfo>()) if (NewSinglet1.user_info<HJetInfo>().Tag() != initial_value()) SetTag(NewSinglet1.user_info<HJetInfo>().Tag());
 }
 
 float hanalysis::HDoublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const

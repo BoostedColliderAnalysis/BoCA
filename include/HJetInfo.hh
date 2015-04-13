@@ -15,93 +15,93 @@ class HConstituent
 {
 
 public:
-    enum HDetector {HGenParticle, HTrack, HPhoton, HTower, HMuon, HNone};
+    enum SubDetector {HGenParticle, HTrack, HPhoton, HTower, HMuon, HNone};
 
 
     HConstituent() {};
 
     HConstituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition, const hanalysis::HFamily &NewFamily) {
-        MomentumM = NewMomentum;
-        PositionM = NewPosition;
-        FamilyM = NewFamily;
+        momentum_ = NewMomentum;
+        position_ = NewPosition;
+        family_ = NewFamily;
     }
 
     HConstituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition) {
-        MomentumM = NewMomentum;
-        PositionM = NewPosition;
+        momentum_ = NewMomentum;
+        position_ = NewPosition;
     }
 
-    HConstituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition, const HDetector NewDetector) {
-        MomentumM = NewMomentum;
-        PositionM = NewPosition;
-        DetectorM = NewDetector;
+    HConstituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition, const SubDetector NewDetector) {
+        momentum_ = NewMomentum;
+        position_ = NewPosition;
+        sub_detector_ = NewDetector;
     }
 
     HConstituent(const TLorentzVector &NewMomentum, const hanalysis::HFamily &NewFamily) {
-        MomentumM = NewMomentum;
-        FamilyM = NewFamily;
+        momentum_ = NewMomentum;
+        family_ = NewFamily;
     }
 
     inline HConstituent(const TLorentzVector &NewMomentum) {
-        MomentumM = NewMomentum;
+        momentum_ = NewMomentum;
     }
 
-    inline HConstituent(const TLorentzVector &NewMomentum, const HDetector NewDetector) {
-        MomentumM = NewMomentum;
-        DetectorM = NewDetector;
+    inline HConstituent(const TLorentzVector &NewMomentum, const SubDetector NewDetector) {
+        momentum_ = NewMomentum;
+        sub_detector_ = NewDetector;
     }
 
     inline  void SetPosition(const TLorentzVector &NewPosition) {
-        PositionM = NewPosition;
+        position_ = NewPosition;
     }
 
     inline void SetPosition(const float X, const float Y, const float Z, const float T) {
-        PositionM.SetXYZT(X, Y, Z, T);
+        position_.SetXYZT(X, Y, Z, T);
     }
 
     inline void SetMomentum(const TLorentzVector &NewMomentum) {
-        MomentumM = NewMomentum;
+        momentum_ = NewMomentum;
     }
 
     inline void SetFamily(const hanalysis::HFamily &NewFamily) {
-        FamilyM = NewFamily;
+        family_ = NewFamily;
     }
 
     inline TLorentzVector Position() const {
-        return PositionM;
+        return position_;
     }
 
     inline TLorentzVector Momentum() const {
-        return MomentumM;
+        return momentum_;
     }
 
     inline hanalysis::HFamily Family() const {
-        return FamilyM;
+        return family_;
     }
 
     HConstituent operator+(HConstituent &Constituent) {
-        Constituent.PositionM += this->PositionM;
-        Constituent.MomentumM += this->MomentumM;
+        Constituent.position_ += this->position_;
+        Constituent.momentum_ += this->momentum_;
         return Constituent;
     }
 
-    void SetDetector(const HDetector NewDetector) {
-        DetectorM = NewDetector;
+    void SetDetector(const SubDetector NewDetector) {
+        sub_detector_ = NewDetector;
     }
 
-    HDetector Detector() const {
-        return DetectorM;
+    SubDetector sub_detector() const {
+        return sub_detector_;
     }
 
 private:
 
-    HDetector DetectorM = HNone;
+    SubDetector sub_detector_ = HNone;
 
-    TLorentzVector PositionM;
+    TLorentzVector position_;
 
-    TLorentzVector MomentumM;
+    TLorentzVector momentum_;
 
-    hanalysis::HFamily FamilyM;
+    hanalysis::HFamily family_;
 };
 
 struct MaxDistance {
@@ -138,11 +138,11 @@ public:
 //     HJetInfo(const HJetInfo &NewJetInfo);
 
     void AddConstituent(const HConstituent &NewConstituent) {
-        ConstituentsM.push_back(NewConstituent);
+        constituents_.push_back(NewConstituent);
     }
 
     void AddConstituents(const std::vector<HConstituent> &NewConstituents) {
-        ConstituentsM.insert(ConstituentsM.end(), NewConstituents.begin(), NewConstituents.end());
+        constituents_.insert(constituents_.end(), NewConstituents.begin(), NewConstituents.end());
     }
 
     void AddDaughter(const int NewDaughter) {
@@ -155,7 +155,7 @@ public:
     }
 
     std::vector<HConstituent> Constituents() const {
-        return ConstituentsM;
+        return constituents_;
     }
 
     inline void SetBTag(const int NewBTag) {
@@ -180,6 +180,7 @@ public:
     float SumDisplacement() const;
 
     int VertexNumber() const {
+//       Print(HError,"Multiplicity",ApplyVertexResolution().size());
         return ApplyVertexResolution().size();
     }
 
@@ -235,6 +236,14 @@ protected:
 
 private:
 
+  struct DetectorGeometry {
+    float MaxTrackerEta = 5;
+    float MinTrackerDistance = 0.1;
+    float MaxTrackerDistance = 1000;
+  };
+
+  DetectorGeometry detector_geometry_;
+
 
     void AddParticle(const int ConstituentId, const float Weight);
 
@@ -242,13 +251,13 @@ private:
 
     std::vector<HConstituent> ApplyVertexResolution() const;
 
-    std::vector<HConstituent> ConstituentsM;
+    std::vector<HConstituent> constituents_;
 
     std::unordered_map<HFamily, float> FamilyFractionsM;
 
     std::map<int, float> IdFractions;
 
-    float SecondaryVertexResolution = 0.1;
+//     float SecondaryVertexResolution = 0.1;
 
     int BTagM;
 

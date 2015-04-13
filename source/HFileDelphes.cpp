@@ -35,24 +35,24 @@ HStrings hanalysis::hdelphes::HFile::Paths() const
     return FilePahts;
 }
 
-std::shared_ptr<hanalysis::HEvent> hanalysis::hdelphes::HFile::Event()
-{
-    Print(HNotification, "Get Event");
-    return std::shared_ptr<hanalysis::HEvent>(new HEvent());
-}
+// std::shared_ptr<hanalysis::HEvent> hanalysis::hdelphes::HFile::Event()
+// {
+//     Print(HNotification, "Get Event");
+//     return std::shared_ptr<hanalysis::HEvent>(new HEvent());
+// }
 
-std::shared_ptr<hanalysis::HClonesArray> hanalysis::hdelphes::HFile::ClonesArrays()
-{
-    Print(HNotification, "Get Clones Arrays");
-    if (SnowMass) {
-//       ClonesArrays = new HClonesArraySnowmass();
-      return std::shared_ptr<hanalysis::HClonesArray>(new HClonesArraySnowmass());
-//       /*ClonesArrays*/ = std::move(ClonesArrays2);
-    } else {
-//       ClonesArrays = new HClonesArray();
-      return std::shared_ptr<hanalysis::HClonesArray>(new HClonesArray());
-//         ClonesArrays = std::move(ClonesArrays2);
-    }
-//     return ClonesArrays;
-
-}
+// std::shared_ptr<hanalysis::HClonesArray> hanalysis::hdelphes::HFile::ClonesArrays()
+// {
+//     Print(HNotification, "Get Clones Arrays");
+//     if (SnowMass) {
+// //       ClonesArrays = new HClonesArraySnowmass();
+//       return std::shared_ptr<hanalysis::HClonesArray>(new HClonesArraySnowmass());
+// //       /*ClonesArrays*/ = std::move(ClonesArrays2);
+//     } else {
+// //       ClonesArrays = new HClonesArray();
+//       return std::shared_ptr<hanalysis::HClonesArray>(new HClonesArray());
+// //         ClonesArrays = std::move(ClonesArrays2);
+//     }
+// //     return ClonesArrays;
+//
+// }

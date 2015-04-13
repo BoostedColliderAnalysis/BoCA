@@ -33,7 +33,7 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles
     NewFiles.front()->SetFileSuffix(".root");
     NewFiles.front()->SetSnowMass(true);
 
-//     FileVector.push_back(new HFile("pp-bbtt-4f", "background"));
+//     FileVector.push_back(new HFile("pp-bbtt-4f", "background");
 
     Print(HNotification, "Files prepared");
 

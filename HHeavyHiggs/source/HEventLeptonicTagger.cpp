@@ -53,47 +53,47 @@ void hheavyhiggs::HEventLeptonicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Spectators.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
-    Observables.push_back(NewObservable(&Branch.JetNumber, "JetNumber"));
-    Observables.push_back(NewObservable(&Branch.BottomNumber, "BottomNumber"));
-    Observables.push_back(NewObservable(&Branch.ScalarHt, "ScalarHt"));
+    AddSpectator(Branch.LeptonNumber, "LeptonNumber");
+    AddObservable(Branch.JetNumber, "JetNumber");
+    AddObservable(Branch.BottomNumber, "BottomNumber");
+    AddObservable(Branch.ScalarHt, "ScalarHt");
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaR, "DeltaR");
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt1, "DeltaPt1"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap1, "DeltaRap1"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi1, "DeltaPhi1"));
-    Observables.push_back(NewObservable(&Branch.DeltaR1, "DeltaR1"));
+    AddObservable(Branch.DeltaPt1, "DeltaPt1");
+    AddObservable(Branch.DeltaRap1, "DeltaRap1");
+    AddObservable(Branch.DeltaPhi1, "DeltaPhi1");
+    AddObservable(Branch.DeltaR1, "DeltaR1");
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt2, "DeltaPt2"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap2, "DeltaRap2"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi2, "DeltaPhi2"));
-    Observables.push_back(NewObservable(&Branch.DeltaR2, "DeltaR2"));
+    AddObservable(Branch.DeltaPt2, "DeltaPt2");
+    AddObservable(Branch.DeltaRap2, "DeltaRap2");
+    AddObservable(Branch.DeltaPhi2, "DeltaPhi2");
+    AddObservable(Branch.DeltaR2, "DeltaR2");
 
-    Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
-    Observables.push_back(NewObservable(&Branch.PairRap, "PairRap"));
+    AddObservable(Branch.HiggsMass, "HiggsMass");
+    AddObservable(Branch.PairRap, "PairRap");
 
-    Observables.push_back(NewObservable(&Branch.RestM, "RestM"));
-    Observables.push_back(NewObservable(&Branch.RestPt, "RestPt"));
-    Observables.push_back(NewObservable(&Branch.RestHt, "RestHt"));
-    Observables.push_back(NewObservable(&Branch.RestPhi, "RestPhi"));
-    Observables.push_back(NewObservable(&Branch.RestRap, "RestRap"));
-    Observables.push_back(NewObservable(&Branch.RestBTag, "RestBTag"));
-    Observables.push_back(NewObservable(&Branch.RestBBdt, "RestBBdt"));
-    Observables.push_back(NewObservable(&Branch.MaxBBdt, "MaxBBdt"));
-    Observables.push_back(NewObservable(&Branch.TotalBBdt, "TotalBBdt"));
-    Observables.push_back(NewObservable(&Branch.ThirdBBdt, "ThirdBBdt"));
+    AddObservable(Branch.RestM, "RestM");
+    AddObservable(Branch.RestPt, "RestPt");
+    AddObservable(Branch.RestHt, "RestHt");
+    AddObservable(Branch.RestPhi, "RestPhi");
+    AddObservable(Branch.RestRap, "RestRap");
+    AddObservable(Branch.RestBTag, "RestBTag");
+    AddObservable(Branch.RestBBdt, "RestBBdt");
+    AddObservable(Branch.MaxBBdt, "MaxBBdt");
+    AddObservable(Branch.TotalBBdt, "TotalBBdt");
+    AddObservable(Branch.ThirdBBdt, "ThirdBBdt");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.Bdt, "Bdt");
+    AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
 
@@ -360,23 +360,23 @@ std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector<
 
 std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 {
-    Print(HNotification, "Apply Bdt", EventBranchName);
-    std::string Temp = EventBranchName; // TODO remove this dirty trick
-    EventBranchName += "Reader";
+  Print(HNotification, "Apply Bdt", GetBranchName());
+  std::string Temp = GetBranchName(); // TODO remove this dirty trick
+  GetBranchName() += "Reader";
 
     const int Steps = 20;
     std::vector<int> EventNumbers(Steps, 0);
 
-    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HResultBranch::Class());
+    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HResultBranch::Class());
 
-    for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
+    for (const int EventNumber : Range(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
 
         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 
-        for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
+        for (const int Entry : Range(EventClonesArray->GetEntriesFast())) {
 
 
             HEventLeptonicBranch *Test = (HEventLeptonicBranch *) EventClonesArray->At(Entry);
@@ -398,7 +398,7 @@ std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeRe
 
     TreeWriter->Write();
     delete TreeWriter;
-    EventBranchName = Temp;
+    SetBranchName(Temp);
 
     return EventNumbers;
 

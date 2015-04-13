@@ -46,8 +46,8 @@ class hheavyhiggs::HBranchHeavyHiggs : public HBranch
 
 public:
 
-    int JetNumber;
-    int BTag;
+    float JetNumber;
+    float BTag;
     float Isolation;
 
     float BottomRap1;
@@ -88,24 +88,24 @@ class hheavyhiggs::HEventLeptonicBranch : public HBranch
 
 public:
 
-  HEventLeptonicBranch();
+    HEventLeptonicBranch();
 
-  float Mass;
-  float Pt;
-  float Rap;
-  float Phi;
+    float Mass;
+    float Pt;
+    float Rap;
+    float Phi;
 
-  float DeltaPt;
-  float DeltaRap;
-  float DeltaPhi;
-  float DeltaR;
+    float DeltaPt;
+    float DeltaRap;
+    float DeltaPhi;
+    float DeltaR;
 
-  float Bdt;
-  int Tag;
+    float Bdt;
+    float Tag;
 
-    int LeptonNumber;
-    int JetNumber;
-    int BottomNumber;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
     float ScalarHt;
 
     float HiggsMass;
@@ -129,12 +129,12 @@ public:
     float MaxBBdt;
     float TotalBBdt;
     float RestPhi;
-    int RestBTag;
+    float RestBTag;
     float ThirdBBdt;
 
 private:
 
-  ClassDef(HEventLeptonicBranch, 1)
+    ClassDef(HEventLeptonicBranch, 1)
 
 };
 
@@ -151,39 +151,39 @@ class hheavyhiggs::HEventHadronicBranch : public HBranch
 
 public:
 
-  HEventHadronicBranch();
+    HEventHadronicBranch();
 
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
 
-  float ScalarHt;
-  float HeavyParticleBdt;
+    float ScalarHt;
+    float HeavyParticleBdt;
 
-  float HeavyHiggsBdt;
-  float HeavyHiggsMass;
-  float HeavyHiggsPt;
+    float HeavyHiggsBdt;
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
 
-  float BottomSumPt;
-  float BottomDeltaPt;
+    float BottomSumPt;
+    float BottomDeltaPt;
 
-  float BottomDeltaRap;
-  float BottomDeltaPhi;
-  float BottomDeltaR;
+    float BottomDeltaRap;
+    float BottomDeltaPhi;
+    float BottomDeltaR;
 
-  float HbSumDeltaRap;
-  float HbSumDeltaPhi;
-  float HbSumDeltaR;
+    float HbSumDeltaRap;
+    float HbSumDeltaPhi;
+    float HbSumDeltaR;
 
-  float HbDeltaDeltaRap;
-  float HbDeltaDeltaPhi;
-  float HbDeltaDeltaR;
+    float HbDeltaDeltaRap;
+    float HbDeltaDeltaPhi;
+    float HbDeltaDeltaR;
 
-  int EventTag;
+    float EventTag;
 
 private:
 
-  ClassDef(HEventHadronicBranch, 1)
+    ClassDef(HEventHadronicBranch, 1)
 
 };
 
@@ -199,62 +199,62 @@ class hheavyhiggs::HEventSemiBranch : public HPairBranch
 
 public:
 
-  HEventSemiBranch();
+    HEventSemiBranch();
 
-  float HiggsMass;
-  float PairRap;
-  float HiggsBdt;
-  float SignatureBdt;
-  float BottomBdt;
-  float PairBottomBdt;
+    float HiggsMass;
+    float PairRap;
+    float HiggsBdt;
+    float SignatureBdt;
+    float BottomBdt;
+    float PairBottomBdt;
 
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
-  float ScalarHt;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
+    float ScalarHt;
 
-  int RestNumber;
-  float RestHt;
-  float RestM;
-  float RestPt;
-  float RestRap;
-  float RestBdt;
-  float RestPhi;
-  float LeptonHt;
+    float RestNumber;
+    float RestHt;
+    float RestM;
+    float RestPt;
+    float RestRap;
+    float RestBdt;
+    float RestPhi;
+    float LeptonHt;
 
-  float HardTopPt;
-  float SoftTopPt;
+    float HardTopPt;
+    float SoftTopPt;
 
-  float BottomBdt1;
-  float BottomBdt2;
-  float BottomBdt3;
-  float BottomBdt4;
-  float BottomBdt5;
-  float BottomBdt6;
-  float BottomBdt7;
-  float BottomBdt8;
-  float BottomBdt12;
-  float BottomBdt34;
-  float BottomBdt56;
-  float BottomBdt78;
+    float BottomBdt1;
+    float BottomBdt2;
+    float BottomBdt3;
+    float BottomBdt4;
+    float BottomBdt5;
+    float BottomBdt6;
+    float BottomBdt7;
+    float BottomBdt8;
+    float BottomBdt12;
+    float BottomBdt34;
+    float BottomBdt56;
+    float BottomBdt78;
 
-  float SubBottomBdt1;
-  float SubBottomBdt2;
-  float SubBottomBdt3;
-  float SubBottomBdt4;
-  float SubBottomBdt5;
-  float SubBottomBdt6;
-  float SubBottomBdt7;
-  float SubBottomBdt8;
-  float SubBottomBdt12;
-  float SubBottomBdt34;
-  float SubBottomBdt56;
-  float SubBottomBdt78;
+    float SubBottomBdt1;
+    float SubBottomBdt2;
+    float SubBottomBdt3;
+    float SubBottomBdt4;
+    float SubBottomBdt5;
+    float SubBottomBdt6;
+    float SubBottomBdt7;
+    float SubBottomBdt8;
+    float SubBottomBdt12;
+    float SubBottomBdt34;
+    float SubBottomBdt56;
+    float SubBottomBdt78;
 
 
 private:
 
-  ClassDef(HEventSemiBranch, 1)
+    ClassDef(HEventSemiBranch, 1)
 
 };
 
@@ -269,29 +269,29 @@ class hheavyhiggs::HEventTtSemiBranch : public HPairBranch
 
 public:
 
-  HEventTtSemiBranch();
+    HEventTtSemiBranch();
 
 
-  float HiggsMass;
-  float HiggsBdt;
+    float HiggsMass;
+    float HiggsBdt;
 
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
-  float ScalarHt;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
+    float ScalarHt;
 
-  int RestNumber;
-  float RestHt;
-  float RestM;
-  float RestPt;
-  float RestRap;
-  float RestBdt;
-  float RestPhi;
-  float LeptonHt;
+    float RestNumber;
+    float RestHt;
+    float RestM;
+    float RestPt;
+    float RestRap;
+    float RestBdt;
+    float RestPhi;
+    float LeptonHt;
 
 private:
 
-  ClassDef(HEventTtSemiBranch, 1)
+    ClassDef(HEventTtSemiBranch, 1)
 
 };
 
@@ -300,29 +300,29 @@ class hheavyhiggs::HBdtBranch : public HBranch
 
 public:
 
-  HBdtBranch();
+    HBdtBranch();
 
-  float Mass;
-  float Bdt;
-  float Error;
-  float Rarity;
+    float Mass;
+    float Bdt;
+    float Error;
+    float Rarity;
 
-  float Probability01;
-  float Probability02;
-  float Probability03;
-  float Probability04;
-  float Probability05;
-  float Probability06;
-  float Probability07;
-  float Probability08;
-  float Probability09;
-  float Probability10;
+    float Probability01;
+    float Probability02;
+    float Probability03;
+    float Probability04;
+    float Probability05;
+    float Probability06;
+    float Probability07;
+    float Probability08;
+    float Probability09;
+    float Probability10;
 
-  int EventTag;
+    float EventTag;
 
 private:
 
-  ClassDef(HBdtBranch, 1)
+    ClassDef(HBdtBranch, 1)
 
 };
 
@@ -338,20 +338,20 @@ class hheavyhiggs::HOctetBranch : public HPairBranch
 
 public:
 
-  HOctetBranch();
+    HOctetBranch();
 
-  float HiggsMass;
-  float PairRap;
-  float BottomBdt;
-  float PairBottomBdt;
-  float HiggsBdt;
-  float PairBdt;
-  float HardTopPt;
-  float SoftTopPt;
+    float HiggsMass;
+    float PairRap;
+    float BottomBdt;
+    float PairBottomBdt;
+    float HiggsBdt;
+    float PairBdt;
+    float HardTopPt;
+    float SoftTopPt;
 
 private:
 
-  ClassDef(HOctetBranch, 1)
+    ClassDef(HOctetBranch, 1)
 
 };
 
@@ -365,18 +365,18 @@ class hheavyhiggs::HChargedOctetBranch : public HPairBranch
 
 public:
 
-  HChargedOctetBranch();
+    HChargedOctetBranch();
 
-  float HiggsMass;
-  float PairRap;
-  float BottomBdt;
-  float PairBottomBdt;
-  float HiggsBdt;
-  float PairBdt;
+    float HiggsMass;
+    float PairRap;
+    float BottomBdt;
+    float PairBottomBdt;
+    float HiggsBdt;
+    float PairBdt;
 
 private:
 
-  ClassDef(HChargedOctetBranch, 1)
+    ClassDef(HChargedOctetBranch, 1)
 
 };
 
@@ -390,58 +390,58 @@ class hheavyhiggs::HChargedSemiBranch : public HPairBranch
 
 public:
 
-  HChargedSemiBranch();
+    HChargedSemiBranch();
 
-  float HiggsMass;
-  float PairRap;
-  float HiggsBdt;
-  float SignatureBdt;
-  float BottomBdt;
-  float PairBottomBdt;
+    float HiggsMass;
+    float PairRap;
+    float HiggsBdt;
+    float SignatureBdt;
+    float BottomBdt;
+    float PairBottomBdt;
 
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
-  float ScalarHt;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
+    float ScalarHt;
 
-  int RestNumber;
-  float RestHt;
-  float RestM;
-  float RestPt;
-  float RestRap;
-  float RestBdt;
-  float RestPhi;
-  float LeptonHt;
+    float RestNumber;
+    float RestHt;
+    float RestM;
+    float RestPt;
+    float RestRap;
+    float RestBdt;
+    float RestPhi;
+    float LeptonHt;
 
-  float BottomBdt1;
-  float BottomBdt2;
-  float BottomBdt3;
-  float BottomBdt4;
-  float BottomBdt5;
-  float BottomBdt6;
-  float BottomBdt7;
-  float BottomBdt8;
-  float BottomBdt12;
-  float BottomBdt34;
-  float BottomBdt56;
-  float BottomBdt78;
+    float BottomBdt1;
+    float BottomBdt2;
+    float BottomBdt3;
+    float BottomBdt4;
+    float BottomBdt5;
+    float BottomBdt6;
+    float BottomBdt7;
+    float BottomBdt8;
+    float BottomBdt12;
+    float BottomBdt34;
+    float BottomBdt56;
+    float BottomBdt78;
 
-  float SubBottomBdt1;
-  float SubBottomBdt2;
-  float SubBottomBdt3;
-  float SubBottomBdt4;
-  float SubBottomBdt5;
-  float SubBottomBdt6;
-  float SubBottomBdt7;
-  float SubBottomBdt8;
-  float SubBottomBdt12;
-  float SubBottomBdt34;
-  float SubBottomBdt56;
-  float SubBottomBdt78;
+    float SubBottomBdt1;
+    float SubBottomBdt2;
+    float SubBottomBdt3;
+    float SubBottomBdt4;
+    float SubBottomBdt5;
+    float SubBottomBdt6;
+    float SubBottomBdt7;
+    float SubBottomBdt8;
+    float SubBottomBdt12;
+    float SubBottomBdt34;
+    float SubBottomBdt56;
+    float SubBottomBdt78;
 
 private:
 
-  ClassDef(HChargedSemiBranch, 1)
+    ClassDef(HChargedSemiBranch, 1)
 
 };
 
@@ -456,39 +456,39 @@ class hheavyhiggs::HChargedLeptonicBranch : public HBranch
 
 public:
 
-  HChargedLeptonicBranch();
+    HChargedLeptonicBranch();
 
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
 
-  float ScalarHt;
-  float HeavyParticleBdt;
+    float ScalarHt;
+    float HeavyParticleBdt;
 
-  float HeavyHiggsBdt;
-  float HeavyHiggsMass;
-  float HeavyHiggsPt;
+    float HeavyHiggsBdt;
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
 
-  float BottomSumPt;
-  float BottomDeltaPt;
+    float BottomSumPt;
+    float BottomDeltaPt;
 
-  float BottomDeltaRap;
-  float BottomDeltaPhi;
-  float BottomDeltaR;
+    float BottomDeltaRap;
+    float BottomDeltaPhi;
+    float BottomDeltaR;
 
-  float HbSumDeltaRap;
-  float HbSumDeltaPhi;
-  float HbSumDeltaR;
+    float HbSumDeltaRap;
+    float HbSumDeltaPhi;
+    float HbSumDeltaR;
 
-  float HbDeltaDeltaRap;
-  float HbDeltaDeltaPhi;
-  float HbDeltaDeltaR;
+    float HbDeltaDeltaRap;
+    float HbDeltaDeltaPhi;
+    float HbDeltaDeltaR;
 
-  int EventTag;
+    float EventTag;
 
 private:
 
-  ClassDef(HChargedLeptonicBranch, 1)
+    ClassDef(HChargedLeptonicBranch, 1)
 
 };
 
@@ -502,39 +502,39 @@ class hheavyhiggs::HChargedHadronicBranch : public HBranch
 
 public:
 
-  HChargedHadronicBranch();
+    HChargedHadronicBranch();
 
-  int LeptonNumber;
-  int JetNumber;
-  int BottomNumber;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
 
-  float ScalarHt;
-  float HeavyParticleBdt;
+    float ScalarHt;
+    float HeavyParticleBdt;
 
-  float HeavyHiggsBdt;
-  float HeavyHiggsMass;
-  float HeavyHiggsPt;
+    float HeavyHiggsBdt;
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
 
-  float BottomSumPt;
-  float BottomDeltaPt;
+    float BottomSumPt;
+    float BottomDeltaPt;
 
-  float BottomDeltaRap;
-  float BottomDeltaPhi;
-  float BottomDeltaR;
+    float BottomDeltaRap;
+    float BottomDeltaPhi;
+    float BottomDeltaR;
 
-  float HbSumDeltaRap;
-  float HbSumDeltaPhi;
-  float HbSumDeltaR;
+    float HbSumDeltaRap;
+    float HbSumDeltaPhi;
+    float HbSumDeltaR;
 
-  float HbDeltaDeltaRap;
-  float HbDeltaDeltaPhi;
-  float HbDeltaDeltaR;
+    float HbDeltaDeltaRap;
+    float HbDeltaDeltaPhi;
+    float HbDeltaDeltaR;
 
-  int EventTag;
+    float EventTag;
 
 private:
 
-  ClassDef(HChargedHadronicBranch, 1)
+    ClassDef(HChargedHadronicBranch, 1)
 
 };
 

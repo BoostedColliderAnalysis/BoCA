@@ -580,15 +580,17 @@ bool hheavyhiggs::HAnalysisCharged::Analysis(hanalysis::HEvent &Event, const han
     if (ObjectNumber > EventNumberMax()) return 0;
 
     HJets Particles = Event.GetParticles()->Generator();
-    HJets BottomQuarks = fastjet::sorted_by_pt(BottomTagger.RemoveIfWrongAbsParticle(Particles, BottomId));
-    HJets TopQuarks = fastjet::sorted_by_pt(BottomTagger.RemoveIfWrongAbsParticle(Particles, TopId));
-    if (BottomQuarks.size() < 2) {
-        Print(HError, "Not enough bottom quarks", BottomQuarks.size());
+
+    HJets BottomQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, BottomId));
+    BottomQuarks = fastjet::sorted_by_pt(RemoveIfAbsMother(BottomQuarks, TopId));
+    if (BottomQuarks.size() != 2) {
+        if (PreCut() > 0)Print(HError, "Not enough bottom quarks", BottomQuarks.size());
         return 0;
     } else {
         if (BottomQuarks.front().pt() < PreCut()) return 0;
     }
 
+    HJets TopQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, TopId));
     if (TopQuarks.size() != 2) {
         Print(HError, "Not enough top quarks", TopQuarks.size());
         return 0;
@@ -596,7 +598,7 @@ bool hheavyhiggs::HAnalysisCharged::Analysis(hanalysis::HEvent &Event, const han
         if (TopQuarks.front().pt() < PreCut()) return 0;
     }
 
-    ++EventSumM;
+    ++event_sum_;
 
     switch (Tagger) {
     case HBottomTagger :

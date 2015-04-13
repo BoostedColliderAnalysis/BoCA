@@ -5,23 +5,21 @@ hhiggscpv::HMvaBottom::HMvaBottom()
 
     Print(HNotification , "Constructor");
 
-    AnalysisName = "HiggsCpv";
+    SetTaggerName("Bottom");
 
-    TaggerName = "Bottom";
+//     SignalNames = {"Bottom"};
 
-    SignalNames = {"Bottom"};
+//     BackgroundNames = {"NotBottom"};
 
-    BackgroundNames = {"NotBottom"};
+//     TestName = "Test";
 
-    TestName = "Test";
+//     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
 
-    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
+//     SignalTreeNames = TestTreeNames;
 
-    SignalTreeNames = TestTreeNames;
+//     BackgroundTreeNames = TestTreeNames;
 
-    BackgroundTreeNames = TestTreeNames;
-
-    EventBranchName = "Bottom";
+//     SetBranchName("Bottom");
 
     BTagger = new HBottomBranch();
 
@@ -43,14 +41,14 @@ void hhiggscpv::HMvaBottom::DefineVariables()
 
     Print(HNotification , "Define Variables",BTagger->Mass);
 
-    Observables.push_back(NewObservable(&BTagger->VertexMass, "VertexMass"));
-    Observables.push_back(NewObservable(&BTagger->Pt, "Pt"));
-    Observables.push_back(NewObservable(&BTagger->MaxDisplacement, "Displacement"));
-    Observables.push_back(NewObservable(&BTagger->Multipliticity, "Multipliticity"));
-    Observables.push_back(NewObservable(&BTagger->DeltaR, "DeltaR"));
+    AddObservable(BTagger->VertexMass, "VertexMass");
+    AddObservable(BTagger->Pt, "Pt");
+    AddObservable(BTagger->MaxDisplacement, "Displacement");
+    AddObservable(BTagger->Multipliticity, "Multipliticity");
+    AddObservable(BTagger->DeltaR, "DeltaR");
 
-    Spectators.push_back(NewObservable(&BTagger->Mass, "Mass"));
-    Spectators.push_back(NewObservable(&BTagger->Tag, "Tag"));
+    AddSpectator(BTagger->Mass, "Mass");
+    AddSpectator(BTagger->Tag, "Tag");
 
     Print(HNotification, "Variables defined");
 
@@ -59,10 +57,10 @@ void hhiggscpv::HMvaBottom::DefineVariables()
 float hhiggscpv::HMvaBottom::GetBdt(TObject *Branch, const TMVA::Reader &Reader)
 {
 
-    Print(HInformation, "Get Bdt", bdt_method_name);
+  Print(HInformation, "Get Bdt", BdtMethodName());
 
     *BTagger = *static_cast<HBottomBranch *>(Branch);
-    const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name);
+    const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName());
     Print(HInformation, "BTagger Bdt", BdtEvaluation);
 
     return ((BdtEvaluation + 1.) / 2.);

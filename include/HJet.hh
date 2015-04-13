@@ -30,28 +30,28 @@ public:
     /**
      * @brief Initialize New event
      */
-    void NewEvent(const hanalysis::HClonesArray *const NewClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray &NewClonesArrays);
 
     void SetJetTag(HJetTag &NewJetTag) {
         JetTag = &NewJetTag;
     }
 
     HJets GetJets() {
-      NewEvent(ClonesArrays);
+      NewEvent(*ClonesArrays);
 //       if (!GotJets)
         GotJets = GetJets(Plain);
       return JetsM;
     };
 
     HJets GetStructuredJets() {
-      NewEvent(ClonesArrays);
+      NewEvent(*ClonesArrays);
 //         if (!GotJets)
           GotJets = GetJets(Structure);
         return JetsM;
     };
 
     HJets GetTaggedJets() {
-      NewEvent(ClonesArrays);
+      NewEvent(*ClonesArrays);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return JetsM;
@@ -59,7 +59,7 @@ public:
 
     HJets GetTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
-      NewEvent(ClonesArrays);
+      NewEvent(*ClonesArrays);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return JetsM;
@@ -67,7 +67,7 @@ public:
 
     HJets GetStructuredTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
-      NewEvent(ClonesArrays);
+      NewEvent(*ClonesArrays);
 //       if (!GotJets)
         GotJets = GetJets(TaggingStructure);
       return JetsM;
@@ -75,7 +75,7 @@ public:
 
     HJets GetBottomJets() {
       //         if (!GotJets)
-      NewEvent(ClonesArrays);
+      NewEvent(*ClonesArrays);
           GotJets = GetJets(Plain);
         return BottomJets;
     };
@@ -211,18 +211,18 @@ protected:
     HVectors BottomLorentzVectors;
 
     template<typename TParticle1, typename TParticle2>
-    bool CheckIsolation(const TParticle1 *const Particle1, const TParticle2 *const Particle2, const float DeltaRIsolationMax) const {
+    bool CheckIsolation(const TParticle1 &Particle1, const TParticle2 &Particle2, const float DeltaRIsolationMax) const {
 
         bool Isolated = 1;
 
-        if (PseudoJet(const_cast<TParticle1 *>(Particle1)->P4()).delta_R(PseudoJet(const_cast<TParticle2 *>(Particle2)->P4())) < DeltaRIsolationMax) Isolated = 0;
+        if (PseudoJet(const_cast<TParticle1 &>(Particle1).P4()).delta_R(PseudoJet(const_cast<TParticle2 &>(Particle2).P4())) < DeltaRIsolationMax) Isolated = 0;
 
         return Isolated;
 
     }
 
     template<typename TParticle1, typename TParticle2>
-    bool CheckIsolation(const TParticle1 *const Particle1, const TParticle2 *const Particle2) const {
+    bool CheckIsolation(const TParticle1 &Particle1, const TParticle2 &Particle2) const {
 
 //         const float DeltaRIsolationMax = 0.01; // TODO decide on best value // This is quiet large
         const float DeltaRIsolationMax = 0; // TODO decide on best value // This is quiet large

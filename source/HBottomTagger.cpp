@@ -2,10 +2,9 @@
 
 hanalysis::HBottomTagger::HBottomTagger(const std::string &ProjectName)
 {
-//       DebugLevel = HDebug;
-  Print(HInformation, "Constructor");
-  SetAnalysisName(ProjectName);
-  SetTagger();
+    Print(HInformation, "Constructor");
+    SetAnalysisName(ProjectName);
+    SetTagger();
 }
 
 hanalysis::HBottomTagger::HBottomTagger()
@@ -26,27 +25,26 @@ void hanalysis::HBottomTagger::DefineVariables()
 {
     Print(HInformation , "Define Variables");
 
-    Observables.clear();
-    Spectators.clear();
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.VertexMass, "VertexMass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Spectators.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Spectators.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.MaxDisplacement, "MaxDisplacement"));
-    Observables.push_back(NewObservable(&Branch.MeanDisplacement, "MeanDisplacement"));
-    Observables.push_back(NewObservable(&Branch.SumDisplacement, "SumDisplacement"));
-    Observables.push_back(NewObservable(&Branch.Multipliticity, "Multipliticity"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch.Spread, "Spread"));
-    Observables.push_back(NewObservable(&Branch.VertexDeltaR, "VertexDeltaR"));
-    Observables.push_back(NewObservable(&Branch.VertexSpread, "VertexSpread"));
-    Observables.push_back(NewObservable(&Branch.EnergyFraction, "EnergyFraction"));
-    Spectators.push_back(NewObservable(&Branch.BTag, "BTag"));
+    AddObservable(Branch.VertexMass, "VertexMass");
+    AddObservable(Branch.Pt, "Pt");
+    AddSpectator(Branch.Rap, "Rap");
+    AddSpectator(Branch.Phi, "Phi");
+    AddObservable(Branch.MaxDisplacement, "MaxDisplacement");
+    AddObservable(Branch.MeanDisplacement, "MeanDisplacement");
+    AddObservable(Branch.SumDisplacement, "SumDisplacement");
+    AddObservable(Branch.Multipliticity, "Multipliticity");
+    AddObservable(Branch.DeltaR, "DeltaR");
+    AddObservable(Branch.Spread, "Spread");
+    AddObservable(Branch.VertexDeltaR, "VertexDeltaR");
+    AddObservable(Branch.VertexSpread, "VertexSpread");
+    AddObservable(Branch.EnergyFraction, "EnergyFraction");
+    AddSpectator(Branch.BTag, "BTag");
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
-    Spectators.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+    AddObservable(Branch.Mass, "Mass");
+    AddSpectator(Branch.Tag, "Tag");
+    AddSpectator(Branch.Bdt, "Bdt");
 }
 
 HBottomBranch hanalysis::HBottomTagger::GetBranch(const fastjet::PseudoJet &Jet) const
@@ -96,11 +94,12 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
     Print(HInformation, "Number Jets", Jets.size());
 
     HJets Particles = Event.GetParticles()->Generator();
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId,TopId)), Particles.end());
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId, TopId)), Particles.end());
+    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
     Print(HInformation, "Particle size", Particles.size());
 
     std::vector<HBottomBranch> BottomBranches;
-        if (Jets.size()<1) return BottomBranches;
+    if (Jets.size() < 1) return BottomBranches;
     HJets FinalJets = CleanJets(Jets, Particles, Tag);
 
     HJets Pieces = GetSubJets(Jets, Particles, Tag, 2);
@@ -129,7 +128,7 @@ HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Parti
             Print(HError, "Get Sub Jets", "No Jet Info");
             continue;
         }
-        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), DetectorGeometry.JetDefinition);
+        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), DetectorGeometry.SubJetDefinition);
         HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
         ClusterSequence->delete_self_when_unused();
 
@@ -158,7 +157,7 @@ HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, c
 
     for (const auto & Particle : Particles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if(Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+        if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
     }
 
     HJets NewCleanJets;
@@ -185,14 +184,14 @@ HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, c
 //         }
 // for (const auto &Particle : Particles) if (Tag == HBackground && Jet.delta_R(Particle) < std::min(GetDeltaR(Jet), float(0.4))) continue;
 //         static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetTag(GetTag(Jet));
-Print(HDebug,"Jet Tag",Jet.user_info<HJetInfo>().Tag());
+        Print(HDebug, "Jet Tag", Jet.user_info<HJetInfo>().Tag());
         if (Jet.user_info<HJetInfo>().Tag() != Tag) continue;
         NewCleanJets.push_back(Jet);
     }
     return NewCleanJets;
 }
 
-hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &Jet) const
+hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &) const
 {
 
     return HSignal;
@@ -225,7 +224,7 @@ HJets hanalysis::HBottomTagger::GetSubBdt(const HJets &Jets, const HReader &Bott
             Print(HError, "Get Sub Bdt", "No Jet Info");
             continue;
         }
-        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), DetectorGeometry.JetDefinition);
+        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), DetectorGeometry.SubJetDefinition);
         HJets SubPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
         ClusterSequence->delete_self_when_unused();
 

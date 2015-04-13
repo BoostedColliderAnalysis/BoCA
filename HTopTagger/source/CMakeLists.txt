@@ -4,6 +4,7 @@ HDictionary(HBranchTopTagger HBranchTopTagger.cpp ../include/HLinkDefTopTagger.h
 set(HTopTaggerLib
 HAnalysisTopTagger.cpp
 HTopLeptonTagger.cpp
+HTopHadronTagger.cpp
 )
 
 HLibrary(HAnalysisTopTagger "${HTopTaggerLib}")

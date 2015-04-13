@@ -1,9 +1,7 @@
-# ifndef HBranchTopTagger_hh
-# define HBranchTopTagger_hh
+# pragma once
 
-# include "TObject.h"
-# include "Rtypes.h"
-# include "TGenericClassInfo.h"
+# include "HBranch.hh"
+
 
 namespace htoptagger{
 
@@ -73,86 +71,42 @@ private:
 
 };
 
-// /**
-// * @brief Class for saving leptons to root
-// *
-// */
-// class HLeptonBranch : public TObject
-// {
-//
-// public:
-//
-//     float Mass;
-//     float Pt;
-//     float Rap;
-//     float Phi;
-//     int Charge;
-//
-//     HLeptonBranch();
-//
-//     virtual ~HLeptonBranch();
-//
-// private:
-//
-//     void reset();
-//
-//     ClassDef(HLeptonBranch, 1)
-//
-// };
-//
-// /**
-//  * @brief Class for saving leptons to root
-//  *
-//  */
-// class HConstituentBranch : public TObject
-// {
-//
-// public:
-//
-//     float Rap;
-//     float Phi;
-//     float Pt;
-//     int Id;
-//
-//     HConstituentBranch();
-//
-//     virtual ~HConstituentBranch();
-//
-// private:
-//
-//     void reset();
-//
-//     ClassDef(HConstituentBranch, 1)
-//
-// };
-//
-//
-// /**
-//  * @brief Class for saving leptons to root
-//  *
-//  */
-// class HJetPropertiesBranch : public TObject
-// {
-//
-// public:
-//
-//     float Mass;
-//     float Pt;
-//     float Rap;
-//     float Phi;
-//     float Radius;
-//
-//     HJetPropertiesBranch();
-//
-//     virtual ~HJetPropertiesBranch();
-//
-// private:
-//
-//     void reset();
-//
-//     ClassDef(HJetPropertiesBranch, 1)
-//
-// };
+class HTopHadronBranch : public HPairBranch
+{
 
+public:
 
-# endif
+  HTopHadronBranch();
+
+  float BottomPt;
+  float WPt;
+
+  float Tau1_1;
+  float Tau2_1;
+  float Tau3_1;
+  float Tau21_1;
+  float Tau32_1;
+
+  float Tau1_2;
+  float Tau2_2;
+  float Tau3_2;
+  float Tau21_2;
+  float Tau32_2;
+
+  float VertexMass;
+  float MaxDisplacement;
+  float MeanDisplacement;
+  float SumDisplacement;
+  float Multipliticity;
+  float Spread;
+  float VertexDeltaR;
+  float VertexSpread;
+  float EnergyFraction;
+
+  float LeptonPt;
+
+private:
+
+  ClassDef(HTopHadronBranch, 1)
+
+};

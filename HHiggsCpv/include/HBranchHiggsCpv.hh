@@ -38,15 +38,15 @@ public:
     HEventBranch();
 
     float ScalarHt;
-    int JetNumber;
-    int BottomNumber;
-    int LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
+    float LeptonNumber;
     float HeavyParticleTag;
     float TopDeltaRap;
     float TopDeltaPhi;
     float TopDeltaR;
 
-    int Signal;
+    float Signal;
 
 private:
 
@@ -70,7 +70,7 @@ public:
     float Pt;
     float Rap;
     float Phi;
-    int Charge;
+    float Charge;
 
 private:
 

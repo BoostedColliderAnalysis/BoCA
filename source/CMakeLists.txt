@@ -12,6 +12,7 @@ HEvent.cpp
 HParticle.cpp
 HLepton.cpp
 HJet.cpp
+Predicate.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 

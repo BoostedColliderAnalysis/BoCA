@@ -21,7 +21,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
     Print(HInformation, "Get Particles", ClonesArrays->GetParticleSum());
 
-    for (const int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
+    for (const int ParticleNumber : Range(ClonesArrays->GetParticleSum())) {
 
         TRootLHEFParticle *ParticleClone = (TRootLHEFParticle *) ClonesArrays->GetParticle(ParticleNumber);
 
@@ -35,7 +35,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             if (std::abs(ParticleID) == ElectronId) {
 
-                TLorentzVector ElectronVector = GetLorentzVector(ParticleClone);
+                TLorentzVector ElectronVector = GetLorentzVector(*ParticleClone);
 
                 if (ParticleID > 0) {
 
@@ -53,7 +53,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             if (std::abs(ParticleID) == MuonId) {
 
-                TLorentzVector MuonVector = GetLorentzVector(ParticleClone);
+                TLorentzVector MuonVector = GetLorentzVector(*ParticleClone);
 
                 if (ParticleID > 0) {
 
@@ -71,7 +71,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             if (std::abs(ParticleID) == BottomId) {
 
-                fastjet::PseudoJet BottomJet = GetPseudoJet(ParticleClone);
+                fastjet::PseudoJet BottomJet = GetPseudoJet(*ParticleClone);
 
                 BottomJets.push_back(BottomJet);
                 Print(HDebug, "Bottom");
@@ -80,8 +80,8 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             if (std::abs(ParticleID) == TopId) {
 
-                TLorentzVector TopVector = GetLorentzVector(ParticleClone);
-                fastjet::PseudoJet TopJet = GetPseudoJet(ParticleClone);
+                TLorentzVector TopVector = GetLorentzVector(*ParticleClone);
+                fastjet::PseudoJet TopJet = GetPseudoJet(*ParticleClone);
                 TopJets.push_back(TopJet);
 
                 if (ParticleID > 0) {
@@ -107,7 +107,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             if (std::abs(ParticleID) == CharmId) {
 
-                fastjet::PseudoJet CharmJet = GetPseudoJet(ParticleClone);
+                fastjet::PseudoJet CharmJet = GetPseudoJet(*ParticleClone);
 
                 CharmJets.push_back(CharmJet);
                 Print(HDebug, "Charm");
@@ -125,7 +125,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             if (std::abs(ParticleID) == CpvHiggsId) {
 
-                fastjet::PseudoJet HiggsJet = GetPseudoJet(ParticleClone);
+                fastjet::PseudoJet HiggsJet = GetPseudoJet(*ParticleClone);
 
                 HiggsJets.push_back(HiggsJet);
                 Print(HDebug, "CPV Higgs");
@@ -142,7 +142,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
             if (std::abs(ParticleID) == HeavyHiggsId) {
 
-                fastjet::PseudoJet HiggsJet = GetPseudoJet(ParticleClone);
+                fastjet::PseudoJet HiggsJet = GetPseudoJet(*ParticleClone);
 
                 HiggsJets.push_back(HiggsJet);
                 Print(HDebug, "Heavy CPV Higgs");

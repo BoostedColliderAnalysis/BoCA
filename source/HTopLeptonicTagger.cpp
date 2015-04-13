@@ -32,20 +32,20 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
 
-    Observables.push_back(NewObservable(&Branch.BottomPt, "BottomPt"));
-    Observables.push_back(NewObservable(&Branch.LeptonPt, "LeptonPt"));
+    AddObservable(Branch.BottomPt, "BottomPt");
+    AddObservable(Branch.LeptonPt, "LeptonPt");
 
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaR, "DeltaR");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.Bdt, "Bdt");
+    AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
 
@@ -143,7 +143,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJ
     }
 
     std::sort(Doublets.begin(), Doublets.end());
-    Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());
 
     return Doublets;
 

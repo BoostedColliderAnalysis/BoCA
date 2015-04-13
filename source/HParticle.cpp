@@ -16,7 +16,7 @@ hanalysis::HParticle::~HParticle()
 
 }
 
-void hanalysis::HParticle::NewEvent(const HClonesArray * const NewClonesArrays){
+void hanalysis::HParticle::NewEvent(const HClonesArray &NewClonesArrays){
 
     Print(HInformation,"New Event");
 

@@ -72,7 +72,7 @@ public:
         HReader
     };
 
-    void AnalysisLoop(const HTagger Tagger);
+    void AnalysisLoop(const hanalysis::HAnalysis::HTagger tagger);
 
     void AnalysisLoop() {
         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
@@ -80,8 +80,7 @@ public:
 
     virtual std::vector<HFile> Files(const HTagger Tagger, const HTag State) {
         Print(HError, "GetFiles", "Should be subclasses", Tagger, State);
-        std::vector<HFile> NewFiles;
-        return NewFiles;
+        return std::vector<HFile>{};
     }
 
     void SetConfig(const HConfig &config) {
@@ -90,24 +89,20 @@ public:
 
 protected:
 
-    inline int EventSum(const std::shared_ptr<ExRootTreeReader> &NewTreeReader) const {
-        return EventSum(*NewTreeReader.get());
-    }
-
     inline int EventSum(const ExRootTreeReader &NewTreeReader) const {
 //       return std::min((int)NewTreeReader.GetEntries(), EventNumberMax());
         return NewTreeReader.GetEntries();
     }
 
-    ExRootTreeWriter TreeWriter(const TFile &NewExportFile, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
+    ExRootTreeWriter TreeWriter(const TFile &export_file, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
 
-    ExRootTreeReader *TreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
+//     ExRootTreeReader *TreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
-    TFile *ExportFile(const std::string &StudyName) const;
+//     TFile *ExportFile(const std::string &StudyName) const;
 
-    std::string ExportName(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag State) const;
+    std::string ExportName(const hanalysis::HAnalysis::HTagger tagger, const hanalysis::HObject::HTag tag) const;
 
-    HInfoBranch FillInfoBranch(const ExRootTreeReader &NewTreeReader, const hanalysis::HFile &File);
+    HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::HFile &file);
 
     virtual bool Analysis(HEvent &, const HTagger Tagger, const HTag State) {
         Print(HError, "Analysis", "should be subclassed", Tagger, State);
@@ -137,9 +132,9 @@ protected:
 //      * @brief Maximal number of Entries to analyse
 //      *
 //      */
-//     virtual inline int EventNumberMax() const {
-//         return 100000;
-//     }
+    virtual inline int EventNumberMax() const {
+        return 100000;
+    }
 
     virtual inline std::string StudyName(const HTagger Tagger) const {
         Print(HError, "GetStudyName", "What are we doing here?", Tagger);
@@ -168,7 +163,12 @@ protected:
         return JoinVectors(Files1, Files2);
     };
 
-    int EventSumM;
+    int event_sum_;
+
+    int &event_sum(){
+      return event_sum_;
+    }
+
     /**
      * @brief Branch to write results into
      *
@@ -192,9 +192,9 @@ protected:
         return config_.PreCut();
     }
 
-    inline int EventNumberMax() const {
-        return config_.EventNumberMax();
-    };
+//     inline int EventNumberMax() const {
+//         return config_.EventNumberMax();
+//     };
 
     inline int BackgroundFileNumber() const {
         return config_.BackgroundFileNumber();

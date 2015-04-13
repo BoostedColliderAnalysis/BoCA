@@ -20,23 +20,23 @@ void hanalysis::HWTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
     SetTaggerName("WHadronic");
-    Observables.clear();
-    Spectators.clear();
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Ht, "Ht");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaR, "DeltaR");
 
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.Bdt, "Bdt");
+
+    AddSpectator(Branch.Tag, "Tag");
 }
 
 HWBranch hanalysis::HWTagger::GetBranch(const HDoublet &Doublet) const
@@ -272,7 +272,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetBdt(const HJets &Jets, 
     }
 
     std::sort(Doublets.begin(), Doublets.end());
-    Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());
     return Doublets;
 }
 
@@ -284,8 +284,8 @@ std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetBdt(const HJets &Jets, 
   for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
     for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
       HDoublet Doublet(*Jet1, *Jet2);
-      if (Doublet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
-      if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+//       if (Doublet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
+//       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
       Branch = GetBranch(Doublet);
       Doublet.SetBdt(WReader.Bdt());
       Doublets.push_back(Doublet);
@@ -293,14 +293,52 @@ std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetBdt(const HJets &Jets, 
 
   for (const auto & Jet : Jets){
       HDoublet Doublet(Jet);
-      if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+//       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
       Branch = GetBranch(Doublet);
       Doublet.SetBdt(WReader.Bdt());
       Doublets.push_back(Doublet);
     }
 
     std::sort(Doublets.begin(), Doublets.end());
-    Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());
+    return Doublets;
+}
+
+std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetPairBdt(const HJets &Jets, const hanalysis::HReader &WReader)
+{
+  Print(HInformation, "Get Doublet Bdt");
+
+  std::vector<HDoublet>  Doublets;
+  for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
+    for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+      HDoublet Doublet(*Jet1, *Jet2);
+//       if (Doublet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
+//       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+      Branch = GetBranch(Doublet);
+      Doublet.SetBdt(WReader.Bdt());
+      Doublets.push_back(Doublet);
+    }
+
+    std::sort(Doublets.begin(), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());
+    return Doublets;
+}
+
+std::vector<hanalysis::HDoublet> hanalysis::HWTagger::GetSingletBdt(const HJets &Jets, const hanalysis::HReader &WReader)
+{
+  Print(HInformation, "Get Doublet Bdt");
+
+  std::vector<HDoublet>  Doublets;
+    for (const auto & Jet : Jets){
+      HDoublet Doublet(Jet);
+//       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+      Branch = GetBranch(Doublet);
+      Doublet.SetBdt(WReader.Bdt());
+      Doublets.push_back(Doublet);
+    }
+
+    std::sort(Doublets.begin(), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());
     return Doublets;
 }
 

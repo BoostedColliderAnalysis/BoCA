@@ -3,9 +3,6 @@
 
 # include "HGlobal.hh"
 
-
-
-
 /**
  * @brief general base class for HAnalysis
  *
@@ -50,7 +47,7 @@ public:
 
     template <typename TSeverity>
     inline void Print(const TSeverity Severity, const std::string &Description) const {
-        if (Severity >= DebugLevel) return;
+        if (Severity > DebugLevel) return;
         Printer(Description);
         std::cout << std::endl;
     }
@@ -66,7 +63,7 @@ public:
      */
     template<typename TSeverity, typename TValue>
     inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value) const {
-        if (Severity >= DebugLevel) return;
+        if (Severity > DebugLevel) return;
         Printer(Description);
         std::cout << " " << Value << std::endl;
     }
@@ -83,7 +80,7 @@ public:
      */
     template<typename TSeverity, typename TValue, typename TValue2>
     inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2) const {
-        if (Severity >= DebugLevel) return;
+        if (Severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
         Printer(Description);
@@ -105,7 +102,7 @@ public:
      */
     template<typename TSeverity, typename TValue, typename TValue2, typename TValue3>
     inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
-        if (Severity >= DebugLevel) return;
+        if (Severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
         Printer(Description);
@@ -117,7 +114,7 @@ public:
 
     template<typename TSeverity, typename TValue, typename TValue2, typename TValue3, typename TValue4>
     inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
-        if (Severity >= DebugLevel) return;
+        if (Severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 15;
         Printer(Description);
@@ -130,13 +127,13 @@ public:
 
     template<typename TSeverity>
     inline void Print(const TSeverity Severity, const std::string &Description, const fastjet::PseudoJet &Jet) const {
-        if (Severity >= DebugLevel) return;
+        if (Severity > DebugLevel) return;
         Print(Severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
     }
 
     template<typename TSeverity>
     void Print(const TSeverity Severity, const std::string &Description, float Momentum[]) const {
-        if (Severity >= DebugLevel) return;
+        if (Severity > DebugLevel) return;
         Print(Severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
     }
 

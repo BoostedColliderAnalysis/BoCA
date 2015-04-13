@@ -19,47 +19,47 @@ void hanalysis::HJetPairTagger::DefineVariables()
     Print(HNotification , "Define Variables");
     SetTaggerName("JetPair");
 
-    Observables.clear();
-    Spectators.clear();
-
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
-
-    Observables.push_back(NewObservable(&Branch.DeltaM, "DeltaM"));
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
-
-    Observables.push_back(NewObservable(&Branch.Jet1Mass, "Jet1Mass"));
-    Observables.push_back(NewObservable(&Branch.Jet1Pt, "Jet1Pt"));
-    Observables.push_back(NewObservable(&Branch.Jet1Rap, "Jet1Rap"));
-    Observables.push_back(NewObservable(&Branch.Jet1Phi, "Jet1Phi"));
-    Observables.push_back(NewObservable(&Branch.Jet1Bdt, "Jet1Bdt"));  // THIS SHOULD BE ENABLED AGAIN
-
-    Observables.push_back(NewObservable(&Branch.Jet2Mass, "Jet2Mass"));
-    Observables.push_back(NewObservable(&Branch.Jet2Pt, "Jet2Pt"));
-    Observables.push_back(NewObservable(&Branch.Jet2Rap, "Jet2Rap"));
-    Observables.push_back(NewObservable(&Branch.Jet2Phi, "Jet2Phi"));
-    Observables.push_back(NewObservable(&Branch.Jet2Bdt, "Jet2Bdt"));  // THIS SHOULD BE ENABLED AGAIN
+    ClearVectors();
 
 
-    Observables.push_back(NewObservable(&Branch.BdtRatio11, "BdtRatio11"));  // THIS SHOULD BE ENABLED AGAIN
-    Observables.push_back(NewObservable(&Branch.BdtRatio12, "BdtRatio12"));  // THIS SHOULD BE ENABLED AGAIN
-    Observables.push_back(NewObservable(&Branch.BdtRatio13, "BdtRatio13"));  // THIS SHOULD BE ENABLED AGAIN
-    Observables.push_back(NewObservable(&Branch.BdtRatio14, "BdtRatio14"));  // THIS SHOULD BE ENABLED AGAIN
-    Observables.push_back(NewObservable(&Branch.BdtRatio21, "BdtRatio21"));  // THIS SHOULD BE ENABLED AGAIN
-    Observables.push_back(NewObservable(&Branch.BdtRatio22, "BdtRatio22"));  // THIS SHOULD BE ENABLED AGAIN
-    Observables.push_back(NewObservable(&Branch.BdtRatio23, "BdtRatio23"));  // THIS SHOULD BE ENABLED AGAIN
-    Observables.push_back(NewObservable(&Branch.BdtRatio24, "BdtRatio24"));  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Ht, "Ht");
+
+    AddObservable(Branch.DeltaM, "DeltaM");
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaR, "DeltaR");
+
+    AddObservable(Branch.Jet1Mass, "Jet1Mass");
+    AddObservable(Branch.Jet1Pt, "Jet1Pt");
+    AddObservable(Branch.Jet1Rap, "Jet1Rap");
+    AddObservable(Branch.Jet1Phi, "Jet1Phi");
+    AddObservable(Branch.Jet1Bdt, "Jet1Bdt");  // THIS SHOULD BE ENABLED AGAIN
+
+    AddObservable(Branch.Jet2Mass, "Jet2Mass");
+    AddObservable(Branch.Jet2Pt, "Jet2Pt");
+    AddObservable(Branch.Jet2Rap, "Jet2Rap");
+    AddObservable(Branch.Jet2Phi, "Jet2Phi");
+    AddObservable(Branch.Jet2Bdt, "Jet2Bdt");  // THIS SHOULD BE ENABLED AGAIN
+
+
+    AddObservable(Branch.BdtRatio11, "BdtRatio11");  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.BdtRatio12, "BdtRatio12");  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.BdtRatio13, "BdtRatio13");  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.BdtRatio14, "BdtRatio14");  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.BdtRatio21, "BdtRatio21");  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.BdtRatio22, "BdtRatio22");  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.BdtRatio23, "BdtRatio23");  // THIS SHOULD BE ENABLED AGAIN
+    AddObservable(Branch.BdtRatio24, "BdtRatio24");  // THIS SHOULD BE ENABLED AGAIN
 
 
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));  // THIS SHOULD BE ENABLED AGAIN
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.Bdt, "Bdt");  // THIS SHOULD BE ENABLED AGAIN
+    AddSpectator(Branch.Tag, "Tag");
 
 }
 
@@ -193,7 +193,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets 
             Doublets.push_back(Doublet);
         }
     std::sort(Doublets.begin(), Doublets.end());
-    Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());
     return Doublets;
 }
 

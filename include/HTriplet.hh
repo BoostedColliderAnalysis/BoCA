@@ -5,6 +5,20 @@
 
 class HTripletPrivate;
 
+struct SubJettiness {
+    float tau1_beta1;
+    float tau2_beta1;
+    float tau3_beta1;
+    float tau21_beta1;
+    float tau32_beta1;
+
+    float tau1_beta2;
+    float tau2_beta2;
+    float tau3_beta2;
+    float tau21_beta2;
+    float tau32_beta2;
+};
+
 class hanalysis::HTriplet : public HTag
 {
 
@@ -12,7 +26,7 @@ public:
 
     HTriplet();
 
-    HTriplet(const hanalysis::HDoublet& NewDoublet, const fastjet::PseudoJet& NewSinglet);
+    HTriplet(const hanalysis::HDoublet &NewDoublet, const fastjet::PseudoJet &NewSinglet);
 
     HTriplet(const fastjet::PseudoJet &NewSinglet);
 
@@ -46,11 +60,11 @@ public:
     }
 
     inline float DeltaM() const {
-      return (DoubletJet().m() - Singlet().m());
+        return (DoubletJet().m() - Singlet().m());
     }
 
     inline float DeltaHt() const {
-      return (Doublet().Ht() - Singlet().pt());
+        return (Doublet().Ht() - Singlet().pt());
     }
 
     inline float DeltaPhi() const {
@@ -69,6 +83,16 @@ public:
         return NewDeltaR;
     }
 
+    void set_sub_jettiness(const SubJettiness &n_sub_jettiness) {
+        sub_jettiness_ = n_sub_jettiness;
+    }
+
+    SubJettiness sub_jettiness() const {
+        return sub_jettiness_;
+    }
+
+    float LeptonPt = 0; // FIXME we want to get rid of this again
+
 protected:
 
 //     HTriplet(HTripletPrivate& NewTripletPrivate) ;
@@ -77,15 +101,18 @@ protected:
         return "HTriplet";
     }
 
+
 private:
 
-  void SetSinglet(const fastjet::PseudoJet &NewSinglet);
+    void SetSinglet(const fastjet::PseudoJet &NewSinglet);
 
-  void SetDoublet(const HDoublet &NewDoublet);
+    void SetDoublet(const HDoublet &NewDoublet);
 
-  HDoublet DoubletM;
+    HDoublet doublet_;
 
-  fastjet::PseudoJet SingletM;
+    fastjet::PseudoJet singlet_;
+
+    SubJettiness sub_jettiness_;
 
 
 //   HTripletPrivate * Triplet;

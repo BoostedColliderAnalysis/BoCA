@@ -69,32 +69,32 @@ void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch.HeavyHiggsPt, "HeavyHiggsPt"));
+    AddObservable(Branch.HeavyHiggsPt, "HeavyHiggsPt");
 
-    Observables.push_back(NewObservable(&Branch.TopDeltaR, "TopDeltaR"));
-    Observables.push_back(NewObservable(&Branch.TopDeltaRap, "TopDeltaRap"));
-    Observables.push_back(NewObservable(&Branch.TopDeltaPhi, "TopDeltaPhi"));
+    AddObservable(Branch.TopDeltaR, "TopDeltaR");
+    AddObservable(Branch.TopDeltaRap, "TopDeltaRap");
+    AddObservable(Branch.TopDeltaPhi, "TopDeltaPhi");
 
-//     Observables.push_back(NewObservable(&Branch.LargerWDeltaR, "LargerWDeltaR"));
-//     Observables.push_back(NewObservable(&Branch.LargerWDeltaRap, "LargerWDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch.LargerWDeltaPhi, "LargerWDeltaPhi"));
+//     AddObservable(Branch.LargerWDeltaR, "LargerWDeltaR");
+//     AddObservable(Branch.LargerWDeltaRap, "LargerWDeltaRap");
+//     AddObservable(Branch.LargerWDeltaPhi, "LargerWDeltaPhi");
 //
-//     Observables.push_back(NewObservable(&Branch.SmallerWDeltaR, "SmallerWDeltaR"));
-//     Observables.push_back(NewObservable(&Branch.SmallerWDeltaRap, "SmallerWDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch.SmallerWDeltaPhi, "SmallerWDeltaPhi"));
+//     AddObservable(Branch.SmallerWDeltaR, "SmallerWDeltaR");
+//     AddObservable(Branch.SmallerWDeltaRap, "SmallerWDeltaRap");
+//     AddObservable(Branch.SmallerWDeltaPhi, "SmallerWDeltaPhi");
 //
-//     Observables.push_back(NewObservable(&Branch.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR"));
-//     Observables.push_back(NewObservable(&Branch.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi"));
+//     AddObservable(Branch.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
+//     AddObservable(Branch.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
+//     AddObservable(Branch.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
 //
-//     Observables.push_back(NewObservable(&Branch.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR"));
-//     Observables.push_back(NewObservable(&Branch.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap"));
-//     Observables.push_back(NewObservable(&Branch.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi"));
+//     AddObservable(Branch.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
+//     AddObservable(Branch.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
+//     AddObservable(Branch.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
 
-    Observables.push_back(NewObservable(&Branch.TopBdt, "TopBdt"));
+    AddObservable(Branch.TopBdt, "TopBdt");
 
-    Spectators.push_back(NewObservable(&Branch.HeavyHiggsTag, "HeavyHiggsTag"));
-    Spectators.push_back(NewObservable(&Branch.HeavyHiggsMass, "HeavyHiggsMass"));
+    AddSpectator(Branch.HeavyHiggsTag, "HeavyHiggsTag");
+    AddSpectator(Branch.HeavyHiggsMass, "HeavyHiggsMass");
 
     Print(HNotification, "Variables defined");
 

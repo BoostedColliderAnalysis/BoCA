@@ -27,39 +27,27 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
 {
     Print(HNotification, "Set File Vector", Tagger, Tag);
 
-    std::vector<hanalysis::HFile> SignalLeptonicFiles;
-    std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
-    std::vector<hanalysis::HFile> SignalSemiFiles;
-    std::vector<hanalysis::HFile> BackgroundSemiFiles;
+    std::vector<hanalysis::HFile> SignalFiles;
+    std::vector<hanalysis::HFile> BackgroundFiles;
 
-//     SignalSemiFiles.push_back(hanalysis::HFile(FileName(bb), SignalCrosssection()));
-//     SignalSemiFiles.push_back(hanalysis::HFile(FileName(Hbb), SignalCrosssection()));
-//     SignalSemiFiles.push_back(hanalysis::HFile(FileName(ttbb), SignalCrosssection()));
-    SignalSemiFiles.push_back(hanalysis::HFile(FileName(tt), SignalCrosssection()));
+    SignalFiles.push_back(hanalysis::HFile(FileName(bb), SignalCrosssection()));
+//     SignalFiles.push_back(hanalysis::HFile(FileName(Hbb), SignalCrosssection()));
+//     SignalFiles.push_back(hanalysis::HFile(FileName(ttbb), SignalCrosssection()));
+    SignalFiles.push_back(hanalysis::HFile(FileName(ttlep), SignalCrosssection()));
+//     SignalFiles.push_back(hanalysis::HFile(FileName(tthad), SignalCrosssection()));
+//     SignalFiles.push_back(hanalysis::HFile(FileName(tt), SignalCrosssection()));
 
-//     SignalSemiFiles.push_back(BackgroundFile(bb));
-    BackgroundSemiFiles.push_back(BackgroundFile(bb));
-    BackgroundSemiFiles.push_back(BackgroundFile(cc));
-//     BackgroundSemiFiles.push_back(BackgroundFile(jj));
-//     BackgroundSemiFiles.push_back(BackgroundFile(tt));
-//         BackgroundSemiFiles.push_back(BackgroundFile(ttcc));
-//         BackgroundSemiFiles.push_back(BackgroundFile(ttjj));
-    BackgroundSemiFiles.push_back(BackgroundFile(qq));
-    BackgroundSemiFiles.push_back(BackgroundFile(gg));
-
-    std::vector<hanalysis::HFile> SignalHadronicFiles;
-
-    std::vector<hanalysis::HFile> BackgroundHadronicFiles;
-
-    std::vector<hanalysis::HFile> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<hanalysis::HFile> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<hanalysis::HFile> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
-
-    std::vector<hanalysis::HFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<hanalysis::HFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
-
-    std::vector<hanalysis::HFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<hanalysis::HFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+//     SignalFiles.push_back(BackgroundFile(bb));
+//     BackgroundFiles.push_back(BackgroundFile(bb));
+    BackgroundFiles.push_back(BackgroundFile(cc));
+//     BackgroundFiles.push_back(BackgroundFile(jj));
+//     BackgroundFiles.push_back(BackgroundFile(tt));
+//         BackgroundFiles.push_back(BackgroundFile(ttcc));
+//         BackgroundFiles.push_back(BackgroundFile(ttjj));
+    BackgroundFiles.push_back(BackgroundFile(qq));
+    BackgroundFiles.push_back(BackgroundFile(gg));
+//     BackgroundFiles.push_back(BackgroundFile(hh));
+//     BackgroundFiles.push_back(BackgroundFile(ww));
 
     std::vector<hanalysis::HFile> NewFiles;
 
@@ -67,20 +55,20 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
     case  HBottomTagger :
         switch (Tag) {
         case HObject::HSignal :
-            NewFiles = SignalSemiFiles;
+            NewFiles = SignalFiles;
             break;
         case HObject::HBackground :
-            NewFiles = BackgroundSemiFiles;
+            NewFiles = BackgroundFiles;
             break;
         }
         break;
     case  HBottomReader :
         switch (Tag) {
         case HObject::HSignal :
-            NewFiles = SignalSemiFiles;
+            NewFiles = SignalFiles;
             break;
         case HObject::HBackground :
-            NewFiles = BackgroundSemiFiles;
+            NewFiles = BackgroundFiles;
             break;
         }
         break;
@@ -100,47 +88,37 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
 void hbtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag)
 {
 
-    HStrings SignalLeptonicTrees {};
-    HStrings BackgroundLeptonicTrees {};
-
-    HStrings SignalSemiTrees {
-//         TreeName(bb)
+    HStrings SignalTrees {
+        TreeName(bb),
 //         TreeName(Hbb),
 //         TreeName(ttbb),
-        TreeName(tt),
+        TreeName(ttlep),
+//         TreeName(tthad),
     };
 
-    HStrings BackgroundSemiTrees {
-        TreeName(bb),
+    HStrings BackgroundTrees {
+//         TreeName(bb),
         TreeName(cc),
 //         TreeName(jj),
 //         TreeName(tt),
         TreeName(qq),
-        TreeName(gg)
+        TreeName(gg),
+//         TreeName(hh),
+//         TreeName(ww),
 //         TreeName(ttcc),
 //         TreeName(ttjj),
     };
 
-    HStrings SignalHadronicTree {};
-    HStrings BackgroundHadronicTrees {};
-
-    HStrings LeptonicTrees = JoinHStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    HStrings HadronicTrees = JoinHStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    HStrings SemiTrees = JoinHStrings(SignalSemiTrees, BackgroundSemiTrees);
-
-    HStrings NotLeptonicTrees = JoinHStrings(HadronicTrees, SemiTrees);
-    HStrings CombinedTrees = JoinHStrings(NotLeptonicTrees, LeptonicTrees);
-
     switch (Tagger) {
     case HBottomTagger:
-        BottomTagger.SetSignalTreeNames(SignalSemiTrees);
-        BottomTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        BottomTagger.SetSignalTreeNames(SignalTrees);
+        BottomTagger.SetBackgroundTreeNames(BackgroundTrees);
         if (Tag == HSignal)  BottomTagger.SetTagger();
         break;
     case HBottomReader:
         if (Tag == HSignal)  BottomTagger.SetTagger();
-        BottomTagger.SetSignalTreeNames(SignalSemiTrees);
-        BottomTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        BottomTagger.SetSignalTreeNames(SignalTrees);
+        BottomTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
     default :
         Print(HError, "unhandeled case");
@@ -182,7 +160,7 @@ void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const han
 bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
 {
     Print(HInformation, "Analysis", Tagger);
-    ++EventSumM;
+    ++event_sum_;
 
     switch (Tagger) {
     case HBottomTagger :

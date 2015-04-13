@@ -35,16 +35,16 @@ void hanalysis::HChargedHiggsHadronicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Branch.HeavyHiggsPt, "HeavyHiggsPt"));
+    AddObservable(Branch.HeavyHiggsPt, "HeavyHiggsPt");
 
-    Observables.push_back(NewObservable(&Branch.TopDeltaR, "TopDeltaR"));
-    Observables.push_back(NewObservable(&Branch.TopDeltaRap, "TopDeltaRap"));
-    Observables.push_back(NewObservable(&Branch.TopDeltaPhi, "TopDeltaPhi"));
+    AddObservable(Branch.TopDeltaR, "TopDeltaR");
+    AddObservable(Branch.TopDeltaRap, "TopDeltaRap");
+    AddObservable(Branch.TopDeltaPhi, "TopDeltaPhi");
 
-    Observables.push_back(NewObservable(&Branch.TopBdt, "TopBdt"));
+    AddObservable(Branch.TopBdt, "TopBdt");
 
-    Spectators.push_back(NewObservable(&Branch.HeavyHiggsTag, "HeavyHiggsTag"));
-    Spectators.push_back(NewObservable(&Branch.HeavyHiggsMass, "HeavyHiggsMass"));
+    AddSpectator(Branch.HeavyHiggsTag, "HeavyHiggsTag");
+    AddSpectator(Branch.HeavyHiggsMass, "HeavyHiggsMass");
 
     Print(HNotification, "Variables defined");
 

@@ -21,24 +21,24 @@ bool hanalysis::hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetail
 
     Print(HInformation, "Get Jet", ClonesArrays->JetSum(), JetDetails);
 
-    for (const int JetNumber : HRange(ClonesArrays->JetSum())) {
+    for (const int JetNumber : Range(ClonesArrays->JetSum())) {
 
         Print(HDetailed, "Jet Number", JetNumber);
         TRootJet *JetClone = (TRootJet *)ClonesArrays->Jet(JetNumber);
 
-        JetsM.push_back(GetPseudoJet(JetClone));
+        JetsM.push_back(GetPseudoJet(*JetClone));
 
         if (JetClone->BTag > 0) {
 
             Print(HDetailed, "Has B Tag");
 
-            BottomLorentzVectors.push_back(GetLorentzVector(JetClone));
-            BottomJets.push_back(GetPseudoJet(JetClone));
+            BottomLorentzVectors.push_back(GetLorentzVector(*JetClone));
+            BottomJets.push_back(GetPseudoJet(*JetClone));
 
 
         } else {
 
-            JetLorentzVectors.push_back(GetLorentzVector(JetClone));
+            JetLorentzVectors.push_back(GetLorentzVector(*JetClone));
 
         }
 

@@ -20,7 +20,7 @@ bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails 
 {
 
     Print(HInformation, "Get Electrons", JetDetails);
-  for (const int ElectronNumber : HRange(ClonesArrays->GetElectronSum())) {
+  for (const int ElectronNumber : Range(ClonesArrays->GetElectronSum())) {
 
         TRootElectron *ElectronClone = (TRootElectron *)ClonesArrays->GetElectron(ElectronNumber);
 
@@ -28,15 +28,15 @@ bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails 
 
         if (ElectronCharge == -1) {
 
-            ElectronLorentzVectors.push_back(GetLorentzVector(ElectronClone));
-            ElectronJets.push_back(GetPseudoJet(ElectronClone));
+            ElectronLorentzVectors.push_back(GetLorentzVector(*ElectronClone));
+            ElectronJets.push_back(GetPseudoJet(*ElectronClone));
 
             Print(HDebug, "Electron");
 
         } else if (ElectronCharge == 1) {
 
-            AntiElectronLorentzVectors.push_back(GetLorentzVector(ElectronClone));
-            AntiElectronJets.push_back(GetPseudoJet(ElectronClone));
+            AntiElectronLorentzVectors.push_back(GetLorentzVector(*ElectronClone));
+            AntiElectronJets.push_back(GetPseudoJet(*ElectronClone));
 
             Print(HDebug, "Anti Electron");
 
@@ -54,22 +54,22 @@ bool hanalysis::hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetD
 {
 
     Print(HInformation, "Get Muons", JetDetails);
-    for (const int MuonNumber : HRange(ClonesArrays->GetMuonSum())) {
+    for (const int MuonNumber : Range(ClonesArrays->GetMuonSum())) {
 
         TRootMuon *MuonClone = (TRootMuon *)ClonesArrays->GetMuon(MuonNumber);
         int MuonCharge = MuonClone->Charge;
 
         if (MuonCharge == -1) {
 
-            MuonLorentzVectors.push_back(GetLorentzVector(MuonClone));
-            MuonJets.push_back(GetPseudoJet(MuonClone));
+            MuonLorentzVectors.push_back(GetLorentzVector(*MuonClone));
+            MuonJets.push_back(GetPseudoJet(*MuonClone));
 
 	    Print(HDebug, "Muon with Pt");
 
         } else if (MuonCharge == 1) {
 
-            AntiMuonLorentzVectors.push_back( GetLorentzVector(MuonClone));
-            AntiMuonJets.push_back(GetPseudoJet(MuonClone));
+            AntiMuonLorentzVectors.push_back( GetLorentzVector(*MuonClone));
+            AntiMuonJets.push_back(GetPseudoJet(*MuonClone));
 
 	    Print(HDebug, "Anti Muon with Pt");
 

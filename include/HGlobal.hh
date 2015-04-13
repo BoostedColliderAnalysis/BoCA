@@ -1,5 +1,4 @@
-# ifndef HGlobal_hh
-# define HGlobal_hh
+# pragma once
 
 # include <iostream>
 # include <iomanip>
@@ -229,41 +228,31 @@ struct SortJetByRap {
 // };
 
 
-class HRange
+
+
+class Range
 {
-
-private:
-
-    int Last;
-
-    int Iter;
-
 public:
-
-    HRange(int End):
-        Last(End),
-        Iter(0)
+    Range(const int _end):
+        last_(_end),
+        iterator_(0)
     {}
-
-    // Iterable functions
-    const HRange &begin() const {
+    const Range &begin() const {
         return *this;
     }
-    const HRange &end() const {
+    const Range &end() const {
         return *this;
     }
-
-    // Iterator functions
-    bool operator!=(const HRange &) const {
-        return Iter < Last;
+    bool operator!=(const Range &) const {
+      return iterator_ < last_;
     }
     void operator++() {
-        ++Iter;
+      ++iterator_;
     }
     int operator*() const {
-        return Iter;
+      return iterator_;
     }
-
+private:
+    int last_;
+    int iterator_;
 };
-
-#endif

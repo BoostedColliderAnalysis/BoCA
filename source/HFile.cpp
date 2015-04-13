@@ -118,76 +118,57 @@ HStrings hanalysis::HFile::Paths() const
 
 }
 
-
-
-std::shared_ptr<ExRootTreeReader> hanalysis::HFile::TreeReader()
+ExRootTreeReader hanalysis::HFile::TreeReader()
 {
     Print(HNotification, "Get Tree Reader", Paths().front());
 
-//     const std::string Path = GetFilePath();
-//     File =  new TFile(Path.c_str());
-//     Print(HNotification, "File", Path);
-//     const std::string TreeName = GetTreeName();
-//     Print(HNotification, "Tree", TreeName);
-//     return std::shared_ptr<ExRootTreeReader>(new ExRootTreeReader((TTree *)File->Get(TreeName.c_str())));
-
-//     TChain Chain(GetTreeName().c_str());
     Chain = new TChain(TreeName().c_str());
     for (const auto & FilePath : Paths()) Chain->Add(FilePath.c_str());
-    return std::shared_ptr<ExRootTreeReader>(new ExRootTreeReader(Chain));
+    return ExRootTreeReader(Chain);
 }
 
-std::shared_ptr<hanalysis::HClonesArray> hanalysis::HFile::ClonesArrays()
+hanalysis::HClonesArray &hanalysis::HFile::ClonesArrays()
 {
 
     Print(HNotification, "Get Clones Arrays");
     if (TreeName() == "Delphes") {
         if (SnowMass) {
-            return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArraySnowmass());
+            clones_array_ = new hdelphes::HClonesArraySnowmass();
         } else {
-            return std::shared_ptr<HClonesArray>(new hdelphes::HClonesArray());
+            clones_array_ =  new hdelphes::HClonesArray();
         }
     } else if (TreeName() == "LHEF") {
-        return std::shared_ptr<HClonesArray>(new hparton::HClonesArray());
+        clones_array_ = new hparton::HClonesArray();
     } else if (TreeName() == "LHCO") {
-        return std::shared_ptr<HClonesArray>(new hpgs::HClonesArray());
+        clones_array_ = new hpgs::HClonesArray();
     } else {
         Print(HError, "unknown Tree String", TreeName());
-//       return std::shared_ptr<HClonesArray>(new HClonesArray());
     }
+        return *clones_array_;
 }
 
-std::shared_ptr<hanalysis::HEvent> hanalysis::HFile::Event()
+
+hanalysis::HEvent &hanalysis::HFile::Event()
 {
     Print(HNotification, "Get Event");
-//     HEvent *Event;
+//       HEvent *Event;
     if (TreeName() == "Delphes") {
-//       Event = new hdelphes::HEvent();
-        return std::shared_ptr<HEvent>(new hdelphes::HEvent());
+        event_ = new hdelphes::HEvent();
     } else if (TreeName() == "LHEF") {
-//       Event = new hparton::HEvent();
-        return std::shared_ptr<HEvent>(new hparton::HEvent());
+        event_ = new hparton::HEvent();
     } else if (TreeName() == "LHCO") {
-//       Event = new hpgs::HEvent();
-        return std::shared_ptr<HEvent>(new hpgs::HEvent());
+        event_ = new hpgs::HEvent();
     } else {
         Print(HError, "unknown Tree String", TreeName());
     }
+    return *event_;
 }
-
-// hanalysis::HEvent &hanalysis::HFile::Event()
-// {
-//   Print(HNotification, "Get Event");
-//   if (TreeName() == "Delphes") return DelphesEvent;
-//   else if (TreeName() == "LHEF") return PartonEvent;
-//   else if (TreeName() == "LHCO") return PgsEvent;
-//   else Print(HError, "unknown Tree String", TreeName());
-//
-// }
 
 hanalysis::HFile::~HFile()
 {
     Print(HNotification, "Destructor");
     delete File;
     delete Chain;
+    delete event_;
+    delete clones_array_;
 }

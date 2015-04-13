@@ -5,29 +5,29 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 
     Print(HNotification , "Constructor");
 
-    AnalysisName = "HiggsCpv";
+    SetTaggerName("EventTagger");
 
-    TaggerName = "EventTagger";
+//     TaggerName = "EventTagger";
 
-    SignalNames = {"Signal"};
+//     SignalNames = {"Signal"};
 
-    BackgroundNames = {"Background"};
+//     BackgroundNames = {"Background"};
 
-    TestName = "Test";
+//     TestName = "Test";
 
 //     SignalTreeNames = {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
-    SignalTreeNames = {"pp-x0tt-bblvlv-even"};
+//     SignalTreeNames = {"pp-x0tt-bblvlv-even"};
 
-    BackgroundTreeNames = {"pp-bbtt-bblvlv-background"};
+//     BackgroundTreeNames = {"pp-bbtt-bblvlv-background"};
 
 //     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"};
-    TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
+//     TestTreeNames = {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even"};
 
-    EventBranchName = "Event";
+//     SetBranchName("Event");
 
-    SpectatorBranchName = "Lepton";
+//     SpectatorBranchName = "Lepton";
 
-    WeightBranchName = "Info";
+//     WeightBranchName = "Info";
 
 //     SignalEfficiency = 0.5;
 
@@ -57,13 +57,13 @@ void hhiggscpv::HMvaEvent::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&EventBranch->ScalarHt, "ScalarHt"));
-    Observables.push_back(NewObservable(&EventBranch->JetNumber, "JetNumber"));
-    Observables.push_back(NewObservable(&EventBranch->BottomNumber, "BottomNumber"));
-//     Observables.push_back(NewObservable(&EventBranch->LeptonNumber, "LeptonNumber"));
-    Observables.push_back(NewObservable(&EventBranch->HeavyParticleTag, "HeavyParticleTag"));
+    AddObservable(EventBranch->ScalarHt, "ScalarHt");
+    AddObservable(EventBranch->JetNumber, "JetNumber");
+    AddObservable(EventBranch->BottomNumber, "BottomNumber");
+//     AddObservable(EventBranch->LeptonNumber, "LeptonNumber");
+    AddObservable(EventBranch->HeavyParticleTag, "HeavyParticleTag");
 
-    Spectators.push_back(NewObservable(&EventBranch->Signal, "Signal"));
+    AddSpectator(EventBranch->Signal, "Signal");
 
     Print(HNotification, "Variables defined");
 
@@ -73,11 +73,11 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 {
     Print(HNotification, "Apply Bdt");
 
-    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HEventBranch::Class());
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HEventBranch::Class());
 //   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
@@ -94,7 +94,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 
             (*ExportCandidate) = *EventBranch;
 
-            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name);
+            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName());
 
             Print(HInformation,"Bdt",BdtEvaluation);
 
@@ -102,9 +102,9 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
             const int StepSize = 50;
             for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
-                bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(CutMethodName, SigEff / StepSize);
+//                 bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(CutMethodName, SigEff / StepSize);
 
-                if (CutEvaluation) break;
+//                 if (CutEvaluation) break;
 
             }
 

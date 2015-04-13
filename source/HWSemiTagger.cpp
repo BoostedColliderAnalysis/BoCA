@@ -25,24 +25,24 @@ void hanalysis::HWSemiTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.clear();
-    Spectators.clear();
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
-    Observables.push_back(NewObservable(&Branch.NeutrinoPt, "NeutrinoPt"));
-    Observables.push_back(NewObservable(&Branch.LeptonPt, "LeptonPt"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Ht, "Ht");
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    AddObservable(Branch.NeutrinoPt, "NeutrinoPt");
+    AddObservable(Branch.LeptonPt, "LeptonPt");
 
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaR, "DeltaR");
+
+    AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
 
@@ -142,7 +142,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &L
         }
     }
     std::sort(Doublets.begin(), Doublets.end());
-    Doublets.erase(Doublets.begin() + std::min(MaxCombi, int(Doublets.size())), Doublets.end());
+    Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());
 
     return Doublets;
 }

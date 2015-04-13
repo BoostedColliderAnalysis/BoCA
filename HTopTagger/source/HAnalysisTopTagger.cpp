@@ -2,11 +2,11 @@
 
 htoptagger::HAnalysis::HAnalysis()
 {
-    //     DebugLevel = hanalysis::HObject::HDebug;
+//         DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
     BottomTagger.SetAnalysisName(ProjectName());
     WHadronicTagger.SetAnalysisName(ProjectName());
-    WSemiTagger.SetAnalysisName(ProjectName());
+//     WSemiTagger.SetAnalysisName(ProjectName());
     TopHadronicTagger.SetAnalysisName(ProjectName());
     TopLeptonTagger.SetAnalysisName(ProjectName());
     mkdir(ProjectName().c_str(), 0700);
@@ -79,26 +79,35 @@ std::vector<hanalysis::HFile> htoptagger::HAnalysis::Files(const hanalysis::HAna
 {
     Print(HNotification, "Set File Vector", Tagger, Tag);
 
-    std::vector<hanalysis::HFile> SignalLeptonicFiles;
-    std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
-    std::vector<hanalysis::HFile> SignalSemiFiles;
-    std::vector<hanalysis::HFile> BackgroundSemiFiles;
+    std::vector<hanalysis::HFile> SignalFiles;
+    std::vector<hanalysis::HFile> BackgroundFiles;
+
+    if (TopDecay() == Hadronic) SignalFiles.push_back(BackgroundFile(tthad));
+    else if (TopDecay() == Leptonic) SignalFiles.push_back(BackgroundFile(ttlep));
 
 //     std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
 //   SignalSemiFiles.push_back(hanalysis::HFile(SignalName, SignalCrosssection(), Mass()));
     //     SignalSemiFiles.push_back(BackgroundFile(ttbb));
 //     SignalSemiFiles.push_back(BackgroundFile(ttjj));
-    SignalSemiFiles.push_back(BackgroundFile(tt));
+//     SignalFiles.push_back(BackgroundFile(tt));
+//     SignalFiles.push_back(BackgroundFile(bb));
 //     SignalSemiFiles.push_back(BackgroundFile(ttlep));
 
 //   BackgroundSemiFiles.push_back(BackgroundFile(ttbb));
 //   BackgroundSemiFiles.push_back(BackgroundFile(ttcc));
 //   BackgroundSemiFiles.push_back(BackgroundFile(ttjj));
 //     BackgroundSemiFiles.push_back(BackgroundFile(bbjj));
-    BackgroundSemiFiles.push_back(BackgroundFile(bb));
-    BackgroundSemiFiles.push_back(BackgroundFile(cc));
-    BackgroundSemiFiles.push_back(BackgroundFile(qq));
-    BackgroundSemiFiles.push_back(BackgroundFile(gg));
+    BackgroundFiles.push_back(BackgroundFile(bb));
+    BackgroundFiles.push_back(BackgroundFile(hh));
+    if (Tagger != HBottomTagger || Tag == HBackground) {
+        BackgroundFiles.push_back(BackgroundFile(cc));
+        BackgroundFiles.push_back(BackgroundFile(qq));
+        BackgroundFiles.push_back(BackgroundFile(gg));
+        BackgroundFiles.push_back(BackgroundFile(ww));
+        BackgroundFiles.push_back(BackgroundFile(zz));
+    }
+    if (TopDecay() == Hadronic) BackgroundFiles.push_back(BackgroundFile(ttlep));
+    else if (TopDecay() == Leptonic) BackgroundFiles.push_back(BackgroundFile(tthad));
 //     BackgroundSemiFiles.push_back(BackgroundFile(wb));
 //     BackgroundSemiFiles.push_back(BackgroundFile(wc));
 //     BackgroundSemiFiles.push_back(BackgroundFile(wq));
@@ -107,60 +116,51 @@ std::vector<hanalysis::HFile> htoptagger::HAnalysis::Files(const hanalysis::HAna
 //     BackgroundSemiFiles.push_back(BackgroundFile(wcb));
 //     BackgroundSemiFiles.push_back(BackgroundFile(wbu));
 
-    std::vector<hanalysis::HFile> SignalHadronicFiles;
 
-    std::vector<hanalysis::HFile> BackgroundHadronicFiles;
 
-    std::vector<hanalysis::HFile> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<hanalysis::HFile> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<hanalysis::HFile> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<hanalysis::HFile> Files = JoinFiles(SignalFiles, BackgroundFiles);
 
-    std::vector<hanalysis::HFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<hanalysis::HFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
-
-    std::vector<hanalysis::HFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<hanalysis::HFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
 
     std::vector<hanalysis::HFile> NewFiles;
 
     switch (Tagger) {
     case  HBottomTagger :
-        NewFiles = CombinedFiles;
+        NewFiles = Files;
         break;
     case  HBottomReader :
-        NewFiles = CombinedFiles;
+        NewFiles = Files;
         break;
     case HWSemiTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     case HWSemiReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     case HWHadronicTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     case HWHadronicReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     case HTopHadronicTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     case HTopSemiTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     case HTopHadronicReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     case HTopSemiReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
-        else NewFiles = BackgroundSemiFiles;
+        if (Tag == HSignal) NewFiles = SignalFiles;
+        else NewFiles = BackgroundFiles;
         break;
     default:
         Print(HError, "unknown tagger name");
@@ -178,19 +178,22 @@ std::vector<hanalysis::HFile> htoptagger::HAnalysis::Files(const hanalysis::HAna
 void htoptagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag)
 {
 
-    HStrings SignalLeptonicTrees {};
-    HStrings BackgroundLeptonicTrees {};
-
 //     std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
-    HStrings SignalSemiTrees {
+    HStrings SignalTrees;
+    if (TopDecay() == Hadronic) SignalTrees.push_back(BackgroundTree(tthad));
+    else if (TopDecay() == Leptonic) SignalTrees.push_back(BackgroundTree(ttlep));
+
+
+//     HStrings SignalTrees {
 //     SignalTree
 //         BackgroundTree(ttjj)
-        BackgroundTree(tt),
+//         BackgroundTree(tt),
+//         BackgroundTree(bb),
 //         BackgroundTree(ttlep)
-    };
+//     };
 
-    HStrings BackgroundSemiTrees {
+    HStrings BackgroundTrees {
 //     BackgroundTree(ttbb),
 //     BackgroundTree(ttcc),
 //     BackgroundTree(ttjj)
@@ -198,7 +201,10 @@ void htoptagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger,
         BackgroundTree(bb),
         BackgroundTree(cc),
         BackgroundTree(qq),
-        BackgroundTree(gg)
+        BackgroundTree(gg),
+        BackgroundTree(hh),
+        BackgroundTree(ww),
+        BackgroundTree(zz),
 //         BackgroundTree(wb),
 //         BackgroundTree(wc),
 //         BackgroundTree(wq),
@@ -207,64 +213,59 @@ void htoptagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger,
 //         BackgroundTree(wu),
 //         BackgroundTree(wbu),
     };
+    if (TopDecay() == Hadronic) BackgroundTrees.push_back(BackgroundTree(ttlep));
+    else if (TopDecay() == Leptonic) BackgroundTrees.push_back(BackgroundTree(tthad));
 
-    HStrings SignalHadronicTree {};
-    HStrings BackgroundHadronicTrees {};
 
-    HStrings LeptonicTrees = JoinHStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    HStrings HadronicTrees = JoinHStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    HStrings SemiTrees = JoinHStrings(SignalSemiTrees, BackgroundSemiTrees);
-
-    HStrings NotLeptonicTrees = JoinHStrings(HadronicTrees, SemiTrees);
-    HStrings CombinedTrees = JoinHStrings(NotLeptonicTrees, LeptonicTrees);
+    HStrings Trees = JoinHStrings(SignalTrees, BackgroundTrees);
 
     switch (Tagger) {
     case HBottomTagger:
-        BottomTagger.SetSignalTreeNames(CombinedTrees);
-        BottomTagger.SetBackgroundTreeNames(CombinedTrees);
+        BottomTagger.SetSignalTreeNames(Trees);
+        BottomTagger.SetBackgroundTreeNames(Trees);
         if (Tag == HSignal)  BottomTagger.SetTagger();
         break;
     case HBottomReader:
         break;
     case HWHadronicTagger:
-        WHadronicTagger.SetSignalTreeNames(SignalSemiTrees);
-        WHadronicTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        WHadronicTagger.SetSignalTreeNames(SignalTrees);
+        WHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
         if (Tag == HSignal) WHadronicTagger.SetTagger(BottomTagger);
         break;
     case HWHadronicReader :
-        WHadronicTagger.SetSignalTreeNames(SignalSemiTrees);
-        WHadronicTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        WHadronicTagger.SetSignalTreeNames(SignalTrees);
+        WHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
         if (Tag == HSignal) WHadronicTagger.SetTagger(BottomTagger);
         break;
     case HWSemiTagger :
-        if (Tag == HSignal) WSemiTagger.SetTagger();
-        WSemiTagger.SetSignalTreeNames(SignalSemiTrees);
-        WSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         if (Tag == HSignal) WSemiTagger.SetTagger();
+//         WSemiTagger.SetSignalTreeNames(SignalTrees);
+//         WSemiTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
     case HWSemiReader :
-        if (Tag == HSignal) WSemiTagger.SetTagger();
-        WSemiTagger.SetSignalTreeNames(SignalSemiTrees);
-        WSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         if (Tag == HSignal) WSemiTagger.SetTagger();
+//         WSemiTagger.SetSignalTreeNames(SignalTrees);
+//         WSemiTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
     case HTopHadronicTagger :
         if (Tag == HSignal) TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-        TopHadronicTagger.SetSignalTreeNames(SignalSemiTrees);
-        TopHadronicTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        TopHadronicTagger.SetSignalTreeNames(SignalTrees);
+        TopHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
     case HTopHadronicReader :
         if (Tag == HSignal) TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-        TopHadronicTagger.SetSignalTreeNames(SignalSemiTrees);
-        TopHadronicTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        TopHadronicTagger.SetSignalTreeNames(SignalTrees);
+        TopHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
     case HTopSemiTagger :
         if (Tag == HSignal) TopLeptonTagger.SetTagger(BottomTagger);
-        TopLeptonTagger.SetSignalTreeNames(SignalSemiTrees);
-        TopLeptonTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        TopLeptonTagger.SetSignalTreeNames(SignalTrees);
+        TopLeptonTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
     case HTopSemiReader :
         if (Tag == HSignal) TopLeptonTagger.SetTagger(BottomTagger);
-        TopLeptonTagger.SetSignalTreeNames(SignalSemiTrees);
-        TopLeptonTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+        TopLeptonTagger.SetSignalTreeNames(SignalTrees);
+        TopLeptonTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
     default :
         Print(HError, "unhandeled case");
@@ -345,13 +346,13 @@ void htoptagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const h
         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
         break;
     case HTopHadronicTagger :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronBranch::Class());
         break;
     case HTopSemiTagger :
         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonBranch::Class());
         break;
     case HTopHadronicReader :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronicBranch::Class());
+        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronBranch::Class());
         break;
     case HTopSemiReader :
         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonBranch::Class());
@@ -366,39 +367,9 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::
 {
     Print(HInformation, "Analysis", Tagger);
 
-    //     const int NumberofBackgroundFiles = 3;
-    //     int ObjectMax;
-    //     switch(Tag){
-    //       case HSignal : ObjectMax = EventNumberMax();
-    //       case HBackground : ObjectMax = EventNumberMax() / NumberofBackgroundFiles; // might be stupid
-    //     }
+    if (ObjectNumber > EventNumberMax()) return 0;
 
-    if (ObjectNumber > EventNumberMax()) {
-        //         if (Tag == HSignal) Print(HError, "more signals than events", "doesnt have to be bad");
-        return 0;
-    }
-
-//     const float TopPtCut = 500;
-
-//     HJets Particles = Event.GetParticles()->Generator();
-//     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles, TopId);
-//     if (Tag == HSignal && Particles.size() != 2) {
-// //     Print(HError, "Not enough tops", Particles.size());
-// //     return 0;
-//     } else if (Particles.size() > 1) {
-//         if (Particles.at(0).pt() < TopPtCut) return 0;
-//         if (Particles.at(1).pt() < TopPtCut) return 0;
-//         Print(HInformation, "Top pt", Particles.at(0).pt(), Particles.at(1).pt());
-//     }
-
-
-//     HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
-//     if (Leptons.size() < 1) return 0;
-//     if (Leptons.front().pt() < PreCut()) return 0;
-
-    //     HJets Bottoms = Event.GetJets()->GetBottomJets();
-    //     if (Bottoms.size() < 3) return 0;
-    ++EventSumM;
+    ++event_sum_;
 
     switch (Tagger) {
     case HBottomTagger :
@@ -442,10 +413,13 @@ bool htoptagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag Ta
 {
     Print(HDebug, "Get Bottom Tag", Tag);
     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-    if (Bottoms.size() < 1) return 0;
+    if (Bottoms.size() < 1) {
+        Print(HDebug, "No Bottoms");
+        return 0;
+    }
     for (const auto & Bottom : Bottoms) {
-        ++ObjectNumber;
         *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
+        ++ObjectNumber;
     }
     return 1;
 }
@@ -562,11 +536,16 @@ bool htoptagger::HAnalysis::GetWReader(hanalysis::HEvent &Event, const HTag Tag)
 bool htoptagger::HAnalysis::GetTopHadronicTag(hanalysis::HEvent &Event,  HTag Tag)
 {
     Print(HInformation, "Get hadronic tops", Tag);
-    std::vector<HTopHadronicBranch> Tops = TopHadronicTagger.GetBranches(Event, Tag);
-    if (Tops.size() < 1) return 0;
+    std::vector<HTopHadronBranch> Tops = TopHadronicTagger.GetBranches(Event, Tag);
+
+    std::vector<HTopHadronBranch> FinalTops;
     for (const auto & Top : Tops) {
-//         ++ObjectNumber;
-        *static_cast<HTopHadronicBranch *>(Branch->NewEntry()) = Top;
+        if (Top.Pt < PreCut()) continue;
+        FinalTops.push_back(Top);
+    }
+    if (Tops.size() < 1) return 0;
+    for (const auto & Top : FinalTops) {
+        *static_cast<HTopHadronBranch *>(Branch->NewEntry()) = Top;
         ++ObjectNumber;
     }
     return 1;
@@ -579,36 +558,45 @@ bool htoptagger::HAnalysis::GetTopHadronicReader(hanalysis::HEvent &Event, const
     Print(HInformation, "Get Event semi", Tag);
 
     HJets Jets = BottomTagger.GetJets(Event);
+    HJets Leptons = Event.GetLeptons()->GetLeptonJets();
     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 
-    std::vector<hanalysis::HTriplet> Triplets;
-    for (const auto Jet : Jets) {
-        HJets Pieces = TopHadronicTagger.GetSubJets(Jet, 3);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//     std::vector<hanalysis::HTriplet> Triplets;
+//     for (const auto Jet : Jets) {
+//         HJets Pieces = TopHadronicTagger.GetSubJets(Jet, 3);
+//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         for (const auto & Piece1 : Pieces) {
+//             for (const auto & Piece2 : Pieces) {
+//                 hanalysis::HDoublet Doublet(Piece1, Piece2);
+//                 Doublet = WHadronicTagger.GetBdt(Doublet, WHadronicReader);
+//                 for (const auto & Piece3 : Pieces) {
+//                     hanalysis::HTriplet Triplet(Doublet, Piece3);
+//                     Triplet = TopHadronicTagger.GetBdt(Triplet, TopHadronicReader);
+//                     Triplets.push_back(Triplet);
+//                 }
+//             }
+//         }
+//     }
 
-        for (const auto & Piece1 : Pieces) {
-            for (const auto & Piece2 : Pieces) {
-                hanalysis::HDoublet Doublet(Piece1, Piece2);
-                Doublet = WHadronicTagger.GetBdt(Doublet, WHadronicReader);
-//                 if (Doublet.Jet().m()  > (TopMass + WMass) / 2) continue;
-//                 if (Doublet.Jet().m()  < 10) continue;
-                for (const auto & Piece3 : Pieces) {
-                    hanalysis::HTriplet Triplet(Doublet, Piece3);
-//                     if (Triplet.Jet().m()  < (TopMass + WMass) / 2) continue;
-                    Triplet = TopHadronicTagger.GetBdt(Triplet, TopHadronicReader);
-                    Triplets.push_back(Triplet);
-                }
-            }
-        }
-    }
 
-    if (Triplets.size() > 2) {
-        std::sort(Triplets.begin(), Triplets.end());
-        Triplets.erase(Triplets.begin() + 2, Triplets.end());
-    }
+    std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets,Leptons, TopHadronicReader, WHadronicTagger, WHadronicReader, BottomTagger, BottomReader);
 
+    std::vector<hanalysis::HTriplet> FinalTriplets;
     for (const auto & Triplet : Triplets) {
-        *static_cast<HTopHadronicBranch *>(Branch->NewEntry()) = TopHadronicTagger.GetBranch(Triplet);
+//         if (Triplet.DeltaR() < 0.5) continue;
+        if (Triplet.Jet().pt() < PreCut()) continue;
+        FinalTriplets.push_back(Triplet);
+    }
+
+    const int MaxTopSize = 1;
+    if (FinalTriplets.size() > MaxTopSize) {
+        std::sort(FinalTriplets.begin(), FinalTriplets.end());
+        FinalTriplets.erase(FinalTriplets.begin() + MaxTopSize, FinalTriplets.end());
+    }
+
+    if (FinalTriplets.size() < 1) return 0;
+    for (const auto & FinalTriplet : FinalTriplets) {
+        *static_cast<HTopHadronBranch *>(Branch->NewEntry()) = TopHadronicTagger.GetBranch(FinalTriplet);
         ++ObjectNumber;
     }
     return 1;
@@ -620,9 +608,14 @@ bool htoptagger::HAnalysis::GetTopSemiTag(hanalysis::HEvent &Event,  HTag Tag)
 {
     Print(HInformation, "Get Tops", Tag);
     std::vector<HTopLeptonBranch> Tops = TopLeptonTagger.GetBranches(Event, Tag);
-    if (Tops.size() < 1) return 0;
+
+    std::vector<HTopLeptonBranch> FinalTops;
     for (const auto & Top : Tops) {
-        ++ObjectNumber;
+        if (Top.Pt < PreCut()) continue;
+        FinalTops.push_back(Top);
+    }
+    if (FinalTops.size() < 1) return 0;
+    for (const auto & Top : FinalTops) {
         *static_cast<HTopLeptonBranch *>(Branch->NewEntry()) = Top;
         ++ObjectNumber;
     }
@@ -634,22 +627,30 @@ bool htoptagger::HAnalysis::GetTopSemiReader(hanalysis::HEvent &Event, const HTa
     Print(HInformation, "Get Event semi", Tag);
 
     HJets Jets = BottomTagger.GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    Jets = fastjet::sorted_by_pt(BottomTagger.GetJetBdt(Jets, BottomReader));
 
     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
 //   fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 //   std::vector<hanalysis::HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HDoublet> Doublets = TopLeptonTagger.GetBdt(Jets, Leptons, TopLeptonReader);
 
-    if (Doublets.size() > 2) {
-        std::sort(Doublets.begin(), Doublets.end());
-        Doublets.erase(Doublets.begin() + 2, Doublets.end());
+    std::vector<hanalysis::HDoublet> FinalTriplets;
+    for (const auto & Triplet : Doublets) {
+        //         if (Triplet.DeltaR() < 0.5) continue;
+        if (Triplet.Jet().pt() < PreCut()) continue;
+        FinalTriplets.push_back(Triplet);
     }
 
-    for (const auto & Triplet : Doublets) {
-        //         ++ObjectNumber;
-        *static_cast<HTopLeptonBranch *>(Branch->NewEntry()) = TopLeptonTagger.GetBranch(Triplet);
+    const int MaxTopSize = 2;
+    if (FinalTriplets.size() > MaxTopSize) {
+        std::sort(FinalTriplets.begin(), FinalTriplets.end());
+        FinalTriplets.erase(FinalTriplets.begin() + MaxTopSize, FinalTriplets.end());
+    }
+
+    for (const auto & Doublet : FinalTriplets) {
+        *static_cast<HTopLeptonBranch *>(Branch->NewEntry()) = TopLeptonTagger.GetBranch(Doublet);
         ++ObjectNumber;
+        break;
     }
     return 1;
 }

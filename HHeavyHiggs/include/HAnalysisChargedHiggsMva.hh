@@ -76,12 +76,12 @@ private:
     // in GeV
     inline int Mass() const {
         //     return 400;
-//             return 500;
+//         return 500;
         //     return 600;
 //             return 800;
-            return 1000;
+//             return 1000;
 //         return 1500;
-//         return 2000;
+        return 2000;
 //         return 3000;
 //             return 4000;
 //             return 5000;
@@ -97,12 +97,13 @@ private:
 
     // in GeV
     inline int PreCut() const {
-        //     return 30;
+//         return 0;
+//             return 30;
         //     return 80;
         //     return 150;
 //         return 100;
-        return 250;
-//         return 300;
+//         return 250;
+        return 300;
 //         return 1000;
 //         return 1500;
 //         return 2000;
@@ -118,9 +119,9 @@ private:
     };
 
     inline HColliderType ColliderType() const {
-              return LHC;
+//               return LHC;
         //       return FHC;
-//         return LE;
+        return LE;
     }
 
 
@@ -131,7 +132,7 @@ private:
 //         return 5;
 //         return 8;
         //       return 10;
-        return 39;
+        return 40;
     }
 
     // in fb
@@ -158,6 +159,12 @@ private:
         case FHC:
         case LE:
             switch (Mass()) {
+            case 400:
+                return 369.3707730681267;
+            case 500:
+                return 234.21318920304418;
+            case 700:
+                return 104.61685208384041;
             case 1000:
                 return 38.501952876819495;
             case 1500:
@@ -240,14 +247,14 @@ private:
                     Print(HError, "unhandled case");
                     return 1;
                 }
-                case 250 :
-                  switch (Process) {
-                    case tt :
-                      return 4.206 * 2 * 1000;
-                    default :
-                      Print(HError, "unhandled case");
-                      return 1;
-                  }
+            case 250 :
+                switch (Process) {
+                case tt :
+                    return 4.206 * 2 * 1000;
+                default :
+                    Print(HError, "unhandled case");
+                    return 1;
+                }
             }
         case FHC:
             switch (PreCut()) {

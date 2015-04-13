@@ -78,44 +78,51 @@ private:
     inline int Mass() const {
         //     return 0;
         //     return 400;
+//             return 500;
         //     return 600;
-//         return 1000;
+//            return 800;
+//           return 1000;
 //         return 2000;
-//                 return 3000;
+                return 3000;
 //         return 4000;
-                return 5000;
+//                return 5000;
 //         return 6000;
         //     return 7000;
 //             return 8000;
         //     return 9000;
-        //         return 10000;
+//                 return 10000;
+//                 return 12000;
+//                 return 15000;
+//                 return 20000;
     }
 
     // in GeV
     inline int PreCut() const {
+//            return 0;
         //     return 30;
         //     return 80;
         //         return 150;
-//         return 250;
-//         return 300;
-        return 1000;
+// return 100;
+        return 250;
+//          return 300;
+//        return 1000;
 //         return 1500;
 //         return 2000;
 //         return 2500;
     }
 
     inline int EventNumberMax() const {
-//                 return 1000000;
+                return 1000000;
 //         return 100000;
-        return 10000;
+//         return 10000;
         //         return 1000;
 //                 return 100;
     };
 
     inline HColliderType ColliderType() const {
-//         return LHC;
+        return LHC;
         //       return FHC;
-        return LE;
+//         return LE;
     }
 
     inline int BackgroundFileNumber() const {
@@ -124,7 +131,7 @@ private:
         //       return 4;
 //         return 5;
         //       return 10;
-        return 32;
+        return 40;
     }
 
 
@@ -140,7 +147,11 @@ private:
             case 1000:
                 return 10.942712198242141;
             case 2000:
-                return 0.10283305582403454;
+              return 0.10283305582403454;
+            case 3000:
+              return 0.003583086718061121;
+            case 4000:
+              return 0.00020344209136808554;
             default:
                 Print(HError, "Signal Crosssection", "unhandled case");
                 return 1;
@@ -174,34 +185,11 @@ private:
             case 10000:
                 return 0.0018198636858628185;
             case 12000:
-                return 0.0004674423191995998;
-                // tan beta = 10
-//             case 400 :
-//                 return 131.94947391305232;
-//             case 700 :
-//                 return 30.221882093141176;
-//             case 800:
-//                 return 17.100219340176437;
-//             case 1000:
-//                 return 6.146859900494059;
-//             case 1500:
-//                 return 0.8522475589106505;
-//             case 2000:
-//                 return 0.19108540463151014;
-//             case 3000:
-//                 return 0.020689601081729285;
-//             case 4000:
-//                 return 0.0038886961414115293;
-//             case 5000:
-//                 return 0.0010087505187664622;
-//             case 6000:
-//                 return 0.0003169949319582519;
-//             case 8000:
-//                 return 0.00004684534698668758;
-//             case 10000:
-//                 return 9.81016234854116e-6;
-//             case 12000:
-//                 return 2.5117159473593533e-6;
+              return 0.0004674423191995998;
+            case 15000:
+              return 0.000046; //<this is just wrong get the right numbers
+            case 20000:
+              return 0.0000046; //<this is just wrong get the right numbers
             default:
                 Print(HError,  "Signal Crosssection", "unhandled case");
                 return 1;
@@ -232,7 +220,15 @@ private:
     float BackgroundCrosssection(const ProcessType Process) const {
         switch (ColliderType()) {
         case LHC :
-            switch (PreCut()) {
+          switch (PreCut()) {
+              case 0 :
+                switch (Process) {
+                  case tt :
+                    return 97.54 * 2 * 1000;
+                  default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                };
             case 30 :
                 switch (Process) {
                 case ttbb :

@@ -27,7 +27,7 @@ public:
      */
     ~HParticle();
 
-    void NewEvent(const HClonesArray *const);
+    void NewEvent(const hanalysis::HClonesArray &NewClonesArrays);
 
     HVectors GetLeptonLorentzVectors();
 

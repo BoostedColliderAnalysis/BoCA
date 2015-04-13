@@ -48,11 +48,15 @@ public:
      */
     virtual ~HFile();
 
-    std::shared_ptr< ExRootTreeReader > TreeReader();
+//     std::shared_ptr< ExRootTreeReader > TreeReader();
+    ExRootTreeReader TreeReader();
 
-    virtual std::shared_ptr<hanalysis::HClonesArray> ClonesArrays();
+//     virtual std::shared_ptr<hanalysis::HClonesArray> ClonesArrays();
 
-    virtual std::shared_ptr<hanalysis::HEvent> Event();
+    virtual hanalysis::HClonesArray &ClonesArrays();
+
+//     virtual std::shared_ptr<hanalysis::HEvent> Event();
+    virtual hanalysis::HEvent &Event();
 
     void SetBasePath(const std::string &NewBasePath) {
         BasePath = NewBasePath;
@@ -173,12 +177,16 @@ private:
 
     TFile *File = NULL;
 
-    TChain * Chain = NULL;
+    TChain *Chain = NULL;
+
+    HEvent *event_ = NULL;
+
+    HClonesArray *clones_array_ = NULL;
 
 //     hdelphes::HEvent DelphesEvent;
-//
+
 //     hparton::HEvent PartonEvent;
-//
+
 //     hpgs::HEvent PgsEvent;
 };
 

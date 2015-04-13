@@ -74,7 +74,7 @@ find_path (fastjet_INCLUDE_DIR fastjet/PseudoJet.hh)
 set (FASTJET_FOUND TRUE)
 
 set (lib_names fastjet fastjettools)
-set (opt_lib_names siscone siscone_spherical fastjetplugins)
+set (opt_lib_names siscone siscone_spherical fastjetplugins Nsubjettiness)
 
 # check if we found all libraries
 foreach (lib_name ${lib_names})

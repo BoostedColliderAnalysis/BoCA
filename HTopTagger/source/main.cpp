@@ -22,7 +22,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             hanalysis::HFactory(Analysis.WHadronicTagger);
             break;
         case hanalysis::HAnalysis::HWSemiTagger:
-            hanalysis::HFactory(Analysis.WSemiTagger);
+//             hanalysis::HFactory(Analysis.WSemiTagger);
             break;
         case hanalysis::HAnalysis::HTopHadronicTagger:
             hanalysis::HFactory(Analysis.TopHadronicTagger);
@@ -63,27 +63,31 @@ int main()
 
     try {
 
+        htoptagger::HAnalysis Analysis;
+
         RunTagger(hanalysis::HAnalysis::HBottomTagger);
-        RunTagger(hanalysis::HAnalysis::HBottomReader);
+//         RunTagger(hanalysis::HAnalysis::HBottomReader);
 
-//         RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
-//         RunTagger(hanalysis::HAnalysis::HWHadronicReader);
-//         RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
-//         RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
+        if (Analysis.TopDecay() == htoptagger::HAnalysis::Hadronic) {
+            RunTagger(hanalysis::HAnalysis::HWHadronicTagger);
+//        RunTagger(hanalysis::HAnalysis::HWHadronicReader);
+            RunTagger(hanalysis::HAnalysis::HTopHadronicTagger);
+            RunTagger(hanalysis::HAnalysis::HTopHadronicReader);
+        }
 
-
-
+        if (Analysis.TopDecay() == htoptagger::HAnalysis::Leptonic) {
 //         RunTagger(hanalysis::HAnalysis::HWSemiTagger);
 //         RunTagger(hanalysis::HAnalysis::HWSemiReader);
-        RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
-        RunTagger(hanalysis::HAnalysis::HTopSemiReader);
-    } catch (std::exception &e) {
-        std::cout << "Standard exception: " << e.what() << std::endl;
+            RunTagger(hanalysis::HAnalysis::HTopSemiTagger);
+            RunTagger(hanalysis::HAnalysis::HTopSemiReader);
+        }
+    } catch (const std::exception &exception) {
+        std::cout << "Standard exception: " << exception.what() << std::endl;
     }
 
     std::cout << fastjet::LimitedWarning::summary() << std::endl;
 
-    return 0;
+    return EXIT_SUCCESS;
 
 }
 

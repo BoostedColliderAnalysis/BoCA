@@ -31,35 +31,35 @@ void hheavyhiggs::HSignatureSemiTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
     SetTaggerName("SignatureSemi");
-    Observables.clear();
-    Spectators.clear();
-
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
-
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaHt, "DeltaHt"));
-    Observables.push_back(NewObservable(&Branch.DeltaM, "DeltaM"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    ClearVectors();
 
 
-    Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
-    Observables.push_back(NewObservable(&Branch.PairRap, "PairRap"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt, "BottomBdt"));
-    Observables.push_back(NewObservable(&Branch.PairBottomBdt, "PairBottomBdt"));
-    Observables.push_back(NewObservable(&Branch.PairBdt, "PairBdt"));
-    Observables.push_back(NewObservable(&Branch.HiggsBdt, "HiggsBdt"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Ht, "Ht");
 
-    Observables.push_back(NewObservable(&Branch.HardTopPt, "HardTopPt"));
-    Observables.push_back(NewObservable(&Branch.SoftTopPt, "SoftTopPt"));
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaHt, "DeltaHt");
+    AddObservable(Branch.DeltaM, "DeltaM");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaR, "DeltaR");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+
+    AddObservable(Branch.HiggsMass, "HiggsMass");
+    AddObservable(Branch.PairRap, "PairRap");
+    AddObservable(Branch.BottomBdt, "BottomBdt");
+    AddObservable(Branch.PairBottomBdt, "PairBottomBdt");
+    AddObservable(Branch.PairBdt, "PairBdt");
+    AddObservable(Branch.HiggsBdt, "HiggsBdt");
+
+    AddObservable(Branch.HardTopPt, "HardTopPt");
+    AddObservable(Branch.SoftTopPt, "SoftTopPt");
+
+    AddObservable(Branch.Bdt, "Bdt");
+    AddSpectator(Branch.Tag, "Tag");
 
 
     Print(HNotification, "Variables defined");
@@ -114,15 +114,15 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
-    if (TripletsSemi.size() < 1)Print(HError, "No TripletsSemi", TripletsSemi.size());
+    if (TripletsSemi.size() < 1)Print(HInformation, "No TripletsSemi", TripletsSemi.size());
 
 //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
 //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
-    if (TripletsHadronic.size() < 1)Print(HError, "No TripletsHadronic", TripletsHadronic.size());
+    if (TripletsHadronic.size() < 1)Print(HInformation, "No TripletsHadronic", TripletsHadronic.size());
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
-    if (Sextets.size() < 1)Print(HError, "No Sextets", Sextets.size());
+    if (Sextets.size() < 1)Print(HInformation, "No Sextets", Sextets.size());
 
     HJets HiggsParticles = Event.GetParticles()->Generator();
     HJets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
@@ -175,7 +175,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
             Octets.push_back(Octet);
         }
     }
-    if (Octets.size() < 1)Print(HError, "No Octets", Octets.size());
+    if (Octets.size() < 1)Print(HInformation, "No Octets", Octets.size());
 
     if (Tag == HSignal && Octets.size() > 1) {
         Print(HInformation, "more than one event", Octets.size());
@@ -223,7 +223,7 @@ std::vector<HOctet> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector<
     }
 
     if (Octets.size() > 1) std::sort(Octets.begin(), Octets.end());
-    Octets.erase(Octets.begin() + std::min(MaxCombi, int(Octets.size())), Octets.end());
+    Octets.erase(Octets.begin() + std::min(max_combi(), int(Octets.size())), Octets.end());
     Print(HInformation, "Event Number", Octets.size());
 
 

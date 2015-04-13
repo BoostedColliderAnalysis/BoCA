@@ -1,22 +1,7 @@
 # ifndef HReader_hh
 # define HReader_hh
 
-# include "TDirectoryFile.h"
-# include "TTree.h"
-# include "TCanvas.h"
-# include "TGraph.h"
-# include "TMultiGraph.h"
-# include "TLine.h"
-
-# include "TMVA/Reader.h"
-# include "TMVA/MethodCuts.h"
-
-# include "ExRootAnalysis/ExRootTreeReader.h"
-# include "ExRootAnalysis/ExRootTreeWriter.h"
-# include "ExRootAnalysis/ExRootTreeBranch.h"
-
 # include "HMva.hh"
-
 
 class HMvaResult : hanalysis::HObject
 {
@@ -76,21 +61,9 @@ public:
 
     void SimpleMVALoop();
 
-//     float Bdt() const {
-//         Print(HInformation, "Bdt");
-//         const float bdt = const_cast<TMVA::Reader *>(&reader_)->EvaluateMVA(Mva->BdtMethodName());
-//         return (bdt + 1.);
-//     }
-
-    float Bdt() const {
-        Print(HInformation, "Bdt");
-        const float bdt = const_cast<TMVA::Reader &>(reader_).EvaluateMVA(Tagger().BdtMethodName());
-        return bdt + 1;
-    }
-
+    float Bdt() const;
 
 private:
-
 
 //     TMVA::Reader Reader() const {
 //         return reader_;

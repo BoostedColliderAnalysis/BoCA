@@ -42,9 +42,9 @@ public:
      */
     HStrings Paths() const;
 
-    std::shared_ptr<hanalysis::HEvent> Event();
+//     std::shared_ptr<hanalysis::HEvent> Event();
 
-    std::shared_ptr<hanalysis::HClonesArray> ClonesArrays();
+//     std::shared_ptr<hanalysis::HClonesArray> ClonesArrays();
 
 protected:
 

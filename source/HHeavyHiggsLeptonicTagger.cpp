@@ -33,37 +33,37 @@ void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
 
   Print(HNotification , "Define Variables");
 
-  Spectators.clear();
-  Observables.clear();
 
-  Spectators.push_back(NewObservable(&Branch.Mass, "Mass"));
-  Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-  Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-  Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
+  ClearVectors();
 
-  Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-  Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
-  Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-  Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+  AddSpectator(Branch.Mass, "Mass");
+  AddObservable(Branch.Pt, "Pt");
+  AddObservable(Branch.Rap, "Rap");
+  AddObservable(Branch.Phi, "Phi");
 
-  Observables.push_back(NewObservable(&Branch.LargerWDeltaR, "LargerWDeltaR"));
-  Observables.push_back(NewObservable(&Branch.LargerWDeltaRap, "LargerWDeltaRap"));
-  Observables.push_back(NewObservable(&Branch.LargerWDeltaPhi, "LargerWDeltaPhi"));
+  AddObservable(Branch.DeltaPt, "DeltaPt");
+  AddObservable(Branch.DeltaR, "DeltaR");
+  AddObservable(Branch.DeltaRap, "DeltaRap");
+  AddObservable(Branch.DeltaPhi, "DeltaPhi");
 
-  Observables.push_back(NewObservable(&Branch.SmallerWDeltaR, "SmallerWDeltaR"));
-  Observables.push_back(NewObservable(&Branch.SmallerWDeltaRap, "SmallerWDeltaRap"));
-  Observables.push_back(NewObservable(&Branch.SmallerWDeltaPhi, "SmallerWDeltaPhi"));
+  AddObservable(Branch.LargerWDeltaR, "LargerWDeltaR");
+  AddObservable(Branch.LargerWDeltaRap, "LargerWDeltaRap");
+  AddObservable(Branch.LargerWDeltaPhi, "LargerWDeltaPhi");
 
-  Observables.push_back(NewObservable(&Branch.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR"));
-  Observables.push_back(NewObservable(&Branch.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap"));
-  Observables.push_back(NewObservable(&Branch.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi"));
+  AddObservable(Branch.SmallerWDeltaR, "SmallerWDeltaR");
+  AddObservable(Branch.SmallerWDeltaRap, "SmallerWDeltaRap");
+  AddObservable(Branch.SmallerWDeltaPhi, "SmallerWDeltaPhi");
 
-  Observables.push_back(NewObservable(&Branch.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR"));
-  Observables.push_back(NewObservable(&Branch.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap"));
-  Observables.push_back(NewObservable(&Branch.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi"));
+  AddObservable(Branch.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
+  AddObservable(Branch.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
+  AddObservable(Branch.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
 
-  Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-  Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+  AddObservable(Branch.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
+  AddObservable(Branch.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
+  AddObservable(Branch.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
+
+  AddObservable(Branch.Bdt, "Bdt");
+  AddSpectator(Branch.Tag, "Tag");
 
   Print(HNotification, "Variables defined");
 
@@ -213,7 +213,7 @@ std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsLeptonicTagger::GetBdt(co
         }
     }
     std::sort(Sextets.begin(), Sextets.end());
-    Sextets.erase(Sextets.begin() + std::min(MaxCombi, int(Sextets.size())), Sextets.end());
+    Sextets.erase(Sextets.begin() + std::min(max_combi(), int(Sextets.size())), Sextets.end());
     return Sextets;
 }
 
@@ -248,7 +248,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextets
     Print(HDebug, "Number solutions", SolutionSum);
 
     std::vector<hanalysis::HSextet> Sextets;
-    for (const int SolutionNumber : HRange(SolutionSum)) {
+    for (const int SolutionNumber : Range(SolutionSum)) {
         Print(HDebug, "Solution ", SolutionNumber);
         Print(HDebug, "Neutrino 1 (p1)" , GetJet(P1[SolutionNumber]));
         Print(HDebug, "Neutrino 2 (p2)" , GetJet(P2[SolutionNumber]));

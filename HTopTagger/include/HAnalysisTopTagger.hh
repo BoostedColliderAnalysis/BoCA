@@ -1,5 +1,4 @@
-# ifndef HAnalysisTopTagger_hh
-# define HAnalysisTopTagger_hh
+# pragma once
 
 #include <sys/stat.h>
 
@@ -10,7 +9,7 @@
 # include "HFactory.hh"
 # include "HJetTag.hh"
 
-# include "HTopHadronicTagger.hh"
+# include "HTopHadronTagger.hh"
 # include "HTopLeptonTagger.hh"
 
 
@@ -35,10 +34,10 @@ public:
     HAnalysis();
 
     hanalysis::HBottomTagger BottomTagger;
-    hanalysis::HWSemiTagger WSemiTagger;
+//     hanalysis::HWSemiTagger WSemiTagger;
     hanalysis::HWTagger WHadronicTagger;
 
-    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    HTopHadronTagger TopHadronicTagger;
     HTopLeptonTagger TopLeptonTagger;
 
 
@@ -51,8 +50,16 @@ public:
     std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
 
     inline std::string ProjectName() const {
-//         return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV-" + std::to_string(Mass()) + "GeV-" + ProcessName(tt);
-        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV-" + ProcessName(tt);
+
+        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
+    }
+
+    enum HDecay {Leptonic, Hadronic, Semi};
+
+    inline HDecay TopDecay() const {
+        return Hadronic;
+//          return Leptonic;
+//         return Semi;
     }
 
 protected:
@@ -67,51 +74,28 @@ protected:
 
 private:
 
-    enum ProcessType {Hbb, ttbb, ttcc, ttjj, bbjj, tt, bb, cc, qq, gg, wg, wq, wc, wb, wu, wcb, wbu, ttlep};
+    enum ProcessType {Hbb, ttbb, ttcc, ttjj, bbjj, tt, bb, cc, qq, gg, wg, wq, wc, wb, wu, wcb, wbu, ttlep, tthad, hh, ww, zz};
     enum HColliderType {LHC, FHC, LE};
-    enum HDecay {Leptonic, Hadronic, Semi};
-
-    inline HDecay TopDecay() const {
-//       return Hadronic;
-      return Leptonic;
-//         return Semi;
-    }
-
-    // in GeV
-//     inline int Mass() const {
-//         //     return 0;
-//         //     return 400;
-//         //     return 600;
-//         //         return 1000;
-//                 return 2000;
-// //         return 3000;
-//         //     return 4000;
-//         //         return 5000;
-//         //     return 6000;
-//         //     return 7000;
-//         //     return 8000;
-//         //     return 9000;
-//         //         return 10000;
-//     }
 
     // in GeV
     inline int PreCut() const {
 //             return 0;
-        return 1;
+//         return 1;
         //     return 30;
         //     return 80;
 //                 return 150;
 //         return 300;
-//         return 1000;
+        return 1000;
     }
 
     inline int EventNumberMax() const {
         //         return 1000000;
         //         return 100000;
-//         return 10000;
+        return 10000;
 //         return 1000;
-        return 100;
-    };
+//         return 100;
+//         return 10;
+    }
 
     inline HColliderType ColliderType() const {
         //       return LHC;
@@ -132,14 +116,6 @@ private:
         switch (ColliderType()) {
         case LHC:
             switch (Mass()) {
-            case 400 :
-                return 15.457345846238557;
-            case 500:
-                return 10.57186928542166;
-            case 1000:
-                return 0.6300105025483057;
-            case 2000:
-                return 0.011364910695033002;
             default:
                 Print(HError, "Signal Crosssection", "unhandled case");
                 return 1;
@@ -147,40 +123,6 @@ private:
         case FHC:
         case LE:
             switch (Mass()) {
-            case 400 :
-                return 465.78976127779805;
-            case 500:
-                return 403.1726637894434;
-            case 600:
-                return 272.6441648068077;
-            case 1000:
-                return 60.62802137818876;
-            case 1500:
-                return 14.625345866484361;
-            case 2000:
-                return 4.920796866551275;
-            case 3000:
-                return 0.9234071865754303;
-            case 4000:
-                return 0.25736547733711523;
-            case 5000:
-                return 0.08899831451027759;
-            case 6000:
-                return 0.03602204622881514;
-            case 7000:
-                return 0.01576206604679042;
-            case 8000:
-                return 0.0076693087930297206;
-            case 9000:
-                return 0.0039008532687324735;
-            case 10000:
-                return 0.002076042904956223;
-            case 12000:
-                return 0.0006621537122277095;
-            case 15000:
-                return 0.0001442241864611344;
-            case 20000:
-                return 0.000015425841205626978;
             default:
                 Print(HError,  "Signal Crosssection", "unhandled case");
                 return 1;
@@ -196,9 +138,8 @@ private:
     }
 
     hanalysis::HFile BackgroundFile(const ProcessType Background, const int FileSum) const {
-//         std::string FileName = ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV";
-//         std::string FileName = ProcessName(Background) + "_" + std::to_string(PreCut()) + "TeV";
-        std::string FileName = ProcessName(Background) + "_" + std::to_string(PreCut()) + "TeV";
+
+        std::string FileName = ProcessName(Background) + "_" + std::to_string(PreCut()) + "GeV";
         HStrings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
 //             FileNames.push_back(FileName + "_" + std::to_string(FileNumber));
@@ -208,9 +149,7 @@ private:
     }
 
     std::string BackgroundTree(const ProcessType Process) const {
-//         return ProcessName(Process) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "TeV-run_01";
-//         return ProcessName(Process) + "_" + std::to_string(PreCut()) + "TeV-run_01";
-      return ProcessName(Process)+ "_" + std::to_string(PreCut()) + "TeV" + "-run_01";
+        return ProcessName(Process) + "_" + std::to_string(PreCut()) + "GeV" + "-run_01";
     }
 
     float BackgroundCrosssection(const ProcessType Proccess) const {
@@ -219,23 +158,14 @@ private:
             switch (PreCut()) {
             case 30 :
                 switch (Proccess) {
-                case ttbb :
-                    return 298.2;
-                case ttcc:
-                    return 264.6;
-                case ttjj:
-                    return 9999999999;
+
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 };
             case 80 :
                 switch (Proccess) {
-                case ttbb :
-                    return 89.32;
-                case ttcc:
-                    return 78.42;
-                case ttjj:
+
                     return 9999999999;
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
@@ -246,48 +176,28 @@ private:
             switch (PreCut()) {
             case 30 :
                 switch (Proccess) {
-                case ttbb :
-                    return 2990;
-                case ttcc:
-                    return 2684;
-                case ttjj:
-                    return 9999999999;
+
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 80 :
                 switch (Proccess) {
-                case ttbb :
-                    return 1171.6;
-                case ttcc:
-                    return 1042.0;
-                case ttjj:
-                    return 9999999999;
+
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 150 :
                 switch (Proccess) {
-                case ttbb :
-                    return 605.199003171 * 2;
-                case ttcc:
-                    return 468.061778817 * 2;
-                case ttjj:
-                    return 61.9287096863 * 2 * 1000;
+
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 300 :
                 switch (Proccess) {
-                case ttbb :
-                    return 242;
-                case ttcc:
-                    return 176;
-                case ttjj:
-                    return 26000;
+
                 default:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
@@ -355,7 +265,8 @@ private:
         case tt:
             switch (TopDecay()) {
             case Hadronic :
-                return "tt_hadronic_1TeV";
+//                 return "tt_hadronic_1TeV";
+                return "tt_hadronic";
             case  Leptonic :
 //                 return "tt_leptonic_1TeV";
                 return "tt_leptonic";
@@ -363,7 +274,9 @@ private:
                 return "tt_semi_nopre";
             }
         case ttlep:
-            return "tt_leptonic_1TeV";
+            return "tt_leptonic";
+        case tthad:
+            return "tt_hadronic";
         case bb:
             return "bb";
         case cc:
@@ -386,6 +299,12 @@ private:
             return "wu_b_pre";
         case wbu:
             return "wbu_nopre";
+        case hh:
+            return "hh";
+        case ww:
+          return "ww";
+        case zz:
+          return "zz";
         default:
             Print(HError, "unhandled case");
             return "";
@@ -422,5 +341,3 @@ private:
 };
 
 }
-
-#endif

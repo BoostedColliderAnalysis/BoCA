@@ -1,5 +1,4 @@
-# ifndef HBranch_hh
-# define HBranch_hh
+# pragma once
 
 # include "TObject.h"
 # include "Rtypes.h"
@@ -17,7 +16,7 @@ public:
     virtual ~HBranch();
 
 protected:
-    int InitialValue;
+    float InitialValue;
 
 private:
     ClassDef(HBranch, 1)
@@ -36,7 +35,7 @@ public:
     float Crosssection;
     float CrosssectionError;
     float Mass;
-    int EventNumber;
+    float EventNumber;
 
     HInfoBranch();
 
@@ -117,15 +116,15 @@ public:
     float MaxDisplacement;
     float MeanDisplacement;
     float SumDisplacement;
-    int Multipliticity;
+    float Multipliticity;
     float DeltaR;
     float Spread;
     float VertexDeltaR;
     float VertexSpread;
     float EnergyFraction;
-    int BTag;
+    float BTag;
 
-    int Tag;
+    float Tag;
     float Bdt;
 
 private:
@@ -157,7 +156,7 @@ public:
     float FlightPath;
     float TrtHtFraction;
 
-    int Tag;
+    float Tag;
     float Bdt;
 
 private:
@@ -185,7 +184,7 @@ public:
     float WBdt;
     float BBdt;
     float Bdt;
-    int Tag;
+    float Tag;
 
 private:
 
@@ -343,6 +342,28 @@ public:
     float BottomPt;
     float WPt;
 
+    float Tau1_1;
+    float Tau2_1;
+    float Tau3_1;
+    float Tau21_1;
+    float Tau32_1;
+
+    float Tau1_2;
+    float Tau2_2;
+    float Tau3_2;
+    float Tau21_2;
+    float Tau32_2;
+
+    float VertexMass;
+    float MaxDisplacement;
+    float MeanDisplacement;
+    float SumDisplacement;
+    float Multipliticity;
+    float Spread;
+    float VertexDeltaR;
+    float VertexSpread;
+    float EnergyFraction;
+
 private:
 
     ClassDef(HTopHadronicBranch, 1)
@@ -415,7 +436,7 @@ public:
     float Pull2;
     float Pull;
 
-    int HiggsTag;
+    float HiggsTag;
 
 private:
 
@@ -479,7 +500,7 @@ public:
 
     float TopBdt;
 
-    int HeavyHiggsTag;
+    float HeavyHiggsTag;
 
 private:
 
@@ -516,7 +537,7 @@ class HChargedHiggsSemiBranch : public HPairBranch
 public:
 
     HChargedHiggsSemiBranch();
-    int Flag;
+    float Flag;
 
 private:
 
@@ -545,7 +566,7 @@ public:
 
     float TopBdt;
 
-    int HeavyHiggsTag;
+    float HeavyHiggsTag;
 
 private:
 
@@ -590,7 +611,7 @@ public:
 
     float TopBdt;
 
-    int HeavyHiggsTag;
+    float HeavyHiggsTag;
 
 private:
 
@@ -603,30 +624,30 @@ class HEventBottomTaggerBranch : public HBranch
 
 public:
 
-  HEventBottomTaggerBranch();
+    HEventBottomTaggerBranch();
 
-  float Bdt;
-  float Tag;
+    float Bdt;
+    float Tag;
 
-  float BottomBdt1;
-  float BottomBdt2;
-  float BottomBdt3;
-  float BottomBdt4;
-  float BottomBdt5;
-  float BottomBdt6;
-  float BottomBdt7;
+    float BottomBdt1;
+    float BottomBdt2;
+    float BottomBdt3;
+    float BottomBdt4;
+    float BottomBdt5;
+    float BottomBdt6;
+    float BottomBdt7;
 
-  float BottomBdt12;
-  float BottomBdt34;
-  float BottomBdt56;
+    float BottomBdt12;
+    float BottomBdt34;
+    float BottomBdt56;
 
-  float BottomBdt123;
-  float BottomBdt1234;
+    float BottomBdt123;
+    float BottomBdt1234;
 
 
 private:
 
-  ClassDef(HEventBottomTaggerBranch, 1)
+    ClassDef(HEventBottomTaggerBranch, 1)
 
 };
 
@@ -640,12 +661,24 @@ class HTopLeptonBranch : public HPairBranch
 
 public:
 
-  HTopLeptonBranch();
+    HTopLeptonBranch();
+
+    float VertexMass;
+    float MaxDisplacement;
+    float MeanDisplacement;
+    float SumDisplacement;
+    float Multipliticity;
+    float DeltaR;
+    float Spread;
+    float VertexDeltaR;
+    float VertexSpread;
+    float EnergyFraction;
+    float JetMass;
+    float LeptonPt;
 
 private:
 
-  ClassDef(HTopLeptonBranch, 1)
+    ClassDef(HTopLeptonBranch, 1)
 
 };
 
-# endif

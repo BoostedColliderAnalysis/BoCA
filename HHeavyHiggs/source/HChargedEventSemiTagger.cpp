@@ -32,71 +32,71 @@ void hheavyhiggs::HChargedEventSemiTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
     SetTaggerName("ChargedEventSemi");
-    Observables.clear();
-    Spectators.clear();
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.LeptonNumber, "LeptonNumber"));
-    Observables.push_back(NewObservable(&Branch.JetNumber, "JetNumber"));
-    Observables.push_back(NewObservable(&Branch.BottomNumber, "BottomNumber"));
-    Observables.push_back(NewObservable(&Branch.ScalarHt, "ScalarHt"));
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
+    AddObservable(Branch.LeptonNumber, "LeptonNumber");
+    AddObservable(Branch.JetNumber, "JetNumber");
+    AddObservable(Branch.BottomNumber, "BottomNumber");
+    AddObservable(Branch.ScalarHt, "ScalarHt");
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaHt, "DeltaHt"));
-    Observables.push_back(NewObservable(&Branch.DeltaM, "DeltaM"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Ht, "Ht");
 
-    Observables.push_back(NewObservable(&Branch.HiggsMass, "HiggsMass"));
-    Observables.push_back(NewObservable(&Branch.PairRap, "PairRap"));
-    Observables.push_back(NewObservable(&Branch.HiggsBdt, "HiggsBdt"));
-    Observables.push_back(NewObservable(&Branch.SignatureBdt, "SignatureBdt"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt, "BottomBdt"));
-    Observables.push_back(NewObservable(&Branch.PairBottomBdt, "PairBottomBdt"));
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaHt, "DeltaHt");
+    AddObservable(Branch.DeltaM, "DeltaM");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaR, "DeltaR");
 
-    Observables.push_back(NewObservable(&Branch.BottomBdt1, "BottomBdt1"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt2, "BottomBdt2"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt3, "BottomBdt3"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt4, "BottomBdt4"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt5, "BottomBdt5"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt6, "BottomBdt6"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt7, "BottomBdt7"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt8, "BottomBdt8"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt12, "BottomBdt12"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt34, "BottomBdt34"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt56, "BottomBdt56"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt78, "BottomBdt78"));
+    AddObservable(Branch.HiggsMass, "HiggsMass");
+    AddObservable(Branch.PairRap, "PairRap");
+    AddObservable(Branch.HiggsBdt, "HiggsBdt");
+    AddObservable(Branch.SignatureBdt, "SignatureBdt");
+    AddObservable(Branch.BottomBdt, "BottomBdt");
+    AddObservable(Branch.PairBottomBdt, "PairBottomBdt");
 
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt1, "SubBottomBdt1"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt2, "SubBottomBdt2"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt3, "SubBottomBdt3"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt4, "SubBottomBdt4"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt5, "SubBottomBdt5"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt6, "SubBottomBdt6"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt7, "SubBottomBdt7"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt8, "SubBottomBdt8"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt12, "SubBottomBdt12"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt34, "SubBottomBdt34"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt56, "SubBottomBdt56"));
-    Observables.push_back(NewObservable(&Branch.SubBottomBdt78, "SubBottomBdt78"));
+    AddObservable(Branch.BottomBdt1, "BottomBdt1");
+    AddObservable(Branch.BottomBdt2, "BottomBdt2");
+    AddObservable(Branch.BottomBdt3, "BottomBdt3");
+    AddObservable(Branch.BottomBdt4, "BottomBdt4");
+    AddObservable(Branch.BottomBdt5, "BottomBdt5");
+    AddObservable(Branch.BottomBdt6, "BottomBdt6");
+    AddObservable(Branch.BottomBdt7, "BottomBdt7");
+    AddObservable(Branch.BottomBdt8, "BottomBdt8");
+    AddObservable(Branch.BottomBdt12, "BottomBdt12");
+    AddObservable(Branch.BottomBdt34, "BottomBdt34");
+    AddObservable(Branch.BottomBdt56, "BottomBdt56");
+    AddObservable(Branch.BottomBdt78, "BottomBdt78");
 
-    Observables.push_back(NewObservable(&Branch.RestNumber, "RestNumber"));
-    Observables.push_back(NewObservable(&Branch.RestM, "RestM"));
-    Observables.push_back(NewObservable(&Branch.RestPt, "RestPt"));
-    Observables.push_back(NewObservable(&Branch.RestHt, "RestHt"));
-    Observables.push_back(NewObservable(&Branch.RestPhi, "RestPhi"));
-    Observables.push_back(NewObservable(&Branch.RestRap, "RestRap"));
-    Observables.push_back(NewObservable(&Branch.RestBdt, "RestBdt"));
-    Observables.push_back(NewObservable(&Branch.LeptonHt, "LeptonHt"));
+    AddObservable(Branch.SubBottomBdt1, "SubBottomBdt1");
+    AddObservable(Branch.SubBottomBdt2, "SubBottomBdt2");
+    AddObservable(Branch.SubBottomBdt3, "SubBottomBdt3");
+    AddObservable(Branch.SubBottomBdt4, "SubBottomBdt4");
+    AddObservable(Branch.SubBottomBdt5, "SubBottomBdt5");
+    AddObservable(Branch.SubBottomBdt6, "SubBottomBdt6");
+    AddObservable(Branch.SubBottomBdt7, "SubBottomBdt7");
+    AddObservable(Branch.SubBottomBdt8, "SubBottomBdt8");
+    AddObservable(Branch.SubBottomBdt12, "SubBottomBdt12");
+    AddObservable(Branch.SubBottomBdt34, "SubBottomBdt34");
+    AddObservable(Branch.SubBottomBdt56, "SubBottomBdt56");
+    AddObservable(Branch.SubBottomBdt78, "SubBottomBdt78");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.RestNumber, "RestNumber");
+    AddObservable(Branch.RestM, "RestM");
+    AddObservable(Branch.RestPt, "RestPt");
+    AddObservable(Branch.RestHt, "RestHt");
+    AddObservable(Branch.RestPhi, "RestPhi");
+    AddObservable(Branch.RestRap, "RestRap");
+    AddObservable(Branch.RestBdt, "RestBdt");
+    AddObservable(Branch.LeptonHt, "LeptonHt");
+
+    AddObservable(Branch.Bdt, "Bdt");
+    AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
 

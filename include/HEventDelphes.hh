@@ -2,9 +2,6 @@
 # define HEventDelphes_hh
 
 # include "HEvent.hh"
-# include "HParticleDelphes.hh"
-# include "HLeptonDelphes.hh"
-# include "HJetDelphes.hh"
 
 /**
  * @brief event topology for Delphes events
@@ -27,13 +24,13 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::HClonesArray *const ClonesArrays);
+    void NewEvent(const hanalysis::HClonesArray &ClonesArrays);
 
-    HJets GetTops(hanalysis::HJetTag &JetTag);
+//     HJets GetTops(hanalysis::HJetTag &JetTag);
 
-    fastjet::PseudoJet GetHiggs();
+//     fastjet::PseudoJet GetHiggs();
 
-    HJets GetCandidates(hanalysis::HJetTag &JetTag);
+//     HJets GetCandidates(hanalysis::HJetTag &JetTag);
 
 
 protected:

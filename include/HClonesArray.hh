@@ -19,6 +19,45 @@ class hanalysis::HClonesArray : public HObject
 
 public:
 
+    enum Branch {kParticle, kPhoton, kElectron, kMuon, kJet, kMissingEt, kTrack, kTower, kEFlowTrack, kEflowPhoton, kEFlowNeutralHadron, kEFlowMuon, kGenJet, kScalarHt, kTau};
+
+    std::string BranchName(const Branch branch) const {
+        switch (branch) {
+        case kParticle:
+            return "Particle";
+        case kPhoton:
+            return "Photon";
+        case kElectron:
+            return "Electron";
+        case kMuon:
+            return "Muon";
+        case kJet:
+            return "Jet";
+        case kMissingEt:
+            return "MissingET";
+        case kTrack:
+            return "Track";
+        case kTower:
+            return "Tower";
+        case kEFlowTrack:
+            return "EFlowTrack";
+        case kEflowPhoton:
+            return "EFlowPhoton";
+        case kEFlowNeutralHadron:
+            return "EFlowNeutralHadron";
+        case kEFlowMuon:
+            return "EFlowMuon";
+        case kGenJet:
+            return "GenJet";
+        case kScalarHt:
+            return "ScalarHT";
+        case kTau:
+            return "Tau";
+        default :
+            return "";
+        }
+    }
+
     /**
      * @brief Constructor
      *
@@ -32,6 +71,11 @@ public:
     ~HClonesArray();
 
     virtual void GetBranches(const std::shared_ptr< ExRootTreeReader > &) = 0;
+    virtual void GetBranches(ExRootTreeReader &) = 0;
+
+    inline int GetSum(const Branch branch) {
+        return ClonesArray(branch).GetEntriesFast();
+    }
 
     inline int GetParticleSum() const {
         return ParticleClonesArray->GetEntriesFast();
@@ -230,6 +274,14 @@ public:
     }
 
     /**
+     * @brief EFlow Tower Clones Array
+     *
+     */
+    inline TObject &GetObject(const Branch branch, const int number) const {
+        return *ClonesArray(branch).At(number);
+    }
+
+    /**
      * @brief Particle Clones Array
      *
      */
@@ -357,6 +409,138 @@ public:
         return TauClonesArray->At(TauNumber);
     }
 
+    inline const TClonesArray &ClonesArray(const Branch branch) const {
+        return *const_cast<ExRootTreeReader &>(*tree_reader_).UseBranch(BranchName(branch).c_str());
+    }
+
+    /**
+     * @brief Particle Clones Array
+     *
+     */
+    inline const TClonesArray &Particle_clones_array() const {
+        return *ParticleClonesArray;
+    }
+
+    /**
+     * @brief Track Clones Array
+     *
+     */
+    inline const TClonesArray &Track_clones_array() const {
+        return *TrackClonesArray;
+    }
+
+    /**
+     * @brief Tower Clones Array
+     *
+     */
+    inline const TClonesArray &Tower_clones_array() const {
+        return *TowerClonesArray;
+    }
+
+    /**
+     * @brief EFlow Track Clones Array
+     *
+     */
+    inline const TClonesArray &EFlowTrack_clones_array() const {
+        return *EFlowTrackClonesArray;
+    }
+
+    /**
+     * @brief EFlow Tower Clones Array
+     *
+     */
+    inline const TClonesArray &EFlowTower_clones_array() const {
+        return *EFlowTowerClonesArray;
+    }
+
+    /**
+     * @brief GenJet Clones Array
+     *
+     */
+    inline const TClonesArray &GenJet_clones_array() const {
+        return *GenJetClonesArray;
+    }
+
+    /**
+     * @brief Jet Clones Array
+     *
+     */
+    inline const TClonesArray &Jet_clones_array() const {
+        return *JetClonesArray;
+    }
+
+    /**
+     * @brief Electron Clones Array
+     *
+     */
+    inline const TClonesArray &Electron_clones_array() const {
+        return *ElectronClonesArray;
+    }
+
+    /**
+     * @brief Muon Clones Array
+     *
+     */
+    inline const TClonesArray &Muon_clones_array() const {
+        return *MuonClonesArray;
+    }
+
+    /**
+     * @brief Missing ET Clones Array
+     *
+     */
+    inline const TClonesArray &MissingEt_clones_array() const {
+        return *MissingEtClonesArray;
+    }
+
+    /**
+     * @brief Scalar HT Clones Array
+     *
+     */
+    inline const TClonesArray &ScalarHt_clones_array() const {
+        return *ScalarHtClonesArray;
+    }
+
+    /**
+     * @brief Photon Clones Array
+     *
+     */
+    inline const TClonesArray &Photon_clones_array() const {
+        return *PhotonClonesArray;
+    }
+
+    /**
+     * @brief EFlow Photon Clones Array
+     *
+     */
+    inline const TClonesArray &EFlowPhoton_clones_array() const {
+        return *EFlowPhotonClonesArray;
+    }
+
+    /**
+     * @brief EFlow Neutral Hadron Clones Array
+     *
+     */
+    inline const TClonesArray &EFlowNeutralHadron_clones_array() const {
+        return *EFlowNeutralHadronClonesArray;
+    }
+
+    /**
+     * @brief EFlow Muon Clones Array
+     *
+     */
+    inline const TClonesArray &EFlowMuon_clones_array() const {
+        return *EFlowMuonClonesArray;
+    }
+
+    /**
+     * @brief EFlow Neutral Hadron Clones Array
+     *
+     */
+    inline const TClonesArray &Tau_clones_array() const {
+        return *TauClonesArray;
+    }
+
 
 protected:
 
@@ -456,6 +640,8 @@ protected:
      */
     TClonesArray *TauClonesArray = NULL;
 
+    ExRootTreeReader *tree_reader_;
+
     inline std::string NameSpaceName() const {
         return "hanalysis";
     }
@@ -483,6 +669,7 @@ public:
     HClonesArray();
 
     void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
+    void GetBranches(ExRootTreeReader &TreeReader);
 
 protected:
 
@@ -513,6 +700,7 @@ public:
     HClonesArraySnowmass();
 
     void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
+    void GetBranches(ExRootTreeReader &TreeReader);
 
 protected:
 
@@ -542,6 +730,7 @@ public:
     HClonesArray();
 
     void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
+    void GetBranches(ExRootTreeReader &TreeReader);
 
 protected:
 
@@ -571,6 +760,7 @@ public:
     HClonesArray();
 
     void GetBranches(const std::shared_ptr< ExRootTreeReader > &TreeReader);
+    void GetBranches(ExRootTreeReader &TreeReader);
 
 protected:
 

@@ -51,21 +51,21 @@ hanalysis::HJetInfo::HJetInfo(const int NewBTag)
 hanalysis::HJetInfo::HJetInfo(const HConstituent &NewConstituent)
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
-    ConstituentsM.push_back(NewConstituent);
+    constituents_.push_back(NewConstituent);
     BTagM = 0;
 }
 
 hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents)
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
-    ConstituentsM = NewConstituents;
+    constituents_ = NewConstituents;
     BTagM = 0;
 }
 
 hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag)
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
-    ConstituentsM = NewConstituents;
+    constituents_ = NewConstituents;
     BTagM = NewBTag;
 }
 
@@ -219,18 +219,18 @@ fastjet::PseudoJet hanalysis::HJetInfo::VertexJet() const
 
 struct Accu {
     float operator()(float result, const HConstituent &obj) {
-      return (result + obj.Position().Vect().Pt());
+        return (result + obj.Position().Vect().Pt());
     }
 
 };
 
 float hanalysis::HJetInfo::SumDisplacement() const
 {
-    Print(HDebug, "Get Jet Displacement"); // TODO is there a way to get rid of the const?
-    if (ConstituentsM.size() == 0) return 0;
-    std::vector<HConstituent> TempVertices = ConstituentsM;
-    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [](HConstituent & Constituent) {
-      return Constituent.Position().Vect().Pt() < 0.1;
+    Print(HDebug, "Get Jet Displacement");
+    if (constituents_.size() == 0) return 0;
+    std::vector<HConstituent> TempVertices = constituents_;
+    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [&](HConstituent & Constituent) {
+        return (Constituent.Position().Vect().Pt() < detector_geometry_.MinTrackerDistance || Constituent.Position().Vect().Pt() > detector_geometry_.MaxTrackerDistance || std::abs(Constituent.Momentum().Rapidity()) > detector_geometry_.MaxTrackerEta);
     }), TempVertices.end());
 
     return std::accumulate(TempVertices.rbegin(), TempVertices.rend(), 0, Accu());
@@ -238,11 +238,11 @@ float hanalysis::HJetInfo::SumDisplacement() const
 
 float hanalysis::HJetInfo::MeanDisplacement() const
 {
-    Print(HDebug, "Get Jet Displacement"); // TODO is there a way to get rid of the const?
-    if (ConstituentsM.size() == 0) return 0;
-    std::vector<HConstituent> TempVertices = ConstituentsM;
-    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [](const HConstituent & Constituent) {
-        return Constituent.Position().Vect().Pt() < 0.1;
+    Print(HDebug, "Get Jet Displacement");
+    if (constituents_.size() == 0) return 0;
+    std::vector<HConstituent> TempVertices = constituents_;
+    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [&](const HConstituent & Constituent) {
+        return (Constituent.Position().Vect().Pt() < detector_geometry_.MinTrackerDistance || Constituent.Position().Vect().Pt() > detector_geometry_.MaxTrackerDistance || std::abs(Constituent.Momentum().Rapidity()) > detector_geometry_.MaxTrackerEta);
     }), TempVertices.end());
 
     if (TempVertices.size() < 1) return 0;
@@ -253,12 +253,15 @@ float hanalysis::HJetInfo::MeanDisplacement() const
 
 float hanalysis::HJetInfo::MaxDisplacement() const
 {
-    Print(HDebug, "Get Jet Displacement"); // TODO is there a way to get rid of the const?
-    if (ConstituentsM.size() == 0) return 0;
-    std::vector<HConstituent> TempVertices = ConstituentsM;
+    Print(HDebug, "Get Jet Displacement");
+    if (constituents_.size() == 0) return 0;
+    std::vector<HConstituent> TempVertices = constituents_;
+    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [&](const HConstituent & Constituent) {
+        return (Constituent.Position().Vect().Pt() < detector_geometry_.MinTrackerDistance || Constituent.Position().Vect().Pt() > detector_geometry_.MaxTrackerDistance || std::abs(Constituent.Momentum().Rapidity()) > detector_geometry_.MaxTrackerEta);
+    }), TempVertices.end());
+    if (TempVertices.size() < 1) return 0;
     std::sort(TempVertices.begin(), TempVertices.end(), MaxDistance());
-    if (TempVertices.front().Position().Vect().Pt() > SecondaryVertexResolution) return TempVertices.front().Position().Vect().Pt();
-    return 0;
+    return TempVertices.front().Position().Vect().Pt();
 }
 
 
@@ -279,7 +282,7 @@ float hanalysis::HJetInfo::VertexEnergy() const
 {
     Print(HDebug, "Get Energy Fraction");
     float NewVertexEnergy = 0;
-    for (const auto & Vertex : ConstituentsM) if (Vertex.Position().Vect().Pt() > SecondaryVertexResolution) NewVertexEnergy += Vertex.Momentum().E();
+    for (const auto & Vertex : constituents_) if (Vertex.Position().Vect().Pt() > detector_geometry_.MinTrackerDistance && Vertex.Position().Vect().Pt() < detector_geometry_.MaxTrackerDistance && std::abs(Vertex.Momentum().Rapidity()) < detector_geometry_.MaxTrackerEta) NewVertexEnergy += Vertex.Momentum().E();
     return NewVertexEnergy;
 }
 
@@ -287,12 +290,12 @@ std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const
 {
     Print(HDebug, "Apply Vertex Resolution");
     std::vector <HConstituent > RealVertices;
-    Print(HDebug, "Vertex Number", ConstituentsM.size());
-    if (ConstituentsM.size() == 0) return RealVertices;
-    for (std::vector <HConstituent >::const_iterator Constituent = ConstituentsM.begin(); Constituent != ConstituentsM.end(); ++Constituent) {
-      //         Print(HError,"dist",(*Constituent).Position().Vect().Pt());
+    Print(HDebug, "Vertex Number", constituents_.size());
+    if (constituents_.size() == 0) return RealVertices;
+    for (std::vector <HConstituent >::const_iterator Constituent = constituents_.begin(); Constituent != constituents_.end(); ++Constituent) {
+        //         Print(HError,"dist",(*Constituent).Position().Vect().Pt());
 //         Print(HError,"pt",(*Constituent).Momentum().Pt());
-      if ((*Constituent).Position().Vect().Pt() > SecondaryVertexResolution) {
+        if ((*Constituent).Position().Vect().Pt() > detector_geometry_.MinTrackerDistance && (*Constituent).Position().Vect().Pt() < detector_geometry_.MaxTrackerDistance  && std::abs((*Constituent).Momentum().Rapidity()) < detector_geometry_.MaxTrackerEta) {
             RealVertices.push_back(*Constituent);
         }
     }
@@ -304,10 +307,10 @@ float hanalysis::HJetInfo::ElectroMagneticRadius(const fastjet::PseudoJet &Jet) 
 {
     float Energy = 0;
     float Weight = 0;
-    for (const auto & Constituent : Constituents()) if (Constituent.Detector() == HConstituent::HPhoton) {
+    for (const auto & Constituent : Constituents()) if (Constituent.sub_detector() == HConstituent::HPhoton) {
             Energy += Constituent.Momentum().Et();
             Weight += Constituent.Momentum().Et() * Jet.delta_R(fastjet::PseudoJet(Constituent.Momentum()));
-    }
+        }
     if (Energy == 0) return 0;
     else return Weight / Energy;
 }
@@ -316,7 +319,7 @@ float hanalysis::HJetInfo::TrackRadius(const fastjet::PseudoJet &Jet) const
 {
     float Energy = 0;
     float Weight = 0;
-    for (const auto & Constituent : Constituents()) if (Constituent.Detector() == HConstituent::HTrack) {
+    for (const auto & Constituent : Constituents()) if (Constituent.sub_detector() == HConstituent::HTrack) {
             Energy += Constituent.Momentum().Et();
             Weight += Constituent.Momentum().Et() * Jet.delta_R(fastjet::PseudoJet(Constituent.Momentum()));
         }
@@ -326,13 +329,13 @@ float hanalysis::HJetInfo::TrackRadius(const fastjet::PseudoJet &Jet) const
 
 
 struct WrongDetector {
-    WrongDetector(const HConstituent::HDetector Detector) {
+    WrongDetector(const HConstituent::SubDetector Detector) {
         this->Detector = Detector;
     }
     bool operator()(const HConstituent &Constituent) {
-        return (Constituent.Detector() != Detector);
+        return (Constituent.sub_detector() != Detector);
     }
-    HConstituent::HDetector Detector;
+    HConstituent::SubDetector Detector;
 };
 
 struct MaxPt {
@@ -362,12 +365,12 @@ float hanalysis::HJetInfo::CoreEnergyFraction(const fastjet::PseudoJet &Jet) con
 {
     float Energy = 0;
     float CoreEnergy = 0;
-    for (const auto & Constituent : Constituents()) if (Constituent.Detector() == HConstituent::HPhoton) {
+    for (const auto & Constituent : Constituents()) if (Constituent.sub_detector() == HConstituent::HPhoton) {
             Energy += Constituent.Momentum().Et();
             if (Jet.delta_R(fastjet::PseudoJet(Constituent.Momentum())) < 0.2) CoreEnergy += Constituent.Momentum().Et();
         }
-        if (Energy == 0) return 0;
-        else return CoreEnergy / Energy;
+    if (Energy == 0) return 0;
+    else return CoreEnergy / Energy;
 
 }
 
@@ -375,7 +378,7 @@ float hanalysis::HJetInfo::CoreEnergyFraction(const fastjet::PseudoJet &Jet) con
 // {
 //   float Energy = 0;
 //   float CoreEnergy = 0;
-//   for (const auto & Constituent : Constituents()) if (Constituent.Detector() == HConstituent::HPhoton) {
+//   for (const auto & Constituent : Constituents()) if (Constituent.sub_detector() == HConstituent::HPhoton) {
 //     Energy += Constituent.Momentum().Et();
 //     if(Jet.delta_R(fastjet::PseudoJet(Constituent.Momentum()))<0.2) CoreEnergy += Constituent.Momentum().Et();
 //   }
@@ -389,7 +392,7 @@ float hanalysis::HJetInfo::ElectroMagneticFraction() const
     float Energy = 0;
     for (const auto & Constituent : Constituents()) {
         Energy += Constituent.Momentum().Et();
-        if (Constituent.Detector() == HConstituent::HPhoton) EMEnergy += Constituent.Momentum().Et();
+        if (Constituent.sub_detector() == HConstituent::HPhoton) EMEnergy += Constituent.Momentum().Et();
     }
     if (Energy == 0) return 0;
     else  EMEnergy / Energy;
@@ -400,7 +403,7 @@ float hanalysis::HJetInfo::ClusterMass() const
 {
     fastjet::PseudoJet Jet;
     for (const auto & Constituent : Constituents()) {
-        if (Constituent.Detector() == HConstituent::HPhoton) Jet += Constituent.Momentum();
+        if (Constituent.sub_detector() == HConstituent::HPhoton) Jet += Constituent.Momentum();
     }
     return Jet.m();
 
@@ -410,10 +413,11 @@ float hanalysis::HJetInfo::TrackMass() const
 {
     fastjet::PseudoJet Jet;
     for (const auto & Constituent : Constituents()) {
-        if (Constituent.Detector() == HConstituent::HTrack) Jet += Constituent.Momentum();
+        if (Constituent.sub_detector() == HConstituent::HTrack) Jet += Constituent.Momentum();
     }
     return Jet.m();
 
 }
+
 
 

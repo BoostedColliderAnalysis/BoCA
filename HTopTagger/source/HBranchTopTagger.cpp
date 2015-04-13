@@ -56,78 +56,38 @@ void htoptagger::HCandidateBranch::reset()
 
 }
 
-// ClassImp(HLeptonBranch)
-//
-// HLeptonBranch::HLeptonBranch()
-// {
-//
-//     reset();
-//
-// }
-//
-// HLeptonBranch::~HLeptonBranch() {}
-//
-// void HLeptonBranch::reset()
-// {
-//
-//     int InitialValue = -10;
-//
-//     Mass = InitialValue;
-//     Pt = InitialValue;
-//     Rap = InitialValue;
-//     Phi = InitialValue;
-//     Charge = InitialValue;
-//
-// }
-//
-//
-// ClassImp(HConstituentBranch)
-//
-// HConstituentBranch::HConstituentBranch()
-// {
-//
-//   reset();
-//
-// }
-//
-// HConstituentBranch::~HConstituentBranch() {}
-//
-// void HConstituentBranch::reset()
-// {
-//
-//   int InitialValue = -100;
-//
-//   Rap = InitialValue;
-//   Phi = InitialValue;
-//   Pt = InitialValue;
-//   Id = InitialValue;
-//
-// }
-//
-// ClassImp(HJetPropertiesBranch)
-//
-// HJetPropertiesBranch::HJetPropertiesBranch()
-// {
-//
-//     reset();
-//
-// }
-//
-// HJetPropertiesBranch::~HJetPropertiesBranch() {}
-//
-// void HJetPropertiesBranch::reset()
-// {
-//
-//     int InitialValue = -10;
-//
-//     Mass = InitialValue;
-//     Pt = InitialValue;
-//
-//     Rap = InitialValue;
-//     Phi = InitialValue;
-//     Radius = InitialValue;
-//
-// }
-//
-//
-// ClassImp(HConstituentBranch)
+ClassImp(HTopHadronBranch)
+
+HTopHadronBranch::HTopHadronBranch()
+{
+
+  BottomPt = InitialValue;
+  WPt = InitialValue;
+
+  Tau1_1 = InitialValue;
+  Tau2_1 = InitialValue;
+  Tau3_1 = InitialValue;
+  Tau21_1 = InitialValue;
+  Tau32_1 = InitialValue;
+
+  Tau1_2 = InitialValue;
+  Tau2_2 = InitialValue;
+  Tau3_2 = InitialValue;
+  Tau21_2 = InitialValue;
+  Tau32_2 = InitialValue;
+
+  VertexMass = InitialValue;
+  MaxDisplacement = InitialValue;
+  MeanDisplacement = InitialValue;
+  SumDisplacement = InitialValue;
+  Multipliticity = int(InitialValue);
+  Spread = InitialValue;
+  VertexDeltaR = InitialValue;
+  VertexSpread = InitialValue;
+  EnergyFraction = InitialValue;
+
+  LeptonPt = InitialValue;
+
+}
+
+

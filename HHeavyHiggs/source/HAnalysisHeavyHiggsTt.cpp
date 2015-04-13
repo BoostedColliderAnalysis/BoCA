@@ -507,7 +507,7 @@ bool hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &Event, const hanalysi
     if (ObjectNumber > EventNumberMax()) return 0;
 
     HJets Particles = Event.GetParticles()->Generator();
-    Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles, TopId);
+    Particles = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Particles.size() != 2) {
         Print(HError, "Not enough top quarks", Particles.size());
         return 0;
@@ -521,7 +521,7 @@ bool hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &Event, const hanalysi
 //     if (Leptons.size() < 1) return 0;
 //     if (MissingEt.pt() < 400) return 0;
 
-    ++EventSumM;
+    ++event_sum_;
 
     switch (Tagger) {
     case HBottomTagger :

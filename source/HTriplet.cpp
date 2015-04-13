@@ -30,12 +30,12 @@
 
 void hanalysis::HTriplet::SetSinglet(const fastjet::PseudoJet &NewSinglet)
 {
-  SingletM = NewSinglet;
+  singlet_ = NewSinglet;
 }
 
 void hanalysis::HTriplet::SetDoublet(const hanalysis::HDoublet &NewDoublet)
 {
-  DoubletM = NewDoublet;
+  doublet_ = NewDoublet;
 }
 
 hanalysis::HTriplet::HTriplet()
@@ -53,13 +53,13 @@ hanalysis::HTriplet::HTriplet()
 fastjet::PseudoJet hanalysis::HTriplet::Singlet() const
 {
 //     return static_cast<HTripletPrivate *>(TagPrivate.get())->Singlet;
-    return SingletM;
+    return singlet_;
 }
 
 hanalysis::HDoublet hanalysis::HTriplet::Doublet() const
 {
 //     return dynamic_cast<HTripletPrivate *>(TagPrivate.get())->Doublet;
-    return DoubletM;
+    return doublet_;
 }
 
 hanalysis::HTriplet::HTriplet(const hanalysis::HDoublet &NewDoublet, const fastjet::PseudoJet &NewSinglet)
@@ -73,7 +73,7 @@ hanalysis::HTriplet::HTriplet(const hanalysis::HDoublet &NewDoublet, const fastj
     SetSinglet(NewSinglet);
     SetDoublet(NewDoublet);
 //     if (NewSinglet.has_user_info<HJetInfo>()) if (NewSinglet.user_info<HJetInfo>().Bdt() != TagPrivate.get()->InitialValue) TagPrivate.get()->Bdt = (NewSinglet.user_info<HJetInfo>().Bdt() + NewDoublet.Bdt()) / 2;
-    if (NewSinglet.has_user_info<HJetInfo>() && NewSinglet.user_info<HJetInfo>().Bdt() != InitialValue) SetBdt(NewSinglet.user_info<HJetInfo>().Bdt(),NewDoublet.Bdt());
+    if (NewSinglet.has_user_info<HJetInfo>() && NewSinglet.user_info<HJetInfo>().Bdt() != initial_value()) SetBdt(NewSinglet.user_info<HJetInfo>().Bdt(),NewDoublet.Bdt());
     SetFlag(NewDoublet.Flag());
 }
 
@@ -89,7 +89,8 @@ hanalysis::HTriplet::HTriplet(const fastjet::PseudoJet &NewSinglet)
 
     SetSinglet(NewSinglet / 2);
     SetDoublet(HDoublet(NewSinglet / 2));
-    if (NewSinglet.has_user_info<HJetInfo>() && NewSinglet.user_info<HJetInfo>().Bdt() != InitialValue) SetBdt(NewSinglet.user_info<HJetInfo>().Bdt());
+    SetDegenerate();
+    if (NewSinglet.has_user_info<HJetInfo>() && NewSinglet.user_info<HJetInfo>().Bdt() != initial_value()) SetBdt(NewSinglet.user_info<HJetInfo>().Bdt());
 }
 
 hanalysis::HTriplet::~HTriplet()

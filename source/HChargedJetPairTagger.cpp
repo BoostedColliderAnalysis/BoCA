@@ -30,35 +30,35 @@ void hanalysis::HChargedJetPairTagger::DefineVariables()
     Print(HNotification , "Define Variables");
     SetTaggerName("ChargedJetPair");
 
-    Observables.clear();
-    Spectators.clear();
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
-    Observables.push_back(NewObservable(&Branch.DeltaM, "DeltaM"));
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Ht, "Ht");
 
-    Observables.push_back(NewObservable(&Branch.BottomMass, "BottomMass"));
-    Observables.push_back(NewObservable(&Branch.BottomPt, "BottomPt"));
-    Observables.push_back(NewObservable(&Branch.BottomRap, "BottomRap"));
-    Observables.push_back(NewObservable(&Branch.BottomPhi, "BottomPhi"));
-    Observables.push_back(NewObservable(&Branch.BottomBdt, "BottomBdt"));
+    AddObservable(Branch.DeltaM, "DeltaM");
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaR, "DeltaR");
 
-    Observables.push_back(NewObservable(&Branch.TopMass, "TopMass"));
-    Observables.push_back(NewObservable(&Branch.TopPt, "TopPt"));
-    Observables.push_back(NewObservable(&Branch.TopRap, "TopRap"));
-    Observables.push_back(NewObservable(&Branch.TopPhi, "TopPhi"));
-    Observables.push_back(NewObservable(&Branch.TopBdt, "TopBdt"));
+    AddObservable(Branch.BottomMass, "BottomMass");
+    AddObservable(Branch.BottomPt, "BottomPt");
+    AddObservable(Branch.BottomRap, "BottomRap");
+    AddObservable(Branch.BottomPhi, "BottomPhi");
+    AddObservable(Branch.BottomBdt, "BottomBdt");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
+    AddObservable(Branch.TopMass, "TopMass");
+    AddObservable(Branch.TopPt, "TopPt");
+    AddObservable(Branch.TopRap, "TopRap");
+    AddObservable(Branch.TopPhi, "TopPhi");
+    AddObservable(Branch.TopBdt, "TopBdt");
+
+    AddObservable(Branch.Bdt, "Bdt");
+    AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
 
@@ -134,7 +134,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
     if (Triplets.size() > 3) {
         std::sort(Triplets.begin(), Triplets.end());
-        Triplets.erase(Triplets.begin() + std::min(MaxCombi, int(Triplets.size())), Triplets.end());
+        Triplets.erase(Triplets.begin() + std::min(max_combi(), int(Triplets.size())), Triplets.end());
     }
 //     std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets, TopHadronicReader);
 
@@ -213,7 +213,7 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedJetPairTagger::GetBdt(con
             Quartets.push_back(Quartet);
         }
     std::sort(Quartets.begin(), Quartets.end());
-    Quartets.erase(Quartets.begin() + std::min(MaxCombi, int(Quartets.size())), Quartets.end());
+    Quartets.erase(Quartets.begin() + std::min(max_combi(), int(Quartets.size())), Quartets.end());
     return Quartets;
 }
 

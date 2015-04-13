@@ -138,10 +138,10 @@ public:
     }
 
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
-        BdtM *= JetNumber() + 1;
+        SetBdt(Bdt() * (JetNumber() + 1));
         RestJets.push_back(NewJet);
-        BdtM += NewJet.user_info<hanalysis::HJetInfo>().Bdt();
-        BdtM /= JetNumber() + 1;
+        SetBdt(Bdt() + NewJet.user_info<hanalysis::HJetInfo>().Bdt());
+        SetBdt(Bdt() / (JetNumber() + 1));
     }
 
     inline int RestNumber() const {

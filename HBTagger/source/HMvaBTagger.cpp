@@ -5,25 +5,25 @@ hbtagger::HMva::HMva()
 
     Print(HNotification , "Constructor");
 
-    AnalysisName = "BTagger";
+    SetTaggerName("BTagger");
 
-    SignalNames = {"Bottom"};
+//     SignalNames = {"Bottom"};
 
-    BackgroundNames = {"LightJet"};
+//     BackgroundNames = {"LightJet"};
 
-    TestName = "Test";
+//     TestName = "Test";
 
-    SignalTreeNames = {"pp-hjj-bbjj-run_01"};
+//     SignalTreeNames = {"pp-hjj-bbjj-run_01"};
 
-    BackgroundTreeNames = {"pp-hjj-bbjj-run_01"};
+//     BackgroundTreeNames = {"pp-hjj-bbjj-run_01"};
 
-    TestTreeNames = {"pp-hjj-bbjj-run_01"};
+//     TestTreeNames = {"pp-hjj-bbjj-run_01"};
 
-    EventBranchName = "Candidate";
+//     SetBranchName("Candidate");
 
-    SpectatorBranchName = "Lepton";
+//     SpectatorBranchName = "Lepton";
 
-    WeightBranchName = "Info";
+//     WeightBranchName = "Info";
 
 //     SignalEfficiency = 0.5;
 
@@ -53,12 +53,12 @@ void hbtagger::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Candidate->VertexMass, "VertexMass"));
-    Observables.push_back(NewObservable(&Candidate->JetMass, "JetMass"));
-    Observables.push_back(NewObservable(&Candidate->VertexNumber, "VertexNumber"));
-    Observables.push_back(NewObservable(&Candidate->Vertex, "Vertex"));
+    AddObservable(Candidate->VertexMass, "VertexMass");
+    AddObservable(Candidate->JetMass, "JetMass");
+    AddObservable(Candidate->VertexNumber, "VertexNumber");
+    AddObservable(Candidate->Vertex, "Vertex");
 
-    Spectators.push_back(NewObservable(&Candidate->BTag, "BTag"));
+    AddSpectator(Candidate->BTag, "BTag");
 
     Print(HNotification, "Variables defined");
 
@@ -69,10 +69,10 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 {
     Print(HNotification, "Apply Bdt");
 
-    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HBTaggerBranch::Class());
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HBTaggerBranch::Class());
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 
@@ -88,13 +88,13 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 
             (*ExportCandidate) = *Candidate;
 
-            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name);
+            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName());
 
             float SigEff;
             const int StepSize = 50;
             for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
-                bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(CutMethodName, SigEff / StepSize);
+                bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
 
                 if (CutEvaluation) break;
 

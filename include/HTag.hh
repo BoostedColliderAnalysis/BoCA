@@ -1,8 +1,6 @@
 # ifndef HTag_hh
 # define HTag_hh
 
-# include <memory>
-
 # include "HObject.hh"
 // # include "d_ptr.h"
 
@@ -43,7 +41,27 @@ public:
 
     void SetFlag(const bool NewFlag1, const bool NewFlag2);
 
-    int Flag() const;
+    bool Flag() const;
+
+    bool Degenerate() const {
+        return degenerate_;
+    }
+
+    void SetDegenerate(const bool degenerate) {
+        degenerate_ = degenerate;
+    }
+
+    void SetDegenerate() {
+      degenerate_ = true;
+    }
+
+    void UnsetDegenerate() {
+      degenerate_ = false;
+    }
+
+    int initial_value() const {
+        return initial_value_;
+    }
 
     template<typename HMultiplet>
     bool operator < (const HMultiplet &Multiplet) const {
@@ -66,17 +84,17 @@ protected:
 //     std::unique_ptr<HTagPrivate> TagPrivate;
 //     std::shared_ptr<HTagPrivate> TagPrivate;
 
-
-    int TagM;
-
-    int InitialValue;
-
-    bool FlagM;
-
-    float BdtM;
-    
 private:
 
+    float bdt_;
+
+    int tag_;
+
+    int initial_value_;
+
+    bool flag_;
+
+    bool degenerate_;
 
 };
 

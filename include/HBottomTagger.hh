@@ -49,49 +49,44 @@ public:
       }
     }
 
-    void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
-      switch(Stage){
-        case HAnalysis::HTrainer :
-          TreeBranch = NewTreeWriter.NewBranch(GetTaggerName().c_str(), HBottomBranch::Class());
-        case HAnalysis::HReader :
-          TreeBranch = NewTreeWriter.NewBranch(ReaderName().c_str(), HBottomBranch::Class());
-      }
-    }
+//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
+//       SetTreeBranch(NewTreeWriter,*HBottomBranch::Class(),Stage);
+//     }
 
 
 //     ExRootTreeBranch *SetReaderBranch(ExRootTreeWriter &NewTreeWriter) {
 //         return NewTreeWriter.NewBranch(ReaderName().c_str(), HBottomBranch::Class());
 //     }
 
-    bool SetBranch(hanalysis::HEvent &Event, const HTag Tag) {
-        std::vector<HBottomBranch> Bottoms = GetBranches(Event, Tag);
-        if (Bottoms.size() < 1) return 0;
-        for (const auto & Bottom : Bottoms) *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = Bottom;
-        return 1;
-    }
+//     bool SetBranch(hanalysis::HEvent &Event, const HTag Tag) {
+//         std::vector<HBottomBranch> Bottoms = GetBranches(Event, Tag);
+//         if (Bottoms.size() < 1) return 0;
+//         for (const auto & Bottom : Bottoms) *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = Bottom;
+//         return 1;
+//     }
 
-    bool GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
-    {
-      Print(HDebug, "Get Bottom Reader", Tag);
-      HJets Jets = GetJets(Event);
-      HReader Reader; // this wont work
-      Jets = GetJetBdt(Jets, Reader);
-
-      HJets Particles = Event.GetParticles()->Generator();
-      Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
-
-      for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
-      }
-
-      for (const auto & Jet : Jets) {
-        if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
-        if (std::abs(Jet.rap()) > DetectorGeometry.TrackerEtaMax) continue;
-        *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = GetBranch(Jet);
-      }
-      return 1;
-    }
+//     bool GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
+//     {
+//       Print(HDebug, "Get Bottom Reader", Tag);
+//       HJets Jets = GetJets(Event);
+//       HReader Reader; // this wont work
+//       Jets = GetJetBdt(Jets, Reader);
+//
+//       HJets Particles = Event.GetParticles()->Generator();
+//       Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+//
+//       for (const auto & Particle : Particles) {
+//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+//         static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+//       }
+//
+//       for (const auto & Jet : Jets) {
+//         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
+//         if (std::abs(Jet.rap()) > DetectorGeometry.TrackerEtaMax) continue;
+//         *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = GetBranch(Jet);
+//       }
+//       return 1;
+//     }
 
 //     void PrepareReader(){
 //       Reader.SetMva(*this);

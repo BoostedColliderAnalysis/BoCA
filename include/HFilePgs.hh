@@ -45,7 +45,7 @@ public:
 
     std::string TreeName() const;
 
-    std::shared_ptr<hanalysis::HEvent> Event();
+//     std::shared_ptr<hanalysis::HEvent> Event();
 
 protected:
 

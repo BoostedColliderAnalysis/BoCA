@@ -109,10 +109,10 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTau::Files(const hanalysis::
     BackgroundSemiFiles.push_back(hanalysis::HFile("ttjj_400_0", 35.04));
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
-//     SignalHadronicFiles.push_back(hanalysis::HFile("1TeV_Hbb_ttbb_jjbbbb"));
+//     SignalHadronicFiles.push_back(hanalysis::HFile("1TeV_Hbb_ttbb_jjbbbb");
 
     std::vector<hanalysis::HFile> BackgroundHadronicFiles;
-//     BackgroundHadronicFiles.push_back(hanalysis::HFile("BG_jjbbbb"));
+//     BackgroundHadronicFiles.push_back(hanalysis::HFile("BG_jjbbbb");
 
 
 
@@ -591,7 +591,7 @@ bool hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &Event, const hanalys
 //     if (Leptons.size() < 1) return 0;
 //     if (Leptons.front().pt() < 300 || MissingEt.pt() < 400) return 0;
 //     if (Leptons.front().pt() < 300) return 0;
-    ++EventSumM;
+    ++event_sum_;
 
     switch (Tagger) {
     case HTauTagger :

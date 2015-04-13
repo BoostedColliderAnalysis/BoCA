@@ -68,37 +68,47 @@ public:
 
     // in GeV
     inline int Mass() const {
+        //     return 300;
         //     return 400;
+            return 500;
         //     return 600;
-//                 return 1000;
-//             return 2000;
-            return 3000;
+        //     return 700;
+//             return 800;
+        //     return 900;
+//         return 1000;
+//              return 2000;
+//            return 3000;
 //                 return 4000;
 //                 return 5000;
-//                 return 6000;
-        //             return 7000;
+//                return 6000;
+//             return 7000;
 //         return 8000;
-        //     return 9000;
+//             return 9000;
 //                 return 10000;
+//                 return 12000;
+//                 return 15000;
+//                 return 20000;
     }
 
     // in GeV
     inline int PreCut() const {
+        return 0;
         //     return 30;
         //     return 80;
+// return 100;
         //     return 150;
 //             return 250;
-//             return 300;
-            return 1000;
+//              return 300;
+//            return 1000;
 //             return 1500;
-//         return 2000;
+//        return 2000;
 //         return 2500;
     }
 
     inline int EventNumberMax() const {
-        //         return 1000000;
+//                  return 1000000;
         //         return 100000;
-        return 10000;
+       return 10000;
         //         return 1000;
         //                 return 100;
     };
@@ -117,7 +127,7 @@ public:
         //         return 5;
 //             return 8;
         //       return 10;
-        return 32;
+        return 40;
     }
 
 protected:
@@ -160,6 +170,8 @@ private:
                 return 403.1726637894434;
             case 600:
                 return 272.6441648068077;
+            case 800:
+                return 122.80517218259386;
             case 1000:
                 return 60.62802137818876;
             case 1500:
@@ -219,6 +231,14 @@ private:
         switch (ColliderType()) {
         case LHC :
             switch (PreCut()) {
+            case 0 :
+                switch (Process) {
+                case tt :
+                    return 97.54 * 2 * 1000;
+                default:
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                };
             case 30 :
                 switch (Process) {
                 case ttbb :
@@ -243,14 +263,14 @@ private:
                     Print(HError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
-                case 250 :
-                  switch (Process) {
-                    case tt :
-                      return 5.698 * 2 * 1000;
-                    default :
-                      Print(HError,"Background Crosssection", "unhandled case");
-                      return 1;
-                  }
+            case 250 :
+                switch (Process) {
+                case tt :
+                    return 5.698 * 2 * 1000;
+                default :
+                    Print(HError, "Background Crosssection", "unhandled case");
+                    return 1;
+                }
             }
         case FHC:
             switch (PreCut()) {
@@ -417,7 +437,7 @@ private:
     hanalysis::HReader EventSemiReader;
     hanalysis::HReader EventLeptonicReader;
 
-    void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
+    void NewBranches(ExRootTreeWriter &tree_writer, const hanalysis::HAnalysis::HTagger tagger);
 
     /**
      * @brief Main Analysis function

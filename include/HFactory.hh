@@ -35,7 +35,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(hanalysis::HMva &NewMva);
+    HFactory(hanalysis::HMva &tagger);
 
     /**
      * @brief Destructor
@@ -56,6 +56,8 @@ private:
      */
     void NewFactory();
 
+    TMVA::Factory & CreateFactory();
+
     /**
      * @brief Add Variables
      */
@@ -73,11 +75,17 @@ private:
      */
     void PrepareTrainingAndTestTree(const int EventNumber);
 
-    int AddTree(const TFile *const File, const std::string &TreeName, const bool Signal);
+    int AddTree(const TFile &File, const std::string &TreeName, const bool Signal);
 
-    HMva *Mva;
+    HMva &tagger_;
 
     TMVA::Factory *Factory;
+
+//     TMVA::Factory factory_;
+
+    TFile *output_file();
+
+    std::string factory_options();
 
     TFile *OutputFile;
 

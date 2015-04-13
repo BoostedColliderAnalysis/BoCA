@@ -36,25 +36,25 @@ void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.clear();
-    Spectators.clear();
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Ht, "Ht"));
 
-    Observables.push_back(NewObservable(&Branch.DeltaPt, "DeltaPt"));
-    Observables.push_back(NewObservable(&Branch.DeltaM, "DeltaM"));
-    Observables.push_back(NewObservable(&Branch.DeltaHt, "DeltaHt"));
-    Observables.push_back(NewObservable(&Branch.DeltaR, "DeltaR"));
-    Observables.push_back(NewObservable(&Branch.DeltaRap, "DeltaRap"));
-    Observables.push_back(NewObservable(&Branch.DeltaPhi, "DeltaPhi"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Ht, "Ht");
 
-    Observables.push_back(NewObservable(&Branch.Bdt, "Bdt"));
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
-    Spectators.push_back(NewObservable(&Branch.Flag, "Flag"));
+    AddObservable(Branch.DeltaPt, "DeltaPt");
+    AddObservable(Branch.DeltaM, "DeltaM");
+    AddObservable(Branch.DeltaHt, "DeltaHt");
+    AddObservable(Branch.DeltaR, "DeltaR");
+    AddObservable(Branch.DeltaRap, "DeltaRap");
+    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+
+    AddObservable(Branch.Bdt, "Bdt");
+    AddSpectator(Branch.Tag, "Tag");
+    AddSpectator(Branch.Flag, "Flag");
 
     Print(HNotification, "Variables defined");
 
@@ -185,6 +185,6 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(c
         }
 
     std::sort(Quartets.begin(), Quartets.end());
-    Quartets.erase(Quartets.begin() + std::min(MaxCombi, int(Quartets.size())), Quartets.end());
+    Quartets.erase(Quartets.begin() + std::min(max_combi(), int(Quartets.size())), Quartets.end());
     return Quartets;
 }

@@ -11,7 +11,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
     Print(HInformation, "Get Particles", ClonesArrays->GetParticleSum());
 
-    for (const int ParticleNumber : HRange(ClonesArrays->GetParticleSum())) {
+    for (const int ParticleNumber : Range(ClonesArrays->GetParticleSum())) {
 
         const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleNumber);
 

@@ -6,15 +6,15 @@ hhiggscpv::HEventBranch::HEventBranch()
 {
 
     ScalarHt = InitialValue;
-    JetNumber = InitialValue;
-    BottomNumber = InitialValue;
-    LeptonNumber = InitialValue;
-    HeavyParticleTag = InitialValue;
+    JetNumber = int(InitialValue);
+    BottomNumber = int(InitialValue);
+    LeptonNumber = int(InitialValue);
+    HeavyParticleTag = int(InitialValue);
     TopDeltaRap = InitialValue;
     TopDeltaPhi = InitialValue;
     TopDeltaR = InitialValue;
 
-    Signal = InitialValue;
+    Signal = int(InitialValue);
 
 }
 
@@ -27,6 +27,6 @@ hhiggscpv::HLeptonBranch::HLeptonBranch()
     Pt = InitialValue;
     Rap = InitialValue;
     Phi = InitialValue;
-    Charge = InitialValue;
+    Charge = int(InitialValue);
 
 }

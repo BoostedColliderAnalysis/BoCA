@@ -17,7 +17,7 @@ hanalysis::HLepton::~HLepton()
 
 }
 
-void hanalysis::HLepton::NewEvent(const HClonesArray * const NewClonesArrays)
+void hanalysis::HLepton::NewEvent(const hanalysis::HClonesArray &NewClonesArrays)
 {
 
     Print(HInformation,"New Event");

@@ -1,5 +1,19 @@
 # include "HReader.hh"
+
 # include "TPad.h"
+# include "TDirectoryFile.h"
+# include "TTree.h"
+# include "TCanvas.h"
+# include "TGraph.h"
+# include "TMultiGraph.h"
+# include "TLine.h"
+
+# include "TMVA/Reader.h"
+# include "TMVA/MethodCuts.h"
+
+# include "ExRootAnalysis/ExRootTreeReader.h"
+# include "ExRootAnalysis/ExRootTreeWriter.h"
+# include "ExRootAnalysis/ExRootTreeBranch.h"
 
 hanalysis::HReader::HReader()
 {
@@ -27,8 +41,17 @@ void hanalysis::HReader::AddVariable()
     Print(HNotification, "Add Variable");
     const std::string DefaultOptions = "!Color:Silent";
     //     Reader = TMVA::Reader(DefaultOptions);
-    for (auto & Observable : Mva->GetObservables())reader_.AddVariable(Observable.Expression, Observable.GetValue());
-    for (auto & Spectator : Mva->GetSpectators()) reader_.AddSpectator(Spectator.Expression, Spectator.GetValue());
+    for (auto & Observable : Mva->observables()) {
+//       if(Observable.type_ == 'F') reader_.AddVariable(Observable.expression_, Observable.value());
+//       else if(Observable.type_ == 'I') reader_.AddVariable(Observable.expression_, Observable.intvalue());
+      reader_.AddVariable(Observable.expression(), Observable.value());
+    }
+    Print(HNotification, "Done");
+    for (auto & Spectator : Mva->spectators()) {
+//       if(Spectator.type_ == 'F') reader_.AddSpectator(Spectator.expression_, Spectator.value());
+//       else if(Spectator.type_ == 'I') reader_.AddSpectator(Spectator.expression_, Spectator.intvalue());
+       reader_.AddSpectator(Spectator.expression(), Spectator.value());
+    }
 }
 
 void hanalysis::HReader::BookMva()
@@ -41,6 +64,14 @@ void hanalysis::HReader::BookMva()
     const std::string BdtWeightFile = Mva->GetAnalysisName() + "/" + Mva->GetTaggerName() + "_" + Mva->BdtMethodName() + XmlName;
     Print(HNotification, "Opening Weight File", BdtWeightFile);
     reader_.BookMVA(Mva->BdtMethodName(), BdtWeightFile);
+}
+
+float hanalysis::HReader::Bdt() const
+{
+    Print(HInformation, "Bdt");
+//     const float bdt = const_cast<TMVA::Reader &>(reader_).EvaluateMVA(Tagger().BdtMethodName());
+//     return bdt + 1;
+    return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(Tagger().BdtMethodName()) + 1;
 }
 
 void hanalysis::HReader::SimpleMVALoop()
@@ -208,9 +239,9 @@ std::vector<int> hanalysis::HReader::BdtDistribution(const ExRootTreeReader &Tre
     const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(&TreeReader)->UseBranch(NewEventBranchName.c_str());
     ExRootTreeWriter TreeWriter(const_cast<TFile *>(&ExportFile), TreeName.c_str());
     ExRootTreeBranch *ResultBranch = TreeWriter.NewBranch(NewEventBranchName.c_str(), HResultBranch::Class());
-    for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(&TreeReader)->GetEntries())) {
+    for (const int EventNumber : Range(const_cast<ExRootTreeReader *>(&TreeReader)->GetEntries())) {
         const_cast<ExRootTreeReader *>(&TreeReader)->ReadEntry(EventNumber);
-        for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
+        for (const int Entry : Range(EventClonesArray->GetEntriesFast())) {
             const float BdtValue = Mva->ReadBdt(*EventClonesArray, Entry);
             if (BdtValue < 0 || BdtValue > 2) Print(HError, "Bdt Value" , BdtValue);
             static_cast<HResultBranch *>(ResultBranch->NewEntry())->Bdt = BdtValue;

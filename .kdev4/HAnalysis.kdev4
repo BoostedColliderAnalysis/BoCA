@@ -513,5 +513,8 @@ Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/HTopTagger/
 isExecutable=false
 
+[MakeBuilder]
+Number Of Jobs=8
+
 [Project]
 VersionControlSupport=kdevgit

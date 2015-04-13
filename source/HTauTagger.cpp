@@ -23,26 +23,26 @@ void hanalysis::HTauTagger::DefineVariables()
 {
     Print(HInformation , "Define Variables");
 
-    Observables.clear();
-    Spectators.clear();
+    ClearVectors();
 
-    Observables.push_back(NewObservable(&Branch.Mass, "Mass"));
-    Observables.push_back(NewObservable(&Branch.Pt, "Pt"));
-    Observables.push_back(NewObservable(&Branch.Rap, "Rap"));
-    Observables.push_back(NewObservable(&Branch.Phi, "Phi"));
 
-    Observables.push_back(NewObservable(&Branch.EmRadius, "EmRadius"));
-    Observables.push_back(NewObservable(&Branch.TrackRadius, "TrackRadius"));
-//     Observables.push_back(NewObservable(&Branch.MomentumFraction, "MomentumFraction"));
-    Observables.push_back(NewObservable(&Branch.CoreEnergyFraction, "CoreEnergyFraction"));
-    Spectators.push_back(NewObservable(&Branch.EmFraction, "EmFraction"));
-    Observables.push_back(NewObservable(&Branch.ClusterMass, "ClusterMass"));
-    Observables.push_back(NewObservable(&Branch.TrackMass, "TrackMass"));
-    Observables.push_back(NewObservable(&Branch.FlightPath, "FlightPath"));
-    Spectators.push_back(NewObservable(&Branch.TrtHtFraction, "TrtHtFraction"));
+    AddObservable(Branch.Mass, "Mass");
+    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Rap, "Rap");
+    AddObservable(Branch.Phi, "Phi");
 
-    Spectators.push_back(NewObservable(&Branch.Tag, "Tag"));
-    Spectators.push_back(NewObservable(&Branch.Bdt, "Bdt"));
+    AddObservable(Branch.EmRadius, "EmRadius");
+    AddObservable(Branch.TrackRadius, "TrackRadius");
+//     AddObservable(Branch.MomentumFraction, "MomentumFraction");
+    AddObservable(Branch.CoreEnergyFraction, "CoreEnergyFraction");
+    AddSpectator(Branch.EmFraction, "EmFraction");
+    AddObservable(Branch.ClusterMass, "ClusterMass");
+    AddObservable(Branch.TrackMass, "TrackMass");
+    AddObservable(Branch.FlightPath, "FlightPath");
+    AddSpectator(Branch.TrtHtFraction, "TrtHtFraction");
+
+    AddSpectator(Branch.Tag, "Tag");
+    AddSpectator(Branch.Bdt, "Bdt");
 }
 
 HTauBranch hanalysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const

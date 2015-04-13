@@ -7,29 +7,29 @@ hcpvhiggs::HMva::HMva()
 
 //     DebugLevel = 4;
 
-    AnalysisName = "Discriminator";
+    SetTaggerName("Higgs");
 
-    SignalNames = {"Higgs"};
+//     SignalNames = {"Higgs"};
 
 //     BackgroundNames = {"Top", "Jet"};
-        BackgroundNames = {"Top","Jet"};
+//         BackgroundNames = {"Top","Jet"};
 
-    TestName = "Test";
+//     TestName = "Test";
 
-    SignalTreeNames = {"even", "mix", "odd"};
+//     SignalTreeNames = {"even", "mix", "odd"};
 //         SignalTreeVector = {"even"};
 
-    BackgroundTreeNames = {"background", "even", "mix", "odd"};
+//     BackgroundTreeNames = {"background", "even", "mix", "odd"};
 //         BackgroundTreeVector = {"even"};
 
-    TestTreeNames = {"background","even", "mix", "odd"};
+//     TestTreeNames = {"background","even", "mix", "odd"};
 //         TestTreeVector = {"even"};
 
-    EventBranchName = "Candidate";
+//     SetBranchName("Candidate");
 
-    SpectatorBranchName = "Lepton";
+//     SpectatorBranchName = "Lepton";
 
-    WeightBranchName = "Info";
+//     WeightBranchName = "Info";
 
 //     SignalEfficiency = 0.5;
 
@@ -41,7 +41,7 @@ hcpvhiggs::HMva::HMva()
 
     DefineVariables();
 
-    Cut = "Candidate.SubJet1Pt>0&&Candidate.SubJet2Pt>0&&Candidate.IsolationPt>0";
+//     Cut = "Candidate.SubJet1Pt>0&&Candidate.SubJet2Pt>0&&Candidate.IsolationPt>0";
 
 }
 
@@ -59,37 +59,37 @@ void hcpvhiggs::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    Observables.push_back(NewObservable(&Candidate->Mass, "Mass", "m_j"));
-    Observables.push_back(NewObservable(&Candidate->Pt, "Pt", "p^T_j"));
-    Observables.push_back(NewObservable(&Candidate->Rap, "Rap","\\eta_j"));
-    Observables.push_back(NewObservable(&Candidate->Phi, "Phi","\\phi_j"));
+    AddObservable(Candidate->Mass, "Mass", "m_j");
+    AddObservable(Candidate->Pt, "Pt", "p^T_j");
+    AddObservable(Candidate->Rap, "Rap","\\eta_j");
+    AddObservable(Candidate->Phi, "Phi","\\phi_j");
 
-    Observables.push_back(NewObservable(&Candidate->DeltaR, "DeltaR","Delta R"));
-    Observables.push_back(NewObservable(&Candidate->SubJetsDeltaR, "SubJetsDeltaR","\\Delta R(j_1,j_2)"));
-    Observables.push_back(NewObservable(&Candidate->Asymmetry, "Asymmetry","A"));
-    Observables.push_back(NewObservable(&Candidate->DiPolarity, "DiPolarity","P"));
+    AddObservable(Candidate->DeltaR, "DeltaR","Delta R");
+    AddObservable(Candidate->SubJetsDeltaR, "SubJetsDeltaR","\\Delta R(j_1,j_2)");
+    AddObservable(Candidate->Asymmetry, "Asymmetry","A");
+    AddObservable(Candidate->DiPolarity, "DiPolarity","P");
 
-    Observables.push_back(NewObservable(&Candidate->SubJet1Mass, "SubJet1Mass", "m_{j_1}"));
-    Observables.push_back(NewObservable(&Candidate->SubJet1Pt, "SubJet1Pt"));
-    Observables.push_back(NewObservable(&Candidate->SubJet1DeltaR,"SubJet1DeltaR"));
+    AddObservable(Candidate->SubJet1Mass, "SubJet1Mass", "m_{j_1}");
+    AddObservable(Candidate->SubJet1Pt, "SubJet1Pt");
+    AddObservable(Candidate->SubJet1DeltaR,"SubJet1DeltaR");
 
-    Observables.push_back(NewObservable(&Candidate->SubJet2Mass, "SubJet2Mass"));
-    Observables.push_back(NewObservable(&Candidate->SubJet2Pt, "SubJet2Pt"));
-    Observables.push_back(NewObservable(&Candidate->SubJet2DeltaR,"SubJet2DeltaR"));
+    AddObservable(Candidate->SubJet2Mass, "SubJet2Mass");
+    AddObservable(Candidate->SubJet2Pt, "SubJet2Pt");
+    AddObservable(Candidate->SubJet2DeltaR,"SubJet2DeltaR");
 
-    Observables.push_back(NewObservable(&Candidate->ConstRap,  "ConstRap"));
-    Observables.push_back(NewObservable(&Candidate->ConstPhi,  "ConstPhi"));
-    Observables.push_back(NewObservable(&Candidate->ConstDeltaR, "ConstDeltaR"));
-    Observables.push_back(NewObservable(&Candidate->ConstAngle, "ConstAngle"));
+    AddObservable(Candidate->ConstRap,  "ConstRap");
+    AddObservable(Candidate->ConstPhi,  "ConstPhi");
+    AddObservable(Candidate->ConstDeltaR, "ConstDeltaR");
+    AddObservable(Candidate->ConstAngle, "ConstAngle");
 
-    Observables.push_back(NewObservable(&Candidate->IsolationRap, "IsolationRap"));
-    Observables.push_back(NewObservable(&Candidate->IsolationPhi, "IsolationPhi"));
-    Observables.push_back(NewObservable(&Candidate->IsolationDeltaR, "IsolationDeltaR"));
-    Observables.push_back(NewObservable(&Candidate->IsolationAngle, "IsolationAngle"));
-    Observables.push_back(NewObservable(&Candidate->IsolationPt, "IsolationPt"));
+    AddObservable(Candidate->IsolationRap, "IsolationRap");
+    AddObservable(Candidate->IsolationPhi, "IsolationPhi");
+    AddObservable(Candidate->IsolationDeltaR, "IsolationDeltaR");
+    AddObservable(Candidate->IsolationAngle, "IsolationAngle");
+    AddObservable(Candidate->IsolationPt, "IsolationPt");
 
-    Spectators.push_back(NewObservable(&Candidate->HiggsTag, "HiggsTag"));
-    Spectators.push_back(NewObservable(&Candidate->TopTag, "TopTag"));
+    AddSpectator(Candidate->HiggsTag, "HiggsTag");
+    AddSpectator(Candidate->TopTag, "TopTag");
 
     Print(HNotification,"Variables defined");
 
@@ -100,12 +100,12 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 {
   Print(HNotification, "Apply Bdt");
 
-  const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
-  const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
+  const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
+//   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
   ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-  ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(EventBranchName.c_str(), HCandidateBranch::Class());
-  ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
+  ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HCandidateBranch::Class());
+//   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 
@@ -121,13 +121,13 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 
       (*ExportCandidate) = *Candidate;
 
-      const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name);
+      const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName());
 
       float SigEff;
       const int StepSize = 50;
       for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
-        bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(CutMethodName, SigEff / StepSize);
+        bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
 
         if (CutEvaluation) break;
 
@@ -141,14 +141,14 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 
     }
 
-    for (int CandidateNumber = 0; CandidateNumber < SpectatorClonesArray->GetEntriesFast(); ++CandidateNumber) {
+//     for (int CandidateNumber = 0; CandidateNumber < SpectatorClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
-      HLeptonBranch *Lepton = (HLeptonBranch *) SpectatorClonesArray->At(CandidateNumber);
+//       HLeptonBranch *Lepton = (HLeptonBranch *) SpectatorClonesArray->At(CandidateNumber);
 
-      HLeptonBranch *ExportLepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
-      (*ExportLepton) = *Lepton;
+//       HLeptonBranch *ExportLepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
+//       (*ExportLepton) = *Lepton;
 
-    }
+//     }
 
     TreeWriter->Fill();
     TreeWriter->Clear();

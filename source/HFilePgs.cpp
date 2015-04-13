@@ -37,8 +37,8 @@ HStrings hanalysis::hpgs::HFile::Paths() const
     return FilePaths;
 }
 
-std::shared_ptr<hanalysis::HEvent> hanalysis::hpgs::HFile::Event()
-{
-    Print(HNotification, "Get Event");
-    return std::shared_ptr<hanalysis::HEvent>(new HEvent());
-}
+// std::shared_ptr<hanalysis::HEvent> hanalysis::hpgs::HFile::Event()
+// {
+//     Print(HNotification, "Get Event");
+//     return std::shared_ptr<hanalysis::HEvent>(new HEvent());
+// }

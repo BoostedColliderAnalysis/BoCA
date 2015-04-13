@@ -11,7 +11,7 @@
 # include "HFactory.hh"
 # include "HJetTag.hh"
 
-# include "HBottomTagger.hh"
+# include "HBottomTaggerSimple.hh"
 
 # include "HBranchBTagger.hh"
 
@@ -33,7 +33,7 @@ public:
      */
     HAnalysis();
 
-    hanalysis::HBottomTagger BottomTagger;
+    HBottomTaggerSimple BottomTagger;
 
     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
@@ -59,16 +59,17 @@ protected:
 
 private:
 
-    enum ProcessType {bb, cc, jj, ttjj, ttbb, ttcc, Hbb, tt, qq, gg};
+    enum ProcessType {bb, cc, jj, ttjj, ttbb, ttcc, Hbb, tt, qq, gg, ttlep, tthad, hh, ww};
     enum HProductionChannel {DYP, VBF, Associated};
     enum HDetectorType {LHC, FHC, LE};
+
 
     inline int EventNumberMax() const {
         //         return 1000000;
 //         return 100000;
 //                 return 10000;
-//         return 1000;
-        return 100;
+        return 1000;
+//         return 100;
     };
 
     inline HDetectorType Detector() const {
@@ -164,6 +165,14 @@ private:
             return "ttjj";
         case tt:
             return "tt";
+        case ttlep:
+            return "tt_leptonic";
+        case tthad:
+            return "tt_hadronic";
+        case hh:
+            return "hh";
+        case ww:
+            return "ww";
         case qq:
             return "qq";
         case gg:
