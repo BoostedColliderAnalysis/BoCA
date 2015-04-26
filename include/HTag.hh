@@ -59,7 +59,7 @@ public:
       degenerate_ = false;
     }
 
-    int initial_value() const {
+    float initial_value() const {
         return initial_value_;
     }
 
@@ -90,7 +90,7 @@ private:
 
     int tag_;
 
-    int initial_value_;
+    float initial_value_;
 
     bool flag_;
 

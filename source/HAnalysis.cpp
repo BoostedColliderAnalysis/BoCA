@@ -23,12 +23,13 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger tagger)
             ExRootTreeBranch &tree_branch = *tree_writer.NewBranch("Info", HInfoBranch::Class());
             ExRootTreeReader tree_reader = file.TreeReader();
             clones_arrays.GetBranches(tree_reader);
-            ExRootProgressBar progress_bar(EventSum(tree_reader));
-            Print(HInformation, "Sum", EventSum(tree_reader));
+//             ExRootProgressBar progress_bar(EventSum(tree_reader));
+//             Print(HInformation, "Sum", EventSum(tree_reader));
             ObjectNumber = 0;
             HInfoBranch info_branch = FillInfoBranch(tree_reader, file);
             for (const int event_number : Range(EventSum(tree_reader))) {
-                Print(HInformation, "Event Number", event_number);
+//                 info_branch.EventNumber = event_number;
+//                 Print(HError, "Event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.Mass());
@@ -38,13 +39,13 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger tagger)
                     tree_writer.Fill();
                 }
                 tree_writer.Clear();
-                if (ObjectNumber > EventNumberMax()) break;
+                if (ObjectNumber >= EventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
-            Print(HNotification, "All Events analysed", EventSum(tree_reader));
-            progress_bar.Finish();
+            Print(HError, "All Events analysed", info_branch.EventNumber);
+//             progress_bar.Finish();
             if (analysis_not_empty) tree_writer.Write();
-            Print(HError, "Number of Events", event_sum_, EventSum(tree_reader));
+//             Print(HError, "Number of Events", event_sum_, EventSum(tree_reader));
         }
         export_file.Close();
     }
@@ -57,7 +58,7 @@ HInfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_re
     info_branch.CrosssectionError = file.CrosssectionError();
     info_branch.Mass = file.Mass();
     info_branch.EventNumber = EventSum(tree_reader);
-    Print(HError, "Event Number", info_branch.EventNumber);
+//     Print(HError, "Event Number", info_branch.EventNumber);
     return info_branch;
 }
 

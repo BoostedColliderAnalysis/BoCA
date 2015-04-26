@@ -1,4 +1,5 @@
 # include "HMvaBTagger.hh"
+# include "ExRootAnalysis/ExRootTreeWriter.h"
 
 hbtagger::HMva::HMva()
 {

@@ -69,6 +69,8 @@ private:
     float TopWindow ;
     float WMassWindow ;
 
+    bool Boost = false;
+
     //     float JetRadiusParameter;
     void NSubJettiness(HTriplet& triplet);
     SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);

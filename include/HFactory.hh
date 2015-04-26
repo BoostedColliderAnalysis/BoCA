@@ -1,26 +1,8 @@
-# ifndef HFactory_hh
-# define HFactory_hh
-
-# include "TFile.h"
-# include "TNamed.h"
-# include "TSystem.h"
-# include "TClonesArray.h"
-# include "TTree.h"
-# include "TROOT.h"
-# include "TObjArray.h"
-// # include "TSystem.h"
-# include "TDirectoryFile.h"
-
-
-# include "ExRootAnalysis/ExRootTreeReader.h"
-
-# include "TMVA/Factory.h"
-# include "TMVA/Types.h"
-# include "TMVA/Config.h"
+# pragma once
 
 # include "HMva.hh"
-
-# include "HObject.hh"
+# include "TMVA/Factory.h"
+# include "TSystem.h"
 
 /**
  * @brief Prepares multivariant analysis
@@ -37,12 +19,6 @@ public:
      */
     HFactory(hanalysis::HMva &tagger);
 
-    /**
-     * @brief Destructor
-     *
-     */
-    ~HFactory();
-
 private:
 
     /**
@@ -50,13 +26,6 @@ private:
      *
      */
     void BookMethods();
-
-    /**
-     * @brief New Factory
-     */
-    void NewFactory();
-
-    TMVA::Factory & CreateFactory();
 
     /**
      * @brief Add Variables
@@ -73,39 +42,28 @@ private:
      * @brief Prepare Trainig and Test Trees
      *
      */
-    void PrepareTrainingAndTestTree(const int EventNumber);
+    void PrepareTrainingAndTestTree(const int event_number);
 
-    int AddTree(const TFile &File, const std::string &TreeName, const bool Signal);
+    int AddTree(TFile &file, const std::string &tree_name, const bool signal);
 
-    HMva &tagger_;
-
-    TMVA::Factory *Factory;
-
-//     TMVA::Factory factory_;
-
-    TFile *output_file();
+    TFile *output_file() const;
 
     std::string factory_options();
-
-    TFile *OutputFile;
-
-    std::string Verbose;
-
-    std::string Silent;
-
-    std::string VerboseLevel;
-
-    std::string VerbosityLevel;
-
-    std::string Color;
-
-    std::string DefaultOptions;
 
     inline std::string ClassName() const {
         return "HFactory";
     };
 
+    HMva &tagger() const {
+        return tagger_;
+    }
+
+    TMVA::Factory &factory() {
+        return factory_;
+    }
+
+    HMva &tagger_;
+
+    TMVA::Factory factory_;
 
 };
-
-# endif

@@ -1,23 +1,14 @@
-# ifndef HMva_hh
-# define HMva_hh
+# pragma once
 
-# include "TObjArray.h"
-# include "TClonesArray.h"
 # include "TCut.h"
 
 # include "TMVA/Reader.h"
 
-# include "ExRootAnalysis/ExRootTreeReader.h"
-# include "ExRootAnalysis/ExRootTreeWriter.h"
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 
 # include "HBranch.hh"
-# include "HObject.hh"
-# include "HJetInfo.hh"
-# include "HEvent.hh"
 # include "HJetDelphes.hh"
 # include "Predicate.hh"
-# include "HAnalysis.hh"
 
 class HObservable
 {
@@ -66,53 +57,52 @@ public:
     */
     HMva();
 
-    void SetTreeNames(const HStrings &NewTreeNames) {
-        SignalTreeNames = NewTreeNames;
-        BackgroundTreeNames = NewTreeNames;
+    void SetTreeNames(const HStrings &tree_names) {
+        signal_tree_names_ = tree_names;
+        background_tree_names_ = tree_names;
     }
 
-    void SetSignalTreeNames(const HStrings &NewSignalTreeNames) {
-        SignalTreeNames = NewSignalTreeNames;
+    void SetSignalTreeNames(const HStrings &signal_tree_names) {
+      signal_tree_names_ = signal_tree_names;
     }
 
-    void SetBackgroundTreeNames(const HStrings &NewBackgroundTreeNames) {
-        BackgroundTreeNames = NewBackgroundTreeNames;
+    void SetBackgroundTreeNames(const HStrings &background_tree_names) {
+        background_tree_names_ = background_tree_names;
     }
 
-    void SetInputTreeNames(const HStrings &NewSignalTreeNames, const HStrings &NewBackgroundTreeNames) {
-        SignalTreeNames = NewSignalTreeNames;
-        BackgroundTreeNames = NewBackgroundTreeNames;
+    void SetInputTreeNames(const HStrings &signal_tree_names, const HStrings &background_tree_names) {
+        signal_tree_names_ = signal_tree_names;
+        background_tree_names_ = background_tree_names;
     }
 
-    void SetBranchName(const std::string &NewBranchName) {
-        EventBranchName = NewBranchName;
+    void SetBranchName(const std::string &branch_name) {
+        branch_name_ = branch_name;
     }
 
     std::string GetBranchName() const {
-        return EventBranchName;
+        return branch_name_;
     }
 
-    void SetTaggerName(const std::string &NewTaggerName) {
-        TaggerName = NewTaggerName;
-        EventBranchName = NewTaggerName;
-        SignalName = NewTaggerName;
-        SignalNames = {NewTaggerName};
-        BackgroundName = "Not" + NewTaggerName;
-        BackgroundNames = {BackgroundName};
-        TestName = NewTaggerName;
+    void SetTaggerName(const std::string &tagger_name) {
+        tagger_name_ = tagger_name;
+        branch_name_ = tagger_name;
+        signal_name_ = tagger_name;
+        signal_names_ = {tagger_name};
+        background_name_ = "Not" + tagger_name;
+        background_names_ = {background_name_};
+        TestName = tagger_name;
     }
 
-    std::string GetTaggerName() const {
-        return TaggerName;
+    std::string tagger_name() const {
+        return tagger_name_;
     }
 
-    std::string ReaderName() const {
-        const std::string Name = TaggerName + "Reader";
-        return Name;
+    std::string reader_name() const {
+        return tagger_name_ + "Reader";
     }
 
-    std::string GetAnalysisName() const {
-        return AnalysisName;
+    std::string analysis_name() const {
+      return analysis_name_;
     }
 
     std::vector<HObservable> observables() const {
@@ -125,41 +115,32 @@ public:
 
 
     HStrings GetSignalNames() const {
-        return SignalNames;
+        return signal_names_;
     }
 
     HStrings GetSignalTreeNames() const {
-        return SignalTreeNames;
+        return signal_tree_names_;
     }
 
     HStrings GetBackgroundNames() const {
-        return BackgroundNames;
+        return background_names_;
     }
 
     HStrings GetBackgroundTreeNames() const {
-        return BackgroundTreeNames;
+        return background_tree_names_;
     }
 
     std::string GetTestName() const {
         return TestName;
     }
 
-//     HStrings GetTestTreeNames() const {
-//         return TestTreeNames;
-//     }
-
-
     TCut GetCut() const {
         return Cut;
     }
 
-    void SetAnalysisName(const std::string &NewAnalysisName) {
-        AnalysisName = NewAnalysisName;
+    void SetAnalysisName(const std::string &analysis_name) {
+      analysis_name_ = analysis_name;
     }
-
-//     void SetTestTreeNames(const HStrings &NewTestTreeNames) {
-//         TestTreeNames = NewTestTreeNames;
-//     }
 
     std::string GetCutMethodName()const {
         return CutMethodName;
@@ -174,11 +155,11 @@ public:
     }
 
     std::string GetBackgroundName() const {
-        return BackgroundName;
+        return background_name_;
     }
 
     std::string GetSignalName() const {
-        return SignalName;
+        return signal_name_;
     }
 
     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
@@ -201,46 +182,7 @@ public:
 
     HDetectorGeometry DetectorGeometry;
 
-//     HJets RemoveIfWrongAbsFamily(const HJets &jets, const int particle_id, int mother_id);
-//
-//     HJets RemoveIfWrongFamily(const HJets &jets, const int particle_id, int mother_id);
-//
-//     HJets RemoveIfWrongAbsStepFamily(const HJets &NewJets, const int ParticleId , const int Mother2Id);
-//
-//     HJets RemoveIfWrongAbsStepMother(const HJets &jets, const int mother_2_id);
-//
-//     HJets RemoveIfWrongParticle(const HJets &NewJets, const int ParticleId);
-//
-//     HJets RemoveIfWrongAbsParticle(const HJets &NewJets, const int ParticleId);
-//
-//     HJets RemoveIfWrongAbsMother(const HJets &NewJets, const int MotherId);
-//
-//     HJets RemoveIfAbsMother(const HJets &NewJets, const int MotherId);
-
 protected:
-
-//     HJets RemoveIfLetpons(HJets &Jets);
-//
-//     HJets RemoveIfQuark(HJets &Jets);
-
-//     template<typename TMultiplet>
-//     inline std::vector<TMultiplet> SortByDeltaRTo(std::vector<TMultiplet> &Multiplets, fastjet::PseudoJet Jet) {
-//         std::sort(Multiplets.begin(), Multiplets.end(), MinDeltaR(Jet));
-//         return Multiplets;
-//     }
-//
-//     template <class HMultiplet>
-//     inline std::vector<HMultiplet> SortByMaxDeltaRap(std::vector<HMultiplet> &Multiplets) {
-//         std::sort(Multiplets.begin(), Multiplets.end(), MaxDeltaRap());
-//         return Multiplets;
-//     }
-//
-//     template <class HMultiplet>
-//     inline std::vector<HMultiplet> SortByMassTo(std::vector<HMultiplet> &Multiplets, const float Mass) {
-//         std::sort(Multiplets.begin(), Multiplets.end(), SortByMass(Mass));
-//         return Multiplets;
-//     }
-
 
     virtual void DefineVariables() = 0;
 
@@ -291,19 +233,19 @@ private:
      * @brief Name of the Analysis
      *
      */
-    std::string AnalysisName;
+    std::string analysis_name_;
 
     /**
      * @brief Name of the Analysis
      *
      */
-    std::string TaggerName;
+    std::string tagger_name_;
 
     /**
      * @brief Name of the Signal File
      *
      */
-    HStrings SignalNames;
+    HStrings signal_names_;
 
     /**
      * @brief Name of the Test File
@@ -315,15 +257,15 @@ private:
 
     std::string bdt_method_name;
 
-    std::string EventBranchName;
+    std::string branch_name_;
 
     std::string SpectatorBranchName;
 
     std::string WeightBranchName;
 
-    std::string BackgroundName;
+    std::string background_name_;
 
-    std::string SignalName;
+    std::string signal_name_;
 
     TCut Cut;
 
@@ -331,13 +273,11 @@ private:
      * @brief Names of the Background Files
      *
      */
-    HStrings BackgroundNames;
+    HStrings background_names_;
 
-    HStrings BackgroundTreeNames;
+    HStrings background_tree_names_;
 
-    HStrings SignalTreeNames;
-
-//     HStrings TestTreeNames;
+    HStrings signal_tree_names_;
 
     std::vector<HObservable> observables_;
 
@@ -346,5 +286,3 @@ private:
     int max_combi_;
 
 };
-
-# endif

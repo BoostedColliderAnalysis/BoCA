@@ -1,5 +1,16 @@
 # include "HMva.hh"
 
+# include "TObjArray.h"
+# include "TClonesArray.h"
+
+
+# include "ExRootAnalysis/ExRootTreeReader.h"
+# include "ExRootAnalysis/ExRootTreeWriter.h"
+
+# include "HJetInfo.hh"
+# include "HEvent.hh"
+# include "HAnalysis.hh"
+
 HObservable::HObservable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
 {
     value_ = &value;
@@ -46,7 +57,7 @@ char HObservable::type() const
  *
  */
 
-hanalysis::HMva::HMva() : DetectorGeometry(HDetectorGeometry::HDetectorType::Spp)
+hanalysis::HMva::HMva() : DetectorGeometry()
 {
 
 //   DebugLevel = HNotification;
@@ -67,92 +78,18 @@ float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 
 HObservable hanalysis::HMva::NewObservable(float &Value, const std::string &Title) const
 {
-    Print(HInformation, "New Observable", Title, Value);
-    const std::string Expression = EventBranchName + "." + Title;
+    Print(HInformation, "New Observable", Title);
+    const std::string Expression = branch_name_ + "." + Title;
     return HObservable(Value, Expression, Title, "", "");
 }
 
 HObservable hanalysis::HMva::NewObservable(float &Value, const std::string &Title, const std::string &Latex) const
 {
-    Print(HInformation, "New Observable", Title,  Value);
-    const std::string Expression = EventBranchName + "." + Title;
+    Print(HInformation, "New Observable", Title);
+    const std::string Expression = branch_name_ + "." + Title;
     return HObservable(Value, Expression, Title, "", Latex);
 
 }
-
-
-
-
-// HJets hanalysis::HMva::RemoveIfWrongAbsFamily(const HJets &jets, const int particle_id, int mother_id)
-// {
-//     HJets jets_ = jets;
-//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsFamily(particle_id, mother_id)), jets_.end());
-//     return jets_;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfWrongFamily(const HJets &jets, const int particle_id, int mother_id)
-// {
-//     HJets jets_ = jets;
-//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongFamily(particle_id, mother_id)), jets_.end());
-//     return jets_;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfWrongAbsStepFamily(const HJets &jets, const int particle_id , const int mother_2_id)
-// {
-//     HJets jets_ = jets;
-//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepFamily(particle_id, mother_2_id)), jets_.end());
-//     return jets_;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfWrongAbsStepMother(const HJets &jets, const int mother_2_id)
-// {
-//     HJets jets_ = jets;
-//     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepMother(mother_2_id)), jets_.end());
-//     return jets_;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfWrongParticle(const HJets &NewJets, const int ParticleId)
-// {
-//     HJets Jets = NewJets;
-//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongId(ParticleId)), Jets.end());
-//     return Jets;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfWrongAbsParticle(const HJets &NewJets, const int ParticleId)
-// {
-//     HJets Jets = NewJets;
-//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsId(ParticleId)), Jets.end());
-//     return Jets;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfWrongAbsMother(const HJets &NewJets, const int MotherId)
-// {
-//     HJets Jets = NewJets;
-//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsMother(MotherId)), Jets.end());
-//     return Jets;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfAbsMother(const HJets &NewJets, const int MotherId)
-// {
-//     HJets Jets = NewJets;
-//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), AbsMother(MotherId)), Jets.end());
-//     return Jets;
-// }
-//
-//
-// HJets hanalysis::HMva::RemoveIfLetpons(HJets &Jets)
-// {
-//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongLeptons()), Jets.end());
-//     return Jets;
-// }
-//
-// HJets hanalysis::HMva::RemoveIfQuark(HJets &Jets)
-// {
-//     Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongQuark()), Jets.end());
-//     return Jets;
-// }
-
-
 
 HJets hanalysis::HMva::GranulatedJets(const HJets &NewEFlowJets)
 {

@@ -89,9 +89,9 @@ public:
 
 protected:
 
-    inline int EventSum(const ExRootTreeReader &NewTreeReader) const {
-//       return std::min((int)NewTreeReader.GetEntries(), EventNumberMax());
-        return NewTreeReader.GetEntries();
+    inline int EventSum(const ExRootTreeReader &tree_reader) const {
+//       return std::min((int)tree_reader.GetEntries(), EventNumberMax());
+        return tree_reader.GetEntries();
     }
 
     ExRootTreeWriter TreeWriter(const TFile &export_file, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);

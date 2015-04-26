@@ -1,18 +1,9 @@
 # include "HJetDelphes.hh"
 # include "fastjet/ClusterSequence.hh"
 
-/**
- * @brief Constructor
- *
- *
- * choose HDetectorType according to LHC or 100TeV
- *
- * LHC: CMS
- * 100TeV: Spp
- *
- */
 
-hanalysis::hdelphes::HJet::HJet(): DetectorGeometry(HDetectorGeometry::HDetectorType::Spp)
+
+hanalysis::hdelphes::HJet::HJet(): DetectorGeometry()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
@@ -209,7 +200,6 @@ void hanalysis::hdelphes::HJet::GetTrackEFlow(const HJetDetails JetDetails)
 
         }
     }
-
 
 }
 

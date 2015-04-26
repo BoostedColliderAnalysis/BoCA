@@ -1,4 +1,5 @@
 # include "HMvaEvent.hh"
+# include "ExRootAnalysis/ExRootTreeWriter.h"
 
 hhiggscpv::HMvaEvent::HMvaEvent()
 {

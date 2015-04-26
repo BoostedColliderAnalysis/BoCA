@@ -79,21 +79,26 @@ private:
 
     // in GeV
     inline int PreCut() const {
-//             return 0;
-//         return 1;
-        //     return 30;
-        //     return 80;
-//                 return 150;
-//         return 300;
-        return 1000;
+        return 700;
+//         return 1000;
+    }
+
+    // in GeV
+    inline int UpperCut() const {
+        switch (PreCut()) {
+        case 700 :
+            return 1000;
+        case 1000 :
+            return 1500;
+        }
     }
 
     inline int EventNumberMax() const {
         //         return 1000000;
         //         return 100000;
-        return 10000;
+//         return 10000;
 //         return 1000;
-//         return 100;
+        return 100;
 //         return 10;
     }
 
@@ -113,24 +118,7 @@ private:
 
     // in fb
     float SignalCrosssection() const {
-        switch (ColliderType()) {
-        case LHC:
-            switch (Mass()) {
-            default:
-                Print(HError, "Signal Crosssection", "unhandled case");
-                return 1;
-            } ;
-        case FHC:
-        case LE:
-            switch (Mass()) {
-            default:
-                Print(HError,  "Signal Crosssection", "unhandled case");
-                return 1;
-            }
-        default:
-            Print(HError,  "Signal Crosssection", "unhandled case");
-            return 1;
-        }
+        return 1;
     }
 
     inline hanalysis::HFile BackgroundFile(const ProcessType Background) const {
@@ -153,87 +141,7 @@ private:
     }
 
     float BackgroundCrosssection(const ProcessType Proccess) const {
-        switch (ColliderType()) {
-        case LHC :
-            switch (PreCut()) {
-            case 30 :
-                switch (Proccess) {
-
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                };
-            case 80 :
-                switch (Proccess) {
-
-                    return 9999999999;
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
-            }
-        case FHC:
-            switch (PreCut()) {
-            case 30 :
-                switch (Proccess) {
-
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
-            case 80 :
-                switch (Proccess) {
-
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
-            case 150 :
-                switch (Proccess) {
-
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
-            case 300 :
-                switch (Proccess) {
-
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
-            }
-        case LE:
-            switch (PreCut()) {
-            case 300 :
-                switch (Proccess) {
-                case ttbb :
-                    return 263;
-                case ttcc:
-                    return 192.82;
-                case ttjj:
-                    return 28200;
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
-            case 150 :
-                switch (Proccess) {
-                case ttbb :
-                    return 688;
-                case ttcc:
-                    return 534;
-                case ttjj:
-                    return 70289;
-                default:
-                    Print(HError, "Background Crosssection", "unhandled case");
-                    return 1;
-                }
-            }
-        default:
-            Print(HError, "Background Crosssection",  "unhandled case");
-            return 1;
-        }
+        return 1;
     }
 
     std::string ColliderName(const HColliderType Collider) const {
@@ -302,9 +210,9 @@ private:
         case hh:
             return "hh";
         case ww:
-          return "ww";
+            return "ww";
         case zz:
-          return "zz";
+            return "zz";
         default:
             Print(HError, "unhandled case");
             return "";

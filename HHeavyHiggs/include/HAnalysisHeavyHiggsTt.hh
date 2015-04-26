@@ -78,12 +78,12 @@ private:
     inline int Mass() const {
         //     return 0;
         //     return 400;
-//             return 500;
+            return 500;
         //     return 600;
 //            return 800;
 //           return 1000;
 //         return 2000;
-                return 3000;
+//                 return 3000;
 //         return 4000;
 //                return 5000;
 //         return 6000;
@@ -98,12 +98,12 @@ private:
 
     // in GeV
     inline int PreCut() const {
-//            return 0;
+           return 0;
         //     return 30;
         //     return 80;
         //         return 150;
 // return 100;
-        return 250;
+//         return 250;
 //          return 300;
 //        return 1000;
 //         return 1500;
@@ -112,26 +112,49 @@ private:
     }
 
     inline int EventNumberMax() const {
-                return 1000000;
+//                 return 1000000;
 //         return 100000;
-//         return 10000;
+        return 10000;
         //         return 1000;
 //                 return 100;
     };
 
     inline HColliderType ColliderType() const {
-        return LHC;
+//         return LHC;
         //       return FHC;
-//         return LE;
+        return LE;
     }
 
     inline int BackgroundFileNumber() const {
-        //         return 1;
-        //         return 2;
-        //       return 4;
-//         return 5;
-        //       return 10;
-        return 40;
+      switch (ColliderType()) {
+        case LHC :
+          switch (PreCut()) {
+            case  0 :
+              return 79;
+              //                 return 2; // < this must be removed !!
+            case  250 :
+              return 41;
+          }
+            case LE :
+              switch (PreCut()) {
+                case  0 :
+                  return 98;
+                case  100 :
+                  return 15;
+                case  250 :
+                  return 15;
+                case  300 :
+                  return 110;
+                case  1000 :
+                  return 32;
+                case  1500 :
+                  return 34;
+                case  2000 :
+                  return 26;
+                case  2500 :
+                  return 11;
+              }
+      }
     }
 
 
@@ -161,7 +184,9 @@ private:
             switch (Mass()) {
                 // tan beta = 2
             case 400 :
-                return 48385.16604388162;
+              return 48385.16604388162;
+            case 500 :
+              return 21753.261647408788;
             case 700 :
                 return 5388.806849750459;
             case 800:
@@ -314,7 +339,15 @@ private:
                 }
             }
         case LE:
-            switch (PreCut()) {
+          switch (PreCut()) {
+            case 0 :
+              switch (Process) {
+                case tt:
+                  return 3600 * 2 * 1000;
+                default:
+                  Print(HError, "Background Crosssection", "unhandled case");
+                  return 1;
+              }
             case 150 :
                 switch (Process) {
                 case ttbb :

@@ -9,7 +9,7 @@ hanalysis::HJetPairTagger::HJetPairTagger()
 
 void hanalysis::HJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger)
 {
-    Print(HNotification, "Set Tagger", NewBottomTagger.GetTaggerName());
+    Print(HNotification, "Set Tagger", NewBottomTagger.tagger_name());
     BottomTagger = NewBottomTagger;
     DefineVariables();
 }

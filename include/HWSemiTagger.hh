@@ -15,8 +15,6 @@ public:
 
     HWSemiTagger();
 
-    ~HWSemiTagger();
-
     void SetTagger();
 
     std::vector<HWSemiBranch> GetBranches(HEvent &Event, const HObject::HTag State);

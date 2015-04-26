@@ -1,40 +1,52 @@
 # include "HJetInfo.hh"
 # include "HTagPrivate.hh"
 
-// class hanalysis::HJetInfoPrivate : public HTagPrivate {
-//
-// public:
-//
-//   HJetInfoPrivate() {}
-//
-//   void SetBTag(const int NewBTag);
-//
-//   std::vector<HConstituent> ApplyVertexResolution() const;
-//
-//   float SecondaryVertexResolution = 0.1;
-//
-//   float GetWeightSum() const;
-//
-//   float GetFamilyWeightSum() const;
-//
-//   std::map<int, float> JetFractions;
-//
-//   std::unordered_map<HFamily, float> JetFamily;
-//
-//   std::vector<HConstituent> Vertices;
-//
-//   int BTag;
-//
-// };
-//
-// void hanalysis::HJetInfoPrivate::SetBTag(const int NewBTag) {
-//   BTag = NewBTag;
-// }
+
+/**
+ * @brief Constructor
+ *
+ *
+ * choose HDetectorType according to LHC or 100TeV
+ *
+ * LHC: CMS
+ * 100TeV: Spp
+ *
+ */
+
+
+HDetectorGeometry::HDetectorGeometry()
+{
+
+//  HDetectorType DetectorType = Spp;
+   HDetectorType DetectorType = CMS;
+  const float jet_radius_parameter = 1;
+    switch (DetectorType) {
+    case CMS :
+        JetMinPt = 20;
+        JetConeSize = 0.5;
+        MinCellResolution = .1;
+        MinCellPt = .5;
+        TrackerEtaMax = 2.5;
+        TrackerDistanceMin = 0.1;
+        TrackerDistanceMax = 1000;
+        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, jet_radius_parameter);
+        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, jet_radius_parameter);
+    case Spp:
+        JetMinPt = 40;
+        JetConeSize = 0.5;
+        MinCellResolution = .1;
+        MinCellPt = .5;
+        TrackerEtaMax = 3.5;
+        TrackerDistanceMin = 0.1;
+        TrackerDistanceMax = 1000;
+        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, jet_radius_parameter);
+        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, jet_radius_parameter);
+    }
+}
 
 
 
-
-hanalysis::HJetInfo::HJetInfo()
+hanalysis::HJetInfo::HJetInfo() : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
 //     Debug = 4;
@@ -42,27 +54,27 @@ hanalysis::HJetInfo::HJetInfo()
     BTagM = 0;
 }
 
-hanalysis::HJetInfo::HJetInfo(const int NewBTag)
+hanalysis::HJetInfo::HJetInfo(const int NewBTag) : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
     BTagM = NewBTag;
 }
 
-hanalysis::HJetInfo::HJetInfo(const HConstituent &NewConstituent)
+hanalysis::HJetInfo::HJetInfo(const HConstituent &NewConstituent) : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
     constituents_.push_back(NewConstituent);
     BTagM = 0;
 }
 
-hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents)
+hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents) : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
     constituents_ = NewConstituents;
     BTagM = 0;
 }
 
-hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag)
+hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag) : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
     constituents_ = NewConstituents;
@@ -206,20 +218,16 @@ void hanalysis::HJetInfo::PrintAllFamInfos(const HSeverity Severity) const
 
 fastjet::PseudoJet hanalysis::HJetInfo::VertexJet() const
 {
-    std::vector <HConstituent > RealVertices = ApplyVertexResolution();
+    std::vector <HConstituent > vertices = ApplyVertexResolution();
     hanalysis::HFourVector Object;
     fastjet::PseudoJet Jet;
-    for (const auto Vertex : RealVertices) {
-//       Print(HError,"JetPt",Object.GetPseudoJet(Vertex.Momentum).pt());
-        Jet = fastjet::join(Jet, Object.PseudoJet(Vertex.Momentum()));
-    }
+    for (const auto Vertex : vertices) Jet = fastjet::join(Jet, Object.PseudoJet(Vertex.Momentum()));
     return Jet;
-//     return std::accumulate(RealVertices.rbegin(), RealVertices.rend(), Jet, Accu0());
 }
 
-struct Accu {
-    float operator()(float result, const HConstituent &obj) {
-        return (result + obj.Position().Vect().Pt());
+struct AccuPerpDistance {
+    float operator()(float result, const HConstituent &constituent) {
+        return (result + constituent.Position().Vect().Perp());
     }
 
 };
@@ -228,79 +236,65 @@ float hanalysis::HJetInfo::SumDisplacement() const
 {
     Print(HDebug, "Get Jet Displacement");
     if (constituents_.size() == 0) return 0;
-    std::vector<HConstituent> TempVertices = constituents_;
-    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [&](HConstituent & Constituent) {
-        return (Constituent.Position().Vect().Pt() < detector_geometry_.MinTrackerDistance || Constituent.Position().Vect().Pt() > detector_geometry_.MaxTrackerDistance || std::abs(Constituent.Momentum().Rapidity()) > detector_geometry_.MaxTrackerEta);
-    }), TempVertices.end());
-
-    return std::accumulate(TempVertices.rbegin(), TempVertices.rend(), 0, Accu());
+    std::vector <HConstituent > vertices = ApplyVertexResolution();
+    return std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
 }
 
 float hanalysis::HJetInfo::MeanDisplacement() const
 {
     Print(HDebug, "Get Jet Displacement");
     if (constituents_.size() == 0) return 0;
-    std::vector<HConstituent> TempVertices = constituents_;
-    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [&](const HConstituent & Constituent) {
-        return (Constituent.Position().Vect().Pt() < detector_geometry_.MinTrackerDistance || Constituent.Position().Vect().Pt() > detector_geometry_.MaxTrackerDistance || std::abs(Constituent.Momentum().Rapidity()) > detector_geometry_.MaxTrackerEta);
-    }), TempVertices.end());
-
-    if (TempVertices.size() < 1) return 0;
-    float Sum = std::accumulate(TempVertices.rbegin(), TempVertices.rend(), 0, Accu());
-
-    return Sum / TempVertices.size();
+    std::vector <HConstituent > vertices = ApplyVertexResolution();
+    if (vertices.size() < 1) return 0;
+    const float Sum = std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
+    return Sum / vertices.size();
 }
+
+struct MaxPerpDistance {
+  inline bool operator()(const HConstituent &Constituent1, const HConstituent &Constituent2) const {
+    return (Constituent1.Position().Vect().Perp() > Constituent2.Position().Vect().Perp());
+  }
+
+};
 
 float hanalysis::HJetInfo::MaxDisplacement() const
 {
     Print(HDebug, "Get Jet Displacement");
     if (constituents_.size() == 0) return 0;
-    std::vector<HConstituent> TempVertices = constituents_;
-    TempVertices.erase(std::remove_if(TempVertices.begin(), TempVertices.end(), [&](const HConstituent & Constituent) {
-        return (Constituent.Position().Vect().Pt() < detector_geometry_.MinTrackerDistance || Constituent.Position().Vect().Pt() > detector_geometry_.MaxTrackerDistance || std::abs(Constituent.Momentum().Rapidity()) > detector_geometry_.MaxTrackerEta);
-    }), TempVertices.end());
-    if (TempVertices.size() < 1) return 0;
-    std::sort(TempVertices.begin(), TempVertices.end(), MaxDistance());
-    return TempVertices.front().Position().Vect().Pt();
+    std::vector <HConstituent > vertices = ApplyVertexResolution();
+    if (vertices.size() < 1) return 0;
+    std::sort(vertices.begin(), vertices.end(), MaxPerpDistance());
+    return vertices.front().Position().Vect().Perp();
 }
 
 
 float hanalysis::HJetInfo::VertexMass() const
 {
     Print(HDebug, "Get Vertex Mass");
-    std::vector <HConstituent > RealVertices = ApplyVertexResolution();
-//     TLorentzVector NewMomentum;
-//     const float NewVertexMass = std::accumulate(RealVertices.begin(), RealVertices.end(), NewMomentum, [](TLorentzVector Momentum, stuff_value_t const& Constituent) { return Momentum + Constituent.Momentum(); });
-
-    HConstituent Vertex;
-    const float NewVertexMass = std::accumulate(RealVertices.begin(), RealVertices.end(), Vertex).Momentum().M();
-    if (NewVertexMass < .1) return 0;
-    return NewVertexMass;
+    std::vector <HConstituent > vertices = ApplyVertexResolution();
+    const float vertex_mass = std::accumulate(vertices.begin(), vertices.end(), HConstituent()).Momentum().M();
+    Print(HDebug, "Vertex Mass", vertex_mass);
+    if (vertex_mass < .1) return 0;
+    return vertex_mass;
 }
 
 float hanalysis::HJetInfo::VertexEnergy() const
 {
-    Print(HDebug, "Get Energy Fraction");
-    float NewVertexEnergy = 0;
-    for (const auto & Vertex : constituents_) if (Vertex.Position().Vect().Pt() > detector_geometry_.MinTrackerDistance && Vertex.Position().Vect().Pt() < detector_geometry_.MaxTrackerDistance && std::abs(Vertex.Momentum().Rapidity()) < detector_geometry_.MaxTrackerEta) NewVertexEnergy += Vertex.Momentum().E();
-    return NewVertexEnergy;
+  Print(HDebug, "Get Energy Fraction");
+  std::vector <HConstituent > vertices = ApplyVertexResolution();
+    const float vertex_energy = std::accumulate(vertices.begin(), vertices.end(), HConstituent()).Momentum().E();
+    return vertex_energy;
 }
 
 std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const
 {
     Print(HDebug, "Apply Vertex Resolution");
-    std::vector <HConstituent > RealVertices;
-    Print(HDebug, "Vertex Number", constituents_.size());
-    if (constituents_.size() == 0) return RealVertices;
-    for (std::vector <HConstituent >::const_iterator Constituent = constituents_.begin(); Constituent != constituents_.end(); ++Constituent) {
-        //         Print(HError,"dist",(*Constituent).Position().Vect().Pt());
-//         Print(HError,"pt",(*Constituent).Momentum().Pt());
-        if ((*Constituent).Position().Vect().Pt() > detector_geometry_.MinTrackerDistance && (*Constituent).Position().Vect().Pt() < detector_geometry_.MaxTrackerDistance  && std::abs((*Constituent).Momentum().Rapidity()) < detector_geometry_.MaxTrackerEta) {
-            RealVertices.push_back(*Constituent);
-        }
-    }
-    Print(HDebug, "Real Vertex Number", RealVertices.size());
-    return RealVertices;
+    std::vector <HConstituent > displaced_constituents;
+    Print(HDebug, "Vertex Number", constituents().size());
+    if (constituents().size() == 0) return displaced_constituents;
+    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry().TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry().TrackerDistanceMax  && std::abs(constituent.Momentum().Rapidity()) < detector_geometry().TrackerEtaMax) displaced_constituents.push_back(constituent);
+    Print(HDebug, "Real Vertex Number", displaced_constituents.size());
+    return displaced_constituents;
 }
 
 float hanalysis::HJetInfo::ElectroMagneticRadius(const fastjet::PseudoJet &Jet) const
@@ -345,7 +339,7 @@ struct MaxPt {
 };
 
 
-struct Accu2 {
+struct AccuPt {
     float operator()(float result, const HConstituent &obj) {
         return (result + obj.Momentum().Pt());
     }
@@ -357,7 +351,7 @@ float hanalysis::HJetInfo::LeadingTrackMomentumFraction() const
     std::vector<HConstituent> Const = Constituents();
     Const.erase(std::remove_if(Const.begin(), Const.end(), WrongDetector(HConstituent::HTrack)), Const.end());
     std::sort(Const.begin(), Const.end(), MaxPt());
-    float Sum = std::accumulate(Const.rbegin(), Const.rend(), 0, Accu2());
+    float Sum = std::accumulate(Const.rbegin(), Const.rend(), 0, AccuPt());
     return Const.front().Momentum().Pt() / Sum;
 }
 
@@ -395,7 +389,7 @@ float hanalysis::HJetInfo::ElectroMagneticFraction() const
         if (Constituent.sub_detector() == HConstituent::HPhoton) EMEnergy += Constituent.Momentum().Et();
     }
     if (Energy == 0) return 0;
-    else  EMEnergy / Energy;
+    else return EMEnergy / Energy;
 
 }
 

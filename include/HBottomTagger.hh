@@ -43,9 +43,9 @@ public:
     ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
       switch(Stage){
         case HAnalysis::HTrainer :
-          return NewTreeWriter.NewBranch(GetTaggerName().c_str(), HBottomBranch::Class());
+          return NewTreeWriter.NewBranch(tagger_name().c_str(), HBottomBranch::Class());
         case HAnalysis::HReader :
-          return NewTreeWriter.NewBranch(ReaderName().c_str(), HBottomBranch::Class());
+          return NewTreeWriter.NewBranch(reader_name().c_str(), HBottomBranch::Class());
       }
     }
 

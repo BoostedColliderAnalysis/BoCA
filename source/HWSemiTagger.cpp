@@ -7,11 +7,6 @@ hanalysis::HWSemiTagger::HWSemiTagger()
     SetTagger();
 }
 
-hanalysis::HWSemiTagger::~HWSemiTagger()
-{
-    Print(HNotification, "Destructor");
-}
-
 void hanalysis::HWSemiTagger::SetTagger()
 {
     Print(HNotification, "Set Tagger");

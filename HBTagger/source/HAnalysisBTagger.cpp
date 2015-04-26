@@ -33,7 +33,7 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
     SignalFiles.push_back(hanalysis::HFile(FileName(bb), SignalCrosssection()));
 //     SignalFiles.push_back(hanalysis::HFile(FileName(Hbb), SignalCrosssection()));
 //     SignalFiles.push_back(hanalysis::HFile(FileName(ttbb), SignalCrosssection()));
-    SignalFiles.push_back(hanalysis::HFile(FileName(ttlep), SignalCrosssection()));
+//     SignalFiles.push_back(hanalysis::HFile(FileName(ttlep), SignalCrosssection()));
 //     SignalFiles.push_back(hanalysis::HFile(FileName(tthad), SignalCrosssection()));
 //     SignalFiles.push_back(hanalysis::HFile(FileName(tt), SignalCrosssection()));
 
@@ -92,7 +92,7 @@ void hbtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, c
         TreeName(bb),
 //         TreeName(Hbb),
 //         TreeName(ttbb),
-        TreeName(ttlep),
+//         TreeName(ttlep),
 //         TreeName(tthad),
     };
 
@@ -177,10 +177,14 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HA
 bool hbtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag Tag)
 {
     Print(HDebug, "Get Bottom Tag", Tag);
-    std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-    if (Bottoms.size() < 1) return 0;
-    for (const auto & Bottom : Bottoms) {
-        *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
+    std::vector<HBottomBranch> bottoms = BottomTagger.GetBranches(Event, Tag);
+    std::vector<HBottomBranch> final_bottoms;
+
+    for (const auto & bottom : bottoms) if (bottom.Pt > PreCut() || bottom.Pt < 1.5 * PreCut()) final_bottoms.push_back(bottom);
+    if (bottoms.size() < 1) return 0;
+
+    for (const auto & bottom : final_bottoms) {
+        *static_cast<HBottomBranch *>(Branch->NewEntry()) = bottom;
         ++ObjectNumber;
     }
     return 1;
@@ -201,7 +205,8 @@ bool hbtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTag T
 //         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
 //     }
 
-    Jets.erase(std::remove_if(Jets.begin(), Jets.end(), TooSmallPt(PreCut() / 2 * 3)), Jets.end());
+    Jets.erase(std::remove_if(Jets.begin(), Jets.end(), TooSmallPt(PreCut())), Jets.end());
+    Jets.erase(std::remove_if(Jets.begin(), Jets.end(), TooBigPt(1.5 * PreCut())), Jets.end());
     std::sort(Jets.begin(), Jets.end(), SortByBdt());
 
     for (const auto & Jet : Jets) {

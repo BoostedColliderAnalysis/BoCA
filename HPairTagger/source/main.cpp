@@ -42,6 +42,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
 int main()
 {
     RunTagger(hanalysis::HAnalysis::HBottomTagger);
+    RunTagger(hanalysis::HAnalysis::HBottomReader);
     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
     RunTagger(hanalysis::HAnalysis::HJetPairReader);
 

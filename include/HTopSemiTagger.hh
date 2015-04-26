@@ -34,6 +34,12 @@ public:
 
     HReader WSemiReader;
 
+    void GetBottomInfo(HTopSemiBranch &TopHadronicBranch, const fastjet::PseudoJet jet) const;
+
+    float GetSpread(const fastjet::PseudoJet &Jet) const;
+
+    float GetDeltaR(const fastjet::PseudoJet &Jet) const;
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -41,6 +47,8 @@ protected:
     };
 
 private:
+
+  bool Boost = false;
 
     void DefineVariables();
 

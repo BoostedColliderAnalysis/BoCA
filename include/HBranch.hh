@@ -403,6 +403,16 @@ public:
     float BottomPt;
     float WPt;
 
+    float VertexMass;
+    float MaxDisplacement;
+    float MeanDisplacement;
+    float SumDisplacement;
+    float Multipliticity;
+    float Spread;
+    float VertexDeltaR;
+    float VertexSpread;
+    float EnergyFraction;
+
 private:
 
     ClassDef(HTopSemiBranch, 1)

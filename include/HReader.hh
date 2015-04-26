@@ -1,5 +1,4 @@
-# ifndef HReader_hh
-# define HReader_hh
+# pragma once
 
 # include "HMva.hh"
 
@@ -8,13 +7,8 @@ class HMvaResult : hanalysis::HObject
 
 public:
 
-    HMvaResult()  {
-        Steps = 20000;
-        Events.resize(Steps, 0);
-        Efficiency.resize(Steps, 0);
-        AnalysisEventNumber.resize(Steps, 0);
-        Bdt.resize(Steps, 0);
-    }
+    HMvaResult();
+    std::vector<int> CutIntegral(const std::vector< int > &bins) const;
 
     int Steps;
     std::vector<float> Events;
@@ -22,14 +16,6 @@ public:
     std::vector<int> AnalysisEventNumber;
     std::vector<float> Bdt;
     int TotalEventNumber;
-
-    std::vector<int> CutIntegral(const std::vector<int> &Vector) const {
-        std::vector<int> Integrals(Steps, 0);
-        Integrals.at(Steps - 1) = Vector.at(Steps - 1);
-        for (int BinNumber = Steps - 2; BinNumber >= 0; --BinNumber) Integrals.at(BinNumber) = Integrals.at(BinNumber + 1) + Vector.at(BinNumber);
-        return Integrals;
-    }
-
 };
 
 /**
@@ -51,13 +37,13 @@ public:
      * @brief Constructor
      *
      */
-    HReader(hanalysis::HMva &NewMva);
+    HReader(hanalysis::HMva &tagger);
 
     void operator=(const hanalysis::HReader &) {
         Print(HError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
     }
 
-    void SetMva(hanalysis::HMva &NewMva);
+    void SetMva(hanalysis::HMva &tagger);
 
     void SimpleMVALoop();
 
@@ -65,37 +51,34 @@ public:
 
 private:
 
-//     TMVA::Reader Reader() const {
-//         return reader_;
-//     }
-
-    HMva *Mva;
+    HMva *tagger_;
 
     TMVA::Reader reader_;
 
-    const HMva &Tagger() const {
-        return *Mva;
+    TMVA::Reader &reader(){
+        return reader_;
+    }
+
+    HMva &tagger() const {
+        return *tagger_;
     }
 
     void BookMva();
 
     void AddVariable();
 
-    HInfoBranch InfoBranch(const TFile &File, const std::string &TreeName) const;
+    HInfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
 
-    std::vector<int> BdtDistribution(const ExRootTreeReader &TreeReader, const std::string &TreeName, const TFile &ExportFile) const;
+    std::vector<int> BdtDistribution(ExRootTreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
 
-    HMvaResult BdtResult(const TFile &File, const std::string &TreeName, const TFile &ExportFile) const;
+    HMvaResult BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
 
-    void LatexHeader(std::ofstream &LatexFile) const;
+    void LatexHeader(std::ofstream &latex_file) const;
 
-    void LatexFooter(std::ofstream &LatexFile) const;
+    void LatexFooter(ofstream &latex_file) const;
 
     inline std::string ClassName() const {
         return "HReader";
     }
 
 };
-
-# endif
-

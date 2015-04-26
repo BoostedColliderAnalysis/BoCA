@@ -27,13 +27,16 @@ void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger
     {
             Analysis->GetFiles(TaggerName);
         if (Tagger == hhiggscpv::HAnalysis::HBottomTagger) {
-          hanalysis::HFactory Factory = hanalysis::HFactory(Analysis->BottomTagger);
+//           hanalysis::HFactory Factory =
+          hanalysis::HFactory(Analysis->BottomTagger);
         }
         if (Tagger == hanalysis::HAnalysis::HTopLeptonicTagger){
-          hanalysis::HFactory Factory = hanalysis::HFactory(Analysis->LeptonicTopTagger);
+//           hanalysis::HFactory Factory =
+          hanalysis::HFactory(Analysis->LeptonicTopTagger);
         }
         if (Tagger == hhiggscpv::HAnalysis::HHiggsLeptonicTagger){
-          hanalysis::HFactory Factory = hanalysis::HFactory(Analysis->HiggsTagger);
+//           hanalysis::HFactory Factory =
+          hanalysis::HFactory(Analysis->HiggsTagger);
         }
     }
     delete Analysis;

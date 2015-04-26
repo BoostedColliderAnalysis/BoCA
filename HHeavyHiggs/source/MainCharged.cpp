@@ -108,20 +108,13 @@ int main()
 //     RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader);
 
     RunTagger(hanalysis::HAnalysis::HJetPairTagger);
-//         RunTagger(hanalysis::HAnalysis::HJetPairReader);
-
+//     RunTagger(hanalysis::HAnalysis::HJetPairReader);
 
     RunTagger(hanalysis::HAnalysis::HSignatureSemiTagger);
 //     RunTagger(hanalysis::HAnalysis::HSignatureSemiReader);
 
-
     RunTagger(hanalysis::HAnalysis::HEventSemiTagger);
     RunTagger(hanalysis::HAnalysis::HEventSemiReader);
-
-//     RunTagger(hanalysis::HAnalysis::HHeavyHiggsHadronicTagger);
-//     RunTagger(hanalysis::HAnalysis::HEventHadronicTagger);
-
-//     RunTagger(hanalysis::HAnalysis::HChargedHiggsSemiTagger);
 
     std::cout << fastjet::LimitedWarning::summary() << std::endl;
 

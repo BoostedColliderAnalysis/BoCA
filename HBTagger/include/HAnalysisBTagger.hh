@@ -67,8 +67,8 @@ private:
     inline int EventNumberMax() const {
         //         return 1000000;
 //         return 100000;
-//                 return 10000;
-        return 1000;
+                return 10000;
+//         return 1000;
 //         return 100;
     };
 
@@ -85,7 +85,8 @@ private:
     }
 
     inline int PreCut() const {
-        return 1000;
+//         return 1000;
+        return 500;
     }
 
     inline std::string DetectorName(const HDetectorType DetectorType) const {

@@ -4,6 +4,8 @@ ClassImp(HBranch)
 HBranch::HBranch()
 {
     InitialValue = -11.1111111; // should be non integer
+    // this must be identical to the initial value in htag
+    // FIXME remove the copy of the magic number
 }
 HBranch::~HBranch() {}
 
@@ -221,6 +223,16 @@ HTopSemiBranch::HTopSemiBranch()
 {
     BottomPt = InitialValue;
     WPt = InitialValue;
+
+    VertexMass = InitialValue;
+    MaxDisplacement = InitialValue;
+    MeanDisplacement = InitialValue;
+    SumDisplacement = InitialValue;
+    Multipliticity = int(InitialValue);
+    Spread = InitialValue;
+    VertexDeltaR = InitialValue;
+    VertexSpread = InitialValue;
+    EnergyFraction = InitialValue;
 
 }
 

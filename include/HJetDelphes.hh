@@ -4,43 +4,6 @@
 # include "HJet.hh"
 # include "HJetInfo.hh"
 
-# include "fastjet/JetDefinition.hh"
-
-class HDetectorGeometry
-{
-public:
-    enum HDetectorType {CMS, Spp};
-
-    HDetectorGeometry(const HDetectorType DetectorType) {
-        switch (DetectorType) {
-        case CMS :
-            JetMinPt = 20;
-            JetConeSize = 0.5;
-            MinCellResolution = .1;
-            MinCellPt = .5;
-            TrackerEtaMax = 2.5;
-            JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, 1);
-            SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, 1);
-        case Spp:
-            JetMinPt = 40;
-            JetConeSize = 0.5;
-            MinCellResolution = .1;
-            MinCellPt = .5;
-            TrackerEtaMax = 5;
-            JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, 1);
-            SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, 1);
-        }
-    }
-    float JetMinPt;
-    float JetConeSize;
-    float MinCellPt;
-    float MinCellResolution;
-    float TrackerEtaMax;
-    float JetRadiusParameter;
-    fastjet::JetDefinition JetDefinition;
-    fastjet::JetDefinition SubJetDefinition;
-};
-
 /**
  * @brief Delphes jets
  *

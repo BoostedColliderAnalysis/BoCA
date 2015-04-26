@@ -541,9 +541,10 @@ bool htoptagger::HAnalysis::GetTopHadronicTag(hanalysis::HEvent &Event,  HTag Ta
     std::vector<HTopHadronBranch> FinalTops;
     for (const auto & Top : Tops) {
         if (Top.Pt < PreCut()) continue;
+        if (Top.Pt > UpperCut()) continue;
         FinalTops.push_back(Top);
     }
-    if (Tops.size() < 1) return 0;
+    if (FinalTops.size() < 1) return 0;
     for (const auto & Top : FinalTops) {
         *static_cast<HTopHadronBranch *>(Branch->NewEntry()) = Top;
         ++ObjectNumber;
@@ -585,6 +586,7 @@ bool htoptagger::HAnalysis::GetTopHadronicReader(hanalysis::HEvent &Event, const
     for (const auto & Triplet : Triplets) {
 //         if (Triplet.DeltaR() < 0.5) continue;
         if (Triplet.Jet().pt() < PreCut()) continue;
+        if (Triplet.Jet().pt() > UpperCut()) continue;
         FinalTriplets.push_back(Triplet);
     }
 
@@ -612,6 +614,7 @@ bool htoptagger::HAnalysis::GetTopSemiTag(hanalysis::HEvent &Event,  HTag Tag)
     std::vector<HTopLeptonBranch> FinalTops;
     for (const auto & Top : Tops) {
         if (Top.Pt < PreCut()) continue;
+        if (Top.Pt > UpperCut()) continue;
         FinalTops.push_back(Top);
     }
     if (FinalTops.size() < 1) return 0;
@@ -638,6 +641,7 @@ bool htoptagger::HAnalysis::GetTopSemiReader(hanalysis::HEvent &Event, const HTa
     for (const auto & Triplet : Doublets) {
         //         if (Triplet.DeltaR() < 0.5) continue;
         if (Triplet.Jet().pt() < PreCut()) continue;
+        if (Triplet.Jet().pt() > UpperCut()) continue;
         FinalTriplets.push_back(Triplet);
     }
 

@@ -1,5 +1,4 @@
-# ifndef HJetInfo_hh
-# define HJetInfo_hh
+# pragma once
 
 # include <map>
 # include <unordered_map>
@@ -9,6 +8,26 @@
 # include "HJetTag.hh"
 # include "HFourVector.hh"
 
+# include "fastjet/JetDefinition.hh"
+
+class HDetectorGeometry
+{
+public:
+    enum HDetectorType {CMS, Spp};
+
+    HDetectorGeometry();
+    float JetMinPt;
+    float JetConeSize;
+    float MinCellPt;
+    float MinCellResolution;
+    float TrackerEtaMax;
+    float JetRadiusParameter;
+    fastjet::JetDefinition JetDefinition;
+    fastjet::JetDefinition SubJetDefinition;
+    float TrackerDistanceMin;
+    float TrackerDistanceMax;
+
+};
 
 
 class HConstituent
@@ -104,14 +123,6 @@ private:
     hanalysis::HFamily family_;
 };
 
-struct MaxDistance {
-    inline bool operator()(const HConstituent &Constituent1, const HConstituent &Constituent2) const {
-        return (Constituent1.Position().Vect().Mag() > Constituent2.Position().Vect().Mag());
-    }
-
-};
-
-
 /**
  * @brief Jet infos subclassed from Fastjet
  *
@@ -147,7 +158,7 @@ public:
 
     void AddDaughter(const int NewDaughter) {
         if (Constituents().size() > 0) {
-          Print(HError, "Constituents", Constituents().size(),Constituents().front().Family().ParticleId);
+            Print(HError, "Constituents", Constituents().size(), Constituents().front().Family().ParticleId);
             Constituents().front().Family().AddDaughter(NewDaughter);
             return;
         }
@@ -180,7 +191,6 @@ public:
     float SumDisplacement() const;
 
     int VertexNumber() const {
-//       Print(HError,"Multiplicity",ApplyVertexResolution().size());
         return ApplyVertexResolution().size();
     }
 
@@ -236,14 +246,11 @@ protected:
 
 private:
 
-  struct DetectorGeometry {
-    float MaxTrackerEta = 5;
-    float MinTrackerDistance = 0.1;
-    float MaxTrackerDistance = 1000;
-  };
+    HDetectorGeometry detector_geometry_;
 
-  DetectorGeometry detector_geometry_;
-
+    HDetectorGeometry detector_geometry()const {
+        return detector_geometry_;
+    }
 
     void AddParticle(const int ConstituentId, const float Weight);
 
@@ -253,11 +260,13 @@ private:
 
     std::vector<HConstituent> constituents_;
 
+    std::vector<HConstituent> constituents() const {
+        return constituents_;
+    }
+
     std::unordered_map<HFamily, float> FamilyFractionsM;
 
     std::map<int, float> IdFractions;
-
-//     float SecondaryVertexResolution = 0.1;
 
     int BTagM;
 
@@ -269,9 +278,7 @@ private:
  *
  */
 struct SortByBdt {
-  inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-    return (Jet1.user_info<hanalysis::HJetInfo>().Bdt() > Jet2.user_info<hanalysis::HJetInfo>().Bdt());
-  }
+    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+        return (Jet1.user_info<hanalysis::HJetInfo>().Bdt() > Jet2.user_info<hanalysis::HJetInfo>().Bdt());
+    }
 };
-
-# endif

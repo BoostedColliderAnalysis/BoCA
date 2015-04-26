@@ -3,6 +3,8 @@
 #include "fastjet/LimitedWarning.hh"
 
 #include "HConfig.hh"
+#include "TSystem.h"
+# include "HFactory.hh"
 
 void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config)
 {
@@ -30,7 +32,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config
             hanalysis::HFactory(Analysis.WSemiTagger);
             break;
         case hanalysis::HAnalysis::HTopLeptonicTagger:
-            hanalysis::HFactory(Analysis.TopLeptonicTagger);
+//             hanalysis::HFactory(Analysis.TopLeptonicTagger);
             break;
         case hanalysis::HAnalysis::HTopHadronicTagger:
             hanalysis::HFactory(Analysis.TopHadronicTagger);
@@ -39,19 +41,19 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config
             hanalysis::HFactory(Analysis.TopSemiTagger);
             break;
         case hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger:
-            hanalysis::HFactory(Analysis.HeavyHiggsLeptonicTagger);
+//             hanalysis::HFactory(Analysis.HeavyHiggsLeptonicTagger);
             break;
         case hanalysis::HAnalysis::HHeavyHiggsHadronicTagger:
-            hanalysis::HFactory(Analysis.HeavyHiggsHadronicTagger);
+//             hanalysis::HFactory(Analysis.HeavyHiggsHadronicTagger);
             break;
         case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
             hanalysis::HFactory(Analysis.HeavyHiggsSemiTagger);
             break;
         case hanalysis::HAnalysis::HEventLeptonicTagger:
-            hanalysis::HFactory(Analysis.EventLeptonicTagger);
+//             hanalysis::HFactory(Analysis.EventLeptonicTagger);
             break;
         case hanalysis::HAnalysis::HEventHadronicTagger:
-            hanalysis::HFactory(Analysis.EventHadronicTagger);
+//             hanalysis::HFactory(Analysis.EventHadronicTagger);
             break;
         case hanalysis::HAnalysis::HEventSemiTagger:
             hanalysis::HFactory(Analysis.EventSemiTagger);
@@ -77,8 +79,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HEventLeptonicReader: {
-            hanalysis::HReader Reader(Analysis.EventLeptonicTagger);
-            Reader.SimpleMVALoop();
+//             hanalysis::HReader Reader(Analysis.EventLeptonicTagger);
+//             Reader.SimpleMVALoop();
             break;
         }
         case hanalysis::HAnalysis::HEventSemiReader: {

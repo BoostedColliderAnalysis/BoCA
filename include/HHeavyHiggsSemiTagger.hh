@@ -18,7 +18,7 @@ public:
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
 
-    std::vector< HHeavyHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HHeavyHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, const float pre_cut = 0);
 
     std::vector<hanalysis::HSextet>  GetBdt(const std::vector< HTriplet > &TripletsSemi, const std::vector<HTriplet > &TripletsHadronic, const HReader & Reader);
 

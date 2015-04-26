@@ -1,4 +1,5 @@
 # include "HMvaDiscriminator.hh"
+# include "ExRootAnalysis/ExRootTreeWriter.h"
 
 hcpvhiggs::HMva::HMva()
 {

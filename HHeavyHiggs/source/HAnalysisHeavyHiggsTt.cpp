@@ -852,6 +852,6 @@ bool hheavyhiggs::HAnalysisTt::GetEventSemiReader(hanalysis::HEvent &Event, cons
     if (SextetEvent.size() < 1) return 0;
     SextetEvent.front().SetTag(Tag);
     *static_cast<HEventTtSemiBranch *>(Branch->NewEntry()) = EventSemiTagger.GetBranch(SextetEvent.front());
-    ++ObjectNumber;
+//     ++ObjectNumber;
     return 1;
 }

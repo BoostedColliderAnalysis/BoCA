@@ -58,6 +58,25 @@ public:
         }
     }
 
+    virtual std::vector<Branch> Branches() const {
+        return {};
+    }
+
+    void UseBranches(ExRootTreeReader &tree_reader) {
+        Print(HNotification, "Use Branches");
+        for (const auto branch : Branches()) clones_arrays_.push_back(tree_reader.UseBranch(BranchName(branch).c_str()));
+    }
+
+    inline const TClonesArray &ClonesArray(const Branch branch) const {
+//        std::vector<Branch> branches = Branches();
+        if (std::find(Branches().begin(), Branches().end(), branch) == Branches().end()) Print(HError, "Not in branch");
+        return *clones_arrays_.at(branch);
+    }
+
+    inline const TObject &Object(const Branch branch, const int number) const {
+        return *ClonesArray(branch).At(number);
+    }
+
     /**
      * @brief Constructor
      *
@@ -409,10 +428,6 @@ public:
         return TauClonesArray->At(TauNumber);
     }
 
-    inline const TClonesArray &ClonesArray(const Branch branch) const {
-        return *const_cast<ExRootTreeReader &>(*tree_reader_).UseBranch(BranchName(branch).c_str());
-    }
-
     /**
      * @brief Particle Clones Array
      *
@@ -544,6 +559,8 @@ public:
 
 protected:
 
+    std::vector<TClonesArray *> clones_arrays_;
+
     /**
      * @brief Particle Clones Array
      *
@@ -672,6 +689,12 @@ public:
     void GetBranches(ExRootTreeReader &TreeReader);
 
 protected:
+
+
+
+    std::vector<Branch> Branches() const {
+        return {kParticle, kPhoton, kElectron, kMuon, kJet, kMissingEt, kTrack, kTower, kEFlowTrack, kEflowPhoton, kEFlowNeutralHadron, kGenJet, kScalarHt};
+    }
 
     inline std::string NameSpaceName() const {
         return "hdelphes";

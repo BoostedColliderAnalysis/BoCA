@@ -16,8 +16,6 @@ public:
 
     HChargedHiggsSemiTagger();
 
-    ~HChargedHiggsSemiTagger();
-
     void SetTagger(
         const hanalysis::HBottomTagger &NewBottomTagger,
         const hanalysis::HWSemiTagger &NewWSemiTagger,

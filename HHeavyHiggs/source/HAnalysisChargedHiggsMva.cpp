@@ -21,9 +21,9 @@ std::string hheavyhiggs::HAnalysisCharged::StudyName(const hanalysis::HAnalysis:
 
     switch (Tagger) {
     case  HBottomTagger :
-        return BottomTagger.GetTaggerName();
+        return BottomTagger.tagger_name();
     case  HBottomReader :
-        return BottomTagger.GetTaggerName() + "Reader";
+        return BottomTagger.tagger_name() + "Reader";
     case HWSemiTagger:
         return  "WSemi";
     case HWSemiReader:
@@ -577,26 +577,30 @@ void hheavyhiggs::HAnalysisCharged::NewBranches(ExRootTreeWriter &NewTreeWriter,
 bool hheavyhiggs::HAnalysisCharged::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
 {
     Print(HInformation, "Analysis", Tagger);
-    if (ObjectNumber > EventNumberMax()) return 0;
 
     HJets Particles = Event.GetParticles()->Generator();
 
-    HJets BottomQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, BottomId));
-    BottomQuarks = fastjet::sorted_by_pt(RemoveIfAbsMother(BottomQuarks, TopId));
-    if (BottomQuarks.size() != 2) {
-        if (PreCut() > 0)Print(HError, "Not enough bottom quarks", BottomQuarks.size());
+    HJets Quarks = fastjet::sorted_by_pt(RemoveIfNot5Quarks(Particles));
+    Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, TopId));
+    if (Quarks.empty()) {
+//       if (Tag == HSignal && PreCut() > 0 && !(Tagger == HBottomTagger || Tagger == HBottomReader))
+//       if (PreCut() > 0)
+        Print(HError, "Not enough bottom quarks", Quarks.size());
         return 0;
-    } else {
-        if (BottomQuarks.front().pt() < PreCut()) return 0;
-    }
+    } else if (Quarks.front().pt() < PreCut()) return 0;
+
 
     HJets TopQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, TopId));
     if (TopQuarks.size() != 2) {
         Print(HError, "Not enough top quarks", TopQuarks.size());
         return 0;
-    } else {
-        if (TopQuarks.front().pt() < PreCut()) return 0;
-    }
+    } else if (TopQuarks.front().pt() < PreCut()) return 0;
+
+
+    HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
+    if (Leptons.size() < 1) return 0;
+    if (ColliderType() == LHC && Leptons.front().pt() < 50) return 0;
+
 
     ++event_sum_;
 
@@ -882,7 +886,7 @@ bool hheavyhiggs::HAnalysisCharged::GetTopHadronicReader(hanalysis::HEvent &Even
 bool hheavyhiggs::HAnalysisCharged::GetTopSemiTag(hanalysis::HEvent &Event,  HTag Tag)
 {
     Print(HInformation, "Get Tops", Tag);
-    std::vector<HTopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag);
+    std::vector<HTopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag, PreCut());
     if (Tops.size() < 1) return 0;
     for (const auto & Top : Tops) {
         ++ObjectNumber;
@@ -1059,7 +1063,7 @@ bool hheavyhiggs::HAnalysisCharged::GetEventSemiTag(hanalysis::HEvent &Event, co
     if (SemiEvents.size() < 1) return 0;
     for (const auto & SemiEvent : SemiEvents) {
         ++ObjectNumber;
-        *static_cast<HChargedSemiBranch *>(Branch->NewEntry()) = SemiEvent;
+        static_cast<HChargedSemiBranch &>(*Branch->NewEntry()) = SemiEvent;
     }
     return 1;
 }
@@ -1122,8 +1126,8 @@ bool hheavyhiggs::HAnalysisCharged::GetEventSemiReader(hanalysis::HEvent &Event,
     std::vector<HEventMultiplet<HOctet44>> Events = EventSemiTagger.GetBdt(Octets, Jets, SubJets, Leptons, EventStruct, EventSemiReader);
     if (Events.size() < 1) return 0;
     Events.front().SetTag(Tag);
-    ++ObjectNumber;
 
-    *static_cast<HChargedSemiBranch *>(Branch->NewEntry()) = EventSemiTagger.GetBranch(Events.front());
+//     ++ObjectNumber; // this should be switched on otherwise the last step of the analysis takes very long
+    static_cast<HChargedSemiBranch &>(*Branch->NewEntry()) = EventSemiTagger.GetBranch(Events.front());
     return 1;
 }

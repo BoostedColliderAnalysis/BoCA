@@ -8,7 +8,7 @@ hanalysis::HChargedJetPairTagger::HChargedJetPairTagger()
 
 void hanalysis::HChargedJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
 {
-    Print(HNotification, "Set Tagger", NewBottomTagger.GetTaggerName());
+    Print(HNotification, "Set Tagger", NewBottomTagger.tagger_name());
 
     BottomTagger = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;

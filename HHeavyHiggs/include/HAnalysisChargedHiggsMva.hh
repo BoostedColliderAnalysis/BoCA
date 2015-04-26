@@ -81,8 +81,8 @@ private:
 //             return 800;
 //             return 1000;
 //         return 1500;
-        return 2000;
-//         return 3000;
+//         return 2000;
+        return 3000;
 //             return 4000;
 //             return 5000;
 //         return 6000;
@@ -91,7 +91,7 @@ private:
         //     return 9000;
 //                 return 10000;
 //                 return 12000;
-//                 return 15000;
+//         return 15000;
 //         return 20000;
     }
 
@@ -102,8 +102,8 @@ private:
         //     return 80;
         //     return 150;
 //         return 100;
-//         return 250;
-        return 300;
+        return 250;
+//         return 300;
 //         return 1000;
 //         return 1500;
 //         return 2000;
@@ -111,28 +111,48 @@ private:
     }
 
     inline int EventNumberMax() const {
+// return 10000000;
 //         return 1000000;
-        //         return 100000;
+//                 return 100000;
         return 10000;
-        //         return 1000;
-//                 return 100;
+//                 return 1000;
+//         return 100;
     };
 
     inline HColliderType ColliderType() const {
-//               return LHC;
+              return LHC;
         //       return FHC;
-        return LE;
+//         return LE;
     }
 
 
     inline int BackgroundFileNumber() const {
-//         return 1;
-//         return 2;
-        //       return 4;
-//         return 5;
-//         return 8;
-        //       return 10;
-        return 40;
+        switch (ColliderType()) {
+        case LHC :
+            switch (PreCut()) {
+            case 0 :
+                return 79;
+            case 250 :
+                return 58;
+            }
+        case LE :
+            switch (PreCut()) {
+            case 2500 :
+                return 28;
+            case 2000 :
+                return 16;
+            case 1500 :
+                return 19;
+            case 300 :
+                return 61;
+            case 0 :
+                return 98;
+            default :
+                return 1;
+            }
+        default :
+            return 1;
+        }
     }
 
     // in fb
@@ -224,6 +244,13 @@ private:
         switch (ColliderType()) {
         case LHC :
             switch (PreCut()) {
+            case 0 :
+                switch (Process) {
+                case tt :
+                    return 97.54 * 2 * 1000;
+                default :
+                    Print(HError, "unhandled case");
+                };
             case 30 :
                 switch (Process) {
                 case ttbb :
@@ -311,6 +338,8 @@ private:
             switch (Process) {
             case tt:
                 switch (PreCut()) {
+                case 0 :
+                    return 3600 * 2 * 1000;
                 case 100 :
                     return 1957.0 * 2 * 1000;
                 case 300 :
@@ -344,6 +373,9 @@ private:
                 return 1;
             }
         }
+        default :
+            Print(HError, "unhandled case");
+            return 1;
         }
     }
 

@@ -74,7 +74,7 @@ HHeavyHiggsSemiBranch hanalysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet 
     return HeavyHiggsBranch;
 }
 
-std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, const float pre_cut)
 {
     Print(HInformation, "Get Higgs Tags");
 
@@ -99,12 +99,16 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 
     std::vector<HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
+    Print(HDebug, "Number of Semi W", DoubletsSemi.size());
     std::vector<HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
+    std::vector<HTriplet> FinalTripletsSemi;
+    for (const auto TripletSemi : TripletsSemi) if (TripletSemi.Singlet().pt() > pre_cut / 2) FinalTripletsSemi.push_back(TripletSemi);
+
 //     std::vector<HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
 //     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader,BottomTagger,BottomReader);
+    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
     Print(HDebug, "Number of Hadronic Tops", TripletsHadronic.size());
 
     std::vector<HTriplet> FinalTripletsHadronic;
@@ -118,9 +122,10 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     if (Tag == HSignal) {
         for (const auto & Triplet : TripletsHadronic) if (Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) FinalTripletsHadronic.push_back(Triplet);
     } else FinalTripletsHadronic = TripletsHadronic;
+    Print(HDebug, "Number of truth Hadronic Tops", FinalTripletsHadronic.size());
 
     std::vector<HSextet > Sextets;
-    for (const auto & TripletSemi : TripletsSemi)
+    for (const auto & TripletSemi : FinalTripletsSemi)
         for (const auto & TripletHadronic : FinalTripletsHadronic) {
             if (TripletSemi.Singlet().delta_R(TripletHadronic.Singlet()) < DetectorGeometry.JetConeSize) continue;
             if (TripletSemi.Singlet().delta_R(TripletHadronic.Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
@@ -191,21 +196,21 @@ std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const 
 std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const std::vector<HTriplet> &TripletsSemi, const std::vector<HTriplet> &TripletsHadronic, const HReader &Reader, const int Mass)
 {
 
-  std::vector<HSextet > Sextets;
-  for (const auto & TripletSemi : TripletsSemi)
-    for (const auto & TripletHadronic : TripletsHadronic) {
-      if (TripletSemi.Singlet().delta_R(TripletHadronic.Singlet()) < DetectorGeometry.JetConeSize) continue;
-      if (TripletSemi.Singlet().delta_R(TripletHadronic.Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-      if (TripletSemi.Singlet().delta_R(TripletHadronic.Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-      if (TripletSemi.Singlet().delta_R(TripletHadronic.DoubletJet()) < DetectorGeometry.JetConeSize) continue;
-      if (TripletSemi.Singlet().delta_R(TripletHadronic.Jet()) < DetectorGeometry.JetConeSize) continue;
-      HSextet Sextet(TripletSemi, TripletHadronic);
-      if (Sextet.Jet().m() < Mass / 2)continue;
-      if (Sextet.Jet().m() > Mass * 3 / 2)continue;
-      Branch = GetBranch(Sextet);
-      Sextet.SetBdt(Reader.Bdt());
-      Sextets.push_back(Sextet);
-    }
+    std::vector<HSextet > Sextets;
+    for (const auto & TripletSemi : TripletsSemi)
+        for (const auto & TripletHadronic : TripletsHadronic) {
+            if (TripletSemi.Singlet().delta_R(TripletHadronic.Singlet()) < DetectorGeometry.JetConeSize) continue;
+            if (TripletSemi.Singlet().delta_R(TripletHadronic.Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
+            if (TripletSemi.Singlet().delta_R(TripletHadronic.Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
+            if (TripletSemi.Singlet().delta_R(TripletHadronic.DoubletJet()) < DetectorGeometry.JetConeSize) continue;
+            if (TripletSemi.Singlet().delta_R(TripletHadronic.Jet()) < DetectorGeometry.JetConeSize) continue;
+            HSextet Sextet(TripletSemi, TripletHadronic);
+            if (Sextet.Jet().m() < Mass / 2)continue;
+            if (Sextet.Jet().m() > Mass * 3 / 2)continue;
+            Branch = GetBranch(Sextet);
+            Sextet.SetBdt(Reader.Bdt());
+            Sextets.push_back(Sextet);
+        }
     std::sort(Sextets.begin(), Sextets.end());
     Sextets.erase(Sextets.begin() + std::min(max_combi(), int(Sextets.size())), Sextets.end());
     return Sextets;

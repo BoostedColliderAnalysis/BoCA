@@ -28,7 +28,7 @@ void hanalysis::HBottomTagger::DefineVariables()
     ClearVectors();
 
     AddObservable(Branch.VertexMass, "VertexMass");
-    AddObservable(Branch.Pt, "Pt");
+    AddObservable(Branch.Pt, "Pt"); // Tao doesnt like this
     AddSpectator(Branch.Rap, "Rap");
     AddSpectator(Branch.Phi, "Phi");
     AddObservable(Branch.MaxDisplacement, "MaxDisplacement");

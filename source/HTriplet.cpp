@@ -91,6 +91,7 @@ hanalysis::HTriplet::HTriplet(const fastjet::PseudoJet &NewSinglet)
     SetDoublet(HDoublet(NewSinglet / 2));
     SetDegenerate();
     if (NewSinglet.has_user_info<HJetInfo>() && NewSinglet.user_info<HJetInfo>().Bdt() != initial_value()) SetBdt(NewSinglet.user_info<HJetInfo>().Bdt());
+    else SetBdt(0);
 }
 
 hanalysis::HTriplet::~HTriplet()

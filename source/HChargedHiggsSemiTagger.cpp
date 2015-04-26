@@ -8,11 +8,6 @@ hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
     DefineVariables();
 }
 
-hanalysis::HChargedHiggsSemiTagger::~HChargedHiggsSemiTagger()
-{
-    Print(HNotification, "Destructor");
-}
-
 void hanalysis::HChargedHiggsSemiTagger::SetTagger(
     const hanalysis::HBottomTagger &NewBottomTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,

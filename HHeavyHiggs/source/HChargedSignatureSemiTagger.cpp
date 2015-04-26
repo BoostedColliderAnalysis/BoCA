@@ -67,7 +67,7 @@ void hheavyhiggs::HChargedSignatureSemiTagger::DefineVariables()
 
 hheavyhiggs::HChargedOctetBranch hheavyhiggs::HChargedSignatureSemiTagger::GetBranch(const HOctet44 &Octet) const
 {
-    Print(HInformation, "FillPairTagger", Octet.Bdt());
+    Print(HInformation, "branch", Octet.Bdt());
 
     HChargedOctetBranch EventSemiBranch;
 
@@ -117,6 +117,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
     std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaR(HiggsParticles.front()));
     if (Tag == HSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
 
+//     if(Tag == HBackground && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
 
     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
 //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
@@ -160,6 +161,9 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
 
     std::vector<hanalysis::HQuartet31> JetQuartets = ChargedJetPairTagger.GetBdt(FinalTriplets, FinalBottoms, ChargedJetPairReader);
 
+//     if(Tag == HBackground && JetQuartets.size() > 1) JetQuartets.erase(JetQuartets.begin() + 1, JetQuartets.end());
+
+//     Print(HError, "Number of Higgs and Pairs", HiggsQuartets.size(), JetQuartets.size());
     std::vector<HOctet44> Octets;
     for (const auto HiggsQuartet  : HiggsQuartets)
         for (const auto & JetQuartet : JetQuartets) {
@@ -183,6 +187,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
             Octet.SetTag(Tag);
             Octets.push_back(Octet);
         }
+//     Print(HError, "Number of Signatures", Octets.size());
 
     std::vector<hheavyhiggs::HChargedOctetBranch> SignatureSemiBranches;
     for (const auto & Octet : Octets) SignatureSemiBranches.push_back(GetBranch(Octet));
@@ -194,8 +199,9 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
 std::vector<HOctet44> hheavyhiggs::HChargedSignatureSemiTagger::GetBdt(
     const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, const hanalysis::HReader &Reader)
 {
-    Print(HInformation, "Get Event Tags");
+    Print(HInformation, "Bdt");
 
+//     Print(HError, "Number of Higgs and Pairs", HiggsQuartets.size(), JetQuartets.size());
     std::vector<HOctet44> Octets;
     for (const auto & JetQuartet : JetQuartets) {
         for (const auto & HiggsQuartet : HiggsQuartets) {
@@ -221,6 +227,7 @@ std::vector<HOctet44> hheavyhiggs::HChargedSignatureSemiTagger::GetBdt(
             Octets.push_back(Octet);
         }
     }
+//     Print(HError, "Number of Signatures", Octets.size());
 
     if (Octets.size() > 1) std::sort(Octets.begin(), Octets.end());
     Octets.erase(Octets.begin() + std::min(max_combi(), int(Octets.size())), Octets.end());

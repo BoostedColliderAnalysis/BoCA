@@ -11,7 +11,8 @@ hanalysis::HTag::HTag()
 //     TagPrivate->Bdt = TagPrivate->InitialValue;
 //     TagPrivate->Tag = TagPrivate->InitialValue;
 
-    initial_value_ = -10;
+//     initial_value_ = -10;
+    initial_value_ =  -11.1111111; // this must be identical to the initial value in the branch
     bdt_ = initial_value_;
     tag_ = 0;
     flag_ = false;
@@ -71,8 +72,8 @@ void hanalysis::HTag::SetTag(const int NewTag)
 
 void hanalysis::HTag::SetTag(const int NewTag1, const int NewTag2)
 {
-  //     TagPrivate->
-  tag_ = NewTag1 * NewTag2;
+    //     TagPrivate->
+    tag_ = NewTag1 * NewTag2;
 }
 
 int hanalysis::HTag::Tag() const
@@ -84,18 +85,18 @@ int hanalysis::HTag::Tag() const
 
 void hanalysis::HTag::SetFlag(const bool NewFlag)
 {
-  //     FlagPrivate->
-  flag_ = NewFlag;
+    //     FlagPrivate->
+    flag_ = NewFlag;
 }
 
 void hanalysis::HTag::SetFlag(const bool NewFlag1, const bool NewFlag2)
 {
-  //     FlagPrivate->
-  flag_ = NewFlag1 + NewFlag2;
+    //     FlagPrivate->
+    flag_ = NewFlag1 + NewFlag2;
 }
 
 bool hanalysis::HTag::Flag() const
 {
-  //     return FlagPrivate->Flag;
-  return flag_;
+    //     return FlagPrivate->Flag;
+    return flag_;
 }
