@@ -71,6 +71,8 @@ void hheavyhiggs::HEventSemiTagger::DefineVariables()
     AddObservable(Branch.HardTopPt, "HardTopPt");
     AddObservable(Branch.SoftTopPt, "SoftTopPt");
 
+    AddObservable(Branch.MissingEt, "MissingEt");
+
     AddObservable(Branch.BottomBdt1, "BottomBdt1");
     AddObservable(Branch.BottomBdt2, "BottomBdt2");
     AddObservable(Branch.BottomBdt3, "BottomBdt3");
@@ -149,6 +151,8 @@ hheavyhiggs::HEventSemiBranch hheavyhiggs::HEventSemiTagger::GetBranch(const HEv
 
     EventSemiBranch.HardTopPt = Event.Octet().Sextet().HardTopPt();
     EventSemiBranch.SoftTopPt = Event.Octet().Sextet().SoftTopPt();
+
+    EventSemiBranch.MissingEt = Event.MissingEt();
 
     EventSemiBranch.BottomBdt1 = Event.BottomBdt(1);
     EventSemiBranch.BottomBdt2 = Event.BottomBdt(2);
@@ -257,6 +261,7 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
         EventStruct.JetNumber = Event.GetJets()->GetJets().size();
         EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
         EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
+        EventStruct.MissingEt = Event.GetJets()->GetMissingEt().pt();
 //         EventStruct.TrackNumber = Event.GetJets()->GetScalarHt();
         OctetEvent.SetEventStruct(EventStruct);
         OctetEvent.SetLeptons(Leptons);

@@ -94,6 +94,7 @@ void hheavyhiggs::HChargedEventSemiTagger::DefineVariables()
     AddObservable(Branch.RestRap, "RestRap");
     AddObservable(Branch.RestBdt, "RestBdt");
     AddObservable(Branch.LeptonHt, "LeptonHt");
+    AddObservable(Branch.MissingEt, "MissingEt");
 
     AddObservable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
@@ -169,6 +170,7 @@ hheavyhiggs::HChargedSemiBranch hheavyhiggs::HChargedEventSemiTagger::GetBranch(
     if (std::abs(EventSemiBranch.RestRap) > 100) EventSemiBranch.RestRap = 0;
     EventSemiBranch.RestPhi = Event.RestJet().phi();
     EventSemiBranch.RestBdt = Event.RestBdt();
+    EventSemiBranch.MissingEt = Event.MissingEt();
 
     EventSemiBranch.LeptonHt = Event.LeptonHt();
 
@@ -227,7 +229,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     if (Tag == HSignal) {
         HJets Particles = Event.GetParticles()->Generator();
         HJets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
-        if (TopParticles.size() != 1) Print(HError, "Where is the Top?");
+        if (TopParticles.size() != 1) Print(HError, "Where is the Top?",TopParticles.size());
         else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.at(0)) < DetectorGeometry.JetConeSize)) FinalTriplets.push_back(Triplet);
     } else FinalTriplets = TripletsHadronic;
 
@@ -240,7 +242,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     if (Tag == HSignal) {
         HJets Particles = Event.GetParticles()->Generator();
         HJets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
-        if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?");
+        if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?",BottomParticles.size());
         else for (const auto & Jet : Jets) if ((Jet.delta_R(BottomParticles.at(0)) < DetectorGeometry.JetConeSize)) FinalBottoms.push_back(Jet);
     } else FinalBottoms = Jets;
 
@@ -276,6 +278,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
         EventStruct.JetNumber = Event.GetJets()->GetJets().size();
         EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
         EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
+        EventStruct.MissingEt = Event.GetJets()->GetMissingEt().pt();
         OctetEvent.SetEventStruct(EventStruct);
         OctetEvent.SetLeptons(Leptons);
         OctetEvent.SetTotalJets(Jets);

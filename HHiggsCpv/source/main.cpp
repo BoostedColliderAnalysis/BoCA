@@ -10,7 +10,7 @@ void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger
 
     std::cout << "Run Tagger " << TaggerName << std::endl;;
 
-    bool HasFactory = 0;
+//     bool HasFactory = 0;
     hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
 
 //     TFile *File;

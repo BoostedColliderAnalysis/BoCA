@@ -225,6 +225,8 @@ public:
     float HardTopPt;
     float SoftTopPt;
 
+    float MissingEt;
+
     float BottomBdt1;
     float BottomBdt2;
     float BottomBdt3;
@@ -412,6 +414,7 @@ public:
     float RestBdt;
     float RestPhi;
     float LeptonHt;
+    float MissingEt;
 
     float BottomBdt1;
     float BottomBdt2;

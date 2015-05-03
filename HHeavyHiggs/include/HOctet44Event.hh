@@ -10,6 +10,7 @@ struct HEventStruct {
     int JetNumber = 0;
     int BottomNumber = 0;
     float ScalarHt = 0;
+    float MissingEt = 0;
 //     int TrackNumber =0;
 
 };
@@ -75,6 +76,10 @@ public:
 
     inline float ScalarHt() const {
         return EventM.ScalarHt;
+    }
+
+    inline float MissingEt() const {
+      return EventM.MissingEt;
     }
 
     inline int JetNumber()const {

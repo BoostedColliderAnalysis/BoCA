@@ -313,14 +313,11 @@ float hanalysis::hdelphes::HJet::GetScalarHt()
     return static_cast<delphes::ScalarHT &>(*ClonesArrays->GetScalarHt()).HT;
 }
 
-// fastjet::PseudoJet hanalysis::hdelphes::HJet::GetMissingEt()
-// {
-//     Print(HInformation, "Get Missing ET");
-//     const delphes::MissingET *const MissingEtClone = (delphes::MissingET *) ClonesArrays->GetMissingEt();
-//     fastjet::PseudoJet Met = PseudoJet(const_cast<delphes::MissingET *>(MissingEtClone)->P4());
-//     Print(HDebug, "Met", Met);
-//     return Met;
-// }
+fastjet::PseudoJet hanalysis::hdelphes::HJet::GetMissingEt()
+{
+    Print(HInformation, "Get Missing ET");
+    return PseudoJet(static_cast<delphes::MissingET &>(*ClonesArrays->GetMissingEt()).P4());
+}
 
 
 
@@ -337,7 +334,7 @@ HJets hanalysis::hdelphes::HJet::GranulatedJets(const HJets &NewEFlowJets)
     HJets NewGranulatedJets;
     NewGranulatedJets.push_back(EFlowJets[0]);
 
-    for (const auto &EFlowJet : EFlowJets) {
+    for (const auto & EFlowJet : EFlowJets) {
         int NewJet = 0;
 
         for (size_t j = 0; j < NewGranulatedJets.size(); ++j) {
@@ -449,10 +446,10 @@ HJets hanalysis::hdelphes::HJet::GetSubJets(const fastjet::PseudoJet &Jet, const
 }
 
 
-fastjet::PseudoJet hanalysis::hdelphes::HJet::GetMissingEt()
-{
-    HJets granulated_jets = GranulatedJets(GetStructuredEFlowJets());
-    fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
-    return fastjet::PseudoJet(-jet_sum.px(), -jet_sum.py(), -jet_sum.pz(), jet_sum.e());
-}
+// fastjet::PseudoJet hanalysis::hdelphes::HJet::GetMissingEt()
+// {
+//     HJets granulated_jets = GranulatedJets(GetStructuredEFlowJets());
+//     fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
+//     return fastjet::PseudoJet(-jet_sum.px(), -jet_sum.py(), -jet_sum.pz(), jet_sum.e());
+// }
 

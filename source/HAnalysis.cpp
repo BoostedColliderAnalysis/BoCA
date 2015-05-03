@@ -28,12 +28,12 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger tagger)
             ObjectNumber = 0;
             HInfoBranch info_branch = FillInfoBranch(tree_reader, file);
             for (const int event_number : Range(EventSum(tree_reader))) {
-//                 info_branch.EventNumber = event_number;
 //                 Print(HError, "Event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.Mass());
                 if (Analysis(event, tagger, tag)) {
+                    info_branch.PreCutNumber = event_number;
                     analysis_not_empty = true;
                     static_cast<HInfoBranch &>(*tree_branch.NewEntry()) = info_branch;
                     tree_writer.Fill();

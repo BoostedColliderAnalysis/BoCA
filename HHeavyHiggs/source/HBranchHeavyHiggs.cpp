@@ -138,6 +138,7 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
 
     HardTopPt = InitialValue;
     SoftTopPt = InitialValue;
+    MissingEt = InitialValue;
 
     BottomBdt1 = InitialValue;
     BottomBdt2 = InitialValue;
@@ -274,6 +275,7 @@ hheavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
     RestPhi = InitialValue;
     RestNumber = int(InitialValue);
     LeptonHt = InitialValue;
+    MissingEt = InitialValue;
 
     BottomBdt1 = InitialValue;
     BottomBdt2 = InitialValue;

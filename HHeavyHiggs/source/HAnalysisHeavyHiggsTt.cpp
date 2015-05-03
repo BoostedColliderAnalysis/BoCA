@@ -516,6 +516,14 @@ bool hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &Event, const hanalysi
         if (Particles.at(1).pt() < PreCut()) return 0;
     }
 
+
+    if (Event.GetJets()->GetMissingEt().pt() < MissingEt()) return 0;
+    HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
+    if (Leptons.size() < 1) return 0;
+    if (Leptons.front().pt() < LeptonPt()) return 0;
+    HJets Jets = BottomTagger.GetJets(Event);
+    if (Jets.size() < 4) return 0;
+
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 //     HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
 //     if (Leptons.size() < 1) return 0;

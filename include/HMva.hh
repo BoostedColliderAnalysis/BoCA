@@ -90,7 +90,7 @@ public:
         signal_names_ = {tagger_name};
         background_name_ = "Not" + tagger_name;
         background_names_ = {background_name_};
-        TestName = tagger_name;
+        test_name_ = tagger_name;
     }
 
     std::string tagger_name() const {
@@ -131,11 +131,11 @@ public:
     }
 
     std::string GetTestName() const {
-        return TestName;
+        return test_name_;
     }
 
     TCut GetCut() const {
-        return Cut;
+        return cut_;
     }
 
     void SetAnalysisName(const std::string &analysis_name) {
@@ -143,15 +143,15 @@ public:
     }
 
     std::string GetCutMethodName()const {
-        return CutMethodName;
+        return cut_method_name_;
     }
 
     std::string BdtMethodName()const {
-        return bdt_method_name;
+        return bdt_method_name_;
     }
 
     std::string GetWeightBranchName()const {
-        return WeightBranchName;
+        return weight_branch_name_;
     }
 
     std::string GetBackgroundName() const {
@@ -176,8 +176,7 @@ public:
 
     virtual float ReadBdt(const TClonesArray &, const int) {
         Print(HError, "Read Bdt", "should be subclassed");
-        float Bdt = 0;
-        return Bdt;
+        return 0;
     }
 
     HDetectorGeometry DetectorGeometry;
@@ -190,20 +189,20 @@ protected:
         return "HMva";
     }
 
-    HObservable NewObservable(float &Value, const std::string &Title) const;
+    HObservable NewObservable(float &value, const std::string &title) const;
 
-    HObservable NewObservable(float &Value, const std::string &Title, const std::string &Latex) const;
+    HObservable NewObservable(float &value, const std::string &title, const std::string &latex) const;
 
-    void AddObservable(float &Value, const std::string &Title) {
-        observables_.push_back(NewObservable(Value, Title));
+    void AddObservable(float &value, const std::string &title) {
+        observables_.push_back(NewObservable(value, title));
     };
 
-    void AddObservable(float &Value, const std::string &Title, const std::string &Latex) {
-        observables_.push_back(NewObservable(Value, Title, Latex));
+    void AddObservable(float &value, const std::string &title, const std::string &latex) {
+        observables_.push_back(NewObservable(value, title, latex));
     };
 
-    void AddSpectator(float &Value, const std::string &Title) {
-        spectators_.push_back(NewObservable(Value, Title));
+    void AddSpectator(float &value, const std::string &title) {
+        spectators_.push_back(NewObservable(value, title));
     };
 
     void ClearVectors() {
@@ -218,15 +217,15 @@ protected:
 //     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, TClass &Class, const hanalysis::HAnalysis::HStage Stage) {
 //       switch (Stage) {
 //         case HAnalysis::HTrainer :
-//           TreeBranch = NewTreeWriter.NewBranch(GetTaggerName().c_str(), &Class);
+//           tree_branch_ = NewTreeWriter.NewBranch(GetTaggerName().c_str(), &Class);
 //         case HAnalysis::HReader :
-//           TreeBranch = NewTreeWriter.NewBranch(ReaderName().c_str(), &Class);
+//           tree_branch_ = NewTreeWriter.NewBranch(ReaderName().c_str(), &Class);
 //       }
 //     }
 
 private:
 
-    ExRootTreeBranch *TreeBranch;
+  ExRootTreeBranch *tree_branch_;
 
 
     /**
@@ -251,23 +250,23 @@ private:
      * @brief Name of the Test File
      *
      */
-    std::string TestName;
+    std::string test_name_;
 
-    std::string CutMethodName;
+    std::string cut_method_name_;
 
-    std::string bdt_method_name;
+    std::string bdt_method_name_;
 
     std::string branch_name_;
 
-    std::string SpectatorBranchName;
+//     std::string SpectatorBranchName;
 
-    std::string WeightBranchName;
+    std::string weight_branch_name_;
 
     std::string background_name_;
 
     std::string signal_name_;
 
-    TCut Cut;
+    TCut cut_;
 
     /**
      * @brief Names of the Background Files

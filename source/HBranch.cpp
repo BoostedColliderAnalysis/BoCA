@@ -16,6 +16,7 @@ HInfoBranch::HInfoBranch()
     Crosssection = InitialValue;
     CrosssectionError = InitialValue;
     EventNumber = int(InitialValue);
+    PreCutNumber = int(InitialValue);
     Mass = InitialValue;
 }
 

@@ -17,9 +17,8 @@
 HDetectorGeometry::HDetectorGeometry()
 {
 
-//  HDetectorType DetectorType = Spp;
-   HDetectorType DetectorType = CMS;
-  const float jet_radius_parameter = 1;
+// HDetectorType DetectorType = Spp;
+    HDetectorType DetectorType = CMS;
     switch (DetectorType) {
     case CMS :
         JetMinPt = 20;
@@ -29,8 +28,8 @@ HDetectorGeometry::HDetectorGeometry()
         TrackerEtaMax = 2.5;
         TrackerDistanceMin = 0.1;
         TrackerDistanceMax = 1000;
-        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, jet_radius_parameter);
-        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, jet_radius_parameter);
+        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
+        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
     case Spp:
         JetMinPt = 40;
         JetConeSize = 0.5;
@@ -39,8 +38,8 @@ HDetectorGeometry::HDetectorGeometry()
         TrackerEtaMax = 3.5;
         TrackerDistanceMin = 0.1;
         TrackerDistanceMax = 1000;
-        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, jet_radius_parameter);
-        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, jet_radius_parameter);
+        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
+        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
     }
 }
 

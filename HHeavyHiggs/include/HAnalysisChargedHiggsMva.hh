@@ -82,7 +82,7 @@ private:
 //             return 1000;
 //         return 1500;
 //         return 2000;
-        return 3000;
+         return 3000;
 //             return 4000;
 //             return 5000;
 //         return 6000;
@@ -92,22 +92,83 @@ private:
 //                 return 10000;
 //                 return 12000;
 //         return 15000;
-//         return 20000;
+//        return 20000;
     }
 
     // in GeV
     inline int PreCut() const {
+        switch (ColliderType()) {
+        case LHC :
+            switch (Mass()) {
+            case 500 :
+                return 0;
+            case 1000 :
+                return 250;
+            case 2000 :
+                return 250;
+            case 3000 :
+                return 250;
+            default :
+                return 0;
+            }
+        case LE :
+            switch (Mass()) {
+            case 500 :
+                return 0;
+            case 1000 :
+                return 300;
+            case 2000 :
+                return 300;
+            case 4000 :
+                return 1500;
+            case 6000 :
+                return 2500;
+            case 10000 :
+                return 2500;
+            case 15000 :
+                return 2500;
+            case 20000 :
+                return 2500;
+            default :
+                return 0;
+            }
+        default :
+            return 0;
+        }
 //         return 0;
 //             return 30;
         //     return 80;
         //     return 150;
 //         return 100;
-        return 250;
+//         return 250;
 //         return 300;
 //         return 1000;
 //         return 1500;
 //         return 2000;
 //         return 2500;
+    }
+
+
+    float MissingEt() {
+        switch (ColliderType()) {
+        case LHC :
+            return 30;
+        case LE :
+            return 60;
+        default :
+            return 0;
+        }
+    }
+
+    float LeptonPt() {
+        switch (ColliderType()) {
+        case LHC :
+            return 50;
+        case LE :
+            return 100;
+        default :
+            return 0;
+        }
     }
 
     inline int EventNumberMax() const {
@@ -116,13 +177,14 @@ private:
 //                 return 100000;
         return 10000;
 //                 return 1000;
+//         return 500;
 //         return 100;
     };
 
     inline HColliderType ColliderType() const {
-              return LHC;
+        return LHC;
         //       return FHC;
-//         return LE;
+       // return LE;
     }
 
 
@@ -131,9 +193,12 @@ private:
         case LHC :
             switch (PreCut()) {
             case 0 :
-                return 79;
+//                 return 1;
+                return 79; // < should be switched on
             case 250 :
-                return 58;
+                return 58; // < should be switched on
+            default :
+                return 1;
             }
         case LE :
             switch (PreCut()) {
@@ -144,9 +209,11 @@ private:
             case 1500 :
                 return 19;
             case 300 :
-                return 61;
+                return 61; // < should be switched on
+//                 return 1;
             case 0 :
-                return 98;
+                return 118; // < should be switched on
+//                 return 1;
             default :
                 return 1;
             }
@@ -160,18 +227,16 @@ private:
         switch (ColliderType()) {
         case LHC:
             switch (Mass()) {
-            case 400 :
-                return 5.442745880581412;
             case 500:
-                return 2.8815551913608317;
+                return 3.0495761279999996;
             case 1000:
-                return 0.21859989068163246;
+                return 0.22623192864;
             case 2000:
-                return 0.005602117167462312;
+                return 0.005720855039999999;
             case 3000:
-                return 0.00029931623544508237;
+                return 0.0003035467008;
             case 4000:
-                return 0.000020365970226322686;
+                return 0.000020556093312;
             default:
                 Print(HError, "Signal Crosssection", "unhandled case");
                 return 1;
@@ -179,40 +244,34 @@ private:
         case FHC:
         case LE:
             switch (Mass()) {
-            case 400:
-                return 369.3707730681267;
             case 500:
-                return 234.21318920304418;
+              return 247.86995327999998;
             case 700:
-                return 104.61685208384041;
+              return 109.26120959999999;
             case 1000:
-                return 38.501952876819495;
+              return 39.81212064;
             case 1500:
-                return 10.365659456830947;
+              return 10.639675008;
             case 2000:
-                return 3.7429107249252125;
+              return 3.8189750399999998;
             case 3000:
-                return 0.7636108315783771;
+              return 0.7737415487999998;
             case 4000:
-                return 0.22232809767415665;
+              return 0.22421177856;
             case 5000:
-                return 0.07946706739238736;
+              return 0.07985005056;
             case 6000:
-                return 0.03291534649650638;
-            case 7000:
-                return 0.013177693;
+              return 0.03297554496;
             case 8000:
-                return 0.00738551034925011;
+              return 0.007364981375999998;
             case 10000:
-                return 0.002068335074918064;
+              return 0.0020553163775999996;
             case 12000:
-                return 0.0006693740636689783;
+              return 0.0006632091647999999;
             case 15000:
-                return 0.00015145887990818783;
+              return 0.00014951794176;
             case 20000:
-                return 0.000016677670760729152;
-            case 25000:
-                return 2.2075388746962393e-6;
+              return 0.000016388469792;
             default:
                 Print(HError, "Signal Crosssection", "unhandled case");
                 return 1;
@@ -339,19 +398,13 @@ private:
             case tt:
                 switch (PreCut()) {
                 case 0 :
-                    return 3600 * 2 * 1000;
-                case 100 :
-                    return 1957.0 * 2 * 1000;
+                    return 3564 * 2 * 1000;
                 case 300 :
-                    return 221.9 * 2 * 1000;
-                case 1000 :
-                    return 2.404 * 2 * 1000;
+                    return 187.3 * 2 * 1000;
                 case 1500 :
-                    return 0.5524 * 2 * 1000;
-                case 2000 :
-                    return 0.1568 * 2 * 1000;
+                    return 0.447 * 2 * 1000;
                 case 2500 :
-                    return 0.05487 * 2 * 1000;
+                    return 0.0442 * 2 * 1000;
                 }
             case ttbb :
                 switch (PreCut()) {

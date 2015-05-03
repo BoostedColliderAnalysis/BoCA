@@ -49,6 +49,7 @@ private:
     inline int Mass_()  {
         try {
             mass_ = config_->lookup("Mass");
+            return mass_;
         } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
             std::cerr << "No 'Mass' setting in configuration file." << std::endl;
             throw;
@@ -62,6 +63,7 @@ private:
     inline int PreCut_()  {
         try {
             pre_cut_ = config_->lookup("PreCut");
+            return pre_cut_;
         } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
             std::cerr << "No 'PreCut' setting in configuration file." << std::endl;
             throw;
@@ -74,6 +76,7 @@ private:
     inline int EventNumberMax_()  {
         try {
             event_number_max_ = config_->lookup("EventNumberMax");
+            return event_number_max_;
         } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
             std::cerr << "No 'EventNumberMax' setting in configuration file." << std::endl;
             throw;
@@ -86,6 +89,7 @@ private:
     inline int BackgroundFileNumber_()  {
         try {
             background_file_number_ = config_->lookup("BackgroundFileNumber");
+            return background_file_number_;
         } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
             std::cerr << "No 'BackgroundFileNumber' setting in configuration file." << std::endl;
             throw;

@@ -579,7 +579,6 @@ bool hheavyhiggs::HAnalysisCharged::Analysis(hanalysis::HEvent &Event, const han
     Print(HInformation, "Analysis", Tagger);
 
     HJets Particles = Event.GetParticles()->Generator();
-
     HJets Quarks = fastjet::sorted_by_pt(RemoveIfNot5Quarks(Particles));
     Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, TopId));
     if (Quarks.empty()) {
@@ -597,10 +596,12 @@ bool hheavyhiggs::HAnalysisCharged::Analysis(hanalysis::HEvent &Event, const han
     } else if (TopQuarks.front().pt() < PreCut()) return 0;
 
 
+    if (Event.GetJets()->GetMissingEt().pt() < MissingEt()) return 0;
     HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
     if (Leptons.size() < 1) return 0;
-    if (ColliderType() == LHC && Leptons.front().pt() < 50) return 0;
-
+    if (Leptons.front().pt() < LeptonPt()) return 0;
+    HJets Jets = BottomTagger.GetJets(Event);
+    if (Jets.size() < 4) return 0;
 
     ++event_sum_;
 
@@ -1122,6 +1123,7 @@ bool hheavyhiggs::HAnalysisCharged::GetEventSemiReader(hanalysis::HEvent &Event,
     EventStruct.JetNumber = Jets.size();
     EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
     EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
+    EventStruct.MissingEt = Event.GetJets()->GetMissingEt().pt();
 
     std::vector<HEventMultiplet<HOctet44>> Events = EventSemiTagger.GetBdt(Octets, Jets, SubJets, Leptons, EventStruct, EventSemiReader);
     if (Events.size() < 1) return 0;

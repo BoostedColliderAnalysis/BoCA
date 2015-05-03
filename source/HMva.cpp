@@ -62,10 +62,10 @@ hanalysis::HMva::HMva() : DetectorGeometry()
 
 //   DebugLevel = HNotification;
     Print(HInformation, "Constructor");
-    CutMethodName = "Cut";
-    bdt_method_name = "Bdt";
-    Cut = "";
-    WeightBranchName = "Info";
+    cut_method_name_ = "Cut";
+    bdt_method_name_ = "Bdt";
+    cut_ = "";
+    weight_branch_name_ = "Info";
     max_combi_ = 4;
 //     MinCellResolution = .1;
 }
@@ -76,18 +76,18 @@ float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
     return -10;
 }
 
-HObservable hanalysis::HMva::NewObservable(float &Value, const std::string &Title) const
+HObservable hanalysis::HMva::NewObservable(float &value, const std::string &title) const
 {
-    Print(HInformation, "New Observable", Title);
-    const std::string Expression = branch_name_ + "." + Title;
-    return HObservable(Value, Expression, Title, "", "");
+    Print(HInformation, "New Observable", title);
+    const std::string expression = branch_name_ + "." + title;
+    return HObservable(value, expression, title, "", "");
 }
 
-HObservable hanalysis::HMva::NewObservable(float &Value, const std::string &Title, const std::string &Latex) const
+HObservable hanalysis::HMva::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
-    Print(HInformation, "New Observable", Title);
-    const std::string Expression = branch_name_ + "." + Title;
-    return HObservable(Value, Expression, Title, "", Latex);
+    Print(HInformation, "New Observable", title);
+    const std::string expression = branch_name_ + "." + title;
+    return HObservable(value, expression, title, "", latex);
 
 }
 
