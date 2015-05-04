@@ -2,12 +2,8 @@
 
 int main()
 {
-  hcpvhiggs::HAnalysis *Analysis = new hcpvhiggs::HAnalysis();
 
-    Analysis->AnalysisLoop();
-
-    delete Analysis;
-
+//     hcpvhiggs::HAnalysis Analysis();
+//     Analysis.AnalysisLoop(hanalysis::Tagger::kReader);
     return 1;
-
 }

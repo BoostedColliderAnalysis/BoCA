@@ -10,7 +10,7 @@
  * @brief JetPair BDT tagger
  *
  */
-class hanalysis::HChargedJetPairTagger : public HMva
+class hanalysis::HChargedJetPairTagger : public Tagger
 {
 
 public:
@@ -19,7 +19,7 @@ public:
 
     void SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger);
 
-    std::vector< HChargedJetPairBranch> GetBranches(HEvent &Event, const HObject::HTag Tag);
+    std::vector< HChargedJetPairBranch> GetBranches(HEvent &Event, const HObject::Tag Tag);
 
     std::vector< HQuartet31 > GetBdt(const std::vector< hanalysis::HTriplet > &Triplets, const HJets &Jets, const hanalysis::HReader &JetPairReader);
 
@@ -47,7 +47,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HObject::HTag GetTag(const hanalysis::HQuartet31 &Quartet);
+    hanalysis::HObject::Tag GetTag(const hanalysis::HQuartet31 &Quartet);
 
     HChargedJetPairBranch Branch;
 

@@ -83,7 +83,7 @@ std::string hheavyhiggs::HAnalysisTau::StudyName(const hanalysis::HAnalysis::HTa
 
 }
 
-std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTau::Files(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTau::Files(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
 {
     Print(HNotification, "Set File Vector", Tagger, Tag);
 
@@ -137,91 +137,91 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTau::Files(const hanalysis::
         NewFiles = CombinedFiles;
         break;
     case HJetPairTagger:
-        if (Tag == HSignal) NewFiles = CombinedSignalFiles;
+        if (Tag == kSignal) NewFiles = CombinedSignalFiles;
         else NewFiles = CombinedFiles;
         break;
     case HJetPairReader:
-        if (Tag == HSignal) NewFiles = CombinedSignalFiles;
+        if (Tag == kSignal) NewFiles = CombinedSignalFiles;
         else NewFiles = CombinedFiles;
         break;
     case HHeavyHiggsTauTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = BackgroundSemiFiles;
         break;
     case HHeavyHiggsTauReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = BackgroundSemiFiles;
         break;
     case HWHadronicTagger:
-        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        if (Tag == kSignal) NewFiles = NonLeptonicSignalFiles;
         else NewFiles = NotLeptonicFiles;
         break;
     case HWHadronicReader:
-        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        if (Tag == kSignal) NewFiles = NonLeptonicSignalFiles;
         else NewFiles = NotLeptonicFiles;
         break;
     case HTopLeptonicTagger:
-        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        if (Tag == kSignal) NewFiles = SignalLeptonicFiles;
         else NewFiles = LeptonicFiles;
         break;
     case HTopLeptonicReader:
-        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        if (Tag == kSignal) NewFiles = SignalLeptonicFiles;
         else NewFiles = LeptonicFiles;
         break;
     case HTopHadronicTagger:
-        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        if (Tag == kSignal) NewFiles = NonLeptonicSignalFiles;
         else NewFiles = NotLeptonicFiles;
         break;
     case HTopSemiTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = SemiFiles;
         break;
     case HTopHadronicReader:
-        if (Tag == HSignal) NewFiles = NonLeptonicSignalFiles;
+        if (Tag == kSignal) NewFiles = NonLeptonicSignalFiles;
         else NewFiles = NotLeptonicFiles;
         break;
     case HTopSemiReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = SemiFiles;
         break;
     case HHeavyHiggsLeptonicTagger:
-        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        if (Tag == kSignal) NewFiles = SignalLeptonicFiles;
         else NewFiles = LeptonicFiles;
         break;
     case HHeavyHiggsLeptonicReader:
-        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        if (Tag == kSignal) NewFiles = SignalLeptonicFiles;
         else NewFiles = LeptonicFiles;
         break;
     case HHeavyHiggsHadronicTagger:
-        if (Tag == HSignal) NewFiles = SignalHadronicFiles;
+        if (Tag == kSignal) NewFiles = SignalHadronicFiles;
         else NewFiles = HadronicFiles;
         break;
     case HHeavyHiggsSemiTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = SemiFiles;//BackgroundSemiFiles;
         break;
     case HHeavyHiggsSemiReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = BackgroundSemiFiles;
         break;
     case HEventLeptonicTagger:
-        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        if (Tag == kSignal) NewFiles = SignalLeptonicFiles;
         else NewFiles = BackgroundLeptonicFiles;
         break;
     case HEventHadronicTagger:
-        if (Tag == HSignal) NewFiles = SignalHadronicFiles;
+        if (Tag == kSignal) NewFiles = SignalHadronicFiles;
         else NewFiles = BackgroundHadronicFiles;
         break;
     case HEventSemiTagger:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = BackgroundSemiFiles;
         break;
     case HEventLeptonicReader:
-        if (Tag == HSignal) NewFiles = SignalLeptonicFiles;
+        if (Tag == kSignal) NewFiles = SignalLeptonicFiles;
         else NewFiles = BackgroundLeptonicFiles;
         break;
     case HEventSemiReader:
-        if (Tag == HSignal) NewFiles = SignalSemiFiles;
+        if (Tag == kSignal) NewFiles = SignalSemiFiles;
         else NewFiles = BackgroundSemiFiles;
         break;
     default:
@@ -241,7 +241,7 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTau::Files(const hanalysis::
 
 }
 
-void hheavyhiggs::HAnalysisTau::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag)
+void hheavyhiggs::HAnalysisTau::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag)
 {
 
     HStrings SignalLeptonicTrees {
@@ -289,7 +289,7 @@ void hheavyhiggs::HAnalysisTau::SetTrees(const hanalysis::HAnalysis::HTagger Tag
     case HTauTagger:
         TauTagger.SetSignalTreeNames(CombinedTrees);
         TauTagger.SetBackgroundTreeNames(CombinedTrees);
-        if (Tag == HSignal)  TauTagger.SetTagger();
+        if (Tag == kSignal)  TauTagger.SetTagger();
         break;
     case HTauReader:
         break;
@@ -313,12 +313,12 @@ void hheavyhiggs::HAnalysisTau::SetTrees(const hanalysis::HAnalysis::HTagger Tag
     case HHeavyHiggsTauTagger :
         HiggsTauTagger.SetSignalTreeNames(SignalSemiTrees);
         HiggsTauTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-        if (Tag == HSignal) HiggsTauTagger.SetTagger(TauTagger);
+        if (Tag == kSignal) HiggsTauTagger.SetTagger(TauTagger);
         break;
     case HHeavyHiggsTauReader :
         TauTagger.SetSignalTreeNames(CombinedTrees);
         TauTagger.SetBackgroundTreeNames(CombinedTrees);
-        if (Tag == HSignal) HiggsTauTagger.SetTagger(TauTagger);
+        if (Tag == kSignal) HiggsTauTagger.SetTagger(TauTagger);
         break;
 //     case HTopHadronicTagger :
 //         if (Tag == HSignal) TopHadronicTagger.SetTagger(TauTagger, WHadronicTagger);
@@ -359,11 +359,11 @@ void hheavyhiggs::HAnalysisTau::SetTrees(const hanalysis::HAnalysis::HTagger Tag
 
 
 
-void hheavyhiggs::HAnalysisTau::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+void hheavyhiggs::HAnalysisTau::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
 {
     Print(HInformation, "Prepare Reader", Tagger);
 
-    if (Tag == HBackground) return;
+    if (Tag == kBackground) return;
 
     switch (Tagger) {
     case HTauTagger:
@@ -580,7 +580,7 @@ void hheavyhiggs::HAnalysisTau::NewBranches(ExRootTreeWriter &NewTreeWriter, con
 //   float Pt;
 // };
 
-bool hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+bool hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
 {
 
     Print(HInformation, "Analysis", Tagger);
@@ -649,7 +649,7 @@ bool hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &Event, const hanalys
 }
 
 
-bool hheavyhiggs::HAnalysisTau::GetTauTag(hanalysis::HEvent &Event, const HTag Tag)
+bool hheavyhiggs::HAnalysisTau::GetTauTag(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Tau Tag", Tag);
     std::vector<HTauBranch> Taus = TauTagger.GetBranches(Event, Tag);
@@ -659,7 +659,7 @@ bool hheavyhiggs::HAnalysisTau::GetTauTag(hanalysis::HEvent &Event, const HTag T
 }
 
 
-bool hheavyhiggs::HAnalysisTau::GetTauReader(hanalysis::HEvent &Event, const HTag Tag)
+bool hheavyhiggs::HAnalysisTau::GetTauReader(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Tau Reader", Tag);
     HJets Jets = TauTagger.GetJets(Event, JetTag);
@@ -670,7 +670,7 @@ bool hheavyhiggs::HAnalysisTau::GetTauReader(hanalysis::HEvent &Event, const HTa
 
     for (const auto & Particle : Particles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < 0.4) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+        if (Jets.front().delta_R(Particle) < 0.4) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
     for (const auto & Jet : Jets) {
@@ -680,7 +680,7 @@ bool hheavyhiggs::HAnalysisTau::GetTauReader(hanalysis::HEvent &Event, const HTa
     return 1;
 }
 
-bool hheavyhiggs::HAnalysisTau::GetHeavyHiggsTauTag(hanalysis::HEvent &Event, const HTag Tag)
+bool hheavyhiggs::HAnalysisTau::GetHeavyHiggsTauTag(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get HeavyHiggs Tau Tag", Tag);
     std::vector<HHeavyHiggsTauBranch> HeavyHiggses = HiggsTauTagger.GetBranches(Event, Tag);
@@ -689,7 +689,7 @@ bool hheavyhiggs::HAnalysisTau::GetHeavyHiggsTauTag(hanalysis::HEvent &Event, co
     return 1;
 }
 
-bool hheavyhiggs::HAnalysisTau::GetHeavyHiggsTauReader(hanalysis::HEvent &Event, const HTag Tag)
+bool hheavyhiggs::HAnalysisTau::GetHeavyHiggsTauReader(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get W Semi Reader", Tag);
 

@@ -1,17 +1,17 @@
 # include "HAnalysisDiscriminator.hh"
 
-hcpvhiggs::HAnalysis::HAnalysis()
-{
-
-    Print(HNotification, "Constructor");
-
-    //JetTag = new hanalysis::HJetTag();
-
-    SubStructure = new hanalysis::HSubStructure();
-
-//     DebugLevel = 3;
-
-}
+// hcpvhiggs::HAnalysis::HAnalysis()
+// {
+//
+//     Print(HNotification, "Constructor");
+//
+//     //JetTag = new hanalysis::HJetTag();
+//
+//     SubStructure = new hanalysis::HSubStructure();
+//
+// //     DebugLevel = 3;
+//
+// }
 
 hcpvhiggs::HAnalysis::~HAnalysis()
 {

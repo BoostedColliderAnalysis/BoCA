@@ -119,7 +119,7 @@ struct SortJetsByBdt {
     }
 };
 
-std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -142,7 +142,7 @@ std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::Ge
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
       if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
       else Print(HError, "Where is the Higgs?", HiggsParticles.size());
       std::sort(Sextets.begin(), Sextets.end(), MinDeltaR(HiggsParticles.front()));
@@ -152,7 +152,7 @@ std::vector<hheavyhiggs::HEventTtSemiBranch> hheavyhiggs::HEventTtSemiTagger::Ge
     std::vector<hheavyhiggs::HEventTtSemiBranch> EventSemiBranches;
     if (Sextets.size() < 1) return EventSemiBranches;
 
-    if (Tag == HSignal && Sextets.size() > 1) {
+    if (Tag == kSignal && Sextets.size() > 1) {
         Print(HError, "more than one event", Sextets.size());
         std::sort(Sextets.begin(), Sextets.end());
         Sextets.erase(Sextets.begin() + 1, Sextets.end());

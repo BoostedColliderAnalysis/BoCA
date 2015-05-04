@@ -27,7 +27,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
           case hanalysis::HAnalysis::HJetPairReader: {
-            Analysis.SetTrees(hanalysis::HAnalysis::HJetPairReader, hanalysis::HObject::HBackground);
+            Analysis.SetTrees(hanalysis::HAnalysis::HJetPairReader, hanalysis::HObject::kBackground);
             hanalysis::HReader Reader(Analysis.EventBottomSumTagger);
             Reader.SimpleMVALoop();
             break;

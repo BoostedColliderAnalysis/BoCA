@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "TMVA/Factory.h"
 # include "TSystem.h"
 
@@ -17,7 +17,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(hanalysis::HMva &tagger);
+    HFactory(hanalysis::Tagger &tagger);
 
 private:
 
@@ -54,7 +54,7 @@ private:
         return "HFactory";
     };
 
-    HMva &tagger() const {
+    Tagger &tagger() const {
         return tagger_;
     }
 
@@ -62,7 +62,7 @@ private:
         return factory_;
     }
 
-    HMva &tagger_;
+    Tagger &tagger_;
 
     TMVA::Factory factory_;
 

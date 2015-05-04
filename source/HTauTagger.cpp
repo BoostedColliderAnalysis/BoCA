@@ -81,7 +81,7 @@ HTauBranch hanalysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
 
 }
 
-std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
     Print(HInformation, "Get Tau Tag", Tag);
 
@@ -111,7 +111,7 @@ std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::HEvent &Ev
     return TauBranches;
 }
 
-HJets hanalysis::HTauTagger::GetSubJets(const HJets &Jets, const HJets &Particles, const HTag Tag, const int SubJetNumber)
+HJets hanalysis::HTauTagger::GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Jets");
     HJets Pieces;
@@ -147,13 +147,13 @@ HJets hanalysis::HTauTagger::GetSubJets(const HJets &Jets, const HJets &Particle
 }
 
 
-HJets hanalysis::HTauTagger::CleanJets(HJets &Jets, const HJets &Particles, const HTag Tag)
+HJets hanalysis::HTauTagger::CleanJets(HJets &Jets, const HJets &Particles, const Tag Tag)
 {
     Print(HInformation, "Clean Jets");
 
     for (const auto & Particle : Particles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if(Jets.front().delta_R(Particle)<0.4) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+        if(Jets.front().delta_R(Particle)<0.4) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
     HJets NewCleanJets;

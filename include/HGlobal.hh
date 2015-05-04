@@ -69,7 +69,7 @@ class HChargedHiggsSemiTagger;
 class HChargedHiggsHadronicTagger;
 class HChargedHiggsLeptonicTagger;
 
-class HMva;
+class Tagger;
 class HFactory;
 class HReader;
 

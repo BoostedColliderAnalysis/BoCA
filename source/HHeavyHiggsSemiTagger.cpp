@@ -74,19 +74,19 @@ HHeavyHiggsSemiBranch hanalysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet 
     return HeavyHiggsBranch;
 }
 
-std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, const float pre_cut)
+std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const float pre_cut)
 {
     Print(HInformation, "Get Higgs Tags");
 
     float Mass = Event.GetMass();
     fastjet::PseudoJet HiggsBoson;
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         HJets HiggsParticles = Event.GetParticles()->Generator();
         HJets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
         HJets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
         HiggsParticles = Even;
         HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
-        if (Tag == HSignal) {
+        if (Tag == kSignal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
             else Print(HError, "Where is the Higgs?", HiggsParticles.size());
         }
@@ -119,7 +119,7 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else Print(HError, "Where is the Top?", TopParticles.size());
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         for (const auto & Triplet : TripletsHadronic) if (Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) FinalTripletsHadronic.push_back(Triplet);
     } else FinalTripletsHadronic = TripletsHadronic;
     Print(HDebug, "Number of truth Hadronic Tops", FinalTripletsHadronic.size());
@@ -133,14 +133,14 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
             if (TripletSemi.Singlet().delta_R(TripletHadronic.DoubletJet()) < DetectorGeometry.JetConeSize) continue;
             if (TripletSemi.Singlet().delta_R(TripletHadronic.Jet()) < DetectorGeometry.JetConeSize) continue;
             HSextet Sextet(TripletSemi, TripletHadronic);
-            if (Tag == HSignal && Sextet.Jet().m() < Mass / 2)continue;
-            if (Tag == HSignal && Sextet.Jet().m() > Mass * 3 / 2)continue;
-            if (Tag == HSignal && Sextet.Jet().delta_R(HiggsBoson) > 2 * DetectorGeometry.JetConeSize) continue;
+            if (Tag == kSignal && Sextet.Jet().m() < Mass / 2)continue;
+            if (Tag == kSignal && Sextet.Jet().m() > Mass * 3 / 2)continue;
+            if (Tag == kSignal && Sextet.Jet().delta_R(HiggsBoson) > 2 * DetectorGeometry.JetConeSize) continue;
 //             if (Tag == HBackground && Sextet.Jet().delta_R(HiggsBoson) < 2 * DetectorGeometry.JetConeSize) continue;
             Sextets.push_back(Sextet);
         }
 
-    if (Tag == HSignal && Sextets.size() > 1) {
+    if (Tag == kSignal && Sextets.size() > 1) {
         std::sort(Sextets.begin(), Sextets.end(), MinDeltaR(HiggsBoson));
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
@@ -148,7 +148,7 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
 
 //     Print(HInformation, "Number of Heavy Higgses", Sextets.size());
 
-    if (Tag == HSignal && Sextets.size() > 1) {
+    if (Tag == kSignal && Sextets.size() > 1) {
         Print(HInformation, "Higgs Candidates", Sextets.size());
         std::sort(Sextets.begin(), Sextets.end(), SortByMass(Mass));
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
@@ -164,11 +164,11 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
 }
 
 
-hanalysis::HObject::HTag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet &)
+hanalysis::HObject::Tag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet &)
 {
     Print(HInformation, "Get boosted Sextet Tag");
 
-    return HSignal;
+    return kSignal;
 }
 
 

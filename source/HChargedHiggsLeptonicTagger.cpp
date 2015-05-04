@@ -91,7 +91,7 @@ void hanalysis::HChargedHiggsLeptonicTagger::DefineVariables()
 }
 
 
-std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger::GetBranches(HEvent &Event, const HObject::HTag Tag)
+std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger::GetBranches(HEvent &Event, const HObject::Tag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
@@ -127,7 +127,7 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
     Print(HInformation, "Numeber of Triplets", Triplets.size());
 
 
-    if (Tag == HSignal && Triplets.size() > 1) {
+    if (Tag == kSignal && Triplets.size() > 1) {
         Print(HError, "Higgs Candidates", Triplets.size());
         std::sort(Triplets.begin(), Triplets.end());
         Triplets.erase(Triplets.begin() + 1, Triplets.end());
@@ -140,15 +140,15 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
 
 }
 
-hanalysis::HObject::HTag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const HTriplet &Triplet)
+hanalysis::HObject::Tag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const HTriplet &Triplet)
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (Triplet.Doublet().Tag() == HBackground) return HBackground;
+    if (Triplet.Doublet().Tag() == kBackground) return kBackground;
 //     if (Quartet.GetDoublet2().Tag() == HBackground) return HBackground;
     // TODO check the following
-    if (Triplet.Doublet().Singlet1().user_index() != -Triplet.Singlet().user_index()) return HBackground;
-    return HSignal;
+    if (Triplet.Doublet().Singlet1().user_index() != -Triplet.Singlet().user_index()) return kBackground;
+    return kSignal;
 }
 
 std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<HDoublet> &Doublets,const std::vector<fastjet::PseudoJet> Jets, const HReader &Reader)

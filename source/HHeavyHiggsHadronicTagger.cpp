@@ -101,7 +101,7 @@ void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
 }
 
 
-std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
@@ -141,14 +141,14 @@ std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::Ge
 
 }
 
-hanalysis::HObject::HTag hanalysis::HHeavyHiggsHadronicTagger::GetTag(const HSextet &Sextet)
+hanalysis::HObject::Tag hanalysis::HHeavyHiggsHadronicTagger::GetTag(const HSextet &Sextet)
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (Sextet.Triplet1().Tag() == HBackground)return HBackground;
-    if (Sextet.Triplet2().Tag() == HBackground)return HBackground;
-    if (sgn(Sextet.Triplet1().Singlet().user_index()) == sgn(Sextet.Triplet2().Singlet().user_index())) return HBackground;
-    return HSignal;
+    if (Sextet.Triplet1().Tag() == kBackground)return kBackground;
+    if (Sextet.Triplet2().Tag() == kBackground)return kBackground;
+    if (sgn(Sextet.Triplet1().Singlet().user_index()) == sgn(Sextet.Triplet2().Singlet().user_index())) return kBackground;
+    return kSignal;
 }
 
 

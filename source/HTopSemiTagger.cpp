@@ -143,7 +143,7 @@ void hanalysis::HTopSemiTagger::GetBottomInfo(HTopSemiBranch &TopHadronicBranch,
 
 
 
-std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, float pre_cut)
+std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut)
 {
     Print(HInformation, "Get Top Tags");
 
@@ -173,10 +173,10 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
         for (const auto & Jet : Jets) {
             for (const auto & Doublet : Doublets) {
                 HTriplet Triplet(Doublet, Jet);
-                if (Tag == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue; // should be enabled again
-                if (Tag == HSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
-                if (Tag == HSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
-                if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
+                if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue; // should be enabled again
+                if (Tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
+                if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
+                if (Tag == kBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
                 Triplet.SetTag(Tag);
                 Triplets.push_back(Triplet);
             }
@@ -188,10 +188,10 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
         for (const auto & Lepton : Leptons) {
             HDoublet Doublet(Lepton);
             HTriplet Triplet(Doublet, Jet);
-            if (Tag == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue; // should be enabled again
-            if (Tag == HSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
-            if (Tag == HSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
-            if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
+            if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue; // should be enabled again
+            if (Tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
+            if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
+            if (Tag == kBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
             Triplet.SetTag(Tag);
             Triplets.push_back(Triplet);
         }
@@ -199,7 +199,7 @@ std::vector< HTopSemiBranch > hanalysis::HTopSemiTagger::GetBranches(hanalysis::
 
     std::vector<HTopSemiBranch> TopSemiBranches;
     int SemiLeptonicTopNumber = 1; // Must be 1 for the analysis!!;
-    if (Tag == HSignal &&
+    if (Tag == kSignal &&
             Triplets.size() > SemiLeptonicTopNumber) {
         std::sort(Triplets.begin(), Triplets.end(), SortByMass(TopMass));
         Triplets.erase(Triplets.begin() + SemiLeptonicTopNumber, Triplets.end());

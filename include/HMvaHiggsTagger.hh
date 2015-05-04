@@ -1,7 +1,7 @@
 # ifndef HMvaHiggsTagger_hh
 # define HMvaHiggsTagger_hh
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
@@ -13,7 +13,7 @@
  * @brief calculation regarding leptons
  *
  */
-class hanalysis::HMvaHiggsTagger : public HMva
+class hanalysis::HMvaHiggsTagger : public Tagger
 {
 
 public:
@@ -24,7 +24,7 @@ public:
 
     ~HMvaHiggsTagger();
 
-    std::vector< HHiggsBranch * > GetBranches(HEvent &Event, const HObject::HTag State);
+    std::vector< HHiggsBranch * > GetBranches(HEvent &Event, const HObject::Tag State);
 
     std::vector<HParticleBranch *> GetConstituentBranches();
 

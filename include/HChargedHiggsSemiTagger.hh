@@ -9,7 +9,7 @@
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class hanalysis::HChargedHiggsSemiTagger : public HMva
+class hanalysis::HChargedHiggsSemiTagger : public Tagger
 {
 
 public:
@@ -23,7 +23,7 @@ public:
         const hanalysis::HTopSemiTagger &NewTopSemiTagger,
         const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
 
-    std::vector< HChargedHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HChargedHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     HChargedHiggsSemiBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 
@@ -54,7 +54,7 @@ private:
 
     void DefineVariables();
 
-    HTag GetTag(const hanalysis::HQuartet31 &);
+    Tag GetTag(const hanalysis::HQuartet31 &);
 
     HJetTag JetTag;
 

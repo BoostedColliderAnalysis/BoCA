@@ -43,7 +43,7 @@ public:
         HDetailed
     };
 
-    enum HTag {HBackground = 0, HSignal = 1};
+    enum Tag {kBackground = 0, kSignal = 1};
 
     template <typename TSeverity>
     inline void Print(const TSeverity Severity, const std::string &Description) const {

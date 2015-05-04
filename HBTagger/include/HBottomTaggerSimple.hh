@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
@@ -14,7 +14,7 @@
  */
 
 namespace hbtagger{
-class HBottomTaggerSimple : public hanalysis::HMva
+class HBottomTaggerSimple : public hanalysis::Tagger
 {
 
 public:
@@ -25,13 +25,13 @@ public:
 
     void SetTagger();
 
-    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
 //     HJets GetMultiJetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
 
     HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
-    hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
+    hanalysis::HObject::Tag GetTag(const fastjet::PseudoJet &Jet) const;
 
     HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
 
@@ -41,7 +41,7 @@ public:
       return ((HBottomBranch *) EventClonesArray.At(Entry))->Bdt;
     }
 
-//     ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
+//     ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage stage) {
 //       switch(Stage){
 //         case hanalysis::HAnalysis::HTrainer :
 //           return NewTreeWriter.NewBranch(GetTaggerName().c_str(), HBottomBranch::Class());
@@ -50,7 +50,7 @@ public:
 //       }
 //     }
 
-//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
+//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage stage) {
 //       switch(Stage){
 //         case hanalysis::HAnalysis::HTrainer :
 //           TreeBranch = NewTreeWriter.NewBranch(GetTaggerName().c_str(), HBottomBranch::Class());
@@ -107,10 +107,10 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::HTag Tag);
+    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::Tag Tag);
 
 
-    HJets GetSubJets(const HJets &Jets, const HJets &Particles, const HTag Tag, const int SubJetNumber);
+    HJets GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber);
 
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;

@@ -109,7 +109,7 @@ HEventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const HDoublet &Doublet
     return JetPairBranch;
 }
 
-std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, const HParticleId MotherId)
+std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const HParticleId MotherId)
 {
     Print(HInformation, "Get Jet Pair Tags", GetParticleName(MotherId));
     HJets Jets = GetJets(Event);
@@ -124,17 +124,17 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
     Print(HDebug, "Number BDT Jets", Jets.size());
 
     HJets Particles = Event.GetParticles()->Generator();
-    if (Tag == HSignal) Particles = RemoveIfWrongAbsFamily(Particles, BottomId, MotherId);
+    if (Tag == kSignal) Particles = RemoveIfWrongAbsFamily(Particles, BottomId, MotherId);
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //     if (Tag == HBackground) Particles = RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsMother(Particles, ZId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
     if (
-        Tag == HSignal &&  // THIS SHOULD BE ENABLED AGAIN
+        Tag == kSignal &&  // THIS SHOULD BE ENABLED AGAIN
         Particles.size() != 2) Print(HError, "Where is the quark pair?", Particles.size());
     HJets BottomJets;
     Print(HDebug, "Number of Bottoms", Particles.size());
 
-    if (Tag == HSignal) { // THIS SHOULD BE ENABLED AGAIN
+    if (Tag == kSignal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Particle : Particles) {
             Jets = SortByDeltaRTo(Jets, Particle);
             if (Jets.front().delta_R(Particle) > DetectorGeometry.JetConeSize) continue;
@@ -142,7 +142,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
             BottomJets.push_back(Jets.front());
             if (Jets.size() > 1) Jets.erase(Jets.begin());
         }
-    } else if (Tag == HBackground) BottomJets = Jets; // THIS SHOULD BE ENABLED AGAIN
+    } else if (Tag == kBackground) BottomJets = Jets; // THIS SHOULD BE ENABLED AGAIN
 //     if (Tag == HSignal && BottomJets.size() != 2) Print(HError, "Number of Matching Jets", BottomJets.size());
 
     std::vector<HDoublet> Doublets;
@@ -160,7 +160,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
 
     Print(HDebug, "Number of Jet Pairs", Doublets.size());
 
-    if (Tag == HSignal && Doublets.size() > 1) {
+    if (Tag == kSignal && Doublets.size() > 1) {
         Print(HError, "Number of Jet Pairs", Doublets.size());
         Doublets = SortByMaxDeltaRap(Doublets);
         if (Doublets.size() > 1) Doublets.erase(Doublets.begin() + 1, Doublets.end());
@@ -172,9 +172,9 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
 
 }
 
-hanalysis::HObject::HTag hanalysis::HJetPairTagger::GetTag(const HDoublet &)
+hanalysis::HObject::Tag hanalysis::HJetPairTagger::GetTag(const HDoublet &)
 {
-    return HSignal;
+    return kSignal;
 }
 
 std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &JetPairReader)

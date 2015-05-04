@@ -205,9 +205,9 @@ bool hhiggscpv::HAnalysis::GetTopTag(hanalysis::HEvent &Event, const std::string
 
     Print(HInformation, "Get Tops", NewStudyName);
 
-    HTag State;
+    Tag State;
     if (NewStudyName == "Top") State = HSignal;
-    if (NewStudyName == "NotTop") State = HBackground;
+    if (NewStudyName == "NotTop") State = kBackground;
 
     std::vector<HTopLeptonicBranch> Tops = LeptonicTopTagger.GetBranches(Event, State);
 
@@ -222,9 +222,9 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(hanalysis::HEvent &Event, const std::stri
 {
     Print(HInformation, "Get Higgs Tag", NewStudyName);
 
-    HTag State;
+    Tag State;
     if (NewStudyName == "Higgs") State = HSignal;
-    if (NewStudyName == "NotHiggs") State = HBackground;
+    if (NewStudyName == "NotHiggs") State = kBackground;
 
     std::vector<HHiggsBranch *> Higgses = HiggsTagger.GetBranches(Event, State);
 

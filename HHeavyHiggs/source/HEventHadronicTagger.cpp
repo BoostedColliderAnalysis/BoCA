@@ -116,7 +116,7 @@ void hheavyhiggs::HEventHadronicTagger::DefineVariables()
 
 }
 
-std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
     std::vector<hheavyhiggs::HEventHadronicBranch *> EventHadronicBranches;
 

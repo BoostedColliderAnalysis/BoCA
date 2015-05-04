@@ -183,7 +183,7 @@ struct SortJetsByBdt {
     }
 };
 
-std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -200,10 +200,10 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
 
     HJets HiggsParticles = Event.GetParticles()->Generator();
     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
-    if (Tag == HSignal && HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
+    if (Tag == kSignal && HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
     std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaR(HiggsParticles.front()));
-    if (Tag == HSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
-    if (Tag == HBackground && HiggsQuartets.size() > 0) HiggsQuartets.erase(HiggsQuartets.begin());
+    if (Tag == kSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
+    if (Tag == kBackground && HiggsQuartets.size() > 0) HiggsQuartets.erase(HiggsQuartets.begin());
 
 
     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
@@ -226,20 +226,20 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
 //         TripletsHadronic.insert(TripletsHadronic.end(), PieceTriplets.begin(), PieceTriplets.end());
 //     }
     std::vector<hanalysis::HTriplet> FinalTriplets;
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         HJets Particles = Event.GetParticles()->Generator();
         HJets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
         if (TopParticles.size() != 1) Print(HError, "Where is the Top?",TopParticles.size());
         else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.at(0)) < DetectorGeometry.JetConeSize)) FinalTriplets.push_back(Triplet);
     } else FinalTriplets = TripletsHadronic;
 
-    if (Tag == HSignal && FinalTriplets.size() > 1) {
+    if (Tag == kSignal && FinalTriplets.size() > 1) {
         std::sort(FinalTriplets.begin(), FinalTriplets.end());
         FinalTriplets.erase(FinalTriplets.begin() + 1, FinalTriplets.end());
     }
 
     HJets FinalBottoms;
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         HJets Particles = Event.GetParticles()->Generator();
         HJets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?",BottomParticles.size());

@@ -10,7 +10,7 @@
  * @brief Event BDT tagger for hadronic heavy higgs
  *
  */
-class hheavyhiggs::HEventHadronicTagger : public hanalysis::HMva
+class hheavyhiggs::HEventHadronicTagger : public hanalysis::Tagger
 {
 
 public:
@@ -29,7 +29,7 @@ public:
     */
     ~HEventHadronicTagger();
 
-    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag);
+    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag);
 
     void FillBranch(const HOctet &Octet);
 

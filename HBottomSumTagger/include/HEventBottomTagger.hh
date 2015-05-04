@@ -54,7 +54,7 @@ private:
  * @brief Event BDT for semi leptonic heavy higgs
  *
  */
-class HEventBottomTagger : public hanalysis::HMva
+class HEventBottomTagger : public hanalysis::Tagger
 {
 
 public:
@@ -65,11 +65,11 @@ public:
     */
     HEventBottomTagger();
 
-    bool TruthLevelCheck(const HJets &NewJets, hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    bool TruthLevelCheck(const HJets &NewJets, hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger);
 
-    std::vector<HEventBottomTaggerBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector<HEventBottomTaggerBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     std::vector<HEventBottomMultiplet> GetBdt(const HJets &Jets, const hanalysis::HReader &EventSemiReader);
 

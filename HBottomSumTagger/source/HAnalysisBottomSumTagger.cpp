@@ -1,36 +1,36 @@
 # include "HAnalysisBottomSumTagger.hh"
 
-hbottomsumtagger::HAnalysis::HAnalysis()
-{
-    //     DebugLevel = hanalysis::HObject::HDebug;
-    Print(HNotification, "Constructor");
-    BottomTagger.SetAnalysisName(ProjectName());
-    EventBottomSumTagger.SetAnalysisName(ProjectName());
-    mkdir(ProjectName().c_str(), 0700);
-}
+// hbottomsumtagger::HAnalysis::HAnalysis()
+// {
+//     //     DebugLevel = hanalysis::HObject::HDebug;
+//     Print(HNotification, "Constructor");
+//     BottomTagger.SetAnalysisName(ProjectName());
+//     EventBottomSumTagger.SetAnalysisName(ProjectName());
+//     mkdir(ProjectName().c_str(), 0700);
+// }
 
-std::string hbottomsumtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
-{
-    Print(HNotification, "Get Study Names", Tagger);
+// std::string hbottomsumtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
+// {
+//     Print(HNotification, "Get Study Names", Tagger);
+//
+//     switch (Tagger) {
+//     case  HBottomTagger :
+//         return "Bottom";
+//     case  HBottomReader :
+//         return "BottomReader";
+//     case  HJetPairTagger :
+//         return "EventBottom";
+//     case  HJetPairReader :
+//         return "EventBottomReader";
+//     default :
+//         Print(HError, "unexpected TaggerName", Tagger);
+//         return "";
+//     }
+// }
 
-    switch (Tagger) {
-    case  HBottomTagger :
-        return "Bottom";
-    case  HBottomReader :
-        return "BottomReader";
-    case  HJetPairTagger :
-        return "EventBottom";
-    case  HJetPairReader :
-        return "EventBottomReader";
-    default :
-        Print(HError, "unexpected TaggerName", Tagger);
-        return "";
-    }
-}
-
-std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag)
+std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag tag)
 {
-    Print(HNotification, "Set File Vector", Tagger, Tag);
+    Print(HNotification, "Set File Vector", Tagger, tag);
 
     std::vector<hanalysis::HFile> SignalLeptonicFiles;
     std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
@@ -74,61 +74,70 @@ std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis
 
     std::vector<hanalysis::HFile> NewFiles;
 
-    switch (Tagger) {
-    case  HBottomTagger :
-        switch (Tag) {
-        case HObject::HSignal :
-            NewFiles = SemiFiles;
-            break;
-        case HObject::HBackground :
-            NewFiles = SemiFiles;
-            break;
-        }
+//     switch (Tagger) {
+//     case  HBottomTagger :
+//         switch (Tag) {
+//         case HObject::kSignal :
+//             NewFiles = SemiFiles;
+//             break;
+//         case HObject::kBackground :
+//             NewFiles = SemiFiles;
+//             break;
+//         }
+//         break;
+//     case  HBottomReader :
+//         switch (Tag) {
+//         case HObject::kSignal :
+//             NewFiles = SignalSemiFiles;
+//             break;
+//         case HObject::kBackground :
+//             NewFiles = BackgroundSemiFiles;
+//             break;
+//         }
+//         break;
+//     case  HJetPairTagger :
+//         switch (Tag) {
+//         case HObject::kSignal :
+//             NewFiles = SignalSemiFiles;
+//             break;
+//         case HObject::kBackground :
+//             NewFiles = BackgroundSemiFiles;
+//             break;
+//         }
+//         break;
+//     case  HJetPairReader :
+//         switch (Tag) {
+//         case HObject::kSignal :
+//             NewFiles = SignalSemiFiles;
+//             break;
+//         case HObject::kBackground :
+//             NewFiles = BackgroundSemiFiles;
+//             break;
+//         }
+//         break;
+//     default:
+//         Print(HError, "Files", "unknown tagger name", Tagger);
+//     }
+
+    switch (tag) {
+      case HObject::kSignal :
+        NewFiles = SignalSemiFiles;
         break;
-    case  HBottomReader :
-        switch (Tag) {
-        case HObject::HSignal :
-            NewFiles = SignalSemiFiles;
-            break;
-        case HObject::HBackground :
-            NewFiles = BackgroundSemiFiles;
-            break;
-        }
+      case HObject::kBackground :
+        NewFiles = BackgroundSemiFiles;
         break;
-    case  HJetPairTagger :
-        switch (Tag) {
-        case HObject::HSignal :
-            NewFiles = SignalSemiFiles;
-            break;
-        case HObject::HBackground :
-            NewFiles = BackgroundSemiFiles;
-            break;
-        }
-        break;
-    case  HJetPairReader :
-        switch (Tag) {
-        case HObject::HSignal :
-            NewFiles = SignalSemiFiles;
-            break;
-        case HObject::HBackground :
-            NewFiles = BackgroundSemiFiles;
-            break;
-        }
-        break;
-    default:
-        Print(HError, "Files", "unknown tagger name", Tagger);
     }
 
     NewFiles.front().SetBasePath("~/Projects/MultiBTagging/");
     NewFiles.front().SetFileSuffix(".root");
-    SetTrees(Tagger, Tag);
-    PrepareReader(Tagger, Tag);
+    SetTrees(Tagger, tag);
+    PrepareReader(Tagger, tag);
     return NewFiles;
 
 }
 
 
-void hbottomsumtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag)
+void hbottomsumtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag)
 {
 
     HStrings SignalLeptonicTrees {};
@@ -169,89 +178,91 @@ void hbottomsumtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger T
     HStrings NotLeptonicTrees = JoinHStrings(HadronicTrees, SemiTrees);
     HStrings CombinedTrees = JoinHStrings(NotLeptonicTrees, LeptonicTrees);
 
-    switch (Tagger) {
-    case HBottomTagger:
-        BottomTagger.SetSignalTreeNames(SemiTrees);
-        BottomTagger.SetBackgroundTreeNames(SemiTrees);
-        if (Tag == HSignal) {
-            BottomTagger.SetTagger();
-        }
-        break;
-    case HBottomReader:
-        if (Tag == HSignal) {
-            BottomTagger.SetTagger();
-        }
-        BottomTagger.SetSignalTreeNames(SemiTrees);
-        BottomTagger.SetBackgroundTreeNames(SemiTrees);
-        break;
-    case HJetPairTagger :
-        EventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
-        EventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-        if (Tag == HSignal) {
-            EventBottomSumTagger.SetTagger(BottomTagger);
-        }
-        break;
-    case HJetPairReader :
-        if (Tag == HSignal) {
-            EventBottomSumTagger.SetTagger(BottomTagger);
-        }
-        EventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
-        EventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-        break;
-    default :
-        Print(HError, "SetTrees", "unhandeled case");
-    }
+//     switch (Tagger) {
+//     case HBottomTagger:
+//         BottomTagger.SetSignalTreeNames(SemiTrees);
+//         BottomTagger.SetBackgroundTreeNames(SemiTrees);
+//         if (Tag == kSignal) {
+//             BottomTagger.SetTagger();
+//         }
+//         break;
+//     case HBottomReader:
+//         if (Tag == kSignal) {
+//             BottomTagger.SetTagger();
+//         }
+//         BottomTagger.SetSignalTreeNames(SemiTrees);
+//         BottomTagger.SetBackgroundTreeNames(SemiTrees);
+//         break;
+//     case HJetPairTagger :
+//         EventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
+//         EventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         if (Tag == kSignal) {
+//             EventBottomSumTagger.SetTagger(BottomTagger);
+//         }
+//         break;
+//     case HJetPairReader :
+//         if (Tag == kSignal) {
+//             EventBottomSumTagger.SetTagger(BottomTagger);
+//         }
+//         EventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
+//         EventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         break;
+//     default :
+//         Print(HError, "SetTrees", "unhandeled case");
+    //     }
+    tagger_.SetSignalTreeNames(SignalSemiTrees);
+    tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
 }
 
-void hbottomsumtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
-{
-    Print(HInformation, "Prepare Reader", Tagger);
-    if (Tag == HBackground) {
-        return;
-    }
-    switch (Tagger) {
-    case HBottomTagger:
-        break;
-    case HBottomReader:
-        BottomReader.SetMva(BottomTagger);
-        break;
-    case HJetPairTagger :
-        EventBottomSumTagger.BottomTagger.SetTagger();
-        EventBottomSumTagger.BottomReader.SetMva(EventBottomSumTagger.BottomTagger);
-        break;
-    case HJetPairReader :
-        BottomReader.SetMva(BottomTagger);
-        EventBottomSumReader.SetMva(EventBottomSumTagger);
-        break;
-    default :
-        Print(HError, "PrepareReader", "unhandled case");
-    }
-}
+// void hbottomsumtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
+// {
+//     Print(HInformation, "Prepare Reader", Tagger);
+//     if (Tag == kBackground) {
+//         return;
+//     }
+//     switch (Tagger) {
+//     case HBottomTagger:
+//         break;
+//     case HBottomReader:
+//         BottomReader.SetMva(BottomTagger);
+//         break;
+//     case HJetPairTagger :
+//         EventBottomSumTagger.BottomTagger.SetTagger();
+//         EventBottomSumTagger.BottomReader.SetMva(EventBottomSumTagger.BottomTagger);
+//         break;
+//     case HJetPairReader :
+//         BottomReader.SetMva(BottomTagger);
+//         EventBottomSumReader.SetMva(EventBottomSumTagger);
+//         break;
+//     default :
+//         Print(HError, "PrepareReader", "unhandled case");
+//     }
+// }
 
-void hbottomsumtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
-{
-    Print(HNotification, "New Branches", Tagger);
+// void hbottomsumtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
+// {
+//     Print(HNotification, "New Branches", Tagger);
+//
+//     switch (Tagger) {
+//     case HBottomTagger :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
+//         break;
+//     case HBottomReader :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
+//         break;
+//     case HJetPairTagger :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventBottomTaggerBranch::Class());
+//         break;
+//     case HJetPairReader :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventBottomTaggerBranch::Class());
+//         break;
+//     default :
+//         Print(HError, "No Branch filled");
+//     }
+//
+// }
 
-    switch (Tagger) {
-    case HBottomTagger :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
-        break;
-    case HBottomReader :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
-        break;
-    case HJetPairTagger :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventBottomTaggerBranch::Class());
-        break;
-    case HJetPairReader :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventBottomTaggerBranch::Class());
-        break;
-    default :
-        Print(HError, "No Branch filled");
-    }
-
-}
-
-bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
 {
     Print(HInformation, "Analysis", Tagger);
     ++event_sum_;
@@ -272,7 +283,7 @@ bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanal
 }
 
 
-bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag Tag)
+bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Bottom Tag", Tag);
     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
@@ -285,7 +296,7 @@ bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const H
     return 1;
 }
 
-bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
+bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Bottom Reader", Tag);
     HJets Jets = BottomTagger.GetJets(Event);
@@ -300,7 +311,7 @@ bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, cons
     for (const auto & Particle : Particles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
-            static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+            static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
             ++BNumber;
         }
     }
@@ -320,7 +331,7 @@ bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, cons
 }
 
 
-bool hbottomsumtagger::HAnalysis::GetEventSemiTag(hanalysis::HEvent &Event, const HTag Tag)
+bool hbottomsumtagger::HAnalysis::GetEventSemiTag(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HInformation, "Get Event semi", Tag);
     std::vector<HEventBottomTaggerBranch> SemiEvents = EventBottomSumTagger.GetBranches(Event, Tag);
@@ -332,7 +343,7 @@ bool hbottomsumtagger::HAnalysis::GetEventSemiTag(hanalysis::HEvent &Event, cons
     return 1;
 }
 
-bool hbottomsumtagger::HAnalysis::GetEventSemiReader(hanalysis::HEvent &Event, const HTag Tag)
+bool hbottomsumtagger::HAnalysis::GetEventSemiReader(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HInformation, "Get Event semi", Tag);
 

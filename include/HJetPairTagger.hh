@@ -8,7 +8,7 @@
  * @brief JetPair BDT tagger
  *
  */
-class hanalysis::HJetPairTagger : public HMva
+class hanalysis::HJetPairTagger : public Tagger
 {
 
 public:
@@ -17,7 +17,7 @@ public:
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger);
 
-    std::vector< HEventJetPairBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
+    std::vector< HEventJetPairBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &JetPairReader);
 
@@ -41,7 +41,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HObject::HTag GetTag(const HDoublet &);
+    hanalysis::HObject::Tag GetTag(const HDoublet &);
 
     HEventJetPairBranch Branch;
 

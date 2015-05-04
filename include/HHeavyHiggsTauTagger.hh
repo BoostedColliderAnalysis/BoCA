@@ -8,7 +8,7 @@
  * @brief Semi leptonic top BDT tagger
  *
  */
-class hanalysis::HHeavyHiggsTauTagger : public HMva
+class hanalysis::HHeavyHiggsTauTagger : public Tagger
 {
 
 public:
@@ -19,7 +19,7 @@ public:
 
     void SetTagger(const HTauTagger &NewTauTagger);
 
-    std::vector<HHeavyHiggsTauBranch> GetBranches(HEvent &Event, const HObject::HTag State);
+    std::vector<HHeavyHiggsTauBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
     std::vector<HDoublet>  GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader);
 
@@ -39,13 +39,13 @@ private:
 
     void DefineVariables();
 
-    HTag GetTag(const hanalysis::HDoublet& Doublet) const;
+    Tag GetTag(const hanalysis::HDoublet& Doublet) const;
 
     std::vector< HDoublet > GetNeutrinos(const hanalysis::HDoublet& Doublet)const;
 
-    std::vector<hanalysis::HDoublet> GetNeutrino(const HDoublet &Doublet, const HJets &Neutrinos, const HTag Tag)const;
+    std::vector<hanalysis::HDoublet> GetNeutrino(const HDoublet &Doublet, const HJets &Neutrinos, const Tag Tag)const;
 
-    std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const HJets &Neutrinos, const hanalysis::HObject::HTag Tag);
+    std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const HJets &Neutrinos, const hanalysis::HObject::Tag tag);
 
     HHeavyHiggsTauBranch Branch;
 

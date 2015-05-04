@@ -2,7 +2,7 @@
 # define HMvaDiscriminator_hh
 
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "HBranchDiscriminator.hh"
 
 /**
@@ -10,7 +10,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hcpvhiggs::HMva : public hanalysis::HMva
+class hcpvhiggs::HMva : public hanalysis::Tagger
 {
 
 public:

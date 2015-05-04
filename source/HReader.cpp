@@ -39,14 +39,14 @@ hanalysis::HReader::HReader()
     Print(HInformation, "Constructor");
 }
 
-hanalysis::HReader::HReader(hanalysis::HMva &tagger)
+hanalysis::HReader::HReader(hanalysis::Tagger &tagger)
 {
 //     DebugLevel = HDebug;
     Print(HInformation, "Constructor");
     SetMva(tagger);
 }
 
-void hanalysis::HReader::SetMva(hanalysis::HMva &tagger)
+void hanalysis::HReader::SetMva(hanalysis::Tagger &tagger)
 {
     Print(HNotification, "SetMva");
     tagger_ = &tagger;

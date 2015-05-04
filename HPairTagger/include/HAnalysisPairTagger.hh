@@ -39,11 +39,11 @@ public:
 
     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
-    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
+    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
 
-    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
+    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
@@ -239,13 +239,13 @@ private:
 
     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
-    bool Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    bool Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag);
 
-    bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-    bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-    bool GetJetPairReader(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    bool GetJetPairReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
 };
 }

@@ -74,7 +74,7 @@ HTopLeptonicBranch hanalysis::HTopLeptonicTagger::GetBranch(const hanalysis::HDo
 
 }
 
-std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEvent &Event, const HObject::HTag Tag)
+std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEvent &Event, const HObject::Tag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -93,14 +93,14 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEven
             HDoublet Doublet(Jet, Lepton);
             Doublet.SetTag(GetTag(Doublet));
             if (Doublet.Tag() != Tag) continue;
-            if (Tag == HSignal && Doublet.Jet().m() > TopMass) continue;
+            if (Tag == kSignal && Doublet.Jet().m() > TopMass) continue;
             Doublets.push_back(Doublet);
         }
 
 
     Print(HInformation, "Number JetPairs", Doublets.size());
 
-    if (Tag == HSignal && Doublets.size() > 1) {
+    if (Tag == kSignal && Doublets.size() > 1) {
         std::sort(Doublets.begin(), Doublets.end(), SortByMass(TopMass));
         Doublets.erase(Doublets.begin() + 1, Doublets.end());
     }
@@ -112,7 +112,7 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEven
 
 }
 
-hanalysis::HObject::HTag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &Doublet)
+hanalysis::HObject::Tag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &Doublet)
 {
     Print(HInformation, "Get Triple Tag", GetParticleName(Doublet.Singlet1().user_index()), GetParticleName(Doublet.Singlet2().user_index()));
 
@@ -121,11 +121,11 @@ hanalysis::HObject::HTag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &D
     HJetInfo LJetInfo = Doublet.Singlet2().user_info<HJetInfo>();
     LJetInfo.ExtractFraction(WId);
 
-    if (std::abs(LJetInfo.MaximalId()) != WId) return HBackground;
-    if (std::abs(BJetInfo.MaximalId()) != BottomId) return HBackground;
-    if (sgn(BJetInfo.MaximalId()) != sgn(LJetInfo.MaximalId())) return HBackground;
+    if (std::abs(LJetInfo.MaximalId()) != WId) return kBackground;
+    if (std::abs(BJetInfo.MaximalId()) != BottomId) return kBackground;
+    if (sgn(BJetInfo.MaximalId()) != sgn(LJetInfo.MaximalId())) return kBackground;
 
-    return HSignal;
+    return kSignal;
 }
 
 std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader & Reader)

@@ -114,7 +114,7 @@ struct SortSextetByMass {
 };
 
 
-std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(HEvent &Event, const HObject::HTag Tag)
+std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(HEvent &Event, const HObject::Tag Tag)
 {
   Print(HInformation, "Get Higgs Tags");
 
@@ -149,7 +149,7 @@ std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::Ge
 //             else PreSextets = GetSextets(Quartet, MissingEt);
             for (const auto & Sextet : PreSextets) {
 //                 if (Sextet.GetSextetJet().m() < 10) continue; // TODO do we need this
-            if (Tag == HSignal && Sextet.Jet().m() < Mass / 2)continue;
+            if (Tag == kSignal && Sextet.Jet().m() < Mass / 2)continue;
                 Sextets.push_back(Sextet);
             }
         }
@@ -157,7 +157,7 @@ std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::Ge
     Print(HInformation, "Numeber of Sextets", Sextets.size());
 
 
-    if (Tag == HSignal && Sextets.size() > 1) {
+    if (Tag == kSignal && Sextets.size() > 1) {
         Print(HError, "Higgs Candidates", Sextets.size());
         std::sort(Sextets.begin(), Sextets.end(), SortSextetByMass());
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
@@ -170,7 +170,7 @@ std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::Ge
 
 }
 
-hanalysis::HObject::HTag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQuartet &Quartet)
+hanalysis::HObject::Tag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQuartet &Quartet)
 {
     Print(HInformation, "Get Quartet Tag");
 
@@ -183,14 +183,14 @@ hanalysis::HObject::HTag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQua
     HJetInfo JetInfoL2 = Quartet.GetDoublet2().Singlet2().user_info<HJetInfo>();
     JetInfoL2.ExtractFraction(WId);
 
-    if (std::abs(JetInfoB1.MaximalId()) != BottomId) return HBackground;
-    if (JetInfoB1.MaximalId() != -JetInfoB2.MaximalId()) return HBackground;
+    if (std::abs(JetInfoB1.MaximalId()) != BottomId) return kBackground;
+    if (JetInfoB1.MaximalId() != -JetInfoB2.MaximalId()) return kBackground;
 
-    if (std::abs(JetInfoL1.MaximalId()) != WId) return HBackground;
-    if (sgn(JetInfoL1.MaximalId()) != sgn(JetInfoB1.MaximalId())) return HBackground;
+    if (std::abs(JetInfoL1.MaximalId()) != WId) return kBackground;
+    if (sgn(JetInfoL1.MaximalId()) != sgn(JetInfoB1.MaximalId())) return kBackground;
 
-    if (JetInfoL2.MaximalId() != -JetInfoL1.MaximalId()) return HBackground;
-    return HSignal;
+    if (JetInfoL2.MaximalId() != -JetInfoL1.MaximalId()) return kBackground;
+    return kSignal;
 }
 
 std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsLeptonicTagger::GetBdt(const std::vector<HDoublet> &Doublets , const fastjet::PseudoJet &MissingEt, const HReader &Reader)
@@ -280,7 +280,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextets
 
 }
 
-std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos, const HTag Tag)
+std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos, const Tag Tag)
 {
     Print(HInformation, "Get Triple Pair");
 
@@ -331,7 +331,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(
     }
 
     for (const auto & Pair : Map) Print(HDebug, "Neutrino Error Sum", Pair.first);
-    if (Tag == HSignal) Map.erase(std::next(Map.begin()), Map.end());
+    if (Tag == kSignal) Map.erase(std::next(Map.begin()), Map.end());
     else Map.erase(Map.begin());
 
     std::vector<HSextet> FinalSextet;

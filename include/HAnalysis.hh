@@ -14,6 +14,7 @@
 # include "HFile.hh"
 # include "HEvent.hh"
 # include "HConfig.hh"
+# include "Tagger.hh"
 
 
 /**
@@ -29,58 +30,53 @@ public:
      * @brief Constructor calls the other preparing functions
      *
      */
-    HAnalysis();
+    HAnalysis(hanalysis::Tagger &tagger);
 
     enum HTagger {
         HBottomTagger,
-        HBottomReader,
+//         HBottomReader,
         HTauTagger,
-        HTauReader,
+//         HTauReader,
         HJetPairTagger,
-        HJetPairReader,
+//         HJetPairReader,
         HWSemiTagger,
-        HWSemiReader,
+//         HWSemiReader,
         HWHadronicTagger,
-        HWHadronicReader,
+//         HWHadronicReader,
         HTopHadronicTagger,
         HTopSemiTagger,
-        HTopHadronicReader,
-        HTopSemiReader,
+//         HTopHadronicReader,
+//         HTopSemiReader,
         HTopLeptonicTagger,
-        HTopLeptonicReader,
+//         HTopLeptonicReader,
         HHeavyHiggsHadronicTagger,
         HHeavyHiggsLeptonicTagger,
         HHeavyHiggsTauTagger,
-        HHeavyHiggsLeptonicReader,
+//         HHeavyHiggsLeptonicReader,
         HHeavyHiggsSemiTagger,
-        HHeavyHiggsSemiReader,
-        HHeavyHiggsTauReader,
+//         HHeavyHiggsSemiReader,
+//         HHeavyHiggsTauReader,
         HEventLeptonicTagger,
         HEventHadronicTagger,
         HEventSemiTagger,
-        HEventSemiReader,
+//         HEventSemiReader,
         HSignatureSemiTagger,
-        HSignatureSemiReader,
+//         HSignatureSemiReader,
         HEventTagger,
         HHiggsLeptonicTagger,
-        HEventLeptonicReader,
+//         HEventLeptonicReader,
         HChargedHiggsSemiTagger
     };
 
-    enum HStage {
-        HTrainer,
-        HReader
-    };
+    void AnalysisLoop(const hanalysis::Tagger::Stage stage);
 
-    void AnalysisLoop(const hanalysis::HAnalysis::HTagger tagger);
+//     void AnalysisLoop() {
+//         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
+//     }
 
-    void AnalysisLoop() {
-        AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
-    }
-
-    virtual std::vector<HFile> Files(const HTagger Tagger, const HTag State) {
-        Print(HError, "GetFiles", "Should be subclasses", Tagger, State);
-        return std::vector<HFile>{};
+    virtual std::vector<HFile> Files(const Tag tag) {
+        Print(HError, "GetFiles", "Should be subclasses", tag);
+        return std::vector<HFile> {};
     }
 
     void SetConfig(const HConfig &config) {
@@ -94,18 +90,18 @@ protected:
         return tree_reader.GetEntries();
     }
 
-    ExRootTreeWriter TreeWriter(const TFile &export_file, const std::string &ExportTreeName, const hanalysis::HAnalysis::HTagger Tagger);
+    ExRootTreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
 
 //     ExRootTreeReader *TreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
 
 //     TFile *ExportFile(const std::string &StudyName) const;
 
-    std::string ExportName(const hanalysis::HAnalysis::HTagger tagger, const hanalysis::HObject::HTag tag) const;
+    std::string ExportName(const Tagger::Stage stage, const hanalysis::HObject::Tag tag) const;
 
     HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::HFile &file);
 
-    virtual bool Analysis(HEvent &, const HTagger Tagger, const HTag State) {
-        Print(HError, "Analysis", "should be subclassed", Tagger, State);
+    virtual bool Analysis(HEvent &,const Tagger::Stage stage, const Tag tag) {
+        Print(HError, "Analysis", "should be subclassed", tag);
         return 0;
     }
 
@@ -165,15 +161,17 @@ protected:
 
     int event_sum_;
 
-    int &event_sum(){
-      return event_sum_;
+    int &event_sum() {
+        return event_sum_;
     }
 
     /**
      * @brief Branch to write results into
      *
      */
-    ExRootTreeBranch *Branch;
+//     ExRootTreeBranch *Branch;
+
+    Tagger &tagger_;
 
     int ObjectNumber;
 

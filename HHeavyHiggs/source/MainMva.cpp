@@ -2,22 +2,23 @@
 
 #include "fastjet/LimitedWarning.hh"
 
-#include "HConfig.hh"
-#include "TSystem.h"
+# include "HConfig.hh"
+# include "TSystem.h"
 # include "HFactory.hh"
+# include "Tagger.hh"
 
-void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config)
+void RunTagger(const hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage, const HConfig &config)
 {
-    hheavyhiggs::HAnalysisMva Analysis;
-    const std::string Name = Analysis.StudyName(Tagger);
-    Analysis.Print(Analysis.HError, "Tagger", Tagger, Name);
+    hheavyhiggs::HAnalysisMva Analysis(tagger);
+    const std::string name = tagger.tagger_name();
+    Analysis.Print(Analysis.HError, "Tagger", name);
     Analysis.SetConfig(config);
 
-    std::string FileName = Analysis.ProjectName() + "/" + Name + ".root";
-    if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(Tagger);
+    std::string file_name = Analysis.ProjectName() + "/" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) Analysis.AnalysisLoop(stage);
 
-    FileName = Analysis.ProjectName() + "/Mva" + Name + ".root";
-    if (gSystem->AccessPathName(FileName.c_str())) {
+    file_name = Analysis.ProjectName() + "/Mva" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HBottomTagger:
             hanalysis::HFactory(Analysis.BottomTagger);
@@ -59,8 +60,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config
             hanalysis::HFactory(Analysis.EventSemiTagger);
             break;
         case hanalysis::HAnalysis::HSignatureSemiTagger:
-          hanalysis::HFactory(Analysis.SignatureSemiTagger);
-          break;
+            hanalysis::HFactory(Analysis.SignatureSemiTagger);
+            break;
 //         case hanalysis::HAnalysis::HChargedHiggsSemiTagger:
 //           hanalysis::HFactory(Analysis.ChargedHiggsSemiTagger);
 //           break;
@@ -75,8 +76,8 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config
 //     }
 
 
-    FileName = Analysis.ProjectName() + "/" + Name + "Bdt.root";
-    if (gSystem->AccessPathName(FileName.c_str())) {
+    file_name = Analysis.ProjectName() + "/" + name + "Bdt.root";
+    if (gSystem->AccessPathName(file_name.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HEventLeptonicReader: {
 //             hanalysis::HReader Reader(Analysis.EventLeptonicTagger);
@@ -84,7 +85,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger, const HConfig &config
             break;
         }
         case hanalysis::HAnalysis::HEventSemiReader: {
-          Analysis.SetTrees(hanalysis::HAnalysis::HEventSemiReader,hanalysis::HObject::HBackground);
+            Analysis.SetTrees(hanalysis::HAnalysis::HEventSemiReader, hanalysis::HObject::kBackground);
             hanalysis::HReader Reader(Analysis.EventSemiTagger);
             Reader.SimpleMVALoop();
             break;
@@ -102,32 +103,41 @@ int main()
 
     HConfig config("Neutral");
 
-    RunTagger(hanalysis::HAnalysis::HBottomTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HBottomReader,config);
+    HBottomTagger bottom_tagger;
+    RunTagger(bottom_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(bottom_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HJetPairTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HJetPairReader,config);
+    HJetPairTagger jet_pair_tagger;
+    RunTagger(jet_pair_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(jet_pair_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HWHadronicTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HWHadronicReader,config);
+    HWHadronicTagger w_hadronic_tagger;
+    RunTagger(w_hadronic_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(w_hadronic_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HWSemiTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HWSemiReader,config);
+    HWSemiTagger w_semi_tagger;
+    RunTagger(w_semi_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(w_semi_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HTopHadronicTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HTopHadronicReader,config);
+    HTopHadronicTagger top_hadronic_tagger;
+    RunTagger(top_hadronic_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(top_hadronic_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HTopSemiTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HTopSemiReader,config);
+    HTopSemiTagger tops_semi_tagger;
+    RunTagger(tops_semi_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(tops_semi_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HHeavyHiggsSemiReader,config);
+    HHeavyHiggsSemiTagger heavy_higgs_semi_tagger;
+    RunTagger(heavy_higgs_semi_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(heavy_higgs_semi_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HSignatureSemiTagger,config);
-//         RunTagger(hanalysis::HAnalysis::HSignatureSemiReader,config);
+    HSignatureSemiTagger signature_semi_tagger;
+    RunTagger(signature_semi_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(signature_semi_tagger, hanalysis::Tagger::kReader, config);
 
-    RunTagger(hanalysis::HAnalysis::HEventSemiTagger,config);
-    RunTagger(hanalysis::HAnalysis::HEventSemiReader,config);
+    HEventSemiTagger event_semi_tagger;
+    RunTagger(event_semi_tagger, hanalysis::Tagger::kTrainer, config);
+    RunTagger(event_semi_tagger, hanalysis::Tagger::kReader, config);
 
     std::cout << fastjet::LimitedWarning::summary() << std::endl;
 

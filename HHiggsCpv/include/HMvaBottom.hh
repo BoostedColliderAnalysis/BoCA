@@ -2,7 +2,7 @@
 # define HMvaBTagger_hh
 
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "HBranchHiggsCpv.hh"
 
 /**
@@ -10,7 +10,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hhiggscpv::HMvaBottom : public hanalysis::HMva
+class hhiggscpv::HMvaBottom : public hanalysis::Tagger
 {
 
 public:

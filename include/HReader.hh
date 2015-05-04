@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HMva.hh"
+# include "Tagger.hh"
 
 class HMvaResult : hanalysis::HObject
 {
@@ -37,13 +37,13 @@ public:
      * @brief Constructor
      *
      */
-    HReader(hanalysis::HMva &tagger);
+    HReader(hanalysis::Tagger &tagger);
 
     void operator=(const hanalysis::HReader &) {
         Print(HError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
     }
 
-    void SetMva(hanalysis::HMva &tagger);
+    void SetMva(hanalysis::Tagger &tagger);
 
     void SimpleMVALoop();
 
@@ -51,7 +51,7 @@ public:
 
 private:
 
-    HMva *tagger_;
+    Tagger *tagger_;
 
     TMVA::Reader reader_;
 
@@ -59,7 +59,7 @@ private:
         return reader_;
     }
 
-    HMva &tagger() const {
+    Tagger &tagger() const {
         return *tagger_;
     }
 

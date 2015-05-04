@@ -103,7 +103,7 @@ hheavyhiggs::HOctetBranch hheavyhiggs::HSignatureSemiTagger::GetBranch(const HOc
 
 }
 
-std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
     Print(HInformation, "Get Event Tags");
     float Mass = Event.GetMass();
@@ -130,7 +130,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
         else Print(HError, "Where is the Higgs?", HiggsParticles.size());
         std::sort(Sextets.begin(), Sextets.end(), MinDeltaR(HiggsParticles.front()));
@@ -143,7 +143,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
 
     std::vector<hanalysis::HDoublet> FinalDoublets;
     HJets Particles = Event.GetParticles()->Generator();
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
             for (const auto & Doublet : Doublets) {
@@ -151,13 +151,13 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
             }
         }
     }
-    if (Tag == HBackground) FinalDoublets = Doublets;
+    if (Tag == kBackground) FinalDoublets = Doublets;
 
     std::vector<HOctet> Octets;
     for (const auto & Doublet : FinalDoublets) {
         for (const auto & Sextet : Sextets) {
-            if (Tag == HSignal && Sextet.Jet().m() < Mass / 2)continue;
-            if (Tag == HSignal && Sextet.Jet().m() > Mass * 3 / 2)continue;
+            if (Tag == kSignal && Sextet.Jet().m() < Mass / 2)continue;
+            if (Tag == kSignal && Sextet.Jet().m() > Mass * 3 / 2)continue;
             if (Sextet.Triplet1().Singlet().delta_R(Doublet.Singlet1()) < DetectorGeometry.JetConeSize) continue;
             if (Sextet.Triplet1().Singlet().delta_R(Doublet.Singlet2()) < DetectorGeometry.JetConeSize) continue;
             if (Sextet.Triplet2().Singlet().delta_R(Doublet.Singlet1()) < DetectorGeometry.JetConeSize) continue;
@@ -177,7 +177,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     }
     if (Octets.size() < 1)Print(HInformation, "No Octets", Octets.size());
 
-    if (Tag == HSignal && Octets.size() > 1) {
+    if (Tag == kSignal && Octets.size() > 1) {
         Print(HInformation, "more than one event", Octets.size());
         std::sort(Octets.begin(), Octets.end());
         Octets.erase(Octets.begin() + 1, Octets.end());
@@ -190,10 +190,10 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
 }
 
 
-hanalysis::HObject::HTag hheavyhiggs::HSignatureSemiTagger::GetTag(const HOctet &)
+hanalysis::HObject::Tag hheavyhiggs::HSignatureSemiTagger::GetTag(const HOctet &)
 {
     Print(HInformation, "Get Sextet Tag");
-    return HSignal;
+    return kSignal;
 }
 
 std::vector<HOctet> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, const hanalysis::HReader &Reader)

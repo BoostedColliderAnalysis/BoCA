@@ -1,9 +1,9 @@
-#include "HAnalysisHiggsCpv.hh"
-#include "HMvaEvent.hh"
-#include "HMvaHiggs.hh"
-#include "HMvaBottom.hh"
-#include "HMvaTop.hh"
-#include "HMva.hh"
+# include "HAnalysisHiggsCpv.hh"
+# include "HMvaEvent.hh"
+# include "HMvaHiggs.hh"
+# include "HMvaBottom.hh"
+# include "HMvaTop.hh"
+# include "Tagger.hh"
 
 void RunTagger(const std::string TaggerName, const hhiggscpv::HAnalysis::HTagger Tagger)
 {

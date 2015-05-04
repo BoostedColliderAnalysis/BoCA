@@ -153,7 +153,7 @@ void HTopHadronTagger::GetBottomInfo(HTopHadronBranch &top_hadron_branch, const 
 }
 
 
-std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, float pre_cut)
+std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -165,7 +165,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 //     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     fastjet::PseudoJet TopQuark;
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         if (TopParticles.size() == TopNumber) TopQuark = TopParticles.front();
         else Print(HError, "Where is the Top?", TopParticles.size());
     }
@@ -225,8 +225,8 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
                     if (Piece3 == Doublet.Singlet1()) continue;
                     if (Piece3 == Doublet.Singlet2()) continue;
                     hanalysis::HTriplet Triplet(Doublet, Piece3);
-                    if (Tag == HSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
-                    if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
+                    if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > DetectorGeometry.JetConeSize) continue;
+                    if (Tag == kBackground && Triplet.Jet().delta_R(TopQuark) < DetectorGeometry.JetConeSize) continue;
 //                     if (Tag == HSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
 //                     if (Tag == HSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
                     if (Triplet.DeltaR() < DetectorGeometry.MinCellResolution) continue;
@@ -275,10 +275,10 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
         Print(HInformation, "Number of Jet Pairs", Triplets.size());
         Triplets = SortByMassTo(Triplets, TopMass);
         switch (Tag) {
-        case HSignal :
+        case kSignal :
             Triplets.erase(Triplets.begin() + TopNumber, Triplets.end()); // FIXME assuming maximal one hadronic top
             break;
-        case HBackground :
+        case kBackground :
             std::sort(Triplets.begin(), Triplets.end(), MaxPt());
             Triplets.erase(Triplets.begin() + TopNumber, Triplets.end()); // FIXME assuming maximal one hadronic top
 //             Triplets.erase(Triplets.begin()); // FIXME assuming maximal one hadronic top
@@ -298,12 +298,12 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 }
 
 
-hanalysis::HObject::HTag HTopHadronTagger::GetTag(const hanalysis::HTriplet &)
+hanalysis::HObject::Tag HTopHadronTagger::GetTag(const hanalysis::HTriplet &)
 {
     Print(HInformation, "Get Triple Tag");
 }
 
-hanalysis::HObject::HTag HTopHadronTagger::GetTag(const fastjet::PseudoJet &)
+hanalysis::HObject::Tag HTopHadronTagger::GetTag(const fastjet::PseudoJet &)
 {
     Print(HInformation, "Get Jet Tag");
 
@@ -311,7 +311,7 @@ hanalysis::HObject::HTag HTopHadronTagger::GetTag(const fastjet::PseudoJet &)
 // JetInfo.ExtractFraction(TopId);
 //
 // if (JetInfo.MaximalId() != TopId) return HBackground;
-    return HSignal;
+    return kSignal;
 }
 
 std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader &TopHadronicReader)

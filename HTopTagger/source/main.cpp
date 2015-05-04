@@ -39,13 +39,13 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
     if (gSystem->AccessPathName(FileName.c_str())) {
         switch (Tagger) {
         case hanalysis::HAnalysis::HTopSemiReader: {
-            Analysis.SetTrees(hanalysis::HAnalysis::HTopSemiTagger, hanalysis::HObject::HBackground);
+            Analysis.SetTrees(hanalysis::HAnalysis::HTopSemiTagger, hanalysis::HObject::kBackground);
             hanalysis::HReader Reader(Analysis.TopLeptonTagger);
             Reader.SimpleMVALoop();
             break;
         }
         case hanalysis::HAnalysis::HTopHadronicReader: {
-            Analysis.SetTrees(hanalysis::HAnalysis::HTopHadronicTagger, hanalysis::HObject::HBackground);
+            Analysis.SetTrees(hanalysis::HAnalysis::HTopHadronicTagger, hanalysis::HObject::kBackground);
             hanalysis::HReader Reader(Analysis.TopHadronicTagger);
             Reader.SimpleMVALoop();
             break;

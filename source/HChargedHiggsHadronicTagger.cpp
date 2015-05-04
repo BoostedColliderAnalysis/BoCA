@@ -68,7 +68,7 @@ return ChargedHiggsHadronicBranch;
 }
 
 
-std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
     Print(HInformation, "Get Higgs Tags");
 
@@ -104,15 +104,15 @@ std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagge
 
 }
 
-hanalysis::HObject::HTag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQuartet31 &Quartet)
+hanalysis::HObject::Tag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQuartet31 &Quartet)
 {
     Print(HInformation, "Get Triple Tag");
 
-    if (Quartet.Triplet().Tag() == HBackground)return HBackground;
+    if (Quartet.Triplet().Tag() == kBackground)return kBackground;
 //     if (Quartet.GetTriplet2().Tag() == HBackground)return HBackground;
     // TODO compare with semi leptonic case
-    if (sgn(Quartet.Triplet().Singlet().user_index()) == sgn(Quartet.Singlet().user_index())) return HBackground;
-    return HSignal;
+    if (sgn(Quartet.Triplet().Singlet().user_index()) == sgn(Quartet.Singlet().user_index())) return kBackground;
+    return kSignal;
 }
 
 

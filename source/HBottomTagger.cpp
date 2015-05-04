@@ -86,7 +86,7 @@ HBottomBranch hanalysis::HBottomTagger::GetBranch(const fastjet::PseudoJet &Jet)
 
 }
 
-std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
@@ -115,7 +115,7 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
     return BottomBranches;
 }
 
-HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Particles, const HTag Tag, const int SubJetNumber)
+HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Jets");
     HJets Pieces;
@@ -151,13 +151,13 @@ HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Parti
 }
 
 
-HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, const HTag Tag)
+HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, const Tag Tag)
 {
     Print(HInformation, "Clean Jets");
 
     for (const auto & Particle : Particles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+        if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
     HJets NewCleanJets;
@@ -176,7 +176,7 @@ HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, c
 //         if (Tag == HSignal && Jet.user_info<HJetInfo>().MeanDisplacement() < .1) {
 //             continue;
 //         }
-        if (Tag == HSignal && Jet.user_info<HJetInfo>().SumDisplacement() == 0) {
+        if (Tag == kSignal && Jet.user_info<HJetInfo>().SumDisplacement() == 0) {
             continue;
         }
 //         if (Tag == HBackground && Jet.user_info<HJetInfo>().Fraction(BottomId) > .2) {
@@ -191,10 +191,10 @@ HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, c
     return NewCleanJets;
 }
 
-hanalysis::HObject::HTag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &) const
+hanalysis::HObject::Tag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &) const
 {
 
-    return HSignal;
+    return kSignal;
 }
 
 HJets hanalysis::HBottomTagger::GetMultiJetBdt(HJets &Jets, const HReader &BottomReader)

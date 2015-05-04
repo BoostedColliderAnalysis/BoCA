@@ -202,7 +202,7 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -228,7 +228,7 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
         else Print(HError, "Where is the Higgs?", HiggsParticles.size());
         std::sort(Sextets.begin(), Sextets.end(), MinDeltaR(HiggsParticles.front()));
@@ -239,7 +239,7 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
 
     std::vector<hanalysis::HDoublet> FinalDoublets;
     HJets Particles = Event.GetParticles()->Generator();
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
             for (const auto & Doublet : Doublets) {
@@ -247,7 +247,7 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
             }
         } else Print(HError, "Where is the Quark Pair", Particles.size());
     }
-    if (Tag == HBackground)
+    if (Tag == kBackground)
         FinalDoublets = Doublets;
 
     std::vector<HOctet> Octets = SignatureSemiTagger.GetBdt(Sextets, FinalDoublets, SignatureSemiReader);

@@ -1,12 +1,12 @@
 # include "HAnalysisBTagger.hh"
 
-hbtagger::HAnalysis::HAnalysis()
-{
-    //     DebugLevel = hanalysis::HObject::HDebug;
-    Print(HNotification, "Constructor");
-    BottomTagger.SetAnalysisName(ProjectName());
-    mkdir(ProjectName().c_str(), 0700);
-}
+// hbtagger::HAnalysis::HAnalysis()
+// {
+//     //     DebugLevel = hanalysis::HObject::HDebug;
+//     Print(HNotification, "Constructor");
+//     BottomTagger.SetAnalysisName(ProjectName());
+//     mkdir(ProjectName().c_str(), 0700);
+// }
 
 std::string hbtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
 {
@@ -23,7 +23,7 @@ std::string hbtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger T
     }
 }
 
-std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag)
+std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag)
 {
     Print(HNotification, "Set File Vector", Tagger, Tag);
 
@@ -54,20 +54,20 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
     switch (Tagger) {
     case  HBottomTagger :
         switch (Tag) {
-        case HObject::HSignal :
+        case HObject::kSignal :
             NewFiles = SignalFiles;
             break;
-        case HObject::HBackground :
+        case HObject::kBackground :
             NewFiles = BackgroundFiles;
             break;
         }
         break;
     case  HBottomReader :
         switch (Tag) {
-        case HObject::HSignal :
+        case HObject::kSignal :
             NewFiles = SignalFiles;
             break;
-        case HObject::HBackground :
+        case HObject::kBackground :
             NewFiles = BackgroundFiles;
             break;
         }
@@ -85,7 +85,7 @@ std::vector<hanalysis::HFile> hbtagger::HAnalysis::Files(const hanalysis::HAnaly
 }
 
 
-void hbtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag)
+void hbtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag)
 {
 
     HStrings SignalTrees {
@@ -113,10 +113,10 @@ void hbtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, c
     case HBottomTagger:
         BottomTagger.SetSignalTreeNames(SignalTrees);
         BottomTagger.SetBackgroundTreeNames(BackgroundTrees);
-        if (Tag == HSignal)  BottomTagger.SetTagger();
+        if (Tag == kSignal)  BottomTagger.SetTagger();
         break;
     case HBottomReader:
-        if (Tag == HSignal)  BottomTagger.SetTagger();
+        if (Tag == kSignal)  BottomTagger.SetTagger();
         BottomTagger.SetSignalTreeNames(SignalTrees);
         BottomTagger.SetBackgroundTreeNames(BackgroundTrees);
         break;
@@ -125,10 +125,10 @@ void hbtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, c
     }
 }
 
-void hbtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+void hbtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
 {
     Print(HInformation, "Prepare Reader", Tagger);
-    if (Tag == HBackground) return;
+    if (Tag == kBackground) return;
     switch (Tagger) {
     case HBottomTagger:
         break;
@@ -157,7 +157,7 @@ void hbtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const han
 
 }
 
-bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
 {
     Print(HInformation, "Analysis", Tagger);
     ++event_sum_;
@@ -174,7 +174,7 @@ bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HA
 }
 
 
-bool hbtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag Tag)
+bool hbtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Bottom Tag", Tag);
     std::vector<HBottomBranch> bottoms = BottomTagger.GetBranches(Event, Tag);
@@ -190,7 +190,7 @@ bool hbtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag Tag)
     return 1;
 }
 
-bool hbtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
+bool hbtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Bottom Reader", Tag);
     HJets Jets = BottomTagger.GetJets(Event);

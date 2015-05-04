@@ -87,7 +87,7 @@ HBottomBranch hbtagger::HBottomTaggerSimple::GetBranch(const fastjet::PseudoJet 
 
 }
 
-std::vector<HBottomBranch> hbtagger::HBottomTaggerSimple::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector<HBottomBranch> hbtagger::HBottomTaggerSimple::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
@@ -113,13 +113,13 @@ std::vector<HBottomBranch> hbtagger::HBottomTaggerSimple::GetBranches(hanalysis:
 
 
 
-HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particles, const HTag Tag)
+HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particles, const Tag Tag)
 {
     Print(HInformation, "Clean Jets");
 
     for (const auto & Particle : Particles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+        if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
     HJets NewCleanJets;
@@ -138,7 +138,7 @@ HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particl
 //         if (Tag == HSignal && Jet.user_info<hanalysis::HJetInfo>().MeanDisplacement() < .1) {
 //             continue;
 //         }
-        if (Tag == HSignal && Jet.user_info<hanalysis::HJetInfo>().SumDisplacement() == 0) {
+        if (Tag == kSignal && Jet.user_info<hanalysis::HJetInfo>().SumDisplacement() == 0) {
             continue;
         }
 //         if (Tag == HBackground && Jet.user_info<hanalysis::HJetInfo>().Fraction(BottomId) > .2) {
@@ -153,10 +153,10 @@ HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particl
     return NewCleanJets;
 }
 
-hanalysis::HObject::HTag hbtagger::HBottomTaggerSimple::GetTag(const fastjet::PseudoJet &) const
+hanalysis::HObject::Tag hbtagger::HBottomTaggerSimple::GetTag(const fastjet::PseudoJet &) const
 {
 
-    return HSignal;
+    return kSignal;
 }
 
 

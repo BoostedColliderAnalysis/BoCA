@@ -11,7 +11,7 @@
  * @brief Hadronic top BDT tagger
  *
  */
-class hanalysis::HTopHadronicTagger : public HMva
+class hanalysis::HTopHadronicTagger : public Tagger
 {
 
 public:
@@ -20,7 +20,7 @@ public:
 
     void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWTagger &NewWTagger);
 
-    std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag, float pre_cut = 0);
+    std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0);
 
     std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & TopHadronicReader);
 
@@ -53,9 +53,9 @@ private:
 
     void DefineVariables();
 
-    HTag GetTag(const hanalysis::HTriplet &);
+    Tag GetTag(const hanalysis::HTriplet &);
 
-    HTag GetTag(const fastjet::PseudoJet& Jet);
+    Tag GetTag(const fastjet::PseudoJet& Jet);
 
     void GetBottomInfo(HTopHadronicBranch &TopHadronicBranch, const fastjet::PseudoJet jet) const;
 

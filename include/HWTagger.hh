@@ -8,7 +8,7 @@
  * @brief W BDT tagger
  *
  */
-class hanalysis::HWTagger : public HMva
+class hanalysis::HWTagger : public Tagger
 {
 
 public:
@@ -17,7 +17,7 @@ public:
 
     void SetTagger(const HBottomTagger &NewBottomTagger);
 
-    std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
 //     std::vector<HParticleBranch> GetConstituentBranches();
 

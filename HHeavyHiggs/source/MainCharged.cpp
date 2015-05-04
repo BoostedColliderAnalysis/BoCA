@@ -73,7 +73,7 @@ void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
             break;
         }
         case hanalysis::HAnalysis::HEventSemiReader: {
-          Analysis.SetTrees(Tagger,hanalysis::HAnalysis::HSignal);
+          Analysis.SetTrees(Tagger,hanalysis::HAnalysis::kSignal);
             hanalysis::HReader Reader(Analysis.EventSemiTagger);
             Reader.SimpleMVALoop();
             break;

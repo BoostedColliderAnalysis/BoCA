@@ -8,7 +8,7 @@
  * @brief Top leptonic BDT tagger
  *
  */
-class hanalysis::HTopLeptonicTagger : public HMva
+class hanalysis::HTopLeptonicTagger : public Tagger
 {
 
 public:
@@ -19,7 +19,7 @@ public:
 
     ~HTopLeptonicTagger();
 
-    std::vector< HTopLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HTopLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     std::vector< HDoublet> GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader & Reader);
 
@@ -35,7 +35,7 @@ private:
 
     void DefineVariables();
 
-    HTag GetTag(const HDoublet &Doublet);
+    Tag GetTag(const HDoublet &Doublet);
 
     HBottomTagger BottomTagger;
 

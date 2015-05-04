@@ -105,7 +105,7 @@ HTopLeptonBranch HTopLeptonTagger::GetBranch(const hanalysis::HDoublet &Doublet)
     return TopSemiBranch;
 }
 
-std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Get Top Tags");
     const int TopNumber = 2;
@@ -135,7 +135,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
         for (const auto & Jet : Jets) {
             if (Jet.delta_R(Lepton) > DetectorGeometry.JetConeSize) continue;
             hanalysis::HDoublet Doublet(Jet, Lepton);
-            Doublet.SetTag(Tag);
+            Doublet.SetTag(tag);
             Doublets.push_back(Doublet);
             ++LeptonJetNumber;
         }
@@ -150,22 +150,22 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     HJets TopParticles = Event.GetParticles()->Generator();
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     if (TopParticles.size() != TopNumber) {
-        if(Tag == HSignal) Print(HError, "Top Quarks", TopParticles.size());
-        if (Tag == HBackground) FinalDoublets = Doublets;
+        if(tag == kSignal) Print(HError, "Top Quarks", TopParticles.size());
+        if (tag == kBackground) FinalDoublets = Doublets;
     } else {
         if (TopParticles.at(0).delta_R(TopParticles.at(1)) < DetectorGeometry.JetConeSize) Print(HError, "Top Quarks Too close", TopParticles.size());
         for (const auto & TopParticle : TopParticles) {
             ++TopQuarkNumber;
             for (const auto & Doublet : Doublets) {
-                if (Tag == HSignal && Doublet.Jet().delta_R(TopParticle) < DetectorGeometry.JetConeSize) FinalDoublets.push_back(Doublet);
+                if (tag == kSignal && Doublet.Jet().delta_R(TopParticle) < DetectorGeometry.JetConeSize) FinalDoublets.push_back(Doublet);
 //                 Print(HError, "Distance", Doublet.Jet().delta_R(TopParticle));
-                if (Tag == HBackground && Doublet.Jet().delta_R(TopParticle) > DetectorGeometry.JetConeSize) FinalDoublets.push_back(Doublets.front());
+                if (tag == kBackground && Doublet.Jet().delta_R(TopParticle) > DetectorGeometry.JetConeSize) FinalDoublets.push_back(Doublets.front());
             }
         }
     }
 
 
-    if (Tag == HSignal && FinalDoublets.size() > TopNumber) {
+    if (tag == kSignal && FinalDoublets.size() > TopNumber) {
         Print(HError, "Where is the Top Jet?", FinalDoublets.size());
         std::sort(FinalDoublets.begin(), FinalDoublets.end(), SortByMass(TopMass));
         FinalDoublets.erase(FinalDoublets.begin() + TopNumber, FinalDoublets.end());

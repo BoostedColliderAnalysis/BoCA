@@ -10,7 +10,7 @@
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class hanalysis::HChargedHiggsLeptonicTagger : public HMva
+class hanalysis::HChargedHiggsLeptonicTagger : public Tagger
 {
 
 public:
@@ -19,7 +19,7 @@ public:
 
     ~HChargedHiggsLeptonicTagger();
 
-    std::vector< HChargedHiggsLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HChargedHiggsLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     HChargedHiggsLeptonicBranch GetBranch(const hanalysis::HTriplet &Triplet);
 
@@ -35,7 +35,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HObject::HTag GetTag(const hanalysis::HTriplet &Triplet);
+    hanalysis::HObject::Tag GetTag(const hanalysis::HTriplet &Triplet);
 
 
     HBottomTagger BottomTagger;

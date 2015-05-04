@@ -1,7 +1,7 @@
 # include "HFactory.hh"
 # include "TMVA/Config.h"
 
-hanalysis::HFactory::HFactory(HMva &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
+hanalysis::HFactory::HFactory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification , "Constructor");

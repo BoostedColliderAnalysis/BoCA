@@ -4,7 +4,7 @@
 
 #include "TObjArray.h"
 
-# include "HMva.hh"
+# include "Tagger.hh"
 
 # include "HBranchHeavyHiggs.hh"
 
@@ -12,7 +12,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HMva : public hanalysis::HMva
+class hheavyhiggs::HMva : public hanalysis::Tagger
 {
 
 public:

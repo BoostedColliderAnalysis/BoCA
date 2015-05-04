@@ -12,7 +12,7 @@
  * @brief Event BDT Tagger for leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedLeptonicTagger : public hanalysis::HMva
+class hheavyhiggs::HChargedLeptonicTagger : public hanalysis::Tagger
 {
 
 public:
@@ -31,7 +31,7 @@ public:
     */
     ~HChargedLeptonicTagger();
 
-    std::vector<hheavyhiggs::HChargedLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector<hheavyhiggs::HChargedLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     std::vector< int > ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
 
@@ -69,7 +69,7 @@ private:
 
     std::vector<hheavyhiggs::HOctet44> GetOctets(const hanalysis::HSextet &Sextet, const fastjet::PseudoJet &MissingEt);
 
-    HOctet44 GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const HJets &Neutrinos, const hanalysis::HObject::HTag Tag);
+    HOctet44 GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag);
 
     hanalysis::HBottomTagger *BottomTagger;
 

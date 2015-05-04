@@ -5,7 +5,7 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger()
   //     DebugLevel = hanalysis::HObject::HDebug;
 
   Print(HNotification, "Constructor");
-  SetBranchName("Higgs");
+//   SetBranchName("Higgs");
 }
 
 hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const HBottomTagger &NewBottomTagger)
@@ -84,7 +84,7 @@ struct SortPairByMass {
 };
 
 
-std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Event, const HObject::HTag State)
+std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Event, const HObject::Tag State)
 {
 
     Print(HInformation, "Get Higgs Tags");
@@ -114,7 +114,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
 
     std::vector<HDoublet> Doublets;
 
-    if (State == HSignal) {
+    if (State == kSignal) {
         Print(HInformation, "Higgs Jets", HiggsJets.size());
         for (HJets::iterator Jet1 = HiggsJets.begin(); Jet1 != HiggsJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
@@ -131,7 +131,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
         }
     }
 
-    if (State == HBackground) {
+    if (State == kBackground) {
         for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
                 HDoublet JetPair((*Jet1), (*Jet2));

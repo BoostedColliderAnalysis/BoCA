@@ -2,11 +2,11 @@
 
 int main()
 {
-    hanalysis::HAnalysis *Analysis = new htest::HAnalysis();
+//     hanalysis::HAnalysis *Analysis = new htest::HAnalysis();
 
-    Analysis->AnalysisLoop();
+//     Analysis->AnalysisLoop();
 
-    delete Analysis;
+//     delete Analysis;
 
     return 1;
 

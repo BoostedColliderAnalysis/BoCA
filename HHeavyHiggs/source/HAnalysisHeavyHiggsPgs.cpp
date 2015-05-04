@@ -1,11 +1,11 @@
 # include "HAnalysisHeavyHiggsPgs.hh"
 
-hheavyhiggs::HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
-{
-
-    Print(HNotification, "Constructor");
-
-}
+// hheavyhiggs::HAnalysisHeavyHiggsPgs::HAnalysisHeavyHiggsPgs()
+// {
+//
+//     Print(HNotification, "Constructor");
+//
+// }
 
 std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const std::string &StudyName)
 {

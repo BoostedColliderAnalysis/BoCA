@@ -73,7 +73,7 @@ HHiggsTagger.cpp
 # HSuperStructure.cpp
 HSubStructure.cpp
 
-HMva.cpp
+Tagger.cpp
 HFactory.cpp
 HReader.cpp
 

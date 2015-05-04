@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-hheavyhiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
-{
-    Print(HNotification, "Constructor");
-
-}
+// hheavyhiggs::HAnalysisHeavyHiggsParton::HAnalysisHeavyHiggsParton()
+// {
+//     Print(HNotification, "Constructor");
+//
+// }
 
 std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const std::string &StudyName)
 {

@@ -70,7 +70,7 @@ HWSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::HDoublet &Doubl
 
 }
 
-std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -95,9 +95,9 @@ std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEven
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         std::sort(PostDoublets.begin(), PostDoublets.end(), MinDeltaR(WBoson));
         for (auto & PostDoublet : PostDoublets) {
-            if (Tag == HSignal && std::abs(PostDoublet.Jet().m() - WMass) > WMassWindow) continue;
-            if (Tag == HSignal && PostDoublet.Jet().delta_R(WBoson) > DetectorGeometry.JetConeSize) continue;
-            if (Tag == HBackground && PostDoublet.Jet().delta_R(WBoson) > DetectorGeometry.JetConeSize) continue;
+            if (Tag == kSignal && std::abs(PostDoublet.Jet().m() - WMass) > WMassWindow) continue;
+            if (Tag == kSignal && PostDoublet.Jet().delta_R(WBoson) > DetectorGeometry.JetConeSize) continue;
+            if (Tag == kBackground && PostDoublet.Jet().delta_R(WBoson) > DetectorGeometry.JetConeSize) continue;
             PostDoublet.SetTag(Tag);
             Doublets.push_back(PostDoublet);
         }
@@ -110,13 +110,13 @@ std::vector< HWSemiBranch> hanalysis::HWSemiTagger::GetBranches(hanalysis::HEven
     return WSemiBranches;
 }
 
-hanalysis::HObject::HTag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoublet &Doublet) const
+hanalysis::HObject::Tag hanalysis::HWSemiTagger::GetTag(const hanalysis::HDoublet &Doublet) const
 {
     Print(HInformation, "Get Triple Tag");
     static_cast<HJetInfo *>(Doublet.Singlet1().user_info_shared_ptr().get())->ExtractFraction(WId);
 
-    if (std::abs(Doublet.Singlet1().user_info<HJetInfo>().MaximalId()) != WId) return HBackground;
-    return HSignal;
+    if (std::abs(Doublet.Singlet1().user_info<HJetInfo>().MaximalId()) != WId) return kBackground;
+    return kSignal;
 }
 
 std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const HReader &Reader)
@@ -222,7 +222,7 @@ struct FindError {
     float Error;
 };
 
-std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const HTag Tag)
+std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const Tag Tag)
 {
     Print(HInformation, "Get Triple Pair");
 
@@ -243,10 +243,10 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDou
 
     std::vector<HDoublet> FinalDoublets;
     switch (Tag) {
-    case HSignal:
+    case kSignal:
         FinalDoublets.push_back(BestDoublet);
         return FinalDoublets;
-    case HBackground:
+    case kBackground:
         for (const auto Neutrino : Neutrinos) Doublets.erase(std::remove_if(Doublets.begin(), Doublets.end(), FindError(Neutrino, BestError)), Doublets.end());
         return Doublets;
     default:

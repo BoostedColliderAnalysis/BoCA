@@ -2,7 +2,7 @@
 # define HMvaBTagger_hh
 
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "HBranchBTagger.hh"
 
 /**
@@ -10,7 +10,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hbtagger::HMva : public hanalysis::HMva
+class hbtagger::HMva : public hanalysis::Tagger
 {
 
 public:

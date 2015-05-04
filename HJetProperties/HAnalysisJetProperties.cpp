@@ -1,17 +1,17 @@
 # include "HAnalysisJetProperties.hh"
 
-hjetproperties::HAnalysis::HAnalysis()
-{
-
-    Print(HNotification, "Constructor");
-
-    //JetTag = new hanalysis::HJetTag();
-
-    SubStructure = new hanalysis::HSubStructure();
-
-    //     DebugLevel = 4;
-
-}
+// hjetproperties::HAnalysis::HAnalysis()
+// {
+//
+//     Print(HNotification, "Constructor");
+//
+//     //JetTag = new hanalysis::HJetTag();
+//
+//     SubStructure = new hanalysis::HSubStructure();
+//
+//     //     DebugLevel = 4;
+//
+// }
 
 
 hjetproperties::HAnalysis::~HAnalysis()

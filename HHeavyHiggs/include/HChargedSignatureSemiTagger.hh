@@ -12,7 +12,7 @@
  * @brief Event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedSignatureSemiTagger : public hanalysis::HMva
+class hheavyhiggs::HChargedSignatureSemiTagger : public hanalysis::Tagger
 {
 
 public:
@@ -39,7 +39,7 @@ public:
       const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
 
 
-    std::vector< HChargedOctetBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HChargedOctetBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     HChargedOctetBranch GetBranch(const HOctet44 &Octet) const;
 

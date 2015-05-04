@@ -1,37 +1,37 @@
 # include "HAnalysisPairTagger.hh"
 # include "Predicate.hh"
 
-hpairtagger::HAnalysis::HAnalysis()
-{
-    //     DebugLevel = hanalysis::HObject::HDebug;
-    Print(HNotification, "Constructor");
-    BottomTagger.SetAnalysisName(ProjectName());
-    JetPairTagger.SetAnalysisName(ProjectName());
-    mkdir(ProjectName().c_str(), 0700);
-}
+// hpairtagger::HAnalysis::HAnalysis()
+// {
+//     //     DebugLevel = hanalysis::HObject::HDebug;
+//     Print(HNotification, "Constructor");
+//     BottomTagger.SetAnalysisName(ProjectName());
+//     JetPairTagger.SetAnalysisName(ProjectName());
+//     mkdir(ProjectName().c_str(), 0700);
+// }
 
-std::string hpairtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
-{
-    Print(HNotification, "Get Study Names", Tagger);
+// std::string hpairtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
+// {
+//     Print(HNotification, "Get Study Names", Tagger);
+//
+//     switch (Tagger) {
+//     case  HBottomTagger :
+//         return "Bottom";
+//     case  HBottomReader :
+//         return "BottomReader";
+//     case  HJetPairTagger :
+//         return "JetPair";
+//     case  HJetPairReader :
+//         return "JetPairReader";
+//     default :
+//         Print(HError, "unexpected TaggerName", Tagger);
+//         return "";
+//     }
+// }
 
-    switch (Tagger) {
-    case  HBottomTagger :
-        return "Bottom";
-    case  HBottomReader :
-        return "BottomReader";
-    case  HJetPairTagger :
-        return "JetPair";
-    case  HJetPairReader :
-        return "JetPairReader";
-    default :
-        Print(HError, "unexpected TaggerName", Tagger);
-        return "";
-    }
-}
-
-std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag)
+std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag tag)
 {
-    Print(HNotification, "Set File Vector", Tagger, Tag);
+    Print(HNotification, "Set File Vector", Tagger, tag);
 
     std::vector<hanalysis::HFile> SignalLeptonicFiles;
     std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
@@ -70,61 +70,26 @@ std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HAn
 
     std::vector<hanalysis::HFile> NewFiles;
 
-    switch (Tagger) {
-    case  HBottomTagger :
-        switch (Tag) {
-        case HObject::HSignal :
-            NewFiles = SemiFiles;
-            break;
-        case HObject::HBackground :
-            NewFiles = SemiFiles;
-            break;
-        }
-        break;
-    case  HBottomReader :
-        switch (Tag) {
-        case HObject::HSignal :
+        switch (tag) {
+        case HObject::kSignal :
             NewFiles = SignalSemiFiles;
             break;
-        case HObject::HBackground :
+        case HObject::kBackground :
             NewFiles = BackgroundSemiFiles;
             break;
         }
-        break;
-    case  HJetPairTagger :
-        switch (Tag) {
-        case HObject::HSignal :
-            NewFiles = SignalSemiFiles;
-            break;
-        case HObject::HBackground :
-            NewFiles = BackgroundSemiFiles;
-            break;
-        }
-        break;
-    case  HJetPairReader :
-        switch (Tag) {
-        case HObject::HSignal :
-            NewFiles = SignalSemiFiles;
-            break;
-        case HObject::HBackground :
-            NewFiles = BackgroundSemiFiles;
-            break;
-        }
-        break;
-    default:
-        Print(HError, "Files", "unknown tagger name", Tagger);
-    }
+
 
     NewFiles.front().SetBasePath("~/Projects/PairTagging/");
     NewFiles.front().SetFileSuffix(".root");
-    SetTrees(Tagger, Tag);
-    PrepareReader(Tagger, Tag);
+    SetTrees(Tagger, tag);
+    PrepareReader(Tagger, tag);
     return NewFiles;
 
 }
 
 
-void hpairtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag)
+void hpairtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag)
 {
 
     HStrings SignalLeptonicTrees {};
@@ -160,110 +125,119 @@ void hpairtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger
     HStrings NotLeptonicTrees = JoinHStrings(HadronicTrees, SemiTrees);
     HStrings CombinedTrees = JoinHStrings(NotLeptonicTrees, LeptonicTrees);
 
-    switch (Tagger) {
-    case HBottomTagger:
-        BottomTagger.SetSignalTreeNames(SemiTrees);
-        BottomTagger.SetBackgroundTreeNames(SemiTrees);
-        if (Tag == HSignal) {
-            BottomTagger.SetTagger();
-        }
-        break;
-    case HBottomReader:
-        if (Tag == HSignal) {
-            BottomTagger.SetTagger();
-        }
-        BottomTagger.SetSignalTreeNames(SemiTrees);
-        BottomTagger.SetBackgroundTreeNames(SemiTrees);
-        break;
-    case HJetPairTagger :
-        JetPairTagger.SetSignalTreeNames(SignalSemiTrees);
-        JetPairTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-        if (Tag == HSignal) {
-            JetPairTagger.SetTagger(BottomTagger);
-        }
-        break;
-    case HJetPairReader :
-        if (Tag == HSignal) {
-            JetPairTagger.SetTagger(BottomTagger);
-        }
-        JetPairTagger.SetSignalTreeNames(SignalSemiTrees);
-        JetPairTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-        break;
-    default :
-        Print(HError, "SetTrees", "unhandeled case");
-    }
+//     switch (Tagger) {
+//     case HBottomTagger:
+//         BottomTagger.SetSignalTreeNames(SemiTrees);
+//         BottomTagger.SetBackgroundTreeNames(SemiTrees);
+//         if (Tag == kSignal) {
+//             BottomTagger.SetTagger();
+//         }
+//         break;
+//     case HBottomReader:
+//         if (Tag == kSignal) {
+//             BottomTagger.SetTagger();
+//         }
+//         BottomTagger.SetSignalTreeNames(SemiTrees);
+//         BottomTagger.SetBackgroundTreeNames(SemiTrees);
+//         break;
+//     case HJetPairTagger :
+//         JetPairTagger.SetSignalTreeNames(SignalSemiTrees);
+//         JetPairTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         if (Tag == kSignal) {
+//             JetPairTagger.SetTagger(BottomTagger);
+//         }
+//         break;
+//     case HJetPairReader :
+//         if (Tag == kSignal) {
+//             JetPairTagger.SetTagger(BottomTagger);
+//         }
+//         JetPairTagger.SetSignalTreeNames(SignalSemiTrees);
+//         JetPairTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         break;
+//     default :
+//         Print(HError, "SetTrees", "unhandeled case");
+//     }
+    tagger_.SetSignalTreeNames(SignalSemiTrees);
+    tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
 }
 
-void hpairtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
+// void hpairtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
+// {
+//     Print(HInformation, "Prepare Reader", Tagger);
+//     if (Tag == kBackground) {
+//         return;
+//     }
+//     switch (Tagger) {
+//     case HBottomTagger:
+//         break;
+//     case HBottomReader:
+//         BottomReader.SetMva(BottomTagger);
+//         break;
+//     case HJetPairTagger :
+//         JetPairTagger.BottomTagger.SetTagger();
+//         JetPairTagger.BottomReader.SetMva(JetPairTagger.BottomTagger);
+//         break;
+//     case HJetPairReader :
+//         BottomReader.SetMva(BottomTagger);
+//         JetPairReader.SetMva(JetPairTagger);
+//         break;
+//     default :
+//         Print(HError, "PrepareReader", "unhandled case");
+//     }
+// }
+
+// void hpairtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
+// {
+//     Print(HNotification, "New Branches", Tagger);
+//
+//     switch (Tagger) {
+//     case HBottomTagger :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
+//         break;
+//     case HBottomReader :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
+//         break;
+//     case HJetPairTagger :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
+//         break;
+//     case HJetPairReader :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
+//         break;
+//     default :
+//         Print(HError, "No Branch filled");
+//     }
+//
+// }
+
+bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const Stage stage, const Tag tag)
 {
-    Print(HInformation, "Prepare Reader", Tagger);
-    if (Tag == HBackground) {
-        return;
-    }
-    switch (Tagger) {
-    case HBottomTagger:
-        break;
-    case HBottomReader:
-        BottomReader.SetMva(BottomTagger);
-        break;
-    case HJetPairTagger :
-        JetPairTagger.BottomTagger.SetTagger();
-        JetPairTagger.BottomReader.SetMva(JetPairTagger.BottomTagger);
-        break;
-    case HJetPairReader :
-        BottomReader.SetMva(BottomTagger);
-        JetPairReader.SetMva(JetPairTagger);
-        break;
-    default :
-        Print(HError, "PrepareReader", "unhandled case");
-    }
-}
-
-void hpairtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
-{
-    Print(HNotification, "New Branches", Tagger);
-
-    switch (Tagger) {
-    case HBottomTagger :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
-        break;
-    case HBottomReader :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
-        break;
-    case HJetPairTagger :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
-        break;
-    case HJetPairReader :
-        Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
-        break;
-    default :
-        Print(HError, "No Branch filled");
-    }
-
-}
-
-bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const HTag Tag)
-{
-    Print(HInformation, "Analysis", Tagger);
+    Print(HInformation, "Analysis", stage, tag);
     ++event_sum_;
 
-    switch (Tagger) {
-    case HBottomTagger :
-        return GetBottomTag(Event, Tag);
-    case HBottomReader:
-        return GetBottomReader(Event, Tag);
-    case HJetPairTagger :
-        return GetJetPairTag(Event, Tag);
-    case HJetPairReader :
-        return GetJetPairReader(Event, Tag);
-    default :
-        Print(HError, "unknown Tagger", Tagger);
-        return 0;
+//     switch (stage) {
+//     case HBottomTagger :
+//         return GetBottomTag(event, tag);
+//     case HBottomReader:
+//         return GetBottomReader(event, tag);
+//     case HJetPairTagger :
+//         return GetJetPairTag(event, tag);
+//     case HJetPairReader :
+//         return GetJetPairReader(event, tag);
+//     default :
+//         Print(HError, "unknown Tagger", tagger);
+//         return 0;
+//     }
+
+    switch (stage) {
+      case hanalysis::Tagger::kTrainer :
+        return GetTag(event, tag);
+      case hanalysis::Tagger::kReader:
+        return GetReader(event, tag);
     }
 }
 
 
-bool hpairtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag Tag)
+bool hpairtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Bottom Tag", Tag);
     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
@@ -276,7 +250,7 @@ bool hpairtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const HTag T
     return 1;
 }
 
-bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
+bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get Bottom Reader", Tag);
     HJets Jets = BottomTagger.GetJets(Event);
@@ -291,7 +265,7 @@ bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTa
     for (const auto & Particle : Particles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
-            static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+            static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
         }
     }
 
@@ -307,7 +281,7 @@ bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const HTa
     return 1;
 }
 
-bool hpairtagger::HAnalysis::GetJetPairTag(hanalysis::HEvent &Event, const HTag Tag)
+bool hpairtagger::HAnalysis::GetJetPairTag(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get JetPair Tag", Tag);
     std::vector<HEventJetPairBranch> JetPairs = JetPairTagger.GetBranches(Event, Tag, MotherId(ProductionChannel()));
@@ -320,7 +294,7 @@ bool hpairtagger::HAnalysis::GetJetPairTag(hanalysis::HEvent &Event, const HTag 
     return 1;
 }
 
-bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const HTag Tag)
+bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const Tag Tag)
 {
     Print(HDebug, "Get JetPair Reader", Tag);
     HJets Jets = BottomTagger.GetJets(Event);
@@ -333,12 +307,12 @@ bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const HT
 
 //     HJets FilteredJets; // WRONG MUST BE REMOVED
     HJets Particles = Event.GetParticles()->Generator();
-    if (Tag == HSignal) {
+    if (Tag == kSignal) {
 //         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, BottomId, MotherId(ProductionChannel()));
     }
     if (
 // ProductionChannel() == Associated &&
-        Tag == HBackground) {
+        Tag == kBackground) {
 //         Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //         Particles = BottomTagger.RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //         Particles = BottomTagger.RemoveIfWrongAbsMother(Particles, ZId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN

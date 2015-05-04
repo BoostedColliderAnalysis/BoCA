@@ -1,11 +1,11 @@
 # include "HAnalysisHeavyHiggsDelphes.hh"
 
-hheavyhiggs::HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
-{
-
-    Print(HNotification, "Constructor");
-
-}
+// hheavyhiggs::HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
+// {
+//
+//     Print(HNotification, "Constructor");
+//
+// }
 
 HStrings hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 {

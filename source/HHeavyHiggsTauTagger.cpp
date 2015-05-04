@@ -75,7 +75,7 @@ HHeavyHiggsTauBranch hanalysis::HHeavyHiggsTauTagger::GetBranch(const hanalysis:
 
 }
 
-std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag)
 {
 
     Print(HInformation, "Get Top Tags");
@@ -96,12 +96,12 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
 
     for (const auto & Particle : TauParticles) {
         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < 0.4) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+        if (Jets.front().delta_R(Particle) < 0.4) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
     HJets NewCleanJets;
     for (const auto & Jet : Jets) {
         if (!Jet.has_user_info<HJetInfo>()) continue;
-        if (Jet.user_info<HJetInfo>().Tag() != Tag) continue;
+        if (Jet.user_info<HJetInfo>().Tag() != tag) continue;
         NewCleanJets.push_back(Jet);
     }
 
@@ -114,7 +114,7 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
 //         if (Tag == HSignal && PostDoublets.size() > 1) PostDoublets.erase(PostDoublets.begin() + 1, PostDoublets.end());
 //         if (Tag == HBackground && PostDoublets.size() > 0) PostDoublets.erase(PostDoublets.begin());
 //         for (auto & PostDoublet : PostDoublets) {
-            PreDoublet.SetTag(Tag);
+            PreDoublet.SetTag(tag);
             Doublets.push_back(PreDoublet);
 //         }
     }
@@ -128,9 +128,9 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
     return HiggsBranches;
 }
 
-hanalysis::HObject::HTag hanalysis::HHeavyHiggsTauTagger::GetTag(const hanalysis::HDoublet &Doublet) const
+hanalysis::HObject::Tag hanalysis::HHeavyHiggsTauTagger::GetTag(const hanalysis::HDoublet &Doublet) const
 {
-    return HSignal;
+    return kSignal;
 }
 
 std::vector<hanalysis::HDoublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader)
@@ -233,7 +233,7 @@ struct FindError {
     float Error;
 };
 
-std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const HTag Tag)
+std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const Tag tag)
 {
     Print(HInformation, "Get Triple Pair");
 
@@ -253,11 +253,11 @@ std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(co
     }
 
     std::vector<HDoublet> FinalDoublets;
-    switch (Tag) {
-    case HSignal:
+    switch (tag) {
+    case kSignal:
         FinalDoublets.push_back(BestDoublet);
         return FinalDoublets;
-    case HBackground:
+    case kBackground:
         for (const auto Neutrino : Neutrinos) Doublets.erase(std::remove_if(Doublets.begin(), Doublets.end(), FindError(Neutrino, BestError)), Doublets.end());
         return Doublets;
     default:

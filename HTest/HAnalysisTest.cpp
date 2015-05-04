@@ -1,11 +1,11 @@
 # include "HAnalysisTest.hh"
 
-htest::HAnalysis::HAnalysis()
-{
-
-    Print(HNotification, "Constructor");
-
-}
+// htest::HAnalysis::HAnalysis()
+// {
+//
+//     Print(HNotification, "Constructor");
+//
+// }
 
 HStrings htest::HAnalysis::GetStudyNameVector(){
 

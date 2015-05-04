@@ -1,7 +1,7 @@
 # ifndef HBottomTagger_hh
 # define HBottomTagger_hh
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
@@ -13,7 +13,7 @@
  * @brief Bottom BDT tagger
  *
  */
-class hanalysis::HBottomTagger : public HMva
+class hanalysis::HBottomTagger : public Tagger
 {
 
 public:
@@ -24,32 +24,36 @@ public:
 
     void SetTagger();
 
-    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     HJets GetMultiJetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
 
     HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
-    hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
+    hanalysis::HObject::Tag GetTag(const fastjet::PseudoJet &Jet) const;
 
     HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
 
     HJets GetSubBdt(const HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
-      return ((HBottomBranch *) EventClonesArray.At(Entry))->Bdt;
+    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
+        return ((HBottomBranch *) EventClonesArray.At(Entry))->Bdt;
     }
 
-    ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
-      switch(Stage){
-        case HAnalysis::HTrainer :
-          return NewTreeWriter.NewBranch(tagger_name().c_str(), HBottomBranch::Class());
-        case HAnalysis::HReader :
-          return NewTreeWriter.NewBranch(reader_name().c_str(), HBottomBranch::Class());
-      }
+    TClass &Class() const {
+        return *HBottomBranch::Class();
     }
 
-//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage Stage) {
+//     ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter, const HStage stage) {
+//       switch(Stage){
+//         case kTrainer :
+//           return NewTreeWriter.NewBranch(tagger_name().c_str(), HBottomBranch::Class());
+//         case kReader :
+//           return NewTreeWriter.NewBranch(reader_name().c_str(), HBottomBranch::Class());
+//       }
+//     }
+
+//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage stage) {
 //       SetTreeBranch(NewTreeWriter,*HBottomBranch::Class(),Stage);
 //     }
 
@@ -101,10 +105,10 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::HTag Tag);
+    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::Tag Tag);
 
 
-    HJets GetSubJets(const HJets &Jets, const HJets &Particles, const HTag Tag, const int SubJetNumber);
+    HJets GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber);
 
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;

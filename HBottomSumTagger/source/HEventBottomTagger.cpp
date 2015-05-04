@@ -81,7 +81,7 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -118,7 +118,7 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
     return EventSemiBranches;
 }
 
-bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const HJets &NewJets,hanalysis::HEvent &Event, const HTag Tag)
+bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const HJets &NewJets,hanalysis::HEvent &Event, const Tag Tag)
 {
     const unsigned JetNumber = 2;
     const unsigned SignalBottomNumber = 2;
@@ -136,8 +136,8 @@ bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const HJets &NewJets,
             BottomJets.push_back(Jets.front());
     }
 
-    if (Tag == HSignal && BottomJets.size() < SignalBottomNumber)  return 0;
-    if (Tag == HBackground && BottomJets.size() < BackgroundBottomNumber)  return 0;
+    if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return 0;
+    if (Tag == kBackground && BottomJets.size() < BackgroundBottomNumber)  return 0;
 
     return 1;
 }

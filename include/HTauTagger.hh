@@ -1,7 +1,7 @@
 # ifndef HTauTagger_hh
 # define HTauTagger_hh
 
-# include "HMva.hh"
+# include "Tagger.hh"
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
@@ -12,7 +12,7 @@
  * @brief Bottom BDT tagger
  *
  */
-class hanalysis::HTauTagger : public HMva
+class hanalysis::HTauTagger : public Tagger
 {
 
 public:
@@ -23,7 +23,7 @@ public:
 
     void SetTagger();
 
-    std::vector< HTauBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector< HTauBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     HJets GetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
 
@@ -45,9 +45,9 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::HTag Tag);
+    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::Tag Tag);
 
-    HJets GetSubJets(const HJets &Jets,const HJets &Particles, const HTag Tag, const int SubJetNumber);
+    HJets GetSubJets(const HJets &Jets,const HJets &Particles, const Tag Tag, const int SubJetNumber);
 
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;

@@ -64,7 +64,7 @@ public:
 //
 //     hheavyhiggs::HChargedSemiTagger EventSemiTagger;
 
-    std::vector< hanalysis::HFile > Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    std::vector< hanalysis::HFile > Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag);
 
     inline std::string ProjectName() const {
 //         return "HiggsTau1";
@@ -86,7 +86,7 @@ public:
 
     void ResetBranch();
 
-    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::HTag Tag);
+    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
 
 protected:
 
@@ -121,18 +121,18 @@ private:
 
     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
-    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag);
 
     /**
      * @brief Main Analysis function
      *
      */
-    bool Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::HTag Tag);
+    bool Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag);
 
-    bool GetTauTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-    bool GetTauReader(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-    bool GetHeavyHiggsTauTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-    bool GetHeavyHiggsTauReader(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    bool GetTauTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    bool GetTauReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    bool GetHeavyHiggsTauTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    bool GetHeavyHiggsTauReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 //     bool GetWTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
 //     bool GetWReader(hanalysis::HEvent &Event, const HTag Tag);
 //     bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);

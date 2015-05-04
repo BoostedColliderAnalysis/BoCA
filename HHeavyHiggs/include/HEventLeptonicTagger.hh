@@ -12,7 +12,7 @@
  * @brief Event BDT Tagger for leptonic heavy higgs
  *
  */
-class hheavyhiggs::HEventLeptonicTagger : public hanalysis::HMva
+class hheavyhiggs::HEventLeptonicTagger : public hanalysis::Tagger
 {
 
 public:
@@ -35,7 +35,7 @@ public:
     */
     ~HEventLeptonicTagger();
 
-    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::HReader & EventSemiReader);
 
@@ -57,7 +57,7 @@ protected:
 
 
 private:
-  HTag GetTag(const HOctet &Octet);
+  Tag GetTag(const HOctet &Octet);
 
     void SetBranch(const TObject *Object) {
         (Branch) = *((HEventLeptonicBranch *) Object); // this used to be (*Branch)

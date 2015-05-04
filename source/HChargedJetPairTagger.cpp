@@ -106,7 +106,7 @@ struct SortQuartetByDeltaRap {
     }
 };
 
-std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag)
+std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
     Print(HInformation, "Get W Tags");
     HJets Jets = GetJets(Event);
@@ -140,10 +140,10 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
     HJets TopParticles = Event.GetParticles()->Generator();
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);
-    if (TopParticles.size() != 1 && Tag == HSignal) Print(HError, "Where is the Top?", TopParticles.size());
+    if (TopParticles.size() != 1 && Tag == kSignal) Print(HError, "Where is the Top?", TopParticles.size());
 
     std::vector<hanalysis::HTriplet> FinalTriplets;
-    if (Tag == HSignal) for (const auto & Triplet : Triplets) if (Triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry.JetConeSize) FinalTriplets.push_back(Triplet);
+    if (Tag == kSignal) for (const auto & Triplet : Triplets) if (Triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry.JetConeSize) FinalTriplets.push_back(Triplet);
             else FinalTriplets = Triplets;
 
 //     std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
@@ -152,10 +152,10 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
     HJets BottomParticles = Event.GetParticles()->Generator();
     BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, BottomId, GluonId);
-    if (BottomParticles.size() != 1 && Tag == HSignal) Print(HError, "Where is the Bottom?", BottomParticles.size());
+    if (BottomParticles.size() != 1 && Tag == kSignal) Print(HError, "Where is the Bottom?", BottomParticles.size());
 
     HJets FinalJets;
-    if (Tag == HSignal) for (const auto & Jet : Jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry.JetConeSize) FinalJets.push_back(Jet);
+    if (Tag == kSignal) for (const auto & Jet : Jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry.JetConeSize) FinalJets.push_back(Jet);
             else FinalJets = Jets;
 
 //     std::sort(Jets.begin(), Jets.end(), MinDeltaR(BottomParticles.front()));
@@ -178,7 +178,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
     Print(HDebug, "Number of Jet Pairs", Quartets.size());
 
-    if (Tag == HSignal && Quartets.size() > 1) {
+    if (Tag == kSignal && Quartets.size() > 1) {
         std::sort(Quartets.begin(), Quartets.end(), SortQuartetByDeltaRap());
         if (Quartets.size() > 1)Quartets.erase(Quartets.begin() + 1, Quartets.end());
     }
@@ -190,11 +190,11 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
 }
 
-hanalysis::HObject::HTag hanalysis::HChargedJetPairTagger::GetTag(const HQuartet31 &)
+hanalysis::HObject::Tag hanalysis::HChargedJetPairTagger::GetTag(const HQuartet31 &)
 {
     Print(HInformation, "Get Quartet Tag");
 
-    return HSignal;
+    return kSignal;
 }
 
 

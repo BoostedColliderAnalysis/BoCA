@@ -128,7 +128,7 @@ struct SortByQuartetBdt {
 };
 
 
-std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
 
     HJets Jets = Event.GetJets()->GetStructuredJets();
@@ -258,7 +258,7 @@ std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const hanal
 }
 
 
-HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const HJets &Neutrinos, const hanalysis::HObject::HTag Tag)
+HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag)
 {
 
     Print(HInformation, "Get Triple Pair");
@@ -298,7 +298,7 @@ HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet
     }
 
     for (const auto & Pair : Map) Print(HDebug, "Neutrino Error Sum", Pair.first);
-    if (Tag == HSignal) Map.erase(std::next(Map.begin()), Map.end());
+    if (Tag == kSignal) Map.erase(std::next(Map.begin()), Map.end());
     else Map.erase(Map.begin());
 
     std::vector<HOctet44> FinalOctet;
