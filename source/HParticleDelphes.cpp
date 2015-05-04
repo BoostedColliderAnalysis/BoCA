@@ -9,11 +9,11 @@ hanalysis::hdelphes::HParticle ::HParticle()
 bool hanalysis::hdelphes::HParticle ::GetParticles()
 {
 
-    Print(HInformation, "Get Particles", ClonesArrays->GetParticleSum());
+  Print(HInformation, "Get Particles", clones_arrays_->GetParticleSum());
 
-    for (const int ParticleNumber : Range(ClonesArrays->GetParticleSum())) {
+  for (const int ParticleNumber : Range(clones_arrays_->GetParticleSum())) {
 
-        const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleNumber);
+    const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) clones_arrays_->GetParticle(ParticleNumber);
 
         const int ParticleId = ParticleClone->PID;
         Print(HDetailed, "Particles ID", ParticleId);
@@ -23,13 +23,13 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         int Mother2Id = EmptyId;
         int Mother2Status = EmptyId;
         if (ParticleClone->M1 != EmptyPosition) {
-            const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M1);
+          const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->M1);
 
             MotherId = MotherParticle->PID;
             MotherStatus = MotherParticle->Status;
         }
         if (ParticleClone->M2 != EmptyPosition) {
-            const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->M2);
+          const delphes::GenParticle *const MotherParticle = (delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->M2);
 
             Mother2Id = MotherParticle->PID;
             Mother2Status = MotherParticle->Status;
@@ -121,8 +121,8 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 Print(HDebug, "Heavy CPV Higgs");
 
                 Print(HDebug, "HeavyHiggs", ParticleClone->Status);
-                if (ParticleClone->D1 != -1) Print(HDebug, "Daughter1", ((delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->D1))->PID);
-                if (ParticleClone->D2 != -1) Print(HDebug, "Daughter2", ((delphes::GenParticle *) ClonesArrays->GetParticle(ParticleClone->D2))->PID);
+                if (ParticleClone->D1 != -1) Print(HDebug, "Daughter1", ((delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->D1))->PID);
+                if (ParticleClone->D2 != -1) Print(HDebug, "Daughter2", ((delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->D2))->PID);
 
             }
 

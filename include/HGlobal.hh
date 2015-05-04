@@ -24,7 +24,7 @@ namespace hanalysis
 class HObject;
 class HFourVector;
 
-class HClonesArray;
+class ClonesArrays;
 class HEvent;
 class HFile;
 class HParticle;

@@ -7,15 +7,15 @@ hanalysis::hdelphes::HLepton::HLepton()
 
 bool hanalysis::hdelphes::HLepton::GetElectrons()
 {
-    Print(HInformation, "Get Electrons", ClonesArrays->GetElectronSum());
+  Print(HInformation, "Get Electrons", clones_arrays_->GetElectronSum());
     return GetElectrons(Plain);
 }
 
 bool hanalysis::hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
-    Print(HInformation, "Get Electrons", ClonesArrays->GetElectronSum());
-    for (int ElectronNumber : Range(ClonesArrays->GetElectronSum())) {
-        delphes::Electron &ElectronClone = static_cast<delphes::Electron &>(*ClonesArrays->GetElectron(ElectronNumber));
+    Print(HInformation, "Get Electrons", clones_arrays_->GetElectronSum());
+    for (int ElectronNumber : Range(clones_arrays_->GetElectronSum())) {
+        delphes::Electron &ElectronClone = static_cast<delphes::Electron &>(*clones_arrays_->GetElectron(ElectronNumber));
         const int ElectronCharge = ElectronClone.Charge;
         if (ElectronCharge == -1) {
             ElectronLorentzVectors.push_back(ElectronClone.P4());
@@ -43,15 +43,15 @@ bool hanalysis::hdelphes::HLepton::GetElectrons(hanalysis::HFourVector::HJetDeta
 
 bool hanalysis::hdelphes::HLepton::GetMuons()
 {
-    Print(HInformation, "Get Muons", ClonesArrays->GetMuonSum());
+    Print(HInformation, "Get Muons", clones_arrays_->GetMuonSum());
     return GetMuons(Plain);
 }
 
 bool hanalysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
 {
-    Print(HInformation, "Get Muons", ClonesArrays->GetMuonSum());
-    for (int MuonNumber : Range(ClonesArrays->GetMuonSum())) {
-        delphes::Muon &MuonClone = static_cast<delphes::Muon &>(*ClonesArrays->GetMuon(MuonNumber));
+    Print(HInformation, "Get Muons", clones_arrays_->GetMuonSum());
+    for (int MuonNumber : Range(clones_arrays_->GetMuonSum())) {
+        delphes::Muon &MuonClone = static_cast<delphes::Muon &>(*clones_arrays_->GetMuon(MuonNumber));
         const int MuonCharge = MuonClone.Charge;
         if (MuonCharge == -1) {
             MuonLorentzVectors.push_back(MuonClone.P4());

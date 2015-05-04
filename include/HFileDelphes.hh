@@ -6,7 +6,7 @@
 # include "ExRootAnalysis/ExRootTreeReader.h"
 
 # include "HObject.hh"
-# include "HClonesArray.hh"
+# include "ClonesArrays.hh"
 # include "HFile.hh"
 
 /**

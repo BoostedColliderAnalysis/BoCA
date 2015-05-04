@@ -7,7 +7,7 @@ set(EventSources
 HObject.cpp
 HFourVector.cpp
 HFile.cpp
-HClonesArray.cpp
+ClonesArrays.cpp
 HEvent.cpp
 HParticle.cpp
 HLepton.cpp

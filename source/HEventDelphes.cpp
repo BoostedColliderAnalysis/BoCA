@@ -31,7 +31,7 @@ hanalysis::hdelphes::HEvent::~HEvent()
 
 }
 
-void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::HClonesArray &ClonesArrays)
+void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &ClonesArrays)
 {
 
     Print(HInformation, "New Event");

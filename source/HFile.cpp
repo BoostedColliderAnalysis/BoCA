@@ -127,7 +127,7 @@ ExRootTreeReader hanalysis::HFile::TreeReader()
     return ExRootTreeReader(Chain);
 }
 
-hanalysis::HClonesArray &hanalysis::HFile::ClonesArrays()
+hanalysis::ClonesArrays &hanalysis::HFile::GetClonesArrays()
 {
 
     Print(HNotification, "Get Clones Arrays");

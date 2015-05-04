@@ -20,7 +20,7 @@ hanalysis::hparton::HEvent::~HEvent()
 
 }
 
-void hanalysis::hparton::HEvent::NewEvent(const hanalysis::HClonesArray &ClonesArrays)
+void hanalysis::hparton::HEvent::NewEvent(const hanalysis::ClonesArrays &ClonesArrays)
 {
 
     Print(HInformation, "New Event");

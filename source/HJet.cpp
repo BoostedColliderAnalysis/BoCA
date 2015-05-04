@@ -11,7 +11,7 @@ hanalysis::HJet::~HJet()
     Print(HNotification, "Destructor");
 }
 
-void hanalysis::HJet::NewEvent(const hanalysis::HClonesArray &NewClonesArrays)
+void hanalysis::HJet::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays)
 {
 
     Print(HInformation, "New Event");

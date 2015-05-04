@@ -6,7 +6,7 @@
 # include "ExRootAnalysis/ExRootTreeReader.h"
 
 # include "HObject.hh"
-# include "HClonesArray.hh"
+# include "ClonesArrays.hh"
 
 # include "HEventParton.hh"
 # include "HEventPgs.hh"
@@ -53,7 +53,7 @@ public:
 
 //     virtual std::shared_ptr<hanalysis::HClonesArray> ClonesArrays();
 
-    virtual hanalysis::HClonesArray &ClonesArrays();
+    virtual hanalysis::ClonesArrays &GetClonesArrays();
 
 //     virtual std::shared_ptr<hanalysis::HEvent> Event();
     virtual hanalysis::HEvent &Event();
@@ -181,7 +181,7 @@ private:
 
     HEvent *event_ = NULL;
 
-    HClonesArray *clones_array_ = NULL;
+    ClonesArrays *clones_array_ = NULL;
 
 //     hdelphes::HEvent DelphesEvent;
 

@@ -3,7 +3,7 @@
 
 # include "TObjArray.h"
 
-# include "HClonesArray.hh"
+# include "ClonesArrays.hh"
 # include "HFourVector.hh"
 
 /**
@@ -27,7 +27,7 @@ public:
      */
     ~HParticle();
 
-    void NewEvent(const hanalysis::HClonesArray &NewClonesArrays);
+    void NewEvent(const hanalysis::ClonesArrays &NewClonesArrays);
 
     HVectors GetLeptonLorentzVectors();
 

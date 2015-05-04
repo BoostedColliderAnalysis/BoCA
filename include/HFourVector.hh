@@ -5,7 +5,7 @@
 
 
 # include "HObject.hh"
-# include "HClonesArray.hh"
+# include "ClonesArrays.hh"
 # include "HJetTag.hh"
 # include "HJetInfo.hh"
 
@@ -45,7 +45,7 @@ public:
 protected:
 
 
-    void NewEvent(const HClonesArray &NewClonesArrays);
+    void NewEvent(const ClonesArrays &NewClonesArrays);
 
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByEnergy(const TParticle &Particle) const {
@@ -175,7 +175,7 @@ protected:
      * @brief Clones Arrays
      *
      */
-    const HClonesArray *ClonesArrays;
+    const ClonesArrays *clones_arrays_;
 
     std::vector<HFamily> Topology;
 

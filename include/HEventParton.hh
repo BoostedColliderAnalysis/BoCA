@@ -24,7 +24,7 @@ public:
      */
     ~HEvent();
 
-    void NewEvent(const hanalysis::HClonesArray &ClonesArrays);
+    void NewEvent(const hanalysis::ClonesArrays &ClonesArrays);
 
 private:
 

@@ -20,9 +20,9 @@ bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails 
 {
 
     Print(HInformation, "Get Electrons", JetDetails);
-  for (const int ElectronNumber : Range(ClonesArrays->GetElectronSum())) {
+    for (const int ElectronNumber : Range(clones_arrays_->GetElectronSum())) {
 
-        TRootElectron *ElectronClone = (TRootElectron *)ClonesArrays->GetElectron(ElectronNumber);
+      TRootElectron *ElectronClone = (TRootElectron *)clones_arrays_->GetElectron(ElectronNumber);
 
         int ElectronCharge = ElectronClone->Charge;
 
@@ -54,9 +54,9 @@ bool hanalysis::hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetD
 {
 
     Print(HInformation, "Get Muons", JetDetails);
-    for (const int MuonNumber : Range(ClonesArrays->GetMuonSum())) {
+    for (const int MuonNumber : Range(clones_arrays_->GetMuonSum())) {
 
-        TRootMuon *MuonClone = (TRootMuon *)ClonesArrays->GetMuon(MuonNumber);
+      TRootMuon *MuonClone = (TRootMuon *)clones_arrays_->GetMuon(MuonNumber);
         int MuonCharge = MuonClone->Charge;
 
         if (MuonCharge == -1) {

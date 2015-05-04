@@ -19,12 +19,12 @@ hanalysis::hpgs::HJet::~HJet()
 bool hanalysis::hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
 {
 
-    Print(HInformation, "Get Jet", ClonesArrays->JetSum(), JetDetails);
+  Print(HInformation, "Get Jet", clones_arrays_->JetSum(), JetDetails);
 
-    for (const int JetNumber : Range(ClonesArrays->JetSum())) {
+  for (const int JetNumber : Range(clones_arrays_->JetSum())) {
 
         Print(HDetailed, "Jet Number", JetNumber);
-        TRootJet *JetClone = (TRootJet *)ClonesArrays->Jet(JetNumber);
+        TRootJet *JetClone = (TRootJet *)clones_arrays_->Jet(JetNumber);
 
         JetsM.push_back(GetPseudoJet(*JetClone));
 

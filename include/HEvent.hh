@@ -24,7 +24,7 @@ public:
     *
     */
     HEvent();
-    virtual void NewEvent(const HClonesArray &) = 0;
+    virtual void NewEvent(const ClonesArrays &) = 0;
 
     virtual HJets GetTops(HJetTag &) {
         Print(HError, "Get Tops", "No Tops");

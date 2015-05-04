@@ -16,7 +16,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const HTagger tagger)
         for (auto & file : Files(tagger, tag)) {
             Print(HNotification, "Analysing File", file.TreeName());
             event_sum_ = 0;
-            HClonesArray &clones_arrays = file.ClonesArrays();
+            ClonesArrays &clones_arrays = file.GetClonesArrays();
             hanalysis::HEvent &event = file.Event();
             bool analysis_not_empty = false;
             ExRootTreeWriter tree_writer = TreeWriter(export_file, file.GetTitle(), tagger);

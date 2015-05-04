@@ -14,10 +14,10 @@ hanalysis::HFourVector::~HFourVector()
     Print(HInformation, "Destructor");
 }
 
-void hanalysis::HFourVector::NewEvent(const hanalysis::HClonesArray &NewClonesArrays)
+void hanalysis::HFourVector::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays)
 {
-    ClonesArrays = &NewClonesArrays;
-    Topology.assign(ClonesArrays->GetParticleSum(), HFamily(EmptyId));
+  clones_arrays_ = &NewClonesArrays;
+  Topology.assign(clones_arrays_->GetParticleSum(), HFamily(EmptyId));
     Print(HInformation, "Topology", Topology.size());
 }
 
@@ -158,7 +158,7 @@ fastjet::PseudoJet hanalysis::HFourVector::GetPseudoJet(const TRootTau &Particle
 
 hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(const TObject &Object)
 {
-    Print(HInformation, "Get Mother Id", ClonesArrays->GetParticleSum());
+  Print(HInformation, "Get Mother Id", clones_arrays_->GetParticleSum());
 
     HFamily BranchFamily;
     if (Object.IsA() != delphes::GenParticle::Class()/* || Object == 0*/) {
@@ -166,7 +166,7 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(const TObject &Object
         return BranchFamily;
     }
 
-    const int Position = ClonesArrays->GetParticleClonesArray()->IndexOf(&Object);
+    const int Position = clones_arrays_->GetParticleClonesArray()->IndexOf(&Object);
     if (Position == EmptyPosition) return BranchFamily;
 
     BranchFamily = GetBranchFamily(BranchFamily, Position);
@@ -222,14 +222,14 @@ hanalysis::HFamily hanalysis::HFourVector::GetBranchFamily(HFamily &BranchFamily
 //         if (Position < 3) return HFamily(Position, IsrId, EmptyPosition, IsrId);
 
 
-        delphes::GenParticle &ParticleClone = static_cast<delphes::GenParticle &>(*ClonesArrays->GetParticle(Position));
+        delphes::GenParticle &ParticleClone = static_cast<delphes::GenParticle &>(*clones_arrays_->GetParticle(Position));
 //         const int Status = ParticleClone.Status;
 
         int M1Id = EmptyId;
         int Mother1Status = EmptyStatus;
         TLorentzVector MotherVector;
         if (ParticleClone.M1 > 0) {
-            delphes::GenParticle &Mother1Clone = static_cast<delphes::GenParticle &>(*ClonesArrays->GetParticle(ParticleClone.M1));
+          delphes::GenParticle &Mother1Clone = static_cast<delphes::GenParticle &>(*clones_arrays_->GetParticle(ParticleClone.M1));
             M1Id = Mother1Clone.PID;
             MotherVector = Mother1Clone.P4();
             Mother1Status = Mother1Clone.Status;
@@ -306,10 +306,10 @@ void hanalysis::HFourVector::PrintTruthLevel(int const Severity) const
         PrintCell("Pz");
         std::cout << std::endl;
 
-//         for (const int Position : HRange(ClonesArrays->GetParticleSum())) {
+        //         for (const int Position : HRange(clones_arrays_->GetParticleSum())) {
         for (const int Position : Range(30)) {
 
-            delphes::GenParticle &Particle = static_cast<delphes::GenParticle &>(*ClonesArrays->GetParticle(Position));
+          delphes::GenParticle &Particle = static_cast<delphes::GenParticle &>(*clones_arrays_->GetParticle(Position));
 
             PrintCell(Position);
             PrintCell(GetParticleName(Topology.at(Position).ParticleId));
@@ -342,7 +342,7 @@ std::string hanalysis::HFourVector::PrintParticle(const int Position) const
 {
 
     if (Position != -1) {
-        return GetParticleName(((delphes::GenParticle *)ClonesArrays->GetParticle(Position))->PID);
+      return GetParticleName(((delphes::GenParticle *)clones_arrays_->GetParticle(Position))->PID);
     } else {
         return " ";
     };

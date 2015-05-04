@@ -3,7 +3,7 @@
 
 # include "TObjArray.h"
 
-# include "HClonesArray.hh"
+# include "ClonesArrays.hh"
 # include "HFourVector.hh"
 
 /**
@@ -30,28 +30,28 @@ public:
     /**
      * @brief Initialize New event
      */
-    void NewEvent(const hanalysis::HClonesArray &NewClonesArrays);
+    void NewEvent(const hanalysis::ClonesArrays &NewClonesArrays);
 
     void SetJetTag(HJetTag &NewJetTag) {
         JetTag = &NewJetTag;
     }
 
     HJets GetJets() {
-      NewEvent(*ClonesArrays);
+      NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(Plain);
       return JetsM;
     };
 
     HJets GetStructuredJets() {
-      NewEvent(*ClonesArrays);
+      NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Structure);
         return JetsM;
     };
 
     HJets GetTaggedJets() {
-      NewEvent(*ClonesArrays);
+      NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return JetsM;
@@ -59,7 +59,7 @@ public:
 
     HJets GetTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
-      NewEvent(*ClonesArrays);
+      NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return JetsM;
@@ -67,7 +67,7 @@ public:
 
     HJets GetStructuredTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
-      NewEvent(*ClonesArrays);
+      NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(TaggingStructure);
       return JetsM;
@@ -75,7 +75,7 @@ public:
 
     HJets GetBottomJets() {
       //         if (!GotJets)
-      NewEvent(*ClonesArrays);
+      NewEvent(*clones_arrays_);
           GotJets = GetJets(Plain);
         return BottomJets;
     };
