@@ -203,7 +203,7 @@ HJets hanalysis::HWHadronicTagger::GetWDaughters(HEvent &Event)
 
 int hanalysis::HWHadronicTagger::GetWHadId(const HJets &Jets)
 {
-    if (Jets.size() < 1) return WId;
+    if (Jets.empty()) return WId;
     else return Jets.at(0).user_info<hanalysis::HJetInfo>().Constituents().front().Family().Mother1Id;
 }
 

@@ -288,7 +288,7 @@ bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanal
 // {
 //     Print(HDebug, "Get Bottom Tag", Tag);
 //     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-//     if (Bottoms.size() < 1) {
+//     if (Bottoms.empty()) {
 //         return 0;
 //     }
 //     for (const auto & Bottom : Bottoms) {
@@ -302,7 +302,7 @@ bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanal
 //     Print(HDebug, "Get Bottom Reader", Tag);
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //
 //     HJets Particles = Event.GetParticles()->Generator();
@@ -336,7 +336,7 @@ bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanal
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //     std::vector<HEventBottomTaggerBranch> SemiEvents = EventBottomSumTagger.GetBranches(Event, Tag);
-//     if (SemiEvents.size() < 1) return 0;
+//     if (SemiEvents.empty()) return 0;
 //     for (const auto & SemiEvent : SemiEvents) {
 //         ++ObjectNumber;
 //         *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = SemiEvent;
@@ -369,7 +369,7 @@ bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanal
 //
 //
 //     std::vector<HEventBottomMultiplet> Events = EventBottomSumTagger.GetBdt(Jets, EventBottomSumReader);
-//     if (Events.size() < 1) return 0;
+//     if (Events.empty()) return 0;
 //     Events.front().SetTag(Tag);
 //     ++ObjectNumber;
 //     *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = EventBottomSumTagger.GetBranch(Events.front());

@@ -427,7 +427,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // {
 //     Print(HDebug, "Get Bottom Tag", Tag);
 //     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-//     if (Bottoms.size() < 1) {
+//     if (Bottoms.empty()) {
 //         Print(HDebug, "No Bottoms");
 //         return 0;
 //     }
@@ -443,7 +443,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 //     Print(HDebug, "Get Bottom Reader", Tag);
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //     //     Jets = static_cast<hanalysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(Jets);
 //
@@ -468,7 +468,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // // // {
 // // //     Print(HDebug, "Get W Semi Tag", Tag);
 // // //     std::vector<HWSemiBranch> WSemis = WSemiTagger.GetBranches(Event, Tag);
-// // //     if (WSemis.size() < 1) return 0;
+// // //     if (WSemis.empty()) return 0;
 // // //     for (const auto & WSemi : WSemis) {
 // // //         ++ObjectNumber;
 // // //         *static_cast<HWSemiBranch *>(Branch->NewEntry()) = WSemi;
@@ -485,7 +485,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // //
 // //     std::vector<hanalysis::HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 // //
-// //     if (Doublets.size() < 1) return 0;
+// //     if (Doublets.empty()) return 0;
 // //
 // //     if (Doublets.size() > 1) {
 // //         std::sort(Doublets.begin(), Doublets.end());
@@ -503,7 +503,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // {
 //     Print(HDebug, "Get W Tag", Tag);
 //     std::vector<HWBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
-//     if (Ws.size() < 1) return 0;
+//     if (Ws.empty()) return 0;
 //     for (const auto & W : Ws) {
 //         ++ObjectNumber;
 //         *static_cast<HWBranch *>(Branch->NewEntry()) = W;
@@ -558,7 +558,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 //         if (Top.Pt > UpperCut()) continue;
 //         FinalTops.push_back(Top);
 //     }
-//     if (FinalTops.size() < 1) return 0;
+//     if (FinalTops.empty()) return 0;
 //     for (const auto & Top : FinalTops) {
 //         *static_cast<HTopHadronBranch *>(Branch->NewEntry()) = Top;
 //         ++ObjectNumber;
@@ -610,7 +610,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 //         FinalTriplets.erase(FinalTriplets.begin() + MaxTopSize, FinalTriplets.end());
 //     }
 //
-//     if (FinalTriplets.size() < 1) return 0;
+//     if (FinalTriplets.empty()) return 0;
 //     for (const auto & FinalTriplet : FinalTriplets) {
 //         *static_cast<HTopHadronBranch *>(Branch->NewEntry()) = TopHadronicTagger.GetBranch(FinalTriplet);
 //         ++ObjectNumber;
@@ -631,7 +631,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 //         if (Top.Pt > UpperCut()) continue;
 //         FinalTops.push_back(Top);
 //     }
-//     if (FinalTops.size() < 1) return 0;
+//     if (FinalTops.empty()) return 0;
 //     for (const auto & Top : FinalTops) {
 //         *static_cast<HTopLeptonBranch *>(Branch->NewEntry()) = Top;
 //         ++ObjectNumber;
@@ -678,7 +678,7 @@ bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // // {
 // //     Print(HInformation, "Get Tops", Tag);
 // //     std::vector<HTopLeptonBranch> Tops = TopSemiTagger.GetBranches(Event, Tag);
-// //     if (Tops.size() < 1) return 0;
+// //     if (Tops.empty()) return 0;
 // //     for (const auto & Top : Tops) {
 // //         ++ObjectNumber;
 // //         *static_cast<HTopLeptonBranch *>(Branch->NewEntry()) = Top;

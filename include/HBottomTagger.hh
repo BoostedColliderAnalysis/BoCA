@@ -64,7 +64,7 @@ public:
 
 //     bool SetBranch(hanalysis::HEvent &Event, const HTag Tag) {
 //         std::vector<HBottomBranch> Bottoms = GetBranches(Event, Tag);
-//         if (Bottoms.size() < 1) return 0;
+//         if (Bottoms.empty()) return 0;
 //         for (const auto & Bottom : Bottoms) *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = Bottom;
 //         return 1;
 //     }

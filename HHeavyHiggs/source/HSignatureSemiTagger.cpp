@@ -114,15 +114,15 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
-    if (TripletsSemi.size() < 1)Print(HInformation, "No TripletsSemi", TripletsSemi.size());
+    if (TripletsSemi.empty())Print(HInformation, "No TripletsSemi", TripletsSemi.size());
 
 //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
 //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
-    if (TripletsHadronic.size() < 1)Print(HInformation, "No TripletsHadronic", TripletsHadronic.size());
+    if (TripletsHadronic.empty())Print(HInformation, "No TripletsHadronic", TripletsHadronic.size());
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
-    if (Sextets.size() < 1)Print(HInformation, "No Sextets", Sextets.size());
+    if (Sextets.empty())Print(HInformation, "No Sextets", Sextets.size());
 
     HJets HiggsParticles = Event.GetParticles()->Generator();
     HJets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
@@ -138,7 +138,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     }
 
     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
-//     if (Doublets.size() < 1)Print(HError, "No Doublets", Doublets.size());
+//     if (Doublets.empty())Print(HError, "No Doublets", Doublets.size());
 
 
     std::vector<hanalysis::HDoublet> FinalDoublets;
@@ -175,7 +175,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
             Octets.push_back(Octet);
         }
     }
-    if (Octets.size() < 1)Print(HInformation, "No Octets", Octets.size());
+    if (Octets.empty())Print(HInformation, "No Octets", Octets.size());
 
     if (Tag == kSignal && Octets.size() > 1) {
         Print(HInformation, "more than one event", Octets.size());
@@ -185,7 +185,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
 
     std::vector<hheavyhiggs::HOctetBranch> OctetBranches;
     for (const auto & Octet : Octets) OctetBranches.push_back(GetBranch(Octet));
-//     if (OctetBranches.size() < 1)Print(HError, "No OctetBranches", OctetBranches.size());
+//     if (OctetBranches.empty())Print(HError, "No OctetBranches", OctetBranches.size());
     return OctetBranches;
 }
 

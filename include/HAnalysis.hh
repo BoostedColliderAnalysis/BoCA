@@ -32,47 +32,7 @@ public:
      */
     HAnalysis(hanalysis::Tagger &tagger);
 
-//     enum HTagger {
-//         HBottomTagger,
-// //         HBottomReader,
-//         HTauTagger,
-// //         HTauReader,
-//         HJetPairTagger,
-// //         HJetPairReader,
-//         HWSemiTagger,
-// //         HWSemiReader,
-//         HWHadronicTagger,
-// //         HWHadronicReader,
-//         HTopHadronicTagger,
-//         HTopSemiTagger,
-// //         HTopHadronicReader,
-// //         HTopSemiReader,
-//         HTopLeptonicTagger,
-// //         HTopLeptonicReader,
-//         HHeavyHiggsHadronicTagger,
-//         HHeavyHiggsLeptonicTagger,
-//         HHeavyHiggsTauTagger,
-// //         HHeavyHiggsLeptonicReader,
-//         HHeavyHiggsSemiTagger,
-// //         HHeavyHiggsSemiReader,
-// //         HHeavyHiggsTauReader,
-//         HEventLeptonicTagger,
-//         HEventHadronicTagger,
-//         HEventSemiTagger,
-// //         HEventSemiReader,
-//         HSignatureSemiTagger,
-// //         HSignatureSemiReader,
-//         HEventTagger,
-//         HHiggsLeptonicTagger,
-// //         HEventLeptonicReader,
-//         HChargedHiggsSemiTagger
-//     };
-
     void AnalysisLoop(const hanalysis::Tagger::Stage stage);
-
-//     void AnalysisLoop() {
-//         AnalysisLoop(hanalysis::HAnalysis::HEventTagger);
-//     }
 
     virtual std::vector<HFile> Files(const Tag tag) {
         Print(HError, "GetFiles", "Should be subclasses", tag);
@@ -92,10 +52,6 @@ protected:
 
     ExRootTreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
 
-//     ExRootTreeReader *TreeReader(const HFile *const File, HClonesArray *const ClonesArrays);
-
-//     TFile *ExportFile(const std::string &StudyName) const;
-
     std::string ExportName(const Tagger::Stage stage, const hanalysis::HObject::Tag tag) const;
 
     HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::HFile &file);
@@ -105,37 +61,17 @@ protected:
         return 0;
     }
 
-    /**
-     * @brief New Analysis
-     */
-//     virtual void NewBranches(ExRootTreeWriter &, const HTagger) {
-//         Print(HError, "NewBranches", "Should be subclassed");
-//     }
-
-//     virtual void NewBranches(ExRootTreeWriter *const) {
-//         Print(HError, "NewBranches 0", "Should be subclassed");
-//     }
-
-    /**
-     * @brief Name of Analysis
-     *
-     */
     virtual inline std::string ProjectName() const {
         return "ProjectName";
     }
 
-//     /**
-//      * @brief Maximal number of Entries to analyse
-//      *
-//      */
+    /**
+     * @brief Maximal number of Entries to analyse
+     *
+     */
     virtual inline int EventNumberMax() const {
         return 100000;
     }
-
-//     virtual inline std::string StudyName(const HTagger Tagger) const {
-//         Print(HError, "GetStudyName", "What are we doing here?", Tagger);
-//         return ProjectName();
-//     }
 
     virtual inline std::string ClassName() const {
         return "HAnalysis";
@@ -164,12 +100,6 @@ protected:
     int &event_sum() {
         return event_sum_;
     }
-
-    /**
-     * @brief Branch to write results into
-     *
-     */
-//     ExRootTreeBranch *Branch;
 
     Tagger &tagger_;
 
@@ -202,9 +132,33 @@ protected:
         return config_.ColliderType();
     }
 
+    void NewSignalFile(const std::string &name){
+      files_.push_back(File(name));
+      tagger_.AddSignalTreeName(TreeName(name));
+    }
+
+    void NewBackgroundFile(const std::string &name){
+      files_.push_back(File(name));
+      tagger_.AddBackgroundTreeName(TreeName(name));
+    }
+
+    inline hanalysis::HFile File(const std::string &name) const {
+      return HFile(name);
+    }
+
+    inline std::string FileName(const std::string &name) const {
+      return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
+    }
+
+    std::string TreeName(const std::string &name) const {
+      return FileName(name) + "-run_01";
+    }
+
 private:
 
     HConfig config_;
+
+    std::vector<hanalysis::HFile> files_;
 
 
 };

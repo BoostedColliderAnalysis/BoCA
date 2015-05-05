@@ -248,7 +248,7 @@ bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis:
 // {
 //     Print(HDebug, "Get Bottom Tag", Tag);
 //     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-//     if (Bottoms.size() < 1) {
+//     if (Bottoms.empty()) {
 //         return 0;
 //     }
 //     for (const auto & Bottom : Bottoms) {
@@ -262,7 +262,7 @@ bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis:
 //     Print(HDebug, "Get Bottom Reader", Tag);
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) {
+//     if (Jets.empty()) {
 //         return 0;
 //     }
 //
@@ -292,7 +292,7 @@ bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis:
 // {
 //     Print(HDebug, "Get JetPair Tag", Tag);
 //     std::vector<HEventJetPairBranch> JetPairs = JetPairTagger.GetBranches(Event, Tag, MotherId(ProductionChannel()));
-//     if (JetPairs.size() < 1) {
+//     if (JetPairs.empty()) {
 //         return 0;
 //     }
 //     for (const auto & JetPair : JetPairs) {
@@ -306,7 +306,7 @@ bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis:
 //     Print(HDebug, "Get JetPair Reader", Tag);
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) {
+//     if (Jets.empty()) {
 //         Print(HInformation, "just one jet", Jets.size());
 //         return 0;
 //     }

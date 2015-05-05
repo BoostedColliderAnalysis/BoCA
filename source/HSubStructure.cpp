@@ -113,7 +113,7 @@ bool hanalysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet
 HVectors hanalysis::HSubStructure::GetConstituents(const fastjet::PseudoJet &CandidateJet)
 {
 
-    if (CandidateJet.constituents().size() < 1) {
+    if (CandidateJet.constituents().empty()) {
 
         Print(HNotification, "Not enough Constituents", CandidateJet.constituents().size());
 //         return 0;

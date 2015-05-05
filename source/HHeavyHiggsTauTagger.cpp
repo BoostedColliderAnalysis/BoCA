@@ -239,7 +239,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(co
 
     std::vector<HDoublet> Doublets = GetNeutrinos(Doublet);
     Print(HDebug, "Number Solutions", Doublets.size());
-    if (Doublets.size() < 1) return Doublets;
+    if (Doublets.empty()) return Doublets;
 
     float BestError = LargeNumber;
     HDoublet BestDoublet;

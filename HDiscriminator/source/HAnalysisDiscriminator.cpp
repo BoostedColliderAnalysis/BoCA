@@ -151,7 +151,7 @@ bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string 
 
     const HJets CandidateJets = Event.GetCandidates(JetTag);
 
-    if (CandidateJets.size() < 1) {
+    if (CandidateJets.empty()) {
 
         Print(HError, "No Candidates", CandidateJets.size());
 

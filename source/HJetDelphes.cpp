@@ -396,7 +396,7 @@ HJets hanalysis::hdelphes::HJet::GetJets()
 {
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(GetStructuredEFlowJets()), DetectorGeometry.JetDefinition);
     HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
-    if (Jets.size() < 1) {
+    if (Jets.empty()) {
         delete ClusterSequence;
         return Jets;
     }

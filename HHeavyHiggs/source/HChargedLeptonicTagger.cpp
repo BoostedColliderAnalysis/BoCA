@@ -266,7 +266,7 @@ HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet
     std::vector<HOctet44> Octets = GetOctets(Sextet, MissingEt);
     Print(HDebug, "Number Solutions", Octets.size());
 
-    if (Octets.size() < 1) return Octets;
+    if (Octets.empty()) return Octets;
 
     for (const auto & Neutrino : Neutrinos) Print(HDebug, "Neutrino", Neutrino);
     Print(HDebug, "Neutrino Sum", Neutrinos[0] + Neutrinos[1]);

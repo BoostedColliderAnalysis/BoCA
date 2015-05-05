@@ -58,6 +58,7 @@ char HObservable::type() const
  */
 
 hanalysis::Tagger::Tagger() : DetectorGeometry()
+//, reader_(*this)
 {
 
 //   DebugLevel = HNotification;
@@ -68,6 +69,7 @@ hanalysis::Tagger::Tagger() : DetectorGeometry()
     weight_branch_name_ = "Info";
     max_combi_ = 4;
 //     MinCellResolution = .1;
+
 }
 
 float hanalysis::Tagger::GetBdt(TObject *, const TMVA::Reader &)
@@ -171,7 +173,7 @@ HJets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event)
 //   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), DetectorGeometry.JetDefinition);
     HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
-    if (Jets.size() < 1) {
+    if (Jets.empty()) {
         delete ClusterSequence;
         return Jets;
     }

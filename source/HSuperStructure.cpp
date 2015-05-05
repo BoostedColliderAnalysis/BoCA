@@ -107,7 +107,7 @@
 // 
 //     Print(HInformation, "GetConstituents");
 // 
-//     if (Jet1.constituents().size() < 1 || Jet2.constituents().size() < 1) {
+//     if (Jet1.constituents().empty() || Jet2.constituents().empty()) {
 // 
 //         Print(HNotification, "Not enough Constituents", Jet1.constituents().size(), Jet2.constituents().size());
 // //         return 0;

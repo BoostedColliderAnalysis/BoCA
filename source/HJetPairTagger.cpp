@@ -120,7 +120,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
     HJets BdtJets = Jets;
 
     std::vector<HEventJetPairBranch> JetPairBranches;
-    if (Jets.size() < 1) return JetPairBranches;
+    if (Jets.empty()) return JetPairBranches;
     Print(HDebug, "Number BDT Jets", Jets.size());
 
     HJets Particles = Event.GetParticles()->Generator();

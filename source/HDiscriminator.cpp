@@ -69,7 +69,7 @@ HJets hanalysis::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, 
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     HJets MassDropJets;
 
-    while (MassDropJets.size() < 1 && DeltaR < 7) {
+    while (MassDropJets.empty() && DeltaR < 7) {
 
         const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
         const HJets FatJets = GetFatJets(EFlowJets, FatJetDefinition);

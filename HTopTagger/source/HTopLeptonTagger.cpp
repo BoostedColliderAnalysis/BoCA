@@ -145,7 +145,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
 
     std::vector<hanalysis::HDoublet> FinalDoublets;
     std::vector<HTopLeptonBranch> TopLeptonBranches;
-    if (Doublets.size() < 1) return TopLeptonBranches;
+    if (Doublets.empty()) return TopLeptonBranches;
 
     HJets TopParticles = Event.GetParticles()->Generator();
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);

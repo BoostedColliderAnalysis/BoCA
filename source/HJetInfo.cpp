@@ -244,7 +244,7 @@ float hanalysis::HJetInfo::MeanDisplacement() const
     Print(HDebug, "Get Jet Displacement");
     if (constituents_.size() == 0) return 0;
     std::vector <HConstituent > vertices = ApplyVertexResolution();
-    if (vertices.size() < 1) return 0;
+    if (vertices.empty()) return 0;
     const float Sum = std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
     return Sum / vertices.size();
 }
@@ -261,7 +261,7 @@ float hanalysis::HJetInfo::MaxDisplacement() const
     Print(HDebug, "Get Jet Displacement");
     if (constituents_.size() == 0) return 0;
     std::vector <HConstituent > vertices = ApplyVertexResolution();
-    if (vertices.size() < 1) return 0;
+    if (vertices.empty()) return 0;
     std::sort(vertices.begin(), vertices.end(), MaxPerpDistance());
     return vertices.front().Position().Vect().Perp();
 }

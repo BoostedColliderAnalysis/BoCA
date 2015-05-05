@@ -585,7 +585,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 
     if (event.GetJets()->GetMissingEt().pt() < MissingEt()) return 0;
     HJets Leptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
-    if (Leptons.size() < 1) return 0;
+    if (Leptons.empty()) return 0;
     if (Leptons.front().pt() < LeptonPt()) return 0;
     HJets Jets = event.GetJets()->GetJets();
     if (Jets.size() < 4) return 0;
@@ -659,7 +659,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HDebug, "Get Bottom Tag", Tag);
 //     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-//     if (Bottoms.size() < 1) return 0;
+//     if (Bottoms.empty()) return 0;
 //     for (const auto & Bottom : Bottoms) {
 //         ++ObjectNumber;
 //         *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
@@ -673,7 +673,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 //
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 // //     Jets = static_cast<hanalysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(Jets);
 //
@@ -698,7 +698,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HDebug, "Get JetPair Tag", Tag);
 //     std::vector<HEventJetPairBranch> JetPairs = JetPairTagger.GetBranches(Event, Tag);
-//     if (JetPairs.size() < 1) return 0;
+//     if (JetPairs.empty()) return 0;
 //     for (const auto & JetPair : JetPairs) {
 //         ++ObjectNumber;
 //         *static_cast<HEventJetPairBranch *>(Branch->NewEntry()) = JetPair;
@@ -713,7 +713,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
 //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //     HJets Particles = Event.GetParticles()->Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsFamily(BottomId, GluonId)), Particles.end());
@@ -739,7 +739,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HDebug, "Get W Semi Tag", Tag);
 //     std::vector<HWSemiBranch> WSemis = WSemiTagger.GetBranches(Event, Tag);
-//     if (WSemis.size() < 1) return 0;
+//     if (WSemis.empty()) return 0;
 //     for (const auto & WSemi : WSemis) {
 //         ++ObjectNumber;
 //         *static_cast<HWSemiBranch *>(Branch->NewEntry()) = WSemi;
@@ -756,7 +756,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //
 //     std::vector<hanalysis::HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 //
-//     if (Doublets.size() < 1) return 0;
+//     if (Doublets.empty()) return 0;
 //
 //     if (Doublets.size() > 1) {
 //         std::sort(Doublets.begin(), Doublets.end());
@@ -774,7 +774,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HDebug, "Get W Tag", Tag);
 //     std::vector<HWBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
-//     if (Ws.size() < 1) return 0;
+//     if (Ws.empty()) return 0;
 //     for (const auto & W : Ws) {
 //         ++ObjectNumber;
 //         *static_cast<HWBranch *>(Branch->NewEntry()) = W;
@@ -789,7 +789,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //     std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(Jets, WHadronicReader, BottomTagger, BottomReader);
 //
@@ -809,7 +809,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 // //     Print(HInformation, "Get leptonic top", Tag);
 // //     std::vector<HTopLeptonicBranch> Tops = TopLeptonicTagger.GetBranches(Event, Tag);
-// //     if (Tops.size() < 1) return 0;
+// //     if (Tops.empty()) return 0;
 // //     for (const auto & Top : Tops) {
 // //         ++ObjectNumber;
 // //         *static_cast<HTopLeptonicBranch *>(Branch->NewEntry()) = Top;
@@ -824,7 +824,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // //
 // //     HJets Jets = BottomTagger.GetJets(Event);
 // //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-// //     if (Jets.size() < 1) return 0;
+// //     if (Jets.empty()) return 0;
 // //
 // //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
 // //     if (Leptons.size() < 2) return 0;
@@ -848,7 +848,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HInformation, "Get hadronic tops", Tag);
 //     std::vector<HTopHadronicBranch> Tops = TopHadronicTagger.GetBranches(Event, Tag, PreCut());
-//     if (Tops.size() < 1) return 0;
+//     if (Tops.empty()) return 0;
 //     for (const auto & Top : Tops) {
 //         ++ObjectNumber;
 //         *static_cast<HTopHadronicBranch *>(Branch->NewEntry()) = Top;
@@ -864,7 +864,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //
 // //     std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(Jets, WHadronicReader);
@@ -891,7 +891,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HInformation, "Get Tops", Tag);
 //     std::vector<HTopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag, PreCut());
-//     if (Tops.size() < 1) return 0;
+//     if (Tops.empty()) return 0;
 //     for (const auto & Top : Tops) {
 //         ++ObjectNumber;
 //         *static_cast<HTopSemiBranch *>(Branch->NewEntry()) = Top;
@@ -905,7 +905,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
@@ -929,7 +929,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 // //     Print(HInformation, "Get Leptonic Heavy Higgs Tag", Tag);
 // //     std::vector<HHeavyHiggsLeptonicBranch> Higgses = HeavyHiggsLeptonicTagger.GetBranches(Event, Tag);
-// //     if (Higgses.size() < 1) return 0;
+// //     if (Higgses.empty()) return 0;
 // //     for (const auto & Higgs : Higgses) {
 // //         ++ObjectNumber;
 // //         *static_cast<HHeavyHiggsLeptonicBranch *>(Branch->NewEntry()) = Higgs;
@@ -944,7 +944,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // //
 // //     HJets Jets = BottomTagger.GetJets(Event);
 // //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-// //     if (Jets.size() < 1) return 0;
+// //     if (Jets.empty()) return 0;
 // //
 // //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
 // //     if (Leptons.size() < 2) return 0;
@@ -969,7 +969,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 // //     Print(HInformation, "Get Hadronic HeavyHiggs Tag", Tag);
 // //     std::vector<HHeavyHiggsHadronicBranch> Higgses = HeavyHiggsHadronicTagger.GetBranches(Event, Tag);
-// //     if (Higgses.size() < 1) return 0;
+// //     if (Higgses.empty()) return 0;
 // //     for (const auto & Higgs : Higgses) {
 // //         ++ObjectNumber;
 // //         *static_cast<HHeavyHiggsHadronicBranch *>(Branch->NewEntry()) = Higgs;
@@ -982,7 +982,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HInformation, "Get Semi HeavyHiggs Tag", Tag);
 //     std::vector<HHeavyHiggsSemiBranch> Higgses = HeavyHiggsSemiTagger.GetBranches(Event, Tag);
-//     if (Higgses.size() < 1) return 0;
+//     if (Higgses.empty()) return 0;
 //     for (const auto & Higgs : Higgses) {
 //         ++ObjectNumber;
 //         *static_cast<HHeavyHiggsSemiBranch *>(Branch->NewEntry()) = Higgs;
@@ -996,7 +996,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
@@ -1029,7 +1029,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 // //     Print(HInformation, "Get Event leptonic", Tag);
 // //     std::vector<hheavyhiggs::HEventLeptonicBranch *> LeptonicEventBranches = EventLeptonicTagger.GetBranches(Event, Tag);
-// //     if (LeptonicEventBranches.size() < 1) return 0;
+// //     if (LeptonicEventBranches.empty()) return 0;
 // //     for (const auto & LeptonicEvent : LeptonicEventBranches) {
 // //         ++ObjectNumber;
 // //         *static_cast<HEventLeptonicBranch *>(Branch->NewEntry()) = *LeptonicEvent;
@@ -1043,7 +1043,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 // //     Print(HInformation, "Get Event hadronic", Tag);
 // //     std::vector<hheavyhiggs::HEventHadronicBranch *> HadronicEvents = EventHadronicTagger.GetBranches(Event, Tag);
-// //     if (HadronicEvents.size() < 1) return 0;
+// //     if (HadronicEvents.empty()) return 0;
 // //     for (const auto & HadronicEvent : HadronicEvents) {
 // //         ++ObjectNumber;
 // //         *static_cast<HEventHadronicBranch *>(Branch->NewEntry()) = *HadronicEvent;
@@ -1057,7 +1057,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // //
 // //     HJets Jets = BottomTagger.GetJets(Event);
 // //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-// //     if (Jets.size() < 1) return 0;
+// //     if (Jets.empty()) return 0;
 // //
 // //     Print(HInformation, "Jet Pair");
 // //
@@ -1078,7 +1078,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // //     EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
 // //
 // //     std::vector<HOctet> Octets = EventLeptonicTagger.GetBdt(Sextets, Doublets, Jets, EventStruct, EventLeptonicReader);
-// //     if (Octets.size() < 1) return 0;
+// //     if (Octets.empty()) return 0;
 // //     Octets.front().SetTag(Tag);
 // //
 // //     hheavyhiggs::HEventLeptonicBranch *LeptonicEvent = new hheavyhiggs::HEventLeptonicBranch();
@@ -1097,7 +1097,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HInformation, "Get Signature semi", Tag);
 //     std::vector<hheavyhiggs::HOctetBranch> Signatures = SignatureSemiTagger.GetBranches(Event, Tag);
-//     if (Signatures.size() < 1) return 0;
+//     if (Signatures.empty()) return 0;
 //     for (const auto & Signature : Signatures) {
 //         ++ObjectNumber;
 //         *static_cast<HOctetBranch *>(Branch->NewEntry()) = Signature;
@@ -1111,7 +1111,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //
 //     HJets Jets = BottomTagger.GetJets(Event);
 //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-//     if (Jets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
 //
 //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
 //
@@ -1127,7 +1127,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 //
 //     std::vector<HOctet> Octets = SignatureSemiTagger.GetBdt(Sextets, Doublets, SignatureSemiReader);
-//     if (Octets.size() < 1) return 0;
+//     if (Octets.empty()) return 0;
 //
 //     if (Octets.size() > 1) {
 //         std::sort(Octets.begin(), Octets.end());
@@ -1145,7 +1145,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //     std::vector<hheavyhiggs::HEventSemiBranch> SemiEvents = EventSemiTagger.GetBranches(Event, Tag);
-//     if (SemiEvents.size() < 1) return 0;
+//     if (SemiEvents.empty()) return 0;
 //     for (const auto & SemiEvent : SemiEvents) {
 //         ++ObjectNumber;
 //         *static_cast<HEventSemiBranch *>(Branch->NewEntry()) = SemiEvent;
@@ -1161,8 +1161,8 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 //     HJets PreJets = BottomTagger.GetJets(Event);
 //     HJets Jets = BottomTagger.GetJetBdt(PreJets, BottomReader);
 //     HJets SubJets = BottomTagger.GetMultiJetBdt(PreJets, BottomReader);
-//     if (Jets.size() < 1) return 0;
-//     if (SubJets.size() < 1) return 0;
+//     if (Jets.empty()) return 0;
+//     if (SubJets.empty()) return 0;
 //
 //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
 // //     Print(HError, "Doublets", Doublets.size());
@@ -1193,7 +1193,7 @@ bool hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalys
 // //   if (EventStruct.LeptonNumber > 0) EventStruct.LeptonPt = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets()).front().pt();
 //
 //     std::vector<HEventMultiplet<HOctet>> Events = EventSemiTagger.GetBdt(Octets, Jets, SubJets, Leptons,  EventStruct, EventSemiReader);
-//     if (Events.size() < 1) return 0;
+//     if (Events.empty()) return 0;
 //     Events.front().SetTag(Tag);
 // //     ++ObjectNumber; // FIXME should be switched on to avoid long duration of last step
 //     *static_cast<HEventSemiBranch *>(Branch->NewEntry()) = EventSemiTagger.GetBranch(Events.front());

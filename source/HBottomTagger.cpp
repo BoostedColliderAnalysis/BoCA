@@ -99,7 +99,7 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
     Print(HInformation, "Particle size", Particles.size());
 
     std::vector<HBottomBranch> BottomBranches;
-    if (Jets.size() < 1) return BottomBranches;
+    if (Jets.empty()) return BottomBranches;
     HJets FinalJets = CleanJets(Jets, Particles, Tag);
 
     HJets Pieces = GetSubJets(Jets, Particles, Tag, 2);

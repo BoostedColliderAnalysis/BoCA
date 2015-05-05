@@ -287,7 +287,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(
     std::vector<HSextet> Sextets = GetSextets(Quartet, MissingEt);
     Print(HDebug, "Number Solutions", Sextets.size());
 
-    if (Sextets.size() < 1) return Sextets;
+    if (Sextets.empty()) return Sextets;
 //     if (Neutrinos.size() < 2) return Sextets;
 
     for (const auto & Neutrino : Neutrinos) Print(HDebug, "Neutrino", Neutrino);

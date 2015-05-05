@@ -228,7 +228,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDou
 
     std::vector<HDoublet> Doublets = GetNeutrinos(Doublet);
     Print(HDebug, "Number Solutions", Doublets.size());
-    if (Doublets.size() < 1) return Doublets;
+    if (Doublets.empty()) return Doublets;
 
     float BestError = LargeNumber;
     HDoublet BestDoublet;
@@ -274,7 +274,7 @@ HJets hanalysis::HWSemiTagger::GetWDaughters(HEvent &Event)
 
 int hanalysis::HWSemiTagger::GetWSemiId(const HJets &Jets)
 {
-    if (Jets.size() < 1) return WId;
+    if (Jets.empty()) return WId;
     else return Jets.at(0).user_info<hanalysis::HJetInfo>().Constituents().front().Family().Mother1Id;
 }
 

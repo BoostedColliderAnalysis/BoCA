@@ -1,5 +1,6 @@
 # pragma once
 
+// # include "HReader.hh"
 # include "TCut.h"
 
 # include "TMVA/Reader.h"
@@ -70,6 +71,14 @@ public:
 
     void SetSignalTreeNames(const HStrings &signal_tree_names) {
         signal_tree_names_ = signal_tree_names;
+    }
+
+    void AddSignalTreeName(const std::string signal_tree_name){
+      signal_names_.push_back(signal_tree_name);
+    }
+
+    void AddBackgroundTreeName(const std::string background_tree_name){
+      background_names_.push_back(background_tree_name);
     }
 
     void SetBackgroundTreeNames(const HStrings &background_tree_names) {
@@ -266,6 +275,14 @@ protected:
         return *HBranch::Class();
     }
 
+    ExRootTreeBranch &TreeBranch(){
+      return *tree_branch_;
+    }
+
+//     HReader &reader(){
+//       return reader_;
+//     }
+
 private:
 
     ExRootTreeBranch *tree_branch_;
@@ -326,5 +343,7 @@ private:
     std::vector<HObservable> spectators_;
 
     int max_combi_;
+
+//     HReader reader_;
 
 };

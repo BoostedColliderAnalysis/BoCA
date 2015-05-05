@@ -267,7 +267,7 @@ std::vector<HKinematics> hanalysis::HDoublet::Constituents() const
 
     Print(HInformation, "GetConstituents");
 
-    if (Singlet1().constituents().size() < 1 || Singlet2().constituents().size() < 1) {
+    if (Singlet1().constituents().empty() || Singlet2().constituents().empty()) {
 
         Print(HNotification, "Not enough Constituents", Singlet1().constituents().size(), Singlet2().constituents().size());
         //         return 0;

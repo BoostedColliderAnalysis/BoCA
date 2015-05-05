@@ -1,22 +1,12 @@
 # include "HBottomTaggerSimple.hh"
 
-hbtagger::HBottomTaggerSimple::HBottomTaggerSimple(const std::string &ProjectName)
-{
-    Print(HInformation, "Constructor");
-    SetAnalysisName(ProjectName);
-    SetTagger();
-}
+# include "HEvent.hh"
+# include "HReader.hh"
 
 hbtagger::HBottomTaggerSimple::HBottomTaggerSimple()
 {
 //     DebugLevel = HDebug;
     Print(HInformation, "Constructor");
-    SetTagger();
-}
-
-void hbtagger::HBottomTaggerSimple::SetTagger()
-{
-    Print(HNotification, "Set Tagger");
     SetTaggerName("Bottom");
     DefineVariables();
 }
@@ -26,24 +16,22 @@ void hbtagger::HBottomTaggerSimple::DefineVariables()
     Print(HInformation , "Define Variables");
 
     ClearVectors();
-
-
-    AddObservable(Branch.VertexMass, "VertexMass");
+    AddObservable(branch_.VertexMass, "VertexMass");
 //     AddObservable(Branch.Pt, "Pt");
 //     AddSpectator(Branch.Rap, "Rap");
 //     AddSpectator(Branch.Phi, "Phi");
-    AddObservable(Branch.MaxDisplacement, "MaxDisplacement");
-    AddObservable(Branch.MeanDisplacement, "MeanDisplacement");
-    AddObservable(Branch.SumDisplacement, "SumDisplacement");
-    AddObservable(Branch.Multipliticity, "Multipliticity");
-    AddObservable(Branch.DeltaR, "DeltaR");
-    AddObservable(Branch.Spread, "Spread");
-    AddObservable(Branch.VertexDeltaR, "VertexDeltaR");
-    AddObservable(Branch.VertexSpread, "VertexSpread");
-    AddObservable(Branch.EnergyFraction, "EnergyFraction");
+    AddObservable(branch_.MaxDisplacement, "MaxDisplacement");
+    AddObservable(branch_.MeanDisplacement, "MeanDisplacement");
+    AddObservable(branch_.SumDisplacement, "SumDisplacement");
+    AddObservable(branch_.Multipliticity, "Multipliticity");
+    AddObservable(branch_.DeltaR, "DeltaR");
+    AddObservable(branch_.Spread, "Spread");
+    AddObservable(branch_.VertexDeltaR, "VertexDeltaR");
+    AddObservable(branch_.VertexSpread, "VertexSpread");
+    AddObservable(branch_.EnergyFraction, "EnergyFraction");
 //     AddSpectator(Branch.BTag, "BTag");
 //
-    AddObservable(Branch.Mass, "Mass");
+    AddObservable(branch_.Mass, "Mass");
 //     AddSpectator(Branch.Tag, "Tag");
 //     AddSpectator(Branch.Bdt, "Bdt");
 }
@@ -87,31 +75,28 @@ HBottomBranch hbtagger::HBottomTaggerSimple::GetBranch(const fastjet::PseudoJet 
 
 }
 
-std::vector<HBottomBranch> hbtagger::HBottomTaggerSimple::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
+int hbtagger::HBottomTaggerSimple::GetBranches(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
 {
-    Print(HInformation, "Get Bottom Tag", Tag);
+    Print(HInformation, "Get Bottom Tag", tag);
 
-    HJets Jets = GetJets(Event);
-    Print(HInformation, "Number Jets", Jets.size());
+    HJets jets = GetJets(event);
+    Print(HInformation, "Number Jets", jets.size());
 
-    HJets Particles = Event.GetParticles()->Generator();
+    HJets particles = event.GetParticles()->Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId, TopId)), Particles.end());
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
-    Print(HInformation, "Particle size", Particles.size());
+    particles.erase(std::remove_if(particles.begin(), particles.end(), WrongAbsId(BottomId)), particles.end());
+    Print(HInformation, "Particle size", particles.size());
 
-    std::vector<HBottomBranch> BottomBranches;
-    if (Jets.size() < 1) return BottomBranches;
-    HJets FinalJets = CleanJets(Jets, Particles, Tag);
+    if (jets.empty()) return 0;
+    HJets final_jets = CleanJets(jets, particles, tag);
 
-    Print(HDebug, "Number B Jets", Jets.size());
+    Print(HDebug, "Number B Jets", jets.size());
 
-    for (const auto & Jet : FinalJets) BottomBranches.push_back(GetBranch(Jet));
+    SaveEntries(final_jets);
 
-    return BottomBranches;
+    return final_jets.size();
+
 }
-
-
-
 
 HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particles, const Tag Tag)
 {
@@ -160,25 +145,31 @@ hanalysis::HObject::Tag hbtagger::HBottomTaggerSimple::GetTag(const fastjet::Pse
 }
 
 
-HJets hbtagger::HBottomTaggerSimple::GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader)
+int hbtagger::HBottomTaggerSimple::GetJetBdt(hanalysis::HEvent &event)
 {
-    HJets NewJets;
+  HJets jets = GetJets(event);
+    HJets final_jets;
     Print(HInformation, "Get Jet Bdt");
-    for (const auto Jet : Jets) {
-        if (!Jet.has_user_info<hanalysis::HJetInfo>()) {
+    for (const auto jet : jets) {
+        if (std::abs(jet.rap()) > DetectorGeometry.TrackerEtaMax) continue;
+        if (!jet.has_user_info<hanalysis::HJetInfo>()) {
             Print(HError, "Get Jet Bdt", "No Jet Info");
             continue;
         }
-        if (Jet.m() <= 0) {
+        if (jet.m() <= 0) {
             Print(HInformation, "Empty Piece");
             continue;
         }
-        Branch = GetBranch(Jet);
-        static_cast<hanalysis::HJetInfo *>(Jet.user_info_shared_ptr().get())->SetBdt(BottomReader.Bdt());
-        NewJets.push_back(Jet);
+        branch_ = GetBranch(jet);
+//         static_cast<hanalysis::HJetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(reader().Bdt()); // FIXME reenable this !!!!
+        final_jets.push_back(jet);
     }
-    return NewJets;
+
+    SaveEntries(final_jets);
+
+    return final_jets.size();
 }
+
 
 float hbtagger::HBottomTaggerSimple::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
