@@ -31,17 +31,19 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysis();
+//     HAnalysis();
+
+using hanalysis::HAnalysis::HAnalysis;
 
     HBottomTaggerSimple BottomTagger;
 
-    std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
+//     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
-    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
+//     void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
 
-    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
+    void SetTrees();
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag);
+    std::vector<hanalysis::HFile> Files(const hanalysis::HObject::Tag Tag);
 
     inline std::string ProjectName() const {
         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector()) + "_" + std::to_string(PreCut()) + "GeV";
@@ -186,12 +188,12 @@ private:
     hanalysis::HJetTag JetTag;
     hanalysis::HReader BottomReader;
 
-    void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
+//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
-    bool Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag);
+    bool Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
 
-    bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
 
 };

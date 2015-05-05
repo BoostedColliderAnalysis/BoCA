@@ -83,7 +83,7 @@ public:
 //
 //       for (const auto & Particle : Particles) {
 //         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
+//         static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //       }
 //
 //       for (const auto & Jet : Jets) {

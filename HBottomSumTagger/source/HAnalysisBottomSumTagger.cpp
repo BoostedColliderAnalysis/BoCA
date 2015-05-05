@@ -28,9 +28,9 @@
 //     }
 // }
 
-std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag tag)
+std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
 {
-    Print(HNotification, "Set File Vector", Tagger, tag);
+    Print(HNotification, "Set File Vector", tag);
 
     std::vector<hanalysis::HFile> SignalLeptonicFiles;
     std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
@@ -130,14 +130,14 @@ std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis
 
     NewFiles.front().SetBasePath("~/Projects/MultiBTagging/");
     NewFiles.front().SetFileSuffix(".root");
-    SetTrees(Tagger, tag);
-    PrepareReader(Tagger, tag);
+    SetTrees();
+//     PrepareReader(Tagger, tag);
     return NewFiles;
 
 }
 
 
-void hbottomsumtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag)
+void hbottomsumtagger::HAnalysis::SetTrees()
 {
 
     HStrings SignalLeptonicTrees {};
@@ -262,115 +262,116 @@ void hbottomsumtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger T
 //
 // }
 
-bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
+bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
 {
-    Print(HInformation, "Analysis", Tagger);
+    Print(HInformation, "Analysis");
     ++event_sum_;
 
-    switch (Tagger) {
-    case HBottomTagger :
-        return GetBottomTag(Event, Tag);
-    case HBottomReader:
-        return GetBottomReader(Event, Tag);
-    case HJetPairTagger :
-        return GetEventSemiTag(Event, Tag);
-    case HJetPairReader :
-        return GetEventSemiReader(Event, Tag);
-    default :
-        Print(HError, "unknown Tagger", Tagger);
-        return 0;
-    }
+//     switch (Tagger) {
+//     case HBottomTagger :
+//         return GetBottomTag(Event, Tag);
+//     case HBottomReader:
+//         return GetBottomReader(Event, Tag);
+//     case HJetPairTagger :
+//         return GetEventSemiTag(Event, Tag);
+//     case HJetPairReader :
+//         return GetEventSemiReader(Event, Tag);
+//     default :
+//         Print(HError, "unknown Tagger", Tagger);
+//         return 0;
+//     }
+    tagger_.GetBranches(event,stage,tag);
 }
 
 
-bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HDebug, "Get Bottom Tag", Tag);
-    std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-    if (Bottoms.size() < 1) {
-        return 0;
-    }
-    for (const auto & Bottom : Bottoms) {
-        *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
-    }
-    return 1;
-}
-
-bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HDebug, "Get Bottom Reader", Tag);
-    HJets Jets = BottomTagger.GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-    if (Jets.size() < 1) return 0;
-
-
-    HJets Particles = Event.GetParticles()->Generator();
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
-
-    int BNumber=0;
-    for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
-            static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
-            ++BNumber;
-        }
-    }
-
-//     if(Tag == HSignal && BNumber <4 )
-
-    for (const auto & Jet : Jets) {
-        if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
-            continue;
-        }
-        if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) {
-            continue;
-        }
-        *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
-    }
-    return 1;
-}
-
-
-bool hbottomsumtagger::HAnalysis::GetEventSemiTag(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HInformation, "Get Event semi", Tag);
-    std::vector<HEventBottomTaggerBranch> SemiEvents = EventBottomSumTagger.GetBranches(Event, Tag);
-    if (SemiEvents.size() < 1) return 0;
-    for (const auto & SemiEvent : SemiEvents) {
-        ++ObjectNumber;
-        *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = SemiEvent;
-    }
-    return 1;
-}
-
-bool hbottomsumtagger::HAnalysis::GetEventSemiReader(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HInformation, "Get Event semi", Tag);
-
-    HJets Jets = BottomTagger.GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-
-    if (!EventBottomSumTagger.TruthLevelCheck(Jets,Event, Tag)) return 0;
-
-//     if (Jets.size() < 4) return 0;
+// bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HDebug, "Get Bottom Tag", Tag);
+//     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
+//     if (Bottoms.size() < 1) {
+//         return 0;
+//     }
+//     for (const auto & Bottom : Bottoms) {
+//         *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
+//     }
+//     return 1;
+// }
 //
-//     HJets BottomJets;
+// bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HDebug, "Get Bottom Reader", Tag);
+//     HJets Jets = BottomTagger.GetJets(Event);
+//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     if (Jets.size() < 1) return 0;
+//
+//
 //     HJets Particles = Event.GetParticles()->Generator();
-//     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+//
+//     int BNumber=0;
 //     for (const auto & Particle : Particles) {
-//       std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//       if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize)
-//         BottomJets.push_back(Jets.front());
+//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+//         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
+//             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//             ++BNumber;
+//         }
 //     }
 //
-//     if (Tag == HSignal && BottomJets.size() < 4) return 0;
-//     if (Tag == HBackground && BottomJets.size() < 2) return 0;
-
-
-    std::vector<HEventBottomMultiplet> Events = EventBottomSumTagger.GetBdt(Jets, EventBottomSumReader);
-    if (Events.size() < 1) return 0;
-    Events.front().SetTag(Tag);
-    ++ObjectNumber;
-    *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = EventBottomSumTagger.GetBranch(Events.front());
-    return 1;
-}
+// //     if(Tag == kSignal && BNumber <4 )
+//
+//     for (const auto & Jet : Jets) {
+//         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
+//             continue;
+//         }
+//         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) {
+//             continue;
+//         }
+//         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
+//     }
+//     return 1;
+// }
+//
+//
+// bool hbottomsumtagger::HAnalysis::GetEventSemiTag(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HInformation, "Get Event semi", Tag);
+//     std::vector<HEventBottomTaggerBranch> SemiEvents = EventBottomSumTagger.GetBranches(Event, Tag);
+//     if (SemiEvents.size() < 1) return 0;
+//     for (const auto & SemiEvent : SemiEvents) {
+//         ++ObjectNumber;
+//         *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = SemiEvent;
+//     }
+//     return 1;
+// }
+//
+// bool hbottomsumtagger::HAnalysis::GetEventSemiReader(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HInformation, "Get Event semi", Tag);
+//
+//     HJets Jets = BottomTagger.GetJets(Event);
+//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//
+//     if (!EventBottomSumTagger.TruthLevelCheck(Jets,Event, Tag)) return 0;
+//
+// //     if (Jets.size() < 4) return 0;
+// //
+// //     HJets BottomJets;
+// //     HJets Particles = Event.GetParticles()->Generator();
+// //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
+// //     for (const auto & Particle : Particles) {
+// //       std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+// //       if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize)
+// //         BottomJets.push_back(Jets.front());
+// //     }
+// //
+// //     if (Tag == kSignal && BottomJets.size() < 4) return 0;
+// //     if (Tag == HBackground && BottomJets.size() < 2) return 0;
+//
+//
+//     std::vector<HEventBottomMultiplet> Events = EventBottomSumTagger.GetBdt(Jets, EventBottomSumReader);
+//     if (Events.size() < 1) return 0;
+//     Events.front().SetTag(Tag);
+//     ++ObjectNumber;
+//     *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = EventBottomSumTagger.GetBranch(Events.front());
+//     return 1;
+// }

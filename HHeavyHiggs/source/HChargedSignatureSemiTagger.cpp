@@ -16,7 +16,7 @@ void hheavyhiggs::HChargedSignatureSemiTagger::SetTagger(
     const hanalysis::HBottomTagger &NewBottomTagger,
     const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
-    const hanalysis::HWTagger &NewWTagger,
+    const hanalysis::HWHadronicTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
     const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger)
@@ -97,7 +97,7 @@ hheavyhiggs::HChargedOctetBranch hheavyhiggs::HChargedSignatureSemiTagger::GetBr
     return EventSemiBranch;
 }
 
-std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag tag)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -113,9 +113,9 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
 
     HJets HiggsParticles = Event.GetParticles()->Generator();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
-    if (Tag == HSignal && HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
+    if (tag == kSignal && HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
     std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaR(HiggsParticles.front()));
-    if (Tag == HSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
+    if (tag == kSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
 
 //     if(Tag == HBackground && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
 
@@ -139,20 +139,20 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
 //         TripletsHadronic.insert(TripletsHadronic.end(), PieceTriplets.begin(), PieceTriplets.end());
 //     }
     std::vector<hanalysis::HTriplet> FinalTriplets;
-    if (Tag == HSignal) {
+    if (tag == kSignal) {
         HJets Particles = Event.GetParticles()->Generator();
         HJets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
         if (TopParticles.size() != 1) Print(HError, "Where is the Top?");
         else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry.JetConeSize)) FinalTriplets.push_back(Triplet);
     } else FinalTriplets = TripletsHadronic;
 
-    if (Tag == HSignal && FinalTriplets.size() > 1) {
+    if (tag == kSignal && FinalTriplets.size() > 1) {
         std::sort(FinalTriplets.begin(), FinalTriplets.end());
         FinalTriplets.erase(FinalTriplets.begin() + 1, FinalTriplets.end());
     }
 
     HJets FinalBottoms;
-    if (Tag == HSignal) {
+    if (tag == kSignal) {
         HJets Particles = Event.GetParticles()->Generator();
         HJets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?");
@@ -184,7 +184,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
             if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
             if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
             HOctet44 Octet(HiggsQuartet, JetQuartet);
-            Octet.SetTag(Tag);
+            Octet.SetTag(tag);
             Octets.push_back(Octet);
         }
 //     Print(HError, "Number of Signatures", Octets.size());

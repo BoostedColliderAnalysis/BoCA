@@ -32,41 +32,41 @@ public:
      */
     HAnalysis(hanalysis::Tagger &tagger);
 
-    enum HTagger {
-        HBottomTagger,
-//         HBottomReader,
-        HTauTagger,
-//         HTauReader,
-        HJetPairTagger,
-//         HJetPairReader,
-        HWSemiTagger,
-//         HWSemiReader,
-        HWHadronicTagger,
-//         HWHadronicReader,
-        HTopHadronicTagger,
-        HTopSemiTagger,
-//         HTopHadronicReader,
-//         HTopSemiReader,
-        HTopLeptonicTagger,
-//         HTopLeptonicReader,
-        HHeavyHiggsHadronicTagger,
-        HHeavyHiggsLeptonicTagger,
-        HHeavyHiggsTauTagger,
-//         HHeavyHiggsLeptonicReader,
-        HHeavyHiggsSemiTagger,
-//         HHeavyHiggsSemiReader,
-//         HHeavyHiggsTauReader,
-        HEventLeptonicTagger,
-        HEventHadronicTagger,
-        HEventSemiTagger,
-//         HEventSemiReader,
-        HSignatureSemiTagger,
-//         HSignatureSemiReader,
-        HEventTagger,
-        HHiggsLeptonicTagger,
-//         HEventLeptonicReader,
-        HChargedHiggsSemiTagger
-    };
+//     enum HTagger {
+//         HBottomTagger,
+// //         HBottomReader,
+//         HTauTagger,
+// //         HTauReader,
+//         HJetPairTagger,
+// //         HJetPairReader,
+//         HWSemiTagger,
+// //         HWSemiReader,
+//         HWHadronicTagger,
+// //         HWHadronicReader,
+//         HTopHadronicTagger,
+//         HTopSemiTagger,
+// //         HTopHadronicReader,
+// //         HTopSemiReader,
+//         HTopLeptonicTagger,
+// //         HTopLeptonicReader,
+//         HHeavyHiggsHadronicTagger,
+//         HHeavyHiggsLeptonicTagger,
+//         HHeavyHiggsTauTagger,
+// //         HHeavyHiggsLeptonicReader,
+//         HHeavyHiggsSemiTagger,
+// //         HHeavyHiggsSemiReader,
+// //         HHeavyHiggsTauReader,
+//         HEventLeptonicTagger,
+//         HEventHadronicTagger,
+//         HEventSemiTagger,
+// //         HEventSemiReader,
+//         HSignatureSemiTagger,
+// //         HSignatureSemiReader,
+//         HEventTagger,
+//         HHiggsLeptonicTagger,
+// //         HEventLeptonicReader,
+//         HChargedHiggsSemiTagger
+//     };
 
     void AnalysisLoop(const hanalysis::Tagger::Stage stage);
 
@@ -108,13 +108,13 @@ protected:
     /**
      * @brief New Analysis
      */
-    virtual void NewBranches(ExRootTreeWriter &, const HTagger) {
-        Print(HError, "NewBranches", "Should be subclassed");
-    }
+//     virtual void NewBranches(ExRootTreeWriter &, const HTagger) {
+//         Print(HError, "NewBranches", "Should be subclassed");
+//     }
 
-    virtual void NewBranches(ExRootTreeWriter *const) {
-        Print(HError, "NewBranches 0", "Should be subclassed");
-    }
+//     virtual void NewBranches(ExRootTreeWriter *const) {
+//         Print(HError, "NewBranches 0", "Should be subclassed");
+//     }
 
     /**
      * @brief Name of Analysis
@@ -132,10 +132,10 @@ protected:
         return 100000;
     }
 
-    virtual inline std::string StudyName(const HTagger Tagger) const {
-        Print(HError, "GetStudyName", "What are we doing here?", Tagger);
-        return ProjectName();
-    }
+//     virtual inline std::string StudyName(const HTagger Tagger) const {
+//         Print(HError, "GetStudyName", "What are we doing here?", Tagger);
+//         return ProjectName();
+//     }
 
     virtual inline std::string ClassName() const {
         return "HAnalysis";

@@ -6,7 +6,7 @@ hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger()
   SetTaggerName("HadronicEvent");
 }
 
-hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
+hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
 {
 
     Print(HNotification , "Constructor");

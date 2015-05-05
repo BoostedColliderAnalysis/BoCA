@@ -143,7 +143,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
             if (Jets.size() > 1) Jets.erase(Jets.begin());
         }
     } else if (Tag == kBackground) BottomJets = Jets; // THIS SHOULD BE ENABLED AGAIN
-//     if (Tag == HSignal && BottomJets.size() != 2) Print(HError, "Number of Matching Jets", BottomJets.size());
+//     if (Tag == kSignal && BottomJets.size() != 2) Print(HError, "Number of Matching Jets", BottomJets.size());
 
     std::vector<HDoublet> Doublets;
     for (auto Jet1 = BottomJets.begin(); Jet1 != BottomJets.end(); ++Jet1)

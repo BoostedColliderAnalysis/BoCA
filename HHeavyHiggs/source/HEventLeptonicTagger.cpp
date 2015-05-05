@@ -160,7 +160,7 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::HTag Tag)
+std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag tag)
 {
     Print(HInformation, "Get Branches");
 
@@ -189,12 +189,12 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
             if (Sextet.Triplet2().Singlet() == Doublet.Singlet2()) continue;
             HOctet Octet(Sextet, Doublet);
             Octet.SetTag(GetTag(Octet));
-            if (Octet.Tag() != Tag) continue;
+            if (Octet.Tag() != tag) continue;
             Octets.push_back(Octet);
         }
     }
 
-    if (Tag == kSignal && Octets.size() > 1) {
+    if (tag == kSignal && Octets.size() > 1) {
         Print(HError, "more than one event");
         std::sort(Octets.begin(), Octets.end());
         Octets.erase(Octets.begin() + 1, Octets.end());
@@ -248,7 +248,7 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
     std::vector<hheavyhiggs::HEventLeptonicBranch *> EventLeptonicBranches;
     for (auto & Octet : Octets) {
         hheavyhiggs::HEventLeptonicBranch *EventLeptonicBranch = new hheavyhiggs::HEventLeptonicBranch();
-        Octet.SetTag(Tag);
+        Octet.SetTag(tag);
         FillBranch(EventLeptonicBranch, Octet);
         EventLeptonicBranches.push_back(EventLeptonicBranch);
     }
@@ -258,7 +258,7 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
 }
 
 
-hanalysis::HObject::HTag hheavyhiggs::HEventLeptonicTagger::GetTag(const HOctet &Octet)
+hanalysis::HObject::Tag hheavyhiggs::HEventLeptonicTagger::GetTag(const HOctet &Octet)
 {
     Print(HInformation, "Get Sextet Tag");
 

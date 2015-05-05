@@ -10,7 +10,7 @@ hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger()
 void hanalysis::HHeavyHiggsSemiTagger::SetTagger(
     const HBottomTagger &NewBottomTagger,
     const HWSemiTagger &NewWSemiTagger,
-    const HWTagger &NewWTagger,
+    const HWHadronicTagger &NewWTagger,
     const HTopSemiTagger &NewTopSemiTagger,
     const HTopHadronicTagger &NewTopHadronicTagger)
 {

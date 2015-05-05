@@ -56,7 +56,7 @@ HLibrary(HContainer "${WrapperSources}" PARENT_SCOPE)
 
 
 set(HepTaggerSource
-HTopTagger.cpp
+TopHadronicTagger.cpp
 )
 HLibrary(HepTagger "${HepTaggerSource}" PARENT_SCOPE)
 add_dependencies(HepTagger HepTopTagger)
@@ -79,7 +79,7 @@ HReader.cpp
 
 HBottomTagger.cpp
 HTauTagger.cpp
-HWTagger.cpp
+HWHadronicTagger.cpp
 HWSemiTagger.cpp
 HJetPairTagger.cpp
 HChargedJetPairTagger.cpp

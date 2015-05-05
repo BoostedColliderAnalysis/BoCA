@@ -167,7 +167,7 @@ HJets hanalysis::HTauTagger::CleanJets(HJets &Jets, const HJets &Particles, cons
 //   Print(HError, "Clean Jets", "Massless Jet");
 //           continue;
 //         }
-//         if (Tag == HSignal && Jet.user_info<HJetInfo>().SumDisplacement() == 0) continue;
+//         if (Tag == kSignal && Jet.user_info<HJetInfo>().SumDisplacement() == 0) continue;
 if (Jet.user_info<HJetInfo>().Tag() != Tag){
 //   Print(HError, "Clean Jets", "Not Tagged Jet");
           continue;
@@ -185,7 +185,7 @@ if (Jet.user_info<HJetInfo>().Tag() != Tag){
 //     if (std::abs(Jet.user_info<HJetInfo>().MaximalId()) != BottomId) {
 //         return HBackground;
 //     }
-//     return HSignal;
+//     return kSignal;
 // }
 
 HJets hanalysis::HTauTagger::GetBdt(HJets &Jets, const HReader &BottomReader)

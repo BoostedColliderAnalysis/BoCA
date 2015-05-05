@@ -6,7 +6,7 @@ hanalysis::HChargedJetPairTagger::HChargedJetPairTagger()
     DefineVariables();
 }
 
-void hanalysis::HChargedJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
+void hanalysis::HChargedJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
 {
     Print(HNotification, "Set Tagger", NewBottomTagger.tagger_name());
 
@@ -147,7 +147,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
             else FinalTriplets = Triplets;
 
 //     std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
-//     if (Tag == HSignal && Triplets.size() > 1) Triplets.erase(Triplets.begin() + 1, Triplets.end());
+//     if (Tag == kSignal && Triplets.size() > 1) Triplets.erase(Triplets.begin() + 1, Triplets.end());
 //     if (Tag == HBackground && Triplets.size() > 0) Triplets.erase(Triplets.begin());
 
     HJets BottomParticles = Event.GetParticles()->Generator();
@@ -159,7 +159,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
             else FinalJets = Jets;
 
 //     std::sort(Jets.begin(), Jets.end(), MinDeltaR(BottomParticles.front()));
-//     if (Tag == HSignal && Triplets.size() > 1) Jets.erase(Jets.begin() + 1, Jets.end());
+//     if (Tag == kSignal && Triplets.size() > 1) Jets.erase(Jets.begin() + 1, Jets.end());
 //     if (Tag == HBackground && Jets.size() > 0) Jets.erase(Jets.begin());
 
 

@@ -111,7 +111,7 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
 //         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
 
 //         std::sort(PostDoublets.begin(), PostDoublets.end(), MinDeltaR(HiggsParticles.front()));
-//         if (Tag == HSignal && PostDoublets.size() > 1) PostDoublets.erase(PostDoublets.begin() + 1, PostDoublets.end());
+//         if (Tag == kSignal && PostDoublets.size() > 1) PostDoublets.erase(PostDoublets.begin() + 1, PostDoublets.end());
 //         if (Tag == HBackground && PostDoublets.size() > 0) PostDoublets.erase(PostDoublets.begin());
 //         for (auto & PostDoublet : PostDoublets) {
             PreDoublet.SetTag(tag);

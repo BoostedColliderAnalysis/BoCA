@@ -196,6 +196,11 @@ public:
 
     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
+    virtual float GetBranches(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag){
+      Print(HError, "Should be subclassed");
+      return 0;
+    }
+
     HJets GranulatedJets(const HJets &NewEFlowJets);
 
     HJets GetJets(hanalysis::HEvent &Event, hanalysis::HJetTag &JetTag);

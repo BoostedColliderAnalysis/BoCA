@@ -28,11 +28,13 @@ public:
      * @brief Constructor
      *
      */
-    HAnalysisTt();
+//     HAnalysisTt();
+
+using hanalysis::HAnalysis::HAnalysis;
 
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::HWTagger WHadronicTagger;
+    hanalysis::HWHadronicTagger WHadronicTagger;
 
     hanalysis::HTopHadronicTagger TopHadronicTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;
@@ -42,7 +44,7 @@ public:
     hheavyhiggs::HEventTtSemiTagger EventSemiTagger;
 
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag);
+    std::vector<hanalysis::HFile> Files(const hanalysis::HObject::Tag Tag);
 
     inline std::string ProcessName() const {
         return "Fusion";
@@ -53,11 +55,11 @@ public:
     }
 
 
-    std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
+//     std::string StudyName(const hanalysis::HAnalysis::Tagger Tagger) const;
 
-    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
+//     void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
 
-    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
+    void SetTrees();
 
 protected:
 
@@ -526,28 +528,28 @@ private:
 
     void ResetBranch();
 
-    void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
+//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
     /**
      * @brief Main Analysis function
      *
      */
-    bool Analysis(hanalysis::HEvent &Event, const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag Tag);
+    bool Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag);
 
-    bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetWSemiTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetWSemiReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetWTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetWReader(hanalysis::HEvent &Event, const Tag Tag);
-    bool GetTopHadronicTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetTopSemiTag(hanalysis::HEvent &Event, hanalysis::HObject::Tag Tag);
-    bool GetTopHadronicReader(hanalysis::HEvent &Event, const Tag Tag);
-    bool GetTopSemiReader(hanalysis::HEvent &Event, const Tag Tag);
-    bool GetHeavyHiggsSemiTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetHeavyHiggsSemiReader(hanalysis::HEvent &Event, const Tag Tag);
-    bool GetEventSemiTag(hanalysis::HEvent &Event, const Tag Tag);
-    bool GetEventSemiReader(hanalysis::HEvent &Event, const Tag Tag);
+//     bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetWSemiTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetWSemiReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetWTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetWReader(hanalysis::HEvent &Event, const Tag Tag);
+//     bool GetTopHadronicTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetTopSemiTag(hanalysis::HEvent &Event, hanalysis::HObject::Tag Tag);
+//     bool GetTopHadronicReader(hanalysis::HEvent &Event, const Tag Tag);
+//     bool GetTopSemiReader(hanalysis::HEvent &Event, const Tag Tag);
+//     bool GetHeavyHiggsSemiTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetHeavyHiggsSemiReader(hanalysis::HEvent &Event, const Tag Tag);
+//     bool GetEventSemiTag(hanalysis::HEvent &Event, const Tag Tag);
+//     bool GetEventSemiReader(hanalysis::HEvent &Event, const Tag Tag);
 
 };
 

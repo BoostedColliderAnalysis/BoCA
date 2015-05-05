@@ -117,7 +117,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent &Event, const std::string &StudyName, const hhiggscpv::HAnalysis::HTagger Tagger);
+    bool Analysis(hanalysis::HEvent &Event, const std::string &NewStudyName);
 
     bool GetBottomTag(hanalysis::HEvent &, const std::string &StudyName);
 
@@ -134,9 +134,9 @@ private:
      *
      * @return void
      */
-    void NewBranches(ExRootTreeWriter *TreeWriter, const HTagger Tagger);
+//     void NewBranches(ExRootTreeWriter *TreeWriter, const HTagger Tagger);
 
-    inline HStrings GetStudyNames(const hhiggscpv::HAnalysis::HTagger NewTagger);
+    inline HStrings GetStudyNames();
 
     virtual inline std::string NameSpaceName() const {
         return "higgscpv";

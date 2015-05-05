@@ -11,7 +11,7 @@ void hheavyhiggs::HChargedEventSemiTagger::SetTagger(
     const hanalysis::HBottomTagger &NewBottomTagger,
     const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
-    const hanalysis::HWTagger &NewWTagger,
+    const hanalysis::HWHadronicTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
     const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger,
@@ -255,15 +255,15 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
 
 //     HJets TopParticles = Event.GetParticles()->Generator();
 //     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongAbsFamily(TopId, GluonId)), TopParticles.end());
-//     if (Tag== HSignal && TopParticles.size() != 1) Print(HError, "Where is the Top?");
+//     if (Tag== kSignal && TopParticles.size() != 1) Print(HError, "Where is the Top?");
 //     HJets BottomParticles = Event.GetParticles()->Generator();
 //     BottomParticles.erase(std::remove_if(BottomParticles.begin(), BottomParticles.end(), WrongAbsFamily(BottomId, GluonId)), BottomParticles.end());
-//     if (Tag== HSignal && BottomParticles.size() != 1) Print(HError, "Where is the Bottom?");
+//     if (Tag== kSignal && BottomParticles.size() != 1) Print(HError, "Where is the Bottom?");
 //
 //     if (TopParticles.size() > 0 && BottomParticles.size() > 0) {
 //         hanalysis::HDoublet ParticlePair(TopParticles.front(), BottomParticles.front());
 //         std::sort(JetQuartets.begin(), JetQuartets.end(), MinDeltaR(ParticlePair.Jet()));
-//         if (Tag == HSignal && JetQuartets.size() > 1) JetQuartets.erase(JetQuartets.begin() + 1, JetQuartets.end());
+//         if (Tag == kSignal && JetQuartets.size() > 1) JetQuartets.erase(JetQuartets.begin() + 1, JetQuartets.end());
 //         if (Tag == HBackground && JetQuartets.size() > 0) JetQuartets.erase(JetQuartets.begin());
 //     }
 

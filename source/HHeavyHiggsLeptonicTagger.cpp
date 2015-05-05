@@ -144,7 +144,7 @@ std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::Ge
             Quartet.SetTag(GetTag(Quartet));
             if (Quartet.Tag() != Tag) continue;
             std::vector<HSextet> PreSextets;
-//             if (Tag == HSignal)
+//             if (Tag == kSignal)
             PreSextets = GetSextet(Quartet, MissingEt, Neutrinos, Tag);
 //             else PreSextets = GetSextets(Quartet, MissingEt);
             for (const auto & Sextet : PreSextets) {

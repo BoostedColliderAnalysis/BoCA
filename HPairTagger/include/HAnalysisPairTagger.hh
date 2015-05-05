@@ -1,5 +1,4 @@
-# ifndef HAnalysisPairTagger_hh
-# define HAnalysisPairTagger_hh
+# pragma once
 
 # include <sys/stat.h>
 # include <string>
@@ -28,22 +27,18 @@ class HAnalysis : public hanalysis::HAnalysis
 
 public:
 
-    /**
-     * @brief Constructor
-     *
-     */
-    HAnalysis();
+    using hanalysis::HAnalysis::HAnalysis;
 
-    hanalysis::HBottomTagger BottomTagger;
-    hanalysis::HJetPairTagger JetPairTagger;
+//     hanalysis::HBottomTagger BottomTagger;
+//     hanalysis::HJetPairTagger JetPairTagger;
 
-    std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
+//     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
-    void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
+//     void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
 
-    void SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
+    void SetTrees();
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag tag);
+    std::vector<hanalysis::HFile> Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
@@ -189,11 +184,11 @@ private:
     }
 
     inline std::string NameString(const ProcessType Process, const HProductionChannel ProductionChannel) const {
-      return ProductionChannelName(ProductionChannel) + ProcessName(Process) + "_" + DetectorName(Detector());
+        return ProductionChannelName(ProductionChannel) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
     inline hanalysis::HFile BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
-      return BackgroundFile(Process, BackgroundFileNumber(), ProductionChannel);
+        return BackgroundFile(Process, BackgroundFileNumber(), ProductionChannel);
     }
 
     inline hanalysis::HFile BackgroundFile(const ProcessType Process) const {
@@ -208,7 +203,7 @@ private:
 
     hanalysis::HFile BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
         HStrings FileNames;
-        FileNames.push_back(NameString(Process,ProductionChannel));
+        FileNames.push_back(NameString(Process, ProductionChannel));
         return hanalysis::HFile(FileNames , BackgroundCrosssection(Process));
     }
 
@@ -222,7 +217,7 @@ private:
     }
 
     std::string TreeName(const ProcessType Process, HProductionChannel ProductionChannel) const {
-      return NameString(Process,ProductionChannel) + "-run_01";
+        return NameString(Process, ProductionChannel) + "-run_01";
     }
 
     std:: string SignalTreeName(const ProcessType Process) {
@@ -237,17 +232,18 @@ private:
     hanalysis::HReader BottomReader;
     hanalysis::HReader JetPairReader;
 
-    void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
+//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
     bool Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag);
 
-    bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-
-    bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-    bool GetJetPairReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//
+//     bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetJetPairReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//
+//     bool GetTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
 };
 }
-#endif
 

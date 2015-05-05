@@ -29,9 +29,9 @@
 //     }
 // }
 
-std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HObject::Tag tag)
+std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
 {
-    Print(HNotification, "Set File Vector", Tagger, tag);
+    Print(HNotification, "Set File Vector", tag);
 
     std::vector<hanalysis::HFile> SignalLeptonicFiles;
     std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
@@ -82,14 +82,14 @@ std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HAn
 
     NewFiles.front().SetBasePath("~/Projects/PairTagging/");
     NewFiles.front().SetFileSuffix(".root");
-    SetTrees(Tagger, tag);
-    PrepareReader(Tagger, tag);
+    SetTrees();
+//     PrepareReader(Tagger, tag);
     return NewFiles;
 
 }
 
 
-void hpairtagger::HAnalysis::SetTrees(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag)
+void hpairtagger::HAnalysis::SetTrees()
 {
 
     HStrings SignalLeptonicTrees {};
@@ -228,119 +228,126 @@ bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis:
 //         return 0;
 //     }
 
-    switch (stage) {
-      case hanalysis::Tagger::kTrainer :
-        return GetTag(event, tag);
-      case hanalysis::Tagger::kReader:
-        return GetReader(event, tag);
-    }
-}
-
-
-bool hpairtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HDebug, "Get Bottom Tag", Tag);
-    std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
-    if (Bottoms.size() < 1) {
-        return 0;
-    }
-    for (const auto & Bottom : Bottoms) {
-        *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
-    }
-    return 1;
-}
-
-bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HDebug, "Get Bottom Reader", Tag);
-    HJets Jets = BottomTagger.GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-    if (Jets.size() < 1) {
-        return 0;
-    }
-
-    HJets Particles = Event.GetParticles()->Generator();
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
-
-    for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
-            static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
-        }
-    }
-
-    for (const auto & Jet : Jets) {
-        if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
-            continue;
-        }
-//         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) {
-//             continue;
-//         }
-        *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
-    }
-    return 1;
-}
-
-bool hpairtagger::HAnalysis::GetJetPairTag(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HDebug, "Get JetPair Tag", Tag);
-    std::vector<HEventJetPairBranch> JetPairs = JetPairTagger.GetBranches(Event, Tag, MotherId(ProductionChannel()));
-    if (JetPairs.size() < 1) {
-        return 0;
-    }
-    for (const auto & JetPair : JetPairs) {
-        *static_cast<HEventJetPairBranch *>(Branch->NewEntry()) = JetPair;
-    }
-    return 1;
-}
-
-bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const Tag Tag)
-{
-    Print(HDebug, "Get JetPair Reader", Tag);
-    HJets Jets = BottomTagger.GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
-    if (Jets.size() < 1) {
-        Print(HInformation, "just one jet", Jets.size());
-        return 0;
-    }
-    Print(HError, "jets", Jets.size());
-
-//     HJets FilteredJets; // WRONG MUST BE REMOVED
-    HJets Particles = Event.GetParticles()->Generator();
-    if (Tag == kSignal) {
-//         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, BottomId, MotherId(ProductionChannel()));
-    }
-    if (
-// ProductionChannel() == Associated &&
-        Tag == kBackground) {
-//         Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
-//         Particles = BottomTagger.RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
-//         Particles = BottomTagger.RemoveIfWrongAbsMother(Particles, ZId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
-    }
-
-//     if (
-//         Tag == HSignal &&
-//         Particles.size() != 2) {
-//         Print(HError, "where are the quarks?", Particles.size());
+//     switch (stage) {
+//       case hanalysis::Tagger::kTrainer :
+        return tagger_.GetBranches(event, stage, tag);
+//       case hanalysis::Tagger::kReader:
+//         return tagger_.GetBdt(Event, tag);
 //     }
+}
 
+
+// bool hpairtagger::HAnalysis::GetTag(hanalysis::HEvent &Event, const Tag tag)
+// {
+//   Print(HDebug, "Get Bottom Tag", tag);
+//   return tagger_.GetBranches(Event, tag);
+// }
+//
+//
+// bool hpairtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HDebug, "Get Bottom Tag", Tag);
+//     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
+//     if (Bottoms.size() < 1) {
+//         return 0;
+//     }
+//     for (const auto & Bottom : Bottoms) {
+//         *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
+//     }
+//     return 1;
+// }
+//
+// bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HDebug, "Get Bottom Reader", Tag);
+//     HJets Jets = BottomTagger.GetJets(Event);
+//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     if (Jets.size() < 1) {
+//         return 0;
+//     }
+//
+//     HJets Particles = Event.GetParticles()->Generator();
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+//
 //     for (const auto & Particle : Particles) {
 //         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
 //         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
-//             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(HSignal);
-//             FilteredJets.push_back(Jets.front()); // WRONG MUST BE REMOVED
+//             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //         }
 //     }
-
-//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(FilteredJets, JetPairReader);
-    std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
-    if (Doublets.size() > 1) {
-        std::sort(Doublets.begin(), Doublets.end());
-        Doublets.erase(Doublets.begin() + 1, Doublets.end());
-    }
-
-    for (const auto & Doublet : Doublets) {
-        static_cast<HEventJetPairBranch &>(*Branch->NewEntry()) = JetPairTagger.GetBranch(Doublet);
-    }
-    return 1;
-}
+//
+//     for (const auto & Jet : Jets) {
+//         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
+//             continue;
+//         }
+// //         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) {
+// //             continue;
+// //         }
+//         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
+//     }
+//     return 1;
+// }
+//
+// bool hpairtagger::HAnalysis::GetJetPairTag(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HDebug, "Get JetPair Tag", Tag);
+//     std::vector<HEventJetPairBranch> JetPairs = JetPairTagger.GetBranches(Event, Tag, MotherId(ProductionChannel()));
+//     if (JetPairs.size() < 1) {
+//         return 0;
+//     }
+//     for (const auto & JetPair : JetPairs) {
+//         *static_cast<HEventJetPairBranch *>(Branch->NewEntry()) = JetPair;
+//     }
+//     return 1;
+// }
+//
+// bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const Tag Tag)
+// {
+//     Print(HDebug, "Get JetPair Reader", Tag);
+//     HJets Jets = BottomTagger.GetJets(Event);
+//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     if (Jets.size() < 1) {
+//         Print(HInformation, "just one jet", Jets.size());
+//         return 0;
+//     }
+//     Print(HError, "jets", Jets.size());
+//
+// //     HJets FilteredJets; // WRONG MUST BE REMOVED
+//     HJets Particles = Event.GetParticles()->Generator();
+//     if (Tag == kSignal) {
+// //         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, BottomId, MotherId(ProductionChannel()));
+//     }
+//     if (
+// // ProductionChannel() == Associated &&
+//         Tag == kBackground) {
+// //         Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+// //         Particles = BottomTagger.RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+// //         Particles = BottomTagger.RemoveIfWrongAbsMother(Particles, ZId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+//     }
+//
+// //     if (
+// //         Tag == kSignal &&
+// //         Particles.size() != 2) {
+// //         Print(HError, "where are the quarks?", Particles.size());
+// //     }
+//
+// //     for (const auto & Particle : Particles) {
+// //         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+// //         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
+// //             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+// //             FilteredJets.push_back(Jets.front()); // WRONG MUST BE REMOVED
+// //         }
+// //     }
+//
+// //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(FilteredJets, JetPairReader);
+//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
+//     if (Doublets.size() > 1) {
+//         std::sort(Doublets.begin(), Doublets.end());
+//         Doublets.erase(Doublets.begin() + 1, Doublets.end());
+//     }
+//
+//     for (const auto & Doublet : Doublets) {
+//         static_cast<HEventJetPairBranch &>(*Branch->NewEntry()) = JetPairTagger.GetBranch(Doublet);
+//     }
+//     return 1;
+// }

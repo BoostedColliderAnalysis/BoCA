@@ -11,7 +11,7 @@ hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
 void hanalysis::HChargedHiggsSemiTagger::SetTagger(
     const hanalysis::HBottomTagger &NewBottomTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
-    const hanalysis::HWTagger &NewWTagger,
+    const hanalysis::HWHadronicTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger)
 {

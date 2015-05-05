@@ -47,7 +47,7 @@ class HSuperStructure;
 class HReconstruction;
 class HHiggsTagger;
 class HDiscriminator;
-class HTopTagger;
+class TopHadronicTagger;
 class HSubStructure;
 class HSextet;
 
@@ -60,7 +60,7 @@ class HHeavyHiggsHadronicTagger;
 class HHeavyHiggsLeptonicTagger;
 class HJetPairTagger;
 class HChargedJetPairTagger;
-class HWTagger;
+class HWHadronicTagger;
 class HWSemiTagger;
 class HTopHadronicTagger;
 class HHeavyHiggsSemiTagger;

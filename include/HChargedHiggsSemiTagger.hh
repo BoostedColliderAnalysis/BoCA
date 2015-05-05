@@ -19,7 +19,7 @@ public:
     void SetTagger(
         const hanalysis::HBottomTagger &NewBottomTagger,
         const hanalysis::HWSemiTagger &NewWSemiTagger,
-        const hanalysis::HWTagger &NewWTagger,
+        const hanalysis::HWHadronicTagger &NewWTagger,
         const hanalysis::HTopSemiTagger &NewTopSemiTagger,
         const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
 
@@ -34,7 +34,7 @@ public:
 
     HBottomTagger BottomTagger;
     HWSemiTagger WSemiTagger;
-    HWTagger WTagger;
+    HWHadronicTagger WTagger;
     HTopHadronicTagger TopHadronicTagger;
     HTopSemiTagger TopSemiTagger;
 

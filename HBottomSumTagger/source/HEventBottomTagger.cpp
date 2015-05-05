@@ -103,7 +103,7 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
 //             BottomJets.push_back(Jets.front());
 //     }
 //
-//     if (Tag == HSignal && BottomJets.size() < SignalBottomNumber)  return EventSemiBranches;
+//     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return EventSemiBranches;
 //     if (Tag == HBackground && BottomJets.size() < BackgroundBottomNumber)  return EventSemiBranches;
 
     if (!TruthLevelCheck(Jets,Event, Tag)) return EventSemiBranches;

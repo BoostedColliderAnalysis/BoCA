@@ -170,10 +170,10 @@ HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, c
         if (Jet.m() < 0) continue;
 //         static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractAbsFraction(BottomId);
 //         Jet.user_info<HJetInfo>().PrintAllInfos(HDebug);
-//         if (Tag == HSignal && Jet.user_info<HJetInfo>().MaximalFraction() < .8) {
+//         if (Tag == kSignal && Jet.user_info<HJetInfo>().MaximalFraction() < .8) {
 //             continue;
 //         }
-//         if (Tag == HSignal && Jet.user_info<HJetInfo>().MeanDisplacement() < .1) {
+//         if (Tag == kSignal && Jet.user_info<HJetInfo>().MeanDisplacement() < .1) {
 //             continue;
 //         }
         if (Tag == kSignal && Jet.user_info<HJetInfo>().SumDisplacement() == 0) {

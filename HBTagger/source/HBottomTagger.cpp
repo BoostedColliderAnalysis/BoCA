@@ -132,10 +132,10 @@ HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particl
         if (Jet.m() < 0) continue;
 //         static_cast<hanalysis::HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractAbsFraction(BottomId);
 //         Jet.user_info<hanalysis::HJetInfo>().PrintAllInfos(HDebug);
-//         if (Tag == HSignal && Jet.user_info<hanalysis::HJetInfo>().MaximalFraction() < .8) {
+//         if (Tag == kSignal && Jet.user_info<hanalysis::HJetInfo>().MaximalFraction() < .8) {
 //             continue;
 //         }
-//         if (Tag == HSignal && Jet.user_info<hanalysis::HJetInfo>().MeanDisplacement() < .1) {
+//         if (Tag == kSignal && Jet.user_info<hanalysis::HJetInfo>().MeanDisplacement() < .1) {
 //             continue;
 //         }
         if (Tag == kSignal && Jet.user_info<hanalysis::HJetInfo>().SumDisplacement() == 0) {

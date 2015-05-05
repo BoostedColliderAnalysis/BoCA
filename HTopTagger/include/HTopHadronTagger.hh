@@ -1,7 +1,7 @@
 # pragma once
 # include "HTriplet.hh"
 # include "HBottomTagger.hh"
-# include "HWTagger.hh"
+# include "HWHadronicTagger.hh"
 # include "HBranchTopTagger.hh"
 
 // #include "fastjet/contrib/MeasureFunction.hh"
@@ -17,7 +17,7 @@ public:
 
     HTopHadronTagger();
 
-    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWTagger &NewWTagger);
+    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger);
 
     std::vector<HTopHadronBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0);
 
@@ -25,7 +25,7 @@ public:
 
     hanalysis::HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::HReader &TopHadronicReader);
 
-    std::vector<hanalysis::HTriplet> GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::HReader &TopHadronicReader, hanalysis::HWTagger &WTagger, hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
+    std::vector<hanalysis::HTriplet> GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::HReader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
 
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
@@ -33,7 +33,7 @@ public:
     }
 
     hanalysis::HBottomTagger BottomTagger;
-    hanalysis::HWTagger WTagger;
+    hanalysis::HWHadronicTagger WTagger;
 
     hanalysis::HReader  BottomReader;
     hanalysis::HReader  WReader;

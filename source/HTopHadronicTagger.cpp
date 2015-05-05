@@ -20,7 +20,7 @@ hanalysis::HTopHadronicTagger::HTopHadronicTagger()
     DefineVariables();
 }
 
-void hanalysis::HTopHadronicTagger::SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWTagger &NewWTagger)
+void hanalysis::HTopHadronicTagger::SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger)
 {
     Print(HNotification, "Constructor");
     BottomTagger = NewBottomTagger;
@@ -342,7 +342,7 @@ hanalysis::HTriplet hanalysis::HTopHadronicTagger::GetBdt(HTriplet &Triplet, con
 }
 
 
-std::vector<hanalysis::HTriplet> hanalysis::HTopHadronicTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &TopHadronicReader, hanalysis::HWTagger &WTagger, hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader)
+std::vector<hanalysis::HTriplet> hanalysis::HTopHadronicTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader)
 {
     std::vector<hanalysis::HTriplet> Triplets;
     if (!Boost) {

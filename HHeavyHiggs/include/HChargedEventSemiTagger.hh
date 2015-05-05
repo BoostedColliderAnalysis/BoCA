@@ -22,7 +22,7 @@ public:
     HChargedEventSemiTagger();
 
     void SetTagger(
-        const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger, const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger);
+        const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger, const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger);
 
 
     std::vector< HChargedSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
@@ -40,7 +40,7 @@ public:
 
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::HWTagger WTagger;
+    hanalysis::HWHadronicTagger WTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;
     hanalysis::HTopHadronicTagger TopHadronicTagger;
     hanalysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;

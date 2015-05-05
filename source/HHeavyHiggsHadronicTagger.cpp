@@ -8,7 +8,7 @@ hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger()
   SetTaggerName("HeavyHiggsHadronic");
 }
 
-hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const HBottomTagger &NewBottomTagger, const HWTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger)
+hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const HBottomTagger &NewBottomTagger, const HWHadronicTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 

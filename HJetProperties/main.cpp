@@ -2,12 +2,10 @@
 
 int main()
 {
-    hanalysis::HAnalysis *Analysis = new hjetproperties::HAnalysis();
-        
-    Analysis->AnalysisLoop();
-    
-    delete Analysis;
-    
+//     hanalysis::HAnalysis *Analysis = new hjetproperties::HAnalysis();
+//     Analysis->AnalysisLoop();
+//     delete Analysis;
+
     return 1;
-    
+
 }

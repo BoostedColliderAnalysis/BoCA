@@ -118,7 +118,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
     Print(HInformation, "Lepton Number", Leptons.size());
 //     switch (Tag) {
-//     case  HSignal:
+//     case  kSignal:
 //         if (Leptons.size() > TopNumber) Leptons.erase(Leptons.begin() + TopNumber, Leptons.end());
 //         break;
 //     case HBackground :
@@ -139,7 +139,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
             Doublets.push_back(Doublet);
             ++LeptonJetNumber;
         }
-//         if (Tag == HSignal) break;
+//         if (Tag == kSignal) break;
     }
     Print(HInformation, "Number of Doublets?", Doublets.size());
 

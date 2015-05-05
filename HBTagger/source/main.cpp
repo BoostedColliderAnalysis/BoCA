@@ -1,45 +1,47 @@
 #include "HAnalysisBTagger.hh"
+#include "HBottomTagger.hh"
 
-void RunTagger(const hanalysis::HAnalysis::HTagger Tagger)
+void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
 {
-    hbtagger::HAnalysis Analysis;
-    const std::string Name = Analysis.StudyName(Tagger);
-    Analysis.Print(Analysis.HError, "Tagger", Tagger, Name);
+    hbtagger::HAnalysis Analysis(tagger);
+    const std::string Name = tagger.tagger_name();
+    Analysis.Print(Analysis.HError, "Tagger", Name);
 
     std::string FileName = Analysis.ProjectName() + "/" + Name + ".root";
-    if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(Tagger);
+    if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(stage);
 
     FileName = Analysis.ProjectName() + "/Mva" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) {
-        switch (Tagger) {
-        case hanalysis::HAnalysis::HBottomTagger:
-            hanalysis::HFactory(Analysis.BottomTagger);
-            break;
-        default:
-            std::cout << "Unhandled case" << std::endl;
-        }
+//         switch (Tagger) {
+//         case hanalysis::HAnalysis::HBottomTagger:
+            hanalysis::HFactory factory(tagger);
+//             break;
+//         default:
+//             std::cout << "Unhandled case" << std::endl;
+//         }
     }
 
     FileName = Analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
-        switch (Tagger) {
-        case hanalysis::HAnalysis::HBottomReader: {
-            Analysis.SetTrees(hanalysis::HAnalysis::HBottomReader, hanalysis::HObject::kBackground);
-            hanalysis::HReader Reader(Analysis.BottomTagger);
-            Reader.SimpleMVALoop();
-            break;
-        }
-        default:
-            std::cout << "Unhandled case" << std::endl;
-        }
+//         switch (Tagger) {
+//         case hanalysis::HAnalysis::HBottomReader: {
+//             Analysis.SetTrees(hanalysis::HAnalysis::HBottomReader, hanalysis::HObject::kBackground);
+            hanalysis::HReader Reader(tagger);
+//             Reader.SimpleMVALoop();
+//             break;
+//         }
+//         default:
+//             std::cout << "Unhandled case" << std::endl;
+//         }
     }
 }
 
 
 int main()
 {
-    RunTagger(hanalysis::HAnalysis::HBottomTagger);
-    RunTagger(hanalysis::HAnalysis::HBottomReader);
+  hanalysis::HBottomTagger bottom_tagger;
+  RunTagger(bottom_tagger, hanalysis::Tagger::kTrainer);
+  RunTagger(bottom_tagger, hanalysis::Tagger::kReader);
 
     return 0;
 

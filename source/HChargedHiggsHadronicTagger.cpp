@@ -1,6 +1,6 @@
 # include "HChargedHiggsHadronicTagger.hh"
 
-hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger(const HBottomTagger &NewBottomTagger, const HWTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger)
+hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger(const HBottomTagger &NewBottomTagger, const HWHadronicTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 

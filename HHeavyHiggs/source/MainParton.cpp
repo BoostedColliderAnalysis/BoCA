@@ -2,11 +2,11 @@
 
 int main()
 {
-  hheavyhiggs::HAnalysisHeavyHiggsParton *Analysis = new hheavyhiggs::HAnalysisHeavyHiggsParton();
+//   hheavyhiggs::HAnalysisHeavyHiggsParton *Analysis = new hheavyhiggs::HAnalysisHeavyHiggsParton();
 
-    Analysis->AnalysisLoop();
+//     Analysis->AnalysisLoop();
 
-    delete Analysis;
+//     delete Analysis;
 
     return 1;
 
