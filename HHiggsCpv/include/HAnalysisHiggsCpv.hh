@@ -9,7 +9,7 @@
 # include "HDoublet.hh"
 // # include "HMvaPairs.hh"
 # include "Reader.hh"
-# include "HFactory.hh"
+# include "Factory.hh"
 # include "HBottomTagger.hh"
 # include "HTopLeptonicTagger.hh"
 # include "HMvaHiggsTagger.hh"

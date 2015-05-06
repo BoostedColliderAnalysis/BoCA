@@ -27,16 +27,16 @@ void RunTagger(const std::string TaggerName)
     {
 //             Analysis->GetFiles(TaggerName);
 //         if (Tagger == hhiggscpv::HAnalysis::HBottomTagger) {
-//           hanalysis::HFactory Factory =
-//           hanalysis::HFactory(Analysis->BottomTagger);
+//           hanalysis::Factory Factory =
+//           hanalysis::Factory(Analysis->BottomTagger);
 //         }
 //         if (Tagger == hanalysis::HAnalysis::HTopLeptonicTagger){
-//           hanalysis::HFactory Factory =
-//           hanalysis::HFactory(Analysis->LeptonicTopTagger);
+//           hanalysis::Factory Factory =
+//           hanalysis::Factory(Analysis->LeptonicTopTagger);
 //         }
 //         if (Tagger == hhiggscpv::HAnalysis::HHiggsLeptonicTagger){
-//           hanalysis::HFactory Factory =
-//           hanalysis::HFactory(Analysis->HiggsTagger);
+//           hanalysis::Factory Factory =
+//           hanalysis::Factory(Analysis->HiggsTagger);
 //         }
     }
 //     delete Analysis;
@@ -64,7 +64,7 @@ int main()
 //     if (!gSystem->AccessPathName(FileName))
 //         File = TFile::Open(FileName);
 //     else
-//         Factory = new hmva::HFactory(Analysis->BottomTagger);
+//         Factory = new hmva::Factory(Analysis->BottomTagger);
 //
 //
 //     FileName = "./Top.root";
@@ -77,7 +77,7 @@ int main()
 //     if (!gSystem->AccessPathName(FileName))
 //         File = TFile::Open(FileName);
 //     else
-//         Factory = new hmva::HFactory(Analysis->LeptonicTopTagger);
+//         Factory = new hmva::Factory(Analysis->LeptonicTopTagger);
 //
 //
 //     FileName = "./Higgs.root";
@@ -90,11 +90,11 @@ int main()
 //     if (!gSystem->AccessPathName(FileName))
 //         File = TFile::Open(FileName);
 //     else
-//         Factory = new hmva::HFactory(Analysis->HiggsTagger);
+//         Factory = new hmva::Factory(Analysis->HiggsTagger);
 
 //     Analysis.AnalysisLoop(hanalysis::Tagger::kReader);
     hhiggscpv::HMvaEvent Mva;
-    hanalysis::HFactory Factory(Mva);
+    hanalysis::Factory Factory(Mva);
 
     return 1;
 

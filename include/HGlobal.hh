@@ -70,7 +70,7 @@ class HChargedHiggsHadronicTagger;
 class HChargedHiggsLeptonicTagger;
 
 class Tagger;
-class HFactory;
+class Factory;
 class Reader;
 
 class HTagPrivate;

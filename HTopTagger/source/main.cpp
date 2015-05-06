@@ -2,6 +2,8 @@
 #include "HTopHadronicTagger.hh"
 #include "HTopSemiTagger.hh"
 #include "HWSemiTagger.hh"
+#include "TSystem.h"
+# include "Factory.hh"
 #include <exception>
 
 #include "fastjet/LimitedWarning.hh"
@@ -17,45 +19,13 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
 
     FileName = Analysis.ProjectName() + "/Mva" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) {
-//         switch (Tagger) {
-//         case hanalysis::HAnalysis::HBottomTagger:
-            hanalysis::HFactory factory(tagger);
-//             break;
-//         case hanalysis::HAnalysis::HWHadronicTagger:
-//             hanalysis::HFactory(Analysis.WHadronicTagger);
-//             break;
-//         case hanalysis::HAnalysis::HWSemiTagger:
-//             hanalysis::HFactory(Analysis.WSemiTagger);
-//             break;
-//         case hanalysis::HAnalysis::HTopHadronicTagger:
-//             hanalysis::HFactory(Analysis.TopHadronicTagger);
-//             break;
-//         case hanalysis::HAnalysis::HTopSemiTagger:
-//             hanalysis::HFactory(Analysis.TopLeptonTagger);
-//             break;
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
-//         }
+            hanalysis::Factory factory(tagger);
     }
 
     FileName = Analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
-//         switch (Tagger) {
-//         case hanalysis::HAnalysis::HTopSemiReader: {
-//             Analysis.SetTrees(hanalysis::HAnalysis::HTopSemiTagger, hanalysis::HObject::kBackground);
             hanalysis::Reader Reader(tagger);
             Reader.OptimalSignificance();
-//             break;
-//         }
-//         case hanalysis::HAnalysis::HTopHadronicReader: {
-//             Analysis.SetTrees(hanalysis::HAnalysis::HTopHadronicTagger, hanalysis::HObject::kBackground);
-//             hanalysis::Reader Reader(Analysis.TopHadronicTagger);
-//             Reader.SimpleMVALoop();
-//             break;
-//         }
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
-//         }
     }
 }
 
@@ -72,7 +42,7 @@ int main()
         RunTagger(bottom_tagger, hanalysis::Tagger::kReader);
 
         htoptagger::HAnalysis analysis(bottom_tagger);
-        if (analysis.TopDecay() == htoptagger::HAnalysis::Hadronic) {
+        if (analysis.TopDecay() == htoptagger::HAnalysis::kHadronic) {
 
           hanalysis::HWHadronicTagger w_hadronic_tagger;
           RunTagger(w_hadronic_tagger, hanalysis::Tagger::kTrainer);
@@ -84,7 +54,7 @@ int main()
 
         }
 
-        if (analysis.TopDecay() == htoptagger::HAnalysis::Leptonic) {
+        if (analysis.TopDecay() == htoptagger::HAnalysis::kLeptonic) {
 
           hanalysis::HWSemiTagger w_semi_tagger;
           RunTagger(w_semi_tagger, hanalysis::Tagger::kTrainer);

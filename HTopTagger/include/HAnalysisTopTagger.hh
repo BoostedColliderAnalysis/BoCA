@@ -2,12 +2,12 @@
 
 #include <sys/stat.h>
 
-# include "HFileDelphes.hh"
-# include "HAnalysis.hh"
-# include "HEventDelphes.hh"
-# include "Reader.hh"
-# include "HFactory.hh"
-# include "HJetTag.hh"
+// # include "HFileDelphes.hh"
+// # include "HAnalysis.hh"
+// # include "HEventDelphes.hh"
+// # include "Reader.hh"
+// # include "Factory.hh"
+// # include "HJetTag.hh"
 
 # include "HTopHadronTagger.hh"
 # include "HTopLeptonTagger.hh"
@@ -27,41 +27,23 @@ class HAnalysis : public hanalysis::HAnalysis
 
 public:
 
-    /**
-     * @brief Constructor
-     *
-     */
-//     HAnalysis();
-
 using hanalysis::HAnalysis::HAnalysis;
-
-    hanalysis::HBottomTagger BottomTagger;
-//     hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::HWHadronicTagger WHadronicTagger;
-
-    HTopHadronTagger TopHadronicTagger;
-    HTopLeptonTagger TopLeptonTagger;
-
-
-//     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
-
-//     void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
 
     void SetTrees();
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HObject::Tag tag);
+    void SetFiles(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
 
         return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
     }
 
-    enum HDecay {Leptonic, Hadronic, Semi};
+    enum Decay {kLeptonic, kHadronic, kSemi};
 
-    inline HDecay TopDecay() const {
-        return Hadronic;
-//          return Leptonic;
-//         return Semi;
+    inline Decay TopDecay() const {
+        return kHadronic;
+//          return kLeptonic;
+//         return kSemi;
     }
 
 protected:
@@ -75,9 +57,22 @@ protected:
     }
 
 private:
+    enum Process {Hbb, ttbb, ttcc, ttjj, bbjj, tt, bb, cc, qq, gg, wg, wq, wc, wb, wu, wcb, wbu, ttlep, tthad, hh, ww, zz};
+    enum Collider {LHC, FHC, LE};
 
-    enum ProcessType {Hbb, ttbb, ttcc, ttjj, bbjj, tt, bb, cc, qq, gg, wg, wq, wc, wb, wu, wcb, wbu, ttlep, tthad, hh, ww, zz};
-    enum HColliderType {LHC, FHC, LE};
+
+  void NewSignalFile(const Process process) {
+    hanalysis::HAnalysis::NewSignalFile(FileName(process));
+  }
+
+  void NewBackgroundFile(const Process process) {
+    hanalysis::HAnalysis::NewBackgroundFile(FileName(process));
+  }
+
+
+  inline std::string FileName(const Process process) const {
+    return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
+  }
 
     // in GeV
     inline int PreCut() const {
@@ -104,7 +99,7 @@ private:
 //         return 10;
     }
 
-    inline HColliderType ColliderType() const {
+    inline Collider ColliderType() const {
         //       return LHC;
         //       return FHC;
         return LE;
@@ -118,35 +113,27 @@ private:
         //       return 10;
     }
 
-    // in fb
-    float SignalCrosssection() const {
-        return 1;
+
+    inline hanalysis::HFile BackgroundFile(const Process process) const {
+        return BackgroundFile(process, BackgroundFileNumber());
     }
 
-    inline hanalysis::HFile BackgroundFile(const ProcessType Background) const {
-        return BackgroundFile(Background, BackgroundFileNumber());
-    }
+    hanalysis::HFile BackgroundFile(const Process process, const int FileSum) const {
 
-    hanalysis::HFile BackgroundFile(const ProcessType Background, const int FileSum) const {
 
-        std::string FileName = ProcessName(Background) + "_" + std::to_string(PreCut()) + "GeV";
         Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
-//             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
-            FileNames.emplace_back(FileName);
+            FileNames.emplace_back(FileName(process));
         }
-        return hanalysis::HFile(FileNames , BackgroundCrosssection(Background));
+        return hanalysis::HFile(FileNames);
     }
 
-    std::string BackgroundTree(const ProcessType Process) const {
+    std::string BackgroundTree(const Process Process) const {
         return ProcessName(Process) + "_" + std::to_string(PreCut()) + "GeV" + "-run_01";
     }
 
-    float BackgroundCrosssection(const ProcessType Proccess) const {
-        return 1;
-    }
 
-    std::string ColliderName(const HColliderType Collider) const {
+    std::string ColliderName(const Collider Collider) const {
         switch (Collider) {
         case LHC :
             return "14TeV";
@@ -160,7 +147,7 @@ private:
         }
     }
 
-    std::string ProcessName(const ProcessType Process) const {
+    std::string ProcessName(const Process Process) const {
         switch (Process) {
         case Hbb:
             return "H0bb-ljbbbb";
@@ -174,13 +161,13 @@ private:
             return "bbjj";
         case tt:
             switch (TopDecay()) {
-            case Hadronic :
+            case kHadronic :
 //                 return "tt_hadronic_1TeV";
                 return "tt_hadronic";
-            case  Leptonic :
+            case  kLeptonic :
 //                 return "tt_leptonic_1TeV";
                 return "tt_leptonic";
-            case Semi :
+            case kSemi :
                 return "tt_semi_nopre";
             }
         case ttlep:
@@ -220,16 +207,6 @@ private:
             return "";
         }
     }
-
-    hanalysis::HJetTag JetTag;
-
-    hanalysis::Reader BottomReader;
-//     hanalysis::Reader WSemiReader;
-    hanalysis::Reader WHadronicReader;
-    hanalysis::Reader TopHadronicReader;
-    hanalysis::Reader TopLeptonReader;
-
-//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
     /**
      * @brief Main Analysis function

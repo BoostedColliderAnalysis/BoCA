@@ -15,25 +15,25 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
 //         case hanalysis::HAnalysis::HBottomTagger:
-            hanalysis::HFactory factory(tagger);
+            hanalysis::Factory factory(tagger);
 //             break;
 //         case hanalysis::HAnalysis::HWHadronicTagger:
-//             hanalysis::HFactory(Analysis.WHadronicTagger);
+//             hanalysis::Factory(Analysis.WHadronicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HWSemiTagger:
-//             hanalysis::HFactory(Analysis.WSemiTagger);
+//             hanalysis::Factory(Analysis.WSemiTagger);
 //             break;
 //         case hanalysis::HAnalysis::HTopHadronicTagger:
-//             hanalysis::HFactory(Analysis.TopHadronicTagger);
+//             hanalysis::Factory(Analysis.TopHadronicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HTopSemiTagger:
-//             hanalysis::HFactory(Analysis.TopSemiTagger);
+//             hanalysis::Factory(Analysis.TopSemiTagger);
 //             break;
 //         case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
-//             hanalysis::HFactory(Analysis.HeavyHiggsSemiTagger);
+//             hanalysis::Factory(Analysis.HeavyHiggsSemiTagger);
 //             break;
 //         case hanalysis::HAnalysis::HEventSemiTagger:
-//             hanalysis::HFactory(Analysis.EventSemiTagger);
+//             hanalysis::Factory(Analysis.EventSemiTagger);
 //             break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;

@@ -1,10 +1,10 @@
 # include "HMvaEvent.hh"
-# include "HFactory.hh"
+# include "Factory.hh"
 
 int main()
 {
   hhiggscpv::HMvaEvent Mva;;
-hanalysis::HFactory Factory(Mva);
+hanalysis::Factory Factory(Mva);
 return 0;
 
 }

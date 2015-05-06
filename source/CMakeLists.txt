@@ -74,7 +74,7 @@ HHiggsTagger.cpp
 HSubStructure.cpp
 
 Tagger.cpp
-HFactory.cpp
+Factory.cpp
 HReader.cpp
 
 HBottomTagger.cpp

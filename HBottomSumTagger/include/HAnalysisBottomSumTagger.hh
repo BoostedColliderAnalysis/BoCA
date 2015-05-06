@@ -8,7 +8,7 @@
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "Reader.hh"
-# include "HFactory.hh"
+# include "Factory.hh"
 # include "HJetTag.hh"
 
 # include "HEventBottomTagger.hh"

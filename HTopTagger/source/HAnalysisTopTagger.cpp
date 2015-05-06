@@ -1,379 +1,47 @@
 # include "HAnalysisTopTagger.hh"
 
-// htoptagger::HAnalysis::HAnalysis()
-// {
-// //         DebugLevel = hanalysis::HObject::HDebug;
-//     Print(HNotification, "Constructor");
-//     BottomTagger.SetAnalysisName(ProjectName());
-//     WHadronicTagger.SetAnalysisName(ProjectName());
-// //     WSemiTagger.SetAnalysisName(ProjectName());
-//     TopHadronicTagger.SetAnalysisName(ProjectName());
-//     TopLeptonTagger.SetAnalysisName(ProjectName());
-//     mkdir(ProjectName().c_str(), 0700);
-// }
 
-// std::string htoptagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
-// {
-//     Print(HNotification, "Get Study Names", Tagger);
-//
-//     switch (Tagger) {
-//     case  HBottomTagger :
-//         return "Bottom";
-//     case  HBottomReader :
-//         return "BottomReader";
-//     case HWSemiTagger:
-//         return  "WSemi";
-//     case HWSemiReader:
-//         return  "WSemiReader";
-//     case HWHadronicTagger:
-//         return  "WHadronic";
-//     case HWHadronicReader:
-//         return  "WHadronicReader";
-//     case HJetPairTagger:
-//         return  "JetPair";
-//     case HJetPairReader:
-//         return  "JetPairReader";
-//     case HTopLeptonicTagger:
-//         return  "TopLeptonic";
-//     case HTopLeptonicReader:
-//         return  "TopLeptonicReader";
-//     case HTopHadronicTagger:
-//         return  "TopHadronic";
-//     case HTopSemiTagger:
-//         return  "TopSemi";
-//     case HTopHadronicReader:
-//         return  "TopHadronicReader";
-//     case HTopSemiReader:
-//         return  "TopSemiReader";
-//     case HHeavyHiggsLeptonicTagger:
-//         return  "HeavyHiggsLeptonic";
-//     case HHeavyHiggsHadronicTagger:
-//         return  "HeavyHiggsHadronic";
-//     case HHeavyHiggsSemiTagger:
-//         return  "HeavyHiggsSemi";
-//     case HHeavyHiggsSemiReader:
-//         return  "HeavyHiggsSemiReader";
-//     case HHeavyHiggsLeptonicReader:
-//         return  "HeavyHiggsLeptonicReader";
-//     case HEventLeptonicTagger:
-//         return  "EventLeptonic";
-//     case HEventHadronicTagger:
-//         return  "EventHadronic";
-//     case HEventLeptonicReader:
-//         return  "EventLeptonicReader";
-//     case HSignatureSemiTagger:
-//         return  "SignatureSemi";
-//     case HSignatureSemiReader:
-//         return  "SignatureSemiReader";
-//     case HEventSemiTagger:
-//         return  "EventSemi";
-//     case HEventSemiReader:
-//         return  "EventSemiReader";
-//     default :
-//         Print(HError, "unexpected TaggerName", Tagger);
-//         return "";
-//     }
-// }
-
-std::vector<hanalysis::HFile> htoptagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
+void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 {
     Print(HNotification, "Set File Vector", tag);
 
-    std::vector<hanalysis::HFile> SignalFiles;
-    std::vector<hanalysis::HFile> BackgroundFiles;
+    if (TopDecay() == kHadronic) NewSignalFile(tthad);
+    else if (TopDecay() == kLeptonic) NewSignalFile(ttlep);
 
-    if (TopDecay() == Hadronic) SignalFiles.emplace_back(BackgroundFile(tthad));
-    else if (TopDecay() == Leptonic) SignalFiles.emplace_back(BackgroundFile(ttlep));
+    //     NewSignalFile(ttbb);
+//     NewSignalFile(ttjj);
+//     NewSignalFile(tt);
+//     NewSignalFile(bb);
+//     NewSignalFile(ttlep);
 
-//     std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
-//   SignalSemiFiles.emplace_back(hanalysis::HFile(SignalName, SignalCrosssection(), Mass()));
-    //     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
-//     SignalSemiFiles.emplace_back(BackgroundFile(ttjj));
-//     SignalFiles.emplace_back(BackgroundFile(tt));
-//     SignalFiles.emplace_back(BackgroundFile(bb));
-//     SignalSemiFiles.emplace_back(BackgroundFile(ttlep));
+//   NewBackgroundFile(ttbb);
+//   NewBackgroundFile(ttcc);
+//   NewBackgroundFile(ttjj);
+//     NewBackgroundFile(bbjj);
+    NewBackgroundFile(bb);
+    NewBackgroundFile(hh);
 
-//   BackgroundSemiFiles.emplace_back(BackgroundFile(ttbb));
-//   BackgroundSemiFiles.emplace_back(BackgroundFile(ttcc));
-//   BackgroundSemiFiles.emplace_back(BackgroundFile(ttjj));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(bbjj));
-    BackgroundFiles.emplace_back(BackgroundFile(bb));
-    BackgroundFiles.emplace_back(BackgroundFile(hh));
-//     if (Tagger != HBottomTagger || tag == kBackground) {
-        BackgroundFiles.emplace_back(BackgroundFile(cc));
-        BackgroundFiles.emplace_back(BackgroundFile(qq));
-        BackgroundFiles.emplace_back(BackgroundFile(gg));
-        BackgroundFiles.emplace_back(BackgroundFile(ww));
-        BackgroundFiles.emplace_back(BackgroundFile(zz));
+    NewBackgroundFile(cc);
+        NewBackgroundFile(qq);
+        NewBackgroundFile(gg);
+        NewBackgroundFile(ww);
+        NewBackgroundFile(zz);
 //     }
-    if (TopDecay() == Hadronic) BackgroundFiles.emplace_back(BackgroundFile(ttlep));
-    else if (TopDecay() == Leptonic) BackgroundFiles.emplace_back(BackgroundFile(tthad));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(wb));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(wc));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(wq));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(wg));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(wu));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(wcb));
-//     BackgroundSemiFiles.emplace_back(BackgroundFile(wbu));
+    if (TopDecay() == kHadronic) NewBackgroundFile(ttlep);
+    else if (TopDecay() == kLeptonic) NewBackgroundFile(tthad);
+//     NewBackgroundFile(wb);
+//     NewBackgroundFile(wc);
+//     NewBackgroundFile(wq);
+//     NewBackgroundFile(wg);
+//     NewBackgroundFile(wu);
+//     NewBackgroundFile(wcb);
+//     NewBackgroundFile(wbu);
 
-
-
-    std::vector<hanalysis::HFile> Files = JoinFiles(SignalFiles, BackgroundFiles);
-
-
-    std::vector<hanalysis::HFile> NewFiles;
-
-//     switch (Tagger) {
-//     case  HBottomTagger :
-//         NewFiles = Files;
-//         break;
-//     case  HBottomReader :
-//         NewFiles = Files;
-//         break;
-//     case HWSemiTagger:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     case HWSemiReader:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     case HWHadronicTagger:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     case HWHadronicReader:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     case HTopHadronicTagger:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     case HTopSemiTagger:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     case HTopHadronicReader:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     case HTopSemiReader:
-//         if (Tag == kSignal) NewFiles = SignalFiles;
-//         else NewFiles = BackgroundFiles;
-//         break;
-//     default:
-//         Print(HError, "unknown tagger name");
-//     }
-
-    switch (tag) {
-      case HObject::kSignal :
-        NewFiles = SignalFiles;
-        break;
-      case HObject::kBackground :
-        NewFiles = BackgroundFiles;
-        break;
-    }
-
-    NewFiles.front().SetBasePath("~/Projects/HTopTagger/");
-    NewFiles.front().SetFileSuffix(".root");
-    SetTrees();
-//     PrepareReader(Tagger, tag);
-    return NewFiles;
+//     NewFiles.front().SetBasePath("~/Projects/HTopTagger/");
+//     NewFiles.front().SetFileSuffix(".root");
 
 }
 
-
-void htoptagger::HAnalysis::SetTrees()
-{
-
-//     std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
-
-    Strings SignalTrees;
-    if (TopDecay() == Hadronic) SignalTrees.emplace_back(BackgroundTree(tthad));
-    else if (TopDecay() == Leptonic) SignalTrees.emplace_back(BackgroundTree(ttlep));
-
-
-//     Strings SignalTrees {
-//     SignalTree
-//         BackgroundTree(ttjj)
-//         BackgroundTree(tt),
-//         BackgroundTree(bb),
-//         BackgroundTree(ttlep)
-//     };
-
-    Strings BackgroundTrees {
-//     BackgroundTree(ttbb),
-//     BackgroundTree(ttcc),
-//     BackgroundTree(ttjj)
-//         BackgroundTree(bbjj)
-        BackgroundTree(bb),
-        BackgroundTree(cc),
-        BackgroundTree(qq),
-        BackgroundTree(gg),
-        BackgroundTree(hh),
-        BackgroundTree(ww),
-        BackgroundTree(zz),
-//         BackgroundTree(wb),
-//         BackgroundTree(wc),
-//         BackgroundTree(wq),
-//         BackgroundTree(wg),
-//         BackgroundTree(wcb),
-//         BackgroundTree(wu),
-//         BackgroundTree(wbu),
-    };
-    if (TopDecay() == Hadronic) BackgroundTrees.emplace_back(BackgroundTree(ttlep));
-    else if (TopDecay() == Leptonic) BackgroundTrees.emplace_back(BackgroundTree(tthad));
-
-
-    Strings Trees = JoinStrings(SignalTrees, BackgroundTrees);
-
-//     switch (Tagger) {
-//     case HBottomTagger:
-//         BottomTagger.SetSignalTreeNames(Trees);
-//         BottomTagger.SetBackgroundTreeNames(Trees);
-//         if (Tag == kSignal)  BottomTagger.SetTagger();
-//         break;
-//     case HBottomReader:
-//         break;
-//     case HWHadronicTagger:
-//         WHadronicTagger.SetSignalTreeNames(SignalTrees);
-//         WHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         if (Tag == kSignal) WHadronicTagger.SetTagger(BottomTagger);
-//         break;
-//     case HWHadronicReader :
-//         WHadronicTagger.SetSignalTreeNames(SignalTrees);
-//         WHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         if (Tag == kSignal) WHadronicTagger.SetTagger(BottomTagger);
-//         break;
-//     case HWSemiTagger :
-// //         if (Tag == kSignal) WSemiTagger.SetTagger();
-// //         WSemiTagger.SetSignalTreeNames(SignalTrees);
-// //         WSemiTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         break;
-//     case HWSemiReader :
-// //         if (Tag == kSignal) WSemiTagger.SetTagger();
-// //         WSemiTagger.SetSignalTreeNames(SignalTrees);
-// //         WSemiTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         break;
-//     case HTopHadronicTagger :
-//         if (Tag == kSignal) TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         TopHadronicTagger.SetSignalTreeNames(SignalTrees);
-//         TopHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         break;
-//     case HTopHadronicReader :
-//         if (Tag == kSignal) TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         TopHadronicTagger.SetSignalTreeNames(SignalTrees);
-//         TopHadronicTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         break;
-//     case HTopSemiTagger :
-//         if (Tag == kSignal) TopLeptonTagger.SetTagger(BottomTagger);
-//         TopLeptonTagger.SetSignalTreeNames(SignalTrees);
-//         TopLeptonTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         break;
-//     case HTopSemiReader :
-//         if (Tag == kSignal) TopLeptonTagger.SetTagger(BottomTagger);
-//         TopLeptonTagger.SetSignalTreeNames(SignalTrees);
-//         TopLeptonTagger.SetBackgroundTreeNames(BackgroundTrees);
-//         break;
-//     default :
-//         Print(HError, "unhandeled case");
-//     }
-
-//     tagger_.SetSignalTreeNames(SignalTrees);
-//     tagger_.SetBackgroundTreeNames(BackgroundTrees);
-}
-
-// void htoptagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
-// {
-//     Print(HInformation, "Prepare Reader", Tagger);
-//     if (Tag == kBackground) return;
-//     switch (Tagger) {
-//     case HBottomTagger:
-//         break;
-//     case HBottomReader:
-//         BottomReader.set_tagger(BottomTagger);
-//         break;
-//     case HWHadronicTagger:
-//         WHadronicTagger.BottomTagger.SetTagger();
-//         WHadronicTagger.BottomReader.set_tagger(WHadronicTagger.BottomTagger);
-//         break;
-//     case HWHadronicReader:
-//         BottomReader.set_tagger(BottomTagger);
-//         WHadronicReader.set_tagger(WHadronicTagger);
-//         break;
-//     case HWSemiTagger :
-//         break;
-//     case HWSemiReader :
-// //         WSemiReader.set_tagger(WSemiTagger);
-//         break;
-//     case HTopHadronicTagger :
-//         TopHadronicTagger.BottomTagger.SetTagger();
-//         TopHadronicTagger.BottomReader.set_tagger(TopHadronicTagger.BottomTagger);
-//         TopHadronicTagger.WTagger.SetTagger(BottomTagger);
-//         TopHadronicTagger.WReader.set_tagger(TopHadronicTagger.WTagger);
-//         break;
-//     case HTopHadronicReader :
-//         BottomReader.set_tagger(BottomTagger);
-//         WHadronicReader.set_tagger(WHadronicTagger);
-//         TopHadronicReader.set_tagger(TopHadronicTagger);
-//         break;
-//     case HTopSemiTagger :
-//         TopLeptonTagger.BottomTagger.SetTagger();
-//         TopLeptonTagger.BottomReader.set_tagger(TopLeptonTagger.BottomTagger);
-// //         TopLeptonTagger.WSemiTagger.SetTagger();
-// //         TopLeptonTagger.WSemiReader.set_tagger(TopLeptonTagger.WSemiTagger);
-//         break;
-//     case HTopSemiReader :
-//         BottomReader.set_tagger(BottomTagger);
-// //         WSemiReader.set_tagger(WSemiTagger);
-//         TopLeptonReader.set_tagger(TopLeptonTagger);
-//         break;
-//     default :
-//         Print(HError, "unhandled case");
-//     }
-// }
-
-// void htoptagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
-// {
-//     Print(HNotification, "New Branches", Tagger);
-//
-//     switch (Tagger) {
-//     case HBottomTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
-//         break;
-//     case HBottomReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
-//         break;
-//     case HWSemiTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWSemiBranch::Class());
-//         break;
-//     case HWSemiReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWSemiBranch::Class());
-//         break;
-//     case HWHadronicTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
-//         break;
-//     case HWHadronicReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
-//         break;
-//     case HTopHadronicTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronBranch::Class());
-//         break;
-//     case HTopSemiTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonBranch::Class());
-//         break;
-//     case HTopHadronicReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopHadronBranch::Class());
-//         break;
-//     case HTopSemiReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonBranch::Class());
-//         break;
-//     default :
-//         Print(HError, "No Branch filled");
-//     }
-//
-// }
 
 int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
 {
@@ -382,42 +50,6 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
     if (ObjectNumber > EventNumberMax()) return 0;
 
     ++event_sum_;
-
-//     switch (Tagger) {
-//     case HBottomTagger :
-//         return GetBottomTag(Event, Tag);
-//     case HBottomReader:
-//         return GetBottomReader(Event, Tag);
-//     case HWHadronicTagger :
-//         if (TopDecay() == Hadronic || TopDecay() == Semi) return GetWTag(Event, Tag);
-//         else return 0;
-//     case HWHadronicReader :
-//         if (TopDecay() == Hadronic || TopDecay() == Semi) return GetWReader(Event, Tag);
-//         else return 0;
-//     case HWSemiTagger :
-// //         if (TopDecay() == Leptonic || TopDecay() == Semi) return GetWSemiTag(Event, Tag);
-// //         else
-//         return 0;
-//     case HWSemiReader :
-// //         if (TopDecay() == Leptonic || TopDecay() == Semi) return GetWSemiReader(Event, Tag);
-// //         else
-//         return 0;
-//     case HTopHadronicTagger :
-//         if (TopDecay() == Hadronic || TopDecay() == Semi) return GetTopHadronicTag(Event, Tag);
-//         else return 0;
-//     case HTopSemiTagger :
-//         if (TopDecay() == Leptonic || TopDecay() == Semi) return GetTopSemiTag(Event, Tag);
-//         else return 0;
-//     case HTopHadronicReader :
-//         if (TopDecay() == Hadronic || TopDecay() == Semi) return GetTopHadronicReader(Event, Tag);
-//         else return 0;
-//     case HTopSemiReader :
-//         if (TopDecay() == Leptonic || TopDecay() == Semi) return GetTopSemiReader(Event, Tag);
-//         else return 0;
-//     default :
-//         Print(HError, "unknown Tagger", Tagger);
-//         return 0;
-//     }
 
     return tagger_.GetBranches(event, stage, tag);
 }

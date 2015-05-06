@@ -1,6 +1,6 @@
 #include "HAnalysisBTagger.hh"
 #include "HBottomTaggerSimple.hh"
-#include "HFactory.hh"
+# include "Factory.hh"
 #include "TSystem.h"
 
 void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
@@ -19,7 +19,7 @@ void RunFactory(hanalysis::Tagger &tagger)
   const std::string name = tagger.name(hanalysis::Tagger::kTrainer);
   analysis.Print(analysis.HError, "Tagger", name);
   std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) hanalysis::HFactory factory(tagger);
+  if (gSystem->AccessPathName(file_name.c_str())) hanalysis::Factory factory(tagger);
 }
 
 void RunReader(hanalysis::Tagger &tagger)

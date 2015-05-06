@@ -13,10 +13,10 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
 //         case hanalysis::HAnalysis::HBottomTagger:
-            hanalysis::HFactory factory(tagger);
+            hanalysis::Factory factory(tagger);
 //             break;
 //         case hanalysis::HAnalysis::HJetPairTagger:
-//           hanalysis::HFactory(Analysis.JetPairTagger);
+//           hanalysis::Factory(Analysis.JetPairTagger);
 //           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;

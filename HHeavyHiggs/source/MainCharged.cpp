@@ -15,49 +15,49 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
 //         case hanalysis::HAnalysis::HBottomTagger:
-            hanalysis::HFactory factory(tagger);
+            hanalysis::Factory factory(tagger);
 //             break;
 //         case hanalysis::HAnalysis::HJetPairTagger:
-//             hanalysis::HFactory(Analysis.JetPairTagger);
+//             hanalysis::Factory(Analysis.JetPairTagger);
 //             break;
 //         case hanalysis::HAnalysis::HWHadronicTagger:
-//             hanalysis::HFactory(Analysis.WHadronicTagger);
+//             hanalysis::Factory(Analysis.WHadronicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HWSemiTagger:
-//             hanalysis::HFactory(Analysis.WSemiTagger);
+//             hanalysis::Factory(Analysis.WSemiTagger);
 //             break;
 //         case hanalysis::HAnalysis::HTopLeptonicTagger:
-// //             hanalysis::HFactory(Analysis.TopLeptonicTagger);
+// //             hanalysis::Factory(Analysis.TopLeptonicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HTopHadronicTagger:
-//             hanalysis::HFactory(Analysis.TopHadronicTagger);
+//             hanalysis::Factory(Analysis.TopHadronicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HTopSemiTagger:
-//             hanalysis::HFactory(Analysis.TopSemiTagger);
+//             hanalysis::Factory(Analysis.TopSemiTagger);
 //             break;
 //         case hanalysis::HAnalysis::HHeavyHiggsLeptonicTagger:
-// //             hanalysis::HFactory(Analysis.HeavyHiggsLeptonicTagger);
+// //             hanalysis::Factory(Analysis.HeavyHiggsLeptonicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HHeavyHiggsHadronicTagger:
-// //             hanalysis::HFactory(Analysis.HeavyHiggsHadronicTagger);
+// //             hanalysis::Factory(Analysis.HeavyHiggsHadronicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
-//             hanalysis::HFactory(Analysis.ChargedHiggsSemiTagger);
+//             hanalysis::Factory(Analysis.ChargedHiggsSemiTagger);
 //             break;
 //         case hanalysis::HAnalysis::HEventLeptonicTagger:
-// //             hanalysis::HFactory(Analysis.EventLeptonicTagger);
+// //             hanalysis::Factory(Analysis.EventLeptonicTagger);
 //             break;
 //         case hanalysis::HAnalysis::HEventHadronicTagger:
-// //             hanalysis::HFactory(Analysis.EventHadronicTagger);
+// //             hanalysis::Factory(Analysis.EventHadronicTagger);
 //           break;
 //         case hanalysis::HAnalysis::HSignatureSemiTagger:
-//           hanalysis::HFactory(Analysis.SignatureSemiTagger);
+//           hanalysis::Factory(Analysis.SignatureSemiTagger);
 //           break;
 //         case hanalysis::HAnalysis::HEventSemiTagger:
-//             hanalysis::HFactory(Analysis.EventSemiTagger);
+//             hanalysis::Factory(Analysis.EventSemiTagger);
 //             break;
 // //         case hanalysis::HAnalysis::HChargedHiggsSemiTagger:
-// //           hanalysis::HFactory(Analysis.ChargedHiggsSemiTagger);
+// //           hanalysis::Factory(Analysis.ChargedHiggsSemiTagger);
 // //           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;
