@@ -17,18 +17,18 @@ struct SortByMass {
   float Mass;
 };
 
-struct MinDeltaR {
-  MinDeltaR(const fastjet::PseudoJet &NewParticle) {
-    Particle = NewParticle;
+struct MinDeltaRTo {
+  MinDeltaRTo(const fastjet::PseudoJet &jet) {
+    jet_ = jet;
   }
-  template <typename TMultiplet>
-  inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-    return Multiplet1.Jet().delta_R(Particle)  < Multiplet2.Jet().delta_R(Particle);
+  template <typename Multiplet>
+  inline bool operator()(const Multiplet &multiplet1, const Multiplet &multiplet2) {
+    return multiplet1.Jet().delta_R(jet_)  < multiplet2.Jet().delta_R(jet_);
   }
-  inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-    return Jet1.delta_R(Particle)  < Jet2.delta_R(Particle);
+  inline bool operator()(const fastjet::PseudoJet &jet1, const fastjet::PseudoJet &jet2) {
+    return jet1.delta_R(jet_)  < jet2.delta_R(jet_);
   }
-  fastjet::PseudoJet Particle;
+  fastjet::PseudoJet jet_;
 };
 
 
@@ -247,10 +247,10 @@ struct SmallDistance {
   float Distance;
 };
 
-template<typename TMultiplet>
-inline std::vector<TMultiplet> SortByDeltaRTo(std::vector<TMultiplet> &Multiplets, fastjet::PseudoJet Jet) {
-  std::sort(Multiplets.begin(), Multiplets.end(), MinDeltaR(Jet));
-  return Multiplets;
+template<typename Multiplet>
+inline std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> &multiplets, const fastjet::PseudoJet &jet) {
+  std::sort(multiplets.begin(), multiplets.end(), MinDeltaRTo(jet));
+  return multiplets;
 }
 
 template <class HMultiplet>

@@ -99,8 +99,8 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
 //     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
 //     for (const auto & Particle : Particles) {
 //         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize)
-//             BottomJets.push_back(Jets.front());
+//         if (Jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
+//             BottomJets.emplace_back(Jets.front());
 //     }
 //
 //     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return EventSemiBranches;
@@ -113,7 +113,7 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
     EventMultiplet.SetJets(Jets);
 
     EventMultiplet.SetTag(Tag);
-    EventSemiBranches.push_back(GetBranch(EventMultiplet));
+    EventSemiBranches.emplace_back(GetBranch(EventMultiplet));
 
     return EventSemiBranches;
 }
@@ -131,9 +131,9 @@ bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const HJets &NewJets,
     HJets Particles = Event.GetParticles()->Generator();
     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
     for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize)
-            BottomJets.push_back(Jets.front());
+        std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(Particle));
+        if (Jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
+            BottomJets.emplace_back(Jets.front());
     }
 
     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return 0;
@@ -145,7 +145,7 @@ bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const HJets &NewJets,
 
 
 
-std::vector<hbottomsumtagger::HEventBottomMultiplet> hbottomsumtagger::HEventBottomTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &EventSemiReader)
+std::vector<hbottomsumtagger::HEventBottomMultiplet> hbottomsumtagger::HEventBottomTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &EventSemiReader)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -155,7 +155,7 @@ std::vector<hbottomsumtagger::HEventBottomMultiplet> hbottomsumtagger::HEventBot
     EventMultiplet.SetJets(Jets);
     Branch = GetBranch(EventMultiplet);
     EventMultiplet.SetBdt(EventSemiReader.Bdt());
-    EventMultiplets.push_back(EventMultiplet);
+    EventMultiplets.emplace_back(EventMultiplet);
     return EventMultiplets;
 }
 

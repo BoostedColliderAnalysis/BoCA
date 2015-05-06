@@ -21,13 +21,13 @@ public:
 
     std::vector<HHeavyHiggsTauBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
-    std::vector<HDoublet>  GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader);
+    std::vector<HDoublet>  GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader);
 
     HHeavyHiggsTauBranch GetBranch(const hanalysis::HDoublet& Doublet) const;
 
     HTauTagger TauTagger;
 
-    HReader TauReader;
+    Reader TauReader;
 
 protected:
 

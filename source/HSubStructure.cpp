@@ -180,7 +180,7 @@ HVectors hanalysis::HSubStructure::GetConstituents(const fastjet::PseudoJet &Can
         ObservableRap -= Shift;
 
         const TLorentzVector ConstituentVector(ConstituentJet.pt(),ObservableRap,ObservablePhi,ConstituentJet.e());
-        ConstituentVectors.push_back(ConstituentVector);
+        ConstituentVectors.emplace_back(ConstituentVector);
 
 //         HParticleBranch *Constituent = static_cast<HParticleBranch *>(ConstituentBranch->NewEntry());
 //         Constituent->Rap = ObservableRap;

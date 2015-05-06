@@ -17,7 +17,7 @@ hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(const HBottomTagger &NewBottom
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
     SetTaggerName("TopLeptonic");
     DefineVariables();
 }
@@ -94,7 +94,7 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEven
             Doublet.SetTag(GetTag(Doublet));
             if (Doublet.Tag() != Tag) continue;
             if (Tag == kSignal && Doublet.Jet().m() > TopMass) continue;
-            Doublets.push_back(Doublet);
+            Doublets.emplace_back(Doublet);
         }
 
 
@@ -106,7 +106,7 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEven
     }
 
     std::vector<HTopLeptonicBranch> TopLeptonicBranches;
-    for (const auto & Doublet : Doublets) TopLeptonicBranches.push_back(GetBranch(Doublet));
+    for (const auto & Doublet : Doublets) TopLeptonicBranches.emplace_back(GetBranch(Doublet));
 
     return TopLeptonicBranches;
 
@@ -128,7 +128,7 @@ hanalysis::HObject::Tag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &Do
     return kSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::HReader & Reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::Reader & Reader)
 {
 
     Print(HInformation, "Get Bdt");
@@ -138,7 +138,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJ
             HDoublet Doublet(Jet, Lepton);
             Branch = GetBranch(Doublet);
             Doublet.SetBdt(Reader.Bdt());
-            Doublets.push_back(Doublet);
+            Doublets.emplace_back(Doublet);
         }
     }
 

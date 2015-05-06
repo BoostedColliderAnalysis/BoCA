@@ -24,7 +24,7 @@ hcpvhiggs::HAnalysis::~HAnalysis()
 
 }
 
-HStrings hcpvhiggs::HAnalysis::GetStudyNames() const
+Strings hcpvhiggs::HAnalysis::GetStudyNames() const
 {
 
     return  {"Higgs", "Top", "Jet", "Test"};
@@ -43,12 +43,12 @@ std::vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const std::string
       hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
-        NewFiles.push_back(Background);
+        NewFiles.emplace_back(Background);
 
 //         HFile *Background2 = new HFile("pp-bbtt-bblvlv-HIGGS", "background");
 //         Background2->Crosssection = 1.243; // pb
 //         Background2->Error = 0.1309; // pb
-//         Files.push_back(Background2);
+//         Files.emplace_back(Background2);
 
     }
 
@@ -56,25 +56,25 @@ std::vector<hanalysis::HFile *> hcpvhiggs::HAnalysis::GetFiles(const std::string
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
-    NewFiles.push_back(Even);
+    NewFiles.emplace_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
-    NewFiles.push_back(Mix);
+    NewFiles.emplace_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
-    NewFiles.push_back(Odd);
+    NewFiles.emplace_back(Odd);
 
 //     hdelphes::HFile *Signal = new hdelphes::HFile("pp-htt-bblvlv", "signal");
 //     Signal->Crosssection = 0.01419; // pb
 //     Signal->Error = 0.000067; // pb
 // //     Odd->TagString="tag_2";
-//     Files.push_back(Signal);
+//     Files.emplace_back(Signal);
 
     Print(HNotification, "Files prepared");
 
@@ -382,8 +382,8 @@ HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent &Event)
         }
         HardestLepton = 0;
 
-        LeptonRap.push_back(LeptonJet.rap());
-        LeptonPhi.push_back(LeptonJet.phi_std());
+        LeptonRap.emplace_back(LeptonJet.rap());
+        LeptonPhi.emplace_back(LeptonJet.phi_std());
 
     }
 
@@ -403,8 +403,8 @@ HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent &Event)
         }
         HardestLepton = 0;
 
-        LeptonRap.push_back(AntiLeptonJet.rap());
-        LeptonPhi.push_back(AntiLeptonJet.phi_std());
+        LeptonRap.emplace_back(AntiLeptonJet.rap());
+        LeptonPhi.emplace_back(AntiLeptonJet.phi_std());
 
     }
 

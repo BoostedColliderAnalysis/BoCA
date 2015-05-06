@@ -292,9 +292,9 @@ private:
 
     hanalysis::HFile BackgroundFile(const ProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV";
-        HStrings FileNames;
+        Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
-            FileNames.push_back(FileName + "_" + std::to_string(FileNumber));
+            FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
         return hanalysis::HFile(FileNames , BackgroundCrosssection(Background));
     }
@@ -508,18 +508,18 @@ private:
 
     hanalysis::HJetTag JetTag;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader JetPairReader;
-    hanalysis::HReader WSemiReader;
-    hanalysis::HReader WHadronicReader;
-    hanalysis::HReader TopLeptonicReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopSemiReader;
-    hanalysis::HReader HeavyHiggsSemiReader;
-    hanalysis::HReader HeavyHiggsLeptonicReader;
-    hanalysis::HReader SignatureSemiReader;
-    hanalysis::HReader EventSemiReader;
-    hanalysis::HReader EventLeptonicReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader JetPairReader;
+    hanalysis::Reader WSemiReader;
+    hanalysis::Reader WHadronicReader;
+    hanalysis::Reader TopLeptonicReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader TopSemiReader;
+    hanalysis::Reader HeavyHiggsSemiReader;
+    hanalysis::Reader HeavyHiggsLeptonicReader;
+    hanalysis::Reader SignatureSemiReader;
+    hanalysis::Reader EventSemiReader;
+    hanalysis::Reader EventLeptonicReader;
 
 //     void NewBranches(ExRootTreeWriter &tree_writer, const hanalysis::HAnalysis::HTagger tagger);
 

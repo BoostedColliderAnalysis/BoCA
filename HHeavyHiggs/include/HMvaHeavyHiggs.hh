@@ -29,7 +29,7 @@ public:
     */
     ~HMva();
 
-//     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct&);
+//     ReaderStruct CutLoop(const ExRootTreeReader * const, ReaderStruct&);
 
 //     void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, const TMVA::Reader &);
 

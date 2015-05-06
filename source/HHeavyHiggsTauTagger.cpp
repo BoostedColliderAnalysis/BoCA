@@ -95,14 +95,14 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
     if (HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?", HiggsParticles.size());
 
     for (const auto & Particle : TauParticles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+        std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(Particle));
         if (Jets.front().delta_R(Particle) < 0.4) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
     HJets NewCleanJets;
     for (const auto & Jet : Jets) {
         if (!Jet.has_user_info<HJetInfo>()) continue;
         if (Jet.user_info<HJetInfo>().Tag() != tag) continue;
-        NewCleanJets.push_back(Jet);
+        NewCleanJets.emplace_back(Jet);
     }
 
     std::vector<HDoublet> Doublets;
@@ -115,7 +115,7 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
 //         if (Tag == HBackground && PostDoublets.size() > 0) PostDoublets.erase(PostDoublets.begin());
 //         for (auto & PostDoublet : PostDoublets) {
             PreDoublet.SetTag(tag);
-            Doublets.push_back(PreDoublet);
+            Doublets.emplace_back(PreDoublet);
 //         }
     }
 
@@ -123,7 +123,7 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
     Print(HInformation, "Number Doublets", Doublets.size());
 
     std::vector<HHeavyHiggsTauBranch> HiggsBranches;
-    for (const auto & Doublet : Doublets) HiggsBranches.push_back(GetBranch(Doublet));
+    for (const auto & Doublet : Doublets) HiggsBranches.emplace_back(GetBranch(Doublet));
 
     return HiggsBranches;
 }
@@ -133,7 +133,7 @@ hanalysis::HObject::Tag hanalysis::HHeavyHiggsTauTagger::GetTag(const hanalysis:
     return kSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader &Reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader)
 {
     Print(HInformation, "Get Triple Bdt");
     std::vector<HDoublet> Doublets;
@@ -144,7 +144,7 @@ std::vector<hanalysis::HDoublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const 
 //             if (PostDoublet.Jet().m() < 10) continue;
             Branch = GetBranch(PreDoublet);
             PreDoublet.SetBdt(Reader.Bdt());
-            Doublets.push_back(PreDoublet);
+            Doublets.emplace_back(PreDoublet);
 //         }
     }
     std::sort(Doublets.begin(), Doublets.end());
@@ -200,11 +200,11 @@ std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetNeutrinos(c
     Doublet2.SetTag(Doublet.Tag());
     Doublet2.SetFlag(Doublet.Flag());
 
-    Doublets.push_back(Doublet1);
-    Doublets.push_back(Doublet2);
+    Doublets.emplace_back(Doublet1);
+    Doublets.emplace_back(Doublet2);
 
-//     if (std::abs(Neutrino1Pz) < std::abs(Neutrino2Pz)) Doublets.push_back(Doublet1);
-//     else Doublets.push_back(Doublet2);
+//     if (std::abs(Neutrino1Pz) < std::abs(Neutrino2Pz)) Doublets.emplace_back(Doublet1);
+//     else Doublets.emplace_back(Doublet2);
 
     return Doublets;
 
@@ -255,7 +255,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(co
     std::vector<HDoublet> FinalDoublets;
     switch (tag) {
     case kSignal:
-        FinalDoublets.push_back(BestDoublet);
+        FinalDoublets.emplace_back(BestDoublet);
         return FinalDoublets;
     case kBackground:
         for (const auto Neutrino : Neutrinos) Doublets.erase(std::remove_if(Doublets.begin(), Doublets.end(), FindError(Neutrino, BestError)), Doublets.end());

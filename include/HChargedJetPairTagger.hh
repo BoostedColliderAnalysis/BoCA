@@ -21,7 +21,7 @@ public:
 
     std::vector< HChargedJetPairBranch> GetBranches(HEvent &Event, const HObject::Tag Tag);
 
-    std::vector< HQuartet31 > GetBdt(const std::vector< hanalysis::HTriplet > &Triplets, const HJets &Jets, const hanalysis::HReader &JetPairReader);
+    std::vector< HQuartet31 > GetBdt(const std::vector< hanalysis::HTriplet > &Triplets, const HJets &Jets, const hanalysis::Reader &JetPairReader);
 
     HChargedJetPairBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 
@@ -31,11 +31,11 @@ public:
     HTopHadronicTagger TopHadronicTagger;
     HTopSemiTagger TopSemiTagger;
 
-    HReader BottomReader;
-    HReader WReader;
-    HReader WSemiReader;
-    HReader TopHadronicReader;
-    HReader TopSemiReader;
+    Reader BottomReader;
+    Reader WReader;
+    Reader WSemiReader;
+    Reader TopHadronicReader;
+    Reader TopSemiReader;
 
 protected:
 

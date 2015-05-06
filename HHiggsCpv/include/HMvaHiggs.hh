@@ -27,7 +27,7 @@ public:
     */
     ~HMvaHiggs();
 
-//     HReaderStruct CutLoop(const ExRootTreeReader * const, HReaderStruct& ReaderStruct){ return ReaderStruct;};
+//     ReaderStruct CutLoop(const ExRootTreeReader * const, ReaderStruct& ReaderStruct){ return ReaderStruct;};
 
     void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, const TMVA::Reader &){};
 

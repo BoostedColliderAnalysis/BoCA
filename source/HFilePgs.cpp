@@ -28,12 +28,12 @@ std::string hanalysis::hpgs::HFile::TreeName() const
     return TreeNameM;
 }
 
-HStrings hanalysis::hpgs::HFile::Paths() const
+Strings hanalysis::hpgs::HFile::Paths() const
 {
     Print(HInformation, "FilePath");
     FileSuffix = "_pgs_events.root";
-    HStrings FilePaths;
-    FilePaths.push_back(GetMadGraphFilePath() + TagName +  FileSuffix);
+    Strings FilePaths;
+    FilePaths.emplace_back(GetMadGraphFilePath() + TagName +  FileSuffix);
     return FilePaths;
 }
 

@@ -15,7 +15,7 @@
 # include "HEvent.hh"
 # include "HConfig.hh"
 # include "Tagger.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 
 
 /**
@@ -93,7 +93,7 @@ protected:
     }
 
 
-    HStrings JoinHStrings(const HStrings &Strings1, const HStrings &Strings2) {
+    Strings JoinStrings(const Strings &Strings1, const Strings &Strings2) {
         return JoinVectors(Strings1, Strings2);
     };
 
@@ -109,7 +109,7 @@ protected:
 
     Tagger &tagger_;
 
-    HReader reader_;
+    Reader reader_;
 
     int ObjectNumber;
 
@@ -141,14 +141,14 @@ protected:
     }
 
     void NewSignalFile(const std::string &name) {
-        files_.push_back(File(name));
+        files_.emplace_back(File(name));
         files_.front().SetBasePath("~/Projects/BTagging/"); // FIXME remove this hack
         files_.front().SetFileSuffix(".root"); // FIXME remove this hack
         tagger_.AddSignalTreeName(TreeName(name));
     }
 
     void NewBackgroundFile(const std::string &name) {
-        files_.push_back(File(name));
+        files_.emplace_back(File(name));
         files_.front().SetBasePath("~/Projects/BTagging/"); // FIXME remove this hack
         files_.front().SetFileSuffix(".root"); // FIXME remove this hack
         tagger_.AddBackgroundTreeName(TreeName(name));

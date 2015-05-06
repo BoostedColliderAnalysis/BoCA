@@ -6,7 +6,7 @@
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HFactory.hh"
 # include "HJetTag.hh"
 
@@ -196,14 +196,14 @@ private:
     }
 
     hanalysis::HFile BackgroundFile(const ProcessType Process, const int) const {
-        HStrings FileNames;
-        FileNames.push_back(NameString(Process));
+        Strings FileNames;
+        FileNames.emplace_back(NameString(Process));
         return hanalysis::HFile(FileNames , BackgroundCrosssection(Process));
     }
 
     hanalysis::HFile BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
-        HStrings FileNames;
-        FileNames.push_back(NameString(Process, ProductionChannel));
+        Strings FileNames;
+        FileNames.emplace_back(NameString(Process, ProductionChannel));
         return hanalysis::HFile(FileNames , BackgroundCrosssection(Process));
     }
 
@@ -229,8 +229,8 @@ private:
     }
 
     hanalysis::HJetTag JetTag;
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader JetPairReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader JetPairReader;
 
 //     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 

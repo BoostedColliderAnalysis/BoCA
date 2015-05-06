@@ -27,11 +27,11 @@ hanalysis::hdelphes::HFile::HFile(const std::string &Process, const std::string 
     FileSuffix = "_delphes_events.root";
 }
 
-HStrings hanalysis::hdelphes::HFile::Paths() const
+Strings hanalysis::hdelphes::HFile::Paths() const
 {
     Print(HInformation, "FilePath");
-    HStrings FilePahts;
-    FilePahts.push_back(GetMadGraphFilePath() + TagName +  FileSuffix);
+    Strings FilePahts;
+    FilePahts.emplace_back(GetMadGraphFilePath() + TagName +  FileSuffix);
     return FilePahts;
 }
 

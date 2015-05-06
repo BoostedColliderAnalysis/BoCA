@@ -9,4 +9,4 @@ HLibrary(HMvaDiscriminator HMvaDiscriminator.cpp)
 
 HExecutable(HFactoryDiscriminator HFactory.cpp)
 
-HExecutable(HReaderDiscriminator HReader.cpp)
+HExecutable(HReaderDiscriminator Reader.cpp)

@@ -114,7 +114,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
     HJets HiggsParticles = Event.GetParticles()->Generator();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
     if (tag == kSignal && HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
-    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaR(HiggsParticles.front()));
+    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaRTo(HiggsParticles.front()));
     if (tag == kSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
 
 //     if(Tag == HBackground && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
@@ -143,7 +143,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
         HJets Particles = Event.GetParticles()->Generator();
         HJets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
         if (TopParticles.size() != 1) Print(HError, "Where is the Top?");
-        else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry.JetConeSize)) FinalTriplets.push_back(Triplet);
+        else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize)) FinalTriplets.emplace_back(Triplet);
     } else FinalTriplets = TripletsHadronic;
 
     if (tag == kSignal && FinalTriplets.size() > 1) {
@@ -156,7 +156,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
         HJets Particles = Event.GetParticles()->Generator();
         HJets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?");
-        else for (const auto & Jet : Jets) if ((Jet.delta_R(BottomParticles.front()) < DetectorGeometry.JetConeSize)) FinalBottoms.push_back(Jet);
+        else for (const auto & Jet : Jets) if ((Jet.delta_R(BottomParticles.front()) < detector_geometry().JetConeSize)) FinalBottoms.emplace_back(Jet);
     } else FinalBottoms = Jets;
 
     std::vector<hanalysis::HQuartet31> JetQuartets = ChargedJetPairTagger.GetBdt(FinalTriplets, FinalBottoms, ChargedJetPairReader);
@@ -167,37 +167,37 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
     std::vector<HOctet44> Octets;
     for (const auto HiggsQuartet  : HiggsQuartets)
         for (const auto & JetQuartet : JetQuartets) {
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             HOctet44 Octet(HiggsQuartet, JetQuartet);
             Octet.SetTag(tag);
-            Octets.push_back(Octet);
+            Octets.emplace_back(Octet);
         }
 //     Print(HError, "Number of Signatures", Octets.size());
 
     std::vector<hheavyhiggs::HChargedOctetBranch> SignatureSemiBranches;
-    for (const auto & Octet : Octets) SignatureSemiBranches.push_back(GetBranch(Octet));
+    for (const auto & Octet : Octets) SignatureSemiBranches.emplace_back(GetBranch(Octet));
 
     return SignatureSemiBranches;
 }
 
 
 std::vector<HOctet44> hheavyhiggs::HChargedSignatureSemiTagger::GetBdt(
-    const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, const hanalysis::HReader &Reader)
+    const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, const hanalysis::Reader &Reader)
 {
     Print(HInformation, "Bdt");
 
@@ -205,26 +205,26 @@ std::vector<HOctet44> hheavyhiggs::HChargedSignatureSemiTagger::GetBdt(
     std::vector<HOctet44> Octets;
     for (const auto & JetQuartet : JetQuartets) {
         for (const auto & HiggsQuartet : HiggsQuartets) {
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Singlet().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet1().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (HiggsQuartet.Triplet().Doublet().Singlet2().delta_R(JetQuartet.Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             HOctet44 Octet(HiggsQuartet, JetQuartet);
             Branch = GetBranch(Octet);
             Octet.SetBdt(Reader.Bdt());
-            Octets.push_back(Octet);
+            Octets.emplace_back(Octet);
         }
     }
 //     Print(HError, "Number of Signatures", Octets.size());

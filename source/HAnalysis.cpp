@@ -10,9 +10,9 @@ hanalysis::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : tagger_(tagger)
 void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
 {
     Print(HNotification, "Analysis Loop");
-    tagger_.SetAnalysisName(ProjectName());
+    tagger_.set_analysis_name(ProjectName());
     mkdir(ProjectName().c_str(), 0700);
-    if (stage == Tagger::kReader) reader_.SetMva(tagger_);
+    if (stage == Tagger::kReader) reader_.set_tagger(tagger_);
     for (const auto & tag : std::vector<Tag> {kSignal, kBackground}) {
         Print(HNotification, "Analysing Mva Sample", tag);
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");

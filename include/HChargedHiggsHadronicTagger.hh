@@ -23,7 +23,7 @@ public:
 
     HChargedHiggsHadronicBranch GetBranch(const hanalysis::HQuartet31 &Quartet);
 
-    std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::HTriplet > Triplets, std::vector< fastjet::PseudoJet > Jets, const hanalysis::HReader &Reader);
+    std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::HTriplet > Triplets, std::vector< fastjet::PseudoJet > Jets, const hanalysis::Reader &Reader);
 
 protected:
 
@@ -42,9 +42,9 @@ private:
     HWHadronicTagger WTagger;
     HTopHadronicTagger TopHadronicTagger;
 
-    HReader BottomReader;
-    HReader WReader;
-    HReader TopHadronicReader;
+    Reader BottomReader;
+    Reader WReader;
+    Reader TopHadronicReader;
 
     HChargedHiggsHadronicBranch Branch;
     HJetTag JetTag;

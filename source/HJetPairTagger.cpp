@@ -136,10 +136,10 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
 
     if (Tag == kSignal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Particle : Particles) {
-            Jets = SortByDeltaRTo(Jets, Particle);
-            if (Jets.front().delta_R(Particle) > DetectorGeometry.JetConeSize) continue;
+            Jets = SortedByMinDeltaRTo(Jets, Particle);
+            if (Jets.front().delta_R(Particle) > detector_geometry().JetConeSize) continue;
 
-            BottomJets.push_back(Jets.front());
+            BottomJets.emplace_back(Jets.front());
             if (Jets.size() > 1) Jets.erase(Jets.begin());
         }
     } else if (Tag == kBackground) BottomJets = Jets; // THIS SHOULD BE ENABLED AGAIN
@@ -155,7 +155,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
             for (const auto & Jet : BdtJets) if (Jet != *Jet1 && Jet != *Jet2) Doublet.AddRestJet(Jet);
             if (Doublet.RestJets().size() != BdtJets.size() - 2) Print(HError, "to many jets in the rest jet vector");
 
-            Doublets.push_back(Doublet);
+            Doublets.emplace_back(Doublet);
         }
 
     Print(HDebug, "Number of Jet Pairs", Doublets.size());
@@ -166,7 +166,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
         if (Doublets.size() > 1) Doublets.erase(Doublets.begin() + 1, Doublets.end());
     }
 
-    for (const auto & Doublet : Doublets) JetPairBranches.push_back(GetBranch(Doublet));
+    for (const auto & Doublet : Doublets) JetPairBranches.emplace_back(GetBranch(Doublet));
 
     return JetPairBranches;
 
@@ -177,7 +177,7 @@ hanalysis::HObject::Tag hanalysis::HJetPairTagger::GetTag(const HDoublet &)
     return kSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets &Jets, const hanalysis::HReader &JetPairReader)
+std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &JetPairReader)
 {
     std::vector<HDoublet>  Doublets;
     for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
@@ -187,10 +187,10 @@ std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets 
             else Doublet.SetSinglets((*Jet2), (*Jet1));
             for (const auto & Jet : Jets) if (Jet != *Jet1 && Jet != *Jet2) Doublet.AddRestJet(Jet);
             if (Doublet.RestJets().size() != Jets.size() - 2) Print(HError, "to many jets in the rest jet vector");
-//             if (std::abs(Doublet.DeltaRap()) < DetectorGeometry.JetConeSize) continue;
+//             if (std::abs(Doublet.DeltaRap()) < detector_geometry().JetConeSize) continue;
             Branch = GetBranch(Doublet);
             Doublet.SetBdt(JetPairReader.Bdt());
-            Doublets.push_back(Doublet);
+            Doublets.emplace_back(Doublet);
         }
     std::sort(Doublets.begin(), Doublets.end());
     Doublets.erase(Doublets.begin() + std::min(max_combi(), int(Doublets.size())), Doublets.end());

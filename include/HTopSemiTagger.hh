@@ -22,7 +22,7 @@ public:
 
     std::vector<HTopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
 
-    std::vector<HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & Reader);
+    std::vector<HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::Reader & Reader);
 
     HTopSemiBranch GetBranch(const hanalysis::HTriplet &Triplet) const;
 
@@ -30,9 +30,9 @@ public:
 
     HWSemiTagger WSemiTagger;
 
-    HReader BottomReader;
+    Reader BottomReader;
 
-    HReader WSemiReader;
+    Reader WSemiReader;
 
     void GetBottomInfo(HTopSemiBranch &TopHadronicBranch, const fastjet::PseudoJet jet) const;
 

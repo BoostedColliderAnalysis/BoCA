@@ -20,9 +20,9 @@ public:
 
     std::vector< HHeavyHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const float pre_cut = 0);
 
-    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< HTriplet > &TripletsSemi, const std::vector<HTriplet > &TripletsHadronic, const HReader & Reader);
+    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< HTriplet > &TripletsSemi, const std::vector<HTriplet > &TripletsHadronic, const Reader & Reader);
 
-    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::HTriplet > &TripletsSemi, const std::vector< hanalysis::HTriplet > &TripletsHadronic, const hanalysis::HReader & Reader, const int Mass);
+    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::HTriplet > &TripletsSemi, const std::vector< hanalysis::HTriplet > &TripletsHadronic, const hanalysis::Reader & Reader, const int Mass);
 
     HBottomTagger BottomTagger;
     HWHadronicTagger WTagger;
@@ -30,11 +30,11 @@ public:
     HTopHadronicTagger TopHadronicTagger;
     HTopSemiTagger TopSemiTagger;
 
-    HReader BottomReader;
-    HReader WReader;
-    HReader WSemiReader;
-    HReader TopHadronicReader;
-    HReader TopSemiReader;
+    Reader BottomReader;
+    Reader WReader;
+    Reader WSemiReader;
+    Reader TopHadronicReader;
+    Reader TopSemiReader;
 
     HHeavyHiggsSemiBranch GetBranch(const hanalysis::HSextet& Sextet) const;
 

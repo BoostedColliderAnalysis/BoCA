@@ -1,13 +1,13 @@
-// # include "HReaderMulti.hh"
-# include "HReader.hh"
+// # include "ReaderMulti.hh"
+# include "Reader.hh"
 # include "HMvaBTagger.hh"
-// # include "HReaderSimple.hh"
+// # include "ReaderSimple.hh"
 
 
 int main()
 {
     hbtagger::HMva Mva;
-    hanalysis::HReader  Reader(Mva);
+    hanalysis::Reader  Reader(Mva);
 //     Reader.MVALoop(); // must be reactivated
     return 0;
 }

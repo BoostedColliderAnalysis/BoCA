@@ -73,7 +73,7 @@ HJets hanalysis::TopHadronicTagger::GetTops(std::vector< fastjet::PseudoJet > &E
 //             cout << "bottom mass: " << b.m() << endl;
 //             cout << "W mass: " << (W1 + W2).m() << endl;
 
-            TopJets.push_back(top);
+            TopJets.emplace_back(top);
 
         }
 
@@ -97,7 +97,7 @@ HJets hanalysis::TopHadronicTagger::GetGranulatedJets(HJets &EFlowJets)
     GranulatedJets.clear();
 
     EFlowJets = sorted_by_pt(EFlowJets);
-    GranulatedJets.push_back(EFlowJets[0]);
+    GranulatedJets.emplace_back(EFlowJets[0]);
 
     for (unsigned i = 1; i < EFlowJets.size(); ++i) {
         int NewJet = 0;
@@ -124,14 +124,14 @@ HJets hanalysis::TopHadronicTagger::GetGranulatedJets(HJets &EFlowJets)
                 CombinedJet.set_user_index(EFlowJets[i].user_index() + GranulatedJets[j].user_index());
 
                 GranulatedJets.erase(GranulatedJets.begin() + j);
-                GranulatedJets.push_back(CombinedJet);
+                GranulatedJets.emplace_back(CombinedJet);
                 break;
 
             }
         }
 
         if (NewJet != 1) {
-            GranulatedJets.push_back(EFlowJets[i]);
+            GranulatedJets.emplace_back(EFlowJets[i]);
             GranulatedJets = sorted_by_pt(GranulatedJets);
         }
     }

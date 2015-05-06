@@ -39,30 +39,30 @@ int hanalysis::HFactory::GetTrees()
 {
     Print(HNotification , "Get Trees");
     int signal_number = 0;
-    for (const auto & signal_name : tagger().GetSignalNames()) {
+    for (const auto & signal_name : tagger().signal_file_names()) {
       Print(HNotification , "Signal", signal_name);
 
         std::string signal_file_name = tagger().analysis_name() + "/" + signal_name + ".root";
         if (gSystem->AccessPathName(signal_file_name.c_str())) Print(HError, "File not found", signal_file_name);
         TFile &signal_file = *TFile::Open(signal_file_name.c_str());
-        Print(HNotification , "Signal File", signal_file.GetName(), tagger().GetSignalTreeNames().size());
+        Print(HNotification , "Signal File", signal_file.GetName(), tagger().signal_tree_names().size());
 
-        for (int tree_number : Range(tagger().GetSignalTreeNames().size())) {
-            Print(HNotification , "signal Tree Name", tagger().GetSignalTreeNames()[tree_number]);
-            signal_number += AddTree(signal_file, tagger().GetSignalTreeNames()[tree_number], 1);
+        for (int tree_number : Range(tagger().signal_tree_names().size())) {
+            Print(HNotification , "signal Tree Name", tagger().signal_tree_names()[tree_number]);
+            signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], 1);
         }
     }
 
     int background_number = 0;
-    for (const auto & background_name : tagger().GetBackgroundNames()) {
+    for (const auto & background_name : tagger().background_file_names()) {
       Print(HNotification , "Background", background_name);
 
         std::string background_file_name = tagger().analysis_name() + "/" + background_name + ".root";
         if (gSystem->AccessPathName(background_file_name.c_str())) Print(HError, "File not found", background_file_name);
         TFile &background_file = *TFile::Open(background_file_name.c_str());
-        Print(HNotification , "Background File", background_file.GetName(), tagger().GetBackgroundTreeNames().size());
+        Print(HNotification , "Background File", background_file.GetName(), tagger().background_tree_names().size());
 
-        for (const auto & background_tree_name : tagger().GetBackgroundTreeNames()) {
+        for (const auto & background_tree_name : tagger().background_tree_names()) {
             Print(HNotification , "Background Tree Name", background_tree_name);
             background_number += AddTree(background_file, background_tree_name, 0);
         }
@@ -83,7 +83,7 @@ int hanalysis::HFactory::AddTree(TFile &file, const std::string &tree_name, cons
     tree.GetBranch(tagger().GetBranchName().c_str());
     ExRootTreeReader &tree_reader = *new ExRootTreeReader(&tree); // FIXME nasty hack with memeory leak; necessary because the tree reader destructor closes the file which makes it invisible for tmva; reimplment in a cleaner way!!
 
-    TClonesArray &clones_array = *tree_reader.UseBranch(tagger().GetWeightBranchName().c_str());
+    TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(0);
     const float crosssection = static_cast<HInfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
     Print(HNotification , "Weight", crosssection);
@@ -108,7 +108,7 @@ void hanalysis::HFactory::PrepareTrainingAndTestTree(const int event_number)
 
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V";
     const std::string training_and_test_options = number_options + "";
-    factory().PrepareTrainingAndTestTree(tagger().GetCut(), tagger().GetCut(), training_and_test_options);
+    factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
 }
 
 void hanalysis::HFactory::BookMethods()
@@ -132,7 +132,7 @@ void hanalysis::HFactory::BookMethods()
 
 //     const std::string BdtMethodName = Mva.BdtMethodName + "_" + Mva.BackgroundName;
 
-    factory().BookMethod(TMVA::Types::kBDT, tagger().BdtMethodName(), bdt_options);
+    factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options);
 
 }
 

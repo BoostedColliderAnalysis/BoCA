@@ -41,7 +41,7 @@ public:
      *
      * @return std::string file path
      */
-    HStrings Paths() const;
+    Strings Paths() const;
 
     std::string TreeName() const;
 

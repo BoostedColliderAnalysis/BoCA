@@ -36,11 +36,11 @@ public:
     HFile(const std::string &NewProcess, const float NewCrosssection, const float NewMass);
     HFile(const std::string &NewProcess, const std::string &Run);
 
-    HFile(const HStrings &NewProcesses);
+    HFile(const Strings &NewProcesses);
 
-    HFile(const HStrings &NewProcesses, const float NewCrosssection);
+    HFile(const Strings &NewProcesses, const float NewCrosssection);
 
-    HFile(const HStrings &NewProcesses, const float NewCrosssection, const float NewMass);
+    HFile(const Strings &NewProcesses, const float NewCrosssection, const float NewMass);
 
     /**
      * @brief destructor
@@ -113,7 +113,7 @@ public:
 
     virtual std::string TreeName() const;
 
-    virtual HStrings Paths() const;
+    virtual Strings Paths() const;
 
 protected:
 
@@ -135,7 +135,7 @@ protected:
      * @brief Process name used in the file path
      *
      */
-    HStrings ProcessFolders;
+    Strings ProcessFolders;
 
     /**
      * @brief Run name use in the file path

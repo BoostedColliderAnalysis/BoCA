@@ -122,15 +122,15 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 
       (*ExportCandidate) = *Candidate;
 
-      const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName());
+      const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
 
       float SigEff;
       const int StepSize = 50;
       for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
-        bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
+//         bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
 
-        if (CutEvaluation) break;
+//         if (CutEvaluation) break;
 
       }
 
@@ -162,7 +162,7 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 }
 
 
-// HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+// ReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
 //   Print(HNotification, "Cut Loop");

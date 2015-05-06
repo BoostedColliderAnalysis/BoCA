@@ -5,7 +5,7 @@
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "HBranchHeavyHiggs.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HFactory.hh"
 # include "HJetTag.hh"
 
@@ -102,15 +102,15 @@ protected:
 private:
     hanalysis::HJetTag JetTag;
 
-    hanalysis::HReader TauReader;
-//     hanalysis::HReader JetPairReader;
-    hanalysis::HReader HeavyHiggsTauReader;
-//     hanalysis::HReader WHadronicReader;
-//     hanalysis::HReader TopLeptonicReader;
-//     hanalysis::HReader TopHadronicReader;
-//     hanalysis::HReader TopSemiReader;
-//     hanalysis::HReader HiggsTauSemiReader;
-//     hanalysis::HReader EventSemiReader;
+    hanalysis::Reader TauReader;
+//     hanalysis::Reader JetPairReader;
+    hanalysis::Reader HeavyHiggsTauReader;
+//     hanalysis::Reader WHadronicReader;
+//     hanalysis::Reader TopLeptonicReader;
+//     hanalysis::Reader TopHadronicReader;
+//     hanalysis::Reader TopSemiReader;
+//     hanalysis::Reader HiggsTauSemiReader;
+//     hanalysis::Reader EventSemiReader;
 
     inline int EventNumberMax() const {
 //         return 100000;

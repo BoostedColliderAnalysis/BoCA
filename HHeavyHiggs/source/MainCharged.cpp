@@ -68,13 +68,13 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
 //         case hanalysis::HAnalysis::HEventLeptonicReader: {
-//             hanalysis::HReader Reader(Analysis.EventLeptonicTagger);
+//             hanalysis::Reader Reader(Analysis.EventLeptonicTagger);
 //             Reader.SimpleMVALoop();
 //             break;
 //         }
 //         case hanalysis::HAnalysis::HEventSemiReader: {
 //           Analysis.SetTrees(Tagger,hanalysis::HAnalysis::kSignal);
-            hanalysis::HReader Reader(tagger);
+            hanalysis::Reader Reader(tagger);
 //             Reader.SimpleMVALoop();
 //             break;
 //         }

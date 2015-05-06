@@ -6,7 +6,7 @@
 # include "HBranchHeavyHiggs.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HLeptonicTopTagger.hh"
 # include "HHeavyHiggsTagger.hh"
 
@@ -159,7 +159,7 @@ public:
 
     void FillBranch(const HOctet &HeavyHiggsEvent);
 
-    HReaderStruct CutLoop(const ExRootTreeReader *const, HReaderStruct &) {};
+    ReaderStruct CutLoop(const ExRootTreeReader *const, ReaderStruct &) {};
 
     void ApplyBdt(const ExRootTreeReader *const, const std::string, const TFile *const, const TMVA::Reader &) {};
 
@@ -182,9 +182,9 @@ private:
     hanalysis::HBottomTagger *BottomTagger;
     hanalysis::HTopSemiTagger *LeptonicTopTagger;
     hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader TopReader;
-    hanalysis::HReader HeavyHiggsReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader TopReader;
+    hanalysis::Reader HeavyHiggsReader;
 
     hheavyhiggs::HEventLeptonicBranch Branch;
 

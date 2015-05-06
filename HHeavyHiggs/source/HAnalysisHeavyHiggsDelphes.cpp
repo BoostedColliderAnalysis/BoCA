@@ -7,11 +7,11 @@
 //
 // }
 
-HStrings hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
+Strings hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 {
 
-//     HStrings StudyNameVector = {"Signal", "Background", "Test"};
-    HStrings StudyNameVector = {"Signal"};
+//     Strings StudyNameVector = {"Signal", "Background", "Test"};
+    Strings StudyNameVector = {"Signal"};
 
 
     return StudyNameVector;
@@ -25,15 +25,15 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles
 
     std::vector<hanalysis::HFile*> NewFiles;
 
-    NewFiles.push_back(new hanalysis::HFile("BG_ttbb"));
-    NewFiles.push_back(new hanalysis::HFile("hcpbb_ttbb"));
+    NewFiles.emplace_back(new hanalysis::HFile("BG_ttbb"));
+    NewFiles.emplace_back(new hanalysis::HFile("hcpbb_ttbb"));
 
     NewFiles.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
     NewFiles.front()->SetFileSuffix(".root");
     NewFiles.front()->SetSnowMass(true);
 
-//     FileVector.push_back(new HFile("pp-bbtt-4f", "background");
+//     FileVector.emplace_back(new HFile("pp-bbtt-4f", "background");
 
     Print(HNotification, "Files prepared");
 
@@ -139,7 +139,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent &Event)
 
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
-        if (std::abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
+        if (std::abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.emplace_back(JetVector[JetNumber]);
 
     }
 
@@ -175,8 +175,8 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent &Even
 
     for (unsigned JetNumber = 0; JetNumber < JetVector.size(); ++JetNumber) {
 
-        if (std::abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.push_back(JetVector[JetNumber]);
-        if (std::abs(JetVector[JetNumber].user_index()) == TopId) TopJetVector.push_back(JetVector[JetNumber]);
+        if (std::abs(JetVector[JetNumber].user_index()) == BottomId) BottomJetVector.emplace_back(JetVector[JetNumber]);
+        if (std::abs(JetVector[JetNumber].user_index()) == TopId) TopJetVector.emplace_back(JetVector[JetNumber]);
 
     }
 

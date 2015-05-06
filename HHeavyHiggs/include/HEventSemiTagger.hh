@@ -40,7 +40,7 @@ public:
 
     std::vector<HEventSemiBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< HEventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const HJets &Jets, const HJets &SubJets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+    std::vector< HEventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const HJets &Jets, const HJets &SubJets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::Reader &EventSemiReader);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -57,14 +57,14 @@ public:
     hanalysis::HJetPairTagger JetPairTagger;
     HSignatureSemiTagger SignatureSemiTagger;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader WSemiReader;
-    hanalysis::HReader WReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopSemiReader;
-    hanalysis::HReader HeavyHiggsSemiReader;
-    hanalysis::HReader JetPairReader;
-    hanalysis::HReader SignatureSemiReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader WSemiReader;
+    hanalysis::Reader WReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader TopSemiReader;
+    hanalysis::Reader HeavyHiggsSemiReader;
+    hanalysis::Reader JetPairReader;
+    hanalysis::Reader SignatureSemiReader;
 
 
 protected:

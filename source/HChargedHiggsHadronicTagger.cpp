@@ -7,11 +7,11 @@ hanalysis::HChargedHiggsHadronicTagger::HChargedHiggsHadronicTagger(const HBotto
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
     WTagger = NewWTagger;
-    WReader.SetMva(WTagger);
+    WReader.set_tagger(WTagger);
     TopHadronicTagger = NewTopTagger;
-    TopHadronicReader.SetMva(TopHadronicTagger);
+    TopHadronicReader.set_tagger(TopHadronicTagger);
 
     SetTaggerName("ChargedHiggsHadronic");
     DefineVariables();
@@ -93,11 +93,11 @@ std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagge
             HQuartet31 Quartet(Triplet, Jet);
             Quartet.SetTag(GetTag(Quartet));
             if (Quartet.Tag() != Tag) continue;
-            Quartets.push_back(Quartet);
+            Quartets.emplace_back(Quartet);
         }
 
     std::vector<HChargedHiggsHadronicBranch> ChargedHiggsHadronicBranches;
-        for (const auto & Quartet : Quartets) ChargedHiggsHadronicBranches.push_back(GetBranch(Quartet));
+        for (const auto & Quartet : Quartets) ChargedHiggsHadronicBranches.emplace_back(GetBranch(Quartet));
 
 
     return ChargedHiggsHadronicBranches;
@@ -116,7 +116,7 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQu
 }
 
 
-std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<hanalysis::HTriplet> Triplets,std::vector<fastjet::PseudoJet> Jets, const hanalysis::HReader &Reader)
+std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<hanalysis::HTriplet> Triplets,std::vector<fastjet::PseudoJet> Jets, const hanalysis::Reader &Reader)
 {
     Print(HInformation, "Get Heavy Higgs Bdt");
     std::vector<hanalysis::HQuartet31> Quartets;
@@ -126,7 +126,7 @@ std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBd
         if (Triplet.Doublet().Singlet1() == Jet) continue;
         if (Triplet.Doublet().Singlet2() == Jet) continue;
             HQuartet31 Quartet(Triplet, Jet);
-            Quartets.push_back(Quartet);
+            Quartets.emplace_back(Quartet);
             GetBranch(Quartet);
             Quartet.SetBdt(Reader.Bdt());
         }

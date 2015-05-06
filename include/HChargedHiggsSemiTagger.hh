@@ -28,9 +28,9 @@ public:
     HChargedHiggsSemiBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 
     std::vector< HQuartet31 > GetBdt(
-        const std::vector< hanalysis::HTriplet > Triplets, const std::vector< fastjet::PseudoJet > Siglets, const hanalysis::HReader &Reader);
+        const std::vector< hanalysis::HTriplet > Triplets, const std::vector< fastjet::PseudoJet > Siglets, const hanalysis::Reader &Reader);
 
-    std::vector< HQuartet31 > GetQuartets(const hanalysis::HReader &Reader);
+    std::vector< HQuartet31 > GetQuartets(const hanalysis::Reader &Reader);
 
     HBottomTagger BottomTagger;
     HWSemiTagger WSemiTagger;
@@ -38,11 +38,11 @@ public:
     HTopHadronicTagger TopHadronicTagger;
     HTopSemiTagger TopSemiTagger;
 
-    HReader BottomReader;
-    HReader WSemiReader;
-    HReader WReader;
-    HReader TopHadronicReader;
-    HReader TopSemiReader;
+    Reader BottomReader;
+    Reader WSemiReader;
+    Reader WReader;
+    Reader TopHadronicReader;
+    Reader TopSemiReader;
 
 protected:
 

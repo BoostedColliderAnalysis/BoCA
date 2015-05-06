@@ -27,8 +27,8 @@ void RunReader(hanalysis::Tagger &tagger)
     hbtagger::HAnalysis analysis(tagger);
     const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
-        hanalysis::HReader reader(tagger);
-        reader.SimpleMVALoop();
+        hanalysis::Reader reader(tagger);
+        reader.OptimalSignificance();
     }
 }
 

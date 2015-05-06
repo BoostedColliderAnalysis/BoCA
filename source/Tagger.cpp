@@ -11,7 +11,7 @@
 # include "HEvent.hh"
 # include "HAnalysis.hh"
 
-HObservable::HObservable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
+Observable::Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
 {
     value_ = &value;
     expression_ = expression;
@@ -21,95 +21,78 @@ HObservable::HObservable(float &value, const std::string &expression, const std:
     else type_ = 'F';
 }
 
-float *HObservable::value() const
+float *Observable::value() const
 {
     return value_;
 }
 
-std::string HObservable::expression() const
+std::string Observable::expression() const
 {
     return expression_;
 }
 
-std::string HObservable::title() const
+std::string Observable::title() const
 {
     return title_;
 }
 
-std::string HObservable::unit() const
+std::string Observable::unit() const
 {
     return unit_;
 }
 
-char HObservable::type() const
+char Observable::type() const
 {
     return type_;
 }
 
-/**
- * @brief Constructor
- *
- *
- * choose HDetectorType according to LHC or 100TeV
- *
- * LHC: CMS
- * 100TeV: Spp
- *
- */
-
-hanalysis::Tagger::Tagger() : DetectorGeometry()
-//, reader_(*this)
+hanalysis::Tagger::Tagger()
 {
-
 //   DebugLevel = HNotification;
     Print(HInformation, "Constructor");
-    cut_method_name_ = "Cut";
     bdt_method_name_ = "Bdt";
-    cut_ = "";
     weight_branch_name_ = "Info";
     max_combi_ = 4;
-//     MinCellResolution = .1;
-
 }
 
-float hanalysis::Tagger::GetBdt(TObject *, const TMVA::Reader &)
-{
-    Print(HError, "Get Bdt", "should be implemented somewhere else");
-    return -10;
-}
+// float hanalysis::Tagger::GetBdt(TObject *, const TMVA::Reader &)
+// {
+//     Print(HError, "Get Bdt", "should be implemented somewhere else");
+//     return -10;
+// }
 
-HObservable hanalysis::Tagger::NewObservable(float &value, const std::string &title) const
+Observable hanalysis::Tagger::NewObservable(float &value, const std::string &title) const
 {
     Print(HInformation, "New Observable", title);
     const std::string expression = GetBranchName() + "." + title;
-    return HObservable(value, expression, title, "", "");
+    return Observable(value, expression, title, "", "");
 }
 
-HObservable hanalysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
+Observable hanalysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
     Print(HInformation, "New Observable", title);
     const std::string expression = GetBranchName() + "." + title;
-    return HObservable(value, expression, title, "", latex);
+    return Observable(value, expression, title, "", latex);
 
 }
 
 float hanalysis::Tagger::Bdt(const TMVA::Reader &reader)
 {
   Print(HInformation, "Bdt");
-  return const_cast<TMVA::Reader &>(reader).EvaluateMVA(BdtMethodName()) + 1; // get rid of the const cast
+  return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
 HJets hanalysis::Tagger::GranulatedJets(const HJets &NewEFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
-    const float CellDeltaRap = DetectorGeometry.MinCellResolution;
-    const float CellDeltaPhi = DetectorGeometry.MinCellResolution;
-    const float PtCutOff = DetectorGeometry.MinCellPt;
+    const float CellDeltaRap = detector_geometry().MinCellResolution;
+    const float CellDeltaPhi = detector_geometry().MinCellResolution;
+    const float PtCutOff = detector_geometry().MinCellPt;
 
 
     HJets EFlowJets = sorted_by_pt(NewEFlowJets);
     HJets NewGranulatedJets;
-    NewGranulatedJets.push_back(EFlowJets[0]);
+    NewGranulatedJets.emplace_back(EFlowJets[0]);
 
     for (size_t i = 1; i < EFlowJets.size(); ++i) {
         int NewJet = 0;
@@ -143,14 +126,14 @@ HJets hanalysis::Tagger::GranulatedJets(const HJets &NewEFlowJets)
                 CombinedJet.set_user_info(new HJetInfo(Constituents));
 
                 NewGranulatedJets.erase(NewGranulatedJets.begin() + j);
-                NewGranulatedJets.push_back(CombinedJet);
+                NewGranulatedJets.emplace_back(CombinedJet);
                 break;
 
             }
         }
 
         if (NewJet != 1) {
-            NewGranulatedJets.push_back(EFlowJets[i]);
+            NewGranulatedJets.emplace_back(EFlowJets[i]);
             NewGranulatedJets = sorted_by_pt(NewGranulatedJets);
         }
     }
@@ -176,9 +159,9 @@ HJets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 
 HJets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event)
 {
-//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), DetectorGeometry.JetDefinition);
-    HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
+//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry().JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), detector_geometry().JetDefinition);
+    HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry().JetMinPt));
     if (Jets.empty()) {
         delete ClusterSequence;
         return Jets;
@@ -207,8 +190,8 @@ HJets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &Jet, const int Sub
         Print(HError, "Get Sub Jets", "No Jet Info");
         return Pieces;
     }
-//     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry.JetConeSize));
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), DetectorGeometry.SubJetDefinition);
+//     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, detector_geometry().JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), detector_geometry().SubJetDefinition);
     HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
     ClusterSequence->delete_self_when_unused();
 
@@ -223,7 +206,7 @@ HJets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &Jet, const int Sub
             Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
         }
         Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
-        Pieces.push_back(Piece);
+        Pieces.emplace_back(Piece);
     }
     return Pieces;
 }

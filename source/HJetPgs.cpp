@@ -26,19 +26,19 @@ bool hanalysis::hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetail
         Print(HDetailed, "Jet Number", JetNumber);
         TRootJet *JetClone = (TRootJet *)clones_arrays_->Jet(JetNumber);
 
-        JetsM.push_back(GetPseudoJet(*JetClone));
+        JetsM.emplace_back(GetPseudoJet(*JetClone));
 
         if (JetClone->BTag > 0) {
 
             Print(HDetailed, "Has B Tag");
 
-            BottomLorentzVectors.push_back(GetLorentzVector(*JetClone));
-            BottomJets.push_back(GetPseudoJet(*JetClone));
+            BottomLorentzVectors.emplace_back(GetLorentzVector(*JetClone));
+            BottomJets.emplace_back(GetPseudoJet(*JetClone));
 
 
         } else {
 
-            JetLorentzVectors.push_back(GetLorentzVector(*JetClone));
+            JetLorentzVectors.emplace_back(GetLorentzVector(*JetClone));
 
         }
 

@@ -15,11 +15,11 @@ hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const HBottomTag
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
     WTagger = NewWTagger;
-    WReader.SetMva(WTagger);
+    WReader.set_tagger(WTagger);
     TopHadronicTagger = NewTopTagger;
-    TopHadronicReader.SetMva(TopHadronicTagger);
+    TopHadronicReader.set_tagger(TopHadronicTagger);
 
     SetTaggerName("HeavyHiggsHadronic");
     DefineVariables();
@@ -132,10 +132,10 @@ std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::Ge
             HSextet Sextet(Triplet1, Triplet2);
             Sextet.SetTag(GetTag(Sextet));
             if (Sextet.Tag() != Tag) continue;
-            Sextets.push_back(Sextet);
+            Sextets.emplace_back(Sextet);
         }
 
-        for (const auto & Sextet : Sextets) HeavyHiggsHadronicBranches.push_back(GetBranch(Sextet));
+        for (const auto & Sextet : Sextets) HeavyHiggsHadronicBranches.emplace_back(GetBranch(Sextet));
 
     return HeavyHiggsHadronicBranches;
 
@@ -152,7 +152,7 @@ hanalysis::HObject::Tag hanalysis::HHeavyHiggsHadronicTagger::GetTag(const HSext
 }
 
 
-std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsHadronicTagger::GetBdt(std::vector< hanalysis::HTriplet > Triplets, const hanalysis::HReader &Reader)
+std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsHadronicTagger::GetBdt(std::vector< hanalysis::HTriplet > Triplets, const hanalysis::Reader &Reader)
 {
     Print(HInformation, "Get Heavy Higgs Bdt");
     std::vector<hanalysis::HSextet> Sextets;
@@ -168,7 +168,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsHadronicTagger::GetBdt(std
         if (Triplet1.Doublet().Singlet2() == Triplet2.Doublet().Singlet1()) continue;
         if (Triplet1.Doublet().Singlet2() == Triplet2.Doublet().Singlet2()) continue;
             HSextet Sextet(Triplet1, Triplet2);
-            Sextets.push_back(Sextet);
+            Sextets.emplace_back(Sextet);
             Branch = GetBranch(Sextet);
             Sextet.SetBdt(Reader.Bdt());
         }

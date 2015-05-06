@@ -38,7 +38,11 @@ public:
 private:
 
 
-    HDetectorGeometry DetectorGeometry;
+    HDetectorGeometry detector_geometry_;
+
+    HDetectorGeometry detector_geometry() const{
+      return detector_geometry_;
+    }
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

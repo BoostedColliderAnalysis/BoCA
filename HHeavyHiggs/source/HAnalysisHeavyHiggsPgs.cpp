@@ -14,8 +14,8 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(con
 
     std::vector<hanalysis::HFile*> Files;
 
-    Files.push_back(new hanalysis::HFile("Signal_5f"));
-    Files.push_back(new hanalysis::HFile("5f_10k_Pt20"));
+    Files.emplace_back(new hanalysis::HFile("Signal_5f"));
+    Files.emplace_back(new hanalysis::HFile("5f_10k_Pt20"));
 
 //     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
     Files.front()->SetBasePath("~/Dropbox/Projects/HeavyHiggs/Simulation/");

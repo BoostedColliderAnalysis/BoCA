@@ -66,7 +66,7 @@ HJets hanalysis::HReconstruction::GetMassDropJets(const HJets &FatJets) const
 
     for (auto & FatJet : FatJets) {
 
-        MassDropJets.push_back(GetMassDropJet(FatJet));
+        MassDropJets.emplace_back(GetMassDropJet(FatJet));
 
     }
 
@@ -116,7 +116,7 @@ HJets hanalysis::HReconstruction::GetSubJetTaggedJets(const HJets &FatJets) cons
 
     for (auto & FatJet : FatJets) {
 
-        SubJetTaggedJets.push_back(GetSubJetTaggedJet(FatJet));
+        SubJetTaggedJets.emplace_back(GetSubJetTaggedJet(FatJet));
 
     }
 

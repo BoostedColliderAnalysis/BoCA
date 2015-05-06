@@ -1,11 +1,11 @@
 # include "HMvaEvent.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 
 int main()
 {
 
     hhiggscpv::HMvaEvent Mva;
-    hanalysis::HReader Reader(Mva);
+    hanalysis::Reader Reader(Mva);
 //     Reader.MVALoop();// must be reactvated
     return 0;
 }

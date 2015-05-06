@@ -80,7 +80,7 @@ public:
     }
 
     void AddDaughter(const int NewDaughter){
-      Daughters.push_back(NewDaughter);
+      Daughters.emplace_back(NewDaughter);
     }
 
 

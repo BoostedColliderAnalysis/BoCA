@@ -6,11 +6,11 @@ hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(hanalysis::HBottomTa
     Print(HNotification , "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
     TopLeptonicTagger = NewTopTagger;
-    TopLeptonicReader.SetMva(TopLeptonicTagger);
+    TopLeptonicReader.set_tagger(TopLeptonicTagger);
     ChargedHiggsLeptonicTagger = NewHeavyHiggsTagger;
-    ChargedHiggsLeptonicReader.SetMva(ChargedHiggsLeptonicTagger);
+    ChargedHiggsLeptonicReader.set_tagger(ChargedHiggsLeptonicTagger);
 
     SetTaggerName("EventLeptonic");
 
@@ -149,7 +149,7 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
     for (const auto Jet : Jets)
         for (const auto Doulbet : TopDoublets) {
             hanalysis::HTriplet Triplet(Doulbet, Jet); // TODO Implemetn pair bdt here
-            Triplets2.push_back(Triplet);
+            Triplets2.emplace_back(Triplet);
         }
 
     std::vector<HOctet44> Octets;
@@ -161,7 +161,7 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
             if (Triplet1.GetTriplet2().GetJet() == Triplet2.GetJet2()) continue;
             hanalysis::HSextet Sextet(Triplet1, Triplet2);
             HOctet44 PreOctets = GetOctet(Sextet, MissingEt, Neutrinos, Tag);
-            for (auto & Octet : PreOctets) Octets.push_back(Octet);
+            for (auto & Octet : PreOctets) Octets.emplace_back(Octet);
         }
     }
 
@@ -180,7 +180,7 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
         Octet.SetScalarHt(Event.GetJets()->GetScalarHt());
         Octet.SetTag(Tag);
         FillBranch(EventLeptonicBranch, Octet);
-        EventLeptonicBranches.push_back(EventLeptonicBranch);
+        EventLeptonicBranches.emplace_back(EventLeptonicBranch);
     }
 
     return EventLeptonicBranches;
@@ -244,7 +244,7 @@ std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const hanal
         if (Octet.GetJet().m() <= 0) continue;
         Octet.SetTag(Sextet.Tag());
         Octet.SetBdt(Sextet.Bdt());
-        Octets.push_back(Octet);
+        Octets.emplace_back(Octet);
 
         Print(HDebug, "TriplePair Bdt", Octet.Bdt(), Sextet.Bdt());
         //         Print(HDebug, "Neutrino masses", Jet1.m(), Jet2.m());
@@ -279,9 +279,9 @@ HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet
 
         std::vector<float> Neutrino1Errors, Neutrino2Errors;
         for (const auto & Neutrino : Neutrinos) {
-            Neutrino1Errors.push_back((Neutrino + Neutrino1).m());
+            Neutrino1Errors.emplace_back((Neutrino + Neutrino1).m());
             Print(HDebug, "Neutrino 1 Error", (Neutrino + Neutrino1).m());
-            Neutrino2Errors.push_back((Neutrino + Neutrino2).m());
+            Neutrino2Errors.emplace_back((Neutrino + Neutrino2).m());
             Print(HDebug, "Neutrino 2 Error", (Neutrino + Neutrino2).m());
         }
 
@@ -304,7 +304,7 @@ HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet
     std::vector<HOctet44> FinalOctet;
     for (const auto Pair : Map) {
         HOctet44 Octet = Pair.second;
-        FinalOctet.push_back(Octet);
+        FinalOctet.emplace_back(Octet);
     }
 
     return FinalOctet;
@@ -341,7 +341,7 @@ std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTree
             for (int Step = Steps; Step > 0; --Step) {
                 const float SignalFraction = float(Step) / Steps;
                 const float Probability = Reader->GetProba(GetBdtMethodName(), SignalFraction);
-                Probabilities.push_back(Probability);
+                Probabilities.emplace_back(Probability);
 
             }
             Print(HDebug, "Bdt", Bdt, Error, Rarity);

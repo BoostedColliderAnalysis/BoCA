@@ -1,7 +1,7 @@
 # pragma once
 
 # include "Tagger.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 
 /**
  * @brief Bottom BDT tagger
@@ -18,11 +18,7 @@ public:
 
     int Train(hanalysis::HEvent &event, const Tag tag);
 
-//     float Bdt(hanalysis::HEvent &event, const TMVA::Reader &reader) const;
-
     HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
-
-    hanalysis::HObject::Tag GetTag(const fastjet::PseudoJet &Jet) const;
 
     int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader);
 
@@ -31,14 +27,8 @@ public:
     }
 
     void SaveEntries(const HJets &jets){
-      for (const auto & jet : jets) static_cast<HBottomBranch &>(*TreeBranch().NewEntry()) = GetBranch(jet);
+      for (const auto & jet : jets) static_cast<HBottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
     }
-
-//     void NewBranch(ExRootTreeWriter &tree_writer){
-//       TreeBranch() = *tree_writer.NewBranch(tagger_name().c_str(),HBottomBranch::Class());
-//     }
-
-
 
     virtual TClass &Class() const {
       return *HBottomBranch::Class();
@@ -58,13 +48,13 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::Tag Tag);
+    HJets CleanJets(HJets &jets, const HJets &particles, const hanalysis::HObject::Tag tag);
 
     HJets GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber);
 
-    float GetDeltaR(const fastjet::PseudoJet &Jet) const;
+    float DeltaR(const fastjet::PseudoJet &Jet) const;
 
-    float GetSpread(const fastjet::PseudoJet &Jet) const;
+    float Spread(const fastjet::PseudoJet &Jet) const;
 
     HBottomBranch branch_;
 

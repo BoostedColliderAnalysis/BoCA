@@ -39,12 +39,12 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
                 if (ParticleID > 0) {
 
-                    ElectronVectors.push_back(ElectronVector);
+                    ElectronVectors.emplace_back(ElectronVector);
                     Print(HDebug, "Electron");
 
                 } else if (ParticleID < 0) {
 
-                    AntiElectronVectors.push_back(ElectronVector);
+                    AntiElectronVectors.emplace_back(ElectronVector);
                     Print(HDebug, "Anti Electron");
 
                 }
@@ -57,12 +57,12 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
                 if (ParticleID > 0) {
 
-                    MuonVectors.push_back(MuonVector);
+                    MuonVectors.emplace_back(MuonVector);
                     Print(HDebug, "Muon");
 
                 } else if (ParticleID < 0) {
 
-                    AntiMuonVectors.push_back(MuonVector);
+                    AntiMuonVectors.emplace_back(MuonVector);
                     Print(HDebug, "Anti Muon");
 
                 }
@@ -73,7 +73,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
                 fastjet::PseudoJet BottomJet = GetPseudoJet(*ParticleClone);
 
-                BottomJets.push_back(BottomJet);
+                BottomJets.emplace_back(BottomJet);
                 Print(HDebug, "Bottom");
 
             } // bottoms
@@ -82,16 +82,16 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
                 TLorentzVector TopVector = GetLorentzVector(*ParticleClone);
                 fastjet::PseudoJet TopJet = GetPseudoJet(*ParticleClone);
-                TopJets.push_back(TopJet);
+                TopJets.emplace_back(TopJet);
 
                 if (ParticleID > 0) {
 
-                    TopVectors.push_back(TopVector);
+                    TopVectors.emplace_back(TopVector);
                     Print(HDebug, "Top");
 
                 } else if (ParticleID < 0) {
 
-                    AntiTopVector.push_back(TopVector);
+                    AntiTopVector.emplace_back(TopVector);
                     Print(HDebug, "Anti Top");
 
                 }
@@ -109,7 +109,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
                 fastjet::PseudoJet CharmJet = GetPseudoJet(*ParticleClone);
 
-                CharmJets.push_back(CharmJet);
+                CharmJets.emplace_back(CharmJet);
                 Print(HDebug, "Charm");
 
             } // charms
@@ -118,7 +118,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 //
 //                 fastjet::PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
 //
-//                 BottomJetVector.push_back(JetCandidate);
+//                 BottomJetVector.emplace_back(JetCandidate);
 //                 Print(HDebug,"Bottom");
 //
 //             } // bottoms
@@ -127,7 +127,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
                 fastjet::PseudoJet HiggsJet = GetPseudoJet(*ParticleClone);
 
-                HiggsJets.push_back(HiggsJet);
+                HiggsJets.emplace_back(HiggsJet);
                 Print(HDebug, "CPV Higgs");
 
             } // cp Higgs
@@ -144,7 +144,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 
                 fastjet::PseudoJet HiggsJet = GetPseudoJet(*ParticleClone);
 
-                HiggsJets.push_back(HiggsJet);
+                HiggsJets.emplace_back(HiggsJet);
                 Print(HDebug, "Heavy CPV Higgs");
 
             } // heavy higgs

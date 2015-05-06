@@ -48,7 +48,7 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 // void hbtagger::HAnalysis::SetTrees()
 // {
 //
-//     HStrings SignalTrees {
+//     Strings SignalTrees {
 //         TreeName(bb),
 // //         TreeName(Hbb),
 // //         TreeName(ttbb),
@@ -56,7 +56,7 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 // //         TreeName(tthad),
 //     };
 //
-//     HStrings BackgroundTrees {
+//     Strings BackgroundTrees {
 // //         TreeName(bb),
 //         TreeName(cc),
 // //         TreeName(jj),

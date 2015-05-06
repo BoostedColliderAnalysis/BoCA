@@ -15,8 +15,8 @@ std::vector<hanalysis::HFile*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(
 
     std::vector<hanalysis::HFile*> Files;
 
-    Files.push_back(new hanalysis::HFile("Background/4f_10k"));
-    Files.push_back(new hanalysis::HFile("Signal/Signal_5f"));
+    Files.emplace_back(new hanalysis::HFile("Background/4f_10k"));
+    Files.emplace_back(new hanalysis::HFile("Signal/Signal_5f"));
 
     Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
     Files.front()->SetFileSuffix("_MG5.root");

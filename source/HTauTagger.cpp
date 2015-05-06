@@ -106,7 +106,7 @@ std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::HEvent &Ev
 
 
     std::vector<HTauBranch> TauBranches;
-    for (const auto & Jet : FinalJets) TauBranches.push_back(GetBranch(Jet));
+    for (const auto & Jet : FinalJets) TauBranches.emplace_back(GetBranch(Jet));
 
     return TauBranches;
 }
@@ -140,7 +140,7 @@ HJets hanalysis::HTauTagger::GetSubJets(const HJets &Jets, const HJets &Particle
                 Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
             }
             Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
-            Pieces.push_back(Piece);
+            Pieces.emplace_back(Piece);
         }
     }
     return CleanJets(Pieces, Particles, Tag);
@@ -152,7 +152,7 @@ HJets hanalysis::HTauTagger::CleanJets(HJets &Jets, const HJets &Particles, cons
     Print(HInformation, "Clean Jets");
 
     for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
+        std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(Particle));
         if(Jets.front().delta_R(Particle)<0.4) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
@@ -173,7 +173,7 @@ if (Jet.user_info<HJetInfo>().Tag() != Tag){
           continue;
 
 }
-        NewCleanJets.push_back(Jet);
+        NewCleanJets.emplace_back(Jet);
     }
     return NewCleanJets;
 }
@@ -188,7 +188,7 @@ if (Jet.user_info<HJetInfo>().Tag() != Tag){
 //     return kSignal;
 // }
 
-HJets hanalysis::HTauTagger::GetBdt(HJets &Jets, const HReader &BottomReader)
+HJets hanalysis::HTauTagger::GetBdt(HJets &Jets, const Reader &BottomReader)
 {
 
     HJets NewJets = GetJetBdt(Jets, BottomReader);
@@ -202,7 +202,7 @@ HJets hanalysis::HTauTagger::GetBdt(HJets &Jets, const HReader &BottomReader)
     return NewJets;
 }
 
-HJets hanalysis::HTauTagger::GetSubBdt(const HJets &Jets, const HReader &BottomReader, const int SubJetNumber)
+HJets hanalysis::HTauTagger::GetSubBdt(const HJets &Jets, const Reader &BottomReader, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Bdt");
     HJets Pieces;
@@ -231,14 +231,14 @@ HJets hanalysis::HTauTagger::GetSubBdt(const HJets &Jets, const HReader &BottomR
                 Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
             }
             Piece.set_user_info(new HJetInfo(Constituents/*, Jet.user_info<HJetInfo>().BTag()*/));
-            Pieces.push_back(Piece);
+            Pieces.emplace_back(Piece);
         }
     }
 
     return GetJetBdt(Pieces, BottomReader);
 }
 
-HJets hanalysis::HTauTagger::GetJetBdt(const HJets &Jets, const HReader &Reader)
+HJets hanalysis::HTauTagger::GetJetBdt(const HJets &Jets, const Reader &Reader)
 {
     HJets NewJets;
     Print(HInformation, "Get Jet Bdt");
@@ -253,7 +253,7 @@ HJets hanalysis::HTauTagger::GetJetBdt(const HJets &Jets, const HReader &Reader)
 //         }
         Branch = GetBranch(Jet);
         static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetBdt(Reader.Bdt());
-        NewJets.push_back(Jet);
+        NewJets.emplace_back(Jet);
     }
     return NewJets;
 }

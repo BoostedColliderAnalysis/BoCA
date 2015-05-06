@@ -33,7 +33,7 @@ public:
 
 
     std::vector<HEventMultiplet<HOctet44>> GetBdt(
-                                            const std::vector< HOctet44 > &Octets, HJets &Jets, const HJets &SubJets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+                                            const std::vector< HOctet44 > &Octets, HJets &Jets, const HJets &SubJets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::Reader &EventSemiReader);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
 
@@ -47,14 +47,14 @@ public:
     hanalysis::HChargedJetPairTagger ChargedJetPairTagger;
     HChargedSignatureSemiTagger SignatureSemiTagger;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader WSemiReader;
-    hanalysis::HReader WReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopSemiReader;
-    hanalysis::HReader ChargedHiggsSemiReader;
-    hanalysis::HReader ChargedJetPairReader;
-    hanalysis::HReader SignatureSemiReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader WSemiReader;
+    hanalysis::Reader WReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader TopSemiReader;
+    hanalysis::Reader ChargedHiggsSemiReader;
+    hanalysis::Reader ChargedJetPairReader;
+    hanalysis::Reader SignatureSemiReader;
 
 
 protected:

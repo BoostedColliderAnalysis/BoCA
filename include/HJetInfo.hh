@@ -149,7 +149,7 @@ public:
 //     HJetInfo(const HJetInfo &NewJetInfo);
 
     void AddConstituent(const HConstituent &NewConstituent) {
-        constituents_.push_back(NewConstituent);
+        constituents_.emplace_back(NewConstituent);
     }
 
     void AddConstituents(const std::vector<HConstituent> &NewConstituents) {

@@ -5,7 +5,7 @@
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HBottomTagger.hh"
 # include "HDoublet.hh"
 
@@ -34,7 +34,7 @@ private:
 
     HBottomTagger BottomTagger;
 
-    HReader BottomReader;
+    Reader BottomReader;
 
     HHiggsBranch Branch;
 

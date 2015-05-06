@@ -8,7 +8,7 @@
 # include "HSubStructure.hh"
 # include "HDoublet.hh"
 // # include "HMvaPairs.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HFactory.hh"
 # include "HBottomTagger.hh"
 # include "HTopLeptonicTagger.hh"
@@ -98,9 +98,9 @@ private:
     ExRootTreeBranch *TopBranch;
     ExRootTreeBranch *EventBranch;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader TopReader;
-    hanalysis::HReader HiggsReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader TopReader;
+    hanalysis::Reader HiggsReader;
 
     inline int EventNumberMax() const {
         return 100000;
@@ -136,7 +136,7 @@ private:
      */
 //     void NewBranches(ExRootTreeWriter *TreeWriter, const HTagger Tagger);
 
-    inline HStrings GetStudyNames();
+    inline Strings GetStudyNames();
 
     virtual inline std::string NameSpaceName() const {
         return "higgscpv";

@@ -11,7 +11,7 @@ hanalysis::HFile::HFile(const std::string &NewProcess)
 {
     Print(HInformation, "Constructor");
     SetVariables();
-    ProcessFolders.push_back(NewProcess);
+    ProcessFolders.emplace_back(NewProcess);
     MassM = 0;
 }
 
@@ -19,7 +19,7 @@ hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssecti
 {
     Print(HInformation, "Constructor");
     SetVariables();
-    ProcessFolders.push_back(NewProcess);
+    ProcessFolders.emplace_back(NewProcess);
     CrosssectionM = NewCrosssection;
     MassM = 0;
 }
@@ -28,12 +28,12 @@ hanalysis::HFile::HFile(const std::string &NewProcess, const float NewCrosssecti
 {
     Print(HInformation, "Constructor");
     SetVariables();
-    ProcessFolders.push_back(NewProcess);
+    ProcessFolders.emplace_back(NewProcess);
     CrosssectionM = NewCrosssection;
     MassM = NewMass;
 }
 
-hanalysis::HFile::HFile(const HStrings &NewProcesses)
+hanalysis::HFile::HFile(const Strings &NewProcesses)
 {
     Print(HInformation, "Constructor");
     SetVariables();
@@ -41,7 +41,7 @@ hanalysis::HFile::HFile(const HStrings &NewProcesses)
     MassM = 0;
 }
 
-hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection)
+hanalysis::HFile::HFile(const Strings &NewProcesses, const float NewCrosssection)
 {
     Print(HInformation, "Constructor");
     SetVariables();
@@ -50,7 +50,7 @@ hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssectio
     MassM = 0;
 }
 
-hanalysis::HFile::HFile(const HStrings &NewProcesses, const float NewCrosssection, const float NewMass)
+hanalysis::HFile::HFile(const Strings &NewProcesses, const float NewCrosssection, const float NewMass)
 {
     Print(HInformation, "Constructor");
     SetVariables();
@@ -63,7 +63,7 @@ hanalysis::HFile::HFile(const std::string &NewProcess, const std::string &Run)
 {
     Print(HInformation, "Constructor");
     SetVariables();
-    ProcessFolders.push_back(NewProcess);
+    ProcessFolders.emplace_back(NewProcess);
     RunFolder = Run;
     MassM = 0;
 }
@@ -106,13 +106,13 @@ std::string hanalysis::HFile::TreeName() const
 }
 
 
-HStrings hanalysis::HFile::Paths() const
+Strings hanalysis::HFile::Paths() const
 {
 
     Print(HInformation, "FilePath");
 
-    HStrings FilePaths;
-    for (const auto & ProcessFolder : ProcessFolders)FilePaths.push_back(BasePath + ProcessFolders.front() + FileSuffix);
+    Strings FilePaths;
+    for (const auto & ProcessFolder : ProcessFolders)FilePaths.emplace_back(BasePath + ProcessFolders.front() + FileSuffix);
 
     return FilePaths;
 

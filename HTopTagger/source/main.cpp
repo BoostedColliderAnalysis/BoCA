@@ -43,13 +43,13 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
 //         switch (Tagger) {
 //         case hanalysis::HAnalysis::HTopSemiReader: {
 //             Analysis.SetTrees(hanalysis::HAnalysis::HTopSemiTagger, hanalysis::HObject::kBackground);
-            hanalysis::HReader Reader(tagger);
-            Reader.SimpleMVALoop();
+            hanalysis::Reader Reader(tagger);
+            Reader.OptimalSignificance();
 //             break;
 //         }
 //         case hanalysis::HAnalysis::HTopHadronicReader: {
 //             Analysis.SetTrees(hanalysis::HAnalysis::HTopHadronicTagger, hanalysis::HObject::kBackground);
-//             hanalysis::HReader Reader(Analysis.TopHadronicTagger);
+//             hanalysis::Reader Reader(Analysis.TopHadronicTagger);
 //             Reader.SimpleMVALoop();
 //             break;
 //         }

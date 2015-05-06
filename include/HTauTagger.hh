@@ -5,7 +5,7 @@
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HEvent.hh"
 
 /**
@@ -25,15 +25,15 @@ public:
 
     std::vector< HTauBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    HJets GetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
+    HJets GetBdt(HJets &Jets, const hanalysis::Reader &BottomReader);
 
     HTauBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
 //     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
 
-    HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
+    HJets GetJetBdt(const HJets &Jets, const hanalysis::Reader &BottomReader);
 
-    HJets GetSubBdt(const HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
+    HJets GetSubBdt(const HJets &Jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
 
 protected:
 

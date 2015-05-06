@@ -21,11 +21,11 @@ public:
 
     std::vector<HTopHadronBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0);
 
-    std::vector<hanalysis::HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::HReader & TopHadronicReader);
+    std::vector<hanalysis::HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::Reader & TopHadronicReader);
 
-    hanalysis::HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::HReader &TopHadronicReader);
+    hanalysis::HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::Reader &TopHadronicReader);
 
-    std::vector<hanalysis::HTriplet> GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::HReader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
+    std::vector<hanalysis::HTriplet> GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::Reader &BottomReader);
 
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
@@ -35,8 +35,8 @@ public:
     hanalysis::HBottomTagger BottomTagger;
     hanalysis::HWHadronicTagger WTagger;
 
-    hanalysis::HReader  BottomReader;
-    hanalysis::HReader  WReader;
+    hanalysis::Reader  BottomReader;
+    hanalysis::Reader  WReader;
 
     HTopHadronBranch GetBranch(const hanalysis::HTriplet &triplet) const;
 

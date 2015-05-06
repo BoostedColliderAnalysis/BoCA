@@ -68,7 +68,7 @@ std::vector<HKinematics> hanalysis::HDoublet::Constituents(const fastjet::Pseudo
 
         HKinematics Constituent(ConstituentJet.pt(), ObservableRap, ObservablePhi);
 
-        NewConstituents.push_back(Constituent);
+        NewConstituents.emplace_back(Constituent);
 
     }
 

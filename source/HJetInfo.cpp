@@ -62,7 +62,7 @@ hanalysis::HJetInfo::HJetInfo(const int NewBTag) : detector_geometry_()
 hanalysis::HJetInfo::HJetInfo(const HConstituent &NewConstituent) : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
-    constituents_.push_back(NewConstituent);
+    constituents_.emplace_back(NewConstituent);
     BTagM = 0;
 }
 
@@ -291,7 +291,7 @@ std::vector<HConstituent> hanalysis::HJetInfo::ApplyVertexResolution() const
     std::vector <HConstituent > displaced_constituents;
     Print(HDebug, "Vertex Number", constituents().size());
     if (constituents().size() == 0) return displaced_constituents;
-    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry().TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry().TrackerDistanceMax  && std::abs(constituent.Momentum().Rapidity()) < detector_geometry().TrackerEtaMax) displaced_constituents.push_back(constituent);
+    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry().TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry().TrackerDistanceMax  && std::abs(constituent.Momentum().Rapidity()) < detector_geometry().TrackerEtaMax) displaced_constituents.emplace_back(constituent);
     Print(HDebug, "Real Vertex Number", displaced_constituents.size());
     return displaced_constituents;
 }

@@ -18,8 +18,8 @@ void hanalysis::HChargedJetPairTagger::SetTagger(const HBottomTagger &NewBottomT
 
 //     TopHadronicTagger.BottomTagger = NewBottomTagger;
 //     TopHadronicTagger.WTagger = NewWTagger;
-//     TopHadronicTagger.BottomReader.SetMva(BottomTagger);
-//     TopHadronicTagger.WReader.SetMva(WTagger);
+//     TopHadronicTagger.BottomReader.set_tagger(BottomTagger);
+//     TopHadronicTagger.WReader.set_tagger(WTagger);
 
     DefineVariables();
 }
@@ -143,7 +143,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     if (TopParticles.size() != 1 && Tag == kSignal) Print(HError, "Where is the Top?", TopParticles.size());
 
     std::vector<hanalysis::HTriplet> FinalTriplets;
-    if (Tag == kSignal) for (const auto & Triplet : Triplets) if (Triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry.JetConeSize) FinalTriplets.push_back(Triplet);
+    if (Tag == kSignal) for (const auto & Triplet : Triplets) if (Triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) FinalTriplets.emplace_back(Triplet);
             else FinalTriplets = Triplets;
 
 //     std::sort(Triplets.begin(), Triplets.end(), MinDeltaR(TopParticles.front()));
@@ -155,7 +155,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     if (BottomParticles.size() != 1 && Tag == kSignal) Print(HError, "Where is the Bottom?", BottomParticles.size());
 
     HJets FinalJets;
-    if (Tag == kSignal) for (const auto & Jet : Jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry.JetConeSize) FinalJets.push_back(Jet);
+    if (Tag == kSignal) for (const auto & Jet : Jets) if (Jet.delta_R(BottomParticles.front()) < detector_geometry().JetConeSize) FinalJets.emplace_back(Jet);
             else FinalJets = Jets;
 
 //     std::sort(Jets.begin(), Jets.end(), MinDeltaR(BottomParticles.front()));
@@ -166,14 +166,14 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     std::vector<HQuartet31> Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Jets) {
-            if (Triplet.Singlet().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Triplet.Doublet().Singlet1().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Triplet.Doublet().Singlet2().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
+            if (Triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Triplet.Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Triplet.Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             HQuartet31 Quartet(Triplet, Jet);
 //             if (Quartet.DeltaR() < 2) continue;
 //             Quartet.SetTag(GetTag(Quartet));
 //             if (Quartet.Tag() != Tag) continue;
-            Quartets.push_back(Quartet);
+            Quartets.emplace_back(Quartet);
         }
 
     Print(HDebug, "Number of Jet Pairs", Quartets.size());
@@ -184,7 +184,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     }
 
     std::vector<HChargedJetPairBranch> JetPairBranches;
-    for (const auto & Quartet : Quartets) JetPairBranches.push_back(GetBranch(Quartet));
+    for (const auto & Quartet : Quartets) JetPairBranches.emplace_back(GetBranch(Quartet));
 
     return JetPairBranches;
 
@@ -199,18 +199,18 @@ hanalysis::HObject::Tag hanalysis::HChargedJetPairTagger::GetTag(const HQuartet3
 
 
 
-std::vector<hanalysis::HQuartet31>  hanalysis::HChargedJetPairTagger::GetBdt(const std::vector<HTriplet> &Triplets, const HJets &Jets, const hanalysis::HReader &JetPairReader)
+std::vector<hanalysis::HQuartet31>  hanalysis::HChargedJetPairTagger::GetBdt(const std::vector<HTriplet> &Triplets, const HJets &Jets, const hanalysis::Reader &JetPairReader)
 {
     std::vector<HQuartet31>  Quartets;
     for (const auto & Triplet : Triplets)
         for (const auto & Jet : Jets) {
-            if (Triplet.Singlet().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Triplet.Doublet().Singlet1().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Triplet.Doublet().Singlet2().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
+            if (Triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Triplet.Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Triplet.Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             HQuartet31 Quartet(Triplet, Jet);
             Branch = GetBranch(Quartet);
             Quartet.SetBdt(JetPairReader.Bdt());
-            Quartets.push_back(Quartet);
+            Quartets.emplace_back(Quartet);
         }
     std::sort(Quartets.begin(), Quartets.end());
     Quartets.erase(Quartets.begin() + std::min(max_combi(), int(Quartets.size())), Quartets.end());

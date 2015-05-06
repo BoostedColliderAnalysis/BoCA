@@ -47,7 +47,7 @@ public:
 
 
     std::vector<HOctet44> GetBdt(
-        const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, const hanalysis::HReader &EventSemiReader);
+        const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, const hanalysis::Reader &EventSemiReader);
 
 
     hanalysis::HBottomTagger BottomTagger;
@@ -58,13 +58,13 @@ public:
     hanalysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
     hanalysis::HChargedJetPairTagger ChargedJetPairTagger;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader WSemiReader;
-    hanalysis::HReader WReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopSemiReader;
-    hanalysis::HReader ChargedHiggsSemiReader;
-    hanalysis::HReader ChargedJetPairReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader WSemiReader;
+    hanalysis::Reader WReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader TopSemiReader;
+    hanalysis::Reader ChargedHiggsSemiReader;
+    hanalysis::Reader ChargedJetPairReader;
 
 
 protected:

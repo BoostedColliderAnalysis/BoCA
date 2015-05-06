@@ -16,13 +16,13 @@ hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger(
     Print(HNotification , "Constructor");
     SetTaggerName("EventLeptonic");
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
     TopLeptonicTagger = NewTopTagger;
-    TopLeptonicReader.SetMva(TopLeptonicTagger);
+    TopLeptonicReader.set_tagger(TopLeptonicTagger);
     HeavyHiggsLeptonicTagger = NewHeavyHiggsTagger;
-    HeavyHiggsLeptonicReader.SetMva(HeavyHiggsLeptonicTagger);
+    HeavyHiggsLeptonicReader.set_tagger(HeavyHiggsLeptonicTagger);
     JetPairTagger = NewJetPairTagger;
-    JetPairReader.SetMva(JetPairTagger);
+    JetPairReader.set_tagger(JetPairTagger);
 //     Branch = new hheavyhiggs::HEventLeptonicBranch();
     //JetTag = new hanalysis::HJetTag();
     DefineVariables();
@@ -190,7 +190,7 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
             HOctet Octet(Sextet, Doublet);
             Octet.SetTag(GetTag(Octet));
             if (Octet.Tag() != tag) continue;
-            Octets.push_back(Octet);
+            Octets.emplace_back(Octet);
         }
     }
 
@@ -250,7 +250,7 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
         hheavyhiggs::HEventLeptonicBranch *EventLeptonicBranch = new hheavyhiggs::HEventLeptonicBranch();
         Octet.SetTag(tag);
         FillBranch(EventLeptonicBranch, Octet);
-        EventLeptonicBranches.push_back(EventLeptonicBranch);
+        EventLeptonicBranches.emplace_back(EventLeptonicBranch);
     }
 
     return EventLeptonicBranches;
@@ -294,7 +294,7 @@ hanalysis::HObject::Tag hheavyhiggs::HEventLeptonicTagger::GetTag(const HOctet &
 
 
 
-std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector<fastjet::PseudoJet> &Jets, HEventStruct &, const hanalysis::HReader & EventLeptonicReader)
+std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector<fastjet::PseudoJet> &Jets, HEventStruct &, const hanalysis::Reader & EventLeptonicReader)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -309,7 +309,7 @@ std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector<
             HOctet Octet(Sextet, Doublet);
             FillBranch(Octet);
             Octet.SetBdt(EventLeptonicReader.Bdt());
-            Octets.push_back(Octet);
+            Octets.emplace_back(Octet);
         }
     }
     std::sort(Octets.begin(), Octets.end());
@@ -436,7 +436,7 @@ std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeRe
 //             for (int Step = Steps1; Step > 0; --Step) {
 //                 const float SignalFraction = float(Step) / Steps1;
 //                 const float Probability = Reader->GetProba(GetBdtMethodName(), SignalFraction);
-//                 Probabilities.push_back(Probability);
+//                 Probabilities.emplace_back(Probability);
 //
 //             }
 //             Print(HDebug, "Bdt", Bdt, Error, Rarity);

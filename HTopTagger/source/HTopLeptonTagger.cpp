@@ -124,7 +124,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
 //     case HBackground :
         for (const auto & Jet : Jets) {
             const int LeptonPt = 1;
-            Leptons.push_back(fastjet::PseudoJet(Jet.px(), Jet.py(), Jet.pz(), Jet.e()) / Jet.pt() * LeptonPt);
+            Leptons.emplace_back(fastjet::PseudoJet(Jet.px(), Jet.py(), Jet.pz(), Jet.e()) / Jet.pt() * LeptonPt);
         }
 //         break;
 //     }
@@ -133,10 +133,10 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     for (const auto & Lepton : Leptons) {
         ++LeptonNumber;
         for (const auto & Jet : Jets) {
-            if (Jet.delta_R(Lepton) > DetectorGeometry.JetConeSize) continue;
+            if (Jet.delta_R(Lepton) > detector_geometry().JetConeSize) continue;
             hanalysis::HDoublet Doublet(Jet, Lepton);
             Doublet.SetTag(tag);
-            Doublets.push_back(Doublet);
+            Doublets.emplace_back(Doublet);
             ++LeptonJetNumber;
         }
 //         if (Tag == kSignal) break;
@@ -153,13 +153,13 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
         if(tag == kSignal) Print(HError, "Top Quarks", TopParticles.size());
         if (tag == kBackground) FinalDoublets = Doublets;
     } else {
-        if (TopParticles.at(0).delta_R(TopParticles.at(1)) < DetectorGeometry.JetConeSize) Print(HError, "Top Quarks Too close", TopParticles.size());
+        if (TopParticles.at(0).delta_R(TopParticles.at(1)) < detector_geometry().JetConeSize) Print(HError, "Top Quarks Too close", TopParticles.size());
         for (const auto & TopParticle : TopParticles) {
             ++TopQuarkNumber;
             for (const auto & Doublet : Doublets) {
-                if (tag == kSignal && Doublet.Jet().delta_R(TopParticle) < DetectorGeometry.JetConeSize) FinalDoublets.push_back(Doublet);
+                if (tag == kSignal && Doublet.Jet().delta_R(TopParticle) < detector_geometry().JetConeSize) FinalDoublets.emplace_back(Doublet);
 //                 Print(HError, "Distance", Doublet.Jet().delta_R(TopParticle));
-                if (tag == kBackground && Doublet.Jet().delta_R(TopParticle) > DetectorGeometry.JetConeSize) FinalDoublets.push_back(Doublets.front());
+                if (tag == kBackground && Doublet.Jet().delta_R(TopParticle) > detector_geometry().JetConeSize) FinalDoublets.emplace_back(Doublets.front());
             }
         }
     }
@@ -173,7 +173,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     Print(HInformation, "Number Triplets", FinalDoublets.size());
 
     for (const auto & Triplet : FinalDoublets) {
-        TopLeptonBranches.push_back(GetBranch(Triplet));
+        TopLeptonBranches.emplace_back(GetBranch(Triplet));
         ++TopJetNumberNumber;
     }
 
@@ -187,7 +187,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
 
 
 
-std::vector<hanalysis::HDoublet>  HTopLeptonTagger::GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::HReader &Reader)
+std::vector<hanalysis::HDoublet>  HTopLeptonTagger::GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::Reader &Reader)
 {
 
     Print(HInformation, "Get Bdt");
@@ -195,11 +195,11 @@ std::vector<hanalysis::HDoublet>  HTopLeptonTagger::GetBdt(const HJets &Jets, co
     std::vector<hanalysis::HDoublet> Doublets;
     for (const auto & Jet : Jets) {
         for (const auto & Lepton : Leptons) {
-            if (Jet.delta_R(Lepton) > DetectorGeometry.JetConeSize) continue;
+            if (Jet.delta_R(Lepton) > detector_geometry().JetConeSize) continue;
             hanalysis::HDoublet Doublet(Jet, Lepton);
             Branch = GetBranch(Doublet);
             Doublet.SetBdt(Reader.Bdt());
-            Doublets.push_back(Doublet);
+            Doublets.emplace_back(Doublet);
         }
     }
     for (const auto & Jet : Jets) {
@@ -211,7 +211,7 @@ std::vector<hanalysis::HDoublet>  HTopLeptonTagger::GetBdt(const HJets &Jets, co
         Branch = GetBranch(Doublet);
         Doublet.SetBdt(Reader.Bdt());
 //         Print(HError,"Bdt",Doublet.Bdt(),Doublet.Singlet1().user_info<hanalysis::HJetInfo>().Bdt());
-        Doublets.push_back(Doublet);
+        Doublets.emplace_back(Doublet);
     }
 
     std::sort(Doublets.begin(), Doublets.end());

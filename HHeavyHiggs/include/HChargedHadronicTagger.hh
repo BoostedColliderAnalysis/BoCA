@@ -57,10 +57,10 @@ private:
     hanalysis::HTopHadronicTagger TopHadronicTagger;
     hanalysis::HChargedHiggsHadronicTagger ChargedHiggsHadronicTagger;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader WReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader ChargedHiggsHadronicReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader WReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader ChargedHiggsHadronicReader;
 
     hheavyhiggs::HChargedHadronicBranch Branch;
 

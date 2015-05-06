@@ -71,7 +71,7 @@ public:
 
     std::vector<HEventBottomTaggerBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector<HEventBottomMultiplet> GetBdt(const HJets &Jets, const hanalysis::HReader &EventSemiReader);
+    std::vector<HEventBottomMultiplet> GetBdt(const HJets &Jets, const hanalysis::Reader &EventSemiReader);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -81,7 +81,7 @@ public:
 
     hanalysis::HBottomTagger BottomTagger;
 
-    hanalysis::HReader BottomReader;
+    hanalysis::Reader BottomReader;
 
 
 protected:

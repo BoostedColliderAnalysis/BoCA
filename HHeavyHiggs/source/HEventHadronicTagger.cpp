@@ -12,13 +12,13 @@ hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::HBottom
     Print(HNotification , "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
     WTagger = NewWTagger;
-    WReader.SetMva(WTagger);
+    WReader.set_tagger(WTagger);
     TopHadronicTagger = NewTopTagger;
-    TopHadronicReader.SetMva(TopHadronicTagger);
+    TopHadronicReader.set_tagger(TopHadronicTagger);
     HeavyHiggsHadronicTagger = NewHeavyHiggsTagger;
-    HeavyHiggsHadronicReader.SetMva(HeavyHiggsHadronicTagger);
+    HeavyHiggsHadronicReader.set_tagger(HeavyHiggsHadronicTagger);
 
     SetTaggerName("HadronicEvent");
 
@@ -147,7 +147,7 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
                 if (Jet2 == Sextet.Triplet2().Singlet()) continue;
                 if (Jet2 == Sextet.Triplet2().Doublet().Singlet1()) continue;
                 if (Jet2 == Sextet.Triplet2().Doublet().Singlet2()) continue;
-                Octets.push_back(HOctet(Sextet, Doublet));
+                Octets.emplace_back(HOctet(Sextet, Doublet));
             }
         }
 
@@ -164,7 +164,7 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
 //         Octet.SetScalarHt(Event.GetJets()->GetScalarHt());
         Octet.SetTag(Tag);
         FillBranch(EventHadronicBranch, Octet);
-        EventHadronicBranches.push_back(EventHadronicBranch);
+        EventHadronicBranches.emplace_back(EventHadronicBranch);
     }
 
     return EventHadronicBranches;

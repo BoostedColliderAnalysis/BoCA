@@ -38,25 +38,25 @@ std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis
     std::vector<hanalysis::HFile> BackgroundSemiFiles;
 
 
-//     SignalSemiFiles.push_back(hanalysis::HFile(NameString(bb), SignalCrosssection()));
-//     SignalSemiFiles.push_back(hanalysis::HFile(SignalName(Hbb), SignalCrosssection()));
-//     SignalSemiFiles.push_back(BackgroundFile(ttbb));
-    SignalSemiFiles.push_back(BackgroundFile(bb));
-//     SignalSemiFiles.push_back(BackgroundFile(bbbb));
+//     SignalSemiFiles.emplace_back(hanalysis::HFile(NameString(bb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(hanalysis::HFile(SignalName(Hbb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
+    SignalSemiFiles.emplace_back(BackgroundFile(bb));
+//     SignalSemiFiles.emplace_back(BackgroundFile(bbbb));
 
-//     BackgroundSemiFiles.push_back(BackgroundFile(bb));
-    BackgroundSemiFiles.push_back(BackgroundFile(cc));
-    BackgroundSemiFiles.push_back(BackgroundFile(gg));
-    BackgroundSemiFiles.push_back(BackgroundFile(qq));
-//     BackgroundSemiFiles.push_back(BackgroundFile(bbjj));
-//     BackgroundSemiFiles.push_back(BackgroundFile(bbcc));
-//     BackgroundSemiFiles.push_back(BackgroundFile(bbgg));
-//     BackgroundSemiFiles.push_back(BackgroundFile(bbqq));
-//     BackgroundSemiFiles.push_back(BackgroundFile(ttbb));
-//     BackgroundSemiFiles.push_back(BackgroundFile(ttcc));
-//     BackgroundSemiFiles.push_back(BackgroundFile(ttjj));
-//     BackgroundSemiFiles.push_back(BackgroundFile(ttqq));
-//     BackgroundSemiFiles.push_back(BackgroundFile(ttgg));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(bb));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(cc));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(gg));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(qq));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(bbjj));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(bbcc));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(bbgg));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(bbqq));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(ttbb));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(ttcc));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(ttjj));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(ttqq));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(ttgg));
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 
@@ -140,19 +140,19 @@ std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis
 void hbottomsumtagger::HAnalysis::SetTrees()
 {
 
-    HStrings SignalLeptonicTrees {};
-    HStrings BackgroundLeptonicTrees {};
+    Strings SignalLeptonicTrees {};
+    Strings BackgroundLeptonicTrees {};
 
 
 
-    HStrings SignalSemiTrees {
+    Strings SignalSemiTrees {
 //         TreeName(bbbb)
 //         TreeName(ttbb)
 //         SignalTreeName(Hbb)
         TreeName(bb),
     };
 
-    HStrings BackgroundSemiTrees {
+    Strings BackgroundSemiTrees {
 //         TreeName(bb),
         TreeName(cc),
         TreeName(qq),
@@ -168,15 +168,15 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         TreeName(ttqq)
     };
 
-    HStrings SignalHadronicTree {};
-    HStrings BackgroundHadronicTrees {};
+    Strings SignalHadronicTree {};
+    Strings BackgroundHadronicTrees {};
 
-    HStrings LeptonicTrees = JoinHStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    HStrings HadronicTrees = JoinHStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    HStrings SemiTrees = JoinHStrings(SignalSemiTrees, BackgroundSemiTrees);
+    Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
+    Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
 
-    HStrings NotLeptonicTrees = JoinHStrings(HadronicTrees, SemiTrees);
-    HStrings CombinedTrees = JoinHStrings(NotLeptonicTrees, LeptonicTrees);
+    Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
+    Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
 
 //     switch (Tagger) {
 //     case HBottomTagger:
@@ -210,8 +210,8 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     default :
 //         Print(HError, "SetTrees", "unhandeled case");
     //     }
-    tagger_.SetSignalTreeNames(SignalSemiTrees);
-    tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
+//     tagger_.SetSignalTreeNames(SignalSemiTrees);
+//     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
 }
 
 // void hbottomsumtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
@@ -224,15 +224,15 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     case HBottomTagger:
 //         break;
 //     case HBottomReader:
-//         BottomReader.SetMva(BottomTagger);
+//         BottomReader.set_tagger(BottomTagger);
 //         break;
 //     case HJetPairTagger :
 //         EventBottomSumTagger.BottomTagger.SetTagger();
-//         EventBottomSumTagger.BottomReader.SetMva(EventBottomSumTagger.BottomTagger);
+//         EventBottomSumTagger.BottomReader.set_tagger(EventBottomSumTagger.BottomTagger);
 //         break;
 //     case HJetPairReader :
-//         BottomReader.SetMva(BottomTagger);
-//         EventBottomSumReader.SetMva(EventBottomSumTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         EventBottomSumReader.set_tagger(EventBottomSumTagger);
 //         break;
 //     default :
 //         Print(HError, "PrepareReader", "unhandled case");
@@ -311,7 +311,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 //     int BNumber=0;
 //     for (const auto & Particle : Particles) {
 //         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize) {
+//         if (Jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
 //             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //             ++BNumber;
 //         }
@@ -323,7 +323,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
 //             continue;
 //         }
-//         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) {
+//         if (std::abs(Jet.rap()) > BottomTagger.detector_geometry().TrackerEtaMax) {
 //             continue;
 //         }
 //         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
@@ -360,8 +360,8 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 // //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
 // //     for (const auto & Particle : Particles) {
 // //       std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-// //       if (Jets.front().delta_R(Particle) < BottomTagger.DetectorGeometry.JetConeSize)
-// //         BottomJets.push_back(Jets.front());
+// //       if (Jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize)
+// //         BottomJets.emplace_back(Jets.front());
 // //     }
 // //
 // //     if (Tag == kSignal && BottomJets.size() < 4) return 0;

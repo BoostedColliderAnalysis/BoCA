@@ -80,7 +80,7 @@ private:
 
     void CloseFile();
 
-    HStrings GetStudyNameVector();
+    Strings GetStudyNameVector();
 
     virtual inline std::string ClassName() const {
 

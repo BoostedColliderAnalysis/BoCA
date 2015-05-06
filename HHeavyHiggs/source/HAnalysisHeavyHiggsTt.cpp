@@ -86,10 +86,10 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
 
 
     std::string SignalName = ProcessName(H0) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
-    SignalSemiFiles.push_back(hanalysis::HFile(SignalName, SignalCrosssection(), Mass()));
-    BackgroundSemiFiles.push_back(BackgroundFile(tt));
+    SignalSemiFiles.emplace_back(hanalysis::HFile(SignalName, SignalCrosssection(), Mass()));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(tt));
 
-//     BackgroundSemiFiles.push_back(hanalysis::HFile( {"tt_semi_400_0", "tt_semi_400_1", "tt_semi_400_2", "tt_semi_400_3", "tt_semi_400_4", "tt_semi_400_5", "tt_semi_400_6"}, 3100.));
+//     BackgroundSemiFiles.emplace_back(hanalysis::HFile( {"tt_semi_400_0", "tt_semi_400_1", "tt_semi_400_2", "tt_semi_400_3", "tt_semi_400_4", "tt_semi_400_5", "tt_semi_400_6"}, 3100.));
 
     std::vector<hanalysis::HFile> SignalHadronicFiles;
 
@@ -229,36 +229,36 @@ std::vector<hanalysis::HFile> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
 void hheavyhiggs::HAnalysisTt::SetTrees()
 {
 
-    HStrings SignalLeptonicTrees {
+    Strings SignalLeptonicTrees {
     };
-    HStrings BackgroundLeptonicTrees {
+    Strings BackgroundLeptonicTrees {
     };
 
     std::string SignalTree = ProcessName(H0) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
-    HStrings SignalSemiTrees {
+    Strings SignalSemiTrees {
         SignalTree
         //         BackgroundTree(ttbb)
     };
 
-    HStrings BackgroundSemiTrees {
+    Strings BackgroundSemiTrees {
         //         BackgroundTree(ttbb),
         //         BackgroundTree(ttcc),
         //         BackgroundTree(ttjj)
         BackgroundTree(tt)
     };
 
-    HStrings SignalHadronicTree {
+    Strings SignalHadronicTree {
     };
-    HStrings BackgroundHadronicTrees {
+    Strings BackgroundHadronicTrees {
     };
 
-    HStrings LeptonicTrees = JoinHStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    HStrings HadronicTrees = JoinHStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    HStrings SemiTrees = JoinHStrings(SignalSemiTrees, BackgroundSemiTrees);
+    Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
+    Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
 
-    HStrings NotLeptonicTrees = JoinHStrings(HadronicTrees, SemiTrees);
-    HStrings CombinedTrees = JoinHStrings(NotLeptonicTrees, LeptonicTrees);
+    Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
+    Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
 
 //     switch (Tagger) {
 //     case HBottomTagger:
@@ -319,8 +319,8 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
 //     default :
 //         Print(HError, "unhandled case");
     //     }
-    tagger_.SetSignalTreeNames(SignalSemiTrees);
-    tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
+//     tagger_.SetSignalTreeNames(SignalSemiTrees);
+//     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
 
 }
 
@@ -336,85 +336,85 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
 //     case HBottomTagger:
 //         break;
 //     case HBottomReader:
-//         BottomReader.SetMva(BottomTagger);
+//         BottomReader.set_tagger(BottomTagger);
 //         break;
 //     case HWHadronicTagger:
 //         WHadronicTagger.BottomTagger.SetTagger();
-//         WHadronicTagger.BottomReader.SetMva(WHadronicTagger.BottomTagger);
+//         WHadronicTagger.BottomReader.set_tagger(WHadronicTagger.BottomTagger);
 //         break;
 //     case HWHadronicReader:
-//         BottomReader.SetMva(BottomTagger);
-//         WHadronicReader.SetMva(WHadronicTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         WHadronicReader.set_tagger(WHadronicTagger);
 //         break;
 //     case HWSemiTagger :
 //         break;
 //     case HWSemiReader :
-//         WSemiReader.SetMva(WSemiTagger);
+//         WSemiReader.set_tagger(WSemiTagger);
 //         break;
 //     case HTopHadronicTagger :
 //         TopHadronicTagger.BottomTagger.SetTagger();
-//         TopHadronicTagger.BottomReader.SetMva(TopHadronicTagger.BottomTagger);
+//         TopHadronicTagger.BottomReader.set_tagger(TopHadronicTagger.BottomTagger);
 //         TopHadronicTagger.WTagger.SetTagger(BottomTagger);
-//         TopHadronicTagger.WReader.SetMva(TopHadronicTagger.WTagger);
+//         TopHadronicTagger.WReader.set_tagger(TopHadronicTagger.WTagger);
 //         break;
 //     case HTopHadronicReader :
-//         BottomReader.SetMva(BottomTagger);
-//         WHadronicReader.SetMva(WHadronicTagger);
-//         TopHadronicReader.SetMva(TopHadronicTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         WHadronicReader.set_tagger(WHadronicTagger);
+//         TopHadronicReader.set_tagger(TopHadronicTagger);
 //         break;
 //     case HTopSemiTagger :
 //         TopSemiTagger.BottomTagger.SetTagger();
-//         TopSemiTagger.BottomReader.SetMva(TopSemiTagger.BottomTagger);
+//         TopSemiTagger.BottomReader.set_tagger(TopSemiTagger.BottomTagger);
 //         TopSemiTagger.WSemiTagger.SetTagger();
-//         TopSemiTagger.WSemiReader.SetMva(TopSemiTagger.WSemiTagger);
+//         TopSemiTagger.WSemiReader.set_tagger(TopSemiTagger.WSemiTagger);
 //         break;
 //     case HTopSemiReader :
-//         BottomReader.SetMva(BottomTagger);
-//         WSemiReader.SetMva(WSemiTagger);
-//         TopSemiReader.SetMva(TopSemiTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         WSemiReader.set_tagger(WSemiTagger);
+//         TopSemiReader.set_tagger(TopSemiTagger);
 //         break;
 //     case HHeavyHiggsSemiTagger :
 //         HeavyHiggsSemiTagger.BottomTagger.SetTagger();
-//         HeavyHiggsSemiTagger.BottomReader.SetMva(HeavyHiggsSemiTagger.BottomTagger);
+//         HeavyHiggsSemiTagger.BottomReader.set_tagger(HeavyHiggsSemiTagger.BottomTagger);
 //         HeavyHiggsSemiTagger.WSemiTagger.SetTagger();
-//         HeavyHiggsSemiTagger.WSemiReader.SetMva(HeavyHiggsSemiTagger.WSemiTagger);
+//         HeavyHiggsSemiTagger.WSemiReader.set_tagger(HeavyHiggsSemiTagger.WSemiTagger);
 //         HeavyHiggsSemiTagger.WTagger.SetTagger(BottomTagger);
-//         HeavyHiggsSemiTagger.WReader.SetMva(HeavyHiggsSemiTagger.WTagger);
+//         HeavyHiggsSemiTagger.WReader.set_tagger(HeavyHiggsSemiTagger.WTagger);
 //         HeavyHiggsSemiTagger.TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
-//         HeavyHiggsSemiTagger.TopSemiReader.SetMva(HeavyHiggsSemiTagger.TopSemiTagger);
+//         HeavyHiggsSemiTagger.TopSemiReader.set_tagger(HeavyHiggsSemiTagger.TopSemiTagger);
 //         HeavyHiggsSemiTagger.TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         HeavyHiggsSemiTagger.TopHadronicReader.SetMva(HeavyHiggsSemiTagger.TopHadronicTagger);
+//         HeavyHiggsSemiTagger.TopHadronicReader.set_tagger(HeavyHiggsSemiTagger.TopHadronicTagger);
 //         break;
 //     case HHeavyHiggsSemiReader  :
-//         BottomReader.SetMva(BottomTagger);
-//         WSemiReader.SetMva(WSemiTagger);
-//         TopSemiReader.SetMva(TopSemiTagger);
-//         WHadronicReader.SetMva(WHadronicTagger);
-//         TopHadronicReader.SetMva(TopHadronicTagger);
-//         HeavyHiggsSemiReader.SetMva(HeavyHiggsSemiTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         WSemiReader.set_tagger(WSemiTagger);
+//         TopSemiReader.set_tagger(TopSemiTagger);
+//         WHadronicReader.set_tagger(WHadronicTagger);
+//         TopHadronicReader.set_tagger(TopHadronicTagger);
+//         HeavyHiggsSemiReader.set_tagger(HeavyHiggsSemiTagger);
 //         break;
 //     case HEventSemiTagger :
 //         EventSemiTagger.BottomTagger.SetTagger();
-//         EventSemiTagger.BottomReader.SetMva(EventSemiTagger.BottomTagger);
+//         EventSemiTagger.BottomReader.set_tagger(EventSemiTagger.BottomTagger);
 //         EventSemiTagger.WSemiTagger.SetTagger();
-//         EventSemiTagger.WSemiReader.SetMva(EventSemiTagger.WSemiTagger);
+//         EventSemiTagger.WSemiReader.set_tagger(EventSemiTagger.WSemiTagger);
 //         EventSemiTagger.WTagger.SetTagger(BottomTagger);
-//         EventSemiTagger.WReader.SetMva(EventSemiTagger.WTagger);
+//         EventSemiTagger.WReader.set_tagger(EventSemiTagger.WTagger);
 //         EventSemiTagger.TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
-//         EventSemiTagger.TopSemiReader.SetMva(EventSemiTagger.TopSemiTagger);
+//         EventSemiTagger.TopSemiReader.set_tagger(EventSemiTagger.TopSemiTagger);
 //         EventSemiTagger.TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         EventSemiTagger.TopHadronicReader.SetMva(EventSemiTagger.TopHadronicTagger);
+//         EventSemiTagger.TopHadronicReader.set_tagger(EventSemiTagger.TopHadronicTagger);
 //         EventSemiTagger.HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger);
-//         EventSemiTagger.HeavyHiggsSemiReader.SetMva(EventSemiTagger.HeavyHiggsSemiTagger);
+//         EventSemiTagger.HeavyHiggsSemiReader.set_tagger(EventSemiTagger.HeavyHiggsSemiTagger);
 //         break;
 //     case HEventSemiReader :
-//         BottomReader.SetMva(BottomTagger);
-//         WSemiReader.SetMva(WSemiTagger);
-//         TopSemiReader.SetMva(TopSemiTagger);
-//         WHadronicReader.SetMva(WHadronicTagger);
-//         TopHadronicReader.SetMva(TopHadronicTagger);
-//         HeavyHiggsSemiReader.SetMva(HeavyHiggsSemiTagger);
-//         EventSemiReader.SetMva(EventSemiTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         WSemiReader.set_tagger(WSemiTagger);
+//         TopSemiReader.set_tagger(TopSemiTagger);
+//         WHadronicReader.set_tagger(WHadronicTagger);
+//         TopHadronicReader.set_tagger(TopHadronicTagger);
+//         HeavyHiggsSemiReader.set_tagger(HeavyHiggsSemiTagger);
+//         EventSemiReader.set_tagger(EventSemiTagger);
 //         break;
 //     default :
 //         Print(HError, "unhandled case");
@@ -622,7 +622,7 @@ int hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &event, const hanalysis
 //
 //     for (const auto & Jet : Jets) {
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
-//         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) continue;
+//         if (std::abs(Jet.rap()) > BottomTagger.detector_geometry().TrackerEtaMax) continue;
 //         ++ObjectNumber;
 //         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
 //     }

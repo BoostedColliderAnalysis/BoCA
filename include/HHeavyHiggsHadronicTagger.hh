@@ -23,7 +23,7 @@ public:
 
     HHeavyHiggsHadronicBranch GetBranch(const hanalysis::HSextet &Sextet);
 
-    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::HTriplet > Triplets, const hanalysis::HReader &Reader);
+    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::HTriplet > Triplets, const hanalysis::Reader &Reader);
 
 protected:
 
@@ -42,9 +42,9 @@ private:
     HWHadronicTagger WTagger;
     HTopHadronicTagger TopHadronicTagger;
 
-    HReader BottomReader;
-    HReader WReader;
-    HReader TopHadronicReader;
+    Reader BottomReader;
+    Reader WReader;
+    Reader TopHadronicReader;
 
     HHeavyHiggsHadronicBranch Branch;
 

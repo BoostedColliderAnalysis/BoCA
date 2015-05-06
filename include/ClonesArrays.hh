@@ -76,7 +76,7 @@ public:
 
     void UseBranches(ExRootTreeReader &tree_reader) {
         Print(HNotification, "Use Branches");
-        for (const auto branch : Branches()) clones_arrays_.push_back(tree_reader.UseBranch(BranchName(branch).c_str()));
+        for (const auto branch : Branches()) clones_arrays_.emplace_back(tree_reader.UseBranch(BranchName(branch).c_str()));
     }
 
     inline const TClonesArray &ClonesArray(const Branch branch) const {

@@ -26,7 +26,7 @@
 //
 // }
 
-HStrings hhiggscpv::HAnalysis::GetStudyNames()
+Strings hhiggscpv::HAnalysis::GetStudyNames()
 {
 //     Print(HNotification, "Get Study Names", Tagger);
 //
@@ -53,22 +53,22 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
     std::vector<hanalysis::HFile *> files;
 
 //     hdelphes::HFile *Test3 = new hdelphes::HFile("pp-hz-bbvv", "signal");
-//     Files.push_back(Test3);
+//     Files.emplace_back(Test3);
 //     return Files;
 
     if (NewStudyName != "Higgs" && NewStudyName != "Signal") {
 
 //     hdelphes::HFile *Test4 = new hdelphes::HFile("pp-bbz-bbvv", "background");
-        //     Files.push_back(Test4);
+        //     Files.emplace_back(Test4);
 
 //     hdelphes::HFile *Test2 = new hdelphes::HFile("pp-bbjj");
-        //     Files.push_back(Test2);
+        //     Files.emplace_back(Test2);
 
 
       hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
-        files.push_back(Background);
+        files.emplace_back(Background);
 
     }
 
@@ -76,27 +76,27 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
     Even->SetCrosssection(30.02079); // pb
     Even->SetError(0.000078); // pb
 //     Even->TagString="tag_2";
-    files.push_back(Even);
+    files.emplace_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(30.01172); // pb
     Mix->SetError(0.000045); // pb
 //     Mix->TagString="tag_2";
-    files.push_back(Mix);
+    files.emplace_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(30.008951); // pb
     Odd->SetError(0.000035); // pb
 //     Odd->TagString="tag_2";
-    files.push_back(Odd);
+    files.emplace_back(Odd);
 
 //     hdelphes::HFile *Test = new hdelphes::HFile("pp-hjj-bbjj");
-//     Files.push_back(Test);
+//     Files.emplace_back(Test);
 //     hdelphes::HFile *Signal = new hdelphes::HFile("pp-htt-bblvlv", "signal");
 //     Signal->Crosssection = 0.01419; // pb
 //     Signal->Error = 0.000067; // pb
 // //     Odd->TagString="tag_2";
-//     Files.push_back(Signal);
+//     Files.emplace_back(Signal);
 
     Print(HNotification, "Files prepared");
 
@@ -104,32 +104,32 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 
 
     BottomTagger = hanalysis::HBottomTagger();
-    BottomTagger.SetAnalysisName(ProjectName());
+    BottomTagger.set_analysis_name(ProjectName());
 //     BottomTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-    BottomTagger.SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-    BottomTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+//     BottomTagger.SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+//     BottomTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
     if (NewStudyName != "Bottom" && NewStudyName != "NotBottom") {
 
-      BottomReader.SetMva(BottomTagger);
+      BottomReader.set_tagger(BottomTagger);
 
       LeptonicTopTagger = hanalysis::HTopLeptonicTagger(BottomTagger);
-        LeptonicTopTagger.SetAnalysisName(ProjectName());
+        LeptonicTopTagger.set_analysis_name(ProjectName());
 //         LeptonicTopTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-        LeptonicTopTagger.SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-        LeptonicTopTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+//         LeptonicTopTagger.SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+//         LeptonicTopTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
 
 
         HiggsTagger = hanalysis::HMvaHiggsTagger(BottomTagger);
-        HiggsTagger.SetAnalysisName(ProjectName());
+        HiggsTagger.set_analysis_name(ProjectName());
 //         HiggsTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-        HiggsTagger.SetSignalTreeNames( {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
-        HiggsTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+//         HiggsTagger.SetSignalTreeNames( {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
+//         HiggsTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
         if (NewStudyName != "Top" && NewStudyName != "NotTop" && NewStudyName != "Higgs" && NewStudyName != "NotHiggs") {
-          HiggsReader.SetMva(HiggsTagger);
-          TopReader.SetMva(LeptonicTopTagger);
+          HiggsReader.set_tagger(HiggsTagger);
+          TopReader.set_tagger(LeptonicTopTagger);
         }
 
     }
@@ -368,18 +368,18 @@ std::vector< HHiggsCpv > hhiggscpv::HAnalysis::GetHiggsCpvs(const HJets &Jets, c
     AntiTop3.SetBdt(TopReader.Bdt());
 
 
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair01, Top2, AntiTop3));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair01, Top3, AntiTop2));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair02, Top1, AntiTop3));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair02, Top3, AntiTop1));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair03, Top1, AntiTop2));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair03, Top2, AntiTop1));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair12, Top0, AntiTop3));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair12, Top3, AntiTop0));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair13, Top0, AntiTop2));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair13, Top2, AntiTop0));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair23, Top0, AntiTop1));
-    HiggsCpvs.push_back(HHiggsCpv(HiggsPair23, Top1, AntiTop0));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair01, Top2, AntiTop3));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair01, Top3, AntiTop2));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair02, Top1, AntiTop3));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair02, Top3, AntiTop1));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair03, Top1, AntiTop2));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair03, Top2, AntiTop1));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair12, Top0, AntiTop3));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair12, Top3, AntiTop0));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair13, Top0, AntiTop2));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair13, Top2, AntiTop0));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair23, Top0, AntiTop1));
+    HiggsCpvs.emplace_back(HHiggsCpv(HiggsPair23, Top1, AntiTop0));
 
     return HiggsCpvs;
 

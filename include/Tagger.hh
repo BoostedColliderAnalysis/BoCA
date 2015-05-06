@@ -12,12 +12,12 @@
 # include "Predicate.hh"
 # include "HEvent.hh"
 
-class HObservable
+class Observable
 {
 
 public:
 
-    HObservable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex);
+    Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex);
 
     float *value() const;
 
@@ -58,55 +58,24 @@ public:
         kReader
     };
 
-    /**
-    * @brief Constructor
-    *
-    */
     Tagger();
 
-    void SetTreeNames(const HStrings &tree_names) {
-        signal_tree_names_ = tree_names;
-        background_tree_names_ = tree_names;
-    }
-
-    void SetSignalTreeNames(const HStrings &signal_tree_names) {
-        signal_tree_names_ = signal_tree_names;
-    }
-
     void AddSignalTreeName(const std::string signal_tree_name) {
-        signal_tree_names_.push_back(signal_tree_name);
+        signal_tree_names_.emplace_back(signal_tree_name);
     }
 
     void AddBackgroundTreeName(const std::string background_tree_name) {
-        background_tree_names_.push_back(background_tree_name);
+        background_tree_names_.emplace_back(background_tree_name);
     }
-
-    void SetBackgroundTreeNames(const HStrings &background_tree_names) {
-        background_tree_names_ = background_tree_names;
-    }
-
-    void SetInputTreeNames(const HStrings &signal_tree_names, const HStrings &background_tree_names) {
-        signal_tree_names_ = signal_tree_names;
-        background_tree_names_ = background_tree_names;
-    }
-
-//     void SetBranchName(const std::string &branch_name) {
-//         branch_name_ = branch_name;
-//     }
 
     std::string GetBranchName() const {
-//         return branch_name_;
         return tagger_name_;
     }
 
     void SetTaggerName(const std::string &tagger_name) {
         tagger_name_ = tagger_name;
-//         branch_name_ = tagger_name;
-//         signal_name_ = tagger_name;
-        signal_names_ = {tagger_name};
-//         background_name_ = "Not" + tagger_name;
-        background_names_ = {"Not" + tagger_name};
-//         test_name_ = tagger_name;
+        signal_file_names_ = {tagger_name};
+        background_file_names_ = {"Not" + tagger_name};
     }
 
     std::string tagger_name() const {
@@ -136,77 +105,71 @@ public:
             name = reader_name();
             break;
         }
-        if (tag == kBackground) return "Not" + name;
-        else return name;
+        switch (tag) {
+        case kSignal :
+            return name;
+        case kBackground :
+            return "Not" + name;
+        }
     }
 
     std::string analysis_name() const {
         return analysis_name_;
     }
 
-    std::vector<HObservable> observables() const {
+    std::vector<Observable> observables() const {
         return observables_;
     }
 
-    std::vector<HObservable> spectators() const {
+    std::vector<Observable> spectators() const {
         return spectators_;
     }
 
 
-    HStrings GetSignalNames() const {
-        return signal_names_;
+    Strings signal_file_names() const {
+        return signal_file_names_;
     }
 
-    HStrings GetSignalTreeNames() const {
+    Strings signal_tree_names() const {
         return signal_tree_names_;
     }
 
-    HStrings GetBackgroundNames() const {
-        return background_names_;
+    Strings background_file_names() const {
+        return background_file_names_;
     }
 
-    HStrings GetBackgroundTreeNames() const {
+    Strings background_tree_names() const {
         return background_tree_names_;
     }
 
-//     std::string GetTestName() const {
-//         return test_name_;
-//     }
-
-    TCut GetCut() const {
+    TCut cut() const {
         return cut_;
     }
 
-    void SetAnalysisName(const std::string &analysis_name) {
+    void set_analysis_name(const std::string &analysis_name) {
         analysis_name_ = analysis_name;
     }
 
-    std::string GetCutMethodName()const {
-        return cut_method_name_;
-    }
-
-    std::string BdtMethodName()const {
+    std::string bdt_method_name() const {
         return bdt_method_name_;
     }
 
-    std::string GetWeightBranchName()const {
+    std::string weight_branch_name() const {
         return weight_branch_name_;
     }
 
-    std::string GetBackgroundName() const {
-//         return background_name_;
+    std::string background_name() const {
         return "Not" + tagger_name_;
     }
 
-    std::string GetSignalName() const {
-//         return signal_name_;
+    std::string signal_name() const {
         return tagger_name_;
     }
 
-    virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
+//     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
     virtual int GetBdt(HEvent &event, const TMVA::Reader &reader) {
-      Print(HError, "Get Bdt", "should be subclassed");
+        Print(HError, "Get Bdt", "should be subclassed");
     }
 
     virtual int Train(hanalysis::HEvent &, const Tag tag) {
@@ -234,7 +197,9 @@ public:
         return 0;
     }
 
-    HDetectorGeometry DetectorGeometry;
+    HDetectorGeometry detector_geometry() const{
+      return detector_geometry_;
+    }
 
     void SetTreeBranch(ExRootTreeWriter &tree_writer, const Stage stage) {
         switch (stage) {
@@ -259,20 +224,20 @@ protected:
         return "HMva";
     }
 
-    HObservable NewObservable(float &value, const std::string &title) const;
+    Observable NewObservable(float &value, const std::string &title) const;
 
-    HObservable NewObservable(float &value, const std::string &title, const std::string &latex) const;
+    Observable NewObservable(float &value, const std::string &title, const std::string &latex) const;
 
     void AddObservable(float &value, const std::string &title) {
-        observables_.push_back(NewObservable(value, title));
+        observables_.emplace_back(NewObservable(value, title));
     };
 
     void AddObservable(float &value, const std::string &title, const std::string &latex) {
-        observables_.push_back(NewObservable(value, title, latex));
+        observables_.emplace_back(NewObservable(value, title, latex));
     };
 
     void AddSpectator(float &value, const std::string &title) {
-        spectators_.push_back(NewObservable(value, title));
+        spectators_.emplace_back(NewObservable(value, title));
     };
 
     void ClearVectors() {
@@ -288,15 +253,11 @@ protected:
         return *HBranch::Class();
     }
 
-    ExRootTreeBranch &TreeBranch() {
+    ExRootTreeBranch &tree_branch() {
         return *tree_branch_;
     }
 
     float Bdt(const TMVA::Reader &reader);
-
-//     HReader &reader(){
-//       return reader_;
-//     }
 
 private:
 
@@ -319,27 +280,14 @@ private:
      * @brief Name of the Signal File
      *
      */
-    HStrings signal_names_;
-
-    /**
-     * @brief Name of the Test File
-     *
-     */
-//     std::string test_name_;
+    Strings signal_file_names_;
 
     std::string cut_method_name_;
 
     std::string bdt_method_name_;
 
-//     std::string branch_name_;
-
-//     std::string SpectatorBranchName;
-
     std::string weight_branch_name_;
 
-//     std::string background_name_;
-
-//     std::string signal_name_;
 
     TCut cut_;
 
@@ -347,18 +295,18 @@ private:
      * @brief Names of the Background Files
      *
      */
-    HStrings background_names_;
+    Strings background_file_names_;
 
-    HStrings background_tree_names_;
+    Strings background_tree_names_;
 
-    HStrings signal_tree_names_;
+    Strings signal_tree_names_;
 
-    std::vector<HObservable> observables_;
+    std::vector<Observable> observables_;
 
-    std::vector<HObservable> spectators_;
+    std::vector<Observable> spectators_;
 
     int max_combi_;
 
-//     HReader reader_;
+    HDetectorGeometry detector_geometry_;
 
 };

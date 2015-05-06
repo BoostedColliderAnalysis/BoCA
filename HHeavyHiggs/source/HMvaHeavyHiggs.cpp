@@ -62,7 +62,7 @@ void hheavyhiggs::HMva::DefineVariables()
 // }
 
 
-// HReaderStruct hheavyhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+// ReaderStruct hheavyhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
 // }

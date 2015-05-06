@@ -82,39 +82,39 @@ std::vector<hanalysis::HFile> htoptagger::HAnalysis::Files(const hanalysis::HObj
     std::vector<hanalysis::HFile> SignalFiles;
     std::vector<hanalysis::HFile> BackgroundFiles;
 
-    if (TopDecay() == Hadronic) SignalFiles.push_back(BackgroundFile(tthad));
-    else if (TopDecay() == Leptonic) SignalFiles.push_back(BackgroundFile(ttlep));
+    if (TopDecay() == Hadronic) SignalFiles.emplace_back(BackgroundFile(tthad));
+    else if (TopDecay() == Leptonic) SignalFiles.emplace_back(BackgroundFile(ttlep));
 
 //     std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
-//   SignalSemiFiles.push_back(hanalysis::HFile(SignalName, SignalCrosssection(), Mass()));
-    //     SignalSemiFiles.push_back(BackgroundFile(ttbb));
-//     SignalSemiFiles.push_back(BackgroundFile(ttjj));
-//     SignalFiles.push_back(BackgroundFile(tt));
-//     SignalFiles.push_back(BackgroundFile(bb));
-//     SignalSemiFiles.push_back(BackgroundFile(ttlep));
+//   SignalSemiFiles.emplace_back(hanalysis::HFile(SignalName, SignalCrosssection(), Mass()));
+    //     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
+//     SignalSemiFiles.emplace_back(BackgroundFile(ttjj));
+//     SignalFiles.emplace_back(BackgroundFile(tt));
+//     SignalFiles.emplace_back(BackgroundFile(bb));
+//     SignalSemiFiles.emplace_back(BackgroundFile(ttlep));
 
-//   BackgroundSemiFiles.push_back(BackgroundFile(ttbb));
-//   BackgroundSemiFiles.push_back(BackgroundFile(ttcc));
-//   BackgroundSemiFiles.push_back(BackgroundFile(ttjj));
-//     BackgroundSemiFiles.push_back(BackgroundFile(bbjj));
-    BackgroundFiles.push_back(BackgroundFile(bb));
-    BackgroundFiles.push_back(BackgroundFile(hh));
+//   BackgroundSemiFiles.emplace_back(BackgroundFile(ttbb));
+//   BackgroundSemiFiles.emplace_back(BackgroundFile(ttcc));
+//   BackgroundSemiFiles.emplace_back(BackgroundFile(ttjj));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(bbjj));
+    BackgroundFiles.emplace_back(BackgroundFile(bb));
+    BackgroundFiles.emplace_back(BackgroundFile(hh));
 //     if (Tagger != HBottomTagger || tag == kBackground) {
-        BackgroundFiles.push_back(BackgroundFile(cc));
-        BackgroundFiles.push_back(BackgroundFile(qq));
-        BackgroundFiles.push_back(BackgroundFile(gg));
-        BackgroundFiles.push_back(BackgroundFile(ww));
-        BackgroundFiles.push_back(BackgroundFile(zz));
+        BackgroundFiles.emplace_back(BackgroundFile(cc));
+        BackgroundFiles.emplace_back(BackgroundFile(qq));
+        BackgroundFiles.emplace_back(BackgroundFile(gg));
+        BackgroundFiles.emplace_back(BackgroundFile(ww));
+        BackgroundFiles.emplace_back(BackgroundFile(zz));
 //     }
-    if (TopDecay() == Hadronic) BackgroundFiles.push_back(BackgroundFile(ttlep));
-    else if (TopDecay() == Leptonic) BackgroundFiles.push_back(BackgroundFile(tthad));
-//     BackgroundSemiFiles.push_back(BackgroundFile(wb));
-//     BackgroundSemiFiles.push_back(BackgroundFile(wc));
-//     BackgroundSemiFiles.push_back(BackgroundFile(wq));
-//     BackgroundSemiFiles.push_back(BackgroundFile(wg));
-//     BackgroundSemiFiles.push_back(BackgroundFile(wu));
-//     BackgroundSemiFiles.push_back(BackgroundFile(wcb));
-//     BackgroundSemiFiles.push_back(BackgroundFile(wbu));
+    if (TopDecay() == Hadronic) BackgroundFiles.emplace_back(BackgroundFile(ttlep));
+    else if (TopDecay() == Leptonic) BackgroundFiles.emplace_back(BackgroundFile(tthad));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(wb));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(wc));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(wq));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(wg));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(wu));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(wcb));
+//     BackgroundSemiFiles.emplace_back(BackgroundFile(wbu));
 
 
 
@@ -189,12 +189,12 @@ void htoptagger::HAnalysis::SetTrees()
 
 //     std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
-    HStrings SignalTrees;
-    if (TopDecay() == Hadronic) SignalTrees.push_back(BackgroundTree(tthad));
-    else if (TopDecay() == Leptonic) SignalTrees.push_back(BackgroundTree(ttlep));
+    Strings SignalTrees;
+    if (TopDecay() == Hadronic) SignalTrees.emplace_back(BackgroundTree(tthad));
+    else if (TopDecay() == Leptonic) SignalTrees.emplace_back(BackgroundTree(ttlep));
 
 
-//     HStrings SignalTrees {
+//     Strings SignalTrees {
 //     SignalTree
 //         BackgroundTree(ttjj)
 //         BackgroundTree(tt),
@@ -202,7 +202,7 @@ void htoptagger::HAnalysis::SetTrees()
 //         BackgroundTree(ttlep)
 //     };
 
-    HStrings BackgroundTrees {
+    Strings BackgroundTrees {
 //     BackgroundTree(ttbb),
 //     BackgroundTree(ttcc),
 //     BackgroundTree(ttjj)
@@ -222,11 +222,11 @@ void htoptagger::HAnalysis::SetTrees()
 //         BackgroundTree(wu),
 //         BackgroundTree(wbu),
     };
-    if (TopDecay() == Hadronic) BackgroundTrees.push_back(BackgroundTree(ttlep));
-    else if (TopDecay() == Leptonic) BackgroundTrees.push_back(BackgroundTree(tthad));
+    if (TopDecay() == Hadronic) BackgroundTrees.emplace_back(BackgroundTree(ttlep));
+    else if (TopDecay() == Leptonic) BackgroundTrees.emplace_back(BackgroundTree(tthad));
 
 
-    HStrings Trees = JoinHStrings(SignalTrees, BackgroundTrees);
+    Strings Trees = JoinStrings(SignalTrees, BackgroundTrees);
 
 //     switch (Tagger) {
 //     case HBottomTagger:
@@ -280,8 +280,8 @@ void htoptagger::HAnalysis::SetTrees()
 //         Print(HError, "unhandeled case");
 //     }
 
-    tagger_.SetSignalTreeNames(SignalTrees);
-    tagger_.SetBackgroundTreeNames(BackgroundTrees);
+//     tagger_.SetSignalTreeNames(SignalTrees);
+//     tagger_.SetBackgroundTreeNames(BackgroundTrees);
 }
 
 // void htoptagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
@@ -292,42 +292,42 @@ void htoptagger::HAnalysis::SetTrees()
 //     case HBottomTagger:
 //         break;
 //     case HBottomReader:
-//         BottomReader.SetMva(BottomTagger);
+//         BottomReader.set_tagger(BottomTagger);
 //         break;
 //     case HWHadronicTagger:
 //         WHadronicTagger.BottomTagger.SetTagger();
-//         WHadronicTagger.BottomReader.SetMva(WHadronicTagger.BottomTagger);
+//         WHadronicTagger.BottomReader.set_tagger(WHadronicTagger.BottomTagger);
 //         break;
 //     case HWHadronicReader:
-//         BottomReader.SetMva(BottomTagger);
-//         WHadronicReader.SetMva(WHadronicTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         WHadronicReader.set_tagger(WHadronicTagger);
 //         break;
 //     case HWSemiTagger :
 //         break;
 //     case HWSemiReader :
-// //         WSemiReader.SetMva(WSemiTagger);
+// //         WSemiReader.set_tagger(WSemiTagger);
 //         break;
 //     case HTopHadronicTagger :
 //         TopHadronicTagger.BottomTagger.SetTagger();
-//         TopHadronicTagger.BottomReader.SetMva(TopHadronicTagger.BottomTagger);
+//         TopHadronicTagger.BottomReader.set_tagger(TopHadronicTagger.BottomTagger);
 //         TopHadronicTagger.WTagger.SetTagger(BottomTagger);
-//         TopHadronicTagger.WReader.SetMva(TopHadronicTagger.WTagger);
+//         TopHadronicTagger.WReader.set_tagger(TopHadronicTagger.WTagger);
 //         break;
 //     case HTopHadronicReader :
-//         BottomReader.SetMva(BottomTagger);
-//         WHadronicReader.SetMva(WHadronicTagger);
-//         TopHadronicReader.SetMva(TopHadronicTagger);
+//         BottomReader.set_tagger(BottomTagger);
+//         WHadronicReader.set_tagger(WHadronicTagger);
+//         TopHadronicReader.set_tagger(TopHadronicTagger);
 //         break;
 //     case HTopSemiTagger :
 //         TopLeptonTagger.BottomTagger.SetTagger();
-//         TopLeptonTagger.BottomReader.SetMva(TopLeptonTagger.BottomTagger);
+//         TopLeptonTagger.BottomReader.set_tagger(TopLeptonTagger.BottomTagger);
 // //         TopLeptonTagger.WSemiTagger.SetTagger();
-// //         TopLeptonTagger.WSemiReader.SetMva(TopLeptonTagger.WSemiTagger);
+// //         TopLeptonTagger.WSemiReader.set_tagger(TopLeptonTagger.WSemiTagger);
 //         break;
 //     case HTopSemiReader :
-//         BottomReader.SetMva(BottomTagger);
-// //         WSemiReader.SetMva(WSemiTagger);
-//         TopLeptonReader.SetMva(TopLeptonTagger);
+//         BottomReader.set_tagger(BottomTagger);
+// //         WSemiReader.set_tagger(WSemiTagger);
+//         TopLeptonReader.set_tagger(TopLeptonTagger);
 //         break;
 //     default :
 //         Print(HError, "unhandled case");
@@ -457,7 +457,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 //
 //     for (const auto & Jet : Jets) {
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
-//         if (std::abs(Jet.rap()) > BottomTagger.DetectorGeometry.TrackerEtaMax) continue;
+//         if (std::abs(Jet.rap()) > BottomTagger.detector_geometry().TrackerEtaMax) continue;
 //         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
 //         ++ObjectNumber;
 //     }
@@ -531,7 +531,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 //                 hanalysis::HDoublet Doublet(Piece1, Piece2);
 // //                 if (Tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > 50) continue;
 //                 Doublet = WHadronicTagger.GetBdt(Doublet, WHadronicReader);
-//                 Doublets.push_back(Doublet);
+//                 Doublets.emplace_back(Doublet);
 //             }
 //     }
 //
@@ -556,7 +556,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 //     for (const auto & Top : Tops) {
 //         if (Top.Pt < PreCut()) continue;
 //         if (Top.Pt > UpperCut()) continue;
-//         FinalTops.push_back(Top);
+//         FinalTops.emplace_back(Top);
 //     }
 //     if (FinalTops.empty()) return 0;
 //     for (const auto & Top : FinalTops) {
@@ -587,7 +587,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // //                 for (const auto & Piece3 : Pieces) {
 // //                     hanalysis::HTriplet Triplet(Doublet, Piece3);
 // //                     Triplet = TopHadronicTagger.GetBdt(Triplet, TopHadronicReader);
-// //                     Triplets.push_back(Triplet);
+// //                     Triplets.emplace_back(Triplet);
 // //                 }
 // //             }
 // //         }
@@ -601,7 +601,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // //         if (Triplet.DeltaR() < 0.5) continue;
 //         if (Triplet.Jet().pt() < PreCut()) continue;
 //         if (Triplet.Jet().pt() > UpperCut()) continue;
-//         FinalTriplets.push_back(Triplet);
+//         FinalTriplets.emplace_back(Triplet);
 //     }
 //
 //     const int MaxTopSize = 1;
@@ -629,7 +629,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 //     for (const auto & Top : Tops) {
 //         if (Top.Pt < PreCut()) continue;
 //         if (Top.Pt > UpperCut()) continue;
-//         FinalTops.push_back(Top);
+//         FinalTops.emplace_back(Top);
 //     }
 //     if (FinalTops.empty()) return 0;
 //     for (const auto & Top : FinalTops) {
@@ -656,7 +656,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 //         //         if (Triplet.DeltaR() < 0.5) continue;
 //         if (Triplet.Jet().pt() < PreCut()) continue;
 //         if (Triplet.Jet().pt() > UpperCut()) continue;
-//         FinalTriplets.push_back(Triplet);
+//         FinalTriplets.emplace_back(Triplet);
 //     }
 //
 //     const int MaxTopSize = 2;

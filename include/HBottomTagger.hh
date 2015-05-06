@@ -5,7 +5,7 @@
 # include "HBranch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HEvent.hh"
 # include "HAnalysis.hh"
 
@@ -26,15 +26,15 @@ public:
 
     std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    HJets GetMultiJetBdt(HJets &Jets, const hanalysis::HReader &BottomReader);
+    HJets GetMultiJetBdt(HJets &Jets, const hanalysis::Reader &BottomReader);
 
     HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
     hanalysis::HObject::Tag GetTag(const fastjet::PseudoJet &Jet) const;
 
-    HJets GetJetBdt(const HJets &Jets, const hanalysis::HReader &BottomReader);
+    HJets GetJetBdt(const HJets &Jets, const hanalysis::Reader &BottomReader);
 
-    HJets GetSubBdt(const HJets &Jets, const hanalysis::HReader &BottomReader, const int SubJetNumber);
+    HJets GetSubBdt(const HJets &Jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
         return ((HBottomBranch *) EventClonesArray.At(Entry))->Bdt;
@@ -73,7 +73,7 @@ public:
 //     {
 //       Print(HDebug, "Get Bottom Reader", Tag);
 //       HJets Jets = GetJets(Event);
-//       HReader Reader; // this wont work
+//       Reader Reader; // this wont work
 //       Jets = GetJetBdt(Jets, Reader);
 //
 //       HJets Particles = Event.GetParticles()->Generator();
@@ -86,14 +86,14 @@ public:
 //
 //       for (const auto & Jet : Jets) {
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
-//         if (std::abs(Jet.rap()) > DetectorGeometry.TrackerEtaMax) continue;
+//         if (std::abs(Jet.rap()) > detector_geometry().TrackerEtaMax) continue;
 //         *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = GetBranch(Jet);
 //       }
 //       return 1;
 //     }
 
 //     void PrepareReader(){
-//       Reader.SetMva(*this);
+//       Reader.set_tagger(*this);
 //     }
 protected:
 

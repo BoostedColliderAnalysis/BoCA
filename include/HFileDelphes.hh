@@ -40,7 +40,7 @@ public:
      * @brief Compose file path
      *
      */
-    HStrings Paths() const;
+    Strings Paths() const;
 
 //     std::shared_ptr<hanalysis::HEvent> Event();
 

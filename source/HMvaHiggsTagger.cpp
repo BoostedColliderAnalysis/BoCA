@@ -15,7 +15,7 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const HBottomTagger &NewBottomTagger
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
 
     SetTaggerName("Higgs");
 //     SignalNames = {"Higgs"};
@@ -103,9 +103,9 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
             JetInfo->SetBdt(BottomReader.Bdt());
             (*Jet).set_user_info(JetInfo);
             if ((*Jet).user_info<HJetInfo>().MaximalId() == HiggsId || (*Jet).user_info<HJetInfo>().MaximalId() == CpvHiggsId) {
-                HiggsJets.push_back(*Jet);
+                HiggsJets.emplace_back(*Jet);
             } else {
-                OtherJets.push_back(*Jet);
+                OtherJets.emplace_back(*Jet);
             }
             ++Jet;
         }
@@ -120,7 +120,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
                 HDoublet Doublet((*Jet1), (*Jet2));
                 Doublet.SetTag(1);
-                Doublets.push_back(Doublet);
+                Doublets.emplace_back(Doublet);
             }
         }
         std::sort(Doublets.begin(), Doublets.end(), SortPairByMass());
@@ -136,14 +136,14 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
             for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
                 HDoublet JetPair((*Jet1), (*Jet2));
                 JetPair.SetTag(0);
-                Doublets.push_back(JetPair);
+                Doublets.emplace_back(JetPair);
             }
         }
         for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (HJets::iterator Jet2 = HiggsJets.begin(); Jet2 != HiggsJets.end(); ++Jet2) {
                 HDoublet JetPair((*Jet1), (*Jet2));
                 JetPair.SetTag(0);
-                Doublets.push_back(JetPair);
+                Doublets.emplace_back(JetPair);
             }
         }
     }
@@ -154,7 +154,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
     for (const auto & JetPair : Doublets) {
         HHiggsBranch *HiggsBranch = new HHiggsBranch();
         FillBranch(HiggsBranch, JetPair);
-        HiggsBranches.push_back(HiggsBranch);
+        HiggsBranches.emplace_back(HiggsBranch);
     }
 
     return HiggsBranches;
@@ -183,7 +183,7 @@ std::vector<HParticleBranch *> hanalysis::HMvaHiggsTagger::GetConstituentBranche
         for (const auto & Constituent : JetPair.Constituents()) {
             HParticleBranch *ConstituentBranch = new HParticleBranch();
             FillBranch(ConstituentBranch, Constituent);
-            ConstituentBranches.push_back(ConstituentBranch);
+            ConstituentBranches.emplace_back(ConstituentBranch);
         }
     }
 

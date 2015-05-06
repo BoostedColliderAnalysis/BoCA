@@ -12,7 +12,7 @@
 
 typedef std::vector<fastjet::PseudoJet> HJets;
 typedef std::vector<TLorentzVector> HVectors;
-typedef std::vector<std::string> HStrings;
+typedef std::vector<std::string> Strings;
 
 /**
  * @brief Main Analysis Library
@@ -71,7 +71,7 @@ class HChargedHiggsLeptonicTagger;
 
 class Tagger;
 class HFactory;
-class HReader;
+class Reader;
 
 class HTagPrivate;
 class HDoubletPrivate;

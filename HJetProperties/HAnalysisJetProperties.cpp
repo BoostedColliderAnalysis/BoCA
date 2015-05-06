@@ -25,7 +25,7 @@ hjetproperties::HAnalysis::~HAnalysis()
 
 }
 
-HStrings hjetproperties::HAnalysis::GetStudyNames() const
+Strings hjetproperties::HAnalysis::GetStudyNames() const
 {
 
     //     return {"Higgs", "Top", "Isr"};
@@ -45,24 +45,24 @@ std::vector< hanalysis::HFile* > hjetproperties::HAnalysis::GetFiles(const std::
       hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
         Background->SetCrosssection(3.215); // pb
         Background->SetError(0.012); // pb
-        Files.push_back(Background);
+        Files.emplace_back(Background);
 
     }
 
     hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
     Even->SetCrosssection(0.02079); // pb
     Even->SetError(0.000078); // pb
-    Files.push_back(Even);
+    Files.emplace_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
     Mix->SetCrosssection(0.01172); // pb
     Mix->SetError(0.000045); // pb
-    Files.push_back(Mix);
+    Files.emplace_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
     Odd->SetCrosssection(0.008951); // pb
     Odd->SetError(0.000035); // pb
-    Files.push_back(Odd);
+    Files.emplace_back(Odd);
 
     Print(HNotification, "Files prepared");
 
@@ -242,7 +242,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
         do {
 
             SigmaRadius = (*JetPair).first;
-            TrimmedJets.push_back(JetPair->second);
+            TrimmedJets.emplace_back(JetPair->second);
             SigmaPt += (*JetPair).second.pt();
 
             Print(HInformation, "EFlow", SigmaRadius, SigmaPt);
@@ -492,8 +492,8 @@ HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent &Event)
         }
         HardestLepton = 0;
 
-        LeptonRap.push_back(LeptonJet.rap());
-        LeptonPhi.push_back(LeptonJet.phi_std());
+        LeptonRap.emplace_back(LeptonJet.rap());
+        LeptonPhi.emplace_back(LeptonJet.phi_std());
 
     }
 
@@ -513,8 +513,8 @@ HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent &Event)
         }
         HardestLepton = 0;
 
-        LeptonRap.push_back(AntiLeptonJet.rap());
-        LeptonPhi.push_back(AntiLeptonJet.phi_std());
+        LeptonRap.emplace_back(AntiLeptonJet.rap());
+        LeptonPhi.emplace_back(AntiLeptonJet.phi_std());
 
     }
 

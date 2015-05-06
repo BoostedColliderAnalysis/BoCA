@@ -21,17 +21,17 @@ public:
 
 //     std::vector<HParticleBranch> GetConstituentBranches();
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::Reader &BottomReader);
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::HReader &WReader);
-    std::vector<HDoublet> GetPairBdt(const HJets &Jets, const hanalysis::HReader &WReader);
-    std::vector<HDoublet> GetSingletBdt(const HJets &Jets, const hanalysis::HReader &WReader);
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &WReader);
+    std::vector<HDoublet> GetPairBdt(const HJets &Jets, const hanalysis::Reader &WReader);
+    std::vector<HDoublet> GetSingletBdt(const HJets &Jets, const hanalysis::Reader &WReader);
 
-    HDoublet GetBdt(HDoublet &Doublet, const hanalysis::HReader &WReader);
+    HDoublet GetBdt(HDoublet &Doublet, const hanalysis::Reader &WReader);
 
     HBottomTagger BottomTagger;
 
-    HReader BottomReader;
+    Reader BottomReader;
 
     HWBranch GetBranch(const HDoublet &Doublet) const;
 

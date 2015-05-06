@@ -95,7 +95,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 
             (*ExportCandidate) = *EventBranch;
 
-            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName());
+            const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
 
             Print(HInformation,"Bdt",BdtEvaluation);
 
@@ -137,7 +137,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 }
 
 
-// HReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+// ReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
 //     Print(HNotification, "Cut Loop");

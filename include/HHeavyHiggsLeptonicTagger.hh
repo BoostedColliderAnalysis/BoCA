@@ -23,7 +23,7 @@ public:
 
     std::vector< HHeavyHiggsLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::HReader & Reader);
+    std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader & Reader);
 
     HHeavyHiggsLeptonicBranch GetBranch(const hanalysis::HSextet &Sextet);
 
@@ -58,9 +58,9 @@ private:
 
     HTopLeptonicTagger TopLeptonicTagger;
 
-    HReader BottomReader;
+    Reader BottomReader;
 
-    HReader TopLeptonicReader;
+    Reader TopLeptonicReader;
 
     HHeavyHiggsLeptonicBranch Branch;
 

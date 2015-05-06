@@ -28,15 +28,15 @@ bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails 
 
         if (ElectronCharge == -1) {
 
-            ElectronLorentzVectors.push_back(GetLorentzVector(*ElectronClone));
-            ElectronJets.push_back(GetPseudoJet(*ElectronClone));
+            ElectronLorentzVectors.emplace_back(GetLorentzVector(*ElectronClone));
+            ElectronJets.emplace_back(GetPseudoJet(*ElectronClone));
 
             Print(HDebug, "Electron");
 
         } else if (ElectronCharge == 1) {
 
-            AntiElectronLorentzVectors.push_back(GetLorentzVector(*ElectronClone));
-            AntiElectronJets.push_back(GetPseudoJet(*ElectronClone));
+            AntiElectronLorentzVectors.emplace_back(GetLorentzVector(*ElectronClone));
+            AntiElectronJets.emplace_back(GetPseudoJet(*ElectronClone));
 
             Print(HDebug, "Anti Electron");
 
@@ -61,15 +61,15 @@ bool hanalysis::hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetD
 
         if (MuonCharge == -1) {
 
-            MuonLorentzVectors.push_back(GetLorentzVector(*MuonClone));
-            MuonJets.push_back(GetPseudoJet(*MuonClone));
+            MuonLorentzVectors.emplace_back(GetLorentzVector(*MuonClone));
+            MuonJets.emplace_back(GetPseudoJet(*MuonClone));
 
 	    Print(HDebug, "Muon with Pt");
 
         } else if (MuonCharge == 1) {
 
-            AntiMuonLorentzVectors.push_back( GetLorentzVector(*MuonClone));
-            AntiMuonJets.push_back(GetPseudoJet(*MuonClone));
+            AntiMuonLorentzVectors.emplace_back( GetLorentzVector(*MuonClone));
+            AntiMuonJets.emplace_back(GetPseudoJet(*MuonClone));
 
 	    Print(HDebug, "Anti Muon with Pt");
 

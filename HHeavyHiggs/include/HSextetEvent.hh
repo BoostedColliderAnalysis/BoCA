@@ -89,7 +89,7 @@ public:
 
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
         SetBdt(Bdt() * (JetNumber() + 1));
-        Jets.push_back(NewJet);
+        Jets.emplace_back(NewJet);
         SetBdt(Bdt() + NewJet.user_info<hanalysis::HJetInfo>().Bdt());
         SetBdt(Bdt() / (JetNumber() + 1));
     }

@@ -7,9 +7,9 @@
 //
 // }
 
-HStrings htest::HAnalysis::GetStudyNameVector(){
+Strings htest::HAnalysis::GetStudyNameVector(){
 
-    HStrings StudyNameVector = {"Test","Second"};
+    Strings StudyNameVector = {"Test","Second"};
 
     return StudyNameVector;
 
@@ -23,10 +23,10 @@ std::vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const std::string &Stu
     std::vector<hanalysis::HFile*> Files;
 
     hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-ttbb");
-        Files.push_back(Background);
+        Files.emplace_back(Background);
 
 //     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
-//     FileVector.push_back(Even);
+//     FileVector.emplace_back(Even);
 
     Print(HNotification, "Files prepared");
 

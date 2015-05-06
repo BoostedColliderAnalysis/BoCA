@@ -119,7 +119,7 @@ public:
     }
 
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
-        RestJetsM.push_back(NewJet);
+        RestJetsM.emplace_back(NewJet);
         std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
     }
 
@@ -138,7 +138,7 @@ public:
     }
 
 //     bool Overlap()const {
-//         if (Singlet1().delta_R(Singlet2()) < DetectorGeometry.JetConeSize) return true;
+//         if (Singlet1().delta_R(Singlet2()) < detector_geometry().JetConeSize) return true;
 //         else return false;
 //     }
 

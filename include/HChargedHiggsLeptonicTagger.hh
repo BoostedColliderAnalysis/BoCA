@@ -23,7 +23,7 @@ public:
 
     HChargedHiggsLeptonicBranch GetBranch(const hanalysis::HTriplet &Triplet);
 
-    std::vector<hanalysis::HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const std::vector<fastjet::PseudoJet> Jets, const hanalysis::HReader & Reader);
+    std::vector<hanalysis::HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const std::vector<fastjet::PseudoJet> Jets, const hanalysis::Reader & Reader);
 
 protected:
 
@@ -41,8 +41,8 @@ private:
     HBottomTagger BottomTagger;
     HTopLeptonicTagger TopLeptonicTagger;
 
-    HReader BottomReader;
-    HReader TopLeptonicReader;
+    Reader BottomReader;
+    Reader TopLeptonicReader;
 
     HChargedHiggsLeptonicBranch Branch;
 

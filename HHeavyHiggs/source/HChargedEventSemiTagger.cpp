@@ -201,7 +201,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     HJets HiggsParticles = Event.GetParticles()->Generator();
     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
     if (Tag == kSignal && HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?");
-    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaR(HiggsParticles.front()));
+    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaRTo(HiggsParticles.front()));
     if (Tag == kSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
     if (Tag == kBackground && HiggsQuartets.size() > 0) HiggsQuartets.erase(HiggsQuartets.begin());
 
@@ -230,7 +230,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
         HJets Particles = Event.GetParticles()->Generator();
         HJets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
         if (TopParticles.size() != 1) Print(HError, "Where is the Top?",TopParticles.size());
-        else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.at(0)) < DetectorGeometry.JetConeSize)) FinalTriplets.push_back(Triplet);
+        else for (const auto & Triplet : TripletsHadronic) if ((Triplet.Jet().delta_R(TopParticles.at(0)) < detector_geometry().JetConeSize)) FinalTriplets.emplace_back(Triplet);
     } else FinalTriplets = TripletsHadronic;
 
     if (Tag == kSignal && FinalTriplets.size() > 1) {
@@ -243,7 +243,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
         HJets Particles = Event.GetParticles()->Generator();
         HJets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (BottomParticles.size() != 1) Print(HError, "Where is the Bottom?",BottomParticles.size());
-        else for (const auto & Jet : Jets) if ((Jet.delta_R(BottomParticles.at(0)) < DetectorGeometry.JetConeSize)) FinalBottoms.push_back(Jet);
+        else for (const auto & Jet : Jets) if ((Jet.delta_R(BottomParticles.at(0)) < detector_geometry().JetConeSize)) FinalBottoms.emplace_back(Jet);
     } else FinalBottoms = Jets;
 
 
@@ -285,25 +285,25 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
         OctetEvent.SetSubJets(SubJets);
         OctetEvent.SetTag(Tag);
         for (const auto & Jet : Jets) {
-            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Doublet().Singlet1()) < DetectorGeometry.JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Doublet().Singlet2()) < DetectorGeometry.JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet2().Singlet()) < DetectorGeometry.JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet2().Triplet().Singlet()) < DetectorGeometry.JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Triplet().Doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet2().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet2().Triplet().Singlet()) < detector_geometry().JetConeSize) continue;
             OctetEvent.AddRestJet(Jet);
         }
-        Events.push_back(OctetEvent);
+        Events.emplace_back(OctetEvent);
     }
 
     std::vector<hheavyhiggs::HChargedSemiBranch> EventSemiBranches;
-    for (const auto & event : Events)EventSemiBranches.push_back(GetBranch(event));
+    for (const auto & event : Events)EventSemiBranches.emplace_back(GetBranch(event));
 
     return EventSemiBranches;
 
 }
 
-std::vector<HEventMultiplet<HOctet44>> hheavyhiggs::HChargedEventSemiTagger::GetBdt(const std::vector<HOctet44> &Octets, HJets &Jets, const HJets &SubJets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader)
+std::vector<HEventMultiplet<HOctet44>> hheavyhiggs::HChargedEventSemiTagger::GetBdt(const std::vector<HOctet44> &Octets, HJets &Jets, const HJets &SubJets, HJets &Leptons, HEventStruct &EventStruct, const hanalysis::Reader &EventSemiReader)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -312,14 +312,14 @@ std::vector<HEventMultiplet<HOctet44>> hheavyhiggs::HChargedEventSemiTagger::Get
     for (auto & Octet : Octets) {
         HEventMultiplet<HOctet44> OctetEvent(Octet, EventStruct);
         for (const auto & Jet : Jets) {
-            if (Octet.Quartet1().Singlet().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Octet.Quartet1().Triplet().Singlet().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Octet.Quartet1().Triplet().Doublet().Singlet1().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Octet.Quartet1().Triplet().Doublet().Singlet2().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Octet.Quartet2().Singlet().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Octet.Quartet2().Triplet().Singlet().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Octet.Quartet2().Triplet().Doublet().Singlet1().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
-            if (Octet.Quartet2().Triplet().Doublet().Singlet2().delta_R(Jet) < DetectorGeometry.JetConeSize) continue;
+            if (Octet.Quartet1().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet1().Triplet().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet1().Triplet().Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet1().Triplet().Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet2().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet2().Triplet().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet2().Triplet().Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet2().Triplet().Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             OctetEvent.AddRestJet(Jet);
         }
         OctetEvent.SetLeptons(Leptons);
@@ -327,7 +327,7 @@ std::vector<HEventMultiplet<HOctet44>> hheavyhiggs::HChargedEventSemiTagger::Get
         OctetEvent.SetSubJets(SubJets);
         Branch = GetBranch(OctetEvent);
         OctetEvent.SetBdt(EventSemiReader.Bdt());
-        Events.push_back(OctetEvent);
+        Events.emplace_back(OctetEvent);
     }
 
     std::sort(Events.begin(), Events.end());

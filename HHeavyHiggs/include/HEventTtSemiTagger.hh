@@ -32,7 +32,7 @@ public:
 
     std::vector< HEventTtSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< HSextetEvent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, HJets &Jets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::HReader &EventSemiReader);
+    std::vector< HSextetEvent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, HJets &Jets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::Reader &EventSemiReader);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
 
@@ -45,12 +45,12 @@ public:
     hanalysis::HTopHadronicTagger TopHadronicTagger;
     hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader WSemiReader;
-    hanalysis::HReader WReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopSemiReader;
-    hanalysis::HReader HeavyHiggsSemiReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader WSemiReader;
+    hanalysis::Reader WReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader TopSemiReader;
+    hanalysis::Reader HeavyHiggsSemiReader;
 
 protected:
 

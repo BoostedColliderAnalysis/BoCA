@@ -5,7 +5,7 @@
 # include "HFileDelphes.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
-# include "HReader.hh"
+# include "Reader.hh"
 # include "HFactory.hh"
 # include "HJetTag.hh"
 
@@ -130,10 +130,10 @@ private:
     hanalysis::HFile BackgroundFile(const ProcessType Background, const int FileSum) const {
 
         std::string FileName = ProcessName(Background) + "_" + std::to_string(PreCut()) + "GeV";
-        HStrings FileNames;
+        Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
-//             FileNames.push_back(FileName + "_" + std::to_string(FileNumber));
-            FileNames.push_back(FileName);
+//             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
+            FileNames.emplace_back(FileName);
         }
         return hanalysis::HFile(FileNames , BackgroundCrosssection(Background));
     }
@@ -223,11 +223,11 @@ private:
 
     hanalysis::HJetTag JetTag;
 
-    hanalysis::HReader BottomReader;
-//     hanalysis::HReader WSemiReader;
-    hanalysis::HReader WHadronicReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopLeptonReader;
+    hanalysis::Reader BottomReader;
+//     hanalysis::Reader WSemiReader;
+    hanalysis::Reader WHadronicReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader TopLeptonReader;
 
 //     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 

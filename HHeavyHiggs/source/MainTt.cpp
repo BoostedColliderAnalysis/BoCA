@@ -44,8 +44,8 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
 //         case hanalysis::HAnalysis::HEventSemiReader: {
-            hanalysis::HReader Reader(tagger);
-            Reader.SimpleMVALoop();
+            hanalysis::Reader Reader(tagger);
+            Reader.OptimalSignificance();
 //             break;
 //         }
 //         default:

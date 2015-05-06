@@ -77,11 +77,11 @@ private:
 
     hanalysis::HChargedHiggsLeptonicTagger *ChargedHiggsLeptonicTagger;
 
-    hanalysis::HReader BottomReader;
+    hanalysis::Reader BottomReader;
 
-    hanalysis::HReader TopLeptonicReader;
+    hanalysis::Reader TopLeptonicReader;
 
-    hanalysis::HReader ChargedHiggsLeptonicReader;
+    hanalysis::Reader ChargedHiggsLeptonicReader;
 
     hheavyhiggs::HChargedLeptonicBranch Branch;
 

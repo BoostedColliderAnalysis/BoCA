@@ -33,7 +33,7 @@ public:
 
     std::vector<HOctetBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, const hanalysis::HReader &Reader);
+    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, const hanalysis::Reader &Reader);
 
 
     HOctetBranch GetBranch(const HOctet &Octet) const;
@@ -46,13 +46,13 @@ public:
     hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
     hanalysis::HJetPairTagger JetPairTagger;
 
-    hanalysis::HReader BottomReader;
-    hanalysis::HReader WSemiReader;
-    hanalysis::HReader WReader;
-    hanalysis::HReader TopHadronicReader;
-    hanalysis::HReader TopSemiReader;
-    hanalysis::HReader HeavyHiggsSemiReader;
-    hanalysis::HReader JetPairReader;
+    hanalysis::Reader BottomReader;
+    hanalysis::Reader WSemiReader;
+    hanalysis::Reader WReader;
+    hanalysis::Reader TopHadronicReader;
+    hanalysis::Reader TopSemiReader;
+    hanalysis::Reader HeavyHiggsSemiReader;
+    hanalysis::Reader JetPairReader;
 
 
 protected:

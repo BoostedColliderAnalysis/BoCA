@@ -7,9 +7,9 @@ hanalysis::HChargedHiggsLeptonicTagger::HChargedHiggsLeptonicTagger(const HBotto
     Print(HNotification, "Constructor");
 
     BottomTagger = NewBottomTagger;
-    BottomReader.SetMva(BottomTagger);
+    BottomReader.set_tagger(BottomTagger);
     TopLeptonicTagger = NewTopLeptonicTagger;
-    TopLeptonicReader.SetMva(TopLeptonicTagger);
+    TopLeptonicReader.set_tagger(TopLeptonicTagger);
 
     SetTaggerName("ChargedHiggsLeptonic");
 
@@ -120,7 +120,7 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
 //             std::vector<HQuartet31> PreQuartets;
 //             PreQuartets = GetQuartet(Quartet, MissingEt, Neutrinos, Tag);
 //             for (auto & Quartet : PreQuartets) {
-                Triplets.push_back(Triplet);
+                Triplets.emplace_back(Triplet);
 //             }
         }
     }
@@ -134,7 +134,7 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
     }
 
     std::vector<HChargedHiggsLeptonicBranch> ChargedHiggsBranches;
-    for (const auto & Triplet : Triplets) ChargedHiggsBranches.push_back(GetBranch(Triplet));
+    for (const auto & Triplet : Triplets) ChargedHiggsBranches.emplace_back(GetBranch(Triplet));
 
     return ChargedHiggsBranches;
 
@@ -151,7 +151,7 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const HTr
     return kSignal;
 }
 
-std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<HDoublet> &Doublets,const std::vector<fastjet::PseudoJet> Jets, const HReader &Reader)
+std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<HDoublet> &Doublets,const std::vector<fastjet::PseudoJet> Jets, const Reader &Reader)
 {
     Print(HInformation, "Get Bdt");
 
@@ -166,7 +166,7 @@ std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt
 //             for (auto & Quartet : PreQuartets) {
                 Branch = GetBranch(Triplet);
                 Triplet.SetBdt(Reader.Bdt());
-                Triplets.push_back(Triplet);
+                Triplets.emplace_back(Triplet);
 //             }
         }
     }
