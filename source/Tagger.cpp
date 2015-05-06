@@ -93,6 +93,12 @@ HObservable hanalysis::Tagger::NewObservable(float &value, const std::string &ti
 
 }
 
+float hanalysis::Tagger::Bdt(const TMVA::Reader &reader)
+{
+  Print(HInformation, "Bdt");
+  return const_cast<TMVA::Reader &>(reader).EvaluateMVA(BdtMethodName()) + 1; // get rid of the const cast
+}
+
 HJets hanalysis::Tagger::GranulatedJets(const HJets &NewEFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons

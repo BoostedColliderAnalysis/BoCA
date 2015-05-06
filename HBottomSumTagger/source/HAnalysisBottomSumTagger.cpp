@@ -262,7 +262,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // }
 
-bool hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
 {
     Print(HInformation, "Analysis");
     ++event_sum_;

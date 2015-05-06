@@ -40,6 +40,8 @@ int hanalysis::HFactory::GetTrees()
     Print(HNotification , "Get Trees");
     int signal_number = 0;
     for (const auto & signal_name : tagger().GetSignalNames()) {
+      Print(HNotification , "Signal", signal_name);
+
         std::string signal_file_name = tagger().analysis_name() + "/" + signal_name + ".root";
         if (gSystem->AccessPathName(signal_file_name.c_str())) Print(HError, "File not found", signal_file_name);
         TFile &signal_file = *TFile::Open(signal_file_name.c_str());
@@ -53,6 +55,7 @@ int hanalysis::HFactory::GetTrees()
 
     int background_number = 0;
     for (const auto & background_name : tagger().GetBackgroundNames()) {
+      Print(HNotification , "Background", background_name);
 
         std::string background_file_name = tagger().analysis_name() + "/" + background_name + ".root";
         if (gSystem->AccessPathName(background_file_name.c_str())) Print(HError, "File not found", background_file_name);

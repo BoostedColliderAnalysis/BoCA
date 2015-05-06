@@ -488,7 +488,7 @@ private:
      * @brief Main Analysis function
      *
      */
-    bool Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
+    int Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
 
 //     bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 //     bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);

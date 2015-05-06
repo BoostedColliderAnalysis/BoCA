@@ -143,7 +143,7 @@ void hjetproperties::HAnalysis::CloseFile()
 // }
 
 
-bool hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
+int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HDebug, "Analysis");

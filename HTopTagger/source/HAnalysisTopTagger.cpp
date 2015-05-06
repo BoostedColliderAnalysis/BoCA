@@ -375,7 +375,7 @@ void htoptagger::HAnalysis::SetTrees()
 //
 // }
 
-bool htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Analysis");
 

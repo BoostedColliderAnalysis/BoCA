@@ -15,6 +15,7 @@
 # include "HEvent.hh"
 # include "HConfig.hh"
 # include "Tagger.hh"
+# include "HReader.hh"
 
 
 /**
@@ -35,8 +36,9 @@ public:
     void AnalysisLoop(const hanalysis::Tagger::Stage stage);
 
     virtual std::vector<HFile> Files(const Tag tag) {
-        Print(HError, "GetFiles", "Should be subclasses", tag);
-        return std::vector<HFile> {};
+        Print(HError, "GetFiles", tag);
+//         return std::vector<HFile> {};
+      return files_;
     }
 
     void SetConfig(const HConfig &config) {
@@ -44,6 +46,10 @@ public:
     }
 
 protected:
+
+    virtual void SetFiles(const hanalysis::HObject::Tag tag) {
+        Print(HError, "Set Files", "should be subclassed", tag);
+    }
 
     inline int EventSum(const ExRootTreeReader &tree_reader) const {
 //       return std::min((int)tree_reader.GetEntries(), EventNumberMax());
@@ -56,8 +62,8 @@ protected:
 
     HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::HFile &file);
 
-    virtual bool Analysis(HEvent &,const Tagger::Stage stage, const Tag tag) {
-        Print(HError, "Analysis", "should be subclassed", tag);
+    virtual int Analysis(HEvent &, const Tagger::Stage stage, const Tag tag) {
+        Print(HError, "Analysis", "should be subclassed", stage, tag);
         return 0;
     }
 
@@ -103,6 +109,8 @@ protected:
 
     Tagger &tagger_;
 
+    HReader reader_;
+
     int ObjectNumber;
 
     virtual inline std::string ProcessName() const {
@@ -132,26 +140,30 @@ protected:
         return config_.ColliderType();
     }
 
-    void NewSignalFile(const std::string &name){
-      files_.push_back(File(name));
-      tagger_.AddSignalTreeName(TreeName(name));
+    void NewSignalFile(const std::string &name) {
+        files_.push_back(File(name));
+        files_.front().SetBasePath("~/Projects/BTagging/"); // FIXME remove this hack
+        files_.front().SetFileSuffix(".root"); // FIXME remove this hack
+        tagger_.AddSignalTreeName(TreeName(name));
     }
 
-    void NewBackgroundFile(const std::string &name){
-      files_.push_back(File(name));
-      tagger_.AddBackgroundTreeName(TreeName(name));
+    void NewBackgroundFile(const std::string &name) {
+        files_.push_back(File(name));
+        files_.front().SetBasePath("~/Projects/BTagging/"); // FIXME remove this hack
+        files_.front().SetFileSuffix(".root"); // FIXME remove this hack
+        tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
     inline hanalysis::HFile File(const std::string &name) const {
-      return HFile(name);
+        return HFile(name);
     }
 
     inline std::string FileName(const std::string &name) const {
-      return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
+        return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
     }
 
     std::string TreeName(const std::string &name) const {
-      return FileName(name) + "-run_01";
+        return name + "-run_01";
     }
 
 private:

@@ -74,7 +74,7 @@ void htest::HAnalysis::CloseFile()
 //
 // }
 
-bool htest::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
+int htest::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HInformation, "Analysis", StudyName);

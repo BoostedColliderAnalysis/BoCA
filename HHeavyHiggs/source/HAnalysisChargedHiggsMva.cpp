@@ -591,7 +591,7 @@ void hheavyhiggs::HAnalysisCharged::SetTrees()
 //
 // }
 
-bool hheavyhiggs::HAnalysisCharged::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hheavyhiggs::HAnalysisCharged::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Analysis");
 

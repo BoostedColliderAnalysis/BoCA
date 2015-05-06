@@ -127,7 +127,7 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 //
 // }
 
-bool hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &Study)
+int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &Study)
 {
 
     Print(HInformation, "Analysis", Study);

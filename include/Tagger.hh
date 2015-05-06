@@ -1,6 +1,5 @@
 # pragma once
 
-// # include "HReader.hh"
 # include "TCut.h"
 
 # include "TMVA/Reader.h"
@@ -11,6 +10,7 @@
 # include "HBranch.hh"
 # include "HJetDelphes.hh"
 # include "Predicate.hh"
+# include "HEvent.hh"
 
 class HObservable
 {
@@ -73,12 +73,12 @@ public:
         signal_tree_names_ = signal_tree_names;
     }
 
-    void AddSignalTreeName(const std::string signal_tree_name){
-      signal_names_.push_back(signal_tree_name);
+    void AddSignalTreeName(const std::string signal_tree_name) {
+        signal_tree_names_.push_back(signal_tree_name);
     }
 
-    void AddBackgroundTreeName(const std::string background_tree_name){
-      background_names_.push_back(background_tree_name);
+    void AddBackgroundTreeName(const std::string background_tree_name) {
+        background_tree_names_.push_back(background_tree_name);
     }
 
     void SetBackgroundTreeNames(const HStrings &background_tree_names) {
@@ -205,9 +205,18 @@ public:
 
     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
-    virtual float GetBranches(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag){
-      Print(HError, "Should be subclassed");
-      return 0;
+    virtual int GetBdt(HEvent &event, const TMVA::Reader &reader) {
+      Print(HError, "Get Bdt", "should be subclassed");
+    }
+
+    virtual int Train(hanalysis::HEvent &, const Tag tag) {
+        Print(HError, "Train", "Should be subclassed", tag);
+        return 0;
+    }
+
+    virtual float GetBranches(hanalysis::HEvent &event, Stage stage, const Tag tag) {
+        Print(HError, "get branches", "Should be subclassed", "should be deleted");
+        return 0;
     }
 
     HJets GranulatedJets(const HJets &NewEFlowJets);
@@ -236,6 +245,10 @@ public:
             tree_branch_ = tree_writer.NewBranch(reader_name().c_str(), &Class());
             break;
         }
+    }
+
+    virtual float Bdt(HEvent &event, const TMVA::Reader &reader) const {
+        Print(HError, "Bdt", "should be subclassed");
     }
 
 protected:
@@ -275,9 +288,11 @@ protected:
         return *HBranch::Class();
     }
 
-    ExRootTreeBranch &TreeBranch(){
-      return *tree_branch_;
+    ExRootTreeBranch &TreeBranch() {
+        return *tree_branch_;
     }
+
+    float Bdt(const TMVA::Reader &reader);
 
 //     HReader &reader(){
 //       return reader_;

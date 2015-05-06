@@ -93,7 +93,7 @@ void hanalysis::HFile::SetVariables()
     RunFolder = "run_01";
     TagName = "tag_1";
 //     TreeString = "Delphes";
-    CrosssectionM = 0;
+    CrosssectionM = 1;
     ErrorM = 0;
     File = NULL;
     Chain = NULL;

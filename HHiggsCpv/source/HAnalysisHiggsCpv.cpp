@@ -157,7 +157,7 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 // //         ConstituentBranch = TreeWriter->NewBranch("Constituent", HParticleBranch::Class());
 // }
 
-bool hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &NewStudyName)
+int hhiggscpv::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &NewStudyName)
 {
 
     Print(HInformation, "Analysis", NewStudyName);

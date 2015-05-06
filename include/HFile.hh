@@ -159,7 +159,7 @@ protected:
      * @brief Crosssection of the event
      *
      */
-    float CrosssectionM;
+    float CrosssectionM = 1;
 
     /**
      * @brief Error of the Crosssection

@@ -4,17 +4,20 @@
 hanalysis::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : tagger_(tagger)
 {
     Print(HNotification, "Constructor");
-    tagger_.SetAnalysisName(ProjectName());
-    mkdir(ProjectName().c_str(), 0700);
     event_sum_ = 0;
 }
 
 void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
 {
     Print(HNotification, "Analysis Loop");
+    tagger_.SetAnalysisName(ProjectName());
+    mkdir(ProjectName().c_str(), 0700);
+    if (stage == Tagger::kReader) reader_.SetMva(tagger_);
     for (const auto & tag : std::vector<Tag> {kSignal, kBackground}) {
         Print(HNotification, "Analysing Mva Sample", tag);
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");
+        files_.clear();
+        SetFiles(tag);
         for (auto & file : Files(tag)) {
             Print(HNotification, "Analysing File", file.TreeName());
             event_sum_ = 0;
@@ -34,8 +37,9 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.Mass());
-
-                if (Analysis(event, stage, tag)) {
+                int Objects = Analysis(event, stage, tag);
+                if (Objects > 0) {
+                  ObjectNumber += Objects;
                     info_branch.PreCutNumber = event_number;
                     analysis_not_empty = true;
                     static_cast<HInfoBranch &>(*tree_branch.NewEntry()) = info_branch;
@@ -78,7 +82,7 @@ ExRootTreeWriter hanalysis::HAnalysis::TreeWriter(TFile &export_file, const std:
 {
     Print(HNotification, "Get Tree Writer", export_tree_name.c_str());
     ExRootTreeWriter tree_writer(&export_file, export_tree_name.c_str());
-    tagger_.SetTreeBranch(tree_writer,stage);
+    tagger_.SetTreeBranch(tree_writer, stage);
 //     NewBranches(tree_writer, tagger);
     return tree_writer;
 }

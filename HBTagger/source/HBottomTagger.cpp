@@ -75,27 +75,24 @@ HBottomBranch hbtagger::HBottomTaggerSimple::GetBranch(const fastjet::PseudoJet 
 
 }
 
-int hbtagger::HBottomTaggerSimple::GetBranches(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
+
+
+int hbtagger::HBottomTaggerSimple::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Get Bottom Tag", tag);
 
-    HJets jets = GetJets(event);
-    Print(HInformation, "Number Jets", jets.size());
-
     HJets particles = event.GetParticles()->Generator();
-//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId, TopId)), Particles.end());
-    particles.erase(std::remove_if(particles.begin(), particles.end(), WrongAbsId(BottomId)), particles.end());
+    particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(HInformation, "Particle size", particles.size());
 
+    HJets jets = GetJets(event);
+    Print(HInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
-    HJets final_jets = CleanJets(jets, particles, tag);
-
+    jets = CleanJets(jets, particles, tag);
     Print(HDebug, "Number B Jets", jets.size());
 
-    SaveEntries(final_jets);
-
-    return final_jets.size();
-
+    SaveEntries(jets);
+    return jets.size();
 }
 
 HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particles, const Tag Tag)
@@ -145,9 +142,9 @@ hanalysis::HObject::Tag hbtagger::HBottomTaggerSimple::GetTag(const fastjet::Pse
 }
 
 
-int hbtagger::HBottomTaggerSimple::GetJetBdt(hanalysis::HEvent &event)
+int hbtagger::HBottomTaggerSimple::GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader)
 {
-  HJets jets = GetJets(event);
+    HJets jets = GetJets(event);
     HJets final_jets;
     Print(HInformation, "Get Jet Bdt");
     for (const auto jet : jets) {
@@ -161,7 +158,7 @@ int hbtagger::HBottomTaggerSimple::GetJetBdt(hanalysis::HEvent &event)
             continue;
         }
         branch_ = GetBranch(jet);
-//         static_cast<hanalysis::HJetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(reader().Bdt()); // FIXME reenable this !!!!
+        static_cast<hanalysis::HJetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader)); // FIXME reenable this !!!!
         final_jets.push_back(jet);
     }
 
@@ -175,9 +172,8 @@ float hbtagger::HBottomTaggerSimple::GetDeltaR(const fastjet::PseudoJet &Jet) co
 {
     Print(HInformation, "Get Delta R");
 
-    if (!Jet.has_constituents()) {
-        return 0;
-    }
+    if (!Jet.has_constituents()) return 0;
+
 
     float DeltaR = 0;
     for (const auto & Constituent : Jet.constituents()) {

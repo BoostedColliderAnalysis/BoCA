@@ -20,7 +20,7 @@ public:
     void SetFiles(const hanalysis::HObject::Tag Tag);
 
     inline std::string ProjectName() const {
-        return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector()) + "_" + std::to_string(PreCut()) + "GeV";
+        return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector()) + "_" + std::to_string(PreCut()) + "GeV-Test";
     }
 
 protected:
@@ -43,9 +43,9 @@ private:
     inline int EventNumberMax() const {
         //         return 1000000;
 //         return 100000;
-        return 10000;
+//         return 10000;
 //         return 1000;
-//         return 100;
+        return 100;
     };
 
     inline HDetectorType Detector() const {
@@ -106,11 +106,11 @@ private:
     }
 
     void NewSignalFile(const Process process) {
-      hanalysis::HAnalysis::NewSignalFile(ProcessName(process));
+      hanalysis::HAnalysis::NewSignalFile(FileName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-      hanalysis::HAnalysis::NewBackgroundFile(ProcessName(process));
+      hanalysis::HAnalysis::NewBackgroundFile(FileName(process));
     }
 
 
@@ -149,6 +149,6 @@ private:
         }
     }
 
-    bool Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
+    int Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
 
 };

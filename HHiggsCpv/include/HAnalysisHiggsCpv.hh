@@ -117,7 +117,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent &Event, const std::string &NewStudyName);
+    int Analysis(hanalysis::HEvent &Event, const std::string &NewStudyName);
 
     bool GetBottomTag(hanalysis::HEvent &, const std::string &StudyName);
 

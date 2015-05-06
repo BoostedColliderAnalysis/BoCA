@@ -1,10 +1,7 @@
 # pragma once
 
 # include "Tagger.hh"
-// # include "HObject.hh"
-// # include "TMVA/Reader.h"
-// # include "HBranch.hh"
-// # include "ExRootAnalysis/ExRootTreeReader.h"
+# include "HEvent.hh"
 
 class HMvaResult : hanalysis::HObject
 {
@@ -53,13 +50,18 @@ public:
 
     float Bdt() const;
 
+    int GetBdt(HEvent &event) const {
+      if(!tagger_) Print(HError,"what is wrong with the tagger?");
+        return tagger_->GetBdt(event, reader_);
+    }
+
 private:
 
     Tagger *tagger_;
 
     TMVA::Reader reader_;
 
-    TMVA::Reader &reader(){
+    TMVA::Reader &reader() {
         return reader_;
     }
 
@@ -79,7 +81,7 @@ private:
 
     void LatexHeader(std::ofstream &latex_file) const;
 
-    void LatexFooter(ofstream &latex_file) const;
+    void LatexFooter(std::ofstream &latex_file) const;
 
     inline std::string ClassName() const {
         return "HReader";

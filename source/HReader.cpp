@@ -35,14 +35,14 @@ std::vector<int> HMvaResult::CutIntegral(const std::vector<int> &bins) const
 
 hanalysis::HReader::HReader()
 {
-//     DebugLevel = HDebug;
+    DebugLevel = HDebug;
     Print(HInformation, "Constructor");
 }
 
 hanalysis::HReader::HReader(hanalysis::Tagger &tagger)
 {
-//     DebugLevel = HDebug;
-    Print(HInformation, "Constructor");
+    DebugLevel = HDebug;
+    Print(HInformation, "Constructor with tagger");
     SetMva(tagger);
 }
 

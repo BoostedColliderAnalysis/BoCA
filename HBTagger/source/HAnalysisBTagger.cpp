@@ -1,14 +1,14 @@
 # include "HAnalysisBTagger.hh"
 
 
-void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag Tag)
+void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 {
-    Print(HNotification, "Set File Vector", Tag);
+    Print(HNotification, "Set File Vector", tag);
 
 //     std::vector<hanalysis::HFile> SignalFiles;
 //     std::vector<hanalysis::HFile> BackgroundFiles;
 
-    NewSignalFile(bb);
+    if(tag == kSignal)NewSignalFile(bb);
 //     NewSignalFile(Hbb);
 //     NewSignalFile(ttbb);
 //     NewSignalFile(ttlep);
@@ -16,13 +16,13 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag Tag)
 //     NewSignalFile(tt);
 
 //     NewBackgroundFile(bb);
-    NewBackgroundFile(cc);
+    if(tag == kBackground)NewBackgroundFile(cc);
 //     NewBackgroundFile(jj);
 //     NewBackgroundFile(tt);
 //         NewBackgroundFile(ttcc);
 //         NewBackgroundFile(ttjj);
-    NewBackgroundFile(qq);
-    NewBackgroundFile(gg);
+//     NewBackgroundFile(qq);
+//     NewBackgroundFile(gg);
 //     NewBackgroundFile(hh);
 //     NewBackgroundFile(ww);
 
@@ -76,9 +76,14 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag Tag)
 
 
 
-bool hbtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hbtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
 {
     Print(HInformation, "Analysis");
     ++event_sum_;
-    return tagger_.GetBranches(event, stage, tag);
+    switch (stage) {
+    case hanalysis::Tagger::kTrainer :
+        return tagger_.Train(event, tag);
+    case hanalysis::Tagger::kReader :
+        return reader_.GetBdt(event);
+    }
 }

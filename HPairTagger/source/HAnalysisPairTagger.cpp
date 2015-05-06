@@ -209,7 +209,7 @@ void hpairtagger::HAnalysis::SetTrees()
 //
 // }
 
-bool hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Analysis", stage, tag);
     ++event_sum_;

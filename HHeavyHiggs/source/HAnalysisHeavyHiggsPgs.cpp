@@ -64,7 +64,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
+int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
     Print(HInformation, "Analysis",StudyName);

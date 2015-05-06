@@ -108,7 +108,7 @@ private:
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent &Event, const std::string &Study);
+    int Analysis(hanalysis::HEvent &Event, const std::string &Study);
 
     /**
      * @brief prepares the std::vector describing the input root files
