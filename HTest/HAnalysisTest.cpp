@@ -15,12 +15,12 @@ Strings htest::HAnalysis::GetStudyNameVector(){
 
 }
 
-std::vector<hanalysis::HFile*> htest::HAnalysis::GetFiles(const std::string &StudyName)
+std::vector<hanalysis::RootFile*> htest::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
     Print(HNotification, "Set File Vector", StudyName);
 
-    std::vector<hanalysis::HFile*> Files;
+    std::vector<hanalysis::RootFile*> Files;
 
     hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-ttbb");
         Files.emplace_back(Background);

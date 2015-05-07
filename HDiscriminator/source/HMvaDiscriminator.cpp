@@ -8,7 +8,7 @@ hcpvhiggs::HMva::HMva()
 
 //     DebugLevel = 4;
 
-    SetTaggerName("Higgs");
+    set_tagger_name("Higgs");
 
 //     SignalNames = {"Higgs"};
 
@@ -60,34 +60,34 @@ void hcpvhiggs::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Candidate->Mass, "Mass", "m_j");
-    AddObservable(Candidate->Pt, "Pt", "p^T_j");
-    AddObservable(Candidate->Rap, "Rap","\\eta_j");
-    AddObservable(Candidate->Phi, "Phi","\\phi_j");
+    AddVariable(Candidate->Mass, "Mass", "m_j");
+    AddVariable(Candidate->Pt, "Pt", "p^T_j");
+    AddVariable(Candidate->Rap, "Rap","\\eta_j");
+    AddVariable(Candidate->Phi, "Phi","\\phi_j");
 
-    AddObservable(Candidate->DeltaR, "DeltaR","Delta R");
-    AddObservable(Candidate->SubJetsDeltaR, "SubJetsDeltaR","\\Delta R(j_1,j_2)");
-    AddObservable(Candidate->Asymmetry, "Asymmetry","A");
-    AddObservable(Candidate->DiPolarity, "DiPolarity","P");
+    AddVariable(Candidate->DeltaR, "DeltaR","Delta R");
+    AddVariable(Candidate->SubJetsDeltaR, "SubJetsDeltaR","\\Delta R(j_1,j_2)");
+    AddVariable(Candidate->Asymmetry, "Asymmetry","A");
+    AddVariable(Candidate->DiPolarity, "DiPolarity","P");
 
-    AddObservable(Candidate->SubJet1Mass, "SubJet1Mass", "m_{j_1}");
-    AddObservable(Candidate->SubJet1Pt, "SubJet1Pt");
-    AddObservable(Candidate->SubJet1DeltaR,"SubJet1DeltaR");
+    AddVariable(Candidate->SubJet1Mass, "SubJet1Mass", "m_{j_1}");
+    AddVariable(Candidate->SubJet1Pt, "SubJet1Pt");
+    AddVariable(Candidate->SubJet1DeltaR,"SubJet1DeltaR");
 
-    AddObservable(Candidate->SubJet2Mass, "SubJet2Mass");
-    AddObservable(Candidate->SubJet2Pt, "SubJet2Pt");
-    AddObservable(Candidate->SubJet2DeltaR,"SubJet2DeltaR");
+    AddVariable(Candidate->SubJet2Mass, "SubJet2Mass");
+    AddVariable(Candidate->SubJet2Pt, "SubJet2Pt");
+    AddVariable(Candidate->SubJet2DeltaR,"SubJet2DeltaR");
 
-    AddObservable(Candidate->ConstRap,  "ConstRap");
-    AddObservable(Candidate->ConstPhi,  "ConstPhi");
-    AddObservable(Candidate->ConstDeltaR, "ConstDeltaR");
-    AddObservable(Candidate->ConstAngle, "ConstAngle");
+    AddVariable(Candidate->ConstRap,  "ConstRap");
+    AddVariable(Candidate->ConstPhi,  "ConstPhi");
+    AddVariable(Candidate->ConstDeltaR, "ConstDeltaR");
+    AddVariable(Candidate->ConstAngle, "ConstAngle");
 
-    AddObservable(Candidate->IsolationRap, "IsolationRap");
-    AddObservable(Candidate->IsolationPhi, "IsolationPhi");
-    AddObservable(Candidate->IsolationDeltaR, "IsolationDeltaR");
-    AddObservable(Candidate->IsolationAngle, "IsolationAngle");
-    AddObservable(Candidate->IsolationPt, "IsolationPt");
+    AddVariable(Candidate->IsolationRap, "IsolationRap");
+    AddVariable(Candidate->IsolationPhi, "IsolationPhi");
+    AddVariable(Candidate->IsolationDeltaR, "IsolationDeltaR");
+    AddVariable(Candidate->IsolationAngle, "IsolationAngle");
+    AddVariable(Candidate->IsolationPt, "IsolationPt");
 
     AddSpectator(Candidate->HiggsTag, "HiggsTag");
     AddSpectator(Candidate->TopTag, "TopTag");
@@ -101,11 +101,11 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 {
   Print(HNotification, "Apply Bdt");
 
-  const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
+  const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
   ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-  ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HCandidateBranch::Class());
+  ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HCandidateBranch::Class());
 //   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();

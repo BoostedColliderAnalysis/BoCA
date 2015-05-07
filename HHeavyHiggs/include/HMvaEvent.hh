@@ -147,7 +147,7 @@ public:
     * @brief Constructor
     *
     */
-    HMvaEvent(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopSemiTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
+    HMvaEvent(hanalysis::BottomTagger *const NewBottomTagger, hanalysis::HTopSemiTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -179,7 +179,7 @@ private:
     void DefineVariables();
 
 
-    hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::BottomTagger *BottomTagger;
     hanalysis::HTopSemiTagger *LeptonicTopTagger;
     hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
     hanalysis::Reader BottomReader;

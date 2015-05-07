@@ -1,7 +1,7 @@
 # ifndef HChargedJetPairTagger_hh
 # define HChargedJetPairTagger_hh
 
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HQuartet31.hh"
 # include "HTopSemiTagger.hh"
 # include "HTopHadronicTagger.hh"
@@ -17,7 +17,7 @@ public:
 
     HChargedJetPairTagger();
 
-    void SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger);
+    void SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger);
 
     std::vector< HChargedJetPairBranch> GetBranches(HEvent &Event, const HObject::Tag Tag);
 
@@ -25,7 +25,7 @@ public:
 
     HChargedJetPairBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
     HWHadronicTagger WTagger;
     HWSemiTagger WSemiTagger;
     HTopHadronicTagger TopHadronicTagger;

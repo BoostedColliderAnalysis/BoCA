@@ -2,7 +2,8 @@
 
 
 # include "HDoublet.hh"
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
+# include "Reader.hh"
 
 /**
  * @brief Semi leptonic top BDT tagger
@@ -15,7 +16,7 @@ public:
 
     HTopLeptonTagger();
 
-    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger);
+    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
     std::vector<HTopLeptonBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
@@ -27,7 +28,7 @@ public:
 
     HTopLeptonBranch GetBranch(const hanalysis::HDoublet &Doublet) const;
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
 
     hanalysis::Reader BottomReader;
 protected:

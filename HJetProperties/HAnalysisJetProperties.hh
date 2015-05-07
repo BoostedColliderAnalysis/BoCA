@@ -177,7 +177,7 @@ private:
      *
      * @return void
      */
-    std::vector< hanalysis::HFile* > GetFiles(const std::string &StudyName);
+    std::vector< hanalysis::RootFile* > GetFiles(const std::string &StudyName);
 
     /**
      * @brief New Analysis

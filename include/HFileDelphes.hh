@@ -7,13 +7,13 @@
 
 # include "HObject.hh"
 # include "ClonesArrays.hh"
-# include "HFile.hh"
+# include "RootFile.hh"
 
 /**
  * @brief Delphes files
  *
  */
-class hanalysis::hdelphes::HFile : public hanalysis::HFile
+class hanalysis::hdelphes::HFile : public hanalysis::RootFile
 {
 
 public:

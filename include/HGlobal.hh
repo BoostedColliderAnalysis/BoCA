@@ -26,7 +26,7 @@ class HFourVector;
 
 class ClonesArrays;
 class HEvent;
-class HFile;
+class RootFile;
 class HParticle;
 class HLepton;
 class HJet;
@@ -51,7 +51,7 @@ class TopHadronicTagger;
 class HSubStructure;
 class HSextet;
 
-class HBottomTagger;
+class BottomTagger;
 class HTauTagger;
 class HTopSemiTagger;
 class HTopLeptonicTagger;

@@ -21,7 +21,7 @@ public:
     */
     HEventHadronicTagger();
 
-    HEventHadronicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger);
+    HEventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -50,7 +50,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWHadronicTagger WTagger;
     hanalysis::HTopHadronicTagger TopHadronicTagger;
     hanalysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;

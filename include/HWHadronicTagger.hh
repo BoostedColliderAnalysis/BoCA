@@ -1,8 +1,9 @@
 # ifndef HHadronicWTagger_hh
 # define HHadronicWTagger_hh
 
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HDoublet.hh"
+# include "Reader.hh"
 
 /**
  * @brief W BDT tagger
@@ -15,13 +16,13 @@ public:
 
     HWHadronicTagger();
 
-    void SetTagger(const HBottomTagger &NewBottomTagger);
+    void SetTagger(const BottomTagger &NewBottomTagger);
 
     std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
 //     std::vector<HParticleBranch> GetConstituentBranches();
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::Reader &BottomReader);
+    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader);
 
     std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &WReader);
     std::vector<HDoublet> GetPairBdt(const HJets &Jets, const hanalysis::Reader &WReader);
@@ -29,9 +30,9 @@ public:
 
     HDoublet GetBdt(HDoublet &Doublet, const hanalysis::Reader &WReader);
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
 
-    Reader BottomReader;
+    Reader bottom_reader_;
 
     HWBranch GetBranch(const HDoublet &Doublet) const;
 

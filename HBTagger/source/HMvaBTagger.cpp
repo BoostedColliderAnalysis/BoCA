@@ -6,7 +6,7 @@ hbtagger::HMva::HMva()
 
     Print(HNotification , "Constructor");
 
-    SetTaggerName("BTagger");
+    set_tagger_name("BTagger");
 
 //     SignalNames = {"Bottom"};
 
@@ -54,10 +54,10 @@ void hbtagger::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Candidate->VertexMass, "VertexMass");
-    AddObservable(Candidate->JetMass, "JetMass");
-    AddObservable(Candidate->VertexNumber, "VertexNumber");
-    AddObservable(Candidate->Vertex, "Vertex");
+    AddVariable(Candidate->VertexMass, "VertexMass");
+    AddVariable(Candidate->JetMass, "JetMass");
+    AddVariable(Candidate->VertexNumber, "VertexNumber");
+    AddVariable(Candidate->Vertex, "Vertex");
 
     AddSpectator(Candidate->BTag, "BTag");
 
@@ -70,10 +70,10 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 {
     Print(HNotification, "Apply Bdt");
 
-    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
+    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HBTaggerBranch::Class());
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HBTaggerBranch::Class());
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 

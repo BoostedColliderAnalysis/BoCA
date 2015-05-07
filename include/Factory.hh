@@ -44,7 +44,7 @@ private:
      */
     void PrepareTrainingAndTestTree(const int event_number);
 
-    int AddTree(TFile &file, const std::string &tree_name, const bool signal);
+    int AddTree(TFile &file, const std::string &tree_name, const hanalysis::HObject::Tag tag);
 
     TFile *output_file() const;
 
@@ -52,7 +52,7 @@ private:
 
     inline std::string ClassName() const {
         return "Factory";
-    };
+    }
 
     Tagger &tagger() const {
         return tagger_;

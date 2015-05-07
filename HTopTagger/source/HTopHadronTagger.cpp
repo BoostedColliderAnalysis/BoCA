@@ -18,10 +18,10 @@ HTopHadronTagger::HTopHadronTagger()
     DefineVariables();
 }
 
-void HTopHadronTagger::SetTagger(const hanalysis::HBottomTagger &bottom_tagger, const hanalysis::HWHadronicTagger &w_tagger)
+void HTopHadronTagger::SetTagger(const hanalysis::BottomTagger &bottom_tagger, const hanalysis::HWHadronicTagger &w_tagger)
 {
     Print(HNotification, "Constructor");
-    BottomTagger = bottom_tagger;
+    bottom_tagger_ = bottom_tagger;
     WTagger = w_tagger;
     DefineVariables();
 }
@@ -30,53 +30,53 @@ void HTopHadronTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
-    SetTaggerName("TopHadronic");
+    set_tagger_name("TopHadronic");
     TopWindow = (TopMass - WMass) / 2;
     WMassWindow = 20;
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.BottomPt, "BottomPt");
-    AddObservable(Branch.WPt, "WPt");
+    AddVariable(Branch.BottomPt, "BottomPt");
+    AddVariable(Branch.WPt, "WPt");
 
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaHt, "DeltaHt");
-    AddObservable(Branch.DeltaM, "DeltaM");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaHt, "DeltaHt");
+    AddVariable(Branch.DeltaM, "DeltaM");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
-    AddObservable(Branch.Tau1_1, "Tau1_1");
-    AddObservable(Branch.Tau2_1, "Tau2_1");
-    AddObservable(Branch.Tau3_1, "Tau3_1");
-    AddObservable(Branch.Tau21_1, "Tau21_1");
-    AddObservable(Branch.Tau32_1, "Tau32_1");
-    AddObservable(Branch.Tau1_2, "Tau1_2");
-    AddObservable(Branch.Tau2_2, "Tau2_2");
-    AddObservable(Branch.Tau3_2, "Tau3_2");
-    AddObservable(Branch.Tau21_2, "Tau21_2");
-    AddObservable(Branch.Tau32_2, "Tau32_2");
+    AddVariable(Branch.Tau1_1, "Tau1_1");
+    AddVariable(Branch.Tau2_1, "Tau2_1");
+    AddVariable(Branch.Tau3_1, "Tau3_1");
+    AddVariable(Branch.Tau21_1, "Tau21_1");
+    AddVariable(Branch.Tau32_1, "Tau32_1");
+    AddVariable(Branch.Tau1_2, "Tau1_2");
+    AddVariable(Branch.Tau2_2, "Tau2_2");
+    AddVariable(Branch.Tau3_2, "Tau3_2");
+    AddVariable(Branch.Tau21_2, "Tau21_2");
+    AddVariable(Branch.Tau32_2, "Tau32_2");
 
-    AddObservable(Branch.MaxDisplacement, "MaxDisplacement");
-    AddObservable(Branch.MeanDisplacement, "MeanDisplacement");
-    AddObservable(Branch.SumDisplacement, "SumDisplacement");
-    AddObservable(Branch.VertexMass, "VertexMass");
-    AddObservable(Branch.Multipliticity, "Multipliticity");
-    AddObservable(Branch.VertexDeltaR, "VertexDeltaR");
-    AddObservable(Branch.VertexSpread, "VertexSpread");
-    AddObservable(Branch.Spread, "Spread");
-    AddObservable(Branch.EnergyFraction, "EnergyFraction");
+    AddVariable(Branch.MaxDisplacement, "MaxDisplacement");
+    AddVariable(Branch.MeanDisplacement, "MeanDisplacement");
+    AddVariable(Branch.SumDisplacement, "SumDisplacement");
+    AddVariable(Branch.VertexMass, "VertexMass");
+    AddVariable(Branch.Multipliticity, "Multipliticity");
+    AddVariable(Branch.VertexDeltaR, "VertexDeltaR");
+    AddVariable(Branch.VertexSpread, "VertexSpread");
+    AddVariable(Branch.Spread, "Spread");
+    AddVariable(Branch.EnergyFraction, "EnergyFraction");
 
-    AddObservable(Branch.LeptonPt, "LeptonPt");
-    AddObservable(Branch.WBdt, "WBdt");
-    AddObservable(Branch.BBdt, "BBdt");
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.LeptonPt, "LeptonPt");
+    AddVariable(Branch.WBdt, "WBdt");
+    AddVariable(Branch.BBdt, "BBdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
 }
 
@@ -171,7 +171,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
     }
 
     HJets Jets = GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
     std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
     std::vector<hanalysis::HTriplet> Triplets;
 
@@ -194,7 +194,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 // // 2 Jet form one top
 //     for (const auto Jet : Jets) {
 //         HJets Pieces = GetSubJets(Jet, 2);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 1 jet form one W
 //         std::vector<hanalysis::HDoublet> PiecesDoublets = WTagger.GetBdt(Pieces, WReader);
 //         for (const auto & Doublet : PiecesDoublets)
@@ -214,7 +214,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 // 1 Jet forms one top
     for (const auto Jet : Jets) {
         HJets Pieces = GetSubJets(Jet, 3);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
 // 2 subjets form one W
@@ -239,7 +239,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 // // 1 Jet forms one top
 //     for (const auto Jet : Jets) {
 //         HJets Pieces = GetSubJets(Jet, 2);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 //         for (const auto & Piece1 : Pieces) {
 // // 1 subjets forms one W
 //             hanalysis::HDoublet Doublet(Piece1);
@@ -346,7 +346,7 @@ hanalysis::HTriplet HTopHadronTagger::GetBdt(hanalysis::HTriplet &Triplet, const
 }
 
 
-std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
+std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
 {
     std::vector<hanalysis::HTriplet> Triplets;
 
@@ -358,7 +358,7 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, con
 // // 2 jets form a top
 //     for (const auto & Jet : Jets) {
 //         HJets Pieces = GetSubJets(Jet, 2);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 2 subjets form a W
 //         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetPairBdt(Pieces, WReader);
 // // 2 subjets and one jet form a top
@@ -369,7 +369,7 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, con
 // 1 jet forms a top
     for (const auto & Jet : Jets) {
         HJets Pieces = GetSubJets(Jet, 3);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 // 2 subjets form a W
         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetPairBdt(Pieces, WReader);
 // 3 subjets form a top
@@ -380,7 +380,7 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, con
 // // 1 jet forms a top
 //     for (const auto & Jet : Jets) {
 //         HJets Pieces = GetSubJets(Jet, 2);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 1 subjets form a W
 //         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetSingletBdt(Pieces, WReader);
 // // 2 subjets form a top

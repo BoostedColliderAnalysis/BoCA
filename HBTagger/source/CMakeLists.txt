@@ -2,7 +2,7 @@ HDictionary(HBranchBTagger HBranchBTagger.cpp ../include/HLinkDefBTagger.hh)
 
 set(
 Btaggerlibs
-HBottomTaggerSimple.cpp
+BottomTaggerSimple.cpp
 HAnalysisBTagger.cpp
 )
 

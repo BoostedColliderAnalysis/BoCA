@@ -15,7 +15,7 @@ hanalysis::HTauTagger::~HTauTagger()
 void hanalysis::HTauTagger::SetTagger()
 {
     Print(HNotification, "Set Tagger");
-    SetTaggerName("Tau");
+    set_tagger_name("Tau");
     DefineVariables();
 }
 
@@ -26,19 +26,19 @@ void hanalysis::HTauTagger::DefineVariables()
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
 
-    AddObservable(Branch.EmRadius, "EmRadius");
-    AddObservable(Branch.TrackRadius, "TrackRadius");
+    AddVariable(Branch.EmRadius, "EmRadius");
+    AddVariable(Branch.TrackRadius, "TrackRadius");
 //     AddObservable(Branch.MomentumFraction, "MomentumFraction");
-    AddObservable(Branch.CoreEnergyFraction, "CoreEnergyFraction");
+    AddVariable(Branch.CoreEnergyFraction, "CoreEnergyFraction");
     AddSpectator(Branch.EmFraction, "EmFraction");
-    AddObservable(Branch.ClusterMass, "ClusterMass");
-    AddObservable(Branch.TrackMass, "TrackMass");
-    AddObservable(Branch.FlightPath, "FlightPath");
+    AddVariable(Branch.ClusterMass, "ClusterMass");
+    AddVariable(Branch.TrackMass, "TrackMass");
+    AddVariable(Branch.FlightPath, "FlightPath");
     AddSpectator(Branch.TrtHtFraction, "TrtHtFraction");
 
     AddSpectator(Branch.Tag, "Tag");

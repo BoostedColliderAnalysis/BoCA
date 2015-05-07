@@ -5,7 +5,7 @@ hheavyhiggs::HMva::HMva()
 
     Print(HNotification , "Constructor");
 
-    SetTaggerName("HeavyHiggs");
+    set_tagger_name("HeavyHiggs");
 
 //     SignalNames = {"Signal"};
 
@@ -49,8 +49,8 @@ void hheavyhiggs::HMva::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(HeavyHiggs->DeltaRap, "DeltaRap");
-    AddObservable(HeavyHiggs->DeltaPhi, "DeltaPhi");
+    AddVariable(HeavyHiggs->DeltaRap, "DeltaRap");
+    AddVariable(HeavyHiggs->DeltaPhi, "DeltaPhi");
 
     Print(HNotification,"Variables defined");
 

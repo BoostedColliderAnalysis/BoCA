@@ -7,16 +7,16 @@
 // }
 
 hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger(
-    const hanalysis::HBottomTagger &NewBottomTagger,
+    const hanalysis::BottomTagger &NewBottomTagger,
     const hanalysis::HJetPairTagger &NewJetPairTagger,
     const hanalysis::HTopLeptonicTagger &NewTopTagger,
     const hanalysis::HHeavyHiggsLeptonicTagger &NewHeavyHiggsTagger)
 {
     DebugLevel = HError;
     Print(HNotification , "Constructor");
-    SetTaggerName("EventLeptonic");
-    BottomTagger = NewBottomTagger;
-    BottomReader.set_tagger(BottomTagger);
+    set_tagger_name("EventLeptonic");
+    bottom_tagger_ = NewBottomTagger;
+    BottomReader.set_tagger(bottom_tagger_);
     TopLeptonicTagger = NewTopTagger;
     TopLeptonicReader.set_tagger(TopLeptonicTagger);
     HeavyHiggsLeptonicTagger = NewHeavyHiggsTagger;
@@ -31,7 +31,7 @@ hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger(
 hheavyhiggs::HEventLeptonicTagger::HEventLeptonicTagger()
 {
     Print(HNotification , "Constructor");
-    SetTaggerName("EventLeptonic");
+    set_tagger_name("EventLeptonic");
 //     Branch = new hheavyhiggs::HEventLeptonicBranch();
     DefineVariables();
 }
@@ -54,45 +54,45 @@ void hheavyhiggs::HEventLeptonicTagger::DefineVariables()
     Print(HNotification , "Define Variables");
 
     AddSpectator(Branch.LeptonNumber, "LeptonNumber");
-    AddObservable(Branch.JetNumber, "JetNumber");
-    AddObservable(Branch.BottomNumber, "BottomNumber");
-    AddObservable(Branch.ScalarHt, "ScalarHt");
+    AddVariable(Branch.JetNumber, "JetNumber");
+    AddVariable(Branch.BottomNumber, "BottomNumber");
+    AddVariable(Branch.ScalarHt, "ScalarHt");
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
 
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
-    AddObservable(Branch.DeltaPt1, "DeltaPt1");
-    AddObservable(Branch.DeltaRap1, "DeltaRap1");
-    AddObservable(Branch.DeltaPhi1, "DeltaPhi1");
-    AddObservable(Branch.DeltaR1, "DeltaR1");
+    AddVariable(Branch.DeltaPt1, "DeltaPt1");
+    AddVariable(Branch.DeltaRap1, "DeltaRap1");
+    AddVariable(Branch.DeltaPhi1, "DeltaPhi1");
+    AddVariable(Branch.DeltaR1, "DeltaR1");
 
-    AddObservable(Branch.DeltaPt2, "DeltaPt2");
-    AddObservable(Branch.DeltaRap2, "DeltaRap2");
-    AddObservable(Branch.DeltaPhi2, "DeltaPhi2");
-    AddObservable(Branch.DeltaR2, "DeltaR2");
+    AddVariable(Branch.DeltaPt2, "DeltaPt2");
+    AddVariable(Branch.DeltaRap2, "DeltaRap2");
+    AddVariable(Branch.DeltaPhi2, "DeltaPhi2");
+    AddVariable(Branch.DeltaR2, "DeltaR2");
 
-    AddObservable(Branch.HiggsMass, "HiggsMass");
-    AddObservable(Branch.PairRap, "PairRap");
+    AddVariable(Branch.HiggsMass, "HiggsMass");
+    AddVariable(Branch.PairRap, "PairRap");
 
-    AddObservable(Branch.RestM, "RestM");
-    AddObservable(Branch.RestPt, "RestPt");
-    AddObservable(Branch.RestHt, "RestHt");
-    AddObservable(Branch.RestPhi, "RestPhi");
-    AddObservable(Branch.RestRap, "RestRap");
-    AddObservable(Branch.RestBTag, "RestBTag");
-    AddObservable(Branch.RestBBdt, "RestBBdt");
-    AddObservable(Branch.MaxBBdt, "MaxBBdt");
-    AddObservable(Branch.TotalBBdt, "TotalBBdt");
-    AddObservable(Branch.ThirdBBdt, "ThirdBBdt");
+    AddVariable(Branch.RestM, "RestM");
+    AddVariable(Branch.RestPt, "RestPt");
+    AddVariable(Branch.RestHt, "RestHt");
+    AddVariable(Branch.RestPhi, "RestPhi");
+    AddVariable(Branch.RestRap, "RestRap");
+    AddVariable(Branch.RestBTag, "RestBTag");
+    AddVariable(Branch.RestBBdt, "RestBBdt");
+    AddVariable(Branch.MaxBBdt, "MaxBBdt");
+    AddVariable(Branch.TotalBBdt, "TotalBBdt");
+    AddVariable(Branch.ThirdBBdt, "ThirdBBdt");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
@@ -167,7 +167,7 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
     JetTag.HeavyParticles = {GluonId, TopId};
     HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
 
     HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
@@ -360,17 +360,17 @@ std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector<
 
 std::vector<int> hheavyhiggs::HEventLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 {
-  Print(HNotification, "Apply Bdt", GetBranchName());
-  std::string Temp = GetBranchName(); // TODO remove this dirty trick
-  GetBranchName() += "Reader";
+  Print(HNotification, "Apply Bdt", branch_name());
+  std::string Temp = branch_name(); // TODO remove this dirty trick
+  branch_name() += "Reader";
 
     const int Steps = 20;
     std::vector<int> EventNumbers(Steps, 0);
 
-    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
+    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HResultBranch::Class());
+    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(branch_name().c_str(), HResultBranch::Class());
 
     for (const int EventNumber : Range(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
 

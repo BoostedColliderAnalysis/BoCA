@@ -46,6 +46,9 @@ char Observable::type() const
     return type_;
 }
 
+
+std::string hanalysis::Tagger::analysis_name_;
+
 hanalysis::Tagger::Tagger()
 {
 //   DebugLevel = HNotification;
@@ -64,14 +67,14 @@ hanalysis::Tagger::Tagger()
 Observable hanalysis::Tagger::NewObservable(float &value, const std::string &title) const
 {
     Print(HInformation, "New Observable", title);
-    const std::string expression = GetBranchName() + "." + title;
+    const std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "", "");
 }
 
 Observable hanalysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
     Print(HInformation, "New Observable", title);
-    const std::string expression = GetBranchName() + "." + title;
+    const std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "", latex);
 
 }

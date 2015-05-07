@@ -5,7 +5,7 @@ hhiggscpv::HMvaBottom::HMvaBottom()
 
     Print(HNotification , "Constructor");
 
-    SetTaggerName("Bottom");
+    set_tagger_name("Bottom");
 
 //     SignalNames = {"Bottom"};
 
@@ -41,11 +41,11 @@ void hhiggscpv::HMvaBottom::DefineVariables()
 
     Print(HNotification , "Define Variables",BTagger->Mass);
 
-    AddObservable(BTagger->VertexMass, "VertexMass");
-    AddObservable(BTagger->Pt, "Pt");
-    AddObservable(BTagger->MaxDisplacement, "Displacement");
-    AddObservable(BTagger->Multipliticity, "Multipliticity");
-    AddObservable(BTagger->DeltaR, "DeltaR");
+    AddVariable(BTagger->VertexMass, "VertexMass");
+    AddVariable(BTagger->Pt, "Pt");
+    AddVariable(BTagger->MaxDisplacement, "Displacement");
+    AddVariable(BTagger->Multipliticity, "Multipliticity");
+    AddVariable(BTagger->DeltaR, "DeltaR");
 
     AddSpectator(BTagger->Mass, "Mass");
     AddSpectator(BTagger->Tag, "Tag");

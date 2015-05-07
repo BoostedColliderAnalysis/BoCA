@@ -115,7 +115,7 @@ private:
      *
      * @return void
      */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &Name);
+    std::vector<hanalysis::RootFile * > GetFiles(const std::string &Name);
 
     /**
      * @brief New Analysis

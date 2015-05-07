@@ -103,7 +103,7 @@ int main()
 
     HConfig config("Neutral");
 
-    hanalysis::HBottomTagger bottom_tagger;
+    hanalysis::BottomTagger bottom_tagger;
     RunTagger(bottom_tagger, hanalysis::Tagger::kTrainer, config);
     RunTagger(bottom_tagger, hanalysis::Tagger::kReader, config);
 

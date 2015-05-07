@@ -21,19 +21,19 @@ hanalysis::hpgs::HFile::HFile(const std::string &Process, const std::string &Run
 //     RunFolder = Run;
 }
 
-std::string hanalysis::hpgs::HFile::TreeName() const
+std::string hanalysis::hpgs::HFile::tree_name() const
 {
     Print(HInformation, "Get Tree String");
-    TreeNameM = "LHCO";
-    return TreeNameM;
+    tree_name_ = "LHCO";
+    return tree_name_;
 }
 
 Strings hanalysis::hpgs::HFile::Paths() const
 {
     Print(HInformation, "FilePath");
-    FileSuffix = "_pgs_events.root";
+    file_suffix_ = "_pgs_events.root";
     Strings FilePaths;
-    FilePaths.emplace_back(GetMadGraphFilePath() + TagName +  FileSuffix);
+    FilePaths.emplace_back(GetMadGraphFilePath() + tag_name_ +  file_suffix_);
     return FilePaths;
 }
 

@@ -15,7 +15,7 @@ public:
 
     HHeavyHiggsHadronicTagger();
 
-    HHeavyHiggsHadronicTagger(const HBottomTagger &NewBottomTagger, const HWHadronicTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger);
+    HHeavyHiggsHadronicTagger(const BottomTagger &NewBottomTagger, const HWHadronicTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger);
 
     ~HHeavyHiggsHadronicTagger();
 
@@ -38,7 +38,7 @@ private:
 
     Tag GetTag(const HSextet &Sextet);
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
     HWHadronicTagger WTagger;
     HTopHadronicTagger TopHadronicTagger;
 

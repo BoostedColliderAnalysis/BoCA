@@ -51,8 +51,17 @@ public:
     float Bdt() const;
 
     int GetBdt(HEvent &event) const {
-      if(!tagger_) Print(HError,"what is wrong with the tagger?");
+        if (!tagger_) Print(HError, "what is wrong with the tagger?");
         return tagger_->GetBdt(event, reader_);
+    }
+
+    template <typename Multiplet>
+    std::vector<Multiplet> GetMultiplets(HEvent &event) const {
+        return tagger_->GetMultiplets(event, reader_);
+    }
+
+    TMVA::Reader &reader() {
+        return reader_;
     }
 
 private:
@@ -60,10 +69,6 @@ private:
     Tagger *tagger_;
 
     TMVA::Reader reader_;
-
-    TMVA::Reader &reader() {
-        return reader_;
-    }
 
     Tagger &tagger() const {
         return *tagger_;

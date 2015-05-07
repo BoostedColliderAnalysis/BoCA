@@ -1,21 +1,13 @@
 # pragma once
 
-#include <sys/stat.h>
-
-// # include "HFileDelphes.hh"
-// # include "HAnalysis.hh"
-// # include "HEventDelphes.hh"
-// # include "Reader.hh"
-// # include "Factory.hh"
-// # include "HJetTag.hh"
-
 # include "HTopHadronTagger.hh"
 # include "HTopLeptonTagger.hh"
+# include "HAnalysis.hh"
 
 
 /**
  *
- * @brief HAnalysis subclass defining the HiggsCPV Analysis
+ * @brief HAnalysis subclass defining the Top Tagger ananlysis
  *
  * @author Jan Hajer
  *
@@ -34,19 +26,24 @@ using hanalysis::HAnalysis::HAnalysis;
     void SetFiles(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
-
-        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
+        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt) + "Test";
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
 
     inline Decay TopDecay() const {
-        return kHadronic;
-//          return kLeptonic;
+//         return kHadronic;
+         return kLeptonic;
 //         return kSemi;
     }
 
 protected:
+
+
+
+  virtual inline std::string FilePath() const {
+    return "~/Projects/HTopTagger/";
+  }
 
     virtual inline std::string NameSpaceName() const {
         return "htoptagger";
@@ -114,18 +111,18 @@ private:
     }
 
 
-    inline hanalysis::HFile BackgroundFile(const Process process) const {
+    inline hanalysis::RootFile BackgroundFile(const Process process) const {
         return BackgroundFile(process, BackgroundFileNumber());
     }
 
-    hanalysis::HFile BackgroundFile(const Process process, const int FileSum) const {
+    hanalysis::RootFile BackgroundFile(const Process process, const int file_sum) const {
 
 
         Strings FileNames;
-        for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
+        for (int FileNumber = 0; FileNumber < file_sum; ++FileNumber) {
             FileNames.emplace_back(FileName(process));
         }
-        return hanalysis::HFile(FileNames);
+        return hanalysis::RootFile(FileNames);
     }
 
     std::string BackgroundTree(const Process Process) const {
@@ -133,8 +130,8 @@ private:
     }
 
 
-    std::string ColliderName(const Collider Collider) const {
-        switch (Collider) {
+    std::string ColliderName(const Collider collider) const {
+        switch (collider) {
         case LHC :
             return "14TeV";
         case FHC:
@@ -147,8 +144,8 @@ private:
         }
     }
 
-    std::string ProcessName(const Process Process) const {
-        switch (Process) {
+    std::string ProcessName(const Process process) const {
+        switch (process) {
         case Hbb:
             return "H0bb-ljbbbb";
         case ttbb :
@@ -213,17 +210,6 @@ private:
      *
      */
     int Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
-
-//     bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-//     bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-//     bool GetWSemiTag(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-//     bool GetWSemiReader(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
-//     bool GetWTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-//     bool GetWReader(hanalysis::HEvent &Event, const Tag Tag);
-//     bool GetTopHadronicTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-//     bool GetTopSemiTag(hanalysis::HEvent &Event, hanalysis::HObject::Tag Tag);
-//     bool GetTopHadronicReader(hanalysis::HEvent &Event, const Tag Tag);
-//     bool GetTopSemiReader(hanalysis::HEvent &Event, const Tag Tag);
 
 };
 

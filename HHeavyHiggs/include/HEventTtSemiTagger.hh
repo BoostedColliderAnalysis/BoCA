@@ -23,7 +23,7 @@ public:
     HEventTtSemiTagger();
 
     void SetTagger(
-        const hanalysis::HBottomTagger &NewBottomTagger,
+        const hanalysis::BottomTagger &NewBottomTagger,
         const hanalysis::HWSemiTagger &NewWSemiTagger,
         const hanalysis::HWHadronicTagger &NewWTagger,
         const hanalysis::HTopSemiTagger &NewTopSemiTagger,
@@ -38,7 +38,7 @@ public:
 
     HEventTtSemiBranch GetBranch(const HSextetEvent &Event) const;
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWSemiTagger WSemiTagger;
     hanalysis::HWHadronicTagger WTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;

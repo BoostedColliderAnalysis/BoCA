@@ -90,7 +90,7 @@ int main()
     fastjet::Error::set_print_backtrace(true);
 
 
-    hanalysis::HBottomTagger bottom_tagger;
+    hanalysis::BottomTagger bottom_tagger;
     RunTagger(bottom_tagger, hanalysis::Tagger::kTrainer);
     RunTagger(bottom_tagger, hanalysis::Tagger::kReader);
 

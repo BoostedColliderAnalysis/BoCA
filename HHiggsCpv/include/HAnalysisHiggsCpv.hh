@@ -10,7 +10,7 @@
 // # include "HMvaPairs.hh"
 # include "Reader.hh"
 # include "Factory.hh"
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HTopLeptonicTagger.hh"
 # include "HMvaHiggsTagger.hh"
 
@@ -74,7 +74,7 @@ public:
      */
     ~HAnalysis();
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HTopLeptonicTagger LeptonicTopTagger;
     hanalysis::HMvaHiggsTagger HiggsTagger;
 
@@ -83,7 +83,7 @@ public:
      *
      * @return void
      */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &StudyName);
+    std::vector<hanalysis::RootFile * > GetFiles(const std::string &StudyName);
 
 private:
 

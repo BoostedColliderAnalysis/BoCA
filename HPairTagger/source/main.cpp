@@ -41,7 +41,7 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
 
 int main()
 {
-  hanalysis::HBottomTagger bottom_tagger;
+  hanalysis::BottomTagger bottom_tagger;
     RunTagger(bottom_tagger, hanalysis::Tagger::kTrainer);
     RunTagger(bottom_tagger, hanalysis::Tagger::kReader);
 

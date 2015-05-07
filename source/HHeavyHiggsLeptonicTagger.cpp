@@ -5,21 +5,21 @@ hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger()
   //     DebugLevel = hanalysis::HObject::HDebug;
 
   Print(HNotification, "Constructor");
-  SetTaggerName("HeavyHiggsLeptonic");
+  set_tagger_name("HeavyHiggsLeptonic");
 }
 
-hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(const HBottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
+hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(const BottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
-    BottomTagger = NewBottomTagger;
-    BottomReader.set_tagger(BottomTagger);
+    bottom_tagger_ = NewBottomTagger;
+    BottomReader.set_tagger(bottom_tagger_);
     TopLeptonicTagger = NewTopLeptonicTagger;
     TopLeptonicReader.set_tagger(TopLeptonicTagger);
 
-    SetTaggerName("HeavyHiggsLeptonic");
+    set_tagger_name("HeavyHiggsLeptonic");
     DefineVariables();
 }
 
@@ -37,32 +37,32 @@ void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
   ClearVectors();
 
   AddSpectator(Branch.Mass, "Mass");
-  AddObservable(Branch.Pt, "Pt");
-  AddObservable(Branch.Rap, "Rap");
-  AddObservable(Branch.Phi, "Phi");
+  AddVariable(Branch.Pt, "Pt");
+  AddVariable(Branch.Rap, "Rap");
+  AddVariable(Branch.Phi, "Phi");
 
-  AddObservable(Branch.DeltaPt, "DeltaPt");
-  AddObservable(Branch.DeltaR, "DeltaR");
-  AddObservable(Branch.DeltaRap, "DeltaRap");
-  AddObservable(Branch.DeltaPhi, "DeltaPhi");
+  AddVariable(Branch.DeltaPt, "DeltaPt");
+  AddVariable(Branch.DeltaR, "DeltaR");
+  AddVariable(Branch.DeltaRap, "DeltaRap");
+  AddVariable(Branch.DeltaPhi, "DeltaPhi");
 
-  AddObservable(Branch.LargerWDeltaR, "LargerWDeltaR");
-  AddObservable(Branch.LargerWDeltaRap, "LargerWDeltaRap");
-  AddObservable(Branch.LargerWDeltaPhi, "LargerWDeltaPhi");
+  AddVariable(Branch.LargerWDeltaR, "LargerWDeltaR");
+  AddVariable(Branch.LargerWDeltaRap, "LargerWDeltaRap");
+  AddVariable(Branch.LargerWDeltaPhi, "LargerWDeltaPhi");
 
-  AddObservable(Branch.SmallerWDeltaR, "SmallerWDeltaR");
-  AddObservable(Branch.SmallerWDeltaRap, "SmallerWDeltaRap");
-  AddObservable(Branch.SmallerWDeltaPhi, "SmallerWDeltaPhi");
+  AddVariable(Branch.SmallerWDeltaR, "SmallerWDeltaR");
+  AddVariable(Branch.SmallerWDeltaRap, "SmallerWDeltaRap");
+  AddVariable(Branch.SmallerWDeltaPhi, "SmallerWDeltaPhi");
 
-  AddObservable(Branch.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
-  AddObservable(Branch.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
-  AddObservable(Branch.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
+  AddVariable(Branch.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
+  AddVariable(Branch.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
+  AddVariable(Branch.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
 
-  AddObservable(Branch.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
-  AddObservable(Branch.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
-  AddObservable(Branch.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
+  AddVariable(Branch.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
+  AddVariable(Branch.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
+  AddVariable(Branch.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
 
-  AddObservable(Branch.Bdt, "Bdt");
+  AddVariable(Branch.Bdt, "Bdt");
   AddSpectator(Branch.Tag, "Tag");
 
   Print(HNotification, "Variables defined");
@@ -123,7 +123,7 @@ std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::Ge
     JetTag.HeavyParticles = {TopId, HeavyHiggsId,CPOddHiggsId};
     HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
 
     HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());

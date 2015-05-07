@@ -4,11 +4,12 @@
 void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 {
     Print(HNotification, "Set File Vector", tag);
+    switch (tag) {
+    case kSignal :
+        if (TopDecay() == kHadronic) NewSignalFile(tthad);
+        else if (TopDecay() == kLeptonic) NewSignalFile(ttlep);
 
-    if (TopDecay() == kHadronic) NewSignalFile(tthad);
-    else if (TopDecay() == kLeptonic) NewSignalFile(ttlep);
-
-    //     NewSignalFile(ttbb);
+        //     NewSignalFile(ttbb);
 //     NewSignalFile(ttjj);
 //     NewSignalFile(tt);
 //     NewSignalFile(bb);
@@ -18,17 +19,18 @@ void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 //   NewBackgroundFile(ttcc);
 //   NewBackgroundFile(ttjj);
 //     NewBackgroundFile(bbjj);
-    NewBackgroundFile(bb);
-    NewBackgroundFile(hh);
+//     NewBackgroundFile(bb);
+//     NewBackgroundFile(hh);
 
-    NewBackgroundFile(cc);
-        NewBackgroundFile(qq);
-        NewBackgroundFile(gg);
-        NewBackgroundFile(ww);
-        NewBackgroundFile(zz);
-//     }
-    if (TopDecay() == kHadronic) NewBackgroundFile(ttlep);
-    else if (TopDecay() == kLeptonic) NewBackgroundFile(tthad);
+//     NewBackgroundFile(cc);
+//         NewBackgroundFile(qq);
+//         NewBackgroundFile(gg);
+//         NewBackgroundFile(ww);
+//         NewBackgroundFile(zz);
+        break;
+    case kBackground :
+        if (TopDecay() == kHadronic) NewBackgroundFile(ttlep);
+        else if (TopDecay() == kLeptonic) NewBackgroundFile(tthad);
 //     NewBackgroundFile(wb);
 //     NewBackgroundFile(wc);
 //     NewBackgroundFile(wq);
@@ -36,9 +38,8 @@ void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 //     NewBackgroundFile(wu);
 //     NewBackgroundFile(wcb);
 //     NewBackgroundFile(wbu);
-
-//     NewFiles.front().SetBasePath("~/Projects/HTopTagger/");
-//     NewFiles.front().SetFileSuffix(".root");
+        break;
+    }
 
 }
 
@@ -47,11 +48,17 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 {
     Print(HInformation, "Analysis");
 
-    if (ObjectNumber > EventNumberMax()) return 0;
+//     if (ObjectNumber > EventNumberMax()) return 0;
 
     ++event_sum_;
+    switch (stage) {
+    case hanalysis::Tagger::kTrainer :
+        return tagger_.Train(event, tag);
+    case hanalysis::Tagger::kReader :
+        return reader_.GetBdt(event);
+    }
 
-    return tagger_.GetBranches(event, stage, tag);
+//     return tagger_.GetBranches(event, stage, tag);
 }
 
 
@@ -73,8 +80,8 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // bool htoptagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get Bottom Reader", Tag);
-//     HJets Jets = BottomTagger.GetJets(Event);
-//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     HJets Jets = bottom_tagger_.GetJets(Event);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 //     if (Jets.empty()) return 0;
 //
 //     //     Jets = static_cast<hanalysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(Jets);
@@ -148,15 +155,15 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = BottomTagger.GetJets(Event);
-//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     HJets Jets = bottom_tagger_.GetJets(Event);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 //
 // //     std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(Jets, WHadronicReader);
 //     std::vector<hanalysis::HDoublet> Doublets;
 //     // W is in 2 of 3 subjets
 //     for (const auto & Jet : Jets) {
 //         HJets Pieces = WHadronicTagger.GetSubJets(Jet, 3);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 //         for (const auto & Piece1 : Pieces)
 //             for (const auto & Piece2 : Pieces) {
 //                 if (Piece1 == Piece2)continue;
@@ -204,14 +211,14 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = BottomTagger.GetJets(Event);
+//     HJets Jets = bottom_tagger_.GetJets(Event);
 //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
-//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 //
 // //     std::vector<hanalysis::HTriplet> Triplets;
 // //     for (const auto Jet : Jets) {
 // //         HJets Pieces = TopHadronicTagger.GetSubJets(Jet, 3);
-// //         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+// //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // //         for (const auto & Piece1 : Pieces) {
 // //             for (const auto & Piece2 : Pieces) {
 // //                 hanalysis::HDoublet Doublet(Piece1, Piece2);
@@ -226,7 +233,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // //     }
 //
 //
-//     std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets,Leptons, TopHadronicReader, WHadronicTagger, WHadronicReader, BottomTagger, BottomReader);
+//     std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets,Leptons, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     std::vector<hanalysis::HTriplet> FinalTriplets;
 //     for (const auto & Triplet : Triplets) {
@@ -275,8 +282,8 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = BottomTagger.GetJets(Event);
-//     Jets = fastjet::sorted_by_pt(BottomTagger.GetJetBdt(Jets, BottomReader));
+//     HJets Jets = bottom_tagger_.GetJets(Event);
+//     Jets = fastjet::sorted_by_pt(bottom_tagger_.GetJetBdt(Jets, BottomReader));
 //
 //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
 // //   fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
@@ -323,7 +330,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // //     Print(HInformation, "Get Event semi", Tag);
 // //
 // //     HJets Jets = Event.GetJets()->GetStructuredJets();
-// //     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+// //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 // //
 // //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
 // //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();

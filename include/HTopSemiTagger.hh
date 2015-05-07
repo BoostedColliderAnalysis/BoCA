@@ -1,9 +1,9 @@
-# ifndef HTopSemiTagger_hh
-# define HTopSemiTagger_hh
+# pragma once
 
 # include "HTriplet.hh"
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HWSemiTagger.hh"
+# include "Reader.hh"
 
 /**
  * @brief Semi leptonic top BDT tagger
@@ -16,23 +16,31 @@ public:
 
     HTopSemiTagger();
 
-//     ~HTopSemiTagger();
+    HTopSemiBranch GetBranch(const hanalysis::HTriplet &triplet) const;
 
-    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger);
+//     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger);
 
-    std::vector<HTopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
+//     std::vector<HTopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
 
-    std::vector<HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::Reader & Reader);
+    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag, float pre_cut = 0);
 
-    HTopSemiBranch GetBranch(const hanalysis::HTriplet &Triplet) const;
+    int GetBdt(HEvent &event, const TMVA::Reader &reader){
+      Print(HError, "get bdt", "depreciated");
+    };
 
-    HBottomTagger BottomTagger;
+    std::vector<hanalysis::HTriplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
 
-    HWSemiTagger WSemiTagger;
+    std::vector<HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::Reader &Reader) {
+        Print(HError, "get bdt", "depreciated");
+    }
 
-    Reader BottomReader;
+    BottomTagger bottom_tagger_;
 
-    Reader WSemiReader;
+    HWSemiTagger w_semi_tagger_;
+
+    Reader bottom_reader_;
+
+    Reader w_semi_reader_;
 
     void GetBottomInfo(HTopSemiBranch &TopHadronicBranch, const fastjet::PseudoJet jet) const;
 
@@ -40,28 +48,32 @@ public:
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
+    float ReadBdt(const TClonesArray &clones_array, const int entry) {
+        return static_cast<HTopSemiBranch &>(*clones_array.At(entry)).Bdt;
+    }
+
+    void SaveEntries(const std::vector<HTriplet> &triplets) {
+        for (const auto & triplet : triplets) static_cast<HTopSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
+    }
+
+    TClass &Class() const {
+        return *HTopSemiBranch::Class();
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {
         return "HTopSemiTagger";
-    };
+    }
 
 private:
 
-  bool Boost = false;
+    bool boost_ = false;
 
     void DefineVariables();
 
-    Tag GetTag(const HTriplet &Triplet) const;
+    HTopSemiBranch branch_;
 
-    HJets GetNeutrinos(const hanalysis::HTriplet &Triplet)const;
-
-    HTopSemiBranch Branch;
-
-    HJetTag JetTag;
-
-    float TopWindow;
+    float top_mass_window_;
 
 };
-
-#endif

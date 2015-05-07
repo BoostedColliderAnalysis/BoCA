@@ -4,7 +4,7 @@ hanalysis::HHeavyHiggsTauTagger::HHeavyHiggsTauTagger()
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-    SetTaggerName("HeavyHiggsTau");
+    set_tagger_name("HeavyHiggsTau");
 }
 
 hanalysis::HHeavyHiggsTauTagger::~HHeavyHiggsTauTagger()
@@ -16,7 +16,7 @@ void hanalysis::HHeavyHiggsTauTagger::SetTagger(const HTauTagger &NewTauTagger)
 {
     Print(HNotification, "Set Tagger");
     TauTagger = NewTauTagger;
-    SetTaggerName("HeavyHiggsTau");
+    set_tagger_name("HeavyHiggsTau");
     DefineVariables();
 }
 
@@ -28,19 +28,19 @@ void hanalysis::HHeavyHiggsTauTagger::DefineVariables()
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.NeutrinoPt, "NeutrinoPt");
-    AddObservable(Branch.LeptonPt, "LeptonPt");
+    AddVariable(Branch.NeutrinoPt, "NeutrinoPt");
+    AddVariable(Branch.LeptonPt, "LeptonPt");
 
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
     AddSpectator(Branch.Tag, "Tag");
 

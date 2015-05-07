@@ -8,10 +8,10 @@ hanalysis::HWHadronicTagger::HWHadronicTagger()
 
 }
 
-void hanalysis::HWHadronicTagger::SetTagger(const HBottomTagger &NewBottomTagger)
+void hanalysis::HWHadronicTagger::SetTagger(const BottomTagger &NewBottomTagger)
 {
     Print(HNotification, "Set Tagger");
-    BottomTagger = NewBottomTagger;
+    bottom_tagger_ = NewBottomTagger;
     WMassWindow = 20;
     DefineVariables();
 }
@@ -19,22 +19,22 @@ void hanalysis::HWHadronicTagger::SetTagger(const HBottomTagger &NewBottomTagger
 void hanalysis::HWHadronicTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
-    SetTaggerName("WHadronic");
+    set_tagger_name("WHadronic");
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
 
     AddSpectator(Branch.Tag, "Tag");
 }
@@ -65,7 +65,7 @@ std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent
 
     HJets Jets = GetJets(Event);
     Print(HInformation, "Jets Number", Jets.size());
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    //     Jets = bottom_tagger_.GetJetBdt(Jets, bottom_reader_); // TODO reenable this
     Print(HInformation, "Bottom Tagger Number", Jets.size());
 
     HJets WKids = GetWDaughters(Event);
@@ -108,7 +108,7 @@ std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent
     if (Tag == kBackground && Jets.size() > 1) WJets.insert(WJets.end(), Jets.begin() + 1 , Jets.end());
     for (const auto & Jet : WJets) {
         HJets Pieces = GetSubJets(Jet, 2);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
                 if (Piece1 == Piece2) continue;
@@ -132,7 +132,7 @@ std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent
     // W is in 2 of 3 subjets
     for (const auto & Jet : WJets) {
         HJets Pieces = GetSubJets(Jet, 3);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
         for (const auto & Piece1 : Pieces)
             for (const auto & Piece2 : Pieces) {
                 if (Piece1 == Piece2) continue;
@@ -147,7 +147,7 @@ std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent
     // W is in 1 of 2 subjet
     for (const auto & Jet : Jets) {
         HJets Pieces = GetSubJets(Jet, 2);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        //         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
         for (const auto & Piece : Pieces) {
             HDoublet Doublet(Piece);
             if (Tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
@@ -208,7 +208,7 @@ int hanalysis::HWHadronicTagger::GetWHadId(const HJets &Jets)
 }
 
 
-std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
+std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader)
 {
     Print(HInformation, "Get Doublet Bdt");
 
@@ -227,7 +227,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
 //  1 Jet (2 subjets) form(s) 1 W
     for (const auto & Jet : Jets) {
         HJets Pieces = GetSubJets(Jet, 2);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        //         Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
                 if (Piece1 == Piece2) continue;
@@ -245,7 +245,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
 // W is in 2 of 3 subjets
     for (const auto & Jet : Jets) {
         HJets Pieces = GetSubJets(Jet, 3);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        //         Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces)
             for (const auto & Piece2 : Pieces) {
                 if (Piece1 == Piece2)continue;
@@ -261,7 +261,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
     //  1 of 2 subjets are the W
     for (const auto & Jet : Jets) {
       HJets Pieces = GetSubJets(Jet, 2);
-      Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+      //       Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
       for (const auto & Piece : Pieces) {
           HDoublet Doublet(Piece);
           if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;

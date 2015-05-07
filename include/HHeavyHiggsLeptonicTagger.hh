@@ -17,7 +17,7 @@ public:
 
     HHeavyHiggsLeptonicTagger();
 
-    HHeavyHiggsLeptonicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
+    HHeavyHiggsLeptonicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
 
     ~HHeavyHiggsLeptonicTagger();
 
@@ -54,7 +54,7 @@ private:
 
     event22 Structure;
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
 
     HTopLeptonicTagger TopLeptonicTagger;
 

@@ -23,7 +23,7 @@ public:
     HSignatureSemiTagger();
 
     void SetTagger(
-        const hanalysis::HBottomTagger &NewBottomTagger,
+        const hanalysis::BottomTagger &NewBottomTagger,
         const hanalysis::HJetPairTagger &NewJetPairTagger,
         const hanalysis::HWSemiTagger &NewWSemiTagger,
         const hanalysis::HWHadronicTagger &NewWTagger,
@@ -38,7 +38,7 @@ public:
 
     HOctetBranch GetBranch(const HOctet &Octet) const;
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWSemiTagger WSemiTagger;
     hanalysis::HWHadronicTagger WTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;

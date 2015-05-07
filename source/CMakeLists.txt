@@ -6,7 +6,7 @@ HDictionary(HBranch HBranch.cpp ../include/HLinkDef.hh)
 set(EventSources
 HObject.cpp
 HFourVector.cpp
-HFile.cpp
+RootFile.cpp
 ClonesArrays.cpp
 HEvent.cpp
 HParticle.cpp
@@ -77,7 +77,7 @@ Tagger.cpp
 Factory.cpp
 HReader.cpp
 
-HBottomTagger.cpp
+BottomTagger.cpp
 HTauTagger.cpp
 HWHadronicTagger.cpp
 HWSemiTagger.cpp

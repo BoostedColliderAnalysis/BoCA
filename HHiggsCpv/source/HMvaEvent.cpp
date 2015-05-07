@@ -6,7 +6,7 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 
     Print(HNotification , "Constructor");
 
-    SetTaggerName("EventTagger");
+    set_tagger_name("EventTagger");
 
 //     TaggerName = "EventTagger";
 
@@ -58,11 +58,11 @@ void hhiggscpv::HMvaEvent::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(EventBranch->ScalarHt, "ScalarHt");
-    AddObservable(EventBranch->JetNumber, "JetNumber");
-    AddObservable(EventBranch->BottomNumber, "BottomNumber");
+    AddVariable(EventBranch->ScalarHt, "ScalarHt");
+    AddVariable(EventBranch->JetNumber, "JetNumber");
+    AddVariable(EventBranch->BottomNumber, "BottomNumber");
 //     AddObservable(EventBranch->LeptonNumber, "LeptonNumber");
-    AddObservable(EventBranch->HeavyParticleTag, "HeavyParticleTag");
+    AddVariable(EventBranch->HeavyParticleTag, "HeavyParticleTag");
 
     AddSpectator(EventBranch->Signal, "Signal");
 
@@ -74,11 +74,11 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 {
     Print(HNotification, "Apply Bdt");
 
-    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
+    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HEventBranch::Class());
+    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HEventBranch::Class());
 //   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();

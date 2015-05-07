@@ -24,7 +24,7 @@ public:
      */
 //     HAnalysisMva();
 
-//     hanalysis::HBottomTagger BottomTagger;
+//     hanalysis::BottomTagger bottom_tagger_;
 //     hanalysis::HJetPairTagger JetPairTagger;
 //     hanalysis::HWSemiTagger WSemiTagger;
 //     hanalysis::HWTagger WHadronicTagger;
@@ -49,7 +49,7 @@ public:
 
     void SetTrees();
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HObject::Tag tag);
+    std::vector<hanalysis::RootFile> Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
 //        return  ProcessName() + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
@@ -286,17 +286,17 @@ private:
         }
     }
 
-    inline hanalysis::HFile BackgroundFile(const ProcessType Background) const {
+    inline hanalysis::RootFile BackgroundFile(const ProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 
-    hanalysis::HFile BackgroundFile(const ProcessType Background, const int FileSum) const {
+    hanalysis::RootFile BackgroundFile(const ProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV";
         Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
-        return hanalysis::HFile(FileNames , BackgroundCrosssection(Background));
+        return hanalysis::RootFile(FileNames , BackgroundCrosssection(Background));
     }
 
     std::string BackgroundTree(const ProcessType Process) const {

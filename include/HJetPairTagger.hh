@@ -1,8 +1,9 @@
 # ifndef HJetPairTagger_hh
 # define HJetPairTagger_hh
 
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HDoublet.hh"
+# include "Reader.hh"
 
 /**
  * @brief JetPair BDT tagger
@@ -15,7 +16,7 @@ public:
 
     HJetPairTagger();
 
-    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger);
+    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
     std::vector< HEventJetPairBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
 
@@ -27,7 +28,7 @@ public:
       return ((HEventJetPairBranch *) EventClonesArray.At(Entry))->Bdt;
     }
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
 
     Reader BottomReader;
 

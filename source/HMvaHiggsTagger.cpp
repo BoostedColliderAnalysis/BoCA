@@ -8,16 +8,16 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger()
 //   SetBranchName("Higgs");
 }
 
-hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const HBottomTagger &NewBottomTagger)
+hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const BottomTagger &NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
-    BottomTagger = NewBottomTagger;
-    BottomReader.set_tagger(BottomTagger);
+    bottom_tagger_ = NewBottomTagger;
+    BottomReader.set_tagger(bottom_tagger_);
 
-    SetTaggerName("Higgs");
+    set_tagger_name("Higgs");
 //     SignalNames = {"Higgs"};
 //     BackgroundNames = {"NotHiggs"};
 //     SetBranchName("Higgs");
@@ -41,16 +41,16 @@ void hanalysis::HMvaHiggsTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.PtSum, "PtSum");
-    AddObservable(Branch.PtDiff, "PtDiff");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaR, "DeltaR");
-    AddObservable(Branch.Pull1, "Pull1");
-    AddObservable(Branch.Pull2, "Pull2");
-    AddObservable(Branch.Pull, "Pull");
-    AddObservable(Branch.BottomBdt, "BottomBdt");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.PtSum, "PtSum");
+    AddVariable(Branch.PtDiff, "PtDiff");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.Pull1, "Pull1");
+    AddVariable(Branch.Pull2, "Pull2");
+    AddVariable(Branch.Pull, "Pull");
+    AddVariable(Branch.BottomBdt, "BottomBdt");
 
     AddSpectator(Branch.HiggsTag, "HiggsTag");
 

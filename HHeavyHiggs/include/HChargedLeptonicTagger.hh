@@ -21,7 +21,7 @@ public:
     * @brief Constructor
     *
     */
-    HChargedLeptonicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger);
+    HChargedLeptonicTagger(hanalysis::BottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger);
 
     HChargedLeptonicTagger();
 
@@ -71,7 +71,7 @@ private:
 
     HOctet44 GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag);
 
-    hanalysis::HBottomTagger *BottomTagger;
+    hanalysis::BottomTagger *BottomTagger;
 
     hanalysis::HTopLeptonicTagger *TopLeptonicTagger;
 

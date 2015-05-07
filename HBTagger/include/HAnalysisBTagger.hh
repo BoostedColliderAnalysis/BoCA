@@ -44,8 +44,8 @@ private:
         //         return 1000000;
 //         return 100000;
 //         return 10000;
-//         return 1000;
-        return 100;
+        return 1000;
+//         return 100;
     };
 
     inline HDetectorType Detector() const {
@@ -111,6 +111,10 @@ private:
 
     void NewBackgroundFile(const Process process) {
       hanalysis::HAnalysis::NewBackgroundFile(FileName(process));
+    }
+
+    virtual inline std::string FilePath() const {
+      return "~/Projects/BTagging/";
     }
 
 

@@ -1,17 +1,17 @@
 # include "HChargedHiggsLeptonicTagger.hh"
 
-hanalysis::HChargedHiggsLeptonicTagger::HChargedHiggsLeptonicTagger(const HBottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
+hanalysis::HChargedHiggsLeptonicTagger::HChargedHiggsLeptonicTagger(const BottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
-    BottomTagger = NewBottomTagger;
-    BottomReader.set_tagger(BottomTagger);
+    bottom_tagger_ = NewBottomTagger;
+    BottomReader.set_tagger(bottom_tagger_);
     TopLeptonicTagger = NewTopLeptonicTagger;
     TopLeptonicReader.set_tagger(TopLeptonicTagger);
 
-    SetTaggerName("ChargedHiggsLeptonic");
+    set_tagger_name("ChargedHiggsLeptonic");
 
     DefineVariables();
 }
@@ -59,11 +59,11 @@ void hanalysis::HChargedHiggsLeptonicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Branch.HeavyHiggsPt, "HeavyHiggsPt");
+    AddVariable(Branch.HeavyHiggsPt, "HeavyHiggsPt");
 
-    AddObservable(Branch.TopDeltaR, "TopDeltaR");
-    AddObservable(Branch.TopDeltaRap, "TopDeltaRap");
-    AddObservable(Branch.TopDeltaPhi, "TopDeltaPhi");
+    AddVariable(Branch.TopDeltaR, "TopDeltaR");
+    AddVariable(Branch.TopDeltaRap, "TopDeltaRap");
+    AddVariable(Branch.TopDeltaPhi, "TopDeltaPhi");
 
 //     AddObservable(Branch.LargerWDeltaR, "LargerWDeltaR");
 //     AddObservable(Branch.LargerWDeltaRap, "LargerWDeltaRap");
@@ -81,7 +81,7 @@ void hanalysis::HChargedHiggsLeptonicTagger::DefineVariables()
 //     AddObservable(Branch.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
 //     AddObservable(Branch.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
 
-    AddObservable(Branch.TopBdt, "TopBdt");
+    AddVariable(Branch.TopBdt, "TopBdt");
 
     AddSpectator(Branch.HeavyHiggsTag, "HeavyHiggsTag");
     AddSpectator(Branch.HeavyHiggsMass, "HeavyHiggsMass");
@@ -98,7 +98,7 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
     JetTag.HeavyParticles = {TopId, ChargedHiggsId};
     HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
 
     HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());

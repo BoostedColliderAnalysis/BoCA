@@ -24,7 +24,7 @@ public:
     HEventLeptonicTagger();
 
     HEventLeptonicTagger(
-      const hanalysis::HBottomTagger &NewBottomTagger,
+      const hanalysis::BottomTagger &NewBottomTagger,
       const hanalysis::HJetPairTagger &NewJetPairTagger,
       const hanalysis::HTopLeptonicTagger &NewTopTagger,
       const hanalysis::HHeavyHiggsLeptonicTagger &NewHeavyHiggsTagger);
@@ -67,7 +67,7 @@ private:
 
     std::vector<HOctet> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HJetPairTagger JetPairTagger;
     hanalysis::HTopLeptonicTagger TopLeptonicTagger;
     hanalysis::HHeavyHiggsLeptonicTagger HeavyHiggsLeptonicTagger;

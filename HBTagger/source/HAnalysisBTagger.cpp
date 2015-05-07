@@ -5,7 +5,9 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 {
     Print(HNotification, "Set File Vector", tag);
 
-    if(tag == kSignal)NewSignalFile(bb);
+    switch (tag) {
+    case kSignal :
+        NewSignalFile(bb);
 //     NewSignalFile(Hbb);
 //     NewSignalFile(ttbb);
 //     NewSignalFile(ttlep);
@@ -13,7 +15,9 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 //     NewSignalFile(tt);
 
 //     NewBackgroundFile(bb);
-    if(tag == kBackground)NewBackgroundFile(cc);
+        break;
+    case kBackground :
+        NewBackgroundFile(cc);
 //     NewBackgroundFile(jj);
 //     NewBackgroundFile(tt);
 //         NewBackgroundFile(ttcc);
@@ -22,9 +26,7 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 //     NewBackgroundFile(gg);
 //     NewBackgroundFile(hh);
 //     NewBackgroundFile(ww);
-
-//     NewFiles.front().SetBasePath("~/Projects/BTagging/"); // FIXME implement this info
-//     NewFiles.front().SetFileSuffix(".root"); // FIXME implement this info
+    }
 
 }
 

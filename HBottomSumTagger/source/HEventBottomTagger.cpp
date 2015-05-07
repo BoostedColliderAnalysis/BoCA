@@ -7,37 +7,37 @@ hbottomsumtagger::HEventBottomTagger::HEventBottomTagger()
     DefineVariables();
 }
 
-void hbottomsumtagger::HEventBottomTagger::SetTagger(const hanalysis::HBottomTagger &NewBottomTagger)
+void hbottomsumtagger::HEventBottomTagger::SetTagger(const hanalysis::BottomTagger &NewBottomTagger)
 {
     Print(HNotification , "Constructor");
 
-    BottomTagger = NewBottomTagger;
+    bottom_tagger_ = NewBottomTagger;
     DefineVariables();
 }
 
 void hbottomsumtagger::HEventBottomTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
-    SetTaggerName("EventBottom");
+    set_tagger_name("EventBottom");
 
     ClearVectors();
 
 
-    AddObservable(Branch.BottomBdt1, "BottomBdt1");
-    AddObservable(Branch.BottomBdt2, "BottomBdt2");
-    AddObservable(Branch.BottomBdt3, "BottomBdt3");
-    AddObservable(Branch.BottomBdt4, "BottomBdt4");
-    AddObservable(Branch.BottomBdt5, "BottomBdt5");
-    AddObservable(Branch.BottomBdt6, "BottomBdt6");
+    AddVariable(Branch.BottomBdt1, "BottomBdt1");
+    AddVariable(Branch.BottomBdt2, "BottomBdt2");
+    AddVariable(Branch.BottomBdt3, "BottomBdt3");
+    AddVariable(Branch.BottomBdt4, "BottomBdt4");
+    AddVariable(Branch.BottomBdt5, "BottomBdt5");
+    AddVariable(Branch.BottomBdt6, "BottomBdt6");
 
-    AddObservable(Branch.BottomBdt12, "BottomBdt12");
-    AddObservable(Branch.BottomBdt34, "BottomBdt34");
-    AddObservable(Branch.BottomBdt56, "BottomBdt56");
+    AddVariable(Branch.BottomBdt12, "BottomBdt12");
+    AddVariable(Branch.BottomBdt34, "BottomBdt34");
+    AddVariable(Branch.BottomBdt56, "BottomBdt56");
 
-    AddObservable(Branch.BottomBdt123, "BottomBdt123");
-    AddObservable(Branch.BottomBdt1234, "BottomBdt1234");
+    AddVariable(Branch.BottomBdt123, "BottomBdt123");
+    AddVariable(Branch.BottomBdt1234, "BottomBdt1234");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
 
 
@@ -85,8 +85,8 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
 {
     Print(HInformation, "Get Event Tags");
 
-    HJets PreJets = GetJets(Event);
-    HJets Jets = BottomTagger.GetJetBdt(PreJets, BottomReader);
+    HJets Jets = GetJets(Event);
+    //     HJets Jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader); // TODO reenable this
     std::vector<HEventBottomTaggerBranch> EventSemiBranches;
 
 

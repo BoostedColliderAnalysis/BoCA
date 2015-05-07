@@ -14,7 +14,7 @@
 //     Print(HNotification, "Get Study Names", Tagger);
 //
 //     switch (Tagger) {
-//     case  HBottomTagger :
+//     case  BottomTagger :
 //         return "Bottom";
 //     case  HBottomReader :
 //         return "BottomReader";
@@ -28,18 +28,18 @@
 //     }
 // }
 
-std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
+std::vector<hanalysis::RootFile> hbottomsumtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
 {
     Print(HNotification, "Set File Vector", tag);
 
-    std::vector<hanalysis::HFile> SignalLeptonicFiles;
-    std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
-    std::vector<hanalysis::HFile> SignalSemiFiles;
-    std::vector<hanalysis::HFile> BackgroundSemiFiles;
+    std::vector<hanalysis::RootFile> SignalLeptonicFiles;
+    std::vector<hanalysis::RootFile> BackgroundLeptonicFiles;
+    std::vector<hanalysis::RootFile> SignalSemiFiles;
+    std::vector<hanalysis::RootFile> BackgroundSemiFiles;
 
 
-//     SignalSemiFiles.emplace_back(hanalysis::HFile(NameString(bb), SignalCrosssection()));
-//     SignalSemiFiles.emplace_back(hanalysis::HFile(SignalName(Hbb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(hanalysis::RootFile(NameString(bb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(hanalysis::RootFile(SignalName(Hbb), SignalCrosssection()));
 //     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
     SignalSemiFiles.emplace_back(BackgroundFile(bb));
 //     SignalSemiFiles.emplace_back(BackgroundFile(bbbb));
@@ -58,24 +58,24 @@ std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttqq));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttgg));
 
-    std::vector<hanalysis::HFile> SignalHadronicFiles;
+    std::vector<hanalysis::RootFile> SignalHadronicFiles;
 
-    std::vector<hanalysis::HFile> BackgroundHadronicFiles;
+    std::vector<hanalysis::RootFile> BackgroundHadronicFiles;
 
-    std::vector<hanalysis::HFile> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<hanalysis::HFile> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<hanalysis::HFile> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<hanalysis::RootFile> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
+    std::vector<hanalysis::RootFile> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
+    std::vector<hanalysis::RootFile> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
 
-    std::vector<hanalysis::HFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<hanalysis::HFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
+    std::vector<hanalysis::RootFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
+    std::vector<hanalysis::RootFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
 
-    std::vector<hanalysis::HFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<hanalysis::HFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+    std::vector<hanalysis::RootFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
+    std::vector<hanalysis::RootFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
 
-    std::vector<hanalysis::HFile> NewFiles;
+    std::vector<hanalysis::RootFile> NewFiles;
 
 //     switch (Tagger) {
-//     case  HBottomTagger :
+//     case  BottomTagger :
 //         switch (Tag) {
 //         case HObject::kSignal :
 //             NewFiles = SemiFiles;
@@ -129,7 +129,7 @@ std::vector<hanalysis::HFile> hbottomsumtagger::HAnalysis::Files(const hanalysis
     }
 
     NewFiles.front().SetBasePath("~/Projects/MultiBTagging/");
-    NewFiles.front().SetFileSuffix(".root");
+    NewFiles.front().set_file_suffix(".root");
     SetTrees();
 //     PrepareReader(Tagger, tag);
     return NewFiles;
@@ -224,14 +224,14 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     case HBottomTagger:
 //         break;
 //     case HBottomReader:
-//         BottomReader.set_tagger(BottomTagger);
+//         BottomReader.set_tagger(bottom_tagger_);
 //         break;
 //     case HJetPairTagger :
 //         EventBottomSumTagger.BottomTagger.SetTagger();
 //         EventBottomSumTagger.BottomReader.set_tagger(EventBottomSumTagger.BottomTagger);
 //         break;
 //     case HJetPairReader :
-//         BottomReader.set_tagger(BottomTagger);
+//         BottomReader.set_tagger(bottom_tagger_);
 //         EventBottomSumReader.set_tagger(EventBottomSumTagger);
 //         break;
 //     default :
@@ -244,7 +244,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     Print(HNotification, "New Branches", Tagger);
 //
 //     switch (Tagger) {
-//     case HBottomTagger :
+//     case BottomTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
 //         break;
 //     case HBottomReader :
@@ -268,7 +268,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
     ++event_sum_;
 
 //     switch (Tagger) {
-//     case HBottomTagger :
+//     case BottomTagger :
 //         return GetBottomTag(Event, Tag);
 //     case HBottomReader:
 //         return GetBottomReader(Event, Tag);
@@ -300,8 +300,8 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 // bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get Bottom Reader", Tag);
-//     HJets Jets = BottomTagger.GetJets(Event);
-//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     HJets Jets = bottom_tagger_.GetJets(Event);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 //     if (Jets.empty()) return 0;
 //
 //
@@ -348,8 +348,8 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = BottomTagger.GetJets(Event);
-//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     HJets Jets = bottom_tagger_.GetJets(Event);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 //
 //     if (!EventBottomSumTagger.TruthLevelCheck(Jets,Event, Tag)) return 0;
 //

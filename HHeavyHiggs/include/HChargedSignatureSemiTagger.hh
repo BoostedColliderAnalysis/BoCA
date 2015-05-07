@@ -30,7 +30,7 @@ public:
     ~HChargedSignatureSemiTagger();
 
     void SetTagger(
-      const hanalysis::HBottomTagger &NewBottomTagger,
+      const hanalysis::BottomTagger &NewBottomTagger,
       const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
       const hanalysis::HWSemiTagger &NewWSemiTagger,
       const hanalysis::HWHadronicTagger &NewWTagger,
@@ -50,7 +50,7 @@ public:
         const std::vector< hanalysis::HQuartet31 > &HiggsQuartets, const std::vector< hanalysis::HQuartet31 > &JetQuartets, const hanalysis::Reader &EventSemiReader);
 
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWSemiTagger WSemiTagger;
     hanalysis::HWHadronicTagger WTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;

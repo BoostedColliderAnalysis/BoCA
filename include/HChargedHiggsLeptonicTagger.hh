@@ -15,7 +15,7 @@ class hanalysis::HChargedHiggsLeptonicTagger : public Tagger
 
 public:
 
-    HChargedHiggsLeptonicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
+    HChargedHiggsLeptonicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
 
     ~HChargedHiggsLeptonicTagger();
 
@@ -38,7 +38,7 @@ private:
     hanalysis::HObject::Tag GetTag(const hanalysis::HTriplet &Triplet);
 
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
     HTopLeptonicTagger TopLeptonicTagger;
 
     Reader BottomReader;

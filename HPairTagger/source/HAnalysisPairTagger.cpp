@@ -15,7 +15,7 @@
 //     Print(HNotification, "Get Study Names", Tagger);
 //
 //     switch (Tagger) {
-//     case  HBottomTagger :
+//     case  BottomTagger :
 //         return "Bottom";
 //     case  HBottomReader :
 //         return "BottomReader";
@@ -29,19 +29,19 @@
 //     }
 // }
 
-std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
+std::vector<hanalysis::RootFile> hpairtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
 {
     Print(HNotification, "Set File Vector", tag);
 
-    std::vector<hanalysis::HFile> SignalLeptonicFiles;
-    std::vector<hanalysis::HFile> BackgroundLeptonicFiles;
-    std::vector<hanalysis::HFile> SignalSemiFiles;
-    std::vector<hanalysis::HFile> BackgroundSemiFiles;
+    std::vector<hanalysis::RootFile> SignalLeptonicFiles;
+    std::vector<hanalysis::RootFile> BackgroundLeptonicFiles;
+    std::vector<hanalysis::RootFile> SignalSemiFiles;
+    std::vector<hanalysis::RootFile> BackgroundSemiFiles;
 
 
     SignalSemiFiles.emplace_back(BackgroundFile(bb,VBF));
-//     SignalSemiFiles.emplace_back(hanalysis::HFile(NameString(bb), SignalCrosssection()));
-//     SignalSemiFiles.emplace_back(hanalysis::HFile(SignalName(Hbb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(hanalysis::RootFile(NameString(bb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(hanalysis::RootFile(SignalName(Hbb), SignalCrosssection()));
 
     BackgroundSemiFiles.emplace_back(BackgroundFile(bb,DYP));
     BackgroundSemiFiles.emplace_back(BackgroundFile(cc,DYP));
@@ -54,21 +54,21 @@ std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HOb
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttqq));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttgg));
 
-    std::vector<hanalysis::HFile> SignalHadronicFiles;
+    std::vector<hanalysis::RootFile> SignalHadronicFiles;
 
-    std::vector<hanalysis::HFile> BackgroundHadronicFiles;
+    std::vector<hanalysis::RootFile> BackgroundHadronicFiles;
 
-    std::vector<hanalysis::HFile> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<hanalysis::HFile> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<hanalysis::HFile> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<hanalysis::RootFile> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
+    std::vector<hanalysis::RootFile> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
+    std::vector<hanalysis::RootFile> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
 
-    std::vector<hanalysis::HFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<hanalysis::HFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
+    std::vector<hanalysis::RootFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
+    std::vector<hanalysis::RootFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
 
-    std::vector<hanalysis::HFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<hanalysis::HFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+    std::vector<hanalysis::RootFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
+    std::vector<hanalysis::RootFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
 
-    std::vector<hanalysis::HFile> NewFiles;
+    std::vector<hanalysis::RootFile> NewFiles;
 
         switch (tag) {
         case HObject::kSignal :
@@ -81,7 +81,7 @@ std::vector<hanalysis::HFile> hpairtagger::HAnalysis::Files(const hanalysis::HOb
 
 
     NewFiles.front().SetBasePath("~/Projects/PairTagging/");
-    NewFiles.front().SetFileSuffix(".root");
+    NewFiles.front().set_file_suffix(".root");
     SetTrees();
 //     PrepareReader(Tagger, tag);
     return NewFiles;
@@ -171,14 +171,14 @@ void hpairtagger::HAnalysis::SetTrees()
 //     case HBottomTagger:
 //         break;
 //     case HBottomReader:
-//         BottomReader.set_tagger(BottomTagger);
+//         BottomReader.set_tagger(bottom_tagger_);
 //         break;
 //     case HJetPairTagger :
 //         JetPairTagger.BottomTagger.SetTagger();
 //         JetPairTagger.BottomReader.set_tagger(JetPairTagger.BottomTagger);
 //         break;
 //     case HJetPairReader :
-//         BottomReader.set_tagger(BottomTagger);
+//         BottomReader.set_tagger(bottom_tagger_);
 //         JetPairReader.set_tagger(JetPairTagger);
 //         break;
 //     default :
@@ -191,7 +191,7 @@ void hpairtagger::HAnalysis::SetTrees()
 //     Print(HNotification, "New Branches", Tagger);
 //
 //     switch (Tagger) {
-//     case HBottomTagger :
+//     case BottomTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
 //         break;
 //     case HBottomReader :
@@ -215,7 +215,7 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
     ++event_sum_;
 
 //     switch (stage) {
-//     case HBottomTagger :
+//     case BottomTagger :
 //         return GetBottomTag(event, tag);
 //     case HBottomReader:
 //         return GetBottomReader(event, tag);
@@ -260,8 +260,8 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get Bottom Reader", Tag);
-//     HJets Jets = BottomTagger.GetJets(Event);
-//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     HJets Jets = bottom_tagger_.GetJets(Event);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 //     if (Jets.empty()) {
 //         return 0;
 //     }
@@ -304,8 +304,8 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get JetPair Reader", Tag);
-//     HJets Jets = BottomTagger.GetJets(Event);
-//     Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     HJets Jets = bottom_tagger_.GetJets(Event);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
 //     if (Jets.empty()) {
 //         Print(HInformation, "just one jet", Jets.size());
 //         return 0;

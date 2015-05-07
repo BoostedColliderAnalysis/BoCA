@@ -8,7 +8,7 @@ hheavyhiggs::HSignatureSemiTagger::HSignatureSemiTagger()
 }
 
 void hheavyhiggs::HSignatureSemiTagger::SetTagger(
-    const hanalysis::HBottomTagger &NewBottomTagger,
+    const hanalysis::BottomTagger &NewBottomTagger,
     const hanalysis::HJetPairTagger &NewJetPairTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
     const hanalysis::HWHadronicTagger &NewWTagger,
@@ -17,7 +17,7 @@ void hheavyhiggs::HSignatureSemiTagger::SetTagger(
     const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger)
 {
     Print(HNotification , "Constructor");
-    BottomTagger = NewBottomTagger;
+    bottom_tagger_ = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopSemiTagger = NewTopSemiTagger;
@@ -30,35 +30,35 @@ void hheavyhiggs::HSignatureSemiTagger::SetTagger(
 void hheavyhiggs::HSignatureSemiTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
-    SetTaggerName("SignatureSemi");
+    set_tagger_name("SignatureSemi");
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaHt, "DeltaHt");
-    AddObservable(Branch.DeltaM, "DeltaM");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaHt, "DeltaHt");
+    AddVariable(Branch.DeltaM, "DeltaM");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
 
-    AddObservable(Branch.HiggsMass, "HiggsMass");
-    AddObservable(Branch.PairRap, "PairRap");
-    AddObservable(Branch.BottomBdt, "BottomBdt");
-    AddObservable(Branch.PairBottomBdt, "PairBottomBdt");
-    AddObservable(Branch.PairBdt, "PairBdt");
-    AddObservable(Branch.HiggsBdt, "HiggsBdt");
+    AddVariable(Branch.HiggsMass, "HiggsMass");
+    AddVariable(Branch.PairRap, "PairRap");
+    AddVariable(Branch.BottomBdt, "BottomBdt");
+    AddVariable(Branch.PairBottomBdt, "PairBottomBdt");
+    AddVariable(Branch.PairBdt, "PairBdt");
+    AddVariable(Branch.HiggsBdt, "HiggsBdt");
 
-    AddObservable(Branch.HardTopPt, "HardTopPt");
-    AddObservable(Branch.SoftTopPt, "SoftTopPt");
+    AddVariable(Branch.HardTopPt, "HardTopPt");
+    AddVariable(Branch.SoftTopPt, "SoftTopPt");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
 
 
@@ -108,7 +108,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     Print(HInformation, "Get Event Tags");
     float Mass = Event.GetMass();
     HJets Jets = GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
 
     HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
@@ -118,7 +118,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
 
 //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
 //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
     if (TripletsHadronic.empty())Print(HInformation, "No TripletsHadronic", TripletsHadronic.size());
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);

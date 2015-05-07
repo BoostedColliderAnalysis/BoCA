@@ -7,58 +7,58 @@ hanalysis::HJetPairTagger::HJetPairTagger()
     DefineVariables();
 }
 
-void hanalysis::HJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger)
+void hanalysis::HJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger)
 {
     Print(HNotification, "Set Tagger", NewBottomTagger.tagger_name());
-    BottomTagger = NewBottomTagger;
+    bottom_tagger_ = NewBottomTagger;
     DefineVariables();
 }
 
 void hanalysis::HJetPairTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
-    SetTaggerName("JetPair");
+    set_tagger_name("JetPair");
 
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.DeltaM, "DeltaM");
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaM, "DeltaM");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
-    AddObservable(Branch.Jet1Mass, "Jet1Mass");
-    AddObservable(Branch.Jet1Pt, "Jet1Pt");
-    AddObservable(Branch.Jet1Rap, "Jet1Rap");
-    AddObservable(Branch.Jet1Phi, "Jet1Phi");
-    AddObservable(Branch.Jet1Bdt, "Jet1Bdt");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.Jet1Mass, "Jet1Mass");
+    AddVariable(Branch.Jet1Pt, "Jet1Pt");
+    AddVariable(Branch.Jet1Rap, "Jet1Rap");
+    AddVariable(Branch.Jet1Phi, "Jet1Phi");
+    AddVariable(Branch.Jet1Bdt, "Jet1Bdt");  // THIS SHOULD BE ENABLED AGAIN
 
-    AddObservable(Branch.Jet2Mass, "Jet2Mass");
-    AddObservable(Branch.Jet2Pt, "Jet2Pt");
-    AddObservable(Branch.Jet2Rap, "Jet2Rap");
-    AddObservable(Branch.Jet2Phi, "Jet2Phi");
-    AddObservable(Branch.Jet2Bdt, "Jet2Bdt");  // THIS SHOULD BE ENABLED AGAIN
-
-
-    AddObservable(Branch.BdtRatio11, "BdtRatio11");  // THIS SHOULD BE ENABLED AGAIN
-    AddObservable(Branch.BdtRatio12, "BdtRatio12");  // THIS SHOULD BE ENABLED AGAIN
-    AddObservable(Branch.BdtRatio13, "BdtRatio13");  // THIS SHOULD BE ENABLED AGAIN
-    AddObservable(Branch.BdtRatio14, "BdtRatio14");  // THIS SHOULD BE ENABLED AGAIN
-    AddObservable(Branch.BdtRatio21, "BdtRatio21");  // THIS SHOULD BE ENABLED AGAIN
-    AddObservable(Branch.BdtRatio22, "BdtRatio22");  // THIS SHOULD BE ENABLED AGAIN
-    AddObservable(Branch.BdtRatio23, "BdtRatio23");  // THIS SHOULD BE ENABLED AGAIN
-    AddObservable(Branch.BdtRatio24, "BdtRatio24");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.Jet2Mass, "Jet2Mass");
+    AddVariable(Branch.Jet2Pt, "Jet2Pt");
+    AddVariable(Branch.Jet2Rap, "Jet2Rap");
+    AddVariable(Branch.Jet2Phi, "Jet2Phi");
+    AddVariable(Branch.Jet2Bdt, "Jet2Bdt");  // THIS SHOULD BE ENABLED AGAIN
 
 
+    AddVariable(Branch.BdtRatio11, "BdtRatio11");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.BdtRatio12, "BdtRatio12");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.BdtRatio13, "BdtRatio13");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.BdtRatio14, "BdtRatio14");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.BdtRatio21, "BdtRatio21");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.BdtRatio22, "BdtRatio22");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.BdtRatio23, "BdtRatio23");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(Branch.BdtRatio24, "BdtRatio24");  // THIS SHOULD BE ENABLED AGAIN
 
-    AddObservable(Branch.Bdt, "Bdt");  // THIS SHOULD BE ENABLED AGAIN
+
+
+    AddVariable(Branch.Bdt, "Bdt");  // THIS SHOULD BE ENABLED AGAIN
     AddSpectator(Branch.Tag, "Tag");
 
 }
@@ -114,7 +114,7 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
     Print(HInformation, "Get Jet Pair Tags", GetParticleName(MotherId));
     HJets Jets = GetJets(Event);
     Print(HDebug, "Number of Jets", Jets.size());
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
 
 
     HJets BdtJets = Jets;

@@ -1,20 +1,9 @@
-# ifndef HAnalysis_hh
-# define HAnalysis_hh
+# pragma once
 
-#include <sys/stat.h>
-
-# include "TTree.h"
-
-# include "ExRootAnalysis/ExRootTreeWriter.h"
-# include "ExRootAnalysis/ExRootTreeBranch.h"
-# include "ExRootAnalysis/ExRootProgressBar.h"
-
-# include "HBranch.hh"
 # include "HObject.hh"
-# include "HFile.hh"
-# include "HEvent.hh"
-# include "HConfig.hh"
 # include "Tagger.hh"
+# include "HConfig.hh"
+# include "RootFile.hh"
 # include "Reader.hh"
 
 
@@ -35,10 +24,9 @@ public:
 
     void AnalysisLoop(const hanalysis::Tagger::Stage stage);
 
-    virtual std::vector<HFile> Files(const Tag tag) {
+    virtual std::vector<RootFile> Files(const Tag tag) {
         Print(HError, "GetFiles", tag);
-//         return std::vector<HFile> {};
-      return files_;
+        return files_;
     }
 
     void SetConfig(const HConfig &config) {
@@ -60,7 +48,7 @@ protected:
 
     std::string ExportName(const Tagger::Stage stage, const hanalysis::HObject::Tag tag) const;
 
-    HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::HFile &file);
+    HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::RootFile &file);
 
     virtual int Analysis(HEvent &, const Tagger::Stage stage, const Tag tag) {
         Print(HError, "Analysis", "should be subclassed", stage, tag);
@@ -97,7 +85,7 @@ protected:
         return JoinVectors(Strings1, Strings2);
     };
 
-    std::vector<hanalysis::HFile>  JoinFiles(const std::vector<hanalysis::HFile> &Files1, const std::vector<hanalysis::HFile> &Files2) {
+    std::vector<hanalysis::RootFile>  JoinFiles(const std::vector<hanalysis::RootFile> &Files1, const std::vector<hanalysis::RootFile> &Files2) {
         return JoinVectors(Files1, Files2);
     };
 
@@ -140,22 +128,26 @@ protected:
         return config_.ColliderType();
     }
 
+    virtual inline std::string FilePath() const {
+        return "~/Projects/Tagging/";
+    }
+
+    std::string FileSuffix() const {
+        return ".root";
+    }
+
     void NewSignalFile(const std::string &name) {
-        files_.emplace_back(File(name));
-        files_.front().SetBasePath("~/Projects/BTagging/"); // FIXME remove this hack
-        files_.front().SetFileSuffix(".root"); // FIXME remove this hack
+        files_.emplace_back(get_file(name));
         tagger_.AddSignalTreeName(TreeName(name));
     }
 
     void NewBackgroundFile(const std::string &name) {
-        files_.emplace_back(File(name));
-        files_.front().SetBasePath("~/Projects/BTagging/"); // FIXME remove this hack
-        files_.front().SetFileSuffix(".root"); // FIXME remove this hack
+        files_.emplace_back(get_file(name));
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline hanalysis::HFile File(const std::string &name) const {
-        return HFile(name);
+    inline hanalysis::RootFile get_file(const std::string &name) const {
+        return RootFile(name, FilePath(), FileSuffix());
     }
 
     inline std::string FileName(const std::string &name) const {
@@ -170,12 +162,7 @@ private:
 
     HConfig config_;
 
-    std::vector<hanalysis::HFile> files_;
+    std::vector<hanalysis::RootFile> files_;
 
 
 };
-
-#endif
-
-
-

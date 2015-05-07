@@ -235,8 +235,8 @@ HMvaResult hanalysis::Reader::BdtResult(TFile &file, const std::string &tree_nam
 
 std::vector<int> hanalysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
 {
-    Print(HNotification, "Bdt Distribution", tagger().GetBranchName());
-    std::string NewEventBranchName = tagger().GetBranchName() + "Reader";
+    Print(HNotification, "Bdt Distribution", tagger().branch_name());
+    std::string NewEventBranchName = tagger().branch_name() + "Reader";
 
     HMvaResult Result;
     std::vector<int> Bins(Result.Steps, 0);

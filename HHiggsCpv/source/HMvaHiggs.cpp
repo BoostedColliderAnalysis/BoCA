@@ -5,7 +5,7 @@ hhiggscpv::HMvaHiggs::HMvaHiggs()
 
     Print(HNotification , "Constructor");
 
-    SetTaggerName("HiggsCpv");
+    set_tagger_name("HiggsCpv");
 
 //     TaggerName = "HiggsTagger";
 
@@ -67,16 +67,16 @@ void hhiggscpv::HMvaHiggs::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Higgs->Mass, "Mass");
-    AddObservable(Higgs->PtSum, "PtSum");
-    AddObservable(Higgs->PtDiff, "PtDiff");
-    AddObservable(Higgs->DeltaPhi, "DeltaPhi");
-    AddObservable(Higgs->DeltaRap, "DeltaRap");
-    AddObservable(Higgs->DeltaR, "DeltaR");
-    AddObservable(Higgs->Pull1, "Pull1");
-    AddObservable(Higgs->Pull2,"Pull2");
-    AddObservable(Higgs->Pull, "Pull");
-    AddObservable(Higgs->BottomBdt, "BottomTag");
+    AddVariable(Higgs->Mass, "Mass");
+    AddVariable(Higgs->PtSum, "PtSum");
+    AddVariable(Higgs->PtDiff, "PtDiff");
+    AddVariable(Higgs->DeltaPhi, "DeltaPhi");
+    AddVariable(Higgs->DeltaRap, "DeltaRap");
+    AddVariable(Higgs->DeltaR, "DeltaR");
+    AddVariable(Higgs->Pull1, "Pull1");
+    AddVariable(Higgs->Pull2,"Pull2");
+    AddVariable(Higgs->Pull, "Pull");
+    AddVariable(Higgs->BottomBdt, "BottomTag");
 
     AddSpectator(Higgs->HiggsTag, "HiggsTag");
 

@@ -29,7 +29,7 @@ public:
 
     using hanalysis::HAnalysis::HAnalysis;
 
-//     hanalysis::HBottomTagger BottomTagger;
+//     hanalysis::BottomTagger bottom_tagger_;
 //     hanalysis::HJetPairTagger JetPairTagger;
 
 //     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -38,7 +38,7 @@ public:
 
     void SetTrees();
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HObject::Tag tag);
+    std::vector<hanalysis::RootFile> Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
@@ -187,24 +187,24 @@ private:
         return ProductionChannelName(ProductionChannel) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-    inline hanalysis::HFile BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
+    inline hanalysis::RootFile BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
         return BackgroundFile(Process, BackgroundFileNumber(), ProductionChannel);
     }
 
-    inline hanalysis::HFile BackgroundFile(const ProcessType Process) const {
+    inline hanalysis::RootFile BackgroundFile(const ProcessType Process) const {
         return BackgroundFile(Process, BackgroundFileNumber());
     }
 
-    hanalysis::HFile BackgroundFile(const ProcessType Process, const int) const {
+    hanalysis::RootFile BackgroundFile(const ProcessType Process, const int) const {
         Strings FileNames;
         FileNames.emplace_back(NameString(Process));
-        return hanalysis::HFile(FileNames , BackgroundCrosssection(Process));
+        return hanalysis::RootFile(FileNames , BackgroundCrosssection(Process));
     }
 
-    hanalysis::HFile BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
+    hanalysis::RootFile BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
         Strings FileNames;
         FileNames.emplace_back(NameString(Process, ProductionChannel));
-        return hanalysis::HFile(FileNames , BackgroundCrosssection(Process));
+        return hanalysis::RootFile(FileNames , BackgroundCrosssection(Process));
     }
 
 

@@ -17,7 +17,7 @@ public:
     HChargedHiggsSemiTagger();
 
     void SetTagger(
-        const hanalysis::HBottomTagger &NewBottomTagger,
+        const hanalysis::BottomTagger &NewBottomTagger,
         const hanalysis::HWSemiTagger &NewWSemiTagger,
         const hanalysis::HWHadronicTagger &NewWTagger,
         const hanalysis::HTopSemiTagger &NewTopSemiTagger,
@@ -32,7 +32,7 @@ public:
 
     std::vector< HQuartet31 > GetQuartets(const hanalysis::Reader &Reader);
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
     HWSemiTagger WSemiTagger;
     HWHadronicTagger WTagger;
     HTopHadronicTagger TopHadronicTagger;

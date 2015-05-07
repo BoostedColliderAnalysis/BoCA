@@ -6,7 +6,7 @@
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HDoublet.hh"
 
 /**
@@ -20,7 +20,7 @@ public:
 
     HMvaHiggsTagger();
 
-    HMvaHiggsTagger(const hanalysis::HBottomTagger &NewBottomTagger);
+    HMvaHiggsTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
     ~HMvaHiggsTagger();
 
@@ -32,7 +32,7 @@ public:
 
 private:
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
 
     Reader BottomReader;
 

@@ -7,7 +7,7 @@ hhiggscpv::HMvaTop::HMvaTop()
 
 //     AnalysisName = "HiggsCpv";
 
-    SetTaggerName("TopTagger");
+    set_tagger_name("TopTagger");
 
 //     SignalNames = {"Top"};
 
@@ -67,13 +67,13 @@ void hhiggscpv::HMvaTop::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Top->Mass, "Mass");
-    AddObservable(Top->Pt, "Pt");
-    AddObservable(Top->LeptonPt, "Pt");
-    AddObservable(Top->DeltaPhi, "DeltaPhi");
-    AddObservable(Top->DeltaRap, "DeltaRap");
-    AddObservable(Top->DeltaR, "DeltaR");
-    AddObservable(Top->Bdt, "BottomTag");
+    AddVariable(Top->Mass, "Mass");
+    AddVariable(Top->Pt, "Pt");
+    AddVariable(Top->LeptonPt, "Pt");
+    AddVariable(Top->DeltaPhi, "DeltaPhi");
+    AddVariable(Top->DeltaRap, "DeltaRap");
+    AddVariable(Top->DeltaR, "DeltaR");
+    AddVariable(Top->Bdt, "BottomTag");
 
     AddSpectator(Top->Tag, "TopTag");
 

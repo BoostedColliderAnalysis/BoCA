@@ -6,19 +6,19 @@ hanalysis::HChargedJetPairTagger::HChargedJetPairTagger()
     DefineVariables();
 }
 
-void hanalysis::HChargedJetPairTagger::SetTagger(const HBottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
+void hanalysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
 {
     Print(HNotification, "Set Tagger", NewBottomTagger.tagger_name());
 
-    BottomTagger = NewBottomTagger;
+    bottom_tagger_ = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopSemiTagger = NewTopSemiTagger;
     TopHadronicTagger = NewTopHadronicTagger;
 
-//     TopHadronicTagger.BottomTagger = NewBottomTagger;
+//     TopHadronicTagger.bottom_tagger_ = NewBottomTagger;
 //     TopHadronicTagger.WTagger = NewWTagger;
-//     TopHadronicTagger.BottomReader.set_tagger(BottomTagger);
+//     TopHadronicTagger.BottomReader.set_tagger(bottom_tagger_);
 //     TopHadronicTagger.WReader.set_tagger(WTagger);
 
     DefineVariables();
@@ -28,36 +28,36 @@ void hanalysis::HChargedJetPairTagger::DefineVariables()
 {
 
     Print(HNotification , "Define Variables");
-    SetTaggerName("ChargedJetPair");
+    set_tagger_name("ChargedJetPair");
 
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.DeltaM, "DeltaM");
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaM, "DeltaM");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
-    AddObservable(Branch.BottomMass, "BottomMass");
-    AddObservable(Branch.BottomPt, "BottomPt");
-    AddObservable(Branch.BottomRap, "BottomRap");
-    AddObservable(Branch.BottomPhi, "BottomPhi");
-    AddObservable(Branch.BottomBdt, "BottomBdt");
+    AddVariable(Branch.BottomMass, "BottomMass");
+    AddVariable(Branch.BottomPt, "BottomPt");
+    AddVariable(Branch.BottomRap, "BottomRap");
+    AddVariable(Branch.BottomPhi, "BottomPhi");
+    AddVariable(Branch.BottomBdt, "BottomBdt");
 
-    AddObservable(Branch.TopMass, "TopMass");
-    AddObservable(Branch.TopPt, "TopPt");
-    AddObservable(Branch.TopRap, "TopRap");
-    AddObservable(Branch.TopPhi, "TopPhi");
-    AddObservable(Branch.TopBdt, "TopBdt");
+    AddVariable(Branch.TopMass, "TopMass");
+    AddVariable(Branch.TopPt, "TopPt");
+    AddVariable(Branch.TopRap, "TopRap");
+    AddVariable(Branch.TopPhi, "TopPhi");
+    AddVariable(Branch.TopBdt, "TopBdt");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
@@ -110,15 +110,15 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 {
     Print(HInformation, "Get W Tags");
     HJets Jets = GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
 //     std::vector<HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
     //     std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
-    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
+    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
     Print(HDebug, "Number of Hadronic Tops", Triplets.size());
 
     for (const auto & Jet : Jets) {
         HJets Pieces = WTagger.GetSubJets(Jet, 2);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetBdt(Pieces, WReader);
         std::vector<hanalysis::HTriplet> PieceTriplets = TopHadronicTagger.GetBdt(PieceDoublets, Jets, TopHadronicReader);
         Triplets.insert(Triplets.end(), PieceTriplets.begin(), PieceTriplets.end());
@@ -126,7 +126,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
     for (const auto & Jet : Jets) {
         HJets Pieces = WTagger.GetSubJets(Jet, 3);
-        Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+        //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetBdt(Pieces, WReader);
         std::vector<hanalysis::HTriplet> PieceTriplets = TopHadronicTagger.GetBdt(PieceDoublets, Jets, TopHadronicReader);
         Triplets.insert(Triplets.end(), PieceTriplets.begin(), PieceTriplets.end());

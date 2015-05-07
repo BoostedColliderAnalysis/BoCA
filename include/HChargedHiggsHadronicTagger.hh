@@ -15,7 +15,7 @@ public:
 
   HChargedHiggsHadronicTagger();
 
-    HChargedHiggsHadronicTagger(const hanalysis::HBottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger);
+    HChargedHiggsHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger);
 
     ~HChargedHiggsHadronicTagger();
 
@@ -38,7 +38,7 @@ private:
 
     Tag GetTag(const hanalysis::HQuartet31 &Quartet);
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
     HWHadronicTagger WTagger;
     HTopHadronicTagger TopHadronicTagger;
 

@@ -36,7 +36,8 @@ public:
 
 using hanalysis::HAnalysis::HAnalysis;
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
+
     HEventBottomTagger EventBottomSumTagger;
 
 //     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
@@ -45,7 +46,7 @@ using hanalysis::HAnalysis::HAnalysis;
 
     void SetTrees();
 
-    std::vector<hanalysis::HFile> Files(const hanalysis::HObject::Tag Tag);
+    std::vector<hanalysis::RootFile> Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
@@ -203,14 +204,14 @@ private:
         return ProductionChannelName(ProductionChannel()) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-    inline hanalysis::HFile BackgroundFile(const ProcessType Process) const {
+    inline hanalysis::RootFile BackgroundFile(const ProcessType Process) const {
         return BackgroundFile(Process, BackgroundFileNumber());
     }
 
-    hanalysis::HFile BackgroundFile(const ProcessType Process, const int) const {
+    hanalysis::RootFile BackgroundFile(const ProcessType Process, const int) const {
         Strings FileNames;
         FileNames.emplace_back(NameString(Process));
-        return hanalysis::HFile(FileNames , BackgroundCrosssection(Process));
+        return hanalysis::RootFile(FileNames , BackgroundCrosssection(Process));
     }
 
 

@@ -1,5 +1,16 @@
 # include "HAnalysis.hh"
 
+# include <sys/stat.h>
+
+# include "TTree.h"
+
+# include "ExRootAnalysis/ExRootTreeWriter.h"
+# include "ExRootAnalysis/ExRootTreeBranch.h"
+# include "ExRootAnalysis/ExRootProgressBar.h"
+
+# include "HBranch.hh"
+# include "HEvent.hh"
+
 // hanalysis::HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 hanalysis::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : tagger_(tagger)
 {
@@ -19,7 +30,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
         files_.clear();
         SetFiles(tag);
         for (auto & file : Files(tag)) {
-            Print(HNotification, "Analysing File", file.TreeName());
+            Print(HNotification, "Analysing File", file.tree_name());
             event_sum_ = 0;
             ClonesArrays &clones_arrays = file.GetClonesArrays();
             hanalysis::HEvent &event = file.Event();
@@ -36,7 +47,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
 //                 Print(HError, "Event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
-                event.SetMass(file.Mass());
+                event.SetMass(file.mass());
                 int Objects = Analysis(event, stage, tag);
                 if (Objects > 0) {
                   ObjectNumber += Objects;
@@ -58,12 +69,12 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
     }
 }
 
-HInfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const HFile &file)
+HInfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const RootFile &file)
 {
     HInfoBranch info_branch;
-    info_branch.Crosssection = file.Crosssection();
-    info_branch.CrosssectionError = file.CrosssectionError();
-    info_branch.Mass = file.Mass();
+    info_branch.Crosssection = file.crosssection();
+    info_branch.CrosssectionError = file.crosssection_error();
+    info_branch.Mass = file.mass();
     info_branch.EventNumber = EventSum(tree_reader);
 //     Print(HError, "Event Number", info_branch.EventNumber);
     return info_branch;

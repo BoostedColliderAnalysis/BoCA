@@ -46,11 +46,11 @@ Strings hhiggscpv::HAnalysis::GetStudyNames()
 //     }
 }
 
-std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string &NewStudyName)
+std::vector<hanalysis::RootFile *> hhiggscpv::HAnalysis::GetFiles(const std::string &NewStudyName)
 {
     Print(HNotification, "Set File Vector", NewStudyName);
 
-    std::vector<hanalysis::HFile *> files;
+    std::vector<hanalysis::RootFile *> files;
 
 //     hdelphes::HFile *Test3 = new hdelphes::HFile("pp-hz-bbvv", "signal");
 //     Files.emplace_back(Test3);
@@ -66,27 +66,27 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 
 
       hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
-        Background->SetCrosssection(3.215); // pb
-        Background->SetError(0.012); // pb
+        Background->set_crosssection(3.215); // pb
+        Background->set_crosssection_error(0.012); // pb
         files.emplace_back(Background);
 
     }
 
     hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
-    Even->SetCrosssection(30.02079); // pb
-    Even->SetError(0.000078); // pb
+    Even->set_crosssection(30.02079); // pb
+    Even->set_crosssection_error(0.000078); // pb
 //     Even->TagString="tag_2";
     files.emplace_back(Even);
 
     hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
-    Mix->SetCrosssection(30.01172); // pb
-    Mix->SetError(0.000045); // pb
+    Mix->set_crosssection(30.01172); // pb
+    Mix->set_crosssection_error(0.000045); // pb
 //     Mix->TagString="tag_2";
     files.emplace_back(Mix);
 
     hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
-    Odd->SetCrosssection(30.008951); // pb
-    Odd->SetError(0.000035); // pb
+    Odd->set_crosssection(30.008951); // pb
+    Odd->set_crosssection_error(0.000035); // pb
 //     Odd->TagString="tag_2";
     files.emplace_back(Odd);
 
@@ -103,17 +103,17 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 
 
 
-    BottomTagger = hanalysis::HBottomTagger();
-    BottomTagger.set_analysis_name(ProjectName());
+    bottom_tagger_ = hanalysis::BottomTagger();
+    bottom_tagger_.set_analysis_name(ProjectName());
 //     BottomTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 //     BottomTagger.SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 //     BottomTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
     if (NewStudyName != "Bottom" && NewStudyName != "NotBottom") {
 
-      BottomReader.set_tagger(BottomTagger);
+      BottomReader.set_tagger(bottom_tagger_);
 
-      LeptonicTopTagger = hanalysis::HTopLeptonicTagger(BottomTagger);
+      LeptonicTopTagger = hanalysis::HTopLeptonicTagger(bottom_tagger_);
         LeptonicTopTagger.set_analysis_name(ProjectName());
 //         LeptonicTopTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 //         LeptonicTopTagger.SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
@@ -121,7 +121,7 @@ std::vector<hanalysis::HFile *> hhiggscpv::HAnalysis::GetFiles(const std::string
 
 
 
-        HiggsTagger = hanalysis::HMvaHiggsTagger(BottomTagger);
+        HiggsTagger = hanalysis::HMvaHiggsTagger(bottom_tagger_);
         HiggsTagger.set_analysis_name(ProjectName());
 //         HiggsTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 //         HiggsTagger.SetSignalTreeNames( {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});

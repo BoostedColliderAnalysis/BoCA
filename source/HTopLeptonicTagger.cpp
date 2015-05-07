@@ -5,20 +5,20 @@ hanalysis::HTopLeptonicTagger::HTopLeptonicTagger()
   //     DebugLevel = hanalysis::HObject::HDebug;
 
   Print(HNotification, "Constructor");
-  SetTaggerName("TopLeptonic");
+  set_tagger_name("TopLeptonic");
 
 
 }
 
-hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(const HBottomTagger &NewBottomTagger)
+hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(const BottomTagger &NewBottomTagger)
 {
 //     DebugLevel = hanalysis::HObject::HDebug;
 
     Print(HNotification, "Constructor");
 
-    BottomTagger = NewBottomTagger;
-    BottomReader.set_tagger(BottomTagger);
-    SetTaggerName("TopLeptonic");
+    bottom_tagger_ = NewBottomTagger;
+    BottomReader.set_tagger(bottom_tagger_);
+    set_tagger_name("TopLeptonic");
     DefineVariables();
 }
 
@@ -32,19 +32,19 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
 
-    AddObservable(Branch.BottomPt, "BottomPt");
-    AddObservable(Branch.LeptonPt, "LeptonPt");
+    AddVariable(Branch.BottomPt, "BottomPt");
+    AddVariable(Branch.LeptonPt, "LeptonPt");
 
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
@@ -81,7 +81,7 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEven
 
     JetTag.HeavyParticles = {TopId};
     HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
     Print(HInformation, "Jet Number", Jets.size());
 
     HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);

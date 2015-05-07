@@ -65,7 +65,7 @@ public:
 //
 //     hheavyhiggs::HChargedSemiTagger EventSemiTagger;
 
-    std::vector< hanalysis::HFile > Files(const hanalysis::HObject::Tag tag);
+    std::vector< hanalysis::RootFile > Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
 //         return "HiggsTau1";

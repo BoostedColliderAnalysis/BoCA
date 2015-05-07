@@ -7,13 +7,13 @@
 
 # include "HObject.hh"
 # include "ClonesArrays.hh"
-# include "HFile.hh"
+# include "RootFile.hh"
 
 /**
  * @brief unweighted MadGraph files
  *
  */
-class hanalysis::hparton::HFile : public hanalysis::HFile
+class hanalysis::hparton::HFile : public hanalysis::RootFile
 {
 
 public:
@@ -43,7 +43,7 @@ public:
      */
     Strings Paths() const;
 
-    std::string TreeName() const;
+    std::string tree_name() const;
 
 //     std::shared_ptr<hanalysis::HEvent> Event();
 

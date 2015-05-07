@@ -1,8 +1,9 @@
 # ifndef HTopLeptonicTagger_hh
 # define HTopLeptonicTagger_hh
 
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HDoublet.hh"
+# include "Reader.hh"
 
 /**
  * @brief Top leptonic BDT tagger
@@ -15,7 +16,7 @@ public:
 
     HTopLeptonicTagger();
 
-    HTopLeptonicTagger(const HBottomTagger &NewBottomTagger);
+    HTopLeptonicTagger(const BottomTagger &NewBottomTagger);
 
     ~HTopLeptonicTagger();
 
@@ -37,7 +38,7 @@ private:
 
     Tag GetTag(const HDoublet &Doublet);
 
-    HBottomTagger BottomTagger;
+    BottomTagger bottom_tagger_;
 
     Reader BottomReader;
 

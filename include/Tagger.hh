@@ -11,6 +11,7 @@
 # include "HJetDelphes.hh"
 # include "Predicate.hh"
 # include "HEvent.hh"
+# include "HDoublet.hh"
 
 class Observable
 {
@@ -68,11 +69,11 @@ public:
         background_tree_names_.emplace_back(background_tree_name);
     }
 
-    std::string GetBranchName() const {
+    std::string branch_name() const {
         return tagger_name_;
     }
 
-    void SetTaggerName(const std::string &tagger_name) {
+    void set_tagger_name(const std::string &tagger_name) {
         tagger_name_ = tagger_name;
         signal_file_names_ = {tagger_name};
         background_file_names_ = {"Not" + tagger_name};
@@ -118,7 +119,7 @@ public:
     }
 
     std::vector<Observable> observables() const {
-        return observables_;
+        return variables_;
     }
 
     std::vector<Observable> spectators() const {
@@ -146,7 +147,7 @@ public:
         return cut_;
     }
 
-    void set_analysis_name(const std::string &analysis_name) {
+    virtual void set_analysis_name(const std::string &analysis_name) {
         analysis_name_ = analysis_name;
     }
 
@@ -197,23 +198,20 @@ public:
         return 0;
     }
 
-    HDetectorGeometry detector_geometry() const{
-      return detector_geometry_;
+    HDetectorGeometry detector_geometry() const {
+        return detector_geometry_;
     }
 
     void SetTreeBranch(ExRootTreeWriter &tree_writer, const Stage stage) {
-        switch (stage) {
-        case kTrainer :
-            tree_branch_ = tree_writer.NewBranch(tagger_name().c_str(), &Class());
-            break;
-        case kReader :
-            tree_branch_ = tree_writer.NewBranch(reader_name().c_str(), &Class());
-            break;
-        }
+        tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
     }
 
     virtual float Bdt(HEvent &event, const TMVA::Reader &reader) const {
         Print(HError, "Bdt", "should be subclassed");
+    }
+
+    std::vector<HDoublet> GetMultiplets(HEvent &event, const TMVA::Reader &reader) const {
+      Print(HError, "Bdt", "should be subclassed");
     }
 
 protected:
@@ -228,12 +226,12 @@ protected:
 
     Observable NewObservable(float &value, const std::string &title, const std::string &latex) const;
 
-    void AddObservable(float &value, const std::string &title) {
-        observables_.emplace_back(NewObservable(value, title));
+    void AddVariable(float &value, const std::string &title) {
+        variables_.emplace_back(NewObservable(value, title));
     };
 
-    void AddObservable(float &value, const std::string &title, const std::string &latex) {
-        observables_.emplace_back(NewObservable(value, title, latex));
+    void AddVariable(float &value, const std::string &title, const std::string &latex) {
+        variables_.emplace_back(NewObservable(value, title, latex));
     };
 
     void AddSpectator(float &value, const std::string &title) {
@@ -241,7 +239,7 @@ protected:
     };
 
     void ClearVectors() {
-        observables_.clear();
+        variables_.clear();
         spectators_.clear();
     }
 
@@ -250,6 +248,7 @@ protected:
     }
 
     virtual TClass &Class() const {
+        Print(HError, "Class", "should be subclassed");
         return *HBranch::Class();
     }
 
@@ -268,7 +267,7 @@ private:
      * @brief Name of the Analysis
      *
      */
-    std::string analysis_name_;
+    static std::string analysis_name_;
 
     /**
      * @brief Name of the Analysis
@@ -301,7 +300,7 @@ private:
 
     Strings signal_tree_names_;
 
-    std::vector<Observable> observables_;
+    std::vector<Observable> variables_;
 
     std::vector<Observable> spectators_;
 

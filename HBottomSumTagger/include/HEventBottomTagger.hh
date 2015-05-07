@@ -1,8 +1,9 @@
 # ifndef HEventBottomTagger_hh
 # define HEventBottomTagger_hh
 
-# include "HBottomTagger.hh"
+# include "BottomTagger.hh"
 # include "HTag.hh"
+# include "Reader.hh"
 
 namespace hbottomsumtagger
 {
@@ -67,7 +68,7 @@ public:
 
     bool TruthLevelCheck(const HJets &NewJets, hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger);
+    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
     std::vector<HEventBottomTaggerBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
@@ -79,7 +80,7 @@ public:
 
     HEventBottomTaggerBranch GetBranch(const hbottomsumtagger::HEventBottomMultiplet &Event) const;
 
-    hanalysis::HBottomTagger BottomTagger;
+    hanalysis::BottomTagger bottom_tagger_;
 
     hanalysis::Reader BottomReader;
 

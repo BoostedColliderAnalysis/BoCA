@@ -8,7 +8,7 @@ hheavyhiggs::HChargedEventSemiTagger::HChargedEventSemiTagger()
 }
 
 void hheavyhiggs::HChargedEventSemiTagger::SetTagger(
-    const hanalysis::HBottomTagger &NewBottomTagger,
+    const hanalysis::BottomTagger &NewBottomTagger,
     const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
     const hanalysis::HWHadronicTagger &NewWTagger,
@@ -17,7 +17,7 @@ void hheavyhiggs::HChargedEventSemiTagger::SetTagger(
     const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger,
     const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger)
 {
-    BottomTagger = NewBottomTagger;
+    bottom_tagger_ = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopHadronicTagger = NewTopHadronicTagger;
@@ -31,72 +31,72 @@ void hheavyhiggs::HChargedEventSemiTagger::SetTagger(
 void hheavyhiggs::HChargedEventSemiTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
-    SetTaggerName("ChargedEventSemi");
+    set_tagger_name("ChargedEventSemi");
     ClearVectors();
 
 
-    AddObservable(Branch.LeptonNumber, "LeptonNumber");
-    AddObservable(Branch.JetNumber, "JetNumber");
-    AddObservable(Branch.BottomNumber, "BottomNumber");
-    AddObservable(Branch.ScalarHt, "ScalarHt");
+    AddVariable(Branch.LeptonNumber, "LeptonNumber");
+    AddVariable(Branch.JetNumber, "JetNumber");
+    AddVariable(Branch.BottomNumber, "BottomNumber");
+    AddVariable(Branch.ScalarHt, "ScalarHt");
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaHt, "DeltaHt");
-    AddObservable(Branch.DeltaM, "DeltaM");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
-    AddObservable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaHt, "DeltaHt");
+    AddVariable(Branch.DeltaM, "DeltaM");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaR, "DeltaR");
 
-    AddObservable(Branch.HiggsMass, "HiggsMass");
-    AddObservable(Branch.PairRap, "PairRap");
-    AddObservable(Branch.HiggsBdt, "HiggsBdt");
-    AddObservable(Branch.SignatureBdt, "SignatureBdt");
-    AddObservable(Branch.BottomBdt, "BottomBdt");
-    AddObservable(Branch.PairBottomBdt, "PairBottomBdt");
+    AddVariable(Branch.HiggsMass, "HiggsMass");
+    AddVariable(Branch.PairRap, "PairRap");
+    AddVariable(Branch.HiggsBdt, "HiggsBdt");
+    AddVariable(Branch.SignatureBdt, "SignatureBdt");
+    AddVariable(Branch.BottomBdt, "BottomBdt");
+    AddVariable(Branch.PairBottomBdt, "PairBottomBdt");
 
-    AddObservable(Branch.BottomBdt1, "BottomBdt1");
-    AddObservable(Branch.BottomBdt2, "BottomBdt2");
-    AddObservable(Branch.BottomBdt3, "BottomBdt3");
-    AddObservable(Branch.BottomBdt4, "BottomBdt4");
-    AddObservable(Branch.BottomBdt5, "BottomBdt5");
-    AddObservable(Branch.BottomBdt6, "BottomBdt6");
-    AddObservable(Branch.BottomBdt7, "BottomBdt7");
-    AddObservable(Branch.BottomBdt8, "BottomBdt8");
-    AddObservable(Branch.BottomBdt12, "BottomBdt12");
-    AddObservable(Branch.BottomBdt34, "BottomBdt34");
-    AddObservable(Branch.BottomBdt56, "BottomBdt56");
-    AddObservable(Branch.BottomBdt78, "BottomBdt78");
+    AddVariable(Branch.BottomBdt1, "BottomBdt1");
+    AddVariable(Branch.BottomBdt2, "BottomBdt2");
+    AddVariable(Branch.BottomBdt3, "BottomBdt3");
+    AddVariable(Branch.BottomBdt4, "BottomBdt4");
+    AddVariable(Branch.BottomBdt5, "BottomBdt5");
+    AddVariable(Branch.BottomBdt6, "BottomBdt6");
+    AddVariable(Branch.BottomBdt7, "BottomBdt7");
+    AddVariable(Branch.BottomBdt8, "BottomBdt8");
+    AddVariable(Branch.BottomBdt12, "BottomBdt12");
+    AddVariable(Branch.BottomBdt34, "BottomBdt34");
+    AddVariable(Branch.BottomBdt56, "BottomBdt56");
+    AddVariable(Branch.BottomBdt78, "BottomBdt78");
 
-    AddObservable(Branch.SubBottomBdt1, "SubBottomBdt1");
-    AddObservable(Branch.SubBottomBdt2, "SubBottomBdt2");
-    AddObservable(Branch.SubBottomBdt3, "SubBottomBdt3");
-    AddObservable(Branch.SubBottomBdt4, "SubBottomBdt4");
-    AddObservable(Branch.SubBottomBdt5, "SubBottomBdt5");
-    AddObservable(Branch.SubBottomBdt6, "SubBottomBdt6");
-    AddObservable(Branch.SubBottomBdt7, "SubBottomBdt7");
-    AddObservable(Branch.SubBottomBdt8, "SubBottomBdt8");
-    AddObservable(Branch.SubBottomBdt12, "SubBottomBdt12");
-    AddObservable(Branch.SubBottomBdt34, "SubBottomBdt34");
-    AddObservable(Branch.SubBottomBdt56, "SubBottomBdt56");
-    AddObservable(Branch.SubBottomBdt78, "SubBottomBdt78");
+    AddVariable(Branch.SubBottomBdt1, "SubBottomBdt1");
+    AddVariable(Branch.SubBottomBdt2, "SubBottomBdt2");
+    AddVariable(Branch.SubBottomBdt3, "SubBottomBdt3");
+    AddVariable(Branch.SubBottomBdt4, "SubBottomBdt4");
+    AddVariable(Branch.SubBottomBdt5, "SubBottomBdt5");
+    AddVariable(Branch.SubBottomBdt6, "SubBottomBdt6");
+    AddVariable(Branch.SubBottomBdt7, "SubBottomBdt7");
+    AddVariable(Branch.SubBottomBdt8, "SubBottomBdt8");
+    AddVariable(Branch.SubBottomBdt12, "SubBottomBdt12");
+    AddVariable(Branch.SubBottomBdt34, "SubBottomBdt34");
+    AddVariable(Branch.SubBottomBdt56, "SubBottomBdt56");
+    AddVariable(Branch.SubBottomBdt78, "SubBottomBdt78");
 
-    AddObservable(Branch.RestNumber, "RestNumber");
-    AddObservable(Branch.RestM, "RestM");
-    AddObservable(Branch.RestPt, "RestPt");
-    AddObservable(Branch.RestHt, "RestHt");
-    AddObservable(Branch.RestPhi, "RestPhi");
-    AddObservable(Branch.RestRap, "RestRap");
-    AddObservable(Branch.RestBdt, "RestBdt");
-    AddObservable(Branch.LeptonHt, "LeptonHt");
-    AddObservable(Branch.MissingEt, "MissingEt");
+    AddVariable(Branch.RestNumber, "RestNumber");
+    AddVariable(Branch.RestM, "RestM");
+    AddVariable(Branch.RestPt, "RestPt");
+    AddVariable(Branch.RestHt, "RestHt");
+    AddVariable(Branch.RestPhi, "RestPhi");
+    AddVariable(Branch.RestRap, "RestRap");
+    AddVariable(Branch.RestBdt, "RestBdt");
+    AddVariable(Branch.LeptonHt, "LeptonHt");
+    AddVariable(Branch.MissingEt, "MissingEt");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
 
     Print(HNotification, "Variables defined");
@@ -188,8 +188,8 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     Print(HInformation, "Get Event Tags");
 
     HJets PreJets = GetJets(Event);
-    HJets Jets = BottomTagger.GetJetBdt(PreJets, BottomReader);
-    HJets SubJets = BottomTagger.GetMultiJetBdt(PreJets, BottomReader);
+    HJets Jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
+    HJets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
 
     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
@@ -206,13 +206,13 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
     if (Tag == kBackground && HiggsQuartets.size() > 0) HiggsQuartets.erase(HiggsQuartets.begin());
 
 
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, BottomTagger, BottomReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
 //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
 //
 //     for (const auto & Jet : Jets) {
 //         HJets Pieces = GetSubJets(Jet, 2);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 //         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetBdt(Pieces, WReader);
 //         std::vector<hanalysis::HTriplet> PieceTriplets = TopHadronicTagger.GetBdt(PieceDoublets, Jets, TopHadronicReader);
 //         TripletsHadronic.insert(TripletsHadronic.end(), PieceTriplets.begin(), PieceTriplets.end());
@@ -220,7 +220,7 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
 //
 //     for (const auto & Jet : Jets) {
 //         HJets Pieces = GetSubJets(Jet, 3);
-//         Pieces = BottomTagger.GetJetBdt(Pieces, BottomReader);
+//         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 //         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetBdt(Pieces, WReader);
 //         std::vector<hanalysis::HTriplet> PieceTriplets = TopHadronicTagger.GetBdt(PieceDoublets, Jets, TopHadronicReader);
 //         TripletsHadronic.insert(TripletsHadronic.end(), PieceTriplets.begin(), PieceTriplets.end());

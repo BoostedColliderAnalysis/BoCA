@@ -4,24 +4,24 @@ hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
 {
     //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-    SetTaggerName("ChargedHiggsSemi");
+    set_tagger_name("ChargedHiggsSemi");
     DefineVariables();
 }
 
 void hanalysis::HChargedHiggsSemiTagger::SetTagger(
-    const hanalysis::HBottomTagger &NewBottomTagger,
+    const hanalysis::BottomTagger &NewBottomTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
     const hanalysis::HWHadronicTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
     const hanalysis::HTopHadronicTagger &NewTopHadronicTagger)
 {
-    BottomTagger = NewBottomTagger;
+    bottom_tagger_ = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopSemiTagger = NewTopSemiTagger;
     TopHadronicTagger = NewTopHadronicTagger;
 
-    SetTaggerName("ChargedHiggsSemi");
+    set_tagger_name("ChargedHiggsSemi");
     DefineVariables();
 }
 
@@ -34,20 +34,20 @@ void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
     ClearVectors();
 
 
-    AddObservable(Branch.Mass, "Mass");
-    AddObservable(Branch.Rap, "Rap");
-    AddObservable(Branch.Phi, "Phi");
-    AddObservable(Branch.Pt, "Pt");
-    AddObservable(Branch.Ht, "Ht");
+    AddVariable(Branch.Mass, "Mass");
+    AddVariable(Branch.Rap, "Rap");
+    AddVariable(Branch.Phi, "Phi");
+    AddVariable(Branch.Pt, "Pt");
+    AddVariable(Branch.Ht, "Ht");
 
-    AddObservable(Branch.DeltaPt, "DeltaPt");
-    AddObservable(Branch.DeltaM, "DeltaM");
-    AddObservable(Branch.DeltaHt, "DeltaHt");
-    AddObservable(Branch.DeltaR, "DeltaR");
-    AddObservable(Branch.DeltaRap, "DeltaRap");
-    AddObservable(Branch.DeltaPhi, "DeltaPhi");
+    AddVariable(Branch.DeltaPt, "DeltaPt");
+    AddVariable(Branch.DeltaM, "DeltaM");
+    AddVariable(Branch.DeltaHt, "DeltaHt");
+    AddVariable(Branch.DeltaR, "DeltaR");
+    AddVariable(Branch.DeltaRap, "DeltaRap");
+    AddVariable(Branch.DeltaPhi, "DeltaPhi");
 
-    AddObservable(Branch.Bdt, "Bdt");
+    AddVariable(Branch.Bdt, "Bdt");
     AddSpectator(Branch.Tag, "Tag");
     AddSpectator(Branch.Flag, "Flag");
 
@@ -99,15 +99,15 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     }
 
     HJets Jets = GetJets(Event);
-    Jets = BottomTagger.GetJetBdt(Jets, BottomReader);
+        Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader.reader());
 
     HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-    std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
+    std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     std::vector<HTriplet> Triplets = TopSemiTagger.GetBdt(Doublets, Jets, TopSemiReader);
 
 
-    int WSemiId = WSemiTagger.GetWSemiId(Event);
+    int WSemiId = WSemiTagger.WSemiId(Event);
     HJets TopParticles = Event.GetParticles()->Generator();
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);

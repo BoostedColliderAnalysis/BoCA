@@ -1,18 +1,18 @@
 # include "HChargedLeptonicTagger.hh"
 
-hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(hanalysis::HBottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger)
+hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(hanalysis::BottomTagger *const NewBottomTagger, hanalysis::HTopLeptonicTagger *const NewTopTagger, hanalysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger)
 {
 
     Print(HNotification , "Constructor");
 
-    BottomTagger = NewBottomTagger;
-    BottomReader.set_tagger(BottomTagger);
+    bottom_tagger_ = NewBottomTagger;
+    BottomReader.set_tagger(bottom_tagger_);
     TopLeptonicTagger = NewTopTagger;
     TopLeptonicReader.set_tagger(TopLeptonicTagger);
     ChargedHiggsLeptonicTagger = NewHeavyHiggsTagger;
     ChargedHiggsLeptonicReader.set_tagger(ChargedHiggsLeptonicTagger);
 
-    SetTaggerName("EventLeptonic");
+    set_tagger_name("EventLeptonic");
 
 //     Branch = new hheavyhiggs::HChargedLeptonicBranch();
 
@@ -25,7 +25,7 @@ hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger()
 
     Print(HNotification , "Constructor");
 
-    SetTaggerName("ChargedLeptonic");
+    set_tagger_name("ChargedLeptonic");
 //     Branch = new hheavyhiggs::HChargedLeptonicBranch();
 
     DefineVariables();
@@ -89,29 +89,29 @@ void hheavyhiggs::HChargedLeptonicTagger::DefineVariables()
 
     Print(HNotification , "Define Variables");
 
-    AddObservable(Branch.JetNumber, "JetNumber");
-    AddObservable(Branch.BottomNumber, "BottomNumber");
+    AddVariable(Branch.JetNumber, "JetNumber");
+    AddVariable(Branch.BottomNumber, "BottomNumber");
 
-    AddObservable(Branch.ScalarHt, "ScalarHt");
-    AddObservable(Branch.HeavyParticleBdt, "HeavyParticleBdt");
+    AddVariable(Branch.ScalarHt, "ScalarHt");
+    AddVariable(Branch.HeavyParticleBdt, "HeavyParticleBdt");
 
-    AddObservable(Branch.HeavyHiggsBdt, "HeavyHiggsBdt");
-    AddObservable(Branch.HeavyHiggsPt, "HeavyHiggsPt");
+    AddVariable(Branch.HeavyHiggsBdt, "HeavyHiggsBdt");
+    AddVariable(Branch.HeavyHiggsPt, "HeavyHiggsPt");
 
-    AddObservable(Branch.BottomSumPt, "BottomSumPt");
-    AddObservable(Branch.BottomDeltaPt, "BottomDeltaPt");
+    AddVariable(Branch.BottomSumPt, "BottomSumPt");
+    AddVariable(Branch.BottomDeltaPt, "BottomDeltaPt");
 
-    AddObservable(Branch.BottomDeltaRap, "BottomDeltaRap");
-    AddObservable(Branch.BottomDeltaPhi, "BottomDeltaPhi");
-    AddObservable(Branch.BottomDeltaR, "BottomDeltaR");
+    AddVariable(Branch.BottomDeltaRap, "BottomDeltaRap");
+    AddVariable(Branch.BottomDeltaPhi, "BottomDeltaPhi");
+    AddVariable(Branch.BottomDeltaR, "BottomDeltaR");
 
-    AddObservable(Branch.HbSumDeltaRap, "HbSumDeltaRap");
-    AddObservable(Branch.HbSumDeltaPhi, "HbSumDeltaPhi");
-    AddObservable(Branch.HbSumDeltaR, "HbSumDeltaR");
+    AddVariable(Branch.HbSumDeltaRap, "HbSumDeltaRap");
+    AddVariable(Branch.HbSumDeltaPhi, "HbSumDeltaPhi");
+    AddVariable(Branch.HbSumDeltaR, "HbSumDeltaR");
 
-    AddObservable(Branch.HbDeltaDeltaRap, "HbDeltaDeltaRap");
-    AddObservable(Branch.HbDeltaDeltaPhi, "HbDeltaDeltaPhi");
-    AddObservable(Branch.HbDeltaDeltaR, "HbDeltaDeltaR");
+    AddVariable(Branch.HbDeltaDeltaRap, "HbDeltaDeltaRap");
+    AddVariable(Branch.HbDeltaDeltaPhi, "HbDeltaDeltaPhi");
+    AddVariable(Branch.HbDeltaDeltaR, "HbDeltaDeltaR");
 
     AddSpectator(Branch.LeptonNumber, "LeptonNumber");
     AddSpectator(Branch.EventTag, "EventTag");

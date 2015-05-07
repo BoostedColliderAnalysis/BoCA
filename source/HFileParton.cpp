@@ -21,19 +21,19 @@ hanalysis::hparton::HFile::HFile(const std::string &Process, const std::string &
 //     RunFolder = Run;
 }
 
-std::string hanalysis::hparton::HFile::TreeName() const
+std::string hanalysis::hparton::HFile::tree_name() const
 {
     Print(HInformation, "Get Tree String");
-    TreeNameM = "LHEF";
-    return TreeNameM;
+    tree_name_ = "LHEF";
+    return tree_name_;
 }
 
 Strings hanalysis::hparton::HFile::Paths() const
 {
     Print(HInformation, "FilePath");
-    FileSuffix = "_unweighted_events.root";
+    file_suffix_ = "_unweighted_events.root";
     Strings FilePaths;
-    FilePaths.emplace_back(GetMadGraphFilePath() + TagName +  FileSuffix);
+    FilePaths.emplace_back(GetMadGraphFilePath() + tag_name_ +  file_suffix_);
     return FilePaths;
 }
 
