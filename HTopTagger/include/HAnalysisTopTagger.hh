@@ -19,7 +19,6 @@ class HAnalysis : public hanalysis::HAnalysis
 
 public:
 
-// using hanalysis::HAnalysis::HAnalysis;
 
     HAnalysis(hanalysis::Tagger &tagger);
 
@@ -32,8 +31,8 @@ public:
     enum Decay {kLeptonic, kHadronic, kSemi};
 
     inline Decay TopDecay() const {
-//         return kHadronic;
-        return kLeptonic;
+        return kHadronic;
+//         return kLeptonic;
 //         return kSemi;
     }
 

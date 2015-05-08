@@ -170,8 +170,7 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::
     }
     Print(HInformation, "Number Triplets", Triplets.size());
 
-    SaveEntries(Triplets);
-    return Triplets.size();
+    return SaveEntries(Triplets);
 }
 
 

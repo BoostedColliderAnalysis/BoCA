@@ -1,5 +1,4 @@
-# ifndef HTopHadronicTagger_hh
-# define HTopHadronicTagger_hh
+# pragma once
 
 # include "HTriplet.hh"
 # include "BottomTagger.hh"
@@ -18,30 +17,52 @@ public:
 
     HTopHadronicTagger();
 
-    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger);
+    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
 
-    std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0);
+    std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0){
+      Print(HError, "get branches", "depreciated");
+    }
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::Reader & TopHadronicReader);
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const TMVA::Reader &reader);
+
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const Reader &reader){
+      Print(HError, "get bdt", "depreciated");
+    }
 
     HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::Reader &TopHadronicReader);
 
-    std::vector<HTriplet> GetBdt(const HJets &Jets, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader);
+    int GetBdt(HEvent &event, const TMVA::Reader &reader){
+      return SaveEntries(GetTriplets(event,reader));
+    }
 
-//     std::vector<HTriplet> GetBdt(HJets &Jets, const Reader &TopHadronicReader);
+    std::vector<HTriplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
 
+    std::vector<HTriplet> GetBdt(const HJets &Jets, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader){
+      Print(HError, "get bdt", "depreciated");
+    }
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
-      return ((HTopHadronicBranch *) EventClonesArray.At(Entry))->Bdt;
+    float ReadBdt(const TClonesArray &clones_array, const int entry){
+      return static_cast<HTopHadronicBranch &>(* clones_array.At(entry)).Bdt;
     }
 
     BottomTagger bottom_tagger_;
-    HWHadronicTagger WTagger;
 
-    Reader  BottomReader;
-    Reader  WReader;
+    HWHadronicTagger w_hadronic_tagger_;
+
+    Reader  bottom_reader_;
+
+    Reader  w_hadronic_reader_;
 
     HTopHadronicBranch GetBranch(const hanalysis::HTriplet &triplet) const;
+
+    int SaveEntries(const std::vector<HTriplet> &triplets) {
+      for (const auto & triplet : triplets) static_cast<HTopHadronicBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
+      return triplets.size();
+    }
+
+    TClass &Class() const {
+      return *HTopHadronicBranch::Class();
+    }
 
 protected:
 
@@ -53,34 +74,23 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const hanalysis::HTriplet &);
-
-    Tag GetTag(const fastjet::PseudoJet& Jet);
-
     void GetBottomInfo(HTopHadronicBranch &TopHadronicBranch, const fastjet::PseudoJet jet) const;
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
-    HTopHadronicBranch Branch;
-    hanalysis::HJetTag JetTag;
+    HTopHadronicBranch branch_;
 
-    float TopWindow ;
-    float WMassWindow ;
+    float top_mass_window_ ;
 
-    bool Boost = false;
+    float w_mass_window_ ;
 
-    //     float JetRadiusParameter;
+    bool boost_ = false;
+
     void NSubJettiness(HTriplet& triplet);
+
     SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
-//     void BasicNSubJettiness(const std::vector<fastjet::PseudoJet> & input_particles);
-//     void AdvancedNSubJettiness(const std::vector<fastjet::PseudoJet> & input_particles);
-//
-//
-//     void PrintJets(const std::vector <fastjet::PseudoJet>& jets, bool commentOut = false){};
-//     void PrintJets(const std::vector <fastjet::PseudoJet>& jets, fastjet::contrib::TauComponents components, bool showTotal = true){};
 
 };
 
-#endif

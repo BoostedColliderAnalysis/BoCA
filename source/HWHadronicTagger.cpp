@@ -4,108 +4,95 @@ hanalysis::HWHadronicTagger::HWHadronicTagger()
 {
     //     DebugLevel = hanalysis::HObject::HDebug;
     Print(HNotification, "Constructor");
-    DefineVariables();
-
-}
-
-void hanalysis::HWHadronicTagger::SetTagger(const BottomTagger &NewBottomTagger)
-{
-    Print(HNotification, "Set Tagger");
-    bottom_tagger_ = NewBottomTagger;
-    WMassWindow = 20;
+    set_tagger_name("WHadronic");
+    w_mass_window_ = 20;
+    bottom_reader_.set_tagger(bottom_tagger_);
     DefineVariables();
 }
 
 void hanalysis::HWHadronicTagger::DefineVariables()
 {
     Print(HNotification , "Define Variables");
-    set_tagger_name("WHadronic");
     ClearVectors();
-
-
-    AddVariable(Branch.Mass, "Mass");
-    AddVariable(Branch.Rap, "Rap");
-    AddVariable(Branch.Phi, "Phi");
-    AddVariable(Branch.Pt, "Pt");
-    AddVariable(Branch.Ht, "Ht");
-
-    AddVariable(Branch.DeltaPt, "DeltaPt");
-    AddVariable(Branch.DeltaPhi, "DeltaPhi");
-    AddVariable(Branch.DeltaRap, "DeltaRap");
-    AddVariable(Branch.DeltaR, "DeltaR");
-
-    AddVariable(Branch.Bdt, "Bdt");
-
-    AddSpectator(Branch.Tag, "Tag");
+    AddVariable(branch_.Mass, "Mass");
+    AddVariable(branch_.Rap, "Rap");
+    AddVariable(branch_.Phi, "Phi");
+    AddVariable(branch_.Pt, "Pt");
+    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch_.DeltaPt, "DeltaPt");
+    AddVariable(branch_.DeltaPhi, "DeltaPhi");
+    AddVariable(branch_.DeltaRap, "DeltaRap");
+    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch_.Bdt, "Bdt");
+    AddSpectator(branch_.Tag, "Tag");
 }
 
-HWBranch hanalysis::HWHadronicTagger::GetBranch(const HDoublet &Doublet) const
+HWBranch hanalysis::HWHadronicTagger::GetBranch(const HDoublet &doublet) const
 {
-    Print(HInformation, "FillPairTagger", Doublet.Bdt());
-    HWBranch WBranch;
-    WBranch.Mass = Doublet.Jet().m();
-    WBranch.Rap = Doublet.Jet().rap();
-    WBranch.Phi = Doublet.Jet().phi();
-    WBranch.Pt = Doublet.Jet().pt();
-    WBranch.Ht = Doublet.Ht();
-    WBranch.DeltaPt = std::abs(Doublet.DeltaPt());
-    WBranch.DeltaR = Doublet.DeltaR();
-    WBranch.DeltaRap = std::abs(Doublet.DeltaRap());
-    WBranch.DeltaPhi = std::abs(Doublet.DeltaPhi());
-    WBranch.Bdt = Doublet.Bdt();
-    WBranch.Tag = Doublet.Tag();
-    return WBranch;
+    Print(HInformation, "FillPairTagger", doublet.Bdt());
+    HWBranch branch;
+    branch.Mass = doublet.Jet().m();
+    branch.Rap = doublet.Jet().rap();
+    branch.Phi = doublet.Jet().phi();
+    branch.Pt = doublet.Jet().pt();
+    branch.Ht = doublet.Ht();
+    branch.DeltaPt = std::abs(doublet.DeltaPt());
+    branch.DeltaR = doublet.DeltaR();
+    branch.DeltaRap = std::abs(doublet.DeltaRap());
+    branch.DeltaPhi = std::abs(doublet.DeltaPhi());
+    branch.Bdt = doublet.Bdt();
+    branch.Tag = doublet.Tag();
+    return branch;
 
 }
 
-std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
+int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Get W Tags");
-    std::vector<HDoublet> Doublets;
 
-    HJets Jets = GetJets(Event);
-    Print(HInformation, "Jets Number", Jets.size());
-    //     Jets = bottom_tagger_.GetJetBdt(Jets, bottom_reader_); // TODO reenable this
-    Print(HInformation, "Bottom Tagger Number", Jets.size());
-
-    HJets WKids = GetWDaughters(Event);
+    HJets WKids = GetWDaughters(event);
     int WHadId = WId;
     if (WKids.size() > 0) WHadId = GetWHadId(WKids);
 
+//     HJets Jets = GetJets(event);
+    HJets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    Print(HInformation, "Bottom Tagger Number", jets.size());
+
     // 2 Jets form 1 W
     HJets JetPairs;
-    if (WKids.size() > 0) std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(WKids.at(0)));
-    if (Tag == kSignal && Jets.size() > 1) JetPairs.emplace_back(Jets.front());
-    if (Tag == kBackground && Jets.size() > 1) JetPairs.insert(JetPairs.end(), Jets.begin() + 1 , Jets.end());
+    if (WKids.size() > 0) std::sort(jets.begin(), jets.end(), MinDeltaRTo(WKids.at(0)));
+    if (tag == kSignal && jets.size() > 1) JetPairs.emplace_back(jets.front());
+    if (tag == kBackground && jets.size() > 1) JetPairs.insert(JetPairs.end(), jets.begin() + 1 , jets.end());
 
-    if (WKids.size() > 1) std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(WKids.at(1)));
-    if (Tag == kSignal && Jets.size() > 1) JetPairs.emplace_back(Jets.front());
-    if (Tag == kSignal && JetPairs.size() != 2) Print(HError, "lost the W jets", JetPairs.size());
+    if (WKids.size() > 1) std::sort(jets.begin(), jets.end(), MinDeltaRTo(WKids.at(1)));
+    if (tag == kSignal && jets.size() > 1) JetPairs.emplace_back(jets.front());
+    if (tag == kSignal && JetPairs.size() != 2) Print(HError, "lost the W jets", JetPairs.size());
 
+    std::vector<HDoublet> doublets;
     for (const auto & Jet1 : JetPairs) {
         for (const auto & Jet2 : JetPairs) {
             if (Jet1.delta_R(Jet2) < detector_geometry().JetConeSize) continue;
             HDoublet Doublet(Jet1, Jet2);
-            if (Tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-            Doublets.emplace_back(Doublet);
+            if (tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+            doublets.emplace_back(Doublet);
         }
     }
 
 
-    HJets WParticles = Event.GetParticles()->Generator();
+    HJets WParticles = event.GetParticles()->Generator();
     WParticles = RemoveIfWrongParticle(WParticles, WHadId);
     fastjet::PseudoJet WParticle;
-    if (Tag == kSignal) {
+    if (tag == kSignal) {
         if (WParticles.size() == 1) {
             WParticle = WParticles.front();
-            std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(WParticle));
+            std::sort(jets.begin(), jets.end(), MinDeltaRTo(WParticle));
         } else Print(HError, "Where is the W?", WParticles.size());
     }
 
 //  1 Jet (2 subjets) form(s) 1 W
     HJets WJets;
-    if (Tag == kSignal && Jets.size() > 1) WJets.emplace_back(Jets.front());
-    if (Tag == kBackground && Jets.size() > 1) WJets.insert(WJets.end(), Jets.begin() + 1 , Jets.end());
+    if (tag == kSignal && jets.size() > 1) WJets.emplace_back(jets.front());
+    if (tag == kBackground && jets.size() > 1) WJets.insert(WJets.end(), jets.begin() + 1 , jets.end());
     for (const auto & Jet : WJets) {
         HJets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
@@ -113,10 +100,10 @@ std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent
             for (const auto & Piece2 : Pieces) {
                 if (Piece1 == Piece2) continue;
                 HDoublet Doublet(Piece1, Piece2);
-                if (Tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-                if (Tag == kSignal && Doublet.Jet().delta_R(WParticle) > detector_geometry().JetConeSize) continue;
-                if (Tag == kBackground && Doublet.Jet().delta_R(WParticle) < detector_geometry().JetConeSize) continue;
-                Doublets.emplace_back(Doublet);
+                if (tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+                if (tag == kSignal && Doublet.Jet().delta_R(WParticle) > detector_geometry().JetConeSize) continue;
+                if (tag == kBackground && Doublet.Jet().delta_R(WParticle) < detector_geometry().JetConeSize) continue;
+                doublets.emplace_back(Doublet);
             }
         }
     }
@@ -137,23 +124,23 @@ std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent
             for (const auto & Piece2 : Pieces) {
                 if (Piece1 == Piece2) continue;
                 HDoublet Doublet(Piece1, Piece2);
-                if (Tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-                if (Tag == kSignal && Doublet.Jet().delta_R(WParticle) > detector_geometry().JetConeSize) continue;
-                if (Tag == kBackground && Doublet.Jet().delta_R(WParticle) < detector_geometry().JetConeSize) continue;
-                Doublets.emplace_back(Doublet);
+                if (tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+                if (tag == kSignal && Doublet.Jet().delta_R(WParticle) > detector_geometry().JetConeSize) continue;
+                if (tag == kBackground && Doublet.Jet().delta_R(WParticle) < detector_geometry().JetConeSize) continue;
+                doublets.emplace_back(Doublet);
             }
     }
 
     // W is in 1 of 2 subjet
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets) {
         HJets Pieces = GetSubJets(Jet, 2);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
         for (const auto & Piece : Pieces) {
             HDoublet Doublet(Piece);
-            if (Tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-            if (Tag == kSignal && Doublet.Jet().delta_R(WParticle) > detector_geometry().JetConeSize) continue;
-            if (Tag == kBackground && Doublet.Jet().delta_R(WParticle) < detector_geometry().JetConeSize) continue;
-            Doublets.emplace_back(Doublet);
+            if (tag == kSignal && std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+            if (tag == kSignal && Doublet.Jet().delta_R(WParticle) > detector_geometry().JetConeSize) continue;
+            if (tag == kBackground && Doublet.Jet().delta_R(WParticle) < detector_geometry().JetConeSize) continue;
+            doublets.emplace_back(Doublet);
         }
     }
 
@@ -161,13 +148,14 @@ std::vector<HWBranch> hanalysis::HWHadronicTagger::GetBranches(hanalysis::HEvent
 
     const int WNumber = 1; // MUST BE 1 FOR THE ANALYSIS
 //     std::sort(Doublets.begin(), Doublets.end(), MinDeltaR(WParticles));
-    std::sort(Doublets.begin(), Doublets.end(), SortByMass(WMass));
-    if (Tag == kSignal && Doublets.size() > WNumber) Doublets.erase(Doublets.begin() + WNumber, Doublets.end());
-    if (Tag == kBackground && Doublets.size() > WNumber) Doublets.erase(Doublets.begin());
+    std::sort(doublets.begin(), doublets.end(), SortByMass(WMass));
+    if (tag == kSignal && doublets.size() > WNumber) doublets.erase(doublets.begin() + WNumber, doublets.end());
+    if (tag == kBackground && doublets.size() > WNumber) doublets.erase(doublets.begin());
 
-    std::vector<HWBranch> Branches;
-    for (const auto & Doublet : Doublets) Branches.emplace_back(GetBranch(Doublet));
-    return Branches;
+//     std::vector<HWBranch> Branches;
+//     for (const auto & Doublet : doublets) Branches.emplace_back(GetBranch(Doublet));
+//     return Branches;
+    return SaveEntries(doublets);
 }
 
 // hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const HDoublet &Doublet)
@@ -208,24 +196,27 @@ int hanalysis::HWHadronicTagger::GetWHadId(const HJets &Jets)
 }
 
 
-std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader)
+std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent &event, const TMVA::Reader &reader)
 {
     Print(HInformation, "Get Doublet Bdt");
 
+    HJets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+
+
     // W in 2 jets
     std::vector<HDoublet>  Doublets;
-    for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
-        for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+    for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
+        for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
             HDoublet Doublet(*Jet1, *Jet2);
             if (Doublet.DeltaR() < detector_geometry().MinCellResolution) continue;
-            if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-            Branch = GetBranch(Doublet);
-            Doublet.SetBdt(WReader.Bdt());
+            if (std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+            branch_ = GetBranch(Doublet);
+            Doublet.SetBdt(Bdt(reader));
             Doublets.emplace_back(Doublet);
         }
 
 //  1 Jet (2 subjets) form(s) 1 W
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets) {
         HJets Pieces = GetSubJets(Jet, 2);
         //         Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
@@ -233,9 +224,9 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
                 if (Piece1 == Piece2) continue;
                 HDoublet Doublet(Piece1, Piece2);
                 if (Doublet.DeltaR() < detector_geometry().MinCellResolution) continue;
-                if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-                Branch = GetBranch(Doublet);
-                Doublet.SetBdt(WReader.Bdt());
+                if (std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+                branch_ = GetBranch(Doublet);
+                Doublet.SetBdt(Bdt(reader));
                 Doublets.emplace_back(Doublet);
             }
         }
@@ -243,7 +234,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
 
 
 // W is in 2 of 3 subjets
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets) {
         HJets Pieces = GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces)
@@ -251,22 +242,22 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
                 if (Piece1 == Piece2)continue;
                 HDoublet Doublet(Piece1, Piece2);
                 if (Doublet.DeltaR() < detector_geometry().MinCellResolution) continue;
-                if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-                Branch = GetBranch(Doublet);
-                Doublet.SetBdt(WReader.Bdt());
+                if (std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+                branch_ = GetBranch(Doublet);
+                Doublet.SetBdt(Bdt(reader));
                 Doublets.emplace_back(Doublet);
             }
     }
 
     //  1 of 2 subjets are the W
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets) {
       HJets Pieces = GetSubJets(Jet, 2);
       //       Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
       for (const auto & Piece : Pieces) {
           HDoublet Doublet(Piece);
-          if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-          Branch = GetBranch(Doublet);
-          Doublet.SetBdt(WReader.Bdt());
+          if (std::abs(Doublet.Jet().m() - WMass) > w_mass_window_) continue;
+          branch_ = GetBranch(Doublet);
+          Doublet.SetBdt(Bdt(reader));
           Doublets.emplace_back(Doublet);
         }
     }
@@ -286,7 +277,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
       HDoublet Doublet(*Jet1, *Jet2);
 //       if (Doublet.DeltaR() < detector_geometry().MinCellResolution) continue;
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-      Branch = GetBranch(Doublet);
+      branch_ = GetBranch(Doublet);
       Doublet.SetBdt(WReader.Bdt());
       Doublets.emplace_back(Doublet);
     }
@@ -294,7 +285,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
   for (const auto & Jet : Jets){
       HDoublet Doublet(Jet);
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-      Branch = GetBranch(Doublet);
+      branch_ = GetBranch(Doublet);
       Doublet.SetBdt(WReader.Bdt());
       Doublets.emplace_back(Doublet);
     }
@@ -314,7 +305,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetPairBdt(const H
       HDoublet Doublet(*Jet1, *Jet2);
 //       if (Doublet.DeltaR() < detector_geometry().MinCellResolution) continue;
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-      Branch = GetBranch(Doublet);
+      branch_ = GetBranch(Doublet);
       Doublet.SetBdt(WReader.Bdt());
       Doublets.emplace_back(Doublet);
     }
@@ -332,7 +323,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetSingletBdt(cons
     for (const auto & Jet : Jets){
       HDoublet Doublet(Jet);
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
-      Branch = GetBranch(Doublet);
+      branch_ = GetBranch(Doublet);
       Doublet.SetBdt(WReader.Bdt());
       Doublets.emplace_back(Doublet);
     }
@@ -347,7 +338,7 @@ hanalysis::HDoublet hanalysis::HWHadronicTagger::GetBdt(HDoublet &Doublet, const
 {
     Print(HInformation, "Get Doublet Bdt");
 
-    Branch = GetBranch(Doublet);
+    branch_ = GetBranch(Doublet);
     Doublet.SetBdt(WReader.Bdt());
     return Doublet;
 }
