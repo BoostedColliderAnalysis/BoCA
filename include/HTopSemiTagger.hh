@@ -22,11 +22,17 @@ public:
 
 //     std::vector<HTopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag, float pre_cut = 0);
+    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
+
+    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag, float pre_cut = 0){
+      Print(HError, "train", "depreciated");
+    }
 
     int GetBdt(HEvent &event, const TMVA::Reader &reader){
-      Print(HError, "get bdt", "depreciated");
-    };
+      std::vector<HTriplet> triplets = GetTriplets(event,reader);
+      SaveEntries(triplets);
+      return triplets.size();
+    }
 
     std::vector<hanalysis::HTriplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
 

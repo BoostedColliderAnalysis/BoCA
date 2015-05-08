@@ -49,7 +49,9 @@ private:
  * @brief Prepares multivariant analysis
  *
  */
-class hanalysis::Tagger : public HObject
+namespace hanalysis{
+// template <class ReturnType>
+class Tagger : public HObject
 {
 
 public:
@@ -115,6 +117,7 @@ public:
     }
 
     std::string analysis_name() const {
+      Print(HError,"Analysis Name", analysis_name_);
         return analysis_name_;
     }
 
@@ -210,9 +213,27 @@ public:
         Print(HError, "Bdt", "should be subclassed");
     }
 
-    std::vector<HDoublet> GetMultiplets(HEvent &event, const TMVA::Reader &reader) const {
-      Print(HError, "Bdt", "should be subclassed");
-    }
+
+
+
+//     template < class ValueType >
+//     class BasicType
+//     {
+//     public:
+//       typedef ValueType basic_type;
+//       basic_type value() { return value_; }
+//       basic_type value_;
+//     };
+//
+//     template<class T>
+//     typedef ReturnType t;
+//     std::vector<t>
+// //     virtual auto
+//     GetMultiplets(HEvent &event, const TMVA::Reader &reader) {
+//       Print(HError, "Bdt", "should be subclassed");
+//       std::vector<t> v;
+//       return v;
+//     }
 
 protected:
 
@@ -309,3 +330,4 @@ private:
     HDetectorGeometry detector_geometry_;
 
 };
+}

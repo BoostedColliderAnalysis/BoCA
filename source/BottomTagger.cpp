@@ -220,24 +220,24 @@ HJets hanalysis::BottomTagger::GetSubBdt(const HJets &jets, const TMVA::Reader &
     return GetJetBdt(Pieces, reader);
 }
 
-HJets hanalysis::BottomTagger::GetJetBdt(const HJets &jets, const TMVA::Reader &reader)
+HJets hanalysis::BottomTagger::GetJetBdt(HEvent &event, const TMVA::Reader &reader)
 {
-    HJets NewJets;
+    HJets jets;
     Print(HInformation, "Get Jet Bdt");
-    for (const auto Jet : jets) {
-        if (!Jet.has_user_info<HJetInfo>()) {
+    for (const auto jet : GetJets(event)) {
+        if (!jet.has_user_info<HJetInfo>()) {
             Print(HError, "Get Jet Bdt", "No Jet Info");
             continue;
         }
-        if (Jet.m() <= 0) {
+        if (jet.m() <= 0) {
             Print(HInformation, "Empty Piece");
             continue;
         }
-        branch_ = GetBranch(Jet);
-        static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetBdt(Bdt(reader));
-        NewJets.emplace_back(Jet);
+        branch_ = GetBranch(jet);
+        static_cast<HJetInfo *>(jet.user_info_shared_ptr().get())->SetBdt(Bdt(reader));
+        jets.emplace_back(jet);
     }
-    return NewJets;
+    return jets;
 }
 
 float hanalysis::BottomTagger::GetDeltaR(const fastjet::PseudoJet &jet) const
