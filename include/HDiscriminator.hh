@@ -30,9 +30,9 @@ public:
      * @brief Get Fat Higgs Jets
      * 
      */
-    HJets GetCandidateJets(const HJets &, const float);
+    Jets GetCandidateJets(const Jets &, const float);
 
-    HJets GetCandidateJetsForced(const HJets &, const float);
+    Jets GetCandidateJetsForced(const Jets &, const float);
 
     static bool JetIsBad(const fastjet::PseudoJet &Jet);
 

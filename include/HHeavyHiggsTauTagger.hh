@@ -21,7 +21,7 @@ public:
 
     std::vector<HHeavyHiggsTauBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
-    std::vector<HDoublet>  GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader);
+    std::vector<HDoublet>  GetBdt(const Jets &jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader);
 
     HHeavyHiggsTauBranch GetBranch(const hanalysis::HDoublet& Doublet) const;
 
@@ -43,9 +43,9 @@ private:
 
     std::vector< HDoublet > GetNeutrinos(const hanalysis::HDoublet& Doublet)const;
 
-    std::vector<hanalysis::HDoublet> GetNeutrino(const HDoublet &Doublet, const HJets &Neutrinos, const Tag Tag)const;
+    std::vector<hanalysis::HDoublet> GetNeutrino(const HDoublet &Doublet, const Jets &Neutrinos, const Tag Tag)const;
 
-    std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const HJets &Neutrinos, const hanalysis::HObject::Tag tag);
+    std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const Jets &Neutrinos, const hanalysis::HObject::Tag tag);
 
     HHeavyHiggsTauBranch Branch;
 

@@ -135,9 +135,9 @@ private:
     hanalysis::HSubStructure *SubStructure;
 
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const HJets &, const float DeltaR);
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const Jets &, const float DeltaR);
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const HJets &);
+    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const Jets &);
 
     float GetDeltaR(const fastjet::PseudoJet &Jet);
 
@@ -147,7 +147,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    HJets Leptons(hanalysis::HEvent &Event);
+    Jets Leptons(hanalysis::HEvent &Event);
 
     /**
      * @brief Lepton calculations
@@ -155,7 +155,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    //     HJets Leptons();
+    //     Jets Leptons();
 
     //     JetTag *HJetTag;
 

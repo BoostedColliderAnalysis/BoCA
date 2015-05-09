@@ -127,7 +127,7 @@ private:
 
     bool GetSignalTag(hanalysis::HEvent &Event, const std::string &StudyName);
 
-    std::vector<HHiggsCpv> GetHiggsCpvs(const HJets &Jets, const HJets &Leptons);
+    std::vector<HHiggsCpv> GetHiggsCpvs(const Jets &jets, const Jets &Leptons);
 
     /**
      * @brief New Analysis

@@ -71,7 +71,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
+    std::vector<HOctet> GetHeavyHiggsEvents(Jets &jets);
 
     HOctetBranch Branch;
     hanalysis::HJetTag JetTag;

@@ -103,14 +103,14 @@ HVectors hanalysis::HParticle::GetAntiLeptonVectors()
 
 }
 
-HJets hanalysis::HParticle::GetLeptonJets()
+Jets hanalysis::HParticle::GetLeptonJets()
 {
 
   Print(HInformation,"LeptonVector");
 
   GotParticles = GetParticles();
 
-    HJets LeptonJets;
+    Jets LeptonJets;
 
     LeptonJets = ElectronJets;
     LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());
@@ -124,14 +124,14 @@ HJets hanalysis::HParticle::GetLeptonJets()
 
 }
 
-HJets hanalysis::HParticle::GetAntiLeptonJets()
+Jets hanalysis::HParticle::GetAntiLeptonJets()
 {
 
   Print(HInformation,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
-    HJets AntiLeptonJets;
+    Jets AntiLeptonJets;
 
     AntiLeptonJets = AntiElectronJets;
     AntiLeptonJets.insert(AntiLeptonJets.end(), AntiMuonJets.begin(), AntiMuonJets.end());

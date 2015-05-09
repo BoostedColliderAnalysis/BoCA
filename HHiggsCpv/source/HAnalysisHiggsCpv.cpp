@@ -255,20 +255,20 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent &Event, const std::str
 {
     Print(HInformation, "Get Event", NewStudyName);
 
-    HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+    Jets Leptons = Event.GetLeptons()->GetLeptonJets();
     if (Leptons.size() < 2) {
         Print(HNotification, "Not enough Leptons", Leptons.size());
         return 0;
     }
 
-    HJets Jets = Event.GetJets()->GetStructuredJets();
-    if (Jets.size() < 4) {
-        Print(HNotification, "Not enough Jets", Jets.size());
+    Jets jets = Event.GetJets()->GetStructuredJets();
+    if (jets.size() < 4) {
+        Print(HNotification, "Not enough Jets", jets.size());
         return 0;
 
     }
 
-    for (auto & Jet : Jets) {
+    for (auto & Jet : jets)  {
         hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo;
 //         BottomTagger.Branch = BottomTagger.GetBranch(Jet); // FIXME reenable this
         JetInfo->SetBdt(BottomReader.Bdt());
@@ -276,16 +276,16 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent &Event, const std::str
     }
 
     std::vector<HHiggsCpv> HiggsCpvs;
-    for (HJets::iterator Lepton1 = Leptons.begin(); Lepton1 != Leptons.end(); ++Lepton1) {
-        for (HJets::iterator Lepton2 = Lepton1 + 1; Lepton2 != Leptons.end(); ++Lepton2) {
-            const HJets EventLeptons {
+    for (Jets::iterator Lepton1 = Leptons.begin(); Lepton1 != Leptons.end(); ++Lepton1) {
+        for (Jets::iterator Lepton2 = Lepton1 + 1; Lepton2 != Leptons.end(); ++Lepton2) {
+            const Jets EventLeptons {
                 (*Lepton1), (*Lepton2)
             };
-            for (HJets::iterator Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1) {
-                for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
-                    for (HJets::iterator Jet3 = Jet2 + 1; Jet3 != Jets.end(); ++Jet3) {
-                        for (HJets::iterator Jet4 = Jet3 + 1; Jet4 != Jets.end(); ++Jet4) {
-                            const HJets EventJets = {(*Jet1), (*Jet2), (*Jet3), (*Jet4)};
+            for (Jets::iterator Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1) {
+                for (Jets::iterator Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
+                    for (Jets::iterator Jet3 = Jet2 + 1; Jet3 != jets.end(); ++Jet3) {
+                        for (Jets::iterator Jet4 = Jet3 + 1; Jet4 != jets.end(); ++Jet4) {
+                            const Jets EventJets = {(*Jet1), (*Jet2), (*Jet3), (*Jet4)};
                             std::vector<HHiggsCpv> NewHiggsCpvs = GetHiggsCpvs(EventJets, EventLeptons);
                             HiggsCpvs.insert(HiggsCpvs.end(), NewHiggsCpvs.begin(), NewHiggsCpvs.end());
                         }
@@ -317,53 +317,53 @@ bool hhiggscpv::HAnalysis::GetSignalTag(hanalysis::HEvent &Event, const std::str
 
 }
 
-std::vector< HHiggsCpv > hhiggscpv::HAnalysis::GetHiggsCpvs(const HJets &Jets, const HJets &Leptons)
+std::vector< HHiggsCpv > hhiggscpv::HAnalysis::GetHiggsCpvs(const Jets &jets, const Jets &Leptons)
 {
 
     std::vector<HHiggsCpv> HiggsCpvs;
 
-    hanalysis::HDoublet HiggsPair01 = hanalysis::HDoublet(Jets[0], Jets[1]);
+    hanalysis::HDoublet HiggsPair01 = hanalysis::HDoublet(jets[0], jets[1]);
     HiggsTagger.FillBranch(HiggsPair01);
     HiggsPair01.SetBdt(HiggsReader.Bdt());
-    hanalysis::HDoublet HiggsPair02 = hanalysis::HDoublet(Jets[0], Jets[2]);
+    hanalysis::HDoublet HiggsPair02 = hanalysis::HDoublet(jets[0], jets[2]);
     HiggsTagger.FillBranch(HiggsPair02);
     HiggsPair02.SetBdt(HiggsReader.Bdt());
-    hanalysis::HDoublet HiggsPair03 = hanalysis::HDoublet(Jets[0], Jets[3]);
+    hanalysis::HDoublet HiggsPair03 = hanalysis::HDoublet(jets[0], jets[3]);
     HiggsTagger.FillBranch(HiggsPair03);
     HiggsPair03.SetBdt(HiggsReader.Bdt());
-    hanalysis::HDoublet HiggsPair12 = hanalysis::HDoublet(Jets[1], Jets[2]);
+    hanalysis::HDoublet HiggsPair12 = hanalysis::HDoublet(jets[1], jets[2]);
     HiggsTagger.FillBranch(HiggsPair12);
     HiggsPair12.SetBdt(HiggsReader.Bdt());
-    hanalysis::HDoublet HiggsPair13 = hanalysis::HDoublet(Jets[1], Jets[3]);
+    hanalysis::HDoublet HiggsPair13 = hanalysis::HDoublet(jets[1], jets[3]);
     HiggsTagger.FillBranch(HiggsPair13);
     HiggsPair13.SetBdt(HiggsReader.Bdt());
-    hanalysis::HDoublet HiggsPair23 = hanalysis::HDoublet(Jets[2], Jets[3]);
+    hanalysis::HDoublet HiggsPair23 = hanalysis::HDoublet(jets[2], jets[3]);
     HiggsTagger.FillBranch(HiggsPair23);
     HiggsPair23.SetBdt(HiggsReader.Bdt());
 
-    hanalysis::HDoublet Top0 = hanalysis::HDoublet(Jets[0], Leptons[0]);
+    hanalysis::HDoublet Top0 = hanalysis::HDoublet(jets[0], Leptons[0]);
     LeptonicTopTagger.GetBranch(Top0);
     Top0.SetBdt(TopReader.Bdt());
-    hanalysis::HDoublet Top1 = hanalysis::HDoublet(Jets[1], Leptons[0]);
+    hanalysis::HDoublet Top1 = hanalysis::HDoublet(jets[1], Leptons[0]);
     LeptonicTopTagger.GetBranch(Top1);
     Top1.SetBdt(TopReader.Bdt());
-    hanalysis::HDoublet Top2 = hanalysis::HDoublet(Jets[2], Leptons[0]);
+    hanalysis::HDoublet Top2 = hanalysis::HDoublet(jets[2], Leptons[0]);
     LeptonicTopTagger.GetBranch(Top2);
     Top2.SetBdt(TopReader.Bdt());
-    hanalysis::HDoublet Top3 = hanalysis::HDoublet(Jets[3], Leptons[0]);
+    hanalysis::HDoublet Top3 = hanalysis::HDoublet(jets[3], Leptons[0]);
     LeptonicTopTagger.GetBranch(Top3);
     Top3.SetBdt(TopReader.Bdt());
 
-    hanalysis::HDoublet AntiTop0 = hanalysis::HDoublet(Jets[0], Leptons[1]);
+    hanalysis::HDoublet AntiTop0 = hanalysis::HDoublet(jets[0], Leptons[1]);
     LeptonicTopTagger.GetBranch(AntiTop0);
     AntiTop0.SetBdt(TopReader.Bdt());
-    hanalysis::HDoublet AntiTop1 = hanalysis::HDoublet(Jets[1], Leptons[1]);
+    hanalysis::HDoublet AntiTop1 = hanalysis::HDoublet(jets[1], Leptons[1]);
     LeptonicTopTagger.GetBranch(AntiTop1);
     AntiTop1.SetBdt(TopReader.Bdt());
-    hanalysis::HDoublet AntiTop2 = hanalysis::HDoublet(Jets[2], Leptons[1]);
+    hanalysis::HDoublet AntiTop2 = hanalysis::HDoublet(jets[2], Leptons[1]);
     LeptonicTopTagger.GetBranch(AntiTop2);
     AntiTop2.SetBdt(TopReader.Bdt());
-    hanalysis::HDoublet AntiTop3 = hanalysis::HDoublet(Jets[3], Leptons[1]);
+    hanalysis::HDoublet AntiTop3 = hanalysis::HDoublet(jets[3], Leptons[1]);
     LeptonicTopTagger.GetBranch(AntiTop3);
     AntiTop3.SetBdt(TopReader.Bdt());
 

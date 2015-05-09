@@ -90,7 +90,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     float Mass = Event.GetMass();
     fastjet::PseudoJet HiggsBoson;
     if (Tag == kSignal) {
-        HJets HiggsParticles = Event.GetParticles()->Generator();
+        Jets HiggsParticles = Event.GetParticles()->Generator();
         HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
         if (Tag == kSignal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
@@ -98,17 +98,17 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
         }
     }
 
-    HJets Jets = GetJets(Event);
-        Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader.reader());
+    Jets jets = GetJets(Event);
+        jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
-    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-    std::vector<HTriplet> Triplets = TopSemiTagger.GetBdt(Doublets, Jets, TopSemiReader);
+    std::vector<HTriplet> Triplets = TopSemiTagger.GetBdt(Doublets, jets, TopSemiReader);
 
 
     int WSemiId = WSemiTagger.WSemiId(Event);
-    HJets TopParticles = Event.GetParticles()->Generator();
+    Jets TopParticles = Event.GetParticles()->Generator();
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
@@ -119,15 +119,15 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
         for (const auto & Triplet : Triplets) if (Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) FinalTriplets.emplace_back(Triplet);
     } else FinalTriplets = Triplets;
 
-    HJets BottomJets;
+    Jets BottomJets;
     if (Tag == kSignal) {
-    HJets  BottomParticles = Event.GetParticles()->Generator();
+    Jets  BottomParticles = Event.GetParticles()->Generator();
     BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, BottomId, ChargedHiggsId);
     fastjet::PseudoJet BottomQuark;
     if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
     else  Print(HError, "Where is the Bottom?");
-        for (const auto & Jet : Jets) if (Jet.delta_R(BottomQuark) < detector_geometry().JetConeSize) BottomJets.emplace_back(Jet);
-    } else BottomJets = Jets;
+        for (const auto & Jet : jets)  if (Jet.delta_R(BottomQuark) < detector_geometry().JetConeSize) BottomJets.emplace_back(Jet);
+    } else BottomJets = jets;
 
     std::vector<HQuartet31 > Quartets;
 

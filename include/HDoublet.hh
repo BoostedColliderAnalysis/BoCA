@@ -113,7 +113,7 @@ public:
         return PullAngle1() * PullAngle2();
     }
 
-    inline void SetRestJets(const HJets &NewJets) {
+    inline void SetRestJets(const Jets &NewJets) {
         RestJetsM = NewJets;
         std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
     }
@@ -123,7 +123,7 @@ public:
         std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
     }
 
-    HJets RestJets() const {
+    Jets RestJets() const {
         return RestJetsM;
     }
 
@@ -165,7 +165,7 @@ protected:
 
     fastjet::PseudoJet Singlet2M;
 
-    HJets RestJetsM;
+    Jets RestJetsM;
 
     virtual inline std::string ClassName() const {
         return "HDoublet";

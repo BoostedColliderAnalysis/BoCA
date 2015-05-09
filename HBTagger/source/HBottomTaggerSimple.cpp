@@ -78,10 +78,10 @@ HBottomBranch hbtagger::HBottomTaggerSimple::GetBranch(const fastjet::PseudoJet 
 int hbtagger::HBottomTaggerSimple::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Get Bottom Tag", tag);
-    HJets particles = event.GetParticles()->Generator();
+    Jets particles = event.GetParticles()->Generator();
     particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(HInformation, "Particle size", particles.size());
-    HJets jets = GetJets(event);
+    Jets jets = GetJets(event);
     Print(HInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
     jets = CleanJets(jets, particles, tag);
@@ -90,14 +90,14 @@ int hbtagger::HBottomTaggerSimple::Train(hanalysis::HEvent &event, const hanalys
     return jets.size();
 }
 
-HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &jets, const HJets &particles, const Tag tag)
+Jets hbtagger::HBottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles, const Tag tag)
 {
     Print(HInformation, "Clean Jets");
     for (const auto & particle : particles) {
       jets = SortedByMinDeltaRTo(jets, particle);
         if (jets.front().delta_R(particle) < detector_geometry().JetConeSize) static_cast<hanalysis::HJetInfo &>(*jets.front().user_info_shared_ptr().get()).SetTag(kSignal);
     }
-    HJets clean_jets;
+    Jets clean_jets;
     for (const auto & Jet : jets) {
         if (!Jet.has_user_info<hanalysis::HJetInfo>())continue;
         if (std::abs(Jet.rap()) > detector_geometry().TrackerEtaMax) continue;
@@ -111,8 +111,8 @@ HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &jets, const HJets &particl
 
 int hbtagger::HBottomTaggerSimple::GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader)
 {
-    HJets jets = event.GetJets()->GetJets();
-    HJets final_jets;
+    Jets jets = event.GetJets()->GetJets();
+    Jets final_jets;
     Print(HInformation, "Get Jet Bdt");
     for (const auto &jet : jets) {
         if (std::abs(jet.rap()) > detector_geometry().TrackerEtaMax) continue;

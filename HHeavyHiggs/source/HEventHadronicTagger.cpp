@@ -120,18 +120,18 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
 {
     std::vector<hheavyhiggs::HEventHadronicBranch *> EventHadronicBranches;
 
-    HJets Jets = Event.GetJets()->GetStructuredJets();
-    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
-    if (Jets.size() < 8) return EventHadronicBranches;
+    Jets jets = Event.GetJets()->GetStructuredJets();
+    //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
+    if (jets.size() < 8) return EventHadronicBranches;
 
-    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
-    std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
+    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(jets, WReader);
+    std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, jets, TopHadronicReader);
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsHadronicTagger.GetBdt(Triplets, HeavyHiggsHadronicReader);
 
     std::vector<HOctet> Octets;
 
-    for (const auto & Jet1 : Jets)
-        for (const auto & Jet2 : Jets) {
+    for (const auto & Jet1 : jets) 
+        for (const auto & Jet2 : jets)  {
             if (Jet1 == Jet2) continue;
             hanalysis::HDoublet Doublet(Jet1,Jet2);
             for (const auto & Sextet : Sextets) {

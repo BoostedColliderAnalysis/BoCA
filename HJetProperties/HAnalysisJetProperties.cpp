@@ -148,7 +148,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
 
     Print(HDebug, "Analysis");
 
-    const HJets LeptonJets = Leptons(Event);
+    const Jets LeptonJets = Leptons(Event);
 
     if (LeptonJets.size() < 2) {
 
@@ -178,7 +178,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
 
     for (const auto & Id : Ids) {
 
-        HJets EFlowJets;
+        Jets EFlowJets;
         std::copy_if(Event.GetJets()->GetTaggedEFlowJets(JetTag).begin(), Event.GetJets()->GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
                      [Id](const fastjet::PseudoJet & EFlowJet) {
 
@@ -235,7 +235,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
         }
         Print(HInformation, "Max Pt", CandidatePt);
 
-        HJets TrimmedJets;
+        Jets TrimmedJets;
         float SigmaPt = 0;
         float SigmaRadius = 0;
         JetPair = JetMap.begin();
@@ -268,7 +268,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
 
         fastjet::JetDefinition CAJetDefinition(fastjet::cambridge_algorithm, MaxRadius);
         fastjet::ClusterSequence CAClusterSequence(EFlowJets, CAJetDefinition);
-        HJets CAInclusiveJets = CAClusterSequence.inclusive_jets();
+        Jets CAInclusiveJets = CAClusterSequence.inclusive_jets();
         Print(HDebug, "InclusiveJets Number", CAInclusiveJets.size());
 
         std::sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), SortJetByMass());
@@ -301,7 +301,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
 
         fastjet::JetDefinition AktJetDefinition(fastjet::antikt_algorithm, MaxRadius);
         fastjet::ClusterSequence AktClusterSequence(EFlowJets, AktJetDefinition);
-        HJets AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
+        Jets AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(HDebug, "InclusiveJets Number", AktInclusiveJets.size());
 
         std::sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), SortJetByMass());
@@ -340,7 +340,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
 
 }
 
-bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const fastjet::PseudoJet &CandidateJet, const HJets &LeptonJets, const float DeltaR)
+bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const fastjet::PseudoJet &CandidateJet, const Jets &LeptonJets, const float DeltaR)
 {
 
 
@@ -429,7 +429,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
 }
 
-bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const fastjet::PseudoJet &Jet, const HJets &LeptonJets)
+bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch * const TreeBranch, ExRootTreeBranch * const ConstituentTreeBranch, const fastjet::PseudoJet &Jet, const Jets &LeptonJets)
 {
 
     return FillTree(TreeBranch, ConstituentTreeBranch, Jet, LeptonJets, GetDeltaR(Jet));
@@ -459,7 +459,7 @@ float hjetproperties::HAnalysis::GetDeltaR(const fastjet::PseudoJet &Jet)
 
 }
 
-HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent &Event)
+Jets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent &Event)
 {
 
     // Lepton Stuff
@@ -467,12 +467,12 @@ HJets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent &Event)
 
     //     Event.GetLeptons();
 
-    //     HJets LeptonJets = Event->Lepton->LeptonJets;
-    //     HJets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+    //     Jets LeptonJets = Event->Lepton->LeptonJets;
+    //     Jets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
 //     Event.GetParticlesM()->GetParticles();
-    HJets LeptonJets = Event.GetParticles()->GetLeptonJets();
-    HJets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
+    Jets LeptonJets = Event.GetParticles()->GetLeptonJets();
+    Jets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

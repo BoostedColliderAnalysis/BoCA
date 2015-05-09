@@ -165,20 +165,20 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
     Print(HInformation, "Get Branches");
 
     JetTag.HeavyParticles = {GluonId, TopId};
-    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
+    //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
-    Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
+    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Print(HInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
-    std::vector<hanalysis::HDoublet> TopDoublets = TopLeptonicTagger.GetBdt(Jets, Leptons, TopLeptonicReader);
+    std::vector<hanalysis::HDoublet> TopDoublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsLeptonicTagger.GetBdt(TopDoublets, MissingEt, HeavyHiggsLeptonicReader);
 
-    std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
+    std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
 
     std::vector<HOctet> Octets;
     for (const auto & Doublet : Doublets) {
@@ -200,15 +200,15 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
         Octets.erase(Octets.begin() + 1, Octets.end());
     }
 
-    std::sort(Jets.begin(), Jets.end(), SortJetsByBdt());
+    std::sort(jets.begin(), jets.end(), SortJetsByBdt());
     float MaxBBdt = 0;
-    for (int i = 0; i < std::min(3, int(Jets.size())); ++i) {
-        MaxBBdt += Jets.at(i).user_info<hanalysis::HJetInfo>().Bdt() / std::min(3, int(Jets.size()));
-        Print(HInformation, "BDt", Jets.at(i).user_info<hanalysis::HJetInfo>().Bdt(), MaxBBdt);
+    for (int i = 0; i < std::min(3, int(jets.size())); ++i) {
+        MaxBBdt += jets.at(i).user_info<hanalysis::HJetInfo>().Bdt() / std::min(3, int(jets.size()));
+        Print(HInformation, "BDt", jets.at(i).user_info<hanalysis::HJetInfo>().Bdt(), MaxBBdt);
     }
 
 //     float ThirdBBdt = 0;
-//     if (Jets.size() > 2) ThirdBBdt = Jets.at(2).user_info<hanalysis::HJetInfo>().Bdt();
+//     if (jets.size() > 2) ThirdBBdt = jets.at(2).user_info<hanalysis::HJetInfo>().Bdt();
 
     for (auto & Octet : Octets) {
 //         HEventStruct EventStruct;
@@ -220,8 +220,8 @@ std::vector<hheavyhiggs::HEventLeptonicBranch *> hheavyhiggs::HEventLeptonicTagg
 //         EventStruct.ThirdBBdt = ThirdBBdt;
 //         fastjet::PseudoJet RestJet(0., 0., 0., 0.);
 //         int  RestNumber = 0;
-//         for (const auto & Jet : Jets) {
-//             EventStruct.TotalBBdt  += Jet.user_info<hanalysis::HJetInfo>().Bdt() / Jets.size();
+//         for (const auto & Jet : jets)  {
+//             EventStruct.TotalBBdt  += Jet.user_info<hanalysis::HJetInfo>().Bdt() / jets.size();
 //             if (Octet.Sextet().Triplet1().Singlet() == Jet) continue;
 //             if (Octet.Sextet().Triplet2().Singlet() == Jet) continue;
 //             if (Octet.Sextet().Triplet2().Doublet().Singlet1() == Jet) continue;
@@ -294,7 +294,7 @@ hanalysis::HObject::Tag hheavyhiggs::HEventLeptonicTagger::GetTag(const HOctet &
 
 
 
-std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector<fastjet::PseudoJet> &Jets, HEventStruct &, const hanalysis::Reader & EventLeptonicReader)
+std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, Jets &jets, HEventStruct &, const hanalysis::Reader & EventLeptonicReader)
 {
     Print(HInformation, "Get Event Tags");
 
@@ -314,21 +314,21 @@ std::vector<HOctet> hheavyhiggs::HEventLeptonicTagger::GetBdt(const std::vector<
     }
     std::sort(Octets.begin(), Octets.end());
     if (Octets.size() > 1)Octets.erase(Octets.begin() + 1, Octets.end());
-    Print(HError, "Event Number", Octets.size(), Jets.size());
+    Print(HError, "Event Number", Octets.size(), jets.size());
 
-    std::sort(Jets.begin(), Jets.end(), SortJetsByBdt());
+    std::sort(jets.begin(), jets.end(), SortJetsByBdt());
     float MaxBBdt = 0;
-    for (int i = 0; i < std::min(3, int(Jets.size())); ++i)
-        MaxBBdt += Jets.at(i).user_info<hanalysis::HJetInfo>().Bdt() / std::min(3, int(Jets.size()));
+    for (int i = 0; i < std::min(3, int(jets.size())); ++i)
+        MaxBBdt += jets.at(i).user_info<hanalysis::HJetInfo>().Bdt() / std::min(3, int(jets.size()));
 
 //     float ThirdBBdt = 0;
-//     if (Jets.size() > 2) ThirdBBdt = Jets.at(2).user_info<hanalysis::HJetInfo>().Bdt();
+//     if (jets.size() > 2) ThirdBBdt = jets.at(2).user_info<hanalysis::HJetInfo>().Bdt();
 
     for (auto & Octet : Octets) {
         fastjet::PseudoJet RestJet(0., 0., 0., 0.);
 //         int RestNumber = 0;
-        for (const auto & Jet : Jets) {
-//             Octet.EventStructM.TotalBBdt  += Jet.user_info<hanalysis::HJetInfo>().Bdt() / Jets.size();
+        for (const auto & Jet : jets)  {
+//             Octet.EventStructM.TotalBBdt  += Jet.user_info<hanalysis::HJetInfo>().Bdt() / jets.size();
 //             if (Octet.Sextet().Triplet1().Singlet() == Jet) continue;
 //             if (Octet.Sextet().Triplet2().Singlet() == Jet) continue;
 //             if (Octet.Sextet().Triplet2().Doublet().Singlet1() == Jet) continue;

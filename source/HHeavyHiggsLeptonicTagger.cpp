@@ -121,17 +121,17 @@ std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::Ge
   float Mass = Event.GetMass();
 
     JetTag.HeavyParticles = {TopId, HeavyHiggsId,CPOddHiggsId};
-    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
-    Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
+    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Print(HInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
-    std::vector<HDoublet> Doublets = TopLeptonicTagger.GetBdt(Jets, Leptons, TopLeptonicReader);
+    std::vector<HDoublet> Doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-    HJets Neutrinos = Event.GetParticles()->GetNeutrinos();
+    Jets Neutrinos = Event.GetParticles()->GetNeutrinos();
 
     Print(HInformation, "Number of Doublets", Doublets.size());
 
@@ -280,7 +280,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextets
 
 }
 
-std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos, const Tag Tag)
+std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const Tag Tag)
 {
     Print(HInformation, "Get Triple Pair");
 

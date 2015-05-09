@@ -23,7 +23,7 @@ public:
 
     HChargedHiggsLeptonicBranch GetBranch(const hanalysis::HTriplet &Triplet);
 
-    std::vector<hanalysis::HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const std::vector<fastjet::PseudoJet> Jets, const hanalysis::Reader & Reader);
+    std::vector<hanalysis::HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const hanalysis::Reader & Reader);
 
 protected:
 

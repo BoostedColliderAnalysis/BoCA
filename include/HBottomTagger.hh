@@ -26,15 +26,15 @@ public:
 
     std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    HJets GetMultiJetBdt(HJets &Jets, const hanalysis::Reader &BottomReader);
+    Jets GetMultiJetBdt(Jets &jets, const hanalysis::Reader &BottomReader);
 
     HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
     hanalysis::HObject::Tag GetTag(const fastjet::PseudoJet &Jet) const;
 
-    HJets GetJetBdt(const HJets &Jets, const hanalysis::Reader &BottomReader);
+    Jets GetJetBdt(const Jets &jets, const hanalysis::Reader &BottomReader);
 
-    HJets GetSubBdt(const HJets &Jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
+    Jets GetSubBdt(const Jets &jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
         return ((HBottomBranch *) EventClonesArray.At(Entry))->Bdt;
@@ -72,19 +72,19 @@ public:
 //     bool GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
 //     {
 //       Print(HDebug, "Get Bottom Reader", Tag);
-//       HJets Jets = GetJets(Event);
+//       Jets jets = GetJets(Event);
 //       Reader Reader; // this wont work
-//       Jets = GetJetBdt(Jets, Reader);
+//       jets = GetJetBdt(jets, Reader);
 //
-//       HJets Particles = Event.GetParticles()->Generator();
+//       Jets Particles = Event.GetParticles()->Generator();
 //       Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //       for (const auto & Particle : Particles) {
-//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+//         static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //       }
 //
-//       for (const auto & Jet : Jets) {
+//       for (const auto & Jet : jets)  {
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
 //         if (std::abs(Jet.rap()) > detector_geometry().TrackerEtaMax) continue;
 //         *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = GetBranch(Jet);
@@ -105,10 +105,10 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::Tag Tag);
+    Jets CleanJets(Jets &jets, const Jets &Particles, const hanalysis::HObject::Tag Tag);
 
 
-    HJets GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber);
+    Jets GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber);
 
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;

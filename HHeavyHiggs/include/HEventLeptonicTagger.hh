@@ -65,7 +65,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<HOctet> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
+    std::vector<HOctet> GetHeavyHiggsEvents(const Jets &jets, const Jets &Leptons);
 
     hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HJetPairTagger JetPairTagger;

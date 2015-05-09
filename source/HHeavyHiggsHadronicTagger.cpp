@@ -108,13 +108,13 @@ std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::Ge
     std::vector<HHeavyHiggsHadronicBranch> HeavyHiggsHadronicBranches;
 
     JetTag.HeavyParticles = {WId, TopId, HeavyHiggsId};
-    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    std::vector<HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
+    std::vector<HDoublet> Doublets = WTagger.GetBdt(jets, WReader);
 
-    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
+    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, jets, TopHadronicReader);
 
 
     std::vector<HSextet> Sextets;

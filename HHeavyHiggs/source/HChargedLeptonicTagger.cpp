@@ -131,22 +131,22 @@ struct SortByQuartetBdt {
 std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
 {
 
-    HJets Jets = Event.GetJets()->GetStructuredJets();
+    Jets jets = Event.GetJets()->GetStructuredJets();
 
-    Jets = BottomTagger->GetTruthBdt(Jets, BottomReader);
+    jets = BottomTagger->GetTruthBdt(jets, BottomReader);
 
-    HJets Leptons = Event.GetLeptons()->GetLeptonJets();
-    Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
+    Jets Leptons = Event.GetLeptons()->GetLeptonJets();
+    Print(HInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
-    std::vector<hanalysis::HDoublet> TopDoublets = TopLeptonicTagger->GetBdt(Jets, Leptons, TopLeptonicReader);
+    std::vector<hanalysis::HDoublet> TopDoublets = TopLeptonicTagger->GetBdt(jets, Leptons, TopLeptonicReader);
 
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-    HJets Neutrinos = Event.GetParticles()->GetNeutrinos();
+    Jets Neutrinos = Event.GetParticles()->GetNeutrinos();
 
     std::vector<hanalysis::HTriplet> Triplets1 = ChargedHiggsLeptonicTagger->GetBdt(TopDoublets, ChargedHiggsLeptonicReader);
 
     std::vector<hanalysis::HTriplet> Triplets2;
-    for (const auto Jet : Jets)
+    for (const auto Jet : jets) 
         for (const auto Doulbet : TopDoublets) {
             hanalysis::HTriplet Triplet(Doulbet, Jet); // TODO Implemetn pair bdt here
             Triplets2.emplace_back(Triplet);
@@ -258,7 +258,7 @@ std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const hanal
 }
 
 
-HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag)
+HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const hanalysis::HObject::Tag Tag)
 {
 
     Print(HInformation, "Get Triple Pair");

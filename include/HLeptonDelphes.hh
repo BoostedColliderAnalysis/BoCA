@@ -42,7 +42,7 @@ private:
 
   bool GetMuons(HJetDetails JetDetails);
 
-//   HJets GetLeptons(HJetDetails JetDetails);
+//   Jets GetLeptons(HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";

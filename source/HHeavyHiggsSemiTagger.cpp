@@ -81,9 +81,9 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     float Mass = Event.GetMass();
     fastjet::PseudoJet HiggsBoson;
     if (Tag == kSignal) {
-        HJets HiggsParticles = Event.GetParticles()->Generator();
-        HJets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
-        HJets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
+        Jets HiggsParticles = Event.GetParticles()->Generator();
+        Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
+        Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
         HiggsParticles = Even;
         HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
         if (Tag == kSignal) {
@@ -92,28 +92,28 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
         }
     }
 
-    HJets Jets = GetJets(Event);
-    Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader.reader());
+    Jets jets = GetJets(Event);
+    jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
-    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 
     std::vector<HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     Print(HDebug, "Number of Semi W", DoubletsSemi.size());
-    std::vector<HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
+    std::vector<HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, jets, TopSemiReader);
     Print(HDebug, "Number of Semi Tops", TripletsSemi.size());
 
     std::vector<HTriplet> FinalTripletsSemi;
     for (const auto TripletSemi : TripletsSemi) if (TripletSemi.Singlet().pt() > pre_cut / 2) FinalTripletsSemi.emplace_back(TripletSemi);
 
-//     std::vector<HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
-//     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//     std::vector<HDoublet> DoubletsHadronic = WTagger.GetBdt(jets, WReader);
+//     std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, jets, TopHadronicReader);
+    std::vector<HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
     Print(HDebug, "Number of Hadronic Tops", TripletsHadronic.size());
 
     std::vector<HTriplet> FinalTripletsHadronic;
     int WHadId = WTagger.GetWHadId(Event);
-    HJets TopParticles = Event.GetParticles()->Generator();
+    Jets TopParticles = Event.GetParticles()->Generator();
     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, HadTopId);
     fastjet::PseudoJet TopQuark;

@@ -172,7 +172,7 @@ protected:
 
 private:
 
-    std::vector<HOctet> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
+    std::vector<HOctet> GetHeavyHiggsEvents(const Jets &jets, const Jets &Leptons);
 
     void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HOctet &HeavyHiggsEvent);
 

@@ -96,23 +96,23 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
     Print(HInformation, "Get Higgs Tags");
 
     JetTag.HeavyParticles = {TopId, ChargedHiggsId};
-    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
+    //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
-    Print(HInformation, "Numeber of Jets", Jets.size(), Leptons.size());
+    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Print(HInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
-    std::vector<HDoublet> Doublets = TopLeptonicTagger.GetBdt(Jets, Leptons, TopLeptonicReader);
+    std::vector<HDoublet> Doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-//     HJets Neutrinos = Event.GetParticles()->GetNeutrinos();
+//     Jets Neutrinos = Event.GetParticles()->GetNeutrinos();
 
     Print(HInformation, "Number of Doublets", Doublets.size());
 
     std::vector<HTriplet> Triplets;
     for (const auto & Doublet : Doublets) {
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             if (Doublet.Singlet1() == Jet) continue;
             HTriplet Triplet(Doublet, Jet);
             Triplet.SetTag(GetTag(Triplet));
@@ -151,13 +151,13 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const HTr
     return kSignal;
 }
 
-std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<HDoublet> &Doublets,const std::vector<fastjet::PseudoJet> Jets, const Reader &Reader)
+std::vector<hanalysis::HTriplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<HDoublet> &Doublets,const Jets &jets, const Reader &Reader)
 {
     Print(HInformation, "Get Bdt");
 
     std::vector<HTriplet> Triplets;
     for (const auto & Doublet : Doublets) {
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             if (Doublet.Singlet1() == Jet) continue;
             HTriplet Triplet(Doublet, Jet);
             Triplet.SetTag(GetTag(Triplet));

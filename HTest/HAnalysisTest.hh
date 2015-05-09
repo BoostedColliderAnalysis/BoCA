@@ -49,7 +49,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    HJets Leptons();
+    Jets Leptons();
 
     /**
      * @brief Lepton event counter

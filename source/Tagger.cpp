@@ -85,7 +85,7 @@ float hanalysis::Tagger::Bdt(const TMVA::Reader &reader)
   return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
-HJets hanalysis::Tagger::GranulatedJets(const HJets &NewEFlowJets)
+Jets hanalysis::Tagger::GranulatedJets(const Jets &NewEFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
     const float CellDeltaRap = detector_geometry().MinCellResolution;
@@ -93,8 +93,8 @@ HJets hanalysis::Tagger::GranulatedJets(const HJets &NewEFlowJets)
     const float PtCutOff = detector_geometry().MinCellPt;
 
 
-    HJets EFlowJets = sorted_by_pt(NewEFlowJets);
-    HJets NewGranulatedJets;
+    Jets EFlowJets = sorted_by_pt(NewEFlowJets);
+    Jets NewGranulatedJets;
     NewGranulatedJets.emplace_back(EFlowJets[0]);
 
     for (size_t i = 1; i < EFlowJets.size(); ++i) {
@@ -154,23 +154,23 @@ HJets hanalysis::Tagger::GranulatedJets(const HJets &NewEFlowJets)
 
 }
 
-HJets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
+Jets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 {
     Print(HInformation, "JetTag", JetTag.HeavyParticles.size());
     return GetJets(Event);
 }
 
-HJets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event)
+Jets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event)
 {
 //   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry().JetConeSize));
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), detector_geometry().JetDefinition);
-    HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry().JetMinPt));
-    if (Jets.empty()) {
+    Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry().JetMinPt));
+    if (jets.empty()) {
         delete ClusterSequence;
-        return Jets;
+        return jets;
     }
     ClusterSequence->delete_self_when_unused();
-    for (auto & Jet : Jets) {
+    for (auto & Jet : jets)  {
         std::vector<HConstituent> Constituents;
         for (const auto & Constituent : Jet.constituents()) {
             std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
@@ -178,13 +178,13 @@ HJets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event)
         }
         Jet.set_user_info(new HJetInfo(Constituents));
     }
-    return Jets;
+    return jets;
 }
 
-HJets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
+Jets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Jets");
-    HJets Pieces;
+    Jets Pieces;
     if (!Jet.has_constituents()) {
         Print(HError, "Pieceless jet");
         return Pieces;
@@ -195,7 +195,7 @@ HJets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &Jet, const int Sub
     }
 //     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, detector_geometry().JetConeSize));
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), detector_geometry().SubJetDefinition);
-    HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
+    Jets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
     ClusterSequence->delete_self_when_unused();
 
     for (auto & Piece : NewPieces) {
@@ -216,7 +216,7 @@ HJets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &Jet, const int Sub
 
 fastjet::PseudoJet hanalysis::Tagger::GetMissingEt(hanalysis::HEvent &Event)
 {
-    HJets granulated_jets = GranulatedJets(Event.GetJets()->GetStructuredEFlowJets());
+    Jets granulated_jets = GranulatedJets(Event.GetJets()->GetStructuredEFlowJets());
     fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
     return fastjet::PseudoJet(-jet_sum.px(), -jet_sum.py(), -jet_sum.pz(), jet_sum.e());
 }

@@ -132,7 +132,7 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
 
     Print(HInformation, "Analysis", Study);
 
-    const HJets Leptons = GetLeptonJets(Event);
+    const Jets Leptons = GetLeptonJets(Event);
 
     if (Leptons.size() < 2) {
 
@@ -149,7 +149,7 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
             Print(HError,"HeavyParticle",HeavyParticle);
         }  */
 
-    const HJets CandidateJets = Event.GetCandidates(JetTag);
+    const Jets CandidateJets = Event.GetCandidates(JetTag);
 
     if (CandidateJets.empty()) {
 
@@ -247,7 +247,7 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
 
         Print(HInformation, "Tag", CandidateJet.user_info<hanalysis::HJetInfo>().MaximalId(), CandidateJet.user_info<hanalysis::HJetInfo>().MaximalFraction(), CandidateJet.m());
 
-//         HJets Constituents = CandidateJet.constituents();
+//         Jets Constituents = CandidateJet.constituents();
 //         sort(Constituents.begin(), Constituents.end(), SortJetByPt());
 //         int Counter = 0;
 //         for (const auto & Constituent : Constituents) {
@@ -350,19 +350,19 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
 }
 
 
-HJets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent &Event)
+Jets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent &Event)
 {
 
 // Lepton Stuff
     std::vector<float> LeptonRap, LeptonPhi;
 
 //     Event.GetLeptons();
-//     HJets LeptonJets = Event->Lepton->LeptonJets;
-//     HJets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+//     Jets LeptonJets = Event->Lepton->LeptonJets;
+//     Jets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
 
 //     Event.GetParticlesM()->GetParticles();
-    HJets LeptonJets = Event.GetParticles()->GetLeptonJets();
-    HJets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
+    Jets LeptonJets = Event.GetParticles()->GetLeptonJets();
+    Jets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

@@ -50,16 +50,16 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
 {
     Print(HInformation, "Get W Tags");
 
-    HJets WKids = GetWDaughters(event);
+    Jets WKids = GetWDaughters(event);
     int WHadId = WId;
     if (WKids.size() > 0) WHadId = GetWHadId(WKids);
 
-//     HJets Jets = GetJets(event);
-    HJets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+//     Jets jets = GetJets(event);
+    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
     Print(HInformation, "Bottom Tagger Number", jets.size());
 
     // 2 Jets form 1 W
-    HJets JetPairs;
+    Jets JetPairs;
     if (WKids.size() > 0) std::sort(jets.begin(), jets.end(), MinDeltaRTo(WKids.at(0)));
     if (tag == kSignal && jets.size() > 1) JetPairs.emplace_back(jets.front());
     if (tag == kBackground && jets.size() > 1) JetPairs.insert(JetPairs.end(), jets.begin() + 1 , jets.end());
@@ -79,7 +79,7 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
     }
 
 
-    HJets WParticles = event.GetParticles()->Generator();
+    Jets WParticles = event.GetParticles()->Generator();
     WParticles = RemoveIfWrongParticle(WParticles, WHadId);
     fastjet::PseudoJet WParticle;
     if (tag == kSignal) {
@@ -90,11 +90,11 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
     }
 
 //  1 Jet (2 subjets) form(s) 1 W
-    HJets WJets;
+    Jets WJets;
     if (tag == kSignal && jets.size() > 1) WJets.emplace_back(jets.front());
     if (tag == kBackground && jets.size() > 1) WJets.insert(WJets.end(), jets.begin() + 1 , jets.end());
     for (const auto & Jet : WJets) {
-        HJets Pieces = GetSubJets(Jet, 2);
+        Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
@@ -108,17 +108,17 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
         }
     }
 //
-//     HJets TopParticles = Event.GetParticles()->Generator();
+//     Jets TopParticles = Event.GetParticles()->Generator();
 //     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(sgn(WHadId)*TopId)), TopParticles.end());
 //     Print(HInformation, "Particle size", TopParticles.size());
 //     if (TopParticles.size() != 1) Print(HError, "Where is the Top?", TopParticles.size());
-//     std::sort(Jets.begin(), Jets.end(), MinDeltaR(TopParticles.front()));
-//     if (Tag == kSignal && Jets.size() > 1) Jets.erase(Jets.begin() + 1, Jets.end());
-//     if (Tag == HBackground && Jets.size() > 0) Jets.erase(Jets.begin());
+//     std::sort(jets.begin(), jets.end(), MinDeltaR(TopParticles.front()));
+//     if (Tag == kSignal && jets.size() > 1) jets.erase(jets.begin() + 1, jets.end());
+//     if (Tag == HBackground && jets.size() > 0) jets.erase(jets.begin());
 
     // W is in 2 of 3 subjets
     for (const auto & Jet : WJets) {
-        HJets Pieces = GetSubJets(Jet, 3);
+        Jets Pieces = GetSubJets(Jet, 3);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
         for (const auto & Piece1 : Pieces)
             for (const auto & Piece2 : Pieces) {
@@ -133,7 +133,7 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
 
     // W is in 1 of 2 subjet
     for (const auto & Jet : jets) {
-        HJets Pieces = GetSubJets(Jet, 2);
+        Jets Pieces = GetSubJets(Jet, 2);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, bottom_reader_); // TODO reenable this
         for (const auto & Piece : Pieces) {
             HDoublet Doublet(Piece);
@@ -177,9 +177,9 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
 //     return kSignal;
 // }
 
-HJets hanalysis::HWHadronicTagger::GetWDaughters(HEvent &Event)
+Jets hanalysis::HWHadronicTagger::GetWDaughters(HEvent &Event)
 {
-    HJets WKids = Event.GetParticles()->Generator();
+    Jets WKids = Event.GetParticles()->Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(HError, "Where is the W 1?", WKids.size());
 
@@ -189,10 +189,10 @@ HJets hanalysis::HWHadronicTagger::GetWDaughters(HEvent &Event)
     return WKids;
 }
 
-int hanalysis::HWHadronicTagger::GetWHadId(const HJets &Jets)
+int hanalysis::HWHadronicTagger::GetWHadId(const Jets &jets)
 {
-    if (Jets.empty()) return WId;
-    else return Jets.at(0).user_info<hanalysis::HJetInfo>().Constituents().front().Family().Mother1Id;
+    if (jets.empty()) return WId;
+    else return jets.at(0).user_info<hanalysis::HJetInfo>().Constituents().front().Family().Mother1Id;
 }
 
 
@@ -200,7 +200,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent
 {
     Print(HInformation, "Get Doublet Bdt");
 
-    HJets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
 
 
     // W in 2 jets
@@ -217,7 +217,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent
 
 //  1 Jet (2 subjets) form(s) 1 W
     for (const auto & Jet : jets) {
-        HJets Pieces = GetSubJets(Jet, 2);
+        Jets Pieces = GetSubJets(Jet, 2);
         //         Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
@@ -235,7 +235,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent
 
 // W is in 2 of 3 subjets
     for (const auto & Jet : jets) {
-        HJets Pieces = GetSubJets(Jet, 3);
+        Jets Pieces = GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces)
             for (const auto & Piece2 : Pieces) {
@@ -251,7 +251,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent
 
     //  1 of 2 subjets are the W
     for (const auto & Jet : jets) {
-      HJets Pieces = GetSubJets(Jet, 2);
+      Jets Pieces = GetSubJets(Jet, 2);
       //       Pieces = bottom_tagger.GetJetBdt(Pieces, BottomReader); // TODO reenable this
       for (const auto & Piece : Pieces) {
           HDoublet Doublet(Piece);
@@ -267,13 +267,13 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent
     return Doublets;
 }
 
-std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &WReader)
+std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const Jets &jets, const hanalysis::Reader &WReader)
 {
   Print(HInformation, "Get Doublet Bdt");
 
   std::vector<HDoublet>  Doublets;
-  for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
-    for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+  for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
+    for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
       HDoublet Doublet(*Jet1, *Jet2);
 //       if (Doublet.DeltaR() < detector_geometry().MinCellResolution) continue;
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
@@ -282,7 +282,7 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
       Doublets.emplace_back(Doublet);
     }
 
-  for (const auto & Jet : Jets){
+  for (const auto & Jet : jets) {
       HDoublet Doublet(Jet);
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
       branch_ = GetBranch(Doublet);
@@ -295,13 +295,13 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetBdt(const HJets
     return Doublets;
 }
 
-std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetPairBdt(const HJets &Jets, const hanalysis::Reader &WReader)
+std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetPairBdt(const Jets &jets, const hanalysis::Reader &WReader)
 {
   Print(HInformation, "Get Doublet Bdt");
 
   std::vector<HDoublet>  Doublets;
-  for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
-    for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+  for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
+    for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
       HDoublet Doublet(*Jet1, *Jet2);
 //       if (Doublet.DeltaR() < detector_geometry().MinCellResolution) continue;
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
@@ -315,12 +315,12 @@ std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetPairBdt(const H
     return Doublets;
 }
 
-std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetSingletBdt(const HJets &Jets, const hanalysis::Reader &WReader)
+std::vector<hanalysis::HDoublet> hanalysis::HWHadronicTagger::GetSingletBdt(const Jets &jets, const hanalysis::Reader &WReader)
 {
   Print(HInformation, "Get Doublet Bdt");
 
   std::vector<HDoublet>  Doublets;
-    for (const auto & Jet : Jets){
+    for (const auto & Jet : jets) {
       HDoublet Doublet(Jet);
 //       if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
       branch_ = GetBranch(Doublet);

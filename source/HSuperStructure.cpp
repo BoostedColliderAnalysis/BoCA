@@ -326,8 +326,8 @@
 // //     float SubPullPhi = 0;
 // //     int ValidConstituents = 0;
 // //
-// //     HJets ConstVector = CandidateJet.constituents();
-// // //     HJets ConstVector = SubJet.constituents();
+// //     Jets ConstVector = CandidateJet.constituents();
+// // //     Jets ConstVector = SubJet.constituents();
 // //     int ConstSum = ConstVector.size();
 // //     Print(HInformation, "Number of Constituents", ConstSum);
 // //
@@ -421,7 +421,7 @@
 // //     float FatJetPt = FatJet.pt();
 // //     Print(HInformation, "FatJet Pt", FatJetPt);
 // //
-// //     HJets FatJetPieceVector = FatJet.pieces();
+// //     Jets FatJetPieceVector = FatJet.pieces();
 // //     int PieceSum = FatJetPieceVector.size();
 // //     if (PieceSum != 2) Print(HError, "Number of Fat Jet Pieces", PieceSum);
 // // //     fastjet::PseudoJet FatJetPiece1 = FatJetPieceVector[0];
@@ -448,7 +448,7 @@
 // //     if (PieceDistanceSqr < 100000000) {
 // //
 // //
-// //         HJets ConstituentsVector = FatJet.constituents();
+// //         Jets ConstituentsVector = FatJet.constituents();
 // //         int ConstituentsSum = ConstituentsVector.size();
 // //         Print(HInformation, "Number of Fat Jet Constituents", ConstituentsSum);
 // //
@@ -528,7 +528,7 @@
 // //
 // //     Print(HInformation, "Jing Dipolarity");
 // //
-// //     HJets SubJetVector = CandidateJet.pieces();
+// //     Jets SubJetVector = CandidateJet.pieces();
 // //     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 // //
 // //     // Filtering

@@ -260,23 +260,23 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get Bottom Reader", Tag);
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) {
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) {
 //         return 0;
 //     }
 //
-//     HJets Particles = Event.GetParticles()->Generator();
+//     Jets Particles = Event.GetParticles()->Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     for (const auto & Particle : Particles) {
-//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         if (Jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-//             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+//         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
+//             static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //         }
 //     }
 //
-//     for (const auto & Jet : Jets) {
+//     for (const auto & Jet : jets)  {
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
 //             continue;
 //         }
@@ -304,16 +304,16 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get JetPair Reader", Tag);
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) {
-//         Print(HInformation, "just one jet", Jets.size());
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) {
+//         Print(HInformation, "just one jet", jets.size());
 //         return 0;
 //     }
-//     Print(HError, "jets", Jets.size());
+//     Print(HError, "jets", jets.size());
 //
-// //     HJets FilteredJets; // WRONG MUST BE REMOVED
-//     HJets Particles = Event.GetParticles()->Generator();
+// //     Jets FilteredJets; // WRONG MUST BE REMOVED
+//     Jets Particles = Event.GetParticles()->Generator();
 //     if (Tag == kSignal) {
 // //         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, BottomId, MotherId(ProductionChannel()));
 //     }
@@ -332,15 +332,15 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // //     }
 //
 // //     for (const auto & Particle : Particles) {
-// //         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-// //         if (Jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-// //             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
-// //             FilteredJets.emplace_back(Jets.front()); // WRONG MUST BE REMOVED
+// //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+// //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
+// //             static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+// //             FilteredJets.emplace_back(jets.front()); // WRONG MUST BE REMOVED
 // //         }
 // //     }
 //
 // //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(FilteredJets, JetPairReader);
-//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
+//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
 //     if (Doublets.size() > 1) {
 //         std::sort(Doublets.begin(), Doublets.end());
 //         Doublets.erase(Doublets.begin() + 1, Doublets.end());

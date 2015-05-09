@@ -35,7 +35,7 @@ private:
      * @brief Calculates Vector of granulated Jets
      * 
      */
-    HJets GetGranulatedJets(HJets& EFlowJets);
+    Jets GetGranulatedJets(Jets& EFlowJets);
 
     inline std::string ClassName() const {
         return "HTopTagger";

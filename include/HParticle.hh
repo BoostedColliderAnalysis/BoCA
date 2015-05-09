@@ -33,31 +33,31 @@ public:
 
     HVectors GetAntiLeptonVectors();
 
-    HJets GetLeptonJets();
+    Jets GetLeptonJets();
 
-    HJets GetNeutrinos() {
+    Jets GetNeutrinos() {
         if (!GotParticles) GotParticles = GetParticles();
         return NeutrinoJets;
     }
 
-    HJets GetAntiLeptonJets();
+    Jets GetAntiLeptonJets();
 
-    HJets GetBottomJets()  {
+    Jets GetBottomJets()  {
         if (!GotParticles) GotParticles = GetParticles();
         return BottomJets;
     }
 
-    HJets GetCharmJets() {
+    Jets GetCharmJets() {
         if (!GotParticles) GotParticles = GetParticles();
         return CharmJets;
     }
 
-    HJets GetTopJets() {
+    Jets GetTopJets() {
         if (!GotParticles) GotParticles = GetParticles();
         return TopJets;
     }
 
-    HJets Generator() {
+    Jets Generator() {
 //       Print(HError,"we are here");
       if (!GotParticles) GotParticles = GetParticles();
         return GeneratorJets;
@@ -89,39 +89,39 @@ protected:
 
     HVectors AntiMuonVectors;
 
-    HJets ElectronJets;
+    Jets ElectronJets;
 
-    HJets MuonJets;
+    Jets MuonJets;
 
-    HJets AntiElectronJets;
+    Jets AntiElectronJets;
 
-    HJets AntiMuonJets;
+    Jets AntiMuonJets;
 
-    HJets NeutrinoJets;
+    Jets NeutrinoJets;
 
-    HJets GeneratorJets;
+    Jets GeneratorJets;
 
 
     /**
      * @brief Vector of generator level Bottom Pseudo Jets
      *
      */
-    HJets BottomJets;
+    Jets BottomJets;
 
-    HJets TopJets;
+    Jets TopJets;
 
 
     /**
      * @brief Vector of generator level Higgs Pseudo Jets
      *
      */
-    HJets HiggsJets;
+    Jets HiggsJets;
 
     /**
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    HJets CharmJets;
+    Jets CharmJets;
 
 
     /**
@@ -130,7 +130,7 @@ protected:
      */
 //     const HClonesArray *ClonesArrays;
 
-    HJets ParticleJets;
+    Jets ParticleJets;
 
     virtual inline std::string ClassName() const {
         return ("HParticle");

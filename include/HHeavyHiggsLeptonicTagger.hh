@@ -48,7 +48,7 @@ private:
         return Jet;
     }
 
-    std::vector< HSextet > GetSextet(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag);
+    std::vector< HSextet > GetSextet(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const hanalysis::HObject::Tag Tag);
 
     std::vector<HSextet> GetSextets(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt);
 

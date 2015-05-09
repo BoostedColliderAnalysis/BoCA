@@ -90,13 +90,13 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
     Print(HInformation, "Get Higgs Tags");
 
     JetTag.HeavyParticles = {CpvHiggsId, HiggsId, TopId};
-    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-    HJets HiggsJets;
-    HJets OtherJets;
-    for (HJets::iterator Jet = Jets.begin(); Jet != Jets.end();) {
+    Jets HiggsJets;
+    Jets OtherJets;
+    for (Jets::iterator Jet = jets.begin(); Jet != jets.end();) {
         if (std::abs((*Jet).user_index()) == MixedJetId) {
-            Jet = Jets.erase(Jet);
+            Jet = jets.erase(Jet);
         } else {
             HJetInfo *JetInfo = new HJetInfo;
 //             BottomTagger.FillBranch(*Jet); // FIXME Broken
@@ -116,8 +116,8 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
 
     if (State == kSignal) {
         Print(HInformation, "Higgs Jets", HiggsJets.size());
-        for (HJets::iterator Jet1 = HiggsJets.begin(); Jet1 != HiggsJets.end(); ++Jet1) {
-            for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
+        for (Jets::iterator Jet1 = HiggsJets.begin(); Jet1 != HiggsJets.end(); ++Jet1) {
+            for (Jets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
                 HDoublet Doublet((*Jet1), (*Jet2));
                 Doublet.SetTag(1);
                 Doublets.emplace_back(Doublet);
@@ -132,15 +132,15 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
     }
 
     if (State == kBackground) {
-        for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-            for (HJets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
+        for (Jets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
+            for (Jets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
                 HDoublet JetPair((*Jet1), (*Jet2));
                 JetPair.SetTag(0);
                 Doublets.emplace_back(JetPair);
             }
         }
-        for (HJets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
-            for (HJets::iterator Jet2 = HiggsJets.begin(); Jet2 != HiggsJets.end(); ++Jet2) {
+        for (Jets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
+            for (Jets::iterator Jet2 = HiggsJets.begin(); Jet2 != HiggsJets.end(); ++Jet2) {
                 HDoublet JetPair((*Jet1), (*Jet2));
                 JetPair.SetTag(0);
                 Doublets.emplace_back(JetPair);

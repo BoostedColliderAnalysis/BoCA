@@ -186,13 +186,13 @@ public:
         return 0;
     }
 
-    HJets GranulatedJets(const HJets &NewEFlowJets);
+    Jets GranulatedJets(const Jets &NewEFlowJets);
 
-    HJets GetJets(hanalysis::HEvent &Event, hanalysis::HJetTag &JetTag);
+    Jets GetJets(hanalysis::HEvent &Event, hanalysis::HJetTag &JetTag);
 
-    HJets GetJets(hanalysis::HEvent &Event);
+    Jets GetJets(hanalysis::HEvent &Event);
 
-    HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
+    Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
     fastjet::PseudoJet GetMissingEt(hanalysis::HEvent &Event);
 

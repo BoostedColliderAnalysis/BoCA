@@ -36,28 +36,28 @@ public:
         JetTag = &NewJetTag;
     }
 
-    HJets GetJets() {
+    Jets GetJets() {
       NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(Plain);
       return JetsM;
     };
 
-    HJets GetStructuredJets() {
+    Jets GetStructuredJets() {
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Structure);
         return JetsM;
     };
 
-    HJets GetTaggedJets() {
+    Jets GetTaggedJets() {
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return JetsM;
     };
 
-    HJets GetTaggedJets(HJetTag &NewJetTag) {
+    Jets GetTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
@@ -65,7 +65,7 @@ public:
         return JetsM;
     };
 
-    HJets GetStructuredTaggedJets(HJetTag &NewJetTag) {
+    Jets GetStructuredTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
       NewEvent(*clones_arrays_);
 //       if (!GotJets)
@@ -73,52 +73,52 @@ public:
       return JetsM;
     };
 
-    HJets GetBottomJets() {
+    Jets GetBottomJets() {
       //         if (!GotJets)
       NewEvent(*clones_arrays_);
           GotJets = GetJets(Plain);
         return BottomJets;
     };
 
-    HJets GetEFlowJets() {
+    Jets GetEFlowJets() {
       if (!GotEFlow)
         GotEFlow = GetEFlow(Plain);
       return EFlowJets;
     };
 
-    HJets GetIsolatedEFlowJets() {
+    Jets GetIsolatedEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(Isolation);
       return EFlowJets;
     };
 
-    HJets GetTaggedEFlowJets() {
+    Jets GetTaggedEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
       return EFlowJets;
     };
 
-    HJets GetTaggedEFlowJets(HJetTag &NewJetTag) {
+    Jets GetTaggedEFlowJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
       return EFlowJets;
     };
 
-    HJets GetStructuredTaggedEFlowJets(HJetTag &NewJetTag) {
+    Jets GetStructuredTaggedEFlowJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingStructure);
       return EFlowJets;
     };
 
-    HJets GetStructuredEFlowJets() {
+    Jets GetStructuredEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(Structure);
       return EFlowJets;
     };
 
-    HJets GetIsolatedTaggedEFlowJets() {
+    Jets GetIsolatedTaggedEFlowJets() {
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
       return EFlowJets;
     };
 
-    HJets GetIsolatedTaggedEFlowJets(HJetTag &NewJetTag) {
+    Jets GetIsolatedTaggedEFlowJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
       return EFlowJets;
@@ -178,31 +178,31 @@ protected:
      * @brief Vector of EFlow JetCandidates
      *
      */
-    HJets EFlowJets;
+    Jets EFlowJets;
 
     /**
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    HJets JetsM;
+    Jets JetsM;
 
     /**
      * @brief Vector of generator level Bottom Pseudo Jets
      *
      */
-    HJets BottomJets;
+    Jets BottomJets;
 
     /**
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    HJets CharmJets;
+    Jets CharmJets;
 
     /**
      * @brief Vector of EFlow JetCandidates
      *
      */
-    HJets GenJets;
+    Jets GenJets;
 
     /**
      * @brief std::vector of Bottom Lorentz Vectors with their pull

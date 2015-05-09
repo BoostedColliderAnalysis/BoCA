@@ -25,7 +25,7 @@ void hanalysis::HReconstruction::NewEvent()
 
 }
 
-HJets hanalysis::HReconstruction::GetFatJets(const HJets &EFlowJets) const
+Jets hanalysis::HReconstruction::GetFatJets(const Jets &EFlowJets) const
 {
 
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
@@ -38,7 +38,7 @@ HJets hanalysis::HReconstruction::GetFatJets(const HJets &EFlowJets) const
 
 }
 
-HJets hanalysis::HReconstruction::GetFatJets(const HJets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
+Jets hanalysis::HReconstruction::GetFatJets(const Jets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
     Print(HInformation, "Get Fat Jet Vector", FatJetDefinition.R());
@@ -48,7 +48,7 @@ HJets hanalysis::HReconstruction::GetFatJets(const HJets &EFlowJets, const fastj
 
     // FatJetPtMin = Jing: 40; fastjet: 0
     const float FatJetPtMin = 0;
-    const HJets FatJets = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
+    const Jets FatJets = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
 
     if (!FatJets.empty()) FatJetClusterSequence->delete_self_when_unused();
 
@@ -57,12 +57,12 @@ HJets hanalysis::HReconstruction::GetFatJets(const HJets &EFlowJets, const fastj
 }
 
 
-HJets hanalysis::HReconstruction::GetMassDropJets(const HJets &FatJets) const
+Jets hanalysis::HReconstruction::GetMassDropJets(const Jets &FatJets) const
 {
 
     Print(HInformation, "Get Mass Drop Jets", FatJets.size());
 
-    HJets MassDropJets;
+    Jets MassDropJets;
 
     for (auto & FatJet : FatJets) {
 
@@ -107,12 +107,12 @@ fastjet::PseudoJet hanalysis::HReconstruction::GetMassDropJet(const fastjet::Pse
 
 
 
-HJets hanalysis::HReconstruction::GetSubJetTaggedJets(const HJets &FatJets) const
+Jets hanalysis::HReconstruction::GetSubJetTaggedJets(const Jets &FatJets) const
 {
 
     Print(HInformation, "Get Sub Jet Tagged Jets", FatJets.size());
 
-    HJets SubJetTaggedJets;
+    Jets SubJetTaggedJets;
 
     for (auto & FatJet : FatJets) {
 
@@ -172,7 +172,7 @@ bool hanalysis::HReconstruction::JetIsBad(const fastjet::PseudoJet &Jet)
 
 
 
-HJets hanalysis::HReconstruction::GetFatJetTag(HJets &FatJets)
+Jets hanalysis::HReconstruction::GetFatJetTag(Jets &FatJets)
 {
 
     Print(HInformation, "Get Fat Jet Tag", FatJets.size());

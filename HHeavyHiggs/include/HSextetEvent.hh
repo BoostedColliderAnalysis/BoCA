@@ -41,7 +41,7 @@ public:
 
     inline float Ht() const {
         float ht = Sextet().Ht();
-        for (const auto & jet : Jets) ht += jet.pt();
+        for (const auto & jet : jets_)  ht += jet.pt();
         return ht;
     }
 
@@ -89,34 +89,34 @@ public:
 
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
         SetBdt(Bdt() * (JetNumber() + 1));
-        Jets.emplace_back(NewJet);
+        jets_.emplace_back(NewJet);
         SetBdt(Bdt() + NewJet.user_info<hanalysis::HJetInfo>().Bdt());
         SetBdt(Bdt() / (JetNumber() + 1));
     }
 
     inline int RestNumber() const {
-        return Jets.size();
+        return jets_.size();
     }
 
     fastjet::PseudoJet RestJet() const {
         fastjet::PseudoJet jet;
-        return std::accumulate(Jets.begin(), Jets.end(), jet);
+        return std::accumulate(jets_.begin(), jets_.end(), jet);
     }
 
     float RestHt() const {
         float ht = 0;
-        for (const auto & jet : Jets)ht += jet.pt();
+        for (const auto & jet : jets_) ht += jet.pt();
         return ht;
     }
 
     float RestBdt() const {
         if (RestNumber() < 1) return 0;
         float bdt = 0;
-        for (const auto & jet : Jets)bdt += jet.user_info<hanalysis::HJetInfo>().Bdt();
+        for (const auto & jet : jets_) bdt += jet.user_info<hanalysis::HJetInfo>().Bdt();
         return bdt / RestNumber();
     }
 
-    void SetLeptons(const HJets &NewLeptons) {
+    void SetLeptons(const Jets &NewLeptons) {
         LeptonsM = NewLeptons;
     }
 
@@ -165,9 +165,9 @@ private:
 
     hanalysis::HSextet SextetM;
 
-    HJets Jets;
+    Jets jets_;
 
-    HJets LeptonsM;
+    Jets LeptonsM;
 
 };
 

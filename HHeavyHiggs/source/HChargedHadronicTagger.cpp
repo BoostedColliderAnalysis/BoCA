@@ -118,13 +118,13 @@ std::vector<hheavyhiggs::HChargedHadronicBranch * > hheavyhiggs::HChargedHadroni
 {
     std::vector<hheavyhiggs::HChargedHadronicBranch *> EventHadronicBranches;
 
-    HJets Jets = Event.GetJets()->GetStructuredJets();
-    Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-    if (Jets.size() < 8) return EventHadronicBranches;
+    Jets jets = Event.GetJets()->GetStructuredJets();
+    jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+    if (jets.size() < 8) return EventHadronicBranches;
 
-    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
-    std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
-    std::vector<hanalysis::HQuartet31> Quartets = ChargedHiggsHadronicTagger.GetBdt(Triplets, Jets, ChargedHiggsHadronicReader);
+    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(jets, WReader);
+    std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, jets, TopHadronicReader);
+    std::vector<hanalysis::HQuartet31> Quartets = ChargedHiggsHadronicTagger.GetBdt(Triplets, jets, ChargedHiggsHadronicReader);
 
     std::vector<HOctet44> Octets;
 

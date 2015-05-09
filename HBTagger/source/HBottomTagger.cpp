@@ -81,11 +81,11 @@ int hbtagger::HBottomTaggerSimple::Train(hanalysis::HEvent &event, const hanalys
 {
     Print(HInformation, "Get Bottom Tag", tag);
 
-    HJets particles = event.GetParticles()->Generator();
+    Jets particles = event.GetParticles()->Generator();
     particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(HInformation, "Particle size", particles.size());
 
-    HJets jets = GetJets(event);
+    Jets jets = GetJets(event);
     Print(HInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
     jets = CleanJets(jets, particles, tag);
@@ -95,17 +95,17 @@ int hbtagger::HBottomTaggerSimple::Train(hanalysis::HEvent &event, const hanalys
     return jets.size();
 }
 
-HJets hbtagger::HBottomTaggerSimple::CleanJets(HJets &Jets, const HJets &Particles, const Tag Tag)
+Jets hbtagger::HBottomTaggerSimple::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 {
     Print(HInformation, "Clean Jets");
 
     for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-        if (Jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+        std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+        if (jets.front().delta_R(Particle) < DetectorGeometry.JetConeSize) static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
-    HJets NewCleanJets;
-    for (const auto & Jet : Jets) {
+    Jets NewCleanJets;
+    for (const auto & Jet : jets)  {
         if (!Jet.has_user_info<hanalysis::HJetInfo>()) {
             Print(HError, "Clean Jets", "No Jet Info");
             continue;
@@ -144,8 +144,8 @@ hanalysis::HObject::Tag hbtagger::HBottomTaggerSimple::GetTag(const fastjet::Pse
 
 int hbtagger::HBottomTaggerSimple::GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader)
 {
-    HJets jets = GetJets(event);
-    HJets final_jets;
+    Jets jets = GetJets(event);
+    Jets final_jets;
     Print(HInformation, "Get Jet Bdt");
     for (const auto jet : jets) {
         if (std::abs(jet.rap()) > DetectorGeometry.TrackerEtaMax) continue;

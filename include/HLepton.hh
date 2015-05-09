@@ -32,16 +32,16 @@ public:
     HVectors GetLeptonVectors();
 
 
-    HJets GetLeptonJets();
+    Jets GetLeptonJets();
 
-    HJets GetTaggedJets(HJetTag &NewJetTag) {
+    Jets GetTaggedJets(HJetTag &NewJetTag) {
         JetTag = &NewJetTag;
         return GetLeptonJets(hanalysis::HFourVector::Tagging);
     };
 
 protected:
 
-    HJets GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails);
+    Jets GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails);
 
   /**
    * @brief Find the hardest of the light leptons
@@ -118,37 +118,37 @@ protected:
      * @brief Electron Lorentz Vector Vector
      *
      */
-    HJets ElectronJets;
+    Jets ElectronJets;
 
     /**
      * @brief Anti Electron Lorentz Vector Vector
      *
      */
-    HJets AntiElectronJets;
+    Jets AntiElectronJets;
 
     /**
      * @brief Muon Lorentz Vector Vector
      *
      */
-    HJets MuonJets;
+    Jets MuonJets;
 
     /**
      * @brief Anti Muon Lorentz Vector Vector
      *
      */
-    HJets AntiMuonJets;
+    Jets AntiMuonJets;
 
     /**
      * @brief Lepton Lorentz Vector
      *
      */
-    HJets LeptonJets;
+    Jets LeptonJets;
 
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
-    HJets AntiLeptonJets;
+    Jets AntiLeptonJets;
 
 //     const HClonesArray *ClonesArrays;
 

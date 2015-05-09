@@ -20,7 +20,7 @@ public:
 
     std::vector< HEventJetPairBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &JetPairReader);
+    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::Reader &JetPairReader);
 
     HEventJetPairBranch GetBranch(const hanalysis::HDoublet &Doublet) const;
 

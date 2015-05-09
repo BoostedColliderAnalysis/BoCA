@@ -104,12 +104,12 @@ public:
 
     HEventStruct EventM;
 
-    inline void SetTotalJets(const HJets &NewJets) {
+    inline void SetTotalJets(const Jets &NewJets) {
         AllJets = NewJets;
         std::sort(AllJets.begin(), AllJets.end(), SortByBdt());
     }
 
-    inline void SetSubJets(const HJets &NewJets) {
+    inline void SetSubJets(const Jets &NewJets) {
         SubJets = NewJets;
         std::sort(SubJets.begin(), SubJets.end(), SortByBdt());
     }
@@ -171,7 +171,7 @@ public:
         return bdt / RestNumber();
     }
 
-    void SetLeptons(const HJets &NewLeptons) {
+    void SetLeptons(const Jets &NewLeptons) {
         LeptonsM = NewLeptons;
     }
 
@@ -219,13 +219,13 @@ private:
 
     TMultiplet Octet44M;
 
-    HJets RestJets;
+    Jets RestJets;
 
-    HJets AllJets;
+    Jets AllJets;
 
-    HJets SubJets;
+    Jets SubJets;
 
-    HJets LeptonsM;
+    Jets LeptonsM;
 
 };
 

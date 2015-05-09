@@ -80,26 +80,26 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
 
     Print(HInformation, "Get Top Tags");
 
-    HJets Jets = GetJets(Event);
-    Jets = TauTagger.GetJetBdt(Jets, TauReader);
-    Print(HInformation, "Number Jet", Jets.size());
+    Jets jets = GetJets(Event);
+    jets = TauTagger.GetJetBdt(jets, TauReader);
+    Print(HInformation, "Number Jet", jets.size());
 
     const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 
-    HJets TauParticles = Event.GetParticles()->Generator();
+    Jets TauParticles = Event.GetParticles()->Generator();
     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(TauId)), TauParticles.end());
     if (TauParticles.size() != 1) Print(HError, "Where is the Tau?", TauParticles.size());
 
-    HJets HiggsParticles = Event.GetParticles()->Generator();
+    Jets HiggsParticles = Event.GetParticles()->Generator();
     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
     if (HiggsParticles.size() != 1) Print(HError, "Where is the Higgs?", HiggsParticles.size());
 
     for (const auto & Particle : TauParticles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(Particle));
-        if (Jets.front().delta_R(Particle) < 0.4) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+        std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
+        if (jets.front().delta_R(Particle) < 0.4) static_cast<HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
-    HJets NewCleanJets;
-    for (const auto & Jet : Jets) {
+    Jets NewCleanJets;
+    for (const auto & Jet : jets) {
         if (!Jet.has_user_info<HJetInfo>()) continue;
         if (Jet.user_info<HJetInfo>().Tag() != tag) continue;
         NewCleanJets.emplace_back(Jet);
@@ -133,11 +133,11 @@ hanalysis::HObject::Tag hanalysis::HHeavyHiggsTauTagger::GetTag(const hanalysis:
     return kSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const HJets &Jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const Jets &jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader)
 {
     Print(HInformation, "Get Triple Bdt");
     std::vector<HDoublet> Doublets;
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets)  {
         HDoublet PreDoublet(Jet, MissingEt);
 //         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
 //         for (auto & PostDoublet : PostDoublets) {
@@ -233,7 +233,7 @@ struct FindError {
     float Error;
 };
 
-std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const Tag tag)
+std::vector<hanalysis::HDoublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(const HDoublet &Doublet, const Jets &Neutrinos, const Tag tag)
 {
     Print(HInformation, "Get Triple Pair");
 
