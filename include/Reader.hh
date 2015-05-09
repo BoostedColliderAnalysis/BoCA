@@ -56,7 +56,7 @@ public:
     }
 
     template <typename Multiplet>
-    std::vector<Multiplet> GetMultiplets(HEvent &event) const {
+    std::vector<Multiplet> GetMultiplets(HEvent &event) {
         return tagger_->GetMultiplets(event, reader_);
     }
 
