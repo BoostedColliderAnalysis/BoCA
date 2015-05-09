@@ -1,6 +1,13 @@
 # include "HAnalysisTopTagger.hh"
 
 
+htoptagger::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : hanalysis::HAnalysis::HAnalysis(tagger)
+{
+  Print(HNotification, "Constructor");
+  event_sum_ = 0;
+  tagger_.set_analysis_name(ProjectName());
+}
+
 void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 {
     Print(HNotification, "Set File Vector", tag);

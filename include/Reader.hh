@@ -23,7 +23,8 @@ public:
  * @brief Presents result of multivariant analysis
  *
  */
-class hanalysis::Reader : public HObject
+namespace hanalysis{
+class Reader : public HObject
 {
 
 public:
@@ -55,13 +56,18 @@ public:
         return tagger_->GetBdt(event, reader_);
     }
 
-    template <typename Multiplet>
-    std::vector<Multiplet> GetMultiplets(HEvent &event) {
-        return tagger_->GetMultiplets(event, reader_);
-    }
+//     template <typename Multiplet>
+//     std::vector<Multiplet>
+//     auto GetMultiplets(HEvent &event) {
+//         return tagger_->GetMultiplets(event, reader_);
+//     }
 
     TMVA::Reader &reader() {
         return reader_;
+    }
+
+    Tagger &tagger() const {
+        return *tagger_;
     }
 
 private:
@@ -69,10 +75,6 @@ private:
     Tagger *tagger_;
 
     TMVA::Reader reader_;
-
-    Tagger &tagger() const {
-        return *tagger_;
-    }
 
     void BookMva();
 
@@ -93,3 +95,4 @@ private:
     }
 
 };
+}

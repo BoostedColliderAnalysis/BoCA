@@ -22,11 +22,15 @@ public:
 
 //     std::vector<HTopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag, float pre_cut = 0);
+    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
+
+    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag, float pre_cut = 0){
+      Print(HError, "train", "depreciated");
+    }
 
     int GetBdt(HEvent &event, const TMVA::Reader &reader){
-      Print(HError, "get bdt", "depreciated");
-    };
+      return SaveEntries(GetTriplets(event,reader));
+    }
 
     std::vector<hanalysis::HTriplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
 
@@ -52,8 +56,9 @@ public:
         return static_cast<HTopSemiBranch &>(*clones_array.At(entry)).Bdt;
     }
 
-    void SaveEntries(const std::vector<HTriplet> &triplets) {
+    int SaveEntries(const std::vector<HTriplet> &triplets) {
         for (const auto & triplet : triplets) static_cast<HTopSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
+        return triplets.size();
     }
 
     TClass &Class() const {

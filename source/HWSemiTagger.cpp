@@ -87,15 +87,15 @@ int hanalysis::HWSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
     return Doublets.size();
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const TMVA::Reader &reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetDoublets(hanalysis::HEvent &event, const TMVA::Reader &reader)
 {
     Print(HInformation, "Get Triple Bdt");
-    HJets NewLeptons = fastjet::sorted_by_pt(Leptons);
+    HJets NewLeptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
     if (NewLeptons.size() > 1) NewLeptons.erase(NewLeptons.begin() + 1, NewLeptons.end());
 
     std::vector<HDoublet> Doublets;
     for (const auto & Lepton : NewLeptons) {
-        HDoublet PreDoublet(Lepton, MissingEt);
+        HDoublet PreDoublet(Lepton, event.GetJets()->GetMissingEt());
         std::vector<HDoublet> PostDoublets = GetNeutrinos(PreDoublet);
         for (auto & PostDoublet : PostDoublets) {
             if (std::abs(PostDoublet.Jet().m() - WMass) > w_mass_window_) continue;
@@ -186,40 +186,40 @@ struct FindError {
     float Error;
 };
 
-std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const Tag Tag)
-{
-    Print(HInformation, "Get Triple Pair");
-
-    std::vector<HDoublet> Doublets = GetNeutrinos(Doublet);
-    Print(HDebug, "Number Solutions", Doublets.size());
-    if (Doublets.empty()) return Doublets;
-
-    float BestError = LargeNumber;
-    HDoublet BestDoublet;
-    for (const auto Neutrino : Neutrinos) {
-        std::sort(Doublets.begin(), Doublets.end(), SortByError(Neutrino));
-        float Error = (Doublets.front().Singlet2() + Neutrino).m();
-        if (Error < BestError) {
-            BestDoublet = Doublets.front();
-            BestError = Error;
-        }
-    }
-
-    std::vector<HDoublet> FinalDoublets;
-    switch (Tag) {
-    case kSignal:
-        FinalDoublets.emplace_back(BestDoublet);
-        return FinalDoublets;
-    case kBackground:
-        for (const auto Neutrino : Neutrinos) Doublets.erase(std::remove_if(Doublets.begin(), Doublets.end(), FindError(Neutrino, BestError)), Doublets.end());
-        return Doublets;
-    default:
-        Print(HError, "we should never end up here");
-        return Doublets;
-    }
-
-
-}
+// std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const Tag Tag)
+// {
+//     Print(HInformation, "Get Triple Pair");
+//
+//     std::vector<HDoublet> Doublets = GetNeutrinos(Doublet);
+//     Print(HDebug, "Number Solutions", Doublets.size());
+//     if (Doublets.empty()) return Doublets;
+//
+//     float BestError = LargeNumber;
+//     HDoublet BestDoublet;
+//     for (const auto Neutrino : Neutrinos) {
+//         std::sort(Doublets.begin(), Doublets.end(), SortByError(Neutrino));
+//         float Error = (Doublets.front().Singlet2() + Neutrino).m();
+//         if (Error < BestError) {
+//             BestDoublet = Doublets.front();
+//             BestError = Error;
+//         }
+//     }
+//
+//     std::vector<HDoublet> FinalDoublets;
+//     switch (Tag) {
+//     case kSignal:
+//         FinalDoublets.emplace_back(BestDoublet);
+//         return FinalDoublets;
+//     case kBackground:
+//         for (const auto Neutrino : Neutrinos) Doublets.erase(std::remove_if(Doublets.begin(), Doublets.end(), FindError(Neutrino, BestError)), Doublets.end());
+//         return Doublets;
+//     default:
+//         Print(HError, "we should never end up here");
+//         return Doublets;
+//     }
+//
+//
+// }
 
 
 

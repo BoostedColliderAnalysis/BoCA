@@ -1,5 +1,5 @@
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -Wpointer-arith -fno-stack-protector -O3 -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -pedantic -Wpointer-arith -fno-stack-protector -O3 -fPIC")
 # -Wcast-qual -Woverloaded-virtual
 # -fno-stack-protector
 # -g -rdynamic-Wshadow

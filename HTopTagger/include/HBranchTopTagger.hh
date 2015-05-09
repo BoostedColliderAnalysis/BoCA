@@ -16,7 +16,7 @@ namespace htoptagger{
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class htoptagger::HCandidateBranch : public TObject
+class htoptagger::HCandidateBranch : public HBranch
 {
 
 public:
@@ -80,6 +80,9 @@ public:
 
   float BottomPt;
   float WPt;
+
+  float BBdt;
+  float WBdt;
 
   float Tau1_1;
   float Tau2_1;

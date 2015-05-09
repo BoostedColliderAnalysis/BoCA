@@ -110,9 +110,11 @@ void hanalysis::HTopSemiTagger::GetBottomInfo(HTopSemiBranch &branch, const fast
 
 
 
-int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag, float pre_cut)
+int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
 {
     Print(HInformation, "Get Top Tags");
+
+    float pre_cut = 0;
 
     int WSemiId = w_semi_tagger_.WSemiId(event);
     HJets TopParticles = event.GetParticles()->Generator();
@@ -123,22 +125,17 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::
     else Print(HError, "Where is the Top?", TopParticles.size());
 
 
-    HJets Jets = GetJets(event);
-    Print(HInformation, "Jet Number", Jets.size());
-    Jets = bottom_tagger_.GetJetBdt(Jets, bottom_reader_.reader());
+    HJets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    std::vector<hanalysis::HDoublet> doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
 
     HJets Leptons = event.GetLeptons()->GetLeptonJets();
     Print(HInformation, "Lepton Number", Leptons.size());
 
-    fastjet::PseudoJet MissingEt = event.GetJets()->GetMissingEt();
-    std::vector<HDoublet> Doublets = w_semi_tagger_.GetBdt(Leptons, MissingEt, w_semi_reader_.reader());
-    Print(HInformation, "Number Doublets", Doublets.size());
-
     std::vector<HTriplet> Triplets;
     if (!boost_) {
 
-        for (const auto & Jet : Jets) {
-            for (const auto & Doublet : Doublets) {
+        for (const auto & Jet : jets) {
+            for (const auto & Doublet : doublets) {
                 HTriplet Triplet(Doublet, Jet);
                 if (tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > top_mass_window_) continue; // should be enabled again
                 if (tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
@@ -151,7 +148,7 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::
 
     }
 
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets) {
         for (const auto & Lepton : Leptons) {
             HDoublet Doublet(Lepton);
             HTriplet Triplet(Doublet, Jet);
@@ -173,8 +170,7 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::
     }
     Print(HInformation, "Number Triplets", Triplets.size());
 
-    SaveEntries(Triplets);
-    return Triplets.size();
+    return SaveEntries(Triplets);
 }
 
 
@@ -183,8 +179,8 @@ std::vector<hanalysis::HTriplet>  hanalysis::HTopSemiTagger::GetTriplets(HEvent 
 {
     Print(HInformation, "Get Bdt");
 
-    HJets jets = bottom_reader_.GetMultiplets(event);
-    std::vector<hanalysis::HDoublet> Doublets = w_semi_reader_.GetMultiplets(event);
+    HJets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    std::vector<hanalysis::HDoublet> Doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
 
     std::vector<HTriplet> Triplets;
     if (!boost_) {

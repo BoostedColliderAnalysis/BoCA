@@ -19,9 +19,8 @@ class HAnalysis : public hanalysis::HAnalysis
 
 public:
 
-using hanalysis::HAnalysis::HAnalysis;
 
-    void SetTrees();
+    HAnalysis(hanalysis::Tagger &tagger);
 
     void SetFiles(const hanalysis::HObject::Tag tag);
 
@@ -32,8 +31,8 @@ using hanalysis::HAnalysis::HAnalysis;
     enum Decay {kLeptonic, kHadronic, kSemi};
 
     inline Decay TopDecay() const {
-//         return kHadronic;
-         return kLeptonic;
+        return kHadronic;
+//         return kLeptonic;
 //         return kSemi;
     }
 
@@ -41,9 +40,9 @@ protected:
 
 
 
-  virtual inline std::string FilePath() const {
-    return "~/Projects/HTopTagger/";
-  }
+    virtual inline std::string FilePath() const {
+        return "~/Projects/HTopTagger/";
+    }
 
     virtual inline std::string NameSpaceName() const {
         return "htoptagger";
@@ -58,18 +57,18 @@ private:
     enum Collider {LHC, FHC, LE};
 
 
-  void NewSignalFile(const Process process) {
-    hanalysis::HAnalysis::NewSignalFile(FileName(process));
-  }
+    void NewSignalFile(const Process process) {
+        hanalysis::HAnalysis::NewSignalFile(FileName(process));
+    }
 
-  void NewBackgroundFile(const Process process) {
-    hanalysis::HAnalysis::NewBackgroundFile(FileName(process));
-  }
+    void NewBackgroundFile(const Process process) {
+        hanalysis::HAnalysis::NewBackgroundFile(FileName(process));
+    }
 
 
-  inline std::string FileName(const Process process) const {
-    return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
-  }
+    inline std::string FileName(const Process process) const {
+        return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
+    }
 
     // in GeV
     inline int PreCut() const {

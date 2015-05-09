@@ -6,7 +6,8 @@
  * @brief Bottom BDT tagger
  *
  */
-class hanalysis::BottomTagger : public Tagger
+namespace hanalysis{
+class BottomTagger : public Tagger
 {
 
 public:
@@ -19,13 +20,16 @@ public:
 
     HJets GetMultiJetBdt(HJets &jets, const TMVA::Reader &reader);
 
-    HJets GetJetBdt(const HJets &jets, const TMVA::Reader &reader);
+    HJets GetJetBdt(HEvent &event, const TMVA::Reader &reader);
 
     HJets GetSubBdt(const HJets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
+//     HJets GetMultiplets(HEvent &event, const TMVA::Reader &reader) {
+//       GetJetBdt(event)
+//     }
 
     int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader){
-      HJets jets = GetJetBdt(GetJets(event),reader);
+      HJets jets = GetJetBdt(event,reader);
       SaveEntries(jets);
       return jets.size();
     }
@@ -36,6 +40,10 @@ public:
 
     HJets GetJetBdt(const HJets &jets, const Reader &reader) {
         Print(HError, "Bdt", "depreciated");
+    }
+
+    HJets GetJetBdt(const HJets &jets, const TMVA::Reader &reader) {
+      Print(HError, "Bdt", "depreciated");
     }
 
     HJets GetSubBdt(const HJets &jets, const Reader &reader, const int sub_jet_number) {
@@ -75,3 +83,4 @@ private:
     HBottomBranch branch_;
 
 };
+}

@@ -1,8 +1,8 @@
 # pragma once
 
 # include "TObject.h"
-# include "Rtypes.h"
 # include "TGenericClassInfo.h"
+# include "Rtypes.h"
 
 /**
  * @brief Basic tree branches
@@ -16,7 +16,12 @@ public:
     virtual ~HBranch();
 
 protected:
-    float InitialValue;
+
+  float InitialValue(){
+    return -11.1111111; // should be non integer
+    // this must be identical to the initial value in htag
+    // FIXME remove the copy of the magic number
+  }
 
 private:
     ClassDef(HBranch, 1)
@@ -182,8 +187,6 @@ public:
     float DeltaPhi;
     float DeltaR;
 
-    float WBdt;
-    float BBdt;
     float Bdt;
     float Tag;
 
@@ -343,6 +346,9 @@ public:
     float BottomPt;
     float WPt;
 
+    float WBdt;
+    float BBdt;
+
     float Tau1_1;
     float Tau2_1;
     float Tau3_1;
@@ -403,6 +409,9 @@ public:
     HTopSemiBranch();
     float BottomPt;
     float WPt;
+
+    float WBdt;
+    float BBdt;
 
     float VertexMass;
     float MaxDisplacement;
@@ -686,6 +695,9 @@ public:
     float EnergyFraction;
     float JetMass;
     float LeptonPt;
+
+    float WBdt;
+    float BBdt;
 
 private:
 

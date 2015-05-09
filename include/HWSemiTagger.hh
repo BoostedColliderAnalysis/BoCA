@@ -18,15 +18,19 @@ public:
 
     int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
 
-    std::vector<HDoublet>  GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const TMVA::Reader &reader);
+    std::vector<HDoublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
 
     int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader) {
-        std::vector<HDoublet> doublets = GetBdt(event.GetLeptons()->GetLeptonJets(), event.GetJets()->GetMissingEt(), reader);
+        std::vector<HDoublet> doublets = GetDoublets(event, reader);
         SaveEntries(doublets);
         return doublets.size();
     }
 
     std::vector<hanalysis::HDoublet> GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &reader) {
+      Print(HError,"get bdt", "depreciated");
+    }
+
+    std::vector<HDoublet>  GetBdt(const HJets &Leptons, const fastjet::PseudoJet &MissingEt, const TMVA::Reader &reader){
       Print(HError,"get bdt", "depreciated");
     }
 
@@ -62,7 +66,7 @@ private:
 
     std::vector<hanalysis::HDoublet> GetNeutrino(const HDoublet &Doublet, const HJets &Neutrinos, const Tag Tag)const;
 
-    std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag);
+//     std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag);
 
     HWSemiBranch branch_;
 
