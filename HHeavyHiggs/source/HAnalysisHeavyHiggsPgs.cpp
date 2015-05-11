@@ -71,7 +71,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent &Event, cons
 
 //     Event.GetJets();
 
-    HJets BJets = Event.GetJets()->GetBottomJets();
+    Jets BJets = Event.GetJets()->GetBottomJets();
 
     Print(HInformation, "BJet Sum", BJets.size());
 

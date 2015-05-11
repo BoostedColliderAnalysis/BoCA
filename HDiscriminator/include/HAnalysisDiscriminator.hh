@@ -95,7 +95,7 @@ private:
      * @param Event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    HJets GetLeptonJets(hanalysis::HEvent &Event);
+    Jets GetLeptonJets(hanalysis::HEvent &Event);
 
     /**
      * @brief Lepton event counter

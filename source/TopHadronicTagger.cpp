@@ -16,13 +16,13 @@ hanalysis::TopHadronicTagger::~TopHadronicTagger()
 
 }
 
-HJets hanalysis::TopHadronicTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
+Jets hanalysis::TopHadronicTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
 {
 
     Print(HInformation, "Tagging Top");
 
 //     float CellRap = 0.1;
-//     HJets hadrons;
+//     Jets hadrons;
 
 //     ifstream fin("sample_event.dat", ifstream::in);
 //     ReadEvent(fin, hadrons);
@@ -34,18 +34,18 @@ HJets hanalysis::TopHadronicTagger::GetTops(std::vector< fastjet::PseudoJet > &E
     const float ConeSize = 1.5;
     const fastjet::JetDefinition JetDefinition(fastjet::cambridge_algorithm, ConeSize);
 
-    HJets GranulatedJets = GetGranulatedJets(EFlowJets);
+    Jets GranulatedJets = GetGranulatedJets(EFlowJets);
 
     // run the jet finding; find the hardest jet
     const fastjet::ClusterSequence ClusterSequence(GranulatedJets, JetDefinition);
     const float PtMin = 200.;
-    HJets Jets = sorted_by_pt(ClusterSequence.inclusive_jets(PtMin));
+    Jets jets = sorted_by_pt(ClusterSequence.inclusive_jets(PtMin));
 
 //     unsigned candsizesum = 0;
 
-    HJets TopJets;
+    Jets TopJets;
 
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets) {
 
 //         const float topmass = 172.3;
 //         const float wmass = 80.4;
@@ -83,7 +83,7 @@ HJets hanalysis::TopHadronicTagger::GetTops(std::vector< fastjet::PseudoJet > &E
 
 }
 
-HJets hanalysis::TopHadronicTagger::GetGranulatedJets(HJets &EFlowJets)
+Jets hanalysis::TopHadronicTagger::GetGranulatedJets(Jets &EFlowJets)
 {
 
 
@@ -93,7 +93,7 @@ HJets hanalysis::TopHadronicTagger::GetGranulatedJets(HJets &EFlowJets)
     const float PtCutOff = 0.5;
 
 //     float pi = 3.142592654;
-    HJets GranulatedJets;
+    Jets GranulatedJets;
     GranulatedJets.clear();
 
     EFlowJets = sorted_by_pt(EFlowJets);

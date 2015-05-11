@@ -39,15 +39,15 @@ protected:
    * @brief Get vecto of all fatjets
    *
    */
-  HJets GetFatJets(const HJets&) const;
+  Jets GetFatJets(const Jets&) const;
 
   /**
    * @brief Get vecto of all fatjets
    *
    */
-  HJets GetFatJets(const HJets&,const fastjet::JetDefinition&) const;
+  Jets GetFatJets(const Jets&,const fastjet::JetDefinition&) const;
 
-  HJets GetMassDropJets(const HJets&) const;
+  Jets GetMassDropJets(const Jets&) const;
 
     /**
      * @brief Get mass drop jet
@@ -58,7 +58,7 @@ protected:
     fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet&, const float, const float) const;
 
 
-    HJets GetSubJetTaggedJets(const HJets &FatJets) const;
+    Jets GetSubJetTaggedJets(const Jets &FatJets) const;
 
     fastjet::PseudoJet GetSubJetTaggedJet(const fastjet::PseudoJet &FatJet) const;
 
@@ -70,9 +70,9 @@ protected:
 
     static bool JetIsBad(const fastjet::PseudoJet & Jet);
 
-    HJets GetFatJetTag(HJets&);
+    Jets GetFatJetTag(Jets&);
 
-//     HJets FatJetVector;
+//     Jets FatJetVector;
 
     inline std::string NameSpaceName() const {
       return "HDelphes";

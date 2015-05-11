@@ -30,13 +30,13 @@ public:
 
     std::vector<HDoublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader) {
+    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader) {
         Print(HError, "train", "depreciated");
     }
 
-    std::vector<HDoublet> GetBdt(const HJets &Jets, const hanalysis::Reader &WReader);
-    std::vector<HDoublet> GetPairBdt(const HJets &Jets, const hanalysis::Reader &WReader);
-    std::vector<HDoublet> GetSingletBdt(const HJets &Jets, const hanalysis::Reader &WReader);
+    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader);
+    std::vector<HDoublet> GetPairBdt(const Jets &jets, const hanalysis::Reader &WReader);
+    std::vector<HDoublet> GetSingletBdt(const Jets &jets, const hanalysis::Reader &WReader);
 
     HDoublet GetBdt(HDoublet &Doublet, const hanalysis::Reader &WReader);
 
@@ -68,9 +68,9 @@ protected:
 
 private:
 
-    HJets GetWDaughters(hanalysis::HEvent &Event);
+    Jets GetWDaughters(hanalysis::HEvent &Event);
 
-    int GetWHadId(const HJets &Jets);
+    int GetWHadId(const Jets &jets);
 
     void DefineVariables();
 

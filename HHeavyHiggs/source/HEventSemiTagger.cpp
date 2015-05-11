@@ -206,25 +206,25 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
 {
     Print(HInformation, "Get Event Tags");
 
-    HJets PreJets = GetJets(Event);
-    HJets Jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
-    HJets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
+    Jets PreJets = GetJets(Event);
+    Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
+    Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
 
-    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-    std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
+    std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, jets, TopSemiReader);
 
-//     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(Jets, WReader);
-//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//     std::vector<hanalysis::HDoublet> DoubletsHadronic = WTagger.GetBdt(jets, WReader);
+//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, jets, TopHadronicReader);
+    std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 
 
-    HJets HiggsParticles = Event.GetParticles()->Generator();
-    HJets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
-    HJets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
+    Jets HiggsParticles = Event.GetParticles()->Generator();
+    Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
+    Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
@@ -235,10 +235,10 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
         if (Sextets.size() > 1) Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 
-    std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
+    std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
 
     std::vector<hanalysis::HDoublet> FinalDoublets;
-    HJets Particles = Event.GetParticles()->Generator();
+    Jets Particles = Event.GetParticles()->Generator();
     if (Tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
@@ -265,10 +265,10 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
 //         EventStruct.TrackNumber = Event.GetJets()->GetScalarHt();
         OctetEvent.SetEventStruct(EventStruct);
         OctetEvent.SetLeptons(Leptons);
-        OctetEvent.SetTotalJets(Jets);
+        OctetEvent.SetTotalJets(jets);
         OctetEvent.SetSubJets(SubJets);
         OctetEvent.SetTag(Tag);
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             if (Jet.delta_R(OctetEvent.Octet().Sextet().Triplet1().Singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().Triplet2().Singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().Triplet2().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
@@ -288,14 +288,14 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
 
 
 
-std::vector<HEventMultiplet<HOctet>> hheavyhiggs::HEventSemiTagger::GetBdt(const std::vector< HOctet > &Octets, const HJets &Jets, const HJets &SubJets, const HJets &Leptons, HEventStruct &EventStruct, const hanalysis::Reader &EventSemiReader)
+std::vector<HEventMultiplet<HOctet>> hheavyhiggs::HEventSemiTagger::GetBdt(const std::vector< HOctet > &Octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, HEventStruct &EventStruct, const hanalysis::Reader &EventSemiReader)
 {
     Print(HInformation, "Get Event Tags", Octets.size());
 
     std::vector<HEventMultiplet<HOctet>> Events;
     for (const auto & Octet : Octets) {
         HEventMultiplet<HOctet> OctetEvent(Octet, EventStruct);
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             if (Jet.delta_R(OctetEvent.Octet().Sextet().Triplet1().Singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().Triplet2().Singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().Triplet2().Doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
@@ -305,7 +305,7 @@ std::vector<HEventMultiplet<HOctet>> hheavyhiggs::HEventSemiTagger::GetBdt(const
             OctetEvent.AddRestJet(Jet);
         }
         OctetEvent.SetLeptons(Leptons);
-        OctetEvent.SetTotalJets(Jets);
+        OctetEvent.SetTotalJets(jets);
         OctetEvent.SetSubJets(SubJets);
         Branch = GetBranch(OctetEvent);
         OctetEvent.SetBdt(EventSemiReader.Bdt());
@@ -315,7 +315,7 @@ std::vector<HEventMultiplet<HOctet>> hheavyhiggs::HEventSemiTagger::GetBdt(const
 
     std::sort(Events.begin(), Events.end());
     if (Events.size() > 1) Events.erase(Events.begin() + 1, Events.end());
-    Print(HInformation, "Event Number", Events.size(), Jets.size());
+    Print(HInformation, "Event Number", Events.size(), jets.size());
 
 
     return Events;

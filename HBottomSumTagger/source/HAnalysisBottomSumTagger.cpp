@@ -300,26 +300,26 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 // bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get Bottom Reader", Tag);
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) return 0;
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) return 0;
 //
 //
-//     HJets Particles = Event.GetParticles()->Generator();
+//     Jets Particles = Event.GetParticles()->Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     int BNumber=0;
 //     for (const auto & Particle : Particles) {
-//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         if (Jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-//             static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+//         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
+//             static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //             ++BNumber;
 //         }
 //     }
 //
 // //     if(Tag == kSignal && BNumber <4 )
 //
-//     for (const auto & Jet : Jets) {
+//     for (const auto & Jet : jets)  {
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
 //             continue;
 //         }
@@ -348,27 +348,27 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
-//     if (!EventBottomSumTagger.TruthLevelCheck(Jets,Event, Tag)) return 0;
+//     if (!EventBottomSumTagger.TruthLevelCheck(jets,Event, Tag)) return 0;
 //
-// //     if (Jets.size() < 4) return 0;
+// //     if (jets.size() < 4) return 0;
 // //
-// //     HJets BottomJets;
-// //     HJets Particles = Event.GetParticles()->Generator();
+// //     Jets BottomJets;
+// //     Jets Particles = Event.GetParticles()->Generator();
 // //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
 // //     for (const auto & Particle : Particles) {
-// //       std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-// //       if (Jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize)
-// //         BottomJets.emplace_back(Jets.front());
+// //       std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+// //       if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize)
+// //         BottomJets.emplace_back(jets.front());
 // //     }
 // //
 // //     if (Tag == kSignal && BottomJets.size() < 4) return 0;
 // //     if (Tag == HBackground && BottomJets.size() < 2) return 0;
 //
 //
-//     std::vector<HEventBottomMultiplet> Events = EventBottomSumTagger.GetBdt(Jets, EventBottomSumReader);
+//     std::vector<HEventBottomMultiplet> Events = EventBottomSumTagger.GetBdt(jets, EventBottomSumReader);
 //     if (Events.empty()) return 0;
 //     Events.front().SetTag(Tag);
 //     ++ObjectNumber;

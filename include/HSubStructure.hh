@@ -39,7 +39,7 @@ public:
 
     std::vector< TLorentzVector > GetConstituents(const fastjet::PseudoJet &CandidateJet);
 
-    bool GetIsolation(const fastjet::PseudoJet &, const HJets &);
+    bool GetIsolation(const fastjet::PseudoJet& CandidateJet, const Jets& LeptonJets);
 
     float GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const;
 

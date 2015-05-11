@@ -21,7 +21,7 @@ public:
 
     std::vector< HChargedJetPairBranch> GetBranches(HEvent &Event, const HObject::Tag Tag);
 
-    std::vector< HQuartet31 > GetBdt(const std::vector< hanalysis::HTriplet > &Triplets, const HJets &Jets, const hanalysis::Reader &JetPairReader);
+    std::vector< HQuartet31 > GetBdt(const std::vector< hanalysis::HTriplet > &Triplets, const Jets &jets, const hanalysis::Reader &JetPairReader);
 
     HChargedJetPairBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 

@@ -20,7 +20,7 @@ public:
 
     std::vector<HTopLeptonBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
-    std::vector<hanalysis::HDoublet> GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::Reader &Reader);
+    std::vector<hanalysis::HDoublet> GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &Reader);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
         return static_cast<HTopLeptonBranch &>(*EventClonesArray.At(Entry)).Bdt;

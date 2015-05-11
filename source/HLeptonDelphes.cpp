@@ -76,7 +76,7 @@ bool hanalysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
     return 1;
 }
 
-// HJets hdelphes::HLepton::GetLeptons(HJetDetails JetDetails)
+// Jets hdelphes::HLepton::GetLeptons(HJetDetails JetDetails)
 // {
 //
 //     Print(HInformation, "Get Tagged Lepton Jets");
@@ -99,7 +99,7 @@ bool hanalysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
 //     //     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
 //     Print(HDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
 //
-//     HJets AllJets = LeptonJets;
+//     Jets AllJets = LeptonJets;
 //     AllJets.insert(AllJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
 //     //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
 //

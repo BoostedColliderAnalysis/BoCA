@@ -85,32 +85,32 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
 {
     Print(HInformation, "Get Event Tags");
 
-    HJets Jets = GetJets(Event);
-    //     HJets Jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader); // TODO reenable this
+    Jets jets = GetJets(Event);
+    //     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader); // TODO reenable this
     std::vector<HEventBottomTaggerBranch> EventSemiBranches;
 
 
 //     const int JetNumber = 2;
 //     const int SignalBottomNumber = 2;
 //     const int BackgroundBottomNumber = 0;
-//     if (Jets.size() < JetNumber) return EventSemiBranches;
-//     HJets BottomJets;
-//     HJets Particles = Event.GetParticles()->Generator();
+//     if (jets.size() < JetNumber) return EventSemiBranches;
+//     Jets BottomJets;
+//     Jets Particles = Event.GetParticles()->Generator();
 //     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
 //     for (const auto & Particle : Particles) {
-//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         if (Jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
-//             BottomJets.emplace_back(Jets.front());
+//         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+//         if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
+//             BottomJets.emplace_back(jets.front());
 //     }
 //
 //     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return EventSemiBranches;
 //     if (Tag == HBackground && BottomJets.size() < BackgroundBottomNumber)  return EventSemiBranches;
 
-    if (!TruthLevelCheck(Jets,Event, Tag)) return EventSemiBranches;
+    if (!TruthLevelCheck(jets,Event, Tag)) return EventSemiBranches;
 
 
     HEventBottomMultiplet EventMultiplet;
-    EventMultiplet.SetJets(Jets);
+    EventMultiplet.SetJets(jets);
 
     EventMultiplet.SetTag(Tag);
     EventSemiBranches.emplace_back(GetBranch(EventMultiplet));
@@ -118,22 +118,22 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
     return EventSemiBranches;
 }
 
-bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const HJets &NewJets,hanalysis::HEvent &Event, const Tag Tag)
+bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const Jets &NewJets,hanalysis::HEvent &Event, const Tag Tag)
 {
     const unsigned JetNumber = 2;
     const unsigned SignalBottomNumber = 2;
     const unsigned BackgroundBottomNumber = 0;
 
-    HJets Jets = NewJets;
+    Jets jets = NewJets;
 
-    if (Jets.size() < JetNumber) return 0;
-    HJets BottomJets;
-    HJets Particles = Event.GetParticles()->Generator();
+    if (jets.size() < JetNumber) return 0;
+    Jets BottomJets;
+    Jets Particles = Event.GetParticles()->Generator();
     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
     for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(Particle));
-        if (Jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
-            BottomJets.emplace_back(Jets.front());
+        std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
+        if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
+            BottomJets.emplace_back(jets.front());
     }
 
     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return 0;
@@ -145,14 +145,14 @@ bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const HJets &NewJets,
 
 
 
-std::vector<hbottomsumtagger::HEventBottomMultiplet> hbottomsumtagger::HEventBottomTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &EventSemiReader)
+std::vector<hbottomsumtagger::HEventBottomMultiplet> hbottomsumtagger::HEventBottomTagger::GetBdt(const Jets &jets, const hanalysis::Reader &EventSemiReader)
 {
     Print(HInformation, "Get Event Tags");
 
     std::vector<HEventBottomMultiplet> EventMultiplets;
 
     HEventBottomMultiplet EventMultiplet;
-    EventMultiplet.SetJets(Jets);
+    EventMultiplet.SetJets(jets);
     Branch = GetBranch(EventMultiplet);
     EventMultiplet.SetBdt(EventSemiReader.Bdt());
     EventMultiplets.emplace_back(EventMultiplet);

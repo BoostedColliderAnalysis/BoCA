@@ -111,18 +111,18 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     const int TopNumber = 2;
     EventNumber += TopNumber;
 
-    HJets Jets = GetJets(Event);
-    Print(HInformation, "Jet Number", Jets.size());
-    //     Jets = fastjet::sorted_by_pt(bottom_tagger_.GetJetBdt(Jets, BottomReader)); // TODO reenable this
+    Jets jets = GetJets(Event);
+    Print(HInformation, "Jet Number", jets.size());
+    //     jets = fastjet::sorted_by_pt(bottom_tagger_.GetJetBdt(jets, BottomReader)); // TODO reenable this
 
-    HJets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
+    Jets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
     Print(HInformation, "Lepton Number", Leptons.size());
 //     switch (Tag) {
 //     case  kSignal:
 //         if (Leptons.size() > TopNumber) Leptons.erase(Leptons.begin() + TopNumber, Leptons.end());
 //         break;
 //     case HBackground :
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             const int LeptonPt = 1;
             Leptons.emplace_back(fastjet::PseudoJet(Jet.px(), Jet.py(), Jet.pz(), Jet.e()) / Jet.pt() * LeptonPt);
         }
@@ -132,7 +132,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     std::vector<hanalysis::HDoublet> Doublets;
     for (const auto & Lepton : Leptons) {
         ++LeptonNumber;
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             if (Jet.delta_R(Lepton) > detector_geometry().JetConeSize) continue;
             hanalysis::HDoublet Doublet(Jet, Lepton);
             Doublet.SetTag(tag);
@@ -147,7 +147,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     std::vector<HTopLeptonBranch> TopLeptonBranches;
     if (Doublets.empty()) return TopLeptonBranches;
 
-    HJets TopParticles = Event.GetParticles()->Generator();
+    Jets TopParticles = Event.GetParticles()->Generator();
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     if (TopParticles.size() != TopNumber) {
         if(tag == kSignal) Print(HError, "Top Quarks", TopParticles.size());
@@ -187,13 +187,13 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
 
 
 
-std::vector<hanalysis::HDoublet>  HTopLeptonTagger::GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::Reader &Reader)
+std::vector<hanalysis::HDoublet>  HTopLeptonTagger::GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &Reader)
 {
 
     Print(HInformation, "Get Bdt");
 
     std::vector<hanalysis::HDoublet> Doublets;
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets)  {
         for (const auto & Lepton : Leptons) {
             if (Jet.delta_R(Lepton) > detector_geometry().JetConeSize) continue;
             hanalysis::HDoublet Doublet(Jet, Lepton);
@@ -202,7 +202,7 @@ std::vector<hanalysis::HDoublet>  HTopLeptonTagger::GetBdt(const HJets &Jets, co
             Doublets.emplace_back(Doublet);
         }
     }
-    for (const auto & Jet : Jets) {
+    for (const auto & Jet : jets)  {
         if (Doublets.size() >= 2) break;
         const int LeptonPt = 1;
         fastjet::PseudoJet Lepton = fastjet::PseudoJet(Jet.px(), Jet.py(), Jet.pz(), Jet.e()) / Jet.pt() * LeptonPt;

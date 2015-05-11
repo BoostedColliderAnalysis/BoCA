@@ -38,7 +38,7 @@ void hanalysis::HHiggsTagger::NewEvent()
 }
 
 
-fastjet::PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, const HJets &BottomJets, const HJets &CharmJets)
+fastjet::PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const Jets &EFlowJets, const Jets &BottomJets, const Jets &CharmJets)
 {
     Print(HInformation, "GetHiggsJet");
 
@@ -85,7 +85,7 @@ fastjet::PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, 
 
 }
 
-// HJets Analysis::HHiggsTagger::GetFatJetVector(HJets InputJetVector)
+// Jets Analysis::HHiggsTagger::GetFatJetVector(Jets InputJetVector)
 // {
 //
 //     Print(HInformation, "GetFatJetVector");
@@ -95,8 +95,8 @@ fastjet::PseudoJet hanalysis::HHiggsTagger::GetHiggsJet(const HJets &EFlowJets, 
 //     ClusterSequence *FatJetClusterSequence = new ClusterSequence(InputJetVector, *FatJetDefinition);
 //
 //     const float FatJetPtMin = 0.;
-//     HJets InclusiveJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
-//     HJets FatJetVector = sorted_by_E(InclusiveJetVector);
+//     Jets InclusiveJetVector = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
+//     Jets FatJetVector = sorted_by_E(InclusiveJetVector);
 //     Print(HInformation,"Number of Fat Jets",FatJetVector.size());
 //
 //     FatJetClusterSequence->delete_self_when_unused();
@@ -113,7 +113,7 @@ fastjet::PseudoJet hanalysis::HHiggsTagger::GetFilteredJet(const fastjet::Pseudo
 
     Print(HInformation, "GetFilteredJet");
 
-    HJets MassDropPieces = sorted_by_E(MassDropJet.pieces());
+    Jets MassDropPieces = sorted_by_E(MassDropJet.pieces());
     if (MassDropPieces.size() != 2) Print(HError, "Number of Subjets", MassDropPieces.size());
 
     fastjet::PseudoJet Parent1 = MassDropPieces.at(0);
@@ -137,7 +137,7 @@ fastjet::PseudoJet hanalysis::HHiggsTagger::GetFilteredJet(const fastjet::Pseudo
 
 }
 
-void hanalysis::HHiggsTagger::GetSubJetSource(const HJets &Particles, const int UserIndex)
+void hanalysis::HHiggsTagger::GetSubJetSource(const Jets &Particles, const int UserIndex)
 {
 
     Print(HInformation, "GetSubJetSource");
@@ -234,7 +234,7 @@ float hanalysis::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
     fastjet::PseudoJet FilterJet = //GetFilteredJet(FatJet, antikt_algorithm, NumberHardestPieces);
         FatJet;
 
-    HJets SubJets = sorted_by_E(FilterJet.pieces());
+    Jets SubJets = sorted_by_E(FilterJet.pieces());
     if (SubJets.size() != 2) Print(HError, "Number of SubJets", SubJets.size());
     fastjet::PseudoJet SubJet1 = SubJets[0];
     fastjet::PseudoJet SubJet2 = SubJets[1];
@@ -251,7 +251,7 @@ float hanalysis::HHiggsTagger::GetDipolarity(const fastjet::PseudoJet &FatJet)
 
     DeltaR12 = SubJet1.delta_R(SubJet2);
 
-    HJets Constituents = FilterJet.constituents();
+    Jets Constituents = FilterJet.constituents();
     Print(HDebug, "Number of Constituents", Constituents.size());
     for (unsigned ConstituentNumber = 0; ConstituentNumber < Constituents.size(); ConstituentNumber++) {
 

@@ -25,15 +25,15 @@ public:
 
     std::vector< HTauBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    HJets GetBdt(HJets &Jets, const hanalysis::Reader &BottomReader);
+    Jets GetBdt(Jets &jets, const hanalysis::Reader &BottomReader);
 
     HTauBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
 //     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
 
-    HJets GetJetBdt(const HJets &Jets, const hanalysis::Reader &BottomReader);
+    Jets GetJetBdt(const Jets &jets, const hanalysis::Reader &BottomReader);
 
-    HJets GetSubBdt(const HJets &Jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
+    Jets GetSubBdt(const Jets &jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
 
 protected:
 
@@ -45,9 +45,9 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &Jets, const HJets &Particles, const hanalysis::HObject::Tag Tag);
+    Jets CleanJets(Jets &jets, const Jets &Particles, const hanalysis::HObject::Tag Tag);
 
-    HJets GetSubJets(const HJets &Jets,const HJets &Particles, const Tag Tag, const int SubJetNumber);
+    Jets GetSubJets(const Jets &jets,const Jets &Particles, const Tag Tag, const int SubJetNumber);
 
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;

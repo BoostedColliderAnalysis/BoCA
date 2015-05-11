@@ -36,7 +36,7 @@ public:
       return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3) + TotalBottomBdt(Number4);
     }
 
-    void SetJets(const HJets &NewJets) {
+    void SetJets(const Jets &NewJets) {
         JetsM = NewJets;
         float bdt = 0;
         for (int i = 1; i < 6; ++i) bdt += TotalBottomBdt(i);
@@ -45,7 +45,7 @@ public:
 
 private:
 
-    HJets JetsM;
+    Jets JetsM;
 
 };
 
@@ -66,13 +66,13 @@ public:
     */
     HEventBottomTagger();
 
-    bool TruthLevelCheck(const HJets &NewJets, hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    bool TruthLevelCheck(const Jets &NewJets, hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
     std::vector<HEventBottomTaggerBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector<HEventBottomMultiplet> GetBdt(const HJets &Jets, const hanalysis::Reader &EventSemiReader);
+    std::vector<HEventBottomMultiplet> GetBdt(const Jets &jets, const hanalysis::Reader &EventSemiReader);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -99,7 +99,7 @@ private:
 
     void DefineVariables();
 
-//     std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
+//     std::vector<HOctet> GetHeavyHiggsEvents(Jets &jets);
 
     HEventBottomTaggerBranch Branch;
     hanalysis::HJetTag JetTag;

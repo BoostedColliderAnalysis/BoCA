@@ -54,12 +54,12 @@ int hanalysis::HWSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
 {
     Print(HInformation, "Get Top Tags");
 
-    HJets Leptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
+    Jets Leptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
     if (Leptons.size() > 1) Leptons.erase(Leptons.begin() + 1, Leptons.end());
 
     const fastjet::PseudoJet MissingEt = event.GetJets()->GetMissingEt();
 
-    HJets Particles = event.GetParticles()->Generator();
+    Jets Particles = event.GetParticles()->Generator();
     int w_semi_id = WSemiId(event);
     fastjet::PseudoJet WBoson;
     Particles = RemoveIfWrongParticle(Particles, w_semi_id);
@@ -90,7 +90,7 @@ int hanalysis::HWSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
 std::vector<hanalysis::HDoublet>  hanalysis::HWSemiTagger::GetDoublets(hanalysis::HEvent &event, const TMVA::Reader &reader)
 {
     Print(HInformation, "Get Triple Bdt");
-    HJets NewLeptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
+    Jets NewLeptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
     if (NewLeptons.size() > 1) NewLeptons.erase(NewLeptons.begin() + 1, NewLeptons.end());
 
     std::vector<HDoublet> Doublets;
@@ -186,7 +186,7 @@ struct FindError {
     float Error;
 };
 
-// std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDoublet &Doublet, const HJets &Neutrinos, const Tag Tag)
+// std::vector<hanalysis::HDoublet> hanalysis::HWSemiTagger::GetDoublets(const HDoublet &Doublet, const Jets &Neutrinos, const Tag Tag)
 // {
 //     Print(HInformation, "Get Triple Pair");
 //
@@ -224,9 +224,9 @@ struct FindError {
 
 
 
-HJets hanalysis::HWSemiTagger::WSemiDaughters(HEvent &Event)
+Jets hanalysis::HWSemiTagger::WSemiDaughters(HEvent &Event)
 {
-    HJets WKids = Event.GetParticles()->Generator();
+    Jets WKids = Event.GetParticles()->Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(HError, "Where is the W 1?", WKids.size());
 
@@ -236,9 +236,9 @@ HJets hanalysis::HWSemiTagger::WSemiDaughters(HEvent &Event)
     return WKids;
 }
 
-int hanalysis::HWSemiTagger::WSemiId(const HJets &Jets)
+int hanalysis::HWSemiTagger::WSemiId(const Jets &jets)
 {
-    if (Jets.empty()) return WId;
-    else return Jets.at(0).user_info<hanalysis::HJetInfo>().Constituents().front().Family().Mother1Id;
+    if (jets.empty()) return WId;
+    else return jets.at(0).user_info<hanalysis::HJetInfo>().Constituents().front().Family().Mother1Id;
 }
 

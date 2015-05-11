@@ -8,80 +8,80 @@ struct Not5Quark {
   }
 };
 
-HJets RemoveIfWrongAbsFamily(const HJets &jets, const int particle_id, int mother_id)
+Jets RemoveIfWrongAbsFamily(const Jets &jets, const int particle_id, int mother_id)
 {
-  HJets jets_ = jets;
+  Jets jets_ = jets;
   jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsFamily(particle_id, mother_id)), jets_.end());
   return jets_;
 }
 
-HJets RemoveIfWrongFamily(const HJets &jets, const int particle_id, int mother_id)
+Jets RemoveIfWrongFamily(const Jets &jets, const int particle_id, int mother_id)
 {
-  HJets jets_ = jets;
+  Jets jets_ = jets;
   jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongFamily(particle_id, mother_id)), jets_.end());
   return jets_;
 }
 
-HJets RemoveIfWrongAbsStepFamily(const HJets &jets, const int particle_id , const int mother_2_id)
+Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int particle_id , const int mother_2_id)
 {
-  HJets jets_ = jets;
+  Jets jets_ = jets;
   jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepFamily(particle_id, mother_2_id)), jets_.end());
   return jets_;
 }
 
-HJets RemoveIfWrongAbsStepMother(const HJets &jets, const int mother_2_id)
+Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id)
 {
-  HJets jets_ = jets;
+  Jets jets_ = jets;
   jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepMother(mother_2_id)), jets_.end());
   return jets_;
 }
 
-HJets RemoveIfWrongParticle(const HJets &NewJets, const int ParticleId)
+Jets RemoveIfWrongParticle(const Jets &NewJets, const int ParticleId)
 {
-  HJets Jets = NewJets;
-  Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongId(ParticleId)), Jets.end());
-  return Jets;
+  Jets jets = NewJets;
+  jets.erase(std::remove_if(jets.begin(), jets.end(), WrongId(ParticleId)), jets.end());
+  return jets;
 }
 
-HJets RemoveIfWrongAbsParticle(const HJets &NewJets, const int ParticleId)
+Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const int ParticleId)
 {
-  HJets Jets = NewJets;
-  Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsId(ParticleId)), Jets.end());
-  return Jets;
+  Jets jets = NewJets;
+  jets.erase(std::remove_if(jets.begin(), jets.end(), WrongAbsId(ParticleId)), jets.end());
+  return jets;
 }
 
-HJets RemoveIfWrongAbsMother(const HJets &NewJets, const int MotherId)
+Jets RemoveIfWrongAbsMother(const Jets &NewJets, const int MotherId)
 {
-  HJets Jets = NewJets;
-  Jets.erase(std::remove_if(Jets.begin(), Jets.end(), WrongAbsMother(MotherId)), Jets.end());
-  return Jets;
+  Jets jets = NewJets;
+  jets.erase(std::remove_if(jets.begin(), jets.end(), WrongAbsMother(MotherId)), jets.end());
+  return jets;
 }
 
-HJets RemoveIfAbsMother(const HJets &NewJets, const int MotherId)
+Jets RemoveIfAbsMother(const Jets &NewJets, const int MotherId)
 {
-  HJets Jets = NewJets;
-  Jets.erase(std::remove_if(Jets.begin(), Jets.end(), AbsMother(MotherId)), Jets.end());
-  return Jets;
+  Jets jets = NewJets;
+  jets.erase(std::remove_if(jets.begin(), jets.end(), AbsMother(MotherId)), jets.end());
+  return jets;
 }
 
 
-HJets RemoveIfLetpons(const HJets &jets)
+Jets RemoveIfLetpons(const Jets &jets)
 {
-  HJets quarks = jets;
+  Jets quarks = jets;
   quarks.erase(std::remove_if(quarks.begin(), quarks.end(), WrongLeptons()), quarks.end());
   return quarks;
 }
 
-HJets RemoveIfQuark(const HJets &jets)
+Jets RemoveIfQuark(const Jets &jets)
 {
-  HJets leptons = jets;
+  Jets leptons = jets;
   leptons.erase(std::remove_if(leptons.begin(), leptons.end(), WrongQuark()), leptons.end());
   return leptons;
 }
 
-HJets RemoveIfNot5Quarks(const HJets &jets)
+Jets RemoveIfNot5Quarks(const Jets &jets)
 {
-  HJets quarks = jets;
+  Jets quarks = jets;
   quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Not5Quark()), quarks.end());
   return quarks;
 }

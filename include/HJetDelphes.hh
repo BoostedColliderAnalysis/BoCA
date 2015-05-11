@@ -29,11 +29,11 @@ public:
 
     fastjet::PseudoJet GetMissingEt();
 
-    HJets GranulatedJets(const HJets &NewEFlowJets);
+    Jets GranulatedJets(const Jets &NewEFlowJets);
 
-    HJets GetJets();
+    Jets GetJets();
 
-    HJets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
+    Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
 private:
 

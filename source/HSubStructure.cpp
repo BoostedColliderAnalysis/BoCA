@@ -32,7 +32,7 @@ bool hanalysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet
     Global.Mass = CandidateJet.m();
     Global.Pt = CandidateJet.pt();
 
-    HJets PieceJets = CandidateJet.pieces();
+    Jets PieceJets = CandidateJet.pieces();
     std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
 
     if (PieceJets.size() != 2) {
@@ -200,12 +200,12 @@ HVectors hanalysis::HSubStructure::GetConstituents(const fastjet::PseudoJet &Can
 
 }
 
-bool hanalysis::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const HJets &LeptonJets)
+bool hanalysis::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Jets &LeptonJets)
 {
 
     // Get Position of SubJets
 
-    HJets PieceJets = CandidateJet.pieces();
+    Jets PieceJets = CandidateJet.pieces();
     std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
 
     if (PieceJets.size() != 2) {
@@ -261,7 +261,7 @@ float hanalysis::HSubStructure::GetDiPolarity(const fastjet::PseudoJet &Candidat
 
     Print(HInformation, "Jing Dipolarity");
 
-//     HJets SubJetVector = CandidateJet.pieces();
+//     Jets SubJetVector = CandidateJet.pieces();
 //     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 //
 //     // Filtering
@@ -277,7 +277,7 @@ float hanalysis::HSubStructure::GetDiPolarity(const fastjet::PseudoJet &Candidat
 //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
 //     fastjet::PseudoJet FilterJet = FatJetFilter(CandidateJet);
 
-    const HJets SubJetVector = CandidateJet.pieces();
+    const Jets SubJetVector = CandidateJet.pieces();
     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
 
 

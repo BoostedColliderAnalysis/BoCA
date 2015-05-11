@@ -38,7 +38,7 @@ public:
      * @brief Reconstruct the higgs fat jet
      * 
      */
-    fastjet::PseudoJet GetHiggsJet(const HJets&, const HJets&, const HJets&);
+    fastjet::PseudoJet GetHiggsJet(const Jets&, const Jets&, const Jets&);
 
     /**
      * @brief constructor
@@ -78,7 +78,7 @@ private:
      * @brief Vector of Fat Jet Pieces
      *
      */
-    HJets FilteredJetPieces;
+    Jets FilteredJetPieces;
     
     /**
      * @brief Filter Jets
@@ -90,7 +90,7 @@ private:
      * @brief Compare subjets with particle quarks
      * 
      */
-    void GetSubJetSource(const HJets&, const int);
+    void GetSubJetSource(const Jets&, const int);
 
     /**
      * @brief Apply Bottom tagger

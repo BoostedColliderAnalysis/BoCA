@@ -34,7 +34,7 @@ public:
 
     std::vector<hanalysis::HTriplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
 
-    std::vector<HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::Reader &Reader) {
+    std::vector<HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const hanalysis::Reader &Reader) {
         Print(HError, "get bdt", "depreciated");
     }
 

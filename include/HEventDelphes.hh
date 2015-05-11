@@ -26,11 +26,11 @@ public:
 
     void NewEvent(const hanalysis::ClonesArrays &ClonesArrays);
 
-//     HJets GetTops(hanalysis::HJetTag &JetTag);
+//     Jets GetTops(hanalysis::HJetTag &JetTag);
 
 //     fastjet::PseudoJet GetHiggs();
 
-//     HJets GetCandidates(hanalysis::HJetTag &JetTag);
+//     Jets GetCandidates(hanalysis::HJetTag &JetTag);
 
 
 protected:

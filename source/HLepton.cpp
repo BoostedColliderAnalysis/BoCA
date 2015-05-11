@@ -90,7 +90,7 @@ HVectors hanalysis::HLepton::GetLeptonVectors()
 
 }
 
-HJets hanalysis::HLepton::GetLeptonJets()
+Jets hanalysis::HLepton::GetLeptonJets()
 {
 
     Print(HInformation,"Get Lepton Jets");
@@ -99,7 +99,7 @@ HJets hanalysis::HLepton::GetLeptonJets()
 
 }
 
-HJets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails)
+Jets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(HInformation,"Get Lepton Jets");
@@ -154,7 +154,7 @@ HJets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetD
 //     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
     Print(HDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
 
-    HJets AllJets = LeptonJets;
+    Jets AllJets = LeptonJets;
     AllJets.insert(AllJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
     //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
     PrintTruthLevel(HDebug);

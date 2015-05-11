@@ -70,30 +70,35 @@ int hanalysis::BottomTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
 {
     Print(HInformation, "Get Bottom Tag", tag);
 
+<<<<<<< HEAD
     HJets particles = event.GetParticles()->Generator();
     particles = RemoveIfWrongAbsParticle(particles, BottomId);
+=======
+    Jets particles = event.GetParticles()->Generator();
+    particles = RemoveIfWrongAbsParticle(particles,BottomId);
+>>>>>>> 8ccc2dca96de7b05ece262fe324b853582f895eb
     Print(HInformation, "Particle size", particles.size());
 
-    HJets jets = GetJets(event);
+    Jets jets = GetJets(event);
     Print(HInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
 
-    HJets final_jets = CleanJets(jets, particles, tag);
+    Jets final_jets = CleanJets(jets, particles, tag);
 
-    HJets doublet_pieces = GetSubJets(jets, particles, tag, 2);
+    Jets doublet_pieces = GetSubJets(jets, particles, tag, 2);
     final_jets.insert(final_jets.end(), doublet_pieces.begin(), doublet_pieces.end());
 
-    HJets triplet_pieces = GetSubJets(jets, particles, tag, 3);
+    Jets triplet_pieces = GetSubJets(jets, particles, tag, 3);
     final_jets.insert(final_jets.end(), triplet_pieces.begin(), triplet_pieces.end());
 
     SaveEntries(final_jets);
     return final_jets.size();
 }
 
-HJets hanalysis::BottomTagger::GetSubJets(const HJets &jets, const HJets &particles, const Tag tag, const int sub_jet_number)
+Jets hanalysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles, const Tag tag, const int sub_jet_number)
 {
     Print(HInformation, "Get Sub Jets");
-    HJets final_pieces;
+    Jets final_pieces;
     for (const auto & jet : jets) {
         if (!jet.has_constituents()) {
             Print(HError, "Pieceless jet");
@@ -104,7 +109,7 @@ HJets hanalysis::BottomTagger::GetSubJets(const HJets &jets, const HJets &partic
             continue;
         }
         fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(jet.constituents(), detector_geometry().SubJetDefinition);
-        HJets pieces = ClusterSequence->exclusive_jets_up_to(sub_jet_number);
+        Jets pieces = ClusterSequence->exclusive_jets_up_to(sub_jet_number);
         ClusterSequence->delete_self_when_unused();
 
 
@@ -126,7 +131,7 @@ HJets hanalysis::BottomTagger::GetSubJets(const HJets &jets, const HJets &partic
 }
 
 
-HJets hanalysis::BottomTagger::CleanJets(HJets &jets, const HJets &particles, const Tag tag)
+Jets hanalysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, const Tag tag)
 {
     Print(HInformation, "Clean Jets");
 
@@ -135,7 +140,7 @@ HJets hanalysis::BottomTagger::CleanJets(HJets &jets, const HJets &particles, co
         if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize) static_cast<HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
-    HJets NewCleanJets;
+    Jets NewCleanJets;
     for (const auto & Jet : jets) {
         if (!Jet.has_user_info<HJetInfo>()) {
             Print(HError, "Clean Jets", "No Jet Info");
@@ -166,24 +171,25 @@ HJets hanalysis::BottomTagger::CleanJets(HJets &jets, const HJets &particles, co
     return NewCleanJets;
 }
 
-HJets hanalysis::BottomTagger::GetMultiJetBdt(HJets &jets, const TMVA::Reader &reader)
+Jets hanalysis::BottomTagger::GetMultiJetBdt(Jets &jets, const TMVA::Reader &reader)
 {
 
-    HJets NewJets = GetJetBdt(jets, reader);
+    Jets NewJets = GetJetBdt(jets, reader);
 
-    HJets DiJets = GetSubBdt(jets, reader, 2);
+    Jets DiJets = GetSubBdt(jets, reader, 2);
     NewJets.insert(NewJets.end(), DiJets.begin(), DiJets.end());
 
-    HJets TriJets = GetSubBdt(jets, reader, 3);
+    Jets TriJets = GetSubBdt(jets, reader, 3);
     NewJets.insert(NewJets.end(), TriJets.begin(), TriJets.end());
 
     return NewJets;
 }
 
-HJets hanalysis::BottomTagger::GetSubBdt(const HJets &jets, const TMVA::Reader &reader, const int sub_jet_number)
+Jets hanalysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
+
     Print(HInformation, "Get Sub Bdt");
-    HJets Pieces;
+    Jets pieces;
     for (const auto & Jet : jets) {
         if (!Jet.has_pieces()) {
             Print(HInformation, "pieceless jet");
@@ -194,29 +200,29 @@ HJets hanalysis::BottomTagger::GetSubBdt(const HJets &jets, const TMVA::Reader &
             continue;
         }
         fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), detector_geometry().SubJetDefinition);
-        HJets SubPieces = ClusterSequence->exclusive_jets_up_to(sub_jet_number);
+        Jets SubPieces = ClusterSequence->exclusive_jets_up_to(sub_jet_number);
         ClusterSequence->delete_self_when_unused();
 
-        std::vector<HConstituent> Constituents;
-        for (auto & Piece : SubPieces) {
-            for (const auto & Constituent : Piece.constituents()) {
+        std::vector<HConstituent> constituents;
+        for (auto & piece : SubPieces) {
+            for (const auto & Constituent : piece.constituents()) {
                 if (!Constituent.has_user_info<HJetInfo>()) {
                     Print(HInformation, "Get Constituent Bdt", "No Jet Info");
                     continue;
                 }
-                std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
-                Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+                std::vector<HConstituent> piece_constituents = Constituent.user_info<HJetInfo>().Constituents();
+                constituents.insert(constituents.end(), piece_constituents.begin(), piece_constituents.end());
             }
-            Piece.set_user_info(new HJetInfo(Constituents/*, Jet.user_info<HJetInfo>().BTag()*/));
-            Pieces.emplace_back(Piece);
+            piece.set_user_info(new HJetInfo(constituents/*, Jet.user_info<HJetInfo>().BTag()*/));
+            pieces.emplace_back(piece);
         }
     }
-    return GetJetBdt(Pieces, reader);
+    return GetJetBdt(pieces, reader);
 }
 
-HJets hanalysis::BottomTagger::GetJetBdt(HEvent &event, const TMVA::Reader &reader)
+Jets hanalysis::BottomTagger::GetJetBdt(HEvent &event, const TMVA::Reader &reader)
 {
-    HJets jets;
+    Jets jets;
     Print(HInformation, "Get Jet Bdt");
     for (const auto jet : GetJets(event)) {
         if (!jet.has_user_info<HJetInfo>()) {
@@ -228,7 +234,7 @@ HJets hanalysis::BottomTagger::GetJetBdt(HEvent &event, const TMVA::Reader &read
             continue;
         }
         branch_ = GetBranch(jet);
-        static_cast<HJetInfo *>(jet.user_info_shared_ptr().get())->SetBdt(Bdt(reader));
+        static_cast<HJetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
         jets.emplace_back(jet);
     }
     return jets;

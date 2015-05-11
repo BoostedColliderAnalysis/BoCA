@@ -26,9 +26,9 @@ public:
     HEvent();
     virtual void NewEvent(const ClonesArrays &) = 0;
 
-    virtual HJets GetTops(HJetTag &) {
+    virtual Jets GetTops(HJetTag &) {
         Print(HError, "Get Tops", "No Tops");
-        return HJets{};
+        return Jets{};
     }
 
     virtual fastjet::PseudoJet GetHiggs() {
@@ -36,9 +36,9 @@ public:
         return fastjet::PseudoJet();
     }
 
-    virtual HJets GetCandidates(HJetTag &) {
+    virtual Jets GetCandidates(HJetTag &) {
         Print(HError, "Get Candidates", "No Candidates");
-         return HJets{};
+         return Jets{};
     }
 
     HParticle *GetParticles() {
@@ -50,11 +50,11 @@ public:
     }
 
     HJet *GetJets() {
-        return Jets;
+        return jets;
     }
 
     const HJet &Hadrons() const {
-        return *Jets;
+        return *jets;
     }
 
     const HLepton &Leptons() const {
@@ -107,7 +107,7 @@ protected:
      * @brief Jets
      *
      */
-    HJet *Jets;
+    HJet *jets;
 
     /**
      * @brief Tagged tops and their constituents

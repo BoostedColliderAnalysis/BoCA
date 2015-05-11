@@ -90,36 +90,36 @@ std::vector<HBottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEve
 {
     Print(HInformation, "Get Bottom Tag", Tag);
 
-    HJets Jets = GetJets(Event);
-    Print(HInformation, "Number Jets", Jets.size());
+    Jets jets = GetJets(Event);
+    Print(HInformation, "Number Jets", jets.size());
 
-    HJets Particles = Event.GetParticles()->Generator();
+    Jets Particles = Event.GetParticles()->Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId, TopId)), Particles.end());
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
     Print(HInformation, "Particle size", Particles.size());
 
     std::vector<HBottomBranch> BottomBranches;
-    if (Jets.empty()) return BottomBranches;
-    HJets FinalJets = CleanJets(Jets, Particles, Tag);
+    if (jets.empty()) return BottomBranches;
+    Jets FinalJets = CleanJets(jets, Particles, Tag);
 
-    HJets Pieces = GetSubJets(Jets, Particles, Tag, 2);
+    Jets Pieces = GetSubJets(jets, Particles, Tag, 2);
     FinalJets.insert(FinalJets.end(), Pieces.begin(), Pieces.end());
 
-    HJets Pieces2 = GetSubJets(Jets, Particles, Tag, 3);
+    Jets Pieces2 = GetSubJets(jets, Particles, Tag, 3);
     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
 
-    Print(HDebug, "Number B Jets", Jets.size());
+    Print(HDebug, "Number B Jets", jets.size());
 
     for (const auto & Jet : FinalJets) BottomBranches.emplace_back(GetBranch(Jet));
 
     return BottomBranches;
 }
 
-HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber)
+Jets hanalysis::HBottomTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Jets");
-    HJets Pieces;
-    for (const auto & Jet : Jets) {
+    Jets Pieces;
+    for (const auto & Jet : jets)  {
         if (!Jet.has_constituents()) {
             Print(HError, "Pieceless jet");
             continue;
@@ -129,7 +129,7 @@ HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Parti
             continue;
         }
         fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), detector_geometry().SubJetDefinition);
-        HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
+        Jets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
         ClusterSequence->delete_self_when_unused();
 
 
@@ -151,17 +151,17 @@ HJets hanalysis::HBottomTagger::GetSubJets(const HJets &Jets, const HJets &Parti
 }
 
 
-HJets hanalysis::HBottomTagger::CleanJets(HJets &Jets, const HJets &Particles, const Tag Tag)
+Jets hanalysis::HBottomTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 {
     Print(HInformation, "Clean Jets");
 
     for (const auto & Particle : Particles) {
-        std::sort(Jets.begin(), Jets.end(), MinDeltaRTo(Particle));
-        if (Jets.front().delta_R(Particle) < detector_geometry().JetConeSize) static_cast<HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+        std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
+        if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize) static_cast<HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
-    HJets NewCleanJets;
-    for (const auto & Jet : Jets) {
+    Jets NewCleanJets;
+    for (const auto & Jet : jets)  {
         if (!Jet.has_user_info<HJetInfo>()) {
             Print(HError, "Clean Jets", "No Jet Info");
             continue;
@@ -197,25 +197,25 @@ hanalysis::HObject::Tag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJe
     return kSignal;
 }
 
-HJets hanalysis::HBottomTagger::GetMultiJetBdt(HJets &Jets, const Reader &BottomReader)
+Jets hanalysis::HBottomTagger::GetMultiJetBdt(Jets &jets, const Reader &BottomReader)
 {
 
-    HJets NewJets = GetJetBdt(Jets, BottomReader);
+    Jets NewJets = GetJetBdt(jets, BottomReader);
 
-    HJets DiJets = GetSubBdt(Jets, BottomReader, 2);
+    Jets DiJets = GetSubBdt(jets, BottomReader, 2);
     NewJets.insert(NewJets.end(), DiJets.begin(), DiJets.end());
 
-    HJets TriJets = GetSubBdt(Jets, BottomReader, 3);
+    Jets TriJets = GetSubBdt(jets, BottomReader, 3);
     NewJets.insert(NewJets.end(), TriJets.begin(), TriJets.end());
 
     return NewJets;
 }
 
-HJets hanalysis::HBottomTagger::GetSubBdt(const HJets &Jets, const Reader &BottomReader, const int SubJetNumber)
+Jets hanalysis::HBottomTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Bdt");
-    HJets Pieces;
-    for (const auto & Jet : Jets) {
+    Jets Pieces;
+    for (const auto & Jet : jets)  {
         if (!Jet.has_pieces()) {
             Print(HInformation, "pieceless jet");
             continue;
@@ -225,7 +225,7 @@ HJets hanalysis::HBottomTagger::GetSubBdt(const HJets &Jets, const Reader &Botto
             continue;
         }
         fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), detector_geometry().SubJetDefinition);
-        HJets SubPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
+        Jets SubPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
         ClusterSequence->delete_self_when_unused();
 
         std::vector<HConstituent> Constituents;
@@ -246,11 +246,11 @@ HJets hanalysis::HBottomTagger::GetSubBdt(const HJets &Jets, const Reader &Botto
     return GetJetBdt(Pieces, BottomReader);
 }
 
-HJets hanalysis::HBottomTagger::GetJetBdt(const HJets &Jets, const Reader &BottomReader)
+Jets hanalysis::HBottomTagger::GetJetBdt(const Jets &jets, const Reader &BottomReader)
 {
-    HJets NewJets;
+    Jets NewJets;
     Print(HInformation, "Get Jet Bdt");
-    for (const auto Jet : Jets) {
+    for (const auto Jet : jets)  {
         if (!Jet.has_user_info<HJetInfo>()) {
             Print(HError, "Get Jet Bdt", "No Jet Info");
             continue;

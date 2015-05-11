@@ -23,9 +23,9 @@ public:
       Print(HError, "get branches", "depreciated");
     }
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const TMVA::Reader &reader);
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const TMVA::Reader &reader);
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const Reader &reader){
+    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const Reader &reader){
       Print(HError, "get bdt", "depreciated");
     }
 
@@ -37,7 +37,7 @@ public:
 
     std::vector<HTriplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
 
-    std::vector<HTriplet> GetBdt(const HJets &Jets, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader){
+    std::vector<HTriplet> GetBdt(const Jets &jets, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader){
       Print(HError, "get bdt", "depreciated");
     }
 

@@ -65,11 +65,11 @@ private:
 
     void FillBranch(hheavyhiggs::HChargedLeptonicBranch *EventLeptonicBranch, const HOctet44 &Octet);
 
-    std::vector<HOctet44> GetHeavyHiggsEvents(const HJets &Jets, const HJets &Leptons);
+    std::vector<HOctet44> GetHeavyHiggsEvents(const Jets &jets, const Jets &Leptons);
 
     std::vector<hheavyhiggs::HOctet44> GetOctets(const hanalysis::HSextet &Sextet, const fastjet::PseudoJet &MissingEt);
 
-    HOctet44 GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const HJets &Neutrinos, const hanalysis::HObject::Tag Tag);
+    HOctet44 GetOctet(hanalysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const hanalysis::HObject::Tag Tag);
 
     hanalysis::BottomTagger *BottomTagger;
 

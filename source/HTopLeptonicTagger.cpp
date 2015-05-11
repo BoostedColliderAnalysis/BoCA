@@ -80,16 +80,16 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(HEven
     Print(HInformation, "Get Top Tags");
 
     JetTag.HeavyParticles = {TopId};
-    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
-    Print(HInformation, "Jet Number", Jets.size());
+    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
+    Print(HInformation, "Jet Number", jets.size());
 
-    HJets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     Print(HInformation, "Lepton Number", Leptons.size());
 
     std::vector<HDoublet> Doublets;
     for (const auto & Lepton : Leptons)
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets) {
             HDoublet Doublet(Jet, Lepton);
             Doublet.SetTag(GetTag(Doublet));
             if (Doublet.Tag() != Tag) continue;
@@ -128,13 +128,13 @@ hanalysis::HObject::Tag hanalysis::HTopLeptonicTagger::GetTag(const HDoublet &Do
     return kSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const HJets &Jets, HJets &Leptons, const hanalysis::Reader & Reader)
+std::vector<hanalysis::HDoublet>  hanalysis::HTopLeptonicTagger::GetBdt(const Jets &jets, Jets &Leptons, const hanalysis::Reader & Reader)
 {
 
     Print(HInformation, "Get Bdt");
     std::vector<HDoublet> Doublets;
     for (const auto & Lepton : Leptons) {
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets) {
             HDoublet Doublet(Jet, Lepton);
             Branch = GetBranch(Doublet);
             Doublet.SetBdt(Reader.Bdt());

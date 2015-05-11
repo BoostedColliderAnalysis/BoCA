@@ -112,18 +112,18 @@ HEventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const HDoublet &Doublet
 std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const HParticleId MotherId)
 {
     Print(HInformation, "Get Jet Pair Tags", GetParticleName(MotherId));
-    HJets Jets = GetJets(Event);
-    Print(HDebug, "Number of Jets", Jets.size());
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
+    Jets jets = GetJets(Event);
+    Print(HDebug, "Number of Jets", jets.size());
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
 
-    HJets BdtJets = Jets;
+    Jets BdtJets = jets;
 
     std::vector<HEventJetPairBranch> JetPairBranches;
-    if (Jets.empty()) return JetPairBranches;
-    Print(HDebug, "Number BDT Jets", Jets.size());
+    if (jets.empty()) return JetPairBranches;
+    Print(HDebug, "Number BDT Jets", jets.size());
 
-    HJets Particles = Event.GetParticles()->Generator();
+    Jets Particles = Event.GetParticles()->Generator();
     if (Tag == kSignal) Particles = RemoveIfWrongAbsFamily(Particles, BottomId, MotherId);
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //     if (Tag == HBackground) Particles = RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
@@ -131,18 +131,18 @@ std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysi
     if (
         Tag == kSignal &&  // THIS SHOULD BE ENABLED AGAIN
         Particles.size() != 2) Print(HError, "Where is the quark pair?", Particles.size());
-    HJets BottomJets;
+    Jets BottomJets;
     Print(HDebug, "Number of Bottoms", Particles.size());
 
     if (Tag == kSignal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Particle : Particles) {
-            Jets = SortedByMinDeltaRTo(Jets, Particle);
-            if (Jets.front().delta_R(Particle) > detector_geometry().JetConeSize) continue;
+            jets = SortedByMinDeltaRTo(jets, Particle);
+            if (jets.front().delta_R(Particle) > detector_geometry().JetConeSize) continue;
 
-            BottomJets.emplace_back(Jets.front());
-            if (Jets.size() > 1) Jets.erase(Jets.begin());
+            BottomJets.emplace_back(jets.front());
+            if (jets.size() > 1) jets.erase(jets.begin());
         }
-    } else if (Tag == kBackground) BottomJets = Jets; // THIS SHOULD BE ENABLED AGAIN
+    } else if (Tag == kBackground) BottomJets = jets; // THIS SHOULD BE ENABLED AGAIN
 //     if (Tag == kSignal && BottomJets.size() != 2) Print(HError, "Number of Matching Jets", BottomJets.size());
 
     std::vector<HDoublet> Doublets;
@@ -177,16 +177,16 @@ hanalysis::HObject::Tag hanalysis::HJetPairTagger::GetTag(const HDoublet &)
     return kSignal;
 }
 
-std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const HJets &Jets, const hanalysis::Reader &JetPairReader)
+std::vector<hanalysis::HDoublet>  hanalysis::HJetPairTagger::GetBdt(const Jets &jets, const hanalysis::Reader &JetPairReader)
 {
     std::vector<HDoublet>  Doublets;
-    for (auto Jet1 = Jets.begin(); Jet1 != Jets.end(); ++Jet1)
-        for (auto Jet2 = Jet1 + 1; Jet2 != Jets.end(); ++Jet2) {
+    for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
+        for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
             HDoublet Doublet;
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) Doublet.SetSinglets((*Jet1), (*Jet2));
             else Doublet.SetSinglets((*Jet2), (*Jet1));
-            for (const auto & Jet : Jets) if (Jet != *Jet1 && Jet != *Jet2) Doublet.AddRestJet(Jet);
-            if (Doublet.RestJets().size() != Jets.size() - 2) Print(HError, "to many jets in the rest jet vector");
+            for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) Doublet.AddRestJet(Jet);
+            if (Doublet.RestJets().size() != jets.size() - 2) Print(HError, "to many jets in the rest jet vector");
 //             if (std::abs(Doublet.DeltaRap()) < detector_geometry().JetConeSize) continue;
             Branch = GetBranch(Doublet);
             Doublet.SetBdt(JetPairReader.Bdt());

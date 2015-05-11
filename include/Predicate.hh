@@ -265,30 +265,31 @@ inline std::vector<HMultiplet> SortByMassTo(std::vector<HMultiplet> &Multiplets,
   return Multiplets;
 }
 
-HJets RemoveIfWrongAbsFamily(const HJets &jets, const int particle_id, int mother_id);
+Jets RemoveIfWrongAbsFamily(const Jets &jets, const int particle_id, int mother_id);
 
-HJets RemoveIfWrongFamily(const HJets &jets, const int particle_id, int mother_id);
+Jets RemoveIfWrongFamily(const Jets &jets, const int particle_id, int mother_id);
 
-HJets RemoveIfWrongAbsStepFamily(const HJets &jets, const int particle_id , const int mother_2_id);
+Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int particle_id , const int mother_2_id);
 
-HJets RemoveIfWrongAbsStepMother(const HJets &jets, const int mother_2_id);
+Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id);
 
-HJets RemoveIfWrongParticle(const HJets &NewJets, const int ParticleId);
+Jets RemoveIfWrongParticle(const Jets &NewJets, const int ParticleId);
 
-HJets RemoveIfWrongAbsParticle(const HJets &NewJets, const int ParticleId);
+Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const int ParticleId);
 
-HJets RemoveIfWrongAbsMother(const HJets &NewJets, const int MotherId);
+Jets RemoveIfWrongAbsMother(const Jets &NewJets, const int MotherId);
 
-HJets RemoveIfAbsMother(const HJets &NewJets, const int MotherId);
+Jets RemoveIfAbsMother(const Jets &NewJets, const int MotherId);
 
 
-HJets RemoveIfLetpons(const HJets &Jets);
+Jets RemoveIfLetpons(const Jets &jets);
 
-HJets RemoveIfQuark(const HJets &Jets);
+Jets RemoveIfQuark(const Jets &jets);
 
-HJets RemoveIfNot5Quarks(const HJets &Jets);
+Jets RemoveIfNot5Quarks(const Jets &jets);
 
 // template<typename Predicate>
-// HJets FindIf(const HJets &jets){
+// Jets FindIf(const Jets &jets){
 //   return std::find_if(jets.begin(),jets.end(),Predicate);
 // }
+  

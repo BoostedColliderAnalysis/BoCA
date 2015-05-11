@@ -26,7 +26,7 @@ public:
       return static_cast<HBottomBranch &>(*clones_array.At(entry)).Bdt;
     }
 
-    void SaveEntries(const HJets &jets){
+    void SaveEntries(const Jets &jets){
       for (const auto & jet : jets) static_cast<HBottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
     }
 
@@ -48,9 +48,9 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &jets, const HJets &particles, const hanalysis::HObject::Tag tag);
+    Jets CleanJets(Jets &jets, const Jets &particles, const hanalysis::HObject::Tag tag);
 
-    HJets GetSubJets(const HJets &Jets, const HJets &Particles, const Tag Tag, const int SubJetNumber);
+    Jets GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber);
 
     float DeltaR(const fastjet::PseudoJet &Jet) const;
 

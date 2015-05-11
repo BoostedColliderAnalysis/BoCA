@@ -573,8 +573,8 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 {
     Print(HInformation, "Analysis");
 
-    HJets Particles = event.GetParticles()->Generator();
-    HJets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
+    Jets Particles = event.GetParticles()->Generator();
+    Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Tops.size() != 2) {
         Print(HError, "Not enough top quarks", Tops.size());
         return 0;
@@ -584,11 +584,11 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
     }
 
     if (event.GetJets()->GetMissingEt().pt() < MissingEt()) return 0;
-    HJets Leptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
+    Jets Leptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
     if (Leptons.empty()) return 0;
     if (Leptons.front().pt() < LeptonPt()) return 0;
-    HJets Jets = event.GetJets()->GetJets();
-    if (Jets.size() < 4) return 0;
+    Jets jets = event.GetJets()->GetJets();
+    if (jets.size() < 4) return 0;
 
 
     ++event_sum_;
@@ -670,22 +670,22 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // bool hheavyhiggs::HAnalysisMva::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get Bottom Reader", Tag);
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
-//     if (Jets.empty()) return 0;
+//     if (jets.empty()) return 0;
 //
-// //     Jets = static_cast<hanalysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(Jets);
+// //     jets = static_cast<hanalysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(jets);
 //
-//     HJets Particles = Event.GetParticles()->Generator();
+//     Jets Particles = Event.GetParticles()->Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     for (const auto & Particle : Particles) {
-//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+//         static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //     }
 //
-//     for (const auto & Jet : Jets) {
+//     for (const auto & Jet : jets)  {
 //         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
 //         if (std::abs(Jet.rap()) > BottomTagger.detector_geometry().TrackerEtaMax) continue;
 //         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
@@ -710,16 +710,16 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // bool hheavyhiggs::HAnalysisMva::GetJetPairReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(HDebug, "Get JetPair Reader", Tag);
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
-//     if (Jets.empty()) return 0;
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
+//     if (jets.empty()) return 0;
 //
-//     HJets Particles = Event.GetParticles()->Generator();
+//     Jets Particles = Event.GetParticles()->Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsFamily(BottomId, GluonId)), Particles.end());
 //     for (const auto & Particle : Particles) {
-//         std::sort(Jets.begin(), Jets.end(), MinDeltaR(Particle));
-//         static_cast<hanalysis::HJetInfo *>(Jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
+//         static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //     }
 //
 //     if (Doublets.size() > 1) {
@@ -751,7 +751,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 //     Print(HDebug, "Get W Semi Reader", Tag);
 //
-//     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+//     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 //
 //     std::vector<hanalysis::HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
@@ -787,11 +787,11 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) return 0;
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) return 0;
 //
-//     std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(Jets, WHadronicReader, bottom_tagger_, BottomReader);
+//     std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(jets, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     if (Doublets.size() > 1) {
 //         std::sort(Doublets.begin(), Doublets.end());
@@ -822,15 +822,15 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 // //     Print(HInformation, "Get Event semi", Tag);
 // //
-// //     HJets Jets = bottom_tagger_.GetJets(Event);
-// //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-// //     if (Jets.empty()) return 0;
+// //     Jets jets = bottom_tagger_.GetJets(Event);
+// //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+// //     if (jets.empty()) return 0;
 // //
-// //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+// //     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 // //     if (Leptons.size() < 2) return 0;
 // //
 // //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-// //     std::vector<hanalysis::HDoublet> Doublets = TopLeptonicTagger.GetBdt(Jets, Leptons, TopLeptonicReader);
+// //     std::vector<hanalysis::HDoublet> Doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 // //
 // //     if (Doublets.size() > 1) {
 // //         std::sort(Doublets.begin(), Doublets.end());
@@ -862,16 +862,16 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) return 0;
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) return 0;
 //
 //
-// //     std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(Jets, WHadronicReader);
-// //     std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
+// //     std::vector<hanalysis::HDoublet> Doublets = WHadronicTagger.GetBdt(jets, WHadronicReader);
+// //     std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, jets, TopHadronicReader);
 //
 //
-//     std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+//     std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     if (Triplets.size() > 1) {
 //         std::sort(Triplets.begin(), Triplets.end());
@@ -903,14 +903,14 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) return 0;
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) return 0;
 //
-//     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+//     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 //     std::vector<hanalysis::HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-//     std::vector<hanalysis::HTriplet> Triplets = TopSemiTagger.GetBdt(Doublets, Jets, TopSemiReader);
+//     std::vector<hanalysis::HTriplet> Triplets = TopSemiTagger.GetBdt(Doublets, jets, TopSemiReader);
 //
 //     if (Triplets.size() > 1) {
 //         std::sort(Triplets.begin(), Triplets.end());
@@ -942,14 +942,14 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 // //     Print(HInformation, "Get Event semi", Tag);
 // //
-// //     HJets Jets = bottom_tagger_.GetJets(Event);
-// //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-// //     if (Jets.empty()) return 0;
+// //     Jets jets = bottom_tagger_.GetJets(Event);
+// //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+// //     if (jets.empty()) return 0;
 // //
-// //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+// //     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 // //     if (Leptons.size() < 2) return 0;
 // //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-// //     std::vector<hanalysis::HDoublet> Doublets = TopLeptonicTagger.GetBdt(Jets, Leptons, TopLeptonicReader);
+// //     std::vector<hanalysis::HDoublet> Doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 // //
 // //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsLeptonicTagger.GetBdt(Doublets, MissingEt, HeavyHiggsLeptonicReader);
 // //
@@ -994,18 +994,18 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 //     Print(HInformation, "Get Event semi", Tag);
 //
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) return 0;
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) return 0;
 //
-//     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+//     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 //     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-//     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
+//     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, jets, TopSemiReader);
 //
-// //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
-// //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+// //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(jets, WHadronicReader);
+// //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, jets, TopHadronicReader);
+//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 //
@@ -1055,29 +1055,29 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 // //     Print(HInformation, "Get Leptonic reader", Tag);
 // //
-// //     HJets Jets = bottom_tagger_.GetJets(Event);
-// //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-// //     if (Jets.empty()) return 0;
+// //     Jets jets = bottom_tagger_.GetJets(Event);
+// //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+// //     if (jets.empty()) return 0;
 // //
 // //     Print(HInformation, "Jet Pair");
 // //
-// //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
+// //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
 // //
 // //     Print(HInformation, "Top");
-// //     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+// //     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 // //     if (Leptons.size() < 2) return 0;
 // //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-// //     std::vector<hanalysis::HDoublet> LeptonicDoublets = TopLeptonicTagger.GetBdt(Jets, Leptons, TopLeptonicReader);
+// //     std::vector<hanalysis::HDoublet> LeptonicDoublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 // //
 // //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsLeptonicTagger.GetBdt(LeptonicDoublets, MissingEt, HeavyHiggsLeptonicReader);
 // //
 // //     HEventStruct EventStruct;
 // //     EventStruct.LeptonNumber = Leptons.size();
-// //     EventStruct.JetNumber = Jets.size();
+// //     EventStruct.JetNumber = jets.size();
 // //     EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
 // //     EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
 // //
-// //     std::vector<HOctet> Octets = EventLeptonicTagger.GetBdt(Sextets, Doublets, Jets, EventStruct, EventLeptonicReader);
+// //     std::vector<HOctet> Octets = EventLeptonicTagger.GetBdt(Sextets, Doublets, jets, EventStruct, EventLeptonicReader);
 // //     if (Octets.empty()) return 0;
 // //     Octets.front().SetTag(Tag);
 // //
@@ -1109,20 +1109,20 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // {
 //     Print(HInformation, "Get Signature Semi Reader", Tag);
 //
-//     HJets Jets = bottom_tagger_.GetJets(Event);
-//     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader);
-//     if (Jets.empty()) return 0;
+//     Jets jets = bottom_tagger_.GetJets(Event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
+//     if (jets.empty()) return 0;
 //
-//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
+//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
 //
-//     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+//     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 //     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-//     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
+//     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, jets, TopSemiReader);
 //
-// //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
-//     //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+// //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(jets, WHadronicReader);
+//     //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, jets, TopHadronicReader);
+//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
 //
@@ -1158,24 +1158,24 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //     Print(HInformation, "Get Event semi", Tag);
 //     //must be in the beginning to get the counting right
 //
-//     HJets PreJets = bottom_tagger_.GetJets(Event);
-//     HJets Jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
-//     HJets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
-//     if (Jets.empty()) return 0;
+//     Jets PreJets = bottom_tagger_.GetJets(Event);
+//     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
+//     Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
+//     if (jets.empty()) return 0;
 //     if (SubJets.empty()) return 0;
 //
-//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(Jets, JetPairReader);
+//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
 // //     Print(HError, "Doublets", Doublets.size());
 //
-//     HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+//     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
 //     std::vector<hanalysis::HDoublet> DoubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-//     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, Jets, TopSemiReader);
+//     std::vector<hanalysis::HTriplet> TripletsSemi = TopSemiTagger.GetBdt(DoubletsSemi, jets, TopSemiReader);
 // //     Print(HError, "Triplets Semi", TripletsSemi.size());
 //
-// //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(Jets, WHadronicReader);
-// //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, Jets, TopHadronicReader);
-//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(Jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+// //     std::vector<hanalysis::HDoublet> DoubletsHadronic = WHadronicTagger.GetBdt(jets, WHadronicReader);
+// //     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(DoubletsHadronic, jets, TopHadronicReader);
+//     std::vector<hanalysis::HTriplet> TripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
 // //     Print(HError, "Triplets Hadronic", TripletsHadronic.size());
 //
 //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(TripletsSemi, TripletsHadronic, HeavyHiggsSemiReader);
@@ -1186,13 +1186,13 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //
 //     HEventStruct EventStruct;
 //     EventStruct.LeptonNumber = Leptons.size();
-//     EventStruct.JetNumber = Jets.size();
+//     EventStruct.JetNumber = jets.size();
 //     EventStruct.BottomNumber = Event.GetJets()->GetBottomJets().size();
 //     EventStruct.ScalarHt = Event.GetJets()->GetScalarHt();
 //     EventStruct.MissingEt = Event.GetJets()->GetMissingEt().pt();
 // //   if (EventStruct.LeptonNumber > 0) EventStruct.LeptonPt = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets()).front().pt();
 //
-//     std::vector<HEventMultiplet<HOctet>> Events = EventSemiTagger.GetBdt(Octets, Jets, SubJets, Leptons,  EventStruct, EventSemiReader);
+//     std::vector<HEventMultiplet<HOctet>> Events = EventSemiTagger.GetBdt(Octets, jets, SubJets, Leptons,  EventStruct, EventSemiReader);
 //     if (Events.empty()) return 0;
 //     Events.front().SetTag(Tag);
 // //     ++ObjectNumber; // FIXME should be switched on to avoid long duration of last step

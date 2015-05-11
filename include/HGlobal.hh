@@ -10,7 +10,7 @@
 
 # include "fastjet/PseudoJet.hh"
 
-typedef std::vector<fastjet::PseudoJet> HJets;
+typedef std::vector<fastjet::PseudoJet> Jets;
 typedef std::vector<TLorentzVector> HVectors;
 typedef std::vector<std::string> Strings;
 

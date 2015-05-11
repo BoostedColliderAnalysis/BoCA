@@ -161,7 +161,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
     const int TopNumber = 2;
 
 //     int WHadId = WTagger.GetWHadId(Event);
-    HJets TopParticles = Event.GetParticles()->Generator();
+    Jets TopParticles = Event.GetParticles()->Generator();
 //     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     fastjet::PseudoJet TopQuark;
@@ -170,15 +170,15 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
         else Print(HError, "Where is the Top?", TopParticles.size());
     }
 
-    HJets Jets = GetJets(Event);
-    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
-    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
+    Jets jets = GetJets(Event);
+    //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
+    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(jets, WReader);
     std::vector<hanalysis::HTriplet> Triplets;
 
-    HJets Leptons = Event.GetLeptons()->GetLeptonJets();
+    Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 
 // // 3 Jets form one top
-//     for (const auto & Jet : Jets) {
+//     for (const auto & Jet : jets)  {
 //         for (const auto & Doublet : Doublets) {
 //           hanalysis::HTriplet Triplet(Doublet, Jet);
 //             if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
@@ -192,13 +192,13 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 // // Print(HError, "Number of Triplets 1", Triplets.size());
 //
 // // 2 Jet form one top
-//     for (const auto Jet : Jets) {
-//         HJets Pieces = GetSubJets(Jet, 2);
+//     for (const auto Jet : jets)  {
+//         Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 1 jet form one W
 //         std::vector<hanalysis::HDoublet> PiecesDoublets = WTagger.GetBdt(Pieces, WReader);
 //         for (const auto & Doublet : PiecesDoublets)
-//             for (const auto & Jet2 : Jets) {
+//             for (const auto & Jet2 : jets)  {
 //                 if (Jet == Jet2) continue;
 //                 hanalysis::HTriplet Triplet(Doublet, Jet2);
 //                 if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
@@ -212,8 +212,8 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 
 
 // 1 Jet forms one top
-    for (const auto Jet : Jets) {
-        HJets Pieces = GetSubJets(Jet, 3);
+    for (const auto Jet : jets)  {
+        Jets Pieces = GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
@@ -237,8 +237,8 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
     }
 
 // // 1 Jet forms one top
-//     for (const auto Jet : Jets) {
-//         HJets Pieces = GetSubJets(Jet, 2);
+//     for (const auto Jet : jets)  {
+//         Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 //         for (const auto & Piece1 : Pieces) {
 // // 1 subjets forms one W
@@ -260,7 +260,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 //     }
 
 // // 1 Jet forms one top
-//     for (const auto Jet : Jets) {
+//     for (const auto Jet : jets)  {
 //         hanalysis::HTriplet Triplet(Jet);
 //         if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
 //         if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
@@ -314,12 +314,12 @@ hanalysis::HObject::Tag HTopHadronTagger::GetTag(const fastjet::PseudoJet &)
     return kSignal;
 }
 
-std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const HJets &Jets, const hanalysis::Reader &TopHadronicReader)
+std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const hanalysis::Reader &TopHadronicReader)
 {
 
     std::vector<hanalysis::HTriplet> Triplets;
     for (const auto & Doublet : Doublets)
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             if (Jet == Doublet.Singlet1()) continue;
             if (Jet == Doublet.Singlet2()) continue;
             hanalysis::HTriplet Triplet(Doublet, Jet);
@@ -346,29 +346,29 @@ hanalysis::HTriplet HTopHadronTagger::GetBdt(hanalysis::HTriplet &Triplet, const
 }
 
 
-std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, const HJets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
+std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
 {
     std::vector<hanalysis::HTriplet> Triplets;
 
 // // 2 jets form a W
-//     std::vector<hanalysis::HDoublet> Doublets = WTagger.GetPairBdt(Jets, WReader);
+//     std::vector<hanalysis::HDoublet> Doublets = WTagger.GetPairBdt(jets, WReader);
 // // 3 jets form a top
-//     std::vector<hanalysis::HTriplet> Triplets = GetBdt(Doublets, Jets, TopHadronicReader);
+//     std::vector<hanalysis::HTriplet> Triplets = GetBdt(Doublets, jets, TopHadronicReader);
 //
 // // 2 jets form a top
-//     for (const auto & Jet : Jets) {
-//         HJets Pieces = GetSubJets(Jet, 2);
+//     for (const auto & Jet : jets)  {
+//         Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 2 subjets form a W
 //         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetPairBdt(Pieces, WReader);
 // // 2 subjets and one jet form a top
-//         std::vector<hanalysis::HTriplet> PieceTriplets = GetBdt(PieceDoublets, Jets, TopHadronicReader);
+//         std::vector<hanalysis::HTriplet> PieceTriplets = GetBdt(PieceDoublets, jets, TopHadronicReader);
 //         Triplets.insert(Triplets.end(), PieceTriplets.begin(), PieceTriplets.end());
 //     }
 
 // 1 jet forms a top
-    for (const auto & Jet : Jets) {
-        HJets Pieces = GetSubJets(Jet, 3);
+    for (const auto & Jet : jets)  {
+        Jets Pieces = GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 // 2 subjets form a W
         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetPairBdt(Pieces, WReader);
@@ -378,8 +378,8 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, con
     }
 
 // // 1 jet forms a top
-//     for (const auto & Jet : Jets) {
-//         HJets Pieces = GetSubJets(Jet, 2);
+//     for (const auto & Jet : jets)  {
+//         Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 1 subjets form a W
 //         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetSingletBdt(Pieces, WReader);
@@ -389,7 +389,7 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const HJets &Jets, con
 //     }
 //
 // // 1 jet forms a top
-//     for (const auto & Jet : Jets) {
+//     for (const auto & Jet : jets)  {
 // // no supbjets
 //         hanalysis::HTriplet Triplet(Jet);
 //         for (const auto Lepton : Leptons) if (Triplet.Jet().delta_R(Lepton) && Lepton.pt() > Triplet.LeptonPt) Triplet.LeptonPt = Lepton.pt();

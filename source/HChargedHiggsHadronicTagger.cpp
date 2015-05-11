@@ -74,19 +74,19 @@ std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagge
 
 
     JetTag.HeavyParticles = {WId, TopId, ChargedHiggsId};
-    HJets Jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
 
-    //     Jets = bottom_tagger_.GetJetBdt(Jets, BottomReader); // TODO reenable this
+    //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    std::vector<HDoublet> Doublets = WTagger.GetBdt(Jets, WReader);
+    std::vector<HDoublet> Doublets = WTagger.GetBdt(jets, WReader);
 
-    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, Jets, TopHadronicReader);
+    std::vector<HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, jets, TopHadronicReader);
 
 
 
     std::vector<HQuartet31> Quartets;
     for (const auto & Triplet : Triplets)
-        for (const auto & Jet : Jets) {
+        for (const auto & Jet : jets)  {
             if (Triplet.Singlet() == Jet) continue;
             if (Triplet.Doublet().Singlet1() == Jet) continue;
             if (Triplet.Doublet().Singlet2() == Jet) continue;
@@ -116,12 +116,12 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQu
 }
 
 
-std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<hanalysis::HTriplet> Triplets,std::vector<fastjet::PseudoJet> Jets, const hanalysis::Reader &Reader)
+std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<hanalysis::HTriplet> &Triplets, Jets &jets, const hanalysis::Reader &Reader)
 {
     Print(HInformation, "Get Heavy Higgs Bdt");
     std::vector<hanalysis::HQuartet31> Quartets;
     for (const auto & Triplet : Triplets)
-      for (const auto & Jet : Jets) {
+      for (const auto & Jet : jets)  {
         if (Triplet.Singlet() == Jet) continue;
         if (Triplet.Doublet().Singlet1() == Jet) continue;
         if (Triplet.Doublet().Singlet2() == Jet) continue;

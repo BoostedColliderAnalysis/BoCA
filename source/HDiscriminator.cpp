@@ -16,17 +16,17 @@ hanalysis::HDiscriminator::~HDiscriminator()
 
 }
 
-HJets hanalysis::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const float ScalarHt)
+Jets hanalysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
 {
 
     Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
 
-    const HJets Jets;
+    const Jets jets;
 
     if (EFlowJets.size() == 0) {
 
         Print(HInformation, "No EFlow Jets");
-        return Jets;
+        return jets;
 
     }
 
@@ -34,10 +34,10 @@ HJets hanalysis::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const 
 
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-    const HJets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
+    const Jets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
 
-    HJets MassDropJets = GetMassDropJets(FatJets);
-//     HJets MassDropJets = GetSubJetTaggedJets(FatJets);
+    Jets MassDropJets = GetMassDropJets(FatJets);
+//     Jets MassDropJets = GetSubJetTaggedJets(FatJets);
 
     MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
 
@@ -50,29 +50,29 @@ HJets hanalysis::HDiscriminator::GetCandidateJets(const HJets &EFlowJets, const 
 }
 
 
-HJets hanalysis::HDiscriminator::GetCandidateJetsForced(const HJets &EFlowJets, const float ScalarHt)
+Jets hanalysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlowJets, const float ScalarHt)
 {
 
     Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
 
-    const HJets Jets;
+    const Jets jets;
 
     if (EFlowJets.size() == 0) {
 
         Print(HInformation, "No EFlow Jets");
-        return Jets;
+        return jets;
 
     }
 
 //     float DeltaR = 1000. / ScalarHt;
     float DeltaR = 750. / ScalarHt;
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
-    HJets MassDropJets;
+    Jets MassDropJets;
 
     while (MassDropJets.empty() && DeltaR < 7) {
 
         const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-        const HJets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
+        const Jets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
 
         MassDropJets = GetMassDropJets(FatJets);
         MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());

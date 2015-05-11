@@ -18,35 +18,35 @@ public:
 
     int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
 
-    HJets GetMultiJetBdt(HJets &jets, const TMVA::Reader &reader);
+    Jets GetMultiJetBdt(Jets &jets, const TMVA::Reader &reader);
 
-    HJets GetJetBdt(HEvent &event, const TMVA::Reader &reader);
+    Jets GetJetBdt(HEvent &event, const TMVA::Reader &reader);
 
-    HJets GetSubBdt(const HJets &jets, const TMVA::Reader &reader, const int sub_jet_number);
+    Jets GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-//     HJets GetMultiplets(HEvent &event, const TMVA::Reader &reader) {
+//     Jets GetMultiplets(HEvent &event, const TMVA::Reader &reader) {
 //       GetJetBdt(event)
 //     }
 
     int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader){
-      HJets jets = GetJetBdt(event,reader);
+      Jets jets = GetJetBdt(event,reader);
       SaveEntries(jets);
       return jets.size();
     }
 
-    HJets GetMultiJetBdt(HJets &jets, const Reader &reader) {
+    Jets GetMultiJetBdt(Jets &jets, const Reader &reader) {
         Print(HError, "Bdt", "depreciated");
     }
 
-    HJets GetJetBdt(const HJets &jets, const Reader &reader) {
+    Jets GetJetBdt(const Jets &jets, const Reader &reader) {
         Print(HError, "Bdt", "depreciated");
     }
 
-    HJets GetJetBdt(const HJets &jets, const TMVA::Reader &reader) {
+    Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader) {
       Print(HError, "Bdt", "depreciated");
     }
 
-    HJets GetSubBdt(const HJets &jets, const Reader &reader, const int sub_jet_number) {
+    Jets GetSubBdt(const Jets &jets, const Reader &reader, const int sub_jet_number) {
         Print(HError, "Bdt", "depreciated");
     }
 
@@ -54,7 +54,7 @@ public:
         return static_cast<HBottomBranch &>(*clones_array.At(entry)).Bdt;
     }
 
-    void SaveEntries(const HJets &jets) {
+    void SaveEntries(const Jets &jets) {
         for (const auto & jet : jets) static_cast<HBottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
     }
 
@@ -72,9 +72,9 @@ private:
 
     void DefineVariables();
 
-    HJets CleanJets(HJets &jets, const HJets &particles, const hanalysis::HObject::Tag tag);
+    Jets CleanJets(Jets &jets, const Jets &particles, const hanalysis::HObject::Tag tag);
 
-    HJets GetSubJets(const HJets &jets, const HJets &particles, const hanalysis::HObject::Tag tag, const int sub_jet_number);
+    Jets GetSubJets(const Jets &jets, const Jets &particles, const hanalysis::HObject::Tag tag, const int sub_jet_number);
 
     float GetDeltaR(const fastjet::PseudoJet &jet) const;
 

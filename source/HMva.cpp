@@ -91,7 +91,7 @@ HObservable hanalysis::HMva::NewObservable(float &value, const std::string &titl
 
 }
 
-HJets hanalysis::HMva::GranulatedJets(const HJets &NewEFlowJets)
+Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
     const float CellDeltaRap = DetectorGeometry.MinCellResolution;
@@ -99,8 +99,8 @@ HJets hanalysis::HMva::GranulatedJets(const HJets &NewEFlowJets)
     const float PtCutOff = DetectorGeometry.MinCellPt;
 
 
-    HJets EFlowJets = sorted_by_pt(NewEFlowJets);
-    HJets NewGranulatedJets;
+    Jets EFlowJets = sorted_by_pt(NewEFlowJets);
+    Jets NewGranulatedJets;
     NewGranulatedJets.push_back(EFlowJets[0]);
 
     for (size_t i = 1; i < EFlowJets.size(); ++i) {
@@ -160,23 +160,23 @@ HJets hanalysis::HMva::GranulatedJets(const HJets &NewEFlowJets)
 
 }
 
-HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
+Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 {
     Print(HInformation, "JetTag", JetTag.HeavyParticles.size());
     return GetJets(Event);
 }
 
-HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
+Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
 {
 //   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), DetectorGeometry.JetDefinition);
-    HJets Jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
-    if (Jets.size() < 1) {
+    Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
+    if (jets.size() < 1) {
         delete ClusterSequence;
-        return Jets;
+        return jets;
     }
     ClusterSequence->delete_self_when_unused();
-    for (auto & Jet : Jets) {
+    for (auto & Jet : jets)  {
         std::vector<HConstituent> Constituents;
         for (const auto & Constituent : Jet.constituents()) {
             std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
@@ -184,13 +184,13 @@ HJets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
         }
         Jet.set_user_info(new HJetInfo(Constituents));
     }
-    return Jets;
+    return jets;
 }
 
-HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
+Jets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
 {
     Print(HInformation, "Get Sub Jets");
-    HJets Pieces;
+    Jets Pieces;
     if (!Jet.has_constituents()) {
         Print(HError, "Pieceless jet");
         return Pieces;
@@ -201,7 +201,7 @@ HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJe
     }
 //     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry.JetConeSize));
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), DetectorGeometry.SubJetDefinition);
-    HJets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
+    Jets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
     ClusterSequence->delete_self_when_unused();
 
     for (auto & Piece : NewPieces) {
@@ -222,7 +222,7 @@ HJets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJe
 
 fastjet::PseudoJet hanalysis::HMva::GetMissingEt(hanalysis::HEvent &Event)
 {
-    HJets granulated_jets = GranulatedJets(Event.GetJets()->GetStructuredEFlowJets());
+    Jets granulated_jets = GranulatedJets(Event.GetJets()->GetStructuredEFlowJets());
     fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
     return fastjet::PseudoJet(-jet_sum.px(), -jet_sum.py(), -jet_sum.pz(), jet_sum.e());
 }
