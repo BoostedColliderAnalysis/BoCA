@@ -47,7 +47,6 @@ ClassImp(BottomBranch)
 
 BottomBranch::BottomBranch()
 {
-
     VertexMass = InitialValue();
     MaxDisplacement = InitialValue();
     MeanDisplacement = InitialValue();
@@ -58,11 +57,9 @@ BottomBranch::BottomBranch()
     VertexDeltaR = InitialValue();
     VertexSpread = InitialValue();
     EnergyFraction = InitialValue();
-
     Tag = int(InitialValue());
     Bdt = InitialValue();
     BTag = int(InitialValue());
-
 }
 
 
@@ -70,7 +67,6 @@ ClassImp(HTauBranch)
 
 HTauBranch::HTauBranch()
 {
-
     EmRadius = InitialValue();
     TrackRadius = InitialValue();
     MomentumFraction = InitialValue();
@@ -79,8 +75,7 @@ HTauBranch::HTauBranch()
     ClusterMass = InitialValue();
     TrackMass = InitialValue();
     FlightPath = InitialValue();
-    TrtHtFraction = InitialValue();
-
+    TrtHtFraction = InitialValue()
     Tag = int(InitialValue());
     Bdt = InitialValue();
 
@@ -90,7 +85,6 @@ ClassImp(HPairBranch)
 
 HPairBranch::HPairBranch()
 {
-
     Ht = InitialValue();
     DeltaPt = InitialValue();
     DeltaHt = InitialValue();
@@ -98,7 +92,6 @@ HPairBranch::HPairBranch()
     DeltaRap = InitialValue();
     DeltaPhi = InitialValue();
     DeltaR = InitialValue();
-
     Bdt = InitialValue();
     Tag = int(InitialValue());
 

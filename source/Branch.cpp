@@ -47,7 +47,6 @@ ClassImp(BottomBranch)
 
 BottomBranch::BottomBranch()
 {
-
     VertexMass = InitialValue();
     MaxDisplacement = InitialValue();
     MeanDisplacement = InitialValue();
@@ -58,18 +57,15 @@ BottomBranch::BottomBranch()
     VertexDeltaR = InitialValue();
     VertexSpread = InitialValue();
     EnergyFraction = InitialValue();
-
     Tag = int(InitialValue());
     Bdt = InitialValue();
 
 }
 
-
 ClassImp(HTauBranch)
 
 HTauBranch::HTauBranch()
 {
-
     EmRadius = InitialValue();
     TrackRadius = InitialValue();
     MomentumFraction = InitialValue();

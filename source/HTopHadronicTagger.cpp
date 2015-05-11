@@ -126,13 +126,13 @@ void hanalysis::HTopHadronicTagger::GetBottomInfo(TopHadronicBranch &branch, con
 
     branch.VertexMass = jet.user_info<hanalysis::JetInfo>().VertexMass();
     float MaxDisp = jet.user_info<hanalysis::JetInfo>().MaxDisplacement();
-    if (MaxDisp > 0) branch.MaxDisplacement = std::log(MaxDisp);
+    if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
     else branch.MaxDisplacement = -3;
     float MeanDisp = jet.user_info<hanalysis::JetInfo>().MeanDisplacement();
-    if (MeanDisp > 0) branch.MeanDisplacement = std::log(MeanDisp);
+    if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
     else branch.MeanDisplacement = -3;
     float SumDisp = jet.user_info<hanalysis::JetInfo>().SumDisplacement();
-    if (SumDisp > 0) branch.SumDisplacement = std::log(SumDisp);
+    if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
     else branch.SumDisplacement = -3;
     branch.Multipliticity = jet.user_info<hanalysis::JetInfo>().VertexNumber();
     //     top_hadronic_branch.DeltaR = bottom_tagger_.GetDeltaR(jet);
@@ -147,8 +147,6 @@ int hanalysis::HTopHadronicTagger::Train(hanalysis::HEvent &event, const hanalys
 {
 
     Print(kInformation, "Get Top Tags");
-
-    float pre_cut = 0;
 
     int w_had_id = w_hadronic_tagger_.GetWHadId(event);
     Jets top_particles = event.GetParticles()->Generator();
@@ -263,7 +261,6 @@ int hanalysis::HTopHadronicTagger::Train(hanalysis::HEvent &event, const hanalys
                 }
             }
         }
-
     }
 
 // 1 Jet forms one top

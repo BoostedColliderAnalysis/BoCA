@@ -101,13 +101,13 @@ public:
 
 protected:
 
-//     template<typename Multiplet>
-//     FillBranch(const Multiplet &multiplet) {
-//         Mass = multiplet.Mass();
-//         Pt = multiplet.Pt();
-//         Rap = multiplet.Rap();
-//         Phi = multiplet.Phi();
-//     }
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+        Mass = multiplet.Mass();
+        Pt = multiplet.Pt();
+        Rap = multiplet.Rap();
+        Phi = multiplet.Phi();
+    }
 
 private:
 
@@ -141,6 +141,31 @@ public:
 
     float Tag;
     float Bdt;
+
+protected:
+
+  template<typename Multiplet>
+  void FillBranch(const Multiplet &multiplet) {
+    ParticleBranch::FillBranch(multiplet);
+    VertexMass = multiplet.VertexMass();
+    MaxDisplacement = multiplet.MaxDisplacement();
+    MeanDisplacement = multiplet.MeanDisplacement();
+    Phi = multiplet.Phi();
+
+    VertexMass = multiplet.VertexMass();
+    MaxDisplacement = multiplet.MaxDisplacement();
+    MeanDisplacement = multiplet.MeanDisplacement();
+    SumDisplacement = multiplet.SumDisplacement();
+    Multipliticity = multiplet.VertexNumber();
+    DeltaR = multiplet.GetDeltaR();
+    Spread = multiplet.GetSpread();
+    VertexDeltaR = multiplet.GetDeltaR();
+    VertexSpread = multiplet. GetSpread();
+    EnergyFraction = multiplet.EnergyFraction();
+    Tag = multiplet.Tag();
+    Bdt = multiplet.Bdt();
+
+  }
 
 private:
 

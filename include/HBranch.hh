@@ -99,6 +99,16 @@ public:
     float Rap;
     float Phi;
 
+protected:
+
+  template<typename Multiplet>
+  void FillBranch(const Multiplet &multiplet){
+    Mass = multiplet.Mass();
+    Pt = multiplet.Pt();
+    Rap = multiplet.Rap();
+    Phi = multiplet.Phi();
+  }
+
 private:
 
     ClassDef(ParticleBranch, 1)
@@ -132,6 +142,38 @@ public:
 
     float Tag;
     float Bdt;
+
+protected:
+
+  template<typename Multiplet>
+  void FillBranch(const Multiplet &multiplet){
+    ParticleBranch::FillBranch(multiplet);
+    VertexMass = multiplet.VertexMass();
+    MaxDisplacement = multiplet.MaxDisplacement();
+    MeanDisplacement = multiplet.MeanDisplacement();
+    Phi = multiplet.Phi();
+
+    VertexMass = multiplet.user_info<JetInfo>().VertexMass();
+    float MaxDisp = multiplet.user_info<JetInfo>().MaxDisplacement();
+    if (MaxDisp > 0) MaxDisplacement = std::log10(MaxDisp);
+    else MaxDisplacement = -3;
+    float MeanDisp = multiplet.user_info<JetInfo>().MeanDisplacement();
+    if (MeanDisp > 0) MeanDisplacement = std::log10(MeanDisp);
+    else MeanDisplacement = -3;
+    float SumDisp = multiplet.user_info<JetInfo>().SumDisplacement();
+    if (SumDisp > 0) SumDisplacement = std::log10(SumDisp);
+    else SumDisplacement = -3;
+    Multipliticity = multiplet.user_info<JetInfo>().VertexNumber();
+//     DeltaR = GetDeltaR(jet);
+//     Spread = GetSpread(jet);
+//     VertexDeltaR = GetDeltaR(multiplet.user_info<JetInfo>().VertexJet());
+//     VertexSpread = GetSpread(multiplet.user_info<JetInfo>().VertexJet());
+    EnergyFraction = multiplet.user_info<JetInfo>().VertexEnergy() / multiplet.e();
+    Tag = multiplet.user_info<JetInfo>().Tag();
+    Bdt = multiplet.user_info<JetInfo>().Bdt();
+
+
+  }
 
 private:
 
