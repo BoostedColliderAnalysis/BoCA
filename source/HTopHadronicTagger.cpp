@@ -379,7 +379,7 @@ std::vector<hanalysis::Triplet> hanalysis::HTopHadronicTagger::GetTriplets(HEven
 //             Jets Pieces = GetSubJets(Jet, 2);
             //             Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 // 2 subjets form a W
-            std::vector<hanalysis::Doublet> Piecedoublets = static_cast<HWHadronicTagger &>(w_hadronic_reader_.tagger()).GetDoublets(pieces, w_hadronic_reader_.reader());
+            std::vector<hanalysis::Doublet> Piecedoublets = static_cast<HWHadronicTagger &>(w_hadronic_reader_.tagger()).GetJetDoublets(pieces, w_hadronic_reader_.reader());
 //             std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetPairBdt(pieces, WReader);
 // 2 subjets and one jet form a top
             std::vector<hanalysis::Triplet> Piecetriplets = GetBdt(Piecedoublets, jets, reader);
@@ -484,4 +484,5 @@ SubJettiness hanalysis::HTopHadronicTagger::NSubJettiness(const fastjet::PseudoJ
     return sub_jettiness;
 
 }
+
 
