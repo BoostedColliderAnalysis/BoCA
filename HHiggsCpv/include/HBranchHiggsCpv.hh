@@ -1,7 +1,7 @@
 # ifndef HBranchHiggsCpv_hh
 # define HBranchHiggsCpv_hh
 
-# include "HBranch.hh"
+# include "Branch.hh"
 
 namespace hhiggscpv
 {
@@ -30,7 +30,7 @@ class HMvaTop;
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hhiggscpv::HEventBranch : public HBranch
+class hhiggscpv::HEventBranch : public Branch
 {
 
 public:
@@ -59,7 +59,7 @@ private:
  * @brief lepton tree structure
  *
  */
-class hhiggscpv::HLeptonBranch : public HBranch
+class hhiggscpv::HLeptonBranch : public Branch
 {
 
 public:

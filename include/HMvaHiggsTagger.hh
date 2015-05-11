@@ -2,7 +2,7 @@
 # define HMvaHiggsTagger_hh
 
 # include "Tagger.hh"
-# include "HBranch.hh"
+# include "Branch.hh"
 # include "HEvent.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"

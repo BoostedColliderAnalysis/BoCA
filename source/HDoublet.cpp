@@ -24,7 +24,7 @@
 
 void hanalysis::HDoublet::SetSinglet1(const fastjet::PseudoJet &NewSinglet)
 {
-    Singlet1M = NewSinglet;
+    singlet_ = NewSinglet;
 }
 
 void hanalysis::HDoublet::SetSinglet2(const fastjet::PseudoJet &NewSinglet)
@@ -125,7 +125,7 @@ fastjet::PseudoJet hanalysis::HDoublet::Singlet1()const
 //   Print(HError, "Singlet1");
 //     return static_cast<HDoubletPrivate *>(TagPrivate)->Singlet1;
 //     return DoubletPrivate->Singlet1;
-    return Singlet1M;
+    return singlet_;
 }
 
 fastjet::PseudoJet hanalysis::HDoublet::Singlet2()const

@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HBranch.hh"
+# include "Branch.hh"
 
 
 namespace htoptagger{
@@ -16,7 +16,7 @@ namespace htoptagger{
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class htoptagger::HCandidateBranch : public HBranch
+class htoptagger::HCandidateBranch : public Branch
 {
 
 public:
@@ -61,11 +61,8 @@ public:
 
     HCandidateBranch();
 
-    virtual ~HCandidateBranch();
-
 private:
 
-    void reset();
 
     ClassDef(HCandidateBranch, 1)
 

@@ -129,12 +129,12 @@ public:
 
     float BdtRatio1(const int Number) const {
         if (unsigned(Number) > RestJetsM.size()) return 0;
-        return Singlet1M.user_info<HJetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<HJetInfo>().Bdt();
+        return singlet_.user_info<HJetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<HJetInfo>().Bdt();
     }
 
     float BdtRatio2(const int Number)const {
         if (unsigned(Number) > RestJetsM.size()) return 0;
-        return Singlet1M.user_info<HJetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<HJetInfo>().Bdt();
+        return singlet_.user_info<HJetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<HJetInfo>().Bdt();
     }
 
 //     bool Overlap()const {
@@ -161,7 +161,7 @@ protected:
 
     float Pull(const fastjet::PseudoJet &Jet) const;
 
-    fastjet::PseudoJet Singlet1M;
+    fastjet::PseudoJet singlet_;
 
     fastjet::PseudoJet Singlet2M;
 

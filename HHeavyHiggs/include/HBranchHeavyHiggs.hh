@@ -1,7 +1,7 @@
 # ifndef HBranchHeavyHiggs_hh
 # define HBranchHeavyHiggs_hh
 
-# include "HBranch.hh"
+# include "Branch.hh"
 
 namespace hheavyhiggs
 {
@@ -41,7 +41,7 @@ class HOctetBranch;
  * @brief Class for saving leptons to root
  *
  */
-class hheavyhiggs::HBranchHeavyHiggs : public HBranch
+class hheavyhiggs::HBranchHeavyHiggs : public Branch
 {
 
 public:
@@ -83,7 +83,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventLeptonicBranch : public HBranch
+class hheavyhiggs::HEventLeptonicBranch : public Branch
 {
 
 public:
@@ -146,7 +146,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventHadronicBranch : public HBranch
+class hheavyhiggs::HEventHadronicBranch : public Branch
 {
 
 public:
@@ -297,7 +297,7 @@ private:
 
 };
 
-class hheavyhiggs::HBdtBranch : public HBranch
+class hheavyhiggs::HBdtBranch : public Branch
 {
 
 public:
@@ -454,7 +454,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedLeptonicBranch : public HBranch
+class hheavyhiggs::HChargedLeptonicBranch : public Branch
 {
 
 public:
@@ -500,7 +500,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedHadronicBranch : public HBranch
+class hheavyhiggs::HChargedHadronicBranch : public Branch
 {
 
 public:

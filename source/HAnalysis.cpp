@@ -8,7 +8,7 @@
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 # include "ExRootAnalysis/ExRootProgressBar.h"
 
-# include "HBranch.hh"
+# include "Branch.hh"
 # include "HEvent.hh"
 
 // hanalysis::HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)

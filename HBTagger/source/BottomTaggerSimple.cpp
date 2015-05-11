@@ -36,42 +36,42 @@ void hbtagger::BottomTaggerSimple::DefineVariables()
     //     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-HBottomBranch hbtagger::BottomTaggerSimple::GetBranch(const fastjet::PseudoJet &Jet) const
+HBottomBranch hbtagger::BottomTaggerSimple::GetBranch(const fastjet::PseudoJet &jet) const
 {
     Print(HInformation, "Fill Branch");
 
-    HBottomBranch BottomBranch;
+    HBottomBranch branch;
 
-    if (!Jet.has_user_info<hanalysis::HJetInfo>()) {
+    if (!jet.has_user_info<hanalysis::HJetInfo>()) {
         Print(HError, "BJet without user info");
-        return BottomBranch;
+        return branch;
     }
 
-    BottomBranch.VertexMass = Jet.user_info<hanalysis::HJetInfo>().VertexMass();
-    BottomBranch.Mass = Jet.m();
-    BottomBranch.Pt = Jet.pt();
-    BottomBranch.Rap = Jet.rap();
-    BottomBranch.Phi = Jet.phi();
-    float MaxDisp = Jet.user_info<hanalysis::HJetInfo>().MaxDisplacement();
-    if (MaxDisp > 0) BottomBranch.MaxDisplacement = std::log10(MaxDisp);
-    else BottomBranch.MaxDisplacement = -3;
-    float MeanDisp = Jet.user_info<hanalysis::HJetInfo>().MeanDisplacement();
-    if (MeanDisp > 0) BottomBranch.MeanDisplacement = std::log10(MeanDisp);
-    else BottomBranch.MeanDisplacement = -3;
-    float SumDisp = Jet.user_info<hanalysis::HJetInfo>().SumDisplacement();
-    if (SumDisp > 0) BottomBranch.SumDisplacement = std::log10(SumDisp);
-    else BottomBranch.SumDisplacement = -3;
-    BottomBranch.Multipliticity = Jet.user_info<hanalysis::HJetInfo>().VertexNumber();
-    BottomBranch.DeltaR = DeltaR(Jet);
-    BottomBranch.Spread = Spread(Jet);
-    BottomBranch.VertexDeltaR = DeltaR(Jet.user_info<hanalysis::HJetInfo>().VertexJet());
-    BottomBranch.VertexSpread = Spread(Jet.user_info<hanalysis::HJetInfo>().VertexJet());
-    BottomBranch.EnergyFraction = Jet.user_info<hanalysis::HJetInfo>().VertexEnergy() / Jet.e();
-    BottomBranch.BTag = Jet.user_info<hanalysis::HJetInfo>().BTag();
-    BottomBranch.Tag = Jet.user_info<hanalysis::HJetInfo>().Tag();
-    BottomBranch.Bdt = Jet.user_info<hanalysis::HJetInfo>().Bdt();
-    Print(HError, "Multiplicity", BottomBranch.Multipliticity);
-    return BottomBranch;
+    branch.VertexMass = jet.user_info<hanalysis::HJetInfo>().VertexMass();
+    branch.Mass = jet.m();
+    branch.Pt = jet.pt();
+    branch.Rap = jet.rap();
+    branch.Phi = jet.phi();
+    float MaxDisp = jet.user_info<hanalysis::HJetInfo>().MaxDisplacement();
+    if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
+    else branch.MaxDisplacement = -3;
+    float MeanDisp = jet.user_info<hanalysis::HJetInfo>().MeanDisplacement();
+    if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
+    else branch.MeanDisplacement = -3;
+    float SumDisp = jet.user_info<hanalysis::HJetInfo>().SumDisplacement();
+    if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
+    else branch.SumDisplacement = -3;
+    branch.Multipliticity = jet.user_info<hanalysis::HJetInfo>().VertexNumber();
+    branch.DeltaR = DeltaR(jet);
+    branch.Spread = Spread(jet);
+    branch.VertexDeltaR = DeltaR(jet.user_info<hanalysis::HJetInfo>().VertexJet());
+    branch.VertexSpread = Spread(jet.user_info<hanalysis::HJetInfo>().VertexJet());
+    branch.EnergyFraction = jet.user_info<hanalysis::HJetInfo>().VertexEnergy() / jet.e();
+//     BottomBranch.BTag = Jet.user_info<hanalysis::HJetInfo>().BTag();
+    branch.Tag = jet.user_info<hanalysis::HJetInfo>().Tag();
+    branch.Bdt = jet.user_info<hanalysis::HJetInfo>().Bdt();
+    Print(HError, "Multiplicity", branch.Multipliticity);
+    return branch;
 }
 
 

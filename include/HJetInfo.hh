@@ -138,13 +138,13 @@ public:
      */
     HJetInfo();
 
-    HJetInfo(const int NewBTag);
+//     HJetInfo(const int NewBTag);
 
     HJetInfo(const HConstituent &NewConstituent);
 
     HJetInfo(const std::vector<HConstituent> &NewConstituents);
 
-    HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag);
+//     HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag);
 
 //     HJetInfo(const HJetInfo &NewJetInfo);
 
@@ -169,17 +169,8 @@ public:
         return constituents_;
     }
 
-    inline void SetBTag(const int NewBTag) {
-        BTagM = NewBTag;
-    }
-
-    inline int BTag() const {
-        return BTagM;
-    }
-
-
     inline std::unordered_map<HFamily, float> FamilyFractions() {
-        return FamilyFractionsM;
+        return family_fractions_;
     }
 
     float VertexMass() const;
@@ -264,11 +255,9 @@ private:
         return constituents_;
     }
 
-    std::unordered_map<HFamily, float> FamilyFractionsM;
+    std::unordered_map<HFamily, float> family_fractions_;
 
-    std::map<int, float> IdFractions;
-
-    int BTagM;
+    std::map<int, float> id_fractions_;
 
 };
 

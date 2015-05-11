@@ -1,7 +1,7 @@
 HInclude(${PROJECT_SOURCE_DIR}/source)
 # HInclude(".")
 
-HDictionary(HBranch HBranch.cpp ../include/HLinkDef.hh)
+HDictionary(Branch Branch.cpp ../include/HLinkDef.hh)
 
 set(EventSources
 HObject.cpp
@@ -45,6 +45,7 @@ HLibrary(HDelphesEvent "${DelphesEventSources}" PARENT_SCOPE)
 set(WrapperSources
 HTag.cpp
 HTagPrivate.cpp
+Singlet.cpp
 HDoublet.cpp
 HTriplet.cpp
 HQuartet.cpp

@@ -50,40 +50,39 @@ hanalysis::HJetInfo::HJetInfo() : detector_geometry_()
 {
 //     Debug = 4;
     Print(HDebug, "Constructor");
-    BTagM = 0;
 }
 
-hanalysis::HJetInfo::HJetInfo(const int NewBTag) : detector_geometry_()
-// : hanalysis::HTag(* new HJetInfoPrivate)
-{
-    BTagM = NewBTag;
-}
+// hanalysis::HJetInfo::HJetInfo(const int NewBTag) : detector_geometry_()
+// // : hanalysis::HTag(* new HJetInfoPrivate)
+// {
+//     BTagM = NewBTag;
+// }
 
 hanalysis::HJetInfo::HJetInfo(const HConstituent &NewConstituent) : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
     constituents_.emplace_back(NewConstituent);
-    BTagM = 0;
+//     BTagM = 0;
 }
 
 hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents) : detector_geometry_()
 // : hanalysis::HTag(* new HJetInfoPrivate)
 {
     constituents_ = NewConstituents;
-    BTagM = 0;
+//     BTagM = 0;
 }
 
-hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag) : detector_geometry_()
-// : hanalysis::HTag(* new HJetInfoPrivate)
-{
-    constituents_ = NewConstituents;
-    BTagM = NewBTag;
-}
+// hanalysis::HJetInfo::HJetInfo(const std::vector<HConstituent> &NewConstituents, const int NewBTag) : detector_geometry_()
+// // : hanalysis::HTag(* new HJetInfoPrivate)
+// {
+//     constituents_ = NewConstituents;
+// //     BTagM = NewBTag;
+// }
 
 void hanalysis::HJetInfo::AddFamily(const HFamily &Family, const float Weight)
 {
     Print(HDebug, "Add Constituent", Family.ParticleId, Family.Mother1Id, Weight);
-    FamilyFractionsM[Family] += Weight;
+    family_fractions_[Family] += Weight;
 //   Print(HDetailed, "Saved Weight", IdFractions[Family]);
 }
 
@@ -93,7 +92,7 @@ void hanalysis::HJetInfo::ExtractFamilyFraction()
     Print(HInformation, "Extract Family Fraction");
 
     for (const auto & Constituent : Constituents()) {
-        FamilyFractionsM[Constituent.Family()] += Constituent.Momentum().Pt();
+        family_fractions_[Constituent.Family()] += Constituent.Momentum().Pt();
     }
 }
 
@@ -101,22 +100,22 @@ hanalysis::HFamily hanalysis::HJetInfo::MaximalFamily()
 {
 
     Print(HDebug, "Get Maximal Id");
-    std::pair<HFamily, float> Max = *std::max_element(FamilyFractionsM.begin(), FamilyFractionsM.end(), SortPairs());
+    std::pair<HFamily, float> Max = *std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs());
     return Max.first;
 }
 
 void hanalysis::HJetInfo::AddParticle(const int ConstituentId, const float Weight)
 {
     Print(HDebug, "Add Constituent", ConstituentId, Weight);
-    IdFractions[ConstituentId] += Weight;
-    Print(HDetailed, "Saved Weight", IdFractions[ConstituentId]);
+    id_fractions_[ConstituentId] += Weight;
+    Print(HDetailed, "Saved Weight", id_fractions_[ConstituentId]);
 }
 
 void hanalysis::HJetInfo::ExtractFraction(const int ParticleId)
 {
     Print(HInformation, "Extract Fraction", ParticleId);
     ExtractFamilyFraction();
-    for (std::unordered_map<HFamily, float>::const_iterator Pair = FamilyFractionsM.begin(); Pair != FamilyFractionsM.end(); ++Pair) {
+    for (std::unordered_map<HFamily, float>::const_iterator Pair = family_fractions_.begin(); Pair != family_fractions_.end(); ++Pair) {
 
         if ((*Pair).first.ParticleId == ParticleId || (*Pair).first.Mother1Id == ParticleId) AddParticle(ParticleId, (*Pair).second);
 
@@ -130,7 +129,7 @@ void hanalysis::HJetInfo::ExtractFraction(const int ParticleId, const int Mother
 {
     Print(HInformation, "Extract Fraction", ParticleId, MotherId);
 
-    for (std::unordered_map<HFamily, float>::const_iterator Pair = FamilyFractionsM.begin(); Pair != FamilyFractionsM.end(); ++Pair) {
+    for (std::unordered_map<HFamily, float>::const_iterator Pair = family_fractions_.begin(); Pair != family_fractions_.end(); ++Pair) {
 
         if (std::abs((*Pair).first.ParticleId) == ParticleId && std::abs((*Pair).first.Mother1Id) == MotherId) AddParticle((*Pair).first.ParticleId, (*Pair).second);
 
@@ -143,7 +142,7 @@ void hanalysis::HJetInfo::ExtractAbsFraction(const int ParticleId)
 {
     Print(HInformation, "Extract Fraction", ParticleId);
     ExtractFamilyFraction();
-    for (std::unordered_map<HFamily, float>::const_iterator Pair = FamilyFractionsM.begin(); Pair != FamilyFractionsM.end(); ++Pair) {
+    for (std::unordered_map<HFamily, float>::const_iterator Pair = family_fractions_.begin(); Pair != family_fractions_.end(); ++Pair) {
 
         if (std::abs((*Pair).first.ParticleId) == ParticleId || std::abs((*Pair).first.Mother1Id) == ParticleId) AddParticle(ParticleId, (*Pair).second);
 
@@ -153,8 +152,8 @@ void hanalysis::HJetInfo::ExtractAbsFraction(const int ParticleId)
 
 float hanalysis::HJetInfo::GetWeightSum() const
 {
-    Print(HDebug, "Get Weight Sum", IdFractions.size());
-    float WeightSum = std::accumulate(begin(IdFractions), end(IdFractions), 0.0, [](const float Previous, const std::pair<int, float> &Pair) {
+    Print(HDebug, "Get Weight Sum", id_fractions_.size());
+    float WeightSum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](const float Previous, const std::pair<int, float> &Pair) {
         return (Previous + Pair.second);
     });
     Print(HDetailed, "Weight Sum", WeightSum);
@@ -164,15 +163,15 @@ float hanalysis::HJetInfo::GetWeightSum() const
 float hanalysis::HJetInfo::Fraction(const int ParticleId) const
 {
     Print(HInformation, "Get Fraction", ParticleId);
-    if (!IdFractions.count(ParticleId)) return 0;
+    if (!id_fractions_.count(ParticleId)) return 0;
     if (GetWeightSum() == 0)   return 0;
-    return (IdFractions.at(ParticleId) / GetWeightSum());
+    return (id_fractions_.at(ParticleId) / GetWeightSum());
 }
 
 float hanalysis::HJetInfo::MaximalFraction() const
 {
     Print(HInformation, "Get Maximal Fraction");
-    std::pair<int, float> MaximalWeight = *std::max_element(IdFractions.begin(), IdFractions.end(), SortPairs());
+    std::pair<int, float> MaximalWeight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     if (GetWeightSum() == 0) {
         return 0;
     } else {
@@ -183,14 +182,14 @@ float hanalysis::HJetInfo::MaximalFraction() const
 int hanalysis::HJetInfo::MaximalId() const
 {
     Print(HDebug, "Get Maximal Id");
-    std::pair<int, float> Max = *std::max_element(IdFractions.begin(), IdFractions.end(), SortPairs());
+    std::pair<int, float> Max = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     return Max.first;
 }
 
 void hanalysis::HJetInfo::PrintAllInfos(const HSeverity Severity) const
 {
     Print(HDebug, "Print All Infos");
-    for (std::map<int, float>::const_iterator Pair = IdFractions.begin(); Pair != IdFractions.end(); ++Pair) {
+    for (std::map<int, float>::const_iterator Pair = id_fractions_.begin(); Pair != id_fractions_.end(); ++Pair) {
         if (GetWeightSum() == 0) {
             Print(Severity, "Jet Fraction", GetParticleName((*Pair).first), 0);
         } else {
@@ -210,7 +209,7 @@ void hanalysis::HJetInfo::PrintAllConstituentInfos(const HSeverity Severity) con
 void hanalysis::HJetInfo::PrintAllFamInfos(const HSeverity Severity) const
 {
     Print(HDebug, "Print All Family Infos");
-    for (const auto Family : FamilyFractionsM) {
+    for (const auto Family : family_fractions_) {
         Print(Severity, "Family Fraction", GetParticleName(Family.first.ParticleId), GetParticleName(Family.first.Mother1Id), Family.first.ParticleVector.Pt(), Family.first.MotherVector.Pt());
     }
 }

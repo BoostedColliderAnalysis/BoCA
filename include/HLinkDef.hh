@@ -5,6 +5,6 @@
 #pragma link off all functions;
 #pragma link C++ nestedclasses;
 
-#pragma link C++ defined_in "HBranch.hh";
+#pragma link C++ defined_in "Branch.hh";
 
 #endif

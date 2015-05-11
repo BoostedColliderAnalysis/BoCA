@@ -1,18 +1,14 @@
 # include "BottomTagger.hh"
 
-// # include "HBranch.hh"
-// # include "HEvent.hh"
-// # include "HJetTag.hh"
 # include "Reader.hh"
 # include "HEvent.hh"
-// # include "HAnalysis.hh"
 
 hanalysis::BottomTagger::BottomTagger()
 {
 //     DebugLevel = HDebug;
-  Print(HInformation, "Constructor");
-  set_tagger_name("Bottom");
-  DefineVariables();
+    Print(HInformation, "Constructor");
+    set_tagger_name("Bottom");
+    DefineVariables();
 }
 
 void hanalysis::BottomTagger::DefineVariables()
@@ -32,7 +28,6 @@ void hanalysis::BottomTagger::DefineVariables()
     AddVariable(branch_.VertexDeltaR, "VertexDeltaR");
     AddVariable(branch_.VertexSpread, "VertexSpread");
     AddVariable(branch_.EnergyFraction, "EnergyFraction");
-    AddSpectator(branch_.BTag, "BTag");
     AddVariable(branch_.Mass, "Mass");
     AddSpectator(branch_.Tag, "Tag");
     AddSpectator(branch_.Bdt, "Bdt");
@@ -52,13 +47,13 @@ HBottomBranch hanalysis::BottomTagger::GetBranch(const fastjet::PseudoJet &jet) 
     branch.Rap = jet.rap();
     branch.Phi = jet.phi();
     float MaxDisp = jet.user_info<HJetInfo>().MaxDisplacement();
-    if (MaxDisp > 0) branch.MaxDisplacement = std::log(MaxDisp);
+    if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
     else branch.MaxDisplacement = -3;
     float MeanDisp = jet.user_info<HJetInfo>().MeanDisplacement();
-    if (MeanDisp > 0) branch.MeanDisplacement = std::log(MeanDisp);
+    if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
     else branch.MeanDisplacement = -3;
     float SumDisp = jet.user_info<HJetInfo>().SumDisplacement();
-    if (SumDisp > 0) branch.SumDisplacement = std::log(SumDisp);
+    if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
     else branch.SumDisplacement = -3;
     branch.Multipliticity = jet.user_info<HJetInfo>().VertexNumber();
     branch.DeltaR = GetDeltaR(jet);
@@ -66,7 +61,6 @@ HBottomBranch hanalysis::BottomTagger::GetBranch(const fastjet::PseudoJet &jet) 
     branch.VertexDeltaR = GetDeltaR(jet.user_info<HJetInfo>().VertexJet());
     branch.VertexSpread = GetSpread(jet.user_info<HJetInfo>().VertexJet());
     branch.EnergyFraction = jet.user_info<HJetInfo>().VertexEnergy() / jet.e();
-    branch.BTag = jet.user_info<HJetInfo>().BTag();
     branch.Tag = jet.user_info<HJetInfo>().Tag();
     branch.Bdt = jet.user_info<HJetInfo>().Bdt();
     return branch;
@@ -77,7 +71,7 @@ int hanalysis::BottomTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
     Print(HInformation, "Get Bottom Tag", tag);
 
     HJets particles = event.GetParticles()->Generator();
-    particles = RemoveIfWrongAbsParticle(particles,BottomId);
+    particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(HInformation, "Particle size", particles.size());
 
     HJets jets = GetJets(event);
@@ -124,7 +118,7 @@ HJets hanalysis::BottomTagger::GetSubJets(const HJets &jets, const HJets &partic
                 std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
                 Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
             }
-            piece.set_user_info(new HJetInfo(Constituents, jet.user_info<HJetInfo>().BTag()));
+            piece.set_user_info(new HJetInfo(Constituents/*, jet.user_info<HJetInfo>().BTag()*/));
             final_pieces.emplace_back(piece);
         }
     }

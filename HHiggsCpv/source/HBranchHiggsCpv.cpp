@@ -4,7 +4,6 @@ ClassImp(hhiggscpv::HEventBranch)
 
 hhiggscpv::HEventBranch::HEventBranch()
 {
-
     ScalarHt = InitialValue();
     JetNumber = int(InitialValue());
     BottomNumber = int(InitialValue());
@@ -13,20 +12,16 @@ hhiggscpv::HEventBranch::HEventBranch()
     TopDeltaRap = InitialValue();
     TopDeltaPhi = InitialValue();
     TopDeltaR = InitialValue();
-
     Signal = int(InitialValue());
-
 }
 
 ClassImp(hhiggscpv::HLeptonBranch)
 
 hhiggscpv::HLeptonBranch::HLeptonBranch()
 {
-
     Mass = InitialValue();
     Pt = InitialValue();
     Rap = InitialValue();
     Phi = InitialValue();
     Charge = int(InitialValue());
-
 }

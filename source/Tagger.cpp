@@ -208,7 +208,7 @@ HJets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &Jet, const int Sub
             std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
             Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
         }
-        Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
+        Piece.set_user_info(new HJetInfo(Constituents/*, Jet.user_info<HJetInfo>().BTag()*/));
         Pieces.emplace_back(Piece);
     }
     return Pieces;

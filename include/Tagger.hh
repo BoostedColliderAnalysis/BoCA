@@ -7,7 +7,7 @@
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 
-# include "HBranch.hh"
+# include "Branch.hh"
 # include "HJetDelphes.hh"
 # include "Predicate.hh"
 # include "HEvent.hh"
@@ -270,7 +270,7 @@ protected:
 
     virtual TClass &Class() const {
         Print(HError, "Class", "should be subclassed");
-        return *HBranch::Class();
+        return *Branch::Class();
     }
 
     ExRootTreeBranch &tree_branch() {

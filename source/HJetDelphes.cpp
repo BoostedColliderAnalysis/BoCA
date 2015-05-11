@@ -24,14 +24,14 @@ bool hanalysis::hdelphes::HJet::GetJets(const hanalysis::HFourVector::HJetDetail
         switch (JetDetails) {
         case Plain: {
             fastjet::PseudoJet Jet = PseudoJet(JetClone.P4());
-            Jet.set_user_info(new HJetInfo(JetClone.BTag));
+            Jet.set_user_info(new HJetInfo(/*JetClone.BTag*/));
             JetsM.emplace_back(Jet);
         }
         break;
         case Tagging: {
             fastjet::PseudoJet Jet = PseudoJet(JetClone.P4());
             HJetInfo *JetInfo = new HJetInfo(GetJetId(JetClone));
-            JetInfo->SetBTag(JetClone.BTag);
+//             JetInfo->SetBTag(JetClone.BTag);
             Jet.set_user_info(JetInfo);
             JetsM.emplace_back(Jet);
         }
@@ -87,7 +87,7 @@ fastjet::PseudoJet hanalysis::hdelphes::HJet::StructuredJet(const delphes::Jet &
     Print(HInformation, "Get Constituents");
     HJets ConstituentJets;
     std::vector<HConstituent> Constituents;
-    hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(JetClone.BTag);
+    hanalysis::HJetInfo *JetInfo = new hanalysis::HJetInfo(/*JetClone.BTag*/);
 
     for (const int ConstituentNumber : Range(JetClone.Constituents.GetEntriesFast())) {
         if (!JetClone.Constituents.At(ConstituentNumber)) continue;
@@ -439,7 +439,7 @@ HJets hanalysis::hdelphes::HJet::GetSubJets(const fastjet::PseudoJet &Jet, const
             std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
             Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
         }
-        Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
+        Piece.set_user_info(new HJetInfo(Constituents/*, Jet.user_info<HJetInfo>().BTag()*/));
         Pieces.emplace_back(Piece);
     }
     return Pieces;
