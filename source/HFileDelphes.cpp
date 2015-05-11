@@ -2,7 +2,7 @@
 
 hanalysis::hdelphes::HFile::HFile()
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
 //     SetVariables();
     tree_name_ = "Delphes";
     file_suffix_ = "_delphes_events.root";
@@ -10,7 +10,7 @@ hanalysis::hdelphes::HFile::HFile()
 
 hanalysis::hdelphes::HFile::HFile(const std::string &Process)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
 //     SetVariables();
 //     ProcessFolder = Process;
     tree_name_ = "Delphes";
@@ -19,7 +19,7 @@ hanalysis::hdelphes::HFile::HFile(const std::string &Process)
 
 hanalysis::hdelphes::HFile::HFile(const std::string &Process, const std::string &Run)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
 //     SetVariables();
 //     ProcessFolder = Process;
 //     RunFolder = Run;
@@ -29,7 +29,7 @@ hanalysis::hdelphes::HFile::HFile(const std::string &Process, const std::string 
 
 Strings hanalysis::hdelphes::HFile::Paths() const
 {
-    Print(HInformation, "FilePath");
+    Print(kInformation, "FilePath");
     Strings FilePahts;
     FilePahts.emplace_back(GetMadGraphFilePath() + tag_name_ +  file_suffix_);
     return FilePahts;

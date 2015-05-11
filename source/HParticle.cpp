@@ -3,7 +3,7 @@
 hanalysis::HParticle::HParticle()
 {
 
-    Print(HNotification,"Constructor");
+    Print(kNotification,"Constructor");
 
 //     Debug =5;
 
@@ -12,13 +12,13 @@ hanalysis::HParticle::HParticle()
 hanalysis::HParticle::~HParticle()
 {
 
-    Print(HNotification,"Destructor");
+    Print(kNotification,"Destructor");
 
 }
 
 void hanalysis::HParticle::NewEvent(const ClonesArrays &NewClonesArrays){
 
-    Print(HInformation,"New Event");
+    Print(kInformation,"New Event");
 
 //     ClonesArrays = NewClonesArrays;
     hanalysis::HFourVector::NewEvent(NewClonesArrays);
@@ -64,7 +64,7 @@ void hanalysis::HParticle::NewEvent(const ClonesArrays &NewClonesArrays){
 HVectors hanalysis::HParticle::GetLeptonLorentzVectors()
 {
 
-  Print(HInformation,"LeptonVector");
+  Print(kInformation,"LeptonVector");
 
   GotParticles = GetParticles();
 
@@ -75,7 +75,7 @@ HVectors hanalysis::HParticle::GetLeptonLorentzVectors()
 
     std::sort(LeptonVectors.begin(), LeptonVectors.end(), SortByPt());
 
-    Print(HInformation,"Lepton Particle",LeptonVectors.size());
+    Print(kInformation,"Lepton Particle",LeptonVectors.size());
 
     return LeptonVectors;
 
@@ -85,7 +85,7 @@ HVectors hanalysis::HParticle::GetLeptonLorentzVectors()
 HVectors hanalysis::HParticle::GetAntiLeptonVectors()
 {
 
-  Print(HInformation,"AntiLeptonVector");
+  Print(kInformation,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
@@ -96,7 +96,7 @@ HVectors hanalysis::HParticle::GetAntiLeptonVectors()
 
     std::sort(AntiLeptonVectors.begin(), AntiLeptonVectors.end(), SortByPt());
 
-    Print(HInformation,"Anti Lepton Particle",AntiLeptonVectors.size());
+    Print(kInformation,"Anti Lepton Particle",AntiLeptonVectors.size());
 
     return AntiLeptonVectors;
 
@@ -106,7 +106,7 @@ HVectors hanalysis::HParticle::GetAntiLeptonVectors()
 Jets hanalysis::HParticle::GetLeptonJets()
 {
 
-  Print(HInformation,"LeptonVector");
+  Print(kInformation,"LeptonVector");
 
   GotParticles = GetParticles();
 
@@ -117,7 +117,7 @@ Jets hanalysis::HParticle::GetLeptonJets()
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
 
-    Print(HInformation,"Lepton Particle",LeptonJets.size());
+    Print(kInformation,"Lepton Particle",LeptonJets.size());
 
     return LeptonJets;
 
@@ -127,7 +127,7 @@ Jets hanalysis::HParticle::GetLeptonJets()
 Jets hanalysis::HParticle::GetAntiLeptonJets()
 {
 
-  Print(HInformation,"AntiLeptonVector");
+  Print(kInformation,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
@@ -138,7 +138,7 @@ Jets hanalysis::HParticle::GetAntiLeptonJets()
 
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
 
-    Print(HInformation,"Anti Lepton Particle",AntiLeptonJets.size());
+    Print(kInformation,"Anti Lepton Particle",AntiLeptonJets.size());
 
     return AntiLeptonJets;
 

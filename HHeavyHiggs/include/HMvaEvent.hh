@@ -28,7 +28,7 @@ public:
   }
 
   float Bdt() const {
-    return (SextetM.Bdt() * Jet1.user_info<hanalysis::HJetInfo>().Bdt() * Jet1.user_info<hanalysis::HJetInfo>().Bdt());
+    return (SextetM.Bdt() * Jet1.user_info<hanalysis::JetInfo>().Bdt() * Jet1.user_info<hanalysis::JetInfo>().Bdt());
   }
 
   float DeltaRap() const {

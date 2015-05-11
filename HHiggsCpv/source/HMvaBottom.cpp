@@ -3,7 +3,7 @@
 hhiggscpv::HMvaBottom::HMvaBottom()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     set_tagger_name("Bottom");
 
@@ -21,7 +21,7 @@ hhiggscpv::HMvaBottom::HMvaBottom()
 
 //     SetBranchName("Bottom");
 
-    BTagger = new HBottomBranch();
+    BTagger = new BottomBranch();
 
     DefineVariables();
 
@@ -30,7 +30,7 @@ hhiggscpv::HMvaBottom::HMvaBottom()
 hhiggscpv::HMvaBottom::~HMvaBottom()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     delete BTagger;
 
@@ -39,7 +39,7 @@ hhiggscpv::HMvaBottom::~HMvaBottom()
 void hhiggscpv::HMvaBottom::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables",BTagger->Mass);
+    Print(kNotification , "Define Variables",BTagger->Mass);
 
     AddVariable(BTagger->VertexMass, "VertexMass");
     AddVariable(BTagger->Pt, "Pt");
@@ -50,18 +50,18 @@ void hhiggscpv::HMvaBottom::DefineVariables()
     AddSpectator(BTagger->Mass, "Mass");
     AddSpectator(BTagger->Tag, "Tag");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 
 float hhiggscpv::HMvaBottom::GetBdt(TObject *Branch, const TMVA::Reader &Reader)
 {
 
-  Print(HInformation, "Get Bdt", bdt_method_name());
+  Print(kInformation, "Get Bdt", bdt_method_name());
 
-    *BTagger = *static_cast<HBottomBranch *>(Branch);
+    *BTagger = *static_cast<BottomBranch *>(Branch);
     const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
-    Print(HInformation, "BTagger Bdt", BdtEvaluation);
+    Print(kInformation, "BTagger Bdt", BdtEvaluation);
 
     return ((BdtEvaluation + 1.) / 2.);
 

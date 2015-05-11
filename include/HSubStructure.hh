@@ -37,7 +37,7 @@ public:
 
     bool GetSubJets(const fastjet::PseudoJet &);
 
-    std::vector< TLorentzVector > GetConstituents(const fastjet::PseudoJet &CandidateJet);
+    std::vector< TLorentzVector > Getconstituents(const fastjet::PseudoJet &CandidateJet);
 
     bool GetIsolation(const fastjet::PseudoJet& CandidateJet, const Jets& LeptonJets);
 
@@ -71,19 +71,19 @@ public:
         return Global.DeltaR;
     };
 
-    inline float GetConstituentRap() const {
+    inline float GetconstituentRap() const {
         return Global.Rap;
     };
 
-    inline float GetConstituentPhi() const {
+    inline float GetconstituentPhi() const {
         return Global.Phi;
     };
 
-    inline float GetConstituentDeltaR() const {
+    inline float GetconstituentDeltaR() const {
         return GetDistance(Global.Rap, Global.Phi);
     };
 
-    inline float GetConstituentAngle() const {
+    inline float GetconstituentAngle() const {
         return atan2(Global.Phi, Global.Rap);
     };
 

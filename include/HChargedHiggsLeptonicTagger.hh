@@ -1,7 +1,7 @@
 # ifndef HChargedHiggsLeptonicTagger_hh
 # define HChargedHiggsLeptonicTagger_hh
 
-# include "HTriplet.hh"
+# include "Triplet.hh"
 // # include "HQuartet31.hh"
 # include "HTopLeptonicTagger.hh"
 // # include "WIMPMASS.h"
@@ -21,9 +21,9 @@ public:
 
     std::vector< HChargedHiggsLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    HChargedHiggsLeptonicBranch GetBranch(const hanalysis::HTriplet &Triplet);
+    HChargedHiggsLeptonicBranch GetBranch(const hanalysis::Triplet &triplet);
 
-    std::vector<hanalysis::HTriplet> GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const hanalysis::Reader & Reader);
+    std::vector<hanalysis::Triplet> GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const hanalysis::Reader & Reader);
 
 protected:
 
@@ -35,7 +35,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HObject::Tag GetTag(const hanalysis::HTriplet &Triplet);
+    hanalysis::HObject::Tag GetTag(const hanalysis::Triplet &triplet);
 
 
     BottomTagger bottom_tagger_;

@@ -42,7 +42,7 @@ public:
     Reader(hanalysis::Tagger &tagger);
 
     void operator=(const hanalysis::Reader &) {
-        Print(HError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
+        Print(kError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
     }
 
     void set_tagger(hanalysis::Tagger &tagger);
@@ -52,7 +52,7 @@ public:
     float Bdt() const;
 
     int GetBdt(HEvent &event) const {
-        if (!tagger_) Print(HError, "what is wrong with the tagger?");
+        if (!tagger_) Print(kError, "what is wrong with the tagger?");
         return tagger_->GetBdt(event, reader_);
     }
 

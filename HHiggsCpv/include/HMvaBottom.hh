@@ -38,7 +38,7 @@ protected:
 
 private:
 
-      HBottomBranch *BTagger;
+      BottomBranch *BTagger;
 
       void DefineVariables();
 

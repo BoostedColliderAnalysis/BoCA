@@ -5,21 +5,21 @@ hanalysis::HTopTagger::HTopTagger()
 {
 
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
 }
 
 hanalysis::HTopTagger::~HTopTagger()
 {
 
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
 }
 
 Jets hanalysis::HTopTagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
 {
 
-    Print(HInformation, "Tagging Top");
+    Print(kInformation, "Tagging Top");
 
 //     float CellRap = 0.1;
 //     Jets hadrons;

@@ -3,7 +3,7 @@
 hanalysis::HEvent::HEvent()
 {
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
 }
 

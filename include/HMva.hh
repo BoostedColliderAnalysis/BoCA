@@ -175,7 +175,7 @@ public:
     fastjet::PseudoJet GetMissingEt(hanalysis::HEvent &Event);
 
     virtual float ReadBdt(const TClonesArray &, const int) {
-        Print(HError, "Read Bdt", "should be subclassed");
+        Print(kError, "Read Bdt", "should be subclassed");
         return 0;
     }
 

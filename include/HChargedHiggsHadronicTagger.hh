@@ -23,7 +23,7 @@ public:
 
     HChargedHiggsHadronicBranch GetBranch(const hanalysis::HQuartet31 &Quartet);
 
-    std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::HTriplet >& Triplets, Jets& jets, const hanalysis::Reader& Reader);
+    std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::Triplet >& triplets, Jets& jets, const hanalysis::Reader& Reader);
 
 protected:
 

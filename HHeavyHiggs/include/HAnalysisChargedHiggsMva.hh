@@ -240,7 +240,7 @@ private:
             case 4000:
                 return 0.000020556093312;
             default:
-                Print(HError, "Signal Crosssection", "unhandled case");
+                Print(kError, "Signal Crosssection", "unhandled case");
                 return 1;
             } ;
         case FHC:
@@ -275,11 +275,11 @@ private:
             case 20000:
               return 0.000016388469792;
             default:
-                Print(HError, "Signal Crosssection", "unhandled case");
+                Print(kError, "Signal Crosssection", "unhandled case");
                 return 1;
             }
         default:
-            Print(HError, "Signal Crosssection", "unhandled case");
+            Print(kError, "Signal Crosssection", "unhandled case");
             return 1;
         }
     }
@@ -310,7 +310,7 @@ private:
                 case tt :
                     return 97.54 * 2 * 1000;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                 };
             case 30 :
                 switch (Process) {
@@ -321,7 +321,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                 };
             case 80 :
                 switch (Process) {
@@ -332,7 +332,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                     return 1;
                 }
             case 250 :
@@ -340,7 +340,7 @@ private:
                 case tt :
                     return 4.206 * 2 * 1000;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                     return 1;
                 }
             }
@@ -355,7 +355,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                     return 1;
                 }
             case 80 :
@@ -367,7 +367,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                     return 1;
                 }
             case 150 :
@@ -379,7 +379,7 @@ private:
                 case ttjj:
                     return 61.9287096863 * 2 * 1000;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                     return 1;
                 }
             case 300 :
@@ -391,7 +391,7 @@ private:
                 case ttjj:
                     return 26000;
                 default :
-                    Print(HError, "unhandled case");
+                    Print(kError, "unhandled case");
                     return 1;
                 }
             }
@@ -424,12 +424,12 @@ private:
                     return 28200;
                 }
             default :
-                Print(HError, "unhandled case");
+                Print(kError, "unhandled case");
                 return 1;
             }
         }
         default :
-            Print(HError, "unhandled case");
+            Print(kError, "unhandled case");
             return 1;
         }
     }
@@ -443,7 +443,7 @@ private:
         case LE:
             return "LE";
         default :
-            Print(HError, "unhandled case");
+            Print(kError, "unhandled case");
             return "";
         }
     }
@@ -462,7 +462,7 @@ private:
         case tt:
             return "tt_inc+";
         default :
-            Print(HError, "unhandled case");
+            Print(kError, "unhandled case");
             return "";
         }
     }

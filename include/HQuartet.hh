@@ -1,7 +1,7 @@
 # ifndef HQuartet_hh
 # define HQuartet_hh
 
-# include "HDoublet.hh"
+# include "Doublet.hh"
 
 class hanalysis::HQuartet : public HTag
 {
@@ -10,48 +10,48 @@ public:
 
     HQuartet() {}
 
-    HQuartet(const hanalysis::HDoublet &NewDoublet1, const hanalysis::HDoublet &NewDoublet2);
+    HQuartet(const hanalysis::Doublet &Newdoublet1, const hanalysis::Doublet &Newdoublet2);
 
     ~HQuartet();
 
-    inline HDoublet GetDoublet1()const {
-        return Doublet1;
+    inline Doublet Getdoublet1()const {
+        return doublet1;
     }
 
-    inline HDoublet GetDoublet2()const {
-        return Doublet2;
+    inline Doublet Getdoublet2()const {
+        return doublet2;
     }
 
-    inline fastjet::PseudoJet GetDoublet1Jet() const {
-        return Doublet1.Jet();
+    inline fastjet::PseudoJet Getdoublet1Jet() const {
+        return doublet1.Jet();
     }
 
-    inline fastjet::PseudoJet GetDoublet2Jet() const {
-        return Doublet2.Jet();
+    inline fastjet::PseudoJet Getdoublet2Jet() const {
+        return doublet2.Jet();
     }
 
     inline fastjet::PseudoJet GetJet() const {
-        return GetDoublet1Jet() + GetDoublet2Jet();
+        return Getdoublet1Jet() + Getdoublet2Jet();
     }
 
     inline float GetHt() {
-        return Doublet1.Ht() + Doublet2.Ht();
+        return doublet1.Ht() + doublet2.Ht();
     }
 
     inline float GetDeltaPt() const {
-        return GetDoublet1Jet().pt() - GetDoublet2Jet().pt();
+        return Getdoublet1Jet().pt() - Getdoublet2Jet().pt();
     }
 
     inline float GetDeltaRap() const {
-        return std::abs(GetDoublet1Jet().rap() - GetDoublet2Jet().rap());
+        return std::abs(Getdoublet1Jet().rap() - Getdoublet2Jet().rap());
     }
 
     inline float GetDeltaPhi() const {
-        return GetDoublet1Jet().delta_phi_to(GetDoublet2Jet());
+        return Getdoublet1Jet().delta_phi_to(Getdoublet2Jet());
     }
 
     inline float GetDeltaR() const {
-        return GetDoublet1Jet().delta_R(GetDoublet2Jet());
+        return Getdoublet1Jet().delta_R(Getdoublet2Jet());
     }
 
     inline float GetMassDifferenceTo(const HParticleId ParticleId) const {
@@ -66,9 +66,9 @@ protected:
 
 private:
 
-    HDoublet Doublet1;
+    Doublet doublet1;
 
-    HDoublet Doublet2;
+    Doublet doublet2;
 
 };
 

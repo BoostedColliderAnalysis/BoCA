@@ -14,22 +14,22 @@
 // hanalysis::HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 hanalysis::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : tagger_(tagger)
 {
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
     event_sum_ = 0;
 }
 
 void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
 {
-    Print(HNotification, "Analysis Loop");
+    Print(kNotification, "Analysis Loop");
     mkdir(ProjectName().c_str(), 0700);
     if (stage == Tagger::kReader) reader_.set_tagger(tagger_);
     for (const auto & tag : std::vector<Tag> {kSignal, kBackground}) {
-        Print(HNotification, "Analysing Mva Sample", tag);
+        Print(kNotification, "Analysing Mva Sample", tag);
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");
         files_.clear();
         SetFiles(tag);
         for (auto & file : Files(tag)) {
-            Print(HNotification, "Analysing File", file.tree_name());
+            Print(kNotification, "Analysing File", file.tree_name());
             event_sum_ = 0;
             ClonesArrays &clones_arrays = file.GetClonesArrays();
             hanalysis::HEvent &event = file.Event();
@@ -39,11 +39,11 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
             ExRootTreeReader tree_reader = file.TreeReader();
             clones_arrays.GetBranches(tree_reader);
 //             ExRootProgressBar progress_bar(EventSum(tree_reader));
-//             Print(HInformation, "Sum", EventSum(tree_reader));
+//             Print(kInformation, "Sum", EventSum(tree_reader));
             ObjectNumber = 0;
             HInfoBranch info_branch = FillInfoBranch(tree_reader, file);
             for (const int event_number : Range(EventSum(tree_reader))) {
-//                 Print(HError, "Event Number", event_number);
+//                 Print(kError, "Event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.mass());
@@ -59,10 +59,10 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
                 if (ObjectNumber >= EventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
-            Print(HError, "All Events analysed", info_branch.EventNumber);
+            Print(kError, "All Events analysed", info_branch.EventNumber);
 //             progress_bar.Finish();
             if (analysis_not_empty) tree_writer.Write();
-//             Print(HError, "Number of Events", event_sum_, EventSum(tree_reader));
+//             Print(kError, "Number of Events", event_sum_, EventSum(tree_reader));
         }
         export_file.Close();
     }
@@ -75,13 +75,13 @@ HInfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_re
     info_branch.CrosssectionError = file.crosssection_error();
     info_branch.Mass = file.mass();
     info_branch.EventNumber = EventSum(tree_reader);
-//     Print(HError, "Event Number", info_branch.EventNumber);
+//     Print(kError, "Event Number", info_branch.EventNumber);
     return info_branch;
 }
 
 std::string hanalysis::HAnalysis::ExportName(const Tagger::Stage stage, const Tag tag) const
 {
-    Print(HNotification, "Get Export File", tagger_.tagger_name(), tag);
+    Print(kNotification, "Get Export File", tagger_.tagger_name(), tag);
     std::string name = tagger_.name(stage, tag);
 //     std::string name = StudyName(tagger);
 //     if (tag == kBackground) name = "Not" + name ;
@@ -90,7 +90,7 @@ std::string hanalysis::HAnalysis::ExportName(const Tagger::Stage stage, const Ta
 
 ExRootTreeWriter hanalysis::HAnalysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, hanalysis::Tagger::Stage stage)
 {
-    Print(HNotification, "Get Tree Writer", export_tree_name.c_str());
+    Print(kNotification, "Get Tree Writer", export_tree_name.c_str());
     ExRootTreeWriter tree_writer(&export_file, export_tree_name.c_str());
     tagger_.SetTreeBranch(tree_writer, stage);
 //     NewBranches(tree_writer, tagger);

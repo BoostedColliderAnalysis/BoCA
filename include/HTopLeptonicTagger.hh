@@ -2,7 +2,7 @@
 # define HTopLeptonicTagger_hh
 
 # include "BottomTagger.hh"
-# include "HDoublet.hh"
+# include "Doublet.hh"
 # include "Reader.hh"
 
 /**
@@ -22,9 +22,9 @@ public:
 
     std::vector< HTopLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< HDoublet> GetBdt(const Jets &jets, Jets &Leptons, const hanalysis::Reader & Reader);
+    std::vector< Doublet> GetBdt(const Jets &jets, Jets &Leptons, const hanalysis::Reader & Reader);
 
-    HTopLeptonicBranch GetBranch(const hanalysis::HDoublet &Doublet);
+    HTopLeptonicBranch GetBranch(const hanalysis::Doublet &doublet);
 
 protected:
 
@@ -36,7 +36,7 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const HDoublet &Doublet);
+    Tag GetTag(const Doublet &doublet);
 
     BottomTagger bottom_tagger_;
 

@@ -2,6 +2,6 @@
 
 hanalysis::Singlet::Singlet(const fastjet::PseudoJet &singlet)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     singlet_ = singlet;
 }

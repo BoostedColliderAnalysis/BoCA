@@ -16,7 +16,7 @@ namespace hcpvhiggs{
   class HMva;
   class HCandidateBranch;
   class HLeptonBranch;
-  class HConstituentBranch;
+  class ConstituentBranch;
   class HJetPropertiesBranch;
 
 }
@@ -115,7 +115,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hcpvhiggs::HConstituentBranch : public TObject
+class hcpvhiggs::ConstituentBranch : public TObject
 {
 
 public:
@@ -125,15 +125,15 @@ public:
     float Pt;
     int Id;
 
-    HConstituentBranch();
+    ConstituentBranch();
 
-    virtual ~HConstituentBranch();
+    virtual ~ConstituentBranch();
 
 private:
 
     void reset();
 
-    ClassDef(HConstituentBranch, 1)
+    ClassDef(ConstituentBranch, 1)
 
 };
 

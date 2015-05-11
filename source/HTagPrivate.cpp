@@ -2,7 +2,7 @@
 
 hanalysis::HTagPrivate::HTagPrivate()
 {
-//     Print(HInformation, "Constructor");
+//     Print(kInformation, "Constructor");
   InitialValue = -10;
   Bdt = InitialValue;
   Tag = InitialValue;
@@ -12,6 +12,6 @@ hanalysis::HTagPrivate::HTagPrivate()
 hanalysis::HTagPrivate::~HTagPrivate()
 {
 
-//     Print(HInformation, "Destructor");
+//     Print(kInformation, "Destructor");
 
 }

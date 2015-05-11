@@ -23,7 +23,7 @@ public:
 
     HHeavyHiggsHadronicBranch GetBranch(const hanalysis::HSextet &Sextet);
 
-    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::HTriplet > Triplets, const hanalysis::Reader &Reader);
+    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::Triplet > triplets, const hanalysis::Reader &Reader);
 
 protected:
 

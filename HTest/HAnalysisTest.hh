@@ -34,10 +34,10 @@ public:
     ExRootTreeBranch *LeptonBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *ConstituentBranch;
+    ExRootTreeBranch *constituentBranch;
 
 private:
 

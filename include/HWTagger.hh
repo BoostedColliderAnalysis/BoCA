@@ -2,7 +2,7 @@
 # define HHadronicWTagger_hh
 
 # include "HBottomTagger.hh"
-# include "HDoublet.hh"
+# include "Doublet.hh"
 
 /**
  * @brief W BDT tagger
@@ -19,21 +19,21 @@ public:
 
     std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-//     std::vector<HParticleBranch> GetConstituentBranches();
+//     std::vector<ParticleBranch> GetconstituentBranches();
 
-    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
+    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
 
-    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::HReader &WReader);
-    std::vector<HDoublet> GetPairBdt(const Jets &jets, const hanalysis::HReader &WReader);
-    std::vector<HDoublet> GetSingletBdt(const Jets &jets, const hanalysis::HReader &WReader);
+    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::HReader &WReader);
+    std::vector<Doublet> GetPairBdt(const Jets &jets, const hanalysis::HReader &WReader);
+    std::vector<Doublet> GetSingletBdt(const Jets &jets, const hanalysis::HReader &WReader);
 
-    HDoublet GetBdt(HDoublet &Doublet, const hanalysis::HReader &WReader);
+    Doublet GetBdt(Doublet &doublet, const hanalysis::HReader &WReader);
 
     HBottomTagger BottomTagger;
 
     HReader BottomReader;
 
-    HWBranch GetBranch(const HDoublet &Doublet) const;
+    HWBranch GetBranch(const Doublet &doublet) const;
 
     int GetWHadId(hanalysis::HEvent &Event) {
       return GetWHadId(GetWDaughters(Event));
@@ -53,9 +53,9 @@ private:
 
     void DefineVariables();
 
-//     HParticleBranch GetBranch(const HKinematics &Vector);
+//     ParticleBranch GetBranch(const HKinematics &Vector);
 
-//     hanalysis::HObject::HTag GetTag(const HDoublet &Doublet);
+//     hanalysis::HObject::HTag GetTag(const Doublet &doublet);
 
 //     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
 

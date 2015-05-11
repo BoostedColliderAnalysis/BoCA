@@ -3,7 +3,7 @@
 hhiggscpv::HMvaHiggs::HMvaHiggs()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     set_tagger_name("HiggsCpv");
 
@@ -44,7 +44,7 @@ hhiggscpv::HMvaHiggs::HMvaHiggs()
 hhiggscpv::HMvaHiggs::~HMvaHiggs()
 {
 
-    Print(HNotification , "Destructor");
+    Print(kNotification , "Destructor");
 
     delete Higgs;
 
@@ -52,11 +52,11 @@ hhiggscpv::HMvaHiggs::~HMvaHiggs()
 
 float hhiggscpv::HMvaHiggs::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 
-  Print(HInformation, "Get Bdt",bdt_method_name());
+  Print(kInformation, "Get Bdt",bdt_method_name());
 
     *Higgs = *static_cast<HHiggsBranch*>(Branch);
     const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
-    Print(HInformation,"BTagger Bdt",BdtEvaluation);
+    Print(kInformation,"BTagger Bdt",BdtEvaluation);
 
     return ((BdtEvaluation+1)/2);
 
@@ -65,7 +65,7 @@ float hhiggscpv::HMvaHiggs::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 void hhiggscpv::HMvaHiggs::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     AddVariable(Higgs->Mass, "Mass");
     AddVariable(Higgs->PtSum, "PtSum");
@@ -80,7 +80,7 @@ void hhiggscpv::HMvaHiggs::DefineVariables()
 
     AddSpectator(Higgs->HiggsTag, "HiggsTag");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 

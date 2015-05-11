@@ -2,21 +2,21 @@
 
 hanalysis::hdelphes::HParticle ::HParticle()
 {
-    Print(HDebug, "Constructor");
-//     DebugLevel = hanalysis::HObject::HDebug;
+    Print(kDebug, "Constructor");
+//     DebugLevel = hanalysis::HObject::kDebug;
 }
 
 bool hanalysis::hdelphes::HParticle ::GetParticles()
 {
 
-  Print(HInformation, "Get Particles", clones_arrays_->GetParticleSum());
+  Print(kInformation, "Get Particles", clones_arrays_->GetParticleSum());
 
   for (const int ParticleNumber : Range(clones_arrays_->GetParticleSum())) {
 
     const delphes::GenParticle *const ParticleClone = (delphes::GenParticle *) clones_arrays_->GetParticle(ParticleNumber);
 
         const int ParticleId = ParticleClone->PID;
-        Print(HDetailed, "Particles ID", ParticleId);
+        Print(kDetailed, "Particles ID", ParticleId);
 
         int MotherId = EmptyId;
         int MotherStatus = EmptyId;
@@ -36,7 +36,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         }
 
         if (ParticleClone->Status == StableParticle) {
-            Print(HDetailed, "Particles Status", "stable");
+            Print(kDetailed, "Particles Status", "stable");
 
             if (std::abs(ParticleId) == ElectronId) {
 
@@ -47,13 +47,13 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
                     ElectronVectors.emplace_back(ElectronVector);
                     ElectronJets.emplace_back(ElectronJet);
-                    Print(HDebug, "Electron");
+                    Print(kDebug, "Electron");
 
                 } else if (ParticleId < 0) {
 
                     AntiElectronVectors.emplace_back(ElectronVector);
                     AntiElectronJets.emplace_back(ElectronJet);
-                    Print(HDebug, "Anti Electron");
+                    Print(kDebug, "Anti Electron");
 
                 }
 
@@ -68,13 +68,13 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
                     MuonVectors.emplace_back(MuonVector);
                     MuonJets.emplace_back(MuonJet);
-                    Print(HDebug, "Muon");
+                    Print(kDebug, "Muon");
 
                 } else if (ParticleId < 0) {
 
                     AntiMuonVectors.emplace_back(MuonVector);
                     AntiMuonJets.emplace_back(MuonJet);
-                    Print(HDebug, "Anti Muon");
+                    Print(kDebug, "Anti Muon");
 
                 }
 
@@ -85,19 +85,19 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
 
         if (ParticleClone->Status == UnstableParticle) {
-            Print(HDetailed, "Particles Status", "unstable");
+            Print(kDetailed, "Particles Status", "unstable");
 
             if (std::abs(ParticleId) == CharmId) {
 
                 CharmJets.emplace_back(PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4()));
-                Print(HDebug, "Charm");
+                Print(kDebug, "Charm");
 
             }
 
             if (std::abs(ParticleId) == CpvHiggsId) {
 
                 HiggsJets.emplace_back(PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4()));
-                Print(HDebug, "CPV Higgs");
+                Print(kDebug, "CPV Higgs");
 
             }
 
@@ -108,7 +108,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 ParticleJets.emplace_back(PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4()));
                 ParticleJets.back().set_user_index(ParticleId);
 
-                Print(HDebug, "Bottom");
+                Print(kDebug, "Bottom");
 
             }
 
@@ -118,11 +118,11 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 const fastjet::PseudoJet HiggsParticle = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
 
                 HiggsJets.emplace_back(HiggsParticle);
-                Print(HDebug, "Heavy CPV Higgs");
+                Print(kDebug, "Heavy CPV Higgs");
 
-                Print(HDebug, "HeavyHiggs", ParticleClone->Status);
-                if (ParticleClone->D1 != -1) Print(HDebug, "Daughter1", ((delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->D1))->PID);
-                if (ParticleClone->D2 != -1) Print(HDebug, "Daughter2", ((delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->D2))->PID);
+                Print(kDebug, "HeavyHiggs", ParticleClone->Status);
+                if (ParticleClone->D1 != -1) Print(kDebug, "Daughter1", ((delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->D1))->PID);
+                if (ParticleClone->D2 != -1) Print(kDebug, "Daughter2", ((delphes::GenParticle *) clones_arrays_->GetParticle(ParticleClone->D2))->PID);
 
             }
 
@@ -131,12 +131,12 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 
 
         if (ParticleClone->Status == GeneratorParticle) {
-            Print(HInformation, "Particles Status", "Generator");
+            Print(kInformation, "Particles Status", "Generator");
 
             HFamily Family(ParticleId, MotherId, Mother2Id);
-            HConstituent Constituent(const_cast<delphes::GenParticle *>(ParticleClone)->P4(), Family);
-            fastjet::PseudoJet GeneratorJet = PseudoJet(Constituent.Momentum());
-            GeneratorJet.set_user_info(new HJetInfo(Constituent));
+            Constituent constituent(const_cast<delphes::GenParticle *>(ParticleClone)->P4(), Family);
+            fastjet::PseudoJet GeneratorJet = PseudoJet(constituent.Momentum());
+            GeneratorJet.set_user_info(new JetInfo(constituent));
             GeneratorJets.emplace_back(GeneratorJet);
 
 
@@ -146,7 +146,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 // const TLorentzVector TopVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();
                 fastjet::PseudoJet NeutrinoJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 NeutrinoJet.set_user_index(ParticleId);
-                Print(HInformation, "Neutrino", NeutrinoJet);
+                Print(kInformation, "Neutrino", NeutrinoJet);
                 NeutrinoJets.emplace_back(NeutrinoJet);
             }
 
@@ -155,7 +155,7 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 const TLorentzVector TopVector = const_cast<delphes::GenParticle *>(ParticleClone)->P4();
                 fastjet::PseudoJet TopJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 TopJet.set_user_index(ParticleId);
-                Print(HInformation, "Top", TopJet);
+                Print(kInformation, "Top", TopJet);
 
                 TopJets.emplace_back(TopJet);
                 ParticleJets.emplace_back(TopJet);
@@ -163,12 +163,12 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
                 if (ParticleId > 0) {
 
                     TopVectors.emplace_back(TopVector);
-                    Print(HDebug, "Top");
+                    Print(kDebug, "Top");
 
                 } else if (ParticleId < 0) {
 
                     AntiTopVector.emplace_back(TopVector);
-                    Print(HDebug, "Anti Top");
+                    Print(kDebug, "Anti Top");
 
                 }
 
@@ -177,19 +177,19 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
             if (std::abs(ParticleId) == BottomId) {
                 fastjet::PseudoJet BottomJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
 //                 BottomJet.set_user_index(ParticleId);
-                Print(HInformation, "Bottom", MotherId, Mother2Id);
+                Print(kInformation, "Bottom", MotherId, Mother2Id);
             }
 
             if (std::abs(ParticleId) == ElectronId || std::abs(ParticleId) == MuonId) {
                 fastjet::PseudoJet LeptonJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 //                 BottomJet.set_user_index(ParticleId);
-                Print(HInformation, "Lepton", LeptonJet);
+                Print(kInformation, "Lepton", LeptonJet);
             }
 
             if (std::abs(ParticleId) == WId) {
                 fastjet::PseudoJet WJet = PseudoJet(const_cast<delphes::GenParticle *>(ParticleClone)->P4());
                 //                 BottomJet.set_user_index(ParticleId);
-                Print(HInformation, "W", WJet);
+                Print(kInformation, "W", WJet);
             }
         }
 
@@ -198,21 +198,21 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
 //           if (ParticleClone->M1 < ParticleNumber) {
 //
 //
-//             Print(HError, "Daughter 0",static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->Constituents().front().Family().ParticleId,static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->Constituents().front().Family().Mother1Id);
+//             Print(kError, "Daughter 0",static_cast<JetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->constituents().front().Family().ParticleId,static_cast<JetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->constituents().front().Family().Mother1Id);
 //
-//                 Print(HError, "Daughter",
+//                 Print(kError, "Daughter",
 //                       ParticleNumber, ParticleId, ParticleClone->M1, MotherId);
 //
-//                 static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->AddDaughter(ParticleId);
+//                 static_cast<JetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->AddDaughter(ParticleId);
 //
-//                 Print(HError, "Daughter 2",
-//                       static_cast<HJetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->Constituents().front().Family().Daughters.size());
+//                 Print(kError, "Daughter 2",
+//                       static_cast<JetInfo *>(GeneratorJets.at(ParticleClone->M1).user_info_shared_ptr().get())->constituents().front().Family().Daughters.size());
 //             }
 //         }
     }
 
     fastjet::PseudoJet Met;
-    Print(HInformation, "MPt", std::accumulate(NeutrinoJets.begin(), NeutrinoJets.end(), Met));
+    Print(kInformation, "MPt", std::accumulate(NeutrinoJets.begin(), NeutrinoJets.end(), Met));
 
     return 1;
 

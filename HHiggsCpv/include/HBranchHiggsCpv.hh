@@ -13,7 +13,7 @@ class HBranchDiscriminator;
 class HJetDiscriminator;
 class HMvaEvent;
 class HEventBranch;
-// class HBottomBranch;
+// class BottomBranch;
 // class HTopBranch;
 class HLeptonBranch;
 class HMvaBottom;

@@ -3,7 +3,7 @@
 
 void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 {
-    Print(HNotification, "Set File Vector", tag);
+    Print(kNotification, "Set File Vector", tag);
 
     switch (tag) {
     case kSignal :
@@ -33,7 +33,7 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 
 int hbtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
 {
-    Print(HInformation, "Analysis");
+    Print(kInformation, "Analysis");
     ++event_sum_;
     switch (stage) {
     case hanalysis::Tagger::kTrainer :

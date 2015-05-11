@@ -7,7 +7,7 @@
 # include "HJetTag.hh"
 # include "Reader.hh"
 # include "BottomTagger.hh"
-# include "HDoublet.hh"
+# include "Doublet.hh"
 
 /**
  * @brief calculation regarding leptons
@@ -26,9 +26,9 @@ public:
 
     std::vector< HHiggsBranch * > GetBranches(HEvent &Event, const HObject::Tag State);
 
-    std::vector<HParticleBranch *> GetConstituentBranches();
+    std::vector<ParticleBranch *> GetconstituentBranches();
 
-    void FillBranch(const HDoublet &Pair);
+    void FillBranch(const Doublet &Pair);
 
 private:
 
@@ -42,11 +42,11 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(HHiggsBranch * const HiggsBranch, const HDoublet &Pair);
+    void FillBranch(HHiggsBranch * const HiggsBranch, const Doublet &Pair);
 
     void FillBranch(const HKinematics &Vector);
 
-    void FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector);
+    void FillBranch(ParticleBranch *const constituentBranch, const HKinematics &Vector);
 
     virtual inline std::string ClassName() const {
         return "HMvaHiggsTagger";

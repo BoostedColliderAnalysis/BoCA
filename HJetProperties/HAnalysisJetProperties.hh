@@ -73,59 +73,59 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *ParticleBranch;
-    ExRootTreeBranch *ParticleConstituentBranch;
+    ExRootTreeBranch *particle_branch;
+    ExRootTreeBranch *ParticleconstituentBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
     ExRootTreeBranch *TrimmedBranch;
-    ExRootTreeBranch *TrimmedConstituentBranch;
+    ExRootTreeBranch *TrimmedconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
     ExRootTreeBranch *AktFatJetBranch;
-    ExRootTreeBranch *AktFatJetConstituentBranch;
+    ExRootTreeBranch *AktFatJetconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
     ExRootTreeBranch *AktMassDropBranch;
-    ExRootTreeBranch *AktMassDropConstituentBranch;
+    ExRootTreeBranch *AktMassDropconstituentBranch;
 
     ExRootTreeBranch *AktPrunerBranch;
-    ExRootTreeBranch *AktPrunerConstituentBranch;
+    ExRootTreeBranch *AktPrunerconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
     ExRootTreeBranch *CAFatJetBranch;
-    ExRootTreeBranch *CAFatJetConstituentBranch;
+    ExRootTreeBranch *CAFatJetconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
     ExRootTreeBranch *CAMassDropBranch;
-    ExRootTreeBranch *CAMassDropConstituentBranch;
+    ExRootTreeBranch *CAMassDropconstituentBranch;
 
     ExRootTreeBranch *CAPrunerBranch;
-    ExRootTreeBranch *CAPrunerConstituentBranch;
+    ExRootTreeBranch *CAPrunerconstituentBranch;
 
     ExRootTreeBranch *CASJTBranch;
-    ExRootTreeBranch *CASJTConstituentBranch;
+    ExRootTreeBranch *CASJTconstituentBranch;
 
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *ConstituentBranch;
+    ExRootTreeBranch *constituentBranch;
 
 private:
 

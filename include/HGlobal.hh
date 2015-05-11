@@ -35,9 +35,9 @@ class HFamily;
 class HAnalysis;
 class HTag;
 class HJetTag;
-class HJetInfo;
-class HDoublet;
-class HTriplet;
+class JetInfo;
+class Doublet;
+class Triplet;
 class HJetLeptonPair;
 class HQuartet;
 class HQuartet31;
@@ -74,10 +74,10 @@ class Factory;
 class Reader;
 
 class HTagPrivate;
-class HDoubletPrivate;
-class HTripletPrivate;
+class DoubletPrivate;
+class TripletPrivate;
 class HSextetPrivate;
-class HJetInfoPrivate;
+class JetInfoPrivate;
 
 
 /**

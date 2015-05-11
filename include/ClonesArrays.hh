@@ -75,13 +75,13 @@ public:
     }
 
     void UseBranches(ExRootTreeReader &tree_reader) {
-        Print(HNotification, "Use Branches");
+        Print(kNotification, "Use Branches");
         for (const auto branch : Branches()) clones_arrays_.emplace_back(tree_reader.UseBranch(BranchName(branch).c_str()));
     }
 
     inline const TClonesArray &ClonesArray(const Branch branch) const {
 //        std::vector<Branch> branches = Branches();
-        if (std::find(Branches().begin(), Branches().end(), branch) == Branches().end()) Print(HError, "Not in branch");
+        if (std::find(Branches().begin(), Branches().end(), branch) == Branches().end()) Print(kError, "Not in branch");
         return *clones_arrays_.at(branch);
     }
 

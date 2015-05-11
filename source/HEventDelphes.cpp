@@ -5,8 +5,8 @@
 
 hanalysis::hdelphes::HEvent::HEvent()
 {
-// DebugLevel=HDebug;
-    Print(HNotification, "Constructor");
+// DebugLevel=kDebug;
+    Print(kNotification, "Constructor");
 
     Particles = new hdelphes::HParticle();
     jets = new hdelphes::HJet();
@@ -20,7 +20,7 @@ hanalysis::hdelphes::HEvent::HEvent()
 hanalysis::hdelphes::HEvent::~HEvent()
 {
 
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
     delete Particles;
     delete jets;
@@ -34,7 +34,7 @@ hanalysis::hdelphes::HEvent::~HEvent()
 void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &ClonesArrays)
 {
 
-    Print(HInformation, "New Event");
+    Print(kInformation, "New Event");
 
     Particles->NewEvent(ClonesArrays);
     jets->NewEvent(ClonesArrays);
@@ -48,7 +48,7 @@ void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &Clones
 // fastjet::PseudoJet hanalysis::hdelphes::HEvent::GetHiggs()
 // {
 //
-//     Print(HInformation, "Get Higgs");
+//     Print(kInformation, "Get Higgs");
 //
 // //     fastjet::PseudoJet HiggsJet = HiggsTagger->GetHiggsJet(Jets->GetEFlowJets(),Particles->GetBottomJets(),Particles->GetCharmJets());
 //
@@ -59,7 +59,7 @@ void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &Clones
 // Jets hanalysis::hdelphes::HEvent::GetTops(hanalysis::HJetTag &JetTag)
 // {
 //
-//     Print(HInformation, "Get Tops", JetTag.GetBranchId(0,0));
+//     Print(kInformation, "Get Tops", JetTag.GetBranchId(0,0));
 //
 //     Jets EFlowJets = Jets->GetEFlowJets();
 //
@@ -71,7 +71,7 @@ void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &Clones
 //
 // Jets hanalysis::hdelphes::HEvent::GetCandidates(hanalysis::HJetTag  &JetTag) // FIXME why does this not work
 // {
-//     Print(HInformation, "GetHiggsTopCandidates");
+//     Print(kInformation, "GetHiggsTopCandidates");
 //
 //     return Discriminator->GetCandidateJets(Jets->GetIsolatedTaggedEFlowJets(JetTag), Jets->GetScalarHt());
 //

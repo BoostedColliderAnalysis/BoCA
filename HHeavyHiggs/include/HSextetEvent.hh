@@ -90,7 +90,7 @@ public:
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
         SetBdt(Bdt() * (JetNumber() + 1));
         jets_.emplace_back(NewJet);
-        SetBdt(Bdt() + NewJet.user_info<hanalysis::HJetInfo>().Bdt());
+        SetBdt(Bdt() + NewJet.user_info<hanalysis::JetInfo>().Bdt());
         SetBdt(Bdt() / (JetNumber() + 1));
     }
 
@@ -112,7 +112,7 @@ public:
     float RestBdt() const {
         if (RestNumber() < 1) return 0;
         float bdt = 0;
-        for (const auto & jet : jets_) bdt += jet.user_info<hanalysis::HJetInfo>().Bdt();
+        for (const auto & jet : jets_) bdt += jet.user_info<hanalysis::JetInfo>().Bdt();
         return bdt / RestNumber();
     }
 

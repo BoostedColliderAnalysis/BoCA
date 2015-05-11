@@ -46,8 +46,8 @@ set(WrapperSources
 HTag.cpp
 HTagPrivate.cpp
 Singlet.cpp
-HDoublet.cpp
-HTriplet.cpp
+Doublet.cpp
+Triplet.cpp
 HQuartet.cpp
 HQuartet31.cpp
 HSextet.cpp
@@ -65,7 +65,7 @@ add_dependencies(HepTagger HepTopTagger)
 set(AnalysisSources
 HAnalysis.cpp
 HJetTag.cpp
-HJetInfo.cpp
+JetInfo.cpp
 HReconstruction.cpp
 HDiscriminator.cpp
 HHiggsTagger.cpp

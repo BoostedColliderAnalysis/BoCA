@@ -14,7 +14,7 @@ public:
 
     BottomTagger();
 
-    HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
+    BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
     int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
 
@@ -34,33 +34,39 @@ public:
       return jets.size();
     }
 
+    fastjet::PseudoJet GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
+
     Jets GetMultiJetBdt(Jets &jets, const Reader &reader) {
-        Print(HError, "Bdt", "depreciated");
+        Print(kError, "Bdt", "depreciated");
     }
 
     Jets GetJetBdt(const Jets &jets, const Reader &reader) {
-        Print(HError, "Bdt", "depreciated");
+        Print(kError, "Bdt", "depreciated");
     }
 
-    Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader) {
-      Print(HError, "Bdt", "depreciated");
-    }
+    Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader);
 
     Jets GetSubBdt(const Jets &jets, const Reader &reader, const int sub_jet_number) {
-        Print(HError, "Bdt", "depreciated");
+        Print(kError, "Bdt", "depreciated");
     }
 
+    Jets GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number);
+
     float ReadBdt(const TClonesArray &clones_array, const int entry) {
-        return static_cast<HBottomBranch &>(*clones_array.At(entry)).Bdt;
+        return static_cast<BottomBranch &>(*clones_array.At(entry)).Bdt;
     }
 
     void SaveEntries(const Jets &jets) {
-        for (const auto & jet : jets) static_cast<HBottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
+        for (const auto & jet : jets) static_cast<BottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
     }
 
     TClass &Class() const {
-        return *HBottomBranch::Class();
+        return *BottomBranch::Class();
     }
+
+    float GetDeltaR(const fastjet::PseudoJet &jet) const;
+
+    float GetSpread(const fastjet::PseudoJet &jet) const;
 
 protected:
 
@@ -76,11 +82,7 @@ private:
 
     Jets GetSubJets(const Jets &jets, const Jets &particles, const hanalysis::HObject::Tag tag, const int sub_jet_number);
 
-    float GetDeltaR(const fastjet::PseudoJet &jet) const;
-
-    float GetSpread(const fastjet::PseudoJet &jet) const;
-
-    HBottomBranch branch_;
+    BottomBranch branch_;
 
 };
 }

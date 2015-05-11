@@ -34,7 +34,7 @@ public:
 
   HOctet44(){};
 
-    HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewDoublet);
+    HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &Newdoublet);
 
     HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedEventStruct &NewEventStruct);
 
@@ -86,11 +86,11 @@ public:
     }
 
     inline float BottomBdt() const {
-      return Quartet1().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet1().Triplet().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet2().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet2().Triplet().Singlet().user_info<hanalysis::HJetInfo>().Bdt();
+      return Quartet1().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet1().triplet().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().Singlet().user_info<hanalysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-      return Quartet2().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Quartet2().Triplet().Singlet().user_info<hanalysis::HJetInfo>().Bdt();
+      return Quartet2().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().Singlet().user_info<hanalysis::JetInfo>().Bdt();
     }
 
 //     inline float GetDeltaPt1() const {

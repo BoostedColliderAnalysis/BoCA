@@ -37,7 +37,7 @@ public:
 
     std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
-    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::Reader & EventSemiReader);
+    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::Doublet > &doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::Reader & EventSemiReader);
 
     std::vector< int > ApplyBdt2(const ExRootTreeReader*const TreeReader, const std::string TreeName, const TFile*const ExportFile);
 

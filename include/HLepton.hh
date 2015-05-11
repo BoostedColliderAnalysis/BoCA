@@ -48,7 +48,7 @@ protected:
    *
    */
   virtual bool GetElectrons(HJetDetails JetDetails) {
-    Print(HError,"should be subclassed",JetDetails);
+    Print(kError,"should be subclassed",JetDetails);
     return 0;
   }
 
@@ -57,7 +57,7 @@ protected:
    *
    */
   virtual bool GetMuons(HJetDetails JetDetails) {
-    Print(HError,"should be subclassed",JetDetails);
+    Print(kError,"should be subclassed",JetDetails);
     return 0;
   }
 

@@ -28,7 +28,6 @@ ClassImp(hheavyhiggs::HEventLeptonicBranch)
 
 hheavyhiggs::HEventLeptonicBranch::HEventLeptonicBranch()
 {
-
     Mass = InitialValue();
     Pt = InitialValue();
     Rap = InitialValue();

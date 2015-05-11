@@ -27,17 +27,17 @@ public:
     virtual void NewEvent(const ClonesArrays &) = 0;
 
     virtual Jets GetTops(HJetTag &) {
-        Print(HError, "Get Tops", "No Tops");
+        Print(kError, "Get Tops", "No Tops");
         return Jets{};
     }
 
     virtual fastjet::PseudoJet GetHiggs() {
-        Print(HError, "Get Higgs", "No Higgs");
+        Print(kError, "Get Higgs", "No Higgs");
         return fastjet::PseudoJet();
     }
 
     virtual Jets GetCandidates(HJetTag &) {
-        Print(HError, "Get Candidates", "No Candidates");
+        Print(kError, "Get Candidates", "No Candidates");
          return Jets{};
     }
 
@@ -122,7 +122,7 @@ protected:
 //     hanalysis::HHiggsTagger *HiggsTagger;
 
     /**
-     * @brief SubJetInformation
+     * @brief Subjet_information
      *
      */
 //     hanalysis::HDiscriminator *Discriminator;

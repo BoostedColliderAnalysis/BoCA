@@ -1,7 +1,7 @@
 # pragma once
 
 
-# include "HDoublet.hh"
+# include "Doublet.hh"
 # include "BottomTagger.hh"
 # include "Reader.hh"
 
@@ -20,13 +20,13 @@ public:
 
     std::vector<HTopLeptonBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
-    std::vector<hanalysis::HDoublet> GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &Reader);
+    std::vector<hanalysis::Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &Reader);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
         return static_cast<HTopLeptonBranch &>(*EventClonesArray.At(Entry)).Bdt;
     }
 
-    HTopLeptonBranch GetBranch(const hanalysis::HDoublet &Doublet) const;
+    HTopLeptonBranch GetBranch(const hanalysis::Doublet &doublet) const;
 
     hanalysis::BottomTagger bottom_tagger_;
 

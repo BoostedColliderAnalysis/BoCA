@@ -3,7 +3,7 @@
 // hheavyhiggs::HAnalysisHeavyHiggsDelphes::HAnalysisHeavyHiggsDelphes()
 // {
 //
-//     Print(HNotification, "Constructor");
+//     Print(kNotification, "Constructor");
 //
 // }
 
@@ -21,7 +21,7 @@ Strings hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 std::vector<hanalysis::RootFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const std::string &Study)
 {
 
-    Print(HNotification, "Fill Analysis Vector", Study);
+    Print(kNotification, "Fill Analysis Vector", Study);
 
     std::vector<hanalysis::RootFile*> NewFiles;
 
@@ -35,7 +35,7 @@ std::vector<hanalysis::RootFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFi
 
 //     FileVector.emplace_back(new HFile("pp-bbtt-4f", "background");
 
-    Print(HNotification, "Files prepared");
+    Print(kNotification, "Files prepared");
 
     return NewFiles;
 
@@ -44,7 +44,7 @@ std::vector<hanalysis::RootFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFi
 void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *NewTreeWriter)
 {
 
-    Print(HNotification, "New File");
+    Print(kNotification, "New File");
 
     HeavyHiggsBranch = NewTreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
 
@@ -59,16 +59,16 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *NewT
 
 void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 {
-    Print(HNotification, "Close File");
+    Print(kNotification, "Close File");
 
 //     if (Cut) {
 
-        Print(HNotification, "EventCounter", EventCounter);
-        Print(HNotification, "JetCounter", JetCounter);
-        Print(HNotification, "DeltaRapCounter", DeltaRapCounter);
-        Print(HNotification, "BMassCounter", BMassCounter);
-        Print(HNotification, "Jet2Counter", Jet2Counter);
-        Print(HNotification, "TMassCounter", TMassCounter);
+        Print(kNotification, "EventCounter", EventCounter);
+        Print(kNotification, "JetCounter", JetCounter);
+        Print(kNotification, "DeltaRapCounter", DeltaRapCounter);
+        Print(kNotification, "BMassCounter", BMassCounter);
+        Print(kNotification, "Jet2Counter", Jet2Counter);
+        Print(kNotification, "TMassCounter", TMassCounter);
 
 //     }
 
@@ -77,7 +77,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent &Event, const std::string &Name)
 {
 
-    Print(HInformation, "Analysis");
+    Print(kInformation, "Analysis");
 
     bool Success = 0;
 
@@ -100,7 +100,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent &Event, 
 // int hheavyhiggs::HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
 // {
 //
-//     Print(HInformation, "Get Mother Id");
+//     Print(kInformation, "Get Mother Id");
 //
 //     if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
 //         BranchId = IsrId;
@@ -110,7 +110,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent &Event, 
 //         BranchId = ParticleId;
 //     }
 //
-//     Print(HDetailed, "Mother Id", BranchId);
+//     Print(kDetailed, "Mother Id", BranchId);
 //
 //
 //     return BranchId;
@@ -128,7 +128,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent &Event, 
 bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent &Event)
 {
 
-    Print(HInformation, "Signal");
+    Print(kInformation, "Signal");
 
     hanalysis::HJetTag  JetTag;
 //     Event.GetTaggedJets(HeavyHiggsJetTag);
@@ -145,7 +145,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent &Event)
 
     if (BottomJetVector.size() < 2)  return 0;
 
-    Print(HError,"Signal Bottom",BottomJetVector.size());
+    Print(kError,"Signal Bottom",BottomJetVector.size());
 
     std::sort(BottomJetVector.begin(), BottomJetVector.end(), SortJetByRap());
 
@@ -162,7 +162,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent &Event)
 bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent &Event)
 {
 
-    Print(HInformation, "Background");
+    Print(kInformation, "Background");
 
     hanalysis::HJetTag  HeavyHiggsJetTag;
 //     Event.GetTaggedJets(HeavyHiggsJetTag);
@@ -249,7 +249,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent &Even
 bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent &Event)
 {
 
-    Print(HInformation, "Test");
+    Print(kInformation, "Test");
 
 //     Event.GetJets();
 

@@ -10,32 +10,32 @@
 // };
 
 
-hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDoublet2)
+hanalysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoublet2)
 // : hanalysis::HTag(*new HQuartetPrivate)
 {
-    Print(HInformation, "Constructor");
-    Doublet1 = NewDoublet1;
-    Doublet2 = NewDoublet2;
-//     TagPrivate->Bdt = (Doublet1.Bdt() + Doublet2.Bdt())/2;
-//     TagPrivate->Tag = Doublet1.Tag() * Doublet2.Tag();
-    SetBdt((Doublet1.Bdt() + Doublet2.Bdt())/2);
-    SetTag(Doublet1.Tag() * Doublet2.Tag());
+    Print(kInformation, "Constructor");
+    doublet1 = Newdoublet1;
+    doublet2 = Newdoublet2;
+//     TagPrivate->Bdt = (doublet1.Bdt() + doublet2.Bdt())/2;
+//     TagPrivate->Tag = doublet1.Tag() * doublet2.Tag();
+    SetBdt((doublet1.Bdt() + doublet2.Bdt())/2);
+    SetTag(doublet1.Tag() * doublet2.Tag());
 }
 
-// hanalysis::HQuartet::HQuartet(const HDoublet &NewDoublet1, const HDoublet &NewDoublet2, const fastjet::PseudoJet &NewMet)
+// hanalysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoublet2, const fastjet::PseudoJet &NewMet)
 // {
-// //     DebugLevel = HObject::HDebug;
-//     Print(HInformation, "Constructor");
-//     Doublet1 = NewDoublet1;
-//     Doublet2 = NewDoublet2;
+// //     DebugLevel = HObject::kDebug;
+//     Print(kInformation, "Constructor");
+//     doublet1 = Newdoublet1;
+//     doublet2 = Newdoublet2;
 //     Met = NewMet;
-//     Bdt = Doublet1.Bdt() * Doublet2.Bdt();
-//     Tag = Doublet1.Tag() * Doublet2.Tag();
+//     Bdt = doublet1.Bdt() * doublet2.Bdt();
+//     Tag = doublet1.Tag() * doublet2.Tag();
 // }
 
 hanalysis::HQuartet::~HQuartet()
 {
 
-//     Print(HInformation, "Destructor");
+//     Print(kInformation, "Destructor");
 
 }

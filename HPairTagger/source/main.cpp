@@ -4,7 +4,7 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
 {
     hpairtagger::HAnalysis Analysis(tagger);
     const std::string Name = tagger.tagger_name();
-    Analysis.Print(Analysis.HError, "Tagger", Name);
+    Analysis.Print(Analysis.kError, "Tagger", Name);
 
     std::string FileName = Analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) Analysis.AnalysisLoop(stage);

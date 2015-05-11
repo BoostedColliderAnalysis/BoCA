@@ -4,7 +4,7 @@
 hhiggscpv::HMvaEvent::HMvaEvent()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     set_tagger_name("EventTagger");
 
@@ -47,7 +47,7 @@ hhiggscpv::HMvaEvent::HMvaEvent()
 hhiggscpv::HMvaEvent::~HMvaEvent()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     delete EventBranch;
 
@@ -56,7 +56,7 @@ hhiggscpv::HMvaEvent::~HMvaEvent()
 void hhiggscpv::HMvaEvent::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     AddVariable(EventBranch->ScalarHt, "ScalarHt");
     AddVariable(EventBranch->JetNumber, "JetNumber");
@@ -66,13 +66,13 @@ void hhiggscpv::HMvaEvent::DefineVariables()
 
     AddSpectator(EventBranch->Signal, "Signal");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 
 void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
-    Print(HNotification, "Apply Bdt");
+    Print(kNotification, "Apply Bdt");
 
     const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
@@ -97,7 +97,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 
             const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
 
-            Print(HInformation,"Bdt",BdtEvaluation);
+            Print(kInformation,"Bdt",BdtEvaluation);
 
             float SigEff;
             const int StepSize = 50;
@@ -140,11 +140,11 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 // ReaderStruct hhiggscpv::HMvaEvent::CutLoop(const ExRootTreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
-//     Print(HNotification, "Cut Loop");
+//     Print(kNotification, "Cut Loop");
 //
 //     int ObservableSum = Observables.size();
 //
-//     Print(HNotification, "Observables", Observables.size());
+//     Print(kNotification, "Observables", Observables.size());
 //
 //     ReaderStruct.HiggsSum = 0;
 //     ReaderStruct.TopSum = 0;
@@ -161,14 +161,14 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 //     ReaderStruct.HiggsVector.assign(ObservableSum, 0);
 //     ReaderStruct.TopVector.assign(ObservableSum, 0);
 //
-//     Print(HInformation, "Vectors assigned");
+//     Print(kInformation, "Vectors assigned");
 //
 //     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 //
 //
 //     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 //     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
-//         Print(HDebug, "Event Loop");
+//         Print(kDebug, "Event Loop");
 //
 //         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 //
@@ -180,7 +180,7 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 //
 //         for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
 //
-//             Print(HDebug, "Candidate Loop");
+//             Print(kDebug, "Candidate Loop");
 //             ++ReaderStruct.FatJetSum;
 //
 // //             if (EventBranch->TopTag) {
@@ -202,24 +202,24 @@ void hhiggscpv::HMvaEvent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 //             bool ParticleCut = 0;
 //             for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 //
-//                 Print(HDebug, "Observable Loop");
+//                 Print(kDebug, "Observable Loop");
 //
-//                 Print(HDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
+//                 Print(kDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
 //
 //                 if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
 //                     || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 //
-//                     Print(HDebug, "we are here", 1);
+//                     Print(kDebug, "we are here", 1);
 //
 //                     ParticleCut = 1;
 //
 //                 } else {
 //
-//                     Print(HDebug, "we are here", 2);
+//                     Print(kDebug, "we are here", 2);
 //                     ++ReaderStruct.CutFlowVector[ObservableNumber];
 //
 //                 }
-//                 Print(HDebug, "Struct filled");
+//                 Print(kDebug, "Struct filled");
 //
 //                 if (!ParticleCut) {
 //

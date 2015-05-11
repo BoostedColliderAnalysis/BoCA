@@ -1,7 +1,7 @@
 # ifndef HQuartet31_hh
 # define HQuartet31_hh
 
-# include "HTriplet.hh"
+# include "Triplet.hh"
 
 namespace hanalysis{
   class HQuartet31Private;
@@ -14,20 +14,20 @@ public:
 
     HQuartet31();
 
-    HQuartet31(const hanalysis::HTriplet& NewTriplet, const fastjet::PseudoJet& NewSinglet);
+    HQuartet31(const hanalysis::Triplet& Newtriplet, const fastjet::PseudoJet& NewSinglet);
 
     ~HQuartet31();
 
-    HTriplet Triplet() const;
+    Triplet triplet() const;
 
     fastjet::PseudoJet Singlet() const;
 
-    inline fastjet::PseudoJet TripletJet()const{
-      return Triplet().Jet();
+    inline fastjet::PseudoJet tripletJet()const{
+      return triplet().Jet();
     }
 
     inline fastjet::PseudoJet Jet() const {
-        return (Triplet().Jet() + Singlet());
+        return (triplet().Jet() + Singlet());
     }
 
     inline float MassDifferenceTo(const HParticleId ParticleId) const {
@@ -35,30 +35,30 @@ public:
     }
 
     inline float Ht() const {
-      return (Triplet().Ht() + Singlet().pt());
+      return (triplet().Ht() + Singlet().pt());
     }
 
     inline float DeltaPt() const {
-      return (Triplet().Jet().pt() - Singlet().pt());
+      return (triplet().Jet().pt() - Singlet().pt());
     }
 
     inline float DeltaHt() const {
-      return (Triplet().Ht() - Singlet().pt());
+      return (triplet().Ht() - Singlet().pt());
     }
 
     inline float DeltaR() const {
-        return Triplet().Jet().delta_R(Singlet());
+        return triplet().Jet().delta_R(Singlet());
     }
     inline float DeltaRap() const {
-        return (Triplet().Jet().rap() - Singlet().rap());
+        return (triplet().Jet().rap() - Singlet().rap());
     }
 
     inline float DeltaPhi() const {
-        return Triplet().Jet().delta_phi_to(Singlet());
+        return triplet().Jet().delta_phi_to(Singlet());
     }
 
     inline float DeltaM() const {
-      return (Triplet().Jet().m() - Singlet().m());
+      return (triplet().Jet().m() - Singlet().m());
     }
 
 protected:
@@ -71,11 +71,11 @@ private:
 
   //     HQuartet31(HQuartet31Private& NewQuartet31Private);
 
-  void SetTriplet(const HTriplet &NewTriplet);
+  void Settriplet(const Triplet &Newtriplet);
 
   void SetSinglet(const fastjet::PseudoJet &NewSinglet);
 
-  HTriplet TripletM;
+  Triplet tripletM;
 
   fastjet::PseudoJet SingletM;
 

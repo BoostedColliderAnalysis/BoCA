@@ -7,7 +7,7 @@
 # include "HObject.hh"
 # include "ClonesArrays.hh"
 # include "HJetTag.hh"
-# include "HJetInfo.hh"
+# include "JetInfo.hh"
 
 # include "HDelphes.hh"
 
@@ -50,7 +50,7 @@ protected:
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByEnergy(const TParticle &Particle) const {
 
-        Print(HDebug, "Get Lorentz Vector by Energy");
+        Print(kDebug, "Get Lorentz Vector by Energy");
 
         TLorentzVector LorentzVector;
 
@@ -63,10 +63,10 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.Pt() - Pt > Check) Print(HError, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(HError, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(HError, "Phi", Phi, LorentzVector.Phi());
-            if (LorentzVector.E() - Energy > Check) Print(HError, "Energy", Energy, LorentzVector.E());
+            if (LorentzVector.Pt() - Pt > Check) Print(kError, "Pt", Pt, LorentzVector.Pt());
+            if (LorentzVector.Eta() - Eta > Check) Print(kError, "Eta", Eta, LorentzVector.Eta());
+            if (LorentzVector.Phi() - Phi > Check) Print(kError, "Phi", Phi, LorentzVector.Phi());
+            if (LorentzVector.E() - Energy > Check) Print(kError, "Energy", Energy, LorentzVector.E());
 
         }
 
@@ -77,7 +77,7 @@ protected:
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByMass(const TParticle &Particle, const float Mass) const {
 
-        Print(HDebug, "Get Lorentz Vector by Mass");
+        Print(kDebug, "Get Lorentz Vector by Mass");
 
         TLorentzVector LorentzVector;
 
@@ -89,9 +89,9 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.Pt() - Pt > Check) Print(HError, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(HError, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(HError, "Phi", Phi, LorentzVector.Phi());
+            if (LorentzVector.Pt() - Pt > Check) Print(kError, "Pt", Pt, LorentzVector.Pt());
+            if (LorentzVector.Eta() - Eta > Check) Print(kError, "Eta", Eta, LorentzVector.Eta());
+            if (LorentzVector.Phi() - Phi > Check) Print(kError, "Phi", Phi, LorentzVector.Phi());
 
         }
 
@@ -102,7 +102,7 @@ protected:
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByMass(const TParticle &Particle) const {
 
-        Print(HDebug, "Get Lorentz Vector by Mass");
+        Print(kDebug, "Get Lorentz Vector by Mass");
 
         const float Mass = Particle.Mass;
 
@@ -110,7 +110,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.M() - Mass > MassCheck) Print(HError, "Mass", Mass, LorentzVector.M());
+            if (LorentzVector.M() - Mass > MassCheck) Print(kError, "Mass", Mass, LorentzVector.M());
 
         }
 
@@ -121,7 +121,7 @@ protected:
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByM(const TParticle &Particle) const {
 
-        Print(HDebug, "Get Lorentz Vector by Mass");
+        Print(kDebug, "Get Lorentz Vector by Mass");
 
         const float Mass = Particle.M;
 
@@ -129,7 +129,7 @@ protected:
 
         if (CheckFourVectors) {
 
-            if (LorentzVector.M() - Mass > MassCheck) Print(HError, "Mass", Mass, LorentzVector.M());
+            if (LorentzVector.M() - Mass > MassCheck) Print(kError, "Mass", Mass, LorentzVector.M());
 
         }
 

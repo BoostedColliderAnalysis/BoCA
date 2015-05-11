@@ -33,7 +33,7 @@ public:
 
     std::vector<HOctetBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::HDoublet > &Doublets, const hanalysis::Reader &Reader);
+    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::Doublet > &doublets, const hanalysis::Reader &Reader);
 
 
     HOctetBranch GetBranch(const HOctet &Octet) const;

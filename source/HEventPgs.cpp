@@ -3,7 +3,7 @@
 
 hanalysis::hpgs::HEvent::HEvent()
 {
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
     Lepton = new HLepton();
     jets = new HJet();
@@ -11,7 +11,7 @@ hanalysis::hpgs::HEvent::HEvent()
 
 hanalysis::hpgs::HEvent::~HEvent()
 {
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
     delete Lepton;
     delete jets;
@@ -21,7 +21,7 @@ hanalysis::hpgs::HEvent::~HEvent()
 void hanalysis::hpgs::HEvent::NewEvent(const hanalysis::ClonesArrays &ClonesArrays)
 {
 
-    Print(HInformation, "New Event");
+    Print(kInformation, "New Event");
 
     Lepton->NewEvent(ClonesArrays);
     jets->NewEvent(ClonesArrays);

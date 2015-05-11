@@ -2,17 +2,17 @@
 
 hanalysis::HMvaHiggsTagger::HMvaHiggsTagger()
 {
-  //     DebugLevel = hanalysis::HObject::HDebug;
+  //     DebugLevel = hanalysis::HObject::kDebug;
 
-  Print(HNotification, "Constructor");
+  Print(kNotification, "Constructor");
 //   SetBranchName("Higgs");
 }
 
 hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const BottomTagger &NewBottomTagger)
 {
-//     DebugLevel = hanalysis::HObject::HDebug;
+//     DebugLevel = hanalysis::HObject::kDebug;
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
     bottom_tagger_ = NewBottomTagger;
     BottomReader.set_tagger(bottom_tagger_);
@@ -30,7 +30,7 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const BottomTagger &NewBottomTagger)
 
 hanalysis::HMvaHiggsTagger::~HMvaHiggsTagger()
 {
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
     // delete Branch;
 //     delete BottomReader;
     //delete JetTag;
@@ -39,7 +39,7 @@ hanalysis::HMvaHiggsTagger::~HMvaHiggsTagger()
 void hanalysis::HMvaHiggsTagger::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     AddVariable(Branch.Mass, "Mass");
     AddVariable(Branch.PtSum, "PtSum");
@@ -54,31 +54,31 @@ void hanalysis::HMvaHiggsTagger::DefineVariables()
 
     AddSpectator(Branch.HiggsTag, "HiggsTag");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const HDoublet &Doublet)
+void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const Doublet &doublet)
 {
-    Print(HInformation, "FillPairTagger", Doublet.Bdt());
+    Print(kInformation, "FillPairTagger", doublet.Bdt());
 
-    HiggsBranch->Mass = Doublet.Jet().m();
-    HiggsBranch->PtSum = Doublet.Jet().pt();
-    HiggsBranch->PtDiff = Doublet.DeltaPt();
-    HiggsBranch->DeltaR = Doublet.DeltaR();
-    HiggsBranch->DeltaRap = Doublet.DeltaRap();
-    HiggsBranch->DeltaPhi = Doublet.DeltaPhi();
-    HiggsBranch->BottomBdt = Doublet.Bdt();
-    HiggsBranch->Pull1 = Doublet.PullAngle1();
-    HiggsBranch->Pull2 = Doublet.PullAngle2();
-    HiggsBranch->Pull = Doublet.PullAngle();
-    HiggsBranch->HiggsTag = Doublet.Tag();
+    HiggsBranch->Mass = doublet.Jet().m();
+    HiggsBranch->PtSum = doublet.Jet().pt();
+    HiggsBranch->PtDiff = doublet.DeltaPt();
+    HiggsBranch->DeltaR = doublet.DeltaR();
+    HiggsBranch->DeltaRap = doublet.DeltaRap();
+    HiggsBranch->DeltaPhi = doublet.DeltaPhi();
+    HiggsBranch->BottomBdt = doublet.Bdt();
+    HiggsBranch->Pull1 = doublet.PullAngle1();
+    HiggsBranch->Pull2 = doublet.PullAngle2();
+    HiggsBranch->Pull = doublet.PullAngle();
+    HiggsBranch->HiggsTag = doublet.Tag();
 
 }
 
 
 struct SortPairByMass {
-    inline bool operator()(const hanalysis::HDoublet &Pair1, const hanalysis::HDoublet &Pair2) {
+    inline bool operator()(const hanalysis::Doublet &Pair1, const hanalysis::Doublet &Pair2) {
         return (Pair1.MassDifferenceTo(hanalysis::HObject::HiggsId) > Pair2.MassDifferenceTo(hanalysis::HObject::HiggsId));
     }
 };
@@ -87,7 +87,7 @@ struct SortPairByMass {
 std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Event, const HObject::Tag State)
 {
 
-    Print(HInformation, "Get Higgs Tags");
+    Print(kInformation, "Get Higgs Tags");
 
     JetTag.HeavyParticles = {CpvHiggsId, HiggsId, TopId};
     Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
@@ -98,11 +98,11 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
         if (std::abs((*Jet).user_index()) == MixedJetId) {
             Jet = jets.erase(Jet);
         } else {
-            HJetInfo *JetInfo = new HJetInfo;
+            JetInfo *jet_info = new JetInfo;
 //             BottomTagger.FillBranch(*Jet); // FIXME Broken
-            JetInfo->SetBdt(BottomReader.Bdt());
-            (*Jet).set_user_info(JetInfo);
-            if ((*Jet).user_info<HJetInfo>().MaximalId() == HiggsId || (*Jet).user_info<HJetInfo>().MaximalId() == CpvHiggsId) {
+            jet_info->SetBdt(BottomReader.Bdt());
+            (*Jet).set_user_info(jet_info);
+            if ((*Jet).user_info<JetInfo>().MaximalId() == HiggsId || (*Jet).user_info<JetInfo>().MaximalId() == CpvHiggsId) {
                 HiggsJets.emplace_back(*Jet);
             } else {
                 OtherJets.emplace_back(*Jet);
@@ -112,46 +112,46 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
     }
 
 
-    std::vector<HDoublet> Doublets;
+    std::vector<Doublet> doublets;
 
     if (State == kSignal) {
-        Print(HInformation, "Higgs Jets", HiggsJets.size());
+        Print(kInformation, "Higgs Jets", HiggsJets.size());
         for (Jets::iterator Jet1 = HiggsJets.begin(); Jet1 != HiggsJets.end(); ++Jet1) {
             for (Jets::iterator Jet2 = Jet1 + 1; Jet2 != HiggsJets.end(); ++Jet2) {
-                HDoublet Doublet((*Jet1), (*Jet2));
-                Doublet.SetTag(1);
-                Doublets.emplace_back(Doublet);
+                Doublet doublet((*Jet1), (*Jet2));
+                doublet.SetTag(1);
+                doublets.emplace_back(doublet);
             }
         }
-        std::sort(Doublets.begin(), Doublets.end(), SortPairByMass());
-        if (Doublets.size() > 1) {
-            Print(HDebug, "Number of Higgses", Doublets.size());
-            for (const auto & Doublet : Doublets) Print(HDebug, "Higgs Mass", Doublet.Jet().m());
-            Doublets.erase(Doublets.begin() + 1, Doublets.end());
+        std::sort(doublets.begin(), doublets.end(), SortPairByMass());
+        if (doublets.size() > 1) {
+            Print(kDebug, "Number of Higgses", doublets.size());
+            for (const auto & doublet : doublets) Print(kDebug, "Higgs Mass", doublet.Jet().m());
+            doublets.erase(doublets.begin() + 1, doublets.end());
         }
     }
 
     if (State == kBackground) {
         for (Jets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (Jets::iterator Jet2 = Jet1 + 1; Jet2 != OtherJets.end(); ++Jet2) {
-                HDoublet JetPair((*Jet1), (*Jet2));
+                Doublet JetPair((*Jet1), (*Jet2));
                 JetPair.SetTag(0);
-                Doublets.emplace_back(JetPair);
+                doublets.emplace_back(JetPair);
             }
         }
         for (Jets::iterator Jet1 = OtherJets.begin(); Jet1 != OtherJets.end(); ++Jet1) {
             for (Jets::iterator Jet2 = HiggsJets.begin(); Jet2 != HiggsJets.end(); ++Jet2) {
-                HDoublet JetPair((*Jet1), (*Jet2));
+                Doublet JetPair((*Jet1), (*Jet2));
                 JetPair.SetTag(0);
-                Doublets.emplace_back(JetPair);
+                doublets.emplace_back(JetPair);
             }
         }
     }
 
-    Print(HInformation, "Number of Jet Pairs", Doublets.size());
+    Print(kInformation, "Number of Jet Pairs", doublets.size());
 
     std::vector<HHiggsBranch *> HiggsBranches;
-    for (const auto & JetPair : Doublets) {
+    for (const auto & JetPair : doublets) {
         HHiggsBranch *HiggsBranch = new HHiggsBranch();
         FillBranch(HiggsBranch, JetPair);
         HiggsBranches.emplace_back(HiggsBranch);
@@ -161,50 +161,50 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Even
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(const HDoublet &Pair)
+void hanalysis::HMvaHiggsTagger::FillBranch(const Doublet &Pair)
 {
-    Print(HInformation, "FillPairTagger", Pair.Bdt());
+    Print(kInformation, "FillPairTagger", Pair.Bdt());
 
     FillBranch(&Branch, Pair);
 
 }
 
-std::vector<HParticleBranch *> hanalysis::HMvaHiggsTagger::GetConstituentBranches()
+std::vector<ParticleBranch *> hanalysis::HMvaHiggsTagger::GetconstituentBranches()
 {
 
-    Print(HInformation, "Get Higgs Tags");
+    Print(kInformation, "Get Higgs Tags");
 
-    std::vector<HDoublet> JetPairs;
+    std::vector<Doublet> JetPairs;
 
-    Print(HInformation, "Number of Jet Pairs", JetPairs.size());
+    Print(kInformation, "Number of Jet Pairs", JetPairs.size());
 
-    std::vector<HParticleBranch *> ConstituentBranches;
+    std::vector<ParticleBranch *> constituentBranches;
     for (const auto & JetPair : JetPairs) {
-        for (const auto & Constituent : JetPair.Constituents()) {
-            HParticleBranch *ConstituentBranch = new HParticleBranch();
-            FillBranch(ConstituentBranch, Constituent);
-            ConstituentBranches.emplace_back(ConstituentBranch);
+        for (const auto & constituent : JetPair.constituents()) {
+            ParticleBranch *constituentBranch = new ParticleBranch();
+            FillBranch(constituentBranch, constituent);
+            constituentBranches.emplace_back(constituentBranch);
         }
     }
 
-    return ConstituentBranches;
+    return constituentBranches;
 
 }
 
 void hanalysis::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
 {
-    Print(HInformation, "FillPairTagger", Vector.GetPt());
+    Print(kInformation, "FillPairTagger", Vector.GetPt());
 
     FillBranch(Vector);
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(HParticleBranch *const ConstituentBranch, const HKinematics &Vector)
+void hanalysis::HMvaHiggsTagger::FillBranch(ParticleBranch *const constituentBranch, const HKinematics &Vector)
 {
-    Print(HInformation, "Fill Constituent Branch");
+    Print(kInformation, "Fill constituent Branch");
 
-    ConstituentBranch->Pt = Vector.GetPt();
-    ConstituentBranch->Rap = Vector.GetRap();
-    ConstituentBranch->Phi = Vector.GetPhi();
+    constituentBranch->Pt = Vector.GetPt();
+    constituentBranch->Rap = Vector.GetRap();
+    constituentBranch->Phi = Vector.GetPhi();
 
 }

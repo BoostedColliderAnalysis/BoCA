@@ -3,7 +3,7 @@
 hanalysis::hparton::HParticle::HParticle()
 {
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
 //     Debug =5;
 
@@ -12,24 +12,24 @@ hanalysis::hparton::HParticle::HParticle()
 hanalysis::hparton::HParticle::~HParticle()
 {
 
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
 }
 
 bool hanalysis::hparton::HParticle::GetParticles()
 {
 
-  Print(HInformation, "Get Particles", clones_arrays_->GetParticleSum());
+  Print(kInformation, "Get Particles", clones_arrays_->GetParticleSum());
 
   for (const int ParticleNumber : Range(clones_arrays_->GetParticleSum())) {
 
     TRootLHEFParticle *ParticleClone = (TRootLHEFParticle *) clones_arrays_->GetParticle(ParticleNumber);
 
         int ParticleStatus = ParticleClone->Status;
-        Print(HDetailed, "Particles Status", ParticleStatus);
+        Print(kDetailed, "Particles Status", ParticleStatus);
 
         int ParticleID = ParticleClone->PID;
-        Print(HDetailed, "Particles ID", ParticleID);
+        Print(kDetailed, "Particles ID", ParticleID);
 
         if (ParticleStatus == StableParticle) {
 
@@ -40,12 +40,12 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 if (ParticleID > 0) {
 
                     ElectronVectors.emplace_back(ElectronVector);
-                    Print(HDebug, "Electron");
+                    Print(kDebug, "Electron");
 
                 } else if (ParticleID < 0) {
 
                     AntiElectronVectors.emplace_back(ElectronVector);
-                    Print(HDebug, "Anti Electron");
+                    Print(kDebug, "Anti Electron");
 
                 }
 
@@ -58,12 +58,12 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 if (ParticleID > 0) {
 
                     MuonVectors.emplace_back(MuonVector);
-                    Print(HDebug, "Muon");
+                    Print(kDebug, "Muon");
 
                 } else if (ParticleID < 0) {
 
                     AntiMuonVectors.emplace_back(MuonVector);
-                    Print(HDebug, "Anti Muon");
+                    Print(kDebug, "Anti Muon");
 
                 }
 
@@ -74,7 +74,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 fastjet::PseudoJet BottomJet = GetPseudoJet(*ParticleClone);
 
                 BottomJets.emplace_back(BottomJet);
-                Print(HDebug, "Bottom");
+                Print(kDebug, "Bottom");
 
             } // bottoms
 
@@ -87,12 +87,12 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 if (ParticleID > 0) {
 
                     TopVectors.emplace_back(TopVector);
-                    Print(HDebug, "Top");
+                    Print(kDebug, "Top");
 
                 } else if (ParticleID < 0) {
 
                     AntiTopVector.emplace_back(TopVector);
-                    Print(HDebug, "Anti Top");
+                    Print(kDebug, "Anti Top");
 
                 }
 
@@ -110,7 +110,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 fastjet::PseudoJet CharmJet = GetPseudoJet(*ParticleClone);
 
                 CharmJets.emplace_back(CharmJet);
-                Print(HDebug, "Charm");
+                Print(kDebug, "Charm");
 
             } // charms
 
@@ -119,7 +119,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
 //                 fastjet::PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
 //
 //                 BottomJetVector.emplace_back(JetCandidate);
-//                 Print(HDebug,"Bottom");
+//                 Print(kDebug,"Bottom");
 //
 //             } // bottoms
 
@@ -128,7 +128,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 fastjet::PseudoJet HiggsJet = GetPseudoJet(*ParticleClone);
 
                 HiggsJets.emplace_back(HiggsJet);
-                Print(HDebug, "CPV Higgs");
+                Print(kDebug, "CPV Higgs");
 
             } // cp Higgs
 
@@ -145,7 +145,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 fastjet::PseudoJet HiggsJet = GetPseudoJet(*ParticleClone);
 
                 HiggsJets.emplace_back(HiggsJet);
-                Print(HDebug, "Heavy CPV Higgs");
+                Print(kDebug, "Heavy CPV Higgs");
 
             } // heavy higgs
 

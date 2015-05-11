@@ -7,60 +7,60 @@
 //
 //     HSextetPrivate() {}
 //
-//     void SetTriplet1(const HTriplet &NewTriplet1);
+//     void Settriplet1(const Triplet &Newtriplet1);
 //
-//     void SetTriplet2(const HTriplet &NewTriplet2);
+//     void Settriplet2(const Triplet &Newtriplet2);
 //
-//     HTriplet Triplet1;
+//     Triplet triplet1;
 //
-//     HTriplet Triplet2;
+//     Triplet triplet2;
 //
 // };
 
 
-void hanalysis::HSextet::SetTriplet1(const HTriplet &NewTriplet1) {
-    Triplet1M = NewTriplet1;
+void hanalysis::HSextet::Settriplet1(const Triplet &Newtriplet1) {
+    triplet1M = Newtriplet1;
 }
 
-void hanalysis::HSextet::SetTriplet2(const HTriplet &NewTriplet2) {
-    Triplet2M = NewTriplet2;
+void hanalysis::HSextet::Settriplet2(const Triplet &Newtriplet2) {
+    triplet2M = Newtriplet2;
 }
 
 
 // hanalysis::HSextet::HSextet(HSextetPrivate& NewSextetPrivate) : HTag(NewSextetPrivate)
 // {
-//     Print(HInformation, "Constructor");
+//     Print(kInformation, "Constructor");
 // }
 
 hanalysis::HSextet::HSextet() {
-  Print(HInformation, "Default Constructor");
+  Print(kInformation, "Default Constructor");
 }
 
-hanalysis::HSextet::HSextet(const HTriplet &NewTriplet1, const HTriplet &NewTriplet2)
+hanalysis::HSextet::HSextet(const Triplet &Newtriplet1, const Triplet &Newtriplet2)
 // : hanalysis::HTag(*new HSextetPrivate)
 {
-    Print(HInformation, "Constructor");
-//     static_cast<HSextetPrivate *>(TagPrivate.get())->SetTriplet1(NewTriplet1);
-//     static_cast<HSextetPrivate *>(TagPrivate.get())->SetTriplet2(NewTriplet2);
-//     TagPrivate->Bdt = (NewTriplet1.Bdt() + NewTriplet2.Bdt()) / 2;
-    SetTriplet1(NewTriplet1);
-    SetTriplet2(NewTriplet2);
-    SetBdt(NewTriplet1.Bdt(), NewTriplet2.Bdt());
-    SetTag(NewTriplet1.Tag(), NewTriplet2.Tag());
+    Print(kInformation, "Constructor");
+//     static_cast<HSextetPrivate *>(TagPrivate.get())->Settriplet1(Newtriplet1);
+//     static_cast<HSextetPrivate *>(TagPrivate.get())->Settriplet2(Newtriplet2);
+//     TagPrivate->Bdt = (Newtriplet1.Bdt() + Newtriplet2.Bdt()) / 2;
+    Settriplet1(Newtriplet1);
+    Settriplet2(Newtriplet2);
+    SetBdt(Newtriplet1.Bdt(), Newtriplet2.Bdt());
+    SetTag(Newtriplet1.Tag(), Newtriplet2.Tag());
 }
 
 hanalysis::HSextet::~HSextet()
 {
-    Print(HInformation, "Destructor");
+    Print(kInformation, "Destructor");
 }
 
-hanalysis::HTriplet hanalysis::HSextet::Triplet1() const {
-//     return static_cast<HSextetPrivate *>(TagPrivate.get())->Triplet1;
-    return Triplet1M;
+hanalysis::Triplet hanalysis::HSextet::triplet1() const {
+//     return static_cast<HSextetPrivate *>(TagPrivate.get())->triplet1;
+    return triplet1M;
 }
 
-hanalysis::HTriplet hanalysis::HSextet::Triplet2() const {
-//     return static_cast<HSextetPrivate *>(TagPrivate.get())->Triplet2;
-    return Triplet2M;
+hanalysis::Triplet hanalysis::HSextet::triplet2() const {
+//     return static_cast<HSextetPrivate *>(TagPrivate.get())->triplet2;
+    return triplet2M;
 }
 

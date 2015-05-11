@@ -1,5 +1,5 @@
 # pragma once
-# include "HTriplet.hh"
+# include "Triplet.hh"
 # include "BottomTagger.hh"
 # include "HWHadronicTagger.hh"
 # include "HBranchTopTagger.hh"
@@ -21,11 +21,11 @@ public:
 
     std::vector<HTopHadronBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0);
 
-    std::vector<hanalysis::HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const hanalysis::Reader & TopHadronicReader);
+    std::vector<hanalysis::Triplet>  GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const hanalysis::Reader & TopHadronicReader);
 
-    hanalysis::HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::Reader &TopHadronicReader);
+    hanalysis::Triplet GetBdt(hanalysis::Triplet &triplet, const hanalysis::Reader &TopHadronicReader);
 
-    std::vector<hanalysis::HTriplet> GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader);
+    std::vector<hanalysis::Triplet> GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader);
 
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
@@ -38,7 +38,7 @@ public:
     hanalysis::Reader  BottomReader;
     hanalysis::Reader  WReader;
 
-    HTopHadronBranch GetBranch(const hanalysis::HTriplet &triplet) const;
+    HTopHadronBranch GetBranch(const hanalysis::Triplet &triplet) const;
 
 protected:
 
@@ -50,11 +50,11 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const hanalysis::HTriplet &);
+    Tag GetTag(const hanalysis::Triplet &);
 
     Tag GetTag(const fastjet::PseudoJet& Jet);
 
-    void GetBottomInfo(HTopHadronBranch &TopHadronicBranch, const fastjet::PseudoJet jet) const;
+    void GetBottomInfo(HTopHadronBranch &top_hadronic_branch, const fastjet::PseudoJet jet) const;
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
@@ -67,7 +67,7 @@ private:
     float WMassWindow ;
 
 
-    void NSubJettiness(hanalysis::HTriplet& triplet);
+    void NSubJettiness(hanalysis::Triplet& triplet);
     SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
 
 };

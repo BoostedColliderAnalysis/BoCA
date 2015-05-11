@@ -25,7 +25,7 @@ public:
     void AnalysisLoop(const hanalysis::Tagger::Stage stage);
 
     virtual std::vector<RootFile> Files(const Tag tag) {
-        Print(HError, "GetFiles", tag);
+        Print(kError, "GetFiles", tag);
         return files_;
     }
 
@@ -36,7 +36,7 @@ public:
 protected:
 
     virtual void SetFiles(const hanalysis::HObject::Tag tag) {
-        Print(HError, "Set Files", "should be subclassed", tag);
+        Print(kError, "Set Files", "should be subclassed", tag);
     }
 
     inline int EventSum(const ExRootTreeReader &tree_reader) const {
@@ -51,7 +51,7 @@ protected:
     HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::RootFile &file);
 
     virtual int Analysis(HEvent &, const Tagger::Stage stage, const Tag tag) {
-        Print(HError, "Analysis", "should be subclassed", stage, tag);
+        Print(kError, "Analysis", "should be subclassed", stage, tag);
         return 0;
     }
 
@@ -70,16 +70,6 @@ protected:
     virtual inline std::string ClassName() const {
         return "HAnalysis";
     }
-
-    template <typename HElement>
-    std::vector<HElement>  JoinVectors(const std::vector<HElement> &Vector1, const std::vector<HElement> &Vector2) {
-        std::vector<HElement>  Combined;
-        Combined.reserve(Vector1.size() + Vector2.size());
-        Combined.insert(Combined.end(), Vector1.begin(), Vector1.end());
-        Combined.insert(Combined.end(), Vector2.begin(), Vector2.end());
-        return Combined;
-    }
-
 
     Strings JoinStrings(const Strings &Strings1, const Strings &Strings2) {
         return JoinVectors(Strings1, Strings2);

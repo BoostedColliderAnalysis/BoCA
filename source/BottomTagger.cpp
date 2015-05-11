@@ -5,15 +5,15 @@
 
 hanalysis::BottomTagger::BottomTagger()
 {
-//     DebugLevel = HDebug;
-    Print(HInformation, "Constructor");
+//     DebugLevel = kDebug;
+    Print(kInformation, "Constructor");
     set_tagger_name("Bottom");
     DefineVariables();
 }
 
 void hanalysis::BottomTagger::DefineVariables()
 {
-    Print(HInformation , "Define Variables");
+    Print(kInformation , "Define Variables");
     ClearVectors();
     AddVariable(branch_.VertexMass, "VertexMass");
     AddVariable(branch_.Pt, "Pt");
@@ -33,54 +33,50 @@ void hanalysis::BottomTagger::DefineVariables()
     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-HBottomBranch hanalysis::BottomTagger::GetBranch(const fastjet::PseudoJet &jet) const
+BottomBranch hanalysis::BottomTagger::GetBranch(const fastjet::PseudoJet &jet) const
 {
-    Print(HInformation, "Fill Branch");
-    HBottomBranch branch;
-    if (!jet.has_user_info<HJetInfo>()) {
-        Print(HError, "BJet without user info");
+    Print(kInformation, "Fill Branch");
+    BottomBranch branch;
+    if (!jet.has_user_info<JetInfo>()) {
+        Print(kError, "BJet without user info");
         return branch;
     }
-    branch.VertexMass = jet.user_info<HJetInfo>().VertexMass();
+    branch.VertexMass = jet.user_info<JetInfo>().VertexMass();
     branch.Mass = jet.m();
     branch.Pt = jet.pt();
     branch.Rap = jet.rap();
     branch.Phi = jet.phi();
-    float MaxDisp = jet.user_info<HJetInfo>().MaxDisplacement();
+    float MaxDisp = jet.user_info<JetInfo>().MaxDisplacement();
     if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
     else branch.MaxDisplacement = -3;
-    float MeanDisp = jet.user_info<HJetInfo>().MeanDisplacement();
+    float MeanDisp = jet.user_info<JetInfo>().MeanDisplacement();
     if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
     else branch.MeanDisplacement = -3;
-    float SumDisp = jet.user_info<HJetInfo>().SumDisplacement();
+    float SumDisp = jet.user_info<JetInfo>().SumDisplacement();
     if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
     else branch.SumDisplacement = -3;
-    branch.Multipliticity = jet.user_info<HJetInfo>().VertexNumber();
+    branch.Multipliticity = jet.user_info<JetInfo>().VertexNumber();
     branch.DeltaR = GetDeltaR(jet);
     branch.Spread = GetSpread(jet);
-    branch.VertexDeltaR = GetDeltaR(jet.user_info<HJetInfo>().VertexJet());
-    branch.VertexSpread = GetSpread(jet.user_info<HJetInfo>().VertexJet());
-    branch.EnergyFraction = jet.user_info<HJetInfo>().VertexEnergy() / jet.e();
-    branch.Tag = jet.user_info<HJetInfo>().Tag();
-    branch.Bdt = jet.user_info<HJetInfo>().Bdt();
+    branch.VertexDeltaR = GetDeltaR(jet.user_info<JetInfo>().VertexJet());
+    branch.VertexSpread = GetSpread(jet.user_info<JetInfo>().VertexJet());
+    branch.EnergyFraction = jet.user_info<JetInfo>().VertexEnergy() / jet.e();
+    branch.Tag = jet.user_info<JetInfo>().Tag();
+    branch.Bdt = jet.user_info<JetInfo>().Bdt();
     return branch;
 }
 
 int hanalysis::BottomTagger::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
 {
-    Print(HInformation, "Get Bottom Tag", tag);
+    Print(kInformation, "Get Bottom Tag", tag);
 
-<<<<<<< HEAD
-    HJets particles = event.GetParticles()->Generator();
-    particles = RemoveIfWrongAbsParticle(particles, BottomId);
-=======
+
     Jets particles = event.GetParticles()->Generator();
-    particles = RemoveIfWrongAbsParticle(particles,BottomId);
->>>>>>> 8ccc2dca96de7b05ece262fe324b853582f895eb
-    Print(HInformation, "Particle size", particles.size());
+    particles = RemoveIfWrongAbsParticle(particles, BottomId);
+    Print(kInformation, "Particle size", particles.size());
 
     Jets jets = GetJets(event);
-    Print(HInformation, "Number Jets", jets.size());
+    Print(kInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
 
     Jets final_jets = CleanJets(jets, particles, tag);
@@ -97,33 +93,26 @@ int hanalysis::BottomTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
 
 Jets hanalysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles, const Tag tag, const int sub_jet_number)
 {
-    Print(HInformation, "Get Sub Jets");
+    Print(kInformation, "Get Sub Jets");
     Jets final_pieces;
     for (const auto & jet : jets) {
-        if (!jet.has_constituents()) {
-            Print(HError, "Pieceless jet");
-            continue;
-        }
-        if (!jet.has_user_info<HJetInfo>()) {
-            Print(HError, "Get Sub Jets", "No Jet Info");
-            continue;
-        }
-        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(jet.constituents(), detector_geometry().SubJetDefinition);
-        Jets pieces = ClusterSequence->exclusive_jets_up_to(sub_jet_number);
-        ClusterSequence->delete_self_when_unused();
-
+        if (!jet.has_constituents()) continue;
+        if (!jet.has_user_info<JetInfo>()) continue;
+        fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(jet.constituents(), detector_geometry().SubJetDefinition);
+        Jets pieces = cluster_sequence->exclusive_jets_up_to(sub_jet_number);
+        cluster_sequence->delete_self_when_unused();
 
         for (auto & piece : pieces) {
-            std::vector<HConstituent> Constituents;
-            for (const auto & PieceConstituent : piece.constituents()) {
-                if (!PieceConstituent.has_user_info<HJetInfo>()) {
-                    Print(HError, "Get Sub Jets", "No Piece Constituent Info");
+            std::vector<Constituent> constituents;
+            for (const auto & piece_constituent : piece.constituents()) {
+                if (!piece_constituent.has_user_info<JetInfo>()) {
+                    Print(kError, "Get Sub Jets", "No Piece constituent Info");
                     continue;
                 }
-                std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
-                Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+                std::vector<Constituent> piece_constituents = piece_constituent.user_info<JetInfo>().constituents();
+                constituents.insert(constituents.end(), piece_constituents.begin(), piece_constituents.end());
             }
-            piece.set_user_info(new HJetInfo(Constituents/*, jet.user_info<HJetInfo>().BTag()*/));
+            piece.set_user_info(new JetInfo(constituents/*, jet.user_info<JetInfo>().BTag()*/));
             final_pieces.emplace_back(piece);
         }
     }
@@ -133,87 +122,76 @@ Jets hanalysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles
 
 Jets hanalysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, const Tag tag)
 {
-    Print(HInformation, "Clean Jets");
+    Print(kInformation, "Clean Jets");
 
     for (const auto & Particle : particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize) static_cast<HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+        if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize) static_cast<JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
     }
 
-    Jets NewCleanJets;
-    for (const auto & Jet : jets) {
-        if (!Jet.has_user_info<HJetInfo>()) {
-            Print(HError, "Clean Jets", "No Jet Info");
+    Jets clean_jets;
+    for (const auto & jet : jets) {
+        if (!jet.has_user_info<JetInfo>()) {
+            Print(kError, "Clean Jets", "No Jet Info");
             continue;
         }
-        if (std::abs(Jet.rap()) > detector_geometry().TrackerEtaMax) continue;
-        if (Jet.m() < 0) continue;
-//         static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->ExtractAbsFraction(BottomId);
-//         Jet.user_info<HJetInfo>().PrintAllInfos(HDebug);
-//         if (Tag == kSignal && Jet.user_info<HJetInfo>().MaximalFraction() < .8) {
+        if (std::abs(jet.rap()) > detector_geometry().TrackerEtaMax) continue;
+        if (jet.m() < 0) continue;
+//         static_cast<JetInfo *>(Jet.user_info_shared_ptr().get())->ExtractAbsFraction(BottomId);
+//         Jet.user_info<JetInfo>().PrintAllInfos(kDebug);
+//         if (Tag == kSignal && Jet.user_info<JetInfo>().MaximalFraction() < .8) {
 //             continue;
 //         }
-//         if (Tag == kSignal && Jet.user_info<HJetInfo>().MeanDisplacement() < .1) {
+//         if (Tag == kSignal && Jet.user_info<JetInfo>().MeanDisplacement() < .1) {
 //             continue;
 //         }
-        if (tag == kSignal && Jet.user_info<HJetInfo>().SumDisplacement() == 0) {
-            continue;
-        }
-//         if (Tag == HBackground && Jet.user_info<HJetInfo>().Fraction(BottomId) > .2) {
+        if (tag == kSignal && jet.user_info<JetInfo>().SumDisplacement() == 0) continue;
+//         if (Tag == HBackground && Jet.user_info<JetInfo>().Fraction(BottomId) > .2) {
 //             continue;
 //         }
 // for (const auto &Particle : Particles) if (Tag == HBackground && Jet.delta_R(Particle) < std::min(GetDeltaR(Jet), float(0.4))) continue;
-//         static_cast<HJetInfo *>(Jet.user_info_shared_ptr().get())->SetTag(GetTag(Jet));
-        Print(HDebug, "Jet Tag", Jet.user_info<HJetInfo>().Tag());
-        if (Jet.user_info<HJetInfo>().Tag() != tag) continue;
-        NewCleanJets.emplace_back(Jet);
+//         static_cast<JetInfo *>(Jet.user_info_shared_ptr().get())->SetTag(GetTag(Jet));
+        Print(kDebug, "Jet Tag", jet.user_info<JetInfo>().Tag());
+        if (jet.user_info<JetInfo>().Tag() != tag) continue;
+        clean_jets.emplace_back(jet);
     }
-    return NewCleanJets;
+    return clean_jets;
 }
 
 Jets hanalysis::BottomTagger::GetMultiJetBdt(Jets &jets, const TMVA::Reader &reader)
 {
 
-    Jets NewJets = GetJetBdt(jets, reader);
+    Jets final_jets = GetJetBdt(jets, reader);
 
-    Jets DiJets = GetSubBdt(jets, reader, 2);
-    NewJets.insert(NewJets.end(), DiJets.begin(), DiJets.end());
+    Jets di_sub_jets = GetSubBdt(jets, reader, 2);
+    final_jets.insert(final_jets.end(), di_sub_jets.begin(), di_sub_jets.end());
 
-    Jets TriJets = GetSubBdt(jets, reader, 3);
-    NewJets.insert(NewJets.end(), TriJets.begin(), TriJets.end());
+    Jets tri_sub_jets = GetSubBdt(jets, reader, 3);
+    final_jets.insert(final_jets.end(), tri_sub_jets.begin(), tri_sub_jets.end());
 
-    return NewJets;
+    return final_jets;
 }
 
 Jets hanalysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
 
-    Print(HInformation, "Get Sub Bdt");
+    Print(kInformation, "Get Sub Bdt");
     Jets pieces;
-    for (const auto & Jet : jets) {
-        if (!Jet.has_pieces()) {
-            Print(HInformation, "pieceless jet");
-            continue;
-        }
-        if (!Jet.has_user_info<HJetInfo>()) {
-            Print(HError, "Get Sub Bdt", "No Jet Info");
-            continue;
-        }
-        fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.pieces(), detector_geometry().SubJetDefinition);
-        Jets SubPieces = ClusterSequence->exclusive_jets_up_to(sub_jet_number);
-        ClusterSequence->delete_self_when_unused();
+    for (const auto & jet : jets) {
+        if (!jet.has_pieces()) continue;
+        if (!jet.has_user_info<JetInfo>()) continue;
+        fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(jet.pieces(), detector_geometry().SubJetDefinition);
+        Jets pieces = cluster_sequence->exclusive_jets_up_to(sub_jet_number);
+        cluster_sequence->delete_self_when_unused();
 
-        std::vector<HConstituent> constituents;
-        for (auto & piece : SubPieces) {
-            for (const auto & Constituent : piece.constituents()) {
-                if (!Constituent.has_user_info<HJetInfo>()) {
-                    Print(HInformation, "Get Constituent Bdt", "No Jet Info");
-                    continue;
-                }
-                std::vector<HConstituent> piece_constituents = Constituent.user_info<HJetInfo>().Constituents();
+        std::vector<Constituent> constituents;
+        for (auto & piece : pieces) {
+            for (const auto & constituent : piece.constituents()) {
+                if (!constituent.has_user_info<JetInfo>()) continue;
+                std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
                 constituents.insert(constituents.end(), piece_constituents.begin(), piece_constituents.end());
             }
-            piece.set_user_info(new HJetInfo(constituents/*, Jet.user_info<HJetInfo>().BTag()*/));
+            piece.set_user_info(new JetInfo(constituents/*, Jet.user_info<JetInfo>().BTag()*/));
             pieces.emplace_back(piece);
         }
     }
@@ -222,33 +200,54 @@ Jets hanalysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &re
 
 Jets hanalysis::BottomTagger::GetJetBdt(HEvent &event, const TMVA::Reader &reader)
 {
+    Print(kInformation, "Get Jet Bdt");
+    return GetJetBdt(GetJets(event), reader);
+//     for (const auto jet : GetJets(event)){
+//       if (!jet.has_user_info<JetInfo>()) continue;
+//       if (jet.m() <= 0) continue;
+//       jets.emplace_back(GetJetBdt(jet, reader));
+//     }
+//     return jets;
+}
+
+Jets hanalysis::BottomTagger::GetJetBdt(const Jets &jets, const TMVA::Reader &reader)
+{
+    Jets final_jets;
+    for (const auto jet : jets) {
+        if (!jet.has_user_info<JetInfo>()) continue;
+        if (jet.m() <= 0) continue;
+        final_jets.emplace_back(GetJetBdt(jet, reader));
+    }
+    return final_jets;
+}
+
+fastjet::PseudoJet hanalysis::BottomTagger::GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
+{
+    branch_ = GetBranch(jet);
+    static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
+    return jet;
+}
+
+Jets hanalysis::BottomTagger::GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number)
+{
     Jets jets;
-    Print(HInformation, "Get Jet Bdt");
-    for (const auto jet : GetJets(event)) {
-        if (!jet.has_user_info<HJetInfo>()) {
-            Print(HError, "Get Jet Bdt", "No Jet Info");
-            continue;
-        }
-        if (jet.m() <= 0) {
-            Print(HInformation, "Empty Piece");
-            continue;
-        }
-        branch_ = GetBranch(jet);
-        static_cast<HJetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
-        jets.emplace_back(jet);
+    for (const auto sub_jet : Tagger::GetSubJets(jet, sub_jet_number)) {
+      if (!sub_jet.has_user_info<JetInfo>()) continue;
+      if (sub_jet.m() <= 0) continue;
+      jets.emplace_back(GetJetBdt(sub_jet, reader));
     }
     return jets;
 }
 
 float hanalysis::BottomTagger::GetDeltaR(const fastjet::PseudoJet &jet) const
 {
-    Print(HInformation, "Get Delta R");
+    Print(kInformation, "Get Delta R");
     if (!jet.has_constituents()) return 0;
     float delta_r = 0;
     for (const auto & constituent : jet.constituents()) {
         const float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100) continue;
-        Print(HDebug, "Delta R", constituent_delta_r);
+        Print(kDebug, "Delta R", constituent_delta_r);
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
     return delta_r;
@@ -256,7 +255,7 @@ float hanalysis::BottomTagger::GetDeltaR(const fastjet::PseudoJet &jet) const
 
 float hanalysis::BottomTagger::GetSpread(const fastjet::PseudoJet &jet) const
 {
-    Print(HInformation, "Get spread");
+    Print(kInformation, "Get spread");
     if (!jet.has_constituents()) return 0;
     float delta_r = GetDeltaR(jet);
     if (delta_r == 0) return 0;

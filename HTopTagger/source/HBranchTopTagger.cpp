@@ -4,8 +4,6 @@ ClassImp(htoptagger::HCandidateBranch)
 
 htoptagger::HCandidateBranch::HCandidateBranch()
 {
-
-
   Mass = InitialValue();
   Pt = InitialValue();
   Rap = InitialValue();

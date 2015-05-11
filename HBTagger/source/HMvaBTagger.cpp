@@ -4,7 +4,7 @@
 hbtagger::HMva::HMva()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     set_tagger_name("BTagger");
 
@@ -43,7 +43,7 @@ hbtagger::HMva::HMva()
 hbtagger::HMva::~HMva()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     delete Candidate;
 
@@ -52,7 +52,7 @@ hbtagger::HMva::~HMva()
 void hbtagger::HMva::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     AddVariable(Candidate->VertexMass, "VertexMass");
     AddVariable(Candidate->JetMass, "JetMass");
@@ -61,14 +61,14 @@ void hbtagger::HMva::DefineVariables()
 
     AddSpectator(Candidate->BTag, "BTag");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 
 
 void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
-    Print(HNotification, "Apply Bdt");
+    Print(kNotification, "Apply Bdt");
 
     const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 
@@ -121,11 +121,11 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 // ReaderStruct hbtagger::HMva::CutLoop(const ExRootTreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
-//     Print(HNotification, "Cut Loop");
+//     Print(kNotification, "Cut Loop");
 //
 //     int ObservableSum = Observables.size();
 //
-//     Print(HNotification, "Observables", Observables.size());
+//     Print(kNotification, "Observables", Observables.size());
 //
 //     ReaderStruct.HiggsSum = 0;
 //     ReaderStruct.TopSum = 0;
@@ -142,14 +142,14 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 //     ReaderStruct.HiggsVector.assign(ObservableSum, 0);
 //     ReaderStruct.TopVector.assign(ObservableSum, 0);
 //
-//     Print(HInformation, "Vectors assigned");
+//     Print(kInformation, "Vectors assigned");
 //
 //     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
 //
 //
 //     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 //     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
-//         Print(HDebug, "Event Loop");
+//         Print(kDebug, "Event Loop");
 //
 //         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
 //
@@ -161,7 +161,7 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 //
 //         for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
 //
-//             Print(HDebug, "Candidate Loop");
+//             Print(kDebug, "Candidate Loop");
 //             ++ReaderStruct.FatJetSum;
 //
 //             if (Candidate->BTag) {
@@ -176,24 +176,24 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 //             bool ParticleCut = 0;
 //             for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 //
-//                 Print(HDebug, "Observable Loop");
+//                 Print(kDebug, "Observable Loop");
 //
-//                 Print(HDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
+//                 Print(kDebug, "Error", ReaderStruct.CutsMin[ObservableNumber]);
 //
 //                 if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
 //                         || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 //
-//                     Print(HDebug, "we are here", 1);
+//                     Print(kDebug, "we are here", 1);
 //
 //                     ParticleCut = 1;
 //
 //                 } else {
 //
-//                     Print(HDebug, "we are here", 2);
+//                     Print(kDebug, "we are here", 2);
 //                     ++ReaderStruct.CutFlowVector[ObservableNumber];
 //
 //                 }
-//                 Print(HDebug, "Struct filled");
+//                 Print(kDebug, "Struct filled");
 //
 //                 if (!ParticleCut) {
 //

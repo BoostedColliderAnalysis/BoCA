@@ -24,11 +24,11 @@ public:
 
     void SetTagger();
 
-    std::vector< HBottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector< BottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     Jets GetMultiJetBdt(Jets &jets, const hanalysis::Reader &BottomReader);
 
-    HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
+    BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
     hanalysis::HObject::Tag GetTag(const fastjet::PseudoJet &Jet) const;
 
@@ -37,41 +37,41 @@ public:
     Jets GetSubBdt(const Jets &jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
-        return ((HBottomBranch *) EventClonesArray.At(Entry))->Bdt;
+        return ((BottomBranch *) EventClonesArray.At(Entry))->Bdt;
     }
 
     TClass &Class() const {
-        return *HBottomBranch::Class();
+        return *BottomBranch::Class();
     }
 
 //     ExRootTreeBranch *SetBranch(ExRootTreeWriter &NewTreeWriter, const HStage stage) {
 //       switch(Stage){
 //         case kTrainer :
-//           return NewTreeWriter.NewBranch(tagger_name().c_str(), HBottomBranch::Class());
+//           return NewTreeWriter.NewBranch(tagger_name().c_str(), BottomBranch::Class());
 //         case kReader :
-//           return NewTreeWriter.NewBranch(reader_name().c_str(), HBottomBranch::Class());
+//           return NewTreeWriter.NewBranch(reader_name().c_str(), BottomBranch::Class());
 //       }
 //     }
 
 //     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HStage stage) {
-//       SetTreeBranch(NewTreeWriter,*HBottomBranch::Class(),Stage);
+//       SetTreeBranch(NewTreeWriter,*BottomBranch::Class(),Stage);
 //     }
 
 
 //     ExRootTreeBranch *SetReaderBranch(ExRootTreeWriter &NewTreeWriter) {
-//         return NewTreeWriter.NewBranch(ReaderName().c_str(), HBottomBranch::Class());
+//         return NewTreeWriter.NewBranch(ReaderName().c_str(), BottomBranch::Class());
 //     }
 
 //     bool SetBranch(hanalysis::HEvent &Event, const HTag Tag) {
-//         std::vector<HBottomBranch> Bottoms = GetBranches(Event, Tag);
+//         std::vector<BottomBranch> Bottoms = GetBranches(Event, Tag);
 //         if (Bottoms.empty()) return 0;
-//         for (const auto & Bottom : Bottoms) *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = Bottom;
+//         for (const auto & Bottom : Bottoms) *static_cast<BottomBranch *>(TreeBranch->NewEntry()) = Bottom;
 //         return 1;
 //     }
 
 //     bool GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
 //     {
-//       Print(HDebug, "Get Bottom Reader", Tag);
+//       Print(kDebug, "Get Bottom Reader", Tag);
 //       Jets jets = GetJets(Event);
 //       Reader Reader; // this wont work
 //       jets = GetJetBdt(jets, Reader);
@@ -81,13 +81,13 @@ public:
 //
 //       for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
-//         static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//         static_cast<hanalysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //       }
 //
 //       for (const auto & Jet : jets)  {
-//         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) continue;
+//         if (Tag != Jet.user_info<hanalysis::JetInfo>().Tag()) continue;
 //         if (std::abs(Jet.rap()) > detector_geometry().TrackerEtaMax) continue;
-//         *static_cast<HBottomBranch *>(TreeBranch->NewEntry()) = GetBranch(Jet);
+//         *static_cast<BottomBranch *>(TreeBranch->NewEntry()) = GetBranch(Jet);
 //       }
 //       return 1;
 //     }
@@ -115,7 +115,7 @@ private:
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
-    HBottomBranch Branch;
+    BottomBranch Branch;
 
     HJetTag JetTag;
 

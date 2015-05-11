@@ -88,11 +88,11 @@ private:
  * @brief Class for saving Event informations to root
  *
  */
-class HParticleBranch : public HBranch
+class ParticleBranch : public HBranch
 {
 public:
 
-    HParticleBranch();
+    ParticleBranch();
 
     float Mass;
     float Pt;
@@ -101,7 +101,7 @@ public:
 
 private:
 
-    ClassDef(HParticleBranch, 1)
+    ClassDef(ParticleBranch, 1)
 
 };
 
@@ -111,12 +111,12 @@ private:
  * @brief Bottom tagger root tree structure
  *
  */
-class HBottomBranch : public HParticleBranch
+class BottomBranch : public ParticleBranch
 {
 
 public:
 
-    HBottomBranch();
+    BottomBranch();
 
     float VertexMass;
     float MaxDisplacement;
@@ -135,7 +135,7 @@ public:
 
 private:
 
-    ClassDef(HBottomBranch, 1)
+    ClassDef(BottomBranch, 1)
 
 };
 
@@ -145,7 +145,7 @@ private:
  * @brief Tau tagger root tree structure
  *
  */
-class HTauBranch : public HParticleBranch
+class HTauBranch : public ParticleBranch
 {
 
 public:
@@ -172,7 +172,7 @@ private:
 };
 
 
-class HPairBranch : public HParticleBranch
+class HPairBranch : public ParticleBranch
 {
 
 public:
@@ -294,12 +294,12 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HWSemiBranch : public HPairBranch
+class WSemiBranch : public HPairBranch
 {
 
 public:
 
-    HWSemiBranch();
+    WSemiBranch();
 
     float LeptonPt;
     float NeutrinoPt;
@@ -336,12 +336,12 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopHadronicBranch : public HPairBranch
+class TopHadronicBranch : public HPairBranch
 {
 
 public:
 
-    HTopHadronicBranch();
+    TopHadronicBranch();
 
     float BottomPt;
     float WPt;
@@ -373,7 +373,7 @@ public:
 
 private:
 
-    ClassDef(HTopHadronicBranch, 1)
+    ClassDef(TopHadronicBranch, 1)
 
 };
 

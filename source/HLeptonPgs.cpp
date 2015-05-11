@@ -3,14 +3,14 @@
 hanalysis::hpgs::HLepton::HLepton()
 {
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
 }
 
 hanalysis::hpgs::HLepton::~HLepton()
 {
 
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
 
 }
@@ -19,7 +19,7 @@ hanalysis::hpgs::HLepton::~HLepton()
 bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
-    Print(HInformation, "Get Electrons", JetDetails);
+    Print(kInformation, "Get Electrons", JetDetails);
     for (const int ElectronNumber : Range(clones_arrays_->GetElectronSum())) {
 
       TRootElectron *ElectronClone = (TRootElectron *)clones_arrays_->GetElectron(ElectronNumber);
@@ -31,18 +31,18 @@ bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails 
             ElectronLorentzVectors.emplace_back(GetLorentzVector(*ElectronClone));
             ElectronJets.emplace_back(GetPseudoJet(*ElectronClone));
 
-            Print(HDebug, "Electron");
+            Print(kDebug, "Electron");
 
         } else if (ElectronCharge == 1) {
 
             AntiElectronLorentzVectors.emplace_back(GetLorentzVector(*ElectronClone));
             AntiElectronJets.emplace_back(GetPseudoJet(*ElectronClone));
 
-            Print(HDebug, "Anti Electron");
+            Print(kDebug, "Anti Electron");
 
         } else
 
-            Print(HNotification, "Electron Charge", ElectronCharge);
+            Print(kNotification, "Electron Charge", ElectronCharge);
 
     }
 
@@ -53,7 +53,7 @@ bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails 
 bool hanalysis::hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
-    Print(HInformation, "Get Muons", JetDetails);
+    Print(kInformation, "Get Muons", JetDetails);
     for (const int MuonNumber : Range(clones_arrays_->GetMuonSum())) {
 
       TRootMuon *MuonClone = (TRootMuon *)clones_arrays_->GetMuon(MuonNumber);
@@ -64,18 +64,18 @@ bool hanalysis::hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetD
             MuonLorentzVectors.emplace_back(GetLorentzVector(*MuonClone));
             MuonJets.emplace_back(GetPseudoJet(*MuonClone));
 
-	    Print(HDebug, "Muon with Pt");
+	    Print(kDebug, "Muon with Pt");
 
         } else if (MuonCharge == 1) {
 
             AntiMuonLorentzVectors.emplace_back( GetLorentzVector(*MuonClone));
             AntiMuonJets.emplace_back(GetPseudoJet(*MuonClone));
 
-	    Print(HDebug, "Anti Muon with Pt");
+	    Print(kDebug, "Anti Muon with Pt");
 
         } else
 
-            Print(HNotification, "Muon Charge", MuonCharge);
+            Print(kNotification, "Muon Charge", MuonCharge);
 
     }
 

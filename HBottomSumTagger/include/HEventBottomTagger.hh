@@ -21,7 +21,7 @@ public:
 
     inline float TotalBottomBdt(const unsigned Number) const {
         if (JetsM.size() < Number) return 0;
-        return JetsM.at(Number - 1).user_info<hanalysis::HJetInfo>().Bdt();
+        return JetsM.at(Number - 1).user_info<hanalysis::JetInfo>().Bdt();
     }
 
     inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2) const {

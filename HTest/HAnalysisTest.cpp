@@ -3,7 +3,7 @@
 // htest::HAnalysis::HAnalysis()
 // {
 //
-//     Print(HNotification, "Constructor");
+//     Print(kNotification, "Constructor");
 //
 // }
 
@@ -18,7 +18,7 @@ Strings htest::HAnalysis::GetStudyNameVector(){
 std::vector<hanalysis::RootFile*> htest::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
-    Print(HNotification, "Set File Vector", StudyName);
+    Print(kNotification, "Set File Vector", StudyName);
 
     std::vector<hanalysis::RootFile*> Files;
 
@@ -28,7 +28,7 @@ std::vector<hanalysis::RootFile*> htest::HAnalysis::GetFiles(const std::string &
 //     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
 //     FileVector.emplace_back(Even);
 
-    Print(HNotification, "Files prepared");
+    Print(kNotification, "Files prepared");
 
     return Files;
 }
@@ -36,7 +36,7 @@ std::vector<hanalysis::RootFile*> htest::HAnalysis::GetFiles(const std::string &
 
 void htest::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 {
-    Print(HNotification, "New File");
+    Print(kNotification, "New File");
 
     CandidateBranch = TreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
 
@@ -44,7 +44,7 @@ void htest::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
 
 void htest::HAnalysis::CloseFile()
 {
-    Print(HNotification, "Close File");
+    Print(kNotification, "Close File");
 
 }
 
@@ -57,7 +57,7 @@ void htest::HAnalysis::CloseFile()
 // int htest::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 // {
 //
-//     Print(HInformation, "Get Mother Id");
+//     Print(kInformation, "Get Mother Id");
 //
 //     if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
 //         BranchId = IsrId;
@@ -67,7 +67,7 @@ void htest::HAnalysis::CloseFile()
 //         BranchId = ParticleId;
 //     }
 //
-//     Print(HDetailed, "Mother Id", BranchId);
+//     Print(kDetailed, "Mother Id", BranchId);
 //
 //
 //     return BranchId;
@@ -77,7 +77,7 @@ void htest::HAnalysis::CloseFile()
 int htest::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
 {
 
-    Print(HInformation, "Analysis", StudyName);
+    Print(kInformation, "Analysis", StudyName);
 
     hanalysis::HJetTag  HeavyHiggsJetTag;
 //     Event.GetTaggedJets(HeavyHiggsJetTag);

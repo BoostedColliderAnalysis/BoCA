@@ -6,7 +6,7 @@
 hanalysis::HTag::HTag()
 // : TagPrivate(new HTagPrivate(this))
 {
-//     Print(HInformation, "Constructor");
+//     Print(kInformation, "Constructor");
 //     TagPrivate->InitialValue = -10;
 //     TagPrivate->Bdt = TagPrivate->InitialValue;
 //     TagPrivate->Tag = TagPrivate->InitialValue;
@@ -23,7 +23,7 @@ hanalysis::HTag::HTag()
 //
 // hanalysis::HTag::HTag(hanalysis::HTagPrivate &Newd) : TagPrivate(&Newd)
 // {
-//     //     Print(HInformation, "Constructor");
+//     //     Print(kInformation, "Constructor");
 //     TagPrivate->InitialValue = -10;
 //     TagPrivate->Bdt = TagPrivate->InitialValue;
 //     TagPrivate->Tag = TagPrivate->InitialValue;
@@ -43,7 +43,7 @@ hanalysis::HTag::HTag()
 
 hanalysis::HTag::~HTag()
 {
-//     Print(HError, "Destructor");
+//     Print(kError, "Destructor");
 }
 
 void hanalysis::HTag::SetBdt(const float NewBdt)

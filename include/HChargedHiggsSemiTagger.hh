@@ -28,7 +28,7 @@ public:
     HChargedHiggsSemiBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 
     std::vector< HQuartet31 > GetBdt(
-        const std::vector< hanalysis::HTriplet > Triplets, const std::vector< fastjet::PseudoJet > Siglets, const hanalysis::Reader &Reader);
+        const std::vector< hanalysis::Triplet > triplets, const std::vector< fastjet::PseudoJet > Siglets, const hanalysis::Reader &Reader);
 
     std::vector< HQuartet31 > GetQuartets(const hanalysis::Reader &Reader);
 

@@ -3,7 +3,7 @@
 hhiggscpv::HMvaTop::HMvaTop()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
 //     AnalysisName = "HiggsCpv";
 
@@ -44,7 +44,7 @@ hhiggscpv::HMvaTop::HMvaTop()
 hhiggscpv::HMvaTop::~HMvaTop()
 {
 
-    Print(HNotification , "Destructor");
+    Print(kNotification , "Destructor");
 
     delete Top;
 
@@ -52,11 +52,11 @@ hhiggscpv::HMvaTop::~HMvaTop()
 
 float hhiggscpv::HMvaTop::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 
-  Print(HInformation, "Get Bdt",bdt_method_name());
+  Print(kInformation, "Get Bdt",bdt_method_name());
 
     *Top = *static_cast<HTopLeptonicBranch*>(Branch);
     const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
-    Print(HInformation,"BTagger Bdt",BdtEvaluation);
+    Print(kInformation,"BTagger Bdt",BdtEvaluation);
 
     return ((BdtEvaluation+1)/2);
 
@@ -65,7 +65,7 @@ float hhiggscpv::HMvaTop::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 void hhiggscpv::HMvaTop::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     AddVariable(Top->Mass, "Mass");
     AddVariable(Top->Pt, "Pt");
@@ -77,7 +77,7 @@ void hhiggscpv::HMvaTop::DefineVariables()
 
     AddSpectator(Top->Tag, "TopTag");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 

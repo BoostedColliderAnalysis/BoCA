@@ -8,19 +8,19 @@
 //
 // //     HQuartet31Private() {}
 //
-//     void SetTriplet(const HTriplet &NewTriplet);
+//     void Settriplet(const Triplet &Newtriplet);
 //
 //     void SetSinglet(const fastjet::PseudoJet &NewSinglet);
 //
-//     HTriplet Triplet;
+//     Triplet triplet;
 //
 //     fastjet::PseudoJet Singlet;
 //
 // };
 
-void hanalysis::HQuartet31::SetTriplet(const HTriplet &NewTriplet)
+void hanalysis::HQuartet31::Settriplet(const Triplet &Newtriplet)
 {
-    TripletM = NewTriplet;
+    tripletM = Newtriplet;
 }
 
 void hanalysis::HQuartet31::SetSinglet(const fastjet::PseudoJet &NewSinglet)
@@ -30,41 +30,41 @@ void hanalysis::HQuartet31::SetSinglet(const fastjet::PseudoJet &NewSinglet)
 
 // hanalysis::HQuartet31::HQuartet31(HQuartet31Private &NewQuartet31Private) : HTag(NewQuartet31Private)
 // {
-//     Print(HInformation, "Constructor");
+//     Print(kInformation, "Constructor");
 // }
 
 hanalysis::HQuartet31::HQuartet31()
 // : hanalysis::HTag(*new HQuartet31Private)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
 }
 
-hanalysis::HQuartet31::HQuartet31(const HTriplet &NewTriplet, const fastjet::PseudoJet &NewSinglet)
+hanalysis::HQuartet31::HQuartet31(const Triplet &Newtriplet, const fastjet::PseudoJet &NewSinglet)
 // : hanalysis::HTag(*new HQuartet31Private)
 {
-    Print(HInformation, "Constructor");
-//     static_cast<HQuartet31Private *>(TagPrivate.get())->SetTriplet(NewTriplet);
+    Print(kInformation, "Constructor");
+//     static_cast<HQuartet31Private *>(TagPrivate.get())->Settriplet(Newtriplet);
 //     static_cast<HQuartet31Private *>(TagPrivate.get())->SetSinglet(NewSinglet);
-    SetTriplet(NewTriplet);
+    Settriplet(Newtriplet);
     SetSinglet(NewSinglet);
-    if (Singlet().has_user_info<HJetInfo>()) {
-//         TagPrivate->Bdt = (Triplet().Bdt() + Singlet().user_info<HJetInfo>().Bdt()) / 2;
-//         TagPrivate->Tag = Triplet().Tag() * Singlet().user_info<HJetInfo>().Tag();
-        SetBdt(Triplet().Bdt(),Singlet().user_info<HJetInfo>().Bdt());
-        SetTag(Triplet().Tag(),Singlet().user_info<HJetInfo>().Tag());
+    if (Singlet().has_user_info<JetInfo>()) {
+//         TagPrivate->Bdt = (triplet().Bdt() + Singlet().user_info<JetInfo>().Bdt()) / 2;
+//         TagPrivate->Tag = triplet().Tag() * Singlet().user_info<JetInfo>().Tag();
+        SetBdt(triplet().Bdt(),Singlet().user_info<JetInfo>().Bdt());
+        SetTag(triplet().Tag(),Singlet().user_info<JetInfo>().Tag());
     }
-    SetFlag(NewTriplet.Flag());
+    SetFlag(Newtriplet.Flag());
 }
 
 hanalysis::HQuartet31::~HQuartet31()
 {
-    Print(HInformation, "Destructor");
+    Print(kInformation, "Destructor");
 }
 
-hanalysis::HTriplet hanalysis::HQuartet31::Triplet() const
+hanalysis::Triplet hanalysis::HQuartet31::triplet() const
 {
-//     return static_cast<HQuartet31Private *>(TagPrivate.get())->Triplet;
-    return TripletM;
+//     return static_cast<HQuartet31Private *>(TagPrivate.get())->triplet;
+    return tripletM;
 }
 
 fastjet::PseudoJet hanalysis::HQuartet31::Singlet()const

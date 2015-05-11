@@ -105,19 +105,19 @@ private:
     float GetDipolarity(const fastjet::PseudoJet &);
 
     /**
-     * @brief Rap of Subjets and Constituent
+     * @brief Rap of Subjets and constituent
      *
      */
     float Rap0, Rap1, Rap2;
 
     /**
-     * @brief Phi of Subjets and Constituent
+     * @brief Phi of Subjets and constituent
      *
      */
     float Phi0, Phi1, Phi2;
 
     /**
-     * @brief Delta R between Subjets and Constituent
+     * @brief Delta R between Subjets and constituent
      *
      */
     float DeltaR01, DeltaR02, DeltaR12;

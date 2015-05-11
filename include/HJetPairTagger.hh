@@ -2,7 +2,7 @@
 # define HJetPairTagger_hh
 
 # include "BottomTagger.hh"
-# include "HDoublet.hh"
+# include "Doublet.hh"
 # include "Reader.hh"
 
 /**
@@ -20,9 +20,9 @@ public:
 
     std::vector< HEventJetPairBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
 
-    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::Reader &JetPairReader);
+    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::Reader &JetPairReader);
 
-    HEventJetPairBranch GetBranch(const hanalysis::HDoublet &Doublet) const;
+    HEventJetPairBranch GetBranch(const hanalysis::Doublet &doublet) const;
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
       return ((HEventJetPairBranch *) EventClonesArray.At(Entry))->Bdt;
@@ -42,7 +42,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HObject::Tag GetTag(const HDoublet &);
+    hanalysis::HObject::Tag GetTag(const Doublet &);
 
     HEventJetPairBranch Branch;
 

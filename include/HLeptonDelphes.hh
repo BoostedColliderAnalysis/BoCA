@@ -2,7 +2,7 @@
 # define HLeptonDelphes_hh
 
 # include "HLepton.hh"
-# include "HJetInfo.hh"
+# include "JetInfo.hh"
 
 /**
  * @brief Delphes leptons

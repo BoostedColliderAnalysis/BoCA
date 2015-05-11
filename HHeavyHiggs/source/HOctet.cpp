@@ -1,19 +1,19 @@
 # include "HOctet.hh"
 // # include "HTagPrivate.hh"
 
-HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet)
+HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet)
 {
     SextetM = NewSextet;
-    DoubletM = NewDoublet;
-    SetBdt(SextetM.Bdt(),DoubletM.Bdt());
-    SetTag(SextetM.Tag(),DoubletM.Tag());
+    doubletM = Newdoublet;
+    SetBdt(SextetM.Bdt(),doubletM.Bdt());
+    SetTag(SextetM.Tag(),doubletM.Tag());
 }
 
-// HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet, const HEventStruct &NewEventStruct)
+// HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet, const HEventStruct &NewEventStruct)
 // {
 //     SextetM = NewSextet;
-//     DoubletM = NewDoublet;
+//     doubletM = Newdoublet;
 //     EventStructM = NewEventStruct;
-//     SetBdt(SextetM.Bdt(),DoubletM.Bdt());
-//     SetTag(SextetM.Tag(),DoubletM.Tag());
+//     SetBdt(SextetM.Bdt(),doubletM.Bdt());
+//     SetTag(SextetM.Tag(),doubletM.Tag());
 // }

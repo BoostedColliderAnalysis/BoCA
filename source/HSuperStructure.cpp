@@ -2,7 +2,7 @@
 //
 // hanalysis::HSuperStructure::HSuperStructure()
 // {
-//     Print(HInformation, "Constructor");
+//     Print(kInformation, "Constructor");
 //
 // //     Position1 = EmptyPosition;
 // //     Position2 = EmptyPosition;
@@ -12,7 +12,7 @@
 // hanalysis::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
 // {
 //
-//     Print(HInformation, "Constructor");
+//     Print(kInformation, "Constructor");
 //
 //     Jet1 = NewJet1;
 //     Jet2 = NewJet2;
@@ -25,14 +25,14 @@
 // hanalysis::HSuperStructure::~HSuperStructure()
 // {
 //
-//     Print(HInformation, "Destructor");
+//     Print(kInformation, "Destructor");
 //
 // }
 //
 // float hanalysis::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const
 // {
 //
-//     Print(HInformation, "Get ReferenceAngle");
+//     Print(kInformation, "Get ReferenceAngle");
 //
 //     const float Rap = Jet.rap() - ReferenceJet.rap();
 //     const float Phi = Jet.delta_phi_to(ReferenceJet);
@@ -45,17 +45,17 @@
 // float hanalysis::HSuperStructure::GetPullAngle1() const
 // {
 //
-//     Print(HInformation, "GetPullAngle1");
+//     Print(kInformation, "GetPullAngle1");
 //
 //     const float Pull = GetPull(Jet1);
 //     const float ReferenceAngle = GetReferenceAngle(Jet1, Jet2);
-// //     Print(HDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
+// //     Print(kDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
 //
 // //     if (std::abs(GetDeltaPhi(Pull, ReferenceAngle) > 3)) {
-// //         Print(HError, "extrema", Pull, ReferenceAngle);
-// //         Print(HError, "extrema", Jet1.rap(), Jet1.phi_std());
-// //         Print(HError, "extrema", Jet2.rap(), Jet2.phi_std());
-// //         Print(HError, " ");
+// //         Print(kError, "extrema", Pull, ReferenceAngle);
+// //         Print(kError, "extrema", Jet1.rap(), Jet1.phi_std());
+// //         Print(kError, "extrema", Jet2.rap(), Jet2.phi_std());
+// //         Print(kError, " ");
 // //     }
 //
 //     return GetDeltaPhi(Pull, ReferenceAngle);
@@ -65,11 +65,11 @@
 // float hanalysis::HSuperStructure::GetPullAngle2() const
 // {
 //
-//     Print(HInformation, "GetPullAngle2");
+//     Print(kInformation, "GetPullAngle2");
 //
 //     const float Pull = GetPull(Jet2);
 //     const float ReferenceAngle = GetReferenceAngle(Jet2, Jet1);
-//     Print(HDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
+//     Print(kDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
 //
 //     return GetDeltaPhi(Pull, ReferenceAngle);
 //
@@ -79,18 +79,18 @@
 // float hanalysis::HSuperStructure::GetPull(const fastjet::PseudoJet &CandidateJet) const
 // {
 //
-//     Print(HInformation, "GetPull");
+//     Print(kInformation, "GetPull");
 //
 //     float Rap = 0;
 //     float Phi = 0;
 //
-//     for (const auto & Constituent : CandidateJet.constituents()) {
+//     for (const auto & constituent : CandidateJet.constituents()) {
 //
-//         const float DeltaY = Constituent.rap() - CandidateJet.rap();
-//         const float DeltaPhi = GetDeltaPhi(Constituent.phi_std(), CandidateJet.phi_std());
+//         const float DeltaY = constituent.rap() - CandidateJet.rap();
+//         const float DeltaPhi = GetDeltaPhi(constituent.phi_std(), CandidateJet.phi_std());
 //         const float DeltaR = std::sqrt(std::pow(DeltaY, 2) + std::pow(DeltaPhi, 2));
-//         const float PullFactor = Constituent.pt() / CandidateJet.pt() * DeltaR;
-// //         const float PullFactor = Constituent.pt() / CandidateJet.pt() * Constituent.delta_R(CandidateJet);
+//         const float PullFactor = constituent.pt() / CandidateJet.pt() * DeltaR;
+// //         const float PullFactor = constituent.pt() / CandidateJet.pt() * constituent.delta_R(CandidateJet);
 //
 //         Rap += (PullFactor * DeltaY);
 //         Phi += (PullFactor * DeltaPhi);
@@ -102,14 +102,14 @@
 // }
 //
 //
-// std::vector<HKinematics> hanalysis::HSuperStructure::GetConstituents() const
+// std::vector<HKinematics> hanalysis::HSuperStructure::Getconstituents() const
 // {
 //
-//     Print(HInformation, "GetConstituents");
+//     Print(kInformation, "Getconstituents");
 //
 //     if (Jet1.constituents().empty() || Jet2.constituents().empty()) {
 //
-//         Print(HNotification, "Not enough Constituents", Jet1.constituents().size(), Jet2.constituents().size());
+//         Print(kNotification, "Not enough constituents", Jet1.constituents().size(), Jet2.constituents().size());
 // //         return 0;
 //
 //     }
@@ -125,39 +125,39 @@
 //     const float Distance = Jet1.delta_R(Jet2);
 //     const float SubJetRatio = 2. * Shift / Distance;
 //
-//     std::vector<HKinematics> ConstituentVectors1 = GetConstituents(Jet1, SubJetRatio, Theta, -Shift);
-//     std::vector<HKinematics> ConstituentVectors2 = GetConstituents(Jet2, SubJetRatio, -Theta, Shift);
+//     std::vector<HKinematics> constituentVectors1 = Getconstituents(Jet1, SubJetRatio, Theta, -Shift);
+//     std::vector<HKinematics> constituentVectors2 = Getconstituents(Jet2, SubJetRatio, -Theta, Shift);
 //
-//     ConstituentVectors1.insert(ConstituentVectors1.end(), ConstituentVectors2.begin(), ConstituentVectors2.end());
+//     constituentVectors1.insert(constituentVectors1.end(), constituentVectors2.begin(), constituentVectors2.end());
 //
-//     return ConstituentVectors1;
+//     return constituentVectors1;
 //
 // }
 //
 //
-// std::vector<HKinematics> hanalysis::HSuperStructure::GetConstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
+// std::vector<HKinematics> hanalysis::HSuperStructure::Getconstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
 // {
 //
-//     Print(HInformation, "GetConstituents", JetRatio, Theta);
+//     Print(kInformation, "Getconstituents", JetRatio, Theta);
 //
 //     const float Cut = 2. / JetRatio;
 //     const float Cut1 = 1. / JetRatio;
 //
-//     std::vector<HKinematics> ConstituentVectors;
+//     std::vector<HKinematics> constituentVectors;
 //
-//     for (const auto & ConstituentJet : Jet.constituents()) {
+//     for (const auto & constituentJet : Jet.constituents()) {
 //
-//         if (Jet.delta_R(ConstituentJet) > Cut) continue;
-//         if (Jet.delta_R(ConstituentJet) < Cut1) continue;
+//         if (Jet.delta_R(constituentJet) > Cut) continue;
+//         if (Jet.delta_R(constituentJet) < Cut1) continue;
 //
-//         // Get Constituent coordinates in Jet coordinates
-//         const float ConstRap = ConstituentJet.rap() - Jet.rap();
-//         const float ConstPhi = GetDeltaPhi(ConstituentJet.phi_std(), Jet.phi_std());
+//         // Get constituent coordinates in Jet coordinates
+//         const float ConstRap = constituentJet.rap() - Jet.rap();
+//         const float ConstPhi = GetDeltaPhi(constituentJet.phi_std(), Jet.phi_std());
 //
-//         if (ConstPhi > Cut) Print(HError, "phi", "too big");
-//         if (ConstRap > Cut) Print(HError, "eta", "too big");
+//         if (ConstPhi > Cut) Print(kError, "phi", "too big");
+//         if (ConstRap > Cut) Print(kError, "eta", "too big");
 //
-//         // rotate Constituent according to other jet
+//         // rotate constituent according to other jet
 //         float ObservableRap = ConstRap * cos(Theta) + ConstPhi * sin(Theta);
 //         float ObservablePhi = ConstRap * sin(Theta) - ConstPhi * cos(Theta);
 //
@@ -167,15 +167,15 @@
 //
 //         // move jet to (+-1,0)
 //         ObservableRap -= Shift;
-//         Print(HDebug, "eta", ObservableRap);
+//         Print(kDebug, "eta", ObservableRap);
 //
-//         HKinematics Constituent(ConstituentJet.pt(), ObservableRap, ObservablePhi);
+//         HKinematics constituent(constituentJet.pt(), ObservableRap, ObservablePhi);
 //
-//         ConstituentVectors.emplace_back(Constituent);
+//         constituentVectors.emplace_back(constituent);
 //
 //     }
 //
-//     return ConstituentVectors;
+//     return constituentVectors;
 //
 // }
 //
@@ -195,7 +195,7 @@
 // //
 // // hdelphes::HPull::HPull()
 // // {
-// //     Print(HInformation, "Constructor");
+// //     Print(kInformation, "Constructor");
 // //
 // //     InitialValue = -1000;
 // //     PullPhi = 0;
@@ -207,7 +207,7 @@
 // // hdelphes::HPull::~HPull()
 // // {
 // //
-// //     Print(HInformation, "Destructor");
+// //     Print(kInformation, "Destructor");
 // //
 // // }
 // //
@@ -215,35 +215,35 @@
 // // void hdelphes::HPull::BTagCalculation(const Jet& JetClone)
 // // {
 // //
-// //     Print(HInformation, "BTagCalculation");
+// //     Print(kInformation, "BTagCalculation");
 // //
 // //     fastjet::PseudoJet CandidateJet = GetPseudoJet(const_cast<Jet*>(&JetClone)->P4());
 // //
 // // //     if (Jet.pt() > 0) {
 // //
-// //         int ValidConstituentsSum = 0;
-// //         int ConstituentsSum = JetClone.Constituents.GetEntriesFast();
-// //         Print(HInformation, "Number of b Jet Constituents", ConstituentsSum);
+// //         int ValidconstituentsSum = 0;
+// //         int constituentsSum = JetClone.constituents.GetEntriesFast();
+// //         Print(kInformation, "Number of b Jet constituents", constituentsSum);
 // //
 // //
-// //         for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ++ConstituentsNumber) {
+// //         for (int constituentsNumber = 0; constituentsNumber < constituentsSum; ++constituentsNumber) {
 // //
-// //             const TObject * const ConstituentObject = JetClone.Constituents.At(ConstituentsNumber);
-// //             if (ConstituentObject == 0) continue;
-// //             Print(HDebug, "Entering b Jet Constituent", ConstituentsNumber);
-// //             ValidConstituentsSum++;
+// //             const TObject * const constituentObject = JetClone.constituents.At(constituentsNumber);
+// //             if (constituentObject == 0) continue;
+// //             Print(kDebug, "Entering b Jet constituent", constituentsNumber);
+// //             ValidconstituentsSum++;
 // //
-// //             const fastjet::PseudoJet ConstituentJet = GetConstituentJet(ConstituentObject);
+// //             const fastjet::PseudoJet constituentJet = GetconstituentJet(constituentObject);
 // //
-// //             const float PullFactor = ConstituentJet.pt() * ConstituentJet.delta_R(CandidateJet) / CandidateJet.pt();
-// //             PullRap += PullFactor * ConstituentJet.rap();
-// //             PullPhi += PullFactor * ConstituentJet.phi_std();
+// //             const float PullFactor = constituentJet.pt() * constituentJet.delta_R(CandidateJet) / CandidateJet.pt();
+// //             PullRap += PullFactor * constituentJet.rap();
+// //             PullPhi += PullFactor * constituentJet.phi_std();
 // //
 // //         }
 // //
-// //         if (ValidConstituentsSum != ConstituentsSum) Print(HDebug, "Number of valid Jet Constituents", ValidConstituentsSum);
-// //         Print(HInformation, "PullPhi", PullPhi);
-// //         Print(HInformation, "PullY", PullRap);
+// //         if (ValidconstituentsSum != constituentsSum) Print(kDebug, "Number of valid Jet constituents", ValidconstituentsSum);
+// //         Print(kInformation, "PullPhi", PullPhi);
+// //         Print(kInformation, "PullY", PullRap);
 // //
 // // //     }
 // //
@@ -252,7 +252,7 @@
 // // float hdelphes::HPull::PullAngle(float Rap, float Phi)
 // // {
 // //
-// //     Print(HInformation, "Pull Angle");
+// //     Print(kInformation, "Pull Angle");
 // //
 // //     float Theta = InitialValue;
 // //     if (Rap != 0) {
@@ -269,7 +269,7 @@
 // //     }
 // //
 // //     if (fabs(Theta) > Pi()  && Theta !=  InitialValue) {
-// //         Print(HError, "Error in Theta Calculation");
+// //         Print(kError, "Error in Theta Calculation");
 // //     }
 // //
 // //     return (Theta);
@@ -280,7 +280,7 @@
 // // float hdelphes::HPull::ConfineAngle(float Angle)
 // // {
 // //
-// //     Print(HInformation, "Confine Angle");
+// //     Print(kInformation, "Confine Angle");
 // //
 // //     if (Angle > Pi()) {
 // //         Angle -= 2 * Pi();
@@ -289,7 +289,7 @@
 // //         Angle += 2 * Pi();
 // //     }
 // //     if (fabs(Angle) > Pi()) {
-// //         Print(HError, "Error in Angle Confinment", Angle);
+// //         Print(kError, "Error in Angle Confinment", Angle);
 // //     }
 // //
 // //     return (Angle);
@@ -300,9 +300,9 @@
 // // float hdelphes::HPull::SubPull(const fastjet::PseudoJet& SubJet, const fastjet::PseudoJet& RefJet, const fastjet::PseudoJet& CandidateJet)
 // // {
 // //
-// //     Print(HInformation, "Sub Pull");
+// //     Print(kInformation, "Sub Pull");
 // //
-// //     Print(HDetailed, "Mass", CandidateJet.m());
+// //     Print(kDetailed, "Mass", CandidateJet.m());
 // //
 // //     float SubJetPt = SubJet.pt();
 // //
@@ -314,22 +314,22 @@
 // //
 // //     float DeltaRSubJetRefJet = RefJet.delta_R(SubJet);
 // //     float DeltaPhi = ConfineAngle(RefJetPhi - SubJetPhi);
-// //     Print(HInformation, "DeltaPhi", DeltaPhi);
+// //     Print(kInformation, "DeltaPhi", DeltaPhi);
 // //
 // //     float DeltaRap = RefJetRap - SubJetRap;
-// //     Print(HInformation, "DeltaRap", DeltaRap);
+// //     Print(kInformation, "DeltaRap", DeltaRap);
 // //
 // //     float RefTheta = PullAngle(DeltaRap, DeltaPhi);
-// //     Print(HInformation, "RefTheta", RefTheta);
+// //     Print(kInformation, "RefTheta", RefTheta);
 // //
 // //     float SubPullRap = 0;
 // //     float SubPullPhi = 0;
-// //     int ValidConstituents = 0;
+// //     int Validconstituents = 0;
 // //
 // //     Jets ConstVector = CandidateJet.constituents();
 // // //     Jets ConstVector = SubJet.constituents();
 // //     int ConstSum = ConstVector.size();
-// //     Print(HInformation, "Number of Constituents", ConstSum);
+// //     Print(kInformation, "Number of constituents", ConstSum);
 // //
 // //     for (int ConstNumber = 0; ConstNumber < ConstSum; ConstNumber++) {
 // //
@@ -360,32 +360,32 @@
 // //             SubPullRap += PullFactor * DeltaRapConstSubJet;
 // //             SubPullPhi += PullFactor * DeltaPhiConstSubJet;
 // //
-// //             ++ValidConstituents;
+// //             ++Validconstituents;
 // //
 // //         }
 // //
 // //     }
-// //     Print(HInformation, "Number of Valid Constituents", ValidConstituents);
-// //     Print(HInformation, "SubPullRap", SubPullRap);
-// //     Print(HInformation, "SubPullPhi", SubPullPhi);
+// //     Print(kInformation, "Number of Valid constituents", Validconstituents);
+// //     Print(kInformation, "SubPullRap", SubPullRap);
+// //     Print(kInformation, "SubPullPhi", SubPullPhi);
 // //
 // //     float PullTheta = PullAngle(SubPullRap, SubPullPhi);
-// //     Print(HInformation, "PullTheta", PullTheta);
+// //     Print(kInformation, "PullTheta", PullTheta);
 // //
 // //     float Result = InitialValue;
-// //     if (ValidConstituents > ConstSum / 5) {
+// //     if (Validconstituents > ConstSum / 5) {
 // //
 // //         if (PullTheta != InitialValue && RefTheta != InitialValue) {
 // //             Result = ConfineAngle(PullTheta - RefTheta);
 // //         }
 // //
 // //         if (fabs(Result) > Pi() && Result != InitialValue) {
-// //             Print(HError, "Error in Result Calculation");
+// //             Print(kError, "Error in Result Calculation");
 // //         }
 // //
 // //     }
 // //
-// //     Print(HInformation, "Result", Result);
+// //     Print(kInformation, "Result", Result);
 // //
 // //     return (Result);
 // //
@@ -396,7 +396,7 @@
 // // float hdelphes::HPull::CalculateDiPolarity(const fastjet::PseudoJet& FatJet, const fastjet::PseudoJet& FatJetPiece1, const fastjet::PseudoJet& FatJetPiece2)
 // // {
 // //
-// //     Print(HInformation, "Calculate DiPolarity");
+// //     Print(kInformation, "Calculate DiPolarity");
 // //
 // //     // Filtering
 // // //     fastjet::PseudoJet Parent1 = MassDropJet.pieces()[0];
@@ -419,11 +419,11 @@
 // //
 // //
 // //     float FatJetPt = FatJet.pt();
-// //     Print(HInformation, "FatJet Pt", FatJetPt);
+// //     Print(kInformation, "FatJet Pt", FatJetPt);
 // //
 // //     Jets FatJetPieceVector = FatJet.pieces();
 // //     int PieceSum = FatJetPieceVector.size();
-// //     if (PieceSum != 2) Print(HError, "Number of Fat Jet Pieces", PieceSum);
+// //     if (PieceSum != 2) Print(kError, "Number of Fat Jet Pieces", PieceSum);
 // // //     fastjet::PseudoJet FatJetPiece1 = FatJetPieceVector[0];
 // // //     fastjet::PseudoJet FatJetPiece2 = FatJetPieceVector[1];
 // //
@@ -436,71 +436,71 @@
 // //     float DeltaPhi = Piece2Phi - Piece1Phi;
 // //
 // //     float PieceDistanceSqr = DeltaRap * DeltaRap + DeltaPhi * DeltaPhi;
-// //     Print(HInformation, "Piece Distance sqr", PieceDistanceSqr);
+// //     Print(kInformation, "Piece Distance sqr", PieceDistanceSqr);
 // //     float DiPolaritySum = 0;
-// //     float ConstituentPtSum = 0;
-// //     float ConstituentRSqrSum = 0;
-// //     float ConstituentNumSqrSum = 0;
-// //     int ValidConstituents = 0;
+// //     float constituentPtSum = 0;
+// //     float constituentRSqrSum = 0;
+// //     float constituentNumSqrSum = 0;
+// //     int Validconstituents = 0;
 // //
 // //     float DiPolarity;
 // //
 // //     if (PieceDistanceSqr < 100000000) {
 // //
 // //
-// //         Jets ConstituentsVector = FatJet.constituents();
-// //         int ConstituentsSum = ConstituentsVector.size();
-// //         Print(HInformation, "Number of Fat Jet Constituents", ConstituentsSum);
+// //         Jets constituentsVector = FatJet.constituents();
+// //         int constituentsSum = constituentsVector.size();
+// //         Print(kInformation, "Number of Fat Jet constituents", constituentsSum);
 // //
-// //         for (int ConstituentsNumber = 0; ConstituentsNumber < ConstituentsSum; ConstituentsNumber++) {
+// //         for (int constituentsNumber = 0; constituentsNumber < constituentsSum; constituentsNumber++) {
 // //
-// //             Print(HDebug, "Entering Fat Jet Constituent", ConstituentsNumber);
-// //             fastjet::PseudoJet ConstituentJet = ConstituentsVector[ConstituentsNumber];
+// //             Print(kDebug, "Entering Fat Jet constituent", constituentsNumber);
+// //             fastjet::PseudoJet constituentJet = constituentsVector[constituentsNumber];
 // //
-// //             float ConstituentPhi = ConstituentJet.phi();
-// //             Print(HDebug, "Constituent Phi", ConstituentPhi);
+// //             float constituentPhi = constituentJet.phi();
+// //             Print(kDebug, "constituent Phi", constituentPhi);
 // //
-// //             float ConstituentRap = ConstituentJet.rap();
-// //             Print(HDebug, "Constituent Rap", ConstituentRap);
+// //             float constituentRap = constituentJet.rap();
+// //             Print(kDebug, "constituent Rap", constituentRap);
 // //
-// //             float ConstituentDeltaRap = Piece1Rap - ConstituentRap;
-// //             float ConstituentDeltaPhi = Piece1Phi - ConstituentPhi;
+// //             float constituentDeltaRap = Piece1Rap - constituentRap;
+// //             float constituentDeltaPhi = Piece1Phi - constituentPhi;
 // //
-// //             float DeltaRap1Sqr = pow(ConstituentDeltaRap, 2);
-// //             float DeltaPhi1Sqr = pow(ConstituentDeltaPhi, 2);
-// //             float DeltaRap2Sqr = pow(Piece2Rap - ConstituentRap, 2);
-// //             float DeltaPhi2Sqr = pow(Piece2Phi - ConstituentPhi, 2);
-// //             float ConstituentDistance1Sqr = DeltaRap1Sqr + DeltaPhi1Sqr;
-// //             float ConstituentDistance2Sqr = DeltaRap2Sqr + DeltaPhi2Sqr;
+// //             float DeltaRap1Sqr = pow(constituentDeltaRap, 2);
+// //             float DeltaPhi1Sqr = pow(constituentDeltaPhi, 2);
+// //             float DeltaRap2Sqr = pow(Piece2Rap - constituentRap, 2);
+// //             float DeltaPhi2Sqr = pow(Piece2Phi - constituentPhi, 2);
+// //             float constituentDistance1Sqr = DeltaRap1Sqr + DeltaPhi1Sqr;
+// //             float constituentDistance2Sqr = DeltaRap2Sqr + DeltaPhi2Sqr;
 // //
-// //             if (ConstituentDistance1Sqr > (PieceDistanceSqr / 2) && ConstituentDistance2Sqr > (PieceDistanceSqr / 2)) {
+// //             if (constituentDistance1Sqr > (PieceDistanceSqr / 2) && constituentDistance2Sqr > (PieceDistanceSqr / 2)) {
 // //
-// //                 Print(HDebug, "out of cones");
+// //                 Print(kDebug, "out of cones");
 // //                 continue;
 // //
 // //             }
-// //             ValidConstituents++;
+// //             Validconstituents++;
 // //
-// //             float ConstituentPt = ConstituentJet.pt();
-// //             Print(HDebug, "Constituent Pt", ConstituentPt);
+// //             float constituentPt = constituentJet.pt();
+// //             Print(kDebug, "constituent Pt", constituentPt);
 // //
-// //             float ConstituentNumSqr = pow(DeltaRap * ConstituentDeltaPhi - DeltaPhi * ConstituentDeltaRap, 2);
+// //             float constituentNumSqr = pow(DeltaRap * constituentDeltaPhi - DeltaPhi * constituentDeltaRap, 2);
 // //
-// //             Print(HDebug, "ConstituentNumSqr", ConstituentNumSqr);
-// //             float ConstituentRSqr = ConstituentNumSqr / PieceDistanceSqr;
+// //             Print(kDebug, "constituentNumSqr", constituentNumSqr);
+// //             float constituentRSqr = constituentNumSqr / PieceDistanceSqr;
 // //
-// //             DiPolaritySum += ConstituentRSqr * ConstituentPt / FatJetPt ;
-// //             Print(HDebug, "DiPolarity Sum", DiPolaritySum);
+// //             DiPolaritySum += constituentRSqr * constituentPt / FatJetPt ;
+// //             Print(kDebug, "DiPolarity Sum", DiPolaritySum);
 // //
-// //             ConstituentPtSum += ConstituentPt;
+// //             constituentPtSum += constituentPt;
 // //
-// //             ConstituentRSqrSum += ConstituentRSqr;
+// //             constituentRSqrSum += constituentRSqr;
 // //
-// //             ConstituentNumSqrSum += ConstituentNumSqr;
+// //             constituentNumSqrSum += constituentNumSqr;
 // //
 // //         }
 // //
-// //         Print(HDebug, "Fraction of valid Constitueants", 1 - (ConstituentsSum - ValidConstituents) / ConstituentsSum);
+// //         Print(kDebug, "Fraction of valid Constitueants", 1 - (constituentsSum - Validconstituents) / constituentsSum);
 // //
 // //         DiPolarity = DiPolaritySum / PieceDistanceSqr;
 // //
@@ -508,12 +508,12 @@
 // //
 // //     if (DiPolarity < 0.01 && DiPolarity > 0) {
 // //
-// //         Print(HInformation, "Pt Ratio", ConstituentPtSum / FatJetPt);
-// //         Print(HInformation, "RSqr Ratio", ConstituentRSqrSum / PieceDistanceSqr);
-// //         Print(HInformation, "PieceDistanceSqr", PieceDistanceSqr);
-// //         Print(HInformation, "ConstituentNumSqrSum", ConstituentNumSqrSum);
-// //         Print(HInformation, "DiPolaritySum", DiPolaritySum);
-// //         Print(HInformation, "DiPolarity", DiPolarity);
+// //         Print(kInformation, "Pt Ratio", constituentPtSum / FatJetPt);
+// //         Print(kInformation, "RSqr Ratio", constituentRSqrSum / PieceDistanceSqr);
+// //         Print(kInformation, "PieceDistanceSqr", PieceDistanceSqr);
+// //         Print(kInformation, "constituentNumSqrSum", constituentNumSqrSum);
+// //         Print(kInformation, "DiPolaritySum", DiPolaritySum);
+// //         Print(kInformation, "DiPolarity", DiPolarity);
 // //
 // //     }
 // //
@@ -526,10 +526,10 @@
 // // float hdelphes::HPull::JingDipolarity(const fastjet::PseudoJet &CandidateJet)
 // // {
 // //
-// //     Print(HInformation, "Jing Dipolarity");
+// //     Print(kInformation, "Jing Dipolarity");
 // //
 // //     Jets SubJetVector = CandidateJet.pieces();
-// //     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
+// //     if (SubJetVector.size() != 2) Print(kError, "not two subjets");
 // //
 // //     // Filtering
 // //     float ParentCylinderDistance = SubJetVector[0].delta_R(SubJetVector[1]);
@@ -545,7 +545,7 @@
 // //     fastjet::PseudoJet FilterJet = FatJetFilter(CandidateJet);
 // //
 // //     SubJetVector = FilterJet.pieces();
-// //     if (SubJetVector.size() != 2) Print(HError, "not two subjets");
+// //     if (SubJetVector.size() != 2) Print(kError, "not two subjets");
 // //
 // //
 // //     float Rap1, Rap2, Phi1, Phi2;
@@ -570,59 +570,59 @@
 // //
 // //     float DiPolarity=0;
 // //
-// //     for (const auto & Constituent : FilterJet.constituents()){
+// //     for (const auto & constituent : FilterJet.constituents()){
 // //
-// //         const float ConstituentRap = Constituent.rap();
-// //         float ConstituentPhi = Constituent.phi_std();
+// //         const float constituentRap = constituent.rap();
+// //         float constituentPhi = constituent.phi_std();
 // //
 // //         const float DeltaPhi = Phi2 - Phi1;
 // //         const float DeltaRap = -(Rap2 - Rap1);
 // //         const float RapPhi = Rap2 * Phi1 - Rap1 * Phi2;
 // //
-// //         const float ConstituentDeltaR1 = Constituent.delta_R(SubJetVector[0]);
-// //         const float ConstituentDeltaR2 = Constituent.delta_R(SubJetVector[1]);
-// //         const float ConstituentDeltaR3 = fabs(DeltaPhi * ConstituentRap + DeltaRap * ConstituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
-// //         float Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * ConstituentRap + DeltaPhi * DeltaRap * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
-// //         float Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * ConstituentRap - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
+// //         const float constituentDeltaR1 = constituent.delta_R(SubJetVector[0]);
+// //         const float constituentDeltaR2 = constituent.delta_R(SubJetVector[1]);
+// //         const float constituentDeltaR3 = fabs(DeltaPhi * constituentRap + DeltaRap * constituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
+// //         float Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * constituentRap + DeltaPhi * DeltaRap * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
+// //         float Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * constituentRap - DeltaPhi * DeltaPhi * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
 // //
 // //         float DeltaR1;
 // //         if ((Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi1 && Phi3 <= Phi2)
 // //                 || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
-// //             DeltaR1 = ConstituentDeltaR3;
+// //             DeltaR1 = constituentDeltaR3;
 // //         } else {
-// //             DeltaR1 = min(ConstituentDeltaR1, ConstituentDeltaR2);
+// //             DeltaR1 = min(constituentDeltaR1, constituentDeltaR2);
 // //         }
 // //
-// //         if (ConstituentPhi < 0) {
-// //             ConstituentPhi = ConstituentPhi + 2 * Pi();
+// //         if (constituentPhi < 0) {
+// //             constituentPhi = constituentPhi + 2 * Pi();
 // //         } else {
-// //             ConstituentPhi = ConstituentPhi - 2 * Pi();
+// //             constituentPhi = constituentPhi - 2 * Pi();
 // //         }
 // //
-// //         Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * ConstituentRap + DeltaPhi * DeltaRap * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
-// //         Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * ConstituentRap - DeltaPhi * DeltaPhi * ConstituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
+// //         Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * constituentRap + DeltaPhi * DeltaRap * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
+// //         Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * constituentRap - DeltaPhi * DeltaPhi * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
 // //
-// //         const float ConstituntDeltaR4 = fabs(DeltaPhi * ConstituentRap + DeltaRap * ConstituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
+// //         const float ConstituntDeltaR4 = fabs(DeltaPhi * constituentRap + DeltaRap * constituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
 // //
 // //         float DeltaR2;
 // //         if ((Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi1 && Phi3 <= Phi2)
 // //                 || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
 // //             DeltaR2 = ConstituntDeltaR4;
 // //         } else {
-// //             DeltaR2 = min(ConstituentDeltaR1, ConstituentDeltaR2);
+// //             DeltaR2 = min(constituentDeltaR1, constituentDeltaR2);
 // //         }
 // //
 // //         const float DeltaR = min(DeltaR1, DeltaR2);
 // //
 // //         const float ConeSize = sqrt(2);
 // //
-// //         if (ConstituentDeltaR1 < DeltaR12 / ConeSize || ConstituentDeltaR2 < DeltaR12 / ConeSize) {
+// //         if (constituentDeltaR1 < DeltaR12 / ConeSize || constituentDeltaR2 < DeltaR12 / ConeSize) {
 // //
 // //         const float deltar = DeltaR / DeltaR12;
-// // //         float ConstDelR1 = ConstituentDeltaR1 / DeltaR12;
-// // //         float ConstDelR2 = ConstituentDeltaR2 / DeltaR12;
-// // //         float PtRatio =  Constituent.perp() / HiggsJet.perp();
-// //         const float PtRatio =  Constituent.perp() / FilterJet.perp();
+// // //         float ConstDelR1 = constituentDeltaR1 / DeltaR12;
+// // //         float ConstDelR2 = constituentDeltaR2 / DeltaR12;
+// // //         float PtRatio =  constituent.perp() / HiggsJet.perp();
+// //         const float PtRatio =  constituent.perp() / FilterJet.perp();
 // //
 // //         DiPolarity += PtRatio * pow(deltar,2);
 // //
@@ -631,6 +631,6 @@
 // //     }
 // //
 // //     return DiPolarity;
-// // //     return (DiPolarity / ConstituentSum * 10000);
+// // //     return (DiPolarity / constituentSum * 10000);
 // //
 // // }

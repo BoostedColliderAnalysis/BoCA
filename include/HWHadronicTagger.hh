@@ -1,7 +1,7 @@
 # pragma once
 
 # include "BottomTagger.hh"
-# include "HDoublet.hh"
+# include "Doublet.hh"
 # include "Reader.hh"
 
 /**
@@ -18,7 +18,7 @@ public:
     int Train(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
     std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag) {
-        Print(HError, "train", "depreciated");
+        Print(kError, "train", "depreciated");
     }
 
     virtual int GetBdt(HEvent &event, const TMVA::Reader &reader) {
@@ -26,31 +26,40 @@ public:
     }
 
 
-//     std::vector<HParticleBranch> GetConstituentBranches();
+//     std::vector<ParticleBranch> GetconstituentBranches();
 
-    std::vector<HDoublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<Doublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
 
-    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader) {
-        Print(HError, "train", "depreciated");
+    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader) {
+        Print(kError, "train", "depreciated");
     }
 
-    std::vector<HDoublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader);
-    std::vector<HDoublet> GetPairBdt(const Jets &jets, const hanalysis::Reader &WReader);
-    std::vector<HDoublet> GetSingletBdt(const Jets &jets, const hanalysis::Reader &WReader);
+    std::vector<hanalysis::Doublet> GetJetDoublets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<hanalysis::Doublet> GetJetDoublets(const Jets &jets, const TMVA::Reader &reader);
 
-    HDoublet GetBdt(HDoublet &Doublet, const hanalysis::Reader &WReader);
+    std::vector<hanalysis::Doublet> GetSubJetDoublets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
+
+    std::vector<hanalysis::Doublet> GetDoublet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
+
+    std::vector<hanalysis::Doublet> GetDoublet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
+
+    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader);
+    std::vector<Doublet> GetPairBdt(const Jets &jets, const hanalysis::Reader &WReader);
+    std::vector<Doublet> GetSingletBdt(const Jets &jets, const hanalysis::Reader &WReader);
+
+    Doublet GetBdt(Doublet &doublet, const hanalysis::Reader &WReader);
 
     BottomTagger bottom_tagger_;
 
     Reader bottom_reader_;
 
-    HWBranch GetBranch(const HDoublet &Doublet) const;
+    HWBranch GetBranch(const Doublet &doublet) const;
 
     int GetWHadId(hanalysis::HEvent &Event) {
         return GetWHadId(GetWDaughters(Event));
     };
 
-    int SaveEntries(const std::vector<HDoublet> &doublets) {
+    int SaveEntries(const std::vector<Doublet> &doublets) {
         for (const auto & doublet : doublets) static_cast<HWBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
         return doublets.size();
     }

@@ -6,7 +6,7 @@
 # include "HEventDelphes.hh"
 # include "HBranchHiggsCpv.hh"
 # include "HSubStructure.hh"
-# include "HDoublet.hh"
+# include "Doublet.hh"
 // # include "HMvaPairs.hh"
 # include "Reader.hh"
 # include "Factory.hh"
@@ -21,11 +21,11 @@ class HHiggsCpv
 
 public:
 
-  hanalysis::HDoublet Higgs;
-    hanalysis::HDoublet Top;
-    hanalysis::HDoublet AntiTop;
+  hanalysis::Doublet Higgs;
+    hanalysis::Doublet Top;
+    hanalysis::Doublet AntiTop;
 
-    HHiggsCpv(const hanalysis::HDoublet &NewHiggs, const hanalysis::HDoublet &NewTop, const hanalysis::HDoublet &NewAntiTop) {
+    HHiggsCpv(const hanalysis::Doublet &NewHiggs, const hanalysis::Doublet &NewTop, const hanalysis::Doublet &NewAntiTop) {
         Higgs = NewHiggs;
         Top = NewTop;
         AntiTop = NewAntiTop;
@@ -92,9 +92,9 @@ private:
      *
      */
 
-    ExRootTreeBranch *BottomBranch;
+    ExRootTreeBranch *bottom_branch;
     ExRootTreeBranch *HiggsBranch;
-    ExRootTreeBranch *ConstituentBranch;
+    ExRootTreeBranch *constituentBranch;
     ExRootTreeBranch *TopBranch;
     ExRootTreeBranch *EventBranch;
 

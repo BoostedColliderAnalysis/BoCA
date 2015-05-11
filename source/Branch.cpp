@@ -2,7 +2,7 @@
 
 ClassImp(Branch)
 
-Branch::Branch(){}
+Branch::Branch() {}
 
 Branch::~Branch() {}
 
@@ -24,9 +24,9 @@ HEventBranch::HEventBranch()
     ScalarPtSum = InitialValue();
 }
 
-ClassImp(HParticleBranch)
+ClassImp(ParticleBranch)
 
-HParticleBranch::HParticleBranch()
+ParticleBranch::ParticleBranch()
 {
     Mass = InitialValue();
     Pt = InitialValue();
@@ -43,9 +43,9 @@ HResultBranch::HResultBranch()
 }
 
 
-ClassImp(HBottomBranch)
+ClassImp(BottomBranch)
 
-HBottomBranch::HBottomBranch()
+BottomBranch::BottomBranch()
 {
 
     VertexMass = InitialValue();
@@ -161,9 +161,9 @@ HChargedJetPairBranch::HChargedJetPairBranch()
 
 }
 
-ClassImp(HWSemiBranch)
+ClassImp(WSemiBranch)
 
-HWSemiBranch::HWSemiBranch()
+WSemiBranch::WSemiBranch()
 {
     NeutrinoPt = InitialValue();
     LeptonPt = InitialValue();
@@ -180,9 +180,9 @@ HHeavyHiggsTauBranch::HHeavyHiggsTauBranch()
 }
 
 
-ClassImp(HTopHadronicBranch)
+ClassImp(TopHadronicBranch)
 
-HTopHadronicBranch::HTopHadronicBranch()
+TopHadronicBranch::TopHadronicBranch()
 {
 
     BottomPt = InitialValue();

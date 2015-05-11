@@ -90,7 +90,7 @@ private:
         case LE :
             return "LE";
         default:
-            Print(HError, "Detector Name", "unhandeld case");
+            Print(kError, "Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -105,7 +105,7 @@ private:
         case VBF :
             return "VBF_";
         default:
-            Print(HError, "ProductionChannelName", "unhandeld case");
+            Print(kError, "ProductionChannelName", "unhandeld case");
             return "";
         }
     }
@@ -120,7 +120,7 @@ private:
         case Associated :
             return GluonId;
         default:
-            Print(HError, "MotherId", "unhandeld case");
+            Print(kError, "MotherId", "unhandeld case");
             return EmptyId;
         }
     }
@@ -150,7 +150,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-            Print(HError, "ProcessName", "unhandeld case");
+            Print(kError, "ProcessName", "unhandeld case");
             return "";
         }
     }

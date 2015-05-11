@@ -3,7 +3,7 @@
 hanalysis::HClonesArray::HClonesArray()
 {
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
     ParticleClonesArray = NULL;
     PhotonClonesArray = NULL;
@@ -25,27 +25,27 @@ hanalysis::HClonesArray::HClonesArray()
 
 hanalysis::hdelphes::HClonesArray::HClonesArray()
 {
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 }
 
 hanalysis::hdelphes::HClonesArraySnowmass::HClonesArraySnowmass()
 {
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 }
 
 hanalysis::hpgs::HClonesArray::HClonesArray()
 {
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 }
 
 hanalysis::hparton::HClonesArray::HClonesArray()
 {
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 }
 
 hanalysis::HClonesArray::~HClonesArray()
 {
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
 }
 
@@ -53,7 +53,7 @@ hanalysis::HClonesArray::~HClonesArray()
 void hanalysis::hdelphes::HClonesArray::GetBranches(const std::shared_ptr<ExRootTreeReader> &TreeReader)
 {
 
-  Print(HNotification, "Get Branches",TreeReader->GetEntries());
+  Print(kNotification, "Get Branches",TreeReader->GetEntries());
   tree_reader_ = TreeReader.get();
 
     ParticleClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("Particle");
@@ -71,13 +71,13 @@ void hanalysis::hdelphes::HClonesArray::GetBranches(const std::shared_ptr<ExRoot
     GenJetClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("GenJet");
     ScalarHtClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("ScalarHT");
 
-    Print(HNotification,"Got all Branches");
+    Print(kNotification,"Got all Branches");
 }
 
 void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(const std::shared_ptr<ExRootTreeReader> &TreeReader)
 {
 
-  Print(HNotification, "Get Branches");
+  Print(kNotification, "Get Branches");
   tree_reader_ = TreeReader.get();
 
     ParticleClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("Particle");
@@ -89,7 +89,7 @@ void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(const std::shared_pt
     EFlowTrackClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("EFlowTrack");
     EFlowPhotonClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("EFlowPhoton");
     EFlowNeutralHadronClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("EFlowNeutralHadron");
-    Print(HInformation, "We have EFlow Branches");
+    Print(kInformation, "We have EFlow Branches");
     EFlowMuonClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("EFlowMuon");
     GenJetClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("GenJet");
     ScalarHtClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("ScalarHT");
@@ -99,7 +99,7 @@ void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(const std::shared_pt
 void hanalysis::hpgs::HClonesArray::GetBranches(const std::shared_ptr<ExRootTreeReader> &TreeReader)
 {
 
-  Print(HNotification, "Get Branches");
+  Print(kNotification, "Get Branches");
   tree_reader_ = TreeReader.get();
 
     PhotonClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("Photon");
@@ -114,7 +114,7 @@ void hanalysis::hpgs::HClonesArray::GetBranches(const std::shared_ptr<ExRootTree
 void hanalysis::hparton::HClonesArray::GetBranches(const std::shared_ptr<ExRootTreeReader> &TreeReader)
 {
 
-  Print(HNotification, "Get Branches");
+  Print(kNotification, "Get Branches");
   tree_reader_ = TreeReader.get();
 
     ParticleClonesArray = std::const_pointer_cast<ExRootTreeReader>(TreeReader)->UseBranch("Particle");
@@ -136,7 +136,7 @@ void hanalysis::hparton::HClonesArray::GetBranches(const std::shared_ptr<ExRootT
 void hanalysis::hdelphes::HClonesArray::GetBranches(ExRootTreeReader &TreeReader)
 {
 
-  Print(HNotification, "Get Branches",TreeReader.GetEntries());
+  Print(kNotification, "Get Branches",TreeReader.GetEntries());
   tree_reader_ = &TreeReader;
 
   ParticleClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("Particle");
@@ -154,13 +154,13 @@ void hanalysis::hdelphes::HClonesArray::GetBranches(ExRootTreeReader &TreeReader
   GenJetClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("GenJet");
   ScalarHtClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("ScalarHT");
 
-  Print(HNotification,"Got all Branches");
+  Print(kNotification,"Got all Branches");
 }
 
 void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(ExRootTreeReader &TreeReader)
 {
 
-  Print(HNotification, "Get Branches");
+  Print(kNotification, "Get Branches");
   tree_reader_ = &TreeReader;
 
   ParticleClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("Particle");
@@ -172,7 +172,7 @@ void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(ExRootTreeReader &Tr
   EFlowTrackClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("EFlowTrack");
   EFlowPhotonClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("EFlowPhoton");
   EFlowNeutralHadronClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("EFlowNeutralHadron");
-  Print(HInformation, "We have EFlow Branches");
+  Print(kInformation, "We have EFlow Branches");
   EFlowMuonClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("EFlowMuon");
   GenJetClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("GenJet");
   ScalarHtClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("ScalarHT");
@@ -182,7 +182,7 @@ void hanalysis::hdelphes::HClonesArraySnowmass::GetBranches(ExRootTreeReader &Tr
 void hanalysis::hpgs::HClonesArray::GetBranches(ExRootTreeReader &TreeReader)
 {
 
-  Print(HNotification, "Get Branches");
+  Print(kNotification, "Get Branches");
   tree_reader_ = &TreeReader;
 
   PhotonClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("Photon");
@@ -197,7 +197,7 @@ void hanalysis::hpgs::HClonesArray::GetBranches(ExRootTreeReader &TreeReader)
 void hanalysis::hparton::HClonesArray::GetBranches(ExRootTreeReader &TreeReader)
 {
 
-  Print(HNotification, "Get Branches");
+  Print(kNotification, "Get Branches");
   tree_reader_ = &TreeReader;
 
   ParticleClonesArray = const_cast<ExRootTreeReader&>(TreeReader).UseBranch("Particle");

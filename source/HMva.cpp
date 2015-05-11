@@ -7,7 +7,7 @@
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 
-# include "HJetInfo.hh"
+# include "JetInfo.hh"
 # include "HEvent.hh"
 # include "HAnalysis.hh"
 
@@ -60,8 +60,8 @@ char HObservable::type() const
 hanalysis::HMva::HMva() : DetectorGeometry()
 {
 
-//   DebugLevel = HNotification;
-    Print(HInformation, "Constructor");
+//   DebugLevel = kNotification;
+    Print(kInformation, "Constructor");
     cut_method_name_ = "Cut";
     bdt_method_name_ = "Bdt";
     cut_ = "";
@@ -72,20 +72,20 @@ hanalysis::HMva::HMva() : DetectorGeometry()
 
 float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 {
-    Print(HError, "Get Bdt", "should be implemented somewhere else");
+    Print(kError, "Get Bdt", "should be implemented somewhere else");
     return -10;
 }
 
 HObservable hanalysis::HMva::NewObservable(float &value, const std::string &title) const
 {
-    Print(HInformation, "New Observable", title);
+    Print(kInformation, "New Observable", title);
     const std::string expression = branch_name_ + "." + title;
     return HObservable(value, expression, title, "", "");
 }
 
 HObservable hanalysis::HMva::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
-    Print(HInformation, "New Observable", title);
+    Print(kInformation, "New Observable", title);
     const std::string expression = branch_name_ + "." + title;
     return HObservable(value, expression, title, "", latex);
 
@@ -126,13 +126,13 @@ Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
                 fastjet::PseudoJet CombinedJet(RescaledPx, RescaledPy, RescaledPz, TotalEnergy);
 
 
-                std::vector<HConstituent> Constituents;
-                std::vector<HConstituent> NewConstituents = EFlowJets[i].user_info<hanalysis::HJetInfo>().Constituents();
-                Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
-                NewConstituents = NewGranulatedJets[j].user_info<hanalysis::HJetInfo>().Constituents();
-                Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+                std::vector<Constituent> constituents;
+                std::vector<Constituent> Newconstituents = EFlowJets[i].user_info<hanalysis::JetInfo>().constituents();
+                constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
+                Newconstituents = NewGranulatedJets[j].user_info<hanalysis::JetInfo>().constituents();
+                constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
 
-                CombinedJet.set_user_info(new HJetInfo(Constituents));
+                CombinedJet.set_user_info(new JetInfo(constituents));
 
                 NewGranulatedJets.erase(NewGranulatedJets.begin() + j);
                 NewGranulatedJets.push_back(CombinedJet);
@@ -162,7 +162,7 @@ Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
 
 Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 {
-    Print(HInformation, "JetTag", JetTag.HeavyParticles.size());
+    Print(kInformation, "JetTag", JetTag.HeavyParticles.size());
     return GetJets(Event);
 }
 
@@ -177,26 +177,26 @@ Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
     }
     ClusterSequence->delete_self_when_unused();
     for (auto & Jet : jets)  {
-        std::vector<HConstituent> Constituents;
-        for (const auto & Constituent : Jet.constituents()) {
-            std::vector<HConstituent> NewConstituents = Constituent.user_info<HJetInfo>().Constituents();
-            Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+        std::vector<Constituent> constituents;
+        for (const auto & constituent : Jet.constituents()) {
+            std::vector<Constituent> Newconstituents = constituent.user_info<JetInfo>().constituents();
+            constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
         }
-        Jet.set_user_info(new HJetInfo(Constituents));
+        Jet.set_user_info(new JetInfo(constituents));
     }
     return jets;
 }
 
 Jets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
 {
-    Print(HInformation, "Get Sub Jets");
+    Print(kInformation, "Get Sub Jets");
     Jets Pieces;
     if (!Jet.has_constituents()) {
-        Print(HError, "Pieceless jet");
+        Print(kError, "Pieceless jet");
         return Pieces;
     }
-    if (!Jet.has_user_info<HJetInfo>()) {
-        Print(HError, "Get Sub Jets", "No Jet Info");
+    if (!Jet.has_user_info<JetInfo>()) {
+        Print(kError, "Get Sub Jets", "No Jet Info");
         return Pieces;
     }
 //     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry.JetConeSize));
@@ -205,16 +205,16 @@ Jets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJet
     ClusterSequence->delete_self_when_unused();
 
     for (auto & Piece : NewPieces) {
-        std::vector<HConstituent> Constituents;
-        for (const auto & PieceConstituent : Piece.constituents()) {
-            if (!PieceConstituent.has_user_info<HJetInfo>()) {
-                Print(HError, "Get Sub Jets", "No Piece Constituent Info");
+        std::vector<Constituent> constituents;
+        for (const auto & Piececonstituent : Piece.constituents()) {
+            if (!Piececonstituent.has_user_info<JetInfo>()) {
+                Print(kError, "Get Sub Jets", "No Piece constituent Info");
                 continue;
             }
-            std::vector<HConstituent> NewConstituents = PieceConstituent.user_info<HJetInfo>().Constituents();
-            Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+            std::vector<Constituent> Newconstituents = Piececonstituent.user_info<JetInfo>().constituents();
+            constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
         }
-        Piece.set_user_info(new HJetInfo(Constituents, Jet.user_info<HJetInfo>().BTag()));
+        Piece.set_user_info(new JetInfo(constituents, Jet.user_info<JetInfo>().BTag()));
         Pieces.push_back(Piece);
     }
     return Pieces;

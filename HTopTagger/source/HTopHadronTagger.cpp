@@ -13,14 +13,14 @@
 
 HTopHadronTagger::HTopHadronTagger()
 {
-// DebugLevel = hanalysis::HObject::HDebug;
-    Print(HNotification, "Constructor");
+// DebugLevel = hanalysis::HObject::kDebug;
+    Print(kNotification, "Constructor");
     DefineVariables();
 }
 
 void HTopHadronTagger::SetTagger(const hanalysis::BottomTagger &bottom_tagger, const hanalysis::HWHadronicTagger &w_tagger)
 {
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
     bottom_tagger_ = bottom_tagger;
     WTagger = w_tagger;
     DefineVariables();
@@ -29,7 +29,7 @@ void HTopHadronTagger::SetTagger(const hanalysis::BottomTagger &bottom_tagger, c
 void HTopHadronTagger::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
     set_tagger_name("TopHadronic");
     TopWindow = (TopMass - WMass) / 2;
     WMassWindow = 20;
@@ -80,9 +80,9 @@ void HTopHadronTagger::DefineVariables()
     AddSpectator(Branch.Tag, "Tag");
 }
 
-HTopHadronBranch HTopHadronTagger::GetBranch(const hanalysis::HTriplet &triplet) const
+HTopHadronBranch HTopHadronTagger::GetBranch(const hanalysis::Triplet &triplet) const
 {
-    Print(HInformation, "Fill Top Tagger", triplet.Bdt());
+    Print(kInformation, "Fill Top Tagger", triplet.Bdt());
 
     HTopHadronBranch top_hadron_branch;
 
@@ -93,7 +93,7 @@ HTopHadronBranch HTopHadronTagger::GetBranch(const hanalysis::HTriplet &triplet)
     top_hadron_branch.Ht = triplet.Ht();
 
     top_hadron_branch.BottomPt = triplet.Singlet().pt();
-    top_hadron_branch.WPt = triplet.DoubletJet().pt();
+    top_hadron_branch.WPt = triplet.doublet_jet().pt();
 
     top_hadron_branch.DeltaPt = triplet.DeltaPt();
     top_hadron_branch.DeltaHt = triplet.DeltaHt();
@@ -114,41 +114,41 @@ HTopHadronBranch HTopHadronTagger::GetBranch(const hanalysis::HTriplet &triplet)
     if (triplet.sub_jettiness().tau2_beta2 > 0) top_hadron_branch.Tau32_2 = triplet.sub_jettiness().tau32_beta2;
 
     if (triplet.Degenerate()) GetBottomInfo(top_hadron_branch, triplet.Singlet() * 2);
-    else if (triplet.Doublet().Degenerate()) GetBottomInfo(top_hadron_branch, triplet.Doublet().Singlet1() * 2);
+    else if (triplet.doublet().Degenerate()) GetBottomInfo(top_hadron_branch, triplet.doublet().Singlet1() * 2);
     else GetBottomInfo(top_hadron_branch, triplet.Singlet());
 
     top_hadron_branch.Bdt = triplet.Bdt();
-    if (!triplet.Degenerate())top_hadron_branch.WBdt = triplet.Doublet().Bdt();
-    top_hadron_branch.BBdt = triplet.Singlet().user_info<hanalysis::HJetInfo>().Bdt();
+    if (!triplet.Degenerate())top_hadron_branch.WBdt = triplet.doublet().Bdt();
+    top_hadron_branch.BBdt = triplet.Singlet().user_info<hanalysis::JetInfo>().Bdt();
     top_hadron_branch.Tag = triplet.Tag();
 
     top_hadron_branch.LeptonPt = triplet.LeptonPt;
 
-    //     if (!(top_hadron_branch.VertexMass >= 0)) Print(HError, "Vertex Mass", top_hadron_branch.VertexMass);
-    if (top_hadron_branch.MaxDisplacement < -3) Print(HError, "Max Displ", top_hadron_branch.MaxDisplacement);
-    if (top_hadron_branch.MeanDisplacement < -3) Print(HError, "Mean Displ", top_hadron_branch.MeanDisplacement);
+    //     if (!(top_hadron_branch.VertexMass >= 0)) Print(kError, "Vertex Mass", top_hadron_branch.VertexMass);
+    if (top_hadron_branch.MaxDisplacement < -3) Print(kError, "Max Displ", top_hadron_branch.MaxDisplacement);
+    if (top_hadron_branch.MeanDisplacement < -3) Print(kError, "Mean Displ", top_hadron_branch.MeanDisplacement);
     return top_hadron_branch;
 }
 
 void HTopHadronTagger::GetBottomInfo(HTopHadronBranch &top_hadron_branch, const fastjet::PseudoJet jet) const
 {
 
-    top_hadron_branch.VertexMass = jet.user_info<hanalysis::HJetInfo>().VertexMass();
-    float MaxDisp = jet.user_info<hanalysis::HJetInfo>().MaxDisplacement();
+    top_hadron_branch.VertexMass = jet.user_info<hanalysis::JetInfo>().VertexMass();
+    float MaxDisp = jet.user_info<hanalysis::JetInfo>().MaxDisplacement();
     if (MaxDisp > 0) top_hadron_branch.MaxDisplacement = std::log(MaxDisp);
     else top_hadron_branch.MaxDisplacement = -3;
-    float MeanDisp = jet.user_info<hanalysis::HJetInfo>().MeanDisplacement();
+    float MeanDisp = jet.user_info<hanalysis::JetInfo>().MeanDisplacement();
     if (MeanDisp > 0) top_hadron_branch.MeanDisplacement = std::log(MeanDisp);
     else top_hadron_branch.MeanDisplacement = -3;
-    float SumDisp = jet.user_info<hanalysis::HJetInfo>().SumDisplacement();
+    float SumDisp = jet.user_info<hanalysis::JetInfo>().SumDisplacement();
     if (SumDisp > 0) top_hadron_branch.SumDisplacement = std::log(SumDisp);
     else top_hadron_branch.SumDisplacement = -3;
-    top_hadron_branch.Multipliticity = jet.user_info<hanalysis::HJetInfo>().VertexNumber();
-//     TopHadronicBranch.DeltaR = GetDeltaR(jet);
+    top_hadron_branch.Multipliticity = jet.user_info<hanalysis::JetInfo>().VertexNumber();
+//     top_hadronic_branch.DeltaR = GetDeltaR(jet);
     top_hadron_branch.Spread = GetSpread(jet);
-    top_hadron_branch.VertexDeltaR = GetDeltaR(jet.user_info<hanalysis::HJetInfo>().VertexJet());
-    top_hadron_branch.VertexSpread = GetSpread(jet.user_info<hanalysis::HJetInfo>().VertexJet());
-    top_hadron_branch.EnergyFraction = jet.user_info<hanalysis::HJetInfo>().VertexEnergy() / jet.e();
+    top_hadron_branch.VertexDeltaR = GetDeltaR(jet.user_info<hanalysis::JetInfo>().VertexJet());
+    top_hadron_branch.VertexSpread = GetSpread(jet.user_info<hanalysis::JetInfo>().VertexJet());
+    top_hadron_branch.EnergyFraction = jet.user_info<hanalysis::JetInfo>().VertexEnergy() / jet.e();
 
 }
 
@@ -156,7 +156,7 @@ void HTopHadronTagger::GetBottomInfo(HTopHadronBranch &top_hadron_branch, const 
 std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut)
 {
 
-    Print(HInformation, "Get Top Tags");
+    Print(kInformation, "Get Top Tags");
 
     const int TopNumber = 2;
 
@@ -167,46 +167,46 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
     fastjet::PseudoJet TopQuark;
     if (Tag == kSignal) {
         if (TopParticles.size() == TopNumber) TopQuark = TopParticles.front();
-        else Print(HError, "Where is the Top?", TopParticles.size());
+        else Print(kError, "Where is the Top?", TopParticles.size());
     }
 
     Jets jets = GetJets(Event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
-    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(jets, WReader);
-    std::vector<hanalysis::HTriplet> Triplets;
+    std::vector<hanalysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
+    std::vector<hanalysis::Triplet> triplets;
 
     Jets Leptons = Event.GetLeptons()->GetLeptonJets();
 
 // // 3 Jets form one top
 //     for (const auto & Jet : jets)  {
-//         for (const auto & Doublet : Doublets) {
-//           hanalysis::HTriplet Triplet(Doublet, Jet);
-//             if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
-//             if (Tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
-//             if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
-//             if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
-//             if (Triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
-//             Triplets.emplace_back(Triplet);
+//         for (const auto & doublet : doublets) {
+//           hanalysis::Triplet triplet(doublet, Jet);
+//             if (Tag == kSignal && std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue;
+//             if (Tag == kSignal && triplet.Jet().pt() <  pre_cut / 2) continue;
+//             if (Tag == kSignal && triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
+//             if (Tag == HBackground && triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
+//             if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
+//             triplets.emplace_back(triplet);
 //         }
 //     }
-// // Print(HError, "Number of Triplets 1", Triplets.size());
+// // Print(kError, "Number of triplets 1", triplets.size());
 //
 // // 2 Jet form one top
 //     for (const auto Jet : jets)  {
 //         Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 1 jet form one W
-//         std::vector<hanalysis::HDoublet> PiecesDoublets = WTagger.GetBdt(Pieces, WReader);
-//         for (const auto & Doublet : PiecesDoublets)
+//         std::vector<hanalysis::Doublet> Piecesdoublets = WTagger.GetBdt(Pieces, WReader);
+//         for (const auto & doublet : Piecesdoublets)
 //             for (const auto & Jet2 : jets)  {
 //                 if (Jet == Jet2) continue;
-//                 hanalysis::HTriplet Triplet(Doublet, Jet2);
-//                 if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
-//                 if (Tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
-//                 if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
-//                 if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
-//                 if (Triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
-//                 Triplets.emplace_back(Triplet);
+//                 hanalysis::Triplet triplet(doublet, Jet2);
+//                 if (Tag == kSignal && std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue;
+//                 if (Tag == kSignal && triplet.Jet().pt() <  pre_cut / 2) continue;
+//                 if (Tag == kSignal && triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
+//                 if (Tag == HBackground && triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
+//                 if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
+//                 triplets.emplace_back(triplet);
 //             }
 //     }
 
@@ -218,19 +218,19 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
 // 2 subjets form one W
-                hanalysis::HDoublet Doublet(Piece1, Piece2);
-                Doublet = WTagger.GetBdt(Doublet, WReader);
-                if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+                hanalysis::Doublet doublet(Piece1, Piece2);
+                doublet = WTagger.GetBdt(doublet, WReader);
+                if (std::abs(doublet.Jet().m() - WMass) > WMassWindow) continue;
                 for (const auto & Piece3 : Pieces) {
-                    if (Piece3 == Doublet.Singlet1()) continue;
-                    if (Piece3 == Doublet.Singlet2()) continue;
-                    hanalysis::HTriplet Triplet(Doublet, Piece3);
-                    if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
-                    if (Tag == kBackground && Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
-//                     if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
-//                     if (Tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
-                    if (Triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
-                    Triplets.emplace_back(Triplet);
+                    if (Piece3 == doublet.Singlet1()) continue;
+                    if (Piece3 == doublet.Singlet2()) continue;
+                    hanalysis::Triplet triplet(doublet, Piece3);
+                    if (Tag == kSignal && triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
+                    if (Tag == kBackground && triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
+//                     if (Tag == kSignal && std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue;
+//                     if (Tag == kSignal && triplet.Jet().pt() <  pre_cut / 2) continue;
+                    if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
+                    triplets.emplace_back(triplet);
                 }
             }
         }
@@ -242,55 +242,55 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 //         for (const auto & Piece1 : Pieces) {
 // // 1 subjets forms one W
-//             hanalysis::HDoublet Doublet(Piece1);
-//             Doublet = WTagger.GetBdt(Doublet, WReader);
-//             if (std::abs(Doublet.Jet().m() - WMass) > WMassWindow) continue;
+//             hanalysis::Doublet doublet(Piece1);
+//             doublet = WTagger.GetBdt(doublet, WReader);
+//             if (std::abs(doublet.Jet().m() - WMass) > WMassWindow) continue;
 //             for (const auto & Piece3 : Pieces) {
-//                 if (Piece3 == Doublet.Singlet1()) continue;
-//                 if (Piece3 == Doublet.Singlet2()) continue;
-//                 hanalysis::HTriplet Triplet(Doublet, Piece3);
-//                 if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
-//                 if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
-// //                 if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
-// //                 if (Tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
-//                 if (Triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
-//                 Triplets.emplace_back(Triplet);
+//                 if (Piece3 == doublet.Singlet1()) continue;
+//                 if (Piece3 == doublet.Singlet2()) continue;
+//                 hanalysis::Triplet triplet(doublet, Piece3);
+//                 if (Tag == kSignal && triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
+//                 if (Tag == HBackground && triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
+// //                 if (Tag == kSignal && std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue;
+// //                 if (Tag == kSignal && triplet.Jet().pt() <  pre_cut / 2) continue;
+//                 if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
+//                 triplets.emplace_back(triplet);
 //             }
 //         }
 //     }
 
 // // 1 Jet forms one top
 //     for (const auto Jet : jets)  {
-//         hanalysis::HTriplet Triplet(Jet);
-//         if (Tag == kSignal && Triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
-//         if (Tag == HBackground && Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
-// //         if (Tag == kSignal && std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
-// //         if (Tag == kSignal && Triplet.Jet().pt() <  pre_cut / 2) continue;
-//         for (const auto Lepton : Leptons) if (Triplet.Jet().delta_R(Lepton) && Lepton.pt() > Triplet.LeptonPt) Triplet.LeptonPt = Lepton.pt();
-//         Triplets.emplace_back(Triplet);
+//         hanalysis::Triplet triplet(Jet);
+//         if (Tag == kSignal && triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
+//         if (Tag == HBackground && triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
+// //         if (Tag == kSignal && std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue;
+// //         if (Tag == kSignal && triplet.Jet().pt() <  pre_cut / 2) continue;
+//         for (const auto Lepton : Leptons) if (triplet.Jet().delta_R(Lepton) && Lepton.pt() > triplet.LeptonPt) triplet.LeptonPt = Lepton.pt();
+//         triplets.emplace_back(triplet);
 //     }
 
 
-    if (Triplets.size() > TopNumber) {
-        Print(HInformation, "Number of Jet Pairs", Triplets.size());
-        Triplets = SortByMassTo(Triplets, TopMass);
+    if (triplets.size() > TopNumber) {
+        Print(kInformation, "Number of Jet Pairs", triplets.size());
+        triplets = SortByMassTo(triplets, TopMass);
         switch (Tag) {
         case kSignal :
-            Triplets.erase(Triplets.begin() + TopNumber, Triplets.end()); // FIXME assuming maximal one hadronic top
+            triplets.erase(triplets.begin() + TopNumber, triplets.end()); // FIXME assuming maximal one hadronic top
             break;
         case kBackground :
-            std::sort(Triplets.begin(), Triplets.end(), MaxPt());
-            Triplets.erase(Triplets.begin() + TopNumber, Triplets.end()); // FIXME assuming maximal one hadronic top
-//             Triplets.erase(Triplets.begin()); // FIXME assuming maximal one hadronic top
+            std::sort(triplets.begin(), triplets.end(), MaxPt());
+            triplets.erase(triplets.begin() + TopNumber, triplets.end()); // FIXME assuming maximal one hadronic top
+//             triplets.erase(triplets.begin()); // FIXME assuming maximal one hadronic top
             break;
         }
     }
 
     std::vector<HTopHadronBranch> HadronicTopBranches;
-    for (auto & Triplet : Triplets) {
-        Triplet.SetTag(Tag);
-        NSubJettiness(Triplet);
-        HadronicTopBranches.emplace_back(GetBranch(Triplet));
+    for (auto & triplet : triplets) {
+        triplet.SetTag(Tag);
+        NSubJettiness(triplet);
+        HadronicTopBranches.emplace_back(GetBranch(triplet));
     }
 
     return HadronicTopBranches;
@@ -298,72 +298,72 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
 }
 
 
-hanalysis::HObject::Tag HTopHadronTagger::GetTag(const hanalysis::HTriplet &)
+hanalysis::HObject::Tag HTopHadronTagger::GetTag(const hanalysis::Triplet &)
 {
-    Print(HInformation, "Get Triple Tag");
+    Print(kInformation, "Get Triple Tag");
 }
 
 hanalysis::HObject::Tag HTopHadronTagger::GetTag(const fastjet::PseudoJet &)
 {
-    Print(HInformation, "Get Jet Tag");
+    Print(kInformation, "Get Jet Tag");
 
-// HJetInfo JetInfo = Jet.user_info<HJetInfo>();
-// JetInfo.ExtractFraction(TopId);
+// JetInfo jet_info = Jet.user_info<JetInfo>();
+// jet_info.ExtractFraction(TopId);
 //
-// if (JetInfo.MaximalId() != TopId) return HBackground;
+// if (jet_info.MaximalId() != TopId) return HBackground;
     return kSignal;
 }
 
-std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const hanalysis::Reader &TopHadronicReader)
+std::vector<hanalysis::Triplet> HTopHadronTagger::GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const hanalysis::Reader &TopHadronicReader)
 {
 
-    std::vector<hanalysis::HTriplet> Triplets;
-    for (const auto & Doublet : Doublets)
+    std::vector<hanalysis::Triplet> triplets;
+    for (const auto & doublet : doublets)
         for (const auto & Jet : jets)  {
-            if (Jet == Doublet.Singlet1()) continue;
-            if (Jet == Doublet.Singlet2()) continue;
-            hanalysis::HTriplet Triplet(Doublet, Jet);
-//             if (std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
-            // if (Triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
-            NSubJettiness(Triplet);
-            Branch = GetBranch(Triplet);
-            Triplet.SetBdt(TopHadronicReader.Bdt());
-            Triplets.emplace_back(Triplet);
+            if (Jet == doublet.Singlet1()) continue;
+            if (Jet == doublet.Singlet2()) continue;
+            hanalysis::Triplet triplet(doublet, Jet);
+//             if (std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue;
+            // if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
+            NSubJettiness(triplet);
+            Branch = GetBranch(triplet);
+            triplet.SetBdt(TopHadronicReader.Bdt());
+            triplets.emplace_back(triplet);
         }
 
-    std::sort(Triplets.begin(), Triplets.end());
-    Triplets.erase(Triplets.begin() + std::min(max_combi(), int(Triplets.size())), Triplets.end());
-    return Triplets;
+    std::sort(triplets.begin(), triplets.end());
+    triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
+    return triplets;
 }
 
 
-hanalysis::HTriplet HTopHadronTagger::GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::Reader &TopHadronicReader)
+hanalysis::Triplet HTopHadronTagger::GetBdt(hanalysis::Triplet &triplet, const hanalysis::Reader &TopHadronicReader)
 {
-    NSubJettiness(Triplet);
-    Branch = GetBranch(Triplet);
-    Triplet.SetBdt(TopHadronicReader.Bdt());
-    return Triplet;
+    NSubJettiness(triplet);
+    Branch = GetBranch(triplet);
+    triplet.SetBdt(TopHadronicReader.Bdt());
+    return triplet;
 }
 
 
-std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
+std::vector<hanalysis::Triplet> HTopHadronTagger::GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
 {
-    std::vector<hanalysis::HTriplet> Triplets;
+    std::vector<hanalysis::Triplet> triplets;
 
 // // 2 jets form a W
-//     std::vector<hanalysis::HDoublet> Doublets = WTagger.GetPairBdt(jets, WReader);
+//     std::vector<hanalysis::Doublet> doublets = WTagger.GetPairBdt(jets, WReader);
 // // 3 jets form a top
-//     std::vector<hanalysis::HTriplet> Triplets = GetBdt(Doublets, jets, TopHadronicReader);
+//     std::vector<hanalysis::Triplet> triplets = GetBdt(doublets, jets, TopHadronicReader);
 //
 // // 2 jets form a top
 //     for (const auto & Jet : jets)  {
 //         Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 2 subjets form a W
-//         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetPairBdt(Pieces, WReader);
+//         std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetPairBdt(Pieces, WReader);
 // // 2 subjets and one jet form a top
-//         std::vector<hanalysis::HTriplet> PieceTriplets = GetBdt(PieceDoublets, jets, TopHadronicReader);
-//         Triplets.insert(Triplets.end(), PieceTriplets.begin(), PieceTriplets.end());
+//         std::vector<hanalysis::Triplet> Piecetriplets = GetBdt(Piecedoublets, jets, TopHadronicReader);
+//         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
 //     }
 
 // 1 jet forms a top
@@ -371,10 +371,10 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const Jets &jets, cons
         Jets Pieces = GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 // 2 subjets form a W
-        std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetPairBdt(Pieces, WReader);
+        std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetPairBdt(Pieces, WReader);
 // 3 subjets form a top
-        std::vector<hanalysis::HTriplet> PieceTriplets = GetBdt(PieceDoublets, Pieces, TopHadronicReader);
-        Triplets.insert(Triplets.end(), PieceTriplets.begin(), PieceTriplets.end());
+        std::vector<hanalysis::Triplet> Piecetriplets = GetBdt(Piecedoublets, Pieces, TopHadronicReader);
+        triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
     }
 
 // // 1 jet forms a top
@@ -382,33 +382,33 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const Jets &jets, cons
 //         Jets Pieces = GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader);
 // // 1 subjets form a W
-//         std::vector<hanalysis::HDoublet> PieceDoublets = WTagger.GetSingletBdt(Pieces, WReader);
+//         std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetSingletBdt(Pieces, WReader);
 // // 2 subjets form a top
-//         std::vector<hanalysis::HTriplet> PieceTriplets = GetBdt(PieceDoublets, Pieces, TopHadronicReader);
-//         Triplets.insert(Triplets.end(), PieceTriplets.begin(), PieceTriplets.end());
+//         std::vector<hanalysis::Triplet> Piecetriplets = GetBdt(Piecedoublets, Pieces, TopHadronicReader);
+//         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
 //     }
 //
 // // 1 jet forms a top
 //     for (const auto & Jet : jets)  {
 // // no supbjets
-//         hanalysis::HTriplet Triplet(Jet);
-//         for (const auto Lepton : Leptons) if (Triplet.Jet().delta_R(Lepton) && Lepton.pt() > Triplet.LeptonPt) Triplet.LeptonPt = Lepton.pt();
+//         hanalysis::Triplet triplet(Jet);
+//         for (const auto Lepton : Leptons) if (triplet.Jet().delta_R(Lepton) && Lepton.pt() > triplet.LeptonPt) triplet.LeptonPt = Lepton.pt();
 //
-// //         NSubJettiness(Triplet);
-// //         if (std::abs(Triplet.Jet().m() - TopMass) > TopWindow) continue;
-//         Branch = GetBranch(Triplet);
-// //         Print(HError,"Disp",Branch.MeanDisplacement);
-// //         Print(HError,"Mass",Branch.VertexMass);
-//         Triplet.SetBdt(TopHadronicReader.Bdt());
-// //         Print(HError,"Bdt",Triplet.Bdt());
+// //         NSubJettiness(triplet);
+// //         if (std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue;
+//         Branch = GetBranch(triplet);
+// //         Print(kError,"Disp",Branch.MeanDisplacement);
+// //         Print(kError,"Mass",Branch.VertexMass);
+//         triplet.SetBdt(TopHadronicReader.Bdt());
+// //         Print(kError,"Bdt",triplet.Bdt());
 //
-//         Triplets.emplace_back(Triplet);
+//         triplets.emplace_back(triplet);
 //     }
 
-    std::sort(Triplets.begin(), Triplets.end());
-    Triplets.erase(Triplets.begin() + std::min(max_combi(), int(Triplets.size())), Triplets.end());
+    std::sort(triplets.begin(), triplets.end());
+    triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
 
-    return Triplets;
+    return triplets;
 
 }
 
@@ -416,19 +416,19 @@ std::vector<hanalysis::HTriplet> HTopHadronTagger::GetBdt(const Jets &jets, cons
 
 float HTopHadronTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
-    Print(HInformation, "Get Delta R");
+    Print(kInformation, "Get Delta R");
 
     if (!Jet.has_constituents()) {
         return 0;
     }
 
     float DeltaR = 0;
-    for (const auto & Constituent : Jet.constituents()) {
-        const float TempDeltaR = Jet.delta_R(Constituent);
+    for (const auto & constituent : Jet.constituents()) {
+        const float TempDeltaR = Jet.delta_R(constituent);
         if (TempDeltaR > 100) {
             continue;
         }
-        Print(HDebug, "Delta R", TempDeltaR);
+        Print(kDebug, "Delta R", TempDeltaR);
         if (TempDeltaR > DeltaR) {
             DeltaR = TempDeltaR;
         }
@@ -438,7 +438,7 @@ float HTopHadronTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 
 float HTopHadronTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
-    Print(HInformation, "Get Centrality");
+    Print(kInformation, "Get Centrality");
     if (!Jet.has_constituents()) {
         return 0;
     }
@@ -448,22 +448,22 @@ float HTopHadronTagger::GetSpread(const fastjet::PseudoJet &Jet) const
         return 0;
     }
     float Spread = 0;
-    for (const auto & Constituent : Jet.constituents()) {
-        const float TempDeltaR = Jet.delta_R(Constituent);
+    for (const auto & constituent : Jet.constituents()) {
+        const float TempDeltaR = Jet.delta_R(constituent);
         if (TempDeltaR > 100) {
             continue;
         }
-        Spread += TempDeltaR * Constituent.pt();
+        Spread += TempDeltaR * constituent.pt();
     }
     return (Spread / Jet.pt() / DeltaR);
 }
 
 
-void HTopHadronTagger::NSubJettiness(hanalysis::HTriplet &triplet)
+void HTopHadronTagger::NSubJettiness(hanalysis::Triplet &triplet)
 {
     if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet() * 2));
-    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet(), triplet.Doublet().Singlet1()), triplet.Doublet().Singlet2())));
+    else if (triplet.doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.doublet().Singlet1() * 2));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
 }
 
 

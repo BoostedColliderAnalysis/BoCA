@@ -8,7 +8,7 @@
 # include "fastjet/ClusterSequence.hh"
 
 # include "HObject.hh"
-# include "HJetInfo.hh"
+# include "JetInfo.hh"
 
 /**
  * @brief FastJet calculations

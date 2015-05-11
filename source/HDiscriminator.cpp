@@ -3,7 +3,7 @@
 hanalysis::HDiscriminator::HDiscriminator()
 {
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
 //     DebugLevel = 5;
 
@@ -12,20 +12,20 @@ hanalysis::HDiscriminator::HDiscriminator()
 hanalysis::HDiscriminator::~HDiscriminator()
 {
 
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
 }
 
 Jets hanalysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
 {
 
-    Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
+    Print(kInformation, "Get Tagged Candidate Jets", EFlowJets.size());
 
     const Jets jets;
 
     if (EFlowJets.size() == 0) {
 
-        Print(HInformation, "No EFlow Jets");
+        Print(kInformation, "No EFlow Jets");
         return jets;
 
     }
@@ -53,13 +53,13 @@ Jets hanalysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const fl
 Jets hanalysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlowJets, const float ScalarHt)
 {
 
-    Print(HInformation, "Get Tagged Candidate Jets", EFlowJets.size());
+    Print(kInformation, "Get Tagged Candidate Jets", EFlowJets.size());
 
     const Jets jets;
 
     if (EFlowJets.size() == 0) {
 
-        Print(HInformation, "No EFlow Jets");
+        Print(kInformation, "No EFlow Jets");
         return jets;
 
     }
@@ -96,7 +96,7 @@ bool hanalysis::HDiscriminator::JetIsBad(const fastjet::PseudoJet &Jet)
 
     if (std::abs(Jet.m()) <= 40.) {
 
-        Object.Print(HInformation, "Fat Jet Mass", Jet.m());
+        Object.Print(kInformation, "Fat Jet Mass", Jet.m());
         return 1;
 
     }
@@ -104,14 +104,14 @@ bool hanalysis::HDiscriminator::JetIsBad(const fastjet::PseudoJet &Jet)
 
     if (Jet.pieces().size() != 2) {
 
-        Object.Print(HNotification, "Pieces Sum", Jet.pieces().size());
+        Object.Print(kNotification, "Pieces Sum", Jet.pieces().size());
         return 1;
 
     }
 
     if (!Jet.has_structure()) {
 
-        Object.Print(HNotification, "fastjet::PseudoJet has no structure");
+        Object.Print(kNotification, "fastjet::PseudoJet has no structure");
         return 1;
 
     }

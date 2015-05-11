@@ -6,26 +6,26 @@
 hanalysis::HObject::HObject()
 {
 
-//     DebugLevel = HInformation;
-    DebugLevel = HNotification;
-//     DebugLevel = HError;
-//     DebugLevel = HDebug;
+//     DebugLevel = kInformation;
+    DebugLevel = kNotification;
+//     DebugLevel = kError;
+//     DebugLevel = kDebug;
 
-//     Print(HDebug, "Constructor");
+//     Print(kDebug, "Constructor");
 
 }
 
 hanalysis::HObject::~HObject()
 {
 
-//     Print(HDebug, "Destructor");
+//     Print(kDebug, "Destructor");
 
 }
 
 float hanalysis::HObject::GetDistance(const float Rap1, const float Phi1, const float Rap2, const float Phi2) const
 {
 
-    Print(HDebug, "GetDistance");
+    Print(kDebug, "GetDistance");
 
     return (std::sqrt(std::pow((Rap2 - Rap1), 2) + std::pow(GetDeltaPhi(Phi2, Phi1), 2)));
 
@@ -34,7 +34,7 @@ float hanalysis::HObject::GetDistance(const float Rap1, const float Phi1, const 
 float hanalysis::HObject::GetDistance(const float Rap, const float Phi) const
 {
 
-    Print(HDebug, "GetDistance");
+    Print(kDebug, "GetDistance");
 
     return (std::sqrt(std::pow(Rap, 2) + std::pow(Phi, 2)));
 
@@ -43,7 +43,7 @@ float hanalysis::HObject::GetDistance(const float Rap, const float Phi) const
 float hanalysis::HObject::GetDeltaPhi(const float Phi, const float ReferencePhi) const
 {
 
-    Print(HDetailed, "GetDeltaPhi");
+    Print(kDetailed, "GetDeltaPhi");
 
     float DeltaPhi = Phi - ReferencePhi;
 
@@ -59,7 +59,7 @@ float hanalysis::HObject::GetDeltaPhi(const float Phi, const float ReferencePhi)
 
         } else {
 
-            Print(HError, "Get Delta Phi", DeltaPhi);
+            Print(kError, "Get Delta Phi", DeltaPhi);
             break;
 
         }

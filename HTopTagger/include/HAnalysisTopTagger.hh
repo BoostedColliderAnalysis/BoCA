@@ -138,7 +138,7 @@ private:
         case LE:
             return "LE";
         default:
-            Print(HError, "unhandled case");
+            Print(kError, "unhandled case");
             return "";
         }
     }
@@ -199,7 +199,7 @@ private:
         case zz:
             return "zz";
         default:
-            Print(HError, "unhandled case");
+            Print(kError, "unhandled case");
             return "";
         }
     }

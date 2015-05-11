@@ -10,7 +10,7 @@ namespace hjetproperties{
     class HAnalysis;
     class HJetTag;
     class HCandidateBranch;
-    class HConstituentBranch;
+    class ConstituentBranch;
     class HLeptonBranch;
 
 }
@@ -79,7 +79,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hjetproperties::HConstituentBranch : public TObject
+class hjetproperties::ConstituentBranch : public TObject
 {
 
 public:
@@ -89,15 +89,15 @@ public:
   float Pt;
   int Id;
 
-  HConstituentBranch();
+  ConstituentBranch();
 
-  virtual ~HConstituentBranch();
+  virtual ~ConstituentBranch();
 
 private:
 
   void reset();
 
-  ClassDef(HConstituentBranch, 1)
+  ClassDef(ConstituentBranch, 1)
 
 };
 

@@ -1,7 +1,7 @@
 # ifndef HHeavyHiggsTauTagger_hh
 # define HHeavyHiggsTauTagger_hh
 
-# include "HDoublet.hh"
+# include "Doublet.hh"
 # include "HTauTagger.hh"
 
 /**
@@ -21,9 +21,9 @@ public:
 
     std::vector<HHeavyHiggsTauBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
 
-    std::vector<HDoublet>  GetBdt(const Jets &jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader);
+    std::vector<Doublet>  GetBdt(const Jets &jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader);
 
-    HHeavyHiggsTauBranch GetBranch(const hanalysis::HDoublet& Doublet) const;
+    HHeavyHiggsTauBranch GetBranch(const hanalysis::Doublet& doublet) const;
 
     HTauTagger TauTagger;
 
@@ -39,13 +39,13 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const hanalysis::HDoublet& Doublet) const;
+    Tag GetTag(const hanalysis::Doublet& doublet) const;
 
-    std::vector< HDoublet > GetNeutrinos(const hanalysis::HDoublet& Doublet)const;
+    std::vector< Doublet > GetNeutrinos(const hanalysis::Doublet& doublet)const;
 
-    std::vector<hanalysis::HDoublet> GetNeutrino(const HDoublet &Doublet, const Jets &Neutrinos, const Tag Tag)const;
+    std::vector<hanalysis::Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
 
-    std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const Jets &Neutrinos, const hanalysis::HObject::Tag tag);
+    std::vector<hanalysis::Doublet> GetDoublets(const hanalysis::Doublet &doublet, const Jets &Neutrinos, const hanalysis::HObject::Tag tag);
 
     HHeavyHiggsTauBranch Branch;
 

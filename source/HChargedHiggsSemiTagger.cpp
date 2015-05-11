@@ -2,8 +2,8 @@
 
 hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
 {
-    //     DebugLevel = hanalysis::HObject::HDebug;
-    Print(HNotification, "Constructor");
+    //     DebugLevel = hanalysis::HObject::kDebug;
+    Print(kNotification, "Constructor");
     set_tagger_name("ChargedHiggsSemi");
     DefineVariables();
 }
@@ -29,7 +29,7 @@ void hanalysis::HChargedHiggsSemiTagger::SetTagger(
 void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     ClearVectors();
 
@@ -51,13 +51,13 @@ void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
     AddSpectator(Branch.Tag, "Tag");
     AddSpectator(Branch.Flag, "Flag");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 
 HChargedHiggsSemiBranch hanalysis::HChargedHiggsSemiTagger::GetBranch(const HQuartet31 &Quartet)const
 {
-    Print(HInformation, "FillPairTagger", Quartet.Bdt());
+    Print(kInformation, "FillPairTagger", Quartet.Bdt());
     HChargedHiggsSemiBranch ChargedHiggsBranch;
     ChargedHiggsBranch.Mass = Quartet.Jet().m();
     ChargedHiggsBranch.Rap = Quartet.Jet().rap();
@@ -85,7 +85,7 @@ HChargedHiggsSemiBranch hanalysis::HChargedHiggsSemiTagger::GetBranch(const HQua
 
 std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
 {
-    Print(HInformation, "Get Higgs Tags");
+    Print(kInformation, "Get Higgs Tags");
 
     float Mass = Event.GetMass();
     fastjet::PseudoJet HiggsBoson;
@@ -94,7 +94,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
         HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
         if (Tag == kSignal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-            else Print(HError, "Where is the Higgs?", HiggsParticles.size());
+            else Print(kError, "Where is the Higgs?", HiggsParticles.size());
         }
     }
 
@@ -103,8 +103,8 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
 
     Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
     const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-    std::vector<HDoublet> Doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-    std::vector<HTriplet> Triplets = TopSemiTagger.GetBdt(Doublets, jets, TopSemiReader);
+    std::vector<Doublet> doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
+    std::vector<Triplet> triplets = TopSemiTagger.GetBdt(doublets, jets, TopSemiReader);
 
 
     int WSemiId = WSemiTagger.WSemiId(Event);
@@ -113,11 +113,11 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
-    else Print(HError, "Where is the Top?", TopParticles.size());
-    std::vector<HTriplet> FinalTriplets;
+    else Print(kError, "Where is the Top?", TopParticles.size());
+    std::vector<Triplet> Finaltriplets;
     if (Tag == kSignal) {
-        for (const auto & Triplet : Triplets) if (Triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) FinalTriplets.emplace_back(Triplet);
-    } else FinalTriplets = Triplets;
+        for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) Finaltriplets.emplace_back(triplet);
+    } else Finaltriplets = triplets;
 
     Jets BottomJets;
     if (Tag == kSignal) {
@@ -125,26 +125,26 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
     BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, BottomId, ChargedHiggsId);
     fastjet::PseudoJet BottomQuark;
     if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
-    else  Print(HError, "Where is the Bottom?");
+    else  Print(kError, "Where is the Bottom?");
         for (const auto & Jet : jets)  if (Jet.delta_R(BottomQuark) < detector_geometry().JetConeSize) BottomJets.emplace_back(Jet);
     } else BottomJets = jets;
 
     std::vector<HQuartet31 > Quartets;
 
-    for (const auto & Triplet : FinalTriplets)
+    for (const auto & triplet : Finaltriplets)
         for (const auto & Jet : BottomJets) {
-            if (Triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            HQuartet31 Quartet(Triplet, Jet);
+            if (triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            HQuartet31 Quartet(triplet, Jet);
             if (Tag == kSignal && Quartet.Jet().m() < Mass / 2)continue;
             if (Tag == kSignal && Quartet.Jet().m() > Mass * 3 / 2)continue;
             if (Tag == kSignal && Quartet.Jet().delta_R(HiggsBoson) > 2 * detector_geometry().JetConeSize) continue;
             Quartets.emplace_back(Quartet);
         }
 
-    Print(HInformation, "Number of Heavy Higgses", Quartets.size());
+    Print(kInformation, "Number of Heavy Higgses", Quartets.size());
 
     if (Tag == kSignal && Quartets.size() > 1) {
-        Print(HInformation, "Higgs Candidates", Quartets.size());
+        Print(kInformation, "Higgs Candidates", Quartets.size());
         std::sort(Quartets.begin(), Quartets.end(), SortByMass(Mass));
         Quartets.erase(Quartets.begin() + 1, Quartets.end());
     }
@@ -158,7 +158,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
 
 hanalysis::HObject::Tag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuartet31 &)
 {
-    Print(HInformation, "Get Sextet Tag");
+    Print(kInformation, "Get Sextet Tag");
 
     return kSignal;
 }
@@ -166,14 +166,14 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuarte
 
 
 
-std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(const std::vector<HTriplet> Triplets , const std::vector<fastjet::PseudoJet> Siglets, const Reader &Reader)
+std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(const std::vector<Triplet> triplets , const std::vector<fastjet::PseudoJet> Siglets, const Reader &Reader)
 {
 
     std::vector<HQuartet31> Quartets;
-    for (const auto & Triplet : Triplets)
+    for (const auto & triplet : triplets)
       for (const auto & Jet : Siglets) {
-        if (Triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            HQuartet31 Quartet(Triplet, Jet);
+        if (triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            HQuartet31 Quartet(triplet, Jet);
             Branch = GetBranch(Quartet);
             Quartet.SetBdt(Reader.Bdt());
             Quartets.emplace_back(Quartet);

@@ -40,21 +40,21 @@ public:
       NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(Plain);
-      return JetsM;
+      return jets_;
     };
 
     Jets GetStructuredJets() {
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Structure);
-        return JetsM;
+        return jets_;
     };
 
     Jets GetTaggedJets() {
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
-        return JetsM;
+        return jets_;
     };
 
     Jets GetTaggedJets(HJetTag &NewJetTag) {
@@ -62,7 +62,7 @@ public:
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
-        return JetsM;
+        return jets_;
     };
 
     Jets GetStructuredTaggedJets(HJetTag &NewJetTag) {
@@ -70,7 +70,7 @@ public:
       NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(TaggingStructure);
-      return JetsM;
+      return jets_;
     };
 
     Jets GetBottomJets() {
@@ -184,7 +184,7 @@ protected:
      * @brief Vector of generator level Charm Pseudo Jets
      *
      */
-    Jets JetsM;
+    Jets jets_;
 
     /**
      * @brief Vector of generator level Bottom Pseudo Jets

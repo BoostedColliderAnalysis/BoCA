@@ -17,11 +17,11 @@ public:
 
 protected:
 
-  float InitialValue(){
-    return -11.1111111; // should be non integer
-    // this must be identical to the initial value in htag
-    // FIXME remove the copy of the magic number
-  }
+    float InitialValue() {
+        return -11.1111111; // should be non integer
+        // this must be identical to the initial value in htag
+        // FIXME remove the copy of the magic number
+    }
 
 private:
     ClassDef(Branch, 1)
@@ -88,20 +88,30 @@ private:
  * @brief Class for saving Event informations to root
  *
  */
-class HParticleBranch : public Branch
+class ParticleBranch : public Branch
 {
 public:
 
-    HParticleBranch();
+    ParticleBranch();
 
     float Mass;
     float Pt;
     float Rap;
     float Phi;
 
+protected:
+
+//     template<typename Multiplet>
+//     FillBranch(const Multiplet &multiplet) {
+//         Mass = multiplet.Mass();
+//         Pt = multiplet.Pt();
+//         Rap = multiplet.Rap();
+//         Phi = multiplet.Phi();
+//     }
+
 private:
 
-    ClassDef(HParticleBranch, 1)
+    ClassDef(ParticleBranch, 1)
 
 };
 
@@ -111,12 +121,12 @@ private:
  * @brief Bottom tagger root tree structure
  *
  */
-class HBottomBranch : public HParticleBranch
+class BottomBranch : public ParticleBranch
 {
 
 public:
 
-    HBottomBranch();
+    BottomBranch();
 
     float VertexMass;
     float MaxDisplacement;
@@ -134,7 +144,7 @@ public:
 
 private:
 
-    ClassDef(HBottomBranch, 1)
+    ClassDef(BottomBranch, 1)
 
 };
 
@@ -144,7 +154,7 @@ private:
  * @brief Tau tagger root tree structure
  *
  */
-class HTauBranch : public HParticleBranch
+class HTauBranch : public ParticleBranch
 {
 
 public:
@@ -171,7 +181,7 @@ private:
 };
 
 
-class HPairBranch : public HParticleBranch
+class HPairBranch : public ParticleBranch
 {
 
 public:
@@ -293,19 +303,19 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HWSemiBranch : public HPairBranch
+class WSemiBranch : public HPairBranch
 {
 
 public:
 
-    HWSemiBranch();
+    WSemiBranch();
 
     float LeptonPt;
     float NeutrinoPt;
 
 private:
 
-    ClassDef(HWSemiBranch, 1)
+    ClassDef(WSemiBranch, 1)
 
 };
 
@@ -335,12 +345,12 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopHadronicBranch : public HPairBranch
+class TopHadronicBranch : public HPairBranch
 {
 
 public:
 
-    HTopHadronicBranch();
+    TopHadronicBranch();
 
     float BottomPt;
     float WPt;
@@ -372,7 +382,7 @@ public:
 
 private:
 
-    ClassDef(HTopHadronicBranch, 1)
+    ClassDef(TopHadronicBranch, 1)
 
 };
 

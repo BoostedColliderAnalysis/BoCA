@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HTriplet.hh"
+# include "Triplet.hh"
 # include "BottomTagger.hh"
 # include "HWHadronicTagger.hh"
 
@@ -19,30 +19,36 @@ public:
 
     int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
 
-    std::vector<HTopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0){
-      Print(HError, "get branches", "depreciated");
+    std::vector<TopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0){
+      Print(kError, "get branches", "depreciated");
     }
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const TMVA::Reader &reader);
+    std::vector<hanalysis::Triplet> GetTriplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const fastjet::PseudoJet &quark, const Tag tag);
 
-    std::vector<HTriplet>  GetBdt(const std::vector< hanalysis::HDoublet > &Doublets, const Jets &jets, const Reader &reader){
-      Print(HError, "get bdt", "depreciated");
+    std::vector<hanalysis::Triplet> GetTriplets(const Doublet &doublet, const fastjet::PseudoJet &jet, const fastjet::PseudoJet &quark, const Tag tag);
+
+    bool Problematic(const Triplet &triplet, const fastjet::PseudoJet &quark, const Tag tag);
+
+    std::vector<Triplet>  GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const TMVA::Reader &reader);
+
+    std::vector<Triplet>  GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const Reader &reader){
+      Print(kError, "get bdt", "depreciated");
     }
 
-    HTriplet GetBdt(hanalysis::HTriplet &Triplet, const hanalysis::Reader &TopHadronicReader);
+    Triplet GetBdt(hanalysis::Triplet &triplet, const hanalysis::Reader &TopHadronicReader);
 
     int GetBdt(HEvent &event, const TMVA::Reader &reader){
       return SaveEntries(GetTriplets(event,reader));
     }
 
-    std::vector<HTriplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<Triplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
 
-    std::vector<HTriplet> GetBdt(const Jets &jets, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader){
-      Print(HError, "get bdt", "depreciated");
+    std::vector<Triplet> GetBdt(const Jets &jets, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader){
+      Print(kError, "get bdt", "depreciated");
     }
 
     float ReadBdt(const TClonesArray &clones_array, const int entry){
-      return static_cast<HTopHadronicBranch &>(* clones_array.At(entry)).Bdt;
+      return static_cast<TopHadronicBranch &>(* clones_array.At(entry)).Bdt;
     }
 
     BottomTagger bottom_tagger_;
@@ -53,15 +59,15 @@ public:
 
     Reader  w_hadronic_reader_;
 
-    HTopHadronicBranch GetBranch(const hanalysis::HTriplet &triplet) const;
+    TopHadronicBranch GetBranch(const hanalysis::Triplet &triplet) const;
 
-    int SaveEntries(const std::vector<HTriplet> &triplets) {
-      for (const auto & triplet : triplets) static_cast<HTopHadronicBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
+    int SaveEntries(const std::vector<Triplet> &triplets) {
+      for (const auto & triplet : triplets) static_cast<TopHadronicBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
       return triplets.size();
     }
 
     TClass &Class() const {
-      return *HTopHadronicBranch::Class();
+      return *TopHadronicBranch::Class();
     }
 
 protected:
@@ -74,13 +80,9 @@ private:
 
     void DefineVariables();
 
-    void GetBottomInfo(HTopHadronicBranch &TopHadronicBranch, const fastjet::PseudoJet jet) const;
+    void GetBottomInfo(TopHadronicBranch &top_hadronic_branch, const fastjet::PseudoJet jet) const;
 
-    float GetDeltaR(const fastjet::PseudoJet &Jet) const;
-
-    float GetSpread(const fastjet::PseudoJet &Jet) const;
-
-    HTopHadronicBranch branch_;
+    TopHadronicBranch branch_;
 
     float top_mass_window_ ;
 
@@ -88,7 +90,7 @@ private:
 
     bool boost_ = false;
 
-    void NSubJettiness(HTriplet& triplet);
+    void NSubJettiness(Triplet& triplet);
 
     SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
 

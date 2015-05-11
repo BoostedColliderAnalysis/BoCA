@@ -11,7 +11,7 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage, const 
 {
     hheavyhiggs::HAnalysisMva Analysis(tagger);
     const std::string name = tagger.tagger_name();
-    Analysis.Print(Analysis.HError, "Tagger", name);
+    Analysis.Print(Analysis.kError, "Tagger", name);
     Analysis.SetConfig(config);
 
     std::string file_name = Analysis.ProjectName() + "/" + name + ".root";

@@ -11,14 +11,14 @@
 
 hanalysis::RootFile::RootFile()
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     mass_ = 0;
 }
 
 hanalysis::RootFile::RootFile(const std::string &process)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     mass_ = 0;
@@ -26,7 +26,7 @@ hanalysis::RootFile::RootFile(const std::string &process)
 
 hanalysis::RootFile::RootFile(const std::string &process, const float crosssection)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -35,7 +35,7 @@ hanalysis::RootFile::RootFile(const std::string &process, const float crosssecti
 
 hanalysis::RootFile::RootFile(const std::string &process, const float crosssection, const float mass)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -44,7 +44,7 @@ hanalysis::RootFile::RootFile(const std::string &process, const float crosssecti
 
 hanalysis::RootFile::RootFile(const Strings &processes)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.insert(process_folders_.end(), processes.begin(), processes.end());
     mass_ = 0;
@@ -52,7 +52,7 @@ hanalysis::RootFile::RootFile(const Strings &processes)
 
 hanalysis::RootFile::RootFile(const Strings &processes, const float crosssection)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.insert(process_folders_.end(), processes.begin(), processes.end());
     crossection_ = crosssection;
@@ -61,7 +61,7 @@ hanalysis::RootFile::RootFile(const Strings &processes, const float crosssection
 
 hanalysis::RootFile::RootFile(const Strings &processes, const float crosssection, const float mass)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.insert(process_folders_.end(), processes.begin(), processes.end());
     crossection_ = crosssection;
@@ -70,7 +70,7 @@ hanalysis::RootFile::RootFile(const Strings &processes, const float crosssection
 
 hanalysis::RootFile::RootFile(const std::string &process, const std::string &run_folder)
 {
-    Print(HInformation, "Constructor");
+    Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     run_folder_ = run_folder;
@@ -79,7 +79,7 @@ hanalysis::RootFile::RootFile(const std::string &process, const std::string &run
 
 hanalysis::RootFile::RootFile(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
-  Print(HInformation, "Constructor");
+  Print(kInformation, "Constructor");
   SetVariables();
   process_folders_.emplace_back(process);
   base_path_ = base_path;
@@ -105,7 +105,7 @@ std::string hanalysis::RootFile::tree_name_ = "Delphes";
 bool hanalysis::RootFile::snow_mass_ = 0;
 void hanalysis::RootFile::SetVariables()
 {
-    Print(HInformation, "Set Variables");
+    Print(kInformation, "Set Variables");
     //     MadGraphPath = "/data/hajer/MadGraph/";
     //     MadGraphPath = "$HOME/Development/MadGraph/";
 //     BasePath = "$HOME/Development/madgraph/";
@@ -118,14 +118,14 @@ void hanalysis::RootFile::SetVariables()
 
 std::string hanalysis::RootFile::tree_name() const
 {
-    Print(HInformation, "Get Tree String");
+    Print(kInformation, "Get Tree String");
     return tree_name_;
 }
 
 
 Strings hanalysis::RootFile::Paths() const
 {
-    Print(HInformation, "FilePath");
+    Print(kInformation, "FilePath");
     Strings FilePaths;
     for (const auto & ProcessFolder : process_folders_)FilePaths.emplace_back(base_path_ + process_folders_.front() + file_suffix_);
     return FilePaths;
@@ -133,7 +133,7 @@ Strings hanalysis::RootFile::Paths() const
 
 ExRootTreeReader hanalysis::RootFile::TreeReader()
 {
-    Print(HNotification, "Get Tree Reader", Paths().front());
+    Print(kNotification, "Get Tree Reader", Paths().front());
     chain_ = new TChain(tree_name().c_str());
     for (const auto & FilePath : Paths()) chain_->Add(FilePath.c_str());
     return ExRootTreeReader(chain_);
@@ -141,7 +141,7 @@ ExRootTreeReader hanalysis::RootFile::TreeReader()
 
 hanalysis::ClonesArrays &hanalysis::RootFile::GetClonesArrays()
 {
-    Print(HNotification, "Get Clones Arrays");
+    Print(kNotification, "Get Clones Arrays");
     if (tree_name() == "Delphes") {
         if (snow_mass_) {
             clones_array_ = new hdelphes::HClonesArraySnowmass();
@@ -153,7 +153,7 @@ hanalysis::ClonesArrays &hanalysis::RootFile::GetClonesArrays()
     } else if (tree_name() == "LHCO") {
         clones_array_ = new hpgs::HClonesArray();
     } else {
-        Print(HError, "unknown Tree String", tree_name());
+        Print(kError, "unknown Tree String", tree_name());
     }
     return *clones_array_;
 }
@@ -161,7 +161,7 @@ hanalysis::ClonesArrays &hanalysis::RootFile::GetClonesArrays()
 
 hanalysis::HEvent &hanalysis::RootFile::Event()
 {
-    Print(HNotification, "Get Event");
+    Print(kNotification, "Get Event");
     if (tree_name() == "Delphes") {
         event_ = new hdelphes::HEvent();
     } else if (tree_name() == "LHEF") {
@@ -169,14 +169,14 @@ hanalysis::HEvent &hanalysis::RootFile::Event()
     } else if (tree_name() == "LHCO") {
         event_ = new hpgs::HEvent();
     } else {
-        Print(HError, "unknown Tree String", tree_name());
+        Print(kError, "unknown Tree String", tree_name());
     }
     return *event_;
 }
 
 hanalysis::RootFile::~RootFile()
 {
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
     delete chain_;
     delete event_;
     delete clones_array_;

@@ -2,7 +2,7 @@
 # define HDiscriminator_hh
 
 # include "HReconstruction.hh"
-# include "HJetInfo.hh"
+# include "JetInfo.hh"
 
 /**
  * @brief Jet Discriminator

@@ -3,8 +3,8 @@
 hanalysis::HLepton::HLepton()
 {
 
-//   DebugLevel=HDebug;
-    Print(HNotification,"Constructor");
+//   DebugLevel=kDebug;
+    Print(kNotification,"Constructor");
 
 //     Debug = 5;
 
@@ -13,14 +13,14 @@ hanalysis::HLepton::HLepton()
 hanalysis::HLepton::~HLepton()
 {
 
-    Print(HNotification,"Destructor");
+    Print(kNotification,"Destructor");
 
 }
 
 void hanalysis::HLepton::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays)
 {
 
-    Print(HInformation,"New Event");
+    Print(kInformation,"New Event");
 
 //     ClonesArrays = NewClonesArray;
     hanalysis::HFourVector::NewEvent(NewClonesArrays);
@@ -62,7 +62,7 @@ void hanalysis::HLepton::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays
 HVectors hanalysis::HLepton::GetLeptonVectors()
 {
 
-  Print(HInformation,"Get Leptons");
+  Print(kInformation,"Get Leptons");
 
   if(!GotElectrons) GotElectrons = GetElectrons(Plain);
   if(!GotMuons) GotMuons = GetMuons(Plain);
@@ -72,7 +72,7 @@ HVectors hanalysis::HLepton::GetLeptonVectors()
 //     LeptonVector.insert(LeptonVector.end(), TauVector.begin(), TauVector.end());
     std::sort(LeptonLorentzVectors.begin(), LeptonLorentzVectors.end(), SortByPt());
 
-    Print(HDebug,"Number of Leptons",LeptonLorentzVectors.size());
+    Print(kDebug,"Number of Leptons",LeptonLorentzVectors.size());
 
     AntiLeptonLorentzVectors = AntiElectronLorentzVectors;
     AntiLeptonLorentzVectors.insert(AntiLeptonLorentzVectors.end(), AntiMuonLorentzVectors.begin(), AntiMuonLorentzVectors.end());
@@ -80,7 +80,7 @@ HVectors hanalysis::HLepton::GetLeptonVectors()
     std::sort(AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end(), SortByPt());
 
 
-    Print(HDebug,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
+    Print(kDebug,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
 
     HVectors CompleteVector = LeptonLorentzVectors;
     CompleteVector.insert(CompleteVector.end(), AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end());
@@ -93,7 +93,7 @@ HVectors hanalysis::HLepton::GetLeptonVectors()
 Jets hanalysis::HLepton::GetLeptonJets()
 {
 
-    Print(HInformation,"Get Lepton Jets");
+    Print(kInformation,"Get Lepton Jets");
 
     return GetLeptonJets(Plain);
 
@@ -102,7 +102,7 @@ Jets hanalysis::HLepton::GetLeptonJets()
 Jets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails)
 {
 
-    Print(HInformation,"Get Lepton Jets");
+    Print(kInformation,"Get Lepton Jets");
     GotElectrons = 0;
 
     GotMuons = 0;
@@ -146,18 +146,18 @@ Jets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDe
 //     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());
 //     sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
 
-    Print(HDebug,"Number of Lepton Jets",LeptonJets.size());
+    Print(kDebug,"Number of Lepton Jets",LeptonJets.size());
 
     AntiLeptonJets = AntiElectronJets;
     AntiLeptonJets.insert(AntiLeptonJets.end(), AntiMuonJets.begin(), AntiMuonJets.end());
 //     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiTauJetVector.begin(), AntiTauJetVector.end());
 //     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
-    Print(HDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
+    Print(kDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
 
     Jets AllJets = LeptonJets;
     AllJets.insert(AllJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
     //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
-    PrintTruthLevel(HDebug);
+    PrintTruthLevel(kDebug);
 
     return AllJets;
 

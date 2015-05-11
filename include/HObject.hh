@@ -36,11 +36,11 @@ public:
      */
 
     enum HSeverity {
-        HError,
-        HNotification,
-        HInformation,
-        HDebug,
-        HDetailed
+        kError,
+        kNotification,
+        kInformation,
+        kDebug,
+        kDetailed
     };
 
     enum Tag {kBackground = 0, kSignal = 1};

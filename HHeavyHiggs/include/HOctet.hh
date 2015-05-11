@@ -1,7 +1,7 @@
 # ifndef HOctet_hh
 # define HOctet_hh
 
-# include "HDoublet.hh"
+# include "Doublet.hh"
 # include "HSextet.hh"
 
 
@@ -38,57 +38,57 @@ public:
 
     HOctet() {};
 
-    HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet);
+    HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet);
 
-//     HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::HDoublet &NewDoublet, const HEventStruct &NewEventStruct);
+//     HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet, const HEventStruct &NewEventStruct);
 
 
     inline hanalysis::HSextet Sextet()const {
         return SextetM;
     }
 
-    inline hanalysis::HDoublet Doublet() const {
-        return DoubletM;
+    inline hanalysis::Doublet doublet() const {
+        return doubletM;
     }
 
     inline fastjet::PseudoJet SextetJet() const {
         return SextetM.Jet();
     }
 
-    inline fastjet::PseudoJet DoubletJet() const {
-        return DoubletM.Jet();
+    inline fastjet::PseudoJet doublet_jet() const {
+        return doubletM.Jet();
     }
 
     inline fastjet::PseudoJet Jet() const {
-        return SextetJet() + DoubletJet();
+        return SextetJet() + doublet_jet();
     }
 
     inline float Ht() const {
-        return SextetM.Ht() + DoubletM.Ht();
+        return SextetM.Ht() + doubletM.Ht();
     }
 
     inline float DeltaPt() const {
-        return SextetJet().pt() - DoubletJet().pt();
+        return SextetJet().pt() - doublet_jet().pt();
     }
 
     inline float DeltaHt() const {
-        return Sextet().Ht() - Doublet().Ht();
+        return Sextet().Ht() - doublet().Ht();
     }
 
     inline float DeltaM() const {
-        return SextetJet().m() - DoubletJet().m();
+        return SextetJet().m() - doublet_jet().m();
     }
 
     inline float DeltaR() const {
-        return SextetJet().delta_R(DoubletJet());
+        return SextetJet().delta_R(doublet_jet());
     }
 
     inline float DeltaRap() const {
-        return SextetJet().rap() - DoubletJet().rap();
+        return SextetJet().rap() - doublet_jet().rap();
     }
 
     inline float DeltaPhi() const {
-        return SextetJet().delta_phi_to(DoubletJet());
+        return SextetJet().delta_phi_to(doublet_jet());
     }
 
     inline float HbDeltaDeltaR() const {
@@ -104,11 +104,11 @@ public:
     }
 
     inline float BottomBdt() const {
-        return Doublet().Singlet1().user_info<hanalysis::HJetInfo>().Bdt() + Doublet().Singlet2().user_info<hanalysis::HJetInfo>().Bdt() + Sextet().Triplet1().Singlet().user_info<hanalysis::HJetInfo>().Bdt() + Sextet().Triplet2().Singlet().user_info<hanalysis::HJetInfo>().Bdt();
+        return doublet().Singlet1().user_info<hanalysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet1().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet2().Singlet().user_info<hanalysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-        return Doublet().Singlet1().user_info<hanalysis::HJetInfo>().Bdt() + Doublet().Singlet2().user_info<hanalysis::HJetInfo>().Bdt();
+        return doublet().Singlet1().user_info<hanalysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<hanalysis::JetInfo>().Bdt();
     }
 //
 //     inline void SetJetNumber(const int NewJetNumber) {
@@ -150,35 +150,35 @@ public:
 //     HEventStruct EventStructM;
 
     inline float GetDeltaR1() const {
-        return SextetJet().delta_R(DoubletM.Singlet1());
+        return SextetJet().delta_R(doubletM.Singlet1());
     }
 
     inline float GetDeltaR2() const {
-        return SextetJet().delta_R(DoubletM.Singlet2());
+        return SextetJet().delta_R(doubletM.Singlet2());
     }
 
     inline float GetDeltaPhi1() const {
-        return SextetJet().delta_phi_to(DoubletM.Singlet1());
+        return SextetJet().delta_phi_to(doubletM.Singlet1());
     }
 
     inline float GetDeltaPhi2() const {
-        return SextetJet().delta_phi_to(DoubletM.Singlet2());
+        return SextetJet().delta_phi_to(doubletM.Singlet2());
     }
 
     inline float GetDeltaRap1() const {
-        return (SextetJet().rap() - DoubletM.Singlet1().rap());
+        return (SextetJet().rap() - doubletM.Singlet1().rap());
     }
 
     inline float GetDeltaRap2() const {
-        return (SextetJet().rap() - DoubletM.Singlet2().rap());
+        return (SextetJet().rap() - doubletM.Singlet2().rap());
     }
 
     inline float GetDeltaPt1() const {
-        return (SextetJet().pt() - DoubletM.Singlet1().pt());
+        return (SextetJet().pt() - doubletM.Singlet1().pt());
     }
 
     inline float GetDeltaPt2() const {
-        return (SextetJet().pt() - DoubletM.Singlet2().pt());
+        return (SextetJet().pt() - doubletM.Singlet2().pt());
     }
 
 
@@ -192,7 +192,7 @@ private:
 
     hanalysis::HSextet SextetM;
 
-    hanalysis::HDoublet DoubletM;
+    hanalysis::Doublet doubletM;
 
 };
 

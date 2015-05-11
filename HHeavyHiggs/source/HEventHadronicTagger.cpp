@@ -2,14 +2,14 @@
 
 hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger()
 {
-  Print(HNotification , "Constructor");
+  Print(kNotification , "Constructor");
   set_tagger_name("HadronicEvent");
 }
 
 hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     bottom_tagger_ = NewBottomTagger;
     BottomReader.set_tagger(bottom_tagger_);
@@ -31,7 +31,7 @@ hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::BottomT
 hheavyhiggs::HEventHadronicTagger::~HEventHadronicTagger()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     // delete Branch;
 //     delete BottomReader;
@@ -42,7 +42,7 @@ hheavyhiggs::HEventHadronicTagger::~HEventHadronicTagger()
 
 void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBranch *EventHadronicBranch, const HOctet &Octet)
 {
-    Print(HInformation, "FillPairTagger", Octet.Bdt());
+    Print(kInformation, "FillPairTagger", Octet.Bdt());
 
 //     EventHadronicBranch->LeptonNumber = Octet.LeptonNumber();
 //     EventHadronicBranch->JetNumber = Octet.JetNumber();
@@ -55,12 +55,12 @@ void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBr
     EventHadronicBranch->HeavyHiggsMass = Octet.Sextet().Jet().m();
     EventHadronicBranch->HeavyHiggsPt = Octet.Sextet().Jet().pt();
 
-    EventHadronicBranch->BottomSumPt = Octet.DoubletJet().pt();
-    EventHadronicBranch->BottomDeltaPt = Octet.Doublet().DeltaPt();
+    EventHadronicBranch->BottomSumPt = Octet.doublet_jet().pt();
+    EventHadronicBranch->BottomDeltaPt = Octet.doublet().DeltaPt();
 
-    EventHadronicBranch->BottomDeltaRap = Octet.Doublet().DeltaRap();
-    EventHadronicBranch->BottomDeltaPhi = Octet.Doublet().DeltaPhi();
-    EventHadronicBranch->BottomDeltaR = Octet.Doublet().DeltaR();
+    EventHadronicBranch->BottomDeltaRap = Octet.doublet().DeltaRap();
+    EventHadronicBranch->BottomDeltaPhi = Octet.doublet().DeltaPhi();
+    EventHadronicBranch->BottomDeltaR = Octet.doublet().DeltaR();
 
     EventHadronicBranch->HbSumDeltaRap = Octet.DeltaRap();
     EventHadronicBranch->HbSumDeltaPhi = Octet.DeltaPhi();
@@ -75,14 +75,14 @@ void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBr
 
 void hheavyhiggs::HEventHadronicTagger::FillBranch(const HOctet &Octet)
 {
-    Print(HInformation, "FillPairTagger");
+    Print(kInformation, "FillPairTagger");
     FillBranch(&Branch, Octet);
 }
 
 void hheavyhiggs::HEventHadronicTagger::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     AddVariable(Branch.LeptonNumber, "LeptonNumber");
     AddVariable(Branch.JetNumber, "JetNumber");
@@ -112,7 +112,7 @@ void hheavyhiggs::HEventHadronicTagger::DefineVariables()
     AddSpectator(Branch.EventTag, "EventTag");
     AddSpectator(Branch.HeavyHiggsMass, "HeavyHiggsMass");
 
-    Print(HNotification, "Variables defined");
+    Print(kNotification, "Variables defined");
 
 }
 
@@ -124,30 +124,30 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
     if (jets.size() < 8) return EventHadronicBranches;
 
-    std::vector<hanalysis::HDoublet> Doublets = WTagger.GetBdt(jets, WReader);
-    std::vector<hanalysis::HTriplet> Triplets = TopHadronicTagger.GetBdt(Doublets, jets, TopHadronicReader);
-    std::vector<hanalysis::HSextet> Sextets = HeavyHiggsHadronicTagger.GetBdt(Triplets, HeavyHiggsHadronicReader);
+    std::vector<hanalysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
+    std::vector<hanalysis::Triplet> triplets = TopHadronicTagger.GetBdt(doublets, jets, TopHadronicReader);
+    std::vector<hanalysis::HSextet> Sextets = HeavyHiggsHadronicTagger.GetBdt(triplets, HeavyHiggsHadronicReader);
 
     std::vector<HOctet> Octets;
 
     for (const auto & Jet1 : jets) 
         for (const auto & Jet2 : jets)  {
             if (Jet1 == Jet2) continue;
-            hanalysis::HDoublet Doublet(Jet1,Jet2);
+            hanalysis::Doublet doublet(Jet1,Jet2);
             for (const auto & Sextet : Sextets) {
-                if (Jet1 == Sextet.Triplet1().Singlet()) continue;
-                if (Jet1 == Sextet.Triplet1().Doublet().Singlet1()) continue;
-                if (Jet1 == Sextet.Triplet1().Doublet().Singlet2()) continue;
-                if (Jet1 == Sextet.Triplet2().Singlet()) continue;
-                if (Jet1 == Sextet.Triplet2().Doublet().Singlet1()) continue;
-                if (Jet1 == Sextet.Triplet2().Doublet().Singlet2()) continue;
-                if (Jet2 == Sextet.Triplet1().Singlet()) continue;
-                if (Jet2 == Sextet.Triplet1().Doublet().Singlet1()) continue;
-                if (Jet2 == Sextet.Triplet1().Doublet().Singlet2()) continue;
-                if (Jet2 == Sextet.Triplet2().Singlet()) continue;
-                if (Jet2 == Sextet.Triplet2().Doublet().Singlet1()) continue;
-                if (Jet2 == Sextet.Triplet2().Doublet().Singlet2()) continue;
-                Octets.emplace_back(HOctet(Sextet, Doublet));
+                if (Jet1 == Sextet.triplet1().Singlet()) continue;
+                if (Jet1 == Sextet.triplet1().doublet().Singlet1()) continue;
+                if (Jet1 == Sextet.triplet1().doublet().Singlet2()) continue;
+                if (Jet1 == Sextet.triplet2().Singlet()) continue;
+                if (Jet1 == Sextet.triplet2().doublet().Singlet1()) continue;
+                if (Jet1 == Sextet.triplet2().doublet().Singlet2()) continue;
+                if (Jet2 == Sextet.triplet1().Singlet()) continue;
+                if (Jet2 == Sextet.triplet1().doublet().Singlet1()) continue;
+                if (Jet2 == Sextet.triplet1().doublet().Singlet2()) continue;
+                if (Jet2 == Sextet.triplet2().Singlet()) continue;
+                if (Jet2 == Sextet.triplet2().doublet().Singlet1()) continue;
+                if (Jet2 == Sextet.triplet2().doublet().Singlet2()) continue;
+                Octets.emplace_back(HOctet(Sextet, doublet));
             }
         }
 

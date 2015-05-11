@@ -5,7 +5,7 @@
 hanalysis::hparton::HEvent::HEvent()
 {
 
-    Print(HNotification, "Constructor");
+    Print(kNotification, "Constructor");
 
     Particles = new HParticle();
 
@@ -14,7 +14,7 @@ hanalysis::hparton::HEvent::HEvent()
 hanalysis::hparton::HEvent::~HEvent()
 {
 
-    Print(HNotification, "Destructor");
+    Print(kNotification, "Destructor");
 
     delete Particles;
 
@@ -23,7 +23,7 @@ hanalysis::hparton::HEvent::~HEvent()
 void hanalysis::hparton::HEvent::NewEvent(const hanalysis::ClonesArrays &ClonesArrays)
 {
 
-    Print(HInformation, "New Event");
+    Print(kInformation, "New Event");
 
     Particles->NewEvent(ClonesArrays);
 

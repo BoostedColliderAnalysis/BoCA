@@ -57,18 +57,18 @@ void hjetproperties::HCandidateBranch::reset()
 }
 
 
-ClassImp(hjetproperties::HConstituentBranch)
+ClassImp(hjetproperties::ConstituentBranch)
 
-hjetproperties::HConstituentBranch::HConstituentBranch()
+hjetproperties::ConstituentBranch::ConstituentBranch()
 {
 
   reset();
 
 }
 
-hjetproperties::HConstituentBranch::~HConstituentBranch() {}
+hjetproperties::ConstituentBranch::~ConstituentBranch() {}
 
-void hjetproperties::HConstituentBranch::reset()
+void hjetproperties::ConstituentBranch::reset()
 {
 
   int InitialValue = -100;

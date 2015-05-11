@@ -18,20 +18,20 @@ public:
 
     int Train(hanalysis::HEvent &event, const Tag tag);
 
-    HBottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
+    BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
     int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader);
 
     float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
-      return static_cast<HBottomBranch &>(*EventClonesArray.At(Entry)).Bdt;
+      return static_cast<BottomBranch &>(*EventClonesArray.At(Entry)).Bdt;
     }
 
     void SaveEntries(const Jets &jets){
-      for (const auto & jet : jets) static_cast<HBottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
+      for (const auto & jet : jets) static_cast<BottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
     }
 
     virtual TClass &Class() const {
-      return *HBottomBranch::Class();
+      return *BottomBranch::Class();
     }
 
 protected:
@@ -56,7 +56,7 @@ private:
 
     float Spread(const fastjet::PseudoJet &Jet) const;
 
-    HBottomBranch branch_;
+    BottomBranch branch_;
 
 };
 }

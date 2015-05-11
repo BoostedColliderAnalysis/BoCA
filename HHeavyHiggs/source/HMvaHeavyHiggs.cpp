@@ -3,7 +3,7 @@
 hheavyhiggs::HMva::HMva()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     set_tagger_name("HeavyHiggs");
 
@@ -38,7 +38,7 @@ hheavyhiggs::HMva::HMva()
 hheavyhiggs::HMva::~HMva()
 {
 
-    Print(HNotification , "Constructor");
+    Print(kNotification , "Constructor");
 
     delete HeavyHiggs;
 
@@ -47,12 +47,12 @@ hheavyhiggs::HMva::~HMva()
 void hheavyhiggs::HMva::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+    Print(kNotification , "Define Variables");
 
     AddVariable(HeavyHiggs->DeltaRap, "DeltaRap");
     AddVariable(HeavyHiggs->DeltaPhi, "DeltaPhi");
 
-    Print(HNotification,"Variables defined");
+    Print(kNotification,"Variables defined");
 
 }
 

@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HDoublet.hh"
+# include "Doublet.hh"
 # include "Tagger.hh"
 
 /**
@@ -14,28 +14,28 @@ public:
 
     HWSemiTagger();
 
-    HWSemiBranch GetBranch(const hanalysis::HDoublet &doublet) const;
+    WSemiBranch GetBranch(const hanalysis::Doublet &doublet) const;
 
     int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
 
-    std::vector<HDoublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<Doublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
 
     int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader) {
-        std::vector<HDoublet> doublets = GetDoublets(event, reader);
+        std::vector<Doublet> doublets = GetDoublets(event, reader);
         SaveEntries(doublets);
         return doublets.size();
     }
 
-    std::vector<hanalysis::HDoublet> GetBdt(const Jets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &reader) {
-      Print(HError,"get bdt", "depreciated");
+    std::vector<hanalysis::Doublet> GetBdt(const Jets &Leptons, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &reader) {
+      Print(kError,"get bdt", "depreciated");
     }
 
-    std::vector<HDoublet>  GetBdt(const Jets &Leptons, const fastjet::PseudoJet &MissingEt, const TMVA::Reader &reader){
-      Print(HError,"get bdt", "depreciated");
+    std::vector<Doublet>  GetBdt(const Jets &Leptons, const fastjet::PseudoJet &MissingEt, const TMVA::Reader &reader){
+      Print(kError,"get bdt", "depreciated");
     }
 
-    void SaveEntries(const std::vector<HDoublet> &doublets) {
-        for (const auto & doublet : doublets) static_cast<HWSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
+    void SaveEntries(const std::vector<Doublet> &doublets) {
+        for (const auto & doublet : doublets) static_cast<WSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
     }
 
     int WSemiId(hanalysis::HEvent &event) {
@@ -43,7 +43,7 @@ public:
     }
 
     TClass &Class() const {
-      return *HWSemiBranch::Class();
+      return *WSemiBranch::Class();
     }
 
 protected:
@@ -60,15 +60,15 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const hanalysis::HDoublet &Doublet) const;
+    Tag GetTag(const hanalysis::Doublet &doublet) const;
 
-    std::vector< HDoublet > GetNeutrinos(const hanalysis::HDoublet &Doublet)const;
+    std::vector< Doublet > GetNeutrinos(const hanalysis::Doublet &doublet)const;
 
-    std::vector<hanalysis::HDoublet> GetNeutrino(const HDoublet &Doublet, const Jets &Neutrinos, const Tag Tag)const;
+    std::vector<hanalysis::Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
 
-//     std::vector<hanalysis::HDoublet> GetDoublets(const hanalysis::HDoublet &Doublet, const Jets &Neutrinos, const hanalysis::HObject::Tag Tag);
+//     std::vector<hanalysis::Doublet> GetDoublets(const hanalysis::Doublet &doublet, const Jets &Neutrinos, const hanalysis::HObject::Tag Tag);
 
-    HWSemiBranch branch_;
+    WSemiBranch branch_;
 
     float w_mass_window_;
 

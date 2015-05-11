@@ -11,7 +11,7 @@
 # include "HJetDelphes.hh"
 # include "Predicate.hh"
 # include "HEvent.hh"
-# include "HDoublet.hh"
+# include "Doublet.hh"
 
 class Observable
 {
@@ -49,7 +49,8 @@ private:
  * @brief Prepares multivariant analysis
  *
  */
-namespace hanalysis{
+namespace hanalysis
+{
 // template <class ReturnType>
 class Tagger : public HObject
 {
@@ -117,7 +118,7 @@ public:
     }
 
     std::string analysis_name() const {
-      Print(HError,"Analysis Name", analysis_name_);
+        Print(kError, "Analysis Name", analysis_name_);
         return analysis_name_;
     }
 
@@ -173,16 +174,16 @@ public:
 //     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
     virtual int GetBdt(HEvent &event, const TMVA::Reader &reader) {
-        Print(HError, "Get Bdt", "should be subclassed");
+        Print(kError, "Get Bdt", "should be subclassed");
     }
 
     virtual int Train(hanalysis::HEvent &, const Tag tag) {
-        Print(HError, "Train", "Should be subclassed", tag);
+        Print(kError, "Train", "Should be subclassed", tag);
         return 0;
     }
 
     virtual float GetBranches(hanalysis::HEvent &event, Stage stage, const Tag tag) {
-        Print(HError, "get branches", "Should be subclassed", "should be deleted");
+        Print(kError, "get branches", "Should be subclassed", "should be deleted");
         return 0;
     }
 
@@ -197,7 +198,7 @@ public:
     fastjet::PseudoJet GetMissingEt(hanalysis::HEvent &Event);
 
     virtual float ReadBdt(const TClonesArray &, const int) {
-        Print(HError, "Read Bdt", "should be subclassed");
+        Print(kError, "Read Bdt", "should be subclassed");
         return 0;
     }
 
@@ -210,8 +211,47 @@ public:
     }
 
     virtual float Bdt(HEvent &event, const TMVA::Reader &reader) const {
-        Print(HError, "Bdt", "should be subclassed");
+        Print(kError, "Bdt", "should be subclassed");
     }
+
+
+
+//     template<typename Container, typename O1, typename O2>
+//     void each_value_and_pair(Container &container, O1 val_fun, O2 pair_fun) {
+//         auto iterator_1 = std::begin(container);
+//         auto end = std::end(container);
+//         if (iterator_1 == end) return;
+//
+//         for (; iterator_1 != std::prev(end); ++iterator_1) {
+//             val_fun(*iterator_1);
+//             for (auto iterator_2 = std::next(iterator_1); iterator_2 != end; ++iterator_2) {
+//                 pair_fun(*iterator_2, *iterator_1);
+//                 pair_fun(*iterator_1, *iterator_2);
+//             }
+//         }
+//     }
+//
+//     main() {
+//         std::vector<char> values;
+//         // populate values
+//         // ....
+//         each_value_and_pair(values,
+//         [](char c1) {
+//             std::cout << "value: " << c1 << std::endl;
+//         },
+//         [](char c1, char c2) {
+//             std::cout << "pair: " << c1 << "-" << c2 << std::endl;
+//         });
+//     }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -230,7 +270,7 @@ public:
 //     std::vector<t>
 // //     virtual auto
 //     GetMultiplets(HEvent &event, const TMVA::Reader &reader) {
-//       Print(HError, "Bdt", "should be subclassed");
+//       Print(kError, "Bdt", "should be subclassed");
 //       std::vector<t> v;
 //       return v;
 //     }
@@ -269,7 +309,7 @@ protected:
     }
 
     virtual TClass &Class() const {
-        Print(HError, "Class", "should be subclassed");
+        Print(kError, "Class", "should be subclassed");
         return *Branch::Class();
     }
 

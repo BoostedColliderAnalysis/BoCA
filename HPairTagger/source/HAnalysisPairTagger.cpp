@@ -3,8 +3,8 @@
 
 // hpairtagger::HAnalysis::HAnalysis()
 // {
-//     //     DebugLevel = hanalysis::HObject::HDebug;
-//     Print(HNotification, "Constructor");
+//     //     DebugLevel = hanalysis::HObject::kDebug;
+//     Print(kNotification, "Constructor");
 //     BottomTagger.SetAnalysisName(ProjectName());
 //     JetPairTagger.SetAnalysisName(ProjectName());
 //     mkdir(ProjectName().c_str(), 0700);
@@ -12,7 +12,7 @@
 
 // std::string hpairtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
 // {
-//     Print(HNotification, "Get Study Names", Tagger);
+//     Print(kNotification, "Get Study Names", Tagger);
 //
 //     switch (Tagger) {
 //     case  BottomTagger :
@@ -24,14 +24,14 @@
 //     case  HJetPairReader :
 //         return "JetPairReader";
 //     default :
-//         Print(HError, "unexpected TaggerName", Tagger);
+//         Print(kError, "unexpected TaggerName", Tagger);
 //         return "";
 //     }
 // }
 
 std::vector<hanalysis::RootFile> hpairtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
 {
-    Print(HNotification, "Set File Vector", tag);
+    Print(kNotification, "Set File Vector", tag);
 
     std::vector<hanalysis::RootFile> SignalLeptonicFiles;
     std::vector<hanalysis::RootFile> BackgroundLeptonicFiles;
@@ -155,7 +155,7 @@ void hpairtagger::HAnalysis::SetTrees()
 //         JetPairTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
 //     default :
-//         Print(HError, "SetTrees", "unhandeled case");
+//         Print(kError, "SetTrees", "unhandeled case");
 //     }
 //     tagger_.SetSignalTreeNames(SignalSemiTrees);
 //     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
@@ -163,7 +163,7 @@ void hpairtagger::HAnalysis::SetTrees()
 
 // void hpairtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
 // {
-//     Print(HInformation, "Prepare Reader", Tagger);
+//     Print(kInformation, "Prepare Reader", Tagger);
 //     if (Tag == kBackground) {
 //         return;
 //     }
@@ -182,20 +182,20 @@ void hpairtagger::HAnalysis::SetTrees()
 //         JetPairReader.set_tagger(JetPairTagger);
 //         break;
 //     default :
-//         Print(HError, "PrepareReader", "unhandled case");
+//         Print(kError, "PrepareReader", "unhandled case");
 //     }
 // }
 
 // void hpairtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
 // {
-//     Print(HNotification, "New Branches", Tagger);
+//     Print(kNotification, "New Branches", Tagger);
 //
 //     switch (Tagger) {
 //     case BottomTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), BottomBranch::Class());
 //         break;
 //     case HBottomReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HBottomBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), BottomBranch::Class());
 //         break;
 //     case HJetPairTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
@@ -204,14 +204,14 @@ void hpairtagger::HAnalysis::SetTrees()
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventJetPairBranch::Class());
 //         break;
 //     default :
-//         Print(HError, "No Branch filled");
+//         Print(kError, "No Branch filled");
 //     }
 //
 // }
 
 int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
 {
-    Print(HInformation, "Analysis", stage, tag);
+    Print(kInformation, "Analysis", stage, tag);
     ++event_sum_;
 
 //     switch (stage) {
@@ -224,7 +224,7 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 //     case HJetPairReader :
 //         return GetJetPairReader(event, tag);
 //     default :
-//         Print(HError, "unknown Tagger", tagger);
+//         Print(kError, "unknown Tagger", tagger);
 //         return 0;
 //     }
 
@@ -239,27 +239,27 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 
 // bool hpairtagger::HAnalysis::GetTag(hanalysis::HEvent &Event, const Tag tag)
 // {
-//   Print(HDebug, "Get Bottom Tag", tag);
+//   Print(kDebug, "Get Bottom Tag", tag);
 //   return tagger_.GetBranches(Event, tag);
 // }
 //
 //
 // bool hpairtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
 // {
-//     Print(HDebug, "Get Bottom Tag", Tag);
-//     std::vector<HBottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
+//     Print(kDebug, "Get Bottom Tag", Tag);
+//     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
 //     if (Bottoms.empty()) {
 //         return 0;
 //     }
 //     for (const auto & Bottom : Bottoms) {
-//         *static_cast<HBottomBranch *>(Branch->NewEntry()) = Bottom;
+//         *static_cast<BottomBranch *>(Branch->NewEntry()) = Bottom;
 //     }
 //     return 1;
 // }
 //
 // bool hpairtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
-//     Print(HDebug, "Get Bottom Reader", Tag);
+//     Print(kDebug, "Get Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(Event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) {
@@ -272,25 +272,25 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
 //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-//             static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//             static_cast<hanalysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //         }
 //     }
 //
 //     for (const auto & Jet : jets)  {
-//         if (Tag != Jet.user_info<hanalysis::HJetInfo>().Tag()) {
+//         if (Tag != Jet.user_info<hanalysis::JetInfo>().Tag()) {
 //             continue;
 //         }
 // //         if (std::abs(Jet.rap()) > BottomTagger.detector_geometry().TrackerEtaMax) {
 // //             continue;
 // //         }
-//         *static_cast<HBottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
+//         *static_cast<BottomBranch *>(Branch->NewEntry()) = BottomTagger.GetBranch(Jet);
 //     }
 //     return 1;
 // }
 //
 // bool hpairtagger::HAnalysis::GetJetPairTag(hanalysis::HEvent &Event, const Tag Tag)
 // {
-//     Print(HDebug, "Get JetPair Tag", Tag);
+//     Print(kDebug, "Get JetPair Tag", Tag);
 //     std::vector<HEventJetPairBranch> JetPairs = JetPairTagger.GetBranches(Event, Tag, MotherId(ProductionChannel()));
 //     if (JetPairs.empty()) {
 //         return 0;
@@ -303,14 +303,14 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 //
 // bool hpairtagger::HAnalysis::GetJetPairReader(hanalysis::HEvent &Event, const Tag Tag)
 // {
-//     Print(HDebug, "Get JetPair Reader", Tag);
+//     Print(kDebug, "Get JetPair Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(Event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) {
-//         Print(HInformation, "just one jet", jets.size());
+//         Print(kInformation, "just one jet", jets.size());
 //         return 0;
 //     }
-//     Print(HError, "jets", jets.size());
+//     Print(kError, "jets", jets.size());
 //
 // //     Jets FilteredJets; // WRONG MUST BE REMOVED
 //     Jets Particles = Event.GetParticles()->Generator();
@@ -328,26 +328,26 @@ int hpairtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::
 // //     if (
 // //         Tag == kSignal &&
 // //         Particles.size() != 2) {
-// //         Print(HError, "where are the quarks?", Particles.size());
+// //         Print(kError, "where are the quarks?", Particles.size());
 // //     }
 //
 // //     for (const auto & Particle : Particles) {
 // //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
 // //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-// //             static_cast<hanalysis::HJetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+// //             static_cast<hanalysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 // //             FilteredJets.emplace_back(jets.front()); // WRONG MUST BE REMOVED
 // //         }
 // //     }
 //
-// //     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(FilteredJets, JetPairReader);
-//     std::vector<hanalysis::HDoublet> Doublets = JetPairTagger.GetBdt(jets, JetPairReader);
-//     if (Doublets.size() > 1) {
-//         std::sort(Doublets.begin(), Doublets.end());
-//         Doublets.erase(Doublets.begin() + 1, Doublets.end());
+// //     std::vector<hanalysis::Doublet> doublets = JetPairTagger.GetBdt(FilteredJets, JetPairReader);
+//     std::vector<hanalysis::Doublet> doublets = JetPairTagger.GetBdt(jets, JetPairReader);
+//     if (doublets.size() > 1) {
+//         std::sort(doublets.begin(), doublets.end());
+//         doublets.erase(doublets.begin() + 1, doublets.end());
 //     }
 //
-//     for (const auto & Doublet : Doublets) {
-//         static_cast<HEventJetPairBranch &>(*Branch->NewEntry()) = JetPairTagger.GetBranch(Doublet);
+//     for (const auto & doublet : doublets) {
+//         static_cast<HEventJetPairBranch &>(*Branch->NewEntry()) = JetPairTagger.GetBranch(doublet);
 //     }
 //     return 1;
 // }

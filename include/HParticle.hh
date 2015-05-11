@@ -58,7 +58,7 @@ public:
     }
 
     Jets Generator() {
-//       Print(HError,"we are here");
+//       Print(kError,"we are here");
       if (!GotParticles) GotParticles = GetParticles();
         return GeneratorJets;
     }
@@ -71,7 +71,7 @@ protected:
      * @return void
      */
     virtual bool GetParticles() {
-      Print(HError,"should be subclassed");
+      Print(kError,"should be subclassed");
       return 0;
     }
 

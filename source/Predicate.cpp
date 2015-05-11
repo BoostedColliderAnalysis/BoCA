@@ -3,7 +3,7 @@
 
 struct Not5Quark {
   bool operator()(const fastjet::PseudoJet &Jet) {
-    const int ParticleId = Jet.user_info<hanalysis::HJetInfo>().Constituents().front().Family().ParticleId;
+    const int ParticleId = Jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId;
     return !(std::abs(ParticleId) == hanalysis::HObject::UpId || std::abs(ParticleId) == hanalysis::HObject::DownId || std::abs(ParticleId) == hanalysis::HObject::CharmId || std::abs(ParticleId) == hanalysis::HObject::StrangeId || std::abs(ParticleId) == hanalysis::HObject::BottomId);
   }
 };
