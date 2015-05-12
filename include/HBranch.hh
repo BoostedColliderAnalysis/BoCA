@@ -32,7 +32,7 @@ private:
  * @brief Basic tree branches
  *
  */
-class HInfoBranch : public HBranch
+class InfoBranch : public HBranch
 {
 
 public:
@@ -43,11 +43,11 @@ public:
     float EventNumber;
     float PreCutNumber;
 
-    HInfoBranch();
+    InfoBranch();
 
 private:
 
-    ClassDef(HInfoBranch, 1)
+    ClassDef(InfoBranch, 1)
 
 };
 

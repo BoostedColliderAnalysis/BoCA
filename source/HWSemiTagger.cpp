@@ -35,19 +35,6 @@ WSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::Doublet &doublet
     Print(kInformation, "Fill W Tagger", doublet.Bdt());
     WSemiBranch branch;
     branch.FillBranch(doublet);
-//     branch.Mass = doublet.Jet().m();
-//     branch.Rap = doublet.Jet().rap();
-//     branch.Phi = doublet.Jet().phi();
-//     branch.Pt = doublet.Jet().pt();
-//     branch.Ht = doublet.Ht();
-//     branch.NeutrinoPt = doublet.Singlet2().pt();
-//     branch.LeptonPt = doublet.Singlet1().pt();
-//     branch.DeltaPt = doublet.DeltaPt();
-//     branch.DeltaR = doublet.DeltaR();
-//     branch.DeltaRap = doublet.DeltaRap();
-//     branch.DeltaPhi = doublet.DeltaPhi();
-//     branch.Bdt = doublet.Bdt();
-//     branch.Tag = doublet.Tag();
     return branch;
 }
 
@@ -81,10 +68,7 @@ int hanalysis::HWSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
             doublets.emplace_back(Postdoublet);
         }
     }
-//     std::vector<HWSemiBranch> WSemiBranches;
-//     for (const auto & doublet : doublets) WSemiBranches.emplace_back(GetBranch(doublet));
  SaveEntries(doublets);
-//     Print(kInformation, "Number doublets", doublets.size());
     return doublets.size();
 }
 
@@ -110,7 +94,6 @@ std::vector<hanalysis::Doublet>  hanalysis::HWSemiTagger::GetDoublets(hanalysis:
 
     return doublets;
 }
-
 
 std::vector<hanalysis::Doublet> hanalysis::HWSemiTagger::GetNeutrinos(const Doublet &doublet)const
 {
@@ -187,47 +170,9 @@ struct FindError {
     float Error;
 };
 
-// std::vector<hanalysis::Doublet> hanalysis::HWSemiTagger::GetDoublets(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)
-// {
-//     Print(kInformation, "Get Triple Pair");
-//
-//     std::vector<Doublet> doublets = GetNeutrinos(doublet);
-//     Print(kDebug, "Number Solutions", doublets.size());
-//     if (doublets.empty()) return doublets;
-//
-//     float BestError = LargeNumber;
-//     Doublet Bestdoublet;
-//     for (const auto Neutrino : Neutrinos) {
-//         std::sort(doublets.begin(), doublets.end(), SortByError(Neutrino));
-//         float Error = (doublets.front().Singlet2() + Neutrino).m();
-//         if (Error < BestError) {
-//             Bestdoublet = doublets.front();
-//             BestError = Error;
-//         }
-//     }
-//
-//     std::vector<Doublet> Finaldoublets;
-//     switch (Tag) {
-//     case kSignal:
-//         Finaldoublets.emplace_back(Bestdoublet);
-//         return Finaldoublets;
-//     case kBackground:
-//         for (const auto Neutrino : Neutrinos) doublets.erase(std::remove_if(doublets.begin(), doublets.end(), FindError(Neutrino, BestError)), doublets.end());
-//         return doublets;
-//     default:
-//         Print(kError, "we should never end up here");
-//         return doublets;
-//     }
-//
-//
-// }
-
-
-
-
-Jets hanalysis::HWSemiTagger::WSemiDaughters(HEvent &Event)
+Jets hanalysis::HWSemiTagger::WSemiDaughters(HEvent &event)
 {
-    Jets WKids = Event.GetParticles()->Generator();
+    Jets WKids = event.GetParticles()->Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(kError, "Where is the W 1?", WKids.size());
 

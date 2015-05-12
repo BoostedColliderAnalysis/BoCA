@@ -138,6 +138,7 @@ fastjet::PseudoJet hanalysis::hdelphes::HJet::Getconstituents(const TObject &Obj
     }
 
     Jet.set_user_info(jet_info);
+    Print(kInformation,"Jet info",Jet.has_user_info<JetInfo>());
 
     return Jet;
 
@@ -145,7 +146,7 @@ fastjet::PseudoJet hanalysis::hdelphes::HJet::Getconstituents(const TObject &Obj
 
 bool hanalysis::hdelphes::HJet::GetEFlow(const HJetDetails JetDetails)
 {
-    Print(kDebug, "Get EFlow", clones_arrays_->GetEFlowTrackSum());
+    Print(kDebug, "Get EFlow", clones_arrays_->GetEFlowTrackSum(), JetDetails);
 
     if (clones_arrays_->GetEFlowTrackClonesArray()) GetTrackEFlow(JetDetails);
     if (clones_arrays_->GetEFlowPhotonClonesArray()) GetPhotonEFlow(JetDetails);
@@ -387,15 +388,15 @@ Jets hanalysis::hdelphes::HJet::GranulatedJets(const Jets &NewEFlowJets)
 }
 
 
-Jets hanalysis::hdelphes::HJet::GetJets()
+Jets hanalysis::hdelphes::HJet::GetGranJets()
 {
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(GetStructuredEFlowJets()), detector_geometry().JetDefinition);
-    Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry().JetMinPt));
+    fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(GranulatedJets(GetStructuredEFlowJets()), detector_geometry().JetDefinition);
+    Jets jets = fastjet::sorted_by_pt(cluster_sequence->inclusive_jets(detector_geometry().JetMinPt));
     if (jets.empty()) {
-        delete ClusterSequence;
+        delete cluster_sequence;
         return jets;
     }
-    ClusterSequence->delete_self_when_unused();
+    cluster_sequence->delete_self_when_unused();
     for (auto & Jet : jets)  {
         std::vector<Constituent> constituents;
         for (const auto & constituent : Jet.constituents()) {

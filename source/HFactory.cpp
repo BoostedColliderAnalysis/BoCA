@@ -20,8 +20,7 @@ std::string hanalysis::HFactory::factory_options()
 
 TFile *hanalysis::HFactory::output_file() const
 {
-    const std::string factory_name = "Mva" + tagger().tagger_name();
-    const std::string file_name = tagger().analysis_name() + "/" + factory_name + ".root";
+    const std::string file_name = tagger().analysis_name() + "/" + tagger().factory_name() + ".root";
     return TFile::Open(file_name.c_str(), "Recreate");
 }
 
@@ -85,7 +84,7 @@ int hanalysis::HFactory::AddTree(TFile &file, const std::string &tree_name, cons
 
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(0);
-    const float crosssection = static_cast<HInfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
+    const float crosssection = static_cast<InfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
     Print(kNotification , "Weight", crosssection);
 
     if (signal) factory().AddSignalTree(&tree, crosssection);

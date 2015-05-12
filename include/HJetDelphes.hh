@@ -25,7 +25,7 @@ public:
 
     Jets GranulatedJets(const Jets &NewEFlowJets);
 
-    Jets GetJets();
+    Jets GetGranJets();
 
     Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 

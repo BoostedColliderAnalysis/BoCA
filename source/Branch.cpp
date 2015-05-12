@@ -6,9 +6,9 @@ Branch::Branch() {}
 
 Branch::~Branch() {}
 
-ClassImp(HInfoBranch)
+ClassImp(InfoBranch)
 
-HInfoBranch::HInfoBranch()
+InfoBranch::InfoBranch()
 {
     Crosssection = InitialValue();
     CrosssectionError = InitialValue();

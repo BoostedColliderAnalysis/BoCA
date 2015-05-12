@@ -2,13 +2,8 @@
 
 hanalysis::HJet::HJet()
 {
-// DebugLevel=kDebug;
+//     DebugLevel = kDebug;
     Print(kNotification, "Constructor");
-}
-
-hanalysis::HJet::~HJet()
-{
-    Print(kNotification, "Destructor");
 }
 
 void hanalysis::HJet::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays)
@@ -76,9 +71,9 @@ float hanalysis::HJet::GetScalarHt()
 fastjet::PseudoJet hanalysis::HJet::GetMissingEt()
 {
 
-  Print(kError, "Get Missing Et", "No Mising Et");
+    Print(kError, "Get Missing Et", "No Mising Et");
 
-  fastjet::PseudoJet Jet;
-  return Jet;
+    fastjet::PseudoJet Jet;
+    return Jet;
 
 }

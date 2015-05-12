@@ -204,6 +204,8 @@ private:
         }
     }
 
+    int PassPreCut(hanalysis::HEvent &event);
+
     /**
      * @brief Main Analysis function
      *

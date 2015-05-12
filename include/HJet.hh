@@ -22,12 +22,6 @@ public:
     HJet();
 
     /**
-     * @brief Destructor
-     *
-     */
-    ~HJet();
-
-    /**
      * @brief Initialize New event
      */
     void NewEvent(const hanalysis::ClonesArrays &NewClonesArrays);
@@ -109,6 +103,7 @@ public:
     };
 
     Jets GetStructuredEFlowJets() {
+      Print(kInformation,"Get structured eflow", Structure);
       if (!GotEFlow) GotEFlow = GetEFlow(Structure);
       return EFlowJets;
     };
@@ -127,6 +122,14 @@ public:
     virtual float GetScalarHt();
 
     virtual fastjet::PseudoJet GetMissingEt();
+
+    virtual Jets GetGranJets(){
+      Print(kError,"Get Sub Jets","should be subclassed");
+    }
+
+    virtual Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber){
+      Print(kError,"Get Sub Jets","should be subclassed");
+    }
 
 
 protected:

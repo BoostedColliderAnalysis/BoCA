@@ -6,7 +6,8 @@
  * @brief Bottom BDT tagger
  *
  */
-namespace hanalysis{
+namespace hanalysis
+{
 class BottomTagger : public Tagger
 {
 
@@ -16,22 +17,33 @@ public:
 
     BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
+    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag){
+      PreCuts pre_cuts;
+      return Train(event,pre_cuts,tag);
+    }
+
+    int Train(hanalysis::HEvent &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag);
 
     Jets GetMultiJetBdt(Jets &jets, const TMVA::Reader &reader);
 
-    Jets GetJetBdt(HEvent &event, const TMVA::Reader &reader);
+    Jets GetJetBdt(HEvent &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    Jets GetJetBdt(HEvent &event, const TMVA::Reader &reader){
+      PreCuts pre_cuts;
+      return GetJetBdt(event,pre_cuts,reader);
+    }
 
     Jets GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-//     Jets GetMultiplets(HEvent &event, const TMVA::Reader &reader) {
-//       GetJetBdt(event)
-//     }
+    int GetBdt(hanalysis::HEvent &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+        Jets jets = GetJetBdt(event, pre_cuts, reader);
+        SaveEntries(jets);
+        return jets.size();
+    }
 
-    int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader){
-      Jets jets = GetJetBdt(event,reader);
-      SaveEntries(jets);
-      return jets.size();
+    int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader) {
+      PreCuts pre_cuts;
+      return GetBdt(event,pre_cuts,reader);
     }
 
     fastjet::PseudoJet GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
@@ -44,7 +56,12 @@ public:
         Print(kError, "Bdt", "depreciated");
     }
 
-    Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader);
+    Jets GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader){
+      PreCuts pre_cuts;
+      return GetJetBdt(jets,pre_cuts,reader);
+    }
 
     Jets GetSubBdt(const Jets &jets, const Reader &reader, const int sub_jet_number) {
         Print(kError, "Bdt", "depreciated");
@@ -64,23 +81,19 @@ public:
         return *BottomBranch::Class();
     }
 
-    float GetDeltaR(const fastjet::PseudoJet &jet) const;
-
-    float GetSpread(const fastjet::PseudoJet &jet) const;
-
 protected:
 
     virtual inline std::string ClassName() const {
         return "BottomTagger";
-    };
+    }
 
 private:
 
     void DefineVariables();
 
-    Jets CleanJets(Jets &jets, const Jets &particles, const hanalysis::HObject::Tag tag);
+    Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag);
 
-    Jets GetSubJets(const Jets &jets, const Jets &particles, const hanalysis::HObject::Tag tag, const int sub_jet_number);
+    Jets GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag, const int sub_jet_number);
 
     BottomBranch branch_;
 

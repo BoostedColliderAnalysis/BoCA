@@ -76,7 +76,7 @@ HSubStructure.cpp
 
 Tagger.cpp
 Factory.cpp
-HReader.cpp
+Reader.cpp
 
 BottomTagger.cpp
 HTauTagger.cpp

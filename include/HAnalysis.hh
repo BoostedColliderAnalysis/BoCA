@@ -7,6 +7,7 @@
 # include "Reader.hh"
 
 
+
 /**
  * @brief Base for all analyses
  *
@@ -33,6 +34,8 @@ public:
         config_ = config;
     }
 
+    std::string ExportName(const Tagger::Stage stage, const hanalysis::HObject::Tag tag) const;
+    
 protected:
 
     virtual void SetFiles(const hanalysis::HObject::Tag tag) {
@@ -46,9 +49,8 @@ protected:
 
     ExRootTreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
 
-    std::string ExportName(const Tagger::Stage stage, const hanalysis::HObject::Tag tag) const;
 
-    HInfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::RootFile &file);
+    InfoBranch Fillinfo_branch(const ExRootTreeReader &tree_reader, const hanalysis::RootFile &file);
 
     virtual int Analysis(HEvent &, const Tagger::Stage stage, const Tag tag) {
         Print(kError, "Analysis", "should be subclassed", stage, tag);
@@ -148,10 +150,12 @@ protected:
         return name + "-run_01";
     }
 
-    virtual bool PassPreCut(hanalysis::HEvent &event){
-      Print(kError, "Apply pre cut", "no pre cut applied");
-      return true;
+    virtual int PassPreCut(hanalysis::HEvent &event) {
+        Print(kError, "Apply pre cut", "no pre cut applied");
+        return 1;
     }
+
+    PreCuts pre_cuts_;
 
 private:
 

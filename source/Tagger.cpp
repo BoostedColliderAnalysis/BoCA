@@ -51,7 +51,7 @@ std::string hanalysis::Tagger::analysis_name_;
 
 hanalysis::Tagger::Tagger()
 {
-//   DebugLevel = kNotification;
+//     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
     bdt_method_name_ = "Bdt";
     weight_branch_name_ = "Info";
@@ -81,12 +81,13 @@ Observable hanalysis::Tagger::NewObservable(float &value, const std::string &tit
 
 float hanalysis::Tagger::Bdt(const TMVA::Reader &reader)
 {
-  Print(kInformation, "Bdt");
-  return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
+    Print(kInformation, "Bdt");
+    return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
 Jets hanalysis::Tagger::GranulatedJets(const Jets &NewEFlowJets)
 {
+  Print(kInformation, "GranulatedJets");
     // start of granularization of the hadronic calorimeter to redefine hadrons
     const float CellDeltaRap = detector_geometry().MinCellResolution;
     const float CellDeltaPhi = detector_geometry().MinCellResolution;
@@ -120,6 +121,7 @@ Jets hanalysis::Tagger::GranulatedJets(const Jets &NewEFlowJets)
                 fastjet::PseudoJet CombinedJet(RescaledPx, RescaledPy, RescaledPz, TotalEnergy);
 
 
+                Print(kInformation, "GranulatedJets","Constituents");
                 std::vector<Constituent> constituents;
                 std::vector<Constituent> Newconstituents = EFlowJets[i].user_info<hanalysis::JetInfo>().constituents();
                 constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
@@ -127,6 +129,7 @@ Jets hanalysis::Tagger::GranulatedJets(const Jets &NewEFlowJets)
                 constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
 
                 CombinedJet.set_user_info(new JetInfo(constituents));
+                Print(kInformation, "GranulatedJets","Constituents");
 
                 NewGranulatedJets.erase(NewGranulatedJets.begin() + j);
                 NewGranulatedJets.emplace_back(CombinedJet);
@@ -162,6 +165,7 @@ Jets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 
 Jets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event)
 {
+    Print(kInformation, "Get Jets");
 //   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry().JetConeSize));
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), detector_geometry().JetDefinition);
     Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry().JetMinPt));
@@ -170,6 +174,7 @@ Jets hanalysis::Tagger::GetJets(hanalysis::HEvent &Event)
         return jets;
     }
     ClusterSequence->delete_self_when_unused();
+    Print(kInformation, "Get Jets", "Add constituents");
     for (auto & Jet : jets)  {
         std::vector<Constituent> constituents;
         for (const auto & constituent : Jet.constituents()) {

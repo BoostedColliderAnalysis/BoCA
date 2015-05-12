@@ -23,12 +23,6 @@ public:
     */
     HChargedSignatureSemiTagger();
 
-    /**
-    * @brief Destructor
-    *
-    */
-    ~HChargedSignatureSemiTagger();
-
     void SetTagger(
       const hanalysis::BottomTagger &NewBottomTagger,
       const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,

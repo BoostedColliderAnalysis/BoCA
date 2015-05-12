@@ -45,6 +45,38 @@ private:
 };
 
 
+class PreCuts : public hanalysis::HObject
+{
+public:
+  void SetPtLowerCut(const HParticleId particle_id, const float value){
+    pt_lower_cut_[particle_id] = value;
+//     pt_pre_cut_applies.at(particle_id) = true;
+  }
+
+  void SetPtUpperCut(const HParticleId particle_id, const float value){
+    pt_upper_cut_[particle_id] = value;
+//     pt_pre_cut_applies.at(particle_id) = true;
+  }
+
+  float PtLowerCut(const HParticleId particle_id){
+    return pt_lower_cut_[particle_id];
+  }
+
+  float PtUpperCut(const HParticleId particle_id){
+    return pt_upper_cut_[particle_id];
+  }
+
+//   bool PreCutAppliesTo(const HParticleId particle_id) const{
+//     return pt_pre_cut_applies.at(particle_id);
+//   }
+
+private:
+  std::map<HParticleId, float> pt_lower_cut_;
+  std::map<HParticleId, float> pt_upper_cut_;
+//   std::map<HParticleId, bool> pt_pre_cut_applies;
+};
+
+
 /**
  * @brief Prepares multivariant analysis
  *
@@ -84,6 +116,30 @@ public:
 
     std::string tagger_name() const {
         return tagger_name_;
+    }
+
+    std::string factory_name() const {
+      return "Mva" + tagger_name();
+    }
+
+    std::string signal_file_name(const Stage stage) const {
+      const std::string file_name = analysis_name() + "/" + signal_name();
+      switch (stage) {
+        case kTrainer :
+          return file_name;
+        case kReader :
+          return file_name + "Reader.root";
+      }
+    }
+
+    std::string background_file_name(const Stage stage) const {
+      const std::string file_name = analysis_name() + "/" + background_name();
+      switch (stage) {
+        case kTrainer :
+          return file_name;
+        case kReader :
+          return file_name + "Reader.root";
+      }
     }
 
     std::string reader_name() const {
@@ -130,13 +186,17 @@ public:
         return spectators_;
     }
 
-
     Strings signal_file_names() const {
         return signal_file_names_;
     }
 
     Strings signal_tree_names() const {
         return signal_tree_names_;
+    }
+
+    void clear_tree_names(){
+      signal_tree_names_.clear();
+      background_tree_names_.clear();
     }
 
     Strings background_file_names() const {
@@ -173,11 +233,11 @@ public:
 
 //     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
-    virtual int GetBdt(HEvent &event, const TMVA::Reader &reader) {
+    virtual int GetBdt(HEvent &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         Print(kError, "Get Bdt", "should be subclassed");
     }
 
-    virtual int Train(hanalysis::HEvent &, const Tag tag) {
+    virtual int Train(hanalysis::HEvent &, PreCuts &pre_cuts, const Tag tag) {
         Print(kError, "Train", "Should be subclassed", tag);
         return 0;
     }
@@ -213,67 +273,6 @@ public:
     virtual float Bdt(HEvent &event, const TMVA::Reader &reader) const {
         Print(kError, "Bdt", "should be subclassed");
     }
-
-
-
-//     template<typename Container, typename O1, typename O2>
-//     void each_value_and_pair(Container &container, O1 val_fun, O2 pair_fun) {
-//         auto iterator_1 = std::begin(container);
-//         auto end = std::end(container);
-//         if (iterator_1 == end) return;
-//
-//         for (; iterator_1 != std::prev(end); ++iterator_1) {
-//             val_fun(*iterator_1);
-//             for (auto iterator_2 = std::next(iterator_1); iterator_2 != end; ++iterator_2) {
-//                 pair_fun(*iterator_2, *iterator_1);
-//                 pair_fun(*iterator_1, *iterator_2);
-//             }
-//         }
-//     }
-//
-//     main() {
-//         std::vector<char> values;
-//         // populate values
-//         // ....
-//         each_value_and_pair(values,
-//         [](char c1) {
-//             std::cout << "value: " << c1 << std::endl;
-//         },
-//         [](char c1, char c2) {
-//             std::cout << "pair: " << c1 << "-" << c2 << std::endl;
-//         });
-//     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     template < class ValueType >
-//     class BasicType
-//     {
-//     public:
-//       typedef ValueType basic_type;
-//       basic_type value() { return value_; }
-//       basic_type value_;
-//     };
-//
-//     template<class T>
-//     typedef ReturnType t;
-//     std::vector<t>
-// //     virtual auto
-//     GetMultiplets(HEvent &event, const TMVA::Reader &reader) {
-//       Print(kError, "Bdt", "should be subclassed");
-//       std::vector<t> v;
-//       return v;
-//     }
 
 protected:
 

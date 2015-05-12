@@ -7,11 +7,6 @@ hheavyhiggs::HChargedSignatureSemiTagger::HChargedSignatureSemiTagger()
     DefineVariables();
 }
 
-hheavyhiggs::HChargedSignatureSemiTagger::~HChargedSignatureSemiTagger()
-{
-    Print(kInformation , "Destructor");
-}
-
 void hheavyhiggs::HChargedSignatureSemiTagger::SetTagger(
     const hanalysis::BottomTagger &NewBottomTagger,
     const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,

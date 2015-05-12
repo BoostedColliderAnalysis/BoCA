@@ -51,9 +51,9 @@ public:
 
     float Bdt() const;
 
-    int GetBdt(HEvent &event) const {
+    int GetBdt(HEvent &event, PreCuts &pre_cuts) const {
         if (!tagger_) Print(kError, "what is wrong with the tagger?");
-        return tagger_->GetBdt(event, reader_);
+        return tagger_->GetBdt(event, pre_cuts, reader_);
     }
 
 //     template <typename Multiplet>
@@ -80,7 +80,7 @@ private:
 
     void AddVariable();
 
-    HInfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
+    InfoBranch info_branch(TFile &file, const std::string &tree_name) const;
 
     std::vector<int> BdtDistribution(ExRootTreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
 

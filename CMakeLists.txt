@@ -84,7 +84,7 @@ add_dependencies(HContainer WimpMass)
 add_dependencies(HAnalysis HepTopTagger)
 
 # Tagger
-add_subdirectory(HBTagger)
+add_subdirectory(Bottom)
 add_subdirectory(HPairTagger)
 add_subdirectory(HBottomSumTagger)
 # find_library(

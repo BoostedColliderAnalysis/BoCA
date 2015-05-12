@@ -75,6 +75,7 @@ struct WrongId {
     }
     bool operator()(const fastjet::PseudoJet &jet) {
         return (jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId != id_);
+        return (jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId != id_);
     }
     int id_;
 };
@@ -267,6 +268,10 @@ inline std::vector<HMultiplet> SortByMassTo(std::vector<HMultiplet> &Multiplets,
     std::sort(Multiplets.begin(), Multiplets.end(), SortByMass(Mass));
     return Multiplets;
 }
+
+Jets copy_if_abs_particle(const Jets &jets, const int particle_id);
+
+Jets remove_if_not_in_pt_window(Jets &jets, const float lower_cut, const float upper_cut);
 
 Jets RemoveIfWrongAbsFamily(const Jets &jets, const int particle_id, int mother_id);
 

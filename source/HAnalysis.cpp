@@ -23,6 +23,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
     Print(kNotification, "Analysis Loop");
     mkdir(ProjectName().c_str(), 0700);
     if (stage == Tagger::kReader) reader_.set_tagger(tagger_);
+        tagger_.clear_tree_names();
     for (const auto & tag : std::vector<Tag> {kSignal, kBackground}) {
         Print(kNotification, "Analysing Mva Sample", tag);
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");
@@ -35,31 +36,33 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
             hanalysis::HEvent &event = file.Event();
             bool analysis_not_empty = false;
             ExRootTreeWriter tree_writer = TreeWriter(export_file, file.GetTitle(), stage);
-            ExRootTreeBranch &tree_branch = *tree_writer.NewBranch("Info", HInfoBranch::Class());
+            ExRootTreeBranch &tree_branch = *tree_writer.NewBranch("Info", InfoBranch::Class());
             ExRootTreeReader tree_reader = file.TreeReader();
             clones_arrays.GetBranches(tree_reader);
 //             ExRootProgressBar progress_bar(EventSum(tree_reader));
 //             Print(kInformation, "Sum", EventSum(tree_reader));
-            object_number_ = 0;
-            float pre_cut_number = 0;
-            HInfoBranch info_branch = FillInfoBranch(tree_reader, file);
+            int object_sum = 0;
+            int pre_cut_sum = 0;
+            InfoBranch info_branch = Fillinfo_branch(tree_reader, file);
             for (const int event_number : Range(EventSum(tree_reader))) {
 //                 Print(kError, "Event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.mass());
-                if(!PassPreCut()) continue;
-                ++pre_cut_number;
-                int objects = Analysis(event, stage, tag);
-                if (objects > 0) {
-                  object_number_ += objects;
-                    info_branch.PreCutNumber = event_number;
-                    analysis_not_empty = true;
-                    static_cast<HInfoBranch &>(*tree_branch.NewEntry()) = info_branch;
-                    tree_writer.Fill();
+                int pre_cut_number = PassPreCut(event);
+                if (pre_cut_number > 0) {
+                    pre_cut_sum += pre_cut_number;
+                    int object_number = Analysis(event, stage, tag);
+                    if (object_number > 0) {
+                        object_sum += object_number;
+                        info_branch.PreCutNumber = event_number;
+                        analysis_not_empty = true;
+                        static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
+                        tree_writer.Fill();
+                    }
                 }
                 tree_writer.Clear();
-                if (object_number_ >= EventNumberMax()) break;
+                if (object_sum >= EventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
             Print(kError, "All Events analysed", info_branch.EventNumber);
@@ -71,9 +74,9 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
     }
 }
 
-HInfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const RootFile &file)
+InfoBranch hanalysis::HAnalysis::Fillinfo_branch(const ExRootTreeReader &tree_reader, const RootFile &file)
 {
-    HInfoBranch info_branch;
+    InfoBranch info_branch;
     info_branch.Crosssection = file.crosssection();
     info_branch.CrosssectionError = file.crosssection_error();
     info_branch.Mass = file.mass();

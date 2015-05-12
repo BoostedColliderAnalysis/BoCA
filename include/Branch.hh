@@ -27,17 +27,17 @@ private:
  * @brief Basic tree branches
  *
  */
-class HInfoBranch : public Branch
+class InfoBranch : public Branch
 {
 public:
-    HInfoBranch();
+    InfoBranch();
     float Crosssection;
     float CrosssectionError;
     float Mass;
     float EventNumber;
     float PreCutNumber;
 private:
-    ClassDef(HInfoBranch, 1)
+    ClassDef(InfoBranch, 1)
 };
 
 /**

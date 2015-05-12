@@ -85,7 +85,7 @@ int hanalysis::Factory::AddTree(TFile &file, const std::string &tree_name, const
 
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(0);
-    const float crosssection = static_cast<HInfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
+    const float crosssection = static_cast<InfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
     Print(kNotification , "Weight", crosssection);
 
     switch (tag) {
