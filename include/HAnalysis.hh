@@ -89,7 +89,7 @@ protected:
 
     Reader reader_;
 
-    int ObjectNumber;
+    int object_number_;
 
     virtual inline std::string ProcessName() const {
         return "Process";
@@ -146,6 +146,11 @@ protected:
 
     std::string TreeName(const std::string &name) const {
         return name + "-run_01";
+    }
+
+    virtual bool PassPreCut(hanalysis::HEvent &event){
+      Print(kError, "Apply pre cut", "no pre cut applied");
+      return true;
     }
 
 private:

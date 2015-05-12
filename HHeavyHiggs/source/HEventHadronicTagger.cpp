@@ -135,16 +135,16 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
             if (Jet1 == Jet2) continue;
             hanalysis::Doublet doublet(Jet1,Jet2);
             for (const auto & Sextet : Sextets) {
-                if (Jet1 == Sextet.triplet1().Singlet()) continue;
+                if (Jet1 == Sextet.triplet1().singlet()) continue;
                 if (Jet1 == Sextet.triplet1().doublet().Singlet1()) continue;
                 if (Jet1 == Sextet.triplet1().doublet().Singlet2()) continue;
-                if (Jet1 == Sextet.triplet2().Singlet()) continue;
+                if (Jet1 == Sextet.triplet2().singlet()) continue;
                 if (Jet1 == Sextet.triplet2().doublet().Singlet1()) continue;
                 if (Jet1 == Sextet.triplet2().doublet().Singlet2()) continue;
-                if (Jet2 == Sextet.triplet1().Singlet()) continue;
+                if (Jet2 == Sextet.triplet1().singlet()) continue;
                 if (Jet2 == Sextet.triplet1().doublet().Singlet1()) continue;
                 if (Jet2 == Sextet.triplet1().doublet().Singlet2()) continue;
-                if (Jet2 == Sextet.triplet2().Singlet()) continue;
+                if (Jet2 == Sextet.triplet2().singlet()) continue;
                 if (Jet2 == Sextet.triplet2().doublet().Singlet1()) continue;
                 if (Jet2 == Sextet.triplet2().doublet().Singlet2()) continue;
                 Octets.emplace_back(HOctet(Sextet, doublet));

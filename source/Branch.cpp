@@ -59,7 +59,6 @@ BottomBranch::BottomBranch()
     EnergyFraction = InitialValue();
     Tag = int(InitialValue());
     Bdt = InitialValue();
-
 }
 
 ClassImp(HTauBranch)
@@ -75,36 +74,35 @@ HTauBranch::HTauBranch()
     TrackMass = InitialValue();
     FlightPath = InitialValue();
     TrtHtFraction = InitialValue();
-
     Tag = int(InitialValue());
     Bdt = InitialValue();
 
 }
 
-ClassImp(HPairBranch)
+ClassImp(PairBranch)
 
-HPairBranch::HPairBranch()
+PairBranch::PairBranch()
 {
-
     Ht = InitialValue();
     DeltaPt = InitialValue();
-    DeltaHt = InitialValue();
     DeltaM = InitialValue();
     DeltaRap = InitialValue();
     DeltaPhi = InitialValue();
     DeltaR = InitialValue();
-
     Bdt = InitialValue();
     Tag = int(InitialValue());
-
 }
 
-ClassImp(HWBranch)
+ClassImp(MultiBranch)
 
-HWBranch::HWBranch()
+MultiBranch::MultiBranch()
 {
-
+  DeltaHt = InitialValue();
 }
+
+ClassImp(WHadronicBranch)
+
+WHadronicBranch::WHadronicBranch(){}
 
 ClassImp(HEventJetPairBranch)
 
@@ -118,7 +116,6 @@ HEventJetPairBranch::HEventJetPairBranch()
     Jet1Phi = InitialValue();
     Jet1Bdt = InitialValue();
     Jet1BTag = InitialValue();
-
     Jet2Mass = InitialValue();
     Jet2Pt = InitialValue();
     Jet2Rap = InitialValue();
@@ -163,7 +160,6 @@ WSemiBranch::WSemiBranch()
 {
     NeutrinoPt = InitialValue();
     LeptonPt = InitialValue();
-
 }
 
 ClassImp(HHeavyHiggsTauBranch)
@@ -199,21 +195,21 @@ TopHadronicBranch::TopHadronicBranch()
     Tau21_2 = InitialValue();
     Tau32_2 = InitialValue();
 
-    VertexMass = InitialValue();
-    MaxDisplacement = InitialValue();
-    MeanDisplacement = InitialValue();
-    SumDisplacement = InitialValue();
-    Multipliticity = int(InitialValue());
-    Spread = InitialValue();
-    VertexDeltaR = InitialValue();
-    VertexSpread = InitialValue();
-    EnergyFraction = InitialValue();
+//     VertexMass = InitialValue();
+//     MaxDisplacement = InitialValue();
+//     MeanDisplacement = InitialValue();
+//     SumDisplacement = InitialValue();
+//     Multipliticity = int(InitialValue());
+//     Spread = InitialValue();
+//     VertexDeltaR = InitialValue();
+//     VertexSpread = InitialValue();
+//     EnergyFraction = InitialValue();
 
 }
 
-ClassImp(HTopSemiBranch)
+ClassImp(TopSemiBranch)
 
-HTopSemiBranch::HTopSemiBranch()
+TopSemiBranch::TopSemiBranch()
 {
     BottomPt = InitialValue();
     WPt = InitialValue();
@@ -221,15 +217,15 @@ HTopSemiBranch::HTopSemiBranch()
     WBdt = InitialValue();
     BBdt = InitialValue();
 
-    VertexMass = InitialValue();
-    MaxDisplacement = InitialValue();
-    MeanDisplacement = InitialValue();
-    SumDisplacement = InitialValue();
-    Multipliticity = int(InitialValue());
-    Spread = InitialValue();
-    VertexDeltaR = InitialValue();
-    VertexSpread = InitialValue();
-    EnergyFraction = InitialValue();
+//     VertexMass = InitialValue();
+//     MaxDisplacement = InitialValue();
+//     MeanDisplacement = InitialValue();
+//     SumDisplacement = InitialValue();
+//     Multipliticity = int(InitialValue());
+//     Spread = InitialValue();
+//     VertexDeltaR = InitialValue();
+//     VertexSpread = InitialValue();
+//     EnergyFraction = InitialValue();
 
 }
 

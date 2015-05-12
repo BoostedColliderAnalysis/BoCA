@@ -202,7 +202,7 @@ public:
         return 0;
     }
 
-    HDetectorGeometry detector_geometry() const {
+    DetectorGeometry detector_geometry() const {
         return detector_geometry_;
     }
 
@@ -367,7 +367,7 @@ private:
 
     int max_combi_;
 
-    HDetectorGeometry detector_geometry_;
+    DetectorGeometry detector_geometry_;
 
 };
 }

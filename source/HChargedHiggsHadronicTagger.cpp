@@ -87,7 +87,7 @@ std::vector< HChargedHiggsHadronicBranch > hanalysis::HChargedHiggsHadronicTagge
     std::vector<HQuartet31> Quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {
-            if (triplet.Singlet() == Jet) continue;
+            if (triplet.singlet() == Jet) continue;
             if (triplet.doublet().Singlet1() == Jet) continue;
             if (triplet.doublet().Singlet2() == Jet) continue;
             HQuartet31 Quartet(triplet, Jet);
@@ -111,7 +111,7 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsHadronicTagger::GetTag(const HQu
     if (Quartet.triplet().Tag() == kBackground)return kBackground;
 //     if (Quartet.Gettriplet2().Tag() == HBackground)return HBackground;
     // TODO compare with semi leptonic case
-    if (sgn(Quartet.triplet().Singlet().user_index()) == sgn(Quartet.Singlet().user_index())) return kBackground;
+    if (sgn(Quartet.triplet().singlet().user_index()) == sgn(Quartet.singlet().user_index())) return kBackground;
     return kSignal;
 }
 
@@ -122,7 +122,7 @@ std::vector<hanalysis::HQuartet31> hanalysis::HChargedHiggsHadronicTagger::GetBd
     std::vector<hanalysis::HQuartet31> Quartets;
     for (const auto & triplet : triplets)
       for (const auto & Jet : jets)  {
-        if (triplet.Singlet() == Jet) continue;
+        if (triplet.singlet() == Jet) continue;
         if (triplet.doublet().Singlet1() == Jet) continue;
         if (triplet.doublet().Singlet2() == Jet) continue;
             HQuartet31 Quartet(triplet, Jet);

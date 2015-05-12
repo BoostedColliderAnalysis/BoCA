@@ -34,19 +34,20 @@ WSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::Doublet &doublet
 {
     Print(kInformation, "Fill W Tagger", doublet.Bdt());
     WSemiBranch branch;
-    branch.Mass = doublet.Jet().m();
-    branch.Rap = doublet.Jet().rap();
-    branch.Phi = doublet.Jet().phi();
-    branch.Pt = doublet.Jet().pt();
-    branch.Ht = doublet.Ht();
-    branch.NeutrinoPt = doublet.Singlet2().pt();
-    branch.LeptonPt = doublet.Singlet1().pt();
-    branch.DeltaPt = doublet.DeltaPt();
-    branch.DeltaR = doublet.DeltaR();
-    branch.DeltaRap = doublet.DeltaRap();
-    branch.DeltaPhi = doublet.DeltaPhi();
-    branch.Bdt = doublet.Bdt();
-    branch.Tag = doublet.Tag();
+    branch.FillBranch(doublet);
+//     branch.Mass = doublet.Jet().m();
+//     branch.Rap = doublet.Jet().rap();
+//     branch.Phi = doublet.Jet().phi();
+//     branch.Pt = doublet.Jet().pt();
+//     branch.Ht = doublet.Ht();
+//     branch.NeutrinoPt = doublet.Singlet2().pt();
+//     branch.LeptonPt = doublet.Singlet1().pt();
+//     branch.DeltaPt = doublet.DeltaPt();
+//     branch.DeltaR = doublet.DeltaR();
+//     branch.DeltaRap = doublet.DeltaRap();
+//     branch.DeltaPhi = doublet.DeltaPhi();
+//     branch.Bdt = doublet.Bdt();
+//     branch.Tag = doublet.Tag();
     return branch;
 }
 

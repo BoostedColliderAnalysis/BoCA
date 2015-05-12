@@ -92,7 +92,7 @@ HTopHadronBranch HTopHadronTagger::GetBranch(const hanalysis::Triplet &triplet) 
     top_hadron_branch.Pt = triplet.Jet().pt();
     top_hadron_branch.Ht = triplet.Ht();
 
-    top_hadron_branch.BottomPt = triplet.Singlet().pt();
+    top_hadron_branch.BottomPt = triplet.singlet().pt();
     top_hadron_branch.WPt = triplet.doublet_jet().pt();
 
     top_hadron_branch.DeltaPt = triplet.DeltaPt();
@@ -113,13 +113,13 @@ HTopHadronBranch HTopHadronTagger::GetBranch(const hanalysis::Triplet &triplet) 
     if (triplet.sub_jettiness().tau1_beta2 > 0) top_hadron_branch.Tau21_2 = triplet.sub_jettiness().tau21_beta2;
     if (triplet.sub_jettiness().tau2_beta2 > 0) top_hadron_branch.Tau32_2 = triplet.sub_jettiness().tau32_beta2;
 
-    if (triplet.Degenerate()) GetBottomInfo(top_hadron_branch, triplet.Singlet() * 2);
+    if (triplet.Degenerate()) GetBottomInfo(top_hadron_branch, triplet.singlet() * 2);
     else if (triplet.doublet().Degenerate()) GetBottomInfo(top_hadron_branch, triplet.doublet().Singlet1() * 2);
-    else GetBottomInfo(top_hadron_branch, triplet.Singlet());
+    else GetBottomInfo(top_hadron_branch, triplet.singlet());
 
     top_hadron_branch.Bdt = triplet.Bdt();
     if (!triplet.Degenerate())top_hadron_branch.WBdt = triplet.doublet().Bdt();
-    top_hadron_branch.BBdt = triplet.Singlet().user_info<hanalysis::JetInfo>().Bdt();
+    top_hadron_branch.BBdt = triplet.singlet().user_info<hanalysis::JetInfo>().Bdt();
     top_hadron_branch.Tag = triplet.Tag();
 
     top_hadron_branch.LeptonPt = triplet.LeptonPt;
@@ -461,9 +461,9 @@ float HTopHadronTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 
 void HTopHadronTagger::NSubJettiness(hanalysis::Triplet &triplet)
 {
-    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet() * 2));
+    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.singlet() * 2));
     else if (triplet.doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.doublet().Singlet1() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
 }
 
 

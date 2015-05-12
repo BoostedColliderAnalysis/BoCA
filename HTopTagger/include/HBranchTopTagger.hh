@@ -68,7 +68,7 @@ private:
 
 };
 
-class HTopHadronBranch : public HPairBranch
+class HTopHadronBranch : public MultiBranch
 {
 
 public:

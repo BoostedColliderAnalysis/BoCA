@@ -35,15 +35,15 @@ void hanalysis::HTopSemiTagger::DefineVariables()
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaR, "DeltaR");
 
-    AddVariable(branch_.VertexMass, "VertexMass");
-    AddVariable(branch_.MaxDisplacement, "MaxDisplacement");
-    AddVariable(branch_.MeanDisplacement, "MeanDisplacement");
-    AddVariable(branch_.SumDisplacement, "SumDisplacement");
-    AddVariable(branch_.Multipliticity, "Multipliticity");
-    AddVariable(branch_.Spread, "Spread");
-    AddVariable(branch_.VertexDeltaR, "VertexDeltaR");
-    AddVariable(branch_.VertexSpread, "VertexSpread");
-    AddVariable(branch_.EnergyFraction, "EnergyFraction");
+//     AddVariable(branch_.VertexMass, "VertexMass");
+//     AddVariable(branch_.MaxDisplacement, "MaxDisplacement");
+//     AddVariable(branch_.MeanDisplacement, "MeanDisplacement");
+//     AddVariable(branch_.SumDisplacement, "SumDisplacement");
+//     AddVariable(branch_.Multipliticity, "Multipliticity");
+//     AddVariable(branch_.Spread, "Spread");
+//     AddVariable(branch_.VertexDeltaR, "VertexDeltaR");
+//     AddVariable(branch_.VertexSpread, "VertexSpread");
+//     AddVariable(branch_.EnergyFraction, "EnergyFraction");
 
     AddVariable(branch_.WBdt, "WBdt");
     AddVariable(branch_.BBdt, "BBdt");
@@ -54,58 +54,54 @@ void hanalysis::HTopSemiTagger::DefineVariables()
 
 }
 
-HTopSemiBranch hanalysis::HTopSemiTagger::GetBranch(const hanalysis::Triplet &triplet) const
+TopSemiBranch hanalysis::HTopSemiTagger::GetBranch(const hanalysis::Triplet &triplet) const
 {
     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
 
-    HTopSemiBranch branch;
-    branch.Mass = triplet.Jet().m();
-    branch.Rap = triplet.Jet().rap();
-    branch.Phi = triplet.Jet().phi();
-    branch.Pt = triplet.Jet().pt();
-    branch.Ht = triplet.Ht();
-
-    branch.BottomPt = triplet.Singlet().pt();
-    branch.WPt = triplet.doublet_jet().pt();
-
-    branch.DeltaPt = triplet.DeltaPt();
-    branch.DeltaM = triplet.DeltaM();
-    branch.DeltaHt = triplet.DeltaHt();
-    branch.DeltaR = triplet.DeltaR();
-    branch.DeltaRap = triplet.DeltaRap();
-    branch.DeltaPhi = triplet.DeltaPhi();
-
-    GetBottomInfo(branch, triplet.Singlet());
-
-    branch.BBdt = triplet.Singlet().user_info<JetInfo>().Bdt();
-    branch.WBdt = triplet.doublet().Bdt();
-    branch.Bdt = triplet.Bdt();
-    branch.Tag = triplet.Tag();
-
+    TopSemiBranch branch;
+//     branch.Mass = triplet.Jet().m();
+//     branch.Rap = triplet.Jet().rap();
+//     branch.Phi = triplet.Jet().phi();
+//     branch.Pt = triplet.Jet().pt();
+//     branch.Ht = triplet.Ht();//
+//     branch.BottomPt = triplet.singlet().pt();
+//     branch.WPt = triplet.doublet_jet().pt();//
+//     branch.DeltaPt = triplet.DeltaPt();
+//     branch.DeltaM = triplet.DeltaM();
+//     branch.DeltaHt = triplet.DeltaHt();
+//     branch.DeltaR = triplet.DeltaR();
+//     branch.DeltaRap = triplet.DeltaRap();
+//     branch.DeltaPhi = triplet.DeltaPhi();
+//     GetBottomInfo(branch, triplet.singlet());
+//     branch.BBdt = triplet.singlet().user_info<JetInfo>().Bdt();
+//     branch.WBdt = triplet.doublet().Bdt();
+//     branch.Bdt = triplet.Bdt();
+//     branch.Tag = triplet.Tag();
+    branch.FillBranch(triplet);
     return branch;
 }
 
 
 
 
-void hanalysis::HTopSemiTagger::GetBottomInfo(HTopSemiBranch &branch, const fastjet::PseudoJet jet) const
+void hanalysis::HTopSemiTagger::GetBottomInfo(TopSemiBranch &branch, const fastjet::PseudoJet jet) const
 {
-    branch.VertexMass = jet.user_info<hanalysis::JetInfo>().VertexMass();
-    float MaxDisp = jet.user_info<hanalysis::JetInfo>().MaxDisplacement();
-    if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
-    else branch.MaxDisplacement = -3;
-    float MeanDisp = jet.user_info<hanalysis::JetInfo>().MeanDisplacement();
-    if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
-    else branch.MeanDisplacement = -3;
-    float SumDisp = jet.user_info<hanalysis::JetInfo>().SumDisplacement();
-    if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
-    else branch.SumDisplacement = -3;
-    branch.Multipliticity = jet.user_info<hanalysis::JetInfo>().VertexNumber();
-    //     top_hadronic_branch.DeltaR = GetDeltaR(jet);
-    branch.Spread = GetSpread(jet);
-    branch.VertexDeltaR = GetDeltaR(jet.user_info<hanalysis::JetInfo>().VertexJet());
-    branch.VertexSpread = GetSpread(jet.user_info<hanalysis::JetInfo>().VertexJet());
-    branch.EnergyFraction = jet.user_info<hanalysis::JetInfo>().VertexEnergy() / jet.e();
+//     branch.VertexMass = jet.user_info<hanalysis::JetInfo>().VertexMass();
+//     float MaxDisp = jet.user_info<hanalysis::JetInfo>().MaxDisplacement();
+//     if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
+//     else branch.MaxDisplacement = -3;
+//     float MeanDisp = jet.user_info<hanalysis::JetInfo>().MeanDisplacement();
+//     if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
+//     else branch.MeanDisplacement = -3;
+//     float SumDisp = jet.user_info<hanalysis::JetInfo>().SumDisplacement();
+//     if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
+//     else branch.SumDisplacement = -3;
+//     branch.Multipliticity = jet.user_info<hanalysis::JetInfo>().VertexNumber();
+//     //     top_hadronic_branch.DeltaR = GetDeltaR(jet);
+//     branch.Spread = GetSpread(jet);
+//     branch.VertexDeltaR = GetDeltaR(jet.user_info<hanalysis::JetInfo>().VertexJet());
+//     branch.VertexSpread = GetSpread(jet.user_info<hanalysis::JetInfo>().VertexJet());
+//     branch.EnergyFraction = jet.user_info<hanalysis::JetInfo>().VertexEnergy() / jet.e();
 }
 
 
@@ -161,7 +157,7 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::
         }
     }
 
-    std::vector<HTopSemiBranch> TopSemiBranches;
+    std::vector<TopSemiBranch> top_semi_branches;
     int SemiLeptonicTopNumber = 1; // Must be 1 for the analysis!!;
     if (tag == kSignal &&
             triplets.size() > SemiLeptonicTopNumber) {

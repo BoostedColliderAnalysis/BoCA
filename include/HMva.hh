@@ -179,7 +179,7 @@ public:
         return 0;
     }
 
-    HDetectorGeometry DetectorGeometry;
+    DetectorGeometry detector_geometry;
 
 protected:
 

@@ -20,14 +20,14 @@ public:
 
     Triplet triplet() const;
 
-    fastjet::PseudoJet Singlet() const;
+    fastjet::PseudoJet singlet() const;
 
     inline fastjet::PseudoJet tripletJet()const{
       return triplet().Jet();
     }
 
     inline fastjet::PseudoJet Jet() const {
-        return (triplet().Jet() + Singlet());
+        return (triplet().Jet() + singlet());
     }
 
     inline float MassDifferenceTo(const HParticleId ParticleId) const {
@@ -35,30 +35,30 @@ public:
     }
 
     inline float Ht() const {
-      return (triplet().Ht() + Singlet().pt());
+      return (triplet().Ht() + singlet().pt());
     }
 
     inline float DeltaPt() const {
-      return (triplet().Jet().pt() - Singlet().pt());
+      return (triplet().Jet().pt() - singlet().pt());
     }
 
     inline float DeltaHt() const {
-      return (triplet().Ht() - Singlet().pt());
+      return (triplet().Ht() - singlet().pt());
     }
 
     inline float DeltaR() const {
-        return triplet().Jet().delta_R(Singlet());
+        return triplet().Jet().delta_R(singlet());
     }
     inline float DeltaRap() const {
-        return (triplet().Jet().rap() - Singlet().rap());
+        return (triplet().Jet().rap() - singlet().rap());
     }
 
     inline float DeltaPhi() const {
-        return triplet().Jet().delta_phi_to(Singlet());
+        return triplet().Jet().delta_phi_to(singlet());
     }
 
     inline float DeltaM() const {
-      return (triplet().Jet().m() - Singlet().m());
+      return (triplet().Jet().m() - singlet().m());
     }
 
 protected:

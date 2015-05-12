@@ -40,23 +40,26 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
             clones_arrays.GetBranches(tree_reader);
 //             ExRootProgressBar progress_bar(EventSum(tree_reader));
 //             Print(kInformation, "Sum", EventSum(tree_reader));
-            ObjectNumber = 0;
+            object_number_ = 0;
+            float pre_cut_number = 0;
             HInfoBranch info_branch = FillInfoBranch(tree_reader, file);
             for (const int event_number : Range(EventSum(tree_reader))) {
 //                 Print(kError, "Event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.mass());
-                int Objects = Analysis(event, stage, tag);
-                if (Objects > 0) {
-                  ObjectNumber += Objects;
+                if(!PassPreCut()) continue;
+                ++pre_cut_number;
+                int objects = Analysis(event, stage, tag);
+                if (objects > 0) {
+                  object_number_ += objects;
                     info_branch.PreCutNumber = event_number;
                     analysis_not_empty = true;
                     static_cast<HInfoBranch &>(*tree_branch.NewEntry()) = info_branch;
                     tree_writer.Fill();
                 }
                 tree_writer.Clear();
-                if (ObjectNumber >= EventNumberMax()) break;
+                if (object_number_ >= EventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
             Print(kError, "All Events analysed", info_branch.EventNumber);

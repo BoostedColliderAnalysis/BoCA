@@ -86,11 +86,11 @@ public:
     }
 
     inline float BottomBdt() const {
-      return Quartet1().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet1().triplet().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().Singlet().user_info<hanalysis::JetInfo>().Bdt();
+      return Quartet1().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet1().triplet().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<hanalysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-      return Quartet2().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().Singlet().user_info<hanalysis::JetInfo>().Bdt();
+      return Quartet2().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<hanalysis::JetInfo>().Bdt();
     }
 
 //     inline float GetDeltaPt1() const {

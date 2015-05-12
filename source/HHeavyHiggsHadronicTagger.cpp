@@ -120,13 +120,13 @@ std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::Ge
     std::vector<HSextet> Sextets;
     for (const auto & triplet1 : triplets)
         for (const auto & triplet2 : triplets) {
-            if (triplet1.Singlet() == triplet2.Singlet()) continue;
-            if (triplet1.Singlet() == triplet2.doublet().Singlet1()) continue;
-            if (triplet1.Singlet() == triplet2.doublet().Singlet2()) continue;
-            if (triplet1.doublet().Singlet1() == triplet2.Singlet()) continue;
+            if (triplet1.singlet() == triplet2.singlet()) continue;
+            if (triplet1.singlet() == triplet2.doublet().Singlet1()) continue;
+            if (triplet1.singlet() == triplet2.doublet().Singlet2()) continue;
+            if (triplet1.doublet().Singlet1() == triplet2.singlet()) continue;
             if (triplet1.doublet().Singlet1() == triplet2.doublet().Singlet1()) continue;
             if (triplet1.doublet().Singlet1() == triplet2.doublet().Singlet2()) continue;
-            if (triplet1.doublet().Singlet2() == triplet2.Singlet()) continue;
+            if (triplet1.doublet().Singlet2() == triplet2.singlet()) continue;
             if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet1()) continue;
             if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet2()) continue;
             HSextet Sextet(triplet1, triplet2);
@@ -147,7 +147,7 @@ hanalysis::HObject::Tag hanalysis::HHeavyHiggsHadronicTagger::GetTag(const HSext
 
     if (Sextet.triplet1().Tag() == kBackground)return kBackground;
     if (Sextet.triplet2().Tag() == kBackground)return kBackground;
-    if (sgn(Sextet.triplet1().Singlet().user_index()) == sgn(Sextet.triplet2().Singlet().user_index())) return kBackground;
+    if (sgn(Sextet.triplet1().singlet().user_index()) == sgn(Sextet.triplet2().singlet().user_index())) return kBackground;
     return kSignal;
 }
 
@@ -158,13 +158,13 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsHadronicTagger::GetBdt(std
     std::vector<hanalysis::HSextet> Sextets;
     for (const auto & triplet1 : triplets)
       for (const auto & triplet2 : triplets) {
-        if (triplet1.Singlet() == triplet2.Singlet()) continue;
-        if (triplet1.Singlet() == triplet2.doublet().Singlet1()) continue;
-        if (triplet1.Singlet() == triplet2.doublet().Singlet2()) continue;
-        if (triplet1.doublet().Singlet1() == triplet2.Singlet()) continue;
+        if (triplet1.singlet() == triplet2.singlet()) continue;
+        if (triplet1.singlet() == triplet2.doublet().Singlet1()) continue;
+        if (triplet1.singlet() == triplet2.doublet().Singlet2()) continue;
+        if (triplet1.doublet().Singlet1() == triplet2.singlet()) continue;
         if (triplet1.doublet().Singlet1() == triplet2.doublet().Singlet1()) continue;
         if (triplet1.doublet().Singlet1() == triplet2.doublet().Singlet2()) continue;
-        if (triplet1.doublet().Singlet2() == triplet2.Singlet()) continue;
+        if (triplet1.doublet().Singlet2() == triplet2.singlet()) continue;
         if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet1()) continue;
         if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet2()) continue;
             HSextet Sextet(triplet1, triplet2);

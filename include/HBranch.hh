@@ -214,12 +214,12 @@ private:
 };
 
 
-class HPairBranch : public ParticleBranch
+class PairBranch : public ParticleBranch
 {
 
 public:
 
-    HPairBranch();
+    PairBranch();
 
     float Ht;
     float DeltaPt;
@@ -234,7 +234,7 @@ public:
 
 private:
 
-    ClassDef(HPairBranch, 1)
+    ClassDef(PairBranch, 1)
 
 };
 
@@ -243,16 +243,16 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HWBranch : public HPairBranch
+class WHadronicBranch : public PairBranch
 {
 
 public:
 
-    HWBranch();
+    WHadronicBranch();
 
 private:
 
-    ClassDef(HWBranch, 1)
+    ClassDef(WHadronicBranch, 1)
 
 };
 
@@ -261,7 +261,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HEventJetPairBranch : public HPairBranch
+class HEventJetPairBranch : public PairBranch
 {
 
 public:
@@ -304,7 +304,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HChargedJetPairBranch : public HPairBranch
+class HChargedJetPairBranch : public PairBranch
 {
 
 public:
@@ -336,7 +336,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class WSemiBranch : public HPairBranch
+class WSemiBranch : public PairBranch
 {
 
 public:
@@ -357,7 +357,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HHeavyHiggsTauBranch : public HPairBranch
+class HHeavyHiggsTauBranch : public PairBranch
 {
 
 public:
@@ -378,7 +378,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TopHadronicBranch : public HPairBranch
+class TopHadronicBranch : public PairBranch
 {
 
 public:
@@ -424,7 +424,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopLeptonicBranch : public HPairBranch
+class HTopLeptonicBranch : public PairBranch
 {
 
 public:
@@ -443,12 +443,12 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopSemiBranch : public HPairBranch
+class TopSemiBranch : public PairBranch
 {
 
 public:
 
-    HTopSemiBranch();
+    TopSemiBranch();
     float BottomPt;
     float WPt;
 
@@ -467,7 +467,7 @@ public:
 
 private:
 
-    ClassDef(HTopSemiBranch, 1)
+    ClassDef(TopSemiBranch, 1)
 
 };
 
@@ -511,7 +511,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsLeptonicBranch : public HPairBranch
+class HHeavyHiggsLeptonicBranch : public PairBranch
 {
 
 public:
@@ -575,7 +575,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsSemiBranch : public HPairBranch
+class HHeavyHiggsSemiBranch : public PairBranch
 {
 
 public:
@@ -593,7 +593,7 @@ private:
  * @brief Charged Higgs semi tagger root tree structure
  *
  */
-class HChargedHiggsSemiBranch : public HPairBranch
+class HChargedHiggsSemiBranch : public PairBranch
 {
 
 public:
@@ -718,7 +718,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopLeptonBranch : public HPairBranch
+class HTopLeptonBranch : public PairBranch
 {
 
 public:

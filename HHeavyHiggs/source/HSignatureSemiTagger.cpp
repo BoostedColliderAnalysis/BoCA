@@ -158,10 +158,10 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
         for (const auto & Sextet : Sextets) {
             if (Tag == kSignal && Sextet.Jet().m() < Mass / 2)continue;
             if (Tag == kSignal && Sextet.Jet().m() > Mass * 3 / 2)continue;
-            if (Sextet.triplet1().Singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Sextet.triplet1().Singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (Sextet.triplet2().Singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Sextet.triplet2().Singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet1().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet2().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet2().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (Sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (Sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (Sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
@@ -203,10 +203,10 @@ std::vector<HOctet> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector<
     std::vector<HOctet> Octets;
     for (const auto & doublet : doublets) {
         for (const auto & Sextet : Sextets) {
-            if (Sextet.triplet1().Singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Sextet.triplet1().Singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (Sextet.triplet2().Singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Sextet.triplet2().Singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet1().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet2().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Sextet.triplet2().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (Sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (Sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (Sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;

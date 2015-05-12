@@ -1,6 +1,7 @@
 # include "TSystem.h"
 # include "HAnalysisBTagger.hh"
 # include "BottomTaggerSimple.hh"
+# include "BottomTagger.hh"
 # include "Factory.hh"
 
 void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
@@ -36,7 +37,8 @@ int main(const int argc, const char **argv)
 {
     const std::vector<std::string> Arguments(argv, argv + argc);
     for (const auto & Argument : Arguments) std::cout << Argument << std::endl;
-    hbtagger::BottomTaggerSimple bottom_tagger;
+//     hbtagger::BottomTaggerSimple bottom_tagger;
+    hanalysis::BottomTagger bottom_tagger;
     RunTagger(bottom_tagger, hanalysis::Tagger::kTrainer);
     RunFactory(bottom_tagger);
     RunTagger(bottom_tagger, hanalysis::Tagger::kReader);

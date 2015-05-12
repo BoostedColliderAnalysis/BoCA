@@ -14,7 +14,7 @@
  */
 
 
-HDetectorGeometry::HDetectorGeometry()
+DetectorGeometry::DetectorGeometry()
 {
 
 // HDetectorType DetectorType = Spp;

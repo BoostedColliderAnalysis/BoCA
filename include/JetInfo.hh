@@ -10,12 +10,12 @@
 
 # include "fastjet/JetDefinition.hh"
 
-class HDetectorGeometry
+class DetectorGeometry
 {
 public:
     enum HDetectorType {CMS, Spp};
 
-    HDetectorGeometry();
+    DetectorGeometry();
     float JetMinPt;
     float JetConeSize;
     float MinCellPt;
@@ -238,9 +238,9 @@ protected:
 
 private:
 
-    HDetectorGeometry detector_geometry_;
+    DetectorGeometry detector_geometry_;
 
-    HDetectorGeometry detector_geometry()const {
+    DetectorGeometry detector_geometry()const {
         return detector_geometry_;
     }
 

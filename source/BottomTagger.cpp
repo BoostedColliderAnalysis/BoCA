@@ -2,6 +2,7 @@
 
 # include "Reader.hh"
 # include "HEvent.hh"
+# include "Singlet.hh"
 
 hanalysis::BottomTagger::BottomTagger()
 {
@@ -37,32 +38,7 @@ BottomBranch hanalysis::BottomTagger::GetBranch(const fastjet::PseudoJet &jet) c
 {
     Print(kInformation, "Fill Branch");
     BottomBranch branch;
-    if (!jet.has_user_info<JetInfo>()) {
-        Print(kError, "BJet without user info");
-        return branch;
-    }
-    branch.VertexMass = jet.user_info<JetInfo>().VertexMass();
-    branch.Mass = jet.m();
-    branch.Pt = jet.pt();
-    branch.Rap = jet.rap();
-    branch.Phi = jet.phi();
-    float MaxDisp = jet.user_info<JetInfo>().MaxDisplacement();
-    if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
-    else branch.MaxDisplacement = -3;
-    float MeanDisp = jet.user_info<JetInfo>().MeanDisplacement();
-    if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
-    else branch.MeanDisplacement = -3;
-    float SumDisp = jet.user_info<JetInfo>().SumDisplacement();
-    if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
-    else branch.SumDisplacement = -3;
-    branch.Multipliticity = jet.user_info<JetInfo>().VertexNumber();
-    branch.DeltaR = GetDeltaR(jet);
-    branch.Spread = GetSpread(jet);
-    branch.VertexDeltaR = GetDeltaR(jet.user_info<JetInfo>().VertexJet());
-    branch.VertexSpread = GetSpread(jet.user_info<JetInfo>().VertexJet());
-    branch.EnergyFraction = jet.user_info<JetInfo>().VertexEnergy() / jet.e();
-    branch.Tag = jet.user_info<JetInfo>().Tag();
-    branch.Bdt = jet.user_info<JetInfo>().Bdt();
+    branch.FillBranch(Singlet(jet));
     return branch;
 }
 

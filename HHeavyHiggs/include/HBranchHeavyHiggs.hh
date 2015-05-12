@@ -194,7 +194,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventSemiBranch : public HPairBranch
+class hheavyhiggs::HEventSemiBranch : public MultiBranch
 {
 
 public:
@@ -266,7 +266,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventTtSemiBranch : public HPairBranch
+class hheavyhiggs::HEventTtSemiBranch : public MultiBranch
 {
 
 public:
@@ -335,7 +335,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HOctetBranch : public HPairBranch
+class hheavyhiggs::HOctetBranch : public MultiBranch
 {
 
 public:
@@ -362,7 +362,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedOctetBranch : public HPairBranch
+class hheavyhiggs::HChargedOctetBranch : public MultiBranch
 {
 
 public:
@@ -387,7 +387,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedSemiBranch : public HPairBranch
+class hheavyhiggs::HChargedSemiBranch : public MultiBranch
 {
 
 public:

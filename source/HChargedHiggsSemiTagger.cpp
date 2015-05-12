@@ -133,7 +133,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
 
     for (const auto & triplet : Finaltriplets)
         for (const auto & Jet : BottomJets) {
-            if (triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             HQuartet31 Quartet(triplet, Jet);
             if (Tag == kSignal && Quartet.Jet().m() < Mass / 2)continue;
             if (Tag == kSignal && Quartet.Jet().m() > Mass * 3 / 2)continue;
@@ -172,7 +172,7 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(c
     std::vector<HQuartet31> Quartets;
     for (const auto & triplet : triplets)
       for (const auto & Jet : Siglets) {
-        if (triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+        if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             HQuartet31 Quartet(triplet, Jet);
             Branch = GetBranch(Quartet);
             Quartet.SetBdt(Reader.Bdt());

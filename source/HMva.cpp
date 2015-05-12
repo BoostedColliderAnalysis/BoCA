@@ -57,7 +57,7 @@ char HObservable::type() const
  *
  */
 
-hanalysis::HMva::HMva() : DetectorGeometry()
+hanalysis::HMva::HMva() : detector_geometry()
 {
 
 //   DebugLevel = kNotification;
@@ -94,9 +94,9 @@ HObservable hanalysis::HMva::NewObservable(float &value, const std::string &titl
 Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
-    const float CellDeltaRap = DetectorGeometry.MinCellResolution;
-    const float CellDeltaPhi = DetectorGeometry.MinCellResolution;
-    const float PtCutOff = DetectorGeometry.MinCellPt;
+    const float CellDeltaRap = detector_geometry.MinCellResolution;
+    const float CellDeltaPhi = detector_geometry.MinCellResolution;
+    const float PtCutOff = detector_geometry.MinCellPt;
 
 
     Jets EFlowJets = sorted_by_pt(NewEFlowJets);
@@ -168,9 +168,9 @@ Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
 
 Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
 {
-//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, DetectorGeometry.JetConeSize));
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), DetectorGeometry.JetDefinition);
-    Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(DetectorGeometry.JetMinPt));
+//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry.JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), detector_geometry.JetDefinition);
+    Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry.JetMinPt));
     if (jets.size() < 1) {
         delete ClusterSequence;
         return jets;
@@ -199,8 +199,8 @@ Jets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJet
         Print(kError, "Get Sub Jets", "No Jet Info");
         return Pieces;
     }
-//     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry.JetConeSize));
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), DetectorGeometry.SubJetDefinition);
+//     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, detector_geometry.JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), detector_geometry.SubJetDefinition);
     Jets NewPieces = ClusterSequence->exclusive_jets_up_to(SubJetNumber);
     ClusterSequence->delete_self_when_unused();
 

@@ -1,13 +1,7 @@
 # include "HTopHadronicTagger.hh"
 
-#include "fastjet/AreaDefinition.hh"
 #include "fastjet/contrib/Nsubjettiness.hh"
-#include "fastjet/contrib/Njettiness.hh"
-#include "fastjet/contrib/NjettinessPlugin.hh"
 #include "fastjet/contrib/NjettinessDefinition.hh"
-#include "fastjet/SharedPtr.hh"
-#include "fastjet/ClusterSequenceArea.hh"
-#include "fastjet/contrib/MeasureFunction.hh"
 
 hanalysis::HTopHadronicTagger::HTopHadronicTagger()
 {
@@ -58,15 +52,15 @@ void hanalysis::HTopHadronicTagger::DefineVariables()
     AddVariable(branch_.Tau32_2, "Tau32_2");
 
 
-    AddVariable(branch_.VertexMass, "VertexMass");
-    AddVariable(branch_.MaxDisplacement, "MaxDisplacement");
-    AddVariable(branch_.MeanDisplacement, "MeanDisplacement");
-    AddVariable(branch_.SumDisplacement, "SumDisplacement");
-    AddVariable(branch_.Multipliticity, "Multipliticity");
-    AddVariable(branch_.Spread, "Spread");
-    AddVariable(branch_.VertexDeltaR, "VertexDeltaR");
-    AddVariable(branch_.VertexSpread, "VertexSpread");
-    AddVariable(branch_.EnergyFraction, "EnergyFraction");
+//     AddVariable(branch_.VertexMass, "VertexMass");
+//     AddVariable(branch_.MaxDisplacement, "MaxDisplacement");
+//     AddVariable(branch_.MeanDisplacement, "MeanDisplacement");
+//     AddVariable(branch_.SumDisplacement, "SumDisplacement");
+//     AddVariable(branch_.Multipliticity, "Multipliticity");
+//     AddVariable(branch_.Spread, "Spread");
+//     AddVariable(branch_.VertexDeltaR, "VertexDeltaR");
+//     AddVariable(branch_.VertexSpread, "VertexSpread");
+//     AddVariable(branch_.EnergyFraction, "EnergyFraction");
 
 
     if (!boost_) {
@@ -82,64 +76,65 @@ TopHadronicBranch hanalysis::HTopHadronicTagger::GetBranch(const hanalysis::Trip
     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
 
     TopHadronicBranch branch;
+    branch.FillBranch(triplet);
 
-    branch.Mass = triplet.Jet().m();
-    branch.Rap = triplet.Jet().rap();
-    branch.Phi = triplet.Jet().phi();
-    branch.Pt = triplet.Jet().pt();
-    branch.Ht = triplet.Ht();
-
-    branch.BottomPt = triplet.Singlet().pt();
-    branch.WPt = triplet.doublet_jet().pt();
-
-    branch.DeltaPt = triplet.DeltaPt();
-    branch.DeltaHt = triplet.DeltaHt();
-    branch.DeltaM = triplet.DeltaM();
-    branch.DeltaR = triplet.DeltaR();
-    branch.DeltaRap = triplet.DeltaRap();
-    branch.DeltaPhi = triplet.DeltaPhi();
-
-    branch.Tau1_1 = triplet.sub_jettiness().tau1_beta1;
-    branch.Tau2_1 = triplet.sub_jettiness().tau2_beta1;
-    branch.Tau3_1 = triplet.sub_jettiness().tau3_beta1;
-    if (triplet.sub_jettiness().tau1_beta1 > 0) branch.Tau21_1 = triplet.sub_jettiness().tau21_beta1;
-    if (triplet.sub_jettiness().tau2_beta1 > 0) branch.Tau32_1 = triplet.sub_jettiness().tau32_beta1;
-    branch.Tau1_2 = triplet.sub_jettiness().tau1_beta2;
-    branch.Tau2_2 = triplet.sub_jettiness().tau2_beta2;
-    branch.Tau3_2 = triplet.sub_jettiness().tau3_beta2;
-    if (triplet.sub_jettiness().tau1_beta2 > 0) branch.Tau21_2 = triplet.sub_jettiness().tau21_beta2;
-    if (triplet.sub_jettiness().tau2_beta2 > 0) branch.Tau32_2 = triplet.sub_jettiness().tau32_beta2;
-
-    if (triplet.Degenerate()) GetBottomInfo(branch, triplet.Singlet() * 2);
-    else if (triplet.doublet().Degenerate()) GetBottomInfo(branch, triplet.doublet().Singlet1() * 2);
-    else GetBottomInfo(branch, triplet.Singlet());
-
-    branch.Bdt = triplet.Bdt();
-    if (!triplet.Degenerate())branch.WBdt = triplet.doublet().Bdt();
-    branch.BBdt = triplet.Singlet().user_info<JetInfo>().Bdt();
-    branch.Tag = triplet.Tag();
+//     branch.Mass = triplet.Jet().m();
+//     branch.Rap = triplet.Jet().rap();
+//     branch.Phi = triplet.Jet().phi();
+//     branch.Pt = triplet.Jet().pt();
+//     branch.Ht = triplet.Ht();
+//
+//     branch.BottomPt = triplet.singlet().pt();
+//     branch.WPt = triplet.doublet_jet().pt();
+//
+//     branch.DeltaPt = triplet.DeltaPt();
+//     branch.DeltaHt = triplet.DeltaHt();
+//     branch.DeltaM = triplet.DeltaM();
+//     branch.DeltaR = triplet.DeltaR();
+//     branch.DeltaRap = triplet.DeltaRap();
+//     branch.DeltaPhi = triplet.DeltaPhi();
+//
+//     branch.Tau1_1 = triplet.sub_jettiness().tau1_beta1;
+//     branch.Tau2_1 = triplet.sub_jettiness().tau2_beta1;
+//     branch.Tau3_1 = triplet.sub_jettiness().tau3_beta1;
+//     if (triplet.sub_jettiness().tau1_beta1 > 0) branch.Tau21_1 = triplet.sub_jettiness().tau21_beta1;
+//     if (triplet.sub_jettiness().tau2_beta1 > 0) branch.Tau32_1 = triplet.sub_jettiness().tau32_beta1;
+//     branch.Tau1_2 = triplet.sub_jettiness().tau1_beta2;
+//     branch.Tau2_2 = triplet.sub_jettiness().tau2_beta2;
+//     branch.Tau3_2 = triplet.sub_jettiness().tau3_beta2;
+//     if (triplet.sub_jettiness().tau1_beta2 > 0) branch.Tau21_2 = triplet.sub_jettiness().tau21_beta2;
+//     if (triplet.sub_jettiness().tau2_beta2 > 0) branch.Tau32_2 = triplet.sub_jettiness().tau32_beta2;
+//
+//     if (triplet.Degenerate()) GetBottomInfo(branch, triplet.singlet() * 2);
+//     else if (triplet.doublet().Degenerate()) GetBottomInfo(branch, triplet.doublet().Singlet1() * 2);
+//     else GetBottomInfo(branch, triplet.singlet());
+//
+//     branch.Bdt = triplet.Bdt();
+//     if (!triplet.Degenerate())branch.WBdt = triplet.doublet().Bdt();
+//     branch.BBdt = triplet.singlet().user_info<JetInfo>().Bdt();
+//     branch.Tag = triplet.Tag();
     return branch;
 }
 
 void hanalysis::HTopHadronicTagger::GetBottomInfo(TopHadronicBranch &branch, const fastjet::PseudoJet jet) const
 {
 
-    branch.VertexMass = jet.user_info<hanalysis::JetInfo>().VertexMass();
-    float MaxDisp = jet.user_info<hanalysis::JetInfo>().MaxDisplacement();
-    if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
-    else branch.MaxDisplacement = -3;
-    float MeanDisp = jet.user_info<hanalysis::JetInfo>().MeanDisplacement();
-    if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
-    else branch.MeanDisplacement = -3;
-    float SumDisp = jet.user_info<hanalysis::JetInfo>().SumDisplacement();
-    if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
-    else branch.SumDisplacement = -3;
-    branch.Multipliticity = jet.user_info<hanalysis::JetInfo>().VertexNumber();
-    //     top_hadronic_branch.DeltaR = bottom_tagger_.GetDeltaR(jet);
-    branch.Spread = bottom_tagger_.GetSpread(jet);
-    branch.VertexDeltaR = bottom_tagger_.GetDeltaR(jet.user_info<hanalysis::JetInfo>().VertexJet());
-    branch.VertexSpread = bottom_tagger_.GetSpread(jet.user_info<hanalysis::JetInfo>().VertexJet());
-    branch.EnergyFraction = jet.user_info<hanalysis::JetInfo>().VertexEnergy() / jet.e();
+//     branch.VertexMass = jet.user_info<hanalysis::JetInfo>().VertexMass();
+//     float MaxDisp = jet.user_info<hanalysis::JetInfo>().MaxDisplacement();
+//     if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
+//     else branch.MaxDisplacement = -3;
+//     float MeanDisp = jet.user_info<hanalysis::JetInfo>().MeanDisplacement();
+//     if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
+//     else branch.MeanDisplacement = -3;
+//     float SumDisp = jet.user_info<hanalysis::JetInfo>().SumDisplacement();
+//     if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
+//     else branch.SumDisplacement = -3;
+//     branch.Multipliticity = jet.user_info<hanalysis::JetInfo>().VertexNumber();
+//     //     top_hadronic_branch.DeltaR = bottom_tagger_.GetDeltaR(jet);
+//     branch.Spread = bottom_tagger_.GetSpread(jet);
+//     branch.VertexDeltaR = bottom_tagger_.GetDeltaR(jet.user_info<hanalysis::JetInfo>().VertexJet());
+//     branch.VertexSpread = bottom_tagger_.GetSpread(jet.user_info<hanalysis::JetInfo>().VertexJet());
+//     branch.EnergyFraction = jet.user_info<hanalysis::JetInfo>().VertexEnergy() / jet.e();
 }
 
 
@@ -433,9 +428,9 @@ std::vector<hanalysis::Triplet> hanalysis::HTopHadronicTagger::GetTriplets(HEven
 
 void hanalysis::HTopHadronicTagger::NSubJettiness(Triplet &triplet)
 {
-    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet() * 2));
+    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.singlet() * 2));
     else if (triplet.doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.doublet().Singlet1() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
 }
 
 

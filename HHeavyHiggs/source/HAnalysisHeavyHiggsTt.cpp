@@ -451,10 +451,10 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWSemiBranch::Class());
 //         break;
 //     case HWHadronicTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), WHadronicBranch::Class());
 //         break;
 //     case HWHadronicReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), WHadronicBranch::Class());
 //         break;
 //     case HTopLeptonicTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
@@ -466,13 +466,13 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopHadronicBranch::Class());
 //         break;
 //     case HTopSemiTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopSemiBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopSemiBranch::Class());
 //         break;
 //     case HTopHadronicReader :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopHadronicBranch::Class());
 //         break;
 //     case HTopSemiReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopSemiBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopSemiBranch::Class());
 //         break;
 //     case HHeavyHiggsLeptonicTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
@@ -515,7 +515,7 @@ int hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &event, const hanalysis
 
     Print(kInformation, "Analysis");
 
-    if (ObjectNumber > EventNumberMax()) return 0;
+    if (object_number_ > EventNumberMax()) return 0;
 
     Jets Particles = event.GetParticles()->Generator();
     Particles = RemoveIfWrongAbsParticle(Particles, TopId);
@@ -667,11 +667,11 @@ int hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &event, const hanalysis
 // bool hheavyhiggs::HAnalysisTt::GetWTag(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(kDebug, "Get W Tag", Tag);
-//     std::vector<HWBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
+//     std::vector<WHadronicBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
 //     if (Ws.empty()) return 0;
 //     for (const auto & W : Ws) {
 //         ++ObjectNumber;
-//         *static_cast<HWBranch *>(Branch->NewEntry()) = W;
+//         *static_cast<WHadronicBranch *>(Branch->NewEntry()) = W;
 //     }
 //     return 1;
 // }
@@ -695,7 +695,7 @@ int hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &event, const hanalysis
 //
 //     for (const auto & doublet : doublets) {
 //         ++ObjectNumber;
-//         *static_cast<HWBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(doublet);
+//         *static_cast<WHadronicBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(doublet);
 //     }
 //     return 1;
 // }
@@ -744,10 +744,10 @@ int hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &event, const hanalysis
 // bool hheavyhiggs::HAnalysisTt::GetTopSemiTag(hanalysis::HEvent &Event,  Tag Tag)
 // {
 //     Print(kInformation, "Get Tops", Tag);
-//     std::vector<HTopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag);
+//     std::vector<TopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag);
 //     if (Tops.empty()) return 0;
 //     for (const auto & Top : Tops) {
-//       *static_cast<HTopSemiBranch *>(Branch->NewEntry()) = Top;
+//       *static_cast<TopSemiBranch *>(Branch->NewEntry()) = Top;
 //       ++ObjectNumber;
 //     }
 //     return 1;
@@ -772,7 +772,7 @@ int hheavyhiggs::HAnalysisTt::Analysis(hanalysis::HEvent &event, const hanalysis
 //
 //     for (const auto & triplet : triplets) {
 //         ++ObjectNumber;
-//         *static_cast<HTopSemiBranch *>(Branch->NewEntry()) = TopSemiTagger.GetBranch(triplet);
+//         *static_cast<TopSemiBranch *>(Branch->NewEntry()) = TopSemiTagger.GetBranch(triplet);
 //     }
 //     return 1;
 // }

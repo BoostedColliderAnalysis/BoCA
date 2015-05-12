@@ -17,7 +17,7 @@ public:
 
     int Train(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< HWBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag) {
+    std::vector< WHadronicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag) {
         Print(kError, "train", "depreciated");
     }
 
@@ -53,19 +53,19 @@ public:
 
     Reader bottom_reader_;
 
-    HWBranch GetBranch(const Doublet &doublet) const;
+    WHadronicBranch GetBranch(const Doublet &doublet) const;
 
     int GetWHadId(hanalysis::HEvent &Event) {
         return GetWHadId(GetWDaughters(Event));
     };
 
     int SaveEntries(const std::vector<Doublet> &doublets) {
-        for (const auto & doublet : doublets) static_cast<HWBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
+        for (const auto & doublet : doublets) static_cast<WHadronicBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
         return doublets.size();
     }
 
     TClass &Class() const {
-        return *HWBranch::Class();
+        return *WHadronicBranch::Class();
     }
 
 
@@ -83,7 +83,7 @@ private:
 
     void DefineVariables();
 
-    HWBranch branch_;
+    WHadronicBranch branch_;
 
     float w_mass_window_;
 };

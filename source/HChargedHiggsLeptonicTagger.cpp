@@ -147,7 +147,7 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const Tri
     if (triplet.doublet().Tag() == kBackground) return kBackground;
 //     if (Quartet.Getdoublet2().Tag() == HBackground) return HBackground;
     // TODO check the following
-    if (triplet.doublet().Singlet1().user_index() != -triplet.Singlet().user_index()) return kBackground;
+    if (triplet.doublet().Singlet1().user_index() != -triplet.singlet().user_index()) return kBackground;
     return kSignal;
 }
 

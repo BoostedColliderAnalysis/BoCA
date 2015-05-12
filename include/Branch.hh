@@ -10,22 +10,17 @@
  */
 class Branch : public TObject
 {
-
 public:
     Branch();
     virtual ~Branch();
-
 protected:
-
     float InitialValue() {
         return -11.1111111; // should be non integer
         // this must be identical to the initial value in htag
         // FIXME remove the copy of the magic number
     }
-
 private:
     ClassDef(Branch, 1)
-
 };
 
 /**
@@ -34,21 +29,15 @@ private:
  */
 class HInfoBranch : public Branch
 {
-
 public:
-
+    HInfoBranch();
     float Crosssection;
     float CrosssectionError;
     float Mass;
     float EventNumber;
     float PreCutNumber;
-
-    HInfoBranch();
-
 private:
-
     ClassDef(HInfoBranch, 1)
-
 };
 
 /**
@@ -57,31 +46,22 @@ private:
  */
 class HEventBranch : public Branch
 {
-
 public:
-
     float ScalarPtSum;
     HEventBranch();
-
 private:
     ClassDef(HEventBranch, 1)
-
 };
 
 
 class HResultBranch : public Branch
 {
 public:
-
     HResultBranch();
-
     float Bdt;
     float Tag;
-
 private:
-
     ClassDef(HResultBranch, 1)
-
 };
 
 /**
@@ -91,28 +71,20 @@ private:
 class ParticleBranch : public Branch
 {
 public:
-
     ParticleBranch();
-
     float Mass;
     float Pt;
     float Rap;
     float Phi;
-
-protected:
-
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-        Mass = multiplet.Mass();
-        Pt = multiplet.Pt();
-        Rap = multiplet.Rap();
-        Phi = multiplet.Phi();
+        Mass = multiplet.Jet().m();
+        Pt = multiplet.Jet().pt();
+        Rap = multiplet.Jet().rap();
+        Phi = multiplet.Jet().phi_std();
     }
-
 private:
-
     ClassDef(ParticleBranch, 1)
-
 };
 
 
@@ -142,7 +114,7 @@ public:
     float Tag;
     float Bdt;
 
-protected:
+// protected:
 
   template<typename Multiplet>
   void FillBranch(const Multiplet &multiplet) {
@@ -150,17 +122,15 @@ protected:
     VertexMass = multiplet.VertexMass();
     MaxDisplacement = multiplet.MaxDisplacement();
     MeanDisplacement = multiplet.MeanDisplacement();
-    Phi = multiplet.Phi();
-
     VertexMass = multiplet.VertexMass();
     MaxDisplacement = multiplet.MaxDisplacement();
     MeanDisplacement = multiplet.MeanDisplacement();
     SumDisplacement = multiplet.SumDisplacement();
-    Multipliticity = multiplet.VertexNumber();
-    DeltaR = multiplet.GetDeltaR();
-    Spread = multiplet.GetSpread();
-    VertexDeltaR = multiplet.GetDeltaR();
-    VertexSpread = multiplet. GetSpread();
+    Multipliticity = multiplet.Multiplicity();
+    DeltaR = multiplet.VertexDeltaR();
+    Spread = multiplet.VertexSpread();
+    VertexDeltaR = multiplet.VertexDeltaR();
+    VertexSpread = multiplet.VertexSpread();
     EnergyFraction = multiplet.EnergyFraction();
     Tag = multiplet.Tag();
     Bdt = multiplet.Bdt();
@@ -206,45 +176,53 @@ private:
 };
 
 
-class HPairBranch : public ParticleBranch
+class PairBranch : public ParticleBranch
 {
-
 public:
-
-    HPairBranch();
-
+    PairBranch();
     float Ht;
     float DeltaPt;
-    float DeltaHt;
     float DeltaM;
     float DeltaRap;
     float DeltaPhi;
     float DeltaR;
-
     float Bdt;
     float Tag;
-
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+      ParticleBranch::FillBranch(multiplet);
+      Ht = multiplet.Ht();
+      DeltaPt = multiplet.DeltaPt();
+      DeltaM = multiplet.DeltaM();
+      DeltaRap = multiplet.DeltaRap();
+      DeltaPhi = multiplet.DeltaPhi();
+      DeltaR = multiplet.DeltaR();
+      Bdt = multiplet.Bdt();
+      Tag = multiplet.Tag();
+    }
 private:
-
-    ClassDef(HPairBranch, 1)
-
+    ClassDef(PairBranch, 1)
 };
 
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
-class HWBranch : public HPairBranch
+
+class MultiBranch : public PairBranch
 {
 
 public:
 
-    HWBranch();
+  MultiBranch();
+
+  float DeltaHt;
+
+  template<typename Multiplet>
+  void FillBranch(const Multiplet &multiplet) {
+    ParticleBranch::FillBranch(multiplet);
+    DeltaHt = multiplet.DeltaHt();
+  }
 
 private:
 
-    ClassDef(HWBranch, 1)
+  ClassDef(MultiBranch, 1)
 
 };
 
@@ -253,7 +231,28 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HEventJetPairBranch : public HPairBranch
+class WHadronicBranch : public PairBranch
+{
+
+public:
+
+  WHadronicBranch();
+  template<typename Multiplet>
+  void FillBranch(const Multiplet &multiplet) {
+    PairBranch::FillBranch(multiplet);
+  }
+private:
+
+    ClassDef(WHadronicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HEventJetPairBranch : public MultiBranch
 {
 
 public:
@@ -296,7 +295,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HChargedJetPairBranch : public HPairBranch
+class HChargedJetPairBranch : public PairBranch
 {
 
 public:
@@ -328,7 +327,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class WSemiBranch : public HPairBranch
+class WSemiBranch : public PairBranch
 {
 
 public:
@@ -337,6 +336,13 @@ public:
 
     float LeptonPt;
     float NeutrinoPt;
+
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+      PairBranch::FillBranch(multiplet);
+      LeptonPt = multiplet.Singlet1().pt();
+      NeutrinoPt = multiplet.Singlet2().pt();
+    }
 
 private:
 
@@ -349,7 +355,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HHeavyHiggsTauBranch : public HPairBranch
+class HHeavyHiggsTauBranch : public MultiBranch
 {
 
 public:
@@ -370,7 +376,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TopHadronicBranch : public HPairBranch
+class TopHadronicBranch : public MultiBranch
 {
 
 public:
@@ -395,15 +401,34 @@ public:
     float Tau21_2;
     float Tau32_2;
 
-    float VertexMass;
-    float MaxDisplacement;
-    float MeanDisplacement;
-    float SumDisplacement;
-    float Multipliticity;
-    float Spread;
-    float VertexDeltaR;
-    float VertexSpread;
-    float EnergyFraction;
+//     float VertexMass;
+//     float MaxDisplacement;
+//     float MeanDisplacement;
+//     float SumDisplacement;
+//     float Multipliticity;
+//     float Spread;
+//     float VertexDeltaR;
+//     float VertexSpread;
+//     float EnergyFraction;
+
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+      MultiBranch::FillBranch(multiplet);
+      BottomPt = multiplet.singlet().pt();
+      WPt = multiplet.doublet().Jet().pt();
+      Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
+      Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
+      Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
+      if (multiplet.sub_jettiness().tau1_beta1 > 0) Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
+      if (multiplet.sub_jettiness().tau2_beta1 > 0) Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
+      Tau1_2 = multiplet.sub_jettiness().tau1_beta2;
+      Tau2_2 = multiplet.sub_jettiness().tau2_beta2;
+      Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
+      if (multiplet.sub_jettiness().tau1_beta2 > 0) Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
+      if (multiplet.sub_jettiness().tau2_beta2 > 0) Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
+      if (!multiplet.Degenerate()) WBdt = multiplet.doublet().Bdt();
+      BBdt = multiplet.SingletBdt();
+    }
 
 private:
 
@@ -416,7 +441,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopLeptonicBranch : public HPairBranch
+class HTopLeptonicBranch : public MultiBranch
 {
 
 public:
@@ -435,31 +460,40 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopSemiBranch : public HPairBranch
+class TopSemiBranch : public MultiBranch
 {
 
 public:
 
-    HTopSemiBranch();
+    TopSemiBranch();
     float BottomPt;
     float WPt;
 
     float WBdt;
     float BBdt;
 
-    float VertexMass;
-    float MaxDisplacement;
-    float MeanDisplacement;
-    float SumDisplacement;
-    float Multipliticity;
-    float Spread;
-    float VertexDeltaR;
-    float VertexSpread;
-    float EnergyFraction;
+//     float VertexMass;
+//     float MaxDisplacement;
+//     float MeanDisplacement;
+//     float SumDisplacement;
+//     float Multipliticity;
+//     float Spread;
+//     float VertexDeltaR;
+//     float VertexSpread;
+    //     float EnergyFraction;
+
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+      MultiBranch::FillBranch(multiplet);
+      BottomPt = multiplet.singlet().pt();
+      WPt = multiplet.doublet().Jet().pt();
+      BBdt = multiplet.SingletBdt();
+      WBdt = multiplet.doublet().Bdt();
+    }
 
 private:
 
-    ClassDef(HTopSemiBranch, 1)
+    ClassDef(TopSemiBranch, 1)
 
 };
 
@@ -503,7 +537,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsLeptonicBranch : public HPairBranch
+class HHeavyHiggsLeptonicBranch : public PairBranch
 {
 
 public:
@@ -567,7 +601,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsSemiBranch : public HPairBranch
+class HHeavyHiggsSemiBranch : public MultiBranch
 {
 
 public:
@@ -585,7 +619,7 @@ private:
  * @brief Charged Higgs semi tagger root tree structure
  *
  */
-class HChargedHiggsSemiBranch : public HPairBranch
+class HChargedHiggsSemiBranch : public MultiBranch
 {
 
 public:
@@ -710,7 +744,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HTopLeptonBranch : public HPairBranch
+class HTopLeptonBranch : public PairBranch
 {
 
 public:

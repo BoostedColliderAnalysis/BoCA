@@ -50,7 +50,7 @@ hanalysis::Triplet::Triplet()
 //     Print(kInformation, "Constructor");
 // }
 
-fastjet::PseudoJet hanalysis::Triplet::Singlet() const
+fastjet::PseudoJet hanalysis::Triplet::singlet() const
 {
 //     return static_cast<TripletPrivate *>(TagPrivate.get())->Singlet;
     return singlet_;
@@ -99,6 +99,6 @@ hanalysis::Triplet::Triplet(const fastjet::PseudoJet &NewSinglet)
 //   return triplet->doublet;
 // }
 //
-// fastjet::PseudoJet hanalysis::Triplet::Singlet()const {
+// fastjet::PseudoJet hanalysis::Triplet::singlet()const {
 //   return triplet->Singlet;
 // }

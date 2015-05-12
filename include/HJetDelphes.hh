@@ -32,9 +32,9 @@ public:
 private:
 
 
-    HDetectorGeometry detector_geometry_;
+    DetectorGeometry detector_geometry_;
 
-    HDetectorGeometry detector_geometry() const{
+    DetectorGeometry detector_geometry() const{
       return detector_geometry_;
     }
 

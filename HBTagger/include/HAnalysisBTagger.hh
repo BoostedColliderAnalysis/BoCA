@@ -15,7 +15,7 @@ class hbtagger::HAnalysis : public hanalysis::HAnalysis
 
 public:
 
-    using hanalysis::HAnalysis::HAnalysis;
+    HAnalysis(hanalysis::Tagger &tagger);
 
     void SetFiles(const hanalysis::HObject::Tag Tag);
 

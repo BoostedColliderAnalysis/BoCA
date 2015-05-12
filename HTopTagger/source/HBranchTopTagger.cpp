@@ -41,7 +41,6 @@ htoptagger::HCandidateBranch::HCandidateBranch()
 
   TopCutSigEff = InitialValue();
   JetCutSigEff = InitialValue();
-
 }
 
 

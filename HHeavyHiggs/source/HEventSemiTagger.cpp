@@ -269,8 +269,8 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
         OctetEvent.SetSubJets(SubJets);
         OctetEvent.SetTag(Tag);
         for (const auto & Jet : jets)  {
-            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet1().Singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
@@ -296,8 +296,8 @@ std::vector<HEventMultiplet<HOctet>> hheavyhiggs::HEventSemiTagger::GetBdt(const
     for (const auto & Octet : Octets) {
         HEventMultiplet<HOctet> OctetEvent(Octet, EventStruct);
         for (const auto & Jet : jets)  {
-            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet1().Singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;

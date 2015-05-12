@@ -51,21 +51,22 @@ void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 }
 
 
+bool htoptagger::HAnalysis::PassPreCut(hanalysis::HEvent &event)
+{
+    Print(kInformation, "paa pre cut");
+
+}
+
 int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
 {
-    Print(kInformation, "Analysis");
-
-//     if (ObjectNumber > EventNumberMax()) return 0;
-
-    ++event_sum_;
-    switch (stage) {
+  Print(kInformation, "Analysis");
+  ++event_sum_;
+  switch (stage) {
     case hanalysis::Tagger::kTrainer :
-        return tagger_.Train(event, tag);
+      return tagger_.Train(event, tag);
     case hanalysis::Tagger::kReader :
-        return reader_.GetBdt(event);
-    }
-
-//     return tagger_.GetBranches(event, stage, tag);
+      return reader_.GetBdt(event);
+  }
 }
 
 
@@ -148,11 +149,11 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 // bool htoptagger::HAnalysis::GetWTag(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(kDebug, "Get W Tag", Tag);
-//     std::vector<HWBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
+//     std::vector<WHadronicBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
 //     if (Ws.empty()) return 0;
 //     for (const auto & W : Ws) {
 //         ++ObjectNumber;
-//         *static_cast<HWBranch *>(Branch->NewEntry()) = W;
+//         *static_cast<WHadronicBranch *>(Branch->NewEntry()) = W;
 //     }
 //     return 1;
 // }
@@ -187,7 +188,7 @@ int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::T
 //     }
 //
 //     for (const auto & doublet : doublets) {
-//         *static_cast<HWBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(doublet);
+//         *static_cast<WHadronicBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(doublet);
 //         ++ObjectNumber;
 //     }
 //     return 1;

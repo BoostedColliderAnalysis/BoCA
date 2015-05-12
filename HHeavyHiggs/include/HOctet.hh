@@ -104,7 +104,7 @@ public:
     }
 
     inline float BottomBdt() const {
-        return doublet().Singlet1().user_info<hanalysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet1().Singlet().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet2().Singlet().user_info<hanalysis::JetInfo>().Bdt();
+        return doublet().Singlet1().user_info<hanalysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet1().singlet().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet2().singlet().user_info<hanalysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {

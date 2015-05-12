@@ -83,11 +83,11 @@ HChargedJetPairBranch hanalysis::HChargedJetPairTagger::GetBranch(const HQuartet
     JetPairBranch.DeltaRap = Quartet.DeltaRap();
     JetPairBranch.DeltaPhi = Quartet.DeltaPhi();
 
-    JetPairBranch.BottomPt = Quartet.Singlet().pt();
-    JetPairBranch.BottomRap = std::abs(Quartet.Singlet().rap());
-    JetPairBranch.BottomPhi = Quartet.Singlet().phi();
-    JetPairBranch.BottomMass = Quartet.Singlet().m();
-    JetPairBranch.BottomBdt = Quartet.Singlet().user_info<JetInfo>().Bdt();
+    JetPairBranch.BottomPt = Quartet.singlet().pt();
+    JetPairBranch.BottomRap = std::abs(Quartet.singlet().rap());
+    JetPairBranch.BottomPhi = Quartet.singlet().phi();
+    JetPairBranch.BottomMass = Quartet.singlet().m();
+    JetPairBranch.BottomBdt = Quartet.singlet().user_info<JetInfo>().Bdt();
 
     JetPairBranch.TopPt = Quartet.triplet().Jet().pt();
     JetPairBranch.TopRap = std::abs(Quartet.triplet().Jet().rap());
@@ -166,7 +166,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     std::vector<HQuartet31> Quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets) {
-            if (triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             HQuartet31 Quartet(triplet, Jet);
@@ -204,7 +204,7 @@ std::vector<hanalysis::HQuartet31>  hanalysis::HChargedJetPairTagger::GetBdt(con
     std::vector<HQuartet31>  Quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {
-            if (triplet.Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             HQuartet31 Quartet(triplet, Jet);

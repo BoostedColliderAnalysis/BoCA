@@ -31,8 +31,8 @@ public:
     enum Decay {kLeptonic, kHadronic, kSemi};
 
     inline Decay TopDecay() const {
-        return kHadronic;
-//         return kLeptonic;
+//         return kHadronic;
+        return kLeptonic;
 //         return kSemi;
     }
 

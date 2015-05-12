@@ -521,10 +521,10 @@ void hheavyhiggs::HAnalysisTau::SetTrees()
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsTauBranch::Class());
 //         break;
 // //     case HWHadronicTagger :
-// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
+// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), WHadronicBranch::Class());
 // //         break;
 // //     case HWHadronicReader :
-// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HWBranch::Class());
+// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), WHadronicBranch::Class());
 // //         break;
 // //     case HTopLeptonicTagger :
 // //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
@@ -536,13 +536,13 @@ void hheavyhiggs::HAnalysisTau::SetTrees()
 // //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopHadronicBranch::Class());
 // //         break;
 // //     case HTopSemiTagger :
-// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopSemiBranch::Class());
+// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopSemiBranch::Class());
 // //         break;
 // //     case HTopHadronicReader :
 // //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopHadronicBranch::Class());
 // //         break;
 // //     case HTopSemiReader :
-// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopSemiBranch::Class());
+// //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopSemiBranch::Class());
 // //         break;
 // //     case HHeavyHiggsLeptonicTagger :
 // // //         Branch = TreeWriter.NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
@@ -726,9 +726,9 @@ int hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &event, const hanalysi
 // // bool hheavyhiggs::HAnalysisTau::GetWTag(hanalysis::HEvent &Event, const HTag Tag)
 // // {
 // //     Print(kDebug, "Get W Tag", Tag);
-// //     std::vector<HWBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
+// //     std::vector<WHadronicBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
 // //     if (Ws.empty()) return 0;
-// //     for (const auto & W : Ws) *static_cast<HWBranch *>(Branch->NewEntry()) = W;
+// //     for (const auto & W : Ws) *static_cast<WHadronicBranch *>(Branch->NewEntry()) = W;
 // //     return 1;
 // // }
 // //
@@ -762,7 +762,7 @@ int hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &event, const hanalysi
 // //         doublets.erase(doublets.begin() + 1, doublets.end());
 // //     }
 // //
-// //     for (const auto & doublet : doublets) *static_cast<HWBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(doublet);
+// //     for (const auto & doublet : doublets) *static_cast<WHadronicBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(doublet);
 // //
 // //     return 1;
 // // }
@@ -857,9 +857,9 @@ int hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &event, const hanalysi
 // // bool hheavyhiggs::HAnalysisTau::GetTopSemiTag(hanalysis::HEvent &Event,  HTag Tag)
 // // {
 // //     Print(kInformation, "Get Tops", Tag);
-// //     std::vector<HTopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag);
+// //     std::vector<TopSemiBranch> Tops = TopSemiTagger.GetBranches(Event, Tag);
 // //     if (Tops.empty()) return 0;
-// //     for (const auto & Top : Tops) *static_cast<HTopSemiBranch *>(Branch->NewEntry()) = Top;
+// //     for (const auto & Top : Tops) *static_cast<TopSemiBranch *>(Branch->NewEntry()) = Top;
 // //     return 1;
 // // }
 // //
@@ -883,7 +883,7 @@ int hheavyhiggs::HAnalysisTau::Analysis(hanalysis::HEvent &event, const hanalysi
 // //         triplets.erase(triplets.begin() + 1, triplets.end());
 // //     }
 // //
-// //     for (const auto & triplet : triplets) *static_cast<HTopSemiBranch *>(Branch->NewEntry()) = TopSemiTagger.GetBranch(triplet);
+// //     for (const auto & triplet : triplets) *static_cast<TopSemiBranch *>(Branch->NewEntry()) = TopSemiTagger.GetBranch(triplet);
 // //
 // //     return 1;
 // // }

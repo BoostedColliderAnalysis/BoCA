@@ -130,20 +130,20 @@ std::vector<hheavyhiggs::HChargedHadronicBranch * > hheavyhiggs::HChargedHadroni
 
     for (const auto Quartet1 : Quartets) {
         for (const auto Quartet2 :  Quartets) {
-            if (Quartet1.Singlet() == Quartet2.Singlet()) continue;
-            if (Quartet1.Singlet() == Quartet2.triplet().Singlet()) continue;
-            if (Quartet1.Singlet() == Quartet2.triplet().doublet().Singlet1()) continue;
-            if (Quartet1.Singlet() == Quartet2.triplet().doublet().Singlet2()) continue;
-            if (Quartet1.triplet().Singlet() == Quartet2.Singlet()) continue;
-            if (Quartet1.triplet().Singlet() == Quartet2.triplet().Singlet()) continue;
-            if (Quartet1.triplet().Singlet() == Quartet2.triplet().doublet().Singlet1()) continue;
-            if (Quartet1.triplet().Singlet() == Quartet2.triplet().doublet().Singlet2()) continue;
-            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.Singlet()) continue;
-            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.triplet().Singlet()) continue;
+            if (Quartet1.singlet() == Quartet2.singlet()) continue;
+            if (Quartet1.singlet() == Quartet2.triplet().singlet()) continue;
+            if (Quartet1.singlet() == Quartet2.triplet().doublet().Singlet1()) continue;
+            if (Quartet1.singlet() == Quartet2.triplet().doublet().Singlet2()) continue;
+            if (Quartet1.triplet().singlet() == Quartet2.singlet()) continue;
+            if (Quartet1.triplet().singlet() == Quartet2.triplet().singlet()) continue;
+            if (Quartet1.triplet().singlet() == Quartet2.triplet().doublet().Singlet1()) continue;
+            if (Quartet1.triplet().singlet() == Quartet2.triplet().doublet().Singlet2()) continue;
+            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.singlet()) continue;
+            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.triplet().singlet()) continue;
             if (Quartet1.triplet().doublet().Singlet1() == Quartet2.triplet().doublet().Singlet1()) continue;
             if (Quartet1.triplet().doublet().Singlet1() == Quartet2.triplet().doublet().Singlet2()) continue;
-            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.Singlet()) continue;
-            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.triplet().Singlet()) continue;
+            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.singlet()) continue;
+            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.triplet().singlet()) continue;
             if (Quartet1.triplet().doublet().Singlet2() == Quartet2.triplet().doublet().Singlet1()) continue;
             if (Quartet1.triplet().doublet().Singlet2() == Quartet2.triplet().doublet().Singlet2()) continue;
             Octets.emplace_back(HOctet44(Quartet1, Quartet2));

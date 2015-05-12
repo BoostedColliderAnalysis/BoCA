@@ -285,12 +285,12 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedEventSemiTagge
         OctetEvent.SetSubJets(SubJets);
         OctetEvent.SetTag(Tag);
         for (const auto & Jet : jets)  {
-            if (Jet.delta_R(OctetEvent.Octet().Quartet1().Singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet1().triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet1().triplet().singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Quartet1().triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(OctetEvent.Octet().Quartet1().triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet2().Singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(OctetEvent.Octet().Quartet2().triplet().Singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet2().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(OctetEvent.Octet().Quartet2().triplet().singlet()) < detector_geometry().JetConeSize) continue;
             OctetEvent.AddRestJet(Jet);
         }
         Events.emplace_back(OctetEvent);
@@ -312,12 +312,12 @@ std::vector<HEventMultiplet<HOctet44>> hheavyhiggs::HChargedEventSemiTagger::Get
     for (auto & Octet : Octets) {
         HEventMultiplet<HOctet44> OctetEvent(Octet, EventStruct);
         for (const auto & Jet : jets)  {
-            if (Octet.Quartet1().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (Octet.Quartet1().triplet().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet1().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet1().triplet().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (Octet.Quartet1().triplet().doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (Octet.Quartet1().triplet().doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (Octet.Quartet2().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (Octet.Quartet2().triplet().Singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet2().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (Octet.Quartet2().triplet().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (Octet.Quartet2().triplet().doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (Octet.Quartet2().triplet().doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             OctetEvent.AddRestJet(Jet);

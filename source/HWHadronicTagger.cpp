@@ -27,21 +27,22 @@ void hanalysis::HWHadronicTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-HWBranch hanalysis::HWHadronicTagger::GetBranch(const Doublet &doublet) const
+WHadronicBranch hanalysis::HWHadronicTagger::GetBranch(const Doublet &doublet) const
 {
     Print(kInformation, "FillPairTagger", doublet.Bdt());
-    HWBranch branch;
-    branch.Mass = doublet.Jet().m();
-    branch.Rap = doublet.Jet().rap();
-    branch.Phi = doublet.Jet().phi();
-    branch.Pt = doublet.Jet().pt();
-    branch.Ht = doublet.Ht();
-    branch.DeltaPt = std::abs(doublet.DeltaPt());
-    branch.DeltaR = doublet.DeltaR();
-    branch.DeltaRap = std::abs(doublet.DeltaRap());
-    branch.DeltaPhi = std::abs(doublet.DeltaPhi());
-    branch.Bdt = doublet.Bdt();
-    branch.Tag = doublet.Tag();
+    WHadronicBranch branch;
+    branch.FillBranch(doublet);
+//     branch.Mass = doublet.Jet().m();
+//     branch.Rap = doublet.Jet().rap();
+//     branch.Phi = doublet.Jet().phi();
+//     branch.Pt = doublet.Jet().pt();
+//     branch.Ht = doublet.Ht();
+//     branch.DeltaPt = std::abs(doublet.DeltaPt());
+//     branch.DeltaR = doublet.DeltaR();
+//     branch.DeltaRap = std::abs(doublet.DeltaRap());
+//     branch.DeltaPhi = std::abs(doublet.DeltaPhi());
+//     branch.Bdt = doublet.Bdt();
+//     branch.Tag = doublet.Tag();
     return branch;
 
 }
@@ -152,7 +153,7 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
     if (tag == kSignal && doublets.size() > WNumber) doublets.erase(doublets.begin() + WNumber, doublets.end());
     if (tag == kBackground && doublets.size() > WNumber) doublets.erase(doublets.begin());
 
-//     std::vector<HWBranch> Branches;
+//     std::vector<WHadronicBranch> Branches;
 //     for (const auto & doublet : doublets) Branches.emplace_back(GetBranch(doublet));
 //     return Branches;
     return SaveEntries(doublets);

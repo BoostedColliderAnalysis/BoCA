@@ -106,7 +106,6 @@ hheavyhiggs::HEventHadronicBranch::HEventHadronicBranch()
     HbDeltaDeltaR = InitialValue();
 
     EventTag = int(InitialValue());
-
 }
 
 

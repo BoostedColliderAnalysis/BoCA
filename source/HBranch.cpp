@@ -81,9 +81,9 @@ HTauBranch::HTauBranch()
 
 }
 
-ClassImp(HPairBranch)
+ClassImp(PairBranch)
 
-HPairBranch::HPairBranch()
+PairBranch::PairBranch()
 {
     Ht = InitialValue();
     DeltaPt = InitialValue();
@@ -97,9 +97,9 @@ HPairBranch::HPairBranch()
 
 }
 
-ClassImp(HWBranch)
+ClassImp(WHadronicBranch)
 
-HWBranch::HWBranch()
+WHadronicBranch::WHadronicBranch()
 {
 
 }
@@ -209,9 +209,9 @@ TopHadronicBranch::TopHadronicBranch()
 
 }
 
-ClassImp(HTopSemiBranch)
+ClassImp(TopSemiBranch)
 
-HTopSemiBranch::HTopSemiBranch()
+TopSemiBranch::TopSemiBranch()
 {
     BottomPt = InitialValue();
     WPt = InitialValue();

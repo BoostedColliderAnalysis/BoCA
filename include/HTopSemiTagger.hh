@@ -16,11 +16,11 @@ public:
 
     HTopSemiTagger();
 
-    HTopSemiBranch GetBranch(const hanalysis::Triplet &triplet) const;
+    TopSemiBranch GetBranch(const hanalysis::Triplet &triplet) const;
 
 //     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger);
 
-//     std::vector<HTopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
+//     std::vector<TopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
 
     int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
 
@@ -46,23 +46,23 @@ public:
 
     Reader w_semi_reader_;
 
-    void GetBottomInfo(HTopSemiBranch &top_hadronic_branch, const fastjet::PseudoJet jet) const;
+    void GetBottomInfo(TopSemiBranch &top_hadronic_branch, const fastjet::PseudoJet jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
     float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     float ReadBdt(const TClonesArray &clones_array, const int entry) {
-        return static_cast<HTopSemiBranch &>(*clones_array.At(entry)).Bdt;
+        return static_cast<TopSemiBranch &>(*clones_array.At(entry)).Bdt;
     }
 
     int SaveEntries(const std::vector<Triplet> &triplets) {
-        for (const auto & triplet : triplets) static_cast<HTopSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
+        for (const auto & triplet : triplets) static_cast<TopSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
         return triplets.size();
     }
 
     TClass &Class() const {
-        return *HTopSemiBranch::Class();
+        return *TopSemiBranch::Class();
     }
 
 protected:
@@ -77,7 +77,7 @@ private:
 
     void DefineVariables();
 
-    HTopSemiBranch branch_;
+    TopSemiBranch branch_;
 
     float top_mass_window_;
 

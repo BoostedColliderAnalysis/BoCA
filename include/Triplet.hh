@@ -29,20 +29,20 @@ public:
 
     Triplet(const fastjet::PseudoJet &NewSinglet);
 
-    Doublet doublet()const;
+    Doublet doublet() const;
 
-    fastjet::PseudoJet Singlet()const;
+    fastjet::PseudoJet singlet()const;
 
     inline fastjet::PseudoJet doublet_jet() const {
         return doublet().Jet();
     }
 
     inline fastjet::PseudoJet Jet() const {
-        return (doublet_jet() + Singlet());
+        return (doublet_jet() + singlet());
     }
 
     inline float GetJetDeltaMass(const HParticleId ParticleId) const {
-        return std::abs(Singlet().m() - GetParticleMass(ParticleId));
+        return std::abs(singlet().m() - GetParticleMass(ParticleId));
     }
 
     inline float GetDeltaMass(const HParticleId ParticleId) const {
@@ -50,33 +50,33 @@ public:
     }
 
     inline float Ht() const {
-        return (doublet().Ht() + Singlet().pt());
+        return (doublet().Ht() + singlet().pt());
     }
 
     inline float DeltaPt() const {
-        return (doublet_jet().pt() - Singlet().pt());
+        return (doublet_jet().pt() - singlet().pt());
     }
 
     inline float DeltaM() const {
-        return (doublet_jet().m() - Singlet().m());
+        return (doublet_jet().m() - singlet().m());
     }
 
     inline float DeltaHt() const {
-        return (doublet().Ht() - Singlet().pt());
+        return (doublet().Ht() - singlet().pt());
     }
 
     inline float DeltaPhi() const {
-        return doublet_jet().delta_phi_to(Singlet());
+        return doublet_jet().delta_phi_to(singlet());
     }
 
     inline float DeltaRap() const {
-        float NewDeltaRap = doublet_jet().rap() - Singlet().rap();
+        float NewDeltaRap = doublet_jet().rap() - singlet().rap();
         if (std::abs(NewDeltaRap) > 100) NewDeltaRap = 0;
         return NewDeltaRap;
     }
 
     inline float DeltaR() const {
-        float NewDeltaR = doublet_jet().delta_R(Singlet());
+        float NewDeltaR = doublet_jet().delta_R(singlet());
         if (std::abs(NewDeltaR) > 100) NewDeltaR = 0;
         return NewDeltaR;
     }
@@ -88,6 +88,14 @@ public:
     SubJettiness sub_jettiness() const {
         return sub_jettiness_;
     }
+
+    float SingletBdt() const {
+      return singlet().user_info<JetInfo>().Bdt();
+    }
+
+//     float DoubletBdt() const {
+//       return Doublet().Bdt();
+//     }
 
     float LeptonPt = 0; // FIXME we want to get rid of this again
 
@@ -111,12 +119,5 @@ private:
     fastjet::PseudoJet singlet_;
 
     SubJettiness sub_jettiness_;
-
-
-//   TripletPrivate * triplet;
-
-//     Doublet doublet;
-
-//     fastjet::PseudoJet Singlet;
 
 };
