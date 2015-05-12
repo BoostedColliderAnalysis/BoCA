@@ -25,9 +25,6 @@ public:
       return SaveEntries(GetDoublets(event, reader));
     }
 
-
-//     std::vector<ParticleBranch> GetconstituentBranches();
-
     std::vector<Doublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
 
     std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader) {

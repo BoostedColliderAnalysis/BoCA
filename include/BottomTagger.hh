@@ -48,6 +48,9 @@ public:
 
     fastjet::PseudoJet GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
+
+    Jets GetSubJets(const Jets &jets, const int sub_jet_number);
+
     Jets GetMultiJetBdt(Jets &jets, const Reader &reader) {
         Print(kError, "Bdt", "depreciated");
     }

@@ -32,17 +32,6 @@ WHadronicBranch hanalysis::HWHadronicTagger::GetBranch(const Doublet &doublet) c
     Print(kInformation, "FillPairTagger", doublet.Bdt());
     WHadronicBranch branch;
     branch.FillBranch(doublet);
-//     branch.Mass = doublet.Jet().m();
-//     branch.Rap = doublet.Jet().rap();
-//     branch.Phi = doublet.Jet().phi();
-//     branch.Pt = doublet.Jet().pt();
-//     branch.Ht = doublet.Ht();
-//     branch.DeltaPt = std::abs(doublet.DeltaPt());
-//     branch.DeltaR = doublet.DeltaR();
-//     branch.DeltaRap = std::abs(doublet.DeltaRap());
-//     branch.DeltaPhi = std::abs(doublet.DeltaPhi());
-//     branch.Bdt = doublet.Bdt();
-//     branch.Tag = doublet.Tag();
     return branch;
 
 }
