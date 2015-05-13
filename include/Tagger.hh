@@ -50,30 +50,32 @@ class PreCuts : public hanalysis::HObject
 public:
   void SetPtLowerCut(const HParticleId particle_id, const float value){
     pt_lower_cut_[particle_id] = value;
-//     pt_pre_cut_applies.at(particle_id) = true;
-  }
-
-  void SetPtUpperCut(const HParticleId particle_id, const float value){
-    pt_upper_cut_[particle_id] = value;
-//     pt_pre_cut_applies.at(particle_id) = true;
   }
 
   float PtLowerCut(const HParticleId particle_id){
     return pt_lower_cut_[particle_id];
   }
 
+  void SetPtUpperCut(const HParticleId particle_id, const float value){
+    pt_upper_cut_[particle_id] = value;
+  }
+
   float PtUpperCut(const HParticleId particle_id){
     return pt_upper_cut_[particle_id];
   }
 
-//   bool PreCutAppliesTo(const HParticleId particle_id) const{
-//     return pt_pre_cut_applies.at(particle_id);
-//   }
+  void SetTrackerMaxEta(const HParticleId particle_id, const float value){
+    tracker_eta_upper_cut_[particle_id] = value;
+  }
+
+  float TrackerMaxEta(const HParticleId particle_id){
+    return tracker_eta_upper_cut_[particle_id];
+  }
 
 private:
   std::map<HParticleId, float> pt_lower_cut_;
   std::map<HParticleId, float> pt_upper_cut_;
-//   std::map<HParticleId, bool> pt_pre_cut_applies;
+  std::map<HParticleId, float> tracker_eta_upper_cut_;
 };
 
 
@@ -247,13 +249,22 @@ public:
         return 0;
     }
 
-    Jets GranulatedJets(const Jets &NewEFlowJets);
+    Jets GranulatedJets(const Jets &NewEFlowJets){
+      Print(kError,"get jets","depreciated");
+      return Jets{};
+    }
 
-    Jets GetJets(hanalysis::HEvent &Event, hanalysis::HJetTag &JetTag);
+    Jets GetJets(hanalysis::HEvent &Event, hanalysis::HJetTag &JetTag){
+      Print(kError,"get jets","depreciated");
+      return Jets{};
+    }
 
-    Jets GetJets(hanalysis::HEvent &Event);
+    Jets GetJets(hanalysis::HEvent &Event){
+      Print(kError,"get jets","depreciated");
+      return Jets{};
+    }
 
-    Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
+    Jets GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
     fastjet::PseudoJet GetMissingEt(hanalysis::HEvent &Event);
 

@@ -49,7 +49,14 @@ public:
     fastjet::PseudoJet GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
 
-    Jets GetSubJets(const Jets &jets, const int sub_jet_number);
+    Jets GetSubJets(const Jets &jets, const int sub_jet_number){
+      Jets subjets;
+      for(const auto &jet : jets){
+        Jets jets = Tagger::GetSubJets(jet,sub_jet_number);
+        subjets = JoinVectors(subjets, jets);
+      }
+      return subjets;
+    }
 
     Jets GetMultiJetBdt(Jets &jets, const Reader &reader) {
         Print(kError, "Bdt", "depreciated");

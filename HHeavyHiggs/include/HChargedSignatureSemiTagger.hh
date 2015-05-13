@@ -2,7 +2,7 @@
 # define HChargedSignatureSemiTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
-# include "HTopHadronicTagger.hh"
+# include "TopHadronicTagger.hh"
 # include "HChargedHiggsSemiTagger.hh"
 # include "HChargedJetPairTagger.hh"
 # include "HOctet44.hh"
@@ -27,9 +27,9 @@ public:
       const hanalysis::BottomTagger &NewBottomTagger,
       const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger,
       const hanalysis::HWSemiTagger &NewWSemiTagger,
-      const hanalysis::HWHadronicTagger &NewWTagger,
+      const hanalysis::WHadronicTagger &NewWTagger,
       const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-      const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
+      const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
       const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
 
 
@@ -46,9 +46,9 @@ public:
 
     hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::HWHadronicTagger WTagger;
+    hanalysis::WHadronicTagger WTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;
-    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::TopHadronicTagger top_hadronic_tagger;
     hanalysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
     hanalysis::HChargedJetPairTagger ChargedJetPairTagger;
 

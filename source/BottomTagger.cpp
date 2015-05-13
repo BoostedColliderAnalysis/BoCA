@@ -130,7 +130,6 @@ Jets hanalysis::BottomTagger::GetMultiJetBdt(Jets &jets, const TMVA::Reader &rea
 
 Jets hanalysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
-
     Print(kInformation, "Get Sub Bdt");
     return GetJetBdt(GetSubJets(jets,sub_jet_number), reader);
 }
@@ -149,6 +148,7 @@ Jets hanalysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, con
         if (jet.m() <= 0) continue;
         if (pre_cuts.PtLowerCut(BottomId) > 0 && jet.pt() < pre_cuts.PtLowerCut(BottomId)) continue;
         if (pre_cuts.PtUpperCut(BottomId) > 0 && jet.pt() > pre_cuts.PtUpperCut(BottomId)) continue;
+        if (pre_cuts.TrackerMaxEta(BottomId) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(BottomId)) continue;
         final_jets.emplace_back(GetJetBdt(jet, reader));
     }
     return final_jets;
@@ -170,27 +170,4 @@ Jets hanalysis::BottomTagger::GetSubJetBdt(const fastjet::PseudoJet &jet, const 
         jets.emplace_back(GetJetBdt(sub_jet, reader));
     }
     return jets;
-}
-
-Jets hanalysis::BottomTagger::GetSubJets(const Jets &jets, const int sub_jet_number)
-{
-    Jets final_pieces;
-    for (const auto & jet : jets) {
-        if (!jet.has_pieces()) continue;
-        if (!jet.has_user_info<JetInfo>()) continue;
-        fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(jet.pieces(), detector_geometry().SubJetDefinition);
-        Jets pieces = cluster_sequence->exclusive_jets_up_to(sub_jet_number);
-        cluster_sequence->delete_self_when_unused();
-        for (auto & piece : pieces) {
-            std::vector<Constituent> constituents;
-            for (const auto & constituent : piece.constituents()) {
-                if (!constituent.has_user_info<JetInfo>()) continue;
-                std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
-                constituents = JoinVectors(constituents, piece_constituents);
-            }
-            piece.set_user_info(new JetInfo(constituents));
-            final_pieces.emplace_back(piece);
-        }
-    }
-    return final_pieces;
 }

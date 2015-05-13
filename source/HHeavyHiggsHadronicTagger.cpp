@@ -8,7 +8,7 @@ hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger()
   set_tagger_name("HeavyHiggsHadronic");
 }
 
-hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const BottomTagger &NewBottomTagger, const HWHadronicTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger)
+hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const BottomTagger &NewBottomTagger, const WHadronicTagger &NewWTagger, const TopHadronicTagger &NewTopTagger)
 {
 //     DebugLevel = hanalysis::HObject::kDebug;
 
@@ -18,8 +18,8 @@ hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const BottomTagg
     BottomReader.set_tagger(bottom_tagger_);
     WTagger = NewWTagger;
     WReader.set_tagger(WTagger);
-    TopHadronicTagger = NewTopTagger;
-    TopHadronicReader.set_tagger(TopHadronicTagger);
+    top_hadronic_tagger = NewTopTagger;
+    TopHadronicReader.set_tagger(top_hadronic_tagger);
 
     set_tagger_name("HeavyHiggsHadronic");
     DefineVariables();
@@ -114,7 +114,7 @@ std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::Ge
 
     std::vector<Doublet> doublets = WTagger.GetBdt(jets, WReader);
 
-    std::vector<Triplet> triplets = TopHadronicTagger.GetBdt(doublets, jets, TopHadronicReader);
+    std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
 
 
     std::vector<HSextet> Sextets;

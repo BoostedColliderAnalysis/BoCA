@@ -6,7 +6,7 @@ hanalysis::HChargedJetPairTagger::HChargedJetPairTagger()
     DefineVariables();
 }
 
-void hanalysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const HWHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const HTopHadronicTagger &NewTopHadronicTagger)
+void hanalysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const WHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const TopHadronicTagger &Newtop_hadronic_tagger)
 {
     Print(kNotification, "Set Tagger", NewBottomTagger.tagger_name());
 
@@ -14,12 +14,12 @@ void hanalysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTa
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopSemiTagger = NewTopSemiTagger;
-    TopHadronicTagger = NewTopHadronicTagger;
+    top_hadronic_tagger = Newtop_hadronic_tagger;
 
-//     TopHadronicTagger.bottom_tagger_ = NewBottomTagger;
-//     TopHadronicTagger.WTagger = NewWTagger;
-//     TopHadronicTagger.BottomReader.set_tagger(bottom_tagger_);
-//     TopHadronicTagger.WReader.set_tagger(WTagger);
+//     top_hadronic_tagger.bottom_tagger_ = NewBottomTagger;
+//     top_hadronic_tagger.WTagger = NewWTagger;
+//     top_hadronic_tagger.BottomReader.set_tagger(bottom_tagger_);
+//     top_hadronic_tagger.WReader.set_tagger(WTagger);
 
     DefineVariables();
 }
@@ -112,15 +112,15 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     Jets jets = GetJets(Event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 //     std::vector<Doublet> doublets = WTagger.GetBdt(jets, WReader);
-    //     std::vector<Triplet> triplets = TopHadronicTagger.GetBdt(doublets, jets, TopHadronicReader);
-    std::vector<Triplet> triplets = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+    //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
+    std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
     Print(kDebug, "Number of Hadronic Tops", triplets.size());
 
     for (const auto & Jet : jets) {
         Jets Pieces = WTagger.GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-        std::vector<hanalysis::Triplet> Piecetriplets = TopHadronicTagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
+        std::vector<hanalysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
     }
 
@@ -128,7 +128,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
         Jets Pieces = WTagger.GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-        std::vector<hanalysis::Triplet> Piecetriplets = TopHadronicTagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
+        std::vector<hanalysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
     }
 
@@ -136,7 +136,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
         std::sort(triplets.begin(), triplets.end());
         triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
     }
-//     std::vector<Triplet> triplets = TopHadronicTagger.GetBdt(jets, TopHadronicReader);
+//     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, TopHadronicReader);
 
     Jets TopParticles = Event.GetParticles()->Generator();
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);

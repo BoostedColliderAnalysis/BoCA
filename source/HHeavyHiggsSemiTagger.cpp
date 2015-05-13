@@ -10,9 +10,9 @@ hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger()
 void hanalysis::HHeavyHiggsSemiTagger::SetTagger(
     const BottomTagger &NewBottomTagger,
     const HWSemiTagger &NewWSemiTagger,
-    const HWHadronicTagger &NewWTagger,
+    const WHadronicTagger &NewWTagger,
     const HTopSemiTagger &NewTopSemiTagger,
-    const HTopHadronicTagger &NewTopHadronicTagger)
+    const TopHadronicTagger &Newtop_hadronic_tagger)
 {
     Print(kNotification, "Constructor");
 
@@ -20,7 +20,7 @@ void hanalysis::HHeavyHiggsSemiTagger::SetTagger(
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopSemiTagger = NewTopSemiTagger;
-    TopHadronicTagger = NewTopHadronicTagger;
+    top_hadronic_tagger = Newtop_hadronic_tagger;
     DefineVariables();
 }
 
@@ -107,8 +107,8 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     for (const auto tripletSemi : tripletsSemi) if (tripletSemi.singlet().pt() > pre_cut / 2) FinaltripletsSemi.emplace_back(tripletSemi);
 
 //     std::vector<Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
-//     std::vector<Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-    std::vector<Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//     std::vector<Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
+    std::vector<Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
     Print(kDebug, "Number of Hadronic Tops", tripletsHadronic.size());
 
     std::vector<Triplet> FinaltripletsHadronic;

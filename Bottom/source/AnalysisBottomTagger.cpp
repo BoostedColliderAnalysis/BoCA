@@ -5,8 +5,10 @@ hbtagger::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : hanalysis::HAnalysis
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
-    pre_cuts_.SetPtLowerCut(BottomId,LowerCut());
-    pre_cuts_.SetPtUpperCut(BottomId,UpperCut());
+    pre_cuts_.SetPtLowerCut(BottomId, LowerCut());
+    pre_cuts_.SetPtUpperCut(BottomId, UpperCut());
+    DetectorGeometry detector_geometry;
+    pre_cuts_.SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
 }
 
 
@@ -30,8 +32,8 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 //     NewBackgroundFile(tt);
 //     NewBackgroundFile(ttcc);
 //     NewBackgroundFile(ttjj);
-    NewBackgroundFile(qq);
-    NewBackgroundFile(gg);
+        NewBackgroundFile(qq);
+        NewBackgroundFile(gg);
 //     NewBackgroundFile(hh);
 //     NewBackgroundFile(ww);
         break;
@@ -129,9 +131,9 @@ int hbtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tag
     Print(kInformation, "Analysis");
     switch (stage) {
     case hanalysis::Tagger::kTrainer :
-      return tagger_.Train(event,pre_cuts_, tag);
+        return tagger_.Train(event, pre_cuts_, tag);
     case hanalysis::Tagger::kReader :
-        return reader_.GetBdt(event,pre_cuts_);
+        return reader_.GetBdt(event, pre_cuts_);
     }
 }
 

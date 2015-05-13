@@ -11,15 +11,15 @@ hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
 void hanalysis::HChargedHiggsSemiTagger::SetTagger(
     const hanalysis::BottomTagger &NewBottomTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
-    const hanalysis::HWHadronicTagger &NewWTagger,
+    const hanalysis::WHadronicTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-    const hanalysis::HTopHadronicTagger &NewTopHadronicTagger)
+    const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger)
 {
     bottom_tagger_ = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopSemiTagger = NewTopSemiTagger;
-    TopHadronicTagger = NewTopHadronicTagger;
+    top_hadronic_tagger = Newtop_hadronic_tagger;
 
     set_tagger_name("ChargedHiggsSemi");
     DefineVariables();

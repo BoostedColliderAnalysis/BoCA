@@ -126,3 +126,32 @@ Jets RemoveIfNot5Quarks(const Jets &jets)
     return quarks;
 }
 
+struct Close {
+  Close(const fastjet::PseudoJet &particle) {
+    particle_ = particle;
+  }
+  bool operator()(const fastjet::PseudoJet &jet) {
+    return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
+  }
+  fastjet::PseudoJet particle_;
+  DetectorGeometry detector_geometry_;
+};
+
+Jets RemoveIfClose(const Jets &jets, const Jets& particles)
+{
+  Jets quarks = jets;
+  for(const auto &particle : particles) quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
+  return quarks;
+}
+
+Jets CopyIfClose(const Jets &jets, const Jets& particles)
+{
+  Jets final_jets(jets.size());
+  Jets::iterator iterator;
+  for(const auto &particle : particles) {
+    iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Close(particle));
+  }
+  final_jets.resize(std::distance(final_jets.begin(), iterator));
+  return final_jets;
+}
+

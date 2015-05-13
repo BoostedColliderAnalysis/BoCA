@@ -34,9 +34,9 @@ using hanalysis::HAnalysis::HAnalysis;
 
     hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::HWHadronicTagger WHadronicTagger;
+    hanalysis::WHadronicTagger w_hadronic_tagger;
 
-    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::TopHadronicTagger top_hadronic_tagger;
     hanalysis::HTopSemiTagger TopSemiTagger;
 
     hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;

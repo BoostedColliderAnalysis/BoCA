@@ -54,10 +54,10 @@ public:
 
     hanalysis::HTauTagger TauTagger;
     hanalysis::HHeavyHiggsTauTagger HiggsTauTagger;
-//     hanalysis::HWTagger WHadronicTagger;
+//     hanalysis::HWTagger w_hadronic_tagger;
 //
 //     hanalysis::HTopLeptonicTagger TopLeptonicTagger;
-//     hanalysis::HTopHadronicTagger TopHadronicTagger;
+//     hanalysis::TopHadronicTagger top_hadronic_tagger;
 //     hanalysis::HTopSemiTagger TopSemiTagger;
 //
 //     hanalysis::HHiggsTauSemiTagger HiggsTauSemiTagger;

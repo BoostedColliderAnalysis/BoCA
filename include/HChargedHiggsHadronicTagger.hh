@@ -2,7 +2,7 @@
 # define HChargedHiggsHadronicTagger_hh
 
 # include "HQuartet31.hh"
-# include "HTopHadronicTagger.hh"
+# include "TopHadronicTagger.hh"
 
 /**
  * @brief Bdt heavy higgs tagger
@@ -15,7 +15,7 @@ public:
 
   HChargedHiggsHadronicTagger();
 
-    HChargedHiggsHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger);
+    HChargedHiggsHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger);
 
     ~HChargedHiggsHadronicTagger();
 
@@ -39,8 +39,8 @@ private:
     Tag GetTag(const hanalysis::HQuartet31 &Quartet);
 
     BottomTagger bottom_tagger_;
-    HWHadronicTagger WTagger;
-    HTopHadronicTagger TopHadronicTagger;
+    WHadronicTagger WTagger;
+    TopHadronicTagger top_hadronic_tagger;
 
     Reader BottomReader;
     Reader WReader;

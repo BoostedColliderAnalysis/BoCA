@@ -1,5 +1,5 @@
 #include "HAnalysisTopTagger.hh"
-#include "HTopHadronicTagger.hh"
+#include "TopHadronicTagger.hh"
 #include "HTopSemiTagger.hh"
 #include "HWSemiTagger.hh"
 #include "TSystem.h"
@@ -53,12 +53,12 @@ int main(const int argc, const char **argv)
         htoptagger::HAnalysis analysis(bottom_tagger);
         if (analysis.TopDecay() == htoptagger::HAnalysis::kHadronic) {
 
-            hanalysis::HWHadronicTagger w_hadronic_tagger;
+            hanalysis::WHadronicTagger w_hadronic_tagger;
             RunTagger(w_hadronic_tagger, hanalysis::Tagger::kTrainer);
             RunFactory(w_hadronic_tagger);
             RunTagger(w_hadronic_tagger, hanalysis::Tagger::kReader);
 
-            hanalysis::HTopHadronicTagger top_hadronic_tagger;
+            hanalysis::TopHadronicTagger top_hadronic_tagger;
             RunTagger(top_hadronic_tagger, hanalysis::Tagger::kTrainer);
             RunFactory(top_hadronic_tagger);
             RunTagger(top_hadronic_tagger, hanalysis::Tagger::kReader);

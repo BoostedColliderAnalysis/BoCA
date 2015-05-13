@@ -21,8 +21,8 @@ public:
     */
     HChargedHadronicTagger(
       const hanalysis::BottomTagger &NewBottomTagger,
-      const hanalysis::HWHadronicTagger &NewWTagger,
-      const hanalysis::HTopHadronicTagger &NewTopTagger,
+      const hanalysis::WHadronicTagger &NewWTagger,
+      const hanalysis::TopHadronicTagger &NewTopTagger,
       const hanalysis::HChargedHiggsHadronicTagger &NewHeavyHiggsTagger);
 
     /**
@@ -53,8 +53,8 @@ private:
     void DefineVariables();
 
     hanalysis::BottomTagger bottom_tagger_;
-    hanalysis::HWHadronicTagger WTagger;
-    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::WHadronicTagger WTagger;
+    hanalysis::TopHadronicTagger top_hadronic_tagger;
     hanalysis::HChargedHiggsHadronicTagger ChargedHiggsHadronicTagger;
 
     hanalysis::Reader BottomReader;

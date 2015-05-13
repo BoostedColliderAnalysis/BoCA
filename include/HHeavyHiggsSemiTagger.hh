@@ -3,7 +3,7 @@
 
 # include "HSextet.hh"
 # include "HTopSemiTagger.hh"
-# include "HTopHadronicTagger.hh"
+# include "TopHadronicTagger.hh"
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
@@ -16,7 +16,7 @@ public:
 
     HHeavyHiggsSemiTagger();
 
-    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::HTopHadronicTagger &NewTopHadronicTagger);
+    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger);
 
     std::vector< HHeavyHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const float pre_cut = 0);
 
@@ -25,9 +25,9 @@ public:
     std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::Triplet > &tripletsSemi, const std::vector< hanalysis::Triplet > &tripletsHadronic, const hanalysis::Reader & Reader, const int Mass);
 
     BottomTagger bottom_tagger_;
-    HWHadronicTagger WTagger;
+    WHadronicTagger WTagger;
     HWSemiTagger WSemiTagger;
-    HTopHadronicTagger TopHadronicTagger;
+    TopHadronicTagger top_hadronic_tagger;
     HTopSemiTagger TopSemiTagger;
 
     Reader BottomReader;

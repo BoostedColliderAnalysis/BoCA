@@ -26,8 +26,8 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage, const 
 //         case hanalysis::HAnalysis::HJetPairTagger:
 //             hanalysis::Factory(Analysis.JetPairTagger);
 //             break;
-//         case hanalysis::HAnalysis::HWHadronicTagger:
-//             hanalysis::Factory(Analysis.WHadronicTagger);
+//         case hanalysis::HAnalysis::WHadronicTagger:
+//             hanalysis::Factory(Analysis.w_hadronic_tagger);
 //             break;
 //         case hanalysis::HAnalysis::HWSemiTagger:
 //             hanalysis::Factory(Analysis.WSemiTagger);
@@ -35,8 +35,8 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage, const 
 //         case hanalysis::HAnalysis::HTopLeptonicTagger:
 // //             hanalysis::Factory(Analysis.TopLeptonicTagger);
 //             break;
-//         case hanalysis::HAnalysis::HTopHadronicTagger:
-//             hanalysis::Factory(Analysis.TopHadronicTagger);
+//         case hanalysis::HAnalysis::TopHadronicTagger:
+//             hanalysis::Factory(Analysis.top_hadronic_tagger);
 //             break;
 //         case hanalysis::HAnalysis::HTopSemiTagger:
 //             hanalysis::Factory(Analysis.TopSemiTagger);
@@ -111,7 +111,7 @@ int main()
     RunTagger(jet_pair_tagger, hanalysis::Tagger::kTrainer, config);
     RunTagger(jet_pair_tagger, hanalysis::Tagger::kReader, config);
 
-    hanalysis::HWHadronicTagger w_hadronic_tagger;
+    hanalysis::WHadronicTagger w_hadronic_tagger;
     RunTagger(w_hadronic_tagger, hanalysis::Tagger::kTrainer, config);
     RunTagger(w_hadronic_tagger, hanalysis::Tagger::kReader, config);
 
@@ -119,7 +119,7 @@ int main()
     RunTagger(w_semi_tagger, hanalysis::Tagger::kTrainer, config);
     RunTagger(w_semi_tagger, hanalysis::Tagger::kReader, config);
 
-    hanalysis::HTopHadronicTagger top_hadronic_tagger;
+    hanalysis::TopHadronicTagger top_hadronic_tagger;
     RunTagger(top_hadronic_tagger, hanalysis::Tagger::kTrainer, config);
     RunTagger(top_hadronic_tagger, hanalysis::Tagger::kReader, config);
 

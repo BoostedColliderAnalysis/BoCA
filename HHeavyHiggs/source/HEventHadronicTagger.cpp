@@ -6,7 +6,7 @@ hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger()
   set_tagger_name("HadronicEvent");
 }
 
-hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWHadronicTagger &NewWTagger, const hanalysis::HTopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
+hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
 {
 
     Print(kNotification , "Constructor");
@@ -15,8 +15,8 @@ hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::BottomT
     BottomReader.set_tagger(bottom_tagger_);
     WTagger = NewWTagger;
     WReader.set_tagger(WTagger);
-    TopHadronicTagger = NewTopTagger;
-    TopHadronicReader.set_tagger(TopHadronicTagger);
+    top_hadronic_tagger = NewTopTagger;
+    TopHadronicReader.set_tagger(top_hadronic_tagger);
     HeavyHiggsHadronicTagger = NewHeavyHiggsTagger;
     HeavyHiggsHadronicReader.set_tagger(HeavyHiggsHadronicTagger);
 
@@ -125,7 +125,7 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
     if (jets.size() < 8) return EventHadronicBranches;
 
     std::vector<hanalysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
-    std::vector<hanalysis::Triplet> triplets = TopHadronicTagger.GetBdt(doublets, jets, TopHadronicReader);
+    std::vector<hanalysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsHadronicTagger.GetBdt(triplets, HeavyHiggsHadronicReader);
 
     std::vector<HOctet> Octets;

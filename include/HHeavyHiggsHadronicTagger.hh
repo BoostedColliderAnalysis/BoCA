@@ -2,7 +2,7 @@
 # define HHeavyHiggsHadronicTagger_hh
 
 # include "HSextet.hh"
-# include "HTopHadronicTagger.hh"
+# include "TopHadronicTagger.hh"
 
 /**
  * @brief Bdt heavy higgs tagger
@@ -15,7 +15,7 @@ public:
 
     HHeavyHiggsHadronicTagger();
 
-    HHeavyHiggsHadronicTagger(const BottomTagger &NewBottomTagger, const HWHadronicTagger &NewWTagger, const HTopHadronicTagger &NewTopTagger);
+    HHeavyHiggsHadronicTagger(const BottomTagger &NewBottomTagger, const WHadronicTagger &NewWTagger, const TopHadronicTagger &NewTopTagger);
 
     ~HHeavyHiggsHadronicTagger();
 
@@ -39,8 +39,8 @@ private:
     Tag GetTag(const HSextet &Sextet);
 
     BottomTagger bottom_tagger_;
-    HWHadronicTagger WTagger;
-    HTopHadronicTagger TopHadronicTagger;
+    WHadronicTagger WTagger;
+    TopHadronicTagger top_hadronic_tagger;
 
     Reader BottomReader;
     Reader WReader;

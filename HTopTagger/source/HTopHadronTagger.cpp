@@ -18,7 +18,7 @@ HTopHadronTagger::HTopHadronTagger()
     DefineVariables();
 }
 
-void HTopHadronTagger::SetTagger(const hanalysis::BottomTagger &bottom_tagger, const hanalysis::HWHadronicTagger &w_tagger)
+void HTopHadronTagger::SetTagger(const hanalysis::BottomTagger &bottom_tagger, const hanalysis::WHadronicTagger &w_tagger)
 {
     Print(kNotification, "Constructor");
     bottom_tagger_ = bottom_tagger;
@@ -346,7 +346,7 @@ hanalysis::Triplet HTopHadronTagger::GetBdt(hanalysis::Triplet &triplet, const h
 }
 
 
-std::vector<hanalysis::Triplet> HTopHadronTagger::GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
+std::vector<hanalysis::Triplet> HTopHadronTagger::GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &TopHadronicReader, hanalysis::WHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader)
 {
     std::vector<hanalysis::Triplet> triplets;
 

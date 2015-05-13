@@ -109,7 +109,6 @@ ClassImp(HEventJetPairBranch)
 HEventJetPairBranch::HEventJetPairBranch()
 {
     DeltaM = InitialValue();
-
     Jet1Mass = InitialValue();
     Jet1Pt = InitialValue();
     Jet1Rap = InitialValue();

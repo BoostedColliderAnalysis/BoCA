@@ -25,14 +25,14 @@ public:
     void SetFiles(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
-        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt) + "Test";
+        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
 
     inline Decay TopDecay() const {
-//         return kHadronic;
-        return kLeptonic;
+        return kHadronic;
+//         return kLeptonic;
 //         return kSemi;
     }
 
@@ -115,10 +115,8 @@ private:
     }
 
     hanalysis::RootFile BackgroundFile(const Process process, const int file_sum) const {
-
-
         Strings FileNames;
-        for (int FileNumber = 0; FileNumber < file_sum; ++FileNumber) {
+        for (int file_number = 0; file_number < file_sum; ++file_number) {
             FileNames.emplace_back(FileName(process));
         }
         return hanalysis::RootFile(FileNames);
@@ -129,80 +127,9 @@ private:
     }
 
 
-    std::string ColliderName(const Collider collider) const {
-        switch (collider) {
-        case LHC :
-            return "14TeV";
-        case FHC:
-            return "100TeV";
-        case LE:
-            return "LE";
-        default:
-            Print(kError, "unhandled case");
-            return "";
-        }
-    }
+    std::string ColliderName(const Collider collider) const;
 
-    std::string ProcessName(const Process process) const {
-        switch (process) {
-        case Hbb:
-            return "H0bb-ljbbbb";
-        case ttbb :
-            return "ttbb-ljbbbb";
-        case ttcc:
-            return "ttcc-ljbbcc";
-        case ttjj:
-            return "ttjj-ljbbjj";
-        case bbjj:
-            return "bbjj";
-        case tt:
-            switch (TopDecay()) {
-            case kHadronic :
-//                 return "tt_hadronic_1TeV";
-                return "tt_hadronic";
-            case  kLeptonic :
-//                 return "tt_leptonic_1TeV";
-                return "tt_leptonic";
-            case kSemi :
-                return "tt_semi_nopre";
-            }
-        case ttlep:
-            return "tt_leptonic";
-        case tthad:
-            return "tt_hadronic";
-        case bb:
-            return "bb";
-        case cc:
-            return "cc";
-        case qq:
-            return "qq";
-        case gg:
-            return "gg";
-        case wg:
-            return "wgg";
-        case wq:
-            return "wq";
-        case wc:
-            return "wc";
-        case wcb:
-            return "wc_b_pre";
-        case wb:
-            return "wb_u_pre";
-        case wu:
-            return "wu_b_pre";
-        case wbu:
-            return "wbu_nopre";
-        case hh:
-            return "hh";
-        case ww:
-            return "ww";
-        case zz:
-            return "zz";
-        default:
-            Print(kError, "unhandled case");
-            return "";
-        }
-    }
+    std::string ProcessName(const Process process) const;
 
     int PassPreCut(hanalysis::HEvent &event);
 

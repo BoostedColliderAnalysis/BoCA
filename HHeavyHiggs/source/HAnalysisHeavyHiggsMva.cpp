@@ -7,9 +7,9 @@
 //     Print(kNotification, "Constructor");
 //     BottomTagger.SetAnalysisName(ProjectName());
 //     JetPairTagger.SetAnalysisName(ProjectName());
-//     WHadronicTagger.SetAnalysisName(ProjectName());
+//     w_hadronic_tagger.SetAnalysisName(ProjectName());
 //     WSemiTagger.SetAnalysisName(ProjectName());
-//     TopHadronicTagger.SetAnalysisName(ProjectName());
+//     top_hadronic_tagger.SetAnalysisName(ProjectName());
 //     TopSemiTagger.SetAnalysisName(ProjectName());
 //     HeavyHiggsSemiTagger.SetAnalysisName(ProjectName());
 //     SignatureSemiTagger.SetAnalysisName(ProjectName());
@@ -30,7 +30,7 @@
 //         return  "WSemi";
 //     case HWSemiReader:
 //         return  "WSemiReader";
-//     case HWHadronicTagger:
+//     case WHadronicTagger:
 //         return  "WHadronic";
 //     case HWHadronicReader:
 //         return  "WHadronicReader";
@@ -42,7 +42,7 @@
 //         return  "TopLeptonic";
 //     case HTopLeptonicReader:
 //         return  "TopLeptonicReader";
-//     case HTopHadronicTagger:
+//     case TopHadronicTagger:
 //         return  "TopHadronic";
 //     case HTopSemiTagger:
 //         return  "TopSemi";
@@ -146,7 +146,7 @@ std::vector<hanalysis::RootFile> hheavyhiggs::HAnalysisMva::Files(const hanalysi
 //         if (Tag == kSignal) NewFiles = SignalSemiFiles;
 //         else NewFiles = SemiFiles;
 //         break;
-//     case HWHadronicTagger:
+//     case WHadronicTagger:
 //         if (Tag == kSignal) NewFiles = NonLeptonicSignalFiles;
 //         else NewFiles = NotLeptonicFiles;
 //         break;
@@ -162,7 +162,7 @@ std::vector<hanalysis::RootFile> hheavyhiggs::HAnalysisMva::Files(const hanalysi
 //         if (Tag == kSignal) NewFiles = SignalLeptonicFiles;
 //         else NewFiles = LeptonicFiles;
 //         break;
-//     case HTopHadronicTagger:
+//     case TopHadronicTagger:
 //         if (Tag == kSignal) NewFiles = NonLeptonicSignalFiles;
 //         else NewFiles = NotLeptonicFiles;
 //         break;
@@ -287,15 +287,15 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //         break;
 //     case HJetPairReader :
 //         break;
-//     case HWHadronicTagger:
-//         WHadronicTagger.SetSignalTreeNames(NotLeptonicTrees);
-//         WHadronicTagger.SetBackgroundTreeNames(NotLeptonicTrees);
-//         if (Tag == kSignal) WHadronicTagger.SetTagger(BottomTagger);
+//     case WHadronicTagger:
+//         w_hadronic_tagger.SetSignalTreeNames(NotLeptonicTrees);
+//         w_hadronic_tagger.SetBackgroundTreeNames(NotLeptonicTrees);
+//         if (Tag == kSignal) w_hadronic_tagger.SetTagger(BottomTagger);
 //         break;
 //     case HWHadronicReader :
 //         BottomTagger.SetSignalTreeNames(CombinedTrees);
 //         BottomTagger.SetBackgroundTreeNames(CombinedTrees);
-//         if (Tag == kSignal) WHadronicTagger.SetTagger(BottomTagger);
+//         if (Tag == kSignal) w_hadronic_tagger.SetTagger(BottomTagger);
 //         break;
 //     case HWSemiTagger :
 //         if (Tag == kSignal) WSemiTagger.SetTagger();
@@ -304,10 +304,10 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //         break;
 //     case HWSemiReader :
 //         break;
-//     case HTopHadronicTagger :
-//         if (Tag == kSignal) TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         TopHadronicTagger.SetSignalTreeNames(NotLeptonicTrees);
-//         TopHadronicTagger.SetBackgroundTreeNames(NotLeptonicTrees);
+//     case TopHadronicTagger :
+//         if (Tag == kSignal) top_hadronic_tagger.SetTagger(BottomTagger, w_hadronic_tagger);
+//         top_hadronic_tagger.SetSignalTreeNames(NotLeptonicTrees);
+//         top_hadronic_tagger.SetBackgroundTreeNames(NotLeptonicTrees);
 //         break;
 //     case HTopHadronicReader :
 //         break;
@@ -319,26 +319,26 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //     case HTopSemiReader :
 //         break;
 //     case HHeavyHiggsSemiTagger  :
-//         if (Tag == kSignal) HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger);
+//         if (Tag == kSignal) HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger);
 //         HeavyHiggsSemiTagger.SetSignalTreeNames(SignalSemiTrees);
 //         HeavyHiggsSemiTagger.SetBackgroundTreeNames(SemiTrees);
 //         break;
 //     case HHeavyHiggsSemiReader :
 //         break;
 //     case HSignatureSemiTagger :
-//         if (Tag == kSignal) SignatureSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger);
+//         if (Tag == kSignal) SignatureSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger, HeavyHiggsSemiTagger);
 //         SignatureSemiTagger.SetSignalTreeNames(SignalSemiTrees);
 //         SignatureSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
 //     case HSignatureSemiReader :
 //         break;
 //     case HEventSemiTagger :
-//         if (Tag == kSignal) EventSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger, SignatureSemiTagger);
+//         if (Tag == kSignal) EventSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger, HeavyHiggsSemiTagger, SignatureSemiTagger);
 //         EventSemiTagger.SetSignalTreeNames(SignalSemiTrees);
 //         EventSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
 //     case HEventSemiReader :
-//         if (Tag == kSignal) EventSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger, SignatureSemiTagger);
+//         if (Tag == kSignal) EventSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger, HeavyHiggsSemiTagger, SignatureSemiTagger);
 //         EventSemiTagger.SetSignalTreeNames(SignalSemiTrees);
 //         EventSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
@@ -357,29 +357,29 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //     case HBottomReader:
 //         BottomReader.set_tagger(bottom_tagger_);
 //         break;
-//     case HWHadronicTagger:
-//         WHadronicTagger.BottomTagger.SetTagger();
-//         WHadronicTagger.BottomReader.set_tagger(WHadronicTagger.BottomTagger);
+//     case WHadronicTagger:
+//         w_hadronic_tagger.BottomTagger.SetTagger();
+//         w_hadronic_tagger.BottomReader.set_tagger(w_hadronic_tagger.BottomTagger);
 //         break;
 //     case HWHadronicReader:
 //         BottomReader.set_tagger(bottom_tagger_);
-//         WHadronicReader.set_tagger(WHadronicTagger);
+//         WHadronicReader.set_tagger(w_hadronic_tagger);
 //         break;
 //     case HWSemiTagger :
 //         break;
 //     case HWSemiReader :
 //         WSemiReader.set_tagger(WSemiTagger);
 //         break;
-//     case HTopHadronicTagger :
-//         TopHadronicTagger.BottomTagger.SetTagger();
-//         TopHadronicTagger.BottomReader.set_tagger(TopHadronicTagger.BottomTagger);
-//         TopHadronicTagger.WTagger.SetTagger(BottomTagger);
-//         TopHadronicTagger.WReader.set_tagger(TopHadronicTagger.WTagger);
+//     case TopHadronicTagger :
+//         top_hadronic_tagger.BottomTagger.SetTagger();
+//         top_hadronic_tagger.BottomReader.set_tagger(top_hadronic_tagger.BottomTagger);
+//         top_hadronic_tagger.WTagger.SetTagger(BottomTagger);
+//         top_hadronic_tagger.WReader.set_tagger(top_hadronic_tagger.WTagger);
 //         break;
 //     case HTopHadronicReader :
 //         BottomReader.set_tagger(bottom_tagger_);
-//         WHadronicReader.set_tagger(WHadronicTagger);
-//         TopHadronicReader.set_tagger(TopHadronicTagger);
+//         WHadronicReader.set_tagger(w_hadronic_tagger);
+//         TopHadronicReader.set_tagger(top_hadronic_tagger);
 //         break;
 //     case HTopSemiTagger :
 //         TopSemiTagger.BottomTagger.SetTagger();
@@ -401,15 +401,15 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //         HeavyHiggsSemiTagger.WReader.set_tagger(HeavyHiggsSemiTagger.WTagger);
 //         HeavyHiggsSemiTagger.TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
 //         HeavyHiggsSemiTagger.TopSemiReader.set_tagger(HeavyHiggsSemiTagger.TopSemiTagger);
-//         HeavyHiggsSemiTagger.TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         HeavyHiggsSemiTagger.TopHadronicReader.set_tagger(HeavyHiggsSemiTagger.TopHadronicTagger);
+//         HeavyHiggsSemiTagger.top_hadronic_tagger.SetTagger(BottomTagger, w_hadronic_tagger);
+//         HeavyHiggsSemiTagger.TopHadronicReader.set_tagger(HeavyHiggsSemiTagger.top_hadronic_tagger);
 //         break;
 //     case HHeavyHiggsSemiReader  :
 //         BottomReader.set_tagger(bottom_tagger_);
 //         WSemiReader.set_tagger(WSemiTagger);
 //         TopSemiReader.set_tagger(TopSemiTagger);
-//         WHadronicReader.set_tagger(WHadronicTagger);
-//         TopHadronicReader.set_tagger(TopHadronicTagger);
+//         WHadronicReader.set_tagger(w_hadronic_tagger);
+//         TopHadronicReader.set_tagger(top_hadronic_tagger);
 //         HeavyHiggsSemiReader.set_tagger(HeavyHiggsSemiTagger);
 //         break;
 //     case HJetPairTagger :
@@ -429,9 +429,9 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //         SignatureSemiTagger.WReader.set_tagger(SignatureSemiTagger.WTagger);
 //         SignatureSemiTagger.TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
 //         SignatureSemiTagger.TopSemiReader.set_tagger(SignatureSemiTagger.TopSemiTagger);
-//         SignatureSemiTagger.TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         SignatureSemiTagger.TopHadronicReader.set_tagger(SignatureSemiTagger.TopHadronicTagger);
-//         SignatureSemiTagger.HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger);
+//         SignatureSemiTagger.top_hadronic_tagger.SetTagger(BottomTagger, w_hadronic_tagger);
+//         SignatureSemiTagger.TopHadronicReader.set_tagger(SignatureSemiTagger.top_hadronic_tagger);
+//         SignatureSemiTagger.HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger);
 //         SignatureSemiTagger.HeavyHiggsSemiReader.set_tagger(SignatureSemiTagger.HeavyHiggsSemiTagger);
 //         SignatureSemiTagger.JetPairTagger.SetTagger(BottomTagger);
 //         SignatureSemiTagger.JetPairReader.set_tagger(SignatureSemiTagger.JetPairTagger);
@@ -440,8 +440,8 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //         BottomReader.set_tagger(bottom_tagger_);
 //         WSemiReader.set_tagger(WSemiTagger);
 //         TopSemiReader.set_tagger(TopSemiTagger);
-//         WHadronicReader.set_tagger(WHadronicTagger);
-//         TopHadronicReader.set_tagger(TopHadronicTagger);
+//         WHadronicReader.set_tagger(w_hadronic_tagger);
+//         TopHadronicReader.set_tagger(top_hadronic_tagger);
 //         JetPairReader.set_tagger(JetPairTagger);
 //         HeavyHiggsSemiReader.set_tagger(HeavyHiggsSemiTagger);
 //         SignatureSemiReader.set_tagger(SignatureSemiTagger);
@@ -455,21 +455,21 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //         EventSemiTagger.WReader.set_tagger(EventSemiTagger.WTagger);
 //         EventSemiTagger.TopSemiTagger.SetTagger(BottomTagger, WSemiTagger);
 //         EventSemiTagger.TopSemiReader.set_tagger(EventSemiTagger.TopSemiTagger);
-//         EventSemiTagger.TopHadronicTagger.SetTagger(BottomTagger, WHadronicTagger);
-//         EventSemiTagger.TopHadronicReader.set_tagger(EventSemiTagger.TopHadronicTagger);
-//         EventSemiTagger.HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger);
+//         EventSemiTagger.top_hadronic_tagger.SetTagger(BottomTagger, w_hadronic_tagger);
+//         EventSemiTagger.TopHadronicReader.set_tagger(EventSemiTagger.top_hadronic_tagger);
+//         EventSemiTagger.HeavyHiggsSemiTagger.SetTagger(BottomTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger);
 //         EventSemiTagger.HeavyHiggsSemiReader.set_tagger(EventSemiTagger.HeavyHiggsSemiTagger);
 //         EventSemiTagger.JetPairTagger.SetTagger(BottomTagger);
 //         EventSemiTagger.JetPairReader.set_tagger(EventSemiTagger.JetPairTagger);
-//         EventSemiTagger.SignatureSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, WHadronicTagger, TopSemiTagger, TopHadronicTagger, HeavyHiggsSemiTagger);
+//         EventSemiTagger.SignatureSemiTagger.SetTagger(BottomTagger, JetPairTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger, HeavyHiggsSemiTagger);
 //         EventSemiTagger.SignatureSemiReader.set_tagger(EventSemiTagger.SignatureSemiTagger);
 //         break;
 //     case HEventSemiReader :
 //         BottomReader.set_tagger(bottom_tagger_);
 //         WSemiReader.set_tagger(WSemiTagger);
 //         TopSemiReader.set_tagger(TopSemiTagger);
-//         WHadronicReader.set_tagger(WHadronicTagger);
-//         TopHadronicReader.set_tagger(TopHadronicTagger);
+//         WHadronicReader.set_tagger(w_hadronic_tagger);
+//         TopHadronicReader.set_tagger(top_hadronic_tagger);
 //         JetPairReader.set_tagger(JetPairTagger);
 //         HeavyHiggsSemiReader.set_tagger(HeavyHiggsSemiTagger);
 //         SignatureSemiReader.set_tagger(SignatureSemiTagger);
@@ -503,7 +503,7 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //     case HWSemiReader :
 //         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), HWSemiBranch::Class());
 //         break;
-//     case HWHadronicTagger :
+//     case WHadronicTagger :
 //         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), WHadronicBranch::Class());
 //         break;
 //     case HWHadronicReader :
@@ -515,7 +515,7 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
 //     case HTopLeptonicReader :
 //         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), HTopLeptonicBranch::Class());
 //         break;
-//     case HTopHadronicTagger :
+//     case TopHadronicTagger :
 //         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), TopHadronicBranch::Class());
 //         break;
 //     case HTopSemiTagger :
@@ -604,7 +604,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //         return GetJetPairTag(Event, Tag);
 //     case HJetPairReader :
 //         return GetJetPairReader(Event, Tag);
-//     case HWHadronicTagger :
+//     case WHadronicTagger :
 //         return GetWTag(Event, Tag);
 //     case HWHadronicReader :
 //         return GetWReader(Event, Tag);
@@ -614,7 +614,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //         return GetWSemiReader(Event, Tag);
 //     case HTopLeptonicTagger :
 //         return GetTopLeptonicTag(Event, Tag);
-//     case HTopHadronicTagger :
+//     case TopHadronicTagger :
 //         return GetTopHadronicTag(Event, Tag);
 //     case HTopSemiTagger :
 //         return GetTopSemiTag(Event, Tag);
@@ -773,7 +773,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // bool hheavyhiggs::HAnalysisMva::GetWTag(hanalysis::HEvent &Event, const Tag Tag)
 // {
 //     Print(kDebug, "Get W Tag", Tag);
-//     std::vector<WHadronicBranch> Ws = WHadronicTagger.GetBranches(Event, Tag);
+//     std::vector<WHadronicBranch> Ws = w_hadronic_tagger.GetBranches(Event, Tag);
 //     if (Ws.empty()) return 0;
 //     for (const auto & W : Ws) {
 //         ++ObjectNumber;
@@ -791,7 +791,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) return 0;
 //
-//     std::vector<hanalysis::Doublet> doublets = WHadronicTagger.GetBdt(jets, WHadronicReader, bottom_tagger_, BottomReader);
+//     std::vector<hanalysis::Doublet> doublets = w_hadronic_tagger.GetBdt(jets, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     if (doublets.size() > 1) {
 //         std::sort(doublets.begin(), doublets.end());
@@ -800,7 +800,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //
 //     for (const auto & doublet : doublets) {
 //         ++ObjectNumber;
-//         *static_cast<WHadronicBranch *>(Branch->NewEntry()) = WHadronicTagger.GetBranch(doublet);
+//         *static_cast<WHadronicBranch *>(Branch->NewEntry()) = w_hadronic_tagger.GetBranch(doublet);
 //     }
 //     return 1;
 // }
@@ -847,7 +847,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 // bool hheavyhiggs::HAnalysisMva::GetTopHadronicTag(hanalysis::HEvent &Event,  Tag Tag)
 // {
 //     Print(kInformation, "Get hadronic tops", Tag);
-//     std::vector<TopHadronicBranch> Tops = TopHadronicTagger.GetBranches(Event, Tag, PreCut());
+//     std::vector<TopHadronicBranch> Tops = top_hadronic_tagger.GetBranches(Event, Tag, PreCut());
 //     if (Tops.empty()) return 0;
 //     for (const auto & Top : Tops) {
 //         ++ObjectNumber;
@@ -867,11 +867,11 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //     if (jets.empty()) return 0;
 //
 //
-// //     std::vector<hanalysis::Doublet> doublets = WHadronicTagger.GetBdt(jets, WHadronicReader);
-// //     std::vector<hanalysis::Triplet> triplets = TopHadronicTagger.GetBdt(doublets, jets, TopHadronicReader);
+// //     std::vector<hanalysis::Doublet> doublets = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
+// //     std::vector<hanalysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
 //
 //
-//     std::vector<hanalysis::Triplet> triplets = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+//     std::vector<hanalysis::Triplet> triplets = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, w_hadronic_tagger, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     if (triplets.size() > 1) {
 //         std::sort(triplets.begin(), triplets.end());
@@ -880,7 +880,7 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //
 //     for (const auto & triplet : triplets) {
 //         ++ObjectNumber;
-//         *static_cast<TopHadronicBranch *>(Branch->NewEntry()) = TopHadronicTagger.GetBranch(triplet);
+//         *static_cast<TopHadronicBranch *>(Branch->NewEntry()) = top_hadronic_tagger.GetBranch(triplet);
 //     }
 //     return 1;
 // }
@@ -1003,9 +1003,9 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //     std::vector<hanalysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 //     std::vector<hanalysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 //
-// //     std::vector<hanalysis::Doublet> doubletsHadronic = WHadronicTagger.GetBdt(jets, WHadronicReader);
-// //     std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-//     std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+// //     std::vector<hanalysis::Doublet> doubletsHadronic = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
+// //     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
+//     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, w_hadronic_tagger, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 //
@@ -1120,9 +1120,9 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //     std::vector<hanalysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 //     std::vector<hanalysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 //
-// //     std::vector<hanalysis::Doublet> doubletsHadronic = WHadronicTagger.GetBdt(jets, WHadronicReader);
-//     //     std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-//     std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+// //     std::vector<hanalysis::Doublet> doubletsHadronic = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
+//     //     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
+//     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, w_hadronic_tagger, WHadronicReader, bottom_tagger_, BottomReader);
 //
 //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 //
@@ -1173,9 +1173,9 @@ int hheavyhiggs::HAnalysisMva::Analysis(hanalysis::HEvent &event, const hanalysi
 //     std::vector<hanalysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 // //     Print(kError, "triplets Semi", tripletsSemi.size());
 //
-// //     std::vector<hanalysis::Doublet> doubletsHadronic = WHadronicTagger.GetBdt(jets, WHadronicReader);
-// //     std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-//     std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WHadronicTagger, WHadronicReader, bottom_tagger_, BottomReader);
+// //     std::vector<hanalysis::Doublet> doubletsHadronic = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
+// //     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
+//     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, w_hadronic_tagger, WHadronicReader, bottom_tagger_, BottomReader);
 // //     Print(kError, "triplets Hadronic", tripletsHadronic.size());
 //
 //     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);

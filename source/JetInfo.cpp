@@ -17,8 +17,8 @@
 DetectorGeometry::DetectorGeometry()
 {
 
-// HDetectorType DetectorType = Spp;
-    HDetectorType DetectorType = CMS;
+HDetectorType DetectorType = Spp;
+//     HDetectorType DetectorType = CMS;
     switch (DetectorType) {
     case CMS :
         JetMinPt = 20;

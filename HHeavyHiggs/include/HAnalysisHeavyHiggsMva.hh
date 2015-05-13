@@ -27,10 +27,10 @@ public:
 //     hanalysis::BottomTagger bottom_tagger_;
 //     hanalysis::HJetPairTagger JetPairTagger;
 //     hanalysis::HWSemiTagger WSemiTagger;
-//     hanalysis::HWTagger WHadronicTagger;
+//     hanalysis::HWTagger w_hadronic_tagger;
 //
 // //     hanalysis::HTopLeptonicTagger TopLeptonicTagger;
-//     hanalysis::HTopHadronicTagger TopHadronicTagger;
+//     hanalysis::TopHadronicTagger top_hadronic_tagger;
 //     hanalysis::HTopSemiTagger TopSemiTagger;
 //
 // //     hanalysis::HHeavyHiggsLeptonicTagger HeavyHiggsLeptonicTagger;

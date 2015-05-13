@@ -296,6 +296,11 @@ Jets RemoveIfQuark(const Jets &jets);
 
 Jets RemoveIfNot5Quarks(const Jets &jets);
 
+
+Jets RemoveIfClose(const Jets &jets, const Jets& particles);
+
+Jets CopyIfClose(const Jets &jets, const Jets& particles);
+
 // template<typename Predicate>
 // Jets FindIf(const Jets &jets){
 //   return std::find_if(jets.begin(),jets.end(),Predicate);

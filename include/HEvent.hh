@@ -5,7 +5,7 @@
 # include "HParticle.hh"
 # include "HLepton.hh"
 # include "HJet.hh"
-# include "TopHadronicTagger.hh"
+# include "TopHadronicHep.hh"
 # include "HHiggsTagger.hh"
 # include "HDiscriminator.hh"
 # include "HJetTag.hh"

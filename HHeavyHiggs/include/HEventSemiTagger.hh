@@ -32,9 +32,9 @@ public:
         const hanalysis::BottomTagger &NewBottomTagger,
         const hanalysis::HJetPairTagger &NewJetPairTagger,
         const hanalysis::HWSemiTagger &NewWSemiTagger,
-        const hanalysis::HWHadronicTagger &NewWTagger,
+        const hanalysis::WHadronicTagger &NewWTagger,
         const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-        const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
+        const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
         const HSignatureSemiTagger &NewSignatureSemiTagger);
 
@@ -50,9 +50,9 @@ public:
 
     hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::HWHadronicTagger WTagger;
+    hanalysis::WHadronicTagger WTagger;
     hanalysis::HTopSemiTagger TopSemiTagger;
-    hanalysis::HTopHadronicTagger TopHadronicTagger;
+    hanalysis::TopHadronicTagger top_hadronic_tagger;
     hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
     hanalysis::HJetPairTagger JetPairTagger;
     HSignatureSemiTagger SignatureSemiTagger;

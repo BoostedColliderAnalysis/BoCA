@@ -16,9 +16,9 @@ void hheavyhiggs::HEventSemiTagger::SetTagger(
     const hanalysis::BottomTagger &NewBottomTagger,
     const hanalysis::HJetPairTagger &NewJetPairTagger,
     const hanalysis::HWSemiTagger &NewWSemiTagger,
-    const hanalysis::HWHadronicTagger &NewWTagger,
+    const hanalysis::WHadronicTagger &NewWTagger,
     const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-    const hanalysis::HTopHadronicTagger &NewTopHadronicTagger,
+    const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
     const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
     const HSignatureSemiTagger &NewSignatureSemiTagger)
 {
@@ -28,7 +28,7 @@ void hheavyhiggs::HEventSemiTagger::SetTagger(
     WSemiTagger = NewWSemiTagger;
     WTagger = NewWTagger;
     TopSemiTagger = NewTopSemiTagger;
-    TopHadronicTagger = NewTopHadronicTagger;
+    top_hadronic_tagger = Newtop_hadronic_tagger;
     HeavyHiggsSemiTagger = NewHeavyHiggsSemiTagger;
     JetPairTagger = NewJetPairTagger;
     SignatureSemiTagger = NewSignatureSemiTagger;
@@ -216,8 +216,8 @@ std::vector<hheavyhiggs::HEventSemiBranch> hheavyhiggs::HEventSemiTagger::GetBra
     std::vector<hanalysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 
 //     std::vector<hanalysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
-//     std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-    std::vector<hanalysis::Triplet> tripletsHadronic = TopHadronicTagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
+    std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 
