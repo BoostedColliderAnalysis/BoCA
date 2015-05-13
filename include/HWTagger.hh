@@ -17,7 +17,7 @@ public:
 
     void SetTagger(const HBottomTagger &NewBottomTagger);
 
-    std::vector< WHadronicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector< WHadronicBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
 //     std::vector<ParticleBranch> GetconstituentBranches();
 
@@ -35,8 +35,8 @@ public:
 
     WHadronicBranch GetBranch(const Doublet &doublet) const;
 
-    int GetWHadId(hanalysis::HEvent &Event) {
-      return GetWHadId(GetWDaughters(Event));
+    int GetWHadId(hanalysis::Event &event) {
+      return GetWHadId(GetWDaughters(event));
     };
 
 protected:
@@ -47,7 +47,7 @@ protected:
 
 private:
 
-    Jets GetWDaughters(hanalysis::HEvent &Event);
+    Jets GetWDaughters(hanalysis::Event &event);
 
     int GetWHadId(const Jets &jets);
 

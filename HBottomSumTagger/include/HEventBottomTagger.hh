@@ -1,5 +1,5 @@
-# ifndef HEventBottomTagger_hh
-# define HEventBottomTagger_hh
+# ifndef EventBottomTagger_hh
+# define EventBottomTagger_hh
 
 # include "BottomTagger.hh"
 # include "HTag.hh"
@@ -8,7 +8,7 @@
 namespace hbottomsumtagger
 {
 
-class HEventBottomMultiplet : public hanalysis::HTag
+class EventBottomMultiplet : public hanalysis::HTag
 {
 public:
 
@@ -52,10 +52,10 @@ private:
 
 /**
  *
- * @brief Event BDT for semi leptonic heavy higgs
+ * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class HEventBottomTagger : public hanalysis::Tagger
+class EventBottomTagger : public hanalysis::Tagger
 {
 
 public:
@@ -64,21 +64,21 @@ public:
     * @brief Constructor
     *
     */
-    HEventBottomTagger();
+    EventBottomTagger();
 
-    bool TruthLevelCheck(const Jets &NewJets, hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    bool TruthLevelCheck(const Jets &NewJets, hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
-    std::vector<HEventBottomTaggerBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector<EventBottomTaggerBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
-    std::vector<HEventBottomMultiplet> GetBdt(const Jets &jets, const hanalysis::Reader &EventSemiReader);
+    std::vector<EventBottomMultiplet> GetBdt(const Jets &jets, const hanalysis::Reader &eventSemiReader);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
+    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
-    HEventBottomTaggerBranch GetBranch(const hbottomsumtagger::HEventBottomMultiplet &Event) const;
+    EventBottomTaggerBranch GetBranch(const hbottomsumtagger::EventBottomMultiplet &event) const;
 
     hanalysis::BottomTagger bottom_tagger_;
 
@@ -92,16 +92,16 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HHEventBottomTagger";
+        return "HEventBottomTagger";
     }
 
 private:
 
     void DefineVariables();
 
-//     std::vector<HOctet> GetHeavyHiggsEvents(Jets &jets);
+//     std::vector<HOctet> GetHeavyHiggsevents(Jets &jets);
 
-    HEventBottomTaggerBranch Branch;
+    EventBottomTaggerBranch Branch;
     hanalysis::HJetTag JetTag;
 
 };

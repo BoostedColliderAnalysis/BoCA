@@ -3,12 +3,12 @@
 # include "ExRootAnalysis/ExRootClasses.h"
 namespace exrootanalysis {
 
-  typedef ::TRootLHEFEvent TRootLHEFEvent;
+  typedef ::TRootLHEFevent TRootLHEFevent;
   typedef ::TRootLHEFParticle TRootLHEFParticle;
-  typedef ::TRootGenEvent TRootGenEvent;
+  typedef ::TRootGenevent TRootGenevent;
   typedef ::TRootGenParticle TRootGenParticle;
   typedef ::TRootGenJet TRootGenJet;
-  typedef ::TRootEvent TRootEvent;
+  typedef ::TRootevent TRootevent;
   typedef ::TRootMissingET TRootMissingET;
   typedef ::TRootPhoton TRootPhoton;
   typedef ::TRootElectron TRootElectron;

@@ -75,11 +75,11 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
     ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HBTaggerBranch::Class());
 
-    const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
+    const int eventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
 
-    for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
+    for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
 
-        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(eventNumber);
 
         for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
@@ -131,12 +131,12 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 //     ReaderStruct.TopSum = 0;
 //     ReaderStruct.FatJetSum = 0;
 //
-//     ReaderStruct.TopEventSum = 0;
-//     ReaderStruct.HiggsEventSum = 0;
+//     ReaderStruct.TopeventSum = 0;
+//     ReaderStruct.HiggseventSum = 0;
 //
-//     ReaderStruct.EventVector.assign(ObservableSum, 0);
-//     ReaderStruct.TopEventVector.assign(ObservableSum, 0);
-//     ReaderStruct.HiggsEventVector.assign(ObservableSum, 0);
+//     ReaderStruct.eventVector.assign(ObservableSum, 0);
+//     ReaderStruct.TopeventVector.assign(ObservableSum, 0);
+//     ReaderStruct.HiggseventVector.assign(ObservableSum, 0);
 //     ReaderStruct.CutFlowVector.assign(ObservableSum, 0);
 //     ReaderStruct.FatJetVector.assign(ObservableSum, 0);
 //     ReaderStruct.HiggsVector.assign(ObservableSum, 0);
@@ -144,18 +144,18 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 //
 //     Print(kInformation, "Vectors assigned");
 //
-//     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+//     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(eventBranchName.c_str());
 //
 //
-//     const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
-//     for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
-//         Print(kDebug, "Event Loop");
+//     const int eventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
+//     for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
+//         Print(kDebug, "event Loop");
 //
-//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(eventNumber);
 //
-//         std::vector<bool> CandidateEventCut(ObservableSum, 1);
-//         std::vector<bool> TopEventCut(ObservableSum, 1);
-//         std::vector<bool> HiggsEventCut(ObservableSum, 1);
+//         std::vector<bool> CandidateeventCut(ObservableSum, 1);
+//         std::vector<bool> TopeventCut(ObservableSum, 1);
+//         std::vector<bool> HiggseventCut(ObservableSum, 1);
 //         bool HasHiggs = 0;;
 //         bool HasTop = 0;
 //
@@ -198,12 +198,12 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 //                 if (!ParticleCut) {
 //
 //                     ++ReaderStruct.FatJetVector[ObservableNumber];
-//                     CandidateEventCut[ObservableNumber] = 0;
+//                     CandidateeventCut[ObservableNumber] = 0;
 //
 //                     if (Candidate->BTag) {
 //
 //                         ++ReaderStruct.TopVector[ObservableNumber];
-//                         TopEventCut[ObservableNumber] = 0;
+//                         TopeventCut[ObservableNumber] = 0;
 //
 //                     }
 //
@@ -213,16 +213,16 @@ void hbtagger::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const st
 //
 //         }
 //
-//         if (HasHiggs) ++ReaderStruct.HiggsEventSum;
-//         if (HasTop) ++ReaderStruct.TopEventSum;
+//         if (HasHiggs) ++ReaderStruct.HiggseventSum;
+//         if (HasTop) ++ReaderStruct.TopeventSum;
 //
 //         for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 //
-//             if (!CandidateEventCut[ObservableNumber]) {
+//             if (!CandidateeventCut[ObservableNumber]) {
 //
-//                 ++ReaderStruct.EventVector[ObservableNumber];
-//                 if (!HiggsEventCut[ObservableNumber]) ++ReaderStruct.HiggsEventVector[ObservableNumber];
-//                 if (!TopEventCut[ObservableNumber]) ++ReaderStruct.TopEventVector[ObservableNumber];
+//                 ++ReaderStruct.eventVector[ObservableNumber];
+//                 if (!HiggseventCut[ObservableNumber]) ++ReaderStruct.HiggseventVector[ObservableNumber];
+//                 if (!TopeventCut[ObservableNumber]) ++ReaderStruct.TopeventVector[ObservableNumber];
 //
 //             }
 //

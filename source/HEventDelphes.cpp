@@ -3,7 +3,7 @@
 # include "HLeptonDelphes.hh"
 # include "HJetDelphes.hh"
 
-hanalysis::hdelphes::HEvent::HEvent()
+hanalysis::hdelphes::Event::Event()
 {
 // DebugLevel=kDebug;
     Print(kNotification, "Constructor");
@@ -17,7 +17,7 @@ hanalysis::hdelphes::HEvent::HEvent()
 
 }
 
-hanalysis::hdelphes::HEvent::~HEvent()
+hanalysis::hdelphes::Event::~Event()
 {
 
     Print(kNotification, "Destructor");
@@ -31,21 +31,21 @@ hanalysis::hdelphes::HEvent::~HEvent()
 
 }
 
-void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &ClonesArrays)
+void hanalysis::hdelphes::Event::Newevent(const hanalysis::ClonesArrays &ClonesArrays)
 {
 
-    Print(kInformation, "New Event");
+    Print(kInformation, "New event");
 
-    Particles->NewEvent(ClonesArrays);
-    jets->NewEvent(ClonesArrays);
-    Lepton->NewEvent(ClonesArrays);
+    Particles->Newevent(ClonesArrays);
+    jets->Newevent(ClonesArrays);
+    Lepton->Newevent(ClonesArrays);
 
-//     HiggsTagger->NewEvent();
-//     Discriminator->NewEvent();
+//     HiggsTagger->Newevent();
+//     Discriminator->Newevent();
 
 }
 
-// fastjet::PseudoJet hanalysis::hdelphes::HEvent::GetHiggs()
+// fastjet::PseudoJet hanalysis::hdelphes::Event::GetHiggs()
 // {
 //
 //     Print(kInformation, "Get Higgs");
@@ -56,7 +56,7 @@ void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &Clones
 //
 // }
 //
-// Jets hanalysis::hdelphes::HEvent::GetTops(hanalysis::HJetTag &JetTag)
+// Jets hanalysis::hdelphes::Event::GetTops(hanalysis::HJetTag &JetTag)
 // {
 //
 //     Print(kInformation, "Get Tops", JetTag.GetBranchId(0,0));
@@ -69,7 +69,7 @@ void hanalysis::hdelphes::HEvent::NewEvent(const hanalysis::ClonesArrays &Clones
 //
 // }
 //
-// Jets hanalysis::hdelphes::HEvent::GetCandidates(hanalysis::HJetTag  &JetTag) // FIXME why does this not work
+// Jets hanalysis::hdelphes::Event::GetCandidates(hanalysis::HJetTag  &JetTag) // FIXME why does this not work
 // {
 //     Print(kInformation, "GetHiggsTopCandidates");
 //

@@ -16,14 +16,14 @@ public:
 
     HBottomTaggerSimple();
 
-    int Train(hanalysis::HEvent &event, const Tag tag);
+    int Train(hanalysis::Event &event, const Tag tag);
 
     BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
-    int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader);
+    int GetBdt(hanalysis::Event &event, const TMVA::Reader &reader);
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
-      return static_cast<BottomBranch &>(*EventClonesArray.At(Entry)).Bdt;
+    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry){
+      return static_cast<BottomBranch &>(*eventClonesArray.At(Entry)).Bdt;
     }
 
     void SaveEntries(const Jets &jets){

@@ -15,23 +15,23 @@ public:
 
     HWHadronicTagger();
 
-    int Train(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    int Train(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< WHadronicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag) {
+    std::vector< WHadronicBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag) {
         Print(kError, "train", "depreciated");
     }
 
-    virtual int GetBdt(HEvent &event, const TMVA::Reader &reader) {
+    virtual int GetBdt(Event &event, const TMVA::Reader &reader) {
       return SaveEntries(GetDoublets(event, reader));
     }
 
-    std::vector<Doublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<Doublet> GetDoublets(Event &event, const TMVA::Reader &reader);
 
     std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::Reader &WReader, hanalysis::BottomTagger &bottom_tagger, hanalysis::Reader &BottomReader) {
         Print(kError, "train", "depreciated");
     }
 
-    std::vector<hanalysis::Doublet> GetJetDoublets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<hanalysis::Doublet> GetJetDoublets(Event &event, const TMVA::Reader &reader);
     std::vector<hanalysis::Doublet> GetJetDoublets(const Jets &jets, const TMVA::Reader &reader);
 
     std::vector<hanalysis::Doublet> GetSubJetDoublets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
@@ -52,8 +52,8 @@ public:
 
     WHadronicBranch GetBranch(const Doublet &doublet) const;
 
-    int GetWHadId(hanalysis::HEvent &Event) {
-        return GetWHadId(GetWDaughters(Event));
+    int GetWHadId(hanalysis::Event &event) {
+        return GetWHadId(GetWDaughters(event));
     };
 
     int SaveEntries(const std::vector<Doublet> &doublets) {
@@ -74,7 +74,7 @@ protected:
 
 private:
 
-    Jets GetWDaughters(hanalysis::HEvent &Event);
+    Jets GetWDaughters(hanalysis::Event &event);
 
     int GetWHadId(const Jets &jets);
 

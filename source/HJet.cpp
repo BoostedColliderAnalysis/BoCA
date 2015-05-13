@@ -6,12 +6,12 @@ hanalysis::HJet::HJet()
     Print(kNotification, "Constructor");
 }
 
-void hanalysis::HJet::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays)
+void hanalysis::HJet::Newevent(const hanalysis::ClonesArrays &NewClonesArrays)
 {
 
-    Print(kInformation, "New Event");
+    Print(kInformation, "New event");
 
-    hanalysis::HFourVector::NewEvent(NewClonesArrays);
+    hanalysis::HFourVector::Newevent(NewClonesArrays);
 
     GotJets = 0;
 

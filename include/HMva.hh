@@ -166,13 +166,13 @@ public:
 
     Jets GranulatedJets(const Jets &NewEFlowJets);
 
-    Jets GetJets(hanalysis::HEvent &Event, hanalysis::HJetTag &JetTag);
+    Jets GetJets(hanalysis::Event &event, hanalysis::HJetTag &JetTag);
 
-    Jets GetJets(hanalysis::HEvent &Event);
+    Jets GetJets(hanalysis::Event &event);
 
     Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
-    fastjet::PseudoJet GetMissingEt(hanalysis::HEvent &Event);
+    fastjet::PseudoJet GetMissingEt(hanalysis::Event &event);
 
     virtual float ReadBdt(const TClonesArray &, const int) {
         Print(kError, "Read Bdt", "should be subclassed");

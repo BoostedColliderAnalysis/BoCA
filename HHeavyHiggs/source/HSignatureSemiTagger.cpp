@@ -70,48 +70,48 @@ hheavyhiggs::HOctetBranch hheavyhiggs::HSignatureSemiTagger::GetBranch(const HOc
 {
     Print(kInformation, "FillPairTagger", Octet.Bdt());
 
-    HOctetBranch EventSemiBranch;
+    HOctetBranch eventSemiBranch;
 
-    EventSemiBranch.Mass = Octet.Jet().m();
-    EventSemiBranch.Rap = Octet.Jet().rap();
-    EventSemiBranch.Phi = Octet.Jet().phi();
-    EventSemiBranch.Pt = Octet.Jet().pt();
-    EventSemiBranch.Ht = Octet.Ht();
+    eventSemiBranch.Mass = Octet.Jet().m();
+    eventSemiBranch.Rap = Octet.Jet().rap();
+    eventSemiBranch.Phi = Octet.Jet().phi();
+    eventSemiBranch.Pt = Octet.Jet().pt();
+    eventSemiBranch.Ht = Octet.Ht();
 
-    EventSemiBranch.DeltaPt = Octet.DeltaPt();
-    EventSemiBranch.DeltaHt = Octet.DeltaHt();
-    EventSemiBranch.DeltaM = Octet.DeltaM();
-    EventSemiBranch.DeltaRap = Octet.DeltaRap();
-    EventSemiBranch.DeltaPhi = Octet.DeltaPhi();
-    EventSemiBranch.DeltaR = Octet.DeltaR();
+    eventSemiBranch.DeltaPt = Octet.DeltaPt();
+    eventSemiBranch.DeltaHt = Octet.DeltaHt();
+    eventSemiBranch.DeltaM = Octet.DeltaM();
+    eventSemiBranch.DeltaRap = Octet.DeltaRap();
+    eventSemiBranch.DeltaPhi = Octet.DeltaPhi();
+    eventSemiBranch.DeltaR = Octet.DeltaR();
 
-    EventSemiBranch.Bdt = Octet.Bdt();
-    EventSemiBranch.Tag = Octet.Tag();
-    EventSemiBranch.BottomBdt = Octet.BottomBdt();
-    EventSemiBranch.PairBottomBdt = Octet.PairBottomBdt();
-    EventSemiBranch.PairBdt = Octet.doublet().Bdt();
-    EventSemiBranch.HiggsBdt = Octet.Sextet().Bdt();
-    EventSemiBranch.HardTopPt = Octet.Sextet().HardTopPt();
-    EventSemiBranch.SoftTopPt = Octet.Sextet().SoftTopPt();
-
-
-    EventSemiBranch.HiggsMass = Octet.Sextet().Jet().m();
-    EventSemiBranch.PairRap = Octet.doublet().DeltaRap();
+    eventSemiBranch.Bdt = Octet.Bdt();
+    eventSemiBranch.Tag = Octet.Tag();
+    eventSemiBranch.BottomBdt = Octet.BottomBdt();
+    eventSemiBranch.PairBottomBdt = Octet.PairBottomBdt();
+    eventSemiBranch.PairBdt = Octet.doublet().Bdt();
+    eventSemiBranch.HiggsBdt = Octet.Sextet().Bdt();
+    eventSemiBranch.HardTopPt = Octet.Sextet().HardTopPt();
+    eventSemiBranch.SoftTopPt = Octet.Sextet().SoftTopPt();
 
 
-    return EventSemiBranch;
+    eventSemiBranch.HiggsMass = Octet.Sextet().Jet().m();
+    eventSemiBranch.PairRap = Octet.doublet().DeltaRap();
+
+
+    return eventSemiBranch;
 
 }
 
-std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
+std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBranches(hanalysis::Event &event, const HObject::Tag Tag)
 {
-    Print(kInformation, "Get Event Tags");
-    float Mass = Event.GetMass();
-    Jets jets = GetJets(Event);
+    Print(kInformation, "Get event Tags");
+    float Mass = event.mass();
+    Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
+    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
     std::vector<hanalysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<hanalysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
     if (tripletsSemi.empty())Print(kInformation, "No tripletsSemi", tripletsSemi.size());
@@ -124,7 +124,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
     if (Sextets.empty())Print(kInformation, "No Sextets", Sextets.size());
 
-    Jets HiggsParticles = Event.GetParticles()->Generator();
+    Jets HiggsParticles = event.Partons().Generator();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
     Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;
@@ -142,7 +142,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
 
 
     std::vector<hanalysis::Doublet> Finaldoublets;
-    Jets Particles = Event.GetParticles()->Generator();
+    Jets Particles = event.Partons().Generator();
     if (Tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
@@ -198,7 +198,7 @@ hanalysis::HObject::Tag hheavyhiggs::HSignatureSemiTagger::GetTag(const HOctet &
 
 std::vector<HOctet> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::Doublet > &doublets, const hanalysis::Reader &Reader)
 {
-    Print(kInformation, "Get Event Tags");
+    Print(kInformation, "Get event Tags");
 
     std::vector<HOctet> Octets;
     for (const auto & doublet : doublets) {
@@ -224,7 +224,7 @@ std::vector<HOctet> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector<
 
     if (Octets.size() > 1) std::sort(Octets.begin(), Octets.end());
     Octets.erase(Octets.begin() + std::min(max_combi(), int(Octets.size())), Octets.end());
-    Print(kInformation, "Event Number", Octets.size());
+    Print(kInformation, "event Number", Octets.size());
 
 
     return Octets;

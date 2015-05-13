@@ -4,7 +4,7 @@
 
 # include "Tagger.hh"
 # include "HBranchHeavyHiggs.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"
 # include "HLeptonicTopTagger.hh"
@@ -138,7 +138,7 @@ private:
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HMvaEvent : public hanalysis::Tagger
+class hheavyhiggs::HMvaevent : public hanalysis::Tagger
 {
 
 public:
@@ -147,17 +147,17 @@ public:
     * @brief Constructor
     *
     */
-    HMvaEvent(hanalysis::BottomTagger *const NewBottomTagger, hanalysis::HTopSemiTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
+    HMvaevent(hanalysis::BottomTagger *const NewBottomTagger, hanalysis::HTopSemiTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
     *
     */
-    ~HMvaEvent();
+    ~HMvaevent();
 
-    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const HObject::HState State);
+    std::vector<hheavyhiggs::EventLeptonicBranch *> GetBranches(hanalysis::Event &event, const HObject::HState State);
 
-    void FillBranch(const HOctet &HeavyHiggsEvent);
+    void FillBranch(const HOctet &HeavyHiggsevent);
 
     ReaderStruct CutLoop(const ExRootTreeReader *const, ReaderStruct &) {};
 
@@ -172,9 +172,9 @@ protected:
 
 private:
 
-    std::vector<HOctet> GetHeavyHiggsEvents(const Jets &jets, const Jets &Leptons);
+    std::vector<HOctet> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
 
-    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventBranch, const HOctet &HeavyHiggsEvent);
+    void FillBranch(hheavyhiggs::EventLeptonicBranch *eventBranch, const HOctet &HeavyHiggsevent);
 
     void DefineVariables();
 
@@ -186,7 +186,7 @@ private:
     hanalysis::Reader TopReader;
     hanalysis::Reader HeavyHiggsReader;
 
-    hheavyhiggs::HEventLeptonicBranch Branch;
+    hheavyhiggs::EventLeptonicBranch Branch;
 
     hanalysis::HJetTag JetTag;
 
@@ -195,7 +195,7 @@ private:
     };
 
     virtual inline std::string ClassName() const {
-        return "HMvaEvent";
+        return "HMvaevent";
     };
 
 

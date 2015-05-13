@@ -10,7 +10,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hhiggscpv::HMvaEvent : public hanalysis::Tagger
+class hhiggscpv::HMvaevent : public hanalysis::Tagger
 {
 
 public:
@@ -19,13 +19,13 @@ public:
     * @brief Constructor
     *
     */
-    HMvaEvent();
+    HMvaevent();
 
     /**
     * @brief Destructor
     *
     */
-    ~HMvaEvent();
+    ~HMvaevent();
 
 //     ReaderStruct CutLoop(const ExRootTreeReader * const, ReaderStruct&);
 
@@ -38,7 +38,7 @@ protected:
 
 private:
 
-    hhiggscpv::HEventBranch *EventBranch;
+    hhiggscpv::EventBranch *eventBranch;
 
       void DefineVariables();
 

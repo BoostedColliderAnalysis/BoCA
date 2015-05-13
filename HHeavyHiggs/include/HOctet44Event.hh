@@ -1,10 +1,10 @@
-# ifndef HEventMultiplet_hh
-# define HEventMultiplet_hh
+# ifndef EventMultiplet_hh
+# define EventMultiplet_hh
 
 # include "HOctet44.hh"
 // # include "HOctet.hh"
 
-struct HEventStruct {
+struct EventStruct {
 
     int LeptonNumber = 0;
     int JetNumber = 0;
@@ -21,21 +21,21 @@ struct HEventStruct {
  *
  */
 template <typename TMultiplet>
-class HEventMultiplet : public hanalysis::HTag
+class EventMultiplet : public hanalysis::HTag
 {
 
 public:
 
-    HEventMultiplet(const TMultiplet &NewOctet) {
+    EventMultiplet(const TMultiplet &NewOctet) {
         Octet44M = NewOctet;
         SetBdt(Octet44M.Bdt());
         SetTag(Octet44M.Tag());
 
     };
 
-    HEventMultiplet(const TMultiplet &NewOctet, const HEventStruct &NewEventStruct) {
+    EventMultiplet(const TMultiplet &NewOctet, const EventStruct &NeweventStruct) {
         Octet44M = NewOctet;
-        EventM = NewEventStruct;
+        eventM = NeweventStruct;
         SetBdt(Octet44M.Bdt());
         SetTag(Octet44M.Tag());
     };
@@ -59,50 +59,50 @@ public:
     }
 
     inline void SetScalarHt(const float NewScalarHt) {
-        EventM.ScalarHt = NewScalarHt;
+        eventM.ScalarHt = NewScalarHt;
     }
 
     inline void SetJetNumber(const int NewJetNumber) {
-        EventM.JetNumber = NewJetNumber;
+        eventM.JetNumber = NewJetNumber;
     }
 
     inline void SetBottomNumber(const int NewBottomNumber) {
-        EventM.BottomNumber = NewBottomNumber;
+        eventM.BottomNumber = NewBottomNumber;
     }
 
     inline void SetLeptonNumber(const int NewLeptonNumber) {
-        EventM.LeptonNumber = NewLeptonNumber;
+        eventM.LeptonNumber = NewLeptonNumber;
     }
 
     inline float ScalarHt() const {
-        return EventM.ScalarHt;
+        return eventM.ScalarHt;
     }
 
     inline float MissingEt() const {
-      return EventM.MissingEt;
+      return eventM.MissingEt;
     }
 
     inline int JetNumber()const {
-        return EventM.JetNumber;
+        return eventM.JetNumber;
     }
 
     inline int BottomNumber()const {
-        return EventM.BottomNumber;
+        return eventM.BottomNumber;
     }
 
     inline int LeptonNumber()const {
-        return EventM.LeptonNumber;
+        return eventM.LeptonNumber;
     }
 
-    inline HEventStruct EventStruct()const {
-        return EventM;
+    inline EventStruct eventStruct()const {
+        return eventM;
     }
 
-    inline void SetEventStruct(const HEventStruct &NewEventStruct) {
-        EventM = NewEventStruct;
+    inline void SeteventStruct(const EventStruct &NeweventStruct) {
+        eventM = NeweventStruct;
     }
 
-    HEventStruct EventM;
+    EventStruct eventM;
 
     inline void SetTotalJets(const Jets &NewJets) {
         AllJets = NewJets;
@@ -212,7 +212,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HEventMultiplet";
+        return "EventMultiplet";
     }
 
 private:

@@ -20,7 +20,7 @@ public:
 
     ~HTopLeptonicTagger();
 
-    std::vector< HTopLeptonicBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector< HTopLeptonicBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
     std::vector< Doublet> GetBdt(const Jets &jets, Jets &Leptons, const hanalysis::Reader & Reader);
 

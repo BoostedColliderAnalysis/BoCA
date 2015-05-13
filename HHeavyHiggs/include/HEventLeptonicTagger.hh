@@ -1,5 +1,5 @@
-# ifndef HLeptonicEventTagger_hh
-# define HLeptonicEventTagger_hh
+# ifndef HLeptoniceventTagger_hh
+# define HLeptoniceventTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsLeptonicTagger.hh"
@@ -9,10 +9,10 @@
 
 /**
  *
- * @brief Event BDT Tagger for leptonic heavy higgs
+ * @brief event BDT Tagger for leptonic heavy higgs
  *
  */
-class hheavyhiggs::HEventLeptonicTagger : public hanalysis::Tagger
+class hheavyhiggs::EventLeptonicTagger : public hanalysis::Tagger
 {
 
 public:
@@ -21,9 +21,9 @@ public:
     * @brief Constructor
     *
     */
-    HEventLeptonicTagger();
+    EventLeptonicTagger();
 
-    HEventLeptonicTagger(
+    EventLeptonicTagger(
       const hanalysis::BottomTagger &NewBottomTagger,
       const hanalysis::HJetPairTagger &NewJetPairTagger,
       const hanalysis::HTopLeptonicTagger &NewTopTagger,
@@ -33,17 +33,17 @@ public:
     * @brief Destructor
     *
     */
-    ~HEventLeptonicTagger();
+    ~EventLeptonicTagger();
 
-    std::vector<hheavyhiggs::HEventLeptonicBranch *> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
+    std::vector<hheavyhiggs::EventLeptonicBranch *> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
 
-    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::Doublet > &doublets, std::vector< fastjet::PseudoJet > &Jets, HEventStruct &EventStruct, const hanalysis::Reader & EventSemiReader);
+    std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::Doublet > &doublets, std::vector< fastjet::PseudoJet > &Jets, EventStruct &eventStruct, const hanalysis::Reader & eventSemiReader);
 
     std::vector< int > ApplyBdt2(const ExRootTreeReader*const TreeReader, const std::string TreeName, const TFile*const ExportFile);
 
     void FillBranch(const HOctet &Octet);
 
-    void FillBranch(hheavyhiggs::HEventLeptonicBranch *EventLeptonicBranch, const HOctet &Octet);
+    void FillBranch(hheavyhiggs::EventLeptonicBranch *eventLeptonicBranch, const HOctet &Octet);
 
 protected:
 
@@ -52,7 +52,7 @@ protected:
     };
 
     virtual inline std::string ClassName() const {
-        return "HEventLeptonicTagger";
+        return "EventLeptonicTagger";
     };
 
 
@@ -60,12 +60,12 @@ private:
   Tag GetTag(const HOctet &Octet);
 
     void SetBranch(const TObject *Object) {
-        (Branch) = *((HEventLeptonicBranch *) Object); // this used to be (*Branch)
+        (Branch) = *((EventLeptonicBranch *) Object); // this used to be (*Branch)
     };
 
     void DefineVariables();
 
-    std::vector<HOctet> GetHeavyHiggsEvents(const Jets &jets, const Jets &Leptons);
+    std::vector<HOctet> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
 
     hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HJetPairTagger JetPairTagger;
@@ -75,7 +75,7 @@ private:
     hanalysis::Reader JetPairReader;
     hanalysis::Reader TopLeptonicReader;
     hanalysis::Reader HeavyHiggsLeptonicReader;
-    hheavyhiggs::HEventLeptonicBranch Branch;
+    hheavyhiggs::EventLeptonicBranch Branch;
     hanalysis::HJetTag JetTag;
 
 };

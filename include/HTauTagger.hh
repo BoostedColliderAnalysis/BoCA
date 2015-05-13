@@ -3,10 +3,10 @@
 
 # include "Tagger.hh"
 # include "Branch.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 
 /**
  * @brief Bottom BDT tagger
@@ -23,7 +23,7 @@ public:
 
     void SetTagger();
 
-    std::vector< HTauBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector< HTauBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
     Jets GetBdt(Jets &jets, const hanalysis::Reader &BottomReader);
 

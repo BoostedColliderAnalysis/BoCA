@@ -61,7 +61,7 @@ private:
     enum HProductionChannel {DYP, VBF, Associated};
     enum HDetectorType {LHC, FHC, LE};
 
-    inline int EventNumberMax() const {
+    inline int eventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -234,15 +234,15 @@ private:
 
 //     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
-    int Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag);
+    int Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag);
 
-//     bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-//     bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomTag(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomReader(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 //
-//     bool GetJetPairTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-//     bool GetJetPairReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetJetPairTag(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+//     bool GetJetPairReader(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 //
-//     bool GetTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
+//     bool GetTag(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
 
 };
 }

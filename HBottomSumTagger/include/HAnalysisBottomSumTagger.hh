@@ -38,7 +38,7 @@ using hanalysis::HAnalysis::HAnalysis;
 
     hanalysis::BottomTagger bottom_tagger_;
 
-    HEventBottomTagger EventBottomSumTagger;
+    EventBottomTagger eventBottomSumTagger;
 
 //     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
 
@@ -68,7 +68,7 @@ private:
     enum HProductionChannel {DYP, VBF, Associated, Simple};
     enum HDetectorType {LHC, FHC, LE};
 
-    inline int EventNumberMax() const {
+    inline int eventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -233,17 +233,17 @@ private:
 
     hanalysis::HJetTag JetTag;
     hanalysis::Reader BottomReader;
-    hanalysis::Reader EventBottomSumReader;
+    hanalysis::Reader eventBottomSumReader;
 
 //     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
 
-    int Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
+    int Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag);
 
-//     bool GetBottomTag(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
-//     bool GetBottomReader(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomTag(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomReader(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 //
-//     bool GetEventSemiTag(hanalysis::HEvent &Event, const Tag Tag);
-//     bool GetEventSemiReader(hanalysis::HEvent &Event, const Tag Tag);
+//     bool GeteventSemiTag(hanalysis::Event &event, const Tag Tag);
+//     bool GeteventSemiReader(hanalysis::Event &event, const Tag Tag);
 
 };
 }

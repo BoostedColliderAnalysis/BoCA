@@ -1,6 +1,6 @@
 # include "HBottomTaggerSimple.hh"
 
-# include "HEvent.hh"
+# include "Event.hh"
 # include "Reader.hh"
 
 hbtagger::HBottomTaggerSimple::HBottomTaggerSimple()
@@ -75,10 +75,10 @@ BottomBranch hbtagger::HBottomTaggerSimple::GetBranch(const fastjet::PseudoJet &
 
 
 
-int hbtagger::HBottomTaggerSimple::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
+int hbtagger::HBottomTaggerSimple::Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Get Bottom Tag", tag);
-    Jets particles = event.GetParticles()->Generator();
+    Jets particles = event.Partons().Generator();
     particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(kInformation, "Particle size", particles.size());
     Jets jets = GetJets(event);
@@ -109,9 +109,9 @@ Jets hbtagger::HBottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles,
     return clean_jets;
 }
 
-int hbtagger::HBottomTaggerSimple::GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader)
+int hbtagger::HBottomTaggerSimple::GetBdt(hanalysis::Event &event, const TMVA::Reader &reader)
 {
-    Jets jets = event.GetJets()->GetJets();
+    Jets jets = event.Hadrons().GetJets();
     Jets final_jets;
     Print(kInformation, "Get Jet Bdt");
     for (const auto &jet : jets) {

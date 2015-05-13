@@ -5,7 +5,7 @@
 //     //     DebugLevel = hanalysis::HObject::kDebug;
 //     Print(kNotification, "Constructor");
 //     BottomTagger.SetAnalysisName(ProjectName());
-//     EventBottomSumTagger.SetAnalysisName(ProjectName());
+//     eventBottomSumTagger.SetAnalysisName(ProjectName());
 //     mkdir(ProjectName().c_str(), 0700);
 // }
 
@@ -19,9 +19,9 @@
 //     case  HBottomReader :
 //         return "BottomReader";
 //     case  HJetPairTagger :
-//         return "EventBottom";
+//         return "eventBottom";
 //     case  HJetPairReader :
-//         return "EventBottomReader";
+//         return "eventBottomReader";
 //     default :
 //         Print(kError, "unexpected TaggerName", Tagger);
 //         return "";
@@ -194,18 +194,18 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         BottomTagger.SetBackgroundTreeNames(SemiTrees);
 //         break;
 //     case HJetPairTagger :
-//         EventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
-//         EventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         eventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
+//         eventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         if (Tag == kSignal) {
-//             EventBottomSumTagger.SetTagger(BottomTagger);
+//             eventBottomSumTagger.SetTagger(BottomTagger);
 //         }
 //         break;
 //     case HJetPairReader :
 //         if (Tag == kSignal) {
-//             EventBottomSumTagger.SetTagger(BottomTagger);
+//             eventBottomSumTagger.SetTagger(BottomTagger);
 //         }
-//         EventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
-//         EventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         eventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
+//         eventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
 //     default :
 //         Print(kError, "SetTrees", "unhandeled case");
@@ -227,12 +227,12 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         BottomReader.set_tagger(bottom_tagger_);
 //         break;
 //     case HJetPairTagger :
-//         EventBottomSumTagger.BottomTagger.SetTagger();
-//         EventBottomSumTagger.BottomReader.set_tagger(EventBottomSumTagger.BottomTagger);
+//         eventBottomSumTagger.BottomTagger.SetTagger();
+//         eventBottomSumTagger.BottomReader.set_tagger(eventBottomSumTagger.BottomTagger);
 //         break;
 //     case HJetPairReader :
 //         BottomReader.set_tagger(bottom_tagger_);
-//         EventBottomSumReader.set_tagger(EventBottomSumTagger);
+//         eventBottomSumReader.set_tagger(eventBottomSumTagger);
 //         break;
 //     default :
 //         Print(kError, "PrepareReader", "unhandled case");
@@ -251,10 +251,10 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), BottomBranch::Class());
 //         break;
 //     case HJetPairTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventBottomTaggerBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventBottomTaggerBranch::Class());
 //         break;
 //     case HJetPairReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HEventBottomTaggerBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventBottomTaggerBranch::Class());
 //         break;
 //     default :
 //         Print(kError, "No Branch filled");
@@ -262,20 +262,20 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // }
 
-int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag)
 {
     Print(kInformation, "Analysis");
     ++event_sum_;
 
 //     switch (Tagger) {
 //     case BottomTagger :
-//         return GetBottomTag(Event, Tag);
+//         return GetBottomTag(event, Tag);
 //     case HBottomReader:
-//         return GetBottomReader(Event, Tag);
+//         return GetBottomReader(event, Tag);
 //     case HJetPairTagger :
-//         return GetEventSemiTag(Event, Tag);
+//         return GeteventSemiTag(event, Tag);
 //     case HJetPairReader :
-//         return GetEventSemiReader(Event, Tag);
+//         return GeteventSemiReader(event, Tag);
 //     default :
 //         Print(kError, "unknown Tagger", Tagger);
 //         return 0;
@@ -284,10 +284,10 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 }
 
 
-// bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::HEvent &Event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Bottom Tag", Tag);
-//     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(Event, Tag);
+//     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
 //     if (Bottoms.empty()) {
 //         return 0;
 //     }
@@ -297,15 +297,15 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 //     return 1;
 // }
 //
-// bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::HEvent &Event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Bottom Reader", Tag);
-//     Jets jets = bottom_tagger_.GetJets(Event);
+//     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) return 0;
 //
 //
-//     Jets Particles = Event.GetParticles()->Generator();
+//     Jets Particles = event.Partons().Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     int BNumber=0;
@@ -332,31 +332,31 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 // }
 //
 //
-// bool hbottomsumtagger::HAnalysis::GetEventSemiTag(hanalysis::HEvent &Event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GeteventSemiTag(hanalysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get Event semi", Tag);
-//     std::vector<HEventBottomTaggerBranch> SemiEvents = EventBottomSumTagger.GetBranches(Event, Tag);
-//     if (SemiEvents.empty()) return 0;
-//     for (const auto & SemiEvent : SemiEvents) {
+//     Print(kInformation, "Get event semi", Tag);
+//     std::vector<EventBottomTaggerBranch> Semievents = eventBottomSumTagger.GetBranches(event, Tag);
+//     if (Semievents.empty()) return 0;
+//     for (const auto & Semievent : Semievents) {
 //         ++ObjectNumber;
-//         *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = SemiEvent;
+//         *static_cast<EventBottomTaggerBranch *>(Branch->NewEntry()) = Semievent;
 //     }
 //     return 1;
 // }
 //
-// bool hbottomsumtagger::HAnalysis::GetEventSemiReader(hanalysis::HEvent &Event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GeteventSemiReader(hanalysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get Event semi", Tag);
+//     Print(kInformation, "Get event semi", Tag);
 //
-//     Jets jets = bottom_tagger_.GetJets(Event);
+//     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
-//     if (!EventBottomSumTagger.TruthLevelCheck(jets,Event, Tag)) return 0;
+//     if (!eventBottomSumTagger.TruthLevelCheck(jets,event, Tag)) return 0;
 //
 // //     if (jets.size() < 4) return 0;
 // //
 // //     Jets BottomJets;
-// //     Jets Particles = Event.GetParticles()->Generator();
+// //     Jets Particles = event.Partons().Generator();
 // //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
 // //     for (const auto & Particle : Particles) {
 // //       std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
@@ -368,10 +368,10 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanaly
 // //     if (Tag == HBackground && BottomJets.size() < 2) return 0;
 //
 //
-//     std::vector<HEventBottomMultiplet> Events = EventBottomSumTagger.GetBdt(jets, EventBottomSumReader);
-//     if (Events.empty()) return 0;
-//     Events.front().SetTag(Tag);
+//     std::vector<EventBottomMultiplet> events = eventBottomSumTagger.GetBdt(jets, eventBottomSumReader);
+//     if (events.empty()) return 0;
+//     events.front().SetTag(Tag);
 //     ++ObjectNumber;
-//     *static_cast<HEventBottomTaggerBranch *>(Branch->NewEntry()) = EventBottomSumTagger.GetBranch(Events.front());
+//     *static_cast<EventBottomTaggerBranch *>(Branch->NewEntry()) = eventBottomSumTagger.GetBranch(events.front());
 //     return 1;
 // }

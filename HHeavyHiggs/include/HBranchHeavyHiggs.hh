@@ -16,21 +16,21 @@ class HAnalysisCharged;
 class HHeavyHiggsJetTag;
 class HMva;
 class HBranchHeavyHiggs;
-class HEventLeptonicBranch;
-class HEventHadronicBranch;
-class HEventSemiBranch;
-class HEventLeptonicTagger;
-class HEventHadronicTagger;
-class HEventSemiTagger;
-class HChargedEventSemiTagger;
+class EventLeptonicBranch;
+class EventHadronicBranch;
+class EventSemiBranch;
+class EventLeptonicTagger;
+class EventHadronicTagger;
+class EventSemiTagger;
+class HChargedeventSemiTagger;
 class HChargedLeptonicTagger;
 class HChargedHadronicTagger;
 class HBdtBranch;
 class HChargedSemiBranch;
 class HChargedLeptonicBranch;
 class HChargedHadronicBranch;
-class HEventTtSemiBranch;
-class HEventTtSemiTagger;
+class EventTtSemiBranch;
+class EventTtSemiTagger;
 class HChargedSignatureSemiTagger;
 class HSignatureSemiTagger;
 class HChargedOctetBranch;
@@ -83,12 +83,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventLeptonicBranch : public Branch
+class hheavyhiggs::EventLeptonicBranch : public Branch
 {
 
 public:
 
-    HEventLeptonicBranch();
+    EventLeptonicBranch();
 
     float Mass;
     float Pt;
@@ -134,7 +134,7 @@ public:
 
 private:
 
-    ClassDef(HEventLeptonicBranch, 1)
+    ClassDef(EventLeptonicBranch, 1)
 
 };
 
@@ -146,12 +146,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventHadronicBranch : public Branch
+class hheavyhiggs::EventHadronicBranch : public Branch
 {
 
 public:
 
-    HEventHadronicBranch();
+    EventHadronicBranch();
 
     float LeptonNumber;
     float JetNumber;
@@ -179,11 +179,11 @@ public:
     float HbDeltaDeltaPhi;
     float HbDeltaDeltaR;
 
-    float EventTag;
+    float eventTag;
 
 private:
 
-    ClassDef(HEventHadronicBranch, 1)
+    ClassDef(EventHadronicBranch, 1)
 
 };
 
@@ -194,12 +194,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventSemiBranch : public MultiBranch
+class hheavyhiggs::EventSemiBranch : public MultiBranch
 {
 
 public:
 
-    HEventSemiBranch();
+    EventSemiBranch();
 
     float HiggsMass;
     float PairRap;
@@ -256,7 +256,7 @@ public:
 
 private:
 
-    ClassDef(HEventSemiBranch, 1)
+    ClassDef(EventSemiBranch, 1)
 
 };
 
@@ -266,12 +266,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HEventTtSemiBranch : public MultiBranch
+class hheavyhiggs::EventTtSemiBranch : public MultiBranch
 {
 
 public:
 
-    HEventTtSemiBranch();
+    EventTtSemiBranch();
 
 
     float HiggsMass;
@@ -293,7 +293,7 @@ public:
 
 private:
 
-    ClassDef(HEventTtSemiBranch, 1)
+    ClassDef(EventTtSemiBranch, 1)
 
 };
 
@@ -320,7 +320,7 @@ public:
     float Probability09;
     float Probability10;
 
-    float EventTag;
+    float eventTag;
 
 private:
 
@@ -487,7 +487,7 @@ public:
     float HbDeltaDeltaPhi;
     float HbDeltaDeltaR;
 
-    float EventTag;
+    float eventTag;
 
 private:
 
@@ -533,7 +533,7 @@ public:
     float HbDeltaDeltaPhi;
     float HbDeltaDeltaR;
 
-    float EventTag;
+    float eventTag;
 
 private:
 

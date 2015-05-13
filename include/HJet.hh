@@ -24,28 +24,28 @@ public:
     /**
      * @brief Initialize New event
      */
-    void NewEvent(const hanalysis::ClonesArrays &NewClonesArrays);
+    void Newevent(const hanalysis::ClonesArrays &NewClonesArrays);
 
     void SetJetTag(HJetTag &NewJetTag) {
         JetTag = &NewJetTag;
     }
 
     Jets GetJets() {
-      NewEvent(*clones_arrays_);
+      Newevent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(Plain);
       return jets_;
     };
 
     Jets GetStructuredJets() {
-      NewEvent(*clones_arrays_);
+      Newevent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Structure);
         return jets_;
     };
 
     Jets GetTaggedJets() {
-      NewEvent(*clones_arrays_);
+      Newevent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return jets_;
@@ -53,7 +53,7 @@ public:
 
     Jets GetTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
-      NewEvent(*clones_arrays_);
+      Newevent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return jets_;
@@ -61,7 +61,7 @@ public:
 
     Jets GetStructuredTaggedJets(HJetTag &NewJetTag) {
       JetTag = &NewJetTag;
-      NewEvent(*clones_arrays_);
+      Newevent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(TaggingStructure);
       return jets_;
@@ -69,7 +69,7 @@ public:
 
     Jets GetBottomJets() {
       //         if (!GotJets)
-      NewEvent(*clones_arrays_);
+      Newevent(*clones_arrays_);
           GotJets = GetJets(Plain);
         return BottomJets;
     };
@@ -125,10 +125,12 @@ public:
 
     virtual Jets GetGranJets(){
       Print(kError,"Get Sub Jets","should be subclassed");
+      return Jets();
     }
 
     virtual Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber){
       Print(kError,"Get Sub Jets","should be subclassed");
+      return Jets();
     }
 
 

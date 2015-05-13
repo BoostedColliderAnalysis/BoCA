@@ -40,7 +40,7 @@ public:
     float Crosssection;
     float CrosssectionError;
     float Mass;
-    float EventNumber;
+    float eventNumber;
     float PreCutNumber;
 
     InfoBranch();
@@ -52,19 +52,19 @@ private:
 };
 
 /**
- * @brief Class for saving Event informations to root
+ * @brief Class for saving event informations to root
  *
  */
-class HEventBranch : public HBranch
+class EventBranch : public HBranch
 {
 
 public:
 
     float ScalarPtSum;
-    HEventBranch();
+    EventBranch();
 
 private:
-    ClassDef(HEventBranch, 1)
+    ClassDef(EventBranch, 1)
 
 };
 
@@ -85,7 +85,7 @@ private:
 };
 
 /**
- * @brief Class for saving Event informations to root
+ * @brief Class for saving event informations to root
  *
  */
 class ParticleBranch : public HBranch
@@ -261,12 +261,12 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HEventJetPairBranch : public PairBranch
+class EventJetPairBranch : public PairBranch
 {
 
 public:
 
-    HEventJetPairBranch();
+    EventJetPairBranch();
 
     float DeltaM;
 
@@ -295,7 +295,7 @@ public:
 
 private:
 
-    ClassDef(HEventJetPairBranch, 1)
+    ClassDef(EventJetPairBranch, 1)
 
 };
 
@@ -681,12 +681,12 @@ private:
 
 };
 
-class HEventBottomTaggerBranch : public HBranch
+class EventBottomTaggerBranch : public HBranch
 {
 
 public:
 
-    HEventBottomTaggerBranch();
+    EventBottomTaggerBranch();
 
     float Bdt;
     float Tag;
@@ -709,7 +709,7 @@ public:
 
 private:
 
-    ClassDef(HEventBottomTaggerBranch, 1)
+    ClassDef(EventBottomTaggerBranch, 1)
 
 };
 

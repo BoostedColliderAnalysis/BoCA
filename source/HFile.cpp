@@ -75,7 +75,7 @@ std::string hanalysis::HFile::GetTitle() const
 
 std::string hanalysis::HFile::GetMadGraphFilePath() const
 {
-    return (BasePath + ProcessFolders.front() + "/Events/" + RunFolder + "/");
+    return (BasePath + ProcessFolders.front() + "/events/" + RunFolder + "/");
 }
 
 // TString Analysis::HFile::BasePath = "$HOME/Development/madgraph/";
@@ -148,16 +148,16 @@ hanalysis::ClonesArrays &hanalysis::HFile::GetClonesArrays()
 }
 
 
-hanalysis::HEvent &hanalysis::HFile::Event()
+hanalysis::Event &hanalysis::HFile::event()
 {
-    Print(kNotification, "Get Event");
-//       HEvent *Event;
+    Print(kNotification, "Get event");
+//       Event *event;
     if (TreeName() == "Delphes") {
-        event_ = new hdelphes::HEvent();
+        event_ = new hdelphes::Event();
     } else if (TreeName() == "LHEF") {
-        event_ = new hparton::HEvent();
+        event_ = new hparton::Event();
     } else if (TreeName() == "LHCO") {
-        event_ = new hpgs::HEvent();
+        event_ = new hpgs::Event();
     } else {
         Print(kError, "unknown Tree String", TreeName());
     }

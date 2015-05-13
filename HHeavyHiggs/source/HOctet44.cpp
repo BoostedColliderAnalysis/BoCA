@@ -10,11 +10,11 @@ HOctet44::HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQ
 }
 
 
-HOctet44::HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedEventStruct &NewEventStruct)
+HOctet44::HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedeventStruct &NeweventStruct)
 {
   Quartet1M = NewQuartet1;
   Quartet2M = NewQuartet2;
-  EventStructM = NewEventStruct;
+  eventStructM = NeweventStruct;
   SetBdt(Quartet1M.Bdt(),Quartet2M.Bdt());
   SetTag(Quartet1M.Tag(),Quartet2M.Tag());
 }

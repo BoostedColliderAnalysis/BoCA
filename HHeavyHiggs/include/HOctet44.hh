@@ -3,7 +3,7 @@
 
 # include "HQuartet31.hh"
 
-struct HChargedEventStruct {
+struct HChargedeventStruct {
 
     int LeptonNumber = 0;
     int JetNumber = 0;
@@ -36,7 +36,7 @@ public:
 
     HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &Newdoublet);
 
-    HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedEventStruct &NewEventStruct);
+    HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedeventStruct &NeweventStruct);
 
     inline hanalysis::HQuartet31 Quartet1()const {
         return Quartet1M;
@@ -118,47 +118,47 @@ public:
 //     }
 
     inline void SetScalarHt(const float NewScalarHt) {
-        EventStructM.ScalarHt = NewScalarHt;
+        eventStructM.ScalarHt = NewScalarHt;
     }
 
     inline void SetJetNumber(const int NewJetNumber) {
-        EventStructM.JetNumber = NewJetNumber;
+        eventStructM.JetNumber = NewJetNumber;
     }
 
     inline void SetBottomNumber(const int NewBottomNumber) {
-        EventStructM.BottomNumber = NewBottomNumber;
+        eventStructM.BottomNumber = NewBottomNumber;
     }
 
     inline void SetLeptonNumber(const int NewLeptonNumber) {
-        EventStructM.LeptonNumber = NewLeptonNumber;
+        eventStructM.LeptonNumber = NewLeptonNumber;
     }
 
     inline float ScalarHt() const {
-        return EventStructM.ScalarHt;
+        return eventStructM.ScalarHt;
     }
 
     inline int JetNumber()const {
-        return EventStructM.JetNumber;
+        return eventStructM.JetNumber;
     }
 
     inline int BottomNumber()const {
-        return EventStructM.BottomNumber;
+        return eventStructM.BottomNumber;
     }
 
     inline int LeptonNumber()const {
-        return EventStructM.LeptonNumber;
+        return eventStructM.LeptonNumber;
     }
 
-    inline HChargedEventStruct EventStruct()const {
-        return EventStructM;
+    inline HChargedeventStruct eventStruct()const {
+        return eventStructM;
     }
 
-    inline void SetEventStruct(const HChargedEventStruct &NewEventStruct) {
-        EventStructM = NewEventStruct;
+    inline void SeteventStruct(const HChargedeventStruct &NeweventStruct) {
+        eventStructM = NeweventStruct;
     }
 
 
-    HChargedEventStruct EventStructM;
+    HChargedeventStruct eventStructM;
 
 //     int LeptonNumber;
 //

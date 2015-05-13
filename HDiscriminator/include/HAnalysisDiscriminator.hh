@@ -73,7 +73,7 @@ public:
 
 private:
 
-    inline int EventNumberMax() const {
+    inline int eventNumberMax() const {
 
         return 10000;
 
@@ -92,23 +92,23 @@ private:
     /**
      * @brief Lepton calculations
      *
-     * @param Event ...
+     * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    Jets GetLeptonJets(hanalysis::HEvent &Event);
+    Jets GetLeptonJets(hanalysis::Event &event);
 
     /**
      * @brief Lepton event counter
      *
      */
-    int LeptonEventCounter;
+    int LeptoneventCounter;
 
     /**
      * @brief Main Analysis function
      *
      * @return void
      */
-    int Analysis(hanalysis::HEvent &Event, const std::string &Study);
+    int Analysis(hanalysis::Event &event, const std::string &Study);
 
     /**
      * @brief prepares the std::vector describing the input root files

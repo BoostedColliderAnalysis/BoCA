@@ -19,9 +19,9 @@
 HMvaResult::HMvaResult()
 {
     Steps = 20000;
-    Events.resize(Steps, 0);
+    events.resize(Steps, 0);
     Efficiency.resize(Steps, 0);
-    AnalysisEventNumber.resize(Steps, 0);
+    AnalysiseventNumber.resize(Steps, 0);
     Bdt.resize(Steps, 0);
 }
 
@@ -105,9 +105,9 @@ void hanalysis::Reader::OptimalSignificance()
     for (const auto & SignalTreeName : tagger().signal_tree_names()) {
         SignalResults = BdtResult(SignalFile, SignalTreeName, ExportFile);
         for (int Step = 0; Step < SignalResults.Steps; ++Step) {
-            float BackgroundEvents = 0;
-            for (const auto & BackgroundResult : BackgroundResults) BackgroundEvents += BackgroundResult.Events[Step];
-            if (SignalResults.Events[Step] + BackgroundEvents > 0) Significances.at(Step) = SignalResults.Events[Step] / std::sqrt(SignalResults.Events[Step] + BackgroundEvents);
+            float Backgroundevents = 0;
+            for (const auto & BackgroundResult : BackgroundResults) Backgroundevents += BackgroundResult.events[Step];
+            if (SignalResults.events[Step] + Backgroundevents > 0) Significances.at(Step) = SignalResults.events[Step] / std::sqrt(SignalResults.events[Step] + Backgroundevents);
             else Significances.at(Step) = 0;
             XValues.at(Step) = float(Step) * 2 / SignalResults.Steps;
         }
@@ -134,10 +134,10 @@ void hanalysis::Reader::OptimalSignificance()
     Table << "\n \\\\ \\midrule\n";
     Table << "    BDT-cut\n" << "  & " << float(BestBin) * 2 / SignalResults.Steps;
     Table << "\n \\\\ $p$-value\n  & " << MaxSignificance;
-    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << SignalResults.AnalysisEventNumber.at(BestBin) << "\n  & " << SignalResults.TotalEventNumber << "\n";
+    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << SignalResults.AnalysiseventNumber.at(BestBin) << "\n  & " << SignalResults.TotaleventNumber << "\n";
 
     for (size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
-        Table << " \\\\ \\verb|" << tagger().background_tree_names().at(BackgroundNumber) << "|\n  & " << BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).AnalysisEventNumber.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).TotalEventNumber << "\n";
+        Table << " \\\\ \\verb|" << tagger().background_tree_names().at(BackgroundNumber) << "|\n  & " << BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).AnalysiseventNumber.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).TotaleventNumber << "\n";
     }
 
     TCanvas EfficiencyCanvas;
@@ -219,16 +219,16 @@ HMvaResult hanalysis::Reader::BdtResult(TFile &file, const std::string &tree_nam
     const HInfoBranch Info = InfoBranch(file, tree_name);
 
     HMvaResult Result;
-    Result.TotalEventNumber = Info.EventNumber;
+    Result.TotaleventNumber = Info.eventNumber;
     std::vector<int> Bins = BdtDistribution(tree_reader, tree_name, export_file);
     std::vector<int> Integral = Result.CutIntegral(Bins);
 
     for (int Step = 0; Step < Result.Steps; ++Step) {
-        Result.Events[Step] = float(Integral[Step]) / float(Info.EventNumber) * Info.Crosssection * Luminosity;
-        Result.Efficiency[Step] = float(Integral[Step]) / float(Info.EventNumber);
-        Result.AnalysisEventNumber[Step] = Integral[Step];
+        Result.events[Step] = float(Integral[Step]) / float(Info.eventNumber) * Info.Crosssection * Luminosity;
+        Result.Efficiency[Step] = float(Integral[Step]) / float(Info.eventNumber);
+        Result.AnalysiseventNumber[Step] = Integral[Step];
         Result.Bdt[Step] = Bins[Step];
-        Print(kDebug, "Result", Result.Efficiency[Step], Result.Events[Step]);
+        Print(kDebug, "Result", Result.Efficiency[Step], Result.events[Step]);
     }
     return Result;
 }
@@ -236,16 +236,16 @@ HMvaResult hanalysis::Reader::BdtResult(TFile &file, const std::string &tree_nam
 std::vector<int> hanalysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
 {
     Print(kNotification, "Bdt Distribution", tagger().branch_name());
-    std::string NewEventBranchName = tagger().branch_name() + "Reader";
+    std::string NeweventBranchName = tagger().branch_name() + "Reader";
 
     HMvaResult Result;
     std::vector<int> Bins(Result.Steps, 0);
 
-    TClonesArray &event_clones_array = *tree_reader.UseBranch(NewEventBranchName.c_str());
+    TClonesArray &event_clones_array = *tree_reader.UseBranch(NeweventBranchName.c_str());
     ExRootTreeWriter tree_writer(&export_file, tree_name.c_str());
-    ExRootTreeBranch &result_branch = *tree_writer.NewBranch(NewEventBranchName.c_str(), HResultBranch::Class());
-    for (const int EventNumber : Range(tree_reader.GetEntries())) {
-        tree_reader.ReadEntry(EventNumber);
+    ExRootTreeBranch &result_branch = *tree_writer.NewBranch(NeweventBranchName.c_str(), HResultBranch::Class());
+    for (const int eventNumber : Range(tree_reader.GetEntries())) {
+        tree_reader.ReadEntry(eventNumber);
         for (const int Entry : Range(event_clones_array.GetEntriesFast())) {
             const float BdtValue = tagger().ReadBdt(event_clones_array, Entry);
             if (BdtValue < 0 || BdtValue > 2) Print(kError, "Bdt Value" , BdtValue);
@@ -315,14 +315,14 @@ void hanalysis::Reader::LatexFooter(ofstream &latex_file) const
 // }
 //
 //
-// float hanalysis::Reader::GetScaling(const float Events, const int Particles) const
+// float hanalysis::Reader::GetScaling(const float events, const int Particles) const
 // {
 //     Print(kInformation , "Scaling");
 //     float Scaling;
 //     if (Particles == 0) {
 //         Scaling = 0;
 //     } else {
-//         Scaling = Events / Particles;
+//         Scaling = events / Particles;
 //     }
 //     return Scaling;
 // }

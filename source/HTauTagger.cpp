@@ -81,15 +81,15 @@ HTauBranch hanalysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
 
 }
 
-std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
+std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
 {
     Print(kInformation, "Get Tau Tag", Tag);
 
     JetTag.HeavyParticles = {TauId};
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     Print(kInformation, "Number Jets", jets.size());
 
-    Jets Particles = Event.GetParticles()->Generator();
+    Jets Particles = event.Partons().Generator();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
 //     if(Particles.size()!=1)
     Print(kInformation, "Tau Partilces", Particles.size());

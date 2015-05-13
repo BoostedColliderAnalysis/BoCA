@@ -17,7 +17,7 @@ hanalysis::HSubStructure::~HSubStructure()
 
 }
 
-void hanalysis::HSubStructure::NewEvent()
+void hanalysis::HSubStructure::Newevent()
 {
 
     SubJets = 0;

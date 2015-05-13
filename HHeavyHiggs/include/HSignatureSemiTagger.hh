@@ -8,7 +8,7 @@
 
 /**
  *
- * @brief Event BDT for semi leptonic heavy higgs
+ * @brief event BDT for semi leptonic heavy higgs
  *
  */
 class hheavyhiggs::HSignatureSemiTagger : public hanalysis::Tagger
@@ -31,7 +31,7 @@ public:
         const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
-    std::vector<HOctetBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector<HOctetBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
     std::vector< HOctet > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, const std::vector< hanalysis::Doublet > &doublets, const hanalysis::Reader &Reader);
 
@@ -71,7 +71,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<HOctet> GetHeavyHiggsEvents(Jets &jets);
+    std::vector<HOctet> GetHeavyHiggsevents(Jets &jets);
 
     HOctetBranch Branch;
     hanalysis::HJetTag JetTag;

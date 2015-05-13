@@ -18,12 +18,12 @@ public:
 
     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
-    std::vector<HTopLeptonBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag);
+    std::vector<HTopLeptonBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
 
     std::vector<hanalysis::Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &Reader);
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
-        return static_cast<HTopLeptonBranch &>(*EventClonesArray.At(Entry)).Bdt;
+    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry) {
+        return static_cast<HTopLeptonBranch &>(*eventClonesArray.At(Entry)).Bdt;
     }
 
     HTopLeptonBranch GetBranch(const hanalysis::Doublet &doublet) const;
@@ -53,6 +53,6 @@ private:
     int TopQuarkNumber = 0;
     int LeptonJetNumber = 0;
     int LeptonNumber = 0;
-    int EventNumber = 0;
+    int eventNumber = 0;
 
 };

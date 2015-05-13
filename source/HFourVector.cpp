@@ -14,7 +14,7 @@ hanalysis::HFourVector::~HFourVector()
     Print(kInformation, "Destructor");
 }
 
-void hanalysis::HFourVector::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays)
+void hanalysis::HFourVector::Newevent(const hanalysis::ClonesArrays &NewClonesArrays)
 {
   clones_arrays_ = &NewClonesArrays;
   Topology.assign(clones_arrays_->GetParticleSum(), HFamily(EmptyId));

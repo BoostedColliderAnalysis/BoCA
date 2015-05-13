@@ -37,7 +37,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWrit
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
 
 
-    EventCounter = 0;
+    eventCounter = 0;
     DeltaRapCounter = 0;
     BMassCounter = 0;
     TMassCounter = 0;
@@ -52,7 +52,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 
 //     if (Cut) {
 
-        Print(kNotification, "EventCounter", EventCounter);
+        Print(kNotification, "eventCounter", eventCounter);
         Print(kNotification, "JetCounter", JetCounter);
         Print(kNotification, "DeltaRapCounter", DeltaRapCounter);
         Print(kNotification, "BMassCounter", BMassCounter);
@@ -64,14 +64,14 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::CloseFile()
 }
 
 
-int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
+int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::Event &event, const std::string &StudyName)
 {
 
     Print(kInformation, "Analysis",StudyName);
 
-//     Event.GetJets();
+//     event.GetJets();
 
-    Jets BJets = Event.GetJets()->GetBottomJets();
+    Jets BJets = event.Hadrons().GetBottomJets();
 
     Print(kInformation, "BJet Sum", BJets.size());
 
@@ -173,7 +173,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(hanalysis::HEvent &Event, cons
                 HeavyHiggs->BottomInvMass = InvMass;
 
                 HeavyHiggs->BTag = BJets.size();
-                HeavyHiggs->JetNumber = Event.GetJets()->GetJets().size();
+                HeavyHiggs->JetNumber = event.Hadrons().GetJets().size();
 
             }
 

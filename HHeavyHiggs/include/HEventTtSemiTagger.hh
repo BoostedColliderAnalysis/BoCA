@@ -1,5 +1,5 @@
-# ifndef HEventTtSemiTagger_hh
-# define HEventTtSemiTagger_hh
+# ifndef EventTtSemiTagger_hh
+# define EventTtSemiTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsSemiTagger.hh"
@@ -8,10 +8,10 @@
 
 /**
  *
- * @brief Event BDT for semi leptonic heavy higgs
+ * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HEventTtSemiTagger : public hanalysis::Tagger
+class hheavyhiggs::EventTtSemiTagger : public hanalysis::Tagger
 {
 
 public:
@@ -20,7 +20,7 @@ public:
     * @brief Constructor
     *
     */
-    HEventTtSemiTagger();
+    EventTtSemiTagger();
 
     void SetTagger(
         const hanalysis::BottomTagger &NewBottomTagger,
@@ -30,13 +30,13 @@ public:
         const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
-    std::vector< HEventTtSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector< EventTtSemiBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
-    std::vector< HSextetEvent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, HEventStruct &EventStruct, const hanalysis::Reader &EventSemiReader);
+    std::vector< HSextetevent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &eventStruct, const hanalysis::Reader &eventSemiReader);
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
+    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
-    HEventTtSemiBranch GetBranch(const HSextetEvent &Event) const;
+    EventTtSemiBranch GetBranch(const HSextetevent &event) const;
 
     hanalysis::BottomTagger bottom_tagger_;
     hanalysis::HWSemiTagger WSemiTagger;
@@ -59,16 +59,16 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HHEventTtSemiTagger";
+        return "HEventTtSemiTagger";
     }
 
 private:
 
     void DefineVariables();
 
-    std::vector<HSextetEvent> GetHeavyHiggsEvents(Jets &jets);
+    std::vector<HSextetevent> GetHeavyHiggsevents(Jets &jets);
 
-    HEventTtSemiBranch Branch;
+    EventTtSemiBranch Branch;
 
     hanalysis::HJetTag JetTag;
 

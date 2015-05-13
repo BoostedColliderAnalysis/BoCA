@@ -3,10 +3,10 @@
 # include "classes/DelphesClasses.h"
 namespace delphes {
 
-// class Event;
-// class LHCOEvent;
-// class LHEFEvent;
-// class HepMCEvent;
+// class event;
+// class LHCOevent;
+// class LHEFevent;
+// class HepMCevent;
 // class GenParticle;
 // class Vertex;
 // class MissingET;

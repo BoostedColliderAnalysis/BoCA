@@ -25,7 +25,7 @@ Jets hanalysis::top_hadronic_tagger::GetTops(std::vector< fastjet::PseudoJet > &
 //     Jets hadrons;
 
 //     ifstream fin("sample_event.dat", ifstream::in);
-//     ReadEvent(fin, hadrons);
+//     Readevent(fin, hadrons);
 //     ofstream fout("sample_event_display.dat", ifstream::out);
 //     ofstream fout2("sample_event_out.dat", ifstream::out);
 //     output_vec_pseudojet(fout2, hadrons);

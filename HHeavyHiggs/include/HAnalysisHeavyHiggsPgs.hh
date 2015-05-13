@@ -23,7 +23,7 @@ public:
 private:
 
 
-    inline int GetEventnumberMax()const{ return 10000;};
+    inline int GeteventnumberMax()const{ return 10000;};
 
     inline std::string ProjectName()const{ return "HeavyHiggsPgs";};
 
@@ -40,7 +40,7 @@ private:
     int DeltaRapCounter,
         BMassCounter,
         TMassCounter,
-        EventCounter,
+        eventCounter,
         JetCounter,
         Jet2Counter;
 
@@ -49,7 +49,7 @@ private:
      *
      * @return void
      */
-    int Analysis(hanalysis::HEvent &Event,const std::string& StudyName);
+    int Analysis(hanalysis::Event &event,const std::string& StudyName);
 
     /**
      * @brief prepares the std::vector describing the input root files

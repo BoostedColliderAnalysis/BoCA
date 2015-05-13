@@ -114,24 +114,24 @@ struct SortSextetByMass {
 };
 
 
-std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(HEvent &Event, const HObject::Tag Tag)
+std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(Event &event, const HObject::Tag Tag)
 {
   Print(kInformation, "Get Higgs Tags");
 
-  float Mass = Event.GetMass();
+  float Mass = event.mass();
 
     JetTag.HeavyParticles = {TopId, HeavyHiggsId,CPOddHiggsId};
-    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = event.Hadrons().GetStructuredTaggedJets(JetTag);
 
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
+    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
-    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-    Jets Neutrinos = Event.GetParticles()->GetNeutrinos();
+    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    Jets Neutrinos = event.Partons().GetNeutrinos();
 
     Print(kInformation, "Number of doublets", doublets.size());
 

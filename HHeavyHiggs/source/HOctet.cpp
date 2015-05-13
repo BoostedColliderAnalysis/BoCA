@@ -9,11 +9,11 @@ HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Ne
     SetTag(SextetM.Tag(),doubletM.Tag());
 }
 
-// HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet, const HEventStruct &NewEventStruct)
+// HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet, const EventStruct &NeweventStruct)
 // {
 //     SextetM = NewSextet;
 //     doubletM = Newdoublet;
-//     EventStructM = NewEventStruct;
+//     eventStructM = NeweventStruct;
 //     SetBdt(SextetM.Bdt(),doubletM.Bdt());
 //     SetTag(SextetM.Tag(),doubletM.Tag());
 // }

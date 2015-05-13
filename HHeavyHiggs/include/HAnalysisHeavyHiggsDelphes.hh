@@ -24,7 +24,7 @@ public:
 
 private:
 
-    inline int EventNumberMax() const { return 10000;};
+    inline int eventNumberMax() const { return 10000;};
 
     inline std::string ProjectName() const {
         return "HeavyHiggs";
@@ -35,7 +35,7 @@ private:
      *
      * @return void
      */
-    int Analysis(hanalysis::HEvent &Event, const std::string &Name);
+    int Analysis(hanalysis::Event &event, const std::string &Name);
 
     /**
      * @brief prepares the std::vector describing the input root files
@@ -55,9 +55,9 @@ private:
 
     Strings GetStudyNameVector();
 
-    void FillBranch(hanalysis::HEvent &Event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
+    void FillBranch(hanalysis::Event &event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
 
-    float Leptons(hanalysis::HEvent &Event, fastjet::PseudoJet Jet);
+    float Leptons(hanalysis::Event &event, fastjet::PseudoJet Jet);
 
 //     bool JetIsBottom(const fastjet::PseudoJet &Jet);
 
@@ -67,9 +67,9 @@ private:
 
     };
 
-    bool Signal(hanalysis::HEvent &Event);
-    bool Test(hanalysis::HEvent &Event);
-    bool Background(hanalysis::HEvent &Event);
+    bool Signal(hanalysis::Event &event);
+    bool Test(hanalysis::Event &event);
+    bool Background(hanalysis::Event &event);
 
     /**
      * @brief Branch to write Heavy Higgs info into
@@ -84,7 +84,7 @@ private:
     int DeltaRapCounter,
         BMassCounter,
         TMassCounter,
-        EventCounter,
+        eventCounter,
         JetCounter,
         Jet2Counter;
 

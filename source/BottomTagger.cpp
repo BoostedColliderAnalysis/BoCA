@@ -1,7 +1,5 @@
 # include "BottomTagger.hh"
 
-# include "Reader.hh"
-# include "HEvent.hh"
 # include "Singlet.hh"
 
 hanalysis::BottomTagger::BottomTagger()
@@ -33,7 +31,7 @@ void hanalysis::BottomTagger::DefineVariables()
     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-BottomBranch hanalysis::BottomTagger::GetBranch(const fastjet::PseudoJet &jet) const
+BottomBranch hanalysis::BottomTagger::FillBranch(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Fill Branch");
     BottomBranch branch;
@@ -41,15 +39,15 @@ BottomBranch hanalysis::BottomTagger::GetBranch(const fastjet::PseudoJet &jet) c
     return branch;
 }
 
-int hanalysis::BottomTagger::Train(hanalysis::HEvent &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
+int hanalysis::BottomTagger::Train(hanalysis::Event &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Get Bottom Tag", tag);
 
-    Jets particles = event.GetParticles()->Generator();
+    Jets particles = event.Partons().Generator();
     Jets bottoms = copy_if_abs_particle(particles, BottomId);
     Print(kInformation, "Particle size", bottoms.size());
 
-    Jets jets = event.GetJets()->GetGranJets();
+    Jets jets = event.Hadrons().GetGranJets();
     Print(kInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
 
@@ -114,7 +112,7 @@ Jets hanalysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCu
     return clean_jets;
 }
 
-Jets hanalysis::BottomTagger::GetMultiJetBdt(Jets &jets, const TMVA::Reader &reader)
+Jets hanalysis::BottomTagger::GetMultiJetBdt(const Jets &jets, const TMVA::Reader &reader)
 {
 
     Jets final_jets = GetJetBdt(jets, reader);
@@ -134,10 +132,10 @@ Jets hanalysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &re
     return GetJetBdt(GetSubJets(jets,sub_jet_number), reader);
 }
 
-Jets hanalysis::BottomTagger::GetJetBdt(HEvent &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+Jets hanalysis::BottomTagger::GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Jet Bdt");
-    return GetJetBdt(event.GetJets()->GetGranJets(), pre_cuts, reader);
+    return GetJetBdt(event.Hadrons().GetGranJets(), pre_cuts, reader);
 }
 
 Jets hanalysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
@@ -156,7 +154,7 @@ Jets hanalysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, con
 
 fastjet::PseudoJet hanalysis::BottomTagger::GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
-    branch_ = GetBranch(jet);
+    branch_ = FillBranch(jet);
     static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
     return jet;
 }

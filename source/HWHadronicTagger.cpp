@@ -36,7 +36,7 @@ WHadronicBranch hanalysis::HWHadronicTagger::GetBranch(const Doublet &doublet) c
 
 }
 
-int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
+int hanalysis::HWHadronicTagger::Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Get W Tags");
 
@@ -69,7 +69,7 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
     }
 
 
-    Jets WParticles = event.GetParticles()->Generator();
+    Jets WParticles = event.Partons().Generator();
     WParticles = RemoveIfWrongParticle(WParticles, WHadId);
     fastjet::PseudoJet WParticle;
     if (tag == kSignal) {
@@ -98,7 +98,7 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
         }
     }
 //
-//     Jets TopParticles = Event.GetParticles()->Generator();
+//     Jets TopParticles = event.Partons().Generator();
 //     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(sgn(WHadId)*TopId)), TopParticles.end());
 //     Print(kInformation, "Particle size", TopParticles.size());
 //     if (TopParticles.size() != 1) Print(kError, "Where is the Top?", TopParticles.size());
@@ -149,9 +149,9 @@ int hanalysis::HWHadronicTagger::Train(hanalysis::HEvent &event, const hanalysis
 }
 
 
-Jets hanalysis::HWHadronicTagger::GetWDaughters(HEvent &Event)
+Jets hanalysis::HWHadronicTagger::GetWDaughters(Event &event)
 {
-    Jets WKids = Event.GetParticles()->Generator();
+    Jets WKids = event.Partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(kError, "Where is the W 1?", WKids.size());
 
@@ -168,7 +168,7 @@ int hanalysis::HWHadronicTagger::GetWHadId(const Jets &jets)
 }
 
 
-std::vector<hanalysis::Doublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent &event, const TMVA::Reader &reader)
+std::vector<hanalysis::Doublet> hanalysis::HWHadronicTagger::GetDoublets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
 
@@ -201,7 +201,7 @@ std::vector<hanalysis::Doublet> hanalysis::HWHadronicTagger::GetDoublets(HEvent 
     return doublets;
 }
 
-std::vector<hanalysis::Doublet> hanalysis::HWHadronicTagger::GetJetDoublets(HEvent &event, const TMVA::Reader &reader)
+std::vector<hanalysis::Doublet> hanalysis::HWHadronicTagger::GetJetDoublets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
     return GetJetDoublets(static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader()), reader);

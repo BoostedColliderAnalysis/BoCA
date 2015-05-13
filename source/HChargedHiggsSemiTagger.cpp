@@ -83,14 +83,14 @@ HChargedHiggsSemiBranch hanalysis::HChargedHiggsSemiTagger::GetBranch(const HQua
 
 
 
-std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
+std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 
-    float Mass = Event.GetMass();
+    float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (Tag == kSignal) {
-        Jets HiggsParticles = Event.GetParticles()->Generator();
+        Jets HiggsParticles = event.Partons().Generator();
         HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
         if (Tag == kSignal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
@@ -98,17 +98,17 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
         }
     }
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
         jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
-    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
-    const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
+    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    const fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
     std::vector<Doublet> doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     std::vector<Triplet> triplets = TopSemiTagger.GetBdt(doublets, jets, TopSemiReader);
 
 
-    int WSemiId = WSemiTagger.WSemiId(Event);
-    Jets TopParticles = Event.GetParticles()->Generator();
+    int WSemiId = WSemiTagger.WSemiId(event);
+    Jets TopParticles = event.Partons().Generator();
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
@@ -121,7 +121,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
 
     Jets BottomJets;
     if (Tag == kSignal) {
-    Jets  BottomParticles = Event.GetParticles()->Generator();
+    Jets  BottomParticles = event.Partons().Generator();
     BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, BottomId, ChargedHiggsId);
     fastjet::PseudoJet BottomQuark;
     if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();

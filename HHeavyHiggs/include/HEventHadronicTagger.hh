@@ -1,5 +1,5 @@
-# ifndef HEventHadronicTagger_hh
-# define HEventHadronicTagger_hh
+# ifndef EventHadronicTagger_hh
+# define EventHadronicTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
@@ -7,10 +7,10 @@
 
 /**
  *
- * @brief Event BDT tagger for hadronic heavy higgs
+ * @brief event BDT tagger for hadronic heavy higgs
  *
  */
-class hheavyhiggs::HEventHadronicTagger : public hanalysis::Tagger
+class hheavyhiggs::EventHadronicTagger : public hanalysis::Tagger
 {
 
 public:
@@ -19,17 +19,17 @@ public:
     * @brief Constructor
     *
     */
-    HEventHadronicTagger();
+    EventHadronicTagger();
 
-    HEventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger);
+    EventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
     *
     */
-    ~HEventHadronicTagger();
+    ~EventHadronicTagger();
 
-    std::vector<hheavyhiggs::HEventHadronicBranch *> GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag);
+    std::vector<hheavyhiggs::EventHadronicBranch *> GetBranches(hanalysis::Event &event, const HObject::Tag Tag);
 
     void FillBranch(const HOctet &Octet);
 
@@ -40,13 +40,13 @@ protected:
     };
 
     virtual inline std::string ClassName() const {
-      return "HEventHadronicTagger";
+      return "EventHadronicTagger";
     };
 
 
 private:
 
-    void FillBranch(hheavyhiggs::HEventHadronicBranch *EventHadronicBranch, const HOctet &Octet);
+    void FillBranch(hheavyhiggs::EventHadronicBranch *eventHadronicBranch, const HOctet &Octet);
 
     void DefineVariables();
 
@@ -60,7 +60,7 @@ private:
     hanalysis::Reader TopHadronicReader;
     hanalysis::Reader HeavyHiggsHadronicReader;
 
-    hheavyhiggs::HEventHadronicBranch Branch;
+    hheavyhiggs::EventHadronicBranch Branch;
 
 };
 

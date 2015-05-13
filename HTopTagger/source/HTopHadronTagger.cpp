@@ -153,15 +153,15 @@ void HTopHadronTagger::GetBottomInfo(HTopHadronBranch &top_hadron_branch, const 
 }
 
 
-std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut)
+std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, float pre_cut)
 {
 
     Print(kInformation, "Get Top Tags");
 
     const int TopNumber = 2;
 
-//     int WHadId = WTagger.GetWHadId(Event);
-    Jets TopParticles = Event.GetParticles()->Generator();
+//     int WHadId = WTagger.GetWHadId(event);
+    Jets TopParticles = event.Partons().Generator();
 //     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     fastjet::PseudoJet TopQuark;
@@ -170,12 +170,12 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(hanalysis::HEvent 
         else Print(kError, "Where is the Top?", TopParticles.size());
     }
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
     std::vector<hanalysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
     std::vector<hanalysis::Triplet> triplets;
 
-    Jets Leptons = Event.GetLeptons()->GetLeptonJets();
+    Jets Leptons = event.Leptons().GetLeptonJets();
 
 // // 3 Jets form one top
 //     for (const auto & Jet : jets)  {

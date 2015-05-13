@@ -106,14 +106,14 @@ void hanalysis::HTopSemiTagger::GetBottomInfo(TopSemiBranch &branch, const fastj
 
 
 
-int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
+int hanalysis::HTopSemiTagger::Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
 
     float pre_cut = 0;
 
     int WSemiId = w_semi_tagger_.WSemiId(event);
-    Jets TopParticles = event.GetParticles()->Generator();
+    Jets TopParticles = event.Partons().Generator();
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
@@ -124,7 +124,7 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::
     Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
     std::vector<hanalysis::Doublet> doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
 
-    Jets Leptons = event.GetLeptons()->GetLeptonJets();
+    Jets Leptons = event.Leptons().GetLeptonJets();
     Print(kInformation, "Lepton Number", Leptons.size());
 
     std::vector<Triplet> triplets;
@@ -171,7 +171,7 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::
 
 
 
-std::vector<hanalysis::Triplet>  hanalysis::HTopSemiTagger::GetTriplets(HEvent &event, const TMVA::Reader &reader)
+std::vector<hanalysis::Triplet>  hanalysis::HTopSemiTagger::GetTriplets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Bdt");
 

@@ -17,9 +17,9 @@ public:
 
     HTopHadronicTagger();
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
+    int Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
 
-    std::vector<TopHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, float pre_cut = 0){
+    std::vector<TopHadronicBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, float pre_cut = 0){
       Print(kError, "get branches", "depreciated");
     }
 
@@ -37,11 +37,11 @@ public:
 
     Triplet GetBdt(hanalysis::Triplet &triplet, const hanalysis::Reader &TopHadronicReader);
 
-    int GetBdt(HEvent &event, const TMVA::Reader &reader){
+    int GetBdt(Event &event, const TMVA::Reader &reader){
       return SaveEntries(GetTriplets(event,reader));
     }
 
-    std::vector<Triplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
 
     std::vector<Triplet> GetBdt(const Jets &jets, const hanalysis::Reader &TopHadronicReader, hanalysis::HWHadronicTagger &WTagger, hanalysis::Reader &WReader, hanalysis::BottomTagger &BottomTagger, hanalysis::Reader &BottomReader){
       Print(kError, "get bdt", "depreciated");

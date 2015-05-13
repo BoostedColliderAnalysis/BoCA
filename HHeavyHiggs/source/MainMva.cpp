@@ -50,14 +50,14 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage, const 
 //         case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
 //             hanalysis::Factory(Analysis.HeavyHiggsSemiTagger);
 //             break;
-//         case hanalysis::HAnalysis::HEventLeptonicTagger:
-// //             hanalysis::Factory(Analysis.EventLeptonicTagger);
+//         case hanalysis::HAnalysis::EventLeptonicTagger:
+// //             hanalysis::Factory(Analysis.eventLeptonicTagger);
 //             break;
-//         case hanalysis::HAnalysis::HEventHadronicTagger:
-// //             hanalysis::Factory(Analysis.EventHadronicTagger);
+//         case hanalysis::HAnalysis::EventHadronicTagger:
+// //             hanalysis::Factory(Analysis.eventHadronicTagger);
 //             break;
-//         case hanalysis::HAnalysis::HEventSemiTagger:
-//             hanalysis::Factory(Analysis.EventSemiTagger);
+//         case hanalysis::HAnalysis::EventSemiTagger:
+//             hanalysis::Factory(Analysis.eventSemiTagger);
 //             break;
 //         case hanalysis::HAnalysis::HSignatureSemiTagger:
 //             hanalysis::Factory(Analysis.SignatureSemiTagger);
@@ -79,13 +79,13 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage, const 
     file_name = Analysis.ProjectName() + "/" + name + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
 //         switch (Tagger) {
-//         case hanalysis::HAnalysis::HEventLeptonicReader: {
-//             hanalysis::Reader Reader(Analysis.EventLeptonicTagger);
+//         case hanalysis::HAnalysis::EventLeptonicReader: {
+//             hanalysis::Reader Reader(Analysis.eventLeptonicTagger);
 //             Reader.SimpleMVALoop();
 //             break;
 //         }
-//         case hanalysis::HAnalysis::HEventSemiReader: {
-//             Analysis.SetTrees(hanalysis::HAnalysis::HEventSemiReader, hanalysis::HObject::kBackground);
+//         case hanalysis::HAnalysis::EventSemiReader: {
+//             Analysis.SetTrees(hanalysis::HAnalysis::EventSemiReader, hanalysis::HObject::kBackground);
             hanalysis::Reader Reader(tagger);
 //             Reader.SimpleMVALoop();
 //             break;
@@ -135,7 +135,7 @@ int main()
     RunTagger(signature_semi_tagger, hanalysis::Tagger::kTrainer, config);
     RunTagger(signature_semi_tagger, hanalysis::Tagger::kReader, config);
 
-    hheavyhiggs::HEventSemiTagger event_semi_tagger;
+    hheavyhiggs::EventSemiTagger event_semi_tagger;
     RunTagger(event_semi_tagger, hanalysis::Tagger::kTrainer, config);
     RunTagger(event_semi_tagger, hanalysis::Tagger::kReader, config);
 

@@ -63,12 +63,12 @@ void hanalysis::HJetPairTagger::DefineVariables()
 
 }
 
-HEventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const Doublet &doublet) const
+EventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const Doublet &doublet) const
 {
 
     Print(kInformation, "FillPairTagger", doublet.Bdt());
 
-    HEventJetPairBranch JetPairBranch;
+    EventJetPairBranch JetPairBranch;
 
     JetPairBranch.Mass = doublet.Jet().m();
     JetPairBranch.Pt = doublet.Jet().pt();
@@ -109,21 +109,21 @@ HEventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const Doublet &doublet)
     return JetPairBranch;
 }
 
-std::vector<HEventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const HParticleId MotherId)
+std::vector<EventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, const HParticleId MotherId)
 {
     Print(kInformation, "Get Jet Pair Tags", GetParticleName(MotherId));
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     Print(kDebug, "Number of Jets", jets.size());
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
 
     Jets BdtJets = jets;
 
-    std::vector<HEventJetPairBranch> JetPairBranches;
+    std::vector<EventJetPairBranch> JetPairBranches;
     if (jets.empty()) return JetPairBranches;
     Print(kDebug, "Number BDT Jets", jets.size());
 
-    Jets Particles = Event.GetParticles()->Generator();
+    Jets Particles = event.Partons().Generator();
     if (Tag == kSignal) Particles = RemoveIfWrongAbsFamily(Particles, BottomId, MotherId);
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //     if (Tag == HBackground) Particles = RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN

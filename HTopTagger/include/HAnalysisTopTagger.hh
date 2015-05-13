@@ -86,7 +86,7 @@ private:
         }
     }
 
-    inline int EventNumberMax() const {
+    inline int eventNumberMax() const {
         //         return 1000000;
         //         return 100000;
 //         return 10000;
@@ -131,13 +131,13 @@ private:
 
     std::string ProcessName(const Process process) const;
 
-    int PassPreCut(hanalysis::HEvent &event);
+    int PassPreCut(hanalysis::Event &event);
 
     /**
      * @brief Main Analysis function
      *
      */
-    int Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
+    int Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag);
 
 };
 

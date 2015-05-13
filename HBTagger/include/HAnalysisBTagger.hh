@@ -40,7 +40,7 @@ private:
     enum HDetectorType {LHC, FHC, LE};
 
 
-    inline int EventNumberMax() const {
+    inline int eventNumberMax() const {
         //         return 1000000;
 //         return 100000;
 //         return 10000;
@@ -153,6 +153,6 @@ private:
         }
     }
 
-    int Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag);
+    int Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag);
 
 };

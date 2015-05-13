@@ -261,7 +261,7 @@ protected:
      *
      * 0: Errors
      * 1: Analysis Information
-     * 2: Event Information
+     * 2: event Information
      * 3: Detailed Information
      * 4: Step by Step Information
      *

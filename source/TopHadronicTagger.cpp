@@ -66,12 +66,12 @@ TopHadronicBranch hanalysis::TopHadronicTagger::GetBranch(const hanalysis::Tripl
     return branch;
 }
 
-int hanalysis::TopHadronicTagger::Train(hanalysis::HEvent &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
+int hanalysis::TopHadronicTagger::Train(hanalysis::Event &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Train");
 
     int w_had_id = w_hadronic_tagger_.GetWHadId(event);
-    Jets top_particles = event.GetParticles()->Generator();
+    Jets top_particles = event.Partons().Generator();
     int had_top_id = sgn(w_had_id) * std::abs(TopId);
     top_particles = RemoveIfWrongParticle(top_particles, had_top_id);
     fastjet::PseudoJet top_quark;
@@ -242,7 +242,7 @@ hanalysis::Triplet hanalysis::TopHadronicTagger::GetBdt(Triplet &triplet, const 
     return triplet;
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(HEvent &event, const TMVA::Reader &reader)
+std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(Event &event, const TMVA::Reader &reader)
 {
     Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
     std::vector<hanalysis::Triplet> triplets;

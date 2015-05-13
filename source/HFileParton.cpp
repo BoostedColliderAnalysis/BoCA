@@ -37,8 +37,8 @@ Strings hanalysis::hparton::HFile::Paths() const
     return FilePaths;
 }
 
-// std::shared_ptr<hanalysis::HEvent> hanalysis::hparton::HFile::Event()
+// std::shared_ptr<hanalysis::Event> hanalysis::hparton::HFile::event()
 // {
-//     Print(kNotification, "Get Event");
-//     return std::shared_ptr<hanalysis::HEvent>(new HEvent());
+//     Print(kNotification, "Get event");
+//     return std::shared_ptr<hanalysis::Event>(new Event());
 // }

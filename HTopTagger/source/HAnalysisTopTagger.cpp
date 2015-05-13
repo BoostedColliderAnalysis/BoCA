@@ -130,16 +130,16 @@ void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 }
 
 
-int htoptagger::HAnalysis::PassPreCut(hanalysis::HEvent &event)
+int htoptagger::HAnalysis::PassPreCut(hanalysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
-    Jets particles = event.GetParticles()->Generator();
+    Jets particles = event.Partons().Generator();
     Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
     remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
     return tops.size();
 }
 
-int htoptagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
+int htoptagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {

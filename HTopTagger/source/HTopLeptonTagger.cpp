@@ -105,17 +105,17 @@ HTopLeptonBranch HTopLeptonTagger::GetBranch(const hanalysis::Doublet &doublet) 
     return top_semi_branch;
 }
 
-std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag)
+std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
     const int TopNumber = 2;
-    EventNumber += TopNumber;
+    eventNumber += TopNumber;
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     Print(kInformation, "Jet Number", jets.size());
     //     jets = fastjet::sorted_by_pt(bottom_tagger_.GetJetBdt(jets, BottomReader)); // TODO reenable this
 
-    Jets Leptons = fastjet::sorted_by_pt(Event.GetLeptons()->GetLeptonJets());
+    Jets Leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
     Print(kInformation, "Lepton Number", Leptons.size());
 //     switch (Tag) {
 //     case  kSignal:
@@ -147,7 +147,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
     std::vector<HTopLeptonBranch> TopLeptonBranches;
     if (doublets.empty()) return TopLeptonBranches;
 
-    Jets TopParticles = Event.GetParticles()->Generator();
+    Jets TopParticles = event.Partons().Generator();
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     if (TopParticles.size() != TopNumber) {
         if(tag == kSignal) Print(kError, "Top Quarks", TopParticles.size());
@@ -177,10 +177,10 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::HEvent 
         ++TopJetNumberNumber;
     }
 
-//     Print(kError, "Lepton Fraction", float(LeptonNumber) / EventNumber);
-//     Print(kError, "Lepton Jet Fraction", float(LeptonJetNumber) / EventNumber);
-//     Print(kError, "Quark Fraction", float(TopQuarkNumber) / EventNumber);
-//     Print(kError, "Top Fraction", float(TopJetNumberNumber) / EventNumber);
+//     Print(kError, "Lepton Fraction", float(LeptonNumber) / eventNumber);
+//     Print(kError, "Lepton Jet Fraction", float(LeptonJetNumber) / eventNumber);
+//     Print(kError, "Quark Fraction", float(TopQuarkNumber) / eventNumber);
+//     Print(kError, "Top Fraction", float(TopJetNumberNumber) / eventNumber);
 
     return TopLeptonBranches;
 }

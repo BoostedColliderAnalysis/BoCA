@@ -24,9 +24,9 @@ hheavyhiggs::HBranchHeavyHiggs::HBranchHeavyHiggs()
 }
 
 
-ClassImp(hheavyhiggs::HEventLeptonicBranch)
+ClassImp(hheavyhiggs::EventLeptonicBranch)
 
-hheavyhiggs::HEventLeptonicBranch::HEventLeptonicBranch()
+hheavyhiggs::EventLeptonicBranch::EventLeptonicBranch()
 {
     Mass = InitialValue();
     Pt = InitialValue();
@@ -74,9 +74,9 @@ hheavyhiggs::HEventLeptonicBranch::HEventLeptonicBranch()
 }
 
 
-ClassImp(hheavyhiggs::HEventHadronicBranch)
+ClassImp(hheavyhiggs::EventHadronicBranch)
 
-hheavyhiggs::HEventHadronicBranch::HEventHadronicBranch()
+hheavyhiggs::EventHadronicBranch::EventHadronicBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -105,13 +105,13 @@ hheavyhiggs::HEventHadronicBranch::HEventHadronicBranch()
     HbDeltaDeltaPhi = InitialValue();
     HbDeltaDeltaR = InitialValue();
 
-    EventTag = int(InitialValue());
+    eventTag = int(InitialValue());
 }
 
 
-ClassImp(hheavyhiggs::HEventSemiBranch)
+ClassImp(hheavyhiggs::EventSemiBranch)
 
-hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
+hheavyhiggs::EventSemiBranch::EventSemiBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -168,9 +168,9 @@ hheavyhiggs::HEventSemiBranch::HEventSemiBranch()
 
 
 
-ClassImp(hheavyhiggs::HEventTtSemiBranch)
+ClassImp(hheavyhiggs::EventTtSemiBranch)
 
-hheavyhiggs::HEventTtSemiBranch::HEventTtSemiBranch()
+hheavyhiggs::EventTtSemiBranch::EventTtSemiBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -198,7 +198,7 @@ ClassImp(hheavyhiggs::HBdtBranch)
 hheavyhiggs::HBdtBranch::HBdtBranch()
 {
 
-    EventTag = InitialValue();
+    eventTag = InitialValue();
 
     Mass = InitialValue();
     Bdt = InitialValue();
@@ -334,7 +334,7 @@ hheavyhiggs::HChargedLeptonicBranch::HChargedLeptonicBranch()
     HbDeltaDeltaPhi = InitialValue();
     HbDeltaDeltaR = InitialValue();
 
-    EventTag = int(InitialValue());
+    eventTag = int(InitialValue());
 
 }
 
@@ -370,6 +370,6 @@ hheavyhiggs::HChargedHadronicBranch::HChargedHadronicBranch()
     HbDeltaDeltaPhi = InitialValue();
     HbDeltaDeltaR = InitialValue();
 
-    EventTag = int(InitialValue());
+    eventTag = int(InitialValue());
 
 }

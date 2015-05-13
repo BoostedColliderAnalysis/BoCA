@@ -19,7 +19,7 @@ public:
 
     ~HChargedHiggsHadronicTagger();
 
-    std::vector<HChargedHiggsHadronicBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector<HChargedHiggsHadronicBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
     HChargedHiggsHadronicBranch GetBranch(const hanalysis::HQuartet31 &Quartet);
 

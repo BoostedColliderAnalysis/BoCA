@@ -3,7 +3,7 @@
 
 # include "Tagger.hh"
 # include "Branch.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"
 # include "BottomTagger.hh"
@@ -24,7 +24,7 @@ public:
 
     ~HMvaHiggsTagger();
 
-    std::vector< HHiggsBranch * > GetBranches(HEvent &Event, const HObject::Tag State);
+    std::vector< HHiggsBranch * > GetBranches(Event &event, const HObject::Tag State);
 
     std::vector<ParticleBranch *> GetconstituentBranches();
 

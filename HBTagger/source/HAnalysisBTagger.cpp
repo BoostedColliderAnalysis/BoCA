@@ -39,7 +39,7 @@ void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 }
 
 
-int hbtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hbtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag)
 {
     Print(kInformation, "Analysis");
     ++event_sum_;
