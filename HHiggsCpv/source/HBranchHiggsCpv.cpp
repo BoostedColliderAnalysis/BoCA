@@ -1,8 +1,8 @@
 # include "HBranchHiggsCpv.hh"
 
-ClassImp(hhiggscpv::HEventBranch)
+ClassImp(hhiggscpv::EventBranch)
 
-hhiggscpv::HEventBranch::HEventBranch()
+hhiggscpv::EventBranch::EventBranch()
 {
     ScalarHt = InitialValue();
     JetNumber = int(InitialValue());

@@ -3,7 +3,7 @@
 
 int main()
 {
-  hhiggscpv::HMvaEvent Mva;;
+  hhiggscpv::HMvaevent Mva;;
 hanalysis::Factory Factory(Mva);
 return 0;
 

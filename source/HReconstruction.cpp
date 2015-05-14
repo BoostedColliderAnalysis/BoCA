@@ -16,10 +16,10 @@ hanalysis::HReconstruction::~HReconstruction()
 
 }
 
-void hanalysis::HReconstruction::NewEvent()
+void hanalysis::HReconstruction::Newevent()
 {
 
-    Print(kInformation, "New Event");
+    Print(kInformation, "New event");
 
 //     FatJetVector.clear();
 

@@ -11,8 +11,8 @@ class HPairTag;
 class HAnalysis;
 class HBranchDiscriminator;
 class HJetDiscriminator;
-class HMvaEvent;
-class HEventBranch;
+class HMvaevent;
+class EventBranch;
 // class BottomBranch;
 // class HTopBranch;
 class HLeptonBranch;
@@ -30,12 +30,12 @@ class HMvaTop;
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hhiggscpv::HEventBranch : public Branch
+class hhiggscpv::EventBranch : public Branch
 {
 
 public:
 
-    HEventBranch();
+    EventBranch();
 
     float ScalarHt;
     float JetNumber;
@@ -50,7 +50,7 @@ public:
 
 private:
 
-    ClassDef(HEventBranch, 1)
+    ClassDef(EventBranch, 1)
 
 };
 

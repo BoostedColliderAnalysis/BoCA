@@ -17,7 +17,7 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
             hanalysis::Factory factory(tagger);
 //             break;
 //         case hanalysis::HAnalysis::HJetPairTagger:
-//           hanalysis::Factory(Analysis.EventBottomSumTagger);
+//           hanalysis::Factory(Analysis.eventBottomSumTagger);
 //           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;

@@ -1,17 +1,17 @@
 # include "HOctet44Event.hh"
 // # include "HTagPrivate.hh"
 
-// HEventMultiplet::HEventMultiplet(const TMultiplet &NewOctet)
+// EventMultiplet::EventMultiplet(const TMultiplet &NewOctet)
 // {
 //     Octet44M = NewOctet;
 //     SetBdt(Octet44M.Bdt());
 //     SetTag(Octet44M.Tag());
 // }
 //
-// HEventMultiplet::HEventMultiplet(const TMultiplet &NewOctet, const HEventStruct &NewEventStruct)
+// EventMultiplet::EventMultiplet(const TMultiplet &NewOctet, const EventStruct &NeweventStruct)
 // {
 //   Octet44M = NewOctet;
-//     EventM = NewEventStruct;
+//     eventM = NeweventStruct;
 //     SetBdt(Octet44M.Bdt());
 //     SetTag(Octet44M.Tag());
 // }

@@ -38,16 +38,16 @@ WSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::Doublet &doublet
     return branch;
 }
 
-int hanalysis::HWSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag)
+int hanalysis::HWSemiTagger::Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
 
-    Jets leptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
+    Jets leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
     if (leptons.size() > 1) leptons.erase(leptons.begin() + 1, leptons.end());
 
-    const fastjet::PseudoJet missing_et = event.GetJets()->GetMissingEt();
+    const fastjet::PseudoJet missing_et = event.Hadrons().GetMissingEt();
 
-    Jets Particles = event.GetParticles()->Generator();
+    Jets Particles = event.Partons().Generator();
     int w_semi_id = WSemiId(event);
     fastjet::PseudoJet WBoson;
     Particles = RemoveIfWrongParticle(Particles, w_semi_id);
@@ -72,15 +72,15 @@ int hanalysis::HWSemiTagger::Train(hanalysis::HEvent &event, const hanalysis::HO
     return doublets.size();
 }
 
-std::vector<hanalysis::Doublet>  hanalysis::HWSemiTagger::GetDoublets(hanalysis::HEvent &event, const TMVA::Reader &reader)
+std::vector<hanalysis::Doublet>  hanalysis::HWSemiTagger::GetDoublets(hanalysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Triple Bdt");
-    Jets leptons = fastjet::sorted_by_pt(event.GetLeptons()->GetLeptonJets());
+    Jets leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
     if (leptons.size() > 1) leptons.erase(leptons.begin() + 1, leptons.end());
 
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
-        Doublet Predoublet(lepton, event.GetJets()->GetMissingEt());
+        Doublet Predoublet(lepton, event.Hadrons().GetMissingEt());
         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
         for (auto & Postdoublet : Postdoublets) {
             if (std::abs(Postdoublet.Jet().m() - WMass) > w_mass_window_) continue;
@@ -170,9 +170,9 @@ struct FindError {
     float Error;
 };
 
-Jets hanalysis::HWSemiTagger::WSemiDaughters(HEvent &event)
+Jets hanalysis::HWSemiTagger::WSemiDaughters(Event &event)
 {
-    Jets WKids = event.GetParticles()->Generator();
+    Jets WKids = event.Partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(kError, "Where is the W 1?", WKids.size());
 

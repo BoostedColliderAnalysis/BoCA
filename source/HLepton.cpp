@@ -17,13 +17,13 @@ hanalysis::HLepton::~HLepton()
 
 }
 
-void hanalysis::HLepton::NewEvent(const hanalysis::ClonesArrays &NewClonesArrays)
+void hanalysis::HLepton::Newevent(const hanalysis::ClonesArrays &NewClonesArrays)
 {
 
-    Print(kInformation,"New Event");
+    Print(kInformation,"New event");
 
 //     ClonesArrays = NewClonesArray;
-    hanalysis::HFourVector::NewEvent(NewClonesArrays);
+    hanalysis::HFourVector::Newevent(NewClonesArrays);
 
     GotElectrons = 0;
 

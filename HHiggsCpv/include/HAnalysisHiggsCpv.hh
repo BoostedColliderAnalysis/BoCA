@@ -96,13 +96,13 @@ private:
     ExRootTreeBranch *HiggsBranch;
     ExRootTreeBranch *constituentBranch;
     ExRootTreeBranch *TopBranch;
-    ExRootTreeBranch *EventBranch;
+    ExRootTreeBranch *eventBranch;
 
     hanalysis::Reader BottomReader;
     hanalysis::Reader TopReader;
     hanalysis::Reader HiggsReader;
 
-    inline int EventNumberMax() const {
+    inline int eventNumberMax() const {
         return 100000;
     }
 
@@ -117,15 +117,15 @@ private:
      *
      * @return void
      */
-    int Analysis(hanalysis::HEvent &Event, const std::string &NewStudyName);
+    int Analysis(hanalysis::Event &event, const std::string &NewStudyName);
 
-    bool GetBottomTag(hanalysis::HEvent &, const std::string &StudyName);
+    bool GetBottomTag(hanalysis::Event &, const std::string &StudyName);
 
-    bool GetTopTag(hanalysis::HEvent &Event, const std::string &NewStudyName);
+    bool GetTopTag(hanalysis::Event &event, const std::string &NewStudyName);
 
-    bool GetHiggsTag(hanalysis::HEvent &Event, const std::string &NewStudyName);
+    bool GetHiggsTag(hanalysis::Event &event, const std::string &NewStudyName);
 
-    bool GetSignalTag(hanalysis::HEvent &Event, const std::string &StudyName);
+    bool GetSignalTag(hanalysis::Event &event, const std::string &StudyName);
 
     std::vector<HHiggsCpv> GetHiggsCpvs(const Jets &jets, const Jets &Leptons);
 

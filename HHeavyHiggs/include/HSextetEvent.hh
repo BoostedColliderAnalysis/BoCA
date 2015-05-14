@@ -1,9 +1,9 @@
-# ifndef HSextetEvent_hh
-# define HSextetEvent_hh
+# ifndef HSextetevent_hh
+# define HSextetevent_hh
 
 # include "HSextet.hh"
 
-struct HEventStruct {
+struct EventStruct {
 
     int LeptonNumber = 0;
     int JetNumber = 0;
@@ -12,20 +12,20 @@ struct HEventStruct {
 
 };
 
-class HSextetEventPrivate;
+class HSexteteventPrivate;
 
 /**
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class HSextetEvent : public hanalysis::HTag
+class HSextetevent : public hanalysis::HTag
 {
 
 public:
 
-    HSextetEvent(const hanalysis::HSextet &NewSextet);
+    HSextetevent(const hanalysis::HSextet &NewSextet);
 
-    HSextetEvent(const hanalysis::HSextet &NewSextet, const HEventStruct &NewEventStruct);
+    HSextetevent(const hanalysis::HSextet &NewSextet, const EventStruct &NeweventStruct);
 
     inline hanalysis::HSextet Sextet()const {
         return SextetM;
@@ -46,46 +46,46 @@ public:
     }
 
     inline void SetScalarHt(const float NewScalarHt) {
-        EventM.ScalarHt = NewScalarHt;
+        eventM.ScalarHt = NewScalarHt;
     }
 
     inline void SetJetNumber(const int NewJetNumber) {
-        EventM.JetNumber = NewJetNumber;
+        eventM.JetNumber = NewJetNumber;
     }
 
     inline void SetBottomNumber(const int NewBottomNumber) {
-        EventM.BottomNumber = NewBottomNumber;
+        eventM.BottomNumber = NewBottomNumber;
     }
 
     inline void SetLeptonNumber(const int NewLeptonNumber) {
-        EventM.LeptonNumber = NewLeptonNumber;
+        eventM.LeptonNumber = NewLeptonNumber;
     }
 
     inline float ScalarHt() const {
-        return EventM.ScalarHt;
+        return eventM.ScalarHt;
     }
 
     inline int JetNumber()const {
-        return EventM.JetNumber;
+        return eventM.JetNumber;
     }
 
     inline int BottomNumber()const {
-        return EventM.BottomNumber;
+        return eventM.BottomNumber;
     }
 
     inline int LeptonNumber()const {
-        return EventM.LeptonNumber;
+        return eventM.LeptonNumber;
     }
 
-    inline HEventStruct EventStruct()const {
-        return EventM;
+    inline EventStruct eventStruct()const {
+        return eventM;
     }
 
-    inline void SetEventStruct(const HEventStruct &NewEventStruct) {
-        EventM = NewEventStruct;
+    inline void SeteventStruct(const EventStruct &NeweventStruct) {
+        eventM = NeweventStruct;
     }
 
-    HEventStruct EventM;
+    EventStruct eventM;
 
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
         SetBdt(Bdt() * (JetNumber() + 1));
@@ -158,7 +158,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HSextetEvent";
+        return "HSextetevent";
     }
 
 private:

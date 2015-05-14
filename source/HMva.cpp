@@ -8,7 +8,7 @@
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 
 # include "JetInfo.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HAnalysis.hh"
 
 HObservable::HObservable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
@@ -160,16 +160,16 @@ Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
 
 }
 
-Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event, HJetTag &JetTag)
+Jets hanalysis::HMva::GetJets(hanalysis::Event &event, HJetTag &JetTag)
 {
     Print(kInformation, "JetTag", JetTag.HeavyParticles.size());
-    return GetJets(Event);
+    return GetJets(event);
 }
 
-Jets hanalysis::HMva::GetJets(hanalysis::HEvent &Event)
+Jets hanalysis::HMva::GetJets(hanalysis::Event &event)
 {
-//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry.JetConeSize));
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(Event.GetJets()->GetStructuredEFlowJets()), detector_geometry.JetDefinition);
+//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.Hadrons().GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry.JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.Hadrons().GetStructuredEFlowJets()), detector_geometry.JetDefinition);
     Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry.JetMinPt));
     if (jets.size() < 1) {
         delete ClusterSequence;
@@ -220,9 +220,9 @@ Jets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJet
     return Pieces;
 }
 
-fastjet::PseudoJet hanalysis::HMva::GetMissingEt(hanalysis::HEvent &Event)
+fastjet::PseudoJet hanalysis::HMva::GetMissingEt(hanalysis::Event &event)
 {
-    Jets granulated_jets = GranulatedJets(Event.GetJets()->GetStructuredEFlowJets());
+    Jets granulated_jets = GranulatedJets(event.Hadrons().GetStructuredEFlowJets());
     fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
     return fastjet::PseudoJet(-jet_sum.px(), -jet_sum.py(), -jet_sum.pz(), jet_sum.e());
 }

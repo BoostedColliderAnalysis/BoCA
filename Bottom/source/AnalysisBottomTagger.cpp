@@ -117,16 +117,16 @@ std::string hbtagger::HAnalysis::DetectorName(const Detector detector) const
 }
 
 
-int hbtagger::HAnalysis::PassPreCut(hanalysis::HEvent &event)
+int hbtagger::HAnalysis::PassPreCut(hanalysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
-    Jets jets = event.GetJets()->GetGranJets();
+    Jets jets = event.Hadrons().GetGranJets();
     jets = remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
     return jets.size();
 }
 
 
-int hbtagger::HAnalysis::Analysis(hanalysis::HEvent &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hbtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {

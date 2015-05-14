@@ -55,8 +55,8 @@ public:
 
     virtual hanalysis::ClonesArrays &GetClonesArrays();
 
-//     virtual std::shared_ptr<hanalysis::HEvent> Event();
-    virtual hanalysis::HEvent &Event();
+//     virtual std::shared_ptr<hanalysis::Event> event();
+    virtual hanalysis::Event &event();
 
     void SetBasePath(const std::string &NewBasePath) {
         BasePath = NewBasePath;
@@ -179,15 +179,15 @@ private:
 
     TChain *Chain = NULL;
 
-    HEvent *event_ = NULL;
+    Event *event_ = NULL;
 
     ClonesArrays *clones_array_ = NULL;
 
-//     hdelphes::HEvent DelphesEvent;
+//     hdelphes::Event Delphesevent;
 
-//     hparton::HEvent PartonEvent;
+//     hparton::Event Partonevent;
 
-//     hpgs::HEvent PgsEvent;
+//     hpgs::Event Pgsevent;
 };
 
 # endif

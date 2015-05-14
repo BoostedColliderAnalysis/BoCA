@@ -9,7 +9,7 @@
 # include "ExRootAnalysis/ExRootProgressBar.h"
 
 # include "Branch.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 
 // hanalysis::HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 hanalysis::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : tagger_(tagger)
@@ -33,21 +33,21 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
             Print(kNotification, "Analysing File", file.tree_name());
             event_sum_ = 0;
             ClonesArrays &clones_arrays = file.GetClonesArrays();
-            hanalysis::HEvent &event = file.Event();
+            hanalysis::Event &event = file.event();
             bool analysis_not_empty = false;
             ExRootTreeWriter tree_writer = TreeWriter(export_file, file.GetTitle(), stage);
             ExRootTreeBranch &tree_branch = *tree_writer.NewBranch("Info", InfoBranch::Class());
             ExRootTreeReader tree_reader = file.TreeReader();
             clones_arrays.GetBranches(tree_reader);
-//             ExRootProgressBar progress_bar(EventSum(tree_reader));
-//             Print(kInformation, "Sum", EventSum(tree_reader));
+//             ExRootProgressBar progress_bar(eventSum(tree_reader));
+//             Print(kInformation, "Sum", eventSum(tree_reader));
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = Fillinfo_branch(tree_reader, file);
-            for (const int event_number : Range(EventSum(tree_reader))) {
-//                 Print(kError, "Event Number", event_number);
+            for (const int event_number : Range(eventSum(tree_reader))) {
+//                 Print(kError, "event Number", event_number);
                 tree_reader.ReadEntry(event_number);
-                event.NewEvent(clones_arrays);
+                event.Newevent(clones_arrays);
                 event.SetMass(file.mass());
                 int pre_cut_number = PassPreCut(event);
                 if (pre_cut_number > 0) {
@@ -62,13 +62,13 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
                     }
                 }
                 tree_writer.Clear();
-                if (object_sum >= EventNumberMax()) break;
+                if (object_sum >= eventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
-            Print(kError, "All Events analysed", info_branch.EventNumber);
+            Print(kError, "All events analysed", info_branch.eventNumber);
 //             progress_bar.Finish();
             if (analysis_not_empty) tree_writer.Write();
-//             Print(kError, "Number of Events", event_sum_, EventSum(tree_reader));
+//             Print(kError, "Number of events", event_sum_, eventSum(tree_reader));
         }
         export_file.Close();
     }
@@ -80,8 +80,8 @@ InfoBranch hanalysis::HAnalysis::Fillinfo_branch(const ExRootTreeReader &tree_re
     info_branch.Crosssection = file.crosssection();
     info_branch.CrosssectionError = file.crosssection_error();
     info_branch.Mass = file.mass();
-    info_branch.EventNumber = EventSum(tree_reader);
-//     Print(kError, "Event Number", info_branch.EventNumber);
+    info_branch.eventNumber = eventSum(tree_reader);
+//     Print(kError, "event Number", info_branch.eventNumber);
     return info_branch;
 }
 

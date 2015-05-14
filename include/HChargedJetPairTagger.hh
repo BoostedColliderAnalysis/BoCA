@@ -19,7 +19,7 @@ public:
 
     void SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const WHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const TopHadronicTagger &Newtop_hadronic_tagger);
 
-    std::vector< HChargedJetPairBranch> GetBranches(HEvent &Event, const HObject::Tag Tag);
+    std::vector< HChargedJetPairBranch> GetBranches(Event &event, const HObject::Tag Tag);
 
     std::vector< HQuartet31 > GetBdt(const std::vector< hanalysis::Triplet > &triplets, const Jets &jets, const hanalysis::Reader &JetPairReader);
 

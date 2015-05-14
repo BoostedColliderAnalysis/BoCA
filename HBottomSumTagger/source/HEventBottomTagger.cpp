@@ -1,13 +1,13 @@
 # include "HEventBottomTagger.hh"
 
-hbottomsumtagger::HEventBottomTagger::HEventBottomTagger()
+hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     DefineVariables();
 }
 
-void hbottomsumtagger::HEventBottomTagger::SetTagger(const hanalysis::BottomTagger &NewBottomTagger)
+void hbottomsumtagger::EventBottomTagger::SetTagger(const hanalysis::BottomTagger &NewBottomTagger)
 {
     Print(kNotification , "Constructor");
 
@@ -15,10 +15,10 @@ void hbottomsumtagger::HEventBottomTagger::SetTagger(const hanalysis::BottomTagg
     DefineVariables();
 }
 
-void hbottomsumtagger::HEventBottomTagger::DefineVariables()
+void hbottomsumtagger::EventBottomTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    set_tagger_name("EventBottom");
+    set_tagger_name("eventBottom");
 
     ClearVectors();
 
@@ -45,32 +45,32 @@ void hbottomsumtagger::HEventBottomTagger::DefineVariables()
 
 }
 
-HEventBottomTaggerBranch hbottomsumtagger::HEventBottomTagger::GetBranch(const HEventBottomMultiplet &Event) const
+EventBottomTaggerBranch hbottomsumtagger::EventBottomTagger::GetBranch(const EventBottomMultiplet &event) const
 {
-    Print(kInformation, "FillPairTagger", Event.Bdt());
+    Print(kInformation, "FillPairTagger", event.Bdt());
 
-    HEventBottomTaggerBranch EventSemiBranch;
+    EventBottomTaggerBranch eventSemiBranch;
 
-    EventSemiBranch.Tag = Event.Tag();
+    eventSemiBranch.Tag = event.Tag();
 
-    EventSemiBranch.BottomBdt1 = Event.TotalBottomBdt(1);
-    EventSemiBranch.BottomBdt2 = Event.TotalBottomBdt(2);
-    EventSemiBranch.BottomBdt3 = Event.TotalBottomBdt(3);
-    EventSemiBranch.BottomBdt4 = Event.TotalBottomBdt(4);
-    EventSemiBranch.BottomBdt5 = Event.TotalBottomBdt(5);
-    EventSemiBranch.BottomBdt6 = Event.TotalBottomBdt(6);
+    eventSemiBranch.BottomBdt1 = event.TotalBottomBdt(1);
+    eventSemiBranch.BottomBdt2 = event.TotalBottomBdt(2);
+    eventSemiBranch.BottomBdt3 = event.TotalBottomBdt(3);
+    eventSemiBranch.BottomBdt4 = event.TotalBottomBdt(4);
+    eventSemiBranch.BottomBdt5 = event.TotalBottomBdt(5);
+    eventSemiBranch.BottomBdt6 = event.TotalBottomBdt(6);
 
-    EventSemiBranch.BottomBdt12 = Event.TotalBottomBdt(1, 2);
-    EventSemiBranch.BottomBdt34 = Event.TotalBottomBdt(3, 4);
-    EventSemiBranch.BottomBdt56 = Event.TotalBottomBdt(5, 6);
+    eventSemiBranch.BottomBdt12 = event.TotalBottomBdt(1, 2);
+    eventSemiBranch.BottomBdt34 = event.TotalBottomBdt(3, 4);
+    eventSemiBranch.BottomBdt56 = event.TotalBottomBdt(5, 6);
 
-    EventSemiBranch.BottomBdt123 = Event.TotalBottomBdt(1, 2, 3);
-    EventSemiBranch.BottomBdt1234 = Event.TotalBottomBdt(1, 2, 3, 4);
+    eventSemiBranch.BottomBdt123 = event.TotalBottomBdt(1, 2, 3);
+    eventSemiBranch.BottomBdt1234 = event.TotalBottomBdt(1, 2, 3, 4);
 
-    EventSemiBranch.Bdt = Event.Bdt();
-    EventSemiBranch.Tag = Event.Tag();
+    eventSemiBranch.Bdt = event.Bdt();
+    eventSemiBranch.Tag = event.Tag();
 
-    return EventSemiBranch;
+    return eventSemiBranch;
 
 }
 
@@ -81,21 +81,21 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
+std::vector<EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagger::GetBranches(hanalysis::Event &event, const HObject::Tag Tag)
 {
-    Print(kInformation, "Get Event Tags");
+    Print(kInformation, "Get event Tags");
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     //     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader); // TODO reenable this
-    std::vector<HEventBottomTaggerBranch> EventSemiBranches;
+    std::vector<EventBottomTaggerBranch> eventSemiBranches;
 
 
 //     const int JetNumber = 2;
 //     const int SignalBottomNumber = 2;
 //     const int BackgroundBottomNumber = 0;
-//     if (jets.size() < JetNumber) return EventSemiBranches;
+//     if (jets.size() < JetNumber) return eventSemiBranches;
 //     Jets BottomJets;
-//     Jets Particles = Event.GetParticles()->Generator();
+//     Jets Particles = event.Partons().Generator();
 //     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
@@ -103,22 +103,22 @@ std::vector<HEventBottomTaggerBranch> hbottomsumtagger::HEventBottomTagger::GetB
 //             BottomJets.emplace_back(jets.front());
 //     }
 //
-//     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return EventSemiBranches;
-//     if (Tag == HBackground && BottomJets.size() < BackgroundBottomNumber)  return EventSemiBranches;
+//     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return eventSemiBranches;
+//     if (Tag == HBackground && BottomJets.size() < BackgroundBottomNumber)  return eventSemiBranches;
 
-    if (!TruthLevelCheck(jets,Event, Tag)) return EventSemiBranches;
+    if (!TruthLevelCheck(jets,event, Tag)) return eventSemiBranches;
 
 
-    HEventBottomMultiplet EventMultiplet;
-    EventMultiplet.SetJets(jets);
+    EventBottomMultiplet eventMultiplet;
+    eventMultiplet.SetJets(jets);
 
-    EventMultiplet.SetTag(Tag);
-    EventSemiBranches.emplace_back(GetBranch(EventMultiplet));
+    eventMultiplet.SetTag(Tag);
+    eventSemiBranches.emplace_back(GetBranch(eventMultiplet));
 
-    return EventSemiBranches;
+    return eventSemiBranches;
 }
 
-bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const Jets &NewJets,hanalysis::HEvent &Event, const Tag Tag)
+bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const Jets &NewJets,hanalysis::Event &event, const Tag Tag)
 {
     const unsigned JetNumber = 2;
     const unsigned SignalBottomNumber = 2;
@@ -128,7 +128,7 @@ bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const Jets &NewJets,h
 
     if (jets.size() < JetNumber) return 0;
     Jets BottomJets;
-    Jets Particles = Event.GetParticles()->Generator();
+    Jets Particles = event.Partons().Generator();
     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
     for (const auto & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
@@ -145,43 +145,43 @@ bool hbottomsumtagger::HEventBottomTagger::TruthLevelCheck(const Jets &NewJets,h
 
 
 
-std::vector<hbottomsumtagger::HEventBottomMultiplet> hbottomsumtagger::HEventBottomTagger::GetBdt(const Jets &jets, const hanalysis::Reader &EventSemiReader)
+std::vector<hbottomsumtagger::EventBottomMultiplet> hbottomsumtagger::EventBottomTagger::GetBdt(const Jets &jets, const hanalysis::Reader &eventSemiReader)
 {
-    Print(kInformation, "Get Event Tags");
+    Print(kInformation, "Get event Tags");
 
-    std::vector<HEventBottomMultiplet> EventMultiplets;
+    std::vector<EventBottomMultiplet> eventMultiplets;
 
-    HEventBottomMultiplet EventMultiplet;
-    EventMultiplet.SetJets(jets);
-    Branch = GetBranch(EventMultiplet);
-    EventMultiplet.SetBdt(EventSemiReader.Bdt());
-    EventMultiplets.emplace_back(EventMultiplet);
-    return EventMultiplets;
+    EventBottomMultiplet eventMultiplet;
+    eventMultiplet.SetJets(jets);
+    Branch = GetBranch(eventMultiplet);
+    eventMultiplet.SetBdt(eventSemiReader.Bdt());
+    eventMultiplets.emplace_back(eventMultiplet);
+    return eventMultiplets;
 }
 
-float hbottomsumtagger::HEventBottomTagger::ReadBdt(const TClonesArray &EventClonesArray, const int Entry)
+float hbottomsumtagger::EventBottomTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry)
 {
-    return ((HEventBottomTaggerBranch *) EventClonesArray.At(Entry))->Bdt;
+    return ((EventBottomTaggerBranch *) eventClonesArray.At(Entry))->Bdt;
 }
 
 
-// std::vector<int> hbottomsumtagger::HEventBottomTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
+// std::vector<int> hbottomsumtagger::EventBottomTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 // {
-//     Print(kNotification, "Apply Bdt", EventBranchName);
-//     std::string NewEventBranchName = EventBranchName + "Reader";
+//     Print(kNotification, "Apply Bdt", eventBranchName);
+//     std::string NeweventBranchName = eventBranchName + "Reader";
 //     const int Steps = 20;
-//     std::vector<int> EventNumbers(Steps, 0);
+//     std::vector<int> eventNumbers(Steps, 0);
 //
 //     const int BinSum = 100;
 //     std::vector<int> Bins(BinSum, 0);
 //
-//     const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(NewEventBranchName.c_str());
+//     const TClonesArray *const eventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(NeweventBranchName.c_str());
 //     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-//     ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(NewEventBranchName.c_str(), HResultBranch::Class());
-//     for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
-//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
-//         for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
-//             HEventBottomTaggerBranch *Test = (HEventBottomTaggerBranch *) EventClonesArray->At(Entry);
+//     ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(NeweventBranchName.c_str(), HResultBranch::Class());
+//     for (const int eventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
+//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(eventNumber);
+//         for (const int Entry : HRange(eventClonesArray->GetEntriesFast())) {
+//             EventBottomTaggerBranch *Test = (EventBottomTaggerBranch *) eventClonesArray->At(Entry);
 //             const float Bdt = Test->Bdt;
 //             HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
 //             Export->Bdt = Bdt;
@@ -190,7 +190,7 @@ float hbottomsumtagger::HEventBottomTagger::ReadBdt(const TClonesArray &EventClo
 //
 //             for (int Step = 0; Step < Steps; ++Step) {
 //                 const float CutValue = (float(Step) / Steps + 1);
-//                 if (Bdt > CutValue) ++EventNumbers.at(Step);
+//                 if (Bdt > CutValue) ++eventNumbers.at(Step);
 //             }
 //         }
 //         TreeWriter->Fill();
@@ -199,5 +199,5 @@ float hbottomsumtagger::HEventBottomTagger::ReadBdt(const TClonesArray &EventClo
 //     TreeWriter->Write();
 //     delete TreeWriter;
 //
-//     return EventNumbers;
+//     return eventNumbers;
 // }

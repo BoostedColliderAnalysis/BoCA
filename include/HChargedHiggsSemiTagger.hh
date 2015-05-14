@@ -23,7 +23,7 @@ public:
         const hanalysis::HTopSemiTagger &NewTopSemiTagger,
         const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger);
 
-    std::vector< HChargedHiggsSemiBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector< HChargedHiggsSemiBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
     HChargedHiggsSemiBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
 

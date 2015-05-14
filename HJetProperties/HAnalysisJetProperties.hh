@@ -49,7 +49,7 @@ public:
      */
     ~HAnalysis();
 
-    inline int GetEventnumberMax()const {
+    inline int GeteventnumberMax()const {
         return 10000;
     };
 
@@ -67,7 +67,7 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *EventBranch;
+    ExRootTreeBranch *eventBranch;
 
     /**
      * @brief Branch to write Higgs info into
@@ -144,15 +144,15 @@ private:
     /**
      * @brief Lepton calculations
      *
-     * @param Event ...
+     * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    Jets Leptons(hanalysis::HEvent &Event);
+    Jets Leptons(hanalysis::Event &event);
 
     /**
      * @brief Lepton calculations
      *
-     * @param Event ...
+     * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
     //     Jets Leptons();
@@ -163,14 +163,14 @@ private:
      * @brief Lepton event counter
      *
      */
-    int LeptonEventCounter;
+    int LeptoneventCounter;
 
     /**
      * @brief Main Analysis function
      *
      * @return void
      */
-    int Analysis(hanalysis::HEvent &Event, const std::string &StudyName);
+    int Analysis(hanalysis::Event &event, const std::string &StudyName);
 
     /**
      * @brief prepares the std::vector describing the input root files

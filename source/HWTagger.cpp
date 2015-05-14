@@ -58,17 +58,17 @@ WHadronicBranch hanalysis::HWTagger::GetBranch(const Doublet &doublet) const
 
 }
 
-std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
+std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
 {
     Print(kInformation, "Get W Tags");
     std::vector<Doublet> doublets;
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     Print(kInformation, "Jets Number", jets.size());
     jets = BottomTagger.GetJetBdt(jets, BottomReader);
     Print(kInformation, "Bottom Tagger Number", jets.size());
 
-    Jets WKids = GetWDaughters(Event);
+    Jets WKids = GetWDaughters(event);
     int WHadId = WId;
     if (WKids.size() > 0) WHadId = GetWHadId(WKids);
 
@@ -92,7 +92,7 @@ std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent 
     }
 
 
-    Jets WParticles = Event.GetParticles()->Generator();
+    Jets WParticles = event.Partons().Generator();
     WParticles = RemoveIfWrongParticle(WParticles, WHadId);
     fastjet::PseudoJet WParticle;
     if (Tag == kSignal) {
@@ -121,7 +121,7 @@ std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent 
         }
     }
 //
-//     Jets TopParticles = Event.GetParticles()->Generator();
+//     Jets TopParticles = event.Partons().Generator();
 //     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(sgn(WHadId)*TopId)), TopParticles.end());
 //     Print(kInformation, "Particle size", TopParticles.size());
 //     if (TopParticles.size() != 1) Print(kError, "Where is the Top?", TopParticles.size());
@@ -189,9 +189,9 @@ std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::HEvent 
 //     return HSignal;
 // }
 
-Jets hanalysis::HWTagger::GetWDaughters(HEvent &Event)
+Jets hanalysis::HWTagger::GetWDaughters(Event &event)
 {
-    Jets WKids = Event.GetParticles()->Generator();
+    Jets WKids = event.Partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(kError, "Where is the W 1?", WKids.size());
 

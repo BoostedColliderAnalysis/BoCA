@@ -106,10 +106,10 @@ struct SortQuartetByDeltaRap {
     }
 };
 
-std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
+std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
 {
     Print(kInformation, "Get W Tags");
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 //     std::vector<Doublet> doublets = WTagger.GetBdt(jets, WReader);
     //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
@@ -138,7 +138,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     }
 //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, TopHadronicReader);
 
-    Jets TopParticles = Event.GetParticles()->Generator();
+    Jets TopParticles = event.Partons().Generator();
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);
     if (TopParticles.size() != 1 && Tag == kSignal) Print(kError, "Where is the Top?", TopParticles.size());
 
@@ -150,7 +150,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 //     if (Tag == kSignal && triplets.size() > 1) triplets.erase(triplets.begin() + 1, triplets.end());
 //     if (Tag == HBackground && triplets.size() > 0) triplets.erase(triplets.begin());
 
-    Jets BottomParticles = Event.GetParticles()->Generator();
+    Jets BottomParticles = event.Partons().Generator();
     BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, BottomId, GluonId);
     if (BottomParticles.size() != 1 && Tag == kSignal) Print(kError, "Where is the Bottom?", BottomParticles.size());
 

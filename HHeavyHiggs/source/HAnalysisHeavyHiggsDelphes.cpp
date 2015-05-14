@@ -48,7 +48,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *NewT
 
     HeavyHiggsBranch = NewTreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
 
-    EventCounter = 0;
+    eventCounter = 0;
     DeltaRapCounter = 0;
     BMassCounter = 0;
     TMassCounter = 0;
@@ -63,7 +63,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 
 //     if (Cut) {
 
-        Print(kNotification, "EventCounter", EventCounter);
+        Print(kNotification, "eventCounter", eventCounter);
         Print(kNotification, "JetCounter", JetCounter);
         Print(kNotification, "DeltaRapCounter", DeltaRapCounter);
         Print(kNotification, "BMassCounter", BMassCounter);
@@ -74,18 +74,18 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::CloseFile()
 
 }
 
-int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent &Event, const std::string &Name)
+int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::Event &event, const std::string &Name)
 {
 
     Print(kInformation, "Analysis");
 
     bool Success = 0;
 
-//     Event.GetLeptonsM()->GetLeptons();
+//     event.GetLeptonsM()->GetLeptons();
 
-    if (Name == "Signal") Success = Signal(Event);
-    if (Name == "Background") Success = Background(Event);
-    if (Name == "Test")  Success = Test(Event);
+    if (Name == "Signal") Success = Signal(event);
+    if (Name == "Background") Success = Background(event);
+    if (Name == "Test")  Success = Test(event);
 
     return Success;
 
@@ -125,15 +125,15 @@ int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(hanalysis::HEvent &Event, 
 // }
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent &Event)
+bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::Event &event)
 {
 
     Print(kInformation, "Signal");
 
     hanalysis::HJetTag  JetTag;
-//     Event.GetTaggedJets(HeavyHiggsJetTag);
+//     event.GetTaggedJets(HeavyHiggsJetTag);
 
-    Jets JetVector = Event.GetJets()->GetTaggedJets(JetTag);
+    Jets JetVector = event.Hadrons().GetTaggedJets(JetTag);
 
     Jets BottomJetVector;
 
@@ -152,22 +152,22 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(hanalysis::HEvent &Event)
     fastjet::PseudoJet FrontJet = BottomJetVector.front();
     fastjet::PseudoJet BackJet = BottomJetVector.back();
 
-    FillBranch(Event,FrontJet, BackJet);
+    FillBranch(event,FrontJet, BackJet);
 
     return 1;
 
 }
 
 
-bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent &Event)
+bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::Event &event)
 {
 
     Print(kInformation, "Background");
 
     hanalysis::HJetTag  HeavyHiggsJetTag;
-//     Event.GetTaggedJets(HeavyHiggsJetTag);
+//     event.GetTaggedJets(HeavyHiggsJetTag);
 
-    Jets JetVector = Event.GetJets()->GetTaggedJets(HeavyHiggsJetTag);
+    Jets JetVector = event.Hadrons().GetTaggedJets(HeavyHiggsJetTag);
 
     if (JetVector.size()<1) return 0;
 
@@ -204,7 +204,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent &Even
 
                 }
 
-                FillBranch(Event,FrontJet, BackJet);
+                FillBranch(event,FrontJet, BackJet);
 
             }
 
@@ -234,7 +234,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent &Even
 
                 }
 
-                FillBranch(Event,FrontJet, BackJet);
+                FillBranch(event,FrontJet, BackJet);
 
             }
 
@@ -246,14 +246,14 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(hanalysis::HEvent &Even
 
 }
 
-bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent &Event)
+bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::Event &event)
 {
 
     Print(kInformation, "Test");
 
-//     Event.GetJets();
+//     event.GetJets();
 
-    Jets BottomJetVector = Event.GetJets()->GetBottomJets();
+    Jets BottomJetVector = event.Hadrons().GetBottomJets();
 
     if (BottomJetVector.size() < 2) return 0;
 
@@ -275,7 +275,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent &Event)
 
             }
 
-            FillBranch(Event,FrontJet, BackJet);
+            FillBranch(event,FrontJet, BackJet);
 
         }
 
@@ -285,7 +285,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(hanalysis::HEvent &Event)
 
 }
 
-void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent &Event,fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet)
+void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::Event &event,fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet)
 {
 
     float FrontPt = FrontJet.pt();
@@ -303,7 +303,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent &Even
     float SumPhi = FrontPhi + BackPhi; // FIXME constrain this
     float DeltaPt = FrontPt - BackPt;
 
-    float Isolation = std::min(Leptons(Event,FrontJet), Leptons(Event,BackJet));
+    float Isolation = std::min(Leptons(event,FrontJet), Leptons(event,BackJet));
 
     HBranchHeavyHiggs *HeavyHiggs = static_cast<HBranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
 
@@ -322,19 +322,19 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(hanalysis::HEvent &Even
     HeavyHiggs->BottomInvMass = InvMass;
     HeavyHiggs->BottomDeltaPt = DeltaPt;
 
-    HeavyHiggs->BTag = Event.GetJets()->GetBottomJets().size();
-    HeavyHiggs->JetNumber = Event.GetJets()->GetJets().size();
+    HeavyHiggs->BTag = event.Hadrons().GetBottomJets().size();
+    HeavyHiggs->JetNumber = event.Hadrons().GetJets().size();
     HeavyHiggs->Isolation = Isolation;
 
 }
 
 
-float hheavyhiggs::HAnalysisHeavyHiggsDelphes::Leptons(hanalysis::HEvent &Event,fastjet::PseudoJet Jet)
+float hheavyhiggs::HAnalysisHeavyHiggsDelphes::Leptons(hanalysis::Event &event,fastjet::PseudoJet Jet)
 {
 
     float Isolation;
 
-    Jets LeptonVector = Event.GetLeptons()->GetLeptonJets();
+    Jets LeptonVector = event.Leptons().GetLeptonJets();
 
     for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
 

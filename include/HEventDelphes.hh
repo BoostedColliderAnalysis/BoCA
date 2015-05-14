@@ -1,13 +1,13 @@
 # ifndef HEventDelphes_hh
 # define HEventDelphes_hh
 
-# include "HEvent.hh"
+# include "Event.hh"
 
 /**
  * @brief event topology for Delphes events
  *
  */
-class hanalysis::hdelphes::HEvent  : public hanalysis::HEvent
+class hanalysis::hdelphes::Event  : public hanalysis::Event
 {
 
 public:
@@ -16,15 +16,15 @@ public:
     * @brief constructor
     *
     */
-    HEvent();
+    Event();
 
     /**
      * @brief destructor
      *
      */
-    ~HEvent();
+    ~Event();
 
-    void NewEvent(const hanalysis::ClonesArrays &ClonesArrays);
+    void Newevent(const hanalysis::ClonesArrays &ClonesArrays);
 
 //     Jets GetTops(hanalysis::HJetTag &JetTag);
 
@@ -40,7 +40,7 @@ protected:
     }
 
     inline std::string ClassName() const {
-        return "HEvent";
+        return "Event";
     };
 
 private:

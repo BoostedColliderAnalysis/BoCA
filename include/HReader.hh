@@ -1,7 +1,7 @@
 # pragma once
 
 # include "Tagger.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 
 class HMvaResult : hanalysis::HObject
 {
@@ -12,11 +12,11 @@ public:
     std::vector<int> CutIntegral(const std::vector< int > &bins) const;
 
     int Steps;
-    std::vector<float> Events;
+    std::vector<float> events;
     std::vector<float> Efficiency;
-    std::vector<int> AnalysisEventNumber;
+    std::vector<int> AnalysiseventNumber;
     std::vector<float> Bdt;
-    int TotalEventNumber;
+    int TotaleventNumber;
 };
 
 /**
@@ -50,7 +50,7 @@ public:
 
     float Bdt() const;
 
-    int GetBdt(HEvent &event) const {
+    int GetBdt(Event &event) const {
       if(!tagger_) Print(kError,"what is wrong with the tagger?");
         return tagger_->GetBdt(event, reader_);
     }

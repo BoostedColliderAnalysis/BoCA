@@ -16,12 +16,12 @@ hanalysis::HParticle::~HParticle()
 
 }
 
-void hanalysis::HParticle::NewEvent(const ClonesArrays &NewClonesArrays){
+void hanalysis::HParticle::Newevent(const ClonesArrays &NewClonesArrays){
 
-    Print(kInformation,"New Event");
+    Print(kInformation,"New event");
 
 //     ClonesArrays = NewClonesArrays;
-    hanalysis::HFourVector::NewEvent(NewClonesArrays);
+    hanalysis::HFourVector::Newevent(NewClonesArrays);
 
     GotParticles = 0;
 

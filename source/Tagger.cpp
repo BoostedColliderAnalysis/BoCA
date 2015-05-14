@@ -8,7 +8,7 @@
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 
 # include "JetInfo.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HAnalysis.hh"
 
 Observable::Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)

@@ -1,5 +1,5 @@
-# ifndef HHeavyHiggsEvent_hh
-# define HHeavyHiggsEvent_hh
+# ifndef HHeavyHiggsevent_hh
+# define HHeavyHiggsevent_hh
 
 # include "HObject.hh"
 
@@ -7,12 +7,12 @@
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class HHeavyHiggsEvent : public hanalysis::HObject
+class HHeavyHiggsevent : public hanalysis::HObject
 {
 
 public:
 
-    HHeavyHiggsEvent();
+    HHeavyHiggsevent();
 
     inline void SetScalarHt(const float NewScalarHt) {
         ScalarHt = NewScalarHt;
@@ -62,7 +62,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HHeavyHiggsEvent";
+        return "HHeavyHiggsevent";
     }
 
 private:

@@ -35,7 +35,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeW
 
     HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsLeptonicBranch::Class());
 
-    EventCounter = 0;
+    eventCounter = 0;
     DeltaRapCounter = 0;
     BMassCounter = 0;
     TMassCounter = 0;
@@ -48,7 +48,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 {
     Print(kNotification, "Close File");
 
-    Print(kNotification, "EventCounter", EventCounter);
+    Print(kNotification, "eventCounter", eventCounter);
     Print(kNotification, "JetCounter", JetCounter);
     Print(kNotification, "DeltaRapCounter", DeltaRapCounter);
     Print(kNotification, "BMassCounter", BMassCounter);
@@ -59,18 +59,18 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
+int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::Event &event, const std::string &StudyName)
 {
 
     Print(kInformation, "Analysis",StudyName);
 
     HBranchHeavyHiggs *HeavyHiggs = static_cast<HBranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
 
-    ++EventCounter;
+    ++eventCounter;
 
-//     Event.GetParticlesM()->GetParticles();
+//     event.GetParticlesM()->GetParticles();
 
-    Jets BottomVector = Event.GetParticles()->GetBottomJets();
+    Jets BottomVector = event.Partons().GetBottomJets();
 
     int BottomSum = BottomVector.size();
 
@@ -111,7 +111,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::HEvent &Event, c
     HeavyHiggs->BottomDeltaRap = CombinedRap;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
-    Jets TopVector = Event.GetParticles()->GetTopJets();
+    Jets TopVector = event.Partons().GetTopJets();
 
     int TopSum = TopVector.size();
 

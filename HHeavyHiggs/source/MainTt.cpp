@@ -32,8 +32,8 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
 //         case hanalysis::HAnalysis::HHeavyHiggsSemiTagger:
 //             hanalysis::Factory(Analysis.HeavyHiggsSemiTagger);
 //             break;
-//         case hanalysis::HAnalysis::HEventSemiTagger:
-//             hanalysis::Factory(Analysis.EventSemiTagger);
+//         case hanalysis::HAnalysis::EventSemiTagger:
+//             hanalysis::Factory(Analysis.eventSemiTagger);
 //             break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;
@@ -43,7 +43,7 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     FileName = Analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
-//         case hanalysis::HAnalysis::HEventSemiReader: {
+//         case hanalysis::HAnalysis::EventSemiReader: {
             hanalysis::Reader Reader(tagger);
             Reader.OptimalSignificance();
 //             break;
@@ -84,7 +84,7 @@ int main()
     RunTagger(heavy_higgs_semi_tagger, hanalysis::Tagger::kReader);
 
 
-    hheavyhiggs::HEventTtSemiTagger event_semi_tagger;
+    hheavyhiggs::EventTtSemiTagger event_semi_tagger;
     RunTagger(event_semi_tagger, hanalysis::Tagger::kTrainer);
     RunTagger(event_semi_tagger, hanalysis::Tagger::kReader);
 

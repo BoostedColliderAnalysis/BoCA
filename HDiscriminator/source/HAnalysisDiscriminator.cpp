@@ -127,12 +127,12 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 //
 // }
 
-int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &Study)
+int hcpvhiggs::HAnalysis::Analysis(hanalysis::Event &event, const std::string &Study)
 {
 
     Print(kInformation, "Analysis", Study);
 
-    const Jets Leptons = GetLeptonJets(Event);
+    const Jets Leptons = GetLeptonJets(event);
 
     if (Leptons.size() < 2) {
 
@@ -141,7 +141,7 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
 
     }
 
-    ++LeptonEventCounter;
+    ++LeptoneventCounter;
 
     // Higgs stuff
 
@@ -149,7 +149,7 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
             Print(kError,"HeavyParticle",HeavyParticle);
         }  */
 
-    const Jets CandidateJets = Event.GetCandidates(JetTag);
+    const Jets CandidateJets{};// = event.GetCandidates(JetTag);
 
     if (CandidateJets.empty()) {
 
@@ -287,7 +287,7 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
 
         }
 
-        SubStructure->NewEvent();
+        SubStructure->Newevent();
         if (!SubStructure->GetSubJets(CandidateJet)) {
 
             Print(kError, "No SubJets");
@@ -296,7 +296,7 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
 
         }
 
-        Candidate->ScalarHt = Event.GetJets()->GetScalarHt();
+        Candidate->ScalarHt = event.Hadrons().GetScalarHt();
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
@@ -350,19 +350,19 @@ int hcpvhiggs::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &
 }
 
 
-Jets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::HEvent &Event)
+Jets hcpvhiggs::HAnalysis::GetLeptonJets(hanalysis::Event &event)
 {
 
 // Lepton Stuff
     std::vector<float> LeptonRap, LeptonPhi;
 
-//     Event.GetLeptons();
-//     Jets LeptonJets = Event->Lepton->LeptonJets;
-//     Jets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+//     event.GetLeptons();
+//     Jets LeptonJets = event->Lepton->LeptonJets;
+//     Jets AntiLeptonJets = event->Lepton->AntiLeptonJets;
 
-//     Event.GetParticlesM()->GetParticles();
-    Jets LeptonJets = Event.GetParticles()->GetLeptonJets();
-    Jets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
+//     event.GetParticlesM()->GetParticles();
+    Jets LeptonJets = event.Partons().GetLeptonJets();
+    Jets AntiLeptonJets = event.Partons().GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

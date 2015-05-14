@@ -18,14 +18,14 @@ public:
 
     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
 
-    std::vector< HEventJetPairBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
+    std::vector< EventJetPairBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
 
     std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::Reader &JetPairReader);
 
-    HEventJetPairBranch GetBranch(const hanalysis::Doublet &doublet) const;
+    EventJetPairBranch GetBranch(const hanalysis::Doublet &doublet) const;
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry){
-      return ((HEventJetPairBranch *) EventClonesArray.At(Entry))->Bdt;
+    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry){
+      return ((EventJetPairBranch *) eventClonesArray.At(Entry))->Bdt;
     }
 
     BottomTagger bottom_tagger_;
@@ -44,7 +44,7 @@ private:
 
     hanalysis::HObject::Tag GetTag(const Doublet &);
 
-    HEventJetPairBranch Branch;
+    EventJetPairBranch Branch;
 
     HJetTag JetTag;
 

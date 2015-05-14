@@ -12,14 +12,14 @@ InfoBranch::InfoBranch()
 {
     Crosssection = InitialValue();
     CrosssectionError = InitialValue();
-    EventNumber = int(InitialValue());
+    eventNumber = int(InitialValue());
     PreCutNumber = int(InitialValue());
     Mass = InitialValue();
 }
 
-ClassImp(HEventBranch)
+ClassImp(EventBranch)
 
-HEventBranch::HEventBranch()
+EventBranch::EventBranch()
 {
     ScalarPtSum = InitialValue();
 }
@@ -104,9 +104,9 @@ WHadronicBranch::WHadronicBranch()
 
 }
 
-ClassImp(HEventJetPairBranch)
+ClassImp(EventJetPairBranch)
 
-HEventJetPairBranch::HEventJetPairBranch()
+EventJetPairBranch::EventJetPairBranch()
 {
     DeltaM = InitialValue();
 
@@ -379,9 +379,9 @@ HChargedHiggsLeptonicBranch::HChargedHiggsLeptonicBranch()
 
 
 
-ClassImp(HEventBottomTaggerBranch)
+ClassImp(EventBottomTaggerBranch)
 
-HEventBottomTaggerBranch::HEventBottomTaggerBranch()
+EventBottomTaggerBranch::EventBottomTaggerBranch()
 {
     Bdt = InitialValue();
     Tag = InitialValue();

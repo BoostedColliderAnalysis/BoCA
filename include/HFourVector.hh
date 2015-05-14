@@ -45,7 +45,7 @@ public:
 protected:
 
 
-    void NewEvent(const ClonesArrays &NewClonesArrays);
+    void Newevent(const ClonesArrays &NewClonesArrays);
 
     template<typename TParticle>
     TLorentzVector GetLorentzVectorByEnergy(const TParticle &Particle) const {

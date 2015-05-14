@@ -16,11 +16,11 @@ public:
 
     WSemiBranch GetBranch(const hanalysis::Doublet &doublet) const;
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
+    int Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
 
-    std::vector<Doublet> GetDoublets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<Doublet> GetDoublets(Event &event, const TMVA::Reader &reader);
 
-    int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader) {
+    int GetBdt(hanalysis::Event &event, const TMVA::Reader &reader) {
         std::vector<Doublet> doublets = GetDoublets(event, reader);
         SaveEntries(doublets);
         return doublets.size();
@@ -38,7 +38,7 @@ public:
         for (const auto & doublet : doublets) static_cast<WSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
     }
 
-    int WSemiId(hanalysis::HEvent &event) {
+    int WSemiId(hanalysis::Event &event) {
         return WSemiId(WSemiDaughters(event));
     }
 
@@ -54,7 +54,7 @@ protected:
 
 private:
 
-    Jets WSemiDaughters(hanalysis::HEvent &Event);
+    Jets WSemiDaughters(hanalysis::Event &event);
 
     int WSemiId(const Jets &jets);
 

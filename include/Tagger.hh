@@ -10,7 +10,7 @@
 # include "Branch.hh"
 # include "HJetDelphes.hh"
 # include "Predicate.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "Doublet.hh"
 
 class Observable
@@ -235,38 +235,39 @@ public:
 
 //     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
-    virtual int GetBdt(HEvent &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &) {
         Print(kError, "Get Bdt", "should be subclassed");
-    }
-
-    virtual int Train(hanalysis::HEvent &, PreCuts &pre_cuts, const Tag tag) {
-        Print(kError, "Train", "Should be subclassed", tag);
         return 0;
     }
 
-    virtual float GetBranches(hanalysis::HEvent &event, Stage stage, const Tag tag) {
+    virtual int Train(hanalysis::Event &, PreCuts &, const Tag ) {
+        Print(kError, "Train", "Should be subclassed");
+        return 0;
+    }
+
+    virtual float GetBranches(hanalysis::Event &, Stage , const Tag ) {
         Print(kError, "get branches", "Should be subclassed", "should be deleted");
         return 0;
     }
 
-    Jets GranulatedJets(const Jets &NewEFlowJets){
+    Jets GranulatedJets(const Jets &){
       Print(kError,"get jets","depreciated");
       return Jets{};
     }
 
-    Jets GetJets(hanalysis::HEvent &Event, hanalysis::HJetTag &JetTag){
+    Jets GetJets(hanalysis::Event &, hanalysis::HJetTag &){
       Print(kError,"get jets","depreciated");
       return Jets{};
     }
 
-    Jets GetJets(hanalysis::HEvent &Event){
+    Jets GetJets(hanalysis::Event &event){
       Print(kError,"get jets","depreciated");
       return Jets{};
     }
 
     Jets GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
-    fastjet::PseudoJet GetMissingEt(hanalysis::HEvent &Event);
+    fastjet::PseudoJet GetMissingEt(hanalysis::Event &event);
 
     virtual float ReadBdt(const TClonesArray &, const int) {
         Print(kError, "Read Bdt", "should be subclassed");
@@ -281,8 +282,9 @@ public:
         tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
     }
 
-    virtual float Bdt(HEvent &event, const TMVA::Reader &reader) const {
+    virtual float Bdt(Event &, const TMVA::Reader &) const {
         Print(kError, "Bdt", "should be subclassed");
+        return 0;
     }
 
 protected:
@@ -290,7 +292,7 @@ protected:
     virtual void DefineVariables() = 0;
 
     virtual inline std::string ClassName() const {
-        return "HMva";
+        return "Tagger";
     }
 
     Observable NewObservable(float &value, const std::string &title) const;

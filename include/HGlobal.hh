@@ -25,7 +25,7 @@ class HObject;
 class HFourVector;
 
 class ClonesArrays;
-class HEvent;
+class Event;
 class RootFile;
 class HParticle;
 class HLepton;
@@ -89,14 +89,14 @@ namespace hparton
 
 class HClonesArray;
 class HFile;
-class HEvent;
+class Event;
 class HParticle;
 
 }
 
 typedef hparton::HClonesArray HClonesArrayParton;
 typedef hparton::HFile HFileParton;
-typedef hparton::HEvent HEventParton;
+typedef hparton::Event HEventParton;
 typedef hparton::HParticle HParticleParton;
 
 
@@ -109,7 +109,7 @@ namespace hpgs
 
 class HClonesArray;
 class HFile;
-class HEvent;
+class Event;
 class HLepton;
 class HJet;
 
@@ -117,7 +117,7 @@ class HJet;
 
 typedef hpgs::HClonesArray HClonesArrayPgs;
 typedef hpgs::HFile HFilePgs;
-typedef hpgs::HEvent HEventPgs;
+typedef hpgs::Event HEventPgs;
 typedef hpgs::HLepton HLeptonPgs;
 typedef hpgs::HJet HJetPgs;
 
@@ -131,7 +131,7 @@ namespace hdelphes
 class HClonesArray;
 class HClonesArraySnowmass;
 class HFile;
-class HEvent;
+class Event;
 class HParticle;
 class HLepton;
 class HJet;
@@ -141,7 +141,7 @@ class HJet;
 typedef hdelphes::HClonesArray HClonesArrayDelphes;
 typedef hdelphes::HClonesArraySnowmass HClonesArraySnowmass;
 typedef hdelphes::HFile HFileDelphes;
-typedef hdelphes::HEvent HEventDelphes;
+typedef hdelphes::Event HEventDelphes;
 typedef hdelphes::HParticle HParticleDelphes;
 typedef hdelphes::HLepton HLeptonDelphes;
 typedef hdelphes::HJet HJetDelphes;

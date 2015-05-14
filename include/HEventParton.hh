@@ -1,13 +1,13 @@
 # ifndef HEventParton_hh
 # define HEventParton_hh
 
-# include "HEvent.hh"
+# include "Event.hh"
 
 /**
- * @brief Event topology for unweighted MadGraph events
+ * @brief event topology for unweighted MadGraph events
  *
  */
-class hanalysis::hparton::HEvent : public hanalysis::HEvent
+class hanalysis::hparton::Event : public hanalysis::Event
 {
 
 public:
@@ -16,15 +16,15 @@ public:
     * @brief constructor
     *
     */
-    HEvent();
+    Event();
 
     /**
      * @brief destructor
      *
      */
-    ~HEvent();
+    ~Event();
 
-    void NewEvent(const hanalysis::ClonesArrays &ClonesArrays);
+    void Newevent(const hanalysis::ClonesArrays &ClonesArrays);
 
 private:
 
@@ -33,7 +33,7 @@ private:
     }
 
     inline std::string ClassName() const {
-        return "HEvent";
+        return "Event";
     }
 };
 

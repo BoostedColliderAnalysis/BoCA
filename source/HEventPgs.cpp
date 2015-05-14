@@ -1,7 +1,7 @@
 # include "HEventPgs.hh"
 
 
-hanalysis::hpgs::HEvent::HEvent()
+hanalysis::hpgs::Event::Event()
 {
     Print(kNotification, "Constructor");
 
@@ -9,7 +9,7 @@ hanalysis::hpgs::HEvent::HEvent()
     jets = new HJet();
 }
 
-hanalysis::hpgs::HEvent::~HEvent()
+hanalysis::hpgs::Event::~Event()
 {
     Print(kNotification, "Destructor");
 
@@ -18,12 +18,12 @@ hanalysis::hpgs::HEvent::~HEvent()
 
 }
 
-void hanalysis::hpgs::HEvent::NewEvent(const hanalysis::ClonesArrays &ClonesArrays)
+void hanalysis::hpgs::Event::Newevent(const hanalysis::ClonesArrays &ClonesArrays)
 {
 
-    Print(kInformation, "New Event");
+    Print(kInformation, "New event");
 
-    Lepton->NewEvent(ClonesArrays);
-    jets->NewEvent(ClonesArrays);
+    Lepton->Newevent(ClonesArrays);
+    jets->Newevent(ClonesArrays);
 
 }

@@ -34,7 +34,7 @@ WHadronicBranch hanalysis::WHadronicTagger::GetBranch(const Doublet &doublet) co
     return branch;
 }
 
-int hanalysis::WHadronicTagger::Train(hanalysis::HEvent &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
+int hanalysis::WHadronicTagger::Train(hanalysis::Event &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
 {
     Print(kInformation, "Get W Tags");
 
@@ -70,7 +70,7 @@ int hanalysis::WHadronicTagger::Train(hanalysis::HEvent &event, PreCuts &pre_cut
 
 
     int w_hadronic_id = GetWHadId(w_hadronic_daughters);
-    Jets w_particles = event.GetParticles()->Generator();
+    Jets w_particles = event.Partons().Generator();
     w_particles = RemoveIfWrongParticle(w_particles, w_hadronic_id);
 
     Jets w_jets;
@@ -128,9 +128,9 @@ int hanalysis::WHadronicTagger::Train(hanalysis::HEvent &event, PreCuts &pre_cut
 }
 
 
-Jets hanalysis::WHadronicTagger::GetWDaughters(HEvent &event)
+Jets hanalysis::WHadronicTagger::GetWDaughters(Event &event)
 {
-    Jets w_daughters = event.GetParticles()->Generator();
+    Jets w_daughters = event.Partons().Generator();
     w_daughters = RemoveIfWrongAbsMother(w_daughters, WId);
     Print(kInformation, "W daughters", w_daughters.size());
 
@@ -146,7 +146,7 @@ int hanalysis::WHadronicTagger::GetWHadId(const Jets &jets)
 }
 
 
-std::vector<hanalysis::Doublet> hanalysis::WHadronicTagger::GetDoublets(HEvent &event, const TMVA::Reader &reader)
+std::vector<hanalysis::Doublet> hanalysis::WHadronicTagger::GetDoublets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
 
@@ -179,7 +179,7 @@ std::vector<hanalysis::Doublet> hanalysis::WHadronicTagger::GetDoublets(HEvent &
     return doublets;
 }
 
-std::vector<hanalysis::Doublet> hanalysis::WHadronicTagger::GetJetDoublets(HEvent &event, const TMVA::Reader &reader)
+std::vector<hanalysis::Doublet> hanalysis::WHadronicTagger::GetJetDoublets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
     return GetJetDoublets(static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader()), reader);

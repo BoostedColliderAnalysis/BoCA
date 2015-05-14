@@ -74,18 +74,18 @@ void htest::HAnalysis::CloseFile()
 //
 // }
 
-int htest::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
+int htest::HAnalysis::Analysis(hanalysis::Event &event, const std::string &StudyName)
 {
 
     Print(kInformation, "Analysis", StudyName);
 
     hanalysis::HJetTag  HeavyHiggsJetTag;
-//     Event.GetTaggedJets(HeavyHiggsJetTag);
+//     event.GetTaggedJets(HeavyHiggsJetTag);
 
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
 
-    Candidate->Pt = float(Event.GetJets()->GetTaggedJets(HeavyHiggsJetTag).front().pt());
+    Candidate->Pt = float(event.Hadrons().GetTaggedJets(HeavyHiggsJetTag).front().pt());
 
     if (Candidate->Pt > 100 ) {
 

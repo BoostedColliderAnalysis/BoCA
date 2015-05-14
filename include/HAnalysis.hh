@@ -35,15 +35,15 @@ public:
     }
 
     std::string ExportName(const Tagger::Stage stage, const hanalysis::HObject::Tag tag) const;
-    
+
 protected:
 
     virtual void SetFiles(const hanalysis::HObject::Tag tag) {
         Print(kError, "Set Files", "should be subclassed", tag);
     }
 
-    inline int EventSum(const ExRootTreeReader &tree_reader) const {
-//       return std::min((int)tree_reader.GetEntries(), EventNumberMax());
+    inline int eventSum(const ExRootTreeReader &tree_reader) const {
+//       return std::min((int)tree_reader.GetEntries(), eventNumberMax());
         return tree_reader.GetEntries();
     }
 
@@ -52,7 +52,7 @@ protected:
 
     InfoBranch Fillinfo_branch(const ExRootTreeReader &tree_reader, const hanalysis::RootFile &file);
 
-    virtual int Analysis(HEvent &, const Tagger::Stage stage, const Tag tag) {
+    virtual int Analysis(Event &, const Tagger::Stage stage, const Tag tag) {
         Print(kError, "Analysis", "should be subclassed", stage, tag);
         return 0;
     }
@@ -65,7 +65,7 @@ protected:
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual inline int EventNumberMax() const {
+    virtual inline int eventNumberMax() const {
         return 100000;
     }
 
@@ -108,8 +108,8 @@ protected:
         return config_.PreCut();
     }
 
-//     inline int EventNumberMax() const {
-//         return config_.EventNumberMax();
+//     inline int eventNumberMax() const {
+//         return config_.eventNumberMax();
 //     };
 
     inline int BackgroundFileNumber() const {
@@ -150,7 +150,7 @@ protected:
         return name + "-run_01";
     }
 
-    virtual int PassPreCut(hanalysis::HEvent &event) {
+    virtual int PassPreCut(hanalysis::Event &) {
         Print(kError, "Apply pre cut", "no pre cut applied");
         return 1;
     }

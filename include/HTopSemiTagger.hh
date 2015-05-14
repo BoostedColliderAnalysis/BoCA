@@ -20,21 +20,21 @@ public:
 
 //     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger);
 
-//     std::vector<TopSemiBranch> GetBranches(HEvent &Event, const HObject::Tag State, float pre_cut = 0);
+//     std::vector<TopSemiBranch> GetBranches(Event &event, const HObject::Tag State, float pre_cut = 0);
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag);
+    int Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag, float pre_cut = 0){
+    int Train(hanalysis::Event &, const hanalysis::HObject::Tag, float pre_cut = 0){
       Print(kError, "train", "depreciated");
     }
 
-    int GetBdt(HEvent &event, const TMVA::Reader &reader){
+    int GetBdt(Event &event, const TMVA::Reader &reader){
       return SaveEntries(GetTriplets(event,reader));
     }
 
-    std::vector<hanalysis::Triplet> GetTriplets(HEvent &event, const TMVA::Reader &reader);
+    std::vector<hanalysis::Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
 
-    std::vector<Triplet> GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const hanalysis::Reader &Reader) {
+    std::vector<Triplet> GetBdt(const std::vector< hanalysis::Doublet > &, const Jets &, const hanalysis::Reader &) {
         Print(kError, "get bdt", "depreciated");
     }
 

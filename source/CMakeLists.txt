@@ -8,7 +8,7 @@ HObject.cpp
 HFourVector.cpp
 RootFile.cpp
 ClonesArrays.cpp
-HEvent.cpp
+Event.cpp
 HParticle.cpp
 HLepton.cpp
 HJet.cpp

@@ -48,7 +48,7 @@ int main()
     RunTagger("Bottom" );
     RunTagger("Top" );
     RunTagger("Higgs");
-//     RunTagger("EventTagger",hanalysis::HAnalysis::HEventTagger);
+//     RunTagger("eventTagger",hanalysis::HAnalysis::EventTagger);
 
 
 //    hhiggscpv::HAnalysis Analysis;
@@ -93,7 +93,7 @@ int main()
 //         Factory = new hmva::Factory(Analysis->HiggsTagger);
 
 //     Analysis.AnalysisLoop(hanalysis::Tagger::kReader);
-    hhiggscpv::HMvaEvent Mva;
+    hhiggscpv::HMvaevent Mva;
     hanalysis::Factory Factory(Mva);
 
     return 1;

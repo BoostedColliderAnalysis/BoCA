@@ -1,6 +1,6 @@
-# include "HHeavyHiggsEvent.hh"
+# include "HHeavyHiggsevent.hh"
 
-HHeavyHiggsEvent::HHeavyHiggsEvent()
+HHeavyHiggsevent::HHeavyHiggsevent()
 {
 
 }

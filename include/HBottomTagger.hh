@@ -3,10 +3,10 @@
 
 # include "Tagger.hh"
 # include "HBranch.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HAnalysis.hh"
 
 /**
@@ -24,7 +24,7 @@ public:
 
     void SetTagger();
 
-    std::vector< BottomBranch > GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag);
+    std::vector< BottomBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
 
     Jets GetMultiJetBdt(Jets &jets, const hanalysis::Reader &BottomReader);
 
@@ -36,8 +36,8 @@ public:
 
     Jets GetSubBdt(const Jets &jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
 
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry) {
-        return ((BottomBranch *) EventClonesArray.At(Entry))->Bdt;
+    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry) {
+        return ((BottomBranch *) eventClonesArray.At(Entry))->Bdt;
     }
 
     TClass &Class() const {
@@ -62,21 +62,21 @@ public:
 //         return NewTreeWriter.NewBranch(ReaderName().c_str(), BottomBranch::Class());
 //     }
 
-//     bool SetBranch(hanalysis::HEvent &Event, const HTag Tag) {
-//         std::vector<BottomBranch> Bottoms = GetBranches(Event, Tag);
+//     bool SetBranch(hanalysis::Event &event, const HTag Tag) {
+//         std::vector<BottomBranch> Bottoms = GetBranches(event, Tag);
 //         if (Bottoms.empty()) return 0;
 //         for (const auto & Bottom : Bottoms) *static_cast<BottomBranch *>(TreeBranch->NewEntry()) = Bottom;
 //         return 1;
 //     }
 
-//     bool GetBottomReader(hanalysis::HEvent &Event, const HTag Tag)
+//     bool GetBottomReader(hanalysis::Event &event, const HTag Tag)
 //     {
 //       Print(kDebug, "Get Bottom Reader", Tag);
-//       Jets jets = GetJets(Event);
+//       Jets jets = GetJets(event);
 //       Reader Reader; // this wont work
 //       jets = GetJetBdt(jets, Reader);
 //
-//       Jets Particles = Event.GetParticles()->Generator();
+//       Jets Particles = event.Partons().Generator();
 //       Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //       for (const auto & Particle : Particles) {

@@ -13,7 +13,7 @@ hanalysis::HHiggsTagger::HHiggsTagger()
 
 //     DiPolarity = InitialValue;
 
-    NewEvent();
+    Newevent();
 
 }
 
@@ -24,10 +24,10 @@ hanalysis::HHiggsTagger::~HHiggsTagger()
 
 }
 
-void hanalysis::HHiggsTagger::NewEvent()
+void hanalysis::HHiggsTagger::Newevent()
 {
 
-    Print(kInformation, "New Event");
+    Print(kInformation, "New event");
 
 //     DiPolarity=0;
 

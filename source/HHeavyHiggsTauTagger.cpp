@@ -75,22 +75,22 @@ HHeavyHiggsTauBranch hanalysis::HHeavyHiggsTauTagger::GetBranch(const hanalysis:
 
 }
 
-std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag tag)
+std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
 {
 
     Print(kInformation, "Get Top Tags");
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     jets = TauTagger.GetJetBdt(jets, TauReader);
     Print(kInformation, "Number Jet", jets.size());
 
-    const fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
+    const fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
 
-    Jets TauParticles = Event.GetParticles()->Generator();
+    Jets TauParticles = event.Partons().Generator();
     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(TauId)), TauParticles.end());
     if (TauParticles.size() != 1) Print(kError, "Where is the Tau?", TauParticles.size());
 
-    Jets HiggsParticles = Event.GetParticles()->Generator();
+    Jets HiggsParticles = event.Partons().Generator();
     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
     if (HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?", HiggsParticles.size());
 

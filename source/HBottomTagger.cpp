@@ -86,14 +86,14 @@ BottomBranch hanalysis::HBottomTagger::GetBranch(const fastjet::PseudoJet &Jet) 
 
 }
 
-std::vector<BottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag)
+std::vector<BottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
 {
     Print(kInformation, "Get Bottom Tag", Tag);
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     Print(kInformation, "Number Jets", jets.size());
 
-    Jets Particles = Event.GetParticles()->Generator();
+    Jets Particles = event.Partons().Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId, TopId)), Particles.end());
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
     Print(kInformation, "Particle size", Particles.size());

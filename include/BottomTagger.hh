@@ -15,33 +15,33 @@ public:
 
     BottomTagger();
 
-    BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
+    BottomBranch FillBranch(const fastjet::PseudoJet &Jet) const;
 
-    int Train(hanalysis::HEvent &event, const hanalysis::HObject::Tag tag){
+    int Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag){
       PreCuts pre_cuts;
       return Train(event,pre_cuts,tag);
     }
 
-    int Train(hanalysis::HEvent &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag);
+    int Train(hanalysis::Event &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag);
 
-    Jets GetMultiJetBdt(Jets &jets, const TMVA::Reader &reader);
+    Jets GetMultiJetBdt(const Jets& jets, const TMVA::Reader& reader);
 
-    Jets GetJetBdt(HEvent &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    Jets GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    Jets GetJetBdt(HEvent &event, const TMVA::Reader &reader){
+    Jets GetJetBdt(Event &event, const TMVA::Reader &reader){
       PreCuts pre_cuts;
       return GetJetBdt(event,pre_cuts,reader);
     }
 
     Jets GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    int GetBdt(hanalysis::HEvent &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(hanalysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         Jets jets = GetJetBdt(event, pre_cuts, reader);
         SaveEntries(jets);
         return jets.size();
     }
 
-    int GetBdt(hanalysis::HEvent &event, const TMVA::Reader &reader) {
+    int GetBdt(hanalysis::Event &event, const TMVA::Reader &reader) {
       PreCuts pre_cuts;
       return GetBdt(event,pre_cuts,reader);
     }
@@ -58,12 +58,14 @@ public:
       return subjets;
     }
 
-    Jets GetMultiJetBdt(Jets &jets, const Reader &reader) {
+    Jets GetMultiJetBdt(Jets &, const Reader &) {
         Print(kError, "Bdt", "depreciated");
+        return Jets{};
     }
 
-    Jets GetJetBdt(const Jets &jets, const Reader &reader) {
+    Jets GetJetBdt(const Jets &, const Reader &) {
         Print(kError, "Bdt", "depreciated");
+        return Jets{};
     }
 
     Jets GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
@@ -73,8 +75,9 @@ public:
       return GetJetBdt(jets,pre_cuts,reader);
     }
 
-    Jets GetSubBdt(const Jets &jets, const Reader &reader, const int sub_jet_number) {
+    Jets GetSubBdt(const Jets &, const Reader &, const int ) {
         Print(kError, "Bdt", "depreciated");
+        return Jets{};
     }
 
     Jets GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number);
@@ -84,7 +87,7 @@ public:
     }
 
     void SaveEntries(const Jets &jets) {
-        for (const auto & jet : jets) static_cast<BottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
+        for (const auto & jet : jets) static_cast<BottomBranch &>(*tree_branch().NewEntry()) = FillBranch(jet);
     }
 
     TClass &Class() const {

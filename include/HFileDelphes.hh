@@ -42,7 +42,7 @@ public:
      */
     Strings Paths() const;
 
-//     std::shared_ptr<hanalysis::HEvent> Event();
+//     std::shared_ptr<hanalysis::Event> event();
 
 //     std::shared_ptr<hanalysis::HClonesArray> ClonesArrays();
 

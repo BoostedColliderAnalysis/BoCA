@@ -102,7 +102,7 @@ void hjetproperties::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
     AktPrunerconstituentBranch = TreeWriter->NewBranch("AktPConst", ConstituentBranch::Class());
 
     constituentBranch = TreeWriter->NewBranch("constituent", ConstituentBranch::Class());
-    EventBranch = TreeWriter->NewBranch("Event", HEventBranch::Class());
+    eventBranch = TreeWriter->NewBranch("event", EventBranch::Class());
     LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
 
 }
@@ -143,12 +143,12 @@ void hjetproperties::HAnalysis::CloseFile()
 // }
 
 
-int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::string &StudyName)
+int hjetproperties::HAnalysis::Analysis(hanalysis::Event &event, const std::string &StudyName)
 {
 
     Print(kDebug, "Analysis");
 
-    const Jets LeptonJets = Leptons(Event);
+    const Jets LeptonJets = Leptons(event);
 
     if (LeptonJets.size() < 2) {
 
@@ -157,17 +157,17 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
 
     }
 
-//     Event.GetTaggedEFlow(JetTag);
+//     event.GetTaggedEFlow(JetTag);
     //
-    //     float EventPt = 0;
-    //     for (const auto & EFlowJet : Event->Jets->EFlowJets) {
+    //     float eventPt = 0;
+    //     for (const auto & EFlowJet : event->Jets->EFlowJets) {
     //
-    //         EventPt += EFlowJet.pt();
+    //         eventPt += EFlowJet.pt();
     //
     //     }
 
-    HEventBranch *EventB = static_cast<HEventBranch *>(EventBranch->NewEntry());
-    EventB->ScalarPtSum = 1. / Event.GetJets()->GetScalarHt();
+    EventBranch *eventB = static_cast<EventBranch *>(eventBranch->NewEntry());
+    eventB->ScalarPtSum = 1. / event.Hadrons().GetScalarHt();
 
     std::vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
@@ -179,7 +179,7 @@ int hjetproperties::HAnalysis::Analysis(hanalysis::HEvent &Event, const std::str
     for (const auto & Id : Ids) {
 
         Jets EFlowJets;
-        std::copy_if(Event.GetJets()->GetTaggedEFlowJets(JetTag).begin(), Event.GetJets()->GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
+        std::copy_if(event.Hadrons().GetTaggedEFlowJets(JetTag).begin(), event.Hadrons().GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
                      [Id](const fastjet::PseudoJet & EFlowJet) {
 
                          if (EFlowJet.user_index() == Id) return 1;
@@ -378,7 +378,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         }
 
-        SubStructure->NewEvent();
+        SubStructure->Newevent();
         if (!SubStructure->GetSubJets(CandidateJet)) return 0;
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
@@ -459,20 +459,20 @@ float hjetproperties::HAnalysis::GetDeltaR(const fastjet::PseudoJet &Jet)
 
 }
 
-Jets hjetproperties::HAnalysis::Leptons(hanalysis::HEvent &Event)
+Jets hjetproperties::HAnalysis::Leptons(hanalysis::Event &event)
 {
 
     // Lepton Stuff
     std::vector<float> LeptonRap, LeptonPhi;
 
-    //     Event.GetLeptons();
+    //     event.GetLeptons();
 
-    //     Jets LeptonJets = Event->Lepton->LeptonJets;
-    //     Jets AntiLeptonJets = Event->Lepton->AntiLeptonJets;
+    //     Jets LeptonJets = event->Lepton->LeptonJets;
+    //     Jets AntiLeptonJets = event->Lepton->AntiLeptonJets;
 
-//     Event.GetParticlesM()->GetParticles();
-    Jets LeptonJets = Event.GetParticles()->GetLeptonJets();
-    Jets AntiLeptonJets = Event.GetParticles()->GetAntiLeptonJets();
+//     event.GetParticlesM()->GetParticles();
+    Jets LeptonJets = event.Partons().GetLeptonJets();
+    Jets AntiLeptonJets = event.Partons().GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());

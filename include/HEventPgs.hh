@@ -1,7 +1,7 @@
 # ifndef HEventPgs_hh
 # define HEventPgs_hh
 
-# include "HEvent.hh"
+# include "Event.hh"
 # include "HLeptonPgs.hh"
 # include "HJetPgs.hh"
 
@@ -9,7 +9,7 @@
  * @brief event topology for PGS events
  *
  */
-class hanalysis::hpgs::HEvent : public hanalysis::HEvent
+class hanalysis::hpgs::Event : public hanalysis::Event
 {
 
 public:
@@ -18,15 +18,15 @@ public:
     * @brief constructor
     *
     */
-    HEvent();
+    Event();
 
     /**
      * @brief destructor
      *
      */
-    ~HEvent();
+    ~Event();
 
-    void NewEvent(const hanalysis::ClonesArrays &ClonesArrays);
+    void Newevent(const hanalysis::ClonesArrays &ClonesArrays);
 
 private:
 
@@ -35,7 +35,7 @@ private:
     }
 
     inline std::string ClassName() const {
-        return "HEvent";
+        return "Event";
     };
 
 };

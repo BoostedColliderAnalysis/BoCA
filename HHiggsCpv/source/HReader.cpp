@@ -4,7 +4,7 @@
 int main()
 {
 
-    hhiggscpv::HMvaEvent Mva;
+    hhiggscpv::HMvaevent Mva;
     hanalysis::Reader Reader(Mva);
 //     Reader.MVALoop();// must be reactvated
     return 0;

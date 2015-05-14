@@ -1,12 +1,12 @@
 # include "HEventHadronicTagger.hh"
 
-hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger()
+hheavyhiggs::EventHadronicTagger::EventHadronicTagger()
 {
   Print(kNotification , "Constructor");
-  set_tagger_name("HadronicEvent");
+  set_tagger_name("Hadronicevent");
 }
 
-hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
+hheavyhiggs::EventHadronicTagger::EventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
 {
 
     Print(kNotification , "Constructor");
@@ -20,15 +20,15 @@ hheavyhiggs::HEventHadronicTagger::HEventHadronicTagger(const hanalysis::BottomT
     HeavyHiggsHadronicTagger = NewHeavyHiggsTagger;
     HeavyHiggsHadronicReader.set_tagger(HeavyHiggsHadronicTagger);
 
-    set_tagger_name("HadronicEvent");
+    set_tagger_name("Hadronicevent");
 
-//     Branch = new hheavyhiggs::HEventHadronicBranch();
+//     Branch = new hheavyhiggs::EventHadronicBranch();
 
     DefineVariables();
 
 }
 
-hheavyhiggs::HEventHadronicTagger::~HEventHadronicTagger()
+hheavyhiggs::EventHadronicTagger::~EventHadronicTagger()
 {
 
     Print(kNotification , "Constructor");
@@ -40,46 +40,46 @@ hheavyhiggs::HEventHadronicTagger::~HEventHadronicTagger()
 
 }
 
-void hheavyhiggs::HEventHadronicTagger::FillBranch(hheavyhiggs::HEventHadronicBranch *EventHadronicBranch, const HOctet &Octet)
+void hheavyhiggs::EventHadronicTagger::FillBranch(hheavyhiggs::EventHadronicBranch *eventHadronicBranch, const HOctet &Octet)
 {
     Print(kInformation, "FillPairTagger", Octet.Bdt());
 
-//     EventHadronicBranch->LeptonNumber = Octet.LeptonNumber();
-//     EventHadronicBranch->JetNumber = Octet.JetNumber();
-//     EventHadronicBranch->BottomNumber = Octet.BottomNumber();
+//     eventHadronicBranch->LeptonNumber = Octet.LeptonNumber();
+//     eventHadronicBranch->JetNumber = Octet.JetNumber();
+//     eventHadronicBranch->BottomNumber = Octet.BottomNumber();
 
-//     EventHadronicBranch->ScalarHt = Octet.ScalarHt();
-    EventHadronicBranch->HeavyParticleBdt = Octet.Bdt();
+//     eventHadronicBranch->ScalarHt = Octet.ScalarHt();
+    eventHadronicBranch->HeavyParticleBdt = Octet.Bdt();
 
-    EventHadronicBranch->HeavyHiggsBdt = Octet.Sextet().Bdt();
-    EventHadronicBranch->HeavyHiggsMass = Octet.Sextet().Jet().m();
-    EventHadronicBranch->HeavyHiggsPt = Octet.Sextet().Jet().pt();
+    eventHadronicBranch->HeavyHiggsBdt = Octet.Sextet().Bdt();
+    eventHadronicBranch->HeavyHiggsMass = Octet.Sextet().Jet().m();
+    eventHadronicBranch->HeavyHiggsPt = Octet.Sextet().Jet().pt();
 
-    EventHadronicBranch->BottomSumPt = Octet.doublet_jet().pt();
-    EventHadronicBranch->BottomDeltaPt = Octet.doublet().DeltaPt();
+    eventHadronicBranch->BottomSumPt = Octet.doublet_jet().pt();
+    eventHadronicBranch->BottomDeltaPt = Octet.doublet().DeltaPt();
 
-    EventHadronicBranch->BottomDeltaRap = Octet.doublet().DeltaRap();
-    EventHadronicBranch->BottomDeltaPhi = Octet.doublet().DeltaPhi();
-    EventHadronicBranch->BottomDeltaR = Octet.doublet().DeltaR();
+    eventHadronicBranch->BottomDeltaRap = Octet.doublet().DeltaRap();
+    eventHadronicBranch->BottomDeltaPhi = Octet.doublet().DeltaPhi();
+    eventHadronicBranch->BottomDeltaR = Octet.doublet().DeltaR();
 
-    EventHadronicBranch->HbSumDeltaRap = Octet.DeltaRap();
-    EventHadronicBranch->HbSumDeltaPhi = Octet.DeltaPhi();
-    EventHadronicBranch->HbSumDeltaR = Octet.DeltaR();
+    eventHadronicBranch->HbSumDeltaRap = Octet.DeltaRap();
+    eventHadronicBranch->HbSumDeltaPhi = Octet.DeltaPhi();
+    eventHadronicBranch->HbSumDeltaR = Octet.DeltaR();
 
-    EventHadronicBranch->HbDeltaDeltaRap = Octet.HbDeltaDeltaRap();
-    EventHadronicBranch->HbDeltaDeltaPhi = Octet.HbDeltaDeltaPhi();
-    EventHadronicBranch->HbDeltaDeltaR = Octet.HbDeltaDeltaR();
+    eventHadronicBranch->HbDeltaDeltaRap = Octet.HbDeltaDeltaRap();
+    eventHadronicBranch->HbDeltaDeltaPhi = Octet.HbDeltaDeltaPhi();
+    eventHadronicBranch->HbDeltaDeltaR = Octet.HbDeltaDeltaR();
 
-    EventHadronicBranch->EventTag = Octet.Tag();
+    eventHadronicBranch->eventTag = Octet.Tag();
 }
 
-void hheavyhiggs::HEventHadronicTagger::FillBranch(const HOctet &Octet)
+void hheavyhiggs::EventHadronicTagger::FillBranch(const HOctet &Octet)
 {
     Print(kInformation, "FillPairTagger");
     FillBranch(&Branch, Octet);
 }
 
-void hheavyhiggs::HEventHadronicTagger::DefineVariables()
+void hheavyhiggs::EventHadronicTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -109,20 +109,20 @@ void hheavyhiggs::HEventHadronicTagger::DefineVariables()
     AddVariable(Branch.HbDeltaDeltaPhi, "HbDeltaDeltaPhi");
     AddVariable(Branch.HbDeltaDeltaR, "HbDeltaDeltaR");
 
-    AddSpectator(Branch.EventTag, "EventTag");
+    AddSpectator(Branch.eventTag, "eventTag");
     AddSpectator(Branch.HeavyHiggsMass, "HeavyHiggsMass");
 
     Print(kNotification, "Variables defined");
 
 }
 
-std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
+std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagger::GetBranches(hanalysis::Event &event, const HObject::Tag Tag)
 {
-    std::vector<hheavyhiggs::HEventHadronicBranch *> EventHadronicBranches;
+    std::vector<hheavyhiggs::EventHadronicBranch *> eventHadronicBranches;
 
-    Jets jets = Event.GetJets()->GetStructuredJets();
+    Jets jets = event.Hadrons().GetStructuredJets();
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
-    if (jets.size() < 8) return EventHadronicBranches;
+    if (jets.size() < 8) return eventHadronicBranches;
 
     std::vector<hanalysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
     std::vector<hanalysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
@@ -130,7 +130,7 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
 
     std::vector<HOctet> Octets;
 
-    for (const auto & Jet1 : jets) 
+    for (const auto & Jet1 : jets)
         for (const auto & Jet2 : jets)  {
             if (Jet1 == Jet2) continue;
             hanalysis::Doublet doublet(Jet1,Jet2);
@@ -157,16 +157,16 @@ std::vector<hheavyhiggs::HEventHadronicBranch * > hheavyhiggs::HEventHadronicTag
     }
 
     for (auto & Octet : Octets) {
-        hheavyhiggs::HEventHadronicBranch *EventHadronicBranch = new hheavyhiggs::HEventHadronicBranch();
-//         Octet.SetLeptonNumber(Event.GetLeptons()->GetLeptonJets().size());
-//         Octet.SetJetNumber(Event.GetJets()->GetJets().size());
-//         Octet.SetBottomNumber(Event.GetJets()->GetBottomJets().size());
-//         Octet.SetScalarHt(Event.GetJets()->GetScalarHt());
+        hheavyhiggs::EventHadronicBranch *eventHadronicBranch = new hheavyhiggs::EventHadronicBranch();
+//         Octet.SetLeptonNumber(event.Leptons().GetLeptonJets().size());
+//         Octet.SetJetNumber(event.Hadrons().GetJets().size());
+//         Octet.SetBottomNumber(event.Hadrons().GetBottomJets().size());
+//         Octet.SetScalarHt(event.Hadrons().GetScalarHt());
         Octet.SetTag(Tag);
-        FillBranch(EventHadronicBranch, Octet);
-        EventHadronicBranches.emplace_back(EventHadronicBranch);
+        FillBranch(eventHadronicBranch, Octet);
+        eventHadronicBranches.emplace_back(eventHadronicBranch);
     }
 
-    return EventHadronicBranches;
+    return eventHadronicBranches;
 
 }

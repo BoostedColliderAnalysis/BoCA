@@ -33,7 +33,7 @@ public:
 
     ~HSubStructure();
 
-    void NewEvent();
+    void Newevent();
 
     bool GetSubJets(const fastjet::PseudoJet &);
 

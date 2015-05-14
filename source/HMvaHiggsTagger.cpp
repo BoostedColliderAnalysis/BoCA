@@ -84,13 +84,13 @@ struct SortPairByMass {
 };
 
 
-std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(HEvent &Event, const HObject::Tag State)
+std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(Event &event, const HObject::Tag State)
 {
 
     Print(kInformation, "Get Higgs Tags");
 
     JetTag.HeavyParticles = {CpvHiggsId, HiggsId, TopId};
-    Jets jets = Event.GetJets()->GetStructuredTaggedJets(JetTag);
+    Jets jets = event.Hadrons().GetStructuredTaggedJets(JetTag);
 
     Jets HiggsJets;
     Jets OtherJets;

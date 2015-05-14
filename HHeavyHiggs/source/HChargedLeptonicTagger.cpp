@@ -12,7 +12,7 @@ hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(hanalysis::BottomTag
     ChargedHiggsLeptonicTagger = NewHeavyHiggsTagger;
     ChargedHiggsLeptonicReader.set_tagger(ChargedHiggsLeptonicTagger);
 
-    set_tagger_name("EventLeptonic");
+    set_tagger_name("eventLeptonic");
 
 //     Branch = new hheavyhiggs::HChargedLeptonicBranch();
 
@@ -45,37 +45,37 @@ hheavyhiggs::HChargedLeptonicTagger::~HChargedLeptonicTagger()
 
 }
 
-void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLeptonicBranch *EventLeptonicBranch, const HOctet44 &Octet)
+void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch, const HOctet44 &Octet)
 {
     Print(kInformation, "FillPairTagger", Octet.Bdt());
 
-    EventLeptonicBranch->LeptonNumber = Octet.GetLeptonNumber();
-    EventLeptonicBranch->JetNumber = Octet.GetJetNumber();
-    EventLeptonicBranch->BottomNumber = Octet.GetBottomNumber();
+    eventLeptonicBranch->LeptonNumber = Octet.GetLeptonNumber();
+    eventLeptonicBranch->JetNumber = Octet.GetJetNumber();
+    eventLeptonicBranch->BottomNumber = Octet.GetBottomNumber();
 
-    EventLeptonicBranch->ScalarHt = Octet.GetScalarHt();
-    EventLeptonicBranch->HeavyParticleBdt = Octet.Bdt();
+    eventLeptonicBranch->ScalarHt = Octet.GetScalarHt();
+    eventLeptonicBranch->HeavyParticleBdt = Octet.Bdt();
 
-    EventLeptonicBranch->HeavyHiggsBdt = Octet.Quartet1().Bdt();
-    EventLeptonicBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
-    EventLeptonicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
+    eventLeptonicBranch->HeavyHiggsBdt = Octet.Quartet1().Bdt();
+    eventLeptonicBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
+    eventLeptonicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
 
-    EventLeptonicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-    EventLeptonicBranch->BottomDeltaPt = Octet.Quartet2().DeltaPt();
+    eventLeptonicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
+    eventLeptonicBranch->BottomDeltaPt = Octet.Quartet2().DeltaPt();
 
-    EventLeptonicBranch->BottomDeltaRap = Octet.Quartet2().DeltaRap();
-    EventLeptonicBranch->BottomDeltaPhi = Octet.Quartet2().GetPhiDelta();
-    EventLeptonicBranch->BottomDeltaR = Octet.Quartet2().DeltaR();
+    eventLeptonicBranch->BottomDeltaRap = Octet.Quartet2().DeltaRap();
+    eventLeptonicBranch->BottomDeltaPhi = Octet.Quartet2().GetPhiDelta();
+    eventLeptonicBranch->BottomDeltaR = Octet.Quartet2().DeltaR();
 
-    EventLeptonicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
-    EventLeptonicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
-    EventLeptonicBranch->HbSumDeltaR = Octet.GetHbSumDeltaR();
+    eventLeptonicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
+    eventLeptonicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
+    eventLeptonicBranch->HbSumDeltaR = Octet.GetHbSumDeltaR();
 
-    EventLeptonicBranch->HbDeltaDeltaRap = Octet.GetHbDeltaDeltaRap();
-    EventLeptonicBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
-    EventLeptonicBranch->HbDeltaDeltaR = Octet.GetHbDeltaDeltaR();
+    eventLeptonicBranch->HbDeltaDeltaRap = Octet.GetHbDeltaDeltaRap();
+    eventLeptonicBranch->HbDeltaDeltaPhi = Octet.GetHbDeltaDeltaPhi();
+    eventLeptonicBranch->HbDeltaDeltaR = Octet.GetHbDeltaDeltaR();
 
-    EventLeptonicBranch->EventTag = Octet.Tag();
+    eventLeptonicBranch->eventTag = Octet.Tag();
 }
 
 void hheavyhiggs::HChargedLeptonicTagger::FillBranch(const HOctet44 &Octet)
@@ -114,7 +114,7 @@ void hheavyhiggs::HChargedLeptonicTagger::DefineVariables()
     AddVariable(Branch.HbDeltaDeltaR, "HbDeltaDeltaR");
 
     AddSpectator(Branch.LeptonNumber, "LeptonNumber");
-    AddSpectator(Branch.EventTag, "EventTag");
+    AddSpectator(Branch.eventTag, "eventTag");
     AddSpectator(Branch.HeavyHiggsMass, "HeavyHiggsMass");
 
     Print(kNotification, "Variables defined");
@@ -128,20 +128,20 @@ struct SortByQuartetBdt {
 };
 
 
-std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(hanalysis::HEvent &Event, const HObject::Tag Tag)
+std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(hanalysis::Event &event, const HObject::Tag Tag)
 {
 
-    Jets jets = Event.GetJets()->GetStructuredJets();
+    Jets jets = event.Hadrons().GetStructuredJets();
 
     jets = BottomTagger->GetTruthBdt(jets, BottomReader);
 
-    Jets Leptons = Event.GetLeptons()->GetLeptonJets();
+    Jets Leptons = event.Leptons().GetLeptonJets();
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<hanalysis::Doublet> Topdoublets = TopLeptonicTagger->GetBdt(jets, Leptons, TopLeptonicReader);
 
-    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
-    Jets Neutrinos = Event.GetParticles()->GetNeutrinos();
+    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    Jets Neutrinos = event.Partons().GetNeutrinos();
 
     std::vector<hanalysis::Triplet> triplets1 = ChargedHiggsLeptonicTagger->GetBdt(Topdoublets, ChargedHiggsLeptonicReader);
 
@@ -171,19 +171,19 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
         Octets.erase(Octets.begin() + 1, Octets.end());
     }
 
-    std::vector<hheavyhiggs::HChargedLeptonicBranch *> EventLeptonicBranches;
+    std::vector<hheavyhiggs::HChargedLeptonicBranch *> eventLeptonicBranches;
     for (auto & Octet : Octets) {
-        hheavyhiggs::HChargedLeptonicBranch *EventLeptonicBranch = new hheavyhiggs::HChargedLeptonicBranch();
-        Octet.SetLeptonNumber(Event.GetLeptons()->GetLeptonJets().size());
-        Octet.SetJetNumber(Event.GetJets()->GetJets().size());
-        Octet.SetBottomNumber(Event.GetJets()->GetBottomJets().size());
-        Octet.SetScalarHt(Event.GetJets()->GetScalarHt());
+        hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch = new hheavyhiggs::HChargedLeptonicBranch();
+        Octet.SetLeptonNumber(event.Leptons().GetLeptonJets().size());
+        Octet.SetJetNumber(event.Hadrons().GetJets().size());
+        Octet.SetBottomNumber(event.Hadrons().GetBottomJets().size());
+        Octet.SetScalarHt(event.Hadrons().GetScalarHt());
         Octet.SetTag(Tag);
-        FillBranch(EventLeptonicBranch, Octet);
-        EventLeptonicBranches.emplace_back(EventLeptonicBranch);
+        FillBranch(eventLeptonicBranch, Octet);
+        eventLeptonicBranches.emplace_back(eventLeptonicBranch);
     }
 
-    return EventLeptonicBranches;
+    return eventLeptonicBranches;
 
 }
 
@@ -316,20 +316,20 @@ std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTree
     Print(kNotification, "Apply Bdt", branch_name_);
 
     const int Steps2 = 10;
-    std::vector<int> EventNumbers(Steps2);
+    std::vector<int> eventNumbers(Steps2);
 
-    const TClonesArray *const EventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name_.c_str());
+    const TClonesArray *const eventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name_.c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
     ExRootTreeBranch *BdtBranch = TreeWriter->NewBranch(branch_name_.c_str(), HBdtBranch::Class());
 
-    for (const int EventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
+    for (const int eventNumber : HRange(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
 
-        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(eventNumber);
 
-        for (const int Entry : HRange(EventClonesArray->GetEntriesFast())) {
+        for (const int Entry : HRange(eventClonesArray->GetEntriesFast())) {
 
-            (*Branch) = *((HChargedLeptonicBranch *) EventClonesArray->At(Entry));
+            (*Branch) = *((HChargedLeptonicBranch *) eventClonesArray->At(Entry));
 
             HBdtBranch *Export = static_cast<HBdtBranch *>(BdtBranch->NewEntry());
 
@@ -346,7 +346,7 @@ std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTree
             }
             Print(kDebug, "Bdt", Bdt, Error, Rarity);
             Export->Mass = Branch->HeavyHiggsMass;
-            Export->EventTag = Branch->EventTag;
+            Export->eventTag = Branch->eventTag;
             Export->Bdt = Bdt;
             Export->Error = Error;
             Export->Rarity = Rarity;
@@ -365,7 +365,7 @@ std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTree
 
             for (int Step = 0; Step < Steps2; ++Step) {
                 const float Cut = float(Step - 5) / Steps2 / 2;
-                if (Bdt > Cut) ++EventNumbers.at(Step);
+                if (Bdt > Cut) ++eventNumbers.at(Step);
             }
 
         }
@@ -378,7 +378,7 @@ std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTree
     TreeWriter->Write();
     delete TreeWriter;
 
-    return EventNumbers;
+    return eventNumbers;
 }
 
 

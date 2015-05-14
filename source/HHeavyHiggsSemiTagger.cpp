@@ -74,14 +74,14 @@ HHeavyHiggsSemiBranch hanalysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet 
     return HeavyHiggsBranch;
 }
 
-std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::Tag Tag, const float pre_cut)
+std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, const float pre_cut)
 {
     Print(kInformation, "Get Higgs Tags");
 
-    float Mass = Event.GetMass();
+    float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (Tag == kSignal) {
-        Jets HiggsParticles = Event.GetParticles()->Generator();
+        Jets HiggsParticles = event.Partons().Generator();
         Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
         Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
         HiggsParticles = Even;
@@ -92,11 +92,11 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
         }
     }
 
-    Jets jets = GetJets(Event);
+    Jets jets = GetJets(event);
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
-    Jets Leptons = Event.GetLeptons()->GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = Event.GetJets()->GetMissingEt();
+    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
 
     std::vector<Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     Print(kDebug, "Number of Semi W", doubletsSemi.size());
@@ -112,8 +112,8 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
     Print(kDebug, "Number of Hadronic Tops", tripletsHadronic.size());
 
     std::vector<Triplet> FinaltripletsHadronic;
-    int WHadId = WTagger.GetWHadId(Event);
-    Jets TopParticles = Event.GetParticles()->Generator();
+    int WHadId = WTagger.GetWHadId(event);
+    Jets TopParticles = event.Partons().Generator();
     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, HadTopId);
     fastjet::PseudoJet TopQuark;
