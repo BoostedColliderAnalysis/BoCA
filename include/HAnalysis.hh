@@ -3,7 +3,7 @@
 # include "HObject.hh"
 # include "Tagger.hh"
 # include "HConfig.hh"
-# include "RootFile.hh"
+# include "File.hh"
 # include "Reader.hh"
 
 
@@ -25,7 +25,7 @@ public:
 
     void AnalysisLoop(const hanalysis::Tagger::Stage stage);
 
-    virtual std::vector<RootFile> Files(const Tag tag) {
+    virtual std::vector<File> Files(const Tag tag) {
         Print(kError, "GetFiles", tag);
         return files_;
     }
@@ -50,7 +50,7 @@ protected:
     ExRootTreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
 
 
-    InfoBranch Fillinfo_branch(const ExRootTreeReader &tree_reader, const hanalysis::RootFile &file);
+    InfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::File &file);
 
     virtual int Analysis(Event &, const Tagger::Stage stage, const Tag tag) {
         Print(kError, "Analysis", "should be subclassed", stage, tag);
@@ -77,7 +77,7 @@ protected:
         return JoinVectors(Strings1, Strings2);
     };
 
-    std::vector<hanalysis::RootFile>  JoinFiles(const std::vector<hanalysis::RootFile> &Files1, const std::vector<hanalysis::RootFile> &Files2) {
+    std::vector<hanalysis::File>  JoinFiles(const std::vector<hanalysis::File> &Files1, const std::vector<hanalysis::File> &Files2) {
         return JoinVectors(Files1, Files2);
     };
 
@@ -138,8 +138,8 @@ protected:
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline hanalysis::RootFile get_file(const std::string &name) const {
-        return RootFile(name, FilePath(), FileSuffix());
+    inline hanalysis::File get_file(const std::string &name) const {
+        return File(name, FilePath(), FileSuffix());
     }
 
     inline std::string FileName(const std::string &name) const {
@@ -161,7 +161,7 @@ private:
 
     HConfig config_;
 
-    std::vector<hanalysis::RootFile> files_;
+    std::vector<hanalysis::File> files_;
 
 
 };

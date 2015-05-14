@@ -32,10 +32,10 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
         for (auto & file : Files(tag)) {
             Print(kNotification, "Analysing File", file.tree_name());
             event_sum_ = 0;
-            ClonesArrays clones_arrays = file.GetClonesArrays();
+            ClonesArrays clones_arrays = file.clones_arrays();
             hanalysis::Event &event = file.event();
             bool analysis_not_empty = false;
-            ExRootTreeWriter tree_writer = TreeWriter(export_file, file.GetTitle(), stage);
+            ExRootTreeWriter tree_writer = TreeWriter(export_file, file.Title(), stage);
             ExRootTreeBranch &tree_branch = *tree_writer.NewBranch("Info", InfoBranch::Class());
             ExRootTreeReader tree_reader = file.TreeReader();
             clones_arrays.UseBranches(tree_reader);
@@ -43,7 +43,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
 //             Print(kInformation, "Sum", eventSum(tree_reader));
             int object_sum = 0;
             int pre_cut_sum = 0;
-            InfoBranch info_branch = Fillinfo_branch(tree_reader, file);
+            InfoBranch info_branch = FillInfoBranch(tree_reader, file);
             for (const int event_number : Range(eventSum(tree_reader))) {
 //                 Print(kError, "event Number", event_number);
                 tree_reader.ReadEntry(event_number);
@@ -74,7 +74,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
     }
 }
 
-InfoBranch hanalysis::HAnalysis::Fillinfo_branch(const ExRootTreeReader &tree_reader, const RootFile &file)
+InfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const File &file)
 {
     InfoBranch info_branch;
     info_branch.Crosssection = file.crosssection();

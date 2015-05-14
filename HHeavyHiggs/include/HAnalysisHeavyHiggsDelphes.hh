@@ -42,7 +42,7 @@ private:
      *
      * @return void
      */
-    std::vector< hanalysis::RootFile* > GetFiles(const std::string &Study);
+    std::vector< hanalysis::File* > GetFiles(const std::string &Study);
 
     /**
      * @brief New Analysis

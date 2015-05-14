@@ -34,32 +34,32 @@ Strings hjetproperties::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector< hanalysis::RootFile* > hjetproperties::HAnalysis::GetFiles(const std::string &StudyName)
+std::vector< hanalysis::File* > hjetproperties::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
     Print(kNotification, "Set File Vector");
 
-    std::vector<hanalysis::RootFile*> Files;
+    std::vector<hanalysis::File*> Files;
     if (StudyName != "Higgs") {
 
-      hanalysis::hdelphes::HFile *Background = new hanalysis::hdelphes::HFile("pp-bbtt-bblvlv", "background");
+      hanalysis::File *Background = new hanalysis::File("pp-bbtt-bblvlv", "background");
         Background->set_crosssection(3.215); // pb
         Background->set_crosssection_error(0.012); // pb
         Files.emplace_back(Background);
 
     }
 
-    hanalysis::hdelphes::HFile *Even = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "even");
+    hanalysis::File *Even = new hanalysis::File("pp-x0tt-bblvlv", "even");
     Even->set_crosssection(0.02079); // pb
     Even->set_crosssection_error(0.000078); // pb
     Files.emplace_back(Even);
 
-    hanalysis::hdelphes::HFile *Mix = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "mix");
+    hanalysis::File *Mix = new hanalysis::File("pp-x0tt-bblvlv", "mix");
     Mix->set_crosssection(0.01172); // pb
     Mix->set_crosssection_error(0.000045); // pb
     Files.emplace_back(Mix);
 
-    hanalysis::hdelphes::HFile *Odd = new hanalysis::hdelphes::HFile("pp-x0tt-bblvlv", "odd");
+    hanalysis::File *Odd = new hanalysis::File("pp-x0tt-bblvlv", "odd");
     Odd->set_crosssection(0.008951); // pb
     Odd->set_crosssection_error(0.000035); // pb
     Files.emplace_back(Odd);

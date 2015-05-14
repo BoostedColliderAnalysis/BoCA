@@ -17,20 +17,20 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         Print(kDetailed, "Particles ID", ParticleId);
 
         int MotherId = EmptyId;
-        int MotherStatus = EmptyId;
+//         int MotherStatus = EmptyId;
         int Mother2Id = EmptyId;
-        int Mother2Status = EmptyId;
+//         int Mother2Status = EmptyId;
         if (particle.M1 != EmptyPosition) {
             delphes::GenParticle &mother = static_cast<delphes::GenParticle &>(clones_arrays().Particle(particle.M1));
 
             MotherId = mother.PID;
-            MotherStatus = mother.Status;
+//             MotherStatus = mother.Status;
         }
         if (particle.M2 != EmptyPosition) {
             delphes::GenParticle &mother = static_cast<delphes::GenParticle &>(clones_arrays().Particle(particle.M2));
 
             Mother2Id = mother.PID;
-            Mother2Status = mother.Status;
+//             Mother2Status = mother.Status;
         }
 
         if (particle.Status == StableParticle) {

@@ -1,5 +1,6 @@
 # pragma once
 
+# include "TObject.h"
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "HObject.hh"
 

@@ -2,7 +2,7 @@
 # define __HAnalysisDiscriminator_hh__
 
 # include "HAnalysis.hh"
-# include "HFileDelphes.hh"
+# include "File.hh"
 # include "HEventDelphes.hh"
 # include "HBranchDiscriminator.hh"
 # include "HSubStructure.hh"
@@ -115,7 +115,7 @@ private:
      *
      * @return void
      */
-    std::vector<hanalysis::RootFile * > GetFiles(const std::string &Name);
+    std::vector<hanalysis::File * > GetFiles(const std::string &Name);
 
     /**
      * @brief New Analysis

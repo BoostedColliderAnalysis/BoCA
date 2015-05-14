@@ -1,7 +1,7 @@
 # ifndef HAnalysisTau_hh
 # define HAnalysisTau_hh
 
-# include "HFileDelphes.hh"
+# include "File.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "HBranchHeavyHiggs.hh"
@@ -65,7 +65,7 @@ public:
 //
 //     hheavyhiggs::HChargedSemiTagger eventSemiTagger;
 
-    std::vector< hanalysis::RootFile > Files(const hanalysis::HObject::Tag tag);
+    std::vector< hanalysis::File > Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
 //         return "HiggsTau1";

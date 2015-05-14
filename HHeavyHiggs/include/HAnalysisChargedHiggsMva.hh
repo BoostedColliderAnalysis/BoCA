@@ -3,7 +3,7 @@
 
 #include <sys/stat.h>
 
-# include "HFileDelphes.hh"
+# include "File.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "HBranchHeavyHiggs.hh"
@@ -46,7 +46,7 @@ using hanalysis::HAnalysis::HAnalysis;
     hheavyhiggs::HChargedSignatureSemiTagger SignatureSemiTagger;
     hheavyhiggs::HChargedeventSemiTagger eventSemiTagger;
 
-    std::vector< hanalysis::RootFile > Files(const hanalysis::HObject::Tag tag);
+    std::vector< hanalysis::File > Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProcessName()const {
         return "Charged";
@@ -284,17 +284,17 @@ private:
         }
     }
 
-    inline hanalysis::RootFile BackgroundFile(const HProcessType Background) const {
+    inline hanalysis::File BackgroundFile(const HProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 
-    hanalysis::RootFile BackgroundFile(const HProcessType Background, const int FileSum) const {
+    hanalysis::File BackgroundFile(const HProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV";
         Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
-        return hanalysis::RootFile(FileNames , BackgroundCrosssection(Background));
+        return hanalysis::File(FileNames , BackgroundCrosssection(Background));
     }
 
     std::string BackgroundTree(const HProcessType Background) const {

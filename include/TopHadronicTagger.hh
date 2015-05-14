@@ -25,21 +25,21 @@ public:
         Print(kError, "get branches", "depreciated");
     }
 
-    std::vector<hanalysis::Triplet> GetTriplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const fastjet::PseudoJet &quark, const Tag tag);
+    std::vector<hanalysis::Triplet> GetTriplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const Jets&quarks, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<hanalysis::Triplet> GetTriplets(const Doublet &doublets, const std::vector<fastjet::PseudoJet> &jets, const fastjet::PseudoJet &quark, const Tag tag);
+    std::vector<hanalysis::Triplet> GetTriplets(const hanalysis::Doublet& doublet, const Jets& jets, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<hanalysis::Triplet> GetTriplets(const Doublet &doublet, const fastjet::PseudoJet &jet, const fastjet::PseudoJet &quark, const Tag tag);
+    std::vector<hanalysis::Triplet> GetTriplets(const hanalysis::Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
 
-    bool Problematic(const Triplet &triplet, const fastjet::PseudoJet &quark, const Tag tag);
+    bool Problematic(const hanalysis::Triplet& triplet, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Triplet>  GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const TMVA::Reader &reader);
+    std::vector<Triplet>  GetBdt(const std::vector< hanalysis::Doublet >& doublets, const Jets& jets, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-    std::vector<Triplet>  GetBdt(const Doublet &doublet, const Jets &jets, const TMVA::Reader &reader);
+    std::vector<Triplet>  GetBdt(const hanalysis::Doublet& doublet, const Jets& jets, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-    std::vector<Triplet>  GetBdt(const Doublet &doublet, const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
+    std::vector<Triplet>  GetBdt(const hanalysis::Doublet& doublet, const fastjet::PseudoJet& jet, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-    Triplet GetBdt(Triplet &triplet, const TMVA::Reader &reader);
+    Triplet GetBdt(hanalysis::Triplet& triplet, PreCuts& pre_cuts, const TMVA::Reader& reader);
 
     std::vector<Triplet>  GetBdt(const std::vector< hanalysis::Doublet > &, const Jets &, const Reader &) {
         Print(kError, "get bdt", "depreciated");
@@ -47,10 +47,11 @@ public:
 
     Triplet GetBdt(hanalysis::Triplet &, const hanalysis::Reader &){
       Print(kError, "get bdt", "depreciated");
+      return Triplet();
     }
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries(GetTriplets(event, reader));
+        return SaveEntries(GetTriplets(event,pre_cuts, reader));
     }
 
     int GetBdt(Event &event, const TMVA::Reader &reader) {
@@ -58,10 +59,16 @@ public:
         return GetBdt(event, pre_cuts, reader);
     }
 
-    std::vector<Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Triplet> GetTriplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    std::vector<Triplet> GetTriplets(Event &event, const TMVA::Reader &reader){
+        PreCuts pre_cuts;
+        return GetTriplets(event, pre_cuts, reader);
+    }
 
     std::vector<Triplet> GetBdt(const Jets &, const hanalysis::Reader &, hanalysis::WHadronicTagger &, hanalysis::Reader &, hanalysis::BottomTagger &, hanalysis::Reader &) {
         Print(kError, "get bdt", "depreciated");
+        return std::vector<Triplet>{};
     }
 
     float ReadBdt(const TClonesArray &clones_array, const int entry) {
@@ -72,9 +79,9 @@ public:
 
     WHadronicTagger w_hadronic_tagger_;
 
-    Reader  bottom_reader_;
+    Reader bottom_reader_;
 
-    Reader  w_hadronic_reader_;
+    Reader w_hadronic_reader_;
 
     TopHadronicBranch GetBranch(const hanalysis::Triplet &triplet) const;
 

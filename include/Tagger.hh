@@ -260,7 +260,7 @@ public:
       return Jets{};
     }
 
-    Jets GetJets(hanalysis::Event &event){
+    Jets GetJets(hanalysis::Event &){
       Print(kError,"get jets","depreciated");
       return Jets{};
     }

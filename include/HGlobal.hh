@@ -26,7 +26,7 @@ class HFourVector;
 
 class ClonesArrays;
 class Event;
-class RootFile;
+class File;
 class HParticle;
 class HLepton;
 class HJet;

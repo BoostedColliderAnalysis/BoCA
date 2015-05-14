@@ -128,7 +128,7 @@ public:
       return Jets();
     }
 
-    virtual Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber){
+    virtual Jets GetSubJets(const fastjet::PseudoJet &, const int ){
       Print(kError,"Get Sub Jets","should be subclassed");
       return Jets();
     }

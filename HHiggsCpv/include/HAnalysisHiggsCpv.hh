@@ -1,7 +1,7 @@
 # ifndef HAnalysisHiggsCpv_hh
 # define HAnalysisHiggsCpv_hh
 
-# include "HFileDelphes.hh"
+# include "File.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "HBranchHiggsCpv.hh"
@@ -83,7 +83,7 @@ public:
      *
      * @return void
      */
-    std::vector<hanalysis::RootFile * > GetFiles(const std::string &StudyName);
+    std::vector<hanalysis::File * > GetFiles(const std::string &StudyName);
 
 private:
 

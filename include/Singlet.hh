@@ -45,7 +45,7 @@ public:
     }
 
     float Spread() const {
-        GetSpread(singlet_);
+        return GetSpread(singlet_);
     }
 
     float VertexDeltaR() const {

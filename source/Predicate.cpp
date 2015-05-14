@@ -10,25 +10,49 @@ struct Not5Quark {
 
 
 
-struct AbsId {
-    AbsId(const int NewId) {
-        Id = NewId;
+struct AbsParticleId {
+    AbsParticleId(const int id) {
+        id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (std::abs(Family.ParticleId) == Id);
+      return (std::abs(Jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId) == id_);
     }
-    int Id;
+    int id_;
 };
 
 Jets copy_if_abs_particle(const Jets &jets, const int particle_id)
 {
     Jets final_jets(jets.size());;
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsId(particle_id));
+    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsParticleId(particle_id));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
     return final_jets;
 }
+
+struct ParticleId {
+  ParticleId(const int id) {
+    id_ = id;
+  }
+  bool operator()(const fastjet::PseudoJet &Jet) {
+    return (Jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId == id_);
+  }
+  int id_;
+};
+
+Jets copy_if_particle(const Jets &jets, const int particle_id)
+{
+  Jets final_jets(jets.size());
+  auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), ParticleId(particle_id));
+  final_jets.resize(std::distance(final_jets.begin(), iterator));
+  return final_jets;
+}
+
+Jets remove_if_particle(const Jets &jets, const int particle_id)
+{
+  Jets jets_ =jets;
+  jets_.erase(std::remove_if(jets_.begin(), jets_.end(), ParticleId(particle_id)), jets_.end());
+  return jets;
+}
+
 
 struct NotInPtWindow {
     NotInPtWindow(const float lower_cut, const float upper_cut) {

@@ -18,20 +18,20 @@ Strings hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetStudyNameVector()
 
 }
 
-std::vector<hanalysis::RootFile*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const std::string &Study)
+std::vector<hanalysis::File*> hheavyhiggs::HAnalysisHeavyHiggsDelphes::GetFiles(const std::string &Study)
 {
 
     Print(kNotification, "Fill Analysis Vector", Study);
 
-    std::vector<hanalysis::RootFile*> NewFiles;
+    std::vector<hanalysis::File*> NewFiles;
 
-    NewFiles.emplace_back(new hanalysis::RootFile("BG_ttbb"));
-    NewFiles.emplace_back(new hanalysis::RootFile("hcpbb_ttbb"));
+    NewFiles.emplace_back(new hanalysis::File("BG_ttbb"));
+    NewFiles.emplace_back(new hanalysis::File("hcpbb_ttbb"));
 
-    NewFiles.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
+//     NewFiles.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
 //     FileVector.front()->BasePath = "~/Dropbox/Projects/HeavyHiggs/Simulation/";
-    NewFiles.front()->set_file_suffix(".root");
-    NewFiles.front()->set_snow_mass(true);
+//     NewFiles.front()->set_file_suffix(".root");
+//     NewFiles.front()->set_snow_mass(true);
 
 //     FileVector.emplace_back(new HFile("pp-bbtt-4f", "background");
 

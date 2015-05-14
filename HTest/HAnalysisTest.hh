@@ -2,7 +2,7 @@
 # define HAnalysisTest_hh
 
 # include "HAnalysis.hh"
-# include "HFileDelphes.hh"
+# include "File.hh"
 # include "HEventDelphes.hh"
 # include "HBranchTest.hh"
 
@@ -69,7 +69,7 @@ private:
      *
      * @return void
      */
-    std::vector< hanalysis::RootFile* > GetFiles(const std::string &StudyName);
+    std::vector< hanalysis::File* > GetFiles(const std::string &StudyName);
 
     /**
      * @brief New Analysis

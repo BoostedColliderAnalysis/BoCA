@@ -110,16 +110,16 @@ private:
     }
 
 
-    inline hanalysis::RootFile BackgroundFile(const Process process) const {
+    inline hanalysis::File BackgroundFile(const Process process) const {
         return BackgroundFile(process, BackgroundFileNumber());
     }
 
-    hanalysis::RootFile BackgroundFile(const Process process, const int file_sum) const {
+    hanalysis::File BackgroundFile(const Process process, const int file_sum) const {
         Strings FileNames;
         for (int file_number = 0; file_number < file_sum; ++file_number) {
             FileNames.emplace_back(FileName(process));
         }
-        return hanalysis::RootFile(FileNames);
+        return hanalysis::File(FileNames);
     }
 
     std::string BackgroundTree(const Process Process) const {

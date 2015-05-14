@@ -75,38 +75,38 @@
 //
 // }
 
-std::vector<hanalysis::RootFile> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
+std::vector<hanalysis::File> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
-    std::vector<hanalysis::RootFile> SignalLeptonicFiles;
-    std::vector<hanalysis::RootFile> BackgroundLeptonicFiles;
-    std::vector<hanalysis::RootFile> SignalSemiFiles;
-    std::vector<hanalysis::RootFile> BackgroundSemiFiles;
+    std::vector<hanalysis::File> SignalLeptonicFiles;
+    std::vector<hanalysis::File> BackgroundLeptonicFiles;
+    std::vector<hanalysis::File> SignalSemiFiles;
+    std::vector<hanalysis::File> BackgroundSemiFiles;
 
 
     std::string SignalName = ProcessName(H0) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
-    SignalSemiFiles.emplace_back(hanalysis::RootFile(SignalName, SignalCrosssection(), Mass()));
+    SignalSemiFiles.emplace_back(hanalysis::File(SignalName, SignalCrosssection(), Mass()));
     BackgroundSemiFiles.emplace_back(BackgroundFile(tt));
 
-//     BackgroundSemiFiles.emplace_back(hanalysis::RootFile( {"tt_semi_400_0", "tt_semi_400_1", "tt_semi_400_2", "tt_semi_400_3", "tt_semi_400_4", "tt_semi_400_5", "tt_semi_400_6"}, 3100.));
+//     BackgroundSemiFiles.emplace_back(hanalysis::File( {"tt_semi_400_0", "tt_semi_400_1", "tt_semi_400_2", "tt_semi_400_3", "tt_semi_400_4", "tt_semi_400_5", "tt_semi_400_6"}, 3100.));
 
-    std::vector<hanalysis::RootFile> SignalHadronicFiles;
+    std::vector<hanalysis::File> SignalHadronicFiles;
 
-    std::vector<hanalysis::RootFile> BackgroundHadronicFiles;
+    std::vector<hanalysis::File> BackgroundHadronicFiles;
 
-    std::vector<hanalysis::RootFile> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<hanalysis::RootFile> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<hanalysis::RootFile> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<hanalysis::File> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
+    std::vector<hanalysis::File> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
+    std::vector<hanalysis::File> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
 
-    std::vector<hanalysis::RootFile> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<hanalysis::RootFile> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
+    std::vector<hanalysis::File> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
+    std::vector<hanalysis::File> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
 
 
-    std::vector<hanalysis::RootFile> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<hanalysis::RootFile> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+    std::vector<hanalysis::File> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
+    std::vector<hanalysis::File> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
 
-    std::vector<hanalysis::RootFile> NewFiles;
+    std::vector<hanalysis::File> NewFiles;
 
 //     switch (Tagger) {
 //     case  BottomTagger :
@@ -215,8 +215,8 @@ std::vector<hanalysis::RootFile> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
         break;
     }
 
-    NewFiles.front().SetBasePath("~/Projects/HeavyHiggs/Mass/");
-    NewFiles.front().set_file_suffix(".root");
+//     NewFiles.front().SetBasePath("~/Projects/HeavyHiggs/Mass/");
+//     NewFiles.front().set_file_suffix(".root");
 
     Print(kNotification, "Files prepared");
 

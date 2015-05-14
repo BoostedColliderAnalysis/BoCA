@@ -6,7 +6,7 @@ HDictionary(Branch Branch.cpp ../include/HLinkDef.hh)
 set(EventSources
 HObject.cpp
 HFourVector.cpp
-RootFile.cpp
+File.cpp
 ClonesArrays.cpp
 Event.cpp
 HParticle.cpp
@@ -19,12 +19,12 @@ HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 set(PartonEventSources
 HEventParton.cpp
 HParticleParton.cpp
-HFileParton.cpp
+# HFileParton.cpp
 )
 HLibrary(HPartonEvent "${PartonEventSources}" PARENT_SCOPE)
 
 set(PgsEventSources
-HFilePgs.cpp
+# HFilePgs.cpp
 HEventPgs.cpp
 HLeptonPgs.cpp
 HJetPgs.cpp
@@ -32,7 +32,7 @@ HJetPgs.cpp
 HLibrary(HPgsEvent "${PgsEventSources}" PARENT_SCOPE)
 
 set(DelphesEventSources
-HFileDelphes.cpp
+# HFileDelphes.cpp
 HEventDelphes.cpp
 HParticleDelphes.cpp
 HLeptonDelphes.cpp

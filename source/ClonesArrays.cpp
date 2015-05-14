@@ -2,13 +2,11 @@
 
 # include "TClonesArray.h"
 # include "TObjArray.h"
-// # include "TObject.h"
 
 hanalysis::ClonesArrays::ClonesArrays(const hanalysis::ClonesArrays::Source source)
 {
- source_ = source;
+    source_ = source;
 }
-
 
 std::string hanalysis::ClonesArrays::BranchName(const Branch branch) const
 {
@@ -51,7 +49,7 @@ std::string hanalysis::ClonesArrays::BranchName(const Branch branch) const
 
 hanalysis::ClonesArrays::Source hanalysis::ClonesArrays::source() const
 {
- return source_;
+    return source_;
 }
 
 std::vector<hanalysis::ClonesArrays::Branch> hanalysis::ClonesArrays::Branches() const

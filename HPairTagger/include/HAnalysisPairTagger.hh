@@ -3,7 +3,7 @@
 # include <sys/stat.h>
 # include <string>
 
-# include "HFileDelphes.hh"
+# include "File.hh"
 # include "HAnalysis.hh"
 # include "HEventDelphes.hh"
 # include "Reader.hh"
@@ -38,7 +38,7 @@ public:
 
     void SetTrees();
 
-    std::vector<hanalysis::RootFile> Files(const hanalysis::HObject::Tag tag);
+    std::vector<hanalysis::File> Files(const hanalysis::HObject::Tag tag);
 
     inline std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
@@ -187,24 +187,24 @@ private:
         return ProductionChannelName(ProductionChannel) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-    inline hanalysis::RootFile BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
+    inline hanalysis::File BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
         return BackgroundFile(Process, BackgroundFileNumber(), ProductionChannel);
     }
 
-    inline hanalysis::RootFile BackgroundFile(const ProcessType Process) const {
+    inline hanalysis::File BackgroundFile(const ProcessType Process) const {
         return BackgroundFile(Process, BackgroundFileNumber());
     }
 
-    hanalysis::RootFile BackgroundFile(const ProcessType Process, const int) const {
+    hanalysis::File BackgroundFile(const ProcessType Process, const int) const {
         Strings FileNames;
         FileNames.emplace_back(NameString(Process));
-        return hanalysis::RootFile(FileNames , BackgroundCrosssection(Process));
+        return hanalysis::File(FileNames , BackgroundCrosssection(Process));
     }
 
-    hanalysis::RootFile BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
+    hanalysis::File BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
         Strings FileNames;
         FileNames.emplace_back(NameString(Process, ProductionChannel));
-        return hanalysis::RootFile(FileNames , BackgroundCrosssection(Process));
+        return hanalysis::File(FileNames , BackgroundCrosssection(Process));
     }
 
 

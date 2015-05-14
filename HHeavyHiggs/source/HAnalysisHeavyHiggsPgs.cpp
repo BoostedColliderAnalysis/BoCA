@@ -7,20 +7,20 @@
 //
 // }
 
-std::vector<hanalysis::RootFile*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const std::string &StudyName)
+std::vector<hanalysis::File*> hheavyhiggs::HAnalysisHeavyHiggsPgs::GetFiles(const std::string &StudyName)
 {
 
     Print(kNotification, "Fill Analysis Vector",StudyName);
 
-    std::vector<hanalysis::RootFile*> Files;
+    std::vector<hanalysis::File*> Files;
 
-    Files.emplace_back(new hanalysis::RootFile("Signal_5f"));
-    Files.emplace_back(new hanalysis::RootFile("5f_10k_Pt20"));
+    Files.emplace_back(new hanalysis::File("Signal_5f"));
+    Files.emplace_back(new hanalysis::File("5f_10k_Pt20"));
 
 //     FileVector.front()->BasePath = "~/Projects/HeavyHiggs/Mass/";
-    Files.front()->SetBasePath("~/Dropbox/Projects/HeavyHiggs/Simulation/");
-    Files.front()->set_file_suffix("_PGS.root");
-    Files.front()->set_tree_name("LHCO");
+//     Files.front()->SetBasePath("~/Dropbox/Projects/HeavyHiggs/Simulation/");
+//     Files.front()->set_file_suffix("_PGS.root");
+//     Files.front()->set_tree_name("LHCO");
 
     Print(kNotification, "Files prepared", Files.size());
 
