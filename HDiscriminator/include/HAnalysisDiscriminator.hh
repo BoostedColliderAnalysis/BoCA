@@ -73,7 +73,7 @@ public:
 
 private:
 
-    inline int eventNumberMax() const {
+    inline int EventNumberMax() const {
 
         return 10000;
 

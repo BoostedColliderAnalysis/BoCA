@@ -1,9 +1,11 @@
 # pragma once
 
 # include <cmath>
+#include <algorithm>
 # include  "fastjet/PseudoJet.hh"
 # include  "HGlobal.hh"
 # include  "JetInfo.hh"
+# include  "ClonesArrays.hh"
 
 struct SortByMass {
     SortByMass(const float NewMass) {
@@ -314,5 +316,10 @@ std::vector<Element> JoinVectors(const std::vector<Element> &vector_1, const std
     joined.insert(joined.end(), vector_1.begin(), vector_1.end());
     joined.insert(joined.end(), vector_2.begin(), vector_2.end());
     return joined;
+}
+
+template <typename Element>
+bool FindInVector(const std::vector<Element> vector, const Element element){
+  return (std::find(vector.begin(), vector.end(), element) != vector.end());
 }
 

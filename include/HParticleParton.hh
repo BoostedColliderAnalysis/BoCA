@@ -18,12 +18,6 @@ public:
      */
     HParticle();
 
-    /**
-     * @brief destructor
-     *
-     */
-    ~HParticle();
-
 private:
 
     /**

@@ -34,7 +34,7 @@ public:
     float Crosssection;
     float CrosssectionError;
     float Mass;
-    float eventNumber;
+    float EventNumber;
     float PreCutNumber;
 private:
     ClassDef(InfoBranch, 1)

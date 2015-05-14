@@ -38,7 +38,7 @@ private:
     enum Detector {LHC, FHC, LE};
 
 
-    inline int eventNumberMax() const {
+    inline int EventNumberMax() const {
         //         return 1000000;
 //         return 100000;
 //         return 10000;

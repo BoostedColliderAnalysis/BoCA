@@ -32,7 +32,7 @@ public:
         return pre_cut_;
     }
 
-    inline int eventNumberMax() const {
+    inline int EventNumberMax() const {
         return event_number_max_;
     };
 
@@ -73,15 +73,15 @@ private:
         }
     }
 
-    inline int eventNumberMax_()  {
+    inline int EventNumberMax_()  {
         try {
-            event_number_max_ = config_->lookup("eventNumberMax");
+            event_number_max_ = config_->lookup("EventNumberMax");
             return event_number_max_;
         } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
-            std::cerr << "No 'eventNumberMax' setting in configuration file." << std::endl;
+            std::cerr << "No 'EventNumberMax' setting in configuration file." << std::endl;
             throw;
         } catch (const libconfig::SettingTypeException &SettingTypeException) {
-            std::cerr << "'eventNumberMax' setting has wrong type." << std::endl;
+            std::cerr << "'EventNumberMax' setting has wrong type." << std::endl;
             throw;
         }
     };
@@ -123,7 +123,7 @@ private:
         libconfig::Setting &root = config_->getRoot();
         libconfig::Setting &mass = root.add("Mass",  libconfig::Setting::TypeInt) = 1000;
         libconfig::Setting &pre_cut = root.add("PreCut",  libconfig::Setting::TypeInt) = 1000;
-        libconfig::Setting &event_number_max = root.add("eventNumberMax",  libconfig::Setting::TypeInt) = 10000;
+        libconfig::Setting &event_number_max = root.add("EventNumberMax",  libconfig::Setting::TypeInt) = 10000;
         libconfig::Setting &background_file_number = root.add("BackgroundFileNumber",  libconfig::Setting::TypeInt) = 1;
         libconfig::Setting &collider_type = root.add("ColliderType",  libconfig::Setting::TypeString) = "LE";
         try {
@@ -147,7 +147,7 @@ private:
         }
         Mass_();
         PreCut_();
-        eventNumberMax_();
+        EventNumberMax_();
         BackgroundFileNumber_();
         ColliderType_();
     }

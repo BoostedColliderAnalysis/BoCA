@@ -1,5 +1,4 @@
-# ifndef HParticleDelphes_hh
-# define HParticleDelphes_hh
+# pragma once
 
 # include "HParticle.hh"
 
@@ -36,5 +35,3 @@ private:
     }
 
 };
-
-#endif

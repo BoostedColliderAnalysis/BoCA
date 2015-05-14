@@ -112,7 +112,7 @@ private:
 //     hanalysis::Reader HiggsTauSemiReader;
 //     hanalysis::Reader eventSemiReader;
 
-    inline int eventNumberMax() const {
+    inline int EventNumberMax() const {
 //         return 100000;
 //         return 10000;
         return 1000;

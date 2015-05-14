@@ -2,18 +2,7 @@
 
 hanalysis::HParticle::HParticle()
 {
-
     Print(kNotification,"Constructor");
-
-//     Debug =5;
-
-}
-
-hanalysis::HParticle::~HParticle()
-{
-
-    Print(kNotification,"Destructor");
-
 }
 
 void hanalysis::HParticle::Newevent(const ClonesArrays &NewClonesArrays){

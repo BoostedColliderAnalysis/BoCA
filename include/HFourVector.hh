@@ -171,6 +171,10 @@ protected:
 
     std::string PrintParticle(const int Position) const;
 
+    const ClonesArrays& clones_arrays() const{
+      return *clones_arrays_;
+    }
+
     /**
      * @brief Clones Arrays
      *

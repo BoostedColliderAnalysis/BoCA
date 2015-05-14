@@ -515,7 +515,7 @@ int hheavyhiggs::HAnalysisTt::Analysis(hanalysis::Event &event, const hanalysis:
 
     Print(kInformation, "Analysis");
 
-    if (object_number_ > eventNumberMax()) return 0;
+    if (object_number_ > EventNumberMax()) return 0;
 
     Jets Particles = event.Partons().Generator();
     Particles = RemoveIfWrongAbsParticle(Particles, TopId);

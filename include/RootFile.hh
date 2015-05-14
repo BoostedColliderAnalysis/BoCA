@@ -44,7 +44,7 @@ public:
 
     ExRootTreeReader TreeReader();
 
-    virtual hanalysis::ClonesArrays &GetClonesArrays();
+    virtual hanalysis::ClonesArrays GetClonesArrays();
 
     virtual hanalysis::Event &event();
 
@@ -168,6 +168,4 @@ private:
     TChain *chain_ = NULL;
 
     Event *event_ = NULL;
-
-    ClonesArrays *clones_array_ = NULL;
 };

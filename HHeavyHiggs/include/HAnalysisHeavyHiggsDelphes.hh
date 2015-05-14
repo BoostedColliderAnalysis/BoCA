@@ -24,7 +24,7 @@ public:
 
 private:
 
-    inline int eventNumberMax() const { return 10000;};
+    inline int EventNumberMax() const { return 10000;};
 
     inline std::string ProjectName() const {
         return "HeavyHiggs";

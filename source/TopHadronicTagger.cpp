@@ -1,7 +1,7 @@
 # include "TopHadronicTagger.hh"
 
-#include "fastjet/contrib/Nsubjettiness.hh"
-#include "fastjet/contrib/NjettinessDefinition.hh"
+# include "fastjet/contrib/Nsubjettiness.hh"
+# include "fastjet/contrib/NjettinessDefinition.hh"
 
 hanalysis::TopHadronicTagger::TopHadronicTagger()
 {

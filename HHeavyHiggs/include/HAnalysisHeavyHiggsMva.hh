@@ -137,7 +137,7 @@ public:
 //         return 2500;
     }
 
-    inline int eventNumberMax() const {
+    inline int EventNumberMax() const {
 //            return 10000000;
 //                   return 1000000;
 //         return 100000;

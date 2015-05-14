@@ -43,7 +43,7 @@ protected:
     }
 
     inline int eventSum(const ExRootTreeReader &tree_reader) const {
-//       return std::min((int)tree_reader.GetEntries(), eventNumberMax());
+//       return std::min((int)tree_reader.GetEntries(), EventNumberMax());
         return tree_reader.GetEntries();
     }
 
@@ -65,7 +65,7 @@ protected:
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual inline int eventNumberMax() const {
+    virtual inline int EventNumberMax() const {
         return 100000;
     }
 
@@ -108,8 +108,8 @@ protected:
         return config_.PreCut();
     }
 
-//     inline int eventNumberMax() const {
-//         return config_.eventNumberMax();
+//     inline int EventNumberMax() const {
+//         return config_.EventNumberMax();
 //     };
 
     inline int BackgroundFileNumber() const {

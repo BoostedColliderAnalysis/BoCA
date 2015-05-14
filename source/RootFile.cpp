@@ -79,12 +79,12 @@ hanalysis::RootFile::RootFile(const std::string &process, const std::string &run
 
 hanalysis::RootFile::RootFile(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
-  Print(kInformation, "Constructor");
-  SetVariables();
-  process_folders_.emplace_back(process);
-  base_path_ = base_path;
-  file_suffix_ = file_suffix;
-  mass_ = 0;
+    Print(kInformation, "Constructor");
+    SetVariables();
+    process_folders_.emplace_back(process);
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+    mass_ = 0;
 }
 
 std::string hanalysis::RootFile::GetTitle() const
@@ -139,23 +139,22 @@ ExRootTreeReader hanalysis::RootFile::TreeReader()
     return ExRootTreeReader(chain_);
 }
 
-hanalysis::ClonesArrays &hanalysis::RootFile::GetClonesArrays()
+hanalysis::ClonesArrays hanalysis::RootFile::GetClonesArrays()
 {
     Print(kNotification, "Get Clones Arrays");
     if (tree_name() == "Delphes") {
         if (snow_mass_) {
-            clones_array_ = new hdelphes::HClonesArraySnowmass();
+//             clones_array_ = new ClonesArrays(k);
         } else {
-            clones_array_ =  new hdelphes::HClonesArray();
+            return ClonesArrays(ClonesArrays::Source::kDelphes);
         }
     } else if (tree_name() == "LHEF") {
-        clones_array_ = new hparton::HClonesArray();
+        return ClonesArrays(ClonesArrays::Source::kParton);
     } else if (tree_name() == "LHCO") {
-        clones_array_ = new hpgs::HClonesArray();
+        return ClonesArrays(ClonesArrays::Source::kPgs);
     } else {
         Print(kError, "unknown Tree String", tree_name());
     }
-    return *clones_array_;
 }
 
 
@@ -179,5 +178,4 @@ hanalysis::RootFile::~RootFile()
     Print(kNotification, "Destructor");
     delete chain_;
     delete event_;
-    delete clones_array_;
 }

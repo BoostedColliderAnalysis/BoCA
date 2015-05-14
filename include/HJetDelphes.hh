@@ -1,8 +1,8 @@
-# ifndef HJetDelphes_hh
-# define HJetDelphes_hh
+# pragma once
 
 # include "HJet.hh"
 # include "JetInfo.hh"
+# include "TClonesArray.h"
 
 /**
  * @brief Delphes jets
@@ -27,10 +27,7 @@ public:
 
     Jets GetGranJets();
 
-    Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
-
 private:
-
 
     DetectorGeometry detector_geometry_;
 
@@ -87,12 +84,12 @@ private:
     }
 
 
-    template<typename TParticle, typename TEFlow>
-    bool GetIsolation(const TEFlow &EFlowClone, const TClonesArray &ClonesArray) const {
+    template<typename Particle, typename EFlow>
+    bool GetIsolation(const EFlow &e_flow, const TClonesArray &clones_array) const {
         bool Isolated = true;
-        for (int ParticleNumber = 0; ParticleNumber < ClonesArray.GetEntriesFast(); ++ParticleNumber) {
-            TParticle &ParticleClone = static_cast<TParticle &>(*ClonesArray.At(ParticleNumber));
-            Isolated = CheckIsolation(EFlowClone, ParticleClone);
+        for (int particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {
+            Particle &particle = static_cast<Particle &>(*clones_array.At(particle_number));
+            Isolated = CheckIsolation(e_flow, particle);
         }
         return Isolated;
     }
@@ -120,5 +117,3 @@ private:
     };
 
 };
-
-#endif

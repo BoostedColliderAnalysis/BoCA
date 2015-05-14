@@ -102,7 +102,7 @@ private:
     hanalysis::Reader TopReader;
     hanalysis::Reader HiggsReader;
 
-    inline int eventNumberMax() const {
+    inline int EventNumberMax() const {
         return 100000;
     }
 

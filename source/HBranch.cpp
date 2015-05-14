@@ -12,7 +12,7 @@ InfoBranch::InfoBranch()
 {
     Crosssection = InitialValue();
     CrosssectionError = InitialValue();
-    eventNumber = int(InitialValue());
+    EventNumber = int(InitialValue());
     PreCutNumber = int(InitialValue());
     Mass = InitialValue();
 }

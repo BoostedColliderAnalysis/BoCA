@@ -1,9 +1,4 @@
-# ifndef HParticle_hh
-# define HParticle_hh
-
-# include "TObjArray.h"
-
-# include "ClonesArrays.hh"
+# pragma once
 # include "HFourVector.hh"
 
 /**
@@ -20,12 +15,6 @@ public:
      *
      */
     HParticle();
-
-    /**
-     * @brief destructor
-     *
-     */
-    ~HParticle();
 
     void Newevent(const hanalysis::ClonesArrays &NewClonesArrays);
 
@@ -123,13 +112,6 @@ protected:
      */
     Jets CharmJets;
 
-
-    /**
-     * @brief Clones Arrays
-     *
-     */
-//     const HClonesArray *ClonesArrays;
-
     Jets ParticleJets;
 
     virtual inline std::string ClassName() const {
@@ -139,5 +121,3 @@ protected:
 private:
 
 };
-
-#endif

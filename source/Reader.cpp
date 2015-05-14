@@ -219,13 +219,13 @@ HMvaResult hanalysis::Reader::BdtResult(TFile &file, const std::string &tree_nam
     const InfoBranch Info = info_branch(file, tree_name);
 
     HMvaResult Result;
-    Result.TotaleventNumber = Info.eventNumber;
+    Result.TotaleventNumber = Info.EventNumber;
     std::vector<int> Bins = BdtDistribution(tree_reader, tree_name, export_file);
     std::vector<int> Integral = Result.CutIntegral(Bins);
 
     for (int Step = 0; Step < Result.Steps; ++Step) {
-        Result.events[Step] = float(Integral[Step]) / float(Info.eventNumber) * Info.Crosssection * Luminosity;
-        Result.Efficiency[Step] = float(Integral[Step]) / float(Info.eventNumber);
+        Result.events[Step] = float(Integral[Step]) / float(Info.EventNumber) * Info.Crosssection * Luminosity;
+        Result.Efficiency[Step] = float(Integral[Step]) / float(Info.EventNumber);
         Result.AnalysiseventNumber[Step] = Integral[Step];
         Result.Bdt[Step] = Bins[Step];
         Print(kDebug, "Result", Result.Efficiency[Step], Result.events[Step]);

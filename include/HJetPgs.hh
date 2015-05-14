@@ -1,6 +1,4 @@
-# ifndef HJetPgs_hh
-# define HJetPgs_hh
-
+# pragma once
 # include "HJet.hh"
 
 /**
@@ -19,12 +17,6 @@ public:
     HJet();
 
     /**
-     * @brief Destructor
-     *
-     */
-    ~HJet();
-
-    /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
      * @return void
@@ -33,16 +25,12 @@ public:
 
 private:
 
-  inline std::string NameSpaceName() const {
-    return "HPgs";
-  }
+    inline std::string NameSpaceName() const {
+        return "HPgs";
+    }
 
     inline std::string ClassName() const {
-
         return "HJet";
-
     };
 
 };
-
-#endif
