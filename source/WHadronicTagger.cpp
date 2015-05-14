@@ -56,7 +56,7 @@ int hanalysis::WHadronicTagger::Train(hanalysis::HEvent &event, PreCuts &pre_cut
                 break;
             }
         }
-        for (auto jet2 = jet1 + 1; jet2 != jets.end(); ++jet2) {
+        for (auto jet2 = ++jet1; jet2 != jets.end(); ++jet2) {
             if (tag == kSignal) {
                 bool tagged = false;
                 for (const auto & w_hadronic_daughter : w_hadronic_daughters) if ((*jet2).delta_R(w_hadronic_daughter) < detector_geometry().JetConeSize) tagged = true;
@@ -99,7 +99,7 @@ int hanalysis::WHadronicTagger::Train(hanalysis::HEvent &event, PreCuts &pre_cut
         Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         for (auto piece1 = pieces.begin(); piece1 != pieces.end(); ++piece1) {
-            for (auto piece2 = piece1 + 1; piece2 != pieces.end(); ++piece2) {
+            for (auto piece2 = ++piece1; piece2 != pieces.end(); ++piece2) {
                 Doublet doublet(*piece1, *piece2);
                 if (tag == kSignal && std::abs(doublet.Jet().m() - WMass) > w_mass_window_) continue;
                 doublets.emplace_back(doublet);
@@ -192,7 +192,7 @@ std::vector<hanalysis::Doublet> hanalysis::WHadronicTagger::GetJetDoublets(const
     // W in 2 jets
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
-        for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
+        for (auto Jet2 = ++Jet1; Jet2 != jets.end(); ++Jet2) {
             doublets = JoinVectors(doublets, GetDoublet(*Jet1, *Jet2, reader));
         }
 
