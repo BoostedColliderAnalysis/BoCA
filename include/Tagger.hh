@@ -48,34 +48,34 @@ private:
 class PreCuts : public hanalysis::HObject
 {
 public:
-  void SetPtLowerCut(const HParticleId particle_id, const float value){
-    pt_lower_cut_[particle_id] = value;
-  }
+    void SetPtLowerCut(const HParticleId particle_id, const float value) {
+        pt_lower_cut_[particle_id] = value;
+    }
 
-  float PtLowerCut(const HParticleId particle_id){
-    return pt_lower_cut_[particle_id];
-  }
+    float PtLowerCut(const HParticleId particle_id) {
+        return pt_lower_cut_[particle_id];
+    }
 
-  void SetPtUpperCut(const HParticleId particle_id, const float value){
-    pt_upper_cut_[particle_id] = value;
-  }
+    void SetPtUpperCut(const HParticleId particle_id, const float value) {
+        pt_upper_cut_[particle_id] = value;
+    }
 
-  float PtUpperCut(const HParticleId particle_id){
-    return pt_upper_cut_[particle_id];
-  }
+    float PtUpperCut(const HParticleId particle_id) {
+        return pt_upper_cut_[particle_id];
+    }
 
-  void SetTrackerMaxEta(const HParticleId particle_id, const float value){
-    tracker_eta_upper_cut_[particle_id] = value;
-  }
+    void SetTrackerMaxEta(const HParticleId particle_id, const float value) {
+        tracker_eta_upper_cut_[particle_id] = value;
+    }
 
-  float TrackerMaxEta(const HParticleId particle_id){
-    return tracker_eta_upper_cut_[particle_id];
-  }
+    float TrackerMaxEta(const HParticleId particle_id) {
+        return tracker_eta_upper_cut_[particle_id];
+    }
 
 private:
-  std::map<HParticleId, float> pt_lower_cut_;
-  std::map<HParticleId, float> pt_upper_cut_;
-  std::map<HParticleId, float> tracker_eta_upper_cut_;
+    std::map<HParticleId, float> pt_lower_cut_;
+    std::map<HParticleId, float> pt_upper_cut_;
+    std::map<HParticleId, float> tracker_eta_upper_cut_;
 };
 
 
@@ -121,27 +121,27 @@ public:
     }
 
     std::string factory_name() const {
-      return "Mva" + tagger_name();
+        return "Mva" + tagger_name();
     }
 
     std::string signal_file_name(const Stage stage) const {
-      const std::string file_name = analysis_name() + "/" + signal_name();
-      switch (stage) {
+        const std::string file_name = analysis_name() + "/" + signal_name();
+        switch (stage) {
         case kTrainer :
-          return file_name;
+            return file_name;
         case kReader :
-          return file_name + "Reader.root";
-      }
+            return file_name + "Reader.root";
+        }
     }
 
     std::string background_file_name(const Stage stage) const {
-      const std::string file_name = analysis_name() + "/" + background_name();
-      switch (stage) {
+        const std::string file_name = analysis_name() + "/" + background_name();
+        switch (stage) {
         case kTrainer :
-          return file_name;
+            return file_name;
         case kReader :
-          return file_name + "Reader.root";
-      }
+            return file_name + "Reader.root";
+        }
     }
 
     std::string reader_name() const {
@@ -196,9 +196,9 @@ public:
         return signal_tree_names_;
     }
 
-    void clear_tree_names(){
-      signal_tree_names_.clear();
-      background_tree_names_.clear();
+    void clear_tree_names() {
+        signal_tree_names_.clear();
+        background_tree_names_.clear();
     }
 
     Strings background_file_names() const {
@@ -240,29 +240,29 @@ public:
         return 0;
     }
 
-    virtual int Train(hanalysis::Event &, PreCuts &, const Tag ) {
+    virtual int Train(hanalysis::Event &, PreCuts &, const Tag) {
         Print(kError, "Train", "Should be subclassed");
         return 0;
     }
 
-    virtual float GetBranches(hanalysis::Event &, Stage , const Tag ) {
+    virtual float GetBranches(hanalysis::Event &, Stage , const Tag) {
         Print(kError, "get branches", "Should be subclassed", "should be deleted");
         return 0;
     }
 
-    Jets GranulatedJets(const Jets &){
-      Print(kError,"get jets","depreciated");
-      return Jets{};
+    Jets GranulatedJets(const Jets &) {
+        Print(kError, "get jets", "depreciated");
+        return Jets {};
     }
 
-    Jets GetJets(hanalysis::Event &, hanalysis::HJetTag &){
-      Print(kError,"get jets","depreciated");
-      return Jets{};
+    Jets GetJets(hanalysis::Event &, hanalysis::HJetTag &) {
+        Print(kError, "get jets", "depreciated");
+        return Jets {};
     }
 
-    Jets GetJets(hanalysis::Event &){
-      Print(kError,"get jets","depreciated");
-      return Jets{};
+    Jets GetJets(hanalysis::Event &) {
+        Print(kError, "get jets", "depreciated");
+        return Jets {};
     }
 
     Jets GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
@@ -330,6 +330,14 @@ protected:
     }
 
     float Bdt(const TMVA::Reader &reader);
+
+    template<typename Multiplet>
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> multiplet) {
+        if (multiplet.empty()) return multiplet;
+        std::sort(multiplet.begin(), multiplet.end());
+        multiplet.erase(multiplet.begin() + std::min(max_combi(), int(multiplet.size())), multiplet.end());
+        return multiplet;
+    }
 
 private:
 

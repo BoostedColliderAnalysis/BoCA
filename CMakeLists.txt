@@ -85,6 +85,7 @@ add_dependencies(HAnalysis HepTopTagger)
 
 # Tagger
 add_subdirectory(Bottom)
+add_subdirectory(W)
 add_subdirectory(Top)
 add_subdirectory(HPairTagger)
 add_subdirectory(HBottomSumTagger)

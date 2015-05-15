@@ -313,10 +313,7 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(hanaly
         triplets.emplace_back(GetBdt(triplet, pre_cuts, reader));
     }
 
-    std::sort(triplets.begin(), triplets.end());
-    triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
-
-    return triplets;
+    return ReduceResult(triplets);
 
 }
 
