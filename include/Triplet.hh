@@ -25,9 +25,9 @@ public:
 
     Triplet();
 
-    Triplet(const hanalysis::Doublet &Newdoublet, const fastjet::PseudoJet &NewSinglet);
+    Triplet(const hanalysis::Doublet &doublet, const fastjet::PseudoJet &singlet);
 
-    Triplet(const fastjet::PseudoJet &NewSinglet);
+    Triplet(const fastjet::PseudoJet &singlet);
 
     Doublet doublet() const;
 
@@ -112,7 +112,7 @@ private:
 
     void SetSinglet(const fastjet::PseudoJet &NewSinglet);
 
-    void Setdoublet(const Doublet &Newdoublet);
+    void Setdoublet(const hanalysis::Doublet &doublet);
 
     Doublet doublet_;
 

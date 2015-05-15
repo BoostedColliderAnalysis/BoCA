@@ -1,7 +1,5 @@
 # pragma once
 
-# include "HTopHadronTagger.hh"
-# include "HTopLeptonTagger.hh"
 # include "HAnalysis.hh"
 
 
@@ -90,8 +88,8 @@ private:
         //         return 1000000;
         //         return 100000;
 //         return 10000;
-//         return 1000;
-        return 100;
+        return 1000;
+//         return 100;
 //         return 10;
     }
 

@@ -17,7 +17,7 @@ Predicate.cpp
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 
 set(PartonEventSources
-HEventParton.cpp
+# HEventParton.cpp
 HParticleParton.cpp
 # HFileParton.cpp
 )
@@ -25,7 +25,7 @@ HLibrary(HPartonEvent "${PartonEventSources}" PARENT_SCOPE)
 
 set(PgsEventSources
 # HFilePgs.cpp
-HEventPgs.cpp
+# HEventPgs.cpp
 HLeptonPgs.cpp
 HJetPgs.cpp
 )
@@ -33,7 +33,7 @@ HLibrary(HPgsEvent "${PgsEventSources}" PARENT_SCOPE)
 
 set(DelphesEventSources
 # HFileDelphes.cpp
-HEventDelphes.cpp
+# HEventDelphes.cpp
 HParticleDelphes.cpp
 HLeptonDelphes.cpp
 HJetDelphes.cpp

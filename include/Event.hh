@@ -18,24 +18,22 @@ class hanalysis::Event : public HObject
 
 public:
 
-    /**
-    * @brief constructor
-    *
-    */
-    Event();
+    Event(const ClonesArrays::Source source);
 
-    virtual void Newevent(const ClonesArrays &) = 0;
+    ~Event();
+
+    void Newevent(const ClonesArrays &);
 
     HJet &Hadrons() const {
-        return *jets;
+        return *hadrons_;
     }
 
     HLepton &Leptons() const {
-        return *Lepton;
+        return *leptons_;
     }
 
     HParticle &Partons() const {
-        return *Particles;
+        return *partons_;
     }
 
     float mass() const {
@@ -50,27 +48,29 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "Event";
-    };
+    }
 
     /**
      * @brief Particles
      *
      */
-    HParticle *Particles;
+    HParticle *partons_ = NULL;
 
     /**
      * @brief Leptons
      *
      */
-    HLepton *Lepton;
+    HLepton *leptons_ = NULL;
 
     /**
      * @brief Jets
      *
      */
-    HJet *jets;
+    HJet *hadrons_ = NULL;
 
 private:
+
+  ClonesArrays::Source source_;
 
     float mass_;
 

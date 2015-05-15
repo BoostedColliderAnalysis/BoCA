@@ -157,7 +157,7 @@ public:
     }
 
     void AddDaughter(const int NewDaughter) {
-        if (constituents().size() > 0) {
+        if (!constituents().empty()) {
             Print(kError, "constituents", constituents().size(), constituents().front().Family().ParticleId);
             constituents().front().Family().AddDaughter(NewDaughter);
             return;
@@ -168,7 +168,7 @@ public:
     std::vector<Constituent> constituents() const {
         return constituents_;
     }
-    
+
 
     inline std::unordered_map<HFamily, float> FamilyFractions() {
         return family_fractions_;

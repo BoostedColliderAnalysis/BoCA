@@ -5,9 +5,6 @@
 
 # include "Predicate.hh"
 
-# include "HEventParton.hh"
-# include "HEventPgs.hh"
-# include "HEventDelphes.hh"
 
 hanalysis::File::File()
 {
@@ -47,7 +44,7 @@ hanalysis::File::File(const Strings &processes)
 {
     Print(kInformation, "Constructor");
     SetVariables();
-    process_folders_ = JoinVectors(process_folders_,processes);
+    process_folders_ = JoinVectors(process_folders_, processes);
     file_suffix_ = file_suffix();
 }
 
@@ -88,8 +85,9 @@ hanalysis::File::File(const std::string &process, const std::string &base_path, 
     file_suffix_ = file_suffix;
 }
 
-std::string hanalysis::File::file_suffix() const {
-    switch(source()) {
+std::string hanalysis::File::file_suffix() const
+{
+    switch (source()) {
     case ClonesArrays::kDelphes :
         return "_delphes_events.root";
     case ClonesArrays::kParton :
@@ -97,13 +95,14 @@ std::string hanalysis::File::file_suffix() const {
     case ClonesArrays::kPgs :
         return "_pgs_events.root";
     default :
-        Print(kError,"file suffix","no source");
+        Print(kError, "file suffix", "no source");
         return "";
     }
 }
 
-std::string hanalysis::File::tree_name() const {
-    switch(source()) {
+std::string hanalysis::File::tree_name() const
+{
+    switch (source()) {
     case ClonesArrays::kDelphes :
         return "Delphes";
     case ClonesArrays::kParton :
@@ -111,7 +110,7 @@ std::string hanalysis::File::tree_name() const {
     case ClonesArrays::kPgs :
         return "LHCO";
     default :
-        Print(kError,"tree name","no tree name");
+        Print(kError, "tree name", "no tree name");
         return "";
     }
 }
@@ -156,28 +155,14 @@ hanalysis::ClonesArrays hanalysis::File::clones_arrays()
 }
 
 
-hanalysis::Event &hanalysis::File::event()
+hanalysis::Event hanalysis::File::event()
 {
     Print(kNotification, "Get event");
-    switch(source()) {
-    case ClonesArrays::kDelphes :
-        event_ = new hdelphes::Event();
-        break;
-    case ClonesArrays::kParton :
-        event_ = new hparton::Event();
-        break;
-    case ClonesArrays::kPgs :
-        event_ = new hpgs::Event();
-        break;
-    default :
-        Print(kError,"event","unknown source");
-    }
-    return *event_;
+    return Event(source());
 }
 
 hanalysis::File::~File()
 {
     Print(kNotification, "Destructor");
     delete chain_;
-    delete event_;
 }

@@ -33,7 +33,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
             Print(kNotification, "Analysing File", file.tree_name());
             event_sum_ = 0;
             ClonesArrays clones_arrays = file.clones_arrays();
-            hanalysis::Event &event = file.event();
+            hanalysis::Event event = file.event();
             bool analysis_not_empty = false;
             ExRootTreeWriter tree_writer = TreeWriter(export_file, file.Title(), stage);
             ExRootTreeBranch &tree_branch = *tree_writer.NewBranch("Info", InfoBranch::Class());
@@ -88,10 +88,7 @@ InfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_rea
 std::string hanalysis::HAnalysis::ExportName(const Tagger::Stage stage, const Tag tag) const
 {
     Print(kNotification, "Get Export File", tagger_.tagger_name(), tag);
-    std::string name = tagger_.name(stage, tag);
-//     std::string name = StudyName(tagger);
-//     if (tag == kBackground) name = "Not" + name ;
-    return ProjectName() + "/" + name + ".root";
+    return ProjectName() + "/" + tagger_.name(stage, tag) + ".root";
 }
 
 ExRootTreeWriter hanalysis::HAnalysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, hanalysis::Tagger::Stage stage)
@@ -99,7 +96,6 @@ ExRootTreeWriter hanalysis::HAnalysis::TreeWriter(TFile &export_file, const std:
     Print(kNotification, "Get Tree Writer", export_tree_name.c_str());
     ExRootTreeWriter tree_writer(&export_file, export_tree_name.c_str());
     tagger_.SetTreeBranch(tree_writer, stage);
-//     NewBranches(tree_writer, tagger);
     return tree_writer;
 }
 

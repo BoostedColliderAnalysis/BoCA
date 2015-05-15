@@ -26,6 +26,7 @@ public:
 
     int Train(hanalysis::Event &, const hanalysis::HObject::Tag, float pre_cut = 0){
       Print(kError, "train", "depreciated");
+      return 0;
     }
 
     int GetBdt(Event &event, const TMVA::Reader &reader){

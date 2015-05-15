@@ -1,7 +1,6 @@
-#include "HAnalysisTopTagger.hh"
+#include "AnalysisTopTagger.hh"
 #include "TopHadronicTagger.hh"
 #include "HTopSemiTagger.hh"
-#include "HWSemiTagger.hh"
 #include "TSystem.h"
 # include "Factory.hh"
 #include <exception>

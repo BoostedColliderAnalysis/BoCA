@@ -70,11 +70,11 @@ std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::Event &
 
     Jets WKids = GetWDaughters(event);
     int WHadId = WId;
-    if (WKids.size() > 0) WHadId = GetWHadId(WKids);
+    if (!WKids.empty()) WHadId = GetWHadId(WKids);
 
     // 2 Jets form 1 W
     Jets JetPairs;
-    if (WKids.size() > 0) std::sort(jets.begin(), jets.end(), MinDeltaR(WKids.at(0)));
+    if (!WKids.empty()) std::sort(jets.begin(), jets.end(), MinDeltaR(WKids.at(0)));
     if (Tag == kSignal && jets.size() > 1) JetPairs.push_back(jets.front());
     if (Tag == kBackground && jets.size() > 1) JetPairs.insert(JetPairs.end(), jets.begin() + 1 , jets.end());
 

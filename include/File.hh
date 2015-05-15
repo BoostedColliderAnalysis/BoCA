@@ -2,6 +2,7 @@
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "ClonesArrays.hh"
+# include "Event.hh"
 
 /**
  * @brief Input file infos
@@ -46,7 +47,7 @@ public:
 
     hanalysis::ClonesArrays clones_arrays();
 
-    hanalysis::Event &event();
+    hanalysis::Event event();
 
     /**
      * @brief Name of Process
@@ -99,7 +100,7 @@ protected:
 
 private:
 
-  std::string base_path_ ="$HOME/Development/MadGraph/";
+    std::string base_path_ = "$HOME/Development/MadGraph/";
 
     Strings process_folders_;
 
@@ -117,9 +118,8 @@ private:
 
     std::string file_suffix_ = ".root";
 
-    ClonesArrays::Source source_;
+    ClonesArrays::Source source_ = ClonesArrays::ClonesArrays::kDelphes;
 
     TChain *chain_ = NULL;
 
-    Event *event_ = NULL;
 };

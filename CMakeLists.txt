@@ -85,15 +85,9 @@ add_dependencies(HAnalysis HepTopTagger)
 
 # Tagger
 add_subdirectory(Bottom)
+add_subdirectory(Top)
 add_subdirectory(HPairTagger)
 add_subdirectory(HBottomSumTagger)
-# find_library(
-#   BTaggerLibrary
-#   NAMES HMvaBTagger
-#   HINTS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-# )
-# set(LinkLibraries ${LinkLibraries} ${BTaggerLibrary})
-add_subdirectory(HTopTagger)
 add_subdirectory(HDiscriminator)
 
 # Executables

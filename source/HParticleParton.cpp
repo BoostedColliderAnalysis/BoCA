@@ -61,9 +61,7 @@ bool hanalysis::hparton::HParticle::GetParticles()
                 Print(kDebug, "Charm");
             } // charms
 //             if (std::abs(ParticleID) == 5) {
-//
 //                 fastjet::PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
-//
 //                 BottomJetVector.emplace_back(JetCandidate);
 //                 Print(kDebug,"Bottom");
 //
