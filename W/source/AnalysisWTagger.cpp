@@ -6,10 +6,10 @@ hwtagger::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : hanalysis::HAnalysis
 //   DebugLevel = hanalysis::HObject::kDebug;
   Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
-    pre_cuts_.SetPtLowerCut(TopId, PreCut());
-    pre_cuts_.SetPtUpperCut(TopId, UpperCut());
-    DetectorGeometry detector_geometry;
-    pre_cuts_.SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
+//     pre_cuts_.SetPtLowerCut(WId, PreCut());
+//     pre_cuts_.SetPtUpperCut(WId, UpperCut());
+//     DetectorGeometry detector_geometry;
+//     pre_cuts_.SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
 
 std::string hwtagger::HAnalysis::ProcessName(const Process process) const {
@@ -92,8 +92,8 @@ void hwtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
     case kSignal :
-        if (WDecay() == kHadronic) NewSignalFile(tthad);
-        else if (WDecay() == kLeptonic) NewSignalFile(ttlep);
+//         if (WDecay() == kHadronic) NewSignalFile(tthad);
+//         else if (WDecay() == kLeptonic) NewSignalFile(ttlep);
 
         //     NewSignalFile(ttbb);
 //     NewSignalFile(ttjj);
@@ -111,13 +111,13 @@ void hwtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 //     NewBackgroundFile(cc);
 //         NewBackgroundFile(qq);
 //         NewBackgroundFile(gg);
-//         NewBackgroundFile(ww);
+        NewSignalFile(ww);
 //         NewBackgroundFile(zz);
         break;
     case kBackground :
-        if (WDecay() == kHadronic) NewBackgroundFile(ttlep);
-        else if (WDecay() == kLeptonic) NewBackgroundFile(tthad);
-//     NewBackgroundFile(wb);
+//         if (WDecay() == kHadronic) NewBackgroundFile(ttlep);
+//         else if (WDecay() == kLeptonic) NewBackgroundFile(tthad);
+    NewBackgroundFile(bb);
 //     NewBackgroundFile(wc);
 //     NewBackgroundFile(wq);
 //     NewBackgroundFile(wg);
@@ -134,9 +134,9 @@ int hwtagger::HAnalysis::PassPreCut(hanalysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
     Jets particles = event.Partons().Generator();
-    Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-    remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
-    return tops.size();
+    Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
+//     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
+    return w.size();
 }
 
 int hwtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)

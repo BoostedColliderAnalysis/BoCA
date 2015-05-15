@@ -68,7 +68,7 @@ public:
         return std::vector<Doublet>{};
     }
 
-    Doublet GetBdt(Doublet &doublet, const hanalysis::Reader &WReader) {
+    Doublet GetBdt(Doublet &, const hanalysis::Reader &) {
         Print(kError, "gete bdt", "depreciated");
         return Doublet();
     }
@@ -96,7 +96,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HHadronicWTagger";
+        return "WHadronicTagger";
     }
 
 private:

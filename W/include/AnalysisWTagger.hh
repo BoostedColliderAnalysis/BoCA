@@ -39,15 +39,15 @@ protected:
 
 
     virtual inline std::string FilePath() const {
-        return "~/Projects/HWTagger/";
+        return "~/Projects/Tagger/W/";
     }
 
     virtual inline std::string NameSpaceName() const {
-        return "htoptagger";
+        return "wtagger";
     }
 
     virtual inline std::string ClassName() const {
-        return "HAnalysis";
+        return "Analysis";
     }
 
 private:
@@ -66,6 +66,7 @@ private:
 
     inline std::string FileName(const Process process) const {
         return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
+//         return ProcessName(process);
     }
 
     // in GeV

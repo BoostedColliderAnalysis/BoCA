@@ -23,6 +23,7 @@ public:
 
     std::vector<TopHadronicBranch> GetBranches(hanalysis::Event &, const hanalysis::HObject::Tag, float) {
         Print(kError, "get branches", "depreciated");
+        return std::vector<TopHadronicBranch>{};
     }
 
     std::vector<hanalysis::Triplet> GetTriplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const Jets&quarks, PreCuts &pre_cuts, const Tag tag);
