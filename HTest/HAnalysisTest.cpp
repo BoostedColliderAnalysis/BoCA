@@ -85,7 +85,7 @@ int htest::HAnalysis::Analysis(analysis::Event &event, const std::string &StudyN
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
 
-    Candidate->Pt = float(event.Hadrons().GetTaggedJets(HeavyHiggsJetTag).front().pt());
+    Candidate->Pt = float(event.hadrons().GetTaggedJets(HeavyHiggsJetTag).front().pt());
 
     if (Candidate->Pt > 100 ) {
 

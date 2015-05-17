@@ -13,6 +13,8 @@
 # include "Event.hh"
 # include "Doublet.hh"
 
+namespace analysis {
+
 class Observable
 {
 
@@ -83,9 +85,6 @@ private:
  * @brief Prepares multivariant analysis
  *
  */
-namespace analysis
-{
-// template <class ReturnType>
 class Tagger : public Object
 {
 
@@ -390,4 +389,5 @@ private:
     DetectorGeometry detector_geometry_;
 
 };
+
 }

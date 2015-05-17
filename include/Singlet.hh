@@ -5,6 +5,7 @@
 
 namespace analysis
 {
+
 class Singlet : public HTag
 {
 
@@ -90,5 +91,7 @@ private:
     DetectorGeometry detector_geometry_;
 
 };
+
+
 }
 

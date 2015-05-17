@@ -100,7 +100,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
     Jets Leptons = event.Leptons().GetLeptonJets();
-    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
@@ -109,7 +109,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
     Jets HiggsParticles = event.Partons().Generator();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
     if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
-    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaRTo(HiggsParticles.front()));
+    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
     if (tag == kSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
 
 //     if(Tag == HBackground && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());

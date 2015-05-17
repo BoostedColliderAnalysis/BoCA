@@ -272,7 +272,7 @@ std::vector<analysis::Constituent> analysis::JetInfo::ApplyVertexResolution() co
     std::vector <Constituent > displaced_constituents;
     Print(kDebug, "Vertex Number", constituents().size());
     if (constituents().size() == 0) return displaced_constituents;
-    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry().TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry().TrackerDistanceMax && std::abs(constituent.Momentum().Rapidity()) < detector_geometry().TrackerEtaMax) displaced_constituents.emplace_back(constituent);
+    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry_.TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry_.TrackerDistanceMax && std::abs(constituent.Momentum().Rapidity()) < detector_geometry_.TrackerEtaMax) displaced_constituents.emplace_back(constituent);
     Print(kDebug, "Real Vertex Number", displaced_constituents.size());
     return displaced_constituents;
 }

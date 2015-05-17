@@ -1,7 +1,7 @@
 # include "AnalysisWTagger.hh"
 
 
-hwtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::HAnalysis::HAnalysis(tagger)
+hwtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = analysis::Object::kDebug;
   Print(kNotification, "Constructor");
@@ -139,7 +139,7 @@ int hwtagger::HAnalysis::PassPreCut(analysis::Event &event)
     return w.size();
 }
 
-int hwtagger::HAnalysis::Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int hwtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {

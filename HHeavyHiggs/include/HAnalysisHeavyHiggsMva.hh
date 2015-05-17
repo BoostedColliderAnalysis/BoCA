@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 # include "HBranchHeavyHiggs.hh"
 # include "HEventSemiTagger.hh"
 
@@ -11,12 +11,12 @@
  * @author Jan Hajer
  *
  */
-class hheavyhiggs::HAnalysisMva : public analysis::HAnalysis
+class hheavyhiggs::HAnalysisMva : public analysis::Analysis
 {
 
 public:
 
-  using analysis::HAnalysis::HAnalysis;
+  using analysis::Analysis::Analysis;
 
     /**
      * @brief Constructor
@@ -527,7 +527,7 @@ private:
      * @brief Main Analysis function
      *
      */
-    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
+    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);

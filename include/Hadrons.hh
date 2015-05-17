@@ -1,16 +1,18 @@
-# ifndef HJet_hh
-# define HJet_hh
+# pragma once
 
 # include "TObjArray.h"
 
 # include "ClonesArrays.hh"
-# include "HFourVector.hh"
+# include "FourVector.hh"
+# include "Predicate.hh"
+
+namespace analysis{
 
 /**
  * @brief Base class for jets
  *
  */
-class analysis::HJet : public HFourVector
+class Hadrons : public FourVector
 {
 
 public:
@@ -19,49 +21,51 @@ public:
      * @brief constructor
      *
      */
-    HJet();
+    Hadrons();
+
+    virtual ~Hadrons(){};
 
     /**
      * @brief Initialize New event
      */
-    void Newevent(const analysis::ClonesArrays &NewClonesArrays);
+    void NewEvent(const ClonesArrays &NewClonesArrays);
 
     void SetJetTag(HJetTag &NewJetTag) {
-        JetTag = &NewJetTag;
+        jet_tag_ = &NewJetTag;
     }
 
     Jets GetJets() {
-      Newevent(*clones_arrays_);
+      NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(Plain);
       return jets_;
     };
 
     Jets GetStructuredJets() {
-      Newevent(*clones_arrays_);
+      NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Structure);
         return jets_;
     };
 
     Jets GetTaggedJets() {
-      Newevent(*clones_arrays_);
+      NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return jets_;
     };
 
     Jets GetTaggedJets(HJetTag &NewJetTag) {
-      JetTag = &NewJetTag;
-      Newevent(*clones_arrays_);
+      jet_tag_ = &NewJetTag;
+      NewEvent(*clones_arrays_);
 //         if (!GotJets)
           GotJets = GetJets(Tagging);
         return jets_;
     };
 
     Jets GetStructuredTaggedJets(HJetTag &NewJetTag) {
-      JetTag = &NewJetTag;
-      Newevent(*clones_arrays_);
+      jet_tag_ = &NewJetTag;
+      NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(TaggingStructure);
       return jets_;
@@ -69,7 +73,7 @@ public:
 
     Jets GetBottomJets() {
       //         if (!GotJets)
-      Newevent(*clones_arrays_);
+      NewEvent(*clones_arrays_);
           GotJets = GetJets(Plain);
         return BottomJets;
     };
@@ -91,13 +95,13 @@ public:
     };
 
     Jets GetTaggedEFlowJets(HJetTag &NewJetTag) {
-      JetTag = &NewJetTag;
+      jet_tag_ = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
       return EFlowJets;
     };
 
     Jets GetStructuredTaggedEFlowJets(HJetTag &NewJetTag) {
-      JetTag = &NewJetTag;
+      jet_tag_ = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingStructure);
       return EFlowJets;
     };
@@ -114,7 +118,7 @@ public:
     };
 
     Jets GetIsolatedTaggedEFlowJets(HJetTag &NewJetTag) {
-      JetTag = &NewJetTag;
+      jet_tag_ = &NewJetTag;
       if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
       return EFlowJets;
     };
@@ -165,19 +169,19 @@ protected:
      * @brief std::vector of Jet Lorentz Vectors
      *
      */
-    HVectors JetLorentzVectors;
+    Vectors JetLorentzVectors;
 
     /**
      * @brief Tau Lorentz Vector Vector
      *
      */
-    HVectors TauLorentzVectors;
+    Vectors TauLorentzVectors;
 
     /**
      * @brief Anti Tau Lorentz Vector Vector
      *
      */
-    HVectors AntiTauLorentzVectors;
+    Vectors AntiTauLorentzVectors;
 
     /**
      * @brief Vector of EFlow JetCandidates
@@ -213,7 +217,7 @@ protected:
      * @brief std::vector of Bottom Lorentz Vectors with their pull
      *
      */
-    HVectors BottomLorentzVectors;
+    Vectors BottomLorentzVectors;
 
     template<typename TParticle1, typename TParticle2>
     bool CheckIsolation(const TParticle1 &Particle1, const TParticle2 &Particle2, const float DeltaRIsolationMax) const {
@@ -244,5 +248,4 @@ private:
 
 };
 
-#endif
-
+}

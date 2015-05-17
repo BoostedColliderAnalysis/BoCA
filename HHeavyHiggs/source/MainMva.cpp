@@ -9,15 +9,15 @@
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const HConfig &config)
 {
-    hheavyhiggs::HAnalysisMva Analysis(tagger);
+    hheavyhiggs::HAnalysisMva analysis(tagger);
     const std::string name = tagger.tagger_name();
-    Analysis.Print(Analysis.kError, "Tagger", name);
-    Analysis.SetConfig(config);
+    analysis.Print(analysis.kError, "Tagger", name);
+    analysis.SetConfig(config);
 
-    std::string file_name = Analysis.ProjectName() + "/" + name + ".root";
-    if (gSystem->AccessPathName(file_name.c_str())) Analysis.AnalysisLoop(stage);
+    std::string file_name = analysis.ProjectName() + "/" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 
-    file_name = Analysis.ProjectName() + "/Mva" + name + ".root";
+    file_name = analysis.ProjectName() + "/Mva" + name + ".root";
     if (gSystem->AccessPathName(file_name.c_str())) {
 //         switch (Tagger) {
 //         case analysis::HAnalysis::HBottomTagger:
@@ -76,7 +76,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const HC
 //     }
 
 
-    file_name = Analysis.ProjectName() + "/" + name + "Bdt.root";
+    file_name = analysis.ProjectName() + "/" + name + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
 //         switch (Tagger) {
 //         case analysis::HAnalysis::EventLeptonicReader: {

@@ -1,7 +1,7 @@
 # include "AnalysisTopTagger.hh"
 
 
-htoptagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::HAnalysis::HAnalysis(tagger)
+htoptagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = analysis::Object::kDebug;
   Print(kNotification, "Constructor");
@@ -135,11 +135,11 @@ int htoptagger::HAnalysis::PassPreCut(analysis::Event &event)
     Print(kInformation, "paas pre cut");
     Jets particles = event.Partons().Generator();
     Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-    remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
+    analysis::remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
     return tops.size();
 }
 
-int htoptagger::HAnalysis::Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int htoptagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {

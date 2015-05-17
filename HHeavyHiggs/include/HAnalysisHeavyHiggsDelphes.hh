@@ -1,7 +1,7 @@
 # ifndef HAnalysisHeavyHiggsDelphes_hh
 # define HAnalysisHeavyHiggsDelphes_hh
 
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 // # include "HEventDelphes.hh"
 # include <algorithm>
 
@@ -11,7 +11,7 @@
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class hheavyhiggs::HAnalysisHeavyHiggsDelphes : public analysis::HAnalysis
+class hheavyhiggs::HAnalysisHeavyHiggsDelphes : public analysis::Analysis
 {
 
 public:

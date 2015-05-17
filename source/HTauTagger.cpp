@@ -1,5 +1,7 @@
 # include "HTauTagger.hh"
 
+# include "fastjet/ClusterSequence.hh"
+
 analysis::HTauTagger::HTauTagger()
 {
 //     DebugLevel = kDebug;

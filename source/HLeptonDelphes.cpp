@@ -12,7 +12,7 @@ bool analysis::hdelphes::HLepton::GetElectrons()
     return GetElectrons(Plain);
 }
 
-bool analysis::hdelphes::HLepton::GetElectrons(analysis::HFourVector::HJetDetails JetDetails)
+bool analysis::hdelphes::HLepton::GetElectrons(analysis::FourVector::HJetDetails JetDetails)
 {
     Print(kInformation, "Get Electrons", clones_arrays().ElectronSum());
     for (int ElectronNumber : Range(clones_arrays().ElectronSum())) {
@@ -21,7 +21,7 @@ bool analysis::hdelphes::HLepton::GetElectrons(analysis::HFourVector::HJetDetail
         if (ElectronCharge == -1) {
             ElectronLorentzVectors.emplace_back(electron.P4());
             ElectronJets.emplace_back(PseudoJet(electron.P4()));
-            if (JetDetails == analysis::HFourVector::Tagging) {
+            if (JetDetails == analysis::FourVector::Tagging) {
                 Constituent constituent(electron.P4(), GetBranchFamily(*electron.Particle.GetObject()));
                 ElectronJets.back().set_user_info(new JetInfo(constituent));
             }
@@ -29,7 +29,7 @@ bool analysis::hdelphes::HLepton::GetElectrons(analysis::HFourVector::HJetDetail
         } else if (ElectronCharge == 1) {
             AntiElectronLorentzVectors.emplace_back(electron.P4());
             AntiElectronJets.emplace_back(PseudoJet(electron.P4()));
-            if (JetDetails == analysis::HFourVector::Tagging) {
+            if (JetDetails == analysis::FourVector::Tagging) {
 
                 Constituent constituent(electron.P4(), GetBranchFamily(*electron.Particle.GetObject()));
                 AntiElectronJets.back().set_user_info(new JetInfo(constituent));
@@ -57,7 +57,7 @@ bool analysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
         if (MuonCharge == -1) {
             MuonLorentzVectors.emplace_back(muon.P4());
             MuonJets.emplace_back(PseudoJet(muon.P4()));
-            if (JetDetails == analysis::HFourVector::Tagging) {
+            if (JetDetails == analysis::FourVector::Tagging) {
                 Constituent constituent(muon.P4(), GetBranchFamily(*muon.Particle.GetObject()));
                 MuonJets.back().set_user_info(new JetInfo(constituent));
             }
@@ -65,7 +65,7 @@ bool analysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
         } else if (MuonCharge == 1) {
             AntiMuonLorentzVectors.emplace_back(muon.P4());
             AntiMuonJets.emplace_back(PseudoJet(muon.P4()));
-            if (JetDetails == analysis::HFourVector::Tagging) {
+            if (JetDetails == analysis::FourVector::Tagging) {
                 Constituent constituent(muon.P4(), GetBranchFamily(*muon.Particle.GetObject()));
                 AntiMuonJets.back().set_user_info(new JetInfo(constituent));
             }

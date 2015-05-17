@@ -1,7 +1,7 @@
 # ifndef HAnalysisTest_hh
 # define HAnalysisTest_hh
 
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 # include "File.hh"
 // # include "HEventDelphes.hh"
 # include "HBranchTest.hh"
@@ -10,7 +10,7 @@
  * @brief Class defining the Disciminator Analysis
  *
  */
-class htest::HAnalysis : public analysis::HAnalysis
+class htest::HAnalysis : public analysis::Analysis
 {
 
 public:

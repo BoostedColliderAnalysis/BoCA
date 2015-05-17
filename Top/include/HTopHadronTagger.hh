@@ -68,7 +68,7 @@ private:
 
 
     void NSubJettiness(analysis::Triplet& triplet);
-    SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
+    analysis::SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
 
 };
 

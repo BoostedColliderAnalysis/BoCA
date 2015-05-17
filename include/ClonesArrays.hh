@@ -4,11 +4,13 @@
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "Object.hh"
 
+namespace analysis {
+
 /**
  * @brief Base class for loading the Branches into ClonesArrays
  *
  */
-class analysis::ClonesArrays : public Object
+class ClonesArrays : public Object
 {
 
 public:
@@ -251,3 +253,5 @@ private:
     Source source_;
 
 };
+
+}

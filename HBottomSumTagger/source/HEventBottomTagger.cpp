@@ -131,7 +131,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const Jets &NewJets,an
     Jets Particles = event.Partons().Generator();
     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
     for (const auto & Particle : Particles) {
-        std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
+        std::sort(jets.begin(), jets.end(), analysis::MinDeltaRTo(Particle));
         if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
             BottomJets.emplace_back(jets.front());
     }

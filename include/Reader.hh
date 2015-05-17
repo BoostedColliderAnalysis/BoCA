@@ -3,7 +3,9 @@
 # include "Tagger.hh"
 # include "Event.hh"
 
-class HMvaResult : analysis::Object
+namespace analysis{
+
+class HMvaResult : Object
 {
 
 public:
@@ -23,7 +25,6 @@ public:
  * @brief Presents result of multivariant analysis
  *
  */
-namespace analysis{
 class Reader : public Object
 {
 
@@ -39,13 +40,13 @@ public:
      * @brief Constructor
      *
      */
-    Reader(analysis::Tagger &tagger);
+    Reader(Tagger &tagger);
 
-    void operator=(const analysis::Reader &) {
+    void operator=(const Reader &) {
         Print(kError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
     }
 
-    void set_tagger(analysis::Tagger &tagger);
+    void set_tagger(Tagger &tagger);
 
     void OptimalSignificance();
 

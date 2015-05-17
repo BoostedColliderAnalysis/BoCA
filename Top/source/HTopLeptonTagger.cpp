@@ -167,7 +167,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis::Event &e
 
     if (tag == kSignal && Finaldoublets.size() > TopNumber) {
         Print(kError, "Where is the Top Jet?", Finaldoublets.size());
-        std::sort(Finaldoublets.begin(), Finaldoublets.end(), SortByMass(TopMass));
+        std::sort(Finaldoublets.begin(), Finaldoublets.end(), analysis::SortByMass(TopMass));
         Finaldoublets.erase(Finaldoublets.begin() + TopNumber, Finaldoublets.end());
     }
     Print(kInformation, "Number triplets", Finaldoublets.size());

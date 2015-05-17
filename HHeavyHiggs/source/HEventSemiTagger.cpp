@@ -211,7 +211,7 @@ std::vector<hheavyhiggs::EventSemiBranch> hheavyhiggs::EventSemiTagger::GetBranc
     Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
 
     Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 
@@ -231,7 +231,7 @@ std::vector<hheavyhiggs::EventSemiBranch> hheavyhiggs::EventSemiTagger::GetBranc
     if (Tag == kSignal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
         else Print(kError, "Where is the Higgs?", HiggsParticles.size());
-        std::sort(Sextets.begin(), Sextets.end(), MinDeltaRTo(HiggsParticles.front()));
+        std::sort(Sextets.begin(), Sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
         if (Sextets.size() > 1) Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 
@@ -258,11 +258,11 @@ std::vector<hheavyhiggs::EventSemiBranch> hheavyhiggs::EventSemiTagger::GetBranc
         EventMultiplet<HOctet> Octetevent(Octet);
         EventStruct eventStruct;
         eventStruct.LeptonNumber = event.Leptons().GetLeptonJets().size();
-        eventStruct.JetNumber = event.Hadrons().GetJets().size();
-        eventStruct.BottomNumber = event.Hadrons().GetBottomJets().size();
-        eventStruct.ScalarHt = event.Hadrons().GetScalarHt();
-        eventStruct.MissingEt = event.Hadrons().GetMissingEt().pt();
-//         eventStruct.TrackNumber = event.Hadrons().GetScalarHt();
+        eventStruct.JetNumber = event.hadrons().GetJets().size();
+        eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
+        eventStruct.ScalarHt = event.hadrons().GetScalarHt();
+        eventStruct.MissingEt = event.hadrons().GetMissingEt().pt();
+//         eventStruct.TrackNumber = event.hadrons().GetScalarHt();
         Octetevent.SeteventStruct(eventStruct);
         Octetevent.SetLeptons(Leptons);
         Octetevent.SetTotalJets(jets);

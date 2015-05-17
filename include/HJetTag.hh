@@ -1,17 +1,16 @@
-# ifndef HJetTag_hh
-# define HJetTag_hh
+# pragma once
 
 # include <set>
-# include <unordered_set>
 
-# include "Object.hh"
 # include "Family.hh"
+
+namespace analysis{
 
 /**
  * @brief defines how to tag a jet
  *
  */
-class analysis::HJetTag : public Object
+class HJetTag : public Object
 {
 
 public:
@@ -23,25 +22,15 @@ public:
     HJetTag();
 
     /**
-     * @brief Destructor
-     *
-     */
-    ~HJetTag();
-
-    /**
      * @brief decide on the branch id based on the former branch id and the particle id
      *
      */
-    virtual int GetBranchId(const int ParticleId, int BranchId);
+    virtual int GetBranchId(const int particle_id, int branch_id);
 
-    Family GetBranchFamily(const analysis::Family& node_family, analysis::Family& branch_family);
+    Family GetBranchFamily(const Family& node_family, Family& branch_family);
 
 
     std::set<HParticleId> HeavyParticles;
-
-//     std::unordered_set<Family> HeavyFamily;
-
-//     std::set<FamilyId> HeavyParticleFamilies;
 
 protected:
 
@@ -49,15 +38,14 @@ protected:
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    std::set<HParticleId> RadiationParticles {ProtonId/*, GluonId, UpId, DownId, StrangeId, CharmId, UpDown0Id, UpDown1Id, UpUp1Id, DownDown1Id*/};
+    std::set<HParticleId> RadiationParticles {ProtonId};
 
 private:
 
     virtual inline std::string ClassName() const {
         return "HJetTag";
-
     };
 
 };
 
-# endif
+}

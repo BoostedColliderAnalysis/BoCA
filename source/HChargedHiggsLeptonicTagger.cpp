@@ -96,7 +96,7 @@ std::vector< HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLeptonicTagger:
     Print(kInformation, "Get Higgs Tags");
 
     JetTag.HeavyParticles = {TopId, ChargedHiggsId};
-    Jets jets = event.Hadrons().GetStructuredTaggedJets(JetTag);
+    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
 
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
@@ -105,7 +105,7 @@ std::vector< HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLeptonicTagger:
 
     std::vector<Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
-//     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+//     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //     Jets Neutrinos = event.Partons().GetNeutrinos();
 
     Print(kInformation, "Number of doublets", doublets.size());

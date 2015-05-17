@@ -133,7 +133,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Signal(analysis::Event &event)
     analysis::HJetTag  JetTag;
 //     event.GetTaggedJets(HeavyHiggsJetTag);
 
-    Jets JetVector = event.Hadrons().GetTaggedJets(JetTag);
+    Jets JetVector = event.hadrons().GetTaggedJets(JetTag);
 
     Jets BottomJetVector;
 
@@ -167,7 +167,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Background(analysis::Event &event)
     analysis::HJetTag  HeavyHiggsJetTag;
 //     event.GetTaggedJets(HeavyHiggsJetTag);
 
-    Jets JetVector = event.Hadrons().GetTaggedJets(HeavyHiggsJetTag);
+    Jets JetVector = event.hadrons().GetTaggedJets(HeavyHiggsJetTag);
 
     if (JetVector.size()<1) return 0;
 
@@ -253,7 +253,7 @@ bool hheavyhiggs::HAnalysisHeavyHiggsDelphes::Test(analysis::Event &event)
 
 //     event.GetJets();
 
-    Jets BottomJetVector = event.Hadrons().GetBottomJets();
+    Jets BottomJetVector = event.hadrons().GetBottomJets();
 
     if (BottomJetVector.size() < 2) return 0;
 
@@ -322,8 +322,8 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(analysis::Event &event,
     HeavyHiggs->BottomInvMass = InvMass;
     HeavyHiggs->BottomDeltaPt = DeltaPt;
 
-    HeavyHiggs->BTag = event.Hadrons().GetBottomJets().size();
-    HeavyHiggs->JetNumber = event.Hadrons().GetJets().size();
+    HeavyHiggs->BTag = event.hadrons().GetBottomJets().size();
+    HeavyHiggs->JetNumber = event.hadrons().GetJets().size();
     HeavyHiggs->Isolation = Isolation;
 
 }

@@ -120,7 +120,7 @@ std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagge
 {
     std::vector<hheavyhiggs::EventHadronicBranch *> eventHadronicBranches;
 
-    Jets jets = event.Hadrons().GetStructuredJets();
+    Jets jets = event.hadrons().GetStructuredJets();
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
     if (jets.size() < 8) return eventHadronicBranches;
 
@@ -159,9 +159,9 @@ std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagge
     for (auto & Octet : Octets) {
         hheavyhiggs::EventHadronicBranch *eventHadronicBranch = new hheavyhiggs::EventHadronicBranch();
 //         Octet.SetLeptonNumber(event.Leptons().GetLeptonJets().size());
-//         Octet.SetJetNumber(event.Hadrons().GetJets().size());
-//         Octet.SetBottomNumber(event.Hadrons().GetBottomJets().size());
-//         Octet.SetScalarHt(event.Hadrons().GetScalarHt());
+//         Octet.SetJetNumber(event.hadrons().GetJets().size());
+//         Octet.SetBottomNumber(event.hadrons().GetBottomJets().size());
+//         Octet.SetScalarHt(event.hadrons().GetScalarHt());
         Octet.SetTag(Tag);
         FillBranch(eventHadronicBranch, Octet);
         eventHadronicBranches.emplace_back(eventHadronicBranch);

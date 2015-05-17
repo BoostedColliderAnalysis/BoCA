@@ -1,4 +1,5 @@
 # include "HAnalysisJetProperties.hh"
+# include "fastjet/tools/MassDropTagger.hh"
 
 // hjetproperties::HAnalysis::HAnalysis()
 // {
@@ -167,7 +168,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     //     }
 
     EventBranch *eventB = static_cast<EventBranch *>(eventBranch->NewEntry());
-    eventB->ScalarPtSum = 1. / event.Hadrons().GetScalarHt();
+    eventB->ScalarPtSum = 1. / event.hadrons().GetScalarHt();
 
     std::vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
@@ -179,7 +180,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     for (const auto & Id : Ids) {
 
         Jets EFlowJets;
-        std::copy_if(event.Hadrons().GetTaggedEFlowJets(JetTag).begin(), event.Hadrons().GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
+        std::copy_if(event.hadrons().GetTaggedEFlowJets(JetTag).begin(), event.hadrons().GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
                      [Id](const fastjet::PseudoJet & EFlowJet) {
 
                          if (EFlowJet.user_index() == Id) return 1;
@@ -378,7 +379,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         }
 
-        SubStructure->Newevent();
+        SubStructure->NewEvent();
         if (!SubStructure->GetSubJets(CandidateJet)) return 0;
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
@@ -405,7 +406,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
 //         if (!SubStructure->Getconstituents(CandidateJet, constituentTreeBranch)) return 0;
 
-        HVectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
+        Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
           ParticleBranch *constituent = static_cast<ParticleBranch *>(constituentTreeBranch->NewEntry());

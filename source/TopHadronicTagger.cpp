@@ -324,7 +324,7 @@ void analysis::TopHadronicTagger::NSubJettiness(Triplet &triplet)
     else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
 }
 
-SubJettiness analysis::TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet &jet)
+analysis::SubJettiness analysis::TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet &jet)
 {
     fastjet::contrib::OnePass_WTA_KT_Axes axis_mode_1;
     fastjet::contrib::OnePass_KT_Axes axis_mode_2;

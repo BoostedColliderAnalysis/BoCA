@@ -95,7 +95,7 @@ Jets hbtagger::BottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles, 
 {
     Print(kInformation, "Clean Jets");
     for (const auto & particle : particles) {
-        jets = SortedByMinDeltaRTo(jets, particle);
+        jets = analysis::SortedByMinDeltaRTo(jets, particle);
         if (jets.front().delta_R(particle) < detector_geometry().JetConeSize) static_cast<analysis::JetInfo &>(*jets.front().user_info_shared_ptr().get()).SetTag(kSignal);
     }
     Jets clean_jets;

@@ -5,7 +5,7 @@ analysis::hpgs::HJet::HJet()
     Print(kNotification, "Constructor");
 }
 
-bool analysis::hpgs::HJet::GetJets(const analysis::HJet::HJetDetails JetDetails)
+bool analysis::hpgs::HJet::GetJets(const analysis::Hadrons::HJetDetails JetDetails)
 {
     Print(kInformation, "Get Jet", clones_arrays_->JetSum(), JetDetails);
     for (const int JetNumber : Range(clones_arrays_->JetSum())) {

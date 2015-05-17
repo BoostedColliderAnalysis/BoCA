@@ -17,7 +17,7 @@ analysis::HSubStructure::~HSubStructure()
 
 }
 
-void analysis::HSubStructure::Newevent()
+void analysis::HSubStructure::NewEvent()
 {
 
     SubJets = 0;
@@ -110,7 +110,7 @@ bool analysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
 
 }
 
-HVectors analysis::HSubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
+Vectors analysis::HSubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
 {
 
     if (CandidateJet.constituents().empty()) {

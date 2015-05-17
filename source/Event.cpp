@@ -46,21 +46,21 @@ analysis::Event::~Event()
     }
 }
 
-void analysis::Event::Newevent(const analysis::ClonesArrays &ClonesArrays)
+void analysis::Event::NewEvent(const analysis::ClonesArrays &ClonesArrays)
 {
     Print(kInformation, "New event");
     switch (source_) {
     case ClonesArrays::kDelphes :
-        partons_->Newevent(ClonesArrays);
-        hadrons_->Newevent(ClonesArrays);
-        leptons_->Newevent(ClonesArrays);
+        partons_->NewEvent(ClonesArrays);
+        hadrons_->NewEvent(ClonesArrays);
+        leptons_->NewEvent(ClonesArrays);
         break;
     case ClonesArrays::kPgs :
-        hadrons_->Newevent(ClonesArrays);
-        leptons_->Newevent(ClonesArrays);
+        hadrons_->NewEvent(ClonesArrays);
+        leptons_->NewEvent(ClonesArrays);
         break;
     case ClonesArrays::kParton:
-        partons_->Newevent(ClonesArrays);
+        partons_->NewEvent(ClonesArrays);
         break;
     }
 }

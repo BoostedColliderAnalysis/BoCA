@@ -16,7 +16,7 @@
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 
 
-HMvaResult::HMvaResult()
+analysis::HMvaResult::HMvaResult()
 {
     Steps = 20000;
     events.resize(Steps, 0);
@@ -25,7 +25,7 @@ HMvaResult::HMvaResult()
     Bdt.resize(Steps, 0);
 }
 
-std::vector<int> HMvaResult::CutIntegral(const std::vector<int> &bins) const
+std::vector<int> analysis::HMvaResult::CutIntegral(const std::vector<int> &bins) const
 {
     std::vector<int> integrals(Steps, 0);
     integrals.at(Steps - 1) = bins.at(Steps - 1);
@@ -209,7 +209,7 @@ void analysis::Reader::OptimalSignificance()
     LatexFooter(LatexFile);
 }
 
-HMvaResult analysis::Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
+analysis::HMvaResult analysis::Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
     Print(kNotification, "Apply Bdt", tree_name);
     const float Luminosity = 3000; // 3000 fb-1

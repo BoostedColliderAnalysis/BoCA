@@ -111,7 +111,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
     Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
     if (tripletsSemi.empty())Print(kInformation, "No tripletsSemi", tripletsSemi.size());
@@ -133,7 +133,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     if (Tag == kSignal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
         else Print(kError, "Where is the Higgs?", HiggsParticles.size());
-        std::sort(Sextets.begin(), Sextets.end(), MinDeltaRTo(HiggsParticles.front()));
+        std::sort(Sextets.begin(), Sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
         if (Sextets.size() > 1) Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 

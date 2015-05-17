@@ -3,37 +3,39 @@
 # include "HTag.hh"
 # include "JetInfo.hh"
 
-class HKinematics
+namespace analysis {
+
+class Kinematics
 {
 
 public:
 
-    HKinematics(const float NewPt, const float NewRap, const float NewPhi) {
-        Pt = NewPt;
-        Rap = NewRap;
-        Phi = NewPhi;
+    Kinematics(const float pt, const float rap, const float phi) {
+        pt_ = pt;
+        rap_ = rap;
+        phi_ = phi;
     }
 
     float GetPt() const {
-        return Pt;
+        return pt_;
     }
     float GetRap() const {
-        return Rap;
+        return rap_;
     }
     float GetPhi() const {
-        return Phi;
+        return phi_;
     }
 
 private:
 
-    float Pt;
-    float Rap;
-    float Phi;
+    float pt_;
+    float rap_;
+    float phi_;
 };
 
 
 
-class analysis::Doublet : public HTag
+class Doublet : public HTag
 {
 
 public:
@@ -99,48 +101,48 @@ public:
     }
 
     inline void SetRestJets(const Jets &NewJets) {
-        RestJetsM = NewJets;
-        std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
+        rest_jets_ = NewJets;
+        std::sort(rest_jets_.begin(), rest_jets_.end(), SortByBdt());
     }
 
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
-        RestJetsM.emplace_back(NewJet);
-        std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
+        rest_jets_.emplace_back(NewJet);
+        std::sort(rest_jets_.begin(), rest_jets_.end(), SortByBdt());
     }
 
     Jets RestJets() const {
-        return RestJetsM;
+        return rest_jets_;
     }
 
     float BdtRatio1(const int Number) const {
-        if (unsigned(Number) > RestJetsM.size()) return 0;
-        return singlet_1_.user_info<JetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<JetInfo>().Bdt();
+        if (unsigned(Number) > rest_jets_.size()) return 0;
+        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(Number - 1).user_info<JetInfo>().Bdt();
     }
 
     float BdtRatio2(const int Number)const {
-        if (unsigned(Number) > RestJetsM.size()) return 0;
-        return singlet_1_.user_info<JetInfo>().Bdt() / RestJetsM.at(Number - 1).user_info<JetInfo>().Bdt();
+        if (unsigned(Number) > rest_jets_.size()) return 0;
+        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(Number - 1).user_info<JetInfo>().Bdt();
     }
 
-    std::vector< HKinematics > constituents() const;
+    std::vector< Kinematics > constituents() const;
 
 protected:
 
-    void SetSinglet1(const fastjet::PseudoJet &NewSinglet);
+    void SetSinglet1(const fastjet::PseudoJet &singlet);
 
-    void SetSinglet2(const fastjet::PseudoJet &NewSinglet);
+    void SetSinglet2(const fastjet::PseudoJet &singlet);
 
-    std::vector< HKinematics > constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const;
+    std::vector< Kinematics > constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const;
 
-    float ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const;
+    float ReferenceAngle(const fastjet::PseudoJet &jet, const fastjet::PseudoJet &reference_jet) const;
 
-    float Pull(const fastjet::PseudoJet &Jet) const;
+    float Pull(const fastjet::PseudoJet &jet) const;
 
     fastjet::PseudoJet singlet_1_;
 
     fastjet::PseudoJet singlet_2_;
 
-    Jets RestJetsM;
+    Jets rest_jets_;
 
     virtual inline std::string ClassName() const {
         return "Doublet";
@@ -150,127 +152,4 @@ private:
 
 };
 
-
-
-
-// /**
-//  * @brief thin wrappper around fastjet::PseudoJet to make it behave like a HMultiplet
-//  *
-//  */
-// class analysis::HSinglet : public HTag
-// {
-// public:
-//
-//     HSinglet(const fastjet::PseudoJet &NewPseudoJet) {
-//         PseudoJet = NewPseudoJet;
-//     }
-//
-//     fastjet::PseudoJet Jet() const {
-//         return PseudoJet;
-//     }
-//
-//     float Pt()const {
-//         return PseudoJet.pt();
-//     }
-//
-//     float Ht()const {
-//       return PseudoJet.pt();
-//     }
-//     float Phi()const {
-//         return PseudoJet.phi_std();
-//     }
-//
-//     float Rap()const {
-//         return PseudoJet.rap();
-//     }
-//
-//
-// private:
-//     fastjet::PseudoJet PseudoJet;
-// };
-//
-//
-//
-//
-// /**
-//  * @brief generic pair class
-//  *
-//  */
-// template<class TMultiplet>
-// class analysis::HPair : public HTag
-// {
-//
-// public:
-//
-//     HPair();
-//
-//     HPair(const TMultiplet &NewMultiplet1, const TMultiplet &NewMultiplet2);
-//
-//     HPair(const TMultiplet &NewMultiplet);
-//
-//     void SetSinglets(const TMultiplet &NewMultiplet1, const TMultiplet &NewMultiplet2);
-//
-//     void SetSinglets(const TMultiplet &NewMultiplet);
-//
-//     inline fastjet::PseudoJet Jet() const {
-//         return (Singlet1() + Singlet2());
-//     }
-//
-//     inline float MassDifferenceTo(const HParticleId ParticleId) const {
-//         return std::abs(Jet().m() - GetParticleMass(ParticleId));
-//     }
-//
-//     inline float DeltaM() const {
-//         return (Singlet1().m() - Singlet2().m());
-//     }
-//
-//     inline float Ht() const {
-//         return (Singlet1().pt() + Singlet2().pt());
-//     }
-//
-//     inline float DeltaPt() const {
-//         return (Singlet1().pt() - Singlet2().pt());
-//     }
-//
-//     inline float DeltaPhi() const {
-//         return Singlet1().delta_phi_to(Singlet2());
-//     }
-//
-//     inline float DeltaRap() const {
-//         float NewDeltaRap = Singlet1().rap() - Singlet2().rap();
-//         if (std::abs(NewDeltaRap) > 100) {
-//             NewDeltaRap = 0;
-//         }
-//         return NewDeltaRap;
-//     }
-//
-//     inline float DeltaR() const {
-//         float NewDeltaR = Singlet1().delta_R(Singlet2());
-//         if (std::abs(NewDeltaR) > 100) {
-//             NewDeltaR = 0;
-//         }
-//         return NewDeltaR;
-//     }
-//
-//     TMultiplet Singlet1()const;
-//
-//     TMultiplet Singlet2()const;
-//
-// protected:
-//
-//     void SetSinglet1(const TMultiplet &NewSinglet);
-//
-//     void SetSinglet2(const TMultiplet &NewSinglet);
-//
-//     TMultiplet Singlet1M;
-//
-//     TMultiplet Singlet2M;
-//
-//     virtual inline std::string ClassName() const {
-//         return "HPair";
-//     }
-//
-// private:
-//
-// };
-
+}

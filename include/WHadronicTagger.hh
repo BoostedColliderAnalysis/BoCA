@@ -4,25 +4,27 @@
 # include "Doublet.hh"
 # include "Reader.hh"
 
+namespace analysis {
+
 /**
  * @brief W BDT tagger
  *
  */
-class analysis::WHadronicTagger : public Tagger
+class WHadronicTagger : public Tagger
 {
 
 public:
 
     WHadronicTagger();
 
-    int Train(analysis::Event &event, const analysis::Object::Tag Tag) {
+    int Train(Event &event, const Object::Tag Tag) {
         PreCuts pre_cuts;
         return Train(event, pre_cuts, Tag);
     }
 
-    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag Tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
-    std::vector< WHadronicBranch > GetBranches(analysis::Event &, const analysis::Object::Tag) {
+    std::vector< WHadronicBranch > GetBranches(Event &, const Object::Tag) {
         Print(kError, "train", "depreciated");
         return std::vector< WHadronicBranch >{};
     }
@@ -38,37 +40,37 @@ public:
 
     std::vector<Doublet> GetDoublets(Event &event, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetBdt(const Jets &, const analysis::Reader &, analysis::BottomTagger &, analysis::Reader &) {
+    std::vector<Doublet> GetBdt(const Jets &, const Reader &, BottomTagger &, Reader &) {
         Print(kError, "train", "depreciated");
         return std::vector<Doublet>{};
     }
 
-    std::vector<analysis::Doublet> GetJetDoublets(Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> GetJetDoublets(Event &event, const TMVA::Reader &reader);
 
-    std::vector<analysis::Doublet> GetJetDoublets(const Jets &jets, const TMVA::Reader &reader);
+    std::vector<Doublet> GetJetDoublets(const Jets &jets, const TMVA::Reader &reader);
 
-    std::vector<analysis::Doublet> GetSubJetDoublets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
+    std::vector<Doublet> GetSubJetDoublets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    std::vector<analysis::Doublet> GetDoublet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
+    std::vector<Doublet> GetDoublet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
 
-    std::vector<analysis::Doublet> GetDoublet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
+    std::vector<Doublet> GetDoublet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetBdt(const Jets &, const analysis::Reader &) {
+    std::vector<Doublet> GetBdt(const Jets &, const Reader &) {
         Print(kError, "gete bdt", "depreciated");
         return std::vector<Doublet>{};
     }
 
-    std::vector<Doublet> GetPairBdt(const Jets &, const analysis::Reader &) {
+    std::vector<Doublet> GetPairBdt(const Jets &, const Reader &) {
         Print(kError, "gete bdt", "depreciated");
         return std::vector<Doublet>{};
     }
 
-    std::vector<Doublet> GetSingletBdt(const Jets &, const analysis::Reader &) {
+    std::vector<Doublet> GetSingletBdt(const Jets &, const Reader &) {
         Print(kError, "gete bdt", "depreciated");
         return std::vector<Doublet>{};
     }
 
-    Doublet GetBdt(Doublet &, const analysis::Reader &) {
+    Doublet GetBdt(Doublet &, const Reader &) {
         Print(kError, "gete bdt", "depreciated");
         return Doublet();
     }
@@ -79,7 +81,7 @@ public:
 
     WHadronicBranch GetBranch(const Doublet &doublet) const;
 
-    int GetWHadId(analysis::Event &event) {
+    int GetWHadId(Event &event) {
         return GetWHadId(GetWDaughters(event));
     };
 
@@ -101,7 +103,7 @@ protected:
 
 private:
 
-    Jets GetWDaughters(analysis::Event &event);
+    Jets GetWDaughters(Event &event);
 
     int GetWHadId(const Jets &jets);
 
@@ -111,3 +113,5 @@ private:
 
     float w_mass_window_;
 };
+
+}

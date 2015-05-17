@@ -366,7 +366,7 @@ analysis::Doublet analysis::HWTagger::GetBdt(Doublet &doublet, const analysis::H
 //     return constituentBranches;
 // }
 //
-// ParticleBranch analysis::HWTagger::GetBranch(const HKinematics &Vector)
+// ParticleBranch analysis::HWTagger::GetBranch(const Kinematics &Vector)
 // {
 //     Print(kInformation, "Fill constituent Branch");
 //

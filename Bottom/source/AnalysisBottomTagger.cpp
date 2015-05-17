@@ -1,7 +1,7 @@
 # include "AnalysisBottomTagger.hh"
 
 
-hbtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::HAnalysis::HAnalysis(tagger)
+hbtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
@@ -120,13 +120,13 @@ std::string hbtagger::HAnalysis::DetectorName(const Detector detector) const
 int hbtagger::HAnalysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
-    Jets jets = event.Hadrons().GetGranJets();
-    jets = remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
+    Jets jets = event.hadrons().GetGranJets();
+    jets = analysis::remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
     return jets.size();
 }
 
 
-int hbtagger::HAnalysis::Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
+int hbtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {

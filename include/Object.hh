@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HGlobal.hh"
+# include "Global.hh"
 
 namespace analysis{
 

@@ -165,7 +165,7 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
     Print(kInformation, "Get Branches");
 
     JetTag.HeavyParticles = {GluonId, TopId};
-    Jets jets = event.Hadrons().GetStructuredTaggedJets(JetTag);
+    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
 
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
@@ -174,7 +174,7 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
 
     std::vector<analysis::Doublet> Topdoublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
-    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
     std::vector<analysis::HSextet> Sextets = HeavyHiggsLeptonicTagger.GetBdt(Topdoublets, MissingEt, HeavyHiggsLeptonicReader);
 
@@ -213,9 +213,9 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
     for (auto & Octet : Octets) {
 //         EventStruct eventStruct;
 //         eventStruct.LeptonNumber = event.Leptons().GetLeptonJets().size();
-//         eventStruct.JetNumber = event.Hadrons().GetJets().size();
-//         eventStruct.BottomNumber = event.Hadrons().GetBottomJets().size();
-//         eventStruct.ScalarHt = event.Hadrons().GetScalarHt();
+//         eventStruct.JetNumber = event.hadrons().GetJets().size();
+//         eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
+//         eventStruct.ScalarHt = event.hadrons().GetScalarHt();
 //         eventStruct.MaxBBdt = MaxBBdt;
 //         eventStruct.ThirdBBdt = ThirdBBdt;
 //         fastjet::PseudoJet RestJet(0., 0., 0., 0.);

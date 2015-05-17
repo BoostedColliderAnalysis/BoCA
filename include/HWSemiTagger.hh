@@ -2,31 +2,34 @@
 
 # include "Doublet.hh"
 # include "Tagger.hh"
+# include "Reader.hh"
+
+namespace analysis {
 
 /**
  * @brief Semi leptonic top BDT tagger
  *
  */
-class analysis::HWSemiTagger : public Tagger
+class HWSemiTagger : public Tagger
 {
 
 public:
 
     HWSemiTagger();
 
-    WSemiBranch GetBranch(const analysis::Doublet &doublet) const;
+    WSemiBranch GetBranch(const Doublet &doublet) const;
 
-    int Train(analysis::Event &event, const analysis::Object::Tag tag);
+    int Train(Event &event, const Object::Tag tag);
 
     std::vector<Doublet> GetDoublets(Event &event, const TMVA::Reader &reader);
 
-    int GetBdt(analysis::Event &event, const TMVA::Reader &reader) {
+    int GetBdt(Event &event, const TMVA::Reader &reader) {
         std::vector<Doublet> doublets = GetDoublets(event, reader);
         SaveEntries(doublets);
         return doublets.size();
     }
 
-    std::vector<Doublet> GetBdt(const Jets &, const fastjet::PseudoJet &, const analysis::Reader &) {
+    std::vector<Doublet> GetBdt(const Jets &, const fastjet::PseudoJet &, const Reader &) {
       Print(kError,"get bdt", "depreciated");
       return std::vector<Doublet>{};
     }
@@ -40,7 +43,7 @@ public:
         for (const auto & doublet : doublets) static_cast<WSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
     }
 
-    int WSemiId(analysis::Event &event) {
+    int WSemiId(Event &event) {
         return WSemiId(WSemiDaughters(event));
     }
 
@@ -56,21 +59,23 @@ protected:
 
 private:
 
-    Jets WSemiDaughters(analysis::Event &event);
+    Jets WSemiDaughters(Event &event);
 
     int WSemiId(const Jets &jets);
 
     void DefineVariables();
 
-    Tag GetTag(const analysis::Doublet &doublet) const;
+    Tag GetTag(const Doublet &doublet) const;
 
-    std::vector< Doublet > GetNeutrinos(const analysis::Doublet &doublet)const;
+    std::vector< Doublet > GetNeutrinos(const Doublet &doublet)const;
 
-    std::vector<analysis::Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
+    std::vector<Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
 
     WSemiBranch branch_;
 
     float w_mass_window_;
 
 };
+
+}
 

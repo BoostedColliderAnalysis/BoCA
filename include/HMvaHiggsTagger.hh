@@ -1,5 +1,4 @@
-# ifndef HMvaHiggsTagger_hh
-# define HMvaHiggsTagger_hh
+# pragma once
 
 # include "Tagger.hh"
 # include "Branch.hh"
@@ -9,18 +8,20 @@
 # include "BottomTagger.hh"
 # include "Doublet.hh"
 
+namespace analysis {
+
 /**
  * @brief calculation regarding leptons
  *
  */
-class analysis::HMvaHiggsTagger : public Tagger
+class HMvaHiggsTagger : public Tagger
 {
 
 public:
 
     HMvaHiggsTagger();
 
-    HMvaHiggsTagger(const analysis::BottomTagger &NewBottomTagger);
+    HMvaHiggsTagger(const BottomTagger &NewBottomTagger);
 
     ~HMvaHiggsTagger();
 
@@ -44,9 +45,9 @@ private:
 
     void FillBranch(HHiggsBranch * const HiggsBranch, const Doublet &Pair);
 
-    void FillBranch(const HKinematics &Vector);
+    void FillBranch(const Kinematics &Vector);
 
-    void FillBranch(ParticleBranch *const constituentBranch, const HKinematics &Vector);
+    void FillBranch(ParticleBranch *const constituentBranch, const Kinematics &Vector);
 
     virtual inline std::string ClassName() const {
         return "HMvaHiggsTagger";
@@ -54,4 +55,4 @@ private:
 
 };
 
-#endif
+}

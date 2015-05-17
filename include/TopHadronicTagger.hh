@@ -3,50 +3,52 @@
 # include "Triplet.hh"
 # include "WHadronicTagger.hh"
 
+namespace analysis {
+
 /**
  * @brief Hadronic top BDT tagger
  *
  */
-class analysis::TopHadronicTagger : public Tagger
+class TopHadronicTagger : public Tagger
 {
 
 public:
 
     TopHadronicTagger();
 
-    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    int Train(analysis::Event &event, const analysis::Object::Tag tag) {
+    int Train(Event &event, const Object::Tag tag) {
         PreCuts pre_cuts;
         return Train(event, pre_cuts, tag);
     }
 
-    std::vector<TopHadronicBranch> GetBranches(analysis::Event &, const analysis::Object::Tag, float) {
+    std::vector<TopHadronicBranch> GetBranches(Event &, const Object::Tag, float) {
         Print(kError, "get branches", "depreciated");
         return std::vector<TopHadronicBranch>{};
     }
 
-    std::vector<analysis::Triplet> GetTriplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const Jets&quarks, PreCuts &pre_cuts, const Tag tag);
+    std::vector<Triplet> GetTriplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const Jets&quarks, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<analysis::Triplet> GetTriplets(const analysis::Doublet& doublet, const Jets& jets, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
+    std::vector<Triplet> GetTriplets(const Doublet& doublet, const Jets& jets, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<analysis::Triplet> GetTriplets(const analysis::Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
+    std::vector<Triplet> GetTriplets(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
 
-    bool Problematic(const analysis::Triplet& triplet, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
+    bool Problematic(const Triplet& triplet, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Triplet>  GetBdt(const std::vector< analysis::Doublet >& doublets, const Jets& jets, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector<Triplet>  GetBdt(const std::vector< Doublet >& doublets, const Jets& jets, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-    std::vector<Triplet>  GetBdt(const analysis::Doublet& doublet, const Jets& jets, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector<Triplet>  GetBdt(const Doublet& doublet, const Jets& jets, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-    std::vector<Triplet>  GetBdt(const analysis::Doublet& doublet, const fastjet::PseudoJet& jet, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector<Triplet>  GetBdt(const Doublet& doublet, const fastjet::PseudoJet& jet, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-    Triplet GetBdt(analysis::Triplet& triplet, PreCuts& pre_cuts, const TMVA::Reader& reader);
+    Triplet GetBdt(Triplet& triplet, PreCuts& pre_cuts, const TMVA::Reader& reader);
 
-    std::vector<Triplet>  GetBdt(const std::vector< analysis::Doublet > &, const Jets &, const Reader &) {
+    std::vector<Triplet>  GetBdt(const std::vector< Doublet > &, const Jets &, const Reader &) {
         Print(kError, "get bdt", "depreciated");
     }
 
-    Triplet GetBdt(analysis::Triplet &, const analysis::Reader &){
+    Triplet GetBdt(Triplet &, const Reader &){
       Print(kError, "get bdt", "depreciated");
       return Triplet();
     }
@@ -67,7 +69,7 @@ public:
         return GetTriplets(event, pre_cuts, reader);
     }
 
-    std::vector<Triplet> GetBdt(const Jets &, const analysis::Reader &, analysis::WHadronicTagger &, analysis::Reader &, analysis::BottomTagger &, analysis::Reader &) {
+    std::vector<Triplet> GetBdt(const Jets &, const Reader &, WHadronicTagger &, Reader &, BottomTagger &, Reader &) {
         Print(kError, "get bdt", "depreciated");
         return std::vector<Triplet>{};
     }
@@ -84,7 +86,7 @@ public:
 
     Reader w_hadronic_reader_;
 
-    TopHadronicBranch GetBranch(const analysis::Triplet &triplet) const;
+    TopHadronicBranch GetBranch(const Triplet &triplet) const;
 
     int SaveEntries(const std::vector<Triplet> &triplets) {
       for (const auto & triplet : triplets) static_cast<TopHadronicBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
@@ -116,4 +118,6 @@ private:
     SubJettiness NSubJettiness(const fastjet::PseudoJet &jet);
 
 };
+
+}
 

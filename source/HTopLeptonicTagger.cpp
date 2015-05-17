@@ -80,7 +80,7 @@ std::vector<HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranches(Event 
     Print(kInformation, "Get Top Tags");
 
     JetTag.HeavyParticles = {TopId};
-    Jets jets = event.Hadrons().GetStructuredTaggedJets(JetTag);
+    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
     Print(kInformation, "Jet Number", jets.size());
 

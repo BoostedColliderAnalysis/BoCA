@@ -126,7 +126,7 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
     Jets jets = GetJets(event);
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
     Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 
@@ -145,7 +145,7 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
     if (Tag == kSignal) {
       if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
       else Print(kError, "Where is the Higgs?", HiggsParticles.size());
-      std::sort(Sextets.begin(), Sextets.end(), MinDeltaRTo(HiggsParticles.front()));
+      std::sort(Sextets.begin(), Sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
       if (Sextets.size() > 1) Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 
@@ -161,9 +161,9 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
     HSextetevent Sextetevent(Sextets.front());
     EventStruct eventStruct;
     eventStruct.LeptonNumber = event.Leptons().GetLeptonJets().size();
-    eventStruct.JetNumber = event.Hadrons().GetJets().size();
-    eventStruct.BottomNumber = event.Hadrons().GetBottomJets().size();
-    eventStruct.ScalarHt = event.Hadrons().GetScalarHt();
+    eventStruct.JetNumber = event.hadrons().GetJets().size();
+    eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
+    eventStruct.ScalarHt = event.hadrons().GetScalarHt();
     Sextetevent.SeteventStruct(eventStruct);
     Sextetevent.SetLeptons(Leptons);
     Sextetevent.SetTag(Tag);

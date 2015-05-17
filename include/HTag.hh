@@ -4,11 +4,8 @@
 
 namespace analysis
 {
-class HTag;
-class HTagPrivate;
-}
 
-class analysis::HTag : public Object
+class HTag : public Object
 {
 
 public:
@@ -78,4 +75,6 @@ private:
     bool degenerate_;
 
 };
+
+}
 

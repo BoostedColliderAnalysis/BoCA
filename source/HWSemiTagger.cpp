@@ -45,7 +45,7 @@ int analysis::HWSemiTagger::Train(analysis::Event &event, const analysis::Object
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
     if (leptons.size() > 1) leptons.erase(leptons.begin() + 1, leptons.end());
 
-    const fastjet::PseudoJet missing_et = event.Hadrons().GetMissingEt();
+    const fastjet::PseudoJet missing_et = event.hadrons().GetMissingEt();
 
     Jets Particles = event.Partons().Generator();
     int w_semi_id = WSemiId(event);
@@ -80,7 +80,7 @@ std::vector<analysis::Doublet>  analysis::HWSemiTagger::GetDoublets(analysis::Ev
 
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
-        Doublet Predoublet(lepton, event.Hadrons().GetMissingEt());
+        Doublet Predoublet(lepton, event.hadrons().GetMissingEt());
         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
         for (auto & Postdoublet : Postdoublets) {
             if (std::abs(Postdoublet.Jet().m() - WMass) > w_mass_window_) continue;

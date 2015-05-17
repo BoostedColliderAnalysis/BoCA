@@ -4,13 +4,13 @@
 # include <algorithm>
 
 # include "ClonesArrays.hh"
-# include "HFourVector.hh"
+# include "FourVector.hh"
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class analysis::HLepton : public HFourVector
+class analysis::HLepton : public FourVector
 {
 
 public:
@@ -25,23 +25,23 @@ public:
      * @brief destructor
      *
      */
-    ~HLepton();
+    virtual ~HLepton();
 
-    void Newevent(const analysis::ClonesArrays &NewClonesArrays);
+    void NewEvent(const analysis::ClonesArrays &NewClonesArrays);
 
-    HVectors GetLeptonVectors();
+    Vectors GetLeptonVectors();
 
 
     Jets GetLeptonJets();
 
     Jets GetTaggedJets(HJetTag &NewJetTag) {
-        JetTag = &NewJetTag;
-        return GetLeptonJets(analysis::HFourVector::Tagging);
+        jet_tag_ = &NewJetTag;
+        return GetLeptonJets(analysis::FourVector::Tagging);
     };
 
 protected:
 
-    Jets GetLeptonJets(analysis::HFourVector::HJetDetails JetDetails);
+    Jets GetLeptonJets(analysis::FourVector::HJetDetails JetDetails);
 
   /**
    * @brief Find the hardest of the light leptons
@@ -69,49 +69,49 @@ protected:
      * @brief Electron Lorentz Vector Vector
      *
      */
-    HVectors ElectronLorentzVectors;
+    Vectors ElectronLorentzVectors;
 
     /**
      * @brief Anti Electron Lorentz Vector Vector
      *
      */
-    HVectors AntiElectronLorentzVectors;
+    Vectors AntiElectronLorentzVectors;
 
     /**
      * @brief Muon Lorentz Vector Vector
      *
      */
-    HVectors MuonLorentzVectors;
+    Vectors MuonLorentzVectors;
 
     /**
      * @brief Anti Muon Lorentz Vector Vector
      *
      */
-    HVectors AntiMuonLorentzVectors;
+    Vectors AntiMuonLorentzVectors;
 
     /**
      * @brief Tau Lorentz Vector Vector
      *
      */
-    HVectors TauLorentzVectors;
+    Vectors TauLorentzVectors;
 
     /**
      * @brief Anti Tau Lorentz Vector Vector
      *
      */
-    HVectors AntiTauLorentzVectors;
+    Vectors AntiTauLorentzVectors;
 
     /**
      * @brief Lepton Lorentz Vector
      *
      */
-    HVectors LeptonLorentzVectors;
+    Vectors LeptonLorentzVectors;
 
     /**
      * @brief Anti Lepton Lorentz Vector
      *
      */
-    HVectors AntiLeptonLorentzVectors;
+    Vectors AntiLeptonLorentzVectors;
 
 
     /**

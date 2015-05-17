@@ -96,7 +96,7 @@ std::vector< HHeavyHiggsSemiBranch> analysis::HHeavyHiggsSemiTagger::GetBranches
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
     Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
-    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
     std::vector<Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     Print(kDebug, "Number of Semi W", doubletsSemi.size());

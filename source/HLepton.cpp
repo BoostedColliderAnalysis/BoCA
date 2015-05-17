@@ -17,13 +17,13 @@ analysis::HLepton::~HLepton()
 
 }
 
-void analysis::HLepton::Newevent(const analysis::ClonesArrays &NewClonesArrays)
+void analysis::HLepton::NewEvent(const analysis::ClonesArrays &NewClonesArrays)
 {
 
     Print(kInformation,"New event");
 
 //     ClonesArrays = NewClonesArray;
-    analysis::HFourVector::Newevent(NewClonesArrays);
+    analysis::FourVector::NewEvent(NewClonesArrays);
 
     GotElectrons = 0;
 
@@ -59,7 +59,7 @@ void analysis::HLepton::Newevent(const analysis::ClonesArrays &NewClonesArrays)
 
 }
 
-HVectors analysis::HLepton::GetLeptonVectors()
+Vectors analysis::HLepton::GetLeptonVectors()
 {
 
   Print(kInformation,"Get Leptons");
@@ -82,7 +82,7 @@ HVectors analysis::HLepton::GetLeptonVectors()
 
     Print(kDebug,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
 
-    HVectors CompleteVector = LeptonLorentzVectors;
+    Vectors CompleteVector = LeptonLorentzVectors;
     CompleteVector.insert(CompleteVector.end(), AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end());
     std::sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
 
@@ -99,7 +99,7 @@ Jets analysis::HLepton::GetLeptonJets()
 
 }
 
-Jets analysis::HLepton::GetLeptonJets(analysis::HFourVector::HJetDetails JetDetails)
+Jets analysis::HLepton::GetLeptonJets(analysis::FourVector::HJetDetails JetDetails)
 {
 
     Print(kInformation,"Get Lepton Jets");

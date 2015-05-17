@@ -9,7 +9,7 @@
 
 # include "JetInfo.hh"
 # include "Event.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 
 HObservable::HObservable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
 {
@@ -168,8 +168,8 @@ Jets analysis::HMva::GetJets(analysis::Event &event, HJetTag &JetTag)
 
 Jets analysis::HMva::GetJets(analysis::Event &event)
 {
-//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.Hadrons().GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry.JetConeSize));
-    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.Hadrons().GetStructuredEFlowJets()), detector_geometry.JetDefinition);
+//   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.hadrons().GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry.JetConeSize));
+    fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.hadrons().GetStructuredEFlowJets()), detector_geometry.JetDefinition);
     Jets jets = fastjet::sorted_by_pt(ClusterSequence->inclusive_jets(detector_geometry.JetMinPt));
     if (jets.size() < 1) {
         delete ClusterSequence;
@@ -222,7 +222,7 @@ Jets analysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetN
 
 fastjet::PseudoJet analysis::HMva::GetMissingEt(analysis::Event &event)
 {
-    Jets granulated_jets = GranulatedJets(event.Hadrons().GetStructuredEFlowJets());
+    Jets granulated_jets = GranulatedJets(event.hadrons().GetStructuredEFlowJets());
     fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());
     return fastjet::PseudoJet(-jet_sum.px(), -jet_sum.py(), -jet_sum.pz(), jet_sum.e());
 }

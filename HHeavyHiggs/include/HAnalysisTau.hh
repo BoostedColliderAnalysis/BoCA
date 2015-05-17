@@ -2,7 +2,7 @@
 # define HAnalysisTau_hh
 
 # include "File.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 // # include "HEventDelphes.hh"
 # include "HBranchHeavyHiggs.hh"
 # include "Reader.hh"
@@ -28,12 +28,12 @@
  * @author Jan Hajer
  *
  */
-class hheavyhiggs::HAnalysisTau : public analysis::HAnalysis
+class hheavyhiggs::HAnalysisTau : public analysis::Analysis
 {
 
 public:
 
-  using analysis::HAnalysis::HAnalysis;
+  using analysis::Analysis::Analysis;
     /**
      * @brief Constructor
      *
@@ -128,7 +128,7 @@ private:
      * @brief Main Analysis function
      *
      */
-    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 //     bool GetTauTag(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetTauReader(analysis::Event &event, const analysis::Object::Tag Tag);

@@ -4,9 +4,11 @@
 #include <algorithm>
 # include  "fastjet/PseudoJet.hh"
 # include  "TLorentzVector.h"
-# include  "HGlobal.hh"
+# include  "Global.hh"
 # include  "JetInfo.hh"
 # include  "ClonesArrays.hh"
+
+namespace analysis{
 
 /**
  * @brief Get a fastjet::PseudoJet from a TLorentzVector
@@ -334,3 +336,4 @@ bool FindInVector(const std::vector<Element> vector, const Element element){
   return (std::find(vector.begin(), vector.end(), element) != vector.end());
 }
 
+}

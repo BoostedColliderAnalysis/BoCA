@@ -1,5 +1,4 @@
-# ifndef HFourVector_hh
-# define HFourVector_hh
+# pragma once
 
 # include "ExRootAnalysis/ExRootClasses.h"
 
@@ -10,14 +9,13 @@
 
 # include "HDelphes.hh"
 
-// namespace delphes{
-// # include "classes/DelphesClasses.h"
-// }
+namespace analysis {
+
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
  *
  */
-class analysis::HFourVector : virtual public Object
+class FourVector : virtual public Object
 {
 
 public:
@@ -26,107 +24,66 @@ public:
      * @brief Constructor
      *
      */
-    HFourVector();
-
-    /**
-     * @brief Destructor
-     *
-     */
-    ~HFourVector();
+    FourVector();
 
 protected:
 
-
-    void Newevent(const ClonesArrays &NewClonesArrays);
+    void NewEvent(const ClonesArrays &NewClonesArrays);
 
     template<typename TParticle>
-    TLorentzVector GetLorentzVectorByEnergy(const TParticle &Particle) const {
-
+    TLorentzVector GetLorentzVectorByEnergy(const TParticle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Energy");
+        TLorentzVector vector;
+        const float Pt = particle.PT;
+        const float Eta = particle.Eta;
+        const float Phi = particle.Phi;
+        const float Energy = particle.E;
+        vector.SetPtEtaPhiE(Pt, Eta, Phi, Energy);
+        if (check_four_vectors_) {
+            if (vector.Pt() - Pt > check_value_) Print(kError, "Pt", Pt, vector.Pt());
+            if (vector.Eta() - Eta > check_value_) Print(kError, "Eta", Eta, vector.Eta());
+            if (vector.Phi() - Phi > check_value_) Print(kError, "Phi", Phi, vector.Phi());
+            if (vector.E() - Energy > check_value_) Print(kError, "Energy", Energy, vector.E());
+        }
+        return vector;
+    }
 
+    template<typename TParticle>
+    TLorentzVector GetLorentzVectorByMass(const TParticle &particle, const float mass) const {
+        Print(kDebug, "Get Lorentz Vector by Mass");
         TLorentzVector LorentzVector;
-
-        const float Pt = Particle.PT;
-        const float Eta = Particle.Eta;
-        const float Phi = Particle.Phi;
-        const float Energy = Particle.E;
-
-        LorentzVector.SetPtEtaPhiE(Pt, Eta, Phi, Energy);
-
-        if (CheckFourVectors) {
-
-            if (LorentzVector.Pt() - Pt > Check) Print(kError, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(kError, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(kError, "Phi", Phi, LorentzVector.Phi());
-            if (LorentzVector.E() - Energy > Check) Print(kError, "Energy", Energy, LorentzVector.E());
-
+        const float Pt = particle.PT;
+        const float Eta = particle.Eta;
+        const float Phi = particle.Phi;
+        LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass);
+        if (check_four_vectors_) {
+            if (LorentzVector.Pt() - Pt > check_value_) Print(kError, "Pt", Pt, LorentzVector.Pt());
+            if (LorentzVector.Eta() - Eta > check_value_) Print(kError, "Eta", Eta, LorentzVector.Eta());
+            if (LorentzVector.Phi() - Phi > check_value_) Print(kError, "Phi", Phi, LorentzVector.Phi());
         }
-
         return LorentzVector;
-
     }
 
     template<typename TParticle>
-    TLorentzVector GetLorentzVectorByMass(const TParticle &Particle, const float Mass) const {
-
+    TLorentzVector GetLorentzVectorByMass(const TParticle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
-
-        TLorentzVector LorentzVector;
-
-        const float Pt = Particle.PT;
-        const float Eta = Particle.Eta;
-        const float Phi = Particle.Phi;
-
-        LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, Mass);
-
-        if (CheckFourVectors) {
-
-            if (LorentzVector.Pt() - Pt > Check) Print(kError, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > Check) Print(kError, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > Check) Print(kError, "Phi", Phi, LorentzVector.Phi());
-
+        const float Mass = particle.Mass;
+        const TLorentzVector LorentzVector = GetLorentzVectorByMass(particle, Mass);
+        if (check_four_vectors_) {
+            if (LorentzVector.M() - Mass > mass_check_value_) Print(kError, "Mass", Mass, LorentzVector.M());
         }
-
         return LorentzVector;
-
     }
 
     template<typename TParticle>
-    TLorentzVector GetLorentzVectorByMass(const TParticle &Particle) const {
-
+    TLorentzVector GetLorentzVectorByM(const TParticle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
-
-        const float Mass = Particle.Mass;
-
-        const TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, Mass);
-
-        if (CheckFourVectors) {
-
-            if (LorentzVector.M() - Mass > MassCheck) Print(kError, "Mass", Mass, LorentzVector.M());
-
+        const float Mass = particle.M;
+        const TLorentzVector LorentzVector = GetLorentzVectorByMass(particle, Mass);
+        if (check_four_vectors_) {
+            if (LorentzVector.M() - Mass > mass_check_value_) Print(kError, "Mass", Mass, LorentzVector.M());
         }
-
         return LorentzVector;
-
-    }
-
-    template<typename TParticle>
-    TLorentzVector GetLorentzVectorByM(const TParticle &Particle) const {
-
-        Print(kDebug, "Get Lorentz Vector by Mass");
-
-        const float Mass = Particle.M;
-
-        const TLorentzVector LorentzVector = GetLorentzVectorByMass(Particle, Mass);
-
-        if (CheckFourVectors) {
-
-            if (LorentzVector.M() - Mass > MassCheck) Print(kError, "Mass", Mass, LorentzVector.M());
-
-        }
-
-        return LorentzVector;
-
     }
 //     TLorentzVector GetLorentzVector(const MissingET *const Particle) const;
 
@@ -148,23 +105,21 @@ protected:
     fastjet::PseudoJet GetPseudoJet(const TRootPhoton &Particle) const;
     fastjet::PseudoJet GetPseudoJet(const TRootTau &Particle) const;
 
-    Family GetBranchFamily(const TObject &Object);
+    Family GetBranchFamily(const TObject &object);
 
     Family GetBranchFamily(Family &BranchId, int Position);
 
     template<typename TData>
     void PrintCell(TData const Data) const {
-
         std::cout << std::right << std::setw(9) << std::setfill(' ') << Data;
-
     }
 
     void PrintTruthLevel(const int severity) const;
 
     std::string PrintParticle(const int Position) const;
 
-    const ClonesArrays& clones_arrays() const{
-      return *clones_arrays_;
+    const ClonesArrays& clones_arrays() const {
+        return *clones_arrays_;
     }
 
     /**
@@ -173,26 +128,26 @@ protected:
      */
     const ClonesArrays *clones_arrays_;
 
-    std::vector<Family> Topology;
+    std::vector<Family> topology_;
 
-    int Source;
+    int source_;
 
-    HJetTag *JetTag;
+    HJetTag *jet_tag_;
 
     enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation, TaggingStructure};
 
-    const bool CheckFourVectors;
+    const bool check_four_vectors_;
 
-    const float Check;
+    const float check_value_;
 
-    const float MassCheck;
+    const float mass_check_value_;
 
 private:
 
     virtual inline std::string ClassName() const {
-        return "HFourVector";
-    };
+        return "FourVector";
+    }
 
 };
 
-#endif
+}

@@ -7,7 +7,7 @@
 # include "HJetTag.hh"
 # include "Reader.hh"
 # include "Event.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 
 /**
  * @brief Bottom BDT tagger

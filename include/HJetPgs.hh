@@ -1,11 +1,11 @@
 # pragma once
-# include "HJet.hh"
+# include "Hadrons.hh"
 
 /**
  * @brief Pgs Jets
  *
  */
-class analysis::hpgs::HJet : public analysis::HJet
+class analysis::hpgs::HJet : public analysis::Hadrons
 {
 
 public:

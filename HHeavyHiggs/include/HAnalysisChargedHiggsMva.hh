@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 
 # include "File.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 // # include "HEventDelphes.hh"
 # include "HBranchHeavyHiggs.hh"
 # include "Reader.hh"
@@ -20,7 +20,7 @@
  * @author Jan Hajer
  *
  */
-class hheavyhiggs::HAnalysisCharged : public analysis::HAnalysis
+class hheavyhiggs::HAnalysisCharged : public analysis::Analysis
 {
 
 public:
@@ -31,7 +31,7 @@ public:
      */
 //     HAnalysisCharged();
 
-using analysis::HAnalysis::HAnalysis;
+using analysis::Analysis::Analysis;
 
     analysis::BottomTagger bottom_tagger_;
     analysis::HWSemiTagger WSemiTagger;
@@ -488,7 +488,7 @@ private:
      * @brief Main Analysis function
      *
      */
-    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);

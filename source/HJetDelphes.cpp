@@ -9,7 +9,7 @@ analysis::hdelphes::HJet::HJet(): detector_geometry_()
     Print(kNotification, "Constructor");
 }
 
-bool analysis::hdelphes::HJet::GetJets(const analysis::HFourVector::HJetDetails JetDetails)
+bool analysis::hdelphes::HJet::GetJets(const analysis::FourVector::HJetDetails JetDetails)
 {
     Print(kInformation, "Get Jets", clones_arrays().JetSum());
     for (const int JetNumber : Range(clones_arrays().JetSum())) {
@@ -75,7 +75,7 @@ void analysis::hdelphes::HJet::TauTag(const delphes::Jet &jet)
     } else Print(kError, "Jet Charge: ", jet.Charge);
 }
 
-fastjet::PseudoJet analysis::hdelphes::HJet::StructuredJet(const delphes::Jet &jet, const analysis::HJet::HJetDetails JetDetails)
+fastjet::PseudoJet analysis::hdelphes::HJet::StructuredJet(const delphes::Jet &jet, const analysis::Hadrons::HJetDetails JetDetails)
 {
     Print(kInformation, "Get constituents");
     Jets constituentJets;
@@ -92,7 +92,7 @@ fastjet::PseudoJet analysis::hdelphes::HJet::StructuredJet(const delphes::Jet &j
     return Jet;
 }
 
-fastjet::PseudoJet analysis::hdelphes::HJet::Getconstituents(const TObject &Object, const analysis::HJet::HJetDetails JetDetails, const Constituent::SubDetector Detector)
+fastjet::PseudoJet analysis::hdelphes::HJet::Getconstituents(const TObject &Object, const analysis::Hadrons::HJetDetails JetDetails, const Constituent::SubDetector Detector)
 {
     Print(kDebug, "Getconstituent", Object.ClassName());
     fastjet::PseudoJet Jet;

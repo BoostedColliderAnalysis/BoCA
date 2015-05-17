@@ -90,7 +90,7 @@ std::vector<HHiggsBranch *> analysis::HMvaHiggsTagger::GetBranches(Event &event,
     Print(kInformation, "Get Higgs Tags");
 
     JetTag.HeavyParticles = {CpvHiggsId, HiggsId, TopId};
-    Jets jets = event.Hadrons().GetStructuredTaggedJets(JetTag);
+    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
 
     Jets HiggsJets;
     Jets OtherJets;
@@ -191,7 +191,7 @@ std::vector<ParticleBranch *> analysis::HMvaHiggsTagger::GetconstituentBranches(
 
 }
 
-void analysis::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
+void analysis::HMvaHiggsTagger::FillBranch(const Kinematics &Vector)
 {
     Print(kInformation, "FillPairTagger", Vector.GetPt());
 
@@ -199,7 +199,7 @@ void analysis::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
 
 }
 
-void analysis::HMvaHiggsTagger::FillBranch(ParticleBranch *const constituentBranch, const HKinematics &Vector)
+void analysis::HMvaHiggsTagger::FillBranch(ParticleBranch *const constituentBranch, const Kinematics &Vector)
 {
     Print(kInformation, "Fill constituent Branch");
 

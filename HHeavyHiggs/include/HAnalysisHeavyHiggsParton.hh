@@ -1,7 +1,7 @@
 # ifndef HAnalysisHeavyHiggsParton_hh
 # define HAnalysisHeavyHiggsParton_hh
 
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 // # include "HEventParton.hh"
 # include "HBranchHeavyHiggs.hh"
 
@@ -9,7 +9,7 @@
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class hheavyhiggs::HAnalysisHeavyHiggsParton : public analysis::HAnalysis
+class hheavyhiggs::HAnalysisHeavyHiggsParton : public analysis::Analysis
 {
 
 public:

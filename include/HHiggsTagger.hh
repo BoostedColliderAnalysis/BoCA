@@ -52,7 +52,7 @@ public:
      */
     ~HHiggsTagger();
 
-    void Newevent();
+    void NewEvent();
 
 private:
 

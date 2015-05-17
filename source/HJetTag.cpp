@@ -6,38 +6,26 @@ analysis::HJetTag::HJetTag()
     Print(kInformation, "Constructor");
 }
 
-analysis::HJetTag::~HJetTag()
+int analysis::HJetTag::GetBranchId(const int particle_id, int branch_id)
 {
-    Print(kInformation, "Destructor");
-}
-
-int analysis::HJetTag::GetBranchId(const int ParticleId, int BranchId)
-{
-
-    Print(kDebug, "Get Branch Id", GetParticleName(ParticleId), GetParticleName(BranchId));
-
+    Print(kDebug, "Get Branch Id", GetParticleName(particle_id), GetParticleName(branch_id));
     if (
-        HeavyParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(HeavyParticles)
+        HeavyParticles.find(static_cast<HParticleId>(std::abs(particle_id))) != end(HeavyParticles)
 //         && HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) == end(HeavyParticles)
     ) {
-        BranchId = ParticleId;
+        branch_id = particle_id;
     } else if (
-        RadiationParticles.find(static_cast<HParticleId>(std::abs(ParticleId))) != end(RadiationParticles)
+        RadiationParticles.find(static_cast<HParticleId>(std::abs(particle_id))) != end(RadiationParticles)
     ) {
-        BranchId = IsrId;
+        branch_id = IsrId;
     }
-
-    Print(kDebug, "Branch Id", GetParticleName(BranchId));
-
-    return BranchId;
-
+    Print(kDebug, "Branch Id", GetParticleName(branch_id));
+    return branch_id;
 }
 
 analysis::Family analysis::HJetTag::GetBranchFamily(const Family &node_family, Family &branch_family)
 {
-
     Print(kDebug, "Get Branch Id", GetParticleName(node_family.particle().Id), GetParticleName(node_family.mother_1().Id), GetParticleName(branch_family.particle().Id));
-
     if (
         HeavyParticles.find(static_cast<HParticleId>(std::abs(node_family.particle().Id))) != end(HeavyParticles)
         && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
@@ -56,9 +44,6 @@ analysis::Family analysis::HJetTag::GetBranchFamily(const Family &node_family, F
     ) {
         branch_family = Family(node_family.particle().Position,IsrId,node_family.mother_1().Position,IsrId);
     }
-
     Print(kDebug, "Branch Id", GetParticleName(branch_family.particle().Id));
-
     return branch_family;
-
 }

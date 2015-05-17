@@ -1,19 +1,17 @@
 # pragma once
 
-# include "Object.hh"
 # include "HParticle.hh"
 # include "HLepton.hh"
-# include "HJet.hh"
-# include "TopHadronicHep.hh"
-# include "HHiggsTagger.hh"
-# include "HDiscriminator.hh"
-# include "HJetTag.hh"
+# include "Hadrons.hh"
+
+namespace analysis
+{
 
 /**
  * @brief Base class for the event Topology
  *
  */
-class analysis::Event : public Object
+class Event : public Object
 {
 
 public:
@@ -22,9 +20,9 @@ public:
 
     ~Event();
 
-    void Newevent(const ClonesArrays &);
+    void NewEvent(const ClonesArrays &);
 
-    HJet &Hadrons() const {
+    Hadrons &hadrons() const {
         return *hadrons_;
     }
 
@@ -66,12 +64,14 @@ protected:
      * @brief Jets
      *
      */
-    HJet *hadrons_ = NULL;
+    Hadrons *hadrons_ = NULL;
 
 private:
 
-  ClonesArrays::Source source_;
+    ClonesArrays::Source source_;
 
     float mass_;
 
 };
+
+}

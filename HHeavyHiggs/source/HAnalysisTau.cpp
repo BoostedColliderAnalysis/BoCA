@@ -591,12 +591,12 @@ void hheavyhiggs::HAnalysisTau::SetTrees()
 //   float Pt;
 // };
 
-int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
 
     Print(kInformation, "Analysis", stage);
 
-//     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+//     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     Jets Leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
 
 //     if (Leptons.empty()) return 0;
@@ -707,7 +707,7 @@ int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::
 //
 //     Jets jets = TauTagger.GetJets(event, JetTag);
 //     jets = TauTagger.GetJetBdt(jets, TauReader);
-//     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+//     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //
 //     std::vector<analysis::Doublet> doublets = HiggsTauTagger.GetBdt(jets, MissingEt, HeavyHiggsTauReader);
 //
@@ -781,13 +781,13 @@ int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::
 // // {
 // //     Print(kInformation, "Get event semi", Tag);
 // //
-// //     Jets jets = event.Hadrons().GetStructuredJets();
+// //     Jets jets = event.hadrons().GetStructuredJets();
 // //     jets = TauTagger.GetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.Leptons().GetLeptonJets();
 // //     if (Leptons.size() < 2) return 0;
 // //
-// //     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+// //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 // //     std::vector<analysis::Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 // //
 // //     if (doublets.size() > 1) {
@@ -867,14 +867,14 @@ int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::
 // // {
 // //     Print(kInformation, "Get event semi", Tag);
 // //
-// // //     Jets jets = event.Hadrons().GetStructuredJets();
+// // //     Jets jets = event.hadrons().GetStructuredJets();
 // //
 // //     Jets jets = TauTagger.GetJets(event);
 // //
 // //     jets = TauTagger.GetJetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.Leptons().GetLeptonJets();
-// //     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+// //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 // //     std::vector<analysis::Doublet> doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 // //     std::vector<analysis::Triplet> triplets = TopSemiTagger.GetBdt(doublets, jets, TopSemiReader);
 // //
@@ -904,11 +904,11 @@ int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::
 // // {
 // //     Print(kDebug, "Get JetPair Reader", Tag);
 // //     Jets jets = TauTagger.GetJets(event);
-// // //     Jets jets = event.Hadrons().GetStructuredJets();
+// // //     Jets jets = event.hadrons().GetStructuredJets();
 // //     jets = TauTagger.GetJetBdt(jets, TauReader);
 // //
 // // //     Jets Leptons = event.Leptons().GetLeptonJets();
-// // //     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+// // //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 // // //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 // // //     std::vector<analysis::Triplet> triplets = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 // //
@@ -945,11 +945,11 @@ int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::
 // //
 // //     Jets jets = TauTagger.GetJets(event);
 // //
-// // //     Jets jets = event.Hadrons().GetStructuredJets();
+// // //     Jets jets = event.hadrons().GetStructuredJets();
 // //     jets = TauTagger.GetJetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.Leptons().GetLeptonJets();
-// //     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+// //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 // //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 // //     std::vector<analysis::Triplet> triplets = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 // //
@@ -985,7 +985,7 @@ int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::
 // //     jets = TauTagger.GetJetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.Leptons().GetLeptonJets();
-// //     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+// //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 // //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 // //     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 // //
@@ -1000,8 +1000,8 @@ int hheavyhiggs::HAnalysisTau::Analysis(analysis::Event &event, const analysis::
 // //     HChargedeventStruct eventStruct;
 // //     eventStruct.LeptonNumber = Leptons.size();
 // //     eventStruct.JetNumber = jets.size();
-// //     eventStruct.BottomNumber = event.Hadrons().GetBottomJets().size();
-// //     eventStruct.ScalarHt = event.Hadrons().GetScalarHt();
+// //     eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
+// //     eventStruct.ScalarHt = event.hadrons().GetScalarHt();
 // //     if (eventStruct.LeptonNumber > 0) eventStruct.LeptonPt = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets()).front().pt();
 // //
 // //     std::vector<HOctet44> Octets = eventSemiTagger.GetBdt(HiggsQuartets, JetQuartets, jets, eventStruct, eventSemiReader);

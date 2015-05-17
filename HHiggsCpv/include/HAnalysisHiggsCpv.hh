@@ -2,7 +2,7 @@
 # define HAnalysisHiggsCpv_hh
 
 # include "File.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 // # include "HEventDelphes.hh"
 # include "HBranchHiggsCpv.hh"
 # include "HSubStructure.hh"
@@ -57,7 +57,7 @@ public:
  * \author Jan Hajer
  *
  */
-class hhiggscpv::HAnalysis : public analysis::HAnalysis
+class hhiggscpv::HAnalysis : public analysis::Analysis
 {
 
 public:

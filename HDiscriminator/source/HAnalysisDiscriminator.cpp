@@ -127,7 +127,7 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 //
 // }
 
-int hcpvhiggs::HAnalysis::Analysis(analysis::Event &event, const std::string &Study)
+int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string &Study)
 {
 
     Print(kInformation, "Analysis", Study);
@@ -287,7 +287,7 @@ int hcpvhiggs::HAnalysis::Analysis(analysis::Event &event, const std::string &St
 
         }
 
-        SubStructure->Newevent();
+        SubStructure->NewEvent();
         if (!SubStructure->GetSubJets(CandidateJet)) {
 
             Print(kError, "No SubJets");
@@ -296,7 +296,7 @@ int hcpvhiggs::HAnalysis::Analysis(analysis::Event &event, const std::string &St
 
         }
 
-        Candidate->ScalarHt = event.Hadrons().GetScalarHt();
+        Candidate->ScalarHt = event.hadrons().GetScalarHt();
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
@@ -321,7 +321,7 @@ int hcpvhiggs::HAnalysis::Analysis(analysis::Event &event, const std::string &St
 
         Print(kDebug, "Isolation", Candidate->IsolationDeltaR);
 
-        HVectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
+        Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
             ParticleBranch *constituent = static_cast<ParticleBranch *>(constituentBranch->NewEntry());

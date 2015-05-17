@@ -31,7 +31,7 @@ public:
      */
     ~HReconstruction();
 
-    virtual void Newevent();
+    virtual void NewEvent();
 
 protected:
 

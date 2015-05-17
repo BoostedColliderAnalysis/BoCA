@@ -5,13 +5,13 @@ HDictionary(Branch Branch.cpp ../include/HLinkDef.hh)
 
 set(EventSources
 Object.cpp
-HFourVector.cpp
+FourVector.cpp
 File.cpp
 ClonesArrays.cpp
 Event.cpp
 HParticle.cpp
 HLepton.cpp
-HJet.cpp
+Hadrons.cpp
 Predicate.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
@@ -44,7 +44,7 @@ HLibrary(HDelphesEvent "${DelphesEventSources}" PARENT_SCOPE)
 
 set(WrapperSources
 HTag.cpp
-HTagPrivate.cpp
+# HTagPrivate.cpp
 Singlet.cpp
 Doublet.cpp
 Triplet.cpp
@@ -63,7 +63,7 @@ HLibrary(HepTagger "${HepTaggerSource}" PARENT_SCOPE)
 add_dependencies(HepTagger HepTopTagger)
 
 set(AnalysisSources
-HAnalysis.cpp
+Analysis.cpp
 Family.cpp
 Constituent.cpp
 HJetTag.cpp

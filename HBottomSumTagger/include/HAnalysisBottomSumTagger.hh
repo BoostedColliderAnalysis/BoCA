@@ -5,7 +5,7 @@
 # include <string>
 
 # include "File.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 // # include "HEventDelphes.hh"
 # include "Reader.hh"
 # include "Factory.hh"
@@ -23,7 +23,7 @@ namespace hbottomsumtagger
  * @author Jan Hajer
  *
  */
-class HAnalysis : public analysis::HAnalysis
+class HAnalysis : public analysis::Analysis
 {
 
 public:
@@ -34,7 +34,7 @@ public:
      */
 //     HAnalysis();
 
-using analysis::HAnalysis::HAnalysis;
+using analysis::Analysis::Analysis;
 
     analysis::BottomTagger bottom_tagger_;
 
@@ -237,7 +237,7 @@ private:
 
 //     void NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
-    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);

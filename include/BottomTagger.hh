@@ -1,6 +1,7 @@
 # pragma once
 
 # include "Tagger.hh"
+# include "Reader.hh"
 
 /**
  * @brief Bottom BDT tagger
@@ -8,6 +9,7 @@
  */
 namespace analysis
 {
+
 class BottomTagger : public Tagger
 {
 
@@ -17,67 +19,67 @@ public:
 
     BottomBranch FillBranch(const fastjet::PseudoJet &Jet) const;
 
-    int Train(analysis::Event &event, const analysis::Object::Tag tag){
-      PreCuts pre_cuts;
-      return Train(event,pre_cuts,tag);
+    int Train(Event &event, const Object::Tag tag) {
+        PreCuts pre_cuts;
+        return Train(event,pre_cuts,tag);
     }
 
-    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
     Jets GetMultiJetBdt(const Jets& jets, const TMVA::Reader& reader);
 
     Jets GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    Jets GetJetBdt(Event &event, const TMVA::Reader &reader){
-      PreCuts pre_cuts;
-      return GetJetBdt(event,pre_cuts,reader);
+    Jets GetJetBdt(Event &event, const TMVA::Reader &reader) {
+        PreCuts pre_cuts;
+        return GetJetBdt(event,pre_cuts,reader);
     }
 
     Jets GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    int GetBdt(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         Jets jets = GetJetBdt(event, pre_cuts, reader);
         SaveEntries(jets);
         return jets.size();
     }
 
-    int GetBdt(analysis::Event &event, const TMVA::Reader &reader) {
-      PreCuts pre_cuts;
-      return GetBdt(event,pre_cuts,reader);
+    int GetBdt(Event &event, const TMVA::Reader &reader) {
+        PreCuts pre_cuts;
+        return GetBdt(event,pre_cuts,reader);
     }
 
     fastjet::PseudoJet GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
 
-    Jets GetSubJets(const Jets &jets, const int sub_jet_number){
-      Jets subjets;
-      for(const auto &jet : jets){
-        Jets jets = Tagger::GetSubJets(jet,sub_jet_number);
-        subjets = JoinVectors(subjets, jets);
-      }
-      return subjets;
+    Jets GetSubJets(const Jets &jets, const int sub_jet_number) {
+        Jets subjets;
+        for(const auto &jet : jets) {
+            Jets jets = Tagger::GetSubJets(jet,sub_jet_number);
+            subjets = JoinVectors(subjets, jets);
+        }
+        return subjets;
     }
 
     Jets GetMultiJetBdt(Jets &, const Reader &) {
         Print(kError, "Bdt", "depreciated");
-        return Jets{};
+        return Jets {};
     }
 
     Jets GetJetBdt(const Jets &, const Reader &) {
         Print(kError, "Bdt", "depreciated");
-        return Jets{};
+        return Jets {};
     }
 
     Jets GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader){
-      PreCuts pre_cuts;
-      return GetJetBdt(jets,pre_cuts,reader);
+    Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader) {
+        PreCuts pre_cuts;
+        return GetJetBdt(jets,pre_cuts,reader);
     }
 
     Jets GetSubBdt(const Jets &, const Reader &, const int ) {
         Print(kError, "Bdt", "depreciated");
-        return Jets{};
+        return Jets {};
     }
 
     Jets GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number);
@@ -104,9 +106,9 @@ private:
 
     void DefineVariables();
 
-    Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag);
 
-    Jets GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const analysis::Object::Tag tag, const int sub_jet_number);
+    Jets GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag, const int sub_jet_number);
 
     BottomBranch branch_;
 

@@ -3,15 +3,16 @@
 # include "TObjArray.h"
 # include "TClonesArray.h"
 
+# include "fastjet/ClusterSequence.hh"
 
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 
 # include "JetInfo.hh"
 # include "Event.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 
-Observable::Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
+analysis::Observable::Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
 {
     value_ = &value;
     expression_ = expression;
@@ -21,31 +22,30 @@ Observable::Observable(float &value, const std::string &expression, const std::s
     else type_ = 'F';
 }
 
-float *Observable::value() const
+float *analysis::Observable::value() const
 {
     return value_;
 }
 
-std::string Observable::expression() const
+std::string analysis::Observable::expression() const
 {
     return expression_;
 }
 
-std::string Observable::title() const
+std::string analysis::Observable::title() const
 {
     return title_;
 }
 
-std::string Observable::unit() const
+std::string analysis::Observable::unit() const
 {
     return unit_;
 }
 
-char Observable::type() const
+char analysis::Observable::type() const
 {
     return type_;
 }
-
 
 std::string analysis::Tagger::analysis_name_;
 
@@ -59,14 +59,14 @@ analysis::Tagger::Tagger()
 }
 
 
-Observable analysis::Tagger::NewObservable(float &value, const std::string &title) const
+analysis::Observable analysis::Tagger::NewObservable(float &value, const std::string &title) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "", "");
 }
 
-Observable analysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
+analysis::Observable analysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
@@ -82,23 +82,20 @@ float analysis::Tagger::Bdt(const TMVA::Reader &reader)
 
 Jets analysis::Tagger::GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
 {
-  Jets final_pieces;
-//   for (const auto & jet : jets) {
-    if (!jet.has_pieces()) return final_pieces;
-    if (!jet.has_user_info<JetInfo>()) return final_pieces;
+    Jets pieces;
+    if (!jet.has_pieces()) return pieces;
+    if (!jet.has_user_info<JetInfo>()) return pieces;
     fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(jet.pieces(), detector_geometry().SubJetDefinition);
-    Jets pieces = cluster_sequence->exclusive_jets_up_to(sub_jet_number);
-    cluster_sequence->delete_self_when_unused();
-    for (auto & piece : pieces) {
-      std::vector<Constituent> constituents;
-      for (const auto & constituent : piece.constituents()) {
-        if (!constituent.has_user_info<JetInfo>()) continue;
-        std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
-        constituents = JoinVectors(constituents, piece_constituents);
-      }
-      piece.set_user_info(new JetInfo(constituents));
-      final_pieces.emplace_back(piece);
+    for (auto & piece : cluster_sequence->exclusive_jets_up_to(sub_jet_number)) {
+        std::vector<Constituent> constituents;
+        for (const auto & constituent : piece.constituents()) {
+            if (!constituent.has_user_info<JetInfo>()) continue;
+            std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
+            constituents = JoinVectors(constituents, piece_constituents);
+        }
+        piece.set_user_info(new JetInfo(constituents));
+        pieces.emplace_back(piece);
     }
-//   }
-  return final_pieces;
+    cluster_sequence->delete_self_when_unused();
+    return pieces;
 }

@@ -102,7 +102,7 @@
 // }
 //
 //
-// std::vector<HKinematics> analysis::HSuperStructure::Getconstituents() const
+// std::vector<Kinematics> analysis::HSuperStructure::Getconstituents() const
 // {
 //
 //     Print(kInformation, "Getconstituents");
@@ -125,8 +125,8 @@
 //     const float Distance = Jet1.delta_R(Jet2);
 //     const float SubJetRatio = 2. * Shift / Distance;
 //
-//     std::vector<HKinematics> constituentVectors1 = Getconstituents(Jet1, SubJetRatio, Theta, -Shift);
-//     std::vector<HKinematics> constituentVectors2 = Getconstituents(Jet2, SubJetRatio, -Theta, Shift);
+//     std::vector<Kinematics> constituentVectors1 = Getconstituents(Jet1, SubJetRatio, Theta, -Shift);
+//     std::vector<Kinematics> constituentVectors2 = Getconstituents(Jet2, SubJetRatio, -Theta, Shift);
 //
 //     constituentVectors1.insert(constituentVectors1.end(), constituentVectors2.begin(), constituentVectors2.end());
 //
@@ -135,7 +135,7 @@
 // }
 //
 //
-// std::vector<HKinematics> analysis::HSuperStructure::Getconstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
+// std::vector<Kinematics> analysis::HSuperStructure::Getconstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
 // {
 //
 //     Print(kInformation, "Getconstituents", JetRatio, Theta);
@@ -143,7 +143,7 @@
 //     const float Cut = 2. / JetRatio;
 //     const float Cut1 = 1. / JetRatio;
 //
-//     std::vector<HKinematics> constituentVectors;
+//     std::vector<Kinematics> constituentVectors;
 //
 //     for (const auto & constituentJet : Jet.constituents()) {
 //
@@ -169,7 +169,7 @@
 //         ObservableRap -= Shift;
 //         Print(kDebug, "eta", ObservableRap);
 //
-//         HKinematics constituent(constituentJet.pt(), ObservableRap, ObservablePhi);
+//         Kinematics constituent(constituentJet.pt(), ObservableRap, ObservablePhi);
 //
 //         constituentVectors.emplace_back(constituent);
 //

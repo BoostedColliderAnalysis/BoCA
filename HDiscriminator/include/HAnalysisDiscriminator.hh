@@ -1,7 +1,7 @@
 # ifndef __HAnalysisDiscriminator_hh__
 # define __HAnalysisDiscriminator_hh__
 
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 # include "File.hh"
 // # include "HEventDelphes.hh"
 # include "HBranchDiscriminator.hh"
@@ -36,7 +36,7 @@ public:
  * \author Jan Hajer
  *
  */
-class hcpvhiggs::HAnalysis : public analysis::HAnalysis
+class hcpvhiggs::HAnalysis : public analysis::Analysis
 {
 
 public:
@@ -108,7 +108,7 @@ private:
      *
      * @return void
      */
-    int Analysis(analysis::Event &event, const std::string &Study);
+    int RunAnalysis(analysis::Event &event, const std::string &Study);
 
     /**
      * @brief prepares the std::vector describing the input root files

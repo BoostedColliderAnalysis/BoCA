@@ -16,7 +16,7 @@ analysis::hpgs::HLepton::~HLepton()
 }
 
 
-bool analysis::hpgs::HLepton::GetElectrons(analysis::HFourVector::HJetDetails JetDetails)
+bool analysis::hpgs::HLepton::GetElectrons(analysis::FourVector::HJetDetails JetDetails)
 {
 
     Print(kInformation, "Get Electrons", JetDetails);
@@ -50,7 +50,7 @@ bool analysis::hpgs::HLepton::GetElectrons(analysis::HFourVector::HJetDetails Je
 
 }
 
-bool analysis::hpgs::HLepton::GetMuons(analysis::HFourVector::HJetDetails JetDetails)
+bool analysis::hpgs::HLepton::GetMuons(analysis::FourVector::HJetDetails JetDetails)
 {
 
     Print(kInformation, "Get Muons", JetDetails);

@@ -5,12 +5,12 @@ analysis::HParticle::HParticle()
     Print(kNotification,"Constructor");
 }
 
-void analysis::HParticle::Newevent(const ClonesArrays &NewClonesArrays){
+void analysis::HParticle::NewEvent(const ClonesArrays &NewClonesArrays){
 
     Print(kInformation,"New event");
 
 //     ClonesArrays = NewClonesArrays;
-    analysis::HFourVector::Newevent(NewClonesArrays);
+    analysis::FourVector::NewEvent(NewClonesArrays);
 
     GotParticles = 0;
 
@@ -50,14 +50,14 @@ void analysis::HParticle::Newevent(const ClonesArrays &NewClonesArrays){
 
 }
 
-HVectors analysis::HParticle::GetLeptonLorentzVectors()
+Vectors analysis::HParticle::GetLeptonLorentzVectors()
 {
 
   Print(kInformation,"LeptonVector");
 
   GotParticles = GetParticles();
 
-    HVectors LeptonVectors;
+    Vectors LeptonVectors;
 
     LeptonVectors = ElectronVectors;
     LeptonVectors.insert(LeptonVectors.end(), MuonVectors.begin(), MuonVectors.end());
@@ -71,14 +71,14 @@ HVectors analysis::HParticle::GetLeptonLorentzVectors()
 
 }
 
-HVectors analysis::HParticle::GetAntiLeptonVectors()
+Vectors analysis::HParticle::GetAntiLeptonVectors()
 {
 
   Print(kInformation,"AntiLeptonVector");
 
   GotParticles = GetParticles();
 
-    HVectors AntiLeptonVectors;
+    Vectors AntiLeptonVectors;
 
     AntiLeptonVectors = AntiElectronVectors;
     AntiLeptonVectors.insert(AntiLeptonVectors.end(), AntiMuonVectors.begin(), AntiMuonVectors.end());

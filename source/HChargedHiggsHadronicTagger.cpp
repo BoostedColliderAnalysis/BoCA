@@ -74,7 +74,7 @@ std::vector< HChargedHiggsHadronicBranch > analysis::HChargedHiggsHadronicTagger
 
 
     JetTag.HeavyParticles = {WId, TopId, ChargedHiggsId};
-    Jets jets = event.Hadrons().GetStructuredTaggedJets(JetTag);
+    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
 
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 

@@ -4,13 +4,15 @@
 # include "ClonesArrays.hh"
 # include "Event.hh"
 
+namespace analysis{
+
 /**
  * @brief Input file infos
  *
  * ProcessFolder has to be set
  *
  */
-class analysis::File : public Object
+class File : public Object
 {
 
 public:
@@ -45,9 +47,9 @@ public:
 
     ExRootTreeReader TreeReader();
 
-    analysis::ClonesArrays clones_arrays();
+    ClonesArrays clones_arrays();
 
-    analysis::Event event();
+    Event event();
 
     /**
      * @brief Name of Process
@@ -123,3 +125,5 @@ private:
     TChain *chain_ = NULL;
 
 };
+
+}

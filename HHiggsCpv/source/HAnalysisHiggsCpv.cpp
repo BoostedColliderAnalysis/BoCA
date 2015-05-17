@@ -261,7 +261,7 @@ bool hhiggscpv::HAnalysis::GetSignalTag(analysis::Event &event, const std::strin
         return 0;
     }
 
-    Jets jets = event.Hadrons().GetStructuredJets();
+    Jets jets = event.hadrons().GetStructuredJets();
     if (jets.size() < 4) {
         Print(kNotification, "Not enough Jets", jets.size());
         return 0;
@@ -299,9 +299,9 @@ bool hhiggscpv::HAnalysis::GetSignalTag(analysis::Event &event, const std::strin
 
     EventBranch *eventTagger = static_cast<EventBranch *>(eventBranch->NewEntry());
 
-    eventTagger->ScalarHt = event.Hadrons().GetScalarHt();
-    eventTagger->JetNumber = event.Hadrons().GetJets().size();
-    eventTagger->BottomNumber = event.Hadrons().GetBottomJets().size();
+    eventTagger->ScalarHt = event.hadrons().GetScalarHt();
+    eventTagger->JetNumber = event.hadrons().GetJets().size();
+    eventTagger->BottomNumber = event.hadrons().GetBottomJets().size();
     eventTagger->LeptonNumber = event.Leptons().GetLeptonJets().size();
     eventTagger->HeavyParticleTag = HiggsCpvs.front().Bdt();
     eventTagger->TopDeltaRap = HiggsCpvs.front().GetTopDeltaRap();

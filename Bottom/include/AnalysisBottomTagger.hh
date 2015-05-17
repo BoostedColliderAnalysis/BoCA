@@ -1,7 +1,7 @@
 # pragma once
 
 # include "HBranchBTagger.hh"
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 
 /**
  *
@@ -10,7 +10,7 @@
  * @author Jan Hajer
  *
  */
-class hbtagger::HAnalysis : public analysis::HAnalysis
+class hbtagger::HAnalysis : public analysis::Analysis
 {
 
 public:
@@ -80,11 +80,11 @@ private:
     }
 
     void NewSignalFile(const Process process) {
-      analysis::HAnalysis::NewSignalFile(FileName(process));
+      analysis::Analysis::NewSignalFile(FileName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-      analysis::HAnalysis::NewBackgroundFile(FileName(process));
+      analysis::Analysis::NewBackgroundFile(FileName(process));
     }
 
     virtual inline std::string FilePath() const {
@@ -99,6 +99,6 @@ private:
 
     int PassPreCut(analysis::Event &event);
 
-    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 };

@@ -1,7 +1,7 @@
 # ifndef HAnalysisJetProperties_hh
 # define HAnalysisJetProperties_hh
 
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 // # include "HEventDelphes.hh"
 # include "File.hh"
 
@@ -32,7 +32,7 @@ public:
  * @brief Class defining the Disciminator Analysis
  *
  */
-class hjetproperties::HAnalysis : public analysis::HAnalysis
+class hjetproperties::HAnalysis : public analysis::Analysis
 {
 
 public:

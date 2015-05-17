@@ -53,7 +53,7 @@ private:
 
     void DefineVariables();
 
-//     ParticleBranch GetBranch(const HKinematics &Vector);
+//     ParticleBranch GetBranch(const Kinematics &Vector);
 
 //     analysis::Object::HTag GetTag(const Doublet &doublet);
 

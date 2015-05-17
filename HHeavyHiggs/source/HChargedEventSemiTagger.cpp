@@ -192,16 +192,16 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedeventSemiTagge
     Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
 
     Jets Leptons = event.Leptons().GetLeptonJets();
-    fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
     std::vector<analysis::HQuartet31> HiggsQuartets = ChargedHiggsSemiTagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
 
 
     Jets HiggsParticles = event.Partons().Generator();
-    HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
+    HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), analysis::WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
     if (Tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
-    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), MinDeltaRTo(HiggsParticles.front()));
+    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
     if (Tag == kSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
     if (Tag == kBackground && HiggsQuartets.size() > 0) HiggsQuartets.erase(HiggsQuartets.begin());
 
@@ -275,10 +275,10 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedeventSemiTagge
         EventMultiplet<HOctet44> Octetevent(Octet);
         EventStruct eventStruct;
         eventStruct.LeptonNumber = event.Leptons().GetLeptonJets().size();
-        eventStruct.JetNumber = event.Hadrons().GetJets().size();
-        eventStruct.BottomNumber = event.Hadrons().GetBottomJets().size();
-        eventStruct.ScalarHt = event.Hadrons().GetScalarHt();
-        eventStruct.MissingEt = event.Hadrons().GetMissingEt().pt();
+        eventStruct.JetNumber = event.hadrons().GetJets().size();
+        eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
+        eventStruct.ScalarHt = event.hadrons().GetScalarHt();
+        eventStruct.MissingEt = event.hadrons().GetMissingEt().pt();
         Octetevent.SeteventStruct(eventStruct);
         Octetevent.SetLeptons(Leptons);
         Octetevent.SetTotalJets(jets);

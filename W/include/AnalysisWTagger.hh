@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HAnalysis.hh"
+# include "Analysis.hh"
 
 
 /**
@@ -12,7 +12,7 @@
  */
 namespace hwtagger
 {
-class HAnalysis : public analysis::HAnalysis
+class HAnalysis : public analysis::Analysis
 {
 
 public:
@@ -56,11 +56,11 @@ private:
 
 
     void NewSignalFile(const Process process) {
-        analysis::HAnalysis::NewSignalFile(FileName(process));
+        analysis::Analysis::NewSignalFile(FileName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-        analysis::HAnalysis::NewBackgroundFile(FileName(process));
+        analysis::Analysis::NewBackgroundFile(FileName(process));
     }
 
 
@@ -136,7 +136,7 @@ private:
      * @brief Main Analysis function
      *
      */
-    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 };
 

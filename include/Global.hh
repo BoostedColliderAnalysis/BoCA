@@ -11,7 +11,7 @@
 # include "fastjet/PseudoJet.hh"
 
 typedef std::vector<fastjet::PseudoJet> Jets;
-typedef std::vector<TLorentzVector> HVectors;
+typedef std::vector<TLorentzVector> Vectors;
 typedef std::vector<std::string> Strings;
 
 /**
@@ -21,23 +21,11 @@ typedef std::vector<std::string> Strings;
 namespace analysis
 {
 
-class Object;
-class HFourVector;
 
-class ClonesArrays;
-class Event;
-class File;
 class HParticle;
 class HLepton;
-class HJet;
-class Family;
 
-class HAnalysis;
 class HTag;
-class HJetTag;
-class JetInfo;
-class Doublet;
-class Triplet;
 class HJetLeptonPair;
 class HQuartet;
 class HQuartet31;
@@ -51,7 +39,6 @@ class top_hadronic_tagger;
 class HSubStructure;
 class HSextet;
 
-class BottomTagger;
 class HTauTagger;
 class HTopSemiTagger;
 class HTopLeptonicTagger;
@@ -60,25 +47,12 @@ class HHeavyHiggsHadronicTagger;
 class HHeavyHiggsLeptonicTagger;
 class HJetPairTagger;
 class HChargedJetPairTagger;
-class WHadronicTagger;
 class HWSemiTagger;
-class TopHadronicTagger;
 class HHeavyHiggsSemiTagger;
 class HHeavyHiggsTauTagger;
 class HChargedHiggsSemiTagger;
 class HChargedHiggsHadronicTagger;
 class HChargedHiggsLeptonicTagger;
-
-// class Tagger;
-class Factory;
-class Reader;
-
-class HTagPrivate;
-class DoubletPrivate;
-class TripletPrivate;
-class HSextetPrivate;
-class JetInfoPrivate;
-
 
 /**
  * @brief Parton level analysis library parts
@@ -87,16 +61,10 @@ class JetInfoPrivate;
 namespace hparton
 {
 
-class HClonesArray;
-class HFile;
-class Event;
 class HParticle;
 
 }
 
-typedef hparton::HClonesArray HClonesArrayParton;
-typedef hparton::HFile HFileParton;
-typedef hparton::Event HEventParton;
 typedef hparton::HParticle HParticleParton;
 
 
@@ -107,17 +75,11 @@ typedef hparton::HParticle HParticleParton;
 namespace hpgs
 {
 
-class HClonesArray;
-class HFile;
-class Event;
 class HLepton;
 class HJet;
 
 }
 
-typedef hpgs::HClonesArray HClonesArrayPgs;
-typedef hpgs::HFile HFilePgs;
-typedef hpgs::Event HEventPgs;
 typedef hpgs::HLepton HLeptonPgs;
 typedef hpgs::HJet HJetPgs;
 
@@ -128,25 +90,15 @@ typedef hpgs::HJet HJetPgs;
 namespace hdelphes
 {
 
-class HClonesArray;
-class HClonesArraySnowmass;
-class HFile;
-class Event;
 class HParticle;
 class HLepton;
 class HJet;
 
 }
 
-typedef hdelphes::HClonesArray HClonesArrayDelphes;
-typedef hdelphes::HClonesArraySnowmass HClonesArraySnowmass;
-typedef hdelphes::HFile HFileDelphes;
-typedef hdelphes::Event HEventDelphes;
 typedef hdelphes::HParticle HParticleDelphes;
 typedef hdelphes::HLepton HLeptonDelphes;
 typedef hdelphes::HJet HJetDelphes;
-
-
 
 }
 
@@ -200,7 +152,7 @@ public:
 // };
 
 struct SortPairs {
-template <typename Template1>
+    template <typename Template1>
     inline bool operator()(const std::pair<Template1, float> &Pair1, const std::pair<Template1, float> &Pair2) {
         return (Pair1.second < Pair2.second);
     }
@@ -233,8 +185,8 @@ struct SortJetByRap {
 class Range
 {
 public:
-    Range(const int _end):
-        last_(_end),
+    Range(const int sum):
+        last_(sum),
         iterator_(0)
     {}
     const Range &begin() const {
@@ -244,13 +196,13 @@ public:
         return *this;
     }
     bool operator!=(const Range &) const {
-      return iterator_ < last_;
+        return iterator_ < last_;
     }
     void operator++() {
-      ++iterator_;
+        ++iterator_;
     }
     int operator*() const {
-      return iterator_;
+        return iterator_;
     }
 private:
     int last_;

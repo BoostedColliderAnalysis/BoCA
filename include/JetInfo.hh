@@ -122,10 +122,6 @@ private:
 
     DetectorGeometry detector_geometry_;
 
-    DetectorGeometry detector_geometry() const {
-        return detector_geometry_;
-    }
-
     void AddParticle(const int constituent_id, const float weight);
 
     float GetWeightSum() const;

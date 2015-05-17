@@ -4,11 +4,13 @@
 # include "TMVA/Factory.h"
 # include "TSystem.h"
 
+namespace analysis{
+
 /**
  * @brief Prepares multivariant analysis
  *
  */
-class analysis::Factory : public Object
+class Factory : public Object
 {
 
 public:
@@ -17,7 +19,7 @@ public:
      * @brief Constructor
      *
      */
-    Factory(analysis::Tagger &tagger);
+    Factory(Tagger &tagger);
 
 private:
 
@@ -44,7 +46,7 @@ private:
      */
     void PrepareTrainingAndTestTree(const int event_number);
 
-    int AddTree(TFile &file, const std::string &tree_name, const analysis::Object::Tag tag);
+    int AddTree(TFile &file, const std::string &tree_name, const Object::Tag tag);
 
     TFile *output_file() const;
 
@@ -67,3 +69,5 @@ private:
     TMVA::Factory factory_;
 
 };
+
+}

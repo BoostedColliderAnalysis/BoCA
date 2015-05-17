@@ -279,7 +279,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(analysis::Event &e
             triplets.erase(triplets.begin() + TopNumber, triplets.end()); // FIXME assuming maximal one hadronic top
             break;
         case kBackground :
-            std::sort(triplets.begin(), triplets.end(), MaxPt());
+            std::sort(triplets.begin(), triplets.end(), analysis::MaxPt());
             triplets.erase(triplets.begin() + TopNumber, triplets.end()); // FIXME assuming maximal one hadronic top
 //             triplets.erase(triplets.begin()); // FIXME assuming maximal one hadronic top
             break;
@@ -467,7 +467,7 @@ void HTopHadronTagger::NSubJettiness(analysis::Triplet &triplet)
 }
 
 
-SubJettiness HTopHadronTagger::NSubJettiness(const fastjet::PseudoJet &jet)
+analysis::SubJettiness HTopHadronTagger::NSubJettiness(const fastjet::PseudoJet &jet)
 {
     fastjet::contrib::OnePass_WTA_KT_Axes axis_mode_1;
     fastjet::contrib::OnePass_KT_Axes axis_mode_2;
@@ -490,7 +490,7 @@ SubJettiness HTopHadronTagger::NSubJettiness(const fastjet::PseudoJet &jet)
     fastjet::contrib::NsubjettinessRatio n_subjettiness_32_2(3, 2, axis_mode_2, unnormalized_measure_2);
 
 
-    SubJettiness sub_jettiness;
+    analysis::SubJettiness sub_jettiness;
 
     // calculate Nsubjettiness values (beta = 1.0)
     sub_jettiness.tau1_beta1 = n_subjettiness_1_1(jet);

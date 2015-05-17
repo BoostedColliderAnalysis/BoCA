@@ -102,7 +102,7 @@ std::vector< HChargedHiggsSemiBranch> analysis::HChargedHiggsSemiTagger::GetBran
         jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
     Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
-    const fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    const fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     std::vector<Doublet> doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     std::vector<Triplet> triplets = TopSemiTagger.GetBdt(doublets, jets, TopSemiReader);
 

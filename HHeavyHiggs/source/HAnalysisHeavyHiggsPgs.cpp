@@ -71,7 +71,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(analysis::Event &event, const 
 
 //     event.GetJets();
 
-    Jets BJets = event.Hadrons().GetBottomJets();
+    Jets BJets = event.hadrons().GetBottomJets();
 
     Print(kInformation, "BJet Sum", BJets.size());
 
@@ -173,7 +173,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(analysis::Event &event, const 
                 HeavyHiggs->BottomInvMass = InvMass;
 
                 HeavyHiggs->BTag = BJets.size();
-                HeavyHiggs->JetNumber = event.Hadrons().GetJets().size();
+                HeavyHiggs->JetNumber = event.hadrons().GetJets().size();
 
             }
 

@@ -16,7 +16,7 @@ analysis::HReconstruction::~HReconstruction()
 
 }
 
-void analysis::HReconstruction::Newevent()
+void analysis::HReconstruction::NewEvent()
 {
 
     Print(kInformation, "New event");

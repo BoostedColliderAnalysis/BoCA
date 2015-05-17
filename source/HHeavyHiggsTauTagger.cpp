@@ -84,7 +84,7 @@ std::vector< HHeavyHiggsTauBranch> analysis::HHeavyHiggsTauTagger::GetBranches(a
     jets = TauTagger.GetJetBdt(jets, TauReader);
     Print(kInformation, "Number Jet", jets.size());
 
-    const fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
+    const fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
     Jets TauParticles = event.Partons().Generator();
     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(TauId)), TauParticles.end());

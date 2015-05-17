@@ -1,11 +1,11 @@
 # pragma once
-# include "HFourVector.hh"
+# include "FourVector.hh"
 
 /**
  * @brief particles for HAnalysis
  *
  */
-class analysis::HParticle : public HFourVector
+class analysis::HParticle : public FourVector
 {
 
 public:
@@ -16,11 +16,13 @@ public:
      */
     HParticle();
 
-    void Newevent(const analysis::ClonesArrays &NewClonesArrays);
+    virtual ~HParticle(){};
 
-    HVectors GetLeptonLorentzVectors();
+    void NewEvent(const analysis::ClonesArrays &NewClonesArrays);
 
-    HVectors GetAntiLeptonVectors();
+    Vectors GetLeptonLorentzVectors();
+
+    Vectors GetAntiLeptonVectors();
 
     Jets GetLeptonJets();
 
@@ -66,17 +68,17 @@ protected:
 
     bool GotParticles;
 
-    HVectors TopVectors;
+    Vectors TopVectors;
 
-    HVectors AntiTopVector;
+    Vectors AntiTopVector;
 
-    HVectors ElectronVectors;
+    Vectors ElectronVectors;
 
-    HVectors MuonVectors;
+    Vectors MuonVectors;
 
-    HVectors AntiElectronVectors;
+    Vectors AntiElectronVectors;
 
-    HVectors AntiMuonVectors;
+    Vectors AntiMuonVectors;
 
     Jets ElectronJets;
 
