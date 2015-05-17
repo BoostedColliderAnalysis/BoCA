@@ -18,10 +18,10 @@ typedef std::vector<std::string> Strings;
  * @brief Main Analysis Library
  *
  */
-namespace hanalysis
+namespace analysis
 {
 
-class HObject;
+class Object;
 class HFourVector;
 
 class ClonesArrays;
@@ -30,7 +30,7 @@ class File;
 class HParticle;
 class HLepton;
 class HJet;
-class HFamily;
+class Family;
 
 class HAnalysis;
 class HTag;

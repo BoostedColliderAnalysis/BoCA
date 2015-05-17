@@ -9,22 +9,22 @@
  * @brief Semi leptonic top BDT tagger
  *
  */
-class hanalysis::HTopSemiTagger : public Tagger
+class analysis::HTopSemiTagger : public Tagger
 {
 
 public:
 
     HTopSemiTagger();
 
-    TopSemiBranch GetBranch(const hanalysis::Triplet &triplet) const;
+    TopSemiBranch GetBranch(const analysis::Triplet &triplet) const;
 
-//     void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger);
+//     void SetTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::HWSemiTagger &NewWSemiTagger);
 
-//     std::vector<TopSemiBranch> GetBranches(Event &event, const HObject::Tag State, float pre_cut = 0);
+//     std::vector<TopSemiBranch> GetBranches(Event &event, const Object::Tag State, float pre_cut = 0);
 
-    int Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
+    int Train(analysis::Event &event, const analysis::Object::Tag tag);
 
-    int Train(hanalysis::Event &, const hanalysis::HObject::Tag, float pre_cut = 0){
+    int Train(analysis::Event &, const analysis::Object::Tag, float pre_cut = 0){
       Print(kError, "train", "depreciated");
       return 0;
     }
@@ -33,9 +33,9 @@ public:
       return SaveEntries(GetTriplets(event,reader));
     }
 
-    std::vector<hanalysis::Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
+    std::vector<analysis::Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
 
-    std::vector<Triplet> GetBdt(const std::vector< hanalysis::Doublet > &, const Jets &, const hanalysis::Reader &) {
+    std::vector<Triplet> GetBdt(const std::vector< analysis::Doublet > &, const Jets &, const analysis::Reader &) {
         Print(kError, "get bdt", "depreciated");
     }
 

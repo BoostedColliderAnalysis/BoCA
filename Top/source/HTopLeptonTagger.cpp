@@ -2,12 +2,12 @@
 
 HTopLeptonTagger::HTopLeptonTagger()
 {
-//         DebugLevel = hanalysis::HObject::kDebug;
+//         DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     DefineVariables();
 }
 
-void HTopLeptonTagger::SetTagger(const hanalysis::BottomTagger &NewBottomTagger)
+void HTopLeptonTagger::SetTagger(const analysis::BottomTagger &NewBottomTagger)
 {
     Print(kNotification, "SetTagger");
     DefineVariables();
@@ -58,7 +58,7 @@ void HTopLeptonTagger::DefineVariables()
 
 }
 
-HTopLeptonBranch HTopLeptonTagger::GetBranch(const hanalysis::Doublet &doublet) const
+HTopLeptonBranch HTopLeptonTagger::GetBranch(const analysis::Doublet &doublet) const
 {
     Print(kInformation, "Fill Top Tagger", doublet.Bdt());
 
@@ -75,37 +75,37 @@ HTopLeptonBranch HTopLeptonTagger::GetBranch(const hanalysis::Doublet &doublet) 
     top_semi_branch.DeltaRap = doublet.DeltaRap();
     top_semi_branch.DeltaPhi = doublet.DeltaPhi();
 
-    top_semi_branch.BBdt = doublet.Singlet1().user_info<hanalysis::JetInfo>().Bdt();
+    top_semi_branch.BBdt = doublet.Singlet1().user_info<analysis::JetInfo>().Bdt();
     top_semi_branch.Bdt = doublet.Bdt();
     top_semi_branch.Tag = doublet.Tag();
 
-    top_semi_branch.VertexMass = doublet.Singlet1().user_info<hanalysis::JetInfo>().VertexMass();
+    top_semi_branch.VertexMass = doublet.Singlet1().user_info<analysis::JetInfo>().VertexMass();
     top_semi_branch.JetMass = doublet.Singlet1().m();
     top_semi_branch.LeptonPt = doublet.Singlet2().pt();
 //     top_semi_branch.Pt = Jet.pt();
 //     top_semi_branch.Rap = Jet.rap();
 //     top_semi_branch.Phi = Jet.phi();
-    float MaxDisp = doublet.Singlet1().user_info<hanalysis::JetInfo>().MaxDisplacement();
+    float MaxDisp = doublet.Singlet1().user_info<analysis::JetInfo>().MaxDisplacement();
     if (MaxDisp > 0) top_semi_branch.MaxDisplacement = std::log(MaxDisp);
     else top_semi_branch.MaxDisplacement = -3;
-    float MeanDisp = doublet.Singlet1().user_info<hanalysis::JetInfo>().MeanDisplacement();
+    float MeanDisp = doublet.Singlet1().user_info<analysis::JetInfo>().MeanDisplacement();
     if (MeanDisp > 0) top_semi_branch.MeanDisplacement = std::log(MeanDisp);
     else top_semi_branch.MeanDisplacement = -3;
-    float SumDisp = doublet.Singlet1().user_info<hanalysis::JetInfo>().SumDisplacement();
+    float SumDisp = doublet.Singlet1().user_info<analysis::JetInfo>().SumDisplacement();
     if (SumDisp > 0) top_semi_branch.SumDisplacement = std::log(SumDisp);
     else top_semi_branch.SumDisplacement = -3;
-    top_semi_branch.Multipliticity = doublet.Singlet1().user_info<hanalysis::JetInfo>().VertexNumber();
+    top_semi_branch.Multipliticity = doublet.Singlet1().user_info<analysis::JetInfo>().VertexNumber();
 //     top_semi_branch.DeltaR = GetDeltaR(doublet.Singlet1());
     top_semi_branch.Spread = GetSpread(doublet.Singlet1());
-    top_semi_branch.VertexDeltaR = GetDeltaR(doublet.Singlet1().user_info<hanalysis::JetInfo>().VertexJet());
-    top_semi_branch.VertexSpread = GetSpread(doublet.Singlet1().user_info<hanalysis::JetInfo>().VertexJet());
-    top_semi_branch.EnergyFraction = doublet.Singlet1().user_info<hanalysis::JetInfo>().VertexEnergy() / doublet.Singlet1().e();
-//     top_semi_branch.BBdt = doublet.Singlet1().user_info<hanalysis::JetInfo>().Bdt();
+    top_semi_branch.VertexDeltaR = GetDeltaR(doublet.Singlet1().user_info<analysis::JetInfo>().VertexJet());
+    top_semi_branch.VertexSpread = GetSpread(doublet.Singlet1().user_info<analysis::JetInfo>().VertexJet());
+    top_semi_branch.EnergyFraction = doublet.Singlet1().user_info<analysis::JetInfo>().VertexEnergy() / doublet.Singlet1().e();
+//     top_semi_branch.BBdt = doublet.Singlet1().user_info<analysis::JetInfo>().Bdt();
 
     return top_semi_branch;
 }
 
-std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
+std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
     const int TopNumber = 2;
@@ -129,12 +129,12 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::Event &
 //         break;
 //     }
 
-    std::vector<hanalysis::Doublet> doublets;
+    std::vector<analysis::Doublet> doublets;
     for (const auto & Lepton : Leptons) {
         ++LeptonNumber;
         for (const auto & Jet : jets)  {
             if (Jet.delta_R(Lepton) > detector_geometry().JetConeSize) continue;
-            hanalysis::Doublet doublet(Jet, Lepton);
+            analysis::Doublet doublet(Jet, Lepton);
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
             ++LeptonJetNumber;
@@ -143,7 +143,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::Event &
     }
     Print(kInformation, "Number of doublets?", doublets.size());
 
-    std::vector<hanalysis::Doublet> Finaldoublets;
+    std::vector<analysis::Doublet> Finaldoublets;
     std::vector<HTopLeptonBranch> TopLeptonBranches;
     if (doublets.empty()) return TopLeptonBranches;
 
@@ -187,16 +187,16 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(hanalysis::Event &
 
 
 
-std::vector<hanalysis::Doublet>  HTopLeptonTagger::GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &Reader)
+std::vector<analysis::Doublet>  HTopLeptonTagger::GetBdt(const Jets &jets, const Jets &Leptons, const analysis::Reader &Reader)
 {
 
     Print(kInformation, "Get Bdt");
 
-    std::vector<hanalysis::Doublet> doublets;
+    std::vector<analysis::Doublet> doublets;
     for (const auto & Jet : jets)  {
         for (const auto & Lepton : Leptons) {
             if (Jet.delta_R(Lepton) > detector_geometry().JetConeSize) continue;
-            hanalysis::Doublet doublet(Jet, Lepton);
+            analysis::Doublet doublet(Jet, Lepton);
             Branch = GetBranch(doublet);
             doublet.SetBdt(Reader.Bdt());
             doublets.emplace_back(doublet);
@@ -207,10 +207,10 @@ std::vector<hanalysis::Doublet>  HTopLeptonTagger::GetBdt(const Jets &jets, cons
         const int LeptonPt = 1;
         fastjet::PseudoJet Lepton = fastjet::PseudoJet(Jet.px(), Jet.py(), Jet.pz(), Jet.e()) / Jet.pt() * LeptonPt;
         Print(kInformation, "Lepton pt", Lepton.pt(), Lepton.delta_R(Jet));
-        hanalysis::Doublet doublet(Jet, Lepton);
+        analysis::Doublet doublet(Jet, Lepton);
         Branch = GetBranch(doublet);
         doublet.SetBdt(Reader.Bdt());
-//         Print(kError,"Bdt",doublet.Bdt(),doublet.Singlet1().user_info<hanalysis::JetInfo>().Bdt());
+//         Print(kError,"Bdt",doublet.Bdt(),doublet.Singlet1().user_info<analysis::JetInfo>().Bdt());
         doublets.emplace_back(doublet);
     }
 

@@ -4,13 +4,13 @@
 # include "fastjet/JetDefinition.hh"
 # include "fastjet/ClusterSequence.hh"
 
-# include "HObject.hh"
+# include "Object.hh"
 
 /**
  * @brief prepares the data for the top tagger
  *
  */
-class hanalysis::top_hadronic_tagger : public hanalysis::HObject
+class analysis::top_hadronic_tagger : public analysis::Object
 {
 
 public:

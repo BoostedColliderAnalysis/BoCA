@@ -1,9 +1,6 @@
-# include "HObject.hh"
+# include "Object.hh"
 
-
-
-
-hanalysis::HObject::HObject()
+analysis::Object::Object()
 {
 
 //     DebugLevel = kInformation;
@@ -15,14 +12,7 @@ hanalysis::HObject::HObject()
 
 }
 
-hanalysis::HObject::~HObject()
-{
-
-//     Print(kDebug, "Destructor");
-
-}
-
-float hanalysis::HObject::GetDistance(const float Rap1, const float Phi1, const float Rap2, const float Phi2) const
+float analysis::Object::GetDistance(const float Rap1, const float Phi1, const float Rap2, const float Phi2) const
 {
 
     Print(kDebug, "GetDistance");
@@ -31,7 +21,7 @@ float hanalysis::HObject::GetDistance(const float Rap1, const float Phi1, const 
 
 }
 
-float hanalysis::HObject::GetDistance(const float Rap, const float Phi) const
+float analysis::Object::GetDistance(const float Rap, const float Phi) const
 {
 
     Print(kDebug, "GetDistance");
@@ -40,7 +30,7 @@ float hanalysis::HObject::GetDistance(const float Rap, const float Phi) const
 
 }
 
-float hanalysis::HObject::GetDeltaPhi(const float Phi, const float ReferencePhi) const
+float analysis::Object::GetDeltaPhi(const float Phi, const float ReferencePhi) const
 {
 
     Print(kDetailed, "GetDeltaPhi");
@@ -71,10 +61,10 @@ float hanalysis::HObject::GetDeltaPhi(const float Phi, const float ReferencePhi)
 }
 /*
 
-void hanalysis::HObject::Print(const int Severity, const std::string &Description) const
+void analysis::Object::Print(const int severity, const std::string &Description) const
 {
 
-    if (Severity <= DebugLevel) {
+    if (severity <= DebugLevel) {
 
         Printer(Description);
         std::cout << std::endl;
@@ -84,10 +74,10 @@ void hanalysis::HObject::Print(const int Severity, const std::string &Descriptio
 
 
 
-void hanalysis::HObject::Print(HSeverity Severity, const std::string &Description) const
+void analysis::Object::Print(Severity severity, const std::string &Description) const
 {
 
-  if (Severity <= DebugLevel) {
+  if (severity <= DebugLevel) {
 
     Printer(Description);
     std::cout << std::endl;
@@ -95,7 +85,7 @@ void hanalysis::HObject::Print(HSeverity Severity, const std::string &Descriptio
 
 }*/
 
-void hanalysis::HObject::Printer(const std::string &Description) const
+void analysis::Object::Printer(const std::string &Description) const
 {
 
     const char Separator = ' ';
@@ -110,7 +100,7 @@ void hanalysis::HObject::Printer(const std::string &Description) const
 
 }
 
-std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
+std::string analysis::Object::GetParticleName(const int ParticleId) const
 {
 
     std::string Sign = "";
@@ -241,7 +231,7 @@ std::string hanalysis::HObject::GetParticleName(const int ParticleId) const
 }
 
 
-float hanalysis::HObject::GetParticleMass(const HParticleId ParticleId) const
+float analysis::Object::GetParticleMass(const HParticleId ParticleId) const
 {
 
     switch (std::abs(ParticleId)) {

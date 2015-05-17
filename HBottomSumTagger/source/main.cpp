@@ -1,7 +1,7 @@
 #include "HAnalysisBottomSumTagger.hh"
 #include "HJetPairTagger.hh"
 
-void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
+void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
     hbottomsumtagger::HAnalysis Analysis(tagger);
     const std::string Name = tagger.tagger_name();
@@ -13,11 +13,11 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     FileName = Analysis.ProjectName() + "/Mva" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (tagger) {
-//         case hanalysis::HAnalysis::HBottomTagger:
-            hanalysis::Factory factory(tagger);
+//         case analysis::HAnalysis::HBottomTagger:
+            analysis::Factory factory(tagger);
 //             break;
-//         case hanalysis::HAnalysis::HJetPairTagger:
-//           hanalysis::Factory(Analysis.eventBottomSumTagger);
+//         case analysis::HAnalysis::HJetPairTagger:
+//           analysis::Factory(Analysis.eventBottomSumTagger);
 //           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;
@@ -27,9 +27,9 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
     FileName = Analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (tagger) {
-//           case hanalysis::HAnalysis::HJetPairReader: {
-//             Analysis.SetTrees(hanalysis::HAnalysis::HJetPairReader, hanalysis::HObject::kBackground);
-            hanalysis::Reader Reader(tagger);
+//           case analysis::HAnalysis::HJetPairReader: {
+//             Analysis.SetTrees(analysis::HAnalysis::HJetPairReader, analysis::Object::kBackground);
+            analysis::Reader Reader(tagger);
 //             Reader.SimpleMVALoop();
 //             break;
 //         }
@@ -42,12 +42,12 @@ void RunTagger(hanalysis::Tagger &tagger, hanalysis::Tagger::Stage stage)
 
 int main()
 {
-  hanalysis::BottomTagger bottom_tagger;
-  RunTagger(bottom_tagger, hanalysis::Tagger::kTrainer);
+  analysis::BottomTagger bottom_tagger;
+  RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
 
-  hanalysis::HJetPairTagger jet_pair_tagger;
-  RunTagger(jet_pair_tagger, hanalysis::Tagger::kTrainer);
-  RunTagger(jet_pair_tagger, hanalysis::Tagger::kReader);
+  analysis::HJetPairTagger jet_pair_tagger;
+  RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
+  RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
 
     return 0;
 

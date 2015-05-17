@@ -3,7 +3,7 @@
 
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 
-# include "HObject.hh"
+# include "Object.hh"
 # include "Branch.hh"
 
 struct HMomentum {
@@ -24,7 +24,7 @@ struct HMomentum {
  * @brief subjet and constituent calculations
  *
  */
-class hanalysis::HSubStructure : public HObject
+class analysis::HSubStructure : public Object
 {
 
 public:

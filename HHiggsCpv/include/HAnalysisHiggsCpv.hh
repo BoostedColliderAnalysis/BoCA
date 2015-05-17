@@ -21,11 +21,11 @@ class HHiggsCpv
 
 public:
 
-  hanalysis::Doublet Higgs;
-    hanalysis::Doublet Top;
-    hanalysis::Doublet AntiTop;
+  analysis::Doublet Higgs;
+    analysis::Doublet Top;
+    analysis::Doublet AntiTop;
 
-    HHiggsCpv(const hanalysis::Doublet &NewHiggs, const hanalysis::Doublet &NewTop, const hanalysis::Doublet &NewAntiTop) {
+    HHiggsCpv(const analysis::Doublet &NewHiggs, const analysis::Doublet &NewTop, const analysis::Doublet &NewAntiTop) {
         Higgs = NewHiggs;
         Top = NewTop;
         AntiTop = NewAntiTop;
@@ -57,7 +57,7 @@ public:
  * \author Jan Hajer
  *
  */
-class hhiggscpv::HAnalysis : public hanalysis::HAnalysis
+class hhiggscpv::HAnalysis : public analysis::HAnalysis
 {
 
 public:
@@ -74,16 +74,16 @@ public:
      */
     ~HAnalysis();
 
-    hanalysis::BottomTagger bottom_tagger_;
-    hanalysis::HTopLeptonicTagger LeptonicTopTagger;
-    hanalysis::HMvaHiggsTagger HiggsTagger;
+    analysis::BottomTagger bottom_tagger_;
+    analysis::HTopLeptonicTagger LeptonicTopTagger;
+    analysis::HMvaHiggsTagger HiggsTagger;
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector<hanalysis::File * > GetFiles(const std::string &StudyName);
+    std::vector<analysis::File * > GetFiles(const std::string &StudyName);
 
 private:
 
@@ -98,9 +98,9 @@ private:
     ExRootTreeBranch *TopBranch;
     ExRootTreeBranch *eventBranch;
 
-    hanalysis::Reader BottomReader;
-    hanalysis::Reader TopReader;
-    hanalysis::Reader HiggsReader;
+    analysis::Reader BottomReader;
+    analysis::Reader TopReader;
+    analysis::Reader HiggsReader;
 
     inline int EventNumberMax() const {
         return 100000;
@@ -110,22 +110,22 @@ private:
         return "HiggsCpv";
     }
 
-    hanalysis::HJetTag JetTag;
+    analysis::HJetTag JetTag;
 
     /**
      * @brief Main Analysis function
      *
      * @return void
      */
-    int Analysis(hanalysis::Event &event, const std::string &NewStudyName);
+    int Analysis(analysis::Event &event, const std::string &NewStudyName);
 
-    bool GetBottomTag(hanalysis::Event &, const std::string &StudyName);
+    bool GetBottomTag(analysis::Event &, const std::string &StudyName);
 
-    bool GetTopTag(hanalysis::Event &event, const std::string &NewStudyName);
+    bool GetTopTag(analysis::Event &event, const std::string &NewStudyName);
 
-    bool GetHiggsTag(hanalysis::Event &event, const std::string &NewStudyName);
+    bool GetHiggsTag(analysis::Event &event, const std::string &NewStudyName);
 
-    bool GetSignalTag(hanalysis::Event &event, const std::string &StudyName);
+    bool GetSignalTag(analysis::Event &event, const std::string &StudyName);
 
     std::vector<HHiggsCpv> GetHiggsCpvs(const Jets &jets, const Jets &Leptons);
 

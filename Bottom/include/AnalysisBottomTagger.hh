@@ -10,12 +10,12 @@
  * @author Jan Hajer
  *
  */
-class hbtagger::HAnalysis : public hanalysis::HAnalysis
+class hbtagger::HAnalysis : public analysis::HAnalysis
 {
 
 public:
 
-    HAnalysis(hanalysis::Tagger &tagger);
+    HAnalysis(analysis::Tagger &tagger);
 
     inline std::string ProjectName() const {
         return  ProductionChannelName(production_channel()) + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
@@ -80,11 +80,11 @@ private:
     }
 
     void NewSignalFile(const Process process) {
-      hanalysis::HAnalysis::NewSignalFile(FileName(process));
+      analysis::HAnalysis::NewSignalFile(FileName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-      hanalysis::HAnalysis::NewBackgroundFile(FileName(process));
+      analysis::HAnalysis::NewBackgroundFile(FileName(process));
     }
 
     virtual inline std::string FilePath() const {
@@ -95,10 +95,10 @@ private:
 
     std::string ProcessName(const Process process) const;
 
-    void SetFiles(const hanalysis::HObject::Tag Tag);
+    void SetFiles(const analysis::Object::Tag Tag);
 
-    int PassPreCut(hanalysis::Event &event);
+    int PassPreCut(analysis::Event &event);
 
-    int Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag);
+    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 };

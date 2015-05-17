@@ -1,7 +1,7 @@
 # include "TopHadronicHep.hh"
 # include "HEPTopTagger.hh"
 
-hanalysis::top_hadronic_tagger::top_hadronic_tagger()
+analysis::top_hadronic_tagger::top_hadronic_tagger()
 {
 
 
@@ -9,14 +9,14 @@ hanalysis::top_hadronic_tagger::top_hadronic_tagger()
 
 }
 
-hanalysis::top_hadronic_tagger::~top_hadronic_tagger()
+analysis::top_hadronic_tagger::~top_hadronic_tagger()
 {
 
     Print(kNotification, "Destructor");
 
 }
 
-Jets hanalysis::top_hadronic_tagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
+Jets analysis::top_hadronic_tagger::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
 {
 
     Print(kInformation, "Tagging Top");
@@ -83,7 +83,7 @@ Jets hanalysis::top_hadronic_tagger::GetTops(std::vector< fastjet::PseudoJet > &
 
 }
 
-Jets hanalysis::top_hadronic_tagger::GetGranulatedJets(Jets &EFlowJets)
+Jets analysis::top_hadronic_tagger::GetGranulatedJets(Jets &EFlowJets)
 {
 
 

@@ -12,23 +12,23 @@
 
 
 
-class HOctet : public hanalysis::HTag
+class HOctet : public analysis::HTag
 {
 
 public:
 
-  HOctet(const hanalysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
+  HOctet(const analysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
     SextetM = NewHeavyHiggs;
     Jet1 = NewBottom;
     Jet2 = NewAntiBottom;
   }
 
-  hanalysis::HSextet Sextet()const {
+  analysis::HSextet Sextet()const {
     return SextetM;
   }
 
   float Bdt() const {
-    return (SextetM.Bdt() * Jet1.user_info<hanalysis::JetInfo>().Bdt() * Jet1.user_info<hanalysis::JetInfo>().Bdt());
+    return (SextetM.Bdt() * Jet1.user_info<analysis::JetInfo>().Bdt() * Jet1.user_info<analysis::JetInfo>().Bdt());
   }
 
   float DeltaRap() const {
@@ -123,7 +123,7 @@ private:
 
   fastjet::PseudoJet Jet1;
   fastjet::PseudoJet Jet2;
-  hanalysis::HSextet SextetM;
+  analysis::HSextet SextetM;
   int LeptonNumber;
   int BottomNumber;
   int JetNumber;
@@ -138,7 +138,7 @@ private:
  * @brief Prepares multivariant analysis
  *
  */
-class hheavyhiggs::HMvaevent : public hanalysis::Tagger
+class hheavyhiggs::HMvaevent : public analysis::Tagger
 {
 
 public:
@@ -147,7 +147,7 @@ public:
     * @brief Constructor
     *
     */
-    HMvaevent(hanalysis::BottomTagger *const NewBottomTagger, hanalysis::HTopSemiTagger *const NewTopTagger, hanalysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
+    HMvaevent(analysis::BottomTagger *const NewBottomTagger, analysis::HTopSemiTagger *const NewTopTagger, analysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -155,7 +155,7 @@ public:
     */
     ~HMvaevent();
 
-    std::vector<hheavyhiggs::EventLeptonicBranch *> GetBranches(hanalysis::Event &event, const HObject::HState State);
+    std::vector<hheavyhiggs::EventLeptonicBranch *> GetBranches(analysis::Event &event, const Object::HState State);
 
     void FillBranch(const HOctet &HeavyHiggsevent);
 
@@ -179,16 +179,16 @@ private:
     void DefineVariables();
 
 
-    hanalysis::BottomTagger *BottomTagger;
-    hanalysis::HTopSemiTagger *LeptonicTopTagger;
-    hanalysis::HHeavyHiggsTagger *HeavyHiggsTagger;
-    hanalysis::Reader BottomReader;
-    hanalysis::Reader TopReader;
-    hanalysis::Reader HeavyHiggsReader;
+    analysis::BottomTagger *BottomTagger;
+    analysis::HTopSemiTagger *LeptonicTopTagger;
+    analysis::HHeavyHiggsTagger *HeavyHiggsTagger;
+    analysis::Reader BottomReader;
+    analysis::Reader TopReader;
+    analysis::Reader HeavyHiggsReader;
 
     hheavyhiggs::EventLeptonicBranch Branch;
 
-    hanalysis::HJetTag JetTag;
+    analysis::HJetTag JetTag;
 
     virtual inline std::string NameSpaceName() const {
         return "hheavyhiggs";

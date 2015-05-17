@@ -13,18 +13,18 @@
  * @brief calculation regarding leptons
  *
  */
-class hanalysis::HMvaHiggsTagger : public Tagger
+class analysis::HMvaHiggsTagger : public Tagger
 {
 
 public:
 
     HMvaHiggsTagger();
 
-    HMvaHiggsTagger(const hanalysis::BottomTagger &NewBottomTagger);
+    HMvaHiggsTagger(const analysis::BottomTagger &NewBottomTagger);
 
     ~HMvaHiggsTagger();
 
-    std::vector< HHiggsBranch * > GetBranches(Event &event, const HObject::Tag State);
+    std::vector< HHiggsBranch * > GetBranches(Event &event, const Object::Tag State);
 
     std::vector<ParticleBranch *> GetconstituentBranches();
 

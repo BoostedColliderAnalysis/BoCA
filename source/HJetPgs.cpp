@@ -1,11 +1,11 @@
 # include "HJetPgs.hh"
 
-hanalysis::hpgs::HJet::HJet()
+analysis::hpgs::HJet::HJet()
 {
     Print(kNotification, "Constructor");
 }
 
-bool hanalysis::hpgs::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
+bool analysis::hpgs::HJet::GetJets(const analysis::HJet::HJetDetails JetDetails)
 {
     Print(kInformation, "Get Jet", clones_arrays_->JetSum(), JetDetails);
     for (const int JetNumber : Range(clones_arrays_->JetSum())) {

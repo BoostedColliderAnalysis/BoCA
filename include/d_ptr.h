@@ -3,7 +3,7 @@
 
 #include <memory>
 
-namespace hanalysis{
+namespace analysis{
   class d_ptr;
 }
 
@@ -30,7 +30,7 @@ public:
 #define D_PTR             \
     class HTagPrivate;        \
     friend class HTagPrivate; \
-    const hanalysis::d_ptr<HTagPrivate> d
+    const analysis::d_ptr<HTagPrivate> d
 
 //   } // namespace utils
 // } // namespace kamd

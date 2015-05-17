@@ -33,7 +33,7 @@ private:
 
 
 
-class hanalysis::Doublet : public HTag
+class analysis::Doublet : public HTag
 {
 
 public:
@@ -157,7 +157,7 @@ private:
 //  * @brief thin wrappper around fastjet::PseudoJet to make it behave like a HMultiplet
 //  *
 //  */
-// class hanalysis::HSinglet : public HTag
+// class analysis::HSinglet : public HTag
 // {
 // public:
 //
@@ -197,7 +197,7 @@ private:
 //  *
 //  */
 // template<class TMultiplet>
-// class hanalysis::HPair : public HTag
+// class analysis::HPair : public HTag
 // {
 //
 // public:

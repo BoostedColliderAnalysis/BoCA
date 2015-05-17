@@ -6,7 +6,7 @@
  * @brief Bottom BDT tagger
  *
  */
-namespace hanalysis
+namespace analysis
 {
 class BottomTagger : public Tagger
 {
@@ -17,12 +17,12 @@ public:
 
     BottomBranch FillBranch(const fastjet::PseudoJet &Jet) const;
 
-    int Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag){
+    int Train(analysis::Event &event, const analysis::Object::Tag tag){
       PreCuts pre_cuts;
       return Train(event,pre_cuts,tag);
     }
 
-    int Train(hanalysis::Event &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag);
+    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
     Jets GetMultiJetBdt(const Jets& jets, const TMVA::Reader& reader);
 
@@ -35,13 +35,13 @@ public:
 
     Jets GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    int GetBdt(hanalysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         Jets jets = GetJetBdt(event, pre_cuts, reader);
         SaveEntries(jets);
         return jets.size();
     }
 
-    int GetBdt(hanalysis::Event &event, const TMVA::Reader &reader) {
+    int GetBdt(analysis::Event &event, const TMVA::Reader &reader) {
       PreCuts pre_cuts;
       return GetBdt(event,pre_cuts,reader);
     }
@@ -104,9 +104,9 @@ private:
 
     void DefineVariables();
 
-    Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag);
+    Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
-    Jets GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag, const int sub_jet_number);
+    Jets GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const analysis::Object::Tag tag, const int sub_jet_number);
 
     BottomBranch branch_;
 

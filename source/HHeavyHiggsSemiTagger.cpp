@@ -1,13 +1,13 @@
 # include "HHeavyHiggsSemiTagger.hh"
 
-hanalysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger()
+analysis::HHeavyHiggsSemiTagger::HHeavyHiggsSemiTagger()
 {
-//         DebugLevel = hanalysis::HObject::kDetailed;
+//         DebugLevel = analysis::Object::kDetailed;
     Print(kNotification, "Constructor");
     DefineVariables();
 }
 
-void hanalysis::HHeavyHiggsSemiTagger::SetTagger(
+void analysis::HHeavyHiggsSemiTagger::SetTagger(
     const BottomTagger &NewBottomTagger,
     const HWSemiTagger &NewWSemiTagger,
     const WHadronicTagger &NewWTagger,
@@ -24,7 +24,7 @@ void hanalysis::HHeavyHiggsSemiTagger::SetTagger(
     DefineVariables();
 }
 
-void hanalysis::HHeavyHiggsSemiTagger::DefineVariables()
+void analysis::HHeavyHiggsSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     set_tagger_name("HeavyHiggsSemi");
@@ -51,7 +51,7 @@ void hanalysis::HHeavyHiggsSemiTagger::DefineVariables()
 
 }
 
-HHeavyHiggsSemiBranch hanalysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet &Sextet) const
+HHeavyHiggsSemiBranch analysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet &Sextet) const
 {
     Print(kInformation, "FillPairTagger", Sextet.Bdt());
 
@@ -74,7 +74,7 @@ HHeavyHiggsSemiBranch hanalysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet 
     return HeavyHiggsBranch;
 }
 
-std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, const float pre_cut)
+std::vector< HHeavyHiggsSemiBranch> analysis::HHeavyHiggsSemiTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const float pre_cut)
 {
     Print(kInformation, "Get Higgs Tags");
 
@@ -164,7 +164,7 @@ std::vector< HHeavyHiggsSemiBranch> hanalysis::HHeavyHiggsSemiTagger::GetBranche
 }
 
 
-hanalysis::HObject::Tag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet &)
+analysis::Object::Tag analysis::HHeavyHiggsSemiTagger::GetTag(const HSextet &)
 {
     Print(kInformation, "Get boosted Sextet Tag");
 
@@ -172,7 +172,7 @@ hanalysis::HObject::Tag hanalysis::HHeavyHiggsSemiTagger::GetTag(const HSextet &
 }
 
 
-std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const std::vector<Triplet> &tripletsSemi, const std::vector<Triplet> &tripletsHadronic, const Reader &Reader)
+std::vector<analysis::HSextet>  analysis::HHeavyHiggsSemiTagger::GetBdt(const std::vector<Triplet> &tripletsSemi, const std::vector<Triplet> &tripletsHadronic, const Reader &Reader)
 {
 
     std::vector<HSextet > Sextets;
@@ -193,7 +193,7 @@ std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const 
     return Sextets;
 }
 
-std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsSemiTagger::GetBdt(const std::vector<Triplet> &tripletsSemi, const std::vector<Triplet> &tripletsHadronic, const Reader &Reader, const int Mass)
+std::vector<analysis::HSextet>  analysis::HHeavyHiggsSemiTagger::GetBdt(const std::vector<Triplet> &tripletsSemi, const std::vector<Triplet> &tripletsHadronic, const Reader &Reader, const int Mass)
 {
 
     std::vector<HSextet > Sextets;

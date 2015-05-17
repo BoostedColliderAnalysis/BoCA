@@ -1,41 +1,21 @@
-# ifndef HObject_hh
-# define HObject_hh
+# pragma once
 
 # include "HGlobal.hh"
+
+namespace analysis{
 
 /**
  * @brief general base class for HAnalysis
  *
  */
-class hanalysis::HObject
+class Object
 {
 
 public:
 
-    /**
-     * @brief Constructor
-     *
-     */
-    HObject();
+    Object();
 
-    /**
-     * @brief Destructor
-     *
-     */
-    virtual ~HObject();
-
-
-
-
-    /**
-     * @brief Print a debug message
-     *
-     * @param  Severity of the debug message
-     * @param  Description of the debug message
-     * @return void
-     */
-
-    enum HSeverity {
+    enum Severity {
         kError,
         kNotification,
         kInformation,
@@ -45,9 +25,9 @@ public:
 
     enum Tag {kBackground = 0, kSignal = 1};
 
-    template <typename TSeverity>
-    inline void Print(const TSeverity Severity, const std::string &Description) const {
-        if (Severity > DebugLevel) return;
+    template <typename Tseverity>
+    inline void Print(const Tseverity severity, const std::string &Description) const {
+        if (severity > DebugLevel) return;
         Printer(Description);
         std::cout << std::endl;
     }
@@ -55,15 +35,10 @@ public:
     /**
      * @brief Print a debug messages
      *
-     * @param  Severity of the debug message
-     * @param  Description of the debug message
-     * @param  Value relevant to the debug message
-     *
-     * @return void
      */
-    template<typename TSeverity, typename TValue>
-    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value) const {
-        if (Severity > DebugLevel) return;
+    template<typename Tseverity, typename TValue>
+    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value) const {
+        if (severity > DebugLevel) return;
         Printer(Description);
         std::cout << " " << Value << std::endl;
     }
@@ -71,16 +46,10 @@ public:
     /**
      * @brief Print a debug messages
      *
-     * @param  Severity of the debug message
-     * @param  Description of the debug message
-     * @param  Value relevant to the debug message
-     * @param  Value2 relevant to the debug message
-     *
-     * @return void
      */
-    template<typename TSeverity, typename TValue, typename TValue2>
-    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2) const {
-        if (Severity > DebugLevel) return;
+    template<typename Tseverity, typename TValue, typename TValue2>
+    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value, const TValue2 Value2) const {
+        if (severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
         Printer(Description);
@@ -92,17 +61,10 @@ public:
     /**
      * @brief Print a debug messages
      *
-     * @param  Severity of the debug message
-     * @param  Description of the debug message
-     * @param  Value relevant to the debug message
-     * @param  Value2 relevant to the debug message
-     * @param  Value3 relevant to the debug message
-     *
-     * @return void
      */
-    template<typename TSeverity, typename TValue, typename TValue2, typename TValue3>
-    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
-        if (Severity > DebugLevel) return;
+    template<typename Tseverity, typename TValue, typename TValue2, typename TValue3>
+    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
+        if (severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
         Printer(Description);
@@ -112,9 +74,9 @@ public:
         std::cout << std::endl;
     }
 
-    template<typename TSeverity, typename TValue, typename TValue2, typename TValue3, typename TValue4>
-    inline void Print(const TSeverity Severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
-        if (Severity > DebugLevel) return;
+    template<typename Tseverity, typename TValue, typename TValue2, typename TValue3, typename TValue4>
+    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
+        if (severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 15;
         Printer(Description);
@@ -125,16 +87,16 @@ public:
         std::cout << std::endl;
     }
 
-    template<typename TSeverity>
-    inline void Print(const TSeverity Severity, const std::string &Description, const fastjet::PseudoJet &Jet) const {
-        if (Severity > DebugLevel) return;
-        Print(Severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
+    template<typename Tseverity>
+    inline void Print(const Tseverity severity, const std::string &Description, const fastjet::PseudoJet &Jet) const {
+        if (severity > DebugLevel) return;
+        Print(severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
     }
 
-    template<typename TSeverity>
-    void Print(const TSeverity Severity, const std::string &Description, float Momentum[]) const {
-        if (Severity > DebugLevel) return;
-        Print(Severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
+    template<typename Tseverity>
+    void Print(const Tseverity severity, const std::string &Description, float Momentum[]) const {
+        if (severity > DebugLevel) return;
+        Print(severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
     }
 
     enum HParticleId {
@@ -240,7 +202,7 @@ protected:
 
     virtual inline std::string ClassName() const {
 
-        return ("HObject");
+        return ("Object");
 
     };
 
@@ -253,7 +215,7 @@ protected:
 
     std::string GetParticleName(const int ParticleId) const;
 
-    float GetParticleMass(const hanalysis::HObject::HParticleId ParticleId) const;
+    float GetParticleMass(const analysis::Object::HParticleId ParticleId) const;
 
 
     /**
@@ -266,7 +228,7 @@ protected:
      * 4: Step by Step Information
      *
      */
-    HSeverity DebugLevel;
+    Severity DebugLevel;
 
     /**
      * @brief A large number
@@ -376,6 +338,4 @@ private:
 
 };
 
-
-#endif
-
+}

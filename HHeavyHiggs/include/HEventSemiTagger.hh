@@ -11,7 +11,7 @@
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::EventSemiTagger : public hanalysis::Tagger
+class hheavyhiggs::EventSemiTagger : public analysis::Tagger
 {
 
 public:
@@ -29,18 +29,18 @@ public:
     ~EventSemiTagger();
 
     void SetTagger(
-        const hanalysis::BottomTagger &NewBottomTagger,
-        const hanalysis::HJetPairTagger &NewJetPairTagger,
-        const hanalysis::HWSemiTagger &NewWSemiTagger,
-        const hanalysis::WHadronicTagger &NewWTagger,
-        const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-        const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
-        const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
+        const analysis::BottomTagger &NewBottomTagger,
+        const analysis::HJetPairTagger &NewJetPairTagger,
+        const analysis::HWSemiTagger &NewWSemiTagger,
+        const analysis::WHadronicTagger &NewWTagger,
+        const analysis::HTopSemiTagger &NewTopSemiTagger,
+        const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
+        const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
         const HSignatureSemiTagger &NewSignatureSemiTagger);
 
-    std::vector<EventSemiBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector<EventSemiBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< EventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, EventStruct &eventStruct, const hanalysis::Reader &eventSemiReader);
+    std::vector< EventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -48,23 +48,23 @@ public:
 
     EventSemiBranch GetBranch(const EventMultiplet< HOctet > &Octet) const;
 
-    hanalysis::BottomTagger bottom_tagger_;
-    hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::WHadronicTagger WTagger;
-    hanalysis::HTopSemiTagger TopSemiTagger;
-    hanalysis::TopHadronicTagger top_hadronic_tagger;
-    hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
-    hanalysis::HJetPairTagger JetPairTagger;
+    analysis::BottomTagger bottom_tagger_;
+    analysis::HWSemiTagger WSemiTagger;
+    analysis::WHadronicTagger WTagger;
+    analysis::HTopSemiTagger TopSemiTagger;
+    analysis::TopHadronicTagger top_hadronic_tagger;
+    analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+    analysis::HJetPairTagger JetPairTagger;
     HSignatureSemiTagger SignatureSemiTagger;
 
-    hanalysis::Reader BottomReader;
-    hanalysis::Reader WSemiReader;
-    hanalysis::Reader WReader;
-    hanalysis::Reader TopHadronicReader;
-    hanalysis::Reader TopSemiReader;
-    hanalysis::Reader HeavyHiggsSemiReader;
-    hanalysis::Reader JetPairReader;
-    hanalysis::Reader SignatureSemiReader;
+    analysis::Reader BottomReader;
+    analysis::Reader WSemiReader;
+    analysis::Reader WReader;
+    analysis::Reader TopHadronicReader;
+    analysis::Reader TopSemiReader;
+    analysis::Reader HeavyHiggsSemiReader;
+    analysis::Reader JetPairReader;
+    analysis::Reader SignatureSemiReader;
 
 
 protected:
@@ -84,7 +84,7 @@ private:
     std::vector<HOctet> GetHeavyHiggsevents(Jets &jets);
 
     EventSemiBranch Branch;
-    hanalysis::HJetTag JetTag;
+    analysis::HJetTag JetTag;
 
 };
 

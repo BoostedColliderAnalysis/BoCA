@@ -8,7 +8,7 @@
  * @brief W BDT tagger
  *
  */
-class hanalysis::HWTagger : public Tagger
+class analysis::HWTagger : public Tagger
 {
 
 public:
@@ -17,17 +17,17 @@ public:
 
     void SetTagger(const HBottomTagger &NewBottomTagger);
 
-    std::vector< WHadronicBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< WHadronicBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
 //     std::vector<ParticleBranch> GetconstituentBranches();
 
-    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader);
+    std::vector<Doublet> GetBdt(const Jets &jets, const analysis::HReader &WReader, analysis::HBottomTagger &BottomTagger, analysis::HReader &BottomReader);
 
-    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::HReader &WReader);
-    std::vector<Doublet> GetPairBdt(const Jets &jets, const hanalysis::HReader &WReader);
-    std::vector<Doublet> GetSingletBdt(const Jets &jets, const hanalysis::HReader &WReader);
+    std::vector<Doublet> GetBdt(const Jets &jets, const analysis::HReader &WReader);
+    std::vector<Doublet> GetPairBdt(const Jets &jets, const analysis::HReader &WReader);
+    std::vector<Doublet> GetSingletBdt(const Jets &jets, const analysis::HReader &WReader);
 
-    Doublet GetBdt(Doublet &doublet, const hanalysis::HReader &WReader);
+    Doublet GetBdt(Doublet &doublet, const analysis::HReader &WReader);
 
     HBottomTagger BottomTagger;
 
@@ -35,7 +35,7 @@ public:
 
     WHadronicBranch GetBranch(const Doublet &doublet) const;
 
-    int GetWHadId(hanalysis::Event &event) {
+    int GetWHadId(analysis::Event &event) {
       return GetWHadId(GetWDaughters(event));
     };
 
@@ -47,7 +47,7 @@ protected:
 
 private:
 
-    Jets GetWDaughters(hanalysis::Event &event);
+    Jets GetWDaughters(analysis::Event &event);
 
     int GetWHadId(const Jets &jets);
 
@@ -55,9 +55,9 @@ private:
 
 //     ParticleBranch GetBranch(const HKinematics &Vector);
 
-//     hanalysis::HObject::HTag GetTag(const Doublet &doublet);
+//     analysis::Object::HTag GetTag(const Doublet &doublet);
 
-//     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Singlet);
+//     analysis::Object::HTag GetTag(const fastjet::PseudoJet &Singlet);
 
     WHadronicBranch Branch;
     HJetTag JetTag;

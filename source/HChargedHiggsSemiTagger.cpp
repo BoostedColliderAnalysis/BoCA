@@ -1,19 +1,19 @@
 # include "HChargedHiggsSemiTagger.hh"
 
-hanalysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
+analysis::HChargedHiggsSemiTagger::HChargedHiggsSemiTagger()
 {
-    //     DebugLevel = hanalysis::HObject::kDebug;
+    //     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("ChargedHiggsSemi");
     DefineVariables();
 }
 
-void hanalysis::HChargedHiggsSemiTagger::SetTagger(
-    const hanalysis::BottomTagger &NewBottomTagger,
-    const hanalysis::HWSemiTagger &NewWSemiTagger,
-    const hanalysis::WHadronicTagger &NewWTagger,
-    const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-    const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger)
+void analysis::HChargedHiggsSemiTagger::SetTagger(
+    const analysis::BottomTagger &NewBottomTagger,
+    const analysis::HWSemiTagger &NewWSemiTagger,
+    const analysis::WHadronicTagger &NewWTagger,
+    const analysis::HTopSemiTagger &NewTopSemiTagger,
+    const analysis::TopHadronicTagger &Newtop_hadronic_tagger)
 {
     bottom_tagger_ = NewBottomTagger;
     WSemiTagger = NewWSemiTagger;
@@ -26,7 +26,7 @@ void hanalysis::HChargedHiggsSemiTagger::SetTagger(
 }
 
 
-void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
+void analysis::HChargedHiggsSemiTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -55,7 +55,7 @@ void hanalysis::HChargedHiggsSemiTagger::DefineVariables()
 
 }
 
-HChargedHiggsSemiBranch hanalysis::HChargedHiggsSemiTagger::GetBranch(const HQuartet31 &Quartet)const
+HChargedHiggsSemiBranch analysis::HChargedHiggsSemiTagger::GetBranch(const HQuartet31 &Quartet)const
 {
     Print(kInformation, "FillPairTagger", Quartet.Bdt());
     HChargedHiggsSemiBranch ChargedHiggsBranch;
@@ -83,7 +83,7 @@ HChargedHiggsSemiBranch hanalysis::HChargedHiggsSemiTagger::GetBranch(const HQua
 
 
 
-std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
+std::vector< HChargedHiggsSemiBranch> analysis::HChargedHiggsSemiTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 
@@ -156,7 +156,7 @@ std::vector< HChargedHiggsSemiBranch> hanalysis::HChargedHiggsSemiTagger::GetBra
 }
 
 
-hanalysis::HObject::Tag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuartet31 &)
+analysis::Object::Tag analysis::HChargedHiggsSemiTagger::GetTag(const HQuartet31 &)
 {
     Print(kInformation, "Get Sextet Tag");
 
@@ -166,7 +166,7 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsSemiTagger::GetTag(const HQuarte
 
 
 
-std::vector<hanalysis::HQuartet31>  hanalysis::HChargedHiggsSemiTagger::GetBdt(const std::vector<Triplet> triplets , const std::vector<fastjet::PseudoJet> Siglets, const Reader &Reader)
+std::vector<analysis::HQuartet31>  analysis::HChargedHiggsSemiTagger::GetBdt(const std::vector<Triplet> triplets , const std::vector<fastjet::PseudoJet> Siglets, const Reader &Reader)
 {
 
     std::vector<HQuartet31> Quartets;

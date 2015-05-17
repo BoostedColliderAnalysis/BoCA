@@ -3,14 +3,14 @@
 
 # include "Doublet.hh"
 
-class hanalysis::HQuartet : public HTag
+class analysis::HQuartet : public HTag
 {
 
 public:
 
     HQuartet() {}
 
-    HQuartet(const hanalysis::Doublet &Newdoublet1, const hanalysis::Doublet &Newdoublet2);
+    HQuartet(const analysis::Doublet &Newdoublet1, const analysis::Doublet &Newdoublet2);
 
     ~HQuartet();
 

@@ -8,7 +8,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hanalysis::Factory : public HObject
+class analysis::Factory : public Object
 {
 
 public:
@@ -17,7 +17,7 @@ public:
      * @brief Constructor
      *
      */
-    Factory(hanalysis::Tagger &tagger);
+    Factory(analysis::Tagger &tagger);
 
 private:
 
@@ -44,7 +44,7 @@ private:
      */
     void PrepareTrainingAndTestTree(const int event_number);
 
-    int AddTree(TFile &file, const std::string &tree_name, const hanalysis::HObject::Tag tag);
+    int AddTree(TFile &file, const std::string &tree_name, const analysis::Object::Tag tag);
 
     TFile *output_file() const;
 

@@ -1,31 +1,31 @@
 # include "Triplet.hh"
 
-void hanalysis::Triplet::SetSinglet(const fastjet::PseudoJet &singlet)
+void analysis::Triplet::SetSinglet(const fastjet::PseudoJet &singlet)
 {
   singlet_ = singlet;
 }
 
-void hanalysis::Triplet::Setdoublet(const hanalysis::Doublet &doublet)
+void analysis::Triplet::Setdoublet(const analysis::Doublet &doublet)
 {
   doublet_ = doublet;
 }
 
-hanalysis::Triplet::Triplet()
+analysis::Triplet::Triplet()
 {
     Print(kInformation, "Constructor");
 }
 
-fastjet::PseudoJet hanalysis::Triplet::singlet() const
+fastjet::PseudoJet analysis::Triplet::singlet() const
 {
     return singlet_;
 }
 
-hanalysis::Doublet hanalysis::Triplet::doublet() const
+analysis::Doublet analysis::Triplet::doublet() const
 {
     return doublet_;
 }
 
-hanalysis::Triplet::Triplet(const hanalysis::Doublet &doublet, const fastjet::PseudoJet &singlet)
+analysis::Triplet::Triplet(const analysis::Doublet &doublet, const fastjet::PseudoJet &singlet)
 {
     Print(kInformation, "Constructor");
     SetSinglet(singlet);
@@ -34,7 +34,7 @@ hanalysis::Triplet::Triplet(const hanalysis::Doublet &doublet, const fastjet::Ps
     SetFlag(doublet.Flag());
 }
 
-hanalysis::Triplet::Triplet(const fastjet::PseudoJet &singlet)
+analysis::Triplet::Triplet(const fastjet::PseudoJet &singlet)
 {
     Print(kInformation, "Constructor");
     SetSinglet(singlet / 2);

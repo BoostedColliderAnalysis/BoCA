@@ -8,22 +8,22 @@
  * @brief Bdt heavy higgs tagger
  *
  */
-class hanalysis::HChargedHiggsHadronicTagger : public Tagger
+class analysis::HChargedHiggsHadronicTagger : public Tagger
 {
 
 public:
 
   HChargedHiggsHadronicTagger();
 
-    HChargedHiggsHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger);
+    HChargedHiggsHadronicTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopHadronicTagger &NewTopTagger);
 
     ~HChargedHiggsHadronicTagger();
 
-    std::vector<HChargedHiggsHadronicBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector<HChargedHiggsHadronicBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedHiggsHadronicBranch GetBranch(const hanalysis::HQuartet31 &Quartet);
+    HChargedHiggsHadronicBranch GetBranch(const analysis::HQuartet31 &Quartet);
 
-    std::vector< HQuartet31 > GetBdt(std::vector< hanalysis::Triplet >& triplets, Jets& jets, const hanalysis::Reader& Reader);
+    std::vector< HQuartet31 > GetBdt(std::vector< analysis::Triplet >& triplets, Jets& jets, const analysis::Reader& Reader);
 
 protected:
 
@@ -36,7 +36,7 @@ private:
     void DefineVariables();
 
 
-    Tag GetTag(const hanalysis::HQuartet31 &Quartet);
+    Tag GetTag(const analysis::HQuartet31 &Quartet);
 
     BottomTagger bottom_tagger_;
     WHadronicTagger WTagger;

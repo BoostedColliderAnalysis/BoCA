@@ -1,25 +1,25 @@
 # include "HTauTagger.hh"
 
-hanalysis::HTauTagger::HTauTagger()
+analysis::HTauTagger::HTauTagger()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
     SetTagger();
 }
 
-hanalysis::HTauTagger::~HTauTagger()
+analysis::HTauTagger::~HTauTagger()
 {
     Print(kInformation, "Destructor");
 }
 
-void hanalysis::HTauTagger::SetTagger()
+void analysis::HTauTagger::SetTagger()
 {
     Print(kNotification, "Set Tagger");
     set_tagger_name("Tau");
     DefineVariables();
 }
 
-void hanalysis::HTauTagger::DefineVariables()
+void analysis::HTauTagger::DefineVariables()
 {
     Print(kInformation , "Define Variables");
 
@@ -45,7 +45,7 @@ void hanalysis::HTauTagger::DefineVariables()
     AddSpectator(Branch.Bdt, "Bdt");
 }
 
-HTauBranch hanalysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
+HTauBranch analysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Fill Branch");
 
@@ -81,7 +81,7 @@ HTauBranch hanalysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
 
 }
 
-std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
+std::vector<HTauBranch> analysis::HTauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Tau Tag", Tag);
 
@@ -111,7 +111,7 @@ std::vector<HTauBranch> hanalysis::HTauTagger::GetBranches(hanalysis::Event &eve
     return TauBranches;
 }
 
-Jets hanalysis::HTauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
+Jets analysis::HTauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
 {
     Print(kInformation, "Get Sub Jets");
     Jets Pieces;
@@ -147,7 +147,7 @@ Jets hanalysis::HTauTagger::GetSubJets(const Jets &jets, const Jets &Particles, 
 }
 
 
-Jets hanalysis::HTauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
+Jets analysis::HTauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 {
     Print(kInformation, "Clean Jets");
 
@@ -178,7 +178,7 @@ if (Jet.user_info<JetInfo>().Tag() != Tag){
     return NewCleanJets;
 }
 
-// hanalysis::HObject::HTag hanalysis::HTauTagger::GetTag(const fastjet::PseudoJet &Jet) const
+// analysis::Object::HTag analysis::HTauTagger::GetTag(const fastjet::PseudoJet &Jet) const
 // {
 //
 //     Print(kDebug, "Get Bottom Tag", Jet.rap(), Jet.user_info<JetInfo>().MaximalId());
@@ -188,7 +188,7 @@ if (Jet.user_info<JetInfo>().Tag() != Tag){
 //     return kSignal;
 // }
 
-Jets hanalysis::HTauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
+Jets analysis::HTauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
 {
 
     Jets NewJets = GetJetBdt(jets, BottomReader);
@@ -202,7 +202,7 @@ Jets hanalysis::HTauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
     return NewJets;
 }
 
-Jets hanalysis::HTauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
+Jets analysis::HTauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
 {
     Print(kInformation, "Get Sub Bdt");
     Jets Pieces;
@@ -238,7 +238,7 @@ Jets hanalysis::HTauTagger::GetSubBdt(const Jets &jets, const Reader &BottomRead
     return GetJetBdt(Pieces, BottomReader);
 }
 
-Jets hanalysis::HTauTagger::GetJetBdt(const Jets &jets, const Reader &Reader)
+Jets analysis::HTauTagger::GetJetBdt(const Jets &jets, const Reader &Reader)
 {
     Jets NewJets;
     Print(kInformation, "Get Jet Bdt");
@@ -258,7 +258,7 @@ Jets hanalysis::HTauTagger::GetJetBdt(const Jets &jets, const Reader &Reader)
     return NewJets;
 }
 
-float hanalysis::HTauTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
+float analysis::HTauTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Get Delta R");
 
@@ -280,7 +280,7 @@ float hanalysis::HTauTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
     return DeltaR;
 }
 
-float hanalysis::HTauTagger::GetSpread(const fastjet::PseudoJet &Jet) const
+float analysis::HTauTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Get Centrality");
     if (!Jet.has_constituents()) {

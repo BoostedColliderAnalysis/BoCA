@@ -11,7 +11,7 @@
  * based on fastjet example 12
  *
  */
-class hanalysis::HHiggsTagger : public HReconstruction
+class analysis::HHiggsTagger : public HReconstruction
 {
 
 public:

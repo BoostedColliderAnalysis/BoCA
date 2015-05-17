@@ -5,7 +5,7 @@
  * @brief particles for HAnalysis
  *
  */
-class hanalysis::HParticle : public HFourVector
+class analysis::HParticle : public HFourVector
 {
 
 public:
@@ -16,7 +16,7 @@ public:
      */
     HParticle();
 
-    void Newevent(const hanalysis::ClonesArrays &NewClonesArrays);
+    void Newevent(const analysis::ClonesArrays &NewClonesArrays);
 
     HVectors GetLeptonLorentzVectors();
 

@@ -9,20 +9,20 @@
  * @brief JetPair BDT tagger
  *
  */
-class hanalysis::HJetPairTagger : public Tagger
+class analysis::HJetPairTagger : public Tagger
 {
 
 public:
 
     HJetPairTagger();
 
-    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
+    void SetTagger(const analysis::BottomTagger &NewBottomTagger);
 
-    std::vector< EventJetPairBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, const hanalysis::HObject::HParticleId MotherId = GluonId);
+    std::vector< EventJetPairBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const analysis::Object::HParticleId MotherId = GluonId);
 
-    std::vector<Doublet> GetBdt(const Jets &jets, const hanalysis::Reader &JetPairReader);
+    std::vector<Doublet> GetBdt(const Jets &jets, const analysis::Reader &JetPairReader);
 
-    EventJetPairBranch GetBranch(const hanalysis::Doublet &doublet) const;
+    EventJetPairBranch GetBranch(const analysis::Doublet &doublet) const;
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry){
       return ((EventJetPairBranch *) eventClonesArray.At(Entry))->Bdt;
@@ -42,7 +42,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HObject::Tag GetTag(const Doublet &);
+    analysis::Object::Tag GetTag(const Doublet &);
 
     EventJetPairBranch Branch;
 

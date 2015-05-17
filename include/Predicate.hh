@@ -3,9 +3,16 @@
 # include <cmath>
 #include <algorithm>
 # include  "fastjet/PseudoJet.hh"
+# include  "TLorentzVector.h"
 # include  "HGlobal.hh"
 # include  "JetInfo.hh"
 # include  "ClonesArrays.hh"
+
+/**
+ * @brief Get a fastjet::PseudoJet from a TLorentzVector
+ *
+ */
+fastjet::PseudoJet PseudoJet(const TLorentzVector& vector);
 
 struct SortByMass {
     SortByMass(const float NewMass) {
@@ -76,8 +83,8 @@ struct WrongId {
         id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &jet) {
-        return (jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId != id_);
-        return (jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId != id_);
+        return (jet.user_info<analysis::JetInfo>().constituents().front().family().particle().Id != id_);
+        return (jet.user_info<analysis::JetInfo>().constituents().front().family().particle().Id != id_);
     }
     int id_;
 };
@@ -87,9 +94,9 @@ struct WrongAbsId {
         Id = NewId;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (std::abs(Family.ParticleId) != Id);
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return (std::abs(family.particle().Id) != Id);
     }
     int Id;
 };
@@ -100,9 +107,9 @@ struct WrongAbsPairId {
         Id2 = NewId2;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (std::abs(Family.ParticleId) != Id && std::abs(Family.ParticleId) != Id2);
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return (std::abs(family.particle().Id) != Id && std::abs(family.particle().Id) != Id2);
     }
     int Id;
     int Id2;
@@ -114,9 +121,9 @@ struct WrongAbsFamily {
         Mother = NewMother;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (std::abs(Family.ParticleId) != Id || std::abs(Family.Mother1Id) != Mother);
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return (std::abs(family.particle().Id) != Id || std::abs(family.mother_1().Id) != Mother);
     }
     int Id;
     int Mother;
@@ -128,9 +135,9 @@ struct WrongFamily {
         Mother = NewMother;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (Family.ParticleId != Id || Family.Mother1Id != Mother);
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return (family.particle().Id != Id || family.mother_1().Id != Mother);
     }
     int Id;
     int Mother;
@@ -141,9 +148,9 @@ struct WrongMother {
         Mother = NewMother;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return Family.Mother1Id != Mother;
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return family.mother_1().Id != Mother;
     }
     int Mother;
 };
@@ -153,9 +160,9 @@ struct WrongAbsMother {
         Mother = NewMother;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return std::abs(Family.Mother1Id) != Mother;
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return std::abs(family.mother_1().Id) != Mother;
     }
     int Mother;
 };
@@ -165,9 +172,9 @@ struct AbsMother {
         Mother = NewMother;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return std::abs(Family.Mother1Id) == Mother;
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return std::abs(family.mother_1().Id) == Mother;
     }
     int Mother;
 };
@@ -178,9 +185,9 @@ struct WrongAbsStepFamily {
         ParticleId = NewParticleId;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (std::abs(Family.ParticleId) != ParticleId || std::abs(Family.Mother2Id) != Mother2);
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return (std::abs(family.particle().Id) != ParticleId || std::abs(family.mother_2().Id) != Mother2);
     }
     int Mother2;
     int ParticleId;
@@ -191,37 +198,37 @@ struct WrongAbsStepMother {
         Mother2 = NewMother2;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return std::abs(Family.Mother2Id) != Mother2;
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return std::abs(family.mother_2().Id) != Mother2;
     }
     int Mother2;
 };
 
 struct WrongLeptons {
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (std::abs(Family.ParticleId) == Family.ElectronId ||
-                std::abs(Family.ParticleId) == Family.MuonId ||
-                std::abs(Family.ParticleId) == Family.TauId ||
-                std::abs(Family.ParticleId) == Family.TauNeutrinoId ||
-                std::abs(Family.ParticleId) == Family.MuonNeutrinoId ||
-                std::abs(Family.ParticleId) == Family.ElectronNeutrinoId
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return (std::abs(family.particle().Id) == family.ElectronId ||
+                std::abs(family.particle().Id) == family.MuonId ||
+                std::abs(family.particle().Id) == family.TauId ||
+                std::abs(family.particle().Id) == family.TauNeutrinoId ||
+                std::abs(family.particle().Id) == family.MuonNeutrinoId ||
+                std::abs(family.particle().Id) == family.ElectronNeutrinoId
                );
     }
 };
 
 struct WrongQuark {
     bool operator()(const fastjet::PseudoJet &Jet) {
-        hanalysis::JetInfo jet_info = Jet.user_info<hanalysis::JetInfo>();
-        hanalysis::HFamily Family = jet_info.constituents().front().Family();
-        return (std::abs(Family.ParticleId) == Family.UpId ||
-                std::abs(Family.ParticleId) == Family.DownId ||
-                std::abs(Family.ParticleId) == Family.CharmId ||
-                std::abs(Family.ParticleId) == Family.StrangeId ||
-                std::abs(Family.ParticleId) == Family.BottomId ||
-                std::abs(Family.ParticleId) == Family.TopId
+        analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
+        analysis::Family family = jet_info.constituents().front().family();
+        return (std::abs(family.particle().Id) == family.UpId ||
+                std::abs(family.particle().Id) == family.DownId ||
+                std::abs(family.particle().Id) == family.CharmId ||
+                std::abs(family.particle().Id) == family.StrangeId ||
+                std::abs(family.particle().Id) == family.BottomId ||
+                std::abs(family.particle().Id) == family.TopId
                );
     }
 };

@@ -6,7 +6,7 @@ hheavyhiggs::EventHadronicTagger::EventHadronicTagger()
   set_tagger_name("Hadronicevent");
 }
 
-hheavyhiggs::EventHadronicTagger::EventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
+hheavyhiggs::EventHadronicTagger::EventHadronicTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopHadronicTagger &NewTopTagger,const  analysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger)
 {
 
     Print(kNotification , "Constructor");
@@ -116,7 +116,7 @@ void hheavyhiggs::EventHadronicTagger::DefineVariables()
 
 }
 
-std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagger::GetBranches(hanalysis::Event &event, const HObject::Tag Tag)
+std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     std::vector<hheavyhiggs::EventHadronicBranch *> eventHadronicBranches;
 
@@ -124,16 +124,16 @@ std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagge
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
     if (jets.size() < 8) return eventHadronicBranches;
 
-    std::vector<hanalysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
-    std::vector<hanalysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
-    std::vector<hanalysis::HSextet> Sextets = HeavyHiggsHadronicTagger.GetBdt(triplets, HeavyHiggsHadronicReader);
+    std::vector<analysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
+    std::vector<analysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
+    std::vector<analysis::HSextet> Sextets = HeavyHiggsHadronicTagger.GetBdt(triplets, HeavyHiggsHadronicReader);
 
     std::vector<HOctet> Octets;
 
     for (const auto & Jet1 : jets)
         for (const auto & Jet2 : jets)  {
             if (Jet1 == Jet2) continue;
-            hanalysis::Doublet doublet(Jet1,Jet2);
+            analysis::Doublet doublet(Jet1,Jet2);
             for (const auto & Sextet : Sextets) {
                 if (Jet1 == Sextet.triplet1().singlet()) continue;
                 if (Jet1 == Sextet.triplet1().doublet().Singlet1()) continue;

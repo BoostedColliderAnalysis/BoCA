@@ -10,7 +10,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hhiggscpv::HMvaTop : public hanalysis::Tagger
+class hhiggscpv::HMvaTop : public analysis::Tagger
 {
 
 public:

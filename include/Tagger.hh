@@ -45,7 +45,7 @@ private:
 };
 
 
-class PreCuts : public hanalysis::HObject
+class PreCuts : public analysis::Object
 {
 public:
     void SetPtLowerCut(const HParticleId particle_id, const float value) {
@@ -83,10 +83,10 @@ private:
  * @brief Prepares multivariant analysis
  *
  */
-namespace hanalysis
+namespace analysis
 {
 // template <class ReturnType>
-class Tagger : public HObject
+class Tagger : public Object
 {
 
 public:
@@ -240,12 +240,12 @@ public:
         return 0;
     }
 
-    virtual int Train(hanalysis::Event &, PreCuts &, const Tag) {
+    virtual int Train(analysis::Event &, PreCuts &, const Tag) {
         Print(kError, "Train", "Should be subclassed");
         return 0;
     }
 
-    virtual float GetBranches(hanalysis::Event &, Stage , const Tag) {
+    virtual float GetBranches(analysis::Event &, Stage , const Tag) {
         Print(kError, "get branches", "Should be subclassed", "should be deleted");
         return 0;
     }
@@ -255,19 +255,19 @@ public:
         return Jets {};
     }
 
-    Jets GetJets(hanalysis::Event &, hanalysis::HJetTag &) {
+    Jets GetJets(analysis::Event &, analysis::HJetTag &) {
         Print(kError, "get jets", "depreciated");
         return Jets {};
     }
 
-    Jets GetJets(hanalysis::Event &) {
+    Jets GetJets(analysis::Event &) {
         Print(kError, "get jets", "depreciated");
         return Jets {};
     }
 
     Jets GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
-    fastjet::PseudoJet GetMissingEt(hanalysis::Event &event);
+    fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 
     virtual float ReadBdt(const TClonesArray &, const int) {
         Print(kError, "Read Bdt", "should be subclassed");

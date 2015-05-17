@@ -10,7 +10,7 @@
  * @brief event BDT tagger for hadronic heavy higgs
  *
  */
-class hheavyhiggs::EventHadronicTagger : public hanalysis::Tagger
+class hheavyhiggs::EventHadronicTagger : public analysis::Tagger
 {
 
 public:
@@ -21,7 +21,7 @@ public:
     */
     EventHadronicTagger();
 
-    EventHadronicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::TopHadronicTagger &NewTopTagger,const  hanalysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger);
+    EventHadronicTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopHadronicTagger &NewTopTagger,const  analysis::HHeavyHiggsHadronicTagger &NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -29,7 +29,7 @@ public:
     */
     ~EventHadronicTagger();
 
-    std::vector<hheavyhiggs::EventHadronicBranch *> GetBranches(hanalysis::Event &event, const HObject::Tag Tag);
+    std::vector<hheavyhiggs::EventHadronicBranch *> GetBranches(analysis::Event &event, const Object::Tag Tag);
 
     void FillBranch(const HOctet &Octet);
 
@@ -50,15 +50,15 @@ private:
 
     void DefineVariables();
 
-    hanalysis::BottomTagger bottom_tagger_;
-    hanalysis::WHadronicTagger WTagger;
-    hanalysis::TopHadronicTagger top_hadronic_tagger;
-    hanalysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
+    analysis::BottomTagger bottom_tagger_;
+    analysis::WHadronicTagger WTagger;
+    analysis::TopHadronicTagger top_hadronic_tagger;
+    analysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
 
-    hanalysis::Reader BottomReader;
-    hanalysis::Reader WReader;
-    hanalysis::Reader TopHadronicReader;
-    hanalysis::Reader HeavyHiggsHadronicReader;
+    analysis::Reader BottomReader;
+    analysis::Reader WReader;
+    analysis::Reader TopHadronicReader;
+    analysis::Reader HeavyHiggsHadronicReader;
 
     hheavyhiggs::EventHadronicBranch Branch;
 

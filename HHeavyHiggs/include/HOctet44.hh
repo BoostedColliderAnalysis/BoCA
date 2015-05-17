@@ -27,22 +27,22 @@ struct HChargedeventStruct {
  * @brief An octet composed of two quartets
  *
  */
-class HOctet44 : public hanalysis::HTag
+class HOctet44 : public analysis::HTag
 {
 
 public:
 
   HOctet44(){};
 
-    HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &Newdoublet);
+    HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &Newdoublet);
 
-    HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedeventStruct &NeweventStruct);
+    HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &NewQuartet2, const HChargedeventStruct &NeweventStruct);
 
-    inline hanalysis::HQuartet31 Quartet1()const {
+    inline analysis::HQuartet31 Quartet1()const {
         return Quartet1M;
     }
 
-    inline hanalysis::HQuartet31 Quartet2() const {
+    inline analysis::HQuartet31 Quartet2() const {
         return Quartet2M;
     }
     inline fastjet::PseudoJet GetQuartet1Jet() const {
@@ -86,11 +86,11 @@ public:
     }
 
     inline float BottomBdt() const {
-      return Quartet1().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet1().triplet().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<hanalysis::JetInfo>().Bdt();
+      return Quartet1().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet1().triplet().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet2().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-      return Quartet2().singlet().user_info<hanalysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<hanalysis::JetInfo>().Bdt();
+      return Quartet2().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<analysis::JetInfo>().Bdt();
     }
 
 //     inline float GetDeltaPt1() const {
@@ -176,9 +176,9 @@ protected:
 
 private:
 
-    hanalysis::HQuartet31 Quartet1M;
+    analysis::HQuartet31 Quartet1M;
 
-    hanalysis::HQuartet31 Quartet2M;
+    analysis::HQuartet31 Quartet2M;
 
 };
 

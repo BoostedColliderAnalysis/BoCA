@@ -1,13 +1,13 @@
 # include "HLeptonPgs.hh"
 
-hanalysis::hpgs::HLepton::HLepton()
+analysis::hpgs::HLepton::HLepton()
 {
 
     Print(kNotification, "Constructor");
 
 }
 
-hanalysis::hpgs::HLepton::~HLepton()
+analysis::hpgs::HLepton::~HLepton()
 {
 
     Print(kNotification, "Destructor");
@@ -16,7 +16,7 @@ hanalysis::hpgs::HLepton::~HLepton()
 }
 
 
-bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails JetDetails)
+bool analysis::hpgs::HLepton::GetElectrons(analysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(kInformation, "Get Electrons", JetDetails);
@@ -50,7 +50,7 @@ bool hanalysis::hpgs::HLepton::GetElectrons(hanalysis::HFourVector::HJetDetails 
 
 }
 
-bool hanalysis::hpgs::HLepton::GetMuons(hanalysis::HFourVector::HJetDetails JetDetails)
+bool analysis::hpgs::HLepton::GetMuons(analysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(kInformation, "Get Muons", JetDetails);

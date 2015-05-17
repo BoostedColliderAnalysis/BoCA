@@ -8,7 +8,7 @@
  * @brief Bdt heavy higgs tagger
  *
  */
-class hanalysis::HHeavyHiggsHadronicTagger : public Tagger
+class analysis::HHeavyHiggsHadronicTagger : public Tagger
 {
 
 public:
@@ -19,11 +19,11 @@ public:
 
     ~HHeavyHiggsHadronicTagger();
 
-    std::vector<HHeavyHiggsHadronicBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector<HHeavyHiggsHadronicBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HHeavyHiggsHadronicBranch GetBranch(const hanalysis::HSextet &Sextet);
+    HHeavyHiggsHadronicBranch GetBranch(const analysis::HSextet &Sextet);
 
-    std::vector<hanalysis::HSextet> GetBdt(std::vector< hanalysis::Triplet > triplets, const hanalysis::Reader &Reader);
+    std::vector<analysis::HSextet> GetBdt(std::vector< analysis::Triplet > triplets, const analysis::Reader &Reader);
 
 protected:
 

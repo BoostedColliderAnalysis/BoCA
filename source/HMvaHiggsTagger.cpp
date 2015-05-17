@@ -1,16 +1,16 @@
 # include "HMvaHiggsTagger.hh"
 
-hanalysis::HMvaHiggsTagger::HMvaHiggsTagger()
+analysis::HMvaHiggsTagger::HMvaHiggsTagger()
 {
-  //     DebugLevel = hanalysis::HObject::kDebug;
+  //     DebugLevel = analysis::Object::kDebug;
 
   Print(kNotification, "Constructor");
 //   SetBranchName("Higgs");
 }
 
-hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const BottomTagger &NewBottomTagger)
+analysis::HMvaHiggsTagger::HMvaHiggsTagger(const BottomTagger &NewBottomTagger)
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
 
     Print(kNotification, "Constructor");
 
@@ -28,7 +28,7 @@ hanalysis::HMvaHiggsTagger::HMvaHiggsTagger(const BottomTagger &NewBottomTagger)
     DefineVariables();
 }
 
-hanalysis::HMvaHiggsTagger::~HMvaHiggsTagger()
+analysis::HMvaHiggsTagger::~HMvaHiggsTagger()
 {
     Print(kNotification, "Destructor");
     // delete Branch;
@@ -36,7 +36,7 @@ hanalysis::HMvaHiggsTagger::~HMvaHiggsTagger()
     //delete JetTag;
 }
 
-void hanalysis::HMvaHiggsTagger::DefineVariables()
+void analysis::HMvaHiggsTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -58,7 +58,7 @@ void hanalysis::HMvaHiggsTagger::DefineVariables()
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const Doublet &doublet)
+void analysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, const Doublet &doublet)
 {
     Print(kInformation, "FillPairTagger", doublet.Bdt());
 
@@ -78,13 +78,13 @@ void hanalysis::HMvaHiggsTagger::FillBranch(HHiggsBranch *const HiggsBranch, con
 
 
 struct SortPairByMass {
-    inline bool operator()(const hanalysis::Doublet &Pair1, const hanalysis::Doublet &Pair2) {
-        return (Pair1.MassDifferenceTo(hanalysis::HObject::HiggsId) > Pair2.MassDifferenceTo(hanalysis::HObject::HiggsId));
+    inline bool operator()(const analysis::Doublet &Pair1, const analysis::Doublet &Pair2) {
+        return (Pair1.MassDifferenceTo(analysis::Object::HiggsId) > Pair2.MassDifferenceTo(analysis::Object::HiggsId));
     }
 };
 
 
-std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(Event &event, const HObject::Tag State)
+std::vector<HHiggsBranch *> analysis::HMvaHiggsTagger::GetBranches(Event &event, const Object::Tag State)
 {
 
     Print(kInformation, "Get Higgs Tags");
@@ -161,7 +161,7 @@ std::vector<HHiggsBranch *> hanalysis::HMvaHiggsTagger::GetBranches(Event &event
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(const Doublet &Pair)
+void analysis::HMvaHiggsTagger::FillBranch(const Doublet &Pair)
 {
     Print(kInformation, "FillPairTagger", Pair.Bdt());
 
@@ -169,7 +169,7 @@ void hanalysis::HMvaHiggsTagger::FillBranch(const Doublet &Pair)
 
 }
 
-std::vector<ParticleBranch *> hanalysis::HMvaHiggsTagger::GetconstituentBranches()
+std::vector<ParticleBranch *> analysis::HMvaHiggsTagger::GetconstituentBranches()
 {
 
     Print(kInformation, "Get Higgs Tags");
@@ -191,7 +191,7 @@ std::vector<ParticleBranch *> hanalysis::HMvaHiggsTagger::GetconstituentBranches
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
+void analysis::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
 {
     Print(kInformation, "FillPairTagger", Vector.GetPt());
 
@@ -199,7 +199,7 @@ void hanalysis::HMvaHiggsTagger::FillBranch(const HKinematics &Vector)
 
 }
 
-void hanalysis::HMvaHiggsTagger::FillBranch(ParticleBranch *const constituentBranch, const HKinematics &Vector)
+void analysis::HMvaHiggsTagger::FillBranch(ParticleBranch *const constituentBranch, const HKinematics &Vector)
 {
     Print(kInformation, "Fill constituent Branch");
 

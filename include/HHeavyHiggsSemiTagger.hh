@@ -9,20 +9,20 @@
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class hanalysis::HHeavyHiggsSemiTagger : public Tagger
+class analysis::HHeavyHiggsSemiTagger : public Tagger
 {
 
 public:
 
     HHeavyHiggsSemiTagger();
 
-    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger);
+    void SetTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::HWSemiTagger &NewWSemiTagger, const analysis::WHadronicTagger &NewWTagger, const analysis::HTopSemiTagger &NewTopSemiTagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger);
 
-    std::vector< HHeavyHiggsSemiBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, const float pre_cut = 0);
+    std::vector< HHeavyHiggsSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const float pre_cut = 0);
 
-    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< Triplet > &tripletsSemi, const std::vector<Triplet > &tripletsHadronic, const Reader & Reader);
+    std::vector<analysis::HSextet>  GetBdt(const std::vector< Triplet > &tripletsSemi, const std::vector<Triplet > &tripletsHadronic, const Reader & Reader);
 
-    std::vector<hanalysis::HSextet>  GetBdt(const std::vector< hanalysis::Triplet > &tripletsSemi, const std::vector< hanalysis::Triplet > &tripletsHadronic, const hanalysis::Reader & Reader, const int Mass);
+    std::vector<analysis::HSextet>  GetBdt(const std::vector< analysis::Triplet > &tripletsSemi, const std::vector< analysis::Triplet > &tripletsHadronic, const analysis::Reader & Reader, const int Mass);
 
     BottomTagger bottom_tagger_;
     WHadronicTagger WTagger;
@@ -36,7 +36,7 @@ public:
     Reader TopHadronicReader;
     Reader TopSemiReader;
 
-    HHeavyHiggsSemiBranch GetBranch(const hanalysis::HSextet& Sextet) const;
+    HHeavyHiggsSemiBranch GetBranch(const analysis::HSextet& Sextet) const;
 
 
 protected:

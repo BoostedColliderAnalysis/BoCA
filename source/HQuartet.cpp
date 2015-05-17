@@ -1,7 +1,7 @@
 # include "HQuartet.hh"
 # include "HTagPrivate.hh"
 
-// class HQuartetPrivate : public hanalysis::HTagPrivate {
+// class HQuartetPrivate : public analysis::HTagPrivate {
 //
 // public:
 //
@@ -10,8 +10,8 @@
 // };
 
 
-hanalysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoublet2)
-// : hanalysis::HTag(*new HQuartetPrivate)
+analysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoublet2)
+// : analysis::HTag(*new HQuartetPrivate)
 {
     Print(kInformation, "Constructor");
     doublet1 = Newdoublet1;
@@ -22,9 +22,9 @@ hanalysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoub
     SetTag(doublet1.Tag() * doublet2.Tag());
 }
 
-// hanalysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoublet2, const fastjet::PseudoJet &NewMet)
+// analysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoublet2, const fastjet::PseudoJet &NewMet)
 // {
-// //     DebugLevel = HObject::kDebug;
+// //     DebugLevel = Object::kDebug;
 //     Print(kInformation, "Constructor");
 //     doublet1 = Newdoublet1;
 //     doublet2 = Newdoublet2;
@@ -33,7 +33,7 @@ hanalysis::HQuartet::HQuartet(const Doublet &Newdoublet1, const Doublet &Newdoub
 //     Tag = doublet1.Tag() * doublet2.Tag();
 // }
 
-hanalysis::HQuartet::~HQuartet()
+analysis::HQuartet::~HQuartet()
 {
 
 //     Print(kInformation, "Destructor");

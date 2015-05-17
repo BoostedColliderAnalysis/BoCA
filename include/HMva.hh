@@ -46,7 +46,7 @@ private:
  * @brief Prepares multivariant analysis
  *
  */
-class hanalysis::HMva : public HObject
+class analysis::HMva : public Object
 {
 
 public:
@@ -166,13 +166,13 @@ public:
 
     Jets GranulatedJets(const Jets &NewEFlowJets);
 
-    Jets GetJets(hanalysis::Event &event, hanalysis::HJetTag &JetTag);
+    Jets GetJets(analysis::Event &event, analysis::HJetTag &JetTag);
 
-    Jets GetJets(hanalysis::Event &event);
+    Jets GetJets(analysis::Event &event);
 
     Jets GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber);
 
-    fastjet::PseudoJet GetMissingEt(hanalysis::Event &event);
+    fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 
     virtual float ReadBdt(const TClonesArray &, const int) {
         Print(kError, "Read Bdt", "should be subclassed");
@@ -214,7 +214,7 @@ protected:
         return max_combi_;
     }
 
-//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, TClass &Class, const hanalysis::HAnalysis::HStage Stage) {
+//     void SetTreeBranch(ExRootTreeWriter &NewTreeWriter, TClass &Class, const analysis::HAnalysis::HStage Stage) {
 //       switch (Stage) {
 //         case HAnalysis::HTrainer :
 //           tree_branch_ = NewTreeWriter.NewBranch(GetTaggerName().c_str(), &Class);

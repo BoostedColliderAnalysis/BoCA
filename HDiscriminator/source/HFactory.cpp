@@ -4,6 +4,6 @@
 int main()
 {
   hcpvhiggs::HMva Mva;
-  hanalysis::Factory Factory(Mva);
+  analysis::Factory Factory(Mva);
   return 0;
 }

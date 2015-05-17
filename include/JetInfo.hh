@@ -2,19 +2,19 @@
 
 # include <map>
 # include <unordered_map>
-# include <numeric>
-
-# include "HTag.hh"
-# include "HJetTag.hh"
-# include "HFourVector.hh"
 
 # include "fastjet/JetDefinition.hh"
+
+# include "HTag.hh"
+# include "Family.hh"
+# include "Constituent.hh"
+
+namespace analysis
+{
 
 class DetectorGeometry
 {
 public:
-    enum HDetectorType {CMS, Spp};
-
     DetectorGeometry();
     float JetMinPt;
     float JetConeSize;
@@ -26,108 +26,16 @@ public:
     fastjet::JetDefinition SubJetDefinition;
     float TrackerDistanceMin;
     float TrackerDistanceMax;
-
-};
-
-
-class Constituent
-{
-
-public:
-    enum SubDetector {HGenParticle, HTrack, HPhoton, HTower, HMuon, HNone};
-
-
-    Constituent() {};
-
-    Constituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition, const hanalysis::HFamily &NewFamily) {
-        momentum_ = NewMomentum;
-        position_ = NewPosition;
-        family_ = NewFamily;
-    }
-
-    Constituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition) {
-        momentum_ = NewMomentum;
-        position_ = NewPosition;
-    }
-
-    Constituent(const TLorentzVector &NewMomentum, const TLorentzVector &NewPosition, const SubDetector NewDetector) {
-        momentum_ = NewMomentum;
-        position_ = NewPosition;
-        sub_detector_ = NewDetector;
-    }
-
-    Constituent(const TLorentzVector &NewMomentum, const hanalysis::HFamily &NewFamily) {
-        momentum_ = NewMomentum;
-        family_ = NewFamily;
-    }
-
-    inline Constituent(const TLorentzVector &NewMomentum) {
-        momentum_ = NewMomentum;
-    }
-
-    inline Constituent(const TLorentzVector &NewMomentum, const SubDetector NewDetector) {
-        momentum_ = NewMomentum;
-        sub_detector_ = NewDetector;
-    }
-
-    inline  void SetPosition(const TLorentzVector &NewPosition) {
-        position_ = NewPosition;
-    }
-
-    inline void SetPosition(const float X, const float Y, const float Z, const float T) {
-        position_.SetXYZT(X, Y, Z, T);
-    }
-
-    inline void SetMomentum(const TLorentzVector &NewMomentum) {
-        momentum_ = NewMomentum;
-    }
-
-    inline void SetFamily(const hanalysis::HFamily &NewFamily) {
-        family_ = NewFamily;
-    }
-
-    inline TLorentzVector Position() const {
-        return position_;
-    }
-
-    inline TLorentzVector Momentum() const {
-        return momentum_;
-    }
-
-    inline hanalysis::HFamily Family() const {
-        return family_;
-    }
-
-    Constituent operator+(Constituent &constituent) {
-        constituent.position_ += this->position_;
-        constituent.momentum_ += this->momentum_;
-        return constituent;
-    }
-
-    void SetDetector(const SubDetector NewDetector) {
-        sub_detector_ = NewDetector;
-    }
-
-    SubDetector sub_detector() const {
-        return sub_detector_;
-    }
-
+    float VertexMassMin;
 private:
-
-    SubDetector sub_detector_ = HNone;
-
-    TLorentzVector position_;
-
-    TLorentzVector momentum_;
-
-    hanalysis::HFamily family_;
+    enum DetectorType {CMS, Spp};
 };
 
 /**
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class hanalysis::JetInfo: public HTag, public fastjet::PseudoJet::UserInfoBase
+class JetInfo: public HTag, public fastjet::PseudoJet::UserInfoBase
 {
 
 public:
@@ -138,41 +46,19 @@ public:
      */
     JetInfo();
 
-//     JetInfo(const int NewBTag);
+    JetInfo(const Constituent &constituent);
 
-    JetInfo(const Constituent &Newconstituent);
+    JetInfo(const std::vector<Constituent> &constituents);
 
-    JetInfo(const std::vector<Constituent> &Newconstituents);
+    void Addconstituent(const Constituent &constituent);
 
-//     JetInfo(const std::vector<Constituent> &Newconstituents, const int NewBTag);
+    void Addconstituents(const std::vector<Constituent> &constituents);
 
-//     JetInfo(const JetInfo &Newjet_info);
+    void AddDaughter(const int daughter);
 
-    void Addconstituent(const Constituent &Newconstituent) {
-        constituents_.emplace_back(Newconstituent);
-    }
+    std::vector<Constituent> constituents() const;
 
-    void Addconstituents(const std::vector<Constituent> &Newconstituents) {
-        constituents_.insert(constituents_.end(), Newconstituents.begin(), Newconstituents.end());
-    }
-
-    void AddDaughter(const int NewDaughter) {
-        if (!constituents().empty()) {
-            Print(kError, "constituents", constituents().size(), constituents().front().Family().ParticleId);
-            constituents().front().Family().AddDaughter(NewDaughter);
-            return;
-        }
-        Print(kError, "No constituent");
-    }
-
-    std::vector<Constituent> constituents() const {
-        return constituents_;
-    }
-
-
-    inline std::unordered_map<HFamily, float> FamilyFractions() {
-        return family_fractions_;
-    }
+    std::unordered_map<Family, float> FamilyFractions();
 
     float VertexMass() const;
 
@@ -182,45 +68,43 @@ public:
 
     float SumDisplacement() const;
 
-    int VertexNumber() const {
-        return ApplyVertexResolution().size();
-    }
+    int VertexNumber() const;
 
     fastjet::PseudoJet VertexJet() const;
 
     float VertexEnergy() const;
 
-    void ExtractFraction(const int ParticleId);
+    void ExtractFraction(const int particle_id);
 
-    void ExtractAbsFraction(const int ParticleId);
+    void ExtractAbsFraction(const int particle_id);
 
-    void ExtractFraction(const int ParticleId, const int MotherId);
+    void ExtractFraction(const int particle_id, const int mother_id);
 
-    void PrintAllInfos(const hanalysis::HObject::HSeverity Severity) const;
+    void PrintAllInfos(const Object::Severity severity) const;
 
-    void PrintAllconstituentInfos(const hanalysis::HObject::HSeverity Severity) const;
+    void PrintAllconstituentInfos(const Object::Severity severity) const;
 
-    void PrintAllFamInfos(const hanalysis::HObject::HSeverity Severity) const;
+    void PrintAllFamInfos(const Object::Severity severity) const;
 
     float MaximalFraction() const;
 
-    float Fraction(const int ParticleId) const;
+    float Fraction(const int particle_id) const;
 
     int MaximalId() const;
 
-    void AddFamily(const HFamily &Family, const float Weight);
+    void AddFamily(const Family &family, const float weight);
 
     void ExtractFamilyFraction();
 
-    HFamily MaximalFamily();
+    Family MaximalFamily();
 
-    float ElectroMagneticRadius(const fastjet::PseudoJet &Jet) const;
+    float ElectroMagneticRadius(const fastjet::PseudoJet &jet) const;
 
-    float TrackRadius(const fastjet::PseudoJet &Jet) const;
+    float TrackRadius(const fastjet::PseudoJet &jet) const;
 
     float LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(const fastjet::PseudoJet &Jet) const;
+    float CoreEnergyFraction(const fastjet::PseudoJet &jet) const;
 
     float ElectroMagneticFraction() const;
 
@@ -230,8 +114,6 @@ public:
 
 protected:
 
-//     JetInfo(JetInfoPrivate &jet_infoPrivate);
-
     inline std::string ClassName() const {
         return "JetInfo";
     }
@@ -240,11 +122,11 @@ private:
 
     DetectorGeometry detector_geometry_;
 
-    DetectorGeometry detector_geometry()const {
+    DetectorGeometry detector_geometry() const {
         return detector_geometry_;
     }
 
-    void AddParticle(const int constituentId, const float Weight);
+    void AddParticle(const int constituent_id, const float weight);
 
     float GetWeightSum() const;
 
@@ -252,21 +134,20 @@ private:
 
     std::vector<Constituent> constituents_;
 
-
-
-    std::unordered_map<HFamily, float> family_fractions_;
+    std::unordered_map<Family, float> family_fractions_;
 
     std::map<int, float> id_fractions_;
 
 };
-
 
 /**
  * @brief sort vector of jets with largest bdt at the front
  *
  */
 struct SortByBdt {
-    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return (Jet1.user_info<hanalysis::JetInfo>().Bdt() > Jet2.user_info<hanalysis::JetInfo>().Bdt());
+    inline bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2) {
+        return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
     }
 };
+
+}

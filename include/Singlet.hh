@@ -3,7 +3,7 @@
 # include "HTag.hh"
 # include "JetInfo.hh"
 
-namespace hanalysis
+namespace analysis
 {
 class Singlet : public HTag
 {

@@ -1,27 +1,27 @@
 # include "HBottomTagger.hh"
 
-hanalysis::HBottomTagger::HBottomTagger(const std::string &ProjectName)
+analysis::HBottomTagger::HBottomTagger(const std::string &ProjectName)
 {
     Print(kInformation, "Constructor");
     set_analysis_name(ProjectName);
     SetTagger();
 }
 
-hanalysis::HBottomTagger::HBottomTagger()
+analysis::HBottomTagger::HBottomTagger()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
     SetTagger();
 }
 
-void hanalysis::HBottomTagger::SetTagger()
+void analysis::HBottomTagger::SetTagger()
 {
     Print(kNotification, "Set Tagger");
     SetTaggerName("Bottom");
     DefineVariables();
 }
 
-void hanalysis::HBottomTagger::DefineVariables()
+void analysis::HBottomTagger::DefineVariables()
 {
     Print(kInformation , "Define Variables");
 
@@ -47,7 +47,7 @@ void hanalysis::HBottomTagger::DefineVariables()
     AddSpectator(Branch.Bdt, "Bdt");
 }
 
-BottomBranch hanalysis::HBottomTagger::GetBranch(const fastjet::PseudoJet &Jet) const
+BottomBranch analysis::HBottomTagger::GetBranch(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Fill Branch");
 
@@ -86,7 +86,7 @@ BottomBranch hanalysis::HBottomTagger::GetBranch(const fastjet::PseudoJet &Jet) 
 
 }
 
-std::vector<BottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
+std::vector<BottomBranch> analysis::HBottomTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Bottom Tag", Tag);
 
@@ -115,7 +115,7 @@ std::vector<BottomBranch> hanalysis::HBottomTagger::GetBranches(hanalysis::Event
     return bottom_branches;
 }
 
-Jets hanalysis::HBottomTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
+Jets analysis::HBottomTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
 {
     Print(kInformation, "Get Sub Jets");
     Jets Pieces;
@@ -151,7 +151,7 @@ Jets hanalysis::HBottomTagger::GetSubJets(const Jets &jets, const Jets &Particle
 }
 
 
-Jets hanalysis::HBottomTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
+Jets analysis::HBottomTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 {
     Print(kInformation, "Clean Jets");
 
@@ -191,13 +191,13 @@ Jets hanalysis::HBottomTagger::CleanJets(Jets &jets, const Jets &Particles, cons
     return NewCleanJets;
 }
 
-hanalysis::HObject::Tag hanalysis::HBottomTagger::GetTag(const fastjet::PseudoJet &) const
+analysis::Object::Tag analysis::HBottomTagger::GetTag(const fastjet::PseudoJet &) const
 {
 
     return kSignal;
 }
 
-Jets hanalysis::HBottomTagger::GetMultiJetBdt(Jets &jets, const Reader &BottomReader)
+Jets analysis::HBottomTagger::GetMultiJetBdt(Jets &jets, const Reader &BottomReader)
 {
 
     Jets NewJets = GetJetBdt(jets, BottomReader);
@@ -211,7 +211,7 @@ Jets hanalysis::HBottomTagger::GetMultiJetBdt(Jets &jets, const Reader &BottomRe
     return NewJets;
 }
 
-Jets hanalysis::HBottomTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
+Jets analysis::HBottomTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
 {
     Print(kInformation, "Get Sub Bdt");
     Jets Pieces;
@@ -246,7 +246,7 @@ Jets hanalysis::HBottomTagger::GetSubBdt(const Jets &jets, const Reader &BottomR
     return GetJetBdt(Pieces, BottomReader);
 }
 
-Jets hanalysis::HBottomTagger::GetJetBdt(const Jets &jets, const Reader &BottomReader)
+Jets analysis::HBottomTagger::GetJetBdt(const Jets &jets, const Reader &BottomReader)
 {
     Jets NewJets;
     Print(kInformation, "Get Jet Bdt");
@@ -266,7 +266,7 @@ Jets hanalysis::HBottomTagger::GetJetBdt(const Jets &jets, const Reader &BottomR
     return NewJets;
 }
 
-float hanalysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
+float analysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Get Delta R");
 
@@ -288,7 +288,7 @@ float hanalysis::HBottomTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
     return DeltaR;
 }
 
-float hanalysis::HBottomTagger::GetSpread(const fastjet::PseudoJet &Jet) const
+float analysis::HBottomTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Get Centrality");
     if (!Jet.has_constituents()) {

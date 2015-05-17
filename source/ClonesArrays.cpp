@@ -3,12 +3,12 @@
 # include "TClonesArray.h"
 # include "TObjArray.h"
 
-hanalysis::ClonesArrays::ClonesArrays(const hanalysis::ClonesArrays::Source source)
+analysis::ClonesArrays::ClonesArrays(const analysis::ClonesArrays::Source source)
 {
     source_ = source;
 }
 
-std::string hanalysis::ClonesArrays::BranchName(const Branch branch) const
+std::string analysis::ClonesArrays::BranchName(const Branch branch) const
 {
     switch (branch) {
     case kParticle:
@@ -47,12 +47,12 @@ std::string hanalysis::ClonesArrays::BranchName(const Branch branch) const
     }
 }
 
-hanalysis::ClonesArrays::Source hanalysis::ClonesArrays::source() const
+analysis::ClonesArrays::Source analysis::ClonesArrays::source() const
 {
     return source_;
 }
 
-std::vector<hanalysis::ClonesArrays::Branch> hanalysis::ClonesArrays::Branches() const
+std::vector<analysis::ClonesArrays::Branch> analysis::ClonesArrays::Branches() const
 {
     switch (source()) {
     case kDelphes :
@@ -66,26 +66,26 @@ std::vector<hanalysis::ClonesArrays::Branch> hanalysis::ClonesArrays::Branches()
     }
 }
 
-void hanalysis::ClonesArrays::UseBranches(ExRootTreeReader &tree_reader)
+void analysis::ClonesArrays::UseBranches(ExRootTreeReader &tree_reader)
 {
     Print(kDebug, "Use Branches");
     for (const auto & branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
 }
 
-TClonesArray &hanalysis::ClonesArrays::ClonesArray(const Branch branch) const
+TClonesArray &analysis::ClonesArrays::ClonesArray(const Branch branch) const
 {
     Print(kDebug, "Clones Array", BranchName(branch));
     if (!clones_arrays_.at(branch)) Print(kError, "Not in branch");
     return *clones_arrays_.at(branch);
 }
 
-TObject &hanalysis::ClonesArrays::Object(const hanalysis::ClonesArrays::Branch branch, const int number) const
+TObject &analysis::ClonesArrays::Object(const analysis::ClonesArrays::Branch branch, const int number) const
 {
     Print(kDebug, "Object", BranchName(branch), number);
     return *ClonesArray(branch).At(number);
 }
 
-int hanalysis::ClonesArrays::EntrySum(const Branch branch) const
+int analysis::ClonesArrays::EntrySum(const Branch branch) const
 {
     Print(kDebug, "Sum", BranchName(branch), ClonesArray(branch).GetEntriesFast());
     return ClonesArray(branch).GetEntriesFast();

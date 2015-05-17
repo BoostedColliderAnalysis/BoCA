@@ -1,29 +1,19 @@
-# ifndef HTag_hh
-# define HTag_hh
+# pragma once
 
-# include "HObject.hh"
-// # include "d_ptr.h"
+# include "Object.hh"
 
-namespace hanalysis
+namespace analysis
 {
 class HTag;
 class HTagPrivate;
 }
 
-class hanalysis::HTag : public HObject
+class analysis::HTag : public Object
 {
 
 public:
 
     HTag();
-
-//     HTag(const HTag &NewTag);
-
-//     HTag(HTag &&NewTag);
-
-//     HTag& operator=(HTag NewTag); //note: pass by value and let compiler do the magics
-
-    ~HTag();
 
     void SetBdt(const float NewBdt);
 
@@ -33,13 +23,13 @@ public:
 
     void SetTag(const int NewTag);
 
-    void SetTag(const int NewTag1, const int NewTag2);
+    void SetTag(const int tag_1, const int tag_2);
 
     int Tag() const;
 
     void SetFlag(const bool NewFlag);
 
-    void SetFlag(const bool NewFlag1, const bool NewFlag2);
+    void SetFlag(const bool flag_1, const bool flag_2);
 
     bool Flag() const;
 
@@ -73,16 +63,7 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "HTag";
-    };
-
-//     HTag(HTagPrivate &NewTagPrivate);
-
-//     class HTagPrivate;
-
-//     HTagPrivate *TagPrivate;
-//     d_ptr<HTagPrivate> d;
-//     std::unique_ptr<HTagPrivate> TagPrivate;
-//     std::shared_ptr<HTagPrivate> TagPrivate;
+    }
 
 private:
 
@@ -98,4 +79,3 @@ private:
 
 };
 
-#endif

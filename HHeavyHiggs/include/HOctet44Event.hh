@@ -21,7 +21,7 @@ struct EventStruct {
  *
  */
 template <typename TMultiplet>
-class EventMultiplet : public hanalysis::HTag
+class EventMultiplet : public analysis::HTag
 {
 
 public:
@@ -106,26 +106,26 @@ public:
 
     inline void SetTotalJets(const Jets &NewJets) {
         AllJets = NewJets;
-        std::sort(AllJets.begin(), AllJets.end(), SortByBdt());
+        std::sort(AllJets.begin(), AllJets.end(), analysis::SortByBdt());
     }
 
     inline void SetSubJets(const Jets &NewJets) {
         SubJets = NewJets;
-        std::sort(SubJets.begin(), SubJets.end(), SortByBdt());
+        std::sort(SubJets.begin(), SubJets.end(), analysis::SortByBdt());
     }
 
 //     inline float TotalBottomBdt(const int Sum) const {
 //         if (Sum < 0) return 0;
 //         if (AllJets.size() < Sum) return 0;
 //         float BdtSum = 0;
-//         for (int Number = 0; Number < Sum; ++Number) BdtSum += AllJets.at(Number).user_info<hanalysis::JetInfo>().Bdt();
+//         for (int Number = 0; Number < Sum; ++Number) BdtSum += AllJets.at(Number).user_info<analysis::JetInfo>().Bdt();
 //         return BdtSum / Sum;
 //     }
 
     inline float BottomBdt(const unsigned Number) const {
         if (Number < 0) return 0;
         if (AllJets.size() < Number) return 0;
-        return AllJets.at(Number - 1).user_info<hanalysis::JetInfo>().Bdt();
+        return AllJets.at(Number - 1).user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float BottomBdt(const unsigned Number1, const unsigned Number2) const {
@@ -135,7 +135,7 @@ public:
     inline float SubBottomBdt(const unsigned Sum) const {
         if (Sum < 0) return 0;
         if (SubJets.size() < Sum) return 0;
-        return SubJets.at(Sum - 1).user_info<hanalysis::JetInfo>().Bdt();
+        return SubJets.at(Sum - 1).user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float SubBottomBdt(const unsigned Number1, const unsigned Number2) const {
@@ -145,7 +145,7 @@ public:
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
         SetBdt(Bdt() * (JetNumber() + 1));
         RestJets.emplace_back(NewJet);
-        SetBdt(Bdt() + NewJet.user_info<hanalysis::JetInfo>().Bdt());
+        SetBdt(Bdt() + NewJet.user_info<analysis::JetInfo>().Bdt());
         SetBdt(Bdt() / (JetNumber() + 1));
     }
 
@@ -167,7 +167,7 @@ public:
     float RestBdt() const {
         if (RestNumber() < 1) return 0;
         float bdt = 0;
-        for (const auto & jet : RestJets)bdt += jet.user_info<hanalysis::JetInfo>().Bdt();
+        for (const auto & jet : RestJets)bdt += jet.user_info<analysis::JetInfo>().Bdt();
         return bdt / RestNumber();
     }
 

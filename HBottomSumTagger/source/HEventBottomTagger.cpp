@@ -7,7 +7,7 @@ hbottomsumtagger::EventBottomTagger::EventBottomTagger()
     DefineVariables();
 }
 
-void hbottomsumtagger::EventBottomTagger::SetTagger(const hanalysis::BottomTagger &NewBottomTagger)
+void hbottomsumtagger::EventBottomTagger::SetTagger(const analysis::BottomTagger &NewBottomTagger)
 {
     Print(kNotification , "Constructor");
 
@@ -76,12 +76,12 @@ EventBottomTaggerBranch hbottomsumtagger::EventBottomTagger::GetBranch(const Eve
 
 struct SortJetsByBdt {
     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return (Jet1.user_info<hanalysis::JetInfo>().Bdt() > Jet2.user_info<hanalysis::JetInfo>().Bdt());
+        return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
     }
 };
 
 
-std::vector<EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagger::GetBranches(hanalysis::Event &event, const HObject::Tag Tag)
+std::vector<EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -118,7 +118,7 @@ std::vector<EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagger::GetBra
     return eventSemiBranches;
 }
 
-bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const Jets &NewJets,hanalysis::Event &event, const Tag Tag)
+bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const Jets &NewJets,analysis::Event &event, const Tag Tag)
 {
     const unsigned JetNumber = 2;
     const unsigned SignalBottomNumber = 2;
@@ -145,7 +145,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const Jets &NewJets,ha
 
 
 
-std::vector<hbottomsumtagger::EventBottomMultiplet> hbottomsumtagger::EventBottomTagger::GetBdt(const Jets &jets, const hanalysis::Reader &eventSemiReader)
+std::vector<hbottomsumtagger::EventBottomMultiplet> hbottomsumtagger::EventBottomTagger::GetBdt(const Jets &jets, const analysis::Reader &eventSemiReader)
 {
     Print(kInformation, "Get event Tags");
 

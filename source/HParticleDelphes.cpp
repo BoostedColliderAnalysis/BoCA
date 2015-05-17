@@ -1,12 +1,13 @@
 # include "HParticleDelphes.hh"
+# include "Predicate.hh"
 
-hanalysis::hdelphes::HParticle ::HParticle()
+analysis::hdelphes::HParticle ::HParticle()
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
     Print(kDebug, "Constructor");
 }
 
-bool hanalysis::hdelphes::HParticle ::GetParticles()
+bool analysis::hdelphes::HParticle ::GetParticles()
 {
     Print(kInformation, "Get Particles", clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
@@ -103,8 +104,8 @@ bool hanalysis::hdelphes::HParticle ::GetParticles()
         if (particle.Status == GeneratorParticle) {
             Print(kInformation, "Particles Status", "Generator");
 
-            HFamily Family(ParticleId, MotherId, Mother2Id);
-            Constituent constituent(particle.P4(), Family);
+            Family family(ParticleId, MotherId, Mother2Id);
+            Constituent constituent(particle.P4(), family);
             fastjet::PseudoJet GeneratorJet = PseudoJet(constituent.Momentum());
             GeneratorJet.set_user_info(new JetInfo(constituent));
             GeneratorJets.emplace_back(GeneratorJet);

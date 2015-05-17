@@ -18,16 +18,16 @@ class HSexteteventPrivate;
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class HSextetevent : public hanalysis::HTag
+class HSextetevent : public analysis::HTag
 {
 
 public:
 
-    HSextetevent(const hanalysis::HSextet &NewSextet);
+    HSextetevent(const analysis::HSextet &NewSextet);
 
-    HSextetevent(const hanalysis::HSextet &NewSextet, const EventStruct &NeweventStruct);
+    HSextetevent(const analysis::HSextet &NewSextet, const EventStruct &NeweventStruct);
 
-    inline hanalysis::HSextet Sextet()const {
+    inline analysis::HSextet Sextet()const {
         return SextetM;
     }
 
@@ -90,7 +90,7 @@ public:
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
         SetBdt(Bdt() * (JetNumber() + 1));
         jets_.emplace_back(NewJet);
-        SetBdt(Bdt() + NewJet.user_info<hanalysis::JetInfo>().Bdt());
+        SetBdt(Bdt() + NewJet.user_info<analysis::JetInfo>().Bdt());
         SetBdt(Bdt() / (JetNumber() + 1));
     }
 
@@ -112,7 +112,7 @@ public:
     float RestBdt() const {
         if (RestNumber() < 1) return 0;
         float bdt = 0;
-        for (const auto & jet : jets_) bdt += jet.user_info<hanalysis::JetInfo>().Bdt();
+        for (const auto & jet : jets_) bdt += jet.user_info<analysis::JetInfo>().Bdt();
         return bdt / RestNumber();
     }
 
@@ -163,7 +163,7 @@ protected:
 
 private:
 
-    hanalysis::HSextet SextetM;
+    analysis::HSextet SextetM;
 
     Jets jets_;
 

@@ -7,14 +7,14 @@
 # include "fastjet/JetDefinition.hh"
 # include "fastjet/ClusterSequence.hh"
 
-# include "HObject.hh"
+# include "Object.hh"
 # include "JetInfo.hh"
 
 /**
  * @brief FastJet calculations
  *
  */
-class hanalysis::HReconstruction : public hanalysis::HObject
+class analysis::HReconstruction : public analysis::Object
 {
 
 public:

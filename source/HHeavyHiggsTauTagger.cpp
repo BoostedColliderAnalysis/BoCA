@@ -1,18 +1,18 @@
 # include "HHeavyHiggsTauTagger.hh"
 
-hanalysis::HHeavyHiggsTauTagger::HHeavyHiggsTauTagger()
+analysis::HHeavyHiggsTauTagger::HHeavyHiggsTauTagger()
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("HeavyHiggsTau");
 }
 
-hanalysis::HHeavyHiggsTauTagger::~HHeavyHiggsTauTagger()
+analysis::HHeavyHiggsTauTagger::~HHeavyHiggsTauTagger()
 {
     Print(kNotification, "Destructor");
 }
 
-void hanalysis::HHeavyHiggsTauTagger::SetTagger(const HTauTagger &NewTauTagger)
+void analysis::HHeavyHiggsTauTagger::SetTagger(const HTauTagger &NewTauTagger)
 {
     Print(kNotification, "Set Tagger");
     TauTagger = NewTauTagger;
@@ -20,7 +20,7 @@ void hanalysis::HHeavyHiggsTauTagger::SetTagger(const HTauTagger &NewTauTagger)
     DefineVariables();
 }
 
-void hanalysis::HHeavyHiggsTauTagger::DefineVariables()
+void analysis::HHeavyHiggsTauTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -48,7 +48,7 @@ void hanalysis::HHeavyHiggsTauTagger::DefineVariables()
 
 }
 
-HHeavyHiggsTauBranch hanalysis::HHeavyHiggsTauTagger::GetBranch(const hanalysis::Doublet &doublet) const
+HHeavyHiggsTauBranch analysis::HHeavyHiggsTauTagger::GetBranch(const analysis::Doublet &doublet) const
 {
     Print(kInformation, "Fill Top Tagger", doublet.Bdt());
 
@@ -75,7 +75,7 @@ HHeavyHiggsTauBranch hanalysis::HHeavyHiggsTauTagger::GetBranch(const hanalysis:
 
 }
 
-std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
+std::vector< HHeavyHiggsTauBranch> analysis::HHeavyHiggsTauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
 {
 
     Print(kInformation, "Get Top Tags");
@@ -128,12 +128,12 @@ std::vector< HHeavyHiggsTauBranch> hanalysis::HHeavyHiggsTauTagger::GetBranches(
     return HiggsBranches;
 }
 
-hanalysis::HObject::Tag hanalysis::HHeavyHiggsTauTagger::GetTag(const hanalysis::Doublet &doublet) const
+analysis::Object::Tag analysis::HHeavyHiggsTauTagger::GetTag(const analysis::Doublet &doublet) const
 {
     return kSignal;
 }
 
-std::vector<hanalysis::Doublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const Jets &jets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader &Reader)
+std::vector<analysis::Doublet>  analysis::HHeavyHiggsTauTagger::GetBdt(const Jets &jets, const fastjet::PseudoJet &MissingEt, const analysis::Reader &Reader)
 {
     Print(kInformation, "Get Triple Bdt");
     std::vector<Doublet> doublets;
@@ -154,7 +154,7 @@ std::vector<hanalysis::Doublet>  hanalysis::HHeavyHiggsTauTagger::GetBdt(const J
 }
 
 
-std::vector<hanalysis::Doublet> hanalysis::HHeavyHiggsTauTagger::GetNeutrinos(const Doublet &doublet)const
+std::vector<analysis::Doublet> analysis::HHeavyHiggsTauTagger::GetNeutrinos(const Doublet &doublet)const
 {
 
     const fastjet::PseudoJet Jet = doublet.Singlet1();
@@ -215,7 +215,7 @@ struct SortByError {
     SortByError(const fastjet::PseudoJet &NewNeutrino) {
         this->Neutrino = NewNeutrino;
     }
-    bool operator()(const hanalysis::Doublet &doublet1, const hanalysis::Doublet &doublet2) {
+    bool operator()(const analysis::Doublet &doublet1, const analysis::Doublet &doublet2) {
         return ((doublet1.Singlet2() + Neutrino).m() < (doublet2.Singlet2() + Neutrino).m());
     }
     fastjet::PseudoJet Neutrino;
@@ -226,14 +226,14 @@ struct FindError {
         this->Neutrino = NewNeutrino;
         this->Error = NewError;
     }
-    bool operator()(const hanalysis::Doublet &doublet) {
+    bool operator()(const analysis::Doublet &doublet) {
         return ((doublet.Singlet2() + Neutrino).m() == Error);
     }
     fastjet::PseudoJet Neutrino;
     float Error;
 };
 
-std::vector<hanalysis::Doublet> hanalysis::HHeavyHiggsTauTagger::GetDoublets(const Doublet &doublet, const Jets &Neutrinos, const Tag tag)
+std::vector<analysis::Doublet> analysis::HHeavyHiggsTauTagger::GetDoublets(const Doublet &doublet, const Jets &Neutrinos, const Tag tag)
 {
     Print(kInformation, "Get Triple Pair");
 

@@ -10,7 +10,7 @@
  * @brief Base class for jets
  *
  */
-class hanalysis::HJet : public HFourVector
+class analysis::HJet : public HFourVector
 {
 
 public:
@@ -24,7 +24,7 @@ public:
     /**
      * @brief Initialize New event
      */
-    void Newevent(const hanalysis::ClonesArrays &NewClonesArrays);
+    void Newevent(const analysis::ClonesArrays &NewClonesArrays);
 
     void SetJetTag(HJetTag &NewJetTag) {
         JetTag = &NewJetTag;

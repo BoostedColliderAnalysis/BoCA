@@ -1,10 +1,18 @@
 # include "Predicate.hh"
-# include "HObject.hh"
+# include "Object.hh"
+
+fastjet::PseudoJet PseudoJet(const TLorentzVector& vector)
+{
+  // construct a pseudojet from explicit components
+  // PseudoJet(const double px, const double py, const double pz, const double E);
+  return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
+}
+
 
 struct Not5Quark {
     bool operator()(const fastjet::PseudoJet &Jet) {
-        const int ParticleId = Jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId;
-        return !(std::abs(ParticleId) == hanalysis::HObject::UpId || std::abs(ParticleId) == hanalysis::HObject::DownId || std::abs(ParticleId) == hanalysis::HObject::CharmId || std::abs(ParticleId) == hanalysis::HObject::StrangeId || std::abs(ParticleId) == hanalysis::HObject::BottomId);
+        const int ParticleId = Jet.user_info<analysis::JetInfo>().constituents().front().family().particle().Id;
+        return !(std::abs(ParticleId) == analysis::Object::UpId || std::abs(ParticleId) == analysis::Object::DownId || std::abs(ParticleId) == analysis::Object::CharmId || std::abs(ParticleId) == analysis::Object::StrangeId || std::abs(ParticleId) == analysis::Object::BottomId);
     }
 };
 
@@ -15,7 +23,7 @@ struct AbsParticleId {
         id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-      return (std::abs(Jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId) == id_);
+      return (std::abs(Jet.user_info<analysis::JetInfo>().constituents().front().family().particle().Id) == id_);
     }
     int id_;
 };
@@ -33,7 +41,7 @@ struct ParticleId {
     id_ = id;
   }
   bool operator()(const fastjet::PseudoJet &Jet) {
-    return (Jet.user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId == id_);
+    return (Jet.user_info<analysis::JetInfo>().constituents().front().family().particle().Id == id_);
   }
   int id_;
 };
@@ -158,7 +166,7 @@ struct Close {
     return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
   }
   fastjet::PseudoJet particle_;
-  DetectorGeometry detector_geometry_;
+  analysis::DetectorGeometry detector_geometry_;
 };
 
 Jets RemoveIfClose(const Jets &jets, const Jets& particles)

@@ -5,7 +5,7 @@
 int main()
 {
   hcpvhiggs::HMva Mva;
-  hanalysis::Reader Reader(Mva);
+  analysis::Reader Reader(Mva);
 //   Reader.MVALoop(); \\ must be reactivated
  return 0;
 }

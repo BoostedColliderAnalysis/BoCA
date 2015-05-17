@@ -1,25 +1,25 @@
 # ifndef HTagPrivate_hh
 # define HTagPrivate_hh
 
-# include "HObject.hh"
+# include "Object.hh"
 # include "HTag.hh"
 
 // namespace hanalysis{
 //   class HTagPrivate;
 // }
 
-class hanalysis::HTagPrivate : public HObject
+class analysis::HTagPrivate : public Object
 {
 
 public:
 
     HTagPrivate();
 
-    HTagPrivate(hanalysis::HTag *NewTag) : QTag(NewTag) {}
+    HTagPrivate(analysis::HTag *NewTag) : QTag(NewTag) {}
 
     ~HTagPrivate();
 
-    hanalysis::HTag *QTag;
+    analysis::HTag *QTag;
 
     float Bdt;
 

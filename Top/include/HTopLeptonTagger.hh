@@ -9,28 +9,28 @@
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HTopLeptonTagger : public hanalysis::Tagger
+class HTopLeptonTagger : public analysis::Tagger
 {
 
 public:
 
     HTopLeptonTagger();
 
-    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
+    void SetTagger(const analysis::BottomTagger &NewBottomTagger);
 
-    std::vector<HTopLeptonBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
+    std::vector<HTopLeptonBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
 
-    std::vector<hanalysis::Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const hanalysis::Reader &Reader);
+    std::vector<analysis::Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const analysis::Reader &Reader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry) {
         return static_cast<HTopLeptonBranch &>(*eventClonesArray.At(Entry)).Bdt;
     }
 
-    HTopLeptonBranch GetBranch(const hanalysis::Doublet &doublet) const;
+    HTopLeptonBranch GetBranch(const analysis::Doublet &doublet) const;
 
-    hanalysis::BottomTagger bottom_tagger_;
+    analysis::BottomTagger bottom_tagger_;
 
-    hanalysis::Reader BottomReader;
+    analysis::Reader BottomReader;
 protected:
 
     virtual inline std::string ClassName() const {

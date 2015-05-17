@@ -1,12 +1,12 @@
 # include "HParticleParton.hh"
 
-hanalysis::hparton::HParticle::HParticle()
+analysis::hparton::HParticle::HParticle()
 {
     Print(kNotification, "Constructor");
 //     Debug =5;
 }
 
-bool hanalysis::hparton::HParticle::GetParticles()
+bool analysis::hparton::HParticle::GetParticles()
 {
     Print(kInformation, "Get Particles", clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {

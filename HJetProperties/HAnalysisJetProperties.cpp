@@ -5,9 +5,9 @@
 //
 //     Print(kNotification, "Constructor");
 //
-//     //JetTag = new hanalysis::HJetTag();
+//     //JetTag = new analysis::HJetTag();
 //
-//     SubStructure = new hanalysis::HSubStructure();
+//     SubStructure = new analysis::HSubStructure();
 //
 //     //     DebugLevel = 4;
 //
@@ -34,32 +34,32 @@ Strings hjetproperties::HAnalysis::GetStudyNames() const
 
 }
 
-std::vector< hanalysis::File* > hjetproperties::HAnalysis::GetFiles(const std::string &StudyName)
+std::vector< analysis::File* > hjetproperties::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
     Print(kNotification, "Set File Vector");
 
-    std::vector<hanalysis::File*> Files;
+    std::vector<analysis::File*> Files;
     if (StudyName != "Higgs") {
 
-      hanalysis::File *Background = new hanalysis::File("pp-bbtt-bblvlv", "background");
+      analysis::File *Background = new analysis::File("pp-bbtt-bblvlv", "background");
         Background->set_crosssection(3.215); // pb
         Background->set_crosssection_error(0.012); // pb
         Files.emplace_back(Background);
 
     }
 
-    hanalysis::File *Even = new hanalysis::File("pp-x0tt-bblvlv", "even");
+    analysis::File *Even = new analysis::File("pp-x0tt-bblvlv", "even");
     Even->set_crosssection(0.02079); // pb
     Even->set_crosssection_error(0.000078); // pb
     Files.emplace_back(Even);
 
-    hanalysis::File *Mix = new hanalysis::File("pp-x0tt-bblvlv", "mix");
+    analysis::File *Mix = new analysis::File("pp-x0tt-bblvlv", "mix");
     Mix->set_crosssection(0.01172); // pb
     Mix->set_crosssection_error(0.000045); // pb
     Files.emplace_back(Mix);
 
-    hanalysis::File *Odd = new hanalysis::File("pp-x0tt-bblvlv", "odd");
+    analysis::File *Odd = new analysis::File("pp-x0tt-bblvlv", "odd");
     Odd->set_crosssection(0.008951); // pb
     Odd->set_crosssection_error(0.000035); // pb
     Files.emplace_back(Odd);
@@ -143,7 +143,7 @@ void hjetproperties::HAnalysis::CloseFile()
 // }
 
 
-int hjetproperties::HAnalysis::Analysis(hanalysis::Event &event, const std::string &StudyName)
+int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::string &StudyName)
 {
 
     Print(kDebug, "Analysis");
@@ -459,7 +459,7 @@ float hjetproperties::HAnalysis::GetDeltaR(const fastjet::PseudoJet &Jet)
 
 }
 
-Jets hjetproperties::HAnalysis::Leptons(hanalysis::Event &event)
+Jets hjetproperties::HAnalysis::Leptons(analysis::Event &event)
 {
 
     // Lepton Stuff

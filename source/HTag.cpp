@@ -1,17 +1,7 @@
 # include "HTag.hh"
 
-// # include <memory>
-// # include "HTagPrivate.hh"
-
-hanalysis::HTag::HTag()
-// : TagPrivate(new HTagPrivate(this))
+analysis::HTag::HTag()
 {
-//     Print(kInformation, "Constructor");
-//     TagPrivate->InitialValue = -10;
-//     TagPrivate->Bdt = TagPrivate->InitialValue;
-//     TagPrivate->Tag = TagPrivate->InitialValue;
-
-//     initial_value_ = -10;
     initial_value_ =  -11.1111111; // this must be identical to the initial value in the branch
     bdt_ = initial_value_;
     tag_ = 0;
@@ -19,84 +9,49 @@ hanalysis::HTag::HTag()
     degenerate_ = false;
 
 }
-//
-//
-// hanalysis::HTag::HTag(hanalysis::HTagPrivate &Newd) : TagPrivate(&Newd)
-// {
-//     //     Print(kInformation, "Constructor");
-//     TagPrivate->InitialValue = -10;
-//     TagPrivate->Bdt = TagPrivate->InitialValue;
-//     TagPrivate->Tag = TagPrivate->InitialValue;
-//
-// }
 
-// hanalysis::HTag::HTag(const HTag &NewTag) : TagPrivate(new HTagPrivate(*NewTag.TagPrivate)) {}
-
-// hanalysis::HTag::HTag(HTag && NewTag) : TagPrivate(std::move(NewTag.TagPrivate)) {}
-
-// hanalysis::HTag &hanalysis::HTag::operator=(HTag NewTag) //note: pass by value and let compiler do the magics
-// {
-//     TagPrivate = std::move(NewTag.TagPrivate); //a now nullifyed, but that's ok, it's just a value
-//     return *this;
-// }
-
-
-hanalysis::HTag::~HTag()
+void analysis::HTag::SetBdt(const float bdt)
 {
-//     Print(kError, "Destructor");
+    bdt_ = bdt;
 }
 
-void hanalysis::HTag::SetBdt(const float NewBdt)
+void analysis::HTag::SetBdt(const float bdt_1, const float bdt_2)
 {
-//     TagPrivate->
-    bdt_ = NewBdt;
+    bdt_ = (bdt_1 + bdt_2) / 2;
 }
 
-void hanalysis::HTag::SetBdt(const float NewBdt1, const float NewBdt2)
+float analysis::HTag::Bdt() const
 {
-    //     TagPrivate->
-    bdt_ = (NewBdt1 + NewBdt2) / 2;
-}
-
-float hanalysis::HTag::Bdt() const
-{
-//     return TagPrivate->Bdt;
     return bdt_;
 }
 
-void hanalysis::HTag::SetTag(const int NewTag)
+void analysis::HTag::SetTag(const int tag)
 {
-//     TagPrivate->
-    tag_ = NewTag;
+    tag_ = tag;
 }
 
-void hanalysis::HTag::SetTag(const int NewTag1, const int NewTag2)
+void analysis::HTag::SetTag(const int tag_1, const int tag_2)
 {
-    //     TagPrivate->
-    tag_ = NewTag1 * NewTag2;
+    tag_ = tag_1 * tag_2;
 }
 
-int hanalysis::HTag::Tag() const
+int analysis::HTag::Tag() const
 {
-//     return TagPrivate->Tag;
     return tag_;
 }
 
 
-void hanalysis::HTag::SetFlag(const bool NewFlag)
+void analysis::HTag::SetFlag(const bool flag)
 {
-    //     FlagPrivate->
-    flag_ = NewFlag;
+    flag_ = flag;
 }
 
-void hanalysis::HTag::SetFlag(const bool NewFlag1, const bool NewFlag2)
+void analysis::HTag::SetFlag(const bool flag_1, const bool flag_2)
 {
-    //     FlagPrivate->
-    flag_ = NewFlag1 + NewFlag2;
+    flag_ = flag_1 & flag_2;
 }
 
-bool hanalysis::HTag::Flag() const
+bool analysis::HTag::Flag() const
 {
-    //     return FlagPrivate->Flag;
     return flag_;
 }

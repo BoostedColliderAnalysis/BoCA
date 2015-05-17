@@ -10,20 +10,20 @@
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class hanalysis::HChargedHiggsLeptonicTagger : public Tagger
+class analysis::HChargedHiggsLeptonicTagger : public Tagger
 {
 
 public:
 
-    HChargedHiggsLeptonicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
+    HChargedHiggsLeptonicTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::HTopLeptonicTagger &NewTopLeptonicTagger);
 
     ~HChargedHiggsLeptonicTagger();
 
-    std::vector< HChargedHiggsLeptonicBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< HChargedHiggsLeptonicBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedHiggsLeptonicBranch GetBranch(const hanalysis::Triplet &triplet);
+    HChargedHiggsLeptonicBranch GetBranch(const analysis::Triplet &triplet);
 
-    std::vector<hanalysis::Triplet> GetBdt(const std::vector< hanalysis::Doublet > &doublets, const Jets &jets, const hanalysis::Reader & Reader);
+    std::vector<analysis::Triplet> GetBdt(const std::vector< analysis::Doublet > &doublets, const Jets &jets, const analysis::Reader & Reader);
 
 protected:
 
@@ -35,7 +35,7 @@ private:
 
     void DefineVariables();
 
-    hanalysis::HObject::Tag GetTag(const hanalysis::Triplet &triplet);
+    analysis::Object::Tag GetTag(const analysis::Triplet &triplet);
 
 
     BottomTagger bottom_tagger_;

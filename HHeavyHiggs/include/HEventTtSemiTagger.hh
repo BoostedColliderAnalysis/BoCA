@@ -11,7 +11,7 @@
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::EventTtSemiTagger : public hanalysis::Tagger
+class hheavyhiggs::EventTtSemiTagger : public analysis::Tagger
 {
 
 public:
@@ -23,34 +23,34 @@ public:
     EventTtSemiTagger();
 
     void SetTagger(
-        const hanalysis::BottomTagger &NewBottomTagger,
-        const hanalysis::HWSemiTagger &NewWSemiTagger,
-        const hanalysis::WHadronicTagger &NewWTagger,
-        const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-        const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
-        const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
+        const analysis::BottomTagger &NewBottomTagger,
+        const analysis::HWSemiTagger &NewWSemiTagger,
+        const analysis::WHadronicTagger &NewWTagger,
+        const analysis::HTopSemiTagger &NewTopSemiTagger,
+        const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
+        const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
-    std::vector< EventTtSemiBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< EventTtSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< HSextetevent > GetBdt(const std::vector< hanalysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &eventStruct, const hanalysis::Reader &eventSemiReader);
+    std::vector< HSextetevent > GetBdt(const std::vector< analysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
     EventTtSemiBranch GetBranch(const HSextetevent &event) const;
 
-    hanalysis::BottomTagger bottom_tagger_;
-    hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::WHadronicTagger WTagger;
-    hanalysis::HTopSemiTagger TopSemiTagger;
-    hanalysis::TopHadronicTagger top_hadronic_tagger;
-    hanalysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+    analysis::BottomTagger bottom_tagger_;
+    analysis::HWSemiTagger WSemiTagger;
+    analysis::WHadronicTagger WTagger;
+    analysis::HTopSemiTagger TopSemiTagger;
+    analysis::TopHadronicTagger top_hadronic_tagger;
+    analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
 
-    hanalysis::Reader BottomReader;
-    hanalysis::Reader WSemiReader;
-    hanalysis::Reader WReader;
-    hanalysis::Reader TopHadronicReader;
-    hanalysis::Reader TopSemiReader;
-    hanalysis::Reader HeavyHiggsSemiReader;
+    analysis::Reader BottomReader;
+    analysis::Reader WSemiReader;
+    analysis::Reader WReader;
+    analysis::Reader TopHadronicReader;
+    analysis::Reader TopSemiReader;
+    analysis::Reader HeavyHiggsSemiReader;
 
 protected:
 
@@ -70,7 +70,7 @@ private:
 
     EventTtSemiBranch Branch;
 
-    hanalysis::HJetTag JetTag;
+    analysis::HJetTag JetTag;
 
 };
 

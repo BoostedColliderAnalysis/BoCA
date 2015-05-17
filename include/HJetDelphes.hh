@@ -8,7 +8,7 @@
  * @brief Delphes jets
  *
  */
-class hanalysis::hdelphes::HJet : public hanalysis::HJet
+class analysis::hdelphes::HJet : public analysis::HJet
 {
 
 public:
@@ -31,8 +31,8 @@ private:
 
     DetectorGeometry detector_geometry_;
 
-    DetectorGeometry detector_geometry() const{
-      return detector_geometry_;
+    DetectorGeometry detector_geometry() const {
+        return detector_geometry_;
     }
 
     /**
@@ -40,7 +40,7 @@ private:
      *
      * @return void
      */
-    bool GetJets(const hanalysis::HFourVector::HJetDetails JetDetails);
+    bool GetJets(const analysis::HFourVector::HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -71,13 +71,13 @@ private:
     bool GetJets(const bool, const bool);
 
     template <typename TClone>
-    hanalysis::JetInfo GetJetId(const TClone &Clone) {
+    analysis::JetInfo GetJetId(const TClone &Clone) {
         Print(kDetailed, "Get Jet Id", Clone.Particles.GetEntriesFast());
-        hanalysis::JetInfo jet_info;
+        analysis::JetInfo jet_info;
         for (const int ParticleNumber : Range(Clone.Particles.GetEntriesFast())) {
-          const HFamily BranchFamily = GetBranchFamily(*Clone.Particles.At(ParticleNumber));
-            Print(kDebug, "MotherId", BranchFamily.ParticleId, BranchFamily.Mother1Id);
-            jet_info.Addconstituent(Constituent(const_cast<TClone &>(Clone).P4(), BranchFamily));
+            const Family family = GetBranchFamily(*Clone.Particles.At(ParticleNumber));
+            Print(kDebug, "MotherId", family.particle().Id, family.mother_1().Id);
+            jet_info.Addconstituent(Constituent(const_cast<TClone &>(Clone).P4(), family));
         }
         jet_info.PrintAllInfos(kDebug);
         return jet_info;
@@ -104,16 +104,12 @@ private:
 
     void GetMuonEFlow(const HJetDetails);
 
-    fastjet::PseudoJet StructuredJet(const delphes::Jet &JetClone, const hanalysis::HFourVector::HJetDetails JetDetails);
+    fastjet::PseudoJet StructuredJet(const delphes::Jet &JetClone, const analysis::HFourVector::HJetDetails JetDetails);
 
-    fastjet::PseudoJet Getconstituents(const TObject &Object, const hanalysis::HFourVector::HJetDetails JetDetails, const Constituent::SubDetector Detector = Constituent::HNone);
+    fastjet::PseudoJet Getconstituents(const TObject &Object, const analysis::HFourVector::HJetDetails JetDetails, const Constituent::SubDetector Detector = Constituent::kNone);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";
     }
-
-    inline std::string ClassName() const {
-        return "HJet";
-    };
 
 };

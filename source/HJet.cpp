@@ -1,17 +1,17 @@
 # include "HJet.hh"
 
-hanalysis::HJet::HJet()
+analysis::HJet::HJet()
 {
 //     DebugLevel = kDebug;
     Print(kNotification, "Constructor");
 }
 
-void hanalysis::HJet::Newevent(const hanalysis::ClonesArrays &NewClonesArrays)
+void analysis::HJet::Newevent(const analysis::ClonesArrays &NewClonesArrays)
 {
 
     Print(kInformation, "New event");
 
-    hanalysis::HFourVector::Newevent(NewClonesArrays);
+    analysis::HFourVector::Newevent(NewClonesArrays);
 
     GotJets = 0;
 
@@ -37,13 +37,13 @@ void hanalysis::HJet::Newevent(const hanalysis::ClonesArrays &NewClonesArrays)
 
 }
 
-bool hanalysis::HJet::GetJets(const hanalysis::HJet::HJetDetails JetDetails)
+bool analysis::HJet::GetJets(const analysis::HJet::HJetDetails JetDetails)
 {
     Print(kError, "Get Jets", "No Jets", JetDetails);
     return 0;
 }
 
-bool hanalysis::HJet::GetEFlow(const hanalysis::HJet::HJetDetails JetDetails)
+bool analysis::HJet::GetEFlow(const analysis::HJet::HJetDetails JetDetails)
 {
 
     Print(kError, "Get EFlow", "No EFlow", JetDetails);
@@ -52,14 +52,14 @@ bool hanalysis::HJet::GetEFlow(const hanalysis::HJet::HJetDetails JetDetails)
 
 }
 
-void hanalysis::HJet::GetGenJet()
+void analysis::HJet::GetGenJet()
 {
 
     Print(kError, "Get Gen Jets", "No Gen Jets");
 
 }
 
-float hanalysis::HJet::GetScalarHt()
+float analysis::HJet::GetScalarHt()
 {
 
     Print(kError, "Get Scalar Ht", "No Scalar Ht");
@@ -68,7 +68,7 @@ float hanalysis::HJet::GetScalarHt()
 
 }
 
-fastjet::PseudoJet hanalysis::HJet::GetMissingEt()
+fastjet::PseudoJet analysis::HJet::GetMissingEt()
 {
 
     Print(kError, "Get Missing Et", "No Mising Et");

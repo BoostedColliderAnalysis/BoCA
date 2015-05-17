@@ -1,17 +1,17 @@
 # include "HJetTag.hh"
 
-hanalysis::HJetTag::HJetTag()
+analysis::HJetTag::HJetTag()
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
     Print(kInformation, "Constructor");
 }
 
-hanalysis::HJetTag::~HJetTag()
+analysis::HJetTag::~HJetTag()
 {
     Print(kInformation, "Destructor");
 }
 
-int hanalysis::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+int analysis::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 {
 
     Print(kDebug, "Get Branch Id", GetParticleName(ParticleId), GetParticleName(BranchId));
@@ -33,57 +33,32 @@ int hanalysis::HJetTag::GetBranchId(const int ParticleId, int BranchId)
 
 }
 
-// HFamily hanalysis::HJetTag::GetBranchId(const HFamily &Family, HFamily &BranchId)
-// {
-//
-//     Print(kDebug, "Get Branch Id", GetParticleName(Family.ParticleId), GetParticleName(Family.Mother1Id), GetParticleName(Family.Mother2Id), GetParticleName(BranchId.ParticleId));
-//
-//     if (
-// //       HeavyParticles.find(static_cast<HParticleId>(std::abs(Family.ParticleId))) != end(HeavyParticles)
-//         HeavyFamily.find(Family.Abs()) != end(HeavyFamily)
-// //         && HeavyFamily.find((BranchId))) == end(HeavyParticles)
-//     ) {
-//         BranchId = Family;
-// //         Print(kError, "Family", Family.ParticleId, BranchId.ParticleId);
-//     } else if (
-//         RadiationParticles.find(static_cast<HParticleId>(std::abs(Family.ParticleId))) != end(RadiationParticles)
-//     ) {
-//         BranchId = HFamily(IsrId, EmptyId, EmptyId);
-//     }
-//
-//     Print(kDebug, "Branch Id", GetParticleName(BranchId.ParticleId));
-//
-//     return BranchId;
-//
-// }
-
-
-hanalysis::HFamily hanalysis::HJetTag::GetBranchFamily(const HFamily &NodeFamily, HFamily &BranchFamily)
+analysis::Family analysis::HJetTag::GetBranchFamily(const Family &node_family, Family &branch_family)
 {
 
-    Print(kDebug, "Get Branch Id", GetParticleName(NodeFamily.ParticleId), GetParticleName(NodeFamily.Mother1Id), GetParticleName(BranchFamily.ParticleId));
+    Print(kDebug, "Get Branch Id", GetParticleName(node_family.particle().Id), GetParticleName(node_family.mother_1().Id), GetParticleName(branch_family.particle().Id));
 
     if (
-        HeavyParticles.find(static_cast<HParticleId>(std::abs(NodeFamily.ParticleId))) != end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) == end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<HParticleId>(std::abs(node_family.particle().Id))) != end(HeavyParticles)
+        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
+        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
     ) {
-        BranchFamily = NodeFamily;
+        branch_family = node_family;
     } else if (
-        HeavyParticles.find(static_cast<HParticleId>(std::abs(NodeFamily.Mother1Id))) != end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.Mother1Id))) == end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchFamily.ParticleId))) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<HParticleId>(std::abs(node_family.mother_1().Id))) != end(HeavyParticles)
+        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
+        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
     ) {
-        BranchFamily = NodeFamily;
+        branch_family = node_family;
     } else if (
-        RadiationParticles.find(static_cast<HParticleId>(std::abs(NodeFamily.Mother1Id))) != end(RadiationParticles)
-       || RadiationParticles.find(static_cast<HParticleId>(std::abs(NodeFamily.ParticleId))) != end(RadiationParticles)
+        RadiationParticles.find(static_cast<HParticleId>(std::abs(node_family.mother_1().Id))) != end(RadiationParticles)
+        || RadiationParticles.find(static_cast<HParticleId>(std::abs(node_family.particle().Id))) != end(RadiationParticles)
     ) {
-        BranchFamily = HFamily(NodeFamily.ParticlePosition,IsrId,NodeFamily.Mother1Position,IsrId);
+        branch_family = Family(node_family.particle().Position,IsrId,node_family.mother_1().Position,IsrId);
     }
 
-    Print(kDebug, "Branch Id", GetParticleName(BranchFamily.ParticleId));
+    Print(kDebug, "Branch Id", GetParticleName(branch_family.particle().Id));
 
-    return BranchFamily;
+    return branch_family;
 
 }

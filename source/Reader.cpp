@@ -33,20 +33,20 @@ std::vector<int> HMvaResult::CutIntegral(const std::vector<int> &bins) const
     return integrals;
 }
 
-hanalysis::Reader::Reader()
+analysis::Reader::Reader()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
 }
 
-hanalysis::Reader::Reader(hanalysis::Tagger &tagger)
+analysis::Reader::Reader(analysis::Tagger &tagger)
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor with tagger");
     set_tagger(tagger);
 }
 
-void hanalysis::Reader::set_tagger(hanalysis::Tagger &tagger)
+void analysis::Reader::set_tagger(analysis::Tagger &tagger)
 {
     Print(kNotification, "SetMva");
     tagger_ = &tagger;
@@ -54,7 +54,7 @@ void hanalysis::Reader::set_tagger(hanalysis::Tagger &tagger)
     BookMva();
 }
 
-void hanalysis::Reader::AddVariable()
+void analysis::Reader::AddVariable()
 {
     Print(kNotification, "Add Variable");
     const std::string default_options = "!Color:Silent";
@@ -63,7 +63,7 @@ void hanalysis::Reader::AddVariable()
 
 }
 
-void hanalysis::Reader::BookMva()
+void analysis::Reader::BookMva()
 {
     Print(kNotification, "Book Mva");
     const std::string xml_name = ".weights.xml";
@@ -72,13 +72,13 @@ void hanalysis::Reader::BookMva()
     reader().BookMVA(tagger().bdt_method_name(), bdt_weight_file);
 }
 
-float hanalysis::Reader::Bdt() const
+float analysis::Reader::Bdt() const
 {
     Print(kInformation, "Bdt");
     return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(tagger().bdt_method_name()) + 1;
 }
 
-void hanalysis::Reader::OptimalSignificance()
+void analysis::Reader::OptimalSignificance()
 {
     Print(kNotification, "Mva Loop");
     std::stringstream TableHeader;
@@ -117,7 +117,7 @@ void hanalysis::Reader::OptimalSignificance()
     std::vector<float> BGs(BackgroundResults.size(), 0);
     int BestBin = 0;
     int Counter = 0;
-    for (size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
+    for (std::size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
         while (BGs.at(BackgroundNumber) == 0 && Counter < SignalResults.Steps) {
             BestBin = std::distance(Significances.begin(), std::max_element(std::begin(Significances), std::end(Significances) - Counter));
             BGs.at(BackgroundNumber) = BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin);
@@ -136,7 +136,7 @@ void hanalysis::Reader::OptimalSignificance()
     Table << "\n \\\\ $p$-value\n  & " << MaxSignificance;
     Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << SignalResults.AnalysiseventNumber.at(BestBin) << "\n  & " << SignalResults.TotaleventNumber << "\n";
 
-    for (size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
+    for (std::size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
         Table << " \\\\ \\verb|" << tagger().background_tree_names().at(BackgroundNumber) << "|\n  & " << BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).AnalysiseventNumber.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).TotaleventNumber << "\n";
     }
 
@@ -209,7 +209,7 @@ void hanalysis::Reader::OptimalSignificance()
     LatexFooter(LatexFile);
 }
 
-HMvaResult hanalysis::Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
+HMvaResult analysis::Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
     Print(kNotification, "Apply Bdt", tree_name);
     const float Luminosity = 3000; // 3000 fb-1
@@ -233,7 +233,7 @@ HMvaResult hanalysis::Reader::BdtResult(TFile &file, const std::string &tree_nam
     return Result;
 }
 
-std::vector<int> hanalysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
+std::vector<int> analysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
 {
     Print(kNotification, "Bdt Distribution", tagger().branch_name());
     std::string NeweventBranchName = tagger().branch_name() + "Reader";
@@ -263,7 +263,7 @@ std::vector<int> hanalysis::Reader::BdtDistribution(ExRootTreeReader &tree_reade
     return Bins;
 }
 
-InfoBranch hanalysis::Reader::info_branch(TFile &file, const std::string &tree_name) const
+InfoBranch analysis::Reader::info_branch(TFile &file, const std::string &tree_name) const
 {
     ExRootTreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
 //     Print(kError,"Info Branch",tagger().GetWeightBranchName().c_str());
@@ -274,7 +274,7 @@ InfoBranch hanalysis::Reader::info_branch(TFile &file, const std::string &tree_n
 }
 
 
-void hanalysis::Reader::LatexHeader(std::ofstream &latex_file) const
+void analysis::Reader::LatexHeader(std::ofstream &latex_file) const
 {
     Print(kNotification, "LaTeX Header");
     const std::string TexFileName = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
@@ -296,14 +296,14 @@ void hanalysis::Reader::LatexHeader(std::ofstream &latex_file) const
 }
 
 
-void hanalysis::Reader::LatexFooter(ofstream &latex_file) const
+void analysis::Reader::LatexFooter(ofstream &latex_file) const
 {
     Print(kNotification, "LaTeX Footer");
     latex_file << "\n\\end{document}\n";
     latex_file.close();
 }
 
-// float hanalysis::Reader::GetRatio(const float Nominator, const float Denummertor) const
+// float analysis::Reader::GetRatio(const float Nominator, const float Denummertor) const
 // {
 //     float Ratio;
 //     if (Denummertor > 0) {
@@ -315,7 +315,7 @@ void hanalysis::Reader::LatexFooter(ofstream &latex_file) const
 // }
 //
 //
-// float hanalysis::Reader::GetScaling(const float events, const int Particles) const
+// float analysis::Reader::GetScaling(const float events, const int Particles) const
 // {
 //     Print(kInformation , "Scaling");
 //     float Scaling;
@@ -327,21 +327,21 @@ void hanalysis::Reader::LatexFooter(ofstream &latex_file) const
 //     return Scaling;
 // }
 //
-// float hanalysis::Reader::GetLuminosity(const float Number) const
+// float analysis::Reader::GetLuminosity(const float Number) const
 // {
 //     Print(kInformation , "Luminosity");
 //     float Luminosity = Number / CrosssectionScaled;
 //     return Luminosity;
 // }
 //
-// float hanalysis::Reader::GetLuminosityError(const float Number) const
+// float analysis::Reader::GetLuminosityError(const float Number) const
 // {
 //     Print(kInformation , "Luminosity Error");
 //     float LuminosityError = GetError(Number) / CrosssectionScaled + Number / CrosssectionNorm * LuminosityScalingError + GetLuminosity(Number) * CrosssectionNormRelError;
 //     return LuminosityError;
 // }
 //
-// float hanalysis::Reader::GetError(const float Value) const
+// float analysis::Reader::GetError(const float Value) const
 // {
 //     Print(kInformation , "Error");
 //     float Error;
@@ -353,18 +353,18 @@ void hanalysis::Reader::LatexFooter(ofstream &latex_file) const
 //     return Error;
 // }
 //
-// float hanalysis::Reader::RoundToDigits(const float Value) const
+// float analysis::Reader::RoundToDigits(const float Value) const
 // {
 //     return RoundToDigits(Value, 3);
 // }
 //
-// float hanalysis::Reader::RoundError(const float Value) const
+// float analysis::Reader::RoundError(const float Value) const
 // {
 //     return RoundToDigits(Value, 2);
 // }
 //
 //
-// float hanalysis::Reader::RoundToDigits(const float Value, const int Digits) const
+// float analysis::Reader::RoundToDigits(const float Value, const int Digits) const
 // {
 //     Print(kInformation , "Round To Digits");
 //     if (Value == 0 || Value != Value) {
@@ -375,7 +375,7 @@ void hanalysis::Reader::LatexFooter(ofstream &latex_file) const
 //     }
 // }
 //
-// float hanalysis::Reader::RoundToError(const float Value, const float Error) const
+// float analysis::Reader::RoundToError(const float Value, const float Error) const
 // {
 //     Print(kInformation , "Round To Digits");
 //     if (Value == 0) {

@@ -1,16 +1,16 @@
 # include "HHeavyHiggsHadronicTagger.hh"
 
-hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger()
+analysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger()
 {
-  //     DebugLevel = hanalysis::HObject::kDebug;
+  //     DebugLevel = analysis::Object::kDebug;
 
   Print(kNotification, "Constructor");
   set_tagger_name("HeavyHiggsHadronic");
 }
 
-hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const BottomTagger &NewBottomTagger, const WHadronicTagger &NewWTagger, const TopHadronicTagger &NewTopTagger)
+analysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const BottomTagger &NewBottomTagger, const WHadronicTagger &NewWTagger, const TopHadronicTagger &NewTopTagger)
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
 
     Print(kNotification, "Constructor");
 
@@ -25,12 +25,12 @@ hanalysis::HHeavyHiggsHadronicTagger::HHeavyHiggsHadronicTagger(const BottomTagg
     DefineVariables();
 }
 
-hanalysis::HHeavyHiggsHadronicTagger::~HHeavyHiggsHadronicTagger()
+analysis::HHeavyHiggsHadronicTagger::~HHeavyHiggsHadronicTagger()
 {
     Print(kNotification, "Destructor");
 }
 
-HHeavyHiggsHadronicBranch hanalysis::HHeavyHiggsHadronicTagger::GetBranch(const hanalysis::HSextet &Sextet)
+HHeavyHiggsHadronicBranch analysis::HHeavyHiggsHadronicTagger::GetBranch(const analysis::HSextet &Sextet)
 {
     Print(kInformation, "FillPairTagger", Sextet.Bdt());
 
@@ -64,7 +64,7 @@ HHeavyHiggsHadronicBranch hanalysis::HHeavyHiggsHadronicTagger::GetBranch(const 
     return HeavyHiggsHadronicBranch;
 }
 
-void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
+void analysis::HHeavyHiggsHadronicTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -101,7 +101,7 @@ void hanalysis::HHeavyHiggsHadronicTagger::DefineVariables()
 }
 
 
-std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
+std::vector< HHeavyHiggsHadronicBranch> analysis::HHeavyHiggsHadronicTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 
@@ -141,7 +141,7 @@ std::vector< HHeavyHiggsHadronicBranch> hanalysis::HHeavyHiggsHadronicTagger::Ge
 
 }
 
-hanalysis::HObject::Tag hanalysis::HHeavyHiggsHadronicTagger::GetTag(const HSextet &Sextet)
+analysis::Object::Tag analysis::HHeavyHiggsHadronicTagger::GetTag(const HSextet &Sextet)
 {
     Print(kInformation, "Get Triple Tag");
 
@@ -152,10 +152,10 @@ hanalysis::HObject::Tag hanalysis::HHeavyHiggsHadronicTagger::GetTag(const HSext
 }
 
 
-std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsHadronicTagger::GetBdt(std::vector< hanalysis::Triplet > triplets, const hanalysis::Reader &Reader)
+std::vector<analysis::HSextet> analysis::HHeavyHiggsHadronicTagger::GetBdt(std::vector< analysis::Triplet > triplets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Get Heavy Higgs Bdt");
-    std::vector<hanalysis::HSextet> Sextets;
+    std::vector<analysis::HSextet> Sextets;
     for (const auto & triplet1 : triplets)
       for (const auto & triplet2 : triplets) {
         if (triplet1.singlet() == triplet2.singlet()) continue;

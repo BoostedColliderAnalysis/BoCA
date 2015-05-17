@@ -3,8 +3,7 @@
 
 # include "ExRootAnalysis/ExRootClasses.h"
 
-
-# include "HObject.hh"
+# include "Object.hh"
 # include "ClonesArrays.hh"
 # include "HJetTag.hh"
 # include "JetInfo.hh"
@@ -18,7 +17,7 @@
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
  *
  */
-class hanalysis::HFourVector : virtual public HObject
+class analysis::HFourVector : virtual public Object
 {
 
 public:
@@ -34,13 +33,6 @@ public:
      *
      */
     ~HFourVector();
-
-    /**
-     * @brief Get a fastjet::PseudoJet from a TLorentzVector
-     *
-     */
-    fastjet::PseudoJet PseudoJet(const TLorentzVector &Vector) const;
-
 
 protected:
 
@@ -156,9 +148,9 @@ protected:
     fastjet::PseudoJet GetPseudoJet(const TRootPhoton &Particle) const;
     fastjet::PseudoJet GetPseudoJet(const TRootTau &Particle) const;
 
-    HFamily GetBranchFamily(const TObject &Object);
+    Family GetBranchFamily(const TObject &Object);
 
-    HFamily GetBranchFamily(HFamily &BranchId, int Position);
+    Family GetBranchFamily(Family &BranchId, int Position);
 
     template<typename TData>
     void PrintCell(TData const Data) const {
@@ -167,7 +159,7 @@ protected:
 
     }
 
-    void PrintTruthLevel(const int Severity) const;
+    void PrintTruthLevel(const int severity) const;
 
     std::string PrintParticle(const int Position) const;
 
@@ -181,7 +173,7 @@ protected:
      */
     const ClonesArrays *clones_arrays_;
 
-    std::vector<HFamily> Topology;
+    std::vector<Family> Topology;
 
     int Source;
 

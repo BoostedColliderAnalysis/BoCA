@@ -4,7 +4,7 @@ HInclude(${PROJECT_SOURCE_DIR}/source)
 HDictionary(Branch Branch.cpp ../include/HLinkDef.hh)
 
 set(EventSources
-HObject.cpp
+Object.cpp
 HFourVector.cpp
 File.cpp
 ClonesArrays.cpp
@@ -64,6 +64,8 @@ add_dependencies(HepTagger HepTopTagger)
 
 set(AnalysisSources
 HAnalysis.cpp
+Family.cpp
+Constituent.cpp
 HJetTag.cpp
 JetInfo.cpp
 HReconstruction.cpp

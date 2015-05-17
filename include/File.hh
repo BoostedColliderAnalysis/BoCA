@@ -10,7 +10,7 @@
  * ProcessFolder has to be set
  *
  */
-class hanalysis::File : public HObject
+class analysis::File : public Object
 {
 
 public:
@@ -45,9 +45,9 @@ public:
 
     ExRootTreeReader TreeReader();
 
-    hanalysis::ClonesArrays clones_arrays();
+    analysis::ClonesArrays clones_arrays();
 
-    hanalysis::Event event();
+    analysis::Event event();
 
     /**
      * @brief Name of Process

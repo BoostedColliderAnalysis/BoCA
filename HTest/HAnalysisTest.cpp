@@ -15,14 +15,14 @@ Strings htest::HAnalysis::GetStudyNameVector(){
 
 }
 
-std::vector<hanalysis::File*> htest::HAnalysis::GetFiles(const std::string &StudyName)
+std::vector<analysis::File*> htest::HAnalysis::GetFiles(const std::string &StudyName)
 {
 
     Print(kNotification, "Set File Vector", StudyName);
 
-    std::vector<hanalysis::File*> Files;
+    std::vector<analysis::File*> Files;
 
-    hanalysis::File *Background = new hanalysis::File("pp-ttbb");
+    analysis::File *Background = new analysis::File("pp-ttbb");
         Files.emplace_back(Background);
 
 //     HFile *Even = new HFile("pp-x0tt-bblvlv","even");
@@ -48,7 +48,7 @@ void htest::HAnalysis::CloseFile()
 
 }
 
-// class htest::HJetTag : public hanalysis::HJetTag {
+// class htest::HJetTag : public analysis::HJetTag {
 //
 //     int GetBranchId(int, int);
 //
@@ -74,12 +74,12 @@ void htest::HAnalysis::CloseFile()
 //
 // }
 
-int htest::HAnalysis::Analysis(hanalysis::Event &event, const std::string &StudyName)
+int htest::HAnalysis::Analysis(analysis::Event &event, const std::string &StudyName)
 {
 
     Print(kInformation, "Analysis", StudyName);
 
-    hanalysis::HJetTag  HeavyHiggsJetTag;
+    analysis::HJetTag  HeavyHiggsJetTag;
 //     event.GetTaggedJets(HeavyHiggsJetTag);
 
 

@@ -22,23 +22,23 @@ namespace hpairtagger
  * @author Jan Hajer
  *
  */
-class HAnalysis : public hanalysis::HAnalysis
+class HAnalysis : public analysis::HAnalysis
 {
 
 public:
 
-    using hanalysis::HAnalysis::HAnalysis;
+    using analysis::HAnalysis::HAnalysis;
 
-//     hanalysis::BottomTagger bottom_tagger_;
-//     hanalysis::HJetPairTagger JetPairTagger;
+//     analysis::BottomTagger bottom_tagger_;
+//     analysis::HJetPairTagger JetPairTagger;
 
-//     std::string StudyName(const hanalysis::HAnalysis::HTagger Tagger) const;
+//     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
 
-//     void PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const hanalysis::HAnalysis::Tag Tag);
+//     void PrepareReader(const analysis::HAnalysis::HTagger Tagger, const analysis::HAnalysis::Tag Tag);
 
     void SetTrees();
 
-    std::vector<hanalysis::File> Files(const hanalysis::HObject::Tag tag);
+    std::vector<analysis::File> Files(const analysis::Object::Tag tag);
 
     inline std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
@@ -187,24 +187,24 @@ private:
         return ProductionChannelName(ProductionChannel) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-    inline hanalysis::File BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
+    inline analysis::File BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
         return BackgroundFile(Process, BackgroundFileNumber(), ProductionChannel);
     }
 
-    inline hanalysis::File BackgroundFile(const ProcessType Process) const {
+    inline analysis::File BackgroundFile(const ProcessType Process) const {
         return BackgroundFile(Process, BackgroundFileNumber());
     }
 
-    hanalysis::File BackgroundFile(const ProcessType Process, const int) const {
+    analysis::File BackgroundFile(const ProcessType Process, const int) const {
         Strings FileNames;
         FileNames.emplace_back(NameString(Process));
-        return hanalysis::File(FileNames , BackgroundCrosssection(Process));
+        return analysis::File(FileNames , BackgroundCrosssection(Process));
     }
 
-    hanalysis::File BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
+    analysis::File BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
         Strings FileNames;
         FileNames.emplace_back(NameString(Process, ProductionChannel));
-        return hanalysis::File(FileNames , BackgroundCrosssection(Process));
+        return analysis::File(FileNames , BackgroundCrosssection(Process));
     }
 
 
@@ -228,21 +228,21 @@ private:
         return 1;
     }
 
-    hanalysis::HJetTag JetTag;
-    hanalysis::Reader BottomReader;
-    hanalysis::Reader JetPairReader;
+    analysis::HJetTag JetTag;
+    analysis::Reader BottomReader;
+    analysis::Reader JetPairReader;
 
-//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger);
+//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
-    int Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag);
+    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
 
-//     bool GetBottomTag(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
-//     bool GetBottomReader(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+//     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
+//     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);
 //
-//     bool GetJetPairTag(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
-//     bool GetJetPairReader(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+//     bool GetJetPairTag(analysis::Event &event, const analysis::Object::Tag Tag);
+//     bool GetJetPairReader(analysis::Event &event, const analysis::Object::Tag Tag);
 //
-//     bool GetTag(hanalysis::Event &event, const hanalysis::HObject::Tag tag);
+//     bool GetTag(analysis::Event &event, const analysis::Object::Tag tag);
 
 };
 }

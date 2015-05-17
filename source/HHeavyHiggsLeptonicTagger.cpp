@@ -1,16 +1,16 @@
 # include "HHeavyHiggsLeptonicTagger.hh"
 
-hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger()
+analysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger()
 {
-  //     DebugLevel = hanalysis::HObject::kDebug;
+  //     DebugLevel = analysis::Object::kDebug;
 
   Print(kNotification, "Constructor");
   set_tagger_name("HeavyHiggsLeptonic");
 }
 
-hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(const BottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
+analysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(const BottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
 
     Print(kNotification, "Constructor");
 
@@ -23,12 +23,12 @@ hanalysis::HHeavyHiggsLeptonicTagger::HHeavyHiggsLeptonicTagger(const BottomTagg
     DefineVariables();
 }
 
-hanalysis::HHeavyHiggsLeptonicTagger::~HHeavyHiggsLeptonicTagger()
+analysis::HHeavyHiggsLeptonicTagger::~HHeavyHiggsLeptonicTagger()
 {
     Print(kNotification, "Destructor");
 }
 
-void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
+void analysis::HHeavyHiggsLeptonicTagger::DefineVariables()
 {
 
   Print(kNotification , "Define Variables");
@@ -69,7 +69,7 @@ void hanalysis::HHeavyHiggsLeptonicTagger::DefineVariables()
 
 }
 
-HHeavyHiggsLeptonicBranch hanalysis::HHeavyHiggsLeptonicTagger::GetBranch(const HSextet &Sextet)
+HHeavyHiggsLeptonicBranch analysis::HHeavyHiggsLeptonicTagger::GetBranch(const HSextet &Sextet)
 {
     Print(kInformation, "FillPairTagger", Sextet.Bdt());
 
@@ -108,13 +108,13 @@ HHeavyHiggsLeptonicBranch hanalysis::HHeavyHiggsLeptonicTagger::GetBranch(const 
 }
 
 struct SortSextetByMass {
-  inline bool operator()(const hanalysis::HSextet &Sextet1, const hanalysis::HSextet &Sextet2) {
+  inline bool operator()(const analysis::HSextet &Sextet1, const analysis::HSextet &Sextet2) {
     return (Sextet1.Jet().m() > Sextet2.Jet().m());
   }
 };
 
 
-std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::GetBranches(Event &event, const HObject::Tag Tag)
+std::vector< HHeavyHiggsLeptonicBranch> analysis::HHeavyHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
   Print(kInformation, "Get Higgs Tags");
 
@@ -170,7 +170,7 @@ std::vector< HHeavyHiggsLeptonicBranch> hanalysis::HHeavyHiggsLeptonicTagger::Ge
 
 }
 
-hanalysis::HObject::Tag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQuartet &Quartet)
+analysis::Object::Tag analysis::HHeavyHiggsLeptonicTagger::GetTag(const HQuartet &Quartet)
 {
     Print(kInformation, "Get Quartet Tag");
 
@@ -193,7 +193,7 @@ hanalysis::HObject::Tag hanalysis::HHeavyHiggsLeptonicTagger::GetTag(const HQuar
     return kSignal;
 }
 
-std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsLeptonicTagger::GetBdt(const std::vector<Doublet> &doublets , const fastjet::PseudoJet &MissingEt, const Reader &Reader)
+std::vector<analysis::HSextet>  analysis::HHeavyHiggsLeptonicTagger::GetBdt(const std::vector<Doublet> &doublets , const fastjet::PseudoJet &MissingEt, const Reader &Reader)
 {
     Print(kInformation, "Get Bdt");
 
@@ -218,7 +218,7 @@ std::vector<hanalysis::HSextet>  hanalysis::HHeavyHiggsLeptonicTagger::GetBdt(co
 }
 
 
-void hanalysis::HHeavyHiggsLeptonicTagger::SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet)
+void analysis::HHeavyHiggsLeptonicTagger::SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet)
 {
     Momentum[0] = Jet.E();
     Momentum[1] = Jet.px();
@@ -226,7 +226,7 @@ void hanalysis::HHeavyHiggsLeptonicTagger::SetMomentum(double Momentum[4], const
     Momentum[3] = Jet.pz();
 }
 
-std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextets(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt)
+std::vector<analysis::HSextet> analysis::HHeavyHiggsLeptonicTagger::GetSextets(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt)
 {
     Print(kInformation, "Get Triple Pairs");
 
@@ -247,7 +247,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextets
     solve22(Structure, NeutrinoMass, WMass, TopMass, SolutionSum, P1, P2);
     Print(kDebug, "Number solutions", SolutionSum);
 
-    std::vector<hanalysis::HSextet> Sextets;
+    std::vector<analysis::HSextet> Sextets;
     for (const int SolutionNumber : Range(SolutionSum)) {
         Print(kDebug, "Solution ", SolutionNumber);
         Print(kDebug, "Neutrino 1 (p1)" , GetJet(P1[SolutionNumber]));
@@ -280,7 +280,7 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextets
 
 }
 
-std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const Tag Tag)
+std::vector<analysis::HSextet> analysis::HHeavyHiggsLeptonicTagger::GetSextet(const HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const Tag Tag)
 {
     Print(kInformation, "Get Triple Pair");
 
@@ -316,13 +316,13 @@ std::vector<hanalysis::HSextet> hanalysis::HHeavyHiggsLeptonicTagger::GetSextet(
 
             }
 
-//         for (size_t i = 0; i < Neutrino1Errors.size(); ++i) {
-//             for (size_t j = i + 1; j < Neutrino2Errors.size(); ++j) {
+//         for (std::size_t i = 0; i < Neutrino1Errors.size(); ++i) {
+//             for (std::size_t j = i + 1; j < Neutrino2Errors.size(); ++j) {
 //                 if (Neutrino1Errors[i] + Neutrino2Errors[j] < Error) Error = Neutrino1Errors[i] + Neutrino2Errors[j];
 //             }
 //         }
-//         for (size_t j = 0; j < Neutrino2Errors.size(); ++j) {
-//             for (size_t i = j + 1; i < Neutrino1Errors.size(); ++i) {
+//         for (std::size_t j = 0; j < Neutrino2Errors.size(); ++j) {
+//             for (std::size_t i = j + 1; i < Neutrino1Errors.size(); ++i) {
 //                 if (Neutrino1Errors[i] + Neutrino2Errors[j] < Error) Error = Neutrino1Errors[i] + Neutrino2Errors[j];
 //             }
 //         }

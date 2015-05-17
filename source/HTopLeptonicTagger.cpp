@@ -1,8 +1,8 @@
 # include "HTopLeptonicTagger.hh"
 
-hanalysis::HTopLeptonicTagger::HTopLeptonicTagger()
+analysis::HTopLeptonicTagger::HTopLeptonicTagger()
 {
-  //     DebugLevel = hanalysis::HObject::kDebug;
+  //     DebugLevel = analysis::Object::kDebug;
 
   Print(kNotification, "Constructor");
   set_tagger_name("TopLeptonic");
@@ -10,9 +10,9 @@ hanalysis::HTopLeptonicTagger::HTopLeptonicTagger()
 
 }
 
-hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(const BottomTagger &NewBottomTagger)
+analysis::HTopLeptonicTagger::HTopLeptonicTagger(const BottomTagger &NewBottomTagger)
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
 
     Print(kNotification, "Constructor");
 
@@ -22,12 +22,12 @@ hanalysis::HTopLeptonicTagger::HTopLeptonicTagger(const BottomTagger &NewBottomT
     DefineVariables();
 }
 
-hanalysis::HTopLeptonicTagger::~HTopLeptonicTagger()
+analysis::HTopLeptonicTagger::~HTopLeptonicTagger()
 {
     Print(kNotification, "Destructor");
 }
 
-void hanalysis::HTopLeptonicTagger::DefineVariables()
+void analysis::HTopLeptonicTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -51,7 +51,7 @@ void hanalysis::HTopLeptonicTagger::DefineVariables()
 
 }
 
-HTopLeptonicBranch hanalysis::HTopLeptonicTagger::GetBranch(const hanalysis::Doublet &doublet)
+HTopLeptonicBranch analysis::HTopLeptonicTagger::GetBranch(const analysis::Doublet &doublet)
 {
     Print(kInformation, "Fill Top Tagger", doublet.Bdt());
 
@@ -74,7 +74,7 @@ HTopLeptonicBranch hanalysis::HTopLeptonicTagger::GetBranch(const hanalysis::Dou
 
 }
 
-std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(Event &event, const HObject::Tag Tag)
+std::vector<HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
 
     Print(kInformation, "Get Top Tags");
@@ -112,7 +112,7 @@ std::vector<HTopLeptonicBranch> hanalysis::HTopLeptonicTagger::GetBranches(Event
 
 }
 
-hanalysis::HObject::Tag hanalysis::HTopLeptonicTagger::GetTag(const Doublet &doublet)
+analysis::Object::Tag analysis::HTopLeptonicTagger::GetTag(const Doublet &doublet)
 {
     Print(kInformation, "Get Triple Tag", GetParticleName(doublet.Singlet1().user_index()), GetParticleName(doublet.Singlet2().user_index()));
 
@@ -128,7 +128,7 @@ hanalysis::HObject::Tag hanalysis::HTopLeptonicTagger::GetTag(const Doublet &dou
     return kSignal;
 }
 
-std::vector<hanalysis::Doublet>  hanalysis::HTopLeptonicTagger::GetBdt(const Jets &jets, Jets &Leptons, const hanalysis::Reader & Reader)
+std::vector<analysis::Doublet>  analysis::HTopLeptonicTagger::GetBdt(const Jets &jets, Jets &Leptons, const analysis::Reader & Reader)
 {
 
     Print(kInformation, "Get Bdt");

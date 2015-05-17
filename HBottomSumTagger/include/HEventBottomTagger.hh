@@ -8,7 +8,7 @@
 namespace hbottomsumtagger
 {
 
-class EventBottomMultiplet : public hanalysis::HTag
+class EventBottomMultiplet : public analysis::HTag
 {
 public:
 
@@ -21,7 +21,7 @@ public:
 
     inline float TotalBottomBdt(const unsigned Number) const {
         if (JetsM.size() < Number) return 0;
-        return JetsM.at(Number - 1).user_info<hanalysis::JetInfo>().Bdt();
+        return JetsM.at(Number - 1).user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2) const {
@@ -55,7 +55,7 @@ private:
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventBottomTagger : public hanalysis::Tagger
+class EventBottomTagger : public analysis::Tagger
 {
 
 public:
@@ -66,13 +66,13 @@ public:
     */
     EventBottomTagger();
 
-    bool TruthLevelCheck(const Jets &NewJets, hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    bool TruthLevelCheck(const Jets &NewJets, analysis::Event &event, const analysis::Object::Tag Tag);
 
-    void SetTagger(const hanalysis::BottomTagger &NewBottomTagger);
+    void SetTagger(const analysis::BottomTagger &NewBottomTagger);
 
-    std::vector<EventBottomTaggerBranch> GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector<EventBottomTaggerBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector<EventBottomMultiplet> GetBdt(const Jets &jets, const hanalysis::Reader &eventSemiReader);
+    std::vector<EventBottomMultiplet> GetBdt(const Jets &jets, const analysis::Reader &eventSemiReader);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -80,9 +80,9 @@ public:
 
     EventBottomTaggerBranch GetBranch(const hbottomsumtagger::EventBottomMultiplet &event) const;
 
-    hanalysis::BottomTagger bottom_tagger_;
+    analysis::BottomTagger bottom_tagger_;
 
-    hanalysis::Reader BottomReader;
+    analysis::Reader BottomReader;
 
 
 protected:
@@ -102,7 +102,7 @@ private:
 //     std::vector<HOctet> GetHeavyHiggsevents(Jets &jets);
 
     EventBottomTaggerBranch Branch;
-    hanalysis::HJetTag JetTag;
+    analysis::HJetTag JetTag;
 
 };
 }

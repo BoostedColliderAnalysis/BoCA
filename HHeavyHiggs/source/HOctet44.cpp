@@ -1,7 +1,7 @@
 # include "HOctet44.hh"
 # include "HTagPrivate.hh"
 
-HOctet44::HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2)
+HOctet44::HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &NewQuartet2)
 {
     Quartet1M = NewQuartet1;
     Quartet2M = NewQuartet2;
@@ -10,7 +10,7 @@ HOctet44::HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQ
 }
 
 
-HOctet44::HOctet44(const hanalysis::HQuartet31 &NewQuartet1, const hanalysis::HQuartet31 &NewQuartet2, const HChargedeventStruct &NeweventStruct)
+HOctet44::HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &NewQuartet2, const HChargedeventStruct &NeweventStruct)
 {
   Quartet1M = NewQuartet1;
   Quartet2M = NewQuartet2;

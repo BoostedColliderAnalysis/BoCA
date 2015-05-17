@@ -6,14 +6,14 @@
 # include "Predicate.hh"
 
 
-hanalysis::File::File()
+analysis::File::File()
 {
     Print(kInformation, "Constructor");
     SetVariables();
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const std::string &process)
+analysis::File::File(const std::string &process)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -21,7 +21,7 @@ hanalysis::File::File(const std::string &process)
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const std::string &process, const float crosssection)
+analysis::File::File(const std::string &process, const float crosssection)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -30,7 +30,7 @@ hanalysis::File::File(const std::string &process, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const std::string &process, const float crosssection, const float mass)
+analysis::File::File(const std::string &process, const float crosssection, const float mass)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -40,7 +40,7 @@ hanalysis::File::File(const std::string &process, const float crosssection, cons
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const Strings &processes)
+analysis::File::File(const Strings &processes)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -48,7 +48,7 @@ hanalysis::File::File(const Strings &processes)
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const Strings &processes, const float crosssection)
+analysis::File::File(const Strings &processes, const float crosssection)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -57,7 +57,7 @@ hanalysis::File::File(const Strings &processes, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const Strings &processes, const float crosssection, const float mass)
+analysis::File::File(const Strings &processes, const float crosssection, const float mass)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -67,7 +67,7 @@ hanalysis::File::File(const Strings &processes, const float crosssection, const 
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const std::string &process, const std::string &run_folder)
+analysis::File::File(const std::string &process, const std::string &run_folder)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -76,7 +76,7 @@ hanalysis::File::File(const std::string &process, const std::string &run_folder)
     file_suffix_ = file_suffix();
 }
 
-hanalysis::File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
+analysis::File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -85,7 +85,7 @@ hanalysis::File::File(const std::string &process, const std::string &base_path, 
     file_suffix_ = file_suffix;
 }
 
-std::string hanalysis::File::file_suffix() const
+std::string analysis::File::file_suffix() const
 {
     switch (source()) {
     case ClonesArrays::kDelphes :
@@ -100,7 +100,7 @@ std::string hanalysis::File::file_suffix() const
     }
 }
 
-std::string hanalysis::File::tree_name() const
+std::string analysis::File::tree_name() const
 {
     switch (source()) {
     case ClonesArrays::kDelphes :
@@ -115,24 +115,24 @@ std::string hanalysis::File::tree_name() const
     }
 }
 
-std::string hanalysis::File::Title() const
+std::string analysis::File::Title() const
 {
     return process_folders_.front() + "-" + run_folder_;
 }
 
-std::string hanalysis::File::MadGraphFilePath() const
+std::string analysis::File::MadGraphFilePath() const
 {
     return base_path_ + process_folders_.front() + "/events/" + run_folder_ + "/";
 }
 
-void hanalysis::File::SetVariables()
+void analysis::File::SetVariables()
 {
     Print(kInformation, "Set Variables");
     run_folder_ = "run_01";
     tag_name_ = "tag_1";
 }
 
-Strings hanalysis::File::Paths() const
+Strings analysis::File::Paths() const
 {
     Print(kInformation, "FilePath");
     Strings FilePaths;
@@ -140,7 +140,7 @@ Strings hanalysis::File::Paths() const
     return FilePaths;
 }
 
-ExRootTreeReader hanalysis::File::TreeReader()
+ExRootTreeReader analysis::File::TreeReader()
 {
     Print(kNotification, "Get Tree Reader", Paths().front());
     chain_ = new TChain(tree_name().c_str());
@@ -148,20 +148,20 @@ ExRootTreeReader hanalysis::File::TreeReader()
     return ExRootTreeReader(chain_);
 }
 
-hanalysis::ClonesArrays hanalysis::File::clones_arrays()
+analysis::ClonesArrays analysis::File::clones_arrays()
 {
     Print(kNotification, "Get Clones Arrays");
     return ClonesArrays(source());
 }
 
 
-hanalysis::Event hanalysis::File::event()
+analysis::Event analysis::File::event()
 {
     Print(kNotification, "Get event");
     return Event(source());
 }
 
-hanalysis::File::~File()
+analysis::File::~File()
 {
     Print(kNotification, "Destructor");
     delete chain_;

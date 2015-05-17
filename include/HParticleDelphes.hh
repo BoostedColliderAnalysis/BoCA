@@ -6,7 +6,7 @@
  * @brief delphes particles
  *
  */
-class hanalysis::hdelphes::HParticle  : public hanalysis::HParticle
+class analysis::hdelphes::HParticle  : public analysis::HParticle
 {
 
 public:

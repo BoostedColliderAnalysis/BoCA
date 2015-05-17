@@ -3,9 +3,9 @@
 # include "fastjet/contrib/Nsubjettiness.hh"
 # include "fastjet/contrib/NjettinessDefinition.hh"
 
-hanalysis::TopHadronicTagger::TopHadronicTagger()
+analysis::TopHadronicTagger::TopHadronicTagger()
 {
-    DebugLevel = hanalysis::HObject::kDebug;
+    DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopHadronic");
     top_mass_window_ = (TopMass - WMass) / 2;
@@ -15,7 +15,7 @@ hanalysis::TopHadronicTagger::TopHadronicTagger()
     DefineVariables();
 }
 
-void hanalysis::TopHadronicTagger::DefineVariables()
+void analysis::TopHadronicTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -51,7 +51,7 @@ void hanalysis::TopHadronicTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-TopHadronicBranch hanalysis::TopHadronicTagger::GetBranch(const hanalysis::Triplet &triplet) const
+TopHadronicBranch analysis::TopHadronicTagger::GetBranch(const analysis::Triplet &triplet) const
 {
     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
     TopHadronicBranch branch;
@@ -59,7 +59,7 @@ TopHadronicBranch hanalysis::TopHadronicTagger::GetBranch(const hanalysis::Tripl
     return branch;
 }
 
-int hanalysis::TopHadronicTagger::Train(hanalysis::Event &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
+int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Train");
     int w_had_id = w_hadronic_tagger_.GetWHadId(event);
@@ -78,12 +78,12 @@ int hanalysis::TopHadronicTagger::Train(hanalysis::Event &event, PreCuts &pre_cu
         top_jets = remove_if_particle(jets, had_top_id);
     }
 
-    std::vector<hanalysis::Triplet> triplets;
+    std::vector<analysis::Triplet> triplets;
 
     if (!boost_) {
 
         Print(kInformation, "3 Jets form one top" , triplets.size());
-        std::vector<hanalysis::Doublet> doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetJetDoublets(event, w_hadronic_reader_.reader());
+        std::vector<analysis::Doublet> doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetJetDoublets(event, w_hadronic_reader_.reader());
         triplets = GetTriplets(doublets, jets, top_particles, pre_cuts, tag);
 
         Print(kInformation, "2 Jet form one top" , triplets.size());
@@ -100,7 +100,7 @@ int hanalysis::TopHadronicTagger::Train(hanalysis::Event &event, PreCuts &pre_cu
             const int sub_jet_number = 3;
             Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
-            for (size_t i = 0; i < pieces.size(); ++i) {
+            for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
                 auto piece_3 = pieces.at((i + 2) % sub_jet_number);
@@ -118,10 +118,10 @@ int hanalysis::TopHadronicTagger::Train(hanalysis::Event &event, PreCuts &pre_cu
             Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
             //             for (const auto & piece_1 : pieces) {
-            for (size_t i = 0; i < pieces.size(); ++i) {
+            for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
-                std::vector<hanalysis::Doublet> sub_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetDoublet(piece_2, bottom_reader_.reader());
+                std::vector<analysis::Doublet> sub_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetDoublet(piece_2, bottom_reader_.reader());
                 for (const auto & doublet : sub_doublets) triplets = JoinVectors(triplets, GetTriplets(doublet, piece_1, top_particles, pre_cuts, tag));
             }
         }
@@ -150,19 +150,19 @@ int hanalysis::TopHadronicTagger::Train(hanalysis::Event &event, PreCuts &pre_cu
 
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(const std::vector<Doublet> &doublets, const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
+std::vector<analysis::Triplet> analysis::TopHadronicTagger::GetTriplets(const std::vector<Doublet> &doublets, const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "triplets", doublets.size(), jets.size());
-    std::vector<hanalysis::Triplet> triplets;
+    std::vector<analysis::Triplet> triplets;
     for (const auto & doublet : doublets) triplets = JoinVectors(triplets, GetTriplets(doublet, jets, particles, pre_cuts, tag));
     Print(kInformation, "triplets", triplets.size());
     return triplets;
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(const Doublet &doublet, const Jets &jets, const Jets &quarks, PreCuts &pre_cuts, const Tag tag)
+std::vector<analysis::Triplet> analysis::TopHadronicTagger::GetTriplets(const Doublet &doublet, const Jets &jets, const Jets &quarks, PreCuts &pre_cuts, const Tag tag)
 {
   Print(kInformation, "triplets", jets.size());
-    std::vector<hanalysis::Triplet> triplets;
+    std::vector<analysis::Triplet> triplets;
     for (const auto & jet : jets) {
         if (doublet.Singlet1().delta_R(jet) < detector_geometry().JetConeSize) continue;
         if (doublet.Singlet2().delta_R(jet) < detector_geometry().JetConeSize) continue;
@@ -172,9 +172,9 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(const 
     return triplets;
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &quarks, PreCuts &pre_cuts, const Tag tag)
+std::vector<analysis::Triplet> analysis::TopHadronicTagger::GetTriplets(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &quarks, PreCuts &pre_cuts, const Tag tag)
 {
-    std::vector<hanalysis::Triplet> triplets;
+    std::vector<analysis::Triplet> triplets;
     Triplet triplet(doublet, jet);
     if (Problematic(triplet, quarks, pre_cuts, tag)) return triplets;
     if (triplet.DeltaR() < detector_geometry().MinCellResolution)  return triplets;
@@ -182,7 +182,7 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(const 
     return triplets;
 }
 
-bool hanalysis::TopHadronicTagger::Problematic(const Triplet &triplet, const Jets &quarks, PreCuts &pre_cuts, const Tag tag)
+bool analysis::TopHadronicTagger::Problematic(const Triplet &triplet, const Jets &quarks, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Check for Problems");
     if (pre_cuts.PtLowerCut(TopId) > 0 && triplet.Jet().pt() < pre_cuts.PtLowerCut(TopId)) return true;
@@ -202,7 +202,7 @@ bool hanalysis::TopHadronicTagger::Problematic(const Triplet &triplet, const Jet
     return false;
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetBdt(const std::vector<Doublet> &doublets, const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<analysis::Triplet> analysis::TopHadronicTagger::GetBdt(const std::vector<Doublet> &doublets, const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
 
     std::vector<Triplet> triplets;
@@ -213,7 +213,7 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetBdt(const std::
     return triplets;
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetBdt(const Doublet &doublet, const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<analysis::Triplet> analysis::TopHadronicTagger::GetBdt(const Doublet &doublet, const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
 
     std::vector<Triplet> triplets;
@@ -230,7 +230,7 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetBdt(const Doubl
     return triplets;
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetBdt(const Doublet &doublet, const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<analysis::Triplet> analysis::TopHadronicTagger::GetBdt(const Doublet &doublet, const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     std::vector<Triplet> triplets;
     Triplet triplet(doublet, jet);
@@ -238,7 +238,7 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetBdt(const Doubl
     return triplets;
 }
 
-hanalysis::Triplet hanalysis::TopHadronicTagger::GetBdt(Triplet &triplet, PreCuts &pre_cuts, const TMVA::Reader &reader)
+analysis::Triplet analysis::TopHadronicTagger::GetBdt(Triplet &triplet, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     NSubJettiness(triplet);
     branch_ = GetBranch(triplet);
@@ -246,13 +246,13 @@ hanalysis::Triplet hanalysis::TopHadronicTagger::GetBdt(Triplet &triplet, PreCut
     return triplet;
 }
 
-std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(hanalysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<analysis::Triplet> analysis::TopHadronicTagger::GetTriplets(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
-    std::vector<hanalysis::Triplet> triplets;
+    std::vector<analysis::Triplet> triplets;
     if (!boost_) {
         // 2 jets form a W
-        std::vector<hanalysis::Doublet> doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetJetDoublets(jets, w_hadronic_reader_.reader());
+        std::vector<analysis::Doublet> doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetJetDoublets(jets, w_hadronic_reader_.reader());
         // 3 jets form a top
         triplets = GetBdt(doublets, jets, pre_cuts, reader);
 
@@ -262,7 +262,7 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(hanaly
             std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetDoublet(jet, w_hadronic_reader_.reader());
             // 2 subjets and one jet form a top
             if (!piece_doublets.empty()) {
-                std::vector<hanalysis::Triplet> piece_triplets = GetBdt(piece_doublets.front(), jets, pre_cuts, reader);
+                std::vector<analysis::Triplet> piece_triplets = GetBdt(piece_doublets.front(), jets, pre_cuts, reader);
                 triplets = JoinVectors(triplets, piece_triplets);
             }
         }
@@ -273,14 +273,14 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(hanaly
             Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
             // 2 subjets form a W
-            for (size_t i = 0; i < pieces.size(); ++i) {
+            for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
                 auto piece_3 = pieces.at((i + 2) % sub_jet_number);
                 std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetDoublet(piece_2, piece_3, w_hadronic_reader_.reader());
                 // 3 subjets form a top
                 if (!piece_doublets.empty()) {
-                    std::vector<hanalysis::Triplet> piece_triplets = GetBdt(piece_doublets.front(), piece_1, pre_cuts, reader);
+                    std::vector<analysis::Triplet> piece_triplets = GetBdt(piece_doublets.front(), piece_1, pre_cuts, reader);
                     triplets = JoinVectors(triplets, piece_triplets);
                 }
             }
@@ -292,13 +292,13 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(hanaly
             Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
             // 1 subjets form a W
-            for (size_t i = 0; i < pieces.size(); ++i) {
+            for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
                 std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).GetDoublet(piece_2, w_hadronic_reader_.reader());
                 // 2 subjets form a top
                 if (!piece_doublets.empty()) {
-                    std::vector<hanalysis::Triplet> piece_triplets = GetBdt(piece_doublets.front(), piece_1, pre_cuts, reader);
+                    std::vector<analysis::Triplet> piece_triplets = GetBdt(piece_doublets.front(), piece_1, pre_cuts, reader);
                     triplets = JoinVectors(triplets, piece_triplets);
                 }
             }
@@ -317,14 +317,14 @@ std::vector<hanalysis::Triplet> hanalysis::TopHadronicTagger::GetTriplets(hanaly
 
 }
 
-void hanalysis::TopHadronicTagger::NSubJettiness(Triplet &triplet)
+void analysis::TopHadronicTagger::NSubJettiness(Triplet &triplet)
 {
     if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.singlet() * 2));
     else if (triplet.doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.doublet().Singlet1() * 2));
     else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
 }
 
-SubJettiness hanalysis::TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet &jet)
+SubJettiness analysis::TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet &jet)
 {
     fastjet::contrib::OnePass_WTA_KT_Axes axis_mode_1;
     fastjet::contrib::OnePass_KT_Axes axis_mode_2;

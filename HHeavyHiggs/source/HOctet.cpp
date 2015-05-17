@@ -1,7 +1,7 @@
 # include "HOctet.hh"
 // # include "HTagPrivate.hh"
 
-HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet)
+HOctet::HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet)
 {
     SextetM = NewSextet;
     doubletM = Newdoublet;
@@ -9,7 +9,7 @@ HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Ne
     SetTag(SextetM.Tag(),doubletM.Tag());
 }
 
-// HOctet::HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet, const EventStruct &NeweventStruct)
+// HOctet::HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet, const EventStruct &NeweventStruct)
 // {
 //     SextetM = NewSextet;
 //     doubletM = Newdoublet;

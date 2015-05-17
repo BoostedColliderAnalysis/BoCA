@@ -11,14 +11,14 @@
 # include "Branch.hh"
 # include "Event.hh"
 
-// hanalysis::HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
-hanalysis::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : tagger_(tagger)
+// analysis::HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
+analysis::HAnalysis::HAnalysis(analysis::Tagger &tagger) : tagger_(tagger)
 {
     Print(kNotification, "Constructor");
     event_sum_ = 0;
 }
 
-void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
+void analysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
 {
     Print(kNotification, "Analysis Loop");
     mkdir(ProjectName().c_str(), 0700);
@@ -33,7 +33,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
             Print(kNotification, "Analysing File", file.tree_name());
             event_sum_ = 0;
             ClonesArrays clones_arrays = file.clones_arrays();
-            hanalysis::Event event = file.event();
+            analysis::Event event = file.event();
             bool analysis_not_empty = false;
             ExRootTreeWriter tree_writer = TreeWriter(export_file, file.Title(), stage);
             ExRootTreeBranch &tree_branch = *tree_writer.NewBranch("Info", InfoBranch::Class());
@@ -74,7 +74,7 @@ void hanalysis::HAnalysis::AnalysisLoop(const Tagger::Stage stage)
     }
 }
 
-InfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const File &file)
+InfoBranch analysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const File &file)
 {
     InfoBranch info_branch;
     info_branch.Crosssection = file.crosssection();
@@ -85,13 +85,13 @@ InfoBranch hanalysis::HAnalysis::FillInfoBranch(const ExRootTreeReader &tree_rea
     return info_branch;
 }
 
-std::string hanalysis::HAnalysis::ExportName(const Tagger::Stage stage, const Tag tag) const
+std::string analysis::HAnalysis::ExportName(const Tagger::Stage stage, const Tag tag) const
 {
     Print(kNotification, "Get Export File", tagger_.tagger_name(), tag);
     return ProjectName() + "/" + tagger_.name(stage, tag) + ".root";
 }
 
-ExRootTreeWriter hanalysis::HAnalysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, hanalysis::Tagger::Stage stage)
+ExRootTreeWriter analysis::HAnalysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, analysis::Tagger::Stage stage)
 {
     Print(kNotification, "Get Tree Writer", export_tree_name.c_str());
     ExRootTreeWriter tree_writer(&export_file, export_tree_name.c_str());

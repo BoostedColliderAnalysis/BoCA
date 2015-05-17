@@ -3,18 +3,18 @@
 
 # include "Triplet.hh"
 
-namespace hanalysis{
+namespace analysis{
   class HQuartet31Private;
 }
 
-class hanalysis::HQuartet31 : public HTag
+class analysis::HQuartet31 : public HTag
 {
 
 public:
 
     HQuartet31();
 
-    HQuartet31(const hanalysis::Triplet& Newtriplet, const fastjet::PseudoJet& NewSinglet);
+    HQuartet31(const analysis::Triplet& Newtriplet, const fastjet::PseudoJet& NewSinglet);
 
     ~HQuartet31();
 

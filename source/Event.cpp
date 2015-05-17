@@ -7,7 +7,7 @@
 # include "HParticleParton.hh"
 
 
-hanalysis::Event::Event(const ClonesArrays::Source source)
+analysis::Event::Event(const ClonesArrays::Source source)
 {
     Print(kNotification, "Constructor");
     source_ = source;
@@ -27,7 +27,7 @@ hanalysis::Event::Event(const ClonesArrays::Source source)
     }
 }
 
-hanalysis::Event::~Event()
+analysis::Event::~Event()
 {
     Print(kNotification, "Destructor");
     switch (source_) {
@@ -46,7 +46,7 @@ hanalysis::Event::~Event()
     }
 }
 
-void hanalysis::Event::Newevent(const hanalysis::ClonesArrays &ClonesArrays)
+void analysis::Event::Newevent(const analysis::ClonesArrays &ClonesArrays)
 {
     Print(kInformation, "New event");
     switch (source_) {

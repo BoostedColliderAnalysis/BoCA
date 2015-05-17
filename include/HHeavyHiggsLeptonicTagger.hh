@@ -10,22 +10,22 @@
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class hanalysis::HHeavyHiggsLeptonicTagger : public Tagger
+class analysis::HHeavyHiggsLeptonicTagger : public Tagger
 {
 
 public:
 
     HHeavyHiggsLeptonicTagger();
 
-    HHeavyHiggsLeptonicTagger(const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HTopLeptonicTagger &NewTopLeptonicTagger);
+    HHeavyHiggsLeptonicTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::HTopLeptonicTagger &NewTopLeptonicTagger);
 
     ~HHeavyHiggsLeptonicTagger();
 
-    std::vector< HHeavyHiggsLeptonicBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< HHeavyHiggsLeptonicBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector<hanalysis::HSextet> GetBdt(const std::vector< hanalysis::Doublet > &doublets, const fastjet::PseudoJet &MissingEt, const hanalysis::Reader & Reader);
+    std::vector<analysis::HSextet> GetBdt(const std::vector< analysis::Doublet > &doublets, const fastjet::PseudoJet &MissingEt, const analysis::Reader & Reader);
 
-    HHeavyHiggsLeptonicBranch GetBranch(const hanalysis::HSextet &Sextet);
+    HHeavyHiggsLeptonicBranch GetBranch(const analysis::HSextet &Sextet);
 
 
 protected:
@@ -39,7 +39,7 @@ private:
     void DefineVariables();
 
     void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
-    hanalysis::HObject::Tag GetTag(const HQuartet &Quartet);
+    analysis::Object::Tag GetTag(const HQuartet &Quartet);
 
     inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
         // wimpmass (E,px,py,pz)
@@ -48,9 +48,9 @@ private:
         return Jet;
     }
 
-    std::vector< HSextet > GetSextet(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const hanalysis::HObject::Tag Tag);
+    std::vector< HSextet > GetSextet(const analysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
 
-    std::vector<HSextet> GetSextets(const hanalysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt);
+    std::vector<HSextet> GetSextets(const analysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt);
 
     event22 Structure;
 

@@ -1,9 +1,9 @@
 # include "HWSemiTagger.hh"
 # include "Reader.hh"
 
-hanalysis::HWSemiTagger::HWSemiTagger()
+analysis::HWSemiTagger::HWSemiTagger()
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("WSemi");
     w_mass_window_ = 20;
@@ -11,7 +11,7 @@ hanalysis::HWSemiTagger::HWSemiTagger()
 }
 
 
-void hanalysis::HWSemiTagger::DefineVariables()
+void analysis::HWSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     ClearVectors();
@@ -30,7 +30,7 @@ void hanalysis::HWSemiTagger::DefineVariables()
     Print(kNotification, "Variables defined");
 }
 
-WSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::Doublet &doublet) const
+WSemiBranch analysis::HWSemiTagger::GetBranch(const analysis::Doublet &doublet) const
 {
     Print(kInformation, "Fill W Tagger", doublet.Bdt());
     WSemiBranch branch;
@@ -38,7 +38,7 @@ WSemiBranch hanalysis::HWSemiTagger::GetBranch(const hanalysis::Doublet &doublet
     return branch;
 }
 
-int hanalysis::HWSemiTagger::Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
+int analysis::HWSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
 
@@ -72,7 +72,7 @@ int hanalysis::HWSemiTagger::Train(hanalysis::Event &event, const hanalysis::HOb
     return doublets.size();
 }
 
-std::vector<hanalysis::Doublet>  hanalysis::HWSemiTagger::GetDoublets(hanalysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Doublet>  analysis::HWSemiTagger::GetDoublets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Triple Bdt");
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
@@ -95,7 +95,7 @@ std::vector<hanalysis::Doublet>  hanalysis::HWSemiTagger::GetDoublets(hanalysis:
     return doublets;
 }
 
-std::vector<hanalysis::Doublet> hanalysis::HWSemiTagger::GetNeutrinos(const Doublet &doublet)const
+std::vector<analysis::Doublet> analysis::HWSemiTagger::GetNeutrinos(const Doublet &doublet)const
 {
 
     Print(kInformation, "Get Neutrinos");
@@ -152,7 +152,7 @@ struct SortByError {
     SortByError(const fastjet::PseudoJet &NewNeutrino) {
         this->Neutrino = NewNeutrino;
     }
-    bool operator()(const hanalysis::Doublet &doublet1, const hanalysis::Doublet &doublet2) {
+    bool operator()(const analysis::Doublet &doublet1, const analysis::Doublet &doublet2) {
         return ((doublet1.Singlet2() + Neutrino).m() < (doublet2.Singlet2() + Neutrino).m());
     }
     fastjet::PseudoJet Neutrino;
@@ -163,14 +163,14 @@ struct FindError {
         this->Neutrino = NewNeutrino;
         this->Error = NewError;
     }
-    bool operator()(const hanalysis::Doublet &doublet) {
+    bool operator()(const analysis::Doublet &doublet) {
         return ((doublet.Singlet2() + Neutrino).m() == Error);
     }
     fastjet::PseudoJet Neutrino;
     float Error;
 };
 
-Jets hanalysis::HWSemiTagger::WSemiDaughters(Event &event)
+Jets analysis::HWSemiTagger::WSemiDaughters(Event &event)
 {
     Jets WKids = event.Partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
@@ -178,13 +178,13 @@ Jets hanalysis::HWSemiTagger::WSemiDaughters(Event &event)
 
     WKids = RemoveIfQuark(WKids);
     if (WKids.size() != 2) Print(kError, "Where is the W 2?", WKids.size());
-    else Print(kInformation, "W Daughters", GetParticleName(WKids.at(0).user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId), GetParticleName(WKids.at(1).user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId), GetParticleName(WKids.at(0).user_info<hanalysis::JetInfo>().constituents().front().Family().Mother1Id), GetParticleName(WKids.at(1).user_info<hanalysis::JetInfo>().constituents().front().Family().Mother1Id));
+    else Print(kInformation, "W Daughters", GetParticleName(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), GetParticleName(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), GetParticleName(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id), GetParticleName(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id));
     return WKids;
 }
 
-int hanalysis::HWSemiTagger::WSemiId(const Jets &jets)
+int analysis::HWSemiTagger::WSemiId(const Jets &jets)
 {
     if (jets.empty()) return WId;
-    else return jets.at(0).user_info<hanalysis::JetInfo>().constituents().front().Family().Mother1Id;
+    else return jets.at(0).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id;
 }
 

@@ -11,7 +11,7 @@
 # include "fastjet/tools/Pruner.hh"
 # include "fastjet/tools/CASubJetTagger.hh"
 
-class hjetproperties::HJetTag : public hanalysis::HJetTag
+class hjetproperties::HJetTag : public analysis::HJetTag
 {
 
 public:
@@ -32,7 +32,7 @@ public:
  * @brief Class defining the Disciminator Analysis
  *
  */
-class hjetproperties::HAnalysis : public hanalysis::HAnalysis
+class hjetproperties::HAnalysis : public analysis::HAnalysis
 {
 
 public:
@@ -130,9 +130,9 @@ public:
 private:
 
 
-    hanalysis::HJetTag JetTag;
+    analysis::HJetTag JetTag;
 
-    hanalysis::HSubStructure *SubStructure;
+    analysis::HSubStructure *SubStructure;
 
 
     bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const Jets &, const float DeltaR);
@@ -147,7 +147,7 @@ private:
      * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    Jets Leptons(hanalysis::Event &event);
+    Jets Leptons(analysis::Event &event);
 
     /**
      * @brief Lepton calculations
@@ -170,14 +170,14 @@ private:
      *
      * @return void
      */
-    int Analysis(hanalysis::Event &event, const std::string &StudyName);
+    int Analysis(analysis::Event &event, const std::string &StudyName);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::File* > GetFiles(const std::string &StudyName);
+    std::vector< analysis::File* > GetFiles(const std::string &StudyName);
 
     /**
      * @brief New Analysis

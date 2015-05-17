@@ -2,7 +2,7 @@
 
 # include "Singlet.hh"
 
-hanalysis::BottomTagger::BottomTagger()
+analysis::BottomTagger::BottomTagger()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
@@ -10,7 +10,7 @@ hanalysis::BottomTagger::BottomTagger()
     DefineVariables();
 }
 
-void hanalysis::BottomTagger::DefineVariables()
+void analysis::BottomTagger::DefineVariables()
 {
     Print(kInformation , "Define Variables");
     AddVariable(branch_.VertexMass, "VertexMass");
@@ -31,7 +31,7 @@ void hanalysis::BottomTagger::DefineVariables()
     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-BottomBranch hanalysis::BottomTagger::FillBranch(const fastjet::PseudoJet &jet) const
+BottomBranch analysis::BottomTagger::FillBranch(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Fill Branch");
     BottomBranch branch;
@@ -39,7 +39,7 @@ BottomBranch hanalysis::BottomTagger::FillBranch(const fastjet::PseudoJet &jet) 
     return branch;
 }
 
-int hanalysis::BottomTagger::Train(hanalysis::Event &event, PreCuts &pre_cuts, const hanalysis::HObject::Tag tag)
+int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Bottom Tag", tag);
 
@@ -64,7 +64,7 @@ int hanalysis::BottomTagger::Train(hanalysis::Event &event, PreCuts &pre_cuts, c
     return final_jets.size();
 }
 
-Jets hanalysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
+Jets analysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
 {
     Print(kInformation, "Get Sub Jets");
     Jets pieces = GetSubJets(jets,sub_jet_number);
@@ -72,7 +72,7 @@ Jets hanalysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles
 }
 
 
-Jets hanalysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
+Jets analysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Clean Jets", jets.size(), particles.size());
 
@@ -112,7 +112,7 @@ Jets hanalysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCu
     return clean_jets;
 }
 
-Jets hanalysis::BottomTagger::GetMultiJetBdt(const Jets &jets, const TMVA::Reader &reader)
+Jets analysis::BottomTagger::GetMultiJetBdt(const Jets &jets, const TMVA::Reader &reader)
 {
 
     Jets final_jets = GetJetBdt(jets, reader);
@@ -126,19 +126,19 @@ Jets hanalysis::BottomTagger::GetMultiJetBdt(const Jets &jets, const TMVA::Reade
     return final_jets;
 }
 
-Jets hanalysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
+Jets analysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
     Print(kInformation, "Get Sub Bdt");
     return GetJetBdt(GetSubJets(jets,sub_jet_number), reader);
 }
 
-Jets hanalysis::BottomTagger::GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+Jets analysis::BottomTagger::GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Jet Bdt");
     return GetJetBdt(event.Hadrons().GetGranJets(), pre_cuts, reader);
 }
 
-Jets hanalysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
+Jets analysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets final_jets;
     for (const auto jet : jets) {
@@ -152,14 +152,14 @@ Jets hanalysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, con
     return final_jets;
 }
 
-fastjet::PseudoJet hanalysis::BottomTagger::GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
+fastjet::PseudoJet analysis::BottomTagger::GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
     branch_ = FillBranch(jet);
     static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
     return jet;
 }
 
-Jets hanalysis::BottomTagger::GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number)
+Jets analysis::BottomTagger::GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number)
 {
     Jets jets;
     for (const auto sub_jet : Tagger::GetSubJets(jet, sub_jet_number)) {

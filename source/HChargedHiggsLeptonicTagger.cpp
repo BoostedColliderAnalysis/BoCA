@@ -1,8 +1,8 @@
 # include "HChargedHiggsLeptonicTagger.hh"
 
-hanalysis::HChargedHiggsLeptonicTagger::HChargedHiggsLeptonicTagger(const BottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
+analysis::HChargedHiggsLeptonicTagger::HChargedHiggsLeptonicTagger(const BottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger)
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
 
     Print(kNotification, "Constructor");
 
@@ -16,12 +16,12 @@ hanalysis::HChargedHiggsLeptonicTagger::HChargedHiggsLeptonicTagger(const Bottom
     DefineVariables();
 }
 
-hanalysis::HChargedHiggsLeptonicTagger::~HChargedHiggsLeptonicTagger()
+analysis::HChargedHiggsLeptonicTagger::~HChargedHiggsLeptonicTagger()
 {
     Print(kNotification, "Destructor");
 }
 
-HChargedHiggsLeptonicBranch hanalysis::HChargedHiggsLeptonicTagger::GetBranch(const Triplet &triplet)
+HChargedHiggsLeptonicBranch analysis::HChargedHiggsLeptonicTagger::GetBranch(const Triplet &triplet)
 {
     Print(kInformation, "FillPairTagger", triplet.Bdt());
 
@@ -54,7 +54,7 @@ HChargedHiggsLeptonicBranch hanalysis::HChargedHiggsLeptonicTagger::GetBranch(co
 return ChargedHiggsBranch;
 }
 
-void hanalysis::HChargedHiggsLeptonicTagger::DefineVariables()
+void analysis::HChargedHiggsLeptonicTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -91,7 +91,7 @@ void hanalysis::HChargedHiggsLeptonicTagger::DefineVariables()
 }
 
 
-std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger::GetBranches(Event &event, const HObject::Tag Tag)
+std::vector< HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 
@@ -140,7 +140,7 @@ std::vector< HChargedHiggsLeptonicBranch> hanalysis::HChargedHiggsLeptonicTagger
 
 }
 
-hanalysis::HObject::Tag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const Triplet &triplet)
+analysis::Object::Tag analysis::HChargedHiggsLeptonicTagger::GetTag(const Triplet &triplet)
 {
     Print(kInformation, "Get Triple Tag");
 
@@ -151,7 +151,7 @@ hanalysis::HObject::Tag hanalysis::HChargedHiggsLeptonicTagger::GetTag(const Tri
     return kSignal;
 }
 
-std::vector<hanalysis::Triplet>  hanalysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<Doublet> &doublets,const Jets &jets, const Reader &Reader)
+std::vector<analysis::Triplet>  analysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<Doublet> &doublets,const Jets &jets, const Reader &Reader)
 {
     Print(kInformation, "Get Bdt");
 

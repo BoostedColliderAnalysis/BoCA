@@ -3,7 +3,7 @@
 # include "Tagger.hh"
 # include "Event.hh"
 
-class HMvaResult : hanalysis::HObject
+class HMvaResult : analysis::Object
 {
 
 public:
@@ -23,7 +23,7 @@ public:
  * @brief Presents result of multivariant analysis
  *
  */
-class hanalysis::HReader : public HObject
+class analysis::HReader : public Object
 {
 
 public:
@@ -38,13 +38,13 @@ public:
      * @brief Constructor
      *
      */
-    HReader(hanalysis::Tagger &tagger);
+    HReader(analysis::Tagger &tagger);
 
-    void operator=(const hanalysis::HReader &) {
+    void operator=(const analysis::HReader &) {
         Print(kError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
     }
 
-    void SetMva(hanalysis::Tagger &tagger);
+    void SetMva(analysis::Tagger &tagger);
 
     void SimpleMVALoop();
 

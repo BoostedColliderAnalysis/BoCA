@@ -8,15 +8,15 @@
 //
 // }
 
-std::vector<hanalysis::File*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const std::string &StudyName)
+std::vector<analysis::File*> hheavyhiggs::HAnalysisHeavyHiggsParton::GetFiles(const std::string &StudyName)
 {
 
     Print(kNotification, "Fill Analysis Vector", StudyName);
 
-    std::vector<hanalysis::File*> Files;
+    std::vector<analysis::File*> Files;
 
-    Files.emplace_back(new hanalysis::File("Background/4f_10k"));
-    Files.emplace_back(new hanalysis::File("Signal/Signal_5f"));
+    Files.emplace_back(new analysis::File("Background/4f_10k"));
+    Files.emplace_back(new analysis::File("Signal/Signal_5f"));
 
 //     Files.front()->SetBasePath("~/Projects/HeavyHiggs/Mass/");
 //     Files.front()->set_file_suffix("_MG5.root");
@@ -59,7 +59,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::CloseFile()
 
 
 
-int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(hanalysis::Event &event, const std::string &StudyName)
+int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(analysis::Event &event, const std::string &StudyName)
 {
 
     Print(kInformation, "Analysis",StudyName);

@@ -1,14 +1,14 @@
 # include "HWTagger.hh"
 
-hanalysis::HWTagger::HWTagger()
+analysis::HWTagger::HWTagger()
 {
-    //     DebugLevel = hanalysis::HObject::kDebug;
+    //     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     DefineVariables();
 
 }
 
-void hanalysis::HWTagger::SetTagger(const HBottomTagger &NewBottomTagger)
+void analysis::HWTagger::SetTagger(const HBottomTagger &NewBottomTagger)
 {
     Print(kNotification, "Set Tagger");
     BottomTagger = NewBottomTagger;
@@ -16,7 +16,7 @@ void hanalysis::HWTagger::SetTagger(const HBottomTagger &NewBottomTagger)
     DefineVariables();
 }
 
-void hanalysis::HWTagger::DefineVariables()
+void analysis::HWTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     SetTaggerName("WHadronic");
@@ -39,7 +39,7 @@ void hanalysis::HWTagger::DefineVariables()
     AddSpectator(Branch.Tag, "Tag");
 }
 
-WHadronicBranch hanalysis::HWTagger::GetBranch(const Doublet &doublet) const
+WHadronicBranch analysis::HWTagger::GetBranch(const Doublet &doublet) const
 {
     Print(kInformation, "FillPairTagger", doublet.Bdt());
     WHadronicBranch w_branch;
@@ -58,7 +58,7 @@ WHadronicBranch hanalysis::HWTagger::GetBranch(const Doublet &doublet) const
 
 }
 
-std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
+std::vector<WHadronicBranch> analysis::HWTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get W Tags");
     std::vector<Doublet> doublets;
@@ -170,7 +170,7 @@ std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::Event &
     return Branches;
 }
 
-// hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const Doublet &doublet)
+// analysis::Object::HTag analysis::HWTagger::GetTag(const Doublet &doublet)
 // {
 //     Print(kInformation, "Get doublet Tag");
 //
@@ -181,7 +181,7 @@ std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::Event &
 //     return HSignal;
 // }
 
-// hanalysis::HObject::HTag hanalysis::HWTagger::GetTag(const fastjet::PseudoJet &Singlet)
+// analysis::Object::HTag analysis::HWTagger::GetTag(const fastjet::PseudoJet &Singlet)
 // {
 //     Print(kInformation, "Get Singlet Tag");
 //
@@ -189,7 +189,7 @@ std::vector<WHadronicBranch> hanalysis::HWTagger::GetBranches(hanalysis::Event &
 //     return HSignal;
 // }
 
-Jets hanalysis::HWTagger::GetWDaughters(Event &event)
+Jets analysis::HWTagger::GetWDaughters(Event &event)
 {
     Jets WKids = event.Partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
@@ -197,18 +197,18 @@ Jets hanalysis::HWTagger::GetWDaughters(Event &event)
 
     WKids = RemoveIfLetpons(WKids);
     if (WKids.size() != 2) Print(kError, "Where is the W 2?", WKids.size());
-    else Print(kInformation, "W Daughters", GetParticleName(WKids.at(0).user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId), GetParticleName(WKids.at(1).user_info<hanalysis::JetInfo>().constituents().front().Family().ParticleId), GetParticleName(WKids.at(0).user_info<hanalysis::JetInfo>().constituents().front().Family().Mother1Id), GetParticleName(WKids.at(1).user_info<hanalysis::JetInfo>().constituents().front().Family().Mother1Id));
+    else Print(kInformation, "W Daughters", GetParticleName(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), GetParticleName(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), GetParticleName(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().Mother1Id), GetParticleName(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().Mother1Id));
     return WKids;
 }
 
-int hanalysis::HWTagger::GetWHadId(const Jets &jets)
+int analysis::HWTagger::GetWHadId(const Jets &jets)
 {
     if (jets.size() < 1) return WId;
-    else return jets.at(0).user_info<hanalysis::JetInfo>().constituents().front().Family().Mother1Id;
+    else return jets.at(0).user_info<analysis::JetInfo>().constituents().front().family().Mother1Id;
 }
 
 
-std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetBdt(const Jets &jets, const hanalysis::HReader &WReader, hanalysis::HBottomTagger &BottomTagger, hanalysis::HReader &BottomReader)
+std::vector<analysis::Doublet> analysis::HWTagger::GetBdt(const Jets &jets, const analysis::HReader &WReader, analysis::HBottomTagger &BottomTagger, analysis::HReader &BottomReader)
 {
     Print(kInformation, "Get doublet Bdt");
 
@@ -276,7 +276,7 @@ std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetBdt(const Jets &jets, co
     return doublets;
 }
 
-std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetBdt(const Jets &jets, const hanalysis::HReader &WReader)
+std::vector<analysis::Doublet> analysis::HWTagger::GetBdt(const Jets &jets, const analysis::HReader &WReader)
 {
   Print(kInformation, "Get doublet Bdt");
 
@@ -304,7 +304,7 @@ std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetBdt(const Jets &jets, co
     return doublets;
 }
 
-std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetPairBdt(const Jets &jets, const hanalysis::HReader &WReader)
+std::vector<analysis::Doublet> analysis::HWTagger::GetPairBdt(const Jets &jets, const analysis::HReader &WReader)
 {
   Print(kInformation, "Get doublet Bdt");
 
@@ -324,7 +324,7 @@ std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetPairBdt(const Jets &jets
     return doublets;
 }
 
-std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetSingletBdt(const Jets &jets, const hanalysis::HReader &WReader)
+std::vector<analysis::Doublet> analysis::HWTagger::GetSingletBdt(const Jets &jets, const analysis::HReader &WReader)
 {
   Print(kInformation, "Get doublet Bdt");
 
@@ -343,7 +343,7 @@ std::vector<hanalysis::Doublet> hanalysis::HWTagger::GetSingletBdt(const Jets &j
 }
 
 
-hanalysis::Doublet hanalysis::HWTagger::GetBdt(Doublet &doublet, const hanalysis::HReader &WReader)
+analysis::Doublet analysis::HWTagger::GetBdt(Doublet &doublet, const analysis::HReader &WReader)
 {
     Print(kInformation, "Get doublet Bdt");
 
@@ -352,7 +352,7 @@ hanalysis::Doublet hanalysis::HWTagger::GetBdt(Doublet &doublet, const hanalysis
     return doublet;
 }
 
-// std::vector<ParticleBranch> hanalysis::HWTagger::GetconstituentBranches()
+// std::vector<ParticleBranch> analysis::HWTagger::GetconstituentBranches()
 // {
 //
 //     Print(kInformation, "Get Higgs Tags");
@@ -366,7 +366,7 @@ hanalysis::Doublet hanalysis::HWTagger::GetBdt(Doublet &doublet, const hanalysis
 //     return constituentBranches;
 // }
 //
-// ParticleBranch hanalysis::HWTagger::GetBranch(const HKinematics &Vector)
+// ParticleBranch analysis::HWTagger::GetBranch(const HKinematics &Vector)
 // {
 //     Print(kInformation, "Fill constituent Branch");
 //

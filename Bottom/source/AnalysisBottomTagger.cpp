@@ -1,18 +1,18 @@
 # include "AnalysisBottomTagger.hh"
 
 
-hbtagger::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : hanalysis::HAnalysis::HAnalysis(tagger)
+hbtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::HAnalysis::HAnalysis(tagger)
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
     pre_cuts_.SetPtLowerCut(BottomId, LowerCut());
     pre_cuts_.SetPtUpperCut(BottomId, UpperCut());
-    DetectorGeometry detector_geometry;
+    analysis::DetectorGeometry detector_geometry;
     pre_cuts_.SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
 }
 
 
-void hbtagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
+void hbtagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
@@ -117,7 +117,7 @@ std::string hbtagger::HAnalysis::DetectorName(const Detector detector) const
 }
 
 
-int hbtagger::HAnalysis::PassPreCut(hanalysis::Event &event)
+int hbtagger::HAnalysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
     Jets jets = event.Hadrons().GetGranJets();
@@ -126,13 +126,13 @@ int hbtagger::HAnalysis::PassPreCut(hanalysis::Event &event)
 }
 
 
-int hbtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hbtagger::HAnalysis::Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {
-    case hanalysis::Tagger::kTrainer :
+    case analysis::Tagger::kTrainer :
         return tagger_.Train(event, pre_cuts_, tag);
-    case hanalysis::Tagger::kReader :
+    case analysis::Tagger::kReader :
         return reader_.GetBdt(event, pre_cuts_);
     }
 }

@@ -12,15 +12,15 @@
  */
 namespace hwtagger
 {
-class HAnalysis : public hanalysis::HAnalysis
+class HAnalysis : public analysis::HAnalysis
 {
 
 public:
 
 
-    HAnalysis(hanalysis::Tagger &tagger);
+    HAnalysis(analysis::Tagger &tagger);
 
-    void SetFiles(const hanalysis::HObject::Tag tag);
+    void SetFiles(const analysis::Object::Tag tag);
 
     inline std::string ProjectName() const {
         return  "WTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
@@ -56,11 +56,11 @@ private:
 
 
     void NewSignalFile(const Process process) {
-        hanalysis::HAnalysis::NewSignalFile(FileName(process));
+        analysis::HAnalysis::NewSignalFile(FileName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-        hanalysis::HAnalysis::NewBackgroundFile(FileName(process));
+        analysis::HAnalysis::NewBackgroundFile(FileName(process));
     }
 
 
@@ -109,16 +109,16 @@ private:
     }
 
 
-    inline hanalysis::File BackgroundFile(const Process process) const {
+    inline analysis::File BackgroundFile(const Process process) const {
         return BackgroundFile(process, BackgroundFileNumber());
     }
 
-    hanalysis::File BackgroundFile(const Process process, const int file_sum) const {
+    analysis::File BackgroundFile(const Process process, const int file_sum) const {
         Strings FileNames;
         for (int file_number = 0; file_number < file_sum; ++file_number) {
             FileNames.emplace_back(FileName(process));
         }
-        return hanalysis::File(FileNames);
+        return analysis::File(FileNames);
     }
 
     std::string BackgroundTree(const Process Process) const {
@@ -130,13 +130,13 @@ private:
 
     std::string ProcessName(const Process process) const;
 
-    int PassPreCut(hanalysis::Event &event);
+    int PassPreCut(analysis::Event &event);
 
     /**
      * @brief Main Analysis function
      *
      */
-    int Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag);
+    int Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 };
 

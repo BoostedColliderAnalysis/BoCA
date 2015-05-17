@@ -8,7 +8,7 @@
  * @brief Delphes leptons
  *
  */
-class hanalysis::hdelphes::HLepton : public hanalysis::HLepton
+class analysis::hdelphes::HLepton : public analysis::HLepton
 {
 
 public:

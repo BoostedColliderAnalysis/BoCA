@@ -9,7 +9,7 @@
  * @brief Top leptonic BDT tagger
  *
  */
-class hanalysis::HTopLeptonicTagger : public Tagger
+class analysis::HTopLeptonicTagger : public Tagger
 {
 
 public:
@@ -20,11 +20,11 @@ public:
 
     ~HTopLeptonicTagger();
 
-    std::vector< HTopLeptonicBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< HTopLeptonicBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< Doublet> GetBdt(const Jets &jets, Jets &Leptons, const hanalysis::Reader & Reader);
+    std::vector< Doublet> GetBdt(const Jets &jets, Jets &Leptons, const analysis::Reader & Reader);
 
-    HTopLeptonicBranch GetBranch(const hanalysis::Doublet &doublet);
+    HTopLeptonicBranch GetBranch(const analysis::Doublet &doublet);
 
 protected:
 

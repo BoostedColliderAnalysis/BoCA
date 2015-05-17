@@ -1,6 +1,6 @@
 // # include "HSuperStructure.hh"
 //
-// hanalysis::HSuperStructure::HSuperStructure()
+// analysis::HSuperStructure::HSuperStructure()
 // {
 //     Print(kInformation, "Constructor");
 //
@@ -9,7 +9,7 @@
 //
 // }
 //
-// hanalysis::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
+// analysis::HSuperStructure::HSuperStructure(const fastjet::PseudoJet &NewJet1, const fastjet::PseudoJet &NewJet2)
 // {
 //
 //     Print(kInformation, "Constructor");
@@ -22,14 +22,14 @@
 //
 // }
 //
-// hanalysis::HSuperStructure::~HSuperStructure()
+// analysis::HSuperStructure::~HSuperStructure()
 // {
 //
 //     Print(kInformation, "Destructor");
 //
 // }
 //
-// float hanalysis::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const
+// float analysis::HSuperStructure::GetReferenceAngle(const fastjet::PseudoJet &Jet, const fastjet::PseudoJet &ReferenceJet) const
 // {
 //
 //     Print(kInformation, "Get ReferenceAngle");
@@ -42,7 +42,7 @@
 // }
 //
 //
-// float hanalysis::HSuperStructure::GetPullAngle1() const
+// float analysis::HSuperStructure::GetPullAngle1() const
 // {
 //
 //     Print(kInformation, "GetPullAngle1");
@@ -62,7 +62,7 @@
 //
 // }
 //
-// float hanalysis::HSuperStructure::GetPullAngle2() const
+// float analysis::HSuperStructure::GetPullAngle2() const
 // {
 //
 //     Print(kInformation, "GetPullAngle2");
@@ -76,7 +76,7 @@
 // }
 //
 //
-// float hanalysis::HSuperStructure::GetPull(const fastjet::PseudoJet &CandidateJet) const
+// float analysis::HSuperStructure::GetPull(const fastjet::PseudoJet &CandidateJet) const
 // {
 //
 //     Print(kInformation, "GetPull");
@@ -102,7 +102,7 @@
 // }
 //
 //
-// std::vector<HKinematics> hanalysis::HSuperStructure::Getconstituents() const
+// std::vector<HKinematics> analysis::HSuperStructure::Getconstituents() const
 // {
 //
 //     Print(kInformation, "Getconstituents");
@@ -135,7 +135,7 @@
 // }
 //
 //
-// std::vector<HKinematics> hanalysis::HSuperStructure::Getconstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
+// std::vector<HKinematics> analysis::HSuperStructure::Getconstituents(const fastjet::PseudoJet &Jet, const float JetRatio, const float Theta, const float Shift) const
 // {
 //
 //     Print(kInformation, "Getconstituents", JetRatio, Theta);

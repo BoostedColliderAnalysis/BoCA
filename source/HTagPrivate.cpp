@@ -1,6 +1,6 @@
 # include "HTagPrivate.hh"
 
-hanalysis::HTagPrivate::HTagPrivate()
+analysis::HTagPrivate::HTagPrivate()
 {
 //     Print(kInformation, "Constructor");
   InitialValue = -10;
@@ -9,7 +9,7 @@ hanalysis::HTagPrivate::HTagPrivate()
 
 }
 
-hanalysis::HTagPrivate::~HTagPrivate()
+analysis::HTagPrivate::~HTagPrivate()
 {
 
 //     Print(kInformation, "Destructor");

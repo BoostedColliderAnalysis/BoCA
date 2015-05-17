@@ -1,13 +1,13 @@
 # ifndef HHeavyHiggsevent_hh
 # define HHeavyHiggsevent_hh
 
-# include "HObject.hh"
+# include "Object.hh"
 
 /**
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class HHeavyHiggsevent : public hanalysis::HObject
+class HHeavyHiggsevent : public analysis::Object
 {
 
 public:

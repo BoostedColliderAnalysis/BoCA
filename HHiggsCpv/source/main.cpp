@@ -18,7 +18,7 @@ void RunTagger(const std::string TaggerName)
     if (gSystem->AccessPathName(FileName.c_str()))
 //         File = TFile::Open(FileName.c_str());
 //     else
-//         Analysis->AnalysisLoop(hanalysis::Tagger::kReader);
+//         Analysis->AnalysisLoop(analysis::Tagger::kReader);
 
     FileName = "HiggsCpv/Mva" + TaggerName + ".root";
     if (gSystem->AccessPathName(FileName.c_str()))
@@ -27,16 +27,16 @@ void RunTagger(const std::string TaggerName)
     {
 //             Analysis->GetFiles(TaggerName);
 //         if (Tagger == hhiggscpv::HAnalysis::HBottomTagger) {
-//           hanalysis::Factory Factory =
-//           hanalysis::Factory(Analysis->BottomTagger);
+//           analysis::Factory Factory =
+//           analysis::Factory(Analysis->BottomTagger);
 //         }
-//         if (Tagger == hanalysis::HAnalysis::HTopLeptonicTagger){
-//           hanalysis::Factory Factory =
-//           hanalysis::Factory(Analysis->LeptonicTopTagger);
+//         if (Tagger == analysis::HAnalysis::HTopLeptonicTagger){
+//           analysis::Factory Factory =
+//           analysis::Factory(Analysis->LeptonicTopTagger);
 //         }
 //         if (Tagger == hhiggscpv::HAnalysis::HHiggsLeptonicTagger){
-//           hanalysis::Factory Factory =
-//           hanalysis::Factory(Analysis->HiggsTagger);
+//           analysis::Factory Factory =
+//           analysis::Factory(Analysis->HiggsTagger);
 //         }
     }
 //     delete Analysis;
@@ -48,7 +48,7 @@ int main()
     RunTagger("Bottom" );
     RunTagger("Top" );
     RunTagger("Higgs");
-//     RunTagger("eventTagger",hanalysis::HAnalysis::EventTagger);
+//     RunTagger("eventTagger",analysis::HAnalysis::EventTagger);
 
 
 //    hhiggscpv::HAnalysis Analysis;
@@ -92,9 +92,9 @@ int main()
 //     else
 //         Factory = new hmva::Factory(Analysis->HiggsTagger);
 
-//     Analysis.AnalysisLoop(hanalysis::Tagger::kReader);
+//     Analysis.AnalysisLoop(analysis::Tagger::kReader);
     hhiggscpv::HMvaevent Mva;
-    hanalysis::Factory Factory(Mva);
+    analysis::Factory Factory(Mva);
 
     return 1;
 

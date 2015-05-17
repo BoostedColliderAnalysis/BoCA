@@ -2,13 +2,13 @@
 
 # include "TObject.h"
 # include "ExRootAnalysis/ExRootTreeReader.h"
-# include "HObject.hh"
+# include "Object.hh"
 
 /**
  * @brief Base class for loading the Branches into ClonesArrays
  *
  */
-class hanalysis::ClonesArrays : public HObject
+class analysis::ClonesArrays : public Object
 {
 
 public:

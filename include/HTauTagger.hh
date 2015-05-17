@@ -12,7 +12,7 @@
  * @brief Bottom BDT tagger
  *
  */
-class hanalysis::HTauTagger : public Tagger
+class analysis::HTauTagger : public Tagger
 {
 
 public:
@@ -23,17 +23,17 @@ public:
 
     void SetTagger();
 
-    std::vector< HTauBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< HTauBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    Jets GetBdt(Jets &jets, const hanalysis::Reader &BottomReader);
+    Jets GetBdt(Jets &jets, const analysis::Reader &BottomReader);
 
     HTauBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
-//     hanalysis::HObject::HTag GetTag(const fastjet::PseudoJet &Jet) const;
+//     analysis::Object::HTag GetTag(const fastjet::PseudoJet &Jet) const;
 
-    Jets GetJetBdt(const Jets &jets, const hanalysis::Reader &BottomReader);
+    Jets GetJetBdt(const Jets &jets, const analysis::Reader &BottomReader);
 
-    Jets GetSubBdt(const Jets &jets, const hanalysis::Reader &BottomReader, const int SubJetNumber);
+    Jets GetSubBdt(const Jets &jets, const analysis::Reader &BottomReader, const int SubJetNumber);
 
 protected:
 
@@ -45,7 +45,7 @@ private:
 
     void DefineVariables();
 
-    Jets CleanJets(Jets &jets, const Jets &Particles, const hanalysis::HObject::Tag Tag);
+    Jets CleanJets(Jets &jets, const Jets &Particles, const analysis::Object::Tag Tag);
 
     Jets GetSubJets(const Jets &jets,const Jets &Particles, const Tag Tag, const int SubJetNumber);
 

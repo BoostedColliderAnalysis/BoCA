@@ -8,12 +8,12 @@ hheavyhiggs::EventTtSemiTagger::EventTtSemiTagger()
 }
 
 void hheavyhiggs::EventTtSemiTagger::SetTagger(
-    const hanalysis::BottomTagger &NewBottomTagger,
-    const hanalysis::HWSemiTagger &NewWSemiTagger,
-    const hanalysis::WHadronicTagger &NewWTagger,
-    const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-    const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger,
-    const hanalysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger)
+    const analysis::BottomTagger &NewBottomTagger,
+    const analysis::HWSemiTagger &NewWSemiTagger,
+    const analysis::WHadronicTagger &NewWTagger,
+    const analysis::HTopSemiTagger &NewTopSemiTagger,
+    const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
+    const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger)
 {
     Print(kNotification , "Constructor");
     bottom_tagger_ = NewBottomTagger;
@@ -115,11 +115,11 @@ hheavyhiggs::EventTtSemiBranch hheavyhiggs::EventTtSemiTagger::GetBranch(const H
 
 struct SortJetsByBdt {
     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return (Jet1.user_info<hanalysis::JetInfo>().Bdt() > Jet2.user_info<hanalysis::JetInfo>().Bdt());
+        return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
     }
 };
 
-std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetBranches(hanalysis::Event &event, const HObject::Tag Tag)
+std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -127,14 +127,14 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
     Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = event.Hadrons().GetMissingEt();
-    std::vector<hanalysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-    std::vector<hanalysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
+    std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
+    std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 
-//     std::vector<hanalysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
-//     std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-    std::vector<hanalysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//     std::vector<analysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
+//     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
+    std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 
-    std::vector<hanalysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
+    std::vector<analysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 
     Jets HiggsParticles = event.Partons().Generator();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
@@ -179,7 +179,7 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
     return eventSemiBranches;
 }
 
-std::vector<HSextetevent> hheavyhiggs::EventTtSemiTagger::GetBdt(const std::vector< hanalysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &eventStruct, const hanalysis::Reader &eventSemiReader)
+std::vector<HSextetevent> hheavyhiggs::EventTtSemiTagger::GetBdt(const std::vector< analysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader)
 {
     Print(kInformation, "Get event Tags");
 

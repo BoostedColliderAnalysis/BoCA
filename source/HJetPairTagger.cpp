@@ -1,20 +1,20 @@
 # include "HJetPairTagger.hh"
 
-hanalysis::HJetPairTagger::HJetPairTagger()
+analysis::HJetPairTagger::HJetPairTagger()
 {
-//     DebugLevel = hanalysis::HObject::kDetailed;
+//     DebugLevel = analysis::Object::kDetailed;
     Print(kNotification, "Constructor");
     DefineVariables();
 }
 
-void hanalysis::HJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger)
+void analysis::HJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger)
 {
     Print(kNotification, "Set Tagger", NewBottomTagger.tagger_name());
     bottom_tagger_ = NewBottomTagger;
     DefineVariables();
 }
 
-void hanalysis::HJetPairTagger::DefineVariables()
+void analysis::HJetPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     set_tagger_name("JetPair");
@@ -63,7 +63,7 @@ void hanalysis::HJetPairTagger::DefineVariables()
 
 }
 
-EventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const Doublet &doublet) const
+EventJetPairBranch analysis::HJetPairTagger::GetBranch(const Doublet &doublet) const
 {
 
     Print(kInformation, "FillPairTagger", doublet.Bdt());
@@ -109,7 +109,7 @@ EventJetPairBranch hanalysis::HJetPairTagger::GetBranch(const Doublet &doublet) 
     return JetPairBranch;
 }
 
-std::vector<EventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag, const HParticleId MotherId)
+std::vector<EventJetPairBranch> analysis::HJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const HParticleId MotherId)
 {
     Print(kInformation, "Get Jet Pair Tags", GetParticleName(MotherId));
     Jets jets = GetJets(event);
@@ -172,12 +172,12 @@ std::vector<EventJetPairBranch> hanalysis::HJetPairTagger::GetBranches(hanalysis
 
 }
 
-hanalysis::HObject::Tag hanalysis::HJetPairTagger::GetTag(const Doublet &)
+analysis::Object::Tag analysis::HJetPairTagger::GetTag(const Doublet &)
 {
     return kSignal;
 }
 
-std::vector<hanalysis::Doublet>  hanalysis::HJetPairTagger::GetBdt(const Jets &jets, const hanalysis::Reader &JetPairReader)
+std::vector<analysis::Doublet>  analysis::HJetPairTagger::GetBdt(const Jets &jets, const analysis::Reader &JetPairReader)
 {
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)

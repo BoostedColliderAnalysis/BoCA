@@ -1,14 +1,14 @@
 # include "AnalysisTopTagger.hh"
 
 
-htoptagger::HAnalysis::HAnalysis(hanalysis::Tagger &tagger) : hanalysis::HAnalysis::HAnalysis(tagger)
+htoptagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::HAnalysis::HAnalysis(tagger)
 {
-//   DebugLevel = hanalysis::HObject::kDebug;
+//   DebugLevel = analysis::Object::kDebug;
   Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
     pre_cuts_.SetPtLowerCut(TopId, PreCut());
     pre_cuts_.SetPtUpperCut(TopId, UpperCut());
-    DetectorGeometry detector_geometry;
+    analysis::DetectorGeometry detector_geometry;
     pre_cuts_.SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
 
@@ -87,7 +87,7 @@ std::string htoptagger::HAnalysis::ColliderName(const Collider collider) const {
   }
 }
 
-void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
+void htoptagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
@@ -130,7 +130,7 @@ void htoptagger::HAnalysis::SetFiles(const hanalysis::HObject::Tag tag)
 }
 
 
-int htoptagger::HAnalysis::PassPreCut(hanalysis::Event &event)
+int htoptagger::HAnalysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
     Jets particles = event.Partons().Generator();
@@ -139,13 +139,13 @@ int htoptagger::HAnalysis::PassPreCut(hanalysis::Event &event)
     return tops.size();
 }
 
-int htoptagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const hanalysis::HObject::Tag tag)
+int htoptagger::HAnalysis::Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {
-      case hanalysis::Tagger::kTrainer :
+      case analysis::Tagger::kTrainer :
         return tagger_.Train(event, pre_cuts_, tag);
-      case hanalysis::Tagger::kReader :
+      case analysis::Tagger::kReader :
         return reader_.GetBdt(event, pre_cuts_);
     }
 }

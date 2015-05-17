@@ -1,12 +1,12 @@
 # include "HChargedJetPairTagger.hh"
 
-hanalysis::HChargedJetPairTagger::HChargedJetPairTagger()
+analysis::HChargedJetPairTagger::HChargedJetPairTagger()
 {
     Print(kNotification, "Constructor");
     DefineVariables();
 }
 
-void hanalysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const WHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const TopHadronicTagger &Newtop_hadronic_tagger)
+void analysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const WHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const TopHadronicTagger &Newtop_hadronic_tagger)
 {
     Print(kNotification, "Set Tagger", NewBottomTagger.tagger_name());
 
@@ -24,7 +24,7 @@ void hanalysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTa
     DefineVariables();
 }
 
-void hanalysis::HChargedJetPairTagger::DefineVariables()
+void analysis::HChargedJetPairTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -64,7 +64,7 @@ void hanalysis::HChargedJetPairTagger::DefineVariables()
 
 }
 
-HChargedJetPairBranch hanalysis::HChargedJetPairTagger::GetBranch(const HQuartet31 &Quartet) const
+HChargedJetPairBranch analysis::HChargedJetPairTagger::GetBranch(const HQuartet31 &Quartet) const
 {
 
     Print(kInformation, "FillPairTagger", Quartet.Bdt());
@@ -101,12 +101,12 @@ HChargedJetPairBranch hanalysis::HChargedJetPairTagger::GetBranch(const HQuartet
 }
 
 struct SortQuartetByDeltaRap {
-    inline bool operator()(const hanalysis::HQuartet31 &Quartet1, const hanalysis::HQuartet31 &Quartet2) {
+    inline bool operator()(const analysis::HQuartet31 &Quartet1, const analysis::HQuartet31 &Quartet2) {
         return (Quartet1.DeltaRap() > Quartet2.DeltaRap());
     }
 };
 
-std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag)
+std::vector<HChargedJetPairBranch> analysis::HChargedJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get W Tags");
     Jets jets = GetJets(event);
@@ -119,16 +119,16 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     for (const auto & Jet : jets) {
         Jets Pieces = WTagger.GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
-        std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-        std::vector<hanalysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
+        std::vector<analysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
+        std::vector<analysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
     }
 
     for (const auto & Jet : jets) {
         Jets Pieces = WTagger.GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
-        std::vector<hanalysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-        std::vector<hanalysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
+        std::vector<analysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
+        std::vector<analysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
     }
 
@@ -142,7 +142,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);
     if (TopParticles.size() != 1 && Tag == kSignal) Print(kError, "Where is the Top?", TopParticles.size());
 
-    std::vector<hanalysis::Triplet> Finaltriplets;
+    std::vector<analysis::Triplet> Finaltriplets;
     if (Tag == kSignal) for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) Finaltriplets.emplace_back(triplet);
             else Finaltriplets = triplets;
 
@@ -190,7 +190,7 @@ std::vector<HChargedJetPairBranch> hanalysis::HChargedJetPairTagger::GetBranches
 
 }
 
-hanalysis::HObject::Tag hanalysis::HChargedJetPairTagger::GetTag(const HQuartet31 &)
+analysis::Object::Tag analysis::HChargedJetPairTagger::GetTag(const HQuartet31 &)
 {
     Print(kInformation, "Get Quartet Tag");
 
@@ -199,7 +199,7 @@ hanalysis::HObject::Tag hanalysis::HChargedJetPairTagger::GetTag(const HQuartet3
 
 
 
-std::vector<hanalysis::HQuartet31>  hanalysis::HChargedJetPairTagger::GetBdt(const std::vector<Triplet> &triplets, const Jets &jets, const hanalysis::Reader &JetPairReader)
+std::vector<analysis::HQuartet31>  analysis::HChargedJetPairTagger::GetBdt(const std::vector<Triplet> &triplets, const Jets &jets, const analysis::Reader &JetPairReader)
 {
     std::vector<HQuartet31>  Quartets;
     for (const auto & triplet : triplets)

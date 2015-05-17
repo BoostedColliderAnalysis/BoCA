@@ -47,9 +47,9 @@ char Observable::type() const
 }
 
 
-std::string hanalysis::Tagger::analysis_name_;
+std::string analysis::Tagger::analysis_name_;
 
-hanalysis::Tagger::Tagger()
+analysis::Tagger::Tagger()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
@@ -59,14 +59,14 @@ hanalysis::Tagger::Tagger()
 }
 
 
-Observable hanalysis::Tagger::NewObservable(float &value, const std::string &title) const
+Observable analysis::Tagger::NewObservable(float &value, const std::string &title) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "", "");
 }
 
-Observable hanalysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
+Observable analysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
@@ -74,13 +74,13 @@ Observable hanalysis::Tagger::NewObservable(float &value, const std::string &tit
 
 }
 
-float hanalysis::Tagger::Bdt(const TMVA::Reader &reader)
+float analysis::Tagger::Bdt(const TMVA::Reader &reader)
 {
     Print(kInformation, "Bdt");
     return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
-Jets hanalysis::Tagger::GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
+Jets analysis::Tagger::GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
 {
   Jets final_pieces;
 //   for (const auto & jet : jets) {

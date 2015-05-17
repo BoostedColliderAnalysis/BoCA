@@ -9,7 +9,7 @@
  */
 
 namespace hbtagger{
-class BottomTaggerSimple : public hanalysis::Tagger
+class BottomTaggerSimple : public analysis::Tagger
 {
 
 public:
@@ -18,9 +18,9 @@ public:
 
     BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
-    int Train(hanalysis::Event &event, const Tag tag);
+    int Train(analysis::Event &event, const Tag tag);
 
-    int GetBdt(hanalysis::Event &event, const TMVA::Reader &reader);
+    int GetBdt(analysis::Event &event, const TMVA::Reader &reader);
 
     float ReadBdt(const TClonesArray &clones_array, const int entry){
       return static_cast<BottomBranch &>(*clones_array.At(entry)).Bdt;
@@ -48,7 +48,7 @@ private:
 
     void DefineVariables();
 
-    Jets CleanJets(Jets &jets, const Jets &particles, const hanalysis::HObject::Tag tag);
+    Jets CleanJets(Jets &jets, const Jets &particles, const analysis::Object::Tag tag);
 
     Jets GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber);
 

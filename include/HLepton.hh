@@ -10,7 +10,7 @@
  * @brief calculation regarding leptons
  *
  */
-class hanalysis::HLepton : public HFourVector
+class analysis::HLepton : public HFourVector
 {
 
 public:
@@ -27,7 +27,7 @@ public:
      */
     ~HLepton();
 
-    void Newevent(const hanalysis::ClonesArrays &NewClonesArrays);
+    void Newevent(const analysis::ClonesArrays &NewClonesArrays);
 
     HVectors GetLeptonVectors();
 
@@ -36,12 +36,12 @@ public:
 
     Jets GetTaggedJets(HJetTag &NewJetTag) {
         JetTag = &NewJetTag;
-        return GetLeptonJets(hanalysis::HFourVector::Tagging);
+        return GetLeptonJets(analysis::HFourVector::Tagging);
     };
 
 protected:
 
-    Jets GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails);
+    Jets GetLeptonJets(analysis::HFourVector::HJetDetails JetDetails);
 
   /**
    * @brief Find the hardest of the light leptons

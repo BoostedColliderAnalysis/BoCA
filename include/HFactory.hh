@@ -8,7 +8,7 @@
  * @brief Prepares multivariant analysis
  *
  */
-class hanalysis::HFactory : public HObject
+class analysis::HFactory : public Object
 {
 
 public:
@@ -17,7 +17,7 @@ public:
      * @brief Constructor
      *
      */
-    HFactory(hanalysis::Tagger &tagger);
+    HFactory(analysis::Tagger &tagger);
 
 private:
 

@@ -9,7 +9,7 @@
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class hanalysis::HChargedHiggsSemiTagger : public Tagger
+class analysis::HChargedHiggsSemiTagger : public Tagger
 {
 
 public:
@@ -17,20 +17,20 @@ public:
     HChargedHiggsSemiTagger();
 
     void SetTagger(
-        const hanalysis::BottomTagger &NewBottomTagger,
-        const hanalysis::HWSemiTagger &NewWSemiTagger,
-        const hanalysis::WHadronicTagger &NewWTagger,
-        const hanalysis::HTopSemiTagger &NewTopSemiTagger,
-        const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger);
+        const analysis::BottomTagger &NewBottomTagger,
+        const analysis::HWSemiTagger &NewWSemiTagger,
+        const analysis::WHadronicTagger &NewWTagger,
+        const analysis::HTopSemiTagger &NewTopSemiTagger,
+        const analysis::TopHadronicTagger &Newtop_hadronic_tagger);
 
-    std::vector< HChargedHiggsSemiBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< HChargedHiggsSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedHiggsSemiBranch GetBranch(const hanalysis::HQuartet31 &Quartet) const;
+    HChargedHiggsSemiBranch GetBranch(const analysis::HQuartet31 &Quartet) const;
 
     std::vector< HQuartet31 > GetBdt(
-        const std::vector< hanalysis::Triplet > triplets, const std::vector< fastjet::PseudoJet > Siglets, const hanalysis::Reader &Reader);
+        const std::vector< analysis::Triplet > triplets, const std::vector< fastjet::PseudoJet > Siglets, const analysis::Reader &Reader);
 
-    std::vector< HQuartet31 > GetQuartets(const hanalysis::Reader &Reader);
+    std::vector< HQuartet31 > GetQuartets(const analysis::Reader &Reader);
 
     BottomTagger bottom_tagger_;
     HWSemiTagger WSemiTagger;
@@ -54,7 +54,7 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const hanalysis::HQuartet31 &);
+    Tag GetTag(const analysis::HQuartet31 &);
 
     HJetTag JetTag;
 

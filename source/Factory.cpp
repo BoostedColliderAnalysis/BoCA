@@ -1,9 +1,9 @@
 # include "Factory.hh"
 # include "TMVA/Config.h"
 
-hanalysis::Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
+analysis::Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
 {
-//     DebugLevel = hanalysis::HObject::kDebug;
+//     DebugLevel = analysis::Object::kDebug;
     Print(kNotification , "Constructor");
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
@@ -13,19 +13,19 @@ hanalysis::Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.
     factory().EvaluateAllMethods();
 }
 
-std::string hanalysis::Factory::factory_options()
+std::string analysis::Factory::factory_options()
 {
     return "!Color:!Silent";
 }
 
-TFile *hanalysis::Factory::output_file() const
+TFile *analysis::Factory::output_file() const
 {
     const std::string factory_name = "Mva" + tagger().tagger_name();
     const std::string file_name = tagger().analysis_name() + "/" + factory_name + ".root";
     return TFile::Open(file_name.c_str(), "Recreate");
 }
 
-void hanalysis::Factory::AddVariables()
+void analysis::Factory::AddVariables()
 {
     Print(kNotification , "Add Variables");
     TMVA::gConfig().GetIONames().fWeightFileDir = tagger().analysis_name();
@@ -35,7 +35,7 @@ void hanalysis::Factory::AddVariables()
         factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
-int hanalysis::Factory::GetTrees()
+int analysis::Factory::GetTrees()
 {
     Print(kNotification , "Get Trees");
     int signal_number = 0;
@@ -72,7 +72,7 @@ int hanalysis::Factory::GetTrees()
     return std::min(signal_number, background_number) / 2;
 }
 
-int hanalysis::Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
+int analysis::Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
 {
     Print(kError , "Add Tree", tree_name);
     if (!file.GetListOfKeys()->Contains(tree_name.c_str()))return 0;
@@ -105,7 +105,7 @@ int hanalysis::Factory::AddTree(TFile &file, const std::string &tree_name, const
     return entries;
 }
 
-void hanalysis::Factory::PrepareTrainingAndTestTree(const int event_number)
+void analysis::Factory::PrepareTrainingAndTestTree(const int event_number)
 {
     Print(kError , "PrepareTrainingAndTestTree");
 
@@ -116,7 +116,7 @@ void hanalysis::Factory::PrepareTrainingAndTestTree(const int event_number)
     factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
 }
 
-void hanalysis::Factory::BookMethods()
+void analysis::Factory::BookMethods()
 {
 
     Print(kNotification , "Book Methods");

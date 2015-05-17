@@ -10,7 +10,7 @@
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedeventSemiTagger : public hanalysis::Tagger
+class hheavyhiggs::HChargedeventSemiTagger : public analysis::Tagger
 {
 
 public:
@@ -22,10 +22,10 @@ public:
     HChargedeventSemiTagger();
 
     void SetTagger(
-        const hanalysis::BottomTagger &NewBottomTagger, const hanalysis::HChargedJetPairTagger &NewChargedJetPairTagger, const hanalysis::HWSemiTagger &NewWSemiTagger, const hanalysis::WHadronicTagger &NewWTagger, const hanalysis::HTopSemiTagger &NewTopSemiTagger, const hanalysis::TopHadronicTagger &Newtop_hadronic_tagger, const hanalysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger);
+        const analysis::BottomTagger &NewBottomTagger, const analysis::HChargedJetPairTagger &NewChargedJetPairTagger, const analysis::HWSemiTagger &NewWSemiTagger, const analysis::WHadronicTagger &NewWTagger, const analysis::HTopSemiTagger &NewTopSemiTagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger, const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger);
 
 
-    std::vector< HChargedSemiBranch > GetBranches(hanalysis::Event &event, const hanalysis::HObject::Tag Tag);
+    std::vector< HChargedSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
     HChargedSemiBranch GetBranch(const EventMultiplet<HOctet44> &event) const;
 
@@ -33,28 +33,28 @@ public:
 
 
     std::vector<EventMultiplet<HOctet44>> GetBdt(
-                                            const std::vector< HOctet44 > &Octets, Jets &jets, const Jets &SubJets, Jets &Leptons, EventStruct &eventStruct, const hanalysis::Reader &eventSemiReader);
+                                            const std::vector< HOctet44 > &Octets, Jets &jets, const Jets &SubJets, Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
 
-    hanalysis::BottomTagger bottom_tagger_;
-    hanalysis::HWSemiTagger WSemiTagger;
-    hanalysis::WHadronicTagger WTagger;
-    hanalysis::HTopSemiTagger TopSemiTagger;
-    hanalysis::TopHadronicTagger top_hadronic_tagger;
-    hanalysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
-    hanalysis::HChargedJetPairTagger ChargedJetPairTagger;
+    analysis::BottomTagger bottom_tagger_;
+    analysis::HWSemiTagger WSemiTagger;
+    analysis::WHadronicTagger WTagger;
+    analysis::HTopSemiTagger TopSemiTagger;
+    analysis::TopHadronicTagger top_hadronic_tagger;
+    analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
+    analysis::HChargedJetPairTagger ChargedJetPairTagger;
     HChargedSignatureSemiTagger SignatureSemiTagger;
 
-    hanalysis::Reader BottomReader;
-    hanalysis::Reader WSemiReader;
-    hanalysis::Reader WReader;
-    hanalysis::Reader TopHadronicReader;
-    hanalysis::Reader TopSemiReader;
-    hanalysis::Reader ChargedHiggsSemiReader;
-    hanalysis::Reader ChargedJetPairReader;
-    hanalysis::Reader SignatureSemiReader;
+    analysis::Reader BottomReader;
+    analysis::Reader WSemiReader;
+    analysis::Reader WReader;
+    analysis::Reader TopHadronicReader;
+    analysis::Reader TopSemiReader;
+    analysis::Reader ChargedHiggsSemiReader;
+    analysis::Reader ChargedJetPairReader;
+    analysis::Reader SignatureSemiReader;
 
 
 protected:

@@ -31,23 +31,23 @@ class HOctetPrivate;
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class HOctet : public hanalysis::HTag
+class HOctet : public analysis::HTag
 {
 
 public:
 
     HOctet() {};
 
-    HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet);
+    HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet);
 
-//     HOctet(const hanalysis::HSextet &NewSextet, const hanalysis::Doublet &Newdoublet, const EventStruct &NeweventStruct);
+//     HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet, const EventStruct &NeweventStruct);
 
 
-    inline hanalysis::HSextet Sextet()const {
+    inline analysis::HSextet Sextet()const {
         return SextetM;
     }
 
-    inline hanalysis::Doublet doublet() const {
+    inline analysis::Doublet doublet() const {
         return doubletM;
     }
 
@@ -100,15 +100,15 @@ public:
     }
 
     inline float HbDeltaDeltaPhi() const {
-        return HObject::GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
+        return Object::GetDeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
     }
 
     inline float BottomBdt() const {
-        return doublet().Singlet1().user_info<hanalysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet1().singlet().user_info<hanalysis::JetInfo>().Bdt() + Sextet().triplet2().singlet().user_info<hanalysis::JetInfo>().Bdt();
+        return doublet().Singlet1().user_info<analysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<analysis::JetInfo>().Bdt() + Sextet().triplet1().singlet().user_info<analysis::JetInfo>().Bdt() + Sextet().triplet2().singlet().user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-        return doublet().Singlet1().user_info<hanalysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<hanalysis::JetInfo>().Bdt();
+        return doublet().Singlet1().user_info<analysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<analysis::JetInfo>().Bdt();
     }
 //
 //     inline void SetJetNumber(const int NewJetNumber) {
@@ -190,9 +190,9 @@ protected:
 
 private:
 
-    hanalysis::HSextet SextetM;
+    analysis::HSextet SextetM;
 
-    hanalysis::Doublet doubletM;
+    analysis::Doublet doubletM;
 
 };
 

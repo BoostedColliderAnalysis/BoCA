@@ -1,12 +1,12 @@
 # include "Singlet.hh"
 
-hanalysis::Singlet::Singlet(const fastjet::PseudoJet &singlet)
+analysis::Singlet::Singlet(const fastjet::PseudoJet &singlet)
 {
     Print(kInformation, "Constructor");
     singlet_ = singlet;
 }
 
-float hanalysis::Singlet::GetDeltaR(const fastjet::PseudoJet &jet) const
+float analysis::Singlet::GetDeltaR(const fastjet::PseudoJet &jet) const
 {
   Print(kInformation, "Get Delta R");
   if (!jet.has_constituents()) return 0;
@@ -20,7 +20,7 @@ float hanalysis::Singlet::GetDeltaR(const fastjet::PseudoJet &jet) const
   return delta_r;
 }
 
-float hanalysis::Singlet::GetSpread(const fastjet::PseudoJet &jet) const
+float analysis::Singlet::GetSpread(const fastjet::PseudoJet &jet) const
 {
   Print(kInformation, "Get spread");
   if (!jet.has_constituents()) return 0;

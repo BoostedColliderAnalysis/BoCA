@@ -12,7 +12,7 @@
  * @brief HJetTag subclass for HDiscriminator
  *
  */
-class hcpvhiggs::HJetTag : public hanalysis::HJetTag
+class hcpvhiggs::HJetTag : public analysis::HJetTag
 {
 
 public:
@@ -36,7 +36,7 @@ public:
  * \author Jan Hajer
  *
  */
-class hcpvhiggs::HAnalysis : public hanalysis::HAnalysis
+class hcpvhiggs::HAnalysis : public analysis::HAnalysis
 {
 
 public:
@@ -85,9 +85,9 @@ private:
 
     };
 
-    hanalysis::HJetTag  JetTag;
+    analysis::HJetTag  JetTag;
 
-    hanalysis::HSubStructure * SubStructure;
+    analysis::HSubStructure * SubStructure;
 
     /**
      * @brief Lepton calculations
@@ -95,7 +95,7 @@ private:
      * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    Jets GetLeptonJets(hanalysis::Event &event);
+    Jets GetLeptonJets(analysis::Event &event);
 
     /**
      * @brief Lepton event counter
@@ -108,14 +108,14 @@ private:
      *
      * @return void
      */
-    int Analysis(hanalysis::Event &event, const std::string &Study);
+    int Analysis(analysis::Event &event, const std::string &Study);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector<hanalysis::File * > GetFiles(const std::string &Name);
+    std::vector<analysis::File * > GetFiles(const std::string &Name);
 
     /**
      * @brief New Analysis

@@ -57,7 +57,7 @@ char HObservable::type() const
  *
  */
 
-hanalysis::HMva::HMva() : detector_geometry()
+analysis::HMva::HMva() : detector_geometry()
 {
 
 //   DebugLevel = kNotification;
@@ -70,20 +70,20 @@ hanalysis::HMva::HMva() : detector_geometry()
 //     MinCellResolution = .1;
 }
 
-float hanalysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
+float analysis::HMva::GetBdt(TObject *, const TMVA::Reader &)
 {
     Print(kError, "Get Bdt", "should be implemented somewhere else");
     return -10;
 }
 
-HObservable hanalysis::HMva::NewObservable(float &value, const std::string &title) const
+HObservable analysis::HMva::NewObservable(float &value, const std::string &title) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name_ + "." + title;
     return HObservable(value, expression, title, "", "");
 }
 
-HObservable hanalysis::HMva::NewObservable(float &value, const std::string &title, const std::string &latex) const
+HObservable analysis::HMva::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name_ + "." + title;
@@ -91,7 +91,7 @@ HObservable hanalysis::HMva::NewObservable(float &value, const std::string &titl
 
 }
 
-Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
+Jets analysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
     const float CellDeltaRap = detector_geometry.MinCellResolution;
@@ -103,10 +103,10 @@ Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
     Jets NewGranulatedJets;
     NewGranulatedJets.push_back(EFlowJets[0]);
 
-    for (size_t i = 1; i < EFlowJets.size(); ++i) {
+    for (std::size_t i = 1; i < EFlowJets.size(); ++i) {
         int NewJet = 0;
 
-        for (size_t j = 0; j < NewGranulatedJets.size(); ++j) {
+        for (std::size_t j = 0; j < NewGranulatedJets.size(); ++j) {
 
             const float CellDiffRap = std::abs(EFlowJets[i].pseudorapidity() - NewGranulatedJets[j].pseudorapidity()) / CellDeltaRap;
             float CellDiffPhi = std::abs(EFlowJets[i].phi() - NewGranulatedJets[j].phi());
@@ -127,9 +127,9 @@ Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
 
 
                 std::vector<Constituent> constituents;
-                std::vector<Constituent> Newconstituents = EFlowJets[i].user_info<hanalysis::JetInfo>().constituents();
+                std::vector<Constituent> Newconstituents = EFlowJets[i].user_info<analysis::JetInfo>().constituents();
                 constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
-                Newconstituents = NewGranulatedJets[j].user_info<hanalysis::JetInfo>().constituents();
+                Newconstituents = NewGranulatedJets[j].user_info<analysis::JetInfo>().constituents();
                 constituents.insert(constituents.end(), Newconstituents.begin(), Newconstituents.end());
 
                 CombinedJet.set_user_info(new JetInfo(constituents));
@@ -148,7 +148,7 @@ Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
     }
 
 
-    for (size_t ii = 0; ii < NewGranulatedJets.size(); ++ii) {
+    for (std::size_t ii = 0; ii < NewGranulatedJets.size(); ++ii) {
 
         if ((NewGranulatedJets[ii].perp() < PtCutOff)) {
             NewGranulatedJets.erase(NewGranulatedJets.begin() + ii);
@@ -160,13 +160,13 @@ Jets hanalysis::HMva::GranulatedJets(const Jets &NewEFlowJets)
 
 }
 
-Jets hanalysis::HMva::GetJets(hanalysis::Event &event, HJetTag &JetTag)
+Jets analysis::HMva::GetJets(analysis::Event &event, HJetTag &JetTag)
 {
     Print(kInformation, "JetTag", JetTag.HeavyParticles.size());
     return GetJets(event);
 }
 
-Jets hanalysis::HMva::GetJets(hanalysis::Event &event)
+Jets analysis::HMva::GetJets(analysis::Event &event)
 {
 //   fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.Hadrons().GetStructuredEFlowJets()), fastjet::JetDefinition(fastjet::cambridge_algorithm, detector_geometry.JetConeSize));
     fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(GranulatedJets(event.Hadrons().GetStructuredEFlowJets()), detector_geometry.JetDefinition);
@@ -187,7 +187,7 @@ Jets hanalysis::HMva::GetJets(hanalysis::Event &event)
     return jets;
 }
 
-Jets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
+Jets analysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJetNumber)
 {
     Print(kInformation, "Get Sub Jets");
     Jets Pieces;
@@ -220,7 +220,7 @@ Jets hanalysis::HMva::GetSubJets(const fastjet::PseudoJet &Jet, const int SubJet
     return Pieces;
 }
 
-fastjet::PseudoJet hanalysis::HMva::GetMissingEt(hanalysis::Event &event)
+fastjet::PseudoJet analysis::HMva::GetMissingEt(analysis::Event &event)
 {
     Jets granulated_jets = GranulatedJets(event.Hadrons().GetStructuredEFlowJets());
     fastjet::PseudoJet jet_sum = std::accumulate(granulated_jets.begin(), granulated_jets.end(), fastjet::PseudoJet());

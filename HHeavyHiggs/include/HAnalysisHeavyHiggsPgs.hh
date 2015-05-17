@@ -9,7 +9,7 @@
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class hheavyhiggs::HAnalysisHeavyHiggsPgs : public hanalysis::HAnalysis
+class hheavyhiggs::HAnalysisHeavyHiggsPgs : public analysis::HAnalysis
 {
 
 public:
@@ -49,14 +49,14 @@ private:
      *
      * @return void
      */
-    int Analysis(hanalysis::Event &event,const std::string& StudyName);
+    int Analysis(analysis::Event &event,const std::string& StudyName);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::File* > GetFiles(const std::string& StudyName);
+    std::vector< analysis::File* > GetFiles(const std::string& StudyName);
 
     /**
      * @brief New Analysis

@@ -18,14 +18,14 @@ struct SubJettiness {
     float tau32_beta2;
 };
 
-class hanalysis::Triplet : public HTag
+class analysis::Triplet : public HTag
 {
 
 public:
 
     Triplet();
 
-    Triplet(const hanalysis::Doublet &doublet, const fastjet::PseudoJet &singlet);
+    Triplet(const analysis::Doublet &doublet, const fastjet::PseudoJet &singlet);
 
     Triplet(const fastjet::PseudoJet &singlet);
 
@@ -112,7 +112,7 @@ private:
 
     void SetSinglet(const fastjet::PseudoJet &NewSinglet);
 
-    void Setdoublet(const hanalysis::Doublet &doublet);
+    void Setdoublet(const analysis::Doublet &doublet);
 
     Doublet doublet_;
 

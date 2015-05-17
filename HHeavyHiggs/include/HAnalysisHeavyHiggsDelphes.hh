@@ -11,7 +11,7 @@
  * @brief Class defining the Heavy Higgs Analysis
  *
  */
-class hheavyhiggs::HAnalysisHeavyHiggsDelphes : public hanalysis::HAnalysis
+class hheavyhiggs::HAnalysisHeavyHiggsDelphes : public analysis::HAnalysis
 {
 
 public:
@@ -35,14 +35,14 @@ private:
      *
      * @return void
      */
-    int Analysis(hanalysis::Event &event, const std::string &Name);
+    int Analysis(analysis::Event &event, const std::string &Name);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::File* > GetFiles(const std::string &Study);
+    std::vector< analysis::File* > GetFiles(const std::string &Study);
 
     /**
      * @brief New Analysis
@@ -55,9 +55,9 @@ private:
 
     Strings GetStudyNameVector();
 
-    void FillBranch(hanalysis::Event &event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
+    void FillBranch(analysis::Event &event, fastjet::PseudoJet FrontJet, fastjet::PseudoJet BackJet);
 
-    float Leptons(hanalysis::Event &event, fastjet::PseudoJet Jet);
+    float Leptons(analysis::Event &event, fastjet::PseudoJet Jet);
 
 //     bool JetIsBottom(const fastjet::PseudoJet &Jet);
 
@@ -67,9 +67,9 @@ private:
 
     };
 
-    bool Signal(hanalysis::Event &event);
-    bool Test(hanalysis::Event &event);
-    bool Background(hanalysis::Event &event);
+    bool Signal(analysis::Event &event);
+    bool Test(analysis::Event &event);
+    bool Background(analysis::Event &event);
 
     /**
      * @brief Branch to write Heavy Higgs info into

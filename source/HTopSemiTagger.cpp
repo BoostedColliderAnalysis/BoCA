@@ -1,8 +1,8 @@
 # include "HTopSemiTagger.hh"
 
-hanalysis::HTopSemiTagger::HTopSemiTagger()
+analysis::HTopSemiTagger::HTopSemiTagger()
 {
-    //     DebugLevel = hanalysis::HObject::kDebug;
+    //     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopSemi");
     top_mass_window_ = (TopMass - WMass) / 2;
@@ -11,7 +11,7 @@ hanalysis::HTopSemiTagger::HTopSemiTagger()
     DefineVariables();
 }
 
-void hanalysis::HTopSemiTagger::DefineVariables()
+void analysis::HTopSemiTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -54,7 +54,7 @@ void hanalysis::HTopSemiTagger::DefineVariables()
 
 }
 
-TopSemiBranch hanalysis::HTopSemiTagger::GetBranch(const hanalysis::Triplet &triplet) const
+TopSemiBranch analysis::HTopSemiTagger::GetBranch(const analysis::Triplet &triplet) const
 {
     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
 
@@ -84,29 +84,29 @@ TopSemiBranch hanalysis::HTopSemiTagger::GetBranch(const hanalysis::Triplet &tri
 
 
 
-void hanalysis::HTopSemiTagger::GetBottomInfo(TopSemiBranch &branch, const fastjet::PseudoJet jet) const
+void analysis::HTopSemiTagger::GetBottomInfo(TopSemiBranch &branch, const fastjet::PseudoJet jet) const
 {
-//     branch.VertexMass = jet.user_info<hanalysis::JetInfo>().VertexMass();
-//     float MaxDisp = jet.user_info<hanalysis::JetInfo>().MaxDisplacement();
+//     branch.VertexMass = jet.user_info<analysis::JetInfo>().VertexMass();
+//     float MaxDisp = jet.user_info<analysis::JetInfo>().MaxDisplacement();
 //     if (MaxDisp > 0) branch.MaxDisplacement = std::log10(MaxDisp);
 //     else branch.MaxDisplacement = -3;
-//     float MeanDisp = jet.user_info<hanalysis::JetInfo>().MeanDisplacement();
+//     float MeanDisp = jet.user_info<analysis::JetInfo>().MeanDisplacement();
 //     if (MeanDisp > 0) branch.MeanDisplacement = std::log10(MeanDisp);
 //     else branch.MeanDisplacement = -3;
-//     float SumDisp = jet.user_info<hanalysis::JetInfo>().SumDisplacement();
+//     float SumDisp = jet.user_info<analysis::JetInfo>().SumDisplacement();
 //     if (SumDisp > 0) branch.SumDisplacement = std::log10(SumDisp);
 //     else branch.SumDisplacement = -3;
-//     branch.Multipliticity = jet.user_info<hanalysis::JetInfo>().VertexNumber();
+//     branch.Multipliticity = jet.user_info<analysis::JetInfo>().VertexNumber();
 //     //     top_hadronic_branch.DeltaR = GetDeltaR(jet);
 //     branch.Spread = GetSpread(jet);
-//     branch.VertexDeltaR = GetDeltaR(jet.user_info<hanalysis::JetInfo>().VertexJet());
-//     branch.VertexSpread = GetSpread(jet.user_info<hanalysis::JetInfo>().VertexJet());
-//     branch.EnergyFraction = jet.user_info<hanalysis::JetInfo>().VertexEnergy() / jet.e();
+//     branch.VertexDeltaR = GetDeltaR(jet.user_info<analysis::JetInfo>().VertexJet());
+//     branch.VertexSpread = GetSpread(jet.user_info<analysis::JetInfo>().VertexJet());
+//     branch.EnergyFraction = jet.user_info<analysis::JetInfo>().VertexEnergy() / jet.e();
 }
 
 
 
-int hanalysis::HTopSemiTagger::Train(hanalysis::Event &event, const hanalysis::HObject::Tag tag)
+int analysis::HTopSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
 
@@ -122,7 +122,7 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::Event &event, const hanalysis::H
 
 
     Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
-    std::vector<hanalysis::Doublet> doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
+    std::vector<analysis::Doublet> doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
 
     Jets Leptons = event.Leptons().GetLeptonJets();
     Print(kInformation, "Lepton Number", Leptons.size());
@@ -171,12 +171,12 @@ int hanalysis::HTopSemiTagger::Train(hanalysis::Event &event, const hanalysis::H
 
 
 
-std::vector<hanalysis::Triplet>  hanalysis::HTopSemiTagger::GetTriplets(Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Triplet>  analysis::HTopSemiTagger::GetTriplets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Bdt");
 
     Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
-    std::vector<hanalysis::Doublet> doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
+    std::vector<analysis::Doublet> doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
 
     std::vector<Triplet> triplets;
     if (!boost_) {
@@ -211,7 +211,7 @@ std::vector<hanalysis::Triplet>  hanalysis::HTopSemiTagger::GetTriplets(Event &e
 
 
 
-float hanalysis::HTopSemiTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
+float analysis::HTopSemiTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Get Delta R");
 
@@ -233,7 +233,7 @@ float hanalysis::HTopSemiTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
     return DeltaR;
 }
 
-float hanalysis::HTopSemiTagger::GetSpread(const fastjet::PseudoJet &Jet) const
+float analysis::HTopSemiTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Get Centrality");
     if (!Jet.has_constituents()) {

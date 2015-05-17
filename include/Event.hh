@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HObject.hh"
+# include "Object.hh"
 # include "HParticle.hh"
 # include "HLepton.hh"
 # include "HJet.hh"
@@ -13,7 +13,7 @@
  * @brief Base class for the event Topology
  *
  */
-class hanalysis::Event : public HObject
+class analysis::Event : public Object
 {
 
 public:

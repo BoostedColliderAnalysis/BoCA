@@ -2,14 +2,14 @@
 
 // hbottomsumtagger::HAnalysis::HAnalysis()
 // {
-//     //     DebugLevel = hanalysis::HObject::kDebug;
+//     //     DebugLevel = analysis::Object::kDebug;
 //     Print(kNotification, "Constructor");
 //     BottomTagger.SetAnalysisName(ProjectName());
 //     eventBottomSumTagger.SetAnalysisName(ProjectName());
 //     mkdir(ProjectName().c_str(), 0700);
 // }
 
-// std::string hbottomsumtagger::HAnalysis::StudyName(const hanalysis::HAnalysis::HTagger Tagger) const
+// std::string hbottomsumtagger::HAnalysis::StudyName(const analysis::HAnalysis::HTagger Tagger) const
 // {
 //     Print(kNotification, "Get Study Names", Tagger);
 //
@@ -28,18 +28,18 @@
 //     }
 // }
 
-std::vector<hanalysis::File> hbottomsumtagger::HAnalysis::Files(const hanalysis::HObject::Tag tag)
+std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
-    std::vector<hanalysis::File> SignalLeptonicFiles;
-    std::vector<hanalysis::File> BackgroundLeptonicFiles;
-    std::vector<hanalysis::File> SignalSemiFiles;
-    std::vector<hanalysis::File> BackgroundSemiFiles;
+    std::vector<analysis::File> SignalLeptonicFiles;
+    std::vector<analysis::File> BackgroundLeptonicFiles;
+    std::vector<analysis::File> SignalSemiFiles;
+    std::vector<analysis::File> BackgroundSemiFiles;
 
 
-//     SignalSemiFiles.emplace_back(hanalysis::File(NameString(bb), SignalCrosssection()));
-//     SignalSemiFiles.emplace_back(hanalysis::File(SignalName(Hbb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(analysis::File(NameString(bb), SignalCrosssection()));
+//     SignalSemiFiles.emplace_back(analysis::File(SignalName(Hbb), SignalCrosssection()));
 //     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
     SignalSemiFiles.emplace_back(BackgroundFile(bb));
 //     SignalSemiFiles.emplace_back(BackgroundFile(bbbb));
@@ -58,59 +58,59 @@ std::vector<hanalysis::File> hbottomsumtagger::HAnalysis::Files(const hanalysis:
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttqq));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttgg));
 
-    std::vector<hanalysis::File> SignalHadronicFiles;
+    std::vector<analysis::File> SignalHadronicFiles;
 
-    std::vector<hanalysis::File> BackgroundHadronicFiles;
+    std::vector<analysis::File> BackgroundHadronicFiles;
 
-    std::vector<hanalysis::File> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<hanalysis::File> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<hanalysis::File> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<analysis::File> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
+    std::vector<analysis::File> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
+    std::vector<analysis::File> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
 
-    std::vector<hanalysis::File> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<hanalysis::File> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
+    std::vector<analysis::File> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
+    std::vector<analysis::File> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
 
-    std::vector<hanalysis::File> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<hanalysis::File> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+    std::vector<analysis::File> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
+    std::vector<analysis::File> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
 
-    std::vector<hanalysis::File> NewFiles;
+    std::vector<analysis::File> NewFiles;
 
 //     switch (Tagger) {
 //     case  BottomTagger :
 //         switch (Tag) {
-//         case HObject::kSignal :
+//         case Object::kSignal :
 //             NewFiles = SemiFiles;
 //             break;
-//         case HObject::kBackground :
+//         case Object::kBackground :
 //             NewFiles = SemiFiles;
 //             break;
 //         }
 //         break;
 //     case  HBottomReader :
 //         switch (Tag) {
-//         case HObject::kSignal :
+//         case Object::kSignal :
 //             NewFiles = SignalSemiFiles;
 //             break;
-//         case HObject::kBackground :
+//         case Object::kBackground :
 //             NewFiles = BackgroundSemiFiles;
 //             break;
 //         }
 //         break;
 //     case  HJetPairTagger :
 //         switch (Tag) {
-//         case HObject::kSignal :
+//         case Object::kSignal :
 //             NewFiles = SignalSemiFiles;
 //             break;
-//         case HObject::kBackground :
+//         case Object::kBackground :
 //             NewFiles = BackgroundSemiFiles;
 //             break;
 //         }
 //         break;
 //     case  HJetPairReader :
 //         switch (Tag) {
-//         case HObject::kSignal :
+//         case Object::kSignal :
 //             NewFiles = SignalSemiFiles;
 //             break;
-//         case HObject::kBackground :
+//         case Object::kBackground :
 //             NewFiles = BackgroundSemiFiles;
 //             break;
 //         }
@@ -120,10 +120,10 @@ std::vector<hanalysis::File> hbottomsumtagger::HAnalysis::Files(const hanalysis:
 //     }
 
     switch (tag) {
-      case HObject::kSignal :
+      case Object::kSignal :
         NewFiles = SignalSemiFiles;
         break;
-      case HObject::kBackground :
+      case Object::kBackground :
         NewFiles = BackgroundSemiFiles;
         break;
     }
@@ -214,7 +214,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
 }
 
-// void hbottomsumtagger::HAnalysis::PrepareReader(const hanalysis::HAnalysis::HTagger Tagger, const Tag Tag)
+// void hbottomsumtagger::HAnalysis::PrepareReader(const analysis::HAnalysis::HTagger Tagger, const Tag Tag)
 // {
 //     Print(kInformation, "Prepare Reader", Tagger);
 //     if (Tag == kBackground) {
@@ -239,7 +239,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     }
 // }
 
-// void hbottomsumtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const hanalysis::HAnalysis::HTagger Tagger)
+// void hbottomsumtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
 // {
 //     Print(kNotification, "New Branches", Tagger);
 //
@@ -262,7 +262,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // }
 
-int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalysis::Tagger::Stage stage, const Tag tag)
+int hbottomsumtagger::HAnalysis::Analysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
 {
     Print(kInformation, "Analysis");
     ++event_sum_;
@@ -284,7 +284,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalys
 }
 
 
-// bool hbottomsumtagger::HAnalysis::GetBottomTag(hanalysis::Event &event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
@@ -297,7 +297,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalys
 //     return 1;
 // }
 //
-// bool hbottomsumtagger::HAnalysis::GetBottomReader(hanalysis::Event &event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
@@ -312,7 +312,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalys
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
 //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-//             static_cast<hanalysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
 //             ++BNumber;
 //         }
 //     }
@@ -320,7 +320,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalys
 // //     if(Tag == kSignal && BNumber <4 )
 //
 //     for (const auto & Jet : jets)  {
-//         if (Tag != Jet.user_info<hanalysis::JetInfo>().Tag()) {
+//         if (Tag != Jet.user_info<analysis::JetInfo>().Tag()) {
 //             continue;
 //         }
 //         if (std::abs(Jet.rap()) > BottomTagger.detector_geometry().TrackerEtaMax) {
@@ -332,7 +332,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalys
 // }
 //
 //
-// bool hbottomsumtagger::HAnalysis::GeteventSemiTag(hanalysis::Event &event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GeteventSemiTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
 //     std::vector<EventBottomTaggerBranch> Semievents = eventBottomSumTagger.GetBranches(event, Tag);
@@ -344,7 +344,7 @@ int hbottomsumtagger::HAnalysis::Analysis(hanalysis::Event &event, const hanalys
 //     return 1;
 // }
 //
-// bool hbottomsumtagger::HAnalysis::GeteventSemiReader(hanalysis::Event &event, const Tag Tag)
+// bool hbottomsumtagger::HAnalysis::GeteventSemiReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
 //

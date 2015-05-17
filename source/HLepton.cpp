@@ -1,6 +1,6 @@
 # include "HLepton.hh"
 
-hanalysis::HLepton::HLepton()
+analysis::HLepton::HLepton()
 {
 
 //   DebugLevel=kDebug;
@@ -10,20 +10,20 @@ hanalysis::HLepton::HLepton()
 
 }
 
-hanalysis::HLepton::~HLepton()
+analysis::HLepton::~HLepton()
 {
 
     Print(kNotification,"Destructor");
 
 }
 
-void hanalysis::HLepton::Newevent(const hanalysis::ClonesArrays &NewClonesArrays)
+void analysis::HLepton::Newevent(const analysis::ClonesArrays &NewClonesArrays)
 {
 
     Print(kInformation,"New event");
 
 //     ClonesArrays = NewClonesArray;
-    hanalysis::HFourVector::Newevent(NewClonesArrays);
+    analysis::HFourVector::Newevent(NewClonesArrays);
 
     GotElectrons = 0;
 
@@ -59,7 +59,7 @@ void hanalysis::HLepton::Newevent(const hanalysis::ClonesArrays &NewClonesArrays
 
 }
 
-HVectors hanalysis::HLepton::GetLeptonVectors()
+HVectors analysis::HLepton::GetLeptonVectors()
 {
 
   Print(kInformation,"Get Leptons");
@@ -90,7 +90,7 @@ HVectors hanalysis::HLepton::GetLeptonVectors()
 
 }
 
-Jets hanalysis::HLepton::GetLeptonJets()
+Jets analysis::HLepton::GetLeptonJets()
 {
 
     Print(kInformation,"Get Lepton Jets");
@@ -99,7 +99,7 @@ Jets hanalysis::HLepton::GetLeptonJets()
 
 }
 
-Jets hanalysis::HLepton::GetLeptonJets(hanalysis::HFourVector::HJetDetails JetDetails)
+Jets analysis::HLepton::GetLeptonJets(analysis::HFourVector::HJetDetails JetDetails)
 {
 
     Print(kInformation,"Get Lepton Jets");

@@ -1,6 +1,6 @@
 # include "HReconstruction.hh"
 
-hanalysis::HReconstruction::HReconstruction()
+analysis::HReconstruction::HReconstruction()
 {
 
     Print(kNotification, "Constructor");
@@ -9,14 +9,14 @@ hanalysis::HReconstruction::HReconstruction()
 
 }
 
-hanalysis::HReconstruction::~HReconstruction()
+analysis::HReconstruction::~HReconstruction()
 {
 
     Print(kNotification, "Destructor");
 
 }
 
-void hanalysis::HReconstruction::Newevent()
+void analysis::HReconstruction::Newevent()
 {
 
     Print(kInformation, "New event");
@@ -25,7 +25,7 @@ void hanalysis::HReconstruction::Newevent()
 
 }
 
-Jets hanalysis::HReconstruction::GetFatJets(const Jets &EFlowJets) const
+Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets) const
 {
 
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
@@ -38,7 +38,7 @@ Jets hanalysis::HReconstruction::GetFatJets(const Jets &EFlowJets) const
 
 }
 
-Jets hanalysis::HReconstruction::GetFatJets(const Jets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
+Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
     Print(kInformation, "Get Fat Jet Vector", FatJetDefinition.R());
@@ -57,7 +57,7 @@ Jets hanalysis::HReconstruction::GetFatJets(const Jets &EFlowJets, const fastjet
 }
 
 
-Jets hanalysis::HReconstruction::GetMassDropJets(const Jets &FatJets) const
+Jets analysis::HReconstruction::GetMassDropJets(const Jets &FatJets) const
 {
 
     Print(kInformation, "Get Mass Drop Jets", FatJets.size());
@@ -74,7 +74,7 @@ Jets hanalysis::HReconstruction::GetMassDropJets(const Jets &FatJets) const
 
 }
 
-fastjet::PseudoJet hanalysis::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet) const
+fastjet::PseudoJet analysis::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet) const
 {
 
 //     Print(kDebug, "Get Mass Drop Jet");
@@ -90,7 +90,7 @@ fastjet::PseudoJet hanalysis::HReconstruction::GetMassDropJet(const fastjet::Pse
 
 
 
-fastjet::PseudoJet hanalysis::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
+fastjet::PseudoJet analysis::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
 {
 
     Print(kDebug, "Get Mass Drop Jet");
@@ -107,7 +107,7 @@ fastjet::PseudoJet hanalysis::HReconstruction::GetMassDropJet(const fastjet::Pse
 
 
 
-Jets hanalysis::HReconstruction::GetSubJetTaggedJets(const Jets &FatJets) const
+Jets analysis::HReconstruction::GetSubJetTaggedJets(const Jets &FatJets) const
 {
 
     Print(kInformation, "Get Sub Jet Tagged Jets", FatJets.size());
@@ -124,7 +124,7 @@ Jets hanalysis::HReconstruction::GetSubJetTaggedJets(const Jets &FatJets) const
 
 }
 
-fastjet::PseudoJet hanalysis::HReconstruction::GetSubJetTaggedJet(const fastjet::PseudoJet &FatJet) const
+fastjet::PseudoJet analysis::HReconstruction::GetSubJetTaggedJet(const fastjet::PseudoJet &FatJet) const
 {
 
     Print(kDebug, "Get Mass Drop Jet");
@@ -139,10 +139,10 @@ fastjet::PseudoJet hanalysis::HReconstruction::GetSubJetTaggedJet(const fastjet:
 }
 
 
-bool hanalysis::HReconstruction::JetIsBad(const fastjet::PseudoJet &Jet)
+bool analysis::HReconstruction::JetIsBad(const fastjet::PseudoJet &Jet)
 {
 
-    HObject Object;
+    Object Object;
 
     if (std::abs(Jet.m()) <= 40) {
 
@@ -172,22 +172,22 @@ bool hanalysis::HReconstruction::JetIsBad(const fastjet::PseudoJet &Jet)
 
 
 
-Jets hanalysis::HReconstruction::GetFatJetTag(Jets &FatJets)
+Jets analysis::HReconstruction::GetFatJetTag(Jets &FatJets)
 {
 
     Print(kInformation, "Get Fat Jet Tag", FatJets.size());
 
     for (auto & FatJet : FatJets) {
 
-        hanalysis::JetInfo jet_info;
+        analysis::JetInfo jet_info;
 
         for (const auto & constituent : FatJet.constituents()) {
 
             if (constituent.has_user_info()) {
 
-              jet_info.Addconstituents(constituent.user_info<hanalysis::JetInfo>().constituents());
+              jet_info.Addconstituents(constituent.user_info<analysis::JetInfo>().constituents());
 
-//               std::map<int, float> JetFractions = constituent.user_info<hanalysis::JetInfo>().GetJetFractions();
+//               std::map<int, float> JetFractions = constituent.user_info<analysis::JetInfo>().GetJetFractions();
 
 //               for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 
@@ -195,7 +195,7 @@ Jets hanalysis::HReconstruction::GetFatJetTag(Jets &FatJets)
 
 //                 }
 
-//                 constituent.user_info<hanalysis::JetInfo>().PrintAllInfos(kDetailed);
+//                 constituent.user_info<analysis::JetInfo>().PrintAllInfos(kDetailed);
             } else {
 
             Print(kError,"No info in constituent jet");
@@ -206,13 +206,13 @@ Jets hanalysis::HReconstruction::GetFatJetTag(Jets &FatJets)
 
         }
 
-        FatJet.set_user_info(new hanalysis::JetInfo(jet_info));
+        FatJet.set_user_info(new analysis::JetInfo(jet_info));
 
-//         FatJet.set_user_index(FatJet.user_info<hanalysis::JetInfo>().MaximalId());
+//         FatJet.set_user_index(FatJet.user_info<analysis::JetInfo>().MaximalId());
 
-//         FatJet.user_info<hanalysis::JetInfo>().PrintAllInfos(kDetailed);
+//         FatJet.user_info<analysis::JetInfo>().PrintAllInfos(kDetailed);
 
-//         Print(kDetailed, "Tag", FatJet.user_info<hanalysis::JetInfo>().MaximalId(), FatJet.user_info<hanalysis::JetInfo>().MaximalFraction(), FatJet.m());
+//         Print(kDetailed, "Tag", FatJet.user_info<analysis::JetInfo>().MaximalId(), FatJet.user_info<analysis::JetInfo>().MaximalFraction(), FatJet.m());
 
     }
 

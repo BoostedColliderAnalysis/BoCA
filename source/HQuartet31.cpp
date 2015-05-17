@@ -1,7 +1,7 @@
 # include "HQuartet31.hh"
 // # include "HTagPrivate.hh"
 //
-// class hanalysis::HQuartet31Private : public HTagPrivate
+// class analysis::HQuartet31Private : public HTagPrivate
 // {
 //
 // public:
@@ -18,29 +18,29 @@
 //
 // };
 
-void hanalysis::HQuartet31::Settriplet(const Triplet &Newtriplet)
+void analysis::HQuartet31::Settriplet(const Triplet &Newtriplet)
 {
     tripletM = Newtriplet;
 }
 
-void hanalysis::HQuartet31::SetSinglet(const fastjet::PseudoJet &NewSinglet)
+void analysis::HQuartet31::SetSinglet(const fastjet::PseudoJet &NewSinglet)
 {
     SingletM = NewSinglet;
 }
 
-// hanalysis::HQuartet31::HQuartet31(HQuartet31Private &NewQuartet31Private) : HTag(NewQuartet31Private)
+// analysis::HQuartet31::HQuartet31(HQuartet31Private &NewQuartet31Private) : HTag(NewQuartet31Private)
 // {
 //     Print(kInformation, "Constructor");
 // }
 
-hanalysis::HQuartet31::HQuartet31()
-// : hanalysis::HTag(*new HQuartet31Private)
+analysis::HQuartet31::HQuartet31()
+// : analysis::HTag(*new HQuartet31Private)
 {
     Print(kInformation, "Constructor");
 }
 
-hanalysis::HQuartet31::HQuartet31(const Triplet &Newtriplet, const fastjet::PseudoJet &NewSinglet)
-// : hanalysis::HTag(*new HQuartet31Private)
+analysis::HQuartet31::HQuartet31(const Triplet &Newtriplet, const fastjet::PseudoJet &NewSinglet)
+// : analysis::HTag(*new HQuartet31Private)
 {
     Print(kInformation, "Constructor");
 //     static_cast<HQuartet31Private *>(TagPrivate.get())->Settriplet(Newtriplet);
@@ -56,18 +56,18 @@ hanalysis::HQuartet31::HQuartet31(const Triplet &Newtriplet, const fastjet::Pseu
     SetFlag(Newtriplet.Flag());
 }
 
-hanalysis::HQuartet31::~HQuartet31()
+analysis::HQuartet31::~HQuartet31()
 {
     Print(kInformation, "Destructor");
 }
 
-hanalysis::Triplet hanalysis::HQuartet31::triplet() const
+analysis::Triplet analysis::HQuartet31::triplet() const
 {
 //     return static_cast<HQuartet31Private *>(TagPrivate.get())->triplet;
     return tripletM;
 }
 
-fastjet::PseudoJet hanalysis::HQuartet31::singlet()const
+fastjet::PseudoJet analysis::HQuartet31::singlet()const
 {
 //     return static_cast<HQuartet31Private *>(TagPrivate.get())->Singlet;
     return SingletM;

@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HObject.hh"
+# include "Object.hh"
 # include "Tagger.hh"
 # include "HConfig.hh"
 # include "File.hh"
@@ -12,7 +12,7 @@
  * @brief Base for all analyses
  *
  */
-class hanalysis::HAnalysis : public HObject
+class analysis::HAnalysis : public Object
 {
 
 public:
@@ -21,9 +21,9 @@ public:
      * @brief Constructor calls the other preparing functions
      *
      */
-    HAnalysis(hanalysis::Tagger &tagger);
+    HAnalysis(analysis::Tagger &tagger);
 
-    void AnalysisLoop(const hanalysis::Tagger::Stage stage);
+    void AnalysisLoop(const analysis::Tagger::Stage stage);
 
     virtual std::vector<File> Files(const Tag tag) {
         Print(kError, "GetFiles", tag);
@@ -34,11 +34,11 @@ public:
         config_ = config;
     }
 
-    std::string ExportName(const Tagger::Stage stage, const hanalysis::HObject::Tag tag) const;
+    std::string ExportName(const Tagger::Stage stage, const analysis::Object::Tag tag) const;
 
 protected:
 
-    virtual void SetFiles(const hanalysis::HObject::Tag tag) {
+    virtual void SetFiles(const analysis::Object::Tag tag) {
         Print(kError, "Set Files", "should be subclassed", tag);
     }
 
@@ -50,7 +50,7 @@ protected:
     ExRootTreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
 
 
-    InfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const hanalysis::File &file);
+    InfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const analysis::File &file);
 
     virtual int Analysis(Event &, const Tagger::Stage stage, const Tag tag) {
         Print(kError, "Analysis", "should be subclassed", stage, tag);
@@ -77,7 +77,7 @@ protected:
         return JoinVectors(Strings1, Strings2);
     };
 
-    std::vector<hanalysis::File>  JoinFiles(const std::vector<hanalysis::File> &Files1, const std::vector<hanalysis::File> &Files2) {
+    std::vector<analysis::File>  JoinFiles(const std::vector<analysis::File> &Files1, const std::vector<analysis::File> &Files2) {
         return JoinVectors(Files1, Files2);
     };
 
@@ -138,7 +138,7 @@ protected:
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline hanalysis::File get_file(const std::string &name) const {
+    inline analysis::File get_file(const std::string &name) const {
         return File(name, FilePath(), FileSuffix());
     }
 
@@ -150,7 +150,7 @@ protected:
         return name + "-run_01";
     }
 
-    virtual int PassPreCut(hanalysis::Event &) {
+    virtual int PassPreCut(analysis::Event &) {
         Print(kError, "Apply pre cut", "no pre cut applied");
         return 1;
     }
@@ -161,7 +161,7 @@ private:
 
     HConfig config_;
 
-    std::vector<hanalysis::File> files_;
+    std::vector<analysis::File> files_;
 
 
 };
