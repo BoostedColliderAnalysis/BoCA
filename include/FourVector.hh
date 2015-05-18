@@ -7,7 +7,7 @@
 # include "HJetTag.hh"
 # include "JetInfo.hh"
 
-# include "HDelphes.hh"
+# include "delphes/Delphes.hh"
 
 namespace analysis {
 

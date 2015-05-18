@@ -1,26 +1,8 @@
-
+# pragma once
 
 # include "classes/DelphesClasses.h"
-namespace delphes {
 
-// class event;
-// class LHCOevent;
-// class LHEFevent;
-// class HepMCevent;
-// class GenParticle;
-// class Vertex;
-// class MissingET;
-// class ScalarHT;
-// class Rho;
-// class Weight;
-// class Photon;
-// class Electron;
-// class Muon;
-// class Jet;
-// class Track;
-// class Tower;
-// class HectorHit;
-// class Candidate;
+namespace delphes {
 
 typedef ::Event Event;
 typedef ::LHCOEvent LHCOEvent;

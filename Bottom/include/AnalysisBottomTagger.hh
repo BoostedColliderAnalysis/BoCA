@@ -26,11 +26,7 @@ public:
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hbtagger";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "HAnalysis";
+        return "bottom";
     }
 
 private:
@@ -90,7 +86,7 @@ private:
     }
 
     virtual inline std::string FilePath() const {
-      return "~/Projects/BTagging/";
+      return "~/Projects/Tagger/Bottom";
     }
 
     std::string ProductionChannelName(const ProductionChannel production_channel) const;
