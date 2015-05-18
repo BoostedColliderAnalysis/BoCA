@@ -209,9 +209,9 @@ bool hhiggscpv::HAnalysis::GetTopTag(analysis::Event &event, const std::string &
     if (NewStudyName == "Top") State = kSignal;
     if (NewStudyName == "NotTop") State = kBackground;
 
-    std::vector<HTopLeptonicBranch> Tops = LeptonicTopTagger.GetBranches(event, State);
+    std::vector<analysis::HTopLeptonicBranch> Tops = LeptonicTopTagger.GetBranches(event, State);
 
-    for (const auto & Top : Tops) *static_cast<HTopLeptonicBranch *>(TopBranch->NewEntry()) = Top;
+    for (const auto & Top : Tops) *static_cast<analysis::HTopLeptonicBranch *>(TopBranch->NewEntry()) = Top;
 
     return 1;
 
@@ -226,17 +226,17 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(analysis::Event &event, const std::string
     if (NewStudyName == "Higgs") State = kSignal;
     if (NewStudyName == "NotHiggs") State = kBackground;
 
-    std::vector<HHiggsBranch *> Higgses = HiggsTagger.GetBranches(event, State);
+    std::vector<analysis::HHiggsBranch *> Higgses = HiggsTagger.GetBranches(event, State);
 
     for (const auto & Higgs : Higgses) {
-        HHiggsBranch *HiggsBranch1 = static_cast<HHiggsBranch *>(HiggsBranch->NewEntry());
+      analysis::HHiggsBranch *HiggsBranch1 = static_cast<analysis::HHiggsBranch *>(HiggsBranch->NewEntry());
         *HiggsBranch1 = *Higgs;
     }
 
-    std::vector<ParticleBranch *> Constitents = HiggsTagger.GetconstituentBranches();
+    std::vector<analysis::ParticleBranch *> Constitents = HiggsTagger.GetconstituentBranches();
 
     for (const auto & constituent : Constitents) {
-        ParticleBranch *constituentBranch1 = static_cast<ParticleBranch *>(constituentBranch->NewEntry());
+      analysis::ParticleBranch *constituentBranch1 = static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
         *constituentBranch1 = *constituent;
     }
 

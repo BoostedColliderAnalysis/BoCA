@@ -1,12 +1,12 @@
 # pragma once
 
-# include "HTag.hh"
+# include "Identification.hh"
 # include "JetInfo.hh"
 
 namespace analysis
 {
 
-class Singlet : public HTag
+class Singlet : public Identification
 {
 
 public:

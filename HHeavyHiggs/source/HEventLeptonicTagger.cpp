@@ -131,16 +131,16 @@ void hheavyhiggs::EventLeptonicTagger::FillBranch(hheavyhiggs::EventLeptonicBran
     eventLeptonicBranch->HiggsMass = Octet.Sextet().Jet().m();
     eventLeptonicBranch->PairRap = Octet.doublet().DeltaRap();
 
-//     eventLeptonicBranch->RestM = Octet.eventStruct().RestM;
-//     eventLeptonicBranch->RestPt = Octet.eventStruct().RestPt;
-//     eventLeptonicBranch->RestHt = Octet.eventStruct().RestHt;
-//     eventLeptonicBranch->RestRap = Octet.eventStruct().RestRap;
-//     eventLeptonicBranch->RestPhi = Octet.eventStruct().RestPhi;
-//     eventLeptonicBranch->RestBTag = Octet.eventStruct().RestBTag;
-//     eventLeptonicBranch->RestBBdt = Octet.eventStruct().RestBBdt;
-//     eventLeptonicBranch->MaxBBdt = Octet.eventStruct().MaxBBdt;
-//     eventLeptonicBranch->TotalBBdt = Octet.eventStruct().TotalBBdt;
-//     eventLeptonicBranch->ThirdBBdt = Octet.eventStruct().ThirdBBdt;
+//     eventLeptonicBranch->RestM = Octet.event_struct().RestM;
+//     eventLeptonicBranch->RestPt = Octet.event_struct().RestPt;
+//     eventLeptonicBranch->RestHt = Octet.event_struct().RestHt;
+//     eventLeptonicBranch->RestRap = Octet.event_struct().RestRap;
+//     eventLeptonicBranch->RestPhi = Octet.event_struct().RestPhi;
+//     eventLeptonicBranch->RestBTag = Octet.event_struct().RestBTag;
+//     eventLeptonicBranch->RestBBdt = Octet.event_struct().RestBBdt;
+//     eventLeptonicBranch->MaxBBdt = Octet.event_struct().MaxBBdt;
+//     eventLeptonicBranch->TotalBBdt = Octet.event_struct().TotalBBdt;
+//     eventLeptonicBranch->ThirdBBdt = Octet.event_struct().ThirdBBdt;
 
     eventLeptonicBranch->Bdt = Octet.Bdt();
     Print(kError, "Bdt", Octet.Bdt(), eventLeptonicBranch->Bdt);
@@ -211,17 +211,17 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
 //     if (jets.size() > 2) ThirdBBdt = jets.at(2).user_info<analysis::JetInfo>().Bdt();
 
     for (auto & Octet : Octets) {
-//         EventStruct eventStruct;
-//         eventStruct.LeptonNumber = event.leptons().GetLeptonJets().size();
-//         eventStruct.JetNumber = event.hadrons().GetJets().size();
-//         eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
-//         eventStruct.ScalarHt = event.hadrons().GetScalarHt();
-//         eventStruct.MaxBBdt = MaxBBdt;
-//         eventStruct.ThirdBBdt = ThirdBBdt;
+//         EventStruct event_struct;
+//         event_struct.LeptonNumber = event.leptons().GetLeptonJets().size();
+//         event_struct.JetNumber = event.hadrons().GetJets().size();
+//         event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
+//         event_struct.ScalarHt = event.hadrons().GetScalarHt();
+//         event_struct.MaxBBdt = MaxBBdt;
+//         event_struct.ThirdBBdt = ThirdBBdt;
 //         fastjet::PseudoJet RestJet(0., 0., 0., 0.);
 //         int  RestNumber = 0;
 //         for (const auto & Jet : jets)  {
-//             eventStruct.TotalBBdt  += Jet.user_info<analysis::JetInfo>().Bdt() / jets.size();
+//             event_struct.TotalBBdt  += Jet.user_info<analysis::JetInfo>().Bdt() / jets.size();
 //             if (Octet.Sextet().triplet1().singlet() == Jet) continue;
 //             if (Octet.Sextet().triplet2().singlet() == Jet) continue;
 //             if (Octet.Sextet().triplet2().doublet().Singlet1() == Jet) continue;
@@ -229,20 +229,20 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
 //             if (Octet.doublet().Singlet1() == Jet) continue;
 //             if (Octet.doublet().Singlet2() == Jet) continue;
 //             ++RestNumber;
-//             eventStruct.RestHt += Jet.pt();
-//             eventStruct.RestBTag += Jet.user_info<analysis::JetInfo>().BTag();
-//             Print(kInformation, "Rest BTag", eventStruct.RestBTag);
-//             eventStruct.RestBBdt += Jet.user_info<analysis::JetInfo>().Bdt();
+//             event_struct.RestHt += Jet.pt();
+//             event_struct.RestBTag += Jet.user_info<analysis::JetInfo>().BTag();
+//             Print(kInformation, "Rest BTag", event_struct.RestBTag);
+//             event_struct.RestBBdt += Jet.user_info<analysis::JetInfo>().Bdt();
 //             RestJet += Jet;
 //         }
-//         eventStruct.RestBBdt /= RestNumber;
+//         event_struct.RestBBdt /= RestNumber;
 //         if (RestJet != fastjet::PseudoJet(0, 0, 0, 0)) {
-//             eventStruct.RestM = RestJet.m();
-//             eventStruct.RestPt = RestJet.pt();
-//             eventStruct.RestRap = RestJet.rap();
-//             eventStruct.RestPhi = RestJet.phi();
+//             event_struct.RestM = RestJet.m();
+//             event_struct.RestPt = RestJet.pt();
+//             event_struct.RestRap = RestJet.rap();
+//             event_struct.RestPhi = RestJet.phi();
 //         }
-//         Octet.SeteventStruct(eventStruct);
+//         Octet.Setevent_struct(event_struct);
     }
 
     std::vector<hheavyhiggs::EventLeptonicBranch *> eventLeptonicBranches;
@@ -305,7 +305,7 @@ std::vector<HOctet> hheavyhiggs::EventLeptonicTagger::GetBdt(const std::vector< 
             if (Sextet.triplet1().singlet() == doublet.Singlet2()) continue;
             if (Sextet.triplet2().singlet() == doublet.Singlet1()) continue;
             if (Sextet.triplet2().singlet() == doublet.Singlet2()) continue;
-//             HOctet Octet(Sextet, doublet, eventStruct);
+//             HOctet Octet(Sextet, doublet, event_struct);
             HOctet Octet(Sextet, doublet);
             FillBranch(Octet);
             Octet.SetBdt(eventLeptonicReader.Bdt());
@@ -328,7 +328,7 @@ std::vector<HOctet> hheavyhiggs::EventLeptonicTagger::GetBdt(const std::vector< 
         fastjet::PseudoJet RestJet(0., 0., 0., 0.);
 //         int RestNumber = 0;
         for (const auto & Jet : jets)  {
-//             Octet.eventStructM.TotalBBdt  += Jet.user_info<analysis::JetInfo>().Bdt() / jets.size();
+//             Octet.event_structM.TotalBBdt  += Jet.user_info<analysis::JetInfo>().Bdt() / jets.size();
 //             if (Octet.Sextet().triplet1().singlet() == Jet) continue;
 //             if (Octet.Sextet().triplet2().singlet() == Jet) continue;
 //             if (Octet.Sextet().triplet2().doublet().Singlet1() == Jet) continue;
@@ -336,19 +336,19 @@ std::vector<HOctet> hheavyhiggs::EventLeptonicTagger::GetBdt(const std::vector< 
 //             if (Octet.doublet().Singlet1() == Jet) continue;
 //             if (Octet.doublet().Singlet2() == Jet) continue;
 //             ++RestNumber;
-//             Octet.eventStructM.RestHt += Jet.pt();
-//             Octet.eventStructM.RestBTag += Jet.user_info<analysis::JetInfo>().BTag();
-//             Octet.eventStructM.RestBBdt += Jet.user_info<analysis::JetInfo>().Bdt();
-//             Octet.eventStructM.MaxBBdt = MaxBBdt;
+//             Octet.event_structM.RestHt += Jet.pt();
+//             Octet.event_structM.RestBTag += Jet.user_info<analysis::JetInfo>().BTag();
+//             Octet.event_structM.RestBBdt += Jet.user_info<analysis::JetInfo>().Bdt();
+//             Octet.event_structM.MaxBBdt = MaxBBdt;
 //             RestJet += Jet;
 //         }
-//         Octet.eventStructM.RestBBdt /= RestNumber;
-//         Octet.eventStructM.ThirdBBdt = ThirdBBdt;
+//         Octet.event_structM.RestBBdt /= RestNumber;
+//         Octet.event_structM.ThirdBBdt = ThirdBBdt;
 //         if (RestJet != fastjet::PseudoJet(0, 0, 0, 0)) {
-//             Octet.eventStructM.RestM = RestJet.m();
-//             Octet.eventStructM.RestPt = RestJet.pt();
-//             Octet.eventStructM.RestRap = RestJet.rap();
-//             Octet.eventStructM.RestPhi = RestJet.phi();
+//             Octet.event_structM.RestM = RestJet.m();
+//             Octet.event_structM.RestPt = RestJet.pt();
+//             Octet.event_structM.RestRap = RestJet.rap();
+//             Octet.event_structM.RestPhi = RestJet.phi();
         }
 
     }
@@ -370,7 +370,7 @@ std::vector<int> hheavyhiggs::EventLeptonicTagger::ApplyBdt2(const ExRootTreeRea
     const TClonesArray *const eventClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 
     ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(branch_name().c_str(), HResultBranch::Class());
+    ExRootTreeBranch *ResultBranch = TreeWriter->NewBranch(branch_name().c_str(), analysis::HResultBranch::Class());
 
     for (const int eventNumber : Range(const_cast<ExRootTreeReader *>(TreeReader)->GetEntries())) {
 
@@ -382,7 +382,7 @@ std::vector<int> hheavyhiggs::EventLeptonicTagger::ApplyBdt2(const ExRootTreeRea
             EventLeptonicBranch *Test = (EventLeptonicBranch *) eventClonesArray->At(Entry);
             const float Bdt = Test->Bdt;
 
-            HResultBranch *Export = static_cast<HResultBranch *>(ResultBranch->NewEntry());
+            analysis::HResultBranch *Export = static_cast<analysis::HResultBranch *>(ResultBranch->NewEntry());
             Export->Bdt = Bdt;
 
             for (int Step = 0; Step < Steps; ++Step) {

@@ -40,7 +40,7 @@ public:
 
     std::vector<EventSemiBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< EventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader);
+    std::vector< EventMultiplet< HOctet > > GetBdt(const std::vector< HOctet > &Octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader);
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 

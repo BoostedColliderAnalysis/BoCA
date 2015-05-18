@@ -84,7 +84,7 @@ struct SortPairByMass {
 };
 
 
-std::vector<HHiggsBranch *> analysis::HMvaHiggsTagger::GetBranches(Event &event, const Object::Tag State)
+std::vector<analysis::HHiggsBranch *> analysis::HMvaHiggsTagger::GetBranches(Event &event, const Object::Tag State)
 {
 
     Print(kInformation, "Get Higgs Tags");
@@ -169,7 +169,7 @@ void analysis::HMvaHiggsTagger::FillBranch(const Doublet &Pair)
 
 }
 
-std::vector<ParticleBranch *> analysis::HMvaHiggsTagger::GetconstituentBranches()
+std::vector<analysis::ParticleBranch *> analysis::HMvaHiggsTagger::GetconstituentBranches()
 {
 
     Print(kInformation, "Get Higgs Tags");

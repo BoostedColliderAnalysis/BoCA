@@ -8,7 +8,7 @@
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 # include "ExRootAnalysis/ExRootProgressBar.h"
 
-# include "Branch.hh"
+# include "Branches.hh"
 # include "Event.hh"
 
 // analysis::HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
@@ -74,7 +74,7 @@ void analysis::Analysis::AnalysisLoop(const Tagger::Stage stage)
     }
 }
 
-InfoBranch analysis::Analysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const File &file)
+analysis::InfoBranch analysis::Analysis::FillInfoBranch(const ExRootTreeReader &tree_reader, const File &file)
 {
     InfoBranch info_branch;
     info_branch.Crosssection = file.crosssection();

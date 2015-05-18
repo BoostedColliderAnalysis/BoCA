@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HTag.hh"
+# include "Identification.hh"
 # include "JetInfo.hh"
 
 namespace analysis {
@@ -35,7 +35,7 @@ private:
 
 
 
-class Doublet : public HTag
+class Doublet : public Identification
 {
 
 public:

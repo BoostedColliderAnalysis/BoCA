@@ -103,7 +103,7 @@ void hjetproperties::HAnalysis::NewBranches(ExRootTreeWriter *TreeWriter)
     AktPrunerconstituentBranch = TreeWriter->NewBranch("AktPConst", ConstituentBranch::Class());
 
     constituentBranch = TreeWriter->NewBranch("constituent", ConstituentBranch::Class());
-    eventBranch = TreeWriter->NewBranch("event", EventBranch::Class());
+    eventBranch = TreeWriter->NewBranch("event", analysis::EventBranch::Class());
     LeptonBranch = TreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
 
 }
@@ -167,7 +167,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     //
     //     }
 
-    EventBranch *eventB = static_cast<EventBranch *>(eventBranch->NewEntry());
+    analysis::EventBranch *eventB = static_cast<analysis::EventBranch *>(eventBranch->NewEntry());
     eventB->ScalarPtSum = 1. / event.hadrons().GetScalarHt();
 
     std::vector<int> Ids;
@@ -409,7 +409,7 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
         Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
-          ParticleBranch *constituent = static_cast<ParticleBranch *>(constituentTreeBranch->NewEntry());
+          analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentTreeBranch->NewEntry());
           constituent->Rap = constituentVector.Rapidity();
           constituent->Phi = constituentVector.Phi();
           constituent->Pt = constituentVector.Pt();

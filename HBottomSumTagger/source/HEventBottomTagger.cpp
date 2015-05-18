@@ -45,11 +45,11 @@ void hbottomsumtagger::EventBottomTagger::DefineVariables()
 
 }
 
-EventBottomTaggerBranch hbottomsumtagger::EventBottomTagger::GetBranch(const EventBottomMultiplet &event) const
+analysis::EventBottomTaggerBranch hbottomsumtagger::EventBottomTagger::GetBranch(const EventBottomMultiplet &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
 
-    EventBottomTaggerBranch eventSemiBranch;
+    analysis::EventBottomTaggerBranch eventSemiBranch;
 
     eventSemiBranch.Tag = event.Tag();
 
@@ -81,13 +81,13 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<analysis::EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
 
     Jets jets = GetJets(event);
     //     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader); // TODO reenable this
-    std::vector<EventBottomTaggerBranch> eventSemiBranches;
+    std::vector<analysis::EventBottomTaggerBranch> eventSemiBranches;
 
 
 //     const int JetNumber = 2;
@@ -161,7 +161,7 @@ std::vector<hbottomsumtagger::EventBottomMultiplet> hbottomsumtagger::EventBotto
 
 float hbottomsumtagger::EventBottomTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry)
 {
-    return ((EventBottomTaggerBranch *) eventClonesArray.At(Entry))->Bdt;
+  return ((analysis::EventBottomTaggerBranch *) eventClonesArray.At(Entry))->Bdt;
 }
 
 

@@ -37,7 +37,7 @@ public:
 
 private:
 
-  HHeavyHiggsLeptonicBranch *HeavyHiggs;
+  analysis::HHeavyHiggsLeptonicBranch *HeavyHiggs;
 
     void DefineVariables();
 

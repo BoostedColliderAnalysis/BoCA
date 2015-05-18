@@ -4,6 +4,8 @@
 # include "TGenericClassInfo.h"
 # include "Rtypes.h"
 
+namespace analysis {
+
 /**
  * @brief Basic tree branches
  *
@@ -419,17 +421,13 @@ public:
       Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
       Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
       Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
-      if (multiplet.sub_jettiness().tau1_beta1 > 0)
-        Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
-      if (multiplet.sub_jettiness().tau2_beta1 > 0)
-        Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
+      if (multiplet.sub_jettiness().tau1_beta1 > 0) Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
+      if (multiplet.sub_jettiness().tau2_beta1 > 0) Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
       Tau1_2 = multiplet.sub_jettiness().tau1_beta2;
       Tau2_2 = multiplet.sub_jettiness().tau2_beta2;
       Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
-      if (multiplet.sub_jettiness().tau1_beta2 > 0)
-        Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
-      if (multiplet.sub_jettiness().tau2_beta2 > 0)
-        Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
+      if (multiplet.sub_jettiness().tau1_beta2 > 0) Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
+      if (multiplet.sub_jettiness().tau2_beta2 > 0) Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
       if (!multiplet.Degenerate()) WBdt = multiplet.doublet().Bdt();
       BBdt = multiplet.SingletBdt();
     }
@@ -777,3 +775,4 @@ private:
 
 };
 
+}

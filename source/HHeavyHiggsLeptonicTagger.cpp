@@ -69,7 +69,7 @@ void analysis::HHeavyHiggsLeptonicTagger::DefineVariables()
 
 }
 
-HHeavyHiggsLeptonicBranch analysis::HHeavyHiggsLeptonicTagger::GetBranch(const HSextet &Sextet)
+analysis::HHeavyHiggsLeptonicBranch analysis::HHeavyHiggsLeptonicTagger::GetBranch(const HSextet &Sextet)
 {
     Print(kInformation, "FillPairTagger", Sextet.Bdt());
 
@@ -114,7 +114,7 @@ struct SortSextetByMass {
 };
 
 
-std::vector< HHeavyHiggsLeptonicBranch> analysis::HHeavyHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
+std::vector< analysis::HHeavyHiggsLeptonicBranch> analysis::HHeavyHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
   Print(kInformation, "Get Higgs Tags");
 

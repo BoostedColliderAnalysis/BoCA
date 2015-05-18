@@ -21,7 +21,7 @@ analysis::HChargedHiggsLeptonicTagger::~HChargedHiggsLeptonicTagger()
     Print(kNotification, "Destructor");
 }
 
-HChargedHiggsLeptonicBranch analysis::HChargedHiggsLeptonicTagger::GetBranch(const Triplet &triplet)
+analysis::HChargedHiggsLeptonicBranch analysis::HChargedHiggsLeptonicTagger::GetBranch(const Triplet &triplet)
 {
     Print(kInformation, "FillPairTagger", triplet.Bdt());
 
@@ -91,7 +91,7 @@ void analysis::HChargedHiggsLeptonicTagger::DefineVariables()
 }
 
 
-std::vector< HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
+std::vector< analysis::HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 

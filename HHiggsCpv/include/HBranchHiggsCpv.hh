@@ -1,7 +1,7 @@
-# ifndef HBranchHiggsCpv_hh
-# define HBranchHiggsCpv_hh
+# ifndef BranchHiggsCpv_hh
+# define BranchHiggsCpv_hh
 
-# include "Branch.hh"
+# include "Branches.hh"
 
 namespace hhiggscpv
 {
@@ -9,7 +9,7 @@ class HDiscriminator;
 class HBottomTag;
 class HPairTag;
 class HAnalysis;
-class HBranchDiscriminator;
+class BranchDiscriminator;
 class HJetDiscriminator;
 class HMvaevent;
 class EventBranch;
@@ -30,7 +30,7 @@ class HMvaTop;
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hhiggscpv::EventBranch : public Branch
+class hhiggscpv::EventBranch : public analysis::Branch
 {
 
 public:
@@ -59,7 +59,7 @@ private:
  * @brief lepton tree structure
  *
  */
-class hhiggscpv::HLeptonBranch : public Branch
+class hhiggscpv::HLeptonBranch : public analysis::Branch
 {
 
 public:

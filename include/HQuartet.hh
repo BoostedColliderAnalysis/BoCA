@@ -3,7 +3,7 @@
 
 # include "Doublet.hh"
 
-class analysis::HQuartet : public HTag
+class analysis::HQuartet : public Identification
 {
 
 public:

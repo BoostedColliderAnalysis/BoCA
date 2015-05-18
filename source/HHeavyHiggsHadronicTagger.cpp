@@ -30,7 +30,7 @@ analysis::HHeavyHiggsHadronicTagger::~HHeavyHiggsHadronicTagger()
     Print(kNotification, "Destructor");
 }
 
-HHeavyHiggsHadronicBranch analysis::HHeavyHiggsHadronicTagger::GetBranch(const analysis::HSextet &Sextet)
+analysis::HHeavyHiggsHadronicBranch analysis::HHeavyHiggsHadronicTagger::GetBranch(const analysis::HSextet &Sextet)
 {
     Print(kInformation, "FillPairTagger", Sextet.Bdt());
 
@@ -101,7 +101,7 @@ void analysis::HHeavyHiggsHadronicTagger::DefineVariables()
 }
 
 
-std::vector< HHeavyHiggsHadronicBranch> analysis::HHeavyHiggsHadronicTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
+std::vector< analysis::HHeavyHiggsHadronicBranch> analysis::HHeavyHiggsHadronicTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 

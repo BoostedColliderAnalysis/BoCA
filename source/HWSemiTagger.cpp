@@ -30,7 +30,7 @@ void analysis::HWSemiTagger::DefineVariables()
     Print(kNotification, "Variables defined");
 }
 
-WSemiBranch analysis::HWSemiTagger::GetBranch(const analysis::Doublet &doublet) const
+analysis::WSemiBranch analysis::HWSemiTagger::GetBranch(const analysis::Doublet &doublet) const
 {
     Print(kInformation, "Fill W Tagger", doublet.Bdt());
     WSemiBranch branch;

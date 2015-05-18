@@ -89,7 +89,7 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 
     CandidateBranch = NewTreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
     LeptonBranch = NewTreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
-    constituentBranch = NewTreeWriter->NewBranch("constituent", ParticleBranch::Class());
+    constituentBranch = NewTreeWriter->NewBranch("constituent", analysis::ParticleBranch::Class());
 
 }
 
@@ -324,7 +324,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
         Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
-            ParticleBranch *constituent = static_cast<ParticleBranch *>(constituentBranch->NewEntry());
+          analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
             constituent->Rap = constituentVector.Rapidity();
             constituent->Phi = constituentVector.Phi();
             constituent->Pt = constituentVector.Pt();

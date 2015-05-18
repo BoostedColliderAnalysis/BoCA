@@ -5,7 +5,7 @@
 
 # include "fastjet/JetDefinition.hh"
 
-# include "HTag.hh"
+# include "Identification.hh"
 # include "Family.hh"
 # include "Constituent.hh"
 
@@ -35,7 +35,7 @@ private:
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class JetInfo: public HTag, public fastjet::PseudoJet::UserInfoBase
+class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase
 {
 
 public:

@@ -1,5 +1,4 @@
-# ifndef HSextetevent_hh
-# define HSextetevent_hh
+# pragma once
 
 # include "HSextet.hh"
 
@@ -12,27 +11,25 @@ struct EventStruct {
 
 };
 
-class HSexteteventPrivate;
-
 /**
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class HSextetevent : public analysis::HTag
+class SextetEvent : public analysis::Identification
 {
 
 public:
 
-    HSextetevent(const analysis::HSextet &NewSextet);
+    SextetEvent(const analysis::HSextet &NewSextet);
 
-    HSextetevent(const analysis::HSextet &NewSextet, const EventStruct &NeweventStruct);
+    SextetEvent(const analysis::HSextet &NewSextet, const EventStruct &event_struct);
 
     inline analysis::HSextet Sextet()const {
-        return SextetM;
+        return sextet_;
     }
 
     inline fastjet::PseudoJet SextetJet() const {
-        return SextetM.Jet();
+        return sextet_.Jet();
     }
 
     inline fastjet::PseudoJet Jet() const {
@@ -45,52 +42,52 @@ public:
         return ht;
     }
 
-    inline void SetScalarHt(const float NewScalarHt) {
-        eventM.ScalarHt = NewScalarHt;
+    inline void SetScalarHt(const float scalar_ht) {
+        event_struct_.ScalarHt = scalar_ht;
     }
 
-    inline void SetJetNumber(const int NewJetNumber) {
-        eventM.JetNumber = NewJetNumber;
+    inline void SetJetNumber(const int number) {
+        event_struct_.JetNumber = number;
     }
 
-    inline void SetBottomNumber(const int NewBottomNumber) {
-        eventM.BottomNumber = NewBottomNumber;
+    inline void SetBottomNumber(const int number) {
+        event_struct_.BottomNumber = number;
     }
 
-    inline void SetLeptonNumber(const int NewLeptonNumber) {
-        eventM.LeptonNumber = NewLeptonNumber;
+    inline void SetLeptonNumber(const int number) {
+        event_struct_.LeptonNumber = number;
     }
 
     inline float ScalarHt() const {
-        return eventM.ScalarHt;
+        return event_struct_.ScalarHt;
     }
 
     inline int JetNumber()const {
-        return eventM.JetNumber;
+        return event_struct_.JetNumber;
     }
 
     inline int BottomNumber()const {
-        return eventM.BottomNumber;
+        return event_struct_.BottomNumber;
     }
 
     inline int LeptonNumber()const {
-        return eventM.LeptonNumber;
+        return event_struct_.LeptonNumber;
     }
 
-    inline EventStruct eventStruct()const {
-        return eventM;
+    inline EventStruct event_struct()const {
+        return event_struct_;
     }
 
-    inline void SeteventStruct(const EventStruct &NeweventStruct) {
-        eventM = NeweventStruct;
+    inline void SetEventStruct(const EventStruct &event_struct) {
+        event_struct_ = event_struct;
     }
 
-    EventStruct eventM;
+    EventStruct event_struct_;
 
-    inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
+    inline void AddRestJet(const fastjet::PseudoJet &jet) {
         SetBdt(Bdt() * (JetNumber() + 1));
-        jets_.emplace_back(NewJet);
-        SetBdt(Bdt() + NewJet.user_info<analysis::JetInfo>().Bdt());
+        jets_.emplace_back(jet);
+        SetBdt(Bdt() + jet.user_info<analysis::JetInfo>().Bdt());
         SetBdt(Bdt() / (JetNumber() + 1));
     }
 
@@ -99,8 +96,7 @@ public:
     }
 
     fastjet::PseudoJet RestJet() const {
-        fastjet::PseudoJet jet;
-        return std::accumulate(jets_.begin(), jets_.end(), jet);
+      return std::accumulate(jets_.begin(), jets_.end(), fastjet::PseudoJet());
     }
 
     float RestHt() const {
@@ -116,13 +112,13 @@ public:
         return bdt / RestNumber();
     }
 
-    void SetLeptons(const Jets &NewLeptons) {
-        LeptonsM = NewLeptons;
+    void SetLeptons(const Jets &leptons) {
+        leptons_ = leptons;
     }
 
     float LeptonHt() const {
         float ht = 0;
-        for (const auto & jet : LeptonsM)ht += jet.pt();
+        for (const auto & jet : leptons_)ht += jet.pt();
         return ht;
     }
 
@@ -135,15 +131,15 @@ public:
     }
 
     float DeltaRap() const {
-        float NewDeltaRap = SextetJet().rap() - RestJet().rap();
-        if (std::abs(NewDeltaRap) > 100) NewDeltaRap = 0;
-        return NewDeltaRap;
+        float delta_rap = SextetJet().rap() - RestJet().rap();
+        if (std::abs(delta_rap) > 100) delta_rap = 0;
+        return delta_rap;
     }
 
     float DeltaR() const {
-        float NewDeltaR = SextetJet().delta_R(RestJet());
-        if (std::abs(NewDeltaR) > 100) NewDeltaR = 0;
-        return NewDeltaR;
+        float delta_r = SextetJet().delta_R(RestJet());
+        if (std::abs(delta_r) > 100) delta_r = 0;
+        return delta_r;
     }
 
     float DeltaHt() const {
@@ -158,17 +154,15 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HSextetevent";
+        return "SextetEvent";
     }
 
 private:
 
-    analysis::HSextet SextetM;
+    analysis::HSextet sextet_;
 
     Jets jets_;
 
-    Jets LeptonsM;
+    Jets leptons_;
 
 };
-
-#endif

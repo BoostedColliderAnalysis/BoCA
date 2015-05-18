@@ -3,7 +3,7 @@
 
 
 # include "Tagger.hh"
-# include "HBranchHeavyHiggs.hh"
+# include "BranchHeavyHiggs.hh"
 # include "Event.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"

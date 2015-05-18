@@ -1,10 +1,8 @@
 HInclude(${PROJECT_SOURCE_DIR}/source)
-# HInclude(${PROJECT_SOURCE_DIR}/include/delphes)
-# HInclude(".")
 
 add_subdirectory(delphes)
 
-HDictionary(Branch Branch.cpp ../include/HLinkDef.hh)
+HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(EventSources
 Object.cpp
@@ -35,7 +33,7 @@ HJetPgs.cpp
 HLibrary(HPgsEvent "${PgsEventSources}" PARENT_SCOPE)
 
 set(WrapperSources
-HTag.cpp
+Identification.cpp
 # HTagPrivate.cpp
 Singlet.cpp
 Doublet.cpp

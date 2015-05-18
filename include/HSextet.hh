@@ -7,7 +7,7 @@
  * @brief A sextet of 2 triplets
  *
  */
-class analysis::HSextet : public HTag
+class analysis::HSextet : public Identification
 {
 
 public:

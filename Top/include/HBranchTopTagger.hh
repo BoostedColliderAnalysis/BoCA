@@ -1,6 +1,6 @@
 # pragma once
 
-# include "Branch.hh"
+# include "Branches.hh"
 
 
 namespace top{
@@ -10,7 +10,7 @@ namespace top{
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class HCandidateBranch : public Branch
+class HCandidateBranch : public analysis::Branch
 {
 
 public:
@@ -62,7 +62,7 @@ private:
 
 };
 
-class HTopHadronBranch : public MultiBranch
+class HTopHadronBranch : public analysis::MultiBranch
 {
 
 public:

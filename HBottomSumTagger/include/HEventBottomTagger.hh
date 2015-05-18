@@ -2,13 +2,13 @@
 # define EventBottomTagger_hh
 
 # include "BottomTagger.hh"
-# include "HTag.hh"
+# include "Identification.hh"
 # include "Reader.hh"
 
 namespace hbottomsumtagger
 {
 
-class EventBottomMultiplet : public analysis::HTag
+class EventBottomMultiplet : public analysis::Identification
 {
 public:
 
@@ -70,7 +70,7 @@ public:
 
     void SetTagger(const analysis::BottomTagger &NewBottomTagger);
 
-    std::vector<EventBottomTaggerBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector<analysis::EventBottomTaggerBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
     std::vector<EventBottomMultiplet> GetBdt(const Jets &jets, const analysis::Reader &eventSemiReader);
 
@@ -78,7 +78,7 @@ public:
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
-    EventBottomTaggerBranch GetBranch(const hbottomsumtagger::EventBottomMultiplet &event) const;
+    analysis::EventBottomTaggerBranch GetBranch(const hbottomsumtagger::EventBottomMultiplet &event) const;
 
     analysis::BottomTagger bottom_tagger_;
 
@@ -101,7 +101,7 @@ private:
 
 //     std::vector<HOctet> GetHeavyHiggsevents(Jets &jets);
 
-    EventBottomTaggerBranch Branch;
+    analysis::EventBottomTaggerBranch Branch;
     analysis::HJetTag JetTag;
 
 };

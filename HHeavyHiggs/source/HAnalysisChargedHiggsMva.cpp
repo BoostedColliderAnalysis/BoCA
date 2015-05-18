@@ -1137,14 +1137,14 @@ bool hheavyhiggs::HAnalysisCharged::GeteventSemiReader(analysis::Event &event, c
 
     std::vector<HOctet44> Octets = SignatureSemiTagger.GetBdt(HiggsQuartets, JetQuartets, SignatureSemiReader);
 
-    EventStruct eventStruct;
-    eventStruct.LeptonNumber = Leptons.size();
-    eventStruct.JetNumber = jets.size();
-    eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
-    eventStruct.ScalarHt = event.hadrons().GetScalarHt();
-    eventStruct.MissingEt = event.hadrons().GetMissingEt().pt();
+    EventStruct event_struct;
+    event_struct.LeptonNumber = Leptons.size();
+    event_struct.JetNumber = jets.size();
+    event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
+    event_struct.ScalarHt = event.hadrons().GetScalarHt();
+    event_struct.MissingEt = event.hadrons().GetMissingEt().pt();
 
-    std::vector<EventMultiplet<HOctet44>> events = eventSemiTagger.GetBdt(Octets, jets, SubJets, Leptons, eventStruct, eventSemiReader);
+    std::vector<EventMultiplet<HOctet44>> events = eventSemiTagger.GetBdt(Octets, jets, SubJets, Leptons, event_struct, eventSemiReader);
     if (events.empty()) return 0;
     events.front().SetTag(Tag);
 

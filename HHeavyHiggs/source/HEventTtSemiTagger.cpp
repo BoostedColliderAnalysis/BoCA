@@ -69,7 +69,7 @@ void hheavyhiggs::EventTtSemiTagger::DefineVariables()
 
 }
 
-hheavyhiggs::EventTtSemiBranch hheavyhiggs::EventTtSemiTagger::GetBranch(const HSextetevent &event) const
+hheavyhiggs::EventTtSemiBranch hheavyhiggs::EventTtSemiTagger::GetBranch(const SextetEvent &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
 
@@ -158,51 +158,51 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
         Sextets.erase(Sextets.begin() + 1, Sextets.end());
     }
 
-    HSextetevent Sextetevent(Sextets.front());
-    EventStruct eventStruct;
-    eventStruct.LeptonNumber = event.leptons().GetLeptonJets().size();
-    eventStruct.JetNumber = event.hadrons().GetJets().size();
-    eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
-    eventStruct.ScalarHt = event.hadrons().GetScalarHt();
-    Sextetevent.SeteventStruct(eventStruct);
-    Sextetevent.SetLeptons(Leptons);
-    Sextetevent.SetTag(Tag);
+    SextetEvent sextet_event(Sextets.front());
+    EventStruct event_struct;
+    event_struct.LeptonNumber = event.leptons().GetLeptonJets().size();
+    event_struct.JetNumber = event.hadrons().GetJets().size();
+    event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
+    event_struct.ScalarHt = event.hadrons().GetScalarHt();
+    sextet_event.SetEventStruct(event_struct);
+    sextet_event.SetLeptons(Leptons);
+    sextet_event.SetTag(Tag);
     for (const auto & Jet : jets)  {
-        if (Jet.delta_R(Sextetevent.Sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-        if (Jet.delta_R(Sextetevent.Sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-        if (Jet.delta_R(Sextetevent.Sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-        if (Jet.delta_R(Sextetevent.Sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-        Sextetevent.AddRestJet(Jet);
+        if (Jet.delta_R(sextet_event.Sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+        if (Jet.delta_R(sextet_event.Sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
+        if (Jet.delta_R(sextet_event.Sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+        if (Jet.delta_R(sextet_event.Sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+        sextet_event.AddRestJet(Jet);
     }
 
-    eventSemiBranches.emplace_back(GetBranch(Sextetevent));
+    eventSemiBranches.emplace_back(GetBranch(sextet_event));
     return eventSemiBranches;
 }
 
-std::vector<HSextetevent> hheavyhiggs::EventTtSemiTagger::GetBdt(const std::vector< analysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader)
+std::vector<SextetEvent> hheavyhiggs::EventTtSemiTagger::GetBdt(const std::vector< analysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader)
 {
     Print(kInformation, "Get event Tags");
 
-    std::vector<HSextetevent> Sextetevents;
+    std::vector<SextetEvent> sextet_events;
     for (const auto & Sextet : Sextets) {
-        HSextetevent Sextetevent(Sextet, eventStruct);
+        SextetEvent sextet_event(Sextet, event_struct);
         for (const auto & Jet : jets)  {
-          if (Jet.delta_R(Sextetevent.Sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-          if (Jet.delta_R(Sextetevent.Sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-          if (Jet.delta_R(Sextetevent.Sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-          if (Jet.delta_R(Sextetevent.Sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            Sextetevent.AddRestJet(Jet);
+          if (Jet.delta_R(sextet_event.Sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+          if (Jet.delta_R(sextet_event.Sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
+          if (Jet.delta_R(sextet_event.Sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+          if (Jet.delta_R(sextet_event.Sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            sextet_event.AddRestJet(Jet);
         }
-        Sextetevent.SetLeptons(Leptons);
-        Branch = GetBranch(Sextetevent);
-        Sextetevent.SetBdt(eventSemiReader.Bdt());
-        Sextetevents.emplace_back(Sextetevent);
+        sextet_event.SetLeptons(Leptons);
+        Branch = GetBranch(sextet_event);
+        sextet_event.SetBdt(eventSemiReader.Bdt());
+        sextet_events.emplace_back(sextet_event);
     }
 
-    std::sort(Sextetevents.begin(), Sextetevents.end());
-    if (Sextetevents.size() > 1)Sextetevents.erase(Sextetevents.begin() + 1, Sextetevents.end());
-    Print(kInformation, "event Number", Sextetevents.size(), jets.size());
-    return Sextetevents;
+    std::sort(sextet_events.begin(), sextet_events.end());
+    if (sextet_events.size() > 1)sextet_events.erase(sextet_events.begin() + 1, sextet_events.end());
+    Print(kInformation, "event Number", sextet_events.size(), jets.size());
+    return sextet_events;
 }
 
 float hheavyhiggs::EventTtSemiTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry){

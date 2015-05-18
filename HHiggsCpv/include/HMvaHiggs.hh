@@ -39,7 +39,7 @@ protected:
 
 private:
 
-      HHiggsBranch *Higgs;
+  analysis::HHiggsBranch *Higgs;
 
       void DefineVariables();
 

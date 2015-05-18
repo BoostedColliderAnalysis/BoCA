@@ -63,7 +63,7 @@ void analysis::HJetPairTagger::DefineVariables()
 
 }
 
-EventJetPairBranch analysis::HJetPairTagger::GetBranch(const Doublet &doublet) const
+analysis::EventJetPairBranch analysis::HJetPairTagger::GetBranch(const Doublet &doublet) const
 {
 
     Print(kInformation, "FillPairTagger", doublet.Bdt());
@@ -109,7 +109,7 @@ EventJetPairBranch analysis::HJetPairTagger::GetBranch(const Doublet &doublet) c
     return JetPairBranch;
 }
 
-std::vector<EventJetPairBranch> analysis::HJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const HParticleId MotherId)
+std::vector<analysis::EventJetPairBranch> analysis::HJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const HParticleId MotherId)
 {
     Print(kInformation, "Get Jet Pair Tags", GetParticleName(MotherId));
     Jets jets = GetJets(event);

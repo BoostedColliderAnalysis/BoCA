@@ -1,7 +1,7 @@
-# ifndef HBranchHeavyHiggs_hh
-# define HBranchHeavyHiggs_hh
+# ifndef BranchHeavyHiggs_hh
+# define BranchHeavyHiggs_hh
 
-# include "Branch.hh"
+# include "Branches.hh"
 
 namespace hheavyhiggs
 {
@@ -15,7 +15,7 @@ class HAnalysisTau;
 class HAnalysisCharged;
 class HHeavyHiggsJetTag;
 class HMva;
-class HBranchHeavyHiggs;
+class BranchHeavyHiggs;
 class EventLeptonicBranch;
 class EventHadronicBranch;
 class EventSemiBranch;
@@ -41,7 +41,7 @@ class HOctetBranch;
  * @brief Class for saving leptons to root
  *
  */
-class hheavyhiggs::HBranchHeavyHiggs : public Branch
+class hheavyhiggs::BranchHeavyHiggs : public analysis::Branch
 {
 
 public:
@@ -65,13 +65,13 @@ public:
     float BottomInvMass;
     float BottomDeltaPt;
 
-    HBranchHeavyHiggs();
+    BranchHeavyHiggs();
 
-    virtual ~HBranchHeavyHiggs() {};
+    virtual ~BranchHeavyHiggs() {};
 
 private:
 
-    ClassDef(HBranchHeavyHiggs, 1)
+    ClassDef(BranchHeavyHiggs, 1)
 
 };
 
@@ -83,7 +83,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::EventLeptonicBranch : public Branch
+class hheavyhiggs::EventLeptonicBranch : public analysis::Branch
 {
 
 public:
@@ -146,7 +146,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::EventHadronicBranch : public Branch
+class hheavyhiggs::EventHadronicBranch : public analysis::Branch
 {
 
 public:
@@ -194,7 +194,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::EventSemiBranch : public MultiBranch
+class hheavyhiggs::EventSemiBranch : public analysis::MultiBranch
 {
 
 public:
@@ -266,7 +266,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::EventTtSemiBranch : public MultiBranch
+class hheavyhiggs::EventTtSemiBranch : public analysis::MultiBranch
 {
 
 public:
@@ -297,7 +297,7 @@ private:
 
 };
 
-class hheavyhiggs::HBdtBranch : public Branch
+class hheavyhiggs::HBdtBranch : public analysis::Branch
 {
 
 public:
@@ -335,7 +335,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HOctetBranch : public MultiBranch
+class hheavyhiggs::HOctetBranch : public analysis::MultiBranch
 {
 
 public:
@@ -362,7 +362,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedOctetBranch : public MultiBranch
+class hheavyhiggs::HChargedOctetBranch : public analysis::MultiBranch
 {
 
 public:
@@ -387,7 +387,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedSemiBranch : public MultiBranch
+class hheavyhiggs::HChargedSemiBranch : public analysis::MultiBranch
 {
 
 public:
@@ -454,7 +454,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedLeptonicBranch : public Branch
+class hheavyhiggs::HChargedLeptonicBranch : public analysis::Branch
 {
 
 public:
@@ -500,7 +500,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class hheavyhiggs::HChargedHadronicBranch : public Branch
+class hheavyhiggs::HChargedHadronicBranch : public analysis::Branch
 {
 
 public:

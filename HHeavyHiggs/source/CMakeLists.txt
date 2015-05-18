@@ -18,7 +18,7 @@ HChargedHadronicTagger.cpp
 HOctet.cpp
 HOctet44.cpp
 HOctet44Event.cpp
-HSextetEvent.cpp
+SextetEvent.cpp
 HEventTtSemiTagger.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")

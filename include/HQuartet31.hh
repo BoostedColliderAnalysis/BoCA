@@ -7,7 +7,7 @@ namespace analysis{
   class HQuartet31Private;
 }
 
-class analysis::HQuartet31 : public HTag
+class analysis::HQuartet31 : public Identification
 {
 
 public:

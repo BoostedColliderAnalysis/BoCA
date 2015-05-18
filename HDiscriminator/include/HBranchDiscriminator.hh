@@ -1,5 +1,5 @@
-# ifndef HBranchDiscriminator_hh
-# define HBranchDiscriminator_hh
+# ifndef BranchDiscriminator_hh
+# define BranchDiscriminator_hh
 
 # include "TObject.h"
 # include "Rtypes.h"
@@ -11,7 +11,7 @@ namespace hcpvhiggs{
   class HJetTag;
   class JetHJetTag;
   class HAnalysis;
-  class HBranchDiscriminator;
+  class BranchDiscriminator;
   class HJetDiscriminator;
   class HMva;
   class HCandidateBranch;

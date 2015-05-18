@@ -273,13 +273,13 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedeventSemiTagge
     std::vector<EventMultiplet<HOctet44>> events;
     for (const auto & Octet : Octets) {
         EventMultiplet<HOctet44> Octetevent(Octet);
-        EventStruct eventStruct;
-        eventStruct.LeptonNumber = event.leptons().GetLeptonJets().size();
-        eventStruct.JetNumber = event.hadrons().GetJets().size();
-        eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
-        eventStruct.ScalarHt = event.hadrons().GetScalarHt();
-        eventStruct.MissingEt = event.hadrons().GetMissingEt().pt();
-        Octetevent.SeteventStruct(eventStruct);
+        EventStruct event_struct;
+        event_struct.LeptonNumber = event.leptons().GetLeptonJets().size();
+        event_struct.JetNumber = event.hadrons().GetJets().size();
+        event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
+        event_struct.ScalarHt = event.hadrons().GetScalarHt();
+        event_struct.MissingEt = event.hadrons().GetMissingEt().pt();
+        Octetevent.Setevent_struct(event_struct);
         Octetevent.SetLeptons(Leptons);
         Octetevent.SetTotalJets(jets);
         Octetevent.SetSubJets(SubJets);
@@ -303,14 +303,14 @@ std::vector<hheavyhiggs::HChargedSemiBranch> hheavyhiggs::HChargedeventSemiTagge
 
 }
 
-std::vector<EventMultiplet<HOctet44>> hheavyhiggs::HChargedeventSemiTagger::GetBdt(const std::vector<HOctet44> &Octets, Jets &jets, const Jets &SubJets, Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader)
+std::vector<EventMultiplet<HOctet44>> hheavyhiggs::HChargedeventSemiTagger::GetBdt(const std::vector<HOctet44> &Octets, Jets &jets, const Jets &SubJets, Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader)
 {
     Print(kInformation, "Get event Tags");
 
 
     std::vector<EventMultiplet<HOctet44>> events;
     for (auto & Octet : Octets) {
-        EventMultiplet<HOctet44> Octetevent(Octet, eventStruct);
+        EventMultiplet<HOctet44> Octetevent(Octet, event_struct);
         for (const auto & Jet : jets)  {
             if (Octet.Quartet1().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (Octet.Quartet1().triplet().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;

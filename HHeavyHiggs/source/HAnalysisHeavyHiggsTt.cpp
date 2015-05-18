@@ -862,16 +862,16 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //     std::vector<analysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 //
-//     EventStruct eventStruct;
-//     eventStruct.LeptonNumber = Leptons.size();
-//     eventStruct.JetNumber = jets.size();
-//     eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
-//     eventStruct.ScalarHt = event.hadrons().GetScalarHt();
+//     EventStruct event_struct;
+//     event_struct.LeptonNumber = Leptons.size();
+//     event_struct.JetNumber = jets.size();
+//     event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
+//     event_struct.ScalarHt = event.hadrons().GetScalarHt();
 //
-//     std::vector<HSextetevent> Sextetevent = eventSemiTagger.GetBdt(Sextets, jets, Leptons, eventStruct, eventSemiReader);
-//     if (Sextetevent.empty()) return 0;
-//     Sextetevent.front().SetTag(Tag);
-//     *static_cast<EventTtSemiBranch *>(Branch->NewEntry()) = eventSemiTagger.GetBranch(Sextetevent.front());
+//     std::vector<Hsextet_event> sextet_event = eventSemiTagger.GetBdt(Sextets, jets, Leptons, event_struct, eventSemiReader);
+//     if (sextet_event.empty()) return 0;
+//     sextet_event.front().SetTag(Tag);
+//     *static_cast<EventTtSemiBranch *>(Branch->NewEntry()) = eventSemiTagger.GetBranch(sextet_event.front());
 // //     ++ObjectNumber;
 //     return 1;
 // }

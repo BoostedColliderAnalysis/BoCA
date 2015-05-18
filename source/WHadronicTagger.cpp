@@ -26,7 +26,7 @@ void analysis::WHadronicTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-WHadronicBranch analysis::WHadronicTagger::GetBranch(const Doublet &doublet) const
+analysis::WHadronicBranch analysis::WHadronicTagger::GetBranch(const Doublet &doublet) const
 {
     Print(kInformation, "FillPairTagger", doublet.Bdt());
     WHadronicBranch branch;

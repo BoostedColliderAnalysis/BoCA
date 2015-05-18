@@ -64,7 +64,7 @@ void analysis::HChargedJetPairTagger::DefineVariables()
 
 }
 
-HChargedJetPairBranch analysis::HChargedJetPairTagger::GetBranch(const HQuartet31 &Quartet) const
+analysis::HChargedJetPairBranch analysis::HChargedJetPairTagger::GetBranch(const HQuartet31 &Quartet) const
 {
 
     Print(kInformation, "FillPairTagger", Quartet.Bdt());
@@ -106,7 +106,7 @@ struct SortQuartetByDeltaRap {
     }
 };
 
-std::vector<HChargedJetPairBranch> analysis::HChargedJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
+std::vector<analysis::HChargedJetPairBranch> analysis::HChargedJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get W Tags");
     Jets jets = GetJets(event);

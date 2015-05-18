@@ -8,10 +8,10 @@
 //     SetTag(Octet44M.Tag());
 // }
 //
-// EventMultiplet::EventMultiplet(const TMultiplet &NewOctet, const EventStruct &NeweventStruct)
+// EventMultiplet::EventMultiplet(const TMultiplet &NewOctet, const EventStruct &Newevent_struct)
 // {
 //   Octet44M = NewOctet;
-//     eventM = NeweventStruct;
+//     eventM = Newevent_struct;
 //     SetBdt(Octet44M.Bdt());
 //     SetTag(Octet44M.Tag());
 // }

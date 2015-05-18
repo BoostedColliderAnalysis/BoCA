@@ -20,7 +20,7 @@ typedef std::vector<std::string> Strings;
  */
 namespace analysis
 {
-class HTag;
+class Identification;
 class HJetLeptonPair;
 class HQuartet;
 class HQuartet31;

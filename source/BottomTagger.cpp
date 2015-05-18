@@ -31,7 +31,7 @@ void analysis::BottomTagger::DefineVariables()
     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-BottomBranch analysis::BottomTagger::FillBranch(const fastjet::PseudoJet &jet) const
+analysis::BottomBranch analysis::BottomTagger::FillBranch(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Fill Branch");
     BottomBranch branch;

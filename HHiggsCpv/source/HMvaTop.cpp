@@ -35,7 +35,7 @@ hhiggscpv::HMvaTop::HMvaTop()
 
 //     DoLatex = 1;
 
-    Top = new HTopLeptonicBranch();
+    Top = new analysis::HTopLeptonicBranch();
 
     DefineVariables();
 
@@ -54,7 +54,7 @@ float hhiggscpv::HMvaTop::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 
   Print(kInformation, "Get Bdt",bdt_method_name());
 
-    *Top = *static_cast<HTopLeptonicBranch*>(Branch);
+  *Top = *static_cast<analysis::HTopLeptonicBranch*>(Branch);
     const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
     Print(kInformation,"BTagger Bdt",BdtEvaluation);
 

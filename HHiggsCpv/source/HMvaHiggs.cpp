@@ -35,7 +35,7 @@ hhiggscpv::HMvaHiggs::HMvaHiggs()
 
 //     DoLatex = 1;
 
-    Higgs = new HHiggsBranch();
+    Higgs = new analysis::HHiggsBranch();
 
     DefineVariables();
 
@@ -54,7 +54,7 @@ float hhiggscpv::HMvaHiggs::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 
   Print(kInformation, "Get Bdt",bdt_method_name());
 
-    *Higgs = *static_cast<HHiggsBranch*>(Branch);
+  *Higgs = *static_cast<analysis::HHiggsBranch*>(Branch);
     const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
     Print(kInformation,"BTagger Bdt",BdtEvaluation);
 

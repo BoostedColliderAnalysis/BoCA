@@ -1,7 +1,7 @@
 # ifndef HLeptoniceventTagger_hh
 # define HLeptoniceventTagger_hh
 
-# include "HBranchHeavyHiggs.hh"
+# include "BranchHeavyHiggs.hh"
 # include "HChargedHiggsLeptonicTagger.hh"
 # include "HOctet44.hh"
 # include "HSextet.hh"

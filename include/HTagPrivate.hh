@@ -2,7 +2,7 @@
 # define HTagPrivate_hh
 
 # include "Object.hh"
-# include "HTag.hh"
+# include "Identification.hh"
 
 // namespace hanalysis{
 //   class HTagPrivate;
@@ -15,11 +15,11 @@ public:
 
     HTagPrivate();
 
-    HTagPrivate(analysis::HTag *NewTag) : QTag(NewTag) {}
+    HTagPrivate(analysis::Identification *NewTag) : QTag(NewTag) {}
 
     ~HTagPrivate();
 
-    analysis::HTag *QTag;
+    analysis::Identification *QTag;
 
     float Bdt;
 

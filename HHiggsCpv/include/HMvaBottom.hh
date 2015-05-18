@@ -38,7 +38,7 @@ protected:
 
 private:
 
-      BottomBranch *BTagger;
+  analysis::BottomBranch *BTagger;
 
       void DefineVariables();
 

@@ -2,7 +2,7 @@
 # define HTauTagger_hh
 
 # include "Tagger.hh"
-# include "Branch.hh"
+# include "Branches.hh"
 # include "Event.hh"
 # include "HJetTag.hh"
 # include "Reader.hh"

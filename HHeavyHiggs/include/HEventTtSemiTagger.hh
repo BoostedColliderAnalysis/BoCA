@@ -4,7 +4,7 @@
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsSemiTagger.hh"
 # include "HJetPairTagger.hh"
-# include "HSextetEvent.hh"
+# include "SextetEvent.hh"
 
 /**
  *
@@ -32,11 +32,11 @@ public:
 
     std::vector< EventTtSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< HSextetevent > GetBdt(const std::vector< analysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &eventStruct, const analysis::Reader &eventSemiReader);
+    std::vector< SextetEvent > GetBdt(const std::vector< analysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
-    EventTtSemiBranch GetBranch(const HSextetevent &event) const;
+    EventTtSemiBranch GetBranch(const SextetEvent &event) const;
 
     analysis::BottomTagger bottom_tagger_;
     analysis::HWSemiTagger WSemiTagger;
@@ -66,7 +66,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<HSextetevent> GetHeavyHiggsevents(Jets &jets);
+    std::vector<SextetEvent> GetHeavyHiggsevents(Jets &jets);
 
     EventTtSemiBranch Branch;
 

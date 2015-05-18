@@ -47,7 +47,7 @@ void analysis::HTauTagger::DefineVariables()
     AddSpectator(Branch.Bdt, "Bdt");
 }
 
-HTauBranch analysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
+analysis::HTauBranch analysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Fill Branch");
 
@@ -83,7 +83,7 @@ HTauBranch analysis::HTauTagger::GetBranch(const fastjet::PseudoJet &Jet) const
 
 }
 
-std::vector<HTauBranch> analysis::HTauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
+std::vector<analysis::HTauBranch> analysis::HTauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Tau Tag", Tag);
 

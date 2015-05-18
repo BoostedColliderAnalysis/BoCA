@@ -3,7 +3,7 @@
 
 # include "HQuartet31.hh"
 
-struct HChargedeventStruct {
+struct HChargedevent_struct {
 
     int LeptonNumber = 0;
     int JetNumber = 0;
@@ -27,7 +27,7 @@ struct HChargedeventStruct {
  * @brief An octet composed of two quartets
  *
  */
-class HOctet44 : public analysis::HTag
+class HOctet44 : public analysis::Identification
 {
 
 public:
@@ -36,7 +36,7 @@ public:
 
     HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &Newdoublet);
 
-    HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &NewQuartet2, const HChargedeventStruct &NeweventStruct);
+    HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &NewQuartet2, const HChargedevent_struct &Newevent_struct);
 
     inline analysis::HQuartet31 Quartet1()const {
         return Quartet1M;
@@ -118,47 +118,47 @@ public:
 //     }
 
     inline void SetScalarHt(const float NewScalarHt) {
-        eventStructM.ScalarHt = NewScalarHt;
+        event_structM.ScalarHt = NewScalarHt;
     }
 
     inline void SetJetNumber(const int NewJetNumber) {
-        eventStructM.JetNumber = NewJetNumber;
+        event_structM.JetNumber = NewJetNumber;
     }
 
     inline void SetBottomNumber(const int NewBottomNumber) {
-        eventStructM.BottomNumber = NewBottomNumber;
+        event_structM.BottomNumber = NewBottomNumber;
     }
 
     inline void SetLeptonNumber(const int NewLeptonNumber) {
-        eventStructM.LeptonNumber = NewLeptonNumber;
+        event_structM.LeptonNumber = NewLeptonNumber;
     }
 
     inline float ScalarHt() const {
-        return eventStructM.ScalarHt;
+        return event_structM.ScalarHt;
     }
 
     inline int JetNumber()const {
-        return eventStructM.JetNumber;
+        return event_structM.JetNumber;
     }
 
     inline int BottomNumber()const {
-        return eventStructM.BottomNumber;
+        return event_structM.BottomNumber;
     }
 
     inline int LeptonNumber()const {
-        return eventStructM.LeptonNumber;
+        return event_structM.LeptonNumber;
     }
 
-    inline HChargedeventStruct eventStruct()const {
-        return eventStructM;
+    inline HChargedevent_struct event_struct()const {
+        return event_structM;
     }
 
-    inline void SeteventStruct(const HChargedeventStruct &NeweventStruct) {
-        eventStructM = NeweventStruct;
+    inline void Setevent_struct(const HChargedevent_struct &Newevent_struct) {
+        event_structM = Newevent_struct;
     }
 
 
-    HChargedeventStruct eventStructM;
+    HChargedevent_struct event_structM;
 
 //     int LeptonNumber;
 //

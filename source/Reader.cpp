@@ -263,7 +263,7 @@ std::vector<int> analysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader
     return Bins;
 }
 
-InfoBranch analysis::Reader::info_branch(TFile &file, const std::string &tree_name) const
+analysis::InfoBranch analysis::Reader::info_branch(TFile &file, const std::string &tree_name) const
 {
     ExRootTreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
 //     Print(kError,"Info Branch",tagger().GetWeightBranchName().c_str());

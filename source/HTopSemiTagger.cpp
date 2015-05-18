@@ -54,7 +54,7 @@ void analysis::HTopSemiTagger::DefineVariables()
 
 }
 
-TopSemiBranch analysis::HTopSemiTagger::GetBranch(const analysis::Triplet &triplet) const
+analysis::TopSemiBranch analysis::HTopSemiTagger::GetBranch(const analysis::Triplet &triplet) const
 {
     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
 

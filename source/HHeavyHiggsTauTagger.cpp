@@ -48,7 +48,7 @@ void analysis::HHeavyHiggsTauTagger::DefineVariables()
 
 }
 
-HHeavyHiggsTauBranch analysis::HHeavyHiggsTauTagger::GetBranch(const analysis::Doublet &doublet) const
+analysis::HHeavyHiggsTauBranch analysis::HHeavyHiggsTauTagger::GetBranch(const analysis::Doublet &doublet) const
 {
     Print(kInformation, "Fill Top Tagger", doublet.Bdt());
 
@@ -75,7 +75,7 @@ HHeavyHiggsTauBranch analysis::HHeavyHiggsTauTagger::GetBranch(const analysis::D
 
 }
 
-std::vector< HHeavyHiggsTauBranch> analysis::HHeavyHiggsTauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
+std::vector< analysis::HHeavyHiggsTauBranch> analysis::HHeavyHiggsTauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
 {
 
     Print(kInformation, "Get Top Tags");

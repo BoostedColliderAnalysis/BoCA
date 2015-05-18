@@ -21,7 +21,7 @@ struct EventStruct {
  *
  */
 template <typename TMultiplet>
-class EventMultiplet : public analysis::HTag
+class EventMultiplet : public analysis::Identification
 {
 
 public:
@@ -33,9 +33,9 @@ public:
 
     };
 
-    EventMultiplet(const TMultiplet &NewOctet, const EventStruct &NeweventStruct) {
+    EventMultiplet(const TMultiplet &NewOctet, const EventStruct &Newevent_struct) {
         Octet44M = NewOctet;
-        eventM = NeweventStruct;
+        eventM = Newevent_struct;
         SetBdt(Octet44M.Bdt());
         SetTag(Octet44M.Tag());
     };
@@ -94,12 +94,12 @@ public:
         return eventM.LeptonNumber;
     }
 
-    inline EventStruct eventStruct()const {
+    inline EventStruct event_struct()const {
         return eventM;
     }
 
-    inline void SeteventStruct(const EventStruct &NeweventStruct) {
-        eventM = NeweventStruct;
+    inline void Setevent_struct(const EventStruct &Newevent_struct) {
+        eventM = Newevent_struct;
     }
 
     EventStruct eventM;

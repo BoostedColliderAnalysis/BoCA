@@ -1,5 +1,5 @@
-# ifndef HBranchTest_hh
-# define HBranchTest_hh
+# ifndef BranchTest_hh
+# define BranchTest_hh
 
 # include "TObject.h"
 # include "Rtypes.h"

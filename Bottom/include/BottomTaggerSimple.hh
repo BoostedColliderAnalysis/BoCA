@@ -16,22 +16,22 @@ public:
 
     BottomTaggerSimple();
 
-    BottomBranch GetBranch(const fastjet::PseudoJet &Jet) const;
+    analysis::BottomBranch GetBranch(const fastjet::PseudoJet& jet) const;
 
     int Train(analysis::Event &event, const Tag tag);
 
     int GetBdt(analysis::Event &event, const TMVA::Reader &reader);
 
     float ReadBdt(const TClonesArray &clones_array, const int entry){
-      return static_cast<BottomBranch &>(*clones_array.At(entry)).Bdt;
+      return static_cast<analysis::BottomBranch &>(*clones_array.At(entry)).Bdt;
     }
 
     void SaveEntries(const Jets &jets){
-      for (const auto & jet : jets) static_cast<BottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
+      for (const auto & jet : jets) static_cast<analysis::BottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
     }
 
     virtual TClass &Class() const {
-      return *BottomBranch::Class();
+      return *analysis::BottomBranch::Class();
     }
 
 protected:
@@ -41,7 +41,7 @@ protected:
     };
 
     virtual inline std::string NameSpaceName() const {
-      return "btagger";
+      return "bottom";
     }
 
 private:
@@ -56,7 +56,7 @@ private:
 
     float Spread(const fastjet::PseudoJet &Jet) const;
 
-    BottomBranch branch_;
+    analysis::BottomBranch branch_;
 
 };
 }

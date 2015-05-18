@@ -51,7 +51,7 @@ void analysis::HHeavyHiggsSemiTagger::DefineVariables()
 
 }
 
-HHeavyHiggsSemiBranch analysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet &Sextet) const
+analysis::HHeavyHiggsSemiBranch analysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet &Sextet) const
 {
     Print(kInformation, "FillPairTagger", Sextet.Bdt());
 
@@ -74,7 +74,7 @@ HHeavyHiggsSemiBranch analysis::HHeavyHiggsSemiTagger::GetBranch(const HSextet &
     return HeavyHiggsBranch;
 }
 
-std::vector< HHeavyHiggsSemiBranch> analysis::HHeavyHiggsSemiTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const float pre_cut)
+std::vector< analysis::HHeavyHiggsSemiBranch> analysis::HHeavyHiggsSemiTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const float pre_cut)
 {
     Print(kInformation, "Get Higgs Tags");
 

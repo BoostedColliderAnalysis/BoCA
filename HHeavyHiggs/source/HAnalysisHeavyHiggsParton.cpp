@@ -33,7 +33,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsParton::NewBranches(ExRootTreeWriter *TreeW
 
     Print(kNotification, "New File");
 
-    HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HHeavyHiggsLeptonicBranch::Class());
+    HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", analysis::HHeavyHiggsLeptonicBranch::Class());
 
     eventCounter = 0;
     DeltaRapCounter = 0;
@@ -64,7 +64,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(analysis::Event &event, con
 
     Print(kInformation, "Analysis",StudyName);
 
-    HBranchHeavyHiggs *HeavyHiggs = static_cast<HBranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
+    BranchHeavyHiggs *HeavyHiggs = static_cast<BranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
 
     ++eventCounter;
 

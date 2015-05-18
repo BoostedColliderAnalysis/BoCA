@@ -46,7 +46,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::NewBranches(ExRootTreeWriter *NewT
 
     Print(kNotification, "New File");
 
-    HeavyHiggsBranch = NewTreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
+    HeavyHiggsBranch = NewTreeWriter->NewBranch("HeavyHiggs", BranchHeavyHiggs::Class());
 
     eventCounter = 0;
     DeltaRapCounter = 0;
@@ -305,7 +305,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsDelphes::FillBranch(analysis::Event &event,
 
     float Isolation = std::min(Leptons(event,FrontJet), Leptons(event,BackJet));
 
-    HBranchHeavyHiggs *HeavyHiggs = static_cast<HBranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
+    BranchHeavyHiggs *HeavyHiggs = static_cast<BranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
 
     HeavyHiggs->BottomRap1 = FrontRap;
     HeavyHiggs->BottomRap2 = BackRap;

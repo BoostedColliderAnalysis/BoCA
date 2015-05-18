@@ -5,12 +5,12 @@
 namespace analysis
 {
 
-class HTag : public Object
+class Identification : public Object
 {
 
 public:
 
-    HTag();
+    Identification();
 
     void SetBdt(const float NewBdt);
 
@@ -59,7 +59,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HTag";
+        return "Identification";
     }
 
 private:

@@ -51,7 +51,7 @@ void analysis::TopHadronicTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-TopHadronicBranch analysis::TopHadronicTagger::GetBranch(const analysis::Triplet &triplet) const
+analysis::TopHadronicBranch analysis::TopHadronicTagger::GetBranch(const analysis::Triplet &triplet) const
 {
     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
     TopHadronicBranch branch;

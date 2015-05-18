@@ -34,7 +34,7 @@ void hheavyhiggs::HAnalysisHeavyHiggsPgs::NewBranches(ExRootTreeWriter *TreeWrit
     Print(kNotification, "New File");
 
 
-    HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", HBranchHeavyHiggs::Class());
+    HeavyHiggsBranch = TreeWriter->NewBranch("HeavyHiggs", BranchHeavyHiggs::Class());
 
 
     eventCounter = 0;
@@ -158,7 +158,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsPgs::Analysis(analysis::Event &event, const 
 
                 float DeltaPhi = GetDeltaPhi(FrontPhi, BackPhi);
 
-                HBranchHeavyHiggs *HeavyHiggs = static_cast<HBranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
+                BranchHeavyHiggs *HeavyHiggs = static_cast<BranchHeavyHiggs *>(HeavyHiggsBranch->NewEntry());
 
                 HeavyHiggs->BottomRap1 = FrontRap;
                 HeavyHiggs->BottomRap2 = BackRap;

@@ -50,7 +50,7 @@ void analysis::HChargedHiggsHadronicTagger::DefineVariables()
 
 }
 
-HChargedHiggsHadronicBranch analysis::HChargedHiggsHadronicTagger::GetBranch(const analysis::HQuartet31 &Quartet)
+analysis::HChargedHiggsHadronicBranch analysis::HChargedHiggsHadronicTagger::GetBranch(const analysis::HQuartet31 &Quartet)
 {
     Print(kInformation, "FillPairTagger", Quartet.Bdt());
 
@@ -68,7 +68,7 @@ return ChargedHiggsHadronicBranch;
 }
 
 
-std::vector< HChargedHiggsHadronicBranch > analysis::HChargedHiggsHadronicTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
+std::vector< analysis::HChargedHiggsHadronicBranch > analysis::HChargedHiggsHadronicTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 

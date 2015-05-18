@@ -997,14 +997,14 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // //
 // //     std::vector<analysis::HQuartet31> JetQuartets = JetPairTagger.GetBdt(tripletsHadronic, jets, JetPairReader);
 // //
-// //     HChargedeventStruct eventStruct;
-// //     eventStruct.LeptonNumber = Leptons.size();
-// //     eventStruct.JetNumber = jets.size();
-// //     eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
-// //     eventStruct.ScalarHt = event.hadrons().GetScalarHt();
-// //     if (eventStruct.LeptonNumber > 0) eventStruct.LeptonPt = fastjet::sorted_by_pt(event.leptons().GetLeptonJets()).front().pt();
+// //     HChargedevent_struct event_struct;
+// //     event_struct.LeptonNumber = Leptons.size();
+// //     event_struct.JetNumber = jets.size();
+// //     event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
+// //     event_struct.ScalarHt = event.hadrons().GetScalarHt();
+// //     if (event_struct.LeptonNumber > 0) event_struct.LeptonPt = fastjet::sorted_by_pt(event.leptons().GetLeptonJets()).front().pt();
 // //
-// //     std::vector<HOctet44> Octets = eventSemiTagger.GetBdt(HiggsQuartets, JetQuartets, jets, eventStruct, eventSemiReader);
+// //     std::vector<HOctet44> Octets = eventSemiTagger.GetBdt(HiggsQuartets, JetQuartets, jets, event_struct, eventSemiReader);
 // //     if (Octets.empty()) return 0;
 // //     Octets.front().SetTag(Tag);
 // //

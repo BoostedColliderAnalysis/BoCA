@@ -55,7 +55,7 @@ void analysis::HChargedHiggsSemiTagger::DefineVariables()
 
 }
 
-HChargedHiggsSemiBranch analysis::HChargedHiggsSemiTagger::GetBranch(const HQuartet31 &Quartet)const
+analysis::HChargedHiggsSemiBranch analysis::HChargedHiggsSemiTagger::GetBranch(const HQuartet31 &Quartet)const
 {
     Print(kInformation, "FillPairTagger", Quartet.Bdt());
     HChargedHiggsSemiBranch ChargedHiggsBranch;
@@ -83,7 +83,7 @@ HChargedHiggsSemiBranch analysis::HChargedHiggsSemiTagger::GetBranch(const HQuar
 
 
 
-std::vector< HChargedHiggsSemiBranch> analysis::HChargedHiggsSemiTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
+std::vector< analysis::HChargedHiggsSemiBranch> analysis::HChargedHiggsSemiTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Higgs Tags");
 

@@ -18,15 +18,15 @@ public:
 
     void SetTagger(const analysis::BottomTagger &NewBottomTagger);
 
-    std::vector<HTopLeptonBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
+    std::vector<analysis::HTopLeptonBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
 
     std::vector<analysis::Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const analysis::Reader &Reader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry) {
-        return static_cast<HTopLeptonBranch &>(*eventClonesArray.At(Entry)).Bdt;
+      return static_cast<analysis::HTopLeptonBranch &>(*eventClonesArray.At(Entry)).Bdt;
     }
 
-    HTopLeptonBranch GetBranch(const analysis::Doublet &doublet) const;
+    analysis::HTopLeptonBranch GetBranch(const analysis::Doublet &doublet) const;
 
     analysis::BottomTagger bottom_tagger_;
 
@@ -41,7 +41,7 @@ private:
 
     void DefineVariables();
 
-    HTopLeptonBranch Branch;
+    analysis::HTopLeptonBranch Branch;
 
     float TopWindow;
 

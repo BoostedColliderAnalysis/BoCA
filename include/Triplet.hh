@@ -18,7 +18,7 @@ struct SubJettiness {
     float tau32_beta2;
 };
 
-class Triplet : public HTag
+class Triplet : public Identification
 {
 
 public:

@@ -51,7 +51,7 @@ void analysis::HTopLeptonicTagger::DefineVariables()
 
 }
 
-HTopLeptonicBranch analysis::HTopLeptonicTagger::GetBranch(const analysis::Doublet &doublet)
+analysis::HTopLeptonicBranch analysis::HTopLeptonicTagger::GetBranch(const analysis::Doublet &doublet)
 {
     Print(kInformation, "Fill Top Tagger", doublet.Bdt());
 
@@ -74,7 +74,7 @@ HTopLeptonicBranch analysis::HTopLeptonicTagger::GetBranch(const analysis::Doubl
 
 }
 
-std::vector<HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
+std::vector<analysis::HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
 
     Print(kInformation, "Get Top Tags");

@@ -58,11 +58,11 @@ void HTopLeptonTagger::DefineVariables()
 
 }
 
-HTopLeptonBranch HTopLeptonTagger::GetBranch(const analysis::Doublet &doublet) const
+analysis::HTopLeptonBranch HTopLeptonTagger::GetBranch(const analysis::Doublet& doublet) const
 {
     Print(kInformation, "Fill Top Tagger", doublet.Bdt());
 
-    HTopLeptonBranch top_semi_branch;
+    analysis::HTopLeptonBranch top_semi_branch;
     top_semi_branch.Mass = doublet.Jet().m();
     top_semi_branch.Rap = doublet.Jet().rap();
     top_semi_branch.Phi = doublet.Jet().phi();
@@ -105,7 +105,7 @@ HTopLeptonBranch HTopLeptonTagger::GetBranch(const analysis::Doublet &doublet) c
     return top_semi_branch;
 }
 
-std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
+std::vector< analysis::HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
     const int TopNumber = 2;
@@ -144,7 +144,7 @@ std::vector< HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis::Event &e
     Print(kInformation, "Number of doublets?", doublets.size());
 
     std::vector<analysis::Doublet> Finaldoublets;
-    std::vector<HTopLeptonBranch> TopLeptonBranches;
+    std::vector<analysis::HTopLeptonBranch> TopLeptonBranches;
     if (doublets.empty()) return TopLeptonBranches;
 
     Jets TopParticles = event.partons().Generator();

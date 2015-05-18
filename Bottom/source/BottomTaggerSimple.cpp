@@ -36,11 +36,11 @@ void bottom::BottomTaggerSimple::DefineVariables()
     //     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-BottomBranch bottom::BottomTaggerSimple::GetBranch(const fastjet::PseudoJet &jet) const
+analysis::BottomBranch bottom::BottomTaggerSimple::GetBranch(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Fill Branch");
 
-    BottomBranch branch;
+    analysis::BottomBranch branch;
 
     if (!jet.has_user_info<analysis::JetInfo>()) {
         Print(kError, "BJet without user info");
