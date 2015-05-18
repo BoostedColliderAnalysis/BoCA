@@ -7,7 +7,7 @@
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 
 # include "HBranch.hh"
-# include "HJetDelphes.hh"
+# include "delphes/Hadrons.hh"
 # include "Predicate.hh"
 
 class HObservable

@@ -1,6 +1,7 @@
 # pragma once
 
 # include "TCut.h"
+# include "TClonesArray.h"
 
 # include "TMVA/Reader.h"
 
@@ -8,7 +9,7 @@
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 
 # include "Branch.hh"
-# include "HJetDelphes.hh"
+// # include "delphes/Hadrons.hh"
 # include "Predicate.hh"
 # include "Event.hh"
 # include "Doublet.hh"

@@ -1,5 +1,8 @@
 HInclude(${PROJECT_SOURCE_DIR}/source)
+# HInclude(${PROJECT_SOURCE_DIR}/include/delphes)
 # HInclude(".")
+
+add_subdirectory(delphes)
 
 HDictionary(Branch Branch.cpp ../include/HLinkDef.hh)
 
@@ -30,17 +33,6 @@ HLeptonPgs.cpp
 HJetPgs.cpp
 )
 HLibrary(HPgsEvent "${PgsEventSources}" PARENT_SCOPE)
-
-set(DelphesEventSources
-# HFileDelphes.cpp
-# HEventDelphes.cpp
-HParticleDelphes.cpp
-HLeptonDelphes.cpp
-HJetDelphes.cpp
-)
-HLibrary(HDelphesEvent "${DelphesEventSources}" PARENT_SCOPE)
-
-
 
 set(WrapperSources
 HTag.cpp

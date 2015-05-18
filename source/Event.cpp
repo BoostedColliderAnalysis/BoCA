@@ -1,7 +1,7 @@
 # include "Event.hh"
-# include "HParticleDelphes.hh"
-# include "HLeptonDelphes.hh"
-# include "HJetDelphes.hh"
+# include "delphes/Partons.hh"
+# include "delphes/Leptons.hh"
+# include "delphes/Hadrons.hh"
 # include "HLeptonPgs.hh"
 # include "HJetPgs.hh"
 # include "HParticleParton.hh"
@@ -13,9 +13,9 @@ analysis::Event::Event(const ClonesArrays::Source source)
     source_ = source;
     switch (source_) {
     case ClonesArrays::kDelphes :
-        partons_ = new delphes::HParticle();
-        hadrons_ = new delphes::HJet();
-        leptons_ = new delphes::HLepton();
+        partons_ = new delphes::Partons();
+        hadrons_ = new delphes::Hadrons();
+        leptons_ = new delphes::Leptons();
         break;
     case ClonesArrays::kPgs :
         leptons_ = new hpgs::HLepton();

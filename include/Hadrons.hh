@@ -127,14 +127,14 @@ public:
 
     virtual fastjet::PseudoJet GetMissingEt();
 
-    virtual Jets GetGranJets(){
+    virtual Jets ClusteredJets(){
       Print(kError,"Get Sub Jets","should be subclassed");
-      return Jets();
+      return GetJets();
     }
 
     virtual Jets GetSubJets(const fastjet::PseudoJet &, const int ){
       Print(kError,"Get Sub Jets","should be subclassed");
-      return Jets();
+      return GetJets();
     }
 
 

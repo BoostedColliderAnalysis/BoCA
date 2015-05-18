@@ -120,7 +120,7 @@ std::string hbtagger::HAnalysis::DetectorName(const Detector detector) const
 int hbtagger::HAnalysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
-    Jets jets = event.hadrons().GetGranJets();
+    Jets jets = event.hadrons().ClusteredJets();
     jets = analysis::remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
     return jets.size();
 }

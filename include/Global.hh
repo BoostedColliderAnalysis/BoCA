@@ -20,11 +20,6 @@ typedef std::vector<std::string> Strings;
  */
 namespace analysis
 {
-
-
-class Partons;
-class Leptons;
-
 class HTag;
 class HJetLeptonPair;
 class HQuartet;
@@ -83,22 +78,6 @@ class HJet;
 typedef hpgs::HLepton HLeptonPgs;
 typedef hpgs::HJet HJetPgs;
 
-/**
- * @brief Delphes analysis library parts
- *
- */
-namespace delphes
-{
-
-class HParticle;
-class HLepton;
-class HJet;
-
-}
-
-// typedef hdelphes::HParticle HParticleDelphes;
-// typedef hdelphes::HLepton HLeptonDelphes;
-// typedef hdelphes::HJet HJetDelphes;
 
 }
 
