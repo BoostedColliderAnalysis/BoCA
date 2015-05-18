@@ -50,12 +50,8 @@ private:
 //   Jets GetLeptons(HJetDetails JetDetails);
 
     inline std::string NameSpaceName() const {
-        return "HDelphes";
+        return "delphes";
     }
-
-    inline std::string ClassName() const {
-        return "HLepton";
-    };
 
 };
 

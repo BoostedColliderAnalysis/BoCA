@@ -3,6 +3,8 @@
 # include "HBranchBTagger.hh"
 # include "Analysis.hh"
 
+namespace bottom {
+
 /**
  *
  * @brief HAnalysis subclass defining the Bottom Tagger Analysis
@@ -10,12 +12,12 @@
  * @author Jan Hajer
  *
  */
-class hbtagger::HAnalysis : public analysis::Analysis
+class Analysis : public analysis::Analysis
 {
 
 public:
 
-    HAnalysis(analysis::Tagger &tagger);
+    Analysis(analysis::Tagger &tagger);
 
     inline std::string ProjectName() const {
         return  ProductionChannelName(production_channel()) + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
@@ -102,3 +104,5 @@ private:
     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 };
+
+}

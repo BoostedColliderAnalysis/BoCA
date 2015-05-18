@@ -8,7 +8,7 @@
  *
  */
 
-namespace hbtagger{
+namespace bottom{
 class BottomTaggerSimple : public analysis::Tagger
 {
 

@@ -1,7 +1,7 @@
 # include "AnalysisBottomTagger.hh"
 
 
-hbtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+bottom::Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
@@ -12,7 +12,7 @@ hbtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis::A
 }
 
 
-void hbtagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
+void bottom::Analysis::SetFiles(const analysis::Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
@@ -41,7 +41,7 @@ void hbtagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
 
 }
 
-std::string hbtagger::HAnalysis::ProcessName(const Process process) const
+std::string bottom::Analysis::ProcessName(const Process process) const
 {
     switch (process) {
     case cc:
@@ -78,7 +78,7 @@ std::string hbtagger::HAnalysis::ProcessName(const Process process) const
 }
 
 
-std::string hbtagger::HAnalysis::ProductionChannelName(const ProductionChannel production_channel) const
+std::string bottom::Analysis::ProductionChannelName(const ProductionChannel production_channel) const
 {
     switch (production_channel) {
     case Associated :
@@ -92,7 +92,7 @@ std::string hbtagger::HAnalysis::ProductionChannelName(const ProductionChannel p
     }
 }
 
-int hbtagger::HAnalysis::UpperCut() const
+int bottom::Analysis::UpperCut() const
 {
     switch (LowerCut()) {
     case 500 :
@@ -102,7 +102,7 @@ int hbtagger::HAnalysis::UpperCut() const
     }
 }
 
-std::string hbtagger::HAnalysis::DetectorName(const Detector detector) const
+std::string bottom::Analysis::DetectorName(const Detector detector) const
 {
     switch (detector) {
     case LHC :
@@ -117,7 +117,7 @@ std::string hbtagger::HAnalysis::DetectorName(const Detector detector) const
 }
 
 
-int hbtagger::HAnalysis::PassPreCut(analysis::Event &event)
+int bottom::Analysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
     Jets jets = event.hadrons().ClusteredJets();
@@ -126,7 +126,7 @@ int hbtagger::HAnalysis::PassPreCut(analysis::Event &event)
 }
 
 
-int hbtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
+int bottom::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {

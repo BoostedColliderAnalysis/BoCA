@@ -10,15 +10,16 @@
  * @author Jan Hajer
  *
  */
-namespace htoptagger
+namespace top
 {
-class HAnalysis : public analysis::Analysis
+
+class Analysis : public analysis::Analysis
 {
 
 public:
 
 
-    HAnalysis(analysis::Tagger &tagger);
+    Analysis(analysis::Tagger &tagger);
 
     void SetFiles(const analysis::Object::Tag tag);
 

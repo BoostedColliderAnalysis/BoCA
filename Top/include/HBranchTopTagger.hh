@@ -3,20 +3,14 @@
 # include "Branch.hh"
 
 
-namespace htoptagger{
-
-  class HAnalysis;
-  class HCandidateBranch;
-  class HJetTag;
-
-}
+namespace top{
 
 /**
  *
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class htoptagger::HCandidateBranch : public Branch
+class HCandidateBranch : public Branch
 {
 
 public:
@@ -110,3 +104,5 @@ private:
   ClassDef(HTopHadronBranch, 1)
 
 };
+
+}

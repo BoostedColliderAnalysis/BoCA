@@ -4,7 +4,7 @@
 # include "WHadronicTagger.hh"
 # include "HBranchTopTagger.hh"
 
-// #include "fastjet/contrib/MeasureFunction.hh"
+namespace top{
 
 /**
  * @brief Hadronic top BDT tagger
@@ -71,4 +71,6 @@ private:
     analysis::SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
 
 };
+
+}
 

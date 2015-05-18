@@ -1,17 +1,17 @@
 # include "HBranchBTagger.hh"
 
-ClassImp(hbtagger::HBTaggerBranch)
+ClassImp(bottom::HBTaggerBranch)
 
-hbtagger::HBTaggerBranch::HBTaggerBranch()
+bottom::HBTaggerBranch::HBTaggerBranch()
 {
 
     reset();
 
 }
 
-hbtagger::HBTaggerBranch::~HBTaggerBranch() {}
+bottom::HBTaggerBranch::~HBTaggerBranch() {}
 
-void hbtagger::HBTaggerBranch::reset()
+void bottom::HBTaggerBranch::reset()
 {
 
     const int InitialValue = -10;

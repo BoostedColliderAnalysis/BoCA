@@ -1,7 +1,7 @@
 # include "AnalysisTopTagger.hh"
 
 
-htoptagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+top::Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = analysis::Object::kDebug;
   Print(kNotification, "Constructor");
@@ -12,7 +12,7 @@ htoptagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis:
     pre_cuts_.SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
 
-std::string htoptagger::HAnalysis::ProcessName(const Process process) const {
+std::string top::Analysis::ProcessName(const Process process) const {
   switch (process) {
     case Hbb:
       return "H0bb-ljbbbb";
@@ -73,7 +73,7 @@ std::string htoptagger::HAnalysis::ProcessName(const Process process) const {
   }
 }
 
-std::string htoptagger::HAnalysis::ColliderName(const Collider collider) const {
+std::string top::Analysis::ColliderName(const Collider collider) const {
   switch (collider) {
     case LHC :
       return "14TeV";
@@ -87,7 +87,7 @@ std::string htoptagger::HAnalysis::ColliderName(const Collider collider) const {
   }
 }
 
-void htoptagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
+void top::Analysis::SetFiles(const analysis::Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
@@ -130,7 +130,7 @@ void htoptagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
 }
 
 
-int htoptagger::HAnalysis::PassPreCut(analysis::Event &event)
+int top::Analysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
     Jets particles = event.partons().Generator();
@@ -139,7 +139,7 @@ int htoptagger::HAnalysis::PassPreCut(analysis::Event &event)
     return tops.size();
 }
 
-int htoptagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int top::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {

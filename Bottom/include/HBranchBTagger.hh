@@ -1,32 +1,17 @@
-# ifndef HBranchBTagger_hh
-# define HBranchBTagger_hh
+# pragma once
 
 # include "TObject.h"
 # include "Rtypes.h"
 # include "TGenericClassInfo.h"
 
-
-namespace hbtagger
-{
-
-class HDiscriminator;
-class HJetTag;
-class JetHJetTag;
-class HAnalysis;
-class HBranchDiscriminator;
-class HJetDiscriminator;
-class HMva;
-class HBTaggerBranch;
-class HLeptonBranch;
-
-}
+namespace bottom {
 
 /**
  *
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class hbtagger::HBTaggerBranch : public TObject
+class HBTaggerBranch : public TObject
 {
 
 public:
@@ -53,5 +38,4 @@ private:
 
 };
 
-
-# endif
+}

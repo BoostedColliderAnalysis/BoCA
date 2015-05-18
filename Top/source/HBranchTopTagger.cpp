@@ -1,8 +1,8 @@
 # include "HBranchTopTagger.hh"
 
-ClassImp(htoptagger::HCandidateBranch)
+ClassImp(top::HCandidateBranch)
 
-htoptagger::HCandidateBranch::HCandidateBranch()
+top::HCandidateBranch::HCandidateBranch()
 {
   Mass = InitialValue();
   Pt = InitialValue();
@@ -44,9 +44,9 @@ htoptagger::HCandidateBranch::HCandidateBranch()
 }
 
 
-ClassImp(HTopHadronBranch)
+ClassImp(top::HTopHadronBranch)
 
-HTopHadronBranch::HTopHadronBranch()
+top::HTopHadronBranch::HTopHadronBranch()
 {
 
   BottomPt = InitialValue();

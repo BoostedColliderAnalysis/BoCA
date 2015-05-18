@@ -3,7 +3,7 @@
 # include "Event.hh"
 # include "Reader.hh"
 
-hbtagger::BottomTaggerSimple::BottomTaggerSimple()
+bottom::BottomTaggerSimple::BottomTaggerSimple()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
@@ -11,7 +11,7 @@ hbtagger::BottomTaggerSimple::BottomTaggerSimple()
     DefineVariables();
 }
 
-void hbtagger::BottomTaggerSimple::DefineVariables()
+void bottom::BottomTaggerSimple::DefineVariables()
 {
     Print(kInformation , "Define Variables");
 
@@ -36,7 +36,7 @@ void hbtagger::BottomTaggerSimple::DefineVariables()
     //     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-BottomBranch hbtagger::BottomTaggerSimple::GetBranch(const fastjet::PseudoJet &jet) const
+BottomBranch bottom::BottomTaggerSimple::GetBranch(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Fill Branch");
 
@@ -76,7 +76,7 @@ BottomBranch hbtagger::BottomTaggerSimple::GetBranch(const fastjet::PseudoJet &j
 
 
 
-int hbtagger::BottomTaggerSimple::Train(analysis::Event &event, const analysis::Object::Tag tag)
+int bottom::BottomTaggerSimple::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Bottom Tag", tag);
     Jets particles = event.partons().Generator();
@@ -91,7 +91,7 @@ int hbtagger::BottomTaggerSimple::Train(analysis::Event &event, const analysis::
     return jets.size();
 }
 
-Jets hbtagger::BottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles, const Tag tag)
+Jets bottom::BottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles, const Tag tag)
 {
     Print(kInformation, "Clean Jets");
     for (const auto & particle : particles) {
@@ -110,7 +110,7 @@ Jets hbtagger::BottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles, 
     return clean_jets;
 }
 
-int hbtagger::BottomTaggerSimple::GetBdt(analysis::Event &event, const TMVA::Reader &reader)
+int bottom::BottomTaggerSimple::GetBdt(analysis::Event &event, const TMVA::Reader &reader)
 {
     Jets jets = GetJets(event);
     Jets final_jets;
@@ -127,7 +127,7 @@ int hbtagger::BottomTaggerSimple::GetBdt(analysis::Event &event, const TMVA::Rea
     return final_jets.size();
 }
 
-float hbtagger::BottomTaggerSimple::DeltaR(const fastjet::PseudoJet &jet) const
+float bottom::BottomTaggerSimple::DeltaR(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "DeltaR");
     if (!jet.has_constituents()) return 0;
@@ -141,7 +141,7 @@ float hbtagger::BottomTaggerSimple::DeltaR(const fastjet::PseudoJet &jet) const
     return delta_r;
 }
 
-float hbtagger::BottomTaggerSimple::Spread(const fastjet::PseudoJet &jet) const
+float bottom::BottomTaggerSimple::Spread(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Spread");
     if (!jet.has_constituents()) return 0;
