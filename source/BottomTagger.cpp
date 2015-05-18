@@ -43,7 +43,7 @@ int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, con
 {
     Print(kInformation, "Get Bottom Tag", tag);
 
-    Jets particles = event.Partons().Generator();
+    Jets particles = event.partons().Generator();
     Jets bottoms = copy_if_abs_particle(particles, BottomId);
     Print(kInformation, "Particle size", bottoms.size());
 

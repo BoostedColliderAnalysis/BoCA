@@ -1,18 +1,18 @@
 # include "HParticleDelphes.hh"
 # include "Predicate.hh"
 
-analysis::hdelphes::HParticle ::HParticle()
+analysis::delphes::HParticle ::HParticle()
 {
 //     DebugLevel = analysis::Object::kDebug;
     Print(kDebug, "Constructor");
 }
 
-bool analysis::hdelphes::HParticle ::GetParticles()
+bool analysis::delphes::HParticle ::GetParticles()
 {
     Print(kInformation, "Get Particles", clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
 
-        delphes::GenParticle &particle = static_cast<delphes::GenParticle &>(clones_arrays().Particle(ParticleNumber));
+        ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(ParticleNumber));
 
         const int ParticleId = particle.PID;
         Print(kDetailed, "Particles ID", ParticleId);
@@ -22,13 +22,13 @@ bool analysis::hdelphes::HParticle ::GetParticles()
         int Mother2Id = EmptyId;
 //         int Mother2Status = EmptyId;
         if (particle.M1 != EmptyPosition) {
-            delphes::GenParticle &mother = static_cast<delphes::GenParticle &>(clones_arrays().Particle(particle.M1));
+            ::delphes::GenParticle &mother = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M1));
 
             MotherId = mother.PID;
 //             MotherStatus = mother.Status;
         }
         if (particle.M2 != EmptyPosition) {
-            delphes::GenParticle &mother = static_cast<delphes::GenParticle &>(clones_arrays().Particle(particle.M2));
+            ::delphes::GenParticle &mother = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M2));
 
             Mother2Id = mother.PID;
 //             Mother2Status = mother.Status;
@@ -96,8 +96,8 @@ bool analysis::hdelphes::HParticle ::GetParticles()
                 HiggsJets.emplace_back(HiggsParticle);
                 Print(kDebug, "Heavy CPV Higgs");
                 Print(kDebug, "HeavyHiggs", particle.Status);
-                if (particle.D1 != -1) Print(kDebug, "Daughter1", static_cast<delphes::GenParticle &>(clones_arrays().Particle(particle.D1)).PID);
-                if (particle.D2 != -1) Print(kDebug, "Daughter2", static_cast<delphes::GenParticle &>(clones_arrays().Particle(particle.D2)).PID);
+                if (particle.D1 != -1) Print(kDebug, "Daughter1", static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.D1)).PID);
+                if (particle.D2 != -1) Print(kDebug, "Daughter2", static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.D2)).PID);
             }
         }
 

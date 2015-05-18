@@ -1,13 +1,13 @@
 # ifndef HParticleParton_hh
 # define HParticleParton_hh
 
-# include "HParticle.hh"
+# include "Partons.hh"
 
 /**
  * @brief MadGraph particles
  *
  */
-class analysis::hparton::HParticle : public analysis::HParticle
+class analysis::hparton::HParticle : public analysis::Partons
 {
 
 public:

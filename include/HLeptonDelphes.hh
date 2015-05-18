@@ -1,14 +1,14 @@
 # ifndef HLeptonDelphes_hh
 # define HLeptonDelphes_hh
 
-# include "HLepton.hh"
+# include "Leptons.hh"
 # include "JetInfo.hh"
 
 /**
  * @brief Delphes leptons
  *
  */
-class analysis::hdelphes::HLepton : public analysis::HLepton
+class analysis::delphes::HLepton : public analysis::Leptons
 {
 
 public:

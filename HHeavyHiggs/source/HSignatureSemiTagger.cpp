@@ -110,7 +110,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
@@ -124,7 +124,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     std::vector<analysis::HSextet> Sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
     if (Sextets.empty())Print(kInformation, "No Sextets", Sextets.size());
 
-    Jets HiggsParticles = event.Partons().Generator();
+    Jets HiggsParticles = event.partons().Generator();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
     Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;
@@ -142,7 +142,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
 
 
     std::vector<analysis::Doublet> Finaldoublets;
-    Jets Particles = event.Partons().Generator();
+    Jets Particles = event.partons().Generator();
     if (Tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {

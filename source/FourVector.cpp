@@ -119,7 +119,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
 {
     Print(kInformation, "Get Mother Id", clones_arrays().ParticleSum());
     Family family;
-    if (object.IsA() != delphes::GenParticle::Class()/* || Object == 0*/) {
+    if (object.IsA() != ::delphes::GenParticle::Class()/* || Object == 0*/) {
         Print(kError, "Object is", object.ClassName());
         return family;
     }
@@ -165,13 +165,13 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
         }
         topology_.at(Position).SetMarker();
 //         if (Position < 3) return Family(Position, IsrId, EmptyPosition, IsrId);
-        delphes::GenParticle &particle = static_cast<delphes::GenParticle &>(clones_arrays().Particle(Position));
+        ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position));
 //         const int Status = ParticleClone.Status;
         int M1Id = EmptyId;
         int Mother1Status = EmptyStatus;
         TLorentzVector MotherVector;
         if (particle.M1 > 0) {
-            delphes::GenParticle &Mother1Clone = static_cast<delphes::GenParticle &>(clones_arrays().Particle(particle.M1));
+            ::delphes::GenParticle &Mother1Clone = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M1));
             M1Id = Mother1Clone.PID;
             MotherVector = Mother1Clone.P4();
             Mother1Status = Mother1Clone.Status;
@@ -243,7 +243,7 @@ void analysis::FourVector::PrintTruthLevel(int const severity) const
         std::cout << std::endl;
         //         for (const int Position : HRange(clones_arrays().GetParticleSum())) {
         for (const int Position : Range(30)) {
-            delphes::GenParticle &Particle = static_cast<delphes::GenParticle &>(clones_arrays().Particle(Position));
+            ::delphes::GenParticle &Particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position));
             PrintCell(Position);
             PrintCell(GetParticleName(topology_.at(Position).particle().Id));
             PrintCell(topology_.at(Position).particle().Position);
@@ -270,7 +270,7 @@ void analysis::FourVector::PrintTruthLevel(int const severity) const
 
 std::string analysis::FourVector::PrintParticle(const int Position) const
 {
-    if (Position != -1) return GetParticleName(static_cast<delphes::GenParticle &>(clones_arrays().Particle(Position)).PID);
+    if (Position != -1) return GetParticleName(static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position)).PID);
     else return " ";
 }
 

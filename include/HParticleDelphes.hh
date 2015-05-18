@@ -1,12 +1,12 @@
 # pragma once
 
-# include "HParticle.hh"
+# include "Partons.hh"
 
 /**
  * @brief delphes particles
  *
  */
-class analysis::hdelphes::HParticle  : public analysis::HParticle
+class analysis::delphes::HParticle  : public analysis::Partons
 {
 
 public:

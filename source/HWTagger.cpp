@@ -92,7 +92,7 @@ std::vector<WHadronicBranch> analysis::HWTagger::GetBranches(analysis::Event &ev
     }
 
 
-    Jets WParticles = event.Partons().Generator();
+    Jets WParticles = event.partons().Generator();
     WParticles = RemoveIfWrongParticle(WParticles, WHadId);
     fastjet::PseudoJet WParticle;
     if (Tag == kSignal) {
@@ -121,7 +121,7 @@ std::vector<WHadronicBranch> analysis::HWTagger::GetBranches(analysis::Event &ev
         }
     }
 //
-//     Jets TopParticles = event.Partons().Generator();
+//     Jets TopParticles = event.partons().Generator();
 //     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongId(sgn(WHadId)*TopId)), TopParticles.end());
 //     Print(kInformation, "Particle size", TopParticles.size());
 //     if (TopParticles.size() != 1) Print(kError, "Where is the Top?", TopParticles.size());
@@ -191,7 +191,7 @@ std::vector<WHadronicBranch> analysis::HWTagger::GetBranches(analysis::Event &ev
 
 Jets analysis::HWTagger::GetWDaughters(Event &event)
 {
-    Jets WKids = event.Partons().Generator();
+    Jets WKids = event.partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(kError, "Where is the W 1?", WKids.size());
 

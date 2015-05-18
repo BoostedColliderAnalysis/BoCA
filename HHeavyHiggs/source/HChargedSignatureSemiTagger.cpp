@@ -99,14 +99,14 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
     Jets jets = GetJets(event);
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
-    Jets Leptons = event.Leptons().GetLeptonJets();
+    Jets Leptons = event.leptons().GetLeptonJets();
     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
     std::vector<analysis::HQuartet31> HiggsQuartets = ChargedHiggsSemiTagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
 
-    Jets HiggsParticles = event.Partons().Generator();
+    Jets HiggsParticles = event.partons().Generator();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
     if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
     std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
@@ -135,7 +135,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
 //     }
     std::vector<analysis::Triplet> Finaltriplets;
     if (tag == kSignal) {
-        Jets Particles = event.Partons().Generator();
+        Jets Particles = event.partons().Generator();
         Jets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
         if (TopParticles.size() != 1) Print(kError, "Where is the Top?");
         else for (const auto & triplet : tripletsHadronic) if ((triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize)) Finaltriplets.emplace_back(triplet);
@@ -148,7 +148,7 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
 
     Jets FinalBottoms;
     if (tag == kSignal) {
-        Jets Particles = event.Partons().Generator();
+        Jets Particles = event.partons().Generator();
         Jets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (BottomParticles.size() != 1) Print(kError, "Where is the Bottom?");
         else for (const auto & Jet : jets)  if ((Jet.delta_R(BottomParticles.front()) < detector_geometry().JetConeSize)) FinalBottoms.emplace_back(Jet);

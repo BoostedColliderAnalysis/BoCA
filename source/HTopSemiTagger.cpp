@@ -113,7 +113,7 @@ int analysis::HTopSemiTagger::Train(analysis::Event &event, const analysis::Obje
     float pre_cut = 0;
 
     int WSemiId = w_semi_tagger_.WSemiId(event);
-    Jets TopParticles = event.Partons().Generator();
+    Jets TopParticles = event.partons().Generator();
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
@@ -124,7 +124,7 @@ int analysis::HTopSemiTagger::Train(analysis::Event &event, const analysis::Obje
     Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
     std::vector<analysis::Doublet> doublets = static_cast<HWSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
 
-    Jets Leptons = event.Leptons().GetLeptonJets();
+    Jets Leptons = event.leptons().GetLeptonJets();
     Print(kInformation, "Lepton Number", Leptons.size());
 
     std::vector<Triplet> triplets;

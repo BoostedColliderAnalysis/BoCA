@@ -125,13 +125,13 @@ std::vector< HHeavyHiggsLeptonicBranch> analysis::HHeavyHiggsLeptonicTagger::Get
 
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-    Jets Neutrinos = event.Partons().GetNeutrinos();
+    Jets Neutrinos = event.partons().GetNeutrinos();
 
     Print(kInformation, "Number of doublets", doublets.size());
 

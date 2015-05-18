@@ -123,7 +123,7 @@ std::vector<EventJetPairBranch> analysis::HJetPairTagger::GetBranches(analysis::
     if (jets.empty()) return JetPairBranches;
     Print(kDebug, "Number BDT Jets", jets.size());
 
-    Jets Particles = event.Partons().Generator();
+    Jets Particles = event.partons().Generator();
     if (Tag == kSignal) Particles = RemoveIfWrongAbsFamily(Particles, BottomId, MotherId);
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //     if (Tag == HBackground) Particles = RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN

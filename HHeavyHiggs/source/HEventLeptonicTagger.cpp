@@ -169,7 +169,7 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
 
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<analysis::Doublet> Topdoublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
@@ -212,7 +212,7 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
 
     for (auto & Octet : Octets) {
 //         EventStruct eventStruct;
-//         eventStruct.LeptonNumber = event.Leptons().GetLeptonJets().size();
+//         eventStruct.LeptonNumber = event.leptons().GetLeptonJets().size();
 //         eventStruct.JetNumber = event.hadrons().GetJets().size();
 //         eventStruct.BottomNumber = event.hadrons().GetBottomJets().size();
 //         eventStruct.ScalarHt = event.hadrons().GetScalarHt();

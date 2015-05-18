@@ -93,7 +93,7 @@ std::vector<BottomBranch> analysis::HBottomTagger::GetBranches(analysis::Event &
     Jets jets = GetJets(event);
     Print(kInformation, "Number Jets", jets.size());
 
-    Jets Particles = event.Partons().Generator();
+    Jets Particles = event.partons().Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsPairId(BottomId, TopId)), Particles.end());
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
     Print(kInformation, "Particle size", Particles.size());

@@ -161,7 +161,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(analysis::Event &e
     const int TopNumber = 2;
 
 //     int WHadId = WTagger.GetWHadId(event);
-    Jets TopParticles = event.Partons().Generator();
+    Jets TopParticles = event.partons().Generator();
 //     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     fastjet::PseudoJet TopQuark;
@@ -175,7 +175,7 @@ std::vector< HTopHadronBranch > HTopHadronTagger::GetBranches(analysis::Event &e
     std::vector<analysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
     std::vector<analysis::Triplet> triplets;
 
-    Jets Leptons = event.Leptons().GetLeptonJets();
+    Jets Leptons = event.leptons().GetLeptonJets();
 
 // // 3 Jets form one top
 //     for (const auto & Jet : jets)  {

@@ -1,22 +1,22 @@
 # include "HLeptonDelphes.hh"
 # include "Predicate.hh"
 
-analysis::hdelphes::HLepton::HLepton()
+analysis::delphes::HLepton::HLepton()
 {
     Print(kNotification, "Constructor");
 }
 
-bool analysis::hdelphes::HLepton::GetElectrons()
+bool analysis::delphes::HLepton::GetElectrons()
 {
   Print(kInformation, "Get Electrons", clones_arrays().ElectronSum());
     return GetElectrons(Plain);
 }
 
-bool analysis::hdelphes::HLepton::GetElectrons(analysis::FourVector::HJetDetails JetDetails)
+bool analysis::delphes::HLepton::GetElectrons(analysis::FourVector::HJetDetails JetDetails)
 {
     Print(kInformation, "Get Electrons", clones_arrays().ElectronSum());
     for (int ElectronNumber : Range(clones_arrays().ElectronSum())) {
-        delphes::Electron &electron = static_cast<delphes::Electron &>(clones_arrays().Electron(ElectronNumber));
+      ::delphes::Electron &electron = static_cast<::delphes::Electron &>(clones_arrays().Electron(ElectronNumber));
         const int ElectronCharge = electron.Charge;
         if (ElectronCharge == -1) {
             ElectronLorentzVectors.emplace_back(electron.P4());
@@ -42,17 +42,17 @@ bool analysis::hdelphes::HLepton::GetElectrons(analysis::FourVector::HJetDetails
     return 1;
 }
 
-bool analysis::hdelphes::HLepton::GetMuons()
+bool analysis::delphes::HLepton::GetMuons()
 {
     Print(kInformation, "Get Muons", clones_arrays().MuonSum());
     return GetMuons(Plain);
 }
 
-bool analysis::hdelphes::HLepton::GetMuons(HJetDetails JetDetails)
+bool analysis::delphes::HLepton::GetMuons(HJetDetails JetDetails)
 {
     Print(kInformation, "Get Muons", clones_arrays().MuonSum());
     for (int MuonNumber : Range(clones_arrays().MuonSum())) {
-        delphes::Muon &muon = static_cast<delphes::Muon &>(clones_arrays().Muon(MuonNumber));
+      ::delphes::Muon &muon = static_cast<::delphes::Muon &>(clones_arrays().Muon(MuonNumber));
         const int MuonCharge = muon.Charge;
         if (MuonCharge == -1) {
             MuonLorentzVectors.emplace_back(muon.P4());

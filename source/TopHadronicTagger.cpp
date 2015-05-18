@@ -63,7 +63,7 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
 {
     Print(kInformation, "Train");
     int w_had_id = w_hadronic_tagger_.GetWHadId(event);
-    Jets top_particles = event.Partons().Generator();
+    Jets top_particles = event.partons().Generator();
     int had_top_id = sgn(w_had_id) * std::abs(TopId);
     top_particles = RemoveIfWrongParticle(top_particles, had_top_id);
 

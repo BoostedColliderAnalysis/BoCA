@@ -1,11 +1,14 @@
 # pragma once
+
 # include "FourVector.hh"
+
+namespace analysis {
 
 /**
  * @brief particles for HAnalysis
  *
  */
-class analysis::HParticle : public FourVector
+class Partons : public FourVector
 {
 
 public:
@@ -14,11 +17,11 @@ public:
      * @brief constructor
      *
      */
-    HParticle();
+    Partons();
 
-    virtual ~HParticle(){};
+    virtual ~Partons(){};
 
-    void NewEvent(const analysis::ClonesArrays &NewClonesArrays);
+    void NewEvent(const analysis::ClonesArrays &clones_arrays);
 
     Vectors GetLeptonLorentzVectors();
 
@@ -117,9 +120,11 @@ protected:
     Jets ParticleJets;
 
     virtual inline std::string ClassName() const {
-        return ("HParticle");
+        return ("Partons");
     };
 
 private:
 
 };
+
+}

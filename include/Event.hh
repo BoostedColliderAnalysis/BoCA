@@ -1,7 +1,7 @@
 # pragma once
 
-# include "HParticle.hh"
-# include "HLepton.hh"
+# include "Partons.hh"
+# include "Leptons.hh"
 # include "Hadrons.hh"
 
 namespace analysis
@@ -20,17 +20,18 @@ public:
 
     ~Event();
 
-    void NewEvent(const ClonesArrays &);
+    void NewEvent(const ClonesArrays &clones_arrays);
 
     Hadrons &hadrons() const {
         return *hadrons_;
     }
 
-    HLepton &Leptons() const {
+    Leptons &leptons() const {
         return *leptons_;
     }
 
-    HParticle &Partons() const {
+
+    Partons &partons() const {
         return *partons_;
     }
 
@@ -48,25 +49,25 @@ protected:
         return "Event";
     }
 
+private:
+
     /**
      * @brief Particles
      *
      */
-    HParticle *partons_ = NULL;
+    Partons *partons_ = NULL;
 
     /**
      * @brief Leptons
      *
      */
-    HLepton *leptons_ = NULL;
+    Leptons *leptons_ = NULL;
 
     /**
      * @brief Jets
      *
      */
     Hadrons *hadrons_ = NULL;
-
-private:
 
     ClonesArrays::Source source_;
 

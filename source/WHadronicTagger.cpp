@@ -70,7 +70,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 
 
     int w_hadronic_id = GetWHadId(w_hadronic_daughters);
-    Jets w_particles = event.Partons().Generator();
+    Jets w_particles = event.partons().Generator();
     w_particles = RemoveIfWrongParticle(w_particles, w_hadronic_id);
 
     Jets w_jets;
@@ -130,7 +130,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 
 Jets analysis::WHadronicTagger::GetWDaughters(Event &event)
 {
-    Jets w_daughters = event.Partons().Generator();
+    Jets w_daughters = event.partons().Generator();
     w_daughters = RemoveIfWrongAbsMother(w_daughters, WId);
     Print(kInformation, "W daughters", w_daughters.size());
 

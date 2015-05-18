@@ -1,13 +1,13 @@
 # ifndef HLeptonPgs_hh
 # define HLeptonPgs_hh
 
-# include "HLepton.hh"
+# include "Leptons.hh"
 
 /**
  * @brief PGS leptons
  *
  */
-class analysis::hpgs::HLepton : public analysis::HLepton
+class analysis::hpgs::HLepton : public analysis::Leptons
 {
 
 public:

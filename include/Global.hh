@@ -22,8 +22,8 @@ namespace analysis
 {
 
 
-class HParticle;
-class HLepton;
+class Partons;
+class Leptons;
 
 class HTag;
 class HJetLeptonPair;
@@ -87,7 +87,7 @@ typedef hpgs::HJet HJetPgs;
  * @brief Delphes analysis library parts
  *
  */
-namespace hdelphes
+namespace delphes
 {
 
 class HParticle;
@@ -96,9 +96,9 @@ class HJet;
 
 }
 
-typedef hdelphes::HParticle HParticleDelphes;
-typedef hdelphes::HLepton HLeptonDelphes;
-typedef hdelphes::HJet HJetDelphes;
+// typedef hdelphes::HParticle HParticleDelphes;
+// typedef hdelphes::HLepton HLeptonDelphes;
+// typedef hdelphes::HJet HJetDelphes;
 
 }
 

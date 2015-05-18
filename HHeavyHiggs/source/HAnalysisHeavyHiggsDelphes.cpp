@@ -334,7 +334,7 @@ float hheavyhiggs::HAnalysisHeavyHiggsDelphes::Leptons(analysis::Event &event,fa
 
     float Isolation;
 
-    Jets LeptonVector = event.Leptons().GetLeptonJets();
+    Jets LeptonVector = event.leptons().GetLeptonJets();
 
     for (unsigned LeptonNumber = 0; LeptonNumber < LeptonVector.size(); ++LeptonNumber) {
 

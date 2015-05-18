@@ -70,7 +70,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(analysis::Event &event, con
 
 //     event.GetParticlesM()->GetParticles();
 
-    Jets BottomVector = event.Partons().GetBottomJets();
+    Jets BottomVector = event.partons().GetBottomJets();
 
     int BottomSum = BottomVector.size();
 
@@ -111,7 +111,7 @@ int hheavyhiggs::HAnalysisHeavyHiggsParton::Analysis(analysis::Event &event, con
     HeavyHiggs->BottomDeltaRap = CombinedRap;
     HeavyHiggs->BottomInvMass = CombinedMass;
 
-    Jets TopVector = event.Partons().GetTopJets();
+    Jets TopVector = event.partons().GetTopJets();
 
     int TopSum = TopVector.size();
 

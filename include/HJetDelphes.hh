@@ -4,11 +4,17 @@
 # include "JetInfo.hh"
 # include "TClonesArray.h"
 
+namespace analysis
+{
+
+namespace delphes
+{
+
 /**
  * @brief Delphes jets
  *
  */
-class analysis::hdelphes::HJet : public analysis::Hadrons
+class HJet : public Hadrons
 {
 
 public:
@@ -40,7 +46,7 @@ private:
      *
      * @return void
      */
-    bool GetJets(const analysis::FourVector::HJetDetails JetDetails);
+    bool GetJets(const FourVector::HJetDetails JetDetails);
 
     /**
      * @brief Analyses EFlow Variables of Jets
@@ -53,7 +59,7 @@ private:
      *
      * @return void
      */
-    void TauTag(const delphes::Jet &JetClone);
+    void TauTag(const ::delphes::Jet &JetClone);
 
     /**
      * @brief Get Gen Jet
@@ -71,9 +77,9 @@ private:
     bool GetJets(const bool, const bool);
 
     template <typename TClone>
-    analysis::JetInfo GetJetId(const TClone &Clone) {
+    JetInfo GetJetId(const TClone &Clone) {
         Print(kDetailed, "Get Jet Id", Clone.Particles.GetEntriesFast());
-        analysis::JetInfo jet_info;
+        JetInfo jet_info;
         for (const int ParticleNumber : Range(Clone.Particles.GetEntriesFast())) {
             const Family family = GetBranchFamily(*Clone.Particles.At(ParticleNumber));
             Print(kDebug, "MotherId", family.particle().Id, family.mother_1().Id);
@@ -94,7 +100,7 @@ private:
         return Isolated;
     }
 
-    void DelphesTags(const delphes::Jet &JetClone);
+    void DelphesTags(const ::delphes::Jet &JetClone);
 
     void GetTrackEFlow(const HJetDetails);
 
@@ -104,12 +110,16 @@ private:
 
     void GetMuonEFlow(const HJetDetails);
 
-    fastjet::PseudoJet StructuredJet(const delphes::Jet &JetClone, const analysis::FourVector::HJetDetails JetDetails);
+    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::HJetDetails JetDetails);
 
-    fastjet::PseudoJet Getconstituents(const TObject &Object, const analysis::FourVector::HJetDetails JetDetails, const Constituent::SubDetector Detector = Constituent::kNone);
+    fastjet::PseudoJet Getconstituents(const TObject &Object, const FourVector::HJetDetails JetDetails, const Constituent::SubDetector Detector = Constituent::kNone);
 
     inline std::string NameSpaceName() const {
         return "HDelphes";
     }
 
 };
+
+}
+
+}

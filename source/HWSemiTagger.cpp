@@ -42,12 +42,12 @@ int analysis::HWSemiTagger::Train(analysis::Event &event, const analysis::Object
 {
     Print(kInformation, "Get Top Tags");
 
-    Jets leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
+    Jets leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
     if (leptons.size() > 1) leptons.erase(leptons.begin() + 1, leptons.end());
 
     const fastjet::PseudoJet missing_et = event.hadrons().GetMissingEt();
 
-    Jets Particles = event.Partons().Generator();
+    Jets Particles = event.partons().Generator();
     int w_semi_id = WSemiId(event);
     fastjet::PseudoJet WBoson;
     Particles = RemoveIfWrongParticle(Particles, w_semi_id);
@@ -75,7 +75,7 @@ int analysis::HWSemiTagger::Train(analysis::Event &event, const analysis::Object
 std::vector<analysis::Doublet>  analysis::HWSemiTagger::GetDoublets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Triple Bdt");
-    Jets leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
+    Jets leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
     if (leptons.size() > 1) leptons.erase(leptons.begin() + 1, leptons.end());
 
     std::vector<Doublet> doublets;
@@ -172,7 +172,7 @@ struct FindError {
 
 Jets analysis::HWSemiTagger::WSemiDaughters(Event &event)
 {
-    Jets WKids = event.Partons().Generator();
+    Jets WKids = event.partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(kError, "Where is the W 1?", WKids.size());
 

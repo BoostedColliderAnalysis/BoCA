@@ -81,7 +81,7 @@ std::vector< HHeavyHiggsSemiBranch> analysis::HHeavyHiggsSemiTagger::GetBranches
     float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (Tag == kSignal) {
-        Jets HiggsParticles = event.Partons().Generator();
+        Jets HiggsParticles = event.partons().Generator();
         Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
         Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
         HiggsParticles = Even;
@@ -95,7 +95,7 @@ std::vector< HHeavyHiggsSemiBranch> analysis::HHeavyHiggsSemiTagger::GetBranches
     Jets jets = GetJets(event);
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
 
-    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
     std::vector<Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
@@ -113,7 +113,7 @@ std::vector< HHeavyHiggsSemiBranch> analysis::HHeavyHiggsSemiTagger::GetBranches
 
     std::vector<Triplet> FinaltripletsHadronic;
     int WHadId = WTagger.GetWHadId(event);
-    Jets TopParticles = event.Partons().Generator();
+    Jets TopParticles = event.partons().Generator();
     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongParticle(TopParticles, HadTopId);
     fastjet::PseudoJet TopQuark;

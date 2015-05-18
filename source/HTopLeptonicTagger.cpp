@@ -84,7 +84,7 @@ std::vector<HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranches(Event 
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
     Print(kInformation, "Jet Number", jets.size());
 
-    Jets Leptons = event.Leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
     Print(kInformation, "Lepton Number", Leptons.size());
 
     std::vector<Doublet> doublets;

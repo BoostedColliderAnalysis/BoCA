@@ -133,7 +133,7 @@ void htoptagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
 int htoptagger::HAnalysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
-    Jets particles = event.Partons().Generator();
+    Jets particles = event.partons().Generator();
     Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
     analysis::remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
     return tops.size();

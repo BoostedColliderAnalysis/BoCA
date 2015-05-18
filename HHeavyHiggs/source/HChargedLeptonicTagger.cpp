@@ -135,13 +135,13 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
 
     jets = BottomTagger->GetTruthBdt(jets, BottomReader);
 
-    Jets Leptons = event.Leptons().GetLeptonJets();
+    Jets Leptons = event.leptons().GetLeptonJets();
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<analysis::Doublet> Topdoublets = TopLeptonicTagger->GetBdt(jets, Leptons, TopLeptonicReader);
 
     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-    Jets Neutrinos = event.Partons().GetNeutrinos();
+    Jets Neutrinos = event.partons().GetNeutrinos();
 
     std::vector<analysis::Triplet> triplets1 = ChargedHiggsLeptonicTagger->GetBdt(Topdoublets, ChargedHiggsLeptonicReader);
 
@@ -174,7 +174,7 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
     std::vector<hheavyhiggs::HChargedLeptonicBranch *> eventLeptonicBranches;
     for (auto & Octet : Octets) {
         hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch = new hheavyhiggs::HChargedLeptonicBranch();
-        Octet.SetLeptonNumber(event.Leptons().GetLeptonJets().size());
+        Octet.SetLeptonNumber(event.leptons().GetLeptonJets().size());
         Octet.SetJetNumber(event.hadrons().GetJets().size());
         Octet.SetBottomNumber(event.hadrons().GetBottomJets().size());
         Octet.SetScalarHt(event.hadrons().GetScalarHt());

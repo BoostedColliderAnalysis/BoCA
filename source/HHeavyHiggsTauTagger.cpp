@@ -86,11 +86,11 @@ std::vector< HHeavyHiggsTauBranch> analysis::HHeavyHiggsTauTagger::GetBranches(a
 
     const fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
-    Jets TauParticles = event.Partons().Generator();
+    Jets TauParticles = event.partons().Generator();
     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(TauId)), TauParticles.end());
     if (TauParticles.size() != 1) Print(kError, "Where is the Tau?", TauParticles.size());
 
-    Jets HiggsParticles = event.Partons().Generator();
+    Jets HiggsParticles = event.partons().Generator();
     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
     if (HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?", HiggsParticles.size());
 

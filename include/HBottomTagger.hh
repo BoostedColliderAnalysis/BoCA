@@ -76,7 +76,7 @@ public:
 //       Reader Reader; // this wont work
 //       jets = GetJetBdt(jets, Reader);
 //
-//       Jets Particles = event.Partons().Generator();
+//       Jets Particles = event.partons().Generator();
 //       Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //       for (const auto & Particle : Particles) {

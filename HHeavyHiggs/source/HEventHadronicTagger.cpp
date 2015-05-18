@@ -158,7 +158,7 @@ std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagge
 
     for (auto & Octet : Octets) {
         hheavyhiggs::EventHadronicBranch *eventHadronicBranch = new hheavyhiggs::EventHadronicBranch();
-//         Octet.SetLeptonNumber(event.Leptons().GetLeptonJets().size());
+//         Octet.SetLeptonNumber(event.leptons().GetLeptonJets().size());
 //         Octet.SetJetNumber(event.hadrons().GetJets().size());
 //         Octet.SetBottomNumber(event.hadrons().GetBottomJets().size());
 //         Octet.SetScalarHt(event.hadrons().GetScalarHt());

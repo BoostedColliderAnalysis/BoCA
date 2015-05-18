@@ -1,166 +1,103 @@
-# include "HLepton.hh"
+# include "Leptons.hh"
 
-analysis::HLepton::HLepton()
+analysis::Leptons::Leptons()
 {
-
 //   DebugLevel=kDebug;
     Print(kNotification,"Constructor");
-
-//     Debug = 5;
-
 }
 
-analysis::HLepton::~HLepton()
+analysis::Leptons::~Leptons()
 {
-
     Print(kNotification,"Destructor");
-
 }
 
-void analysis::HLepton::NewEvent(const analysis::ClonesArrays &NewClonesArrays)
+void analysis::Leptons::NewEvent(const analysis::ClonesArrays &clones_arrays)
 {
-
     Print(kInformation,"New event");
-
-//     ClonesArrays = NewClonesArray;
-    analysis::FourVector::NewEvent(NewClonesArrays);
-
+    analysis::FourVector::NewEvent(clones_arrays);
     GotElectrons = 0;
-
     GotMuons = 0;
-
     ElectronLorentzVectors.clear();
-
     AntiElectronLorentzVectors.clear();
-
     MuonLorentzVectors.clear();
-
     AntiMuonLorentzVectors.clear();
-
     TauLorentzVectors.clear();
-
     AntiTauLorentzVectors.clear();
-
     LeptonLorentzVectors.clear();
-
     AntiLeptonLorentzVectors.clear();
-
     ElectronJets.clear();
-
     AntiElectronJets.clear();
-
     MuonJets.clear();
-
     AntiMuonJets.clear();
-
     LeptonJets.clear();
-
     AntiLeptonJets.clear();
-
 }
 
-Vectors analysis::HLepton::GetLeptonVectors()
+Vectors analysis::Leptons::GetLeptonVectors()
 {
-
-  Print(kInformation,"Get Leptons");
-
-  if(!GotElectrons) GotElectrons = GetElectrons(Plain);
-  if(!GotMuons) GotMuons = GetMuons(Plain);
-
+    Print(kInformation,"Get Leptons");
+    if(!GotElectrons) GotElectrons = GetElectrons(Plain);
+    if(!GotMuons) GotMuons = GetMuons(Plain);
     LeptonLorentzVectors = ElectronLorentzVectors;
     LeptonLorentzVectors.insert(LeptonLorentzVectors.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
 //     LeptonVector.insert(LeptonVector.end(), TauVector.begin(), TauVector.end());
     std::sort(LeptonLorentzVectors.begin(), LeptonLorentzVectors.end(), SortByPt());
-
     Print(kDebug,"Number of Leptons",LeptonLorentzVectors.size());
-
     AntiLeptonLorentzVectors = AntiElectronLorentzVectors;
     AntiLeptonLorentzVectors.insert(AntiLeptonLorentzVectors.end(), AntiMuonLorentzVectors.begin(), AntiMuonLorentzVectors.end());
 //     AntiLeptonVector.insert(AntiLeptonVector.end(), AntiTauVector.begin(), AntiTauVector.end());
     std::sort(AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end(), SortByPt());
-
-
     Print(kDebug,"Number of Anti Leptons",AntiLeptonLorentzVectors.size());
-
     Vectors CompleteVector = LeptonLorentzVectors;
     CompleteVector.insert(CompleteVector.end(), AntiLeptonLorentzVectors.begin(), AntiLeptonLorentzVectors.end());
     std::sort(CompleteVector.begin(), CompleteVector.end(), SortByPt());
-
     return CompleteVector;
-
 }
 
-Jets analysis::HLepton::GetLeptonJets()
+Jets analysis::Leptons::GetLeptonJets()
 {
-
     Print(kInformation,"Get Lepton Jets");
-
     return GetLeptonJets(Plain);
-
 }
 
-Jets analysis::HLepton::GetLeptonJets(analysis::FourVector::HJetDetails JetDetails)
+Jets analysis::Leptons::GetLeptonJets(analysis::FourVector::HJetDetails jet_details)
 {
-
     Print(kInformation,"Get Lepton Jets");
     GotElectrons = 0;
-
     GotMuons = 0;
-
     ElectronLorentzVectors.clear();
-
     AntiElectronLorentzVectors.clear();
-
     MuonLorentzVectors.clear();
-
     AntiMuonLorentzVectors.clear();
-
     TauLorentzVectors.clear();
-
     AntiTauLorentzVectors.clear();
-
     LeptonLorentzVectors.clear();
-
     AntiLeptonLorentzVectors.clear();
-
     ElectronJets.clear();
-
     AntiElectronJets.clear();
-
     MuonJets.clear();
-
     AntiMuonJets.clear();
-
     LeptonJets.clear();
-
     AntiLeptonJets.clear();
-
-
 //     if(!GotElectrons)
-      GotElectrons = GetElectrons(JetDetails);
+    GotElectrons = GetElectrons(jet_details);
 //     if(!GotMuons)
-      GotMuons = GetMuons(JetDetails);
-
+    GotMuons = GetMuons(jet_details);
     LeptonJets = ElectronJets;
     LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());
 //     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());
 //     sort(LeptonJetVector.begin(), LeptonJetVector.end(), SortJetByPt());
-
     Print(kDebug,"Number of Lepton Jets",LeptonJets.size());
-
     AntiLeptonJets = AntiElectronJets;
     AntiLeptonJets.insert(AntiLeptonJets.end(), AntiMuonJets.begin(), AntiMuonJets.end());
 //     AntiLeptonJetVector.insert(AntiLeptonJetVector.end(), AntiTauJetVector.begin(), AntiTauJetVector.end());
 //     sort(AntiLeptonJetVector.begin(), AntiLeptonJetVector.end(), SortJetByPt());
     Print(kDebug,"Number of Anti Lepton Jets",AntiLeptonJets.size());
-
     Jets AllJets = LeptonJets;
     AllJets.insert(AllJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
     //     sort(CompleteJetVector.begin(), CompleteJetVector.end(), SortJetByPt());
     PrintTruthLevel(kDebug);
-
     return AllJets;
-
 }
 
 

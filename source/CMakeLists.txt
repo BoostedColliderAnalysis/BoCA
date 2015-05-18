@@ -9,8 +9,8 @@ FourVector.cpp
 File.cpp
 ClonesArrays.cpp
 Event.cpp
-HParticle.cpp
-HLepton.cpp
+Partons.cpp
+Leptons.cpp
 Hadrons.cpp
 Predicate.cpp
 )

@@ -255,7 +255,7 @@ bool hhiggscpv::HAnalysis::GetSignalTag(analysis::Event &event, const std::strin
 {
     Print(kInformation, "Get event", NewStudyName);
 
-    Jets Leptons = event.Leptons().GetLeptonJets();
+    Jets Leptons = event.leptons().GetLeptonJets();
     if (Leptons.size() < 2) {
         Print(kNotification, "Not enough Leptons", Leptons.size());
         return 0;
@@ -302,7 +302,7 @@ bool hhiggscpv::HAnalysis::GetSignalTag(analysis::Event &event, const std::strin
     eventTagger->ScalarHt = event.hadrons().GetScalarHt();
     eventTagger->JetNumber = event.hadrons().GetJets().size();
     eventTagger->BottomNumber = event.hadrons().GetBottomJets().size();
-    eventTagger->LeptonNumber = event.Leptons().GetLeptonJets().size();
+    eventTagger->LeptonNumber = event.leptons().GetLeptonJets().size();
     eventTagger->HeavyParticleTag = HiggsCpvs.front().Bdt();
     eventTagger->TopDeltaRap = HiggsCpvs.front().GetTopDeltaRap();
     eventTagger->TopDeltaPhi = HiggsCpvs.front().GetTopDeltaPhi();

@@ -517,7 +517,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 
     if (object_number_ > EventNumberMax()) return 0;
 
-    Jets Particles = event.Partons().Generator();
+    Jets Particles = event.partons().Generator();
     Particles = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Particles.size() != 2) {
         Print(kError, "Not enough top quarks", Particles.size());
@@ -529,14 +529,14 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 
 
     if (event.hadrons().GetMissingEt().pt() < MissingEt()) return 0;
-    Jets Leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
+    Jets Leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
     if (Leptons.empty()) return 0;
     if (Leptons.front().pt() < LeptonPt()) return 0;
     Jets jets = bottom_tagger_.GetJets(event);
     if (jets.size() < 4) return 0;
 
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-//     Jets Leptons = fastjet::sorted_by_pt(event.Leptons().GetLeptonJets());
+//     Jets Leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
 //     if (Leptons.empty()) return 0;
 //     if (MissingEt.pt() < 400) return 0;
 
@@ -612,7 +612,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
-//     Jets Particles = event.Partons().Generator();
+//     Jets Particles = event.partons().Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     for (const auto & Particle : Particles) {
@@ -645,7 +645,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 // {
 //     Print(kDebug, "Get W Semi Reader", Tag);
 //
-//     Jets Leptons = event.Leptons().GetLeptonJets();
+//     Jets Leptons = event.leptons().GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //
 //     std::vector<analysis::Doublet> doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
@@ -760,7 +760,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     Jets jets = event.hadrons().GetStructuredJets();
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
-//     Jets Leptons = event.Leptons().GetLeptonJets();
+//     Jets Leptons = event.leptons().GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //     std::vector<analysis::Doublet> doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 //     std::vector<analysis::Triplet> triplets = TopSemiTagger.GetBdt(doublets, jets, TopSemiReader);
@@ -800,7 +800,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) return 0;
 //
-//     Jets Leptons = event.Leptons().GetLeptonJets();
+//     Jets Leptons = event.leptons().GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 //     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
@@ -851,7 +851,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
 //
-//     Jets Leptons = event.Leptons().GetLeptonJets();
+//     Jets Leptons = event.leptons().GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
 //     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);

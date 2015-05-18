@@ -1,16 +1,17 @@
-# ifndef HLepton_hh
-# define HLepton_hh
+# pragma once
 
 # include <algorithm>
 
 # include "ClonesArrays.hh"
 # include "FourVector.hh"
 
+namespace analysis {
+
 /**
  * @brief calculation regarding leptons
  *
  */
-class analysis::HLepton : public FourVector
+class Leptons : public FourVector
 {
 
 public:
@@ -19,51 +20,51 @@ public:
      * @brief constructor
      *
      */
-    HLepton();
+    Leptons();
 
     /**
      * @brief destructor
      *
      */
-    virtual ~HLepton();
+    virtual ~Leptons();
 
-    void NewEvent(const analysis::ClonesArrays &NewClonesArrays);
+    void NewEvent(const ClonesArrays &clones_arrays);
 
     Vectors GetLeptonVectors();
 
 
     Jets GetLeptonJets();
 
-    Jets GetTaggedJets(HJetTag &NewJetTag) {
-        jet_tag_ = &NewJetTag;
-        return GetLeptonJets(analysis::FourVector::Tagging);
+    Jets GetTaggedJets(HJetTag &jet_tag) {
+        jet_tag_ = &jet_tag;
+        return GetLeptonJets(FourVector::Tagging);
     };
 
 protected:
 
-    Jets GetLeptonJets(analysis::FourVector::HJetDetails JetDetails);
+    Jets GetLeptonJets(analysis::FourVector::HJetDetails jet_details);
 
-  /**
-   * @brief Find the hardest of the light leptons
-   *
-   */
-  virtual bool GetElectrons(HJetDetails JetDetails) {
-    Print(kError,"should be subclassed",JetDetails);
-    return 0;
-  }
+    /**
+     * @brief Find the hardest of the light leptons
+     *
+     */
+    virtual bool GetElectrons(HJetDetails jet_details) {
+        Print(kError,"should be subclassed",jet_details);
+        return 0;
+    }
 
-  /**
-   * @brief Find the hardest of the light leptons
-   *
-   */
-  virtual bool GetMuons(HJetDetails JetDetails) {
-    Print(kError,"should be subclassed",JetDetails);
-    return 0;
-  }
+    /**
+     * @brief Find the hardest of the light leptons
+     *
+     */
+    virtual bool GetMuons(HJetDetails jet_details) {
+        Print(kError,"should be subclassed",jet_details);
+        return 0;
+    }
 
-  bool GotElectrons;
+    bool GotElectrons;
 
-  bool GotMuons;
+    bool GotMuons;
 
     /**
      * @brief Electron Lorentz Vector Vector
@@ -150,16 +151,12 @@ protected:
      */
     Jets AntiLeptonJets;
 
-//     const HClonesArray *ClonesArrays;
-
 private:
 
     virtual inline std::string ClassName() const {
-
-        return ("HLepton");
-
-    };
+        return ("Leptons");
+    }
 
 };
 
-#endif
+}

@@ -472,8 +472,8 @@ Jets hjetproperties::HAnalysis::Leptons(analysis::Event &event)
     //     Jets AntiLeptonJets = event->Lepton->AntiLeptonJets;
 
 //     event.GetParticlesM()->GetParticles();
-    Jets LeptonJets = event.Partons().GetLeptonJets();
-    Jets AntiLeptonJets = event.Partons().GetAntiLeptonJets();
+    Jets LeptonJets = event.partons().GetLeptonJets();
+    Jets AntiLeptonJets = event.partons().GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
