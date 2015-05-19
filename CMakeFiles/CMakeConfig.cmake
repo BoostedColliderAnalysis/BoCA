@@ -4,36 +4,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -pedantic -Wpoi
 # -fno-stack-protector
 # -g -rdynamic-Wshadow
 
-#C set build type to debug
-# set(CMAKE_BUILD_TYPE Debug)
-
-# Load some basic macros which are needed later on
-include(CMakeFiles/FindROOT.cmake)
-include(CMakeFiles/Findfastjet.cmake)
-include(CMakeFiles/FindLibConfig.cmake)
-# find_package(Doxygen)
-
-# set path to dependencies
-set(MadGraphDir ~/Development/MadGraph)
-set(ExRootDir ${MadGraphDir}/ExRootAnalysis)
-set(DelphesDir ${MadGraphDir}/Delphes)
+# set build type to debug
+set(CMAKE_BUILD_TYPE Debug)
 
 
 SET(CMAKE_INSTALL_PREFIX ~)
-
-
-# find external libraries
-find_library(
-  ExRootLibrary
-  NAMES ExRootAnalysis
-  HINTS ${ExRootDir}/lib
-)
-
-find_library(
-  DelphesLibrary
-  NAMES Delphes
-  HINTS ${DelphesDir}
-)
 
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -72,30 +47,13 @@ macro(HLibrary HName HSource)
   set(LinkLibraries ${LinkLibraries} ${ARGV2})
 endmacro(HLibrary)
 
-macro(HDictionary HName HSource HLinkDef)
-  set(HDictionary ${HName}Dict.cpp)
-  ROOT_GENERATE_DICTIONARY("${HSource}" "${HLinkDef}" "${HDictionary}" "${IncludeDirectory}")
-  HLibrary(${HName} ${HDictionary} ${ARGV3})
-endmacro(HDictionary)
-
 macro(HExecutable HName HSource)
   add_executable(${HName} ${HSource})
   target_link_libraries(${HName} ${LinkLibraries})
 endmacro(HExecutable)
 
-set(Directory
-  ${ROOT_INCLUDE_DIR}
-  ${ExRootDir}
-  ${DelphesDir}
-#   ${LIBCONFIG_INCLUDE_DIR}
-)
-HInclude("${Directory}" SYSTEM)
-
-set(LinkLibraries
-  ${LIBCONFIGPP_LIBRARIES}
-  ${ROOT_LIBRARIES}
-  TMVA
-  ${fastjet_LIBRARIES}
-  ${DelphesLibrary}
-  ${ExRootLibrary}
-)
+macro(HDictionary HName HSource HLinkDef)
+  set(HDictionary ${HName}Dict.cpp)
+  ROOT_GENERATE_DICTIONARY("${HSource}" "${HLinkDef}" "${HDictionary}" "${IncludeDirectory}")
+  HLibrary(${HName} ${HDictionary} ${ARGV3})
+endmacro(HDictionary)
