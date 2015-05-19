@@ -41,12 +41,12 @@ public:
         return (doublet_jet() + singlet());
     }
 
-    inline float GetJetDeltaMass(const HParticleId ParticleId) const {
-        return std::abs(singlet().m() - GetParticleMass(ParticleId));
+    inline float GetJetDeltaMass(const ParticleId particle_id) const {
+        return std::abs(singlet().m() - GetParticleMass(particle_id));
     }
 
-    inline float GetDeltaMass(const HParticleId ParticleId) const {
-        return std::abs(Jet().m() - GetParticleMass(ParticleId));
+    inline float GetDeltaMass(const ParticleId particle_id) const {
+        return std::abs(Jet().m() - GetParticleMass(particle_id));
     }
 
     inline float Ht() const {

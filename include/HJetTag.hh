@@ -30,7 +30,7 @@ public:
     Family GetBranchFamily(const Family& node_family, Family& branch_family);
 
 
-    std::set<HParticleId> HeavyParticles;
+    std::set<ParticleId> HeavyParticles;
 
 protected:
 
@@ -38,7 +38,7 @@ protected:
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    std::set<HParticleId> RadiationParticles {ProtonId};
+    std::set<ParticleId> RadiationParticles {ProtonId};
 
 private:
 

@@ -24,7 +24,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //             analysis::Factory(Analysis.w_hadronic_tagger);
 //             break;
 //         case analysis::HAnalysis::HWSemiTagger:
-//             analysis::Factory(Analysis.WSemiTagger);
+//             analysis::Factory(Analysis.w_semi_tagger);
 //             break;
 //         case analysis::HAnalysis::HTopLeptonicTagger:
 // //             analysis::Factory(Analysis.TopLeptonicTagger);
@@ -33,7 +33,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //             analysis::Factory(Analysis.top_hadronic_tagger);
 //             break;
 //         case analysis::HAnalysis::HTopSemiTagger:
-//             analysis::Factory(Analysis.TopSemiTagger);
+//             analysis::Factory(Analysis.top_semi_tagger);
 //             break;
 //         case analysis::HAnalysis::HHeavyHiggsLeptonicTagger:
 // //             analysis::Factory(Analysis.HeavyHiggsLeptonicTagger);
@@ -98,7 +98,7 @@ int main()
     RunTagger(w_hadronic_tagger, analysis::Tagger::kTrainer);
     RunTagger(w_hadronic_tagger, analysis::Tagger::kReader);
 
-    analysis::HWSemiTagger w_semi_tagger;
+    analysis::WSemiTagger w_semi_tagger;
     RunTagger(w_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(w_semi_tagger, analysis::Tagger::kReader);
 
@@ -106,7 +106,7 @@ int main()
     RunTagger(top_hadronic_tagger, analysis::Tagger::kTrainer);
     RunTagger(top_hadronic_tagger, analysis::Tagger::kReader);
 
-    analysis::HTopSemiTagger tops_semi_tagger;
+    analysis::TopSemiTagger tops_semi_tagger;
     RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(tops_semi_tagger, analysis::Tagger::kReader);
 

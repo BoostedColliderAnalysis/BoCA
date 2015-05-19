@@ -4,7 +4,7 @@
 # include "BranchHeavyHiggs.hh"
 # include "HChargedHiggsLeptonicTagger.hh"
 # include "HOctet44.hh"
-# include "HSextet.hh"
+# include "Sextet.hh"
 # include "WIMPMASS.h"
 
 /**
@@ -67,9 +67,9 @@ private:
 
     std::vector<HOctet44> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
 
-    std::vector<hheavyhiggs::HOctet44> GetOctets(const analysis::HSextet &Sextet, const fastjet::PseudoJet &MissingEt);
+    std::vector<hheavyhiggs::HOctet44> GetOctets(const analysis::Sextet &sextet, const fastjet::PseudoJet &MissingEt);
 
-    HOctet44 GetOctet(analysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
+    HOctet44 GetOctet(analysis::Sextet sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
 
     analysis::BottomTagger *BottomTagger;
 

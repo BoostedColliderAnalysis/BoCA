@@ -6,14 +6,14 @@ analysis::HChargedJetPairTagger::HChargedJetPairTagger()
     DefineVariables();
 }
 
-void analysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const HWSemiTagger &NewWSemiTagger, const WHadronicTagger &NewWTagger, const HTopSemiTagger &NewTopSemiTagger, const TopHadronicTagger &Newtop_hadronic_tagger)
+void analysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const WSemiTagger &Neww_semi_tagger, const WHadronicTagger &NewWTagger, const TopSemiTagger &Newtop_semi_tagger, const TopHadronicTagger &Newtop_hadronic_tagger)
 {
     Print(kNotification, "Set Tagger", NewBottomTagger.tagger_name());
 
     bottom_tagger_ = NewBottomTagger;
-    WSemiTagger = NewWSemiTagger;
+    w_semi_tagger = Neww_semi_tagger;
     WTagger = NewWTagger;
-    TopSemiTagger = NewTopSemiTagger;
+    top_semi_tagger = Newtop_semi_tagger;
     top_hadronic_tagger = Newtop_hadronic_tagger;
 
 //     top_hadronic_tagger.bottom_tagger_ = NewBottomTagger;
@@ -64,45 +64,45 @@ void analysis::HChargedJetPairTagger::DefineVariables()
 
 }
 
-analysis::HChargedJetPairBranch analysis::HChargedJetPairTagger::GetBranch(const HQuartet31 &Quartet) const
+analysis::HChargedJetPairBranch analysis::HChargedJetPairTagger::GetBranch(const Quartet31 &quartet) const
 {
 
-    Print(kInformation, "FillPairTagger", Quartet.Bdt());
+    Print(kInformation, "FillPairTagger", quartet.Bdt());
 
     HChargedJetPairBranch JetPairBranch;
 
-    JetPairBranch.Mass = Quartet.Jet().m();
-    JetPairBranch.Pt = Quartet.Jet().pt();
-    JetPairBranch.Rap = Quartet.Jet().rap();
-    JetPairBranch.Phi = Quartet.Jet().phi();
-    JetPairBranch.Ht = Quartet.Ht();
+    JetPairBranch.Mass = quartet.Jet().m();
+    JetPairBranch.Pt = quartet.Jet().pt();
+    JetPairBranch.Rap = quartet.Jet().rap();
+    JetPairBranch.Phi = quartet.Jet().phi();
+    JetPairBranch.Ht = quartet.Ht();
 
-    JetPairBranch.DeltaM = Quartet.DeltaM();
-    JetPairBranch.DeltaPt = Quartet.DeltaPt();
-    JetPairBranch.DeltaR = Quartet.DeltaR();
-    JetPairBranch.DeltaRap = Quartet.DeltaRap();
-    JetPairBranch.DeltaPhi = Quartet.DeltaPhi();
+    JetPairBranch.DeltaM = quartet.DeltaM();
+    JetPairBranch.DeltaPt = quartet.DeltaPt();
+    JetPairBranch.DeltaR = quartet.DeltaR();
+    JetPairBranch.DeltaRap = quartet.DeltaRap();
+    JetPairBranch.DeltaPhi = quartet.DeltaPhi();
 
-    JetPairBranch.BottomPt = Quartet.singlet().pt();
-    JetPairBranch.BottomRap = std::abs(Quartet.singlet().rap());
-    JetPairBranch.BottomPhi = Quartet.singlet().phi();
-    JetPairBranch.BottomMass = Quartet.singlet().m();
-    JetPairBranch.BottomBdt = Quartet.singlet().user_info<JetInfo>().Bdt();
+    JetPairBranch.BottomPt = quartet.singlet().pt();
+    JetPairBranch.BottomRap = std::abs(quartet.singlet().rap());
+    JetPairBranch.BottomPhi = quartet.singlet().phi();
+    JetPairBranch.BottomMass = quartet.singlet().m();
+    JetPairBranch.BottomBdt = quartet.singlet().user_info<JetInfo>().Bdt();
 
-    JetPairBranch.TopPt = Quartet.triplet().Jet().pt();
-    JetPairBranch.TopRap = std::abs(Quartet.triplet().Jet().rap());
-    JetPairBranch.TopPhi = Quartet.triplet().Jet().phi();
-    JetPairBranch.TopMass = Quartet.triplet().Jet().m();
-    JetPairBranch.TopBdt = Quartet.triplet().Bdt();
+    JetPairBranch.TopPt = quartet.triplet().Jet().pt();
+    JetPairBranch.TopRap = std::abs(quartet.triplet().Jet().rap());
+    JetPairBranch.TopPhi = quartet.triplet().Jet().phi();
+    JetPairBranch.TopMass = quartet.triplet().Jet().m();
+    JetPairBranch.TopBdt = quartet.triplet().Bdt();
 
-    JetPairBranch.Bdt = Quartet.Bdt();
-    JetPairBranch.Tag = Quartet.Tag();
+    JetPairBranch.Bdt = quartet.Bdt();
+    JetPairBranch.Tag = quartet.Tag();
     return JetPairBranch;
 }
 
-struct SortQuartetByDeltaRap {
-    inline bool operator()(const analysis::HQuartet31 &Quartet1, const analysis::HQuartet31 &Quartet2) {
-        return (Quartet1.DeltaRap() > Quartet2.DeltaRap());
+struct SortquartetByDeltaRap {
+    inline bool operator()(const analysis::Quartet31 &quartet1, const analysis::Quartet31 &quartet2) {
+        return (quartet1.DeltaRap() > quartet2.DeltaRap());
     }
 };
 
@@ -163,57 +163,57 @@ std::vector<analysis::HChargedJetPairBranch> analysis::HChargedJetPairTagger::Ge
 //     if (Tag == HBackground && jets.size() > 0) jets.erase(jets.begin());
 
 
-    std::vector<HQuartet31> Quartets;
+    std::vector<Quartet31> quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets) {
             if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            HQuartet31 Quartet(triplet, Jet);
-//             if (Quartet.DeltaR() < 2) continue;
-//             Quartet.SetTag(GetTag(Quartet));
-//             if (Quartet.Tag() != Tag) continue;
-            Quartets.emplace_back(Quartet);
+            Quartet31 quartet(triplet, Jet);
+//             if (quartet.DeltaR() < 2) continue;
+//             quartet.SetTag(GetTag(quartet));
+//             if (quartet.Tag() != Tag) continue;
+            quartets.emplace_back(quartet);
         }
 
-    Print(kDebug, "Number of Jet Pairs", Quartets.size());
+    Print(kDebug, "Number of Jet Pairs", quartets.size());
 
-    if (Tag == kSignal && Quartets.size() > 1) {
-        std::sort(Quartets.begin(), Quartets.end(), SortQuartetByDeltaRap());
-        if (Quartets.size() > 1)Quartets.erase(Quartets.begin() + 1, Quartets.end());
+    if (Tag == kSignal && quartets.size() > 1) {
+        std::sort(quartets.begin(), quartets.end(), SortquartetByDeltaRap());
+        if (quartets.size() > 1)quartets.erase(quartets.begin() + 1, quartets.end());
     }
 
     std::vector<HChargedJetPairBranch> JetPairBranches;
-    for (const auto & Quartet : Quartets) JetPairBranches.emplace_back(GetBranch(Quartet));
+    for (const auto & quartet : quartets) JetPairBranches.emplace_back(GetBranch(quartet));
 
     return JetPairBranches;
 
 }
 
-analysis::Object::Tag analysis::HChargedJetPairTagger::GetTag(const HQuartet31 &)
+analysis::Object::Tag analysis::HChargedJetPairTagger::GetTag(const Quartet31 &)
 {
-    Print(kInformation, "Get Quartet Tag");
+    Print(kInformation, "Get quartet Tag");
 
     return kSignal;
 }
 
 
 
-std::vector<analysis::HQuartet31>  analysis::HChargedJetPairTagger::GetBdt(const std::vector<Triplet> &triplets, const Jets &jets, const analysis::Reader &JetPairReader)
+std::vector<analysis::Quartet31>  analysis::HChargedJetPairTagger::GetBdt(const std::vector<Triplet> &triplets, const Jets &jets, const analysis::Reader &JetPairReader)
 {
-    std::vector<HQuartet31>  Quartets;
+    std::vector<Quartet31>  quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {
             if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             if (triplet.doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            HQuartet31 Quartet(triplet, Jet);
-            Branch = GetBranch(Quartet);
-            Quartet.SetBdt(JetPairReader.Bdt());
-            Quartets.emplace_back(Quartet);
+            Quartet31 quartet(triplet, Jet);
+            Branch = GetBranch(quartet);
+            quartet.SetBdt(JetPairReader.Bdt());
+            quartets.emplace_back(quartet);
         }
-    std::sort(Quartets.begin(), Quartets.end());
-    Quartets.erase(Quartets.begin() + std::min(max_combi(), int(Quartets.size())), Quartets.end());
-    return Quartets;
+    std::sort(quartets.begin(), quartets.end());
+    quartets.erase(quartets.begin() + std::min(max_combi(), int(quartets.size())), quartets.end());
+    return quartets;
 }
 

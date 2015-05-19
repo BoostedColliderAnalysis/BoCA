@@ -100,13 +100,13 @@ void analysis::Object::Printer(const std::string &Description) const
 
 }
 
-std::string analysis::Object::GetParticleName(const int ParticleId) const
+std::string analysis::Object::GetParticleName(const int particle_id) const
 {
 
     std::string Sign = "";
-    if (ParticleId < 0) Sign = "-";
+    if (particle_id < 0) Sign = "-";
 
-    switch (std::abs(ParticleId)) {
+    switch (std::abs(particle_id)) {
 //     case EmptyId: return (Sign + "Empty");
     case DownId:
         return (Sign + "d");
@@ -225,16 +225,16 @@ std::string analysis::Object::GetParticleName(const int ParticleId) const
     case CpvHiggsId:
         return (Sign + "h");
     default:
-        return std::to_string(ParticleId);
+        return std::to_string(particle_id);
     }
 
 }
 
 
-float analysis::Object::GetParticleMass(const HParticleId ParticleId) const
+float analysis::Object::GetParticleMass(const ParticleId particle_id) const
 {
 
-    switch (std::abs(ParticleId)) {
+    switch (std::abs(particle_id)) {
     case StrangeId:
         return 0.095;
     case CharmId:

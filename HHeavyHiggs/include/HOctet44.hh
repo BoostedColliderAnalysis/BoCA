@@ -1,7 +1,7 @@
 # ifndef HOctet44_hh
 # define HOctet44_hh
 
-# include "HQuartet31.hh"
+# include "Quartet31.hh"
 
 struct HChargedevent_struct {
 
@@ -34,63 +34,63 @@ public:
 
   HOctet44(){};
 
-    HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &Newdoublet);
+    HOctet44(const analysis::Quartet31 &Newquartet1, const analysis::Quartet31 &Newdoublet);
 
-    HOctet44(const analysis::HQuartet31 &NewQuartet1, const analysis::HQuartet31 &NewQuartet2, const HChargedevent_struct &Newevent_struct);
+    HOctet44(const analysis::Quartet31 &Newquartet1, const analysis::Quartet31 &Newquartet2, const HChargedevent_struct &Newevent_struct);
 
-    inline analysis::HQuartet31 Quartet1()const {
-        return Quartet1M;
+    inline analysis::Quartet31 quartet1()const {
+        return quartet1M;
     }
 
-    inline analysis::HQuartet31 Quartet2() const {
-        return Quartet2M;
+    inline analysis::Quartet31 quartet2() const {
+        return quartet2M;
     }
-    inline fastjet::PseudoJet GetQuartet1Jet() const {
-        return Quartet1M.Jet();
+    inline fastjet::PseudoJet Getquartet1Jet() const {
+        return quartet1M.Jet();
     }
 
-    inline fastjet::PseudoJet GetQuartet2Jet() const {
-        return Quartet2M.Jet();
+    inline fastjet::PseudoJet Getquartet2Jet() const {
+        return quartet2M.Jet();
     }
 
     inline  fastjet::PseudoJet Jet() const {
-        return GetQuartet1Jet() + GetQuartet2Jet();
+        return Getquartet1Jet() + Getquartet2Jet();
     }
 
     inline float Ht() const {
-      return Quartet1().Ht() + Quartet2().Ht();
+      return quartet1().Ht() + quartet2().Ht();
     }
 
     inline float DeltaPt() const {
-        return GetQuartet1Jet().pt() - GetQuartet2Jet().pt();
+        return Getquartet1Jet().pt() - Getquartet2Jet().pt();
     }
 
     inline float DeltaHt() const {
-      return Quartet1().Ht() - Quartet2().Ht();
+      return quartet1().Ht() - quartet2().Ht();
     }
 
     inline float DeltaM() const {
-      return GetQuartet1Jet().m() - GetQuartet2Jet().m();
+      return Getquartet1Jet().m() - Getquartet2Jet().m();
     }
 
     inline float DeltaR() const {
-        return GetQuartet1Jet().delta_R(GetQuartet2Jet());
+        return Getquartet1Jet().delta_R(Getquartet2Jet());
     }
 
     inline float DeltaPhi() const {
-        return GetQuartet1Jet().delta_phi_to(GetQuartet2Jet());
+        return Getquartet1Jet().delta_phi_to(Getquartet2Jet());
     }
 
     inline float DeltaRap() const {
-        return GetQuartet1Jet().rap() - GetQuartet2Jet().rap();
+        return Getquartet1Jet().rap() - Getquartet2Jet().rap();
     }
 
     inline float BottomBdt() const {
-      return Quartet1().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet1().triplet().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet2().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<analysis::JetInfo>().Bdt();
+      return quartet1().singlet().user_info<analysis::JetInfo>().Bdt() + quartet1().triplet().singlet().user_info<analysis::JetInfo>().Bdt() + quartet2().singlet().user_info<analysis::JetInfo>().Bdt() + quartet2().triplet().singlet().user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-      return Quartet2().singlet().user_info<analysis::JetInfo>().Bdt() + Quartet2().triplet().singlet().user_info<analysis::JetInfo>().Bdt();
+      return quartet2().singlet().user_info<analysis::JetInfo>().Bdt() + quartet2().triplet().singlet().user_info<analysis::JetInfo>().Bdt();
     }
 
 //     inline float GetDeltaPt1() const {
@@ -176,9 +176,9 @@ protected:
 
 private:
 
-    analysis::HQuartet31 Quartet1M;
+    analysis::Quartet31 quartet1M;
 
-    analysis::HQuartet31 Quartet2M;
+    analysis::Quartet31 quartet2M;
 
 };
 

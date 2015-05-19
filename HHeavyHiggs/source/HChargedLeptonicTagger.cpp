@@ -56,16 +56,16 @@ void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLepton
     eventLeptonicBranch->ScalarHt = Octet.GetScalarHt();
     eventLeptonicBranch->HeavyParticleBdt = Octet.Bdt();
 
-    eventLeptonicBranch->HeavyHiggsBdt = Octet.Quartet1().Bdt();
-    eventLeptonicBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
-    eventLeptonicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
+    eventLeptonicBranch->HeavyHiggsBdt = Octet.quartet1().Bdt();
+    eventLeptonicBranch->HeavyHiggsMass = Octet.Getquartet1Jet().m();
+    eventLeptonicBranch->HeavyHiggsPt = Octet.Getquartet1Jet().pt();
 
-    eventLeptonicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-    eventLeptonicBranch->BottomDeltaPt = Octet.Quartet2().DeltaPt();
+    eventLeptonicBranch->BottomSumPt = Octet.Getquartet2Jet().pt();
+    eventLeptonicBranch->BottomDeltaPt = Octet.quartet2().DeltaPt();
 
-    eventLeptonicBranch->BottomDeltaRap = Octet.Quartet2().DeltaRap();
-    eventLeptonicBranch->BottomDeltaPhi = Octet.Quartet2().GetPhiDelta();
-    eventLeptonicBranch->BottomDeltaR = Octet.Quartet2().DeltaR();
+    eventLeptonicBranch->BottomDeltaRap = Octet.quartet2().DeltaRap();
+    eventLeptonicBranch->BottomDeltaPhi = Octet.quartet2().GetPhiDelta();
+    eventLeptonicBranch->BottomDeltaR = Octet.quartet2().DeltaR();
 
     eventLeptonicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
     eventLeptonicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
@@ -121,9 +121,9 @@ void hheavyhiggs::HChargedLeptonicTagger::DefineVariables()
 
 }
 
-struct SortByQuartetBdt {
+struct SortByquartetBdt {
     inline bool operator()(const HOctet44 &Octet1, const HOctet44 &Octet2) {
-        return (Octet1.GetQuartet1().Bdt() > Octet2.GetQuartet1().Bdt();
+        return (Octet1.Getquartet1().Bdt() > Octet2.Getquartet1().Bdt();
     }
 };
 
@@ -159,15 +159,15 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
             if (triplet1.Gettriplet1().GetJet() == triplet2.GetJet2()) continue;
             if (triplet1.Gettriplet2().GetJet() == triplet2.GetJet1()) continue;
             if (triplet1.Gettriplet2().GetJet() == triplet2.GetJet2()) continue;
-            analysis::HSextet Sextet(triplet1, triplet2);
-            HOctet44 PreOctets = GetOctet(Sextet, MissingEt, Neutrinos, Tag);
+            analysis::Sextet sextet(triplet1, triplet2);
+            HOctet44 PreOctets = GetOctet(sextet, MissingEt, Neutrinos, Tag);
             for (auto & Octet : PreOctets) Octets.emplace_back(Octet);
         }
     }
 
     if (Octets.size() > 1) {
         Print(kError, "more than one event");
-        std::sort(Octets.begin(), Octets.end(), SortByQuartetBdt());
+        std::sort(Octets.begin(), Octets.end(), SortByquartetBdt());
         Octets.erase(Octets.begin() + 1, Octets.end());
     }
 
@@ -197,15 +197,15 @@ void hheavyhiggs::HChargedLeptonicTagger::SetMomentum(double Momentum[4], const 
 }
 
 
-std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const analysis::HSextet &Sextet, const fastjet::PseudoJet &MissingEt)
+std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const analysis::Sextet &sextet, const fastjet::PseudoJet &MissingEt)
 {
 
     Print(kInformation, "Get Triple Pairs");
 
-    SetMomentum(Structure.p3, Sextet.triplet1().Getdoublet().Singlet2());
-    SetMomentum(Structure.p4, Sextet.triplet2().Getdoublet().Singlet2());
-    SetMomentum(Structure.p5, Sextet.triplet1().Getdoublet().Singlet1());
-    SetMomentum(Structure.p6, Sextet.triplet2().Getdoublet().Singlet1());
+    SetMomentum(Structure.p3, sextet.triplet1().Getdoublet().Singlet2());
+    SetMomentum(Structure.p4, sextet.triplet2().Getdoublet().Singlet2());
+    SetMomentum(Structure.p5, sextet.triplet1().Getdoublet().Singlet1());
+    SetMomentum(Structure.p6, sextet.triplet2().Getdoublet().Singlet1());
     SetMomentum(Structure.pmiss, MissingEt);
 
     Print(kDebug, "Lepton 1 (p3)", GetJet(Structure.p3));
@@ -225,31 +225,31 @@ std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const analy
         Print(kDebug, "Neutrino 1 (p1)" , GetJet(P1[SolutionNumber]));
         Print(kDebug, "Neutrino 2 (p2)" , GetJet(P2[SolutionNumber]));
 
-        analysis::Doublet doublet1(Sextet.triplet1().Getdoublet().Singlet2(), GetJet(P1[SolutionNumber]));
+        analysis::Doublet doublet1(sextet.triplet1().Getdoublet().Singlet2(), GetJet(P1[SolutionNumber]));
         if (doublet1.Jet().m() <= 0) continue;
-        analysis::Doublet doublet2(Sextet.triplet2().Getdoublet().Singlet2(), GetJet(P2[SolutionNumber]));
+        analysis::Doublet doublet2(sextet.triplet2().Getdoublet().Singlet2(), GetJet(P2[SolutionNumber]));
         if (doublet2.GetJet().m() <= 0) continue;
 
-        analysis::Triplet triplet1(doublet1, Sextet.triplet1().Getdoublet().Singlet1());
+        analysis::Triplet triplet1(doublet1, sextet.triplet1().Getdoublet().Singlet1());
         if (triplet1.GettripletJet().m() <= 0) continue;
-        analysis::Triplet triplet2(doublet2, Sextet.triplet2().Getdoublet().Singlet1());
+        analysis::Triplet triplet2(doublet2, sextet.triplet2().Getdoublet().Singlet1());
         if (triplet2.GettripletJet().m() <= 0) continue;
 
-        analysis::HQuartet31 Quartet1(triplet1, Sextet.triplet1().GetJet());
-        if (Quartet1.Jet().m() <= 0) continue;
-        analysis::HQuartet31 Quartet2(triplet2, Sextet.triplet2().GetJet());
-        if (Quartet2.Jet().m() <= 0) continue;
+        analysis::Quartet31 quartet1(triplet1, sextet.triplet1().GetJet());
+        if (quartet1.Jet().m() <= 0) continue;
+        analysis::Quartet31 quartet2(triplet2, sextet.triplet2().GetJet());
+        if (quartet2.Jet().m() <= 0) continue;
 
-        HOctet44 Octet(Quartet1, Quartet2);
+        HOctet44 Octet(quartet1, quartet2);
         if (Octet.GetJet().m() <= 0) continue;
-        Octet.SetTag(Sextet.Tag());
-        Octet.SetBdt(Sextet.Bdt());
+        Octet.SetTag(sextet.Tag());
+        Octet.SetBdt(sextet.Bdt());
         Octets.emplace_back(Octet);
 
-        Print(kDebug, "TriplePair Bdt", Octet.Bdt(), Sextet.Bdt());
+        Print(kDebug, "TriplePair Bdt", Octet.Bdt(), sextet.Bdt());
         //         Print(kDebug, "Neutrino masses", Jet1.m(), Jet2.m());
-        Print(kDebug, "W masses", (GetJet(P1[SolutionNumber]) + Sextet.triplet1().Getdoublet().Singlet2()).m(), (GetJet(P2[SolutionNumber]) + Sextet.triplet2().Getdoublet().Singlet2()).m());
-        Print(kDebug, "top masses", (GetJet(P1[SolutionNumber]) + Sextet.triplet1().Getdoublet().Singlet2() + Sextet.triplet1().Getdoublet().Singlet1()).m(), (GetJet(P2[SolutionNumber]) + Sextet.triplet2().Getdoublet().Singlet2() + Sextet.triplet2().Getdoublet().Singlet1()).m());
+        Print(kDebug, "W masses", (GetJet(P1[SolutionNumber]) + sextet.triplet1().Getdoublet().Singlet2()).m(), (GetJet(P2[SolutionNumber]) + sextet.triplet2().Getdoublet().Singlet2()).m());
+        Print(kDebug, "top masses", (GetJet(P1[SolutionNumber]) + sextet.triplet1().Getdoublet().Singlet2() + sextet.triplet1().Getdoublet().Singlet1()).m(), (GetJet(P2[SolutionNumber]) + sextet.triplet2().Getdoublet().Singlet2() + sextet.triplet2().Getdoublet().Singlet1()).m());
         //         Print(kDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
     }
 
@@ -258,12 +258,12 @@ std::vector<HOctet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const analy
 }
 
 
-HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(analysis::HSextet Sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag)
+HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(analysis::Sextet sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag)
 {
 
     Print(kInformation, "Get Triple Pair");
 
-    std::vector<HOctet44> Octets = GetOctets(Sextet, MissingEt);
+    std::vector<HOctet44> Octets = GetOctets(sextet, MissingEt);
     Print(kDebug, "Number Solutions", Octets.size());
 
     if (Octets.empty()) return Octets;
@@ -274,8 +274,8 @@ HOctet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(analysis::HSextet Sextet,
 
     std::map<float, HOctet44> Map;
     for (const auto & Octet : Octets) {
-        fastjet::PseudoJet Neutrino1 = Octet.GetQuartet1().Gettriplet().doublet().Singlet2();
-        fastjet::PseudoJet Neutrino2 = Octet.GetQuartet2().Gettriplet().doublet().Singlet2();
+        fastjet::PseudoJet Neutrino1 = Octet.Getquartet1().Gettriplet().doublet().Singlet2();
+        fastjet::PseudoJet Neutrino2 = Octet.Getquartet2().Gettriplet().doublet().Singlet2();
 
         std::vector<float> Neutrino1Errors, Neutrino2Errors;
         for (const auto & Neutrino : Neutrinos) {

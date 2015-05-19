@@ -12,10 +12,10 @@ analysis::HHeavyHiggsTauTagger::~HHeavyHiggsTauTagger()
     Print(kNotification, "Destructor");
 }
 
-void analysis::HHeavyHiggsTauTagger::SetTagger(const HTauTagger &NewTauTagger)
+void analysis::HHeavyHiggsTauTagger::SetTagger(const TauTagger &tau_tagger)
 {
     Print(kNotification, "Set Tagger");
-    TauTagger = NewTauTagger;
+    tau_tagger_ = tau_tagger;
     set_tagger_name("HeavyHiggsTau");
     DefineVariables();
 }
@@ -81,7 +81,7 @@ std::vector< analysis::HHeavyHiggsTauBranch> analysis::HHeavyHiggsTauTagger::Get
     Print(kInformation, "Get Top Tags");
 
     Jets jets = GetJets(event);
-    jets = TauTagger.GetJetBdt(jets, TauReader);
+    jets = tau_tagger_.GetJetBdt(jets, TauReader);
     Print(kInformation, "Number Jet", jets.size());
 
     const fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();

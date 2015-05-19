@@ -1,13 +1,18 @@
-# ifndef HParticleParton_hh
-# define HParticleParton_hh
+# pragma once
 
-# include "Partons.hh"
+# include "../Partons.hh"
+
+namespace analysis
+{
+
+namespace exroot
+{
 
 /**
  * @brief MadGraph particles
  *
  */
-class analysis::hparton::HParticle : public analysis::Partons
+class Partons : public analysis::Partons
 {
 
 public:
@@ -16,7 +21,7 @@ public:
      * @brief constructor
      *
      */
-    HParticle();
+    Partons();
 
 private:
 
@@ -28,13 +33,11 @@ private:
     bool GetParticles();
 
     inline std::string NameSpaceName() const {
-        return "HParton";
-    }
-
-    inline std::string ClassName() const {
-        return "HParticle";
+        return "parton";
     }
 
 };
 
-#endif
+}
+
+}

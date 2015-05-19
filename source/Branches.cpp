@@ -61,9 +61,9 @@ analysis::BottomBranch::BottomBranch()
     Bdt = InitialValue();
 }
 
-ClassImp(analysis::HTauBranch)
+ClassImp(analysis::TauBranch)
 
-analysis::HTauBranch::HTauBranch()
+analysis::TauBranch::TauBranch()
 {
     EmRadius = InitialValue();
     TrackRadius = InitialValue();

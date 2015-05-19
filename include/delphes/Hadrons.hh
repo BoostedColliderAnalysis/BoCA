@@ -46,13 +46,13 @@ private:
      *
      * @return void
      */
-    bool GetJets(const FourVector::HJetDetails JetDetails);
+    bool GetJets(const FourVector::JetDetail jet_detail);
 
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetEFlow(const HJetDetails JetDetails);
+    bool GetEFlow(const JetDetail jet_detail);
 
     /**
      * @brief Get Tau Tag
@@ -101,17 +101,17 @@ private:
 
     void DelphesTags(const ::delphes::Jet &JetClone);
 
-    void GetTrackEFlow(const HJetDetails);
+    void GetTrackEFlow(const JetDetail);
 
-    void GetPhotonEFlow(const HJetDetails);
+    void GetPhotonEFlow(const JetDetail);
 
-    void GetHadronEFlow(const HJetDetails);
+    void GetHadronEFlow(const JetDetail);
 
-    void GetMuonEFlow(const HJetDetails);
+    void GetMuonEFlow(const JetDetail);
 
-    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::HJetDetails JetDetails);
+    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::JetDetail jet_detail);
 
-    fastjet::PseudoJet Getconstituents(const TObject &Object, const FourVector::HJetDetails JetDetails, const Constituent::SubDetector Detector = Constituent::kNone);
+    fastjet::PseudoJet Getconstituents(const TObject &Object, const FourVector::JetDetail jet_detail, const Constituent::SubDetector Detector = Constituent::kNone);
 
     inline std::string NameSpaceName() const {
         return "delphes";

@@ -24,7 +24,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //             analysis::Factory(Analysis.w_hadronic_tagger);
 //             break;
 //         case analysis::HAnalysis::HHeavyHiggsTauTagger:
-//             analysis::Factory(Analysis.HiggsTauTagger);
+//             analysis::Factory(Analysis.Higgstau_tagger);
 //             break;
 //         case analysis::HAnalysis::HTopLeptonicTagger:
 //             analysis::Factory(Analysis.TopLeptonicTagger);
@@ -33,7 +33,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //             analysis::Factory(Analysis.top_hadronic_tagger);
 //             break;
 //         case analysis::HAnalysis::HTopSemiTagger:
-//             analysis::Factory(Analysis.TopSemiTagger);
+//             analysis::Factory(Analysis.top_semi_tagger);
 //             break;
 //         case analysis::HAnalysis::HHeavyHiggsLeptonicTagger:
 // //             analysis::Factory(Analysis.HeavyHiggsLeptonicTagger);
@@ -86,7 +86,7 @@ int main()
     fastjet::Error::set_print_errors(true);
     fastjet::Error::set_print_backtrace(true);
 
-    analysis::HTauTagger tau_tagger;
+    analysis::TauTagger tau_tagger;
     RunTagger(tau_tagger, analysis::Tagger::kTrainer);
     RunTagger(tau_tagger, analysis::Tagger::kReader);
 

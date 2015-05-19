@@ -1,22 +1,21 @@
-# ifndef HSextet_hh
-# define HSextet_hh
+# pragma once
 
 # include "Triplet.hh"
+
+namespace analysis {
 
 /**
  * @brief A sextet of 2 triplets
  *
  */
-class analysis::HSextet : public Identification
+class Sextet : public Identification
 {
 
 public:
 
-    HSextet();
+    Sextet();
 
-    HSextet(const Triplet &NewTriple1, const Triplet &NewTriple2);
-
-    ~HSextet();
+    Sextet(const Triplet &triplet_1, const Triplet &triplet_2);
 
     Triplet triplet1()const;
 
@@ -93,48 +92,46 @@ public:
         return std::min(std::abs(triplet1().DeltaPhi()), std::abs(triplet2().DeltaPhi()));
     }
 
-    inline float GetBetterTripleMass(const HParticleId ParticleId)const {
-        return std::min(triplet1().GetDeltaMass(ParticleId), triplet2().GetDeltaMass(ParticleId));
+    inline float GetBetterTripleMass(const ParticleId particle_id)const {
+        return std::min(triplet1().GetDeltaMass(particle_id), triplet2().GetDeltaMass(particle_id));
     }
 
-    inline float GetWorseTripleMass(const HParticleId ParticleId)const {
-        return std::max(triplet1().GetDeltaMass(ParticleId), triplet2().GetDeltaMass(ParticleId));
+    inline float GetWorseTripleMass(const ParticleId particle_id)const {
+        return std::max(triplet1().GetDeltaMass(particle_id), triplet2().GetDeltaMass(particle_id));
     }
 
-    inline float GetBetterPairMass(const HParticleId ParticleId)const {
-        return std::min(triplet1().doublet().MassDifferenceTo(ParticleId), triplet2().doublet().MassDifferenceTo(ParticleId));
+    inline float GetBetterPairMass(const ParticleId particle_id)const {
+        return std::min(triplet1().doublet().MassDifferenceTo(particle_id), triplet2().doublet().MassDifferenceTo(particle_id));
     }
 
-    inline float GetWorsePairMass(const HParticleId ParticleId)const {
-        return std::max(triplet1().doublet().MassDifferenceTo(ParticleId), triplet2().doublet().MassDifferenceTo(ParticleId));
+    inline float GetWorsePairMass(const ParticleId particle_id)const {
+        return std::max(triplet1().doublet().MassDifferenceTo(particle_id), triplet2().doublet().MassDifferenceTo(particle_id));
     }
 
-    inline float GetBetterJetMass(const HParticleId ParticleId)const {
-        return std::min(triplet1().GetJetDeltaMass(ParticleId), triplet2().GetJetDeltaMass(ParticleId));
+    inline float GetBetterJetMass(const ParticleId particle_id)const {
+        return std::min(triplet1().GetJetDeltaMass(particle_id), triplet2().GetJetDeltaMass(particle_id));
     }
 
-    inline float GetWorseJetMass(const HParticleId ParticleId)const {
-        return std::max(triplet1().GetJetDeltaMass(ParticleId), triplet2().GetJetDeltaMass(ParticleId));
+    inline float GetWorseJetMass(const ParticleId particle_id)const {
+        return std::max(triplet1().GetJetDeltaMass(particle_id), triplet2().GetJetDeltaMass(particle_id));
     }
 
 protected:
 
-//     HSextet(HSextetPrivate& NewSextetPrivate) ;
-
     virtual inline std::string ClassName() const {
-        return "HSextet";
+        return "Hsextet";
     }
 
 private:
 
-  void Settriplet1(const Triplet &Newtriplet1);
+  void Settriplet1(const Triplet &triplet);
 
-  void Settriplet2(const Triplet &Newtriplet2);
+  void Settriplet2(const Triplet &triplet);
 
-  Triplet triplet1M;
+  Triplet triplet_1;
 
-  Triplet triplet2M;
+  Triplet triplet_2;
 
 };
 
-#endif
+}

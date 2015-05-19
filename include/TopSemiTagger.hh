@@ -2,29 +2,28 @@
 
 # include "Triplet.hh"
 # include "BottomTagger.hh"
-# include "HWSemiTagger.hh"
+# include "WSemiTagger.hh"
 # include "Reader.hh"
+
+namespace analysis
+{
 
 /**
  * @brief Semi leptonic top BDT tagger
  *
  */
-class analysis::HTopSemiTagger : public Tagger
+class TopSemiTagger : public Tagger
 {
 
 public:
 
-    HTopSemiTagger();
+    TopSemiTagger();
 
-    TopSemiBranch GetBranch(const analysis::Triplet &triplet) const;
+    TopSemiBranch GetBranch(const Triplet &triplet) const;
 
-//     void SetTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::HWSemiTagger &NewWSemiTagger);
+    int Train(Event &event, const Object::Tag tag);
 
-//     std::vector<TopSemiBranch> GetBranches(Event &event, const Object::Tag State, float pre_cut = 0);
-
-    int Train(analysis::Event &event, const analysis::Object::Tag tag);
-
-    int Train(analysis::Event &, const analysis::Object::Tag, float pre_cut = 0){
+    int Train(Event &, const Object::Tag, float pre_cut = 0){
       Print(kError, "train", "depreciated");
       return 0;
     }
@@ -33,21 +32,19 @@ public:
       return SaveEntries(GetTriplets(event,reader));
     }
 
-    std::vector<analysis::Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
 
-    std::vector<Triplet> GetBdt(const std::vector< analysis::Doublet > &, const Jets &, const analysis::Reader &) {
+    std::vector<Triplet> GetBdt(const std::vector< Doublet > &, const Jets &, const Reader &) {
         Print(kError, "get bdt", "depreciated");
     }
 
     BottomTagger bottom_tagger_;
 
-    HWSemiTagger w_semi_tagger_;
+    WSemiTagger w_semi_tagger_;
 
     Reader bottom_reader_;
 
     Reader w_semi_reader_;
-
-    void GetBottomInfo(TopSemiBranch &top_hadronic_branch, const fastjet::PseudoJet jet) const;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
@@ -69,7 +66,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HTopSemiTagger";
+        return "TopSemiTagger";
     }
 
 private:
@@ -83,3 +80,5 @@ private:
     float top_mass_window_;
 
 };
+
+}

@@ -11,15 +11,15 @@ fastjet::PseudoJet analysis::PseudoJet(const TLorentzVector& vector)
 
 struct Not5Quark {
     bool operator()(const fastjet::PseudoJet &Jet) {
-        const int ParticleId = Jet.user_info<analysis::JetInfo>().constituents().front().family().particle().Id;
-        return !(std::abs(ParticleId) == analysis::Object::UpId || std::abs(ParticleId) == analysis::Object::DownId || std::abs(ParticleId) == analysis::Object::CharmId || std::abs(ParticleId) == analysis::Object::StrangeId || std::abs(ParticleId) == analysis::Object::BottomId);
+        const int particle_id = Jet.user_info<analysis::JetInfo>().constituents().front().family().particle().Id;
+        return !(std::abs(particle_id) == analysis::Object::UpId || std::abs(particle_id) == analysis::Object::DownId || std::abs(particle_id) == analysis::Object::CharmId || std::abs(particle_id) == analysis::Object::StrangeId || std::abs(particle_id) == analysis::Object::BottomId);
     }
 };
 
 
 
-struct AbsParticleId {
-    AbsParticleId(const int id) {
+struct Absparticle_id {
+    Absparticle_id(const int id) {
         id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
@@ -31,13 +31,13 @@ struct AbsParticleId {
 Jets analysis::copy_if_abs_particle(const Jets &jets, const int particle_id)
 {
     Jets final_jets(jets.size());;
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsParticleId(particle_id));
+    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Absparticle_id(particle_id));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
     return final_jets;
 }
 
-struct ParticleId {
-  ParticleId(const int id) {
+struct Id {
+  Id(const int id) {
     id_ = id;
   }
   bool operator()(const fastjet::PseudoJet &Jet) {
@@ -49,7 +49,7 @@ struct ParticleId {
 Jets analysis::copy_if_particle(const Jets &jets, const int particle_id)
 {
   Jets final_jets(jets.size());
-  auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), ParticleId(particle_id));
+  auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Id(particle_id));
   final_jets.resize(std::distance(final_jets.begin(), iterator));
   return final_jets;
 }
@@ -57,7 +57,7 @@ Jets analysis::copy_if_particle(const Jets &jets, const int particle_id)
 Jets analysis::remove_if_particle(const Jets &jets, const int particle_id)
 {
   Jets jets_ =jets;
-  jets_.erase(std::remove_if(jets_.begin(), jets_.end(), ParticleId(particle_id)), jets_.end());
+  jets_.erase(std::remove_if(jets_.begin(), jets_.end(), Id(particle_id)), jets_.end());
   return jets;
 }
 
@@ -108,17 +108,17 @@ Jets analysis::RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_i
     return jets_;
 }
 
-Jets analysis::RemoveIfWrongParticle(const Jets &NewJets, const int ParticleId)
+Jets analysis::RemoveIfWrongParticle(const Jets &NewJets, const int particle_id)
 {
     Jets jets = NewJets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), WrongId(ParticleId)), jets.end());
+    jets.erase(std::remove_if(jets.begin(), jets.end(), WrongId(particle_id)), jets.end());
     return jets;
 }
 
-Jets analysis::RemoveIfWrongAbsParticle(const Jets &NewJets, const int ParticleId)
+Jets analysis::RemoveIfWrongAbsParticle(const Jets &NewJets, const int particle_id)
 {
     Jets jets = NewJets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), WrongAbsId(ParticleId)), jets.end());
+    jets.erase(std::remove_if(jets.begin(), jets.end(), WrongAbsId(particle_id)), jets.end());
     return jets;
 }
 

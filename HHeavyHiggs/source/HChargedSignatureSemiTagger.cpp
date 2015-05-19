@@ -10,17 +10,17 @@ hheavyhiggs::HChargedSignatureSemiTagger::HChargedSignatureSemiTagger()
 void hheavyhiggs::HChargedSignatureSemiTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
     const analysis::HChargedJetPairTagger &NewChargedJetPairTagger,
-    const analysis::HWSemiTagger &NewWSemiTagger,
+    const analysis::WSemiTagger &Neww_semi_tagger,
     const analysis::WHadronicTagger &NewWTagger,
-    const analysis::HTopSemiTagger &NewTopSemiTagger,
+    const analysis::TopSemiTagger &Newtop_semi_tagger,
     const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
     const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger)
 {
     bottom_tagger_ = NewBottomTagger;
-    WSemiTagger = NewWSemiTagger;
+    w_semi_tagger = Neww_semi_tagger;
     WTagger = NewWTagger;
     top_hadronic_tagger = Newtop_hadronic_tagger;
-    TopSemiTagger = NewTopSemiTagger;
+    top_semi_tagger = Newtop_semi_tagger;
     ChargedJetPairTagger = NewChargedJetPairTagger;
     ChargedHiggsSemiTagger = NewChargedHiggsSemiTagger;
     DefineVariables();
@@ -83,11 +83,11 @@ hheavyhiggs::HChargedOctetBranch hheavyhiggs::HChargedSignatureSemiTagger::GetBr
     eventSemiBranch.Tag = Octet.Tag();
     eventSemiBranch.BottomBdt = Octet.BottomBdt();
     eventSemiBranch.PairBottomBdt = Octet.PairBottomBdt();
-    eventSemiBranch.HiggsBdt = Octet.Quartet1().Bdt();
-    eventSemiBranch.PairBdt = Octet.Quartet2().Bdt();
+    eventSemiBranch.HiggsBdt = Octet.quartet1().Bdt();
+    eventSemiBranch.PairBdt = Octet.quartet2().Bdt();
 
-    eventSemiBranch.HiggsMass = Octet.Quartet1().Jet().m();
-    eventSemiBranch.PairRap = Octet.Quartet2().DeltaRap();
+    eventSemiBranch.HiggsMass = Octet.quartet1().Jet().m();
+    eventSemiBranch.PairRap = Octet.quartet2().DeltaRap();
 
     return eventSemiBranch;
 }
@@ -102,17 +102,17 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
     Jets Leptons = event.leptons().GetLeptonJets();
     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 
-    std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-    std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
-    std::vector<analysis::HQuartet31> HiggsQuartets = ChargedHiggsSemiTagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
+    std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
+    std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
+    std::vector<analysis::Quartet31> Higgsquartets = ChargedHiggsSemiTagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
 
     Jets HiggsParticles = event.partons().Generator();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
     if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
-    std::sort(HiggsQuartets.begin(), HiggsQuartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
-    if (tag == kSignal && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
+    std::sort(Higgsquartets.begin(), Higgsquartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
+    if (tag == kSignal && Higgsquartets.size() > 1) Higgsquartets.erase(Higgsquartets.begin() + 1, Higgsquartets.end());
 
-//     if(Tag == HBackground && HiggsQuartets.size() > 1) HiggsQuartets.erase(HiggsQuartets.begin() + 1, HiggsQuartets.end());
+//     if(Tag == HBackground && Higgsquartets.size() > 1) Higgsquartets.erase(Higgsquartets.begin() + 1, Higgsquartets.end());
 
     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 //     std::vector<analysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
@@ -154,31 +154,31 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
         else for (const auto & Jet : jets)  if ((Jet.delta_R(BottomParticles.front()) < detector_geometry().JetConeSize)) FinalBottoms.emplace_back(Jet);
     } else FinalBottoms = jets;
 
-    std::vector<analysis::HQuartet31> JetQuartets = ChargedJetPairTagger.GetBdt(Finaltriplets, FinalBottoms, ChargedJetPairReader);
+    std::vector<analysis::Quartet31> Jetquartets = ChargedJetPairTagger.GetBdt(Finaltriplets, FinalBottoms, ChargedJetPairReader);
 
-//     if(Tag == HBackground && JetQuartets.size() > 1) JetQuartets.erase(JetQuartets.begin() + 1, JetQuartets.end());
+//     if(Tag == HBackground && Jetquartets.size() > 1) Jetquartets.erase(Jetquartets.begin() + 1, Jetquartets.end());
 
-//     Print(kError, "Number of Higgs and Pairs", HiggsQuartets.size(), JetQuartets.size());
+//     Print(kError, "Number of Higgs and Pairs", Higgsquartets.size(), Jetquartets.size());
     std::vector<HOctet44> Octets;
-    for (const auto HiggsQuartet  : HiggsQuartets)
-        for (const auto & JetQuartet : JetQuartets) {
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            HOctet44 Octet(HiggsQuartet, JetQuartet);
+    for (const auto Higgsquartet  : Higgsquartets)
+        for (const auto & Jetquartet : Jetquartets) {
+            if (Higgsquartet.singlet().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.singlet().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.singlet().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.singlet().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            HOctet44 Octet(Higgsquartet, Jetquartet);
             Octet.SetTag(tag);
             Octets.emplace_back(Octet);
         }
@@ -192,31 +192,31 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
 
 
 std::vector<HOctet44> hheavyhiggs::HChargedSignatureSemiTagger::GetBdt(
-    const std::vector< analysis::HQuartet31 > &HiggsQuartets, const std::vector< analysis::HQuartet31 > &JetQuartets, const analysis::Reader &Reader)
+    const std::vector< analysis::Quartet31 > &Higgsquartets, const std::vector< analysis::Quartet31 > &Jetquartets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Bdt");
 
-//     Print(kError, "Number of Higgs and Pairs", HiggsQuartets.size(), JetQuartets.size());
+//     Print(kError, "Number of Higgs and Pairs", Higgsquartets.size(), Jetquartets.size());
     std::vector<HOctet44> Octets;
-    for (const auto & JetQuartet : JetQuartets) {
-        for (const auto & HiggsQuartet : HiggsQuartets) {
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.singlet().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().singlet().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet1().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (HiggsQuartet.triplet().doublet().Singlet2().delta_R(JetQuartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            HOctet44 Octet(HiggsQuartet, JetQuartet);
+    for (const auto & Jetquartet : Jetquartets) {
+        for (const auto & Higgsquartet : Higgsquartets) {
+            if (Higgsquartet.singlet().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.singlet().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.singlet().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.singlet().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().singlet().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet1().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            HOctet44 Octet(Higgsquartet, Jetquartet);
             Branch = GetBranch(Octet);
             Octet.SetBdt(Reader.Bdt());
             Octets.emplace_back(Octet);

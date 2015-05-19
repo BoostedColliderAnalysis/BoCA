@@ -25,8 +25,8 @@ public:
 
     enum Tag {kBackground = 0, kSignal = 1};
 
-    template <typename Tseverity>
-    inline void Print(const Tseverity severity, const std::string &Description) const {
+    template <typename Severity>
+    inline void Print(const Severity severity, const std::string &Description) const {
         if (severity > DebugLevel) return;
         Printer(Description);
         std::cout << std::endl;
@@ -36,25 +36,25 @@ public:
      * @brief Print a debug messages
      *
      */
-    template<typename Tseverity, typename TValue>
-    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value) const {
+    template<typename Severity, typename Value>
+    inline void Print(const Severity severity, const std::string &Description, const Value value) const {
         if (severity > DebugLevel) return;
         Printer(Description);
-        std::cout << " " << Value << std::endl;
+        std::cout << " " << value << std::endl;
     }
 
     /**
      * @brief Print a debug messages
      *
      */
-    template<typename Tseverity, typename TValue, typename TValue2>
-    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value, const TValue2 Value2) const {
+    template<typename Severity, typename Value, typename Value2>
+    inline void Print(const Severity severity, const std::string &Description, const Value value, const Value2 value2) const {
         if (severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
         Printer(Description);
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value2;
         std::cout << std::endl;
     }
 
@@ -62,44 +62,44 @@ public:
      * @brief Print a debug messages
      *
      */
-    template<typename Tseverity, typename TValue, typename TValue2, typename TValue3>
-    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3) const {
+    template<typename Severity, typename Value, typename Value2, typename Value3>
+    inline void Print(const Severity severity, const std::string &Description, const Value value, const Value2 value2, const Value3 value3) const {
         if (severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
         Printer(Description);
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value2;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value3;
         std::cout << std::endl;
     }
 
-    template<typename Tseverity, typename TValue, typename TValue2, typename TValue3, typename TValue4>
-    inline void Print(const Tseverity severity, const std::string &Description, const TValue Value, const TValue2 Value2, const TValue3 Value3, const TValue4 Value4) const {
+    template<typename Severity, typename Value, typename Value2, typename Value3, typename Value4>
+    inline void Print(const Severity severity, const std::string &Description, const Value value, const Value2 value2, const Value3 value3, const Value4 value4) const {
         if (severity > DebugLevel) return;
         const char Separator = ' ';
         const int FunctionWidth = 15;
         Printer(Description);
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value;
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value2;
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value3;
-        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Value4;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value2;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value3;
+        std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value4;
         std::cout << std::endl;
     }
 
-    template<typename Tseverity>
-    inline void Print(const Tseverity severity, const std::string &Description, const fastjet::PseudoJet &Jet) const {
+    template<typename Severity>
+    inline void Print(const Severity severity, const std::string &Description, const fastjet::PseudoJet &Jet) const {
         if (severity > DebugLevel) return;
         Print(severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
     }
 
-    template<typename Tseverity>
-    void Print(const Tseverity severity, const std::string &Description, float Momentum[]) const {
+    template<typename Severity>
+    void Print(const Severity severity, const std::string &Description, float Momentum[]) const {
         if (severity > DebugLevel) return;
         Print(severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
     }
 
-    enum HParticleId {
+    enum ParticleId {
         EmptyId = 0, ///< 0
         DownId = 1,///< \f$d\f$
         UpId = 2,///< \f$u\f$
@@ -165,9 +165,9 @@ public:
 
 protected:
 
-    template <typename TValue>
-    inline int sgn(const TValue Value) const {
-        return (TValue(0) < Value) - (Value < TValue(0));
+    template <typename Value>
+    inline int sgn(const Value value) const {
+        return (Value(0) < value) - (value < Value(0));
     }
 
     /**
@@ -206,16 +206,16 @@ protected:
 
     };
 
-    enum HStatus {
-        EmptyStatus = 0,
-        StableParticle = 1,
-        UnstableParticle = 2,
-        GeneratorParticle = 3
+    enum Status {
+        kNoStatus = 0,
+        kStable = 1,
+        kUnstable = 2,
+        kGenerator = 3
     };
 
-    std::string GetParticleName(const int ParticleId) const;
+    std::string GetParticleName(const int particle_id) const;
 
-    float GetParticleMass(const analysis::Object::HParticleId ParticleId) const;
+    float GetParticleMass(const analysis::Object::ParticleId particle_id) const;
 
 
     /**

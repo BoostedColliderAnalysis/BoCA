@@ -3,12 +3,12 @@
 // hheavyhiggs::HAnalysisTau::HAnalysisTau()
 // {
 //     Print(kNotification, "Constructor");
-//     TauTagger.SetAnalysisName(ProjectName());
+//     tau_tagger.SetAnalysisName(ProjectName());
 // //     JetPairTagger.SetAnalysisName(ProjectName());
 // //     w_hadronic_tagger.SetAnalysisName(ProjectName());
-//     HiggsTauTagger.SetAnalysisName(ProjectName());
+//     Higgstau_tagger.SetAnalysisName(ProjectName());
 // //     top_hadronic_tagger.SetAnalysisName(ProjectName());
-// //     TopSemiTagger.SetAnalysisName(ProjectName());
+// //     top_semi_tagger.SetAnalysisName(ProjectName());
 // //     ChargedHiggsSemiTagger.SetAnalysisName(ProjectName());
 // //     eventSemiTagger.SetAnalysisName(ProjectName());
 // }
@@ -296,67 +296,67 @@ void hheavyhiggs::HAnalysisTau::SetTrees()
 
 //     switch (Tagger) {
 //     case HTauTagger:
-//         TauTagger.SetSignalTreeNames(CombinedTrees);
-//         TauTagger.SetBackgroundTreeNames(CombinedTrees);
-//         if (Tag == kSignal)  TauTagger.SetTagger();
+//         tau_tagger.SetSignalTreeNames(CombinedTrees);
+//         tau_tagger.SetBackgroundTreeNames(CombinedTrees);
+//         if (Tag == kSignal)  tau_tagger.SetTagger();
 //         break;
 //     case HTauReader:
 //         break;
 // //     case HJetPairTagger :
 // //         JetPairTagger.SetSignalTreeNames(CombinedTrees);
 // //         JetPairTagger.SetBackgroundTreeNames(CombinedTrees);
-// //         if (Tag == kSignal) JetPairTagger.SetTagger(TauTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger);
+// //         if (Tag == kSignal) JetPairTagger.SetTagger(tau_tagger, w_semi_tagger, w_hadronic_tagger, top_semi_tagger, top_hadronic_tagger);
 // //         break;
 // //     case HJetPairReader :
 // //         break;
 // //     case WHadronicTagger:
 // //         w_hadronic_tagger.SetSignalTreeNames(NotLeptonicTrees);
 // //         w_hadronic_tagger.SetBackgroundTreeNames(NotLeptonicTrees);
-// //         if (Tag == kSignal) w_hadronic_tagger.SetTagger(TauTagger);
+// //         if (Tag == kSignal) w_hadronic_tagger.SetTagger(tau_tagger);
 // //         break;
 // //     case HWHadronicReader :
-// //         TauTagger.SetSignalTreeNames(CombinedTrees);
-// //         TauTagger.SetBackgroundTreeNames(CombinedTrees);
-// //         if (Tag == kSignal) w_hadronic_tagger.SetTagger(TauTagger);
+// //         tau_tagger.SetSignalTreeNames(CombinedTrees);
+// //         tau_tagger.SetBackgroundTreeNames(CombinedTrees);
+// //         if (Tag == kSignal) w_hadronic_tagger.SetTagger(tau_tagger);
 // //         break;
 //     case HHeavyHiggsTauTagger :
-//         HiggsTauTagger.SetSignalTreeNames(SignalSemiTrees);
-//         HiggsTauTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-//         if (Tag == kSignal) HiggsTauTagger.SetTagger(TauTagger);
+//         Higgstau_tagger.SetSignalTreeNames(SignalSemiTrees);
+//         Higgstau_tagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         if (Tag == kSignal) Higgstau_tagger.SetTagger(tau_tagger);
 //         break;
 //     case HHeavyHiggsTauReader :
-//         TauTagger.SetSignalTreeNames(CombinedTrees);
-//         TauTagger.SetBackgroundTreeNames(CombinedTrees);
-//         if (Tag == kSignal) HiggsTauTagger.SetTagger(TauTagger);
+//         tau_tagger.SetSignalTreeNames(CombinedTrees);
+//         tau_tagger.SetBackgroundTreeNames(CombinedTrees);
+//         if (Tag == kSignal) Higgstau_tagger.SetTagger(tau_tagger);
 //         break;
 // //     case TopHadronicTagger :
-// //         if (Tag == kSignal) top_hadronic_tagger.SetTagger(TauTagger, w_hadronic_tagger);
+// //         if (Tag == kSignal) top_hadronic_tagger.SetTagger(tau_tagger, w_hadronic_tagger);
 // //         top_hadronic_tagger.SetSignalTreeNames(NotLeptonicTrees);
 // //         top_hadronic_tagger.SetBackgroundTreeNames(NotLeptonicTrees);
 // //         break;
 // //     case HTopHadronicReader :
 // //         break;
 // //     case HTopSemiTagger :
-// //         if (Tag == kSignal) TopSemiTagger.SetTagger(TauTagger, WSemiTagger);
-// //         TopSemiTagger.SetSignalTreeNames(SemiTrees);
-// //         TopSemiTagger.SetBackgroundTreeNames(SemiTrees);
+// //         if (Tag == kSignal) top_semi_tagger.SetTagger(tau_tagger, w_semi_tagger);
+// //         top_semi_tagger.SetSignalTreeNames(SemiTrees);
+// //         top_semi_tagger.SetBackgroundTreeNames(SemiTrees);
 // //         break;
 // //     case HTopSemiReader :
 // //         break;
 // //     case HHeavyHiggsSemiTagger  :
-// //         if (Tag == kSignal) ChargedHiggsSemiTagger.SetTagger(TauTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger);
+// //         if (Tag == kSignal) ChargedHiggsSemiTagger.SetTagger(tau_tagger, w_semi_tagger, w_hadronic_tagger, top_semi_tagger, top_hadronic_tagger);
 // //         ChargedHiggsSemiTagger.SetSignalTreeNames(SignalSemiTrees);
 // //         ChargedHiggsSemiTagger.SetBackgroundTreeNames(SemiTrees);
 // //         break;
 // //     case HHeavyHiggsSemiReader :
 // //         break;
 // //     case EventSemiTagger :
-// //         if (Tag == kSignal) eventSemiTagger.SetTagger(TauTagger, JetPairTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger, ChargedHiggsSemiTagger);
+// //         if (Tag == kSignal) eventSemiTagger.SetTagger(tau_tagger, JetPairTagger, w_semi_tagger, w_hadronic_tagger, top_semi_tagger, top_hadronic_tagger, ChargedHiggsSemiTagger);
 // //         eventSemiTagger.SetSignalTreeNames(SignalSemiTrees);
 // //         eventSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 // //         break;
 // //     case EventSemiReader :
-// //         if (Tag == kSignal) eventSemiTagger.SetTagger(TauTagger, JetPairTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger, ChargedHiggsSemiTagger);
+// //         if (Tag == kSignal) eventSemiTagger.SetTagger(tau_tagger, JetPairTagger, w_semi_tagger, w_hadronic_tagger, top_semi_tagger, top_hadronic_tagger, ChargedHiggsSemiTagger);
 // //         eventSemiTagger.SetSignalTreeNames(SignalSemiTrees);
 // //         eventSemiTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 // //         break;
@@ -380,62 +380,62 @@ void hheavyhiggs::HAnalysisTau::SetTrees()
 //     case HTauTagger:
 //         break;
 //     case HTauReader:
-//         TauReader.set_tagger(TauTagger);
+//         TauReader.set_tagger(tau_tagger);
 //         break;
 // //     case WHadronicTagger:
 // //         w_hadronic_tagger.BottomTagger.SetTagger();
 // //         w_hadronic_tagger.BottomReader.set_tagger(w_hadronic_tagger.BottomTagger);
 // //         break;
 // //     case HWHadronicReader:
-// //         TauReader.set_tagger(TauTagger);
+// //         TauReader.set_tagger(tau_tagger);
 // //         WHadronicReader.set_tagger(w_hadronic_tagger);
 // //         break;
 //     case HHeavyHiggsTauTagger :
-//         HiggsTauTagger.TauTagger.SetTagger();
-//         HiggsTauTagger.TauReader.set_tagger(HiggsTauTagger.TauTagger);
+//         Higgstau_tagger.tau_tagger.SetTagger();
+//         Higgstau_tagger.TauReader.set_tagger(Higgstau_tagger.tau_tagger);
 //         break;
 //     case HHeavyHiggsTauReader :
-//         TauReader.set_tagger(TauTagger);
-//         HeavyHiggsTauReader.set_tagger(HiggsTauTagger);
+//         TauReader.set_tagger(tau_tagger);
+//         HeavyHiggsTauReader.set_tagger(Higgstau_tagger);
 //         break;
 // //     case TopHadronicTagger :
 // //         top_hadronic_tagger.BottomTagger.SetTagger();
 // //         top_hadronic_tagger.BottomReader.set_tagger(top_hadronic_tagger.BottomTagger);
-// //         top_hadronic_tagger.WTagger.SetTagger(TauTagger);
+// //         top_hadronic_tagger.WTagger.SetTagger(tau_tagger);
 // //         top_hadronic_tagger.WReader.set_tagger(top_hadronic_tagger.WTagger);
 // //         break;
 // //     case HTopHadronicReader :
-// //         TauReader.set_tagger(TauTagger);
+// //         TauReader.set_tagger(tau_tagger);
 // //         WHadronicReader.set_tagger(w_hadronic_tagger);
 // //         TopHadronicReader.set_tagger(top_hadronic_tagger);
 // //         break;
 // //     case HTopSemiTagger :
-// //         TopSemiTagger.BottomTagger.SetTagger();
-// //         TopSemiTagger.BottomReader.set_tagger(TopSemiTagger.BottomTagger);
-// //         TopSemiTagger.WSemiTagger.SetTagger();
-// //         TopSemiTagger.WSemiReader.set_tagger(TopSemiTagger.WSemiTagger);
+// //         top_semi_tagger.BottomTagger.SetTagger();
+// //         top_semi_tagger.BottomReader.set_tagger(top_semi_tagger.BottomTagger);
+// //         top_semi_tagger.w_semi_tagger.SetTagger();
+// //         top_semi_tagger.WSemiReader.set_tagger(top_semi_tagger.w_semi_tagger);
 // //         break;
 // //     case HTopSemiReader :
-// //         TauReader.set_tagger(TauTagger);
-// //         WSemiReader.set_tagger(WSemiTagger);
-// //         TopSemiReader.set_tagger(TopSemiTagger);
+// //         TauReader.set_tagger(tau_tagger);
+// //         WSemiReader.set_tagger(w_semi_tagger);
+// //         TopSemiReader.set_tagger(top_semi_tagger);
 // //         break;
 // //     case HHeavyHiggsSemiTagger :
 // //         ChargedHiggsSemiTagger.BottomTagger.SetTagger();
 // //         ChargedHiggsSemiTagger.BottomReader.set_tagger(ChargedHiggsSemiTagger.BottomTagger);
-// //         ChargedHiggsSemiTagger.WSemiTagger.SetTagger();
-// //         ChargedHiggsSemiTagger.WSemiReader.set_tagger(ChargedHiggsSemiTagger.WSemiTagger);
-// //         ChargedHiggsSemiTagger.WTagger.SetTagger(TauTagger);
+// //         ChargedHiggsSemiTagger.w_semi_tagger.SetTagger();
+// //         ChargedHiggsSemiTagger.WSemiReader.set_tagger(ChargedHiggsSemiTagger.w_semi_tagger);
+// //         ChargedHiggsSemiTagger.WTagger.SetTagger(tau_tagger);
 // //         ChargedHiggsSemiTagger.WReader.set_tagger(ChargedHiggsSemiTagger.WTagger);
-// //         ChargedHiggsSemiTagger.TopSemiTagger.SetTagger(TauTagger, WSemiTagger);
-// //         ChargedHiggsSemiTagger.TopSemiReader.set_tagger(ChargedHiggsSemiTagger.TopSemiTagger);
-// //         ChargedHiggsSemiTagger.top_hadronic_tagger.SetTagger(TauTagger, w_hadronic_tagger);
+// //         ChargedHiggsSemiTagger.top_semi_tagger.SetTagger(tau_tagger, w_semi_tagger);
+// //         ChargedHiggsSemiTagger.TopSemiReader.set_tagger(ChargedHiggsSemiTagger.top_semi_tagger);
+// //         ChargedHiggsSemiTagger.top_hadronic_tagger.SetTagger(tau_tagger, w_hadronic_tagger);
 // //         ChargedHiggsSemiTagger.TopHadronicReader.set_tagger(ChargedHiggsSemiTagger.top_hadronic_tagger);
 // //         break;
 // //     case HHeavyHiggsSemiReader  :
-// //         TauReader.set_tagger(TauTagger);
-// //         WSemiReader.set_tagger(WSemiTagger);
-// //         TopSemiReader.set_tagger(TopSemiTagger);
+// //         TauReader.set_tagger(tau_tagger);
+// //         WSemiReader.set_tagger(w_semi_tagger);
+// //         TopSemiReader.set_tagger(top_semi_tagger);
 // //         WHadronicReader.set_tagger(w_hadronic_tagger);
 // //         TopHadronicReader.set_tagger(top_hadronic_tagger);
 // //         ChargedHiggsSemiReader.set_tagger(ChargedHiggsSemiTagger);
@@ -443,19 +443,19 @@ void hheavyhiggs::HAnalysisTau::SetTrees()
 // //     case HJetPairTagger :
 // //         JetPairTagger.BottomTagger.SetTagger();
 // //         JetPairTagger.BottomReader.set_tagger(JetPairTagger.BottomTagger);
-// //         JetPairTagger.WSemiTagger.SetTagger();
-// //         JetPairTagger.WSemiReader.set_tagger(JetPairTagger.WSemiTagger);
-// //         JetPairTagger.WTagger.SetTagger(TauTagger);
+// //         JetPairTagger.w_semi_tagger.SetTagger();
+// //         JetPairTagger.WSemiReader.set_tagger(JetPairTagger.w_semi_tagger);
+// //         JetPairTagger.WTagger.SetTagger(tau_tagger);
 // //         JetPairTagger.WReader.set_tagger(JetPairTagger.WTagger);
-// //         JetPairTagger.TopSemiTagger.SetTagger(TauTagger, WSemiTagger);
-// //         JetPairTagger.TopSemiReader.set_tagger(JetPairTagger.TopSemiTagger);
-// //         JetPairTagger.top_hadronic_tagger.SetTagger(TauTagger, w_hadronic_tagger);
+// //         JetPairTagger.top_semi_tagger.SetTagger(tau_tagger, w_semi_tagger);
+// //         JetPairTagger.TopSemiReader.set_tagger(JetPairTagger.top_semi_tagger);
+// //         JetPairTagger.top_hadronic_tagger.SetTagger(tau_tagger, w_hadronic_tagger);
 // //         JetPairTagger.TopHadronicReader.set_tagger(JetPairTagger.top_hadronic_tagger);
 // //         break;
 // //     case HJetPairReader :
-// //         TauReader.set_tagger(TauTagger);
-// //         WSemiReader.set_tagger(WSemiTagger);
-// //         TopSemiReader.set_tagger(TopSemiTagger);
+// //         TauReader.set_tagger(tau_tagger);
+// //         WSemiReader.set_tagger(w_semi_tagger);
+// //         TopSemiReader.set_tagger(top_semi_tagger);
 // //         WHadronicReader.set_tagger(w_hadronic_tagger);
 // //         TopHadronicReader.set_tagger(top_hadronic_tagger);
 // //         JetPairReader.set_tagger(JetPairTagger);
@@ -463,23 +463,23 @@ void hheavyhiggs::HAnalysisTau::SetTrees()
 // //     case EventSemiTagger :
 // //         eventSemiTagger.BottomTagger.SetTagger();
 // //         eventSemiTagger.BottomReader.set_tagger(eventSemiTagger.BottomTagger);
-// //         eventSemiTagger.WSemiTagger.SetTagger();
-// //         eventSemiTagger.WSemiReader.set_tagger(eventSemiTagger.WSemiTagger);
-// //         eventSemiTagger.WTagger.SetTagger(TauTagger);
+// //         eventSemiTagger.w_semi_tagger.SetTagger();
+// //         eventSemiTagger.WSemiReader.set_tagger(eventSemiTagger.w_semi_tagger);
+// //         eventSemiTagger.WTagger.SetTagger(tau_tagger);
 // //         eventSemiTagger.WReader.set_tagger(eventSemiTagger.WTagger);
-// //         eventSemiTagger.TopSemiTagger.SetTagger(TauTagger, WSemiTagger);
-// //         eventSemiTagger.TopSemiReader.set_tagger(eventSemiTagger.TopSemiTagger);
-// //         eventSemiTagger.top_hadronic_tagger.SetTagger(TauTagger, w_hadronic_tagger);
+// //         eventSemiTagger.top_semi_tagger.SetTagger(tau_tagger, w_semi_tagger);
+// //         eventSemiTagger.TopSemiReader.set_tagger(eventSemiTagger.top_semi_tagger);
+// //         eventSemiTagger.top_hadronic_tagger.SetTagger(tau_tagger, w_hadronic_tagger);
 // //         eventSemiTagger.TopHadronicReader.set_tagger(eventSemiTagger.top_hadronic_tagger);
-// //         eventSemiTagger.ChargedHiggsSemiTagger.SetTagger(TauTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger);
+// //         eventSemiTagger.ChargedHiggsSemiTagger.SetTagger(tau_tagger, w_semi_tagger, w_hadronic_tagger, top_semi_tagger, top_hadronic_tagger);
 // //         eventSemiTagger.ChargedHiggsSemiReader.set_tagger(eventSemiTagger.ChargedHiggsSemiTagger);
-// //         eventSemiTagger.ChargedJetPairTagger.SetTagger(TauTagger, WSemiTagger, w_hadronic_tagger, TopSemiTagger, top_hadronic_tagger);
+// //         eventSemiTagger.ChargedJetPairTagger.SetTagger(tau_tagger, w_semi_tagger, w_hadronic_tagger, top_semi_tagger, top_hadronic_tagger);
 // //         eventSemiTagger.ChargedJetPairReader.set_tagger(eventSemiTagger.ChargedJetPairTagger);
 // //         break;
 // //     case EventSemiReader :
-// //         TauReader.set_tagger(TauTagger);
-// //         WSemiReader.set_tagger(WSemiTagger);
-// //         TopSemiReader.set_tagger(TopSemiTagger);
+// //         TauReader.set_tagger(tau_tagger);
+// //         WSemiReader.set_tagger(w_semi_tagger);
+// //         TopSemiReader.set_tagger(top_semi_tagger);
 // //         WHadronicReader.set_tagger(w_hadronic_tagger);
 // //         TopHadronicReader.set_tagger(top_hadronic_tagger);
 // //         JetPairReader.set_tagger(JetPairTagger);
@@ -664,7 +664,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // bool hheavyhiggs::HAnalysisTau::GetTauTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Tau Tag", Tag);
-//     std::vector<HTauBranch> Taus = TauTagger.GetBranches(event, Tag);
+//     std::vector<HTauBranch> Taus = tau_tagger.GetBranches(event, Tag);
 //     if (Taus.empty()) return 0;
 //     for (const auto & Tau : Taus) *static_cast<HTauBranch *>(Branch->NewEntry()) = Tau;
 //     return 1;
@@ -674,8 +674,8 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // bool hheavyhiggs::HAnalysisTau::GetTauReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Tau Reader", Tag);
-//     Jets jets = TauTagger.GetJets(event, JetTag);
-//     jets = TauTagger.GetJetBdt(jets, TauReader);
+//     Jets jets = tau_tagger.GetJets(event, JetTag);
+//     jets = tau_tagger.GetJetBdt(jets, TauReader);
 //
 //     Jets Particles = event.partons().Generator();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
@@ -687,7 +687,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 //
 //     for (const auto & Jet : jets)  {
 //         if (Tag != Jet.user_info<analysis::JetInfo>().Tag()) continue;
-//         *static_cast<HTauBranch *>(Branch->NewEntry()) = TauTagger.GetBranch(Jet);
+//         *static_cast<HTauBranch *>(Branch->NewEntry()) = tau_tagger.GetBranch(Jet);
 //     }
 //     return 1;
 // }
@@ -695,7 +695,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // bool hheavyhiggs::HAnalysisTau::GetHeavyHiggsTauTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get HeavyHiggs Tau Tag", Tag);
-//     std::vector<HHeavyHiggsTauBranch> HeavyHiggses = HiggsTauTagger.GetBranches(event, Tag);
+//     std::vector<HHeavyHiggsTauBranch> HeavyHiggses = Higgstau_tagger.GetBranches(event, Tag);
 //     if (HeavyHiggses.empty()) return 0;
 //     for (const auto & Higgs : HeavyHiggses) *static_cast<HHeavyHiggsTauBranch *>(Branch->NewEntry()) = Higgs;
 //     return 1;
@@ -705,11 +705,11 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // {
 //     Print(kDebug, "Get W Semi Reader", Tag);
 //
-//     Jets jets = TauTagger.GetJets(event, JetTag);
-//     jets = TauTagger.GetJetBdt(jets, TauReader);
+//     Jets jets = tau_tagger.GetJets(event, JetTag);
+//     jets = tau_tagger.GetJetBdt(jets, TauReader);
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //
-//     std::vector<analysis::Doublet> doublets = HiggsTauTagger.GetBdt(jets, MissingEt, HeavyHiggsTauReader);
+//     std::vector<analysis::Doublet> doublets = Higgstau_tagger.GetBdt(jets, MissingEt, HeavyHiggsTauReader);
 //
 //     if (doublets.empty()) return 0;
 //
@@ -718,7 +718,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 //         doublets.erase(doublets.begin() + 1, doublets.end());
 //     }
 //
-//     for (const auto & doublet : doublets) *static_cast<HHeavyHiggsTauBranch *>(Branch->NewEntry()) = HiggsTauTagger.GetBranch(doublet);
+//     for (const auto & doublet : doublets) *static_cast<HHeavyHiggsTauBranch *>(Branch->NewEntry()) = Higgstau_tagger.GetBranch(doublet);
 //
 //     return 1;
 // }
@@ -737,21 +737,21 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // // {
 // //     Print(kInformation, "Get event semi", Tag);
 // //
-// //     Jets jets = TauTagger.GetJets(event);
-// //     jets = TauTagger.GetJetBdt(jets, TauReader);
+// //     Jets jets = tau_tagger.GetJets(event);
+// //     jets = tau_tagger.GetJetBdt(jets, TauReader);
 // //
 // //     std::vector<analysis::Doublet> doublets = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
 // //
 // //     for (const auto & Jet : jets)  {
 // //         Jets Pieces = w_hadronic_tagger.GetSubJets(Jet, 2);
-// //         Pieces = TauTagger.GetJetBdt(Pieces, TauReader);
+// //         Pieces = tau_tagger.GetJetBdt(Pieces, TauReader);
 // //         std::vector<analysis::Doublet> Piecedoublets = w_hadronic_tagger.GetBdt(Pieces, WHadronicReader);
 // //         doublets.insert(doublets.end(), Piecedoublets.begin(), Piecedoublets.end());
 // //     }
 // //
 // //     for (const auto & Jet : jets)  {
 // //         Jets Pieces = w_hadronic_tagger.GetSubJets(Jet, 3);
-// //         Pieces = TauTagger.GetJetBdt(Pieces, TauReader);
+// //         Pieces = tau_tagger.GetJetBdt(Pieces, TauReader);
 // //         std::vector<analysis::Doublet> Piecedoublets = w_hadronic_tagger.GetBdt(Pieces, WHadronicReader);
 // //         doublets.insert(doublets.end(), Piecedoublets.begin(), Piecedoublets.end());
 // //     }
@@ -782,7 +782,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // //     Print(kInformation, "Get event semi", Tag);
 // //
 // //     Jets jets = event.hadrons().GetStructuredJets();
-// //     jets = TauTagger.GetBdt(jets, TauReader);
+// //     jets = tau_tagger.GetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.leptons().GetLeptonJets();
 // //     if (Leptons.size() < 2) return 0;
@@ -818,13 +818,13 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // //     Print(kInformation, "Get event semi", Tag);
 // //
 // //     Jets jets = top_hadronic_tagger.GetJets(event);
-// //     jets = TauTagger.GetJetBdt(jets, TauReader);
+// //     jets = tau_tagger.GetJetBdt(jets, TauReader);
 // //     std::vector<analysis::Doublet> doublets = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
 // //     std::vector<analysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
 // //
 // //     for (const auto & Jet : jets)  {
 // //         Jets Pieces = w_hadronic_tagger.GetSubJets(Jet, 2);
-// //         Pieces = TauTagger.GetJetBdt(Pieces, TauReader);
+// //         Pieces = tau_tagger.GetJetBdt(Pieces, TauReader);
 // //         std::vector<analysis::Doublet> Piecedoublets = w_hadronic_tagger.GetBdt(Pieces, WHadronicReader);
 // //         std::vector<analysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
 // //         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
@@ -832,7 +832,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // //
 // //     for (const auto & Jet : jets)  {
 // //         Jets Pieces = w_hadronic_tagger.GetSubJets(Jet, 3);
-// //         Pieces = TauTagger.GetJetBdt(Pieces, TauReader);
+// //         Pieces = tau_tagger.GetJetBdt(Pieces, TauReader);
 // //         std::vector<analysis::Doublet> Piecedoublets = w_hadronic_tagger.GetBdt(Pieces, WHadronicReader);
 // //         std::vector<analysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, TopHadronicReader);
 // //         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
@@ -857,7 +857,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // // bool hheavyhiggs::HAnalysisTau::GetTopSemiTag(analysis::Event &event,  HTag Tag)
 // // {
 // //     Print(kInformation, "Get Tops", Tag);
-// //     std::vector<TopSemiBranch> Tops = TopSemiTagger.GetBranches(event, Tag);
+// //     std::vector<TopSemiBranch> Tops = top_semi_tagger.GetBranches(event, Tag);
 // //     if (Tops.empty()) return 0;
 // //     for (const auto & Top : Tops) *static_cast<TopSemiBranch *>(Branch->NewEntry()) = Top;
 // //     return 1;
@@ -869,21 +869,21 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // //
 // // //     Jets jets = event.hadrons().GetStructuredJets();
 // //
-// //     Jets jets = TauTagger.GetJets(event);
+// //     Jets jets = tau_tagger.GetJets(event);
 // //
-// //     jets = TauTagger.GetJetBdt(jets, TauReader);
+// //     jets = tau_tagger.GetJetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.leptons().GetLeptonJets();
 // //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-// //     std::vector<analysis::Doublet> doublets = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-// //     std::vector<analysis::Triplet> triplets = TopSemiTagger.GetBdt(doublets, jets, TopSemiReader);
+// //     std::vector<analysis::Doublet> doublets = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader);
+// //     std::vector<analysis::Triplet> triplets = top_semi_tagger.GetBdt(doublets, jets, TopSemiReader);
 // //
 // //     if (triplets.size() > 1) {
 // //         std::sort(triplets.begin(), triplets.end());
 // //         triplets.erase(triplets.begin() + 1, triplets.end());
 // //     }
 // //
-// //     for (const auto & triplet : triplets) *static_cast<TopSemiBranch *>(Branch->NewEntry()) = TopSemiTagger.GetBranch(triplet);
+// //     for (const auto & triplet : triplets) *static_cast<TopSemiBranch *>(Branch->NewEntry()) = top_semi_tagger.GetBranch(triplet);
 // //
 // //     return 1;
 // // }
@@ -903,28 +903,28 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // // bool hheavyhiggs::HAnalysisTau::GetJetPairReader(analysis::Event &event, const HTag Tag)
 // // {
 // //     Print(kDebug, "Get JetPair Reader", Tag);
-// //     Jets jets = TauTagger.GetJets(event);
+// //     Jets jets = tau_tagger.GetJets(event);
 // // //     Jets jets = event.hadrons().GetStructuredJets();
-// //     jets = TauTagger.GetJetBdt(jets, TauReader);
+// //     jets = tau_tagger.GetJetBdt(jets, TauReader);
 // //
 // // //     Jets Leptons = event.leptons().GetLeptonJets();
 // // //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-// // //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-// // //     std::vector<analysis::Triplet> triplets = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
+// // //     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader);
+// // //     std::vector<analysis::Triplet> triplets = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 // //
 // //     std::vector<analysis::Doublet> doubletsHadronic = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
 // //     std::vector<analysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
 // //
 // // //     triplets.insert(triplets.end(), tripletsHadronic.begin(), tripletsHadronic.end());
 // //
-// //     std::vector<analysis::HQuartet31> Quartets = JetPairTagger.GetBdt(triplets, jets, JetPairReader);
+// //     std::vector<analysis::Quartet31> quartets = JetPairTagger.GetBdt(triplets, jets, JetPairReader);
 // //
-// //     if (Quartets.size() > 1) {
-// //         std::sort(Quartets.begin(), Quartets.end());
-// //         Quartets.erase(Quartets.begin() + 1, Quartets.end());
+// //     if (quartets.size() > 1) {
+// //         std::sort(quartets.begin(), quartets.end());
+// //         quartets.erase(quartets.begin() + 1, quartets.end());
 // //     }
 // //
-// //     for (const auto & Quartet : Quartets) *static_cast<HChargedJetPairBranch *>(Branch->NewEntry()) = JetPairTagger.GetBranch(Quartet);
+// //     for (const auto & quartet : quartets) *static_cast<HChargedJetPairBranch *>(Branch->NewEntry()) = JetPairTagger.GetBranch(quartet);
 // //
 // //     return 1;
 // // }
@@ -943,28 +943,28 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // // {
 // //     Print(kInformation, "Get event semi", Tag);
 // //
-// //     Jets jets = TauTagger.GetJets(event);
+// //     Jets jets = tau_tagger.GetJets(event);
 // //
 // // //     Jets jets = event.hadrons().GetStructuredJets();
-// //     jets = TauTagger.GetJetBdt(jets, TauReader);
+// //     jets = tau_tagger.GetJetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.leptons().GetLeptonJets();
 // //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-// //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-// //     std::vector<analysis::Triplet> triplets = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
+// //     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader);
+// //     std::vector<analysis::Triplet> triplets = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 // //
 // // //     std::vector<analysis::Doublet> doubletsHadronic = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
 // // //     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
 // // //     triplets.insert(triplets.end(), tripletsHadronic.begin(), tripletsHadronic.end());
 // //
-// //     std::vector<analysis::HQuartet31> Quartets = ChargedHiggsSemiTagger.GetBdt(triplets, jets, ChargedHiggsSemiReader);
+// //     std::vector<analysis::Quartet31> quartets = ChargedHiggsSemiTagger.GetBdt(triplets, jets, ChargedHiggsSemiReader);
 // //
-// //     if (Quartets.size() > 1) {
-// //         std::sort(Quartets.begin(), Quartets.end());
-// //         Quartets.erase(Quartets.begin() + 1, Quartets.end());
+// //     if (quartets.size() > 1) {
+// //         std::sort(quartets.begin(), quartets.end());
+// //         quartets.erase(quartets.begin() + 1, quartets.end());
 // //     }
 // //
-// //     for (const auto & Quartet : Quartets) *static_cast<HChargedHiggsSemiBranch *>(Branch->NewEntry()) = ChargedHiggsSemiTagger.GetBranch(Quartet);
+// //     for (const auto & quartet : quartets) *static_cast<HChargedHiggsSemiBranch *>(Branch->NewEntry()) = ChargedHiggsSemiTagger.GetBranch(quartet);
 // //     return 1;
 // // }
 // //
@@ -981,21 +981,21 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // // {
 // //     Print(kInformation, "Get event semi", Tag);
 // //
-// //     Jets jets = TauTagger.GetJets(event);
-// //     jets = TauTagger.GetJetBdt(jets, TauReader);
+// //     Jets jets = tau_tagger.GetJets(event);
+// //     jets = tau_tagger.GetJetBdt(jets, TauReader);
 // //
 // //     Jets Leptons = event.leptons().GetLeptonJets();
 // //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-// //     std::vector<analysis::Doublet> doubletsSemi = WSemiTagger.GetBdt(Leptons, MissingEt, WSemiReader);
-// //     std::vector<analysis::Triplet> tripletsSemi = TopSemiTagger.GetBdt(doubletsSemi, jets, TopSemiReader);
+// //     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader);
+// //     std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 // //
 // //     std::vector<analysis::Doublet> doubletsHadronic = w_hadronic_tagger.GetBdt(jets, WHadronicReader);
 // //     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
 // // //     triplets.insert(triplets.end(), tripletsHadronic.begin(), tripletsHadronic.end());
 // //
-// //     std::vector<analysis::HQuartet31> HiggsQuartets = ChargedHiggsSemiTagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
+// //     std::vector<analysis::Quartet31> Higgsquartets = ChargedHiggsSemiTagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
 // //
-// //     std::vector<analysis::HQuartet31> JetQuartets = JetPairTagger.GetBdt(tripletsHadronic, jets, JetPairReader);
+// //     std::vector<analysis::Quartet31> Jetquartets = JetPairTagger.GetBdt(tripletsHadronic, jets, JetPairReader);
 // //
 // //     HChargedevent_struct event_struct;
 // //     event_struct.LeptonNumber = Leptons.size();
@@ -1004,7 +1004,7 @@ int hheavyhiggs::HAnalysisTau::RunAnalysis(analysis::Event &event, const analysi
 // //     event_struct.ScalarHt = event.hadrons().GetScalarHt();
 // //     if (event_struct.LeptonNumber > 0) event_struct.LeptonPt = fastjet::sorted_by_pt(event.leptons().GetLeptonJets()).front().pt();
 // //
-// //     std::vector<HOctet44> Octets = eventSemiTagger.GetBdt(HiggsQuartets, JetQuartets, jets, event_struct, eventSemiReader);
+// //     std::vector<HOctet44> Octets = eventSemiTagger.GetBdt(Higgsquartets, Jetquartets, jets, event_struct, eventSemiReader);
 // //     if (Octets.empty()) return 0;
 // //     Octets.front().SetTag(Tag);
 // //

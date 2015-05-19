@@ -1,7 +1,7 @@
-# include "HWSemiTagger.hh"
+# include "WSemiTagger.hh"
 # include "Reader.hh"
 
-analysis::HWSemiTagger::HWSemiTagger()
+analysis::WSemiTagger::WSemiTagger()
 {
 //     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
@@ -11,7 +11,7 @@ analysis::HWSemiTagger::HWSemiTagger()
 }
 
 
-void analysis::HWSemiTagger::DefineVariables()
+void analysis::WSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     ClearVectors();
@@ -30,7 +30,7 @@ void analysis::HWSemiTagger::DefineVariables()
     Print(kNotification, "Variables defined");
 }
 
-analysis::WSemiBranch analysis::HWSemiTagger::GetBranch(const analysis::Doublet &doublet) const
+analysis::WSemiBranch analysis::WSemiTagger::GetBranch(const analysis::Doublet &doublet) const
 {
     Print(kInformation, "Fill W Tagger", doublet.Bdt());
     WSemiBranch branch;
@@ -38,7 +38,7 @@ analysis::WSemiBranch analysis::HWSemiTagger::GetBranch(const analysis::Doublet 
     return branch;
 }
 
-int analysis::HWSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
+int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
 
@@ -72,7 +72,7 @@ int analysis::HWSemiTagger::Train(analysis::Event &event, const analysis::Object
     return doublets.size();
 }
 
-std::vector<analysis::Doublet>  analysis::HWSemiTagger::GetDoublets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Doublet>  analysis::WSemiTagger::GetDoublets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Triple Bdt");
     Jets leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
@@ -95,7 +95,7 @@ std::vector<analysis::Doublet>  analysis::HWSemiTagger::GetDoublets(analysis::Ev
     return doublets;
 }
 
-std::vector<analysis::Doublet> analysis::HWSemiTagger::GetNeutrinos(const Doublet &doublet)const
+std::vector<analysis::Doublet> analysis::WSemiTagger::GetNeutrinos(const Doublet &doublet)const
 {
 
     Print(kInformation, "Get Neutrinos");
@@ -170,7 +170,7 @@ struct FindError {
     float Error;
 };
 
-Jets analysis::HWSemiTagger::WSemiDaughters(Event &event)
+Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
 {
     Jets WKids = event.partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
@@ -182,7 +182,7 @@ Jets analysis::HWSemiTagger::WSemiDaughters(Event &event)
     return WKids;
 }
 
-int analysis::HWSemiTagger::WSemiId(const Jets &jets)
+int analysis::WSemiTagger::WSemiId(const Jets &jets)
 {
     if (jets.empty()) return WId;
     else return jets.at(0).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id;

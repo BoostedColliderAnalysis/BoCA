@@ -120,7 +120,7 @@ private:
         }
     }
 
-    inline HParticleId MotherId(const HProductionChannel NewProductionChannel) const {
+    inline ParticleId MotherId(const HProductionChannel NewProductionChannel) const {
         switch (NewProductionChannel) {
         case DYP :
             return ZId;

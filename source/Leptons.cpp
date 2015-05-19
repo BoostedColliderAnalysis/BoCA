@@ -36,8 +36,8 @@ void analysis::Leptons::NewEvent(const analysis::ClonesArrays &clones_arrays)
 Vectors analysis::Leptons::GetLeptonVectors()
 {
     Print(kInformation,"Get Leptons");
-    if(!GotElectrons) GotElectrons = GetElectrons(Plain);
-    if(!GotMuons) GotMuons = GetMuons(Plain);
+    if(!GotElectrons) GotElectrons = GetElectrons(kPlain);
+    if(!GotMuons) GotMuons = GetMuons(kPlain);
     LeptonLorentzVectors = ElectronLorentzVectors;
     LeptonLorentzVectors.insert(LeptonLorentzVectors.end(), MuonLorentzVectors.begin(), MuonLorentzVectors.end());
 //     LeptonVector.insert(LeptonVector.end(), TauVector.begin(), TauVector.end());
@@ -57,10 +57,10 @@ Vectors analysis::Leptons::GetLeptonVectors()
 Jets analysis::Leptons::GetLeptonJets()
 {
     Print(kInformation,"Get Lepton Jets");
-    return GetLeptonJets(Plain);
+    return GetLeptonJets(kPlain);
 }
 
-Jets analysis::Leptons::GetLeptonJets(analysis::FourVector::HJetDetails jet_details)
+Jets analysis::Leptons::GetLeptonJets(analysis::FourVector::JetDetail jet_detail)
 {
     Print(kInformation,"Get Lepton Jets");
     GotElectrons = 0;
@@ -80,9 +80,9 @@ Jets analysis::Leptons::GetLeptonJets(analysis::FourVector::HJetDetails jet_deta
     LeptonJets.clear();
     AntiLeptonJets.clear();
 //     if(!GotElectrons)
-    GotElectrons = GetElectrons(jet_details);
+    GotElectrons = GetElectrons(jet_detail);
 //     if(!GotMuons)
-    GotMuons = GetMuons(jet_details);
+    GotMuons = GetMuons(jet_detail);
     LeptonJets = ElectronJets;
     LeptonJets.insert(LeptonJets.end(), MuonJets.begin(), MuonJets.end());
 //     LeptonJetVector.insert(LeptonJetVector.end(), TauJetVector.begin(), TauJetVector.end());

@@ -114,27 +114,27 @@ void hjetproperties::HAnalysis::CloseFile()
 
 }
 
-// int hjetproperties::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+// int hjetproperties::HJetTag::GetBranchId(const int particle_id, int BranchId)
 // {
 //
-//     Print(kDebug, "Get Branch Id", ParticleId);
+//     Print(kDebug, "Get Branch Id", particle_id);
 //
-//     if (ParticleId == -BranchId) {
+//     if (particle_id == -BranchId) {
 //
-//         Print(kDetailed, "ID CONFILICT", ParticleId, BranchId);
+//         Print(kDetailed, "ID CONFILICT", particle_id, BranchId);
 //
 //     }
 //
 //     if (
-//         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
+//         RadiationParticles.find(std::abs(particle_id)) != end(RadiationParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
 //         BranchId = IsrId;
 //     } else if (
-//         HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles)
+//         HeavyParticles.find(std::abs(particle_id)) != end(HeavyParticles)
 //         && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
-//         BranchId = ParticleId;
+//         BranchId = particle_id;
 //     }
 //
 //     Print(kDebug, "Branch Id", BranchId);

@@ -2,7 +2,7 @@
 # define HChargedHiggsLeptonicTagger_hh
 
 # include "Triplet.hh"
-// # include "HQuartet31.hh"
+// # include "Quartet31.hh"
 # include "HTopLeptonicTagger.hh"
 // # include "WIMPMASS.h"
 

@@ -12,8 +12,8 @@ bool analysis::delphes::Partons::GetParticles()
     Print(kInformation, "Get Particles", clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(ParticleNumber));
-        const int ParticleId = particle.PID;
-        Print(kDetailed, "Particles ID", ParticleId);
+        const int particle_id = particle.PID;
+        Print(kDetailed, "Particles ID", particle_id);
         int MotherId = EmptyId;
 //         int MotherStatus = EmptyId;
         int Mother2Id = EmptyId;
@@ -28,52 +28,52 @@ bool analysis::delphes::Partons::GetParticles()
             Mother2Id = mother.PID;
 //             Mother2Status = mother.Status;
         }
-        if (particle.Status == StableParticle) {
+        if (particle.Status == kStable) {
             Print(kDetailed, "Particles Status", "stable");
-            if (std::abs(ParticleId) == ElectronId) {
+            if (std::abs(particle_id) == ElectronId) {
                 const TLorentzVector ElectronVector = particle.P4();
                 const fastjet::PseudoJet ElectronJet = PseudoJet(ElectronVector);
-                if (ParticleId > 0) {
+                if (particle_id > 0) {
                     ElectronVectors.emplace_back(ElectronVector);
                     ElectronJets.emplace_back(ElectronJet);
                     Print(kDebug, "Electron");
-                } else if (ParticleId < 0) {
+                } else if (particle_id < 0) {
                     AntiElectronVectors.emplace_back(ElectronVector);
                     AntiElectronJets.emplace_back(ElectronJet);
                     Print(kDebug, "Anti Electron");
                 }
             }
-            if (std::abs(ParticleId) == MuonId) {
+            if (std::abs(particle_id) == MuonId) {
                 const TLorentzVector MuonVector = particle.P4();
                 const fastjet::PseudoJet MuonJet = PseudoJet(MuonVector);
-                if (ParticleId > 0) {
+                if (particle_id > 0) {
                     MuonVectors.emplace_back(MuonVector);
                     MuonJets.emplace_back(MuonJet);
                     Print(kDebug, "Muon");
-                } else if (ParticleId < 0) {
+                } else if (particle_id < 0) {
                     AntiMuonVectors.emplace_back(MuonVector);
                     AntiMuonJets.emplace_back(MuonJet);
                     Print(kDebug, "Anti Muon");
                 }
             }
         }
-        if (particle.Status == UnstableParticle) {
+        if (particle.Status == kUnstable) {
             Print(kDetailed, "Particles Status", "unstable");
-            if (std::abs(ParticleId) == CharmId) {
+            if (std::abs(particle_id) == CharmId) {
                 CharmJets.emplace_back(PseudoJet(particle.P4()));
                 Print(kDebug, "Charm");
             }
-            if (std::abs(ParticleId) == CpvHiggsId) {
+            if (std::abs(particle_id) == CpvHiggsId) {
                 HiggsJets.emplace_back(PseudoJet(particle.P4()));
                 Print(kDebug, "CPV Higgs");
             }
-            if (std::abs(ParticleId) == BottomId) {
+            if (std::abs(particle_id) == BottomId) {
                 BottomJets.emplace_back(PseudoJet(particle.P4()));
                 ParticleJets.emplace_back(PseudoJet(particle.P4()));
-                ParticleJets.back().set_user_index(ParticleId);
+                ParticleJets.back().set_user_index(particle_id);
                 Print(kDebug, "Bottom");
             }
-            if (std::abs(ParticleId) == HeavyHiggsId) {
+            if (std::abs(particle_id) == HeavyHiggsId) {
                 const fastjet::PseudoJet HiggsParticle = PseudoJet(particle.P4());
                 HiggsJets.emplace_back(HiggsParticle);
                 Print(kDebug, "Heavy CPV Higgs");
@@ -86,47 +86,47 @@ bool analysis::delphes::Partons::GetParticles()
                 }
             }
         }
-        if (particle.Status == GeneratorParticle) {
+        if (particle.Status == kGenerator) {
             Print(kInformation, "Particles Status", "Generator");
-            Family family(ParticleId, MotherId, Mother2Id);
+            Family family(particle_id, MotherId, Mother2Id);
             Constituent constituent(particle.P4(), family);
             fastjet::PseudoJet GeneratorJet = PseudoJet(constituent.Momentum());
             GeneratorJet.set_user_info(new JetInfo(constituent));
             GeneratorJets.emplace_back(GeneratorJet);
-            if (std::abs(ParticleId) == ElectronNeutrinoId || std::abs(ParticleId) == MuonNeutrinoId) {
+            if (std::abs(particle_id) == ElectronNeutrinoId || std::abs(particle_id) == MuonNeutrinoId) {
                 fastjet::PseudoJet NeutrinoJet = PseudoJet(particle.P4());
-                NeutrinoJet.set_user_index(ParticleId);
+                NeutrinoJet.set_user_index(particle_id);
                 Print(kInformation, "Neutrino", NeutrinoJet);
                 NeutrinoJets.emplace_back(NeutrinoJet);
             }
-            if (std::abs(ParticleId) == TopId) {
+            if (std::abs(particle_id) == TopId) {
                 const TLorentzVector TopVector = particle.P4();
                 fastjet::PseudoJet TopJet = PseudoJet(particle.P4());
-                TopJet.set_user_index(ParticleId);
+                TopJet.set_user_index(particle_id);
                 Print(kInformation, "Top", TopJet);
                 TopJets.emplace_back(TopJet);
                 ParticleJets.emplace_back(TopJet);
-                if (ParticleId > 0) {
+                if (particle_id > 0) {
                     TopVectors.emplace_back(TopVector);
                     Print(kDebug, "Top");
-                } else if (ParticleId < 0) {
+                } else if (particle_id < 0) {
                     AntiTopVector.emplace_back(TopVector);
                     Print(kDebug, "Anti Top");
                 }
             }
-            if (std::abs(ParticleId) == BottomId) {
+            if (std::abs(particle_id) == BottomId) {
                 fastjet::PseudoJet BottomJet = PseudoJet(particle.P4());
-//                 BottomJet.set_user_index(ParticleId);
+//                 BottomJet.set_user_index(particle_id);
                 Print(kInformation, "Bottom", MotherId, Mother2Id);
             }
-            if (std::abs(ParticleId) == ElectronId || std::abs(ParticleId) == MuonId) {
+            if (std::abs(particle_id) == ElectronId || std::abs(particle_id) == MuonId) {
                 fastjet::PseudoJet LeptonJet = PseudoJet(particle.P4());
-                //                 BottomJet.set_user_index(ParticleId);
+                //                 BottomJet.set_user_index(particle_id);
                 Print(kInformation, "Lepton", LeptonJet);
             }
-            if (std::abs(ParticleId) == WId) {
+            if (std::abs(particle_id) == WId) {
                 fastjet::PseudoJet WJet = PseudoJet(particle.P4());
-                //                 BottomJet.set_user_index(ParticleId);
+                //                 BottomJet.set_user_index(particle_id);
                 Print(kInformation, "W", WJet);
             }
         }

@@ -15,7 +15,7 @@
 
 // # include "HChargedSemiTagger.hh"
 # include "HChargedJetPairTagger.hh"
-# include "HTauTagger.hh"
+# include "TauTagger.hh"
 # include "HHeavyHiggsTauTagger.hh"
 
 
@@ -52,13 +52,13 @@ public:
      */
     ExRootTreeBranch *Branch;
 
-    analysis::HTauTagger TauTagger;
-    analysis::HHeavyHiggsTauTagger HiggsTauTagger;
+    analysis::TauTagger tau_tagger;
+    analysis::HHeavyHiggsTauTagger Higgstau_tagger;
 //     analysis::HWTagger w_hadronic_tagger;
 //
 //     analysis::HTopLeptonicTagger TopLeptonicTagger;
 //     analysis::TopHadronicTagger top_hadronic_tagger;
-//     analysis::HTopSemiTagger TopSemiTagger;
+//     analysis::HTopSemiTagger top_semi_tagger;
 //
 //     analysis::HHiggsTauSemiTagger HiggsTauSemiTagger;
 //     analysis::HChargedJetPairTagger JetPairTagger;

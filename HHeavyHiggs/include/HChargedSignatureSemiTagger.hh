@@ -26,9 +26,9 @@ public:
     void SetTagger(
       const analysis::BottomTagger &NewBottomTagger,
       const analysis::HChargedJetPairTagger &NewChargedJetPairTagger,
-      const analysis::HWSemiTagger &NewWSemiTagger,
+      const analysis::WSemiTagger &Neww_semi_tagger,
       const analysis::WHadronicTagger &NewWTagger,
-      const analysis::HTopSemiTagger &NewTopSemiTagger,
+      const analysis::TopSemiTagger &Newtop_semi_tagger,
       const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
       const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
 
@@ -41,13 +41,13 @@ public:
 
 
     std::vector<HOctet44> GetBdt(
-        const std::vector< analysis::HQuartet31 > &HiggsQuartets, const std::vector< analysis::HQuartet31 > &JetQuartets, const analysis::Reader &eventSemiReader);
+        const std::vector< analysis::Quartet31 > &Higgsquartets, const std::vector< analysis::Quartet31 > &Jetquartets, const analysis::Reader &eventSemiReader);
 
 
     analysis::BottomTagger bottom_tagger_;
-    analysis::HWSemiTagger WSemiTagger;
+    analysis::WSemiTagger w_semi_tagger;
     analysis::WHadronicTagger WTagger;
-    analysis::HTopSemiTagger TopSemiTagger;
+    analysis::TopSemiTagger top_semi_tagger;
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
     analysis::HChargedJetPairTagger ChargedJetPairTagger;
