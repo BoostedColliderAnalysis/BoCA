@@ -15,7 +15,7 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 
 * edit MadGraph path in FindMadGraph.cmake
 * if you are using a different than the standad ROOT version edit the ROOT path in FindROOT.cmake
-    mkdir build
-    cd build
-    cmake ..
-    make
+     mkdir build
+     cd build
+     cmake ..
+     make
