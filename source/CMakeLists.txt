@@ -16,7 +16,7 @@ Leptons.cpp
 Hadrons.cpp
 Predicate.cpp
 )
-HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
+HLibrary(Event "${EventSources}" PARENT_SCOPE)
 
 set(MultipletSources
 Identification.cpp
@@ -52,6 +52,7 @@ Reader.cpp
 
 BottomTagger.cpp
 TauTagger.cpp
+ZHadronicTagger.cpp
 WHadronicTagger.cpp
 WSemiTagger.cpp
 HJetPairTagger.cpp
@@ -68,5 +69,5 @@ HChargedHiggsSemiTagger.cpp
 HChargedHiggsHadronicTagger.cpp
 HChargedHiggsLeptonicTagger.cpp
 )
-HLibrary(HAnalysis "${AnalysisSources}" PARENT_SCOPE)
-add_dependencies(HAnalysis HWimpMass)
+HLibrary(Analysis "${AnalysisSources}" PARENT_SCOPE)
+add_dependencies(Analysis HWimpMass)

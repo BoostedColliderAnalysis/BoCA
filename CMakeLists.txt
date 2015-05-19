@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 
-project(HAnalysis)
+project(Analysis)
 
 include(CMakeFiles/CMakeConfig.cmake)
 
@@ -81,7 +81,7 @@ set(LinkLibraries
 HInclude(${PROJECT_SOURCE_DIR}/include)
 add_subdirectory(source)
 add_dependencies(Multiplets WimpMass)
-add_dependencies(HAnalysis HepTopTagger)
+add_dependencies(Analysis HepTopTagger)
 
 # Tagger
 add_subdirectory(Bottom)

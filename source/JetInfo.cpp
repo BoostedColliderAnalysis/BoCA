@@ -217,7 +217,7 @@ struct AccuPerpDistance {
 float analysis::JetInfo::SumDisplacement() const
 {
     Print(kDebug, "Get Jet Displacement");
-    if (constituents_.size() == 0) return 0;
+    if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     return std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
 }
@@ -225,7 +225,7 @@ float analysis::JetInfo::SumDisplacement() const
 float analysis::JetInfo::MeanDisplacement() const
 {
     Print(kDebug, "Get Jet Displacement");
-    if (constituents_.size() == 0) return 0;
+    if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
     const float sum = std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
@@ -241,7 +241,7 @@ struct MaxPerpDistance {
 float analysis::JetInfo::MaxDisplacement() const
 {
     Print(kDebug, "Get Jet Displacement");
-    if (constituents_.size() == 0) return 0;
+    if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
     std::sort(vertices.begin(), vertices.end(), MaxPerpDistance());
@@ -271,7 +271,7 @@ std::vector<analysis::Constituent> analysis::JetInfo::ApplyVertexResolution() co
     Print(kDebug, "Apply Vertex Resolution");
     std::vector <Constituent > displaced_constituents;
     Print(kDebug, "Vertex Number", constituents().size());
-    if (constituents().size() == 0) return displaced_constituents;
+    if (constituents().empty()) return displaced_constituents;
     for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry_.TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry_.TrackerDistanceMax && std::abs(constituent.Momentum().Rapidity()) < detector_geometry_.TrackerEtaMax) displaced_constituents.emplace_back(constituent);
     Print(kDebug, "Real Vertex Number", displaced_constituents.size());
     return displaced_constituents;

@@ -6,7 +6,8 @@
 # include "FourVector.hh"
 # include "Predicate.hh"
 
-namespace analysis{
+namespace analysis
+{
 
 /**
  * @brief Base class for jets
@@ -23,118 +24,118 @@ public:
      */
     Hadrons();
 
-    virtual ~Hadrons(){};
+    virtual ~Hadrons() {};
 
     /**
      * @brief Initialize New event
      */
-    void NewEvent(const ClonesArrays &NewClonesArrays);
+    void NewEvent(const ClonesArrays &clones_arrays);
 
-    void SetJetTag(HJetTag &NewJetTag) {
-        jet_tag_ = &NewJetTag;
+    void SetJetTag(HJetTag &jet_tag) {
+        jet_tag_ = &jet_tag;
     }
 
     Jets GetJets() {
-      NewEvent(*clones_arrays_);
+        NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(kPlain);
-      return jets_;
+        return jets_;
     };
 
     Jets GetStructuredJets() {
-      NewEvent(*clones_arrays_);
+        NewEvent(*clones_arrays_);
 //         if (!GotJets)
-          GotJets = GetJets(kStructure);
+        GotJets = GetJets(kStructure);
         return jets_;
     };
 
     Jets GetTaggedJets() {
-      NewEvent(*clones_arrays_);
+        NewEvent(*clones_arrays_);
 //         if (!GotJets)
-          GotJets = GetJets(kTagging);
+        GotJets = GetJets(kTagging);
         return jets_;
     };
 
     Jets GetTaggedJets(HJetTag &NewJetTag) {
-      jet_tag_ = &NewJetTag;
-      NewEvent(*clones_arrays_);
+        jet_tag_ = &NewJetTag;
+        NewEvent(*clones_arrays_);
 //         if (!GotJets)
-          GotJets = GetJets(kTagging);
+        GotJets = GetJets(kTagging);
         return jets_;
     };
 
     Jets GetStructuredTaggedJets(HJetTag &NewJetTag) {
-      jet_tag_ = &NewJetTag;
-      NewEvent(*clones_arrays_);
+        jet_tag_ = &NewJetTag;
+        NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(kTaggingStructure);
-      return jets_;
+        return jets_;
     };
 
     Jets GetBottomJets() {
-      //         if (!GotJets)
-      NewEvent(*clones_arrays_);
-          GotJets = GetJets(kPlain);
+        //         if (!GotJets)
+        NewEvent(*clones_arrays_);
+        GotJets = GetJets(kPlain);
         return BottomJets;
     };
 
     Jets GetEFlowJets() {
-      if (!GotEFlow)
-        GotEFlow = GetEFlow(kPlain);
-      return EFlowJets;
+        if (!GotEFlow)
+            GotEFlow = GetEFlow(kPlain);
+        return EFlowJets;
     };
 
     Jets GetIsolatedEFlowJets() {
-      if (!GotEFlow) GotEFlow = GetEFlow(kIsolation);
-      return EFlowJets;
+        if (!GotEFlow) GotEFlow = GetEFlow(kIsolation);
+        return EFlowJets;
     };
 
     Jets GetTaggedEFlowJets() {
-      if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
-      return EFlowJets;
+        if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
+        return EFlowJets;
     };
 
     Jets GetTaggedEFlowJets(HJetTag &NewJetTag) {
-      jet_tag_ = &NewJetTag;
-      if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
-      return EFlowJets;
+        jet_tag_ = &NewJetTag;
+        if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
+        return EFlowJets;
     };
 
     Jets GetStructuredTaggedEFlowJets(HJetTag &NewJetTag) {
-      jet_tag_ = &NewJetTag;
-      if (!GotEFlow) GotEFlow = GetEFlow(kTaggingStructure);
-      return EFlowJets;
+        jet_tag_ = &NewJetTag;
+        if (!GotEFlow) GotEFlow = GetEFlow(kTaggingStructure);
+        return EFlowJets;
     };
 
     Jets GetStructuredEFlowJets() {
-      Print(kInformation,"Get structured eflow", kStructure);
-      if (!GotEFlow) GotEFlow = GetEFlow(kStructure);
-      return EFlowJets;
+        Print(kInformation, "Get structured eflow", kStructure);
+        if (!GotEFlow) GotEFlow = GetEFlow(kStructure);
+        return EFlowJets;
     };
 
     Jets GetIsolatedTaggedEFlowJets() {
-      if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
-      return EFlowJets;
+        if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
+        return EFlowJets;
     };
 
     Jets GetIsolatedTaggedEFlowJets(HJetTag &NewJetTag) {
-      jet_tag_ = &NewJetTag;
-      if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
-      return EFlowJets;
+        jet_tag_ = &NewJetTag;
+        if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
+        return EFlowJets;
     };
 
     virtual float GetScalarHt();
 
     virtual fastjet::PseudoJet GetMissingEt();
 
-    virtual Jets ClusteredJets(){
-      Print(kError,"Get Sub Jets","should be subclassed");
-      return GetJets();
+    virtual Jets ClusteredJets() {
+        Print(kError, "Get Sub Jets", "should be subclassed");
+        return GetJets();
     }
 
-    virtual Jets GetSubJets(const fastjet::PseudoJet &, const int ){
-      Print(kError,"Get Sub Jets","should be subclassed");
-      return GetJets();
+    virtual Jets GetSubJets(const fastjet::PseudoJet &, const int) {
+        Print(kError, "Get Sub Jets", "should be subclassed");
+        return GetJets();
     }
 
 
@@ -219,29 +220,22 @@ protected:
      */
     Vectors BottomLorentzVectors;
 
-    template<typename TParticle1, typename TParticle2>
-    bool CheckIsolation(const TParticle1 &Particle1, const TParticle2 &Particle2, const float DeltaRIsolationMax) const {
-
-        bool Isolated = 1;
-
-        if (PseudoJet(const_cast<TParticle1 &>(Particle1).P4()).delta_R(PseudoJet(const_cast<TParticle2 &>(Particle2).P4())) < DeltaRIsolationMax) Isolated = 0;
-
-        return Isolated;
-
+    template<typename Particle_1, typename Particle_2>
+    bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2, const float delta_r_isolation_max) const {
+        bool isolated = false;
+        if (PseudoJet(const_cast<Particle_1 &>(particle_1).P4()).delta_R(PseudoJet(const_cast<Particle_2 &>(particle_2).P4())) < delta_r_isolation_max) isolated = true;
+        return isolated;
     }
 
-    template<typename TParticle1, typename TParticle2>
-    bool CheckIsolation(const TParticle1 &Particle1, const TParticle2 &Particle2) const {
-
-//         const float DeltaRIsolationMax = 0.01; // TODO decide on best value // This is quiet large
-        const float DeltaRIsolationMax = 0; // TODO decide on best value // This is quiet large
-
-        return CheckIsolation(Particle1, Particle2, DeltaRIsolationMax);
-
+    template<typename Particle_1, typename Particle_2>
+    bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2) const {
+        //         const float delta_r_isolation_max = 0.01; // TODO decide on best value // This is quiet large
+        const float delta_r_isolation_max = 0; // TODO decide on best value // This is quiet large
+        return CheckIsolation(particle_1, particle_2, delta_r_isolation_max);
     }
 
     virtual inline std::string ClassName() const {
-        return "HJet";
+        return "Hadrons";
     };
 
 private:

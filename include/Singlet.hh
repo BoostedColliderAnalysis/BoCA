@@ -90,7 +90,7 @@ public:
     }
 
     float FlightPath() const {
-      return singlet_.user_info<JetInfo>().MeanDisplacement();
+      return log(singlet_.user_info<JetInfo>().MeanDisplacement());
     }
 
     float TrtHtFraction() const {

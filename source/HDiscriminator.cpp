@@ -23,7 +23,7 @@ Jets analysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const flo
 
     const Jets jets;
 
-    if (EFlowJets.size() == 0) {
+    if (EFlowJets.empty()) {
 
         Print(kInformation, "No EFlow Jets");
         return jets;
@@ -57,7 +57,7 @@ Jets analysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlowJets, con
 
     const Jets jets;
 
-    if (EFlowJets.size() == 0) {
+    if (EFlowJets.empty()) {
 
         Print(kInformation, "No EFlow Jets");
         return jets;

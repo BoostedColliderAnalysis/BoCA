@@ -118,25 +118,25 @@ public:
 
 // protected:
 
-  template<typename Multiplet>
-  void FillBranch(const Multiplet &multiplet) {
-    ParticleBranch::FillBranch(multiplet);
-    VertexMass = multiplet.VertexMass();
-    MaxDisplacement = multiplet.MaxDisplacement();
-    MeanDisplacement = multiplet.MeanDisplacement();
-    VertexMass = multiplet.VertexMass();
-    MaxDisplacement = multiplet.MaxDisplacement();
-    MeanDisplacement = multiplet.MeanDisplacement();
-    SumDisplacement = multiplet.SumDisplacement();
-    Multipliticity = multiplet.Multiplicity();
-    DeltaR = multiplet.VertexDeltaR();
-    Spread = multiplet.VertexSpread();
-    VertexDeltaR = multiplet.VertexDeltaR();
-    VertexSpread = multiplet.VertexSpread();
-    EnergyFraction = multiplet.EnergyFraction();
-    Tag = multiplet.Tag();
-    Bdt = multiplet.Bdt();
-  }
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+        ParticleBranch::FillBranch(multiplet);
+        VertexMass = multiplet.VertexMass();
+        MaxDisplacement = multiplet.MaxDisplacement();
+        MeanDisplacement = multiplet.MeanDisplacement();
+        VertexMass = multiplet.VertexMass();
+        MaxDisplacement = multiplet.MaxDisplacement();
+        MeanDisplacement = multiplet.MeanDisplacement();
+        SumDisplacement = multiplet.SumDisplacement();
+        Multipliticity = multiplet.Multiplicity();
+        DeltaR = multiplet.VertexDeltaR();
+        Spread = multiplet.VertexSpread();
+        VertexDeltaR = multiplet.VertexDeltaR();
+        VertexSpread = multiplet.VertexSpread();
+        EnergyFraction = multiplet.EnergyFraction();
+        Tag = multiplet.Tag();
+        Bdt = multiplet.Bdt();
+    }
 
 private:
 
@@ -170,18 +170,18 @@ public:
     float Bdt;
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-      ParticleBranch::FillBranch(multiplet);
-      EmRadius = multiplet.EmRadius();
-      TrackRadius = multiplet.TrackRadius();
-      MomentumFraction = multiplet.MomentumFraction();
-      CoreEnergyFraction = multiplet.CoreEnergyFraction();
-      EmFraction = multiplet.EmFraction();
-      ClusterMass = multiplet.ClusterMass();
-      TrackMass = multiplet.TrackMass();
-      FlightPath = multiplet.FlightPath();
-      TrtHtFraction = multiplet.TrtHtFraction();
-      Tag = multiplet.Tag();
-      Bdt = multiplet.Bdt();
+        ParticleBranch::FillBranch(multiplet);
+        EmRadius = multiplet.EmRadius();
+        TrackRadius = multiplet.TrackRadius();
+        MomentumFraction = multiplet.MomentumFraction();
+        CoreEnergyFraction = multiplet.CoreEnergyFraction();
+        EmFraction = multiplet.EmFraction();
+        ClusterMass = multiplet.ClusterMass();
+        TrackMass = multiplet.TrackMass();
+        FlightPath = multiplet.FlightPath();
+        TrtHtFraction = multiplet.TrtHtFraction();
+        Tag = multiplet.Tag();
+        Bdt = multiplet.Bdt();
     }
 
 private:
@@ -205,15 +205,15 @@ public:
     float Tag;
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-      ParticleBranch::FillBranch(multiplet);
-      Ht = multiplet.Ht();
-      DeltaPt = multiplet.DeltaPt();
-      DeltaM = multiplet.DeltaM();
-      DeltaRap = multiplet.DeltaRap();
-      DeltaPhi = multiplet.DeltaPhi();
-      DeltaR = multiplet.DeltaR();
-      Bdt = multiplet.Bdt();
-      Tag = multiplet.Tag();
+        ParticleBranch::FillBranch(multiplet);
+        Ht = multiplet.Ht();
+        DeltaPt = multiplet.DeltaPt();
+        DeltaM = multiplet.DeltaM();
+        DeltaRap = multiplet.DeltaRap();
+        DeltaPhi = multiplet.DeltaPhi();
+        DeltaR = multiplet.DeltaR();
+        Bdt = multiplet.Bdt();
+        Tag = multiplet.Tag();
     }
 private:
     ClassDef(PairBranch, 1)
@@ -225,19 +225,19 @@ class MultiBranch : public PairBranch
 
 public:
 
-  MultiBranch();
+    MultiBranch();
 
-  float DeltaHt;
+    float DeltaHt;
 
-  template<typename Multiplet>
-  void FillBranch(const Multiplet &multiplet) {
-    PairBranch::FillBranch(multiplet);
-    DeltaHt = multiplet.DeltaHt();
-  }
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+        PairBranch::FillBranch(multiplet);
+        DeltaHt = multiplet.DeltaHt();
+    }
 
 private:
 
-  ClassDef(MultiBranch, 1)
+    ClassDef(MultiBranch, 1)
 
 };
 
@@ -251,14 +251,35 @@ class WHadronicBranch : public PairBranch
 
 public:
 
-  WHadronicBranch();
+    WHadronicBranch();
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+        PairBranch::FillBranch(multiplet);
+    }
+private:
+
+    ClassDef(WHadronicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Z tagger root tree structure
+ *
+ */
+class ZHadronicBranch : public PairBranch
+{
+
+public:
+
+  ZHadronicBranch();
   template<typename Multiplet>
   void FillBranch(const Multiplet &multiplet) {
     PairBranch::FillBranch(multiplet);
   }
 private:
 
-    ClassDef(WHadronicBranch, 1)
+  ClassDef(ZHadronicBranch, 1)
 
 };
 
@@ -354,9 +375,9 @@ public:
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-      PairBranch::FillBranch(multiplet);
-      LeptonPt = multiplet.Singlet1().pt();
-      NeutrinoPt = multiplet.Singlet2().pt();
+        PairBranch::FillBranch(multiplet);
+        LeptonPt = multiplet.Singlet1().pt();
+        NeutrinoPt = multiplet.Singlet2().pt();
     }
 
 private:
@@ -428,21 +449,21 @@ public:
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-      MultiBranch::FillBranch(multiplet);
-      BottomPt = multiplet.singlet().pt();
-      WPt = multiplet.doublet().Jet().pt();
-      Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
-      Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
-      Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
-      if (multiplet.sub_jettiness().tau1_beta1 > 0) Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
-      if (multiplet.sub_jettiness().tau2_beta1 > 0) Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
-      Tau1_2 = multiplet.sub_jettiness().tau1_beta2;
-      Tau2_2 = multiplet.sub_jettiness().tau2_beta2;
-      Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
-      if (multiplet.sub_jettiness().tau1_beta2 > 0) Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
-      if (multiplet.sub_jettiness().tau2_beta2 > 0) Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
-      if (!multiplet.Degenerate()) WBdt = multiplet.doublet().Bdt();
-      BBdt = multiplet.SingletBdt();
+        MultiBranch::FillBranch(multiplet);
+        BottomPt = multiplet.singlet().pt();
+        WPt = multiplet.doublet().Jet().pt();
+        Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
+        Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
+        Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
+        if (multiplet.sub_jettiness().tau1_beta1 > 0) Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
+        if (multiplet.sub_jettiness().tau2_beta1 > 0) Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
+        Tau1_2 = multiplet.sub_jettiness().tau1_beta2;
+        Tau2_2 = multiplet.sub_jettiness().tau2_beta2;
+        Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
+        if (multiplet.sub_jettiness().tau1_beta2 > 0) Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
+        if (multiplet.sub_jettiness().tau2_beta2 > 0) Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
+        if (!multiplet.Degenerate()) WBdt = multiplet.doublet().Bdt();
+        BBdt = multiplet.SingletBdt();
     }
 
 private:
@@ -499,11 +520,11 @@ public:
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-      MultiBranch::FillBranch(multiplet);
-      BottomPt = multiplet.singlet().pt();
-      WPt = multiplet.doublet().Jet().pt();
-      BBdt = multiplet.SingletBdt();
-      WBdt = multiplet.doublet().Bdt();
+        MultiBranch::FillBranch(multiplet);
+        BottomPt = multiplet.singlet().pt();
+        WPt = multiplet.doublet().Jet().pt();
+        BBdt = multiplet.SingletBdt();
+        WBdt = multiplet.doublet().Bdt();
     }
 
 private:

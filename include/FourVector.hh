@@ -29,8 +29,8 @@ protected:
 
     void NewEvent(const ClonesArrays &NewClonesArrays);
 
-    template<typename TParticle>
-    TLorentzVector GetLorentzVectorByEnergy(const TParticle &particle) const {
+    template<typename Particle>
+    TLorentzVector GetLorentzVectorByEnergy(const Particle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Energy");
         TLorentzVector vector;
         const float Pt = particle.PT;
@@ -47,8 +47,8 @@ protected:
         return vector;
     }
 
-    template<typename TParticle>
-    TLorentzVector GetLorentzVectorByMass(const TParticle &particle, const float mass) const {
+    template<typename Particle>
+    TLorentzVector GetLorentzVectorByMass(const Particle &particle, const float mass) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
         TLorentzVector LorentzVector;
         const float Pt = particle.PT;
@@ -63,8 +63,8 @@ protected:
         return LorentzVector;
     }
 
-    template<typename TParticle>
-    TLorentzVector GetLorentzVectorByMass(const TParticle &particle) const {
+    template<typename Particle>
+    TLorentzVector GetLorentzVectorByMass(const Particle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
         const float Mass = particle.Mass;
         const TLorentzVector LorentzVector = GetLorentzVectorByMass(particle, Mass);
@@ -74,8 +74,8 @@ protected:
         return LorentzVector;
     }
 
-    template<typename TParticle>
-    TLorentzVector GetLorentzVectorByM(const TParticle &particle) const {
+    template<typename Particle>
+    TLorentzVector GetLorentzVectorByM(const Particle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
         const float Mass = particle.M;
         const TLorentzVector LorentzVector = GetLorentzVectorByMass(particle, Mass);

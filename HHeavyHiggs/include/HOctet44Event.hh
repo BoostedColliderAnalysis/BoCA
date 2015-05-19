@@ -1,8 +1,9 @@
-# ifndef EventMultiplet_hh
-# define EventMultiplet_hh
+# pragma once
 
-# include "HOctet44.hh"
-// # include "HOctet.hh"
+# include "Identification.hh"
+# include "JetInfo.hh"
+
+// namespace analysis{
 
 struct EventStruct {
 
@@ -20,32 +21,32 @@ struct EventStruct {
  * @brief An octet composed of a sextet an a doublet
  *
  */
-template <typename TMultiplet>
+template <typename Multiplet>
 class EventMultiplet : public analysis::Identification
 {
 
 public:
 
-    EventMultiplet(const TMultiplet &NewOctet) {
-        Octet44M = NewOctet;
-        SetBdt(Octet44M.Bdt());
-        SetTag(Octet44M.Tag());
+    EventMultiplet(const Multiplet &octet) {
+        octet_ = octet;
+        SetBdt(octet_.Bdt());
+        SetTag(octet_.Tag());
 
     };
 
-    EventMultiplet(const TMultiplet &NewOctet, const EventStruct &Newevent_struct) {
-        Octet44M = NewOctet;
+    EventMultiplet(const Multiplet &octet, const EventStruct &Newevent_struct) {
+        octet_ = octet;
         eventM = Newevent_struct;
-        SetBdt(Octet44M.Bdt());
-        SetTag(Octet44M.Tag());
+        SetBdt(octet_.Bdt());
+        SetTag(octet_.Tag());
     };
 
-    inline TMultiplet Octet()const {
-        return Octet44M;
+    inline Multiplet Octet()const {
+        return octet_;
     }
 
     inline fastjet::PseudoJet OctetJet() const {
-        return Octet44M.Jet();
+        return octet_.Jet();
     }
 
     inline fastjet::PseudoJet Jet() const {
@@ -54,7 +55,7 @@ public:
 
     inline float Ht() const {
         float ht = Octet().Ht();
-        for (const auto & jet : RestJets) ht += jet.pt();
+        for (const auto & jet : rest_jets_) ht += jet.pt();
         return ht;
     }
 
@@ -105,27 +106,19 @@ public:
     EventStruct eventM;
 
     inline void SetTotalJets(const Jets &NewJets) {
-        AllJets = NewJets;
-        std::sort(AllJets.begin(), AllJets.end(), analysis::SortByBdt());
+        all_jets_ = NewJets;
+        std::sort(all_jets_.begin(), all_jets_.end(), analysis::SortByBdt());
     }
 
     inline void SetSubJets(const Jets &NewJets) {
-        SubJets = NewJets;
-        std::sort(SubJets.begin(), SubJets.end(), analysis::SortByBdt());
+        sub_jets_ = NewJets;
+        std::sort(sub_jets_.begin(), sub_jets_.end(), analysis::SortByBdt());
     }
-
-//     inline float TotalBottomBdt(const int Sum) const {
-//         if (Sum < 0) return 0;
-//         if (AllJets.size() < Sum) return 0;
-//         float BdtSum = 0;
-//         for (int Number = 0; Number < Sum; ++Number) BdtSum += AllJets.at(Number).user_info<analysis::JetInfo>().Bdt();
-//         return BdtSum / Sum;
-//     }
 
     inline float BottomBdt(const unsigned Number) const {
         if (Number < 0) return 0;
-        if (AllJets.size() < Number) return 0;
-        return AllJets.at(Number - 1).user_info<analysis::JetInfo>().Bdt();
+        if (all_jets_.size() < Number) return 0;
+        return all_jets_.at(Number - 1).user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float BottomBdt(const unsigned Number1, const unsigned Number2) const {
@@ -134,8 +127,8 @@ public:
 
     inline float SubBottomBdt(const unsigned Sum) const {
         if (Sum < 0) return 0;
-        if (SubJets.size() < Sum) return 0;
-        return SubJets.at(Sum - 1).user_info<analysis::JetInfo>().Bdt();
+        if (sub_jets_.size() < Sum) return 0;
+        return sub_jets_.at(Sum - 1).user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float SubBottomBdt(const unsigned Number1, const unsigned Number2) const {
@@ -144,40 +137,40 @@ public:
 
     inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
         SetBdt(Bdt() * (JetNumber() + 1));
-        RestJets.emplace_back(NewJet);
+        rest_jets_.emplace_back(NewJet);
         SetBdt(Bdt() + NewJet.user_info<analysis::JetInfo>().Bdt());
         SetBdt(Bdt() / (JetNumber() + 1));
     }
 
     inline int RestNumber() const {
-        return RestJets.size();
+        return rest_jets_.size();
     }
 
     fastjet::PseudoJet RestJet() const {
         fastjet::PseudoJet jet;
-        return std::accumulate(RestJets.begin(), RestJets.end(), jet);
+        return std::accumulate(rest_jets_.begin(), rest_jets_.end(), jet);
     }
 
     float RestHt() const {
         float ht = 0;
-        for (const auto & jet : RestJets)ht += jet.pt();
+        for (const auto & jet : rest_jets_)ht += jet.pt();
         return ht;
     }
 
     float RestBdt() const {
         if (RestNumber() < 1) return 0;
         float bdt = 0;
-        for (const auto & jet : RestJets)bdt += jet.user_info<analysis::JetInfo>().Bdt();
+        for (const auto & jet : rest_jets_)bdt += jet.user_info<analysis::JetInfo>().Bdt();
         return bdt / RestNumber();
     }
 
     void SetLeptons(const Jets &NewLeptons) {
-        LeptonsM = NewLeptons;
+        leptons_ = NewLeptons;
     }
 
     float LeptonHt() const {
         float ht = 0;
-        for (const auto & jet : LeptonsM)ht += jet.pt();
+        for (const auto & jet : leptons_)ht += jet.pt();
         return ht;
     }
 
@@ -217,16 +210,16 @@ protected:
 
 private:
 
-    TMultiplet Octet44M;
+    Multiplet octet_;
 
-    Jets RestJets;
+    Jets rest_jets_;
 
-    Jets AllJets;
+    Jets all_jets_;
 
-    Jets SubJets;
+    Jets sub_jets_;
 
-    Jets LeptonsM;
+    Jets leptons_;
 
 };
 
-#endif
+// }

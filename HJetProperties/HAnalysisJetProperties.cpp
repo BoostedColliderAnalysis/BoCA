@@ -195,7 +195,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
 
                      });
 
-        if (EFlowJets.size() == 0) {
+        if (EFlowJets.empty()) {
 
             Print(kError, "NoEflow", Id);
             continue;
@@ -213,7 +213,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
         }
 
 
-        if (JetMap.size() == 0) {
+        if (JetMap.empty()) {
 
             Print(kError, "No JetMap", Id);
             continue;
@@ -256,7 +256,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
 
         Print(kInformation, "Radius", SigmaRadius);
         Print(kInformation, "mini size", TrimmedJets.size());
-        if (TrimmedJets.size() == 0) {
+        if (TrimmedJets.empty()) {
 
             Print(kError, "No Trimmed Eflow", Id);
             continue;

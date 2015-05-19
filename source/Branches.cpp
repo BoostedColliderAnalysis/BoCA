@@ -103,6 +103,10 @@ ClassImp(analysis::WHadronicBranch)
 
 analysis::WHadronicBranch::WHadronicBranch() {}
 
+ClassImp(analysis::ZHadronicBranch)
+
+analysis::ZHadronicBranch::ZHadronicBranch() {}
+
 ClassImp(analysis::EventJetPairBranch)
 
 analysis::EventJetPairBranch::EventJetPairBranch()
