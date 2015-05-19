@@ -2,9 +2,9 @@
 # include "delphes/Partons.hh"
 # include "delphes/Leptons.hh"
 # include "delphes/Hadrons.hh"
-# include "HLeptonPgs.hh"
-# include "HJetPgs.hh"
-# include "HParticleParton.hh"
+# include "exroot/Leptons.hh"
+# include "exroot/Hadrons.hh"
+# include "exroot/Partons.hh"
 
 
 analysis::Event::Event(const ClonesArrays::Source source)
@@ -18,11 +18,11 @@ analysis::Event::Event(const ClonesArrays::Source source)
         leptons_ = new delphes::Leptons();
         break;
     case ClonesArrays::kPgs :
-        leptons_ = new hpgs::HLepton();
-        hadrons_ = new hpgs::HJet();
+        leptons_ = new exroot::Leptons();
+        hadrons_ = new exroot::Hadrons();
         break;
     case ClonesArrays::kParton :
-        partons_ = new hparton::HParticle();
+        partons_ = new exroot::Partons();
         break;
     }
 }

@@ -10,12 +10,12 @@ int analysis::HJetTag::GetBranchId(const int particle_id, int branch_id)
 {
     Print(kDebug, "Get Branch Id", GetParticleName(particle_id), GetParticleName(branch_id));
     if (
-        HeavyParticles.find(static_cast<HParticleId>(std::abs(particle_id))) != end(HeavyParticles)
-//         && HeavyParticles.find(static_cast<HParticleId>(std::abs(BranchId))) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<ParticleId>(std::abs(particle_id))) != end(HeavyParticles)
+//         && HeavyParticles.find(static_cast<ParticleId>(std::abs(BranchId))) == end(HeavyParticles)
     ) {
         branch_id = particle_id;
     } else if (
-        RadiationParticles.find(static_cast<HParticleId>(std::abs(particle_id))) != end(RadiationParticles)
+        RadiationParticles.find(static_cast<ParticleId>(std::abs(particle_id))) != end(RadiationParticles)
     ) {
         branch_id = IsrId;
     }
@@ -27,20 +27,20 @@ analysis::Family analysis::HJetTag::GetBranchFamily(const Family &node_family, F
 {
     Print(kDebug, "Get Branch Id", GetParticleName(node_family.particle().Id), GetParticleName(node_family.mother_1().Id), GetParticleName(branch_family.particle().Id));
     if (
-        HeavyParticles.find(static_cast<HParticleId>(std::abs(node_family.particle().Id))) != end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<ParticleId>(std::abs(node_family.particle().Id))) != end(HeavyParticles)
+        && HeavyParticles.find(static_cast<ParticleId>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
+        && HeavyParticles.find(static_cast<ParticleId>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
     ) {
         branch_family = node_family;
     } else if (
-        HeavyParticles.find(static_cast<HParticleId>(std::abs(node_family.mother_1().Id))) != end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
-        && HeavyParticles.find(static_cast<HParticleId>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<ParticleId>(std::abs(node_family.mother_1().Id))) != end(HeavyParticles)
+        && HeavyParticles.find(static_cast<ParticleId>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
+        && HeavyParticles.find(static_cast<ParticleId>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
     ) {
         branch_family = node_family;
     } else if (
-        RadiationParticles.find(static_cast<HParticleId>(std::abs(node_family.mother_1().Id))) != end(RadiationParticles)
-        || RadiationParticles.find(static_cast<HParticleId>(std::abs(node_family.particle().Id))) != end(RadiationParticles)
+        RadiationParticles.find(static_cast<ParticleId>(std::abs(node_family.mother_1().Id))) != end(RadiationParticles)
+        || RadiationParticles.find(static_cast<ParticleId>(std::abs(node_family.particle().Id))) != end(RadiationParticles)
     ) {
         branch_family = Family(node_family.particle().Position,IsrId,node_family.mother_1().Position,IsrId);
     }

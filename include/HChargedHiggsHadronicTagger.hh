@@ -1,7 +1,7 @@
 # ifndef HChargedHiggsHadronicTagger_hh
 # define HChargedHiggsHadronicTagger_hh
 
-# include "HQuartet31.hh"
+# include "Quartet31.hh"
 # include "TopHadronicTagger.hh"
 
 /**
@@ -21,9 +21,9 @@ public:
 
     std::vector<HChargedHiggsHadronicBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedHiggsHadronicBranch GetBranch(const analysis::HQuartet31 &Quartet);
+    HChargedHiggsHadronicBranch GetBranch(const analysis::Quartet31 &quartet);
 
-    std::vector< HQuartet31 > GetBdt(std::vector< analysis::Triplet >& triplets, Jets& jets, const analysis::Reader& Reader);
+    std::vector< Quartet31 > GetBdt(std::vector< analysis::Triplet >& triplets, Jets& jets, const analysis::Reader& Reader);
 
 protected:
 
@@ -36,7 +36,7 @@ private:
     void DefineVariables();
 
 
-    Tag GetTag(const analysis::HQuartet31 &Quartet);
+    Tag GetTag(const analysis::Quartet31 &quartet);
 
     BottomTagger bottom_tagger_;
     WHadronicTagger WTagger;

@@ -61,6 +61,42 @@ public:
         return singlet_.user_info<JetInfo>().VertexEnergy() / singlet_.e();
     }
 
+    float EmRadius() const {
+      return singlet_.user_info<JetInfo>().ElectroMagneticRadius(singlet_);
+    }
+
+    float TrackRadius() const {
+      return singlet_.user_info<JetInfo>().TrackRadius(singlet_);
+    }
+
+    float MomentumFraction() const {
+      return singlet_.user_info<JetInfo>().LeadingTrackMomentumFraction();
+    }
+
+    float CoreEnergyFraction() const {
+      return singlet_.user_info<JetInfo>().CoreEnergyFraction(singlet_);
+    }
+
+    float EmFraction() const {
+      return singlet_.user_info<JetInfo>().ElectroMagneticFraction();
+    }
+
+    float ClusterMass() const {
+      return singlet_.user_info<JetInfo>().ClusterMass();
+    }
+
+    float TrackMass() const {
+      return singlet_.user_info<JetInfo>().TrackMass();
+    }
+
+    float FlightPath() const {
+      return singlet_.user_info<JetInfo>().MeanDisplacement();
+    }
+
+    float TrtHtFraction() const {
+      return GetSpread(singlet_.user_info<JetInfo>().VertexJet());
+    }
+
     float Tag() const {
         return singlet_.user_info<JetInfo>().Tag();
     }

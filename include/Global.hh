@@ -20,10 +20,8 @@ typedef std::vector<std::string> Strings;
  */
 namespace analysis
 {
-class Identification;
+
 class HJetLeptonPair;
-class HQuartet;
-class HQuartet31;
 class HPairJetPair;
 class HSuperStructure;
 
@@ -32,52 +30,21 @@ class HHiggsTagger;
 class HDiscriminator;
 class top_hadronic_tagger;
 class HSubStructure;
-class HSextet;
 
-class HTauTagger;
-class HTopSemiTagger;
+class TauTagger;
+class TopSemiTagger;
 class HTopLeptonicTagger;
 class HMvaHiggsTagger;
 class HHeavyHiggsHadronicTagger;
 class HHeavyHiggsLeptonicTagger;
 class HJetPairTagger;
 class HChargedJetPairTagger;
-class HWSemiTagger;
+class WSemiTagger;
 class HHeavyHiggsSemiTagger;
 class HHeavyHiggsTauTagger;
 class HChargedHiggsSemiTagger;
 class HChargedHiggsHadronicTagger;
 class HChargedHiggsLeptonicTagger;
-
-/**
- * @brief Parton level analysis library parts
- *
- */
-namespace hparton
-{
-
-class HParticle;
-
-}
-
-typedef hparton::HParticle HParticleParton;
-
-
-/**
- * @brief Pgs analysis library parts
- *
- */
-namespace hpgs
-{
-
-class HLepton;
-class HJet;
-
-}
-
-typedef hpgs::HLepton HLeptonPgs;
-typedef hpgs::HJet HJetPgs;
-
 
 }
 

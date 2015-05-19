@@ -50,34 +50,34 @@ private:
 class PreCuts : public analysis::Object
 {
 public:
-    void SetPtLowerCut(const HParticleId particle_id, const float value) {
+    void SetPtLowerCut(const ParticleId particle_id, const float value) {
         pt_lower_cut_[particle_id] = value;
     }
 
-    float PtLowerCut(const HParticleId particle_id) {
+    float PtLowerCut(const ParticleId particle_id) {
         return pt_lower_cut_[particle_id];
     }
 
-    void SetPtUpperCut(const HParticleId particle_id, const float value) {
+    void SetPtUpperCut(const ParticleId particle_id, const float value) {
         pt_upper_cut_[particle_id] = value;
     }
 
-    float PtUpperCut(const HParticleId particle_id) {
+    float PtUpperCut(const ParticleId particle_id) {
         return pt_upper_cut_[particle_id];
     }
 
-    void SetTrackerMaxEta(const HParticleId particle_id, const float value) {
+    void SetTrackerMaxEta(const ParticleId particle_id, const float value) {
         tracker_eta_upper_cut_[particle_id] = value;
     }
 
-    float TrackerMaxEta(const HParticleId particle_id) {
+    float TrackerMaxEta(const ParticleId particle_id) {
         return tracker_eta_upper_cut_[particle_id];
     }
 
 private:
-    std::map<HParticleId, float> pt_lower_cut_;
-    std::map<HParticleId, float> pt_upper_cut_;
-    std::map<HParticleId, float> tracker_eta_upper_cut_;
+    std::map<ParticleId, float> pt_lower_cut_;
+    std::map<ParticleId, float> pt_upper_cut_;
+    std::map<ParticleId, float> tracker_eta_upper_cut_;
 };
 
 

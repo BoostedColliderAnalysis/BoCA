@@ -1,6 +1,6 @@
 #include "AnalysisWTagger.hh"
 #include "TopHadronicTagger.hh"
-#include "HTopSemiTagger.hh"
+#include "TopSemiTagger.hh"
 #include "TSystem.h"
 # include "Factory.hh"
 #include <exception>
@@ -61,7 +61,7 @@ int main(const int argc, const char **argv)
 
         if (analysis.WDecay() == hwtagger::HAnalysis::kLeptonic) {
 
-            analysis::HWSemiTagger w_semi_tagger;
+            analysis::WSemiTagger w_semi_tagger;
             RunTagger(w_semi_tagger, analysis::Tagger::kTrainer);
             RunFactory(w_semi_tagger);
             RunTagger(w_semi_tagger, analysis::Tagger::kReader);

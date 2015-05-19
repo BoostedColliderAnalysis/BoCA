@@ -1,19 +1,19 @@
 # include "HOctet.hh"
 // # include "HTagPrivate.hh"
 
-HOctet::HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet)
+HOctet::HOctet(const analysis::Sextet &Newsextet, const analysis::Doublet &Newdoublet)
 {
-    SextetM = NewSextet;
+    sextetM = Newsextet;
     doubletM = Newdoublet;
-    SetBdt(SextetM.Bdt(),doubletM.Bdt());
-    SetTag(SextetM.Tag(),doubletM.Tag());
+    SetBdt(sextetM.Bdt(),doubletM.Bdt());
+    SetTag(sextetM.Tag(),doubletM.Tag());
 }
 
-// HOctet::HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet, const EventStruct &Newevent_struct)
+// HOctet::HOctet(const analysis::Hsextet &Newsextet, const analysis::Doublet &Newdoublet, const EventStruct &Newevent_struct)
 // {
-//     SextetM = NewSextet;
+//     sextetM = Newsextet;
 //     doubletM = Newdoublet;
 //     event_structM = Newevent_struct;
-//     SetBdt(SextetM.Bdt(),doubletM.Bdt());
-//     SetTag(SextetM.Tag(),doubletM.Tag());
+//     SetBdt(sextetM.Bdt(),doubletM.Bdt());
+//     SetTag(sextetM.Tag(),doubletM.Tag());
 // }

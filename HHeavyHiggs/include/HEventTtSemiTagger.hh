@@ -24,24 +24,24 @@ public:
 
     void SetTagger(
         const analysis::BottomTagger &NewBottomTagger,
-        const analysis::HWSemiTagger &NewWSemiTagger,
+        const analysis::WSemiTagger &Neww_semi_tagger,
         const analysis::WHadronicTagger &NewWTagger,
-        const analysis::HTopSemiTagger &NewTopSemiTagger,
+        const analysis::TopSemiTagger &Newtop_semi_tagger,
         const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
     std::vector< EventTtSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< SextetEvent > GetBdt(const std::vector< analysis::HSextet > &Sextets, Jets &jets, const Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader);
+    std::vector< SextetEvent > GetBdt(const std::vector< analysis::Sextet > &sextets, Jets &jets, const Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
     EventTtSemiBranch GetBranch(const SextetEvent &event) const;
 
     analysis::BottomTagger bottom_tagger_;
-    analysis::HWSemiTagger WSemiTagger;
+    analysis::WSemiTagger w_semi_tagger;
     analysis::WHadronicTagger WTagger;
-    analysis::HTopSemiTagger TopSemiTagger;
+    analysis::TopSemiTagger top_semi_tagger;
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
 

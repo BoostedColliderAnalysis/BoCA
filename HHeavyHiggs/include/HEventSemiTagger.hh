@@ -31,9 +31,9 @@ public:
     void SetTagger(
         const analysis::BottomTagger &NewBottomTagger,
         const analysis::HJetPairTagger &NewJetPairTagger,
-        const analysis::HWSemiTagger &NewWSemiTagger,
+        const analysis::WSemiTagger &Neww_semi_tagger,
         const analysis::WHadronicTagger &NewWTagger,
-        const analysis::HTopSemiTagger &NewTopSemiTagger,
+        const analysis::TopSemiTagger &Newtop_semi_tagger,
         const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
         const HSignatureSemiTagger &NewSignatureSemiTagger);
@@ -49,9 +49,9 @@ public:
     EventSemiBranch GetBranch(const EventMultiplet< HOctet > &Octet) const;
 
     analysis::BottomTagger bottom_tagger_;
-    analysis::HWSemiTagger WSemiTagger;
+    analysis::WSemiTagger w_semi_tagger;
     analysis::WHadronicTagger WTagger;
-    analysis::HTopSemiTagger TopSemiTagger;
+    analysis::TopSemiTagger top_semi_tagger;
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
     analysis::HJetPairTagger JetPairTagger;

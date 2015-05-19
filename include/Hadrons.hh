@@ -37,21 +37,21 @@ public:
     Jets GetJets() {
       NewEvent(*clones_arrays_);
 //       if (!GotJets)
-        GotJets = GetJets(Plain);
+        GotJets = GetJets(kPlain);
       return jets_;
     };
 
     Jets GetStructuredJets() {
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
-          GotJets = GetJets(Structure);
+          GotJets = GetJets(kStructure);
         return jets_;
     };
 
     Jets GetTaggedJets() {
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
-          GotJets = GetJets(Tagging);
+          GotJets = GetJets(kTagging);
         return jets_;
     };
 
@@ -59,7 +59,7 @@ public:
       jet_tag_ = &NewJetTag;
       NewEvent(*clones_arrays_);
 //         if (!GotJets)
-          GotJets = GetJets(Tagging);
+          GotJets = GetJets(kTagging);
         return jets_;
     };
 
@@ -67,59 +67,59 @@ public:
       jet_tag_ = &NewJetTag;
       NewEvent(*clones_arrays_);
 //       if (!GotJets)
-        GotJets = GetJets(TaggingStructure);
+        GotJets = GetJets(kTaggingStructure);
       return jets_;
     };
 
     Jets GetBottomJets() {
       //         if (!GotJets)
       NewEvent(*clones_arrays_);
-          GotJets = GetJets(Plain);
+          GotJets = GetJets(kPlain);
         return BottomJets;
     };
 
     Jets GetEFlowJets() {
       if (!GotEFlow)
-        GotEFlow = GetEFlow(Plain);
+        GotEFlow = GetEFlow(kPlain);
       return EFlowJets;
     };
 
     Jets GetIsolatedEFlowJets() {
-      if (!GotEFlow) GotEFlow = GetEFlow(Isolation);
+      if (!GotEFlow) GotEFlow = GetEFlow(kIsolation);
       return EFlowJets;
     };
 
     Jets GetTaggedEFlowJets() {
-      if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
+      if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
       return EFlowJets;
     };
 
     Jets GetTaggedEFlowJets(HJetTag &NewJetTag) {
       jet_tag_ = &NewJetTag;
-      if (!GotEFlow) GotEFlow = GetEFlow(Tagging);
+      if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
       return EFlowJets;
     };
 
     Jets GetStructuredTaggedEFlowJets(HJetTag &NewJetTag) {
       jet_tag_ = &NewJetTag;
-      if (!GotEFlow) GotEFlow = GetEFlow(TaggingStructure);
+      if (!GotEFlow) GotEFlow = GetEFlow(kTaggingStructure);
       return EFlowJets;
     };
 
     Jets GetStructuredEFlowJets() {
-      Print(kInformation,"Get structured eflow", Structure);
-      if (!GotEFlow) GotEFlow = GetEFlow(Structure);
+      Print(kInformation,"Get structured eflow", kStructure);
+      if (!GotEFlow) GotEFlow = GetEFlow(kStructure);
       return EFlowJets;
     };
 
     Jets GetIsolatedTaggedEFlowJets() {
-      if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
+      if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
       return EFlowJets;
     };
 
     Jets GetIsolatedTaggedEFlowJets(HJetTag &NewJetTag) {
       jet_tag_ = &NewJetTag;
-      if (!GotEFlow) GotEFlow = GetEFlow(TaggingIsolation);
+      if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
       return EFlowJets;
     };
 
@@ -145,13 +145,13 @@ protected:
      *
      * @return void
      */
-    virtual bool GetJets(const HJetDetails JetDetails);
+    virtual bool GetJets(const JetDetail jet_detail);
 
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    virtual bool GetEFlow(const HJetDetails JetDetails);
+    virtual bool GetEFlow(const JetDetail jet_detail);
 
     /**
      * @brief Get Gen Jet

@@ -1,8 +1,8 @@
 # ifndef HHeavyHiggsSemiTagger_hh
 # define HHeavyHiggsSemiTagger_hh
 
-# include "HSextet.hh"
-# include "HTopSemiTagger.hh"
+# include "Sextet.hh"
+# include "TopSemiTagger.hh"
 # include "TopHadronicTagger.hh"
 
 /**
@@ -16,19 +16,19 @@ public:
 
     HHeavyHiggsSemiTagger();
 
-    void SetTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::HWSemiTagger &NewWSemiTagger, const analysis::WHadronicTagger &NewWTagger, const analysis::HTopSemiTagger &NewTopSemiTagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger);
+    void SetTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::WSemiTagger &Neww_semi_tagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopSemiTagger &Newtop_semi_tagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger);
 
     std::vector< HHeavyHiggsSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const float pre_cut = 0);
 
-    std::vector<analysis::HSextet>  GetBdt(const std::vector< Triplet > &tripletsSemi, const std::vector<Triplet > &tripletsHadronic, const Reader & Reader);
+    std::vector<analysis::Sextet>  GetBdt(const std::vector< Triplet > &tripletsSemi, const std::vector<Triplet > &tripletsHadronic, const Reader & Reader);
 
-    std::vector<analysis::HSextet>  GetBdt(const std::vector< analysis::Triplet > &tripletsSemi, const std::vector< analysis::Triplet > &tripletsHadronic, const analysis::Reader & Reader, const int Mass);
+    std::vector<analysis::Sextet>  GetBdt(const std::vector< analysis::Triplet > &tripletsSemi, const std::vector< analysis::Triplet > &tripletsHadronic, const analysis::Reader & Reader, const int Mass);
 
     BottomTagger bottom_tagger_;
     WHadronicTagger WTagger;
-    HWSemiTagger WSemiTagger;
+    WSemiTagger w_semi_tagger;
     TopHadronicTagger top_hadronic_tagger;
-    HTopSemiTagger TopSemiTagger;
+    TopSemiTagger top_semi_tagger;
 
     Reader BottomReader;
     Reader WReader;
@@ -36,7 +36,7 @@ public:
     Reader TopHadronicReader;
     Reader TopSemiReader;
 
-    HHeavyHiggsSemiBranch GetBranch(const analysis::HSextet& Sextet) const;
+    HHeavyHiggsSemiBranch GetBranch(const analysis::Sextet& sextet) const;
 
 
 protected:
@@ -49,7 +49,7 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const HSextet &Sextet);
+    Tag GetTag(const Sextet &sextet);
 
     HJetTag JetTag;
     HHeavyHiggsSemiBranch Branch;

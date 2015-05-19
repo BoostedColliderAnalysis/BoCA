@@ -2,7 +2,7 @@
 # define HOctet_hh
 
 # include "Doublet.hh"
-# include "HSextet.hh"
+# include "Sextet.hh"
 
 
 // struct EventStruct {
@@ -38,21 +38,21 @@ public:
 
     HOctet() {};
 
-    HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet);
+    HOctet(const analysis::Sextet &Newsextet, const analysis::Doublet &Newdoublet);
 
-//     HOctet(const analysis::HSextet &NewSextet, const analysis::Doublet &Newdoublet, const EventStruct &Newevent_struct);
+//     HOctet(const analysis::Hsextet &Newsextet, const analysis::Doublet &Newdoublet, const EventStruct &Newevent_struct);
 
 
-    inline analysis::HSextet Sextet()const {
-        return SextetM;
+    inline analysis::Sextet sextet()const {
+        return sextetM;
     }
 
     inline analysis::Doublet doublet() const {
         return doubletM;
     }
 
-    inline fastjet::PseudoJet SextetJet() const {
-        return SextetM.Jet();
+    inline fastjet::PseudoJet sextetJet() const {
+        return sextetM.Jet();
     }
 
     inline fastjet::PseudoJet doublet_jet() const {
@@ -60,35 +60,35 @@ public:
     }
 
     inline fastjet::PseudoJet Jet() const {
-        return SextetJet() + doublet_jet();
+        return sextetJet() + doublet_jet();
     }
 
     inline float Ht() const {
-        return SextetM.Ht() + doubletM.Ht();
+        return sextetM.Ht() + doubletM.Ht();
     }
 
     inline float DeltaPt() const {
-        return SextetJet().pt() - doublet_jet().pt();
+        return sextetJet().pt() - doublet_jet().pt();
     }
 
     inline float DeltaHt() const {
-        return Sextet().Ht() - doublet().Ht();
+        return sextet().Ht() - doublet().Ht();
     }
 
     inline float DeltaM() const {
-        return SextetJet().m() - doublet_jet().m();
+        return sextetJet().m() - doublet_jet().m();
     }
 
     inline float DeltaR() const {
-        return SextetJet().delta_R(doublet_jet());
+        return sextetJet().delta_R(doublet_jet());
     }
 
     inline float DeltaRap() const {
-        return SextetJet().rap() - doublet_jet().rap();
+        return sextetJet().rap() - doublet_jet().rap();
     }
 
     inline float DeltaPhi() const {
-        return SextetJet().delta_phi_to(doublet_jet());
+        return sextetJet().delta_phi_to(doublet_jet());
     }
 
     inline float HbDeltaDeltaR() const {
@@ -104,7 +104,7 @@ public:
     }
 
     inline float BottomBdt() const {
-        return doublet().Singlet1().user_info<analysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<analysis::JetInfo>().Bdt() + Sextet().triplet1().singlet().user_info<analysis::JetInfo>().Bdt() + Sextet().triplet2().singlet().user_info<analysis::JetInfo>().Bdt();
+        return doublet().Singlet1().user_info<analysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<analysis::JetInfo>().Bdt() + sextet().triplet1().singlet().user_info<analysis::JetInfo>().Bdt() + sextet().triplet2().singlet().user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
@@ -150,35 +150,35 @@ public:
 //     EventStruct event_structM;
 
     inline float GetDeltaR1() const {
-        return SextetJet().delta_R(doubletM.Singlet1());
+        return sextetJet().delta_R(doubletM.Singlet1());
     }
 
     inline float GetDeltaR2() const {
-        return SextetJet().delta_R(doubletM.Singlet2());
+        return sextetJet().delta_R(doubletM.Singlet2());
     }
 
     inline float GetDeltaPhi1() const {
-        return SextetJet().delta_phi_to(doubletM.Singlet1());
+        return sextetJet().delta_phi_to(doubletM.Singlet1());
     }
 
     inline float GetDeltaPhi2() const {
-        return SextetJet().delta_phi_to(doubletM.Singlet2());
+        return sextetJet().delta_phi_to(doubletM.Singlet2());
     }
 
     inline float GetDeltaRap1() const {
-        return (SextetJet().rap() - doubletM.Singlet1().rap());
+        return (sextetJet().rap() - doubletM.Singlet1().rap());
     }
 
     inline float GetDeltaRap2() const {
-        return (SextetJet().rap() - doubletM.Singlet2().rap());
+        return (sextetJet().rap() - doubletM.Singlet2().rap());
     }
 
     inline float GetDeltaPt1() const {
-        return (SextetJet().pt() - doubletM.Singlet1().pt());
+        return (sextetJet().pt() - doubletM.Singlet1().pt());
     }
 
     inline float GetDeltaPt2() const {
-        return (SextetJet().pt() - doubletM.Singlet2().pt());
+        return (sextetJet().pt() - doubletM.Singlet2().pt());
     }
 
 
@@ -190,7 +190,7 @@ protected:
 
 private:
 
-    analysis::HSextet SextetM;
+    analysis::Sextet sextetM;
 
     analysis::Doublet doubletM;
 

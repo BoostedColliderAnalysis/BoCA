@@ -18,7 +18,7 @@ public:
 
     void SetTagger(const analysis::BottomTagger &NewBottomTagger);
 
-    std::vector< EventJetPairBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const analysis::Object::HParticleId MotherId = GluonId);
+    std::vector< EventJetPairBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, const analysis::Object::ParticleId MotherId = GluonId);
 
     std::vector<Doublet> GetBdt(const Jets &jets, const analysis::Reader &JetPairReader);
 

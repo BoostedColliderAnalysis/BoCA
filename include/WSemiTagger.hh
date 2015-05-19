@@ -10,12 +10,12 @@ namespace analysis {
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HWSemiTagger : public Tagger
+class WSemiTagger : public Tagger
 {
 
 public:
 
-    HWSemiTagger();
+    WSemiTagger();
 
     WSemiBranch GetBranch(const Doublet &doublet) const;
 
@@ -54,7 +54,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HWSemiTagger";
+        return "WSemiTagger";
     }
 
 private:

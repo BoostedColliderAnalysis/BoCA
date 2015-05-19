@@ -139,21 +139,21 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
 {
     Print(kInformation, "Get Branch Family ", GetParticleName(family.particle().Id), Position);
     if (
-        jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag_->HeavyParticles) ||
-        jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag_->HeavyParticles) ||
+        jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag_->HeavyParticles) ||
+        jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag_->HeavyParticles) ||
         topology_.at(Position).particle().Id == IsrId
     ) {
         return topology_.at(Position);
     }
     while (
         Position != EmptyPosition &&
-        jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(family.mother_1().Id))) == end(jet_tag_->HeavyParticles) &&
-        jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(family.particle().Id))) == end(jet_tag_->HeavyParticles)
+        jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.mother_1().Id))) == end(jet_tag_->HeavyParticles) &&
+        jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.particle().Id))) == end(jet_tag_->HeavyParticles)
     ) {
         Print(kDebug, "Topology", Position, GetParticleName(topology_.at(Position).particle().Id), GetParticleName(topology_.at(Position).mother_1().Id));
         if (
-            jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag_->HeavyParticles) ||
-            jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag_->HeavyParticles) ||
+            jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag_->HeavyParticles) ||
+            jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag_->HeavyParticles) ||
             topology_.at(Position).particle().Id == IsrId
         ) {
             return topology_.at(Position);
@@ -168,7 +168,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
         ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position));
 //         const int Status = ParticleClone.Status;
         int M1Id = EmptyId;
-        int Mother1Status = EmptyStatus;
+        int Mother1Status = kNoStatus;
         TLorentzVector MotherVector;
         if (particle.M1 > 0) {
             ::delphes::GenParticle &Mother1Clone = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M1));
@@ -177,11 +177,11 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
             Mother1Status = Mother1Clone.Status;
         }
         Family NodeFamily(particle.P4(), MotherVector, Position, particle.PID, particle.M1, M1Id);
-        if (Mother1Status == GeneratorParticle)
+        if (Mother1Status == kGenerator)
             family = jet_tag_->GetBranchFamily(NodeFamily, family);
         Print(kDetailed, "Branch Id", GetParticleName(M1Id), GetParticleName(family.mother_1().Id));
-        if (jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(family.mother_1().Id))) != end(jet_tag_->HeavyParticles)) return family;
-        if (jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(family.particle().Id))) != end(jet_tag_->HeavyParticles)) return family;
+        if (jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.mother_1().Id))) != end(jet_tag_->HeavyParticles)) return family;
+        if (jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.particle().Id))) != end(jet_tag_->HeavyParticles)) return family;
         if (particle.M2 != EmptyPosition && particle.M2 != particle.M1) {
             if (particle.PID == StringId) {
                 if (particle.M1 < particle.M2) {
@@ -206,8 +206,8 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
                 } else {
                     Print(kError, "Strange Particle String");
                 }
-                if (jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(family.mother_1().Id))) != end(jet_tag_->HeavyParticles)) return family;
-                if (jet_tag_->HeavyParticles.find(static_cast<HParticleId>(std::abs(family.particle().Id))) != end(jet_tag_->HeavyParticles)) return family;
+                if (jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.mother_1().Id))) != end(jet_tag_->HeavyParticles)) return family;
+                if (jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.particle().Id))) != end(jet_tag_->HeavyParticles)) return family;
             } else {
                 Print(kDebug, "Not a String", Position, particle.M1, particle.M2);
             }

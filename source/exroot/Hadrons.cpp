@@ -1,13 +1,8 @@
-# include "HJetPgs.hh"
+# include "exroot/Hadrons.hh"
 
-analysis::hpgs::HJet::HJet()
+bool analysis::exroot::Hadrons::GetJets(const analysis::Hadrons::JetDetail jet_detail)
 {
-    Print(kNotification, "Constructor");
-}
-
-bool analysis::hpgs::HJet::GetJets(const analysis::Hadrons::HJetDetails JetDetails)
-{
-    Print(kInformation, "Get Jet", clones_arrays_->JetSum(), JetDetails);
+    Print(kInformation, "Get Jet", clones_arrays_->JetSum(), jet_detail);
     for (const int JetNumber : Range(clones_arrays_->JetSum())) {
         Print(kDetailed, "Jet Number", JetNumber);
         TRootJet &jet = static_cast<TRootJet &>(clones_arrays().Jet(JetNumber));

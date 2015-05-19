@@ -33,11 +33,11 @@ public:
 using analysis::Analysis::Analysis;
 
     analysis::BottomTagger bottom_tagger_;
-    analysis::HWSemiTagger WSemiTagger;
+    analysis::WSemiTagger w_semi_tagger;
     analysis::WHadronicTagger w_hadronic_tagger;
 
     analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::HTopSemiTagger TopSemiTagger;
+    analysis::TopSemiTagger top_semi_tagger;
 
     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
 

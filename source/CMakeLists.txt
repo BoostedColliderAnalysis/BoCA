@@ -1,5 +1,6 @@
 HInclude(${PROJECT_SOURCE_DIR}/source)
 
+add_subdirectory(exroot)
 add_subdirectory(delphes)
 
 HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
@@ -17,34 +18,16 @@ Predicate.cpp
 )
 HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
 
-set(PartonEventSources
-# HEventParton.cpp
-HParticleParton.cpp
-# HFileParton.cpp
-)
-HLibrary(HPartonEvent "${PartonEventSources}" PARENT_SCOPE)
-
-set(PgsEventSources
-# HFilePgs.cpp
-# HEventPgs.cpp
-HLeptonPgs.cpp
-HJetPgs.cpp
-)
-HLibrary(HPgsEvent "${PgsEventSources}" PARENT_SCOPE)
-
-set(WrapperSources
+set(MultipletSources
 Identification.cpp
-# HTagPrivate.cpp
 Singlet.cpp
 Doublet.cpp
 Triplet.cpp
-HQuartet.cpp
-HQuartet31.cpp
-HSextet.cpp
+Quartet22.cpp
+Quartet31.cpp
+Sextet.cpp
 )
-HLibrary(HContainer "${WrapperSources}" PARENT_SCOPE)
-
-
+HLibrary(Multiplets "${MultipletSources}" PARENT_SCOPE)
 
 set(HepTaggerSource
 TopHadronicHep.cpp
@@ -61,9 +44,6 @@ JetInfo.cpp
 HReconstruction.cpp
 HDiscriminator.cpp
 HHiggsTagger.cpp
-# HTopTagger.cpp
-# HEPTopTagger.cpp
-# HSuperStructure.cpp
 HSubStructure.cpp
 
 Tagger.cpp
@@ -71,14 +51,14 @@ Factory.cpp
 Reader.cpp
 
 BottomTagger.cpp
-HTauTagger.cpp
+TauTagger.cpp
 WHadronicTagger.cpp
-HWSemiTagger.cpp
+WSemiTagger.cpp
 HJetPairTagger.cpp
 HChargedJetPairTagger.cpp
 TopHadronicTagger.cpp
 HTopLeptonicTagger.cpp
-HTopSemiTagger.cpp
+TopSemiTagger.cpp
 HMvaHiggsTagger.cpp
 HHeavyHiggsLeptonicTagger.cpp
 HHeavyHiggsHadronicTagger.cpp
@@ -87,9 +67,6 @@ HHeavyHiggsTauTagger.cpp
 HChargedHiggsSemiTagger.cpp
 HChargedHiggsHadronicTagger.cpp
 HChargedHiggsLeptonicTagger.cpp
-
-# Wrapper.cpp
-# topology22.cpp
 )
 HLibrary(HAnalysis "${AnalysisSources}" PARENT_SCOPE)
 add_dependencies(HAnalysis HWimpMass)

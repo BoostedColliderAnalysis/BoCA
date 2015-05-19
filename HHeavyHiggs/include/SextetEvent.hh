@@ -1,6 +1,6 @@
 # pragma once
 
-# include "HSextet.hh"
+# include "Sextet.hh"
 
 struct EventStruct {
 
@@ -20,24 +20,24 @@ class SextetEvent : public analysis::Identification
 
 public:
 
-    SextetEvent(const analysis::HSextet &NewSextet);
+    SextetEvent(const analysis::Sextet &Newsextet);
 
-    SextetEvent(const analysis::HSextet &NewSextet, const EventStruct &event_struct);
+    SextetEvent(const analysis::Sextet &Newsextet, const EventStruct &event_struct);
 
-    inline analysis::HSextet Sextet()const {
+    inline analysis::Sextet sextet()const {
         return sextet_;
     }
 
-    inline fastjet::PseudoJet SextetJet() const {
+    inline fastjet::PseudoJet sextetJet() const {
         return sextet_.Jet();
     }
 
     inline fastjet::PseudoJet Jet() const {
-        return SextetJet() + RestJet();
+        return sextetJet() + RestJet();
     }
 
     inline float Ht() const {
-        float ht = Sextet().Ht();
+        float ht = sextet().Ht();
         for (const auto & jet : jets_)  ht += jet.pt();
         return ht;
     }
@@ -123,31 +123,31 @@ public:
     }
 
     float DeltaPt() const {
-        return SextetJet().pt() - RestJet().pt();
+        return sextetJet().pt() - RestJet().pt();
     }
 
     float DeltaPhi() const {
-        return SextetJet().delta_phi_to(RestJet());
+        return sextetJet().delta_phi_to(RestJet());
     }
 
     float DeltaRap() const {
-        float delta_rap = SextetJet().rap() - RestJet().rap();
+        float delta_rap = sextetJet().rap() - RestJet().rap();
         if (std::abs(delta_rap) > 100) delta_rap = 0;
         return delta_rap;
     }
 
     float DeltaR() const {
-        float delta_r = SextetJet().delta_R(RestJet());
+        float delta_r = sextetJet().delta_R(RestJet());
         if (std::abs(delta_r) > 100) delta_r = 0;
         return delta_r;
     }
 
     float DeltaHt() const {
-      return Sextet().Ht() - RestJet().pt();
+      return sextet().Ht() - RestJet().pt();
     }
 
     float DeltaM() const {
-      return SextetJet().m() - RestJet().m();
+      return sextetJet().m() - RestJet().m();
     }
 
 
@@ -159,7 +159,7 @@ protected:
 
 private:
 
-    analysis::HSextet sextet_;
+    analysis::Sextet sextet_;
 
     Jets jets_;
 

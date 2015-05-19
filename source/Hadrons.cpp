@@ -37,16 +37,16 @@ void analysis::Hadrons::NewEvent(const analysis::ClonesArrays &NewClonesArrays)
 
 }
 
-bool analysis::Hadrons::GetJets(const analysis::Hadrons::HJetDetails JetDetails)
+bool analysis::Hadrons::GetJets(const analysis::Hadrons::JetDetail jet_detail)
 {
-    Print(kError, "Get Jets", "No Jets", JetDetails);
+    Print(kError, "Get Jets", "No Jets", jet_detail);
     return 0;
 }
 
-bool analysis::Hadrons::GetEFlow(const analysis::Hadrons::HJetDetails JetDetails)
+bool analysis::Hadrons::GetEFlow(const analysis::Hadrons::JetDetail jet_detail)
 {
 
-    Print(kError, "Get EFlow", "No EFlow", JetDetails);
+    Print(kError, "Get EFlow", "No EFlow", jet_detail);
 
     return 0;
 

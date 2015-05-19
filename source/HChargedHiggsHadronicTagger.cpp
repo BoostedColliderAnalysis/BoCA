@@ -50,20 +50,20 @@ void analysis::HChargedHiggsHadronicTagger::DefineVariables()
 
 }
 
-analysis::HChargedHiggsHadronicBranch analysis::HChargedHiggsHadronicTagger::GetBranch(const analysis::HQuartet31 &Quartet)
+analysis::HChargedHiggsHadronicBranch analysis::HChargedHiggsHadronicTagger::GetBranch(const analysis::Quartet31 &quartet)
 {
-    Print(kInformation, "FillPairTagger", Quartet.Bdt());
+    Print(kInformation, "FillPairTagger", quartet.Bdt());
 
     HChargedHiggsHadronicBranch ChargedHiggsHadronicBranch;
-    ChargedHiggsHadronicBranch.HeavyHiggsMass = Quartet.Jet().m();
-    ChargedHiggsHadronicBranch.HeavyHiggsPt = Quartet.Jet().pt();
+    ChargedHiggsHadronicBranch.HeavyHiggsMass = quartet.Jet().m();
+    ChargedHiggsHadronicBranch.HeavyHiggsPt = quartet.Jet().pt();
 
-    ChargedHiggsHadronicBranch.TopDeltaR = Quartet.DeltaR();
-    ChargedHiggsHadronicBranch.TopDeltaRap = Quartet.DeltaRap();
-    ChargedHiggsHadronicBranch.TopDeltaPhi = Quartet.DeltaPhi();
+    ChargedHiggsHadronicBranch.TopDeltaR = quartet.DeltaR();
+    ChargedHiggsHadronicBranch.TopDeltaRap = quartet.DeltaRap();
+    ChargedHiggsHadronicBranch.TopDeltaPhi = quartet.DeltaPhi();
 
-    ChargedHiggsHadronicBranch.TopBdt = Quartet.Bdt();
-    ChargedHiggsHadronicBranch.HeavyHiggsTag = Quartet.Tag();
+    ChargedHiggsHadronicBranch.TopBdt = quartet.Bdt();
+    ChargedHiggsHadronicBranch.HeavyHiggsTag = quartet.Tag();
 return ChargedHiggsHadronicBranch;
 }
 
@@ -84,52 +84,52 @@ std::vector< analysis::HChargedHiggsHadronicBranch > analysis::HChargedHiggsHadr
 
 
 
-    std::vector<HQuartet31> Quartets;
+    std::vector<Quartet31> quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {
             if (triplet.singlet() == Jet) continue;
             if (triplet.doublet().Singlet1() == Jet) continue;
             if (triplet.doublet().Singlet2() == Jet) continue;
-            HQuartet31 Quartet(triplet, Jet);
-            Quartet.SetTag(GetTag(Quartet));
-            if (Quartet.Tag() != Tag) continue;
-            Quartets.emplace_back(Quartet);
+            Quartet31 quartet(triplet, Jet);
+            quartet.SetTag(GetTag(quartet));
+            if (quartet.Tag() != Tag) continue;
+            quartets.emplace_back(quartet);
         }
 
     std::vector<HChargedHiggsHadronicBranch> ChargedHiggsHadronicBranches;
-        for (const auto & Quartet : Quartets) ChargedHiggsHadronicBranches.emplace_back(GetBranch(Quartet));
+        for (const auto & quartet : quartets) ChargedHiggsHadronicBranches.emplace_back(GetBranch(quartet));
 
 
     return ChargedHiggsHadronicBranches;
 
 }
 
-analysis::Object::Tag analysis::HChargedHiggsHadronicTagger::GetTag(const HQuartet31 &Quartet)
+analysis::Object::Tag analysis::HChargedHiggsHadronicTagger::GetTag(const Quartet31 &quartet)
 {
     Print(kInformation, "Get Triple Tag");
 
-    if (Quartet.triplet().Tag() == kBackground)return kBackground;
-//     if (Quartet.Gettriplet2().Tag() == HBackground)return HBackground;
+    if (quartet.triplet().Tag() == kBackground)return kBackground;
+//     if (quartet.Gettriplet2().Tag() == HBackground)return HBackground;
     // TODO compare with semi leptonic case
-    if (sgn(Quartet.triplet().singlet().user_index()) == sgn(Quartet.singlet().user_index())) return kBackground;
+    if (sgn(quartet.triplet().singlet().user_index()) == sgn(quartet.singlet().user_index())) return kBackground;
     return kSignal;
 }
 
 
-std::vector<analysis::HQuartet31> analysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<analysis::Triplet> &triplets, Jets &jets, const analysis::Reader &Reader)
+std::vector<analysis::Quartet31> analysis::HChargedHiggsHadronicTagger::GetBdt(std::vector<analysis::Triplet> &triplets, Jets &jets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Get Heavy Higgs Bdt");
-    std::vector<analysis::HQuartet31> Quartets;
+    std::vector<analysis::Quartet31> quartets;
     for (const auto & triplet : triplets)
       for (const auto & Jet : jets)  {
         if (triplet.singlet() == Jet) continue;
         if (triplet.doublet().Singlet1() == Jet) continue;
         if (triplet.doublet().Singlet2() == Jet) continue;
-            HQuartet31 Quartet(triplet, Jet);
-            Quartets.emplace_back(Quartet);
-            GetBranch(Quartet);
-            Quartet.SetBdt(Reader.Bdt());
+            Quartet31 quartet(triplet, Jet);
+            quartets.emplace_back(quartet);
+            GetBranch(quartet);
+            quartet.SetBdt(Reader.Bdt());
         }
 
-    return Quartets;
+    return quartets;
 }

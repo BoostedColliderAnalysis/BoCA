@@ -1,33 +1,33 @@
-# ifndef HQuartet_hh
-# define HQuartet_hh
+# pragma once
 
 # include "Doublet.hh"
 
-class analysis::HQuartet : public Identification
+namespace analysis
+{
+
+class Quartet22 : public Identification
 {
 
 public:
 
-    HQuartet() {}
+    Quartet22() {}
 
-    HQuartet(const analysis::Doublet &Newdoublet1, const analysis::Doublet &Newdoublet2);
-
-    ~HQuartet();
+    Quartet22(const Doublet &doublet_1, const Doublet &doublet_2);
 
     inline Doublet Getdoublet1()const {
-        return doublet1;
+        return doublet_1_;
     }
 
     inline Doublet Getdoublet2()const {
-        return doublet2;
+        return doublet_2_;
     }
 
     inline fastjet::PseudoJet Getdoublet1Jet() const {
-        return doublet1.Jet();
+        return doublet_1_.Jet();
     }
 
     inline fastjet::PseudoJet Getdoublet2Jet() const {
-        return doublet2.Jet();
+        return doublet_2_.Jet();
     }
 
     inline fastjet::PseudoJet GetJet() const {
@@ -35,7 +35,7 @@ public:
     }
 
     inline float GetHt() {
-        return doublet1.Ht() + doublet2.Ht();
+        return doublet_1_.Ht() + doublet_2_.Ht();
     }
 
     inline float GetDeltaPt() const {
@@ -54,22 +54,22 @@ public:
         return Getdoublet1Jet().delta_R(Getdoublet2Jet());
     }
 
-    inline float GetMassDifferenceTo(const HParticleId ParticleId) const {
-        return std::abs(GetJet().m() - GetParticleMass(ParticleId));
+    inline float GetMassDifferenceTo(const ParticleId particle_id) const {
+        return std::abs(GetJet().m() - GetParticleMass(particle_id));
     }
 
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HQuartet";
-    };
+        return "Quartet22";
+    }
 
 private:
 
-    Doublet doublet1;
+    Doublet doublet_1_;
 
-    Doublet doublet2;
+    Doublet doublet_2_;
 
 };
 
-#endif
+}

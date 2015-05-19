@@ -2,7 +2,7 @@
 # define HHeavyHiggsTauTagger_hh
 
 # include "Doublet.hh"
-# include "HTauTagger.hh"
+# include "TauTagger.hh"
 
 /**
  * @brief Semi leptonic top BDT tagger
@@ -17,7 +17,7 @@ public:
 
     ~HHeavyHiggsTauTagger();
 
-    void SetTagger(const HTauTagger &NewTauTagger);
+    void SetTagger(const analysis::TauTagger &tau_tagger);
 
     std::vector<HHeavyHiggsTauBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
 
@@ -25,7 +25,7 @@ public:
 
     HHeavyHiggsTauBranch GetBranch(const analysis::Doublet& doublet) const;
 
-    HTauTagger TauTagger;
+    TauTagger tau_tagger_;
 
     Reader TauReader;
 

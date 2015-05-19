@@ -5,7 +5,8 @@
 # include "ClonesArrays.hh"
 # include "FourVector.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief calculation regarding leptons
@@ -37,19 +38,19 @@ public:
 
     Jets GetTaggedJets(HJetTag &jet_tag) {
         jet_tag_ = &jet_tag;
-        return GetLeptonJets(FourVector::Tagging);
+        return GetLeptonJets(kTagging);
     };
 
 protected:
 
-    Jets GetLeptonJets(analysis::FourVector::HJetDetails jet_details);
+    Jets GetLeptonJets(JetDetail jet_detail);
 
     /**
      * @brief Find the hardest of the light leptons
      *
      */
-    virtual bool GetElectrons(HJetDetails jet_details) {
-        Print(kError,"should be subclassed",jet_details);
+    virtual bool GetElectrons(JetDetail jet_detail) {
+        Print(kError, "should be subclassed", jet_detail);
         return 0;
     }
 
@@ -57,8 +58,8 @@ protected:
      * @brief Find the hardest of the light leptons
      *
      */
-    virtual bool GetMuons(HJetDetails jet_details) {
-        Print(kError,"should be subclassed",jet_details);
+    virtual bool GetMuons(JetDetail jet_detail) {
+        Print(kError, "should be subclassed", jet_detail);
         return 0;
     }
 

@@ -182,17 +182,17 @@ struct AbsMother {
 };
 
 struct WrongAbsStepFamily {
-    WrongAbsStepFamily(const int NewParticleId, const int NewMother2) {
+    WrongAbsStepFamily(const int Newparticle_id, const int NewMother2) {
         Mother2 = NewMother2;
-        ParticleId = NewParticleId;
+        particle_id = Newparticle_id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
         analysis::JetInfo jet_info = Jet.user_info<analysis::JetInfo>();
         analysis::Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().Id) != ParticleId || std::abs(family.mother_2().Id) != Mother2);
+        return (std::abs(family.particle().Id) != particle_id || std::abs(family.mother_2().Id) != Mother2);
     }
     int Mother2;
-    int ParticleId;
+    int particle_id;
 };
 
 struct WrongAbsStepMother {
@@ -296,9 +296,9 @@ Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int particle_id , const 
 
 Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id);
 
-Jets RemoveIfWrongParticle(const Jets &NewJets, const int ParticleId);
+Jets RemoveIfWrongParticle(const Jets &NewJets, const int particle_id);
 
-Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const int ParticleId);
+Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const int particle_id);
 
 Jets RemoveIfWrongAbsMother(const Jets &NewJets, const int MotherId);
 

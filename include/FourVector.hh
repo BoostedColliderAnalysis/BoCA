@@ -1,13 +1,12 @@
 # pragma once
 
-# include "ExRootAnalysis/ExRootClasses.h"
-
 # include "Object.hh"
 # include "ClonesArrays.hh"
 # include "HJetTag.hh"
 # include "JetInfo.hh"
 
 # include "delphes/Delphes.hh"
+# include "exroot/ExRootAnalysis.hh"
 
 namespace analysis {
 
@@ -134,7 +133,7 @@ protected:
 
     HJetTag *jet_tag_;
 
-    enum HJetDetails {Plain, Tagging, Isolation, Structure, TaggingIsolation, TaggingStructure};
+    enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 
     const bool check_four_vectors_;
 
@@ -142,11 +141,11 @@ protected:
 
     const float mass_check_value_;
 
-private:
-
     virtual inline std::string ClassName() const {
         return "FourVector";
     }
+
+private:
 
 };
 

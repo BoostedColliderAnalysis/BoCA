@@ -49,16 +49,16 @@ void hheavyhiggs::HChargedHadronicTagger::FillBranch(hheavyhiggs::HChargedHadron
 //     eventHadronicBranch->ScalarHt = Octet.GetScalarHt();
 //     eventHadronicBranch->HeavyParticleBdt = Octet.Bdt();
 //
-//     eventHadronicBranch->HeavyHiggsBdt = Octet.Quartet1().Bdt();
-//     eventHadronicBranch->HeavyHiggsMass = Octet.GetQuartet1Jet().m();
-//     eventHadronicBranch->HeavyHiggsPt = Octet.GetQuartet1Jet().pt();
+//     eventHadronicBranch->HeavyHiggsBdt = Octet.quartet1().Bdt();
+//     eventHadronicBranch->HeavyHiggsMass = Octet.Getquartet1Jet().m();
+//     eventHadronicBranch->HeavyHiggsPt = Octet.Getquartet1Jet().pt();
 //
-//     eventHadronicBranch->BottomSumPt = Octet.GetQuartet2Jet().pt();
-//     eventHadronicBranch->BottomDeltaPt = Octet.Quartet2().DeltaPt();
+//     eventHadronicBranch->BottomSumPt = Octet.Getquartet2Jet().pt();
+//     eventHadronicBranch->BottomDeltaPt = Octet.quartet2().DeltaPt();
 //
-//     eventHadronicBranch->BottomDeltaRap = Octet.Quartet2().DeltaRap();
-//     eventHadronicBranch->BottomDeltaPhi = Octet.Quartet2().DeltaPhi();
-//     eventHadronicBranch->BottomDeltaR = Octet.Quartet2().DeltaR();
+//     eventHadronicBranch->BottomDeltaRap = Octet.quartet2().DeltaRap();
+//     eventHadronicBranch->BottomDeltaPhi = Octet.quartet2().DeltaPhi();
+//     eventHadronicBranch->BottomDeltaR = Octet.quartet2().DeltaR();
 //
 //     eventHadronicBranch->HbSumDeltaRap = Octet.GetHbSumDeltaRap();
 //     eventHadronicBranch->HbSumDeltaPhi = Octet.GetHbSumDeltaPhi();
@@ -124,29 +124,29 @@ std::vector<hheavyhiggs::HChargedHadronicBranch * > hheavyhiggs::HChargedHadroni
 
     std::vector<analysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
     std::vector<analysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
-    std::vector<analysis::HQuartet31> Quartets = ChargedHiggsHadronicTagger.GetBdt(triplets, jets, ChargedHiggsHadronicReader);
+    std::vector<analysis::Quartet31> quartets = ChargedHiggsHadronicTagger.GetBdt(triplets, jets, ChargedHiggsHadronicReader);
 
     std::vector<HOctet44> Octets;
 
-    for (const auto Quartet1 : Quartets) {
-        for (const auto Quartet2 :  Quartets) {
-            if (Quartet1.singlet() == Quartet2.singlet()) continue;
-            if (Quartet1.singlet() == Quartet2.triplet().singlet()) continue;
-            if (Quartet1.singlet() == Quartet2.triplet().doublet().Singlet1()) continue;
-            if (Quartet1.singlet() == Quartet2.triplet().doublet().Singlet2()) continue;
-            if (Quartet1.triplet().singlet() == Quartet2.singlet()) continue;
-            if (Quartet1.triplet().singlet() == Quartet2.triplet().singlet()) continue;
-            if (Quartet1.triplet().singlet() == Quartet2.triplet().doublet().Singlet1()) continue;
-            if (Quartet1.triplet().singlet() == Quartet2.triplet().doublet().Singlet2()) continue;
-            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.singlet()) continue;
-            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.triplet().singlet()) continue;
-            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.triplet().doublet().Singlet1()) continue;
-            if (Quartet1.triplet().doublet().Singlet1() == Quartet2.triplet().doublet().Singlet2()) continue;
-            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.singlet()) continue;
-            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.triplet().singlet()) continue;
-            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.triplet().doublet().Singlet1()) continue;
-            if (Quartet1.triplet().doublet().Singlet2() == Quartet2.triplet().doublet().Singlet2()) continue;
-            Octets.emplace_back(HOctet44(Quartet1, Quartet2));
+    for (const auto quartet1 : quartets) {
+        for (const auto quartet2 :  quartets) {
+            if (quartet1.singlet() == quartet2.singlet()) continue;
+            if (quartet1.singlet() == quartet2.triplet().singlet()) continue;
+            if (quartet1.singlet() == quartet2.triplet().doublet().Singlet1()) continue;
+            if (quartet1.singlet() == quartet2.triplet().doublet().Singlet2()) continue;
+            if (quartet1.triplet().singlet() == quartet2.singlet()) continue;
+            if (quartet1.triplet().singlet() == quartet2.triplet().singlet()) continue;
+            if (quartet1.triplet().singlet() == quartet2.triplet().doublet().Singlet1()) continue;
+            if (quartet1.triplet().singlet() == quartet2.triplet().doublet().Singlet2()) continue;
+            if (quartet1.triplet().doublet().Singlet1() == quartet2.singlet()) continue;
+            if (quartet1.triplet().doublet().Singlet1() == quartet2.triplet().singlet()) continue;
+            if (quartet1.triplet().doublet().Singlet1() == quartet2.triplet().doublet().Singlet1()) continue;
+            if (quartet1.triplet().doublet().Singlet1() == quartet2.triplet().doublet().Singlet2()) continue;
+            if (quartet1.triplet().doublet().Singlet2() == quartet2.singlet()) continue;
+            if (quartet1.triplet().doublet().Singlet2() == quartet2.triplet().singlet()) continue;
+            if (quartet1.triplet().doublet().Singlet2() == quartet2.triplet().doublet().Singlet1()) continue;
+            if (quartet1.triplet().doublet().Singlet2() == quartet2.triplet().doublet().Singlet2()) continue;
+            Octets.emplace_back(HOctet44(quartet1, quartet2));
         }
     }
 

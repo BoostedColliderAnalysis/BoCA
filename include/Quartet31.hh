@@ -1,22 +1,19 @@
-# ifndef HQuartet31_hh
-# define HQuartet31_hh
+# pragma once
 
 # include "Triplet.hh"
 
-namespace analysis{
-  class HQuartet31Private;
-}
 
-class analysis::HQuartet31 : public Identification
+
+namespace analysis{
+
+class Quartet31 : public Identification
 {
 
 public:
 
-    HQuartet31();
+    Quartet31();
 
-    HQuartet31(const analysis::Triplet& Newtriplet, const fastjet::PseudoJet& NewSinglet);
-
-    ~HQuartet31();
+    Quartet31(const analysis::Triplet &triplet, const fastjet::PseudoJet &singlet);
 
     Triplet triplet() const;
 
@@ -30,8 +27,8 @@ public:
         return (triplet().Jet() + singlet());
     }
 
-    inline float MassDifferenceTo(const HParticleId ParticleId) const {
-      return std::abs(Jet().m() - GetParticleMass(ParticleId));
+    inline float MassDifferenceTo(const ParticleId particle_id) const {
+      return std::abs(Jet().m() - GetParticleMass(particle_id));
     }
 
     inline float Ht() const {
@@ -64,21 +61,19 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HQuartet31";
+        return "Quartet31";
     }
 
 private:
 
-  //     HQuartet31(HQuartet31Private& NewQuartet31Private);
+  void Settriplet(const analysis::Triplet &triplet);
 
-  void Settriplet(const Triplet &Newtriplet);
+  void SetSinglet(const fastjet::PseudoJet &singlet);
 
-  void SetSinglet(const fastjet::PseudoJet &NewSinglet);
+  Triplet triplet_;
 
-  Triplet tripletM;
-
-  fastjet::PseudoJet SingletM;
+  fastjet::PseudoJet singlet_;
 
 };
 
-#endif
+}

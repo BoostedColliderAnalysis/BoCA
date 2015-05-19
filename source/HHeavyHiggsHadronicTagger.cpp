@@ -30,17 +30,17 @@ analysis::HHeavyHiggsHadronicTagger::~HHeavyHiggsHadronicTagger()
     Print(kNotification, "Destructor");
 }
 
-analysis::HHeavyHiggsHadronicBranch analysis::HHeavyHiggsHadronicTagger::GetBranch(const analysis::HSextet &Sextet)
+analysis::HHeavyHiggsHadronicBranch analysis::HHeavyHiggsHadronicTagger::GetBranch(const analysis::Sextet &sextet)
 {
-    Print(kInformation, "FillPairTagger", Sextet.Bdt());
+    Print(kInformation, "FillPairTagger", sextet.Bdt());
 
     HHeavyHiggsHadronicBranch HeavyHiggsHadronicBranch;
-    HeavyHiggsHadronicBranch.HeavyHiggsMass = Sextet.Jet().m();
-    HeavyHiggsHadronicBranch.HeavyHiggsPt = Sextet.Jet().pt();
+    HeavyHiggsHadronicBranch.HeavyHiggsMass = sextet.Jet().m();
+    HeavyHiggsHadronicBranch.HeavyHiggsPt = sextet.Jet().pt();
 
-    HeavyHiggsHadronicBranch.TopDeltaR = Sextet.DeltaR();
-    HeavyHiggsHadronicBranch.TopDeltaRap = Sextet.DeltaRap();
-    HeavyHiggsHadronicBranch.TopDeltaPhi = Sextet.DeltaPhi();
+    HeavyHiggsHadronicBranch.TopDeltaR = sextet.DeltaR();
+    HeavyHiggsHadronicBranch.TopDeltaRap = sextet.DeltaRap();
+    HeavyHiggsHadronicBranch.TopDeltaPhi = sextet.DeltaPhi();
 
 //     HeavyHiggsBranch->LargerWDeltaR = TriplePair.GetLargerTripleDeltaR();
 //     HeavyHiggsBranch->LargerWDeltaRap = TriplePair.GetLargerTripleDeltaRap();
@@ -58,8 +58,8 @@ analysis::HHeavyHiggsHadronicBranch analysis::HHeavyHiggsHadronicTagger::GetBran
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = TriplePair.GetSmallerTripleDeltaRap();
 //     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = TriplePair.GetSmallerTripleDeltaPhi();
 
-    HeavyHiggsHadronicBranch.TopBdt = Sextet.Bdt();
-    HeavyHiggsHadronicBranch.HeavyHiggsTag = Sextet.Tag();
+    HeavyHiggsHadronicBranch.TopBdt = sextet.Bdt();
+    HeavyHiggsHadronicBranch.HeavyHiggsTag = sextet.Tag();
 
     return HeavyHiggsHadronicBranch;
 }
@@ -117,7 +117,7 @@ std::vector< analysis::HHeavyHiggsHadronicBranch> analysis::HHeavyHiggsHadronicT
     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
 
 
-    std::vector<HSextet> Sextets;
+    std::vector<Sextet> sextets;
     for (const auto & triplet1 : triplets)
         for (const auto & triplet2 : triplets) {
             if (triplet1.singlet() == triplet2.singlet()) continue;
@@ -129,33 +129,33 @@ std::vector< analysis::HHeavyHiggsHadronicBranch> analysis::HHeavyHiggsHadronicT
             if (triplet1.doublet().Singlet2() == triplet2.singlet()) continue;
             if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet1()) continue;
             if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet2()) continue;
-            HSextet Sextet(triplet1, triplet2);
-            Sextet.SetTag(GetTag(Sextet));
-            if (Sextet.Tag() != Tag) continue;
-            Sextets.emplace_back(Sextet);
+            Sextet sextet(triplet1, triplet2);
+            sextet.SetTag(GetTag(sextet));
+            if (sextet.Tag() != Tag) continue;
+            sextets.emplace_back(sextet);
         }
 
-        for (const auto & Sextet : Sextets) HeavyHiggsHadronicBranches.emplace_back(GetBranch(Sextet));
+        for (const auto & sextet : sextets) HeavyHiggsHadronicBranches.emplace_back(GetBranch(sextet));
 
     return HeavyHiggsHadronicBranches;
 
 }
 
-analysis::Object::Tag analysis::HHeavyHiggsHadronicTagger::GetTag(const HSextet &Sextet)
+analysis::Object::Tag analysis::HHeavyHiggsHadronicTagger::GetTag(const Sextet &sextet)
 {
     Print(kInformation, "Get Triple Tag");
 
-    if (Sextet.triplet1().Tag() == kBackground)return kBackground;
-    if (Sextet.triplet2().Tag() == kBackground)return kBackground;
-    if (sgn(Sextet.triplet1().singlet().user_index()) == sgn(Sextet.triplet2().singlet().user_index())) return kBackground;
+    if (sextet.triplet1().Tag() == kBackground)return kBackground;
+    if (sextet.triplet2().Tag() == kBackground)return kBackground;
+    if (sgn(sextet.triplet1().singlet().user_index()) == sgn(sextet.triplet2().singlet().user_index())) return kBackground;
     return kSignal;
 }
 
 
-std::vector<analysis::HSextet> analysis::HHeavyHiggsHadronicTagger::GetBdt(std::vector< analysis::Triplet > triplets, const analysis::Reader &Reader)
+std::vector<analysis::Sextet> analysis::HHeavyHiggsHadronicTagger::GetBdt(std::vector< analysis::Triplet > triplets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Get Heavy Higgs Bdt");
-    std::vector<analysis::HSextet> Sextets;
+    std::vector<analysis::Sextet> sextets;
     for (const auto & triplet1 : triplets)
       for (const auto & triplet2 : triplets) {
         if (triplet1.singlet() == triplet2.singlet()) continue;
@@ -167,11 +167,11 @@ std::vector<analysis::HSextet> analysis::HHeavyHiggsHadronicTagger::GetBdt(std::
         if (triplet1.doublet().Singlet2() == triplet2.singlet()) continue;
         if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet1()) continue;
         if (triplet1.doublet().Singlet2() == triplet2.doublet().Singlet2()) continue;
-            HSextet Sextet(triplet1, triplet2);
-            Sextets.emplace_back(Sextet);
-            Branch = GetBranch(Sextet);
-            Sextet.SetBdt(Reader.Bdt());
+            Sextet sextet(triplet1, triplet2);
+            sextets.emplace_back(sextet);
+            Branch = GetBranch(sextet);
+            sextet.SetBdt(Reader.Bdt());
         }
 
-    return Sextets;
+    return sextets;
 }

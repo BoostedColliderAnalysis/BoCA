@@ -33,21 +33,21 @@ analysis::HChargedHiggsLeptonicBranch analysis::HChargedHiggsLeptonicTagger::Get
     ChargedHiggsBranch.TopDeltaRap = triplet.DeltaRap();
     ChargedHiggsBranch.TopDeltaPhi = triplet.DeltaPhi();
 
-//     HeavyHiggsBranch->LargerWDeltaR = Quartet.GetLargertripletDeltaR();
-//     HeavyHiggsBranch->LargerWDeltaRap = Quartet.GetLargertripletDeltaRap();
-//     HeavyHiggsBranch->LargerWDeltaPhi = Quartet.GetLargerTripleDeltaPhi();
+//     HeavyHiggsBranch->LargerWDeltaR = quartet.GetLargertripletDeltaR();
+//     HeavyHiggsBranch->LargerWDeltaRap = quartet.GetLargertripletDeltaRap();
+//     HeavyHiggsBranch->LargerWDeltaPhi = quartet.GetLargerTripleDeltaPhi();
 //
-//     HeavyHiggsBranch->SmallerWDeltaR = Quartet.GetSmallertripletDeltaR();
-//     HeavyHiggsBranch->SmallerWDeltaRap = Quartet.GetSmallertripletDeltaRap();
-//     HeavyHiggsBranch->SmallerWDeltaPhi = Quartet.GetSmallertripletDeltaPhi();
+//     HeavyHiggsBranch->SmallerWDeltaR = quartet.GetSmallertripletDeltaR();
+//     HeavyHiggsBranch->SmallerWDeltaRap = quartet.GetSmallertripletDeltaRap();
+//     HeavyHiggsBranch->SmallerWDeltaPhi = quartet.GetSmallertripletDeltaPhi();
 //
-//     HeavyHiggsBranch->LargerNeutrinoDeltaR = Quartet.GetLargertripletDeltaR();
-//     HeavyHiggsBranch->LargerNeutrinoDeltaRap = Quartet.GetLargertripletDeltaRap();
-//     HeavyHiggsBranch->LargerNeutrinoDeltaPhi = Quartet.GetLargerTripleDeltaPhi();
+//     HeavyHiggsBranch->LargerNeutrinoDeltaR = quartet.GetLargertripletDeltaR();
+//     HeavyHiggsBranch->LargerNeutrinoDeltaRap = quartet.GetLargertripletDeltaRap();
+//     HeavyHiggsBranch->LargerNeutrinoDeltaPhi = quartet.GetLargerTripleDeltaPhi();
 //
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaR = Quartet.GetSmallertripletDeltaR();
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = Quartet.GetSmallertripletDeltaRap();
-//     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = Quartet.GetSmallertripletDeltaPhi();
+//     HeavyHiggsBranch->SmallerNeutrinoDeltaR = quartet.GetSmallertripletDeltaR();
+//     HeavyHiggsBranch->SmallerNeutrinoDeltaRap = quartet.GetSmallertripletDeltaRap();
+//     HeavyHiggsBranch->SmallerNeutrinoDeltaPhi = quartet.GetSmallertripletDeltaPhi();
 
     ChargedHiggsBranch.TopBdt = triplet.Bdt();
     ChargedHiggsBranch.HeavyHiggsTag = triplet.Tag();
@@ -117,9 +117,9 @@ std::vector< analysis::HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLepto
             Triplet triplet(doublet, Jet);
             triplet.SetTag(GetTag(triplet));
             if (triplet.Tag() != Tag) continue;
-//             std::vector<HQuartet31> PreQuartets;
-//             PreQuartets = GetQuartet(Quartet, MissingEt, Neutrinos, Tag);
-//             for (auto & Quartet : PreQuartets) {
+//             std::vector<Quartet31> Prequartets;
+//             Prequartets = Getquartet(quartet, MissingEt, Neutrinos, Tag);
+//             for (auto & quartet : Prequartets) {
                 triplets.emplace_back(triplet);
 //             }
         }
@@ -145,7 +145,7 @@ analysis::Object::Tag analysis::HChargedHiggsLeptonicTagger::GetTag(const Triple
     Print(kInformation, "Get Triple Tag");
 
     if (triplet.doublet().Tag() == kBackground) return kBackground;
-//     if (Quartet.Getdoublet2().Tag() == HBackground) return HBackground;
+//     if (quartet.Getdoublet2().Tag() == HBackground) return HBackground;
     // TODO check the following
     if (triplet.doublet().Singlet1().user_index() != -triplet.singlet().user_index()) return kBackground;
     return kSignal;
@@ -161,9 +161,9 @@ std::vector<analysis::Triplet>  analysis::HChargedHiggsLeptonicTagger::GetBdt(co
             if (doublet.Singlet1() == Jet) continue;
             Triplet triplet(doublet, Jet);
             triplet.SetTag(GetTag(triplet));
-//             std::vector<HQuartet31> PreQuartets;
-//             PreQuartets = GetQuartets(Quartet, MissingEt);
-//             for (auto & Quartet : PreQuartets) {
+//             std::vector<Quartet31> Prequartets;
+//             Prequartets = Getquartets(quartet, MissingEt);
+//             for (auto & quartet : Prequartets) {
                 Branch = GetBranch(triplet);
                 triplet.SetBdt(Reader.Bdt());
                 triplets.emplace_back(triplet);

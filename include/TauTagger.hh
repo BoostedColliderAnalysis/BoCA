@@ -1,5 +1,4 @@
-# ifndef HTauTagger_hh
-# define HTauTagger_hh
+# pragma once
 
 # include "Tagger.hh"
 # include "Branches.hh"
@@ -8,26 +7,24 @@
 # include "Reader.hh"
 # include "Event.hh"
 
+namespace analysis {
+
 /**
  * @brief Bottom BDT tagger
  *
  */
-class analysis::HTauTagger : public Tagger
+class TauTagger : public Tagger
 {
 
 public:
 
-    HTauTagger();
+    TauTagger();
 
-    ~HTauTagger();
-
-    void SetTagger();
-
-    std::vector< HTauBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector< TauBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
     Jets GetBdt(Jets &jets, const analysis::Reader &BottomReader);
 
-    HTauBranch GetBranch(const fastjet::PseudoJet &Jet) const;
+    TauBranch GetBranch(const fastjet::PseudoJet &Jet) const;
 
 //     analysis::Object::HTag GetTag(const fastjet::PseudoJet &Jet) const;
 
@@ -38,8 +35,8 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HTauTagger";
-    };
+        return "TauTagger";
+    }
 
 private:
 
@@ -54,10 +51,10 @@ private:
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
-    HTauBranch Branch;
+    TauBranch branch_;
 
     HJetTag JetTag;
 
 };
 
-#endif
+}

@@ -94,13 +94,13 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 }
 
 
-// int hcpvhiggs::HJetTag::GetBranchId(const int ParticleId, int BranchId)
+// int hcpvhiggs::HJetTag::GetBranchId(const int particle_id, int BranchId)
 // {
 //
 // //     if (HeavyParticles.find(std::abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
 //
-// //     Print(kError, "we are here", ParticleId, BranchId);
-//     Print(kDebug, "HCPVHiggs: Get Branch Id", ParticleId, BranchId);
+// //     Print(kError, "we are here", particle_id, BranchId);
+//     Print(kDebug, "HCPVHiggs: Get Branch Id", particle_id, BranchId);
 //
 //
 //
@@ -110,15 +110,15 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 //
 //
 //     if (
-//         RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) &&
+//         RadiationParticles.find(std::abs(particle_id)) != end(RadiationParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
 //         BranchId = IsrId;
 //     } else if (
-//         HeavyParticles.find(std::abs(ParticleId)) != end(HeavyParticles) &&
+//         HeavyParticles.find(std::abs(particle_id)) != end(HeavyParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
-//         BranchId = ParticleId;
+//         BranchId = particle_id;
 //     }
 //
 //     Print(kDebug, "HCPVHiggs: Branch Id", BranchId);

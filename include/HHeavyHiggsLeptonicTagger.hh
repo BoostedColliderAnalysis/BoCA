@@ -1,8 +1,8 @@
 # ifndef HHeavyHiggsLeptonicTagger_hh
 # define HHeavyHiggsLeptonicTagger_hh
 
-# include "HQuartet.hh"
-# include "HSextet.hh"
+# include "Quartet22.hh"
+# include "Sextet.hh"
 # include "HTopLeptonicTagger.hh"
 # include "WIMPMASS.h"
 
@@ -23,9 +23,9 @@ public:
 
     std::vector< HHeavyHiggsLeptonicBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector<analysis::HSextet> GetBdt(const std::vector< analysis::Doublet > &doublets, const fastjet::PseudoJet &MissingEt, const analysis::Reader & Reader);
+    std::vector<analysis::Sextet> GetBdt(const std::vector< analysis::Doublet > &doublets, const fastjet::PseudoJet &MissingEt, const analysis::Reader & Reader);
 
-    HHeavyHiggsLeptonicBranch GetBranch(const analysis::HSextet &Sextet);
+    HHeavyHiggsLeptonicBranch GetBranch(const analysis::Sextet &sextet);
 
 
 protected:
@@ -39,7 +39,7 @@ private:
     void DefineVariables();
 
     void SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet);
-    analysis::Object::Tag GetTag(const HQuartet &Quartet);
+    analysis::Object::Tag GetTag(const Quartet22 &quartet);
 
     inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
         // wimpmass (E,px,py,pz)
@@ -48,9 +48,9 @@ private:
         return Jet;
     }
 
-    std::vector< HSextet > GetSextet(const analysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
+    std::vector< Sextet > Getsextet(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
 
-    std::vector<HSextet> GetSextets(const analysis::HQuartet &Quartet, const fastjet::PseudoJet &MissingEt);
+    std::vector<Sextet> Getsextets(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &MissingEt);
 
     event22 Structure;
 

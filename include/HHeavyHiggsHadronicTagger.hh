@@ -1,7 +1,7 @@
 # ifndef HHeavyHiggsHadronicTagger_hh
 # define HHeavyHiggsHadronicTagger_hh
 
-# include "HSextet.hh"
+# include "Sextet.hh"
 # include "TopHadronicTagger.hh"
 
 /**
@@ -21,9 +21,9 @@ public:
 
     std::vector<HHeavyHiggsHadronicBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HHeavyHiggsHadronicBranch GetBranch(const analysis::HSextet &Sextet);
+    HHeavyHiggsHadronicBranch GetBranch(const analysis::Sextet &sextet);
 
-    std::vector<analysis::HSextet> GetBdt(std::vector< analysis::Triplet > triplets, const analysis::Reader &Reader);
+    std::vector<analysis::Sextet> GetBdt(std::vector< analysis::Triplet > triplets, const analysis::Reader &Reader);
 
 protected:
 
@@ -36,7 +36,7 @@ private:
     void DefineVariables();
 
 
-    Tag GetTag(const HSextet &Sextet);
+    Tag GetTag(const Sextet &sextet);
 
     BottomTagger bottom_tagger_;
     WHadronicTagger WTagger;

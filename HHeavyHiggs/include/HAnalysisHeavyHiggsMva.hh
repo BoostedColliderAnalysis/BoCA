@@ -26,12 +26,12 @@ public:
 
 //     analysis::BottomTagger bottom_tagger_;
 //     analysis::HJetPairTagger JetPairTagger;
-//     analysis::HWSemiTagger WSemiTagger;
+//     analysis::HWSemiTagger w_semi_tagger;
 //     analysis::HWTagger w_hadronic_tagger;
 //
 // //     analysis::HTopLeptonicTagger TopLeptonicTagger;
 //     analysis::TopHadronicTagger top_hadronic_tagger;
-//     analysis::HTopSemiTagger TopSemiTagger;
+//     analysis::HTopSemiTagger top_semi_tagger;
 //
 // //     analysis::HHeavyHiggsLeptonicTagger HeavyHiggsLeptonicTagger;
 // //     analysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;

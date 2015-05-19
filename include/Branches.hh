@@ -136,7 +136,6 @@ public:
     EnergyFraction = multiplet.EnergyFraction();
     Tag = multiplet.Tag();
     Bdt = multiplet.Bdt();
-
   }
 
 private:
@@ -151,12 +150,12 @@ private:
  * @brief Tau tagger root tree structure
  *
  */
-class HTauBranch : public ParticleBranch
+class TauBranch : public ParticleBranch
 {
 
 public:
 
-    HTauBranch();
+    TauBranch();
 
     float EmRadius;
     float TrackRadius;
@@ -167,13 +166,27 @@ public:
     float TrackMass;
     float FlightPath;
     float TrtHtFraction;
-
     float Tag;
     float Bdt;
+    template<typename Multiplet>
+    void FillBranch(const Multiplet &multiplet) {
+      ParticleBranch::FillBranch(multiplet);
+      EmRadius = multiplet.EmRadius();
+      TrackRadius = multiplet.TrackRadius();
+      MomentumFraction = multiplet.MomentumFraction();
+      CoreEnergyFraction = multiplet.CoreEnergyFraction();
+      EmFraction = multiplet.EmFraction();
+      ClusterMass = multiplet.ClusterMass();
+      TrackMass = multiplet.TrackMass();
+      FlightPath = multiplet.FlightPath();
+      TrtHtFraction = multiplet.TrtHtFraction();
+      Tag = multiplet.Tag();
+      Bdt = multiplet.Bdt();
+    }
 
 private:
 
-    ClassDef(HTauBranch, 1)
+    ClassDef(TauBranch, 1)
 
 };
 

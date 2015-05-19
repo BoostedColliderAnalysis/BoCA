@@ -97,17 +97,17 @@ int hheavyhiggs::HAnalysisHeavyHiggsDelphes::Analysis(analysis::Event &event, co
 //
 // };
 
-// int hheavyhiggs::HHeavyHiggsJetTag::GetBranchId(const int ParticleId, int BranchId)
+// int hheavyhiggs::HHeavyHiggsJetTag::GetBranchId(const int particle_id, int BranchId)
 // {
 //
 //     Print(kInformation, "Get Mother Id");
 //
-//     if (RadiationParticles.find(std::abs(ParticleId)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
+//     if (RadiationParticles.find(std::abs(particle_id)) != end(RadiationParticles) && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)) {
 //         BranchId = IsrId;
-//     } else if (std::abs(ParticleId) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
-//         BranchId = ParticleId;
-//     } else if (std::abs(ParticleId) == TopId || std::abs(ParticleId) == CpvHiggsId) {
-//         BranchId = ParticleId;
+//     } else if (std::abs(particle_id) == BottomId && (std::abs(BranchId) != TopId && std::abs(BranchId) != CpvHiggsId)) {
+//         BranchId = particle_id;
+//     } else if (std::abs(particle_id) == TopId || std::abs(particle_id) == CpvHiggsId) {
+//         BranchId = particle_id;
 //     }
 //
 //     Print(kDetailed, "Mother Id", BranchId);

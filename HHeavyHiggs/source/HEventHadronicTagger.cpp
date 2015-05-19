@@ -51,9 +51,9 @@ void hheavyhiggs::EventHadronicTagger::FillBranch(hheavyhiggs::EventHadronicBran
 //     eventHadronicBranch->ScalarHt = Octet.ScalarHt();
     eventHadronicBranch->HeavyParticleBdt = Octet.Bdt();
 
-    eventHadronicBranch->HeavyHiggsBdt = Octet.Sextet().Bdt();
-    eventHadronicBranch->HeavyHiggsMass = Octet.Sextet().Jet().m();
-    eventHadronicBranch->HeavyHiggsPt = Octet.Sextet().Jet().pt();
+    eventHadronicBranch->HeavyHiggsBdt = Octet.sextet().Bdt();
+    eventHadronicBranch->HeavyHiggsMass = Octet.sextet().Jet().m();
+    eventHadronicBranch->HeavyHiggsPt = Octet.sextet().Jet().pt();
 
     eventHadronicBranch->BottomSumPt = Octet.doublet_jet().pt();
     eventHadronicBranch->BottomDeltaPt = Octet.doublet().DeltaPt();
@@ -126,7 +126,7 @@ std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagge
 
     std::vector<analysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
     std::vector<analysis::Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
-    std::vector<analysis::HSextet> Sextets = HeavyHiggsHadronicTagger.GetBdt(triplets, HeavyHiggsHadronicReader);
+    std::vector<analysis::Sextet> sextets = HeavyHiggsHadronicTagger.GetBdt(triplets, HeavyHiggsHadronicReader);
 
     std::vector<HOctet> Octets;
 
@@ -134,20 +134,20 @@ std::vector<hheavyhiggs::EventHadronicBranch * > hheavyhiggs::EventHadronicTagge
         for (const auto & Jet2 : jets)  {
             if (Jet1 == Jet2) continue;
             analysis::Doublet doublet(Jet1,Jet2);
-            for (const auto & Sextet : Sextets) {
-                if (Jet1 == Sextet.triplet1().singlet()) continue;
-                if (Jet1 == Sextet.triplet1().doublet().Singlet1()) continue;
-                if (Jet1 == Sextet.triplet1().doublet().Singlet2()) continue;
-                if (Jet1 == Sextet.triplet2().singlet()) continue;
-                if (Jet1 == Sextet.triplet2().doublet().Singlet1()) continue;
-                if (Jet1 == Sextet.triplet2().doublet().Singlet2()) continue;
-                if (Jet2 == Sextet.triplet1().singlet()) continue;
-                if (Jet2 == Sextet.triplet1().doublet().Singlet1()) continue;
-                if (Jet2 == Sextet.triplet1().doublet().Singlet2()) continue;
-                if (Jet2 == Sextet.triplet2().singlet()) continue;
-                if (Jet2 == Sextet.triplet2().doublet().Singlet1()) continue;
-                if (Jet2 == Sextet.triplet2().doublet().Singlet2()) continue;
-                Octets.emplace_back(HOctet(Sextet, doublet));
+            for (const auto & sextet : sextets) {
+                if (Jet1 == sextet.triplet1().singlet()) continue;
+                if (Jet1 == sextet.triplet1().doublet().Singlet1()) continue;
+                if (Jet1 == sextet.triplet1().doublet().Singlet2()) continue;
+                if (Jet1 == sextet.triplet2().singlet()) continue;
+                if (Jet1 == sextet.triplet2().doublet().Singlet1()) continue;
+                if (Jet1 == sextet.triplet2().doublet().Singlet2()) continue;
+                if (Jet2 == sextet.triplet1().singlet()) continue;
+                if (Jet2 == sextet.triplet1().doublet().Singlet1()) continue;
+                if (Jet2 == sextet.triplet1().doublet().Singlet2()) continue;
+                if (Jet2 == sextet.triplet2().singlet()) continue;
+                if (Jet2 == sextet.triplet2().doublet().Singlet1()) continue;
+                if (Jet2 == sextet.triplet2().doublet().Singlet2()) continue;
+                Octets.emplace_back(HOctet(sextet, doublet));
             }
         }
 

@@ -54,8 +54,8 @@ public:
         return (Singlet1() + Singlet2());
     }
 
-    inline float MassDifferenceTo(const HParticleId ParticleId) const {
-        return std::abs(Jet().m() - GetParticleMass(ParticleId));
+    inline float MassDifferenceTo(const ParticleId particle_id) const {
+        return std::abs(Jet().m() - GetParticleMass(particle_id));
     }
 
     inline float DeltaM() const {

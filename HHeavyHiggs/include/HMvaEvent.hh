@@ -17,18 +17,18 @@ class HOctet : public analysis::HTag
 
 public:
 
-  HOctet(const analysis::HSextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
-    SextetM = NewHeavyHiggs;
+  HOctet(const analysis::Sextet &NewHeavyHiggs, const fastjet::PseudoJet &NewBottom, const fastjet::PseudoJet &NewAntiBottom) {
+    sextetM = NewHeavyHiggs;
     Jet1 = NewBottom;
     Jet2 = NewAntiBottom;
   }
 
-  analysis::HSextet Sextet()const {
-    return SextetM;
+  analysis::Sextet sextet()const {
+    return sextetM;
   }
 
   float Bdt() const {
-    return (SextetM.Bdt() * Jet1.user_info<analysis::JetInfo>().Bdt() * Jet1.user_info<analysis::JetInfo>().Bdt());
+    return (sextetM.Bdt() * Jet1.user_info<analysis::JetInfo>().Bdt() * Jet1.user_info<analysis::JetInfo>().Bdt());
   }
 
   float DeltaRap() const {
@@ -98,32 +98,32 @@ public:
 private:
 
   float GetDeltaR1() const {
-    return SextetM.GetPairJet().delta_R(Bottom);
+    return sextetM.GetPairJet().delta_R(Bottom);
   }
 
   float GetDeltaR2() const {
-    return SextetM.GetPairJet().delta_R(AntiBottom);
+    return sextetM.GetPairJet().delta_R(AntiBottom);
   }
 
   float GetDeltaPhi1() const {
-    return SextetM.GetPairJet().delta_phi_to(Bottom);
+    return sextetM.GetPairJet().delta_phi_to(Bottom);
   }
 
   float GetDeltaPhi2() const {
-    return SextetM.GetPairJet().delta_phi_to(AntiBottom);
+    return sextetM.GetPairJet().delta_phi_to(AntiBottom);
   }
 
   float GetDeltaRap1() const {
-    return (SextetM.GetPairJet().rap() - Jet1.rap());
+    return (sextetM.GetPairJet().rap() - Jet1.rap());
   }
 
   float GetDeltaRap2() const {
-    return (SextetM.GetPairJet().rap() - Jet2.rap());
+    return (sextetM.GetPairJet().rap() - Jet2.rap());
   }
 
   fastjet::PseudoJet Jet1;
   fastjet::PseudoJet Jet2;
-  analysis::HSextet SextetM;
+  analysis::Sextet sextetM;
   int LeptonNumber;
   int BottomNumber;
   int JetNumber;
@@ -147,7 +147,7 @@ public:
     * @brief Constructor
     *
     */
-    HMvaevent(analysis::BottomTagger *const NewBottomTagger, analysis::HTopSemiTagger *const NewTopTagger, analysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
+    HMvaevent(analysis::BottomTagger *const NewBottomTagger, analysis::TopSemiTagger *const NewTopTagger, analysis::HHeavyHiggsTagger *const NewHeavyHiggsTagger);
 
     /**
     * @brief Destructor
@@ -180,7 +180,7 @@ private:
 
 
     analysis::BottomTagger *BottomTagger;
-    analysis::HTopSemiTagger *LeptonicTopTagger;
+    analysis::TopSemiTagger *LeptonicTopTagger;
     analysis::HHeavyHiggsTagger *HeavyHiggsTagger;
     analysis::Reader BottomReader;
     analysis::Reader TopReader;

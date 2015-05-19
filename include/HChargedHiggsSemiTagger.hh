@@ -1,8 +1,8 @@
 # ifndef HChargedHiggsSemiTagger_hh
 # define HChargedHiggsSemiTagger_hh
 
-# include "HQuartet31.hh"
-# include "HTopSemiTagger.hh"
+# include "Quartet31.hh"
+# include "TopSemiTagger.hh"
 # include "TopHadronicTagger.hh"
 
 /**
@@ -18,25 +18,25 @@ public:
 
     void SetTagger(
         const analysis::BottomTagger &NewBottomTagger,
-        const analysis::HWSemiTagger &NewWSemiTagger,
+        const analysis::WSemiTagger &Neww_semi_tagger,
         const analysis::WHadronicTagger &NewWTagger,
-        const analysis::HTopSemiTagger &NewTopSemiTagger,
+        const analysis::TopSemiTagger &Newtop_semi_tagger,
         const analysis::TopHadronicTagger &Newtop_hadronic_tagger);
 
     std::vector< HChargedHiggsSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedHiggsSemiBranch GetBranch(const analysis::HQuartet31 &Quartet) const;
+    HChargedHiggsSemiBranch GetBranch(const analysis::Quartet31 &quartet) const;
 
-    std::vector< HQuartet31 > GetBdt(
+    std::vector< Quartet31 > GetBdt(
         const std::vector< analysis::Triplet > triplets, const std::vector< fastjet::PseudoJet > Siglets, const analysis::Reader &Reader);
 
-    std::vector< HQuartet31 > GetQuartets(const analysis::Reader &Reader);
+    std::vector< Quartet31 > Getquartets(const analysis::Reader &Reader);
 
     BottomTagger bottom_tagger_;
-    HWSemiTagger WSemiTagger;
+    WSemiTagger w_semi_tagger;
     WHadronicTagger WTagger;
     TopHadronicTagger top_hadronic_tagger;
-    HTopSemiTagger TopSemiTagger;
+    TopSemiTagger top_semi_tagger;
 
     Reader BottomReader;
     Reader WSemiReader;
@@ -54,7 +54,7 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const analysis::HQuartet31 &);
+    Tag GetTag(const analysis::Quartet31 &);
 
     HJetTag JetTag;
 
