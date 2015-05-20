@@ -21,3 +21,18 @@ cd build
 cmake ..
 make
 ```
+
+## Git commands
+
+* download from server `git pull`
+* save changes `git commit -a`
+* upload changes to server `git push`
+* change branches `git checkout BRANCH`
+* create new branch `git checkout -b NEWBRANCH`
+
+## Coding style
+
+* use standard library when possible
+* avoid heap allocation (`new`)
+* follow [these naming conventions](
+[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming))
