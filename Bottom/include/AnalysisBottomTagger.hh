@@ -86,7 +86,7 @@ private:
     }
 
     virtual inline std::string FilePath() const {
-      return "~/Projects/Tagger/Bottom";
+      return "~/Projects/Tagger/Bottom/";
     }
 
     std::string ProductionChannelName(const ProductionChannel production_channel) const;
