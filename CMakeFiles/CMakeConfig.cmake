@@ -6,7 +6,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -pedantic -Wpoi
 # set build type to debug
 # set(CMAKE_BUILD_TYPE Debug)
 
-SET(CMAKE_INSTALL_PREFIX ~)
+set(CMAKE_INSTALL_PREFIX ~)
+unset(LinkLibraries CACHE)
+
 
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

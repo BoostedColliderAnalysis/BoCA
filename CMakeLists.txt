@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 
 project(Analysis)
-cmake_policy(SET CMP0038 OLD)
+# cmake_policy(SET CMP0038 OLD)
+# unset(LinkLibraries)
 
 # Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)
