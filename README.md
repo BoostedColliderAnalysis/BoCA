@@ -34,5 +34,6 @@ make
 
 * use standard library when possible
 * avoid heap allocation (`new`)
+* prefer references `&` over pointers `*`
 * follow [these naming conventions](
 [https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming))
