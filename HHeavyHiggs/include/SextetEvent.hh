@@ -2,12 +2,12 @@
 
 # include "Sextet.hh"
 
-struct EventStruct {
+struct GlobalObservables {
 
-    int LeptonNumber = 0;
-    int JetNumber = 0;
-    int BottomNumber = 0;
-    float ScalarHt = 0;
+    int lepton_number = 0;
+    int jet_number = 0;
+    int bottom_number = 0;
+    float scalar_ht = 0;
 
 };
 
@@ -22,7 +22,7 @@ public:
 
     SextetEvent(const analysis::Sextet &Newsextet);
 
-    SextetEvent(const analysis::Sextet &Newsextet, const EventStruct &event_struct);
+    SextetEvent(const analysis::Sextet &Newsextet, const GlobalObservables &global_observables);
 
     inline analysis::Sextet sextet()const {
         return sextet_;
@@ -43,46 +43,46 @@ public:
     }
 
     inline void SetScalarHt(const float scalar_ht) {
-        event_struct_.ScalarHt = scalar_ht;
+        global_observables_.scalar_ht = scalar_ht;
     }
 
     inline void SetJetNumber(const int number) {
-        event_struct_.JetNumber = number;
+        global_observables_.jet_number = number;
     }
 
     inline void SetBottomNumber(const int number) {
-        event_struct_.BottomNumber = number;
+        global_observables_.bottom_number = number;
     }
 
     inline void SetLeptonNumber(const int number) {
-        event_struct_.LeptonNumber = number;
+        global_observables_.lepton_number = number;
     }
 
     inline float ScalarHt() const {
-        return event_struct_.ScalarHt;
+        return global_observables_.scalar_ht;
     }
 
     inline int JetNumber()const {
-        return event_struct_.JetNumber;
+        return global_observables_.jet_number;
     }
 
     inline int BottomNumber()const {
-        return event_struct_.BottomNumber;
+        return global_observables_.bottom_number;
     }
 
     inline int LeptonNumber()const {
-        return event_struct_.LeptonNumber;
+        return global_observables_.lepton_number;
     }
 
-    inline EventStruct event_struct()const {
-        return event_struct_;
+    inline GlobalObservables global_observables()const {
+        return global_observables_;
     }
 
-    inline void SetEventStruct(const EventStruct &event_struct) {
-        event_struct_ = event_struct;
+    inline void SetEventStruct(const GlobalObservables &global_observables) {
+        global_observables_ = global_observables;
     }
 
-    EventStruct event_struct_;
+    GlobalObservables global_observables_;
 
     inline void AddRestJet(const fastjet::PseudoJet &jet) {
         SetBdt(Bdt() * (JetNumber() + 1));

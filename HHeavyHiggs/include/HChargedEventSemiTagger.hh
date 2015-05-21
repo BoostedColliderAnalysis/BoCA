@@ -2,7 +2,7 @@
 # define HChargedeventSemiTagger_hh
 
 # include "HBranchHeavyHiggs.hh"
-# include "HOctet44Event.hh"
+# include "MultipletEvent.hh"
 # include "HChargedSignatureSemiTagger.hh"
 
 /**
@@ -27,13 +27,12 @@ public:
 
     std::vector< HChargedSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedSemiBranch GetBranch(const EventMultiplet<HOctet44> &event) const;
+    HChargedSemiBranch GetBranch(const analysis::MultipletEvent<Octet44> &event) const;
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
 
-    std::vector<EventMultiplet<HOctet44>> GetBdt(
-                                            const std::vector< HOctet44 > &Octets, Jets &jets, const Jets &SubJets, Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader);
+    std::vector<analysis::MultipletEvent<Octet44>> GetBdt(const std::vector< Octet44 > &octets, Jets &jets, const Jets &SubJets, Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
@@ -64,7 +63,7 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-      return "HChargedeventSemiTagger";
+        return "HChargedeventSemiTagger";
     }
 
 private:

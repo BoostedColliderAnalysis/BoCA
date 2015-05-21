@@ -37,6 +37,7 @@ HLibrary(HepTagger "${HepTaggerSource}" PARENT_SCOPE)
 add_dependencies(HepTagger HepTopTagger)
 
 set(AnalysisSources
+Configuration.cpp
 Analysis.cpp
 Family.cpp
 Constituent.cpp

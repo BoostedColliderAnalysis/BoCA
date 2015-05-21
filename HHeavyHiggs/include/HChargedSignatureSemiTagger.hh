@@ -5,7 +5,7 @@
 # include "TopHadronicTagger.hh"
 # include "HChargedHiggsSemiTagger.hh"
 # include "HChargedJetPairTagger.hh"
-# include "HOctet44.hh"
+# include "Octet44.hh"
 
 /**
  *
@@ -35,12 +35,12 @@ public:
 
     std::vector< HChargedOctetBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedOctetBranch GetBranch(const HOctet44 &Octet) const;
+    HChargedOctetBranch GetBranch(const Octet44 &octet) const;
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
 
-    std::vector<HOctet44> GetBdt(
+    std::vector<Octet44> GetBdt(
         const std::vector< analysis::Quartet31 > &Higgsquartets, const std::vector< analysis::Quartet31 > &Jetquartets, const analysis::Reader &eventSemiReader);
 
 

@@ -89,7 +89,7 @@ std::vector<analysis::File> hheavyhiggs::HAnalysisMva::Files(const analysis::Obj
     std::vector<analysis::File> SignalSemiFiles;
     std::vector<analysis::File> BackgroundSemiFiles;
 
-    std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
+    std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV";
     SignalSemiFiles.emplace_back(analysis::File(SignalName, SignalCrosssection(), Mass()));
 //     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
 
@@ -245,7 +245,7 @@ void hheavyhiggs::HAnalysisMva::SetTrees()
     Strings SignalLeptonicTrees {};
     Strings BackgroundLeptonicTrees {};
 
-    std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
+    std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
     Strings SignalSemiTrees {
         SignalTree
@@ -1071,18 +1071,18 @@ int hheavyhiggs::HAnalysisMva::RunAnalysis(analysis::Event &event, const analysi
 // //
 // //     std::vector<analysis::Hsextet> sextets = HeavyHiggsLeptonicTagger.GetBdt(Leptonicdoublets, MissingEt, HeavyHiggsLeptonicReader);
 // //
-// //     EventStruct event_struct;
-// //     event_struct.LeptonNumber = Leptons.size();
-// //     event_struct.JetNumber = jets.size();
-// //     event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
-// //     event_struct.ScalarHt = event.hadrons().GetScalarHt();
+// //     EventStruct global_observables;
+// //     global_observables.LeptonNumber = Leptons.size();
+// //     global_observables.JetNumber = jets.size();
+// //     global_observables.BottomNumber = event.hadrons().GetBottomJets().size();
+// //     global_observables.ScalarHt = event.hadrons().GetScalarHt();
 // //
-// //     std::vector<HOctet> Octets = eventLeptonicTagger.GetBdt(sextets, doublets, jets, event_struct, eventLeptonicReader);
-// //     if (Octets.empty()) return 0;
-// //     Octets.front().SetTag(Tag);
+// //     std::vector<HOctet> octets = eventLeptonicTagger.GetBdt(sextets, doublets, jets, global_observables, eventLeptonicReader);
+// //     if (octets.empty()) return 0;
+// //     octets.front().SetTag(Tag);
 // //
 // //     hheavyhiggs::EventLeptonicBranch *Leptonicevent = new hheavyhiggs::EventLeptonicBranch();
-// //     eventLeptonicTagger.FillBranch(Leptonicevent, Octets.front());
+// //     eventLeptonicTagger.FillBranch(Leptonicevent, octets.front());
 // //
 // //     ++ObjectNumber;
 // //     EventLeptonicBranch *NeweventBranch = static_cast<EventLeptonicBranch *>(Branch->NewEntry());
@@ -1126,16 +1126,16 @@ int hheavyhiggs::HAnalysisMva::RunAnalysis(analysis::Event &event, const analysi
 //
 //     std::vector<analysis::Hsextet> sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 //
-//     std::vector<HOctet> Octets = SignatureSemiTagger.GetBdt(sextets, doublets, SignatureSemiReader);
-//     if (Octets.empty()) return 0;
+//     std::vector<HOctet> octets = SignatureSemiTagger.GetBdt(sextets, doublets, SignatureSemiReader);
+//     if (octets.empty()) return 0;
 //
-//     if (Octets.size() > 1) {
-//         std::sort(Octets.begin(), Octets.end());
-//         Octets.erase(Octets.begin() + 1, Octets.end());
+//     if (octets.size() > 1) {
+//         std::sort(octets.begin(), octets.end());
+//         octets.erase(octets.begin() + 1, octets.end());
 //     }
-//     Octets.front().SetTag(Tag);
+//     octets.front().SetTag(Tag);
 //     ++ObjectNumber;
-//     *static_cast<HOctetBranch *>(Branch->NewEntry()) = SignatureSemiTagger.GetBranch(Octets.front());
+//     *static_cast<HOctetBranch *>(Branch->NewEntry()) = SignatureSemiTagger.GetBranch(octets.front());
 //     return 1;
 // }
 //
@@ -1181,18 +1181,18 @@ int hheavyhiggs::HAnalysisMva::RunAnalysis(analysis::Event &event, const analysi
 //     std::vector<analysis::Hsextet> sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 // //     Print(kError, "sextets", sextets.size());
 //
-//     std::vector<HOctet> Octets = SignatureSemiTagger.GetBdt(sextets, doublets, SignatureSemiReader);
-// //     Print(kError, "Octets", Octets.size());
+//     std::vector<HOctet> octets = SignatureSemiTagger.GetBdt(sextets, doublets, SignatureSemiReader);
+// //     Print(kError, "Octets", octets.size());
 //
-//     EventStruct event_struct;
-//     event_struct.LeptonNumber = Leptons.size();
-//     event_struct.JetNumber = jets.size();
-//     event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
-//     event_struct.ScalarHt = event.hadrons().GetScalarHt();
-//     event_struct.MissingEt = event.hadrons().GetMissingEt().pt();
-// //   if (event_struct.LeptonNumber > 0) event_struct.LeptonPt = fastjet::sorted_by_pt(event.leptons().GetLeptonJets()).front().pt();
+//     EventStruct global_observables;
+//     global_observables.LeptonNumber = Leptons.size();
+//     global_observables.JetNumber = jets.size();
+//     global_observables.BottomNumber = event.hadrons().GetBottomJets().size();
+//     global_observables.ScalarHt = event.hadrons().GetScalarHt();
+//     global_observables.MissingEt = event.hadrons().GetMissingEt().pt();
+// //   if (global_observables.LeptonNumber > 0) global_observables.LeptonPt = fastjet::sorted_by_pt(event.leptons().GetLeptonJets()).front().pt();
 //
-//     std::vector<EventMultiplet<HOctet>> events = eventSemiTagger.GetBdt(Octets, jets, SubJets, Leptons,  event_struct, eventSemiReader);
+//     std::vector<MultipletEvent<HOctet>> events = eventSemiTagger.GetBdt(octets, jets, SubJets, Leptons,  global_observables, eventSemiReader);
 //     if (events.empty()) return 0;
 //     events.front().SetTag(Tag);
 // //     ++ObjectNumber; // FIXME should be switched on to avoid long duration of last step

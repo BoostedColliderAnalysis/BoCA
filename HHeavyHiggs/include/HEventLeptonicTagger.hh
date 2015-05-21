@@ -4,8 +4,8 @@
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsLeptonicTagger.hh"
 # include "HJetPairTagger.hh"
-# include "HOctet.hh"
-# include "HOctet44Event.hh"
+# include "Octet62.hh"
+# include "MultipletEvent.hh"
 
 /**
  *
@@ -37,13 +37,13 @@ public:
 
     std::vector<hheavyhiggs::EventLeptonicBranch *> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
 
-    std::vector< HOctet > GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, std::vector< fastjet::PseudoJet > &Jets, EventStruct &event_struct, const analysis::Reader & eventSemiReader);
+    std::vector< Octet62 > GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, Jets &jets, analysis::GlobalObservables &, const analysis::Reader &eventLeptonicReader);
 
     std::vector< int > ApplyBdt2(const ExRootTreeReader*const TreeReader, const std::string TreeName, const TFile*const ExportFile);
 
-    void FillBranch(const HOctet &Octet);
+    void FillBranch(const Octet62 &octet);
 
-    void FillBranch(hheavyhiggs::EventLeptonicBranch *eventLeptonicBranch, const HOctet &Octet);
+    void FillBranch(hheavyhiggs::EventLeptonicBranch *eventLeptonicBranch, const Octet62 &octet);
 
 protected:
 
@@ -57,7 +57,7 @@ protected:
 
 
 private:
-  Tag GetTag(const HOctet &Octet);
+  Tag GetTag(const Octet62 &octet);
 
     void SetBranch(const TObject *Object) {
         (Branch) = *((EventLeptonicBranch *) Object); // this used to be (*Branch)
@@ -65,7 +65,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<HOctet> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
+    std::vector<Octet62> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
 
     analysis::BottomTagger bottom_tagger_;
     analysis::HJetPairTagger JetPairTagger;

@@ -159,12 +159,12 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
     }
 
     SextetEvent sextet_event(sextets.front());
-    EventStruct event_struct;
-    event_struct.LeptonNumber = event.leptons().GetLeptonJets().size();
-    event_struct.JetNumber = event.hadrons().GetJets().size();
-    event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
-    event_struct.ScalarHt = event.hadrons().GetScalarHt();
-    sextet_event.SetEventStruct(event_struct);
+    GlobalObservables global_observables;
+    global_observables.lepton_number = event.leptons().GetLeptonJets().size();
+    global_observables.jet_number = event.hadrons().GetJets().size();
+    global_observables.bottom_number = event.hadrons().GetBottomJets().size();
+    global_observables.scalar_ht = event.hadrons().GetScalarHt();
+    sextet_event.SetEventStruct(global_observables);
     sextet_event.SetLeptons(Leptons);
     sextet_event.SetTag(Tag);
     for (const auto & Jet : jets)  {
@@ -179,13 +179,13 @@ std::vector<hheavyhiggs::EventTtSemiBranch> hheavyhiggs::EventTtSemiTagger::GetB
     return eventSemiBranches;
 }
 
-std::vector<SextetEvent> hheavyhiggs::EventTtSemiTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, Jets &jets, const Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader)
+std::vector<SextetEvent> hheavyhiggs::EventTtSemiTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, Jets &jets, const Jets &Leptons, GlobalObservables &global_observables, const analysis::Reader &eventSemiReader)
 {
     Print(kInformation, "Get event Tags");
 
     std::vector<SextetEvent> sextet_events;
     for (const auto & sextet : sextets) {
-        SextetEvent sextet_event(sextet, event_struct);
+        SextetEvent sextet_event(sextet, global_observables);
         for (const auto & Jet : jets)  {
           if (Jet.delta_R(sextet_event.sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
           if (Jet.delta_R(sextet_event.sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;

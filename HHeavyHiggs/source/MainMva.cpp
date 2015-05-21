@@ -2,12 +2,12 @@
 
 #include "fastjet/LimitedWarning.hh"
 
-# include "HConfig.hh"
+# include "Configuration.hh"
 # include "TSystem.h"
 # include "Factory.hh"
 # include "Tagger.hh"
 
-void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const HConfig &config)
+void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const analysis::Configuration &config)
 {
     hheavyhiggs::HAnalysisMva analysis(tagger);
     const std::string name = tagger.tagger_name();
@@ -101,7 +101,7 @@ int main()
     fastjet::Error::set_print_errors(true);
     fastjet::Error::set_print_backtrace(true);
 
-    HConfig config("Neutral");
+    analysis::Configuration config("Neutral");
 
     analysis::BottomTagger bottom_tagger;
     RunTagger(bottom_tagger, analysis::Tagger::kTrainer, config);

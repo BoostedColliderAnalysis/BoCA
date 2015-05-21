@@ -7,10 +7,10 @@ SextetEvent::SextetEvent(const analysis::Sextet &sextet)
     SetTag(sextet_.Tag());
 }
 
-SextetEvent::SextetEvent(const analysis::Sextet& sextet, const EventStruct& event_struct)
+SextetEvent::SextetEvent(const analysis::Sextet& sextet, const GlobalObservables& global_observables)
 {
     sextet_ = sextet;
-    event_struct_ = event_struct;
+    global_observables_ = global_observables;
     SetBdt(sextet_.Bdt());
     SetTag(sextet_.Tag());
 }

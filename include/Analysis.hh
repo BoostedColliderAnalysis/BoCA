@@ -2,7 +2,7 @@
 
 # include "Object.hh"
 # include "Tagger.hh"
-# include "HConfig.hh"
+# include "Configuration.hh"
 # include "File.hh"
 # include "Reader.hh"
 
@@ -30,8 +30,8 @@ public:
         return files_;
     }
 
-    void SetConfig(const HConfig &config) {
-        config_ = config;
+    void SetConfig(const Configuration &config) {
+        configuration_ = config;
     }
 
     std::string ExportName(const Tagger::Stage stage, const Object::Tag tag) const;
@@ -70,7 +70,7 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HAnalysis";
+        return "Analysis";
     }
 
     Strings JoinStrings(const Strings &Strings1, const Strings &Strings2) {
@@ -100,25 +100,25 @@ protected:
 
     // in GeV
     inline int Mass() const {
-        return config_.Mass();
+        return configuration_.Mass();
     }
 
     // in GeV
     inline int PreCut() const {
-        return config_.PreCut();
+        return configuration_.PreCut();
     }
 
 //     inline int EventNumberMax() const {
-//         return config_.EventNumberMax();
+//         return configuration_.EventNumberMax();
 //     };
 
     inline int BackgroundFileNumber() const {
-        return config_.BackgroundFileNumber();
+        return configuration_.BackgroundFileNumber();
     }
 
-    inline HColliderType ColliderType() const {
-        return config_.ColliderType();
-    }
+//     inline ColliderType collider_type() const {
+//         return configuration_.collider_type();
+//     }
 
     virtual inline std::string FilePath() const {
         return "~/Projects/Tagging/";
@@ -159,7 +159,7 @@ protected:
 
 private:
 
-    HConfig config_;
+    Configuration configuration_;
 
     std::vector<File> files_;
 

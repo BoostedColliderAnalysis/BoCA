@@ -94,7 +94,7 @@ std::vector<analysis::File> hheavyhiggs::HAnalysisCharged::Files(const analysis:
     std::vector<analysis::File> SignalSemiFiles;
     std::vector<analysis::File> BackgroundSemiFiles;
 
-    std::string SignalName = ProcessName(Htb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
+    std::string SignalName = ProcessName(Htb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV";
     SignalSemiFiles.emplace_back(analysis::File(SignalName, SignalCrosssection(), Mass()));
 
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttbb));
@@ -249,7 +249,7 @@ void hheavyhiggs::HAnalysisCharged::SetTrees()
     Strings SignalLeptonicTrees {};
     Strings BackgroundLeptonicTrees {};
 
-    std::string SignalTree = ProcessName(Htb) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
+    std::string SignalTree = ProcessName(Htb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
     Strings SignalSemiTrees {SignalTree};
 
@@ -1059,17 +1059,17 @@ bool hheavyhiggs::HAnalysisCharged::GetSignatureSemiReader(analysis::Event &even
 
     std::vector<analysis::Quartet31> Jetquartets = JetPairTagger.GetBdt(tripletsHadronic, jets, JetPairReader);
 
-    std::vector<HOctet44> Octets = SignatureSemiTagger.GetBdt(Higgsquartets, Jetquartets, SignatureSemiReader);
-    if (Octets.empty()) return 0;
+    std::vector<HOctet44> octets = SignatureSemiTagger.GetBdt(Higgsquartets, Jetquartets, SignatureSemiReader);
+    if (octets.empty()) return 0;
 
-    if (Octets.size() > 1) {
-        std::sort(Octets.begin(), Octets.end());
-        Octets.erase(Octets.begin() + 1, Octets.end());
+    if (octets.size() > 1) {
+        std::sort(octets.begin(), octets.end());
+        octets.erase(octets.begin() + 1, octets.end());
     }
-    Octets.front().SetTag(Tag);
+    octets.front().SetTag(Tag);
 
-    for (const auto & Octet : Octets) {
-        *static_cast<HChargedOctetBranch *>(Branch->NewEntry()) = SignatureSemiTagger.GetBranch(Octet);
+    for (const auto & octet : octets) {
+        *static_cast<HChargedOctetBranch *>(Branch->NewEntry()) = SignatureSemiTagger.GetBranch(octet);
         ++ObjectNumber;
     }
 
@@ -1135,16 +1135,16 @@ bool hheavyhiggs::HAnalysisCharged::GeteventSemiReader(analysis::Event &event, c
 
     std::vector<analysis::Quartet31> Jetquartets = JetPairTagger.GetBdt(tripletsHadronic, jets, JetPairReader);
 
-    std::vector<HOctet44> Octets = SignatureSemiTagger.GetBdt(Higgsquartets, Jetquartets, SignatureSemiReader);
+    std::vector<HOctet44> octets = SignatureSemiTagger.GetBdt(Higgsquartets, Jetquartets, SignatureSemiReader);
 
-    EventStruct event_struct;
-    event_struct.LeptonNumber = Leptons.size();
-    event_struct.JetNumber = jets.size();
-    event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
-    event_struct.ScalarHt = event.hadrons().GetScalarHt();
-    event_struct.MissingEt = event.hadrons().GetMissingEt().pt();
+    EventStruct global_observables;
+    global_observables.LeptonNumber = Leptons.size();
+    global_observables.JetNumber = jets.size();
+    global_observables.BottomNumber = event.hadrons().GetBottomJets().size();
+    global_observables.ScalarHt = event.hadrons().GetScalarHt();
+    global_observables.MissingEt = event.hadrons().GetMissingEt().pt();
 
-    std::vector<EventMultiplet<HOctet44>> events = eventSemiTagger.GetBdt(Octets, jets, SubJets, Leptons, event_struct, eventSemiReader);
+    std::vector<MultipletEvent<HOctet44>> events = eventSemiTagger.GetBdt(octets, jets, SubJets, Leptons, global_observables, eventSemiReader);
     if (events.empty()) return 0;
     events.front().SetTag(Tag);
 

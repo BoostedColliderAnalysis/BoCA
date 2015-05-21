@@ -66,37 +66,37 @@ void hheavyhiggs::HSignatureSemiTagger::DefineVariables()
 
 }
 
-hheavyhiggs::HOctetBranch hheavyhiggs::HSignatureSemiTagger::GetBranch(const HOctet &Octet) const
+hheavyhiggs::HOctetBranch hheavyhiggs::HSignatureSemiTagger::GetBranch(const Octet62 &octet) const
 {
-    Print(kInformation, "FillPairTagger", Octet.Bdt());
+    Print(kInformation, "FillPairTagger", octet.Bdt());
 
     HOctetBranch eventSemiBranch;
 
-    eventSemiBranch.Mass = Octet.Jet().m();
-    eventSemiBranch.Rap = Octet.Jet().rap();
-    eventSemiBranch.Phi = Octet.Jet().phi();
-    eventSemiBranch.Pt = Octet.Jet().pt();
-    eventSemiBranch.Ht = Octet.Ht();
+    eventSemiBranch.Mass = octet.Jet().m();
+    eventSemiBranch.Rap = octet.Jet().rap();
+    eventSemiBranch.Phi = octet.Jet().phi();
+    eventSemiBranch.Pt = octet.Jet().pt();
+    eventSemiBranch.Ht = octet.Ht();
 
-    eventSemiBranch.DeltaPt = Octet.DeltaPt();
-    eventSemiBranch.DeltaHt = Octet.DeltaHt();
-    eventSemiBranch.DeltaM = Octet.DeltaM();
-    eventSemiBranch.DeltaRap = Octet.DeltaRap();
-    eventSemiBranch.DeltaPhi = Octet.DeltaPhi();
-    eventSemiBranch.DeltaR = Octet.DeltaR();
+    eventSemiBranch.DeltaPt = octet.DeltaPt();
+    eventSemiBranch.DeltaHt = octet.DeltaHt();
+    eventSemiBranch.DeltaM = octet.DeltaM();
+    eventSemiBranch.DeltaRap = octet.DeltaRap();
+    eventSemiBranch.DeltaPhi = octet.DeltaPhi();
+    eventSemiBranch.DeltaR = octet.DeltaR();
 
-    eventSemiBranch.Bdt = Octet.Bdt();
-    eventSemiBranch.Tag = Octet.Tag();
-    eventSemiBranch.BottomBdt = Octet.BottomBdt();
-    eventSemiBranch.PairBottomBdt = Octet.PairBottomBdt();
-    eventSemiBranch.PairBdt = Octet.doublet().Bdt();
-    eventSemiBranch.HiggsBdt = Octet.sextet().Bdt();
-    eventSemiBranch.HardTopPt = Octet.sextet().HardTopPt();
-    eventSemiBranch.SoftTopPt = Octet.sextet().SoftTopPt();
+    eventSemiBranch.Bdt = octet.Bdt();
+    eventSemiBranch.Tag = octet.Tag();
+    eventSemiBranch.BottomBdt = octet.BottomBdt();
+    eventSemiBranch.PairBottomBdt = octet.PairBottomBdt();
+    eventSemiBranch.PairBdt = octet.doublet().Bdt();
+    eventSemiBranch.HiggsBdt = octet.sextet().Bdt();
+    eventSemiBranch.HardTopPt = octet.sextet().HardTopPt();
+    eventSemiBranch.SoftTopPt = octet.sextet().SoftTopPt();
 
 
-    eventSemiBranch.HiggsMass = Octet.sextet().Jet().m();
-    eventSemiBranch.PairRap = Octet.doublet().DeltaRap();
+    eventSemiBranch.HiggsMass = octet.sextet().Jet().m();
+    eventSemiBranch.PairRap = octet.doublet().DeltaRap();
 
 
     return eventSemiBranch;
@@ -153,7 +153,7 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
     }
     if (Tag == kBackground) Finaldoublets = doublets;
 
-    std::vector<HOctet> Octets;
+    std::vector<Octet62> octets;
     for (const auto & doublet : Finaldoublets) {
         for (const auto & sextet : sextets) {
             if (Tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
@@ -170,37 +170,37 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
             if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            HOctet Octet(sextet, doublet);
-            Octet.SetTag(Tag);
-            Octets.emplace_back(Octet);
+            Octet62 octet(sextet, doublet);
+            octet.SetTag(Tag);
+            octets.emplace_back(octet);
         }
     }
-    if (Octets.empty())Print(kInformation, "No Octets", Octets.size());
+    if (octets.empty())Print(kInformation, "No octets", octets.size());
 
-    if (Tag == kSignal && Octets.size() > 1) {
-        Print(kInformation, "more than one event", Octets.size());
-        std::sort(Octets.begin(), Octets.end());
-        Octets.erase(Octets.begin() + 1, Octets.end());
+    if (Tag == kSignal && octets.size() > 1) {
+        Print(kInformation, "more than one event", octets.size());
+        std::sort(octets.begin(), octets.end());
+        octets.erase(octets.begin() + 1, octets.end());
     }
 
-    std::vector<hheavyhiggs::HOctetBranch> OctetBranches;
-    for (const auto & Octet : Octets) OctetBranches.emplace_back(GetBranch(Octet));
-//     if (OctetBranches.empty())Print(kError, "No OctetBranches", OctetBranches.size());
-    return OctetBranches;
+    std::vector<hheavyhiggs::HOctetBranch> octetBranches;
+    for (const auto & octet : octets) octetBranches.emplace_back(GetBranch(octet));
+//     if (octetBranches.empty())Print(kError, "No octetBranches", octetBranches.size());
+    return octetBranches;
 }
 
 
-analysis::Object::Tag hheavyhiggs::HSignatureSemiTagger::GetTag(const HOctet &)
+analysis::Object::Tag hheavyhiggs::HSignatureSemiTagger::GetTag(const Octet62 &)
 {
     Print(kInformation, "Get sextet Tag");
     return kSignal;
 }
 
-std::vector<HOctet> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader)
+std::vector<Octet62> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Get event Tags");
 
-    std::vector<HOctet> Octets;
+    std::vector<Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
             if (sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
@@ -215,17 +215,17 @@ std::vector<HOctet> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector<
             if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            HOctet Octet(sextet, doublet);
-            Branch = GetBranch(Octet);
-            Octet.SetBdt(Reader.Bdt());
-            Octets.emplace_back(Octet);
+            Octet62 octet(sextet, doublet);
+            Branch = GetBranch(octet);
+            octet.SetBdt(Reader.Bdt());
+            octets.emplace_back(octet);
         }
     }
 
-    if (Octets.size() > 1) std::sort(Octets.begin(), Octets.end());
-    Octets.erase(Octets.begin() + std::min(max_combi(), int(Octets.size())), Octets.end());
-    Print(kInformation, "event Number", Octets.size());
+    if (octets.size() > 1) std::sort(octets.begin(), octets.end());
+    octets.erase(octets.begin() + std::min(max_combi(), int(octets.size())), octets.end());
+    Print(kInformation, "event Number", octets.size());
 
 
-    return Octets;
+    return octets;
 }

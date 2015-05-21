@@ -53,7 +53,7 @@ using analysis::Analysis::Analysis;
     }
 
     inline std::string ProjectName() const {
-        return  ProcessName() + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
 
 //     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
@@ -73,7 +73,7 @@ protected:
 private:
 
     enum HProcessType {Htb, ttbb, ttcc, ttjj, tt};
-//     enum HColliderType {LHC, FHC, LE};
+    enum ColliderType {LHC, FHC, LE};
 
     // in GeV
     inline int Mass() const {
@@ -99,7 +99,7 @@ private:
 
     // in GeV
     inline int PreCut() const {
-        switch (ColliderType()) {
+        switch (collider_type()) {
         case LHC :
             switch (Mass()) {
             case 500 :
@@ -152,7 +152,7 @@ private:
 
 
     float MissingEt() {
-        switch (ColliderType()) {
+        switch (collider_type()) {
         case LHC :
             return 30;
         case LE :
@@ -163,7 +163,7 @@ private:
     }
 
     float LeptonPt() {
-        switch (ColliderType()) {
+        switch (collider_type()) {
         case LHC :
             return 50;
         case LE :
@@ -183,7 +183,7 @@ private:
 //         return 100;
     };
 
-    inline HColliderType ColliderType() const {
+    inline ColliderType collider_type() const {
         return LHC;
         //       return FHC;
        // return LE;
@@ -191,7 +191,7 @@ private:
 
 
     inline int BackgroundFileNumber() const {
-        switch (ColliderType()) {
+        switch (collider_type()) {
         case LHC :
             switch (PreCut()) {
             case 0 :
@@ -226,7 +226,7 @@ private:
 
     // in fb
     float SignalCrosssection() const {
-        switch (ColliderType()) {
+        switch (collider_type()) {
         case LHC:
             switch (Mass()) {
             case 500:
@@ -289,7 +289,7 @@ private:
     }
 
     analysis::File BackgroundFile(const HProcessType Background, const int FileSum) const {
-        std::string FileName = ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV";
+        std::string FileName = ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV";
         Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
@@ -298,11 +298,11 @@ private:
     }
 
     std::string BackgroundTree(const HProcessType Background) const {
-        return ProcessName(Background) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV_0-run_01";
+        return ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV_0-run_01";
     }
 
     float BackgroundCrosssection(const HProcessType Process) const {
-        switch (ColliderType()) {
+        switch (collider_type()) {
         case LHC :
             switch (PreCut()) {
             case 0 :
@@ -434,7 +434,7 @@ private:
         }
     }
 
-    std::string ColliderName(const HColliderType Collider) const {
+    std::string ColliderName(const ColliderType Collider) const {
         switch (Collider) {
         case LHC :
             return "14TeV";

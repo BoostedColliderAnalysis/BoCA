@@ -116,7 +116,7 @@ void hheavyhiggs::EventSemiTagger::DefineVariables()
 
 }
 
-hheavyhiggs::EventSemiBranch hheavyhiggs::EventSemiTagger::GetBranch(const EventMultiplet<HOctet> &event) const
+hheavyhiggs::EventSemiBranch hheavyhiggs::EventSemiTagger::GetBranch(const analysis::MultipletEvent<Octet62> &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
 
@@ -142,15 +142,15 @@ hheavyhiggs::EventSemiBranch hheavyhiggs::EventSemiTagger::GetBranch(const Event
     eventSemiBranch.Bdt = event.Bdt();
     eventSemiBranch.Tag = event.Tag();
 
-    eventSemiBranch.HiggsMass = event.Octet().sextet().Jet().m();
-    eventSemiBranch.HiggsBdt = event.Octet().sextet().Bdt();
-    eventSemiBranch.SignatureBdt = event.Octet().Bdt();
-    eventSemiBranch.PairRap = event.Octet().doublet().DeltaRap();
-    eventSemiBranch.BottomBdt = event.Octet().BottomBdt();
-    eventSemiBranch.PairBottomBdt = event.Octet().PairBottomBdt();
+    eventSemiBranch.HiggsMass = event.octet().sextet().Jet().m();
+    eventSemiBranch.HiggsBdt = event.octet().sextet().Bdt();
+    eventSemiBranch.SignatureBdt = event.octet().Bdt();
+    eventSemiBranch.PairRap = event.octet().doublet().DeltaRap();
+    eventSemiBranch.BottomBdt = event.octet().BottomBdt();
+    eventSemiBranch.PairBottomBdt = event.octet().PairBottomBdt();
 
-    eventSemiBranch.HardTopPt = event.Octet().sextet().HardTopPt();
-    eventSemiBranch.SoftTopPt = event.Octet().sextet().SoftTopPt();
+    eventSemiBranch.HardTopPt = event.octet().sextet().HardTopPt();
+    eventSemiBranch.SoftTopPt = event.octet().sextet().SoftTopPt();
 
     eventSemiBranch.MissingEt = event.MissingEt();
 
@@ -250,34 +250,34 @@ std::vector<hheavyhiggs::EventSemiBranch> hheavyhiggs::EventSemiTagger::GetBranc
     if (Tag == kBackground)
         Finaldoublets = doublets;
 
-    std::vector<HOctet> Octets = SignatureSemiTagger.GetBdt(sextets, Finaldoublets, SignatureSemiReader);
+    std::vector<Octet62> octets = SignatureSemiTagger.GetBdt(sextets, Finaldoublets, SignatureSemiReader);
 
 
-    std::vector<EventMultiplet<HOctet>> events;
-    for (const auto & Octet : Octets) {
-        EventMultiplet<HOctet> Octetevent(Octet);
-        EventStruct event_struct;
-        event_struct.LeptonNumber = event.leptons().GetLeptonJets().size();
-        event_struct.JetNumber = event.hadrons().GetJets().size();
-        event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
-        event_struct.ScalarHt = event.hadrons().GetScalarHt();
-        event_struct.MissingEt = event.hadrons().GetMissingEt().pt();
-//         event_struct.TrackNumber = event.hadrons().GetScalarHt();
-        Octetevent.Setevent_struct(event_struct);
-        Octetevent.SetLeptons(Leptons);
-        Octetevent.SetTotalJets(jets);
-        Octetevent.SetSubJets(SubJets);
-        Octetevent.SetTag(Tag);
+    std::vector<analysis::MultipletEvent<Octet62>> events;
+    for (const auto & octet : octets) {
+      analysis::MultipletEvent<Octet62> octetevent(octet);
+      analysis::GlobalObservables global_observables;
+        global_observables.lepton_number = event.leptons().GetLeptonJets().size();
+        global_observables.jet_number = event.hadrons().GetJets().size();
+        global_observables.bottom_number = event.hadrons().GetBottomJets().size();
+        global_observables.scalar_ht = event.hadrons().GetScalarHt();
+        global_observables.missing_et = event.hadrons().GetMissingEt().pt();
+//         global_observables.TrackNumber = event.hadrons().GetScalarHt();
+        octetevent.Setglobal_observables(global_observables);
+        octetevent.SetLeptons(Leptons);
+        octetevent.SetTotalJets(jets);
+        octetevent.SetSubJets(SubJets);
+        octetevent.SetTag(Tag);
         for (const auto & Jet : jets)  {
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            Octetevent.AddRestJet(Jet);
+            if (Jet.delta_R(octetevent.octet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            octetevent.AddRestJet(Jet);
         }
-        events.emplace_back(Octetevent);
+        events.emplace_back(octetevent);
     }
 
     std::vector<hheavyhiggs::EventSemiBranch> eventSemiBranches;
@@ -288,28 +288,28 @@ std::vector<hheavyhiggs::EventSemiBranch> hheavyhiggs::EventSemiTagger::GetBranc
 
 
 
-std::vector<EventMultiplet<HOctet>> hheavyhiggs::EventSemiTagger::GetBdt(const std::vector< HOctet > &Octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, EventStruct &event_struct, const analysis::Reader &eventSemiReader)
+std::vector<analysis::MultipletEvent<Octet62>> hheavyhiggs::EventSemiTagger::GetBdt(const std::vector< Octet62 > &octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader)
 {
-    Print(kInformation, "Get event Tags", Octets.size());
+    Print(kInformation, "Get event Tags", octets.size());
 
-    std::vector<EventMultiplet<HOctet>> events;
-    for (const auto & Octet : Octets) {
-        EventMultiplet<HOctet> Octetevent(Octet, event_struct);
+    std::vector<analysis::MultipletEvent<Octet62>> events;
+    for (const auto & octet : octets) {
+      analysis::MultipletEvent<Octet62> octetevent(octet, global_observables);
         for (const auto & Jet : jets)  {
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(Octetevent.Octet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            Octetevent.AddRestJet(Jet);
+            if (Jet.delta_R(octetevent.octet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.octet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            octetevent.AddRestJet(Jet);
         }
-        Octetevent.SetLeptons(Leptons);
-        Octetevent.SetTotalJets(jets);
-        Octetevent.SetSubJets(SubJets);
-        Branch = GetBranch(Octetevent);
-        Octetevent.SetBdt(eventSemiReader.Bdt());
-        events.emplace_back(Octetevent);
+        octetevent.SetLeptons(Leptons);
+        octetevent.SetTotalJets(jets);
+        octetevent.SetSubJets(SubJets);
+        Branch = GetBranch(octetevent);
+        octetevent.SetBdt(eventSemiReader.Bdt());
+        events.emplace_back(octetevent);
     }
 
 
