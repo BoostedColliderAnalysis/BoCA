@@ -3,7 +3,7 @@
 
 # include "HBranchHeavyHiggs.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
-# include "HOctet.hh"
+# include "Octet62.hh"
 
 /**
  *
@@ -31,7 +31,7 @@ public:
 
     std::vector<hheavyhiggs::EventHadronicBranch *> GetBranches(analysis::Event &event, const Object::Tag Tag);
 
-    void FillBranch(const HOctet &Octet);
+    void FillBranch(const Octet62 &octet);
 
 protected:
 
@@ -46,7 +46,7 @@ protected:
 
 private:
 
-    void FillBranch(hheavyhiggs::EventHadronicBranch *eventHadronicBranch, const HOctet &Octet);
+    void FillBranch(hheavyhiggs::EventHadronicBranch *eventHadronicBranch, const Octet62 &octet);
 
     void DefineVariables();
 

@@ -85,7 +85,7 @@ std::vector<analysis::File> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
     std::vector<analysis::File> BackgroundSemiFiles;
 
 
-    std::string SignalName = ProcessName(H0) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV";
+    std::string SignalName = ProcessName(H0) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV";
     SignalSemiFiles.emplace_back(analysis::File(SignalName, SignalCrosssection(), Mass()));
     BackgroundSemiFiles.emplace_back(BackgroundFile(tt));
 
@@ -234,7 +234,7 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
     Strings BackgroundLeptonicTrees {
     };
 
-    std::string SignalTree = ProcessName(H0) + "-" + ColliderName(ColliderType()) + "-" + std::to_string(Mass()) + "GeV-run_01";
+    std::string SignalTree = ProcessName(H0) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
     Strings SignalSemiTrees {
         SignalTree
@@ -862,13 +862,13 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //     std::vector<analysis::Hsextet> sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 //
-//     EventStruct event_struct;
-//     event_struct.LeptonNumber = Leptons.size();
-//     event_struct.JetNumber = jets.size();
-//     event_struct.BottomNumber = event.hadrons().GetBottomJets().size();
-//     event_struct.ScalarHt = event.hadrons().GetScalarHt();
+//     EventStruct global_observables;
+//     global_observables.LeptonNumber = Leptons.size();
+//     global_observables.JetNumber = jets.size();
+//     global_observables.BottomNumber = event.hadrons().GetBottomJets().size();
+//     global_observables.ScalarHt = event.hadrons().GetScalarHt();
 //
-//     std::vector<Hsextet_event> sextet_event = eventSemiTagger.GetBdt(sextets, jets, Leptons, event_struct, eventSemiReader);
+//     std::vector<Hsextet_event> sextet_event = eventSemiTagger.GetBdt(sextets, jets, Leptons, global_observables, eventSemiReader);
 //     if (sextet_event.empty()) return 0;
 //     sextet_event.front().SetTag(Tag);
 //     *static_cast<EventTtSemiBranch *>(Branch->NewEntry()) = eventSemiTagger.GetBranch(sextet_event.front());

@@ -24,7 +24,7 @@ public:
     void SetFiles(const analysis::Object::Tag tag);
 
     inline std::string ProjectName() const {
-        return  "TopTagger-" + ColliderName(ColliderType()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
+        return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
@@ -94,7 +94,7 @@ private:
 //         return 10;
     }
 
-    inline Collider ColliderType() const {
+    inline Collider collider_type() const {
         //       return LHC;
         //       return FHC;
         return LE;

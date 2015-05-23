@@ -99,6 +99,9 @@ int bottom::Analysis::UpperCut() const
         return 800;
     case 1000 :
         return 1500;
+    default :
+        Print(kError, "Upper Cut", "No upper cut");
+        return 0;
     }
 }
 
@@ -134,6 +137,8 @@ int bottom::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger
         return tagger_.Train(event, pre_cuts_, tag);
     case analysis::Tagger::kReader :
         return reader_.GetBdt(event, pre_cuts_);
+    default :
+        return 0;
     }
 }
 

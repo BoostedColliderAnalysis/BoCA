@@ -1,12 +1,7 @@
-# set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -pedantic -Wpointer-arith -fPIC -O3")
-
-#  -fno-stack-protector
-
 # set build type to debug
 # set(CMAKE_BUILD_TYPE Debug)
 
-set(CMAKE_INSTALL_PREFIX ~)
+# set(CMAKE_INSTALL_PREFIX ~)
 unset(LinkLibraries CACHE)
 
 

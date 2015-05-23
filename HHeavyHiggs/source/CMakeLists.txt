@@ -15,9 +15,9 @@ HChargedSignatureSemiTagger.cpp
 HSignatureSemiTagger.cpp
 HChargedEventSemiTagger.cpp
 HChargedHadronicTagger.cpp
-HOctet.cpp
-HOctet44.cpp
-HOctet44Event.cpp
+Octet62.cpp
+Octet44.cpp
+MultipletEvent.cpp
 SextetEvent.cpp
 HEventTtSemiTagger.cpp
 )

@@ -3,7 +3,7 @@
 
 # include "BranchHeavyHiggs.hh"
 # include "HChargedHiggsLeptonicTagger.hh"
-# include "HOctet44.hh"
+# include "Octet44.hh"
 # include "Sextet.hh"
 # include "WIMPMASS.h"
 
@@ -35,7 +35,7 @@ public:
 
     std::vector< int > ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
 
-    void FillBranch(const HOctet44 &Octet);
+    void FillBranch(const Octet44 &octet);
 
 protected:
 
@@ -63,13 +63,13 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch, const HOctet44 &Octet);
+    void FillBranch(hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch, const Octet44 &octet);
 
-    std::vector<HOctet44> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
+    std::vector<Octet44> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
 
     std::vector<hheavyhiggs::HOctet44> GetOctets(const analysis::Sextet &sextet, const fastjet::PseudoJet &MissingEt);
 
-    HOctet44 GetOctet(analysis::Sextet sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
+    Octet44 GetOctet(analysis::Sextet sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
 
     analysis::BottomTagger *BottomTagger;
 

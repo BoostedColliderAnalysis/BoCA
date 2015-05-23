@@ -147,5 +147,6 @@ int top::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::S
         return tagger_.Train(event, pre_cuts_, tag);
       case analysis::Tagger::kReader :
         return reader_.GetBdt(event, pre_cuts_);
+      default : return 0;
     }
 }
