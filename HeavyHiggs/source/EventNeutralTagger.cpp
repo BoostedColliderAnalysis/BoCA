@@ -1,18 +1,18 @@
-# include "HEventSemiTagger.hh"
+# include "EventNeutralTagger.hh"
 
-heavyhiggs::EventSemiTagger::EventSemiTagger()
+heavyhiggs::EventNeutralTagger::EventNeutralTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     DefineVariables();
 }
 
-heavyhiggs::EventSemiTagger::~EventSemiTagger()
+heavyhiggs::EventNeutralTagger::~EventNeutralTagger()
 {
     Print(kNotification , "Constructor");
 }
 
-void heavyhiggs::EventSemiTagger::SetTagger(
+void heavyhiggs::EventNeutralTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
     const analysis::HJetPairTagger &NewJetPairTagger,
     const analysis::WSemiTagger &Neww_semi_tagger,
@@ -20,7 +20,7 @@ void heavyhiggs::EventSemiTagger::SetTagger(
     const analysis::TopSemiTagger &Newtop_semi_tagger,
     const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
     const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
-    const HSignatureSemiTagger &NewSignatureSemiTagger)
+    const SignatureNeutralTagger &NewSignatureSemiTagger)
 {
     Print(kNotification , "Constructor");
 
@@ -35,7 +35,7 @@ void heavyhiggs::EventSemiTagger::SetTagger(
     DefineVariables();
 }
 
-void heavyhiggs::EventSemiTagger::DefineVariables()
+void heavyhiggs::EventNeutralTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     set_tagger_name("eventSemi");
@@ -116,7 +116,7 @@ void heavyhiggs::EventSemiTagger::DefineVariables()
 
 }
 
-heavyhiggs::EventSemiBranch heavyhiggs::EventSemiTagger::GetBranch(const analysis::MultipletEvent<Octet62> &event) const
+heavyhiggs::EventSemiBranch heavyhiggs::EventNeutralTagger::GetBranch(const analysis::MultipletEvent<Octet62> &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
 
@@ -142,15 +142,15 @@ heavyhiggs::EventSemiBranch heavyhiggs::EventSemiTagger::GetBranch(const analysi
     eventSemiBranch.Bdt = event.Bdt();
     eventSemiBranch.Tag = event.Tag();
 
-    eventSemiBranch.HiggsMass = event.octet().sextet().Jet().m();
-    eventSemiBranch.HiggsBdt = event.octet().sextet().Bdt();
-    eventSemiBranch.SignatureBdt = event.octet().Bdt();
-    eventSemiBranch.PairRap = event.octet().doublet().DeltaRap();
-    eventSemiBranch.BottomBdt = event.octet().BottomBdt();
-    eventSemiBranch.PairBottomBdt = event.octet().PairBottomBdt();
+    eventSemiBranch.HiggsMass = event.multiplet().sextet().Jet().m();
+    eventSemiBranch.HiggsBdt = event.multiplet().sextet().Bdt();
+    eventSemiBranch.SignatureBdt = event.multiplet().Bdt();
+    eventSemiBranch.PairRap = event.multiplet().doublet().DeltaRap();
+    eventSemiBranch.BottomBdt = event.multiplet().BottomBdt();
+    eventSemiBranch.PairBottomBdt = event.multiplet().PairBottomBdt();
 
-    eventSemiBranch.HardTopPt = event.octet().sextet().HardTopPt();
-    eventSemiBranch.SoftTopPt = event.octet().sextet().SoftTopPt();
+    eventSemiBranch.HardTopPt = event.multiplet().sextet().HardTopPt();
+    eventSemiBranch.SoftTopPt = event.multiplet().sextet().SoftTopPt();
 
     eventSemiBranch.MissingEt = event.MissingEt();
 
@@ -202,7 +202,7 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<heavyhiggs::EventSemiBranch> heavyhiggs::EventSemiTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::EventSemiBranch> heavyhiggs::EventNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -269,12 +269,12 @@ std::vector<heavyhiggs::EventSemiBranch> heavyhiggs::EventSemiTagger::GetBranche
         octetevent.SetSubJets(SubJets);
         octetevent.SetTag(Tag);
         for (const auto & Jet : jets)  {
-            if (Jet.delta_R(octetevent.octet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             octetevent.AddRestJet(Jet);
         }
         events.emplace_back(octetevent);
@@ -288,7 +288,7 @@ std::vector<heavyhiggs::EventSemiBranch> heavyhiggs::EventSemiTagger::GetBranche
 
 
 
-std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventSemiTagger::GetBdt(const std::vector< Octet62 > &octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader)
+std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::GetBdt(const std::vector< Octet62 > &octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader)
 {
     Print(kInformation, "Get event Tags", octets.size());
 
@@ -296,12 +296,12 @@ std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventSemiTagger::GetB
     for (const auto & octet : octets) {
       analysis::MultipletEvent<Octet62> octetevent(octet, global_observables);
         for (const auto & Jet : jets)  {
-            if (Jet.delta_R(octetevent.octet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(octetevent.octet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(octetevent.multiplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             octetevent.AddRestJet(Jet);
         }
         octetevent.SetLeptons(Leptons);
@@ -321,7 +321,7 @@ std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventSemiTagger::GetB
     return events;
 }
 
-float heavyhiggs::EventSemiTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry)
+float heavyhiggs::EventNeutralTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry)
 {
     return ((EventSemiBranch *) eventClonesArray.At(Entry))->Bdt;
 }

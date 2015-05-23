@@ -14,7 +14,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class HChargedSignatureSemiTagger : public analysis::Tagger
+class SignatureChargedTagger : public analysis::Tagger
 {
 
 public:
@@ -23,7 +23,7 @@ public:
     * @brief Constructor
     *
     */
-    HChargedSignatureSemiTagger();
+    SignatureChargedTagger();
 
     void SetTagger(
       const analysis::BottomTagger &NewBottomTagger,
@@ -66,11 +66,11 @@ public:
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
+        return "heavyhiggs";
     }
 
     virtual inline std::string ClassName() const {
-        return "HChargedSignatureSemiTagger";
+        return "SignatureChargedTagger";
     }
 
 private:

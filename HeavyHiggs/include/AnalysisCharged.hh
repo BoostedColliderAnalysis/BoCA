@@ -8,7 +8,7 @@
 # include "Factory.hh"
 # include "JetTag.hh"
 
-# include "HChargedEventSemiTagger.hh"
+# include "EventChargedTagger.hh"
 
 namespace heavyhiggs
 {
@@ -20,7 +20,7 @@ namespace heavyhiggs
  * @author Jan Hajer
  *
  */
-class HAnalysisCharged : public analysis::Analysis
+class AnalysisCharged : public analysis::Analysis
 {
 
 public:
@@ -29,7 +29,7 @@ public:
      * @brief Constructor
      *
      */
-//     HAnalysisCharged();
+//     AnalysisCharged();
 
 using analysis::Analysis::Analysis;
 
@@ -43,8 +43,8 @@ using analysis::Analysis::Analysis;
     analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
     analysis::HChargedJetPairTagger JetPairTagger;
 
-    HChargedSignatureSemiTagger SignatureSemiTagger;
-    HChargedeventSemiTagger eventSemiTagger;
+    SignatureChargedTagger SignatureSemiTagger;
+    EventChargedTagger eventSemiTagger;
 
     std::vector< analysis::File > Files(const analysis::Object::Tag tag);
 
@@ -63,11 +63,7 @@ using analysis::Analysis::Analysis;
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "HAnalysis";
+        return "heavyhiggs";
     }
 
 private:

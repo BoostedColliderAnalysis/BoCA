@@ -3,7 +3,7 @@
 # include "Branch.hh"
 # include "Octet62.hh"
 # include "MultipletEvent.hh"
-# include "HSignatureSemiTagger.hh"
+# include "SignatureNeutralTagger.hh"
 
 namespace heavyhiggs {
 
@@ -12,7 +12,7 @@ namespace heavyhiggs {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventSemiTagger : public analysis::Tagger
+class EventNeutralTagger : public analysis::Tagger
 {
 
 public:
@@ -21,13 +21,13 @@ public:
     * @brief Constructor
     *
     */
-    EventSemiTagger();
+    EventNeutralTagger();
 
     /**
     * @brief Destructor
     *
     */
-    ~EventSemiTagger();
+    ~EventNeutralTagger();
 
     void SetTagger(
         const analysis::BottomTagger &NewBottomTagger,
@@ -37,7 +37,7 @@ public:
         const analysis::TopSemiTagger &Newtop_semi_tagger,
         const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
-        const HSignatureSemiTagger &NewSignatureSemiTagger);
+        const SignatureNeutralTagger &NewSignatureSemiTagger);
 
     std::vector<EventSemiBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
@@ -56,7 +56,7 @@ public:
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
     analysis::HJetPairTagger JetPairTagger;
-    HSignatureSemiTagger SignatureSemiTagger;
+    SignatureNeutralTagger SignatureSemiTagger;
 
     analysis::Reader BottomReader;
     analysis::Reader WSemiReader;
@@ -71,11 +71,11 @@ public:
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
+        return "heavyhiggs";
     }
 
     virtual inline std::string ClassName() const {
-        return "HEventSemiTagger";
+        return "EventNeutralTagger";
     }
 
 private:

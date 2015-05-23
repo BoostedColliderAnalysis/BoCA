@@ -3,7 +3,7 @@
 # include "Branch.hh"
 # include "HHeavyHiggsSemiTagger.hh"
 # include "HJetPairTagger.hh"
-# include "Octet62.hh"
+# include "MultipletEvent.hh"
 
 namespace heavyhiggs {
 
@@ -12,7 +12,7 @@ namespace heavyhiggs {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class HSignatureSemiTagger : public analysis::Tagger
+class EventFusionTagger : public analysis::Tagger
 {
 
 public:
@@ -21,23 +21,23 @@ public:
     * @brief Constructor
     *
     */
-    HSignatureSemiTagger();
+    EventFusionTagger();
 
     void SetTagger(
         const analysis::BottomTagger &NewBottomTagger,
-        const analysis::HJetPairTagger &NewJetPairTagger,
         const analysis::WSemiTagger &Neww_semi_tagger,
         const analysis::WHadronicTagger &NewWTagger,
         const analysis::TopSemiTagger &Newtop_semi_tagger,
         const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
-    std::vector<HOctetBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector< EventTtSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< Octet62 > GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader);
+    std::vector< analysis::MultipletEvent<analysis::Sextet> > GetBdt(const std::vector< analysis::Sextet > &sextets, Jets &jets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader);
 
+    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
-    HOctetBranch GetBranch(const Octet62 &octet) const;
+    EventTtSemiBranch GetBranch(const analysis::MultipletEvent<analysis::Sextet> &event) const;
 
     analysis::BottomTagger bottom_tagger_;
     analysis::WSemiTagger w_semi_tagger;
@@ -45,7 +45,6 @@ public:
     analysis::TopSemiTagger top_semi_tagger;
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
-    analysis::HJetPairTagger JetPairTagger;
 
     analysis::Reader BottomReader;
     analysis::Reader WSemiReader;
@@ -53,28 +52,25 @@ public:
     analysis::Reader TopHadronicReader;
     analysis::Reader TopSemiReader;
     analysis::Reader HeavyHiggsSemiReader;
-    analysis::Reader JetPairReader;
-
 
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
+        return "heavyhiggs";
     }
 
     virtual inline std::string ClassName() const {
-        return "HSignatureSemiTagger";
+        return "EventFusionTagger";
     }
 
 private:
 
-    Tag GetTag(const Octet62 &);
-
     void DefineVariables();
 
-    std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
+    std::vector<analysis::MultipletEvent<analysis::Sextet>> GetHeavyHiggsevents(Jets &jets);
 
-    HOctetBranch Branch;
+    EventTtSemiBranch Branch;
+
     analysis::JetTag jet_tag;
 
 };

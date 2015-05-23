@@ -1,13 +1,13 @@
-# include "HChargedSignatureSemiTagger.hh"
+# include "SignatureChargedTagger.hh"
 
-heavyhiggs::HChargedSignatureSemiTagger::HChargedSignatureSemiTagger()
+heavyhiggs::SignatureChargedTagger::SignatureChargedTagger()
 {
 //       DebugLevel = kDetailed;
     Print(kInformation , "Constructor");
     DefineVariables();
 }
 
-void heavyhiggs::HChargedSignatureSemiTagger::SetTagger(
+void heavyhiggs::SignatureChargedTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
     const analysis::HChargedJetPairTagger &NewChargedJetPairTagger,
     const analysis::WSemiTagger &Neww_semi_tagger,
@@ -26,7 +26,7 @@ void heavyhiggs::HChargedSignatureSemiTagger::SetTagger(
     DefineVariables();
 }
 
-void heavyhiggs::HChargedSignatureSemiTagger::DefineVariables()
+void heavyhiggs::SignatureChargedTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     set_tagger_name("ChargedSignatureSemi");
@@ -60,7 +60,7 @@ void heavyhiggs::HChargedSignatureSemiTagger::DefineVariables()
 
 }
 
-heavyhiggs::HChargedOctetBranch heavyhiggs::HChargedSignatureSemiTagger::GetBranch(const Octet44 &octet) const
+heavyhiggs::HChargedOctetBranch heavyhiggs::SignatureChargedTagger::GetBranch(const Octet44 &octet) const
 {
     Print(kInformation, "branch", octet.Bdt());
 
@@ -92,7 +92,7 @@ heavyhiggs::HChargedOctetBranch heavyhiggs::HChargedSignatureSemiTagger::GetBran
     return eventSemiBranch;
 }
 
-std::vector<heavyhiggs::HChargedOctetBranch> heavyhiggs::HChargedSignatureSemiTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
+std::vector<heavyhiggs::HChargedOctetBranch> heavyhiggs::SignatureChargedTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -191,7 +191,7 @@ std::vector<heavyhiggs::HChargedOctetBranch> heavyhiggs::HChargedSignatureSemiTa
 }
 
 
-std::vector<Octet44> heavyhiggs::HChargedSignatureSemiTagger::GetBdt(
+std::vector<Octet44> heavyhiggs::SignatureChargedTagger::GetBdt(
     const std::vector< analysis::Quartet31 > &Higgsquartets, const std::vector< analysis::Quartet31 > &Jetquartets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Bdt");

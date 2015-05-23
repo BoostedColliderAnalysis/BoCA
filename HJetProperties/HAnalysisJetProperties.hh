@@ -43,12 +43,6 @@ public:
      */
     HAnalysis();
 
-    /**
-     * @brief Constructor
-     *
-     */
-    ~HAnalysis();
-
     inline int GeteventnumberMax()const {
         return 10000;
     };
@@ -132,7 +126,7 @@ private:
 
     analysis::JetTag jet_tag;
 
-    analysis::HSubStructure *SubStructure;
+    analysis::HSubStructure SubStructure;
 
 
     bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const Jets &, const float DeltaR);

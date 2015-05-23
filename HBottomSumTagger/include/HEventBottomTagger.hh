@@ -88,7 +88,7 @@ public:
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
+        return "heavyhiggs";
     }
 
     virtual inline std::string ClassName() const {

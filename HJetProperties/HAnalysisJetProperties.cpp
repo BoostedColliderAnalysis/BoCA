@@ -15,17 +15,6 @@
 // }
 
 
-hjetproperties::HAnalysis::~HAnalysis()
-{
-
-    Print(kNotification, "Destructor");
-
-    //delete jet_tag;
-
-    delete SubStructure;
-
-}
-
 Strings hjetproperties::HAnalysis::GetStudyNames() const
 {
 
@@ -379,34 +368,34 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
 
         }
 
-        SubStructure->NewEvent();
-        if (!SubStructure->GetSubJets(CandidateJet)) return 0;
+        SubStructure.NewEvent();
+        if (!SubStructure.GetSubJets(CandidateJet)) return 0;
 
-        Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
-        Candidate->Asymmetry = SubStructure->GetAsymmetry();
-        Candidate->DiPolarity = SubStructure->GetDiPolarity(CandidateJet);
+        Candidate->SubJetsDeltaR = SubStructure.GetSubJetsDeltaR();
+        Candidate->Asymmetry = SubStructure.GetAsymmetry();
+        Candidate->DiPolarity = SubStructure.GetDiPolarity(CandidateJet);
 
-        Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
-        Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
-        Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
+        Candidate->SubJet1Mass = SubStructure.GetSubJet1Mass();
+        Candidate->SubJet1Pt = SubStructure.GetSubJet1Pt();
+        Candidate->SubJet1DeltaR = SubStructure.GetSubJet1DeltaR();
 
-        Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
-        Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
-        Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
+        Candidate->SubJet2Mass = SubStructure.GetSubJet2Mass();
+        Candidate->SubJet2Pt = SubStructure.GetSubJet2Pt();
+        Candidate->SubJet2DeltaR = SubStructure.GetSubJet2DeltaR();
 
-        if (!SubStructure->GetIsolation(CandidateJet, LeptonJets)) return 0;
+        if (!SubStructure.GetIsolation(CandidateJet, LeptonJets)) return 0;
 
-        Candidate->IsolationRap = SubStructure->GetIsolationRap();
-        Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
-        Candidate->IsolationPt = SubStructure->GetIsolationPt();
-        Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
-        Candidate->IsolationAngle = SubStructure->GetIsolationAngle();
+        Candidate->IsolationRap = SubStructure.GetIsolationRap();
+        Candidate->IsolationPhi = SubStructure.GetIsolationPhi();
+        Candidate->IsolationPt = SubStructure.GetIsolationPt();
+        Candidate->IsolationDeltaR = SubStructure.GetIsolationDeltaR();
+        Candidate->IsolationAngle = SubStructure.GetIsolationAngle();
 
         Print(kDebug, "Isolation", Candidate->IsolationDeltaR);
 
-//         if (!SubStructure->Getconstituents(CandidateJet, constituentTreeBranch)) return 0;
+//         if (!SubStructure.Getconstituents(CandidateJet, constituentTreeBranch)) return 0;
 
-        Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
+        Vectors constituentVectors = SubStructure.Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
           analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentTreeBranch->NewEntry());
@@ -415,10 +404,10 @@ bool hjetproperties::HAnalysis::FillTree(ExRootTreeBranch *const TreeBranch, ExR
           constituent->Pt = constituentVector.Pt();
         }
 
-        Candidate->ConstRap = SubStructure->GetconstituentRap();
-        Candidate->ConstPhi = SubStructure->GetconstituentPhi();
-        Candidate->ConstDeltaR = SubStructure->GetconstituentDeltaR();
-        Candidate->ConstAngle = SubStructure->GetconstituentAngle();
+        Candidate->ConstRap = SubStructure.GetconstituentRap();
+        Candidate->ConstPhi = SubStructure.GetconstituentPhi();
+        Candidate->ConstDeltaR = SubStructure.GetconstituentDeltaR();
+        Candidate->ConstAngle = SubStructure.GetconstituentAngle();
 
         Print(kDebug, "Pull", Candidate->ConstDeltaR);
 

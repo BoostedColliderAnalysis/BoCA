@@ -1,10 +1,15 @@
 # pragma once
 
-# include "Analysis.hh"
-# include "HEventSemiTagger.hh"
+#include <sys/stat.h>
 
-namespace heavyhiggs
-{
+# include "File.hh"
+# include "Analysis.hh"
+# include "Reader.hh"
+# include "Factory.hh"
+# include "JetTag.hh"
+# include "EventFusionTagger.hh"
+
+namespace heavyhiggs {
 
 /**
  *
@@ -13,151 +18,252 @@ namespace heavyhiggs
  * @author Jan Hajer
  *
  */
-class HAnalysisMva : public analysis::Analysis
+class AnalysisFusion : public analysis::Analysis
 {
 
 public:
-
-  using analysis::Analysis::Analysis;
 
     /**
      * @brief Constructor
      *
      */
-//     HAnalysisMva();
+//     AnalysisFusion();
 
-//     analysis::BottomTagger bottom_tagger_;
-//     analysis::HJetPairTagger JetPairTagger;
-//     analysis::HWSemiTagger w_semi_tagger;
-//     analysis::HWTagger w_hadronic_tagger;
-//
-// //     analysis::HTopLeptonicTagger TopLeptonicTagger;
-//     analysis::TopHadronicTagger top_hadronic_tagger;
-//     analysis::HTopSemiTagger top_semi_tagger;
-//
-// //     analysis::HHeavyHiggsLeptonicTagger HeavyHiggsLeptonicTagger;
-// //     analysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
-//     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
-//
-// //     EventLeptonicTagger eventLeptonicTagger;
-// //     EventHadronicTagger eventHadronicTagger;
-//
-//     HSignatureSemiTagger SignatureSemiTagger;
-//     EventSemiTagger eventSemiTagger;
+using analysis::Analysis::Analysis;
 
-//     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
+    analysis::BottomTagger bottom_tagger_;
+    analysis::WSemiTagger w_semi_tagger;
+    analysis::WHadronicTagger w_hadronic_tagger;
+
+    analysis::TopHadronicTagger top_hadronic_tagger;
+    analysis::TopSemiTagger top_semi_tagger;
+
+    analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+
+    EventFusionTagger eventSemiTagger;
+
+
+    std::vector<analysis::File> Files(const analysis::Object::Tag Tag);
+
+    inline std::string ProcessName() const {
+        return "Fusion";
+    }
+
+    inline std::string ProjectName() const {
+        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+    }
+
+
+//     std::string StudyName(const analysis::HAnalysis::Tagger Tagger) const;
 
 //     void PrepareReader(const analysis::HAnalysis::HTagger Tagger, const analysis::HAnalysis::Tag Tag);
 
     void SetTrees();
 
-    std::vector<analysis::File> Files(const analysis::Object::Tag tag);
+protected:
 
-    inline std::string ProjectName() const {
-//        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+    virtual inline std::string NameSpaceName() const {
+        return "heavyhiggs";
     }
 
-    inline std::string ProcessName() const {
-        return "Neutral";
-    }
+private:
+
+    enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt, H0};
+    enum ColliderType {LHC, FHC, LE};
 
     // in GeV
     inline int Mass() const {
-        //     return 300;
+        //     return 0;
         //     return 400;
-//         return 500;
+             return 500;
         //     return 600;
-        //     return 700;
-//             return 800;
-        //     return 900;
-//         return 1000;
-         return 2000;
-//            return 3000;
+//            return 800;
+//           return 1000;
+//         return 2000;
+//                 return 3000;
 //         return 4000;
-//                 return 5000;
-//                return 6000;
-//             return 7000;
-//         return 8000;
-//             return 9000;
-//                 return 10000;
+//                return 5000;
+//         return 6000;
+        //     return 7000;
+//             return 8000;
+        //     return 9000;
+//        return 10000;
 //                 return 12000;
 //                 return 15000;
-//                return 20000;
+//                 return 20000;
     }
 
     // in GeV
     inline int PreCut() const {
-      switch (collider_type()) {
+        switch (collider_type()) {
         case LHC :
-          switch (Mass()) {
+            switch (Mass()) {
             case 500 :
-              return 0;
+                return 0;
             case 1000 :
-              return 250;
+                return 250;
             case 2000 :
-              return 250;
+                return 250;
             case 3000 :
-              return 250;
+                return 250;
             default :
-              return 0;
-          }
-            case LE :
-              switch (Mass()) {
-                case 500 :
-                  return 0;
-                case 1000 :
-                  return 300;
-                case 2000 :
-                  return 300;
-                case 4000 :
-                  return 1500;
-                case 6000 :
-                  return 2500;
-                case 10000 :
-                  return 2500;
-                case 15000 :
-                  return 2500;
-                case 20000 :
-                  return 2500;
-                default :
-                  return 0;
-              }
-                default :
-                  return 0;
-      }
-//         return 0;
+                return 0;
+            }
+        case LE :
+            switch (Mass()) {
+            case 500 :
+                return 0;
+            case 1000 :
+                return 300;
+            case 2000 :
+                return 300;
+            case 4000 :
+                return 1500;
+            case 6000 :
+                return 2500;
+            case 10000 :
+                return 2500;
+            case 15000 :
+                return 2500;
+            case 20000 :
+                return 2500;
+            default :
+                return 0;
+            }
+        default :
+            return 0;
+        }
+//            return 0;
         //     return 30;
         //     return 80;
+        //         return 150;
 // return 100;
-        //     return 150;
 //         return 250;
-//              return 300;
-//            return 1000;
+//          return 300;
+//        return 1000;
 //         return 1500;
-//        return 2000;
-//         return 2500;
+//         return 2000;
+//             return 2500;
     }
 
     inline int EventNumberMax() const {
-//            return 10000000;
-//                   return 1000000;
+//                 return 1000000;
 //         return 100000;
         return 10000;
-//                 return 1000;
-//                         return 500;
-//                         return 10;
+        //         return 1000;
+//                 return 100;
     };
 
-
-
-    enum ColliderType {LHC, FHC, LE};
-
-
     inline ColliderType collider_type() const {
-         return LHC;
-//       return FHC;
-//        return LE;
+//         return LHC;
+        //       return FHC;
+        return LE;
+    }
+
+    inline int BackgroundFileNumber() const {
+        switch (collider_type()) {
+        case LHC :
+            switch (PreCut()) {
+            case  0 :
+                return 79;
+                //                 return 1; // < this must be removed !!
+            case  250 :
+                return 41;
+            }
+        case LE :
+            switch (PreCut()) {
+            case  0 :
+//                   return 98;
+                return 1; // < this must be removed !!
+            case  100 :
+                return 15;
+            case  250 :
+                return 15;
+            case  300 :
+//                   return 110;
+                return 1; // < this must be removed !!
+            case  1000 :
+                return 32;
+            case  1500 :
+//                   return 34;
+                return 1; // < this must be removed !!
+            case  2000 :
+                return 26;
+            case  2500 :
+//                   return 11;
+                return 1; // < this must be removed !!
+            }
+        default :
+            return 1;
+        }
+    }
+
+
+    // in fb
+    float SignalCrosssection() const {
+        switch (collider_type()) {
+        case LHC:
+            switch (Mass()) {
+            case 400 :
+                return 1463.1219866990498;
+            case 500:
+                return 512.5992335098167;
+            case 1000:
+                return 10.942712198242141;
+            case 2000:
+                return 0.10283305582403454;
+            case 3000:
+                return 0.003583086718061121;
+            case 4000:
+                return 0.00020344209136808554;
+            default:
+                Print(kError, "Signal Crosssection", "unhandled case");
+                return 1;
+            } ;
+        case FHC:
+        case LE:
+            switch (Mass()) {
+                // tan beta = 2
+            case 400 :
+                return 48385.16604388162;
+            case 500 :
+                return 21753.261647408788;
+            case 700 :
+                return 5388.806849750459;
+            case 800:
+                return 2987.6531326979493;
+            case 1000:
+                return 1062.9847850641604;
+            case 1500:
+                return 148.78718745483314;
+            case 2000:
+                return 33.76298845204924;
+            case 3000:
+                return 3.715444262833449;
+            case 4000:
+                return 0.7052693313851425;
+            case 5000:
+                return 0.1841745400744028;
+            case 6000:
+                return 0.058156868371520024;
+            case 8000:
+                return 0.008651760976852958;
+            case 10000:
+                return 0.0018198636858628185;
+            case 12000:
+                return 0.0004674423191995998;
+            case 15000:
+                return 0.000046; //<this is just wrong get the right numbers
+            case 20000:
+                return 0.0000046; //<this is just wrong get the right numbers
+            default:
+                Print(kError,  "Signal Crosssection", "unhandled case");
+                return 1;
+            }
+        default:
+            Print(kError,  "Signal Crosssection", "unhandled case");
+            return 1;
+        }
     }
 
     float MissingEt() {
@@ -179,117 +285,6 @@ public:
             return 100;
         default :
             return 0;
-        }
-    }
-
-
-    inline int BackgroundFileNumber() const {
-        switch (collider_type()) {
-        case LHC :
-            switch (PreCut()) {
-            case  0 :
-                return 127;
-            case  250 :
-                return 41;
-                //                 return 1; // < this must be removed !!
-            default :
-                return 1;
-            }
-        case LE :
-            switch (PreCut()) {
-            case  0 :
-                return 118;
-//                 return 1; // < this must be removed !!
-            case  100 :
-                return 15;
-            case  250 :
-                return 15;
-            case  300 :
-                return 110;
-//                 return 1; // < this must be removed !!
-            case  1000 :
-                return 32;
-            case  1500 :
-                return 34;
-            case  2000 :
-                return 26;
-            case  2500 :
-                return 11;
-            default :
-                return 1;
-            }
-            default :
-              return 1;
-        }
-    }
-
-protected:
-
-    virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "HAnalysis";
-    }
-
-private:
-
-    enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt};
-
-    // in fb
-    float SignalCrosssection() const {
-        switch (collider_type()) {
-        case LHC:
-            switch (Mass()) {
-            case 500:
-                return 25.528929726502543;
-            case 1000:
-                return 1.2783507034600217;
-            case 2000:
-                return 0.021907574118663196;
-            default:
-                Print(kError, "Signal Crosssection", "unhandled case");
-                return 1;
-            } ;
-        case FHC:
-        case LE:
-            switch (Mass()) {
-              case 500:
-                return 973.5805772514352;
-              case 1000:
-                return 123.02005671222373;
-              case 1500:
-                return 28.624904980998327;
-              case 2000:
-                return 9.485582085140349;
-              case 3000:
-                return 1.7540841248835577;
-              case 4000:
-                return 0.4851939478031553;
-              case 5000:
-                return 0.16696738296715652;
-              case 6000:
-                return 0.06731697180862359;
-              case 7000:
-                return 0.029372932414373627;
-              case 8000:
-                return 0.014255221936825225;
-              case 10000:
-                return 0.0038428602375120795;
-              case 12000:
-                return 0.0012219523755405267;
-              case 15000:
-                return 0.00026507004708327343;
-              case 20000:
-                return 0.000028218388829563033;
-            default:
-                Print(kError,  "Signal Crosssection", "unhandled case");
-                return 1;
-            }
-        default:
-            Print(kError,  "Signal Crosssection", "unhandled case");
-            return 1;
         }
     }
 
@@ -410,8 +405,8 @@ private:
             switch (PreCut()) {
             case 0 :
                 switch (Process) {
-                case tt :
-                    return 3564 * 2 * 1000;
+                case tt:
+                    return 3600 * 2 * 1000;
                 default:
                     Print(kError, "Background Crosssection", "unhandled case");
                     return 1;
@@ -437,7 +432,7 @@ private:
                 case ttjj:
                     return 28200;
                 case tt :
-                    return 178.1 * 2 * 1000;
+                    return 214.1 * 2 * 1000;
                 default:
                     Print(kError, "Background Crosssection", "unhandled case");
                     return 1;
@@ -453,7 +448,7 @@ private:
             case 1500 :
                 switch (Process) {
                 case tt :
-                    return 0.2524 * 2 * 1000;
+                    return 0.2447 * 2 * 1000;
                 default:
                     Print(kError, "Background Crosssection", "unhandled case");
                     return 1;
@@ -469,14 +464,14 @@ private:
             case 2500 :
                 switch (Process) {
                 case tt :
-                    return 0.0222 * 2 * 1000;
+                    return 0.03038 * 2 * 1000;
                 default:
                     Print(kError, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             }
         default:
-            Print(kError, "Background Crosssection",  "unhandled case");
+            Print(kError, "Background Crosssection",  "unhandled pre cut", PreCut());
             return 1;
         }
     }
@@ -499,6 +494,8 @@ private:
         switch (Process) {
         case Hbb:
             return "H0bb-ljbbbb";
+        case H0:
+            return "H0-ljbb";
         case ttbb :
             return "ttbb-ljbbbb";
         case ttcc:
@@ -516,19 +513,17 @@ private:
     analysis::JetTag jet_tag;
 
     analysis::Reader BottomReader;
-    analysis::Reader JetPairReader;
     analysis::Reader WSemiReader;
     analysis::Reader WHadronicReader;
     analysis::Reader TopLeptonicReader;
     analysis::Reader TopHadronicReader;
     analysis::Reader TopSemiReader;
     analysis::Reader HeavyHiggsSemiReader;
-    analysis::Reader HeavyHiggsLeptonicReader;
-    analysis::Reader SignatureSemiReader;
     analysis::Reader eventSemiReader;
-    analysis::Reader eventLeptonicReader;
 
-//     void NewBranches(ExRootTreeWriter &tree_writer, const analysis::HAnalysis::HTagger tagger);
+    void ResetBranch();
+
+//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
     /**
      * @brief Main Analysis function
@@ -542,30 +537,14 @@ private:
 //     bool GetWSemiReader(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetWTag(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetWReader(analysis::Event &event, const Tag Tag);
-//     bool GetJetPairTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetJetPairReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopLeptonicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetTopLeptonicReader(analysis::Event &event, const Tag Tag);
 //     bool GetTopHadronicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetTopSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
+//     bool GetTopSemiTag(analysis::Event &event, analysis::Object::Tag Tag);
 //     bool GetTopHadronicReader(analysis::Event &event, const Tag Tag);
 //     bool GetTopSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GetHeavyHiggsHadronicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetHeavyHiggsLeptonicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetHeavyHiggsLeptonicReader(analysis::Event &event, const Tag Tag);
 //     bool GetHeavyHiggsSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetHeavyHiggsSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GeteventLeptonicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GeteventHadronicTag(analysis::Event &event, const Tag Tag);
-//
 //     bool GeteventSemiTag(analysis::Event &event, const Tag Tag);
-//
-//     bool GetSignatureSemiTag(analysis::Event &event, const Tag Tag);
-//     bool GetSignatureSemiReader(analysis::Event &event, const Tag Tag);
-//
 //     bool GeteventSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GeteventLeptonicReader(analysis::Event &event, const Tag Tag);
-
 
 };
 

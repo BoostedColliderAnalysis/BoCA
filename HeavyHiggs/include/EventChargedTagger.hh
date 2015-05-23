@@ -1,7 +1,7 @@
 # pragma once
 
 # include "MultipletEvent.hh"
-# include "HChargedSignatureSemiTagger.hh"
+# include "SignatureChargedTagger.hh"
 
 namespace heavyhiggs
 {
@@ -11,7 +11,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class HChargedeventSemiTagger : public analysis::Tagger
+class EventChargedTagger : public analysis::Tagger
 {
 
 public:
@@ -20,10 +20,10 @@ public:
     * @brief Constructor
     *
     */
-    HChargedeventSemiTagger();
+    EventChargedTagger();
 
     void SetTagger(
-        const analysis::BottomTagger &NewBottomTagger, const analysis::HChargedJetPairTagger &NewChargedJetPairTagger, const analysis::WSemiTagger &Neww_semi_tagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopSemiTagger &Newtop_semi_tagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger, const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const HChargedSignatureSemiTagger &NewChargedSignatureTagger);
+        const analysis::BottomTagger &NewBottomTagger, const analysis::HChargedJetPairTagger &NewChargedJetPairTagger, const analysis::WSemiTagger &Neww_semi_tagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopSemiTagger &Newtop_semi_tagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger, const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const SignatureChargedTagger &NewChargedSignatureTagger);
 
 
     std::vector< HChargedSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
@@ -45,7 +45,7 @@ public:
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
     analysis::HChargedJetPairTagger ChargedJetPairTagger;
-    HChargedSignatureSemiTagger SignatureSemiTagger;
+    SignatureChargedTagger SignatureSemiTagger;
 
     analysis::Reader BottomReader;
     analysis::Reader WSemiReader;
@@ -60,11 +60,11 @@ public:
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
+        return "heavyhiggs";
     }
 
     virtual inline std::string ClassName() const {
-        return "HChargedeventSemiTagger";
+        return "EventChargedTagger";
     }
 
 private:

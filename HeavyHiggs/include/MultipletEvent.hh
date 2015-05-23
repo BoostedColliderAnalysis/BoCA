@@ -41,7 +41,7 @@ public:
         SetTag(multiplet_.Tag());
     }
 
-    inline Multiplet octet()const {
+    inline Multiplet multiplet()const {
         return multiplet_;
     }
 
@@ -54,7 +54,7 @@ public:
     }
 
     inline float Ht() const {
-        float ht = octet().Ht();
+        float ht = multiplet().Ht();
         for (const auto & jet : rest_jets_) ht += jet.pt();
         return ht;
     }
@@ -177,7 +177,7 @@ public:
     }
 
     float DeltaHt() const {
-        return octet().Ht() - RestHt();
+        return multiplet().Ht() - RestHt();
     }
 
     float DeltaM() const {

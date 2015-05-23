@@ -1,13 +1,13 @@
-# include "HSignatureSemiTagger.hh"
+# include "SignatureNeutralTagger.hh"
 
-heavyhiggs::HSignatureSemiTagger::HSignatureSemiTagger()
+heavyhiggs::SignatureNeutralTagger::SignatureNeutralTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     DefineVariables();
 }
 
-void heavyhiggs::HSignatureSemiTagger::SetTagger(
+void heavyhiggs::SignatureNeutralTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
     const analysis::HJetPairTagger &NewJetPairTagger,
     const analysis::WSemiTagger &Neww_semi_tagger,
@@ -27,7 +27,7 @@ void heavyhiggs::HSignatureSemiTagger::SetTagger(
     DefineVariables();
 }
 
-void heavyhiggs::HSignatureSemiTagger::DefineVariables()
+void heavyhiggs::SignatureNeutralTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     set_tagger_name("SignatureSemi");
@@ -66,7 +66,7 @@ void heavyhiggs::HSignatureSemiTagger::DefineVariables()
 
 }
 
-heavyhiggs::HOctetBranch heavyhiggs::HSignatureSemiTagger::GetBranch(const Octet62 &octet) const
+heavyhiggs::HOctetBranch heavyhiggs::SignatureNeutralTagger::GetBranch(const Octet62 &octet) const
 {
     Print(kInformation, "FillPairTagger", octet.Bdt());
 
@@ -103,7 +103,7 @@ heavyhiggs::HOctetBranch heavyhiggs::HSignatureSemiTagger::GetBranch(const Octet
 
 }
 
-std::vector<heavyhiggs::HOctetBranch> heavyhiggs::HSignatureSemiTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::HOctetBranch> heavyhiggs::SignatureNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
     float Mass = event.mass();
@@ -190,13 +190,13 @@ std::vector<heavyhiggs::HOctetBranch> heavyhiggs::HSignatureSemiTagger::GetBranc
 }
 
 
-analysis::Object::Tag heavyhiggs::HSignatureSemiTagger::GetTag(const Octet62 &)
+analysis::Object::Tag heavyhiggs::SignatureNeutralTagger::GetTag(const Octet62 &)
 {
     Print(kInformation, "Get sextet Tag");
     return kSignal;
 }
 
-std::vector<Octet62> heavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader)
+std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Get event Tags");
 
