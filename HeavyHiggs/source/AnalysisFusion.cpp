@@ -496,10 +496,10 @@ void heavyhiggs::AnalysisFusion::SetTrees()
 // //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventHadronicBranch::Class());
 //         break;
 //     case EventNeutralTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventTtSemiBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventFusionBranch::Class());
 //         break;
 //     case EventSemiReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventTtSemiBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventFusionBranch::Class());
 //         break;
 //     case EventLeptonicReader :
 // //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventLeptonicBranch::Class());
@@ -830,10 +830,10 @@ int heavyhiggs::AnalysisFusion::RunAnalysis(analysis::Event &event, const analys
 // bool heavyhiggs::AnalysisFusion::GeteventSemiTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
-//     std::vector<heavyhiggs::EventTtSemiBranch> Semievents = eventSemiTagger.GetBranches(event, Tag);
+//     std::vector<heavyhiggs::EventFusionBranch> Semievents = eventSemiTagger.GetBranches(event, Tag);
 //     if (Semievents.empty()) return 0;
 //     for (const auto & Semievent : Semievents) {
-//         *static_cast<EventTtSemiBranch *>(Branch->NewEntry()) = Semievent;
+//         *static_cast<EventFusionBranch *>(Branch->NewEntry()) = Semievent;
 //         ++ObjectNumber;
 //     }
 //     return 1;
@@ -871,7 +871,7 @@ int heavyhiggs::AnalysisFusion::RunAnalysis(analysis::Event &event, const analys
 //     std::vector<Hsextet_event> sextet_event = eventSemiTagger.GetBdt(sextets, jets, Leptons, global_observables, eventSemiReader);
 //     if (sextet_event.empty()) return 0;
 //     sextet_event.front().SetTag(Tag);
-//     *static_cast<EventTtSemiBranch *>(Branch->NewEntry()) = eventSemiTagger.GetBranch(sextet_event.front());
+//     *static_cast<EventFusionBranch *>(Branch->NewEntry()) = eventSemiTagger.GetBranch(sextet_event.front());
 // //     ++ObjectNumber;
 //     return 1;
 // }

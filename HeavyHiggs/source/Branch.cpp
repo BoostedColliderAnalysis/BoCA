@@ -24,94 +24,9 @@ heavyhiggs::BranchHeavyHiggs::BranchHeavyHiggs()
 }
 
 
-ClassImp(heavyhiggs::EventLeptonicBranch)
+ClassImp(heavyhiggs::EventNeutralBranch)
 
-heavyhiggs::EventLeptonicBranch::EventLeptonicBranch()
-{
-    Mass = InitialValue();
-    Pt = InitialValue();
-    Rap = InitialValue();
-    Phi = InitialValue();
-
-    DeltaPt = InitialValue();
-    DeltaRap = InitialValue();
-    DeltaPhi = InitialValue();
-    DeltaR = InitialValue();
-
-    Bdt = InitialValue();
-    Tag = int(InitialValue());
-
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
-
-    ScalarHt = InitialValue();
-
-    HiggsMass = InitialValue();
-    PairRap = InitialValue();
-
-    RestM = InitialValue();
-    RestPt = InitialValue();
-    RestHt = InitialValue();
-    RestRap = InitialValue();
-    RestPhi = InitialValue();
-    RestBBdt = InitialValue();
-    MaxBBdt = InitialValue();
-    TotalBBdt = InitialValue();
-    RestBTag = int(InitialValue());
-    ThirdBBdt = InitialValue();
-
-    DeltaPt1 = InitialValue();
-    DeltaRap1 = InitialValue();
-    DeltaPhi1 = InitialValue();
-    DeltaR1 = InitialValue();
-
-    DeltaPt2 = InitialValue();
-    DeltaRap2 = InitialValue();
-    DeltaPhi2 = InitialValue();
-    DeltaR2 = InitialValue();
-
-}
-
-
-ClassImp(heavyhiggs::EventHadronicBranch)
-
-heavyhiggs::EventHadronicBranch::EventHadronicBranch()
-{
-
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
-
-    ScalarHt = InitialValue();
-    HeavyParticleBdt = InitialValue();
-
-    HeavyHiggsBdt = InitialValue();
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-
-    BottomSumPt = InitialValue();
-    BottomDeltaPt = InitialValue();
-
-    BottomDeltaRap = InitialValue();
-    BottomDeltaPhi = InitialValue();
-    BottomDeltaR = InitialValue();
-
-    HbSumDeltaRap = InitialValue();
-    HbSumDeltaPhi = InitialValue();
-    HbSumDeltaR = InitialValue();
-
-    HbDeltaDeltaRap = InitialValue();
-    HbDeltaDeltaPhi = InitialValue();
-    HbDeltaDeltaR = InitialValue();
-
-    eventTag = int(InitialValue());
-}
-
-
-ClassImp(heavyhiggs::EventSemiBranch)
-
-heavyhiggs::EventSemiBranch::EventSemiBranch()
+heavyhiggs::EventNeutralBranch::EventNeutralBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -166,11 +81,9 @@ heavyhiggs::EventSemiBranch::EventSemiBranch()
 
 }
 
+ClassImp(heavyhiggs::EventFusionBranch)
 
-
-ClassImp(heavyhiggs::EventTtSemiBranch)
-
-heavyhiggs::EventTtSemiBranch::EventTtSemiBranch()
+heavyhiggs::EventFusionBranch::EventFusionBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -193,35 +106,9 @@ heavyhiggs::EventTtSemiBranch::EventTtSemiBranch()
 }
 
 
-ClassImp(heavyhiggs::HBdtBranch)
+ClassImp(heavyhiggs::OctetNeutralBranch)
 
-heavyhiggs::HBdtBranch::HBdtBranch()
-{
-
-    eventTag = InitialValue();
-
-    Mass = InitialValue();
-    Bdt = InitialValue();
-    Error = InitialValue();
-    Rarity = InitialValue();
-
-    Probability01 = InitialValue();
-    Probability02 = InitialValue();
-    Probability03 = InitialValue();
-    Probability04 = InitialValue();
-    Probability05 = InitialValue();
-    Probability06 = InitialValue();
-    Probability07 = InitialValue();
-    Probability08 = InitialValue();
-    Probability09 = InitialValue();
-    Probability10 = InitialValue();
-
-}
-
-
-ClassImp(heavyhiggs::HOctetBranch)
-
-heavyhiggs::HOctetBranch::HOctetBranch()
+heavyhiggs::OctetNeutralBranch::OctetNeutralBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -234,9 +121,9 @@ heavyhiggs::HOctetBranch::HOctetBranch()
 }
 
 
-ClassImp(heavyhiggs::HChargedOctetBranch)
+ClassImp(heavyhiggs::OctetChargedBranch)
 
-heavyhiggs::HChargedOctetBranch::HChargedOctetBranch()
+heavyhiggs::OctetChargedBranch::OctetChargedBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -246,12 +133,10 @@ heavyhiggs::HChargedOctetBranch::HChargedOctetBranch()
     PairBdt = InitialValue();
 }
 
-ClassImp(heavyhiggs::HChargedSemiBranch)
+ClassImp(heavyhiggs::EventChargedBranch)
 
-heavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
+heavyhiggs::EventChargedBranch::EventChargedBranch()
 {
-
-
 
     LeptonNumber = int(InitialValue());
     JetNumber = int(InitialValue());
@@ -300,76 +185,4 @@ heavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
     SubBottomBdt34 = InitialValue();
     SubBottomBdt56 = InitialValue();
     SubBottomBdt78 = InitialValue();
-}
-
-
-ClassImp(heavyhiggs::HChargedLeptonicBranch)
-
-heavyhiggs::HChargedLeptonicBranch::HChargedLeptonicBranch()
-{
-
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
-
-    ScalarHt = InitialValue();
-    HeavyParticleBdt = InitialValue();
-
-    HeavyHiggsBdt = InitialValue();
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-
-    BottomSumPt = InitialValue();
-    BottomDeltaPt = InitialValue();
-
-    BottomDeltaRap = InitialValue();
-    BottomDeltaPhi = InitialValue();
-    BottomDeltaR = InitialValue();
-
-    HbSumDeltaRap = InitialValue();
-    HbSumDeltaPhi = InitialValue();
-    HbSumDeltaR = InitialValue();
-
-    HbDeltaDeltaRap = InitialValue();
-    HbDeltaDeltaPhi = InitialValue();
-    HbDeltaDeltaR = InitialValue();
-
-    eventTag = int(InitialValue());
-
-}
-
-
-ClassImp(heavyhiggs::HChargedHadronicBranch)
-
-heavyhiggs::HChargedHadronicBranch::HChargedHadronicBranch()
-{
-
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
-
-    ScalarHt = InitialValue();
-    HeavyParticleBdt = InitialValue();
-
-    HeavyHiggsBdt = InitialValue();
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-
-    BottomSumPt = InitialValue();
-    BottomDeltaPt = InitialValue();
-
-    BottomDeltaRap = InitialValue();
-    BottomDeltaPhi = InitialValue();
-    BottomDeltaR = InitialValue();
-
-    HbSumDeltaRap = InitialValue();
-    HbSumDeltaPhi = InitialValue();
-    HbSumDeltaR = InitialValue();
-
-    HbDeltaDeltaRap = InitialValue();
-    HbDeltaDeltaPhi = InitialValue();
-    HbDeltaDeltaR = InitialValue();
-
-    eventTag = int(InitialValue());
-
 }

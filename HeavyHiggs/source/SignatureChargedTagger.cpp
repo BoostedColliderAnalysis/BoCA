@@ -60,11 +60,11 @@ void heavyhiggs::SignatureChargedTagger::DefineVariables()
 
 }
 
-heavyhiggs::HChargedOctetBranch heavyhiggs::SignatureChargedTagger::GetBranch(const Octet44 &octet) const
+heavyhiggs::OctetChargedBranch heavyhiggs::SignatureChargedTagger::GetBranch(const Octet44 &octet) const
 {
     Print(kInformation, "branch", octet.Bdt());
 
-    HChargedOctetBranch eventSemiBranch;
+    OctetChargedBranch eventSemiBranch;
 
     eventSemiBranch.Mass = octet.Jet().m();
     eventSemiBranch.Rap = octet.Jet().rap();
@@ -92,7 +92,7 @@ heavyhiggs::HChargedOctetBranch heavyhiggs::SignatureChargedTagger::GetBranch(co
     return eventSemiBranch;
 }
 
-std::vector<heavyhiggs::HChargedOctetBranch> heavyhiggs::SignatureChargedTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
+std::vector<heavyhiggs::OctetChargedBranch> heavyhiggs::SignatureChargedTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -184,7 +184,7 @@ std::vector<heavyhiggs::HChargedOctetBranch> heavyhiggs::SignatureChargedTagger:
         }
 //     Print(kError, "Number of Signatures", octets.size());
 
-    std::vector<heavyhiggs::HChargedOctetBranch> SignatureSemiBranches;
+    std::vector<heavyhiggs::OctetChargedBranch> SignatureSemiBranches;
     for (const auto & octet : octets) SignatureSemiBranches.emplace_back(GetBranch(octet));
 
     return SignatureSemiBranches;

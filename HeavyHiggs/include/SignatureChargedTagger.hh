@@ -35,9 +35,9 @@ public:
       const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
 
 
-    std::vector< HChargedOctetBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector< OctetChargedBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedOctetBranch GetBranch(const Octet44 &octet) const;
+    OctetChargedBranch GetBranch(const Octet44 &octet) const;
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -77,7 +77,7 @@ private:
 
     void DefineVariables();
 
-    HChargedOctetBranch Branch;
+    OctetChargedBranch Branch;
 
 };
 

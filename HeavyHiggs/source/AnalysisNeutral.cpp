@@ -552,10 +552,10 @@ void heavyhiggs::AnalysisNeutral::SetTrees()
 //         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), EventLeptonicBranch::Class());
 //         break;
 //     case SignatureNeutralTagger :
-//         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), HOctetBranch::Class());
+//         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), OctetNeutralBranch::Class());
 //         break;
 //     case HSignatureSemiReader :
-//         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), HOctetBranch::Class());
+//         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), OctetNeutralBranch::Class());
 //         break;
 //     case EventNeutralTagger :
 //         Branch = tree_writer.NewBranch(StudyName(tagger).c_str(), EventSemiBranch::Class());
@@ -1096,11 +1096,11 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 // bool heavyhiggs::AnalysisNeutral::GetSignatureSemiTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get Signature semi", Tag);
-//     std::vector<heavyhiggs::HOctetBranch> Signatures = SignatureSemiTagger.GetBranches(event, Tag);
+//     std::vector<heavyhiggs::OctetNeutralBranch> Signatures = SignatureSemiTagger.GetBranches(event, Tag);
 //     if (Signatures.empty()) return 0;
 //     for (const auto & Signature : Signatures) {
 //         ++ObjectNumber;
-//         *static_cast<HOctetBranch *>(Branch->NewEntry()) = Signature;
+//         *static_cast<OctetNeutralBranch *>(Branch->NewEntry()) = Signature;
 //     }
 //     return 1;
 // }
@@ -1135,7 +1135,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //     }
 //     octets.front().SetTag(Tag);
 //     ++ObjectNumber;
-//     *static_cast<HOctetBranch *>(Branch->NewEntry()) = SignatureSemiTagger.GetBranch(octets.front());
+//     *static_cast<OctetNeutralBranch *>(Branch->NewEntry()) = SignatureSemiTagger.GetBranch(octets.front());
 //     return 1;
 // }
 //

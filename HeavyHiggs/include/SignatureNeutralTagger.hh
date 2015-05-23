@@ -32,12 +32,12 @@ public:
         const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
         const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
 
-    std::vector<HOctetBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector<OctetNeutralBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
     std::vector< Octet62 > GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader);
 
 
-    HOctetBranch GetBranch(const Octet62 &octet) const;
+    OctetNeutralBranch GetBranch(const Octet62 &octet) const;
 
     analysis::BottomTagger bottom_tagger_;
     analysis::WSemiTagger w_semi_tagger;
@@ -74,7 +74,7 @@ private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
-    HOctetBranch Branch;
+    OctetNeutralBranch Branch;
     analysis::JetTag jet_tag;
 
 };

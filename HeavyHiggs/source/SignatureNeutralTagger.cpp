@@ -66,44 +66,44 @@ void heavyhiggs::SignatureNeutralTagger::DefineVariables()
 
 }
 
-heavyhiggs::HOctetBranch heavyhiggs::SignatureNeutralTagger::GetBranch(const Octet62 &octet) const
+heavyhiggs::OctetNeutralBranch heavyhiggs::SignatureNeutralTagger::GetBranch(const Octet62 &octet) const
 {
     Print(kInformation, "FillPairTagger", octet.Bdt());
 
-    HOctetBranch eventSemiBranch;
+    OctetNeutralBranch branch;
 
-    eventSemiBranch.Mass = octet.Jet().m();
-    eventSemiBranch.Rap = octet.Jet().rap();
-    eventSemiBranch.Phi = octet.Jet().phi();
-    eventSemiBranch.Pt = octet.Jet().pt();
-    eventSemiBranch.Ht = octet.Ht();
+    branch.Mass = octet.Jet().m();
+    branch.Rap = octet.Jet().rap();
+    branch.Phi = octet.Jet().phi();
+    branch.Pt = octet.Jet().pt();
+    branch.Ht = octet.Ht();
 
-    eventSemiBranch.DeltaPt = octet.DeltaPt();
-    eventSemiBranch.DeltaHt = octet.DeltaHt();
-    eventSemiBranch.DeltaM = octet.DeltaM();
-    eventSemiBranch.DeltaRap = octet.DeltaRap();
-    eventSemiBranch.DeltaPhi = octet.DeltaPhi();
-    eventSemiBranch.DeltaR = octet.DeltaR();
+    branch.DeltaPt = octet.DeltaPt();
+    branch.DeltaHt = octet.DeltaHt();
+    branch.DeltaM = octet.DeltaM();
+    branch.DeltaRap = octet.DeltaRap();
+    branch.DeltaPhi = octet.DeltaPhi();
+    branch.DeltaR = octet.DeltaR();
 
-    eventSemiBranch.Bdt = octet.Bdt();
-    eventSemiBranch.Tag = octet.Tag();
-    eventSemiBranch.BottomBdt = octet.BottomBdt();
-    eventSemiBranch.PairBottomBdt = octet.PairBottomBdt();
-    eventSemiBranch.PairBdt = octet.doublet().Bdt();
-    eventSemiBranch.HiggsBdt = octet.sextet().Bdt();
-    eventSemiBranch.HardTopPt = octet.sextet().HardTopPt();
-    eventSemiBranch.SoftTopPt = octet.sextet().SoftTopPt();
-
-
-    eventSemiBranch.HiggsMass = octet.sextet().Jet().m();
-    eventSemiBranch.PairRap = octet.doublet().DeltaRap();
+    branch.Bdt = octet.Bdt();
+    branch.Tag = octet.Tag();
+    branch.BottomBdt = octet.BottomBdt();
+    branch.PairBottomBdt = octet.PairBottomBdt();
+    branch.PairBdt = octet.doublet().Bdt();
+    branch.HiggsBdt = octet.sextet().Bdt();
+    branch.HardTopPt = octet.sextet().HardTopPt();
+    branch.SoftTopPt = octet.sextet().SoftTopPt();
 
 
-    return eventSemiBranch;
+    branch.HiggsMass = octet.sextet().Jet().m();
+    branch.PairRap = octet.doublet().DeltaRap();
+
+
+    return branch;
 
 }
 
-std::vector<heavyhiggs::HOctetBranch> heavyhiggs::SignatureNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
     float Mass = event.mass();
@@ -183,7 +183,7 @@ std::vector<heavyhiggs::HOctetBranch> heavyhiggs::SignatureNeutralTagger::GetBra
         octets.erase(octets.begin() + 1, octets.end());
     }
 
-    std::vector<heavyhiggs::HOctetBranch> octetBranches;
+    std::vector<heavyhiggs::OctetNeutralBranch> octetBranches;
     for (const auto & octet : octets) octetBranches.emplace_back(GetBranch(octet));
 //     if (octetBranches.empty())Print(kError, "No octetBranches", octetBranches.size());
     return octetBranches;

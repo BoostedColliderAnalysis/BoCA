@@ -41,130 +41,17 @@ private:
 };
 
 
-
-
 /**
  *
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventLeptonicBranch : public analysis::Branch
+class EventNeutralBranch : public analysis::MultiBranch
 {
 
 public:
 
-    EventLeptonicBranch();
-
-    float Mass;
-    float Pt;
-    float Rap;
-    float Phi;
-
-    float DeltaPt;
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
-
-    float Bdt;
-    float Tag;
-
-    float LeptonNumber;
-    float JetNumber;
-    float BottomNumber;
-    float ScalarHt;
-
-    float HiggsMass;
-    float PairRap;
-
-    float DeltaPt1;
-    float DeltaR1;
-    float DeltaPhi1;
-    float DeltaRap1;
-
-    float DeltaPt2;
-    float DeltaR2;
-    float DeltaPhi2;
-    float DeltaRap2;
-
-    float RestHt;
-    float RestM;
-    float RestPt;
-    float RestRap;
-    float RestBBdt;
-    float MaxBBdt;
-    float TotalBBdt;
-    float RestPhi;
-    float RestBTag;
-    float ThirdBBdt;
-
-private:
-
-    ClassDef(EventLeptonicBranch, 1)
-
-};
-
-
-
-
-/**
- *
- * @brief Higgs cpv tagger root tree structure
- *
- */
-class EventHadronicBranch : public analysis::Branch
-{
-
-public:
-
-    EventHadronicBranch();
-
-    float LeptonNumber;
-    float JetNumber;
-    float BottomNumber;
-
-    float ScalarHt;
-    float HeavyParticleBdt;
-
-    float HeavyHiggsBdt;
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float BottomSumPt;
-    float BottomDeltaPt;
-
-    float BottomDeltaRap;
-    float BottomDeltaPhi;
-    float BottomDeltaR;
-
-    float HbSumDeltaRap;
-    float HbSumDeltaPhi;
-    float HbSumDeltaR;
-
-    float HbDeltaDeltaRap;
-    float HbDeltaDeltaPhi;
-    float HbDeltaDeltaR;
-
-    float eventTag;
-
-private:
-
-    ClassDef(EventHadronicBranch, 1)
-
-};
-
-
-
-/**
- *
- * @brief Higgs cpv tagger root tree structure
- *
- */
-class EventSemiBranch : public analysis::MultiBranch
-{
-
-public:
-
-    EventSemiBranch();
+    EventNeutralBranch();
 
     float HiggsMass;
     float PairRap;
@@ -221,7 +108,7 @@ public:
 
 private:
 
-    ClassDef(EventSemiBranch, 1)
+    ClassDef(EventNeutralBranch, 1)
 
 };
 
@@ -231,12 +118,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventTtSemiBranch : public analysis::MultiBranch
+class EventFusionBranch : public analysis::MultiBranch
 {
 
 public:
 
-    EventTtSemiBranch();
+    EventFusionBranch();
 
 
     float HiggsMass;
@@ -258,41 +145,9 @@ public:
 
 private:
 
-    ClassDef(EventTtSemiBranch, 1)
+    ClassDef(EventFusionBranch, 1)
 
 };
-
-class HBdtBranch : public analysis::Branch
-{
-
-public:
-
-    HBdtBranch();
-
-    float Mass;
-    float Bdt;
-    float Error;
-    float Rarity;
-
-    float Probability01;
-    float Probability02;
-    float Probability03;
-    float Probability04;
-    float Probability05;
-    float Probability06;
-    float Probability07;
-    float Probability08;
-    float Probability09;
-    float Probability10;
-
-    float eventTag;
-
-private:
-
-    ClassDef(HBdtBranch, 1)
-
-};
-
 
 
 /**
@@ -300,12 +155,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class HOctetBranch : public analysis::MultiBranch
+class OctetNeutralBranch : public analysis::MultiBranch
 {
 
 public:
 
-    HOctetBranch();
+    OctetNeutralBranch();
 
     float HiggsMass;
     float PairRap;
@@ -318,7 +173,7 @@ public:
 
 private:
 
-    ClassDef(HOctetBranch, 1)
+    ClassDef(OctetNeutralBranch, 1)
 
 };
 
@@ -327,12 +182,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class HChargedOctetBranch : public analysis::MultiBranch
+class OctetChargedBranch : public analysis::MultiBranch
 {
 
 public:
 
-    HChargedOctetBranch();
+    OctetChargedBranch();
 
     float HiggsMass;
     float PairRap;
@@ -343,7 +198,7 @@ public:
 
 private:
 
-    ClassDef(HChargedOctetBranch, 1)
+    ClassDef(OctetChargedBranch, 1)
 
 };
 
@@ -352,12 +207,12 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class HChargedSemiBranch : public analysis::MultiBranch
+class EventChargedBranch : public analysis::MultiBranch
 {
 
 public:
 
-    HChargedSemiBranch();
+    EventChargedBranch();
 
     float HiggsMass;
     float PairRap;
@@ -409,100 +264,7 @@ public:
 
 private:
 
-    ClassDef(HChargedSemiBranch, 1)
-
-};
-
-
-/**
- *
- * @brief Higgs cpv tagger root tree structure
- *
- */
-class HChargedLeptonicBranch : public analysis::Branch
-{
-
-public:
-
-    HChargedLeptonicBranch();
-
-    float LeptonNumber;
-    float JetNumber;
-    float BottomNumber;
-
-    float ScalarHt;
-    float HeavyParticleBdt;
-
-    float HeavyHiggsBdt;
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float BottomSumPt;
-    float BottomDeltaPt;
-
-    float BottomDeltaRap;
-    float BottomDeltaPhi;
-    float BottomDeltaR;
-
-    float HbSumDeltaRap;
-    float HbSumDeltaPhi;
-    float HbSumDeltaR;
-
-    float HbDeltaDeltaRap;
-    float HbDeltaDeltaPhi;
-    float HbDeltaDeltaR;
-
-    float eventTag;
-
-private:
-
-    ClassDef(HChargedLeptonicBranch, 1)
-
-};
-
-/**
- *
- * @brief Higgs cpv tagger root tree structure
- *
- */
-class HChargedHadronicBranch : public analysis::Branch
-{
-
-public:
-
-    HChargedHadronicBranch();
-
-    float LeptonNumber;
-    float JetNumber;
-    float BottomNumber;
-
-    float ScalarHt;
-    float HeavyParticleBdt;
-
-    float HeavyHiggsBdt;
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float BottomSumPt;
-    float BottomDeltaPt;
-
-    float BottomDeltaRap;
-    float BottomDeltaPhi;
-    float BottomDeltaR;
-
-    float HbSumDeltaRap;
-    float HbSumDeltaPhi;
-    float HbSumDeltaR;
-
-    float HbDeltaDeltaRap;
-    float HbDeltaDeltaPhi;
-    float HbDeltaDeltaR;
-
-    float eventTag;
-
-private:
-
-    ClassDef(HChargedHadronicBranch, 1)
+    ClassDef(EventChargedBranch, 1)
 
 };
 

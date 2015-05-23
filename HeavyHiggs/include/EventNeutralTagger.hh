@@ -39,7 +39,7 @@ public:
         const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
         const SignatureNeutralTagger &NewSignatureSemiTagger);
 
-    std::vector<EventSemiBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector<EventNeutralBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
     std::vector< analysis::MultipletEvent< Octet62 > > GetBdt(const std::vector< Octet62 > &octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader);
 
@@ -47,7 +47,7 @@ public:
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
-    EventSemiBranch GetBranch(const analysis::MultipletEvent< Octet62 > &octet) const;
+    EventNeutralBranch GetBranch(const analysis::MultipletEvent< Octet62 > &octet) const;
 
     analysis::BottomTagger bottom_tagger_;
     analysis::WSemiTagger w_semi_tagger;
@@ -84,7 +84,7 @@ private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
-    EventSemiBranch Branch;
+    EventNeutralBranch Branch;
     analysis::JetTag jet_tag;
 
 };

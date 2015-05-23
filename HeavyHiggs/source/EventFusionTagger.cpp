@@ -69,11 +69,11 @@ void heavyhiggs::EventFusionTagger::DefineVariables()
 
 }
 
-heavyhiggs::EventTtSemiBranch heavyhiggs::EventFusionTagger::GetBranch(const analysis::MultipletEvent<analysis::Sextet> &event) const
+heavyhiggs::EventFusionBranch heavyhiggs::EventFusionTagger::GetBranch(const analysis::MultipletEvent<analysis::Sextet> &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
 
-    EventTtSemiBranch branch;
+    EventFusionBranch branch;
     branch.LeptonNumber = event.LeptonNumber();
     branch.JetNumber = event.JetNumber();
     branch.BottomNumber = event.BottomNumber();
@@ -119,7 +119,7 @@ struct SortJetsByBdt {
     }
 };
 
-std::vector<heavyhiggs::EventTtSemiBranch> heavyhiggs::EventFusionTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::EventFusionBranch> heavyhiggs::EventFusionTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -149,7 +149,7 @@ std::vector<heavyhiggs::EventTtSemiBranch> heavyhiggs::EventFusionTagger::GetBra
       if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
-    std::vector<heavyhiggs::EventTtSemiBranch> eventSemiBranches;
+    std::vector<heavyhiggs::EventFusionBranch> eventSemiBranches;
     if (sextets.empty()) return eventSemiBranches;
 
     if (Tag == kSignal && sextets.size() > 1) {
@@ -206,5 +206,5 @@ std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionT
 }
 
 float heavyhiggs::EventFusionTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry){
-  return static_cast<EventTtSemiBranch &>(*eventClonesArray.At(Entry)).Bdt;
+  return static_cast<EventFusionBranch &>(*eventClonesArray.At(Entry)).Bdt;
 }

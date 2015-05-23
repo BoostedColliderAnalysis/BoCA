@@ -116,11 +116,11 @@ void heavyhiggs::EventNeutralTagger::DefineVariables()
 
 }
 
-heavyhiggs::EventSemiBranch heavyhiggs::EventNeutralTagger::GetBranch(const analysis::MultipletEvent<Octet62> &event) const
+heavyhiggs::EventNeutralBranch heavyhiggs::EventNeutralTagger::GetBranch(const analysis::MultipletEvent<Octet62> &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
 
-    EventSemiBranch eventSemiBranch;
+    EventNeutralBranch eventSemiBranch;
     eventSemiBranch.LeptonNumber = event.LeptonNumber();
     eventSemiBranch.JetNumber = event.JetNumber();
     eventSemiBranch.BottomNumber = event.BottomNumber();
@@ -202,7 +202,7 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<heavyhiggs::EventSemiBranch> heavyhiggs::EventNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::EventNeutralBranch> heavyhiggs::EventNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -280,7 +280,7 @@ std::vector<heavyhiggs::EventSemiBranch> heavyhiggs::EventNeutralTagger::GetBran
         events.emplace_back(octetevent);
     }
 
-    std::vector<heavyhiggs::EventSemiBranch> eventSemiBranches;
+    std::vector<heavyhiggs::EventNeutralBranch> eventSemiBranches;
     for (const auto & event : events) eventSemiBranches.emplace_back(GetBranch(event));
 
     return eventSemiBranches;
@@ -323,5 +323,5 @@ std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::G
 
 float heavyhiggs::EventNeutralTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry)
 {
-    return ((EventSemiBranch *) eventClonesArray.At(Entry))->Bdt;
+    return ((EventNeutralBranch *) eventClonesArray.At(Entry))->Bdt;
 }

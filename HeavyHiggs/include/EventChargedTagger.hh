@@ -26,9 +26,9 @@ public:
         const analysis::BottomTagger &NewBottomTagger, const analysis::HChargedJetPairTagger &NewChargedJetPairTagger, const analysis::WSemiTagger &Neww_semi_tagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopSemiTagger &Newtop_semi_tagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger, const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const SignatureChargedTagger &NewChargedSignatureTagger);
 
 
-    std::vector< HChargedSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector< EventChargedBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    HChargedSemiBranch GetBranch(const analysis::MultipletEvent<Octet44> &event) const;
+    EventChargedBranch GetBranch(const analysis::MultipletEvent<Octet44> &event) const;
 
 //     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
@@ -71,7 +71,7 @@ private:
 
     void DefineVariables();
 
-    HChargedSemiBranch Branch;
+    EventChargedBranch Branch;
 
 };
 
