@@ -1,18 +1,20 @@
-# ifndef HLeptoniceventTagger_hh
-# define HLeptoniceventTagger_hh
+# pragma once
 
-# include "BranchHeavyHiggs.hh"
 # include "HChargedHiggsLeptonicTagger.hh"
 # include "Octet44.hh"
 # include "Sextet.hh"
 # include "WIMPMASS.h"
+# include "Branch.hh"
+
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT Tagger for leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedLeptonicTagger : public analysis::Tagger
+class HChargedLeptonicTagger : public analysis::Tagger
 {
 
 public:
@@ -31,7 +33,7 @@ public:
     */
     ~HChargedLeptonicTagger();
 
-    std::vector<hheavyhiggs::HChargedLeptonicBranch *> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector<HChargedLeptonicBranch *> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
     std::vector< int > ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader);
 
@@ -63,11 +65,11 @@ private:
 
     void DefineVariables();
 
-    void FillBranch(hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch, const Octet44 &octet);
+    void FillBranch(HChargedLeptonicBranch *eventLeptonicBranch, const Octet44 &octet);
 
     std::vector<Octet44> GetHeavyHiggsevents(const Jets &jets, const Jets &Leptons);
 
-    std::vector<hheavyhiggs::HOctet44> GetOctets(const analysis::Sextet &sextet, const fastjet::PseudoJet &MissingEt);
+    std::vector<HOctet44> GetOctets(const analysis::Sextet &sextet, const fastjet::PseudoJet &MissingEt);
 
     Octet44 GetOctet(analysis::Sextet sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag);
 
@@ -83,8 +85,8 @@ private:
 
     analysis::Reader ChargedHiggsLeptonicReader;
 
-    hheavyhiggs::HChargedLeptonicBranch Branch;
+    HChargedLeptonicBranch Branch;
 
 };
 
-# endif
+}

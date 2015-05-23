@@ -46,7 +46,7 @@ private:
 
     EventJetPairBranch Branch;
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
 };
 

@@ -42,7 +42,7 @@ analysis::TauBranch analysis::TauTagger::GetBranch(const fastjet::PseudoJet &jet
 std::vector<analysis::TauBranch> analysis::TauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get Tau Tag", Tag);
-    JetTag.HeavyParticles = {TauId};
+    jet_tag.HeavyParticles = {TauId};
     Jets jets = GetJets(event);
     Print(kInformation, "Number Jets", jets.size());
     Jets Particles = event.partons().Generator();

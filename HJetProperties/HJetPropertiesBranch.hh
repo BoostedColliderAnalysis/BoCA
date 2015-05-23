@@ -8,7 +8,7 @@
 namespace hjetproperties{
 
     class HAnalysis;
-    class HJetTag;
+    class JetTag;
     class HCandidateBranch;
     class ConstituentBranch;
     class HLeptonBranch;

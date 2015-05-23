@@ -1,6 +1,6 @@
 # include "HChargedHadronicTagger.hh"
 
-hheavyhiggs::HChargedHadronicTagger::HChargedHadronicTagger(
+heavyhiggs::HChargedHadronicTagger::HChargedHadronicTagger(
   const analysis::BottomTagger &NewBottomTagger,
   const analysis::WHadronicTagger &NewWTagger,
   const analysis::TopHadronicTagger &NewTopTagger,
@@ -20,13 +20,13 @@ hheavyhiggs::HChargedHadronicTagger::HChargedHadronicTagger(
 
     set_tagger_name("ChargedHadronic");
 
-//     Branch = new hheavyhiggs::HChargedHadronicBranch();
+//     Branch = new heavyhiggs::HChargedHadronicBranch();
 
     DefineVariables();
 
 }
 
-hheavyhiggs::HChargedHadronicTagger::~HChargedHadronicTagger()
+heavyhiggs::HChargedHadronicTagger::~HChargedHadronicTagger()
 {
 
     Print(kNotification , "Constructor");
@@ -38,7 +38,7 @@ hheavyhiggs::HChargedHadronicTagger::~HChargedHadronicTagger()
 
 }
 
-void hheavyhiggs::HChargedHadronicTagger::FillBranch(hheavyhiggs::HChargedHadronicBranch *eventHadronicBranch, const Octet44 &octet)
+void heavyhiggs::HChargedHadronicTagger::FillBranch(heavyhiggs::HChargedHadronicBranch *eventHadronicBranch, const Octet44 &octet)
 {
     Print(kInformation, "FillPairTagger", octet.Bdt());
 
@@ -71,13 +71,13 @@ void hheavyhiggs::HChargedHadronicTagger::FillBranch(hheavyhiggs::HChargedHadron
     eventHadronicBranch->eventTag = octet.Tag();
 }
 
-void hheavyhiggs::HChargedHadronicTagger::FillBranch(const Octet44 &octet)
+void heavyhiggs::HChargedHadronicTagger::FillBranch(const Octet44 &octet)
 {
     Print(kInformation, "FillPairTagger");
     FillBranch(&Branch, octet);
 }
 
-void hheavyhiggs::HChargedHadronicTagger::DefineVariables()
+void heavyhiggs::HChargedHadronicTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -114,9 +114,9 @@ void hheavyhiggs::HChargedHadronicTagger::DefineVariables()
 
 }
 
-std::vector<hheavyhiggs::HChargedHadronicBranch * > hheavyhiggs::HChargedHadronicTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::HChargedHadronicBranch * > heavyhiggs::HChargedHadronicTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
-    std::vector<hheavyhiggs::HChargedHadronicBranch *> eventHadronicBranches;
+    std::vector<heavyhiggs::HChargedHadronicBranch *> eventHadronicBranches;
 
     Jets jets = event.hadrons().GetStructuredJets();
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -156,7 +156,7 @@ std::vector<hheavyhiggs::HChargedHadronicBranch * > hheavyhiggs::HChargedHadroni
     }
 
     for (auto & octet : octets) {
-        hheavyhiggs::HChargedHadronicBranch *eventHadronicBranch = new hheavyhiggs::HChargedHadronicBranch();
+        heavyhiggs::HChargedHadronicBranch *eventHadronicBranch = new heavyhiggs::HChargedHadronicBranch();
         octet.SetLeptonNumber(event.leptons().GetLeptonJets().size());
         octet.SetJetNumber(event.hadrons().GetJets().size());
         octet.SetBottomNumber(event.hadrons().GetBottomJets().size());

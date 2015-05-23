@@ -9,7 +9,7 @@ namespace htest{
 
   class HAnalysis;
   class HCandidateBranch;
-  class HJetTag;
+  class JetTag;
 
 }
 

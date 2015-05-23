@@ -107,30 +107,30 @@ fastjet::PseudoJet analysis::HReconstruction::GetMassDropJet(const fastjet::Pseu
 
 
 
-Jets analysis::HReconstruction::GetSubJetTaggedJets(const Jets &FatJets) const
+Jets analysis::HReconstruction::GetSubjet_taggedJets(const Jets &FatJets) const
 {
 
     Print(kInformation, "Get Sub Jet Tagged Jets", FatJets.size());
 
-    Jets SubJetTaggedJets;
+    Jets Subjet_taggedJets;
 
     for (auto & FatJet : FatJets) {
 
-        SubJetTaggedJets.emplace_back(GetSubJetTaggedJet(FatJet));
+        Subjet_taggedJets.emplace_back(GetSubjet_taggedJet(FatJet));
 
     }
 
-    return SubJetTaggedJets;
+    return Subjet_taggedJets;
 
 }
 
-fastjet::PseudoJet analysis::HReconstruction::GetSubJetTaggedJet(const fastjet::PseudoJet &FatJet) const
+fastjet::PseudoJet analysis::HReconstruction::GetSubjet_taggedJet(const fastjet::PseudoJet &FatJet) const
 {
 
     Print(kDebug, "Get Mass Drop Jet");
 
-    const fastjet::CASubJetTagger SubJetTagger;
-    const fastjet::PseudoJet MassDropJet = SubJetTagger.result(FatJet);
+    const fastjet::CASubJetTagger Subjet_tagger;
+    const fastjet::PseudoJet MassDropJet = Subjet_tagger.result(FatJet);
 
 
 
@@ -172,7 +172,7 @@ bool analysis::HReconstruction::JetIsBad(const fastjet::PseudoJet &Jet)
 
 
 
-Jets analysis::HReconstruction::GetFatJetTag(Jets &FatJets)
+Jets analysis::HReconstruction::GetFatjet_tag(Jets &FatJets)
 {
 
     Print(kInformation, "Get Fat Jet Tag", FatJets.size());

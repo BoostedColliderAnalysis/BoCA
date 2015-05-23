@@ -1,12 +1,12 @@
-# include "HJetTag.hh"
+# include "JetTag.hh"
 
-analysis::HJetTag::HJetTag()
+analysis::JetTag::JetTag()
 {
 //     DebugLevel = analysis::Object::kDebug;
     Print(kInformation, "Constructor");
 }
 
-int analysis::HJetTag::GetBranchId(const int particle_id, int branch_id)
+int analysis::JetTag::GetBranchId(const int particle_id, int branch_id)
 {
     Print(kDebug, "Get Branch Id", GetParticleName(particle_id), GetParticleName(branch_id));
     if (
@@ -23,7 +23,7 @@ int analysis::HJetTag::GetBranchId(const int particle_id, int branch_id)
     return branch_id;
 }
 
-analysis::Family analysis::HJetTag::GetBranchFamily(const Family &node_family, Family &branch_family)
+analysis::Family analysis::JetTag::GetBranchFamily(const Family &node_family, Family &branch_family)
 {
     Print(kDebug, "Get Branch Id", GetParticleName(node_family.particle().Id), GetParticleName(node_family.mother_1().Id), GetParticleName(branch_family.particle().Id));
     if (

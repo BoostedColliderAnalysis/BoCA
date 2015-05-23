@@ -1,18 +1,20 @@
-# ifndef HChargedSignatureSemiTagger_hh
-# define HChargedSignatureSemiTagger_hh
+# pragma once
 
-# include "HBranchHeavyHiggs.hh"
+# include "Branch.hh"
 # include "TopHadronicTagger.hh"
 # include "HChargedHiggsSemiTagger.hh"
 # include "HChargedJetPairTagger.hh"
 # include "Octet44.hh"
+
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedSignatureSemiTagger : public analysis::Tagger
+class HChargedSignatureSemiTagger : public analysis::Tagger
 {
 
 public:
@@ -79,4 +81,4 @@ private:
 
 };
 
-# endif
+}

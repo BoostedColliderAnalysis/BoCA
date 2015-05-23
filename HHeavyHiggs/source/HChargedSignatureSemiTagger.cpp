@@ -1,13 +1,13 @@
 # include "HChargedSignatureSemiTagger.hh"
 
-hheavyhiggs::HChargedSignatureSemiTagger::HChargedSignatureSemiTagger()
+heavyhiggs::HChargedSignatureSemiTagger::HChargedSignatureSemiTagger()
 {
 //       DebugLevel = kDetailed;
     Print(kInformation , "Constructor");
     DefineVariables();
 }
 
-void hheavyhiggs::HChargedSignatureSemiTagger::SetTagger(
+void heavyhiggs::HChargedSignatureSemiTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
     const analysis::HChargedJetPairTagger &NewChargedJetPairTagger,
     const analysis::WSemiTagger &Neww_semi_tagger,
@@ -26,7 +26,7 @@ void hheavyhiggs::HChargedSignatureSemiTagger::SetTagger(
     DefineVariables();
 }
 
-void hheavyhiggs::HChargedSignatureSemiTagger::DefineVariables()
+void heavyhiggs::HChargedSignatureSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     set_tagger_name("ChargedSignatureSemi");
@@ -60,7 +60,7 @@ void hheavyhiggs::HChargedSignatureSemiTagger::DefineVariables()
 
 }
 
-hheavyhiggs::HChargedOctetBranch hheavyhiggs::HChargedSignatureSemiTagger::GetBranch(const Octet44 &octet) const
+heavyhiggs::HChargedOctetBranch heavyhiggs::HChargedSignatureSemiTagger::GetBranch(const Octet44 &octet) const
 {
     Print(kInformation, "branch", octet.Bdt());
 
@@ -92,7 +92,7 @@ hheavyhiggs::HChargedOctetBranch hheavyhiggs::HChargedSignatureSemiTagger::GetBr
     return eventSemiBranch;
 }
 
-std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemiTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
+std::vector<heavyhiggs::HChargedOctetBranch> heavyhiggs::HChargedSignatureSemiTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -184,14 +184,14 @@ std::vector<hheavyhiggs::HChargedOctetBranch> hheavyhiggs::HChargedSignatureSemi
         }
 //     Print(kError, "Number of Signatures", octets.size());
 
-    std::vector<hheavyhiggs::HChargedOctetBranch> SignatureSemiBranches;
+    std::vector<heavyhiggs::HChargedOctetBranch> SignatureSemiBranches;
     for (const auto & octet : octets) SignatureSemiBranches.emplace_back(GetBranch(octet));
 
     return SignatureSemiBranches;
 }
 
 
-std::vector<Octet44> hheavyhiggs::HChargedSignatureSemiTagger::GetBdt(
+std::vector<Octet44> heavyhiggs::HChargedSignatureSemiTagger::GetBdt(
     const std::vector< analysis::Quartet31 > &Higgsquartets, const std::vector< analysis::Quartet31 > &Jetquartets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Bdt");

@@ -51,7 +51,7 @@ private:
 
     HChargedJetPairBranch Branch;
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
 };
 

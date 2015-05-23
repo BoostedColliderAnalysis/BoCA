@@ -1,17 +1,18 @@
-# ifndef EventTtSemiTagger_hh
-# define EventTtSemiTagger_hh
+# pragma once
 
-# include "HBranchHeavyHiggs.hh"
+# include "Branch.hh"
 # include "HHeavyHiggsSemiTagger.hh"
 # include "HJetPairTagger.hh"
 # include "SextetEvent.hh"
+
+namespace heavyhiggs {
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::EventTtSemiTagger : public analysis::Tagger
+class EventTtSemiTagger : public analysis::Tagger
 {
 
 public:
@@ -70,8 +71,8 @@ private:
 
     EventTtSemiBranch Branch;
 
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
 };
 
-# endif
+}

@@ -5,7 +5,7 @@
 //
 //     Print(kNotification, "Constructor");
 //
-//     //JetTag = new analysis::HJetTag();
+//     //jet_tag = new analysis::JetTag();
 //
 //     SubStructure = new analysis::HSubStructure();
 //
@@ -18,7 +18,7 @@ hcpvhiggs::HAnalysis::~HAnalysis()
 
     Print(kNotification, "Destructor");
 
-    //delete JetTag;
+    //delete jet_tag;
 
     delete SubStructure;
 
@@ -94,7 +94,7 @@ void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
 }
 
 
-// int hcpvhiggs::HJetTag::GetBranchId(const int particle_id, int BranchId)
+// int hcpvhiggs::JetTag::GetBranchId(const int particle_id, int BranchId)
 // {
 //
 // //     if (HeavyParticles.find(std::abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
@@ -145,11 +145,11 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
     // Higgs stuff
 
-    /*    for(auto HeavyParticle : JetTag.HeavyParticles) {
+    /*    for(auto HeavyParticle : jet_tag.HeavyParticles) {
             Print(kError,"HeavyParticle",HeavyParticle);
         }  */
 
-    const Jets CandidateJets{};// = event.GetCandidates(JetTag);
+    const Jets CandidateJets{};// = event.GetCandidates(jet_tag);
 
     if (CandidateJets.empty()) {
 

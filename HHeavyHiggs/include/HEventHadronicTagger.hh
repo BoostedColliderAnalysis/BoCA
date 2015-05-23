@@ -1,16 +1,18 @@
-# ifndef EventHadronicTagger_hh
-# define EventHadronicTagger_hh
+# pragma once
 
-# include "HBranchHeavyHiggs.hh"
+# include "Branch.hh"
 # include "HHeavyHiggsHadronicTagger.hh"
 # include "Octet62.hh"
+
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT tagger for hadronic heavy higgs
  *
  */
-class hheavyhiggs::EventHadronicTagger : public analysis::Tagger
+class EventHadronicTagger : public analysis::Tagger
 {
 
 public:
@@ -29,7 +31,7 @@ public:
     */
     ~EventHadronicTagger();
 
-    std::vector<hheavyhiggs::EventHadronicBranch *> GetBranches(analysis::Event &event, const Object::Tag Tag);
+    std::vector<EventHadronicBranch *> GetBranches(analysis::Event &event, const Object::Tag Tag);
 
     void FillBranch(const Octet62 &octet);
 
@@ -46,7 +48,7 @@ protected:
 
 private:
 
-    void FillBranch(hheavyhiggs::EventHadronicBranch *eventHadronicBranch, const Octet62 &octet);
+    void FillBranch(EventHadronicBranch *eventHadronicBranch, const Octet62 &octet);
 
     void DefineVariables();
 
@@ -60,8 +62,9 @@ private:
     analysis::Reader TopHadronicReader;
     analysis::Reader HeavyHiggsHadronicReader;
 
-    hheavyhiggs::EventHadronicBranch Branch;
+    EventHadronicBranch Branch;
 
 };
 
-# endif
+  
+}

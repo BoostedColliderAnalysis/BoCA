@@ -1,6 +1,6 @@
 # include "HChargedLeptonicTagger.hh"
 
-hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(analysis::BottomTagger *const NewBottomTagger, analysis::HTopLeptonicTagger *const NewTopTagger, analysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger)
+heavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(analysis::BottomTagger *const NewBottomTagger, analysis::HTopLeptonicTagger *const NewTopTagger, analysis::HHeavyHiggsLeptonicTagger *const NewHeavyHiggsTagger)
 {
 
     Print(kNotification , "Constructor");
@@ -14,26 +14,26 @@ hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger(analysis::BottomTagg
 
     set_tagger_name("eventLeptonic");
 
-//     Branch = new hheavyhiggs::HChargedLeptonicBranch();
+//     Branch = new heavyhiggs::HChargedLeptonicBranch();
 
     DefineVariables();
 
 }
 
-hheavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger()
+heavyhiggs::HChargedLeptonicTagger::HChargedLeptonicTagger()
 {
 
     Print(kNotification , "Constructor");
 
     set_tagger_name("ChargedLeptonic");
-//     Branch = new hheavyhiggs::HChargedLeptonicBranch();
+//     Branch = new heavyhiggs::HChargedLeptonicBranch();
 
     DefineVariables();
 
 }
 
 
-hheavyhiggs::HChargedLeptonicTagger::~HChargedLeptonicTagger()
+heavyhiggs::HChargedLeptonicTagger::~HChargedLeptonicTagger()
 {
 
     Print(kNotification , "Constructor");
@@ -45,7 +45,7 @@ hheavyhiggs::HChargedLeptonicTagger::~HChargedLeptonicTagger()
 
 }
 
-void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch, const Octet44 &octet)
+void heavyhiggs::HChargedLeptonicTagger::FillBranch(heavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch, const Octet44 &octet)
 {
     Print(kInformation, "FillPairTagger", octet.Bdt());
 
@@ -78,13 +78,13 @@ void hheavyhiggs::HChargedLeptonicTagger::FillBranch(hheavyhiggs::HChargedLepton
     eventLeptonicBranch->eventTag = octet.Tag();
 }
 
-void hheavyhiggs::HChargedLeptonicTagger::FillBranch(const Octet44 &octet)
+void heavyhiggs::HChargedLeptonicTagger::FillBranch(const Octet44 &octet)
 {
     Print(kInformation, "FillPairTagger");
     FillBranch(&Branch, octet);
 }
 
-void hheavyhiggs::HChargedLeptonicTagger::DefineVariables()
+void heavyhiggs::HChargedLeptonicTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -128,7 +128,7 @@ struct SortByquartetBdt {
 };
 
 
-std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonicTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::HChargedLeptonicBranch *> heavyhiggs::HChargedLeptonicTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
 
     Jets jets = event.hadrons().GetStructuredJets();
@@ -171,9 +171,9 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
         octets.erase(octets.begin() + 1, octets.end());
     }
 
-    std::vector<hheavyhiggs::HChargedLeptonicBranch *> eventLeptonicBranches;
+    std::vector<heavyhiggs::HChargedLeptonicBranch *> eventLeptonicBranches;
     for (auto & octet : octets) {
-        hheavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch = new hheavyhiggs::HChargedLeptonicBranch();
+        heavyhiggs::HChargedLeptonicBranch *eventLeptonicBranch = new heavyhiggs::HChargedLeptonicBranch();
         octet.SetLeptonNumber(event.leptons().GetLeptonJets().size());
         octet.SetJetNumber(event.hadrons().GetJets().size());
         octet.SetBottomNumber(event.hadrons().GetBottomJets().size());
@@ -188,7 +188,7 @@ std::vector<hheavyhiggs::HChargedLeptonicBranch *> hheavyhiggs::HChargedLeptonic
 }
 
 
-void hheavyhiggs::HChargedLeptonicTagger::SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet)
+void heavyhiggs::HChargedLeptonicTagger::SetMomentum(double Momentum[4], const fastjet::PseudoJet &Jet)
 {
     Momentum[0] = Jet.E();
     Momentum[1] = Jet.px();
@@ -197,7 +197,7 @@ void hheavyhiggs::HChargedLeptonicTagger::SetMomentum(double Momentum[4], const 
 }
 
 
-std::vector<Octet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const analysis::Sextet &sextet, const fastjet::PseudoJet &MissingEt)
+std::vector<Octet44> heavyhiggs::HChargedLeptonicTagger::GetOctets(const analysis::Sextet &sextet, const fastjet::PseudoJet &MissingEt)
 {
 
     Print(kInformation, "Get Triple Pairs");
@@ -258,7 +258,7 @@ std::vector<Octet44> hheavyhiggs::HChargedLeptonicTagger::GetOctets(const analys
 }
 
 
-Octet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(analysis::Sextet sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag)
+Octet44 heavyhiggs::HChargedLeptonicTagger::GetOctet(analysis::Sextet sextet, fastjet::PseudoJet MissingEt, const Jets &Neutrinos, const analysis::Object::Tag Tag)
 {
 
     Print(kInformation, "Get Triple Pair");
@@ -311,7 +311,7 @@ Octet44 hheavyhiggs::HChargedLeptonicTagger::GetOctet(analysis::Sextet sextet, f
 
 }
 
-std::vector<int> hheavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
+std::vector<int> heavyhiggs::HChargedLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
     Print(kNotification, "Apply Bdt", branch_name_);
 

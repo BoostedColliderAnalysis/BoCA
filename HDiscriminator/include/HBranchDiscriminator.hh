@@ -8,8 +8,8 @@
 namespace hcpvhiggs{
 
   class HDiscriminator;
-  class HJetTag;
-  class JetHJetTag;
+  class JetTag;
+  class JetJetTag;
   class HAnalysis;
   class BranchDiscriminator;
   class HJetDiscriminator;

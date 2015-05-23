@@ -36,7 +36,7 @@ public:
 
     Jets GetLeptonJets();
 
-    Jets GetTaggedJets(HJetTag &jet_tag) {
+    Jets GetTaggedJets(JetTag &jet_tag) {
         jet_tag_ = &jet_tag;
         return GetLeptonJets(kTagging);
     };

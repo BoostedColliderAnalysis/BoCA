@@ -2,7 +2,7 @@
 
 # include "Object.hh"
 # include "ClonesArrays.hh"
-# include "HJetTag.hh"
+# include "JetTag.hh"
 # include "JetInfo.hh"
 
 # include "delphes/Delphes.hh"
@@ -131,7 +131,7 @@ protected:
 
     int source_;
 
-    HJetTag *jet_tag_;
+    JetTag *jet_tag_;
 
     enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 

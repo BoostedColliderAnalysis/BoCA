@@ -1,16 +1,17 @@
-# ifndef HChargedeventSemiTagger_hh
-# define HChargedeventSemiTagger_hh
+# pragma once
 
-# include "HBranchHeavyHiggs.hh"
 # include "MultipletEvent.hh"
 # include "HChargedSignatureSemiTagger.hh"
+
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class hheavyhiggs::HChargedeventSemiTagger : public analysis::Tagger
+class HChargedeventSemiTagger : public analysis::Tagger
 {
 
 public:
@@ -22,7 +23,7 @@ public:
     HChargedeventSemiTagger();
 
     void SetTagger(
-        const analysis::BottomTagger &NewBottomTagger, const analysis::HChargedJetPairTagger &NewChargedJetPairTagger, const analysis::WSemiTagger &Neww_semi_tagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopSemiTagger &Newtop_semi_tagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger, const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const hheavyhiggs::HChargedSignatureSemiTagger &NewChargedSignatureTagger);
+        const analysis::BottomTagger &NewBottomTagger, const analysis::HChargedJetPairTagger &NewChargedJetPairTagger, const analysis::WSemiTagger &Neww_semi_tagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopSemiTagger &Newtop_semi_tagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger, const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const HChargedSignatureSemiTagger &NewChargedSignatureTagger);
 
 
     std::vector< HChargedSemiBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
@@ -74,4 +75,4 @@ private:
 
 };
 
-# endif
+}

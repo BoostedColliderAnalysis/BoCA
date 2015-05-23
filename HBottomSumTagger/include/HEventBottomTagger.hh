@@ -102,7 +102,7 @@ private:
 //     std::vector<HOctet> GetHeavyHiggsevents(Jets &jets);
 
     analysis::EventBottomTaggerBranch Branch;
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
 };
 }

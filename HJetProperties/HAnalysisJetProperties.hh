@@ -11,7 +11,7 @@
 # include "fastjet/tools/Pruner.hh"
 # include "fastjet/tools/CASubJetTagger.hh"
 
-class hjetproperties::HJetTag : public analysis::HJetTag
+class hjetproperties::JetTag : public analysis::JetTag
 {
 
 public:
@@ -22,7 +22,7 @@ public:
 
     inline std::string ClassName() const {
 
-        return "HiggsCPV: JetTag";
+        return "HiggsCPV: jet_tag";
 
     };
 
@@ -130,7 +130,7 @@ public:
 private:
 
 
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
     analysis::HSubStructure *SubStructure;
 
@@ -157,7 +157,7 @@ private:
      */
     //     Jets Leptons();
 
-    //     JetTag *HJetTag;
+    //     jet_tag *JetTag;
 
     /**
      * @brief Lepton event counter

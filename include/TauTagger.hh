@@ -3,7 +3,7 @@
 # include "Tagger.hh"
 # include "Branches.hh"
 # include "Event.hh"
-# include "HJetTag.hh"
+# include "JetTag.hh"
 # include "Reader.hh"
 # include "Event.hh"
 
@@ -53,7 +53,7 @@ private:
 
     TauBranch branch_;
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
 };
 

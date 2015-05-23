@@ -41,7 +41,7 @@ Configuration.cpp
 Analysis.cpp
 Family.cpp
 Constituent.cpp
-HJetTag.cpp
+JetTag.cpp
 JetInfo.cpp
 HReconstruction.cpp
 HDiscriminator.cpp

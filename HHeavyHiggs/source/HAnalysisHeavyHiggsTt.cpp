@@ -1,6 +1,6 @@
 # include "HAnalysisHeavyHiggsTt.hh"
 
-// hheavyhiggs::HAnalysisTt::HAnalysisTt()
+// heavyhiggs::HAnalysisTt::HAnalysisTt()
 // {
 // //     DebugLevel = analysis::Object::kDebug;
 //     Print(kNotification, "Constructor");
@@ -15,7 +15,7 @@
 //     mkdir(ProjectName().c_str(), 0700);
 // }
 
-// std::string hheavyhiggs::HAnalysisTt::StudyName(const analysis::HAnalysis::HTagger Tagger) const
+// std::string heavyhiggs::HAnalysisTt::StudyName(const analysis::HAnalysis::HTagger Tagger) const
 // {
 //     Print(kNotification, "Get Study Names", Tagger);
 //
@@ -75,7 +75,7 @@
 //
 // }
 
-std::vector<analysis::File> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
+std::vector<analysis::File> heavyhiggs::HAnalysisTt::Files(const Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
@@ -226,7 +226,7 @@ std::vector<analysis::File> hheavyhiggs::HAnalysisTt::Files(const Tag tag)
 }
 
 
-void hheavyhiggs::HAnalysisTt::SetTrees()
+void heavyhiggs::HAnalysisTt::SetTrees()
 {
 
     Strings SignalLeptonicTrees {
@@ -326,7 +326,7 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
 
 
 
-// void hheavyhiggs::HAnalysisTt::PrepareReader(const analysis::HAnalysis::HTagger Tagger, const Tag Tag)
+// void heavyhiggs::HAnalysisTt::PrepareReader(const analysis::HAnalysis::HTagger Tagger, const Tag Tag)
 // {
 //     Print(kInformation, "Prepare Reader", Tagger);
 //
@@ -422,12 +422,12 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
 //
 // }
 
-// void hheavyhiggs::HAnalysisTt::ResetBranch()
+// void heavyhiggs::HAnalysisTt::ResetBranch()
 // {
 // //         Branch.reset();
 // }
 
-// void hheavyhiggs::HAnalysisTt::NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
+// void heavyhiggs::HAnalysisTt::NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
 // {
 //     Print(kNotification, "New Branches", Tagger);
 //
@@ -510,7 +510,7 @@ void hheavyhiggs::HAnalysisTt::SetTrees()
 //
 // }
 
-int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
+int heavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
 {
 
     Print(kInformation, "Analysis");
@@ -594,7 +594,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
     return tagger_.GetBranches(event, stage, tag);
 }
 
-// bool hheavyhiggs::HAnalysisTt::GetBottomTag(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
@@ -606,7 +606,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     return 1;
 // }
 //
-// bool hheavyhiggs::HAnalysisTt::GetBottomReader(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
@@ -629,7 +629,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     return 1;
 // }
 //
-// bool hheavyhiggs::HAnalysisTt::GetWSemiTag(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetWSemiTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get W Semi Tag", Tag);
 //     std::vector<HWSemiBranch> WSemis = w_semi_tagger.GetBranches(event, Tag);
@@ -641,7 +641,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     return 1;
 // }
 //
-// bool hheavyhiggs::HAnalysisTt::GetWSemiReader(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetWSemiReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get W Semi Reader", Tag);
 //
@@ -664,7 +664,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     return 1;
 // }
 //
-// bool hheavyhiggs::HAnalysisTt::GetWTag(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetWTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get W Tag", Tag);
 //     std::vector<WHadronicBranch> Ws = w_hadronic_tagger.GetBranches(event, Tag);
@@ -677,7 +677,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 // }
 //
 //
-// bool hheavyhiggs::HAnalysisTt::GetWReader(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetWReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
 //
@@ -702,7 +702,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //
 //
-// bool hheavyhiggs::HAnalysisTt::GetTopHadronicTag(analysis::Event &event,  Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetTopHadronicTag(analysis::Event &event,  Tag Tag)
 // {
 //     Print(kInformation, "Get hadronic tops", Tag);
 //     std::vector<TopHadronicBranch> Tops = top_hadronic_tagger.GetBranches(event, Tag);
@@ -716,7 +716,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //
 //
-// bool hheavyhiggs::HAnalysisTt::GetTopHadronicReader(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetTopHadronicReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
 //
@@ -741,7 +741,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //
 //
-// bool hheavyhiggs::HAnalysisTt::GetTopSemiTag(analysis::Event &event,  Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetTopSemiTag(analysis::Event &event,  Tag Tag)
 // {
 //     Print(kInformation, "Get Tops", Tag);
 //     std::vector<TopSemiBranch> Tops = top_semi_tagger.GetBranches(event, Tag);
@@ -753,7 +753,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     return 1;
 // }
 //
-// bool hheavyhiggs::HAnalysisTt::GetTopSemiReader(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetTopSemiReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
 //
@@ -780,7 +780,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //
 //
-// bool hheavyhiggs::HAnalysisTt::GetHeavyHiggsSemiTag(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetHeavyHiggsSemiTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get Semi HeavyHiggs Tag", Tag);
 //     std::vector<HHeavyHiggsSemiBranch> Higgses = HeavyHiggsSemiTagger.GetBranches(event, Tag);
@@ -792,7 +792,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //     return 1;
 // }
 //
-// bool hheavyhiggs::HAnalysisTt::GetHeavyHiggsSemiReader(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GetHeavyHiggsSemiReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
 //
@@ -827,10 +827,10 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //
 //
-// bool hheavyhiggs::HAnalysisTt::GeteventSemiTag(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GeteventSemiTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
-//     std::vector<hheavyhiggs::EventTtSemiBranch> Semievents = eventSemiTagger.GetBranches(event, Tag);
+//     std::vector<heavyhiggs::EventTtSemiBranch> Semievents = eventSemiTagger.GetBranches(event, Tag);
 //     if (Semievents.empty()) return 0;
 //     for (const auto & Semievent : Semievents) {
 //         *static_cast<EventTtSemiBranch *>(Branch->NewEntry()) = Semievent;
@@ -843,7 +843,7 @@ int hheavyhiggs::HAnalysisTt::RunAnalysis(analysis::Event &event, const analysis
 //
 //
 //
-// bool hheavyhiggs::HAnalysisTt::GeteventSemiReader(analysis::Event &event, const Tag Tag)
+// bool heavyhiggs::HAnalysisTt::GeteventSemiReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kInformation, "Get event semi", Tag);
 //

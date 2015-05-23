@@ -23,7 +23,7 @@ analysis::HMvaHiggsTagger::HMvaHiggsTagger(const BottomTagger &NewBottomTagger)
 //     SetBranchName("Higgs");
 
 //     Branch = new HHiggsBranch();
-    //JetTag = new HJetTag();
+    //jet_tag = new JetTag();
 
     DefineVariables();
 }
@@ -33,7 +33,7 @@ analysis::HMvaHiggsTagger::~HMvaHiggsTagger()
     Print(kNotification, "Destructor");
     // delete Branch;
 //     delete BottomReader;
-    //delete JetTag;
+    //delete jet_tag;
 }
 
 void analysis::HMvaHiggsTagger::DefineVariables()
@@ -89,8 +89,8 @@ std::vector<analysis::HHiggsBranch *> analysis::HMvaHiggsTagger::GetBranches(Eve
 
     Print(kInformation, "Get Higgs Tags");
 
-    JetTag.HeavyParticles = {CpvHiggsId, HiggsId, TopId};
-    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
+    jet_tag.HeavyParticles = {CpvHiggsId, HiggsId, TopId};
+    Jets jets = event.hadrons().GetStructuredTaggedJets(jet_tag);
 
     Jets HiggsJets;
     Jets OtherJets;

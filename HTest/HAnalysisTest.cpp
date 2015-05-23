@@ -48,13 +48,13 @@ void htest::HAnalysis::CloseFile()
 
 }
 
-// class htest::HJetTag : public analysis::HJetTag {
+// class htest::JetTag : public analysis::JetTag {
 //
 //     int GetBranchId(int, int);
 //
 // };
 
-// int htest::HJetTag::GetBranchId(const int particle_id, int BranchId)
+// int htest::JetTag::GetBranchId(const int particle_id, int BranchId)
 // {
 //
 //     Print(kInformation, "Get Mother Id");
@@ -79,13 +79,13 @@ int htest::HAnalysis::Analysis(analysis::Event &event, const std::string &StudyN
 
     Print(kInformation, "Analysis", StudyName);
 
-    analysis::HJetTag  HeavyHiggsJetTag;
-//     event.GetTaggedJets(HeavyHiggsJetTag);
+    analysis::JetTag  HeavyHiggsjet_tag;
+//     event.GetTaggedJets(HeavyHiggsjet_tag);
 
 
     HCandidateBranch *Candidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
 
-    Candidate->Pt = float(event.hadrons().GetTaggedJets(HeavyHiggsJetTag).front().pt());
+    Candidate->Pt = float(event.hadrons().GetTaggedJets(HeavyHiggsjet_tag).front().pt());
 
     if (Candidate->Pt > 100 ) {
 

@@ -31,7 +31,7 @@ public:
      */
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    void SetJetTag(HJetTag &jet_tag) {
+    void Setjet_tag(JetTag &jet_tag) {
         jet_tag_ = &jet_tag;
     }
 
@@ -56,16 +56,16 @@ public:
         return jets_;
     };
 
-    Jets GetTaggedJets(HJetTag &NewJetTag) {
-        jet_tag_ = &NewJetTag;
+    Jets GetTaggedJets(JetTag &Newjet_tag) {
+        jet_tag_ = &Newjet_tag;
         NewEvent(*clones_arrays_);
 //         if (!GotJets)
         GotJets = GetJets(kTagging);
         return jets_;
     };
 
-    Jets GetStructuredTaggedJets(HJetTag &NewJetTag) {
-        jet_tag_ = &NewJetTag;
+    Jets GetStructuredTaggedJets(JetTag &Newjet_tag) {
+        jet_tag_ = &Newjet_tag;
         NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(kTaggingStructure);
@@ -95,14 +95,14 @@ public:
         return EFlowJets;
     };
 
-    Jets GetTaggedEFlowJets(HJetTag &NewJetTag) {
-        jet_tag_ = &NewJetTag;
+    Jets GetTaggedEFlowJets(JetTag &Newjet_tag) {
+        jet_tag_ = &Newjet_tag;
         if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
         return EFlowJets;
     };
 
-    Jets GetStructuredTaggedEFlowJets(HJetTag &NewJetTag) {
-        jet_tag_ = &NewJetTag;
+    Jets GetStructuredTaggedEFlowJets(JetTag &Newjet_tag) {
+        jet_tag_ = &Newjet_tag;
         if (!GotEFlow) GotEFlow = GetEFlow(kTaggingStructure);
         return EFlowJets;
     };
@@ -118,8 +118,8 @@ public:
         return EFlowJets;
     };
 
-    Jets GetIsolatedTaggedEFlowJets(HJetTag &NewJetTag) {
-        jet_tag_ = &NewJetTag;
+    Jets GetIsolatedTaggedEFlowJets(JetTag &Newjet_tag) {
+        jet_tag_ = &Newjet_tag;
         if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
         return EFlowJets;
     };

@@ -10,7 +10,7 @@ namespace analysis{
  * @brief defines how to tag a jet
  *
  */
-class HJetTag : public Object
+class JetTag : public Object
 {
 
 public:
@@ -19,7 +19,7 @@ public:
      * @brief Constructor
      *
      */
-    HJetTag();
+    JetTag();
 
     /**
      * @brief decide on the branch id based on the former branch id and the particle id
@@ -43,7 +43,7 @@ protected:
 private:
 
     virtual inline std::string ClassName() const {
-        return "HJetTag";
+        return "JetTag";
     };
 
 };

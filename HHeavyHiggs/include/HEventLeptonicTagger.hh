@@ -1,18 +1,19 @@
-# ifndef HLeptoniceventTagger_hh
-# define HLeptoniceventTagger_hh
+# pragma once
 
-# include "HBranchHeavyHiggs.hh"
+# include "Branch.hh"
 # include "HHeavyHiggsLeptonicTagger.hh"
 # include "HJetPairTagger.hh"
 # include "Octet62.hh"
 # include "MultipletEvent.hh"
+
+namespace heavyhiggs {
 
 /**
  *
  * @brief event BDT Tagger for leptonic heavy higgs
  *
  */
-class hheavyhiggs::EventLeptonicTagger : public analysis::Tagger
+class EventLeptonicTagger : public analysis::Tagger
 {
 
 public:
@@ -35,7 +36,7 @@ public:
     */
     ~EventLeptonicTagger();
 
-    std::vector<hheavyhiggs::EventLeptonicBranch *> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
+    std::vector<EventLeptonicBranch *> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
 
     std::vector< Octet62 > GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, Jets &jets, analysis::GlobalObservables &, const analysis::Reader &eventLeptonicReader);
 
@@ -43,7 +44,7 @@ public:
 
     void FillBranch(const Octet62 &octet);
 
-    void FillBranch(hheavyhiggs::EventLeptonicBranch *eventLeptonicBranch, const Octet62 &octet);
+    void FillBranch(EventLeptonicBranch *eventLeptonicBranch, const Octet62 &octet);
 
 protected:
 
@@ -75,9 +76,9 @@ private:
     analysis::Reader JetPairReader;
     analysis::Reader TopLeptonicReader;
     analysis::Reader HeavyHiggsLeptonicReader;
-    hheavyhiggs::EventLeptonicBranch Branch;
-    analysis::HJetTag JetTag;
+    EventLeptonicBranch Branch;
+    analysis::JetTag jet_tag;
 
 };
 
-# endif
+}

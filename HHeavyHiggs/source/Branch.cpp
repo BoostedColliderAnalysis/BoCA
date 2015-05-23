@@ -1,8 +1,8 @@
-# include "HBranchHeavyHiggs.hh"
+# include "Branch.hh"
 
-ClassImp(hheavyhiggs::BranchHeavyHiggs)
+ClassImp(heavyhiggs::BranchHeavyHiggs)
 
-hheavyhiggs::BranchHeavyHiggs::BranchHeavyHiggs()
+heavyhiggs::BranchHeavyHiggs::BranchHeavyHiggs()
 {
     JetNumber = int(InitialValue());
     BTag = int(InitialValue());
@@ -24,9 +24,9 @@ hheavyhiggs::BranchHeavyHiggs::BranchHeavyHiggs()
 }
 
 
-ClassImp(hheavyhiggs::EventLeptonicBranch)
+ClassImp(heavyhiggs::EventLeptonicBranch)
 
-hheavyhiggs::EventLeptonicBranch::EventLeptonicBranch()
+heavyhiggs::EventLeptonicBranch::EventLeptonicBranch()
 {
     Mass = InitialValue();
     Pt = InitialValue();
@@ -74,9 +74,9 @@ hheavyhiggs::EventLeptonicBranch::EventLeptonicBranch()
 }
 
 
-ClassImp(hheavyhiggs::EventHadronicBranch)
+ClassImp(heavyhiggs::EventHadronicBranch)
 
-hheavyhiggs::EventHadronicBranch::EventHadronicBranch()
+heavyhiggs::EventHadronicBranch::EventHadronicBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -109,9 +109,9 @@ hheavyhiggs::EventHadronicBranch::EventHadronicBranch()
 }
 
 
-ClassImp(hheavyhiggs::EventSemiBranch)
+ClassImp(heavyhiggs::EventSemiBranch)
 
-hheavyhiggs::EventSemiBranch::EventSemiBranch()
+heavyhiggs::EventSemiBranch::EventSemiBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -168,9 +168,9 @@ hheavyhiggs::EventSemiBranch::EventSemiBranch()
 
 
 
-ClassImp(hheavyhiggs::EventTtSemiBranch)
+ClassImp(heavyhiggs::EventTtSemiBranch)
 
-hheavyhiggs::EventTtSemiBranch::EventTtSemiBranch()
+heavyhiggs::EventTtSemiBranch::EventTtSemiBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -193,9 +193,9 @@ hheavyhiggs::EventTtSemiBranch::EventTtSemiBranch()
 }
 
 
-ClassImp(hheavyhiggs::HBdtBranch)
+ClassImp(heavyhiggs::HBdtBranch)
 
-hheavyhiggs::HBdtBranch::HBdtBranch()
+heavyhiggs::HBdtBranch::HBdtBranch()
 {
 
     eventTag = InitialValue();
@@ -219,9 +219,9 @@ hheavyhiggs::HBdtBranch::HBdtBranch()
 }
 
 
-ClassImp(hheavyhiggs::HOctetBranch)
+ClassImp(heavyhiggs::HOctetBranch)
 
-hheavyhiggs::HOctetBranch::HOctetBranch()
+heavyhiggs::HOctetBranch::HOctetBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -234,9 +234,9 @@ hheavyhiggs::HOctetBranch::HOctetBranch()
 }
 
 
-ClassImp(hheavyhiggs::HChargedOctetBranch)
+ClassImp(heavyhiggs::HChargedOctetBranch)
 
-hheavyhiggs::HChargedOctetBranch::HChargedOctetBranch()
+heavyhiggs::HChargedOctetBranch::HChargedOctetBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -246,9 +246,9 @@ hheavyhiggs::HChargedOctetBranch::HChargedOctetBranch()
     PairBdt = InitialValue();
 }
 
-ClassImp(hheavyhiggs::HChargedSemiBranch)
+ClassImp(heavyhiggs::HChargedSemiBranch)
 
-hheavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
+heavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
 {
 
 
@@ -303,9 +303,9 @@ hheavyhiggs::HChargedSemiBranch::HChargedSemiBranch()
 }
 
 
-ClassImp(hheavyhiggs::HChargedLeptonicBranch)
+ClassImp(heavyhiggs::HChargedLeptonicBranch)
 
-hheavyhiggs::HChargedLeptonicBranch::HChargedLeptonicBranch()
+heavyhiggs::HChargedLeptonicBranch::HChargedLeptonicBranch()
 {
 
     LeptonNumber = int(InitialValue());
@@ -339,9 +339,9 @@ hheavyhiggs::HChargedLeptonicBranch::HChargedLeptonicBranch()
 }
 
 
-ClassImp(hheavyhiggs::HChargedHadronicBranch)
+ClassImp(heavyhiggs::HChargedHadronicBranch)
 
-hheavyhiggs::HChargedHadronicBranch::HChargedHadronicBranch()
+heavyhiggs::HChargedHadronicBranch::HChargedHadronicBranch()
 {
 
     LeptonNumber = int(InitialValue());

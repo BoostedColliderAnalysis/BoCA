@@ -1,13 +1,13 @@
 # include "HSignatureSemiTagger.hh"
 
-hheavyhiggs::HSignatureSemiTagger::HSignatureSemiTagger()
+heavyhiggs::HSignatureSemiTagger::HSignatureSemiTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     DefineVariables();
 }
 
-void hheavyhiggs::HSignatureSemiTagger::SetTagger(
+void heavyhiggs::HSignatureSemiTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
     const analysis::HJetPairTagger &NewJetPairTagger,
     const analysis::WSemiTagger &Neww_semi_tagger,
@@ -27,7 +27,7 @@ void hheavyhiggs::HSignatureSemiTagger::SetTagger(
     DefineVariables();
 }
 
-void hheavyhiggs::HSignatureSemiTagger::DefineVariables()
+void heavyhiggs::HSignatureSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     set_tagger_name("SignatureSemi");
@@ -66,7 +66,7 @@ void hheavyhiggs::HSignatureSemiTagger::DefineVariables()
 
 }
 
-hheavyhiggs::HOctetBranch hheavyhiggs::HSignatureSemiTagger::GetBranch(const Octet62 &octet) const
+heavyhiggs::HOctetBranch heavyhiggs::HSignatureSemiTagger::GetBranch(const Octet62 &octet) const
 {
     Print(kInformation, "FillPairTagger", octet.Bdt());
 
@@ -103,14 +103,14 @@ hheavyhiggs::HOctetBranch hheavyhiggs::HSignatureSemiTagger::GetBranch(const Oct
 
 }
 
-std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+std::vector<heavyhiggs::HOctetBranch> heavyhiggs::HSignatureSemiTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
     float Mass = event.mass();
     Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader);
     std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
@@ -183,20 +183,20 @@ std::vector<hheavyhiggs::HOctetBranch> hheavyhiggs::HSignatureSemiTagger::GetBra
         octets.erase(octets.begin() + 1, octets.end());
     }
 
-    std::vector<hheavyhiggs::HOctetBranch> octetBranches;
+    std::vector<heavyhiggs::HOctetBranch> octetBranches;
     for (const auto & octet : octets) octetBranches.emplace_back(GetBranch(octet));
 //     if (octetBranches.empty())Print(kError, "No octetBranches", octetBranches.size());
     return octetBranches;
 }
 
 
-analysis::Object::Tag hheavyhiggs::HSignatureSemiTagger::GetTag(const Octet62 &)
+analysis::Object::Tag heavyhiggs::HSignatureSemiTagger::GetTag(const Octet62 &)
 {
     Print(kInformation, "Get sextet Tag");
     return kSignal;
 }
 
-std::vector<Octet62> hheavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader)
+std::vector<Octet62> heavyhiggs::HSignatureSemiTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader)
 {
     Print(kInformation, "Get event Tags");
 

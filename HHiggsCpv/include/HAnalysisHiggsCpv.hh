@@ -110,7 +110,7 @@ private:
         return "HiggsCpv";
     }
 
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
     /**
      * @brief Main Analysis function

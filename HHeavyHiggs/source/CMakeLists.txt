@@ -1,13 +1,13 @@
-HDictionary(HBranchHeavyHiggs HBranchHeavyHiggs.cpp ../include/HLinkDefHeavyHiggs.hh)
+HDictionary(BranchHeavyHiggs Branch.cpp ../include/LinkDef.hh)
 
 set(AnalysisSources
-HAnalysisHeavyHiggsDelphes.cpp
-HAnalysisHeavyHiggsParton.cpp
-HAnalysisHeavyHiggsPgs.cpp
+# HAnalysisHeavyHiggsDelphes.cpp
+# HAnalysisHeavyHiggsParton.cpp
+# HAnalysisHeavyHiggsPgs.cpp
 HAnalysisHeavyHiggsMva.cpp
 HAnalysisHeavyHiggsTt.cpp
 HAnalysisChargedHiggsMva.cpp
-HAnalysisTau.cpp
+# HAnalysisTau.cpp
 HEventLeptonicTagger.cpp
 HEventHadronicTagger.cpp
 HEventSemiTagger.cpp
@@ -23,15 +23,6 @@ HEventTtSemiTagger.cpp
 )
 HLibrary(HAnalysisHeavyHiggs "${AnalysisSources}")
 
-HExecutable(HHeavyHiggsDelphes MainDelphes.cpp)
-HExecutable(HHeavyHiggsParton MainParton.cpp)
-HExecutable(HHeavyHiggsPgs MainPgs.cpp)
-HExecutable(HHeavyHiggsMva MainMva.cpp)
-HExecutable(HHeavyHiggsTt MainTt.cpp)
+HExecutable(HHeavyHiggsMva MainNeutral.cpp)
 HExecutable(HHeavyHiggsCharged MainCharged.cpp)
-HExecutable(HHeavyHiggsTau MainTau.cpp)
-
-HLibrary(HMvaHeavyHiggs HMvaHeavyHiggs.cpp)
-
-HExecutable(HHeavyHiggsFactory MainFactory.cpp)
-HExecutable(HHeavyHiggsReader MainReader.cpp)
+HExecutable(HHeavyHiggsTt MainTt.cpp)

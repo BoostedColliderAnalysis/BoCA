@@ -49,7 +49,7 @@ private:
 
     HHeavyHiggsTauBranch Branch;
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
 //     float WMassWindow;
 

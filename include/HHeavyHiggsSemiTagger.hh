@@ -51,7 +51,7 @@ private:
 
     Tag GetTag(const Sextet &sextet);
 
-    HJetTag JetTag;
+    JetTag jet_tag;
     HHeavyHiggsSemiBranch Branch;
 };
 

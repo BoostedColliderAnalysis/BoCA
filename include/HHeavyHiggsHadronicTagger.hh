@@ -48,7 +48,7 @@ private:
 
     HHeavyHiggsHadronicBranch Branch;
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
 };
 

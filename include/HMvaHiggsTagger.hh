@@ -3,7 +3,7 @@
 # include "Tagger.hh"
 # include "Branches.hh"
 # include "Event.hh"
-# include "HJetTag.hh"
+# include "JetTag.hh"
 # include "Reader.hh"
 # include "BottomTagger.hh"
 # include "Doublet.hh"
@@ -39,7 +39,7 @@ private:
 
     HHiggsBranch Branch;
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
     void DefineVariables();
 

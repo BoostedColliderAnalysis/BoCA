@@ -6,7 +6,7 @@
 //
 //     Print(kNotification, "Constructor");
 //
-//     //JetTag = new analysis::HJetTag();
+//     //jet_tag = new analysis::JetTag();
 //
 //     SubStructure = new analysis::HSubStructure();
 //
@@ -20,7 +20,7 @@ hjetproperties::HAnalysis::~HAnalysis()
 
     Print(kNotification, "Destructor");
 
-    //delete JetTag;
+    //delete jet_tag;
 
     delete SubStructure;
 
@@ -114,7 +114,7 @@ void hjetproperties::HAnalysis::CloseFile()
 
 }
 
-// int hjetproperties::HJetTag::GetBranchId(const int particle_id, int BranchId)
+// int hjetproperties::JetTag::GetBranchId(const int particle_id, int BranchId)
 // {
 //
 //     Print(kDebug, "Get Branch Id", particle_id);
@@ -158,7 +158,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
 
     }
 
-//     event.GetTaggedEFlow(JetTag);
+//     event.GetTaggedEFlow(jet_tag);
     //
     //     float eventPt = 0;
     //     for (const auto & EFlowJet : event->Jets->EFlowJets) {
@@ -180,7 +180,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     for (const auto & Id : Ids) {
 
         Jets EFlowJets;
-        std::copy_if(event.hadrons().GetTaggedEFlowJets(JetTag).begin(), event.hadrons().GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
+        std::copy_if(event.hadrons().GetTaggedEFlowJets(jet_tag).begin(), event.hadrons().GetTaggedEFlowJets().end(), std::back_inserter(EFlowJets),
                      [Id](const fastjet::PseudoJet & EFlowJet) {
 
                          if (EFlowJet.user_index() == Id) return 1;

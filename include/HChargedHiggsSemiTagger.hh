@@ -56,7 +56,7 @@ private:
 
     Tag GetTag(const analysis::Quartet31 &);
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
     HChargedHiggsSemiBranch Branch;
 };

@@ -1,12 +1,12 @@
 # include "HEventLeptonicTagger.hh"
 
-// hheavyhiggs::EventLeptonicTagger::EventLeptonicTagger()
+// heavyhiggs::EventLeptonicTagger::EventLeptonicTagger()
 // {
 //   Print(kNotification , "Constructor");
 //   SetTaggerName("eventLeptonic");
 // }
 
-hheavyhiggs::EventLeptonicTagger::EventLeptonicTagger(
+heavyhiggs::EventLeptonicTagger::EventLeptonicTagger(
     const analysis::BottomTagger &NewBottomTagger,
     const analysis::HJetPairTagger &NewJetPairTagger,
     const analysis::HTopLeptonicTagger &NewTopTagger,
@@ -23,32 +23,32 @@ hheavyhiggs::EventLeptonicTagger::EventLeptonicTagger(
     HeavyHiggsLeptonicReader.set_tagger(HeavyHiggsLeptonicTagger);
     JetPairTagger = NewJetPairTagger;
     JetPairReader.set_tagger(JetPairTagger);
-//     Branch = new hheavyhiggs::EventLeptonicBranch();
-    //JetTag = new analysis::HJetTag();
+//     Branch = new heavyhiggs::EventLeptonicBranch();
+    //jet_tag = new analysis::JetTag();
     DefineVariables();
 }
 
-hheavyhiggs::EventLeptonicTagger::EventLeptonicTagger()
+heavyhiggs::EventLeptonicTagger::EventLeptonicTagger()
 {
     Print(kNotification , "Constructor");
     set_tagger_name("eventLeptonic");
-//     Branch = new hheavyhiggs::EventLeptonicBranch();
+//     Branch = new heavyhiggs::EventLeptonicBranch();
     DefineVariables();
 }
 
 
-hheavyhiggs::EventLeptonicTagger::~EventLeptonicTagger()
+heavyhiggs::EventLeptonicTagger::~EventLeptonicTagger()
 {
     Print(kNotification , "Constructor");
     // delete Branch;
-    //delete JetTag;
+    //delete jet_tag;
 //     delete BottomReader;
 //     delete TopLeptonicReader;
 //     delete HeavyHiggsLeptonicReader;
 //     delete JetPairReader;
 }
 
-void hheavyhiggs::EventLeptonicTagger::DefineVariables()
+void heavyhiggs::EventLeptonicTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -99,7 +99,7 @@ void hheavyhiggs::EventLeptonicTagger::DefineVariables()
 
 }
 
-void hheavyhiggs::EventLeptonicTagger::FillBranch(hheavyhiggs::EventLeptonicBranch *eventLeptonicBranch, const Octet62 &octet)
+void heavyhiggs::EventLeptonicTagger::FillBranch(heavyhiggs::EventLeptonicBranch *eventLeptonicBranch, const Octet62 &octet)
 {
     Print(kInformation, "Fill Branch", octet.Bdt());
 
@@ -147,7 +147,7 @@ void hheavyhiggs::EventLeptonicTagger::FillBranch(hheavyhiggs::EventLeptonicBran
     eventLeptonicBranch->Tag = octet.Tag();
 }
 
-void hheavyhiggs::EventLeptonicTagger::FillBranch(const Octet62 &octet)
+void heavyhiggs::EventLeptonicTagger::FillBranch(const Octet62 &octet)
 {
     Print(kInformation, "Fill Branch");
     FillBranch(&Branch, octet);
@@ -160,16 +160,16 @@ struct SortJetsByBdt {
 };
 
 
-std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
+std::vector<heavyhiggs::EventLeptonicBranch *> heavyhiggs::EventLeptonicTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Get Branches");
 
-    JetTag.HeavyParticles = {GluonId, TopId};
-    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
+    jet_tag.HeavyParticles = {GluonId, TopId};
+    Jets jets = event.hadrons().GetStructuredTaggedJets(jet_tag);
 
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<analysis::Doublet> Topdoublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
@@ -245,9 +245,9 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
 //         octet.Setglobal_observables(global_observables);
     }
 
-    std::vector<hheavyhiggs::EventLeptonicBranch *> eventLeptonicBranches;
+    std::vector<heavyhiggs::EventLeptonicBranch *> eventLeptonicBranches;
     for (auto & octet : octets) {
-        hheavyhiggs::EventLeptonicBranch *eventLeptonicBranch = new hheavyhiggs::EventLeptonicBranch();
+        heavyhiggs::EventLeptonicBranch *eventLeptonicBranch = new heavyhiggs::EventLeptonicBranch();
         octet.SetTag(tag);
         FillBranch(eventLeptonicBranch, octet);
         eventLeptonicBranches.emplace_back(eventLeptonicBranch);
@@ -258,7 +258,7 @@ std::vector<hheavyhiggs::EventLeptonicBranch *> hheavyhiggs::EventLeptonicTagger
 }
 
 
-analysis::Object::Tag hheavyhiggs::EventLeptonicTagger::GetTag(const Octet62 &octet)
+analysis::Object::Tag heavyhiggs::EventLeptonicTagger::GetTag(const Octet62 &octet)
 {
     Print(kInformation, "Get sextet Tag");
 
@@ -294,7 +294,7 @@ analysis::Object::Tag hheavyhiggs::EventLeptonicTagger::GetTag(const Octet62 &oc
 
 
 
-std::vector<Octet62> hheavyhiggs::EventLeptonicTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, Jets &jets, analysis::GlobalObservables &, const analysis::Reader & eventLeptonicReader)
+std::vector<Octet62> heavyhiggs::EventLeptonicTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, Jets &jets, analysis::GlobalObservables &, const analysis::Reader & eventLeptonicReader)
 {
     Print(kInformation, "Get event Tags");
 
@@ -358,7 +358,7 @@ std::vector<Octet62> hheavyhiggs::EventLeptonicTagger::GetBdt(const std::vector<
 
 
 
-std::vector<int> hheavyhiggs::EventLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
+std::vector<int> heavyhiggs::EventLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile)
 {
   Print(kNotification, "Apply Bdt", branch_name());
   std::string Temp = branch_name(); // TODO remove this dirty trick
@@ -407,7 +407,7 @@ std::vector<int> hheavyhiggs::EventLeptonicTagger::ApplyBdt2(const ExRootTreeRea
 
 
 
-// std::vector<int> hheavyhiggs::EventLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
+// std::vector<int> heavyhiggs::EventLeptonicTagger::ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 // {
 //     Print(kNotification, "Apply Bdt", eventBranchName);
 //

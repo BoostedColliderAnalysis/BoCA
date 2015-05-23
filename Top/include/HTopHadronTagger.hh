@@ -61,7 +61,7 @@ private:
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
     HTopHadronBranch Branch;
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
     float TopWindow ;
     float WMassWindow ;

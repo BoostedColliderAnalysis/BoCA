@@ -1,8 +1,10 @@
 # pragma once
 
 # include "Analysis.hh"
-# include "HBranchHeavyHiggs.hh"
 # include "HEventSemiTagger.hh"
+
+namespace heavyhiggs
+{
 
 /**
  *
@@ -11,7 +13,7 @@
  * @author Jan Hajer
  *
  */
-class hheavyhiggs::HAnalysisMva : public analysis::Analysis
+class HAnalysisMva : public analysis::Analysis
 {
 
 public:
@@ -37,11 +39,11 @@ public:
 // //     analysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
 //     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
 //
-// //     hheavyhiggs::EventLeptonicTagger eventLeptonicTagger;
-// //     hheavyhiggs::EventHadronicTagger eventHadronicTagger;
+// //     EventLeptonicTagger eventLeptonicTagger;
+// //     EventHadronicTagger eventHadronicTagger;
 //
-//     hheavyhiggs::HSignatureSemiTagger SignatureSemiTagger;
-//     hheavyhiggs::EventSemiTagger eventSemiTagger;
+//     HSignatureSemiTagger SignatureSemiTagger;
+//     EventSemiTagger eventSemiTagger;
 
 //     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
 
@@ -150,7 +152,7 @@ public:
 
 
     enum ColliderType {LHC, FHC, LE};
-    
+
 
     inline ColliderType collider_type() const {
          return LHC;
@@ -511,7 +513,7 @@ private:
         }
     }
 
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
     analysis::Reader BottomReader;
     analysis::Reader JetPairReader;
@@ -566,3 +568,5 @@ private:
 
 
 };
+
+}

@@ -95,12 +95,12 @@ std::vector< analysis::HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLepto
 {
     Print(kInformation, "Get Higgs Tags");
 
-    JetTag.HeavyParticles = {TopId, ChargedHiggsId};
-    Jets jets = event.hadrons().GetStructuredTaggedJets(JetTag);
+    jet_tag.HeavyParticles = {TopId, ChargedHiggsId};
+    Jets jets = event.hadrons().GetStructuredTaggedJets(jet_tag);
 
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.leptons().GetTaggedJets(JetTag);
+    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);

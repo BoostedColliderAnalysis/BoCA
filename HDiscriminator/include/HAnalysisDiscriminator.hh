@@ -9,10 +9,10 @@
 
 /**
  *
- * @brief HJetTag subclass for HDiscriminator
+ * @brief JetTag subclass for HDiscriminator
  *
  */
-class hcpvhiggs::HJetTag : public analysis::HJetTag
+class hcpvhiggs::JetTag : public analysis::JetTag
 {
 
 public:
@@ -23,7 +23,7 @@ public:
 
     virtual inline std::string ClassName() const {
 
-        return "HiggsCPV: HJetTag";
+        return "HiggsCPV: JetTag";
 
     };
 
@@ -85,7 +85,7 @@ private:
 
     };
 
-    analysis::HJetTag  JetTag;
+    analysis::JetTag  jet_tag;
 
     analysis::HSubStructure * SubStructure;
 

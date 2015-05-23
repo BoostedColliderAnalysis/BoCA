@@ -9,7 +9,7 @@
 // # include "HEventDelphes.hh"
 # include "Reader.hh"
 # include "Factory.hh"
-# include "HJetTag.hh"
+# include "JetTag.hh"
 
 # include "HEventBottomTagger.hh"
 
@@ -231,7 +231,7 @@ private:
         return 1;
     }
 
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
     analysis::Reader BottomReader;
     analysis::Reader eventBottomSumReader;
 

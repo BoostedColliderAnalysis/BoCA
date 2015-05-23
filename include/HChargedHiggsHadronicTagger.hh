@@ -47,7 +47,7 @@ private:
     Reader TopHadronicReader;
 
     HChargedHiggsHadronicBranch Branch;
-    HJetTag JetTag;
+    JetTag jet_tag;
 
 };
 

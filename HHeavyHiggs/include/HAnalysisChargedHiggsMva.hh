@@ -1,17 +1,17 @@
-# ifndef HAnalysisCharged_hh
-# define HAnalysisCharged_hh
+# pragma once
 
 #include <sys/stat.h>
 
 # include "File.hh"
 # include "Analysis.hh"
-// # include "HEventDelphes.hh"
-# include "HBranchHeavyHiggs.hh"
 # include "Reader.hh"
 # include "Factory.hh"
-# include "HJetTag.hh"
+# include "JetTag.hh"
 
 # include "HChargedEventSemiTagger.hh"
+
+namespace heavyhiggs
+{
 
 /**
  *
@@ -20,7 +20,7 @@
  * @author Jan Hajer
  *
  */
-class hheavyhiggs::HAnalysisCharged : public analysis::Analysis
+class HAnalysisCharged : public analysis::Analysis
 {
 
 public:
@@ -43,8 +43,8 @@ using analysis::Analysis::Analysis;
     analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
     analysis::HChargedJetPairTagger JetPairTagger;
 
-    hheavyhiggs::HChargedSignatureSemiTagger SignatureSemiTagger;
-    hheavyhiggs::HChargedeventSemiTagger eventSemiTagger;
+    HChargedSignatureSemiTagger SignatureSemiTagger;
+    HChargedeventSemiTagger eventSemiTagger;
 
     std::vector< analysis::File > Files(const analysis::Object::Tag tag);
 
@@ -467,7 +467,7 @@ private:
         }
     }
 
-    analysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
     analysis::Reader BottomReader;
     analysis::Reader JetPairReader;
@@ -513,4 +513,4 @@ private:
 
 };
 
-#endif
+}

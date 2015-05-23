@@ -5,7 +5,7 @@
 //
 // //     DebugLevel = analysis::Object::kDebug;
 //     Print(kNotification, "Constructor");
-//     //JetTag = new analysis::HJetTag();
+//     //jet_tag = new analysis::JetTag();
 //
 // }
 //
@@ -14,7 +14,7 @@
 //
 //     Print(kNotification, "Destructor");
 //
-//     //delete JetTag;
+//     //delete jet_tag;
 //
 // //     if (!BottomTagger)delete BottomTagger;
 // //     if (!LeptonicTopTagger) delete LeptonicTopTagger;

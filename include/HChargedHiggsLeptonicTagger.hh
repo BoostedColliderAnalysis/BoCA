@@ -46,7 +46,7 @@ private:
 
     HChargedHiggsLeptonicBranch Branch;
 
-    HJetTag JetTag;
+    JetTag jet_tag;
 
 };
 

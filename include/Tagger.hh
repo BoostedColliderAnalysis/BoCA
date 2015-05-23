@@ -254,7 +254,7 @@ public:
         return Jets {};
     }
 
-    Jets GetJets(analysis::Event &, analysis::HJetTag &) {
+    Jets GetJets(analysis::Event &, analysis::JetTag &) {
         Print(kError, "get jets", "depreciated");
         return Jets {};
     }
