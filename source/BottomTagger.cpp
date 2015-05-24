@@ -35,7 +35,7 @@ analysis::BottomBranch analysis::BottomTagger::FillBranch(const fastjet::PseudoJ
 {
     Print(kInformation, "Fill Branch");
     BottomBranch branch;
-    branch.FillBranch(Singlet(jet));
+    branch.Fill(Singlet(jet));
     return branch;
 }
 

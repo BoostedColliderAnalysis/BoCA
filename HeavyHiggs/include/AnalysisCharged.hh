@@ -41,7 +41,7 @@ using analysis::Analysis::Analysis;
     analysis::TopSemiTagger top_semi_tagger;
 
     analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
-    analysis::HChargedJetPairTagger JetPairTagger;
+    analysis::TripletJetPairTagger jet_pair_tagger;
 
     SignatureChargedTagger SignatureSemiTagger;
     EventChargedTagger eventSemiTagger;

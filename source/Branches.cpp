@@ -107,9 +107,9 @@ ClassImp(analysis::ZHadronicBranch)
 
 analysis::ZHadronicBranch::ZHadronicBranch() {}
 
-ClassImp(analysis::EventJetPairBranch)
+ClassImp(analysis::JetPairBranch)
 
-analysis::EventJetPairBranch::EventJetPairBranch()
+analysis::JetPairBranch::JetPairBranch()
 {
     DeltaM = InitialValue();
     Jet1Mass = InitialValue();
@@ -272,9 +272,9 @@ analysis::HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
     HeavyHiggsTag = int(InitialValue());
 }
 
-ClassImp(analysis::HHeavyHiggsSemiBranch)
+ClassImp(analysis::HeavyHiggsSemiBranch)
 
-analysis::HHeavyHiggsSemiBranch::HHeavyHiggsSemiBranch() {}
+analysis::HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
 ClassImp(analysis::HChargedHiggsSemiBranch)
 

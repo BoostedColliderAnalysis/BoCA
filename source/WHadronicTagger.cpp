@@ -30,7 +30,7 @@ analysis::WHadronicBranch analysis::WHadronicTagger::GetBranch(const Doublet &do
 {
     Print(kInformation, "FillPairTagger", doublet.Bdt());
     WHadronicBranch branch;
-    branch.FillBranch(doublet);
+    branch.Fill(doublet);
     return branch;
 }
 
@@ -128,7 +128,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 }
 
 
-Jets analysis::WHadronicTagger::GetWDaughters(Event &event)
+Jets analysis::WHadronicTagger::GetWDaughters(analysis::Event& event) const
 {
     Jets w_daughters = event.partons().Generator();
     w_daughters = RemoveIfWrongAbsMother(w_daughters, WId);
@@ -139,7 +139,7 @@ Jets analysis::WHadronicTagger::GetWDaughters(Event &event)
     return w_daughters;
 }
 
-int analysis::WHadronicTagger::GetWHadId(const Jets &jets)
+int analysis::WHadronicTagger::GetWHadId(const Jets& jets) const
 {
     if (jets.empty()) return WId;
     else return jets.front().user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id;

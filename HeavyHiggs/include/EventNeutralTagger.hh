@@ -23,49 +23,24 @@ public:
     */
     EventNeutralTagger();
 
-    /**
-    * @brief Destructor
-    *
-    */
-    ~EventNeutralTagger();
-
-    void SetTagger(
-        const analysis::BottomTagger &NewBottomTagger,
-        const analysis::HJetPairTagger &NewJetPairTagger,
-        const analysis::WSemiTagger &Neww_semi_tagger,
-        const analysis::WHadronicTagger &NewWTagger,
-        const analysis::TopSemiTagger &Newtop_semi_tagger,
-        const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-        const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
-        const SignatureNeutralTagger &NewSignatureSemiTagger);
-
     std::vector<EventNeutralBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector< analysis::MultipletEvent< Octet62 > > GetBdt(const std::vector< Octet62 > &octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader);
+    std::vector< analysis::MultipletEvent< Octet62 > > GetBdt(const std::vector< Octet62 > &octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader){
+      Print(kError, "get bdt","depreciated");
+      std::vector< analysis::MultipletEvent< Octet62 > >{};
+    }
 
-//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+    std::vector< analysis::MultipletEvent< Octet62 > > OctetEvent(analysis::Event &event, const TMVA::Reader &reader);
 
-    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
+    float ReadBdt(const TClonesArray& clones_array, const int entry);
+
+    analysis::GlobalObservables global_observables(analysis::Event &event);
 
     EventNeutralBranch GetBranch(const analysis::MultipletEvent< Octet62 > &octet) const;
 
-    analysis::BottomTagger bottom_tagger_;
-    analysis::WSemiTagger w_semi_tagger;
-    analysis::WHadronicTagger WTagger;
-    analysis::TopSemiTagger top_semi_tagger;
-    analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
-    analysis::HJetPairTagger JetPairTagger;
-    SignatureNeutralTagger SignatureSemiTagger;
+    SignatureNeutralTagger signature_neutral_tagger_;
 
-    analysis::Reader BottomReader;
-    analysis::Reader WSemiReader;
-    analysis::Reader WReader;
-    analysis::Reader TopHadronicReader;
-    analysis::Reader TopSemiReader;
-    analysis::Reader HeavyHiggsSemiReader;
-    analysis::Reader JetPairReader;
-    analysis::Reader SignatureSemiReader;
+    analysis::Reader signature_neutral_reader_;
 
 
 protected:
@@ -84,8 +59,7 @@ private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
-    EventNeutralBranch Branch;
-    analysis::JetTag jet_tag;
+    EventNeutralBranch branch_;
 
 };
 

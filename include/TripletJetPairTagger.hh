@@ -1,5 +1,5 @@
-# ifndef HChargedJetPairTagger_hh
-# define HChargedJetPairTagger_hh
+# ifndef TripletJetPairTagger_hh
+# define TripletJetPairTagger_hh
 
 # include "BottomTagger.hh"
 # include "Quartet31.hh"
@@ -10,12 +10,12 @@
  * @brief JetPair BDT tagger
  *
  */
-class analysis::HChargedJetPairTagger : public Tagger
+class analysis::TripletJetPairTagger : public Tagger
 {
 
 public:
 
-    HChargedJetPairTagger();
+    TripletJetPairTagger();
 
     void SetTagger(const BottomTagger &NewBottomTagger, const WSemiTagger &Neww_semi_tagger, const WHadronicTagger &NewWTagger, const TopSemiTagger &Newtop_semi_tagger, const TopHadronicTagger &Newtop_hadronic_tagger);
 
@@ -40,7 +40,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "HChargedJetPairTagger";
+        return "TripletJetPairTagger";
     }
 
 private:

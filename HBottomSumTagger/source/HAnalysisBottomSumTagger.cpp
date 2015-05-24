@@ -18,7 +18,7 @@
 //         return "Bottom";
 //     case  HBottomReader :
 //         return "BottomReader";
-//     case  HJetPairTagger :
+//     case  JetPairTagger :
 //         return "eventBottom";
 //     case  HJetPairReader :
 //         return "eventBottomReader";
@@ -95,7 +95,7 @@ std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::O
 //             break;
 //         }
 //         break;
-//     case  HJetPairTagger :
+//     case  JetPairTagger :
 //         switch (Tag) {
 //         case Object::kSignal :
 //             NewFiles = SignalSemiFiles;
@@ -193,7 +193,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
 //         BottomTagger.SetBackgroundTreeNames(SemiTrees);
 //         break;
-//     case HJetPairTagger :
+//     case JetPairTagger :
 //         eventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
 //         eventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         if (Tag == kSignal) {
@@ -226,7 +226,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     case HBottomReader:
 //         BottomReader.set_tagger(bottom_tagger_);
 //         break;
-//     case HJetPairTagger :
+//     case JetPairTagger :
 //         eventBottomSumTagger.BottomTagger.SetTagger();
 //         eventBottomSumTagger.BottomReader.set_tagger(eventBottomSumTagger.BottomTagger);
 //         break;
@@ -250,7 +250,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     case HBottomReader :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), BottomBranch::Class());
 //         break;
-//     case HJetPairTagger :
+//     case JetPairTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventBottomTaggerBranch::Class());
 //         break;
 //     case HJetPairReader :
@@ -272,7 +272,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //         return GetBottomTag(event, Tag);
 //     case HBottomReader:
 //         return GetBottomReader(event, Tag);
-//     case HJetPairTagger :
+//     case JetPairTagger :
 //         return GeteventSemiTag(event, Tag);
 //     case HJetPairReader :
 //         return GeteventSemiReader(event, Tag);

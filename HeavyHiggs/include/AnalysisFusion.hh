@@ -38,7 +38,7 @@ using analysis::Analysis::Analysis;
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::TopSemiTagger top_semi_tagger;
 
-    analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
 
     EventFusionTagger eventSemiTagger;
 

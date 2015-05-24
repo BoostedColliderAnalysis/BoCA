@@ -55,16 +55,17 @@ analysis::TopHadronicBranch analysis::TopHadronicTagger::GetBranch(const analysi
 {
     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
     TopHadronicBranch branch;
-    branch.FillBranch(triplet);
+    branch.Fill(triplet);
     return branch;
 }
 
 int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Train");
-    int w_had_id = w_hadronic_tagger_.GetWHadId(event);
+//     int w_had_id = w_hadronic_tagger_.GetWHadId(event);
+//     int had_top_id = sgn(w_had_id) * std::abs(TopId);
+    int had_top_id = TopHadronicId(event);
     Jets top_particles = event.partons().Generator();
-    int had_top_id = sgn(w_had_id) * std::abs(TopId);
     top_particles = RemoveIfWrongParticle(top_particles, had_top_id);
 
     Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());

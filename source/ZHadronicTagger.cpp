@@ -30,7 +30,7 @@ analysis::ZHadronicBranch analysis::ZHadronicTagger::GetBranch(const Doublet &do
 {
     Print(kInformation, "FillPairTagger", doublet.Bdt());
     ZHadronicBranch branch;
-    branch.FillBranch(doublet);
+    branch.Fill(doublet);
     return branch;
 }
 

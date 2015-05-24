@@ -28,6 +28,10 @@ public:
       return 0;
     }
 
+    std::vector<Triplet> CleanTriplets(const Triplet &triplet, Jets TopQuarks, float pre_cut, const Tag tag);
+    
+    std::vector<Triplet> CleanTriplet(const Triplet &triplet, fastjet::PseudoJet particle, float pre_cut, const Tag tag);
+
     int GetBdt(Event &event, const TMVA::Reader &reader){
       return SaveEntries(GetTriplets(event,reader));
     }

@@ -23,8 +23,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const an
 //         case analysis::HAnalysis::HBottomTagger:
             analysis::Factory factory(tagger);
 //             break;
-//         case analysis::HAnalysis::HJetPairTagger:
-//             analysis::Factory(Analysis.JetPairTagger);
+//         case analysis::HAnalysis::JetPairTagger:
+//             analysis::Factory(Analysis.jet_pair_tagger);
 //             break;
 //         case analysis::HAnalysis::WHadronicTagger:
 //             analysis::Factory(Analysis.w_hadronic_tagger);
@@ -47,8 +47,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const an
 //         case analysis::HAnalysis::HHeavyHiggsHadronicTagger:
 // //             analysis::Factory(Analysis.HeavyHiggsHadronicTagger);
 //             break;
-//         case analysis::HAnalysis::HHeavyHiggsSemiTagger:
-//             analysis::Factory(Analysis.HeavyHiggsSemiTagger);
+//         case analysis::HAnalysis::HeavyHiggsSemiTagger:
+//             analysis::Factory(Analysis.heavy_higgs_semi_tagger);
 //             break;
 //         case analysis::HAnalysis::EventLeptonicTagger:
 // //             analysis::Factory(Analysis.eventLeptonicTagger);
@@ -107,7 +107,7 @@ int main()
     RunTagger(bottom_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(bottom_tagger, analysis::Tagger::kReader, config);
 
-    analysis::HJetPairTagger jet_pair_tagger;
+    analysis::JetPairTagger jet_pair_tagger;
     RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(jet_pair_tagger, analysis::Tagger::kReader, config);
 
@@ -127,7 +127,7 @@ int main()
     RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(tops_semi_tagger, analysis::Tagger::kReader, config);
 
-    analysis::HHeavyHiggsSemiTagger heavy_higgs_semi_tagger;
+    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader, config);
 

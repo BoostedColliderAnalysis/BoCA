@@ -27,7 +27,7 @@ public:
 //     AnalysisNeutral();
 
 //     analysis::BottomTagger bottom_tagger_;
-//     analysis::HJetPairTagger JetPairTagger;
+//     analysis::JetPairTagger jet_pair_tagger;
 //     analysis::HWSemiTagger w_semi_tagger;
 //     analysis::HWTagger w_hadronic_tagger;
 //
@@ -37,7 +37,7 @@ public:
 //
 // //     analysis::HHeavyHiggsLeptonicTagger HeavyHiggsLeptonicTagger;
 // //     analysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
-//     analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+//     analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
 //
 // //     EventLeptonicTagger eventLeptonicTagger;
 // //     EventHadronicTagger eventHadronicTagger;

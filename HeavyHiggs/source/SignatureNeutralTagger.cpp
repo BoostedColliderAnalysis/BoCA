@@ -4,124 +4,52 @@ heavyhiggs::SignatureNeutralTagger::SignatureNeutralTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
-    DefineVariables();
-}
-
-void heavyhiggs::SignatureNeutralTagger::SetTagger(
-    const analysis::BottomTagger &NewBottomTagger,
-    const analysis::HJetPairTagger &NewJetPairTagger,
-    const analysis::WSemiTagger &Neww_semi_tagger,
-    const analysis::WHadronicTagger &NewWTagger,
-    const analysis::TopSemiTagger &Newtop_semi_tagger,
-    const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-    const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger)
-{
-    Print(kNotification , "Constructor");
-    bottom_tagger_ = NewBottomTagger;
-    w_semi_tagger = Neww_semi_tagger;
-    WTagger = NewWTagger;
-    top_semi_tagger = Newtop_semi_tagger;
-    top_hadronic_tagger = Newtop_hadronic_tagger;
-    HeavyHiggsSemiTagger = NewHeavyHiggsSemiTagger;
-    JetPairTagger = NewJetPairTagger;
+    set_tagger_name("SignatureNeutral");
+    heavy_higgs_semi_reader_.set_tagger(heavy_higgs_semi_tagger_);
+    jet_pair_reader_.set_tagger(jet_pair_tagger_);
     DefineVariables();
 }
 
 void heavyhiggs::SignatureNeutralTagger::DefineVariables()
 {
-    Print(kNotification , "Define Variables");
-    set_tagger_name("SignatureSemi");
-    ClearVectors();
-
-
-    AddVariable(Branch.Mass, "Mass");
-    AddVariable(Branch.Pt, "Pt");
-    AddVariable(Branch.Rap, "Rap");
-    AddVariable(Branch.Phi, "Phi");
-    AddVariable(Branch.Ht, "Ht");
-
-    AddVariable(Branch.DeltaPt, "DeltaPt");
-    AddVariable(Branch.DeltaHt, "DeltaHt");
-    AddVariable(Branch.DeltaM, "DeltaM");
-    AddVariable(Branch.DeltaRap, "DeltaRap");
-    AddVariable(Branch.DeltaPhi, "DeltaPhi");
-    AddVariable(Branch.DeltaR, "DeltaR");
-
-
-    AddVariable(Branch.HiggsMass, "HiggsMass");
-    AddVariable(Branch.PairRap, "PairRap");
-    AddVariable(Branch.BottomBdt, "BottomBdt");
-    AddVariable(Branch.PairBottomBdt, "PairBottomBdt");
-    AddVariable(Branch.PairBdt, "PairBdt");
-    AddVariable(Branch.HiggsBdt, "HiggsBdt");
-
-    AddVariable(Branch.HardTopPt, "HardTopPt");
-    AddVariable(Branch.SoftTopPt, "SoftTopPt");
-
-    AddVariable(Branch.Bdt, "Bdt");
-    AddSpectator(Branch.Tag, "Tag");
-
-
+    Print(kNotification, "Define Variables");
+    AddVariable(branch_.Mass, "Mass");
+    AddVariable(branch_.Pt, "Pt");
+    AddVariable(branch_.Rap, "Rap");
+    AddVariable(branch_.Phi, "Phi");
+    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch_.DeltaPt, "DeltaPt");
+    AddVariable(branch_.DeltaHt, "DeltaHt");
+    AddVariable(branch_.DeltaM, "DeltaM");
+    AddVariable(branch_.DeltaRap, "DeltaRap");
+    AddVariable(branch_.DeltaPhi, "DeltaPhi");
+    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch_.HiggsMass, "HiggsMass");
+    AddVariable(branch_.PairRap, "PairRap");
+    AddVariable(branch_.BottomBdt, "BottomBdt");
+    AddVariable(branch_.PairBottomBdt, "PairBottomBdt");
+    AddVariable(branch_.PairBdt, "PairBdt");
+    AddVariable(branch_.HiggsBdt, "HiggsBdt");
+    AddVariable(branch_.HardTopPt, "HardTopPt");
+    AddVariable(branch_.SoftTopPt, "SoftTopPt");
+    AddVariable(branch_.Bdt, "Bdt");
+    AddSpectator(branch_.Tag, "Tag");
     Print(kNotification, "Variables defined");
-
 }
 
 heavyhiggs::OctetNeutralBranch heavyhiggs::SignatureNeutralTagger::GetBranch(const Octet62 &octet) const
 {
     Print(kInformation, "FillPairTagger", octet.Bdt());
-
     OctetNeutralBranch branch;
-
-    branch.Mass = octet.Jet().m();
-    branch.Rap = octet.Jet().rap();
-    branch.Phi = octet.Jet().phi();
-    branch.Pt = octet.Jet().pt();
-    branch.Ht = octet.Ht();
-
-    branch.DeltaPt = octet.DeltaPt();
-    branch.DeltaHt = octet.DeltaHt();
-    branch.DeltaM = octet.DeltaM();
-    branch.DeltaRap = octet.DeltaRap();
-    branch.DeltaPhi = octet.DeltaPhi();
-    branch.DeltaR = octet.DeltaR();
-
-    branch.Bdt = octet.Bdt();
-    branch.Tag = octet.Tag();
-    branch.BottomBdt = octet.BottomBdt();
-    branch.PairBottomBdt = octet.PairBottomBdt();
-    branch.PairBdt = octet.doublet().Bdt();
-    branch.HiggsBdt = octet.sextet().Bdt();
-    branch.HardTopPt = octet.sextet().HardTopPt();
-    branch.SoftTopPt = octet.sextet().SoftTopPt();
-
-
-    branch.HiggsMass = octet.sextet().Jet().m();
-    branch.PairRap = octet.doublet().DeltaRap();
-
-
+    branch.Fill(octet);
     return branch;
-
 }
 
 std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
     float Mass = event.mass();
-    Jets jets = GetJets(event);
-    //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
-
-    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
-    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-    std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader);
-    std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
-    if (tripletsSemi.empty())Print(kInformation, "No tripletsSemi", tripletsSemi.size());
-
-//     std::vector<analysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
-//     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-    std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
-    if (tripletsHadronic.empty())Print(kInformation, "No tripletsHadronic", tripletsHadronic.size());
-
-    std::vector<analysis::Sextet> sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
+    std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
     Jets HiggsParticles = event.partons().Generator();
@@ -137,9 +65,7 @@ std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::
         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
-    std::vector<analysis::Doublet> doublets = JetPairTagger.GetBdt(jets, JetPairReader);
-//     if (doublets.empty())Print(kError, "No doublets", doublets.size());
-
+    std::vector<analysis::Doublet> doublets = static_cast<analysis::JetPairTagger &>(jet_pair_reader_.tagger()).Doublets(event,jet_pair_reader_.reader());
 
     std::vector<analysis::Doublet> Finaldoublets;
     Jets Particles = event.partons().Generator();
@@ -190,16 +116,12 @@ std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::
 }
 
 
-analysis::Object::Tag heavyhiggs::SignatureNeutralTagger::GetTag(const Octet62 &)
-{
-    Print(kInformation, "Get sextet Tag");
-    return kSignal;
-}
-
-std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, const std::vector< analysis::Doublet > &doublets, const analysis::Reader &Reader)
+std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Octets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get event Tags");
 
+    std::vector<analysis::Doublet> doublets = static_cast<analysis::JetPairTagger &>(jet_pair_reader_.tagger()).Doublets(event,jet_pair_reader_.reader());
+    std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
     std::vector<Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
@@ -216,8 +138,8 @@ std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::GetBdt(const std::vecto
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             Octet62 octet(sextet, doublet);
-            Branch = GetBranch(octet);
-            octet.SetBdt(Reader.Bdt());
+            branch_ = GetBranch(octet);
+            octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);
         }
     }

@@ -1,12 +1,12 @@
-# include "HChargedJetPairTagger.hh"
+# include "TripletJetPairTagger.hh"
 
-analysis::HChargedJetPairTagger::HChargedJetPairTagger()
+analysis::TripletJetPairTagger::TripletJetPairTagger()
 {
     Print(kNotification, "Constructor");
     DefineVariables();
 }
 
-void analysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const WSemiTagger &Neww_semi_tagger, const WHadronicTagger &NewWTagger, const TopSemiTagger &Newtop_semi_tagger, const TopHadronicTagger &Newtop_hadronic_tagger)
+void analysis::TripletJetPairTagger::SetTagger(const BottomTagger &NewBottomTagger, const WSemiTagger &Neww_semi_tagger, const WHadronicTagger &NewWTagger, const TopSemiTagger &Newtop_semi_tagger, const TopHadronicTagger &Newtop_hadronic_tagger)
 {
     Print(kNotification, "Set Tagger", NewBottomTagger.tagger_name());
 
@@ -24,7 +24,7 @@ void analysis::HChargedJetPairTagger::SetTagger(const BottomTagger &NewBottomTag
     DefineVariables();
 }
 
-void analysis::HChargedJetPairTagger::DefineVariables()
+void analysis::TripletJetPairTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -64,7 +64,7 @@ void analysis::HChargedJetPairTagger::DefineVariables()
 
 }
 
-analysis::HChargedJetPairBranch analysis::HChargedJetPairTagger::GetBranch(const Quartet31 &quartet) const
+analysis::HChargedJetPairBranch analysis::TripletJetPairTagger::GetBranch(const Quartet31 &quartet) const
 {
 
     Print(kInformation, "FillPairTagger", quartet.Bdt());
@@ -106,7 +106,7 @@ struct SortquartetByDeltaRap {
     }
 };
 
-std::vector<analysis::HChargedJetPairBranch> analysis::HChargedJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
+std::vector<analysis::HChargedJetPairBranch> analysis::TripletJetPairTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
     Print(kInformation, "Get W Tags");
     Jets jets = GetJets(event);
@@ -190,7 +190,7 @@ std::vector<analysis::HChargedJetPairBranch> analysis::HChargedJetPairTagger::Ge
 
 }
 
-analysis::Object::Tag analysis::HChargedJetPairTagger::GetTag(const Quartet31 &)
+analysis::Object::Tag analysis::TripletJetPairTagger::GetTag(const Quartet31 &)
 {
     Print(kInformation, "Get quartet Tag");
 
@@ -199,7 +199,7 @@ analysis::Object::Tag analysis::HChargedJetPairTagger::GetTag(const Quartet31 &)
 
 
 
-std::vector<analysis::Quartet31>  analysis::HChargedJetPairTagger::GetBdt(const std::vector<Triplet> &triplets, const Jets &jets, const analysis::Reader &JetPairReader)
+std::vector<analysis::Quartet31>  analysis::TripletJetPairTagger::GetBdt(const std::vector<Triplet> &triplets, const Jets &jets, const analysis::Reader &JetPairReader)
 {
     std::vector<Quartet31>  quartets;
     for (const auto & triplet : triplets)

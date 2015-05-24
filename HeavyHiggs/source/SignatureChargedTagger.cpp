@@ -9,7 +9,7 @@ heavyhiggs::SignatureChargedTagger::SignatureChargedTagger()
 
 void heavyhiggs::SignatureChargedTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
-    const analysis::HChargedJetPairTagger &NewChargedJetPairTagger,
+    const analysis::TripletJetPairTagger &NewChargedjet_pair_tagger,
     const analysis::WSemiTagger &Neww_semi_tagger,
     const analysis::WHadronicTagger &NewWTagger,
     const analysis::TopSemiTagger &Newtop_semi_tagger,
@@ -21,7 +21,7 @@ void heavyhiggs::SignatureChargedTagger::SetTagger(
     WTagger = NewWTagger;
     top_hadronic_tagger = Newtop_hadronic_tagger;
     top_semi_tagger = Newtop_semi_tagger;
-    ChargedJetPairTagger = NewChargedJetPairTagger;
+    Chargedjet_pair_tagger = NewChargedjet_pair_tagger;
     ChargedHiggsSemiTagger = NewChargedHiggsSemiTagger;
     DefineVariables();
 }
@@ -64,32 +64,9 @@ heavyhiggs::OctetChargedBranch heavyhiggs::SignatureChargedTagger::GetBranch(con
 {
     Print(kInformation, "branch", octet.Bdt());
 
-    OctetChargedBranch eventSemiBranch;
-
-    eventSemiBranch.Mass = octet.Jet().m();
-    eventSemiBranch.Rap = octet.Jet().rap();
-    eventSemiBranch.Phi = octet.Jet().phi();
-    eventSemiBranch.Pt = octet.Jet().pt();
-    eventSemiBranch.Ht = octet.Ht();
-
-    eventSemiBranch.DeltaPt = octet.DeltaPt();
-    eventSemiBranch.DeltaHt = octet.DeltaHt();
-    eventSemiBranch.DeltaM = octet.DeltaM();
-    eventSemiBranch.DeltaRap = octet.DeltaRap();
-    eventSemiBranch.DeltaPhi = octet.DeltaPhi();
-    eventSemiBranch.DeltaR = octet.DeltaR();
-
-    eventSemiBranch.Bdt = octet.Bdt();
-    eventSemiBranch.Tag = octet.Tag();
-    eventSemiBranch.BottomBdt = octet.BottomBdt();
-    eventSemiBranch.PairBottomBdt = octet.PairBottomBdt();
-    eventSemiBranch.HiggsBdt = octet.quartet1().Bdt();
-    eventSemiBranch.PairBdt = octet.quartet2().Bdt();
-
-    eventSemiBranch.HiggsMass = octet.quartet1().Jet().m();
-    eventSemiBranch.PairRap = octet.quartet2().DeltaRap();
-
-    return eventSemiBranch;
+    OctetChargedBranch branch;
+    branch.Fill(octet);
+    return branch;
 }
 
 std::vector<heavyhiggs::OctetChargedBranch> heavyhiggs::SignatureChargedTagger::GetBranches(analysis::Event &event, const Object::Tag tag)
@@ -154,7 +131,7 @@ std::vector<heavyhiggs::OctetChargedBranch> heavyhiggs::SignatureChargedTagger::
         else for (const auto & Jet : jets)  if ((Jet.delta_R(BottomParticles.front()) < detector_geometry().JetConeSize)) FinalBottoms.emplace_back(Jet);
     } else FinalBottoms = jets;
 
-    std::vector<analysis::Quartet31> Jetquartets = ChargedJetPairTagger.GetBdt(Finaltriplets, FinalBottoms, ChargedJetPairReader);
+    std::vector<analysis::Quartet31> Jetquartets = Chargedjet_pair_tagger.GetBdt(Finaltriplets, FinalBottoms, ChargedJetPairReader);
 
 //     if(Tag == HBackground && Jetquartets.size() > 1) Jetquartets.erase(Jetquartets.begin() + 1, Jetquartets.end());
 

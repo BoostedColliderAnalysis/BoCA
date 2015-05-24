@@ -10,7 +10,7 @@
 # include "Factory.hh"
 # include "JetTag.hh"
 
-# include "HJetPairTagger.hh"
+# include "JetPairTagger.hh"
 
 namespace hpairtagger
 {
@@ -30,7 +30,7 @@ public:
     using analysis::Analysis::Analysis;
 
 //     analysis::BottomTagger bottom_tagger_;
-//     analysis::HJetPairTagger JetPairTagger;
+//     analysis::JetPairTagger jet_pair_tagger;
 
 //     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
 

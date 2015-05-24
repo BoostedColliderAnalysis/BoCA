@@ -9,7 +9,7 @@ heavyhiggs::EventChargedTagger::EventChargedTagger()
 
 void heavyhiggs::EventChargedTagger::SetTagger(
     const analysis::BottomTagger &NewBottomTagger,
-    const analysis::HChargedJetPairTagger &NewChargedJetPairTagger,
+    const analysis::TripletJetPairTagger &NewChargedjet_pair_tagger,
     const analysis::WSemiTagger &Neww_semi_tagger,
     const analysis::WHadronicTagger &NewWTagger,
     const analysis::TopSemiTagger &Newtop_semi_tagger,
@@ -22,7 +22,7 @@ void heavyhiggs::EventChargedTagger::SetTagger(
     WTagger = NewWTagger;
     top_hadronic_tagger = Newtop_hadronic_tagger;
     top_semi_tagger = Newtop_semi_tagger;
-    ChargedJetPairTagger = NewChargedJetPairTagger;
+    Chargedjet_pair_tagger = NewChargedjet_pair_tagger;
     ChargedHiggsSemiTagger = NewChargedHiggsSemiTagger;
     SignatureSemiTagger = NewChargedSignatureTagger;
     DefineVariables();
@@ -106,75 +106,9 @@ void heavyhiggs::EventChargedTagger::DefineVariables()
 heavyhiggs::EventChargedBranch heavyhiggs::EventChargedTagger::GetBranch(const analysis::MultipletEvent< Octet44 > &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
-
-    EventChargedBranch eventSemiBranch;
-    eventSemiBranch.LeptonNumber = event.LeptonNumber();
-    eventSemiBranch.JetNumber = event.JetNumber();
-    eventSemiBranch.BottomNumber = event.BottomNumber();
-    eventSemiBranch.ScalarHt = event.ScalarHt();
-
-    eventSemiBranch.Mass = event.Jet().m();
-    eventSemiBranch.Rap = event.Jet().rap();
-    eventSemiBranch.Phi = event.Jet().phi();
-    eventSemiBranch.Pt = event.Jet().pt();
-    eventSemiBranch.Ht = event.Ht();
-
-    eventSemiBranch.DeltaPt = event.DeltaPt();
-    eventSemiBranch.DeltaHt = event.DeltaHt();
-    eventSemiBranch.DeltaM = event.DeltaM();
-    eventSemiBranch.DeltaRap = event.DeltaRap();
-    eventSemiBranch.DeltaPhi = event.DeltaPhi();
-    eventSemiBranch.DeltaR = event.DeltaR();
-
-    eventSemiBranch.Bdt = event.Bdt();
-    eventSemiBranch.Tag = event.Tag();
-
-    eventSemiBranch.HiggsMass = event.multiplet().quartet1().Jet().m();
-    eventSemiBranch.PairRap = event.multiplet().quartet2().DeltaRap();
-    eventSemiBranch.HiggsBdt = event.multiplet().quartet1().Bdt();
-    eventSemiBranch.SignatureBdt = event.multiplet().Bdt();
-    eventSemiBranch.BottomBdt = event.multiplet().BottomBdt();
-    eventSemiBranch.PairBottomBdt = event.multiplet().PairBottomBdt();
-
-    eventSemiBranch.BottomBdt1 = event.BottomBdt(1);
-    eventSemiBranch.BottomBdt2 = event.BottomBdt(2);
-    eventSemiBranch.BottomBdt3 = event.BottomBdt(3);
-    eventSemiBranch.BottomBdt4 = event.BottomBdt(4);
-    eventSemiBranch.BottomBdt5 = event.BottomBdt(5);
-    eventSemiBranch.BottomBdt6 = event.BottomBdt(6);
-    eventSemiBranch.BottomBdt7 = event.BottomBdt(7);
-    eventSemiBranch.BottomBdt8 = event.BottomBdt(8);
-    eventSemiBranch.BottomBdt12 = event.BottomBdt(1, 2);
-    eventSemiBranch.BottomBdt34 = event.BottomBdt(3, 4);
-    eventSemiBranch.BottomBdt56 = event.BottomBdt(5, 6);
-    eventSemiBranch.BottomBdt78 = event.BottomBdt(7, 8);
-
-    eventSemiBranch.SubBottomBdt1 = event.SubBottomBdt(1);
-    eventSemiBranch.SubBottomBdt2 = event.SubBottomBdt(2);
-    eventSemiBranch.SubBottomBdt3 = event.SubBottomBdt(3);
-    eventSemiBranch.SubBottomBdt4 = event.SubBottomBdt(4);
-    eventSemiBranch.SubBottomBdt5 = event.SubBottomBdt(5);
-    eventSemiBranch.SubBottomBdt6 = event.SubBottomBdt(6);
-    eventSemiBranch.SubBottomBdt7 = event.SubBottomBdt(7);
-    eventSemiBranch.SubBottomBdt8 = event.SubBottomBdt(8);
-    eventSemiBranch.SubBottomBdt12 = event.SubBottomBdt(1, 2);
-    eventSemiBranch.SubBottomBdt34 = event.SubBottomBdt(3, 4);
-    eventSemiBranch.SubBottomBdt56 = event.SubBottomBdt(5, 6);
-    eventSemiBranch.SubBottomBdt78 = event.SubBottomBdt(7, 8);
-
-    eventSemiBranch.RestNumber = event.RestNumber();
-    eventSemiBranch.RestM = event.RestJet().m();
-    eventSemiBranch.RestPt = event.RestJet().pt();
-    eventSemiBranch.RestHt = event.RestHt();
-    eventSemiBranch.RestRap = event.RestJet().rap();
-    if (std::abs(eventSemiBranch.RestRap) > 100) eventSemiBranch.RestRap = 0;
-    eventSemiBranch.RestPhi = event.RestJet().phi();
-    eventSemiBranch.RestBdt = event.RestBdt();
-    eventSemiBranch.MissingEt = event.MissingEt();
-
-    eventSemiBranch.LeptonHt = event.LeptonHt();
-
-    return eventSemiBranch;
+    EventChargedBranch branch;
+    branch.Fill(event);
+    return branch;
 }
 
 struct SortJetsByBdt {
@@ -250,7 +184,7 @@ std::vector<heavyhiggs::EventChargedBranch> heavyhiggs::EventChargedTagger::GetB
 //     std::vector<analysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
 //     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
 
-    std::vector<analysis::Quartet31> Jetquartets = ChargedJetPairTagger.GetBdt(tripletsHadronic, jets, ChargedJetPairReader);
+    std::vector<analysis::Quartet31> Jetquartets = Chargedjet_pair_tagger.GetBdt(tripletsHadronic, jets, ChargedJetPairReader);
 
 
 //     Jets TopParticles = event.partons().Generator();

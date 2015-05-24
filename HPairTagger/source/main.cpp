@@ -15,8 +15,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //         case analysis::HAnalysis::HBottomTagger:
             analysis::Factory factory(tagger);
 //             break;
-//         case analysis::HAnalysis::HJetPairTagger:
-//           analysis::Factory(Analysis.JetPairTagger);
+//         case analysis::HAnalysis::JetPairTagger:
+//           analysis::Factory(Analysis.jet_pair_tagger);
 //           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;
@@ -45,7 +45,7 @@ int main()
     RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
     RunTagger(bottom_tagger, analysis::Tagger::kReader);
 
-    analysis::HJetPairTagger jet_pair_tagger;
+    analysis::JetPairTagger jet_pair_tagger;
     RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
     RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
 

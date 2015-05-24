@@ -34,7 +34,7 @@ analysis::WSemiBranch analysis::WSemiTagger::GetBranch(const analysis::Doublet &
 {
     Print(kInformation, "Fill W Tagger", doublet.Bdt());
     WSemiBranch branch;
-    branch.FillBranch(doublet);
+    branch.Fill(doublet);
     return branch;
 }
 

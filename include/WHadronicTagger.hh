@@ -81,7 +81,7 @@ public:
 
     WHadronicBranch GetBranch(const Doublet &doublet) const;
 
-    int GetWHadId(Event &event) {
+    int GetWHadId(Event &event) const {
         return GetWHadId(GetWDaughters(event));
     };
 
@@ -103,9 +103,9 @@ protected:
 
 private:
 
-    Jets GetWDaughters(Event &event);
+    Jets GetWDaughters(Event &event) const;
 
-    int GetWHadId(const Jets &jets);
+    int GetWHadId(const Jets &jets) const;
 
     void DefineVariables();
 

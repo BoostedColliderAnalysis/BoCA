@@ -1,8 +1,8 @@
 # pragma once
 
 # include "Branch.hh"
-# include "HHeavyHiggsSemiTagger.hh"
-# include "HJetPairTagger.hh"
+# include "HeavyHiggsSemiTagger.hh"
+# include "JetPairTagger.hh"
 # include "MultipletEvent.hh"
 
 namespace heavyhiggs {
@@ -29,7 +29,7 @@ public:
         const analysis::WHadronicTagger &NewWTagger,
         const analysis::TopSemiTagger &Newtop_semi_tagger,
         const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-        const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger);
+        const analysis::HeavyHiggsSemiTagger &Newheavy_higgs_semi_tagger);
 
     std::vector< EventFusionBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
@@ -44,7 +44,7 @@ public:
     analysis::WHadronicTagger WTagger;
     analysis::TopSemiTagger top_semi_tagger;
     analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::HHeavyHiggsSemiTagger HeavyHiggsSemiTagger;
+    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
 
     analysis::Reader BottomReader;
     analysis::Reader WSemiReader;

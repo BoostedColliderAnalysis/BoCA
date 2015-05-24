@@ -48,6 +48,11 @@ public:
         Print(kError, "get bdt", "depreciated");
     }
 
+    int TopHadronicId(Event &event) const {
+      return sgn(w_hadronic_tagger_.GetWHadId(event)) * std::abs(TopId);
+
+    }
+
     Triplet GetBdt(Triplet &, const Reader &){
       Print(kError, "get bdt", "depreciated");
       return Triplet();

@@ -1,5 +1,5 @@
 #include "HAnalysisBottomSumTagger.hh"
-#include "HJetPairTagger.hh"
+#include "JetPairTagger.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
@@ -16,7 +16,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //         case analysis::HAnalysis::HBottomTagger:
             analysis::Factory factory(tagger);
 //             break;
-//         case analysis::HAnalysis::HJetPairTagger:
+//         case analysis::HAnalysis::JetPairTagger:
 //           analysis::Factory(Analysis.eventBottomSumTagger);
 //           break;
 //         default:
@@ -45,7 +45,7 @@ int main()
   analysis::BottomTagger bottom_tagger;
   RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
 
-  analysis::HJetPairTagger jet_pair_tagger;
+  analysis::JetPairTagger jet_pair_tagger;
   RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
   RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
 

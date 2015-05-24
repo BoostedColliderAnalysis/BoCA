@@ -35,7 +35,7 @@ analysis::TauBranch analysis::TauTagger::GetBranch(const fastjet::PseudoJet &jet
 {
     Print(kInformation, "Fill Branch");
     TauBranch branch;
-    branch.FillBranch(Singlet(jet));
+    branch.Fill(Singlet(jet));
     return branch;
 }
 

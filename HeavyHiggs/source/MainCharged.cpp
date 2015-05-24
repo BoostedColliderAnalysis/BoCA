@@ -17,8 +17,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //         case analysis::HAnalysis::HBottomTagger:
             analysis::Factory factory(tagger);
 //             break;
-//         case analysis::HAnalysis::HJetPairTagger:
-//             analysis::Factory(Analysis.JetPairTagger);
+//         case analysis::HAnalysis::JetPairTagger:
+//             analysis::Factory(Analysis.jet_pair_tagger);
 //             break;
 //         case analysis::HAnalysis::WHadronicTagger:
 //             analysis::Factory(Analysis.w_hadronic_tagger);
@@ -41,7 +41,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //         case analysis::HAnalysis::HHeavyHiggsHadronicTagger:
 // //             analysis::Factory(Analysis.HeavyHiggsHadronicTagger);
 //             break;
-//         case analysis::HAnalysis::HHeavyHiggsSemiTagger:
+//         case analysis::HAnalysis::HeavyHiggsSemiTagger:
 //             analysis::Factory(Analysis.ChargedHiggsSemiTagger);
 //             break;
 //         case analysis::HAnalysis::EventLeptonicTagger:
@@ -114,7 +114,7 @@ int main()
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader);
 
-    analysis::HChargedJetPairTagger jet_pair_tagger;
+    analysis::TripletJetPairTagger jet_pair_tagger;
     RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
     RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
 

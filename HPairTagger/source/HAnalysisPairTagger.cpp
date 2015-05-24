@@ -6,7 +6,7 @@
 //     //     DebugLevel = analysis::Object::kDebug;
 //     Print(kNotification, "Constructor");
 //     BottomTagger.SetAnalysisName(ProjectName());
-//     JetPairTagger.SetAnalysisName(ProjectName());
+//     jet_pair_tagger.SetAnalysisName(ProjectName());
 //     mkdir(ProjectName().c_str(), 0700);
 // }
 
@@ -19,7 +19,7 @@
 //         return "Bottom";
 //     case  HBottomReader :
 //         return "BottomReader";
-//     case  HJetPairTagger :
+//     case  JetPairTagger :
 //         return "JetPair";
 //     case  HJetPairReader :
 //         return "JetPairReader";
@@ -140,19 +140,19 @@ void hpairtagger::HAnalysis::SetTrees()
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
 //         BottomTagger.SetBackgroundTreeNames(SemiTrees);
 //         break;
-//     case HJetPairTagger :
-//         JetPairTagger.SetSignalTreeNames(SignalSemiTrees);
-//         JetPairTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//     case JetPairTagger :
+//         jet_pair_tagger.SetSignalTreeNames(SignalSemiTrees);
+//         jet_pair_tagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         if (Tag == kSignal) {
-//             JetPairTagger.SetTagger(BottomTagger);
+//             jet_pair_tagger.SetTagger(BottomTagger);
 //         }
 //         break;
 //     case HJetPairReader :
 //         if (Tag == kSignal) {
-//             JetPairTagger.SetTagger(BottomTagger);
+//             jet_pair_tagger.SetTagger(BottomTagger);
 //         }
-//         JetPairTagger.SetSignalTreeNames(SignalSemiTrees);
-//         JetPairTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
+//         jet_pair_tagger.SetSignalTreeNames(SignalSemiTrees);
+//         jet_pair_tagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
 //     default :
 //         Print(kError, "SetTrees", "unhandeled case");
@@ -173,13 +173,13 @@ void hpairtagger::HAnalysis::SetTrees()
 //     case HBottomReader:
 //         BottomReader.set_tagger(bottom_tagger_);
 //         break;
-//     case HJetPairTagger :
-//         JetPairTagger.BottomTagger.SetTagger();
-//         JetPairTagger.BottomReader.set_tagger(JetPairTagger.BottomTagger);
+//     case JetPairTagger :
+//         jet_pair_tagger.BottomTagger.SetTagger();
+//         jet_pair_tagger.BottomReader.set_tagger(jet_pair_tagger.BottomTagger);
 //         break;
 //     case HJetPairReader :
 //         BottomReader.set_tagger(bottom_tagger_);
-//         JetPairReader.set_tagger(JetPairTagger);
+//         JetPairReader.set_tagger(jet_pair_tagger);
 //         break;
 //     default :
 //         Print(kError, "PrepareReader", "unhandled case");
@@ -197,11 +197,11 @@ void hpairtagger::HAnalysis::SetTrees()
 //     case HBottomReader :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), BottomBranch::Class());
 //         break;
-//     case HJetPairTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventJetPairBranch::Class());
+//     case JetPairTagger :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), JetPairBranch::Class());
 //         break;
 //     case HJetPairReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventJetPairBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), JetPairBranch::Class());
 //         break;
 //     default :
 //         Print(kError, "No Branch filled");
@@ -219,7 +219,7 @@ int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::
 //         return GetBottomTag(event, tag);
 //     case HBottomReader:
 //         return GetBottomReader(event, tag);
-//     case HJetPairTagger :
+//     case JetPairTagger :
 //         return GetJetPairTag(event, tag);
 //     case HJetPairReader :
 //         return GetJetPairReader(event, tag);
@@ -291,12 +291,12 @@ int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::
 // bool hpairtagger::HAnalysis::GetJetPairTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Get JetPair Tag", Tag);
-//     std::vector<EventJetPairBranch> JetPairs = JetPairTagger.GetBranches(event, Tag, MotherId(ProductionChannel()));
+//     std::vector<JetPairBranch> JetPairs = jet_pair_tagger.GetBranches(event, Tag, MotherId(ProductionChannel()));
 //     if (JetPairs.empty()) {
 //         return 0;
 //     }
 //     for (const auto & JetPair : JetPairs) {
-//         *static_cast<EventJetPairBranch *>(Branch->NewEntry()) = JetPair;
+//         *static_cast<JetPairBranch *>(Branch->NewEntry()) = JetPair;
 //     }
 //     return 1;
 // }
@@ -339,15 +339,15 @@ int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::
 // //         }
 // //     }
 //
-// //     std::vector<analysis::Doublet> doublets = JetPairTagger.GetBdt(FilteredJets, JetPairReader);
-//     std::vector<analysis::Doublet> doublets = JetPairTagger.GetBdt(jets, JetPairReader);
+// //     std::vector<analysis::Doublet> doublets = jet_pair_tagger.GetBdt(FilteredJets, JetPairReader);
+//     std::vector<analysis::Doublet> doublets = jet_pair_tagger.GetBdt(jets, JetPairReader);
 //     if (doublets.size() > 1) {
 //         std::sort(doublets.begin(), doublets.end());
 //         doublets.erase(doublets.begin() + 1, doublets.end());
 //     }
 //
 //     for (const auto & doublet : doublets) {
-//         static_cast<EventJetPairBranch &>(*Branch->NewEntry()) = JetPairTagger.GetBranch(doublet);
+//         static_cast<JetPairBranch &>(*Branch->NewEntry()) = jet_pair_tagger.GetBranch(doublet);
 //     }
 //     return 1;
 // }

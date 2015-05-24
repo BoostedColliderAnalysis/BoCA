@@ -3,7 +3,7 @@
 # include "Branch.hh"
 # include "TopHadronicTagger.hh"
 # include "HChargedHiggsSemiTagger.hh"
-# include "HChargedJetPairTagger.hh"
+# include "TripletJetPairTagger.hh"
 # include "Octet44.hh"
 
 namespace heavyhiggs
@@ -27,7 +27,7 @@ public:
 
     void SetTagger(
       const analysis::BottomTagger &NewBottomTagger,
-      const analysis::HChargedJetPairTagger &NewChargedJetPairTagger,
+      const analysis::TripletJetPairTagger &NewChargedjet_pair_tagger,
       const analysis::WSemiTagger &Neww_semi_tagger,
       const analysis::WHadronicTagger &NewWTagger,
       const analysis::TopSemiTagger &Newtop_semi_tagger,
@@ -52,7 +52,7 @@ public:
     analysis::TopSemiTagger top_semi_tagger;
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
-    analysis::HChargedJetPairTagger ChargedJetPairTagger;
+    analysis::TripletJetPairTagger Chargedjet_pair_tagger;
 
     analysis::Reader BottomReader;
     analysis::Reader WSemiReader;

@@ -1,29 +1,5 @@
 # include "Branch.hh"
 
-ClassImp(heavyhiggs::BranchHeavyHiggs)
-
-heavyhiggs::BranchHeavyHiggs::BranchHeavyHiggs()
-{
-    JetNumber = int(InitialValue());
-    BTag = int(InitialValue());
-
-    BottomRap1 = InitialValue();
-    BottomRap2 = InitialValue();
-    BottomDeltaRap = InitialValue();
-    BottomSumRap = InitialValue();
-
-    BottomPhi1 = InitialValue();
-    BottomPhi2 = InitialValue();
-    BottomDeltaPhi = InitialValue();
-    BottomSumPhi = InitialValue();
-
-    BottomPt1 = InitialValue();
-    BottomPt2 = InitialValue();
-    BottomInvMass = InitialValue();
-    BottomDeltaPt = InitialValue();
-}
-
-
 ClassImp(heavyhiggs::EventNeutralBranch)
 
 heavyhiggs::EventNeutralBranch::EventNeutralBranch()

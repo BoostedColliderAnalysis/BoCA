@@ -4,112 +4,81 @@ heavyhiggs::EventNeutralTagger::EventNeutralTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
-    DefineVariables();
-}
-
-heavyhiggs::EventNeutralTagger::~EventNeutralTagger()
-{
-    Print(kNotification , "Constructor");
-}
-
-void heavyhiggs::EventNeutralTagger::SetTagger(
-    const analysis::BottomTagger &NewBottomTagger,
-    const analysis::HJetPairTagger &NewJetPairTagger,
-    const analysis::WSemiTagger &Neww_semi_tagger,
-    const analysis::WHadronicTagger &NewWTagger,
-    const analysis::TopSemiTagger &Newtop_semi_tagger,
-    const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-    const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger,
-    const SignatureNeutralTagger &NewSignatureSemiTagger)
-{
-    Print(kNotification , "Constructor");
-
-    bottom_tagger_ = NewBottomTagger;
-    w_semi_tagger = Neww_semi_tagger;
-    WTagger = NewWTagger;
-    top_semi_tagger = Newtop_semi_tagger;
-    top_hadronic_tagger = Newtop_hadronic_tagger;
-    HeavyHiggsSemiTagger = NewHeavyHiggsSemiTagger;
-    JetPairTagger = NewJetPairTagger;
-    SignatureSemiTagger = NewSignatureSemiTagger;
+    set_tagger_name("EventNeutral");
     DefineVariables();
 }
 
 void heavyhiggs::EventNeutralTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    set_tagger_name("eventSemi");
 
-    ClearVectors();
+    AddSpectator(branch_.LeptonNumber, "LeptonNumber");
+    AddVariable(branch_.JetNumber, "JetNumber");
+    AddVariable(branch_.BottomNumber, "BottomNumber");
+    AddVariable(branch_.ScalarHt, "ScalarHt");
 
+    AddVariable(branch_.Mass, "Mass");
+    AddVariable(branch_.Pt, "Pt");
+    AddVariable(branch_.Rap, "Rap");
+    AddVariable(branch_.Phi, "Phi");
+    AddVariable(branch_.Ht, "Ht");
 
-    AddSpectator(Branch.LeptonNumber, "LeptonNumber");
-    AddVariable(Branch.JetNumber, "JetNumber");
-    AddVariable(Branch.BottomNumber, "BottomNumber");
-    AddVariable(Branch.ScalarHt, "ScalarHt");
+    AddVariable(branch_.DeltaPt, "DeltaPt");
+    AddVariable(branch_.DeltaHt, "DeltaHt");
+    AddVariable(branch_.DeltaM, "DeltaM");
+    AddVariable(branch_.DeltaRap, "DeltaRap");
+    AddVariable(branch_.DeltaPhi, "DeltaPhi");
+    AddVariable(branch_.DeltaR, "DeltaR");
 
-    AddVariable(Branch.Mass, "Mass");
-    AddVariable(Branch.Pt, "Pt");
-    AddVariable(Branch.Rap, "Rap");
-    AddVariable(Branch.Phi, "Phi");
-    AddVariable(Branch.Ht, "Ht");
+    AddVariable(branch_.HiggsMass, "HiggsMass");
+    AddVariable(branch_.PairRap, "PairRap");
+    AddVariable(branch_.HiggsBdt, "HiggsBdt");
+    AddVariable(branch_.SignatureBdt, "SignatureBdt");
+    AddVariable(branch_.BottomBdt, "BottomBdt");
+    AddVariable(branch_.PairBottomBdt, "PairBottomBdt");
 
-    AddVariable(Branch.DeltaPt, "DeltaPt");
-    AddVariable(Branch.DeltaHt, "DeltaHt");
-    AddVariable(Branch.DeltaM, "DeltaM");
-    AddVariable(Branch.DeltaRap, "DeltaRap");
-    AddVariable(Branch.DeltaPhi, "DeltaPhi");
-    AddVariable(Branch.DeltaR, "DeltaR");
+    AddVariable(branch_.HardTopPt, "HardTopPt");
+    AddVariable(branch_.SoftTopPt, "SoftTopPt");
 
-    AddVariable(Branch.HiggsMass, "HiggsMass");
-    AddVariable(Branch.PairRap, "PairRap");
-    AddVariable(Branch.HiggsBdt, "HiggsBdt");
-    AddVariable(Branch.SignatureBdt, "SignatureBdt");
-    AddVariable(Branch.BottomBdt, "BottomBdt");
-    AddVariable(Branch.PairBottomBdt, "PairBottomBdt");
+    AddVariable(branch_.MissingEt, "MissingEt");
 
-    AddVariable(Branch.HardTopPt, "HardTopPt");
-    AddVariable(Branch.SoftTopPt, "SoftTopPt");
+    AddVariable(branch_.BottomBdt1, "BottomBdt1");
+    AddVariable(branch_.BottomBdt2, "BottomBdt2");
+    AddVariable(branch_.BottomBdt3, "BottomBdt3");
+    AddVariable(branch_.BottomBdt4, "BottomBdt4");
+    AddVariable(branch_.BottomBdt5, "BottomBdt5");
+    AddVariable(branch_.BottomBdt6, "BottomBdt6");
+    AddVariable(branch_.BottomBdt7, "BottomBdt7");
+    AddVariable(branch_.BottomBdt8, "BottomBdt8");
+    AddVariable(branch_.BottomBdt12, "BottomBdt12");
+    AddVariable(branch_.BottomBdt34, "BottomBdt34");
+    AddVariable(branch_.BottomBdt56, "BottomBdt56");
+    AddVariable(branch_.BottomBdt78, "BottomBdt78");
 
-    AddVariable(Branch.MissingEt, "MissingEt");
+    AddVariable(branch_.SubBottomBdt1, "SubBottomBdt1");
+    AddVariable(branch_.SubBottomBdt2, "SubBottomBdt2");
+    AddVariable(branch_.SubBottomBdt3, "SubBottomBdt3");
+    AddVariable(branch_.SubBottomBdt4, "SubBottomBdt4");
+    AddVariable(branch_.SubBottomBdt5, "SubBottomBdt5");
+    AddVariable(branch_.SubBottomBdt6, "SubBottomBdt6");
+    AddVariable(branch_.SubBottomBdt7, "SubBottomBdt7");
+    AddVariable(branch_.SubBottomBdt8, "SubBottomBdt8");
+    AddVariable(branch_.SubBottomBdt12, "SubBottomBdt12");
+    AddVariable(branch_.SubBottomBdt34, "SubBottomBdt34");
+    AddVariable(branch_.SubBottomBdt56, "SubBottomBdt56");
+    AddVariable(branch_.SubBottomBdt78, "SubBottomBdt78");
 
-    AddVariable(Branch.BottomBdt1, "BottomBdt1");
-    AddVariable(Branch.BottomBdt2, "BottomBdt2");
-    AddVariable(Branch.BottomBdt3, "BottomBdt3");
-    AddVariable(Branch.BottomBdt4, "BottomBdt4");
-    AddVariable(Branch.BottomBdt5, "BottomBdt5");
-    AddVariable(Branch.BottomBdt6, "BottomBdt6");
-    AddVariable(Branch.BottomBdt7, "BottomBdt7");
-    AddVariable(Branch.BottomBdt8, "BottomBdt8");
-    AddVariable(Branch.BottomBdt12, "BottomBdt12");
-    AddVariable(Branch.BottomBdt34, "BottomBdt34");
-    AddVariable(Branch.BottomBdt56, "BottomBdt56");
-    AddVariable(Branch.BottomBdt78, "BottomBdt78");
+    AddVariable(branch_.RestNumber, "RestNumber");
+    AddVariable(branch_.RestM, "RestM");
+    AddVariable(branch_.RestPt, "RestPt");
+    AddVariable(branch_.RestHt, "RestHt");
+    AddVariable(branch_.RestPhi, "RestPhi");
+    AddVariable(branch_.RestRap, "RestRap");
+    AddVariable(branch_.RestBdt, "RestBdt");
+    AddVariable(branch_.LeptonHt, "LeptonHt");
 
-    AddVariable(Branch.SubBottomBdt1, "SubBottomBdt1");
-    AddVariable(Branch.SubBottomBdt2, "SubBottomBdt2");
-    AddVariable(Branch.SubBottomBdt3, "SubBottomBdt3");
-    AddVariable(Branch.SubBottomBdt4, "SubBottomBdt4");
-    AddVariable(Branch.SubBottomBdt5, "SubBottomBdt5");
-    AddVariable(Branch.SubBottomBdt6, "SubBottomBdt6");
-    AddVariable(Branch.SubBottomBdt7, "SubBottomBdt7");
-    AddVariable(Branch.SubBottomBdt8, "SubBottomBdt8");
-    AddVariable(Branch.SubBottomBdt12, "SubBottomBdt12");
-    AddVariable(Branch.SubBottomBdt34, "SubBottomBdt34");
-    AddVariable(Branch.SubBottomBdt56, "SubBottomBdt56");
-    AddVariable(Branch.SubBottomBdt78, "SubBottomBdt78");
-
-    AddVariable(Branch.RestNumber, "RestNumber");
-    AddVariable(Branch.RestM, "RestM");
-    AddVariable(Branch.RestPt, "RestPt");
-    AddVariable(Branch.RestHt, "RestHt");
-    AddVariable(Branch.RestPhi, "RestPhi");
-    AddVariable(Branch.RestRap, "RestRap");
-    AddVariable(Branch.RestBdt, "RestBdt");
-    AddVariable(Branch.LeptonHt, "LeptonHt");
-
-    AddVariable(Branch.Bdt, "Bdt");
-    AddSpectator(Branch.Tag, "Tag");
+    AddVariable(branch_.Bdt, "Bdt");
+    AddSpectator(branch_.Tag, "Tag");
 
 
     Print(kNotification, "Variables defined");
@@ -119,154 +88,83 @@ void heavyhiggs::EventNeutralTagger::DefineVariables()
 heavyhiggs::EventNeutralBranch heavyhiggs::EventNeutralTagger::GetBranch(const analysis::MultipletEvent<Octet62> &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
-
-    EventNeutralBranch eventSemiBranch;
-    eventSemiBranch.LeptonNumber = event.LeptonNumber();
-    eventSemiBranch.JetNumber = event.JetNumber();
-    eventSemiBranch.BottomNumber = event.BottomNumber();
-    eventSemiBranch.ScalarHt = event.ScalarHt();
-
-    eventSemiBranch.Mass = event.Jet().m();
-    eventSemiBranch.Rap = event.Jet().rap();
-    eventSemiBranch.Phi = event.Jet().phi();
-    eventSemiBranch.Pt = event.Jet().pt();
-    eventSemiBranch.Ht = event.Ht();
-
-    eventSemiBranch.DeltaPt = event.DeltaPt();
-    eventSemiBranch.DeltaHt = event.DeltaHt();
-    eventSemiBranch.DeltaM = event.DeltaM();
-    eventSemiBranch.DeltaRap = event.DeltaRap();
-    eventSemiBranch.DeltaPhi = event.DeltaPhi();
-    eventSemiBranch.DeltaR = event.DeltaR();
-
-    eventSemiBranch.Bdt = event.Bdt();
-    eventSemiBranch.Tag = event.Tag();
-
-    eventSemiBranch.HiggsMass = event.multiplet().sextet().Jet().m();
-    eventSemiBranch.HiggsBdt = event.multiplet().sextet().Bdt();
-    eventSemiBranch.SignatureBdt = event.multiplet().Bdt();
-    eventSemiBranch.PairRap = event.multiplet().doublet().DeltaRap();
-    eventSemiBranch.BottomBdt = event.multiplet().BottomBdt();
-    eventSemiBranch.PairBottomBdt = event.multiplet().PairBottomBdt();
-
-    eventSemiBranch.HardTopPt = event.multiplet().sextet().HardTopPt();
-    eventSemiBranch.SoftTopPt = event.multiplet().sextet().SoftTopPt();
-
-    eventSemiBranch.MissingEt = event.MissingEt();
-
-    eventSemiBranch.BottomBdt1 = event.BottomBdt(1);
-    eventSemiBranch.BottomBdt2 = event.BottomBdt(2);
-    eventSemiBranch.BottomBdt3 = event.BottomBdt(3);
-    eventSemiBranch.BottomBdt4 = event.BottomBdt(4);
-    eventSemiBranch.BottomBdt5 = event.BottomBdt(5);
-    eventSemiBranch.BottomBdt6 = event.BottomBdt(6);
-    eventSemiBranch.BottomBdt7 = event.BottomBdt(7);
-    eventSemiBranch.BottomBdt8 = event.BottomBdt(8);
-    eventSemiBranch.BottomBdt12 = event.BottomBdt(1, 2);
-    eventSemiBranch.BottomBdt34 = event.BottomBdt(3, 4);
-    eventSemiBranch.BottomBdt56 = event.BottomBdt(5, 6);
-    eventSemiBranch.BottomBdt78 = event.BottomBdt(7, 8);
-
-    eventSemiBranch.SubBottomBdt1 = event.SubBottomBdt(1);
-    eventSemiBranch.SubBottomBdt2 = event.SubBottomBdt(2);
-    eventSemiBranch.SubBottomBdt3 = event.SubBottomBdt(3);
-    eventSemiBranch.SubBottomBdt4 = event.SubBottomBdt(4);
-    eventSemiBranch.SubBottomBdt5 = event.SubBottomBdt(5);
-    eventSemiBranch.SubBottomBdt6 = event.SubBottomBdt(6);
-    eventSemiBranch.SubBottomBdt7 = event.SubBottomBdt(7);
-    eventSemiBranch.SubBottomBdt8 = event.SubBottomBdt(8);
-    eventSemiBranch.SubBottomBdt12 = event.SubBottomBdt(1, 2);
-    eventSemiBranch.SubBottomBdt34 = event.SubBottomBdt(3, 4);
-    eventSemiBranch.SubBottomBdt56 = event.SubBottomBdt(5, 6);
-    eventSemiBranch.SubBottomBdt78 = event.SubBottomBdt(7, 8);
-
-    eventSemiBranch.RestNumber = event.RestNumber();
-    eventSemiBranch.RestM = event.RestJet().m();
-    eventSemiBranch.RestPt = event.RestJet().pt();
-    eventSemiBranch.RestHt = event.RestHt();
-    eventSemiBranch.RestRap = event.RestJet().rap();
-    if (std::abs(eventSemiBranch.RestRap) > 100) eventSemiBranch.RestRap = 0;
-    eventSemiBranch.RestPhi = event.RestJet().phi();
-    eventSemiBranch.RestBdt = event.RestBdt();
-
-    eventSemiBranch.LeptonHt = event.LeptonHt();
-
-    return eventSemiBranch;
-
+    EventNeutralBranch branch;
+    branch.Fill(event);
+    return branch;
 }
 
-struct SortJetsByBdt {
-    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
-    }
-};
+// struct SortJetsByBdt {
+//     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+//         return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
+//     }
+// };
 
 
 std::vector<heavyhiggs::EventNeutralBranch> heavyhiggs::EventNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
 {
     Print(kInformation, "Get event Tags");
 
-    Jets PreJets = GetJets(event);
-    Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
-    Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
-
-    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
-    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-    std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-    std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
-
+    Jets jets = event.hadrons().GetJets();
+//     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
+//     Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
+//
+    Jets Leptons = event.leptons().GetLeptonJets();
+//     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
+//     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
+//     std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
+//
 //     std::vector<analysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
 //     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-    std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//
+//     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
+//
+//
+//     Jets HiggsParticles = event.partons().Generator();
+//     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
+//     Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
+//     HiggsParticles = Even;
+//     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
+//     fastjet::PseudoJet HiggsBoson;
+//     if (Tag == kSignal) {
+//         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
+//         else Print(kError, "Where is the Higgs?", HiggsParticles.size());
+//         std::sort(sextets.begin(), sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
+//         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
+//     }
+//
+//     std::vector<analysis::Doublet> doublets = jet_pair_tagger.GetBdt(jets, JetPairReader);
+//
+//     std::vector<analysis::Doublet> Finaldoublets;
+//     Jets Particles = event.partons().Generator();
+//     if (Tag == kSignal) {
+//         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
+//         if (Particles.size() == 2) {
+//             for (const auto & doublet : doublets) {
+//                 if ((doublet.Singlet1().delta_R(Particles.at(0)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(1)) < detector_geometry().JetConeSize) || (doublet.Singlet1().delta_R(Particles.at(1)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(0)) < detector_geometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
+//             }
+//         } else Print(kError, "Where is the Quark Pair", Particles.size());
+//     }
+//     if (Tag == kBackground)
+//         Finaldoublets = doublets;
 
-    std::vector<analysis::Sextet> sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
-
-
-    Jets HiggsParticles = event.partons().Generator();
-    Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
-    Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
-    HiggsParticles = Even;
-    HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
-    fastjet::PseudoJet HiggsBoson;
-    if (Tag == kSignal) {
-        if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-        else Print(kError, "Where is the Higgs?", HiggsParticles.size());
-        std::sort(sextets.begin(), sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
-        if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
-    }
-
-    std::vector<analysis::Doublet> doublets = JetPairTagger.GetBdt(jets, JetPairReader);
-
-    std::vector<analysis::Doublet> Finaldoublets;
-    Jets Particles = event.partons().Generator();
-    if (Tag == kSignal) {
-        Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
-        if (Particles.size() == 2) {
-            for (const auto & doublet : doublets) {
-                if ((doublet.Singlet1().delta_R(Particles.at(0)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(1)) < detector_geometry().JetConeSize) || (doublet.Singlet1().delta_R(Particles.at(1)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(0)) < detector_geometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
-            }
-        } else Print(kError, "Where is the Quark Pair", Particles.size());
-    }
-    if (Tag == kBackground)
-        Finaldoublets = doublets;
-
-    std::vector<Octet62> octets = SignatureSemiTagger.GetBdt(sextets, Finaldoublets, SignatureSemiReader);
-
+//     std::vector<Octet62> octets = signature_neutral_tagger_.GetBdt(sextets, Finaldoublets, signature_neutral_reader_);
+    std::vector<Octet62> octets = static_cast<SignatureNeutralTagger &>(signature_neutral_reader_.tagger()).Octets(event, signature_neutral_reader_.reader());
 
     std::vector<analysis::MultipletEvent<Octet62>> events;
     for (const auto & octet : octets) {
       analysis::MultipletEvent<Octet62> octetevent(octet);
-      analysis::GlobalObservables global_observables;
-        global_observables.lepton_number = event.leptons().GetLeptonJets().size();
-        global_observables.jet_number = event.hadrons().GetJets().size();
-        global_observables.bottom_number = event.hadrons().GetBottomJets().size();
-        global_observables.scalar_ht = event.hadrons().GetScalarHt();
-        global_observables.missing_et = event.hadrons().GetMissingEt().pt();
+//       analysis::GlobalObservables global_observables;
+//         global_observables.lepton_number = event.leptons().GetLeptonJets().size();
+//         global_observables.jet_number = event.hadrons().GetJets().size();
+//         global_observables.bottom_number = event.hadrons().GetBottomJets().size();
+//         global_observables.scalar_ht = event.hadrons().GetScalarHt();
+//         global_observables.missing_et = event.hadrons().GetMissingEt().pt();
 //         global_observables.TrackNumber = event.hadrons().GetScalarHt();
-        octetevent.Setglobal_observables(global_observables);
+        octetevent.Setglobal_observables(global_observables(event));
         octetevent.SetLeptons(Leptons);
         octetevent.SetTotalJets(jets);
-        octetevent.SetSubJets(SubJets);
+//         octetevent.SetSubJets(SubJets);
         octetevent.SetTag(Tag);
         for (const auto & Jet : jets)  {
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
@@ -286,15 +184,30 @@ std::vector<heavyhiggs::EventNeutralBranch> heavyhiggs::EventNeutralTagger::GetB
     return eventSemiBranches;
 }
 
+analysis::GlobalObservables heavyhiggs::EventNeutralTagger::global_observables(analysis::Event &event){
+  analysis::GlobalObservables global_observables;
+  global_observables.lepton_number = event.leptons().GetLeptonJets().size();
+  global_observables.jet_number = event.hadrons().GetJets().size();
+  global_observables.bottom_number = event.hadrons().GetBottomJets().size();
+  global_observables.scalar_ht = event.hadrons().GetScalarHt();
+  global_observables.missing_et = event.hadrons().GetMissingEt().pt();
+  return global_observables;
+}
 
 
-std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::GetBdt(const std::vector< Octet62 > &octets, const Jets &jets, const Jets &SubJets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader)
+
+std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::OctetEvent(analysis::Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get event Tags", octets.size());
+    Print(kInformation, "Get event Tags");
+    std::vector<Octet62> octets = static_cast<SignatureNeutralTagger &>(signature_neutral_reader_.tagger()).Octets(event, signature_neutral_reader_.reader());
+
+
+    Jets jets = event.hadrons().GetJets();
+        Jets Leptons = event.leptons().GetLeptonJets();
 
     std::vector<analysis::MultipletEvent<Octet62>> events;
     for (const auto & octet : octets) {
-      analysis::MultipletEvent<Octet62> octetevent(octet, global_observables);
+      analysis::MultipletEvent<Octet62> octetevent(octet, global_observables(event));
         for (const auto & Jet : jets)  {
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
@@ -306,9 +219,9 @@ std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::G
         }
         octetevent.SetLeptons(Leptons);
         octetevent.SetTotalJets(jets);
-        octetevent.SetSubJets(SubJets);
-        Branch = GetBranch(octetevent);
-        octetevent.SetBdt(eventSemiReader.Bdt());
+//         octetevent.SetSubJets(SubJets);
+        branch_ = GetBranch(octetevent);
+        octetevent.SetBdt(Bdt(reader));
         events.emplace_back(octetevent);
     }
 
@@ -321,7 +234,7 @@ std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::G
     return events;
 }
 
-float heavyhiggs::EventNeutralTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry)
+float heavyhiggs::EventNeutralTagger::ReadBdt(const TClonesArray &clones_array, const int entry)
 {
-    return ((EventNeutralBranch *) eventClonesArray.At(Entry))->Bdt;
+    return static_cast<EventNeutralBranch &>(*clones_array.At(entry)).Bdt;
 }

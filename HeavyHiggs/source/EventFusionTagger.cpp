@@ -13,7 +13,7 @@ void heavyhiggs::EventFusionTagger::SetTagger(
     const analysis::WHadronicTagger &NewWTagger,
     const analysis::TopSemiTagger &Newtop_semi_tagger,
     const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-    const analysis::HHeavyHiggsSemiTagger &NewHeavyHiggsSemiTagger)
+    const analysis::HeavyHiggsSemiTagger &Newheavy_higgs_semi_tagger)
 {
     Print(kNotification , "Constructor");
     bottom_tagger_ = NewBottomTagger;
@@ -21,7 +21,7 @@ void heavyhiggs::EventFusionTagger::SetTagger(
     WTagger = NewWTagger;
     top_semi_tagger = Newtop_semi_tagger;
     top_hadronic_tagger = Newtop_hadronic_tagger;
-    HeavyHiggsSemiTagger = NewHeavyHiggsSemiTagger;
+    heavy_higgs_semi_tagger = Newheavy_higgs_semi_tagger;
     DefineVariables();
 }
 
@@ -72,45 +72,9 @@ void heavyhiggs::EventFusionTagger::DefineVariables()
 heavyhiggs::EventFusionBranch heavyhiggs::EventFusionTagger::GetBranch(const analysis::MultipletEvent<analysis::Sextet> &event) const
 {
     Print(kInformation, "FillPairTagger", event.Bdt());
-
     EventFusionBranch branch;
-    branch.LeptonNumber = event.LeptonNumber();
-    branch.JetNumber = event.JetNumber();
-    branch.BottomNumber = event.BottomNumber();
-    branch.ScalarHt = event.ScalarHt();
-
-    branch.Mass = event.Jet().m();
-    branch.Rap = event.Jet().rap();
-    branch.Phi = event.Jet().phi();
-    branch.Pt = event.Jet().pt();
-    branch.Ht = event.Ht();
-
-    branch.DeltaPt = event.DeltaPt();
-    branch.DeltaPhi = event.DeltaPhi();
-    branch.DeltaRap = event.DeltaRap();
-    branch.DeltaR = event.DeltaR();
-    branch.DeltaM = event.DeltaM();
-    branch.DeltaHt = event.DeltaHt();
-
-    branch.Bdt = event.Bdt();
-    branch.Tag = event.Tag();
-
-    branch.HiggsMass = event.multiplet().Jet().m();
-    branch.HiggsBdt = event.multiplet().Bdt();
-
-    branch.RestNumber = event.RestNumber();
-    branch.RestM = event.RestJet().m();
-    branch.RestPt = event.RestJet().pt();
-    branch.RestHt = event.RestHt();
-    branch.RestRap = event.RestJet().rap();
-    if (std::abs(branch.RestRap) > 100) branch.RestRap = 0;
-    branch.RestPhi = event.RestJet().phi();
-    branch.RestBdt = event.RestBdt();
-
-    branch.LeptonHt = event.LeptonHt();
-
+    branch.Fill(event);
     return branch;
-
 }
 
 struct SortJetsByBdt {
@@ -134,7 +98,7 @@ std::vector<heavyhiggs::EventFusionBranch> heavyhiggs::EventFusionTagger::GetBra
 //     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 
-    std::vector<analysis::Sextet> sextets = HeavyHiggsSemiTagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 
     Jets HiggsParticles = event.partons().Generator();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
