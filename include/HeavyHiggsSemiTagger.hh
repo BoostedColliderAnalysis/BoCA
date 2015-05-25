@@ -34,6 +34,10 @@ public:
 
     HeavyHiggsSemiBranch GetBranch(const Sextet& sextet) const;
 
+    TClass &Class() const {
+      return *HeavyHiggsSemiBranch::Class();
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

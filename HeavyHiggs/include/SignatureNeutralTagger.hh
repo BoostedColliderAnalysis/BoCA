@@ -23,15 +23,6 @@ public:
     */
     SignatureNeutralTagger();
 
-//     void SetTagger(
-//         const analysis::BottomTagger &NewBottomTagger,
-//         const analysis::JetPairTagger &Newjet_pair_tagger,
-//         const analysis::WSemiTagger &Neww_semi_tagger,
-//         const analysis::WHadronicTagger &NewWTagger,
-//         const analysis::TopSemiTagger &Newtop_semi_tagger,
-//         const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-//         const analysis::HeavyHiggsSemiTagger &Newheavy_higgs_semi_tagger);
-
     std::vector<OctetNeutralBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
     std::vector< Octet62 > Octets(analysis::Event& event, const TMVA::Reader& reader);
@@ -41,23 +32,15 @@ public:
       return std::vector< Octet62> {};
     }
 
-
+    TClass &Class() const {
+      return *OctetNeutralBranch::Class();
+    }
 
     OctetNeutralBranch GetBranch(const Octet62 &octet) const;
 
-//     analysis::BottomTagger bottom_tagger_;
-//     analysis::WSemiTagger w_semi_tagger;
-//     analysis::WHadronicTagger WTagger;
-//     analysis::TopSemiTagger top_semi_tagger;
-//     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
     analysis::JetPairTagger jet_pair_tagger_;
 
-//     analysis::Reader BottomReader;
-//     analysis::Reader WSemiReader;
-//     analysis::Reader WReader;
-//     analysis::Reader TopHadronicReader;
-//     analysis::Reader TopSemiReader;
     analysis::Reader heavy_higgs_semi_reader_;
     analysis::Reader jet_pair_reader_;
 

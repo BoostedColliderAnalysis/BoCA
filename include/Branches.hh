@@ -288,7 +288,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class JetPairBranch : public MultiBranch
+class JetPairBranch : public PairBranch
 {
 
 public:
@@ -321,6 +321,7 @@ public:
     float BdtRatio24;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
+        PairBranch::Fill(multiplet);
         DeltaM = multiplet.DeltaM();
         Jet1Pt = multiplet.Singlet1().pt();
 //         Jet1Rap = std::abs(multiplet.Singlet1().rap());
@@ -346,7 +347,7 @@ public:
 
 private:
 
-    ClassDef(/**/JetPairBranch, 1)
+    ClassDef(JetPairBranch, 1)
 
 };
 
@@ -355,12 +356,12 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HChargedJetPairBranch : public PairBranch
+class TripletJetPairBranch : public PairBranch
 {
 
 public:
 
-    HChargedJetPairBranch();
+    TripletJetPairBranch();
 
     float BottomMass;
     float BottomPt;
@@ -376,9 +377,27 @@ public:
     float TopBdt;
     float TopBTag;
 
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        PairBranch::Fill(multiplet);
+        BottomPt = multiplet.singlet().pt();
+//         BottomRap = std::abs(multiplet.singlet().rap());
+        BottomRap = multiplet.singlet().rap();
+        BottomPhi = multiplet.singlet().phi();
+        BottomMass = multiplet.singlet().m();
+//         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
+
+        TopPt = multiplet.triplet().Jet().pt();
+//         TopRap = std::abs(multiplet.triplet().Jet().rap());
+        TopRap = multiplet.triplet().Jet().rap();
+        TopPhi = multiplet.triplet().Jet().phi();
+        TopMass = multiplet.triplet().Jet().m();
+        TopBdt = multiplet.triplet().Bdt();
+    }
+
 private:
 
-    ClassDef(HChargedJetPairBranch, 1)
+    ClassDef(TripletJetPairBranch, 1)
 
 };
 
@@ -684,17 +703,23 @@ private:
  * @brief Charged Higgs semi tagger root tree structure
  *
  */
-class HChargedHiggsSemiBranch : public MultiBranch
+class ChargedHiggsSemiBranch : public MultiBranch
 {
 
 public:
 
-    HChargedHiggsSemiBranch();
     float Flag;
+  ChargedHiggsSemiBranch();
+
+  template<typename Multiplet>
+  void Fill(const Multiplet &multiplet) {
+    MultiBranch::Fill(multiplet);
+    Flag = multiplet.Flag();
+  }
 
 private:
 
-    ClassDef(HChargedHiggsSemiBranch, 1)
+    ClassDef(ChargedHiggsSemiBranch, 1)
 
 };
 

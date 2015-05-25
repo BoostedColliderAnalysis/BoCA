@@ -2,7 +2,7 @@
 
 # include "Branch.hh"
 # include "TopHadronicTagger.hh"
-# include "HChargedHiggsSemiTagger.hh"
+# include "ChargedHiggsSemiTagger.hh"
 # include "TripletJetPairTagger.hh"
 # include "Octet44.hh"
 
@@ -25,43 +25,31 @@ public:
     */
     SignatureChargedTagger();
 
-    void SetTagger(
-      const analysis::BottomTagger &NewBottomTagger,
-      const analysis::TripletJetPairTagger &NewChargedjet_pair_tagger,
-      const analysis::WSemiTagger &Neww_semi_tagger,
-      const analysis::WHadronicTagger &NewWTagger,
-      const analysis::TopSemiTagger &Newtop_semi_tagger,
-      const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-      const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger);
+    std::vector< OctetChargedBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag){
+      Print(kError,"get branches","depreciated");
+      return std::vector< OctetChargedBranch >{};
+    }
 
-
-    std::vector< OctetChargedBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    int Train(analysis::Event &event, const Tag tag);
 
     OctetChargedBranch GetBranch(const Octet44 &octet) const;
 
-//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+    std::vector<Octet44> GetBdt(const std::vector< analysis::Quartet31 > &Higgsquartets, const std::vector< analysis::Quartet31 > &Jetquartets, const analysis::Reader &eventSemiReader){
+      Print(kError,"get bdt","depreciated");
+      return std::vector< Octet44>{};
+    }
 
+    std::vector<Octet44> Octets(analysis::Event &event, const TMVA::Reader &reader);
 
-    std::vector<Octet44> GetBdt(
-        const std::vector< analysis::Quartet31 > &Higgsquartets, const std::vector< analysis::Quartet31 > &Jetquartets, const analysis::Reader &eventSemiReader);
+    analysis::ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
+    analysis::TripletJetPairTagger triplet_jet_pair_tagger_;
 
+    analysis::Reader charged_higgs_semi_reader_;
+    analysis::Reader triplet_jet_pair_reader_;
 
-    analysis::BottomTagger bottom_tagger_;
-    analysis::WSemiTagger w_semi_tagger;
-    analysis::WHadronicTagger WTagger;
-    analysis::TopSemiTagger top_semi_tagger;
-    analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
-    analysis::TripletJetPairTagger Chargedjet_pair_tagger;
-
-    analysis::Reader BottomReader;
-    analysis::Reader WSemiReader;
-    analysis::Reader WReader;
-    analysis::Reader TopHadronicReader;
-    analysis::Reader TopSemiReader;
-    analysis::Reader ChargedHiggsSemiReader;
-    analysis::Reader ChargedJetPairReader;
-
+    TClass &Class() const {
+      return *OctetChargedBranch::Class();
+    }
 
 protected:
 
@@ -77,7 +65,12 @@ private:
 
     void DefineVariables();
 
-    OctetChargedBranch Branch;
+    int SaveEntries(const std::vector<Octet44> &octets) {
+      for (const auto & octet : octets) static_cast<OctetChargedBranch &>(*tree_branch().NewEntry()) = GetBranch(octet);
+      return octets.size();
+    }
+
+    OctetChargedBranch branch_;
 
 };
 

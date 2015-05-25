@@ -134,9 +134,9 @@ analysis::JetPairBranch::JetPairBranch()
     BdtRatio24 = InitialValue();
 }
 
-ClassImp(analysis::HChargedJetPairBranch)
+ClassImp(analysis::TripletJetPairBranch)
 
-analysis::HChargedJetPairBranch::HChargedJetPairBranch()
+analysis::TripletJetPairBranch::TripletJetPairBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -276,9 +276,9 @@ ClassImp(analysis::HeavyHiggsSemiBranch)
 
 analysis::HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
-ClassImp(analysis::HChargedHiggsSemiBranch)
+ClassImp(analysis::ChargedHiggsSemiBranch)
 
-analysis::HChargedHiggsSemiBranch::HChargedHiggsSemiBranch()
+analysis::ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
 {
     Flag = int(InitialValue());
 }

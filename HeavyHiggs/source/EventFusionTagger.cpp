@@ -4,69 +4,45 @@ heavyhiggs::EventFusionTagger::EventFusionTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
-    DefineVariables();
-}
-
-void heavyhiggs::EventFusionTagger::SetTagger(
-    const analysis::BottomTagger &NewBottomTagger,
-    const analysis::WSemiTagger &Neww_semi_tagger,
-    const analysis::WHadronicTagger &NewWTagger,
-    const analysis::TopSemiTagger &Newtop_semi_tagger,
-    const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-    const analysis::HeavyHiggsSemiTagger &Newheavy_higgs_semi_tagger)
-{
-    Print(kNotification , "Constructor");
-    bottom_tagger_ = NewBottomTagger;
-    w_semi_tagger = Neww_semi_tagger;
-    WTagger = NewWTagger;
-    top_semi_tagger = Newtop_semi_tagger;
-    top_hadronic_tagger = Newtop_hadronic_tagger;
-    heavy_higgs_semi_tagger = Newheavy_higgs_semi_tagger;
+    set_tagger_name("EventFusion");
     DefineVariables();
 }
 
 void heavyhiggs::EventFusionTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    set_tagger_name("eventSemi");
-    ClearVectors();
+    AddVariable(branch_.LeptonNumber, "LeptonNumber");
+    AddVariable(branch_.JetNumber, "JetNumber");
+    AddVariable(branch_.BottomNumber, "BottomNumber");
+    AddVariable(branch_.ScalarHt, "ScalarHt");
 
-    AddVariable(Branch.LeptonNumber, "LeptonNumber");
-    AddVariable(Branch.JetNumber, "JetNumber");
-    AddVariable(Branch.BottomNumber, "BottomNumber");
-    AddVariable(Branch.ScalarHt, "ScalarHt");
+    AddVariable(branch_.Mass, "Mass");
+    AddVariable(branch_.Pt, "Pt");
+    AddVariable(branch_.Rap, "Rap");
+    AddVariable(branch_.Phi, "Phi");
+    AddVariable(branch_.Ht, "Ht");
 
-    AddVariable(Branch.Mass, "Mass");
-    AddVariable(Branch.Pt, "Pt");
-    AddVariable(Branch.Rap, "Rap");
-    AddVariable(Branch.Phi, "Phi");
-    AddVariable(Branch.Ht, "Ht");
+    AddVariable(branch_.DeltaPt, "DeltaPt");
+    AddVariable(branch_.DeltaRap, "DeltaRap");
+    AddVariable(branch_.DeltaPhi, "DeltaPhi");
+    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch_.DeltaHt, "DeltaHt");
+    AddVariable(branch_.DeltaM, "DeltaM");
 
-    AddVariable(Branch.DeltaPt, "DeltaPt");
-    AddVariable(Branch.DeltaRap, "DeltaRap");
-    AddVariable(Branch.DeltaPhi, "DeltaPhi");
-    AddVariable(Branch.DeltaR, "DeltaR");
-    AddVariable(Branch.DeltaHt, "DeltaHt");
-    AddVariable(Branch.DeltaM, "DeltaM");
+    AddVariable(branch_.HiggsMass, "HiggsMass");
+    AddVariable(branch_.HiggsBdt, "HiggsBdt");
 
-    AddVariable(Branch.HiggsMass, "HiggsMass");
-    AddVariable(Branch.HiggsBdt, "HiggsBdt");
+    AddVariable(branch_.RestNumber, "RestNumber");
+    AddVariable(branch_.RestM, "RestM");
+    AddVariable(branch_.RestPt, "RestPt");
+    AddVariable(branch_.RestHt, "RestHt");
+    AddVariable(branch_.RestPhi, "RestPhi");
+    AddVariable(branch_.RestRap, "RestRap");
+    AddVariable(branch_.RestBdt, "RestBdt");
+    AddVariable(branch_.LeptonHt, "LeptonHt");
 
-    AddVariable(Branch.RestNumber, "RestNumber");
-    AddVariable(Branch.RestM, "RestM");
-    AddVariable(Branch.RestPt, "RestPt");
-    AddVariable(Branch.RestHt, "RestHt");
-    AddVariable(Branch.RestPhi, "RestPhi");
-    AddVariable(Branch.RestRap, "RestRap");
-    AddVariable(Branch.RestBdt, "RestBdt");
-    AddVariable(Branch.LeptonHt, "LeptonHt");
-
-    AddVariable(Branch.Bdt, "Bdt");
-    AddSpectator(Branch.Tag, "Tag");
-
-
-    Print(kNotification, "Variables defined");
-
+    AddVariable(branch_.Bdt, "Bdt");
+    AddSpectator(branch_.Tag, "Tag");
 }
 
 heavyhiggs::EventFusionBranch heavyhiggs::EventFusionTagger::GetBranch(const analysis::MultipletEvent<analysis::Sextet> &event) const
@@ -77,28 +53,24 @@ heavyhiggs::EventFusionBranch heavyhiggs::EventFusionTagger::GetBranch(const ana
     return branch;
 }
 
-struct SortJetsByBdt {
-    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
-    }
-};
-
-std::vector<heavyhiggs::EventFusionBranch> heavyhiggs::EventFusionTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "Get event Tags");
 
-    Jets jets = GetJets(event);
-    jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
-    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
-    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-    std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-    std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
+//     Jets jets = GetJets(event);
+//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
+    Jets jets = static_cast<analysis::BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    Jets Leptons = event.leptons().GetLeptonJets();
+//     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
+//     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
+//     std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 
 //     std::vector<analysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
 //     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-    std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
+//     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 
-    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
+//     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
+    std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
 
     Jets HiggsParticles = event.partons().Generator();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
@@ -106,31 +78,31 @@ std::vector<heavyhiggs::EventFusionBranch> heavyhiggs::EventFusionTagger::GetBra
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
-    if (Tag == kSignal) {
-      if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-      else Print(kError, "Where is the Higgs?", HiggsParticles.size());
-      std::sort(sextets.begin(), sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
-      if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
+    if (tag == kSignal) {
+        if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
+        else Print(kError, "Where is the Higgs?", HiggsParticles.size());
+        std::sort(sextets.begin(), sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
+        if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
-    std::vector<heavyhiggs::EventFusionBranch> eventSemiBranches;
-    if (sextets.empty()) return eventSemiBranches;
+//     std::vector<heavyhiggs::EventFusionBranch> eventSemiBranches;
+    if (sextets.empty()) return 0;
 
-    if (Tag == kSignal && sextets.size() > 1) {
+    if (tag == kSignal && sextets.size() > 1) {
         Print(kError, "more than one event", sextets.size());
         std::sort(sextets.begin(), sextets.end());
         sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
     analysis::MultipletEvent<analysis::Sextet> sextet_event(sextets.front());
-    analysis::GlobalObservables global_observables;
-    global_observables.lepton_number = event.leptons().GetLeptonJets().size();
-    global_observables.jet_number = event.hadrons().GetJets().size();
-    global_observables.bottom_number = event.hadrons().GetBottomJets().size();
-    global_observables.scalar_ht = event.hadrons().GetScalarHt();
+    analysis::GlobalObservables global_observables(event);
+//     global_observables.lepton_number = event.leptons().GetLeptonJets().size();
+//     global_observables.jet_number = event.hadrons().GetJets().size();
+//     global_observables.bottom_number = event.hadrons().GetBottomJets().size();
+//     global_observables.scalar_ht = event.hadrons().GetScalarHt();
     sextet_event.Setglobal_observables(global_observables);
     sextet_event.SetLeptons(Leptons);
-    sextet_event.SetTag(Tag);
+    sextet_event.SetTag(tag);
     for (const auto & Jet : jets)  {
         if (Jet.delta_R(sextet_event.multiplet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
         if (Jet.delta_R(sextet_event.multiplet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
@@ -139,27 +111,30 @@ std::vector<heavyhiggs::EventFusionBranch> heavyhiggs::EventFusionTagger::GetBra
         sextet_event.AddRestJet(Jet);
     }
 
-    eventSemiBranches.emplace_back(GetBranch(sextet_event));
-    return eventSemiBranches;
+//     eventSemiBranches.emplace_back(GetBranch(sextet_event));
+//     return eventSemiBranches;
+    return SaveEntry(sextet_event);
 }
 
-std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionTagger::GetBdt(const std::vector< analysis::Sextet > &sextets, Jets &jets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader)
+std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionTagger::Events(analysis::Event &event, TMVA::Reader &reader)
 {
-    Print(kInformation, "Get event Tags");
-
+  Print(kInformation, "Get event Tags");
+  std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
+  Jets jets = static_cast<analysis::BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+  Jets Leptons = event.leptons().GetLeptonJets();
     std::vector<analysis::MultipletEvent<analysis::Sextet>> sextet_events;
     for (const auto & sextet : sextets) {
-        analysis::MultipletEvent<analysis::Sextet> sextet_event(sextet, global_observables);
+        analysis::MultipletEvent<analysis::Sextet> sextet_event(sextet, analysis::GlobalObservables(event));
         for (const auto & Jet : jets)  {
-          if (Jet.delta_R(sextet_event.multiplet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-          if (Jet.delta_R(sextet_event.multiplet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-          if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-          if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(sextet_event.multiplet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(sextet_event.multiplet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
+            if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             sextet_event.AddRestJet(Jet);
         }
         sextet_event.SetLeptons(Leptons);
-        Branch = GetBranch(sextet_event);
-        sextet_event.SetBdt(eventSemiReader.Bdt());
+        branch_ = GetBranch(sextet_event);
+        sextet_event.SetBdt(Bdt(reader));
         sextet_events.emplace_back(sextet_event);
     }
 
@@ -169,6 +144,6 @@ std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionT
     return sextet_events;
 }
 
-float heavyhiggs::EventFusionTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry){
-  return static_cast<EventFusionBranch &>(*eventClonesArray.At(Entry)).Bdt;
+float heavyhiggs::EventFusionTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry) {
+    return static_cast<EventFusionBranch &>(*eventClonesArray.At(Entry)).Bdt;
 }

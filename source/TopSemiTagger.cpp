@@ -108,7 +108,7 @@ std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplet(const Tripl
 }
 
 
-std::vector<analysis::Triplet>  analysis::TopSemiTagger::GetTriplets(Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Triplet>  analysis::TopSemiTagger::Triplets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Bdt");
 

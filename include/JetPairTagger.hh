@@ -38,6 +38,10 @@ public:
         return static_cast<JetPairBranch &>(*clones_array.At(entry)).Bdt;
     }
 
+    TClass &Class() const {
+      return *JetPairBranch::Class();
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

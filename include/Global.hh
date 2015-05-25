@@ -42,7 +42,7 @@ class TripletJetPairTagger;
 class WSemiTagger;
 class HeavyHiggsSemiTagger;
 class HHeavyHiggsTauTagger;
-class HChargedHiggsSemiTagger;
+class ChargedHiggsSemiTagger;
 class HChargedHiggsHadronicTagger;
 class HChargedHiggsLeptonicTagger;
 

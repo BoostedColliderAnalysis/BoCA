@@ -40,7 +40,7 @@ using analysis::Analysis::Analysis;
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::TopSemiTagger top_semi_tagger;
 
-    analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
+    analysis::ChargedHiggsSemiTagger charged_higgs_semi_tagger;
     analysis::TripletJetPairTagger jet_pair_tagger;
 
     SignatureChargedTagger SignatureSemiTagger;

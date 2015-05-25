@@ -6,7 +6,11 @@
 namespace analysis
 {
 
-class Singlet : public Identification
+  /**
+   * @brief Thin wrapper for fastjet::PsedoJet
+   *
+   */
+  class Singlet : public Identification
 {
 
 public:

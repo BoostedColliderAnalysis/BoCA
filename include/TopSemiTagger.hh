@@ -29,14 +29,14 @@ public:
     }
 
     std::vector<Triplet> CleanTriplets(const Triplet &triplet, Jets TopQuarks, float pre_cut, const Tag tag);
-    
+
     std::vector<Triplet> CleanTriplet(const Triplet &triplet, fastjet::PseudoJet particle, float pre_cut, const Tag tag);
 
     int GetBdt(Event &event, const TMVA::Reader &reader){
-      return SaveEntries(GetTriplets(event,reader));
+      return SaveEntries(Triplets(event,reader));
     }
 
-    std::vector<Triplet> GetTriplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Triplet> Triplets(Event &event, const TMVA::Reader &reader);
 
     std::vector<Triplet> GetBdt(const std::vector< Doublet > &, const Jets &, const Reader &) {
         Print(kError, "get bdt", "depreciated");
@@ -65,6 +65,10 @@ public:
 
     TClass &Class() const {
         return *TopSemiBranch::Class();
+    }
+
+    int TopSemiId(Event &event){
+      return sgn(w_semi_tagger_.WSemiId(event)) * std::abs(TopId);
     }
 
 protected:

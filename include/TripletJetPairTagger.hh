@@ -17,25 +17,29 @@ public:
 
     TripletJetPairTagger();
 
-    void SetTagger(const BottomTagger &NewBottomTagger, const WSemiTagger &Neww_semi_tagger, const WHadronicTagger &NewWTagger, const TopSemiTagger &Newtop_semi_tagger, const TopHadronicTagger &Newtop_hadronic_tagger);
+    std::vector< TripletJetPairBranch> GetBranches(Event &, const Tag )
+    {
+        Print(kError,"get branches","depreciated");
+        return std::vector< TripletJetPairBranch> {};
+    }
 
-    std::vector< HChargedJetPairBranch> GetBranches(Event &event, const Object::Tag Tag);
+    int Train(analysis::Event& event, const analysis::Object::Tag tag);
 
-    std::vector< Quartet31 > GetBdt(const std::vector< analysis::Triplet > &triplets, const Jets &jets, const analysis::Reader &JetPairReader);
+    std::vector< Quartet31 > GetBdt(const std::vector< analysis::Triplet > &, const Jets &, const analysis::Reader &) {
+        Print(kError,"get branches","depreciated");
+        return std::vector< Quartet31> {};
+    }
 
-    HChargedJetPairBranch GetBranch(const analysis::Quartet31 &quartet) const;
+
+    std::vector< Quartet31 > Quartets(Event &event, const TMVA::Reader &JetPairReader);
+
+    TripletJetPairBranch GetBranch(const analysis::Quartet31 &quartet) const;
 
     BottomTagger bottom_tagger_;
-    WHadronicTagger WTagger;
-    WSemiTagger w_semi_tagger;
     TopHadronicTagger top_hadronic_tagger;
-    TopSemiTagger top_semi_tagger;
 
-    Reader BottomReader;
-    Reader WReader;
-    Reader WSemiReader;
-    Reader TopHadronicReader;
-    Reader TopSemiReader;
+    Reader bottom_reader_;
+    Reader top_hadronic_reader_;
 
 protected:
 
@@ -45,13 +49,14 @@ protected:
 
 private:
 
+    int SaveEntries(const std::vector<Quartet31> &quartets) {
+        for (const auto & quartet : quartets) static_cast<TripletJetPairBranch&>(*tree_branch().NewEntry()) = GetBranch(quartet);
+        return quartets.size();
+    }
+
     void DefineVariables();
 
-    analysis::Object::Tag GetTag(const analysis::Quartet31 &quartet);
-
-    HChargedJetPairBranch Branch;
-
-    JetTag jet_tag;
+    TripletJetPairBranch branch_;
 
 };
 

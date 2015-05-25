@@ -67,7 +67,7 @@ HHeavyHiggsLeptonicTagger.cpp
 HHeavyHiggsHadronicTagger.cpp
 HeavyHiggsSemiTagger.cpp
 HHeavyHiggsTauTagger.cpp
-HChargedHiggsSemiTagger.cpp
+ChargedHiggsSemiTagger.cpp
 HChargedHiggsHadronicTagger.cpp
 HChargedHiggsLeptonicTagger.cpp
 )

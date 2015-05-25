@@ -42,7 +42,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 // //             analysis::Factory(Analysis.HeavyHiggsHadronicTagger);
 //             break;
 //         case analysis::HAnalysis::HeavyHiggsSemiTagger:
-//             analysis::Factory(Analysis.ChargedHiggsSemiTagger);
+//             analysis::Factory(Analysis.charged_higgs_semi_tagger);
 //             break;
 //         case analysis::HAnalysis::EventLeptonicTagger:
 // //             analysis::Factory(Analysis.eventLeptonicTagger);
@@ -56,8 +56,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 //         case analysis::HAnalysis::EventNeutralTagger:
 //             analysis::Factory(Analysis.eventSemiTagger);
 //             break;
-// //         case analysis::HAnalysis::HChargedHiggsSemiTagger:
-// //           analysis::Factory(Analysis.ChargedHiggsSemiTagger);
+// //         case analysis::HAnalysis::ChargedHiggsSemiTagger:
+// //           analysis::Factory(Analysis.charged_higgs_semi_tagger);
 // //           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;
@@ -110,7 +110,7 @@ int main()
     RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(tops_semi_tagger, analysis::Tagger::kReader);
 
-    analysis::HChargedHiggsSemiTagger heavy_higgs_semi_tagger;
+    analysis::ChargedHiggsSemiTagger heavy_higgs_semi_tagger;
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader);
 

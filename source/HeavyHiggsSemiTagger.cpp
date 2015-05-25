@@ -75,7 +75,7 @@ int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_c
             else Print(kError, "Where is the Higgs?", HiggsParticles.size());
         }
     }
-    std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger &>(top_semi_reader_.tagger()).GetTriplets(event, top_semi_reader_.reader());
+    std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger &>(top_semi_reader_.tagger()).Triplets(event, top_semi_reader_.reader());
     Print(kDebug, "Number of Semi Tops", triplets_semi.size());
 
 //     std::vector<Triplet> FinaltripletsSemi;
@@ -133,7 +133,7 @@ int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_c
 
 std::vector<analysis::Sextet>  analysis::HeavyHiggsSemiTagger::Sextets(Event &event, const TMVA::Reader &reader)
 {
-  std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger&>(top_semi_reader_.tagger()).GetTriplets(event,top_semi_reader_.reader());
+  std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger&>(top_semi_reader_.tagger()).Triplets(event,top_semi_reader_.reader());
   std::vector<Triplet> triplets_hadronic = static_cast<TopHadronicTagger&>(top_hadronic_reader_.tagger()).GetTriplets(event,top_hadronic_reader_.reader());
     std::vector<Sextet > sextets;
     for (const auto & triplet_semi : triplets_semi)

@@ -62,8 +62,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const an
 //         case analysis::HAnalysis::SignatureNeutralTagger:
 //             analysis::Factory(Analysis.SignatureSemiTagger);
 //             break;
-// //         case analysis::HAnalysis::HChargedHiggsSemiTagger:
-// //           analysis::Factory(Analysis.ChargedHiggsSemiTagger);
+// //         case analysis::HAnalysis::ChargedHiggsSemiTagger:
+// //           analysis::Factory(Analysis.charged_higgs_semi_tagger);
 // //           break;
 //         default:
 //             std::cout << "Unhandled case" << std::endl;

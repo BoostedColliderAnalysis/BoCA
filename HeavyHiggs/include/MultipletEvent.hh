@@ -2,18 +2,41 @@
 
 # include "Identification.hh"
 # include "JetInfo.hh"
+# include "Event.hh"
 
-namespace analysis{
+namespace analysis {
 
-struct GlobalObservables {
-
-    int lepton_number = 0;
-    int jet_number = 0;
-    int bottom_number = 0;
-    float scalar_ht = 0;
-    float missing_et = 0;
-//     int TrackNumber =0;
-
+class GlobalObservables {
+public:
+    GlobalObservables() {}
+    GlobalObservables (Event &event) {
+        lepton_number_ = event.leptons().GetLeptonJets().size();
+        jet_number_ = event.hadrons().GetJets().size();
+        bottom_number_ = event.hadrons().GetBottomJets().size();
+        scalar_ht_ = event.hadrons().GetScalarHt();
+        missing_et_ = event.hadrons().GetMissingEt().pt();
+    }
+    int lepton_number()const {
+        return lepton_number_;
+    }
+    int jet_number()const {
+        return jet_number_;
+    }
+    int bottom_number()const {
+        return bottom_number_;
+    }
+    float scalar_ht()const {
+        return scalar_ht_;
+    }
+    float missing_et()const {
+        return missing_et_;
+    }
+private:
+    int lepton_number_;
+    int jet_number_;
+    int bottom_number_;
+    float scalar_ht_;
+    float missing_et_;
 };
 
 
@@ -60,39 +83,39 @@ public:
     }
 
     inline void SetScalarHt(const float scalar_ht) {
-      global_observables_.scalar_ht = scalar_ht;
+        global_observables_.scalar_ht = scalar_ht;
     }
 
     inline void SetJetNumber(const int jet_number) {
-      global_observables_.jet_number = jet_number;
+        global_observables_.jet_number = jet_number;
     }
 
     inline void SetBottomNumber(const int bottom_number) {
-      global_observables_.bottom_number = bottom_number;
+        global_observables_.bottom_number = bottom_number;
     }
 
     inline void SetLeptonNumber(const int lepton_number) {
-      global_observables_.lepton_number = lepton_number;
+        global_observables_.lepton_number = lepton_number;
     }
 
     inline float ScalarHt() const {
-        return global_observables_.scalar_ht;
+        return global_observables_.scalar_ht();
     }
 
     inline float MissingEt() const {
-        return global_observables_.missing_et;
+      return global_observables_.missing_et();
     }
 
     inline int JetNumber()const {
-      return global_observables_.jet_number;
+      return global_observables_.jet_number();
     }
 
     inline int BottomNumber()const {
-      return global_observables_.bottom_number;
+      return global_observables_.bottom_number();
     }
 
     inline int LeptonNumber()const {
-        return global_observables_.lepton_number;
+      return global_observables_.lepton_number();
     }
 
     inline GlobalObservables &global_observables()const {
@@ -104,12 +127,12 @@ public:
     }
 
     inline void SetTotalJets(const Jets &jets) {
-      all_jets_ = jets;
+        all_jets_ = jets;
         std::sort(all_jets_.begin(), all_jets_.end(), SortByBdt());
     }
 
     inline void SetSubJets(const Jets &jets) {
-      sub_jets_ = jets;
+        sub_jets_ = jets;
         std::sort(sub_jets_.begin(), sub_jets_.end(), SortByBdt());
     }
 

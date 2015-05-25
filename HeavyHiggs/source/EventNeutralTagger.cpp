@@ -5,6 +5,7 @@ heavyhiggs::EventNeutralTagger::EventNeutralTagger()
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("EventNeutral");
+    signature_neutral_reader_.set_tagger(signature_neutral_tagger_);
     DefineVariables();
 }
 
@@ -79,10 +80,6 @@ void heavyhiggs::EventNeutralTagger::DefineVariables()
 
     AddVariable(branch_.Bdt, "Bdt");
     AddSpectator(branch_.Tag, "Tag");
-
-
-    Print(kNotification, "Variables defined");
-
 }
 
 heavyhiggs::EventNeutralBranch heavyhiggs::EventNeutralTagger::GetBranch(const analysis::MultipletEvent<Octet62> &event) const
@@ -100,7 +97,7 @@ heavyhiggs::EventNeutralBranch heavyhiggs::EventNeutralTagger::GetBranch(const a
 // };
 
 
-std::vector<heavyhiggs::EventNeutralBranch> heavyhiggs::EventNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+int heavyhiggs::EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "Get event Tags");
 
@@ -161,11 +158,11 @@ std::vector<heavyhiggs::EventNeutralBranch> heavyhiggs::EventNeutralTagger::GetB
 //         global_observables.scalar_ht = event.hadrons().GetScalarHt();
 //         global_observables.missing_et = event.hadrons().GetMissingEt().pt();
 //         global_observables.TrackNumber = event.hadrons().GetScalarHt();
-        octetevent.Setglobal_observables(global_observables(event));
+        octetevent.Setglobal_observables(analysis::GlobalObservables(event));
         octetevent.SetLeptons(Leptons);
         octetevent.SetTotalJets(jets);
 //         octetevent.SetSubJets(SubJets);
-        octetevent.SetTag(Tag);
+        octetevent.SetTag(tag);
         for (const auto & Jet : jets)  {
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
@@ -178,21 +175,22 @@ std::vector<heavyhiggs::EventNeutralBranch> heavyhiggs::EventNeutralTagger::GetB
         events.emplace_back(octetevent);
     }
 
-    std::vector<heavyhiggs::EventNeutralBranch> eventSemiBranches;
-    for (const auto & event : events) eventSemiBranches.emplace_back(GetBranch(event));
+//     std::vector<heavyhiggs::EventNeutralBranch> eventSemiBranches;
+//     for (const auto & event : events) eventSemiBranches.emplace_back(GetBranch(event));
 
-    return eventSemiBranches;
+//     return eventSemiBranches;
+return SaveEntries(events);
 }
 
-analysis::GlobalObservables heavyhiggs::EventNeutralTagger::global_observables(analysis::Event &event){
-  analysis::GlobalObservables global_observables;
-  global_observables.lepton_number = event.leptons().GetLeptonJets().size();
-  global_observables.jet_number = event.hadrons().GetJets().size();
-  global_observables.bottom_number = event.hadrons().GetBottomJets().size();
-  global_observables.scalar_ht = event.hadrons().GetScalarHt();
-  global_observables.missing_et = event.hadrons().GetMissingEt().pt();
-  return global_observables;
-}
+// analysis::GlobalObservables heavyhiggs::EventNeutralTagger::global_observables(analysis::Event &event){
+//   analysis::GlobalObservables global_observables;
+//   global_observables.lepton_number = event.leptons().GetLeptonJets().size();
+//   global_observables.jet_number = event.hadrons().GetJets().size();
+//   global_observables.bottom_number = event.hadrons().GetBottomJets().size();
+//   global_observables.scalar_ht = event.hadrons().GetScalarHt();
+//   global_observables.missing_et = event.hadrons().GetMissingEt().pt();
+//   return global_observables;
+// }
 
 
 
@@ -203,11 +201,11 @@ std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::O
 
 
     Jets jets = event.hadrons().GetJets();
-        Jets Leptons = event.leptons().GetLeptonJets();
+    Jets Leptons = event.leptons().GetLeptonJets();
 
     std::vector<analysis::MultipletEvent<Octet62>> events;
     for (const auto & octet : octets) {
-      analysis::MultipletEvent<Octet62> octetevent(octet, global_observables(event));
+      analysis::MultipletEvent<Octet62> octetevent(octet, analysis::GlobalObservables(event));
         for (const auto & Jet : jets)  {
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;

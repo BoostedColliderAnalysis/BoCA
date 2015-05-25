@@ -22,39 +22,51 @@ public:
     */
     EventChargedTagger();
 
-    void SetTagger(
-        const analysis::BottomTagger &NewBottomTagger, const analysis::TripletJetPairTagger &NewChargedjet_pair_tagger, const analysis::WSemiTagger &Neww_semi_tagger, const analysis::WHadronicTagger &NewWTagger, const analysis::TopSemiTagger &Newtop_semi_tagger, const analysis::TopHadronicTagger &Newtop_hadronic_tagger, const analysis::HChargedHiggsSemiTagger &NewChargedHiggsSemiTagger, const SignatureChargedTagger &NewChargedSignatureTagger);
+    std::vector< EventChargedBranch > GetBranches(analysis::Event &, const Tag){
+      Print(kError,"get branches","depreciated");
+      return std::vector< EventChargedBranch >{};
+    }
 
-
-    std::vector< EventChargedBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    int Train(analysis::Event &event, const Tag tag);
 
     EventChargedBranch GetBranch(const analysis::MultipletEvent<Octet44> &event) const;
 
-//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+    std::vector<analysis::MultipletEvent<Octet44>> GetBdt(analysis::Event& event, const std::vector< Octet44 >& octets, Jets& jets, const Jets& SubJets, Jets& Leptons, analysis::GlobalObservables& global_observables, const analysis::Reader& eventSemiReader){
+      Print(kError,"get bdt","depreciated");
+      return std::vector<analysis::MultipletEvent<Octet44>>{};
+    }
 
 
-    std::vector<analysis::MultipletEvent<Octet44>> GetBdt(const std::vector< Octet44 > &octets, Jets &jets, const Jets &SubJets, Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader);
+//     analysis::GlobalObservables global_observables(analysis::Event &event);
 
-    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
+
+    std::vector<analysis::MultipletEvent<Octet44>> Events(analysis::Event& event, const TMVA::Reader& reader);
+
+    float ReadBdt(const TClonesArray& clones_array, const int entry);
 
 
     analysis::BottomTagger bottom_tagger_;
-    analysis::WSemiTagger w_semi_tagger;
-    analysis::WHadronicTagger WTagger;
-    analysis::TopSemiTagger top_semi_tagger;
-    analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::HChargedHiggsSemiTagger ChargedHiggsSemiTagger;
-    analysis::TripletJetPairTagger Chargedjet_pair_tagger;
-    SignatureChargedTagger SignatureSemiTagger;
+//     analysis::WSemiTagger w_semi_tagger;
+//     analysis::WHadronicTagger WTagger;
+//     analysis::TopSemiTagger top_semi_tagger;
+//     analysis::TopHadronicTagger top_hadronic_tagger;
+//     analysis::ChargedHiggsSemiTagger charged_higgs_semi_tagger;
+//     analysis::TripletJetPairTagger Chargedjet_pair_tagger;
+    SignatureChargedTagger signature_semi_tagger_;
 
-    analysis::Reader BottomReader;
-    analysis::Reader WSemiReader;
-    analysis::Reader WReader;
-    analysis::Reader TopHadronicReader;
-    analysis::Reader TopSemiReader;
-    analysis::Reader ChargedHiggsSemiReader;
-    analysis::Reader ChargedJetPairReader;
-    analysis::Reader SignatureSemiReader;
+    analysis::Reader bottom_reader_;
+//     analysis::Reader WSemiReader;
+//     analysis::Reader WReader;
+//     analysis::Reader TopHadronicReader;
+//     analysis::Reader TopSemiReader;
+//     analysis::Reader ChargedHiggsSemiReader;
+//     analysis::Reader ChargedJetPairReader;
+    analysis::Reader signature_semi_reader_;
+
+
+    TClass &Class() const {
+      return *EventChargedBranch::Class();
+    }
 
 
 protected:
@@ -69,9 +81,16 @@ protected:
 
 private:
 
-    void DefineVariables();
 
-    EventChargedBranch Branch;
+  void DefineVariables();
+
+  int SaveEntries(const std::vector<analysis::MultipletEvent<Octet44>> &events) {
+    for (const auto & event : events) static_cast<EventChargedBranch &>(*tree_branch().NewEntry()) = GetBranch(event);
+    return events.size();
+  }
+
+
+    EventChargedBranch branch_;
 
 };
 

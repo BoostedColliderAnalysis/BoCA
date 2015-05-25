@@ -23,35 +23,27 @@ public:
     */
     EventFusionTagger();
 
-    void SetTagger(
-        const analysis::BottomTagger &NewBottomTagger,
-        const analysis::WSemiTagger &Neww_semi_tagger,
-        const analysis::WHadronicTagger &NewWTagger,
-        const analysis::TopSemiTagger &Newtop_semi_tagger,
-        const analysis::TopHadronicTagger &Newtop_hadronic_tagger,
-        const analysis::HeavyHiggsSemiTagger &Newheavy_higgs_semi_tagger);
+    int Train(analysis::Event &event, const Tag tag);
 
-    std::vector< EventFusionBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
-
-    std::vector< analysis::MultipletEvent<analysis::Sextet> > GetBdt(const std::vector< analysis::Sextet > &sextets, Jets &jets, const Jets &Leptons, analysis::GlobalObservables &global_observables, const analysis::Reader &eventSemiReader);
+    std::vector< analysis::MultipletEvent<analysis::Sextet> > Events(analysis::Event& event, TMVA::Reader& eventSemiReader);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 
     EventFusionBranch GetBranch(const analysis::MultipletEvent<analysis::Sextet> &event) const;
 
     analysis::BottomTagger bottom_tagger_;
-    analysis::WSemiTagger w_semi_tagger;
-    analysis::WHadronicTagger WTagger;
-    analysis::TopSemiTagger top_semi_tagger;
-    analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
+//     analysis::WSemiTagger w_semi_tagger;
+//     analysis::WHadronicTagger WTagger;
+//     analysis::TopSemiTagger top_semi_tagger;
+//     analysis::TopHadronicTagger top_hadronic_tagger;
+    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
 
-    analysis::Reader BottomReader;
-    analysis::Reader WSemiReader;
-    analysis::Reader WReader;
-    analysis::Reader TopHadronicReader;
-    analysis::Reader TopSemiReader;
-    analysis::Reader HeavyHiggsSemiReader;
+    analysis::Reader bottom_reader_;
+//     analysis::Reader WSemiReader;
+//     analysis::Reader WReader;
+//     analysis::Reader TopHadronicReader;
+//     analysis::Reader TopSemiReader;
+    analysis::Reader heavy_higgs_semi_reader_;
 
 protected:
 
@@ -67,11 +59,20 @@ private:
 
     void DefineVariables();
 
+
+    int SaveEntries(const std::vector<analysis::MultipletEvent<analysis::Sextet>> &events) {
+      for (const auto & event : events) static_cast<EventFusionBranch &>(*tree_branch().NewEntry()) = GetBranch(event);
+      return events.size();
+    }
+
+    int SaveEntry(const analysis::MultipletEvent<analysis::Sextet> &event) {
+      static_cast<EventFusionBranch &>(*tree_branch().NewEntry()) = GetBranch(event);
+      return 1;
+    }
+
     std::vector<analysis::MultipletEvent<analysis::Sextet>> GetHeavyHiggsevents(Jets &jets);
 
-    EventFusionBranch Branch;
-
-    analysis::JetTag jet_tag;
+    EventFusionBranch branch_;
 
 };
 
