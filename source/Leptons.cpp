@@ -1,4 +1,5 @@
 # include "Leptons.hh"
+# include "Predicate.hh"
 
 analysis::Leptons::Leptons()
 {

@@ -1,15 +1,16 @@
-# ifndef HTopLeptonicTagger_hh
-# define HTopLeptonicTagger_hh
+# pragma once
 
 # include "BottomTagger.hh"
 # include "Doublet.hh"
 # include "Reader.hh"
 
+namespace analysis {
+
 /**
  * @brief Top leptonic BDT tagger
  *
  */
-class analysis::HTopLeptonicTagger : public Tagger
+class HTopLeptonicTagger : public Tagger
 {
 
 public:
@@ -20,11 +21,11 @@ public:
 
     ~HTopLeptonicTagger();
 
-    std::vector< HTopLeptonicBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector< HTopLeptonicBranch > GetBranches(Event &event, const Object::Tag Tag);
 
-    std::vector< Doublet> GetBdt(const Jets &jets, Jets &Leptons, const analysis::Reader & Reader);
+    std::vector< Doublet> GetBdt(const Jets &jets, Jets &Leptons, const Reader & Reader);
 
-    HTopLeptonicBranch GetBranch(const analysis::Doublet &doublet);
+    HTopLeptonicBranch GetBranch(const Doublet &doublet);
 
 protected:
 
@@ -48,4 +49,4 @@ private:
 
 };
 
-#endif
+}

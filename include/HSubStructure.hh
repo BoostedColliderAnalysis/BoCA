@@ -1,10 +1,11 @@
-# ifndef HSubStructure_hh
-# define HSubStructure_hh
+# pragma once
 
 # include "ExRootAnalysis/ExRootTreeBranch.h"
 
 # include "Object.hh"
 # include "Branches.hh"
+
+namespace analysis {
 
 struct HMomentum {
 
@@ -24,14 +25,12 @@ struct HMomentum {
  * @brief subjet and constituent calculations
  *
  */
-class analysis::HSubStructure : public Object
+class HSubStructure : public Object
 {
 
 public:
 
     HSubStructure();
-
-    ~HSubStructure();
 
     void NewEvent();
 
@@ -80,7 +79,7 @@ public:
     };
 
     inline float GetconstituentDeltaR() const {
-        return GetDistance(Global.Rap, Global.Phi);
+        return Distance(Global.Rap, Global.Phi);
     };
 
     inline float GetconstituentAngle() const {
@@ -147,7 +146,7 @@ private:
 
 
     inline float GetPosDistance() const {
-        return GetDistance(GetPosition2Rap(), 0);
+        return Distance(GetPosition2Rap(), 0);
     };
 
     float SubJetRatio;
@@ -156,5 +155,4 @@ private:
 
 };
 
-#endif
-
+}

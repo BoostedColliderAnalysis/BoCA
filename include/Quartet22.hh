@@ -55,7 +55,7 @@ public:
     }
 
     inline float GetMassDifferenceTo(const ParticleId particle_id) const {
-        return std::abs(GetJet().m() - GetParticleMass(particle_id));
+        return std::abs(GetJet().m() - Mass(particle_id));
     }
 
 protected:

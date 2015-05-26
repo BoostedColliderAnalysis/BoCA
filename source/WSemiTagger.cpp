@@ -53,7 +53,7 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
         std::sort(Postdoublets.begin(), Postdoublets.end(), MinDeltaRTo(WBoson));
         for (auto & Postdoublet : Postdoublets) {
-            if (tag == kSignal && std::abs(Postdoublet.Jet().m() - WMass) > w_mass_window_) continue;
+            if (tag == kSignal && std::abs(Postdoublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
             if (tag == kSignal && Postdoublet.Jet().delta_R(WBoson) > detector_geometry().JetConeSize) continue;
             if (tag == kBackground && Postdoublet.Jet().delta_R(WBoson) > detector_geometry().JetConeSize) continue;
             Postdoublet.SetTag(tag);
@@ -74,7 +74,7 @@ std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Even
         Doublet Predoublet(lepton, event.hadrons().GetMissingEt());
         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
         for (auto & Postdoublet : Postdoublets) {
-            if (std::abs(Postdoublet.Jet().m() - WMass) > w_mass_window_) continue;
+            if (std::abs(Postdoublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
             branch_ = branch<WSemiBranch>(Postdoublet);
             Postdoublet.SetBdt(Bdt(reader));
             doublets.emplace_back(Postdoublet);
@@ -93,7 +93,7 @@ std::vector<analysis::Doublet> analysis::WSemiTagger::GetNeutrinos(const Doublet
     const fastjet::PseudoJet lepton = doublet.Singlet1();
     const fastjet::PseudoJet missing_et = doublet.Singlet2();
 
-    const float linear_term = (std::pow(WMass, 2) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
+    const float linear_term = (std::pow(Mass(WId), 2) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
 
     const float lepton_square = std::pow(lepton.e(), 2) - std::pow(lepton.pz(), 2);
     const float missing_et_square = std::pow(missing_et.px(), 2) + std::pow(missing_et.py(), 2);
@@ -169,7 +169,7 @@ Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
 
     WKids = RemoveIfQuark(WKids);
     if (WKids.size() != 2) Print(kError, "Where is the W 2?", WKids.size());
-    else Print(kInformation, "W Daughters", GetParticleName(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), GetParticleName(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), GetParticleName(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id), GetParticleName(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id));
+    else Print(kInformation, "W Daughters", Name(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), Name(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), Name(WKids.at(0).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id), Name(WKids.at(1).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id));
     return WKids;
 }
 

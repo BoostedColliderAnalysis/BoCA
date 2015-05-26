@@ -93,7 +93,7 @@ std::vector<analysis::HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranc
             Doublet doublet(Jet, Lepton);
             doublet.SetTag(GetTag(doublet));
             if (doublet.Tag() != Tag) continue;
-            if (Tag == kSignal && doublet.Jet().m() > TopMass) continue;
+            if (Tag == kSignal && doublet.Jet().m() > Mass(TopId)) continue;
             doublets.emplace_back(doublet);
         }
 
@@ -101,7 +101,7 @@ std::vector<analysis::HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranc
     Print(kInformation, "Number JetPairs", doublets.size());
 
     if (Tag == kSignal && doublets.size() > 1) {
-        std::sort(doublets.begin(), doublets.end(), SortByMass(TopMass));
+        std::sort(doublets.begin(), doublets.end(), SortByMass(Mass(TopId)));
         doublets.erase(doublets.begin() + 1, doublets.end());
     }
 
@@ -114,7 +114,7 @@ std::vector<analysis::HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranc
 
 analysis::Object::Tag analysis::HTopLeptonicTagger::GetTag(const Doublet &doublet)
 {
-    Print(kInformation, "Get Triple Tag", GetParticleName(doublet.Singlet1().user_index()), GetParticleName(doublet.Singlet2().user_index()));
+    Print(kInformation, "Get Triple Tag", Name(doublet.Singlet1().user_index()), Name(doublet.Singlet2().user_index()));
 
     JetInfo Bjet_info = doublet.Singlet1().user_info<JetInfo>();
     Bjet_info.ExtractFraction(BottomId);

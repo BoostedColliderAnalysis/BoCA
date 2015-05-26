@@ -8,13 +8,47 @@
 # include  "JetInfo.hh"
 # include  "ClonesArrays.hh"
 
-namespace analysis{
+namespace analysis
+{
+
+struct SortByPt {
+    inline bool operator()(const TLorentzVector &Lorentzvector1, const TLorentzVector &Lorentzvector2) {
+        return (Lorentzvector1.Pt() > Lorentzvector2.Pt());
+    }
+};
+
+struct SortJetByPt {
+    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+        return (Jet1.pt() > Jet2.pt());
+    }
+};
+
+class SortJetByMass
+{
+public:
+    inline bool operator()(const fastjet::PseudoJet &PseudoJet1, const fastjet::PseudoJet &PseudoJet2) {
+        return (PseudoJet1.m() > PseudoJet2.m());
+    }
+};
+
+struct SortPairs {
+    template <typename Template1>
+    inline bool operator()(const std::pair<Template1, float> &Pair1, const std::pair<Template1, float> &Pair2) {
+        return (Pair1.second < Pair2.second);
+    }
+};
+
+struct SortJetByRap {
+    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+        return (Jet1.rap() > Jet2.rap());
+    }
+};
 
 /**
  * @brief Get a fastjet::PseudoJet from a TLorentzVector
  *
  */
-fastjet::PseudoJet PseudoJet(const TLorentzVector& vector);
+fastjet::PseudoJet PseudoJet(const TLorentzVector &vector);
 
 struct SortByMass {
     SortByMass(const float NewMass) {
@@ -312,9 +346,9 @@ Jets RemoveIfQuark(const Jets &jets);
 Jets RemoveIfNot5Quarks(const Jets &jets);
 
 
-Jets RemoveIfClose(const Jets &jets, const Jets& particles);
+Jets RemoveIfClose(const Jets &jets, const Jets &particles);
 
-Jets CopyIfClose(const Jets &jets, const Jets& particles);
+Jets CopyIfClose(const Jets &jets, const Jets &particles);
 
 // template<typename Predicate>
 // Jets FindIf(const Jets &jets){
@@ -332,8 +366,9 @@ std::vector<Element> JoinVectors(const std::vector<Element> &vector_1, const std
 }
 
 template <typename Element>
-bool FindInVector(const std::vector<Element> vector, const Element element){
-  return (std::find(vector.begin(), vector.end(), element) != vector.end());
+bool FindInVector(const std::vector<Element> vector, const Element element)
+{
+    return (std::find(vector.begin(), vector.end(), element) != vector.end());
 }
 
 }

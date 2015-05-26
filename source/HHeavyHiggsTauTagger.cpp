@@ -161,7 +161,7 @@ std::vector<analysis::Doublet> analysis::HHeavyHiggsTauTagger::GetNeutrinos(cons
     const fastjet::PseudoJet MissingEt = doublet.Singlet2();
     Print(kInformation, "Get Neutrinos", Jet.m(), (Jet - MissingEt).m());
 
-    const float LinearTerm = (std::pow(WMass, 2) - Jet.m2()) / 2 + MissingEt.px() * Jet.px() + MissingEt.py() * Jet.py();
+    const float LinearTerm = (std::pow(Mass(WId), 2) - Jet.m2()) / 2 + MissingEt.px() * Jet.px() + MissingEt.py() * Jet.py();
 
     const float LeptonSq = std::pow(Jet.e(), 2) - std::pow(Jet.pz(), 2);
     const float MetSq = std::pow(MissingEt.px(), 2) + std::pow(MissingEt.py(), 2);

@@ -1,4 +1,5 @@
 # include "HDiscriminator.hh"
+# include "Predicate.hh"
 
 analysis::HDiscriminator::HDiscriminator()
 {

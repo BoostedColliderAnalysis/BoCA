@@ -179,7 +179,7 @@ protected:
      * @param  Phi2
      * @return float distance
      */
-    float GetDistance(const float, const float, const float, const float) const;
+    float Distance(const float, const float, const float, const float) const;
 
     /**
      * @brief Calcualte distance from center in eta phi space
@@ -188,16 +188,16 @@ protected:
      * @param  Phi
      * @return float distance
      */
-    float GetDistance(const float, const float) const;
+    float Distance(const float, const float) const;
 
     /**
      * @brief Take care of phi angles around pi
      *
      */
-    float GetDeltaPhi(const float Phi, const float ReferencePhi) const;
+    float DeltaPhi(const float Phi, const float ReferencePhi) const;
 
     virtual inline std::string NameSpaceName() const {
-        return ("hanalysis");
+        return ("analysis");
     }
 
     virtual inline std::string ClassName() const {
@@ -213,9 +213,9 @@ protected:
         kGenerator = 3
     };
 
-    std::string GetParticleName(const int particle_id) const;
+    std::string Name(const int particle_id) const;
 
-    float GetParticleMass(const analysis::Object::ParticleId particle_id) const;
+    float Mass(const analysis::Object::ParticleId particle_id) const;
 
 
     /**
@@ -235,54 +235,6 @@ protected:
      *
      */
     static const int LargeNumber = 999999999;
-
-    /**
-     * @brief Top quark mass
-     *
-     */
-    constexpr static float TopMass = 173.5;
-
-    /**
-     * @brief Higgs boson mass
-     *
-     */
-    constexpr static float HiggsMass = 125;
-
-    /**
-     * @brief Z bsoson mass
-     *
-     */
-    constexpr static float ZMass = 91.188;
-
-    /**
-     * @brief W bsoson mass
-     *
-     */
-    constexpr static float WMass = 80.39;
-
-    /**
-     * @brief Tau lepton mass
-     *
-     */
-    constexpr static float TauMass = 1.776;
-
-    /**
-     * @brief Muon mass
-     *
-     */
-    constexpr static float MuonMass = 0.1134;
-
-    /**
-     * @brief Electron mass
-     *
-     */
-    constexpr static float ElectronMass = 0.000511;
-
-    /**
-     * @brief Neutrino mass (0)
-     *
-     */
-    constexpr static float NeutrinoMass = 0;
 
     /**
      * @brief Initial user index

@@ -1,29 +1,28 @@
-# ifndef HChargedHiggsLeptonicTagger_hh
-# define HChargedHiggsLeptonicTagger_hh
+# pragma once
 
 # include "Triplet.hh"
-// # include "Quartet31.hh"
 # include "HTopLeptonicTagger.hh"
-// # include "WIMPMASS.h"
+
+namespace analysis {
 
 /**
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class analysis::HChargedHiggsLeptonicTagger : public Tagger
+class HChargedHiggsLeptonicTagger : public Tagger
 {
 
 public:
 
-    HChargedHiggsLeptonicTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::HTopLeptonicTagger &NewTopLeptonicTagger);
+    HChargedHiggsLeptonicTagger(const BottomTagger &NewBottomTagger, const HTopLeptonicTagger &NewTopLeptonicTagger);
 
     ~HChargedHiggsLeptonicTagger();
 
-    std::vector< HChargedHiggsLeptonicBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    std::vector< HChargedHiggsLeptonicBranch > GetBranches(Event &event, const Object::Tag Tag);
 
-    HChargedHiggsLeptonicBranch GetBranch(const analysis::Triplet &triplet);
+    HChargedHiggsLeptonicBranch GetBranch(const Triplet &triplet);
 
-    std::vector<analysis::Triplet> GetBdt(const std::vector< analysis::Doublet > &doublets, const Jets &jets, const analysis::Reader & Reader);
+    std::vector<Triplet> GetBdt(const std::vector< Doublet > &doublets, const Jets &jets, const Reader & Reader);
 
 protected:
 
@@ -35,7 +34,7 @@ private:
 
     void DefineVariables();
 
-    analysis::Object::Tag GetTag(const analysis::Triplet &triplet);
+    Object::Tag GetTag(const Triplet &triplet);
 
 
     BottomTagger bottom_tagger_;
@@ -50,4 +49,4 @@ private:
 
 };
 
-#endif
+}

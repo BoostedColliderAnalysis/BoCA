@@ -1,5 +1,6 @@
 # include "HAnalysisJetProperties.hh"
 # include "fastjet/tools/MassDropTagger.hh"
+# include "Predicate.hh"
 
 // hjetproperties::HAnalysis::HAnalysis()
 // {
@@ -261,7 +262,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
         Jets CAInclusiveJets = CAClusterSequence.inclusive_jets();
         Print(kDebug, "InclusiveJets Number", CAInclusiveJets.size());
 
-        std::sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), SortJetByMass());
+        std::sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), analysis::SortJetByMass());
 
         for (const auto & CAInclusiveJet : CAInclusiveJets) {
 
@@ -294,7 +295,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
         Jets AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(kDebug, "InclusiveJets Number", AktInclusiveJets.size());
 
-        std::sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), SortJetByMass());
+        std::sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), analysis::SortJetByMass());
         for (const auto & AktInclusiveJet : AktInclusiveJets) {
 
             //             if (!FillTree(AktFatJetBranch, AktFatJetconstituentBranch, AktInclusiveJet, LeptonJets)) return 0;
@@ -464,8 +465,8 @@ Jets hjetproperties::HAnalysis::Leptons(analysis::Event &event)
     Jets LeptonJets = event.partons().GetLeptonJets();
     Jets AntiLeptonJets = event.partons().GetAntiLeptonJets();
 
-    std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
-    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
+    std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
+    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());
 
     bool HardestLepton = 1;
     for (const auto & LeptonJet : LeptonJets) {

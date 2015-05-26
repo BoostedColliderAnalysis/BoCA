@@ -55,7 +55,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
                 if (!tagged) continue;
             }
             Doublet doublet(*jet1, *jet2);
-            if (tag == kSignal && std::abs(doublet.Jet().m() - ZMass) > z_mass_window_) continue;
+            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) continue;
             doublets.emplace_back(doublet);
         }
     }
@@ -80,12 +80,12 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
         Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
-        if (tag == kSignal && std::abs(doublet.Jet().m() - ZMass) > z_mass_window_) continue;
+        if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) continue;
         doublets.emplace_back(doublet);
     }
 
     if (tag == kSignal && doublets.size() > z_particles.size()) {
-        std::sort(doublets.begin(), doublets.end(), SortByMass(ZMass));
+        std::sort(doublets.begin(), doublets.end(), SortByMass(Mass(ZId)));
         doublets.erase(doublets.begin() + z_particles.size(), doublets.end());
     }
     return SaveEntries<ZHadronicBranch>(doublets);
@@ -169,7 +169,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastj
     std::vector<Doublet>  doublets;
     Doublet doublet(jet_1, jet_2);
     if (doublet.DeltaR() < detector_geometry().MinCellResolution) return doublets;
-    if (std::abs(doublet.Jet().m() - ZMass) > z_mass_window_) return doublets;
+    if (std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) return doublets;
     branch_ = branch<ZHadronicBranch>(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);
@@ -185,7 +185,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastj
     Doublet doublet;
     if (subjets.size() == 1) doublet.SetSinglets(jet);
     else doublet.SetSinglets(subjets.at(0), subjets.at(1));
-    if (std::abs(doublet.Jet().m() - ZMass) > z_mass_window_) return doublets;
+    if (std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) return doublets;
     branch_ = branch<ZHadronicBranch>(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);

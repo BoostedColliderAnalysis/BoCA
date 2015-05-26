@@ -63,7 +63,7 @@ public:
     }
 
     inline float MassDifferenceTo(const ParticleId particle_id) const {
-        return std::abs(Jet().m() - GetParticleMass(particle_id));
+        return std::abs(Jet().m() - Mass(particle_id));
     }
 
     bool overlap() const {

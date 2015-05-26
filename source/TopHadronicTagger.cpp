@@ -8,7 +8,7 @@ analysis::TopHadronicTagger::TopHadronicTagger()
     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopHadronic");
-    top_mass_window_ = (TopMass - WMass) / 2;
+    top_mass_window_ = (Mass(TopId) - Mass(WId)) / 2;
     bottom_reader_.set_tagger(bottom_tagger_);
     w_hadronic_reader_.set_tagger(w_hadronic_tagger_);
     boost_ = false; // be carefull with this one!!
@@ -136,7 +136,7 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
     Print(kInformation, "Clean Entries");
     if (tag == kSignal && triplets.size() > top_particles.size()) {
         Print(kInformation, "Number of Jet Pairs", triplets.size());
-        triplets = SortByMassTo(triplets, TopMass);
+        triplets = SortByMassTo(triplets, Mass(TopId));
         triplets.erase(triplets.begin() + top_particles.size(), triplets.end());
     }
     return SaveEntries<TopHadronicBranch>(triplets);
@@ -182,7 +182,7 @@ bool analysis::TopHadronicTagger::Problematic(const Triplet &triplet, const Jets
     if (pre_cuts.PtUpperCut(TopId) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(TopId)) return true;
     switch (tag) {
     case kSignal: {
-        if (std::abs(triplet.Jet().m() - TopMass) > top_mass_window_) return true;
+        if (std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) return true;
         bool problematic = true;
         for (const auto & quark : quarks) if (triplet.Jet().delta_R(quark) < detector_geometry().JetConeSize) problematic = false;
         if (problematic) return true;

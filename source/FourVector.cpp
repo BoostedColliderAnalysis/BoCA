@@ -22,7 +22,7 @@ void analysis::FourVector::NewEvent(const analysis::ClonesArrays &clones_arrays)
 TLorentzVector analysis::FourVector::GetLorentzVector(const TRootElectron &Particle) const
 {
     Print(kDebug, "Get Lorentz Vector", "TRootElectron");
-    return GetLorentzVectorByMass(Particle, ElectronMass);
+    return GetLorentzVectorByMass(Particle, Mass(ElectronId));
 }
 
 TLorentzVector analysis::FourVector::GetLorentzVector(const TRootGenJet &Particle) const
@@ -52,7 +52,7 @@ TLorentzVector analysis::FourVector::GetLorentzVector(const TRootLHEFParticle &P
 TLorentzVector analysis::FourVector::GetLorentzVector(const TRootMuon &Particle) const
 {
     Print(kDebug, "Get Lorentz Vector", "TRootMuon");
-    return GetLorentzVectorByMass(Particle, MuonMass);
+    return GetLorentzVectorByMass(Particle, Mass(MuonId));
 }
 
 TLorentzVector analysis::FourVector::GetLorentzVector(const TRootPhoton &Particle) const
@@ -64,13 +64,13 @@ TLorentzVector analysis::FourVector::GetLorentzVector(const TRootPhoton &Particl
 TLorentzVector analysis::FourVector::GetLorentzVector(const TRootTau &Particle) const
 {
     Print(kDebug, "Get Lorentz Vector", "TRootTau");
-    return GetLorentzVectorByMass(Particle, TauMass);
+    return GetLorentzVectorByMass(Particle, Mass(TauId));
 }
 
 fastjet::PseudoJet analysis::FourVector::GetPseudoJet(const TRootElectron &Particle) const
 {
     Print(kDebug, "Get Pseudo Jet", "TRootElectron");
-    return PseudoJet(GetLorentzVectorByMass(Particle, ElectronMass));
+    return PseudoJet(GetLorentzVectorByMass(Particle, Mass(ElectronId)));
 }
 
 fastjet::PseudoJet analysis::FourVector::GetPseudoJet(const TRootGenJet &Particle) const
@@ -100,7 +100,7 @@ fastjet::PseudoJet analysis::FourVector::GetPseudoJet(const TRootLHEFParticle &P
 fastjet::PseudoJet analysis::FourVector::GetPseudoJet(const TRootMuon &Particle) const
 {
     Print(kDebug, "Get Pseudo Jet", "TRootMuon");
-    return PseudoJet(GetLorentzVectorByMass(Particle, MuonMass));
+    return PseudoJet(GetLorentzVectorByMass(Particle, Mass(MuonId)));
 }
 
 fastjet::PseudoJet analysis::FourVector::GetPseudoJet(const TRootPhoton &Particle) const
@@ -112,7 +112,7 @@ fastjet::PseudoJet analysis::FourVector::GetPseudoJet(const TRootPhoton &Particl
 fastjet::PseudoJet analysis::FourVector::GetPseudoJet(const TRootTau &Particle) const
 {
     Print(kDebug, "Get Pseudo Jet", "TRootTau");
-    return PseudoJet(GetLorentzVectorByMass(Particle, TauMass));
+    return PseudoJet(GetLorentzVectorByMass(Particle, Mass(TauId)));
 }
 
 analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
@@ -130,14 +130,14 @@ analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
 //       Print(kError, "Truth Level Tagging Failed");
     for (auto & Node : topology_) if (Node.Marker()) Node = family;
     //
-    Print(kDebug, "Branch Family", GetParticleName(family.particle().Id), GetParticleName(family.mother_1().Id));
-    if (family.particle().Id == EmptyId || family.mother_1().Id == EmptyId) Print(kError, "Branch Family", GetParticleName(family.particle().Id), GetParticleName(family.mother_1().Id));
+    Print(kDebug, "Branch Family", Name(family.particle().Id), Name(family.mother_1().Id));
+    if (family.particle().Id == EmptyId || family.mother_1().Id == EmptyId) Print(kError, "Branch Family", Name(family.particle().Id), Name(family.mother_1().Id));
     return family;
 }
 
 analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Position)
 {
-    Print(kInformation, "Get Branch Family ", GetParticleName(family.particle().Id), Position);
+    Print(kInformation, "Get Branch Family ", Name(family.particle().Id), Position);
     if (
         jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag_->HeavyParticles) ||
         jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag_->HeavyParticles) ||
@@ -150,7 +150,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
         jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.mother_1().Id))) == end(jet_tag_->HeavyParticles) &&
         jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.particle().Id))) == end(jet_tag_->HeavyParticles)
     ) {
-        Print(kDebug, "Topology", Position, GetParticleName(topology_.at(Position).particle().Id), GetParticleName(topology_.at(Position).mother_1().Id));
+        Print(kDebug, "Topology", Position, Name(topology_.at(Position).particle().Id), Name(topology_.at(Position).mother_1().Id));
         if (
             jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag_->HeavyParticles) ||
             jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag_->HeavyParticles) ||
@@ -179,7 +179,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
         Family NodeFamily(particle.P4(), MotherVector, Position, particle.PID, particle.M1, M1Id);
         if (Mother1Status == kGenerator)
             family = jet_tag_->GetBranchFamily(NodeFamily, family);
-        Print(kDetailed, "Branch Id", GetParticleName(M1Id), GetParticleName(family.mother_1().Id));
+        Print(kDetailed, "Branch Id", Name(M1Id), Name(family.mother_1().Id));
         if (jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.mother_1().Id))) != end(jet_tag_->HeavyParticles)) return family;
         if (jet_tag_->HeavyParticles.find(static_cast<ParticleId>(std::abs(family.particle().Id))) != end(jet_tag_->HeavyParticles)) return family;
         if (particle.M2 != EmptyPosition && particle.M2 != particle.M1) {
@@ -192,7 +192,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
 //                         BranchFamily = GetBranchFamily(BranchFamily, Counter);
                         Family NewFamily = GetBranchFamily(family, Counter);
                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
-                        Print(kDebug, "StringPart", Counter, GetParticleName(family.particle().Id));
+                        Print(kDebug, "StringPart", Counter, Name(family.particle().Id));
 //                         if (std::abs(BranchFamily.particle().Id) == IsrId) return BranchFamily;
                     }
                     jet_info.PrintAllFamInfos(kDebug);
@@ -245,12 +245,12 @@ void analysis::FourVector::PrintTruthLevel(int const severity) const
         for (const int Position : Range(30)) {
             ::delphes::GenParticle &Particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position));
             PrintCell(Position);
-            PrintCell(GetParticleName(topology_.at(Position).particle().Id));
+            PrintCell(Name(topology_.at(Position).particle().Id));
             PrintCell(topology_.at(Position).particle().Position);
-            PrintCell(GetParticleName(topology_.at(Position).mother_1().Id));
+            PrintCell(Name(topology_.at(Position).mother_1().Id));
             PrintCell(topology_.at(Position).mother_1().Position);
             PrintCell(Particle.Status);
-            PrintCell(GetParticleName(Particle.PID));
+            PrintCell(Name(Particle.PID));
             PrintCell(Particle.M1);
             PrintCell(PrintParticle(Particle.M1));
             PrintCell(Particle.M2);
@@ -270,7 +270,7 @@ void analysis::FourVector::PrintTruthLevel(int const severity) const
 
 std::string analysis::FourVector::PrintParticle(const int Position) const
 {
-    if (Position != -1) return GetParticleName(static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position)).PID);
+    if (Position != -1) return Name(static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position)).PID);
     else return " ";
 }
 

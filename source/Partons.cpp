@@ -1,4 +1,5 @@
 # include "Partons.hh"
+# include "Predicate.hh"
 
 analysis::Partons::Partons()
 {

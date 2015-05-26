@@ -1,16 +1,17 @@
-# ifndef HTopTagger_hh
-# define HTopTagger_hh
+# pragma once
 
 # include "fastjet/JetDefinition.hh"
 # include "fastjet/ClusterSequence.hh"
 
 # include "Object.hh"
 
+namespace analysis {
+
 /**
  * @brief prepares the data for the top tagger
  *
  */
-class analysis::top_hadronic_tagger : public analysis::Object
+class TopHadronicHep : public Object
 {
 
 public:
@@ -25,9 +26,7 @@ public:
      * @brief constructor
      *
      */
-    top_hadronic_tagger();
-
-    ~top_hadronic_tagger();
+    TopHadronicHep();
 
 private:
 
@@ -38,9 +37,9 @@ private:
     Jets GetGranulatedJets(Jets& EFlowJets);
 
     inline std::string ClassName() const {
-        return "HTopTagger";
-    };
+      return "TopHadronicHep";
+    }
 
 };
 
-#endif
+}

@@ -1,15 +1,16 @@
-# ifndef HDiscriminator_hh
-# define HDiscriminator_hh
+# pragma once
 
 # include "HReconstruction.hh"
 # include "JetInfo.hh"
+
+namespace analysis {
 
 /**
  * @brief Jet Discriminator
  *
  *
  */
-class analysis::HDiscriminator : public HReconstruction
+class HDiscriminator : public HReconstruction
 {
 
 public:
@@ -28,7 +29,7 @@ public:
 
     /**
      * @brief Get Fat Higgs Jets
-     * 
+     *
      */
     Jets GetCandidateJets(const Jets &, const float);
 
@@ -44,4 +45,4 @@ private:
 
 };
 
-# endif
+}

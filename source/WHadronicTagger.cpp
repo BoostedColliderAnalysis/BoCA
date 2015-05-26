@@ -55,7 +55,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
                 if (!tagged) continue;
             }
             Doublet doublet(*jet1, *jet2);
-            if (tag == kSignal && std::abs(doublet.Jet().m() - WMass) > w_mass_window_) continue;
+            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
             doublets.emplace_back(doublet);
         }
     }
@@ -81,7 +81,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
         Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
-        if (tag == kSignal && std::abs(doublet.Jet().m() - WMass) > w_mass_window_) continue;
+        if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
         doublets.emplace_back(doublet);
     }
 
@@ -93,7 +93,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
         for (auto piece1 = pieces.begin(); piece1 != pieces.end(); ++piece1) {
             for (auto piece2 = piece1 + 1; piece2 != pieces.end(); ++piece2) {
                 Doublet doublet(*piece1, *piece2);
-                if (tag == kSignal && std::abs(doublet.Jet().m() - WMass) > w_mass_window_) continue;
+                if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
                 doublets.emplace_back(doublet);
             }
         }
@@ -106,14 +106,14 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
         if (pieces.size() < sub_jet_number) continue;
         for (const auto & piece : pieces) {
             Doublet doublet(piece);
-            if (tag == kSignal && std::abs(doublet.Jet().m() - WMass) > w_mass_window_) continue;
+            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
             continue;
             doublets.emplace_back(doublet);
         }
     }
 
     if (tag == kSignal && doublets.size() > w_particles.size()) {
-        std::sort(doublets.begin(), doublets.end(), SortByMass(WMass));
+        std::sort(doublets.begin(), doublets.end(), SortByMass(Mass(WId)));
         doublets.erase(doublets.begin() + w_particles.size(), doublets.end());
     }
     return SaveEntries<WHadronicBranch>(doublets);
@@ -217,7 +217,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplets(const fastj
     std::vector<Doublet>  doublets;
     Doublet doublet(jet_1, jet_2);
     if (doublet.DeltaR() < detector_geometry().MinCellResolution) return doublets;
-    if (std::abs(doublet.Jet().m() - WMass) > w_mass_window_) return doublets;
+    if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) return doublets;
     branch_ = branch<WHadronicBranch>(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);
@@ -233,7 +233,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplets(const fastj
     Doublet doublet;
     if (subjets.size() == 1) doublet.SetSinglets(jet);
     else doublet.SetSinglets(subjets.at(0), subjets.at(1));
-    if (std::abs(doublet.Jet().m() - WMass) > w_mass_window_) return doublets;
+    if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) return doublets;
     branch_ = branch<WHadronicBranch>(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);

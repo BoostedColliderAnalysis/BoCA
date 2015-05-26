@@ -1,14 +1,10 @@
 # include "HSubStructure.hh"
+# include "Predicate.hh"
 
 analysis::HSubStructure::HSubStructure()
 {
     Print(kNotification, "Constructor");
 //   Shift = 1;
-}
-
-analysis::HSubStructure::~HSubStructure()
-{
-    Print(kNotification, "Destructor");
 }
 
 void analysis::HSubStructure::NewEvent()
@@ -58,7 +54,7 @@ bool analysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     SubJet2.Rap -= SubJet1.Rap;
     SubJet2.Phi -= SubJet1.Phi;
     // scale subjet distance to reference value
-    const float SubJetDistance = GetDistance(SubJet2.Rap, SubJet2.Phi);
+    const float SubJetDistance = Distance(SubJet2.Rap, SubJet2.Phi);
     if (SubJetDistance <= 0) {
         Print(kNotification, "No SubJet Distance", SubJetDistance);
         return 0;
@@ -104,7 +100,7 @@ Vectors analysis::HSubStructure::Getconstituents(const fastjet::PseudoJet &Candi
         float ConstPhi = constituentJet.delta_phi_to(CandidateJet);
         // move subjet1 together with constituent to origin
         ConstRap -= SubJet1.Rap;
-        ConstPhi = GetDeltaPhi(ConstPhi, SubJet1.Phi);
+        ConstPhi = DeltaPhi(ConstPhi, SubJet1.Phi);
         // scale distance to reference value
         ConstRap *= SubJetRatio;
         ConstPhi *= SubJetRatio;

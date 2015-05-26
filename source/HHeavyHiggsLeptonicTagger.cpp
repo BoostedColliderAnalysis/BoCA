@@ -244,7 +244,7 @@ std::vector<analysis::Sextet> analysis::HHeavyHiggsLeptonicTagger::Getsextets(co
 
     double P1[4][4], P2[4][4];
     int SolutionSum;
-    solve22(Structure, NeutrinoMass, WMass, TopMass, SolutionSum, P1, P2);
+    solve22(Structure, Mass(ElectronNeutrinoId), Mass(WId), Mass(TopId), SolutionSum, P1, P2);
     Print(kDebug, "Number solutions", SolutionSum);
 
     std::vector<analysis::Sextet> sextets;

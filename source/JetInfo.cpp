@@ -181,8 +181,8 @@ void analysis::JetInfo::PrintAllInfos(const Severity severity) const
 {
     Print(kDebug, "Print All Infos");
     for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
-        if (GetWeightSum() == 0) Print(severity, "Jet Fraction", GetParticleName((*pair).first), 0);
-        else Print(severity, "Jet Fraction", GetParticleName((*pair).first), (*pair).second / GetWeightSum());
+        if (GetWeightSum() == 0) Print(severity, "Jet Fraction", Name((*pair).first), 0);
+        else Print(severity, "Jet Fraction", Name((*pair).first), (*pair).second / GetWeightSum());
     }
 }
 
@@ -190,13 +190,13 @@ void analysis::JetInfo::PrintAllconstituentInfos(const Severity severity) const
 {
     Print(kDebug, "Print All Family Infos");
     for (const auto constituent : constituents())
-        Print(severity, "Jet Fraction", GetParticleName(constituent.family().particle().Id), GetParticleName(constituent.family().mother_1().Id), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
+        Print(severity, "Jet Fraction", Name(constituent.family().particle().Id), Name(constituent.family().mother_1().Id), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
 }
 void analysis::JetInfo::PrintAllFamInfos(const Severity severity) const
 {
     Print(kDebug, "Print All Family Infos");
     for (const auto &family_fraction : family_fractions_)
-        Print(severity, "Family Fraction", GetParticleName(family_fraction.first.particle().Id), GetParticleName(family_fraction.first.mother_1().Id), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
+        Print(severity, "Family Fraction", Name(family_fraction.first.particle().Id), Name(family_fraction.first.mother_1().Id), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
 }
 
 fastjet::PseudoJet analysis::JetInfo::VertexJet() const

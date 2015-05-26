@@ -1,4 +1,5 @@
 # include "HAnalysisDiscriminator.hh"
+# include "Predicate.hh"
 
 // hcpvhiggs::HAnalysis::HAnalysis()
 // {
@@ -364,8 +365,8 @@ Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
     Jets LeptonJets = event.partons().GetLeptonJets();
     Jets AntiLeptonJets = event.partons().GetAntiLeptonJets();
 
-    std::sort(LeptonJets.begin(), LeptonJets.end(), SortJetByPt());
-    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), SortJetByPt());
+    std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
+    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());
 
     bool HardestLepton = 1;
     for (const auto & LeptonJet : LeptonJets) {
