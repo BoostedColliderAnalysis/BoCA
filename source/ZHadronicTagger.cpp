@@ -32,7 +32,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 
     Jets z_hadronic_daughters = ZDaughters(event);
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kInformation, "Bottom Tagger Number", jets.size());
 
     // 2 Jets form 1 W
@@ -114,7 +114,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(Event &even
 {
     Print(kInformation, "Get doublet Bdt");
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
 
     // 2 jets form a W
     std::vector<Doublet> doublets = Multiplets(jets, reader);

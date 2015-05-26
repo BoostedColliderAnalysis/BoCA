@@ -22,10 +22,6 @@ public:
 
     std::vector<analysis::Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const analysis::Reader &Reader);
 
-    float ReadBdt(const TClonesArray &eventClonesArray, const int Entry) {
-      return static_cast<analysis::HTopLeptonBranch &>(*eventClonesArray.At(Entry)).Bdt;
-    }
-
     analysis::HTopLeptonBranch GetBranch(const analysis::Doublet &doublet) const;
 
     analysis::BottomTagger bottom_tagger_;

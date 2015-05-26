@@ -76,7 +76,7 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
     if (!boost_) {
 
         Print(kInformation, "3 Jets form one top" , triplets.size());
-        std::vector<analysis::Doublet> doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(event, w_hadronic_reader_.reader());
+        std::vector<analysis::Doublet> doublets = w_hadronic_reader_.Multiplets<WHadronicTagger>(event);
         triplets = Multiplets(doublets, jets, top_particles, pre_cuts, tag);
 
         Print(kInformation, "2 Jet form one top" , triplets.size());
@@ -241,7 +241,7 @@ analysis::Triplet analysis::TopHadronicTagger::GetBdt(Triplet &triplet, PreCuts 
 
 std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<analysis::Triplet> triplets;
     if (!boost_) {
         // 2 jets form a W

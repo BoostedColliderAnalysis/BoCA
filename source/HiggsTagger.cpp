@@ -33,7 +33,7 @@ int analysis::HiggsTagger::Train(analysis::Event &event,  analysis::PreCuts &pre
 {
     Print(kInformation, "Get Higgs Tags");
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
+    Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
 
     std::vector< analysis::Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
@@ -49,7 +49,7 @@ int analysis::HiggsTagger::Train(analysis::Event &event,  analysis::PreCuts &pre
 
 std::vector<analysis::Doublet>  analysis::HiggsTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
+  Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
 
     std::vector< analysis::Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

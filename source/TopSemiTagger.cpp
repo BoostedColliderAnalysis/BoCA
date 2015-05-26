@@ -44,8 +44,8 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     top_particles = RemoveIfWrongParticle(top_particles, TopSemiId);
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
-    std::vector<analysis::Doublet> doublets = static_cast<WSemiTagger &>(w_semi_reader_.tagger()).Multiplets(event, w_semi_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
 
     Jets leptons = event.leptons().GetLeptonJets();
     Print(kInformation, "Lepton Number", leptons.size());
@@ -103,8 +103,8 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
 {
     Print(kInformation, "Get Bdt");
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
-    std::vector<analysis::Doublet> doublets = static_cast<WSemiTagger &>(w_semi_reader_.tagger()).Multiplets(event, w_semi_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
 
     std::vector<Triplet> triplets;
     if (!boost_) {
