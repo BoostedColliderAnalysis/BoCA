@@ -32,7 +32,7 @@ public:
     void NewEvent(const ClonesArrays &clones_arrays);
 
     void Setjet_tag(JetTag &jet_tag) {
-        jet_tag_ = &jet_tag;
+        set_jet_tag(jet_tag);
     }
 
     Jets GetJets() {
@@ -56,16 +56,16 @@ public:
         return jets_;
     };
 
-    Jets GetTaggedJets(JetTag &Newjet_tag) {
-        jet_tag_ = &Newjet_tag;
+    Jets GetTaggedJets(JetTag &jet_tag) {
+        set_jet_tag(jet_tag);
         NewEvent(*clones_arrays_);
 //         if (!GotJets)
         GotJets = GetJets(kTagging);
         return jets_;
     };
 
-    Jets GetStructuredTaggedJets(JetTag &Newjet_tag) {
-        jet_tag_ = &Newjet_tag;
+    Jets GetStructuredTaggedJets(JetTag &jet_tag) {
+        set_jet_tag(jet_tag);
         NewEvent(*clones_arrays_);
 //       if (!GotJets)
         GotJets = GetJets(kTaggingStructure);
@@ -95,14 +95,14 @@ public:
         return EFlowJets;
     };
 
-    Jets GetTaggedEFlowJets(JetTag &Newjet_tag) {
-        jet_tag_ = &Newjet_tag;
+    Jets GetTaggedEFlowJets(JetTag &jet_tag) {
+        set_jet_tag(jet_tag);
         if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
         return EFlowJets;
     };
 
-    Jets GetStructuredTaggedEFlowJets(JetTag &Newjet_tag) {
-        jet_tag_ = &Newjet_tag;
+    Jets GetStructuredTaggedEFlowJets(JetTag &jet_tag) {
+        set_jet_tag(jet_tag);
         if (!GotEFlow) GotEFlow = GetEFlow(kTaggingStructure);
         return EFlowJets;
     };
@@ -118,8 +118,8 @@ public:
         return EFlowJets;
     };
 
-    Jets GetIsolatedTaggedEFlowJets(JetTag &Newjet_tag) {
-        jet_tag_ = &Newjet_tag;
+    Jets GetIsolatedTaggedEFlowJets(JetTag &jet_tag) {
+        set_jet_tag(jet_tag);
         if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
         return EFlowJets;
     };
@@ -223,7 +223,7 @@ protected:
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2, const float delta_r_isolation_max) const {
         bool isolated = false;
-        if (PseudoJet(const_cast<Particle_1 &>(particle_1).P4()).delta_R(PseudoJet(const_cast<Particle_2 &>(particle_2).P4())) < delta_r_isolation_max) isolated = true;
+        if (analysis::PseudoJet(const_cast<Particle_1 &>(particle_1).P4()).delta_R(analysis::PseudoJet(const_cast<Particle_2 &>(particle_2).P4())) < delta_r_isolation_max) isolated = true;
         return isolated;
     }
 

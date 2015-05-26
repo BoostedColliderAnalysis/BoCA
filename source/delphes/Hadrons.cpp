@@ -17,13 +17,13 @@ bool analysis::delphes::Hadrons::GetJets(const analysis::FourVector::JetDetail j
         ::delphes::Jet &jet = static_cast<::delphes::Jet &>(clones_arrays().Jet(JetNumber));
         switch (jet_detail) {
         case kPlain: {
-            fastjet::PseudoJet Jet = PseudoJet(jet.P4());
+          fastjet::PseudoJet Jet = analysis::PseudoJet(jet.P4());
             Jet.set_user_info(new JetInfo(/*jet.BTag*/));
             jets_.emplace_back(Jet);
         }
         break;
         case kTagging: {
-            fastjet::PseudoJet Jet = PseudoJet(jet.P4());
+          fastjet::PseudoJet Jet = analysis::PseudoJet(jet.P4());
             JetInfo *jet_info = new JetInfo(GetJetId(jet));
 //             jet_info->SetBTag(jet.BTag);
             Jet.set_user_info(jet_info);
@@ -55,7 +55,7 @@ void analysis::delphes::Hadrons::DelphesTags(const ::delphes::Jet &jet)
     } else if (jet.BTag > 0) {
         Print(kDetailed, "Has B Tag");
         BottomLorentzVectors.emplace_back(const_cast<::delphes::Jet &>(jet).P4());
-        BottomJets.emplace_back(PseudoJet(const_cast<::delphes::Jet &>(jet).P4()));
+        BottomJets.emplace_back(analysis::PseudoJet(const_cast<::delphes::Jet &>(jet).P4()));
     } else {
         Print(kDetailed, "No Delphes Tag");
         JetLorentzVectors.emplace_back(const_cast<::delphes::Jet &>(jet).P4());
@@ -103,14 +103,14 @@ fastjet::PseudoJet analysis::delphes::Hadrons::Getconstituents(const TObject &Ob
         TLorentzVector Position(particle.X, particle.Y, particle.Z, particle.T);
         Constituent constituent(const_cast<::delphes::GenParticle &>(particle).P4(), Position, Constituent::kGenParticle);
         if (jet_detail == kTaggingStructure) constituent.SetFamily(GetBranchFamily(Object));
-        Jet = PseudoJet(const_cast<::delphes::GenParticle &>(particle).P4());
+        Jet = analysis::PseudoJet(const_cast<::delphes::GenParticle &>(particle).P4());
         jet_info->Addconstituent(constituent);
     } else if (Object.IsA() == ::delphes::Track::Class()) {
       const ::delphes::Track &track = static_cast<const ::delphes::Track &>(Object);
         TLorentzVector Position(track.X, track.Y, track.Z, track.T);
         Constituent constituent(const_cast<::delphes::Track &>(track).P4(), Position, Constituent::kTrack);
         if (jet_detail == kTaggingStructure) constituent.SetFamily(GetBranchFamily(*track.Particle.GetObject()));
-        Jet = PseudoJet(const_cast<::delphes::Track &>(track).P4());
+        Jet = analysis::PseudoJet(const_cast<::delphes::Track &>(track).P4());
         jet_info->Addconstituent(constituent);
     } else if (Object.IsA() == ::delphes::Tower::Class()) {
       const ::delphes::Tower &tower = static_cast<const ::delphes::Tower &>(Object);
@@ -119,13 +119,13 @@ fastjet::PseudoJet analysis::delphes::Hadrons::Getconstituents(const TObject &Ob
         if (jet_detail == kTaggingStructure) constituents = GetJetId(tower).constituents();
 //         if(Detector == Constituent::HPhoton)
         for (auto & constituent : constituents) constituent.SetDetector(Detector);
-        Jet = PseudoJet(const_cast<::delphes::Tower &>(tower).P4());
+        Jet = analysis::PseudoJet(const_cast<::delphes::Tower &>(tower).P4());
         jet_info->Addconstituents(constituents);
     } else if (Object.IsA() == ::delphes::Muon::Class()) {
       const ::delphes::Muon &muon = static_cast<const ::delphes::Muon &>(Object);
       Constituent constituent(const_cast<::delphes::Muon &>(muon).P4(), Constituent::kMuon);
         if (jet_detail == kTaggingStructure) constituent.SetFamily(GetBranchFamily(*muon.Particle.GetObject()));
-        Jet = PseudoJet(const_cast<::delphes::Muon &>(muon).P4());
+        Jet = analysis::PseudoJet(const_cast<::delphes::Muon &>(muon).P4());
         jet_info->Addconstituent(constituent);
     } else {
         Print(kError, "Unkonw Jet constituent", Object.ClassName());
@@ -167,7 +167,7 @@ void analysis::delphes::Hadrons::GetTrackEFlow(const JetDetail jet_detail)
           if (Isolated) Isolated = GetIsolation<::delphes::Muon>(e_flow_track, clones_arrays().MuonClonesArray());
             if (!Isolated) continue;
         }
-        EFlowJets.emplace_back(PseudoJet(e_flow_track.P4()));
+        EFlowJets.emplace_back(analysis::PseudoJet(e_flow_track.P4()));
         if (jet_detail == kTagging || jet_detail ==  kTaggingIsolation) {
             Constituent constituent(e_flow_track.P4(), GetBranchFamily(*e_flow_track.Particle.GetObject()));
             EFlowJets.back().set_user_info(new JetInfo(constituent));
@@ -191,7 +191,7 @@ void analysis::delphes::Hadrons::GetPhotonEFlow(const JetDetail jet_detail)
           bool Isolated = GetIsolation<::delphes::Photon>(e_flow_photon, clones_arrays().PhotonClonesArray());
             if (!Isolated) continue;
         }
-        EFlowJets.emplace_back(PseudoJet(e_flow_photon.P4()));
+        EFlowJets.emplace_back(analysis::PseudoJet(e_flow_photon.P4()));
         if (jet_detail == kTagging || jet_detail ==  kTaggingIsolation) {
             EFlowJets.back().set_user_info(new analysis::JetInfo(GetJetId(e_flow_photon)));
             Print(kDetailed, "Photon EFlow Id", EFlowJets.back().user_index());
@@ -209,7 +209,7 @@ void analysis::delphes::Hadrons::GetHadronEFlow(const JetDetail jet_detail)
             continue;
         }
         ::delphes::Tower &e_flow_hadron = static_cast<::delphes::Tower &>(clones_arrays().EFlowNeutralHadron(HadronNumber));
-        EFlowJets.emplace_back(PseudoJet(e_flow_hadron.P4()));
+        EFlowJets.emplace_back(analysis::PseudoJet(e_flow_hadron.P4()));
         if (jet_detail == kTagging || jet_detail ==  kTaggingIsolation) {
             EFlowJets.back().set_user_info(new analysis::JetInfo(GetJetId(e_flow_hadron)));
             Print(kDetailed, "Hadron EFlow Id", EFlowJets.back().user_index());
@@ -231,7 +231,7 @@ void analysis::delphes::Hadrons::GetMuonEFlow(const JetDetail jet_detail)
           bool Isolated = GetIsolation<::delphes::Muon>(e_flow_muon, clones_arrays().MuonClonesArray());
             if (!Isolated) continue;
         }
-        EFlowJets.emplace_back(PseudoJet(e_flow_muon.P4()));
+        EFlowJets.emplace_back(analysis::PseudoJet(e_flow_muon.P4()));
         if (jet_detail == kTagging || jet_detail ==  kTaggingIsolation) {
             Constituent constituent(e_flow_muon.P4(), GetBranchFamily(*e_flow_muon.Particle.GetObject()));
             EFlowJets.back().set_user_info(new JetInfo(constituent));
@@ -243,7 +243,7 @@ void analysis::delphes::Hadrons::GetMuonEFlow(const JetDetail jet_detail)
 void analysis::delphes::Hadrons::GetGenJet()
 {
     Print(kInformation, "GetGenJet", clones_arrays().GenJetSum());
-    for (const int GenJetNumber : Range(clones_arrays().GenJetSum())) GenJets.emplace_back(PseudoJet(static_cast<::delphes::Jet &>(clones_arrays().GenJet(GenJetNumber)).P4()));
+    for (const int GenJetNumber : Range(clones_arrays().GenJetSum())) GenJets.emplace_back(analysis::PseudoJet(static_cast<::delphes::Jet &>(clones_arrays().GenJet(GenJetNumber)).P4()));
 }
 
 float analysis::delphes::Hadrons::GetScalarHt()
@@ -255,7 +255,7 @@ float analysis::delphes::Hadrons::GetScalarHt()
 fastjet::PseudoJet analysis::delphes::Hadrons::GetMissingEt()
 {
     Print(kInformation, "Get Missing ET");
-    return PseudoJet(static_cast<::delphes::MissingET &>(clones_arrays().MissingEt()).P4());
+    return analysis::PseudoJet(static_cast<::delphes::MissingET &>(clones_arrays().MissingEt()).P4());
 }
 
 Jets analysis::delphes::Hadrons::GranulatedJets(const Jets &jets)

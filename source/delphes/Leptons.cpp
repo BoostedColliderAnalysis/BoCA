@@ -20,7 +20,7 @@ bool analysis::delphes::Leptons::GetElectrons(analysis::FourVector::JetDetail je
         const int ElectronCharge = electron.Charge;
         if (ElectronCharge == -1) {
             ElectronLorentzVectors.emplace_back(electron.P4());
-            ElectronJets.emplace_back(PseudoJet(electron.P4()));
+            ElectronJets.emplace_back(analysis::PseudoJet(electron.P4()));
             if (jet_detail == analysis::FourVector::kTagging) {
                 Constituent constituent(electron.P4(), GetBranchFamily(*electron.Particle.GetObject()));
                 ElectronJets.back().set_user_info(new JetInfo(constituent));
@@ -28,7 +28,7 @@ bool analysis::delphes::Leptons::GetElectrons(analysis::FourVector::JetDetail je
             Print(kDebug, "Electron");
         } else if (ElectronCharge == 1) {
             AntiElectronLorentzVectors.emplace_back(electron.P4());
-            AntiElectronJets.emplace_back(PseudoJet(electron.P4()));
+            AntiElectronJets.emplace_back(analysis::PseudoJet(electron.P4()));
             if (jet_detail == analysis::FourVector::kTagging) {
 
                 Constituent constituent(electron.P4(), GetBranchFamily(*electron.Particle.GetObject()));
@@ -56,7 +56,7 @@ bool analysis::delphes::Leptons::GetMuons(JetDetail jet_detail)
         const int MuonCharge = muon.Charge;
         if (MuonCharge == -1) {
             MuonLorentzVectors.emplace_back(muon.P4());
-            MuonJets.emplace_back(PseudoJet(muon.P4()));
+            MuonJets.emplace_back(analysis::PseudoJet(muon.P4()));
             if (jet_detail == analysis::FourVector::kTagging) {
                 Constituent constituent(muon.P4(), GetBranchFamily(*muon.Particle.GetObject()));
                 MuonJets.back().set_user_info(new JetInfo(constituent));
@@ -64,7 +64,7 @@ bool analysis::delphes::Leptons::GetMuons(JetDetail jet_detail)
             Print(kDebug, "Muon");
         } else if (MuonCharge == 1) {
             AntiMuonLorentzVectors.emplace_back(muon.P4());
-            AntiMuonJets.emplace_back(PseudoJet(muon.P4()));
+            AntiMuonJets.emplace_back(analysis::PseudoJet(muon.P4()));
             if (jet_detail == analysis::FourVector::kTagging) {
                 Constituent constituent(muon.P4(), GetBranchFamily(*muon.Particle.GetObject()));
                 AntiMuonJets.back().set_user_info(new JetInfo(constituent));

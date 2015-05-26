@@ -199,7 +199,9 @@ float analysis::Object::Mass(const ParticleId particle_id) const
     case TauId:
         return 1.776;
     case TauNeutrinoId:
-        return 0;
+      return 0;
+    case PhotonId:
+      return 0;
     case ZId:
         return 91.188;
     case WId:

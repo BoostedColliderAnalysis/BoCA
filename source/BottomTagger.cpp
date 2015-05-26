@@ -124,7 +124,7 @@ Jets analysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &rea
     return GetJetBdt(GetSubJets(jets,sub_jet_number), reader);
 }
 
-Jets analysis::BottomTagger::GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+Jets analysis::BottomTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Jet Bdt");
     return GetJetBdt(event.hadrons().ClusteredJets(), pre_cuts, reader);

@@ -17,21 +17,9 @@ public:
 
     HeavyHiggsSemiTagger();
 
-    std::vector< HeavyHiggsSemiBranch > GetBranches(Event &, const Tag, const float){
-      Print(kError, "get branches","depreciated");
-      return std::vector< HeavyHiggsSemiBranch >{};
-    }
     int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
     std::vector<Sextet> Multiplets(analysis::Event& event, const TMVA::Reader& reader);
-
-    std::vector<Sextet>  GetBdt(const std::vector< Triplet > &, const std::vector<Triplet > &, const Reader & ){
-      Print(kError, "get bdt","depreciated");
-      return std::vector< Sextet >{};
-    }
-
-    std::vector<Sextet>  GetBdt(const std::vector< Triplet > &tripletsSemi, const std::vector< Triplet > &tripletsHadronic, const Reader & Reader, const int Mass);
-
 
 protected:
 

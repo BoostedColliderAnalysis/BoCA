@@ -127,26 +127,3 @@ std::vector<analysis::Sextet>  analysis::HeavyHiggsSemiTagger::Multiplets(Event 
     sextets.erase(sextets.begin() + std::min(max_combi(), int(sextets.size())), sextets.end());
     return sextets;
 }
-
-std::vector<analysis::Sextet>  analysis::HeavyHiggsSemiTagger::GetBdt(const std::vector<Triplet> &tripletsSemi, const std::vector<Triplet> &tripletsHadronic, const Reader &Reader, const int Mass)
-{
-
-    std::vector<Sextet > sextets;
-    for (const auto & tripletSemi : tripletsSemi)
-        for (const auto & triplet_hadronic : tripletsHadronic) {
-            if (tripletSemi.singlet().delta_R(triplet_hadronic.singlet()) < detector_geometry().JetConeSize) continue;
-            if (tripletSemi.singlet().delta_R(triplet_hadronic.doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (tripletSemi.singlet().delta_R(triplet_hadronic.doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (tripletSemi.singlet().delta_R(triplet_hadronic.doublet_jet()) < detector_geometry().JetConeSize) continue;
-            if (tripletSemi.singlet().delta_R(triplet_hadronic.Jet()) < detector_geometry().JetConeSize) continue;
-            Sextet sextet(tripletSemi, triplet_hadronic);
-            if (sextet.Jet().m() < Mass / 2)continue;
-            if (sextet.Jet().m() > Mass * 3 / 2)continue;
-            branch_ = branch<HeavyHiggsSemiBranch>(sextet);
-            sextet.SetBdt(Reader.Bdt());
-            sextets.emplace_back(sextet);
-        }
-    return ReduceResult(sextets);
-}
-
-

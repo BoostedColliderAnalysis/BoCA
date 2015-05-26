@@ -1,4 +1,5 @@
 # include "exroot/Leptons.hh"
+# include "Predicate.hh"
 
 bool analysis::exroot::Leptons::GetElectrons(analysis::FourVector::JetDetail jet_detail)
 {
@@ -7,12 +8,12 @@ bool analysis::exroot::Leptons::GetElectrons(analysis::FourVector::JetDetail jet
         TRootElectron &electron = static_cast<TRootElectron &>(clones_arrays().Electron(ElectronNumber));
         int ElectronCharge = electron.Charge;
         if (ElectronCharge == -1) {
-            ElectronLorentzVectors.emplace_back(GetLorentzVector(electron));
-            ElectronJets.emplace_back(GetPseudoJet(electron));
+            ElectronLorentzVectors.emplace_back(LorentzVector(electron));
+            ElectronJets.emplace_back(PseudoJet(electron));
             Print(kDebug, "Electron");
         } else if (ElectronCharge == 1) {
-            AntiElectronLorentzVectors.emplace_back(GetLorentzVector(electron));
-            AntiElectronJets.emplace_back(GetPseudoJet(electron));
+            AntiElectronLorentzVectors.emplace_back(LorentzVector(electron));
+            AntiElectronJets.emplace_back(PseudoJet(electron));
             Print(kDebug, "Anti Electron");
         } else
             Print(kNotification, "Electron Charge", ElectronCharge);
@@ -27,12 +28,12 @@ bool analysis::exroot::Leptons::GetMuons(analysis::FourVector::JetDetail jet_det
         TRootMuon &muon = static_cast<TRootMuon &>(clones_arrays().Muon(MuonNumber));
         int MuonCharge = muon.Charge;
         if (MuonCharge == -1) {
-            MuonLorentzVectors.emplace_back(GetLorentzVector(muon));
-            MuonJets.emplace_back(GetPseudoJet(muon));
+            MuonLorentzVectors.emplace_back(LorentzVector(muon));
+            MuonJets.emplace_back(PseudoJet(muon));
             Print(kDebug, "Muon with Pt");
         } else if (MuonCharge == 1) {
-            AntiMuonLorentzVectors.emplace_back( GetLorentzVector(muon));
-            AntiMuonJets.emplace_back(GetPseudoJet(muon));
+            AntiMuonLorentzVectors.emplace_back( LorentzVector(muon));
+            AntiMuonJets.emplace_back(PseudoJet(muon));
             Print(kDebug, "Anti Muon with Pt");
         } else
             Print(kNotification, "Muon Charge", MuonCharge);

@@ -30,7 +30,7 @@ protected:
     void NewEvent(const ClonesArrays &NewClonesArrays);
 
     template<typename Particle>
-    TLorentzVector GetLorentzVectorByEnergy(const Particle &particle) const {
+    TLorentzVector LorentzVectorByEnergy(const Particle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Energy");
         TLorentzVector vector;
         const float Pt = particle.PT;
@@ -48,7 +48,7 @@ protected:
     }
 
     template<typename Particle>
-    TLorentzVector GetLorentzVectorByMass(const Particle &particle, const float mass) const {
+    TLorentzVector LorentzVectorByMass(const Particle &particle, const float mass) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
         TLorentzVector LorentzVector;
         const float Pt = particle.PT;
@@ -64,10 +64,10 @@ protected:
     }
 
     template<typename Particle>
-    TLorentzVector GetLorentzVectorByMass(const Particle &particle) const {
+    TLorentzVector LorentzVectorByMass(const Particle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
         const float Mass = particle.Mass;
-        const TLorentzVector LorentzVector = GetLorentzVectorByMass(particle, Mass);
+        const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
             if (LorentzVector.M() - Mass > mass_check_value_) Print(kError, "Mass", Mass, LorentzVector.M());
         }
@@ -75,38 +75,38 @@ protected:
     }
 
     template<typename Particle>
-    TLorentzVector GetLorentzVectorByM(const Particle &particle) const {
+    TLorentzVector LorentzVectorByM(const Particle &particle) const {
         Print(kDebug, "Get Lorentz Vector by Mass");
         const float Mass = particle.M;
-        const TLorentzVector LorentzVector = GetLorentzVectorByMass(particle, Mass);
+        const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
             if (LorentzVector.M() - Mass > mass_check_value_) Print(kError, "Mass", Mass, LorentzVector.M());
         }
         return LorentzVector;
     }
-//     TLorentzVector GetLorentzVector(const MissingET *const Particle) const;
+//     TLorentzVector LorentzVector(const MissingET *const Particle) const;
 
-    TLorentzVector GetLorentzVector(const TRootElectron &Particle) const;
-    TLorentzVector GetLorentzVector(const TRootGenJet &Particle) const;
-    TLorentzVector GetLorentzVector(const TRootGenParticle &Particle) const;
-    TLorentzVector GetLorentzVector(const TRootJet &Particle) const;
-    TLorentzVector GetLorentzVector(const TRootLHEFParticle &Particle) const;
-    TLorentzVector GetLorentzVector(const TRootMuon &Particle) const;
-    TLorentzVector GetLorentzVector(const TRootPhoton &Particle) const;
-    TLorentzVector GetLorentzVector(const TRootTau &Particle) const;
-//     fastjet::PseudoJet GetPseudoJet(const MissingET & Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootElectron &Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootGenJet &Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootGenParticle &Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootJet &Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootLHEFParticle &Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootMuon &Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootPhoton &Particle) const;
-    fastjet::PseudoJet GetPseudoJet(const TRootTau &Particle) const;
+    TLorentzVector LorentzVector(const TRootElectron &Particle) const;
+    TLorentzVector LorentzVector(const TRootGenJet &Particle) const;
+    TLorentzVector LorentzVector(const TRootGenParticle &Particle) const;
+    TLorentzVector LorentzVector(const TRootJet &Particle) const;
+    TLorentzVector LorentzVector(const TRootLHEFParticle &Particle) const;
+    TLorentzVector LorentzVector(const TRootMuon &Particle) const;
+    TLorentzVector LorentzVector(const TRootPhoton &Particle) const;
+    TLorentzVector LorentzVector(const TRootTau &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootElectron &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootGenJet &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootGenParticle &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootJet &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootLHEFParticle &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootMuon &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootPhoton &Particle) const;
+    fastjet::PseudoJet PseudoJet(const TRootTau &Particle) const;
 
     Family GetBranchFamily(const TObject &object);
 
     Family GetBranchFamily(Family &BranchId, int Position);
+//     fastjet::PseudoJet PseudoJet(const MissingET & Particle) const;
 
     template<typename TData>
     void PrintCell(TData const Data) const {
@@ -131,7 +131,9 @@ protected:
 
     int source_;
 
-    JetTag *jet_tag_;
+    JetTag &jet_tag()const{return *jet_tag_;}
+
+    void set_jet_tag(JetTag &jet_tag){jet_tag_ = &jet_tag;}
 
     enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 
@@ -146,6 +148,8 @@ protected:
     }
 
 private:
+
+  JetTag *jet_tag_;
 
 };
 

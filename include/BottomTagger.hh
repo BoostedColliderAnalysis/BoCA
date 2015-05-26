@@ -27,17 +27,17 @@ public:
 
     Jets GetMultiJetBdt(const Jets& jets, const TMVA::Reader& reader);
 
-    Jets GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    Jets Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     Jets Multiplets(Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
-        return GetJetBdt(event,pre_cuts,reader);
+        return Multiplets(event,pre_cuts,reader);
     }
 
     Jets GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        Jets jets = GetJetBdt(event, pre_cuts, reader);
+        Jets jets = Multiplets(event, pre_cuts, reader);
         std::vector<Singlet> singlets;
         for(const auto &jet : jets) singlets.emplace_back(Singlet(jet));
         return SaveEntries<BottomBranch>(singlets);

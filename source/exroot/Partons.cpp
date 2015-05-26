@@ -16,7 +16,7 @@ bool analysis::exroot::Partons::GetParticles()
         Print(kDetailed, "Particles ID", particle.PID);
         if (ParticleStatus == kStable) {
             if (std::abs(particle.PID) == ElectronId) {
-                TLorentzVector ElectronVector = GetLorentzVector(particle);
+                TLorentzVector ElectronVector = LorentzVector(particle);
                 if (particle.PID > 0) {
                     ElectronVectors.emplace_back(ElectronVector);
                     Print(kDebug, "Electron");
@@ -26,7 +26,7 @@ bool analysis::exroot::Partons::GetParticles()
                 }
             } // Electrons
             if (std::abs(particle.PID) == MuonId) {
-                TLorentzVector MuonVector = GetLorentzVector(particle);
+                TLorentzVector MuonVector = LorentzVector(particle);
                 if (particle.PID > 0) {
                     MuonVectors.emplace_back(MuonVector);
                     Print(kDebug, "Muon");
@@ -36,13 +36,13 @@ bool analysis::exroot::Partons::GetParticles()
                 }
             } // Muons
             if (std::abs(particle.PID) == BottomId) {
-                fastjet::PseudoJet BottomJet = GetPseudoJet(particle);
+                fastjet::PseudoJet BottomJet = PseudoJet(particle);
                 BottomJets.emplace_back(BottomJet);
                 Print(kDebug, "Bottom");
             } // bottoms
             if (std::abs(particle.PID) == TopId) {
-                TLorentzVector TopVector = GetLorentzVector(particle);
-                fastjet::PseudoJet TopJet = GetPseudoJet(particle);
+                TLorentzVector TopVector = LorentzVector(particle);
+                fastjet::PseudoJet TopJet = PseudoJet(particle);
                 TopJets.emplace_back(TopJet);
                 if (particle.PID > 0) {
                     TopVectors.emplace_back(TopVector);
@@ -55,25 +55,25 @@ bool analysis::exroot::Partons::GetParticles()
         }
         if (ParticleStatus == kUnstable) {
             if (std::abs(particle.PID) == CharmId) {
-                fastjet::PseudoJet CharmJet = GetPseudoJet(particle);
+                fastjet::PseudoJet CharmJet = PseudoJet(particle);
                 CharmJets.emplace_back(CharmJet);
                 Print(kDebug, "Charm");
             } // charms
 //             if (std::abs(particle.PID) == 5) {
-//                 fastjet::PseudoJet JetCandidate = GetPseudoJetPt(ParticleClone);
+//                 fastjet::PseudoJet JetCandidate = PseudoJetPt(ParticleClone);
 //                 BottomJetVector.emplace_back(JetCandidate);
 //                 Print(kDebug,"Bottom");
 //
 //             } // bottoms
             if (std::abs(particle.PID) == CpvHiggsId) {
-                fastjet::PseudoJet HiggsJet = GetPseudoJet(particle);
+                fastjet::PseudoJet HiggsJet = PseudoJet(particle);
                 HiggsJets.emplace_back(HiggsJet);
                 Print(kDebug, "CPV Higgs");
             } // cp Higgs
         }
         if (ParticleStatus == kGenerator) {
             if (std::abs(particle.PID) == HeavyHiggsId) {
-                fastjet::PseudoJet HiggsJet = GetPseudoJet(particle);
+                fastjet::PseudoJet HiggsJet = PseudoJet(particle);
                 HiggsJets.emplace_back(HiggsJet);
                 Print(kDebug, "Heavy CPV Higgs");
             } // heavy higgs
