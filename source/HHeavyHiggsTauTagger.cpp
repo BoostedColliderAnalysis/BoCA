@@ -213,12 +213,12 @@ std::vector<analysis::Doublet> analysis::HHeavyHiggsTauTagger::GetNeutrinos(cons
 
 struct SortByError {
     SortByError(const fastjet::PseudoJet &NewNeutrino) {
-        this->Neutrino = NewNeutrino;
+        this->neutrino_ = NewNeutrino;
     }
     bool operator()(const analysis::Doublet &doublet1, const analysis::Doublet &doublet2) {
-        return ((doublet1.Singlet2() + Neutrino).m() < (doublet2.Singlet2() + Neutrino).m());
+        return ((doublet1.Singlet2() + neutrino_).m() < (doublet2.Singlet2() + neutrino_).m());
     }
-    fastjet::PseudoJet Neutrino;
+    fastjet::PseudoJet neutrino_;
 };
 
 struct FindError {

@@ -25,7 +25,7 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries(GetDoublets(event, reader));
+        return SaveEntries<ZHadronicBranch>(Multiplets(event, reader));
     }
 
     virtual int GetBdt(Event &event, const TMVA::Reader &reader) {
@@ -33,32 +33,19 @@ public:
         return GetBdt(event, pre_cuts, reader);
     }
 
-    std::vector<Doublet> GetDoublets(Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(Event &event, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetJetDoublets(Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetJetDoublets(const Jets &jets, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    std::vector<Doublet> GetSubJetDoublets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
+    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetDoublet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetDoublet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
-
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
-
-    ZHadronicBranch GetBranch(const Doublet &doublet) const;
-
-    int GetWHadId(Event &event) {
+    int ZHadId(Event &event) {
         return ZHadronicId(ZDaughters(event));
     };
-
-    int SaveEntries(const std::vector<Doublet> &doublets) {
-        for (const auto & doublet : doublets) static_cast<ZHadronicBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
-        return doublets.size();
-    }
 
     TClass &Class() const {
         return *ZHadronicBranch::Class();
@@ -82,6 +69,10 @@ private:
     ZHadronicBranch branch_;
 
     float z_mass_window_;
+
+    BottomTagger bottom_tagger_;
+
+    Reader bottom_reader_;
 };
 
 }

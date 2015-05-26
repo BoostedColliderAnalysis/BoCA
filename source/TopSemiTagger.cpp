@@ -33,15 +33,6 @@ void analysis::TopSemiTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-analysis::TopSemiBranch analysis::TopSemiTagger::GetBranch(const analysis::Triplet &triplet) const
-{
-    Print(kInformation, "Fill Top Tagger", triplet.Bdt());
-    TopSemiBranch branch;
-    branch.Fill(triplet);
-    return branch;
-}
-
-
 int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
@@ -53,8 +44,8 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     top_particles = RemoveIfWrongParticle(top_particles, TopSemiId);
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
-    std::vector<analysis::Doublet> doublets = static_cast<WSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
+    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
+    std::vector<analysis::Doublet> doublets = static_cast<WSemiTagger &>(w_semi_reader_.tagger()).Multiplets(event, w_semi_reader_.reader());
 
     Jets leptons = event.leptons().GetLeptonJets();
     Print(kInformation, "Lepton Number", leptons.size());
@@ -88,7 +79,7 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
     }
     Print(kInformation, "Number triplets", triplets.size());
 
-    return SaveEntries(triplets);
+    return SaveEntries<TopSemiBranch>(triplets);
 }
 
 std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplets(const Triplet &triplet, Jets TopQuarks, float pre_cut, const Tag tag) {
@@ -108,12 +99,12 @@ std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplet(const Tripl
 }
 
 
-std::vector<analysis::Triplet>  analysis::TopSemiTagger::Triplets(Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Bdt");
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
-    std::vector<analysis::Doublet> doublets = static_cast<WSemiTagger &>(w_semi_reader_.tagger()).GetDoublets(event, w_semi_reader_.reader());
+    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
+    std::vector<analysis::Doublet> doublets = static_cast<WSemiTagger &>(w_semi_reader_.tagger()).Multiplets(event, w_semi_reader_.reader());
 
     std::vector<Triplet> triplets;
     if (!boost_) {
@@ -122,7 +113,7 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Triplets(Event &event, 
             for (const auto & doublet : doublets) {
                 Triplet triplet(doublet, Jet);
                 if (std::abs(triplet.Jet().m() - TopMass) > top_mass_window_) continue;
-                branch_ = GetBranch(triplet);
+                branch_ = branch<TopSemiBranch>(triplet);
                 triplet.SetBdt(Bdt(reader));
                 triplets.emplace_back(triplet);
             }
@@ -134,7 +125,7 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Triplets(Event &event, 
             Doublet doublet(Predoublet.Singlet1());
             Triplet triplet(doublet, Jet);
 //             if (std::abs(triplet.Jet().m() - TopMass) > TopWindow) continue; // reactivate this check
-            branch_ = GetBranch(triplet);
+            branch_ = branch<TopSemiBranch>(triplet);
             triplet.SetBdt(Bdt(reader));
             triplets.emplace_back(triplet);
         }

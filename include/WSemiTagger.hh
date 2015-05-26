@@ -17,15 +17,13 @@ public:
 
     WSemiTagger();
 
-    WSemiBranch GetBranch(const Doublet &doublet) const;
-
     int Train(Event &event, const Object::Tag tag);
 
-    std::vector<Doublet> GetDoublets(Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(Event &event, const TMVA::Reader &reader);
 
     int GetBdt(Event &event, const TMVA::Reader &reader) {
-        std::vector<Doublet> doublets = GetDoublets(event, reader);
-        SaveEntries(doublets);
+        std::vector<Doublet> doublets = Multiplets(event, reader);
+        SaveEntries<WSemiBranch>(doublets);
         return doublets.size();
     }
 
@@ -39,16 +37,8 @@ public:
       return std::vector<Doublet>{};
     }
 
-    void SaveEntries(const std::vector<Doublet> &doublets) {
-        for (const auto & doublet : doublets) static_cast<WSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
-    }
-
     int WSemiId(Event &event) {
         return WSemiId(WSemiDaughters(event));
-    }
-
-    TClass &Class() const {
-      return *WSemiBranch::Class();
     }
 
 protected:
@@ -58,6 +48,10 @@ protected:
     }
 
 private:
+
+    TClass &Class() const {
+      return *WSemiBranch::Class();
+    }
 
     Jets WSemiDaughters(Event &event);
 

@@ -19,7 +19,7 @@ class HLeptonBranch;
 class HMvaBottom;
 class HMvaHiggs;
 class HMvaTop;
-// class HHiggsBranch;
+// class HiggsBranch;
 }
 
 

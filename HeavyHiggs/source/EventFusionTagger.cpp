@@ -5,6 +5,8 @@ heavyhiggs::EventFusionTagger::EventFusionTagger()
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("EventFusion");
+    bottom_reader_.set_tagger(bottom_tagger_);
+    heavy_higgs_semi_reader_.set_tagger(heavy_higgs_semi_tagger_);
     DefineVariables();
 }
 
@@ -45,21 +47,14 @@ void heavyhiggs::EventFusionTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-heavyhiggs::EventFusionBranch heavyhiggs::EventFusionTagger::GetBranch(const analysis::MultipletEvent<analysis::Sextet> &event) const
-{
-    Print(kInformation, "FillPairTagger", event.Bdt());
-    EventFusionBranch branch;
-    branch.Fill(event);
-    return branch;
-}
-
 int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "Get event Tags");
 
 //     Jets jets = GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
-    Jets jets = static_cast<analysis::BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+
+    Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
     Jets Leptons = event.leptons().GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
@@ -70,7 +65,7 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 //     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
 
 //     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
-    std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
 
     Jets HiggsParticles = event.partons().Generator();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
@@ -111,16 +106,17 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
         sextet_event.AddRestJet(Jet);
     }
 
-//     eventSemiBranches.emplace_back(GetBranch(sextet_event));
-//     return eventSemiBranches;
-    return SaveEntry(sextet_event);
+    std::vector<analysis::MultipletEvent<analysis::Sextet>> sextet_events;
+    sextet_events.emplace_back(sextet_event);
+    return SaveEntries<EventFusionBranch>(sextet_events);
 }
 
-std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionTagger::Events(analysis::Event &event, TMVA::Reader &reader)
+std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionTagger::Multiplets(analysis::Event &event, TMVA::Reader &reader)
 {
   Print(kInformation, "Get event Tags");
-  std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
-  Jets jets = static_cast<analysis::BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+  std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
+
+  Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
   Jets Leptons = event.leptons().GetLeptonJets();
     std::vector<analysis::MultipletEvent<analysis::Sextet>> sextet_events;
     for (const auto & sextet : sextets) {
@@ -133,17 +129,9 @@ std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionT
             sextet_event.AddRestJet(Jet);
         }
         sextet_event.SetLeptons(Leptons);
-        branch_ = GetBranch(sextet_event);
+        branch_ = branch<EventFusionBranch>(sextet_event);
         sextet_event.SetBdt(Bdt(reader));
         sextet_events.emplace_back(sextet_event);
     }
-
-    std::sort(sextet_events.begin(), sextet_events.end());
-    if (sextet_events.size() > 1)sextet_events.erase(sextet_events.begin() + 1, sextet_events.end());
-    Print(kInformation, "event Number", sextet_events.size(), jets.size());
-    return sextet_events;
-}
-
-float heavyhiggs::EventFusionTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry) {
-    return static_cast<EventFusionBranch &>(*eventClonesArray.At(Entry)).Bdt;
+    return ReduceResult(sextet_events);
 }

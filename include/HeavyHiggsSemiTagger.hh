@@ -23,7 +23,7 @@ public:
     }
     int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Sextet> Sextets(analysis::Event& event, const TMVA::Reader& reader);
+    std::vector<Sextet> Multiplets(analysis::Event& event, const TMVA::Reader& reader);
 
     std::vector<Sextet>  GetBdt(const std::vector< Triplet > &, const std::vector<Triplet > &, const Reader & ){
       Print(kError, "get bdt","depreciated");
@@ -32,11 +32,6 @@ public:
 
     std::vector<Sextet>  GetBdt(const std::vector< Triplet > &tripletsSemi, const std::vector< Triplet > &tripletsHadronic, const Reader & Reader, const int Mass);
 
-    HeavyHiggsSemiBranch GetBranch(const Sextet& sextet) const;
-
-    TClass &Class() const {
-      return *HeavyHiggsSemiBranch::Class();
-    }
 
 protected:
 
@@ -46,10 +41,9 @@ protected:
 
 private:
 
-  int SaveEntries(const std::vector<Sextet> &sextets) {
-    for (const auto & sextet : sextets) static_cast<HeavyHiggsSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(sextet);
-    return sextets.size();
-  }
+    TClass &Class() const {
+      return *HeavyHiggsSemiBranch::Class();
+    }
 
     void DefineVariables();
 

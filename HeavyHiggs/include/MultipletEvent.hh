@@ -212,9 +212,9 @@ public:
     }
 
     float DeltaRap() const {
-        float NewDeltaRap = octetJet().rap() - RestJet().rap();
-        if (std::abs(NewDeltaRap) > 100) NewDeltaRap = 0;
-        return NewDeltaRap;
+        float delta_rap = octetJet().rap() - RestJet().rap();
+        if (std::abs(delta_rap) > 100) delta_rap = 0;
+        return delta_rap;
     }
 
     float DeltaR() const {

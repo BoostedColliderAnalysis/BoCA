@@ -2,6 +2,7 @@
 
 # include "Tagger.hh"
 # include "Reader.hh"
+# include "Singlet.hh"
 
 /**
  * @brief Bottom BDT tagger
@@ -17,8 +18,6 @@ public:
 
     BottomTagger();
 
-    BottomBranch FillBranch(const fastjet::PseudoJet &Jet) const;
-
     int Train(Event &event, const Object::Tag tag) {
         PreCuts pre_cuts;
         return Train(event,pre_cuts,tag);
@@ -30,7 +29,7 @@ public:
 
     Jets GetJetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    Jets GetJetBdt(Event &event, const TMVA::Reader &reader) {
+    Jets Multiplets(Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return GetJetBdt(event,pre_cuts,reader);
     }
@@ -39,8 +38,9 @@ public:
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         Jets jets = GetJetBdt(event, pre_cuts, reader);
-        SaveEntries(jets);
-        return jets.size();
+        std::vector<Singlet> singlets;
+        for(const auto &jet : jets) singlets.emplace_back(Singlet(jet));
+        return SaveEntries<BottomBranch>(singlets);
     }
 
     int GetBdt(Event &event, const TMVA::Reader &reader) {
@@ -60,16 +60,6 @@ public:
         return subjets;
     }
 
-    Jets GetMultiJetBdt(Jets &, const Reader &) {
-        Print(kError, "Bdt", "depreciated");
-        return Jets {};
-    }
-
-    Jets GetJetBdt(const Jets &, const Reader &) {
-        Print(kError, "Bdt", "depreciated");
-        return Jets {};
-    }
-
     Jets GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     Jets GetJetBdt(const Jets &jets, const TMVA::Reader &reader) {
@@ -77,24 +67,7 @@ public:
         return GetJetBdt(jets,pre_cuts,reader);
     }
 
-    Jets GetSubBdt(const Jets &, const Reader &, const int ) {
-        Print(kError, "Bdt", "depreciated");
-        return Jets {};
-    }
-
     Jets GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number);
-
-    float ReadBdt(const TClonesArray &clones_array, const int entry) {
-        return static_cast<BottomBranch &>(*clones_array.At(entry)).Bdt;
-    }
-
-    void SaveEntries(const Jets &jets) {
-        for (const auto & jet : jets) static_cast<BottomBranch &>(*tree_branch().NewEntry()) = FillBranch(jet);
-    }
-
-    TClass &Class() const {
-        return *BottomBranch::Class();
-    }
 
 protected:
 
@@ -103,6 +76,10 @@ protected:
     }
 
 private:
+
+    TClass &Class() const {
+        return *BottomBranch::Class();
+    }
 
     void DefineVariables();
 

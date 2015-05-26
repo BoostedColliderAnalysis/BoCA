@@ -12,7 +12,7 @@
 # include "Factory.hh"
 # include "BottomTagger.hh"
 # include "HTopLeptonicTagger.hh"
-# include "HMvaHiggsTagger.hh"
+// # include "HMvaHiggsTagger.hh"
 
 
 
@@ -76,7 +76,7 @@ public:
 
     analysis::BottomTagger bottom_tagger_;
     analysis::HTopLeptonicTagger LeptonicTopTagger;
-    analysis::HMvaHiggsTagger HiggsTagger;
+//     analysis::HMvaHiggsTagger HiggsTagger;
 
     /**
      * @brief prepares the std::vector describing the input root files

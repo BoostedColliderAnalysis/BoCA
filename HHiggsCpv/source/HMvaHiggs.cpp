@@ -35,7 +35,7 @@ hhiggscpv::HMvaHiggs::HMvaHiggs()
 
 //     DoLatex = 1;
 
-    Higgs = new analysis::HHiggsBranch();
+    Higgs = new analysis::HiggsBranch();
 
     DefineVariables();
 
@@ -54,7 +54,7 @@ float hhiggscpv::HMvaHiggs::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 
   Print(kInformation, "Get Bdt",bdt_method_name());
 
-  *Higgs = *static_cast<analysis::HHiggsBranch*>(Branch);
+  *Higgs = *static_cast<analysis::HiggsBranch*>(Branch);
     const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
     Print(kInformation,"BTagger Bdt",BdtEvaluation);
 
@@ -68,17 +68,17 @@ void hhiggscpv::HMvaHiggs::DefineVariables()
     Print(kNotification , "Define Variables");
 
     AddVariable(Higgs->Mass, "Mass");
-    AddVariable(Higgs->PtSum, "PtSum");
-    AddVariable(Higgs->PtDiff, "PtDiff");
+//     AddVariable(Higgs->PtSum, "PtSum");
+//     AddVariable(Higgs->PtDiff, "PtDiff");
     AddVariable(Higgs->DeltaPhi, "DeltaPhi");
     AddVariable(Higgs->DeltaRap, "DeltaRap");
     AddVariable(Higgs->DeltaR, "DeltaR");
-    AddVariable(Higgs->Pull1, "Pull1");
-    AddVariable(Higgs->Pull2,"Pull2");
-    AddVariable(Higgs->Pull, "Pull");
-    AddVariable(Higgs->BottomBdt, "BottomTag");
+//     AddVariable(Higgs->Pull1, "Pull1");
+//     AddVariable(Higgs->Pull2,"Pull2");
+//     AddVariable(Higgs->Pull, "Pull");
+//     AddVariable(Higgs->BottomBdt, "BottomTag");
 
-    AddSpectator(Higgs->HiggsTag, "HiggsTag");
+//     AddSpectator(Higgs->HiggsTag, "HiggsTag");
 
     Print(kNotification, "Variables defined");
 

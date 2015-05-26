@@ -19,8 +19,6 @@ public:
 
     TopSemiTagger();
 
-    TopSemiBranch GetBranch(const Triplet &triplet) const;
-
     int Train(Event &event, const Object::Tag tag);
 
     int Train(Event &, const Object::Tag, float pre_cut = 0){
@@ -33,22 +31,14 @@ public:
     std::vector<Triplet> CleanTriplet(const Triplet &triplet, fastjet::PseudoJet particle, float pre_cut, const Tag tag);
 
     int GetBdt(Event &event, const TMVA::Reader &reader){
-      return SaveEntries(Triplets(event,reader));
+      return SaveEntries<TopSemiBranch>(Multiplets(event,reader));
     }
 
-    std::vector<Triplet> Triplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Triplet> Multiplets(Event &event, const TMVA::Reader &reader);
 
     std::vector<Triplet> GetBdt(const std::vector< Doublet > &, const Jets &, const Reader &) {
         Print(kError, "get bdt", "depreciated");
     }
-
-    BottomTagger bottom_tagger_;
-
-    WSemiTagger w_semi_tagger_;
-
-    Reader bottom_reader_;
-
-    Reader w_semi_reader_;
 
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
@@ -56,15 +46,6 @@ public:
 
     float ReadBdt(const TClonesArray &clones_array, const int entry) {
         return static_cast<TopSemiBranch &>(*clones_array.At(entry)).Bdt;
-    }
-
-    int SaveEntries(const std::vector<Triplet> &triplets) {
-        for (const auto & triplet : triplets) static_cast<TopSemiBranch &>(*tree_branch().NewEntry()) = GetBranch(triplet);
-        return triplets.size();
-    }
-
-    TClass &Class() const {
-        return *TopSemiBranch::Class();
     }
 
     int TopSemiId(Event &event){
@@ -79,6 +60,10 @@ protected:
 
 private:
 
+    TClass &Class() const {
+        return *TopSemiBranch::Class();
+    }
+
     bool boost_ = false;
 
     void DefineVariables();
@@ -86,6 +71,14 @@ private:
     TopSemiBranch branch_;
 
     float top_mass_window_;
+
+    BottomTagger bottom_tagger_;
+
+    WSemiTagger w_semi_tagger_;
+
+    Reader bottom_reader_;
+
+    Reader w_semi_reader_;
 
 };
 

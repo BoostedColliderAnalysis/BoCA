@@ -10,23 +10,6 @@ analysis::HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
     DefineVariables();
 }
 
-// void analysis::HeavyHiggsSemiTagger::SetTagger(
-//     const BottomTagger &NewBottomTagger,
-//     const WSemiTagger &Neww_semi_tagger,
-//     const WHadronicTagger &NewWTagger,
-//     const TopSemiTagger &Newtop_semi_tagger,
-//     const TopHadronicTagger &Newtop_hadronic_tagger)
-// {
-//     Print(kNotification, "Constructor");
-
-//     bottom_tagger_ = NewBottomTagger;
-//     w_semi_tagger = Neww_semi_tagger;
-//     WTagger = NewWTagger;
-//     top_semi_tagger = Newtop_semi_tagger;
-//     top_hadronic_tagger = Newtop_hadronic_tagger;
-//     DefineVariables();
-// }
-
 void analysis::HeavyHiggsSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
@@ -50,14 +33,6 @@ void analysis::HeavyHiggsSemiTagger::DefineVariables()
 
 }
 
-analysis::HeavyHiggsSemiBranch analysis::HeavyHiggsSemiTagger::GetBranch(const Sextet &sextet) const
-{
-    Print(kInformation, "FillPairTagger", sextet.Bdt());
-    HeavyHiggsSemiBranch branch;
-    branch.Fill(sextet);
-    return branch;
-}
-
 int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Get Higgs Tags");
@@ -75,13 +50,13 @@ int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_c
             else Print(kError, "Where is the Higgs?", HiggsParticles.size());
         }
     }
-    std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger &>(top_semi_reader_.tagger()).Triplets(event, top_semi_reader_.reader());
+    std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger &>(top_semi_reader_.tagger()).Multiplets(event, top_semi_reader_.reader());
     Print(kDebug, "Number of Semi Tops", triplets_semi.size());
 
 //     std::vector<Triplet> FinaltripletsSemi;
 //     for (const auto tripletSemi : tripletsSemi) if (tripletSemi.singlet().pt() > pre_cuts / 2) FinaltripletsSemi.emplace_back(tripletSemi);
 
-    std::vector<Triplet> triplets_hadronic = static_cast<TopHadronicTagger &>(top_hadronic_reader_.tagger()).GetTriplets(event, top_hadronic_reader_.reader());
+    std::vector<Triplet> triplets_hadronic = static_cast<TopHadronicTagger &>(top_hadronic_reader_.tagger()).Multiplets(event, top_hadronic_reader_.reader());
     Print(kDebug, "Number of Hadronic Tops", triplets_hadronic.size());
 
     std::vector<Triplet> FinaltripletsHadronic;
@@ -127,14 +102,14 @@ int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_c
         sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
-    return SaveEntries(sextets);
+    return SaveEntries<HeavyHiggsSemiBranch>(sextets);
 
 }
 
-std::vector<analysis::Sextet>  analysis::HeavyHiggsSemiTagger::Sextets(Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Sextet>  analysis::HeavyHiggsSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-  std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger&>(top_semi_reader_.tagger()).Triplets(event,top_semi_reader_.reader());
-  std::vector<Triplet> triplets_hadronic = static_cast<TopHadronicTagger&>(top_hadronic_reader_.tagger()).GetTriplets(event,top_hadronic_reader_.reader());
+  std::vector<Triplet> triplets_semi = static_cast<TopSemiTagger&>(top_semi_reader_.tagger()).Multiplets(event,top_semi_reader_.reader());
+  std::vector<Triplet> triplets_hadronic = static_cast<TopHadronicTagger&>(top_hadronic_reader_.tagger()).Multiplets(event,top_hadronic_reader_.reader());
     std::vector<Sextet > sextets;
     for (const auto & triplet_semi : triplets_semi)
         for (const auto & triplet_hadronic : triplets_hadronic) {
@@ -144,7 +119,7 @@ std::vector<analysis::Sextet>  analysis::HeavyHiggsSemiTagger::Sextets(Event &ev
             if (triplet_semi.singlet().delta_R(triplet_hadronic.doublet_jet()) < detector_geometry().JetConeSize) continue;
             if (triplet_semi.singlet().delta_R(triplet_hadronic.Jet()) < detector_geometry().JetConeSize) continue;
             Sextet sextet(triplet_semi, triplet_hadronic);
-            branch_ = GetBranch(sextet);
+            branch_ = branch<HeavyHiggsSemiBranch>(sextet);
             sextet.SetBdt(Bdt(reader));
             sextets.emplace_back(sextet);
         }
@@ -167,13 +142,11 @@ std::vector<analysis::Sextet>  analysis::HeavyHiggsSemiTagger::GetBdt(const std:
             Sextet sextet(tripletSemi, triplet_hadronic);
             if (sextet.Jet().m() < Mass / 2)continue;
             if (sextet.Jet().m() > Mass * 3 / 2)continue;
-            branch_ = GetBranch(sextet);
+            branch_ = branch<HeavyHiggsSemiBranch>(sextet);
             sextet.SetBdt(Reader.Bdt());
             sextets.emplace_back(sextet);
         }
-    std::sort(sextets.begin(), sextets.end());
-    sextets.erase(sextets.begin() + std::min(max_combi(), int(sextets.size())), sextets.end());
-    return sextets;
+    return ReduceResult(sextets);
 }
 
 

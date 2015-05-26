@@ -582,32 +582,36 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHiggsBranch : public Branch
+class HiggsBranch : public PairBranch
 {
 
 public:
 
-    HHiggsBranch();
+    HiggsBranch();
 
-    float Mass;
-    float PtSum;
-    float PtDiff;
+//     float Mass;
+//     float PtSum;
+//     float PtDiff;
+//
+//     float DeltaRap;
+//     float DeltaPhi;
+//     float DeltaR;
+//
+//     float BottomBdt;
+//
+//     float Pull1;
+//     float Pull2;
+//     float Pull;
+//
+//     float HiggsTag;
 
-    float DeltaRap;
-    float DeltaPhi;
-    float DeltaR;
-
-    float BottomBdt;
-
-    float Pull1;
-    float Pull2;
-    float Pull;
-
-    float HiggsTag;
-
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+      PairBranch::Fill(multiplet);
+    }
 private:
 
-    ClassDef(HHiggsBranch, 1)
+    ClassDef(HiggsBranch, 1)
 
 };
 

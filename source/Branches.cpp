@@ -224,21 +224,21 @@ analysis::HTopLeptonicBranch::HTopLeptonicBranch()
     LeptonPt = InitialValue();
 }
 
-ClassImp(analysis::HHiggsBranch)
+ClassImp(analysis::HiggsBranch)
 
-analysis::HHiggsBranch::HHiggsBranch()
+analysis::HiggsBranch::HiggsBranch()
 {
-    Mass = InitialValue();
-    PtSum = InitialValue();
-    PtDiff = InitialValue();
-    DeltaRap = InitialValue();
-    DeltaPhi = InitialValue();
-    DeltaR = InitialValue();
-    BottomBdt = InitialValue();
-    Pull1 = InitialValue();
-    Pull2 = InitialValue();
-    Pull = InitialValue();
-    HiggsTag = int(InitialValue());
+//     Mass = InitialValue();
+//     PtSum = InitialValue();
+//     PtDiff = InitialValue();
+//     DeltaRap = InitialValue();
+//     DeltaPhi = InitialValue();
+//     DeltaR = InitialValue();
+//     BottomBdt = InitialValue();
+//     Pull1 = InitialValue();
+//     Pull2 = InitialValue();
+//     Pull = InitialValue();
+//     HiggsTag = int(InitialValue());
 }
 
 ClassImp(analysis::HHeavyHiggsLeptonicBranch)

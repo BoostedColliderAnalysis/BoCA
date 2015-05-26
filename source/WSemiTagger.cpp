@@ -30,14 +30,6 @@ void analysis::WSemiTagger::DefineVariables()
     Print(kNotification, "Variables defined");
 }
 
-analysis::WSemiBranch analysis::WSemiTagger::GetBranch(const analysis::Doublet &doublet) const
-{
-    Print(kInformation, "Fill W Tagger", doublet.Bdt());
-    WSemiBranch branch;
-    branch.Fill(doublet);
-    return branch;
-}
-
 int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Top Tags");
@@ -68,11 +60,10 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
             doublets.emplace_back(Postdoublet);
         }
     }
- SaveEntries(doublets);
-    return doublets.size();
+ return SaveEntries<WSemiBranch>(doublets);
 }
 
-std::vector<analysis::Doublet>  analysis::WSemiTagger::GetDoublets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get Triple Bdt");
     Jets leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
@@ -84,7 +75,7 @@ std::vector<analysis::Doublet>  analysis::WSemiTagger::GetDoublets(analysis::Eve
         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
         for (auto & Postdoublet : Postdoublets) {
             if (std::abs(Postdoublet.Jet().m() - WMass) > w_mass_window_) continue;
-            branch_ = GetBranch(Postdoublet);
+            branch_ = branch<WSemiBranch>(Postdoublet);
             Postdoublet.SetBdt(Bdt(reader));
             doublets.emplace_back(Postdoublet);
         }
@@ -149,13 +140,13 @@ std::vector<analysis::Doublet> analysis::WSemiTagger::GetNeutrinos(const Doublet
 
 
 struct SortByError {
-    SortByError(const fastjet::PseudoJet &NewNeutrino) {
-        this->Neutrino = NewNeutrino;
+    SortByError(const fastjet::PseudoJet &neutrino) {
+        neutrino_ = neutrino;
     }
     bool operator()(const analysis::Doublet &doublet1, const analysis::Doublet &doublet2) {
-        return ((doublet1.Singlet2() + Neutrino).m() < (doublet2.Singlet2() + Neutrino).m());
+        return ((doublet1.Singlet2() + neutrino_).m() < (doublet2.Singlet2() + neutrino_).m());
     }
-    fastjet::PseudoJet Neutrino;
+    fastjet::PseudoJet neutrino_;
 };
 
 struct FindError {

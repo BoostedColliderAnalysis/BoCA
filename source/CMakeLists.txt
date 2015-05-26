@@ -26,6 +26,7 @@ Doublet.cpp
 Triplet.cpp
 Quartet22.cpp
 Quartet31.cpp
+Quintet.cpp
 Sextet.cpp
 )
 HLibrary(Multiplets "${MultipletSources}" PARENT_SCOPE)
@@ -45,7 +46,7 @@ JetTag.cpp
 JetInfo.cpp
 HReconstruction.cpp
 HDiscriminator.cpp
-HHiggsTagger.cpp
+HiggsTagger.cpp
 HSubStructure.cpp
 
 Tagger.cpp
@@ -62,13 +63,10 @@ TripletJetPairTagger.cpp
 TopHadronicTagger.cpp
 HTopLeptonicTagger.cpp
 TopSemiTagger.cpp
-HMvaHiggsTagger.cpp
 HHeavyHiggsLeptonicTagger.cpp
-HHeavyHiggsHadronicTagger.cpp
 HeavyHiggsSemiTagger.cpp
 HHeavyHiggsTauTagger.cpp
 ChargedHiggsSemiTagger.cpp
-HChargedHiggsHadronicTagger.cpp
 HChargedHiggsLeptonicTagger.cpp
 )
 HLibrary(Analysis "${AnalysisSources}" PARENT_SCOPE)

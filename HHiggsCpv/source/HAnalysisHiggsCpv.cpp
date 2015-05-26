@@ -121,14 +121,14 @@ std::vector<analysis::File *> hhiggscpv::HAnalysis::GetFiles(const std::string &
 
 
 
-        HiggsTagger = analysis::HMvaHiggsTagger(bottom_tagger_);
-        HiggsTagger.set_analysis_name(ProjectName());
+//         HiggsTagger = analysis::HMvaHiggsTagger(bottom_tagger_);
+//         HiggsTagger.set_analysis_name(ProjectName());
 //         HiggsTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 //         HiggsTagger.SetSignalTreeNames( {"pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 //         HiggsTagger.SetBackgroundTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 
         if (NewStudyName != "Top" && NewStudyName != "NotTop" && NewStudyName != "Higgs" && NewStudyName != "NotHiggs") {
-          HiggsReader.set_tagger(HiggsTagger);
+//           HiggsReader.set_tagger(HiggsTagger);
           TopReader.set_tagger(LeptonicTopTagger);
         }
 
@@ -148,7 +148,7 @@ std::vector<analysis::File *> hhiggscpv::HAnalysis::GetFiles(const std::string &
 //     } else if (Tagger == HTopLeptonicTagger) {
 //         TopBranch = NewTreeWriter->NewBranch("Top", HTopLeptonicBranch::Class());
 //     } else if (Tagger == HHiggsLeptonicTagger) {
-//         HiggsBranch = NewTreeWriter->NewBranch("Higgs", HHiggsBranch::Class());
+//         HiggsBranch = NewTreeWriter->NewBranch("Higgs", HiggsBranch::Class());
 //         constituentBranch = NewTreeWriter->NewBranch("constituent", ParticleBranch::Class());
 //     } else if (Tagger == EventTagger) {
 //         eventBranch = NewTreeWriter->NewBranch("event", EventBranch::Class());
@@ -226,14 +226,14 @@ bool hhiggscpv::HAnalysis::GetHiggsTag(analysis::Event &event, const std::string
     if (NewStudyName == "Higgs") State = kSignal;
     if (NewStudyName == "NotHiggs") State = kBackground;
 
-    std::vector<analysis::HHiggsBranch *> Higgses = HiggsTagger.GetBranches(event, State);
+    std::vector<analysis::HiggsBranch *> Higgses ;//= HiggsTagger.GetBranches(event, State);
 
     for (const auto & Higgs : Higgses) {
-      analysis::HHiggsBranch *HiggsBranch1 = static_cast<analysis::HHiggsBranch *>(HiggsBranch->NewEntry());
+      analysis::HiggsBranch *HiggsBranch1 = static_cast<analysis::HiggsBranch *>(HiggsBranch->NewEntry());
         *HiggsBranch1 = *Higgs;
     }
 
-    std::vector<analysis::ParticleBranch *> Constitents = HiggsTagger.GetconstituentBranches();
+    std::vector<analysis::ParticleBranch *> Constitents;// = HiggsTagger.GetconstituentBranches();
 
     for (const auto & constituent : Constitents) {
       analysis::ParticleBranch *constituentBranch1 = static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
@@ -323,22 +323,22 @@ std::vector< HHiggsCpv > hhiggscpv::HAnalysis::GetHiggsCpvs(const Jets &jets, co
     std::vector<HHiggsCpv> HiggsCpvs;
 
     analysis::Doublet HiggsPair01 = analysis::Doublet(jets[0], jets[1]);
-    HiggsTagger.FillBranch(HiggsPair01);
+//     HiggsTagger.FillBranch(HiggsPair01);
     HiggsPair01.SetBdt(HiggsReader.Bdt());
     analysis::Doublet HiggsPair02 = analysis::Doublet(jets[0], jets[2]);
-    HiggsTagger.FillBranch(HiggsPair02);
+//     HiggsTagger.FillBranch(HiggsPair02);
     HiggsPair02.SetBdt(HiggsReader.Bdt());
     analysis::Doublet HiggsPair03 = analysis::Doublet(jets[0], jets[3]);
-    HiggsTagger.FillBranch(HiggsPair03);
+//     HiggsTagger.FillBranch(HiggsPair03);
     HiggsPair03.SetBdt(HiggsReader.Bdt());
     analysis::Doublet HiggsPair12 = analysis::Doublet(jets[1], jets[2]);
-    HiggsTagger.FillBranch(HiggsPair12);
+//     HiggsTagger.FillBranch(HiggsPair12);
     HiggsPair12.SetBdt(HiggsReader.Bdt());
     analysis::Doublet HiggsPair13 = analysis::Doublet(jets[1], jets[3]);
-    HiggsTagger.FillBranch(HiggsPair13);
+//     HiggsTagger.FillBranch(HiggsPair13);
     HiggsPair13.SetBdt(HiggsReader.Bdt());
     analysis::Doublet HiggsPair23 = analysis::Doublet(jets[2], jets[3]);
-    HiggsTagger.FillBranch(HiggsPair23);
+//     HiggsTagger.FillBranch(HiggsPair23);
     HiggsPair23.SetBdt(HiggsReader.Bdt());
 
     analysis::Doublet Top0 = analysis::Doublet(jets[0], Leptons[0]);

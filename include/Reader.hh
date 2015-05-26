@@ -57,11 +57,10 @@ public:
         return tagger_->GetBdt(event, pre_cuts, reader_);
     }
 
-//     template <typename Multiplet>
-//     std::vector<Multiplet>
-//     auto GetMultiplets(Event &event) {
-//         return tagger_->GetMultiplets(event, reader_);
-//     }
+    template <typename Tagger>
+    auto Multiplets(Event &event) {
+        return static_cast<Tagger &>(*tagger_).Multiplets(event, reader_);
+    }
 
     TMVA::Reader &reader() {
         return reader_;

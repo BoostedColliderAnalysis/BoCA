@@ -1,7 +1,5 @@
 # include "BottomTagger.hh"
 
-# include "Singlet.hh"
-
 analysis::BottomTagger::BottomTagger()
 {
 //     DebugLevel = kDebug;
@@ -31,14 +29,6 @@ void analysis::BottomTagger::DefineVariables()
     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-analysis::BottomBranch analysis::BottomTagger::FillBranch(const fastjet::PseudoJet &jet) const
-{
-    Print(kInformation, "Fill Branch");
-    BottomBranch branch;
-    branch.Fill(Singlet(jet));
-    return branch;
-}
-
 int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get Bottom Tag", tag);
@@ -59,7 +49,9 @@ int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, con
     Jets triplet_pieces = GetSubJets(jets, bottoms, pre_cuts, tag, 3);
     final_jets = JoinVectors(final_jets, triplet_pieces);
 
-    SaveEntries(final_jets);
+    std::vector<Singlet> singlets;
+    for(const auto &jet : final_jets) singlets.emplace_back(Singlet(jet));
+    SaveEntries<BottomBranch>(singlets);
     Print(kInformation, "Final jet Number", final_jets.size());
     return final_jets.size();
 }
@@ -154,7 +146,7 @@ Jets analysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, cons
 
 fastjet::PseudoJet analysis::BottomTagger::GetJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
-    branch_ = FillBranch(jet);
+  branch_ = branch<BottomBranch>(Singlet(jet));
     static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
     return jet;
 }

@@ -172,7 +172,7 @@ std::vector< top::HTopHadronBranch > top::HTopHadronTagger::GetBranches(analysis
 
     Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
-    std::vector<analysis::Doublet> doublets = WTagger.GetBdt(jets, WReader);
+    std::vector<analysis::Doublet> doublets ;//= WTagger.GetBdt(jets, WReader);
     std::vector<analysis::Triplet> triplets;
 
     Jets Leptons = event.leptons().GetLeptonJets();
@@ -219,7 +219,7 @@ std::vector< top::HTopHadronBranch > top::HTopHadronTagger::GetBranches(analysis
             for (const auto & Piece2 : Pieces) {
 // 2 subjets form one W
                 analysis::Doublet doublet(Piece1, Piece2);
-                doublet = WTagger.GetBdt(doublet, WReader);
+//                 doublet = WTagger.GetBdt(doublet, WReader);
                 if (std::abs(doublet.Jet().m() - WMass) > WMassWindow) continue;
                 for (const auto & Piece3 : Pieces) {
                     if (Piece3 == doublet.Singlet1()) continue;
@@ -371,7 +371,7 @@ std::vector<analysis::Triplet> top::HTopHadronTagger::GetBdt(const Jets &jets, c
         Jets Pieces = GetSubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 // 2 subjets form a W
-        std::vector<analysis::Doublet> Piecedoublets = WTagger.GetPairBdt(Pieces, WReader);
+        std::vector<analysis::Doublet> Piecedoublets ;//= WTagger.Multiplets(Pieces, WReader);
 // 3 subjets form a top
         std::vector<analysis::Triplet> Piecetriplets = GetBdt(Piecedoublets, Pieces, TopHadronicReader);
         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());

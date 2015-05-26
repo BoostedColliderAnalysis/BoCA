@@ -5,6 +5,8 @@ heavyhiggs::EventChargedTagger::EventChargedTagger()
 //       DebugLevel = kDebug;
     Print(kInformation , "Constructor");
     set_tagger_name("ChargedeventSemi");
+    bottom_reader_.set_tagger(bottom_tagger_);
+    signature_semi_reader_.set_tagger(signature_semi_tagger_);
     DefineVariables();
 }
 
@@ -79,27 +81,13 @@ void heavyhiggs::EventChargedTagger::DefineVariables()
 
 }
 
-heavyhiggs::EventChargedBranch heavyhiggs::EventChargedTagger::GetBranch(const analysis::MultipletEvent< Octet44 > &event) const
-{
-    Print(kInformation, "FillPairTagger", event.Bdt());
-    EventChargedBranch branch;
-    branch.Fill(event);
-    return branch;
-}
-
-// struct SortJetsByBdt {
-//     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-//         return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
-//     }
-// };
-
 int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "Get event Tags");
 
 //     Jets PreJets = GetJets(event);
 //     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
-    Jets jets = static_cast<analysis::BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
 //     Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
 
     Jets Leptons = event.leptons().GetLeptonJets();
@@ -179,7 +167,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 //     }
 
 //     std::vector<Octet44> octets = SignatureSemiTagger.GetBdt(Higgsquartets, Jetquartets, SignatureSemiReader);
-    std::vector<Octet44> octets = static_cast<SignatureChargedTagger &>(signature_semi_reader_.tagger()).Octets(event, signature_semi_reader_.reader());
+    std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
 
     std::vector<analysis::MultipletEvent<Octet44>> events;
     for (const auto & octet : octets) {
@@ -211,7 +199,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 //     for (const auto & event : events)eventSemiBranches.emplace_back(GetBranch(event));
 
 //     return eventSemiBranches;
-return SaveEntries(events);
+return SaveEntries<EventChargedBranch>(events);
 }
 
 // analysis::GlobalObservables heavyhiggs::EventChargedTagger::global_observables(analysis::Event &event){
@@ -224,11 +212,11 @@ return SaveEntries(events);
 //   return global_observables;
 // }
 
-std::vector<analysis::MultipletEvent<Octet44>> heavyhiggs::EventChargedTagger::Events(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::MultipletEvent<Octet44>> heavyhiggs::EventChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get event Tags");
-    std::vector<Octet44> octets = static_cast<SignatureChargedTagger &>(signature_semi_reader_.tagger()).Octets(event, signature_semi_reader_.reader());
-    Jets jets = event.hadrons().GetJets();
+  Print(kInformation, "Get event Tags");
+  std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
+  Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
     Jets Leptons = event.leptons().GetLeptonJets();
 
 
@@ -250,7 +238,7 @@ std::vector<analysis::MultipletEvent<Octet44>> heavyhiggs::EventChargedTagger::E
         octetevent.SetLeptons(Leptons);
         octetevent.SetTotalJets(jets);
 //         octetevent.SetSubJets(SubJets);
-        branch_ = GetBranch(octetevent);
+        branch_ = branch<EventChargedBranch>(octetevent);
         octetevent.SetBdt(Bdt(reader));
         events.emplace_back(octetevent);
     }
@@ -261,10 +249,3 @@ std::vector<analysis::MultipletEvent<Octet44>> heavyhiggs::EventChargedTagger::E
 
     return events;
 }
-
-float heavyhiggs::EventChargedTagger::ReadBdt(const TClonesArray &clones_array, const int entry)
-{
-    return static_cast<EventChargedBranch &>(* clones_array.At(entry)).Bdt;
-}
-
-

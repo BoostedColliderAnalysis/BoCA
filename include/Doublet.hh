@@ -126,6 +126,11 @@ public:
 
     std::vector< Kinematics > constituents() const;
 
+    bool overlap() const{
+      if (singlet_1_.delta_R(singlet_2_) < detector_geometry_.JetConeSize) return true;
+      return false;
+    }
+
 protected:
 
     void SetSinglet1(const fastjet::PseudoJet &singlet);
@@ -149,6 +154,8 @@ protected:
     }
 
 private:
+
+  DetectorGeometry detector_geometry_;
 
 };
 

@@ -37,19 +37,12 @@ void heavyhiggs::SignatureNeutralTagger::DefineVariables()
     Print(kNotification, "Variables defined");
 }
 
-heavyhiggs::OctetNeutralBranch heavyhiggs::SignatureNeutralTagger::GetBranch(const Octet62 &octet) const
-{
-    Print(kInformation, "FillPairTagger", octet.Bdt());
-    OctetNeutralBranch branch;
-    branch.Fill(octet);
-    return branch;
-}
 
-std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)
+int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "Get event Tags");
     float Mass = event.mass();
-    std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
     Jets HiggsParticles = event.partons().Generator();
@@ -58,18 +51,18 @@ std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
-    if (Tag == kSignal) {
+    if (tag == kSignal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
         else Print(kError, "Where is the Higgs?", HiggsParticles.size());
         std::sort(sextets.begin(), sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
-    std::vector<analysis::Doublet> doublets = static_cast<analysis::JetPairTagger &>(jet_pair_reader_.tagger()).Doublets(event,jet_pair_reader_.reader());
+    std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
 
     std::vector<analysis::Doublet> Finaldoublets;
     Jets Particles = event.partons().Generator();
-    if (Tag == kSignal) {
+    if (tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
             for (const auto & doublet : doublets) {
@@ -77,13 +70,13 @@ std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::
             }
         }
     }
-    if (Tag == kBackground) Finaldoublets = doublets;
+    if (tag == kBackground) Finaldoublets = doublets;
 
     std::vector<Octet62> octets;
     for (const auto & doublet : Finaldoublets) {
         for (const auto & sextet : sextets) {
-            if (Tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
-            if (Tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
+            if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
+            if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
             if (sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet1().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
@@ -97,31 +90,29 @@ std::vector<heavyhiggs::OctetNeutralBranch> heavyhiggs::SignatureNeutralTagger::
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             Octet62 octet(sextet, doublet);
-            octet.SetTag(Tag);
+            octet.SetTag(tag);
             octets.emplace_back(octet);
         }
     }
     if (octets.empty())Print(kInformation, "No octets", octets.size());
 
-    if (Tag == kSignal && octets.size() > 1) {
+    if (tag == kSignal && octets.size() > 1) {
         Print(kInformation, "more than one event", octets.size());
         std::sort(octets.begin(), octets.end());
         octets.erase(octets.begin() + 1, octets.end());
     }
 
-    std::vector<heavyhiggs::OctetNeutralBranch> octetBranches;
-    for (const auto & octet : octets) octetBranches.emplace_back(GetBranch(octet));
-//     if (octetBranches.empty())Print(kError, "No octetBranches", octetBranches.size());
-    return octetBranches;
+    return SaveEntries<OctetNeutralBranch>(octets);
+
 }
 
 
-std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Octets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get event Tags");
 
-    std::vector<analysis::Doublet> doublets = static_cast<analysis::JetPairTagger &>(jet_pair_reader_.tagger()).Doublets(event,jet_pair_reader_.reader());
-    std::vector<analysis::Sextet> sextets = static_cast<analysis::HeavyHiggsSemiTagger &>(heavy_higgs_semi_reader_.tagger()).Sextets(event, heavy_higgs_semi_reader_.reader());
+    std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
     std::vector<Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
@@ -138,7 +129,7 @@ std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Octets(analysis::Event 
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             Octet62 octet(sextet, doublet);
-            branch_ = GetBranch(octet);
+            branch_ = branch<OctetNeutralBranch>(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);
         }
@@ -147,7 +138,6 @@ std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Octets(analysis::Event 
     if (octets.size() > 1) std::sort(octets.begin(), octets.end());
     octets.erase(octets.begin() + std::min(max_combi(), int(octets.size())), octets.end());
     Print(kInformation, "event Number", octets.size());
-
 
     return octets;
 }

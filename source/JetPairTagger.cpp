@@ -52,20 +52,10 @@ void analysis::JetPairTagger::DefineVariables()
 
 }
 
-analysis::JetPairBranch analysis::JetPairTagger::GetBranch(const Doublet &doublet) const
-{
-    Print(kInformation, "FillPairTagger", doublet.Bdt());
-    JetPairBranch branch;
-    branch.Fill(doublet);
-    return branch;
-}
-
 int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Get Jet Pair Tags");
-//     Jets jets = GetJets(event);
-//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event,bottom_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kDebug, "Number of Jets", jets.size());
 
     Jets BdtJets = jets;
@@ -117,16 +107,13 @@ int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
         if (doublets.size() > 1) doublets.erase(doublets.begin() + 1, doublets.end());
     }
 
-//     std::vector<JetPairBranch> JetPairBranches;
-//     for (const auto & doublet : doublets) JetPairBranches.emplace_back(GetBranch(doublet));
-
-    return SaveEntries(doublets);
+    return SaveEntries<JetPairBranch>(doublets);
 
 }
 
-std::vector<analysis::Doublet>  analysis::JetPairTagger::Doublets(Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Doublet>  analysis::JetPairTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-  Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event,bottom_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
@@ -136,12 +123,10 @@ std::vector<analysis::Doublet>  analysis::JetPairTagger::Doublets(Event &event, 
             for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
             if (doublet.RestJets().size() != jets.size() - 2) Print(kError, "to many jets in the rest jet vector");
 //             if (std::abs(doublet.DeltaRap()) < detector_geometry().JetConeSize) continue;
-            branch_ = GetBranch(doublet);
+            branch_ = branch<JetPairBranch>(doublet);
             doublet.SetBdt(Bdt(reader));
             doublets.emplace_back(doublet);
         }
-    std::sort(doublets.begin(), doublets.end());
-    doublets.erase(doublets.begin() + std::min(max_combi(), int(doublets.size())), doublets.end());
-    return doublets;
+    return ReduceResult(doublets);
 }
 

@@ -24,13 +24,8 @@ public:
 
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
-    std::vector< WHadronicBranch > GetBranches(Event &, const Object::Tag) {
-        Print(kError, "train", "depreciated");
-        return std::vector< WHadronicBranch >{};
-    }
-
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries(GetDoublets(event, reader));
+        return SaveEntries<WHadronicBranch>(Multiplets(event, reader));
     }
 
     virtual int GetBdt(Event &event, const TMVA::Reader &reader) {
@@ -38,62 +33,19 @@ public:
         return GetBdt(event, pre_cuts, reader);
     }
 
-    std::vector<Doublet> GetDoublets(Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(Event &event, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetBdt(const Jets &, const Reader &, BottomTagger &, Reader &) {
-        Print(kError, "train", "depreciated");
-        return std::vector<Doublet>{};
-    }
+    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetJetDoublets(Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    std::vector<Doublet> GetJetDoublets(const Jets &jets, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
 
-    std::vector<Doublet> GetSubJetDoublets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
-
-    std::vector<Doublet> GetDoublet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
-
-    std::vector<Doublet> GetDoublet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
-
-    std::vector<Doublet> GetBdt(const Jets &, const Reader &) {
-        Print(kError, "gete bdt", "depreciated");
-        return std::vector<Doublet>{};
-    }
-
-    std::vector<Doublet> GetPairBdt(const Jets &, const Reader &) {
-        Print(kError, "gete bdt", "depreciated");
-        return std::vector<Doublet>{};
-    }
-
-    std::vector<Doublet> GetSingletBdt(const Jets &, const Reader &) {
-        Print(kError, "gete bdt", "depreciated");
-        return std::vector<Doublet>{};
-    }
-
-    Doublet GetBdt(Doublet &, const Reader &) {
-        Print(kError, "gete bdt", "depreciated");
-        return Doublet();
-    }
-
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
-
-    WHadronicBranch GetBranch(const Doublet &doublet) const;
+    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
     int GetWHadId(Event &event) const {
         return GetWHadId(GetWDaughters(event));
-    };
-
-    int SaveEntries(const std::vector<Doublet> &doublets) {
-        for (const auto & doublet : doublets) static_cast<WHadronicBranch &>(*tree_branch().NewEntry()) = GetBranch(doublet);
-        return doublets.size();
     }
-
-    TClass &Class() const {
-        return *WHadronicBranch::Class();
-    }
-
 
 protected:
 
@@ -102,6 +54,14 @@ protected:
     }
 
 private:
+
+    BottomTagger bottom_tagger_;
+
+    Reader bottom_reader_;
+
+    TClass &Class() const {
+        return *WHadronicBranch::Class();
+    }
 
     Jets GetWDaughters(Event &event) const;
 

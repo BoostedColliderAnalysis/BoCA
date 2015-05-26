@@ -4,7 +4,7 @@ analysis::ZHadronicTagger::ZHadronicTagger()
 {
 //     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
-    set_tagger_name("WHadronic");
+    set_tagger_name("ZHadronic");
     z_mass_window_ = 20;
     bottom_reader_.set_tagger(bottom_tagger_);
     DefineVariables();
@@ -26,21 +26,13 @@ void analysis::ZHadronicTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-analysis::ZHadronicBranch analysis::ZHadronicTagger::GetBranch(const Doublet &doublet) const
-{
-    Print(kInformation, "FillPairTagger", doublet.Bdt());
-    ZHadronicBranch branch;
-    branch.Fill(doublet);
-    return branch;
-}
-
 int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Get W Tags");
 
     Jets z_hadronic_daughters = ZDaughters(event);
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
     Print(kInformation, "Bottom Tagger Number", jets.size());
 
     // 2 Jets form 1 W
@@ -96,7 +88,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
         std::sort(doublets.begin(), doublets.end(), SortByMass(ZMass));
         doublets.erase(doublets.begin() + z_particles.size(), doublets.end());
     }
-    return SaveEntries(doublets);
+    return SaveEntries<ZHadronicBranch>(doublets);
 }
 
 
@@ -118,19 +110,19 @@ int analysis::ZHadronicTagger::ZHadronicId(const Jets &jets)
 }
 
 
-std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetDoublets(Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
 
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader());
+    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).Multiplets(event, bottom_reader_.reader());
 
     // 2 jets form a W
-    std::vector<Doublet> doublets = GetJetDoublets(jets, reader);
+    std::vector<Doublet> doublets = Multiplets(jets, reader);
 
     // 1 jet (2 subjets) form a W
     for (const auto & jet : jets) {
         Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), 2);
-        doublets = JoinVectors(doublets, GetJetDoublets(pieces, reader));
+        doublets = JoinVectors(doublets, Multiplets(pieces, reader));
     }
 
     std::sort(doublets.begin(), doublets.end());
@@ -138,13 +130,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetDoublets(Event &eve
     return doublets;
 }
 
-std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetJetDoublets(Event &event, const TMVA::Reader &reader)
-{
-    Print(kInformation, "Get doublet Bdt");
-    return GetJetDoublets(static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event, bottom_reader_.reader()), reader);
-}
-
-std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetJetDoublets(const Jets &jets, const TMVA::Reader &reader)
+std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
 
@@ -152,7 +138,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetJetDoublets(const J
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
-            doublets = JoinVectors(doublets, GetDoublet(*Jet1, *Jet2, reader));
+            doublets = JoinVectors(doublets, Multiplets(*Jet1, *Jet2, reader));
         }
 
     std::sort(doublets.begin(), doublets.end());
@@ -160,14 +146,14 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetJetDoublets(const J
     return doublets;
 }
 
-std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetSubJetDoublets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
+std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
     Print(kInformation, "Get doublet Bdt");
 
     std::vector<Doublet>  doublets;
     for (const auto & jet : jets) {
         Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
-        for (const auto & piece : pieces) doublets = JoinVectors(doublets, GetDoublet(piece, reader));
+        for (const auto & piece : pieces) doublets = JoinVectors(doublets, Multiplets(piece, reader));
     }
 
     std::sort(doublets.begin(), doublets.end());
@@ -175,7 +161,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetSubJetDoublets(cons
     return doublets;
 }
 
-std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetDoublet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader)
+std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
 
@@ -184,13 +170,13 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetDoublet(const fastj
     Doublet doublet(jet_1, jet_2);
     if (doublet.DeltaR() < detector_geometry().MinCellResolution) return doublets;
     if (std::abs(doublet.Jet().m() - ZMass) > z_mass_window_) return doublets;
-    branch_ = GetBranch(doublet);
+    branch_ = branch<ZHadronicBranch>(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);
     return doublets;
 }
 
-std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetDoublet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
+std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
     Print(kInformation, "Get doublet Bdt");
     std::vector<Doublet>  doublets;
@@ -200,7 +186,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::GetDoublet(const fastj
     if (subjets.size() == 1) doublet.SetSinglets(jet);
     else doublet.SetSinglets(subjets.at(0), subjets.at(1));
     if (std::abs(doublet.Jet().m() - ZMass) > z_mass_window_) return doublets;
-    branch_ = GetBranch(doublet);
+    branch_ = branch<ZHadronicBranch>(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);
     return doublets;

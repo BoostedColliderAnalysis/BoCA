@@ -26,7 +26,7 @@ class HPairJetPair;
 class HSuperStructure;
 
 class HReconstruction;
-class HHiggsTagger;
+class HiggsTagger;
 class HDiscriminator;
 class top_hadronic_tagger;
 class HSubStructure;

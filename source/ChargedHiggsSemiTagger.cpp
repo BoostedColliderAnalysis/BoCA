@@ -16,28 +16,15 @@ void analysis::ChargedHiggsSemiTagger::DefineVariables()
     AddVariable(branch_.Phi, "Phi");
     AddVariable(branch_.Pt, "Pt");
     AddVariable(branch_.Ht, "Ht");
-
     AddVariable(branch_.DeltaPt, "DeltaPt");
     AddVariable(branch_.DeltaM, "DeltaM");
     AddVariable(branch_.DeltaHt, "DeltaHt");
     AddVariable(branch_.DeltaR, "DeltaR");
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaPhi, "DeltaPhi");
-
     AddVariable(branch_.Bdt, "Bdt");
     AddSpectator(branch_.Tag, "Tag");
     AddSpectator(branch_.Flag, "Flag");
-
-    Print(kNotification, "Variables defined");
-
-}
-
-analysis::ChargedHiggsSemiBranch analysis::ChargedHiggsSemiTagger::GetBranch(const Quartet31 &quartet)const
-{
-    Print(kInformation, "FillPairTagger", quartet.Bdt());
-    ChargedHiggsSemiBranch branch;
-    branch.Fill(quartet);
-    return branch;
 }
 
 int analysis::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag tag)
@@ -55,15 +42,8 @@ int analysis::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag ta
         }
     }
 
-//     Jets jets = GetJets(event);
-//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
-
-//     Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
-//     const fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-//     std::vector<Doublet> doublets = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-//     std::vector<Triplet> triplets = top_semi_tagger.GetBdt(doublets, jets, TopSemiReader);
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event,bottom_reader_.reader());
-    std::vector<Triplet> triplets = static_cast<TopSemiTagger&>(top_semi_reader_.tagger()).Triplets(event,top_semi_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    std::vector<Triplet> triplets = top_semi_reader_.Multiplets<TopSemiTagger>(event);
 
 
 //     int WSemiId = w_semi_tagger.WSemiId(event);
@@ -109,25 +89,22 @@ int analysis::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag ta
         quartets.erase(quartets.begin() + 1, quartets.end());
     }
 
-    return SaveEntries(quartets);
+    return SaveEntries<ChargedHiggsSemiBranch>(quartets);
 }
 
-std::vector<analysis::Quartet31>  analysis::ChargedHiggsSemiTagger::Quartets(Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Quartet31>  analysis::ChargedHiggsSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-    Jets jets = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetJetBdt(event,bottom_reader_.reader());
-    std::vector<Triplet> triplets = static_cast<TopSemiTagger&>(top_semi_reader_.tagger()).Triplets(event,top_semi_reader_.reader());
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    std::vector<Triplet> triplets = top_semi_reader_.Multiplets<TopSemiTagger>(event);
 
     std::vector<Quartet31> quartets;
     for (const auto & triplet : triplets)
         for (const auto & jet : jets) {
             if (triplet.singlet().delta_R(jet) < detector_geometry().JetConeSize) continue;
             Quartet31 quartet(triplet, jet);
-            branch_ = GetBranch(quartet);
+            branch_ = branch<ChargedHiggsSemiBranch>(quartet);
             quartet.SetBdt(Bdt(reader));
             quartets.emplace_back(quartet);
         }
-
-    std::sort(quartets.begin(), quartets.end());
-    quartets.erase(quartets.begin() + std::min(max_combi(), int(quartets.size())), quartets.end());
-    return quartets;
+    return ReduceResult(quartets);
 }

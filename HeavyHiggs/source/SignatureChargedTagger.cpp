@@ -35,15 +35,6 @@ void heavyhiggs::SignatureChargedTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-heavyhiggs::OctetChargedBranch heavyhiggs::SignatureChargedTagger::GetBranch(const Octet44 &octet) const
-{
-    Print(kInformation, "branch", octet.Bdt());
-
-    OctetChargedBranch branch;
-    branch.Fill(octet);
-    return branch;
-}
-
 int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "Get event Tags");
@@ -57,7 +48,8 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 //     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
 //     std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
 //     std::vector<analysis::Quartet31> Higgsquartets = charged_higgs_semi_tagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
-    std::vector<analysis::Quartet31> Higgsquartets = static_cast<analysis::ChargedHiggsSemiTagger &>(charged_higgs_semi_reader_.tagger()).Quartets(event, charged_higgs_semi_reader_.reader());
+//     std::vector<analysis::Quartet31> Higgsquartets = static_cast<analysis::ChargedHiggsSemiTagger &>(charged_higgs_semi_reader_.tagger()).Multiplets(event, charged_higgs_semi_reader_.reader());
+    std::vector<analysis::Quartet31> Higgsquartets = charged_higgs_semi_reader_.Multiplets<analysis::ChargedHiggsSemiTagger>(event);
 
     Jets HiggsParticles = event.partons().Generator();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
@@ -108,7 +100,8 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 //     } else FinalBottoms = jets;
 
 //     std::vector<analysis::Quartet31> Jetquartets = triplet_jet_pair_tagger_.GetBdt(Finaltriplets, FinalBottoms, triplet_jet_pair_reader_);
-    std::vector<analysis::Quartet31> Jetquartets = static_cast<analysis::TripletJetPairTagger &>(triplet_jet_pair_reader_.tagger()).Quartets(event, triplet_jet_pair_reader_.reader());
+//     std::vector<analysis::Quartet31> Jetquartets = static_cast<analysis::TripletJetPairTagger &>(triplet_jet_pair_reader_.tagger()).Quartets(event, triplet_jet_pair_reader_.reader());
+    std::vector<analysis::Quartet31> Jetquartets = triplet_jet_pair_reader_.Multiplets<analysis::TripletJetPairTagger>(event);
 
 //     if(Tag == HBackground && Jetquartets.size() > 1) Jetquartets.erase(Jetquartets.begin() + 1, Jetquartets.end());
 
@@ -142,16 +135,16 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 //     for (const auto & octet : octets) SignatureSemiBranches.emplace_back(GetBranch(octet));
 
 //     return SignatureSemiBranches;
-return SaveEntries(octets);
+return SaveEntries<OctetChargedBranch>(octets);
 }
 
 
-std::vector<Octet44> heavyhiggs::SignatureChargedTagger::Octets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<Octet44> heavyhiggs::SignatureChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Bdt");
 
-    std::vector<analysis::Quartet31> Higgsquartets = static_cast<analysis::ChargedHiggsSemiTagger &>(charged_higgs_semi_reader_.tagger()).Quartets(event, charged_higgs_semi_reader_.reader());
-    std::vector<analysis::Quartet31> Jetquartets = static_cast<analysis::TripletJetPairTagger &>(triplet_jet_pair_reader_.tagger()).Quartets(event, triplet_jet_pair_reader_.reader());
+    std::vector<analysis::Quartet31> Higgsquartets = charged_higgs_semi_reader_.Multiplets<analysis::ChargedHiggsSemiTagger>(event);
+    std::vector<analysis::Quartet31> Jetquartets = triplet_jet_pair_reader_.Multiplets<analysis::TripletJetPairTagger>(event);
 //     Print(kError, "Number of Higgs and Pairs", Higgsquartets.size(), Jetquartets.size());
     std::vector<Octet44> octets;
     for (const auto & Jetquartet : Jetquartets) {
@@ -173,17 +166,10 @@ std::vector<Octet44> heavyhiggs::SignatureChargedTagger::Octets(analysis::Event 
             if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
             if (Higgsquartet.triplet().doublet().Singlet2().delta_R(Jetquartet.triplet().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
             Octet44 octet(Higgsquartet, Jetquartet);
-            branch_ = GetBranch(octet);
+            branch_ = branch<OctetChargedBranch>(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);
         }
     }
-//     Print(kError, "Number of Signatures", octets.size());
-
-    if (octets.size() > 1) std::sort(octets.begin(), octets.end());
-    octets.erase(octets.begin() + std::min(max_combi(), int(octets.size())), octets.end());
-    Print(kInformation, "event Number", octets.size());
-
-
-    return octets;
+    return ReduceResult(octets);
 }

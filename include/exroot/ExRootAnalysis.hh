@@ -1,6 +1,9 @@
 # pragma once
 
 # include "ExRootAnalysis/ExRootClasses.h"
+# include "ExRootAnalysis/ExRootTreeWriter.h"
+# include "ExRootAnalysis/ExRootTreeReader.h"
+# include "ExRootAnalysis/ExRootTreeBranch.h"
 
 namespace exroot {
 
@@ -16,5 +19,8 @@ namespace exroot {
   typedef ::TRootMuon Muon;
   typedef ::TRootTau Tau;
   typedef ::TRootJet Jet;
+  typedef ::ExRootTreeWriter TreeWriter;
+  typedef ::ExRootTreeBranch TreeBranch;
+  typedef ::ExRootTreeReader TreeReader;
 
 }

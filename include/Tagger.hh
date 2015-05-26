@@ -13,7 +13,8 @@
 # include "Event.hh"
 # include "Doublet.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 class Observable
 {
@@ -331,12 +332,27 @@ protected:
     float Bdt(const TMVA::Reader &reader);
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> multiplet) {
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet) {
         if (multiplet.empty()) return multiplet;
         std::sort(multiplet.begin(), multiplet.end());
         multiplet.erase(multiplet.begin() + std::min(max_combi(), int(multiplet.size())), multiplet.end());
         return multiplet;
     }
+
+    template<typename Branch, typename Multiplet>
+    Branch branch(const Multiplet &multiplet) const {
+        Print(kInformation, "Branch");
+        Branch branch;
+        branch.Fill(multiplet);
+        return branch;
+    }
+
+    template<typename Branch, typename Multiplet>
+    int SaveEntries(const std::vector<Multiplet> &multiplets) {
+        for (const auto & multiplet : multiplets) static_cast<Branch &>(*tree_branch().NewEntry()) = branch<Branch>(multiplet);
+        return multiplets.size();
+    }
+
 
 private:
 
