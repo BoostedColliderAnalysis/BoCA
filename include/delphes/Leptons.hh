@@ -20,6 +20,10 @@ public:
 
     Leptons();
 
+    analysis::Jets Electrons();
+
+    analysis::Jets Muons();
+
 protected:
 
     inline std::string NameSpaceName() const {
@@ -28,13 +32,9 @@ protected:
 
 private:
 
-  analysis::Jets Electrons();
+    analysis::Jets Electrons(analysis::FourVector::JetDetail jet_detail);
 
-    analysis::Jets Electrons(JetDetail jet_detail);
-
-    analysis::Jets Muons();
-
-    analysis::Jets Muons(JetDetail jet_detail);
+    analysis::Jets Muons(analysis::FourVector::JetDetail jet_detail);
 
 
 };

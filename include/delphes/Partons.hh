@@ -19,13 +19,13 @@ public:
 
     Partons();
 
-    Jets Particles();
+    Jets Particles() const;
 
-    Jets GenParticles();
+    Jets GenParticles() const;
 
 private:
 
-    Jets Particles(const Status max_status);
+    Jets Particles(const Status max_status) const;
 
     inline std::string NameSpaceName() const {
         return "delphes";

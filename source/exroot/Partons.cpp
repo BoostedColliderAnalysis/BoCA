@@ -5,17 +5,17 @@ analysis::exroot::Partons::Partons()
     Print(kNotification, "Constructor");
 }
 
-analysis::Jets analysis::exroot::Partons::Particles()
+analysis::Jets analysis::exroot::Partons::Particles() const
 {
     return Particles(kStable);
 }
 
-analysis::Jets analysis::exroot::Partons::GenParticles()
+analysis::Jets analysis::exroot::Partons::GenParticles() const
 {
     return Particles(kGenerator);
 }
 
-analysis::Jets analysis::exroot::Partons::Particles(const Status max_status)
+analysis::Jets analysis::exroot::Partons::Particles(const analysis::Object::Status max_status) const
 {
     Print(kInformation, "Particles", clones_arrays().ParticleSum());
     Jets particles;

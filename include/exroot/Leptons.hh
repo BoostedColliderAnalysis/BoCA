@@ -17,6 +17,11 @@ class Leptons : public analysis::Leptons
 
 public:
 
+    analysis::Jets Electrons();
+
+
+    analysis::Jets Muons();
+
 protected:
 
     inline std::string NameSpaceName() const {
@@ -24,11 +29,6 @@ protected:
     }
 
 private:
-
-    analysis::Jets Electrons();
-
-
-    analysis::Jets Muons();
 
 };
 

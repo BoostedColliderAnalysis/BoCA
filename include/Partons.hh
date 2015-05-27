@@ -19,9 +19,9 @@ public:
 
     void NewEvent(const analysis::ClonesArrays &clones_arrays);
 
-    virtual Jets Particles() = 0;
+    virtual Jets Particles() const = 0;
 
-    virtual Jets GenParticles() = 0;
+    virtual Jets GenParticles() const = 0;
 
 protected:
 

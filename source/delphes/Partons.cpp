@@ -7,17 +7,17 @@ analysis::delphes::Partons::Partons()
     Print(kDebug, "Constructor");
 }
 
-analysis::Jets analysis::delphes::Partons::Particles()
+analysis::Jets analysis::delphes::Partons::Particles() const
 {
     return Particles(kStable);
 }
 
-analysis::Jets analysis::delphes::Partons::GenParticles()
+analysis::Jets analysis::delphes::Partons::GenParticles() const
 {
     return Particles(kGenerator);
 }
 
-analysis::Jets analysis::delphes::Partons::Particles(const Status max_status)
+analysis::Jets analysis::delphes::Partons::Particles(const analysis::Object::Status max_status) const
 {
     Jets particles;
     Print(kInformation, "Particles", clones_arrays().ParticleSum());
