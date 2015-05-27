@@ -3,7 +3,8 @@
 # include "Tagger.hh"
 # include "Event.hh"
 
-namespace analysis{
+namespace analysis
+{
 
 class HMvaResult : Object
 {
@@ -57,9 +58,14 @@ public:
         return tagger_->GetBdt(event, pre_cuts, reader_);
     }
 
-    template <typename Tagger>
-    auto Multiplets(Event &event) {
-        return static_cast<Tagger &>(*tagger_).Multiplets(event, reader_);
+    template <typename Tagger, typename Input>
+    auto Multiplets(Input &input) {
+        return static_cast<Tagger &>(*tagger_).Multiplets(input, reader_);
+    }
+
+    template <typename Tagger, typename Input1, typename Input2>
+    auto Multiplets(Input1 &input_1, Input2 &input_2) {
+        return static_cast<Tagger &>(*tagger_).Multiplets(input_1, input_2, reader_);
     }
 
     TMVA::Reader &reader() {
