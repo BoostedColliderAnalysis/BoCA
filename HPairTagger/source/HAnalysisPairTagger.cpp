@@ -12,7 +12,7 @@
 
 // std::string hpairtagger::HAnalysis::StudyName(const analysis::HAnalysis::HTagger Tagger) const
 // {
-//     Print(kNotification, "Get Study Names", Tagger);
+//     Print(kNotification, "Study Names", Tagger);
 //
 //     switch (Tagger) {
 //     case  BottomTagger :
@@ -92,17 +92,17 @@ std::vector<analysis::File> hpairtagger::HAnalysis::Files(const analysis::Object
 void hpairtagger::HAnalysis::SetTrees()
 {
 
-    Strings SignalLeptonicTrees {};
-    Strings BackgroundLeptonicTrees {};
+  analysis::Strings SignalLeptonicTrees {};
+  analysis::Strings BackgroundLeptonicTrees {};
 
 
 
-    Strings SignalSemiTrees {
+  analysis::Strings SignalSemiTrees {
       TreeName(bb,VBF),
 //       SignalTreeName(Hbb)
     };
 
-    Strings BackgroundSemiTrees {
+    analysis::Strings BackgroundSemiTrees {
         TreeName(bb,DYP),
         TreeName(cc,VBF),
         TreeName(cc,DYP),
@@ -115,15 +115,15 @@ void hpairtagger::HAnalysis::SetTrees()
 //         TreeName(ttqq)
     };
 
-    Strings SignalHadronicTree {};
-    Strings BackgroundHadronicTrees {};
+    analysis::Strings SignalHadronicTree {};
+    analysis::Strings BackgroundHadronicTrees {};
 
-    Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
+    analysis::Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    analysis::Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
+    analysis::Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
 
-    Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
-    Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
+    analysis::Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
+    analysis::Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
 
 //     switch (Tagger) {
 //     case HBottomTagger:
@@ -186,7 +186,7 @@ void hpairtagger::HAnalysis::SetTrees()
 //     }
 // }
 
-// void hpairtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
+// void hpairtagger::HAnalysis::NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
 // {
 //     Print(kNotification, "New Branches", Tagger);
 //
@@ -239,14 +239,14 @@ int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::
 
 // bool hpairtagger::HAnalysis::GetTag(analysis::Event &event, const Tag tag)
 // {
-//   Print(kDebug, "Get Bottom Tag", tag);
+//   Print(kDebug, "Bottom Tag", tag);
 //   return tagger_.GetBranches(event, tag);
 // }
 //
 //
 // bool hpairtagger::HAnalysis::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get Bottom Tag", Tag);
+//     Print(kDebug, "Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
 //     if (Bottoms.empty()) {
 //         return 0;
@@ -259,7 +259,7 @@ int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::
 //
 // bool hpairtagger::HAnalysis::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get Bottom Reader", Tag);
+//     Print(kDebug, "Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) {
@@ -290,7 +290,7 @@ int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::
 //
 // bool hpairtagger::HAnalysis::GetJetPairTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get JetPair Tag", Tag);
+//     Print(kDebug, "JetPair Tag", Tag);
 //     std::vector<JetPairBranch> JetPairs = jet_pair_tagger.GetBranches(event, Tag, MotherId(ProductionChannel()));
 //     if (JetPairs.empty()) {
 //         return 0;
@@ -303,7 +303,7 @@ int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::
 //
 // bool hpairtagger::HAnalysis::GetJetPairReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get JetPair Reader", Tag);
+//     Print(kDebug, "JetPair Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) {

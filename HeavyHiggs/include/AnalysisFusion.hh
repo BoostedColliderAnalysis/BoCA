@@ -294,7 +294,7 @@ private:
 
     analysis::File BackgroundFile(const ProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV";
-        Strings FileNames;
+        analysis::Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
@@ -523,7 +523,7 @@ private:
 
     void ResetBranch();
 
-//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
+//     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
     /**
      * @brief Main Analysis function

@@ -52,7 +52,7 @@ hhiggscpv::HMvaTop::~HMvaTop()
 
 float hhiggscpv::HMvaTop::GetBdt(TObject *Branch, const TMVA::Reader &Reader){
 
-  Print(kInformation, "Get Bdt",bdt_method_name());
+  Print(kInformation, "Bdt",bdt_method_name());
 
   *Top = *static_cast<analysis::HTopLeptonicBranch*>(Branch);
     const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());

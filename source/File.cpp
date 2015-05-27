@@ -132,7 +132,7 @@ void analysis::File::SetVariables()
     tag_name_ = "tag_1";
 }
 
-Strings analysis::File::Paths() const
+analysis::Strings analysis::File::Paths() const
 {
     Print(kInformation, "FilePath");
     Strings FilePaths;
@@ -140,24 +140,24 @@ Strings analysis::File::Paths() const
     return FilePaths;
 }
 
-ExRootTreeReader analysis::File::TreeReader()
+exroot::TreeReader analysis::File::TreeReader()
 {
-    Print(kNotification, "Get Tree Reader", Paths().front());
+    Print(kNotification, "Tree Reader", Paths().front());
     chain_ = new TChain(tree_name().c_str());
     for (const auto & path : Paths()) chain_->Add(path.c_str());
-    return ExRootTreeReader(chain_);
+    return exroot::TreeReader(chain_);
 }
 
 analysis::ClonesArrays analysis::File::clones_arrays()
 {
-    Print(kNotification, "Get Clones Arrays");
+    Print(kNotification, "Clones Arrays");
     return ClonesArrays(source());
 }
 
 
 analysis::Event analysis::File::event()
 {
-    Print(kNotification, "Get event");
+    Print(kNotification, "event");
     return Event(source());
 }
 

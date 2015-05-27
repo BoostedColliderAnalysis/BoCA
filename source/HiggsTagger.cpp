@@ -31,7 +31,7 @@ void analysis::HiggsTagger::DefineVariables()
 
 int analysis::HiggsTagger::Train(analysis::Event &event,  analysis::PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Get Higgs Tags");
+    Print(kInformation, "Higgs Tags");
 
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
 

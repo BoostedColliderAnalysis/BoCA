@@ -32,7 +32,7 @@ void toppartner::SignatureTagger::DefineVariables()
 
 int toppartner::SignatureTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Get Higgs Tags");
+    Print(kInformation, "Higgs Tags");
     std::vector< analysis::Quintet> quintets = top_partner_reader_.Multiplets<TopPartnerTagger>(event);
     std::vector< analysis::Doublet> doublets = higgs_reader_.Multiplets<analysis::HiggsTagger>(event);
     std::vector< Quattuordecuplet > quattuordecuplets;

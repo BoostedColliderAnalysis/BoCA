@@ -8,6 +8,7 @@
 # include "Identification.hh"
 # include "Family.hh"
 # include "Constituent.hh"
+# include "delphes/Delphes.hh"
 
 namespace analysis
 {
@@ -15,6 +16,7 @@ namespace analysis
 class DetectorGeometry
 {
 public:
+    enum JetType {kJet, kGenJet, kEFlowJet};
     DetectorGeometry();
     float JetMinPt;
     float JetConeSize;
@@ -27,6 +29,7 @@ public:
     float TrackerDistanceMin;
     float TrackerDistanceMax;
     float VertexMassMin;
+    JetType jet_type;
 private:
     enum DetectorType {CMS, Spp};
 };
@@ -46,7 +49,17 @@ public:
      */
     JetInfo();
 
+    JetInfo(const ::delphes::Jet &jet);
+
+    JetInfo(const bool b_tag);
+
+    JetInfo(const bool b_tag, const bool tau_tag);
+
+    JetInfo(const int charge);
+
     JetInfo(const Constituent &constituent);
+
+    JetInfo(const Constituent &constituent, const int charge);
 
     JetInfo(const std::vector<Constituent> &constituents);
 
@@ -112,6 +125,32 @@ public:
 
     float TrackMass() const;
 
+    void SetBTag(const bool b_tag) {
+        b_tag_ = b_tag;
+    }
+
+    bool BTag() const {
+        return b_tag_;
+    }
+
+    void SetTauTag(const bool tau_tag) {
+      tau_tag_ = tau_tag;
+    }
+
+    bool TauTag() const {
+      return tau_tag_;
+    }
+
+    void SetCharge(const int charge) {
+      charge_ = charge;
+    }
+
+    bool Charge() const {
+      return charge_;
+    }
+
+    void SetDelphesTags(const ::delphes::Jet &jet);
+
 protected:
 
     inline std::string ClassName() const {
@@ -133,6 +172,12 @@ private:
     std::unordered_map<Family, float> family_fractions_;
 
     std::map<int, float> id_fractions_;
+
+    bool b_tag_;
+
+    bool tau_tag_;
+
+    int charge_;
 
 };
 

@@ -19,7 +19,7 @@
 
 // std::string heavyhiggs::AnalysisNeutral::StudyName(const analysis::HAnalysis::HTagger Tagger) const
 // {
-//     Print(kNotification, "Get Study Names", Tagger);
+//     Print(kNotification, "Study Names", Tagger);
 //
 //     switch (Tagger) {
 //     case  BottomTagger :
@@ -242,32 +242,32 @@ std::vector<analysis::File> heavyhiggs::AnalysisNeutral::Files(const analysis::O
 void heavyhiggs::AnalysisNeutral::SetTrees()
 {
 
-    Strings SignalLeptonicTrees {};
-    Strings BackgroundLeptonicTrees {};
+  analysis::Strings SignalLeptonicTrees {};
+  analysis::Strings BackgroundLeptonicTrees {};
 
     std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
-    Strings SignalSemiTrees {
+    analysis::Strings SignalSemiTrees {
         SignalTree
 //         BackgroundTree(ttbb)
     };
 
-    Strings BackgroundSemiTrees {
+    analysis::Strings BackgroundSemiTrees {
 //         BackgroundTree(ttbb),
 //         BackgroundTree(ttcc),
 //         BackgroundTree(ttjj)
         BackgroundTree(tt)
     };
 
-    Strings SignalHadronicTree {};
-    Strings BackgroundHadronicTrees {};
+    analysis::Strings SignalHadronicTree {};
+    analysis::Strings BackgroundHadronicTrees {};
 
-    Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
+    analysis::Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    analysis::Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
+    analysis::Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
 
-    Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
-    Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
+    analysis::Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
+    analysis::Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
 
 //     tagger_.SetSignalTreeNames(SignalSemiTrees);
 //     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
@@ -480,7 +480,7 @@ void heavyhiggs::AnalysisNeutral::SetTrees()
 //     }
 // }
 
-// void heavyhiggs::AnalysisNeutral::NewBranches(ExRootTreeWriter &tree_writer, const analysis::HAnalysis::HTagger tagger)
+// void heavyhiggs::AnalysisNeutral::NewBranches(exroot::TreeWriter &tree_writer, const analysis::HAnalysis::HTagger tagger)
 // {
 //     Print(kNotification, "New Branches", tagger);
 //
@@ -573,8 +573,8 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 {
     Print(kInformation, "Analysis");
 
-    Jets Particles = event.partons().Generator();
-    Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
+    analysis::Jets Particles = event.partons().Generator();
+    analysis::Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Tops.size() != 2) {
         Print(kError, "Not enough top quarks", Tops.size());
         return 0;
@@ -583,11 +583,11 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
         if (Tops.at(1).pt() < PreCut()) return 0;
     }
 
-    if (event.hadrons().GetMissingEt().pt() < MissingEt()) return 0;
-    Jets Leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
+    if (event.hadrons().MissingEt().pt() < MissingEt()) return 0;
+    analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
     if (Leptons.empty()) return 0;
     if (Leptons.front().pt() < LeptonPt()) return 0;
-    Jets jets = event.hadrons().GetJets();
+    analysis::Jets jets = event.hadrons().Jets();
     if (jets.size() < 4) return 0;
 
 
@@ -657,7 +657,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 
 // bool heavyhiggs::AnalysisNeutral::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get Bottom Tag", Tag);
+//     Print(kDebug, "Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
 //     if (Bottoms.empty()) return 0;
 //     for (const auto & Bottom : Bottoms) {
@@ -669,7 +669,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get Bottom Reader", Tag);
+//     Print(kDebug, "Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
@@ -696,7 +696,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetJetPairTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get JetPair Tag", Tag);
+//     Print(kDebug, "JetPair Tag", Tag);
 //     std::vector<JetPairBranch> JetPairs = jet_pair_tagger.GetBranches(event, Tag);
 //     if (JetPairs.empty()) return 0;
 //     for (const auto & JetPair : JetPairs) {
@@ -709,7 +709,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetJetPairReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get JetPair Reader", Tag);
+//     Print(kDebug, "JetPair Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     std::vector<analysis::Doublet> doublets = jet_pair_tagger.GetBdt(jets, JetPairReader);
@@ -737,7 +737,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetWSemiTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get W Semi Tag", Tag);
+//     Print(kDebug, "W Semi Tag", Tag);
 //     std::vector<HWSemiBranch> WSemis = w_semi_tagger.GetBranches(event, Tag);
 //     if (WSemis.empty()) return 0;
 //     for (const auto & WSemi : WSemis) {
@@ -749,7 +749,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetWSemiReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get W Semi Reader", Tag);
+//     Print(kDebug, "W Semi Reader", Tag);
 //
 //     Jets Leptons = event.leptons().GetLeptonJets();
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
@@ -772,7 +772,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetWTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get W Tag", Tag);
+//     Print(kDebug, "W Tag", Tag);
 //     std::vector<WHadronicBranch> Ws = w_hadronic_tagger.GetBranches(event, Tag);
 //     if (Ws.empty()) return 0;
 //     for (const auto & W : Ws) {
@@ -785,7 +785,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetWReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -807,7 +807,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetTopLeptonicTag(analysis::Event &, const analysis::Object::Tag)
 // {
-// //     Print(kInformation, "Get leptonic top", Tag);
+// //     Print(kInformation, "leptonic top", Tag);
 // //     std::vector<HTopLeptonicBranch> Tops = TopLeptonicTagger.GetBranches(event, Tag);
 // //     if (Tops.empty()) return 0;
 // //     for (const auto & Top : Tops) {
@@ -820,7 +820,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetTopLeptonicReader(analysis::Event &, const Tag)
 // {
-// //     Print(kInformation, "Get event semi", Tag);
+// //     Print(kInformation, "event semi", Tag);
 // //
 // //     Jets jets = bottom_tagger_.GetJets(event);
 // //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -846,7 +846,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetTopHadronicTag(analysis::Event &event,  Tag Tag)
 // {
-//     Print(kInformation, "Get hadronic tops", Tag);
+//     Print(kInformation, "hadronic tops", Tag);
 //     std::vector<TopHadronicBranch> Tops = top_hadronic_tagger.GetBranches(event, Tag, PreCut());
 //     if (Tops.empty()) return 0;
 //     for (const auto & Top : Tops) {
@@ -860,7 +860,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetTopHadronicReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -889,7 +889,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetTopSemiTag(analysis::Event &event, const analysis::Object::Tag Tag)
 // {
-//     Print(kInformation, "Get Tops", Tag);
+//     Print(kInformation, "Tops", Tag);
 //     std::vector<TopSemiBranch> Tops = top_semi_tagger.GetBranches(event, Tag, PreCut());
 //     if (Tops.empty()) return 0;
 //     for (const auto & Top : Tops) {
@@ -901,7 +901,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetTopSemiReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -927,7 +927,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetHeavyHiggsLeptonicTag(analysis::Event &, const Tag)
 // {
-// //     Print(kInformation, "Get Leptonic Heavy Higgs Tag", Tag);
+// //     Print(kInformation, "Leptonic Heavy Higgs Tag", Tag);
 // //     std::vector<HHeavyHiggsLeptonicBranch> Higgses = HeavyHiggsLeptonicTagger.GetBranches(event, Tag);
 // //     if (Higgses.empty()) return 0;
 // //     for (const auto & Higgs : Higgses) {
@@ -940,7 +940,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetHeavyHiggsLeptonicReader(analysis::Event &, const Tag)
 // {
-// //     Print(kInformation, "Get event semi", Tag);
+// //     Print(kInformation, "event semi", Tag);
 // //
 // //     Jets jets = bottom_tagger_.GetJets(event);
 // //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -967,7 +967,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetHeavyHiggsHadronicTag(analysis::Event &, const Tag)
 // {
-// //     Print(kInformation, "Get Hadronic HeavyHiggs Tag", Tag);
+// //     Print(kInformation, "Hadronic HeavyHiggs Tag", Tag);
 // //     std::vector<HHeavyHiggsHadronicBranch> Higgses = HeavyHiggsHadronicTagger.GetBranches(event, Tag);
 // //     if (Higgses.empty()) return 0;
 // //     for (const auto & Higgs : Higgses) {
@@ -980,7 +980,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetHeavyHiggsSemiTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get Semi HeavyHiggs Tag", Tag);
+//     Print(kInformation, "Semi HeavyHiggs Tag", Tag);
 //     std::vector<HeavyHiggsSemiBranch> Higgses = heavy_higgs_semi_tagger.GetBranches(event, Tag);
 //     if (Higgses.empty()) return 0;
 //     for (const auto & Higgs : Higgses) {
@@ -992,7 +992,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetHeavyHiggsSemiReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -1027,7 +1027,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GeteventLeptonicTag(analysis::Event &, const Tag)
 // {
-// //     Print(kInformation, "Get event leptonic", Tag);
+// //     Print(kInformation, "event leptonic", Tag);
 // //     std::vector<heavyhiggs::EventLeptonicBranch *> LeptoniceventBranches = eventLeptonicTagger.GetBranches(event, Tag);
 // //     if (LeptoniceventBranches.empty()) return 0;
 // //     for (const auto & Leptonicevent : LeptoniceventBranches) {
@@ -1041,7 +1041,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GeteventHadronicTag(analysis::Event &, const Tag)
 // {
-// //     Print(kInformation, "Get event hadronic", Tag);
+// //     Print(kInformation, "event hadronic", Tag);
 // //     std::vector<heavyhiggs::EventHadronicBranch *> Hadronicevents = eventHadronicTagger.GetBranches(event, Tag);
 // //     if (Hadronicevents.empty()) return 0;
 // //     for (const auto & Hadronicevent : Hadronicevents) {
@@ -1053,7 +1053,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GeteventLeptonicReader(analysis::Event &, const Tag)
 // {
-// //     Print(kInformation, "Get Leptonic reader", Tag);
+// //     Print(kInformation, "Leptonic reader", Tag);
 // //
 // //     Jets jets = bottom_tagger_.GetJets(event);
 // //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -1095,7 +1095,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetSignatureSemiTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get Signature semi", Tag);
+//     Print(kInformation, "Signature semi", Tag);
 //     std::vector<heavyhiggs::OctetNeutralBranch> Signatures = SignatureSemiTagger.GetBranches(event, Tag);
 //     if (Signatures.empty()) return 0;
 //     for (const auto & Signature : Signatures) {
@@ -1107,7 +1107,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GetSignatureSemiReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get Signature Semi Reader", Tag);
+//     Print(kInformation, "Signature Semi Reader", Tag);
 //
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -1143,7 +1143,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GeteventSemiTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //     std::vector<heavyhiggs::EventSemiBranch> Semievents = eventSemiTagger.GetBranches(event, Tag);
 //     if (Semievents.empty()) return 0;
 //     for (const auto & Semievent : Semievents) {
@@ -1155,7 +1155,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // bool heavyhiggs::AnalysisNeutral::GeteventSemiReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //     //must be in the beginning to get the counting right
 //
 //     Jets PreJets = bottom_tagger_.GetJets(event);

@@ -5,8 +5,7 @@
 
 # include "TMVA/Reader.h"
 
-# include "ExRootAnalysis/ExRootTreeBranch.h"
-# include "ExRootAnalysis/ExRootTreeWriter.h"
+# include "exroot/ExRootAnalysis.hh"
 
 # include "Branches.hh"
 # include "Predicate.hh"
@@ -236,7 +235,7 @@ public:
 //     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
 
     virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &) {
-        Print(kError, "Get Bdt", "should be subclassed");
+        Print(kError, "Bdt", "should be subclassed");
         return 0;
     }
 
@@ -248,21 +247,6 @@ public:
     virtual float GetBranches(analysis::Event &, Stage , const Tag) {
         Print(kError, "get branches", "Should be subclassed", "should be deleted");
         return 0;
-    }
-
-    Jets GranulatedJets(const Jets &) {
-        Print(kError, "get jets", "depreciated");
-        return Jets {};
-    }
-
-    Jets GetJets(analysis::Event &, analysis::JetTag &) {
-        Print(kError, "get jets", "depreciated");
-        return Jets {};
-    }
-
-    Jets GetJets(analysis::Event &) {
-        Print(kError, "get jets", "depreciated");
-        return Jets {};
     }
 
     Jets GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
@@ -278,7 +262,7 @@ public:
         return detector_geometry_;
     }
 
-    void SetTreeBranch(ExRootTreeWriter &tree_writer, const Stage stage) {
+    void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage) {
         tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
     }
 
@@ -325,7 +309,7 @@ protected:
         return *Branch::Class();
     }
 
-    ExRootTreeBranch &tree_branch() {
+    exroot::TreeBranch &tree_branch() {
         return *tree_branch_;
     }
 
@@ -356,7 +340,7 @@ protected:
 
 private:
 
-    ExRootTreeBranch *tree_branch_;
+    exroot::TreeBranch *tree_branch_;
 
 
     /**

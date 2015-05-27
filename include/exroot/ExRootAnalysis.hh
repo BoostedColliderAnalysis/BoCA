@@ -4,6 +4,7 @@
 # include "ExRootAnalysis/ExRootTreeWriter.h"
 # include "ExRootAnalysis/ExRootTreeReader.h"
 # include "ExRootAnalysis/ExRootTreeBranch.h"
+# include "ExRootAnalysis/ExRootProgressBar.h"
 
 namespace exroot {
 
@@ -22,5 +23,6 @@ namespace exroot {
   typedef ::ExRootTreeWriter TreeWriter;
   typedef ::ExRootTreeBranch TreeBranch;
   typedef ::ExRootTreeReader TreeReader;
+  typedef ::ExRootProgressBar ProgressBar;
 
 }

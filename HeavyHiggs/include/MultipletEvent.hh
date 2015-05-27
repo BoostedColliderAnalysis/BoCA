@@ -10,11 +10,11 @@ class GlobalObservables {
 public:
     GlobalObservables() {}
     GlobalObservables (Event &event) {
-        lepton_number_ = event.leptons().GetLeptonJets().size();
-        jet_number_ = event.hadrons().GetJets().size();
-        bottom_number_ = event.hadrons().GetBottomJets().size();
-        scalar_ht_ = event.hadrons().GetScalarHt();
-        missing_et_ = event.hadrons().GetMissingEt().pt();
+        lepton_number_ = event.leptons().leptons().size();
+        jet_number_ = event.hadrons().Jets().size();
+//         bottom_number_ = event.hadrons().BottomJets().size();
+        scalar_ht_ = event.hadrons().ScalarHt();
+        missing_et_ = event.hadrons().MissingEt().pt();
     }
     int lepton_number()const {
         return lepton_number_;

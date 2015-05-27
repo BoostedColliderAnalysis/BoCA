@@ -29,7 +29,7 @@ void analysis::Partons::NewEvent(const ClonesArrays &clones_arrays) {
     GeneratorJets.clear();
 }
 
-Vectors analysis::Partons::GetLeptonLorentzVectors()
+analysis::Vectors analysis::Partons::GetLeptonLorentzVectors()
 {
     Print(kInformation,"LeptonVector");
     GotParticles = GetParticles();
@@ -41,7 +41,7 @@ Vectors analysis::Partons::GetLeptonLorentzVectors()
     return LeptonVectors;
 }
 
-Vectors analysis::Partons::GetAntiLeptonVectors()
+analysis::Vectors analysis::Partons::GetAntiLeptonVectors()
 {
     Print(kInformation,"AntiLeptonVector");
     GotParticles = GetParticles();
@@ -53,7 +53,7 @@ Vectors analysis::Partons::GetAntiLeptonVectors()
     return AntiLeptonVectors;
 }
 
-Jets analysis::Partons::GetLeptonJets()
+analysis::Jets analysis::Partons::GetLeptonJets()
 {
     Print(kInformation,"LeptonVector");
     GotParticles = GetParticles();
@@ -65,7 +65,7 @@ Jets analysis::Partons::GetLeptonJets()
     return LeptonJets;
 }
 
-Jets analysis::Partons::GetAntiLeptonJets()
+analysis::Jets analysis::Partons::GetAntiLeptonJets()
 {
     Print(kInformation,"AntiLeptonVector");
     GotParticles = GetParticles();

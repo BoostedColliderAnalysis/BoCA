@@ -1,20 +1,14 @@
 # include "exroot/Hadrons.hh"
 
-bool analysis::exroot::Hadrons::GetJets(const analysis::Hadrons::JetDetail jet_detail)
+analysis::Jets analysis::exroot::Hadrons::Jets()
 {
-    Print(kInformation, "Get Jet", clones_arrays_->JetSum(), jet_detail);
-    for (const int JetNumber : Range(clones_arrays_->JetSum())) {
-        Print(kDetailed, "Jet Number", JetNumber);
-        TRootJet &jet = static_cast<TRootJet &>(clones_arrays().Jet(JetNumber));
-        jets_.emplace_back(PseudoJet(jet));
-        if (jet.BTag > 0) {
-            Print(kDetailed, "Has B Tag");
-            BottomLorentzVectors.emplace_back(LorentzVector(jet));
-            BottomJets.emplace_back(PseudoJet(jet));
-        } else {
-            JetLorentzVectors.emplace_back(LorentzVector(jet));
-        }
+    Print(kInformation, "Jets", clones_arrays().JetSum());
+    analysis::Jets jets;
+    for (const int JetNumber : Range(clones_arrays().JetSum())) {
+        ::exroot::Jet &jet = static_cast<::exroot::Jet &>(clones_arrays().Jet(JetNumber));
+        fastjet::PseudoJet pseudo_jet = PseudoJet(jet);
+        pseudo_jet.set_user_info(new JetInfo(bool(jet.BTag)));
+        jets.emplace_back(pseudo_jet);
     }
-    Print(kDebug, "Untagged jets", JetLorentzVectors.size());
-    return 1;
+    return jets;
 }

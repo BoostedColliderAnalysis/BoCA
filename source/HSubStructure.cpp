@@ -63,7 +63,7 @@ bool analysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     return 1;
 }
 
-Vectors analysis::HSubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
+analysis::Vectors analysis::HSubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
 {
     if (CandidateJet.constituents().empty()) {
         Print(kNotification, "Not enough constituents", CandidateJet.constituents().size());

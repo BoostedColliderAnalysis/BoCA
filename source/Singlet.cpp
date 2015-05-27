@@ -8,7 +8,7 @@ analysis::Singlet::Singlet(const fastjet::PseudoJet &singlet)
 
 float analysis::Singlet::GetDeltaR(const fastjet::PseudoJet &jet) const
 {
-  Print(kInformation, "Get Delta R");
+  Print(kInformation, "Delta R");
   if (!jet.has_constituents()) return 0;
   float delta_r = 0;
   for (const auto & constituent : jet.constituents()) {
@@ -22,7 +22,7 @@ float analysis::Singlet::GetDeltaR(const fastjet::PseudoJet &jet) const
 
 float analysis::Singlet::GetSpread(const fastjet::PseudoJet &jet) const
 {
-  Print(kInformation, "Get spread");
+  Print(kInformation, "spread");
   if (!jet.has_constituents()) return 0;
   float delta_r = GetDeltaR(jet);
   if (delta_r == 0) return 0;

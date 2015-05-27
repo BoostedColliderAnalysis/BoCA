@@ -196,13 +196,13 @@ private:
     }
 
     analysis::File BackgroundFile(const ProcessType Process, const int) const {
-        Strings FileNames;
+      analysis::Strings FileNames;
         FileNames.emplace_back(NameString(Process));
         return analysis::File(FileNames , BackgroundCrosssection(Process));
     }
 
     analysis::File BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
-        Strings FileNames;
+      analysis::Strings FileNames;
         FileNames.emplace_back(NameString(Process, ProductionChannel));
         return analysis::File(FileNames , BackgroundCrosssection(Process));
     }
@@ -232,7 +232,7 @@ private:
     analysis::Reader BottomReader;
     analysis::Reader JetPairReader;
 
-//     void NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
+//     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
 

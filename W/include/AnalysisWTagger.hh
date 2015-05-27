@@ -114,7 +114,7 @@ private:
     }
 
     analysis::File BackgroundFile(const Process process, const int file_sum) const {
-        Strings FileNames;
+      analysis::Strings FileNames;
         for (int file_number = 0; file_number < file_sum; ++file_number) {
             FileNames.emplace_back(FileName(process));
         }

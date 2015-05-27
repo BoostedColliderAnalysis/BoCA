@@ -107,15 +107,15 @@ analysis::HTopLeptonBranch HTopLeptonTagger::GetBranch(const analysis::Doublet& 
 
 std::vector< analysis::HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
 {
-    Print(kInformation, "Get Top Tags");
+    Print(kInformation, "Top Tags");
     const int TopNumber = 2;
     eventNumber += TopNumber;
 
-    Jets jets = GetJets(event);
+    analysis::Jets jets = event.hadrons().Jets();
     Print(kInformation, "Jet Number", jets.size());
     //     jets = fastjet::sorted_by_pt(bottom_tagger_.GetJetBdt(jets, BottomReader)); // TODO reenable this
 
-    Jets Leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
+    analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
     Print(kInformation, "Lepton Number", Leptons.size());
 //     switch (Tag) {
 //     case  kSignal:
@@ -147,7 +147,7 @@ std::vector< analysis::HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis
     std::vector<analysis::HTopLeptonBranch> TopLeptonBranches;
     if (doublets.empty()) return TopLeptonBranches;
 
-    Jets TopParticles = event.partons().Generator();
+    analysis::Jets TopParticles = event.partons().Generator();
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     if (TopParticles.size() != TopNumber) {
         if(tag == kSignal) Print(kError, "Top Quarks", TopParticles.size());
@@ -187,10 +187,10 @@ std::vector< analysis::HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis
 
 
 
-std::vector<analysis::Doublet>  HTopLeptonTagger::GetBdt(const Jets &jets, const Jets &Leptons, const analysis::Reader &Reader)
+std::vector<analysis::Doublet>  HTopLeptonTagger::GetBdt(const analysis::Jets &jets, const analysis::Jets &Leptons, const analysis::Reader &Reader)
 {
 
-    Print(kInformation, "Get Bdt");
+    Print(kInformation, "Bdt");
 
     std::vector<analysis::Doublet> doublets;
     for (const auto & Jet : jets)  {
@@ -222,7 +222,7 @@ std::vector<analysis::Doublet>  HTopLeptonTagger::GetBdt(const Jets &jets, const
 
 float HTopLeptonTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
-    Print(kInformation, "Get Delta R");
+    Print(kInformation, "Delta R");
 
     if (!Jet.has_constituents()) {
         return 0;
@@ -244,7 +244,7 @@ float HTopLeptonTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 
 float HTopLeptonTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
-    Print(kInformation, "Get Centrality");
+    Print(kInformation, "Centrality");
     if (!Jet.has_constituents()) {
         return 0;
     }

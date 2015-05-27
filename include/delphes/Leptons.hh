@@ -18,40 +18,24 @@ class Leptons : public analysis::Leptons
 
 public:
 
-
-    /**
-     * @brief constructor
-     *
-     */
     Leptons();
 
-private:
-
-    /**
-     * @brief Find the hardest of the light leptons
-     *
-     * @param ClonesArray ...
-     * @return void
-     */
-    bool GetElectrons();
-
-    bool GetElectrons(JetDetail jet_detail);
-
-    /**
-     * @brief Find the hardest of the light leptons
-     *
-     * @param ClonesArray ...
-     * @return void
-     */
-    bool GetMuons();
-
-    bool GetMuons(JetDetail jet_detail);
-
-//   Jets GetLeptons(Hjet_detail jet_detail);
+protected:
 
     inline std::string NameSpaceName() const {
         return "delphes";
     }
+
+private:
+
+  analysis::Jets Electrons();
+
+    analysis::Jets Electrons(JetDetail jet_detail);
+
+    analysis::Jets Muons();
+
+    analysis::Jets Muons(JetDetail jet_detail);
+
 
 };
 

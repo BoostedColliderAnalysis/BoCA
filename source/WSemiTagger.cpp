@@ -32,12 +32,12 @@ void analysis::WSemiTagger::DefineVariables()
 
 int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
-    Print(kInformation, "Get Top Tags");
+    Print(kInformation, "Top Tags");
 
-    Jets leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
+    Jets leptons = fastjet::sorted_by_pt(event.leptons().leptons());
     if (leptons.size() > 1) leptons.erase(leptons.begin() + 1, leptons.end());
 
-    const fastjet::PseudoJet missing_et = event.hadrons().GetMissingEt();
+    const fastjet::PseudoJet missing_et = event.hadrons().MissingEt();
 
     Jets Particles = event.partons().Generator();
     int w_semi_id = WSemiId(event);
@@ -65,13 +65,13 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
 
 std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get Triple Bdt");
-    Jets leptons = fastjet::sorted_by_pt(event.leptons().GetLeptonJets());
+    Print(kInformation, "Triple Bdt");
+    Jets leptons = fastjet::sorted_by_pt(event.leptons().leptons());
     if (leptons.size() > 1) leptons.erase(leptons.begin() + 1, leptons.end());
 
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
-        Doublet Predoublet(lepton, event.hadrons().GetMissingEt());
+        Doublet Predoublet(lepton, event.hadrons().MissingEt());
         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
         for (auto & Postdoublet : Postdoublets) {
             if (std::abs(Postdoublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
@@ -89,7 +89,7 @@ std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Even
 std::vector<analysis::Doublet> analysis::WSemiTagger::GetNeutrinos(const Doublet &doublet)const
 {
 
-    Print(kInformation, "Get Neutrinos");
+    Print(kInformation, "Neutrinos");
     const fastjet::PseudoJet lepton = doublet.Singlet1();
     const fastjet::PseudoJet missing_et = doublet.Singlet2();
 
@@ -161,7 +161,7 @@ struct FindError {
     float Error;
 };
 
-Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
+analysis::Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
 {
     Jets WKids = event.partons().Generator();
     WKids = RemoveIfWrongAbsMother(WKids, WId);

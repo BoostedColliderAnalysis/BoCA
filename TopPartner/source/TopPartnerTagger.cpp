@@ -30,7 +30,7 @@ void toppartner::TopPartnerTagger::DefineVariables()
 
 int toppartner::TopPartnerTagger::Train(analysis::Event &event,  analysis::PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Get Higgs Tags");
+    Print(kInformation, "Higgs Tags");
     std::vector< analysis::Triplet> triplets = top_reader_.Multiplets<analysis::TopHadronicTagger>(event);
     std::vector< analysis::Doublet> doublets = z_hadronic_reader_.Multiplets<analysis::ZHadronicTagger>(event);
     std::vector< analysis::Quintet > quintets;

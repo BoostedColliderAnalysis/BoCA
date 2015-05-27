@@ -12,9 +12,9 @@ analysis::HDiscriminator::~HDiscriminator()
     Print(kNotification, "Destructor");
 }
 
-Jets analysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
+analysis::Jets analysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
 {
-    Print(kInformation, "Get Tagged Candidate Jets", EFlowJets.size());
+    Print(kInformation, "Tagged Candidate Jets", EFlowJets.size());
     const Jets jets;
     if (EFlowJets.empty()) {
         Print(kInformation, "No EFlow Jets");
@@ -33,9 +33,9 @@ Jets analysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const flo
 }
 
 
-Jets analysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlowJets, const float ScalarHt)
+analysis::Jets analysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlowJets, const float ScalarHt)
 {
-    Print(kInformation, "Get Tagged Candidate Jets", EFlowJets.size());
+    Print(kInformation, "Tagged Candidate Jets", EFlowJets.size());
     const Jets jets;
     if (EFlowJets.empty()) {
         Print(kInformation, "No EFlow Jets");

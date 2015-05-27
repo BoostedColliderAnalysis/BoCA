@@ -37,7 +37,7 @@ void analysis::Factory::AddVariables()
 
 int analysis::Factory::GetTrees()
 {
-    Print(kNotification , "Get Trees");
+    Print(kNotification , "Trees");
     int signal_number = 0;
     for (const auto & signal_name : tagger().signal_file_names()) {
         Print(kNotification , "Signal", signal_name);
@@ -81,7 +81,7 @@ int analysis::Factory::AddTree(TFile &file, const std::string &tree_name, const 
 
     Print(kError, "Branch Name", tagger().branch_name().c_str());
     tree.GetBranch(tagger().branch_name().c_str());
-    ExRootTreeReader &tree_reader = *new ExRootTreeReader(&tree); // FIXME nasty hack with memeory leak; necessary because the tree reader destructor closes the file which makes it invisible for tmva; reimplment in a cleaner way!!
+    exroot::TreeReader &tree_reader = *new exroot::TreeReader(&tree); // FIXME nasty hack with memeory leak; necessary because the tree reader destructor closes the file which makes it invisible for tmva; reimplment in a cleaner way!!
 
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(0);

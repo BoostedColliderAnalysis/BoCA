@@ -8,7 +8,7 @@ analysis::exroot::Partons::Partons()
 
 bool analysis::exroot::Partons::GetParticles()
 {
-    Print(kInformation, "Get Particles", clones_arrays().ParticleSum());
+    Print(kInformation, "Particles", clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         TRootLHEFParticle &particle = static_cast<TRootLHEFParticle &>(clones_arrays().Particle(ParticleNumber));
         int ParticleStatus = particle.Status;

@@ -41,7 +41,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<analysis::MultipletEvent<analysis::Sextet>> GetHeavyHiggsevents(Jets &jets);
+    std::vector<analysis::MultipletEvent<analysis::Sextet>> GetHeavyHiggsevents(analysis::Jets &jets);
 
     EventFusionBranch branch_;
 

@@ -5,7 +5,7 @@
 
 analysis::TopHadronicTagger::TopHadronicTagger()
 {
-    DebugLevel = analysis::Object::kDebug;
+    debug_level_ = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopHadronic");
     top_mass_window_ = (Mass(TopId) - Mass(WId)) / 2;

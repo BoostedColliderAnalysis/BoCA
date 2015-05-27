@@ -20,7 +20,7 @@ public:
 
     std::vector<analysis::HTopLeptonBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
 
-    std::vector<analysis::Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const analysis::Reader &Reader);
+    std::vector<analysis::Doublet> GetBdt(const analysis::Jets &jets, const analysis::Jets &Leptons, const analysis::Reader &Reader);
 
     analysis::HTopLeptonBranch GetBranch(const analysis::Doublet &doublet) const;
 

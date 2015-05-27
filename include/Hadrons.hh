@@ -31,194 +31,17 @@ public:
      */
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    void Setjet_tag(JetTag &jet_tag) {
-        set_jet_tag(jet_tag);
-    }
+    virtual analysis::Jets Jets() = 0;
 
-    Jets GetJets() {
-        NewEvent(*clones_arrays_);
-//       if (!GotJets)
-        GotJets = GetJets(kPlain);
-        return jets_;
-    };
+    virtual float ScalarHt();
 
-    Jets GetStructuredJets() {
-        NewEvent(*clones_arrays_);
-//         if (!GotJets)
-        GotJets = GetJets(kStructure);
-        return jets_;
-    };
-
-    Jets GetTaggedJets() {
-        NewEvent(*clones_arrays_);
-//         if (!GotJets)
-        GotJets = GetJets(kTagging);
-        return jets_;
-    };
-
-    Jets GetTaggedJets(JetTag &jet_tag) {
-        set_jet_tag(jet_tag);
-        NewEvent(*clones_arrays_);
-//         if (!GotJets)
-        GotJets = GetJets(kTagging);
-        return jets_;
-    };
-
-    Jets GetStructuredTaggedJets(JetTag &jet_tag) {
-        set_jet_tag(jet_tag);
-        NewEvent(*clones_arrays_);
-//       if (!GotJets)
-        GotJets = GetJets(kTaggingStructure);
-        return jets_;
-    };
-
-    Jets GetBottomJets() {
-        //         if (!GotJets)
-        NewEvent(*clones_arrays_);
-        GotJets = GetJets(kPlain);
-        return BottomJets;
-    };
-
-    Jets GetEFlowJets() {
-        if (!GotEFlow)
-            GotEFlow = GetEFlow(kPlain);
-        return EFlowJets;
-    };
-
-    Jets GetIsolatedEFlowJets() {
-        if (!GotEFlow) GotEFlow = GetEFlow(kIsolation);
-        return EFlowJets;
-    };
-
-    Jets GetTaggedEFlowJets() {
-        if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
-        return EFlowJets;
-    };
-
-    Jets GetTaggedEFlowJets(JetTag &jet_tag) {
-        set_jet_tag(jet_tag);
-        if (!GotEFlow) GotEFlow = GetEFlow(kTagging);
-        return EFlowJets;
-    };
-
-    Jets GetStructuredTaggedEFlowJets(JetTag &jet_tag) {
-        set_jet_tag(jet_tag);
-        if (!GotEFlow) GotEFlow = GetEFlow(kTaggingStructure);
-        return EFlowJets;
-    };
-
-    Jets GetStructuredEFlowJets() {
-        Print(kInformation, "Get structured eflow", kStructure);
-        if (!GotEFlow) GotEFlow = GetEFlow(kStructure);
-        return EFlowJets;
-    };
-
-    Jets GetIsolatedTaggedEFlowJets() {
-        if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
-        return EFlowJets;
-    };
-
-    Jets GetIsolatedTaggedEFlowJets(JetTag &jet_tag) {
-        set_jet_tag(jet_tag);
-        if (!GotEFlow) GotEFlow = GetEFlow(kTaggingIsolation);
-        return EFlowJets;
-    };
-
-    virtual float GetScalarHt();
-
-    virtual fastjet::PseudoJet GetMissingEt();
-
-    virtual Jets ClusteredJets() {
-        Print(kError, "Get Sub Jets", "should be subclassed");
-        return GetJets();
-    }
-
-    virtual Jets GetSubJets(const fastjet::PseudoJet &, const int) {
-        Print(kError, "Get Sub Jets", "should be subclassed");
-        return GetJets();
-    }
-
+    virtual fastjet::PseudoJet MissingEt();
 
 protected:
 
-    /**
-     * @brief AnalyseJet calls AnalyseEFlow
-     *
-     * @return void
-     */
-    virtual bool GetJets(const JetDetail jet_detail);
-
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
-    virtual bool GetEFlow(const JetDetail jet_detail);
-
-    /**
-     * @brief Get Gen Jet
-     *
-     * @param  ...
-     * @return void
-     */
-    virtual void GetGenJet();
-
-    bool GotEFlow;
-
-    bool GotJets;
-
-    /**
-     * @brief std::vector of Jet Lorentz Vectors
-     *
-     */
-    Vectors JetLorentzVectors;
-
-    /**
-     * @brief Tau Lorentz Vector Vector
-     *
-     */
-    Vectors TauLorentzVectors;
-
-    /**
-     * @brief Anti Tau Lorentz Vector Vector
-     *
-     */
-    Vectors AntiTauLorentzVectors;
-
-    /**
-     * @brief Vector of EFlow JetCandidates
-     *
-     */
-    Jets EFlowJets;
-
-    /**
-     * @brief Vector of generator level Charm Pseudo Jets
-     *
-     */
-    Jets jets_;
-
-    /**
-     * @brief Vector of generator level Bottom Pseudo Jets
-     *
-     */
-    Jets BottomJets;
-
-    /**
-     * @brief Vector of generator level Charm Pseudo Jets
-     *
-     */
-    Jets CharmJets;
-
-    /**
-     * @brief Vector of EFlow JetCandidates
-     *
-     */
-    Jets GenJets;
-
-    /**
-     * @brief std::vector of Bottom Lorentz Vectors with their pull
-     *
-     */
-    Vectors BottomLorentzVectors;
+    DetectorGeometry &detector_geometry() {
+        return detector_geometry_;
+    }
 
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2, const float delta_r_isolation_max) const {
@@ -229,8 +52,7 @@ protected:
 
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2) const {
-        //         const float delta_r_isolation_max = 0.01; // TODO decide on best value // This is quiet large
-        const float delta_r_isolation_max = 0; // TODO decide on best value // This is quiet large
+        const float delta_r_isolation_max = 0; // TODO decide on best value
         return CheckIsolation(particle_1, particle_2, delta_r_isolation_max);
     }
 
@@ -239,6 +61,8 @@ protected:
     };
 
 private:
+
+    DetectorGeometry detector_geometry_;
 
 };
 

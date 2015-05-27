@@ -27,9 +27,9 @@ public:
     */
     ~HMva();
 
-//     ReaderStruct CutLoop(const ExRootTreeReader * const, ReaderStruct&);
+//     ReaderStruct CutLoop(const exroot::TreeReader * const, ReaderStruct&);
 
-    void ApplyBdt(const ExRootTreeReader * const, const std::string, const TFile * const, const TMVA::Reader &);
+    void ApplyBdt(const exroot::TreeReader * const, const std::string, const TFile * const, const TMVA::Reader &);
 
     float GetBdt(TObject *, const TMVA::Reader &){ return 0;};
 

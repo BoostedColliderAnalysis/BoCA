@@ -93,14 +93,14 @@ void analysis::HChargedHiggsLeptonicTagger::DefineVariables()
 
 std::vector< analysis::HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
-    Print(kInformation, "Get Higgs Tags");
+    Print(kInformation, "Higgs Tags");
 
-    jet_tag.HeavyParticles = {TopId, ChargedHiggsId};
-    Jets jets = event.hadrons().GetStructuredTaggedJets(jet_tag);
+//     jet_tag.HeavyParticles = {TopId, ChargedHiggsId};
+    Jets jets = event.hadrons().Jets();
 
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
+    Jets Leptons = event.leptons().leptons();
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
@@ -142,7 +142,7 @@ std::vector< analysis::HChargedHiggsLeptonicBranch> analysis::HChargedHiggsLepto
 
 analysis::Object::Tag analysis::HChargedHiggsLeptonicTagger::GetTag(const Triplet &triplet)
 {
-    Print(kInformation, "Get Triple Tag");
+    Print(kInformation, "Triple Tag");
 
     if (triplet.doublet().Tag() == kBackground) return kBackground;
 //     if (quartet.Getdoublet2().Tag() == HBackground) return HBackground;
@@ -153,7 +153,7 @@ analysis::Object::Tag analysis::HChargedHiggsLeptonicTagger::GetTag(const Triple
 
 std::vector<analysis::Triplet>  analysis::HChargedHiggsLeptonicTagger::GetBdt(const std::vector<Doublet> &doublets,const Jets &jets, const Reader &Reader)
 {
-    Print(kInformation, "Get Bdt");
+    Print(kInformation, "Bdt");
 
     std::vector<Triplet> triplets;
     for (const auto & doublet : doublets) {

@@ -35,7 +35,7 @@ void analysis::HeavyHiggsSemiTagger::DefineVariables()
 
 int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Get Higgs Tags");
+    Print(kInformation, "Higgs Tags");
 
     float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;

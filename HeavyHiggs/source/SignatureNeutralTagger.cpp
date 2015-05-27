@@ -40,14 +40,14 @@ void heavyhiggs::SignatureNeutralTagger::DefineVariables()
 
 int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag tag)
 {
-    Print(kInformation, "Get event Tags");
+    Print(kInformation, "event Tags");
     float Mass = event.mass();
     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
-    Jets HiggsParticles = event.partons().Generator();
-    Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
-    Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
+    analysis::Jets HiggsParticles = event.partons().Generator();
+    analysis::Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
+    analysis::Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
@@ -61,7 +61,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
     std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
 
     std::vector<analysis::Doublet> Finaldoublets;
-    Jets Particles = event.partons().Generator();
+    analysis::Jets Particles = event.partons().Generator();
     if (tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
@@ -109,7 +109,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
 
 std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get event Tags");
+    Print(kInformation, "event Tags");
 
     std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);

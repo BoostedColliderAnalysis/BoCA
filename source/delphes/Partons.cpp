@@ -9,7 +9,7 @@ analysis::delphes::Partons::Partons()
 
 bool analysis::delphes::Partons::GetParticles()
 {
-    Print(kInformation, "Get Particles", clones_arrays().ParticleSum());
+    Print(kInformation, "Particles", clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(ParticleNumber));
         const int particle_id = particle.PID;

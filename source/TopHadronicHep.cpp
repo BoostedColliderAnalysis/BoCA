@@ -6,7 +6,7 @@ analysis::TopHadronicHep::TopHadronicHep()
     Print(kNotification, "Constructor");
 }
 
-Jets analysis::TopHadronicHep::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
+analysis::Jets analysis::TopHadronicHep::GetTops(std::vector< fastjet::PseudoJet > &EFlowJets)
 {
     Print(kInformation, "Tagging Top");
 //     float CellRap = 0.1;
@@ -54,7 +54,7 @@ Jets analysis::TopHadronicHep::GetTops(std::vector< fastjet::PseudoJet > &EFlowJ
     return TopJets;
 }
 
-Jets analysis::TopHadronicHep::GetGranulatedJets(Jets &EFlowJets)
+analysis::Jets analysis::TopHadronicHep::GetGranulatedJets(Jets &EFlowJets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
     const float CellDeltaRap = 0.1;

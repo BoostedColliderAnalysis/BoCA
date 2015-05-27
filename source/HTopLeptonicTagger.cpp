@@ -77,14 +77,14 @@ analysis::HTopLeptonicBranch analysis::HTopLeptonicTagger::GetBranch(const analy
 std::vector<analysis::HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
 
-    Print(kInformation, "Get Top Tags");
+    Print(kInformation, "Top Tags");
 
-    jet_tag.HeavyParticles = {TopId};
-    Jets jets = event.hadrons().GetStructuredTaggedJets(jet_tag);
+//     jet_tag.HeavyParticles = {TopId};
+    Jets jets = event.hadrons().Jets();
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
     Print(kInformation, "Jet Number", jets.size());
 
-    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
+    Jets Leptons = event.leptons().leptons();
     Print(kInformation, "Lepton Number", Leptons.size());
 
     std::vector<Doublet> doublets;
@@ -114,7 +114,7 @@ std::vector<analysis::HTopLeptonicBranch> analysis::HTopLeptonicTagger::GetBranc
 
 analysis::Object::Tag analysis::HTopLeptonicTagger::GetTag(const Doublet &doublet)
 {
-    Print(kInformation, "Get Triple Tag", Name(doublet.Singlet1().user_index()), Name(doublet.Singlet2().user_index()));
+    Print(kInformation, "Triple Tag", Name(doublet.Singlet1().user_index()), Name(doublet.Singlet2().user_index()));
 
     JetInfo Bjet_info = doublet.Singlet1().user_info<JetInfo>();
     Bjet_info.ExtractFraction(BottomId);
@@ -131,7 +131,7 @@ analysis::Object::Tag analysis::HTopLeptonicTagger::GetTag(const Doublet &double
 std::vector<analysis::Doublet>  analysis::HTopLeptonicTagger::GetBdt(const Jets &jets, Jets &Leptons, const analysis::Reader & Reader)
 {
 
-    Print(kInformation, "Get Bdt");
+    Print(kInformation, "Bdt");
     std::vector<Doublet> doublets;
     for (const auto & Lepton : Leptons) {
         for (const auto & Jet : jets) {

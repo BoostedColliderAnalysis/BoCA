@@ -57,19 +57,19 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *CandidateBranch;
+    exroot::TreeBranch *CandidateBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *LeptonBranch;
+    exroot::TreeBranch *LeptonBranch;
 
     /**
      * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *constituentBranch;
+    exroot::TreeBranch *constituentBranch;
 
 private:
 
@@ -95,7 +95,7 @@ private:
      * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    Jets GetLeptonJets(analysis::Event &event);
+    analysis::Jets GetLeptonJets(analysis::Event &event);
 
     /**
      * @brief Lepton event counter
@@ -122,9 +122,9 @@ private:
      *
      * @return void
      */
-    void NewBranches(ExRootTreeWriter *NewTreeWriter);
+    void NewBranches(exroot::TreeWriter *NewTreeWriter);
 
-    inline Strings GetStudyNames() const;
+    inline analysis::Strings GetStudyNames() const;
 
     virtual inline std::string ClassName() const {
 

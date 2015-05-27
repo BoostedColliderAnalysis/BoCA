@@ -116,21 +116,21 @@ struct SortsextetByMass {
 
 std::vector< analysis::HHeavyHiggsLeptonicBranch> analysis::HHeavyHiggsLeptonicTagger::GetBranches(Event &event, const Object::Tag Tag)
 {
-  Print(kInformation, "Get Higgs Tags");
+  Print(kInformation, "Higgs Tags");
 
   float Mass = event.mass();
 
-    jet_tag.HeavyParticles = {TopId, HeavyHiggsId,CPOddHiggsId};
-    Jets jets = event.hadrons().GetStructuredTaggedJets(jet_tag);
+//     jet_tag.HeavyParticles = {TopId, HeavyHiggsId,CPOddHiggsId};
+    Jets jets = event.hadrons().Jets();
 
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 
-    Jets Leptons = event.leptons().GetTaggedJets(jet_tag);
+    Jets Leptons = event.leptons().leptons();
     Print(kInformation, "Numeber of Jets", jets.size(), Leptons.size());
 
     std::vector<Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
 
-    fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
+    fastjet::PseudoJet MissingEt = event.hadrons().MissingEt();
     Jets Neutrinos = event.partons().GetNeutrinos();
 
     Print(kInformation, "Number of doublets", doublets.size());
@@ -172,7 +172,7 @@ std::vector< analysis::HHeavyHiggsLeptonicBranch> analysis::HHeavyHiggsLeptonicT
 
 analysis::Object::Tag analysis::HHeavyHiggsLeptonicTagger::GetTag(const Quartet22 &quartet)
 {
-    Print(kInformation, "Get quartet Tag");
+    Print(kInformation, "quartet Tag");
 
     JetInfo jet_infoB1 = quartet.Getdoublet1().Singlet1().user_info<JetInfo>();
     jet_infoB1.ExtractFraction(BottomId);
@@ -195,7 +195,7 @@ analysis::Object::Tag analysis::HHeavyHiggsLeptonicTagger::GetTag(const Quartet2
 
 std::vector<analysis::Sextet>  analysis::HHeavyHiggsLeptonicTagger::GetBdt(const std::vector<Doublet> &doublets , const fastjet::PseudoJet &MissingEt, const Reader &Reader)
 {
-    Print(kInformation, "Get Bdt");
+    Print(kInformation, "Bdt");
 
     std::vector<Sextet> sextets;
     for (const auto & doublet1 : doublets) {
@@ -228,7 +228,7 @@ void analysis::HHeavyHiggsLeptonicTagger::SetMomentum(double Momentum[4], const 
 
 std::vector<analysis::Sextet> analysis::HHeavyHiggsLeptonicTagger::Getsextets(const Quartet22 &quartet, const fastjet::PseudoJet &MissingEt)
 {
-    Print(kInformation, "Get Triple Pairs");
+    Print(kInformation, "Triple Pairs");
 
     SetMomentum(Structure.p3, quartet.Getdoublet1().Singlet2());
     SetMomentum(Structure.p4, quartet.Getdoublet2().Singlet2());
@@ -282,7 +282,7 @@ std::vector<analysis::Sextet> analysis::HHeavyHiggsLeptonicTagger::Getsextets(co
 
 std::vector<analysis::Sextet> analysis::HHeavyHiggsLeptonicTagger::Getsextet(const Quartet22 &quartet, const fastjet::PseudoJet &MissingEt, const Jets &Neutrinos, const Tag Tag)
 {
-    Print(kInformation, "Get Triple Pair");
+    Print(kInformation, "Triple Pair");
 
     std::vector<Sextet> sextets = Getsextets(quartet, MissingEt);
     Print(kDebug, "Number Solutions", sextets.size());

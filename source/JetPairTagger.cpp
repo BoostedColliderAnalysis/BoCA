@@ -54,7 +54,7 @@ void analysis::JetPairTagger::DefineVariables()
 
 int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Get Jet Pair Tags");
+    Print(kInformation, "Jet Pair Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kDebug, "Number of Jets", jets.size());
 

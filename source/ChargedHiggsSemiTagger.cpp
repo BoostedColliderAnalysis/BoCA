@@ -29,7 +29,7 @@ void analysis::ChargedHiggsSemiTagger::DefineVariables()
 
 int analysis::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag tag)
 {
-    Print(kInformation, "Get Higgs Tags");
+    Print(kInformation, "Higgs Tags");
 
     float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;

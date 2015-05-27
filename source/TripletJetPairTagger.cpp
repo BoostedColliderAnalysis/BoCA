@@ -48,7 +48,7 @@ struct SortquartetByDeltaRap {
 
 int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
 {
-  Print(kInformation, "Get W Tags");
+  Print(kInformation, "W Tags");
   Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
 //     Jets jets = GetJets(event);

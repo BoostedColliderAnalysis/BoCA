@@ -55,71 +55,71 @@ public:
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *LeptonBranch;
+    exroot::TreeBranch *LeptonBranch;
 
     /**
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *eventBranch;
+    exroot::TreeBranch *eventBranch;
 
     /**
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *particle_branch;
-    ExRootTreeBranch *ParticleconstituentBranch;
+    exroot::TreeBranch *particle_branch;
+    exroot::TreeBranch *ParticleconstituentBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *TrimmedBranch;
-    ExRootTreeBranch *TrimmedconstituentBranch;
+    exroot::TreeBranch *TrimmedBranch;
+    exroot::TreeBranch *TrimmedconstituentBranch;
 
     /**
      * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *AktFatJetBranch;
-    ExRootTreeBranch *AktFatJetconstituentBranch;
+    exroot::TreeBranch *AktFatJetBranch;
+    exroot::TreeBranch *AktFatJetconstituentBranch;
 
     /**
      * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *AktMassDropBranch;
-    ExRootTreeBranch *AktMassDropconstituentBranch;
+    exroot::TreeBranch *AktMassDropBranch;
+    exroot::TreeBranch *AktMassDropconstituentBranch;
 
-    ExRootTreeBranch *AktPrunerBranch;
-    ExRootTreeBranch *AktPrunerconstituentBranch;
-
-    /**
-     * @brief Branch to write constituent info into
-     *
-     */
-    ExRootTreeBranch *CAFatJetBranch;
-    ExRootTreeBranch *CAFatJetconstituentBranch;
+    exroot::TreeBranch *AktPrunerBranch;
+    exroot::TreeBranch *AktPrunerconstituentBranch;
 
     /**
      * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *CAMassDropBranch;
-    ExRootTreeBranch *CAMassDropconstituentBranch;
+    exroot::TreeBranch *CAFatJetBranch;
+    exroot::TreeBranch *CAFatJetconstituentBranch;
 
-    ExRootTreeBranch *CAPrunerBranch;
-    ExRootTreeBranch *CAPrunerconstituentBranch;
+    /**
+     * @brief Branch to write constituent info into
+     *
+     */
+    exroot::TreeBranch *CAMassDropBranch;
+    exroot::TreeBranch *CAMassDropconstituentBranch;
 
-    ExRootTreeBranch *CASJTBranch;
-    ExRootTreeBranch *CASJTconstituentBranch;
+    exroot::TreeBranch *CAPrunerBranch;
+    exroot::TreeBranch *CAPrunerconstituentBranch;
+
+    exroot::TreeBranch *CASJTBranch;
+    exroot::TreeBranch *CASJTconstituentBranch;
 
 
     /**
      * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *constituentBranch;
+    exroot::TreeBranch *constituentBranch;
 
 private:
 
@@ -129,9 +129,9 @@ private:
     analysis::HSubStructure SubStructure;
 
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const Jets &, const float DeltaR);
+    bool FillTree(exroot::TreeBranch *const, exroot::TreeBranch *const, const fastjet::PseudoJet &Jet, const analysis::Jets &, const float DeltaR);
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const Jets &);
+    bool FillTree(exroot::TreeBranch *const, exroot::TreeBranch *const, const fastjet::PseudoJet &Jet, const analysis::Jets &);
 
     float GetDeltaR(const fastjet::PseudoJet &Jet);
 
@@ -141,7 +141,7 @@ private:
      * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    Jets Leptons(analysis::Event &event);
+    analysis::Jets Leptons(analysis::Event &event);
 
     /**
      * @brief Lepton calculations
@@ -178,11 +178,11 @@ private:
      *
      * @return void
      */
-    void NewBranches(ExRootTreeWriter *TreeWriter);
+    void NewBranches(exroot::TreeWriter *TreeWriter);
 
     void CloseFile();
 
-    inline Strings GetStudyNames() const;
+    inline analysis::Strings GetStudyNames() const;
 
     virtual inline std::string ClassName() const {
 

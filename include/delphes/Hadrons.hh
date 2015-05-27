@@ -25,47 +25,47 @@ public:
      */
     Hadrons();
 
-    float GetScalarHt();
+    analysis::Jets Jets() {
+        NewEvent(*clones_arrays_);
+        switch (detector_geometry().jet_type) {
+        case DetectorGeometry::kJet :
+            return DelphesJets(kPlain);
+        case DetectorGeometry::kGenJet :
+            return GenJets();
+        case DetectorGeometry::kEFlowJet :
+          return ClusteredJets();
+        }
+    }
 
-    fastjet::PseudoJet GetMissingEt();
 
-    Jets GranulatedJets(const Jets &jets);
+    float ScalarHt();
 
-    Jets ClusteredJets();
+    fastjet::PseudoJet MissingEt();
+
+    analysis::Jets GranulatedJets(const analysis::Jets &jets);
+
+    analysis::Jets ClusteredJets();
 
 private:
-
-    DetectorGeometry detector_geometry_;
-
-    DetectorGeometry detector_geometry() const {
-        return detector_geometry_;
-    }
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
      * @return void
      */
-    bool GetJets(const FourVector::JetDetail jet_detail);
+    analysis::Jets DelphesJets(const FourVector::JetDetail jet_detail);
 
     /**
      * @brief Analyses EFlow Variables of Jets
      *
      */
-    bool GetEFlow(const JetDetail jet_detail);
-
-    /**
-     * @brief Get Tau Tag
-     *
-     * @return void
-     */
-    void TauTag(const ::delphes::Jet &JetClone);
+    analysis::Jets EFlowJets(const JetDetail jet_detail);
 
     /**
      * @brief Get Gen Jet
      *
      */
-    void GetGenJet();
+    analysis::Jets GenJets();
 
 
     /**
@@ -73,16 +73,17 @@ private:
      *
      * @return void
      */
-    bool GetJets(const bool, const bool);
+    bool Jets(const bool, const bool);
 
-    template <typename TClone>
-    JetInfo GetJetId(const TClone &Clone) {
-        Print(kDetailed, "Get Jet Id", Clone.Particles.GetEntriesFast());
+    template <typename Clone>
+    JetInfo GetJetId(const Clone &clone) {
+        Print(kDetailed, "Jet Id", clone.Particles.GetEntriesFast());
         JetInfo jet_info;
-        for (const int ParticleNumber : Range(Clone.Particles.GetEntriesFast())) {
-            const Family family = GetBranchFamily(*Clone.Particles.At(ParticleNumber));
+//         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
+        for (const int ParticleNumber : Range(clone.Particles.GetEntriesFast())) {
+            const Family family = GetBranchFamily(*clone.Particles.At(ParticleNumber));
             Print(kDebug, "MotherId", family.particle().Id, family.mother_1().Id);
-            jet_info.Addconstituent(Constituent(const_cast<TClone &>(Clone).P4(), family));
+            jet_info.Addconstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }
         jet_info.PrintAllInfos(kDebug);
         return jet_info;
@@ -99,19 +100,17 @@ private:
         return Isolated;
     }
 
-    void DelphesTags(const ::delphes::Jet &JetClone);
+    analysis::Jets EFlowTrack(const JetDetail);
 
-    void GetTrackEFlow(const JetDetail);
+    analysis::Jets EFlowPhoton(const JetDetail);
 
-    void GetPhotonEFlow(const JetDetail);
+    analysis::Jets HadronEFlow(const JetDetail);
 
-    void GetHadronEFlow(const JetDetail);
-
-    void GetMuonEFlow(const JetDetail);
+    analysis::Jets MuonEFlow(const JetDetail);
 
     fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::JetDetail jet_detail);
 
-    fastjet::PseudoJet Getconstituents(const TObject &Object, const FourVector::JetDetail jet_detail, const Constituent::SubDetector Detector = Constituent::kNone);
+    fastjet::PseudoJet ConstituentJet(const TObject &Object, const FourVector::JetDetail jet_detail, const Constituent::SubDetector Detector = Constituent::kNone);
 
     inline std::string NameSpaceName() const {
         return "delphes";

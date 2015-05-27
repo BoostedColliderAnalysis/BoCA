@@ -66,7 +66,7 @@ std::vector<analysis::ClonesArrays::Branch> analysis::ClonesArrays::Branches() c
     }
 }
 
-void analysis::ClonesArrays::UseBranches(ExRootTreeReader &tree_reader)
+void analysis::ClonesArrays::UseBranches(exroot::TreeReader &tree_reader)
 {
     Print(kDebug, "Use Branches");
     for (const auto & branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());

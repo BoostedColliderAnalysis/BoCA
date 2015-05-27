@@ -11,7 +11,7 @@
 
 // std::string hbottomsumtagger::HAnalysis::StudyName(const analysis::HAnalysis::HTagger Tagger) const
 // {
-//     Print(kNotification, "Get Study Names", Tagger);
+//     Print(kNotification, "Study Names", Tagger);
 //
 //     switch (Tagger) {
 //     case  BottomTagger :
@@ -140,19 +140,19 @@ std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::O
 void hbottomsumtagger::HAnalysis::SetTrees()
 {
 
-    Strings SignalLeptonicTrees {};
-    Strings BackgroundLeptonicTrees {};
+  analysis::Strings SignalLeptonicTrees {};
+  analysis::Strings BackgroundLeptonicTrees {};
 
 
 
-    Strings SignalSemiTrees {
+  analysis::Strings SignalSemiTrees {
 //         TreeName(bbbb)
 //         TreeName(ttbb)
 //         SignalTreeName(Hbb)
         TreeName(bb),
     };
 
-    Strings BackgroundSemiTrees {
+    analysis::Strings BackgroundSemiTrees {
 //         TreeName(bb),
         TreeName(cc),
         TreeName(qq),
@@ -168,15 +168,15 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         TreeName(ttqq)
     };
 
-    Strings SignalHadronicTree {};
-    Strings BackgroundHadronicTrees {};
+    analysis::Strings SignalHadronicTree {};
+    analysis::Strings BackgroundHadronicTrees {};
 
-    Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
+    analysis::Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    analysis::Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
+    analysis::Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
 
-    Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
-    Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
+    analysis::Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
+    analysis::Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
 
 //     switch (Tagger) {
 //     case HBottomTagger:
@@ -239,7 +239,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     }
 // }
 
-// void hbottomsumtagger::HAnalysis::NewBranches(ExRootTreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
+// void hbottomsumtagger::HAnalysis::NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
 // {
 //     Print(kNotification, "New Branches", Tagger);
 //
@@ -286,7 +286,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 
 // bool hbottomsumtagger::HAnalysis::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get Bottom Tag", Tag);
+//     Print(kDebug, "Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
 //     if (Bottoms.empty()) {
 //         return 0;
@@ -299,7 +299,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //
 // bool hbottomsumtagger::HAnalysis::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Get Bottom Reader", Tag);
+//     Print(kDebug, "Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) return 0;
@@ -334,7 +334,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //
 // bool hbottomsumtagger::HAnalysis::GeteventSemiTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //     std::vector<EventBottomTaggerBranch> Semievents = eventBottomSumTagger.GetBranches(event, Tag);
 //     if (Semievents.empty()) return 0;
 //     for (const auto & Semievent : Semievents) {
@@ -346,7 +346,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //
 // bool hbottomsumtagger::HAnalysis::GeteventSemiReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "Get event semi", Tag);
+//     Print(kInformation, "event semi", Tag);
 //
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);

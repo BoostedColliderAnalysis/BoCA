@@ -10,6 +10,8 @@
 
 # include "fastjet/PseudoJet.hh"
 
+namespace analysis{
+
 typedef std::vector<fastjet::PseudoJet> Jets;
 typedef std::vector<TLorentzVector> Vectors;
 typedef std::vector<std::string> Strings;
@@ -40,3 +42,5 @@ private:
     int last_;
     int iterator_;
 };
+
+}

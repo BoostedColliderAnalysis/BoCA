@@ -35,7 +35,7 @@ void analysis::TopSemiTagger::DefineVariables()
 
 int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
-    Print(kInformation, "Get Top Tags");
+    Print(kInformation, "Top Tags");
 
     float pre_cut = 0;
 
@@ -47,7 +47,7 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
 
-    Jets leptons = event.leptons().GetLeptonJets();
+    Jets leptons = event.leptons().leptons();
     Print(kInformation, "Lepton Number", leptons.size());
 
     std::vector<Triplet> triplets;
@@ -101,7 +101,7 @@ std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplet(const Tripl
 
 std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get Bdt");
+    Print(kInformation, "Bdt");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
@@ -141,7 +141,7 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
 
 float analysis::TopSemiTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
-    Print(kInformation, "Get Delta R");
+    Print(kInformation, "Delta R");
 
     if (!Jet.has_constituents()) {
         return 0;
@@ -163,7 +163,7 @@ float analysis::TopSemiTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 
 float analysis::TopSemiTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
-    Print(kInformation, "Get Centrality");
+    Print(kInformation, "Centrality");
     if (!Jet.has_constituents()) {
         return 0;
     }

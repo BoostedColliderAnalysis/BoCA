@@ -45,7 +45,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
+    std::vector<Octet62> GetHeavyHiggsevents(analysis::Jets &jets);
 
     OctetNeutralBranch branch_;
 

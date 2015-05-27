@@ -31,13 +31,13 @@ void analysis::BottomTagger::DefineVariables()
 
 int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
-    Print(kInformation, "Get Bottom Tag", tag);
+    Print(kInformation, "Bottom Tag", tag);
 
     Jets particles = event.partons().Generator();
     Jets bottoms = copy_if_abs_particle(particles, BottomId);
     Print(kInformation, "Particle size", bottoms.size());
 
-    Jets jets = event.hadrons().ClusteredJets();
+    Jets jets = event.hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
 
@@ -56,15 +56,15 @@ int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, con
     return final_jets.size();
 }
 
-Jets analysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
+analysis::Jets analysis::BottomTagger::GetSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
 {
-    Print(kInformation, "Get Sub Jets");
+    Print(kInformation, "Sub Jets");
     Jets pieces = GetSubJets(jets,sub_jet_number);
     return CleanJets(pieces, particles, pre_cuts, tag);
 }
 
 
-Jets analysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
+analysis::Jets analysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Clean Jets", jets.size(), particles.size());
 
@@ -104,7 +104,7 @@ Jets analysis::BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCut
     return clean_jets;
 }
 
-Jets analysis::BottomTagger::GetMultiJetBdt(const Jets &jets, const TMVA::Reader &reader)
+analysis::Jets analysis::BottomTagger::GetMultiJetBdt(const Jets &jets, const TMVA::Reader &reader)
 {
 
     Jets final_jets = GetJetBdt(jets, reader);
@@ -118,19 +118,19 @@ Jets analysis::BottomTagger::GetMultiJetBdt(const Jets &jets, const TMVA::Reader
     return final_jets;
 }
 
-Jets analysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
+analysis::Jets analysis::BottomTagger::GetSubBdt(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
-    Print(kInformation, "Get Sub Bdt");
+    Print(kInformation, "Sub Bdt");
     return GetJetBdt(GetSubJets(jets,sub_jet_number), reader);
 }
 
-Jets analysis::BottomTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+analysis::Jets analysis::BottomTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get Jet Bdt");
-    return GetJetBdt(event.hadrons().ClusteredJets(), pre_cuts, reader);
+    Print(kInformation, "Jet Bdt");
+    return GetJetBdt(event.hadrons().Jets(), pre_cuts, reader);
 }
 
-Jets analysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
+analysis::Jets analysis::BottomTagger::GetJetBdt(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets final_jets;
     for (const auto jet : jets) {
@@ -151,7 +151,7 @@ fastjet::PseudoJet analysis::BottomTagger::GetJetBdt(const fastjet::PseudoJet &j
     return jet;
 }
 
-Jets analysis::BottomTagger::GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number)
+analysis::Jets analysis::BottomTagger::GetSubJetBdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number)
 {
     Jets jets;
     for (const auto sub_jet : Tagger::GetSubJets(jet, sub_jet_number)) {

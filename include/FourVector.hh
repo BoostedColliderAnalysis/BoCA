@@ -31,7 +31,7 @@ protected:
 
     template<typename Particle>
     TLorentzVector LorentzVectorByEnergy(const Particle &particle) const {
-        Print(kDebug, "Get Lorentz Vector by Energy");
+        Print(kDebug, "Lorentz Vector by Energy");
         TLorentzVector vector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
@@ -49,7 +49,7 @@ protected:
 
     template<typename Particle>
     TLorentzVector LorentzVectorByMass(const Particle &particle, const float mass) const {
-        Print(kDebug, "Get Lorentz Vector by Mass");
+        Print(kDebug, "Lorentz Vector by Mass");
         TLorentzVector LorentzVector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
@@ -65,7 +65,7 @@ protected:
 
     template<typename Particle>
     TLorentzVector LorentzVectorByMass(const Particle &particle) const {
-        Print(kDebug, "Get Lorentz Vector by Mass");
+        Print(kDebug, "Lorentz Vector by Mass");
         const float Mass = particle.Mass;
         const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
@@ -76,7 +76,7 @@ protected:
 
     template<typename Particle>
     TLorentzVector LorentzVectorByM(const Particle &particle) const {
-        Print(kDebug, "Get Lorentz Vector by Mass");
+        Print(kDebug, "Lorentz Vector by Mass");
         const float Mass = particle.M;
         const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {

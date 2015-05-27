@@ -26,9 +26,9 @@ public:
     enum Tag {kBackground = 0, kSignal = 1};
 
     template <typename Severity>
-    inline void Print(const Severity severity, const std::string &Description) const {
-        if (severity > DebugLevel) return;
-        Printer(Description);
+    inline void Print(const Severity severity, const std::string &description) const {
+        if (severity > debug_level_) return;
+        Printer(description);
         std::cout << std::endl;
     }
 
@@ -37,9 +37,9 @@ public:
      *
      */
     template<typename Severity, typename Value>
-    inline void Print(const Severity severity, const std::string &Description, const Value value) const {
-        if (severity > DebugLevel) return;
-        Printer(Description);
+    inline void Print(const Severity severity, const std::string &description, const Value value) const {
+        if (severity > debug_level_) return;
+        Printer(description);
         std::cout << " " << value << std::endl;
     }
 
@@ -48,11 +48,11 @@ public:
      *
      */
     template<typename Severity, typename Value, typename Value2>
-    inline void Print(const Severity severity, const std::string &Description, const Value value, const Value2 value2) const {
-        if (severity > DebugLevel) return;
+    inline void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2) const {
+        if (severity > debug_level_) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
-        Printer(Description);
+        Printer(description);
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value;
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value2;
         std::cout << std::endl;
@@ -63,11 +63,11 @@ public:
      *
      */
     template<typename Severity, typename Value, typename Value2, typename Value3>
-    inline void Print(const Severity severity, const std::string &Description, const Value value, const Value2 value2, const Value3 value3) const {
-        if (severity > DebugLevel) return;
+    inline void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3) const {
+        if (severity > debug_level_) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
-        Printer(Description);
+        Printer(description);
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value;
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value2;
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value3;
@@ -75,11 +75,11 @@ public:
     }
 
     template<typename Severity, typename Value, typename Value2, typename Value3, typename Value4>
-    inline void Print(const Severity severity, const std::string &Description, const Value value, const Value2 value2, const Value3 value3, const Value4 value4) const {
-        if (severity > DebugLevel) return;
+    inline void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3, const Value4 value4) const {
+        if (severity > debug_level_) return;
         const char Separator = ' ';
         const int FunctionWidth = 15;
-        Printer(Description);
+        Printer(description);
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value;
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value2;
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value3;
@@ -88,15 +88,15 @@ public:
     }
 
     template<typename Severity>
-    inline void Print(const Severity severity, const std::string &Description, const fastjet::PseudoJet &Jet) const {
-        if (severity > DebugLevel) return;
-        Print(severity, Description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
+    inline void Print(const Severity severity, const std::string &description, const fastjet::PseudoJet &Jet) const {
+        if (severity > debug_level_) return;
+        Print(severity, description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
     }
 
     template<typename Severity>
-    void Print(const Severity severity, const std::string &Description, float Momentum[]) const {
-        if (severity > DebugLevel) return;
-        Print(severity, Description, Momentum[0], Momentum[1], Momentum[2], Momentum[3]);
+    void Print(const Severity severity, const std::string &description, float momentum[]) const {
+        if (severity > debug_level_) return;
+        Print(severity, description, momentum[0], momentum[1], momentum[2], momentum[3]);
     }
 
     enum ParticleId {
@@ -228,7 +228,7 @@ protected:
      * 4: Step by Step Information
      *
      */
-    Severity DebugLevel;
+    Severity debug_level_;
 
     /**
      * @brief A large number
@@ -286,7 +286,7 @@ private:
      * @param  std::string Function Name
      * @return void
      */
-    void Printer(const std::string &Description) const;
+    void Printer(const std::string &description) const;
 
 };
 

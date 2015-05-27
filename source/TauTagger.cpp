@@ -41,9 +41,9 @@ analysis::TauBranch analysis::TauTagger::GetBranch(const fastjet::PseudoJet &jet
 
 std::vector<analysis::TauBranch> analysis::TauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag Tag)
 {
-    Print(kInformation, "Get Tau Tag", Tag);
+    Print(kInformation, "Tau Tag", Tag);
     jet_tag.HeavyParticles = {TauId};
-    Jets jets = GetJets(event);
+    Jets jets = event.hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
     Jets Particles = event.partons().Generator();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
@@ -62,9 +62,9 @@ std::vector<analysis::TauBranch> analysis::TauTagger::GetBranches(analysis::Even
     return TauBranches;
 }
 
-Jets analysis::TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
+analysis::Jets analysis::TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
 {
-    Print(kInformation, "Get Sub Jets");
+    Print(kInformation, "Sub Jets");
     Jets Pieces;
     for (const auto & Jet : jets) {
         if (!Jet.has_constituents()) {
@@ -72,7 +72,7 @@ Jets analysis::TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, co
             continue;
         }
         if (!Jet.has_user_info<JetInfo>()) {
-            Print(kError, "Get Sub Jets", "No Jet Info");
+            Print(kError, "Sub Jets", "No Jet Info");
             continue;
         }
         fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, 0.4));
@@ -82,7 +82,7 @@ Jets analysis::TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, co
             std::vector<Constituent> constituents;
             for (const auto & Piececonstituent : Piece.constituents()) {
                 if (!Piececonstituent.has_user_info<JetInfo>()) {
-                    Print(kError, "Get Sub Jets", "No Piece constituent Info");
+                    Print(kError, "Sub Jets", "No Piece constituent Info");
                     continue;
                 }
                 std::vector<Constituent> Newconstituents = Piececonstituent.user_info<JetInfo>().constituents();
@@ -96,7 +96,7 @@ Jets analysis::TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, co
 }
 
 
-Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
+analysis::Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 {
     Print(kInformation, "Clean Jets");
     for (const auto & Particle : Particles) {
@@ -127,14 +127,14 @@ Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag
 // analysis::Object::HTag analysis::HTauTagger::GetTag(const fastjet::PseudoJet &Jet) const
 // {
 //
-//     Print(kDebug, "Get Bottom Tag", Jet.rap(), Jet.user_info<JetInfo>().MaximalId());
+//     Print(kDebug, "Bottom Tag", Jet.rap(), Jet.user_info<JetInfo>().MaximalId());
 //     if (std::abs(Jet.user_info<JetInfo>().MaximalId()) != BottomId) {
 //         return HBackground;
 //     }
 //     return kSignal;
 // }
 
-Jets analysis::TauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
+analysis::Jets analysis::TauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
 {
     Jets NewJets = GetJetBdt(jets, BottomReader);
     Jets DiJets = GetSubBdt(jets, BottomReader, 2);
@@ -144,9 +144,9 @@ Jets analysis::TauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
     return NewJets;
 }
 
-Jets analysis::TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
+analysis::Jets analysis::TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
 {
-    Print(kInformation, "Get Sub Bdt");
+    Print(kInformation, "Sub Bdt");
     Jets Pieces;
     for (const auto & Jet : jets) {
         if (!Jet.has_pieces()) {
@@ -154,7 +154,7 @@ Jets analysis::TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader
             continue;
         }
         if (!Jet.has_user_info<JetInfo>()) {
-            Print(kError, "Get Sub Bdt", "No Jet Info");
+            Print(kError, "Sub Bdt", "No Jet Info");
             continue;
         }
         fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
@@ -165,7 +165,7 @@ Jets analysis::TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader
         for (auto & Piece : SubPieces) {
             for (const auto & constituent : Piece.constituents()) {
                 if (!constituent.has_user_info<JetInfo>()) {
-                    Print(kError, "Get constituent Bdt", "No Jet Info");
+                    Print(kError, "constituent Bdt", "No Jet Info");
                     continue;
                 }
                 std::vector<Constituent> Newconstituents = constituent.user_info<JetInfo>().constituents();
@@ -178,13 +178,13 @@ Jets analysis::TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader
     return GetJetBdt(Pieces, BottomReader);
 }
 
-Jets analysis::TauTagger::GetJetBdt(const Jets &jets, const Reader &Reader)
+analysis::Jets analysis::TauTagger::GetJetBdt(const Jets &jets, const Reader &Reader)
 {
     Jets NewJets;
-    Print(kInformation, "Get Jet Bdt");
+    Print(kInformation, "Jet Bdt");
     for (const auto Jet : jets) {
         if (!Jet.has_user_info<JetInfo>()) {
-            Print(kError, "Get Jet Bdt", "No Jet Info");
+            Print(kError, "Jet Bdt", "No Jet Info");
             continue;
         }
 //         if (Jet.m() <= 0) {
@@ -200,7 +200,7 @@ Jets analysis::TauTagger::GetJetBdt(const Jets &jets, const Reader &Reader)
 
 float analysis::TauTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
-    Print(kInformation, "Get Delta R");
+    Print(kInformation, "Delta R");
     if (!Jet.has_constituents()) {
         return 0;
     }
@@ -220,7 +220,7 @@ float analysis::TauTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 
 float analysis::TauTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
-    Print(kInformation, "Get Centrality");
+    Print(kInformation, "Centrality");
     if (!Jet.has_constituents()) {
         return 0;
     }

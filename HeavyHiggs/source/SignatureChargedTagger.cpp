@@ -37,7 +37,7 @@ void heavyhiggs::SignatureChargedTagger::DefineVariables()
 
 int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag tag)
 {
-    Print(kInformation, "Get event Tags");
+    Print(kInformation, "event Tags");
 
 //     Jets jets = GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
@@ -51,7 +51,7 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 //     std::vector<analysis::Quartet31> Higgsquartets = static_cast<analysis::ChargedHiggsSemiTagger &>(charged_higgs_semi_reader_.tagger()).Multiplets(event, charged_higgs_semi_reader_.reader());
     std::vector<analysis::Quartet31> Higgsquartets = charged_higgs_semi_reader_.Multiplets<analysis::ChargedHiggsSemiTagger>(event);
 
-    Jets HiggsParticles = event.partons().Generator();
+    analysis::Jets HiggsParticles = event.partons().Generator();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
     if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
     std::sort(Higgsquartets.begin(), Higgsquartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));

@@ -36,7 +36,7 @@ public:
       return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3) + TotalBottomBdt(Number4);
     }
 
-    void SetJets(const Jets &NewJets) {
+    void SetJets(const analysis::Jets &NewJets) {
         JetsM = NewJets;
         float bdt = 0;
         for (int i = 1; i < 6; ++i) bdt += TotalBottomBdt(i);
@@ -45,7 +45,7 @@ public:
 
 private:
 
-    Jets JetsM;
+  analysis::Jets JetsM;
 
 };
 
@@ -66,15 +66,15 @@ public:
     */
     EventBottomTagger();
 
-    bool TruthLevelCheck(const Jets &NewJets, analysis::Event &event, const analysis::Object::Tag Tag);
+    bool TruthLevelCheck(const analysis::Jets &NewJets, analysis::Event &event, const analysis::Object::Tag Tag);
 
     void SetTagger(const analysis::BottomTagger &NewBottomTagger);
 
     std::vector<analysis::EventBottomTaggerBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
 
-    std::vector<EventBottomMultiplet> GetBdt(const Jets &jets, const analysis::Reader &eventSemiReader);
+    std::vector<EventBottomMultiplet> GetBdt(const analysis::Jets &jets, const analysis::Reader &eventSemiReader);
 
-//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
+//     std::vector<int> ApplyBdt2(const exroot::TreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry);
 

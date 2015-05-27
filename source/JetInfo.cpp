@@ -30,6 +30,7 @@ analysis::DetectorGeometry::DetectorGeometry()
         VertexMassMin = 0.1;
         JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
         SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
+        jet_type = kJet;
     case Spp:
         JetMinPt = 40;
         JetConeSize = 0.5;
@@ -41,6 +42,7 @@ analysis::DetectorGeometry::DetectorGeometry()
         VertexMassMin = 0.1;
         JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
         SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
+        jet_type = kJet;
     }
 }
 
@@ -49,9 +51,43 @@ analysis::JetInfo::JetInfo()
     Print(kDebug, "Constructor");
 }
 
+
+void analysis::JetInfo::SetDelphesTags(const ::delphes::Jet &jet)
+{
+  SetBTag(jet.BTag);
+  SetTauTag(jet.TauTag);
+}
+
+analysis::JetInfo::JetInfo(const ::delphes::Jet &jet)
+{
+  SetDelphesTags(jet);
+}
+
+analysis::JetInfo::JetInfo(const bool b_tag)
+{
+  SetBTag(b_tag);
+}
+
+analysis::JetInfo::JetInfo(const bool b_tag, const bool tau_tag)
+{
+  SetBTag(b_tag);
+  SetTauTag(tau_tag);
+}
+
+analysis::JetInfo::JetInfo(const int charge)
+{
+  SetCharge(charge);
+}
+
 analysis::JetInfo::JetInfo(const Constituent &constituent)
 {
     constituents_.emplace_back(constituent);
+}
+
+analysis::JetInfo::JetInfo(const Constituent &constituent, const int charge)
+{
+  constituents_.emplace_back(constituent);
+  SetCharge(charge);
 }
 
 analysis::JetInfo::JetInfo(const std::vector<Constituent> &constituents)
@@ -102,7 +138,7 @@ void analysis::JetInfo::ExtractFamilyFraction()
 
 analysis::Family analysis::JetInfo::MaximalFamily()
 {
-    Print(kDebug, "Get Maximal Id");
+    Print(kDebug, "Maximal Id");
     std::pair<Family, float> max = *std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs());
     return max.first;
 }
@@ -146,7 +182,7 @@ void analysis::JetInfo::ExtractAbsFraction(const int particle_id)
 
 float analysis::JetInfo::GetWeightSum() const
 {
-    Print(kDebug, "Get Weight Sum", id_fractions_.size());
+    Print(kDebug, "Weight Sum", id_fractions_.size());
     float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](const float previous, const std::pair<int, float> &pair) {
         return (previous + pair.second);
     });
@@ -156,7 +192,7 @@ float analysis::JetInfo::GetWeightSum() const
 
 float analysis::JetInfo::Fraction(const int particle_id) const
 {
-    Print(kInformation, "Get Fraction", particle_id);
+    Print(kInformation, "Fraction", particle_id);
     if (!id_fractions_.count(particle_id)) return 0;
     if (GetWeightSum() == 0)   return 0;
     return (id_fractions_.at(particle_id) / GetWeightSum());
@@ -164,7 +200,7 @@ float analysis::JetInfo::Fraction(const int particle_id) const
 
 float analysis::JetInfo::MaximalFraction() const
 {
-    Print(kInformation, "Get Maximal Fraction");
+    Print(kInformation, "Maximal Fraction");
     std::pair<int, float> maximal_weight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     if (GetWeightSum() == 0) return 0;
     else return (maximal_weight.second / GetWeightSum());
@@ -172,7 +208,7 @@ float analysis::JetInfo::MaximalFraction() const
 
 int analysis::JetInfo::MaximalId() const
 {
-    Print(kDebug, "Get Maximal Id");
+    Print(kDebug, "Maximal Id");
     std::pair<int, float> maximal_pair = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     return maximal_pair.first;
 }
@@ -216,7 +252,7 @@ struct AccuPerpDistance {
 
 float analysis::JetInfo::SumDisplacement() const
 {
-    Print(kDebug, "Get Jet Displacement");
+    Print(kDebug, "Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     return std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
@@ -224,7 +260,7 @@ float analysis::JetInfo::SumDisplacement() const
 
 float analysis::JetInfo::MeanDisplacement() const
 {
-    Print(kDebug, "Get Jet Displacement");
+    Print(kDebug, "Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
@@ -240,7 +276,7 @@ struct MaxPerpDistance {
 
 float analysis::JetInfo::MaxDisplacement() const
 {
-    Print(kDebug, "Get Jet Displacement");
+    Print(kDebug, "Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
@@ -250,7 +286,7 @@ float analysis::JetInfo::MaxDisplacement() const
 
 float analysis::JetInfo::VertexMass() const
 {
-    Print(kDebug, "Get Vertex Mass");
+    Print(kDebug, "Vertex Mass");
     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_mass = std::accumulate(vertices.begin(), vertices.end(), Constituent()).Momentum().M();
     Print(kDebug, "Vertex Mass", vertex_mass);
@@ -260,7 +296,7 @@ float analysis::JetInfo::VertexMass() const
 
 float analysis::JetInfo::VertexEnergy() const
 {
-    Print(kDebug, "Get Energy Fraction");
+    Print(kDebug, "Energy Fraction");
     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_energy = std::accumulate(vertices.begin(), vertices.end(), Constituent()).Momentum().E();
     return vertex_energy;

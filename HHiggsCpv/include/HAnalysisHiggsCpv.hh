@@ -92,11 +92,11 @@ private:
      *
      */
 
-    ExRootTreeBranch *bottom_branch;
-    ExRootTreeBranch *HiggsBranch;
-    ExRootTreeBranch *constituentBranch;
-    ExRootTreeBranch *TopBranch;
-    ExRootTreeBranch *eventBranch;
+    exroot::TreeBranch *bottom_branch;
+    exroot::TreeBranch *HiggsBranch;
+    exroot::TreeBranch *constituentBranch;
+    exroot::TreeBranch *TopBranch;
+    exroot::TreeBranch *eventBranch;
 
     analysis::Reader BottomReader;
     analysis::Reader TopReader;
@@ -127,16 +127,16 @@ private:
 
     bool GetSignalTag(analysis::Event &event, const std::string &StudyName);
 
-    std::vector<HHiggsCpv> GetHiggsCpvs(const Jets &jets, const Jets &Leptons);
+    std::vector<HHiggsCpv> GetHiggsCpvs(const analysis::Jets &jets, const analysis::Jets &Leptons);
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-//     void NewBranches(ExRootTreeWriter *TreeWriter, const HTagger Tagger);
+//     void NewBranches(exroot::TreeWriter *TreeWriter, const HTagger Tagger);
 
-    inline Strings GetStudyNames();
+inline analysis::Strings GetStudyNames();
 
     virtual inline std::string NameSpaceName() const {
         return "higgscpv";

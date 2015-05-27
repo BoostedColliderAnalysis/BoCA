@@ -12,7 +12,7 @@ void analysis::Doublet::SetSinglet2(const fastjet::PseudoJet &singlet)
 
 std::vector<analysis::Kinematics> analysis::Doublet::constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const
 {
-    Print(kInformation, "Getconstituents", jet_ratio, theta);
+    Print(kInformation, "constituents", jet_ratio, theta);
     const float Cut = 2. / jet_ratio;
     const float Cut1 = 1. / jet_ratio;
     std::vector<Kinematics> Newconstituents;
@@ -87,7 +87,7 @@ void analysis::Doublet::SetSinglets(const fastjet::PseudoJet &singlet)
 
 float analysis::Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const
 {
-    Print(kInformation, "Get ReferenceAngle");
+    Print(kInformation, "ReferenceAngle");
     const float Rap = NewJet.rap() - ReferenceJet.rap();
     const float Phi = NewJet.delta_phi_to(ReferenceJet);
     return std::atan2(-Phi, -Rap);
@@ -96,7 +96,7 @@ float analysis::Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const 
 
 float analysis::Doublet::PullAngle1() const
 {
-    Print(kInformation, "GetPullAngle1");
+    Print(kInformation, "PullAngle1");
 //     const float NewPull = static_cast<DoubletPrivate *>(TagPrivate.get())->Pull(Singlet1());
     const float NewPull = Pull(Singlet1());
 //     const float NewReferenceAngle = static_cast<DoubletPrivate *>(TagPrivate.get())->ReferenceAngle(Singlet1(), Singlet2());
@@ -113,7 +113,7 @@ float analysis::Doublet::PullAngle1() const
 
 float analysis::Doublet::PullAngle2() const
 {
-    Print(kInformation, "GetPullAngle2");
+    Print(kInformation, "PullAngle2");
 //     const float NewPull = static_cast<DoubletPrivate *>(TagPrivate.get())->Pull(Singlet2());
     const float NewPull = Pull(Singlet2());
 //     const float NewReferenceAngle = static_cast<DoubletPrivate *>(TagPrivate.get())->ReferenceAngle(Singlet2(), Singlet1());
@@ -125,7 +125,7 @@ float analysis::Doublet::PullAngle2() const
 
 float analysis::Doublet::Pull(const fastjet::PseudoJet &NewJet) const
 {
-    Print(kInformation, "GetPull");
+    Print(kInformation, "Pull");
     float Rap = 0;
     float Phi = 0;
     for (const auto & constituent : NewJet.constituents()) {
@@ -143,7 +143,7 @@ float analysis::Doublet::Pull(const fastjet::PseudoJet &NewJet) const
 
 std::vector<analysis::Kinematics> analysis::Doublet::constituents() const
 {
-    Print(kInformation, "Getconstituents");
+    Print(kInformation, "constituents");
     if (Singlet1().constituents().empty() || Singlet2().constituents().empty()) {
         Print(kNotification, "Not enough constituents", Singlet1().constituents().size(), Singlet2().constituents().size());
         //         return 0;

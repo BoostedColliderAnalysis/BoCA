@@ -1,7 +1,8 @@
 # pragma once
 
 # include "TObject.h"
-# include "ExRootAnalysis/ExRootTreeReader.h"
+
+# include  "exroot/ExRootAnalysis.hh"
 # include "Object.hh"
 
 namespace analysis {
@@ -27,7 +28,7 @@ public:
 
     std::vector<Branch> Branches() const;
 
-    void UseBranches(ExRootTreeReader &tree_reader);
+    void UseBranches(exroot::TreeReader &tree_reader);
 
     TClonesArray &ClonesArray(const Branch branch) const;
 

@@ -1,6 +1,6 @@
 # pragma once
 
-# include "ExRootAnalysis/ExRootTreeReader.h"
+# include  "exroot/ExRootAnalysis.hh"
 # include "ClonesArrays.hh"
 # include "Event.hh"
 
@@ -45,7 +45,7 @@ public:
      */
     ~File();
 
-    ExRootTreeReader TreeReader();
+    exroot::TreeReader TreeReader();
 
     ClonesArrays clones_arrays();
 

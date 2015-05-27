@@ -25,7 +25,7 @@ void analysis::HReconstruction::NewEvent()
 
 }
 
-Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets) const
+analysis::Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets) const
 {
 
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
@@ -38,10 +38,10 @@ Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets) const
 
 }
 
-Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
+analysis::Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets, const fastjet::JetDefinition &FatJetDefinition) const
 {
 
-    Print(kInformation, "Get Fat Jet Vector", FatJetDefinition.R());
+    Print(kInformation, "Fat Jet Vector", FatJetDefinition.R());
 
 
     fastjet::ClusterSequence *const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJets, FatJetDefinition);
@@ -57,10 +57,10 @@ Jets analysis::HReconstruction::GetFatJets(const Jets &EFlowJets, const fastjet:
 }
 
 
-Jets analysis::HReconstruction::GetMassDropJets(const Jets &FatJets) const
+analysis::Jets analysis::HReconstruction::GetMassDropJets(const Jets &FatJets) const
 {
 
-    Print(kInformation, "Get Mass Drop Jets", FatJets.size());
+    Print(kInformation, "Mass Drop Jets", FatJets.size());
 
     Jets MassDropJets;
 
@@ -77,7 +77,7 @@ Jets analysis::HReconstruction::GetMassDropJets(const Jets &FatJets) const
 fastjet::PseudoJet analysis::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet) const
 {
 
-//     Print(kDebug, "Get Mass Drop Jet");
+//     Print(kDebug, "Mass Drop Jet");
 
     //     MassDropMin = Jing: 0.667; fastjet: 0.67; Paper: 0.67
     const float MassDropMin = 0.67;
@@ -93,7 +93,7 @@ fastjet::PseudoJet analysis::HReconstruction::GetMassDropJet(const fastjet::Pseu
 fastjet::PseudoJet analysis::HReconstruction::GetMassDropJet(const fastjet::PseudoJet &FatJet, const float MassDropMin, const float AsymmetryCut) const
 {
 
-    Print(kDebug, "Get Mass Drop Jet");
+    Print(kDebug, "Mass Drop Jet");
 
     const fastjet::MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
     const fastjet::PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
@@ -107,10 +107,10 @@ fastjet::PseudoJet analysis::HReconstruction::GetMassDropJet(const fastjet::Pseu
 
 
 
-Jets analysis::HReconstruction::GetSubjet_taggedJets(const Jets &FatJets) const
+analysis::Jets analysis::HReconstruction::GetSubjet_taggedJets(const Jets &FatJets) const
 {
 
-    Print(kInformation, "Get Sub Jet Tagged Jets", FatJets.size());
+    Print(kInformation, "Sub Jet Tagged Jets", FatJets.size());
 
     Jets Subjet_taggedJets;
 
@@ -127,7 +127,7 @@ Jets analysis::HReconstruction::GetSubjet_taggedJets(const Jets &FatJets) const
 fastjet::PseudoJet analysis::HReconstruction::GetSubjet_taggedJet(const fastjet::PseudoJet &FatJet) const
 {
 
-    Print(kDebug, "Get Mass Drop Jet");
+    Print(kDebug, "Mass Drop Jet");
 
     const fastjet::CASubJetTagger Subjet_tagger;
     const fastjet::PseudoJet MassDropJet = Subjet_tagger.result(FatJet);
@@ -172,10 +172,10 @@ bool analysis::HReconstruction::JetIsBad(const fastjet::PseudoJet &Jet)
 
 
 
-Jets analysis::HReconstruction::GetFatjet_tag(Jets &FatJets)
+analysis::Jets analysis::HReconstruction::GetFatjet_tag(Jets &FatJets)
 {
 
-    Print(kInformation, "Get Fat Jet Tag", FatJets.size());
+    Print(kInformation, "Fat Jet Tag", FatJets.size());
 
     for (auto & FatJet : FatJets) {
 

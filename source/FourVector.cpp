@@ -23,103 +23,103 @@ void analysis::FourVector::NewEvent(const analysis::ClonesArrays &clones_arrays)
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootElectron &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootElectron");
+    Print(kDebug, "Lorentz Vector", "TRootElectron");
     return LorentzVectorByMass(Particle, Mass(ElectronId));
 }
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootGenJet &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootGenJet");
+    Print(kDebug, "Lorentz Vector", "TRootGenJet");
     return LorentzVectorByMass(Particle);
 }
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootGenParticle &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootGenParticle");
+    Print(kDebug, "Lorentz Vector", "TRootGenParticle");
     return LorentzVectorByEnergy(Particle);
 }
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootJet &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootJet");
+    Print(kDebug, "Lorentz Vector", "TRootJet");
     return LorentzVectorByMass(Particle);
 }
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootLHEFParticle &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootLHEFParticle");
+    Print(kDebug, "Lorentz Vector", "TRootLHEFParticle");
     return LorentzVectorByM(Particle);
 }
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootMuon &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootMuon");
+    Print(kDebug, "Lorentz Vector", "TRootMuon");
     return LorentzVectorByMass(Particle, Mass(MuonId));
 }
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootPhoton &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootPhoton");
+    Print(kDebug, "Lorentz Vector", "TRootPhoton");
     return LorentzVectorByMass(Particle, Mass(PhotonId));
 }
 
 TLorentzVector analysis::FourVector::LorentzVector(const TRootTau &Particle) const
 {
-    Print(kDebug, "Get Lorentz Vector", "TRootTau");
+    Print(kDebug, "Lorentz Vector", "TRootTau");
     return LorentzVectorByMass(Particle, Mass(TauId));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootElectron &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootElectron");
+    Print(kDebug, "Pseudo Jet", "TRootElectron");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(ElectronId)));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootGenJet &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootGenJet");
+    Print(kDebug, "Pseudo Jet", "TRootGenJet");
     return analysis::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootGenParticle &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootGenParticle");
+    Print(kDebug, "Pseudo Jet", "TRootGenParticle");
     return analysis::PseudoJet(LorentzVectorByEnergy(Particle));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootJet &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootJet");
+    Print(kDebug, "Pseudo Jet", "TRootJet");
     return analysis::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootLHEFParticle &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootLHEFParticle");
+    Print(kDebug, "Pseudo Jet", "TRootLHEFParticle");
     return analysis::PseudoJet(LorentzVectorByM(Particle));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootMuon &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootMuon");
+    Print(kDebug, "Pseudo Jet", "TRootMuon");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(MuonId)));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootPhoton &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootPhoton");
+    Print(kDebug, "Pseudo Jet", "TRootPhoton");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, 0));
 }
 
 fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootTau &Particle) const
 {
-    Print(kDebug, "Get Pseudo Jet", "TRootTau");
+    Print(kDebug, "Pseudo Jet", "TRootTau");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(TauId)));
 }
 
 analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
 {
-    Print(kInformation, "Get Mother Id", clones_arrays().ParticleSum());
+    Print(kInformation, "Mother Id", clones_arrays().ParticleSum());
     Family family;
     if (object.IsA() != ::delphes::GenParticle::Class()/* || Object == 0*/) {
         Print(kError, "Object is", object.ClassName());
@@ -139,7 +139,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
 
 analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Position)
 {
-    Print(kInformation, "Get Branch Family ", Name(family.particle().Id), Position);
+    Print(kInformation, "Branch Family ", Name(family.particle().Id), Position);
     if (
         jet_tag().HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag().HeavyParticles) ||
         jet_tag().HeavyParticles.find(static_cast<ParticleId>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag().HeavyParticles) ||
@@ -222,7 +222,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
 
 void analysis::FourVector::PrintTruthLevel(int const severity) const
 {
-    if (severity <= DebugLevel) {
+    if (severity <= debug_level_) {
         PrintCell("Position");
         PrintCell("Top Part");
         PrintCell("Top PP");

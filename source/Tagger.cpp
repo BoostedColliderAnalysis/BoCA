@@ -5,9 +5,6 @@
 
 # include "fastjet/ClusterSequence.hh"
 
-# include "ExRootAnalysis/ExRootTreeReader.h"
-# include "ExRootAnalysis/ExRootTreeWriter.h"
-
 # include "JetInfo.hh"
 # include "Event.hh"
 # include "Analysis.hh"
@@ -80,7 +77,7 @@ float analysis::Tagger::Bdt(const TMVA::Reader &reader)
     return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
-Jets analysis::Tagger::GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
+analysis::Jets analysis::Tagger::GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
 {
     Jets pieces;
     if (!jet.has_pieces()) return pieces;

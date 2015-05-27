@@ -26,7 +26,7 @@ public:
     void AnalysisLoop(const Tagger::Stage stage);
 
     virtual std::vector<File> Files(const Tag tag) {
-        Print(kError, "GetFiles", tag);
+        Print(kError, "Files", tag);
         return files_;
     }
 
@@ -42,15 +42,15 @@ protected:
         Print(kError, "Set Files", "should be subclassed", tag);
     }
 
-    inline int eventSum(const ExRootTreeReader &tree_reader) const {
+    inline int eventSum(const exroot::TreeReader &tree_reader) const {
 //       return std::min((int)tree_reader.GetEntries(), EventNumberMax());
         return tree_reader.GetEntries();
     }
 
-    ExRootTreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
+    exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
 
 
-    InfoBranch FillInfoBranch(const ExRootTreeReader &tree_reader, const File &file);
+    InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
 
     virtual int RunAnalysis(Event &, const Tagger::Stage stage, const Tag tag) {
         Print(kError, "Analysis", "should be subclassed", stage, tag);

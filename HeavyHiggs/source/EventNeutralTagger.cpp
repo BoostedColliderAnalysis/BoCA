@@ -85,13 +85,13 @@ void heavyhiggs::EventNeutralTagger::DefineVariables()
 
 int heavyhiggs::EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
 {
-    Print(kInformation, "Get event Tags");
+    Print(kInformation, "event Tags");
 
-    Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
+    analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
 //     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader);
 //     Jets SubJets = bottom_tagger_.GetMultiJetBdt(PreJets, BottomReader);
 //
-    Jets Leptons = event.leptons().GetLeptonJets();
+    analysis::Jets Leptons = event.leptons().leptons();
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
 //     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
 //     std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
@@ -182,12 +182,12 @@ return SaveEntries<EventNeutralBranch>(events);
 
 std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
-  Print(kInformation, "Get event Tags");
+  Print(kInformation, "event Tags");
   std::vector<Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);
 
 
-  Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    Jets Leptons = event.leptons().GetLeptonJets();
+  analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
+  analysis::Jets Leptons = event.leptons().leptons();
 
     std::vector<analysis::MultipletEvent<Octet62>> events;
     for (const auto & octet : octets) {

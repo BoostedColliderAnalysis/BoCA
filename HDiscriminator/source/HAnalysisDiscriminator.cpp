@@ -25,7 +25,7 @@ hcpvhiggs::HAnalysis::~HAnalysis()
 
 }
 
-Strings hcpvhiggs::HAnalysis::GetStudyNames() const
+analysis::Strings hcpvhiggs::HAnalysis::GetStudyNames() const
 {
 
     return  {"Higgs", "Top", "Jet", "Test"};
@@ -84,7 +84,7 @@ std::vector<analysis::File *> hcpvhiggs::HAnalysis::GetFiles(const std::string &
 }
 
 
-void hcpvhiggs::HAnalysis::NewBranches(ExRootTreeWriter *NewTreeWriter)
+void hcpvhiggs::HAnalysis::NewBranches(exroot::TreeWriter *NewTreeWriter)
 {
     Print(kNotification, "New File");
 
@@ -133,7 +133,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
     Print(kInformation, "Analysis", Study);
 
-    const Jets Leptons = GetLeptonJets(event);
+    const analysis::Jets Leptons = GetLeptonJets(event);
 
     if (Leptons.size() < 2) {
 
@@ -150,7 +150,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
             Print(kError,"HeavyParticle",HeavyParticle);
         }  */
 
-    const Jets CandidateJets{};// = event.GetCandidates(jet_tag);
+    const analysis::Jets CandidateJets{};// = event.GetCandidates(jet_tag);
 
     if (CandidateJets.empty()) {
 
@@ -297,7 +297,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
         }
 
-        Candidate->ScalarHt = event.hadrons().GetScalarHt();
+        Candidate->ScalarHt = event.hadrons().ScalarHt();
 
         Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
         Candidate->Asymmetry = SubStructure->GetAsymmetry();
@@ -322,7 +322,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
         Print(kDebug, "Isolation", Candidate->IsolationDeltaR);
 
-        Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
+        analysis::Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
           analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
@@ -351,7 +351,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 }
 
 
-Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
+analysis::Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
 {
 
 // Lepton Stuff
@@ -362,8 +362,8 @@ Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
 //     Jets AntiLeptonJets = event->Lepton->AntiLeptonJets;
 
 //     event.GetParticlesM()->GetParticles();
-    Jets LeptonJets = event.partons().GetLeptonJets();
-    Jets AntiLeptonJets = event.partons().GetAntiLeptonJets();
+    analysis::Jets LeptonJets = event.partons().GetLeptonJets();
+    analysis::Jets AntiLeptonJets = event.partons().GetAntiLeptonJets();
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());

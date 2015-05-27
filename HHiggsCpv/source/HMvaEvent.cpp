@@ -1,5 +1,5 @@
 # include "HMvaEvent.hh"
-# include "ExRootAnalysis/ExRootTreeWriter.h"
+# include  "exroot/ExRootAnalysis.hh"
 
 hhiggscpv::HMvaevent::HMvaevent()
 {
@@ -70,22 +70,22 @@ void hhiggscpv::HMvaevent::DefineVariables()
 
 }
 
-void hhiggscpv::HMvaevent::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
+void hhiggscpv::HMvaevent::ApplyBdt(const exroot::TreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
     Print(kNotification, "Apply Bdt");
 
-    const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
-//   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
+    const TClonesArray *const CandidateClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
+//   const TClonesArray *const SpectatorClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
-    ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-    ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), EventBranch::Class());
-//   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
+    exroot::TreeWriter *TreeWriter = new exroot::TreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
+    exroot::TreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), EventBranch::Class());
+//   exroot::TreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
-    const int eventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
+    const int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
 
     for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
 
-        const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(eventNumber);
+        const_cast<exroot::TreeReader *>(TreeReader)->ReadEntry(eventNumber);
 
         for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
@@ -137,7 +137,7 @@ void hhiggscpv::HMvaevent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 }
 
 
-// ReaderStruct hhiggscpv::HMvaevent::CutLoop(const ExRootTreeReader *const TreeReader, ReaderStruct &ReaderStruct)
+// ReaderStruct hhiggscpv::HMvaevent::CutLoop(const exroot::TreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
 //     Print(kNotification, "Cut Loop");
@@ -163,14 +163,14 @@ void hhiggscpv::HMvaevent::ApplyBdt(const ExRootTreeReader *const TreeReader, co
 //
 //     Print(kInformation, "Vectors assigned");
 //
-//     const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(eventBranchName.c_str());
+//     const TClonesArray *const ClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(eventBranchName.c_str());
 //
 //
-//     const int eventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
+//     const int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
 //     for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
 //         Print(kDebug, "event Loop");
 //
-//         const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(eventNumber);
+//         const_cast<exroot::TreeReader *>(TreeReader)->ReadEntry(eventNumber);
 //
 //         std::vector<bool> CandidateeventCut(ObservableSum, 1);
 //         std::vector<bool> TopeventCut(ObservableSum, 1);

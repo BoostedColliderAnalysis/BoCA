@@ -26,7 +26,7 @@ public:
       return static_cast<analysis::BottomBranch &>(*clones_array.At(entry)).Bdt;
     }
 
-    void SaveEntries(const Jets &jets){
+    void SaveEntries(const analysis::Jets &jets){
       for (const auto & jet : jets) static_cast<analysis::BottomBranch &>(*tree_branch().NewEntry()) = GetBranch(jet);
     }
 
@@ -48,9 +48,9 @@ private:
 
     void DefineVariables();
 
-    Jets CleanJets(Jets &jets, const Jets &particles, const analysis::Object::Tag tag);
+    analysis::Jets CleanJets(analysis::Jets &jets, const analysis::Jets &particles, const analysis::Object::Tag tag);
 
-    Jets GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber);
+    analysis::Jets GetSubJets(const analysis::Jets &jets, const analysis::Jets &Particles, const Tag Tag, const int SubJetNumber);
 
     float DeltaR(const fastjet::PseudoJet &Jet) const;
 

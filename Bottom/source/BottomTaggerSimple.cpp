@@ -78,11 +78,11 @@ analysis::BottomBranch bottom::BottomTaggerSimple::GetBranch(const fastjet::Pseu
 
 int bottom::BottomTaggerSimple::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
-    Print(kInformation, "Get Bottom Tag", tag);
-    Jets particles = event.partons().Generator();
+    Print(kInformation, "Bottom Tag", tag);
+    analysis::Jets particles = event.partons().Generator();
     particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(kInformation, "Particle size", particles.size());
-    Jets jets = GetJets(event);
+    analysis::Jets jets = event.hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
     jets = CleanJets(jets, particles, tag);
@@ -91,14 +91,14 @@ int bottom::BottomTaggerSimple::Train(analysis::Event &event, const analysis::Ob
     return jets.size();
 }
 
-Jets bottom::BottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles, const Tag tag)
+analysis::Jets bottom::BottomTaggerSimple::CleanJets(analysis::Jets &jets, const analysis::Jets &particles, const Tag tag)
 {
     Print(kInformation, "Clean Jets");
     for (const auto & particle : particles) {
         jets = analysis::SortedByMinDeltaRTo(jets, particle);
         if (jets.front().delta_R(particle) < detector_geometry().JetConeSize) static_cast<analysis::JetInfo &>(*jets.front().user_info_shared_ptr().get()).SetTag(kSignal);
     }
-    Jets clean_jets;
+    analysis::Jets clean_jets;
     for (const auto & Jet : jets) {
         if (!Jet.has_user_info<analysis::JetInfo>())continue;
         if (std::abs(Jet.rap()) > detector_geometry().TrackerEtaMax) continue;
@@ -112,9 +112,9 @@ Jets bottom::BottomTaggerSimple::CleanJets(Jets &jets, const Jets &particles, co
 
 int bottom::BottomTaggerSimple::GetBdt(analysis::Event &event, const TMVA::Reader &reader)
 {
-    Jets jets = GetJets(event);
-    Jets final_jets;
-    Print(kInformation, "Get Jet Bdt");
+  analysis::Jets jets = event.hadrons().Jets();
+  analysis::Jets final_jets;
+    Print(kInformation, "Jet Bdt");
     for (const auto & jet : jets) {
         if (std::abs(jet.rap()) > detector_geometry().TrackerEtaMax) continue;
         if (!jet.has_user_info<analysis::JetInfo>()) continue;

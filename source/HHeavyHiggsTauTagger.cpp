@@ -78,13 +78,13 @@ analysis::HHeavyHiggsTauBranch analysis::HHeavyHiggsTauTagger::GetBranch(const a
 std::vector< analysis::HHeavyHiggsTauBranch> analysis::HHeavyHiggsTauTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
 {
 
-    Print(kInformation, "Get Top Tags");
+    Print(kInformation, "Top Tags");
 
-    Jets jets = GetJets(event);
+    Jets jets = event.hadrons().Jets();
     jets = tau_tagger_.GetJetBdt(jets, TauReader);
     Print(kInformation, "Number Jet", jets.size());
 
-    const fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
+    const fastjet::PseudoJet MissingEt = event.hadrons().MissingEt();
 
     Jets TauParticles = event.partons().Generator();
     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(TauId)), TauParticles.end());
@@ -135,7 +135,7 @@ analysis::Object::Tag analysis::HHeavyHiggsTauTagger::GetTag(const analysis::Dou
 
 std::vector<analysis::Doublet>  analysis::HHeavyHiggsTauTagger::GetBdt(const Jets &jets, const fastjet::PseudoJet &MissingEt, const analysis::Reader &Reader)
 {
-    Print(kInformation, "Get Triple Bdt");
+    Print(kInformation, "Triple Bdt");
     std::vector<Doublet> doublets;
     for (const auto & Jet : jets)  {
         Doublet Predoublet(Jet, MissingEt);
@@ -159,7 +159,7 @@ std::vector<analysis::Doublet> analysis::HHeavyHiggsTauTagger::GetNeutrinos(cons
 
     const fastjet::PseudoJet Jet = doublet.Singlet1();
     const fastjet::PseudoJet MissingEt = doublet.Singlet2();
-    Print(kInformation, "Get Neutrinos", Jet.m(), (Jet - MissingEt).m());
+    Print(kInformation, "Neutrinos", Jet.m(), (Jet - MissingEt).m());
 
     const float LinearTerm = (std::pow(Mass(WId), 2) - Jet.m2()) / 2 + MissingEt.px() * Jet.px() + MissingEt.py() * Jet.py();
 
@@ -235,7 +235,7 @@ struct FindError {
 
 std::vector<analysis::Doublet> analysis::HHeavyHiggsTauTagger::GetDoublets(const Doublet &doublet, const Jets &Neutrinos, const Tag tag)
 {
-    Print(kInformation, "Get Triple Pair");
+    Print(kInformation, "Triple Pair");
 
     std::vector<Doublet> doublets = GetNeutrinos(doublet);
     Print(kDebug, "Number Solutions", doublets.size());

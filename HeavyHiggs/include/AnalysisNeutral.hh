@@ -295,7 +295,7 @@ private:
 
     analysis::File BackgroundFile(const ProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV";
-        Strings FileNames;
+        analysis::Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
@@ -524,7 +524,7 @@ private:
     analysis::Reader eventSemiReader;
     analysis::Reader eventLeptonicReader;
 
-//     void NewBranches(ExRootTreeWriter &tree_writer, const analysis::HAnalysis::HTagger tagger);
+//     void NewBranches(exroot::TreeWriter &tree_writer, const analysis::HAnalysis::HTagger tagger);
 
     /**
      * @brief Main Analysis function

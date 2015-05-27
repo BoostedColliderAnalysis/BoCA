@@ -11,11 +11,6 @@
 # include "TMVA/Reader.h"
 # include "TMVA/MethodCuts.h"
 
-# include "ExRootAnalysis/ExRootTreeReader.h"
-# include "ExRootAnalysis/ExRootTreeWriter.h"
-# include "ExRootAnalysis/ExRootTreeBranch.h"
-
-
 analysis::HMvaResult::HMvaResult()
 {
     Steps = 20000;
@@ -215,7 +210,7 @@ analysis::HMvaResult analysis::Reader::BdtResult(TFile &file, const std::string 
     const float Luminosity = 3000; // 3000 fb-1
 
     Print(kError, "Open Tree", tree_name);
-    ExRootTreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
+    exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
     const InfoBranch Info = info_branch(file, tree_name);
 
     HMvaResult Result;
@@ -233,7 +228,7 @@ analysis::HMvaResult analysis::Reader::BdtResult(TFile &file, const std::string 
     return Result;
 }
 
-std::vector<int> analysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
+std::vector<int> analysis::Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
 {
     Print(kNotification, "Bdt Distribution", tagger().branch_name());
     std::string NeweventBranchName = tagger().branch_name() + "Reader";
@@ -242,8 +237,8 @@ std::vector<int> analysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader
     std::vector<int> Bins(Result.Steps, 0);
 
     TClonesArray &event_clones_array = *tree_reader.UseBranch(NeweventBranchName.c_str());
-    ExRootTreeWriter tree_writer(&export_file, tree_name.c_str());
-    ExRootTreeBranch &result_branch = *tree_writer.NewBranch(NeweventBranchName.c_str(), HResultBranch::Class());
+    exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
+    exroot::TreeBranch &result_branch = *tree_writer.NewBranch(NeweventBranchName.c_str(), HResultBranch::Class());
     for (const int eventNumber : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(eventNumber);
         for (const int Entry : Range(event_clones_array.GetEntriesFast())) {
@@ -265,7 +260,7 @@ std::vector<int> analysis::Reader::BdtDistribution(ExRootTreeReader &tree_reader
 
 analysis::InfoBranch analysis::Reader::info_branch(TFile &file, const std::string &tree_name) const
 {
-    ExRootTreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
+    exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
 //     Print(kError,"Info Branch",tagger().GetWeightBranchName().c_str());
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
 //     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);

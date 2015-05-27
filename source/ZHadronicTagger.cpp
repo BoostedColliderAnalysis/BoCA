@@ -28,7 +28,7 @@ void analysis::ZHadronicTagger::DefineVariables()
 
 int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
-    Print(kInformation, "Get W Tags");
+    Print(kInformation, "W Tags");
 
     Jets z_hadronic_daughters = ZDaughters(event);
 
@@ -92,7 +92,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 }
 
 
-Jets analysis::ZHadronicTagger::ZDaughters(Event &event)
+analysis::Jets analysis::ZHadronicTagger::ZDaughters(Event &event)
 {
     Jets z_daughters = event.partons().Generator();
     z_daughters = RemoveIfWrongAbsMother(z_daughters, ZId);
@@ -112,7 +112,7 @@ int analysis::ZHadronicTagger::ZHadronicId(const Jets &jets)
 
 std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get doublet Bdt");
+    Print(kInformation, "doublet Bdt");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
 
@@ -132,7 +132,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(Event &even
 
 std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get doublet Bdt");
+    Print(kInformation, "doublet Bdt");
 
     // W in 2 jets
     std::vector<Doublet>  doublets;
@@ -148,7 +148,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const Jets 
 
 std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
-    Print(kInformation, "Get doublet Bdt");
+    Print(kInformation, "doublet Bdt");
 
     std::vector<Doublet>  doublets;
     for (const auto & jet : jets) {
@@ -163,7 +163,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const Jets 
 
 std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get doublet Bdt");
+    Print(kInformation, "doublet Bdt");
 
     // W in 2 jets
     std::vector<Doublet>  doublets;
@@ -178,7 +178,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastj
 
 std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Get doublet Bdt");
+    Print(kInformation, "doublet Bdt");
     std::vector<Doublet>  doublets;
     Jets subjets = GetSubJets(jet, 2);
     if (subjets.empty()) return doublets;

@@ -3,7 +3,7 @@
 analysis::Object::Object()
 {
 //     DebugLevel = kInformation;
-    DebugLevel = kNotification;
+    debug_level_ = kNotification;
 //     DebugLevel = kError;
 //     DebugLevel = kDebug;
 //     Print(kDebug, "Constructor");
@@ -11,19 +11,19 @@ analysis::Object::Object()
 
 float analysis::Object::Distance(const float Rap1, const float Phi1, const float Rap2, const float Phi2) const
 {
-    Print(kDebug, "GetDistance");
+    Print(kDebug, "Distance");
     return (std::sqrt(std::pow((Rap2 - Rap1), 2) + std::pow(DeltaPhi(Phi2, Phi1), 2)));
 }
 
 float analysis::Object::Distance(const float Rap, const float Phi) const
 {
-    Print(kDebug, "GetDistance");
+    Print(kDebug, "Distance");
     return (std::sqrt(std::pow(Rap, 2) + std::pow(Phi, 2)));
 }
 
 float analysis::Object::DeltaPhi(const float Phi, const float ReferencePhi) const
 {
-    Print(kDetailed, "GetDeltaPhi");
+    Print(kDetailed, "DeltaPhi");
     float DeltaPhi = Phi - ReferencePhi;
     while (std::abs(DeltaPhi) > Pi) {
         if (DeltaPhi < - Pi) {
@@ -31,7 +31,7 @@ float analysis::Object::DeltaPhi(const float Phi, const float ReferencePhi) cons
         } else if (DeltaPhi > Pi) {
             DeltaPhi -= TwoPi;
         } else {
-            Print(kError, "Get Delta Phi", DeltaPhi);
+            Print(kError, "Delta Phi", DeltaPhi);
             break;
         }
     }
