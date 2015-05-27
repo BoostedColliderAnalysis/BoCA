@@ -595,7 +595,7 @@ int heavyhiggs::AnalysisCharged::RunAnalysis(analysis::Event &event, const analy
 {
     Print(kInformation, "Analysis");
 
-    analysis::Jets Particles = event.partons().Generator();
+    analysis::Jets Particles = event.partons().GenParticles();
     analysis::Jets Quarks = fastjet::sorted_by_pt(analysis::RemoveIfNot5Quarks(Particles));
     Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, TopId));
     if (Quarks.empty()) {
@@ -703,7 +703,7 @@ bool heavyhiggs::AnalysisCharged::GetBottomReader(analysis::Event &event, const 
     Jets jets = bottom_tagger_.GetJets(event);
     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 
-    Jets Particles = event.partons().Generator();
+    Jets Particles = event.partons().GenParticles();
     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 
     for (const auto & Particle : Particles) {
@@ -1126,7 +1126,7 @@ bool heavyhiggs::AnalysisCharged::GeteventSemiReader(analysis::Event &event, con
 //     }
 //     std::vector<analysis::Triplet> Finaltriplets;
 //     if (Tag == kSignal) {
-//       Jets Particles = event.partons().Generator();
+//       Jets Particles = event.partons().GenParticles();
 //       Jets TopParticles = w_hadronic_tagger.RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
 //       if (TopParticles.size() != 1) Print(kError, "Where is the Top?");
 //       else for (const auto & triplet : tripletsHadronic) if ((triplet.Jet().delta_R(TopParticles.at(0)) < w_hadronic_tagger.detector_geometry().JetConeSize)) Finaltriplets.emplace_back(triplet);

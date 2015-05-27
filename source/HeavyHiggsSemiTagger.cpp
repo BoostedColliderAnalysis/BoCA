@@ -40,7 +40,7 @@ int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_c
     float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (tag == kSignal) {
-        Jets HiggsParticles = event.partons().Generator();
+        Jets HiggsParticles = event.partons().GenParticles();
         Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
         Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
         HiggsParticles = Even;
@@ -60,7 +60,7 @@ int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_c
     Print(kDebug, "Number of Hadronic Tops", triplets_hadronic.size());
 
     std::vector<Triplet> FinaltripletsHadronic;
-    Jets TopParticles = event.partons().Generator();
+    Jets TopParticles = event.partons().GenParticles();
     int HadTopId = top_hadronic_tagger.TopHadronicId(event);
     TopParticles = RemoveIfWrongParticle(TopParticles, HadTopId);
     fastjet::PseudoJet TopQuark;

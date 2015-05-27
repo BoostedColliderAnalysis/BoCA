@@ -67,7 +67,7 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 //     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
 
-    analysis::Jets HiggsParticles = event.partons().Generator();
+    analysis::Jets HiggsParticles = event.partons().GenParticles();
     analysis::Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
     analysis::Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;

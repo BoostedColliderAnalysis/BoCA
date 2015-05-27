@@ -133,7 +133,7 @@ void top::Analysis::SetFiles(const analysis::Object::Tag tag)
 int top::Analysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
-    analysis::Jets particles = event.partons().Generator();
+    analysis::Jets particles = event.partons().GenParticles();
     analysis::Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
     analysis::remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
     return tops.size();

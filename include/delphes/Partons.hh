@@ -17,20 +17,15 @@ class Partons  : public analysis::Partons
 
 public:
 
-    /**
-     * @brief constructor
-     *
-     */
     Partons();
+
+    Jets Particles();
+
+    Jets GenParticles();
 
 private:
 
-    /**
-     * @brief Extracts particles from Clones Array
-     *
-     * @return bool
-     */
-    bool GetParticles();
+    Jets Particles(const Status max_status);
 
     inline std::string NameSpaceName() const {
         return "delphes";

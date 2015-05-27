@@ -362,8 +362,8 @@ analysis::Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
 //     Jets AntiLeptonJets = event->Lepton->AntiLeptonJets;
 
 //     event.GetParticlesM()->GetParticles();
-    analysis::Jets LeptonJets = event.partons().GetLeptonJets();
-    analysis::Jets AntiLeptonJets = event.partons().GetAntiLeptonJets();
+    analysis::Jets LeptonJets ;//= event.partons().GetLeptonJets();//TODO fix this
+    analysis::Jets AntiLeptonJets;// = event.partons().GetAntiLeptonJets();//TODO fix this
 
     std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());

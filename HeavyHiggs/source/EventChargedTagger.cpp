@@ -97,7 +97,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 //     std::vector<analysis::Quartet31> Higgsquartets = charged_higgs_semi_tagger.GetBdt(tripletsSemi, jets, ChargedHiggsSemiReader);
 
 
-//     Jets HiggsParticles = event.partons().Generator();
+//     Jets HiggsParticles = event.partons().GenParticles();
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), analysis::WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
 //     if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
 //     std::sort(Higgsquartets.begin(), Higgsquartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
@@ -126,7 +126,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 //     }
 //     std::vector<analysis::Triplet> Finaltriplets;
 //     if (tag == kSignal) {
-//         Jets Particles = event.partons().Generator();
+//         Jets Particles = event.partons().GenParticles();
 //         Jets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
 //         if (TopParticles.size() != 1) Print(kError, "Where is the Top?",TopParticles.size());
 //         else for (const auto & triplet : tripletsHadronic) if ((triplet.Jet().delta_R(TopParticles.at(0)) < detector_geometry().JetConeSize)) Finaltriplets.emplace_back(triplet);
@@ -139,7 +139,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 
 //     Jets FinalBottoms;
 //     if (tag == kSignal) {
-//         Jets Particles = event.partons().Generator();
+//         Jets Particles = event.partons().GenParticles();
 //         Jets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
 //         if (BottomParticles.size() != 1) Print(kError, "Where is the Bottom?",BottomParticles.size());
 //         else for (const auto & Jet : jets)  if ((Jet.delta_R(BottomParticles.at(0)) < detector_geometry().JetConeSize)) FinalBottoms.emplace_back(Jet);
@@ -152,10 +152,10 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 //     std::vector<analysis::Quartet31> Jetquartets = Chargedjet_pair_tagger.GetBdt(tripletsHadronic, jets, ChargedJetPairReader);
 
 
-//     Jets TopParticles = event.partons().Generator();
+//     Jets TopParticles = event.partons().GenParticles();
 //     TopParticles.erase(std::remove_if(TopParticles.begin(), TopParticles.end(), WrongAbsFamily(TopId, GluonId)), TopParticles.end());
 //     if (Tag== kSignal && TopParticles.size() != 1) Print(kError, "Where is the Top?");
-//     Jets BottomParticles = event.partons().Generator();
+//     Jets BottomParticles = event.partons().GenParticles();
 //     BottomParticles.erase(std::remove_if(BottomParticles.begin(), BottomParticles.end(), WrongAbsFamily(BottomId, GluonId)), BottomParticles.end());
 //     if (Tag== kSignal && BottomParticles.size() != 1) Print(kError, "Where is the Bottom?");
 //

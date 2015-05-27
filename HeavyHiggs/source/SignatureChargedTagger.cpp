@@ -51,7 +51,7 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 //     std::vector<analysis::Quartet31> Higgsquartets = static_cast<analysis::ChargedHiggsSemiTagger &>(charged_higgs_semi_reader_.tagger()).Multiplets(event, charged_higgs_semi_reader_.reader());
     std::vector<analysis::Quartet31> Higgsquartets = charged_higgs_semi_reader_.Multiplets<analysis::ChargedHiggsSemiTagger>(event);
 
-    analysis::Jets HiggsParticles = event.partons().Generator();
+    analysis::Jets HiggsParticles = event.partons().GenParticles();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
     if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
     std::sort(Higgsquartets.begin(), Higgsquartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
@@ -80,7 +80,7 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 //     }
 //     std::vector<analysis::Triplet> Finaltriplets;
 //     if (tag == kSignal) {
-//         Jets Particles = event.partons().Generator();
+//         Jets Particles = event.partons().GenParticles();
 //         Jets TopParticles = RemoveIfWrongAbsFamily(Particles, TopId, GluonId);
 //         if (TopParticles.size() != 1) Print(kError, "Where is the Top?");
 //         else for (const auto & triplet : tripletsHadronic) if ((triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize)) Finaltriplets.emplace_back(triplet);
@@ -93,7 +93,7 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 //
 //     Jets FinalBottoms;
 //     if (tag == kSignal) {
-//         Jets Particles = event.partons().Generator();
+//         Jets Particles = event.partons().GenParticles();
 //         Jets BottomParticles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
 //         if (BottomParticles.size() != 1) Print(kError, "Where is the Bottom?");
 //         else for (const auto & Jet : jets)  if ((Jet.delta_R(BottomParticles.front()) < detector_geometry().JetConeSize)) FinalBottoms.emplace_back(Jet);

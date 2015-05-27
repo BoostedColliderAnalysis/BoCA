@@ -17,23 +17,18 @@ class Partons : public analysis::Partons
 
 public:
 
-    /**
-     * @brief constructor
-     *
-     */
     Partons();
+
+    Jets Particles();
+
+    Jets GenParticles();
 
 private:
 
-    /**
-     * @brief extract electrons and muon particle
-     *
-     * @return void
-     */
-    bool GetParticles();
+    Jets Particles(const Status max_status);
 
     inline std::string NameSpaceName() const {
-        return "parton";
+        return "exroot";
     }
 
 };

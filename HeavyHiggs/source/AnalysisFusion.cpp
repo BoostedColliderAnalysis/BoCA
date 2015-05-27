@@ -517,7 +517,7 @@ int heavyhiggs::AnalysisFusion::RunAnalysis(analysis::Event &event, const analys
 
     if (object_number_ > EventNumberMax()) return 0;
 
-    analysis::Jets Particles = event.partons().Generator();
+    analysis::Jets Particles = event.partons().GenParticles();
     Particles = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Particles.size() != 2) {
         Print(kError, "Not enough top quarks", Particles.size());
@@ -612,7 +612,7 @@ int heavyhiggs::AnalysisFusion::RunAnalysis(analysis::Event &event, const analys
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //
-//     Jets Particles = event.partons().Generator();
+//     Jets Particles = event.partons().GenParticles();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     for (const auto & Particle : Particles) {

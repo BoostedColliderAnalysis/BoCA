@@ -161,7 +161,7 @@ std::vector< top::HTopHadronBranch > top::HTopHadronTagger::GetBranches(analysis
     const int TopNumber = 2;
 
 //     int WHadId = WTagger.GetWHadId(event);
-    analysis::Jets TopParticles = event.partons().Generator();
+    analysis::Jets TopParticles = event.partons().GenParticles();
 //     int HadTopId = sgn(WHadId) * std::abs(TopId);
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     fastjet::PseudoJet TopQuark;

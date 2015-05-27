@@ -95,7 +95,7 @@ std::vector<analysis::EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagg
 //     const int BackgroundBottomNumber = 0;
 //     if (jets.size() < JetNumber) return eventSemiBranches;
 //     Jets BottomJets;
-//     Jets Particles = event.partons().Generator();
+//     Jets Particles = event.partons().GenParticles();
 //     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
@@ -128,7 +128,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
 
     if (jets.size() < JetNumber) return 0;
     analysis::Jets BottomJets;
-    analysis::Jets Particles = event.partons().Generator();
+    analysis::Jets Particles = event.partons().GenParticles();
     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
     for (const auto & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), analysis::MinDeltaRTo(Particle));

@@ -573,7 +573,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 {
     Print(kInformation, "Analysis");
 
-    analysis::Jets Particles = event.partons().Generator();
+    analysis::Jets Particles = event.partons().GenParticles();
     analysis::Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Tops.size() != 2) {
         Print(kError, "Not enough top quarks", Tops.size());
@@ -677,7 +677,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //
 // //     jets = static_cast<analysis::HBottomTagger>(BottomReader.Tagger()).GetJetBdt(jets);
 //
-//     Jets Particles = event.partons().Generator();
+//     Jets Particles = event.partons().GenParticles();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     for (const auto & Particle : Particles) {
@@ -715,7 +715,7 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
 //     std::vector<analysis::Doublet> doublets = jet_pair_tagger.GetBdt(jets, JetPairReader);
 //     if (jets.empty()) return 0;
 //
-//     Jets Particles = event.partons().Generator();
+//     Jets Particles = event.partons().GenParticles();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsFamily(BottomId, GluonId)), Particles.end());
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));

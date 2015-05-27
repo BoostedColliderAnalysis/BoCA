@@ -79,7 +79,7 @@ analysis::BottomBranch bottom::BottomTaggerSimple::GetBranch(const fastjet::Pseu
 int bottom::BottomTaggerSimple::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Bottom Tag", tag);
-    analysis::Jets particles = event.partons().Generator();
+    analysis::Jets particles = event.partons().GenParticles();
     particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(kInformation, "Particle size", particles.size());
     analysis::Jets jets = event.hadrons().Jets();

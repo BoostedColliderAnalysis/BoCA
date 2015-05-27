@@ -29,7 +29,7 @@ public:
         NewEvent(*clones_arrays_);
         switch (detector_geometry().jet_type) {
         case DetectorGeometry::kJet :
-            return DelphesJets(kPlain);
+          return DelphesJets(kStructure);
         case DetectorGeometry::kGenJet :
             return GenJets();
         case DetectorGeometry::kEFlowJet :
@@ -37,43 +37,29 @@ public:
         }
     }
 
-
     float ScalarHt();
 
     fastjet::PseudoJet MissingEt();
+
+protected:
+
+    inline std::string NameSpaceName() const {
+        return "delphes";
+    }
+
+private:
+
+    void DoubleCounting();
 
     analysis::Jets GranulatedJets(const analysis::Jets &jets);
 
     analysis::Jets ClusteredJets();
 
-private:
-
-    /**
-     * @brief AnalyseJet calls AnalyseEFlow
-     *
-     * @return void
-     */
     analysis::Jets DelphesJets(const FourVector::JetDetail jet_detail);
 
-    /**
-     * @brief Analyses EFlow Variables of Jets
-     *
-     */
     analysis::Jets EFlowJets(const JetDetail jet_detail);
 
-    /**
-     * @brief Get Gen Jet
-     *
-     */
     analysis::Jets GenJets();
-
-
-    /**
-     * @brief AnalyseJet calls AnalyseEFlow
-     *
-     * @return void
-     */
-    bool Jets(const bool, const bool);
 
     template <typename Clone>
     JetInfo GetJetId(const Clone &clone) {
@@ -111,10 +97,6 @@ private:
     fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::JetDetail jet_detail);
 
     fastjet::PseudoJet ConstituentJet(const TObject &Object, const FourVector::JetDetail jet_detail, const Constituent::SubDetector Detector = Constituent::kNone);
-
-    inline std::string NameSpaceName() const {
-        return "delphes";
-    }
 
 };
 

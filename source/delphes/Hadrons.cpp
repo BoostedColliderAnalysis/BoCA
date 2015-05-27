@@ -176,7 +176,6 @@ analysis::Jets analysis::delphes::Hadrons::HadronEFlow(const JetDetail jet_detai
     analysis::Jets e_flow_jets;
     for (const int HadronNumber : Range(clones_arrays().EFlowNeutralHadronSum())) {
         if (jet_detail == kTaggingStructure || jet_detail == kStructure) {
-//             if (!clones_arrays().GetEFlowNeutralHadron(HadronNumber)) continue;
             e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(HadronNumber), jet_detail, Constituent::kTower));
             continue;
         }
@@ -275,10 +274,10 @@ analysis::Jets analysis::delphes::Hadrons::GranulatedJets(const analysis::Jets &
             jets = sorted_by_pt(jets);
         }
     }
-    for (std::size_t ii = 0; ii < jets.size(); ++ii) {
-        if ((jets[ii].perp() < pt_cut_off)) {
-            jets.erase(jets.begin() + ii);
-            --ii;
+    for (std::size_t jet_number = 0; jet_number < jets.size(); ++jet_number) {
+        if ((jets[jet_number].perp() < pt_cut_off)) {
+            jets.erase(jets.begin() + jet_number);
+            --jet_number;
         }
     }
     return jets;
@@ -303,3 +302,9 @@ analysis::Jets analysis::delphes::Hadrons::ClusteredJets()
     }
     return jets;
 }
+
+void analysis::delphes::Hadrons::DoubleCounting()
+{
+
+}
+

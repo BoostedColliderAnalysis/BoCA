@@ -61,7 +61,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
     }
 
     int z_hadronic_id = ZHadronicId(z_hadronic_daughters);
-    Jets z_particles = event.partons().Generator();
+    Jets z_particles = event.partons().GenParticles();
     z_particles = RemoveIfWrongParticle(z_particles, z_hadronic_id);
 
     Jets z_jets;
@@ -94,7 +94,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 
 analysis::Jets analysis::ZHadronicTagger::ZDaughters(Event &event)
 {
-    Jets z_daughters = event.partons().Generator();
+    Jets z_daughters = event.partons().GenParticles();
     z_daughters = RemoveIfWrongAbsMother(z_daughters, ZId);
     Print(kInformation, "W daughters", z_daughters.size());
 

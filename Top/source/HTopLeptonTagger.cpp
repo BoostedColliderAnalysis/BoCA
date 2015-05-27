@@ -147,7 +147,7 @@ std::vector< analysis::HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis
     std::vector<analysis::HTopLeptonBranch> TopLeptonBranches;
     if (doublets.empty()) return TopLeptonBranches;
 
-    analysis::Jets TopParticles = event.partons().Generator();
+    analysis::Jets TopParticles = event.partons().GenParticles();
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     if (TopParticles.size() != TopNumber) {
         if(tag == kSignal) Print(kError, "Top Quarks", TopParticles.size());

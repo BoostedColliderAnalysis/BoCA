@@ -40,7 +40,7 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
     float pre_cut = 0;
 
     int WSemiId = w_semi_tagger_.WSemiId(event);
-    Jets top_particles = event.partons().Generator();
+    Jets top_particles = event.partons().GenParticles();
     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     top_particles = RemoveIfWrongParticle(top_particles, TopSemiId);
 

@@ -103,7 +103,7 @@ int heavyhiggs::EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
 //     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
 //
 //
-//     Jets HiggsParticles = event.partons().Generator();
+//     Jets HiggsParticles = event.partons().GenParticles();
 //     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
 //     Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
 //     HiggsParticles = Even;
@@ -119,7 +119,7 @@ int heavyhiggs::EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
 //     std::vector<analysis::Doublet> doublets = jet_pair_tagger.GetBdt(jets, JetPairReader);
 //
 //     std::vector<analysis::Doublet> Finaldoublets;
-//     Jets Particles = event.partons().Generator();
+//     Jets Particles = event.partons().GenParticles();
 //     if (Tag == kSignal) {
 //         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
 //         if (Particles.size() == 2) {

@@ -39,7 +39,7 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
 
     const fastjet::PseudoJet missing_et = event.hadrons().MissingEt();
 
-    Jets Particles = event.partons().Generator();
+    Jets Particles = event.partons().GenParticles();
     int w_semi_id = WSemiId(event);
     fastjet::PseudoJet WBoson;
     Particles = RemoveIfWrongParticle(Particles, w_semi_id);
@@ -163,7 +163,7 @@ struct FindError {
 
 analysis::Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
 {
-    Jets WKids = event.partons().Generator();
+    Jets WKids = event.partons().GenParticles();
     WKids = RemoveIfWrongAbsMother(WKids, WId);
     if (WKids.size() != 4) Print(kError, "Where is the W 1?", WKids.size());
 
