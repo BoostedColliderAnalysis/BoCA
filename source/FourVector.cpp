@@ -117,7 +117,7 @@ fastjet::PseudoJet analysis::FourVector::PseudoJet(const TRootTau &Particle) con
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(TauId)));
 }
 
-analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
+analysis::Family analysis::FourVector::BranchFamily(const TObject &object)
 {
     Print(kInformation, "Mother Id", clones_arrays().ParticleSum());
     Family family;
@@ -127,7 +127,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
     }
     const int Position = clones_arrays().ParticleClonesArray().IndexOf(&object);
     if (Position == EmptyPosition) return family;
-    family = GetBranchFamily(family, Position);
+    family = BranchFamily(family, Position);
     if (family.mother_1().Id == EmptyId) family = Family(family.particle().Position, IsrId, family.mother_1().Position, IsrId);
 //       Print(kError, "Truth Level Tagging Failed");
     for (auto & Node : topology_) if (Node.Marker()) Node = family;
@@ -137,7 +137,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(const TObject &object)
     return family;
 }
 
-analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Position)
+analysis::Family analysis::FourVector::BranchFamily(Family &family, int Position)
 {
     Print(kInformation, "Branch Family ", Name(family.particle().Id), Position);
     if (
@@ -180,7 +180,7 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
         }
         Family NodeFamily(particle.P4(), MotherVector, Position, particle.PID, particle.M1, M1Id);
         if (Mother1Status == kGenerator)
-            family = jet_tag().GetBranchFamily(NodeFamily, family);
+            family = jet_tag().BranchFamily(NodeFamily, family);
         Print(kDetailed, "Branch Id", Name(M1Id), Name(family.mother_1().Id));
         if (jet_tag().HeavyParticles.find(static_cast<ParticleId>(std::abs(family.mother_1().Id))) != end(jet_tag().HeavyParticles)) return family;
         if (jet_tag().HeavyParticles.find(static_cast<ParticleId>(std::abs(family.particle().Id))) != end(jet_tag().HeavyParticles)) return family;
@@ -191,8 +191,8 @@ analysis::Family analysis::FourVector::GetBranchFamily(Family &family, int Posit
                     JetInfo jet_info;
 //                     for (int Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
                     for (int Counter = particle.M1; Counter <= particle.M2; ++Counter) {
-//                         BranchFamily = GetBranchFamily(BranchFamily, Counter);
-                        Family NewFamily = GetBranchFamily(family, Counter);
+//                         BranchFamily = BranchFamily(BranchFamily, Counter);
+                        Family NewFamily = BranchFamily(family, Counter);
                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
                         Print(kDebug, "StringPart", Counter, Name(family.particle().Id));
 //                         if (std::abs(BranchFamily.particle().Id) == IsrId) return BranchFamily;

@@ -62,12 +62,12 @@ private:
     analysis::Jets GenJets();
 
     template <typename Clone>
-    JetInfo GetJetId(const Clone &clone) {
+    JetInfo JetId(const Clone &clone) {
         Print(kDetailed, "Jet Id", clone.Particles.GetEntriesFast());
         JetInfo jet_info;
 //         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
         for (const int ParticleNumber : Range(clone.Particles.GetEntriesFast())) {
-            const Family family = GetBranchFamily(*clone.Particles.At(ParticleNumber));
+            const Family family = BranchFamily(*clone.Particles.At(ParticleNumber));
             Print(kDebug, "MotherId", family.particle().Id, family.mother_1().Id);
             jet_info.Addconstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }
@@ -90,9 +90,9 @@ private:
 
     analysis::Jets EFlowPhoton(const JetDetail);
 
-    analysis::Jets HadronEFlow(const JetDetail);
+    analysis::Jets EFlowHadron(const JetDetail);
 
-    analysis::Jets MuonEFlow(const JetDetail);
+    analysis::Jets EFlowMuon(const JetDetail);
 
     fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::JetDetail jet_detail);
 

@@ -184,3 +184,10 @@ analysis::Jets analysis::CopyIfClose(const Jets &jets, const Jets& particles)
   return final_jets;
 }
 
+analysis::Jets analysis::RemoveIfSoft(const Jets &jets, const float pt_min)
+{
+  Jets quarks = jets;
+  quarks.erase(std::remove_if(quarks.begin(), quarks.end(), TooSmallPt(pt_min)), quarks.end());
+  return quarks;
+}
+

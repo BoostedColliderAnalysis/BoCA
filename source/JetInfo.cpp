@@ -154,19 +154,19 @@ void analysis::JetInfo::ExtractFraction(const int particle_id)
 {
     Print(kInformation, "Extract Fraction", particle_id);
     ExtractFamilyFraction();
-    for (auto pair = family_fractions_.begin(); pair != family_fractions_.end(); ++pair) {
-        if ((*pair).first.particle().Id == particle_id || (*pair).first.mother_1().Id == particle_id) AddParticle(particle_id, (*pair).second);
-        else if ((*pair).first.particle().Id == -particle_id || (*pair).first.mother_1().Id == -particle_id) AddParticle(-particle_id, (*pair).second);
-        else AddParticle((*pair).first.particle().Id, (*pair).second);
+    for (const auto &pair : family_fractions_) {
+        if (pair.first.particle().Id == particle_id || pair.first.mother_1().Id == particle_id) AddParticle(particle_id, pair.second);
+        else if (pair.first.particle().Id == -particle_id || pair.first.mother_1().Id == -particle_id) AddParticle(-particle_id, pair.second);
+        else AddParticle(pair.first.particle().Id, pair.second);
     }
 }
 
 void analysis::JetInfo::ExtractFraction(const int particle_id, const int mother_id)
 {
     Print(kInformation, "Extract Fraction", particle_id, mother_id);
-    for (auto pair = family_fractions_.begin(); pair != family_fractions_.end(); ++pair) {
-        if (std::abs((*pair).first.particle().Id) == particle_id && std::abs((*pair).first.mother_1().Id) == mother_id) AddParticle((*pair).first.particle().Id, (*pair).second);
-        else AddParticle(IsrId, (*pair).second);
+    for (const auto &pair : family_fractions_) {
+        if (std::abs(pair.first.particle().Id) == particle_id && std::abs(pair.first.mother_1().Id) == mother_id) AddParticle(pair.first.particle().Id, pair.second);
+        else AddParticle(IsrId, pair.second);
     }
 }
 
@@ -174,9 +174,9 @@ void analysis::JetInfo::ExtractAbsFraction(const int particle_id)
 {
     Print(kInformation, "Extract Fraction", particle_id);
     ExtractFamilyFraction();
-    for (auto pair = family_fractions_.begin(); pair != family_fractions_.end(); ++pair) {
-        if (std::abs((*pair).first.particle().Id) == particle_id || std::abs((*pair).first.mother_1().Id) == particle_id) AddParticle(particle_id, (*pair).second);
-        else AddParticle((*pair).first.particle().Id, (*pair).second);
+    for (const auto &pair : family_fractions_) {
+      if (std::abs(pair.first.particle().Id) == particle_id || std::abs(pair.first.mother_1().Id) == particle_id) AddParticle(particle_id, pair.second);
+      else AddParticle(pair.first.particle().Id, pair.second);
     }
 }
 
@@ -209,8 +209,7 @@ float analysis::JetInfo::MaximalFraction() const
 int analysis::JetInfo::MaximalId() const
 {
     Print(kDebug, "Maximal Id");
-    std::pair<int, float> maximal_pair = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
-    return maximal_pair.first;
+    return std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs())->first;
 }
 
 void analysis::JetInfo::PrintAllInfos(const Severity severity) const

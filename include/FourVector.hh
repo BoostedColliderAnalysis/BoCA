@@ -103,9 +103,9 @@ protected:
     fastjet::PseudoJet PseudoJet(const TRootPhoton &Particle) const;
     fastjet::PseudoJet PseudoJet(const TRootTau &Particle) const;
 
-    Family GetBranchFamily(const TObject &object);
+    Family BranchFamily(const TObject &object);
 
-    Family GetBranchFamily(Family &BranchId, int Position);
+    Family BranchFamily(Family &BranchId, int Position);
 //     fastjet::PseudoJet PseudoJet(const MissingET & Particle) const;
 
     template<typename TData>

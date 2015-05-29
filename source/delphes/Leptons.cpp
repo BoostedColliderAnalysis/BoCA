@@ -19,7 +19,7 @@ analysis::Jets analysis::delphes::Leptons::Electrons(analysis::FourVector::JetDe
         ::delphes::Electron &electron = static_cast<::delphes::Electron &>(clones_arrays().Electron(ElectronNumber));
         fastjet::PseudoJet electron_jet = analysis::PseudoJet(electron.P4());
         if (jet_detail == analysis::FourVector::kTagging) {
-            Constituent constituent(electron.P4(), GetBranchFamily(*electron.Particle.GetObject()));
+            Constituent constituent(electron.P4(), BranchFamily(*electron.Particle.GetObject()));
             electron_jet.set_user_info(new JetInfo(constituent, int(electron.Charge)));
         } else electron_jet.set_user_info(new JetInfo(int(electron.Charge)));
         electrons.emplace_back(electron_jet);
@@ -42,7 +42,7 @@ analysis::Jets analysis::delphes::Leptons::Muons(JetDetail jet_detail)
         ::delphes::Muon &muon = static_cast<::delphes::Muon &>(clones_arrays().Muon(MuonNumber));
         fastjet::PseudoJet muon_jet = analysis::PseudoJet(muon.P4());
         if (jet_detail == analysis::FourVector::kTagging) {
-            Constituent constituent(muon.P4(), GetBranchFamily(*muon.Particle.GetObject()));
+            Constituent constituent(muon.P4(), BranchFamily(*muon.Particle.GetObject()));
             muon_jet.set_user_info(new JetInfo(constituent, int(muon.Charge)));
         } else muon_jet.set_user_info(new JetInfo(int(muon.Charge)));
         muons.emplace_back(muon_jet);

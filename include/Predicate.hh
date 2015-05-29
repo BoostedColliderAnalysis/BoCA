@@ -95,13 +95,13 @@ struct MaxPt {
 
 
 struct TooSmallPt {
-    TooSmallPt(const int pt) {
+    TooSmallPt(const float pt) {
         pt_ = pt;
     }
     bool operator()(const fastjet::PseudoJet &jet) {
         return (jet.pt() < pt_);
     }
-    int pt_;
+    float pt_;
 };
 
 struct TooBigPt {
@@ -338,13 +338,13 @@ Jets RemoveIfWrongAbsMother(const Jets &NewJets, const int MotherId);
 
 Jets RemoveIfAbsMother(const Jets &NewJets, const int MotherId);
 
-
 Jets RemoveIfLetpons(const Jets &jets);
 
 Jets RemoveIfQuark(const Jets &jets);
 
 Jets RemoveIfNot5Quarks(const Jets &jets);
 
+Jets RemoveIfSoft(const Jets &jets, const float pt_min);
 
 Jets RemoveIfClose(const Jets &jets, const Jets &particles);
 

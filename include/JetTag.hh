@@ -27,7 +27,7 @@ public:
      */
     virtual int GetBranchId(const int particle_id, int branch_id);
 
-    Family GetBranchFamily(const Family& node_family, Family& branch_family);
+    Family BranchFamily(const Family& node_family, Family& branch_family);
 
 
     std::set<ParticleId> HeavyParticles;
