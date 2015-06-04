@@ -61,13 +61,13 @@ WSemiTagger.cpp
 JetPairTagger.cpp
 TripletJetPairTagger.cpp
 TopHadronicTagger.cpp
-HTopLeptonicTagger.cpp
+TopLeptonicTagger.cpp
 TopSemiTagger.cpp
-HHeavyHiggsLeptonicTagger.cpp
+HeavyHiggsLeptonicTagger.cpp
 HeavyHiggsSemiTagger.cpp
 HHeavyHiggsTauTagger.cpp
 ChargedHiggsSemiTagger.cpp
-HChargedHiggsLeptonicTagger.cpp
+ChargedHiggsLeptonicTagger.cpp
 )
 HLibrary(Analysis "${AnalysisSources}" PARENT_SCOPE)
 add_dependencies(Analysis HWimpMass)

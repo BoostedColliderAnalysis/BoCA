@@ -31,7 +31,7 @@ int analysis::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag ta
 {
     Print(kInformation, "Higgs Tags");
 
-    float Mass = event.mass();
+    float mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (tag == kSignal) {
         Jets HiggsParticles = event.partons().GenParticles();
@@ -75,8 +75,8 @@ int analysis::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag ta
         for (const auto & Jet : BottomJets) {
             if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             Quartet31 quartet(triplet, Jet);
-            if (tag == kSignal && quartet.Jet().m() < Mass / 2)continue;
-            if (tag == kSignal && quartet.Jet().m() > Mass * 3 / 2)continue;
+            if (tag == kSignal && quartet.Jet().m() < mass / 2)continue;
+            if (tag == kSignal && quartet.Jet().m() > mass * 3 / 2)continue;
             if (tag == kSignal && quartet.Jet().delta_R(HiggsBoson) > 2 * detector_geometry().JetConeSize) continue;
             quartets.emplace_back(quartet);
         }
@@ -85,7 +85,7 @@ int analysis::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag ta
 
     if (tag == kSignal && quartets.size() > 1) {
         Print(kInformation, "Higgs Candidates", quartets.size());
-        std::sort(quartets.begin(), quartets.end(), SortByMass(Mass));
+        quartets = SortedByMassTo(quartets, mass);
         quartets.erase(quartets.begin() + 1, quartets.end());
     }
 

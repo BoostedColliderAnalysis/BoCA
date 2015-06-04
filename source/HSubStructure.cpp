@@ -18,7 +18,7 @@ bool analysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     Global.Mass = CandidateJet.m();
     Global.Pt = CandidateJet.pt();
     Jets PieceJets = CandidateJet.pieces();
-    std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
+    PieceJets = SortedByMass(PieceJets);
     if (PieceJets.size() != 2) {
         Print(kNotification, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
         return 0;
@@ -128,7 +128,7 @@ bool analysis::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJe
 {
     // Get Position of SubJets
     Jets PieceJets = CandidateJet.pieces();
-    std::sort(PieceJets.begin(), PieceJets.end(), SortJetByMass());
+    PieceJets = SortedByMass(PieceJets);
     if (PieceJets.size() != 2) {
         Print(kNotification, "Wrong Number of SubJets", PieceJets.size());
         return 0;

@@ -39,7 +39,7 @@ protected:
 
 private:
 
-  analysis::HTopLeptonicBranch *Top;
+  analysis::TopLeptonicBranch *Top;
 
       void DefineVariables();
 

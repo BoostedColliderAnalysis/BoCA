@@ -40,7 +40,7 @@
 //         return  "ChargedJetPair";
 //     case HJetPairReader:
 //         return  "ChargedJetPairReader";
-//     case HTopLeptonicTagger:
+//     case TopLeptonicTagger:
 //         return  "TopLeptonic";
 //     case HTopLeptonicReader:
 //         return  "TopLeptonicReader";
@@ -52,7 +52,7 @@
 //         return  "TopHadronicReader";
 //     case HTopSemiReader:
 //         return  "TopSemiReader";
-//     case HHeavyHiggsLeptonicTagger:
+//     case HeavyHiggsLeptonicTagger:
 //         return  "ChargedHiggsLeptonic";
 //     case HHeavyHiggsHadronicTagger:
 //         return  "ChargedHiggsHadronic";
@@ -150,7 +150,7 @@ std::vector<analysis::File> heavyhiggs::AnalysisCharged::Files(const analysis::O
 //         if (tag == kSignal) NewFiles = NonLeptonicSignalFiles;
 //         else NewFiles = NotLeptonicFiles;
 //         break;
-//     case HTopLeptonicTagger:
+//     case TopLeptonicTagger:
 //         if (tag == kSignal) NewFiles = SignalLeptonicFiles;
 //         else NewFiles = LeptonicFiles;
 //         break;
@@ -174,7 +174,7 @@ std::vector<analysis::File> heavyhiggs::AnalysisCharged::Files(const analysis::O
 //         if (tag == kSignal) NewFiles = SignalSemiFiles;
 //         else NewFiles = SemiFiles;
 //         break;
-//     case HHeavyHiggsLeptonicTagger:
+//     case HeavyHiggsLeptonicTagger:
 //         if (tag == kSignal) NewFiles = SignalLeptonicFiles;
 //         else NewFiles = LeptonicFiles;
 //         break;
@@ -531,11 +531,11 @@ void heavyhiggs::AnalysisCharged::SetTrees()
 //     case HWHadronicReader :
 //         Branch = tree_writer.NewBranch(StudyName(Tagger).c_str(), WHadronicBranch::Class());
 //         break;
-//     case HTopLeptonicTagger :
-//         Branch = tree_writer.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
+//     case TopLeptonicTagger :
+//         Branch = tree_writer.NewBranch(StudyName(Tagger).c_str(), TopLeptonicBranch::Class());
 //         break;
 //     case HTopLeptonicReader :
-//         Branch = tree_writer.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
+//         Branch = tree_writer.NewBranch(StudyName(Tagger).c_str(), TopLeptonicBranch::Class());
 //         break;
 //     case TopHadronicTagger :
 //         Branch = tree_writer.NewBranch(StudyName(Tagger).c_str(), TopHadronicBranch::Class());
@@ -549,11 +549,11 @@ void heavyhiggs::AnalysisCharged::SetTrees()
 //     case HTopSemiReader :
 //         Branch = tree_writer.NewBranch(StudyName(Tagger).c_str(), TopSemiBranch::Class());
 //         break;
-//     case HHeavyHiggsLeptonicTagger :
-// //         Branch = TreeWriter.NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
+//     case HeavyHiggsLeptonicTagger :
+// //         Branch = TreeWriter.NewBranch(GetStudyNames(Tagger).c_str(), HeavyHiggsLeptonicBranch::Class());
 //         break;
 //     case HHeavyHiggsLeptonicReader:
-// //         Branch = TreeWriter.NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
+// //         Branch = TreeWriter.NewBranch(GetStudyNames(Tagger).c_str(), HeavyHiggsLeptonicBranch::Class());
 //         break;
 //     case HHeavyHiggsHadronicTagger :
 // //         Branch = TreeWriter.NewBranch(GetStudyNames(Tagger).c_str(), HHeavyHiggsHadronicBranch::Class());
@@ -639,7 +639,7 @@ int heavyhiggs::AnalysisCharged::RunAnalysis(analysis::Event &event, const analy
 //         return GetWSemiTag(event, tag);
 //     case HWSemiReader :
 //         return GetWSemiReader(event, tag);
-//     case HTopLeptonicTagger :
+//     case TopLeptonicTagger :
 //         return GetTopLeptonicTag(event, tag);
 //     case TopHadronicTagger :
 //         return GetTopHadronicTag(event, tag);
@@ -651,7 +651,7 @@ int heavyhiggs::AnalysisCharged::RunAnalysis(analysis::Event &event, const analy
 //         return GetTopLeptonicReader(event, tag);
 //     case HTopSemiReader :
 //         return GetTopSemiReader(event, tag);
-//     case HHeavyHiggsLeptonicTagger :
+//     case HeavyHiggsLeptonicTagger :
 // //         return GetHeavyHiggsLeptonicTag(event, Tag);
 //     case HHeavyHiggsHadronicTagger :
 // //         return GetHeavyHiggsHadronicTag(event, Tag);
@@ -814,9 +814,9 @@ bool heavyhiggs::AnalysisCharged::GetWReader(analysis::Event &event, const Tag T
 bool heavyhiggs::AnalysisCharged::GetTopLeptonicTag(analysis::Event &,  Tag)
 {
     Print(kInformation, "leptonic top");
-//     std::vector<HTopLeptonicBranch> Tops = TopLeptonicTagger.GetBranches(event, Tag);
+//     std::vector<TopLeptonicBranch> Tops = top_leptonic_tagger.GetBranches(event, Tag);
 //     if (Tops.empty()) return 0;
-//     for (const auto & Top : Tops) *static_cast<HTopLeptonicBranch *>(Branch->NewEntry()) = Top;
+//     for (const auto & Top : Tops) *static_cast<TopLeptonicBranch *>(Branch->NewEntry()) = Top;
     return 1;
 }
 
@@ -832,14 +832,14 @@ bool heavyhiggs::AnalysisCharged::GetTopLeptonicReader(analysis::Event &, const 
 //     if (Leptons.size() < 2) return 0;
 //
 //     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-//     std::vector<analysis::Doublet> doublets = TopLeptonicTagger.GetBdt(jets, Leptons, TopLeptonicReader);
+//     std::vector<analysis::Doublet> doublets = top_leptonic_tagger.GetBdt(jets, Leptons, TopLeptonicReader);
 //
 //     if (doublets.size() > 1) {
 //         std::sort(doublets.begin(), doublets.end());
 //         doublets.erase(doublets.begin() + 1, doublets.end());
 //     }
 //
-//     for (const auto & doublet : doublets) *static_cast<HTopLeptonicBranch *>(Branch->NewEntry()) = TopLeptonicTagger.GetBranch(doublet);
+//     for (const auto & doublet : doublets) *static_cast<TopLeptonicBranch *>(Branch->NewEntry()) = top_leptonic_tagger.GetBranch(doublet);
     return 1;
 }
 

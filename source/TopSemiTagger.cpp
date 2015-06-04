@@ -72,9 +72,8 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
         }
     }
 
-    std::vector<TopSemiBranch> top_semi_branches;
     if (tag == kSignal && triplets.size() > top_particles.size()) {
-        std::sort(triplets.begin(), triplets.end(), SortByMass(Mass(TopId)));
+        triplets = SortedByMassTo(triplets, Mass(TopId));
         triplets.erase(triplets.begin() + top_particles.size(), triplets.end());
     }
     Print(kInformation, "Number triplets", triplets.size());

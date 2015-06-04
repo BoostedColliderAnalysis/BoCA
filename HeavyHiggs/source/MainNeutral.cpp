@@ -32,8 +32,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const an
 //         case analysis::HAnalysis::HWSemiTagger:
 //             analysis::Factory(Analysis.w_semi_tagger);
 //             break;
-//         case analysis::HAnalysis::HTopLeptonicTagger:
-// //             analysis::Factory(Analysis.TopLeptonicTagger);
+//         case analysis::HAnalysis::TopLeptonicTagger:
+// //             analysis::Factory(Analysis.top_leptonic_tagger);
 //             break;
 //         case analysis::HAnalysis::TopHadronicTagger:
 //             analysis::Factory(Analysis.top_hadronic_tagger);
@@ -41,8 +41,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const an
 //         case analysis::HAnalysis::HTopSemiTagger:
 //             analysis::Factory(Analysis.top_semi_tagger);
 //             break;
-//         case analysis::HAnalysis::HHeavyHiggsLeptonicTagger:
-// //             analysis::Factory(Analysis.HeavyHiggsLeptonicTagger);
+//         case analysis::HAnalysis::HeavyHiggsLeptonicTagger:
+// //             analysis::Factory(Analysis.heavy_higgs_leptonic_tagger);
 //             break;
 //         case analysis::HAnalysis::HHeavyHiggsHadronicTagger:
 // //             analysis::Factory(Analysis.HeavyHiggsHadronicTagger);

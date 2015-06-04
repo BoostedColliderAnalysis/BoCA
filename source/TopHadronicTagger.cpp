@@ -136,7 +136,7 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
     Print(kInformation, "Clean Entries");
     if (tag == kSignal && triplets.size() > top_particles.size()) {
         Print(kInformation, "Number of Jet Pairs", triplets.size());
-        triplets = SortByMassTo(triplets, Mass(TopId));
+        triplets = SortedByMassTo(triplets, Mass(TopId));
         triplets.erase(triplets.begin() + top_particles.size(), triplets.end());
     }
     return SaveEntries<TopHadronicBranch>(triplets);

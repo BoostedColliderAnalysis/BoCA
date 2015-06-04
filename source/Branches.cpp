@@ -216,9 +216,9 @@ analysis::TopSemiBranch::TopSemiBranch()
 //     EnergyFraction = InitialValue();
 }
 
-ClassImp(analysis::HTopLeptonicBranch)
+ClassImp(analysis::TopLeptonicBranch)
 
-analysis::HTopLeptonicBranch::HTopLeptonicBranch()
+analysis::TopLeptonicBranch::TopLeptonicBranch()
 {
     BottomPt = InitialValue();
     LeptonPt = InitialValue();
@@ -241,9 +241,9 @@ analysis::HiggsBranch::HiggsBranch()
 //     HiggsTag = int(InitialValue());
 }
 
-ClassImp(analysis::HHeavyHiggsLeptonicBranch)
+ClassImp(analysis::HeavyHiggsLeptonicBranch)
 
-analysis::HHeavyHiggsLeptonicBranch::HHeavyHiggsLeptonicBranch()
+analysis::HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
 {
     LargerWDeltaRap = InitialValue();
     LargerWDeltaPhi = InitialValue();
@@ -297,9 +297,9 @@ analysis::HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
 }
 
 
-ClassImp(analysis::HChargedHiggsLeptonicBranch)
+ClassImp(analysis::ChargedHiggsLeptonicBranch)
 
-analysis::HChargedHiggsLeptonicBranch::HChargedHiggsLeptonicBranch()
+analysis::ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
 {
     HeavyHiggsMass = InitialValue();
     HeavyHiggsPt = InitialValue();

@@ -262,7 +262,8 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
         analysis::Jets CAInclusiveJets = CAClusterSequence.inclusive_jets();
         Print(kDebug, "InclusiveJets Number", CAInclusiveJets.size());
 
-        std::sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), analysis::SortJetByMass());
+//         std::sort(CAInclusiveJets.begin(), CAInclusiveJets.end(), analysis::SortJetByMass());
+        CAInclusiveJets = analysis::SortedByMass(CAInclusiveJets);
 
         for (const auto & CAInclusiveJet : CAInclusiveJets) {
 
@@ -295,7 +296,8 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
         analysis::Jets AktInclusiveJets = AktClusterSequence.inclusive_jets(0);
         Print(kDebug, "InclusiveJets Number", AktInclusiveJets.size());
 
-        std::sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), analysis::SortJetByMass());
+//         std::sort(AktInclusiveJets.begin(), AktInclusiveJets.end(), analysis::SortJetByMass());
+        AktInclusiveJets = analysis::SortedByMass(AktInclusiveJets);
         for (const auto & AktInclusiveJet : AktInclusiveJets) {
 
             //             if (!FillTree(AktFatJetBranch, AktFatJetconstituentBranch, AktInclusiveJet, LeptonJets)) return 0;
@@ -465,8 +467,10 @@ analysis::Jets hjetproperties::HAnalysis::Leptons(analysis::Event &event)
     analysis::Jets LeptonJets;// = event.partons().GetLeptonJets();//TODO fix this
     analysis::Jets AntiLeptonJets;// = event.partons().GetAntiLeptonJets();//TODO fix this
 
-    std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
-    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());
+//     std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
+    LeptonJets = analysis::SortedByPt(LeptonJets);
+//     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());
+    AntiLeptonJets = analysis::SortedByPt(AntiLeptonJets);
 
     bool HardestLepton = 1;
     for (const auto & LeptonJet : LeptonJets) {

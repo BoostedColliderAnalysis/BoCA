@@ -46,7 +46,8 @@ std::vector<analysis::TauBranch> analysis::TauTagger::GetBranches(analysis::Even
     Jets jets = event.hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
     Jets Particles = event.partons().GenParticles();
-    Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
+    Particles = RemoveIfWrongAbsParticle(Particles,TauId);
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
 //     if(Particles.size()!=1)
     Print(kInformation, "Tau Partilces", Particles.size());
     Jets FinalJets = CleanJets(jets, Particles, Tag);

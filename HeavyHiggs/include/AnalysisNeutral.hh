@@ -31,11 +31,11 @@ public:
 //     analysis::HWSemiTagger w_semi_tagger;
 //     analysis::HWTagger w_hadronic_tagger;
 //
-// //     analysis::HTopLeptonicTagger TopLeptonicTagger;
+// //     analysis::TopLeptonicTagger top_leptonic_tagger;
 //     analysis::TopHadronicTagger top_hadronic_tagger;
 //     analysis::HTopSemiTagger top_semi_tagger;
 //
-// //     analysis::HHeavyHiggsLeptonicTagger HeavyHiggsLeptonicTagger;
+// //     analysis::HeavyHiggsLeptonicTagger heavy_higgs_leptonic_tagger;
 // //     analysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
 //     analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
 //

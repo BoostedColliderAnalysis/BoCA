@@ -365,8 +365,10 @@ analysis::Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
     analysis::Jets LeptonJets ;//= event.partons().GetLeptonJets();//TODO fix this
     analysis::Jets AntiLeptonJets;// = event.partons().GetAntiLeptonJets();//TODO fix this
 
-    std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
-    std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());
+    LeptonJets = analysis::SortedByPt(LeptonJets);
+//     std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
+    AntiLeptonJets = analysis::SortedByPt(AntiLeptonJets);
+//     std::sort(AntiLeptonJets.begin(), AntiLeptonJets.end(), analysis::SortJetByPt());
 
     bool HardestLepton = 1;
     for (const auto & LeptonJet : LeptonJets) {

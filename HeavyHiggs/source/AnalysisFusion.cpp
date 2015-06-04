@@ -36,7 +36,7 @@
 //         return  "JetPair";
 //     case HJetPairReader:
 //         return  "JetPairReader";
-//     case HTopLeptonicTagger:
+//     case TopLeptonicTagger:
 //         return  "TopLeptonic";
 //     case HTopLeptonicReader:
 //         return  "TopLeptonicReader";
@@ -48,7 +48,7 @@
 //         return  "TopHadronicReader";
 //     case HTopSemiReader:
 //         return  "TopSemiReader";
-//     case HHeavyHiggsLeptonicTagger:
+//     case HeavyHiggsLeptonicTagger:
 //         return  "HeavyHiggsLeptonic";
 //     case HHeavyHiggsHadronicTagger:
 //         return  "HeavyHiggsHadronic";
@@ -139,7 +139,7 @@ std::vector<analysis::File> heavyhiggs::AnalysisFusion::Files(const Tag tag)
 //         if (tag == kSignal) NewFiles = NonLeptonicSignalFiles;
 //         else NewFiles = NotLeptonicFiles;
 //         break;
-//     case HTopLeptonicTagger:
+//     case TopLeptonicTagger:
 //         if (tag == kSignal) NewFiles = SignalLeptonicFiles;
 //         else NewFiles = LeptonicFiles;
 //         break;
@@ -163,7 +163,7 @@ std::vector<analysis::File> heavyhiggs::AnalysisFusion::Files(const Tag tag)
 //         if (tag == kSignal) NewFiles = SignalSemiFiles;
 //         else NewFiles = SemiFiles;
 //         break;
-//     case HHeavyHiggsLeptonicTagger:
+//     case HeavyHiggsLeptonicTagger:
 //         if (tag == kSignal) NewFiles = SignalLeptonicFiles;
 //         else NewFiles = LeptonicFiles;
 //         break;
@@ -456,11 +456,11 @@ void heavyhiggs::AnalysisFusion::SetTrees()
 //     case HWHadronicReader :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), WHadronicBranch::Class());
 //         break;
-//     case HTopLeptonicTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
+//     case TopLeptonicTagger :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopLeptonicBranch::Class());
 //         break;
 //     case HTopLeptonicReader :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HTopLeptonicBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopLeptonicBranch::Class());
 //         break;
 //     case TopHadronicTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopHadronicBranch::Class());
@@ -474,11 +474,11 @@ void heavyhiggs::AnalysisFusion::SetTrees()
 //     case HTopSemiReader :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), TopSemiBranch::Class());
 //         break;
-//     case HHeavyHiggsLeptonicTagger :
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
+//     case HeavyHiggsLeptonicTagger :
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HeavyHiggsLeptonicBranch::Class());
 //         break;
 //     case HHeavyHiggsLeptonicReader:
-//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsLeptonicBranch::Class());
+//         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HeavyHiggsLeptonicBranch::Class());
 //         break;
 //     case HHeavyHiggsHadronicTagger :
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), HHeavyHiggsHadronicBranch::Class());
@@ -557,7 +557,7 @@ int heavyhiggs::AnalysisFusion::RunAnalysis(analysis::Event &event, const analys
 //         return GetWSemiTag(event, Tag);
 //     case HWSemiReader :
 //         return GetWSemiReader(event, Tag);
-//     case HTopLeptonicTagger :
+//     case TopLeptonicTagger :
 //     case TopHadronicTagger :
 //         return GetTopHadronicTag(event, Tag);
 //     case HTopSemiTagger :
@@ -567,7 +567,7 @@ int heavyhiggs::AnalysisFusion::RunAnalysis(analysis::Event &event, const analys
 //     case HTopLeptonicReader :
 //     case HTopSemiReader :
 //         return GetTopSemiReader(event, Tag);
-//     case HHeavyHiggsLeptonicTagger :
+//     case HeavyHiggsLeptonicTagger :
 // //         return GetHeavyHiggsLeptonicTag(event, Tag);
 //     case HHeavyHiggsHadronicTagger :
 // //         return GetHeavyHiggsHadronicTag(event, Tag);

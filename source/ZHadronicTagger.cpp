@@ -85,7 +85,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
     }
 
     if (tag == kSignal && doublets.size() > z_particles.size()) {
-        std::sort(doublets.begin(), doublets.end(), SortByMass(Mass(ZId)));
+        doublets = SortedByMassTo(doublets, Mass(ZId));
         doublets.erase(doublets.begin() + z_particles.size(), doublets.end());
     }
     return SaveEntries<ZHadronicBranch>(doublets);

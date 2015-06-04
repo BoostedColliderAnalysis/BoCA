@@ -139,8 +139,7 @@ void analysis::JetInfo::ExtractFamilyFraction()
 analysis::Family analysis::JetInfo::MaximalFamily()
 {
     Print(kDebug, "Maximal Id");
-    std::pair<Family, float> max = *std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs());
-    return max.first;
+    return std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs())->first;
 }
 
 void analysis::JetInfo::AddParticle(const int constituent_id, const float weight)

@@ -1,4 +1,5 @@
 # include "HTopHadronTagger.hh"
+# include "Predicate.hh"
 
 #include "fastjet/AreaDefinition.hh"
 #include "fastjet/contrib/Nsubjettiness.hh"
@@ -273,13 +274,14 @@ std::vector< top::HTopHadronBranch > top::HTopHadronTagger::GetBranches(analysis
 
     if (triplets.size() > TopNumber) {
         Print(kInformation, "Number of Jet Pairs", triplets.size());
-        triplets = SortByMassTo(triplets, Mass(TopId));
+        triplets = SortedByMassTo(triplets, Mass(TopId));
         switch (Tag) {
         case kSignal :
             triplets.erase(triplets.begin() + TopNumber, triplets.end()); // FIXME assuming maximal one hadronic top
             break;
         case kBackground :
-            std::sort(triplets.begin(), triplets.end(), analysis::MaxPt());
+          triplets = SortedByPt(triplets);
+//             std::sort(triplets.begin(), triplets.end(), analysis::MaxPt());
             triplets.erase(triplets.begin() + TopNumber, triplets.end()); // FIXME assuming maximal one hadronic top
 //             triplets.erase(triplets.begin()); // FIXME assuming maximal one hadronic top
             break;

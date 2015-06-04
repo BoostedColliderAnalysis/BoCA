@@ -30,7 +30,7 @@ void RunTagger(const std::string TaggerName)
 //           analysis::Factory Factory =
 //           analysis::Factory(Analysis->BottomTagger);
 //         }
-//         if (Tagger == analysis::HAnalysis::HTopLeptonicTagger){
+//         if (Tagger == analysis::HAnalysis::TopLeptonicTagger){
 //           analysis::Factory Factory =
 //           analysis::Factory(Analysis->LeptonicTopTagger);
 //         }
@@ -71,7 +71,7 @@ int main()
 //     if (!gSystem->AccessPathName(FileName))
 //         File = TFile::Open(FileName);
 //     else
-//         Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HTopLeptonicTagger);
+//         Analysis->AnalysisLoop(hhiggscpv::HAnalysis::TopLeptonicTagger);
 //
 //     FileName = "./MvaTop.root";
 //     if (!gSystem->AccessPathName(FileName))

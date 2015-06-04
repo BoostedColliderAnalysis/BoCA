@@ -98,7 +98,7 @@ int analysis::HeavyHiggsSemiTagger::Train(analysis::Event &event, PreCuts &pre_c
 
     if (tag == kSignal && sextets.size() > 1) {
         Print(kInformation, "Higgs Candidates", sextets.size());
-        std::sort(sextets.begin(), sextets.end(), SortByMass(Mass));
+        std::sort(sextets.begin(), sextets.end(), SortByMassTo(Mass));
         sextets.erase(sextets.begin() + 1, sextets.end());
     }
 

@@ -34,7 +34,7 @@ analysis::Strings hhiggscpv::HAnalysis::GetStudyNames()
 //
 //     if (Tagger == HBottomTagger) {
 //         return {"Bottom", "NotBottom"};
-//     } else if (Tagger == HTopLeptonicTagger) {
+//     } else if (Tagger == TopLeptonicTagger) {
 //         return  {"Top", "NotTop"};
 //     } else if (Tagger == HHiggsLeptonicTagger) {
 //         return  {"Higgs", "NotHiggs"};
@@ -113,7 +113,7 @@ std::vector<analysis::File *> hhiggscpv::HAnalysis::GetFiles(const std::string &
 
       BottomReader.set_tagger(bottom_tagger_);
 
-      LeptonicTopTagger = analysis::HTopLeptonicTagger(bottom_tagger_);
+      LeptonicTopTagger = analysis::TopLeptonicTagger();
         LeptonicTopTagger.set_analysis_name(ProjectName());
 //         LeptonicTopTagger.SetTestTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
 //         LeptonicTopTagger.SetSignalTreeNames( {"pp-bbtt-bblvlv-background", "pp-x0tt-bblvlv-even", "pp-x0tt-bblvlv-mix", "pp-x0tt-bblvlv-odd"});
@@ -145,8 +145,8 @@ std::vector<analysis::File *> hhiggscpv::HAnalysis::GetFiles(const std::string &
 //
 //     if (Tagger == HBottomTagger) {
 //         bottom_branch = NewTreeWriter->NewBranch("Bottom", BottomBranch::Class());
-//     } else if (Tagger == HTopLeptonicTagger) {
-//         TopBranch = NewTreeWriter->NewBranch("Top", HTopLeptonicBranch::Class());
+//     } else if (Tagger == TopLeptonicTagger) {
+//         TopBranch = NewTreeWriter->NewBranch("Top", TopLeptonicBranch::Class());
 //     } else if (Tagger == HHiggsLeptonicTagger) {
 //         HiggsBranch = NewTreeWriter->NewBranch("Higgs", HiggsBranch::Class());
 //         constituentBranch = NewTreeWriter->NewBranch("constituent", ParticleBranch::Class());
@@ -164,7 +164,7 @@ int hhiggscpv::HAnalysis::Analysis(analysis::Event &event, const std::string &Ne
 
 //     if (Tagger == HBottomTagger) {
 //         if (GetBottomTag(event, NewStudyName)) return 1;
-//     } else if (Tagger == HTopLeptonicTagger) {
+//     } else if (Tagger == TopLeptonicTagger) {
 //         if (GetTopTag(event, NewStudyName)) return 1;
 //     } else if (Tagger == HHiggsLeptonicTagger) {
 //         if (GetHiggsTag(event, NewStudyName)) return 1;
@@ -209,11 +209,11 @@ bool hhiggscpv::HAnalysis::GetTopTag(analysis::Event &event, const std::string &
     if (NewStudyName == "Top") State = kSignal;
     if (NewStudyName == "NotTop") State = kBackground;
 
-    std::vector<analysis::HTopLeptonicBranch> Tops = LeptonicTopTagger.GetBranches(event, State);
+    return LeptonicTopTagger.Train(event, State);
 
-    for (const auto & Top : Tops) *static_cast<analysis::HTopLeptonicBranch *>(TopBranch->NewEntry()) = Top;
+//     for (const auto & Top : Tops) *static_cast<analysis::TopLeptonicBranch *>(TopBranch->NewEntry()) = Top;
 
-    return 1;
+//     return 1;
 
 }
 
@@ -342,29 +342,29 @@ std::vector< HHiggsCpv > hhiggscpv::HAnalysis::GetHiggsCpvs(const analysis::Jets
     HiggsPair23.SetBdt(HiggsReader.Bdt());
 
     analysis::Doublet Top0 = analysis::Doublet(jets[0], Leptons[0]);
-    LeptonicTopTagger.GetBranch(Top0);
+//     LeptonicTopTagger.GetBranch(Top0);
     Top0.SetBdt(TopReader.Bdt());
     analysis::Doublet Top1 = analysis::Doublet(jets[1], Leptons[0]);
-    LeptonicTopTagger.GetBranch(Top1);
+//     LeptonicTopTagger.GetBranch(Top1);
     Top1.SetBdt(TopReader.Bdt());
     analysis::Doublet Top2 = analysis::Doublet(jets[2], Leptons[0]);
-    LeptonicTopTagger.GetBranch(Top2);
+//     LeptonicTopTagger.GetBranch(Top2);
     Top2.SetBdt(TopReader.Bdt());
     analysis::Doublet Top3 = analysis::Doublet(jets[3], Leptons[0]);
-    LeptonicTopTagger.GetBranch(Top3);
+//     LeptonicTopTagger.GetBranch(Top3);
     Top3.SetBdt(TopReader.Bdt());
 
     analysis::Doublet AntiTop0 = analysis::Doublet(jets[0], Leptons[1]);
-    LeptonicTopTagger.GetBranch(AntiTop0);
+//     LeptonicTopTagger.GetBranch(AntiTop0);
     AntiTop0.SetBdt(TopReader.Bdt());
     analysis::Doublet AntiTop1 = analysis::Doublet(jets[1], Leptons[1]);
-    LeptonicTopTagger.GetBranch(AntiTop1);
+//     LeptonicTopTagger.GetBranch(AntiTop1);
     AntiTop1.SetBdt(TopReader.Bdt());
     analysis::Doublet AntiTop2 = analysis::Doublet(jets[2], Leptons[1]);
-    LeptonicTopTagger.GetBranch(AntiTop2);
+//     LeptonicTopTagger.GetBranch(AntiTop2);
     AntiTop2.SetBdt(TopReader.Bdt());
     analysis::Doublet AntiTop3 = analysis::Doublet(jets[3], Leptons[1]);
-    LeptonicTopTagger.GetBranch(AntiTop3);
+//     LeptonicTopTagger.GetBranch(AntiTop3);
     AntiTop3.SetBdt(TopReader.Bdt());
 
 

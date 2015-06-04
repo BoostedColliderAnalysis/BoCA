@@ -27,7 +27,7 @@ analysis::Jets analysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets,
     Jets MassDropJets = GetMassDropJets(FatJets);
 //     Jets MassDropJets = GetSubjet_taggedJets(FatJets);
     MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
-    std::sort(MassDropJets.begin(), MassDropJets.end(), SortJetByMass());
+    MassDropJets = SortedByMass(MassDropJets);
     MassDropJets = GetFatjet_tag(MassDropJets);
     return MassDropJets;
 }
@@ -52,7 +52,7 @@ analysis::Jets analysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlo
         MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
         DeltaR += .25;
     }
-    std::sort(MassDropJets.begin(), MassDropJets.end(), SortJetByMass());
+    MassDropJets = SortedByMass(MassDropJets);
     MassDropJets = GetFatjet_tag(MassDropJets);
     return MassDropJets;
 }

@@ -113,7 +113,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
     }
 
     if (tag == kSignal && doublets.size() > w_particles.size()) {
-        std::sort(doublets.begin(), doublets.end(), SortByMass(Mass(WId)));
+        std::sort(doublets.begin(), doublets.end(), SortByMassTo(Mass(WId)));
         doublets.erase(doublets.begin() + w_particles.size(), doublets.end());
     }
     return SaveEntries<WHadronicBranch>(doublets);
