@@ -70,7 +70,7 @@ analysis::Jets analysis::TopHadronicHep::GetGranulatedJets(Jets &EFlowJets)
         for (unsigned j = 0; j < GranulatedJets.size(); ++j) {
             const float CellDiffRap = std::abs(EFlowJets[i].pseudorapidity() - GranulatedJets[j].pseudorapidity()) / CellDeltaRap;
             float CellDiffPhi = std::abs(EFlowJets[i].phi() - GranulatedJets[j].phi());
-            if (CellDiffPhi > Pi) CellDiffPhi = TwoPi - CellDiffPhi;
+            if (CellDiffPhi > M_PI) CellDiffPhi = 2 * M_PI - CellDiffPhi;
             CellDiffPhi = CellDiffPhi / CellDeltaPhi;
             if (CellDiffRap < 1 && CellDiffPhi < 1) {
                 NewJet = 1;

@@ -25,11 +25,11 @@ float analysis::Object::DeltaPhi(const float Phi, const float ReferencePhi) cons
 {
     Print(kDetailed, "DeltaPhi");
     float DeltaPhi = Phi - ReferencePhi;
-    while (std::abs(DeltaPhi) > Pi) {
-        if (DeltaPhi < - Pi) {
-            DeltaPhi += TwoPi;
-        } else if (DeltaPhi > Pi) {
-            DeltaPhi -= TwoPi;
+    while (std::abs(DeltaPhi) > M_PI) {
+      if (DeltaPhi < - M_PI) {
+        DeltaPhi += 2 * M_PI;
+      } else if (DeltaPhi > M_PI) {
+        DeltaPhi -= 2 * M_PI;
         } else {
             Print(kError, "Delta Phi", DeltaPhi);
             break;

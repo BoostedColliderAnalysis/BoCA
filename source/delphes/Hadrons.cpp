@@ -248,7 +248,7 @@ analysis::Jets analysis::delphes::Hadrons::GranulatedJets(const analysis::Jets &
         for (std::size_t j = 0; j < jets.size(); ++j) {
             const float cell_diff_rap = std::abs(e_flow_jet.pseudorapidity() - jets[j].pseudorapidity()) / cell_delta_rap;
             float cell_diff_phi = std::abs(e_flow_jet.phi() - jets[j].phi());
-            if (cell_diff_phi > Pi) cell_diff_phi = TwoPi - cell_diff_phi;
+            if (cell_diff_phi > M_PI) cell_diff_phi = 2 * M_PI - cell_diff_phi;
             cell_diff_phi /= cell_delta_phi;
             if (cell_diff_rap < 1 && cell_diff_phi < 1) {
                 is_new_jet = true;

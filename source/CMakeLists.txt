@@ -7,6 +7,7 @@ add_subdirectory(delphes)
 HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(EventSources
+Global.cpp
 Object.cpp
 FourVector.cpp
 File.cpp
@@ -44,10 +45,10 @@ Family.cpp
 Constituent.cpp
 JetTag.cpp
 JetInfo.cpp
-HReconstruction.cpp
-HDiscriminator.cpp
+Reconstruction.cpp
+Discriminator.cpp
 HiggsTagger.cpp
-HSubStructure.cpp
+SubStructure.cpp
 
 Tagger.cpp
 Factory.cpp
@@ -65,7 +66,7 @@ TopLeptonicTagger.cpp
 TopSemiTagger.cpp
 HeavyHiggsLeptonicTagger.cpp
 HeavyHiggsSemiTagger.cpp
-HHeavyHiggsTauTagger.cpp
+HeavyHiggsTauTagger.cpp
 ChargedHiggsSemiTagger.cpp
 ChargedHiggsLeptonicTagger.cpp
 )

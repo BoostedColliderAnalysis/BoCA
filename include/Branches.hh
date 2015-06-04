@@ -434,19 +434,26 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HHeavyHiggsTauBranch : public MultiBranch
+class HeavyHiggsTauBranch : public PairBranch
 {
 
 public:
 
-    HHeavyHiggsTauBranch();
+    HeavyHiggsTauBranch();
 
     float LeptonPt;
     float NeutrinoPt;
 
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+      PairBranch::Fill(multiplet);
+      LeptonPt = multiplet.Singlet1().pt();
+      NeutrinoPt = multiplet.Singlet2().pt();
+    }
+
 private:
 
-    ClassDef(HHeavyHiggsTauBranch, 1)
+    ClassDef(HeavyHiggsTauBranch, 1)
 
 };
 

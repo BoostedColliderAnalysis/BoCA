@@ -10,19 +10,26 @@
 
 # include "fastjet/PseudoJet.hh"
 
-namespace analysis{
+namespace analysis
+{
 
 typedef std::vector<fastjet::PseudoJet> Jets;
 typedef std::vector<TLorentzVector> Vectors;
 typedef std::vector<std::string> Strings;
 
+template <typename Value>
+inline int sgn(const Value value)
+{
+    return (Value(0) < value) - (value < Value(0));
+}
+
+int LargeNumber();
+
 class Range
 {
 public:
-    Range(const int sum):
-        last_(sum),
-        iterator_(0)
-    {}
+    Range(const int sum) : last_(sum), iterator_(0) {}
+
     const Range &begin() const {
         return *this;
     }

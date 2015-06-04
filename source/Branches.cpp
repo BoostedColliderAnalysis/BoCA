@@ -160,9 +160,9 @@ analysis::WSemiBranch::WSemiBranch()
     LeptonPt = InitialValue();
 }
 
-ClassImp(analysis::HHeavyHiggsTauBranch)
+ClassImp(analysis::HeavyHiggsTauBranch)
 
-analysis::HHeavyHiggsTauBranch::HHeavyHiggsTauBranch()
+analysis::HeavyHiggsTauBranch::HeavyHiggsTauBranch()
 {
     NeutrinoPt = InitialValue();
     LeptonPt = InitialValue();

@@ -165,11 +165,6 @@ public:
 
 protected:
 
-    template <typename Value>
-    inline int sgn(const Value value) const {
-        return (Value(0) < value) - (value < Value(0));
-    }
-
     /**
      * @brief Calcualte distance in eta phi space
      *
@@ -231,12 +226,6 @@ protected:
     Severity debug_level_;
 
     /**
-     * @brief A large number
-     *
-     */
-    static const int LargeNumber = 999999999;
-
-    /**
      * @brief Initial user index
      *
      */
@@ -247,36 +236,6 @@ protected:
      *
      */
     static const int EmptyPosition = -1;
-
-    /**
-     * @brief Pi
-     *
-     */
-    constexpr static float Pi = 3.14159265;
-
-    /**
-     * @brief 2 * pi
-     *
-     */
-    constexpr static float TwoPi = 2 * Pi;
-
-    /**
-     * @brief 1 sigma deviation
-     *
-     */
-    constexpr static float OneSigma = 0.6827;
-
-    /**
-     * @brief 2 sigma deviation
-     *
-     */
-    constexpr static float TwoSigma = 0.9545;
-
-    /**
-     * @brief 3 sigma deviation
-     *
-     */
-    constexpr static float ThreeSigma = 0.9973;
 
 private:
 

@@ -29,7 +29,7 @@ void analysis::HiggsTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int analysis::HiggsTagger::Train(analysis::Event &event,  analysis::PreCuts &pre_cuts, const Tag tag)
+int analysis::HiggsTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Higgs Tags");
 

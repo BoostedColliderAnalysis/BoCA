@@ -1,18 +1,13 @@
-# include "HDiscriminator.hh"
+# include "Discriminator.hh"
 # include "Predicate.hh"
 
-analysis::HDiscriminator::HDiscriminator()
+analysis::Discriminator::Discriminator()
 {
     Print(kNotification, "Constructor");
 //     DebugLevel = 5;
 }
 
-analysis::HDiscriminator::~HDiscriminator()
-{
-    Print(kNotification, "Destructor");
-}
-
-analysis::Jets analysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
+analysis::Jets analysis::Discriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
 {
     Print(kInformation, "Tagged Candidate Jets", EFlowJets.size());
     const Jets jets;
@@ -33,7 +28,7 @@ analysis::Jets analysis::HDiscriminator::GetCandidateJets(const Jets &EFlowJets,
 }
 
 
-analysis::Jets analysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlowJets, const float ScalarHt)
+analysis::Jets analysis::Discriminator::GetCandidateJetsForced(const Jets &EFlowJets, const float ScalarHt)
 {
     Print(kInformation, "Tagged Candidate Jets", EFlowJets.size());
     const Jets jets;
@@ -58,7 +53,7 @@ analysis::Jets analysis::HDiscriminator::GetCandidateJetsForced(const Jets &EFlo
 }
 
 
-bool analysis::HDiscriminator::JetIsBad(const fastjet::PseudoJet &Jet)
+bool analysis::Discriminator::JetIsBad(const fastjet::PseudoJet &Jet)
 {
     Object Object;
     if (std::abs(Jet.m()) <= 40.) {

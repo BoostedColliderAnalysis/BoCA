@@ -7,7 +7,7 @@
 
 namespace hcpvhiggs{
 
-  class HDiscriminator;
+  class Discriminator;
   class JetTag;
   class JetJetTag;
   class HAnalysis;

@@ -8,7 +8,7 @@
 //
 //     //jet_tag = new analysis::JetTag();
 //
-//     SubStructure = new analysis::HSubStructure();
+//     sub_structure = new analysis::SubStructure();
 //
 // //     DebugLevel = 3;
 //
@@ -21,7 +21,7 @@ hcpvhiggs::HAnalysis::~HAnalysis()
 
     //delete jet_tag;
 
-    delete SubStructure;
+    delete sub_structure;
 
 }
 
@@ -288,8 +288,8 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
         }
 
-        SubStructure->NewEvent();
-        if (!SubStructure->GetSubJets(CandidateJet)) {
+        sub_structure->NewEvent();
+        if (!sub_structure->GetSubJets(CandidateJet)) {
 
             Print(kError, "No SubJets");
 
@@ -299,30 +299,30 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
         Candidate->ScalarHt = event.hadrons().ScalarHt();
 
-        Candidate->SubJetsDeltaR = SubStructure->GetSubJetsDeltaR();
-        Candidate->Asymmetry = SubStructure->GetAsymmetry();
-        Candidate->DeltaR = SubStructure->GetDeltaR();
-        Candidate->DiPolarity = SubStructure->GetDiPolarity(CandidateJet);
+        Candidate->SubJetsDeltaR = sub_structure->GetSubJetsDeltaR();
+        Candidate->Asymmetry = sub_structure->GetAsymmetry();
+        Candidate->DeltaR = sub_structure->GetDeltaR();
+        Candidate->DiPolarity = sub_structure->GetDiPolarity(CandidateJet);
 
-        Candidate->SubJet1Mass = SubStructure->GetSubJet1Mass();
-        Candidate->SubJet1Pt = SubStructure->GetSubJet1Pt();
-        Candidate->SubJet1DeltaR = SubStructure->GetSubJet1DeltaR();
+        Candidate->SubJet1Mass = sub_structure->GetSubJet1Mass();
+        Candidate->SubJet1Pt = sub_structure->GetSubJet1Pt();
+        Candidate->SubJet1DeltaR = sub_structure->GetSubJet1DeltaR();
 
-        Candidate->SubJet2Mass = SubStructure->GetSubJet2Mass();
-        Candidate->SubJet2Pt = SubStructure->GetSubJet2Pt();
-        Candidate->SubJet2DeltaR = SubStructure->GetSubJet2DeltaR();
+        Candidate->SubJet2Mass = sub_structure->GetSubJet2Mass();
+        Candidate->SubJet2Pt = sub_structure->GetSubJet2Pt();
+        Candidate->SubJet2DeltaR = sub_structure->GetSubJet2DeltaR();
 
-        SubStructure->GetIsolation(CandidateJet, Leptons);
+        sub_structure->GetIsolation(CandidateJet, Leptons);
 
-        Candidate->IsolationRap = SubStructure->GetIsolationRap();
-        Candidate->IsolationPhi = SubStructure->GetIsolationPhi();
-        Candidate->IsolationPt = SubStructure->GetIsolationPt();
-        Candidate->IsolationDeltaR = SubStructure->GetIsolationDeltaR();
-        Candidate->IsolationAngle = SubStructure->GetIsolationAngle();
+        Candidate->IsolationRap = sub_structure->GetIsolationRap();
+        Candidate->IsolationPhi = sub_structure->GetIsolationPhi();
+        Candidate->IsolationPt = sub_structure->GetIsolationPt();
+        Candidate->IsolationDeltaR = sub_structure->GetIsolationDeltaR();
+        Candidate->IsolationAngle = sub_structure->GetIsolationAngle();
 
         Print(kDebug, "Isolation", Candidate->IsolationDeltaR);
 
-        analysis::Vectors constituentVectors = SubStructure->Getconstituents(CandidateJet);
+        analysis::Vectors constituentVectors = sub_structure->Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
           analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
@@ -331,10 +331,10 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
             constituent->Pt = constituentVector.Pt();
         }
 
-        Candidate->ConstRap = SubStructure->GetconstituentRap();
-        Candidate->ConstPhi = SubStructure->GetconstituentPhi();
-        Candidate->ConstDeltaR = SubStructure->GetconstituentDeltaR();
-        Candidate->ConstAngle = SubStructure->GetconstituentAngle();
+        Candidate->ConstRap = sub_structure->GetconstituentRap();
+        Candidate->ConstPhi = sub_structure->GetconstituentPhi();
+        Candidate->ConstDeltaR = sub_structure->GetconstituentDeltaR();
+        Candidate->ConstAngle = sub_structure->GetconstituentAngle();
 
 //         CandidateJet.user_info<JetInfo>().PrintAllInfos(kDetailed);
 //         Print(kNotification, "Tag", CandidateJet.user_info<JetInfo>().MaximalId(), CandidateJet.user_info<JetInfo>().MaximalFraction(), CandidateJet.m());

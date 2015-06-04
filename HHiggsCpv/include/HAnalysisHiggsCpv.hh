@@ -5,7 +5,7 @@
 # include "Analysis.hh"
 // # include "HEventDelphes.hh"
 # include "HBranchHiggsCpv.hh"
-# include "HSubStructure.hh"
+# include "SubStructure.hh"
 # include "Doublet.hh"
 // # include "HMvaPairs.hh"
 # include "Reader.hh"

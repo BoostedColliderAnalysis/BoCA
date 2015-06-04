@@ -9,7 +9,7 @@
 //
 //     //jet_tag = new analysis::JetTag();
 //
-//     SubStructure = new analysis::HSubStructure();
+//     sub_structure = new analysis::SubStructure();
 //
 //     //     DebugLevel = 4;
 //
@@ -230,6 +230,8 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
         float SigmaPt = 0;
         float SigmaRadius = 0;
         JetPair = JetMap.begin();
+        float TwoSigma = 0.9545;
+
         do {
 
             SigmaRadius = (*JetPair).first;
@@ -371,34 +373,34 @@ bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, e
 
         }
 
-        SubStructure.NewEvent();
-        if (!SubStructure.GetSubJets(CandidateJet)) return 0;
+        sub_structure.NewEvent();
+        if (!sub_structure.GetSubJets(CandidateJet)) return 0;
 
-        Candidate->SubJetsDeltaR = SubStructure.GetSubJetsDeltaR();
-        Candidate->Asymmetry = SubStructure.GetAsymmetry();
-        Candidate->DiPolarity = SubStructure.GetDiPolarity(CandidateJet);
+        Candidate->SubJetsDeltaR = sub_structure.GetSubJetsDeltaR();
+        Candidate->Asymmetry = sub_structure.GetAsymmetry();
+        Candidate->DiPolarity = sub_structure.GetDiPolarity(CandidateJet);
 
-        Candidate->SubJet1Mass = SubStructure.GetSubJet1Mass();
-        Candidate->SubJet1Pt = SubStructure.GetSubJet1Pt();
-        Candidate->SubJet1DeltaR = SubStructure.GetSubJet1DeltaR();
+        Candidate->SubJet1Mass = sub_structure.GetSubJet1Mass();
+        Candidate->SubJet1Pt = sub_structure.GetSubJet1Pt();
+        Candidate->SubJet1DeltaR = sub_structure.GetSubJet1DeltaR();
 
-        Candidate->SubJet2Mass = SubStructure.GetSubJet2Mass();
-        Candidate->SubJet2Pt = SubStructure.GetSubJet2Pt();
-        Candidate->SubJet2DeltaR = SubStructure.GetSubJet2DeltaR();
+        Candidate->SubJet2Mass = sub_structure.GetSubJet2Mass();
+        Candidate->SubJet2Pt = sub_structure.GetSubJet2Pt();
+        Candidate->SubJet2DeltaR = sub_structure.GetSubJet2DeltaR();
 
-        if (!SubStructure.GetIsolation(CandidateJet, LeptonJets)) return 0;
+        if (!sub_structure.GetIsolation(CandidateJet, LeptonJets)) return 0;
 
-        Candidate->IsolationRap = SubStructure.GetIsolationRap();
-        Candidate->IsolationPhi = SubStructure.GetIsolationPhi();
-        Candidate->IsolationPt = SubStructure.GetIsolationPt();
-        Candidate->IsolationDeltaR = SubStructure.GetIsolationDeltaR();
-        Candidate->IsolationAngle = SubStructure.GetIsolationAngle();
+        Candidate->IsolationRap = sub_structure.GetIsolationRap();
+        Candidate->IsolationPhi = sub_structure.GetIsolationPhi();
+        Candidate->IsolationPt = sub_structure.GetIsolationPt();
+        Candidate->IsolationDeltaR = sub_structure.GetIsolationDeltaR();
+        Candidate->IsolationAngle = sub_structure.GetIsolationAngle();
 
         Print(kDebug, "Isolation", Candidate->IsolationDeltaR);
 
-//         if (!SubStructure.Getconstituents(CandidateJet, constituentTreeBranch)) return 0;
+//         if (!sub_structure.Getconstituents(CandidateJet, constituentTreeBranch)) return 0;
 
-        analysis::Vectors constituentVectors = SubStructure.Getconstituents(CandidateJet);
+        analysis::Vectors constituentVectors = sub_structure.Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
           analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentTreeBranch->NewEntry());
@@ -407,10 +409,10 @@ bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, e
           constituent->Pt = constituentVector.Pt();
         }
 
-        Candidate->ConstRap = SubStructure.GetconstituentRap();
-        Candidate->ConstPhi = SubStructure.GetconstituentPhi();
-        Candidate->ConstDeltaR = SubStructure.GetconstituentDeltaR();
-        Candidate->ConstAngle = SubStructure.GetconstituentAngle();
+        Candidate->ConstRap = sub_structure.GetconstituentRap();
+        Candidate->ConstPhi = sub_structure.GetconstituentPhi();
+        Candidate->ConstDeltaR = sub_structure.GetconstituentDeltaR();
+        Candidate->ConstAngle = sub_structure.GetconstituentAngle();
 
         Print(kDebug, "Pull", Candidate->ConstDeltaR);
 

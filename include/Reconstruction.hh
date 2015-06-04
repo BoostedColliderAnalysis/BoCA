@@ -1,13 +1,8 @@
 # pragma once
 
-// # include "fastjet/tools/Filter.hh"
-# include "fastjet/tools/MassDropTagger.hh"
-# include "fastjet/tools/CASubJetTagger.hh"
-# include "fastjet/JetDefinition.hh"
-# include "fastjet/ClusterSequence.hh"
 
+# include "fastjet/JetDefinition.hh"
 # include "Object.hh"
-# include "JetInfo.hh"
 
 namespace analysis
 {
@@ -16,7 +11,7 @@ namespace analysis
  * @brief FastJet calculations
  *
  */
-class HReconstruction : public Object
+class Reconstruction : public Object
 {
 
 public:
@@ -25,13 +20,7 @@ public:
      * @brief constructor
      *
      */
-    HReconstruction();
-
-    /**
-     * @brief destructor
-     *
-     */
-    ~HReconstruction();
+    Reconstruction();
 
     virtual void NewEvent();
 
@@ -74,15 +63,9 @@ protected:
 
     Jets GetFatjet_tag(Jets &);
 
-//     Jets FatJetVector;
-
-    inline std::string NameSpaceName() const {
-        return "HDelphes";
-    };
-
     inline std::string ClassName() const {
-        return "HReconstruction";
-    };
+        return "Reconstruction";
+    }
 
 };
 

@@ -2,19 +2,12 @@
 
 analysis::Configuration::Configuration()
 {
-    config_ = new libconfig::Config;
     ReadConfig("Standard");
 }
 
 analysis::Configuration::Configuration(const std::string &config_name)
 {
-    config_ = new libconfig::Config;
     ReadConfig(config_name);
-}
-
-analysis::Configuration::~Configuration()
-{
-    delete config_;
 }
 
 // in GeV
@@ -32,7 +25,7 @@ int analysis::Configuration::PreCut() const
 int analysis::Configuration::EventNumberMax() const
 {
     return event_number_max_;
-};
+}
 
 int analysis::Configuration::BackgroundFileNumber() const
 {
@@ -48,7 +41,7 @@ analysis::Configuration::ColliderType analysis::Configuration::collider_type() c
 int analysis::Configuration::Mass_()
 {
     try {
-        mass_ = config_->lookup("Mass");
+        mass_ = config().lookup("Mass");
     } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
         std::cerr << "No 'Mass' setting in configuration file." << std::endl;
         throw;
@@ -56,13 +49,14 @@ int analysis::Configuration::Mass_()
         std::cerr << "'Mass' setting has wrong type." << std::endl;
         throw;
     }
+    return mass_;
 }
 
 // in GeV
 int analysis::Configuration::PreCut_()
 {
     try {
-        pre_cut_ = config_->lookup("PreCut");
+        pre_cut_ = config().lookup("PreCut");
     } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
         std::cerr << "No 'PreCut' setting in configuration file." << std::endl;
         throw;
@@ -70,12 +64,13 @@ int analysis::Configuration::PreCut_()
         std::cerr << "'PreCut' setting has wrong type." << std::endl;
         throw;
     }
+    return pre_cut_;
 }
 
 int analysis::Configuration::EventNumberMax_()
 {
     try {
-        event_number_max_ = config_->lookup("EventNumberMax");
+        event_number_max_ = config().lookup("EventNumberMax");
     } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
         std::cerr << "No 'EventNumberMax' setting in configuration file." << std::endl;
         throw;
@@ -83,12 +78,13 @@ int analysis::Configuration::EventNumberMax_()
         std::cerr << "'EventNumberMax' setting has wrong type." << std::endl;
         throw;
     }
-};
+    return event_number_max_;
+}
 
 int analysis::Configuration::BackgroundFileNumber_()
 {
     try {
-        background_file_number_ = config_->lookup("BackgroundFileNumber");
+        background_file_number_ = config().lookup("BackgroundFileNumber");
     } catch (const libconfig::SettingNotFoundException &SettingNotFoundException) {
         std::cerr << "No 'BackgroundFileNumber' setting in configuration file." << std::endl;
         throw;
@@ -96,12 +92,13 @@ int analysis::Configuration::BackgroundFileNumber_()
         std::cerr << "'BackgroundFileNumber' setting has wrong type." << std::endl;
         throw;
     }
+    return background_file_number_;
 }
 
 analysis::Configuration::ColliderType analysis::Configuration::ColliderType_()
 {
     try {
-        std::string Collider = config_->lookup("ColliderType");
+        std::string Collider = config().lookup("ColliderType");
         if (Collider == "LHC") collider_type_ = LHC;
         else if (Collider == "LE") collider_type_ = LE;
         else if (Collider == "FHC") collider_type_ = FHC;
@@ -118,29 +115,24 @@ analysis::Configuration::ColliderType analysis::Configuration::ColliderType_()
 
 void analysis::Configuration::WriteConfig(const std::string &config_name)
 {
-    std::string config_file = config_name + ".cfg";
-//         std::string config_name = "Neutral.cfg";
-
-    libconfig::Setting &root = config_->getRoot();
+    libconfig::Setting &root = config().getRoot();
     libconfig::Setting &mass = root.add("Mass",  libconfig::Setting::TypeInt) = 1000;
     libconfig::Setting &pre_cut = root.add("PreCut",  libconfig::Setting::TypeInt) = 1000;
     libconfig::Setting &event_number_max = root.add("EventNumberMax",  libconfig::Setting::TypeInt) = 10000;
     libconfig::Setting &background_file_number = root.add("BackgroundFileNumber",  libconfig::Setting::TypeInt) = 1;
     libconfig::Setting &collider_type = root.add("ColliderType",  libconfig::Setting::TypeString) = "LE";
     try {
-        config_->writeFile(config_file.c_str());
-        std::cerr << "New configuration successfully written to: " << config_file << std::endl;
+        config().writeFile(ConfigFile(config_name).c_str());
+        std::cerr << "New configuration successfully written to: " << ConfigFile(config_name) << std::endl;
     } catch (const libconfig::FileIOException &FileIOException) {
-        std::cerr << "I/O error while writing file: " << config_file << std::endl;
+      std::cerr << "I/O error while writing file: " << ConfigFile(config_name) << std::endl;
     }
 }
 
 void analysis::Configuration::ReadConfig(const std::string &config_name)
 {
     try {
-        std::string config_file = config_name + ".cfg";
-//             std::string config_name = "Neutral.cfg";
-        config_->readFile(config_file.c_str());
+        config().readFile(ConfigFile(config_name).c_str());
     } catch (const libconfig::FileIOException &FileIOException) {
         std::cerr << "I/O error while reading file." << std::endl;
         WriteConfig(config_name);

@@ -5,7 +5,7 @@
 
 namespace hhiggscpv
 {
-class HDiscriminator;
+class Discriminator;
 class HBottomTag;
 class HPairTag;
 class HAnalysis;

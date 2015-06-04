@@ -1,7 +1,6 @@
 # pragma once
 
-# include "HReconstruction.hh"
-# include "JetInfo.hh"
+# include "Reconstruction.hh"
 
 namespace analysis {
 
@@ -10,7 +9,7 @@ namespace analysis {
  *
  *
  */
-class HDiscriminator : public HReconstruction
+class Discriminator : public Reconstruction
 {
 
 public:
@@ -19,13 +18,7 @@ public:
      * @brief Constructor
      *
      */
-    HDiscriminator();
-
-    /**
-     * @brief Destructor
-     *
-     */
-    ~HDiscriminator();
+    Discriminator();
 
     /**
      * @brief Get Fat Higgs Jets
@@ -40,8 +33,8 @@ public:
 private:
 
     inline std::string ClassName() const {
-        return "HDiscriminator";
-    };
+        return "Discriminator";
+    }
 
 };
 

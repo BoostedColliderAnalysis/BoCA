@@ -207,7 +207,7 @@ std::vector<analysis::Sextet> analysis::HeavyHiggsLeptonicTagger::sextet(const Q
             Print(kDebug, "Neutrino 2 Error", (Neutrino + Neutrino2).m());
         }
 
-        float Error = LargeNumber;
+        float Error = LargeNumber();
         for (const auto Neutrino1Error : Neutrino1Errors)
             for (const auto Neutrino2Error : Neutrino2Errors) {
                 if (&Neutrino1Error - &Neutrino1Errors[0] == &Neutrino2Error - &Neutrino2Errors[0]) continue;

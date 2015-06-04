@@ -5,11 +5,11 @@
 # include "File.hh"
 // # include "HEventDelphes.hh"
 # include "HBranchDiscriminator.hh"
-# include "HSubStructure.hh"
+# include "SubStructure.hh"
 
 /**
  *
- * @brief JetTag subclass for HDiscriminator
+ * @brief JetTag subclass for Discriminator
  *
  */
 class hcpvhiggs::JetTag : public analysis::JetTag
@@ -87,7 +87,7 @@ private:
 
     analysis::JetTag  jet_tag;
 
-    analysis::HSubStructure * SubStructure;
+    analysis::SubStructure * sub_structure;
 
     /**
      * @brief Lepton calculations

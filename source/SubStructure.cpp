@@ -1,18 +1,21 @@
-# include "HSubStructure.hh"
+# include "SubStructure.hh"
 # include "Predicate.hh"
 
-analysis::HSubStructure::HSubStructure()
+#include  "exroot/ExRootAnalysis.hh"
+# include "Branches.hh"
+
+analysis::SubStructure::SubStructure()
 {
     Print(kNotification, "Constructor");
 //   Shift = 1;
 }
 
-void analysis::HSubStructure::NewEvent()
+void analysis::SubStructure::NewEvent()
 {
     SubJets = 0;
 }
 
-bool analysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
+bool analysis::SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
 {
     SubJets = 1;
     Global.Mass = CandidateJet.m();
@@ -63,7 +66,7 @@ bool analysis::HSubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     return 1;
 }
 
-analysis::Vectors analysis::HSubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
+analysis::Vectors analysis::SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
 {
     if (CandidateJet.constituents().empty()) {
         Print(kNotification, "Not enough constituents", CandidateJet.constituents().size());
@@ -124,7 +127,7 @@ analysis::Vectors analysis::HSubStructure::Getconstituents(const fastjet::Pseudo
     return constituentVectors;
 }
 
-bool analysis::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Jets &LeptonJets)
+bool analysis::SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Jets &LeptonJets)
 {
     // Get Position of SubJets
     Jets PieceJets = CandidateJet.pieces();
@@ -134,7 +137,7 @@ bool analysis::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJe
         return 0;
     }
     // Isolation
-    float IsolationDeltaR = LargeNumber;
+    float IsolationDeltaR = LargeNumber();
     fastjet::PseudoJet ClosestLepton;
     fastjet::PseudoJet ClosestPiece;
     for (const auto & PieceJet : PieceJets) {
@@ -148,7 +151,7 @@ bool analysis::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJe
             }
         }
     }
-    if (IsolationDeltaR != LargeNumber) {
+    if (IsolationDeltaR != LargeNumber()) {
         Isolation.Rap = ClosestLepton.rap() - ClosestPiece.rap();
         Isolation.Phi = ClosestLepton.delta_phi_to(ClosestPiece);
         Isolation.Pt = ClosestLepton.pt() / ClosestPiece.pt();
@@ -159,7 +162,7 @@ bool analysis::HSubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJe
 
 
 
-float analysis::HSubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
+float analysis::SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 {
     Print(kInformation, "Jing Dipolarity");
 //     Jets SubJetVector = CandidateJet.pieces();
