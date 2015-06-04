@@ -11,6 +11,6 @@
 #pragma link off all functions;
 #pragma link C++ nestedclasses;
 
-#pragma link C++ defined_in "HBranchHiggsCpv.hh";
+#pragma link C++ defined_in "BranchesHiggsCpv.hh";
 
 #endif

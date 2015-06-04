@@ -25,7 +25,7 @@ public:
 
     int Train(analysis::Event &event, const Tag tag);
 
-    std::vector< Octet62 > Multiplets(analysis::Event& event, const TMVA::Reader& reader);
+    std::vector< analysis::Octet62 > Multiplets(analysis::Event& event, const TMVA::Reader& reader);
 
 protected:
 
@@ -45,7 +45,7 @@ private:
 
     void DefineVariables();
 
-    std::vector<Octet62> GetHeavyHiggsevents(analysis::Jets &jets);
+    std::vector<analysis::Octet62> GetHeavyHiggsevents(analysis::Jets &jets);
 
     OctetNeutralBranch branch_;
 

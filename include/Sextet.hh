@@ -17,6 +17,8 @@ public:
 
     Sextet(const Triplet &triplet_1, const Triplet &triplet_2);
 
+    bool overlap();
+
     Triplet triplet1()const;
 
     Triplet triplet2()const;
@@ -119,7 +121,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "Hsextet";
+        return "Sextet";
     }
 
 private:

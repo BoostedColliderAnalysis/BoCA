@@ -5,7 +5,7 @@
 namespace analysis{
 
 /**
- * @brief general base class for HAnalysis
+ * @brief general base class for Analysis
  *
  */
 class Object

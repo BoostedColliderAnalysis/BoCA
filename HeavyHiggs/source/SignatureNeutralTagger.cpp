@@ -72,7 +72,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
     }
     if (tag == kBackground) Finaldoublets = doublets;
 
-    std::vector<Octet62> octets;
+    std::vector<analysis::Octet62> octets;
     for (const auto & doublet : Finaldoublets) {
         for (const auto & sextet : sextets) {
             if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
@@ -89,7 +89,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
             if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            Octet62 octet(sextet, doublet);
+            analysis::Octet62 octet(sextet, doublet);
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
@@ -107,13 +107,13 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
 }
 
 
-std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "event Tags");
 
     std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
-    std::vector<Octet62> octets;
+    std::vector<analysis::Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
             if (sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
@@ -128,7 +128,7 @@ std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(analysis::Ev
             if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
             if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            Octet62 octet(sextet, doublet);
+            analysis::Octet62 octet(sextet, doublet);
             branch_ = branch<OctetNeutralBranch>(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);

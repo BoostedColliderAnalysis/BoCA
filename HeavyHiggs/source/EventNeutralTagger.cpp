@@ -131,12 +131,12 @@ int heavyhiggs::EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
 //     if (Tag == kBackground)
 //         Finaldoublets = doublets;
 
-//     std::vector<Octet62> octets = signature_neutral_tagger_.GetBdt(sextets, Finaldoublets, signature_neutral_reader_);
-    std::vector<Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);
+//     std::vector<analysis::Octet62> octets = signature_neutral_tagger_.GetBdt(sextets, Finaldoublets, signature_neutral_reader_);
+    std::vector<analysis::Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);
 
-    std::vector<analysis::MultipletEvent<Octet62>> events;
+    std::vector<analysis::MultipletEvent<analysis::Octet62>> events;
     for (const auto & octet : octets) {
-      analysis::MultipletEvent<Octet62> octetevent(octet);
+      analysis::MultipletEvent<analysis::Octet62> octetevent(octet);
 //       analysis::GlobalObservables global_observables;
 //         global_observables.lepton_number = event.leptons().GetLeptonJets().size();
 //         global_observables.jet_number = event.hadrons().GetJets().size();
@@ -180,18 +180,18 @@ return SaveEntries<EventNeutralBranch>(events);
 
 
 
-std::vector<analysis::MultipletEvent<Octet62>> heavyhiggs::EventNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::MultipletEvent<analysis::Octet62>> heavyhiggs::EventNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
   Print(kInformation, "event Tags");
-  std::vector<Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);
+  std::vector<analysis::Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);
 
 
   analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
   analysis::Jets Leptons = event.leptons().leptons();
 
-    std::vector<analysis::MultipletEvent<Octet62>> events;
+    std::vector<analysis::MultipletEvent<analysis::Octet62>> events;
     for (const auto & octet : octets) {
-      analysis::MultipletEvent<Octet62> octetevent(octet, analysis::GlobalObservables(event));
+      analysis::MultipletEvent<analysis::Octet62> octetevent(octet, analysis::GlobalObservables(event));
         for (const auto & Jet : jets)  {
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
             if (Jet.delta_R(octetevent.multiplet().sextet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;

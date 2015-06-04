@@ -1,14 +1,12 @@
-# include "HAnalysisHiggsCpv.hh"
-# include "HMvaEvent.hh"
-# include "HMvaHiggs.hh"
-# include "HMvaBottom.hh"
-# include "HMvaTop.hh"
-# include "Tagger.hh"
+# include "AnalysisHiggs.hh"
+# include "EventTagger.hh"
+# include "Factory.hh"
+# include "TSystem.h"
 
 void RunTagger(const std::string TaggerName)
 {
 
-    std::cout << "Run Tagger " << TaggerName << std::endl;;
+    std::cout << "Run Tagger " << TaggerName << std::endl;
 
 //     bool HasFactory = 0;
 //     hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
@@ -93,7 +91,7 @@ int main()
 //         Factory = new hmva::Factory(Analysis->HiggsTagger);
 
 //     Analysis.AnalysisLoop(analysis::Tagger::kReader);
-    hhiggscpv::HMvaevent Mva;
+    higgscpv::EventTagger Mva;
     analysis::Factory Factory(Mva);
 
     return 1;

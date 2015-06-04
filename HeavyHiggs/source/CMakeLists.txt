@@ -1,7 +1,6 @@
 HDictionary(BranchHeavyHiggs Branch.cpp ../include/LinkDefHeavyHiggs.hh)
 
 set(AnalysisSources
-Octet62.cpp
 Octet44.cpp
 SignatureNeutralTagger.cpp
 SignatureChargedTagger.cpp

@@ -11,13 +11,15 @@ class Quartet31 : public Identification
 
 public:
 
-    Quartet31();
+    Quartet31(){};
 
     Quartet31(const analysis::Triplet &triplet, const fastjet::PseudoJet &singlet);
 
     Triplet triplet() const;
 
     fastjet::PseudoJet singlet() const;
+
+    bool overlap() const;
 
     inline fastjet::PseudoJet tripletJet()const{
       return triplet().Jet();

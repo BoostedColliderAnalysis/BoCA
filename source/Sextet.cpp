@@ -9,7 +9,7 @@ void analysis::Sextet::Settriplet2(const Triplet &triplet) {
 }
 
 analysis::Sextet::Sextet() {
-  Print(kInformation, "Default Constructor");
+    Print(kInformation, "Default Constructor");
 }
 
 analysis::Sextet::Sextet(const Triplet &triplet_1, const Triplet &triplet_2)
@@ -29,3 +29,17 @@ analysis::Triplet analysis::Sextet::triplet2() const {
     return triplet_2;
 }
 
+bool analysis::Sextet::overlap()
+{
+    DetectorGeometry detector_geometry;
+    if (triplet_1.singlet().delta_R(triplet_2.singlet()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.doublet().Singlet1().delta_R(triplet_2.singlet()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.doublet().Singlet2().delta_R(triplet_2.singlet()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.singlet().delta_R(triplet_2.doublet().Singlet1()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.doublet().Singlet1().delta_R(triplet_2.doublet().Singlet1()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.doublet().Singlet2().delta_R(triplet_2.doublet().Singlet1()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.singlet().delta_R(triplet_2.doublet().Singlet2()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.doublet().Singlet1().delta_R(triplet_2.doublet().Singlet2()) < detector_geometry.JetConeSize) return true;
+    if (triplet_1.doublet().Singlet2().delta_R(triplet_2.doublet().Singlet2()) < detector_geometry.JetConeSize) return true;
+    return false;
+}

@@ -10,11 +10,6 @@ void analysis::Quartet31::SetSinglet(const fastjet::PseudoJet &singlet)
     singlet_ = singlet;
 }
 
-analysis::Quartet31::Quartet31()
-{
-    Print(kInformation, "Constructor");
-}
-
 analysis::Quartet31::Quartet31(const Triplet &triplet, const fastjet::PseudoJet &singlet)
 {
     Print(kInformation, "Constructor");
@@ -35,4 +30,13 @@ analysis::Triplet analysis::Quartet31::triplet() const
 fastjet::PseudoJet analysis::Quartet31::singlet()const
 {
     return singlet_;
+}
+
+bool analysis::Quartet31::overlap() const
+{
+  DetectorGeometry detector_geometry;
+  if (triplet_.singlet().delta_R(singlet()) < detector_geometry.JetConeSize) return true;
+  if (triplet_.doublet().Singlet1().delta_R(singlet()) < detector_geometry.JetConeSize) return true;
+  if (triplet_.doublet().Singlet2().delta_R(singlet()) < detector_geometry.JetConeSize) return true;
+  return false;
 }

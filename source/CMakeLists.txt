@@ -29,6 +29,7 @@ Quartet22.cpp
 Quartet31.cpp
 Quintet.cpp
 Sextet.cpp
+Octet62.cpp
 )
 HLibrary(Multiplets "${MultipletSources}" PARENT_SCOPE)
 

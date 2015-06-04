@@ -25,7 +25,7 @@ public:
 
     int Train(analysis::Event &event, const Tag tag);
 
-    std::vector< analysis::MultipletEvent< Octet62 > > Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector< analysis::MultipletEvent< analysis::Octet62 > > Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -44,7 +44,7 @@ private:
     analysis::Reader signature_neutral_reader_;
 
     analysis::BottomTagger bottom_tagger_;
-    
+
     analysis::Reader bottom_reader_;
 
     TClass &Class() const {

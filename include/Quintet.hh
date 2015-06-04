@@ -66,15 +66,7 @@ public:
         return std::abs(Jet().m() - Mass(particle_id));
     }
 
-    bool overlap() const {
-        if (doublet_.Singlet1().delta_R(triplet_.singlet()) < detector_geometry_.JetConeSize) return true;
-        if (doublet_.Singlet1().delta_R(triplet_.doublet().Singlet1()) < detector_geometry_.JetConeSize) return true;
-        if (doublet_.Singlet1().delta_R(triplet_.doublet().Singlet2()) < detector_geometry_.JetConeSize) return true;
-        if (doublet_.Singlet2().delta_R(triplet_.singlet()) < detector_geometry_.JetConeSize) return true;
-        if (doublet_.Singlet2().delta_R(triplet_.doublet().Singlet1()) < detector_geometry_.JetConeSize) return true;
-        if (doublet_.Singlet2().delta_R(triplet_.doublet().Singlet2()) < detector_geometry_.JetConeSize) return true;
-        return false;
-    }
+    bool overlap() const;
 
 protected:
 

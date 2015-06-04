@@ -3,24 +3,28 @@
 # include "Doublet.hh"
 # include "Sextet.hh"
 
+namespace analysis {
+
 /**
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class Octet62 : public analysis::Identification
+class Octet62 : public Identification
 {
 
 public:
 
     Octet62() {};
 
-    Octet62(const analysis::Sextet &sextet, const analysis::Doublet &doublet);
+    Octet62(const Sextet &sextet, const Doublet &doublet);
 
-    inline analysis::Sextet sextet()const {
+    bool overlap() const;
+
+    inline Sextet sextet()const {
         return sextet_;
     }
 
-    inline analysis::Doublet doublet() const {
+    inline Doublet doublet() const {
         return doublet_;
     }
 
@@ -77,11 +81,11 @@ public:
     }
 
     inline float BottomBdt() const {
-        return doublet().Singlet1().user_info<analysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<analysis::JetInfo>().Bdt() + sextet().triplet1().singlet().user_info<analysis::JetInfo>().Bdt() + sextet().triplet2().singlet().user_info<analysis::JetInfo>().Bdt();
+        return doublet().Singlet1().user_info<JetInfo>().Bdt() + doublet().Singlet2().user_info<JetInfo>().Bdt() + sextet().triplet1().singlet().user_info<JetInfo>().Bdt() + sextet().triplet2().singlet().user_info<JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-        return doublet().Singlet1().user_info<analysis::JetInfo>().Bdt() + doublet().Singlet2().user_info<analysis::JetInfo>().Bdt();
+        return doublet().Singlet1().user_info<JetInfo>().Bdt() + doublet().Singlet2().user_info<JetInfo>().Bdt();
     }
 
     inline float GetDeltaR1() const {
@@ -116,7 +120,6 @@ public:
         return (sextetJet().pt() - doublet_.Singlet2().pt());
     }
 
-
 protected:
 
     virtual inline std::string ClassName() const {
@@ -125,9 +128,10 @@ protected:
 
 private:
 
-    analysis::Sextet sextet_;
+    Sextet sextet_;
 
-    analysis::Doublet doublet_;
+    Doublet doublet_;
 
 };
 
+}
