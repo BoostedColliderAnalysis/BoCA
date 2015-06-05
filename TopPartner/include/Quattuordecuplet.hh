@@ -76,6 +76,15 @@ public:
         return false;
     }
 
+    //FIXME only two bdt, not four !!
+    analysis::Quintet SubMultiplet1() const {
+      return quintet_1_;
+    }
+
+    analysis::Quintet SubMultiplet2() const {
+      return quintet_2_;
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

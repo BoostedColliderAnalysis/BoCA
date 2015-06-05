@@ -1,6 +1,6 @@
 # pragma once
 
-# include "Identification.hh"
+# include "Singlet.hh"
 # include "JetInfo.hh"
 # include "Event.hh"
 
@@ -221,6 +221,14 @@ public:
         float delta_r = octetJet().delta_R(RestJet());
         if (std::abs(delta_r) > 100) delta_r = 0;
         return delta_r;
+    }
+
+    Multiplet SubMultiplet1() const {
+      return multiplet_;
+    }
+
+    Singlet SubMultiplet2() const {
+      return Singlet(RestJet());
     }
 
 protected:

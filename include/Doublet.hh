@@ -1,7 +1,7 @@
 # pragma once
 
-# include "Identification.hh"
 # include "JetInfo.hh"
+# include "Singlet.hh"
 
 namespace analysis {
 
@@ -129,6 +129,14 @@ public:
     bool overlap() const{
       if (singlet_1_.delta_R(singlet_2_) < detector_geometry_.JetConeSize) return true;
       return false;
+    }
+
+    Singlet SubMultiplet1() const {
+      return Singlet(singlet_1_);
+    }
+
+    Singlet SubMultiplet2() const {
+      return Singlet(singlet_2_);
     }
 
 protected:

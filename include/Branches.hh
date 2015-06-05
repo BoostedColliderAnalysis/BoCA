@@ -202,6 +202,8 @@ public:
     float DeltaPhi;
     float DeltaR;
     float Bdt;
+    float Bdt1;
+    float Bdt2;
     float Tag;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
@@ -213,6 +215,8 @@ public:
         DeltaPhi = multiplet.DeltaPhi();
         DeltaR = multiplet.DeltaR();
         Bdt = multiplet.Bdt();
+        Bdt1 = multiplet.SubMultiplet1().Bdt();
+        Bdt2 = multiplet.SubMultiplet2().Bdt();
         Tag = multiplet.Tag();
     }
 private:

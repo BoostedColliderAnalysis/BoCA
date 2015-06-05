@@ -2,7 +2,8 @@
 
 # include "Triplet.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief A sextet of 2 triplets
@@ -43,11 +44,11 @@ public:
     }
 
     inline float DeltaHt()const {
-      return triplet1().Ht() - triplet2().Ht();
+        return triplet1().Ht() - triplet2().Ht();
     }
 
     inline float DeltaM()const {
-      return triplet1Jet().m() - triplet2Jet().m();
+        return triplet1Jet().m() - triplet2Jet().m();
     }
 
     inline float DeltaRap() const {
@@ -63,11 +64,11 @@ public:
     }
 
     inline float HardTopPt() const {
-      return std::max(triplet1().Jet().pt(), triplet2().Jet().pt());
+        return std::max(triplet1().Jet().pt(), triplet2().Jet().pt());
     }
 
     inline float SoftTopPt() const {
-      return std::min(triplet1().Jet().pt(), triplet2().Jet().pt());
+        return std::min(triplet1().Jet().pt(), triplet2().Jet().pt());
     }
 
     inline float GetLargertripletDeltaR() const {
@@ -118,6 +119,14 @@ public:
         return std::max(triplet1().GetJetDeltaMass(particle_id), triplet2().GetJetDeltaMass(particle_id));
     }
 
+    Triplet SubMultiplet1() const {
+        return triplet_1;
+    }
+
+    Triplet SubMultiplet2() const {
+        return triplet_2;
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -126,13 +135,13 @@ protected:
 
 private:
 
-  void Settriplet1(const Triplet &triplet);
+    void Settriplet1(const Triplet &triplet);
 
-  void Settriplet2(const Triplet &triplet);
+    void Settriplet2(const Triplet &triplet);
 
-  Triplet triplet_1;
+    Triplet triplet_1;
 
-  Triplet triplet_2;
+    Triplet triplet_2;
 
 };
 

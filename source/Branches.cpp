@@ -89,6 +89,8 @@ analysis::PairBranch::PairBranch()
     DeltaPhi = InitialValue();
     DeltaR = InitialValue();
     Bdt = InitialValue();
+    Bdt1 = InitialValue();
+    Bdt2 = InitialValue();
     Tag = int(InitialValue());
 }
 

@@ -99,6 +99,15 @@ public:
 
     float LeptonPt = 0; // FIXME we want to get rid of this again
 
+
+    Doublet SubMultiplet1() const {
+      return doublet_;
+    }
+
+    Singlet SubMultiplet2() const {
+      return Singlet(singlet_);
+    }
+
 protected:
 
 //     Triplet(TripletPrivate& NewtripletPrivate) ;

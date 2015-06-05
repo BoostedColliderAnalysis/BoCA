@@ -68,6 +68,14 @@ public:
 
     bool overlap() const;
 
+    Triplet SubMultiplet1() const {
+      return triplet_;
+    }
+
+    Doublet SubMultiplet2() const {
+      return doublet_;
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

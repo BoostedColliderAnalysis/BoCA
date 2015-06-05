@@ -89,6 +89,6 @@ std::vector< analysis::Sextet > higgscpv::TripletPairTagger::Multiplets(analysis
             sextet.SetBdt(Bdt(reader));
             sextets.emplace_back(sextet);
         }
-    return ReduceResult<analysis::Sextet>(sextets);
+    return ReduceResult(sextets);
 }
 

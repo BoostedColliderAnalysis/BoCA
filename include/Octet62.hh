@@ -120,6 +120,14 @@ public:
         return (sextetJet().pt() - doublet_.Singlet2().pt());
     }
 
+    Sextet SubMultiplet1() const {
+      return sextet_;
+    }
+
+    Doublet SubMultiplet2() const {
+      return doublet_;
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

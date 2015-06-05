@@ -1,5 +1,4 @@
 # include "Predicate.hh"
-# include "JetInfo.hh"
 
 struct SortJetByRap {
     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
@@ -372,32 +371,32 @@ analysis::Jets analysis::RemoveIfNot5Quarks(const Jets &jets)
     return quarks;
 }
 
-struct Close {
-    Close(const fastjet::PseudoJet &particle) {
-        particle_ = particle;
-    }
-    bool operator()(const fastjet::PseudoJet &jet) {
-        return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
-    }
-    fastjet::PseudoJet particle_;
-    analysis::DetectorGeometry detector_geometry_;
-};
-
-analysis::Jets analysis::RemoveIfClose(const Jets &jets, const Jets& particles)
-{
-    Jets quarks = jets;
-    for(const auto &particle : particles) quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
-    return quarks;
-}
-
-analysis::Jets analysis::CopyIfClose(const Jets &jets, const Jets& particles)
-{
-    Jets final_jets(jets.size());
-    Jets::iterator jet;
-    for(const auto &particle : particles) jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Close(particle));
-    final_jets.resize(std::distance(final_jets.begin(), jet));
-    return final_jets;
-}
+// struct Close {
+//     Close(const fastjet::PseudoJet &particle) {
+//         particle_ = particle;
+//     }
+//     bool operator()(const fastjet::PseudoJet &jet) {
+//         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
+//     }
+//     fastjet::PseudoJet particle_;
+//     analysis::DetectorGeometry detector_geometry_;
+// };
+//
+// analysis::Jets analysis::RemoveIfClose(const Jets &jets, const Jets& particles)
+// {
+//     Jets quarks = jets;
+//     for(const auto &particle : particles) quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
+//     return quarks;
+// }
+//
+// analysis::Jets analysis::CopyIfClose(const Jets &jets, const Jets& particles)
+// {
+//     Jets final_jets(jets.size());
+//     Jets::iterator jet;
+//     for(const auto &particle : particles) jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Close(particle));
+//     final_jets.resize(std::distance(final_jets.begin(), jet));
+//     return final_jets;
+// }
 
 analysis::Jets analysis::RemoveIfSoft(const Jets &jets, const float pt_min)
 {

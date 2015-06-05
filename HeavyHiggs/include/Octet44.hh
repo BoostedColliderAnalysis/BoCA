@@ -132,6 +132,14 @@ public:
         global_observables_ = global_observables;
     }
 
+    analysis::Quartet31 SubMultiplet1() const {
+      return quartet_1_;
+    }
+
+    analysis::Quartet31 SubMultiplet2() const {
+      return quartet_2_;
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

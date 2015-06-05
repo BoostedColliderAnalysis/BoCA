@@ -60,6 +60,14 @@ public:
       return (triplet().Jet().m() - singlet().m());
     }
 
+    Triplet SubMultiplet1() const {
+      return triplet_;
+    }
+
+    Singlet SubMultiplet2() const {
+      return Singlet(singlet_);
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

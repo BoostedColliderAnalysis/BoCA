@@ -40,7 +40,6 @@ void higgscpv::SignatureTagger::DefineVariables()
 int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "event Tags");
-    float Mass = event.mass();
     std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TripletPairTagger>(event);
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
@@ -49,33 +48,20 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
     analysis::Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
-    fastjet::PseudoJet HiggsBoson;
-    if (tag == kSignal) {
-        if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-        else Print(kError, "Where is the Higgs?", HiggsParticles.size());
-        std::sort(sextets.begin(), sextets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));
-        if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
-    }
 
     std::vector<analysis::Doublet> doublets = higgs_reader_.Multiplets<analysis::HiggsTagger>(event);
 
-    std::vector<analysis::Doublet> Finaldoublets;
-    analysis::Jets Particles = event.partons().GenParticles();
-    if (tag == kSignal) {
-        Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
-        if (Particles.size() == 2) {
-            for (const auto & doublet : doublets) {
-                if ((doublet.Singlet1().delta_R(Particles.at(0)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(1)) < detector_geometry().JetConeSize) || (doublet.Singlet1().delta_R(Particles.at(1)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(0)) < detector_geometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
-            }
-        }
+    std::vector<analysis::Doublet> final_doublets;
+    switch (tag) {
+    case kSignal :
+        final_doublets = analysis::CopyIfClose(doublets, HiggsParticles);
+    case kBackground :
+        final_doublets = doublets;
     }
-    if (tag == kBackground) Finaldoublets = doublets;
 
     std::vector<analysis::Octet62> octets;
-    for (const auto & doublet : Finaldoublets) {
+    for (const auto & doublet : final_doublets) {
         for (const auto & sextet : sextets) {
-            if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
-            if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
             analysis::Octet62 octet(sextet, doublet);
             if (octet.overlap()) continue;
             octet.SetTag(tag);
@@ -93,7 +79,7 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
 }
 
 
-std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
+std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "event Tags");
 
@@ -109,5 +95,5 @@ std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis:
             octets.emplace_back(octet);
         }
     }
-    return ReduceResult<analysis::Octet62>(octets);
+    return ReduceResult(octets);
 }
