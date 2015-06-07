@@ -6,11 +6,11 @@
 namespace analysis
 {
 
-  /**
-   * @brief Thin wrapper for fastjet::PsedoJet
-   *
-   */
-  class Singlet : public Identification
+/**
+ * @brief Thin wrapper for fastjet::PsedoJet
+ *
+ */
+class Singlet : public Identification
 {
 
 public:
@@ -66,39 +66,39 @@ public:
     }
 
     float EmRadius() const {
-      return singlet_.user_info<JetInfo>().ElectroMagneticRadius(singlet_);
+        return singlet_.user_info<JetInfo>().ElectroMagneticRadius(singlet_);
     }
 
     float TrackRadius() const {
-      return singlet_.user_info<JetInfo>().TrackRadius(singlet_);
+        return singlet_.user_info<JetInfo>().TrackRadius(singlet_);
     }
 
     float MomentumFraction() const {
-      return singlet_.user_info<JetInfo>().LeadingTrackMomentumFraction();
+        return singlet_.user_info<JetInfo>().LeadingTrackMomentumFraction();
     }
 
     float CoreEnergyFraction() const {
-      return singlet_.user_info<JetInfo>().CoreEnergyFraction(singlet_);
+        return singlet_.user_info<JetInfo>().CoreEnergyFraction(singlet_);
     }
 
     float EmFraction() const {
-      return singlet_.user_info<JetInfo>().ElectroMagneticFraction();
+        return singlet_.user_info<JetInfo>().ElectroMagneticFraction();
     }
 
     float ClusterMass() const {
-      return singlet_.user_info<JetInfo>().ClusterMass();
+        return singlet_.user_info<JetInfo>().ClusterMass();
     }
 
     float TrackMass() const {
-      return singlet_.user_info<JetInfo>().TrackMass();
+        return singlet_.user_info<JetInfo>().TrackMass();
     }
 
     float FlightPath() const {
-      return log(singlet_.user_info<JetInfo>().MeanDisplacement());
+        return log(singlet_.user_info<JetInfo>().MeanDisplacement());
     }
 
     float TrtHtFraction() const {
-      return GetSpread(singlet_.user_info<JetInfo>().VertexJet());
+        return GetSpread(singlet_.user_info<JetInfo>().VertexJet());
     }
 
     float Tag() const {
@@ -118,8 +118,9 @@ protected:
 private:
 
     float log(const float Number) const {
+        DetectorGeometry detector_geometry;
         if (Number > 0) return std::log10(Number);
-        else return std::log10(detector_geometry_.TrackerDistanceMin / 10);
+        else return std::log10(detector_geometry.TrackerDistanceMin / 10);
     }
 
     float GetDeltaR(const fastjet::PseudoJet &jet) const;
@@ -127,8 +128,6 @@ private:
     float GetSpread(const fastjet::PseudoJet &jet) const;
 
     fastjet::PseudoJet singlet_;
-
-    DetectorGeometry detector_geometry_;
 
 };
 

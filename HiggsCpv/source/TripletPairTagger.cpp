@@ -91,4 +91,3 @@ std::vector< analysis::Sextet > higgscpv::TripletPairTagger::Multiplets(analysis
         }
     return ReduceResult(sextets);
 }
-

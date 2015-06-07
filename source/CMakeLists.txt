@@ -57,6 +57,7 @@ Reader.cpp
 
 BottomTagger.cpp
 TauTagger.cpp
+DoubletTagger.cpp
 ZHadronicTagger.cpp
 WHadronicTagger.cpp
 WSemiTagger.cpp

@@ -11,12 +11,13 @@ analysis::Quintet::Quintet(const analysis::Triplet &triplet, const analysis::Dou
 
 bool analysis::Quintet::overlap() const
 {
-    if (doublet_.Singlet1().delta_R(triplet_.singlet()) < detector_geometry_.JetConeSize) return true;
-    if (doublet_.Singlet1().delta_R(triplet_.doublet().Singlet1()) < detector_geometry_.JetConeSize) return true;
-    if (doublet_.Singlet1().delta_R(triplet_.doublet().Singlet2()) < detector_geometry_.JetConeSize) return true;
-    if (doublet_.Singlet2().delta_R(triplet_.singlet()) < detector_geometry_.JetConeSize) return true;
-    if (doublet_.Singlet2().delta_R(triplet_.doublet().Singlet1()) < detector_geometry_.JetConeSize) return true;
-    if (doublet_.Singlet2().delta_R(triplet_.doublet().Singlet2()) < detector_geometry_.JetConeSize) return true;
+    DetectorGeometry detector_geometry;
+    if (doublet_.Singlet1().delta_R(triplet_.singlet()) < detector_geometry.JetConeSize) return true;
+    if (doublet_.Singlet1().delta_R(triplet_.doublet().Singlet1()) < detector_geometry.JetConeSize) return true;
+    if (doublet_.Singlet1().delta_R(triplet_.doublet().Singlet2()) < detector_geometry.JetConeSize) return true;
+    if (doublet_.Singlet2().delta_R(triplet_.singlet()) < detector_geometry.JetConeSize) return true;
+    if (doublet_.Singlet2().delta_R(triplet_.doublet().Singlet1()) < detector_geometry.JetConeSize) return true;
+    if (doublet_.Singlet2().delta_R(triplet_.doublet().Singlet2()) < detector_geometry.JetConeSize) return true;
     return false;
 }
 

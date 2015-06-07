@@ -88,7 +88,6 @@ private:
 
     Triplet triplet_;
 
-    DetectorGeometry detector_geometry_;
 };
 
 }

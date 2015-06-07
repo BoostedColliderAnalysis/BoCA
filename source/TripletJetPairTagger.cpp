@@ -108,10 +108,8 @@ int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
     std::vector<Quartet31> quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets) {
-            if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (triplet.doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (triplet.doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             Quartet31 quartet(triplet, Jet);
+            if(quartet.overlap()) continue;
 //             if (quartet.DeltaR() < 2) continue;
 //             quartet.SetTag(GetTag(quartet));
 //             if (quartet.Tag() != Tag) continue;
@@ -141,10 +139,8 @@ std::vector<analysis::Quartet31>  analysis::TripletJetPairTagger::Multiplets(Eve
     std::vector<Quartet31>  quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {
-            if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (triplet.doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (triplet.doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             Quartet31 quartet(triplet, Jet);
+            if(quartet.overlap()) continue;
             branch_ = branch<TripletJetPairBranch>(quartet);
             quartet.SetBdt(Bdt(reader));
             quartets.emplace_back(quartet);

@@ -81,8 +81,8 @@ public:
         return NewDeltaR;
     }
 
-    void set_sub_jettiness(const SubJettiness &n_sub_jettiness) {
-        sub_jettiness_ = n_sub_jettiness;
+    void set_sub_jettiness(const SubJettiness &sub_jettiness) {
+        sub_jettiness_ = sub_jettiness;
     }
 
     SubJettiness sub_jettiness() const {
@@ -92,10 +92,6 @@ public:
     float SingletBdt() const {
       return singlet().user_info<JetInfo>().Bdt();
     }
-
-//     float DoubletBdt() const {
-//       return Doublet().Bdt();
-//     }
 
     float LeptonPt = 0; // FIXME we want to get rid of this again
 
@@ -110,16 +106,13 @@ public:
 
 protected:
 
-//     Triplet(TripletPrivate& NewtripletPrivate) ;
-
     virtual inline std::string ClassName() const {
         return "Triplet";
     }
 
-
 private:
 
-    void SetSinglet(const fastjet::PseudoJet &NewSinglet);
+    void SetSinglet(const fastjet::PseudoJet &singlet);
 
     void Setdoublet(const Doublet &doublet);
 

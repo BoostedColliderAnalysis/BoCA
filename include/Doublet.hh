@@ -127,6 +127,7 @@ public:
     std::vector< Kinematics > constituents() const;
 
     bool overlap() const{
+      DetectorGeometry detector_geometry_;
       if (singlet_1_.delta_R(singlet_2_) < detector_geometry_.JetConeSize) return true;
       return false;
     }
@@ -151,19 +152,17 @@ protected:
 
     float Pull(const fastjet::PseudoJet &jet) const;
 
-    fastjet::PseudoJet singlet_1_;
-
-    fastjet::PseudoJet singlet_2_;
-
-    Jets rest_jets_;
-
     virtual inline std::string ClassName() const {
         return "Doublet";
     }
 
 private:
 
-  DetectorGeometry detector_geometry_;
+  fastjet::PseudoJet singlet_1_;
+
+  fastjet::PseudoJet singlet_2_;
+
+  Jets rest_jets_;
 
 };
 
