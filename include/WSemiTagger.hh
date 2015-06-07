@@ -61,7 +61,7 @@ private:
 
     Tag GetTag(const Doublet &doublet) const;
 
-    std::vector< Doublet > GetNeutrinos(const Doublet &doublet)const;
+    std::vector< Doublet > ReconstructNeutrino(const Doublet &doublet)const;
 
     std::vector<Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
 

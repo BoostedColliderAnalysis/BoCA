@@ -37,14 +37,13 @@ public:
 
     std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader);
 
-    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
 
-    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
     int GetWHadId(Event &event) const {
-        return GetWHadId(GetWDaughters(event));
+        return WHadronicId(WDaughters(event));
     }
 
 protected:
@@ -55,6 +54,10 @@ protected:
 
 private:
 
+  std::vector<analysis::Doublet> Multiplet(analysis::Doublet &doublet, const TMVA::Reader &reader);
+
+    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
+
     BottomTagger bottom_tagger_;
 
     Reader bottom_reader_;
@@ -63,9 +66,9 @@ private:
         return *WHadronicBranch::Class();
     }
 
-    Jets GetWDaughters(Event &event) const;
+    Jets WDaughters(Event &event) const;
 
-    int GetWHadId(const Jets &jets) const;
+    int WHadronicId(const Jets &jets) const;
 
     void DefineVariables();
 

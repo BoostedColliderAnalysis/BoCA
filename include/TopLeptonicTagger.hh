@@ -2,7 +2,6 @@
 
 # include "BottomTagger.hh"
 # include "Doublet.hh"
-# include "Reader.hh"
 
 namespace analysis {
 
@@ -24,7 +23,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "top_leptonic_tagger";
+        return "TopLeptonicTagger";
     }
 
 private:

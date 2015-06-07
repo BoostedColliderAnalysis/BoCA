@@ -4,12 +4,14 @@
 # include "JetInfo.hh"
 # include "Event.hh"
 
-namespace analysis {
+namespace analysis
+{
 
-class GlobalObservables {
+class GlobalObservables
+{
 public:
     GlobalObservables() {}
-    GlobalObservables (Event &event) {
+    GlobalObservables(Event &event) {
         lepton_number_ = event.leptons().leptons().size();
         jet_number_ = event.hadrons().Jets().size();
 //         bottom_number_ = event.hadrons().BottomJets().size();
@@ -103,19 +105,19 @@ public:
     }
 
     inline float MissingEt() const {
-      return global_observables_.missing_et();
+        return global_observables_.missing_et();
     }
 
     inline int JetNumber()const {
-      return global_observables_.jet_number();
+        return global_observables_.jet_number();
     }
 
     inline int BottomNumber()const {
-      return global_observables_.bottom_number();
+        return global_observables_.bottom_number();
     }
 
     inline int LeptonNumber()const {
-      return global_observables_.lepton_number();
+        return global_observables_.lepton_number();
     }
 
     inline GlobalObservables &global_observables()const {
@@ -157,6 +159,7 @@ public:
     }
 
     inline void AddRestJet(const fastjet::PseudoJet &jet) {
+        if (multiplet_.overlap(jet)) return;
         SetBdt(Bdt() * (JetNumber() + 1));
         rest_jets_.emplace_back(jet);
         SetBdt(Bdt() + jet.user_info<JetInfo>().Bdt());
@@ -224,11 +227,11 @@ public:
     }
 
     Multiplet SubMultiplet1() const {
-      return multiplet_;
+        return multiplet_;
     }
 
     Singlet SubMultiplet2() const {
-      return Singlet(RestJet());
+        return Singlet(RestJet());
     }
 
 protected:

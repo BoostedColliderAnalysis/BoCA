@@ -12,45 +12,12 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) analysis.AnalysisLoop(stage);
 
     FileName = analysis.ProjectName() + "/Mva" + Name + ".root";
-    if (gSystem->AccessPathName(FileName.c_str())) {
-//         switch (Tagger) {
-//         case analysis::HAnalysis::HBottomTagger:
-            analysis::Factory factory(tagger);
-//             break;
-//         case analysis::HAnalysis::WHadronicTagger:
-//             analysis::Factory(Analysis.w_hadronic_tagger);
-//             break;
-//         case analysis::HAnalysis::HWSemiTagger:
-//             analysis::Factory(Analysis.w_semi_tagger);
-//             break;
-//         case analysis::HAnalysis::TopHadronicTagger:
-//             analysis::Factory(Analysis.top_hadronic_tagger);
-//             break;
-//         case analysis::HAnalysis::HTopSemiTagger:
-//             analysis::Factory(Analysis.top_semi_tagger);
-//             break;
-//         case analysis::HAnalysis::HeavyHiggsSemiTagger:
-//             analysis::Factory(Analysis.heavy_higgs_semi_tagger);
-//             break;
-//         case analysis::HAnalysis::EventNeutralTagger:
-//             analysis::Factory(Analysis.eventSemiTagger);
-//             break;
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
-//         }
-    }
+    if (gSystem->AccessPathName(FileName.c_str())) analysis::Factory factory(tagger);
 
     FileName = analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
-//         switch (Tagger) {
-//         case analysis::HAnalysis::EventSemiReader: {
             analysis::Reader Reader(tagger);
             Reader.OptimalSignificance();
-//             break;
-//         }
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
-//         }
     }
 }
 

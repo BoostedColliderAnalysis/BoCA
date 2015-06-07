@@ -51,20 +51,8 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "event Tags");
 
-//     Jets jets = GetJets(event);
-//     jets = bottom_tagger_.GetJetBdt(jets, BottomReader.reader());
-
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    analysis::Jets Leptons = event.leptons().leptons();
-//     fastjet::PseudoJet MissingEt = event.hadrons().GetMissingEt();
-//     std::vector<analysis::Doublet> doubletsSemi = w_semi_tagger.GetBdt(Leptons, MissingEt, WSemiReader.reader());
-//     std::vector<analysis::Triplet> tripletsSemi = top_semi_tagger.GetBdt(doubletsSemi, jets, TopSemiReader);
-
-//     std::vector<analysis::Doublet> doubletsHadronic = WTagger.GetBdt(jets, WReader);
-//     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(doubletsHadronic, jets, TopHadronicReader);
-//     std::vector<analysis::Triplet> tripletsHadronic = top_hadronic_tagger.GetBdt(jets, TopHadronicReader, WTagger, WReader, bottom_tagger_, BottomReader);
-
-//     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_tagger.GetBdt(tripletsSemi, tripletsHadronic, HeavyHiggsSemiReader);
+    analysis::Jets leptons = event.leptons().leptons();
     std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
 
     analysis::Jets HiggsParticles = event.partons().GenParticles();
@@ -91,21 +79,10 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 
     analysis::MultipletEvent<analysis::Sextet> sextet_event(sextets.front());
     analysis::GlobalObservables global_observables(event);
-//     global_observables.lepton_number = event.leptons().GetLeptonJets().size();
-//     global_observables.jet_number = event.hadrons().GetJets().size();
-//     global_observables.bottom_number = event.hadrons().GetBottomJets().size();
-//     global_observables.scalar_ht = event.hadrons().GetScalarHt();
     sextet_event.Setglobal_observables(global_observables);
-    sextet_event.SetLeptons(Leptons);
+    sextet_event.SetLeptons(leptons);
     sextet_event.SetTag(tag);
-    for (const auto & Jet : jets)  {
-        if (Jet.delta_R(sextet_event.multiplet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-        if (Jet.delta_R(sextet_event.multiplet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-        if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-        if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-        sextet_event.AddRestJet(Jet);
-    }
-
+    for (const auto & Jet : jets)  sextet_event.AddRestJet(Jet);
     std::vector<analysis::MultipletEvent<analysis::Sextet>> sextet_events;
     sextet_events.emplace_back(sextet_event);
     return SaveEntries<EventFusionBranch>(sextet_events);
@@ -121,13 +98,7 @@ std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionT
     std::vector<analysis::MultipletEvent<analysis::Sextet>> sextet_events;
     for (const auto & sextet : sextets) {
         analysis::MultipletEvent<analysis::Sextet> sextet_event(sextet, analysis::GlobalObservables(event));
-        for (const auto & Jet : jets)  {
-            if (Jet.delta_R(sextet_event.multiplet().triplet1().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(sextet_event.multiplet().triplet2().singlet()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (Jet.delta_R(sextet_event.multiplet().triplet2().doublet().Singlet2()) < detector_geometry().JetConeSize) continue;
-            sextet_event.AddRestJet(Jet);
-        }
+        for (const auto & Jet : jets)  sextet_event.AddRestJet(Jet);
         sextet_event.SetLeptons(Leptons);
         branch_ = branch<EventFusionBranch>(sextet_event);
         sextet_event.SetBdt(Bdt(reader));

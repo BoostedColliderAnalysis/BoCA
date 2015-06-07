@@ -3,7 +3,6 @@
 # include "Triplet.hh"
 # include "BottomTagger.hh"
 # include "WSemiTagger.hh"
-# include "Reader.hh"
 
 namespace analysis
 {
@@ -42,10 +41,6 @@ protected:
     }
 
 private:
-
-    float GetSpread(const fastjet::PseudoJet &Jet) const;
-
-    float GetDeltaR(const fastjet::PseudoJet &Jet) const;
 
     TClass &Class() const {
         return *TopSemiBranch::Class();

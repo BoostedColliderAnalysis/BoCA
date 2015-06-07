@@ -18,36 +18,7 @@ class AnalysisNeutral : public analysis::Analysis
 
 public:
 
-  using analysis::Analysis::Analysis;
-
-    /**
-     * @brief Constructor
-     *
-     */
-//     AnalysisNeutral();
-
-//     analysis::BottomTagger bottom_tagger_;
-//     analysis::JetPairTagger jet_pair_tagger;
-//     analysis::HWSemiTagger w_semi_tagger;
-//     analysis::HWTagger w_hadronic_tagger;
-//
-// //     analysis::TopLeptonicTagger top_leptonic_tagger;
-//     analysis::TopHadronicTagger top_hadronic_tagger;
-//     analysis::HTopSemiTagger top_semi_tagger;
-//
-// //     analysis::HeavyHiggsLeptonicTagger heavy_higgs_leptonic_tagger;
-// //     analysis::HHeavyHiggsHadronicTagger HeavyHiggsHadronicTagger;
-//     analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
-//
-// //     EventLeptonicTagger eventLeptonicTagger;
-// //     EventHadronicTagger eventHadronicTagger;
-//
-//     SignatureNeutralTagger SignatureSemiTagger;
-//     EventNeutralTagger eventSemiTagger;
-
-//     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
-
-//     void PrepareReader(const analysis::HAnalysis::HTagger Tagger, const analysis::HAnalysis::Tag Tag);
+      AnalysisNeutral(analysis::Tagger &tagger);
 
     void SetTrees();
 
@@ -509,58 +480,12 @@ private:
         }
     }
 
-    analysis::JetTag jet_tag;
-
-    analysis::Reader BottomReader;
-    analysis::Reader JetPairReader;
-    analysis::Reader WSemiReader;
-    analysis::Reader WHadronicReader;
-    analysis::Reader TopLeptonicReader;
-    analysis::Reader TopHadronicReader;
-    analysis::Reader TopSemiReader;
-    analysis::Reader HeavyHiggsSemiReader;
-    analysis::Reader HeavyHiggsLeptonicReader;
-    analysis::Reader SignatureSemiReader;
-    analysis::Reader eventSemiReader;
-    analysis::Reader eventLeptonicReader;
-
-//     void NewBranches(exroot::TreeWriter &tree_writer, const analysis::HAnalysis::HTagger tagger);
 
     /**
      * @brief Main Analysis function
      *
      */
     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
-
-//     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWSemiReader(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWReader(analysis::Event &event, const Tag Tag);
-//     bool GetJetPairTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetJetPairReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopLeptonicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetTopLeptonicReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopHadronicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetTopSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetTopHadronicReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GetHeavyHiggsHadronicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetHeavyHiggsLeptonicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetHeavyHiggsLeptonicReader(analysis::Event &event, const Tag Tag);
-//     bool GetHeavyHiggsSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetHeavyHiggsSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GeteventLeptonicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GeteventHadronicTag(analysis::Event &event, const Tag Tag);
-//
-//     bool GeteventSemiTag(analysis::Event &event, const Tag Tag);
-//
-//     bool GetSignatureSemiTag(analysis::Event &event, const Tag Tag);
-//     bool GetSignatureSemiReader(analysis::Event &event, const Tag Tag);
-//
-//     bool GeteventSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GeteventLeptonicReader(analysis::Event &event, const Tag Tag);
 
 
 };

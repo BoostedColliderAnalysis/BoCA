@@ -49,15 +49,15 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
 
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
-        Doublet Predoublet(lepton, missing_et);
-        std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
-        std::sort(Postdoublets.begin(), Postdoublets.end(), MinDeltaRTo(WBoson));
-        for (auto & Postdoublet : Postdoublets) {
-            if (tag == kSignal && std::abs(Postdoublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
-            if (tag == kSignal && Postdoublet.Jet().delta_R(WBoson) > detector_geometry().JetConeSize) continue;
-            if (tag == kBackground && Postdoublet.Jet().delta_R(WBoson) > detector_geometry().JetConeSize) continue;
-            Postdoublet.SetTag(tag);
-            doublets.emplace_back(Postdoublet);
+        Doublet pre_doublet(lepton, missing_et);
+        std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
+        std::sort(post_doublets.begin(), post_doublets.end(), MinDeltaRTo(WBoson));
+        for (auto & post_doublet : post_doublets) {
+            if (tag == kSignal && std::abs(post_doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
+            if (tag == kSignal && post_doublet.Jet().delta_R(WBoson) > detector_geometry().JetConeSize) continue;
+            if (tag == kBackground && post_doublet.Jet().delta_R(WBoson) > detector_geometry().JetConeSize) continue;
+            post_doublet.SetTag(tag);
+            doublets.emplace_back(post_doublet);
         }
     }
  return SaveEntries<WSemiBranch>(doublets);
@@ -71,13 +71,13 @@ std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Even
 
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
-        Doublet Predoublet(lepton, event.hadrons().MissingEt());
-        std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
-        for (auto & Postdoublet : Postdoublets) {
-            if (std::abs(Postdoublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
-            branch_ = branch<WSemiBranch>(Postdoublet);
-            Postdoublet.SetBdt(Bdt(reader));
-            doublets.emplace_back(Postdoublet);
+        Doublet pre_doublet(lepton, event.hadrons().MissingEt());
+        std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
+        for (auto & post_doublet : post_doublets) {
+            if (std::abs(post_doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
+            branch_ = branch<WSemiBranch>(post_doublet);
+            post_doublet.SetBdt(Bdt(reader));
+            doublets.emplace_back(post_doublet);
         }
     }
     std::sort(doublets.begin(), doublets.end());
@@ -86,7 +86,7 @@ std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Even
     return doublets;
 }
 
-std::vector<analysis::Doublet> analysis::WSemiTagger::GetNeutrinos(const Doublet &doublet)const
+std::vector<analysis::Doublet> analysis::WSemiTagger::ReconstructNeutrino(const Doublet &doublet)const
 {
 
     Print(kInformation, "Neutrinos");
@@ -106,7 +106,7 @@ std::vector<analysis::Doublet> analysis::WSemiTagger::GetNeutrinos(const Doublet
         Doublet mod_doublet(lepton, missing_et + 0.1 * (lepton - missing_et));
         mod_doublet.SetFlag(true);
         mod_doublet.SetTag(doublet.Tag());
-        return GetNeutrinos(mod_doublet);
+        return ReconstructNeutrino(mod_doublet);
     }
 
     if (radicant == 0) {
@@ -137,29 +137,6 @@ std::vector<analysis::Doublet> analysis::WSemiTagger::GetNeutrinos(const Doublet
     return doublets;
 
 }
-
-
-struct SortByError {
-    SortByError(const fastjet::PseudoJet &neutrino) {
-        neutrino_ = neutrino;
-    }
-    bool operator()(const analysis::Doublet &doublet1, const analysis::Doublet &doublet2) {
-        return ((doublet1.Singlet2() + neutrino_).m() < (doublet2.Singlet2() + neutrino_).m());
-    }
-    fastjet::PseudoJet neutrino_;
-};
-
-struct FindError {
-    FindError(const fastjet::PseudoJet &NewNeutrino, const float NewError) {
-        this->Neutrino = NewNeutrino;
-        this->Error = NewError;
-    }
-    bool operator()(const analysis::Doublet &doublet) {
-        return ((doublet.Singlet2() + Neutrino).m() == Error);
-    }
-    fastjet::PseudoJet Neutrino;
-    float Error;
-};
 
 analysis::Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
 {

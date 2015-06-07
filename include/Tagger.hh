@@ -74,10 +74,19 @@ public:
         return tracker_eta_upper_cut_[particle_id];
     }
 
+    bool DoSubJets()const{
+      return do_sub_jets_;
+    }
+
+    void SetSubJets(const bool do_sub_jets){
+      do_sub_jets_ = do_sub_jets;
+    }
+
 private:
     std::map<ParticleId, float> pt_lower_cut_;
     std::map<ParticleId, float> pt_upper_cut_;
     std::map<ParticleId, float> tracker_eta_upper_cut_;
+    bool do_sub_jets_ = true;
 };
 
 
@@ -249,7 +258,7 @@ public:
         return 0;
     }
 
-    Jets GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
+    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
     fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 

@@ -2,26 +2,6 @@
 
 # include "Quartet31.hh"
 
-struct EventStructCharged {
-
-    int lepton_number = 0;
-    int jet_number = 0;
-    int bottom_number = 0;
-    float scalar_ht = 0;
-    float RestHt = 0;
-    float RestM = 0;
-    float RestPt = 0;
-    float RestRap = 0;
-    float RestPhi = 0;
-    int RestBTag = 0;
-    float RestBBdt = 0;
-    float MaxBBdt = 0;
-    float TotalBBdt = 0;
-    float ThirdBBdt = 0;
-    float LeptonPt = 0;
-
-};
-
 /**
  * @brief An octet composed of two quartets
  *
@@ -35,7 +15,9 @@ public:
 
     Octet44(const analysis::Quartet31 &quartet_1, const analysis::Quartet31 &quartet_2);
 
-    Octet44(const analysis::Quartet31 &quartet_1, const analysis::Quartet31 &quartet_2, const EventStructCharged &global_observables);
+    bool overlap() const;
+
+    bool overlap(const fastjet::PseudoJet &jet) const;
 
     inline analysis::Quartet31 quartet1()const {
         return quartet_1_;
@@ -92,46 +74,6 @@ public:
         return quartet2().singlet().user_info<analysis::JetInfo>().Bdt() + quartet2().triplet().singlet().user_info<analysis::JetInfo>().Bdt();
     }
 
-    inline void SetScalarHt(const float scalar_ht) {
-        global_observables_.scalar_ht = scalar_ht;
-    }
-
-    inline void SetJetNumber(const int jet_number) {
-        global_observables_.jet_number = jet_number;
-    }
-
-    inline void SetBottomNumber(const int bottom_number) {
-        global_observables_.bottom_number = bottom_number;
-    }
-
-    inline void SetLeptonNumber(const int lepton_number) {
-        global_observables_.lepton_number = lepton_number;
-    }
-
-    inline float ScalarHt() const {
-        return global_observables_.scalar_ht;
-    }
-
-    inline int JetNumber()const {
-        return global_observables_.jet_number;
-    }
-
-    inline int BottomNumber()const {
-        return global_observables_.bottom_number;
-    }
-
-    inline int LeptonNumber()const {
-        return global_observables_.lepton_number;
-    }
-
-    inline EventStructCharged global_observables()const {
-        return global_observables_;
-    }
-
-    inline void Setglobal_observables(const EventStructCharged &global_observables) {
-        global_observables_ = global_observables;
-    }
-
     analysis::Quartet31 SubMultiplet1() const {
       return quartet_1_;
     }
@@ -151,8 +93,6 @@ private:
     analysis::Quartet31 quartet_1_;
 
     analysis::Quartet31 quartet_2_;
-
-    EventStructCharged global_observables_;
 
 };
 

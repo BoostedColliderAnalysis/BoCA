@@ -9,6 +9,7 @@ bottom::Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analy
     pre_cuts_.SetPtUpperCut(BottomId, UpperCut());
     analysis::DetectorGeometry detector_geometry;
     pre_cuts_.SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
+    pre_cuts_.SetSubJets(false);
 }
 
 

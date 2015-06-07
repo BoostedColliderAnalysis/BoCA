@@ -23,25 +23,7 @@ class AnalysisFusion : public analysis::Analysis
 
 public:
 
-    /**
-     * @brief Constructor
-     *
-     */
-//     AnalysisFusion();
-
-using analysis::Analysis::Analysis;
-
-    analysis::BottomTagger bottom_tagger_;
-    analysis::WSemiTagger w_semi_tagger;
-    analysis::WHadronicTagger w_hadronic_tagger;
-
-    analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::TopSemiTagger top_semi_tagger;
-
-    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
-
-    EventFusionTagger eventSemiTagger;
-
+      AnalysisFusion(analysis::Tagger &tagger);
 
     std::vector<analysis::File> Files(const analysis::Object::Tag Tag);
 
@@ -510,41 +492,13 @@ private:
         }
     }
 
-    analysis::JetTag jet_tag;
-
-    analysis::Reader BottomReader;
-    analysis::Reader WSemiReader;
-    analysis::Reader WHadronicReader;
-    analysis::Reader TopLeptonicReader;
-    analysis::Reader TopHadronicReader;
-    analysis::Reader TopSemiReader;
-    analysis::Reader HeavyHiggsSemiReader;
-    analysis::Reader eventSemiReader;
-
-    void ResetBranch();
-
-//     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
-
     /**
      * @brief Main Analysis function
      *
      */
     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
 
-//     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWSemiReader(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopHadronicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetTopSemiTag(analysis::Event &event, analysis::Object::Tag Tag);
-//     bool GetTopHadronicReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GetHeavyHiggsSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetHeavyHiggsSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GeteventSemiTag(analysis::Event &event, const Tag Tag);
-//     bool GeteventSemiReader(analysis::Event &event, const Tag Tag);
+
 
 };
 

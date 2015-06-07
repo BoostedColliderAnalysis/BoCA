@@ -23,11 +23,6 @@ public:
         return Train(event, pre_cuts, tag);
     }
 
-    std::vector<TopHadronicBranch> GetBranches(Event &, const Object::Tag, float) {
-        Print(kError, "get branches", "depreciated");
-        return std::vector<TopHadronicBranch>{};
-    }
-
     std::vector<Triplet> Multiplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const Jets&quarks, PreCuts &pre_cuts, const Tag tag);
 
     std::vector<Triplet> Multiplets(const Doublet& doublet, const Jets& jets, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
@@ -42,20 +37,11 @@ public:
 
     std::vector<Triplet>  Multiplets(const Doublet& doublet, const fastjet::PseudoJet& jet, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-    Triplet GetBdt(Triplet& triplet, PreCuts& pre_cuts, const TMVA::Reader& reader);
-
-    std::vector<Triplet>  GetBdt(const std::vector< Doublet > &, const Jets &, const Reader &) {
-        Print(kError, "get bdt", "depreciated");
-    }
+    Triplet Multiplet(Triplet& triplet, PreCuts& pre_cuts, const TMVA::Reader& reader);
 
     int TopHadronicId(Event &event) const {
       return sgn(w_hadronic_tagger_.GetWHadId(event)) * std::abs(TopId);
 
-    }
-
-    Triplet GetBdt(Triplet &, const Reader &){
-      Print(kError, "get bdt", "depreciated");
-      return Triplet();
     }
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
@@ -72,11 +58,6 @@ public:
     std::vector<Triplet> Multiplets(Event &event, const TMVA::Reader &reader){
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::vector<Triplet> GetBdt(const Jets &, const Reader &, WHadronicTagger &, Reader &, BottomTagger &, Reader &) {
-        Print(kError, "get bdt", "depreciated");
-        return std::vector<Triplet>{};
     }
 
 protected:

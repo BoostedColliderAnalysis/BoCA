@@ -43,10 +43,6 @@ public:
      */
     Reader(Tagger &tagger);
 
-    void operator=(const Reader &) {
-        Print(kError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
-    }
-
     void set_tagger(Tagger &tagger);
 
     void OptimalSignificance();
@@ -66,6 +62,21 @@ public:
     template <typename Tagger, typename Input1, typename Input2>
     auto Multiplets(Input1 &input_1, Input2 &input_2) {
         return static_cast<Tagger &>(*tagger_).Multiplets(input_1, input_2, reader_);
+    }
+
+    template <typename Tagger, typename Input>
+    auto Multiplet(Input &input) {
+      return static_cast<Tagger &>(*tagger_).Multiplet(input, reader_);
+    }
+
+    template <typename Tagger, typename Input1, typename Input2>
+    auto Multiplet(Input1 &input_1, Input2 &input_2) {
+      return static_cast<Tagger &>(*tagger_).Multiplet(input_1, input_2, reader_);
+    }
+
+    template <typename Tagger, typename Input>
+    auto SubMultiplet(Input &input, const int number) {
+      return static_cast<Tagger &>(*tagger_).SubMultiplet(input, reader_, number);
     }
 
     TMVA::Reader &reader() {

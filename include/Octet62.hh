@@ -20,6 +20,8 @@ public:
 
     bool overlap() const;
 
+    bool overlap(const fastjet::PseudoJet &jet) const;
+
     inline Sextet sextet()const {
         return sextet_;
     }

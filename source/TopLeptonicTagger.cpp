@@ -35,6 +35,7 @@ void analysis::TopLeptonicTagger::DefineVariables()
 int analysis::TopLeptonicTagger::Train(Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Train");
+    int number_of_tops = 1;
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kInformation, "Jet Number", jets.size());
 
@@ -50,9 +51,9 @@ int analysis::TopLeptonicTagger::Train(Event &event, const Object::Tag tag)
         }
     Print(kInformation, "Number JetPairs", doublets.size());
 
-    if (tag == kSignal && doublets.size() > 1) {
+    if (tag == kSignal && doublets.size() > number_of_tops) {
         std::sort(doublets.begin(), doublets.end(), SortByMassTo(Mass(TopId)));
-        doublets.erase(doublets.begin() + 1, doublets.end());
+        doublets.erase(doublets.begin() + number_of_tops, doublets.end());
     }
 
     return SaveEntries<TopLeptonicBranch>(doublets);
@@ -73,6 +74,5 @@ std::vector<analysis::Doublet>  analysis::TopLeptonicTagger::Multiplets(Event &e
             doublets.emplace_back(doublet);
         }
     }
-
     return ReduceResult(doublets);
 }

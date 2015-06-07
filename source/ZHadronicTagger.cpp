@@ -77,7 +77,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 //  1 Jet (2 subjets) form(s) 1 Z
     for (const auto & jet : z_jets) {
         const int sub_jet_number = 2;
-        Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
+        Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).SubMultiplet(jet, bottom_reader_.reader(), sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
         if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) continue;
@@ -121,7 +121,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(Event &even
 
     // 1 jet (2 subjets) form a W
     for (const auto & jet : jets) {
-        Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), 2);
+        Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).SubMultiplet(jet, bottom_reader_.reader(), 2);
         doublets = JoinVectors(doublets, Multiplets(pieces, reader));
     }
 
@@ -152,7 +152,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const Jets 
 
     std::vector<Doublet>  doublets;
     for (const auto & jet : jets) {
-        Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
+        Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).SubMultiplet(jet, bottom_reader_.reader(), sub_jet_number);
         for (const auto & piece : pieces) doublets = JoinVectors(doublets, Multiplets(piece, reader));
     }
 
@@ -180,7 +180,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastj
 {
     Print(kInformation, "doublet Bdt");
     std::vector<Doublet>  doublets;
-    Jets subjets = GetSubJets(jet, 2);
+    Jets subjets = SubJets(jet, 2);
     if (subjets.empty()) return doublets;
     Doublet doublet;
     if (subjets.size() == 1) doublet.SetSinglets(jet);

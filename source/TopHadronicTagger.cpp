@@ -54,11 +54,9 @@ void analysis::TopHadronicTagger::DefineVariables()
 int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Train");
-//     int w_had_id = w_hadronic_tagger_.GetWHadId(event);
-//     int had_top_id = sgn(w_had_id) * std::abs(TopId);
     int had_top_id = TopHadronicId(event);
-    Jets top_particles = event.partons().GenParticles();
-    top_particles = RemoveIfWrongParticle(top_particles, had_top_id);
+    Jets particles = event.partons().GenParticles();
+    Jets top_particles = copy_if_particle(particles, had_top_id);
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kInformation, "Jet size", jets.size());
@@ -81,26 +79,23 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
 
         Print(kInformation, "2 Jet form one top" , triplets.size());
         for (const auto & jet : jets) {
-            Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), 2);
+            Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, 2);
 
             Print(kInformation, "1 jet form one W" , triplets.size());
-            std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(jet, bottom_reader_.reader());
+            std::vector<Doublet> piece_doublets = w_hadronic_reader_.Multiplet<WHadronicTagger>(jet);
             if (!piece_doublets.empty()) triplets = JoinVectors(triplets, Multiplets(piece_doublets.front(), jets, top_particles, pre_cuts, tag));
         }
 
         Print(kInformation, "3 sub jets forms one top" , triplets.size());
         for (const auto & jet : top_jets) {
             const int sub_jet_number = 3;
-            Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
+            Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
             for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
                 auto piece_3 = pieces.at((i + 2) % sub_jet_number);
-//             for (auto piece_1 : pieces) {
-                //                 auto piece_2 = std::modulus<int>((&piece_1 + 1),sub_jet_number);
-                //                 auto piece_3 = (&piece_1 + 2) % sub_jet_number;
-                std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(piece_2, piece_3, bottom_reader_.reader());
+                std::vector<Doublet> piece_doublets = w_hadronic_reader_.Multiplet<WHadronicTagger>(piece_2, piece_3);
                 if (!piece_doublets.empty()) triplets = JoinVectors(triplets, Multiplets(piece_doublets.front(), piece_1, top_particles, pre_cuts, tag));
             }
         }
@@ -108,13 +103,12 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
         Print(kInformation, "2 sub jets forms one top" , triplets.size());
         for (const auto & jet : top_jets) {
             const int sub_jet_number = 2;
-            Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
+            Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
-            //             for (const auto & piece_1 : pieces) {
             for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
-                std::vector<analysis::Doublet> sub_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(piece_2, bottom_reader_.reader());
+                std::vector<analysis::Doublet> sub_doublets = w_hadronic_reader_.Multiplet<WHadronicTagger>(piece_2);
                 for (const auto & doublet : sub_doublets) triplets = JoinVectors(triplets, Multiplets(doublet, piece_1, top_particles, pre_cuts, tag));
             }
         }
@@ -154,7 +148,7 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(const std
 
 std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(const Doublet &doublet, const Jets &jets, const Jets &quarks, PreCuts &pre_cuts, const Tag tag)
 {
-  Print(kInformation, "triplets", jets.size());
+    Print(kInformation, "triplets", jets.size());
     std::vector<analysis::Triplet> triplets;
     for (const auto & jet : jets) {
         if (doublet.Singlet1().delta_R(jet) < detector_geometry().JetConeSize) continue;
@@ -215,7 +209,7 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(const Dou
         if (jet == doublet.Singlet2()) continue;
         Triplet triplet(doublet, jet);
         // if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
-        triplets.emplace_back(GetBdt(triplet, pre_cuts, reader));
+        triplets.emplace_back(Multiplet(triplet, pre_cuts, reader));
     }
 
     std::sort(triplets.begin(), triplets.end());
@@ -227,11 +221,11 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(const Dou
 {
     std::vector<Triplet> triplets;
     Triplet triplet(doublet, jet);
-    triplets.emplace_back(GetBdt(triplet, pre_cuts, reader));
+    triplets.emplace_back(Multiplet(triplet, pre_cuts, reader));
     return triplets;
 }
 
-analysis::Triplet analysis::TopHadronicTagger::GetBdt(Triplet &triplet, PreCuts &pre_cuts, const TMVA::Reader &reader)
+analysis::Triplet analysis::TopHadronicTagger::Multiplet(Triplet &triplet, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     NSubJettiness(triplet);
     branch_ = branch<TopHadronicBranch>(triplet);
@@ -245,14 +239,14 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(analysis:
     std::vector<analysis::Triplet> triplets;
     if (!boost_) {
         // 2 jets form a W
-        std::vector<analysis::Doublet> doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(jets, w_hadronic_reader_.reader());
+      std::vector<analysis::Doublet> doublets = w_hadronic_reader_.Multiplets<WHadronicTagger>(jets);
         // 3 jets form a top
         triplets = Multiplets(doublets, jets, pre_cuts, reader);
 
         // 2 jets form a top
         for (const auto & jet : jets) {
             // 2 subjets form a W
-            std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(jet, w_hadronic_reader_.reader());
+          std::vector<Doublet> piece_doublets = w_hadronic_reader_.Multiplet<WHadronicTagger>(jet);
             // 2 subjets and one jet form a top
             if (!piece_doublets.empty()) {
                 std::vector<analysis::Triplet> piece_triplets = Multiplets(piece_doublets.front(), jets, pre_cuts, reader);
@@ -263,14 +257,14 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(analysis:
         // 1 jet forms a top
         for (const auto & jet : jets) {
             const int sub_jet_number = 3;
-            Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
+            Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
             // 2 subjets form a W
             for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
                 auto piece_3 = pieces.at((i + 2) % sub_jet_number);
-                std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(piece_2, piece_3, w_hadronic_reader_.reader());
+                std::vector<Doublet> piece_doublets = w_hadronic_reader_.Multiplet<WHadronicTagger>(piece_2, piece_3);
                 // 3 subjets form a top
                 if (!piece_doublets.empty()) {
                     std::vector<analysis::Triplet> piece_triplets = Multiplets(piece_doublets.front(), piece_1, pre_cuts, reader);
@@ -282,13 +276,13 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(analysis:
         // 1 jet forms a top
         for (const auto & jet : jets) {
             const int sub_jet_number = 2;
-            Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).GetSubJetBdt(jet, bottom_reader_.reader(), sub_jet_number);
+            Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
             if (pieces.size() < sub_jet_number) continue;
             // 1 subjets form a W
             for (std::size_t i = 0; i < pieces.size(); ++i) {
                 auto piece_1 = pieces.at(i);
                 auto piece_2 = pieces.at((i + 1) % sub_jet_number);
-                std::vector<Doublet> piece_doublets = static_cast<WHadronicTagger &>(w_hadronic_reader_.tagger()).Multiplets(piece_2, w_hadronic_reader_.reader());
+                std::vector<Doublet> piece_doublets = w_hadronic_reader_.Multiplet<WHadronicTagger>(piece_2);
                 // 2 subjets form a top
                 if (!piece_doublets.empty()) {
                     std::vector<analysis::Triplet> piece_triplets = Multiplets(piece_doublets.front(), piece_1, pre_cuts, reader);
@@ -303,11 +297,10 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(analysis:
     for (const auto & jet : jets) {
         // no subjets
         Triplet triplet(jet);
-        triplets.emplace_back(GetBdt(triplet, pre_cuts, reader));
+        triplets.emplace_back(Multiplet(triplet, pre_cuts, reader));
     }
 
     return ReduceResult(triplets);
-
 }
 
 void analysis::TopHadronicTagger::NSubJettiness(Triplet &triplet)
@@ -338,7 +331,6 @@ analysis::SubJettiness analysis::TopHadronicTagger::NSubJettiness(const fastjet:
     fastjet::contrib::Nsubjettiness n_subjettiness_3_2(3, axis_mode_2, unnormalized_measure_2);
     fastjet::contrib::NsubjettinessRatio n_subjettiness_21_2(2, 1, axis_mode_2, unnormalized_measure_2);
     fastjet::contrib::NsubjettinessRatio n_subjettiness_32_2(3, 2, axis_mode_2, unnormalized_measure_2);
-
 
     SubJettiness sub_jettiness;
 

@@ -18,7 +18,9 @@ public:
 
     Sextet(const Triplet &triplet_1, const Triplet &triplet_2);
 
-    bool overlap();
+    bool overlap() const;
+
+    bool overlap(const fastjet::PseudoJet &jet) const;
 
     Triplet triplet1()const;
 
@@ -127,7 +129,7 @@ public:
         return triplet_2;
     }
 
-protected:
+// protected:
 
     virtual inline std::string ClassName() const {
         return "Sextet";

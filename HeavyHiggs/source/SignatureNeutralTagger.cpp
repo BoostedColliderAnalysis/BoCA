@@ -77,19 +77,8 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
         for (const auto & sextet : sextets) {
             if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
             if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             analysis::Octet62 octet(sextet, doublet);
+            if(octet.overlap()) continue;
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
@@ -116,28 +105,12 @@ std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(an
     std::vector<analysis::Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
             analysis::Octet62 octet(sextet, doublet);
+            if(octet.overlap()) continue;
             branch_ = branch<OctetNeutralBranch>(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);
         }
     }
-
-    if (octets.size() > 1) std::sort(octets.begin(), octets.end());
-    octets.erase(octets.begin() + std::min(max_combi(), int(octets.size())), octets.end());
-    Print(kInformation, "event Number", octets.size());
-
-    return octets;
+    return ReduceResult(octets);
 }

@@ -23,7 +23,7 @@ void top::HTopHadronTagger::SetTagger(const analysis::BottomTagger &bottom_tagge
 {
     Print(kNotification, "Constructor");
     bottom_tagger_ = bottom_tagger;
-    WTagger = w_tagger;
+//     WTagger = w_tagger;
     DefineVariables();
 }
 
@@ -214,7 +214,7 @@ std::vector< top::HTopHadronBranch > top::HTopHadronTagger::GetBranches(analysis
 
 // 1 Jet forms one top
     for (const auto Jet : jets)  {
-      analysis::Jets Pieces = GetSubJets(Jet, 3);
+      analysis::Jets Pieces = SubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
         for (const auto & Piece1 : Pieces) {
             for (const auto & Piece2 : Pieces) {
@@ -370,7 +370,7 @@ std::vector<analysis::Triplet> top::HTopHadronTagger::GetBdt(const analysis::Jet
 
 // 1 jet forms a top
     for (const auto & Jet : jets)  {
-      analysis::Jets Pieces = GetSubJets(Jet, 3);
+      analysis::Jets Pieces = SubJets(Jet, 3);
         //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 // 2 subjets form a W
         std::vector<analysis::Doublet> Piecedoublets ;//= WTagger.Multiplets(Pieces, WReader);
