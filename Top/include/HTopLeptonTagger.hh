@@ -1,9 +1,10 @@
 # pragma once
 
-
 # include "Doublet.hh"
 # include "BottomTagger.hh"
 # include "Reader.hh"
+
+namespace top {
 
 /**
  * @brief Semi leptonic top BDT tagger
@@ -52,3 +53,5 @@ private:
     int eventNumber = 0;
 
 };
+
+}

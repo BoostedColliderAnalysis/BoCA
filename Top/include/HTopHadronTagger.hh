@@ -2,7 +2,7 @@
 # include "Triplet.hh"
 # include "BottomTagger.hh"
 # include "WHadronicTagger.hh"
-# include "HBranchTopTagger.hh"
+# include "BranchTop.hh"
 
 namespace top{
 

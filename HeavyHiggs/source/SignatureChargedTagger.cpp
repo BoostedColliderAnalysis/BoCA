@@ -39,7 +39,7 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 {
     Print(kInformation, "event Tags");
 
-    std::vector<analysis::Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets<analysis::ChargedHiggsSemiTagger>(event);
+    std::vector<analysis::Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets<ChargedHiggsSemiTagger>(event);
 
     analysis::Jets HiggsParticles = event.partons().GenParticles();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
@@ -61,11 +61,11 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 }
 
 
-std::vector<Octet44> heavyhiggs::SignatureChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<heavyhiggs::Octet44> heavyhiggs::SignatureChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Bdt");
 
-    std::vector<analysis::Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets<analysis::ChargedHiggsSemiTagger>(event);
+    std::vector<analysis::Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets<ChargedHiggsSemiTagger>(event);
     std::vector<analysis::Quartet31> jet_quartets = triplet_jet_pair_reader_.Multiplets<analysis::TripletJetPairTagger>(event);
     std::vector<Octet44> octets;
     for (const auto & jet_quartet : jet_quartets) {

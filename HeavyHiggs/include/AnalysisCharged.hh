@@ -444,7 +444,7 @@ private:
         }
     }
 
-    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int PassPreCut(analysis::Event &event);
 
 };
 

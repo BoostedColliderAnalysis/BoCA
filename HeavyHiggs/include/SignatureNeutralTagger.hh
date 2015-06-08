@@ -49,7 +49,7 @@ private:
 
     OctetNeutralBranch branch_;
 
-    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
+    HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
 
     analysis::JetPairTagger jet_pair_tagger_;
 

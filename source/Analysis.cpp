@@ -97,3 +97,16 @@ exroot::TreeWriter analysis::Analysis::TreeWriter(TFile &export_file, const std:
     return tree_writer;
 }
 
+int analysis::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
+{
+  Print(kInformation, "Analysis");
+  switch (stage) {
+    case analysis::Tagger::kTrainer :
+      return tagger_.Train(event, pre_cuts_, tag);
+    case analysis::Tagger::kReader :
+      return reader_.GetBdt(event, pre_cuts_);
+    default :
+      return 0;
+  }
+}
+

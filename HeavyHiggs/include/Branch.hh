@@ -7,6 +7,274 @@ namespace heavyhiggs {
 
 /**
  *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HeavyHiggsLeptonicBranch : public analysis::PairBranch
+{
+
+public:
+
+    HeavyHiggsLeptonicBranch();
+
+    float LargerWDeltaRap;
+    float LargerWDeltaPhi;
+    float LargerWDeltaR;
+
+    float SmallerWDeltaRap;
+    float SmallerWDeltaPhi;
+    float SmallerWDeltaR;
+
+    float LargerNeutrinoDeltaRap;
+    float LargerNeutrinoDeltaPhi;
+    float LargerNeutrinoDeltaR;
+
+    float SmallerNeutrinoDeltaRap;
+    float SmallerNeutrinoDeltaPhi;
+    float SmallerNeutrinoDeltaR;
+
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        PairBranch::Fill(multiplet);
+
+        LargerWDeltaR = multiplet.GetLargertripletDeltaR();
+        LargerWDeltaRap = multiplet.GetLargertripletDeltaRap();
+        LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
+
+        SmallerWDeltaR = multiplet.GetSmallertripletDeltaR();
+        SmallerWDeltaRap = multiplet.GetSmallertripletDeltaRap();
+        SmallerWDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
+
+        LargerNeutrinoDeltaR = multiplet.GetLargertripletDeltaR();
+        LargerNeutrinoDeltaRap = multiplet.GetLargertripletDeltaRap();
+        LargerNeutrinoDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
+
+        SmallerNeutrinoDeltaR = multiplet.GetSmallertripletDeltaR();
+        SmallerNeutrinoDeltaRap = multiplet.GetSmallertripletDeltaRap();
+        SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
+
+    }
+private:
+
+    ClassDef(HeavyHiggsLeptonicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HHeavyHiggsHadronicBranch : public analysis::Branch
+{
+
+public:
+
+    HHeavyHiggsHadronicBranch();
+
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+
+    float TopBdt;
+
+    float HeavyHiggsTag;
+
+private:
+
+    ClassDef(HHeavyHiggsHadronicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HeavyHiggsSemiBranch : public analysis::MultiBranch
+{
+
+public:
+
+    HeavyHiggsSemiBranch();
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        MultiBranch::Fill(multiplet);
+    }
+
+private:
+
+    ClassDef(HeavyHiggsSemiBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Charged Higgs semi tagger root tree structure
+ *
+ */
+class ChargedHiggsSemiBranch : public analysis::MultiBranch
+{
+
+public:
+
+    float Flag;
+    ChargedHiggsSemiBranch();
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        MultiBranch::Fill(multiplet);
+        Flag = multiplet.Flag();
+    }
+
+private:
+
+    ClassDef(ChargedHiggsSemiBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HChargedHiggsHadronicBranch : public analysis::Branch
+{
+
+public:
+
+    HChargedHiggsHadronicBranch();
+
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+
+    float TopBdt;
+
+    float HeavyHiggsTag;
+
+private:
+
+    ClassDef(HChargedHiggsHadronicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class ChargedHiggsLeptonicBranch : public analysis::MultiBranch
+{
+
+public:
+
+    ChargedHiggsLeptonicBranch();
+
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+
+    float LargerWDeltaRap;
+    float LargerWDeltaPhi;
+    float LargerWDeltaR;
+
+    float SmallerWDeltaRap;
+    float SmallerWDeltaPhi;
+    float SmallerWDeltaR;
+
+    float LargerNeutrinoDeltaRap;
+    float LargerNeutrinoDeltaPhi;
+    float LargerNeutrinoDeltaR;
+
+    float SmallerNeutrinoDeltaRap;
+    float SmallerNeutrinoDeltaPhi;
+    float SmallerNeutrinoDeltaR;
+
+    float TopBdt;
+
+    float HeavyHiggsTag;
+
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        MultiBranch::Fill(multiplet);
+        HeavyHiggsMass = multiplet.Jet().m();
+        HeavyHiggsPt = multiplet.Jet().m();
+
+        TopDeltaR = multiplet.DeltaR();
+        TopDeltaRap = multiplet.DeltaRap();
+        TopDeltaPhi = multiplet.DeltaPhi();
+
+        //     LargerWDeltaR = multiplet.GetLargertripletDeltaR();
+        //     LargerWDeltaRap = multiplet.GetLargertripletDeltaRap();
+        //     LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
+        //
+        //     SmallerWDeltaR = multiplet.GetSmallertripletDeltaR();
+        //     SmallerWDeltaRap = multiplet.GetSmallertripletDeltaRap();
+        //     SmallerWDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
+        //
+        //     LargerNeutrinoDeltaR = multiplet.GetLargertripletDeltaR();
+        //     LargerNeutrinoDeltaRap = multiplet.GetLargertripletDeltaRap();
+        //     LargerNeutrinoDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
+        //
+        //     SmallerNeutrinoDeltaR = multiplet.GetSmallertripletDeltaR();
+        //     SmallerNeutrinoDeltaRap = multiplet.GetSmallertripletDeltaRap();
+        //     SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
+
+        TopBdt = multiplet.Bdt();
+        HeavyHiggsTag = multiplet.Tag();
+
+    }
+
+
+private:
+
+    ClassDef(ChargedHiggsLeptonicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class HeavyHiggsTauBranch : public analysis::PairBranch
+{
+
+public:
+
+    HeavyHiggsTauBranch();
+
+    float LeptonPt;
+    float NeutrinoPt;
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        PairBranch::Fill(multiplet);
+        LeptonPt = multiplet.Singlet1().pt();
+        NeutrinoPt = multiplet.Singlet2().pt();
+    }
+
+private:
+
+    ClassDef(HeavyHiggsTauBranch, 1)
+
+};
+
+/**
+ *
  * @brief Higgs cpv tagger root tree structure
  *
  */

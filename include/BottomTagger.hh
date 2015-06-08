@@ -4,13 +4,13 @@
 # include "Reader.hh"
 # include "Singlet.hh"
 
+namespace analysis
+{
+
 /**
  * @brief Bottom BDT tagger
  *
  */
-namespace analysis
-{
-
 class BottomTagger : public Tagger
 {
 

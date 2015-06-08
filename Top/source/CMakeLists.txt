@@ -1,5 +1,5 @@
 
-HDictionary(HBranchTopTagger HBranchTopTagger.cpp ../include/HLinkDefTopTagger.hh)
+HDictionary(BranchTop BranchTop.cpp ../include/HLinkDefTopTagger.hh)
 
 set(HTopTaggerLib
 AnalysisTopTagger.cpp

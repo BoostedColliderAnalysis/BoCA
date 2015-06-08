@@ -1,16 +1,18 @@
-# ifndef HMvaDiscriminator_hh
-# define HMvaDiscriminator_hh
+# pragma once
 
 
 # include "Tagger.hh"
 # include "HBranchDiscriminator.hh"
+
+
+namespace hcpvhiggs{
 
 /**
  *
  * @brief Prepares multivariant analysis
  *
  */
-class hcpvhiggs::HMva : public analysis::Tagger
+class HMva : public analysis::Tagger
 {
 
 public:
@@ -49,4 +51,4 @@ private:
 
 };
 
-# endif
+}

@@ -58,7 +58,7 @@ int main()
     RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(tops_semi_tagger, analysis::Tagger::kReader, config);
 
-    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
+    heavyhiggs::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader, config);
 

@@ -10,6 +10,11 @@
 
 # include "fastjet/PseudoJet.hh"
 
+/**
+ * @brief Namespace of analysis containing all the underlying libraries and SM taggers
+ *
+ */
+
 namespace analysis
 {
 

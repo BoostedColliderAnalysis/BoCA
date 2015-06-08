@@ -53,7 +53,7 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
     analysis::Jets leptons = event.leptons().leptons();
-    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
 
     analysis::Jets HiggsParticles = event.partons().GenParticles();
     analysis::Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
@@ -91,7 +91,7 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
 std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionTagger::Multiplets(analysis::Event &event, TMVA::Reader &reader)
 {
   Print(kInformation, "event Tags");
-  std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
+  std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
 
   analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
   analysis::Jets Leptons = event.leptons().leptons();

@@ -37,18 +37,12 @@ public:
 
 protected:
 
-
-
     virtual inline std::string FilePath() const {
-        return "~/Projects/HTopTagger/";
+        return "~/Projects/Tagger/Top/";
     }
 
     virtual inline std::string NameSpaceName() const {
-        return "htoptagger";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "HAnalysis";
+        return "top";
     }
 
 private:

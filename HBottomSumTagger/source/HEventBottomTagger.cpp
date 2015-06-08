@@ -74,11 +74,11 @@ analysis::EventBottomTaggerBranch hbottomsumtagger::EventBottomTagger::GetBranch
 
 }
 
-struct SortJetsByBdt {
-    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
-        return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
-    }
-};
+// struct SortJetsByBdt {
+//     inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+//         return (Jet1.user_info<analysis::JetInfo>().Bdt() > Jet2.user_info<analysis::JetInfo>().Bdt());
+//     }
+// };
 
 
 std::vector<analysis::EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagger::GetBranches(analysis::Event &event, const Object::Tag Tag)

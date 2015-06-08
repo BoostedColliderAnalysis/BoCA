@@ -46,6 +46,46 @@ analysis::DetectorGeometry::DetectorGeometry()
     }
 }
 
+namespace analysis{
+
+struct AccuPerpDistance {
+  float operator()(float result, const analysis::Constituent &constituent) {
+    return (result + constituent.Position().Vect().Perp());
+  }
+
+};
+
+struct MaxPerpDistance {
+  inline bool operator()(const analysis::Constituent &constituent_1, const analysis::Constituent &constituent_2) const {
+    return (constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp());
+  }
+};
+
+struct WrongDetector {
+  WrongDetector(const analysis::Constituent::SubDetector sub_detector) {
+    this->sub_detector_ = sub_detector;
+  }
+  bool operator()(const analysis::Constituent &constituent) {
+    return (constituent.sub_detector() != sub_detector_);
+  }
+  analysis::Constituent::SubDetector sub_detector_;
+};
+
+struct MaxConstPt {
+  bool operator()(const analysis::Constituent &constituent_1, const analysis::Constituent &constituent_2) {
+    return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
+  }
+};
+
+struct AccuPt {
+  float operator()(float result, const analysis::Constituent &constituent) {
+    return (result + constituent.Momentum().Pt());
+  }
+
+};
+
+}
+
 analysis::JetInfo::JetInfo()
 {
     Print(kDebug, "Constructor");
@@ -241,12 +281,7 @@ fastjet::PseudoJet analysis::JetInfo::VertexJet() const
     return Jet;
 }
 
-struct AccuPerpDistance {
-    float operator()(float result, const analysis::Constituent &constituent) {
-        return (result + constituent.Position().Vect().Perp());
-    }
 
-};
 
 float analysis::JetInfo::SumDisplacement() const
 {
@@ -265,12 +300,6 @@ float analysis::JetInfo::MeanDisplacement() const
     const float sum = std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
     return sum / vertices.size();
 }
-
-struct MaxPerpDistance {
-    inline bool operator()(const analysis::Constituent &constituent_1, const analysis::Constituent &constituent_2) const {
-        return (constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp());
-    }
-};
 
 float analysis::JetInfo::MaxDisplacement() const
 {
@@ -334,30 +363,6 @@ float analysis::JetInfo::TrackRadius(const fastjet::PseudoJet &jet) const
     if (energy == 0) return 0;
     else return weight / energy;
 }
-
-
-struct WrongDetector {
-    WrongDetector(const analysis::Constituent::SubDetector sub_detector) {
-        this->sub_detector_ = sub_detector;
-    }
-    bool operator()(const analysis::Constituent &constituent) {
-        return (constituent.sub_detector() != sub_detector_);
-    }
-    analysis::Constituent::SubDetector sub_detector_;
-};
-
-struct MaxConstPt {
-    bool operator()(const analysis::Constituent &constituent_1, const analysis::Constituent &constituent_2) {
-        return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
-    }
-};
-
-struct AccuPt {
-    float operator()(float result, const analysis::Constituent &constituent) {
-        return (result + constituent.Momentum().Pt());
-    }
-
-};
 
 float analysis::JetInfo::LeadingTrackMomentumFraction() const
 {

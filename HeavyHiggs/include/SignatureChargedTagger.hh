@@ -40,7 +40,7 @@ protected:
 
 private:
 
-    analysis::ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
+    ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
 
     analysis::TripletJetPairTagger triplet_jet_pair_tagger_;
 

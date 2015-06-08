@@ -118,7 +118,7 @@ return SaveEntries<EventChargedBranch>(events);
 //   return global_observables;
 // }
 
-std::vector<analysis::MultipletEvent<Octet44>> heavyhiggs::EventChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::MultipletEvent<heavyhiggs::Octet44>> heavyhiggs::EventChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
   Print(kInformation, "event Tags");
   std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);

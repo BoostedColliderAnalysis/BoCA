@@ -52,11 +52,6 @@ protected:
 
     InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
 
-    virtual int RunAnalysis(Event &, const Tagger::Stage stage, const Tag tag) {
-        Print(kError, "Analysis", "should be subclassed", stage, tag);
-        return 0;
-    }
-
     virtual inline std::string ProjectName() const {
         return "ProjectName";
     }
@@ -156,6 +151,8 @@ protected:
     }
 
     PreCuts pre_cuts_;
+
+    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 private:
 

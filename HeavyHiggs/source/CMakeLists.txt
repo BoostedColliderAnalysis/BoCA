@@ -2,6 +2,11 @@ HDictionary(BranchHeavyHiggs Branch.cpp ../include/LinkDefHeavyHiggs.hh)
 
 set(AnalysisSources
 Octet44.cpp
+HeavyHiggsLeptonicTagger.cpp
+HeavyHiggsSemiTagger.cpp
+HeavyHiggsTauTagger.cpp
+ChargedHiggsSemiTagger.cpp
+ChargedHiggsLeptonicTagger.cpp
 SignatureNeutralTagger.cpp
 SignatureChargedTagger.cpp
 MultipletEvent.cpp

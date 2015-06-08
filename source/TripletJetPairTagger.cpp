@@ -1,4 +1,5 @@
 # include "TripletJetPairTagger.hh"
+# include "Predicate.hh"
 
 analysis::TripletJetPairTagger::TripletJetPairTagger()
 {
@@ -40,11 +41,11 @@ void analysis::TripletJetPairTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-struct SortquartetByDeltaRap {
-    inline bool operator()(const analysis::Quartet31 &quartet1, const analysis::Quartet31 &quartet2) {
-        return (quartet1.DeltaRap() > quartet2.DeltaRap());
-    }
-};
+// struct SortquartetByDeltaRap {
+//     inline bool operator()(const analysis::Quartet31 &quartet1, const analysis::Quartet31 &quartet2) {
+//         return (quartet1.DeltaRap() > quartet2.DeltaRap());
+//     }
+// };
 
 int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
 {
@@ -119,7 +120,8 @@ int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
     Print(kDebug, "Number of Jet Pairs", quartets.size());
 
     if (tag == kSignal && quartets.size() > 1) {
-        std::sort(quartets.begin(), quartets.end(), SortquartetByDeltaRap());
+      quartets = SortByMaxDeltaRap(quartets);
+//         std::sort(quartets.begin(), quartets.end(), analysis::SortedByDeltaRap());
         if (quartets.size() > 1)quartets.erase(quartets.begin() + 1, quartets.end());
     }
 

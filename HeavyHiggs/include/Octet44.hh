@@ -2,6 +2,8 @@
 
 # include "Quartet31.hh"
 
+namespace heavyhiggs{
+
 /**
  * @brief An octet composed of two quartets
  *
@@ -96,3 +98,4 @@ private:
 
 };
 
+}

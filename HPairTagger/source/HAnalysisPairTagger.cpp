@@ -29,7 +29,7 @@
 //     }
 // }
 
-std::vector<analysis::File> hpairtagger::HAnalysis::Files(const analysis::Object::Tag tag)
+std::vector<analysis::File> fusionpair::HAnalysis::Files(const analysis::Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
@@ -89,7 +89,7 @@ std::vector<analysis::File> hpairtagger::HAnalysis::Files(const analysis::Object
 }
 
 
-void hpairtagger::HAnalysis::SetTrees()
+void fusionpair::HAnalysis::SetTrees()
 {
 
   analysis::Strings SignalLeptonicTrees {};
@@ -209,7 +209,7 @@ void hpairtagger::HAnalysis::SetTrees()
 //
 // }
 
-int hpairtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int fusionpair::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Analysis", stage, tag);
     ++event_sum_;

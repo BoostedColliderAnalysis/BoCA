@@ -2,7 +2,7 @@
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-    hpairtagger::HAnalysis analysis(tagger);
+    fusionpair::HAnalysis analysis(tagger);
     const std::string Name = tagger.tagger_name();
     analysis.Print(analysis.kError, "Tagger", Name);
 

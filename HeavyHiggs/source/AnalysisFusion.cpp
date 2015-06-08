@@ -91,31 +91,27 @@ void heavyhiggs::AnalysisFusion::SetTrees()
 
 }
 
-int heavyhiggs::AnalysisFusion::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
+int heavyhiggs::AnalysisFusion::PassPreCut(analysis::Event &event)
 {
+  Print(kInformation, "pass pre cut");
+  if (object_number_ > EventNumberMax()) return 0;
 
-    Print(kInformation, "Analysis");
-
-    if (object_number_ > EventNumberMax()) return 0;
-
-    analysis::Jets Particles = event.partons().GenParticles();
-    Particles = RemoveIfWrongAbsParticle(Particles, TopId);
-    if (Particles.size() != 2) {
-        Print(kError, "Not enough top quarks", Particles.size());
-        return 0;
-    } else {
-        if (Particles.at(0).pt() < PreCut()) return 0;
-        if (Particles.at(1).pt() < PreCut()) return 0;
-    }
+  analysis::Jets Particles = event.partons().GenParticles();
+  Particles = RemoveIfWrongAbsParticle(Particles, TopId);
+  if (Particles.size() != 2) {
+    Print(kError, "Not enough top quarks", Particles.size());
+    return 0;
+  } else {
+    if (Particles.at(0).pt() < PreCut()) return 0;
+    if (Particles.at(1).pt() < PreCut()) return 0;
+  }
 
 
-    if (event.hadrons().MissingEt().pt() < MissingEt()) return 0;
-    analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
-    if (Leptons.empty()) return 0;
-    if (Leptons.front().pt() < LeptonPt()) return 0;
-    analysis::Jets jets = event.hadrons().Jets();
-    if (jets.size() < 4) return 0;
-
-    ++event_sum_;
-    return tagger_.GetBranches(event, stage, tag);
+  if (event.hadrons().MissingEt().pt() < MissingEt()) return 0;
+  analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
+  if (Leptons.empty()) return 0;
+  if (Leptons.front().pt() < LeptonPt()) return 0;
+  analysis::Jets jets = event.hadrons().Jets();
+  if (jets.size() < 4) return 0;
+  return 1;
 }

@@ -1,6 +1,5 @@
 # include "AnalysisTopTagger.hh"
 
-
 top::Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = analysis::Object::kDebug;

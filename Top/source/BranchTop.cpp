@@ -1,4 +1,4 @@
-# include "HBranchTopTagger.hh"
+# include "BranchTop.hh"
 
 ClassImp(top::HCandidateBranch)
 

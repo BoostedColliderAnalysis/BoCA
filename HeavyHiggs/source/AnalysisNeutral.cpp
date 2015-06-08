@@ -2,8 +2,8 @@
 
 heavyhiggs::AnalysisNeutral::AnalysisNeutral(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-  Print(kNotification, "Constructor");
-  tagger_.set_analysis_name(ProjectName());
+    Print(kNotification, "Constructor");
+    tagger_.set_analysis_name(ProjectName());
 }
 
 std::vector<analysis::File> heavyhiggs::AnalysisNeutral::Files(const analysis::Object::Tag tag)
@@ -58,8 +58,8 @@ std::vector<analysis::File> heavyhiggs::AnalysisNeutral::Files(const analysis::O
 void heavyhiggs::AnalysisNeutral::SetTrees()
 {
 
-  analysis::Strings SignalLeptonicTrees {};
-  analysis::Strings BackgroundLeptonicTrees {};
+    analysis::Strings SignalLeptonicTrees {};
+    analysis::Strings BackgroundLeptonicTrees {};
 
     std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
@@ -87,10 +87,9 @@ void heavyhiggs::AnalysisNeutral::SetTrees()
 
 }
 
-int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
+int heavyhiggs::AnalysisNeutral::PassPreCut(analysis::Event &event)
 {
-    Print(kInformation, "Analysis");
-
+    Print(kInformation, "pass pre cut");
     analysis::Jets Particles = event.partons().GenParticles();
     analysis::Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Tops.size() != 2) {
@@ -107,11 +106,5 @@ int heavyhiggs::AnalysisNeutral::RunAnalysis(analysis::Event &event, const analy
     if (Leptons.front().pt() < LeptonPt()) return 0;
     analysis::Jets jets = event.hadrons().Jets();
     if (jets.size() < 4) return 0;
-
-
-    ++event_sum_;
-
-    tagger_.GetBranches(event, stage, tag);
+    return 1;
 }
-
-

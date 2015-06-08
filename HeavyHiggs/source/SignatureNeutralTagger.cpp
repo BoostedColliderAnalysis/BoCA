@@ -42,7 +42,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
 {
     Print(kInformation, "event Tags");
     float Mass = event.mass();
-    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
     analysis::Jets HiggsParticles = event.partons().GenParticles();
@@ -101,7 +101,7 @@ std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(an
     Print(kInformation, "event Tags");
 
     std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
-    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
     std::vector<analysis::Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {

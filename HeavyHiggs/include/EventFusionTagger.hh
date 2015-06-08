@@ -47,7 +47,7 @@ private:
 
     analysis::BottomTagger bottom_tagger_;
 
-    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
+    HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
 
     analysis::Reader bottom_reader_;
 

@@ -492,13 +492,7 @@ private:
         }
     }
 
-    /**
-     * @brief Main Analysis function
-     *
-     */
-    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
-
-
+    int PassPreCut(analysis::Event &event);
 
 };
 

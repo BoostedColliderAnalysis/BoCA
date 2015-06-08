@@ -86,38 +86,32 @@ void heavyhiggs::AnalysisCharged::SetTrees()
 
 }
 
-
-
-int heavyhiggs::AnalysisCharged::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int heavyhiggs::AnalysisCharged::PassPreCut(analysis::Event &event)
 {
-    Print(kInformation, "Analysis");
-
-    analysis::Jets Particles = event.partons().GenParticles();
-    analysis::Jets Quarks = fastjet::sorted_by_pt(analysis::RemoveIfNot5Quarks(Particles));
-    Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, TopId));
-    if (Quarks.empty()) {
-//       if (Tag == kSignal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
-//       if (PreCut() > 0)
-        Print(kError, "Not enough bottom quarks", Quarks.size());
-        return 0;
-    } else if (Quarks.front().pt() < PreCut()) return 0;
-
-
-    analysis::Jets TopQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, TopId));
-    if (TopQuarks.size() != 2) {
-        Print(kError, "Not enough top quarks", TopQuarks.size());
-        return 0;
-    } else if (TopQuarks.front().pt() < PreCut()) return 0;
+  Print(kInformation, "pass pre cut");
+  analysis::Jets Particles = event.partons().GenParticles();
+  analysis::Jets Quarks = fastjet::sorted_by_pt(analysis::RemoveIfNot5Quarks(Particles));
+  Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, TopId));
+  if (Quarks.empty()) {
+    //       if (Tag == kSignal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
+    //       if (PreCut() > 0)
+    Print(kError, "Not enough bottom quarks", Quarks.size());
+    return 0;
+  } else if (Quarks.front().pt() < PreCut()) return 0;
 
 
-    if (event.hadrons().MissingEt().pt() < MissingEt()) return 0;
-    analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
-    if (Leptons.empty()) return 0;
-    if (Leptons.front().pt() < LeptonPt()) return 0;
-    analysis::Jets jets = event.hadrons().Jets();
-    if (jets.size() < 4) return 0;
+  analysis::Jets TopQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, TopId));
+  if (TopQuarks.size() != 2) {
+    Print(kError, "Not enough top quarks", TopQuarks.size());
+    return 0;
+  } else if (TopQuarks.front().pt() < PreCut()) return 0;
 
-    ++event_sum_;
 
-    return tagger_.GetBranches(event, stage, tag);
+  if (event.hadrons().MissingEt().pt() < MissingEt()) return 0;
+  analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
+  if (Leptons.empty()) return 0;
+  if (Leptons.front().pt() < LeptonPt()) return 0;
+  analysis::Jets jets = event.hadrons().Jets();
+  if (jets.size() < 4) return 0;
+  return 1;
 }

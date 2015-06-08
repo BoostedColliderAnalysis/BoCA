@@ -3,6 +3,10 @@
 # include "HBranchBTagger.hh"
 # include "Analysis.hh"
 
+/**
+ * @brief Namespace for bottom analysis
+ *
+ */
 namespace bottom {
 
 /**
@@ -96,8 +100,6 @@ private:
     void SetFiles(const analysis::Object::Tag Tag);
 
     int PassPreCut(analysis::Event &event);
-
-    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 };
 

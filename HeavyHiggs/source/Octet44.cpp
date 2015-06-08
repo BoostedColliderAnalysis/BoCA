@@ -1,6 +1,6 @@
 # include "Octet44.hh"
 
-Octet44::Octet44(const analysis::Quartet31 &quartet_1, const analysis::Quartet31 &quartet_2)
+heavyhiggs::Octet44::Octet44(const analysis::Quartet31 &quartet_1, const analysis::Quartet31 &quartet_2)
 {
     quartet_1_ = quartet_1;
     quartet_2_ = quartet_2;
@@ -8,7 +8,7 @@ Octet44::Octet44(const analysis::Quartet31 &quartet_1, const analysis::Quartet31
     SetTag(quartet_1_.Tag(), quartet_2_.Tag());
 }
 
-bool Octet44::overlap() const
+bool heavyhiggs::Octet44::overlap() const
 {
     analysis::DetectorGeometry detector_geometry;
     if (quartet_1_.singlet().delta_R(quartet_2_.singlet()) < detector_geometry.JetConeSize) return true;
@@ -30,7 +30,7 @@ bool Octet44::overlap() const
     return false;
 }
 
-bool Octet44::overlap(const fastjet::PseudoJet &jet) const
+bool heavyhiggs::Octet44::overlap(const fastjet::PseudoJet &jet) const
 {
     analysis::DetectorGeometry detector_geometry;
     if (jet.delta_R(quartet1().singlet()) < detector_geometry.JetConeSize) return true;

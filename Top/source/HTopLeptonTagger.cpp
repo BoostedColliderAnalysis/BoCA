@@ -1,20 +1,20 @@
 # include "HTopLeptonTagger.hh"
 
-HTopLeptonTagger::HTopLeptonTagger()
+top::HTopLeptonTagger::HTopLeptonTagger()
 {
 //         DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     DefineVariables();
 }
 
-void HTopLeptonTagger::SetTagger(const analysis::BottomTagger &NewBottomTagger)
+void top::HTopLeptonTagger::SetTagger(const analysis::BottomTagger &NewBottomTagger)
 {
     Print(kNotification, "SetTagger");
     DefineVariables();
     bottom_tagger_ = NewBottomTagger;
 }
 
-void HTopLeptonTagger::DefineVariables()
+void top::HTopLeptonTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
@@ -58,7 +58,7 @@ void HTopLeptonTagger::DefineVariables()
 
 }
 
-analysis::HTopLeptonBranch HTopLeptonTagger::GetBranch(const analysis::Doublet& doublet) const
+analysis::HTopLeptonBranch top::HTopLeptonTagger::GetBranch(const analysis::Doublet& doublet) const
 {
     Print(kInformation, "Fill Top Tagger", doublet.Bdt());
 
@@ -105,7 +105,7 @@ analysis::HTopLeptonBranch HTopLeptonTagger::GetBranch(const analysis::Doublet& 
     return top_semi_branch;
 }
 
-std::vector< analysis::HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
+std::vector< analysis::HTopLeptonBranch > top::HTopLeptonTagger::GetBranches(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Top Tags");
     const int TopNumber = 2;
@@ -187,7 +187,7 @@ std::vector< analysis::HTopLeptonBranch > HTopLeptonTagger::GetBranches(analysis
 
 
 
-std::vector<analysis::Doublet>  HTopLeptonTagger::GetBdt(const analysis::Jets &jets, const analysis::Jets &Leptons, const analysis::Reader &Reader)
+std::vector<analysis::Doublet>  top::HTopLeptonTagger::GetBdt(const analysis::Jets &jets, const analysis::Jets &Leptons, const analysis::Reader &Reader)
 {
 
     Print(kInformation, "Bdt");
@@ -220,7 +220,7 @@ std::vector<analysis::Doublet>  HTopLeptonTagger::GetBdt(const analysis::Jets &j
     return doublets;
 }
 
-float HTopLeptonTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
+float top::HTopLeptonTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Delta R");
 
@@ -242,7 +242,7 @@ float HTopLeptonTagger::GetDeltaR(const fastjet::PseudoJet &Jet) const
     return DeltaR;
 }
 
-float HTopLeptonTagger::GetSpread(const fastjet::PseudoJet &Jet) const
+float top::HTopLeptonTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 {
     Print(kInformation, "Centrality");
     if (!Jet.has_constituents()) {

@@ -1,5 +1,4 @@
-# ifndef __HAnalysisDiscriminator_hh__
-# define __HAnalysisDiscriminator_hh__
+# pragma once
 
 # include "Analysis.hh"
 # include "File.hh"
@@ -7,12 +6,15 @@
 # include "HBranchDiscriminator.hh"
 # include "SubStructure.hh"
 
+
+namespace hcpvhiggs{
+
 /**
  *
  * @brief JetTag subclass for Discriminator
  *
  */
-class hcpvhiggs::JetTag : public analysis::JetTag
+class JetTag : public analysis::JetTag
 {
 
 public:
@@ -36,7 +38,7 @@ public:
  * \author Jan Hajer
  *
  */
-class hcpvhiggs::HAnalysis : public analysis::Analysis
+class HAnalysis : public analysis::Analysis
 {
 
 public:
@@ -134,6 +136,4 @@ private:
 
 };
 
-#endif
-
-
+}

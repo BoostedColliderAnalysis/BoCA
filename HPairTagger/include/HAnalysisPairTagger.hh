@@ -12,7 +12,11 @@
 
 # include "JetPairTagger.hh"
 
-namespace hpairtagger
+/**
+ * @brief Namespace for the fusion pair analysis
+ *
+ */
+namespace fusionpair
 {
 
 /**
