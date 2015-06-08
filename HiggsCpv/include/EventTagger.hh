@@ -3,7 +3,8 @@
 # include "SignatureTagger.hh"
 # include "MultipletEvent.hh"
 
-namespace higgscpv {
+namespace higgscpv
+{
 
 /**
  *
@@ -21,9 +22,9 @@ public:
     */
     EventTagger();
 
-    int Train(analysis::Event& event, const analysis::Object::Tag tag);
+    int Train(analysis::Event &event, const analysis::Object::Tag tag);
 
-    std::vector<analysis::MultipletEvent<analysis::Octet62>> Multiplets(analysis::Event& event, const TMVA::Reader &reader);
+    std::vector<analysis::MultipletEvent<analysis::Octet62>> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -36,6 +37,10 @@ protected:
     }
 
 private:
+
+    virtual TClass &Class() const {
+        return *EventBranch::Class();
+    }
 
     void DefineVariables();
 

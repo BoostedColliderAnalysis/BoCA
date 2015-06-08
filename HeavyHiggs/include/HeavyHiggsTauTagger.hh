@@ -5,7 +5,8 @@
 # include "Reader.hh"
 # include "Branch.hh"
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  * @brief Semi leptonic top BDT tagger
@@ -29,6 +30,10 @@ protected:
     };
 
 private:
+
+    TClass &Class() const {
+        return *HeavyHiggsTauBranch::Class();
+    }
 
     void DefineVariables();
 

@@ -2,7 +2,8 @@
 
 # include "Tagger.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Bottom BDT tagger
@@ -26,6 +27,10 @@ protected:
     }
 
 private:
+
+    TClass &Class() const {
+        return *TauBranch::Class();
+    }
 
     void DefineVariables();
 

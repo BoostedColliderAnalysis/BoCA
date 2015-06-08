@@ -39,6 +39,10 @@ protected:
 
 private:
 
+    TClass &Class() const {
+        return *OctetChargedBranch::Class();
+    }
+
     ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
 
     analysis::TripletJetPairTagger triplet_jet_pair_tagger_;
@@ -46,10 +50,6 @@ private:
     analysis::Reader charged_higgs_semi_reader_;
 
     analysis::Reader triplet_jet_pair_reader_;
-
-    TClass &Class() const {
-      return *OctetChargedBranch::Class();
-    }
 
     void DefineVariables();
 

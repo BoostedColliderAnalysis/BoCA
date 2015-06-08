@@ -3,7 +3,8 @@
 # include "HeavyHiggsSemiTagger.hh"
 # include "MultipletEvent.hh"
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
@@ -23,7 +24,7 @@ public:
 
     int Train(analysis::Event &event, const Tag tag);
 
-    std::vector< analysis::MultipletEvent<analysis::Sextet> > Multiplets(analysis::Event& event, TMVA::Reader& eventSemiReader);
+    std::vector< analysis::MultipletEvent<analysis::Sextet> > Multiplets(analysis::Event &event, TMVA::Reader &eventSemiReader);
 
 protected:
 
@@ -36,6 +37,10 @@ protected:
     }
 
 private:
+
+    TClass &Class() const {
+        return *EventFusionBranch::Class();
+    }
 
     void DefineVariables();
 

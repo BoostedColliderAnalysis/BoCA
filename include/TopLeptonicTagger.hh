@@ -4,7 +4,8 @@
 # include "Doublet.hh"
 # include "Reader.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Top leptonic BDT tagger
@@ -17,9 +18,9 @@ public:
 
     TopLeptonicTagger();
 
-    int Train(analysis::Event& event, const analysis::Object::Tag tag);
+    int Train(analysis::Event &event, const analysis::Object::Tag tag);
 
-    std::vector< Doublet> Multiplets(analysis::Event& event, const TMVA::Reader &reader);
+    std::vector< Doublet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -28,6 +29,10 @@ protected:
     }
 
 private:
+
+    TClass &Class() const {
+        return *TopLeptonicBranch::Class();
+    }
 
     void DefineVariables();
 

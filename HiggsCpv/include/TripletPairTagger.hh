@@ -5,7 +5,8 @@
 # include "TopSemiTagger.hh"
 # include "BranchesHiggsCpv.hh"
 
-namespace higgscpv {
+namespace higgscpv
+{
 
 /**
  * @brief JetPair BDT tagger
@@ -18,9 +19,9 @@ public:
 
     TripletPairTagger();
 
-    int Train(analysis::Event& event, const Tag tag);
+    int Train(analysis::Event &event, const Tag tag);
 
-    std::vector<analysis::Sextet> Multiplets(analysis::Event& event, const TMVA::Reader& reader);
+    std::vector<analysis::Sextet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -29,6 +30,10 @@ protected:
     }
 
 private:
+
+    virtual TClass &Class() const {
+        return *TripletPairBranch::Class();
+    }
 
     void DefineVariables();
 

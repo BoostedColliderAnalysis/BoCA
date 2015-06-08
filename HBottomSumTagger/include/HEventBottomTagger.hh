@@ -1,8 +1,6 @@
-# ifndef EventBottomTagger_hh
-# define EventBottomTagger_hh
+# pragma once
 
 # include "BottomTagger.hh"
-# include "Identification.hh"
 # include "Reader.hh"
 
 namespace hbottomsumtagger
@@ -20,8 +18,8 @@ public:
 
 
     inline float TotalBottomBdt(const unsigned Number) const {
-        if (JetsM.size() < Number) return 0;
-        return JetsM.at(Number - 1).user_info<analysis::JetInfo>().Bdt();
+        if (jets_.size() < Number) return 0;
+        return jets_.at(Number - 1).user_info<analysis::JetInfo>().Bdt();
     }
 
     inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2) const {
@@ -29,15 +27,15 @@ public:
     }
 
     inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2, const unsigned Number3) const {
-      return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3);
+        return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3);
     }
 
-    inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2,const unsigned Number3, const unsigned Number4) const {
-      return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3) + TotalBottomBdt(Number4);
+    inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2, const unsigned Number3, const unsigned Number4) const {
+        return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3) + TotalBottomBdt(Number4);
     }
 
     void SetJets(const analysis::Jets &NewJets) {
-        JetsM = NewJets;
+        jets_ = NewJets;
         float bdt = 0;
         for (int i = 1; i < 6; ++i) bdt += TotalBottomBdt(i);
         SetBdt(bdt);
@@ -45,7 +43,7 @@ public:
 
 private:
 
-  analysis::Jets JetsM;
+    analysis::Jets jets_;
 
 };
 
@@ -92,18 +90,19 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "HEventBottomTagger";
+        return "EventBottomTagger";
     }
 
 private:
 
+    virtual TClass &Class() const {
+        return *analysis::EventBottomTaggerBranch::Class();
+    }
+
     void DefineVariables();
 
-//     std::vector<HOctet> GetHeavyHiggsevents(Jets &jets);
-
-    analysis::EventBottomTaggerBranch Branch;
-    analysis::JetTag jet_tag;
+    analysis::EventBottomTaggerBranch branch_;
 
 };
+
 }
-# endif

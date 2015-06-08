@@ -235,8 +235,6 @@ public:
         return tagger_name_;
     }
 
-//     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
-
     virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &) {
         Print(kError, "Bdt", "should be subclassed");
         return 0;
@@ -307,10 +305,11 @@ protected:
         return max_combi_;
     }
 
-    virtual TClass &Class() const {
-        Print(kError, "Class", "should be subclassed");
-        return *Branch::Class();
-    }
+    virtual TClass &Class() const = 0;
+//     {
+//         Print(kError, "Class", "should be subclassed");
+//         return *Branch::Class();
+//     }
 
     exroot::TreeBranch &tree_branch() {
         return *tree_branch_;

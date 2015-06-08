@@ -82,22 +82,22 @@ protected:
     }
 //     TLorentzVector LorentzVector(const MissingET *const Particle) const;
 
-    TLorentzVector LorentzVector(const TRootElectron &Particle) const;
-    TLorentzVector LorentzVector(const TRootGenJet &Particle) const;
-    TLorentzVector LorentzVector(const TRootGenParticle &Particle) const;
-    TLorentzVector LorentzVector(const TRootJet &Particle) const;
-    TLorentzVector LorentzVector(const TRootLHEFParticle &Particle) const;
-    TLorentzVector LorentzVector(const TRootMuon &Particle) const;
-    TLorentzVector LorentzVector(const TRootPhoton &Particle) const;
-    TLorentzVector LorentzVector(const TRootTau &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootElectron &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootGenJet &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootGenParticle &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootJet &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootLHEFParticle &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootMuon &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootPhoton &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootTau &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Electron &Particle) const;
+    TLorentzVector LorentzVector(const exroot::GenJet &Particle) const;
+    TLorentzVector LorentzVector(const exroot::GenParticle &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Jet &Particle) const;
+    TLorentzVector LorentzVector(const exroot::LHEFParticle &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Muon &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Photon &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Tau &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Electron &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::GenJet &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::GenParticle &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Jet &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::LHEFParticle &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Muon &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Photon &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Tau &Particle) const;
 
     Family BranchFamily(const TObject &object);
 

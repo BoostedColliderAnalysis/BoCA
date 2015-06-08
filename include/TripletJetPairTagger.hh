@@ -3,7 +3,8 @@
 # include "Quartet31.hh"
 # include "TopHadronicTagger.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief JetPair BDT tagger
@@ -16,7 +17,7 @@ public:
 
     TripletJetPairTagger();
 
-    int Train(Event& event, const Tag tag);
+    int Train(Event &event, const Tag tag);
 
     std::vector< Quartet31 > Multiplets(Event &event, const TMVA::Reader &JetPairReader);
 
@@ -27,6 +28,10 @@ protected:
     }
 
 private:
+
+    TClass &Class() const {
+        return *TripletJetPairBranch::Class();
+    }
 
     void DefineVariables();
 

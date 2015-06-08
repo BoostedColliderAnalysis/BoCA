@@ -24,22 +24,22 @@ void hbottomsumtagger::EventBottomTagger::DefineVariables()
     ClearVectors();
 
 
-    AddVariable(Branch.BottomBdt1, "BottomBdt1");
-    AddVariable(Branch.BottomBdt2, "BottomBdt2");
-    AddVariable(Branch.BottomBdt3, "BottomBdt3");
-    AddVariable(Branch.BottomBdt4, "BottomBdt4");
-    AddVariable(Branch.BottomBdt5, "BottomBdt5");
-    AddVariable(Branch.BottomBdt6, "BottomBdt6");
+    AddVariable(branch_.BottomBdt1, "BottomBdt1");
+    AddVariable(branch_.BottomBdt2, "BottomBdt2");
+    AddVariable(branch_.BottomBdt3, "BottomBdt3");
+    AddVariable(branch_.BottomBdt4, "BottomBdt4");
+    AddVariable(branch_.BottomBdt5, "BottomBdt5");
+    AddVariable(branch_.BottomBdt6, "BottomBdt6");
 
-    AddVariable(Branch.BottomBdt12, "BottomBdt12");
-    AddVariable(Branch.BottomBdt34, "BottomBdt34");
-    AddVariable(Branch.BottomBdt56, "BottomBdt56");
+    AddVariable(branch_.BottomBdt12, "BottomBdt12");
+    AddVariable(branch_.BottomBdt34, "BottomBdt34");
+    AddVariable(branch_.BottomBdt56, "BottomBdt56");
 
-    AddVariable(Branch.BottomBdt123, "BottomBdt123");
-    AddVariable(Branch.BottomBdt1234, "BottomBdt1234");
+    AddVariable(branch_.BottomBdt123, "BottomBdt123");
+    AddVariable(branch_.BottomBdt1234, "BottomBdt1234");
 
-    AddVariable(Branch.Bdt, "Bdt");
-    AddSpectator(Branch.Tag, "Tag");
+    AddVariable(branch_.Bdt, "Bdt");
+    AddSpectator(branch_.Tag, "Tag");
 
 
     Print(kNotification, "Variables defined");
@@ -154,7 +154,7 @@ std::vector<hbottomsumtagger::EventBottomMultiplet> hbottomsumtagger::EventBotto
 
     EventBottomMultiplet eventMultiplet;
     eventMultiplet.SetJets(jets);
-    Branch = GetBranch(eventMultiplet);
+    branch_ = GetBranch(eventMultiplet);
     eventMultiplet.SetBdt(eventSemiReader.Bdt());
     eventMultiplets.emplace_back(eventMultiplet);
     return eventMultiplets;
