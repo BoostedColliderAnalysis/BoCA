@@ -33,16 +33,12 @@ void analysis::TopSemiTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
+int analysis::TopSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Top Tags");
 
-    float pre_cut = 0;
-
-    int WSemiId = w_semi_tagger_.WSemiId(event);
     Jets top_particles = event.partons().GenParticles();
-    int TopSemiId = sgn(WSemiId) * std::abs(TopId);
-    top_particles = RemoveIfWrongParticle(top_particles, TopSemiId);
+    top_particles = copy_if_particle(top_particles, TopSemiId(event));
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
@@ -52,23 +48,23 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
 
     std::vector<Triplet> triplets;
     if (!boost_) {
-        for (const auto & Jet : jets) {
+        for (const auto & jet : jets) {
             for (const auto & doublet : doublets) {
-              Triplet triplet(doublet, Jet);
-              triplet.SetTag(tag);
-              std::vector<Triplet> pre_triplets = CleanTriplets(triplet,top_particles,pre_cut,tag);
-              if(!pre_triplets.empty()) triplets.emplace_back(pre_triplets.front());
+                Triplet triplet(doublet, jet);
+                triplet.SetTag(tag);
+                std::vector<Triplet> pre_triplets = CleanTriplets(triplet,top_particles,pre_cuts,tag);
+                if(!pre_triplets.empty()) triplets.emplace_back(pre_triplets.front());
             }
         }
-    }
-
-    for (const auto & jet : jets) {
-        for (const auto & lepton : leptons) {
-            Doublet doublet(lepton);
-            Triplet triplet(doublet, jet);
-            triplet.SetTag(tag);
-            std::vector<Triplet> pre_triplets = CleanTriplets(triplet,top_particles,pre_cut,tag);
-            if(!pre_triplets.empty()) triplets.emplace_back(pre_triplets.front());
+    } else {
+        for (const auto & jet : jets) {
+            for (const auto & lepton : leptons) {
+                Doublet doublet(lepton);
+                Triplet triplet(doublet, jet);
+                triplet.SetTag(tag);
+                std::vector<Triplet> pre_triplets = CleanTriplets(triplet,top_particles,pre_cuts,tag);
+                if(!pre_triplets.empty()) triplets.emplace_back(pre_triplets.front());
+            }
         }
     }
 
@@ -81,22 +77,22 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, const analysis::Objec
     return SaveEntries<TopSemiBranch>(triplets);
 }
 
-std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplets(const Triplet &triplet, Jets TopQuarks, float pre_cut, const Tag tag) {
+std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplets(const Triplet &triplet, Jets TopQuarks, PreCuts &pre_cuts, const Tag tag) {
     std::vector<analysis::Triplet> triplets;
-    for(const auto particle : TopQuarks) JoinVectors(triplets,CleanTriplet(triplet,particle,pre_cut,tag));
+    for(const auto particle : TopQuarks) JoinVectors(triplets,CleanTriplet(triplet,particle,pre_cuts,tag));
     return triplets;
 }
 
-std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplet(const Triplet &triplet, fastjet::PseudoJet TopQuark, float pre_cut, const Tag tag) {
+std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplet(const Triplet &triplet, fastjet::PseudoJet TopQuark, PreCuts& pre_cuts, const Tag tag) {
     std::vector<analysis::Triplet> triplets;
     if (tag == kSignal && std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) return triplets ; // should be enabled again
-    if (tag == kSignal && triplet.Jet().pt() <  pre_cut / 2) return triplets;
+    if (tag == kSignal && triplet.Jet().pt() <  pre_cuts.PtLowerCut(TopId)) return triplets;
+    if (tag == kSignal && triplet.Jet().pt() >  pre_cuts.PtUpperCut(TopId)) return triplets;
     if (tag == kSignal && triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) return triplets;
     if (tag == kBackground && triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) return triplets;
     triplets.push_back(triplet);
     return triplets;
 }
-
 
 std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
@@ -107,7 +103,6 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
 
     std::vector<Triplet> triplets;
     if (!boost_) {
-
         for (const auto & Jet : jets) {
             for (const auto & doublet : doublets) {
                 Triplet triplet(doublet, Jet);
@@ -117,21 +112,17 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
                 triplets.emplace_back(triplet);
             }
         }
-    }
-
-    for (const auto & Jet : jets) {
-        for (const auto & Predoublet : doublets) {
-            Doublet doublet(Predoublet.Singlet1());
-            Triplet triplet(doublet, Jet);
+    } else {
+        for (const auto & Jet : jets) {
+            for (const auto & Predoublet : doublets) {
+                Doublet doublet(Predoublet.Singlet1());
+                Triplet triplet(doublet, Jet);
 //             if (std::abs(triplet.Jet().m() - Mass(TopId)) > TopWindow) continue; // reactivate this check
-            branch_ = branch<TopSemiBranch>(triplet);
-            triplet.SetBdt(Bdt(reader));
-            triplets.emplace_back(triplet);
+                branch_ = branch<TopSemiBranch>(triplet);
+                triplet.SetBdt(Bdt(reader));
+                triplets.emplace_back(triplet);
+            }
         }
     }
-
-    std::sort(triplets.begin(), triplets.end());
-    triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
-
-    return triplets;
+    return ReduceResult(triplets);
 }

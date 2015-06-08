@@ -21,12 +21,12 @@ namespace fusionpair
 
 /**
  *
- * @brief HAnalysis subclass defining the HiggsCPV Analysis
+ * @brief Analysis subclass defining the HiggsCPV Analysis
  *
  * @author Jan Hajer
  *
  */
-class HAnalysis : public analysis::Analysis
+class Analysis : public analysis::Analysis
 {
 
 public:
@@ -36,9 +36,9 @@ public:
 //     analysis::BottomTagger bottom_tagger_;
 //     analysis::JetPairTagger jet_pair_tagger;
 
-//     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
+//     std::string StudyName(const analysis::Analysis::HTagger Tagger) const;
 
-//     void PrepareReader(const analysis::HAnalysis::HTagger Tagger, const analysis::HAnalysis::Tag Tag);
+//     void PrepareReader(const analysis::Analysis::HTagger Tagger, const analysis::Analysis::Tag Tag);
 
     void SetTrees();
 
@@ -52,11 +52,11 @@ public:
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "hpairtagger";
+        return "pairtagger";
     }
 
     virtual inline std::string ClassName() const {
-        return "HAnalysis";
+        return "Analysis";
     }
 
 private:
@@ -236,7 +236,7 @@ private:
     analysis::Reader BottomReader;
     analysis::Reader JetPairReader;
 
-//     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
+//     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 
     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
 

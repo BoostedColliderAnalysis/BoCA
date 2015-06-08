@@ -1,8 +1,8 @@
-#include "HAnalysisPairTagger.hh"
+#include "AnalysisPair.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-    fusionpair::HAnalysis analysis(tagger);
+    fusionpair::Analysis analysis(tagger);
     const std::string Name = tagger.tagger_name();
     analysis.Print(analysis.kError, "Tagger", Name);
 
@@ -12,10 +12,10 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
     FileName = analysis.ProjectName() + "/Mva" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
-//         case analysis::HAnalysis::HBottomTagger:
+//         case analysis::Analysis::HBottomTagger:
             analysis::Factory factory(tagger);
 //             break;
-//         case analysis::HAnalysis::JetPairTagger:
+//         case analysis::Analysis::JetPairTagger:
 //           analysis::Factory(Analysis.jet_pair_tagger);
 //           break;
 //         default:
@@ -26,8 +26,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
     FileName = analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
-//           case analysis::HAnalysis::HJetPairReader: {
-//             Analysis.SetTrees(analysis::HAnalysis::HJetPairReader, analysis::Object::kBackground);
+//           case analysis::Analysis::HJetPairReader: {
+//             Analysis.SetTrees(analysis::Analysis::HJetPairReader, analysis::Object::kBackground);
             analysis::Reader Reader(tagger);
             Reader.OptimalSignificance();
 //             break;

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
-project(WIMPMASS CXX)
+project(Wimpmass CXX)
 message("Project: WimpMass")
 
 include(CMakeFiles/CMakeConfig.cmake)

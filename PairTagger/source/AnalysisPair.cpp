@@ -1,7 +1,7 @@
-# include "HAnalysisPairTagger.hh"
+# include "AnalysisPair.hh"
 # include "Predicate.hh"
 
-// hpairtagger::HAnalysis::HAnalysis()
+// hpairtagger::Analysis::Analysis()
 // {
 //     //     DebugLevel = analysis::Object::kDebug;
 //     Print(kNotification, "Constructor");
@@ -10,7 +10,7 @@
 //     mkdir(ProjectName().c_str(), 0700);
 // }
 
-// std::string hpairtagger::HAnalysis::StudyName(const analysis::HAnalysis::HTagger Tagger) const
+// std::string hpairtagger::Analysis::StudyName(const analysis::Analysis::HTagger Tagger) const
 // {
 //     Print(kNotification, "Study Names", Tagger);
 //
@@ -29,7 +29,7 @@
 //     }
 // }
 
-std::vector<analysis::File> fusionpair::HAnalysis::Files(const analysis::Object::Tag tag)
+std::vector<analysis::File> fusionpair::Analysis::Files(const analysis::Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
@@ -89,7 +89,7 @@ std::vector<analysis::File> fusionpair::HAnalysis::Files(const analysis::Object:
 }
 
 
-void fusionpair::HAnalysis::SetTrees()
+void fusionpair::Analysis::SetTrees()
 {
 
   analysis::Strings SignalLeptonicTrees {};
@@ -161,7 +161,7 @@ void fusionpair::HAnalysis::SetTrees()
 //     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
 }
 
-// void hpairtagger::HAnalysis::PrepareReader(const analysis::HAnalysis::HTagger Tagger, const Tag Tag)
+// void hpairtagger::Analysis::PrepareReader(const analysis::Analysis::HTagger Tagger, const Tag Tag)
 // {
 //     Print(kInformation, "Prepare Reader", Tagger);
 //     if (Tag == kBackground) {
@@ -186,7 +186,7 @@ void fusionpair::HAnalysis::SetTrees()
 //     }
 // }
 
-// void hpairtagger::HAnalysis::NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
+// void hpairtagger::Analysis::NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger)
 // {
 //     Print(kNotification, "New Branches", Tagger);
 //
@@ -209,7 +209,7 @@ void fusionpair::HAnalysis::SetTrees()
 //
 // }
 
-int fusionpair::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Analysis", stage, tag);
     ++event_sum_;
@@ -237,14 +237,14 @@ int fusionpair::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::T
 }
 
 
-// bool hpairtagger::HAnalysis::GetTag(analysis::Event &event, const Tag tag)
+// bool hpairtagger::Analysis::GetTag(analysis::Event &event, const Tag tag)
 // {
 //   Print(kDebug, "Bottom Tag", tag);
 //   return tagger_.GetBranches(event, tag);
 // }
 //
 //
-// bool hpairtagger::HAnalysis::GetBottomTag(analysis::Event &event, const Tag Tag)
+// bool hpairtagger::Analysis::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
@@ -257,7 +257,7 @@ int fusionpair::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::T
 //     return 1;
 // }
 //
-// bool hpairtagger::HAnalysis::GetBottomReader(analysis::Event &event, const Tag Tag)
+// bool hpairtagger::Analysis::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
@@ -288,7 +288,7 @@ int fusionpair::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::T
 //     return 1;
 // }
 //
-// bool hpairtagger::HAnalysis::GetJetPairTag(analysis::Event &event, const Tag Tag)
+// bool hpairtagger::Analysis::GetJetPairTag(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "JetPair Tag", Tag);
 //     std::vector<JetPairBranch> JetPairs = jet_pair_tagger.GetBranches(event, Tag, MotherId(ProductionChannel()));
@@ -301,7 +301,7 @@ int fusionpair::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::T
 //     return 1;
 // }
 //
-// bool hpairtagger::HAnalysis::GetJetPairReader(analysis::Event &event, const Tag Tag)
+// bool hpairtagger::Analysis::GetJetPairReader(analysis::Event &event, const Tag Tag)
 // {
 //     Print(kDebug, "JetPair Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);

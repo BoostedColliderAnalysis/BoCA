@@ -196,7 +196,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(const fastje
 {
     Print(kInformation, "doublet Bdt");
     Doublet doublet(jet_1, jet_2);
-    if (doublet.DeltaR() < detector_geometry().MinCellResolution) return std::vector<Doublet>{};
+    if (doublet.DeltaR() < detector_geometry().MinCellResolution) return std::vector<Doublet> {};
     return Multiplet(doublet,reader);
 }
 
@@ -204,7 +204,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(const fastje
 {
     Print(kInformation, "doublet Bdt");
     Jets subjets = SubJets(jet, 2);
-    if (subjets.empty()) return std::vector<Doublet>{};
+    if (subjets.empty()) return std::vector<Doublet> {};
     Doublet doublet;
     if (subjets.size() == 1) doublet.SetSinglets(jet);
     else doublet.SetSinglets(subjets.at(0), subjets.at(1));
@@ -213,11 +213,11 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(const fastje
 
 std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(Doublet &doublet, const TMVA::Reader &reader)
 {
-  Print(kInformation, "doublet Bdt");
-  std::vector<Doublet>  doublets;
-  if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) return doublets;
-  branch_ = branch<WHadronicBranch>(doublet);
-  doublet.SetBdt(Bdt(reader));
-  doublets.emplace_back(doublet);
-  return doublets;
+    Print(kInformation, "doublet Bdt");
+    std::vector<Doublet>  doublets;
+    if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) return doublets;
+    branch_ = branch<WHadronicBranch>(doublet);
+    doublet.SetBdt(Bdt(reader));
+    doublets.emplace_back(doublet);
+    return doublets;
 }
