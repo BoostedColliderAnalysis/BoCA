@@ -1,5 +1,6 @@
 # include "HMvaDiscriminator.hh"
 # include  "exroot/ExRootAnalysis.hh"
+# include "TClonesArray.h"
 
 hcpvhiggs::HMva::HMva()
 {

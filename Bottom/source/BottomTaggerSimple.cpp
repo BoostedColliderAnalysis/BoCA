@@ -79,10 +79,10 @@ analysis::BottomBranch bottom::BottomTaggerSimple::GetBranch(const fastjet::Pseu
 int bottom::BottomTaggerSimple::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Bottom Tag", tag);
-    analysis::Jets particles = event.partons().GenParticles();
+    analysis::Jets particles = event.Partons().GenParticles();
     particles = RemoveIfWrongAbsParticle(particles, BottomId);
     Print(kInformation, "Particle size", particles.size());
-    analysis::Jets jets = event.hadrons().Jets();
+    analysis::Jets jets = event.Hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
     jets = CleanJets(jets, particles, tag);
@@ -112,7 +112,7 @@ analysis::Jets bottom::BottomTaggerSimple::CleanJets(analysis::Jets &jets, const
 
 int bottom::BottomTaggerSimple::GetBdt(analysis::Event &event, const TMVA::Reader &reader)
 {
-  analysis::Jets jets = event.hadrons().Jets();
+  analysis::Jets jets = event.Hadrons().Jets();
   analysis::Jets final_jets;
     Print(kInformation, "Jet Bdt");
     for (const auto & jet : jets) {

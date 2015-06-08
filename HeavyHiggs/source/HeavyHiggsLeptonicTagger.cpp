@@ -55,8 +55,8 @@ int heavyhiggs::HeavyHiggsLeptonicTagger::Train(analysis::Event &event, const Ob
 
     std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
 
-    fastjet::PseudoJet missing_et = event.hadrons().MissingEt();
-    analysis::Jets neutrinos ;//= event.partons().GetNeutrinos(); // TODO fix this!!
+    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
+    analysis::Jets neutrinos ;//= event.Partons().GetNeutrinos(); // TODO fix this!!
 
     Print(kInformation, "Number of doublets", doublets.size());
 
@@ -95,7 +95,7 @@ std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsLeptonicTagger::Multiplets(
 {
     Print(kInformation, "Bdt");
     std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
-    fastjet::PseudoJet missing_et = event.hadrons().MissingEt();
+    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
 
     std::vector<analysis::Sextet> sextets;
     for (const auto & doublet1 : doublets) {

@@ -1,5 +1,6 @@
-#include "HAnalysisBottomSumTagger.hh"
-#include "JetPairTagger.hh"
+# include "HAnalysisBottomSumTagger.hh"
+# include "JetPairTagger.hh"
+# include "TSystem.h"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {

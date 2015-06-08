@@ -41,7 +41,7 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
 
     std::vector<analysis::Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets<ChargedHiggsSemiTagger>(event);
 
-    analysis::Jets HiggsParticles = event.partons().GenParticles();
+    analysis::Jets HiggsParticles = event.Partons().GenParticles();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
     if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
     std::sort(higgs_quartets.begin(), higgs_quartets.end(), analysis::MinDeltaRTo(HiggsParticles.front()));

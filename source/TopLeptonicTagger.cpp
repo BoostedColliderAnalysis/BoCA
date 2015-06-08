@@ -39,7 +39,7 @@ int analysis::TopLeptonicTagger::Train(Event &event, const Object::Tag tag)
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kInformation, "Jet Number", jets.size());
 
-    Jets leptons = event.leptons().leptons();
+    Jets leptons = event.Leptons().leptons();
     Print(kInformation, "Lepton Number", leptons.size());
 
     std::vector<Doublet> doublets;
@@ -63,7 +63,7 @@ int analysis::TopLeptonicTagger::Train(Event &event, const Object::Tag tag)
 std::vector<analysis::Doublet>  analysis::TopLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
   Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-  Jets leptons = event.leptons().leptons();
+  Jets leptons = event.Leptons().leptons();
     Print(kInformation, "Bdt");
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {

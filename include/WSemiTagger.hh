@@ -1,8 +1,7 @@
 # pragma once
 
-# include "Doublet.hh"
-# include "Tagger.hh"
 # include "Reader.hh"
+# include "Doublet.hh"
 
 namespace analysis {
 

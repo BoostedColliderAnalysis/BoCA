@@ -38,14 +38,14 @@ int heavyhiggs::HeavyHiggsTauTagger::Train(analysis::Event &event, const analysi
     analysis::Jets jets = tau_reader_.Multiplets<analysis::TauTagger>(event);
     Print(kInformation, "Number Jet", jets.size());
 
-    const fastjet::PseudoJet MissingEt = event.hadrons().MissingEt();
+    const fastjet::PseudoJet MissingEt = event.Hadrons().MissingEt();
 
-    analysis::Jets TauParticles = event.partons().GenParticles();
+    analysis::Jets TauParticles = event.Partons().GenParticles();
     TauParticles = analysis::RemoveIfWrongAbsParticle(TauParticles, TauId);
 //     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(TauId)), TauParticles.end());
     if (TauParticles.size() != 1) Print(kError, "Where is the Tau?", TauParticles.size());
 
-    analysis::Jets HiggsParticles = event.partons().GenParticles();
+    analysis::Jets HiggsParticles = event.Partons().GenParticles();
     HiggsParticles = analysis::RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(ChargedHiggsId)), HiggsParticles.end());
     if (HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?", HiggsParticles.size());
@@ -83,7 +83,7 @@ std::vector<analysis::Doublet>  heavyhiggs::HeavyHiggsTauTagger::Multiplets(anal
     Print(kInformation, "Multiplets");
     analysis::Jets jets = tau_reader_.Multiplets<analysis::TauTagger>(event);
     Print(kInformation, "Number Jet", jets.size());
-    const fastjet::PseudoJet missing_et = event.hadrons().MissingEt();
+    const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<analysis::Doublet> doublets;
     for (const auto & jet : jets)  {
       analysis::Doublet pre_doublet(jet, missing_et);

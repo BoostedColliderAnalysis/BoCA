@@ -86,7 +86,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
     Print(kInformation, "event Tags");
 
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    analysis::Jets Leptons = event.leptons().leptons();
+    analysis::Jets Leptons = event.Leptons().leptons();
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
 
     std::vector<analysis::MultipletEvent<Octet44>> events;
@@ -110,11 +110,11 @@ return SaveEntries<EventChargedBranch>(events);
 
 // analysis::GlobalObservables heavyhiggs::EventChargedTagger::global_observables(analysis::Event &event){
 //   analysis::GlobalObservables global_observables;
-//   global_observables.lepton_number = event.leptons().GetLeptonJets().size();
-//   global_observables.jet_number = event.hadrons().GetJets().size();
-//   global_observables.bottom_number = event.hadrons().GetBottomJets().size();
-//   global_observables.scalar_ht = event.hadrons().GetScalarHt();
-//   global_observables.missing_et = event.hadrons().GetMissingEt().pt();
+//   global_observables.lepton_number = event.Leptons().GetLeptonJets().size();
+//   global_observables.jet_number = event.Hadrons().GetJets().size();
+//   global_observables.bottom_number = event.Hadrons().GetBottomJets().size();
+//   global_observables.scalar_ht = event.Hadrons().GetScalarHt();
+//   global_observables.missing_et = event.Hadrons().GetMissingEt().pt();
 //   return global_observables;
 // }
 
@@ -123,7 +123,7 @@ std::vector<analysis::MultipletEvent<heavyhiggs::Octet44>> heavyhiggs::EventChar
   Print(kInformation, "event Tags");
   std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
   analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-  analysis::Jets Leptons = event.leptons().leptons();
+  analysis::Jets Leptons = event.Leptons().leptons();
 
 
 

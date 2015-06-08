@@ -1,6 +1,9 @@
-#include "AnalysisCharged.hh"
+# include "AnalysisCharged.hh"
+# include "TSystem.h"
+# include "Factory.hh"
+# include "EventChargedTagger.hh"
 
-#include "fastjet/LimitedWarning.hh"
+# include "fastjet/LimitedWarning.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {

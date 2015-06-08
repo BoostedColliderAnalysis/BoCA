@@ -1,7 +1,6 @@
 # pragma once
 
 # include "SignatureTagger.hh"
-# include "BranchesHiggsCpv.hh"
 # include "MultipletEvent.hh"
 
 namespace higgscpv {

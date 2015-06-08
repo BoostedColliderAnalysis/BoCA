@@ -1,7 +1,8 @@
 # pragma once
 
-# include "Quintet.hh"
+# include "Doublet.hh"
 # include "BottomTagger.hh"
+# include "Reader.hh"
 
 namespace analysis
 {

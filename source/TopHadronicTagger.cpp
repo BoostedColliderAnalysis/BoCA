@@ -55,7 +55,7 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
 {
     Print(kInformation, "Train");
     int had_top_id = TopHadronicId(event);
-    Jets particles = event.partons().GenParticles();
+    Jets particles = event.Partons().GenParticles();
     Jets top_particles = copy_if_particle(particles, had_top_id);
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);

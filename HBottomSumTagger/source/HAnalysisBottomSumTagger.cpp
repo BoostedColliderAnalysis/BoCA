@@ -305,7 +305,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //     if (jets.empty()) return 0;
 //
 //
-//     Jets Particles = event.partons().GenParticles();
+//     Jets Particles = event.Partons().GenParticles();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     int BNumber=0;
@@ -356,7 +356,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 // //     if (jets.size() < 4) return 0;
 // //
 // //     Jets BottomJets;
-// //     Jets Particles = event.partons().GenParticles();
+// //     Jets Particles = event.Partons().GenParticles();
 // //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
 // //     for (const auto & Particle : Particles) {
 // //       std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));

@@ -1,4 +1,5 @@
 # include "exroot/Partons.hh"
+# include "JetInfo.hh"
 
 analysis::exroot::Partons::Partons()
 {

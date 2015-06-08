@@ -266,7 +266,7 @@ int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Ta
 //         return 0;
 //     }
 //
-//     Jets Particles = event.partons().GenParticles();
+//     Jets Particles = event.Partons().GenParticles();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     for (const auto & Particle : Particles) {
@@ -313,7 +313,7 @@ int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Ta
 //     Print(kError, "jets", jets.size());
 //
 // //     Jets FilteredJets; // WRONG MUST BE REMOVED
-//     Jets Particles = event.partons().GenParticles();
+//     Jets Particles = event.Partons().GenParticles();
 //     if (Tag == kSignal) {
 // //         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, BottomId, MotherId(ProductionChannel()));
 //     }

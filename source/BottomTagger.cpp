@@ -33,11 +33,11 @@ int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, con
 {
     Print(kInformation, "Bottom Tag", tag);
 
-    Jets particles = event.partons().GenParticles();
+    Jets particles = event.Partons().GenParticles();
     Jets bottoms = copy_if_abs_particle(particles, BottomId);
     Print(kInformation, "Particle size", bottoms.size());
 
-    Jets jets = event.hadrons().Jets();
+    Jets jets = event.Hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
 
@@ -120,7 +120,7 @@ analysis::Jets analysis::BottomTagger::SubJets(const analysis::Jets &jets, const
 analysis::Jets analysis::BottomTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "Jet Bdt");
-    return Multiplets(event.hadrons().Jets(), pre_cuts, reader);
+    return Multiplets(event.Hadrons().Jets(), pre_cuts, reader);
 }
 
 analysis::Jets analysis::BottomTagger::Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader)

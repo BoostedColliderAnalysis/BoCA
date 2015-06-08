@@ -1,7 +1,5 @@
 # pragma once
 
-# include "Object.hh"
-# include "Tagger.hh"
 # include "Configuration.hh"
 # include "File.hh"
 # include "Reader.hh"

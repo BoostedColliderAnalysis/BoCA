@@ -89,7 +89,7 @@ void heavyhiggs::AnalysisCharged::SetTrees()
 int heavyhiggs::AnalysisCharged::PassPreCut(analysis::Event &event)
 {
   Print(kInformation, "pass pre cut");
-  analysis::Jets Particles = event.partons().GenParticles();
+  analysis::Jets Particles = event.Partons().GenParticles();
   analysis::Jets Quarks = fastjet::sorted_by_pt(analysis::RemoveIfNot5Quarks(Particles));
   Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, TopId));
   if (Quarks.empty()) {
@@ -107,11 +107,11 @@ int heavyhiggs::AnalysisCharged::PassPreCut(analysis::Event &event)
   } else if (TopQuarks.front().pt() < PreCut()) return 0;
 
 
-  if (event.hadrons().MissingEt().pt() < MissingEt()) return 0;
-  analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
+  if (event.Hadrons().MissingEt().pt() < MissingEt()) return 0;
+  analysis::Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
   if (Leptons.empty()) return 0;
   if (Leptons.front().pt() < LeptonPt()) return 0;
-  analysis::Jets jets = event.hadrons().Jets();
+  analysis::Jets jets = event.Hadrons().Jets();
   if (jets.size() < 4) return 0;
   return 1;
 }

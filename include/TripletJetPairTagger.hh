@@ -1,8 +1,6 @@
 # pragma once
 
-// # include "BottomTagger.hh"
 # include "Quartet31.hh"
-// # include "TopSemiTagger.hh"
 # include "TopHadronicTagger.hh"
 
 namespace analysis {

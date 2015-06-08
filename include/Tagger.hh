@@ -1,16 +1,10 @@
 # pragma once
 
+# include <map>
 # include "TCut.h"
-# include "TClonesArray.h"
-
 # include "TMVA/Reader.h"
-
-# include "exroot/ExRootAnalysis.hh"
-
-# include "Branches.hh"
-# include "Predicate.hh"
 # include "Event.hh"
-# include "Doublet.hh"
+# include "Branches.hh"
 
 namespace analysis
 {

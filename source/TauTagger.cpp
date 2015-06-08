@@ -34,9 +34,9 @@ void analysis::TauTagger::DefineVariables()
 int analysis::TauTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Tau Tag", tag);
-    Jets jets = event.hadrons().Jets();
+    Jets jets = event.Hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
-    Jets Particles = event.partons().GenParticles();
+    Jets Particles = event.Partons().GenParticles();
     Particles = RemoveIfWrongAbsParticle(Particles, TauId);
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
 //     if(Particles.size()!=1)
@@ -174,7 +174,7 @@ analysis::Jets analysis::TauTagger::Multiplets(Event &event, const TMVA::Reader 
 {
     Jets final_jets;
     Print(kInformation, "Jet Bdt");
-    Jets jets = event.hadrons().Jets();
+    Jets jets = event.Hadrons().Jets();
     for (const auto jet : jets) {
         if (!jet.has_user_info<JetInfo>()) {
             Print(kError, "Jet Bdt", "No Jet Info");

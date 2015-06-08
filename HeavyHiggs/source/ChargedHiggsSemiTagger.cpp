@@ -34,7 +34,7 @@ int heavyhiggs::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag 
     float mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (tag == kSignal) {
-      analysis::Jets HiggsParticles = event.partons().GenParticles();
+      analysis::Jets HiggsParticles = event.Partons().GenParticles();
       HiggsParticles = analysis::RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
         if (tag == kSignal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
@@ -47,7 +47,7 @@ int heavyhiggs::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag 
 
 
 //     int WSemiId = w_semi_tagger.WSemiId(event);
-    analysis::Jets TopParticles = event.partons().GenParticles();
+    analysis::Jets TopParticles = event.Partons().GenParticles();
 //     int TopSemiId = sgn(WSemiId) * std::abs(TopId);
     int TopSemiId = top_semi_tagger_.TopSemiId(event);
     TopParticles = analysis::RemoveIfWrongParticle(TopParticles, TopSemiId);
@@ -61,7 +61,7 @@ int heavyhiggs::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag 
 
     analysis::Jets BottomJets;
     if (tag == kSignal) {
-      analysis::Jets  BottomParticles = event.partons().GenParticles();
+      analysis::Jets  BottomParticles = event.Partons().GenParticles();
       BottomParticles = analysis::RemoveIfWrongAbsFamily(BottomParticles, BottomId, ChargedHiggsId);
         fastjet::PseudoJet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();

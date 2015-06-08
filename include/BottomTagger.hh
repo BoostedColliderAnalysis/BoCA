@@ -1,8 +1,8 @@
 # pragma once
 
-# include "Tagger.hh"
-# include "Reader.hh"
+# include "TMVA/Reader.h"
 # include "Singlet.hh"
+# include "Tagger.hh"
 
 namespace analysis
 {

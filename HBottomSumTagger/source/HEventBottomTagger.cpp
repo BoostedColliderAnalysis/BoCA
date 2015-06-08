@@ -1,4 +1,5 @@
 # include "HEventBottomTagger.hh"
+# include "TClonesArray.h"
 
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
@@ -85,7 +86,7 @@ std::vector<analysis::EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagg
 {
     Print(kInformation, "event Tags");
 
-    analysis::Jets jets = event.hadrons().Jets();
+    analysis::Jets jets = event.Hadrons().Jets();
     //     Jets jets = bottom_tagger_.GetJetBdt(PreJets, BottomReader); // TODO reenable this
     std::vector<analysis::EventBottomTaggerBranch> eventSemiBranches;
 
@@ -95,7 +96,7 @@ std::vector<analysis::EventBottomTaggerBranch> hbottomsumtagger::EventBottomTagg
 //     const int BackgroundBottomNumber = 0;
 //     if (jets.size() < JetNumber) return eventSemiBranches;
 //     Jets BottomJets;
-//     Jets Particles = event.partons().GenParticles();
+//     Jets Particles = event.Partons().GenParticles();
 //     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
@@ -128,7 +129,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
 
     if (jets.size() < JetNumber) return 0;
     analysis::Jets BottomJets;
-    analysis::Jets Particles = event.partons().GenParticles();
+    analysis::Jets Particles = event.Partons().GenParticles();
     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
     for (const auto & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), analysis::MinDeltaRTo(Particle));
@@ -159,9 +160,9 @@ std::vector<hbottomsumtagger::EventBottomMultiplet> hbottomsumtagger::EventBotto
     return eventMultiplets;
 }
 
-float hbottomsumtagger::EventBottomTagger::ReadBdt(const TClonesArray &eventClonesArray, const int Entry)
+float hbottomsumtagger::EventBottomTagger::ReadBdt(const TClonesArray &clones_array, const int Entry)
 {
-  return ((analysis::EventBottomTaggerBranch *) eventClonesArray.At(Entry))->Bdt;
+  return ((analysis::EventBottomTaggerBranch *) clones_array.At(Entry))->Bdt;
 }
 
 

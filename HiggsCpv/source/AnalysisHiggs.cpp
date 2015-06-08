@@ -113,7 +113,7 @@ void higgscpv::Analysis::SetFiles(const Tag tag)
 int higgscpv::Analysis::PassPreCut(analysis::Event &event)
 {
   Print(kInformation, "pass pre cut");
-  analysis::Jets particles = event.partons().GenParticles();
+  analysis::Jets particles = event.Partons().GenParticles();
   analysis::Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
 //   analysis::remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
   return tops.size();
@@ -207,13 +207,13 @@ int higgscpv::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagg
 // {
 //     Print(kInformation, "event", NewStudyName);
 //
-//     analysis::Jets Leptons = event.leptons().leptons();
+//     analysis::Jets Leptons = event.Leptons().leptons();
 //     if (Leptons.size() < 2) {
 //         Print(kNotification, "Not enough Leptons", Leptons.size());
 //         return 0;
 //     }
 //
-//     analysis::Jets jets = event.hadrons().Jets();
+//     analysis::Jets jets = event.Hadrons().Jets();
 //     if (jets.size() < 4) {
 //         Print(kNotification, "Not enough Jets", jets.size());
 //         return 0;
@@ -251,10 +251,10 @@ int higgscpv::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagg
 //
 //     EventBranch *eventTagger = static_cast<EventBranch *>(eventBranch->NewEntry());
 //
-//     eventTagger->ScalarHt = event.hadrons().ScalarHt();
-//     eventTagger->JetNumber = event.hadrons().Jets().size();
-// //     eventTagger->BottomNumber = event.hadrons().BottomJets().size();
-//     eventTagger->LeptonNumber = event.leptons().leptons().size();
+//     eventTagger->ScalarHt = event.Hadrons().ScalarHt();
+//     eventTagger->JetNumber = event.Hadrons().Jets().size();
+// //     eventTagger->BottomNumber = event.Hadrons().BottomJets().size();
+//     eventTagger->LeptonNumber = event.Leptons().leptons().size();
 // //     eventTagger->HeavyParticleTag = HiggsCpvs.front().Bdt();
 // //     eventTagger->TopDeltaRap = HiggsCpvs.front().GetTopDeltaRap();
 // //     eventTagger->TopDeltaPhi = HiggsCpvs.front().GetTopDeltaPhi();

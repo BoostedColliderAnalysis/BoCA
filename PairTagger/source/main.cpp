@@ -1,4 +1,7 @@
-#include "AnalysisPair.hh"
+# include "AnalysisPair.hh"
+# include "TSystem.h"
+# include "JetPairTagger.hh"
+# include "Factory.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {

@@ -43,7 +43,7 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
     std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TripletPairTagger>(event);
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
-    analysis::Jets HiggsParticles = event.partons().GenParticles();
+    analysis::Jets HiggsParticles = event.Partons().GenParticles();
     analysis::Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
     analysis::Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;

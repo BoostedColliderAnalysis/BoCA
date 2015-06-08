@@ -1,7 +1,7 @@
 # pragma once
 
 # include "Tagger.hh"
-# include "Reader.hh"
+# include "TClonesArray.h"
 
 /**
  * @brief Bottom BDT tagger

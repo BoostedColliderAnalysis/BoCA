@@ -1,8 +1,9 @@
 # pragma once
+
 # include "Triplet.hh"
-# include "BottomTagger.hh"
 # include "WHadronicTagger.hh"
 # include "BranchTop.hh"
+# include "TClonesArray.h"
 
 namespace top{
 

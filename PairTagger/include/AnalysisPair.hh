@@ -1,16 +1,6 @@
 # pragma once
 
-# include <sys/stat.h>
-# include <string>
-
-# include "File.hh"
 # include "Analysis.hh"
-// # include "HEventDelphes.hh"
-# include "Reader.hh"
-# include "Factory.hh"
-# include "JetTag.hh"
-
-# include "JetPairTagger.hh"
 
 /**
  * @brief Namespace for the fusion pair analysis

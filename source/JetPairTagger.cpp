@@ -63,7 +63,7 @@ int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
     if (jets.empty()) return 0;
     Print(kDebug, "Number BDT Jets", jets.size());
 
-    Jets Particles = event.partons().GenParticles();
+    Jets Particles = event.Partons().GenParticles();
     ParticleId MotherId = GluonId;
     if (tag == kSignal) Particles = RemoveIfWrongAbsFamily(Particles, BottomId, MotherId);
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN

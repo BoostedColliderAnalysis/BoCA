@@ -158,7 +158,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     //     }
 
     analysis::EventBranch *eventB = static_cast<analysis::EventBranch *>(eventBranch->NewEntry());
-    eventB->ScalarPtSum = 1. / event.hadrons().ScalarHt();
+    eventB->ScalarPtSum = 1. / event.Hadrons().ScalarHt();
 
     std::vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
@@ -170,7 +170,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     for (const auto & Id : Ids) {
 
       analysis::Jets EFlowJets;
-        std::copy_if(event.hadrons().Jets().begin(), event.hadrons().Jets().end(), std::back_inserter(EFlowJets),
+        std::copy_if(event.Hadrons().Jets().begin(), event.Hadrons().Jets().end(), std::back_inserter(EFlowJets),
                      [Id](const fastjet::PseudoJet & EFlowJet) {
 
                          if (EFlowJet.user_index() == Id) return 1;
@@ -466,8 +466,8 @@ analysis::Jets hjetproperties::HAnalysis::Leptons(analysis::Event &event)
     //     Jets AntiLeptonJets = event->Lepton->AntiLeptonJets;
 
 //     event.GetParticlesM()->GetParticles();
-    analysis::Jets LeptonJets;// = event.partons().GetLeptonJets();//TODO fix this
-    analysis::Jets AntiLeptonJets;// = event.partons().GetAntiLeptonJets();//TODO fix this
+    analysis::Jets LeptonJets;// = event.Partons().GetLeptonJets();//TODO fix this
+    analysis::Jets AntiLeptonJets;// = event.Partons().GetAntiLeptonJets();//TODO fix this
 
 //     std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());
     LeptonJets = analysis::SortedByPt(LeptonJets);

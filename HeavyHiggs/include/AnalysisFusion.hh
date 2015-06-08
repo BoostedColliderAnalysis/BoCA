@@ -1,13 +1,6 @@
 # pragma once
 
-#include <sys/stat.h>
-
-# include "File.hh"
 # include "Analysis.hh"
-# include "Reader.hh"
-# include "Factory.hh"
-# include "JetTag.hh"
-# include "EventFusionTagger.hh"
 
 namespace heavyhiggs {
 

@@ -79,7 +79,6 @@ analysis::InfoBranch analysis::Analysis::FillInfoBranch(const exroot::TreeReader
     info_branch.CrosssectionError = file.crosssection_error();
     info_branch.Mass = file.mass();
     info_branch.EventNumber = eventSum(tree_reader);
-//     Print(kError, "event Number", info_branch.eventNumber);
     return info_branch;
 }
 

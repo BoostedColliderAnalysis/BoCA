@@ -2,8 +2,6 @@
 
 # include "Triplet.hh"
 
-
-
 namespace analysis{
 
 class Quartet31 : public Identification

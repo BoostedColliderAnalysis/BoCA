@@ -124,7 +124,7 @@ std::string bottom::Analysis::DetectorName(const Detector detector) const
 int bottom::Analysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "paas pre cut");
-    analysis::Jets jets = event.hadrons().Jets();
+    analysis::Jets jets = event.Hadrons().Jets();
     jets = analysis::remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
     return jets.size();
 }

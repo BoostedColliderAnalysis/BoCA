@@ -1,10 +1,8 @@
 # pragma once
 
-# include "BranchesHiggsCpv.hh"
 # include "HiggsTagger.hh"
 # include "TripletPairTagger.hh"
 # include "Octet62.hh"
-# include "Branch.hh"
 
 namespace higgscpv {
 
@@ -37,12 +35,12 @@ protected:
 private:
 
     TClass &Class() const {
-      return *higgscpv::OctetBranch::Class();
+      return *OctetBranch::Class();
     }
 
     void DefineVariables();
 
-    higgscpv::OctetBranch branch_;
+    OctetBranch branch_;
 
     analysis::HiggsTagger higgs_tagger_;
 

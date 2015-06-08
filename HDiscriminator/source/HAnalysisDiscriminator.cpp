@@ -297,7 +297,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
         }
 
-        Candidate->ScalarHt = event.hadrons().ScalarHt();
+        Candidate->ScalarHt = event.Hadrons().ScalarHt();
 
         Candidate->SubJetsDeltaR = sub_structure->GetSubJetsDeltaR();
         Candidate->Asymmetry = sub_structure->GetAsymmetry();
@@ -362,8 +362,8 @@ analysis::Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
 //     Jets AntiLeptonJets = event->Lepton->AntiLeptonJets;
 
 //     event.GetParticlesM()->GetParticles();
-    analysis::Jets LeptonJets ;//= event.partons().GetLeptonJets();//TODO fix this
-    analysis::Jets AntiLeptonJets;// = event.partons().GetAntiLeptonJets();//TODO fix this
+    analysis::Jets LeptonJets ;//= event.Partons().GetLeptonJets();//TODO fix this
+    analysis::Jets AntiLeptonJets;// = event.Partons().GetAntiLeptonJets();//TODO fix this
 
     LeptonJets = analysis::SortedByPt(LeptonJets);
 //     std::sort(LeptonJets.begin(), LeptonJets.end(), analysis::SortJetByPt());

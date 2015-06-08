@@ -1,6 +1,5 @@
 # pragma once
 
-# include "Doublet.hh"
 # include "Sextet.hh"
 
 namespace analysis {

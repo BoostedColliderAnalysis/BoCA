@@ -1,7 +1,6 @@
 # pragma once
 
 # include "Singlet.hh"
-# include "JetInfo.hh"
 # include "Event.hh"
 
 namespace analysis
@@ -12,11 +11,11 @@ class GlobalObservables
 public:
     GlobalObservables() {}
     GlobalObservables(Event &event) {
-        lepton_number_ = event.leptons().leptons().size();
-        jet_number_ = event.hadrons().Jets().size();
-//         bottom_number_ = event.hadrons().BottomJets().size();
-        scalar_ht_ = event.hadrons().ScalarHt();
-        missing_et_ = event.hadrons().MissingEt().pt();
+        lepton_number_ = event.Leptons().leptons().size();
+        jet_number_ = event.Hadrons().Jets().size();
+//         bottom_number_ = event.Hadrons().BottomJets().size();
+        scalar_ht_ = event.Hadrons().ScalarHt();
+        missing_et_ = event.Hadrons().MissingEt().pt();
     }
     int lepton_number()const {
         return lepton_number_;

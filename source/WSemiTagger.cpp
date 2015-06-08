@@ -30,12 +30,12 @@ void analysis::WSemiTagger::DefineVariables()
 int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Train");
-    Jets Particles = event.partons().GenParticles();
+    Jets Particles = event.Partons().GenParticles();
     int w_semi_id = WSemiId(event);
     Jets w_bosons = copy_if_particle(Particles, w_semi_id);
-    Jets leptons = fastjet::sorted_by_pt(event.leptons().leptons());
+    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
-    const fastjet::PseudoJet missing_et = event.hadrons().MissingEt();
+    const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
         Doublet pre_doublet(lepton, missing_et);
@@ -62,15 +62,15 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
 std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
   Print(kInformation, "Triple Bdt");
-  Jets Particles = event.partons().GenParticles();
+  Jets Particles = event.Partons().GenParticles();
   int w_semi_id = WSemiId(event);
   Jets w_bosons = copy_if_particle(Particles, w_semi_id);
-    Jets leptons = fastjet::sorted_by_pt(event.leptons().leptons());
+    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
 
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
-        Doublet pre_doublet(lepton, event.hadrons().MissingEt());
+        Doublet pre_doublet(lepton, event.Hadrons().MissingEt());
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto & doublet : post_doublets) {
             if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
@@ -134,7 +134,7 @@ std::vector<analysis::Doublet> analysis::WSemiTagger::ReconstructNeutrino(const 
 
 analysis::Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
 {
-    Jets w_daughters = event.partons().GenParticles();
+    Jets w_daughters = event.Partons().GenParticles();
     w_daughters = RemoveIfWrongAbsMother(w_daughters, WId);
     if (w_daughters.size() != 4) Print(kError, "Where is the W 1?", w_daughters.size());
 

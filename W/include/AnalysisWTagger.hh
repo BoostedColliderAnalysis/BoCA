@@ -2,7 +2,6 @@
 
 # include "Analysis.hh"
 
-
 /**
  *
  * @brief HAnalysis subclass defining the W Tagger ananlysis

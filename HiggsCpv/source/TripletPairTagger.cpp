@@ -47,7 +47,7 @@ int higgscpv::TripletPairTagger::Train(analysis::Event &event, const Tag tag)
     std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
     std::vector<analysis::Triplet> triplets_semi = top_semi_reader_.Multiplets<analysis::TopSemiTagger>(event);
 
-    analysis::Jets TopParticles = event.partons().GenParticles();
+    analysis::Jets TopParticles = event.Partons().GenParticles();
     TopParticles = analysis::RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);
     if (TopParticles.size() != 1 && tag == kSignal) Print(kError, "Where is the Top?", TopParticles.size());
 

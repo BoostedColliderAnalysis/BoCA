@@ -5,7 +5,7 @@
 # include "Configuration.hh"
 # include "TSystem.h"
 # include "Factory.hh"
-# include "Tagger.hh"
+# include "EventNeutralTagger.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const analysis::Configuration &config)
 {

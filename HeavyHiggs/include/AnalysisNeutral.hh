@@ -1,7 +1,6 @@
 # pragma once
 
 # include "Analysis.hh"
-# include "EventNeutralTagger.hh"
 
 /**
  * @brief Namespace for the heavy higgs analyses
@@ -22,7 +21,7 @@ class AnalysisNeutral : public analysis::Analysis
 
 public:
 
-      AnalysisNeutral(analysis::Tagger &tagger);
+    AnalysisNeutral(analysis::Tagger &tagger);
 
     void SetTrees();
 
@@ -47,7 +46,7 @@ public:
 //             return 800;
         //     return 900;
 //         return 1000;
-         return 2000;
+        return 2000;
 //            return 3000;
 //         return 4000;
 //                 return 5000;
@@ -63,44 +62,44 @@ public:
 
     // in GeV
     inline int PreCut() const {
-      switch (collider_type()) {
+        switch (collider_type()) {
         case LHC :
-          switch (Mass()) {
+            switch (Mass()) {
             case 500 :
-              return 0;
+                return 0;
             case 1000 :
-              return 250;
+                return 250;
             case 2000 :
-              return 250;
+                return 250;
             case 3000 :
-              return 250;
+                return 250;
             default :
-              return 0;
-          }
-            case LE :
-              switch (Mass()) {
-                case 500 :
-                  return 0;
-                case 1000 :
-                  return 300;
-                case 2000 :
-                  return 300;
-                case 4000 :
-                  return 1500;
-                case 6000 :
-                  return 2500;
-                case 10000 :
-                  return 2500;
-                case 15000 :
-                  return 2500;
-                case 20000 :
-                  return 2500;
-                default :
-                  return 0;
-              }
-                default :
-                  return 0;
-      }
+                return 0;
+            }
+        case LE :
+            switch (Mass()) {
+            case 500 :
+                return 0;
+            case 1000 :
+                return 300;
+            case 2000 :
+                return 300;
+            case 4000 :
+                return 1500;
+            case 6000 :
+                return 2500;
+            case 10000 :
+                return 2500;
+            case 15000 :
+                return 2500;
+            case 20000 :
+                return 2500;
+            default :
+                return 0;
+            }
+        default :
+            return 0;
+        }
 //         return 0;
         //     return 30;
         //     return 80;
@@ -130,7 +129,7 @@ public:
 
 
     inline ColliderType collider_type() const {
-         return LHC;
+        return LHC;
 //       return FHC;
 //        return LE;
     }
@@ -193,8 +192,8 @@ public:
             default :
                 return 1;
             }
-            default :
-              return 1;
+        default :
+            return 1;
         }
     }
 
@@ -226,33 +225,33 @@ private:
         case FHC:
         case LE:
             switch (Mass()) {
-              case 500:
+            case 500:
                 return 973.5805772514352;
-              case 1000:
+            case 1000:
                 return 123.02005671222373;
-              case 1500:
+            case 1500:
                 return 28.624904980998327;
-              case 2000:
+            case 2000:
                 return 9.485582085140349;
-              case 3000:
+            case 3000:
                 return 1.7540841248835577;
-              case 4000:
+            case 4000:
                 return 0.4851939478031553;
-              case 5000:
+            case 5000:
                 return 0.16696738296715652;
-              case 6000:
+            case 6000:
                 return 0.06731697180862359;
-              case 7000:
+            case 7000:
                 return 0.029372932414373627;
-              case 8000:
+            case 8000:
                 return 0.014255221936825225;
-              case 10000:
+            case 10000:
                 return 0.0038428602375120795;
-              case 12000:
+            case 12000:
                 return 0.0012219523755405267;
-              case 15000:
+            case 15000:
                 return 0.00026507004708327343;
-              case 20000:
+            case 20000:
                 return 0.000028218388829563033;
             default:
                 Print(kError,  "Signal Crosssection", "unhandled case");

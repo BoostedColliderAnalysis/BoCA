@@ -1,7 +1,6 @@
 # pragma once
 
 # include "Quintet.hh"
-// # include "TopSemiTagger.hh"
 # include "TopHadronicTagger.hh"
 # include "ZHadronicTagger.hh"
 # include "Branches.hh"

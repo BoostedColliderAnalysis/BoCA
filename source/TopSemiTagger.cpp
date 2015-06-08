@@ -37,13 +37,13 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
 {
     Print(kInformation, "Top Tags");
 
-    Jets top_particles = event.partons().GenParticles();
+    Jets top_particles = event.Partons().GenParticles();
     top_particles = copy_if_particle(top_particles, TopSemiId(event));
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
 
-    Jets leptons = event.leptons().leptons();
+    Jets leptons = event.Leptons().leptons();
     Print(kInformation, "Lepton Number", leptons.size());
 
     std::vector<Triplet> triplets;

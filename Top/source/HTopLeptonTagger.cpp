@@ -111,11 +111,11 @@ std::vector< analysis::HTopLeptonBranch > top::HTopLeptonTagger::GetBranches(ana
     const int TopNumber = 2;
     eventNumber += TopNumber;
 
-    analysis::Jets jets = event.hadrons().Jets();
+    analysis::Jets jets = event.Hadrons().Jets();
     Print(kInformation, "Jet Number", jets.size());
     //     jets = fastjet::sorted_by_pt(bottom_tagger_.GetJetBdt(jets, BottomReader)); // TODO reenable this
 
-    analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
+    analysis::Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     Print(kInformation, "Lepton Number", Leptons.size());
 //     switch (Tag) {
 //     case  kSignal:
@@ -147,7 +147,7 @@ std::vector< analysis::HTopLeptonBranch > top::HTopLeptonTagger::GetBranches(ana
     std::vector<analysis::HTopLeptonBranch> TopLeptonBranches;
     if (doublets.empty()) return TopLeptonBranches;
 
-    analysis::Jets TopParticles = event.partons().GenParticles();
+    analysis::Jets TopParticles = event.Partons().GenParticles();
     TopParticles = RemoveIfWrongAbsParticle(TopParticles, TopId);
     if (TopParticles.size() != TopNumber) {
         if(tag == kSignal) Print(kError, "Top Quarks", TopParticles.size());

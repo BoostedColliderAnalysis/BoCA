@@ -90,7 +90,7 @@ void heavyhiggs::AnalysisNeutral::SetTrees()
 int heavyhiggs::AnalysisNeutral::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "pass pre cut");
-    analysis::Jets Particles = event.partons().GenParticles();
+    analysis::Jets Particles = event.Partons().GenParticles();
     analysis::Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Tops.size() != 2) {
         Print(kError, "Not enough top quarks", Tops.size());
@@ -100,11 +100,11 @@ int heavyhiggs::AnalysisNeutral::PassPreCut(analysis::Event &event)
         if (Tops.at(1).pt() < PreCut()) return 0;
     }
 
-    if (event.hadrons().MissingEt().pt() < MissingEt()) return 0;
-    analysis::Jets Leptons = fastjet::sorted_by_pt(event.leptons().leptons());
+    if (event.Hadrons().MissingEt().pt() < MissingEt()) return 0;
+    analysis::Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (Leptons.empty()) return 0;
     if (Leptons.front().pt() < LeptonPt()) return 0;
-    analysis::Jets jets = event.hadrons().Jets();
+    analysis::Jets jets = event.Hadrons().Jets();
     if (jets.size() < 4) return 0;
     return 1;
 }

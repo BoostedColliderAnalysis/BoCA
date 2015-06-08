@@ -1,5 +1,7 @@
 # include "Factory.hh"
+# include "TSystem.h"
 # include "TMVA/Config.h"
+# include "TClonesArray.h"
 
 analysis::Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
 {

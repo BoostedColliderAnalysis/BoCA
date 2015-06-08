@@ -1,6 +1,5 @@
 # pragma once
 
-
 # include "fastjet/JetDefinition.hh"
 # include "Object.hh"
 

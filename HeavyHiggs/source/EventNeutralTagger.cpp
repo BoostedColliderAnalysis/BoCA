@@ -88,7 +88,7 @@ int heavyhiggs::EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
     Print(kInformation, "event Tags");
 
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    analysis::Jets leptons = event.leptons().leptons();
+    analysis::Jets leptons = event.Leptons().leptons();
 
     std::vector<analysis::Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);
 
@@ -113,7 +113,7 @@ std::vector<analysis::MultipletEvent<analysis::Octet62>> heavyhiggs::EventNeutra
 
 
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    analysis::Jets Leptons = event.leptons().leptons();
+    analysis::Jets Leptons = event.Leptons().leptons();
 
     std::vector<analysis::MultipletEvent<analysis::Octet62>> events;
     for (const auto & octet : octets) {

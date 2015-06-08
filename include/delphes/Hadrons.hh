@@ -1,7 +1,6 @@
 # pragma once
 
 # include "../Hadrons.hh"
-# include "JetInfo.hh"
 # include "TClonesArray.h"
 
 namespace analysis

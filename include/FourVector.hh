@@ -1,14 +1,10 @@
 # pragma once
 
-# include "Object.hh"
 # include "ClonesArrays.hh"
 # include "JetTag.hh"
-# include "JetInfo.hh"
 
-# include "delphes/Delphes.hh"
-# include "exroot/ExRootAnalysis.hh"
-
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
@@ -27,7 +23,7 @@ public:
 
 protected:
 
-    void NewEvent(const ClonesArrays &NewClonesArrays);
+    void NewEvent(const ClonesArrays &clones_arrays);
 
     template<typename Particle>
     TLorentzVector LorentzVectorByEnergy(const Particle &particle) const {
@@ -117,7 +113,7 @@ protected:
 
     std::string PrintParticle(const int Position) const;
 
-    const ClonesArrays& clones_arrays() const {
+    const ClonesArrays &clones_arrays() const {
         return *clones_arrays_;
     }
 
@@ -131,9 +127,13 @@ protected:
 
     int source_;
 
-    JetTag &jet_tag()const{return *jet_tag_;}
+    JetTag &jet_tag()const {
+        return *jet_tag_;
+    }
 
-    void set_jet_tag(JetTag &jet_tag){jet_tag_ = &jet_tag;}
+    void set_jet_tag(JetTag &jet_tag) {
+        jet_tag_ = &jet_tag;
+    }
 
     enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 
@@ -149,7 +149,7 @@ protected:
 
 private:
 
-  JetTag *jet_tag_;
+    JetTag *jet_tag_;
 
 };
 

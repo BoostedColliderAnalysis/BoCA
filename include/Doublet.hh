@@ -1,6 +1,5 @@
 # pragma once
 
-# include "JetInfo.hh"
 # include "Singlet.hh"
 
 namespace analysis {
@@ -75,11 +74,11 @@ public:
     }
 
     inline float DeltaRap() const {
-        float NewDeltaRap = Singlet1().rap() - Singlet2().rap();
-        if (std::abs(NewDeltaRap) > 100) {
-            NewDeltaRap = 0;
+        float delta_rap = Singlet1().rap() - Singlet2().rap();
+        if (std::abs(delta_rap) > 100) {
+            delta_rap = 0;
         }
-        return NewDeltaRap;
+        return delta_rap;
     }
 
     inline float DeltaR() const {
@@ -100,13 +99,13 @@ public:
         return PullAngle1() * PullAngle2();
     }
 
-    inline void SetRestJets(const Jets &NewJets) {
-        rest_jets_ = NewJets;
+    inline void SetRestJets(const Jets &jets) {
+        rest_jets_ = jets;
         std::sort(rest_jets_.begin(), rest_jets_.end(), SortByBdt());
     }
 
-    inline void AddRestJet(const fastjet::PseudoJet &NewJet) {
-        rest_jets_.emplace_back(NewJet);
+    inline void AddRestJet(const fastjet::PseudoJet &jet) {
+        rest_jets_.emplace_back(jet);
         std::sort(rest_jets_.begin(), rest_jets_.end(), SortByBdt());
     }
 
@@ -114,14 +113,14 @@ public:
         return rest_jets_;
     }
 
-    float BdtRatio1(const int Number) const {
-        if (unsigned(Number) > rest_jets_.size()) return 0;
-        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(Number - 1).user_info<JetInfo>().Bdt();
+    float BdtRatio1(const int number) const {
+        if (unsigned(number) > rest_jets_.size()) return 0;
+        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(number - 1).user_info<JetInfo>().Bdt();
     }
 
-    float BdtRatio2(const int Number)const {
-        if (unsigned(Number) > rest_jets_.size()) return 0;
-        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(Number - 1).user_info<JetInfo>().Bdt();
+    float BdtRatio2(const int number)const {
+        if (unsigned(number) > rest_jets_.size()) return 0;
+        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(number - 1).user_info<JetInfo>().Bdt();
     }
 
     std::vector< Kinematics > constituents() const;
