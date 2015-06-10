@@ -73,7 +73,7 @@ int heavyhiggs::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag 
 
     for (const auto & triplet : Finaltriplets)
         for (const auto & Jet : BottomJets) {
-            if (triplet.singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (triplet.SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             analysis::Quartet31 quartet(triplet, Jet);
             if (tag == kSignal && quartet.Jet().m() < mass / 2)continue;
             if (tag == kSignal && quartet.Jet().m() > mass * 3 / 2)continue;
@@ -100,7 +100,7 @@ std::vector<analysis::Quartet31>  heavyhiggs::ChargedHiggsSemiTagger::Multiplets
     std::vector<analysis::Quartet31> quartets;
     for (const auto & triplet : triplets)
         for (const auto & jet : jets) {
-            if (triplet.singlet().delta_R(jet) < detector_geometry().JetConeSize) continue;
+            if (triplet.SingletJet().delta_R(jet) < detector_geometry().JetConeSize) continue;
             analysis::Quartet31 quartet(triplet, jet);
             branch_ = branch<ChargedHiggsSemiBranch>(quartet);
             quartet.SetBdt(Bdt(reader));

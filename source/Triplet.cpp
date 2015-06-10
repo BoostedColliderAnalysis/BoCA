@@ -1,45 +1,16 @@
 # include "Triplet.hh"
 
-void analysis::Triplet::SetSinglet(const fastjet::PseudoJet &singlet)
+analysis::Doublet analysis::Triplet::Doublet() const
 {
-  singlet_ = singlet;
+    return multiplet_1_;
 }
 
-void analysis::Triplet::Setdoublet(const analysis::Doublet &doublet)
+analysis::Singlet analysis::Triplet::Singlet() const
 {
-  doublet_ = doublet;
+  return multiplet_2_;
 }
 
-analysis::Triplet::Triplet()
+fastjet::PseudoJet analysis::Triplet::SingletJet() const
 {
-    Print(kInformation, "Constructor");
-}
-
-fastjet::PseudoJet analysis::Triplet::singlet() const
-{
-    return singlet_;
-}
-
-analysis::Doublet analysis::Triplet::doublet() const
-{
-    return doublet_;
-}
-
-analysis::Triplet::Triplet(const analysis::Doublet &doublet, const fastjet::PseudoJet &singlet)
-{
-    Print(kInformation, "Constructor");
-    SetSinglet(singlet);
-    Setdoublet(doublet);
-    if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Bdt() != initial_value()) SetBdt(singlet.user_info<JetInfo>().Bdt(),doublet.Bdt());
-    SetFlag(doublet.Flag());
-}
-
-analysis::Triplet::Triplet(const fastjet::PseudoJet &singlet)
-{
-    Print(kInformation, "Constructor");
-    SetSinglet(singlet / 2);
-    Setdoublet(Doublet(singlet / 2));
-    SetDegenerate();
-    if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Bdt() != initial_value()) SetBdt(singlet.user_info<JetInfo>().Bdt());
-    else SetBdt(0);
+    return multiplet_2_.Jet();
 }

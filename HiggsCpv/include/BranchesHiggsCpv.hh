@@ -30,12 +30,12 @@ namespace higgscpv{
       analysis::MultiBranch::Fill(multiplet);
       BottomBdt = multiplet.BottomBdt();
       PairBottomBdt = multiplet.PairBottomBdt();
-      PairBdt = multiplet.doublet().Bdt();
-      HiggsBdt = multiplet.sextet().Bdt();
-      HardTopPt = multiplet.sextet().HardTopPt();
-      SoftTopPt = multiplet.sextet().SoftTopPt();
-      HiggsMass = multiplet.sextet().Jet().m();
-      PairRap = multiplet.doublet().DeltaRap();
+      PairBdt = multiplet.Doublet().Bdt();
+      HiggsBdt = multiplet.Sextet().Bdt();
+      HardTopPt = multiplet.Sextet().HardTopPt();
+      SoftTopPt = multiplet.Sextet().SoftTopPt();
+      HiggsMass = multiplet.Sextet().Jet().m();
+      PairRap = multiplet.Doublet().DeltaRap();
     }
 
   private:
@@ -115,15 +115,15 @@ public:
       BottomNumber = multiplet.BottomNumber();
       ScalarHt = multiplet.ScalarHt();
 
-      HiggsMass = multiplet.multiplet().sextet().Jet().m();
-      HiggsBdt = multiplet.multiplet().sextet().Bdt();
+      HiggsMass = multiplet.multiplet().Sextet().Jet().m();
+      HiggsBdt = multiplet.multiplet().Sextet().Bdt();
       SignatureBdt = multiplet.multiplet().Bdt();
-      PairRap = multiplet.multiplet().doublet().DeltaRap();
+      PairRap = multiplet.multiplet().Doublet().DeltaRap();
       BottomBdt = multiplet.multiplet().BottomBdt();
       PairBottomBdt = multiplet.multiplet().PairBottomBdt();
 
-      HardTopPt = multiplet.multiplet().sextet().HardTopPt();
-      SoftTopPt = multiplet.multiplet().sextet().SoftTopPt();
+      HardTopPt = multiplet.multiplet().Sextet().HardTopPt();
+      SoftTopPt = multiplet.multiplet().Sextet().SoftTopPt();
 
       MissingEt = multiplet.MissingEt();
 
@@ -224,19 +224,19 @@ public:
   template<typename Multiplet>
   void Fill(const Multiplet &multiplet) {
     PairBranch::Fill(multiplet);
-    BottomPt = multiplet.triplet1().Jet().pt();
+    BottomPt = multiplet.Triplet1().Jet().pt();
     //         BottomRap = std::abs(multiplet.singlet().rap());
-    BottomRap = multiplet.triplet1().Jet().rap();
-    BottomPhi = multiplet.triplet1().Jet().phi();
-    BottomMass = multiplet.triplet1().Jet().m();
+    BottomRap = multiplet.Triplet1().Jet().rap();
+    BottomPhi = multiplet.Triplet1().Jet().phi();
+    BottomMass = multiplet.Triplet1().Jet().m();
     //         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
 
-    TopPt = multiplet.triplet2().Jet().pt();
+    TopPt = multiplet.Triplet2().Jet().pt();
     //         TopRap = std::abs(multiplet.triplet().Jet().rap());
-    TopRap = multiplet.triplet2().Jet().rap();
-    TopPhi = multiplet.triplet2().Jet().phi();
-    TopMass = multiplet.triplet2().Jet().m();
-    TopBdt = multiplet.triplet2().Bdt();
+    TopRap = multiplet.Triplet2().Jet().rap();
+    TopPhi = multiplet.Triplet2().Jet().phi();
+    TopMass = multiplet.Triplet2().Jet().m();
+    TopBdt = multiplet.Triplet2().Bdt();
   }
 
 private:

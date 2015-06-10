@@ -129,10 +129,10 @@ std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextets(cons
 
     event22 structure;
 
-    SetMomentum(structure.p3, quartet.Getdoublet1().Singlet2());
-    SetMomentum(structure.p4, quartet.Getdoublet2().Singlet2());
-    SetMomentum(structure.p5, quartet.Getdoublet1().Singlet1());
-    SetMomentum(structure.p6, quartet.Getdoublet2().Singlet1());
+    SetMomentum(structure.p3, quartet.Doublet1().Singlet2());
+    SetMomentum(structure.p4, quartet.Doublet2().Singlet2());
+    SetMomentum(structure.p5, quartet.Doublet1().Singlet1());
+    SetMomentum(structure.p6, quartet.Doublet2().Singlet1());
     SetMomentum(structure.pmiss, missing_et);
 
     Print(kDebug, "Lepton 1 (p3)", GetJet(structure.p3));
@@ -152,14 +152,14 @@ std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextets(cons
         Print(kDebug, "Neutrino 1 (p1)" , GetJet(P1[SolutionNumber]));
         Print(kDebug, "Neutrino 2 (p2)" , GetJet(P2[SolutionNumber]));
 
-        analysis::Doublet doublet1(quartet.Getdoublet1().Singlet2(), GetJet(P1[SolutionNumber]));
+        analysis::Doublet doublet1(quartet.Doublet1().Singlet2(), GetJet(P1[SolutionNumber]));
         if (doublet1.Jet().m() <= 0) continue;
-        analysis::Doublet doublet2(quartet.Getdoublet2().Singlet2(), GetJet(P2[SolutionNumber]));
+        analysis::Doublet doublet2(quartet.Doublet2().Singlet2(), GetJet(P2[SolutionNumber]));
         if (doublet2.Jet().m() <= 0) continue;
 
-        analysis::Triplet triplet1(doublet1, quartet.Getdoublet1().Singlet1());
+        analysis::Triplet triplet1(doublet1, quartet.Doublet1().Singlet1());
         if (triplet1.Jet().m() <= 0) continue;
-        analysis::Triplet triplet2(doublet2, quartet.Getdoublet2().Singlet1());
+        analysis::Triplet triplet2(doublet2, quartet.Doublet2().Singlet1());
         if (triplet2.Jet().m() <= 0) continue;
 
         analysis::Sextet sextet(triplet1, triplet2);
@@ -170,8 +170,8 @@ std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextets(cons
 
         Print(kDebug, "TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
         //         Print(kDebug, "Neutrino masses", Jet1.m(), Jet2.m());
-        Print(kDebug, "W masses", (GetJet(P1[SolutionNumber]) + quartet.Getdoublet1().Singlet2()).m(), (GetJet(P2[SolutionNumber]) + quartet.Getdoublet2().Singlet2()).m());
-        Print(kDebug, "top masses", (GetJet(P1[SolutionNumber]) + quartet.Getdoublet1().Singlet2() + quartet.Getdoublet1().Singlet1()).m(), (GetJet(P2[SolutionNumber]) + quartet.Getdoublet2().Singlet2() + quartet.Getdoublet2().Singlet1()).m());
+        Print(kDebug, "W masses", (GetJet(P1[SolutionNumber]) + quartet.Doublet1().Singlet2()).m(), (GetJet(P2[SolutionNumber]) + quartet.Doublet2().Singlet2()).m());
+        Print(kDebug, "top masses", (GetJet(P1[SolutionNumber]) + quartet.Doublet1().Singlet2() + quartet.Doublet1().Singlet1()).m(), (GetJet(P2[SolutionNumber]) + quartet.Doublet2().Singlet2() + quartet.Doublet2().Singlet1()).m());
         //         Print(kDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
     }
 
@@ -195,8 +195,8 @@ std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::sextet(const
 
     std::map<float, analysis::Sextet> Map;
     for (const auto & sextet : sextets) {
-        fastjet::PseudoJet Neutrino1 = sextet.triplet1().doublet().Singlet2();
-        fastjet::PseudoJet Neutrino2 = sextet.triplet2().doublet().Singlet2();
+        fastjet::PseudoJet Neutrino1 = sextet.Triplet1().Doublet().Singlet2();
+        fastjet::PseudoJet Neutrino2 = sextet.Triplet2().Doublet().Singlet2();
 
         std::vector<float> Neutrino1Errors, Neutrino2Errors;
         for (const auto & Neutrino : neutrinos) {

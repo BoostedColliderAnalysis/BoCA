@@ -14,6 +14,8 @@ class Singlet : public Identification
 
 public:
 
+  Singlet(){};
+
     Singlet(const fastjet::PseudoJet &singlet);
 
     inline fastjet::PseudoJet singlet() const {
@@ -106,6 +108,10 @@ public:
 
     float Bdt() const {
         return singlet_.user_info<JetInfo>().Bdt();
+    }
+
+    float Ht() const {
+      return singlet_.pt();
     }
 
 protected:

@@ -344,15 +344,15 @@ public:
         BottomNumber = multiplet.BottomNumber();
         ScalarHt = multiplet.ScalarHt();
 
-        HiggsMass = multiplet.multiplet().sextet().Jet().m();
-        HiggsBdt = multiplet.multiplet().sextet().Bdt();
+        HiggsMass = multiplet.multiplet().Sextet().Jet().m();
+        HiggsBdt = multiplet.multiplet().Sextet().Bdt();
         SignatureBdt = multiplet.multiplet().Bdt();
-        PairRap = multiplet.multiplet().doublet().DeltaRap();
+        PairRap = multiplet.multiplet().Doublet().DeltaRap();
         BottomBdt = multiplet.multiplet().BottomBdt();
         PairBottomBdt = multiplet.multiplet().PairBottomBdt();
 
-        HardTopPt = multiplet.multiplet().sextet().HardTopPt();
-        SoftTopPt = multiplet.multiplet().sextet().SoftTopPt();
+        HardTopPt = multiplet.multiplet().Sextet().HardTopPt();
+        SoftTopPt = multiplet.multiplet().Sextet().SoftTopPt();
 
         MissingEt = multiplet.MissingEt();
 
@@ -463,12 +463,12 @@ public:
         analysis::MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
-        PairBdt = multiplet.doublet().Bdt();
-        HiggsBdt = multiplet.sextet().Bdt();
-        HardTopPt = multiplet.sextet().HardTopPt();
-        SoftTopPt = multiplet.sextet().SoftTopPt();
-        HiggsMass = multiplet.sextet().Jet().m();
-        PairRap = multiplet.doublet().DeltaRap();
+        PairBdt = multiplet.Doublet().Bdt();
+        HiggsBdt = multiplet.Sextet().Bdt();
+        HardTopPt = multiplet.Sextet().HardTopPt();
+        SoftTopPt = multiplet.Sextet().SoftTopPt();
+        HiggsMass = multiplet.Sextet().Jet().m();
+        PairRap = multiplet.Doublet().DeltaRap();
     }
 
 private:
@@ -502,11 +502,11 @@ public:
         analysis::MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
-        HiggsBdt = multiplet.quartet1().Bdt();
-        PairBdt = multiplet.quartet2().Bdt();
+        HiggsBdt = multiplet.Quartet1().Bdt();
+        PairBdt = multiplet.Quartet2().Bdt();
 
-        HiggsMass = multiplet.quartet1().Jet().m();
-        PairRap = multiplet.quartet2().DeltaRap();
+        HiggsMass = multiplet.Quartet1().Jet().m();
+        PairRap = multiplet.Quartet2().DeltaRap();
     }
 
 private:
@@ -584,9 +584,9 @@ public:
         BottomNumber = multiplet.BottomNumber();
         ScalarHt = multiplet.ScalarHt();
 
-        HiggsMass = multiplet.multiplet().quartet1().Jet().m();
-        PairRap = multiplet.multiplet().quartet2().DeltaRap();
-        HiggsBdt = multiplet.multiplet().quartet1().Bdt();
+        HiggsMass = multiplet.multiplet().Quartet1().Jet().m();
+        PairRap = multiplet.multiplet().Quartet2().DeltaRap();
+        HiggsBdt = multiplet.multiplet().Quartet1().Bdt();
         SignatureBdt = multiplet.multiplet().Bdt();
         BottomBdt = multiplet.multiplet().BottomBdt();
         PairBottomBdt = multiplet.multiplet().PairBottomBdt();

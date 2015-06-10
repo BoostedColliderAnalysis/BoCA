@@ -384,19 +384,19 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.singlet().pt();
-//         BottomRap = std::abs(multiplet.singlet().rap());
-        BottomRap = multiplet.singlet().rap();
-        BottomPhi = multiplet.singlet().phi();
-        BottomMass = multiplet.singlet().m();
-//         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
+        BottomPt = multiplet.SingletJet().pt();
+//         BottomRap = std::abs(multiplet.Singlet().rap());
+        BottomRap = multiplet.SingletJet().rap();
+        BottomPhi = multiplet.SingletJet().phi();
+        BottomMass = multiplet.SingletJet().m();
+//         BottomBdt = multiplet.Singlet().user_info<JetInfo>().Bdt();
 
-        TopPt = multiplet.triplet().Jet().pt();
-//         TopRap = std::abs(multiplet.triplet().Jet().rap());
-        TopRap = multiplet.triplet().Jet().rap();
-        TopPhi = multiplet.triplet().Jet().phi();
-        TopMass = multiplet.triplet().Jet().m();
-        TopBdt = multiplet.triplet().Bdt();
+        TopPt = multiplet.Triplet().Jet().pt();
+//         TopRap = std::abs(multiplet.Triplet().Jet().rap());
+        TopRap = multiplet.Triplet().Jet().rap();
+        TopPhi = multiplet.Triplet().Jet().phi();
+        TopMass = multiplet.Triplet().Jet().m();
+        TopBdt = multiplet.Triplet().Bdt();
     }
 
 private:
@@ -477,8 +477,8 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
-        BottomPt = multiplet.singlet().pt();
-        WPt = multiplet.doublet().Jet().pt();
+        BottomPt = multiplet.SingletJet().pt();
+        WPt = multiplet.Doublet().Jet().pt();
         Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
         Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
         Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
@@ -489,8 +489,8 @@ public:
         Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
         if (multiplet.sub_jettiness().tau1_beta2 > 0) Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
         if (multiplet.sub_jettiness().tau2_beta2 > 0) Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
-        if (!multiplet.Degenerate()) WBdt = multiplet.doublet().Bdt();
-        BBdt = multiplet.SingletBdt();
+        if (!multiplet.Degenerate()) WBdt = multiplet.Doublet().Bdt();
+        BBdt = multiplet.Singlet().Bdt();
     }
 
 private:
@@ -555,10 +555,10 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
-        BottomPt = multiplet.singlet().pt();
-        WPt = multiplet.doublet().Jet().pt();
-        BBdt = multiplet.SingletBdt();
-        WBdt = multiplet.doublet().Bdt();
+        BottomPt = multiplet.SingletJet().pt();
+        WPt = multiplet.Doublet().Jet().pt();
+        BBdt = multiplet.Singlet().Bdt();
+        WBdt = multiplet.Doublet().Bdt();
     }
 
 private:

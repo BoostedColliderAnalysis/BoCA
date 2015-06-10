@@ -21,6 +21,7 @@ Predicate.cpp
 HLibrary(Event "${EventSources}" PARENT_SCOPE)
 
 set(MultipletSources
+Multiplet.cpp
 Identification.cpp
 Singlet.cpp
 Doublet.cpp
@@ -68,4 +69,4 @@ TopLeptonicTagger.cpp
 TopSemiTagger.cpp
 )
 HLibrary(Analysis "${AnalysisSources}" PARENT_SCOPE)
-add_dependencies(Analysis HWimpMass)
+add_dependencies(Analysis WimpMass)

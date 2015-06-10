@@ -3,42 +3,6 @@
 # include "Analysis.hh"
 
 namespace higgscpv {
-//
-// class HHiggsCpv
-// {
-//
-// public:
-//
-//     analysis::Doublet higgs_;
-//
-//     analysis::Doublet top_;
-//
-//     analysis::Doublet anti_top_;
-//
-//     HHiggsCpv(const analysis::Doublet &higgs, const analysis::Doublet &top, const analysis::Doublet &anti_top) {
-//         higgs_ = higgs;
-//         top_ = top;
-//         anti_top_ = anti_top;
-//     };
-//
-//     float Bdt() const {
-//         return (higgs_.Bdt() * top_.Bdt() * anti_top_.Bdt());
-//     }
-//
-//     float GetTopDeltaRap() const {
-//         return (top_.Singlet1().rap() - anti_top_.Singlet1().rap());
-//     }
-//
-//     float GetTopDeltaPhi() const {
-//         return (top_.Singlet1().delta_phi_to(anti_top_.Singlet1()));
-//     }
-//
-//     float GetTopDeltaR() const {
-//         return (top_.Singlet1().delta_R(anti_top_.Singlet1()));
-//     }
-//
-// };
-
 
 /**
  *

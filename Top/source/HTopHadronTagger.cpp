@@ -83,47 +83,49 @@ void top::HTopHadronTagger::DefineVariables()
 
 top::HTopHadronBranch top::HTopHadronTagger::GetBranch(const analysis::Triplet &triplet) const
 {
-    Print(kInformation, "Fill Top Tagger", triplet.Bdt());
 
+  // TODO reactivate or remove this
+//     Print(kInformation, "Fill Top Tagger", triplet.Bdt());
+//
     HTopHadronBranch top_hadron_branch;
+//
+//     top_hadron_branch.Mass = triplet.Jet().m();
+//     top_hadron_branch.Rap = triplet.Jet().rap();
+//     top_hadron_branch.Phi = triplet.Jet().phi();
+//     top_hadron_branch.Pt = triplet.Jet().pt();
+//     top_hadron_branch.Ht = triplet.Ht();
+//
+//     top_hadron_branch.BottomPt = triplet.singlet().pt();
+//     top_hadron_branch.WPt = triplet.doublet().Jet().pt();
+//
+//     top_hadron_branch.DeltaPt = triplet.DeltaPt();
+//     top_hadron_branch.DeltaHt = triplet.DeltaHt();
+//     top_hadron_branch.DeltaM = triplet.DeltaM();
+//     top_hadron_branch.DeltaR = triplet.DeltaR();
+//     top_hadron_branch.DeltaRap = triplet.DeltaRap();
+//     top_hadron_branch.DeltaPhi = triplet.DeltaPhi();
+//
+//     top_hadron_branch.Tau1_1 = triplet.sub_jettiness().tau1_beta1;
+//     top_hadron_branch.Tau2_1 = triplet.sub_jettiness().tau2_beta1;
+//     top_hadron_branch.Tau3_1 = triplet.sub_jettiness().tau3_beta1;
+//     if (triplet.sub_jettiness().tau1_beta1 > 0) top_hadron_branch.Tau21_1 = triplet.sub_jettiness().tau21_beta1;
+//     if (triplet.sub_jettiness().tau2_beta1 > 0) top_hadron_branch.Tau32_1 = triplet.sub_jettiness().tau32_beta1;
+//     top_hadron_branch.Tau1_2 = triplet.sub_jettiness().tau1_beta2;
+//     top_hadron_branch.Tau2_2 = triplet.sub_jettiness().tau2_beta2;
+//     top_hadron_branch.Tau3_2 = triplet.sub_jettiness().tau3_beta2;
+//     if (triplet.sub_jettiness().tau1_beta2 > 0) top_hadron_branch.Tau21_2 = triplet.sub_jettiness().tau21_beta2;
+//     if (triplet.sub_jettiness().tau2_beta2 > 0) top_hadron_branch.Tau32_2 = triplet.sub_jettiness().tau32_beta2;
+//
+//     if (triplet.Degenerate()) GetBottomInfo(top_hadron_branch, triplet.singlet() * 2);
+//     else if (triplet.doublet().Degenerate()) GetBottomInfo(top_hadron_branch, triplet.doublet().Singlet1() * 2);
+//     else GetBottomInfo(top_hadron_branch, triplet.singlet());
+//
+//     top_hadron_branch.Bdt = triplet.Bdt();
+//     if (!triplet.Degenerate())top_hadron_branch.WBdt = triplet.doublet().Bdt();
+//     top_hadron_branch.BBdt = triplet.singlet().user_info<analysis::JetInfo>().Bdt();
+//     top_hadron_branch.Tag = triplet.Tag();
 
-    top_hadron_branch.Mass = triplet.Jet().m();
-    top_hadron_branch.Rap = triplet.Jet().rap();
-    top_hadron_branch.Phi = triplet.Jet().phi();
-    top_hadron_branch.Pt = triplet.Jet().pt();
-    top_hadron_branch.Ht = triplet.Ht();
-
-    top_hadron_branch.BottomPt = triplet.singlet().pt();
-    top_hadron_branch.WPt = triplet.doublet_jet().pt();
-
-    top_hadron_branch.DeltaPt = triplet.DeltaPt();
-    top_hadron_branch.DeltaHt = triplet.DeltaHt();
-    top_hadron_branch.DeltaM = triplet.DeltaM();
-    top_hadron_branch.DeltaR = triplet.DeltaR();
-    top_hadron_branch.DeltaRap = triplet.DeltaRap();
-    top_hadron_branch.DeltaPhi = triplet.DeltaPhi();
-
-    top_hadron_branch.Tau1_1 = triplet.sub_jettiness().tau1_beta1;
-    top_hadron_branch.Tau2_1 = triplet.sub_jettiness().tau2_beta1;
-    top_hadron_branch.Tau3_1 = triplet.sub_jettiness().tau3_beta1;
-    if (triplet.sub_jettiness().tau1_beta1 > 0) top_hadron_branch.Tau21_1 = triplet.sub_jettiness().tau21_beta1;
-    if (triplet.sub_jettiness().tau2_beta1 > 0) top_hadron_branch.Tau32_1 = triplet.sub_jettiness().tau32_beta1;
-    top_hadron_branch.Tau1_2 = triplet.sub_jettiness().tau1_beta2;
-    top_hadron_branch.Tau2_2 = triplet.sub_jettiness().tau2_beta2;
-    top_hadron_branch.Tau3_2 = triplet.sub_jettiness().tau3_beta2;
-    if (triplet.sub_jettiness().tau1_beta2 > 0) top_hadron_branch.Tau21_2 = triplet.sub_jettiness().tau21_beta2;
-    if (triplet.sub_jettiness().tau2_beta2 > 0) top_hadron_branch.Tau32_2 = triplet.sub_jettiness().tau32_beta2;
-
-    if (triplet.Degenerate()) GetBottomInfo(top_hadron_branch, triplet.singlet() * 2);
-    else if (triplet.doublet().Degenerate()) GetBottomInfo(top_hadron_branch, triplet.doublet().Singlet1() * 2);
-    else GetBottomInfo(top_hadron_branch, triplet.singlet());
-
-    top_hadron_branch.Bdt = triplet.Bdt();
-    if (!triplet.Degenerate())top_hadron_branch.WBdt = triplet.doublet().Bdt();
-    top_hadron_branch.BBdt = triplet.singlet().user_info<analysis::JetInfo>().Bdt();
-    top_hadron_branch.Tag = triplet.Tag();
-
-    top_hadron_branch.LeptonPt = triplet.LeptonPt;
+//     top_hadron_branch.LeptonPt = triplet.LeptonPt;
 
     //     if (!(top_hadron_branch.VertexMass >= 0)) Print(kError, "Vertex Mass", top_hadron_branch.VertexMass);
     if (top_hadron_branch.MaxDisplacement < -3) Print(kError, "Max Displ", top_hadron_branch.MaxDisplacement);
@@ -463,9 +465,9 @@ float top::HTopHadronTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 
 void top::HTopHadronTagger::NSubJettiness(analysis::Triplet &triplet)
 {
-    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.singlet() * 2));
-    else if (triplet.doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.doublet().Singlet1() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.singlet(), triplet.doublet().Singlet1()), triplet.doublet().Singlet2())));
+    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.SingletJet() * 2));
+    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1() * 2));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.SingletJet(), triplet.Doublet().Singlet1()), triplet.Doublet().Singlet2())));
 }
 
 

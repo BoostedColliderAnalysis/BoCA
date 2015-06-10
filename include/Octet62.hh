@@ -8,65 +8,23 @@ namespace analysis {
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class Octet62 : public Identification
+class Octet62 : public Multiplet<analysis::Sextet,analysis::Doublet>
 {
 
 public:
 
-    Octet62() {};
-
-    Octet62(const Sextet &sextet, const Doublet &doublet);
+  using Multiplet<analysis::Sextet,analysis::Doublet>::Multiplet;
 
     bool overlap() const;
 
     bool overlap(const fastjet::PseudoJet &jet) const;
 
-    inline Sextet sextet()const {
-        return sextet_;
+    inline analysis::Sextet Sextet()const {
+        return multiplet_1_;
     }
 
-    inline Doublet doublet() const {
-        return doublet_;
-    }
-
-    inline fastjet::PseudoJet sextetJet() const {
-        return sextet_.Jet();
-    }
-
-    inline fastjet::PseudoJet doublet_jet() const {
-        return doublet_.Jet();
-    }
-
-    inline fastjet::PseudoJet Jet() const {
-        return sextetJet() + doublet_jet();
-    }
-
-    inline float Ht() const {
-        return sextet_.Ht() + doublet_.Ht();
-    }
-
-    inline float DeltaPt() const {
-        return sextetJet().pt() - doublet_jet().pt();
-    }
-
-    inline float DeltaHt() const {
-        return sextet().Ht() - doublet().Ht();
-    }
-
-    inline float DeltaM() const {
-        return sextetJet().m() - doublet_jet().m();
-    }
-
-    inline float DeltaR() const {
-        return sextetJet().delta_R(doublet_jet());
-    }
-
-    inline float DeltaRap() const {
-        return sextetJet().rap() - doublet_jet().rap();
-    }
-
-    inline float DeltaPhi() const {
-        return sextetJet().delta_phi_to(doublet_jet());
+    inline analysis::Doublet Doublet() const {
+        return multiplet_2_;
     }
 
     inline float HbDeltaDeltaR() const {
@@ -82,51 +40,43 @@ public:
     }
 
     inline float BottomBdt() const {
-        return doublet().Singlet1().user_info<JetInfo>().Bdt() + doublet().Singlet2().user_info<JetInfo>().Bdt() + sextet().triplet1().singlet().user_info<JetInfo>().Bdt() + sextet().triplet2().singlet().user_info<JetInfo>().Bdt();
+        return Doublet().Singlet1().user_info<JetInfo>().Bdt() + Doublet().Singlet2().user_info<JetInfo>().Bdt() + Sextet().Triplet1().SingletJet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().SingletJet().user_info<JetInfo>().Bdt();
     }
 
     inline float PairBottomBdt() const {
-        return doublet().Singlet1().user_info<JetInfo>().Bdt() + doublet().Singlet2().user_info<JetInfo>().Bdt();
+        return Doublet().Singlet1().user_info<JetInfo>().Bdt() + Doublet().Singlet2().user_info<JetInfo>().Bdt();
     }
 
     inline float GetDeltaR1() const {
-        return sextetJet().delta_R(doublet_.Singlet1());
+        return Sextet().Jet().delta_R(Doublet().Singlet1());
     }
 
     inline float GetDeltaR2() const {
-        return sextetJet().delta_R(doublet_.Singlet2());
+        return Sextet().Jet().delta_R(Doublet().Singlet2());
     }
 
     inline float GetDeltaPhi1() const {
-        return sextetJet().delta_phi_to(doublet_.Singlet1());
+        return Sextet().Jet().delta_phi_to(Doublet().Singlet1());
     }
 
     inline float GetDeltaPhi2() const {
-        return sextetJet().delta_phi_to(doublet_.Singlet2());
+        return Sextet().Jet().delta_phi_to(Doublet().Singlet2());
     }
 
     inline float GetDeltaRap1() const {
-        return (sextetJet().rap() - doublet_.Singlet1().rap());
+        return (Sextet().Jet().rap() - Doublet().Singlet1().rap());
     }
 
     inline float GetDeltaRap2() const {
-        return (sextetJet().rap() - doublet_.Singlet2().rap());
+        return (Sextet().Jet().rap() - Doublet().Singlet2().rap());
     }
 
     inline float GetDeltaPt1() const {
-        return (sextetJet().pt() - doublet_.Singlet1().pt());
+        return (Sextet().Jet().pt() - Doublet().Singlet1().pt());
     }
 
     inline float GetDeltaPt2() const {
-        return (sextetJet().pt() - doublet_.Singlet2().pt());
-    }
-
-    Sextet SubMultiplet1() const {
-      return sextet_;
-    }
-
-    Doublet SubMultiplet2() const {
-      return doublet_;
+        return (Sextet().Jet().pt() - Doublet().Singlet2().pt());
     }
 
 protected:
@@ -136,10 +86,6 @@ protected:
     }
 
 private:
-
-    Sextet sextet_;
-
-    Doublet doublet_;
 
 };
 

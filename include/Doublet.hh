@@ -1,5 +1,6 @@
 # pragma once
 
+# include "Multiplet.hh"
 # include "Singlet.hh"
 
 namespace analysis {
@@ -34,58 +35,16 @@ private:
 
 
 
-class Doublet : public Identification
+class Doublet : public Multiplet<Singlet,Singlet>
 {
 
 public:
 
-    Doublet();
-
-    Doublet(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2);
-
-    Doublet(const fastjet::PseudoJet &singlet);
+    using Multiplet<Singlet,Singlet>::Multiplet;
 
     void SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2);
 
-    void SetSinglets(const fastjet::PseudoJet &NewSinglet);
-
-    inline fastjet::PseudoJet Jet() const {
-        return (Singlet1() + Singlet2());
-    }
-
-    inline float MassDifferenceTo(const ParticleId particle_id) const {
-        return std::abs(Jet().m() - Mass(particle_id));
-    }
-
-    inline float DeltaM() const {
-        return (Singlet1().m() - Singlet2().m());
-    }
-
-    inline float Ht() const {
-        return (Singlet1().pt() + Singlet2().pt());
-    }
-
-    inline float DeltaPt() const {
-        return (Singlet1().pt() - Singlet2().pt());
-    }
-
-    inline float DeltaPhi() const {
-        return Singlet1().delta_phi_to(Singlet2());
-    }
-
-    inline float DeltaRap() const {
-        float delta_rap = Singlet1().rap() - Singlet2().rap();
-        if (std::abs(delta_rap) > 100) {
-            delta_rap = 0;
-        }
-        return delta_rap;
-    }
-
-    inline float DeltaR() const {
-        float delta_r = Singlet1().delta_R(Singlet2());
-        if (std::abs(delta_r) > 100) delta_r = 0;
-        return delta_r;
-    }
+    void SetSinglets(const fastjet::PseudoJet &singlet);
 
     fastjet::PseudoJet Singlet1()const;
 
@@ -115,35 +74,24 @@ public:
 
     float BdtRatio1(const int number) const {
         if (unsigned(number) > rest_jets_.size()) return 0;
-        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(number - 1).user_info<JetInfo>().Bdt();
+//         return Singlet1().user_info<JetInfo>().Bdt() / rest_jets_.at(number - 1).user_info<JetInfo>().Bdt();
+        return SubMultiplet1().Bdt() / rest_jets_.at(number - 1).user_info<JetInfo>().Bdt();
     }
 
     float BdtRatio2(const int number)const {
         if (unsigned(number) > rest_jets_.size()) return 0;
-        return singlet_1_.user_info<JetInfo>().Bdt() / rest_jets_.at(number - 1).user_info<JetInfo>().Bdt();
+        return SubMultiplet1().Bdt() / rest_jets_.at(number - 1).user_info<JetInfo>().Bdt();
     }
 
     std::vector< Kinematics > constituents() const;
 
-    bool overlap() const{
-      DetectorGeometry detector_geometry_;
-      if (singlet_1_.delta_R(singlet_2_) < detector_geometry_.JetConeSize) return true;
-      return false;
-    }
-
-    Singlet SubMultiplet1() const {
-      return Singlet(singlet_1_);
-    }
-
-    Singlet SubMultiplet2() const {
-      return Singlet(singlet_2_);
+    bool overlap() const {
+        DetectorGeometry detector_geometry_;
+        if (Singlet1().delta_R(Singlet2()) < detector_geometry_.JetConeSize) return true;
+        return false;
     }
 
 protected:
-
-    void SetSinglet1(const fastjet::PseudoJet &singlet);
-
-    void SetSinglet2(const fastjet::PseudoJet &singlet);
 
     std::vector< Kinematics > constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const;
 
@@ -157,11 +105,7 @@ protected:
 
 private:
 
-  fastjet::PseudoJet singlet_1_;
-
-  fastjet::PseudoJet singlet_2_;
-
-  Jets rest_jets_;
+    Jets rest_jets_;
 
 };
 

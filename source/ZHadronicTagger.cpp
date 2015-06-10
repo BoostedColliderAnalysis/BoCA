@@ -183,8 +183,10 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastj
     Jets subjets = SubJets(jet, 2);
     if (subjets.empty()) return doublets;
     Doublet doublet;
-    if (subjets.size() == 1) doublet.SetSinglets(jet);
-    else doublet.SetSinglets(subjets.at(0), subjets.at(1));
+//     if (subjets.size() == 1) doublet.SetSinglets(jet);
+    if (subjets.size() == 1) doublet.SetMultiplets(jet);
+//     else doublet.SetSinglets(subjets.at(0), subjets.at(1));
+    else doublet.SetMultiplets(subjets.at(0), subjets.at(1));
     if (std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) return doublets;
     branch_ = branch<ZHadronicBranch>(doublet);
     doublet.SetBdt(Bdt(reader));

@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-project(Analysis)
+project(Analysis VERSION 0.1 LANGUAGES CXX)
 
 # Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)
@@ -8,6 +8,14 @@ include(CMakeFiles/CMakeConfig.cmake)
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -pedantic -Wpointer-arith -fPIC -O3")
 #  -fno-stack-protector
+
+# target_compile_features(foo
+# PUBLIC
+# cxx_auto_type
+# cxx_range_for
+# PRIVATE
+# cxx_variadic_templates
+# )
 
 # ROOT
 include(CMakeFiles/FindROOT.cmake)

@@ -1,15 +1,5 @@
 # include "Doublet.hh"
 
-void analysis::Doublet::SetSinglet1(const fastjet::PseudoJet &singlet)
-{
-    singlet_1_ = singlet;
-}
-
-void analysis::Doublet::SetSinglet2(const fastjet::PseudoJet &singlet)
-{
-    singlet_2_ = singlet;
-}
-
 std::vector<analysis::Kinematics> analysis::Doublet::constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const
 {
     Print(kInformation, "constituents", jet_ratio, theta);
@@ -38,47 +28,30 @@ std::vector<analysis::Kinematics> analysis::Doublet::constituents(const fastjet:
     }
     return Newconstituents;
 }
-analysis::Doublet::Doublet()
-{
-    Print(kInformation, "Constructor");
-}
-analysis::Doublet::Doublet(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2)
-{
-    Print(kInformation, "Constructor");
-    SetSinglets(singlet_1, singlet_2);
-}
-
-analysis::Doublet::Doublet(const fastjet::PseudoJet &singlet)
-{
-    Print(kInformation, "Constructor");
-    SetSinglets(singlet);
-}
 
 fastjet::PseudoJet analysis::Doublet::Singlet1()const
 {
-    return singlet_1_;
+    return multiplet_1_.Jet();
 }
 
 fastjet::PseudoJet analysis::Doublet::Singlet2()const
 {
-    return singlet_2_;
+    return multiplet_2_.Jet();
 }
 
 void analysis::Doublet::SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2)
 {
-    Print(kInformation, "Constructor");
-    SetSinglet1(singlet_1);
-    SetSinglet2(singlet_2);
-    if (Singlet1().has_user_info<JetInfo>() && Singlet2().has_user_info<JetInfo>()) SetBdt(Singlet1().user_info<JetInfo>().Bdt(),Singlet2().user_info<JetInfo>().Bdt());
-    else if (Singlet1().has_user_info<JetInfo>()) SetBdt(Singlet1().user_info<JetInfo>().Bdt());
-    else if (Singlet2().has_user_info<JetInfo>()) SetBdt(Singlet2().user_info<JetInfo>().Bdt());
+  Print(kInformation, "Constructor");
+      multiplet_1_ = singlet_1;
+      multiplet_2_ = singlet_2;
+      SetBdt(SubMultiplet1().Bdt(),SubMultiplet2().Bdt());
 }
 
 void analysis::Doublet::SetSinglets(const fastjet::PseudoJet &singlet)
 {
-    Print(kInformation, "Constructor");
-    SetSinglet1(singlet / 2);
-    SetSinglet2(singlet / 2);
+  Print(kInformation, "Constructor");
+  multiplet_1_ = singlet / 2;
+  multiplet_2_ = singlet / 2;
     SetDegenerate();
     if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Bdt() != initial_value()) SetBdt(singlet.user_info<JetInfo>().Bdt());
     else SetBdt(0);
@@ -97,29 +70,18 @@ float analysis::Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const 
 float analysis::Doublet::PullAngle1() const
 {
     Print(kInformation, "PullAngle1");
-//     const float NewPull = static_cast<DoubletPrivate *>(TagPrivate.get())->Pull(Singlet1());
-    const float NewPull = Pull(Singlet1());
-//     const float NewReferenceAngle = static_cast<DoubletPrivate *>(TagPrivate.get())->ReferenceAngle(Singlet1(), Singlet2());
-    const float NewReferenceAngle = ReferenceAngle(Singlet1(), Singlet2());
-    //     Print(kDebug, "Pull", Pull, ReferenceAngle, GetDeltaPhi(Pull, ReferenceAngle));
-    //     if (std::abs(GetDeltaPhi(Pull, ReferenceAngle) > 3)) {
-    //         Print(kError, "extrema", Pull, ReferenceAngle);
-    //         Print(kError, "extrema", Jet1.rap(), Jet1.phi_std());
-    //         Print(kError, "extrema", Jet2.rap(), Jet2.phi_std());
-    //         Print(kError, " ");
-    //     }
-    return Object::DeltaPhi(NewPull, NewReferenceAngle);
+    const float pull = Pull(Singlet1());
+    const float reference_angle = ReferenceAngle(Singlet1(), Singlet2());
+    return Object::DeltaPhi(pull, reference_angle);
 }
 
 float analysis::Doublet::PullAngle2() const
 {
     Print(kInformation, "PullAngle2");
-//     const float NewPull = static_cast<DoubletPrivate *>(TagPrivate.get())->Pull(Singlet2());
-    const float NewPull = Pull(Singlet2());
-//     const float NewReferenceAngle = static_cast<DoubletPrivate *>(TagPrivate.get())->ReferenceAngle(Singlet2(), Singlet1());
-    const float NewReferenceAngle = ReferenceAngle(Singlet2(), Singlet1());
-    Print(kDebug, "Pull", NewPull, NewReferenceAngle, Object::DeltaPhi(NewPull, NewReferenceAngle));
-    return Object::DeltaPhi(NewPull, NewReferenceAngle);
+    const float pull = Pull(Singlet2());
+    const float reference_angle = ReferenceAngle(Singlet2(), Singlet1());
+    Print(kDebug, "Pull", pull, reference_angle, Object::DeltaPhi(pull, reference_angle));
+    return Object::DeltaPhi(pull, reference_angle);
 }
 
 
@@ -155,10 +117,10 @@ std::vector<analysis::Kinematics> analysis::Doublet::constituents() const
     const float Theta = atan2(Object::DeltaPhi(Singlet1().phi_std(), CenterPhi), Singlet1().rap() - CenterRap);
     const float Distance = Singlet1().delta_R(Singlet2());
     const float SubJetRatio = 2. * Shift / Distance;
-//     std::vector<Kinematics> constituentVectors1 = static_cast<DoubletPrivate *>(TagPrivate.get())->constituents(Singlet1(), SubJetRatio, Theta, -Shift);
-    std::vector<Kinematics> constituentVectors1 = constituents(Singlet1(), SubJetRatio, Theta, -Shift);
-//     std::vector<Kinematics> constituentVectors2 = static_cast<DoubletPrivate *>(TagPrivate.get())->constituents(Singlet2(), SubJetRatio, -Theta, Shift);
-    std::vector<Kinematics> constituentVectors2 = constituents(Singlet2(), SubJetRatio, -Theta, Shift);
-    constituentVectors1.insert(constituentVectors1.end(), constituentVectors2.begin(), constituentVectors2.end());
-    return constituentVectors1;
+//     std::vector<Kinematics> constituentVectors1 = static_cast<DoubletPrivate *>(TagPrivate.get())->constituents(jet_1, SubJetRatio, Theta, -Shift);
+    std::vector<Kinematics> constituents_1 = constituents(Singlet1(), SubJetRatio, Theta, -Shift);
+//     std::vector<Kinematics> constituentVectors2 = static_cast<DoubletPrivate *>(TagPrivate.get())->constituents(jet_2, SubJetRatio, -Theta, Shift);
+    std::vector<Kinematics> constituent_2 = constituents(Singlet2(), SubJetRatio, -Theta, Shift);
+    constituents_1.insert(constituents_1.end(), constituent_2.begin(), constituent_2.end());
+    return constituents_1;
 }

@@ -40,7 +40,12 @@ int toppartner::SignatureTagger::Train(analysis::Event &event, analysis::PreCuts
         for (auto quintet_2 = quintet_1 + 1; quintet_2 != quintets.end(); ++quintet_2) {
             for (auto doublet_1 = doublets.begin(); doublet_1 != doublets.end(); ++doublet_1) {
                 for (auto doublet_2 = doublet_1 + 1; doublet_2 != doublets.end(); ++doublet_2) {
-                    Quattuordecuplet quattuordecuplet(*quintet_1, *quintet_2, *doublet_1, *doublet_2);
+// // // // //                   analysis::Quartet22 quartet(*doublet_1, *doublet_2);
+// // // // //                   Decuplet  decuplet(*quintet_1, *quintet_2);
+                  analysis::Quartet22 quartet(*doublet_1, *doublet_2);
+                  Decuplet  decuplet(*quintet_1, *quintet_2);
+                  Quattuordecuplet quattuordecuplet(decuplet,quartet);
+
                     if (quattuordecuplet.overlap()) continue;
                     quattuordecuplet.SetTag(tag);
                     quattuordecuplets.emplace_back(quattuordecuplet);
@@ -60,7 +65,11 @@ std::vector< toppartner::Quattuordecuplet > toppartner::SignatureTagger::Quintet
         for (auto quintet_2 = quintet_1 + 1; quintet_2 != quintets.end(); ++quintet_2) {
             for (auto doublet_1 = doublets.begin(); doublet_1 != doublets.end(); ++doublet_1) {
                 for (auto doublet_2 = doublet_1 + 1; doublet_2 != doublets.end(); ++doublet_2) {
-                    Quattuordecuplet quattuordecuplet(*quintet_1, *quintet_2, *doublet_1, *doublet_2);
+                  analysis::Quartet22 quartet(*doublet_1, *doublet_2);
+                  Decuplet  decuplet(*quintet_1, *quintet_2);
+                  Quattuordecuplet quattuordecuplet(decuplet,quartet);
+
+//                     Quattuordecuplet quattuordecuplet(*quintet_1, *quintet_2, *doublet_1, *doublet_2);
                     if (quattuordecuplet.overlap()) continue;
                     branch_ = branch<SignatureBranch>(quattuordecuplet);
                     quattuordecuplet.SetBdt(Bdt(reader));

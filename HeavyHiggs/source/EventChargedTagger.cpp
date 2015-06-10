@@ -131,14 +131,14 @@ std::vector<analysis::MultipletEvent<heavyhiggs::Octet44>> heavyhiggs::EventChar
     for (auto & octet : octets) {
       analysis::MultipletEvent<Octet44> octetevent(octet, analysis::GlobalObservables(event));
         for (const auto & Jet : jets)  {
-            if (octet.quartet1().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.quartet1().triplet().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.quartet1().triplet().doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.quartet1().triplet().doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.quartet2().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.quartet2().triplet().singlet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.quartet2().triplet().doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.quartet2().triplet().doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet1().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet1().Triplet().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet1().Triplet().Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet1().Triplet().Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet2().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet2().Triplet().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet2().Triplet().Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Quartet2().Triplet().Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             octetevent.AddRestJet(Jet);
         }
         octetevent.SetLeptons(Leptons);

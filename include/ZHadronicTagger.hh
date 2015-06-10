@@ -2,6 +2,7 @@
 
 # include "BottomTagger.hh"
 # include "Doublet.hh"
+# include "Multiplet.hh"
 # include "Reader.hh"
 
 namespace analysis {
