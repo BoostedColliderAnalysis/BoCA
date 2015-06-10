@@ -14,13 +14,22 @@ public:
     Multiplet() {};
 
     Multiplet(const Multiplet1 &multiplet_1, const Multiplet2 &multiplet_2) {
-        multiplet_1_ = multiplet_1;
-        multiplet_2_ = multiplet_2;
+        SetMultiplets(multiplet_1,multiplet_2);
     }
 
     Multiplet(const fastjet::PseudoJet &jet) {
-        multiplet_1_ = Multiplet1(jet / 2);
-        multiplet_2_ = Multiplet2(jet / 2);
+        SetJet(jet);
+    }
+
+
+    void SetMultiplets(const Multiplet1 &multiplet_1, const Multiplet2 &multiplet_2) {
+      multiplet_1_ = multiplet_1;
+      multiplet_2_ = multiplet_2;
+    }
+
+    void SetJet(const fastjet::PseudoJet &jet) {
+      multiplet_1_ = Multiplet1(jet / 2);
+      multiplet_2_ = Multiplet2(jet / 2);
     }
 
     inline Multiplet1 SubMultiplet1()const {
@@ -87,26 +96,6 @@ public:
 
     inline float MassDifferenceTo(const ParticleId particle_id) const {
         return std::abs(Jet().m() - Mass(particle_id));
-    }
-
-    int Dimension() const {
-        multiplet_1_.Dimension() + multiplet_2_.Dimension();
-    }
-
-    void SetMultiplets(const Multiplet1 &multiplet) {
-        multiplet_1_ = multiplet.Jet() / 2;
-        multiplet_2_ = multiplet.Jet() / 2;
-    }
-
-    void SetMultiplets(const Multiplet1 &multiplet_1, const Multiplet2 &multiplet_2) {
-        multiplet_1_ = multiplet_1;
-        multiplet_2_ = multiplet_2;
-    }
-
-
-    void SetJet(const fastjet::PseudoJet &jet) {
-        multiplet_1_ = Multiplet1(jet / 2);
-        multiplet_2_ = Multiplet2(jet / 2);
     }
 
 protected:
