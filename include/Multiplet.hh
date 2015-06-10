@@ -33,19 +33,23 @@ public:
 
     template <typename Multiplet3>
     bool Overlap(const Multiplet3 &multiplet) const {
-      return (multiplet.Overlap(multiplet_1_) | multiplet.Overlap(multiplet_2_));
+        return (multiplet.Overlap(multiplet_1_) | multiplet.Overlap(multiplet_2_));
     }
 
     bool Overlap(const Singlet &singlet) const {
-      return (multiplet_1_.Overlap(singlet) | multiplet_2_.Overlap(singlet));
+        return (multiplet_1_.Overlap(singlet) | multiplet_2_.Overlap(singlet));
     }
 
     bool Overlap(const fastjet::PseudoJet &jet) const {
-      return (multiplet_1_.Overlap(jet) | multiplet_2_.Overlap(jet));
+        return (multiplet_1_.Overlap(jet) | multiplet_2_.Overlap(jet));
     }
 
     bool Overlap() const {
         return multiplet_1_.Overlap(multiplet_2_);
+    }
+
+    bool Coincides(const fastjet::PseudoJet &jet)const {
+        return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize);
     }
 
     inline fastjet::PseudoJet Jet() const {

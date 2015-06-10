@@ -5,13 +5,12 @@
 # include <cmath>
 # include <vector>
 
-// # include "TMath.h"
 # include "TLorentzVector.h"
 
 # include "fastjet/PseudoJet.hh"
 
 /**
- * @brief Namespace of analysis containing all the underlying libraries and SM taggers
+ * @brief analysis namespace containing the general analysis and SM taggers
  *
  */
 
@@ -30,6 +29,28 @@ inline int sgn(const Value value)
 
 int LargeNumber();
 
+/**
+ * @brief Calcualte distance in eta phi space
+ *
+ */
+float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2);
+
+/**
+ * @brief Calcualte distance from center in eta phi space
+ *
+ */
+float Length(const float rapidity, const float phi);
+
+/**
+ * @brief Take care of phi angles around pi
+ *
+ */
+float DeltaPhi(const float phi_1, const float phi_2);
+
+/**
+ * @brief provides an integer with the necessary information to work with range based for loop
+ *
+ */
 class Range
 {
 public:

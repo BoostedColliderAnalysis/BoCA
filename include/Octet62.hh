@@ -32,7 +32,7 @@ public:
     }
 
     inline float HbDeltaDeltaPhi() const {
-        return Object::DeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
+        return analysis::DeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
     }
 
     inline float BottomBdt() const {

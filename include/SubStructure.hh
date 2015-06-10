@@ -70,7 +70,7 @@ public:
     }
 
     inline float GetconstituentDeltaR() const {
-        return Distance(Global.Rap, Global.Phi);
+        return Length(Global.Rap, Global.Phi);
     }
 
     inline float GetconstituentAngle() const {
@@ -132,7 +132,7 @@ private:
     }
 
     inline float GetPosDistance() const {
-        return Distance(GetPosition2Rap(), 0);
+        return Length(GetPosition2Rap(), 0);
     }
 
     float SubJetRatio;

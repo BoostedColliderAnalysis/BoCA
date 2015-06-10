@@ -52,7 +52,6 @@ analysis::Tagger::Tagger()
     Print(kInformation, "Constructor");
     bdt_method_name_ = "Bdt";
     weight_branch_name_ = "Info";
-    max_combi_ = 4;
 }
 
 

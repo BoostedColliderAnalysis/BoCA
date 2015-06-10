@@ -57,7 +57,7 @@ bool analysis::SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     SubJet2.Rap -= SubJet1.Rap;
     SubJet2.Phi -= SubJet1.Phi;
     // scale subjet distance to reference value
-    const float SubJetDistance = Distance(SubJet2.Rap, SubJet2.Phi);
+    const float SubJetDistance = Length(SubJet2.Rap, SubJet2.Phi);
     if (SubJetDistance <= 0) {
         Print(kNotification, "No SubJet Distance", SubJetDistance);
         return 0;
