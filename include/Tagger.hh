@@ -370,6 +370,14 @@ protected:
     }
 
     template<typename Multiplet>
+    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplet) {
+      if (multiplet.empty()) return multiplet;
+      multiplet = SortedByMassTo(multiplet,mass);
+      multiplet.erase(multiplet.begin() + 1, multiplet.end());
+      return multiplet;
+    }
+
+    template<typename Multiplet>
     Branch branch(const Multiplet &multiplet) const {
         Print(kInformation, "Branch");
         Branch branch;

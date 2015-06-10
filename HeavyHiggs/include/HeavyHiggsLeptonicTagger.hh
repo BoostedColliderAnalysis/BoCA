@@ -33,18 +33,6 @@ private:
 
     void DefineVariables();
 
-    void SetMomentum(double momentum[4], const fastjet::PseudoJet &jet);
-
-    inline fastjet::PseudoJet PseudoJet(const double Momentum[4]) const {
-        // wimpmass (E,px,py,pz)
-        // fastjet (px,py,pz,E)
-        return fastjet::PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
-    }
-
-    std::vector<analysis::Sextet> Sextet(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const analysis::Jets &neutrinos, const Object::Tag tag);
-
-    std::vector<analysis::Sextet> Sextets(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
-
     analysis::TopLeptonicTagger top_leptonic_tagger_;
 
     analysis::Reader top_leptonic_reader_;

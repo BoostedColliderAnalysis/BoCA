@@ -28,15 +28,14 @@ struct MaxDeltaRap {
 };
 
 struct SortByMassTo {
-    SortByMassTo(const float NewMass) {
-        Mass = NewMass;
+    SortByMassTo(const float mass) {
+        mass_ = mass;
     }
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        if (Multiplet1.Jet().m() != Multiplet2.Jet().m()) return std::abs(Multiplet1.Jet().m() - Mass) < std::abs(Multiplet2.Jet().m() - Mass);
-        else return Multiplet1.Bdt() > Multiplet2.Bdt();
+    template <typename Multiplet>
+    inline bool operator()(const Multiplet &Multiplet1, const Multiplet &Multiplet2) {
+          return std::abs(Multiplet1.Jet().m() - mass_) < std::abs(Multiplet2.Jet().m() - mass_);
     }
-    float Mass;
+    float mass_;
 };
 
 template<typename Multiplet>
