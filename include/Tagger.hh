@@ -68,12 +68,12 @@ public:
         return tracker_eta_upper_cut_[particle_id];
     }
 
-    bool DoSubJets()const{
-      return do_sub_jets_;
+    bool DoSubJets()const {
+        return do_sub_jets_;
     }
 
-    void SetSubJets(const bool do_sub_jets){
-      do_sub_jets_ = do_sub_jets;
+    void SetSubJets(const bool do_sub_jets) {
+        do_sub_jets_ = do_sub_jets;
     }
 
 private:
@@ -220,11 +220,11 @@ public:
     }
 
     std::string bdt_method_name() const {
-        return bdt_method_name_;
+        return "Bdt";
     }
 
     std::string weight_branch_name() const {
-        return weight_branch_name_;
+        return "Info";
     }
 
     std::string background_name() const {
@@ -313,33 +313,10 @@ protected:
 
     float Bdt(const TMVA::Reader &reader);
 
-    template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet) {
-        if (multiplet.empty()) return multiplet;
-        std::sort(multiplet.begin(), multiplet.end());
-        multiplet.erase(multiplet.begin() + std::min(max_combi(), int(multiplet.size())), multiplet.end());
-        return multiplet;
-    }
-
-    template<typename Branch, typename Multiplet>
-    Branch branch(const Multiplet &multiplet) const {
-        Print(kInformation, "Branch");
-        Branch branch;
-        branch.Fill(multiplet);
-        return branch;
-    }
-
-    template<typename Branch, typename Multiplet>
-    int SaveEntries(const std::vector<Multiplet> &multiplets) {
-        for (const auto & multiplet : multiplets) static_cast<Branch &>(*tree_branch().NewEntry()) = branch<Branch>(multiplet);
-        return multiplets.size();
-    }
-
 
 private:
 
     exroot::TreeBranch *tree_branch_;
-
 
     /**
      * @brief Name of the Analysis
@@ -359,13 +336,6 @@ private:
      */
     Strings signal_file_names_;
 
-    std::string cut_method_name_;
-
-    std::string bdt_method_name_;
-
-    std::string weight_branch_name_;
-
-
     TCut cut_;
 
     /**
@@ -384,6 +354,44 @@ private:
 
     DetectorGeometry detector_geometry_;
 
+};
+
+template<typename Branch>
+class BranchTagger : public Tagger {
+
+protected:
+
+    template<typename Multiplet>
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet) {
+        if (multiplet.empty()) return multiplet;
+        std::sort(multiplet.begin(), multiplet.end());
+        multiplet.erase(multiplet.begin() + std::min(max_combi(), int(multiplet.size())), multiplet.end());
+        return multiplet;
+    }
+
+    template<typename Multiplet>
+    Branch branch(const Multiplet &multiplet) const {
+        Print(kInformation, "Branch");
+        Branch branch;
+        branch.Fill(multiplet);
+        return branch;
+    }
+
+    template<typename Multiplet>
+    int SaveEntries(const std::vector<Multiplet> &multiplets) {
+        for (const auto & multiplet : multiplets) static_cast<Branch &>(*tree_branch().NewEntry()) = branch(multiplet);
+        return multiplets.size();
+    }
+
+    TClass &Class() const {
+        return *Branch::Class();
+    }
+
+    Branch& branch() {
+        return &branch_;
+    }
+
+    Branch branch_;
 };
 
 }

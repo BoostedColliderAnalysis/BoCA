@@ -56,7 +56,7 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
             doublets.emplace_back(doublet);
         }
     }
-    return SaveEntries<WSemiBranch>(doublets);
+    return SaveEntries(doublets);
 }
 
 std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
@@ -74,7 +74,7 @@ std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Even
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto & doublet : post_doublets) {
             if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
-            branch_ = branch<WSemiBranch>(doublet);
+            branch_ = branch(doublet);
             doublet.SetBdt(Bdt(reader));
             doublets.emplace_back(doublet);
         }

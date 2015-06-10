@@ -44,7 +44,7 @@ int analysis::HiggsTagger::Train(analysis::Event &event, analysis::PreCuts &pre_
             doublets.emplace_back(doublet);
         }
     }
-    return SaveEntries<HiggsBranch>(doublets);
+    return SaveEntries(doublets);
 }
 
 std::vector<analysis::Doublet>  analysis::HiggsTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
@@ -56,7 +56,7 @@ std::vector<analysis::Doublet>  analysis::HiggsTagger::Multiplets(analysis::Even
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             analysis::Doublet doublet(*jet_1, *jet_2);
             if (doublet.Overlap()) continue;
-            branch_ = branch<HiggsBranch>(doublet);
+            branch_ = branch(doublet);
             doublet.SetBdt(Bdt(reader));
             doublets.emplace_back(doublet);
         }

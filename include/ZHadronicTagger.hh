@@ -11,7 +11,7 @@ namespace analysis {
  * @brief W BDT tagger
  *
  */
-class ZHadronicTagger : public Tagger
+class ZHadronicTagger : public BranchTagger<ZHadronicBranch>
 {
 
 public:
@@ -26,7 +26,7 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries<ZHadronicBranch>(Multiplets(event, reader));
+        return SaveEntries(Multiplets(event, reader));
     }
 
     virtual int GetBdt(Event &event, const TMVA::Reader &reader) {
@@ -48,9 +48,9 @@ public:
         return ZHadronicId(ZDaughters(event));
     };
 
-    TClass &Class() const {
-        return *ZHadronicBranch::Class();
-    }
+//     TClass &Class() const {
+//         return *ZHadronicBranch::Class();
+//     }
 
 
 protected:
@@ -67,7 +67,7 @@ private:
 
     void DefineVariables();
 
-    ZHadronicBranch branch_;
+//     ZHadronicBranch branch_;
 
     float z_mass_window_;
 

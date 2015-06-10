@@ -133,7 +133,7 @@ int analysis::TopHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts
         triplets = SortedByMassTo(triplets, Mass(TopId));
         triplets.erase(triplets.begin() + top_particles.size(), triplets.end());
     }
-    return SaveEntries<TopHadronicBranch>(triplets);
+    return SaveEntries(triplets);
 
 }
 
@@ -228,7 +228,7 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(const Dou
 analysis::Triplet analysis::TopHadronicTagger::Multiplet(Triplet &triplet, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     NSubJettiness(triplet);
-    branch_ = branch<TopHadronicBranch>(triplet);
+    branch_ = branch(triplet);
     triplet.SetBdt(Bdt(reader));
     return triplet;
 }

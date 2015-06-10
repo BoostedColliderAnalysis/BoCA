@@ -9,7 +9,7 @@ namespace analysis
  * @brief Bottom BDT tagger
  *
  */
-class TauTagger : public Tagger
+class TauTagger : public BranchTagger<TauBranch>
 {
 
 public:
@@ -28,15 +28,9 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *TauBranch::Class();
-    }
-
     void DefineVariables();
 
     Jets CleanJets(Jets &jets, const Jets &Particles, const analysis::Object::Tag Tag);
-
-    TauBranch branch_;
 
 };
 

@@ -223,14 +223,22 @@ struct Not5Quark {
     }
 };
 
-struct Absparticle_id {
-    Absparticle_id(const int id) {
+struct AbsParticleId {
+    AbsParticleId(const int id) {
         id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
         return (std::abs(Jet.user_info<JetInfo>().constituents().front().family().particle().Id) == id_);
     }
     int id_;
+};
+
+
+struct IsNeutrino {
+  bool operator()(const fastjet::PseudoJet &jet) {
+    const int particle_id = jet.user_info<JetInfo>().constituents().front().family().particle().Id;
+    return (particle_id == Object::ElectronNeutrinoId | particle_id == Object::MuonNeutrinoId | particle_id == Object::TauNeutrinoId);
+  }
 };
 
 
@@ -244,9 +252,18 @@ fastjet::PseudoJet PseudoJet(const TLorentzVector& vector)
 Jets copy_if_abs_particle(const Jets &jets, const int particle_id)
 {
     Jets final_jets(jets.size());;
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Absparticle_id(particle_id));
+    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsParticleId(particle_id));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
     return final_jets;
+}
+
+
+Jets copy_if_neutrino(const Jets &jets)
+{
+  Jets final_jets(jets.size());;
+  auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsNeutrino());
+  final_jets.resize(std::distance(final_jets.begin(), iterator));
+  return final_jets;
 }
 
 struct Id {

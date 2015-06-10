@@ -102,8 +102,6 @@ public:
         return std::abs(Jet().m() - Mass(particle_id));
     }
 
-protected:
-
     virtual inline std::string ClassName() const {
         return "Multiplet";
     }

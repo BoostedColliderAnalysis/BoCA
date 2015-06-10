@@ -1,121 +1,15 @@
-# include "HeavyHiggsLeptonicTagger.hh"
+# include "WimpMass.hh"
 # include "WIMPMASS.h"
 # include "Predicate.hh"
 
-heavyhiggs::HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
+analysis::WimpMass::WimpMass()
 {
     //     DebugLevel = analysis::Object::kDebug;
 
     Print(kNotification, "Constructor");
-    set_tagger_name("HeavyHiggsLeptonic");
-    top_leptonic_reader_.set_tagger(top_leptonic_tagger_);
-    DefineVariables();
 }
 
-void heavyhiggs::HeavyHiggsLeptonicTagger::DefineVariables()
-{
-
-    Print(kNotification , "Define Variables");
-
-    AddSpectator(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-
-    AddVariable(branch_.LargerWDeltaR, "LargerWDeltaR");
-    AddVariable(branch_.LargerWDeltaRap, "LargerWDeltaRap");
-    AddVariable(branch_.LargerWDeltaPhi, "LargerWDeltaPhi");
-
-    AddVariable(branch_.SmallerWDeltaR, "SmallerWDeltaR");
-    AddVariable(branch_.SmallerWDeltaRap, "SmallerWDeltaRap");
-    AddVariable(branch_.SmallerWDeltaPhi, "SmallerWDeltaPhi");
-
-    AddVariable(branch_.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
-    AddVariable(branch_.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
-    AddVariable(branch_.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
-
-    AddVariable(branch_.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
-    AddVariable(branch_.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
-    AddVariable(branch_.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
-
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
-}
-
-int heavyhiggs::HeavyHiggsLeptonicTagger::Train(analysis::Event &event, const Object::Tag tag)
-{
-    Print(kInformation, "Higgs Tags");
-
-    float Mass = event.mass();
-
-    std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
-
-    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
-    analysis::Jets neutrinos ;//= event.Partons().GetNeutrinos(); // TODO fix this!!
-
-    Print(kInformation, "Number of doublets", doublets.size());
-
-    std::vector<analysis::Sextet> sextets;
-    for (const auto & doublet1 : doublets) {
-        for (const auto & doublet2 : doublets) {
-            if (doublet1.SingletJet1() == doublet2.SingletJet1()) continue;
-            if (doublet1.SingletJet2() == doublet2.SingletJet2()) continue;
-            analysis::Quartet22 quartet(doublet1, doublet2);
-//             quartet.SetTag(GetTag(quartet));
-            if (quartet.Tag() != tag) continue;
-            std::vector<analysis::Sextet> Presextets;
-//             if (Tag == kSignal)
-            Presextets = Sextet(quartet, missing_et, neutrinos, tag);
-//             else Presextets = Getsextets(quartet, MissingEt);
-            for (const auto & sextet : Presextets) {
-//                 if (sextet.GetsextetJet().m() < 10) continue; // TODO do we need this
-                if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
-                sextets.emplace_back(sextet);
-            }
-        }
-    }
-    Print(kInformation, "Numeber of sextets", sextets.size());
-
-
-    if (tag == kSignal && sextets.size() > 1) {
-        Print(kError, "Higgs Candidates", sextets.size());
-        sextets = SortedByMassTo(sextets,Mass);
-        sextets.erase(sextets.begin() + 1, sextets.end());
-    }
-
-    return SaveEntries(sextets);
-}
-
-std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsLeptonicTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
-{
-    Print(kInformation, "Bdt");
-    std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
-    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
-
-    std::vector<analysis::Sextet> sextets;
-    for (const auto & doublet1 : doublets) {
-        for (const auto & doublet2 : doublets) {
-            if (doublet1.SingletJet1() == doublet2.SingletJet1()) continue;
-            if (doublet1.SingletJet2() == doublet2.SingletJet2()) continue;
-            analysis::Quartet22 quartet(doublet1, doublet2);
-            std::vector<analysis::Sextet> pre_sextets;
-            pre_sextets = Sextets(quartet, missing_et);
-            for (auto & sextet : pre_sextets) {
-                branch_ = branch(sextet);
-                sextet.SetBdt(Bdt(reader));
-                sextets.emplace_back(sextet);
-            }
-        }
-    }
-    return ReduceResult(sextets);
-}
-
-void heavyhiggs::HeavyHiggsLeptonicTagger::SetMomentum(double momentum[4], const fastjet::PseudoJet &jet)
+void analysis::WimpMass::SetMomentum(double momentum[4], const fastjet::PseudoJet &jet)
 {
     momentum[0] = jet.E();
     momentum[1] = jet.px();
@@ -123,7 +17,14 @@ void heavyhiggs::HeavyHiggsLeptonicTagger::SetMomentum(double momentum[4], const
     momentum[3] = jet.pz();
 }
 
-std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextets(const analysis::Quartet22& quartet, const fastjet::PseudoJet& missing_et)
+std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const std::vector<analysis::Quartet22>& quartets, const fastjet::PseudoJet& missing_et)
+{
+  std::vector<analysis::Sextet> sextets;
+  for(const auto quartet : quartets) JoinVectors(sextets,Sextets(quartet,missing_et));
+  return sextets;
+}
+
+std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const analysis::Quartet22& quartet, const fastjet::PseudoJet& missing_et)
 {
     Print(kInformation, "Triple Pairs");
 
@@ -172,14 +73,14 @@ std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextets(cons
         //         Print(kDebug, "Neutrino masses", Jet1.m(), Jet2.m());
         Print(kDebug, "W masses", (PseudoJet(P1[SolutionNumber]) + quartet.Doublet1().SingletJet2()).m(), (PseudoJet(P2[SolutionNumber]) + quartet.Doublet2().SingletJet2()).m());
         Print(kDebug, "top masses", (PseudoJet(P1[SolutionNumber]) + quartet.Doublet1().SingletJet2() + quartet.Doublet1().SingletJet1()).m(), (PseudoJet(P2[SolutionNumber]) + quartet.Doublet2().SingletJet2() + quartet.Doublet2().SingletJet1()).m());
-        //         Print(kDebug, "Higg mass", (Jet1 + Pair1.GetJet2() + Pair1.GetJet1() + Jet2 + Pair2.GetJet2() + Pair1.GetJet1()).m());
+        //         Print(kDebug, "Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
     }
 
     return sextets;
 
 }
 
-std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextet(const analysis::Quartet22& quartet, const fastjet::PseudoJet& missing_et, const analysis::Jets& neutrinos, const analysis::Object::Tag tag)
+std::vector<analysis::Sextet> analysis::WimpMass::Sextet(const analysis::Quartet22& quartet, const fastjet::PseudoJet& missing_et, const analysis::Jets& neutrinos, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Triple Pair");
 
@@ -233,10 +134,10 @@ std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextet(const
     if (tag == kSignal) Map.erase(std::next(Map.begin()), Map.end());
     else Map.erase(Map.begin());
 
-    std::vector<analysis::Sextet> final_sextets;
+    std::vector<analysis::Sextet> Finalsextet;
     for (const auto Pair : Map) {
       analysis::Sextet sextet = Pair.second;
-        final_sextets.emplace_back(sextet);
+        Finalsextet.emplace_back(sextet);
     }
 
 //     std::pair<float , Hsextet> Pair = *(Map.begin());
@@ -245,5 +146,5 @@ std::vector<analysis::Sextet> heavyhiggs::HeavyHiggsLeptonicTagger::Sextet(const
 
 //     Finalsextet.emplace_back(*(Map.begin()).second);
 
-    return final_sextets;
+    return Finalsextet;
 }

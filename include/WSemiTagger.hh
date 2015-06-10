@@ -9,7 +9,7 @@ namespace analysis {
  * @brief Semi leptonic top BDT tagger
  *
  */
-class WSemiTagger : public Tagger
+class WSemiTagger : public BranchTagger<WSemiBranch>
 {
 
 public:
@@ -22,7 +22,7 @@ public:
 
     int GetBdt(Event &event, const TMVA::Reader &reader) {
         std::vector<Doublet> doublets = Multiplets(event, reader);
-        SaveEntries<WSemiBranch>(doublets);
+        SaveEntries(doublets);
         return doublets.size();
     }
 
@@ -48,9 +48,9 @@ protected:
 
 private:
 
-    TClass &Class() const {
-      return *WSemiBranch::Class();
-    }
+//     TClass &Class() const {
+//       return *WSemiBranch::Class();
+//     }
 
     Jets WSemiDaughters(Event &event);
 
@@ -64,7 +64,7 @@ private:
 
     std::vector<Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
 
-    WSemiBranch branch_;
+//     WSemiBranch branch_;
 
     float w_mass_window_;
 

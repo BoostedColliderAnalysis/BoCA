@@ -40,7 +40,7 @@ void higgscpv::SignatureTagger::DefineVariables()
 int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "event Tags");
-    std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TripletPairTagger>(event);
+    std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
     analysis::Jets HiggsParticles = event.Partons().GenParticles();
@@ -75,7 +75,7 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
         std::sort(octets.begin(), octets.end());
         octets.erase(octets.begin() + 1, octets.end());
     }
-    return SaveEntries<higgscpv::OctetBranch>(octets);
+    return SaveEntries(octets);
 }
 
 
@@ -84,13 +84,13 @@ std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis:
     Print(kInformation, "event Tags");
 
     std::vector<analysis::Doublet> doublets = higgs_reader_.Multiplets<analysis::HiggsTagger>(event);
-    std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TripletPairTagger>(event);
+    std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
     std::vector<analysis::Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
             analysis::Octet62 octet(sextet, doublet);
             if (octet.Overlap()) continue;
-            branch_ = branch<higgscpv::OctetBranch>(octet);
+            branch_ = branch(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);
         }

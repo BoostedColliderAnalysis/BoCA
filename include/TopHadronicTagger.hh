@@ -9,7 +9,7 @@ namespace analysis {
  * @brief Hadronic top BDT tagger
  *
  */
-class TopHadronicTagger : public Tagger
+class TopHadronicTagger : public BranchTagger<TopHadronicBranch>
 {
 
 public:
@@ -45,7 +45,7 @@ public:
     }
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries<TopHadronicBranch>(Multiplets(event,pre_cuts, reader));
+        return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
     int GetBdt(Event &event, const TMVA::Reader &reader) {

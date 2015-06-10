@@ -11,7 +11,7 @@ namespace analysis
  * @brief Semi leptonic top BDT tagger
  *
  */
-class TopSemiTagger : public Tagger
+class TopSemiTagger : public BranchTagger<TopSemiBranch>
 {
 
 public:
@@ -30,7 +30,7 @@ public:
     std::vector<Triplet> CleanTriplet(const analysis::Triplet& triplet, fastjet::PseudoJet TopQuark, analysis::PreCuts& pre_cut, const analysis::Object::Tag tag);
 
     int GetBdt(Event &event, const TMVA::Reader &reader) {
-        return SaveEntries<TopSemiBranch>(Multiplets(event,reader));
+        return SaveEntries(Multiplets(event,reader));
     }
 
     std::vector<Triplet> Multiplets(Event &event, const TMVA::Reader &reader);
@@ -47,15 +47,9 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *TopSemiBranch::Class();
-    }
-
     bool boost_ = false;
 
     void DefineVariables();
-
-    TopSemiBranch branch_;
 
     float top_mass_window_;
 

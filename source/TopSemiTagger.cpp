@@ -74,7 +74,7 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
     }
     Print(kInformation, "Number triplets", triplets.size());
 
-    return SaveEntries<TopSemiBranch>(triplets);
+    return SaveEntries(triplets);
 }
 
 std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplets(const Triplet &triplet, Jets TopQuarks, PreCuts &pre_cuts, const Tag tag) {
@@ -107,7 +107,7 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
             for (const auto & doublet : doublets) {
                 Triplet triplet(doublet, Jet);
                 if (std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) continue;
-                branch_ = branch<TopSemiBranch>(triplet);
+                branch_ = branch(triplet);
                 triplet.SetBdt(Bdt(reader));
                 triplets.emplace_back(triplet);
             }
@@ -118,7 +118,7 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
                 Doublet doublet(Predoublet.SingletJet1());
                 Triplet triplet(doublet, Jet);
 //             if (std::abs(triplet.Jet().m() - Mass(TopId)) > TopWindow) continue; // reactivate this check
-                branch_ = branch<TopSemiBranch>(triplet);
+                branch_ = branch(triplet);
                 triplet.SetBdt(Bdt(reader));
                 triplets.emplace_back(triplet);
             }

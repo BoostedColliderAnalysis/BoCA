@@ -85,7 +85,7 @@ int heavyhiggs::EventFusionTagger::Train(analysis::Event &event, const Tag tag)
     for (const auto & Jet : jets)  sextet_event.AddRestJet(Jet);
     std::vector<analysis::MultipletEvent<analysis::Sextet>> sextet_events;
     sextet_events.emplace_back(sextet_event);
-    return SaveEntries<EventFusionBranch>(sextet_events);
+    return SaveEntries(sextet_events);
 }
 
 std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionTagger::Multiplets(analysis::Event &event, TMVA::Reader &reader)
@@ -100,7 +100,7 @@ std::vector<analysis::MultipletEvent<analysis::Sextet>> heavyhiggs::EventFusionT
         analysis::MultipletEvent<analysis::Sextet> sextet_event(sextet, analysis::GlobalObservables(event));
         for (const auto & Jet : jets)  sextet_event.AddRestJet(Jet);
         sextet_event.SetLeptons(Leptons);
-        branch_ = branch<EventFusionBranch>(sextet_event);
+        branch_ = branch(sextet_event);
         sextet_event.SetBdt(Bdt(reader));
         sextet_events.emplace_back(sextet_event);
     }

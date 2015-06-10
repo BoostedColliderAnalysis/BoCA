@@ -50,10 +50,7 @@ analysis::Tagger::Tagger()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
-    bdt_method_name_ = "Bdt";
-    weight_branch_name_ = "Info";
 }
-
 
 analysis::Observable analysis::Tagger::NewObservable(float &value, const std::string &title) const
 {

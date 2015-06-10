@@ -75,7 +75,7 @@ int heavyhiggs::HeavyHiggsTauTagger::Train(analysis::Event &event, const analysi
 //         }
     }
     Print(kInformation, "Number doublets", doublets.size());
-    return SaveEntries<HeavyHiggsTauBranch>(doublets);
+    return SaveEntries(doublets);
 }
 
 std::vector<analysis::Doublet>  heavyhiggs::HeavyHiggsTauTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
@@ -90,7 +90,7 @@ std::vector<analysis::Doublet>  heavyhiggs::HeavyHiggsTauTagger::Multiplets(anal
 //         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
 //         for (auto & Postdoublet : Postdoublets) {
 //             if (Postdoublet.Jet().m() < 10) continue;
-        branch_ = branch<HeavyHiggsTauBranch>(pre_doublet);
+        branch_ = branch(pre_doublet);
         pre_doublet.SetBdt(Bdt(reader));
         doublets.emplace_back(pre_doublet);
 //         }

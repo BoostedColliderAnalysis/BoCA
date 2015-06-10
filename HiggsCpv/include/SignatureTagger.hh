@@ -1,7 +1,7 @@
 # pragma once
 
 # include "HiggsTagger.hh"
-# include "TripletPairTagger.hh"
+# include "TopLeptonicPairTagger.hh"
 # include "Octet62.hh"
 
 namespace higgscpv {
@@ -11,7 +11,7 @@ namespace higgscpv {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureTagger : public analysis::Tagger
+class SignatureTagger : public analysis::BranchTagger<higgscpv::OctetBranch>
 {
 
 public:
@@ -34,17 +34,12 @@ protected:
 
 private:
 
-    TClass &Class() const {
-      return *OctetBranch::Class();
-    }
-
     void DefineVariables();
-
-    OctetBranch branch_;
 
     analysis::HiggsTagger higgs_tagger_;
 
-    TripletPairTagger triplet_pair_tagger_;
+//     TopSemiPairTagger triplet_pair_tagger_;
+    TopLeptonicPairTagger triplet_pair_tagger_;
 
     analysis::Reader higgs_reader_;
 

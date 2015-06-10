@@ -11,7 +11,7 @@ namespace analysis
  * @brief Bottom BDT tagger
  *
  */
-class BottomTagger : public Tagger
+class BottomTagger : public BranchTagger<BottomBranch>
 {
 
 public:
@@ -54,7 +54,7 @@ public:
         Jets jets = Multiplets(event, pre_cuts, reader);
         std::vector<Singlet> singlets;
         for(const auto &jet : jets) singlets.emplace_back(Singlet(jet));
-        return SaveEntries<BottomBranch>(singlets);
+        return SaveEntries(singlets);
     }
 
     /**
@@ -93,10 +93,6 @@ private:
         return Multiplets(jets,pre_cuts,reader);
     }
 
-    TClass &Class() const {
-        return *BottomBranch::Class();
-    }
-
     void DefineVariables();
 
     Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag);
@@ -104,8 +100,6 @@ private:
     Jets SubJets(const Jets &jets, const int sub_jet_number);
 
     Jets TrainOnSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag, const int sub_jet_number);
-
-    BottomBranch branch_;
 
 };
 

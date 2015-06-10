@@ -11,7 +11,7 @@ namespace analysis
    * @brief Semi leptonic heavy higgs BDT tagger
    *
    */
-  class HiggsTagger : public Tagger
+  class HiggsTagger : public BranchTagger<HiggsBranch>
   {
 
   public:
@@ -30,13 +30,7 @@ namespace analysis
 
   private:
 
-    TClass &Class() const {
-      return *HiggsBranch::Class();
-    }
-
     void DefineVariables();
-
-    HiggsBranch branch_;
 
     BottomTagger bottom_tagger_;
 

@@ -244,5 +244,52 @@ private:
   ClassDef(TripletPairBranch, 1)
 
 };
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class QuartetPairBranch : public analysis::PairBranch
+{
+
+  QuartetPairBranch();
+
+  float BottomMass;
+  float BottomPt;
+  float BottomRap;
+  float BottomPhi;
+  float BottomBdt;
+  float BottomBTag;
+
+  float TopMass;
+  float TopPt;
+  float TopRap;
+  float TopPhi;
+  float TopBdt;
+  float TopBTag;
+
+  template<typename Multiplet>
+  void Fill(const Multiplet &multiplet) {
+    PairBranch::Fill(multiplet);
+    BottomPt = multiplet.Doublet1().Jet().pt();
+    //         BottomRap = std::abs(multiplet.singlet().rap());
+    BottomRap = multiplet.Doublet1().Jet().rap();
+    BottomPhi = multiplet.Doublet1().Jet().phi();
+    BottomMass = multiplet.Doublet1().Jet().m();
+    //         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
+
+    TopPt = multiplet.Doublet2().Jet().pt();
+    //         TopRap = std::abs(multiplet.triplet().Jet().rap());
+    TopRap = multiplet.Doublet2().Jet().rap();
+    TopPhi = multiplet.Doublet2().Jet().phi();
+    TopMass = multiplet.Doublet2().Jet().m();
+    TopBdt = multiplet.Doublet2().Bdt();
+  }
+
+private:
+
+  ClassDef(QuartetPairBranch, 1)
+
+};
 
 }

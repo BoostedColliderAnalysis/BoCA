@@ -55,7 +55,7 @@ int analysis::BottomTagger::Train(analysis::Event &event, PreCuts &pre_cuts, con
 
     std::vector<Singlet> singlets;
     for (const auto & jet : final_jets) singlets.emplace_back(Singlet(jet));
-    SaveEntries<BottomBranch>(singlets);
+    SaveEntries(singlets);
     Print(kInformation, "Final jet Number", final_jets.size());
     return final_jets.size();
 }
@@ -139,7 +139,7 @@ analysis::Jets analysis::BottomTagger::Multiplets(const Jets &jets, PreCuts &pre
 
 fastjet::PseudoJet analysis::BottomTagger::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
-    branch_ = branch<BottomBranch>(Singlet(jet));
+    branch_ = branch(Singlet(jet));
     static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
     return jet;
 }

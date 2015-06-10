@@ -88,7 +88,7 @@ int heavyhiggs::HeavyHiggsSemiTagger::Train(analysis::Event &event, analysis::Pr
         sextets.erase(sextets.begin() + heavy_higgs_number, sextets.end());
     }
 
-    return SaveEntries<HeavyHiggsSemiBranch>(sextets);
+    return SaveEntries(sextets);
 }
 
 std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsSemiTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
@@ -100,7 +100,7 @@ std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsSemiTagger::Multiplets(anal
         for (const auto & triplet_hadronic : triplets_hadronic) {
           analysis::Sextet sextet(triplet_semi, triplet_hadronic);
             if (sextet.Overlap()) continue;
-            branch_ = branch<HeavyHiggsSemiBranch>(sextet);
+            branch_ = branch(sextet);
             sextet.SetBdt(Bdt(reader));
             sextets.emplace_back(sextet);
         }

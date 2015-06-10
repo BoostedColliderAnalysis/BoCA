@@ -10,8 +10,8 @@ namespace analysis {
  * @brief W BDT tagger
  *
  */
-template <typename DoubletBranch>
-class DoubletTagger : public Tagger
+// template <typename DoubletBranch>
+class DoubletTagger : public BranchTagger<DoubletBranch>
 {
 
 public:
@@ -26,7 +26,7 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries<DoubletBranch>(Multiplets(event, reader));
+        return SaveEntries(Multiplets(event, reader));
     }
 
     virtual int GetBdt(Event &event, const TMVA::Reader &reader) {
@@ -58,9 +58,9 @@ private:
 
     Reader bottom_reader_;
 
-    TClass &Class() const {
-        return *DoubletBranch::Class();
-    }
+//     TClass &Class() const {
+//         return *DoubletBranch::Class();
+//     }
 
     void DefineVariables();
 

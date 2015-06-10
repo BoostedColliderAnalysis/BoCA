@@ -35,7 +35,7 @@ void analysis::TopLeptonicTagger::DefineVariables()
 int analysis::TopLeptonicTagger::Train(Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Train");
-    int number_of_tops = 1;
+    int number_of_tops = 2;
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kInformation, "Jet Number", jets.size());
 
@@ -56,7 +56,7 @@ int analysis::TopLeptonicTagger::Train(Event &event, const Object::Tag tag)
         doublets.erase(doublets.begin() + number_of_tops, doublets.end());
     }
 
-    return SaveEntries<TopLeptonicBranch>(doublets);
+    return SaveEntries(doublets);
 
 }
 
@@ -69,7 +69,7 @@ std::vector<analysis::Doublet>  analysis::TopLeptonicTagger::Multiplets(Event &e
     for (const auto & lepton : leptons) {
         for (const auto & jet : jets) {
           Doublet doublet(jet, lepton);
-          branch_ = branch<TopLeptonicBranch>(doublet);
+          branch_ = branch(doublet);
             doublet.SetBdt(Bdt(reader));
             doublets.emplace_back(doublet);
         }

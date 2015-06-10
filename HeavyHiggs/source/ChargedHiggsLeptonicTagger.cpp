@@ -75,7 +75,7 @@ int heavyhiggs::ChargedHiggsLeptonicTagger::Train(analysis::Event &event, const 
         triplets.erase(triplets.begin() + 1, triplets.end());
     }
 
-    return SaveEntries<ChargedHiggsLeptonicBranch>(triplets);
+    return SaveEntries(triplets);
 }
 
 std::vector<analysis::Triplet>  heavyhiggs::ChargedHiggsLeptonicTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
@@ -93,7 +93,7 @@ std::vector<analysis::Triplet>  heavyhiggs::ChargedHiggsLeptonicTagger::Multiple
 //             std::vector<Quartet31> Prequartets;
 //             Prequartets = Getquartets(quartet, MissingEt);
 //             for (auto & quartet : Prequartets) {
-                branch_ = branch<ChargedHiggsLeptonicBranch>(triplet);
+                branch_ = branch(triplet);
                 triplet.SetBdt(Bdt(reader));
                 triplets.emplace_back(triplet);
 //             }

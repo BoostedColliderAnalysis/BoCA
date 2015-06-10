@@ -11,7 +11,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventFusionTagger : public analysis::Tagger
+class EventFusionTagger : public analysis::BranchTagger<EventFusionBranch>
 {
 
 public:
@@ -38,15 +38,9 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *EventFusionBranch::Class();
-    }
-
     void DefineVariables();
 
     std::vector<analysis::MultipletEvent<analysis::Sextet>> GetHeavyHiggsevents(analysis::Jets &jets);
-
-    EventFusionBranch branch_;
 
     analysis::BottomTagger bottom_tagger_;
 

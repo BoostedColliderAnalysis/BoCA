@@ -56,9 +56,10 @@ Tagger.cpp
 Factory.cpp
 Reader.cpp
 
+WimpMass.cpp
 BottomTagger.cpp
 TauTagger.cpp
-DoubletTagger.cpp
+# DoubletTagger.cpp
 ZHadronicTagger.cpp
 WHadronicTagger.cpp
 WSemiTagger.cpp

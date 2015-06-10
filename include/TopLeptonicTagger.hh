@@ -11,7 +11,7 @@ namespace analysis
  * @brief Top leptonic BDT tagger
  *
  */
-class TopLeptonicTagger : public Tagger
+class TopLeptonicTagger : public BranchTagger<TopLeptonicBranch>
 {
 
 public:

@@ -89,7 +89,7 @@ int heavyhiggs::ChargedHiggsSemiTagger::Train(analysis::Event &event, const Tag 
         quartets.erase(quartets.begin() + 1, quartets.end());
     }
 
-    return SaveEntries<ChargedHiggsSemiBranch>(quartets);
+    return SaveEntries(quartets);
 }
 
 std::vector<analysis::Quartet31>  heavyhiggs::ChargedHiggsSemiTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
@@ -102,7 +102,7 @@ std::vector<analysis::Quartet31>  heavyhiggs::ChargedHiggsSemiTagger::Multiplets
         for (const auto & jet : jets) {
             if (triplet.SingletJet().delta_R(jet) < detector_geometry().JetConeSize) continue;
             analysis::Quartet31 quartet(triplet, jet);
-            branch_ = branch<ChargedHiggsSemiBranch>(quartet);
+            branch_ = branch(quartet);
             quartet.SetBdt(Bdt(reader));
             quartets.emplace_back(quartet);
         }

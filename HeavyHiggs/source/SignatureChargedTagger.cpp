@@ -57,7 +57,7 @@ int heavyhiggs::SignatureChargedTagger::Train(analysis::Event &event, const Tag 
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
-    return SaveEntries<OctetChargedBranch>(octets);
+    return SaveEntries(octets);
 }
 
 
@@ -72,7 +72,7 @@ std::vector<heavyhiggs::Octet44> heavyhiggs::SignatureChargedTagger::Multiplets(
         for (const auto & higgs_quartet : higgs_quartets) {
             Octet44 octet(higgs_quartet, jet_quartet);
             if (octet.Overlap()) continue;
-            branch_ = branch<OctetChargedBranch>(octet);
+            branch_ = branch(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);
         }

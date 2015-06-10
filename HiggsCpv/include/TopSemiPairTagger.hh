@@ -12,12 +12,12 @@ namespace higgscpv
  * @brief JetPair BDT tagger
  *
  */
-class TripletPairTagger : public analysis::Tagger
+class TopSemiPairTagger : public analysis::BranchTagger<TripletPairBranch>
 {
 
 public:
 
-    TripletPairTagger();
+    TopSemiPairTagger();
 
     int Train(analysis::Event &event, const Tag tag);
 
@@ -35,13 +35,7 @@ protected:
 
 private:
 
-    virtual TClass &Class() const {
-        return *TripletPairBranch::Class();
-    }
-
     void DefineVariables();
-
-    TripletPairBranch branch_;
 
     analysis::TopSemiTagger top_semi_tagger_;
 

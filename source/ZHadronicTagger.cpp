@@ -88,7 +88,7 @@ int analysis::ZHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
         doublets = SortedByMassTo(doublets, Mass(ZId));
         doublets.erase(doublets.begin() + z_particles.size(), doublets.end());
     }
-    return SaveEntries<ZHadronicBranch>(doublets);
+    return SaveEntries(doublets);
 }
 
 
@@ -170,7 +170,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastj
     Doublet doublet(jet_1, jet_2);
     if (doublet.DeltaR() < detector_geometry().MinCellResolution) return doublets;
     if (std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) return doublets;
-    branch_ = branch<ZHadronicBranch>(doublet);
+    branch_ = branch(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);
     return doublets;
@@ -188,7 +188,7 @@ std::vector<analysis::Doublet> analysis::ZHadronicTagger::Multiplets(const fastj
 //     else doublet.SetSinglets(subjets.at(0), subjets.at(1));
     else doublet.SetMultiplets(subjets.at(0), subjets.at(1));
     if (std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window_) return doublets;
-    branch_ = branch<ZHadronicBranch>(doublet);
+    branch_ = branch(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);
     return doublets;

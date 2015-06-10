@@ -12,7 +12,7 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerTagger : public analysis::Tagger
+class TopPartnerTagger : public analysis::BranchTagger<TopPartnerBranch>
 {
 
 public:
@@ -31,13 +31,7 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *TopPartnerBranch::Class();
-    }
-
     void DefineVariables();
-
-    TopPartnerBranch branch_;
 
     analysis::TopHadronicTagger top_tagger_;
 

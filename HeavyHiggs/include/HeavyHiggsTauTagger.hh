@@ -12,7 +12,7 @@ namespace heavyhiggs
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HeavyHiggsTauTagger : public analysis::Tagger
+class HeavyHiggsTauTagger : public analysis::BranchTagger<HeavyHiggsTauBranch>
 {
 
 public:
@@ -31,13 +31,7 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *HeavyHiggsTauBranch::Class();
-    }
-
     void DefineVariables();
-
-    HeavyHiggsTauBranch branch_;
 
     analysis::TauTagger tau_tagger_;
 

@@ -107,7 +107,7 @@ int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
         if (doublets.size() > 1) doublets.erase(doublets.begin() + 1, doublets.end());
     }
 
-    return SaveEntries<JetPairBranch>(doublets);
+    return SaveEntries(doublets);
 
 }
 
@@ -123,7 +123,7 @@ std::vector<analysis::Doublet>  analysis::JetPairTagger::Multiplets(Event &event
 //             for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
 //             if (doublet.RestJets().size() != jets.size() - 2) Print(kError, "to many jets in the rest jet vector");
 //             if (std::abs(doublet.DeltaRap()) < detector_geometry().JetConeSize) continue;
-            branch_ = branch<JetPairBranch>(doublet);
+            branch_ = branch(doublet);
             doublet.SetBdt(Bdt(reader));
             doublets.emplace_back(doublet);
         }

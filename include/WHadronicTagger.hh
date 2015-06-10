@@ -10,7 +10,7 @@ namespace analysis {
  * @brief W BDT tagger
  *
  */
-class WHadronicTagger : public Tagger
+class WHadronicTagger : public BranchTagger<WHadronicBranch>
 {
 
 public:
@@ -25,7 +25,7 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries<WHadronicBranch>(Multiplets(event, reader));
+        return SaveEntries(Multiplets(event, reader));
     }
 
     virtual int GetBdt(Event &event, const TMVA::Reader &reader) {

@@ -100,3 +100,22 @@ higgscpv::TripletPairBranch::TripletPairBranch()
     TopBdt = InitialValue();
     TopBTag = InitialValue();
 }
+
+
+ClassImp(higgscpv::QuartetPairBranch)
+
+higgscpv::QuartetPairBranch::QuartetPairBranch()
+{
+  BottomMass = InitialValue();
+  BottomPt = InitialValue();
+  BottomRap = InitialValue();
+  BottomPhi = InitialValue();
+  BottomBdt = InitialValue();
+  BottomBTag = InitialValue();
+  TopMass = InitialValue();
+  TopPt = InitialValue();
+  TopRap = InitialValue();
+  TopPhi = InitialValue();
+  TopBdt = InitialValue();
+  TopBTag = InitialValue();
+}

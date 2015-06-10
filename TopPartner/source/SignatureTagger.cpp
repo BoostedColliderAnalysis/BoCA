@@ -53,10 +53,10 @@ int toppartner::SignatureTagger::Train(analysis::Event &event, analysis::PreCuts
             }
         }
     }
-    return SaveEntries<SignatureBranch>(quattuordecuplets);
+    return SaveEntries(quattuordecuplets);
 }
 
-std::vector< toppartner::Quattuordecuplet > toppartner::SignatureTagger::Quintets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector< toppartner::Quattuordecuplet > toppartner::SignatureTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     std::vector< analysis::Quintet> quintets = top_partner_reader_.Multiplets<TopPartnerTagger>(event);
     std::vector< analysis::Doublet> doublets = higgs_reader_.Multiplets<analysis::HiggsTagger>(event);
@@ -71,7 +71,7 @@ std::vector< toppartner::Quattuordecuplet > toppartner::SignatureTagger::Quintet
 
 //                     Quattuordecuplet quattuordecuplet(*quintet_1, *quintet_2, *doublet_1, *doublet_2);
                     if (quattuordecuplet.Overlap()) continue;
-                    branch_ = branch<SignatureBranch>(quattuordecuplet);
+                    branch_ = branch(quattuordecuplet);
                     quattuordecuplet.SetBdt(Bdt(reader));
                     quattuordecuplets.emplace_back(quattuordecuplet);
                 }

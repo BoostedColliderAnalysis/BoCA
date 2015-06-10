@@ -91,7 +91,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
         octets.erase(octets.begin() + 1, octets.end());
     }
 
-    return SaveEntries<OctetNeutralBranch>(octets);
+    return SaveEntries(octets);
 
 }
 
@@ -107,7 +107,7 @@ std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(an
         for (const auto & sextet : sextets) {
             analysis::Octet62 octet(sextet, doublet);
             if(octet.Overlap()) continue;
-            branch_ = branch<OctetNeutralBranch>(octet);
+            branch_ = branch(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);
         }

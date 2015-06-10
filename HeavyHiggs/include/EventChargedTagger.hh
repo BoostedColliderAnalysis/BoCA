@@ -11,7 +11,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventChargedTagger : public analysis::Tagger
+class EventChargedTagger : public analysis::BranchTagger<EventChargedBranch>
 {
 
 public:
@@ -38,10 +38,6 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *EventChargedBranch::Class();
-    }
-
     void DefineVariables();
 
     analysis::BottomTagger bottom_tagger_;
@@ -51,8 +47,6 @@ private:
     analysis::Reader bottom_reader_;
 
     analysis::Reader signature_semi_reader_;
-
-    EventChargedBranch branch_;
 
 };
 

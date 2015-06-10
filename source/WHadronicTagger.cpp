@@ -114,7 +114,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
         std::sort(doublets.begin(), doublets.end(), SortByMassTo(Mass(WId)));
         doublets.erase(doublets.begin() + w_particles.size(), doublets.end());
     }
-    return SaveEntries<WHadronicBranch>(doublets);
+    return SaveEntries(doublets);
 }
 
 
@@ -212,7 +212,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(Doublet &dou
     Print(kInformation, "doublet Bdt");
     std::vector<Doublet>  doublets;
     if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) return doublets;
-    branch_ = branch<WHadronicBranch>(doublet);
+    branch_ = branch(doublet);
     doublet.SetBdt(Bdt(reader));
     doublets.emplace_back(doublet);
     return doublets;

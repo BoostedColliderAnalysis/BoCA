@@ -10,7 +10,7 @@ namespace heavyhiggs {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventNeutralTagger : public analysis::Tagger
+class EventNeutralTagger : public analysis::BranchTagger<EventNeutralBranch>
 {
 
 public:
@@ -45,13 +45,7 @@ private:
 
     analysis::Reader bottom_reader_;
 
-    TClass &Class() const {
-      return *EventNeutralBranch::Class();
-    }
-
   void DefineVariables();
-
-    EventNeutralBranch branch_;
 
 };
 

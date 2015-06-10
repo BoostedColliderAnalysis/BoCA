@@ -1,7 +1,7 @@
-# include "TripletPairTagger.hh"
+# include "TopSemiPairTagger.hh"
 # include "Predicate.hh"
 
-higgscpv::TripletPairTagger::TripletPairTagger()
+higgscpv::TopSemiPairTagger::TopSemiPairTagger()
 {
     Print(kNotification, "Constructor");
     set_tagger_name("TripletJetJetPair");
@@ -10,7 +10,7 @@ higgscpv::TripletPairTagger::TripletPairTagger()
     DefineVariables();
 }
 
-void higgscpv::TripletPairTagger::DefineVariables()
+void higgscpv::TopSemiPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -41,7 +41,7 @@ void higgscpv::TripletPairTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int higgscpv::TripletPairTagger::Train(analysis::Event &event, const Tag tag)
+int higgscpv::TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "W Tags");
     std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
@@ -73,10 +73,10 @@ int higgscpv::TripletPairTagger::Train(analysis::Event &event, const Tag tag)
         sextets = analysis::SortByMaxDeltaRap(sextets);
         if (sextets.size() > 1)sextets.erase(sextets.begin() + 1, sextets.end());
     }
-    return SaveEntries<TripletPairBranch>(sextets);
+    return SaveEntries(sextets);
 }
 
-std::vector< analysis::Sextet > higgscpv::TripletPairTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
+std::vector< analysis::Sextet > higgscpv::TopSemiPairTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
 {
     std::vector<analysis::Triplet> triplets_semi = top_semi_reader_.Multiplets<analysis::TopSemiTagger>(event);
     std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
@@ -84,7 +84,7 @@ std::vector< analysis::Sextet > higgscpv::TripletPairTagger::Multiplets(analysis
     for (const auto & triplet_hadronic : triplets_hadronic)
         for (const auto & triplet_semi : triplets_semi)  {
             analysis::Sextet sextet(triplet_hadronic, triplet_semi);
-            branch_ = branch<TripletPairBranch>(sextet);
+            branch_ = branch(sextet);
             if(sextet.Overlap()) continue;
             sextet.SetBdt(Bdt(reader));
             sextets.emplace_back(sextet);

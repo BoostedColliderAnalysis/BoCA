@@ -12,7 +12,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureChargedTagger : public analysis::Tagger
+class SignatureChargedTagger : public analysis::BranchTagger<OctetChargedBranch>
 {
 
 public:
@@ -39,10 +39,6 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *OctetChargedBranch::Class();
-    }
-
     ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
 
     analysis::TripletJetPairTagger triplet_jet_pair_tagger_;
@@ -52,8 +48,6 @@ private:
     analysis::Reader triplet_jet_pair_reader_;
 
     void DefineVariables();
-
-    OctetChargedBranch branch_;
 
 };
 

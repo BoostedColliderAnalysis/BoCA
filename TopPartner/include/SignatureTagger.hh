@@ -11,7 +11,7 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureTagger : public analysis::Tagger
+class SignatureTagger : public analysis::BranchTagger<SignatureBranch>
 {
 
 public:
@@ -20,7 +20,7 @@ public:
 
     int Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
-    std::vector<Quattuordecuplet> Quintets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<Quattuordecuplet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -30,13 +30,7 @@ protected:
 
 private:
 
-    TClass &Class() const {
-      return *SignatureBranch::Class();
-    }
-
     void DefineVariables();
-
-    SignatureBranch branch_;
 
     TopPartnerTagger top_partner_tagger_;
 

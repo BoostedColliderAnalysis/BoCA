@@ -11,7 +11,7 @@ namespace analysis
  * @brief JetPair BDT tagger
  *
  */
-class JetPairTagger : public Tagger
+class JetPairTagger : public BranchTagger<JetPairBranch>
 {
 
 public:
@@ -30,17 +30,11 @@ protected:
 
 private:
 
-    TClass &Class() const {
-      return *JetPairBranch::Class();
-    }
-
     void DefineVariables();
 
     BottomTagger bottom_tagger_;
 
     Reader bottom_reader_;
-
-    JetPairBranch branch_;
 
 };
 

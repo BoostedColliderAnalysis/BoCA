@@ -11,7 +11,7 @@ namespace heavyhiggs {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureNeutralTagger : public analysis::Tagger
+class SignatureNeutralTagger : public analysis::BranchTagger<OctetNeutralBranch>
 {
 
 public:
@@ -38,15 +38,9 @@ protected:
 
 private:
 
-    TClass &Class() const {
-      return *OctetNeutralBranch::Class();
-    }
-
     void DefineVariables();
 
     std::vector<analysis::Octet62> GetHeavyHiggsevents(analysis::Jets &jets);
-
-    OctetNeutralBranch branch_;
 
     HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
 

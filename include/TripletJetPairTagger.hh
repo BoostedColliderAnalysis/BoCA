@@ -10,7 +10,7 @@ namespace analysis
  * @brief JetPair BDT tagger
  *
  */
-class TripletJetPairTagger : public Tagger
+class TripletJetPairTagger : public BranchTagger<TripletJetPairBranch>
 {
 
 public:
@@ -29,13 +29,7 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *TripletJetPairBranch::Class();
-    }
-
     void DefineVariables();
-
-    TripletJetPairBranch branch_;
 
     BottomTagger bottom_tagger_;
 

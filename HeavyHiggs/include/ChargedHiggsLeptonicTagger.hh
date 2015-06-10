@@ -11,7 +11,7 @@ namespace heavyhiggs
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class ChargedHiggsLeptonicTagger : public analysis::Tagger
+class ChargedHiggsLeptonicTagger : public analysis::BranchTagger<ChargedHiggsLeptonicBranch>
 {
 
 public:
@@ -30,10 +30,6 @@ protected:
 
 private:
 
-    virtual TClass &Class() const {
-        return *ChargedHiggsLeptonicBranch::Class();
-    }
-
     void DefineVariables();
 
     analysis::BottomTagger bottom_tagger_;
@@ -43,8 +39,6 @@ private:
     analysis::Reader bottom_reader_;
 
     analysis::Reader top_leptonic_reader_;
-
-    ChargedHiggsLeptonicBranch branch_;
 
 };
 

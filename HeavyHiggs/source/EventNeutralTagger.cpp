@@ -103,7 +103,7 @@ int heavyhiggs::EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
         for (const auto & Jet : jets)  octetevent.AddRestJet(Jet);
         events.emplace_back(octetevent);
     }
-    return SaveEntries<EventNeutralBranch>(events);
+    return SaveEntries(events);
 }
 
 std::vector<analysis::MultipletEvent<analysis::Octet62>> heavyhiggs::EventNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
@@ -122,7 +122,7 @@ std::vector<analysis::MultipletEvent<analysis::Octet62>> heavyhiggs::EventNeutra
         octetevent.SetLeptons(Leptons);
         octetevent.SetTotalJets(jets);
 //         octetevent.SetSubJets(SubJets);
-        branch_ = branch<EventNeutralBranch>(octetevent);
+        branch_ = branch(octetevent);
         octetevent.SetBdt(Bdt(reader));
         events.emplace_back(octetevent);
     }

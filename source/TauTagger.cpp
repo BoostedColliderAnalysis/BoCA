@@ -51,7 +51,7 @@ int analysis::TauTagger::Train(analysis::Event &event, const analysis::Object::T
 //     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
     std::vector<Singlet> singlets;
     for (const auto final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
-    return SaveEntries<TauBranch>(singlets);
+    return SaveEntries(singlets);
 }
 
 // analysis::Jets analysis::TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
@@ -184,7 +184,7 @@ analysis::Jets analysis::TauTagger::Multiplets(Event &event, const TMVA::Reader 
 //             Print(kInformation, "Empty Piece");
 //             continue;
 //         }
-        branch_ = branch<TauBranch>(Singlet(jet));
+        branch_ = branch(Singlet(jet));
         static_cast<JetInfo *>(jet.user_info_shared_ptr().get())->SetBdt(Bdt(reader));
         final_jets.emplace_back(jet);
     }

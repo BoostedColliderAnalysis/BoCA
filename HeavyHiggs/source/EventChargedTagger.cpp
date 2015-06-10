@@ -108,7 +108,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 //     for (const auto & event : events)eventSemiBranches.emplace_back(GetBranch(event));
 
 //     return eventSemiBranches;
-    return SaveEntries<EventChargedBranch>(events);
+    return SaveEntries(events);
 }
 
 // analysis::GlobalObservables heavyhiggs::EventChargedTagger::global_observables(analysis::Event &event){
@@ -140,7 +140,7 @@ std::vector<analysis::MultipletEvent<heavyhiggs::Octet44>> heavyhiggs::EventChar
         octetevent.SetLeptons(Leptons);
         octetevent.SetTotalJets(jets);
 //         octetevent.SetSubJets(SubJets);
-        branch_ = branch<EventChargedBranch>(octetevent);
+        branch_ = branch(octetevent);
         octetevent.SetBdt(Bdt(reader));
         events.emplace_back(octetevent);
     }

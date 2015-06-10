@@ -12,7 +12,7 @@ namespace heavyhiggs
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsLeptonicTagger : public analysis::Tagger
+class HeavyHiggsLeptonicTagger : public analysis::BranchTagger<HeavyHiggsLeptonicBranch>
 {
 
 public:
@@ -31,29 +31,23 @@ protected:
 
 private:
 
-    virtual TClass &Class() const {
-        return *HeavyHiggsLeptonicBranch::Class();
-    }
-
     void DefineVariables();
 
     void SetMomentum(double momentum[4], const fastjet::PseudoJet &jet);
 
-    inline fastjet::PseudoJet GetJet(const double Momentum[4]) const {
+    inline fastjet::PseudoJet PseudoJet(const double Momentum[4]) const {
         // wimpmass (E,px,py,pz)
         // fastjet (px,py,pz,E)
         return fastjet::PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
     }
 
-    std::vector<analysis::Sextet> sextet(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const analysis::Jets &neutrinos, const Object::Tag tag);
+    std::vector<analysis::Sextet> Sextet(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const analysis::Jets &neutrinos, const Object::Tag tag);
 
     std::vector<analysis::Sextet> Sextets(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
 
     analysis::TopLeptonicTagger top_leptonic_tagger_;
 
     analysis::Reader top_leptonic_reader_;
-
-    HeavyHiggsLeptonicBranch branch_;
 
 };
 
