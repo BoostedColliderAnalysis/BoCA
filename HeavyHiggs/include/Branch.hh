@@ -263,8 +263,8 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.Singlet1().pt();
-        NeutrinoPt = multiplet.Singlet2().pt();
+        LeptonPt = multiplet.SingletJet1().pt();
+        NeutrinoPt = multiplet.SingletJet2().pt();
     }
 
 private:

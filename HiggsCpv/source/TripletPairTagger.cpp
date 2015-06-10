@@ -64,7 +64,7 @@ int higgscpv::TripletPairTagger::Train(analysis::Event &event, const Tag tag)
     for (const auto & triplet_hadronic : triplets_hadronic)
         for (const auto & triplet_semi : triplets_semi) {
             analysis::Sextet sextet(triplet_hadronic, triplet_semi);
-            if(sextet.overlap()) continue;
+            if(sextet.Overlap()) continue;
             sextets.emplace_back(sextet);
         }
 
@@ -85,7 +85,7 @@ std::vector< analysis::Sextet > higgscpv::TripletPairTagger::Multiplets(analysis
         for (const auto & triplet_semi : triplets_semi)  {
             analysis::Sextet sextet(triplet_hadronic, triplet_semi);
             branch_ = branch<TripletPairBranch>(sextet);
-            if(sextet.overlap()) continue;
+            if(sextet.Overlap()) continue;
             sextet.SetBdt(Bdt(reader));
             sextets.emplace_back(sextet);
         }

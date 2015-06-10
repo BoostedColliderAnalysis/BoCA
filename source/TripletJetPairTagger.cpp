@@ -110,7 +110,7 @@ int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets) {
             Quartet31 quartet(triplet, Jet);
-            if(quartet.overlap()) continue;
+            if(quartet.Overlap()) continue;
 //             if (quartet.DeltaR() < 2) continue;
 //             quartet.SetTag(GetTag(quartet));
 //             if (quartet.Tag() != Tag) continue;
@@ -142,7 +142,7 @@ std::vector<analysis::Quartet31>  analysis::TripletJetPairTagger::Multiplets(Eve
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {
             Quartet31 quartet(triplet, Jet);
-            if(quartet.overlap()) continue;
+            if(quartet.Overlap()) continue;
             branch_ = branch<TripletJetPairBranch>(quartet);
             quartet.SetBdt(Bdt(reader));
             quartets.emplace_back(quartet);

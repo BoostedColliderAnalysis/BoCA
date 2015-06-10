@@ -55,7 +55,7 @@ int heavyhiggs::ChargedHiggsLeptonicTagger::Train(analysis::Event &event, const 
     std::vector<analysis::Triplet> triplets;
     for (const auto & doublet : doublets) {
         for (const auto & Jet : jets)  {
-            if (doublet.Singlet1() == Jet) continue;
+            if (doublet.SingletJet1() == Jet) continue;
             analysis::Triplet triplet(doublet, Jet);
 //             triplet.SetTag(GetTag(triplet));
             if (triplet.Tag() != tag) continue;
@@ -87,7 +87,7 @@ std::vector<analysis::Triplet>  heavyhiggs::ChargedHiggsLeptonicTagger::Multiple
   std::vector<analysis::Triplet> triplets;
     for (const auto & doublet : doublets) {
         for (const auto & jet : jets)  {
-            if (doublet.Singlet1() == jet) continue;
+            if (doublet.SingletJet1() == jet) continue;
             analysis::Triplet triplet(doublet, jet);
 //             triplet.SetTag(GetTag(triplet));
 //             std::vector<Quartet31> Prequartets;

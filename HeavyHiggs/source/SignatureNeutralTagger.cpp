@@ -66,7 +66,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
             for (const auto & doublet : doublets) {
-                if ((doublet.Singlet1().delta_R(Particles.at(0)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(1)) < detector_geometry().JetConeSize) || (doublet.Singlet1().delta_R(Particles.at(1)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(0)) < detector_geometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
+                if ((doublet.SingletJet1().delta_R(Particles.at(0)) < detector_geometry().JetConeSize && doublet.SingletJet2().delta_R(Particles.at(1)) < detector_geometry().JetConeSize) || (doublet.SingletJet1().delta_R(Particles.at(1)) < detector_geometry().JetConeSize && doublet.SingletJet2().delta_R(Particles.at(0)) < detector_geometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
             }
         }
     }
@@ -78,7 +78,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
             if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
             if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
             analysis::Octet62 octet(sextet, doublet);
-            if(octet.overlap()) continue;
+            if(octet.Overlap()) continue;
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
@@ -106,7 +106,7 @@ std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(an
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
             analysis::Octet62 octet(sextet, doublet);
-            if(octet.overlap()) continue;
+            if(octet.Overlap()) continue;
             branch_ = branch<OctetNeutralBranch>(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);

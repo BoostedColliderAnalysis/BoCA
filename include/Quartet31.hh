@@ -17,7 +17,9 @@ public:
 
     analysis::Singlet Singlet() const;
 
-    bool overlap() const;
+//     bool Overlap() const;
+
+//     bool Overlap(const fastjet::PseudoJet &jet) const;
 
 protected:
 

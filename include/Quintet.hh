@@ -5,22 +5,18 @@
 namespace analysis
 {
 
-class Quintet : public Multiplet<analysis::Triplet,analysis::Doublet>
+class Quintet : public Multiplet<analysis::Triplet, analysis::Doublet>
 {
 
 public:
 
-  using Multiplet<analysis::Triplet,analysis::Doublet>::Multiplet;
+    using Multiplet<analysis::Triplet, analysis::Doublet>::Multiplet;
 
-  inline analysis::Doublet Doublet()const {
-        return multiplet_2_;
-    }
+    analysis::Doublet Doublet()const;
 
-    inline analysis::Triplet Triplet()const {
-        return multiplet_1_;
-    }
+    analysis::Triplet Triplet()const;
 
-    bool overlap() const;
+//     bool Overlap() const;
 
 protected:
 

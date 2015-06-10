@@ -91,13 +91,16 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 
     std::vector<analysis::MultipletEvent<Octet44>> events;
     for (const auto & octet : octets) {
-      analysis::MultipletEvent<Octet44> octetevent(octet);
+        analysis::MultipletEvent<Octet44> octetevent(octet);
         octetevent.Setglobal_observables(analysis::GlobalObservables(event));
         octetevent.SetLeptons(Leptons);
         octetevent.SetTotalJets(jets);
 //         octetevent.SetSubJets(SubJets);
         octetevent.SetTag(tag);
-        for (const auto & Jet : jets)  octetevent.AddRestJet(Jet);
+        for (const auto & Jet : jets) {
+            if (octet.Overlap(Jet)) continue;
+            octetevent.AddRestJet(Jet);
+        }
         events.emplace_back(octetevent);
     }
 
@@ -105,7 +108,7 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 //     for (const auto & event : events)eventSemiBranches.emplace_back(GetBranch(event));
 
 //     return eventSemiBranches;
-return SaveEntries<EventChargedBranch>(events);
+    return SaveEntries<EventChargedBranch>(events);
 }
 
 // analysis::GlobalObservables heavyhiggs::EventChargedTagger::global_observables(analysis::Event &event){
@@ -120,25 +123,18 @@ return SaveEntries<EventChargedBranch>(events);
 
 std::vector<analysis::MultipletEvent<heavyhiggs::Octet44>> heavyhiggs::EventChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
-  Print(kInformation, "event Tags");
-  std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
-  analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-  analysis::Jets Leptons = event.Leptons().leptons();
+    Print(kInformation, "event Tags");
+    std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
+    analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
+    analysis::Jets Leptons = event.Leptons().leptons();
 
 
 
     std::vector<analysis::MultipletEvent<Octet44>> events;
     for (auto & octet : octets) {
-      analysis::MultipletEvent<Octet44> octetevent(octet, analysis::GlobalObservables(event));
+        analysis::MultipletEvent<Octet44> octetevent(octet, analysis::GlobalObservables(event));
         for (const auto & Jet : jets)  {
-            if (octet.Quartet1().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.Quartet1().Triplet().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.Quartet1().Triplet().Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.Quartet1().Triplet().Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.Quartet2().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.Quartet2().Triplet().SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.Quartet2().Triplet().Doublet().Singlet1().delta_R(Jet) < detector_geometry().JetConeSize) continue;
-            if (octet.Quartet2().Triplet().Doublet().Singlet2().delta_R(Jet) < detector_geometry().JetConeSize) continue;
+            if (octet.Overlap(Jet)) continue;
             octetevent.AddRestJet(Jet);
         }
         octetevent.SetLeptons(Leptons);

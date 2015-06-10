@@ -5,12 +5,12 @@
 namespace toppartner
 {
 
-class Decuplet : public analysis::Multiplet<analysis::Quintet,analysis::Quintet>
+class Decuplet : public analysis::Multiplet<analysis::Quintet, analysis::Quintet>
 {
 
 public:
 
-  using analysis::Multiplet<analysis::Quintet,analysis::Quintet>::Multiplet;
+    using analysis::Multiplet<analysis::Quintet, analysis::Quintet>::Multiplet;
 
     inline analysis::Quintet Quintet1()const {
         return multiplet_1_;
@@ -20,7 +20,7 @@ public:
         return multiplet_2_;
     }
 
-    bool overlap() const;
+//     bool Overlap() const;
 
 protected:
 

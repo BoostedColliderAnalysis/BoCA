@@ -6,12 +6,12 @@
 namespace toppartner
 {
 
-  class Quattuordecuplet : public analysis::Multiplet<toppartner::Decuplet,analysis::Quartet22>
+class Quattuordecuplet : public analysis::Multiplet<toppartner::Decuplet, analysis::Quartet22>
 {
 
 public:
 
-  using analysis::Multiplet<toppartner::Decuplet,analysis::Quartet22>::Multiplet;
+    using analysis::Multiplet<toppartner::Decuplet, analysis::Quartet22>::Multiplet;
 
     inline toppartner::Decuplet Decuplet()const {
         return multiplet_1_;
@@ -21,7 +21,7 @@ public:
         return multiplet_2_;
     }
 
-    bool overlap() const;
+//     bool Overlap() const;
 
 protected:
 

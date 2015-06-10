@@ -5,20 +5,16 @@
 namespace analysis
 {
 
-class Quartet22 : public Multiplet<Doublet,Doublet>
+class Quartet22 : public Multiplet<Doublet, Doublet>
 {
 
 public:
 
-    using Multiplet<Doublet,Doublet>::Multiplet;
+    using Multiplet<Doublet, Doublet>::Multiplet;
 
-    inline Doublet Doublet1()const {
-        return multiplet_1_;
-    }
+    Doublet Doublet1()const;
 
-    inline Doublet Doublet2()const {
-        return multiplet_2_;
-    }
+    Doublet Doublet2()const;
 
 protected:
 

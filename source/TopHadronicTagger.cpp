@@ -151,8 +151,8 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(const Dou
     Print(kInformation, "triplets", jets.size());
     std::vector<analysis::Triplet> triplets;
     for (const auto & jet : jets) {
-        if (doublet.Singlet1().delta_R(jet) < detector_geometry().JetConeSize) continue;
-        if (doublet.Singlet2().delta_R(jet) < detector_geometry().JetConeSize) continue;
+        if (doublet.SingletJet1().delta_R(jet) < detector_geometry().JetConeSize) continue;
+        if (doublet.SingletJet2().delta_R(jet) < detector_geometry().JetConeSize) continue;
         triplets = JoinVectors(triplets, Multiplets(doublet, jet, quarks, pre_cuts, tag));
     }
     Print(kInformation, "triplets", triplets.size());
@@ -205,8 +205,8 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(const Dou
 
     std::vector<Triplet> triplets;
     for (const auto & jet : jets)  {
-        if (jet == doublet.Singlet1()) continue;
-        if (jet == doublet.Singlet2()) continue;
+        if (jet == doublet.SingletJet1()) continue;
+        if (jet == doublet.SingletJet2()) continue;
         Triplet triplet(doublet, jet);
         // if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
         triplets.emplace_back(Multiplet(triplet, pre_cuts, reader));
@@ -306,8 +306,8 @@ std::vector<analysis::Triplet> analysis::TopHadronicTagger::Multiplets(analysis:
 void analysis::TopHadronicTagger::NSubJettiness(Triplet &triplet)
 {
     if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.SingletJet() * 2));
-    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.SingletJet(), triplet.Doublet().Singlet1()), triplet.Doublet().Singlet2())));
+    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().SingletJet1() * 2));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.SingletJet(), triplet.Doublet().SingletJet1()), triplet.Doublet().SingletJet2())));
 }
 
 analysis::SubJettiness analysis::TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet &jet)

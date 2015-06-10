@@ -75,7 +75,7 @@ int heavyhiggs::HeavyHiggsSemiTagger::Train(analysis::Event &event, analysis::Pr
     for (const auto & triplet_semi : triplets_semi)
         for (const auto & triplet_hadronic : FinaltripletsHadronic) {
           analysis::Sextet sextet(triplet_semi, triplet_hadronic);
-            if (sextet.overlap()) continue;
+            if (sextet.Overlap()) continue;
             if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
             if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
             sextet.SetTag(tag);
@@ -99,7 +99,7 @@ std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsSemiTagger::Multiplets(anal
     for (const auto & triplet_semi : triplets_semi)
         for (const auto & triplet_hadronic : triplets_hadronic) {
           analysis::Sextet sextet(triplet_semi, triplet_hadronic);
-            if (sextet.overlap()) continue;
+            if (sextet.Overlap()) continue;
             branch_ = branch<HeavyHiggsSemiBranch>(sextet);
             sextet.SetBdt(Bdt(reader));
             sextets.emplace_back(sextet);

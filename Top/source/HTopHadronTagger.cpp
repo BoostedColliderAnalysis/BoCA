@@ -225,8 +225,8 @@ std::vector< top::HTopHadronBranch > top::HTopHadronTagger::GetBranches(analysis
 //                 doublet = WTagger.GetBdt(doublet, WReader);
                 if (std::abs(doublet.Jet().m() - Mass(WId)) > WMassWindow) continue;
                 for (const auto & Piece3 : Pieces) {
-                    if (Piece3 == doublet.Singlet1()) continue;
-                    if (Piece3 == doublet.Singlet2()) continue;
+                    if (Piece3 == doublet.SingletJet1()) continue;
+                    if (Piece3 == doublet.SingletJet2()) continue;
                     analysis::Triplet triplet(doublet, Piece3);
                     if (Tag == kSignal && triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) continue;
                     if (Tag == kBackground && triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) continue;
@@ -324,8 +324,8 @@ std::vector<analysis::Triplet> top::HTopHadronTagger::GetBdt(const std::vector< 
     std::vector<analysis::Triplet> triplets;
     for (const auto & doublet : doublets)
         for (const auto & Jet : jets)  {
-            if (Jet == doublet.Singlet1()) continue;
-            if (Jet == doublet.Singlet2()) continue;
+            if (Jet == doublet.SingletJet1()) continue;
+            if (Jet == doublet.SingletJet2()) continue;
             analysis::Triplet triplet(doublet, Jet);
 //             if (std::abs(triplet.Jet().m() - Mass(TopId)) > TopWindow) continue;
             // if (triplet.DeltaR() < detector_geometry().MinCellResolution) continue;
@@ -466,8 +466,8 @@ float top::HTopHadronTagger::GetSpread(const fastjet::PseudoJet &Jet) const
 void top::HTopHadronTagger::NSubJettiness(analysis::Triplet &triplet)
 {
     if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.SingletJet() * 2));
-    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.SingletJet(), triplet.Doublet().Singlet1()), triplet.Doublet().Singlet2())));
+    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().SingletJet1() * 2));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.SingletJet(), triplet.Doublet().SingletJet1()), triplet.Doublet().SingletJet2())));
 }
 
 

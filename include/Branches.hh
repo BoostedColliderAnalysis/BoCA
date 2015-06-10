@@ -327,26 +327,26 @@ public:
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
         DeltaM = multiplet.DeltaM();
-        Jet1Pt = multiplet.Singlet1().pt();
-//         Jet1Rap = std::abs(multiplet.Singlet1().rap());
-        Jet1Rap = multiplet.Singlet1().rap();
-        Jet1Phi = multiplet.Singlet1().phi();
-        Jet1Mass = multiplet.Singlet1().m();
-//         Jet1Bdt = multiplet.Singlet1().user_info<JetInfo>().Bdt();
-        Jet2Pt = multiplet.Singlet2().pt();
-//         Jet2Rap = std::abs(multiplet.Singlet2().rap());
-        Jet2Rap = multiplet.Singlet2().rap();
-        Jet2Phi = multiplet.Singlet2().phi();
-        Jet2Mass = multiplet.Singlet2().m();
-//         Jet2Bdt = multiplet.Singlet2().user_info<JetInfo>().Bdt();
-        BdtRatio11 = multiplet.BdtRatio1(1);
-        BdtRatio12 = multiplet.BdtRatio1(2);
-        BdtRatio13 = multiplet.BdtRatio1(3);
-        BdtRatio14 = multiplet.BdtRatio1(4);
-        BdtRatio21 = multiplet.BdtRatio2(1);
-        BdtRatio22 = multiplet.BdtRatio2(2);
-        BdtRatio23 = multiplet.BdtRatio2(3);
-        BdtRatio24 = multiplet.BdtRatio2(4);
+        Jet1Pt = multiplet.SingletJet1().pt();
+//         Jet1Rap = std::abs(multiplet.SingletJet1().rap());
+        Jet1Rap = multiplet.SingletJet1().rap();
+        Jet1Phi = multiplet.SingletJet1().phi();
+        Jet1Mass = multiplet.SingletJet1().m();
+//         Jet1Bdt = multiplet.SingletJet1().user_info<JetInfo>().Bdt();
+        Jet2Pt = multiplet.SingletJet2().pt();
+//         Jet2Rap = std::abs(multiplet.SingletJet2().rap());
+        Jet2Rap = multiplet.SingletJet2().rap();
+        Jet2Phi = multiplet.SingletJet2().phi();
+        Jet2Mass = multiplet.SingletJet2().m();
+//         Jet2Bdt = multiplet.SingletJet2().user_info<JetInfo>().Bdt();
+//         BdtRatio11 = multiplet.BdtRatio1(1);
+//         BdtRatio12 = multiplet.BdtRatio1(2);
+//         BdtRatio13 = multiplet.BdtRatio1(3);
+//         BdtRatio14 = multiplet.BdtRatio1(4);
+//         BdtRatio21 = multiplet.BdtRatio2(1);
+//         BdtRatio22 = multiplet.BdtRatio2(2);
+//         BdtRatio23 = multiplet.BdtRatio2(3);
+//         BdtRatio24 = multiplet.BdtRatio2(4);
     }
 
 private:
@@ -423,8 +423,8 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.Singlet1().pt();
-        NeutrinoPt = multiplet.Singlet2().pt();
+        LeptonPt = multiplet.SingletJet1().pt();
+        NeutrinoPt = multiplet.SingletJet2().pt();
     }
 
 private:
@@ -517,8 +517,8 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
       PairBranch::Fill(multiplet);
-      BottomPt = multiplet.Singlet1().pt();
-      LeptonPt = multiplet.Singlet2().pt();
+      BottomPt = multiplet.SingletJet1().pt();
+      LeptonPt = multiplet.SingletJet2().pt();
     }
 
 private:

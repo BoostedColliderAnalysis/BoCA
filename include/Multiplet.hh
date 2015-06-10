@@ -1,11 +1,13 @@
 # pragma once
 
-# include "Identification.hh"
+# include "Singlet.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 template <typename Multiplet1, typename Multiplet2>
-class Multiplet : public Identification {
+class Multiplet : public Identification
+{
 
 public:
 
@@ -17,8 +19,8 @@ public:
     }
 
     Multiplet(const fastjet::PseudoJet &jet) {
-        multiplet_1_ = Multiplet1(jet/2);
-        multiplet_2_ = Multiplet2(jet/2);
+        multiplet_1_ = Multiplet1(jet / 2);
+        multiplet_2_ = Multiplet2(jet / 2);
     }
 
     inline Multiplet1 SubMultiplet1()const {
@@ -29,12 +31,25 @@ public:
         return multiplet_2_;
     }
 
-    inline fastjet::PseudoJet Jet() const {
-        return Multiplet1().Jet() + Multiplet2().Jet();
+    template <typename Multiplet3>
+    bool Overlap(const Multiplet3 &multiplet) const {
+      return (multiplet.Overlap(multiplet_1_) | multiplet.Overlap(multiplet_2_));
     }
 
-    inline float GetHt() {
-        return multiplet_1_.Ht() + multiplet_2_.Ht();
+    bool Overlap(const Singlet &singlet) const {
+      return (multiplet_1_.Overlap(singlet) | multiplet_2_.Overlap(singlet));
+    }
+
+    bool Overlap(const fastjet::PseudoJet &jet) const {
+      return (multiplet_1_.Overlap(jet) | multiplet_2_.Overlap(jet));
+    }
+
+    bool Overlap() const {
+        return multiplet_1_.Overlap(multiplet_2_);
+    }
+
+    inline fastjet::PseudoJet Jet() const {
+        return Multiplet1().Jet() + Multiplet2().Jet();
     }
 
     inline float DeltaPt() const {
@@ -83,18 +98,22 @@ public:
         multiplet_2_ = multiplet.Jet() / 2;
     }
 
-    void SetMultiplets(const Multiplet1 &multiplet_1,const Multiplet2 &multiplet_2) {
-        multiplet_1_=multiplet_1;
-        multiplet_2_=multiplet_2;
+    void SetMultiplets(const Multiplet1 &multiplet_1, const Multiplet2 &multiplet_2) {
+        multiplet_1_ = multiplet_1;
+        multiplet_2_ = multiplet_2;
     }
 
 
     void SetJet(const fastjet::PseudoJet &jet) {
-        multiplet_1_ = Multiplet1(jet/2);
-        multiplet_2_ = Multiplet2(jet/2);
+        multiplet_1_ = Multiplet1(jet / 2);
+        multiplet_2_ = Multiplet2(jet / 2);
     }
 
 protected:
+
+    virtual inline std::string ClassName() const {
+        return "Multiplet";
+    }
 
     Multiplet1 multiplet_1_;
 

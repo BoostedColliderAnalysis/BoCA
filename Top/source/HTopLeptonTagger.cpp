@@ -75,31 +75,31 @@ analysis::HTopLeptonBranch top::HTopLeptonTagger::GetBranch(const analysis::Doub
     top_semi_branch.DeltaRap = doublet.DeltaRap();
     top_semi_branch.DeltaPhi = doublet.DeltaPhi();
 
-    top_semi_branch.BBdt = doublet.Singlet1().user_info<analysis::JetInfo>().Bdt();
+    top_semi_branch.BBdt = doublet.SingletJet1().user_info<analysis::JetInfo>().Bdt();
     top_semi_branch.Bdt = doublet.Bdt();
     top_semi_branch.Tag = doublet.Tag();
 
-    top_semi_branch.VertexMass = doublet.Singlet1().user_info<analysis::JetInfo>().VertexMass();
-    top_semi_branch.JetMass = doublet.Singlet1().m();
-    top_semi_branch.LeptonPt = doublet.Singlet2().pt();
+    top_semi_branch.VertexMass = doublet.SingletJet1().user_info<analysis::JetInfo>().VertexMass();
+    top_semi_branch.JetMass = doublet.SingletJet1().m();
+    top_semi_branch.LeptonPt = doublet.SingletJet2().pt();
 //     top_semi_branch.Pt = Jet.pt();
 //     top_semi_branch.Rap = Jet.rap();
 //     top_semi_branch.Phi = Jet.phi();
-    float MaxDisp = doublet.Singlet1().user_info<analysis::JetInfo>().MaxDisplacement();
+    float MaxDisp = doublet.SingletJet1().user_info<analysis::JetInfo>().MaxDisplacement();
     if (MaxDisp > 0) top_semi_branch.MaxDisplacement = std::log(MaxDisp);
     else top_semi_branch.MaxDisplacement = -3;
-    float MeanDisp = doublet.Singlet1().user_info<analysis::JetInfo>().MeanDisplacement();
+    float MeanDisp = doublet.SingletJet1().user_info<analysis::JetInfo>().MeanDisplacement();
     if (MeanDisp > 0) top_semi_branch.MeanDisplacement = std::log(MeanDisp);
     else top_semi_branch.MeanDisplacement = -3;
-    float SumDisp = doublet.Singlet1().user_info<analysis::JetInfo>().SumDisplacement();
+    float SumDisp = doublet.SingletJet1().user_info<analysis::JetInfo>().SumDisplacement();
     if (SumDisp > 0) top_semi_branch.SumDisplacement = std::log(SumDisp);
     else top_semi_branch.SumDisplacement = -3;
-    top_semi_branch.Multipliticity = doublet.Singlet1().user_info<analysis::JetInfo>().VertexNumber();
+    top_semi_branch.Multipliticity = doublet.SingletJet1().user_info<analysis::JetInfo>().VertexNumber();
 //     top_semi_branch.DeltaR = GetDeltaR(doublet.Singlet1());
-    top_semi_branch.Spread = GetSpread(doublet.Singlet1());
-    top_semi_branch.VertexDeltaR = GetDeltaR(doublet.Singlet1().user_info<analysis::JetInfo>().VertexJet());
-    top_semi_branch.VertexSpread = GetSpread(doublet.Singlet1().user_info<analysis::JetInfo>().VertexJet());
-    top_semi_branch.EnergyFraction = doublet.Singlet1().user_info<analysis::JetInfo>().VertexEnergy() / doublet.Singlet1().e();
+    top_semi_branch.Spread = GetSpread(doublet.SingletJet1());
+    top_semi_branch.VertexDeltaR = GetDeltaR(doublet.SingletJet1().user_info<analysis::JetInfo>().VertexJet());
+    top_semi_branch.VertexSpread = GetSpread(doublet.SingletJet1().user_info<analysis::JetInfo>().VertexJet());
+    top_semi_branch.EnergyFraction = doublet.SingletJet1().user_info<analysis::JetInfo>().VertexEnergy() / doublet.SingletJet1().e();
 //     top_semi_branch.BBdt = doublet.Singlet1().user_info<analysis::JetInfo>().Bdt();
 
     return top_semi_branch;

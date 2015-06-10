@@ -86,8 +86,8 @@ std::vector<analysis::Doublet> analysis::WSemiTagger::ReconstructNeutrino(const 
 {
 
     Print(kInformation, "Neutrinos");
-    const fastjet::PseudoJet lepton = doublet.Singlet1();
-    const fastjet::PseudoJet missing_et = doublet.Singlet2();
+    const fastjet::PseudoJet lepton = doublet.SingletJet1();
+    const fastjet::PseudoJet missing_et = doublet.SingletJet2();
 
     const float linear_term = (std::pow(Mass(WId), 2) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
 

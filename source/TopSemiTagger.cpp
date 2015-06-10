@@ -115,7 +115,7 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
     } else {
         for (const auto & Jet : jets) {
             for (const auto & Predoublet : doublets) {
-                Doublet doublet(Predoublet.Singlet1());
+                Doublet doublet(Predoublet.SingletJet1());
                 Triplet triplet(doublet, Jet);
 //             if (std::abs(triplet.Jet().m() - Mass(TopId)) > TopWindow) continue; // reactivate this check
                 branch_ = branch<TopSemiBranch>(triplet);

@@ -25,6 +25,10 @@ public:
 
 protected:
 
+    virtual inline std::string NameSpaceName() const {
+        return "higgscpv";
+    }
+
     virtual inline std::string ClassName() const {
         return "TripletPairTagger";
     }

@@ -158,7 +158,7 @@ public:
     }
 
     inline void AddRestJet(const fastjet::PseudoJet &jet) {
-        if (multiplet_.overlap(jet)) return;
+        if (multiplet_.Overlap(jet)) return;
         SetBdt(Bdt() * (JetNumber() + 1));
         rest_jets_.emplace_back(jet);
         SetBdt(Bdt() + jet.user_info<JetInfo>().Bdt());

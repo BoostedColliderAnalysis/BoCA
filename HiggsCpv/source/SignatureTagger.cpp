@@ -63,7 +63,7 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
     for (const auto & doublet : final_doublets) {
         for (const auto & sextet : sextets) {
             analysis::Octet62 octet(sextet, doublet);
-            if (octet.overlap()) continue;
+            if (octet.Overlap()) continue;
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
@@ -89,7 +89,7 @@ std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis:
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
             analysis::Octet62 octet(sextet, doublet);
-            if (octet.overlap()) continue;
+            if (octet.Overlap()) continue;
             branch_ = branch<higgscpv::OctetBranch>(octet);
             octet.SetBdt(Bdt(reader));
             octets.emplace_back(octet);

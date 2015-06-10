@@ -46,7 +46,7 @@ int toppartner::SignatureTagger::Train(analysis::Event &event, analysis::PreCuts
                   Decuplet  decuplet(*quintet_1, *quintet_2);
                   Quattuordecuplet quattuordecuplet(decuplet,quartet);
 
-                    if (quattuordecuplet.overlap()) continue;
+                    if (quattuordecuplet.Overlap()) continue;
                     quattuordecuplet.SetTag(tag);
                     quattuordecuplets.emplace_back(quattuordecuplet);
                 }
@@ -70,7 +70,7 @@ std::vector< toppartner::Quattuordecuplet > toppartner::SignatureTagger::Quintet
                   Quattuordecuplet quattuordecuplet(decuplet,quartet);
 
 //                     Quattuordecuplet quattuordecuplet(*quintet_1, *quintet_2, *doublet_1, *doublet_2);
-                    if (quattuordecuplet.overlap()) continue;
+                    if (quattuordecuplet.Overlap()) continue;
                     branch_ = branch<SignatureBranch>(quattuordecuplet);
                     quattuordecuplet.SetBdt(Bdt(reader));
                     quattuordecuplets.emplace_back(quattuordecuplet);

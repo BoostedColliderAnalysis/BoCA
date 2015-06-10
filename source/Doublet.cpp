@@ -29,29 +29,49 @@ std::vector<analysis::Kinematics> analysis::Doublet::constituents(const fastjet:
     return Newconstituents;
 }
 
-fastjet::PseudoJet analysis::Doublet::Singlet1()const
+fastjet::PseudoJet analysis::Doublet::SingletJet1()const
 {
     return multiplet_1_.Jet();
 }
 
-fastjet::PseudoJet analysis::Doublet::Singlet2()const
+fastjet::PseudoJet analysis::Doublet::SingletJet2()const
 {
     return multiplet_2_.Jet();
 }
 
+analysis::Singlet analysis::Doublet::Singlet1()const
+{
+    return multiplet_1_;
+}
+
+analysis::Singlet analysis::Doublet::Singlet2()const
+{
+    return multiplet_2_;
+}
+
+// bool analysis::Doublet::Overlap() const
+// {
+//     return Singlet1().Overlap(Singlet2());
+// }
+//
+// bool analysis::Doublet::Overlap(const fastjet::PseudoJet &jet) const
+// {
+//     return (Singlet1().Overlap(jet) | Singlet2().Overlap(jet));
+// }
+
 void analysis::Doublet::SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2)
 {
-  Print(kInformation, "Constructor");
-      multiplet_1_ = singlet_1;
-      multiplet_2_ = singlet_2;
-      SetBdt(SubMultiplet1().Bdt(),SubMultiplet2().Bdt());
+    Print(kInformation, "Constructor");
+    multiplet_1_ = singlet_1;
+    multiplet_2_ = singlet_2;
+    SetBdt(SubMultiplet1().Bdt(), SubMultiplet2().Bdt());
 }
 
 void analysis::Doublet::SetSinglets(const fastjet::PseudoJet &singlet)
 {
-  Print(kInformation, "Constructor");
-  multiplet_1_ = singlet / 2;
-  multiplet_2_ = singlet / 2;
+    Print(kInformation, "Constructor");
+    multiplet_1_ = singlet / 2;
+    multiplet_2_ = singlet / 2;
     SetDegenerate();
     if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Bdt() != initial_value()) SetBdt(singlet.user_info<JetInfo>().Bdt());
     else SetBdt(0);
@@ -70,16 +90,16 @@ float analysis::Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const 
 float analysis::Doublet::PullAngle1() const
 {
     Print(kInformation, "PullAngle1");
-    const float pull = Pull(Singlet1());
-    const float reference_angle = ReferenceAngle(Singlet1(), Singlet2());
+    const float pull = Pull(SingletJet1());
+    const float reference_angle = ReferenceAngle(SingletJet1(), SingletJet2());
     return Object::DeltaPhi(pull, reference_angle);
 }
 
 float analysis::Doublet::PullAngle2() const
 {
     Print(kInformation, "PullAngle2");
-    const float pull = Pull(Singlet2());
-    const float reference_angle = ReferenceAngle(Singlet2(), Singlet1());
+    const float pull = Pull(SingletJet2());
+    const float reference_angle = ReferenceAngle(SingletJet2(), SingletJet1());
     Print(kDebug, "Pull", pull, reference_angle, Object::DeltaPhi(pull, reference_angle));
     return Object::DeltaPhi(pull, reference_angle);
 }
@@ -106,21 +126,21 @@ float analysis::Doublet::Pull(const fastjet::PseudoJet &NewJet) const
 std::vector<analysis::Kinematics> analysis::Doublet::constituents() const
 {
     Print(kInformation, "constituents");
-    if (Singlet1().constituents().empty() || Singlet2().constituents().empty()) {
-        Print(kNotification, "Not enough constituents", Singlet1().constituents().size(), Singlet2().constituents().size());
+    if (SingletJet1().constituents().empty() || SingletJet2().constituents().empty()) {
+        Print(kNotification, "Not enough constituents", SingletJet1().constituents().size(), SingletJet2().constituents().size());
         //         return 0;
     }
     const float Shift = 1;
-    const float CenterRap = (Singlet1().rap() + Singlet2().rap()) / 2;
+    const float CenterRap = (SingletJet1().rap() + SingletJet2().rap()) / 2;
     //     const float CenterPhi = (Jet1.phi_std() + Jet2.phi_std()) / 2;
-    const float CenterPhi = Object::DeltaPhi(Singlet1().phi_std(), -Singlet2().phi_std()) / 2;
-    const float Theta = atan2(Object::DeltaPhi(Singlet1().phi_std(), CenterPhi), Singlet1().rap() - CenterRap);
-    const float Distance = Singlet1().delta_R(Singlet2());
+    const float CenterPhi = Object::DeltaPhi(SingletJet1().phi_std(), -SingletJet2().phi_std()) / 2;
+    const float Theta = atan2(Object::DeltaPhi(SingletJet1().phi_std(), CenterPhi), SingletJet1().rap() - CenterRap);
+    const float Distance = SingletJet1().delta_R(SingletJet2());
     const float SubJetRatio = 2. * Shift / Distance;
 //     std::vector<Kinematics> constituentVectors1 = static_cast<DoubletPrivate *>(TagPrivate.get())->constituents(jet_1, SubJetRatio, Theta, -Shift);
-    std::vector<Kinematics> constituents_1 = constituents(Singlet1(), SubJetRatio, Theta, -Shift);
+    std::vector<Kinematics> constituents_1 = constituents(SingletJet1(), SubJetRatio, Theta, -Shift);
 //     std::vector<Kinematics> constituentVectors2 = static_cast<DoubletPrivate *>(TagPrivate.get())->constituents(jet_2, SubJetRatio, -Theta, Shift);
-    std::vector<Kinematics> constituent_2 = constituents(Singlet2(), SubJetRatio, -Theta, Shift);
+    std::vector<Kinematics> constituent_2 = constituents(SingletJet2(), SubJetRatio, -Theta, Shift);
     constituents_1.insert(constituents_1.end(), constituent_2.begin(), constituent_2.end());
     return constituents_1;
 }

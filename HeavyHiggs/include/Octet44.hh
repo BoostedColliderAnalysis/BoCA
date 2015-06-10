@@ -15,9 +15,9 @@ public:
 
   using analysis::Multiplet<analysis::Quartet31,analysis::Quartet31>::Multiplet;
 
-    bool overlap() const;
+//     bool Overlap() const;
 
-    bool overlap(const fastjet::PseudoJet &jet) const;
+//     bool Overlap(const fastjet::PseudoJet &jet) const;
 
     inline analysis::Quartet31 Quartet1()const {
         return multiplet_1_;

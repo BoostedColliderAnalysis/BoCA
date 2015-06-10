@@ -37,7 +37,7 @@ int toppartner::TopPartnerTagger::Train(analysis::Event &event,  analysis::PreCu
     for (const auto & doublet : doublets)
         for (const auto & triplet : triplets) {
             analysis::Quintet quintet(triplet, doublet);
-            if (quintet.overlap()) continue;
+            if (quintet.Overlap()) continue;
             quintet.SetTag(tag);
             quintets.emplace_back(quintet);
         }
@@ -52,7 +52,7 @@ std::vector<analysis::Quintet>  toppartner::TopPartnerTagger::Multiplets(analysi
     for (const auto & doublet : doublets)
         for (const auto & triplet : triplets) {
             analysis::Quintet quintet(triplet, doublet);
-            if (quintet.overlap()) continue;
+            if (quintet.Overlap()) continue;
             branch_ = branch<TopPartnerBranch>(quintet);
             quintet.SetBdt(Bdt(reader));
             quintets.emplace_back(quintet);
