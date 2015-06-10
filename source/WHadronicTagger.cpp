@@ -118,7 +118,7 @@ int analysis::WHadronicTagger::Train(analysis::Event &event, PreCuts &pre_cuts, 
 }
 
 
-analysis::Jets analysis::WHadronicTagger::WDaughters(analysis::Event& event) const
+analysis::Jets analysis::WHadronicTagger::WDaughters(analysis::Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
     w_daughters = RemoveIfWrongAbsMother(w_daughters, WId);
@@ -129,7 +129,7 @@ analysis::Jets analysis::WHadronicTagger::WDaughters(analysis::Event& event) con
     return w_daughters;
 }
 
-int analysis::WHadronicTagger::WHadronicId(const Jets& jets) const
+int analysis::WHadronicTagger::WHadronicId(const Jets &jets) const
 {
     if (jets.empty()) return WId;
     else return jets.front().user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id;
@@ -156,9 +156,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplets(Event &even
         for (const auto & piece : pieces) doublets = JoinVectors(doublets, Multiplet(piece, reader));
     }
 
-    std::sort(doublets.begin(), doublets.end());
-    doublets.erase(doublets.begin() + std::min(max_combi(), int(doublets.size())), doublets.end());
-    return doublets;
+    return ReduceResult(doublets);
 }
 
 std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader)
@@ -172,9 +170,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplets(const Jets 
             doublets = JoinVectors(doublets, Multiplet(*Jet1, *Jet2, reader));
         }
 
-    std::sort(doublets.begin(), doublets.end());
-    doublets.erase(doublets.begin() + std::min(max_combi(), int(doublets.size())), doublets.end());
-    return doublets;
+    return ReduceResult(doublets);
 }
 
 std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
@@ -197,7 +193,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(const fastje
     Print(kInformation, "doublet Bdt");
     Doublet doublet(jet_1, jet_2);
     if (doublet.DeltaR() < detector_geometry().MinCellResolution) return std::vector<Doublet> {};
-    return Multiplet(doublet,reader);
+    return Multiplet(doublet, reader);
 }
 
 std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
@@ -208,7 +204,7 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(const fastje
     Doublet doublet;
     if (subjets.size() == 1) doublet.SetSinglets(jet);
     else doublet.SetSinglets(subjets.at(0), subjets.at(1));
-    return Multiplet(doublet,reader);
+    return Multiplet(doublet, reader);
 }
 
 std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(Doublet &doublet, const TMVA::Reader &reader)

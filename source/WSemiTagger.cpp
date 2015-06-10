@@ -43,7 +43,7 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
         for (auto & doublet : post_doublets) {
             if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
             bool in_cone = false;
-            for(const auto w_boson : w_bosons) if (doublet.Jet().delta_R(w_boson) < detector_geometry().JetConeSize) in_cone = true;
+            for(const auto w_boson : w_bosons) if (doublet.Coincides(w_boson)) in_cone = true;
             switch(tag) {
             case kSignal :
               if (!in_cone) continue;

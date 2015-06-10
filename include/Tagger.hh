@@ -301,15 +301,11 @@ protected:
         spectators_.clear();
     }
 
-    int max_combi() {
-        return max_combi_;
+    virtual int max_combi() const {
+        return 4;
     }
 
     virtual TClass &Class() const = 0;
-//     {
-//         Print(kError, "Class", "should be subclassed");
-//         return *Branch::Class();
-//     }
 
     exroot::TreeBranch &tree_branch() {
         return *tree_branch_;
@@ -385,8 +381,6 @@ private:
     std::vector<Observable> variables_;
 
     std::vector<Observable> spectators_;
-
-    int max_combi_;
 
     DetectorGeometry detector_geometry_;
 

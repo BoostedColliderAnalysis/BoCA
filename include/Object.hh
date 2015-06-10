@@ -165,32 +165,6 @@ public:
 
 protected:
 
-    /**
-     * @brief Calcualte distance in eta phi space
-     *
-     * @param  Rap1
-     * @param  Phi1
-     * @param  Rap2
-     * @param  Phi2
-     * @return float distance
-     */
-    float Distance(const float, const float, const float, const float) const;
-
-    /**
-     * @brief Calcualte distance from center in eta phi space
-     *
-     * @param  Rap
-     * @param  Phi
-     * @return float distance
-     */
-    float Distance(const float, const float) const;
-
-    /**
-     * @brief Take care of phi angles around pi
-     *
-     */
-    float DeltaPhi(const float Phi, const float ReferencePhi) const;
-
     virtual inline std::string NameSpaceName() const {
         return ("analysis");
     }

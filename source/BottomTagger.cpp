@@ -67,7 +67,7 @@ analysis::Jets analysis::BottomTagger::CleanJets(Jets &jets, const Jets &particl
     if (jets.empty()) return jets;
     for (const auto & particle : particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(particle));
-        if (jets.front().delta_R(particle) < detector_geometry().JetConeSize) static_cast<JetInfo &>(*jets.front().user_info_shared_ptr().get()).SetTag(kSignal);
+        if (jets.front().delta_R(particle) < DetectorGeometry().JetConeSize) static_cast<JetInfo &>(*jets.front().user_info_shared_ptr().get()).SetTag(kSignal);
     }
 
     Jets clean_jets;
@@ -78,7 +78,7 @@ analysis::Jets analysis::BottomTagger::CleanJets(Jets &jets, const Jets &particl
         }
         if (pre_cuts.PtLowerCut(BottomId) > 0 && jet.pt() < pre_cuts.PtLowerCut(BottomId)) continue;
         if (pre_cuts.PtUpperCut(BottomId) > 0 && jet.pt() > pre_cuts.PtUpperCut(BottomId)) continue;
-        if (std::abs(jet.rap()) > detector_geometry().TrackerEtaMax) {
+        if (std::abs(jet.rap()) > DetectorGeometry().TrackerEtaMax) {
             Print(kInformation, "Clean Jets", "too large rap");
             continue;
         }
