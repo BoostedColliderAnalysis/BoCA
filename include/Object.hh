@@ -66,7 +66,7 @@ public:
     inline void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3) const {
         if (severity > debug_level_) return;
         const char Separator = ' ';
-        const int FunctionWidth = 10;
+        const int FunctionWidth = 15;
         Printer(description);
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value;
         std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << value2;

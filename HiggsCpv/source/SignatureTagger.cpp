@@ -37,7 +37,7 @@ void higgscpv::SignatureTagger::DefineVariables()
 }
 
 
-int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
+int higgscpv::SignatureTagger::Train(analysis::Event &event,analysis::PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "event Tags");
     std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
@@ -79,7 +79,7 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event, const Tag tag)
 }
 
 
-std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis::Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader)
 {
     Print(kInformation, "event Tags");
 
