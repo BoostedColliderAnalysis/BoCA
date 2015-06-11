@@ -202,8 +202,8 @@ std::vector<analysis::Doublet> analysis::WHadronicTagger::Multiplet(const fastje
     Jets subjets = SubJets(jet, 2);
     if (subjets.empty()) return std::vector<Doublet> {};
     Doublet doublet;
-    if (subjets.size() == 1) doublet.SetSinglets(jet);
-    else doublet.SetSinglets(subjets.at(0), subjets.at(1));
+    if (subjets.size() == 1) doublet.SetJet(jet);
+    else doublet.SetMultiplets(subjets.at(0), subjets.at(1));
     return Multiplet(doublet, reader);
 }
 

@@ -40,13 +40,9 @@ public:
 
     using Multiplet<Singlet,Singlet>::Multiplet;
 
-    void SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2);
+//     void SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2);
 
-    void SetSinglets(const fastjet::PseudoJet &singlet);
-
-//     bool Overlap() const;
-//
-//     bool Overlap(const fastjet::PseudoJet &jet) const;
+//     void SetSinglets(const fastjet::PseudoJet &singlet);
 
     fastjet::PseudoJet SingletJet1()const;
 
@@ -64,7 +60,7 @@ public:
         return PullAngle1() * PullAngle2();
     }
 
-    std::vector< Kinematics > constituents() const;
+    std::vector< Kinematics > Constituents() const;
 
 protected:
 
@@ -74,7 +70,7 @@ protected:
 
 private:
 
-    std::vector< Kinematics > constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const;
+    std::vector< Kinematics > Constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const;
 
     float ReferenceAngle(const fastjet::PseudoJet &jet, const fastjet::PseudoJet &reference_jet) const;
 

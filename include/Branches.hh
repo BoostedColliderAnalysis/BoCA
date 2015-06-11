@@ -97,11 +97,8 @@ private:
  */
 class BottomBranch : public ParticleBranch
 {
-
 public:
-
     BottomBranch();
-
     float VertexMass;
     float MaxDisplacement;
     float MeanDisplacement;
@@ -112,12 +109,8 @@ public:
     float VertexDeltaR;
     float VertexSpread;
     float EnergyFraction;
-
     float Tag;
     float Bdt;
-
-// protected:
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         ParticleBranch::Fill(multiplet);
@@ -137,13 +130,9 @@ public:
         Tag = multiplet.Tag();
         Bdt = multiplet.Bdt();
     }
-
 private:
-
     ClassDef(BottomBranch, 1)
-
 };
-
 
 /**
  *
@@ -152,11 +141,8 @@ private:
  */
 class TauBranch : public ParticleBranch
 {
-
 public:
-
     TauBranch();
-
     float EmRadius;
     float TrackRadius;
     float MomentumFraction;
@@ -183,11 +169,8 @@ public:
         Tag = multiplet.Tag();
         Bdt = multiplet.Bdt();
     }
-
 private:
-
     ClassDef(TauBranch, 1)
-
 };
 
 
@@ -226,23 +209,16 @@ private:
 
 class MultiBranch : public PairBranch
 {
-
 public:
-
     MultiBranch();
-
     float DeltaHt;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt();
     }
-
 private:
-
     ClassDef(MultiBranch, 1)
-
 };
 
 /**
@@ -252,18 +228,14 @@ private:
  */
 class WHadronicBranch : public PairBranch
 {
-
 public:
-
     WHadronicBranch();
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
     }
 private:
-
     ClassDef(WHadronicBranch, 1)
-
 };
 
 /**
@@ -273,18 +245,14 @@ private:
  */
 class ZHadronicBranch : public PairBranch
 {
-
 public:
-
     ZHadronicBranch();
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
     }
 private:
-
     ClassDef(ZHadronicBranch, 1)
-
 };
 
 /**
@@ -294,27 +262,21 @@ private:
  */
 class JetPairBranch : public PairBranch
 {
-
 public:
-
     JetPairBranch();
-
     float DeltaM;
-
     float Jet1Mass;
     float Jet1Pt;
     float Jet1Rap;
     float Jet1Phi;
     float Jet1Bdt;
     float Jet1BTag;
-
     float Jet2Mass;
     float Jet2Pt;
     float Jet2Rap;
     float Jet2Phi;
     float Jet2Bdt;
     float Jet2BTag;
-
     float BdtRatio11;
     float BdtRatio12;
     float BdtRatio13;
@@ -348,11 +310,8 @@ public:
 //         BdtRatio23 = multiplet.BdtRatio2(3);
 //         BdtRatio24 = multiplet.BdtRatio2(4);
     }
-
 private:
-
     ClassDef(JetPairBranch, 1)
-
 };
 
 /**
@@ -362,25 +321,20 @@ private:
  */
 class TripletJetPairBranch : public PairBranch
 {
-
 public:
-
     TripletJetPairBranch();
-
     float BottomMass;
     float BottomPt;
     float BottomRap;
     float BottomPhi;
     float BottomBdt;
     float BottomBTag;
-
     float TopMass;
     float TopPt;
     float TopRap;
     float TopPhi;
     float TopBdt;
     float TopBTag;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
@@ -390,7 +344,6 @@ public:
         BottomPhi = multiplet.SingletJet().phi();
         BottomMass = multiplet.SingletJet().m();
 //         BottomBdt = multiplet.Singlet().user_info<JetInfo>().Bdt();
-
         TopPt = multiplet.Triplet().Jet().pt();
 //         TopRap = std::abs(multiplet.Triplet().Jet().rap());
         TopRap = multiplet.Triplet().Jet().rap();
@@ -398,11 +351,8 @@ public:
         TopMass = multiplet.Triplet().Jet().m();
         TopBdt = multiplet.Triplet().Bdt();
     }
-
 private:
-
     ClassDef(TripletJetPairBranch, 1)
-
 };
 
 /**
@@ -412,25 +362,18 @@ private:
  */
 class WSemiBranch : public PairBranch
 {
-
 public:
-
     WSemiBranch();
-
     float LeptonPt;
     float NeutrinoPt;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
         LeptonPt = multiplet.SingletJet1().pt();
         NeutrinoPt = multiplet.SingletJet2().pt();
     }
-
 private:
-
     ClassDef(WSemiBranch, 1)
-
 };
 
 
@@ -441,29 +384,22 @@ private:
  */
 class TopHadronicBranch : public MultiBranch
 {
-
 public:
-
     TopHadronicBranch();
-
     float BottomPt;
     float WPt;
-
     float WBdt;
     float BBdt;
-
     float Tau1_1;
     float Tau2_1;
     float Tau3_1;
     float Tau21_1;
     float Tau32_1;
-
     float Tau1_2;
     float Tau2_2;
     float Tau3_2;
     float Tau21_2;
     float Tau32_2;
-
 //     float VertexMass;
 //     float MaxDisplacement;
 //     float MeanDisplacement;
@@ -473,7 +409,6 @@ public:
 //     float VertexDeltaR;
 //     float VertexSpread;
 //     float EnergyFraction;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
@@ -492,11 +427,8 @@ public:
         if (!multiplet.Degenerate()) WBdt = multiplet.Doublet().Bdt();
         BBdt = multiplet.Singlet().Bdt();
     }
-
 private:
-
     ClassDef(TopHadronicBranch, 1)
-
 };
 
 /**
@@ -506,21 +438,16 @@ private:
  */
 class TopLeptonicBranch : public PairBranch
 {
-
 public:
-
     TopLeptonicBranch();
-
     float BottomPt;
     float LeptonPt;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-      PairBranch::Fill(multiplet);
-      BottomPt = multiplet.SingletJet1().pt();
-      LeptonPt = multiplet.SingletJet2().pt();
+        PairBranch::Fill(multiplet);
+        BottomPt = multiplet.SingletJet1().pt();
+        LeptonPt = multiplet.SingletJet2().pt();
     }
-
 private:
     ClassDef(TopLeptonicBranch, 1)
 };
@@ -532,16 +459,12 @@ private:
  */
 class TopSemiBranch : public MultiBranch
 {
-
 public:
-
     TopSemiBranch();
     float BottomPt;
     float WPt;
-
     float WBdt;
     float BBdt;
-
 //     float VertexMass;
 //     float MaxDisplacement;
 //     float MeanDisplacement;
@@ -551,7 +474,6 @@ public:
 //     float VertexDeltaR;
 //     float VertexSpread;
     //     float EnergyFraction;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
@@ -560,13 +482,9 @@ public:
         BBdt = multiplet.Singlet().Bdt();
         WBdt = multiplet.Doublet().Bdt();
     }
-
 private:
-
     ClassDef(TopSemiBranch, 1)
-
 };
-
 
 /**
  *
@@ -598,7 +516,7 @@ public:
 
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-      PairBranch::Fill(multiplet);
+        PairBranch::Fill(multiplet);
     }
 private:
 

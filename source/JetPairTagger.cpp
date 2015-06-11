@@ -90,8 +90,8 @@ int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
     for (auto jet1 = BottomJets.begin(); jet1 != BottomJets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != BottomJets.end(); ++jet2) {
             Doublet doublet;
-            if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetSinglets((*jet1), (*jet2));
-            else doublet.SetSinglets(*jet2, *jet1);
+            if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
+            else doublet.SetMultiplets(*jet2, *jet1);
 
 //             for (const auto & Jet : BdtJets) if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
 //             if (doublet.RestJets().size() != BdtJets.size() - 2) Print(kError, "to many jets in the rest jet vector");
@@ -118,8 +118,8 @@ std::vector<analysis::Doublet>  analysis::JetPairTagger::Multiplets(Event &event
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
             Doublet doublet;
-            if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) doublet.SetSinglets((*Jet1), (*Jet2));
-            else doublet.SetSinglets((*Jet2), (*Jet1));
+            if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) doublet.SetMultiplets(*Jet1, *Jet2);
+            else doublet.SetMultiplets(*Jet2, *Jet1);
 //             for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
 //             if (doublet.RestJets().size() != jets.size() - 2) Print(kError, "to many jets in the rest jet vector");
 //             if (std::abs(doublet.DeltaRap()) < detector_geometry().JetConeSize) continue;

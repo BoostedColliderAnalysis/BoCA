@@ -18,7 +18,7 @@ Leptons.cpp
 Hadrons.cpp
 Predicate.cpp
 )
-HLibrary(Event "${EventSources}" PARENT_SCOPE)
+HLibrary(Event "${EventSources}")
 
 set(MultipletSources
 Multiplet.cpp
@@ -32,12 +32,12 @@ Quintet.cpp
 Sextet.cpp
 Octet62.cpp
 )
-HLibrary(Multiplets "${MultipletSources}" PARENT_SCOPE)
+HLibrary(Multiplets "${MultipletSources}")
 
 set(HepTaggerSource
 TopHadronicHep.cpp
 )
-HLibrary(HepTagger "${HepTaggerSource}" PARENT_SCOPE)
+HLibrary(HepTagger "${HepTaggerSource}")
 add_dependencies(HepTagger HepTopTagger)
 
 set(AnalysisSources
@@ -69,5 +69,5 @@ TopHadronicTagger.cpp
 TopLeptonicTagger.cpp
 TopSemiTagger.cpp
 )
-HLibrary(Analysis "${AnalysisSources}" PARENT_SCOPE)
+HLibrary(Analysis "${AnalysisSources}")
 add_dependencies(Analysis WimpMass)

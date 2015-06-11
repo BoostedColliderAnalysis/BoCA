@@ -370,10 +370,10 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplet, const float mass) {
+    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplet, const float mass, const int number = 1) {
       if (multiplet.empty()) return multiplet;
       multiplet = SortedByMassTo(multiplet,mass);
-      multiplet.erase(multiplet.begin() + 1, multiplet.end());
+      multiplet.erase(multiplet.begin() + number, multiplet.end());
       return multiplet;
     }
 

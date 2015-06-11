@@ -29,7 +29,7 @@ void analysis::TopLeptonicTagger::DefineVariables()
 int analysis::TopLeptonicTagger::Train(Event &event,PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Train");
-    int number_of_tops = 2;
+    std::size_t number_of_tops = 2;
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Print(kInformation, "Jet Number", jets.size());
 
@@ -45,23 +45,21 @@ int analysis::TopLeptonicTagger::Train(Event &event,PreCuts &pre_cuts, const Obj
         }
     Print(kInformation, "Number JetPairs", doublets.size());
 
-    if (tag == kSignal && doublets.size() > number_of_tops) {
-        std::sort(doublets.begin(), doublets.end(), SortByMassTo(Mass(TopId)));
-        doublets.erase(doublets.begin() + number_of_tops, doublets.end());
-    }
+    if (tag == kSignal) doublets = BestMass(doublets,Mass(TopId),number_of_tops);
+    for(const auto &doublet : doublets) Print(kError,"TopLeptonic",doublet.Jet().pt(),doublet.DeltaR());
     return SaveEntries(doublets);
 }
 
 std::vector<analysis::Doublet>  analysis::TopLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-  Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-  Jets leptons = event.Leptons().leptons();
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Jets leptons = event.Leptons().leptons();
     Print(kInformation, "Bdt");
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
         for (const auto & jet : jets) {
-          Doublet doublet(jet, lepton);
-          branch_ = branch(doublet);
+            Doublet doublet(jet, lepton);
+            branch_ = branch(doublet);
             doublet.SetBdt(Bdt(reader));
             doublets.emplace_back(doublet);
         }
