@@ -44,10 +44,9 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event,analysis::PreCuts &p
     if (sextets.empty()) Print(kInformation, "No sextets", sextets.size());
 
     analysis::Jets HiggsParticles = event.Partons().GenParticles();
-    analysis::Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
-    analysis::Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
-    HiggsParticles = Even;
-    HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
+    analysis::Jets Even = analysis::copy_if_abs_particle(HiggsParticles, HiggsId);
+    analysis::Jets Odd = analysis::copy_if_abs_particle(HiggsParticles, CpvHiggsId);
+    HiggsParticles = analysis::JoinVectors(Even,Odd);
 
     std::vector<analysis::Doublet> doublets = higgs_reader_.Multiplets<analysis::HiggsTagger>(event);
     if (doublets.empty()) Print(kInformation, "No doublets", doublets.size());
