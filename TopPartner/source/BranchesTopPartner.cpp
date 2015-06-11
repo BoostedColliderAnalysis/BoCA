@@ -1,4 +1,4 @@
-# include "../include/Branches.hh"
+# include "BranchesTopPartner.hh"
 
 ClassImp(toppartner::TopPartnerBranch)
 

@@ -12,24 +12,18 @@ analysis::TopLeptonicTagger::TopLeptonicTagger()
 
 void analysis::TopLeptonicTagger::DefineVariables()
 {
-
     Print(kNotification , "Define Variables");
-
     AddVariable(branch_.Mass, "Mass");
     AddVariable(branch_.Pt, "Pt");
     AddVariable(branch_.Rap, "Rap");
     AddVariable(branch_.Phi, "Phi");
-
     AddVariable(branch_.BottomPt, "BottomPt");
     AddVariable(branch_.LeptonPt, "LeptonPt");
-
     AddVariable(branch_.DeltaPhi, "DeltaPhi");
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaR, "DeltaR");
-
     AddVariable(branch_.Bdt, "Bdt");
     AddSpectator(branch_.Tag, "Tag");
-
 }
 
 int analysis::TopLeptonicTagger::Train(Event &event,PreCuts &pre_cuts, const Object::Tag tag)
@@ -55,9 +49,7 @@ int analysis::TopLeptonicTagger::Train(Event &event,PreCuts &pre_cuts, const Obj
         std::sort(doublets.begin(), doublets.end(), SortByMassTo(Mass(TopId)));
         doublets.erase(doublets.begin() + number_of_tops, doublets.end());
     }
-
     return SaveEntries(doublets);
-
 }
 
 std::vector<analysis::Doublet>  analysis::TopLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)

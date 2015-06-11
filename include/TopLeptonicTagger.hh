@@ -30,17 +30,11 @@ protected:
 
 private:
 
-    TClass &Class() const {
-        return *TopLeptonicBranch::Class();
-    }
-
     void DefineVariables();
 
     BottomTagger bottom_tagger_;
 
     Reader bottom_reader_;
-
-    TopLeptonicBranch branch_;
 
 };
 

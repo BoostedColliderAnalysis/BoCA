@@ -1,4 +1,4 @@
-HDictionary(BranchTopPartner ./Branches.cpp ../include/LinkDefTopPartner.hh)
+HDictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner.hh)
 
 set(AnalysisSources
 TopPartnerTagger.cpp

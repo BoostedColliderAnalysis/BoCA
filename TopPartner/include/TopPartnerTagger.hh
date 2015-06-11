@@ -3,7 +3,7 @@
 # include "Quintet.hh"
 # include "TopHadronicTagger.hh"
 # include "ZHadronicTagger.hh"
-# include "Branches.hh"
+# include "BranchesTopPartner.hh"
 
 namespace toppartner
 {
