@@ -51,32 +51,32 @@ public:
 
     int GetBdt(Event &event, PreCuts &pre_cuts) const {
         if (!tagger_) Print(kError, "what is wrong with the tagger?");
-        return tagger_->GetBdt(event, pre_cuts, reader_);
+        return tagger().GetBdt(event, pre_cuts, reader_);
     }
 
     template <typename Tagger, typename Input>
     auto Multiplets(Input &input) {
-        return static_cast<Tagger &>(*tagger_).Multiplets(input, reader_);
+        return static_cast<Tagger &>(tagger()).Multiplets(input, reader_);
     }
 
     template <typename Tagger, typename Input1, typename Input2>
     auto Multiplets(Input1 &input_1, Input2 &input_2) {
-        return static_cast<Tagger &>(*tagger_).Multiplets(input_1, input_2, reader_);
+        return static_cast<Tagger &>(tagger()).Multiplets(input_1, input_2, reader_);
     }
 
     template <typename Tagger, typename Input>
     auto Multiplet(Input &input) {
-      return static_cast<Tagger &>(*tagger_).Multiplet(input, reader_);
+      return static_cast<Tagger &>(tagger()).Multiplet(input, reader_);
     }
 
     template <typename Tagger, typename Input1, typename Input2>
     auto Multiplet(Input1 &input_1, Input2 &input_2) {
-      return static_cast<Tagger &>(*tagger_).Multiplet(input_1, input_2, reader_);
+      return static_cast<Tagger &>(tagger()).Multiplet(input_1, input_2, reader_);
     }
 
     template <typename Tagger, typename Input>
     auto SubMultiplet(Input &input, const int number) {
-      return static_cast<Tagger &>(*tagger_).SubMultiplet(input, reader_, number);
+      return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_, number);
     }
 
     TMVA::Reader &reader() {

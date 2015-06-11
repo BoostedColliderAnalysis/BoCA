@@ -7,14 +7,14 @@
 namespace analysis
 {
 
-  /**
-   * @brief Semi leptonic heavy higgs BDT tagger
-   *
-   */
-  class HiggsTagger : public BranchTagger<HiggsBranch>
-  {
+/**
+ * @brief Semi leptonic heavy higgs BDT tagger
+ *
+ */
+class HiggsTagger : public BranchTagger<HiggsBranch>
+{
 
-  public:
+public:
 
     HiggsTagger();
 
@@ -22,13 +22,13 @@ namespace analysis
 
     std::vector< Doublet > Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 
-  protected:
+protected:
 
     virtual inline std::string ClassName() const {
-      return "HiggsTagger";
+        return "HiggsTagger";
     }
 
-  private:
+private:
 
     void DefineVariables();
 
@@ -36,6 +36,6 @@ namespace analysis
 
     Reader bottom_reader_;
 
-  };
+};
 
 }

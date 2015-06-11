@@ -31,7 +31,7 @@ protected:
 
 
   virtual inline std::string FilePath() const {
-    return "~/Projects/HiggsCpv/";
+    return "~/Projects/HiggsCpv/Analysis/";
   }
 
   virtual inline std::string NameSpaceName() const {

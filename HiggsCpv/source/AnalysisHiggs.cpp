@@ -12,19 +12,19 @@ std::string higgscpv::Analysis::ProcessName(){
 void higgscpv::Analysis::SetFiles(const Tag tag)
 {
     Print(kNotification, "Set Files");
-    NewBackgroundFile("pp-bbtt-bblvlv");
-    NewSignalFile("pp-x0tt-bblvlv-even");
-    NewSignalFile("pp-x0tt-bblvlv-mix");
-    NewSignalFile("pp-x0tt-bblvlv-odd");
+    NewSignalFile("pp-ttx0-bbbbllnunu-1");
+    NewSignalFile("pp-ttx0-bbbbllnunu-0");
+    NewSignalFile("pp-ttx0-bbbbllnunu-0.5");
+    NewBackgroundFile("pp-ttbb-bbbbllnunu");
 }
 
 int higgscpv::Analysis::PassPreCut(analysis::Event &event)
 {
   Print(kInformation, "pass pre cut");
-  analysis::Jets particles = event.Partons().GenParticles();
-  analysis::Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
+//   analysis::Jets particles = event.Partons().GenParticles();
+//   analysis::Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
 //   analysis::remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
-  return tops.size();
+  return 1;
 }
 
 int higgscpv::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)

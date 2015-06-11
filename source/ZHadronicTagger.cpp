@@ -1,12 +1,11 @@
 # include "ZHadronicTagger.hh"
 
-analysis::ZHadronicTagger::ZHadronicTagger()
+analysis::ZHadronicTagger::ZHadronicTagger() : bottom_reader_(bottom_tagger_)
 {
 //     DebugLevel = analysis::Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("ZHadronic");
     z_mass_window_ = 20;
-    bottom_reader_.set_tagger(bottom_tagger_);
     DefineVariables();
 }
 

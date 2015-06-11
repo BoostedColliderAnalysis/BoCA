@@ -330,13 +330,13 @@ private:
      */
     std::string tagger_name_;
 
+    TCut cut_;
+
     /**
      * @brief Name of the Signal File
      *
      */
     Strings signal_file_names_;
-
-    TCut cut_;
 
     /**
      * @brief Names of the Background Files
@@ -370,7 +370,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplet) {
+    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplet, const float mass) {
       if (multiplet.empty()) return multiplet;
       multiplet = SortedByMassTo(multiplet,mass);
       multiplet.erase(multiplet.begin() + 1, multiplet.end());
