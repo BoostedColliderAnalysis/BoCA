@@ -11,7 +11,7 @@ namespace higgscpv
  * @brief Prepares multivariant analysis
  *
  */
-class EventTagger : public analysis::Tagger
+class EventTagger : public analysis::BranchTagger<EventBranch>
 {
 
 public:
@@ -38,13 +38,7 @@ protected:
 
 private:
 
-    virtual TClass &Class() const {
-        return *EventBranch::Class();
-    }
-
     void DefineVariables();
-
-    EventBranch branch_;
 
     SignatureTagger signature_tagger_;
 

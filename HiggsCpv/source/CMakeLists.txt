@@ -4,9 +4,9 @@ set(LibrarySources
 TopSemiPairTagger.cpp
 TopLeptonicPairTagger.cpp
 SignatureTagger.cpp
-# EventTagger.cpp
-# AnalysisHiggs.cpp
+EventTagger.cpp
+AnalysisHiggs.cpp
 )
 HLibrary(HiggsCpvTagger "${LibrarySources}")
 
-# HExecutable(HiggsCpv ./main.cpp)
+HExecutable(HiggsCpv ./main.cpp)

@@ -85,7 +85,7 @@ int higgscpv::EventTagger::Train(analysis::Event &event, const Tag tag)
     Print(kNotification, "Train");
     std::vector<analysis::Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
     std::vector< analysis::MultipletEvent< analysis::Octet62 > > events;
-    return SaveEntries<EventBranch>(events);
+    return SaveEntries(events);
 }
 
 std::vector< analysis::MultipletEvent< analysis::Octet62 > > higgscpv::EventTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
