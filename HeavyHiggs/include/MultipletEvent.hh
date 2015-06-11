@@ -225,11 +225,11 @@ public:
         return delta_r;
     }
 
-    Multiplet SubMultiplet1() const {
+    Multiplet Multiplet1() const {
         return multiplet_;
     }
 
-    Singlet SubMultiplet2() const {
+    Singlet Multiplet2() const {
         return Singlet(RestJet());
     }
 

@@ -5,7 +5,7 @@
 namespace analysis
 {
 
-template <typename Multiplet1, typename Multiplet2>
+template <typename Multiplet_1, typename Multiplet_2>
 class Multiplet : public Identification
 {
 
@@ -13,8 +13,8 @@ public:
 
     Multiplet() {};
 
-    Multiplet(const Multiplet1 &multiplet_1, const Multiplet2 &multiplet_2) {
-        SetMultiplets(multiplet_1,multiplet_2);
+    Multiplet(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
+      SetMultiplets(multiplet_1,multiplet_2);
     }
 
     Multiplet(const fastjet::PseudoJet &jet) {
@@ -22,21 +22,21 @@ public:
     }
 
 
-    void SetMultiplets(const Multiplet1 &multiplet_1, const Multiplet2 &multiplet_2) {
+    void SetMultiplets(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
       multiplet_1_ = multiplet_1;
       multiplet_2_ = multiplet_2;
     }
 
     void SetJet(const fastjet::PseudoJet &jet) {
-      multiplet_1_ = Multiplet1(jet / 2);
-      multiplet_2_ = Multiplet2(jet / 2);
+      multiplet_1_ = Multiplet_1(jet / 2);
+      multiplet_2_ = Multiplet_2(jet / 2);
     }
 
-    inline Multiplet1 SubMultiplet1()const {
+    inline Multiplet_1 Multiplet1()const {
         return multiplet_1_;
     }
 
-    inline Multiplet2 SubMultiplet2()const {
+    inline Multiplet_2 Multiplet2()const {
         return multiplet_2_;
     }
 
@@ -106,9 +106,9 @@ public:
         return "Multiplet";
     }
 
-    Multiplet1 multiplet_1_;
+    Multiplet_1 multiplet_1_;
 
-    Multiplet2 multiplet_2_;
+    Multiplet_2 multiplet_2_;
 
 private:
 

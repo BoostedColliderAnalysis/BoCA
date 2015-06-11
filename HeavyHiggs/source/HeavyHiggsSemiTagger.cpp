@@ -26,7 +26,8 @@ void heavyhiggs::HeavyHiggsSemiTagger::DefineVariables()
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaPhi, "DeltaPhi");
 
-    AddVariable(branch_.Bdt, "Bdt");
+    AddVariable(branch_.Bdt1, "Bdt1");
+    AddVariable(branch_.Bdt2, "Bdt2");
     AddSpectator(branch_.Tag, "Tag");
 
     Print(kNotification, "Variables defined");

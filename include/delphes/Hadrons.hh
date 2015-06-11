@@ -26,7 +26,7 @@ public:
 
     analysis::Jets Jets() {
         NewEvent(*clones_arrays_);
-        switch (detector_geometry().jet_type) {
+        switch (DetectorGeometry().jet_type) {
         case DetectorGeometry::kJet :
           return DelphesJets(kStructure);
         case DetectorGeometry::kGenJet :

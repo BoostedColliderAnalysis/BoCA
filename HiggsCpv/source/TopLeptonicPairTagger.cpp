@@ -5,8 +5,9 @@
 
 higgscpv::TopLeptonicPairTagger::TopLeptonicPairTagger()
 {
+//   debug_level_ = kDebug;
     Print(kNotification, "Constructor");
-    set_tagger_name("TripletLeptonicPair");
+    set_tagger_name("TopLeptonicPair");
     top_leptonic_reader_.set_tagger(top_leptonic_tagger_);
     DefineVariables();
 }
@@ -42,10 +43,11 @@ void higgscpv::TopLeptonicPairTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, const Tag tag)
+int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "W Tags");
+    Print(kInformation, "Top Leptonic Pair Tagger Tags");
     std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
+    Print(kDebug, "Number of Doublets", doublets.size());
 
     analysis::Jets particles = event.Partons().GenParticles();
     analysis::Jets top_particles = analysis::copy_if_abs_particle(particles, TopId);
@@ -60,6 +62,7 @@ int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, const Tag tag
     case kBackground :
         final_doublets = doublets;
     }
+    Print(kDebug, "Number of Doublets", final_doublets.size());
 
     std::vector<analysis::Sextet> sextets;
     for (auto doublet1 = doublets.begin(); doublet1 != doublets.end(); ++doublet1)
@@ -67,18 +70,14 @@ int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, const Tag tag
             analysis::Quartet22 quartet(*doublet1, *doublet2);
             if(quartet.Overlap()) continue;
             analysis::WimpMass wimp_mass;
-            analysis::JoinVectors(sextets, wimp_mass.Sextets(quartet,event.Hadrons().MissingEt()));
+            sextets = analysis::JoinVectors(sextets, wimp_mass.Sextet(quartet,event.Hadrons().MissingEt(),neutrinos,tag));
         }
-
-    Print(kDebug, "Number of Jet Pairs", sextets.size());
-    if (tag == kSignal && sextets.size() > 1) {
-        sextets = analysis::SortByMaxDeltaRap(sextets);
-        if (sextets.size() > 1)sextets.erase(sextets.begin() + 1, sextets.end());
-    }
+    Print(kDebug, "Number of Sextets", sextets.size());
+    if (tag == kSignal ) sextets = BestRapidity(sextets);
     return SaveEntries(sextets);
 }
 
-std::vector< analysis::Sextet > higgscpv::TopLeptonicPairTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
+std::vector< analysis::Sextet > higgscpv::TopLeptonicPairTagger::Multiplets(analysis::Event& event,analysis::PreCuts &pre_cuts, const TMVA::Reader& reader)
 {
     std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
     std::vector<analysis::Sextet>  sextets;

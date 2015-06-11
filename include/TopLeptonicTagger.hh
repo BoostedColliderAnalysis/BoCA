@@ -20,7 +20,16 @@ public:
 
     int Train(analysis::Event &event,PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
-    std::vector< Doublet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector< Doublet> Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+      return SaveEntries(Multiplets(event,pre_cuts, reader));
+    }
+
+    auto Multiplets(Event &event, const TMVA::Reader &reader){
+      PreCuts pre_cuts;
+      return Multiplets(event, pre_cuts, reader);
+    }
 
 protected:
 
@@ -35,6 +44,8 @@ private:
     BottomTagger bottom_tagger_;
 
     Reader bottom_reader_;
+
+    float top_mass_window;
 
 };
 

@@ -138,7 +138,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
     }
 
     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return 0;
-    if (Tag == kBackground && BottomJets.size() < BackgroundBottomNumber)  return 0;
+    if (Tag == kBackground && BottomJets.size() <= BackgroundBottomNumber)  return 0;
 
     return 1;
 }

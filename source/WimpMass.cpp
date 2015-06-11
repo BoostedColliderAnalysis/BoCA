@@ -4,9 +4,8 @@
 
 analysis::WimpMass::WimpMass()
 {
-    //     DebugLevel = analysis::Object::kDebug;
-
-    Print(kNotification, "Constructor");
+//     debug_level_ = kDebug;
+    Print(kDebug, "Constructor");
 }
 
 void analysis::WimpMass::SetMomentum(double momentum[4], const fastjet::PseudoJet &jet)
@@ -17,14 +16,14 @@ void analysis::WimpMass::SetMomentum(double momentum[4], const fastjet::PseudoJe
     momentum[3] = jet.pz();
 }
 
-std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const std::vector<analysis::Quartet22>& quartets, const fastjet::PseudoJet& missing_et)
+std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const std::vector<analysis::Quartet22> &quartets, const fastjet::PseudoJet &missing_et)
 {
-  std::vector<analysis::Sextet> sextets;
-  for(const auto quartet : quartets) JoinVectors(sextets,Sextets(quartet,missing_et));
-  return sextets;
+    std::vector<analysis::Sextet> sextets;
+    for (const auto quartet : quartets) JoinVectors(sextets, Sextets(quartet, missing_et));
+    return sextets;
 }
 
-std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const analysis::Quartet22& quartet, const fastjet::PseudoJet& missing_et)
+std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &missing_et)
 {
     Print(kInformation, "Triple Pairs");
 
@@ -75,12 +74,10 @@ std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const analysis::Quarte
         Print(kDebug, "top masses", (PseudoJet(P1[SolutionNumber]) + quartet.Doublet1().SingletJet2() + quartet.Doublet1().SingletJet1()).m(), (PseudoJet(P2[SolutionNumber]) + quartet.Doublet2().SingletJet2() + quartet.Doublet2().SingletJet1()).m());
         //         Print(kDebug, "Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
     }
-
     return sextets;
-
 }
 
-std::vector<analysis::Sextet> analysis::WimpMass::Sextet(const analysis::Quartet22& quartet, const fastjet::PseudoJet& missing_et, const analysis::Jets& neutrinos, const analysis::Object::Tag tag)
+std::vector<analysis::Sextet> analysis::WimpMass::Sextet(const analysis::Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const analysis::Jets &neutrinos, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Triple Pair");
 
@@ -94,7 +91,7 @@ std::vector<analysis::Sextet> analysis::WimpMass::Sextet(const analysis::Quartet
     Print(kDebug, "Neutrino Sum", neutrinos[0] + neutrinos[1]);
     Print(kDebug, "MET", missing_et);
 
-    std::map<float, analysis::Sextet> Map;
+    std::map<float, analysis::Sextet> map;
     for (const auto & sextet : sextets) {
         fastjet::PseudoJet Neutrino1 = sextet.Triplet1().Doublet().SingletJet2();
         fastjet::PseudoJet Neutrino2 = sextet.Triplet2().Doublet().SingletJet2();
@@ -126,18 +123,18 @@ std::vector<analysis::Sextet> analysis::WimpMass::Sextet(const analysis::Quartet
 //                 if (Neutrino1Errors[i] + Neutrino2Errors[j] < Error) Error = Neutrino1Errors[i] + Neutrino2Errors[j];
 //             }
 //         }
-        Map[Error] = sextet;
+        map[Error] = sextet;
         Print(kDebug, "TriplePair Bdt", sextet.Bdt());
     }
 
-    for (const auto & Pair : Map) Print(kDebug, "Neutrino Error Sum", Pair.first);
-    if (tag == kSignal) Map.erase(std::next(Map.begin()), Map.end());
-    else Map.erase(Map.begin());
+    for (const auto & pair : map) Print(kDebug, "Neutrino Error Sum", pair.first);
+    if (tag == kSignal) map.erase(std::next(map.begin()), map.end());
+    else map.erase(map.begin());
 
-    std::vector<analysis::Sextet> Finalsextet;
-    for (const auto Pair : Map) {
-      analysis::Sextet sextet = Pair.second;
-        Finalsextet.emplace_back(sextet);
+    std::vector<analysis::Sextet> final_sextets;
+    for (const auto pair : map) {
+        analysis::Sextet sextet = pair.second;
+        final_sextets.emplace_back(sextet);
     }
 
 //     std::pair<float , Hsextet> Pair = *(Map.begin());
@@ -146,5 +143,5 @@ std::vector<analysis::Sextet> analysis::WimpMass::Sextet(const analysis::Quartet
 
 //     Finalsextet.emplace_back(*(Map.begin()).second);
 
-    return Finalsextet;
+    return final_sextets;
 }

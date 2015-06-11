@@ -224,13 +224,20 @@ struct Not5Quark {
 };
 
 struct AbsParticleId {
-    AbsParticleId(const int id) {
-        id_ = id;
+    AbsParticleId(const int id_1) {
+        id_1_ = id_1;
+        id_2_ = id_1;
+    }
+    AbsParticleId(const int id_1, const int id_2) {
+      id_1_ = id_1;
+      id_2_ = id_2;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        return (std::abs(Jet.user_info<JetInfo>().constituents().front().family().particle().Id) == id_);
+      int id = std::abs(Jet.user_info<JetInfo>().constituents().front().family().particle().Id);
+        return  (id == id_1_ | id == id_2_);
     }
-    int id_;
+    int id_1_;
+    int id_2_;
 };
 
 
@@ -255,6 +262,14 @@ Jets copy_if_abs_particle(const Jets &jets, const int particle_id)
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsParticleId(particle_id));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
     return final_jets;
+}
+
+Jets copy_if_abs_particle(const Jets &jets, const int particle_id_1, const int particle_id_2)
+{
+  Jets final_jets(jets.size());;
+  auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsParticleId(particle_id_1,particle_id_2));
+  final_jets.resize(std::distance(final_jets.begin(), iterator));
+  return final_jets;
 }
 
 

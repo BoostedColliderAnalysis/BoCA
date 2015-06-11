@@ -198,8 +198,8 @@ public:
         DeltaPhi = multiplet.DeltaPhi();
         DeltaR = multiplet.DeltaR();
         Bdt = multiplet.Bdt();
-        Bdt1 = multiplet.SubMultiplet1().Bdt();
-        Bdt2 = multiplet.SubMultiplet2().Bdt();
+        Bdt1 = multiplet.Multiplet1().Bdt();
+        Bdt2 = multiplet.Multiplet2().Bdt();
         Tag = multiplet.Tag();
     }
 private:

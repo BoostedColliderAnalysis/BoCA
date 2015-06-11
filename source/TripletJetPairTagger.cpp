@@ -37,7 +37,8 @@ void analysis::TripletJetPairTagger::DefineVariables()
     AddVariable(branch_.TopPhi, "TopPhi");
     AddVariable(branch_.TopBdt, "TopBdt");
 
-    AddVariable(branch_.Bdt, "Bdt");
+    AddVariable(branch_.Bdt1, "Bdt1");
+    AddVariable(branch_.Bdt2, "Bdt2");
     AddSpectator(branch_.Tag, "Tag");
 }
 

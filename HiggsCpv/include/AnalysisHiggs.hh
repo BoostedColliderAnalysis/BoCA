@@ -22,10 +22,18 @@ public:
   void SetFiles(const analysis::Object::Tag tag);
 
   inline std::string ProjectName() const {
-    return  "HiggsCpv-" + std::to_string(PreCut()) + "GeV-";
+    return  "HiggsCpv";
   }
 
   std::string ProcessName();
+
+  /**
+   * @brief Maximal number of Entries to analyse
+   *
+   */
+  inline int EventNumberMax() const {
+    return 5000;
+  }
 
 protected:
 

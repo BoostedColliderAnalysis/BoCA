@@ -4,7 +4,7 @@ analysis::HiggsTagger::HiggsTagger()
 {
     //         DebugLevel = analysis::Object::kDetailed;
     Print(kNotification, "Constructor");
-    set_tagger_name("HeavyHiggsSemi");
+    set_tagger_name("Higgs");
     bottom_reader_.set_tagger(bottom_tagger_);
     DefineVariables();
 }
@@ -25,32 +25,42 @@ void analysis::HiggsTagger::DefineVariables()
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaPhi, "DeltaPhi");
 
-    AddVariable(branch_.Bdt, "Bdt");
+    AddVariable(branch_.Bdt1, "Bdt1");
+    AddVariable(branch_.Bdt2, "Bdt2");
     AddSpectator(branch_.Tag, "Tag");
 }
 
 int analysis::HiggsTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Higgs Tags");
-
+    Print(kInformation, "Higgs Tag");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
-
     std::vector< analysis::Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             analysis::Doublet doublet(*jet_1, *jet_2);
             if (doublet.Overlap()) continue;
+//             if (tag == kSignal) std::abs(doublet.Jet().m() - Mass(HiggsId)) > 50) continue;
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
         }
     }
+    Jets particles = event.Partons().GenParticles();
+    Jets tops = copy_if_abs_particle(particles, HiggsId, CpvHiggsId);
+    switch (tag) {
+    case kSignal :
+        doublets = BestMatch(doublets, tops);
+        break;
+    case kBackground  :
+        doublets = RemoveBestMatch(doublets, tops);
+        break;
+    }
     return SaveEntries(doublets);
 }
 
-std::vector<analysis::Doublet>  analysis::HiggsTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Doublet>  analysis::HiggsTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-  Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
-
+    Print(kInformation, "Higgs Bdt");
+    Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< analysis::Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {

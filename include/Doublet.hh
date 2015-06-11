@@ -40,10 +40,6 @@ public:
 
     using Multiplet<Singlet,Singlet>::Multiplet;
 
-//     void SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2);
-
-//     void SetSinglets(const fastjet::PseudoJet &singlet);
-
     fastjet::PseudoJet SingletJet1()const;
 
     fastjet::PseudoJet SingletJet2()const;

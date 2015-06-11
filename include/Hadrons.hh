@@ -36,9 +36,9 @@ public:
 
 protected:
 
-    DetectorGeometry &detector_geometry() {
-        return detector_geometry_;
-    }
+//     DetectorGeometry &detector_geometry() {
+//         return detector_geometry_;
+//     }
 
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2, const float delta_r_isolation_max) const {
@@ -59,7 +59,7 @@ protected:
 
 private:
 
-    DetectorGeometry detector_geometry_;
+//     DetectorGeometry detector_geometry_;
 
 };
 

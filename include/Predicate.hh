@@ -143,6 +143,8 @@ fastjet::PseudoJet PseudoJet(const TLorentzVector &vector);
 
 Jets copy_if_abs_particle(const Jets &jets, const int particle_id);
 
+Jets copy_if_abs_particle(const Jets &jets, const int particle_id_1, const int particle_id_2);
+
 Jets copy_if_neutrino(const Jets &jets);
 
 Jets copy_if_particle(const Jets &jets, const int particle_id);

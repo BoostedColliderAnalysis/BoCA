@@ -237,9 +237,10 @@ fastjet::PseudoJet analysis::delphes::Hadrons::MissingEt()
 analysis::Jets analysis::delphes::Hadrons::GranulatedJets(const analysis::Jets &e_flow_jets)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
-    const float cell_delta_rap = detector_geometry().MinCellResolution;
-    const float cell_delta_phi = detector_geometry().MinCellResolution;
-    const float pt_cut_off = detector_geometry().MinCellPt;
+    DetectorGeometry detector_geometry;
+    const float cell_delta_rap = detector_geometry.MinCellResolution;
+    const float cell_delta_phi = detector_geometry.MinCellResolution;
+    const float pt_cut_off = detector_geometry.MinCellPt;
     analysis::Jets sorted_jets = sorted_by_pt(e_flow_jets);
     analysis::Jets jets;
     jets.emplace_back(sorted_jets.front());
@@ -280,8 +281,9 @@ analysis::Jets analysis::delphes::Hadrons::GranulatedJets(const analysis::Jets &
 
 analysis::Jets analysis::delphes::Hadrons::ClusteredJets()
 {
-    fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(GranulatedJets(EFlowJets(kStructure)), detector_geometry().JetDefinition);
-    analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence->inclusive_jets(detector_geometry().JetMinPt));
+    DetectorGeometry detector_geometry;
+    fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(GranulatedJets(EFlowJets(kStructure)), detector_geometry.JetDefinition);
+    analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence->inclusive_jets(detector_geometry.JetMinPt));
     if (jets.empty()) {
         delete cluster_sequence;
         return jets;

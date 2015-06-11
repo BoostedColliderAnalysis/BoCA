@@ -76,13 +76,7 @@ private:
 
     Reader w_hadronic_reader_;
 
-    TClass &Class() const {
-        return *TopHadronicBranch::Class();
-    }
-
     void DefineVariables();
-
-    TopHadronicBranch branch_;
 
     float top_mass_window_ ;
 

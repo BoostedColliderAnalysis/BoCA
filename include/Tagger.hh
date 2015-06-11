@@ -236,7 +236,7 @@ public:
     }
 
     virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &) {
-        Print(kError, "Bdt", "should be subclassed");
+        Print(kError, "Get Bdt", "should be subclassed");
         return 0;
     }
 
@@ -357,7 +357,8 @@ private:
 };
 
 template<typename Branch>
-class BranchTagger : public Tagger {
+class BranchTagger : public Tagger
+{
 
 protected:
 
@@ -370,11 +371,31 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplet, const float mass, const int number = 1) {
-      if (multiplet.empty()) return multiplet;
-      multiplet = SortedByMassTo(multiplet,mass);
-      multiplet.erase(multiplet.begin() + number, multiplet.end());
-      return multiplet;
+    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplets, const float mass, const std::size_t number = 1) {
+        if (multiplets.size() <= number) return multiplets;
+        multiplets = SortedByMassTo(multiplets, mass);
+        multiplets.erase(multiplets.begin() + number, multiplets.end());
+        return multiplets;
+    }
+
+    template<typename Multiplet>
+    std::vector<Multiplet> BestRapidity(std::vector<Multiplet> &multiplets, const std::size_t number = 1) {
+      if (multiplets.size() <= number) return multiplets;
+      multiplets = SortByMaxDeltaRap(multiplets);
+      multiplets.erase(multiplets.begin() + number, multiplets.end());
+      return multiplets;
+    }
+
+    template<typename Multiplet>
+    std::vector<Multiplet> BestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) {
+        if (multiplets.size() <= particles.size()) return multiplets;
+        return CopyIfClose(multiplets, particles);
+    }
+
+    template<typename Multiplet>
+    std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) {
+      if (multiplets.size() <= particles.size()) return multiplets;
+      return RemoveIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
@@ -391,11 +412,15 @@ protected:
         return multiplets.size();
     }
 
+//     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+//       return SaveEntries(Multiplets(event,pre_cuts, reader));
+//     }
+
     TClass &Class() const {
         return *Branch::Class();
     }
 
-    Branch& branch() {
+    Branch &branch() {
         return &branch_;
     }
 
