@@ -1,99 +1,57 @@
 # include "AnalysisHiggs.hh"
-# include "EventTagger.hh"
-# include "Factory.hh"
+
+# include "Configuration.hh"
 # include "TSystem.h"
+# include "Factory.hh"
+# include "EventTagger.hh"
 
-void RunTagger(const std::string TaggerName)
+void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const analysis::Configuration &config)
 {
+  higgscpv::Analysis analysis(tagger);
+  const std::string name = tagger.tagger_name();
+  analysis.Print(analysis.kError, "Tagger", name);
+  analysis.SetConfig(config);
 
-    std::cout << "Run Tagger " << TaggerName << std::endl;
+  std::string file_name = analysis.ProjectName() + "/" + name + ".root";
+  if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 
-//     bool HasFactory = 0;
-//     hhiggscpv::HAnalysis *Analysis = new hhiggscpv::HAnalysis();
+  file_name = analysis.ProjectName() + "/Mva" + name + ".root";
+  if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 
-//     TFile *File;
-    std::string FileName = "HiggsCpv/" + TaggerName + ".root";
-    if (gSystem->AccessPathName(FileName.c_str()))
-//         File = TFile::Open(FileName.c_str());
-//     else
-//         Analysis->AnalysisLoop(analysis::Tagger::kReader);
-
-    FileName = "HiggsCpv/Mva" + TaggerName + ".root";
-    if (gSystem->AccessPathName(FileName.c_str()))
-//         File = TFile::Open(FileName.c_str());
-//     else
-    {
-//             Analysis->GetFiles(TaggerName);
-//         if (Tagger == hhiggscpv::HAnalysis::HBottomTagger) {
-//           analysis::Factory Factory =
-//           analysis::Factory(Analysis->BottomTagger);
-//         }
-//         if (Tagger == analysis::HAnalysis::TopLeptonicTagger){
-//           analysis::Factory Factory =
-//           analysis::Factory(Analysis->LeptonicTopTagger);
-//         }
-//         if (Tagger == hhiggscpv::HAnalysis::HHiggsLeptonicTagger){
-//           analysis::Factory Factory =
-//           analysis::Factory(Analysis->HiggsTagger);
-//         }
-    }
-//     delete Analysis;
+  file_name = analysis.ProjectName() + "/" + name + "Bdt.root";
+  if (gSystem->AccessPathName(file_name.c_str())) {
+    analysis::Reader Reader(tagger);
+    Reader.OptimalSignificance();
+  }
 }
 
 int main()
 {
+  analysis::Configuration config("HiggsCpv");
 
-    RunTagger("Bottom" );
-    RunTagger("Top" );
-    RunTagger("Higgs");
-//     RunTagger("eventTagger",analysis::HAnalysis::EventTagger);
+  analysis::BottomTagger bottom_tagger;
+  RunTagger(bottom_tagger, analysis::Tagger::kTrainer, config);
+  RunTagger(bottom_tagger, analysis::Tagger::kReader, config);
 
+  analysis::TopLeptonicTagger top_hadronic_tagger;
+  RunTagger(top_hadronic_tagger, analysis::Tagger::kTrainer, config);
+  RunTagger(top_hadronic_tagger, analysis::Tagger::kReader, config);
 
-//    hhiggscpv::HAnalysis Analysis;
+  analysis::HiggsTagger heavy_higgs_semi_tagger;
+  RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer, config);
+  RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader, config);
 
-//     TFile *File(0);
-//     std::string FileName = "./Bottom.root";
-//     if (!gSystem->AccessPathName(FileName))
-//         File = TFile::Open(FileName);
-//     else
-//         Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HBottomTagger);
-//
-//     FileName = "./MvaBottom.root";
-//     if (!gSystem->AccessPathName(FileName))
-//         File = TFile::Open(FileName);
-//     else
-//         Factory = new hmva::Factory(Analysis->BottomTagger);
-//
-//
-//     FileName = "./Top.root";
-//     if (!gSystem->AccessPathName(FileName))
-//         File = TFile::Open(FileName);
-//     else
-//         Analysis->AnalysisLoop(hhiggscpv::HAnalysis::TopLeptonicTagger);
-//
-//     FileName = "./MvaTop.root";
-//     if (!gSystem->AccessPathName(FileName))
-//         File = TFile::Open(FileName);
-//     else
-//         Factory = new hmva::Factory(Analysis->LeptonicTopTagger);
-//
-//
-//     FileName = "./Higgs.root";
-//     if (!gSystem->AccessPathName(FileName))
-//         File = TFile::Open(FileName);
-//     else
-//         Analysis->AnalysisLoop(hhiggscpv::HAnalysis::HHiggsTagger);
-//
-//     FileName = "./MvaHiggs.root";
-//     if (!gSystem->AccessPathName(FileName))
-//         File = TFile::Open(FileName);
-//     else
-//         Factory = new hmva::Factory(Analysis->HiggsTagger);
+  higgscpv::TopLeptonicPairTagger jet_pair_tagger;
+  RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer, config);
+  RunTagger(jet_pair_tagger, analysis::Tagger::kReader, config);
 
-//     Analysis.AnalysisLoop(analysis::Tagger::kReader);
-    higgscpv::EventTagger Mva;
-    analysis::Factory Factory(Mva);
+  higgscpv::SignatureTagger signature_semi_tagger;
+  RunTagger(signature_semi_tagger, analysis::Tagger::kTrainer, config);
+  RunTagger(signature_semi_tagger, analysis::Tagger::kReader, config);
 
-    return 1;
+  higgscpv::EventTagger event_semi_tagger;
+  RunTagger(event_semi_tagger, analysis::Tagger::kTrainer, config);
+  RunTagger(event_semi_tagger, analysis::Tagger::kReader, config);
 
 }
+
