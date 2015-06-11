@@ -53,8 +53,13 @@ int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, const Tag tag
     if (top_particles.size() != 2 && tag == kSignal) Print(kError, "Number of Tops?", particles.size());
 
     std::vector<analysis::Doublet> final_doublets;
-    if (tag == kSignal) for (const auto & doublet : doublets) for(const auto top : top_particles) if (doublet.Coincides(top)) final_doublets.emplace_back(doublet);
-                else final_doublets = doublets;
+    switch (tag) {
+    case kSignal :
+        for (const auto & doublet : doublets) for(const auto top : top_particles) if (doublet.Coincides(top)) final_doublets.emplace_back(doublet);
+        break;
+    case kBackground :
+        final_doublets = doublets;
+    }
 
     std::vector<analysis::Sextet> sextets;
     for (auto doublet1 = doublets.begin(); doublet1 != doublets.end(); ++doublet1)

@@ -32,7 +32,7 @@ void analysis::TopLeptonicTagger::DefineVariables()
 
 }
 
-int analysis::TopLeptonicTagger::Train(Event &event, const Object::Tag tag)
+int analysis::TopLeptonicTagger::Train(Event &event,PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Train");
     int number_of_tops = 2;

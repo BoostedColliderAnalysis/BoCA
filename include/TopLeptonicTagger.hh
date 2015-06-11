@@ -18,7 +18,7 @@ public:
 
     TopLeptonicTagger();
 
-    int Train(analysis::Event &event, const analysis::Object::Tag tag);
+    int Train(analysis::Event &event,PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
     std::vector< Doublet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 

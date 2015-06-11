@@ -52,13 +52,24 @@ int higgscpv::TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
     if (TopParticles.size() != 1 && tag == kSignal) Print(kError, "Where is the Top?", TopParticles.size());
 
     std::vector<analysis::Triplet> final_triplets_hadronic;
-    if (tag == kSignal) for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_hadronic.emplace_back(triplet);
-            else final_triplets_hadronic = triplets_hadronic;
-
+    switch(tag) {
+    case kSignal :
+        for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_hadronic.emplace_back(triplet);
+        break;
+    case kBackground      :
+        final_triplets_hadronic = triplets_hadronic;
+        break;
+    }
 
     std::vector<analysis::Triplet> final_triplets_semi;
-    if (tag == kSignal) for (const auto & triplet : triplets_semi) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_semi.emplace_back(triplet);
-            else final_triplets_semi = triplets_semi;
+    switch (tag) {
+    case kSignal :
+        for (const auto & triplet : triplets_semi) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_semi.emplace_back(triplet);
+        break;
+    case kBackground :
+        final_triplets_semi = triplets_semi;
+        break;
+    }
 
     std::vector<analysis::Sextet> sextets;
     for (const auto & triplet_hadronic : triplets_hadronic)

@@ -83,21 +83,21 @@ public:
         return ht;
     }
 
-    inline void SetScalarHt(const float scalar_ht) {
-        global_observables_.scalar_ht = scalar_ht;
-    }
+//     inline void SetScalarHt(const float scalar_ht) {
+//         global_observables_.scalar_ht = scalar_ht;
+//     }
 
-    inline void SetJetNumber(const int jet_number) {
-        global_observables_.jet_number = jet_number;
-    }
+//     inline void SetJetNumber(const int jet_number) {
+//         global_observables_.jet_number = jet_number;
+//     }
 
-    inline void SetBottomNumber(const int bottom_number) {
-        global_observables_.bottom_number = bottom_number;
-    }
+//     inline void SetBottomNumber(const int bottom_number) {
+//         global_observables_.bottom_number = bottom_number;
+//     }
 
-    inline void SetLeptonNumber(const int lepton_number) {
-        global_observables_.lepton_number = lepton_number;
-    }
+//     inline void SetLeptonNumber(const int lepton_number) {
+//         global_observables_.lepton_number = lepton_number;
+//     }
 
     inline float ScalarHt() const {
         return global_observables_.scalar_ht();
@@ -140,7 +140,7 @@ public:
     inline float BottomBdt(const unsigned number) const {
         if (number < 0) return 0;
         if (all_jets_.size() < number) return 0;
-        return all_jets_.at(number - 1).user_info<JetInfo>().Bdt();
+        return all_jets_.at(number - 1).template user_info<JetInfo>().Bdt();
     }
 
     inline float BottomBdt(const unsigned number_1, const unsigned number_2) const {
@@ -150,7 +150,7 @@ public:
     inline float SubBottomBdt(const unsigned sum) const {
         if (sum < 0) return 0;
         if (sub_jets_.size() < sum) return 0;
-        return sub_jets_.at(sum - 1).user_info<JetInfo>().Bdt();
+        return sub_jets_.at(sum - 1).template user_info<JetInfo>().Bdt();
     }
 
     inline float SubBottomBdt(const unsigned number_1, const unsigned number_2) const {
@@ -183,7 +183,7 @@ public:
     float RestBdt() const {
         if (RestNumber() < 1) return 0;
         float bdt = 0;
-        for (const auto & jet : rest_jets_)bdt += jet.user_info<JetInfo>().Bdt();
+        for (const auto & jet : rest_jets_)bdt += jet.template user_info<JetInfo>().Bdt();
         return bdt / RestNumber();
     }
 
