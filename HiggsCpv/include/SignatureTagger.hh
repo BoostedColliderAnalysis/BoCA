@@ -41,6 +41,10 @@ protected:
         return "SignatureTagger";
     }
 
+    virtual int max_combi() const {
+      return 1;
+    }
+
 private:
 
     void DefineVariables();

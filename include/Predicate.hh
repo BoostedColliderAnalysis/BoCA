@@ -204,6 +204,7 @@ std::vector<Multiplet> RemoveIfClose(const std::vector<Multiplet> &jets, const J
 template <typename Multiplet>
 std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet> &multiplets, const Jets& particles)
 {
+  if(multiplets.empty()) return multiplets;
   std::vector<Multiplet> final_multiplets(multiplets.size());
   typename std::vector<Multiplet>::iterator multiplet;
   for(const auto &particle : particles) multiplet = std::copy_if(multiplets.begin(), multiplets.end(), final_multiplets.begin(), Close(particle));
