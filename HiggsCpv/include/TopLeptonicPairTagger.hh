@@ -11,7 +11,7 @@ namespace higgscpv
  * @brief JetPair BDT tagger
  *
  */
-class TopLeptonicPairTagger : public analysis::BranchTagger<TripletPairBranch>
+class TopLeptonicPairTagger : public analysis::BranchTagger<TopLeptonicPairBranch>
 {
 
 public:

@@ -83,6 +83,11 @@ higgscpv::HLeptonBranch::HLeptonBranch()
 }
 
 
+
+ClassImp(higgscpv::TopLeptonicPairBranch)
+
+higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch(){}
+
 ClassImp(higgscpv::TripletPairBranch)
 
 higgscpv::TripletPairBranch::TripletPairBranch()

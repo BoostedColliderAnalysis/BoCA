@@ -200,27 +200,39 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
+class TopLeptonicPairBranch : public analysis::MultiBranch
+{
+public:
+  TopLeptonicPairBranch();
+  template<typename Multiplet>
+  void Fill(const Multiplet &multiplet) {
+    MultiBranch::Fill(multiplet);
+  }
+private:
+  ClassDef(TopLeptonicPairBranch, 1)
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
 class TripletPairBranch : public analysis::PairBranch
 {
-
 public:
-
   TripletPairBranch();
-
   float BottomMass;
   float BottomPt;
   float BottomRap;
   float BottomPhi;
   float BottomBdt;
   float BottomBTag;
-
   float TopMass;
   float TopPt;
   float TopRap;
   float TopPhi;
   float TopBdt;
   float TopBTag;
-
   template<typename Multiplet>
   void Fill(const Multiplet &multiplet) {
     PairBranch::Fill(multiplet);
@@ -230,7 +242,6 @@ public:
     BottomPhi = multiplet.Triplet1().Jet().phi();
     BottomMass = multiplet.Triplet1().Jet().m();
     //         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
-
     TopPt = multiplet.Triplet2().Jet().pt();
     //         TopRap = std::abs(multiplet.triplet().Jet().rap());
     TopRap = multiplet.Triplet2().Jet().rap();
@@ -238,12 +249,10 @@ public:
     TopMass = multiplet.Triplet2().Jet().m();
     TopBdt = multiplet.Triplet2().Bdt();
   }
-
 private:
-
   ClassDef(TripletPairBranch, 1)
-
 };
+
 /**
  *
  * @brief Higgs tagger root tree structure

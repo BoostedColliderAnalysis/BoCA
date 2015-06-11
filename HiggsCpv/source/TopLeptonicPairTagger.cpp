@@ -27,19 +27,8 @@ void higgscpv::TopLeptonicPairTagger::DefineVariables()
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaR, "DeltaR");
 
-    AddVariable(branch_.BottomMass, "BottomMass");
-    AddVariable(branch_.BottomPt, "BottomPt");
-    AddVariable(branch_.BottomRap, "BottomRap");
-    AddVariable(branch_.BottomPhi, "BottomPhi");
-    AddVariable(branch_.BottomBdt, "BottomBdt");
-
-    AddVariable(branch_.TopMass, "TopMass");
-    AddVariable(branch_.TopPt, "TopPt");
-    AddVariable(branch_.TopRap, "TopRap");
-    AddVariable(branch_.TopPhi, "TopPhi");
-    AddVariable(branch_.TopBdt, "TopBdt");
-
-    AddVariable(branch_.Bdt, "Bdt");
+    AddVariable(branch_.Bdt1, "Bdt1");
+    AddVariable(branch_.Bdt2, "Bdt2");
     AddSpectator(branch_.Tag, "Tag");
 }
 
