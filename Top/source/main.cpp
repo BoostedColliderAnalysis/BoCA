@@ -9,31 +9,31 @@
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-  top::Analysis analysis(tagger);
-  const std::string name = tagger.name(stage);
-  analysis.Print(analysis.kError, "Tagger", name);
+    top::Analysis analysis(tagger);
+    const std::string name = tagger.name(stage);
+    analysis.Print(analysis.kError, "Tagger", name);
 
-  std::string file_name = analysis.ProjectName() + "/" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
+    std::string file_name = analysis.ProjectName() + "/" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 }
 
 void RunFactory(analysis::Tagger &tagger)
 {
-  top::Analysis analysis(tagger);
-  const std::string name = tagger.name(analysis::Tagger::kTrainer);
-  analysis.Print(analysis.kError, "Tagger", name);
-  std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
+    top::Analysis analysis(tagger);
+    const std::string name = tagger.name(analysis::Tagger::kTrainer);
+    analysis.Print(analysis.kError, "Tagger", name);
+    std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 }
 
 void RunReader(analysis::Tagger &tagger)
 {
-  top::Analysis analysis(tagger);
-  const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
-  if (gSystem->AccessPathName(file_name.c_str())) {
-    analysis::Reader reader(tagger);
-    reader.OptimalSignificance();
-  }
+    top::Analysis analysis(tagger);
+    const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
+    if (gSystem->AccessPathName(file_name.c_str())) {
+        analysis::Reader reader(tagger);
+        reader.OptimalSignificance();
+    }
 }
 
 int main(const int argc, const char **argv)
@@ -79,7 +79,7 @@ int main(const int argc, const char **argv)
             RunReader(tops_semi_tagger);
         }
     } catch (const std::exception &exception) {
-      std::cout << "Standard exception: " << exception.what() << std::endl;
+        std::cout << "Standard exception: " << exception.what() << std::endl;
     }
     std::cout << fastjet::LimitedWarning::summary() << std::endl;
     return EXIT_SUCCESS;

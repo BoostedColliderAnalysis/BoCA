@@ -261,6 +261,7 @@ std::vector<int> analysis::Reader::BdtDistribution(exroot::TreeReader &tree_read
 
 analysis::InfoBranch analysis::Reader::info_branch(TFile &file, const std::string &tree_name) const
 {
+    Print(kNotification, "Info Branch");
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
     Print(kError,"Info Branch",tree_name,tagger().weight_branch_name());
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());

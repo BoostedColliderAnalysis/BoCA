@@ -1,57 +1,69 @@
 # include "AnalysisHiggs.hh"
 
-# include "Configuration.hh"
 # include "TSystem.h"
 # include "Factory.hh"
 # include "EventTagger.hh"
 
-void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const analysis::Configuration &config)
+void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
   higgscpv::Analysis analysis(tagger);
-  const std::string name = tagger.tagger_name();
+  const std::string name = tagger.name(stage);
   analysis.Print(analysis.kError, "Tagger", name);
-  analysis.SetConfig(config);
 
   std::string file_name = analysis.ProjectName() + "/" + name + ".root";
   if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
+}
 
-  file_name = analysis.ProjectName() + "/Mva" + name + ".root";
+void RunFactory(analysis::Tagger &tagger)
+{
+  higgscpv::Analysis analysis(tagger);
+  const std::string name = tagger.name(analysis::Tagger::kTrainer);
+  analysis.Print(analysis.kError, "Tagger", name);
+  std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
   if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
+}
 
-  file_name = analysis.ProjectName() + "/" + name + "Bdt.root";
+void RunReader(analysis::Tagger &tagger)
+{
+  higgscpv::Analysis analysis(tagger);
+  const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
   if (gSystem->AccessPathName(file_name.c_str())) {
-    analysis::Reader Reader(tagger);
-    Reader.OptimalSignificance();
+    analysis::Reader reader(tagger);
+    reader.OptimalSignificance();
   }
 }
 
 int main()
 {
-  analysis::Configuration config("HiggsCpv");
-
   analysis::BottomTagger bottom_tagger;
-  RunTagger(bottom_tagger, analysis::Tagger::kTrainer, config);
-  RunTagger(bottom_tagger, analysis::Tagger::kReader, config);
+  RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
+  RunFactory(bottom_tagger);
+  RunTagger(bottom_tagger, analysis::Tagger::kReader);
 
-  analysis::TopLeptonicTagger top_hadronic_tagger;
-  RunTagger(top_hadronic_tagger, analysis::Tagger::kTrainer, config);
-  RunTagger(top_hadronic_tagger, analysis::Tagger::kReader, config);
+  analysis::TopLeptonicTagger top_leptonic_tagger;
+  RunTagger(top_leptonic_tagger, analysis::Tagger::kTrainer);
+  RunFactory(top_leptonic_tagger);
+  RunTagger(top_leptonic_tagger, analysis::Tagger::kReader);
 
-  analysis::HiggsTagger heavy_higgs_semi_tagger;
-  RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer, config);
-  RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader, config);
+  analysis::HiggsTagger higgs_tagger;
+  RunTagger(higgs_tagger, analysis::Tagger::kTrainer);
+  RunFactory(higgs_tagger);
+  RunTagger(higgs_tagger, analysis::Tagger::kReader);
 
   higgscpv::TopLeptonicPairTagger jet_pair_tagger;
-  RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer, config);
-  RunTagger(jet_pair_tagger, analysis::Tagger::kReader, config);
+  RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
+  RunFactory(jet_pair_tagger);
+  RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
 
   higgscpv::SignatureTagger signature_semi_tagger;
-  RunTagger(signature_semi_tagger, analysis::Tagger::kTrainer, config);
-  RunTagger(signature_semi_tagger, analysis::Tagger::kReader, config);
+  RunTagger(signature_semi_tagger, analysis::Tagger::kTrainer);
+  RunFactory(signature_semi_tagger);
+  RunTagger(signature_semi_tagger, analysis::Tagger::kReader);
 
   higgscpv::EventTagger event_semi_tagger;
-  RunTagger(event_semi_tagger, analysis::Tagger::kTrainer, config);
-  RunTagger(event_semi_tagger, analysis::Tagger::kReader, config);
+  RunTagger(event_semi_tagger, analysis::Tagger::kTrainer);
+  RunFactory(event_semi_tagger);
+  RunTagger(event_semi_tagger, analysis::Tagger::kReader);
 
 }
 
