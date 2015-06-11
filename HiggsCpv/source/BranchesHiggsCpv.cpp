@@ -82,8 +82,6 @@ higgscpv::HLeptonBranch::HLeptonBranch()
     Charge = int(InitialValue());
 }
 
-
-
 ClassImp(higgscpv::TopLeptonicPairBranch)
 
 higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch(){}
@@ -105,7 +103,6 @@ higgscpv::TripletPairBranch::TripletPairBranch()
     TopBdt = InitialValue();
     TopBTag = InitialValue();
 }
-
 
 ClassImp(higgscpv::QuartetPairBranch)
 

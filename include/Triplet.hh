@@ -31,10 +31,6 @@ public:
 
     analysis::Singlet Singlet() const;
 
-//     bool Overlap() const;
-//
-//     bool Overlap(const fastjet::PseudoJet &jet) const;
-
     void set_sub_jettiness(const SubJettiness &sub_jettiness) {
         sub_jettiness_ = sub_jettiness;
     }

@@ -42,27 +42,29 @@ std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const analysis::Quarte
     Print(kDebug, "PMiss" , PseudoJet(structure.pmiss));
 
     double P1[4][4], P2[4][4];
-    int SolutionSum;
-    solve22(structure, Mass(ElectronNeutrinoId), Mass(WId), Mass(TopId), SolutionSum, P1, P2);
-    Print(kDebug, "Number solutions", SolutionSum);
+    int solution_sum;
+    solve22(structure, Mass(ElectronNeutrinoId), Mass(WId), Mass(TopId), solution_sum, P1, P2);
+    Print(kDebug, "Number solutions", solution_sum);
 
     std::vector<analysis::Sextet> sextets;
-    for (const int SolutionNumber : analysis::Range(SolutionSum)) {
-        Print(kDebug, "Solution ", SolutionNumber);
-        Print(kDebug, "Neutrino 1 (p1)" , PseudoJet(P1[SolutionNumber]));
-        Print(kDebug, "Neutrino 2 (p2)" , PseudoJet(P2[SolutionNumber]));
+    for (const int solution_number : Range(solution_sum)) {
+        Print(kDebug, "Solution ", solution_number);
+        Print(kDebug, "Neutrino 1 (p1)" , PseudoJet(P1[solution_number]));
+        Print(kDebug, "Neutrino 2 (p2)" , PseudoJet(P2[solution_number]));
 
-        analysis::Doublet doublet1(quartet.Doublet1().SingletJet2(), PseudoJet(P1[SolutionNumber]));
-        if (doublet1.Jet().m() <= 0) continue;
-        analysis::Doublet doublet2(quartet.Doublet2().SingletJet2(), PseudoJet(P2[SolutionNumber]));
-        if (doublet2.Jet().m() <= 0) continue;
+        Doublet doublet_1(quartet.Doublet1().SingletJet2(), PseudoJet(P1[solution_number]));
+        if (doublet_1.Jet().m() <= 0) continue;
+        Doublet doublet_2(quartet.Doublet2().SingletJet2(), PseudoJet(P2[solution_number]));
+        if (doublet_2.Jet().m() <= 0) continue;
 
-        analysis::Triplet triplet1(doublet1, quartet.Doublet1().SingletJet1());
-        if (triplet1.Jet().m() <= 0) continue;
-        analysis::Triplet triplet2(doublet2, quartet.Doublet2().SingletJet1());
-        if (triplet2.Jet().m() <= 0) continue;
+        Triplet triplet_1(doublet_1, quartet.Doublet1().SingletJet1());
+        if (triplet_1.Jet().m() <= 0) continue;
+        triplet_1.SetBdt(quartet.Doublet1().Bdt());
+        Triplet triplet_2(doublet_2, quartet.Doublet2().SingletJet1());
+        if (triplet_2.Jet().m() <= 0) continue;
+        triplet_2.SetBdt(quartet.Doublet2().Bdt());
 
-        analysis::Sextet sextet(triplet1, triplet2);
+        analysis::Sextet sextet(triplet_1, triplet_2);
         if (sextet.Jet().m() <= 0) continue;
         sextet.SetTag(quartet.Tag());
         sextet.SetBdt(quartet.Bdt());
@@ -70,8 +72,8 @@ std::vector<analysis::Sextet> analysis::WimpMass::Sextets(const analysis::Quarte
 
         Print(kDebug, "TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
         //         Print(kDebug, "Neutrino masses", Jet1.m(), Jet2.m());
-        Print(kDebug, "W masses", (PseudoJet(P1[SolutionNumber]) + quartet.Doublet1().SingletJet2()).m(), (PseudoJet(P2[SolutionNumber]) + quartet.Doublet2().SingletJet2()).m());
-        Print(kDebug, "top masses", (PseudoJet(P1[SolutionNumber]) + quartet.Doublet1().SingletJet2() + quartet.Doublet1().SingletJet1()).m(), (PseudoJet(P2[SolutionNumber]) + quartet.Doublet2().SingletJet2() + quartet.Doublet2().SingletJet1()).m());
+        Print(kDebug, "W masses", (PseudoJet(P1[solution_number]) + quartet.Doublet1().SingletJet2()).m(), (PseudoJet(P2[solution_number]) + quartet.Doublet2().SingletJet2()).m());
+        Print(kDebug, "top masses", (PseudoJet(P1[solution_number]) + quartet.Doublet1().SingletJet2() + quartet.Doublet1().SingletJet1()).m(), (PseudoJet(P2[solution_number]) + quartet.Doublet2().SingletJet2() + quartet.Doublet2().SingletJet1()).m());
         //         Print(kDebug, "Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
     }
     return sextets;
@@ -105,7 +107,7 @@ std::vector<analysis::Sextet> analysis::WimpMass::Sextet(const analysis::Quartet
             Print(kDebug, "Neutrino 2 Error", (Neutrino + Neutrino2).m());
         }
 
-        float Error = analysis::LargeNumber();
+        float Error = LargeNumber();
         for (const auto Neutrino1Error : Neutrino1Errors)
             for (const auto Neutrino2Error : Neutrino2Errors) {
                 if (&Neutrino1Error - &Neutrino1Errors[0] == &Neutrino2Error - &Neutrino2Errors[0]) continue;
