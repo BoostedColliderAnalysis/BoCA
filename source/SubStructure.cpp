@@ -4,18 +4,20 @@
 #include  "exroot/ExRootAnalysis.hh"
 # include "Branches.hh"
 
-analysis::SubStructure::SubStructure()
+namespace analysis {
+
+SubStructure::SubStructure()
 {
     Print(kNotification, "Constructor");
 //   Shift = 1;
 }
 
-void analysis::SubStructure::NewEvent()
+void SubStructure::NewEvent()
 {
     SubJets = 0;
 }
 
-bool analysis::SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
+bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
 {
     SubJets = 1;
     Global.Mass = CandidateJet.m();
@@ -66,7 +68,7 @@ bool analysis::SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     return 1;
 }
 
-analysis::Vectors analysis::SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
+Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
 {
     if (CandidateJet.constituents().empty()) {
         Print(kNotification, "Not enough constituents", CandidateJet.constituents().size());
@@ -127,7 +129,7 @@ analysis::Vectors analysis::SubStructure::Getconstituents(const fastjet::PseudoJ
     return constituentVectors;
 }
 
-bool analysis::SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Jets &LeptonJets)
+bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Jets &LeptonJets)
 {
     // Get Position of SubJets
     Jets PieceJets = CandidateJet.pieces();
@@ -162,7 +164,7 @@ bool analysis::SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet
 
 
 
-float analysis::SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
+float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 {
     Print(kInformation, "Jing Dipolarity");
 //     Jets SubJetVector = CandidateJet.pieces();
@@ -244,4 +246,4 @@ float analysis::SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJ
     //     return (DiPolarity / constituentSum * 10000);
 }
 
-
+}

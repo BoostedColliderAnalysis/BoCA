@@ -3,7 +3,9 @@
 # include "fastjet/ClusterSequence.hh"
 # include "Singlet.hh"
 
-analysis::TauTagger::TauTagger()
+namespace analysis {
+
+TauTagger::TauTagger()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
@@ -11,7 +13,7 @@ analysis::TauTagger::TauTagger()
     DefineVariables();
 }
 
-void analysis::TauTagger::DefineVariables()
+void TauTagger::DefineVariables()
 {
     Print(kInformation , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -31,7 +33,7 @@ void analysis::TauTagger::DefineVariables()
     AddSpectator(branch_.Bdt, "Bdt");
 }
 
-int analysis::TauTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
+int TauTagger::Train(Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Tau Tag", tag);
     Jets jets = event.Hadrons().Jets();
@@ -54,7 +56,7 @@ int analysis::TauTagger::Train(analysis::Event &event, const analysis::Object::T
     return SaveEntries(singlets);
 }
 
-// analysis::Jets analysis::TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
+// Jets TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
 // {
 //     Print(kInformation, "Sub Jets");
 //     Jets Pieces;
@@ -88,7 +90,7 @@ int analysis::TauTagger::Train(analysis::Event &event, const analysis::Object::T
 // }
 
 
-analysis::Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
+Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 {
     Print(kInformation, "Clean Jets");
     for (const auto & Particle : Particles) {
@@ -116,7 +118,7 @@ analysis::Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles,
     return NewCleanJets;
 }
 
-// analysis::Object::HTag analysis::HTauTagger::GetTag(const fastjet::PseudoJet &Jet) const
+// Object::HTag HTauTagger::GetTag(const fastjet::PseudoJet &Jet) const
 // {
 //
 //     Print(kDebug, "Bottom Tag", Jet.rap(), Jet.user_info<JetInfo>().MaximalId());
@@ -126,7 +128,7 @@ analysis::Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles,
 //     return kSignal;
 // }
 
-// analysis::Jets analysis::TauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
+// Jets TauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
 // {
 //     Jets NewJets = GetJetBdt(jets, BottomReader);
 //     Jets DiJets = GetSubBdt(jets, BottomReader, 2);
@@ -136,7 +138,7 @@ analysis::Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles,
 //     return NewJets;
 // }
 
-// analysis::Jets analysis::TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
+// Jets TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
 // {
 //     Print(kInformation, "Sub Bdt");
 //     Jets Pieces;
@@ -170,7 +172,7 @@ analysis::Jets analysis::TauTagger::CleanJets(Jets &jets, const Jets &Particles,
 //     return GetJetBdt(Pieces, BottomReader);
 // }
 
-analysis::Jets analysis::TauTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+Jets TauTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
     Jets final_jets;
     Print(kInformation, "Jet Bdt");
@@ -189,4 +191,6 @@ analysis::Jets analysis::TauTagger::Multiplets(Event &event, const TMVA::Reader 
         final_jets.emplace_back(jet);
     }
     return final_jets;
+}
+
 }

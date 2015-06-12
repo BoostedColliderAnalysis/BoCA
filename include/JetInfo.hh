@@ -48,6 +48,8 @@ public:
      */
     JetInfo();
 
+    JetInfo(const float bdt);
+
     JetInfo(const ::delphes::Jet &jet);
 
     JetInfo(const bool b_tag);

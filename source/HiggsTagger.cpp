@@ -1,15 +1,17 @@
 # include "HiggsTagger.hh"
 
-analysis::HiggsTagger::HiggsTagger()
+namespace analysis {
+
+HiggsTagger::HiggsTagger()
 {
-    //         DebugLevel = analysis::Object::kDetailed;
+    //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
     set_tagger_name("Higgs");
     bottom_reader_.set_tagger(bottom_tagger_);
     DefineVariables();
 }
 
-void analysis::HiggsTagger::DefineVariables()
+void HiggsTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -30,14 +32,14 @@ void analysis::HiggsTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int analysis::HiggsTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
+int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Higgs Tag");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector< analysis::Doublet > doublets;
+    std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
-            analysis::Doublet doublet(*jet_1, *jet_2);
+            Doublet doublet(*jet_1, *jet_2);
             if (doublet.Overlap()) continue;
 //             if (tag == kSignal) std::abs(doublet.Jet().m() - Mass(HiggsId)) > 50) continue;
             doublet.SetTag(tag);
@@ -57,14 +59,14 @@ int analysis::HiggsTagger::Train(analysis::Event &event, analysis::PreCuts &pre_
     return SaveEntries(doublets);
 }
 
-std::vector<analysis::Doublet>  analysis::HiggsTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  HiggsTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "Higgs Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector< analysis::Doublet > doublets;
+    std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
-            analysis::Doublet doublet(*jet_1, *jet_2);
+            Doublet doublet(*jet_1, *jet_2);
             if (doublet.Overlap()) continue;
             branch_ = branch(doublet);
             doublet.SetBdt(Bdt(reader));
@@ -72,4 +74,6 @@ std::vector<analysis::Doublet>  analysis::HiggsTagger::Multiplets(analysis::Even
         }
     }
     return ReduceResult(doublets);
+}
+
 }

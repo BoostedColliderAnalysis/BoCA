@@ -3,16 +3,19 @@
 # include "WimpMass.hh"
 # include "Predicate.hh"
 
-higgscpv::TopLeptonicPairTagger::TopLeptonicPairTagger()
+namespace higgscpv
 {
-//   debug_level_ = kDebug;
+
+TopLeptonicPairTagger::TopLeptonicPairTagger()
+{
+//     debug_level_ = kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopLeptonicPair");
     top_leptonic_reader_.set_tagger(top_leptonic_tagger_);
     DefineVariables();
 }
 
-void higgscpv::TopLeptonicPairTagger::DefineVariables()
+void TopLeptonicPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -32,7 +35,7 @@ void higgscpv::TopLeptonicPairTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
+int TopLeptonicPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Top Leptonic Pair Tagger Tags");
     std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
@@ -46,7 +49,7 @@ int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, analysis::Pre
     std::vector<analysis::Doublet> final_doublets;
     switch (tag) {
     case kSignal :
-        for (const auto & doublet : doublets) for(const auto top : top_particles) if (doublet.Coincides(top)) final_doublets.emplace_back(doublet);
+        for (const auto & doublet : doublets) for (const auto top : top_particles) if (doublet.Coincides(top)) final_doublets.emplace_back(doublet);
         break;
     case kBackground :
         final_doublets = doublets;
@@ -55,31 +58,39 @@ int higgscpv::TopLeptonicPairTagger::Train(analysis::Event &event, analysis::Pre
 
     std::vector<analysis::Sextet> sextets;
     for (auto doublet1 = doublets.begin(); doublet1 != doublets.end(); ++doublet1)
-        for (auto doublet2 = doublet1+1; doublet2 != doublets.end(); ++doublet2) {
+        for (auto doublet2 = doublet1 + 1; doublet2 != doublets.end(); ++doublet2) {
             analysis::Quartet22 quartet(*doublet1, *doublet2);
-            if(quartet.Overlap()) continue;
+            if (quartet.Overlap()) continue;
             analysis::WimpMass wimp_mass;
-            sextets = analysis::JoinVectors(sextets, wimp_mass.Sextet(quartet,event.Hadrons().MissingEt(),neutrinos,tag));
+//             sextets = analysis::Join(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
+            sextets.emplace_back(wimp_mass.Fake(quartet));
         }
     Print(kDebug, "Number of Sextets", sextets.size());
-    if (tag == kSignal ) sextets = BestRapidity(sextets);
+    if (tag == kSignal) sextets = BestRapidity(sextets);
     return SaveEntries(sextets);
 }
 
-std::vector< analysis::Sextet > higgscpv::TopLeptonicPairTagger::Multiplets(analysis::Event& event,analysis::PreCuts &pre_cuts, const TMVA::Reader& reader)
+std::vector< analysis::Sextet > TopLeptonicPairTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     std::vector<analysis::Doublet> doublets = top_leptonic_reader_.Multiplets<analysis::TopLeptonicTagger>(event);
+    Print(kInformation, "Doublets", doublets.size());
     std::vector<analysis::Sextet>  sextets;
     for (auto doublet1 = doublets.begin(); doublet1 != doublets.end(); ++doublet1)
-        for (auto doublet2 = doublet1+1; doublet2 != doublets.end(); ++doublet2) {
+        for (auto doublet2 = doublet1 + 1; doublet2 != doublets.end(); ++doublet2) {
             analysis::Quartet22 quartet(*doublet1, *doublet2);
-            if(quartet.Overlap()) continue;
+            if (quartet.Overlap()) continue;
+            Print(kInformation, "Quartet");
             analysis::WimpMass wimp_mass;
-            for(auto sextet : wimp_mass.Sextets(quartet,event.Hadrons().MissingEt())) {
+//             for (auto sextet : wimp_mass.Sextets(quartet, event.Hadrons().MissingEt())) {
+                analysis::Sextet sextet = wimp_mass.Fake(quartet);
+                Print(kInformation, "Sextet");
                 branch_ = branch(sextet);
                 sextet.SetBdt(Bdt(reader));
                 sextets.emplace_back(sextet);
-            }
+//             }
         }
+    Print(kInformation, "Sextets", sextets.size());
     return ReduceResult(sextets);
+}
+
 }

@@ -1,26 +1,28 @@
 # include "Doublet.hh"
 
-fastjet::PseudoJet analysis::Doublet::SingletJet1()const
+namespace analysis {
+
+fastjet::PseudoJet Doublet::SingletJet1()const
 {
     return multiplet_1_.Jet();
 }
 
-fastjet::PseudoJet analysis::Doublet::SingletJet2()const
+fastjet::PseudoJet Doublet::SingletJet2()const
 {
     return multiplet_2_.Jet();
 }
 
-analysis::Singlet analysis::Doublet::Singlet1()const
+Singlet Doublet::Singlet1()const
 {
     return multiplet_1_;
 }
 
-analysis::Singlet analysis::Doublet::Singlet2()const
+Singlet Doublet::Singlet2()const
 {
     return multiplet_2_;
 }
 
-std::vector<analysis::Kinematics> analysis::Doublet::Constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const
+std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const
 {
     Print(kInformation, "constituents", jet_ratio, theta);
     const float Cut = 2. / jet_ratio;
@@ -49,7 +51,7 @@ std::vector<analysis::Kinematics> analysis::Doublet::Constituents(const fastjet:
     return Newconstituents;
 }
 
-// void analysis::Doublet::SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2)
+// void Doublet::SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2)
 // {
 //     Print(kInformation, "Constructor");
 //     multiplet_1_ = singlet_1;
@@ -57,7 +59,7 @@ std::vector<analysis::Kinematics> analysis::Doublet::Constituents(const fastjet:
 //     SetBdt(SubMultiplet1().Bdt(), SubMultiplet2().Bdt());
 // }
 //
-// void analysis::Doublet::SetSinglets(const fastjet::PseudoJet &singlet)
+// void Doublet::SetSinglets(const fastjet::PseudoJet &singlet)
 // {
 //     Print(kInformation, "Constructor");
 //     multiplet_1_ = singlet / 2;
@@ -68,7 +70,7 @@ std::vector<analysis::Kinematics> analysis::Doublet::Constituents(const fastjet:
 //     if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Tag() != initial_value()) SetTag(singlet.user_info<JetInfo>().Tag());
 // }
 
-float analysis::Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const
+float Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const
 {
     Print(kInformation, "ReferenceAngle");
     const float Rap = NewJet.rap() - ReferenceJet.rap();
@@ -77,7 +79,7 @@ float analysis::Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const 
 }
 
 
-float analysis::Doublet::PullAngle1() const
+float Doublet::PullAngle1() const
 {
     Print(kInformation, "PullAngle1");
     const float pull = Pull(SingletJet1());
@@ -85,7 +87,7 @@ float analysis::Doublet::PullAngle1() const
     return analysis::DeltaPhi(pull, reference_angle);
 }
 
-float analysis::Doublet::PullAngle2() const
+float Doublet::PullAngle2() const
 {
     Print(kInformation, "PullAngle2");
     const float pull = Pull(SingletJet2());
@@ -95,7 +97,7 @@ float analysis::Doublet::PullAngle2() const
 }
 
 
-float analysis::Doublet::Pull(const fastjet::PseudoJet &NewJet) const
+float Doublet::Pull(const fastjet::PseudoJet &NewJet) const
 {
     Print(kInformation, "Pull");
     float Rap = 0;
@@ -113,7 +115,7 @@ float analysis::Doublet::Pull(const fastjet::PseudoJet &NewJet) const
 }
 
 
-std::vector<analysis::Kinematics> analysis::Doublet::Constituents() const
+std::vector<Kinematics> Doublet::Constituents() const
 {
     Print(kInformation, "constituents");
     if (SingletJet1().constituents().empty() || SingletJet2().constituents().empty()) {
@@ -133,4 +135,6 @@ std::vector<analysis::Kinematics> analysis::Doublet::Constituents() const
     std::vector<Kinematics> constituent_2 = Constituents(SingletJet2(), SubJetRatio, -Theta, Shift);
     constituents_1.insert(constituents_1.end(), constituent_2.begin(), constituent_2.end());
     return constituents_1;
+}
+
 }

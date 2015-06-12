@@ -1,6 +1,8 @@
 # include "JetPairTagger.hh"
 
-analysis::JetPairTagger::JetPairTagger()
+namespace analysis {
+
+JetPairTagger::JetPairTagger()
 {
 //     DebugLevel = kDetailed;
     Print(kNotification, "Constructor");
@@ -8,7 +10,7 @@ analysis::JetPairTagger::JetPairTagger()
     DefineVariables();
 }
 
-void analysis::JetPairTagger::DefineVariables()
+void JetPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -52,7 +54,7 @@ void analysis::JetPairTagger::DefineVariables()
 
 }
 
-int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const Tag tag)
+int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Jet Pair Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
@@ -111,7 +113,7 @@ int analysis::JetPairTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
 
 }
 
-std::vector<analysis::Doublet>  analysis::JetPairTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Doublet>  JetPairTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Doublet>  doublets;
@@ -130,3 +132,4 @@ std::vector<analysis::Doublet>  analysis::JetPairTagger::Multiplets(Event &event
     return ReduceResult(doublets);
 }
 
+}

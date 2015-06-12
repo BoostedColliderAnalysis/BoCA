@@ -1,16 +1,18 @@
 # include "DoubletTagger.hh"
 
+namespace analysis {
+
 // No need to call this TemporaryFunction() function,
 // it's just to avoid link error.
 void TemporaryFunction ()
 {
-  analysis::DoubletTagger<analysis::WHadronicBranch> TempObj;
+  DoubletTagger<WHadronicBranch> TempObj;
 }
 
 template <class DoubletBranch>
-analysis::DoubletTagger<DoubletBranch>::DoubletTagger()
+DoubletTagger<DoubletBranch>::DoubletTagger()
 {
-//     DebugLevel = analysis::Object::kDebug;
+//     DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("WHadronic");
     doublet_mass_window_ = 20;
@@ -19,7 +21,7 @@ analysis::DoubletTagger<DoubletBranch>::DoubletTagger()
 }
 
 template <class DoubletBranch>
-void analysis::DoubletTagger<DoubletBranch>::DefineVariables()
+void DoubletTagger<DoubletBranch>::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -36,7 +38,7 @@ void analysis::DoubletTagger<DoubletBranch>::DefineVariables()
 }
 
 template <class DoubletBranch>
-int analysis::DoubletTagger<DoubletBranch>::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
+int DoubletTagger<DoubletBranch>::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Doublet Tags");
     std::vector<Doublet> doublets;
@@ -44,7 +46,7 @@ int analysis::DoubletTagger<DoubletBranch>::Train(analysis::Event &event, PreCut
 }
 
 template <class DoubletBranch>
-std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "doublet Bdt");
 
@@ -62,7 +64,7 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
     // 1 of 2 subjets forms a W
     for (const auto & jet : jets) {
         Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).SubMultiplet(jet, bottom_reader_.reader(), 2);
-        for (const auto & piece : pieces) doublets = JoinVectors(doublets, Multiplet(piece, reader));
+        for (const auto & piece : pieces) doublets = Join(doublets, Multiplet(piece, reader));
     }
 
     std::sort(doublets.begin(), doublets.end());
@@ -71,7 +73,7 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
 }
 
 template <class DoubletBranch>
-std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, const TMVA::Reader &reader)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, const TMVA::Reader &reader)
 {
     Print(kInformation, "doublet Bdt");
 
@@ -79,7 +81,7 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
-            doublets = JoinVectors(doublets, Multiplet(*Jet1, *Jet2, reader));
+            doublets = Join(doublets, Multiplet(*Jet1, *Jet2, reader));
         }
 
     std::sort(doublets.begin(), doublets.end());
@@ -88,14 +90,14 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
 }
 
 template <class DoubletBranch>
-std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
     Print(kInformation, "doublet Bdt");
 
     std::vector<Doublet>  doublets;
     for (const auto & jet : jets) {
         Jets pieces = static_cast<BottomTagger &>(bottom_reader_.tagger()).SubMultiplet(jet, bottom_reader_.reader(), sub_jet_number);
-        for (const auto & piece : pieces) doublets = JoinVectors(doublets, Multiplet(piece, reader));
+        for (const auto & piece : pieces) doublets = Join(doublets, Multiplet(piece, reader));
     }
 
 //     std::sort(doublets.begin(), doublets.end());
@@ -104,7 +106,7 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
 }
 
 template <class DoubletBranch>
-std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader)
 {
     Print(kInformation, "doublet Bdt");
     Doublet doublet(jet_1, jet_2);
@@ -113,7 +115,7 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
 }
 
 template <class DoubletBranch>
-std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
     Print(kInformation, "doublet Bdt");
     Jets subjets = SubJets(jet, 2);
@@ -125,7 +127,7 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
 }
 
 template <class DoubletBranch>
-std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet(Doublet &doublet, const TMVA::Reader &reader)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(Doublet &doublet, const TMVA::Reader &reader)
 {
   Print(kInformation, "doublet Bdt");
   std::vector<Doublet>  doublets;
@@ -134,4 +136,6 @@ std::vector<analysis::Doublet> analysis::DoubletTagger<DoubletBranch>::Multiplet
   doublet.SetBdt(Bdt(reader));
   doublets.emplace_back(doublet);
   return doublets;
+}
+
 }

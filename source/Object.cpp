@@ -1,15 +1,17 @@
 # include "Object.hh"
 
-analysis::Object::Object()
+namespace analysis{
+
+Object::Object()
 {
-//     DebugLevel = kInformation;
+//   debug_level_ = kInformation;
     debug_level_ = kNotification;
-//     DebugLevel = kError;
-//     DebugLevel = kDebug;
+  //     debug_level_ = kError;
+  //     debug_level_ = kDebug;
 //     Print(kDebug, "Constructor");
 }
 
-void analysis::Object::Printer(const std::string &Description) const
+void Object::Printer(const std::string &Description) const
 {
     const char Separator = ' ';
     const int NameSpaceWidth = 12;
@@ -21,7 +23,7 @@ void analysis::Object::Printer(const std::string &Description) const
     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Description;
 }
 
-std::string analysis::Object::Name(const int particle_id) const
+std::string Object::Name(const int particle_id) const
 {
     std::string sign = "";
     if (particle_id < 0) sign = "-";
@@ -148,7 +150,7 @@ std::string analysis::Object::Name(const int particle_id) const
     }
 }
 
-float analysis::Object::Mass(const ParticleId particle_id) const
+float Object::Mass(const ParticleId particle_id) const
 {
     switch (std::abs(particle_id)) {
     case StrangeId:
@@ -200,3 +202,4 @@ float analysis::Object::Mass(const ParticleId particle_id) const
     }
 }
 
+}

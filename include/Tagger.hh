@@ -380,10 +380,10 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> BestRapidity(std::vector<Multiplet> &multiplets, const std::size_t number = 1) {
-      if (multiplets.size() <= number) return multiplets;
-      multiplets = SortByMaxDeltaRap(multiplets);
-      multiplets.erase(multiplets.begin() + number, multiplets.end());
-      return multiplets;
+        if (multiplets.size() <= number) return multiplets;
+        multiplets = SortByMaxDeltaRap(multiplets);
+        multiplets.erase(multiplets.begin() + number, multiplets.end());
+        return multiplets;
     }
 
     template<typename Multiplet>
@@ -394,8 +394,8 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) {
-      if (multiplets.size() <= particles.size()) return multiplets;
-      return RemoveIfClose(multiplets, particles);
+        if (multiplets.size() <= particles.size()) return multiplets;
+        return RemoveIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
@@ -408,6 +408,7 @@ protected:
 
     template<typename Multiplet>
     int SaveEntries(const std::vector<Multiplet> &multiplets) {
+        if (multiplets.empty()) return 0;
         for (const auto & multiplet : multiplets) static_cast<Branch &>(*tree_branch().NewEntry()) = branch(multiplet);
         return multiplets.size();
     }

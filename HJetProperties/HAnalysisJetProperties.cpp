@@ -128,7 +128,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     //
     //     }
     analysis::EventBranch *eventB = static_cast<analysis::EventBranch *>(eventBranch->NewEntry());
-    eventB->ScalarPtSum = 1. / event.Hadrons().ScalarHt();
+    eventB->ScalarHt= 1. / event.Hadrons().ScalarHt();
     std::vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
     if (StudyName == "Top") Ids = { TopId};

@@ -1,7 +1,9 @@
 # include "TopSemiPairTagger.hh"
 # include "Predicate.hh"
 
-higgscpv::TopSemiPairTagger::TopSemiPairTagger()
+namespace higgscpv {
+
+TopSemiPairTagger::TopSemiPairTagger()
 {
     Print(kNotification, "Constructor");
     set_tagger_name("TripletJetJetPair");
@@ -10,7 +12,7 @@ higgscpv::TopSemiPairTagger::TopSemiPairTagger()
     DefineVariables();
 }
 
-void higgscpv::TopSemiPairTagger::DefineVariables()
+void TopSemiPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -41,7 +43,7 @@ void higgscpv::TopSemiPairTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int higgscpv::TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
+int TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "W Tags");
     std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
@@ -87,7 +89,7 @@ int higgscpv::TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector< analysis::Sextet > higgscpv::TopSemiPairTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
+std::vector< analysis::Sextet > TopSemiPairTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
 {
     std::vector<analysis::Triplet> triplets_semi = top_semi_reader_.Multiplets<analysis::TopSemiTagger>(event);
     std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
@@ -101,4 +103,6 @@ std::vector< analysis::Sextet > higgscpv::TopSemiPairTagger::Multiplets(analysis
             sextets.emplace_back(sextet);
         }
     return ReduceResult(sextets);
+}
+
 }

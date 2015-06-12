@@ -9,7 +9,6 @@ ChargedHiggsSemiTagger.cpp
 ChargedHiggsLeptonicTagger.cpp
 SignatureNeutralTagger.cpp
 SignatureChargedTagger.cpp
-MultipletEvent.cpp
 EventNeutralTagger.cpp
 EventChargedTagger.cpp
 EventFusionTagger.cpp

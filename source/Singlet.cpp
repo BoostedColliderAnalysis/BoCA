@@ -1,22 +1,24 @@
 # include "Singlet.hh"
 
-analysis::Singlet::Singlet(const fastjet::PseudoJet &singlet)
+namespace analysis {
+
+Singlet::Singlet(const fastjet::PseudoJet &jet)
 {
     Print(kInformation, "Constructor");
-    jet_ = singlet;
+    jet_ = jet;
 }
 
-bool analysis::Singlet::Overlap(const fastjet::PseudoJet &jet) const
+bool Singlet::Overlap(const fastjet::PseudoJet &jet) const
 {
     return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize);
 }
 
-bool analysis::Singlet::Overlap(const analysis::Singlet &singlet) const
+bool Singlet::Overlap(const Singlet &singlet) const
 {
     return Overlap(singlet.Jet());
 }
 
-float analysis::Singlet::DeltaR(const fastjet::PseudoJet &jet) const
+float Singlet::DeltaR(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Delta R");
     if (!jet.has_constituents()) return 0;
@@ -30,7 +32,7 @@ float analysis::Singlet::DeltaR(const fastjet::PseudoJet &jet) const
     return delta_r;
 }
 
-float analysis::Singlet::Spread(const fastjet::PseudoJet &jet) const
+float Singlet::Spread(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "spread");
     if (!jet.has_constituents()) return 0;
@@ -43,4 +45,10 @@ float analysis::Singlet::Spread(const fastjet::PseudoJet &jet) const
         spread += constituent_delta_r * constituent.pt();
     }
     return spread / jet.pt() / delta_r;
+}
+void Singlet::SetBdt(const float bdt)
+{
+    if (jet_.has_user_info<JetInfo>()) static_cast<JetInfo &>(*jet_.user_info_shared_ptr().get()).SetBdt(bdt);
+}
+
 }

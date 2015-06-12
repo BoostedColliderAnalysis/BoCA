@@ -9,7 +9,9 @@
 # include "Event.hh"
 # include "Analysis.hh"
 
-analysis::Observable::Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
+namespace analysis {
+
+Observable::Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex)
 {
     value_ = &value;
     expression_ = expression;
@@ -19,47 +21,47 @@ analysis::Observable::Observable(float &value, const std::string &expression, co
     else type_ = 'F';
 }
 
-float *analysis::Observable::value() const
+float *Observable::value() const
 {
     return value_;
 }
 
-std::string analysis::Observable::expression() const
+std::string Observable::expression() const
 {
     return expression_;
 }
 
-std::string analysis::Observable::title() const
+std::string Observable::title() const
 {
     return title_;
 }
 
-std::string analysis::Observable::unit() const
+std::string Observable::unit() const
 {
     return unit_;
 }
 
-char analysis::Observable::type() const
+char Observable::type() const
 {
     return type_;
 }
 
-std::string analysis::Tagger::analysis_name_;
+std::string Tagger::analysis_name_;
 
-analysis::Tagger::Tagger()
+Tagger::Tagger()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
 }
 
-analysis::Observable analysis::Tagger::NewObservable(float &value, const std::string &title) const
+Observable Tagger::NewObservable(float &value, const std::string &title) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "", "");
 }
 
-analysis::Observable analysis::Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
+Observable Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
     Print(kInformation, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
@@ -67,13 +69,13 @@ analysis::Observable analysis::Tagger::NewObservable(float &value, const std::st
 
 }
 
-float analysis::Tagger::Bdt(const TMVA::Reader &reader)
+float Tagger::Bdt(const TMVA::Reader &reader)
 {
     Print(kInformation, "Bdt");
     return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
-analysis::Jets analysis::Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
+Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
 {
     Jets pieces;
     if (!jet.has_pieces()) return pieces;
@@ -84,11 +86,13 @@ analysis::Jets analysis::Tagger::SubJets(const fastjet::PseudoJet &jet, const in
         for (const auto & constituent : piece.constituents()) {
             if (!constituent.has_user_info<JetInfo>()) continue;
             std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
-            constituents = JoinVectors(constituents, piece_constituents);
+            constituents = Join(constituents, piece_constituents);
         }
         piece.set_user_info(new JetInfo(constituents));
         pieces.emplace_back(piece);
     }
     cluster_sequence->delete_self_when_unused();
     return pieces;
+}
+
 }

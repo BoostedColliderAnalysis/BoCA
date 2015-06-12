@@ -1,6 +1,8 @@
 # include "EventChargedTagger.hh"
 
-heavyhiggs::EventChargedTagger::EventChargedTagger()
+namespace heavyhiggs {
+
+EventChargedTagger::EventChargedTagger()
 {
 //       DebugLevel = kDebug;
     Print(kInformation , "Constructor");
@@ -10,7 +12,7 @@ heavyhiggs::EventChargedTagger::EventChargedTagger()
     DefineVariables();
 }
 
-void heavyhiggs::EventChargedTagger::DefineVariables()
+void EventChargedTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.LeptonNumber, "LeptonNumber");
@@ -51,19 +53,6 @@ void heavyhiggs::EventChargedTagger::DefineVariables()
     AddVariable(branch_.BottomBdt56, "BottomBdt56");
     AddVariable(branch_.BottomBdt78, "BottomBdt78");
 
-    AddVariable(branch_.SubBottomBdt1, "SubBottomBdt1");
-    AddVariable(branch_.SubBottomBdt2, "SubBottomBdt2");
-    AddVariable(branch_.SubBottomBdt3, "SubBottomBdt3");
-    AddVariable(branch_.SubBottomBdt4, "SubBottomBdt4");
-    AddVariable(branch_.SubBottomBdt5, "SubBottomBdt5");
-    AddVariable(branch_.SubBottomBdt6, "SubBottomBdt6");
-    AddVariable(branch_.SubBottomBdt7, "SubBottomBdt7");
-    AddVariable(branch_.SubBottomBdt8, "SubBottomBdt8");
-    AddVariable(branch_.SubBottomBdt12, "SubBottomBdt12");
-    AddVariable(branch_.SubBottomBdt34, "SubBottomBdt34");
-    AddVariable(branch_.SubBottomBdt56, "SubBottomBdt56");
-    AddVariable(branch_.SubBottomBdt78, "SubBottomBdt78");
-
     AddVariable(branch_.RestNumber, "RestNumber");
     AddVariable(branch_.RestM, "RestM");
     AddVariable(branch_.RestPt, "RestPt");
@@ -81,7 +70,7 @@ void heavyhiggs::EventChargedTagger::DefineVariables()
 
 }
 
-int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
+int EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "event Tags");
 
@@ -91,63 +80,27 @@ int heavyhiggs::EventChargedTagger::Train(analysis::Event &event, const Tag tag)
 
     std::vector<analysis::MultipletEvent<Octet44>> events;
     for (const auto & octet : octets) {
-        analysis::MultipletEvent<Octet44> octetevent(octet);
-        octetevent.Setglobal_observables(analysis::GlobalObservables(event));
-        octetevent.SetLeptons(Leptons);
-        octetevent.SetTotalJets(jets);
-//         octetevent.SetSubJets(SubJets);
+      analysis::MultipletEvent<Octet44> octetevent(octet,event,jets);
         octetevent.SetTag(tag);
-        for (const auto & Jet : jets) {
-            if (octet.Overlap(Jet)) continue;
-            octetevent.AddRestJet(Jet);
-        }
         events.emplace_back(octetevent);
     }
-
-//     std::vector<heavyhiggs::EventChargedBranch> eventSemiBranches;
-//     for (const auto & event : events)eventSemiBranches.emplace_back(GetBranch(event));
-
-//     return eventSemiBranches;
-    return SaveEntries(events);
+    return SaveEntries(ReduceResult(events,1));
 }
 
-// analysis::GlobalObservables heavyhiggs::EventChargedTagger::global_observables(analysis::Event &event){
-//   analysis::GlobalObservables global_observables;
-//   global_observables.lepton_number = event.Leptons().GetLeptonJets().size();
-//   global_observables.jet_number = event.Hadrons().GetJets().size();
-//   global_observables.bottom_number = event.Hadrons().GetBottomJets().size();
-//   global_observables.scalar_ht = event.Hadrons().GetScalarHt();
-//   global_observables.missing_et = event.Hadrons().GetMissingEt().pt();
-//   return global_observables;
-// }
 
-std::vector<analysis::MultipletEvent<heavyhiggs::Octet44>> heavyhiggs::EventChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::MultipletEvent<Octet44>> EventChargedTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "event Tags");
+  Print(kInformation, "event Tags");
+  analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
-    analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    analysis::Jets Leptons = event.Leptons().leptons();
-
-
-
     std::vector<analysis::MultipletEvent<Octet44>> events;
     for (auto & octet : octets) {
-        analysis::MultipletEvent<Octet44> octetevent(octet, analysis::GlobalObservables(event));
-        for (const auto & Jet : jets)  {
-            if (octet.Overlap(Jet)) continue;
-            octetevent.AddRestJet(Jet);
-        }
-        octetevent.SetLeptons(Leptons);
-        octetevent.SetTotalJets(jets);
-//         octetevent.SetSubJets(SubJets);
+        analysis::MultipletEvent<Octet44> octetevent(octet, event,jets);
         branch_ = branch(octetevent);
         octetevent.SetBdt(Bdt(reader));
         events.emplace_back(octetevent);
     }
+    return ReduceResult(events,1);
+}
 
-    std::sort(events.begin(), events.end());
-    if (events.size() > 1)events.erase(events.begin() + 1, events.end());
-    Print(kInformation, "event Number", events.size(), jets.size());
-
-    return events;
 }

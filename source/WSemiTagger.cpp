@@ -1,16 +1,18 @@
 # include "WSemiTagger.hh"
 # include "Reader.hh"
 
-analysis::WSemiTagger::WSemiTagger()
+namespace analysis {
+
+WSemiTagger::WSemiTagger()
 {
-//     DebugLevel = analysis::Object::kDebug;
+//     DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("WSemi");
     w_mass_window_ = 20;
     DefineVariables();
 }
 
-void analysis::WSemiTagger::DefineVariables()
+void WSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -27,7 +29,7 @@ void analysis::WSemiTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
+int WSemiTagger::Train(Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Train");
     Jets Particles = event.Partons().GenParticles();
@@ -59,7 +61,7 @@ int analysis::WSemiTagger::Train(analysis::Event &event, const analysis::Object:
     return SaveEntries(doublets);
 }
 
-std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<Doublet>  WSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
   Print(kInformation, "Triple Bdt");
   Jets Particles = event.Partons().GenParticles();
@@ -82,7 +84,7 @@ std::vector<analysis::Doublet>  analysis::WSemiTagger::Multiplets(analysis::Even
     return ReduceResult(doublets);
 }
 
-std::vector<analysis::Doublet> analysis::WSemiTagger::ReconstructNeutrino(const Doublet &doublet)const
+std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)const
 {
 
     Print(kInformation, "Neutrinos");
@@ -132,7 +134,7 @@ std::vector<analysis::Doublet> analysis::WSemiTagger::ReconstructNeutrino(const 
 
 }
 
-analysis::Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
+Jets WSemiTagger::WSemiDaughters(Event &event)
 {
     Jets w_daughters = event.Partons().GenParticles();
     w_daughters = RemoveIfWrongAbsMother(w_daughters, WId);
@@ -140,13 +142,14 @@ analysis::Jets analysis::WSemiTagger::WSemiDaughters(Event &event)
 
     w_daughters = RemoveIfQuark(w_daughters);
     if (w_daughters.size() != 2) Print(kError, "Where is the W 2?", w_daughters.size());
-    else Print(kInformation, "W Daughters", Name(w_daughters.at(0).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(1).user_info<analysis::JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(0).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id), Name(w_daughters.at(1).user_info<analysis::JetInfo>().constituents().front().family().mother_1().Id));
+    else Print(kInformation, "W Daughters", Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().mother_1().Id), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().mother_1().Id));
     return w_daughters;
 }
 
-int analysis::WSemiTagger::WSemiId(const Jets &jets)
+int WSemiTagger::WSemiId(const Jets &jets)
 {
     if (jets.empty()) return WId;
     else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().Id;
 }
 
+}

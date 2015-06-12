@@ -42,20 +42,6 @@ private:
     ClassDef(InfoBranch, 1)
 };
 
-/**
- * @brief Class for saving event informations to root
- *
- */
-class EventBranch : public Branch
-{
-public:
-    float ScalarPtSum;
-    EventBranch();
-private:
-    ClassDef(EventBranch, 1)
-};
-
-
 class HResultBranch : public Branch
 {
 public:
@@ -589,6 +575,48 @@ private:
 
     ClassDef(HTopLeptonBranch, 1)
 
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class EventBranch : public MultiBranch
+{
+public:
+  EventBranch();
+
+  float LeptonNumber;
+  float JetNumber;
+  float BottomNumber;
+  float MissingEt;
+  float ScalarHt;
+
+  float LeptonHt;
+  float JetMass;
+  float JetPt;
+  float JetHt;
+  float JetRap;
+  float JetPhi;
+
+  template<typename Multiplet>
+  void Fill(const Multiplet &multiplet) {
+    analysis::MultiBranch::Fill(multiplet);
+    LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
+    JetNumber = multiplet.GlobalObservables().JetNumber();
+    BottomNumber = multiplet.GlobalObservables().BottomNumber();
+    MissingEt = multiplet.GlobalObservables().MissingEt();
+    ScalarHt = multiplet.GlobalObservables().ScalarHt();
+    LeptonHt = multiplet.GlobalObservables().LeptonHt();
+    JetMass = multiplet.Singlet().Jet().m();
+    JetPt = multiplet.Singlet().Jet().pt();
+    JetHt = multiplet.GlobalObservables().JetHt();
+    JetRap = multiplet.Singlet().Jet().rap();
+    if(JetRap > 100) JetRap = 0;
+    JetPhi = multiplet.Singlet().Jet().phi();
+  }
+private:
+  ClassDef(EventBranch, 1)
 };
 
 }

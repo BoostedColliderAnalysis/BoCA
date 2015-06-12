@@ -1,7 +1,9 @@
 # include "TripletJetPairTagger.hh"
 # include "Predicate.hh"
 
-analysis::TripletJetPairTagger::TripletJetPairTagger()
+namespace analysis {
+
+TripletJetPairTagger::TripletJetPairTagger()
 {
     Print(kNotification, "Constructor");
     set_tagger_name("TripletJetJetPair");
@@ -10,7 +12,7 @@ analysis::TripletJetPairTagger::TripletJetPairTagger()
     DefineVariables();
 }
 
-void analysis::TripletJetPairTagger::DefineVariables()
+void TripletJetPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -43,12 +45,12 @@ void analysis::TripletJetPairTagger::DefineVariables()
 }
 
 // struct SortquartetByDeltaRap {
-//     inline bool operator()(const analysis::Quartet31 &quartet1, const analysis::Quartet31 &quartet2) {
+//     inline bool operator()(const Quartet31 &quartet1, const Quartet31 &quartet2) {
 //         return (quartet1.DeltaRap() > quartet2.DeltaRap());
 //     }
 // };
 
-int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
+int TripletJetPairTagger::Train(Event &event, const Tag tag)
 {
     Print(kInformation, "W Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
@@ -63,16 +65,16 @@ int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
 //     for (const auto & Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
-//         std::vector<analysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-//         std::vector<analysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, top_hadronic_reader_);
+//         std::vector<Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
+//         std::vector<Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, top_hadronic_reader_);
 //         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
 //     }
 
 //     for (const auto & Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 3);
     //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
-//         std::vector<analysis::Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-//         std::vector<analysis::Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, top_hadronic_reader_);
+//         std::vector<Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
+//         std::vector<Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, top_hadronic_reader_);
 //         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
 //     }
 
@@ -86,7 +88,7 @@ int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);
     if (TopParticles.size() != 1 && tag == kSignal) Print(kError, "Where is the Top?", TopParticles.size());
 
-    std::vector<analysis::Triplet> Finaltriplets;
+    std::vector<Triplet> Finaltriplets;
     switch(tag) {
     case kSignal :
         for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) Finaltriplets.emplace_back(triplet);
@@ -133,7 +135,7 @@ int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
 
     if (tag == kSignal && quartets.size() > 1) {
         quartets = SortByMaxDeltaRap(quartets);
-//         std::sort(quartets.begin(), quartets.end(), analysis::SortedByDeltaRap());
+//         std::sort(quartets.begin(), quartets.end(), SortedByDeltaRap());
         if (quartets.size() > 1)quartets.erase(quartets.begin() + 1, quartets.end());
     }
 
@@ -146,7 +148,7 @@ int analysis::TripletJetPairTagger::Train(analysis::Event &event, const Tag tag)
 
 }
 
-std::vector<analysis::Quartet31>  analysis::TripletJetPairTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
@@ -164,3 +166,4 @@ std::vector<analysis::Quartet31>  analysis::TripletJetPairTagger::Multiplets(Eve
     return quartets;
 }
 
+}

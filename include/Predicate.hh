@@ -21,9 +21,9 @@ struct MinDeltaRTo {
 };
 
 struct MaxDeltaRap {
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
+    template <typename Multiplet>
+    inline bool operator()(const Multiplet &multiplet_1, const Multiplet &multiplet_2) {
+        return (multiplet_1.DeltaRap() > multiplet_2.DeltaRap());
     }
 };
 
@@ -114,7 +114,7 @@ inline std::vector<Multiplet> SortedByPt(std::vector<Multiplet> &multiplets)
 
 
 template <typename Element>
-std::vector<Element> JoinVectors(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
+std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
 {
     std::vector<Element> joined;
     joined.reserve(vector_1.size() + vector_2.size());

@@ -31,6 +31,8 @@ Quartet31.cpp
 Quintet.cpp
 Sextet.cpp
 Octet62.cpp
+GlobalObservables.cpp
+MultipletEvent.cpp
 )
 HLibrary(Multiplets "${MultipletSources}")
 

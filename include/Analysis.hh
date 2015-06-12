@@ -67,11 +67,11 @@ protected:
     }
 
     Strings JoinStrings(const Strings &Strings1, const Strings &Strings2) {
-        return JoinVectors(Strings1, Strings2);
+        return Join(Strings1, Strings2);
     }
 
     std::vector<File>  JoinFiles(const std::vector<File> &Files1, const std::vector<File> &Files2) {
-        return JoinVectors(Files1, Files2);
+        return Join(Files1, Files2);
     }
 
     int event_sum_;

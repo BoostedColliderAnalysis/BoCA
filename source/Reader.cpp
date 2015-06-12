@@ -12,7 +12,9 @@
 # include "TMVA/Reader.h"
 # include "TMVA/MethodCuts.h"
 
-analysis::HMvaResult::HMvaResult()
+namespace analysis {
+
+HMvaResult::HMvaResult()
 {
     Steps = 20000;
     events.resize(Steps, 0);
@@ -21,7 +23,7 @@ analysis::HMvaResult::HMvaResult()
     Bdt.resize(Steps, 0);
 }
 
-std::vector<int> analysis::HMvaResult::CutIntegral(const std::vector<int> &bins) const
+std::vector<int> HMvaResult::CutIntegral(const std::vector<int> &bins) const
 {
     std::vector<int> integrals(Steps, 0);
     integrals.at(Steps - 1) = bins.at(Steps - 1);
@@ -29,20 +31,20 @@ std::vector<int> analysis::HMvaResult::CutIntegral(const std::vector<int> &bins)
     return integrals;
 }
 
-analysis::Reader::Reader()
+Reader::Reader()
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor");
 }
 
-analysis::Reader::Reader(analysis::Tagger &tagger)
+Reader::Reader(Tagger &tagger)
 {
 //     DebugLevel = kDebug;
     Print(kInformation, "Constructor with tagger");
     set_tagger(tagger);
 }
 
-void analysis::Reader::set_tagger(analysis::Tagger &tagger)
+void Reader::set_tagger(Tagger &tagger)
 {
     Print(kNotification, "SetMva");
     tagger_ = &tagger;
@@ -50,7 +52,7 @@ void analysis::Reader::set_tagger(analysis::Tagger &tagger)
     BookMva();
 }
 
-void analysis::Reader::AddVariable()
+void Reader::AddVariable()
 {
     Print(kNotification, "Add Variable");
     const std::string default_options = "!Color:Silent";
@@ -59,7 +61,7 @@ void analysis::Reader::AddVariable()
 
 }
 
-void analysis::Reader::BookMva()
+void Reader::BookMva()
 {
     Print(kNotification, "Book Mva");
     const std::string xml_name = ".weights.xml";
@@ -68,13 +70,13 @@ void analysis::Reader::BookMva()
     reader().BookMVA(tagger().bdt_method_name(), bdt_weight_file);
 }
 
-float analysis::Reader::Bdt() const
+float Reader::Bdt() const
 {
     Print(kInformation, "Bdt");
     return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(tagger().bdt_method_name()) + 1;
 }
 
-void analysis::Reader::OptimalSignificance()
+void Reader::OptimalSignificance()
 {
     Print(kNotification, "Mva Loop");
     std::stringstream TableHeader;
@@ -205,7 +207,7 @@ void analysis::Reader::OptimalSignificance()
     LatexFooter(LatexFile);
 }
 
-analysis::HMvaResult analysis::Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
+HMvaResult Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
     Print(kNotification, "Apply Bdt", tree_name);
     const float Luminosity = 3000; // 3000 fb-1
@@ -229,7 +231,7 @@ analysis::HMvaResult analysis::Reader::BdtResult(TFile &file, const std::string 
     return Result;
 }
 
-std::vector<int> analysis::Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
+std::vector<int> Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
 {
     Print(kNotification, "Bdt Distribution", tagger().branch_name());
     std::string NeweventBranchName = tagger().branch_name() + "Reader";
@@ -259,7 +261,7 @@ std::vector<int> analysis::Reader::BdtDistribution(exroot::TreeReader &tree_read
     return Bins;
 }
 
-analysis::InfoBranch analysis::Reader::info_branch(TFile &file, const std::string &tree_name) const
+InfoBranch Reader::info_branch(TFile &file, const std::string &tree_name) const
 {
     Print(kNotification, "Info Branch");
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
@@ -271,7 +273,7 @@ analysis::InfoBranch analysis::Reader::info_branch(TFile &file, const std::strin
 }
 
 
-void analysis::Reader::LatexHeader(std::ofstream &latex_file) const
+void Reader::LatexHeader(std::ofstream &latex_file) const
 {
     Print(kNotification, "LaTeX Header");
     const std::string TexFileName = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
@@ -293,14 +295,14 @@ void analysis::Reader::LatexHeader(std::ofstream &latex_file) const
 }
 
 
-void analysis::Reader::LatexFooter(ofstream &latex_file) const
+void Reader::LatexFooter(ofstream &latex_file) const
 {
     Print(kNotification, "LaTeX Footer");
     latex_file << "\n\\end{document}\n";
     latex_file.close();
 }
 
-// float analysis::Reader::GetRatio(const float Nominator, const float Denummertor) const
+// float Reader::GetRatio(const float Nominator, const float Denummertor) const
 // {
 //     float Ratio;
 //     if (Denummertor > 0) {
@@ -312,7 +314,7 @@ void analysis::Reader::LatexFooter(ofstream &latex_file) const
 // }
 //
 //
-// float analysis::Reader::GetScaling(const float events, const int Particles) const
+// float Reader::GetScaling(const float events, const int Particles) const
 // {
 //     Print(kInformation , "Scaling");
 //     float Scaling;
@@ -324,21 +326,21 @@ void analysis::Reader::LatexFooter(ofstream &latex_file) const
 //     return Scaling;
 // }
 //
-// float analysis::Reader::GetLuminosity(const float Number) const
+// float Reader::GetLuminosity(const float Number) const
 // {
 //     Print(kInformation , "Luminosity");
 //     float Luminosity = Number / CrosssectionScaled;
 //     return Luminosity;
 // }
 //
-// float analysis::Reader::GetLuminosityError(const float Number) const
+// float Reader::GetLuminosityError(const float Number) const
 // {
 //     Print(kInformation , "Luminosity Error");
 //     float LuminosityError = GetError(Number) / CrosssectionScaled + Number / CrosssectionNorm * LuminosityScalingError + GetLuminosity(Number) * CrosssectionNormRelError;
 //     return LuminosityError;
 // }
 //
-// float analysis::Reader::GetError(const float Value) const
+// float Reader::GetError(const float Value) const
 // {
 //     Print(kInformation , "Error");
 //     float Error;
@@ -350,18 +352,18 @@ void analysis::Reader::LatexFooter(ofstream &latex_file) const
 //     return Error;
 // }
 //
-// float analysis::Reader::RoundToDigits(const float Value) const
+// float Reader::RoundToDigits(const float Value) const
 // {
 //     return RoundToDigits(Value, 3);
 // }
 //
-// float analysis::Reader::RoundError(const float Value) const
+// float Reader::RoundError(const float Value) const
 // {
 //     return RoundToDigits(Value, 2);
 // }
 //
 //
-// float analysis::Reader::RoundToDigits(const float Value, const int Digits) const
+// float Reader::RoundToDigits(const float Value, const int Digits) const
 // {
 //     Print(kInformation , "Round To Digits");
 //     if (Value == 0 || Value != Value) {
@@ -372,7 +374,7 @@ void analysis::Reader::LatexFooter(ofstream &latex_file) const
 //     }
 // }
 //
-// float analysis::Reader::RoundToError(const float Value, const float Error) const
+// float Reader::RoundToError(const float Value, const float Error) const
 // {
 //     Print(kInformation , "Round To Digits");
 //     if (Value == 0) {
@@ -382,3 +384,5 @@ void analysis::Reader::LatexFooter(ofstream &latex_file) const
 //         return (round(Value * Factor) / Factor);
 //     }
 // }
+
+}

@@ -1,44 +1,46 @@
 # include "Configuration.hh"
 
-analysis::Configuration::Configuration()
+namespace analysis {
+
+Configuration::Configuration()
 {
     ReadConfig("Standard");
 }
 
-analysis::Configuration::Configuration(const std::string &config_name)
+Configuration::Configuration(const std::string &config_name)
 {
     ReadConfig(config_name);
 }
 
 // in GeV
-int analysis::Configuration::Mass() const
+int Configuration::Mass() const
 {
     return mass_;
 }
 
 // in GeV
-int analysis::Configuration::PreCut() const
+int Configuration::PreCut() const
 {
     return pre_cut_;
 }
 
-int analysis::Configuration::EventNumberMax() const
+int Configuration::EventNumberMax() const
 {
     return event_number_max_;
 }
 
-int analysis::Configuration::BackgroundFileNumber() const
+int Configuration::BackgroundFileNumber() const
 {
     return background_file_number_;
 }
 
-analysis::Configuration::ColliderType analysis::Configuration::collider_type() const
+Configuration::ColliderType Configuration::collider_type() const
 {
     return collider_type_;
 }
 
 // in GeV
-int analysis::Configuration::Mass_()
+int Configuration::Mass_()
 {
     try {
         mass_ = config().lookup("Mass");
@@ -53,7 +55,7 @@ int analysis::Configuration::Mass_()
 }
 
 // in GeV
-int analysis::Configuration::PreCut_()
+int Configuration::PreCut_()
 {
     try {
         pre_cut_ = config().lookup("PreCut");
@@ -67,7 +69,7 @@ int analysis::Configuration::PreCut_()
     return pre_cut_;
 }
 
-int analysis::Configuration::EventNumberMax_()
+int Configuration::EventNumberMax_()
 {
     try {
         event_number_max_ = config().lookup("EventNumberMax");
@@ -81,7 +83,7 @@ int analysis::Configuration::EventNumberMax_()
     return event_number_max_;
 }
 
-int analysis::Configuration::BackgroundFileNumber_()
+int Configuration::BackgroundFileNumber_()
 {
     try {
         background_file_number_ = config().lookup("BackgroundFileNumber");
@@ -95,7 +97,7 @@ int analysis::Configuration::BackgroundFileNumber_()
     return background_file_number_;
 }
 
-analysis::Configuration::ColliderType analysis::Configuration::ColliderType_()
+Configuration::ColliderType Configuration::ColliderType_()
 {
     try {
         std::string Collider = config().lookup("ColliderType");
@@ -113,7 +115,7 @@ analysis::Configuration::ColliderType analysis::Configuration::ColliderType_()
 }
 
 
-void analysis::Configuration::WriteConfig(const std::string &config_name)
+void Configuration::WriteConfig(const std::string &config_name)
 {
     libconfig::Setting &root = config().getRoot();
     libconfig::Setting &mass = root.add("Mass",  libconfig::Setting::TypeInt) = 1000;
@@ -129,7 +131,7 @@ void analysis::Configuration::WriteConfig(const std::string &config_name)
     }
 }
 
-void analysis::Configuration::ReadConfig(const std::string &config_name)
+void Configuration::ReadConfig(const std::string &config_name)
 {
     try {
         config().readFile(ConfigFile(config_name).c_str());
@@ -144,5 +146,7 @@ void analysis::Configuration::ReadConfig(const std::string &config_name)
     EventNumberMax_();
     BackgroundFileNumber_();
     ColliderType_();
+}
+
 }
 

@@ -3,12 +3,14 @@
 # include "fastjet/ClusterSequence.hh"
 # include "HEPTopTagger.hh"
 
-analysis::TopHadronicHep::TopHadronicHep()
+namespace analysis {
+
+TopHadronicHep::TopHadronicHep()
 {
     Print(kNotification, "Constructor");
 }
 
-analysis::Jets analysis::TopHadronicHep::Tops(std::vector< fastjet::PseudoJet > &e_flows)
+Jets TopHadronicHep::Tops(std::vector< fastjet::PseudoJet > &e_flows)
 {
     Print(kInformation, "Tagging Top");
 //     float CellRap = 0.1;
@@ -54,7 +56,7 @@ analysis::Jets analysis::TopHadronicHep::Tops(std::vector< fastjet::PseudoJet > 
     return tops;
 }
 
-analysis::Jets analysis::TopHadronicHep::GranulatedJets(Jets &e_flows)
+Jets TopHadronicHep::GranulatedJets(Jets &e_flows)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
     const float CellDeltaRap = 0.1;
@@ -98,4 +100,6 @@ analysis::Jets analysis::TopHadronicHep::GranulatedJets(Jets &e_flows)
         }
     }
     return granulated_jets;
+}
+
 }

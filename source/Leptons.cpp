@@ -1,26 +1,29 @@
 # include "Leptons.hh"
 # include "Predicate.hh"
 
-analysis::Leptons::Leptons()
+namespace analysis {
+
+Leptons::Leptons()
 {
 //   DebugLevel=kDebug;
     Print(kNotification, "Constructor");
 }
 
-analysis::Leptons::~Leptons()
+Leptons::~Leptons()
 {
     Print(kNotification, "Destructor");
 }
 
-void analysis::Leptons::NewEvent(const analysis::ClonesArrays &clones_arrays)
+void Leptons::NewEvent(const ClonesArrays &clones_arrays)
 {
     Print(kInformation, "New event");
-    analysis::FourVector::NewEvent(clones_arrays);
+    FourVector::NewEvent(clones_arrays);
 }
 
-analysis::Jets analysis::Leptons::leptons()
+Jets Leptons::leptons()
 {
     Print(kInformation, "Lepton Jets");
-    return JoinVectors(Electrons(), Muons());
+    return Join(Electrons(), Muons());
 }
 
+}

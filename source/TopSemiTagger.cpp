@@ -1,8 +1,10 @@
 # include "TopSemiTagger.hh"
 
-analysis::TopSemiTagger::TopSemiTagger()
+namespace analysis {
+
+TopSemiTagger::TopSemiTagger()
 {
-    //     DebugLevel = analysis::Object::kDebug;
+    //     DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopSemi");
     top_mass_window_ = (Mass(TopId) - Mass(WId)) / 2;
@@ -11,7 +13,7 @@ analysis::TopSemiTagger::TopSemiTagger()
     DefineVariables();
 }
 
-void analysis::TopSemiTagger::DefineVariables()
+void TopSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -33,7 +35,7 @@ void analysis::TopSemiTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int analysis::TopSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag)
+int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Top Tags");
 
@@ -41,7 +43,7 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
     top_particles = copy_if_particle(top_particles, TopSemiId(event));
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
+    std::vector<Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
 
     Jets leptons = event.Leptons().leptons();
     Print(kInformation, "Lepton Number", leptons.size());
@@ -77,14 +79,14 @@ int analysis::TopSemiTagger::Train(analysis::Event &event, PreCuts &pre_cuts, co
     return SaveEntries(triplets);
 }
 
-std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplets(const Triplet &triplet, Jets TopQuarks, PreCuts &pre_cuts, const Tag tag) {
-    std::vector<analysis::Triplet> triplets;
-    for(const auto particle : TopQuarks) JoinVectors(triplets,CleanTriplet(triplet,particle,pre_cuts,tag));
+std::vector<Triplet> TopSemiTagger::CleanTriplets(const Triplet &triplet, Jets TopQuarks, PreCuts &pre_cuts, const Tag tag) {
+    std::vector<Triplet> triplets;
+    for(const auto particle : TopQuarks) Join(triplets,CleanTriplet(triplet,particle,pre_cuts,tag));
     return triplets;
 }
 
-std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplet(const Triplet &triplet, fastjet::PseudoJet TopQuark, PreCuts& pre_cuts, const Tag tag) {
-    std::vector<analysis::Triplet> triplets;
+std::vector<Triplet> TopSemiTagger::CleanTriplet(const Triplet &triplet, fastjet::PseudoJet TopQuark, PreCuts& pre_cuts, const Tag tag) {
+    std::vector<Triplet> triplets;
     if (tag == kSignal && std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) return triplets ; // should be enabled again
     if (tag == kSignal && triplet.Jet().pt() <  pre_cuts.PtLowerCut(TopId)) return triplets;
     if (tag == kSignal && triplet.Jet().pt() >  pre_cuts.PtUpperCut(TopId)) return triplets;
@@ -94,12 +96,12 @@ std::vector<analysis::Triplet> analysis::TopSemiTagger::CleanTriplet(const Tripl
     return triplets;
 }
 
-std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "Bdt");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<analysis::Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
+    std::vector<Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
 
     std::vector<Triplet> triplets;
     if (!boost_) {
@@ -125,4 +127,6 @@ std::vector<analysis::Triplet>  analysis::TopSemiTagger::Multiplets(Event &event
         }
     }
     return ReduceResult(triplets);
+}
+
 }

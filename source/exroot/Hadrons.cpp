@@ -1,6 +1,12 @@
 # include "exroot/Hadrons.hh"
 
-analysis::Jets analysis::exroot::Hadrons::Jets()
+namespace analysis
+{
+
+namespace exroot
+{
+
+Jets Hadrons::Jets()
 {
     Print(kInformation, "Jets", clones_arrays().JetSum());
     analysis::Jets jets;
@@ -11,4 +17,8 @@ analysis::Jets analysis::exroot::Hadrons::Jets()
         jets.emplace_back(pseudo_jet);
     }
     return jets;
+}
+
+}
+
 }

@@ -1,17 +1,19 @@
 # include "AnalysisHiggs.hh"
 
-higgscpv::Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+namespace higgscpv {
+
+Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
 }
 
-std::string higgscpv::Analysis::ProcessName()
+std::string Analysis::ProcessName()
 {
     return "higgscpv";
 }
 
-void higgscpv::Analysis::SetFiles(const Tag tag)
+void Analysis::SetFiles(const Tag tag)
 {
     Print(kNotification, "Set Files");
     switch (tag) {
@@ -26,7 +28,7 @@ void higgscpv::Analysis::SetFiles(const Tag tag)
     }
 }
 
-int higgscpv::Analysis::PassPreCut(analysis::Event &event)
+int Analysis::PassPreCut(analysis::Event &event)
 {
     Print(kInformation, "pass pre cut");
 //   analysis::Jets particles = event.Partons().GenParticles();
@@ -35,7 +37,7 @@ int higgscpv::Analysis::PassPreCut(analysis::Event &event)
     return 1;
 }
 
-int higgscpv::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+int Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Analysis");
     switch (stage) {
@@ -46,4 +48,6 @@ int higgscpv::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagg
     default :
         return 0;
     }
+}
+
 }

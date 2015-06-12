@@ -1,9 +1,10 @@
 # include "TopLeptonicTagger.hh"
 
-analysis::TopLeptonicTagger::TopLeptonicTagger()
-{
-    //     DebugLevel = analysis::Object::kDebug;
+namespace analysis {
 
+TopLeptonicTagger::TopLeptonicTagger()
+{
+    //     debug_level_ = kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopLeptonic");
     bottom_reader_.set_tagger(bottom_tagger_);
@@ -11,7 +12,7 @@ analysis::TopLeptonicTagger::TopLeptonicTagger()
     DefineVariables();
 }
 
-void analysis::TopLeptonicTagger::DefineVariables()
+void TopLeptonicTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -28,7 +29,7 @@ void analysis::TopLeptonicTagger::DefineVariables()
     AddSpectator(branch_.Tag, "Tag");
 }
 
-int analysis::TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
+int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Train");
     std::size_t number_of_tops = 2;
@@ -61,7 +62,7 @@ int analysis::TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Ob
     return SaveEntries(doublets);
 }
 
-std::vector<analysis::Doublet> analysis::TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet> TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Jets leptons = event.Leptons().leptons();
@@ -76,4 +77,6 @@ std::vector<analysis::Doublet> analysis::TopLeptonicTagger::Multiplets(Event &ev
         }
     }
     return ReduceResult(doublets);
+}
+
 }

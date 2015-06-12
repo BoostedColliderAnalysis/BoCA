@@ -3,9 +3,11 @@
 # include "TMVA/Config.h"
 # include "TClonesArray.h"
 
-analysis::Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
+namespace analysis {
+
+Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
 {
-//     DebugLevel = analysis::Object::kDebug;
+//     DebugLevel = Object::kDebug;
     Print(kNotification , "Constructor");
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
@@ -15,19 +17,19 @@ analysis::Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.t
     factory().EvaluateAllMethods();
 }
 
-std::string analysis::Factory::factory_options()
+std::string Factory::factory_options()
 {
     return "!Color:!Silent";
 }
 
-TFile *analysis::Factory::output_file() const
+TFile *Factory::output_file() const
 {
     const std::string factory_name = "Mva" + tagger().tagger_name();
     const std::string file_name = tagger().analysis_name() + "/" + factory_name + ".root";
     return TFile::Open(file_name.c_str(), "Recreate");
 }
 
-void analysis::Factory::AddVariables()
+void Factory::AddVariables()
 {
     Print(kNotification , "Add Variables");
     TMVA::gConfig().GetIONames().fWeightFileDir = tagger().analysis_name();
@@ -37,7 +39,7 @@ void analysis::Factory::AddVariables()
         factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
-int analysis::Factory::GetTrees()
+int Factory::GetTrees()
 {
     Print(kNotification , "Trees");
     int signal_number = 0;
@@ -68,7 +70,7 @@ int analysis::Factory::GetTrees()
     return std::min(signal_number, background_number) / 2;
 }
 
-int analysis::Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
+int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
 {
     Print(kError , "Add Tree", tree_name);
     if (!file.GetListOfKeys()->Contains(tree_name.c_str()))return 0;
@@ -97,7 +99,7 @@ int analysis::Factory::AddTree(TFile &file, const std::string &tree_name, const 
     return entries;
 }
 
-void analysis::Factory::PrepareTrainingAndTestTree(const int event_number)
+void Factory::PrepareTrainingAndTestTree(const int event_number)
 {
     Print(kError , "PrepareTrainingAndTestTree");
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
@@ -106,10 +108,12 @@ void analysis::Factory::PrepareTrainingAndTestTree(const int event_number)
     factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
 }
 
-void analysis::Factory::BookMethods()
+void Factory::BookMethods()
 {
     Print(kNotification , "Book Methods");
     const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
     //:CreateMVAPdfs:DoBoostMonitor";
     factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options);
+}
+
 }

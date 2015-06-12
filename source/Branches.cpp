@@ -21,7 +21,18 @@ ClassImp(analysis::EventBranch)
 
 analysis::EventBranch::EventBranch()
 {
-    ScalarPtSum = InitialValue();
+  LeptonNumber = int(InitialValue());
+  JetNumber = int(InitialValue());
+  BottomNumber = int(InitialValue());
+  MissingEt = InitialValue();
+  ScalarHt = InitialValue();
+
+  LeptonHt = InitialValue();
+  JetMass = InitialValue();
+  JetPt = InitialValue();
+  JetHt = InitialValue();
+  JetRap = InitialValue();
+  JetPhi = InitialValue();
 }
 
 ClassImp(analysis::ParticleBranch)

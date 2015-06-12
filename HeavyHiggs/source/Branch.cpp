@@ -133,19 +133,6 @@ heavyhiggs::EventNeutralBranch::EventNeutralBranch()
     BottomBdt56 = InitialValue();
     BottomBdt78 = InitialValue();
 
-    SubBottomBdt1 = InitialValue();
-    SubBottomBdt2 = InitialValue();
-    SubBottomBdt3 = InitialValue();
-    SubBottomBdt4 = InitialValue();
-    SubBottomBdt5 = InitialValue();
-    SubBottomBdt6 = InitialValue();
-    SubBottomBdt7 = InitialValue();
-    SubBottomBdt8 = InitialValue();
-    SubBottomBdt12 = InitialValue();
-    SubBottomBdt34 = InitialValue();
-    SubBottomBdt56 = InitialValue();
-    SubBottomBdt78 = InitialValue();
-
 }
 
 ClassImp(heavyhiggs::EventFusionBranch)
@@ -239,17 +226,4 @@ heavyhiggs::EventChargedBranch::EventChargedBranch()
     BottomBdt34 = InitialValue();
     BottomBdt56 = InitialValue();
     BottomBdt78 = InitialValue();
-
-    SubBottomBdt1 = InitialValue();
-    SubBottomBdt2 = InitialValue();
-    SubBottomBdt3 = InitialValue();
-    SubBottomBdt4 = InitialValue();
-    SubBottomBdt5 = InitialValue();
-    SubBottomBdt6 = InitialValue();
-    SubBottomBdt7 = InitialValue();
-    SubBottomBdt8 = InitialValue();
-    SubBottomBdt12 = InitialValue();
-    SubBottomBdt34 = InitialValue();
-    SubBottomBdt56 = InitialValue();
-    SubBottomBdt78 = InitialValue();
 }

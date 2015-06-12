@@ -22,18 +22,27 @@ public:
     */
     EventTagger();
 
-    int Train(analysis::Event &event, const analysis::Object::Tag tag);
+    int Train(analysis::Event &event,analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
-    std::vector<analysis::MultipletEvent<analysis::Octet62>> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<analysis::MultipletEvent<analysis::Octet62>> Multiplets(analysis::Event &event,analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    int GetBdt(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
+
+    auto Multiplets(analysis::Event &event, const TMVA::Reader &reader) {
+      analysis::PreCuts pre_cuts;
+      return Multiplets(event, pre_cuts, reader);
+    }
 
 protected:
 
     virtual inline std::string NameSpaceName() const {
-        return "EventTagger";
+      return "higgscpv";
     }
 
     virtual inline std::string ClassName() const {
-        return "higgscpv";
+      return "EventTagger";
     }
 
 private:
@@ -43,6 +52,10 @@ private:
     SignatureTagger signature_tagger_;
 
     analysis::Reader signature_reader_;
+
+    analysis::BottomTagger bottom_tagger_;
+
+    analysis::Reader bottom_reader_;
 
 };
 

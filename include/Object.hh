@@ -170,10 +170,8 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-
         return ("Object");
-
-    };
+    }
 
     enum Status {
         kNoStatus = 0,

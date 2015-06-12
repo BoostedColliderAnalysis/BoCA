@@ -1,22 +1,28 @@
 # include "exroot/Partons.hh"
 # include "JetInfo.hh"
 
-analysis::exroot::Partons::Partons()
+namespace analysis
+{
+
+namespace exroot
+{
+
+Partons::Partons()
 {
     Print(kNotification, "Constructor");
 }
 
-analysis::Jets analysis::exroot::Partons::Particles() const
+Jets Partons::Particles() const
 {
     return Particles(kStable);
 }
 
-analysis::Jets analysis::exroot::Partons::GenParticles() const
+Jets Partons::GenParticles() const
 {
     return Particles(kGenerator);
 }
 
-analysis::Jets analysis::exroot::Partons::Particles(const analysis::Object::Status max_status) const
+Jets Partons::Particles(const Object::Status max_status) const
 {
     Print(kInformation, "Particles", clones_arrays().ParticleSum());
     Jets particles;
@@ -30,4 +36,8 @@ analysis::Jets analysis::exroot::Partons::Particles(const analysis::Object::Stat
         particles.emplace_back(jet);
     }
     return particles;
+}
+
+}
+
 }

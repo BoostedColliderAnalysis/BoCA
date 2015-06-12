@@ -23,6 +23,8 @@ public:
 
     std::vector<analysis::Sextet> Sextets(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
 
+    analysis::Sextet Fake(const analysis::Quartet22 &quartet) const;
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -31,13 +33,15 @@ protected:
 
 private:
 
-    void SetMomentum(double momentum[4], const fastjet::PseudoJet &jet);
+    void Momentum(double momentum[4], const fastjet::PseudoJet &jet);
 
     inline fastjet::PseudoJet PseudoJet(const double Momentum[4]) const {
         // wimpmass (E,px,py,pz)
         // fastjet (px,py,pz,E)
         return fastjet::PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
     }
+
+//     int counter_ = 0;
 
 };
 

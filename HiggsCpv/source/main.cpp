@@ -64,6 +64,7 @@ int main()
   RunTagger(event_semi_tagger, analysis::Tagger::kTrainer);
   RunFactory(event_semi_tagger);
   RunTagger(event_semi_tagger, analysis::Tagger::kReader);
+  RunReader(event_semi_tagger);
 
 }
 

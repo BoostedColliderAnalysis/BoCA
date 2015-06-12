@@ -1,8 +1,10 @@
 # include "../include/SignatureTagger.hh"
 
-higgscpv::SignatureTagger::SignatureTagger()
+namespace higgscpv {
+
+SignatureTagger::SignatureTagger()
 {
-    debug_level_ = kDebug;
+//    debug_level_ = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("Signature");
     higgs_reader_.set_tagger(higgs_tagger_);
@@ -10,7 +12,7 @@ higgscpv::SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-void higgscpv::SignatureTagger::DefineVariables()
+void SignatureTagger::DefineVariables()
 {
     Print(kNotification, "Define Variables");
     AddVariable(branch_.Mass, "Mass");
@@ -28,25 +30,27 @@ void higgscpv::SignatureTagger::DefineVariables()
     AddVariable(branch_.PairRap, "PairRap");
     AddVariable(branch_.BottomBdt, "BottomBdt");
     AddVariable(branch_.PairBottomBdt, "PairBottomBdt");
-    AddVariable(branch_.PairBdt, "PairBdt");
-    AddVariable(branch_.HiggsBdt, "HiggsBdt");
     AddVariable(branch_.HardTopPt, "HardTopPt");
     AddVariable(branch_.SoftTopPt, "SoftTopPt");
-    AddVariable(branch_.Bdt, "Bdt");
+    AddVariable(branch_.Bdt1, "Bdt1");
+    AddVariable(branch_.Bdt2, "Bdt2");
     AddSpectator(branch_.Tag, "Tag");
 }
 
 
-int higgscpv::SignatureTagger::Train(analysis::Event &event,analysis::PreCuts &pre_cuts, const Tag tag)
+int SignatureTagger::Train(analysis::Event &event,analysis::PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Train");
     std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
-    if (sextets.empty()) Print(kInformation, "No sextets", sextets.size());
+    if (sextets.empty()) {
+Print(kInformation, "No sextets", sextets.size());
+return 0;
+}
 
     analysis::Jets HiggsParticles = event.Partons().GenParticles();
     analysis::Jets Even = analysis::copy_if_abs_particle(HiggsParticles, HiggsId);
     analysis::Jets Odd = analysis::copy_if_abs_particle(HiggsParticles, CpvHiggsId);
-    HiggsParticles = analysis::JoinVectors(Even,Odd);
+    HiggsParticles = analysis::Join(Even,Odd);
 
     std::vector<analysis::Doublet> doublets = higgs_reader_.Multiplets<analysis::HiggsTagger>(event);
     if (doublets.empty()) Print(kInformation, "No doublets", doublets.size());
@@ -58,6 +62,7 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event,analysis::PreCuts &p
     case kBackground :
         final_doublets = doublets;
     }
+if(final_doublets.empty()) return 0;
 
     std::vector<analysis::Octet62> octets;
     for (const auto & doublet : final_doublets) {
@@ -75,12 +80,14 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event,analysis::PreCuts &p
 }
 
 
-std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis::Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader)
+std::vector< analysis::Octet62 > SignatureTagger::Multiplets(analysis::Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader)
 {
-    Print(kInformation, "event Tags");
+    Print(kInformation, "Multiplets");
 
     std::vector<analysis::Doublet> doublets = higgs_reader_.Multiplets<analysis::HiggsTagger>(event);
+    Print(kInformation, "Doublets", doublets.size());
     std::vector<analysis::Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
+    Print(kInformation, "Sextets", sextets.size());
     std::vector<analysis::Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
@@ -92,4 +99,6 @@ std::vector< analysis::Octet62 > higgscpv::SignatureTagger::Multiplets(analysis:
         }
     }
     return ReduceResult(octets);
+}
+
 }

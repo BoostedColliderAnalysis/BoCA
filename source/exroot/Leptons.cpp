@@ -1,10 +1,16 @@
 # include "exroot/Leptons.hh"
 # include "Predicate.hh"
 
-analysis::Jets analysis::exroot::Leptons::Electrons()
+namespace analysis
+{
+
+namespace exroot
+{
+
+Jets Leptons::Electrons()
 {
     Print(kInformation, "Electrons");
-    analysis::Jets electrons;
+    Jets electrons;
     for (const int ElectronNumber : Range(clones_arrays().ElectronSum())) {
         ::exroot::Electron electron = static_cast<::exroot::Electron &>(clones_arrays().Electron(ElectronNumber));
         fastjet::PseudoJet electron_jet = PseudoJet(electron);
@@ -14,10 +20,10 @@ analysis::Jets analysis::exroot::Leptons::Electrons()
     return electrons;
 }
 
-analysis::Jets analysis::exroot::Leptons::Muons()
+Jets Leptons::Muons()
 {
-  Print(kInformation, "Muons");
-  analysis::Jets muons;
+    Print(kInformation, "Muons");
+    Jets muons;
     for (const int MuonNumber : Range(clones_arrays().MuonSum())) {
         ::exroot::Muon &muon = static_cast<::exroot::Muon &>(clones_arrays().Muon(MuonNumber));
         fastjet::PseudoJet muon_jet = PseudoJet(muon);
@@ -25,4 +31,8 @@ analysis::Jets analysis::exroot::Leptons::Muons()
         muons.emplace_back(muon_jet);
     }
     return muons;
+}
+
+}
+
 }

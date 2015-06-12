@@ -6,8 +6,9 @@
 # include "exroot/Hadrons.hh"
 # include "exroot/Partons.hh"
 
+namespace analysis {
 
-analysis::Event::Event(const ClonesArrays::Source source)
+Event::Event(const ClonesArrays::Source source)
 {
     Print(kNotification, "Constructor");
     source_ = source;
@@ -27,7 +28,7 @@ analysis::Event::Event(const ClonesArrays::Source source)
     }
 }
 
-analysis::Event::~Event()
+Event::~Event()
 {
     Print(kNotification, "Destructor");
     switch (source_) {
@@ -46,7 +47,7 @@ analysis::Event::~Event()
     }
 }
 
-void analysis::Event::NewEvent(const analysis::ClonesArrays &clones_arrays)
+void Event::NewEvent(const ClonesArrays &clones_arrays)
 {
     Print(kInformation, "New event");
     switch (source_) {
@@ -63,4 +64,6 @@ void analysis::Event::NewEvent(const analysis::ClonesArrays &clones_arrays)
         partons_->NewEvent(clones_arrays);
         break;
     }
+}
+
 }

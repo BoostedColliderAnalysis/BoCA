@@ -16,10 +16,10 @@ public:
 
     Singlet() {};
 
-    Singlet(const fastjet::PseudoJet &singlet);
+    Singlet(const fastjet::PseudoJet &jet);
 
     fastjet::PseudoJet Jet() const {
-      return jet_;
+        return jet_;
     }
 
     bool Overlap(const fastjet::PseudoJet &jet) const;
@@ -114,6 +114,8 @@ public:
         return Jet().pt();
     }
 
+    void SetBdt(const float bdt);
+
 protected:
 
     virtual inline std::string ClassName() const {
@@ -123,6 +125,7 @@ protected:
 private:
 
     const JetInfo &UserInfo() const {
+        if (!Jet().has_user_info<JetInfo>()) return JetInfo();
         return Jet().user_info<JetInfo>();
     }
 
