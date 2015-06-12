@@ -70,7 +70,7 @@ int higgscpv::SignatureTagger::Train(analysis::Event &event,analysis::PreCuts &p
     }
     if (octets.empty()) Print(kInformation, "No octets", octets.size());
 
-    if (tag == kSignal) octets = ReduceResult(octets);
+    if (tag == kSignal) octets = ReduceResult(octets,1);
     return SaveEntries(octets);
 }
 

@@ -1,6 +1,20 @@
 # include "BranchesHiggsCpv.hh"
 
 
+ClassImp(higgscpv::SignatureLeptonicBranch)
+
+higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
+{
+  HiggsMass = InitialValue();
+  PairRap = InitialValue();
+  BottomBdt = InitialValue();
+  PairBottomBdt = InitialValue();
+  HiggsBdt = InitialValue();
+  PairBdt = InitialValue();
+  HardTopPt = InitialValue();
+  SoftTopPt = InitialValue();
+}
+
 ClassImp(higgscpv::OctetBranch)
 
 higgscpv::OctetBranch::OctetBranch()

@@ -11,7 +11,7 @@ namespace higgscpv {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureTagger : public analysis::BranchTagger<higgscpv::OctetBranch>
+class SignatureTagger : public analysis::BranchTagger<higgscpv::SignatureLeptonicBranch>
 {
 
 public:
@@ -39,10 +39,6 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "SignatureTagger";
-    }
-
-    virtual int max_combi() const {
-      return 1;
     }
 
 private:

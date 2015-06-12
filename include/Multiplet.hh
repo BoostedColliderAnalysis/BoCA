@@ -14,22 +14,22 @@ public:
     Multiplet() {};
 
     Multiplet(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
-      SetMultiplets(multiplet_1,multiplet_2);
+        SetMultiplets(multiplet_1,multiplet_2);
     }
 
     Multiplet(const fastjet::PseudoJet &jet) {
         SetJet(jet);
     }
 
-
     void SetMultiplets(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
-      multiplet_1_ = multiplet_1;
-      multiplet_2_ = multiplet_2;
+        multiplet_1_ = multiplet_1;
+        multiplet_2_ = multiplet_2;
+        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt())/2);
     }
 
     void SetJet(const fastjet::PseudoJet &jet) {
-      multiplet_1_ = Multiplet_1(jet / 2);
-      multiplet_2_ = Multiplet_2(jet / 2);
+        multiplet_1_ = Multiplet_1(jet / 2);
+        multiplet_2_ = Multiplet_2(jet / 2);
     }
 
     inline Multiplet_1 Multiplet1()const {

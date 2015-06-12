@@ -363,10 +363,10 @@ class BranchTagger : public Tagger
 protected:
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet) {
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet, const std::size_t max = 4) {
         if (multiplet.empty()) return multiplet;
         std::sort(multiplet.begin(), multiplet.end());
-        multiplet.erase(multiplet.begin() + std::min(max_combi(), int(multiplet.size())), multiplet.end());
+        multiplet.erase(multiplet.begin() + std::min(max, multiplet.size()), multiplet.end());
         return multiplet;
     }
 
