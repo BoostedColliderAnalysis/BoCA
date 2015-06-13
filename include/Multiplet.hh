@@ -97,6 +97,9 @@ public:
         return Multiplet1().Ht() - Multiplet2().Ht();
     }
 
+    inline float Rho() const{
+      return Jet().m() / Jet().pt() / DeltaR() * 2;
+    }
 
     inline float MassDifferenceTo(const ParticleId particle_id) const {
         return std::abs(Jet().m() - Mass(particle_id));

@@ -99,6 +99,7 @@ analysis::PairBranch::PairBranch()
     DeltaRap = InitialValue();
     DeltaPhi = InitialValue();
     DeltaR = InitialValue();
+    Rho = InitialValue();
     Bdt = InitialValue();
     Bdt1 = InitialValue();
     Bdt2 = InitialValue();

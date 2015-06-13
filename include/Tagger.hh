@@ -292,6 +292,10 @@ protected:
         variables_.emplace_back(NewObservable(value, title, latex));
     };
 
+//     void AddVariables(const Branch &branch){
+//
+//     }
+
     void AddSpectator(float &value, const std::string &title) {
         spectators_.emplace_back(NewObservable(value, title));
     };

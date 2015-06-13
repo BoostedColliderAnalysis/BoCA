@@ -170,6 +170,7 @@ public:
     float DeltaRap;
     float DeltaPhi;
     float DeltaR;
+    float Rho;
     float Bdt;
     float Bdt1;
     float Bdt2;
@@ -183,6 +184,7 @@ public:
         DeltaRap = multiplet.DeltaRap();
         DeltaPhi = multiplet.DeltaPhi();
         DeltaR = multiplet.DeltaR();
+        Rho = multiplet.Rho();
         Bdt = multiplet.Bdt();
         Bdt1 = multiplet.Multiplet1().Bdt();
         Bdt2 = multiplet.Multiplet2().Bdt();

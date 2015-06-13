@@ -22,7 +22,6 @@ void HiggsTagger::DefineVariables()
 
     AddVariable(branch_.DeltaPt, "DeltaPt");
     AddVariable(branch_.DeltaM, "DeltaM");
-//     AddVariable(branch_.DeltaHt, "DeltaHt");
     AddVariable(branch_.DeltaR, "DeltaR");
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaPhi, "DeltaPhi");
@@ -45,6 +44,14 @@ int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
         }
+    }
+    for (const auto jet : jets) {
+        const int sub_jet_number = 2;
+        Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet,sub_jet_number);
+        if (pieces.size()<sub_jet_number) continue;
+        Doublet doublet(pieces.at(0),pieces.at(1));
+        doublet.SetTag(tag);
+        doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
     Jets tops = copy_if_abs_particle(particles, HiggsId, CpvHiggsId);
@@ -72,6 +79,15 @@ std::vector<Doublet>  HiggsTagger::Multiplets(Event &event, PreCuts &pre_cuts, c
             doublet.SetBdt(Bdt(reader));
             doublets.emplace_back(doublet);
         }
+    }
+    for (const auto jet : jets) {
+      const int sub_jet_number = 2;
+      Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet,sub_jet_number);
+      if (pieces.size()<sub_jet_number) continue;
+      Doublet doublet(pieces.at(0),pieces.at(1));
+      branch_ = branch(doublet);
+      doublet.SetBdt(Bdt(reader));
+      doublets.emplace_back(doublet);
     }
     return ReduceResult(doublets);
 }
