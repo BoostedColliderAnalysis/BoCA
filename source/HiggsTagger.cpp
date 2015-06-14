@@ -25,6 +25,7 @@ void HiggsTagger::DefineVariables()
     AddVariable(branch_.DeltaR, "DeltaR");
     AddVariable(branch_.DeltaRap, "DeltaRap");
     AddVariable(branch_.DeltaPhi, "DeltaPhi");
+    AddVariable(branch_.Rho, "Rho");
 
     AddVariable(branch_.Bdt1, "Bdt1");
     AddVariable(branch_.Bdt2, "Bdt2");
@@ -40,7 +41,7 @@ int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet(*jet_1, *jet_2);
             if (doublet.Overlap()) continue;
-//             if (tag == kSignal) std::abs(doublet.Jet().m() - Mass(HiggsId)) > 50) continue;
+            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(HiggsId)) > 50) continue;
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
         }
@@ -50,6 +51,7 @@ int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet,sub_jet_number);
         if (pieces.size()<sub_jet_number) continue;
         Doublet doublet(pieces.at(0),pieces.at(1));
+            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(HiggsId)) > 50) continue;
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
