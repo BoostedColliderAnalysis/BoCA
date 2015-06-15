@@ -2,6 +2,7 @@
 # include "TSystem.h"
 # include "TMVA/Config.h"
 # include "TClonesArray.h"
+# include "Branches.hh"
 
 namespace analysis {
 

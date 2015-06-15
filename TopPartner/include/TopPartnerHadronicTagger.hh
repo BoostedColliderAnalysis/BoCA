@@ -12,12 +12,12 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerTagger : public analysis::BranchTagger<TopPartnerBranch>
+class TopPartnerHadronicTagger : public analysis::BranchTagger<TopPartnerBranch>
 {
 
 public:
 
-    TopPartnerTagger();
+    TopPartnerHadronicTagger();
 
     int Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
@@ -26,7 +26,7 @@ public:
 protected:
 
     virtual inline std::string ClassName() const {
-        return "TopPartnerTagger";
+        return "TopPartnerHadronicTagger";
     }
 
 private:

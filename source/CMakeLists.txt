@@ -54,7 +54,10 @@ Discriminator.cpp
 HiggsTagger.cpp
 SubStructure.cpp
 
+Observable.cpp
+PreCuts.cpp
 Tagger.cpp
+BranchTagger.cpp
 Factory.cpp
 Reader.cpp
 

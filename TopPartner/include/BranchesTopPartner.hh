@@ -27,6 +27,29 @@ private:
 
 };
 
+/**
+ *
+ * @brief Higgs cpv tagger root tree structure
+ *
+ */
+class HiggsPairBranch : public analysis::MultiBranch
+{
+
+public:
+
+  HiggsPairBranch();
+
+  template<typename Multiplet>
+  void Fill(const Multiplet &multiplet) {
+    analysis::MultiBranch::Fill(multiplet);
+  }
+
+private:
+
+  ClassDef(HiggsPairBranch, 1)
+
+};
+
 class SignatureBranch : public analysis::MultiBranch
 {
 
@@ -42,6 +65,24 @@ public:
 private:
 
   ClassDef(SignatureBranch, 1)
+
+};
+
+class EventBranch : public analysis::EventBranch
+{
+
+public:
+  
+  EventBranch();
+
+  template<typename Multiplet>
+  void Fill(const Multiplet &multiplet) {
+    analysis::EventBranch::Fill(multiplet);
+  }
+
+private:
+
+  ClassDef(EventBranch, 1)
 
 };
 

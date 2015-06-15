@@ -2,22 +2,19 @@
 
 # include "Sextet.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class Octet62 : public Multiplet<analysis::Sextet,analysis::Doublet>
+class Octet62 : public Multiplet<analysis::Sextet, analysis::Doublet>
 {
 
 public:
 
-  using Multiplet<analysis::Sextet,analysis::Doublet>::Multiplet;
-
-//     bool Overlap() const;
-
-//     bool Overlap(const fastjet::PseudoJet &jet) const;
+    using Multiplet<analysis::Sextet, analysis::Doublet>::Multiplet;
 
     analysis::Sextet Sextet()const;
 

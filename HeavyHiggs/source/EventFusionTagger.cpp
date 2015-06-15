@@ -15,38 +15,38 @@ EventFusionTagger::EventFusionTagger()
 void EventFusionTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.LeptonNumber, "LeptonNumber");
-    AddVariable(branch_.JetNumber, "JetNumber");
-    AddVariable(branch_.BottomNumber, "BottomNumber");
-    AddVariable(branch_.ScalarHt, "ScalarHt");
+    AddVariable(branch().LeptonNumber, "LeptonNumber");
+    AddVariable(branch().JetNumber, "JetNumber");
+    AddVariable(branch().BottomNumber, "BottomNumber");
+    AddVariable(branch().ScalarHt, "ScalarHt");
 
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.DeltaHt, "DeltaHt");
-    AddVariable(branch_.DeltaM, "DeltaM");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().DeltaHt, "DeltaHt");
+    AddVariable(branch().DeltaM, "DeltaM");
 
-    AddVariable(branch_.HiggsMass, "HiggsMass");
-    AddVariable(branch_.HiggsBdt, "HiggsBdt");
+    AddVariable(branch().HiggsMass, "HiggsMass");
+    AddVariable(branch().HiggsBdt, "HiggsBdt");
 
-    AddVariable(branch_.RestNumber, "RestNumber");
-    AddVariable(branch_.RestM, "RestM");
-    AddVariable(branch_.RestPt, "RestPt");
-    AddVariable(branch_.RestHt, "RestHt");
-    AddVariable(branch_.RestPhi, "RestPhi");
-    AddVariable(branch_.RestRap, "RestRap");
-    AddVariable(branch_.RestBdt, "RestBdt");
-    AddVariable(branch_.LeptonHt, "LeptonHt");
+    AddVariable(branch().RestNumber, "RestNumber");
+    AddVariable(branch().RestM, "RestM");
+    AddVariable(branch().RestPt, "RestPt");
+    AddVariable(branch().RestHt, "RestHt");
+    AddVariable(branch().RestPhi, "RestPhi");
+    AddVariable(branch().RestRap, "RestRap");
+    AddVariable(branch().RestBdt, "RestBdt");
+    AddVariable(branch().LeptonHt, "LeptonHt");
 
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int EventFusionTagger::Train(analysis::Event &event, const Tag tag)
@@ -95,10 +95,9 @@ std::vector<analysis::MultipletEvent<analysis::Sextet>> EventFusionTagger::Multi
   analysis::Jets Leptons = event.Leptons().leptons();
     std::vector<analysis::MultipletEvent<analysis::Sextet>> sextet_events;
     for (const auto & sextet : sextets) {
-      analysis::MultipletEvent<analysis::Sextet> sextet_event(sextet, event,jets);
-        branch_ = branch(sextet_event);
-        sextet_event.SetBdt(Bdt(reader));
-        sextet_events.emplace_back(sextet_event);
+      analysis::MultipletEvent<analysis::Sextet> multiplet_event(sextet, event,jets);
+      multiplet_event.SetBdt(Bdt(multiplet_event,reader));
+        sextet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(sextet_events);
 }

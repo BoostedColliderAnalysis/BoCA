@@ -2,6 +2,7 @@
 
 # include "Tagger.hh"
 # include "Event.hh"
+# include "Branches.hh"
 
 namespace analysis
 {

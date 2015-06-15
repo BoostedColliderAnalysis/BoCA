@@ -2,6 +2,7 @@
 
 # include "Tagger.hh"
 # include "TClonesArray.h"
+# include "Branches.hh"
 
 /**
  * @brief Bottom BDT tagger

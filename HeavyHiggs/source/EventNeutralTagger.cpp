@@ -16,60 +16,60 @@ void EventNeutralTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
 
-    AddSpectator(branch_.LeptonNumber, "LeptonNumber");
-    AddVariable(branch_.JetNumber, "JetNumber");
-    AddVariable(branch_.BottomNumber, "BottomNumber");
-    AddVariable(branch_.ScalarHt, "ScalarHt");
+    AddSpectator(branch().LeptonNumber, "LeptonNumber");
+    AddVariable(branch().JetNumber, "JetNumber");
+    AddVariable(branch().BottomNumber, "BottomNumber");
+    AddVariable(branch().ScalarHt, "ScalarHt");
 
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaHt, "DeltaHt");
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaHt, "DeltaHt");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaR, "DeltaR");
 
-    AddVariable(branch_.HiggsMass, "HiggsMass");
-    AddVariable(branch_.PairRap, "PairRap");
-    AddVariable(branch_.HiggsBdt, "HiggsBdt");
-    AddVariable(branch_.SignatureBdt, "SignatureBdt");
-    AddVariable(branch_.BottomBdt, "BottomBdt");
-    AddVariable(branch_.PairBottomBdt, "PairBottomBdt");
+    AddVariable(branch().HiggsMass, "HiggsMass");
+    AddVariable(branch().PairRap, "PairRap");
+    AddVariable(branch().HiggsBdt, "HiggsBdt");
+    AddVariable(branch().SignatureBdt, "SignatureBdt");
+    AddVariable(branch().BottomBdt, "BottomBdt");
+    AddVariable(branch().PairBottomBdt, "PairBottomBdt");
 
-    AddVariable(branch_.HardTopPt, "HardTopPt");
-    AddVariable(branch_.SoftTopPt, "SoftTopPt");
+    AddVariable(branch().HardTopPt, "HardTopPt");
+    AddVariable(branch().SoftTopPt, "SoftTopPt");
 
-    AddVariable(branch_.MissingEt, "MissingEt");
+    AddVariable(branch().MissingEt, "MissingEt");
 
-    AddVariable(branch_.BottomBdt1, "BottomBdt1");
-    AddVariable(branch_.BottomBdt2, "BottomBdt2");
-    AddVariable(branch_.BottomBdt3, "BottomBdt3");
-    AddVariable(branch_.BottomBdt4, "BottomBdt4");
-    AddVariable(branch_.BottomBdt5, "BottomBdt5");
-    AddVariable(branch_.BottomBdt6, "BottomBdt6");
-    AddVariable(branch_.BottomBdt7, "BottomBdt7");
-    AddVariable(branch_.BottomBdt8, "BottomBdt8");
-    AddVariable(branch_.BottomBdt12, "BottomBdt12");
-    AddVariable(branch_.BottomBdt34, "BottomBdt34");
-    AddVariable(branch_.BottomBdt56, "BottomBdt56");
-    AddVariable(branch_.BottomBdt78, "BottomBdt78");
+    AddVariable(branch().BottomBdt1, "BottomBdt1");
+    AddVariable(branch().BottomBdt2, "BottomBdt2");
+    AddVariable(branch().BottomBdt3, "BottomBdt3");
+    AddVariable(branch().BottomBdt4, "BottomBdt4");
+    AddVariable(branch().BottomBdt5, "BottomBdt5");
+    AddVariable(branch().BottomBdt6, "BottomBdt6");
+    AddVariable(branch().BottomBdt7, "BottomBdt7");
+    AddVariable(branch().BottomBdt8, "BottomBdt8");
+    AddVariable(branch().BottomBdt12, "BottomBdt12");
+    AddVariable(branch().BottomBdt34, "BottomBdt34");
+    AddVariable(branch().BottomBdt56, "BottomBdt56");
+    AddVariable(branch().BottomBdt78, "BottomBdt78");
 
-    AddVariable(branch_.RestNumber, "RestNumber");
-    AddVariable(branch_.RestM, "RestM");
-    AddVariable(branch_.RestPt, "RestPt");
-    AddVariable(branch_.RestHt, "RestHt");
-    AddVariable(branch_.RestPhi, "RestPhi");
-    AddVariable(branch_.RestRap, "RestRap");
-    AddVariable(branch_.RestBdt, "RestBdt");
-    AddVariable(branch_.LeptonHt, "LeptonHt");
+    AddVariable(branch().RestNumber, "RestNumber");
+    AddVariable(branch().RestM, "RestM");
+    AddVariable(branch().RestPt, "RestPt");
+    AddVariable(branch().RestHt, "RestHt");
+    AddVariable(branch().RestPhi, "RestPhi");
+    AddVariable(branch().RestRap, "RestRap");
+    AddVariable(branch().RestBdt, "RestBdt");
+    AddVariable(branch().LeptonHt, "LeptonHt");
 
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int EventNeutralTagger::Train(analysis::Event &event, const Tag tag)
@@ -99,18 +99,17 @@ std::vector<analysis::MultipletEvent<analysis::Octet62>> EventNeutralTagger::Mul
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
     analysis::Jets Leptons = event.Leptons().leptons();
 
-    std::vector<analysis::MultipletEvent<analysis::Octet62>> events;
+    std::vector<analysis::MultipletEvent<analysis::Octet62>> multiplet_events;
     for (const auto & octet : octets) {
-        analysis::MultipletEvent<analysis::Octet62> octetevent(octet, event,jets);
-        branch_ = branch(octetevent);
-        octetevent.SetBdt(Bdt(reader));
-        events.emplace_back(octetevent);
+        analysis::MultipletEvent<analysis::Octet62> multiplet_event(octet, event,jets);
+        multiplet_event.SetBdt(Bdt(multiplet_event,reader));
+        multiplet_events.emplace_back(multiplet_event);
     }
 
-    std::sort(events.begin(), events.end());
-    if (events.size() > 1) events.erase(events.begin() + 1, events.end());
-    Print(kInformation, "event Number", events.size(), jets.size());
-    return events;
+    std::sort(multiplet_events.begin(), multiplet_events.end());
+    if (multiplet_events.size() > 1) multiplet_events.erase(multiplet_events.begin() + 1, multiplet_events.end());
+    Print(kInformation, "event Number", multiplet_events.size(), jets.size());
+    return multiplet_events;
 }
 
 }

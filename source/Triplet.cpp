@@ -1,20 +1,21 @@
 # include "Triplet.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 Doublet Triplet::Doublet() const
 {
-    return multiplet_1_;
+    return Multiplet1();
 }
 
 Singlet Triplet::Singlet() const
 {
-  return multiplet_2_;
+    return Multiplet2();
 }
 
 fastjet::PseudoJet Triplet::SingletJet() const
 {
-    return multiplet_2_.Jet();
+    return Multiplet2().Jet();
 }
 
 }

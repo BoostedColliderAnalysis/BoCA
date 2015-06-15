@@ -20,37 +20,37 @@ TopHadronicTagger::TopHadronicTagger()
 void TopHadronicTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
-    AddVariable(branch_.BottomPt, "BottomPt");
-    AddVariable(branch_.WPt, "WPt");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
+    AddVariable(branch().BottomPt, "BottomPt");
+    AddVariable(branch().WPt, "WPt");
     if (!boost_) {
-        AddVariable(branch_.DeltaPt, "DeltaPt");
-        AddVariable(branch_.DeltaHt, "DeltaHt");
-        AddVariable(branch_.DeltaM, "DeltaM");
-        AddVariable(branch_.DeltaPhi, "DeltaPhi");
-        AddVariable(branch_.DeltaRap, "DeltaRap");
-        AddVariable(branch_.DeltaR, "DeltaR");
+        AddVariable(branch().DeltaPt, "DeltaPt");
+        AddVariable(branch().DeltaHt, "DeltaHt");
+        AddVariable(branch().DeltaM, "DeltaM");
+        AddVariable(branch().DeltaPhi, "DeltaPhi");
+        AddVariable(branch().DeltaRap, "DeltaRap");
+        AddVariable(branch().DeltaR, "DeltaR");
     }
-    AddVariable(branch_.Tau1_1, "Tau1_1");
-    AddVariable(branch_.Tau2_1, "Tau2_1");
-    AddVariable(branch_.Tau3_1, "Tau3_1");
-    AddVariable(branch_.Tau21_1, "Tau21_1");
-    AddVariable(branch_.Tau32_1, "Tau32_1");
-    AddVariable(branch_.Tau1_2, "Tau1_2");
-    AddVariable(branch_.Tau2_2, "Tau2_2");
-    AddVariable(branch_.Tau3_2, "Tau3_2");
-    AddVariable(branch_.Tau21_2, "Tau21_2");
-    AddVariable(branch_.Tau32_2, "Tau32_2");
+    AddVariable(branch().Tau1_1, "Tau1_1");
+    AddVariable(branch().Tau2_1, "Tau2_1");
+    AddVariable(branch().Tau3_1, "Tau3_1");
+    AddVariable(branch().Tau21_1, "Tau21_1");
+    AddVariable(branch().Tau32_1, "Tau32_1");
+    AddVariable(branch().Tau1_2, "Tau1_2");
+    AddVariable(branch().Tau2_2, "Tau2_2");
+    AddVariable(branch().Tau3_2, "Tau3_2");
+    AddVariable(branch().Tau21_2, "Tau21_2");
+    AddVariable(branch().Tau32_2, "Tau32_2");
     if (!boost_) {
-        AddVariable(branch_.WBdt, "WBdt");
+        AddVariable(branch().WBdt, "WBdt");
     }
-    AddVariable(branch_.BBdt, "BBdt");
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().BBdt, "BBdt");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int TopHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
@@ -230,8 +230,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(const Doublet &doublet, const
 Triplet TopHadronicTagger::Multiplet(Triplet &triplet, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     NSubJettiness(triplet);
-    branch_ = branch(triplet);
-    triplet.SetBdt(Bdt(reader));
+    triplet.SetBdt(Bdt(triplet, reader));
     return triplet;
 }
 

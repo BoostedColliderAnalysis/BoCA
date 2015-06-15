@@ -13,22 +13,22 @@ BottomTagger::BottomTagger()
 void BottomTagger::DefineVariables()
 {
     Print(kInformation , "Define Variables");
-    AddVariable(branch_.VertexMass, "VertexMass");
-    AddVariable(branch_.Pt, "Pt");
-    AddSpectator(branch_.Rap, "Rap");
-    AddSpectator(branch_.Phi, "Phi");
-    AddVariable(branch_.MaxDisplacement, "MaxDisplacement");
-    AddVariable(branch_.MeanDisplacement, "MeanDisplacement");
-    AddVariable(branch_.SumDisplacement, "SumDisplacement");
-    AddVariable(branch_.Multipliticity, "Multipliticity");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.Spread, "Spread");
-    AddVariable(branch_.VertexDeltaR, "VertexDeltaR");
-    AddVariable(branch_.VertexSpread, "VertexSpread");
-    AddVariable(branch_.EnergyFraction, "EnergyFraction");
-    AddVariable(branch_.Mass, "Mass");
-    AddSpectator(branch_.Tag, "Tag");
-    AddSpectator(branch_.Bdt, "Bdt");
+    AddVariable(branch().VertexMass, "VertexMass");
+    AddVariable(branch().Pt, "Pt");
+    AddSpectator(branch().Rap, "Rap");
+    AddSpectator(branch().Phi, "Phi");
+    AddVariable(branch().MaxDisplacement, "MaxDisplacement");
+    AddVariable(branch().MeanDisplacement, "MeanDisplacement");
+    AddVariable(branch().SumDisplacement, "SumDisplacement");
+    AddVariable(branch().Multipliticity, "Multipliticity");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().Spread, "Spread");
+    AddVariable(branch().VertexDeltaR, "VertexDeltaR");
+    AddVariable(branch().VertexSpread, "VertexSpread");
+    AddVariable(branch().EnergyFraction, "EnergyFraction");
+    AddVariable(branch().Mass, "Mass");
+    AddSpectator(branch().Tag, "Tag");
+    AddSpectator(branch().Bdt, "Bdt");
 }
 
 int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
@@ -55,11 +55,7 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 
     }
 
-    std::vector<Singlet> singlets;
-    for (const auto & jet : final_jets) singlets.emplace_back(Singlet(jet));
-    SaveEntries(singlets);
-    Print(kInformation, "Final jet Number", final_jets.size());
-    return final_jets.size();
+    return SaveEntries(final_jets);
 }
 
 Jets BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
@@ -141,8 +137,7 @@ Jets BottomTagger::Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::R
 
 fastjet::PseudoJet BottomTagger::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
-    branch_ = branch(Singlet(jet));
-    static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(reader));
+    static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet,reader));
     return jet;
 }
 

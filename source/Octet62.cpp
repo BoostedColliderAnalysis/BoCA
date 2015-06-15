@@ -3,11 +3,11 @@
 namespace analysis {
 
 Sextet Octet62::Sextet()const {
-  return multiplet_1_;
+  return Multiplet1();
 }
 
 Doublet Octet62::Doublet() const {
-  return multiplet_2_;
+  return Multiplet2();
 }
 
 }

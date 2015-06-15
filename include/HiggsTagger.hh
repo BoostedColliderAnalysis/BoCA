@@ -45,6 +45,8 @@ private:
 
     Reader bottom_reader_;
 
+    float higgs_mass_window = 50;
+
 };
 
 }

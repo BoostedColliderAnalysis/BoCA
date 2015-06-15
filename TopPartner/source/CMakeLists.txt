@@ -1,11 +1,16 @@
 HDictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner.hh)
 
 set(AnalysisSources
-TopPartnerTagger.cpp
+TopPartnerHadronicTagger.cpp
+TopPartnerSemiTagger.cpp
+HiggsPairTagger.cpp
+TopPartnerPairTagger.cpp
 SignatureTagger.cpp
 Decuplet.cpp
 Quattuordecuplet.cpp
+EventTagger.cpp
+AnalysisTopPartner.cpp
 )
 HLibrary(AnalysisTopPartner "${AnalysisSources}")
 
-# HExecutable(TopPartner Main.cpp)
+HExecutable(TopPartner main.cpp)

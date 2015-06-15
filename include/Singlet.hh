@@ -124,15 +124,9 @@ protected:
 
 private:
 
-    const JetInfo &UserInfo() const {
-        if (!Jet().has_user_info<JetInfo>()) return JetInfo();
-        return Jet().user_info<JetInfo>();
-    }
+    const JetInfo &UserInfo() const;
 
-    float log(const float number) const {
-        if (number > 0) return std::log10(number);
-        else return std::log10(DetectorGeometry().TrackerDistanceMin / 10);
-    }
+    float log(const float number) const;
 
     float DeltaR(const fastjet::PseudoJet &jet) const;
 

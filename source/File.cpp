@@ -77,13 +77,23 @@ File::File(const std::string &process, const std::string &run_folder)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
+File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crosssection)
 {
     Print(kInformation, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
     file_suffix_ = file_suffix;
+    crossection_ = crosssection;
+}
+
+File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
+{
+  Print(kInformation, "Constructor");
+  SetVariables();
+  process_folders_.emplace_back(process);
+  base_path_ = base_path;
+  file_suffix_ = file_suffix;
 }
 
 std::string File::file_suffix() const

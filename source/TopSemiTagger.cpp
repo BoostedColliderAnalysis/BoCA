@@ -16,23 +16,23 @@ TopSemiTagger::TopSemiTagger()
 void TopSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
-    AddVariable(branch_.BottomPt, "BottomPt");
-    AddVariable(branch_.WPt, "WPt");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaHt, "DeltaHt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.WBdt, "WBdt");
-    AddVariable(branch_.BBdt, "BBdt");
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
+    AddVariable(branch().BottomPt, "BottomPt");
+    AddVariable(branch().WPt, "WPt");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaHt, "DeltaHt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().WBdt, "WBdt");
+    AddVariable(branch().BBdt, "BBdt");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
@@ -109,8 +109,7 @@ std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, const TMVA::Reader
             for (const auto & doublet : doublets) {
                 Triplet triplet(doublet, Jet);
                 if (std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) continue;
-                branch_ = branch(triplet);
-                triplet.SetBdt(Bdt(reader));
+                triplet.SetBdt(Bdt(triplet,reader));
                 triplets.emplace_back(triplet);
             }
         }
@@ -120,8 +119,7 @@ std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, const TMVA::Reader
                 Doublet doublet(Predoublet.SingletJet1());
                 Triplet triplet(doublet, Jet);
 //             if (std::abs(triplet.Jet().m() - Mass(TopId)) > TopWindow) continue; // reactivate this check
-                branch_ = branch(triplet);
-                triplet.SetBdt(Bdt(reader));
+                triplet.SetBdt(Bdt(triplet,reader));
                 triplets.emplace_back(triplet);
             }
         }

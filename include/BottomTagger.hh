@@ -2,7 +2,8 @@
 
 # include "TMVA/Reader.h"
 # include "Singlet.hh"
-# include "Tagger.hh"
+# include "BranchTagger.hh"
+# include "Branches.hh"
 
 namespace analysis
 {

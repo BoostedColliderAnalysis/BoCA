@@ -3,11 +3,11 @@
 namespace analysis {
 
 Doublet Quartet22::Doublet1()const {
-  return multiplet_1_;
+  return Multiplet1();
 }
 
 Doublet Quartet22::Doublet2()const {
-  return multiplet_2_;
+  return Multiplet2();
 }
 
 }

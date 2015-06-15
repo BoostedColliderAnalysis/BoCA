@@ -4,7 +4,8 @@
 # include "File.hh"
 # include "Reader.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Base for all analyses
@@ -41,8 +42,8 @@ protected:
     }
 
     inline int eventSum(const exroot::TreeReader &tree_reader) const {
-//       return std::min((int)tree_reader.GetEntries(), EventNumberMax());
-        return tree_reader.GetEntries();
+      return std::min((int)tree_reader.GetEntries(), EventNumberMax());
+//         return tree_reader.GetEntries();
     }
 
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
@@ -131,8 +132,22 @@ protected:
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
+    void NewSignalFile(const std::string &name, const float crosssection) {
+        files_.emplace_back(get_file(name, crosssection));
+        tagger_.AddSignalTreeName(TreeName(name));
+    }
+
+    void NewBackgroundFile(const std::string &name, const float crosssection) {
+        files_.emplace_back(get_file(name, crosssection));
+        tagger_.AddBackgroundTreeName(TreeName(name));
+    }
+
     inline File get_file(const std::string &name) const {
         return File(name, FilePath(), FileSuffix());
+    }
+
+    inline File get_file(const std::string &name, const float crosssection) const {
+        return File(name, FilePath(), FileSuffix(), crosssection);
     }
 
     inline std::string FileName(const std::string &name) const {
@@ -150,7 +165,7 @@ protected:
 
     PreCuts pre_cuts_;
 
-    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
 
 private:
 

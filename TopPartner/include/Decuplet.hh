@@ -13,14 +13,12 @@ public:
     using analysis::Multiplet<analysis::Quintet, analysis::Quintet>::Multiplet;
 
     inline analysis::Quintet Quintet1()const {
-        return multiplet_1_;
+        return Multiplet1();
     }
 
     inline analysis::Quintet Quintet2()const {
-        return multiplet_2_;
+        return Multiplet2();
     }
-
-//     bool Overlap() const;
 
 protected:
 

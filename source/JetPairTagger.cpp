@@ -13,44 +13,44 @@ JetPairTagger::JetPairTagger()
 void JetPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
 
-    AddVariable(branch_.Jet1Mass, "Jet1Mass");
-    AddVariable(branch_.Jet1Pt, "Jet1Pt");
-    AddVariable(branch_.Jet1Rap, "Jet1Rap");
-    AddVariable(branch_.Jet1Phi, "Jet1Phi");
-    AddVariable(branch_.Jet1Bdt, "Jet1Bdt");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().Jet1Mass, "Jet1Mass");
+    AddVariable(branch().Jet1Pt, "Jet1Pt");
+    AddVariable(branch().Jet1Rap, "Jet1Rap");
+    AddVariable(branch().Jet1Phi, "Jet1Phi");
+    AddVariable(branch().Jet1Bdt, "Jet1Bdt");  // THIS SHOULD BE ENABLED AGAIN
 
-    AddVariable(branch_.Jet2Mass, "Jet2Mass");
-    AddVariable(branch_.Jet2Pt, "Jet2Pt");
-    AddVariable(branch_.Jet2Rap, "Jet2Rap");
-    AddVariable(branch_.Jet2Phi, "Jet2Phi");
-    AddVariable(branch_.Jet2Bdt, "Jet2Bdt");  // THIS SHOULD BE ENABLED AGAIN
-
-
-    AddVariable(branch_.BdtRatio11, "BdtRatio11");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch_.BdtRatio12, "BdtRatio12");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch_.BdtRatio13, "BdtRatio13");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch_.BdtRatio14, "BdtRatio14");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch_.BdtRatio21, "BdtRatio21");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch_.BdtRatio22, "BdtRatio22");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch_.BdtRatio23, "BdtRatio23");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch_.BdtRatio24, "BdtRatio24");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().Jet2Mass, "Jet2Mass");
+    AddVariable(branch().Jet2Pt, "Jet2Pt");
+    AddVariable(branch().Jet2Rap, "Jet2Rap");
+    AddVariable(branch().Jet2Phi, "Jet2Phi");
+    AddVariable(branch().Jet2Bdt, "Jet2Bdt");  // THIS SHOULD BE ENABLED AGAIN
 
 
+    AddVariable(branch().BdtRatio11, "BdtRatio11");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().BdtRatio12, "BdtRatio12");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().BdtRatio13, "BdtRatio13");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().BdtRatio14, "BdtRatio14");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().BdtRatio21, "BdtRatio21");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().BdtRatio22, "BdtRatio22");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().BdtRatio23, "BdtRatio23");  // THIS SHOULD BE ENABLED AGAIN
+    AddVariable(branch().BdtRatio24, "BdtRatio24");  // THIS SHOULD BE ENABLED AGAIN
 
-    AddVariable(branch_.Bdt, "Bdt");  // THIS SHOULD BE ENABLED AGAIN
-    AddSpectator(branch_.Tag, "Tag");
+
+
+    AddVariable(branch().Bdt, "Bdt");  // THIS SHOULD BE ENABLED AGAIN
+    AddSpectator(branch().Tag, "Tag");
 
 }
 
@@ -125,8 +125,7 @@ std::vector<Doublet>  JetPairTagger::Multiplets(Event &event, const TMVA::Reader
 //             for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
 //             if (doublet.RestJets().size() != jets.size() - 2) Print(kError, "to many jets in the rest jet vector");
 //             if (std::abs(doublet.DeltaRap()) < detector_geometry().JetConeSize) continue;
-            branch_ = branch(doublet);
-            doublet.SetBdt(Bdt(reader));
+            doublet.SetBdt(Bdt(doublet,reader));
             doublets.emplace_back(doublet);
         }
     return ReduceResult(doublets);

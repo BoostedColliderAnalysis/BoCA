@@ -32,7 +32,7 @@ public:
    *
    */
   inline int EventNumberMax() const {
-    return 10000;
+    return 1000;
   }
 
 protected:

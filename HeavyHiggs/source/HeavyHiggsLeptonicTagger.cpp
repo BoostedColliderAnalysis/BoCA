@@ -15,34 +15,34 @@ heavyhiggs::HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 void heavyhiggs::HeavyHiggsLeptonicTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
 
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
 
-    AddVariable(branch_.LargerWDeltaR, "LargerWDeltaR");
-    AddVariable(branch_.LargerWDeltaRap, "LargerWDeltaRap");
-    AddVariable(branch_.LargerWDeltaPhi, "LargerWDeltaPhi");
+    AddVariable(branch().LargerWDeltaR, "LargerWDeltaR");
+    AddVariable(branch().LargerWDeltaRap, "LargerWDeltaRap");
+    AddVariable(branch().LargerWDeltaPhi, "LargerWDeltaPhi");
 
-    AddVariable(branch_.SmallerWDeltaR, "SmallerWDeltaR");
-    AddVariable(branch_.SmallerWDeltaRap, "SmallerWDeltaRap");
-    AddVariable(branch_.SmallerWDeltaPhi, "SmallerWDeltaPhi");
+    AddVariable(branch().SmallerWDeltaR, "SmallerWDeltaR");
+    AddVariable(branch().SmallerWDeltaRap, "SmallerWDeltaRap");
+    AddVariable(branch().SmallerWDeltaPhi, "SmallerWDeltaPhi");
 
-    AddVariable(branch_.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
-    AddVariable(branch_.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
-    AddVariable(branch_.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
+    AddVariable(branch().LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
+    AddVariable(branch().LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
+    AddVariable(branch().LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
 
-    AddVariable(branch_.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
-    AddVariable(branch_.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
-    AddVariable(branch_.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
+    AddVariable(branch().SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
+    AddVariable(branch().SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
+    AddVariable(branch().SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
 
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int heavyhiggs::HeavyHiggsLeptonicTagger::Train(analysis::Event &event, const Object::Tag tag)
@@ -94,8 +94,7 @@ std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsLeptonicTagger::Multiplets(
             analysis::WimpMass wimp_mass;
             pre_sextets = wimp_mass.Sextets(quartet, missing_et);
             for (auto & sextet : pre_sextets) {
-                branch_ = branch(sextet);
-                sextet.SetBdt(Bdt(reader));
+              sextet.SetBdt(Bdt(sextet,reader));
                 sextets.emplace_back(sextet);
             }
         }

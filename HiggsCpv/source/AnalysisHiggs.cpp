@@ -1,6 +1,7 @@
 # include "AnalysisHiggs.hh"
 
-namespace higgscpv {
+namespace higgscpv
+{
 
 Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
@@ -18,12 +19,12 @@ void Analysis::SetFiles(const Tag tag)
     Print(kNotification, "Set Files");
     switch (tag) {
     case kSignal :
-        NewSignalFile("pp-ttx0-bbbbllnunu-1");
-        NewSignalFile("pp-ttx0-bbbbllnunu-0");
-        NewSignalFile("pp-ttx0-bbbbllnunu-0.5");
+        NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
+//         NewSignalFile("pp-ttx0-bbbbllnunu-0", 0.008937);
+//         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
         break;
     case kBackground :
-        NewBackgroundFile("pp-ttbb-bbbbllnunu");
+        NewBackgroundFile("pp-ttbb-bbbbllnunu", 3.457);
         break;
     }
 }
@@ -35,19 +36,6 @@ int Analysis::PassPreCut(analysis::Event &event)
 //   analysis::Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
 //   analysis::remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
     return 1;
-}
-
-int Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
-{
-    Print(kInformation, "Analysis");
-    switch (stage) {
-    case analysis::Tagger::kTrainer :
-        return tagger_.Train(event, pre_cuts_, tag);
-    case analysis::Tagger::kReader :
-        return reader_.GetBdt(event, pre_cuts_);
-    default :
-        return 0;
-    }
 }
 
 }

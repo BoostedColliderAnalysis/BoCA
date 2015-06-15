@@ -24,17 +24,17 @@ template <class DoubletBranch>
 void DoubletTagger<DoubletBranch>::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 template <class DoubletBranch>
@@ -132,7 +132,7 @@ std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(Doublet &doublet, c
   Print(kInformation, "doublet Bdt");
   std::vector<Doublet>  doublets;
   if (std::abs(doublet.Jet().m() - Mass(WId)) > doublet_mass_window_) return doublets;
-  branch_ = branch<DoubletBranch>(doublet);
+  branch() = branch<DoubletBranch>(doublet);
   doublet.SetBdt(Bdt(reader));
   doublets.emplace_back(doublet);
   return doublets;

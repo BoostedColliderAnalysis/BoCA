@@ -13,27 +13,27 @@ heavyhiggs::SignatureNeutralTagger::SignatureNeutralTagger()
 void heavyhiggs::SignatureNeutralTagger::DefineVariables()
 {
     Print(kNotification, "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaHt, "DeltaHt");
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.HiggsMass, "HiggsMass");
-    AddVariable(branch_.PairRap, "PairRap");
-    AddVariable(branch_.BottomBdt, "BottomBdt");
-    AddVariable(branch_.PairBottomBdt, "PairBottomBdt");
-    AddVariable(branch_.PairBdt, "PairBdt");
-    AddVariable(branch_.HiggsBdt, "HiggsBdt");
-    AddVariable(branch_.HardTopPt, "HardTopPt");
-    AddVariable(branch_.SoftTopPt, "SoftTopPt");
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Ht, "Ht");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaHt, "DeltaHt");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().HiggsMass, "HiggsMass");
+    AddVariable(branch().PairRap, "PairRap");
+    AddVariable(branch().BottomBdt, "BottomBdt");
+    AddVariable(branch().PairBottomBdt, "PairBottomBdt");
+    AddVariable(branch().PairBdt, "PairBdt");
+    AddVariable(branch().HiggsBdt, "HiggsBdt");
+    AddVariable(branch().HardTopPt, "HardTopPt");
+    AddVariable(branch().SoftTopPt, "SoftTopPt");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
     Print(kNotification, "Variables defined");
 }
 
@@ -107,8 +107,7 @@ std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(an
         for (const auto & sextet : sextets) {
             analysis::Octet62 octet(sextet, doublet);
             if(octet.Overlap()) continue;
-            branch_ = branch(octet);
-            octet.SetBdt(Bdt(reader));
+            octet.SetBdt(Bdt(octet,reader));
             octets.emplace_back(octet);
         }
     }

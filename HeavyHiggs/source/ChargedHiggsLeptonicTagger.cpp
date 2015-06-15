@@ -16,32 +16,32 @@ void heavyhiggs::ChargedHiggsLeptonicTagger::DefineVariables()
 
     Print(kNotification , "Define Variables");
 
-    AddVariable(branch_.HeavyHiggsPt, "HeavyHiggsPt");
+    AddVariable(branch().HeavyHiggsPt, "HeavyHiggsPt");
 
-    AddVariable(branch_.TopDeltaR, "TopDeltaR");
-    AddVariable(branch_.TopDeltaRap, "TopDeltaRap");
-    AddVariable(branch_.TopDeltaPhi, "TopDeltaPhi");
+    AddVariable(branch().TopDeltaR, "TopDeltaR");
+    AddVariable(branch().TopDeltaRap, "TopDeltaRap");
+    AddVariable(branch().TopDeltaPhi, "TopDeltaPhi");
 
-//     AddVariable(branch_.LargerWDeltaR, "LargerWDeltaR");
-//     AddVariable(branch_.LargerWDeltaRap, "LargerWDeltaRap");
-//     AddVariable(branch_.LargerWDeltaPhi, "LargerWDeltaPhi");
+//     AddVariable(branch().LargerWDeltaR, "LargerWDeltaR");
+//     AddVariable(branch().LargerWDeltaRap, "LargerWDeltaRap");
+//     AddVariable(branch().LargerWDeltaPhi, "LargerWDeltaPhi");
 //
-//     AddVariable(branch_.SmallerWDeltaR, "SmallerWDeltaR");
-//     AddVariable(branch_.SmallerWDeltaRap, "SmallerWDeltaRap");
-//     AddVariable(branch_.SmallerWDeltaPhi, "SmallerWDeltaPhi");
+//     AddVariable(branch().SmallerWDeltaR, "SmallerWDeltaR");
+//     AddVariable(branch().SmallerWDeltaRap, "SmallerWDeltaRap");
+//     AddVariable(branch().SmallerWDeltaPhi, "SmallerWDeltaPhi");
 //
-//     AddVariable(branch_.LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
-//     AddVariable(branch_.LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
-//     AddVariable(branch_.LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
+//     AddVariable(branch().LargerNeutrinoDeltaR, "LargerNeutrinoDeltaR");
+//     AddVariable(branch().LargerNeutrinoDeltaRap, "LargerNeutrinoDeltaRap");
+//     AddVariable(branch().LargerNeutrinoDeltaPhi, "LargerNeutrinoDeltaPhi");
 //
-//     AddVariable(branch_.SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
-//     AddVariable(branch_.SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
-//     AddVariable(branch_.SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
+//     AddVariable(branch().SmallerNeutrinoDeltaR, "SmallerNeutrinoDeltaR");
+//     AddVariable(branch().SmallerNeutrinoDeltaRap, "SmallerNeutrinoDeltaRap");
+//     AddVariable(branch().SmallerNeutrinoDeltaPhi, "SmallerNeutrinoDeltaPhi");
 
-    AddVariable(branch_.TopBdt, "TopBdt");
+    AddVariable(branch().TopBdt, "TopBdt");
 
-    AddSpectator(branch_.HeavyHiggsTag, "HeavyHiggsTag");
-    AddSpectator(branch_.HeavyHiggsMass, "HeavyHiggsMass");
+    AddSpectator(branch().HeavyHiggsTag, "HeavyHiggsTag");
+    AddSpectator(branch().HeavyHiggsMass, "HeavyHiggsMass");
 }
 
 int heavyhiggs::ChargedHiggsLeptonicTagger::Train(analysis::Event &event, const Object::Tag tag)
@@ -93,8 +93,7 @@ std::vector<analysis::Triplet>  heavyhiggs::ChargedHiggsLeptonicTagger::Multiple
 //             std::vector<Quartet31> Prequartets;
 //             Prequartets = Getquartets(quartet, MissingEt);
 //             for (auto & quartet : Prequartets) {
-                branch_ = branch(triplet);
-                triplet.SetBdt(Bdt(reader));
+            triplet.SetBdt(Bdt(triplet,reader));
                 triplets.emplace_back(triplet);
 //             }
         }

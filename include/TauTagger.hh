@@ -1,6 +1,7 @@
 # pragma once
 
-# include "Tagger.hh"
+# include "BranchTagger.hh"
+# include "Branches.hh"
 
 namespace analysis
 {

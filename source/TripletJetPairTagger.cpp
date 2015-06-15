@@ -15,33 +15,33 @@ TripletJetPairTagger::TripletJetPairTagger()
 void TripletJetPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
 
-    AddVariable(branch_.BottomMass, "BottomMass");
-    AddVariable(branch_.BottomPt, "BottomPt");
-    AddVariable(branch_.BottomRap, "BottomRap");
-    AddVariable(branch_.BottomPhi, "BottomPhi");
-    AddVariable(branch_.BottomBdt, "BottomBdt");
+    AddVariable(branch().BottomMass, "BottomMass");
+    AddVariable(branch().BottomPt, "BottomPt");
+    AddVariable(branch().BottomRap, "BottomRap");
+    AddVariable(branch().BottomPhi, "BottomPhi");
+    AddVariable(branch().BottomBdt, "BottomBdt");
 
-    AddVariable(branch_.TopMass, "TopMass");
-    AddVariable(branch_.TopPt, "TopPt");
-    AddVariable(branch_.TopRap, "TopRap");
-    AddVariable(branch_.TopPhi, "TopPhi");
-    AddVariable(branch_.TopBdt, "TopBdt");
+    AddVariable(branch().TopMass, "TopMass");
+    AddVariable(branch().TopPt, "TopPt");
+    AddVariable(branch().TopRap, "TopRap");
+    AddVariable(branch().TopPhi, "TopPhi");
+    AddVariable(branch().TopBdt, "TopBdt");
 
-    AddVariable(branch_.Bdt1, "Bdt1");
-    AddVariable(branch_.Bdt2, "Bdt2");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt1, "Bdt1");
+    AddVariable(branch().Bdt2, "Bdt2");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 // struct SortquartetByDeltaRap {
@@ -157,8 +157,7 @@ std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event &event, const TMV
         for (const auto & Jet : jets)  {
             Quartet31 quartet(triplet, Jet);
             if(quartet.Overlap()) continue;
-            branch_ = branch(quartet);
-            quartet.SetBdt(Bdt(reader));
+            quartet.SetBdt(Bdt(quartet,reader));
             quartets.emplace_back(quartet);
         }
     std::sort(quartets.begin(), quartets.end());

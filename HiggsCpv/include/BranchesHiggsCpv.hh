@@ -26,9 +26,12 @@ namespace higgscpv {
       PairBottomBdt = multiplet.PairBottomBdt();
       HardTopPt = multiplet.Sextet().HardTopPt();
       SoftTopPt = multiplet.Sextet().SoftTopPt();
-      HiggsMass = multiplet.Sextet().Jet().m();
-      PairRap = multiplet.Doublet().DeltaRap();
+      HiggsMass = multiplet.Doublet().Jet().m();
+      PairRap = multiplet.Sextet().DeltaRap();
     }
+//     void Add(std::vector<Observable> &variables){
+//       variables.emplace_back(NewObservable(BottomBdt, "BottomBdt"));
+//     }
   private:
     ClassDef(SignatureLeptonicBranch, 1)
   };

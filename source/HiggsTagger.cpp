@@ -1,6 +1,7 @@
 # include "HiggsTagger.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 HiggsTagger::HiggsTagger()
 {
@@ -14,22 +15,22 @@ HiggsTagger::HiggsTagger()
 void HiggsTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.Rho, "Rho");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().Rho, "Rho");
 
-    AddVariable(branch_.Bdt1, "Bdt1");
-    AddVariable(branch_.Bdt2, "Bdt2");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt1, "Bdt1");
+    AddVariable(branch().Bdt2, "Bdt2");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
@@ -41,17 +42,19 @@ int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet(*jet_1, *jet_2);
             if (doublet.Overlap()) continue;
-            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(HiggsId)) > 50) continue;
+            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(HiggsId)) > higgs_mass_window) continue;
+            if (tag == kSignal && (doublet.Rho() > 2 || doublet.Rho() < 0.5)) continue;
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
         }
     }
     for (const auto jet : jets) {
         const int sub_jet_number = 2;
-        Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet,sub_jet_number);
-        if (pieces.size()<sub_jet_number) continue;
-        Doublet doublet(pieces.at(0),pieces.at(1));
-            if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(HiggsId)) > 50) continue;
+        Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
+        if (pieces.size() < sub_jet_number) continue;
+        Doublet doublet(pieces.at(0), pieces.at(1));
+        if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(HiggsId)) > higgs_mass_window) continue;
+        if (tag == kSignal && (doublet.Rho() > 2 || doublet.Rho() < 0.5)) continue;
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
@@ -77,19 +80,17 @@ std::vector<Doublet>  HiggsTagger::Multiplets(Event &event, PreCuts &pre_cuts, c
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet(*jet_1, *jet_2);
             if (doublet.Overlap()) continue;
-            branch_ = branch(doublet);
-            doublet.SetBdt(Bdt(reader));
+            doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);
         }
     }
     for (const auto jet : jets) {
-      const int sub_jet_number = 2;
-      Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet,sub_jet_number);
-      if (pieces.size()<sub_jet_number) continue;
-      Doublet doublet(pieces.at(0),pieces.at(1));
-      branch_ = branch(doublet);
-      doublet.SetBdt(Bdt(reader));
-      doublets.emplace_back(doublet);
+        const int sub_jet_number = 2;
+        Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
+        if (pieces.size() < sub_jet_number) continue;
+        Doublet doublet(pieces.at(0), pieces.at(1));
+        doublet.SetBdt(Bdt(doublet,reader));
+        doublets.emplace_back(doublet);
     }
     return ReduceResult(doublets);
 }

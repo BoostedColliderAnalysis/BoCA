@@ -2,29 +2,30 @@
 
 # include "Quartet31.hh"
 
-namespace heavyhiggs{
+namespace heavyhiggs
+{
 
 /**
  * @brief An octet composed of two quartets
  *
  */
-class Octet44 : public analysis::Multiplet<analysis::Quartet31,analysis::Quartet31>
+class Octet44 : public analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>
 {
 
 public:
 
-  using analysis::Multiplet<analysis::Quartet31,analysis::Quartet31>::Multiplet;
+    using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
 
 //     bool Overlap() const;
 
 //     bool Overlap(const fastjet::PseudoJet &jet) const;
 
     inline analysis::Quartet31 Quartet1()const {
-        return multiplet_1_;
+        return Multiplet1();
     }
 
     inline analysis::Quartet31 Quartet2() const {
-        return multiplet_2_;
+        return Multiplet2();
     }
 
     inline float BottomBdt() const {

@@ -15,18 +15,18 @@ WSemiTagger::WSemiTagger()
 void WSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
-    AddVariable(branch_.NeutrinoPt, "NeutrinoPt");
-    AddVariable(branch_.LeptonPt, "LeptonPt");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
+    AddVariable(branch().NeutrinoPt, "NeutrinoPt");
+    AddVariable(branch().LeptonPt, "LeptonPt");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int WSemiTagger::Train(Event &event, const Object::Tag tag)
@@ -76,8 +76,7 @@ std::vector<Doublet>  WSemiTagger::Multiplets(Event &event, const TMVA::Reader &
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto & doublet : post_doublets) {
             if (std::abs(doublet.Jet().m() - Mass(WId)) > w_mass_window_) continue;
-            branch_ = branch(doublet);
-            doublet.SetBdt(Bdt(reader));
+            doublet.SetBdt(Bdt(doublet,reader));
             doublets.emplace_back(doublet);
         }
     }

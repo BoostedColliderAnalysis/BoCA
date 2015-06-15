@@ -18,21 +18,21 @@ TopLeptonicPairTagger::TopLeptonicPairTagger()
 void TopLeptonicPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
 
-    AddVariable(branch_.Bdt1, "Bdt1");
-    AddVariable(branch_.Bdt2, "Bdt2");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt1, "Bdt1");
+    AddVariable(branch().Bdt2, "Bdt2");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int TopLeptonicPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
@@ -84,8 +84,7 @@ std::vector< analysis::Sextet > TopLeptonicPairTagger::Multiplets(analysis::Even
 //             for (auto sextet : wimp_mass.Sextets(quartet, event.Hadrons().MissingEt())) {
                 analysis::Sextet sextet = wimp_mass.Fake(quartet);
                 Print(kInformation, "Sextet");
-                branch_ = branch(sextet);
-                sextet.SetBdt(Bdt(reader));
+                sextet.SetBdt(Bdt(sextet,reader));
                 sextets.emplace_back(sextet);
 //             }
         }

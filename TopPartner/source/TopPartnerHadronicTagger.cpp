@@ -1,6 +1,8 @@
-# include "../include/TopPartnerTagger.hh"
+# include "TopPartnerHadronicTagger.hh"
 
-toppartner::TopPartnerTagger::TopPartnerTagger()
+namespace toppartner {
+
+TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
 //         DebugLevel = analysis::Object::kDetailed;
     Print(kNotification, "Constructor");
@@ -10,25 +12,26 @@ toppartner::TopPartnerTagger::TopPartnerTagger()
     DefineVariables();
 }
 
-void toppartner::TopPartnerTagger::DefineVariables()
+void TopPartnerHadronicTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaHt, "DeltaHt");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaHt, "DeltaHt");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().Rho, "Rho");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
-int toppartner::TopPartnerTagger::Train(analysis::Event &event,  analysis::PreCuts &pre_cuts, const Tag tag)
+int TopPartnerHadronicTagger::Train(analysis::Event &event,  analysis::PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Higgs Tags");
     std::vector< analysis::Triplet> triplets = top_reader_.Multiplets<analysis::TopHadronicTagger>(event);
@@ -44,7 +47,7 @@ int toppartner::TopPartnerTagger::Train(analysis::Event &event,  analysis::PreCu
     return SaveEntries(quintets);
 }
 
-std::vector<analysis::Quintet>  toppartner::TopPartnerTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Quintet> TopPartnerHadronicTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     std::vector< analysis::Triplet> triplets = top_reader_.Multiplets<analysis::TopHadronicTagger>(event);
     std::vector< analysis::Doublet> doublets = z_hadronic_reader_.Multiplets<analysis::ZHadronicTagger>(event);
@@ -53,11 +56,10 @@ std::vector<analysis::Quintet>  toppartner::TopPartnerTagger::Multiplets(analysi
         for (const auto & triplet : triplets) {
             analysis::Quintet quintet(triplet, doublet);
             if (quintet.Overlap()) continue;
-            branch_ = branch(quintet);
-            quintet.SetBdt(Bdt(reader));
+            quintet.SetBdt(Bdt(quintet,reader));
             quintets.emplace_back(quintet);
         }
     return ReduceResult(quintets);
 }
 
-
+}

@@ -13,21 +13,21 @@ void heavyhiggs::HeavyHiggsTauTagger::DefineVariables()
 {
 
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.NeutrinoPt, "NeutrinoPt");
-    AddVariable(branch_.LeptonPt, "LeptonPt");
+    AddVariable(branch().NeutrinoPt, "NeutrinoPt");
+    AddVariable(branch().LeptonPt, "LeptonPt");
 
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
 
-    AddSpectator(branch_.Tag, "Tag");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int heavyhiggs::HeavyHiggsTauTagger::Train(analysis::Event &event, const analysis::Object::Tag tag)
@@ -90,8 +90,7 @@ std::vector<analysis::Doublet>  heavyhiggs::HeavyHiggsTauTagger::Multiplets(anal
 //         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
 //         for (auto & Postdoublet : Postdoublets) {
 //             if (Postdoublet.Jet().m() < 10) continue;
-        branch_ = branch(pre_doublet);
-        pre_doublet.SetBdt(Bdt(reader));
+      pre_doublet.SetBdt(Bdt(pre_doublet,reader));
         doublets.emplace_back(pre_doublet);
 //         }
     }

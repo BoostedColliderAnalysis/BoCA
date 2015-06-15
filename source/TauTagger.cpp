@@ -16,21 +16,21 @@ TauTagger::TauTagger()
 void TauTagger::DefineVariables()
 {
     Print(kInformation , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.EmRadius, "EmRadius");
-    AddVariable(branch_.TrackRadius, "TrackRadius");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().EmRadius, "EmRadius");
+    AddVariable(branch().TrackRadius, "TrackRadius");
 //     AddObservable(Branch.MomentumFraction, "MomentumFraction");
-    AddVariable(branch_.CoreEnergyFraction, "CoreEnergyFraction");
-    AddSpectator(branch_.EmFraction, "EmFraction");
-    AddVariable(branch_.ClusterMass, "ClusterMass");
-    AddVariable(branch_.TrackMass, "TrackMass");
-    AddVariable(branch_.FlightPath, "FlightPath");
-    AddSpectator(branch_.TrtHtFraction, "TrtHtFraction");
-    AddSpectator(branch_.Tag, "Tag");
-    AddSpectator(branch_.Bdt, "Bdt");
+    AddVariable(branch().CoreEnergyFraction, "CoreEnergyFraction");
+    AddSpectator(branch().EmFraction, "EmFraction");
+    AddVariable(branch().ClusterMass, "ClusterMass");
+    AddVariable(branch().TrackMass, "TrackMass");
+    AddVariable(branch().FlightPath, "FlightPath");
+    AddSpectator(branch().TrtHtFraction, "TrtHtFraction");
+    AddSpectator(branch().Tag, "Tag");
+    AddSpectator(branch().Bdt, "Bdt");
 }
 
 int TauTagger::Train(Event &event, const Object::Tag tag)
@@ -186,8 +186,7 @@ Jets TauTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 //             Print(kInformation, "Empty Piece");
 //             continue;
 //         }
-        branch_ = branch(Singlet(jet));
-        static_cast<JetInfo *>(jet.user_info_shared_ptr().get())->SetBdt(Bdt(reader));
+        static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet,reader));
         final_jets.emplace_back(jet);
     }
     return final_jets;

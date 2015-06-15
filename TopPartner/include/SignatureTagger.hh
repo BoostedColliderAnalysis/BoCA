@@ -1,8 +1,8 @@
 # pragma once
 
 # include "Quattuordecuplet.hh"
-# include "TopPartnerTagger.hh"
-# include "HiggsTagger.hh"
+# include "TopPartnerPairTagger.hh"
+# include "HiggsPairTagger.hh"
 
 namespace toppartner
 {
@@ -32,13 +32,13 @@ private:
 
     void DefineVariables();
 
-    TopPartnerTagger top_partner_tagger_;
+    TopPartnerPairTagger top_partner_pair_tagger_;
 
-    analysis::HiggsTagger higgs_tagger;
+    HiggsPairTagger higgs_pair_tagger;
 
-    analysis::Reader top_partner_reader_;
+    analysis::Reader top_partner_pair_reader_;
 
-    analysis::Reader higgs_reader_;
+    analysis::Reader higgs_pair_reader_;
 };
 
 }

@@ -13,22 +13,22 @@ heavyhiggs::HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 void heavyhiggs::HeavyHiggsSemiTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaHt, "DeltaHt");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaHt, "DeltaHt");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
 
-    AddVariable(branch_.Bdt1, "Bdt1");
-    AddVariable(branch_.Bdt2, "Bdt2");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt1, "Bdt1");
+    AddVariable(branch().Bdt2, "Bdt2");
+    AddSpectator(branch().Tag, "Tag");
 
     Print(kNotification, "Variables defined");
 
@@ -101,8 +101,7 @@ std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsSemiTagger::Multiplets(anal
         for (const auto & triplet_hadronic : triplets_hadronic) {
           analysis::Sextet sextet(triplet_semi, triplet_hadronic);
             if (sextet.Overlap()) continue;
-            branch_ = branch(sextet);
-            sextet.SetBdt(Bdt(reader));
+            sextet.SetBdt(Bdt(sextet,reader));
             sextets.emplace_back(sextet);
         }
     return ReduceResult(sextets);

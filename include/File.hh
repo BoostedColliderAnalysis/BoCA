@@ -39,6 +39,8 @@ public:
 
     File(const std::string &process, const std::string &run_folder, const std::string &file_suffix);
 
+    File(const std::string &process, const std::string &run_folder, const std::string &file_suffix, const float crosssection);
+
     /**
      * @brief destructor
      *

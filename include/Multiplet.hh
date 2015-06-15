@@ -105,15 +105,25 @@ public:
         return std::abs(Jet().m() - Mass(particle_id));
     }
 
+protected:
+
     virtual inline std::string ClassName() const {
         return "Multiplet";
     }
 
+    void SetMultiplet1(const Multiplet_1 multiplet_1){
+      multiplet_1_ = multiplet_1;
+    }
+
+    void SetMultiplet2(const Multiplet_2 multiplet_2){
+      multiplet_2_ = multiplet_2;
+    }
+
+private:
+
     Multiplet_1 multiplet_1_;
 
     Multiplet_2 multiplet_2_;
-
-private:
 
 };
 

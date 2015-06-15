@@ -14,14 +14,12 @@ public:
     using analysis::Multiplet<toppartner::Decuplet, analysis::Quartet22>::Multiplet;
 
     inline toppartner::Decuplet Decuplet()const {
-        return multiplet_1_;
+        return Multiplet1();
     }
 
     inline analysis::Quartet22 Quartet()const {
-        return multiplet_2_;
+        return Multiplet2();
     }
-
-//     bool Overlap() const;
 
 protected:
 

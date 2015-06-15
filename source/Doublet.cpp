@@ -1,25 +1,26 @@
 # include "Doublet.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 fastjet::PseudoJet Doublet::SingletJet1()const
 {
-    return multiplet_1_.Jet();
+    return Multiplet1().Jet();
 }
 
 fastjet::PseudoJet Doublet::SingletJet2()const
 {
-    return multiplet_2_.Jet();
+    return Multiplet2().Jet();
 }
 
 Singlet Doublet::Singlet1()const
 {
-    return multiplet_1_;
+    return Multiplet1();
 }
 
 Singlet Doublet::Singlet2()const
 {
-    return multiplet_2_;
+    return Multiplet2();
 }
 
 std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const

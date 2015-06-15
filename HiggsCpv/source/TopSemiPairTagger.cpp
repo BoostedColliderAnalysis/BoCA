@@ -15,32 +15,32 @@ TopSemiPairTagger::TopSemiPairTagger()
 void TopSemiPairTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().Ht, "Ht");
 
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
+    AddVariable(branch().DeltaM, "DeltaM");
+    AddVariable(branch().DeltaPt, "DeltaPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
 
-    AddVariable(branch_.BottomMass, "BottomMass");
-    AddVariable(branch_.BottomPt, "BottomPt");
-    AddVariable(branch_.BottomRap, "BottomRap");
-    AddVariable(branch_.BottomPhi, "BottomPhi");
-    AddVariable(branch_.BottomBdt, "BottomBdt");
+    AddVariable(branch().BottomMass, "BottomMass");
+    AddVariable(branch().BottomPt, "BottomPt");
+    AddVariable(branch().BottomRap, "BottomRap");
+    AddVariable(branch().BottomPhi, "BottomPhi");
+    AddVariable(branch().BottomBdt, "BottomBdt");
 
-    AddVariable(branch_.TopMass, "TopMass");
-    AddVariable(branch_.TopPt, "TopPt");
-    AddVariable(branch_.TopRap, "TopRap");
-    AddVariable(branch_.TopPhi, "TopPhi");
-    AddVariable(branch_.TopBdt, "TopBdt");
+    AddVariable(branch().TopMass, "TopMass");
+    AddVariable(branch().TopPt, "TopPt");
+    AddVariable(branch().TopRap, "TopRap");
+    AddVariable(branch().TopPhi, "TopPhi");
+    AddVariable(branch().TopBdt, "TopBdt");
 
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Bdt, "Bdt");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
@@ -97,9 +97,8 @@ std::vector< analysis::Sextet > TopSemiPairTagger::Multiplets(analysis::Event& e
     for (const auto & triplet_hadronic : triplets_hadronic)
         for (const auto & triplet_semi : triplets_semi)  {
             analysis::Sextet sextet(triplet_hadronic, triplet_semi);
-            branch_ = branch(sextet);
             if(sextet.Overlap()) continue;
-            sextet.SetBdt(Bdt(reader));
+            sextet.SetBdt(Bdt(sextet,reader));
             sextets.emplace_back(sextet);
         }
     return ReduceResult(sextets);

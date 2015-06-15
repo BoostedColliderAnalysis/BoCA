@@ -2,6 +2,7 @@
 
 # include "Reader.hh"
 # include "Doublet.hh"
+# include "BranchTagger.hh"
 
 namespace analysis {
 

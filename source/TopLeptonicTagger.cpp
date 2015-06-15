@@ -15,18 +15,18 @@ TopLeptonicTagger::TopLeptonicTagger()
 void TopLeptonicTagger::DefineVariables()
 {
     Print(kNotification , "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.BottomPt, "BottomPt");
-    AddVariable(branch_.LeptonPt, "LeptonPt");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.Bdt1, "Bdt1");
-//     AddVariable(branch_.Bdt2, "Bdt2");
-    AddSpectator(branch_.Tag, "Tag");
+    AddVariable(branch().Mass, "Mass");
+    AddVariable(branch().Pt, "Pt");
+    AddVariable(branch().Rap, "Rap");
+    AddVariable(branch().Phi, "Phi");
+    AddVariable(branch().BottomPt, "BottomPt");
+    AddVariable(branch().LeptonPt, "LeptonPt");
+    AddVariable(branch().DeltaPhi, "DeltaPhi");
+    AddVariable(branch().DeltaRap, "DeltaRap");
+    AddVariable(branch().DeltaR, "DeltaR");
+    AddVariable(branch().Bdt1, "Bdt1");
+//     AddVariable(branch().Bdt2, "Bdt2");
+    AddSpectator(branch().Tag, "Tag");
 }
 
 int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
@@ -71,8 +71,7 @@ std::vector<Doublet> TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cu
     for (const auto & lepton : leptons) {
         for (const auto & jet : jets) {
             Doublet doublet(jet, lepton);
-            branch_ = branch(doublet);
-            doublet.SetBdt(Bdt(reader));
+            doublet.SetBdt(Bdt(doublet,reader));
             doublets.emplace_back(doublet);
         }
     }

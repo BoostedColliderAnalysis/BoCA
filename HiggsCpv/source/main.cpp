@@ -2,7 +2,7 @@
 
 # include "TSystem.h"
 # include "Factory.hh"
-# include "EventTagger.hh"
+# include "../include/EventTagger.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
