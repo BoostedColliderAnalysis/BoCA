@@ -54,13 +54,13 @@ int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets tops = copy_if_abs_particle(particles, HiggsId, CpvHiggsId);
+    Jets higgses = copy_if_abs_particle(particles, HiggsId, CpvHiggsId);
     switch (tag) {
     case kSignal :
-        doublets = BestMatch(doublets, tops);
+        doublets = BestMatch(doublets, higgses);
         break;
     case kBackground  :
-        doublets = RemoveBestMatch(doublets, tops);
+        doublets = RemoveBestMatch(doublets, higgses);
         break;
     }
     return SaveEntries(doublets);
