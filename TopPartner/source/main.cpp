@@ -50,6 +50,16 @@ int main()
   RunFactory(higgs_pair_tagger);
   RunTagger(higgs_pair_tagger, analysis::Tagger::kReader);
 
+  analysis::WHadronicTagger w_hadronic_tagger;
+  RunTagger(w_hadronic_tagger, analysis::Tagger::kTrainer);
+  RunFactory(w_hadronic_tagger);
+  RunTagger(w_hadronic_tagger, analysis::Tagger::kReader);
+  
+  analysis::WSemiTagger w_semi_tagger;
+  RunTagger(w_semi_tagger, analysis::Tagger::kTrainer);
+  RunFactory(w_semi_tagger);
+  RunTagger(w_semi_tagger, analysis::Tagger::kReader);
+
   analysis::TopHadronicTagger top_hadronic_tagger;
   RunTagger(top_hadronic_tagger, analysis::Tagger::kTrainer);
   RunFactory(top_hadronic_tagger);

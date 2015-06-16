@@ -20,14 +20,6 @@ public:
     BottomTagger();
 
     /**
-     * @brief Train the bottom tagger without pre cuts
-     */
-    int Train(Event &event, const Object::Tag tag) {
-        PreCuts pre_cuts;
-        return Train(event,pre_cuts,tag);
-    }
-
-    /**
      * @brief Train the bottom tagger with pre cuts
      */
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
@@ -39,32 +31,11 @@ public:
     Jets Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     /**
-     * @brief Return all jets of the event with bottom bdt value without pre cuts
-     *
-     */
-    Jets Multiplets(Event &event, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return Multiplets(event,pre_cuts,reader);
-    }
-
-    /**
      * @brief Save all jets with bottom bdt value condidering pre cuts
      *
      */
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        Jets jets = Multiplets(event, pre_cuts, reader);
-        std::vector<Singlet> singlets;
-        for(const auto &jet : jets) singlets.emplace_back(Singlet(jet));
-        return SaveEntries(singlets);
-    }
-
-    /**
-     * @brief Save all jets with bottom bdt value without pre cuts
-     *
-     */
-    int GetBdt(Event &event, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return GetBdt(event,pre_cuts,reader);
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
     /**

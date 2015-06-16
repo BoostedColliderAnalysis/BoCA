@@ -121,14 +121,14 @@ int WHadronicTagger::WHadronicId(const Jets &jets) const
     else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().Id;
 }
 
-std::vector<Doublet> WHadronicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Doublet> WHadronicTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "doublet Bdt");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
 
     // 2 jets form a W
-    std::vector<Doublet> doublets = Multiplets(jets, reader);
+    std::vector<Doublet> doublets = Multiplets(jets,pre_cuts, reader);
 
     // 1 jet (2 subjets) form a W
     Multiplets(jets, reader, 2);
@@ -145,7 +145,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets(Event &event, const TMVA::Reade
     return ReduceResult(doublets);
 }
 
-std::vector<Doublet> WHadronicTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader)
+std::vector<Doublet> WHadronicTagger::Multiplets(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "doublet Bdt");
 

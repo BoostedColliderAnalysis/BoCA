@@ -23,7 +23,7 @@ public:
 
     int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Sextet> Multiplets(Event& event, const TMVA::Reader& reader);
+    std::vector<Sextet> Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
 protected:
 

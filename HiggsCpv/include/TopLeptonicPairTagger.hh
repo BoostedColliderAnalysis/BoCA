@@ -21,9 +21,9 @@ public:
 
     TopLeptonicPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(analysis::Event &event, analysis::PreCuts &, const analysis::Object::Tag tag);
 
-    std::vector<Sextet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Sextet> Multiplets(analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &reader);
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, pre_cuts, reader));

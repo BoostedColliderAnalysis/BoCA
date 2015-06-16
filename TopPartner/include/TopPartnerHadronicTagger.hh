@@ -24,7 +24,7 @@ public:
 
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    std::vector<Quintet> Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Quintet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 protected:
 

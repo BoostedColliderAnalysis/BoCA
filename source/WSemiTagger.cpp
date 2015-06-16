@@ -12,7 +12,7 @@ WSemiTagger::WSemiTagger()
     DefineVariables();
 }
 
-int WSemiTagger::Train(Event &event, const Object::Tag tag)
+int WSemiTagger::Train(Event &event, PreCuts &, const Object::Tag tag)
 {
     Print(kInformation, "Train");
     Jets Particles = event.Partons().GenParticles();
@@ -44,7 +44,7 @@ int WSemiTagger::Train(Event &event, const Object::Tag tag)
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Doublet>  WSemiTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
   Print(kInformation, "Triple Bdt");
   Jets Particles = event.Partons().GenParticles();

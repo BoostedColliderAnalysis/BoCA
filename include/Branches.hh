@@ -1,9 +1,7 @@
 # pragma once
 
 # include "TObject.h"
-// # include "TGenericClassInfo.h"
 # include "Rtypes.h"
-// # include "Global.hh"
 
 namespace analysis
 {
@@ -92,7 +90,7 @@ public:
         Rap = multiplet.Jet().rap();
         Phi = multiplet.Jet().phi_std();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return {PAIR(Mass), PAIR(Rap), PAIR(Phi)};
     }
     virtual Observables Spectators() {
@@ -140,7 +138,7 @@ public:
         Tag = multiplet.Tag();
         Bdt = multiplet.Bdt();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return Join(ParticleBranch::Variables(), {PAIR(VertexMass), PAIR(MaxDisplacement), PAIR(MeanDisplacement), PAIR(SumDisplacement), PAIR(Multipliticity), PAIR(DeltaR), PAIR(VertexDeltaR), PAIR(VertexSpread), PAIR(EnergyFraction)});
     }
     virtual Observables Spectators() {
@@ -220,7 +218,7 @@ public:
         Bdt2 = multiplet.Multiplet2().Bdt();
         Tag = multiplet.Tag();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(Bdt2)});
     }
     virtual Observables Spectators() {
@@ -241,8 +239,8 @@ public:
         PairBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt();
     }
-    virtual Observables Variables() {
-        return Join(ParticleBranch::Variables(), {PAIR(DeltaHt)});
+    Observables Variables() {
+        return Join(PairBranch::Variables(), {PAIR(DeltaHt)});
     }
 private:
     ClassDef(MultiBranch, 1)
@@ -378,7 +376,7 @@ public:
         TopMass = multiplet.Triplet().Jet().m();
         TopBdt = multiplet.Triplet().Bdt();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
     }
 private:
@@ -402,7 +400,7 @@ public:
         LeptonPt = multiplet.SingletJet1().pt();
         NeutrinoPt = multiplet.SingletJet2().pt();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return Join(PairBranch::Variables(), {PAIR(LeptonPt), PAIR(NeutrinoPt)});
     }
 private:
@@ -472,7 +470,7 @@ public:
         BottomPt = multiplet.SingletJet1().pt();
         LeptonPt = multiplet.SingletJet2().pt();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
     }
 private:
@@ -496,7 +494,7 @@ public:
         BottomPt = multiplet.SingletJet().pt();
         WPt = multiplet.Doublet().Jet().pt();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return Join(MultiBranch::Variables(), {PAIR(BottomPt), PAIR(WPt)});
     }
 private:
@@ -628,7 +626,7 @@ public:
         JetRap = multiplet.Singlet().Rapidity();
         JetPhi = multiplet.Singlet().Jet().phi();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
         return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
     }
 private:

@@ -16,7 +16,7 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int SignatureTagger::Train(Event &event, PreCuts &, const Tag tag)
 {
     Print(kInformation, "Train");
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
@@ -60,7 +60,7 @@ int SignatureTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 }
 
 
-std::vector< Octet62 > SignatureTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector< Octet62 > SignatureTagger::Multiplets(Event &event, PreCuts &, const TMVA::Reader &reader)
 {
     Print(kInformation, "Multiplets");
     std::vector<Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);

@@ -32,7 +32,7 @@ namespace higgscpv {
       HiggsMass = multiplet.Doublet().Jet().m();
       PairRap = multiplet.Sextet().DeltaRap();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
       return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});
     }
 
@@ -174,7 +174,7 @@ public:
         TopMass = multiplet.Triplet2().Jet().m();
         TopBdt = multiplet.Triplet2().Bdt();
     }
-    virtual Observables Variables() {
+    Observables Variables() {
       return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
     }
 private:

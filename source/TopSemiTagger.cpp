@@ -74,7 +74,7 @@ std::vector<Triplet> TopSemiTagger::CleanTriplet(const Triplet &triplet, fastjet
     return triplets;
 }
 
-std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "Bdt");
 

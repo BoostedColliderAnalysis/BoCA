@@ -262,7 +262,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // }
 
-int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
+int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Tagger::Stage , const Tag )
 {
     Print(kInformation, "Analysis");
     ++event_sum_;
@@ -281,6 +281,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //         return 0;
 //     }
 //     tagger_.GetBranches(event,stage,tag);
+    return 1;
 }
 
 

@@ -33,7 +33,7 @@ void TauTagger::DefineVariables()
     AddSpectator(branch().Bdt, "Bdt");
 }
 
-int TauTagger::Train(Event &event, const Object::Tag tag)
+int TauTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "Tau Tag", tag);
     Jets jets = event.Hadrons().Jets();
@@ -172,7 +172,7 @@ Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 //     return GetJetBdt(Pieces, BottomReader);
 // }
 
-Jets TauTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+Jets TauTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets final_jets;
     Print(kInformation, "Jet Bdt");

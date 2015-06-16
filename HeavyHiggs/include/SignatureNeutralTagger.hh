@@ -25,9 +25,9 @@ public:
     */
     SignatureNeutralTagger();
 
-    int Train(Event &event, const Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector< Octet62 > Multiplets(Event& event, const TMVA::Reader& reader);
+    std::vector< Octet62 > Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
 protected:
 

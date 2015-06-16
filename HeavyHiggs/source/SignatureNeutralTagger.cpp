@@ -16,7 +16,7 @@ SignatureNeutralTagger::SignatureNeutralTagger()
     DefineVariables();
 }
 
-int SignatureNeutralTagger::Train(analysis::Event &event, const Tag tag)
+int SignatureNeutralTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "event Tags");
     float Mass = event.mass();
@@ -74,7 +74,7 @@ int SignatureNeutralTagger::Train(analysis::Event &event, const Tag tag)
 }
 
 
-std::vector<analysis::Octet62> SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Octet62> SignatureNeutralTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "event Tags");
 

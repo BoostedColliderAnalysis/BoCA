@@ -52,12 +52,6 @@ private:
 
   int PassPreCut(Event &event);
 
-  /**
-   * @brief Main Analysis function
-   *
-   */
-  int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
-
 };
 
 }

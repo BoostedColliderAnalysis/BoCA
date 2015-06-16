@@ -89,7 +89,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
     return 1;
 }
 
-int hbottomsumtagger::EventBottomTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+int hbottomsumtagger::EventBottomTagger::Multiplets(analysis::Event &event, const TMVA::Reader &)
 {
   Print(kInformation, "event Tags");
   analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);

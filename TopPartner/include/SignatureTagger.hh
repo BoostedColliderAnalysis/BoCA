@@ -21,14 +21,14 @@ public:
 
     SignatureTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Quattuordecuplet> Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Quattuordecuplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 protected:
 
     virtual inline std::string ClassName() const {
-        return "EventTagger";
+      return "SignatureTagger";
     }
 
 private:

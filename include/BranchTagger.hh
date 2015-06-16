@@ -115,6 +115,12 @@ protected:
       AddSpectators();
     }
 
+//     auto Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+//
+//     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
+//     }
+
 private:
 
     template<typename Multiplet>

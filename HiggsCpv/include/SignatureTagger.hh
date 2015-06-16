@@ -21,9 +21,9 @@ public:
 
     SignatureTagger();
 
-    int Train(Event &event,PreCuts &pre_cuts, const Tag tag);
+    int Train(analysis::Event &event, analysis::PreCuts &, const analysis::Object::Tag tag);
 
-    std::vector< Octet62 > Multiplets(Event& event,PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector< Octet62 > Multiplets(analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &reader);
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
       return SaveEntries(Multiplets(event, pre_cuts, reader));

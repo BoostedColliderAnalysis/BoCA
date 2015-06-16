@@ -12,7 +12,7 @@ TripletJetPairTagger::TripletJetPairTagger()
     DefineVariables();
 }
 
-int TripletJetPairTagger::Train(Event &event, const Tag tag)
+int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "W Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
@@ -110,7 +110,7 @@ int TripletJetPairTagger::Train(Event &event, const Tag tag)
 
 }
 
-std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);

@@ -18,22 +18,17 @@ public:
 
     TopSemiTagger();
 
-    int Train(Event &event,PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    int Train(Event &event, const Object::Tag tag) {
-        PreCuts pre_cuts;
-        Train(event,pre_cuts,tag);
+    std::vector<Triplet> CleanTriplets(const analysis::Triplet &triplet, analysis::Jets TopQuarks, analysis::PreCuts &pre_cut, const analysis::Object::Tag tag);
+
+    std::vector<Triplet> CleanTriplet(const analysis::Triplet &triplet, fastjet::PseudoJet TopQuark, analysis::PreCuts &pre_cut, const analysis::Object::Tag tag);
+
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::vector<Triplet> CleanTriplets(const analysis::Triplet& triplet, analysis::Jets TopQuarks, analysis::PreCuts& pre_cut, const analysis::Object::Tag tag);
-
-    std::vector<Triplet> CleanTriplet(const analysis::Triplet& triplet, fastjet::PseudoJet TopQuark, analysis::PreCuts& pre_cut, const analysis::Object::Tag tag);
-
-    int GetBdt(Event &event, const TMVA::Reader &reader) {
-        return SaveEntries(Multiplets(event,reader));
-    }
-
-    std::vector<Triplet> Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Triplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     int TopSemiId(Event &event) {
         return sgn(w_semi_tagger_.WSemiId(event)) * std::abs(TopId);

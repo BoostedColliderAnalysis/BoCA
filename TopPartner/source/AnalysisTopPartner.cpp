@@ -21,12 +21,12 @@ void Analysis::SetFiles(const Tag tag)
     Print(kNotification, "Set Files");
     switch (tag) {
     case kSignal :
-        NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
+      NewSignalFile("pp-Tth-bbbbjjjjlv");
 //         NewSignalFile("pp-ttx0-bbbbllnunu-0", 0.008937);
 //         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
         break;
     case kBackground :
-        NewBackgroundFile("pp-ttbb-bbbbllnunu", 3.457);
+      NewBackgroundFile("pp-Tth-bbbbjjjjlv");
         break;
     }
 }
