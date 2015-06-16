@@ -325,15 +325,6 @@ public:
         Jet2Rap = multiplet.SingletJet2().rap();
         Jet2Phi = multiplet.SingletJet2().phi();
         Jet2Mass = multiplet.SingletJet2().m();
-//         Jet2Bdt = multiplet.SingletJet2().user_info<JetInfo>().Bdt();
-//         BdtRatio11 = multiplet.BdtRatio1(1);
-//         BdtRatio12 = multiplet.BdtRatio1(2);
-//         BdtRatio13 = multiplet.BdtRatio1(3);
-//         BdtRatio14 = multiplet.BdtRatio1(4);
-//         BdtRatio21 = multiplet.BdtRatio2(1);
-//         BdtRatio22 = multiplet.BdtRatio2(2);
-//         BdtRatio23 = multiplet.BdtRatio2(3);
-//         BdtRatio24 = multiplet.BdtRatio2(4);
     }
 private:
     ClassDef(JetPairBranch, 1)
@@ -401,7 +392,7 @@ public:
         NeutrinoPt = multiplet.SingletJet2().pt();
     }
     Observables Variables() {
-        return Join(PairBranch::Variables(), {PAIR(LeptonPt), PAIR(NeutrinoPt)});
+        return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(LeptonPt), PAIR(NeutrinoPt)});
     }
 private:
     ClassDef(WSemiBranch, 1)
