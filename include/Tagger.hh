@@ -1,10 +1,7 @@
 # pragma once
 
-// # include <map>
-// # include "TCut.h"
 # include "TMVA/Reader.h"
 # include "Event.hh"
-// # include "Branches.hh"
 # include "Observable.hh"
 # include "PreCuts.hh"
 
@@ -81,19 +78,19 @@ public:
 
     virtual int Train(analysis::Event &, PreCuts &, const Tag);
 
-    virtual float GetBranches(analysis::Event &, Stage , const Tag);
+//     virtual float GetBranches(analysis::Event &, Stage , const Tag);
 
     Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
     fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 
-    virtual float ReadBdt(const TClonesArray &, const int);
+    virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
     DetectorGeometry detector_geometry() const;
 
     void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
 
-    virtual float Bdt(Event &, const TMVA::Reader &) const;
+//     virtual float Bdt(Event &, const TMVA::Reader &) const;
 
 protected:
 
@@ -107,15 +104,15 @@ protected:
 
     Observable NewObservable(float &value, const std::string &title, const std::string &latex) const;
 
-    void AddVariable(float &value, const std::string &title);;
+    void AddVariable(float &value, const std::string &title);
 
-    void AddVariable(float &value, const std::string &title, const std::string &latex);;
+    void AddVariable(float &value, const std::string &title, const std::string &latex);
 
 //     void AddVariables(const Branch &branch){
 //
 //     }
 
-    void AddSpectator(float &value, const std::string &title);;
+    void AddSpectator(float &value, const std::string &title);
 
     void ClearVectors();
 

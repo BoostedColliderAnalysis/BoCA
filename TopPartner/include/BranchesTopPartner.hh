@@ -72,7 +72,7 @@ class EventBranch : public analysis::EventBranch
 {
 
 public:
-  
+
   EventBranch();
 
   template<typename Multiplet>

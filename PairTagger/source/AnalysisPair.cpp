@@ -230,7 +230,7 @@ int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Ta
 
 //     switch (stage) {
 //       case analysis::Tagger::kTrainer :
-        return tagger_.GetBranches(event, stage, tag);
+//         return tagger_.Train(event, tag);
 //       case analysis::Tagger::kReader:
 //         return tagger_.GetBdt(event, tag);
 //     }

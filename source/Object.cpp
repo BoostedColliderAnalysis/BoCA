@@ -1,17 +1,18 @@
 # include "Object.hh"
 
-namespace analysis{
+namespace analysis
+{
 
 Object::Object()
 {
 //   debug_level_ = kInformation;
     debug_level_ = kNotification;
-  //     debug_level_ = kError;
-  //     debug_level_ = kDebug;
+    //     debug_level_ = kError;
+    //     debug_level_ = kDebug;
 //     Print(kDebug, "Constructor");
 }
 
-void Object::Printer(const std::string &Description) const
+void Object::Printer(const std::string &Description, const std::string &func) const
 {
     const char Separator = ' ';
     const int NameSpaceWidth = 12;
@@ -19,6 +20,7 @@ void Object::Printer(const std::string &Description) const
     const int FunctionWidth = 25;
     std::cout << std::left << std::setw(NameSpaceWidth) << std::setfill(Separator) << NameSpaceName();
     std::cout << std::left << std::setw(ClassWidth) << std::setfill(Separator) << ClassName();
+//     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << func;
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Description;
 }
@@ -172,9 +174,9 @@ float Object::Mass(const ParticleId particle_id) const
     case TauId:
         return 1.776;
     case TauNeutrinoId:
-      return 0;
+        return 0;
     case PhotonId:
-      return 0;
+        return 0;
     case ZId:
         return 91.188;
     case WId:

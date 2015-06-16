@@ -205,16 +205,12 @@ int Tagger::Train(Event &, PreCuts &, const Object::Tag)
     Print(kError, "Train", "Should be subclassed");
     return 0;
 }
-float Tagger::GetBranches(Event &, Tagger::Stage, const Object::Tag)
-{
-    Print(kError, "get branches", "Should be subclassed", "should be deleted");
-    return 0;
-}
-float Tagger::ReadBdt(const TClonesArray &, const int)
-{
-    Print(kError, "Read Bdt", "should be subclassed");
-    return 0;
-}
+// float Tagger::GetBranches(Event &, Tagger::Stage, const Object::Tag)
+// {
+//     Print(kError, "get branches", "Should be subclassed", "should be deleted");
+//     return 0;
+// }
+
 DetectorGeometry Tagger::detector_geometry() const
 {
     return detector_geometry_;
@@ -223,11 +219,11 @@ void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Tagger::Stage 
 {
     tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
 }
-float Tagger::Bdt(Event &, const TMVA::Reader &) const
-{
-    Print(kError, "Bdt", "should be subclassed");
-    return 0;
-}
+// float Tagger::Bdt(Event &, const TMVA::Reader &) const
+// {
+//     Print(kError, "Bdt", "should be subclassed");
+//     return 0;
+// }
 void Tagger::AddVariable(float &value, const std::string &title)
 {
     variables_.emplace_back(NewObservable(value, title));

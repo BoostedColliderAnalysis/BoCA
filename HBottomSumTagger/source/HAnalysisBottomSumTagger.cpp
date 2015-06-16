@@ -280,7 +280,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //         Print(kError, "unknown Tagger", Tagger);
 //         return 0;
 //     }
-    tagger_.GetBranches(event,stage,tag);
+//     tagger_.GetBranches(event,stage,tag);
 }
 
 
