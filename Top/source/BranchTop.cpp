@@ -1,8 +1,8 @@
 # include "BranchTop.hh"
 
-ClassImp(top::HCandidateBranch)
+ClassImp(analysis::top::HCandidateBranch)
 
-top::HCandidateBranch::HCandidateBranch()
+analysis::top::HCandidateBranch::HCandidateBranch()
 {
   Mass = InitialValue();
   Pt = InitialValue();
@@ -44,9 +44,9 @@ top::HCandidateBranch::HCandidateBranch()
 }
 
 
-ClassImp(top::HTopHadronBranch)
+ClassImp(analysis::top::HTopHadronBranch)
 
-top::HTopHadronBranch::HTopHadronBranch()
+analysis::top::HTopHadronBranch::HTopHadronBranch()
 {
 
   BottomPt = InitialValue();

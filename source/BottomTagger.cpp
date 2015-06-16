@@ -10,27 +10,6 @@ BottomTagger::BottomTagger()
     DefineVariables();
 }
 
-void BottomTagger::DefineVariables()
-{
-    Print(kInformation , "Define Variables");
-    AddVariable(branch().VertexMass, "VertexMass");
-    AddVariable(branch().Pt, "Pt");
-    AddSpectator(branch().Rap, "Rap");
-    AddSpectator(branch().Phi, "Phi");
-    AddVariable(branch().MaxDisplacement, "MaxDisplacement");
-    AddVariable(branch().MeanDisplacement, "MeanDisplacement");
-    AddVariable(branch().SumDisplacement, "SumDisplacement");
-    AddVariable(branch().Multipliticity, "Multipliticity");
-    AddVariable(branch().DeltaR, "DeltaR");
-    AddVariable(branch().Spread, "Spread");
-    AddVariable(branch().VertexDeltaR, "VertexDeltaR");
-    AddVariable(branch().VertexSpread, "VertexSpread");
-    AddVariable(branch().EnergyFraction, "EnergyFraction");
-    AddVariable(branch().Mass, "Mass");
-    AddSpectator(branch().Tag, "Tag");
-    AddSpectator(branch().Bdt, "Bdt");
-}
-
 int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Bottom Tag", tag);

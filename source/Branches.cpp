@@ -192,15 +192,6 @@ analysis::TopHadronicBranch::TopHadronicBranch()
     Tau3_2 = InitialValue();
     Tau21_2 = InitialValue();
     Tau32_2 = InitialValue();
-//     VertexMass = InitialValue();
-//     MaxDisplacement = InitialValue();
-//     MeanDisplacement = InitialValue();
-//     SumDisplacement = InitialValue();
-//     Multipliticity = int(InitialValue());
-//     Spread = InitialValue();
-//     VertexDeltaR = InitialValue();
-//     VertexSpread = InitialValue();
-//     EnergyFraction = InitialValue();
 }
 
 ClassImp(analysis::TopSemiBranch)
@@ -209,17 +200,6 @@ analysis::TopSemiBranch::TopSemiBranch()
 {
     BottomPt = InitialValue();
     WPt = InitialValue();
-    WBdt = InitialValue();
-    BBdt = InitialValue();
-//     VertexMass = InitialValue();
-//     MaxDisplacement = InitialValue();
-//     MeanDisplacement = InitialValue();
-//     SumDisplacement = InitialValue();
-//     Multipliticity = int(InitialValue());
-//     Spread = InitialValue();
-//     VertexDeltaR = InitialValue();
-//     VertexSpread = InitialValue();
-//     EnergyFraction = InitialValue();
 }
 
 ClassImp(analysis::TopLeptonicBranch)
@@ -232,20 +212,7 @@ analysis::TopLeptonicBranch::TopLeptonicBranch()
 
 ClassImp(analysis::HiggsBranch)
 
-analysis::HiggsBranch::HiggsBranch()
-{
-//     Mass = InitialValue();
-//     PtSum = InitialValue();
-//     PtDiff = InitialValue();
-//     DeltaRap = InitialValue();
-//     DeltaPhi = InitialValue();
-//     DeltaR = InitialValue();
-//     BottomBdt = InitialValue();
-//     Pull1 = InitialValue();
-//     Pull2 = InitialValue();
-//     Pull = InitialValue();
-//     HiggsTag = int(InitialValue());
-}
+analysis::HiggsBranch::HiggsBranch(){}
 
 ClassImp(analysis::EventBottomTaggerBranch)
 

@@ -1,6 +1,9 @@
 # include "TopSemiPairTagger.hh"
 # include "Predicate.hh"
 
+namespace analysis
+{
+
 namespace higgscpv {
 
 TopSemiPairTagger::TopSemiPairTagger()
@@ -12,48 +15,17 @@ TopSemiPairTagger::TopSemiPairTagger()
     DefineVariables();
 }
 
-void TopSemiPairTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Ht, "Ht");
-
-    AddVariable(branch().DeltaM, "DeltaM");
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaR, "DeltaR");
-
-    AddVariable(branch().BottomMass, "BottomMass");
-    AddVariable(branch().BottomPt, "BottomPt");
-    AddVariable(branch().BottomRap, "BottomRap");
-    AddVariable(branch().BottomPhi, "BottomPhi");
-    AddVariable(branch().BottomBdt, "BottomBdt");
-
-    AddVariable(branch().TopMass, "TopMass");
-    AddVariable(branch().TopPt, "TopPt");
-    AddVariable(branch().TopRap, "TopRap");
-    AddVariable(branch().TopPhi, "TopPhi");
-    AddVariable(branch().TopBdt, "TopBdt");
-
-    AddVariable(branch().Bdt, "Bdt");
-    AddSpectator(branch().Tag, "Tag");
-}
-
-int TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
+int TopSemiPairTagger::Train(Event &event, const Tag tag)
 {
     Print(kInformation, "W Tags");
-    std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
-    std::vector<analysis::Triplet> triplets_semi = top_semi_reader_.Multiplets<analysis::TopSemiTagger>(event);
+    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
 
-    analysis::Jets TopParticles = event.Partons().GenParticles();
-    TopParticles = analysis::RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);
+    Jets TopParticles = event.Partons().GenParticles();
+    TopParticles = RemoveIfWrongAbsFamily(TopParticles, TopId, GluonId);
     if (TopParticles.size() != 1 && tag == kSignal) Print(kError, "Where is the Top?", TopParticles.size());
 
-    std::vector<analysis::Triplet> final_triplets_hadronic;
+    std::vector<Triplet> final_triplets_hadronic;
     switch(tag) {
     case kSignal :
         for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_hadronic.emplace_back(triplet);
@@ -63,7 +35,7 @@ int TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
         break;
     }
 
-    std::vector<analysis::Triplet> final_triplets_semi;
+    std::vector<Triplet> final_triplets_semi;
     switch (tag) {
     case kSignal :
         for (const auto & triplet : triplets_semi) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_semi.emplace_back(triplet);
@@ -73,35 +45,37 @@ int TopSemiPairTagger::Train(analysis::Event &event, const Tag tag)
         break;
     }
 
-    std::vector<analysis::Sextet> sextets;
+    std::vector<Sextet> sextets;
     for (const auto & triplet_hadronic : triplets_hadronic)
         for (const auto & triplet_semi : triplets_semi) {
-            analysis::Sextet sextet(triplet_hadronic, triplet_semi);
+            Sextet sextet(triplet_hadronic, triplet_semi);
             if(sextet.Overlap()) continue;
             sextets.emplace_back(sextet);
         }
 
     Print(kDebug, "Number of Jet Pairs", sextets.size());
     if (tag == kSignal && sextets.size() > 1) {
-        sextets = analysis::SortByMaxDeltaRap(sextets);
+        sextets = SortByMaxDeltaRap(sextets);
         if (sextets.size() > 1)sextets.erase(sextets.begin() + 1, sextets.end());
     }
     return SaveEntries(sextets);
 }
 
-std::vector< analysis::Sextet > TopSemiPairTagger::Multiplets(analysis::Event& event, const TMVA::Reader& reader)
+std::vector< Sextet > TopSemiPairTagger::Multiplets(Event& event, const TMVA::Reader& reader)
 {
-    std::vector<analysis::Triplet> triplets_semi = top_semi_reader_.Multiplets<analysis::TopSemiTagger>(event);
-    std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
-    std::vector<analysis::Sextet>  sextets;
+    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
+    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    std::vector<Sextet>  sextets;
     for (const auto & triplet_hadronic : triplets_hadronic)
         for (const auto & triplet_semi : triplets_semi)  {
-            analysis::Sextet sextet(triplet_hadronic, triplet_semi);
+            Sextet sextet(triplet_hadronic, triplet_semi);
             if(sextet.Overlap()) continue;
             sextet.SetBdt(Bdt(sextet,reader));
             sextets.emplace_back(sextet);
         }
     return ReduceResult(sextets);
+}
+
 }
 
 }

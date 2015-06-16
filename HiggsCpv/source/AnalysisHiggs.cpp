@@ -1,9 +1,12 @@
 # include "AnalysisHiggs.hh"
 
+namespace analysis
+{
+
 namespace higgscpv
 {
 
-Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
@@ -29,13 +32,15 @@ void Analysis::SetFiles(const Tag tag)
     }
 }
 
-int Analysis::PassPreCut(analysis::Event &event)
+int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-//   analysis::Jets particles = event.Partons().GenParticles();
-//   analysis::Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-//   analysis::remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
+//   Jets particles = event.Partons().GenParticles();
+//   Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
+//   remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
     return 1;
+}
+
 }
 
 }

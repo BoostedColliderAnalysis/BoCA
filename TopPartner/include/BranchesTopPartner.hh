@@ -2,6 +2,8 @@
 
 # include "../../include/Branches.hh"
 
+namespace analysis {
+
 namespace toppartner {
 
 /**
@@ -9,7 +11,7 @@ namespace toppartner {
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class TopPartnerBranch : public analysis::MultiBranch
+class TopPartnerBranch : public MultiBranch
 {
 
 public:
@@ -18,7 +20,7 @@ public:
 
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-        analysis::MultiBranch::Fill(multiplet);
+        MultiBranch::Fill(multiplet);
     }
 
 private:
@@ -32,7 +34,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class HiggsPairBranch : public analysis::MultiBranch
+class HiggsPairBranch : public MultiBranch
 {
 
 public:
@@ -41,7 +43,7 @@ public:
 
   template<typename Multiplet>
   void Fill(const Multiplet &multiplet) {
-    analysis::MultiBranch::Fill(multiplet);
+    MultiBranch::Fill(multiplet);
   }
 
 private:
@@ -50,7 +52,7 @@ private:
 
 };
 
-class SignatureBranch : public analysis::MultiBranch
+class SignatureBranch : public MultiBranch
 {
 
 public:
@@ -59,7 +61,7 @@ public:
 
   template<typename Multiplet>
   void Fill(const Multiplet &multiplet) {
-    analysis::MultiBranch::Fill(multiplet);
+    MultiBranch::Fill(multiplet);
   }
 
 private:
@@ -85,5 +87,7 @@ private:
   ClassDef(EventBranch, 1)
 
 };
+
+}
 
 }

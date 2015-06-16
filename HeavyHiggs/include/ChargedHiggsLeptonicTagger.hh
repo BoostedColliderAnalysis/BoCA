@@ -4,6 +4,9 @@
 # include "TopLeptonicTagger.hh"
 # include "Branch.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs
 {
 
@@ -30,8 +33,6 @@ protected:
 
 private:
 
-    void DefineVariables();
-
     analysis::BottomTagger bottom_tagger_;
 
     analysis::TopLeptonicTagger top_leptonic_tagger_;
@@ -41,5 +42,7 @@ private:
     analysis::Reader top_leptonic_reader_;
 
 };
+
+}
 
 }

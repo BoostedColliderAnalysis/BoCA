@@ -1,6 +1,12 @@
 # include "SignatureNeutralTagger.hh"
 
-heavyhiggs::SignatureNeutralTagger::SignatureNeutralTagger()
+namespace analysis
+{
+
+namespace heavyhiggs
+{
+
+SignatureNeutralTagger::SignatureNeutralTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
@@ -10,35 +16,7 @@ heavyhiggs::SignatureNeutralTagger::SignatureNeutralTagger()
     DefineVariables();
 }
 
-void heavyhiggs::SignatureNeutralTagger::DefineVariables()
-{
-    Print(kNotification, "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Ht, "Ht");
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaHt, "DeltaHt");
-    AddVariable(branch().DeltaM, "DeltaM");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().DeltaR, "DeltaR");
-    AddVariable(branch().HiggsMass, "HiggsMass");
-    AddVariable(branch().PairRap, "PairRap");
-    AddVariable(branch().BottomBdt, "BottomBdt");
-    AddVariable(branch().PairBottomBdt, "PairBottomBdt");
-    AddVariable(branch().PairBdt, "PairBdt");
-    AddVariable(branch().HiggsBdt, "HiggsBdt");
-    AddVariable(branch().HardTopPt, "HardTopPt");
-    AddVariable(branch().SoftTopPt, "SoftTopPt");
-    AddVariable(branch().Bdt, "Bdt");
-    AddSpectator(branch().Tag, "Tag");
-    Print(kNotification, "Variables defined");
-}
-
-
-int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag tag)
+int SignatureNeutralTagger::Train(analysis::Event &event, const Tag tag)
 {
     Print(kInformation, "event Tags");
     float Mass = event.mass();
@@ -78,7 +56,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
             if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
             if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
             analysis::Octet62 octet(sextet, doublet);
-            if(octet.Overlap()) continue;
+            if (octet.Overlap()) continue;
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
@@ -96,7 +74,7 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
 }
 
 
-std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Octet62> SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
 {
     Print(kInformation, "event Tags");
 
@@ -106,10 +84,14 @@ std::vector<analysis::Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(an
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
             analysis::Octet62 octet(sextet, doublet);
-            if(octet.Overlap()) continue;
-            octet.SetBdt(Bdt(octet,reader));
+            if (octet.Overlap()) continue;
+            octet.SetBdt(Bdt(octet, reader));
             octets.emplace_back(octet);
         }
     }
     return ReduceResult(octets);
+}
+
+}
+
 }

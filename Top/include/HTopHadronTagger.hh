@@ -5,41 +5,45 @@
 # include "BranchTop.hh"
 # include "TClonesArray.h"
 
-namespace top{
+namespace analysis
+{
+
+namespace top
+{
 
 /**
  * @brief Hadronic top BDT tagger
  *
  */
-class HTopHadronTagger : public analysis::Tagger
+class HTopHadronTagger : public Tagger
 {
 
 public:
 
     HTopHadronTagger();
 
-    void SetTagger(const analysis::BottomTagger &NewBottomTagger, const analysis::WHadronicTagger &NewWTagger);
+    void SetTagger(const BottomTagger &NewBottomTagger, const WHadronicTagger &NewWTagger);
 
-    std::vector<HTopHadronBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag Tag, float pre_cut = 0);
+    std::vector<HTopHadronBranch> GetBranches(Event &event, const Object::Tag Tag, float pre_cut = 0);
 
-    std::vector<analysis::Triplet>  GetBdt(const std::vector< analysis::Doublet > &doublets, const analysis::Jets &jets, const analysis::Reader & TopHadronicReader);
+    std::vector<Triplet>  GetBdt(const std::vector< Doublet > &doublets, const Jets &jets, const Reader & TopHadronicReader);
 
-    analysis::Triplet GetBdt(analysis::Triplet &triplet, const analysis::Reader &TopHadronicReader);
+    Triplet GetBdt(Triplet &triplet, const Reader &TopHadronicReader);
 
-    std::vector<analysis::Triplet> GetBdt(const analysis::Jets &jets, const analysis::Jets &Leptons, const analysis::Reader &TopHadronicReader, analysis::WHadronicTagger &WTagger, analysis::Reader &WReader, analysis::BottomTagger &BottomTagger, analysis::Reader &BottomReader);
+    std::vector<Triplet> GetBdt(const Jets &jets, const Jets &Leptons, const Reader &TopHadronicReader, WHadronicTagger &WTagger, Reader &WReader, BottomTagger &BottomTagger, Reader &BottomReader);
 
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry){
       return ((HTopHadronBranch *) eventClonesArray.At(Entry))->Bdt;
     }
 
-    analysis::BottomTagger bottom_tagger_;
-    analysis::WHadronicTagger WTagger;
+    BottomTagger bottom_tagger_;
+    WHadronicTagger WTagger;
 
-    analysis::Reader  BottomReader;
-    analysis::Reader  WReader;
+    Reader  BottomReader;
+    Reader  WReader;
 
-    HTopHadronBranch GetBranch(const analysis::Triplet &triplet) const;
+    HTopHadronBranch GetBranch(const Triplet &triplet) const;
 
 protected:
 
@@ -51,7 +55,7 @@ private:
 
     void DefineVariables();
 
-    Tag GetTag(const analysis::Triplet &);
+    Tag GetTag(const Triplet &);
 
     Tag GetTag(const fastjet::PseudoJet& Jet);
 
@@ -62,16 +66,17 @@ private:
     float GetSpread(const fastjet::PseudoJet &Jet) const;
 
     HTopHadronBranch Branch;
-    analysis::JetTag jet_tag;
+    JetTag jet_tag;
 
     float TopWindow ;
     float WMassWindow ;
 
 
-    void NSubJettiness(analysis::Triplet& triplet);
-    analysis::SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
+    void NSubJettiness(Triplet& triplet);
+    SubJettiness NSubJettiness(const fastjet::PseudoJet & jet);
 
 };
 
 }
 
+}

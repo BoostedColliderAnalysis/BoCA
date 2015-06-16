@@ -1,5 +1,8 @@
 # include "../include/EventTagger.hh"
 
+namespace analysis
+{
+
 namespace higgscpv
 {
 
@@ -13,68 +16,35 @@ EventTagger::EventTagger()
     DefineVariables();
 }
 
-void EventTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Ht, "Ht");
-
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaHt, "DeltaHt");
-    AddVariable(branch().DeltaM, "DeltaM");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().DeltaR, "DeltaR");
-
-    AddVariable(branch().LeptonNumber, "LeptonNumber");
-    AddVariable(branch().JetNumber, "JetNumber");
-    AddVariable(branch().BottomNumber, "BottomNumber");
-    AddVariable(branch().MissingEt, "MissingEt");
-    AddVariable(branch().ScalarHt, "ScalarHt");
-    AddVariable(branch().LeptonHt, "LeptonHt");
-
-    AddVariable(branch().JetMass, "JetMass");
-    AddVariable(branch().JetPt, "JetPt");
-    AddVariable(branch().JetHt, "JetHt");
-    AddVariable(branch().JetPhi, "JetPhi");
-    AddVariable(branch().JetRap, "JetRap");
-
-    AddVariable(branch().Bdt1, "Bdt1");
-    AddVariable(branch().Bdt2, "Bdt2");
-    AddSpectator(branch().Tag, "Tag");
-}
-
-int EventTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
+int EventTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
   Print(kInformation, "Train");
-    analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    std::vector<analysis::Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    std::vector<Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
     Print(kInformation, "Octets", octets.size());
-    std::vector< analysis::MultipletEvent< analysis::Octet62 > > multipletevents;
+    std::vector< MultipletEvent< Octet62 > > multipletevents;
     for (const auto octet : octets) {
-        analysis::MultipletEvent< analysis::Octet62 > multipletevent(octet, event, jets);
+        MultipletEvent< Octet62 > multipletevent(octet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector< analysis::MultipletEvent< analysis::Octet62 > > EventTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector< MultipletEvent< Octet62 > > EventTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
   Print(kInformation, "Multiplets");
-    analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
-    std::vector<analysis::Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
-    std::vector< analysis::MultipletEvent< analysis::Octet62 > > multiplet_events;
+    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    std::vector<Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
+    std::vector< MultipletEvent< Octet62 > > multiplet_events;
     for (const auto octet : octets) {
-        analysis::MultipletEvent< analysis::Octet62 > multiplet_event(octet, event,jets);
+        MultipletEvent< Octet62 > multiplet_event(octet, event,jets);
         multiplet_event.SetBdt(Bdt(multiplet_event,reader));
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events);
+}
+
 }
 
 }

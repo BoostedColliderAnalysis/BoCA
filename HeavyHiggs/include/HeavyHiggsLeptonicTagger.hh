@@ -5,6 +5,9 @@
 # include "TopLeptonicTagger.hh"
 # include "Branch.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs
 {
 
@@ -12,16 +15,16 @@ namespace heavyhiggs
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsLeptonicTagger : public analysis::BranchTagger<HeavyHiggsLeptonicBranch>
+class HeavyHiggsLeptonicTagger : public BranchTagger<HeavyHiggsLeptonicBranch>
 {
 
 public:
 
     HeavyHiggsLeptonicTagger();
 
-    int Train(analysis::Event &event, const analysis::Object::Tag tag);
+    int Train(Event &event, const Object::Tag tag);
 
-    std::vector<analysis::Sextet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<Sextet> Multiplets(Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -31,12 +34,12 @@ protected:
 
 private:
 
-    void DefineVariables();
+    TopLeptonicTagger top_leptonic_tagger_;
 
-    analysis::TopLeptonicTagger top_leptonic_tagger_;
-
-    analysis::Reader top_leptonic_reader_;
+    Reader top_leptonic_reader_;
 
 };
+
+}
 
 }

@@ -1,33 +1,62 @@
 # pragma once
 
-# include "Quintet.hh"
+# include "Septet.hh"
+
+namespace analysis {
 
 namespace toppartner
 {
 
-class Decuplet : public analysis::Multiplet<analysis::Quintet, analysis::Quintet>
+class Decuplet55 : public Multiplet<Quintet, Quintet>
 {
 
 public:
 
-    using analysis::Multiplet<analysis::Quintet, analysis::Quintet>::Multiplet;
+    using Multiplet<Quintet, Quintet>::Multiplet;
 
-    inline analysis::Quintet Quintet1()const {
+    inline Quintet Quintet1()const {
         return Multiplet1();
     }
 
-    inline analysis::Quintet Quintet2()const {
+    inline Quintet Quintet2()const {
         return Multiplet2();
     }
 
 protected:
 
     virtual inline std::string ClassName() const {
-        return "Decuplet";
+        return "Decuplet55";
     }
 
 private:
 
 };
+
+class Decuplet73 : public Multiplet<Septet, Triplet>
+{
+
+public:
+
+  using Multiplet<Septet, Triplet>::Multiplet;
+
+  inline Septet Quintet1()const {
+    return Multiplet1();
+  }
+
+  inline Triplet Quintet2()const {
+    return Multiplet2();
+  }
+
+protected:
+
+  virtual inline std::string ClassName() const {
+    return "Decuplet73";
+  }
+
+private:
+
+};
+
+}
 
 }

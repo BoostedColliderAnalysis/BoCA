@@ -4,6 +4,9 @@
 # include "JetPairTagger.hh"
 # include "Octet62.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs {
 
 /**
@@ -11,7 +14,7 @@ namespace heavyhiggs {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureNeutralTagger : public analysis::BranchTagger<OctetNeutralBranch>
+class SignatureNeutralTagger : public BranchTagger<OctetNeutralBranch>
 {
 
 public:
@@ -22,9 +25,9 @@ public:
     */
     SignatureNeutralTagger();
 
-    int Train(analysis::Event &event, const Tag tag);
+    int Train(Event &event, const Tag tag);
 
-    std::vector< analysis::Octet62 > Multiplets(analysis::Event& event, const TMVA::Reader& reader);
+    std::vector< Octet62 > Multiplets(Event& event, const TMVA::Reader& reader);
 
 protected:
 
@@ -38,18 +41,18 @@ protected:
 
 private:
 
-    void DefineVariables();
-
-    std::vector<analysis::Octet62> GetHeavyHiggsevents(analysis::Jets &jets);
+    std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
     HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
 
-    analysis::JetPairTagger jet_pair_tagger_;
+    JetPairTagger jet_pair_tagger_;
 
-    analysis::Reader heavy_higgs_semi_reader_;
+    Reader heavy_higgs_semi_reader_;
 
-    analysis::Reader jet_pair_reader_;
+    Reader jet_pair_reader_;
 
 };
+
+}
 
 }

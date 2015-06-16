@@ -94,8 +94,6 @@ private:
         return Multiplets(jets,pre_cuts,reader);
     }
 
-    void DefineVariables();
-
     Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag);
 
     Jets SubJets(const Jets &jets, const int sub_jet_number);

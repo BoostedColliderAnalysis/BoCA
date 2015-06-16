@@ -2,6 +2,11 @@
 
 # include "Analysis.hh"
 
+namespace analysis
+{
+
+namespace top
+{
 
 /**
  *
@@ -10,18 +15,15 @@
  * @author Jan Hajer
  *
  */
-namespace top
-{
-
 class Analysis : public analysis::Analysis
 {
 
 public:
 
 
-    Analysis(analysis::Tagger &tagger);
+    Analysis(Tagger &tagger);
 
-    void SetFiles(const analysis::Object::Tag tag);
+    void SetFiles(const Object::Tag tag);
 
     inline std::string ProjectName() const {
         return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
@@ -103,16 +105,16 @@ private:
     }
 
 
-    inline analysis::File BackgroundFile(const Process process) const {
+    inline File BackgroundFile(const Process process) const {
         return BackgroundFile(process, BackgroundFileNumber());
     }
 
-    analysis::File BackgroundFile(const Process process, const int file_sum) const {
-      analysis::Strings FileNames;
+    File BackgroundFile(const Process process, const int file_sum) const {
+        Strings FileNames;
         for (int file_number = 0; file_number < file_sum; ++file_number) {
             FileNames.emplace_back(FileName(process));
         }
-        return analysis::File(FileNames);
+        return File(FileNames);
     }
 
     std::string BackgroundTree(const Process Process) const {
@@ -124,14 +126,16 @@ private:
 
     std::string ProcessName(const Process process) const;
 
-    int PassPreCut(analysis::Event &event);
+    int PassPreCut(Event &event);
 
     /**
      * @brief Main Analysis function
      *
      */
-    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
 
 };
+
+}
 
 }

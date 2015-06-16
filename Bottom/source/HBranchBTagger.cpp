@@ -1,8 +1,8 @@
 # include "HBranchBTagger.hh"
 
-ClassImp(bottom::HBTaggerBranch)
+ClassImp(analysis::bottom::HBTaggerBranch)
 
-bottom::HBTaggerBranch::HBTaggerBranch()
+analysis::bottom::HBTaggerBranch::HBTaggerBranch()
 {
   VertexMass = InitialValue();
   JetMass = InitialValue();

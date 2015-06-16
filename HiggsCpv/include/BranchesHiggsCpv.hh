@@ -2,6 +2,9 @@
 
 # include "Branches.hh"
 
+namespace analysis
+{
+
 namespace higgscpv {
 
   /**
@@ -29,9 +32,10 @@ namespace higgscpv {
       HiggsMass = multiplet.Doublet().Jet().m();
       PairRap = multiplet.Sextet().DeltaRap();
     }
-//     void Add(std::vector<Observable> &variables){
-//       variables.emplace_back(NewObservable(BottomBdt, "BottomBdt"));
-//     }
+    virtual Observables Variables() {
+      return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});
+    }
+
   private:
     ClassDef(SignatureLeptonicBranch, 1)
   };
@@ -170,6 +174,9 @@ public:
         TopMass = multiplet.Triplet2().Jet().m();
         TopBdt = multiplet.Triplet2().Bdt();
     }
+    virtual Observables Variables() {
+      return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+    }
 private:
     ClassDef(TripletPairBranch, 1)
 };
@@ -221,5 +228,7 @@ private:
     ClassDef(QuartetPairBranch, 1)
 
 };
+
+}
 
 }

@@ -6,7 +6,7 @@
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-  higgscpv::Analysis analysis(tagger);
+  analysis::higgscpv::Analysis analysis(tagger);
   const std::string name = tagger.name(stage);
   analysis.Print(analysis.kError, "Tagger", name);
 
@@ -16,7 +16,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 
 void RunFactory(analysis::Tagger &tagger)
 {
-  higgscpv::Analysis analysis(tagger);
+  analysis::higgscpv::Analysis analysis(tagger);
   const std::string name = tagger.name(analysis::Tagger::kTrainer);
   analysis.Print(analysis.kError, "Tagger", name);
   std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
@@ -25,7 +25,7 @@ void RunFactory(analysis::Tagger &tagger)
 
 void RunReader(analysis::Tagger &tagger)
 {
-  higgscpv::Analysis analysis(tagger);
+  analysis::higgscpv::Analysis analysis(tagger);
   const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
   if (gSystem->AccessPathName(file_name.c_str())) {
     analysis::Reader reader(tagger);
@@ -50,17 +50,17 @@ int main()
   RunFactory(higgs_tagger);
   RunTagger(higgs_tagger, analysis::Tagger::kReader);
 
-  higgscpv::TopLeptonicPairTagger jet_pair_tagger;
+  analysis::higgscpv::TopLeptonicPairTagger jet_pair_tagger;
   RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
   RunFactory(jet_pair_tagger);
   RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
 
-  higgscpv::SignatureTagger signature_semi_tagger;
+  analysis::higgscpv::SignatureTagger signature_semi_tagger;
   RunTagger(signature_semi_tagger, analysis::Tagger::kTrainer);
   RunFactory(signature_semi_tagger);
   RunTagger(signature_semi_tagger, analysis::Tagger::kReader);
 
-  higgscpv::EventTagger event_semi_tagger;
+  analysis::higgscpv::EventTagger event_semi_tagger;
   RunTagger(event_semi_tagger, analysis::Tagger::kTrainer);
   RunFactory(event_semi_tagger);
   RunTagger(event_semi_tagger, analysis::Tagger::kReader);

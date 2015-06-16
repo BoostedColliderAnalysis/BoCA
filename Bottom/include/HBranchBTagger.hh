@@ -2,6 +2,9 @@
 
 # include "Branches.hh"
 
+namespace analysis
+{
+
 namespace bottom {
 
 /**
@@ -31,5 +34,7 @@ private:
     ClassDef(HBTaggerBranch, 1)
 
 };
+
+}
 
 }

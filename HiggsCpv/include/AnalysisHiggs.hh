@@ -2,7 +2,11 @@
 
 # include "Analysis.hh"
 
-namespace higgscpv {
+namespace analysis
+{
+
+namespace higgscpv
+{
 
 /**
  *
@@ -17,39 +21,41 @@ class Analysis : public analysis::Analysis
 public:
 
 
-  Analysis(analysis::Tagger &tagger);
+    Analysis(Tagger &tagger);
 
-  void SetFiles(const analysis::Object::Tag tag);
+    void SetFiles(const Object::Tag tag);
 
-  inline std::string ProjectName() const {
-    return  "HiggsCpv";
-  }
+    inline std::string ProjectName() const {
+        return  "HiggsCpv";
+    }
 
-  std::string ProcessName();
+    std::string ProcessName();
 
-  /**
-   * @brief Maximal number of Entries to analyse
-   *
-   */
-  inline int EventNumberMax() const {
-    return 1000;
-  }
+    /**
+     * @brief Maximal number of Entries to analyse
+     *
+     */
+    inline int EventNumberMax() const {
+        return 1000;
+    }
 
 protected:
 
 
-  virtual inline std::string FilePath() const {
-    return "~/Projects/HiggsCpv/Analysis/";
-  }
+    virtual inline std::string FilePath() const {
+        return "~/Projects/HiggsCpv/Analysis/";
+    }
 
-  virtual inline std::string NameSpaceName() const {
-    return "higgscpv";
-  }
+    virtual inline std::string NameSpaceName() const {
+        return "higgscpv";
+    }
 
 private:
 
-  int PassPreCut(analysis::Event &event);
+    int PassPreCut(Event &event);
 
 };
+
+}
 
 }

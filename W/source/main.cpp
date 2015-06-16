@@ -9,7 +9,7 @@
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-  hwtagger::HAnalysis analysis(tagger);
+  analysis::wtagger::Analysis analysis(tagger);
   const std::string name = tagger.name(stage);
   analysis.Print(analysis.kError, "Tagger", name);
 
@@ -19,7 +19,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 
 void RunFactory(analysis::Tagger &tagger)
 {
-  hwtagger::HAnalysis analysis(tagger);
+  analysis::wtagger::Analysis analysis(tagger);
   const std::string name = tagger.name(analysis::Tagger::kTrainer);
   analysis.Print(analysis.kError, "Tagger", name);
   std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
@@ -28,7 +28,7 @@ void RunFactory(analysis::Tagger &tagger)
 
 void RunReader(analysis::Tagger &tagger)
 {
-  hwtagger::HAnalysis analysis(tagger);
+  analysis::wtagger::Analysis analysis(tagger);
   const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
   if (gSystem->AccessPathName(file_name.c_str())) {
     analysis::Reader reader(tagger);
@@ -49,8 +49,8 @@ int main(const int argc, const char **argv)
         RunFactory(bottom_tagger);
         RunTagger(bottom_tagger, analysis::Tagger::kReader);
 
-        hwtagger::HAnalysis analysis(bottom_tagger);
-        if (analysis.WDecay() == hwtagger::HAnalysis::kHadronic) {
+        analysis::wtagger::Analysis analysis(bottom_tagger);
+        if (analysis.WDecay() == analysis::wtagger::Analysis::kHadronic) {
 
             analysis::WHadronicTagger w_hadronic_tagger;
             RunTagger(w_hadronic_tagger, analysis::Tagger::kTrainer);
@@ -59,7 +59,7 @@ int main(const int argc, const char **argv)
 
         }
 
-        if (analysis.WDecay() == hwtagger::HAnalysis::kLeptonic) {
+        if (analysis.WDecay() == analysis::wtagger::Analysis::kLeptonic) {
 
             analysis::WSemiTagger w_semi_tagger;
             RunTagger(w_semi_tagger, analysis::Tagger::kTrainer);

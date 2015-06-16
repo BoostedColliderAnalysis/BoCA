@@ -2,6 +2,9 @@
 
 # include "Analysis.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs
 {
 
@@ -12,14 +15,14 @@ namespace heavyhiggs
  * @author Jan Hajer
  *
  */
-class AnalysisCharged : public analysis::Analysis
+class AnalysisCharged : public Analysis
 {
 
 public:
 
-    AnalysisCharged(analysis::Tagger &tagger);
+    AnalysisCharged(Tagger &tagger);
 
-    std::vector< analysis::File > Files(const analysis::Object::Tag tag);
+    std::vector< File > Files(const Object::Tag tag);
 
     inline std::string ProcessName()const {
         return "Charged";
@@ -29,7 +32,7 @@ public:
         return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
 
-//     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
+//     std::string StudyName(const HAnalysis::HTagger Tagger) const;
 
     void SetTrees();
 
@@ -253,17 +256,17 @@ private:
         }
     }
 
-    inline analysis::File BackgroundFile(const HProcessType Background) const {
+    inline File BackgroundFile(const HProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 
-    analysis::File BackgroundFile(const HProcessType Background, const int FileSum) const {
+    File BackgroundFile(const HProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV";
-        analysis::Strings FileNames;
+        Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
-        return analysis::File(FileNames , BackgroundCrosssection(Background));
+        return File(FileNames , BackgroundCrosssection(Background));
     }
 
     std::string BackgroundTree(const HProcessType Background) const {
@@ -436,8 +439,10 @@ private:
         }
     }
 
-    int PassPreCut(analysis::Event &event);
+    int PassPreCut(Event &event);
 
 };
+
+}
 
 }

@@ -1,8 +1,14 @@
 # include "HeavyHiggsSemiTagger.hh"
 
-heavyhiggs::HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
+namespace analysis
 {
-//         DebugLevel = analysis::Object::kDetailed;
+
+namespace heavyhiggs
+{
+
+HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
+{
+//         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
     set_tagger_name("HeavyHiggsSemi");
     top_hadronic_reader_.set_tagger(top_hadronic_tagger);
@@ -10,40 +16,16 @@ heavyhiggs::HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
     DefineVariables();
 }
 
-void heavyhiggs::HeavyHiggsSemiTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Ht, "Ht");
-
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaM, "DeltaM");
-    AddVariable(branch().DeltaHt, "DeltaHt");
-    AddVariable(branch().DeltaR, "DeltaR");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-
-    AddVariable(branch().Bdt1, "Bdt1");
-    AddVariable(branch().Bdt2, "Bdt2");
-    AddSpectator(branch().Tag, "Tag");
-
-    Print(kNotification, "Variables defined");
-
-}
-
-int heavyhiggs::HeavyHiggsSemiTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const Tag tag)
+int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Higgs Tags");
 
     float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (tag == kSignal) {
-      analysis::Jets HiggsParticles = event.Partons().GenParticles();
-      analysis::Jets Even = analysis::RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
-      analysis::Jets Odd = analysis::RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
+        Jets HiggsParticles = event.Partons().GenParticles();
+        Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
+        Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
         HiggsParticles = Even;
         HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
         if (tag == kSignal) {
@@ -51,19 +33,19 @@ int heavyhiggs::HeavyHiggsSemiTagger::Train(analysis::Event &event, analysis::Pr
             else Print(kError, "Where is the Higgs?", HiggsParticles.size());
         }
     }
-    std::vector<analysis::Triplet> triplets_semi = top_semi_reader_.Multiplets<analysis::TopSemiTagger>(event);
+    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
     Print(kDebug, "Number of Semi Tops", triplets_semi.size());
 
 //     std::vector<Triplet> FinaltripletsSemi;
 //     for (const auto tripletSemi : tripletsSemi) if (tripletSemi.singlet().pt() > pre_cuts / 2) FinaltripletsSemi.emplace_back(tripletSemi);
 
-    std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
+    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
     Print(kDebug, "Number of Hadronic Tops", triplets_hadronic.size());
 
-    std::vector<analysis::Triplet> FinaltripletsHadronic;
-    analysis::Jets TopParticles = event.Partons().GenParticles();
+    std::vector<Triplet> FinaltripletsHadronic;
+    Jets TopParticles = event.Partons().GenParticles();
     int HadTopId = top_hadronic_tagger.TopHadronicId(event);
-    TopParticles = analysis::RemoveIfWrongParticle(TopParticles, HadTopId);
+    TopParticles = RemoveIfWrongParticle(TopParticles, HadTopId);
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else Print(kError, "Where is the Top?", TopParticles.size());
@@ -72,10 +54,10 @@ int heavyhiggs::HeavyHiggsSemiTagger::Train(analysis::Event &event, analysis::Pr
     } else FinaltripletsHadronic = triplets_hadronic;
     Print(kDebug, "Number of truth Hadronic Tops", FinaltripletsHadronic.size());
 
-    std::vector<analysis::Sextet > sextets;
+    std::vector<Sextet > sextets;
     for (const auto & triplet_semi : triplets_semi)
         for (const auto & triplet_hadronic : FinaltripletsHadronic) {
-          analysis::Sextet sextet(triplet_semi, triplet_hadronic);
+            Sextet sextet(triplet_semi, triplet_hadronic);
             if (sextet.Overlap()) continue;
             if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
             if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
@@ -85,24 +67,28 @@ int heavyhiggs::HeavyHiggsSemiTagger::Train(analysis::Event &event, analysis::Pr
 
     std::size_t heavy_higgs_number = 1;
     if (tag == kSignal && sextets.size() > heavy_higgs_number) {
-      std::sort(sextets.begin(), sextets.end(), analysis::MinDeltaRTo(HiggsBoson));
+        std::sort(sextets.begin(), sextets.end(), MinDeltaRTo(HiggsBoson));
         sextets.erase(sextets.begin() + heavy_higgs_number, sextets.end());
     }
 
     return SaveEntries(sextets);
 }
 
-std::vector<analysis::Sextet>  heavyhiggs::HeavyHiggsSemiTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-  std::vector<analysis::Triplet> triplets_semi = top_semi_reader_.Multiplets<analysis::TopSemiTagger>(event);
-  std::vector<analysis::Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<analysis::TopHadronicTagger>(event);
-  std::vector<analysis::Sextet > sextets;
+    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
+    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    std::vector<Sextet > sextets;
     for (const auto & triplet_semi : triplets_semi)
         for (const auto & triplet_hadronic : triplets_hadronic) {
-          analysis::Sextet sextet(triplet_semi, triplet_hadronic);
+            Sextet sextet(triplet_semi, triplet_hadronic);
             if (sextet.Overlap()) continue;
-            sextet.SetBdt(Bdt(sextet,reader));
+            sextet.SetBdt(Bdt(sextet, reader));
             sextets.emplace_back(sextet);
         }
     return ReduceResult(sextets);
+}
+
+}
+
 }

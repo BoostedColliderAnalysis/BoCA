@@ -2,6 +2,8 @@
 
 # include "Analysis.hh"
 
+namespace analysis{
+
 namespace toppartner {
 
 /**
@@ -17,9 +19,9 @@ class Analysis : public analysis::Analysis
 public:
 
 
-  Analysis(analysis::Tagger &tagger);
+  Analysis(Tagger &tagger);
 
-  void SetFiles(const analysis::Object::Tag tag);
+  void SetFiles(const Object::Tag tag);
 
   inline std::string ProjectName() const {
     return  "TopPartner";
@@ -48,14 +50,16 @@ protected:
 
 private:
 
-  int PassPreCut(analysis::Event &event);
+  int PassPreCut(Event &event);
 
   /**
    * @brief Main Analysis function
    *
    */
-  int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+  int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
 
 };
+
+}
 
 }

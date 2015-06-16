@@ -12,27 +12,6 @@ ZHadronicTagger::ZHadronicTagger()
     DefineVariables();
 }
 
-void ZHadronicTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Ht, "Ht");
-
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaM, "DeltaM");
-    AddVariable(branch().DeltaR, "DeltaR");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().Rho, "Rho");
-
-    AddVariable(branch().Bdt1, "Bdt1");
-    AddVariable(branch().Bdt2, "Bdt2");
-    AddSpectator(branch().Tag, "Tag");
-}
-
 int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Higgs Tag");

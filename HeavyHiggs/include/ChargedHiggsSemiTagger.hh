@@ -4,22 +4,25 @@
 # include "TopSemiTagger.hh"
 # include "Branch.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs{
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class ChargedHiggsSemiTagger : public analysis::BranchTagger<ChargedHiggsSemiBranch>
+class ChargedHiggsSemiTagger : public BranchTagger<ChargedHiggsSemiBranch>
 {
 
 public:
 
     ChargedHiggsSemiTagger();
 
-    int Train(analysis::Event &event, const Tag tag);
+    int Train(Event &event, const Tag tag);
 
-    std::vector<analysis::Quartet31> Multiplets(analysis::Event& event, const TMVA::Reader& reader);
+    std::vector<Quartet31> Multiplets(Event& event, const TMVA::Reader& reader);
 
 protected:
 
@@ -29,15 +32,15 @@ protected:
 
 private:
 
-    void DefineVariables();
+    BottomTagger bottom_tagger_;
 
-    analysis::BottomTagger bottom_tagger_;
+    TopSemiTagger top_semi_tagger_;
 
-    analysis::TopSemiTagger top_semi_tagger_;
+    Reader bottom_reader_;
 
-    analysis::Reader bottom_reader_;
-
-    analysis::Reader top_semi_reader_;
+    Reader top_semi_reader_;
 };
+
+}
 
 }

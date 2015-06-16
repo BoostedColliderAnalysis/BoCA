@@ -7,7 +7,7 @@
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-    heavyhiggs::AnalysisCharged analysis(tagger);
+    analysis::heavyhiggs::AnalysisCharged analysis(tagger);
     const std::string Name = tagger.tagger_name();
     analysis.Print(analysis.kError, "Tagger", Name);
 
@@ -50,7 +50,7 @@ int main()
     RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(tops_semi_tagger, analysis::Tagger::kReader);
 
-    heavyhiggs::ChargedHiggsSemiTagger heavy_higgs_semi_tagger;
+    analysis::heavyhiggs::ChargedHiggsSemiTagger heavy_higgs_semi_tagger;
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader);
 
@@ -58,11 +58,11 @@ int main()
     RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
     RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
 
-    heavyhiggs::SignatureChargedTagger signature_semi_tagger;
+    analysis::heavyhiggs::SignatureChargedTagger signature_semi_tagger;
     RunTagger(signature_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(signature_semi_tagger, analysis::Tagger::kReader);
 
-    heavyhiggs::EventChargedTagger event_semi_tagger;
+    analysis::heavyhiggs::EventChargedTagger event_semi_tagger;
     RunTagger(event_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(event_semi_tagger, analysis::Tagger::kReader);
 

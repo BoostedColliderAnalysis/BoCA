@@ -1,125 +1,107 @@
 # include "Branch.hh"
 
 
-ClassImp(heavyhiggs::HeavyHiggsLeptonicBranch)
+ClassImp(analysis::heavyhiggs::HeavyHiggsLeptonicBranch)
 
-heavyhiggs::HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
+analysis::heavyhiggs::HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
 {
-  LargerWDeltaRap = InitialValue();
-  LargerWDeltaPhi = InitialValue();
-  LargerWDeltaR = InitialValue();
-  SmallerWDeltaRap = InitialValue();
-  SmallerWDeltaPhi = InitialValue();
-  SmallerWDeltaR = InitialValue();
-  LargerNeutrinoDeltaRap = InitialValue();
-  LargerNeutrinoDeltaPhi = InitialValue();
-  LargerNeutrinoDeltaR = InitialValue();
-  SmallerNeutrinoDeltaRap = InitialValue();
-  SmallerNeutrinoDeltaPhi = InitialValue();
-  SmallerNeutrinoDeltaR = InitialValue();
+    LargerWDeltaRap = InitialValue();
+    LargerWDeltaPhi = InitialValue();
+    LargerWDeltaR = InitialValue();
+    SmallerWDeltaRap = InitialValue();
+    SmallerWDeltaPhi = InitialValue();
+    SmallerWDeltaR = InitialValue();
+    LargerNeutrinoDeltaRap = InitialValue();
+    LargerNeutrinoDeltaPhi = InitialValue();
+    LargerNeutrinoDeltaR = InitialValue();
+    SmallerNeutrinoDeltaRap = InitialValue();
+    SmallerNeutrinoDeltaPhi = InitialValue();
+    SmallerNeutrinoDeltaR = InitialValue();
 }
 
-ClassImp(heavyhiggs::HHeavyHiggsHadronicBranch)
+ClassImp(analysis::heavyhiggs::HHeavyHiggsHadronicBranch)
 
-heavyhiggs::HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
+analysis::heavyhiggs::HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
 {
-  HeavyHiggsMass = InitialValue();
-  HeavyHiggsPt = InitialValue();
-  TopDeltaRap = InitialValue();
-  TopDeltaPhi = InitialValue();
-  TopDeltaR = InitialValue();
-  TopBdt = InitialValue();
-  HeavyHiggsTag = int(InitialValue());
+    HeavyHiggsMass = InitialValue();
+    HeavyHiggsPt = InitialValue();
+    TopDeltaRap = InitialValue();
+    TopDeltaPhi = InitialValue();
+    TopDeltaR = InitialValue();
+    TopBdt = InitialValue();
+    HeavyHiggsTag = int(InitialValue());
 }
 
-ClassImp(heavyhiggs::HeavyHiggsSemiBranch)
+ClassImp(analysis::heavyhiggs::HeavyHiggsSemiBranch)
 
-heavyhiggs::HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
+analysis::heavyhiggs::HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
-ClassImp(heavyhiggs::ChargedHiggsSemiBranch)
+ClassImp(analysis::heavyhiggs::ChargedHiggsSemiBranch)
 
-heavyhiggs::ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
+analysis::heavyhiggs::ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
 {
-  Flag = int(InitialValue());
+    Flag = int(InitialValue());
 }
 
-ClassImp(heavyhiggs::HChargedHiggsHadronicBranch)
+ClassImp(analysis::heavyhiggs::HChargedHiggsHadronicBranch)
 
-heavyhiggs::HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
+analysis::heavyhiggs::HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
 {
-  HeavyHiggsMass = InitialValue();
-  HeavyHiggsPt = InitialValue();
-  TopDeltaRap = InitialValue();
-  TopDeltaPhi = InitialValue();
-  TopDeltaR = InitialValue();
-  TopBdt = InitialValue();
-  HeavyHiggsTag = int(InitialValue());
-}
-
-
-ClassImp(heavyhiggs::ChargedHiggsLeptonicBranch)
-
-heavyhiggs::ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
-{
-  HeavyHiggsMass = InitialValue();
-  HeavyHiggsPt = InitialValue();
-  TopDeltaRap = InitialValue();
-  TopDeltaPhi = InitialValue();
-  TopDeltaR = InitialValue();
-  LargerWDeltaRap = InitialValue();
-  LargerWDeltaPhi = InitialValue();
-  LargerWDeltaR = InitialValue();
-  SmallerWDeltaRap = InitialValue();
-  SmallerWDeltaPhi = InitialValue();
-  SmallerWDeltaR = InitialValue();
-  LargerNeutrinoDeltaRap = InitialValue();
-  LargerNeutrinoDeltaPhi = InitialValue();
-  LargerNeutrinoDeltaR = InitialValue();
-  SmallerNeutrinoDeltaRap = InitialValue();
-  SmallerNeutrinoDeltaPhi = InitialValue();
-  SmallerNeutrinoDeltaR = InitialValue();
-  TopBdt = InitialValue();
-  HeavyHiggsTag = int(InitialValue());
+    HeavyHiggsMass = InitialValue();
+    HeavyHiggsPt = InitialValue();
+    TopDeltaRap = InitialValue();
+    TopDeltaPhi = InitialValue();
+    TopDeltaR = InitialValue();
+    TopBdt = InitialValue();
+    HeavyHiggsTag = int(InitialValue());
 }
 
 
-ClassImp(heavyhiggs::HeavyHiggsTauBranch)
+ClassImp(analysis::heavyhiggs::ChargedHiggsLeptonicBranch)
 
-heavyhiggs::HeavyHiggsTauBranch::HeavyHiggsTauBranch()
+analysis::heavyhiggs::ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
 {
-  NeutrinoPt = InitialValue();
-  LeptonPt = InitialValue();
+    HeavyHiggsMass = InitialValue();
+    HeavyHiggsPt = InitialValue();
+    TopDeltaRap = InitialValue();
+    TopDeltaPhi = InitialValue();
+    TopDeltaR = InitialValue();
+    LargerWDeltaRap = InitialValue();
+    LargerWDeltaPhi = InitialValue();
+    LargerWDeltaR = InitialValue();
+    SmallerWDeltaRap = InitialValue();
+    SmallerWDeltaPhi = InitialValue();
+    SmallerWDeltaR = InitialValue();
+    LargerNeutrinoDeltaRap = InitialValue();
+    LargerNeutrinoDeltaPhi = InitialValue();
+    LargerNeutrinoDeltaR = InitialValue();
+    SmallerNeutrinoDeltaRap = InitialValue();
+    SmallerNeutrinoDeltaPhi = InitialValue();
+    SmallerNeutrinoDeltaR = InitialValue();
+    TopBdt = InitialValue();
+    HeavyHiggsTag = int(InitialValue());
 }
 
-ClassImp(heavyhiggs::EventNeutralBranch)
 
-heavyhiggs::EventNeutralBranch::EventNeutralBranch()
+ClassImp(analysis::heavyhiggs::HeavyHiggsTauBranch)
+
+analysis::heavyhiggs::HeavyHiggsTauBranch::HeavyHiggsTauBranch()
 {
+    NeutrinoPt = InitialValue();
+    LeptonPt = InitialValue();
+}
 
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
-    ScalarHt = InitialValue();
+ClassImp(analysis::heavyhiggs::EventNeutralBranch)
 
+analysis::heavyhiggs::EventNeutralBranch::EventNeutralBranch()
+{
     HiggsMass = InitialValue();
     HiggsBdt = InitialValue();
     SignatureBdt = InitialValue();
     BottomBdt = InitialValue();
     PairBottomBdt = InitialValue();
-
-    RestNumber = int(InitialValue());
-    RestM = InitialValue();
-    RestPt = InitialValue();
-    RestHt = InitialValue();
-    RestRap = InitialValue();
-    RestPhi = InitialValue();
-    RestBdt = InitialValue();
-    LeptonHt = InitialValue();
-
     HardTopPt = InitialValue();
     SoftTopPt = InitialValue();
-    MissingEt = InitialValue();
-
     BottomBdt1 = InitialValue();
     BottomBdt2 = InitialValue();
     BottomBdt3 = InitialValue();
@@ -132,37 +114,19 @@ heavyhiggs::EventNeutralBranch::EventNeutralBranch()
     BottomBdt34 = InitialValue();
     BottomBdt56 = InitialValue();
     BottomBdt78 = InitialValue();
-
 }
 
-ClassImp(heavyhiggs::EventFusionBranch)
+ClassImp(analysis::heavyhiggs::EventFusionBranch)
 
-heavyhiggs::EventFusionBranch::EventFusionBranch()
+analysis::heavyhiggs::EventFusionBranch::EventFusionBranch()
 {
-
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
-    ScalarHt = InitialValue();
-
     HiggsMass = InitialValue();
-    HiggsBdt = InitialValue();
-
-    RestNumber = int(InitialValue());
-    RestM = InitialValue();
-    RestPt = InitialValue();
-    RestHt = InitialValue();
-    RestRap = InitialValue();
-    RestPhi = InitialValue();
-    RestBdt = InitialValue();
-    LeptonHt = InitialValue();
-
 }
 
 
-ClassImp(heavyhiggs::OctetNeutralBranch)
+ClassImp(analysis::heavyhiggs::OctetNeutralBranch)
 
-heavyhiggs::OctetNeutralBranch::OctetNeutralBranch()
+analysis::heavyhiggs::OctetNeutralBranch::OctetNeutralBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -175,9 +139,9 @@ heavyhiggs::OctetNeutralBranch::OctetNeutralBranch()
 }
 
 
-ClassImp(heavyhiggs::OctetChargedBranch)
+ClassImp(analysis::heavyhiggs::OctetChargedBranch)
 
-heavyhiggs::OctetChargedBranch::OctetChargedBranch()
+analysis::heavyhiggs::OctetChargedBranch::OctetChargedBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -187,33 +151,16 @@ heavyhiggs::OctetChargedBranch::OctetChargedBranch()
     PairBdt = InitialValue();
 }
 
-ClassImp(heavyhiggs::EventChargedBranch)
+ClassImp(analysis::heavyhiggs::EventChargedBranch)
 
-heavyhiggs::EventChargedBranch::EventChargedBranch()
+analysis::heavyhiggs::EventChargedBranch::EventChargedBranch()
 {
-
-    LeptonNumber = int(InitialValue());
-    JetNumber = int(InitialValue());
-    BottomNumber = int(InitialValue());
-
-    ScalarHt = InitialValue();
-
     HiggsMass = InitialValue();
     PairRap = InitialValue();
     HiggsBdt = InitialValue();
     SignatureBdt = InitialValue();
     BottomBdt = InitialValue();
     PairBottomBdt = InitialValue();
-
-    RestM = InitialValue();
-    RestPt = InitialValue();
-    RestHt = InitialValue();
-    RestRap = InitialValue();
-    RestPhi = InitialValue();
-    RestNumber = int(InitialValue());
-    LeptonHt = InitialValue();
-    MissingEt = InitialValue();
-
     BottomBdt1 = InitialValue();
     BottomBdt2 = InitialValue();
     BottomBdt3 = InitialValue();

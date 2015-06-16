@@ -1,8 +1,8 @@
 # include "BranchesHiggsCpv.hh"
 
-ClassImp(higgscpv::SignatureLeptonicBranch)
+ClassImp(analysis::higgscpv::SignatureLeptonicBranch)
 
-higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
+analysis::higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
 {
   HiggsMass = InitialValue();
   PairRap = InitialValue();
@@ -12,9 +12,9 @@ higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
   SoftTopPt = InitialValue();
 }
 
-ClassImp(higgscpv::OctetBranch)
+ClassImp(analysis::higgscpv::OctetBranch)
 
-higgscpv::OctetBranch::OctetBranch()
+analysis::higgscpv::OctetBranch::OctetBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -27,13 +27,13 @@ higgscpv::OctetBranch::OctetBranch()
 }
 
 
-ClassImp(higgscpv::EventBranch)
+ClassImp(analysis::higgscpv::EventBranch)
 
-higgscpv::EventBranch::EventBranch(){}
+analysis::higgscpv::EventBranch::EventBranch(){}
 
-ClassImp(higgscpv::HLeptonBranch)
+ClassImp(analysis::higgscpv::HLeptonBranch)
 
-higgscpv::HLeptonBranch::HLeptonBranch()
+analysis::higgscpv::HLeptonBranch::HLeptonBranch()
 {
     Mass = InitialValue();
     Pt = InitialValue();
@@ -42,13 +42,13 @@ higgscpv::HLeptonBranch::HLeptonBranch()
     Charge = int(InitialValue());
 }
 
-ClassImp(higgscpv::TopLeptonicPairBranch)
+ClassImp(analysis::higgscpv::TopLeptonicPairBranch)
 
-higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch(){}
+analysis::higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch(){}
 
-ClassImp(higgscpv::TripletPairBranch)
+ClassImp(analysis::higgscpv::TripletPairBranch)
 
-higgscpv::TripletPairBranch::TripletPairBranch()
+analysis::higgscpv::TripletPairBranch::TripletPairBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -64,9 +64,9 @@ higgscpv::TripletPairBranch::TripletPairBranch()
     TopBTag = InitialValue();
 }
 
-ClassImp(higgscpv::QuartetPairBranch)
+ClassImp(analysis::higgscpv::QuartetPairBranch)
 
-higgscpv::QuartetPairBranch::QuartetPairBranch()
+analysis::higgscpv::QuartetPairBranch::QuartetPairBranch()
 {
   BottomMass = InitialValue();
   BottomPt = InitialValue();

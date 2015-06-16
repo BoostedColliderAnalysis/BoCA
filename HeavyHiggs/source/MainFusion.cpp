@@ -7,7 +7,7 @@
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-    heavyhiggs::AnalysisFusion analysis(tagger);
+    analysis::heavyhiggs::AnalysisFusion analysis(tagger);
     const std::string Name = tagger.tagger_name();
     analysis.Print(analysis.kError, "Tagger", Name);
 
@@ -19,8 +19,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 
     FileName = analysis.ProjectName() + "/" + Name + "Bdt.root";
     if (gSystem->AccessPathName(FileName.c_str())) {
-            analysis::Reader Reader(tagger);
-            Reader.OptimalSignificance();
+        analysis::Reader Reader(tagger);
+        Reader.OptimalSignificance();
     }
 }
 
@@ -49,12 +49,12 @@ int main()
     RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(tops_semi_tagger, analysis::Tagger::kReader);
 
-    heavyhiggs::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
+    analysis::heavyhiggs::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader);
 
 
-    heavyhiggs::EventFusionTagger event_semi_tagger;
+    analysis::heavyhiggs::EventFusionTagger event_semi_tagger;
     RunTagger(event_semi_tagger, analysis::Tagger::kTrainer);
     RunTagger(event_semi_tagger, analysis::Tagger::kReader);
 

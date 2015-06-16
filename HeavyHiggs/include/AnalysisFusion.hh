@@ -2,6 +2,9 @@
 
 # include "Analysis.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs {
 
 /**
@@ -11,14 +14,14 @@ namespace heavyhiggs {
  * @author Jan Hajer
  *
  */
-class AnalysisFusion : public analysis::Analysis
+class AnalysisFusion : public Analysis
 {
 
 public:
 
-      AnalysisFusion(analysis::Tagger &tagger);
+      AnalysisFusion(Tagger &tagger);
 
-    std::vector<analysis::File> Files(const analysis::Object::Tag Tag);
+    std::vector<File> Files(const Object::Tag Tag);
 
     inline std::string ProcessName() const {
         return "Fusion";
@@ -29,9 +32,9 @@ public:
     }
 
 
-//     std::string StudyName(const analysis::HAnalysis::Tagger Tagger) const;
+//     std::string StudyName(const HAnalysis::Tagger Tagger) const;
 
-//     void PrepareReader(const analysis::HAnalysis::HTagger Tagger, const analysis::HAnalysis::Tag Tag);
+//     void PrepareReader(const HAnalysis::HTagger Tagger, const HAnalysis::Tag Tag);
 
     void SetTrees();
 
@@ -263,17 +266,17 @@ private:
         }
     }
 
-    inline analysis::File BackgroundFile(const ProcessType Background) const {
+    inline File BackgroundFile(const ProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 
-    analysis::File BackgroundFile(const ProcessType Background, const int FileSum) const {
+    File BackgroundFile(const ProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV";
-        analysis::Strings FileNames;
+        Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
-        return analysis::File(FileNames , BackgroundCrosssection(Background));
+        return File(FileNames , BackgroundCrosssection(Background));
     }
 
     std::string BackgroundTree(const ProcessType Process) const {
@@ -485,8 +488,10 @@ private:
         }
     }
 
-    int PassPreCut(analysis::Event &event);
+    int PassPreCut(Event &event);
 
 };
+
+}
 
 }

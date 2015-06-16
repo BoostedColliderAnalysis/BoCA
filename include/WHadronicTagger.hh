@@ -62,17 +62,9 @@ private:
 
     Reader bottom_reader_;
 
-    TClass &Class() const {
-        return *WHadronicBranch::Class();
-    }
-
     Jets WDaughters(Event &event) const;
 
     int WHadronicId(const Jets &jets) const;
-
-    void DefineVariables();
-
-    WHadronicBranch branch_;
 
     float w_mass_window_;
 };

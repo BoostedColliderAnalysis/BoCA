@@ -76,4 +76,14 @@ private:
     int iterator_;
 };
 
+template <typename Element>
+std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
+{
+  std::vector<Element> joined;
+  joined.reserve(vector_1.size() + vector_2.size());
+  joined.insert(joined.end(), vector_1.begin(), vector_1.end());
+  joined.insert(joined.end(), vector_2.begin(), vector_2.end());
+  return joined;
+}
+
 }

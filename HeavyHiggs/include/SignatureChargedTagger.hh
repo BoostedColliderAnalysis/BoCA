@@ -4,6 +4,9 @@
 # include "TripletJetPairTagger.hh"
 # include "Octet44.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs
 {
 
@@ -12,7 +15,7 @@ namespace heavyhiggs
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureChargedTagger : public analysis::BranchTagger<OctetChargedBranch>
+class SignatureChargedTagger : public BranchTagger<OctetChargedBranch>
 {
 
 public:
@@ -23,9 +26,9 @@ public:
     */
     SignatureChargedTagger();
 
-    int Train(analysis::Event &event, const Tag tag);
+    int Train(Event &event, const Tag tag);
 
-    std::vector<Octet44> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<Octet44> Multiplets(Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -41,14 +44,15 @@ private:
 
     ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
 
-    analysis::TripletJetPairTagger triplet_jet_pair_tagger_;
+    TripletJetPairTagger triplet_jet_pair_tagger_;
 
-    analysis::Reader charged_higgs_semi_reader_;
+    Reader charged_higgs_semi_reader_;
 
-    analysis::Reader triplet_jet_pair_reader_;
+    Reader triplet_jet_pair_reader_;
 
-    void DefineVariables();
 
 };
+
+}
 
 }

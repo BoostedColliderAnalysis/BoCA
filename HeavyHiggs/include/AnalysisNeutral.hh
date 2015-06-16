@@ -2,10 +2,14 @@
 
 # include "Analysis.hh"
 
+namespace analysis
+{
+
 /**
  * @brief Namespace for the heavy higgs analyses
  *
  */
+
 namespace heavyhiggs
 {
 
@@ -16,16 +20,16 @@ namespace heavyhiggs
  * @author Jan Hajer
  *
  */
-class AnalysisNeutral : public analysis::Analysis
+class AnalysisNeutral : public Analysis
 {
 
 public:
 
-    AnalysisNeutral(analysis::Tagger &tagger);
+    AnalysisNeutral(Tagger &tagger);
 
     void SetTrees();
 
-    std::vector<analysis::File> Files(const analysis::Object::Tag tag);
+    std::vector<File> Files(const Object::Tag tag);
 
     inline std::string ProjectName() const {
 //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
@@ -263,17 +267,17 @@ private:
         }
     }
 
-    inline analysis::File BackgroundFile(const ProcessType Background) const {
+    inline File BackgroundFile(const ProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 
-    analysis::File BackgroundFile(const ProcessType Background, const int FileSum) const {
+    File BackgroundFile(const ProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV";
-        analysis::Strings FileNames;
+        Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
-        return analysis::File(FileNames , BackgroundCrosssection(Background));
+        return File(FileNames , BackgroundCrosssection(Background));
     }
 
     std::string BackgroundTree(const ProcessType Process) const {
@@ -484,8 +488,10 @@ private:
     }
 
 
-    int PassPreCut(analysis::Event &event);
+    int PassPreCut(Event &event);
 
 };
+
+}
 
 }

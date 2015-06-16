@@ -1,17 +1,17 @@
 # include "BranchesTopPartner.hh"
 
-ClassImp(toppartner::TopPartnerBranch)
+ClassImp(analysis::toppartner::TopPartnerBranch)
 
-toppartner::TopPartnerBranch::TopPartnerBranch(){}
+analysis::toppartner::TopPartnerBranch::TopPartnerBranch(){}
 
-ClassImp(toppartner::HiggsPairBranch)
+ClassImp(analysis::toppartner::HiggsPairBranch)
 
-toppartner::HiggsPairBranch::HiggsPairBranch(){}
+analysis::toppartner::HiggsPairBranch::HiggsPairBranch(){}
 
-ClassImp(toppartner::SignatureBranch)
+ClassImp(analysis::toppartner::SignatureBranch)
 
-toppartner::SignatureBranch::SignatureBranch(){}
+analysis::toppartner::SignatureBranch::SignatureBranch(){}
 
-ClassImp(toppartner::EventBranch)
+ClassImp(analysis::toppartner::EventBranch)
 
-toppartner::EventBranch::EventBranch(){}
+analysis::toppartner::EventBranch::EventBranch(){}

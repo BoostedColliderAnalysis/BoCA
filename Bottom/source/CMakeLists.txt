@@ -1,4 +1,4 @@
-HDictionary(HBranchBTagger HBranchBTagger.cpp ../include/HLinkDefBTagger.hh)
+HDictionary(BottomBranch HBranchBTagger.cpp ../include/HLinkDefBTagger.hh)
 
 set(
 Btaggerlibs

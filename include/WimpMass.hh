@@ -17,13 +17,13 @@ public:
 
     WimpMass();
 
-    std::vector<analysis::Sextet> Sextets(const std::vector<Quartet22> &quartets, const fastjet::PseudoJet &missing_et);
+    std::vector<::analysis::Sextet> Sextets(const std::vector<Quartet22> &quartets, const fastjet::PseudoJet &missing_et);
 
-    std::vector<analysis::Sextet> Sextet(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const Jets &neutrinos, const Object::Tag tag);
+    std::vector<::analysis::Sextet> Sextet(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const Jets &neutrinos, const Object::Tag tag);
 
-    std::vector<analysis::Sextet> Sextets(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
+    std::vector<::analysis::Sextet> Sextets(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
 
-    analysis::Sextet Fake(const analysis::Quartet22 &quartet) const;
+    ::analysis::Sextet Fake(const Quartet22 &quartet) const;
 
 protected:
 

@@ -49,8 +49,6 @@ private:
 
     bool boost_ = false;
 
-    void DefineVariables();
-
     float top_mass_window_;
 
     BottomTagger bottom_tagger_;

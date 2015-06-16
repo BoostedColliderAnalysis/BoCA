@@ -13,28 +13,6 @@ TopSemiTagger::TopSemiTagger()
     DefineVariables();
 }
 
-void TopSemiTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Ht, "Ht");
-    AddVariable(branch().BottomPt, "BottomPt");
-    AddVariable(branch().WPt, "WPt");
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaM, "DeltaM");
-    AddVariable(branch().DeltaHt, "DeltaHt");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaR, "DeltaR");
-    AddVariable(branch().WBdt, "WBdt");
-    AddVariable(branch().BBdt, "BBdt");
-    AddVariable(branch().Bdt, "Bdt");
-    AddSpectator(branch().Tag, "Tag");
-}
-
 int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Top Tags");

@@ -12,23 +12,6 @@ TopLeptonicTagger::TopLeptonicTagger()
     DefineVariables();
 }
 
-void TopLeptonicTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().BottomPt, "BottomPt");
-    AddVariable(branch().LeptonPt, "LeptonPt");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaR, "DeltaR");
-    AddVariable(branch().Bdt1, "Bdt1");
-//     AddVariable(branch().Bdt2, "Bdt2");
-    AddSpectator(branch().Tag, "Tag");
-}
-
 int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Train");

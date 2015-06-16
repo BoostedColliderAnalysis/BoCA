@@ -1,19 +1,25 @@
 # include "AnalysisBottomTagger.hh"
 
+namespace analysis
+{
 
-bottom::Analysis::Analysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+namespace bottom
+{
+
+
+  Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
     pre_cuts_.SetPtLowerCut(BottomId, LowerCut());
     pre_cuts_.SetPtUpperCut(BottomId, UpperCut());
-    analysis::DetectorGeometry detector_geometry;
+    DetectorGeometry detector_geometry;
     pre_cuts_.SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
     pre_cuts_.SetSubJets(false);
 }
 
 
-void bottom::Analysis::SetFiles(const analysis::Object::Tag tag)
+void Analysis::SetFiles(const Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
@@ -42,7 +48,7 @@ void bottom::Analysis::SetFiles(const analysis::Object::Tag tag)
 
 }
 
-std::string bottom::Analysis::ProcessName(const Process process) const
+std::string Analysis::ProcessName(const Process process) const
 {
     switch (process) {
     case cc:
@@ -79,7 +85,7 @@ std::string bottom::Analysis::ProcessName(const Process process) const
 }
 
 
-std::string bottom::Analysis::ProductionChannelName(const ProductionChannel production_channel) const
+std::string Analysis::ProductionChannelName(const ProductionChannel production_channel) const
 {
     switch (production_channel) {
     case Associated :
@@ -93,7 +99,7 @@ std::string bottom::Analysis::ProductionChannelName(const ProductionChannel prod
     }
 }
 
-int bottom::Analysis::UpperCut() const
+int Analysis::UpperCut() const
 {
     switch (LowerCut()) {
     case 500 :
@@ -106,7 +112,7 @@ int bottom::Analysis::UpperCut() const
     }
 }
 
-std::string bottom::Analysis::DetectorName(const Detector detector) const
+std::string Analysis::DetectorName(const Detector detector) const
 {
     switch (detector) {
     case LHC :
@@ -121,10 +127,14 @@ std::string bottom::Analysis::DetectorName(const Detector detector) const
 }
 
 
-int bottom::Analysis::PassPreCut(analysis::Event &event)
+int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "paas pre cut");
-    analysis::Jets jets = event.Hadrons().Jets();
-    jets = analysis::remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
+    Jets jets = event.Hadrons().Jets();
+    jets = remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
     return jets.size();
+}
+
+}
+
 }

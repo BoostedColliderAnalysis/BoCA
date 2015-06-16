@@ -57,8 +57,6 @@ private:
 
     int WSemiId(const Jets &jets);
 
-    void DefineVariables();
-
     Tag GetTag(const Doublet &doublet) const;
 
     std::vector< Doublet > ReconstructNeutrino(const Doublet &doublet)const;

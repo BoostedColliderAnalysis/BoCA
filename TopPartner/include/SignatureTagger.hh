@@ -4,6 +4,9 @@
 # include "TopPartnerPairTagger.hh"
 # include "HiggsPairTagger.hh"
 
+namespace analysis
+{
+
 namespace toppartner
 {
 
@@ -11,16 +14,16 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureTagger : public analysis::BranchTagger<SignatureBranch>
+class SignatureTagger : public BranchTagger<SignatureBranch>
 {
 
 public:
 
     SignatureTagger();
 
-    int Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    std::vector<Quattuordecuplet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<Quattuordecuplet> Multiplets(Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -30,15 +33,15 @@ protected:
 
 private:
 
-    void DefineVariables();
-
     TopPartnerPairTagger top_partner_pair_tagger_;
 
     HiggsPairTagger higgs_pair_tagger;
 
-    analysis::Reader top_partner_pair_reader_;
+    Reader top_partner_pair_reader_;
 
-    analysis::Reader higgs_pair_reader_;
+    Reader higgs_pair_reader_;
 };
+
+}
 
 }

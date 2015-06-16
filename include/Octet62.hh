@@ -9,16 +9,16 @@ namespace analysis
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class Octet62 : public Multiplet<analysis::Sextet, analysis::Doublet>
+class Octet62 : public Multiplet<::analysis::Sextet, ::analysis::Doublet>
 {
 
 public:
 
-    using Multiplet<analysis::Sextet, analysis::Doublet>::Multiplet;
+    using Multiplet<::analysis::Sextet, ::analysis::Doublet>::Multiplet;
 
-    analysis::Sextet Sextet()const;
+    ::analysis::Sextet Sextet()const;
 
-    analysis::Doublet Doublet() const;
+    ::analysis::Doublet Doublet() const;
 
     inline float HbDeltaDeltaR() const {
         return std::abs(GetDeltaR1() - GetDeltaR2());
@@ -29,7 +29,7 @@ public:
     }
 
     inline float HbDeltaDeltaPhi() const {
-        return analysis::DeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
+        return ::analysis::DeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
     }
 
     inline float BottomBdt() const {

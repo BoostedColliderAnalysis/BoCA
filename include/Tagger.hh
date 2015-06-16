@@ -108,10 +108,6 @@ protected:
 
     void AddVariable(float &value, const std::string &title, const std::string &latex);
 
-//     void AddVariables(const Branch &branch){
-//
-//     }
-
     void AddSpectator(float &value, const std::string &title);
 
     void ClearVectors();

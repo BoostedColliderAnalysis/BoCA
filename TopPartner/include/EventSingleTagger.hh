@@ -1,12 +1,11 @@
 # pragma once
 
-# include "SignatureTagger.hh"
+# include "SignatureSingleTagger.hh"
 # include "MultipletEvent.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace higgscpv
+namespace toppartner
 {
 
 /**
@@ -14,7 +13,7 @@ namespace higgscpv
  * @brief Prepares multivariant analysis
  *
  */
-class EventTagger : public BranchTagger<EventBranch>
+class EventSingleTagger : public BranchTagger<EventBranch>
 {
 
 public:
@@ -23,11 +22,11 @@ public:
     * @brief Constructor
     *
     */
-    EventTagger();
+    EventSingleTagger();
 
     int Train(Event &event,PreCuts &pre_cuts, const Object::Tag tag);
 
-    std::vector<MultipletEvent<Octet62>> Multiplets(Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Decuplet73>> Multiplets(Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
@@ -41,16 +40,16 @@ public:
 protected:
 
     virtual inline std::string NameSpaceName() const {
-      return "higgscpv";
+      return "toppartner";
     }
 
     virtual inline std::string ClassName() const {
-      return "EventTagger";
+      return "EventSingleTagger";
     }
 
 private:
 
-    SignatureTagger signature_tagger_;
+    SignatureSingleTagger signature_tagger_;
 
     Reader signature_reader_;
 

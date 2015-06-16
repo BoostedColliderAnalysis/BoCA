@@ -12,23 +12,6 @@ WSemiTagger::WSemiTagger()
     DefineVariables();
 }
 
-void WSemiTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Ht, "Ht");
-    AddVariable(branch().NeutrinoPt, "NeutrinoPt");
-    AddVariable(branch().LeptonPt, "LeptonPt");
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaR, "DeltaR");
-    AddSpectator(branch().Tag, "Tag");
-}
-
 int WSemiTagger::Train(Event &event, const Object::Tag tag)
 {
     Print(kInformation, "Train");

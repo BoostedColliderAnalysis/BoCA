@@ -3,7 +3,11 @@
 # include "Branches.hh"
 
 
-namespace top{
+namespace analysis
+{
+
+namespace top
+{
 
 /**
  *
@@ -104,5 +108,7 @@ private:
   ClassDef(HTopHadronBranch, 1)
 
 };
+
+}
 
 }

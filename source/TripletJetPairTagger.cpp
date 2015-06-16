@@ -12,44 +12,6 @@ TripletJetPairTagger::TripletJetPairTagger()
     DefineVariables();
 }
 
-void TripletJetPairTagger::DefineVariables()
-{
-    Print(kNotification , "Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().Ht, "Ht");
-
-    AddVariable(branch().DeltaM, "DeltaM");
-    AddVariable(branch().DeltaPt, "DeltaPt");
-    AddVariable(branch().DeltaPhi, "DeltaPhi");
-    AddVariable(branch().DeltaRap, "DeltaRap");
-    AddVariable(branch().DeltaR, "DeltaR");
-
-    AddVariable(branch().BottomMass, "BottomMass");
-    AddVariable(branch().BottomPt, "BottomPt");
-    AddVariable(branch().BottomRap, "BottomRap");
-    AddVariable(branch().BottomPhi, "BottomPhi");
-    AddVariable(branch().BottomBdt, "BottomBdt");
-
-    AddVariable(branch().TopMass, "TopMass");
-    AddVariable(branch().TopPt, "TopPt");
-    AddVariable(branch().TopRap, "TopRap");
-    AddVariable(branch().TopPhi, "TopPhi");
-    AddVariable(branch().TopBdt, "TopBdt");
-
-    AddVariable(branch().Bdt1, "Bdt1");
-    AddVariable(branch().Bdt2, "Bdt2");
-    AddSpectator(branch().Tag, "Tag");
-}
-
-// struct SortquartetByDeltaRap {
-//     inline bool operator()(const Quartet31 &quartet1, const Quartet31 &quartet2) {
-//         return (quartet1.DeltaRap() > quartet2.DeltaRap());
-//     }
-// };
-
 int TripletJetPairTagger::Train(Event &event, const Tag tag)
 {
     Print(kInformation, "W Tags");

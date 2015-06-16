@@ -3,8 +3,15 @@
 # include "TObject.h"
 // # include "TGenericClassInfo.h"
 # include "Rtypes.h"
+// # include "Global.hh"
 
-namespace analysis {
+namespace analysis
+{
+
+typedef std::pair<float &, std::string> ObsPair;
+typedef std::vector<ObsPair> Observables;
+# define STRING(s) #s
+# define PAIR(x) ObsPair(x,STRING(x))
 
 /**
  * @brief Basic tree branches
@@ -15,11 +22,25 @@ class Branch : public TObject
 public:
     Branch();
     virtual ~Branch();
+    Observables Variables() {
+        return {};
+    }
+    Observables Spectators() {
+        return {};
+    }
 protected:
     float InitialValue() {
         return -11.1111111; // should be non integer
         // this must be identical to the initial value in htag
         // FIXME remove the copy of the magic number
+    }
+    template <typename Element>
+    std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2) {
+        std::vector<Element> joined;
+        joined.reserve(vector_1.size() + vector_2.size());
+        joined.insert(joined.end(), vector_1.begin(), vector_1.end());
+        joined.insert(joined.end(), vector_2.begin(), vector_2.end());
+        return joined;
     }
 private:
     ClassDef(Branch, 1)
@@ -71,6 +92,12 @@ public:
         Rap = multiplet.Jet().rap();
         Phi = multiplet.Jet().phi_std();
     }
+    virtual Observables Variables() {
+        return {PAIR(Mass), PAIR(Rap), PAIR(Phi)};
+    }
+    virtual Observables Spectators() {
+        return {PAIR(Pt)};
+    }
 private:
     ClassDef(ParticleBranch, 1)
 };
@@ -103,9 +130,6 @@ public:
         VertexMass = multiplet.VertexMass();
         MaxDisplacement = multiplet.MaxDisplacement();
         MeanDisplacement = multiplet.MeanDisplacement();
-        VertexMass = multiplet.VertexMass();
-        MaxDisplacement = multiplet.MaxDisplacement();
-        MeanDisplacement = multiplet.MeanDisplacement();
         SumDisplacement = multiplet.SumDisplacement();
         Multipliticity = multiplet.Multiplicity();
         DeltaR = multiplet.VertexDeltaR();
@@ -115,6 +139,12 @@ public:
         EnergyFraction = multiplet.EnergyFraction();
         Tag = multiplet.Tag();
         Bdt = multiplet.Bdt();
+    }
+    virtual Observables Variables() {
+        return Join(ParticleBranch::Variables(), {PAIR(VertexMass), PAIR(MaxDisplacement), PAIR(MeanDisplacement), PAIR(SumDisplacement), PAIR(Multipliticity), PAIR(DeltaR), PAIR(VertexDeltaR), PAIR(VertexSpread), PAIR(EnergyFraction)});
+    }
+    virtual Observables Spectators() {
+        return Join(ParticleBranch::Spectators(), {PAIR(Tag), PAIR(Bdt)});
     }
 private:
     ClassDef(BottomBranch, 1)
@@ -171,9 +201,9 @@ public:
     float DeltaPhi;
     float DeltaR;
     float Rho;
-    float Bdt;
     float Bdt1;
     float Bdt2;
+    float Bdt;
     float Tag;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
@@ -190,6 +220,12 @@ public:
         Bdt2 = multiplet.Multiplet2().Bdt();
         Tag = multiplet.Tag();
     }
+    virtual Observables Variables() {
+        return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(Bdt2)});
+    }
+    virtual Observables Spectators() {
+        return Join(ParticleBranch::Spectators(), {PAIR(Tag), PAIR(Bdt)});
+    }
 private:
     ClassDef(PairBranch, 1)
 };
@@ -204,6 +240,9 @@ public:
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt();
+    }
+    virtual Observables Variables() {
+        return Join(ParticleBranch::Variables(), {PAIR(DeltaHt)});
     }
 private:
     ClassDef(MultiBranch, 1)
@@ -339,6 +378,9 @@ public:
         TopMass = multiplet.Triplet().Jet().m();
         TopBdt = multiplet.Triplet().Bdt();
     }
+    virtual Observables Variables() {
+        return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+    }
 private:
     ClassDef(TripletJetPairBranch, 1)
 };
@@ -359,6 +401,9 @@ public:
         PairBranch::Fill(multiplet);
         LeptonPt = multiplet.SingletJet1().pt();
         NeutrinoPt = multiplet.SingletJet2().pt();
+    }
+    virtual Observables Variables() {
+        return Join(PairBranch::Variables(), {PAIR(LeptonPt), PAIR(NeutrinoPt)});
     }
 private:
     ClassDef(WSemiBranch, 1)
@@ -388,15 +433,6 @@ public:
     float Tau3_2;
     float Tau21_2;
     float Tau32_2;
-//     float VertexMass;
-//     float MaxDisplacement;
-//     float MeanDisplacement;
-//     float SumDisplacement;
-//     float Multipliticity;
-//     float Spread;
-//     float VertexDeltaR;
-//     float VertexSpread;
-//     float EnergyFraction;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
@@ -436,6 +472,9 @@ public:
         BottomPt = multiplet.SingletJet1().pt();
         LeptonPt = multiplet.SingletJet2().pt();
     }
+    virtual Observables Variables() {
+        return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
+    }
 private:
     ClassDef(TopLeptonicBranch, 1)
 };
@@ -451,24 +490,14 @@ public:
     TopSemiBranch();
     float BottomPt;
     float WPt;
-    float WBdt;
-    float BBdt;
-//     float VertexMass;
-//     float MaxDisplacement;
-//     float MeanDisplacement;
-//     float SumDisplacement;
-//     float Multipliticity;
-//     float Spread;
-//     float VertexDeltaR;
-//     float VertexSpread;
-    //     float EnergyFraction;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
         BottomPt = multiplet.SingletJet().pt();
         WPt = multiplet.Doublet().Jet().pt();
-        BBdt = multiplet.Singlet().Bdt();
-        WBdt = multiplet.Doublet().Bdt();
+    }
+    virtual Observables Variables() {
+        return Join(MultiBranch::Variables(), {PAIR(BottomPt), PAIR(WPt)});
     }
 private:
     ClassDef(TopSemiBranch, 1)
@@ -485,23 +514,6 @@ class HiggsBranch : public PairBranch
 public:
 
     HiggsBranch();
-
-//     float Mass;
-//     float PtSum;
-//     float PtDiff;
-//
-//     float DeltaRap;
-//     float DeltaPhi;
-//     float DeltaR;
-//
-//     float BottomBdt;
-//
-//     float Pull1;
-//     float Pull2;
-//     float Pull;
-//
-//     float HiggsTag;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
@@ -586,39 +598,41 @@ private:
 class EventBranch : public MultiBranch
 {
 public:
-  EventBranch();
+    EventBranch();
 
-  float LeptonNumber;
-  float JetNumber;
-  float BottomNumber;
-  float MissingEt;
-  float ScalarHt;
+    float LeptonNumber;
+    float JetNumber;
+    float BottomNumber;
+    float MissingEt;
+    float ScalarHt;
 
-  float LeptonHt;
-  float JetMass;
-  float JetPt;
-  float JetHt;
-  float JetRap;
-  float JetPhi;
+    float LeptonHt;
+    float JetMass;
+    float JetPt;
+    float JetHt;
+    float JetRap;
+    float JetPhi;
 
-  template<typename Multiplet>
-  void Fill(const Multiplet &multiplet) {
-    analysis::MultiBranch::Fill(multiplet);
-    LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
-    JetNumber = multiplet.GlobalObservables().JetNumber();
-    BottomNumber = multiplet.GlobalObservables().BottomNumber();
-    MissingEt = multiplet.GlobalObservables().MissingEt();
-    ScalarHt = multiplet.GlobalObservables().ScalarHt();
-    LeptonHt = multiplet.GlobalObservables().LeptonHt();
-    JetMass = multiplet.Singlet().Jet().m();
-    JetPt = multiplet.Singlet().Jet().pt();
-    JetHt = multiplet.GlobalObservables().JetHt();
-    JetRap = multiplet.Singlet().Jet().rap();
-    if(JetRap > 100) JetRap = 0;
-    JetPhi = multiplet.Singlet().Jet().phi();
-  }
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        analysis::MultiBranch::Fill(multiplet);
+        LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
+        JetNumber = multiplet.GlobalObservables().JetNumber();
+        BottomNumber = multiplet.GlobalObservables().BottomNumber();
+        MissingEt = multiplet.GlobalObservables().MissingEt();
+        ScalarHt = multiplet.GlobalObservables().ScalarHt();
+        LeptonHt = multiplet.GlobalObservables().LeptonHt();
+        JetMass = multiplet.Singlet().Jet().m();
+        JetPt = multiplet.Singlet().Jet().pt();
+        JetHt = multiplet.GlobalObservables().JetHt();
+        JetRap = multiplet.Singlet().Rapidity();
+        JetPhi = multiplet.Singlet().Jet().phi();
+    }
+    virtual Observables Variables() {
+        return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+    }
 private:
-  ClassDef(EventBranch, 1)
+    ClassDef(EventBranch, 1)
 };
 
 }

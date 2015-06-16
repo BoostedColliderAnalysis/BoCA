@@ -2,6 +2,8 @@
 
 # include "Analysis.hh"
 
+namespace analysis {
+
 /**
  * @brief Namespace for bottom analysis
  *
@@ -20,7 +22,7 @@ class Analysis : public analysis::Analysis
 
 public:
 
-    Analysis(analysis::Tagger &tagger);
+    Analysis(Tagger &tagger);
 
     inline std::string ProjectName() const {
         return  ProductionChannelName(production_channel()) + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
@@ -96,10 +98,12 @@ private:
 
     std::string ProcessName(const Process process) const;
 
-    void SetFiles(const analysis::Object::Tag Tag);
+    void SetFiles(const Object::Tag Tag);
 
-    int PassPreCut(analysis::Event &event);
+    int PassPreCut(Event &event);
 
 };
+
+}
 
 }

@@ -16,10 +16,6 @@ public:
 
     using Multiplet<Triplet,Triplet>::Multiplet;
 
-//     bool Overlap() const;
-
-//     bool Overlap(const fastjet::PseudoJet &jet) const;
-
     Triplet Triplet1() const;
 
     Triplet Triplet2() const;

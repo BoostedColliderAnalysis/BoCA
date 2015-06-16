@@ -61,12 +61,12 @@ protected:
     }
 
     int SaveEntries(const std::vector<fastjet::PseudoJet> &jets) {
-      if (jets.empty()) return 0;
-      for (const auto & jet : jets) {
-        FillBranch(Singlet(jet));
-        static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
-      }
-      return jets.size();
+        if (jets.empty()) return 0;
+        for (const auto & jet : jets) {
+            FillBranch(Singlet(jet));
+            static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
+        }
+        return jets.size();
     }
 
 //     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
@@ -86,14 +86,33 @@ protected:
     }
 
     template<typename Multiplet>
-    float Bdt(const Multiplet &multiplet, const TMVA::Reader &reader){
-      FillBranch(multiplet);
-      return Tagger::Bdt(reader);
+    float Bdt(const Multiplet &multiplet, const TMVA::Reader &reader) {
+        FillBranch(multiplet);
+        return Tagger::Bdt(reader);
     }
 
-    float Bdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader){
-      FillBranch(Singlet(jet));
-      return Tagger::Bdt(reader);
+    float Bdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader) {
+        FillBranch(Singlet(jet));
+        return Tagger::Bdt(reader);
+    }
+
+    void AddObservables() {
+        for (auto &variable : branch().Variables()) {
+            AddVariable(variable.first, variable.second);
+        }
+    }
+
+    void AddSpectators() {
+        for (auto &spectator : branch().Spectators()) {
+            AddSpectator(spectator.first, spectator.second);
+        }
+    }
+
+    virtual void DefineVariables()
+    {
+      Print(kInformation , "Define Variables");
+      AddObservables();
+      AddSpectators();
     }
 
 private:

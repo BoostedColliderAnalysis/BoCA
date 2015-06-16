@@ -2,6 +2,9 @@
 
 # include "Quartet31.hh"
 
+namespace analysis
+{
+
 namespace heavyhiggs
 {
 
@@ -15,10 +18,6 @@ class Octet44 : public analysis::Multiplet<analysis::Quartet31, analysis::Quarte
 public:
 
     using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
-
-//     bool Overlap() const;
-
-//     bool Overlap(const fastjet::PseudoJet &jet) const;
 
     inline analysis::Quartet31 Quartet1()const {
         return Multiplet1();
@@ -45,5 +44,7 @@ protected:
 private:
 
 };
+
+}
 
 }

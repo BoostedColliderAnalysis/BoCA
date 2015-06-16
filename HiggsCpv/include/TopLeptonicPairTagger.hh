@@ -4,6 +4,9 @@
 # include "TopLeptonicTagger.hh"
 # include "BranchesHiggsCpv.hh"
 
+namespace analysis
+{
+
 namespace higgscpv
 {
 
@@ -11,23 +14,23 @@ namespace higgscpv
  * @brief JetPair BDT tagger
  *
  */
-class TopLeptonicPairTagger : public analysis::BranchTagger<TopLeptonicPairBranch>
+class TopLeptonicPairTagger : public BranchTagger<TopLeptonicPairBranch>
 {
 
 public:
 
     TopLeptonicPairTagger();
 
-    int Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    std::vector<analysis::Sextet> Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Sextet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(analysis::Event &event, const TMVA::Reader &reader) {
-        analysis::PreCuts pre_cuts;
+    auto Multiplets(Event &event, const TMVA::Reader &reader) {
+        PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
 
@@ -43,12 +46,12 @@ protected:
 
 private:
 
-    void DefineVariables();
+    TopLeptonicTagger top_leptonic_tagger_;
 
-    analysis::TopLeptonicTagger top_leptonic_tagger_;
-
-    analysis::Reader top_leptonic_reader_;
+    Reader top_leptonic_reader_;
 
 };
+
+}
 
 }

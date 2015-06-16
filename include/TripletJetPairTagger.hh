@@ -29,8 +29,6 @@ protected:
 
 private:
 
-    void DefineVariables();
-
     BottomTagger bottom_tagger_;
 
     TopHadronicTagger top_hadronic_tagger;

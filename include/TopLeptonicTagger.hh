@@ -39,8 +39,6 @@ protected:
 
 private:
 
-    void DefineVariables();
-
     BottomTagger bottom_tagger_;
 
     Reader bottom_reader_;

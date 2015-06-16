@@ -1,22 +1,28 @@
 # include "AnalysisNeutral.hh"
 
-heavyhiggs::AnalysisNeutral::AnalysisNeutral(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+namespace analysis
+{
+
+namespace heavyhiggs
+{
+
+AnalysisNeutral::AnalysisNeutral(Tagger &tagger) : Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
     tagger_.set_analysis_name(ProjectName());
 }
 
-std::vector<analysis::File> heavyhiggs::AnalysisNeutral::Files(const analysis::Object::Tag tag)
+std::vector<File> AnalysisNeutral::Files(const Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
 
-    std::vector<analysis::File> SignalLeptonicFiles;
-    std::vector<analysis::File> BackgroundLeptonicFiles;
-    std::vector<analysis::File> SignalSemiFiles;
-    std::vector<analysis::File> BackgroundSemiFiles;
+    std::vector<File> SignalLeptonicFiles;
+    std::vector<File> BackgroundLeptonicFiles;
+    std::vector<File> SignalSemiFiles;
+    std::vector<File> BackgroundSemiFiles;
 
     std::string SignalName = ProcessName(Hbb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV";
-    SignalSemiFiles.emplace_back(analysis::File(SignalName, SignalCrosssection(), Mass()));
+    SignalSemiFiles.emplace_back(File(SignalName, SignalCrosssection(), Mass()));
 //     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
 
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttbb));
@@ -24,21 +30,21 @@ std::vector<analysis::File> heavyhiggs::AnalysisNeutral::Files(const analysis::O
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttjj));
     BackgroundSemiFiles.emplace_back(BackgroundFile(tt));
 
-    std::vector<analysis::File> SignalHadronicFiles;
+    std::vector<File> SignalHadronicFiles;
 
-    std::vector<analysis::File> BackgroundHadronicFiles;
+    std::vector<File> BackgroundHadronicFiles;
 
-    std::vector<analysis::File> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<analysis::File> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<analysis::File> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<File> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
+    std::vector<File> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
+    std::vector<File> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
 
-    std::vector<analysis::File> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<analysis::File> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
+    std::vector<File> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
+    std::vector<File> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
 
-    std::vector<analysis::File> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<analysis::File> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+    std::vector<File> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
+    std::vector<File> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
 
-    std::vector<analysis::File> NewFiles;
+    std::vector<File> NewFiles;
 
     switch (tag) {
     case Object::kSignal :
@@ -55,43 +61,43 @@ std::vector<analysis::File> heavyhiggs::AnalysisNeutral::Files(const analysis::O
 }
 
 
-void heavyhiggs::AnalysisNeutral::SetTrees()
+void AnalysisNeutral::SetTrees()
 {
 
-    analysis::Strings SignalLeptonicTrees {};
-    analysis::Strings BackgroundLeptonicTrees {};
+    Strings SignalLeptonicTrees {};
+    Strings BackgroundLeptonicTrees {};
 
     std::string SignalTree = ProcessName(Hbb) + "-" + ColliderName(collider_type()) + "-" + std::to_string(Mass()) + "GeV-run_01";
 
-    analysis::Strings SignalSemiTrees {
+    Strings SignalSemiTrees {
         SignalTree
 //         BackgroundTree(ttbb)
     };
 
-    analysis::Strings BackgroundSemiTrees {
+    Strings BackgroundSemiTrees {
 //         BackgroundTree(ttbb),
 //         BackgroundTree(ttcc),
 //         BackgroundTree(ttjj)
         BackgroundTree(tt)
     };
 
-    analysis::Strings SignalHadronicTree {};
-    analysis::Strings BackgroundHadronicTrees {};
+    Strings SignalHadronicTree {};
+    Strings BackgroundHadronicTrees {};
 
-    analysis::Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    analysis::Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    analysis::Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
+    Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
+    Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
 
-    analysis::Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
-    analysis::Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
+    Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
+    Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
 
 }
 
-int heavyhiggs::AnalysisNeutral::PassPreCut(analysis::Event &event)
+int AnalysisNeutral::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-    analysis::Jets Particles = event.Partons().GenParticles();
-    analysis::Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
+    Jets Particles = event.Partons().GenParticles();
+    Jets Tops = RemoveIfWrongAbsParticle(Particles, TopId);
     if (Tops.size() != 2) {
         Print(kError, "Not enough top quarks", Tops.size());
         return 0;
@@ -101,10 +107,14 @@ int heavyhiggs::AnalysisNeutral::PassPreCut(analysis::Event &event)
     }
 
     if (event.Hadrons().MissingEt().pt() < MissingEt()) return 0;
-    analysis::Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+    Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (Leptons.empty()) return 0;
     if (Leptons.front().pt() < LeptonPt()) return 0;
-    analysis::Jets jets = event.Hadrons().Jets();
+    Jets jets = event.Hadrons().Jets();
     if (jets.size() < 4) return 0;
     return 1;
+}
+
+}
+
 }

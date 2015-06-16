@@ -116,6 +116,12 @@ public:
 
     void SetBdt(const float bdt);
 
+    float Rapidity() {
+        float rap = Jet().rap();
+        if (rap > 100) return 0;
+        return rap;
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

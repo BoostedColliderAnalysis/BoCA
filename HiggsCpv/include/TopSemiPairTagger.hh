@@ -5,6 +5,9 @@
 # include "TopSemiTagger.hh"
 # include "BranchesHiggsCpv.hh"
 
+namespace analysis
+{
+
 namespace higgscpv
 {
 
@@ -12,16 +15,16 @@ namespace higgscpv
  * @brief JetPair BDT tagger
  *
  */
-class TopSemiPairTagger : public analysis::BranchTagger<TripletPairBranch>
+class TopSemiPairTagger : public BranchTagger<TripletPairBranch>
 {
 
 public:
 
     TopSemiPairTagger();
 
-    int Train(analysis::Event &event, const Tag tag);
+    int Train(Event &event, const Tag tag);
 
-    std::vector<analysis::Sextet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<Sextet> Multiplets(Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -30,21 +33,21 @@ protected:
     }
 
     virtual inline std::string ClassName() const {
-        return "TripletPairTagger";
+      return "TopSemiPairTagger";
     }
 
 private:
 
-    void DefineVariables();
+    TopSemiTagger top_semi_tagger_;
 
-    analysis::TopSemiTagger top_semi_tagger_;
+    TopHadronicTagger top_hadronic_tagger;
 
-    analysis::TopHadronicTagger top_hadronic_tagger;
+    Reader top_semi_reader_;
 
-    analysis::Reader top_semi_reader_;
-
-    analysis::Reader top_hadronic_reader_;
+    Reader top_hadronic_reader_;
 
 };
+
+}
 
 }

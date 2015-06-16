@@ -5,6 +5,9 @@
 # include "TopPartnerSemiTagger.hh"
 # include "BranchesTopPartner.hh"
 
+namespace analysis
+{
+
 namespace toppartner
 {
 
@@ -12,16 +15,16 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerPairTagger : public analysis::BranchTagger<HiggsPairBranch>
+class TopPartnerPairTagger : public BranchTagger<MultiBranch>
 {
 
 public:
 
     TopPartnerPairTagger();
 
-    int Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    std::vector<Decuplet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<Decuplet55> Multiplets(Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -31,15 +34,15 @@ protected:
 
 private:
 
-    void DefineVariables();
-
     TopPartnerHadronicTagger top_partner_hadronic_tagger_;
 
     TopPartnerSemiTagger top_partner_semi_tagger_;
 
-    analysis::Reader top_partner_hadronic_reader_;
+    Reader top_partner_hadronic_reader_;
 
-    analysis::Reader top_partner_semi_reader_;
+    Reader top_partner_semi_reader_;
 };
+
+}
 
 }
