@@ -74,6 +74,7 @@ void Analysis::SetFiles(const Object::Tag tag)
         NewBackgroundFile(bb);
         NewBackgroundFile(ww);
         NewBackgroundFile(hh);
+        NewBackgroundFile(tthad);
         break;
     }
 
@@ -96,6 +97,8 @@ std::string Analysis::NiceName(const Process process) const
       return "w";
     case zz:
       return "z";
+    case tthad:
+      return "t_{had}";
     default:
       Print(kError, "name", "unhandled case", process);
       return "";
