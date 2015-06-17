@@ -12,8 +12,8 @@ ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 
     Print(kNotification, "Constructor");
     set_tagger_name("ChargedHiggsLeptonic");
-    bottom_reader_.set_tagger(bottom_tagger_);
-    top_leptonic_reader_.set_tagger(top_leptonic_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
+    top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
 }
 

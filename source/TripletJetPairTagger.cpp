@@ -7,8 +7,8 @@ TripletJetPairTagger::TripletJetPairTagger()
 {
     Print(kNotification, "Constructor");
     set_tagger_name("TripletJetJetPair");
-    bottom_reader_.set_tagger(bottom_tagger_);
-    top_hadronic_reader_.set_tagger(top_hadronic_tagger);
+    bottom_reader_.SetTagger(bottom_tagger_);
+    top_hadronic_reader_.SetTagger(top_hadronic_tagger);
     DefineVariables();
 }
 

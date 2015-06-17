@@ -10,8 +10,8 @@ EventNeutralTagger::EventNeutralTagger()
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("EventNeutral");
-    bottom_reader_.set_tagger(bottom_tagger_);
-    signature_neutral_reader_.set_tagger(signature_neutral_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
+    signature_neutral_reader_.SetTagger(signature_neutral_tagger_);
     DefineVariables();
 }
 

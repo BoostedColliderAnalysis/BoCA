@@ -35,15 +35,14 @@ public:
 
     std::string ExportName(const Tagger::Stage stage, const Object::Tag tag) const;
 
-protected:
-
     virtual void SetFiles(const Object::Tag tag) {
         Print(kError, "Set Files", "should be subclassed", tag);
     }
 
-    inline int eventSum(const exroot::TreeReader &tree_reader) const {
-      return std::min((int)tree_reader.GetEntries(), EventNumberMax());
-//         return tree_reader.GetEntries();
+protected:
+
+    inline int EventSum(const exroot::TreeReader &tree_reader) const {
+        return std::min((int)tree_reader.GetEntries(), EventNumberMax());
     }
 
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
@@ -65,14 +64,6 @@ protected:
 
     virtual inline std::string ClassName() const {
         return "Analysis";
-    }
-
-    Strings JoinStrings(const Strings &Strings1, const Strings &Strings2) {
-        return Join(Strings1, Strings2);
-    }
-
-    std::vector<File>  JoinFiles(const std::vector<File> &Files1, const std::vector<File> &Files2) {
-        return Join(Files1, Files2);
     }
 
     int event_sum_;
@@ -122,13 +113,13 @@ protected:
         return ".root";
     }
 
-    void NewSignalFile(const std::string &name) {
-        files_.emplace_back(get_file(name));
+    void NewSignalFile(const std::string &name,const std::string &nicename = "") {
+        files_.emplace_back(get_file(name,nicename));
         tagger_.AddSignalTreeName(TreeName(name));
     }
 
-    void NewBackgroundFile(const std::string &name) {
-        files_.emplace_back(get_file(name));
+    void NewBackgroundFile(const std::string &name,const std::string &nicename = "") {
+      files_.emplace_back(get_file(name,nicename));
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
@@ -142,8 +133,8 @@ protected:
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline File get_file(const std::string &name) const {
-        return File(name, FilePath(), FileSuffix());
+    inline File get_file(const std::string &name,const std::string &nicename = "") const {
+        return File(name, FilePath(), FileSuffix(),nicename);
     }
 
     inline File get_file(const std::string &name, const float crosssection) const {
@@ -166,6 +157,10 @@ protected:
     PreCuts pre_cuts_;
 
     int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
+
+    virtual std::string NiceName() const {
+        return "";
+    }
 
 private:
 

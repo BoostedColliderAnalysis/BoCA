@@ -8,7 +8,7 @@ HiggsTagger::HiggsTagger()
     //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
     set_tagger_name("Higgs");
-    bottom_reader_.set_tagger(bottom_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
 }
 

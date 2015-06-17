@@ -9,9 +9,9 @@ SignatureTagger::SignatureTagger()
 {
 //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
-    set_tagger_name("HeavyHiggsSemi");
-    top_partner_pair_reader_.set_tagger(top_partner_pair_tagger_);
-    higgs_pair_reader_.set_tagger(higgs_pair_tagger);
+    set_tagger_name("Signature");
+    top_partner_pair_reader_.SetTagger(top_partner_pair_tagger_);
+    higgs_pair_reader_.SetTagger(higgs_pair_tagger);
     DefineVariables();
 }
 

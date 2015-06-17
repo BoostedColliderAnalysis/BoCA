@@ -7,7 +7,7 @@ TopLeptonicTagger::TopLeptonicTagger()
     //     debug_level_ = kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopLeptonic");
-    bottom_reader_.set_tagger(bottom_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
     top_mass_window = std::abs(Mass(TopId) - Mass(HiggsId));
     DefineVariables();
 }

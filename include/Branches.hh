@@ -57,6 +57,7 @@ public:
     float Mass;
     float EventNumber;
     float PreCutNumber;
+    std::string Name;
 private:
     ClassDef(InfoBranch, 1)
 };
@@ -83,15 +84,17 @@ public:
     float Pt;
     float Rap;
     float Phi;
+    float Charge;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         Mass = multiplet.Jet().m();
         Pt = multiplet.Jet().pt();
         Rap = multiplet.Jet().rap();
         Phi = multiplet.Jet().phi_std();
+        Charge = multiplet.Charge();
     }
     Observables Variables() {
-        return {PAIR(Mass), PAIR(Rap), PAIR(Phi)};
+        return {PAIR(Mass), PAIR(Rap), PAIR(Phi),PAIR(Charge)};
     }
     virtual Observables Spectators() {
         return {PAIR(Pt)};

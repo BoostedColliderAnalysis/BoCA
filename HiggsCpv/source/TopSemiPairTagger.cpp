@@ -10,8 +10,8 @@ TopSemiPairTagger::TopSemiPairTagger()
 {
     Print(kNotification, "Constructor");
     set_tagger_name("TripletJetJetPair");
-    top_semi_reader_.set_tagger(top_semi_tagger_);
-    top_hadronic_reader_.set_tagger(top_hadronic_tagger);
+    top_semi_reader_.SetTagger(top_semi_tagger_);
+    top_hadronic_reader_.SetTagger(top_hadronic_tagger);
     DefineVariables();
 }
 

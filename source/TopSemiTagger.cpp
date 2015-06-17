@@ -9,8 +9,8 @@ TopSemiTagger::TopSemiTagger()
     Print(kNotification, "Constructor");
     set_tagger_name("TopSemi");
     top_mass_window_ = (Mass(TopId) - Mass(WId)) / 2;
-    bottom_reader_.set_tagger(bottom_tagger_);
-    w_semi_reader_.set_tagger(w_semi_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
+    w_semi_reader_.SetTagger(w_semi_tagger_);
     DefineVariables();
 }
 
@@ -44,22 +44,11 @@ int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
             }
         }
     }
-    Print(kInformation, "triplet size", triplets.size());
-
 
     Jets top_particles = event.Partons().GenParticles();
     top_particles = copy_if_abs_particle(top_particles, TopSemiId(event));
     Print(kNotification, "Number of semi tops", top_particles.size());
-    switch (tag) {
-    case kSignal :
-        BestMatch(triplets, top_particles);
-        break;
-    case kBackground  :
-        RemoveBestMatch(triplets, top_particles);
-        break;
-    }
-
-    return SaveEntries(triplets);
+    return SaveEntries(BestMatches(triplets,top_particles,tag));
 }
 
 
@@ -72,10 +61,8 @@ bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const
     case kSignal :
         if (std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) return true ;
         if (triplet.Rho() < 0.5 || triplet.Rho() > 2) return true ;
-        //         if (triplet.Jet().delta_R(TopQuark) > detector_geometry().JetConeSize) return true;
         break;
     case kBackground :
-        //         if (triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) return true;
         break;
     }
     return false;
@@ -93,7 +80,6 @@ std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, PreCuts &pre_cuts,
         for (const auto & Jet : jets) {
             for (const auto & doublet : doublets) {
                 Triplet triplet(doublet, Jet);
-//                 if (std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) continue;
                 triplet.SetBdt(Bdt(triplet, reader));
                 triplets.emplace_back(triplet);
             }
@@ -103,7 +89,6 @@ std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, PreCuts &pre_cuts,
             for (const auto & Predoublet : doublets) {
                 Doublet doublet(Predoublet.SingletJet1());
                 Triplet triplet(doublet, Jet);
-//             if (std::abs(triplet.Jet().m() - Mass(TopId)) > TopWindow) continue; // reactivate this check
                 triplet.SetBdt(Bdt(triplet, reader));
                 triplets.emplace_back(triplet);
             }

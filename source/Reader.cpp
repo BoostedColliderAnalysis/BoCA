@@ -8,43 +8,45 @@
 # include "TGraph.h"
 # include "TMultiGraph.h"
 # include "TLine.h"
+# include "TLegend.h"
 
-# include "TMVA/Reader.h"
+// # include "TMVA/Reader.h"
 # include "TMVA/MethodCuts.h"
 
-namespace analysis {
-
-HMvaResult::HMvaResult()
+namespace analysis
 {
-    Steps = 20000;
-    events.resize(Steps, 0);
-    Efficiency.resize(Steps, 0);
-    AnalysiseventNumber.resize(Steps, 0);
-    Bdt.resize(Steps, 0);
+
+MvaResult::MvaResult()
+{
+    steps = 20000;
+    events.resize(steps, 0);
+    efficiency.resize(steps, 0);
+    analysis_event_number.resize(steps, 0);
+    bdt.resize(steps, 0);
 }
 
-std::vector<int> HMvaResult::CutIntegral(const std::vector<int> &bins) const
+std::vector<int> MvaResult::CutIntegral(const std::vector<int> &bins) const
 {
-    std::vector<int> integrals(Steps, 0);
-    integrals.at(Steps - 1) = bins.at(Steps - 1);
-    for (int step = Steps - 2; step >= 0; --step) integrals.at(step) = integrals.at(step + 1) + bins.at(step);
+    std::vector<int> integrals(steps, 0);
+    integrals.at(steps - 1) = bins.at(steps - 1);
+    for (int step = steps - 2; step >= 0; --step) integrals.at(step) = integrals.at(step + 1) + bins.at(step);
     return integrals;
 }
 
 Reader::Reader()
 {
-//     DebugLevel = kDebug;
+//     debug_level_ = kDebug;
     Print(kInformation, "Constructor");
 }
 
 Reader::Reader(Tagger &tagger)
 {
-//     DebugLevel = kDebug;
+//     debug_level_ = kDebug;
     Print(kInformation, "Constructor with tagger");
-    set_tagger(tagger);
+    SetTagger(tagger);
 }
 
-void Reader::set_tagger(Tagger &tagger)
+void Reader::SetTagger(Tagger &tagger)
 {
     Print(kNotification, "SetMva");
     tagger_ = &tagger;
@@ -76,91 +78,191 @@ float Reader::Bdt() const
     return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(tagger().bdt_method_name()) + 1;
 }
 
+// void Reader::Export(){
+//   const std::string export_file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".root";
+//   TFile export_file(export_file_name.c_str(), "Recreate");
+//
+//   const std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
+//   TFile background_file(background_file_name.c_str(), "Read");
+//   Print(kError, "Open Background File", background_file_name, tagger().background_tree_names().size());
+//
+//   std::vector<MvaResult> background_results;
+//   for (const auto & background_tree_name : tagger().background_tree_names()) background_results.emplace_back(BdtResult(background_file, background_tree_name, export_file));
+//
+//   const std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
+//   TFile signal_file(signal_file_name.c_str(), "Read");
+//   Print(kError, "Open Signal File", signal_file_name, tagger().signal_tree_names().size());
+//
+//   MvaResult signal_results;
+//   std::vector<float> x_values(signal_results.steps, 0);
+//   for (const auto & signal_tree_names : tagger().signal_tree_names()) {
+//     signal_results = BdtResult(signal_file, signal_tree_names, export_file);
+//     for (int step = 0; step < signal_results.steps; ++step) {
+//       float background_events = 0;
+//       for (const auto & background_result : background_results) background_events += background_result.events[step];
+//       x_values.at(step) = float(step) * 2 / signal_results.steps;
+//     }
+//   }
+//   export_file.Close();
+// }
+
+void Reader::TaggingEfficiency()
+{
+    Print(kNotification, "Tagging Efficiency");
+
+    const std::string export_file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".root";
+    TFile export_file(export_file_name.c_str(), "Recreate");
+
+    const std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
+    TFile background_file(background_file_name.c_str(), "Read");
+    Print(kError, "Open Background File", background_file_name, tagger().background_tree_names().size());
+
+    std::vector<MvaResult> background_results;
+    for (const auto & background_tree_name : tagger().background_tree_names()) background_results.emplace_back(BdtResult(background_file, background_tree_name, export_file));
+
+    const std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
+    TFile signal_file(signal_file_name.c_str(), "Read");
+    Print(kError, "Open Signal File", signal_file_name, tagger().signal_tree_names().size());
+
+    MvaResult signal_results;
+    std::vector<float> x_values(signal_results.steps, 0);
+    for (const auto & signal_tree_names : tagger().signal_tree_names()) {
+        signal_results = BdtResult(signal_file, signal_tree_names, export_file);
+        for (int step = 0; step < signal_results.steps; ++step) {
+            float background_events = 0;
+            for (const auto & background_result : background_results) background_events += background_result.events[step];
+            x_values.at(step) = float(step) * 2 / signal_results.steps;
+        }
+    }
+    export_file.Close();
+
+    Strings nice_names;
+    for (const auto & background_tree_name : tagger().background_tree_names()) {
+        analysis::InfoBranch info_branch = InfoBranch(background_file, background_tree_name);
+        nice_names.emplace_back(info_branch.Name);
+    }
+
+    analysis::InfoBranch info_branch2 = InfoBranch(signal_file, tagger().signal_tree_names().front());
+
+    TCanvas canvas;
+    canvas.SetLogy();
+    TMultiGraph multi_graph;
+    std::vector<TGraph> graphs;
+    for (const auto & background_result : background_results) graphs.emplace_back(TGraph(background_result.steps, &signal_results.efficiency[0], &background_result.efficiency[0]));
+    float x_min = 0.75;
+    float y_max = 0.55;
+    float width = 0.2;
+    float height = 0.4;
+    TLegend legend(x_min, y_max - height, x_min + width, y_max);
+    legend.SetHeader(info_branch2.Name.c_str());
+    legend.SetBorderSize(0);
+    legend.SetFillStyle(0);
+    for (auto & graph : graphs) {
+        graph.SetLineColor(ColorCode(&graph - &graphs[0]));
+        graph.SetLineStyle(&graph - &graphs[0] + 1);
+        multi_graph.Add(&graph);
+        std::string name = nice_names.at(&graph - &graphs[0]);
+        legend.AddEntry(&graph, name.c_str(), "l");
+    }
+    multi_graph.Draw("al");
+    multi_graph.GetXaxis()->SetLimits(0.2, 0.9);
+    multi_graph.GetXaxis()->SetTitle("Signal Efficiency");
+    multi_graph.GetYaxis()->SetTitle("Background Efficiency");
+    multi_graph.SetMaximum(1);
+    multi_graph.SetMinimum(0.01);
+    legend.Draw();
+
+
+    const std::string efficiency_file_name = tagger().analysis_name() + "-Efficiency.pdf";
+    const std::string efficiency_file_path = tagger().analysis_name() + "/" + efficiency_file_name;
+    canvas.Print(efficiency_file_path.c_str());
+}
+
 void Reader::OptimalSignificance()
 {
     Print(kNotification, "Mva Loop");
     std::stringstream TableHeader;
     TableHeader << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rlll}\n\\toprule\n";
 
-    const std::string ExportFileName = tagger().analysis_name() + "/" + tagger().analysis_name() + ".root";
-    TFile ExportFile(ExportFileName.c_str(), "Recreate");
+    const std::string export_file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".root";
+    TFile export_file(export_file_name.c_str(), "Recreate");
 
-    const std::string BackgroundFileName = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
-    TFile BackgroundFile(BackgroundFileName.c_str(), "Read");
-    Print(kError, "Open Background File", BackgroundFileName, tagger().background_tree_names().size());
+    const std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
+    TFile background_file(background_file_name.c_str(), "Read");
+    Print(kError, "Open Background File", background_file_name, tagger().background_tree_names().size());
 
 
-    std::vector<HMvaResult> BackgroundResults;
-    for (const auto & BackgroundTreeName : tagger().background_tree_names()) BackgroundResults.emplace_back(BdtResult(BackgroundFile, BackgroundTreeName, ExportFile));
+    std::vector<MvaResult> background_results;
+    for (const auto & background_tree_name : tagger().background_tree_names()) background_results.emplace_back(BdtResult(background_file, background_tree_name, export_file));
 
-    const std::string SignalFileName = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
-    TFile SignalFile(SignalFileName.c_str(), "Read");
-    Print(kError, "Open Signal File", SignalFileName, tagger().signal_tree_names().size());
+    const std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
+    TFile signal_file(signal_file_name.c_str(), "Read");
+    Print(kError, "Open Signal File", signal_file_name, tagger().signal_tree_names().size());
 
-    HMvaResult SignalResults;
-    std::vector<float> Significances(SignalResults.Steps, 0);
-    std::vector<float> XValues(SignalResults.Steps, 0);
-    for (const auto & SignalTreeName : tagger().signal_tree_names()) {
-        SignalResults = BdtResult(SignalFile, SignalTreeName, ExportFile);
-        for (int Step = 0; Step < SignalResults.Steps; ++Step) {
-            float Backgroundevents = 0;
-            for (const auto & BackgroundResult : BackgroundResults) Backgroundevents += BackgroundResult.events[Step];
-            if (SignalResults.events[Step] + Backgroundevents > 0) Significances.at(Step) = SignalResults.events[Step] / std::sqrt(SignalResults.events[Step] + Backgroundevents);
-            else Significances.at(Step) = 0;
-            XValues.at(Step) = float(Step) * 2 / SignalResults.Steps;
+    MvaResult signal_results;
+    std::vector<float> Significances(signal_results.steps, 0);
+    std::vector<float> x_values(signal_results.steps, 0);
+    for (const auto & signal_tree_names : tagger().signal_tree_names()) {
+        signal_results = BdtResult(signal_file, signal_tree_names, export_file);
+        for (int step = 0; step < signal_results.steps; ++step) {
+            float background_events = 0;
+            for (const auto & background_result : background_results) background_events += background_result.events[step];
+            if (signal_results.events[step] + background_events > 0) Significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
+            else Significances.at(step) = 0;
+            x_values.at(step) = float(step) * 2 / signal_results.steps;
         }
     }
-    ExportFile.Close();
+    export_file.Close();
 
-    std::vector<float> BGs(BackgroundResults.size(), 0);
+    std::vector<float> background_efficiencies(background_results.size(), 0);
     int BestBin = 0;
-    int Counter = 0;
-    for (std::size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
-        while (BGs.at(BackgroundNumber) == 0 && Counter < SignalResults.Steps) {
-            BestBin = std::distance(Significances.begin(), std::max_element(std::begin(Significances), std::end(Significances) - Counter));
-            BGs.at(BackgroundNumber) = BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin);
-            ++Counter;
+    int counter = 0;
+    for (std::size_t background_number = 0; background_number < background_results.size(); ++background_number) {
+        while (background_efficiencies.at(background_number) == 0 && counter < signal_results.steps) {
+            BestBin = std::distance(Significances.begin(), std::max_element(std::begin(Significances), std::end(Significances) - counter));
+            background_efficiencies.at(background_number) = background_results.at(background_number).efficiency.at(BestBin);
+            ++counter;
         }
     }
 
     float MaxSignificance = Significances.at(BestBin);
-    float SignalEfficiency = SignalResults.Efficiency.at(BestBin);
-    const InfoBranch SignalInfo = info_branch(SignalFile, tagger().signal_tree_names().front());
+    float SignalEfficiency = signal_results.efficiency.at(BestBin);
+    const analysis::InfoBranch info_branch = InfoBranch(signal_file, tagger().signal_tree_names().front());
     std::stringstream Table;
     Table << TableHeader.str();
-    Table << "    Mass\n" << "  & " << SignalInfo.Mass;
+    Table << "    Mass\n" << "  & " << info_branch.Mass;
     Table << "\n \\\\ \\midrule\n";
-    Table << "    BDT-cut\n" << "  & " << float(BestBin) * 2 / SignalResults.Steps;
+    Table << "    BDT-cut\n" << "  & " << float(BestBin) * 2 / signal_results.steps;
     Table << "\n \\\\ $p$-value\n  & " << MaxSignificance;
-    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << SignalResults.AnalysiseventNumber.at(BestBin) << "\n  & " << SignalResults.TotaleventNumber << "\n";
+    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << signal_results.analysis_event_number.at(BestBin) << "\n  & " << signal_results.event_sum << "\n";
 
-    for (std::size_t BackgroundNumber = 0; BackgroundNumber < BackgroundResults.size(); ++BackgroundNumber) {
-        Table << " \\\\ \\verb|" << tagger().background_tree_names().at(BackgroundNumber) << "|\n  & " << BackgroundResults.at(BackgroundNumber).Efficiency.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).AnalysiseventNumber.at(BestBin) << "\n  & " << BackgroundResults.at(BackgroundNumber).TotaleventNumber << "\n";
+    for (std::size_t background_number = 0; background_number < background_results.size(); ++background_number) {
+        Table << " \\\\ \\verb|" << tagger().background_tree_names().at(background_number) << "|\n  & " << background_results.at(background_number).efficiency.at(BestBin) << "\n  & " << background_results.at(background_number).analysis_event_number.at(BestBin) << "\n  & " << background_results.at(background_number).event_sum << "\n";
     }
 
-    TCanvas EfficiencyCanvas;
-    EfficiencyCanvas.SetLogy();
-    TMultiGraph MultiGraph;
-    std::vector<TGraph> RejectionGraphs;
-    for (const auto & BackgroundResult : BackgroundResults) RejectionGraphs.emplace_back(TGraph(BackgroundResult.Steps, &XValues[0], &BackgroundResult.Efficiency[0]));
-    for (auto & RejectionGraph : RejectionGraphs) MultiGraph.Add(&RejectionGraph);
-    TGraph EfficiencyGraph(SignalResults.Steps, &XValues[0], &SignalResults.Efficiency[0]);
+    TCanvas efficiency_canvas;
+    efficiency_canvas.SetLogy();
+    TMultiGraph multi_graph;
+    std::vector<TGraph> rejection_graphs;
+    for (const auto & background_result : background_results) rejection_graphs.emplace_back(TGraph(background_result.steps, &x_values[0], &background_result.efficiency[0]));
+    for (auto & rejection_graph : rejection_graphs) multi_graph.Add(&rejection_graph);
+    TGraph EfficiencyGraph(signal_results.steps, &x_values[0], &signal_results.efficiency[0]);
     EfficiencyGraph.SetLineColor(kRed);
-    MultiGraph.Add(&EfficiencyGraph);
-    MultiGraph.Draw("al");
-    TLine EfficiencyLine(float(BestBin) * 2 / SignalResults.Steps, MultiGraph.GetYaxis()->GetXmin(), float(BestBin) * 2 / SignalResults.Steps, MultiGraph.GetYaxis()->GetXmax());
+    multi_graph.Add(&EfficiencyGraph);
+    multi_graph.Draw("al");
+    TLine EfficiencyLine(float(BestBin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmin(), float(BestBin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmax());
     EfficiencyLine.SetLineStyle(2);
     EfficiencyLine.Draw();
-    const std::string EfficiencyFileName = tagger().analysis_name() + "-Efficiency.tex";
-    const std::string EfficiencyFilePath = tagger().analysis_name() + "/" + EfficiencyFileName;
-    EfficiencyCanvas.Print(EfficiencyFilePath.c_str());
+    const std::string efficiency_file_name = tagger().analysis_name() + "-Efficiency.tex";
+    const std::string efficiency_file_path = tagger().analysis_name() + "/" + efficiency_file_name;
+    efficiency_canvas.Print(efficiency_file_path.c_str());
 
     TCanvas SignificanceCanvas;
-    TGraph SignificanceGraph(SignalResults.Steps, &XValues[0], &Significances[0]);
+    TGraph SignificanceGraph(signal_results.steps, &x_values[0], &Significances[0]);
     SignificanceGraph.SetTitle("");
     SignificanceGraph.Draw("al");
     SignificanceCanvas.Update();
-    TLine SignificanceLine(float(BestBin) * 2 / SignalResults.Steps, gPad->GetUymin(), float(BestBin) * 2 / SignalResults.Steps, gPad->GetUymax());
+    TLine SignificanceLine(float(BestBin) * 2 / signal_results.steps, gPad->GetUymin(), float(BestBin) * 2 / signal_results.steps, gPad->GetUymax());
     SignificanceLine.SetLineStyle(2);
     SignificanceLine.Draw();
     const std::string SignificanceFileName = tagger().analysis_name() + "-Significance.tex";
@@ -169,13 +271,13 @@ void Reader::OptimalSignificance()
 
 //     TCanvas BdtCanvas;
 //     std::vector<TH1F> Histograms;
-//     for (const auto & BackgroundResult : BackgroundResults) {
+//     for (const auto & background_result : background_results) {
 //       TH1F BackgroundHistogram("","",50,0,2);
-//       for(const auto Bdt : BackgroundResult.Bdt) BackgroundHistogram.Fill(Bdt);
+//       for(const auto Bdt : background_result.Bdt) BackgroundHistogram.Fill(Bdt);
 //       Histograms.emplace_back(BackgroundHistogram);
 //     }
 //     TH1F SignalHistogram("","",50,0,2);
-//     for(const auto Bdt : SignalResults.Bdt) SignalHistogram.Fill(Bdt);
+//     for(const auto Bdt : signal_results.Bdt) SignalHistogram.Fill(Bdt);
 //     SignalHistogram.SetLineColor(kRed);
 //     Histograms.emplace_back(SignalHistogram);
 //     float YMax = 0;
@@ -184,7 +286,7 @@ void Reader::OptimalSignificance()
 //       Histogram.SetAxisRange(0, 1.05 * YMax , "Y");
 //     Histogram.Draw("same");
 //     }
-//     TLine BdtLine(float(BestBin) * 2 / SignalResults.Steps, 0, float(BestBin) * 2 / SignalResults.Steps, YMax);
+//     TLine BdtLine(float(BestBin) * 2 / signal_results.steps, 0, float(BestBin) * 2 / signal_results.steps, YMax);
 //     BdtLine.SetLineStyle(2);
 //     BdtLine.Draw();
 //     const std::string BdtFileName = tagger().GetAnalysisName() + "-Bdt.pdf";
@@ -200,33 +302,33 @@ void Reader::OptimalSignificance()
     LatexHeader(LatexFile);
     LatexFile << Table.str();
 
-    LatexFile << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << EfficiencyFileName << "}}\n\\caption{Efficiency.}\n\\end{figure}\n";
+    LatexFile << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << efficiency_file_name << "}}\n\\caption{Efficiency.}\n\\end{figure}\n";
     LatexFile << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << SignificanceFileName << "}}\n\\caption{Significance.}\n\\end{figure}\n";
 //     LatexFile << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << BdtFileName << "}}\n\\caption{Bdt.}\n\\end{figure}\n";
 
     LatexFooter(LatexFile);
 }
 
-HMvaResult Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
+MvaResult Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
     Print(kNotification, "Apply Bdt", tree_name);
     const float Luminosity = 3000; // 3000 fb-1
 
     Print(kError, "Open Tree", tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
-    const InfoBranch Info = info_branch(file, tree_name);
+    const analysis::InfoBranch Info = InfoBranch(file, tree_name);
 
-    HMvaResult Result;
-    Result.TotaleventNumber = Info.EventNumber;
+    MvaResult Result;
+    Result.event_sum = Info.EventNumber;
     std::vector<int> Bins = BdtDistribution(tree_reader, tree_name, export_file);
     std::vector<int> Integral = Result.CutIntegral(Bins);
 
-    for (int Step = 0; Step < Result.Steps; ++Step) {
-        Result.events[Step] = float(Integral[Step]) / float(Info.EventNumber) * Info.Crosssection * Luminosity;
-        Result.Efficiency[Step] = float(Integral[Step]) / float(Info.EventNumber);
-        Result.AnalysiseventNumber[Step] = Integral[Step];
-        Result.Bdt[Step] = Bins[Step];
-        Print(kDebug, "Result", Result.Efficiency[Step], Result.events[Step]);
+    for (int step = 0; step < Result.steps; ++step) {
+        Result.events[step] = float(Integral[step]) / float(Info.EventNumber) * Info.Crosssection * Luminosity;
+        Result.efficiency[step] = float(Integral[step]) / float(Info.EventNumber);
+        Result.analysis_event_number[step] = Integral[step];
+        Result.bdt[step] = Bins[step];
+        Print(kDebug, "Result", Result.efficiency[step], Result.events[step]);
     }
     return Result;
 }
@@ -236,8 +338,8 @@ std::vector<int> Reader::BdtDistribution(exroot::TreeReader &tree_reader, const 
     Print(kNotification, "Bdt Distribution", tagger().branch_name());
     std::string NeweventBranchName = tagger().branch_name() + "Reader";
 
-    HMvaResult Result;
-    std::vector<int> Bins(Result.Steps, 0);
+    MvaResult Result;
+    std::vector<int> Bins(Result.steps, 0);
 
     TClonesArray &event_clones_array = *tree_reader.UseBranch(NeweventBranchName.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
@@ -248,10 +350,10 @@ std::vector<int> Reader::BdtDistribution(exroot::TreeReader &tree_reader, const 
             const float BdtValue = tagger().ReadBdt(event_clones_array, Entry);
             if (BdtValue < 0 || BdtValue > 2) Print(kError, "Bdt Value" , BdtValue);
             static_cast<HResultBranch &>(*result_branch.NewEntry()).Bdt = BdtValue;
-//             Print(kNotification, "Bdt Distribution", BdtValue,std::floor(BdtValue * Result.Steps / 2) - 1);
-            int bin = std::floor(BdtValue * Result.Steps / 2) - 1;
+//             Print(kNotification, "Bdt Distribution", BdtValue,std::floor(BdtValue * Result.steps / 2) - 1);
+            int bin = std::floor(BdtValue * Result.steps / 2) - 1;
             if (bin == -1) bin = 0; // FIXME clean this up
-//             ++Bins.at(std::floor(BdtValue * Result.Steps / 2) - 1);
+//             ++Bins.at(std::floor(BdtValue * Result.steps / 2) - 1);
             ++Bins.at(bin);
         }
         tree_writer.Fill();
@@ -261,15 +363,15 @@ std::vector<int> Reader::BdtDistribution(exroot::TreeReader &tree_reader, const 
     return Bins;
 }
 
-InfoBranch Reader::info_branch(TFile &file, const std::string &tree_name) const
+InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 {
-    Print(kNotification, "Info Branch");
+    Print(kNotification, "Info Branch", tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
-    Print(kError,"Info Branch",tree_name,tagger().weight_branch_name());
+    Print(kError, "Info Branch", tree_name, tagger().weight_branch_name());
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
 //     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     tree_reader.ReadEntry(0);
-    return static_cast<InfoBranch &>(*clones_array.At(0));
+    return static_cast<analysis::InfoBranch &>(*clones_array.At(0));
 }
 
 
@@ -384,5 +486,41 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //         return (round(Value * Factor) / Factor);
 //     }
 // }
+
+int Reader::ColorCode(const int number) const
+{
+    switch (number) {
+    case 0 :
+        return kBlack;
+    case 1 :
+        return kRed;
+    case 2 :
+        return kBlue;
+    case 3 :
+        return kTeal - 5;
+    case 4 :
+        return kPink + 1;
+    case 5 :
+        return kViolet;
+    case 6 :
+        return kOrange;
+    case 7 :
+        return kAzure;
+    case 8 :
+        return kSpring - 5;
+    case 9 :
+        return kGreen + 3;
+    case 10 :
+        return kCyan - 3;
+    case 11 :
+        return kMagenta - 3;
+    case 12 :
+        return kYellow - 9;
+    case 13 :
+        return kGray;
+    default :
+        return kBlack;
+    }
+}
 
 }

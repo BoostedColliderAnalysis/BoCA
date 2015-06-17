@@ -11,8 +11,8 @@ TopPartnerSemiTagger::TopPartnerSemiTagger()
 //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
     set_tagger_name("TopPartnerSemi");
-    top_reader_.set_tagger(top_tagger_);
-    z_hadronic_reader_.set_tagger(z_hadronic_tagger);
+    top_reader_.SetTagger(top_tagger_);
+    z_hadronic_reader_.SetTagger(z_hadronic_tagger);
     DefineVariables();
 }
 

@@ -12,8 +12,8 @@ TopHadronicTagger::TopHadronicTagger()
     Print(kNotification, "Constructor");
     set_tagger_name("TopHadronic");
     top_mass_window_ = (Mass(TopId) - Mass(HiggsId)) / 2;
-    bottom_reader_.set_tagger(bottom_tagger_);
-    w_hadronic_reader_.set_tagger(w_hadronic_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
+    w_hadronic_reader_.SetTagger(w_hadronic_tagger_);
     boost_ = false; // be carefull with this one!!
     DefineVariables();
 }
@@ -130,15 +130,8 @@ int TopHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag 
 //         NSubJettiness(triplet);
     }
 
-    switch (tag) {
-      case kSignal :
-        BestMatch(triplets, top_particles);
-        break;
-      case kBackground  :
-        RemoveBestMatch(triplets, top_particles);
-        break;
-    }
-    return SaveEntries(triplets);
+
+    return SaveEntries(BestMatches(triplets,top_particles,tag));
 
 }
 

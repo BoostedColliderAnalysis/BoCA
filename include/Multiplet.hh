@@ -106,6 +106,10 @@ public:
         return std::abs(Jet().m() - Mass(particle_id));
     }
 
+    inline int Charge() const{
+      return sgn(Multiplet1().Charge() + Multiplet2().Charge());
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

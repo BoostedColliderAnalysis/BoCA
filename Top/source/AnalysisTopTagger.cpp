@@ -139,7 +139,7 @@ void Analysis::SetFiles(const Object::Tag tag)
 
 int Analysis::PassPreCut(Event &event)
 {
-    Print(kInformation, "paas pre cut");
+    Print(kInformation, "pass pre cut");
     Jets particles = event.Partons().GenParticles();
     Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
     remove_if_not_in_pt_window(tops, PreCut(), UpperCut());

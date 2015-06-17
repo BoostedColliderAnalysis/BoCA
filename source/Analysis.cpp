@@ -9,11 +9,13 @@
 # include "Branches.hh"
 # include "Event.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 // HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
+//   debug_level_ = kDebug;
     Print(kNotification, "Constructor");
     event_sum_ = 0;
 }
@@ -22,8 +24,8 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
 {
     Print(kNotification, "Analysis Loop");
     mkdir(ProjectName().c_str(), 0700);
-    if (stage == Tagger::kReader) reader_.set_tagger(tagger_);
-        tagger_.clear_tree_names();
+    if (stage == Tagger::kReader) reader_.SetTagger(tagger_);
+    tagger_.clear_tree_names();
     for (const auto & tag : std::vector<Tag> {kSignal, kBackground}) {
         Print(kNotification, "Analysing Mva Sample", tag);
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");
@@ -36,7 +38,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
             Event event = file.event();
             bool analysis_not_empty = false;
             exroot::TreeWriter tree_writer = TreeWriter(export_file, file.Title(), stage);
-            exroot::TreeBranch &tree_branch = *tree_writer.NewBranch("Info", InfoBranch::Class());
+            exroot::TreeBranch &tree_branch = *tree_writer.NewBranch(tagger_.weight_branch_name().c_str(), InfoBranch::Class());
             exroot::TreeReader tree_reader = file.TreeReader();
             clones_arrays.UseBranches(tree_reader);
 //             exroot:ProgressBar progress_bar(eventSum(tree_reader));
@@ -44,7 +46,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = FillInfoBranch(tree_reader, file);
-            for (const int event_number : Range(eventSum(tree_reader))) {
+            for (const int event_number : Range(tree_reader.GetEntries())) {
 //                 Print(kError, "event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
@@ -80,13 +82,14 @@ InfoBranch Analysis::FillInfoBranch(const exroot::TreeReader &tree_reader, const
     info_branch.Crosssection = file.crosssection();
     info_branch.CrosssectionError = file.crosssection_error();
     info_branch.Mass = file.mass();
-    info_branch.EventNumber = eventSum(tree_reader);
+    info_branch.EventNumber = EventSum(tree_reader);
+    info_branch.Name = file.nice_name();
     return info_branch;
 }
 
 std::string Analysis::ExportName(const Tagger::Stage stage, const Tag tag) const
 {
-    Print(kNotification, "Export File", tagger_.tagger_name(), tag);
+  Print(kNotification, "Export File", tagger_.name(stage, tag));
     return ProjectName() + "/" + tagger_.name(stage, tag) + ".root";
 }
 
@@ -100,15 +103,15 @@ exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &e
 
 int Analysis::RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag)
 {
-  Print(kInformation, "Analysis");
-  switch (stage) {
+    Print(kInformation, "Analysis");
+    switch (stage) {
     case Tagger::kTrainer :
-      return tagger_.Train(event, pre_cuts_, tag);
+        return tagger_.Train(event, pre_cuts_, tag);
     case Tagger::kReader :
-      return reader_.GetBdt(event, pre_cuts_);
+        return reader_.GetBdt(event, pre_cuts_);
     default :
-      return 0;
-  }
+        return 0;
+    }
 }
 
 }

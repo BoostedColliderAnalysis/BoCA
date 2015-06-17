@@ -11,8 +11,8 @@ SignatureTagger::SignatureTagger()
 //    debug_level_ = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("Signature");
-    higgs_reader_.set_tagger(higgs_tagger_);
-    triplet_pair_reader_.set_tagger(triplet_pair_tagger_);
+    higgs_reader_.SetTagger(higgs_tagger_);
+    triplet_pair_reader_.SetTagger(triplet_pair_tagger_);
     DefineVariables();
 }
 

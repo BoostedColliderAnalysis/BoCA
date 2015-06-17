@@ -11,8 +11,8 @@ HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
     set_tagger_name("HeavyHiggsSemi");
-    top_hadronic_reader_.set_tagger(top_hadronic_tagger);
-    top_semi_reader_.set_tagger(top_semi_tagger);
+    top_hadronic_reader_.SetTagger(top_hadronic_tagger);
+    top_semi_reader_.SetTagger(top_semi_tagger);
     DefineVariables();
 }
 

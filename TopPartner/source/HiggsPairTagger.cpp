@@ -11,7 +11,7 @@ HiggsPairTagger::HiggsPairTagger()
 //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
     set_tagger_name("HiggsPairPair");
-    higgs_reader_.set_tagger(higgs_tagger_);
+    higgs_reader_.SetTagger(higgs_tagger_);
     DefineVariables();
 }
 

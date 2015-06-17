@@ -26,6 +26,15 @@ public:
 
     std::vector<Quintet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+      return SaveEntries(Multiplets(event,pre_cuts, reader));
+    }
+
+    auto Multiplets(Event &event, const TMVA::Reader &reader){
+      PreCuts pre_cuts;
+      return Multiplets(event, pre_cuts, reader);
+    }
+
 protected:
 
     virtual inline std::string ClassName() const {

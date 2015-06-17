@@ -16,7 +16,7 @@ DoubletTagger<DoubletBranch>::DoubletTagger()
     Print(kNotification, "Constructor");
     set_tagger_name("WHadronic");
     doublet_mass_window_ = 20;
-    bottom_reader_.set_tagger(bottom_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
 }
 

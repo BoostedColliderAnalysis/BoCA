@@ -10,8 +10,8 @@ EventChargedTagger::EventChargedTagger()
 //       DebugLevel = kDebug;
     Print(kInformation , "Constructor");
     set_tagger_name("ChargedeventSemi");
-    bottom_reader_.set_tagger(bottom_tagger_);
-    signature_semi_reader_.set_tagger(signature_semi_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
+    signature_semi_reader_.SetTagger(signature_semi_tagger_);
     DefineVariables();
 }
 

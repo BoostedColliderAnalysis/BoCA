@@ -93,7 +93,7 @@ std::string Tagger::signal_file_name(const Tagger::Stage stage) const
     case kTrainer :
         return file_name;
     case kReader :
-        return file_name + "Reader.root";
+        return file_name + "Reader";
     }
 }
 std::string Tagger::background_file_name(const Tagger::Stage stage) const
@@ -103,7 +103,7 @@ std::string Tagger::background_file_name(const Tagger::Stage stage) const
     case kTrainer :
         return file_name;
     case kReader :
-        return file_name + "Reader.root";
+        return file_name + "Reader";
     }
 }
 std::string Tagger::reader_name() const

@@ -7,7 +7,7 @@ hbottomsumtagger::EventBottomTagger::EventBottomTagger()
     Print(kNotification , "Constructor");
     set_tagger_name("eventBottom");
     DefineVariables();
-    bottom_reader_.set_tagger(bottom_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
 }
 
 void hbottomsumtagger::EventBottomTagger::DefineVariables()

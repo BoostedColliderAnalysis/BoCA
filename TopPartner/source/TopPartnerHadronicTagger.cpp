@@ -9,9 +9,9 @@ TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
 //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
-    set_tagger_name("HeavyHiggsSemi");
-    top_reader_.set_tagger(top_tagger_);
-    z_hadronic_reader_.set_tagger(z_hadronic_tagger);
+    set_tagger_name("TopPartnerHadronic");
+    top_reader_.SetTagger(top_tagger_);
+    z_hadronic_reader_.SetTagger(z_hadronic_tagger);
     DefineVariables();
 }
 

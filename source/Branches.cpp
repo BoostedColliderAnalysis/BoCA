@@ -15,6 +15,7 @@ analysis::InfoBranch::InfoBranch()
     EventNumber = int(InitialValue());
     PreCutNumber = int(InitialValue());
     Mass = InitialValue();
+    Name = "";
 }
 
 ClassImp(analysis::EventBranch)
@@ -43,6 +44,7 @@ analysis::ParticleBranch::ParticleBranch()
     Pt = InitialValue();
     Rap = InitialValue();
     Phi = InitialValue();
+    Charge = int(InitialValue());
 }
 
 ClassImp(analysis::HResultBranch)

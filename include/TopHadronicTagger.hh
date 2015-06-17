@@ -18,11 +18,6 @@ public:
 
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    int Train(Event &event, const Object::Tag tag) {
-        PreCuts pre_cuts;
-        return Train(event, pre_cuts, tag);
-    }
-
     std::vector<Triplet> Multiplets(const std::vector<Doublet> &doublets, const std::vector<fastjet::PseudoJet> &jets, const Jets&quarks, PreCuts &pre_cuts, const Tag tag);
 
     std::vector<Triplet> Multiplets(const Doublet& doublet, const Jets& jets, const Jets& quarks, PreCuts &pre_cuts, const Tag tag);
@@ -46,11 +41,6 @@ public:
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event,pre_cuts, reader));
-    }
-
-    int GetBdt(Event &event, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return GetBdt(event, pre_cuts, reader);
     }
 
     std::vector<Triplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);

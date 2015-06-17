@@ -9,9 +9,9 @@ EventSingleTagger::EventSingleTagger()
 {
     Print(kNotification , "Constructor");
 //     debug_level_ = kDebug;
-    set_tagger_name("Event");
-    signature_reader_.set_tagger(signature_tagger_);
-    bottom_reader_.set_tagger(bottom_tagger_);
+    set_tagger_name("EventSingle");
+    signature_reader_.SetTagger(signature_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
 }
 

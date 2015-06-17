@@ -116,10 +116,15 @@ public:
 
     void SetBdt(const float bdt);
 
-    float Rapidity() {
+    float Rapidity() const {
         float rap = Jet().rap();
         if (rap > 100) return 0;
         return rap;
+    }
+
+    int Charge()const {
+//       return UserInfo().Charge();
+      return sgn(UserInfo().Charge());
     }
 
 protected:

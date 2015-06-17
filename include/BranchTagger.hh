@@ -51,13 +51,26 @@ protected:
     }
 
     template<typename Multiplet>
-    int SaveEntries(const std::vector<Multiplet> &multiplets) {
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) {
+        switch (tag) {
+        case kSignal :
+            BestMatch(multiplets, particles);
+            break;
+        case kBackground  :
+            RemoveBestMatch(multiplets, particles);
+            break;
+        }
+    }
+
+    template<typename Multiplet>
+    int SaveEntries(const std::vector<Multiplet> &multiplets, std::size_t max = LargeNumber()) {
         if (multiplets.empty()) return 0;
-        for (const auto & multiplet : multiplets) {
-            FillBranch(multiplet);
+        const int sum = std::min(multiplets.size(), max);
+        for (int counter = 0 ; counter < sum; ++counter) {
+            FillBranch(multiplets.at(counter));
             static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
         }
-        return multiplets.size();
+        return sum;
     }
 
     int SaveEntries(const std::vector<fastjet::PseudoJet> &jets) {
@@ -97,22 +110,21 @@ protected:
     }
 
     void AddObservables() {
-        for (auto &variable : branch().Variables()) {
+        for (auto & variable : branch().Variables()) {
             AddVariable(variable.first, variable.second);
         }
     }
 
     void AddSpectators() {
-        for (auto &spectator : branch().Spectators()) {
+        for (auto & spectator : branch().Spectators()) {
             AddSpectator(spectator.first, spectator.second);
         }
     }
 
-    virtual void DefineVariables()
-    {
-      Print(kInformation , "Define Variables");
-      AddObservables();
-      AddSpectators();
+    virtual void DefineVariables() {
+        Print(kInformation , "Define Variables");
+        AddObservables();
+        AddSpectators();
     }
 
 //     auto Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);

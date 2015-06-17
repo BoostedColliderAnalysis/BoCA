@@ -2,7 +2,8 @@
 
 # include "Predicate.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Constructor
@@ -19,7 +20,7 @@ namespace analysis {
 DetectorGeometry::DetectorGeometry()
 {
 //     DetectorType detector_type = Spp;
-  DetectorType detector_type = CMS;
+    DetectorType detector_type = CMS;
     switch (detector_type) {
     case CMS :
         JetMinPt = 20;
@@ -49,38 +50,38 @@ DetectorGeometry::DetectorGeometry()
 }
 
 struct AccuPerpDistance {
-  float operator()(float result, const Constituent &constituent) {
-    return (result + constituent.Position().Vect().Perp());
-  }
+    float operator()(float result, const Constituent &constituent) {
+        return (result + constituent.Position().Vect().Perp());
+    }
 
 };
 
 struct MaxPerpDistance {
-  inline bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) const {
-    return (constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp());
-  }
+    inline bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) const {
+        return (constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp());
+    }
 };
 
 struct WrongDetector {
-  WrongDetector(const Constituent::SubDetector sub_detector) {
-    this->sub_detector_ = sub_detector;
-  }
-  bool operator()(const Constituent &constituent) {
-    return (constituent.sub_detector() != sub_detector_);
-  }
-  Constituent::SubDetector sub_detector_;
+    WrongDetector(const Constituent::SubDetector sub_detector) {
+        this->sub_detector_ = sub_detector;
+    }
+    bool operator()(const Constituent &constituent) {
+        return (constituent.sub_detector() != sub_detector_);
+    }
+    Constituent::SubDetector sub_detector_;
 };
 
 struct MaxConstPt {
-  bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) {
-    return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
-  }
+    bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) {
+        return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
+    }
 };
 
 struct AccuPt {
-  float operator()(float result, const Constituent &constituent) {
-    return (result + constituent.Momentum().Pt());
-  }
+    float operator()(float result, const Constituent &constituent) {
+        return (result + constituent.Momentum().Pt());
+    }
 
 };
 
@@ -91,34 +92,40 @@ JetInfo::JetInfo()
 
 JetInfo::JetInfo(const float bdt)
 {
-  SetBdt(bdt);
+    SetBdt(bdt);
 }
 
 void JetInfo::SetDelphesTags(const ::delphes::Jet &jet)
 {
-  SetBTag(jet.BTag);
-  SetTauTag(jet.TauTag);
+    SetBTag(jet.BTag);
+    SetTauTag(jet.TauTag);
 }
 
 JetInfo::JetInfo(const ::delphes::Jet &jet)
 {
-  SetDelphesTags(jet);
+    SetDelphesTags(jet);
 }
 
 JetInfo::JetInfo(const bool b_tag)
 {
-  SetBTag(b_tag);
+    SetBTag(b_tag);
 }
+
+// JetInfo::JetInfo(const bool b_tag, const int charge)
+// {
+//   SetBTag(b_tag);
+//   SetCharge(charge);
+// }
 
 JetInfo::JetInfo(const bool b_tag, const bool tau_tag)
 {
-  SetBTag(b_tag);
-  SetTauTag(tau_tag);
+    SetBTag(b_tag);
+    SetTauTag(tau_tag);
 }
 
 JetInfo::JetInfo(const int charge)
 {
-  SetCharge(charge);
+    SetCharge(charge);
 }
 
 JetInfo::JetInfo(const Constituent &constituent)
@@ -128,8 +135,8 @@ JetInfo::JetInfo(const Constituent &constituent)
 
 JetInfo::JetInfo(const Constituent &constituent, const int charge)
 {
-  constituents_.emplace_back(constituent);
-  SetCharge(charge);
+    constituents_.emplace_back(constituent);
+    SetCharge(charge);
 }
 
 JetInfo::JetInfo(const std::vector<Constituent> &constituents)
@@ -137,15 +144,18 @@ JetInfo::JetInfo(const std::vector<Constituent> &constituents)
     constituents_ = constituents;
 }
 
-void JetInfo::Addconstituent(const Constituent &constituent) {
+void JetInfo::Addconstituent(const Constituent &constituent)
+{
     constituents_.emplace_back(constituent);
 }
 
-void JetInfo::Addconstituents(const std::vector<Constituent> &constituents) {
+void JetInfo::Addconstituents(const std::vector<Constituent> &constituents)
+{
     constituents_.insert(constituents_.end(), constituents.begin(), constituents.end());
 }
 
-void JetInfo::AddDaughter(const int daughter) {
+void JetInfo::AddDaughter(const int daughter)
+{
     if (!constituents().empty()) {
         Print(kError, "constituents", constituents().size(), constituents().front().family().particle().Id);
         constituents().front().family().AddDaughter(daughter);
@@ -154,15 +164,18 @@ void JetInfo::AddDaughter(const int daughter) {
     Print(kError, "No constituent");
 }
 
-std::vector<Constituent> JetInfo::constituents() const {
+std::vector<Constituent> JetInfo::constituents() const
+{
     return constituents_;
 }
 
-std::unordered_map<Family, float> JetInfo::FamilyFractions() {
+std::unordered_map<Family, float> JetInfo::FamilyFractions()
+{
     return family_fractions_;
 }
 
-int JetInfo::VertexNumber() const {
+int JetInfo::VertexNumber() const
+{
     return ApplyVertexResolution().size();
 }
 
@@ -195,7 +208,7 @@ void JetInfo::ExtractFraction(const int particle_id)
 {
     Print(kInformation, "Extract Fraction", particle_id);
     ExtractFamilyFraction();
-    for (const auto &pair : family_fractions_) {
+    for (const auto & pair : family_fractions_) {
         if (pair.first.particle().Id == particle_id || pair.first.mother_1().Id == particle_id) AddParticle(particle_id, pair.second);
         else if (pair.first.particle().Id == -particle_id || pair.first.mother_1().Id == -particle_id) AddParticle(-particle_id, pair.second);
         else AddParticle(pair.first.particle().Id, pair.second);
@@ -205,7 +218,7 @@ void JetInfo::ExtractFraction(const int particle_id)
 void JetInfo::ExtractFraction(const int particle_id, const int mother_id)
 {
     Print(kInformation, "Extract Fraction", particle_id, mother_id);
-    for (const auto &pair : family_fractions_) {
+    for (const auto & pair : family_fractions_) {
         if (std::abs(pair.first.particle().Id) == particle_id && std::abs(pair.first.mother_1().Id) == mother_id) AddParticle(pair.first.particle().Id, pair.second);
         else AddParticle(IsrId, pair.second);
     }
@@ -215,9 +228,9 @@ void JetInfo::ExtractAbsFraction(const int particle_id)
 {
     Print(kInformation, "Extract Fraction", particle_id);
     ExtractFamilyFraction();
-    for (const auto &pair : family_fractions_) {
-      if (std::abs(pair.first.particle().Id) == particle_id || std::abs(pair.first.mother_1().Id) == particle_id) AddParticle(particle_id, pair.second);
-      else AddParticle(pair.first.particle().Id, pair.second);
+    for (const auto & pair : family_fractions_) {
+        if (std::abs(pair.first.particle().Id) == particle_id || std::abs(pair.first.mother_1().Id) == particle_id) AddParticle(particle_id, pair.second);
+        else AddParticle(pair.first.particle().Id, pair.second);
     }
 }
 
@@ -271,7 +284,7 @@ void JetInfo::PrintAllconstituentInfos(const Severity severity) const
 void JetInfo::PrintAllFamInfos(const Severity severity) const
 {
     Print(kDebug, "Print All Family Infos");
-    for (const auto &family_fraction : family_fractions_)
+    for (const auto & family_fraction : family_fractions_)
         Print(severity, "Family Fraction", Name(family_fraction.first.particle().Id), Name(family_fraction.first.mother_1().Id), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
 }
 
@@ -279,7 +292,7 @@ fastjet::PseudoJet JetInfo::VertexJet() const
 {
     std::vector <Constituent > vertices = ApplyVertexResolution();
     fastjet::PseudoJet Jet;
-    for (const auto &vertex : vertices) Jet = fastjet::join(Jet, PseudoJet(vertex.Momentum()));
+    for (const auto & vertex : vertices) Jet = fastjet::join(Jet, PseudoJet(vertex.Momentum()));
     return Jet;
 }
 
@@ -411,6 +424,16 @@ float JetInfo::TrackMass() const
     fastjet::PseudoJet jet;
     for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kTrack) jet += constituent.Momentum();
     return jet.m();
+}
+
+int JetInfo::Charge() const
+{
+    Print(kDebug, "Charge");
+    std::vector <Constituent > vertices = constituents();
+    int charge = std::accumulate(vertices.begin(), vertices.end(), 0, [](int charge, const Constituent& constituent) {
+        return charge + constituent.charge();
+    });
+    return charge;
 }
 
 }

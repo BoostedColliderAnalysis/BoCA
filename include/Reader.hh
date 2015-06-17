@@ -7,20 +7,20 @@
 namespace analysis
 {
 
-class HMvaResult : Object
+class MvaResult : Object
 {
 
 public:
 
-    HMvaResult();
+    MvaResult();
     std::vector<int> CutIntegral(const std::vector< int > &bins) const;
 
-    int Steps;
+    int steps;
     std::vector<float> events;
-    std::vector<float> Efficiency;
-    std::vector<int> AnalysiseventNumber;
-    std::vector<float> Bdt;
-    int TotaleventNumber;
+    std::vector<float> efficiency;
+    std::vector<int> analysis_event_number;
+    std::vector<float> bdt;
+    int event_sum;
 };
 
 /**
@@ -44,7 +44,9 @@ public:
      */
     Reader(Tagger &tagger);
 
-    void set_tagger(Tagger &tagger);
+    void SetTagger(Tagger &tagger);
+
+    void TaggingEfficiency();
 
     void OptimalSignificance();
 
@@ -99,11 +101,11 @@ private:
 
     void AddVariable();
 
-    InfoBranch info_branch(TFile &file, const std::string &tree_name) const;
+    InfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
 
     std::vector<int> BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
 
-    HMvaResult BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
+    MvaResult BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
 
     void LatexHeader(std::ofstream &latex_file) const;
 
@@ -113,5 +115,8 @@ private:
         return "Reader";
     }
 
+    int ColorCode(const int number) const;
+
 };
+
 }

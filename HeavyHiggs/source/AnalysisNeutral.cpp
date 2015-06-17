@@ -34,15 +34,15 @@ std::vector<File> AnalysisNeutral::Files(const Object::Tag tag)
 
     std::vector<File> BackgroundHadronicFiles;
 
-    std::vector<File> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<File> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<File> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<File> LeptonicFiles = analysis::Join(SignalLeptonicFiles, BackgroundLeptonicFiles);
+    std::vector<File> HadronicFiles = analysis::Join(SignalHadronicFiles, BackgroundHadronicFiles);
+    std::vector<File> SemiFiles = analysis::Join(SignalSemiFiles, BackgroundSemiFiles);
 
-    std::vector<File> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<File> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
+    std::vector<File> NotLeptonicFiles = analysis::Join(HadronicFiles, SemiFiles);
+    std::vector<File> CombinedFiles = analysis::Join(NotLeptonicFiles, LeptonicFiles);
 
-    std::vector<File> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<File> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+    std::vector<File> NonLeptonicSignalFiles = analysis::Join(SignalLeptonicFiles, SignalSemiFiles);
+    std::vector<File> CombinedSignalFiles = analysis::Join(SignalHadronicFiles, NonLeptonicSignalFiles);
 
     std::vector<File> NewFiles;
 
@@ -84,12 +84,12 @@ void AnalysisNeutral::SetTrees()
     Strings SignalHadronicTree {};
     Strings BackgroundHadronicTrees {};
 
-    Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
+    Strings LeptonicTrees = analysis::Join(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    Strings HadronicTrees = analysis::Join(SignalHadronicTree, BackgroundHadronicTrees);
+    Strings SemiTrees = analysis::Join(SignalSemiTrees, BackgroundSemiTrees);
 
-    Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
-    Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
+    Strings NotLeptonicTrees = analysis::Join(HadronicTrees, SemiTrees);
+    Strings CombinedTrees = analysis::Join(NotLeptonicTrees, LeptonicTrees);
 
 }
 

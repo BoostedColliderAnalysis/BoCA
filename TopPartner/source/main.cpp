@@ -3,103 +3,104 @@
 # include "TSystem.h"
 # include "Factory.hh"
 # include "EventTagger.hh"
+# include "EventSingleTagger.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-  analysis::toppartner::Analysis analysis(tagger);
-  const std::string name = tagger.name(stage);
-  analysis.Print(analysis.kError, "Tagger", name);
+    analysis::toppartner::Analysis analysis(tagger);
+    const std::string name = tagger.name(stage);
+    analysis.Print(analysis.kError, "Tagger", name);
 
-  std::string file_name = analysis.ProjectName() + "/" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
+    std::string file_name = analysis.ProjectName() + "/" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 }
 
 void RunFactory(analysis::Tagger &tagger)
 {
-  analysis::toppartner::Analysis analysis(tagger);
-  const std::string name = tagger.name(analysis::Tagger::kTrainer);
-  analysis.Print(analysis.kError, "Tagger", name);
-  std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
+    analysis::toppartner::Analysis analysis(tagger);
+    const std::string name = tagger.name(analysis::Tagger::kTrainer);
+    analysis.Print(analysis.kError, "Tagger", name);
+    std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 }
 
 void RunReader(analysis::Tagger &tagger)
 {
-  analysis::toppartner::Analysis analysis(tagger);
-  const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
-  if (gSystem->AccessPathName(file_name.c_str())) {
-    analysis::Reader reader(tagger);
-    reader.OptimalSignificance();
-  }
+    analysis::toppartner::Analysis analysis(tagger);
+    const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
+    if (gSystem->AccessPathName(file_name.c_str())) {
+        analysis::Reader reader(tagger);
+        reader.OptimalSignificance();
+    }
+}
+
+void Run(analysis::Tagger &tagger)
+{
+    RunTagger(tagger, analysis::Tagger::kTrainer);
+    RunFactory(tagger);
+    RunTagger(tagger, analysis::Tagger::kReader);
 }
 
 int main()
 {
-  analysis::BottomTagger bottom_tagger;
-  RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
-  RunFactory(bottom_tagger);
-  RunTagger(bottom_tagger, analysis::Tagger::kReader);
 
-  analysis::HiggsTagger higgs_tagger;
-  RunTagger(higgs_tagger, analysis::Tagger::kTrainer);
-  RunFactory(higgs_tagger);
-  RunTagger(higgs_tagger, analysis::Tagger::kReader);
+    bool single = true;
 
-  analysis::toppartner::HiggsPairTagger higgs_pair_tagger;
-  RunTagger(higgs_pair_tagger, analysis::Tagger::kTrainer);
-  RunFactory(higgs_pair_tagger);
-  RunTagger(higgs_pair_tagger, analysis::Tagger::kReader);
+    analysis::BottomTagger bottom_tagger;
+    Run(bottom_tagger);
 
-  analysis::WHadronicTagger w_hadronic_tagger;
-  RunTagger(w_hadronic_tagger, analysis::Tagger::kTrainer);
-  RunFactory(w_hadronic_tagger);
-  RunTagger(w_hadronic_tagger, analysis::Tagger::kReader);
-  
-  analysis::WSemiTagger w_semi_tagger;
-  RunTagger(w_semi_tagger, analysis::Tagger::kTrainer);
-  RunFactory(w_semi_tagger);
-  RunTagger(w_semi_tagger, analysis::Tagger::kReader);
+    analysis::HiggsTagger higgs_tagger;
+    Run(higgs_tagger);
 
-  analysis::TopHadronicTagger top_hadronic_tagger;
-  RunTagger(top_hadronic_tagger, analysis::Tagger::kTrainer);
-  RunFactory(top_hadronic_tagger);
-  RunTagger(top_hadronic_tagger, analysis::Tagger::kReader);
+    analysis::WHadronicTagger w_hadronic_tagger;
+    Run(w_hadronic_tagger);
 
-  analysis::TopSemiTagger top_semi_tagger;
-  RunTagger(top_semi_tagger, analysis::Tagger::kTrainer);
-  RunFactory(top_semi_tagger);
-  RunTagger(top_semi_tagger, analysis::Tagger::kReader);
+    analysis::WSemiTagger w_semi_tagger;
+    Run(w_semi_tagger);
 
-  analysis::ZHadronicTagger z_hadronic_tagger;
-  RunTagger(z_hadronic_tagger, analysis::Tagger::kTrainer);
-  RunFactory(z_hadronic_tagger);
-  RunTagger(z_hadronic_tagger, analysis::Tagger::kReader);
+    analysis::TopHadronicTagger top_hadronic_tagger;
+    Run(top_hadronic_tagger);
 
-  analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
-  RunTagger(top_partner_hadronic_tagger, analysis::Tagger::kTrainer);
-  RunFactory(top_partner_hadronic_tagger);
-  RunTagger(top_partner_hadronic_tagger, analysis::Tagger::kReader);
+    analysis::TopSemiTagger top_semi_tagger;
+    Run(top_semi_tagger);
 
-  analysis::toppartner::TopPartnerSemiTagger top_partner_semi_tagger;
-  RunTagger(top_partner_semi_tagger, analysis::Tagger::kTrainer);
-  RunFactory(top_partner_semi_tagger);
-  RunTagger(top_partner_semi_tagger, analysis::Tagger::kReader);
+    analysis::ZHadronicTagger z_hadronic_tagger;
+    Run(z_hadronic_tagger);
 
-  analysis::toppartner::TopPartnerPairTagger top_partner_pair_tagger;
-  RunTagger(top_partner_pair_tagger, analysis::Tagger::kTrainer);
-  RunFactory(top_partner_pair_tagger);
-  RunTagger(top_partner_pair_tagger, analysis::Tagger::kReader);
+    analysis::toppartner::TopPartnerSemiTagger top_partner_semi_tagger;
+    Run(top_partner_semi_tagger);
 
-  analysis::toppartner::SignatureTagger signature_tagger;
-  RunTagger(signature_tagger, analysis::Tagger::kTrainer);
-  RunFactory(signature_tagger);
-  RunTagger(signature_tagger, analysis::Tagger::kReader);
+    if (single) {
 
-  analysis::toppartner::EventTagger event_tagger;
-  RunTagger(event_tagger, analysis::Tagger::kTrainer);
-  RunFactory(event_tagger);
-  RunTagger(event_tagger, analysis::Tagger::kReader);
-  RunReader(event_tagger);
+        analysis::toppartner::TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger;
+        Run(top_partner_higgs_pair_tagger);
+
+        analysis::toppartner::SignatureSingleTagger signature_tagger;
+        Run(signature_tagger);
+
+        analysis::toppartner::EventSingleTagger event_tagger;
+        Run(event_tagger);
+        RunReader(event_tagger);
+
+    } else {
+
+        analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
+        Run(top_partner_hadronic_tagger);
+
+        analysis::toppartner::HiggsPairTagger higgs_pair_tagger;
+        Run(higgs_pair_tagger);
+
+        analysis::toppartner::TopPartnerPairTagger top_partner_pair_tagger;
+        Run(top_partner_pair_tagger);
+
+        analysis::toppartner::SignatureTagger signature_tagger;
+        Run(signature_tagger);
+
+        analysis::toppartner::EventTagger event_tagger;
+        Run(event_tagger);
+        RunReader(event_tagger);
+
+    }
 
 }
 

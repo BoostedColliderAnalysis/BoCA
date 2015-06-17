@@ -47,6 +47,7 @@ add_subdirectory(source)
 # Taggers
 add_subdirectory(Bottom)
 add_subdirectory(W)
+add_subdirectory(Z)
 add_subdirectory(Top)
 add_subdirectory(PairTagger)
 add_subdirectory(HBottomSumTagger)

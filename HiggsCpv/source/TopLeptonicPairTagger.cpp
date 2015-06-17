@@ -14,7 +14,7 @@ TopLeptonicPairTagger::TopLeptonicPairTagger()
 //     debug_level_ = kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("TopLeptonicPair");
-    top_leptonic_reader_.set_tagger(top_leptonic_tagger_);
+    top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
 }
 

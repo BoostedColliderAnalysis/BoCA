@@ -10,9 +10,9 @@ SignatureSingleTagger::SignatureSingleTagger()
 {
 //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
-    set_tagger_name("SignatureSingleTagger");
-    top_partner_higgs_pair_reader_.set_tagger(top_partner_higgs_pair_tagger_);
-    top_hadronic_reader_.set_tagger(top_hadronic_tagger_);
+    set_tagger_name("SignatureSingle");
+    top_partner_higgs_pair_reader_.SetTagger(top_partner_higgs_pair_tagger_);
+    top_hadronic_reader_.SetTagger(top_hadronic_tagger_);
     DefineVariables();
 }
 

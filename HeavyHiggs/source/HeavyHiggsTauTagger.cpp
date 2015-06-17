@@ -11,7 +11,7 @@ HeavyHiggsTauTagger::HeavyHiggsTauTagger()
 //     DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     set_tagger_name("HeavyHiggsTau");
-    tau_reader_.set_tagger(tau_tagger_);
+    tau_reader_.SetTagger(tau_tagger_);
     DefineVariables();
 }
 

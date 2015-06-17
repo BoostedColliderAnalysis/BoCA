@@ -11,8 +11,8 @@ SignatureNeutralTagger::SignatureNeutralTagger()
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("SignatureNeutral");
-    heavy_higgs_semi_reader_.set_tagger(heavy_higgs_semi_tagger_);
-    jet_pair_reader_.set_tagger(jet_pair_tagger_);
+    heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
+    jet_pair_reader_.SetTagger(jet_pair_tagger_);
     DefineVariables();
 }
 

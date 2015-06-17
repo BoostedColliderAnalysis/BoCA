@@ -5,7 +5,8 @@
 
 # include "Predicate.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 File::File()
 {
@@ -89,11 +90,21 @@ File::File(const std::string &process, const std::string &base_path, const std::
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
-  Print(kInformation, "Constructor");
-  SetVariables();
-  process_folders_.emplace_back(process);
-  base_path_ = base_path;
-  file_suffix_ = file_suffix;
+    Print(kInformation, "Constructor");
+    SetVariables();
+    process_folders_.emplace_back(process);
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+}
+
+File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const std::string &nice_name)
+{
+    Print(kInformation, "Constructor");
+    SetVariables();
+    process_folders_.emplace_back(process);
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+    nice_name_ = nice_name;
 }
 
 std::string File::file_suffix() const

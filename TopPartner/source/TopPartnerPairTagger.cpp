@@ -11,8 +11,8 @@ TopPartnerPairTagger::TopPartnerPairTagger()
 //         DebugLevel = Object::kDetailed;
     Print(kNotification, "Constructor");
     set_tagger_name("TopPartnerPairTagger");
-    top_partner_hadronic_reader_.set_tagger(top_partner_hadronic_tagger_);
-    top_partner_semi_reader_.set_tagger(top_partner_semi_tagger_);
+    top_partner_hadronic_reader_.SetTagger(top_partner_hadronic_tagger_);
+    top_partner_semi_reader_.SetTagger(top_partner_semi_tagger_);
     DefineVariables();
 }
 

@@ -10,8 +10,8 @@ EventFusionTagger::EventFusionTagger()
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("EventFusion");
-    bottom_reader_.set_tagger(bottom_tagger_);
-    heavy_higgs_semi_reader_.set_tagger(heavy_higgs_semi_tagger_);
+    bottom_reader_.SetTagger(bottom_tagger_);
+    heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
     DefineVariables();
 }
 

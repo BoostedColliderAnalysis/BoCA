@@ -54,6 +54,8 @@ public:
 
     JetInfo(const bool b_tag);
 
+//     JetInfo(const bool b_tag, const int charge);
+
     JetInfo(const bool b_tag, const bool tau_tag);
 
     JetInfo(const int charge);
@@ -146,9 +148,7 @@ public:
       charge_ = charge;
     }
 
-    bool Charge() const {
-      return charge_;
-    }
+    int Charge() const;
 
     void SetDelphesTags(const ::delphes::Jet &jet);
 
@@ -174,11 +174,11 @@ private:
 
     std::map<int, float> id_fractions_;
 
-    bool b_tag_;
+    bool b_tag_ = 0;
 
-    bool tau_tag_;
+    bool tau_tag_ = 0;
 
-    int charge_;
+    int charge_ = 0;
 
 };
 

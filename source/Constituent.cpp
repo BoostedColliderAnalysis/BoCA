@@ -17,11 +17,12 @@ Constituent::Constituent(const TLorentzVector &momentum, const TLorentzVector &p
     position_ = position;
 }
 
-Constituent::Constituent(const TLorentzVector &momentum, const TLorentzVector &position, const SubDetector sub_detector)
+Constituent::Constituent(const TLorentzVector &momentum, const TLorentzVector &position, const SubDetector sub_detector, const float charge)
 {
     momentum_ = momentum;
     position_ = position;
     sub_detector_ = sub_detector;
+    charge_ = charge;
 }
 
 Constituent::Constituent(const TLorentzVector &momentum, const Family &family)
@@ -35,7 +36,7 @@ Constituent::Constituent(const TLorentzVector &momentum)
     momentum_ = momentum;
 }
 
-Constituent::Constituent(const TLorentzVector &momentum, const SubDetector sub_detector)
+Constituent::Constituent(const TLorentzVector &momentum, const analysis::Constituent::SubDetector sub_detector, const float charge)
 {
     momentum_ = momentum;
     sub_detector_ = sub_detector;
@@ -80,6 +81,7 @@ Constituent Constituent::operator+(Constituent &constituent)
 {
     constituent.position_ += this->position_;
     constituent.momentum_ += this->momentum_;
+    constituent.charge_ += this->charge_;
     return constituent;
 }
 
@@ -91,6 +93,16 @@ void Constituent::SetDetector(const SubDetector detector)
 Constituent::SubDetector Constituent::sub_detector() const
 {
     return sub_detector_;
+}
+
+void Constituent::set_charge(const int charge)
+{
+    charge_ = charge;
+}
+
+int Constituent::charge() const
+{
+    return charge_;
 }
 
 }
