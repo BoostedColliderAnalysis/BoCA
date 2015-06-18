@@ -2,6 +2,6 @@ set(Directory
 ${PROJECT_SOURCE_DIR}/HeavyHiggs/include
 ${PROJECT_SOURCE_DIR}/HeavyHiggs/source
 )
-HInclude("${Directory}")
+HInclude(Directory)
 
 add_subdirectory(source)

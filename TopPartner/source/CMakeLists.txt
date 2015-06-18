@@ -15,6 +15,6 @@ EventTagger.cpp
 EventSingleTagger.cpp
 AnalysisTopPartner.cpp
 )
-HLibrary(AnalysisTopPartner "${AnalysisSources}")
+HLibrary(AnalysisTopPartner AnalysisSources)
 
 HExecutable(TopPartner main.cpp)

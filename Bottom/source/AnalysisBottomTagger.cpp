@@ -10,12 +10,12 @@ namespace bottom
   Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
-    pre_cuts_.SetPtLowerCut(BottomId, LowerCut());
-    pre_cuts_.SetPtUpperCut(BottomId, UpperCut());
+    this->tagger().set_analysis_name(ProjectName());
+    pre_cuts().SetPtLowerCut(BottomId, LowerCut());
+    pre_cuts().SetPtUpperCut(BottomId, UpperCut());
     DetectorGeometry detector_geometry;
-    pre_cuts_.SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
-    pre_cuts_.SetSubJets(false);
+    pre_cuts().SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
+    pre_cuts().SetSubJets(false);
 }
 
 

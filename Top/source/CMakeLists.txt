@@ -7,6 +7,6 @@ HTopLeptonTagger.cpp
 HTopHadronTagger.cpp
 )
 
-HLibrary(AnalysisTopTagger "${HTopTaggerLib}")
+HLibrary(AnalysisTopTagger HTopTaggerLib)
 
 HExecutable(TopAnalysis main.cpp)

@@ -11,11 +11,11 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
-//     pre_cuts_.SetPtLowerCut(WId, PreCut());
-//     pre_cuts_.SetPtUpperCut(WId, UpperCut());
+    this->tagger().set_analysis_name(ProjectName());
+//     pre_cuts().SetPtLowerCut(WId, PreCut());
+//     pre_cuts().SetPtUpperCut(WId, UpperCut());
 //     DetectorGeometry detector_geometry;
-//     pre_cuts_.SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
+//     pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
 
 std::string Analysis::ProcessName(const Process process) const

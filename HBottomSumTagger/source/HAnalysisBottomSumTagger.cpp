@@ -262,10 +262,10 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // }
 
-int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Tagger::Stage , const Tag )
-{
-    Print(kInformation, "Analysis");
-    ++event_sum_;
+// int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Tagger::Stage , const Tag )
+// {
+//     Print(kInformation, "Analysis");
+//     ++event_sum_;
 
 //     switch (Tagger) {
 //     case BottomTagger :
@@ -281,8 +281,8 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::
 //         return 0;
 //     }
 //     tagger_.GetBranches(event,stage,tag);
-    return 1;
-}
+//     return 1;
+// }
 
 
 // bool hbottomsumtagger::HAnalysis::GetBottomTag(analysis::Event &event, const Tag Tag)

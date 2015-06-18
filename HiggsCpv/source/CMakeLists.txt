@@ -7,6 +7,6 @@ SignatureTagger.cpp
 EventTagger.cpp
 AnalysisHiggs.cpp
 )
-HLibrary(HiggsCpvTagger "${LibrarySources}")
+HLibrary(HiggsCpvTagger LibrarySources)
 
 HExecutable(HiggsCpv ./main.cpp)

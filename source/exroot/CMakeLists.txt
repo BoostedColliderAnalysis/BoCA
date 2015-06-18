@@ -1,6 +1,6 @@
-set(EventPartonSources
+set(EventExRootSources
 Partons.cpp
 Leptons.cpp
 Hadrons.cpp
 )
-HLibrary(EventParton "${EventPartonSources}" PARENT_SCOPE)
+HLibrary(EventExRoot EventExRootSources)

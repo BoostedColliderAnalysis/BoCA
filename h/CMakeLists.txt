@@ -1,6 +1,7 @@
 
 set(Directory
-./include
+${PROJECT_SOURCE_DIR}/h/include
+${PROJECT_SOURCE_DIR}/h/source
 )
 HInclude(Directory)
 

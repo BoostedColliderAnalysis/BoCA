@@ -29,20 +29,23 @@ public:
         return files_;
     }
 
-    void SetConfig(const Configuration &config) {
-        configuration_ = config;
+    void SetConfig(const Configuration &configuration) {
+        configuration_ = configuration;
     }
 
     std::string ExportName(const Tagger::Stage stage, const Object::Tag tag) const;
 
-    virtual void SetFiles(const Object::Tag tag) {
-        Print(kError, "Set Files", "should be subclassed", tag);
+    void PrepareFiles(){
+      files_.clear();
+      tagger_.clear_tree_names();
+      SetFiles(analysis::Object::kSignal);
+      SetFiles(analysis::Object::kBackground);
     }
 
 protected:
 
-    inline int EventSum(const exroot::TreeReader &tree_reader) const {
-        return std::min((int)tree_reader.GetEntries(), EventNumberMax());
+    virtual void SetFiles(const Object::Tag tag) {
+        Print(kError, "Set Files", "should be subclassed", tag);
     }
 
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
@@ -65,18 +68,6 @@ protected:
     virtual inline std::string ClassName() const {
         return "Analysis";
     }
-
-    int event_sum_;
-
-    int &event_sum() {
-        return event_sum_;
-    }
-
-    Tagger &tagger_;
-
-    Reader reader_;
-
-    int object_number_;
 
     virtual inline std::string ProcessName() const {
         return "Process";
@@ -113,13 +104,13 @@ protected:
         return ".root";
     }
 
-    void NewSignalFile(const std::string &name,const std::string &nicename = "") {
-        files_.emplace_back(get_file(name,nicename));
+    void NewSignalFile(const std::string &name, const std::string &nice_name = "") {
+        files_.emplace_back(get_file(name, nice_name));
         tagger_.AddSignalTreeName(TreeName(name));
     }
 
-    void NewBackgroundFile(const std::string &name,const std::string &nicename = "") {
-      files_.emplace_back(get_file(name,nicename));
+    void NewBackgroundFile(const std::string &name, const std::string &nice_name = "") {
+        files_.emplace_back(get_file(name, nice_name));
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
@@ -133,8 +124,8 @@ protected:
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline File get_file(const std::string &name,const std::string &nicename = "") const {
-        return File(name, FilePath(), FileSuffix(),nicename);
+    inline File get_file(const std::string &name, const std::string &nice_name = "") const {
+        return File(name, FilePath(), FileSuffix(), nice_name);
     }
 
     inline File get_file(const std::string &name, const float crosssection) const {
@@ -154,15 +145,27 @@ protected:
         return 1;
     }
 
-    PreCuts pre_cuts_;
-
     int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
 
     virtual std::string NiceName() const {
         return "";
     }
 
+    PreCuts &pre_cuts() {
+        return pre_cuts_;
+    }
+
+    Tagger &tagger(){
+      return tagger_;
+    }
+
 private:
+
+    Tagger &tagger_;
+
+    Reader reader_;
+
+    PreCuts pre_cuts_;
 
     Configuration configuration_;
 

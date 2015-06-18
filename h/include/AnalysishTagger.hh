@@ -5,7 +5,7 @@
 namespace analysis
 {
 
-namespace ztagger
+namespace higgstagger
 {
 /**
  *
@@ -22,24 +22,22 @@ public:
 
     Analysis(Tagger &tagger);
 
+    void SetFiles(const Object::Tag tag);
+
     inline std::string ProjectName() const {
-        return  "ZTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-";
+        return  "HiggsTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-";
     }
 
 protected:
 
-    void SetFiles(const Object::Tag tag);
+
 
     virtual inline std::string FilePath() const {
         return "~/Projects/Tagger/";
     }
 
     virtual inline std::string NameSpaceName() const {
-        return "ztagger";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "Analysis";
+        return "higgstagger";
     }
 
 private:

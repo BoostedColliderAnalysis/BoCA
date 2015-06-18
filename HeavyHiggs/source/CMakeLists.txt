@@ -16,7 +16,7 @@ AnalysisNeutral.cpp
 AnalysisCharged.cpp
 AnalysisFusion.cpp
 )
-HLibrary(AnalysisHeavyHiggs "${AnalysisSources}")
+HLibrary(AnalysisHeavyHiggs AnalysisSources)
 
 HExecutable(HeavyHiggsNeutral MainNeutral.cpp)
 HExecutable(HeavyHiggsCharged MainCharged.cpp)

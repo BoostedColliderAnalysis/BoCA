@@ -6,6 +6,6 @@ BottomTaggerSimple.cpp
 AnalysisBottomTagger.cpp
 )
 
-HLibrary(HAnalysisBTagger "${Btaggerlibs}")
+HLibrary(HAnalysisBTagger Btaggerlibs)
 
 HExecutable(BottomAnalysis main.cpp)

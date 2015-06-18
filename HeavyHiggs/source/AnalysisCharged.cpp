@@ -9,7 +9,7 @@ namespace heavyhiggs
 AnalysisCharged::AnalysisCharged(Tagger &tagger) : Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
+    this->tagger().set_analysis_name(ProjectName());
 }
 
 

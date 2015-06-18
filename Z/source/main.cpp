@@ -26,8 +26,7 @@ void RunFactory(analysis::Tagger &tagger)
 void RunReader(analysis::Tagger &tagger)
 {
     analysis::ztagger::Analysis analysis(tagger);
-    analysis.SetFiles(analysis::Object::kSignal);
-    analysis.SetFiles(analysis::Object::kBackground);
+    analysis.PrepareFiles();
     const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
         analysis::Reader reader(tagger);

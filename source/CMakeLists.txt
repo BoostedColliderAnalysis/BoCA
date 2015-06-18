@@ -1,5 +1,4 @@
-HInclude(${PROJECT_SOURCE_DIR}/source)
-HInclude(${PROJECT_SOURCE_DIR}/include)
+HInclude(../include)
 
 add_subdirectory(exroot)
 add_subdirectory(delphes)
@@ -18,7 +17,7 @@ Leptons.cpp
 Hadrons.cpp
 Predicate.cpp
 )
-HLibrary(Event "${EventSources}")
+HLibrary(Event EventSources)
 
 set(MultipletSources
 Multiplet.cpp
@@ -34,12 +33,12 @@ Octet62.cpp
 GlobalObservables.cpp
 MultipletEvent.cpp
 )
-HLibrary(Multiplets "${MultipletSources}")
+HLibrary(Multiplets MultipletSources)
 
 set(HepTaggerSource
 TopHadronicHep.cpp
 )
-HLibrary(HepTagger "${HepTaggerSource}")
+HLibrary(HepTagger HepTaggerSource)
 add_dependencies(HepTagger HepTopTagger)
 
 set(AnalysisSources
@@ -74,5 +73,5 @@ TopHadronicTagger.cpp
 TopLeptonicTagger.cpp
 TopSemiTagger.cpp
 )
-HLibrary(Analysis "${AnalysisSources}")
+HLibrary(Analysis AnalysisSources)
 add_dependencies(Analysis WimpMass)

@@ -9,7 +9,7 @@ namespace higgscpv
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
+    this->tagger().set_analysis_name(ProjectName());
 }
 
 std::string Analysis::ProcessName()

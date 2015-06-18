@@ -10,11 +10,11 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
-    pre_cuts_.SetPtLowerCut(TopId, PreCut());
-    pre_cuts_.SetPtUpperCut(TopId, UpperCut());
+    this->tagger().set_analysis_name(ProjectName());
+    pre_cuts().SetPtLowerCut(TopId, PreCut());
+    pre_cuts().SetPtUpperCut(TopId, UpperCut());
     DetectorGeometry detector_geometry;
-    pre_cuts_.SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
+    pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
 
 std::string Analysis::ProcessName(const Process process) const
@@ -146,17 +146,5 @@ int Analysis::PassPreCut(Event &event)
     return tops.size();
 }
 
-int Analysis::RunAnalysis(Event &event, const Tagger::Stage stage, const Object::Tag tag)
-{
-    Print(kInformation, "Analysis");
-    switch (stage) {
-    case Tagger::kTrainer :
-        return tagger_.Train(event, pre_cuts_, tag);
-    case Tagger::kReader :
-        return reader_.GetBdt(event, pre_cuts_);
-    default :
-        return 0;
-    }
-}
 }
 }

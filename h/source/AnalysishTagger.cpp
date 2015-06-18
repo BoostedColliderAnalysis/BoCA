@@ -1,9 +1,9 @@
-# include "../include/AnalysisZTagger.hh"
+# include "../include/AnalysishTagger.hh"
 
 namespace analysis
 {
 
-namespace ztagger
+namespace higgstagger
 {
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
@@ -11,11 +11,11 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(ZId, PreCut());
-    pre_cuts().SetPtUpperCut(ZId, UpperCut());
-    pre_cuts().SetMassUpperCut(ZId, 200);
+    pre_cuts().SetPtLowerCut(HiggsId, PreCut());
+    pre_cuts().SetPtUpperCut(HiggsId, UpperCut());
+//     pre_cuts().SetMassUpperCut(HiggsId, 200);
 //     DetectorGeometry detector_geometry;
-//     pre_cuts().SetTrackerMaxEta(ZId, detector_geometry.TrackerEtaMax);
+    //     pre_cuts().SetTrackerMaxEta(HiggsId, detector_geometry.TrackerEtaMax);
 }
 
 std::string Analysis::ProcessName(const Process process) const
@@ -65,11 +65,11 @@ void Analysis::SetFiles(const Object::Tag tag)
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
     case kSignal :
-        NewSignalFile(zz);
+        NewSignalFile(hh);
         break;
     case kBackground :
         NewBackgroundFile(tthad);
-        NewBackgroundFile(hh);
+        NewBackgroundFile(zz);
         NewBackgroundFile(ww);
         NewBackgroundFile(bb);
         NewBackgroundFile(cc);

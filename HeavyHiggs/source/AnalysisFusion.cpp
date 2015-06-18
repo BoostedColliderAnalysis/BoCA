@@ -9,7 +9,7 @@ namespace heavyhiggs
 AnalysisFusion::AnalysisFusion(Tagger &tagger) : Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
+    this->tagger().set_analysis_name(ProjectName());
 }
 
 std::vector<File> AnalysisFusion::Files(const Tag tag)
@@ -99,7 +99,7 @@ void AnalysisFusion::SetTrees()
 int AnalysisFusion::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-    if (object_number_ > EventNumberMax()) return 0;
+//     if (object_number_ > EventNumberMax()) return 0;
 
     Jets Particles = event.Partons().GenParticles();
     Particles = RemoveIfWrongAbsParticle(Particles, TopId);

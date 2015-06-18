@@ -17,7 +17,6 @@ Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
 //   debug_level_ = kDebug;
     Print(kNotification, "Constructor");
-    event_sum_ = 0;
 }
 
 void Analysis::AnalysisLoop(const Tagger::Stage stage)
@@ -33,21 +32,18 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
         SetFiles(tag);
         for (auto & file : Files(tag)) {
             Print(kNotification, "Analysing File", file.tree_name());
-            event_sum_ = 0;
             ClonesArrays clones_arrays = file.clones_arrays();
             Event event = file.event();
-            bool analysis_not_empty = false;
+            bool analysis_empty = true;
             exroot::TreeWriter tree_writer = TreeWriter(export_file, file.Title(), stage);
             exroot::TreeBranch &tree_branch = *tree_writer.NewBranch(tagger_.weight_branch_name().c_str(), InfoBranch::Class());
             exroot::TreeReader tree_reader = file.TreeReader();
             clones_arrays.UseBranches(tree_reader);
 //             exroot:ProgressBar progress_bar(eventSum(tree_reader));
-//             Print(kInformation, "Sum", eventSum(tree_reader));
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = FillInfoBranch(tree_reader, file);
             for (const int event_number : Range(tree_reader.GetEntries())) {
-//                 Print(kError, "event Number", event_number);
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.mass());
@@ -58,7 +54,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
                     if (object_number > 0) {
                         object_sum += object_number;
                         info_branch.PreCutNumber = event_number;
-                        analysis_not_empty = true;
+                        analysis_empty = false;
                         static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
                         tree_writer.Fill();
                     }
@@ -69,8 +65,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
             }
             Print(kError, "All events analysed", info_branch.EventNumber);
 //             progress_bar.Finish();
-            if (analysis_not_empty) tree_writer.Write();
-//             Print(kError, "Number of events", event_sum_, eventSum(tree_reader));
+            if (!analysis_empty) tree_writer.Write();
         }
         export_file.Close();
     }
@@ -82,15 +77,15 @@ InfoBranch Analysis::FillInfoBranch(const exroot::TreeReader &tree_reader, const
     info_branch.Crosssection = file.crosssection();
     info_branch.CrosssectionError = file.crosssection_error();
     info_branch.Mass = file.mass();
-    info_branch.EventNumber = EventSum(tree_reader);
+    info_branch.EventNumber = std::min((int)tree_reader.GetEntries(), EventNumberMax());
     info_branch.Name = file.nice_name();
     return info_branch;
 }
 
 std::string Analysis::ExportName(const Tagger::Stage stage, const Tag tag) const
 {
-  Print(kNotification, "Export File", tagger_.name(stage, tag));
-    return ProjectName() + "/" + tagger_.name(stage, tag) + ".root";
+    Print(kNotification, "Export File", tagger_.name(stage, tag));
+    return ProjectName() + "/" + tagger_.name(stage, tag) + FileSuffix();
 }
 
 exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage)

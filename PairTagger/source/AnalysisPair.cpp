@@ -209,10 +209,10 @@ void fusionpair::Analysis::SetTrees()
 //
 // }
 
-int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
-{
-    Print(kInformation, "Analysis", stage, tag);
-    ++event_sum_;
+// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+// {
+//     Print(kInformation, "Analysis", stage, tag);
+//     ++event_sum_;
 
 //     switch (stage) {
 //     case BottomTagger :
@@ -234,7 +234,7 @@ int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Ta
 //       case analysis::Tagger::kReader:
 //         return tagger_.GetBdt(event, tag);
 //     }
-}
+// }
 
 
 // bool hpairtagger::Analysis::GetTag(analysis::Event &event, const Tag tag)

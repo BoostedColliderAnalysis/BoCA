@@ -9,6 +9,7 @@
 # include "TMultiGraph.h"
 # include "TLine.h"
 # include "TLegend.h"
+# include "TStyle.h"
 
 // # include "TMVA/Reader.h"
 # include "TMVA/MethodCuts.h"

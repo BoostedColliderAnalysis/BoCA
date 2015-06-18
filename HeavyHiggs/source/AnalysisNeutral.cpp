@@ -9,7 +9,7 @@ namespace heavyhiggs
 AnalysisNeutral::AnalysisNeutral(Tagger &tagger) : Analysis::Analysis(tagger)
 {
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
+    this->tagger().set_analysis_name(ProjectName());
 }
 
 std::vector<File> AnalysisNeutral::Files(const Object::Tag tag)
