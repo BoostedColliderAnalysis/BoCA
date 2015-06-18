@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-
-project(Analysis VERSION 0.1 LANGUAGES CXX)
+# cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+# project(Analysis VERSION 0.1 LANGUAGES CXX)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(Analysis CXX)
 
 # Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)

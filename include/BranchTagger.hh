@@ -54,10 +54,10 @@ protected:
     std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) {
         switch (tag) {
         case kSignal :
-            BestMatch(multiplets, particles);
+            return BestMatch(multiplets, particles);
             break;
         case kBackground  :
-            RemoveBestMatch(multiplets, particles);
+            return RemoveBestMatch(multiplets, particles);
             break;
         }
     }

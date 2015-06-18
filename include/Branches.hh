@@ -6,10 +6,10 @@
 namespace analysis
 {
 
-typedef std::pair<float &, std::string> ObsPair;
-typedef std::vector<ObsPair> Observables;
+typedef std::pair<float &, std::string> ObservablePair;
+typedef std::vector<ObservablePair> Observables;
 # define STRING(s) #s
-# define PAIR(x) ObsPair(x,STRING(x))
+# define PAIR(x) ObservablePair(x,STRING(x))
 
 /**
  * @brief Basic tree branches
@@ -94,10 +94,10 @@ public:
         Charge = multiplet.Charge();
     }
     Observables Variables() {
-        return {PAIR(Mass), PAIR(Rap), PAIR(Phi),PAIR(Charge)};
+        return {PAIR(Mass),PAIR(Charge), PAIR(Rap), PAIR(Phi),PAIR(Pt)};
     }
     virtual Observables Spectators() {
-        return {PAIR(Pt)};
+        return {};
     }
 private:
     ClassDef(ParticleBranch, 1)

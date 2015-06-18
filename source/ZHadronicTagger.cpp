@@ -35,16 +35,8 @@ int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets higgses = copy_if_abs_particle(particles, ZId);
-    switch (tag) {
-    case kSignal :
-        doublets = BestMatch(doublets, higgses);
-        break;
-    case kBackground  :
-        doublets = RemoveBestMatch(doublets, higgses);
-        break;
-    }
-    return SaveEntries(doublets);
+    Jets z_particles = copy_if_abs_particle(particles, ZId);
+    return SaveEntries(BestMatches(doublets, z_particles,tag));
 }
 
 bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag)

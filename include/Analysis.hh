@@ -147,10 +147,6 @@ protected:
 
     int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
 
-    virtual std::string NiceName() const {
-        return "";
-    }
-
     PreCuts &pre_cuts() {
         return pre_cuts_;
     }
