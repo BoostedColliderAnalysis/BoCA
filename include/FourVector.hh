@@ -1,14 +1,10 @@
 # pragma once
 
-# include "Object.hh"
 # include "ClonesArrays.hh"
 # include "JetTag.hh"
-# include "JetInfo.hh"
 
-# include "delphes/Delphes.hh"
-# include "exroot/ExRootAnalysis.hh"
-
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
@@ -27,7 +23,7 @@ public:
 
 protected:
 
-    void NewEvent(const ClonesArrays &NewClonesArrays);
+    void NewEvent(const ClonesArrays &clones_arrays);
 
     template<typename Particle>
     TLorentzVector LorentzVectorByEnergy(const Particle &particle) const {
@@ -86,22 +82,22 @@ protected:
     }
 //     TLorentzVector LorentzVector(const MissingET *const Particle) const;
 
-    TLorentzVector LorentzVector(const TRootElectron &Particle) const;
-    TLorentzVector LorentzVector(const TRootGenJet &Particle) const;
-    TLorentzVector LorentzVector(const TRootGenParticle &Particle) const;
-    TLorentzVector LorentzVector(const TRootJet &Particle) const;
-    TLorentzVector LorentzVector(const TRootLHEFParticle &Particle) const;
-    TLorentzVector LorentzVector(const TRootMuon &Particle) const;
-    TLorentzVector LorentzVector(const TRootPhoton &Particle) const;
-    TLorentzVector LorentzVector(const TRootTau &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootElectron &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootGenJet &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootGenParticle &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootJet &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootLHEFParticle &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootMuon &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootPhoton &Particle) const;
-    fastjet::PseudoJet PseudoJet(const TRootTau &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Electron &Particle) const;
+    TLorentzVector LorentzVector(const exroot::GenJet &Particle) const;
+    TLorentzVector LorentzVector(const exroot::GenParticle &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Jet &Particle) const;
+    TLorentzVector LorentzVector(const exroot::LHEFParticle &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Muon &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Photon &Particle) const;
+    TLorentzVector LorentzVector(const exroot::Tau &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Electron &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::GenJet &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::GenParticle &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Jet &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::LHEFParticle &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Muon &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Photon &Particle) const;
+    fastjet::PseudoJet PseudoJet(const exroot::Tau &Particle) const;
 
     Family BranchFamily(const TObject &object);
 
@@ -117,7 +113,7 @@ protected:
 
     std::string PrintParticle(const int Position) const;
 
-    const ClonesArrays& clones_arrays() const {
+    const ClonesArrays &clones_arrays() const {
         return *clones_arrays_;
     }
 
@@ -131,9 +127,13 @@ protected:
 
     int source_;
 
-    JetTag &jet_tag()const{return *jet_tag_;}
+    JetTag &jet_tag()const {
+        return *jet_tag_;
+    }
 
-    void set_jet_tag(JetTag &jet_tag){jet_tag_ = &jet_tag;}
+    void set_jet_tag(JetTag &jet_tag) {
+        jet_tag_ = &jet_tag;
+    }
 
     enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 
@@ -149,7 +149,7 @@ protected:
 
 private:
 
-  JetTag *jet_tag_;
+    JetTag *jet_tag_;
 
 };
 

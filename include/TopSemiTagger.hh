@@ -3,7 +3,6 @@
 # include "Triplet.hh"
 # include "BottomTagger.hh"
 # include "WSemiTagger.hh"
-# include "Reader.hh"
 
 namespace analysis
 {
@@ -12,27 +11,23 @@ namespace analysis
  * @brief Semi leptonic top BDT tagger
  *
  */
-class TopSemiTagger : public Tagger
+class TopSemiTagger : public BranchTagger<TopSemiBranch>
 {
 
 public:
 
     TopSemiTagger();
 
-    int Train(Event &event, const Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Triplet> CleanTriplets(const Triplet &triplet, Jets TopQuarks, float pre_cut, const Tag tag);
-
-    std::vector<Triplet> CleanTriplet(const Triplet &triplet, fastjet::PseudoJet particle, float pre_cut, const Tag tag);
-
-    int GetBdt(Event &event, const TMVA::Reader &reader){
-      return SaveEntries<TopSemiBranch>(Multiplets(event,reader));
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::vector<Triplet> Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Triplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int TopSemiId(Event &event){
-      return sgn(w_semi_tagger_.WSemiId(event)) * std::abs(TopId);
+    int TopSemiId(Event &event) {
+        return sgn(w_semi_tagger_.WSemiId(event)) * std::abs(TopId);
     }
 
 protected:
@@ -43,19 +38,9 @@ protected:
 
 private:
 
-    float GetSpread(const fastjet::PseudoJet &Jet) const;
-
-    float GetDeltaR(const fastjet::PseudoJet &Jet) const;
-
-    TClass &Class() const {
-        return *TopSemiBranch::Class();
-    }
+    bool Problematic(const Triplet &triplet, PreCuts &pre_cut, const Tag tag);
 
     bool boost_ = false;
-
-    void DefineVariables();
-
-    TopSemiBranch branch_;
 
     float top_mass_window_;
 

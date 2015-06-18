@@ -7,27 +7,13 @@
 
 namespace hcpvhiggs{
 
-  class HDiscriminator;
-  class JetTag;
-  class JetJetTag;
-  class HAnalysis;
-  class BranchDiscriminator;
-  class HJetDiscriminator;
-  class HMva;
-  class HCandidateBranch;
-  class HLeptonBranch;
-  class ConstituentBranch;
-  class HJetPropertiesBranch;
-
-}
-
 /**
  * \class HCandidateBranch
  *
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class hcpvhiggs::HCandidateBranch : public TObject
+class HCandidateBranch : public TObject
 {
 
 public:
@@ -88,7 +74,7 @@ private:
 * @brief Class for saving leptons to root
 *
 */
-class hcpvhiggs::HLeptonBranch : public TObject
+class HLeptonBranch : public TObject
 {
 
 public:
@@ -115,7 +101,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hcpvhiggs::ConstituentBranch : public TObject
+class ConstituentBranch : public TObject
 {
 
 public:
@@ -142,7 +128,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hcpvhiggs::HJetPropertiesBranch : public TObject
+class HJetPropertiesBranch : public TObject
 {
 
 public:
@@ -165,5 +151,6 @@ private:
 
 };
 
+}
 
 # endif

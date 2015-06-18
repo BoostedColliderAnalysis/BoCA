@@ -1,7 +1,6 @@
 # pragma once
 
 # include "../Leptons.hh"
-# include "JetInfo.hh"
 
 namespace analysis
 {

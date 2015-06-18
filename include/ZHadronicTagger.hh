@@ -1,56 +1,35 @@
 # pragma once
 
-# include "BottomTagger.hh"
 # include "Doublet.hh"
+# include "BottomTagger.hh"
 # include "Reader.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
- * @brief W BDT tagger
+ * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class ZHadronicTagger : public Tagger
+class ZHadronicTagger : public BranchTagger<ZHadronicBranch>
 {
 
 public:
 
     ZHadronicTagger();
 
-    int Train(Event &event, const Object::Tag Tag) {
-        PreCuts pre_cuts;
-        return Train(event, pre_cuts, Tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+
+    std::vector< Doublet > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+      return SaveEntries(Multiplets(event,pre_cuts, reader),2);
     }
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
-
-    virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries<ZHadronicBranch>(Multiplets(event, reader));
+    auto Multiplets(Event &event, const TMVA::Reader &reader){
+      PreCuts pre_cuts;
+      return Multiplets(event, pre_cuts, reader);
     }
-
-    virtual int GetBdt(Event &event, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return GetBdt(event, pre_cuts, reader);
-    }
-
-    std::vector<Doublet> Multiplets(Event &event, const TMVA::Reader &reader);
-
-    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader);
-
-    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
-
-    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
-
-    std::vector<Doublet> Multiplets(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
-
-    int ZHadId(Event &event) {
-        return ZHadronicId(ZDaughters(event));
-    };
-
-    TClass &Class() const {
-        return *ZHadronicBranch::Class();
-    }
-
 
 protected:
 
@@ -60,19 +39,16 @@ protected:
 
 private:
 
-    Jets ZDaughters(Event &event);
+  bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Object::Tag tag);
 
-    int ZHadronicId(const Jets &jets);
-
-    void DefineVariables();
-
-    ZHadronicBranch branch_;
-
-    float z_mass_window_;
+  bool Problematic(const Doublet &doublet, PreCuts &pre_cuts);
 
     BottomTagger bottom_tagger_;
 
     Reader bottom_reader_;
+
+    float z_mass_window = 20;
+
 };
 
 }

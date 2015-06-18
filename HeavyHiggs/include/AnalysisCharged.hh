@@ -1,14 +1,9 @@
 # pragma once
 
-#include <sys/stat.h>
-
-# include "File.hh"
 # include "Analysis.hh"
-# include "Reader.hh"
-# include "Factory.hh"
-# include "JetTag.hh"
 
-# include "EventChargedTagger.hh"
+namespace analysis
+{
 
 namespace heavyhiggs
 {
@@ -20,33 +15,14 @@ namespace heavyhiggs
  * @author Jan Hajer
  *
  */
-class AnalysisCharged : public analysis::Analysis
+class AnalysisCharged : public Analysis
 {
 
 public:
 
-    /**
-     * @brief Constructor
-     *
-     */
-//     AnalysisCharged();
+    AnalysisCharged(Tagger &tagger);
 
-using analysis::Analysis::Analysis;
-
-    analysis::BottomTagger bottom_tagger_;
-    analysis::WSemiTagger w_semi_tagger;
-    analysis::WHadronicTagger w_hadronic_tagger;
-
-    analysis::TopHadronicTagger top_hadronic_tagger;
-    analysis::TopSemiTagger top_semi_tagger;
-
-    analysis::ChargedHiggsSemiTagger charged_higgs_semi_tagger;
-    analysis::TripletJetPairTagger jet_pair_tagger;
-
-    SignatureChargedTagger SignatureSemiTagger;
-    EventChargedTagger eventSemiTagger;
-
-    std::vector< analysis::File > Files(const analysis::Object::Tag tag);
+    std::vector< File > Files(const Object::Tag tag);
 
     inline std::string ProcessName()const {
         return "Charged";
@@ -56,7 +32,7 @@ using analysis::Analysis::Analysis;
         return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
 
-//     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
+//     std::string StudyName(const HAnalysis::HTagger Tagger) const;
 
     void SetTrees();
 
@@ -80,7 +56,7 @@ private:
 //             return 1000;
 //         return 1500;
 //         return 2000;
-         return 3000;
+        return 3000;
 //             return 4000;
 //             return 5000;
 //         return 6000;
@@ -182,7 +158,7 @@ private:
     inline ColliderType collider_type() const {
         return LHC;
         //       return FHC;
-       // return LE;
+        // return LE;
     }
 
 
@@ -243,33 +219,33 @@ private:
         case LE:
             switch (Mass()) {
             case 500:
-              return 247.86995327999998;
+                return 247.86995327999998;
             case 700:
-              return 109.26120959999999;
+                return 109.26120959999999;
             case 1000:
-              return 39.81212064;
+                return 39.81212064;
             case 1500:
-              return 10.639675008;
+                return 10.639675008;
             case 2000:
-              return 3.8189750399999998;
+                return 3.8189750399999998;
             case 3000:
-              return 0.7737415487999998;
+                return 0.7737415487999998;
             case 4000:
-              return 0.22421177856;
+                return 0.22421177856;
             case 5000:
-              return 0.07985005056;
+                return 0.07985005056;
             case 6000:
-              return 0.03297554496;
+                return 0.03297554496;
             case 8000:
-              return 0.007364981375999998;
+                return 0.007364981375999998;
             case 10000:
-              return 0.0020553163775999996;
+                return 0.0020553163775999996;
             case 12000:
-              return 0.0006632091647999999;
+                return 0.0006632091647999999;
             case 15000:
-              return 0.00014951794176;
+                return 0.00014951794176;
             case 20000:
-              return 0.000016388469792;
+                return 0.000016388469792;
             default:
                 Print(kError, "Signal Crosssection", "unhandled case");
                 return 1;
@@ -280,17 +256,17 @@ private:
         }
     }
 
-    inline analysis::File BackgroundFile(const HProcessType Background) const {
+    inline File BackgroundFile(const HProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 
-    analysis::File BackgroundFile(const HProcessType Background, const int FileSum) const {
+    File BackgroundFile(const HProcessType Background, const int FileSum) const {
         std::string FileName = ProcessName(Background) + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV";
-        analysis::Strings FileNames;
+        Strings FileNames;
         for (int FileNumber = 0; FileNumber < FileSum; ++FileNumber) {
             FileNames.emplace_back(FileName + "_" + std::to_string(FileNumber));
         }
-        return analysis::File(FileNames , BackgroundCrosssection(Background));
+        return File(FileNames , BackgroundCrosssection(Background));
     }
 
     std::string BackgroundTree(const HProcessType Background) const {
@@ -463,50 +439,10 @@ private:
         }
     }
 
-    analysis::JetTag jet_tag;
-
-    analysis::Reader BottomReader;
-    analysis::Reader JetPairReader;
-    analysis::Reader WSemiReader;
-    analysis::Reader WHadronicReader;
-    analysis::Reader TopLeptonicReader;
-    analysis::Reader TopHadronicReader;
-    analysis::Reader TopSemiReader;
-    analysis::Reader ChargedHiggsSemiReader;
-    analysis::Reader SignatureSemiReader;
-    analysis::Reader eventSemiReader;
-
-//     void NewBranches(exroot::TreeWriter &tree_writer, const analysis::HAnalysis::HTagger Tagger, const analysis::Tagger::Stage stage);
-
-//     void PrepareReader(const analysis::HAnalysis::HTagger Tagger, const analysis::Object::Tag Tag);
-
-    /**
-     * @brief Main Analysis function
-     *
-     */
-    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
-
-//     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWSemiReader(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetWReader(analysis::Event &event, const Tag Tag);
-//     bool GetJetPairTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetJetPairReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopLeptonicTag(analysis::Event &event, analysis::Object::Tag Tag);
-//     bool GetTopLeptonicReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopHadronicTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetTopSemiTag(analysis::Event &event, analysis::Object::Tag Tag);
-//     bool GetTopHadronicReader(analysis::Event &event, const Tag Tag);
-//     bool GetTopSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GetChargedHiggsSemiTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetChargdHiggsSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GetSignatureSemiTag(analysis::Event &event, const Tag Tag);
-//     bool GetSignatureSemiReader(analysis::Event &event, const Tag Tag);
-//     bool GeteventSemiTag(analysis::Event &event, const Tag Tag);
-//     bool GeteventSemiReader(analysis::Event &event, const Tag Tag);
+    int PassPreCut(Event &event);
 
 };
+
+}
 
 }

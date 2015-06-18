@@ -1,8 +1,9 @@
 # pragma once
 
-# include "TObject.h"
-# include "Rtypes.h"
-# include "TGenericClassInfo.h"
+# include "Branches.hh"
+
+namespace analysis
+{
 
 namespace bottom {
 
@@ -11,7 +12,7 @@ namespace bottom {
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class HBTaggerBranch : public TObject
+class HBTaggerBranch : public analysis::Branch
 {
 
 public:
@@ -28,14 +29,12 @@ public:
 
     HBTaggerBranch();
 
-    virtual ~HBTaggerBranch();
-
 private:
-
-    void reset();
 
     ClassDef(HBTaggerBranch, 1)
 
 };
+
+}
 
 }

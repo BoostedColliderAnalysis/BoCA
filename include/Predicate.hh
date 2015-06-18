@@ -1,6 +1,7 @@
 # pragma once
-# include <algorithm>
-# include "Global.hh"
+
+// # include <algorithm>
+# include "JetInfo.hh"
 
 namespace analysis
 {
@@ -20,22 +21,21 @@ struct MinDeltaRTo {
 };
 
 struct MaxDeltaRap {
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        return (Multiplet1.DeltaRap() > Multiplet2.DeltaRap());
+    template <typename Multiplet>
+    inline bool operator()(const Multiplet &multiplet_1, const Multiplet &multiplet_2) {
+        return (multiplet_1.DeltaRap() > multiplet_2.DeltaRap());
     }
 };
 
 struct SortByMassTo {
-    SortByMassTo(const float NewMass) {
-        Mass = NewMass;
+    SortByMassTo(const float mass) {
+        mass_ = mass;
     }
-    template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
-        if (Multiplet1.Jet().m() != Multiplet2.Jet().m()) return std::abs(Multiplet1.Jet().m() - Mass) < std::abs(Multiplet2.Jet().m() - Mass);
-        else return Multiplet1.Bdt() > Multiplet2.Bdt();
+    template <typename Multiplet>
+    inline bool operator()(const Multiplet &Multiplet1, const Multiplet &Multiplet2) {
+          return std::abs(Multiplet1.Jet().m() - mass_) < std::abs(Multiplet2.Jet().m() - mass_);
     }
-    float Mass;
+    float mass_;
 };
 
 template<typename Multiplet>
@@ -112,17 +112,6 @@ inline std::vector<Multiplet> SortedByPt(std::vector<Multiplet> &multiplets)
   return multiplets;
 }
 
-
-template <typename Element>
-std::vector<Element> JoinVectors(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
-{
-    std::vector<Element> joined;
-    joined.reserve(vector_1.size() + vector_2.size());
-    joined.insert(joined.end(), vector_1.begin(), vector_1.end());
-    joined.insert(joined.end(), vector_2.begin(), vector_2.end());
-    return joined;
-}
-
 template <typename Element>
 bool FindInVector(const std::vector<Element> vector, const Element element)
 {
@@ -142,6 +131,10 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
 fastjet::PseudoJet PseudoJet(const TLorentzVector &vector);
 
 Jets copy_if_abs_particle(const Jets &jets, const int particle_id);
+
+Jets copy_if_abs_particle(const Jets &jets, const int particle_id_1, const int particle_id_2);
+
+Jets copy_if_neutrino(const Jets &jets);
 
 Jets copy_if_particle(const Jets &jets, const int particle_id);
 
@@ -173,8 +166,44 @@ Jets RemoveIfNot5Quarks(const Jets &jets);
 
 Jets RemoveIfSoft(const Jets &jets, const float pt_min);
 
-Jets RemoveIfClose(const Jets &jets, const Jets &particles);
 
-Jets CopyIfClose(const Jets &jets, const Jets &particles);
+struct Close {
+  Close(const fastjet::PseudoJet &particle) {
+    particle_ = particle;
+  }
+  template <typename Multiplet>
+  bool operator()(const Multiplet &multiplet) {
+    return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize);
+  }
+  bool operator()(const fastjet::PseudoJet &jet) {
+    return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
+  }
+  fastjet::PseudoJet particle_;
+  DetectorGeometry detector_geometry_;
+};
+
+template <typename Multiplet>
+std::vector<Multiplet> RemoveIfClose(const std::vector<Multiplet> &jets, const Jets& particles)
+{
+  std::vector<Multiplet> quarks = jets;
+  for(const auto &particle : particles) quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
+  return quarks;
+}
+
+template <typename Multiplet>
+std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet> &multiplets, const Jets& particles)
+{
+  if(multiplets.empty()) return multiplets;
+  std::vector<Multiplet> final_multiplets(multiplets.size());
+  typename std::vector<Multiplet>::iterator multiplet;
+  for(const auto &particle : particles) multiplet = std::copy_if(multiplets.begin(), multiplets.end(), final_multiplets.begin(), Close(particle));
+  final_multiplets.resize(std::distance(final_multiplets.begin(), multiplet));
+  return final_multiplets;
+}
+
+
+// Jets RemoveIfClose(const Jets &jets, const Jets &particles);
+//
+// Jets CopyIfClose(const Jets &jets, const Jets &particles);
 
 }

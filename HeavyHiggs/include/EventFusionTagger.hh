@@ -1,18 +1,20 @@
 # pragma once
 
-# include "Branch.hh"
 # include "HeavyHiggsSemiTagger.hh"
-# include "JetPairTagger.hh"
 # include "MultipletEvent.hh"
 
-namespace heavyhiggs {
+namespace analysis
+{
+
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventFusionTagger : public analysis::Tagger
+class EventFusionTagger : public BranchTagger<EventFusionBranch>
 {
 
 public:
@@ -23,9 +25,9 @@ public:
     */
     EventFusionTagger();
 
-    int Train(analysis::Event &event, const Tag tag);
+    int Train(Event &event, const Tag tag);
 
-    std::vector< analysis::MultipletEvent<analysis::Sextet> > Multiplets(analysis::Event& event, TMVA::Reader& eventSemiReader);
+    std::vector< MultipletEvent<Sextet> > Multiplets(Event &event, TMVA::Reader &reader);
 
 protected:
 
@@ -39,20 +41,16 @@ protected:
 
 private:
 
-    void DefineVariables();
+    BottomTagger bottom_tagger_;
 
-    std::vector<analysis::MultipletEvent<analysis::Sextet>> GetHeavyHiggsevents(analysis::Jets &jets);
+    HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
 
-    EventFusionBranch branch_;
+    Reader bottom_reader_;
 
-    analysis::BottomTagger bottom_tagger_;
-
-    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
-
-    analysis::Reader bottom_reader_;
-
-    analysis::Reader heavy_higgs_semi_reader_;
+    Reader heavy_higgs_semi_reader_;
 
 };
+
+}
 
 }

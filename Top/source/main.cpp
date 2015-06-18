@@ -3,85 +3,66 @@
 #include "TopSemiTagger.hh"
 #include "TSystem.h"
 # include "Factory.hh"
-#include <exception>
-
-#include "fastjet/LimitedWarning.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-  top::Analysis analysis(tagger);
-  const std::string name = tagger.name(stage);
-  analysis.Print(analysis.kError, "Tagger", name);
+    analysis::top::Analysis analysis(tagger);
+    const std::string name = tagger.name(stage);
+    analysis.Print(analysis.kError, "Tagger", name);
 
-  std::string file_name = analysis.ProjectName() + "/" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
+    std::string file_name = analysis.ProjectName() + "/" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 }
 
 void RunFactory(analysis::Tagger &tagger)
 {
-  top::Analysis analysis(tagger);
-  const std::string name = tagger.name(analysis::Tagger::kTrainer);
-  analysis.Print(analysis.kError, "Tagger", name);
-  std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
+    analysis::top::Analysis analysis(tagger);
+    const std::string name = tagger.name(analysis::Tagger::kTrainer);
+    analysis.Print(analysis.kError, "Tagger", name);
+    std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
+    if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 }
 
 void RunReader(analysis::Tagger &tagger)
 {
-  top::Analysis analysis(tagger);
-  const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
-  if (gSystem->AccessPathName(file_name.c_str())) {
-    analysis::Reader reader(tagger);
-    reader.OptimalSignificance();
-  }
+    analysis::top::Analysis analysis(tagger);
+    analysis.PrepareFiles();
+    const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
+    if (gSystem->AccessPathName(file_name.c_str())) {
+        analysis::Reader reader(tagger);
+        reader.TaggingEfficiency();
+    }
 }
 
-int main(const int argc, const char **argv)
+void Run(analysis::Tagger &tagger)
 {
-    const std::vector<std::string> Arguments(argv, argv + argc);
-    for (const auto & Argument : Arguments) std::cout << Argument << std::endl;
-    fastjet::Error::set_print_errors(true);
-    fastjet::Error::set_print_backtrace(true);
-    try {
+    RunTagger(tagger, analysis::Tagger::kTrainer);
+    RunFactory(tagger);
+    RunTagger(tagger, analysis::Tagger::kReader);
+}
 
-        analysis::BottomTagger bottom_tagger;
-        RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
-        RunFactory(bottom_tagger);
-        RunTagger(bottom_tagger, analysis::Tagger::kReader);
+int main()
+{
+    analysis::BottomTagger bottom_tagger;
+    Run(bottom_tagger);
 
-        top::Analysis analysis(bottom_tagger);
-        if (analysis.TopDecay() == top::Analysis::kHadronic) {
+    analysis::top::Analysis analysis(bottom_tagger);
+    if (analysis.TopDecay() == analysis::top::Analysis::kHadronic) {
+        analysis::WHadronicTagger w_hadronic_tagger;
+        Run(w_hadronic_tagger);
 
-            analysis::WHadronicTagger w_hadronic_tagger;
-            RunTagger(w_hadronic_tagger, analysis::Tagger::kTrainer);
-            RunFactory(w_hadronic_tagger);
-            RunTagger(w_hadronic_tagger, analysis::Tagger::kReader);
-
-            analysis::TopHadronicTagger top_hadronic_tagger;
-            RunTagger(top_hadronic_tagger, analysis::Tagger::kTrainer);
-            RunFactory(top_hadronic_tagger);
-            RunTagger(top_hadronic_tagger, analysis::Tagger::kReader);
-            RunReader(top_hadronic_tagger);
-
-        }
-
-        if (analysis.TopDecay() == top::Analysis::kLeptonic) {
-
-            analysis::WSemiTagger w_semi_tagger;
-            RunTagger(w_semi_tagger, analysis::Tagger::kTrainer);
-            RunFactory(w_semi_tagger);
-            RunTagger(w_semi_tagger, analysis::Tagger::kReader);
-
-            analysis::TopSemiTagger tops_semi_tagger;
-            RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer);
-            RunFactory(tops_semi_tagger);
-            RunTagger(tops_semi_tagger, analysis::Tagger::kReader);
-            RunReader(tops_semi_tagger);
-        }
-    } catch (const std::exception &exception) {
-      std::cout << "Standard exception: " << exception.what() << std::endl;
+        analysis::TopHadronicTagger top_hadronic_tagger;
+        Run(top_hadronic_tagger);
+        RunReader(top_hadronic_tagger);
     }
-    std::cout << fastjet::LimitedWarning::summary() << std::endl;
-    return EXIT_SUCCESS;
+
+    if (analysis.TopDecay() == analysis::top::Analysis::kLeptonic) {
+        analysis::WSemiTagger w_semi_tagger;
+        Run(w_semi_tagger);
+
+        analysis::TopSemiTagger tops_semi_tagger;
+        Run(tops_semi_tagger);
+        RunReader(tops_semi_tagger);
+    }
 }
 

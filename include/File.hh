@@ -39,6 +39,10 @@ public:
 
     File(const std::string &process, const std::string &run_folder, const std::string &file_suffix);
 
+    File(const std::string &process, const std::string &run_folder, const std::string &file_suffix, const std::string &nice_name);
+
+    File(const std::string &process, const std::string &run_folder, const std::string &file_suffix, const float crosssection);
+
     /**
      * @brief destructor
      *
@@ -88,6 +92,10 @@ public:
 
     std::string tree_name() const;
 
+    std::string nice_name() const{
+      return nice_name_;
+    }
+
     Strings Paths() const;
 
 protected:
@@ -119,6 +127,8 @@ private:
     float mass_ = 0;
 
     std::string file_suffix_ = ".root";
+
+    std::string nice_name_;
 
     ClonesArrays::Source source_ = ClonesArrays::ClonesArrays::kDelphes;
 

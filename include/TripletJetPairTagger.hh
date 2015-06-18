@@ -1,26 +1,25 @@
 # pragma once
 
-// # include "BottomTagger.hh"
 # include "Quartet31.hh"
-// # include "TopSemiTagger.hh"
 # include "TopHadronicTagger.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief JetPair BDT tagger
  *
  */
-class TripletJetPairTagger : public Tagger
+class TripletJetPairTagger : public BranchTagger<TripletJetPairBranch>
 {
 
 public:
 
     TripletJetPairTagger();
 
-    int Train(Event& event, const Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector< Quartet31 > Multiplets(Event &event, const TMVA::Reader &JetPairReader);
+    std::vector< Quartet31 > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 protected:
 
@@ -29,10 +28,6 @@ protected:
     }
 
 private:
-
-    void DefineVariables();
-
-    TripletJetPairBranch branch_;
 
     BottomTagger bottom_tagger_;
 

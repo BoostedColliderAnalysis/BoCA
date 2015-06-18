@@ -2,24 +2,25 @@
 
 # include "Tagger.hh"
 # include "Event.hh"
+# include "Branches.hh"
 
 namespace analysis
 {
 
-class HMvaResult : Object
+class MvaResult : Object
 {
 
 public:
 
-    HMvaResult();
+    MvaResult();
     std::vector<int> CutIntegral(const std::vector< int > &bins) const;
 
-    int Steps;
+    int steps;
     std::vector<float> events;
-    std::vector<float> Efficiency;
-    std::vector<int> AnalysiseventNumber;
-    std::vector<float> Bdt;
-    int TotaleventNumber;
+    std::vector<float> efficiency;
+    std::vector<int> analysis_event_number;
+    std::vector<float> bdt;
+    int event_sum;
 };
 
 /**
@@ -43,11 +44,9 @@ public:
      */
     Reader(Tagger &tagger);
 
-    void operator=(const Reader &) {
-        Print(kError, "invalid assigmnent operator!!", "Dont end up here!!!", "Actually it still seems to work");
-    }
+    void SetTagger(Tagger &tagger);
 
-    void set_tagger(Tagger &tagger);
+    void TaggingEfficiency();
 
     void OptimalSignificance();
 
@@ -55,17 +54,33 @@ public:
 
     int GetBdt(Event &event, PreCuts &pre_cuts) const {
         if (!tagger_) Print(kError, "what is wrong with the tagger?");
-        return tagger_->GetBdt(event, pre_cuts, reader_);
+        return tagger().GetBdt(event, pre_cuts, reader_);
     }
 
     template <typename Tagger, typename Input>
     auto Multiplets(Input &input) {
-        return static_cast<Tagger &>(*tagger_).Multiplets(input, reader_);
+        PreCuts pre_cuts;
+        return static_cast<Tagger &>(tagger()).Multiplets(input, pre_cuts, reader_);
     }
 
     template <typename Tagger, typename Input1, typename Input2>
     auto Multiplets(Input1 &input_1, Input2 &input_2) {
-        return static_cast<Tagger &>(*tagger_).Multiplets(input_1, input_2, reader_);
+        return static_cast<Tagger &>(tagger()).Multiplets(input_1, input_2, reader_);
+    }
+
+    template <typename Tagger, typename Input>
+    auto Multiplet(Input &input) {
+        return static_cast<Tagger &>(tagger()).Multiplet(input, reader_);
+    }
+
+    template <typename Tagger, typename Input1, typename Input2>
+    auto Multiplet(Input1 &input_1, Input2 &input_2) {
+        return static_cast<Tagger &>(tagger()).Multiplet(input_1, input_2, reader_);
+    }
+
+    template <typename Tagger, typename Input>
+    auto SubMultiplet(Input &input, const int number) {
+        return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_, number);
     }
 
     TMVA::Reader &reader() {
@@ -86,11 +101,11 @@ private:
 
     void AddVariable();
 
-    InfoBranch info_branch(TFile &file, const std::string &tree_name) const;
+    InfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
 
     std::vector<int> BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
 
-    HMvaResult BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
+    MvaResult BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
 
     void LatexHeader(std::ofstream &latex_file) const;
 
@@ -100,5 +115,8 @@ private:
         return "Reader";
     }
 
+    int ColorCode(const int number) const;
+
 };
+
 }

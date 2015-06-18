@@ -62,15 +62,15 @@ std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::O
 
     std::vector<analysis::File> BackgroundHadronicFiles;
 
-    std::vector<analysis::File> LeptonicFiles = JoinFiles(SignalLeptonicFiles, BackgroundLeptonicFiles);
-    std::vector<analysis::File> HadronicFiles = JoinFiles(SignalHadronicFiles, BackgroundHadronicFiles);
-    std::vector<analysis::File> SemiFiles = JoinFiles(SignalSemiFiles, BackgroundSemiFiles);
+    std::vector<analysis::File> LeptonicFiles = analysis::Join(SignalLeptonicFiles, BackgroundLeptonicFiles);
+    std::vector<analysis::File> HadronicFiles = analysis::Join(SignalHadronicFiles, BackgroundHadronicFiles);
+    std::vector<analysis::File> SemiFiles = analysis::Join(SignalSemiFiles, BackgroundSemiFiles);
 
-    std::vector<analysis::File> NotLeptonicFiles = JoinFiles(HadronicFiles, SemiFiles);
-    std::vector<analysis::File> CombinedFiles = JoinFiles(NotLeptonicFiles, LeptonicFiles);
+    std::vector<analysis::File> NotLeptonicFiles = analysis::Join(HadronicFiles, SemiFiles);
+    std::vector<analysis::File> CombinedFiles = analysis::Join(NotLeptonicFiles, LeptonicFiles);
 
-    std::vector<analysis::File> NonLeptonicSignalFiles = JoinFiles(SignalLeptonicFiles, SignalSemiFiles);
-    std::vector<analysis::File> CombinedSignalFiles = JoinFiles(SignalHadronicFiles, NonLeptonicSignalFiles);
+    std::vector<analysis::File> NonLeptonicSignalFiles = analysis::Join(SignalLeptonicFiles, SignalSemiFiles);
+    std::vector<analysis::File> CombinedSignalFiles = analysis::Join(SignalHadronicFiles, NonLeptonicSignalFiles);
 
     std::vector<analysis::File> NewFiles;
 
@@ -171,12 +171,12 @@ void hbottomsumtagger::HAnalysis::SetTrees()
     analysis::Strings SignalHadronicTree {};
     analysis::Strings BackgroundHadronicTrees {};
 
-    analysis::Strings LeptonicTrees = JoinStrings(SignalLeptonicTrees, BackgroundLeptonicTrees);
-    analysis::Strings HadronicTrees = JoinStrings(SignalHadronicTree, BackgroundHadronicTrees);
-    analysis::Strings SemiTrees = JoinStrings(SignalSemiTrees, BackgroundSemiTrees);
+    analysis::Strings LeptonicTrees = analysis::Join(SignalLeptonicTrees, BackgroundLeptonicTrees);
+    analysis::Strings HadronicTrees = analysis::Join(SignalHadronicTree, BackgroundHadronicTrees);
+    analysis::Strings SemiTrees = analysis::Join(SignalSemiTrees, BackgroundSemiTrees);
 
-    analysis::Strings NotLeptonicTrees = JoinStrings(HadronicTrees, SemiTrees);
-    analysis::Strings CombinedTrees = JoinStrings(NotLeptonicTrees, LeptonicTrees);
+    analysis::Strings NotLeptonicTrees = analysis::Join(HadronicTrees, SemiTrees);
+    analysis::Strings CombinedTrees = analysis::Join(NotLeptonicTrees, LeptonicTrees);
 
 //     switch (Tagger) {
 //     case HBottomTagger:
@@ -262,10 +262,10 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // }
 
-int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag)
-{
-    Print(kInformation, "Analysis");
-    ++event_sum_;
+// int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Tagger::Stage , const Tag )
+// {
+//     Print(kInformation, "Analysis");
+//     ++event_sum_;
 
 //     switch (Tagger) {
 //     case BottomTagger :
@@ -280,8 +280,9 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //         Print(kError, "unknown Tagger", Tagger);
 //         return 0;
 //     }
-    tagger_.GetBranches(event,stage,tag);
-}
+//     tagger_.GetBranches(event,stage,tag);
+//     return 1;
+// }
 
 
 // bool hbottomsumtagger::HAnalysis::GetBottomTag(analysis::Event &event, const Tag Tag)
@@ -305,7 +306,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 //     if (jets.empty()) return 0;
 //
 //
-//     Jets Particles = event.partons().GenParticles();
+//     Jets Particles = event.Partons().GenParticles();
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
 //
 //     int BNumber=0;
@@ -356,7 +357,7 @@ int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analy
 // //     if (jets.size() < 4) return 0;
 // //
 // //     Jets BottomJets;
-// //     Jets Particles = event.partons().GenParticles();
+// //     Jets Particles = event.Partons().GenParticles();
 // //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
 // //     for (const auto & Particle : Particles) {
 // //       std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));

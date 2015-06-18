@@ -12,9 +12,9 @@ public:
 
     Identification();
 
-    void SetBdt(const float NewBdt);
+    virtual void SetBdt(const float bdt);
 
-    void SetBdt(const float NewBdt1, const float NewBdt2);
+    void SetBdt(const float bdt_1, const float bdt_2);
 
     virtual float Bdt() const;
 
@@ -50,10 +50,10 @@ public:
         return initial_value_;
     }
 
-    template<typename HMultiplet>
-    bool operator < (const HMultiplet &Multiplet) const {
+    template<typename Multiplet>
+    bool operator < (const Multiplet &multiplet) const {
         // largest bdt in front
-        return (Bdt() > Multiplet.Bdt());
+        return (Bdt() > multiplet.Bdt());
     }
 
 protected:

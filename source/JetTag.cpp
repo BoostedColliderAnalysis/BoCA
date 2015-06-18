@@ -1,12 +1,14 @@
 # include "JetTag.hh"
 
-analysis::JetTag::JetTag()
+namespace analysis {
+
+JetTag::JetTag()
 {
-//     DebugLevel = analysis::Object::kDebug;
+//     DebugLevel = Object::kDebug;
     Print(kInformation, "Constructor");
 }
 
-int analysis::JetTag::GetBranchId(const int particle_id, int branch_id)
+int JetTag::GetBranchId(const int particle_id, int branch_id)
 {
     Print(kDebug, "Branch Id", Name(particle_id), Name(branch_id));
     if (
@@ -23,7 +25,7 @@ int analysis::JetTag::GetBranchId(const int particle_id, int branch_id)
     return branch_id;
 }
 
-analysis::Family analysis::JetTag::BranchFamily(const Family &node_family, Family &branch_family)
+Family JetTag::BranchFamily(const Family &node_family, Family &branch_family)
 {
     Print(kDebug, "Branch Id", Name(node_family.particle().Id), Name(node_family.mother_1().Id), Name(branch_family.particle().Id));
     if (
@@ -46,4 +48,6 @@ analysis::Family analysis::JetTag::BranchFamily(const Family &node_family, Famil
     }
     Print(kDebug, "Branch Id", Name(branch_family.particle().Id));
     return branch_family;
+}
+
 }

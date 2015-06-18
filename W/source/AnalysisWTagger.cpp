@@ -1,18 +1,24 @@
 # include "AnalysisWTagger.hh"
 
-
-hwtagger::HAnalysis::HAnalysis(analysis::Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+namespace analysis
 {
-//   DebugLevel = analysis::Object::kDebug;
+
+namespace wtagger
+{
+
+
+Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+{
+//   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
-    tagger_.set_analysis_name(ProjectName());
-//     pre_cuts_.SetPtLowerCut(WId, PreCut());
-//     pre_cuts_.SetPtUpperCut(WId, UpperCut());
+    this->tagger().set_analysis_name(ProjectName());
+//     pre_cuts().SetPtLowerCut(WId, PreCut());
+//     pre_cuts().SetPtUpperCut(WId, UpperCut());
 //     DetectorGeometry detector_geometry;
-//     pre_cuts_.SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
+//     pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
 
-std::string hwtagger::HAnalysis::ProcessName(const Process process) const
+std::string Analysis::ProcessName(const Process process) const
 {
     switch (process) {
     case Hbb:
@@ -74,7 +80,7 @@ std::string hwtagger::HAnalysis::ProcessName(const Process process) const
     }
 }
 
-std::string hwtagger::HAnalysis::ColliderName(const Collider collider) const
+std::string Analysis::ColliderName(const Collider collider) const
 {
     switch (collider) {
     case LHC :
@@ -89,7 +95,7 @@ std::string hwtagger::HAnalysis::ColliderName(const Collider collider) const
     }
 }
 
-void hwtagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
+void Analysis::SetFiles(const Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
@@ -132,24 +138,15 @@ void hwtagger::HAnalysis::SetFiles(const analysis::Object::Tag tag)
 }
 
 
-int hwtagger::HAnalysis::PassPreCut(analysis::Event &event)
+int Analysis::PassPreCut(Event &event)
 {
-    Print(kInformation, "paas pre cut");
-    analysis::Jets particles = event.partons().GenParticles();
-    analysis::Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
+    Print(kInformation, "pass pre cut");
+    Jets particles = event.Partons().GenParticles();
+    Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
 //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
     return w.size();
 }
 
-int hwtagger::HAnalysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
-{
-    Print(kInformation, "Analysis");
-    switch (stage) {
-    case analysis::Tagger::kTrainer :
-        return tagger_.Train(event, pre_cuts_, tag);
-    case analysis::Tagger::kReader :
-        return reader_.GetBdt(event, pre_cuts_);
-    default :
-        return 0;
-    }
+}
+
 }

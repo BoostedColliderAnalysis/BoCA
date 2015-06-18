@@ -3,7 +3,7 @@
 
 int main()
 {
-  hcpvhiggs::HMva Mva;
-  analysis::Factory Factory(Mva);
-  return 0;
+//   hcpvhiggs::HMva Mva;
+//   analysis::Factory Factory(Mva);
+//   return 0;
 }

@@ -5,15 +5,17 @@
 
 # include "Predicate.hh"
 
+namespace analysis
+{
 
-analysis::File::File()
+File::File()
 {
     Print(kInformation, "Constructor");
     SetVariables();
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const std::string &process)
+File::File(const std::string &process)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -21,7 +23,7 @@ analysis::File::File(const std::string &process)
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const std::string &process, const float crosssection)
+File::File(const std::string &process, const float crosssection)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -30,7 +32,7 @@ analysis::File::File(const std::string &process, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const std::string &process, const float crosssection, const float mass)
+File::File(const std::string &process, const float crosssection, const float mass)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -40,34 +42,34 @@ analysis::File::File(const std::string &process, const float crosssection, const
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const Strings &processes)
+File::File(const Strings &processes)
 {
     Print(kInformation, "Constructor");
     SetVariables();
-    process_folders_ = JoinVectors(process_folders_, processes);
+    process_folders_ = Join(process_folders_, processes);
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const Strings &processes, const float crosssection)
+File::File(const Strings &processes, const float crosssection)
 {
     Print(kInformation, "Constructor");
     SetVariables();
-    process_folders_ = JoinVectors(process_folders_, processes);
+    process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const Strings &processes, const float crosssection, const float mass)
+File::File(const Strings &processes, const float crosssection, const float mass)
 {
     Print(kInformation, "Constructor");
     SetVariables();
-    process_folders_ = JoinVectors(process_folders_, processes);
+    process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
     mass_ = mass;
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const std::string &process, const std::string &run_folder)
+File::File(const std::string &process, const std::string &run_folder)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -76,7 +78,17 @@ analysis::File::File(const std::string &process, const std::string &run_folder)
     file_suffix_ = file_suffix();
 }
 
-analysis::File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
+File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crosssection)
+{
+    Print(kInformation, "Constructor");
+    SetVariables();
+    process_folders_.emplace_back(process);
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+    crossection_ = crosssection;
+}
+
+File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
     Print(kInformation, "Constructor");
     SetVariables();
@@ -85,7 +97,17 @@ analysis::File::File(const std::string &process, const std::string &base_path, c
     file_suffix_ = file_suffix;
 }
 
-std::string analysis::File::file_suffix() const
+File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const std::string &nice_name)
+{
+    Print(kInformation, "Constructor");
+    SetVariables();
+    process_folders_.emplace_back(process);
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+    nice_name_ = nice_name;
+}
+
+std::string File::file_suffix() const
 {
     switch (source()) {
     case ClonesArrays::kDelphes :
@@ -100,7 +122,7 @@ std::string analysis::File::file_suffix() const
     }
 }
 
-std::string analysis::File::tree_name() const
+std::string File::tree_name() const
 {
     switch (source()) {
     case ClonesArrays::kDelphes :
@@ -115,24 +137,24 @@ std::string analysis::File::tree_name() const
     }
 }
 
-std::string analysis::File::Title() const
+std::string File::Title() const
 {
     return process_folders_.front() + "-" + run_folder_;
 }
 
-std::string analysis::File::MadGraphFilePath() const
+std::string File::MadGraphFilePath() const
 {
     return base_path_ + process_folders_.front() + "/events/" + run_folder_ + "/";
 }
 
-void analysis::File::SetVariables()
+void File::SetVariables()
 {
     Print(kInformation, "Set Variables");
     run_folder_ = "run_01";
     tag_name_ = "tag_1";
 }
 
-analysis::Strings analysis::File::Paths() const
+Strings File::Paths() const
 {
     Print(kInformation, "FilePath");
     Strings FilePaths;
@@ -140,7 +162,7 @@ analysis::Strings analysis::File::Paths() const
     return FilePaths;
 }
 
-exroot::TreeReader analysis::File::TreeReader()
+exroot::TreeReader File::TreeReader()
 {
     Print(kNotification, "Tree Reader", Paths().front());
     chain_ = new TChain(tree_name().c_str());
@@ -148,21 +170,23 @@ exroot::TreeReader analysis::File::TreeReader()
     return exroot::TreeReader(chain_);
 }
 
-analysis::ClonesArrays analysis::File::clones_arrays()
+ClonesArrays File::clones_arrays()
 {
     Print(kNotification, "Clones Arrays");
     return ClonesArrays(source());
 }
 
 
-analysis::Event analysis::File::event()
+Event File::event()
 {
     Print(kNotification, "event");
     return Event(source());
 }
 
-analysis::File::~File()
+File::~File()
 {
     Print(kNotification, "Destructor");
     delete chain_;
+}
+
 }

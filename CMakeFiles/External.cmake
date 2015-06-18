@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-ExternalProject_Add(HMt2
+ExternalProject_Add(Mt2
 URL http://particle.physics.ucdavis.edu/hefti/projects/lib/exe/fetch.php?media=mt2-1.01a.tar.gz
 URL_MD5 dd2d167abb23f4146c05fd0962fba6dc
 DOWNLOAD_NAME mt2-1.01a.tar.gz
@@ -11,7 +11,7 @@ PATCH_COMMAND
 && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake
 )
 
-ExternalProject_Add(HWimpMass
+ExternalProject_Add(WimpMass
 URL http://particle.physics.ucdavis.edu/hefti/projects/lib/exe/fetch.php?media=wimpmass-1.00.tar.gz
 URL_MD5 1068a6ab41bf52043dd42ce1cd88cbc2
 DOWNLOAD_NAME wimpmass-1.00.tar.gz
@@ -26,7 +26,7 @@ PATCH_COMMAND
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/examples/sqsq_pythia_events.lhe <BINARY_DIR>/bin/
 )
 
-ExternalProject_Get_Property(HWimpMass SOURCE_DIR)
+ExternalProject_Get_Property(WimpMass SOURCE_DIR)
 HInclude(${SOURCE_DIR}/WIMPMASS)
 HLinkLibraries(${CMAKE_BINARY_DIR}/WimpMass/lib/libWimpMass.so)
 

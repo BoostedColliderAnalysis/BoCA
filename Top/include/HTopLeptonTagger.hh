@@ -1,32 +1,37 @@
 # pragma once
 
-
 # include "Doublet.hh"
 # include "BottomTagger.hh"
 # include "Reader.hh"
+
+namespace analysis
+{
+
+namespace top
+{
 
 /**
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HTopLeptonTagger : public analysis::Tagger
+class HTopLeptonTagger : public Tagger
 {
 
 public:
 
     HTopLeptonTagger();
 
-    void SetTagger(const analysis::BottomTagger &NewBottomTagger);
+    void SetTagger(const BottomTagger &NewBottomTagger);
 
-    std::vector<analysis::HTopLeptonBranch> GetBranches(analysis::Event &event, const analysis::Object::Tag tag);
+    std::vector<HTopLeptonBranch> GetBranches(Event &event, const Object::Tag tag);
 
-    std::vector<analysis::Doublet> GetBdt(const analysis::Jets &jets, const analysis::Jets &Leptons, const analysis::Reader &Reader);
+    std::vector<Doublet> GetBdt(const Jets &jets, const Jets &Leptons, const Reader &Reader);
 
-    analysis::HTopLeptonBranch GetBranch(const analysis::Doublet &doublet) const;
+    HTopLeptonBranch GetBranch(const Doublet &doublet) const;
 
-    analysis::BottomTagger bottom_tagger_;
+    BottomTagger bottom_tagger_;
 
-    analysis::Reader BottomReader;
+    Reader BottomReader;
 protected:
 
     virtual inline std::string ClassName() const {
@@ -37,7 +42,7 @@ private:
 
     void DefineVariables();
 
-    analysis::HTopLeptonBranch Branch;
+    HTopLeptonBranch Branch;
 
     float TopWindow;
 
@@ -52,3 +57,7 @@ private:
     int eventNumber = 0;
 
 };
+
+}
+
+}

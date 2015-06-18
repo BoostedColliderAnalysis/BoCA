@@ -1,51 +1,29 @@
 # include "SignatureNeutralTagger.hh"
 
-heavyhiggs::SignatureNeutralTagger::SignatureNeutralTagger()
+namespace analysis
+{
+
+namespace heavyhiggs
+{
+
+SignatureNeutralTagger::SignatureNeutralTagger()
 {
     //   DebugLevel = kDebug;
     Print(kNotification , "Constructor");
     set_tagger_name("SignatureNeutral");
-    heavy_higgs_semi_reader_.set_tagger(heavy_higgs_semi_tagger_);
-    jet_pair_reader_.set_tagger(jet_pair_tagger_);
+    heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
+    jet_pair_reader_.SetTagger(jet_pair_tagger_);
     DefineVariables();
 }
 
-void heavyhiggs::SignatureNeutralTagger::DefineVariables()
-{
-    Print(kNotification, "Define Variables");
-    AddVariable(branch_.Mass, "Mass");
-    AddVariable(branch_.Pt, "Pt");
-    AddVariable(branch_.Rap, "Rap");
-    AddVariable(branch_.Phi, "Phi");
-    AddVariable(branch_.Ht, "Ht");
-    AddVariable(branch_.DeltaPt, "DeltaPt");
-    AddVariable(branch_.DeltaHt, "DeltaHt");
-    AddVariable(branch_.DeltaM, "DeltaM");
-    AddVariable(branch_.DeltaRap, "DeltaRap");
-    AddVariable(branch_.DeltaPhi, "DeltaPhi");
-    AddVariable(branch_.DeltaR, "DeltaR");
-    AddVariable(branch_.HiggsMass, "HiggsMass");
-    AddVariable(branch_.PairRap, "PairRap");
-    AddVariable(branch_.BottomBdt, "BottomBdt");
-    AddVariable(branch_.PairBottomBdt, "PairBottomBdt");
-    AddVariable(branch_.PairBdt, "PairBdt");
-    AddVariable(branch_.HiggsBdt, "HiggsBdt");
-    AddVariable(branch_.HardTopPt, "HardTopPt");
-    AddVariable(branch_.SoftTopPt, "SoftTopPt");
-    AddVariable(branch_.Bdt, "Bdt");
-    AddSpectator(branch_.Tag, "Tag");
-    Print(kNotification, "Variables defined");
-}
-
-
-int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag tag)
+int SignatureNeutralTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag)
 {
     Print(kInformation, "event Tags");
     float Mass = event.mass();
-    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
     if (sextets.empty())Print(kInformation, "No sextets", sextets.size());
 
-    analysis::Jets HiggsParticles = event.partons().GenParticles();
+    analysis::Jets HiggsParticles = event.Partons().GenParticles();
     analysis::Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
     analysis::Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
     HiggsParticles = Even;
@@ -61,35 +39,24 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
     std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
 
     std::vector<analysis::Doublet> Finaldoublets;
-    analysis::Jets Particles = event.partons().GenParticles();
+    analysis::Jets Particles = event.Partons().GenParticles();
     if (tag == kSignal) {
         Particles = RemoveIfWrongAbsFamily(Particles, BottomId, GluonId);
         if (Particles.size() == 2) {
             for (const auto & doublet : doublets) {
-                if ((doublet.Singlet1().delta_R(Particles.at(0)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(1)) < detector_geometry().JetConeSize) || (doublet.Singlet1().delta_R(Particles.at(1)) < detector_geometry().JetConeSize && doublet.Singlet2().delta_R(Particles.at(0)) < detector_geometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
+                if ((doublet.SingletJet1().delta_R(Particles.at(0)) < detector_geometry().JetConeSize && doublet.SingletJet2().delta_R(Particles.at(1)) < detector_geometry().JetConeSize) || (doublet.SingletJet1().delta_R(Particles.at(1)) < detector_geometry().JetConeSize && doublet.SingletJet2().delta_R(Particles.at(0)) < detector_geometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
             }
         }
     }
     if (tag == kBackground) Finaldoublets = doublets;
 
-    std::vector<Octet62> octets;
+    std::vector<analysis::Octet62> octets;
     for (const auto & doublet : Finaldoublets) {
         for (const auto & sextet : sextets) {
             if (tag == kSignal && sextet.Jet().m() < Mass / 2)continue;
             if (tag == kSignal && sextet.Jet().m() > Mass * 3 / 2)continue;
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            Octet62 octet(sextet, doublet);
+            analysis::Octet62 octet(sextet, doublet);
+            if (octet.Overlap()) continue;
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
@@ -102,42 +69,29 @@ int heavyhiggs::SignatureNeutralTagger::Train(analysis::Event &event, const Tag 
         octets.erase(octets.begin() + 1, octets.end());
     }
 
-    return SaveEntries<OctetNeutralBranch>(octets);
+    return SaveEntries(octets);
 
 }
 
 
-std::vector<Octet62> heavyhiggs::SignatureNeutralTagger::Multiplets(analysis::Event &event, const TMVA::Reader &reader)
+std::vector<analysis::Octet62> SignatureNeutralTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Print(kInformation, "event Tags");
 
     std::vector<analysis::Doublet> doublets = jet_pair_reader_.Multiplets<analysis::JetPairTagger>(event);
-    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<analysis::HeavyHiggsSemiTagger>(event);
-    std::vector<Octet62> octets;
+    std::vector<analysis::Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
+    std::vector<analysis::Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet1().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().singlet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet1().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Singlet2().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().doublet().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet1()) < detector_geometry().JetConeSize) continue;
-            if (sextet.triplet2().Jet().delta_R(doublet.Singlet2()) < detector_geometry().JetConeSize) continue;
-            Octet62 octet(sextet, doublet);
-            branch_ = branch<OctetNeutralBranch>(octet);
-            octet.SetBdt(Bdt(reader));
+            analysis::Octet62 octet(sextet, doublet);
+            if (octet.Overlap()) continue;
+            octet.SetBdt(Bdt(octet, reader));
             octets.emplace_back(octet);
         }
     }
+    return ReduceResult(octets);
+}
 
-    if (octets.size() > 1) std::sort(octets.begin(), octets.end());
-    octets.erase(octets.begin() + std::min(max_combi(), int(octets.size())), octets.end());
-    Print(kInformation, "event Number", octets.size());
+}
 
-    return octets;
 }

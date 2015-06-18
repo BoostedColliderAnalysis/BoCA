@@ -2,15 +2,285 @@
 
 # include "Branches.hh"
 
-namespace heavyhiggs {
+namespace analysis
+{
 
+namespace heavyhiggs
+{
+
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HeavyHiggsLeptonicBranch : public PairBranch
+{
+
+public:
+
+    HeavyHiggsLeptonicBranch();
+
+    float LargerWDeltaRap;
+    float LargerWDeltaPhi;
+    float LargerWDeltaR;
+
+    float SmallerWDeltaRap;
+    float SmallerWDeltaPhi;
+    float SmallerWDeltaR;
+
+    float LargerNeutrinoDeltaRap;
+    float LargerNeutrinoDeltaPhi;
+    float LargerNeutrinoDeltaR;
+
+    float SmallerNeutrinoDeltaRap;
+    float SmallerNeutrinoDeltaPhi;
+    float SmallerNeutrinoDeltaR;
+
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        PairBranch::Fill(multiplet);
+
+        LargerWDeltaR = multiplet.GetLargertripletDeltaR();
+        LargerWDeltaRap = multiplet.GetLargertripletDeltaRap();
+        LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
+
+        SmallerWDeltaR = multiplet.GetSmallertripletDeltaR();
+        SmallerWDeltaRap = multiplet.GetSmallertripletDeltaRap();
+        SmallerWDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
+
+        LargerNeutrinoDeltaR = multiplet.GetLargertripletDeltaR();
+        LargerNeutrinoDeltaRap = multiplet.GetLargertripletDeltaRap();
+        LargerNeutrinoDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
+
+        SmallerNeutrinoDeltaR = multiplet.GetSmallertripletDeltaR();
+        SmallerNeutrinoDeltaRap = multiplet.GetSmallertripletDeltaRap();
+        SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
+
+    }
+
+    Observables Variables() {
+        return Join(ParticleBranch::Variables(), {PAIR(LargerWDeltaR), PAIR(LargerWDeltaRap), PAIR(LargerWDeltaPhi), PAIR(SmallerWDeltaR), PAIR(SmallerWDeltaRap), PAIR(SmallerWDeltaPhi), PAIR(LargerNeutrinoDeltaR), PAIR(LargerNeutrinoDeltaRap), PAIR(LargerNeutrinoDeltaPhi), PAIR(SmallerNeutrinoDeltaR), PAIR(SmallerNeutrinoDeltaRap), PAIR(SmallerNeutrinoDeltaPhi)});
+    }
+private:
+
+    ClassDef(HeavyHiggsLeptonicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HHeavyHiggsHadronicBranch : public Branch
+{
+
+public:
+
+    HHeavyHiggsHadronicBranch();
+
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+
+    float TopBdt;
+
+    float HeavyHiggsTag;
+
+private:
+
+    ClassDef(HHeavyHiggsHadronicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HeavyHiggsSemiBranch : public MultiBranch
+{
+
+public:
+
+    HeavyHiggsSemiBranch();
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        MultiBranch::Fill(multiplet);
+    }
+
+private:
+
+    ClassDef(HeavyHiggsSemiBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Charged Higgs semi tagger root tree structure
+ *
+ */
+class ChargedHiggsSemiBranch : public MultiBranch
+{
+
+public:
+
+    float Flag;
+    ChargedHiggsSemiBranch();
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        MultiBranch::Fill(multiplet);
+        Flag = multiplet.Flag();
+    }
+    virtual Observables Spectators() {
+        return Join(ParticleBranch::Spectators(), {PAIR(Flag)});
+    }
+
+private:
+
+    ClassDef(ChargedHiggsSemiBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class HChargedHiggsHadronicBranch : public Branch
+{
+
+public:
+
+    HChargedHiggsHadronicBranch();
+
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+
+    float TopBdt;
+
+    float HeavyHiggsTag;
+
+private:
+
+    ClassDef(HChargedHiggsHadronicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Higgs tagger root tree structure
+ *
+ */
+class ChargedHiggsLeptonicBranch : public MultiBranch
+{
+
+public:
+
+    ChargedHiggsLeptonicBranch();
+
+    float HeavyHiggsMass;
+    float HeavyHiggsPt;
+
+    float TopDeltaRap;
+    float TopDeltaPhi;
+    float TopDeltaR;
+
+    float LargerWDeltaRap;
+    float LargerWDeltaPhi;
+    float LargerWDeltaR;
+
+    float SmallerWDeltaRap;
+    float SmallerWDeltaPhi;
+    float SmallerWDeltaR;
+
+    float LargerNeutrinoDeltaRap;
+    float LargerNeutrinoDeltaPhi;
+    float LargerNeutrinoDeltaR;
+
+    float SmallerNeutrinoDeltaRap;
+    float SmallerNeutrinoDeltaPhi;
+    float SmallerNeutrinoDeltaR;
+
+    float TopBdt;
+
+    float HeavyHiggsTag;
+
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        MultiBranch::Fill(multiplet);
+        HeavyHiggsMass = multiplet.Jet().m();
+        HeavyHiggsPt = multiplet.Jet().m();
+        TopDeltaR = multiplet.DeltaR();
+        TopDeltaRap = multiplet.DeltaRap();
+        TopDeltaPhi = multiplet.DeltaPhi();
+        TopBdt = multiplet.Bdt();
+        HeavyHiggsTag = multiplet.Tag();
+    }
+
+    Observables Variables() {
+        return Join(ParticleBranch::Variables(), {PAIR(HeavyHiggsMass), PAIR(HeavyHiggsPt), PAIR(TopDeltaR), PAIR(TopDeltaRap), PAIR(TopDeltaPhi), PAIR(TopBdt)});
+    }
+    virtual Observables Spectators() {
+        return Join(ParticleBranch::Spectators(), {PAIR(HeavyHiggsTag)});
+    }
+
+private:
+
+    ClassDef(ChargedHiggsLeptonicBranch, 1)
+
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class HeavyHiggsTauBranch : public PairBranch
+{
+
+public:
+
+    HeavyHiggsTauBranch();
+
+    float LeptonPt;
+    float NeutrinoPt;
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        PairBranch::Fill(multiplet);
+        LeptonPt = multiplet.SingletJet1().pt();
+        NeutrinoPt = multiplet.SingletJet2().pt();
+    }
+
+    Observables Variables() {
+        return Join(ParticleBranch::Variables(), {PAIR(LeptonPt), PAIR(NeutrinoPt)});
+    }
+
+private:
+
+    ClassDef(HeavyHiggsTauBranch, 1)
+
+};
 
 /**
  *
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventNeutralBranch : public analysis::MultiBranch
+class EventNeutralBranch : public EventBranch
 {
 
 public:
@@ -24,24 +294,8 @@ public:
     float BottomBdt;
     float PairBottomBdt;
 
-    float LeptonNumber;
-    float JetNumber;
-    float BottomNumber;
-    float ScalarHt;
-
-    float RestNumber;
-    float RestHt;
-    float RestM;
-    float RestPt;
-    float RestRap;
-    float RestBdt;
-    float RestPhi;
-    float LeptonHt;
-
     float HardTopPt;
     float SoftTopPt;
-
-    float MissingEt;
 
     float BottomBdt1;
     float BottomBdt2;
@@ -56,73 +310,36 @@ public:
     float BottomBdt56;
     float BottomBdt78;
 
-    float SubBottomBdt1;
-    float SubBottomBdt2;
-    float SubBottomBdt3;
-    float SubBottomBdt4;
-    float SubBottomBdt5;
-    float SubBottomBdt6;
-    float SubBottomBdt7;
-    float SubBottomBdt8;
-    float SubBottomBdt12;
-    float SubBottomBdt34;
-    float SubBottomBdt56;
-    float SubBottomBdt78;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-        analysis::MultiBranch::Fill(multiplet);
-        LeptonNumber = multiplet.LeptonNumber();
-        JetNumber = multiplet.JetNumber();
-        BottomNumber = multiplet.BottomNumber();
-        ScalarHt = multiplet.ScalarHt();
+        EventBranch::Fill(multiplet);
+        HiggsMass = multiplet.Multiplet().Sextet().Jet().m();
+        HiggsBdt = multiplet.Multiplet().Sextet().Bdt();
+        SignatureBdt = multiplet.Multiplet().Bdt();
+        PairRap = multiplet.Multiplet().Doublet().DeltaRap();
+        BottomBdt = multiplet.Multiplet().BottomBdt();
+        PairBottomBdt = multiplet.Multiplet().PairBottomBdt();
 
-        HiggsMass = multiplet.multiplet().sextet().Jet().m();
-        HiggsBdt = multiplet.multiplet().sextet().Bdt();
-        SignatureBdt = multiplet.multiplet().Bdt();
-        PairRap = multiplet.multiplet().doublet().DeltaRap();
-        BottomBdt = multiplet.multiplet().BottomBdt();
-        PairBottomBdt = multiplet.multiplet().PairBottomBdt();
+        HardTopPt = multiplet.Multiplet().Sextet().HardTopPt();
+        SoftTopPt = multiplet.Multiplet().Sextet().SoftTopPt();
 
-        HardTopPt = multiplet.multiplet().sextet().HardTopPt();
-        SoftTopPt = multiplet.multiplet().sextet().SoftTopPt();
+        BottomBdt1 = multiplet.GlobalObservables().BottomBdt(1);
+        BottomBdt2 = multiplet.GlobalObservables().BottomBdt(2);
+        BottomBdt3 = multiplet.GlobalObservables().BottomBdt(3);
+        BottomBdt4 = multiplet.GlobalObservables().BottomBdt(4);
+        BottomBdt5 = multiplet.GlobalObservables().BottomBdt(5);
+        BottomBdt6 = multiplet.GlobalObservables().BottomBdt(6);
+        BottomBdt7 = multiplet.GlobalObservables().BottomBdt(7);
+        BottomBdt8 = multiplet.GlobalObservables().BottomBdt(8);
+        BottomBdt12 = multiplet.GlobalObservables().BottomBdt(1, 2);
+        BottomBdt34 = multiplet.GlobalObservables().BottomBdt(3, 4);
+        BottomBdt56 = multiplet.GlobalObservables().BottomBdt(5, 6);
+        BottomBdt78 = multiplet.GlobalObservables().BottomBdt(7, 8);
 
-        MissingEt = multiplet.MissingEt();
+    }
 
-        BottomBdt1 = multiplet.BottomBdt(1);
-        BottomBdt2 = multiplet.BottomBdt(2);
-        BottomBdt3 = multiplet.BottomBdt(3);
-        BottomBdt4 = multiplet.BottomBdt(4);
-        BottomBdt5 = multiplet.BottomBdt(5);
-        BottomBdt6 = multiplet.BottomBdt(6);
-        BottomBdt7 = multiplet.BottomBdt(7);
-        BottomBdt8 = multiplet.BottomBdt(8);
-        BottomBdt12 = multiplet.BottomBdt(1, 2);
-        BottomBdt34 = multiplet.BottomBdt(3, 4);
-        BottomBdt56 = multiplet.BottomBdt(5, 6);
-        BottomBdt78 = multiplet.BottomBdt(7, 8);
-
-        SubBottomBdt1 = multiplet.SubBottomBdt(1);
-        SubBottomBdt2 = multiplet.SubBottomBdt(2);
-        SubBottomBdt3 = multiplet.SubBottomBdt(3);
-        SubBottomBdt4 = multiplet.SubBottomBdt(4);
-        SubBottomBdt5 = multiplet.SubBottomBdt(5);
-        SubBottomBdt6 = multiplet.SubBottomBdt(6);
-        SubBottomBdt7 = multiplet.SubBottomBdt(7);
-        SubBottomBdt8 = multiplet.SubBottomBdt(8);
-        SubBottomBdt12 = multiplet.SubBottomBdt(1, 2);
-        SubBottomBdt34 = multiplet.SubBottomBdt(3, 4);
-        SubBottomBdt56 = multiplet.SubBottomBdt(5, 6);
-        SubBottomBdt78 = multiplet.SubBottomBdt(7, 8);
-
-        RestNumber = multiplet.RestNumber();
-        RestM = multiplet.RestJet().m();
-        RestPt = multiplet.RestJet().pt();
-        RestHt = multiplet.RestHt();
-        RestRap = multiplet.RestJet().rap();
-        RestPhi = multiplet.RestJet().phi();
-        RestBdt = multiplet.RestBdt();
-
-        LeptonHt = multiplet.LeptonHt();
+    Observables Variables() {
+        return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
     }
 
 private:
@@ -137,7 +354,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventFusionBranch : public analysis::MultiBranch
+class EventFusionBranch : public EventBranch
 {
 
 public:
@@ -146,21 +363,17 @@ public:
 
 
     float HiggsMass;
-    float HiggsBdt;
 
-    float LeptonNumber;
-    float JetNumber;
-    float BottomNumber;
-    float ScalarHt;
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        EventBranch::Fill(multiplet);
+        HiggsMass = multiplet.Jet().m();
+    }
 
-    float RestNumber;
-    float RestHt;
-    float RestM;
-    float RestPt;
-    float RestRap;
-    float RestBdt;
-    float RestPhi;
-    float LeptonHt;
+    Observables Variables() {
+        return Join(EventBranch::Variables(), {PAIR(HiggsMass)});
+    }
+
 
 private:
 
@@ -174,7 +387,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class OctetNeutralBranch : public analysis::MultiBranch
+class OctetNeutralBranch : public MultiBranch
 {
 
 public:
@@ -192,16 +405,21 @@ public:
 
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-        analysis::MultiBranch::Fill(multiplet);
+        MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
-        PairBdt = multiplet.doublet().Bdt();
-        HiggsBdt = multiplet.sextet().Bdt();
-        HardTopPt = multiplet.sextet().HardTopPt();
-        SoftTopPt = multiplet.sextet().SoftTopPt();
-        HiggsMass = multiplet.sextet().Jet().m();
-        PairRap = multiplet.doublet().DeltaRap();
+        PairBdt = multiplet.Doublet().Bdt();
+        HiggsBdt = multiplet.Sextet().Bdt();
+        HardTopPt = multiplet.Sextet().HardTopPt();
+        SoftTopPt = multiplet.Sextet().SoftTopPt();
+        HiggsMass = multiplet.Sextet().Jet().m();
+        PairRap = multiplet.Doublet().DeltaRap();
     }
+
+    Observables Variables() {
+      return Join(MultiBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(PairBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(PairBottomBdt)});
+    }
+
 
 private:
 
@@ -214,7 +432,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class OctetChargedBranch : public analysis::MultiBranch
+class OctetChargedBranch : public MultiBranch
 {
 
 public:
@@ -231,14 +449,18 @@ public:
 
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-        analysis::MultiBranch::Fill(multiplet);
+        MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
-        HiggsBdt = multiplet.quartet1().Bdt();
-        PairBdt = multiplet.quartet2().Bdt();
+        HiggsBdt = multiplet.Quartet1().Bdt();
+        PairBdt = multiplet.Quartet2().Bdt();
 
-        HiggsMass = multiplet.quartet1().Jet().m();
-        PairRap = multiplet.quartet2().DeltaRap();
+        HiggsMass = multiplet.Quartet1().Jet().m();
+        PairRap = multiplet.Quartet2().DeltaRap();
+    }
+
+    Observables Variables() {
+      return Join(MultiBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(PairBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt)});
     }
 
 private:
@@ -252,7 +474,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventChargedBranch : public analysis::MultiBranch
+class EventChargedBranch : public EventBranch
 {
 
 public:
@@ -266,20 +488,7 @@ public:
     float BottomBdt;
     float PairBottomBdt;
 
-    float LeptonNumber;
-    float JetNumber;
-    float BottomNumber;
-    float ScalarHt;
-
-    float RestNumber;
-    float RestHt;
-    float RestM;
-    float RestPt;
-    float RestRap;
     float RestBdt;
-    float RestPhi;
-    float LeptonHt;
-    float MissingEt;
 
     float BottomBdt1;
     float BottomBdt2;
@@ -294,71 +503,36 @@ public:
     float BottomBdt56;
     float BottomBdt78;
 
-    float SubBottomBdt1;
-    float SubBottomBdt2;
-    float SubBottomBdt3;
-    float SubBottomBdt4;
-    float SubBottomBdt5;
-    float SubBottomBdt6;
-    float SubBottomBdt7;
-    float SubBottomBdt8;
-    float SubBottomBdt12;
-    float SubBottomBdt34;
-    float SubBottomBdt56;
-    float SubBottomBdt78;
-
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-        analysis::MultiBranch::Fill(multiplet);
+        EventBranch::Fill(multiplet);
 
-        LeptonNumber = multiplet.LeptonNumber();
-        JetNumber = multiplet.JetNumber();
-        BottomNumber = multiplet.BottomNumber();
-        ScalarHt = multiplet.ScalarHt();
+        HiggsMass = multiplet.Multiplet().Quartet1().Jet().m();
+        HiggsBdt = multiplet.Multiplet().Quartet1().Bdt();
+        SignatureBdt = multiplet.Multiplet().Bdt();
+        PairRap = multiplet.Multiplet().Quartet2().DeltaRap();
+        BottomBdt = multiplet.Multiplet().BottomBdt();
+        PairBottomBdt = multiplet.Multiplet().PairBottomBdt();
 
-        HiggsMass = multiplet.multiplet().quartet1().Jet().m();
-        PairRap = multiplet.multiplet().quartet2().DeltaRap();
-        HiggsBdt = multiplet.multiplet().quartet1().Bdt();
-        SignatureBdt = multiplet.multiplet().Bdt();
-        BottomBdt = multiplet.multiplet().BottomBdt();
-        PairBottomBdt = multiplet.multiplet().PairBottomBdt();
+        BottomBdt1 = multiplet.GlobalObservables().BottomBdt(1);
+        BottomBdt2 = multiplet.GlobalObservables().BottomBdt(2);
+        BottomBdt3 = multiplet.GlobalObservables().BottomBdt(3);
+        BottomBdt4 = multiplet.GlobalObservables().BottomBdt(4);
+        BottomBdt5 = multiplet.GlobalObservables().BottomBdt(5);
+        BottomBdt6 = multiplet.GlobalObservables().BottomBdt(6);
+        BottomBdt7 = multiplet.GlobalObservables().BottomBdt(7);
+        BottomBdt8 = multiplet.GlobalObservables().BottomBdt(8);
+        BottomBdt12 = multiplet.GlobalObservables().BottomBdt(1, 2);
+        BottomBdt34 = multiplet.GlobalObservables().BottomBdt(3, 4);
+        BottomBdt56 = multiplet.GlobalObservables().BottomBdt(5, 6);
+        BottomBdt78 = multiplet.GlobalObservables().BottomBdt(7, 8);
+        RestBdt = multiplet.GlobalObservables().BottomBdt();
 
-        BottomBdt1 = multiplet.BottomBdt(1);
-        BottomBdt2 = multiplet.BottomBdt(2);
-        BottomBdt3 = multiplet.BottomBdt(3);
-        BottomBdt4 = multiplet.BottomBdt(4);
-        BottomBdt5 = multiplet.BottomBdt(5);
-        BottomBdt6 = multiplet.BottomBdt(6);
-        BottomBdt7 = multiplet.BottomBdt(7);
-        BottomBdt8 = multiplet.BottomBdt(8);
-        BottomBdt12 = multiplet.BottomBdt(1, 2);
-        BottomBdt34 = multiplet.BottomBdt(3, 4);
-        BottomBdt56 = multiplet.BottomBdt(5, 6);
-        BottomBdt78 = multiplet.BottomBdt(7, 8);
+        LeptonHt = multiplet.GlobalObservables().LeptonHt();
+    }
 
-        SubBottomBdt1 = multiplet.SubBottomBdt(1);
-        SubBottomBdt2 = multiplet.SubBottomBdt(2);
-        SubBottomBdt3 = multiplet.SubBottomBdt(3);
-        SubBottomBdt4 = multiplet.SubBottomBdt(4);
-        SubBottomBdt5 = multiplet.SubBottomBdt(5);
-        SubBottomBdt6 = multiplet.SubBottomBdt(6);
-        SubBottomBdt7 = multiplet.SubBottomBdt(7);
-        SubBottomBdt8 = multiplet.SubBottomBdt(8);
-        SubBottomBdt12 = multiplet.SubBottomBdt(1, 2);
-        SubBottomBdt34 = multiplet.SubBottomBdt(3, 4);
-        SubBottomBdt56 = multiplet.SubBottomBdt(5, 6);
-        SubBottomBdt78 = multiplet.SubBottomBdt(7, 8);
-
-        RestNumber = multiplet.RestNumber();
-        RestM = multiplet.RestJet().m();
-        RestPt = multiplet.RestJet().pt();
-        RestHt = multiplet.RestHt();
-        RestRap = multiplet.RestJet().rap();
-        RestPhi = multiplet.RestJet().phi();
-        RestBdt = multiplet.RestBdt();
-        MissingEt = multiplet.MissingEt();
-
-        LeptonHt = multiplet.LeptonHt();
+    Observables Variables() {
+        return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
     }
 
 private:
@@ -366,5 +540,7 @@ private:
     ClassDef(EventChargedBranch, 1)
 
 };
+
+}
 
 }

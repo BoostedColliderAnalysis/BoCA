@@ -5,5 +5,6 @@ message("Project: Mt2")
 include(CMakeFiles/CMakeConfig.cmake)
 
 HInclude(${PROJECT_SOURCE_DIR})
-HLibrary(Mt2 mt2_bisect.cpp)
+set(Mt2Lib mt2_bisect.cpp)
+HLibrary(Mt2 Mt2Lib)
 HExecutable(Mt2Example example.cpp)

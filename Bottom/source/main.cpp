@@ -1,46 +1,49 @@
 # include "TSystem.h"
 # include "AnalysisBottomTagger.hh"
-# include "BottomTaggerSimple.hh"
+// # include "BottomTaggerSimple.hh"
 # include "BottomTagger.hh"
 # include "Factory.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-    bottom::Analysis analysis(tagger);
+    analysis::bottom::Analysis analysis(tagger);
     const std::string name = tagger.name(stage);
     analysis.Print(analysis.kError, "Tagger", name);
-    std::string file_name = analysis.ExportName(stage,analysis::Object::kSignal);
+    std::string file_name = analysis.ExportName(stage, analysis::Object::kSignal);
     if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 }
 
 void RunFactory(analysis::Tagger &tagger)
 {
-  bottom::Analysis analysis(tagger);
-  const std::string name = tagger.name(analysis::Tagger::kTrainer);
-  analysis.Print(analysis.kError, "Tagger", name);
-  std::string file_name = tagger.factory_name();
-  if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
+    analysis::bottom::Analysis analysis(tagger);
+    const std::string name = tagger.name(analysis::Tagger::kTrainer);
+    analysis.Print(analysis.kError, "Tagger", name);
+    std::string file_name = tagger.factory_name();
+    if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 }
 
 void RunReader(analysis::Tagger &tagger)
 {
-    bottom::Analysis analysis(tagger);
+  analysis::bottom::Analysis analysis(tagger);
+  analysis.PrepareFiles();
     const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
         analysis::Reader reader(tagger);
-        reader.OptimalSignificance();
+        reader.TaggingEfficiency();
     }
 }
 
-int main(const int argc, const char **argv)
+void Run(analysis::Tagger &tagger)
 {
-    const std::vector<std::string> Arguments(argv, argv + argc);
-    for (const auto & Argument : Arguments) std::cout << Argument << std::endl;
-//     bottom::BottomTaggerSimple bottom_tagger;
+  RunTagger(tagger, analysis::Tagger::kTrainer);
+  RunFactory(tagger);
+  RunTagger(tagger, analysis::Tagger::kReader);
+}
+
+int main()
+{
+    //     analysis::bottom::BottomTaggerSimple bottom_tagger;
     analysis::BottomTagger bottom_tagger;
-    RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
-    RunFactory(bottom_tagger);
-    RunTagger(bottom_tagger, analysis::Tagger::kReader);
+    Run(bottom_tagger);
     RunReader(bottom_tagger);
-    return EXIT_SUCCESS;
 }

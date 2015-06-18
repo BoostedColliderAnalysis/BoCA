@@ -1,44 +1,18 @@
 # include "Object.hh"
 
-analysis::Object::Object()
+namespace analysis
 {
-//     DebugLevel = kInformation;
+
+Object::Object()
+{
+//   debug_level_ = kInformation;
     debug_level_ = kNotification;
-//     DebugLevel = kError;
-//     DebugLevel = kDebug;
+    //     debug_level_ = kError;
+    //     debug_level_ = kDebug;
 //     Print(kDebug, "Constructor");
 }
 
-float analysis::Object::Distance(const float Rap1, const float Phi1, const float Rap2, const float Phi2) const
-{
-    Print(kDebug, "Distance");
-    return (std::sqrt(std::pow((Rap2 - Rap1), 2) + std::pow(DeltaPhi(Phi2, Phi1), 2)));
-}
-
-float analysis::Object::Distance(const float Rap, const float Phi) const
-{
-    Print(kDebug, "Distance");
-    return (std::sqrt(std::pow(Rap, 2) + std::pow(Phi, 2)));
-}
-
-float analysis::Object::DeltaPhi(const float Phi, const float ReferencePhi) const
-{
-    Print(kDetailed, "DeltaPhi");
-    float DeltaPhi = Phi - ReferencePhi;
-    while (std::abs(DeltaPhi) > Pi) {
-        if (DeltaPhi < - Pi) {
-            DeltaPhi += TwoPi;
-        } else if (DeltaPhi > Pi) {
-            DeltaPhi -= TwoPi;
-        } else {
-            Print(kError, "Delta Phi", DeltaPhi);
-            break;
-        }
-    }
-    return DeltaPhi;
-}
-
-void analysis::Object::Printer(const std::string &Description) const
+void Object::Printer(const std::string &Description, const std::string &func) const
 {
     const char Separator = ' ';
     const int NameSpaceWidth = 12;
@@ -46,138 +20,139 @@ void analysis::Object::Printer(const std::string &Description) const
     const int FunctionWidth = 25;
     std::cout << std::left << std::setw(NameSpaceWidth) << std::setfill(Separator) << NameSpaceName();
     std::cout << std::left << std::setw(ClassWidth) << std::setfill(Separator) << ClassName();
+//     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << func;
 //     cout << left << setw(ClassWidth) << setfill(Separator) << this->n; //  Class_Name();
     std::cout << std::left << std::setw(FunctionWidth) << std::setfill(Separator) << Description;
 }
 
-std::string analysis::Object::Name(const int particle_id) const
+std::string Object::Name(const int particle_id) const
 {
-    std::string Sign = "";
-    if (particle_id < 0) Sign = "-";
+    std::string sign = "";
+    if (particle_id < 0) sign = "-";
     switch (std::abs(particle_id)) {
 //     case EmptyId: return (Sign + "Empty");
     case DownId:
-        return (Sign + "d");
+        return (sign + "d");
     case UpId:
-        return (Sign + "u");
+        return (sign + "u");
     case StrangeId:
-        return (Sign + "s");
+        return (sign + "s");
     case CharmId:
-        return (Sign + "c");
+        return (sign + "c");
     case BottomId:
-        return (Sign + "b");
+        return (sign + "b");
     case TopId:
-        return (Sign + "t");
+        return (sign + "t");
     case ElectronId:
-        return (Sign + "e");
+        return (sign + "e");
     case ElectronNeutrinoId:
-        return (Sign + "nue");
+        return (sign + "nue");
     case MuonId:
-        return (Sign + "mu");
+        return (sign + "mu");
     case MuonNeutrinoId:
-        return (Sign + "numu");
+        return (sign + "numu");
     case TauId:
-        return (Sign + "tau");
+        return (sign + "tau");
     case TauNeutrinoId:
-        return (Sign + "nutau");
+        return (sign + "nutau");
     case GluonId:
-        return (Sign + "g");
+        return (sign + "g");
     case PhotonId:
-        return (Sign + "gamma");
+        return (sign + "gamma");
     case ZId:
-        return (Sign + "Z");
+        return (sign + "Z");
     case WId:
-        return (Sign + "W");
+        return (sign + "W");
     case HiggsId:
-        return (Sign + "h");
+        return (sign + "h");
     case HeavyHiggsId:
-        return (Sign + "H");
+        return (sign + "H");
     case ChargedHiggsId:
-        return (Sign + "H+");
+        return (sign + "H+");
     case IsrId:
-        return (Sign + "ISR");
+        return (sign + "ISR");
     case MarkerId:
-        return (Sign + "TEMP");
+        return (sign + "TEMP");
     case ClusterId:
-        return (Sign + "Cluster");
+        return (sign + "Cluster");
     case StringId:
-        return (Sign + "String");
+        return (sign + "String");
     case MixedJetId:
-        return (Sign + "MixJet");
+        return (sign + "MixJet");
     case Pi0MesonId:
-        return (Sign + "pi0");
+        return (sign + "pi0");
     case Rho0MesonId:
-        return (Sign + "rho0");
+        return (sign + "rho0");
     case K0LMesonId:
-        return (Sign + "K0l");
+        return (sign + "K0l");
     case PionId:
-        return (Sign + "pi");
+        return (sign + "pi");
     case RhoMesonId:
-        return (Sign + "rho");
+        return (sign + "rho");
     case RapMesonId:
-        return (Sign + "eta");
+        return (sign + "eta");
     case OmegaMesonId:
-        return (Sign + "omega");
+        return (sign + "omega");
     case K0SMesonId:
-        return (Sign + "K0s");
+        return (sign + "K0s");
     case KMeson0Id:
-        return (Sign + "K0");
+        return (sign + "K0");
     case KMeson0SId:
-        return (Sign + "K0*");
+        return (sign + "K0*");
     case KMesonId:
-        return (Sign + "K");
+        return (sign + "K");
     case KMesonSId:
-        return (Sign + "K*");
+        return (sign + "K*");
     case RapPMesonId:
-        return (Sign + "etaP");
+        return (sign + "etaP");
     case DMesonId:
-        return (Sign + "D");
+        return (sign + "D");
     case DMesonSId:
-        return (Sign + "D*");
+        return (sign + "D*");
     case DMesonS2Id:
-        return (Sign + "D*2");
+        return (sign + "D*2");
     case DMeson0Id:
-        return (Sign + "D0");
+        return (sign + "D0");
     case DMesonS0Id:
-        return (Sign + "D*0");
+        return (sign + "D*0");
     case RapCMesonId:
-        return (Sign + "etac");
+        return (sign + "etac");
     case BMeson0Id:
-        return (Sign + "B0");
+        return (sign + "B0");
     case BMeson0SId:
-        return (Sign + "B0*");
+        return (sign + "B0*");
     case BMesonId:
-        return (Sign + "B");
+        return (sign + "B");
     case BMesonSId:
-        return (Sign + "B*");
+        return (sign + "B*");
     case BMesonS0Id:
-        return (Sign + "B*0");
+        return (sign + "B*0");
     case BMesonSS0Id:
-        return (Sign + "Bs*0");
+        return (sign + "Bs*0");
     case DownDown1Id:
-        return (Sign + "dd1");
+        return (sign + "dd1");
     case UpDown0Id:
-        return (Sign + "ud0");
+        return (sign + "ud0");
     case UpDown1Id:
-        return (Sign + "ud1");
+        return (sign + "ud1");
     case DeltaBaryonId:
-        return (Sign + "Delta");
+        return (sign + "Delta");
     case NeutronId:
-        return (Sign + "n");
+        return (sign + "n");
     case UpUp1Id:
-        return (Sign + "uu1");
+        return (sign + "uu1");
     case ProtonId:
-        return (Sign + "p");
+        return (sign + "p");
     case DeltaBaryon2Id:
-        return (Sign + "Delta2");
+        return (sign + "Delta2");
     case CpvHiggsId:
-        return (Sign + "h");
+        return (sign + "h");
     default:
         return std::to_string(particle_id);
     }
 }
 
-float analysis::Object::Mass(const ParticleId particle_id) const
+float Object::Mass(const ParticleId particle_id) const
 {
     switch (std::abs(particle_id)) {
     case StrangeId:
@@ -199,9 +174,9 @@ float analysis::Object::Mass(const ParticleId particle_id) const
     case TauId:
         return 1.776;
     case TauNeutrinoId:
-      return 0;
+        return 0;
     case PhotonId:
-      return 0;
+        return 0;
     case ZId:
         return 91.188;
     case WId:
@@ -229,3 +204,4 @@ float analysis::Object::Mass(const ParticleId particle_id) const
     }
 }
 
+}

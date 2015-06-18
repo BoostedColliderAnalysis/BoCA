@@ -6,7 +6,7 @@
 # include "File.hh"
 
 # include "HJetPropertiesBranch.hh"
-# include "HSubStructure.hh"
+# include "SubStructure.hh"
 
 # include "fastjet/tools/Pruner.hh"
 # include "fastjet/tools/CASubJetTagger.hh"
@@ -126,7 +126,7 @@ private:
 
     analysis::JetTag jet_tag;
 
-    analysis::HSubStructure SubStructure;
+    analysis::SubStructure sub_structure;
 
 
     bool FillTree(exroot::TreeBranch *const, exroot::TreeBranch *const, const fastjet::PseudoJet &Jet, const analysis::Jets &, const float DeltaR);

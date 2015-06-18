@@ -1,12 +1,11 @@
 # pragma once
 
-# include "Object.hh"
-# include "Tagger.hh"
 # include "Configuration.hh"
 # include "File.hh"
 # include "Reader.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Base for all analyses
@@ -30,11 +29,18 @@ public:
         return files_;
     }
 
-    void SetConfig(const Configuration &config) {
-        configuration_ = config;
+    void SetConfig(const Configuration &configuration) {
+        configuration_ = configuration;
     }
 
     std::string ExportName(const Tagger::Stage stage, const Object::Tag tag) const;
+
+    void PrepareFiles(){
+      files_.clear();
+      tagger_.clear_tree_names();
+      SetFiles(analysis::Object::kSignal);
+      SetFiles(analysis::Object::kBackground);
+    }
 
 protected:
 
@@ -42,20 +48,10 @@ protected:
         Print(kError, "Set Files", "should be subclassed", tag);
     }
 
-    inline int eventSum(const exroot::TreeReader &tree_reader) const {
-//       return std::min((int)tree_reader.GetEntries(), EventNumberMax());
-        return tree_reader.GetEntries();
-    }
-
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
 
 
     InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
-
-    virtual int RunAnalysis(Event &, const Tagger::Stage stage, const Tag tag) {
-        Print(kError, "Analysis", "should be subclassed", stage, tag);
-        return 0;
-    }
 
     virtual inline std::string ProjectName() const {
         return "ProjectName";
@@ -72,26 +68,6 @@ protected:
     virtual inline std::string ClassName() const {
         return "Analysis";
     }
-
-    Strings JoinStrings(const Strings &Strings1, const Strings &Strings2) {
-        return JoinVectors(Strings1, Strings2);
-    }
-
-    std::vector<File>  JoinFiles(const std::vector<File> &Files1, const std::vector<File> &Files2) {
-        return JoinVectors(Files1, Files2);
-    }
-
-    int event_sum_;
-
-    int &event_sum() {
-        return event_sum_;
-    }
-
-    Tagger &tagger_;
-
-    Reader reader_;
-
-    int object_number_;
 
     virtual inline std::string ProcessName() const {
         return "Process";
@@ -128,18 +104,32 @@ protected:
         return ".root";
     }
 
-    void NewSignalFile(const std::string &name) {
-        files_.emplace_back(get_file(name));
+    void NewSignalFile(const std::string &name, const std::string &nice_name = "") {
+        files_.emplace_back(get_file(name, nice_name));
         tagger_.AddSignalTreeName(TreeName(name));
     }
 
-    void NewBackgroundFile(const std::string &name) {
-        files_.emplace_back(get_file(name));
+    void NewBackgroundFile(const std::string &name, const std::string &nice_name = "") {
+        files_.emplace_back(get_file(name, nice_name));
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline File get_file(const std::string &name) const {
-        return File(name, FilePath(), FileSuffix());
+    void NewSignalFile(const std::string &name, const float crosssection) {
+        files_.emplace_back(get_file(name, crosssection));
+        tagger_.AddSignalTreeName(TreeName(name));
+    }
+
+    void NewBackgroundFile(const std::string &name, const float crosssection) {
+        files_.emplace_back(get_file(name, crosssection));
+        tagger_.AddBackgroundTreeName(TreeName(name));
+    }
+
+    inline File get_file(const std::string &name, const std::string &nice_name = "") const {
+        return File(name, FilePath(), FileSuffix(), nice_name);
+    }
+
+    inline File get_file(const std::string &name, const float crosssection) const {
+        return File(name, FilePath(), FileSuffix(), crosssection);
     }
 
     inline std::string FileName(const std::string &name) const {
@@ -155,9 +145,27 @@ protected:
         return 1;
     }
 
-    PreCuts pre_cuts_;
+    int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
+
+    virtual std::string NiceName() const {
+        return "";
+    }
+
+    PreCuts &pre_cuts() {
+        return pre_cuts_;
+    }
+
+    Tagger &tagger(){
+      return tagger_;
+    }
 
 private:
+
+    Tagger &tagger_;
+
+    Reader reader_;
+
+    PreCuts pre_cuts_;
 
     Configuration configuration_;
 

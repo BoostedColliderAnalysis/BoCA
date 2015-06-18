@@ -237,7 +237,7 @@ private:
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
-    int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);

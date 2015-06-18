@@ -1,8 +1,7 @@
 
 set(Directory
-${PROJECT_SOURCE_DIR}/Bottom/include
-${PROJECT_SOURCE_DIR}/Bottom/source
+./include
 )
-HInclude("${Directory}")
+HInclude(Directory)
 
 add_subdirectory(source)

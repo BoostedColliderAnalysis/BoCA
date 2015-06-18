@@ -22,16 +22,16 @@ public:
 
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    Hadrons &hadrons() const {
+    analysis::Hadrons &Hadrons() const {
         return *hadrons_;
     }
 
-    Leptons &leptons() const {
+    analysis::Leptons &Leptons() const {
         return *leptons_;
     }
 
 
-    Partons &partons() const {
+    analysis::Partons &Partons() const {
         return *partons_;
     }
 
@@ -55,19 +55,19 @@ private:
      * @brief Particles
      *
      */
-    Partons *partons_ = NULL;
+    analysis::Partons *partons_ = NULL;
 
     /**
      * @brief Leptons
      *
      */
-    Leptons *leptons_ = NULL;
+    analysis::Leptons *leptons_ = NULL;
 
     /**
      * @brief Jets
      *
      */
-    Hadrons *hadrons_ = NULL;
+    analysis::Hadrons *hadrons_ = NULL;
 
     ClonesArrays::Source source_;
 

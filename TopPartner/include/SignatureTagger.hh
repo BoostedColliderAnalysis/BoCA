@@ -1,9 +1,11 @@
 # pragma once
 
 # include "Quattuordecuplet.hh"
-# include "TopPartnerTagger.hh"
-# include "HiggsTagger.hh"
-# include "Branches.hh"
+# include "TopPartnerPairTagger.hh"
+# include "HiggsPairTagger.hh"
+
+namespace analysis
+{
 
 namespace toppartner
 {
@@ -12,40 +14,34 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureTagger : public analysis::Tagger
+class SignatureTagger : public BranchTagger<SignatureBranch>
 {
 
 public:
 
     SignatureTagger();
 
-    int Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Quattuordecuplet> Quintets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<Quattuordecuplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 protected:
 
     virtual inline std::string ClassName() const {
-        return "EventTagger";
+      return "SignatureTagger";
     }
 
 private:
 
-    TClass &Class() const {
-      return *SignatureBranch::Class();
-    }
+    TopPartnerPairTagger top_partner_pair_tagger_;
 
-    void DefineVariables();
+    HiggsPairTagger higgs_pair_tagger;
 
-    SignatureBranch branch_;
+    Reader top_partner_pair_reader_;
 
-    TopPartnerTagger top_partner_tagger_;
-
-    analysis::HiggsTagger higgs_tagger;
-
-    analysis::Reader top_partner_reader_;
-
-    analysis::Reader higgs_reader_;
+    Reader higgs_pair_reader_;
 };
+
+}
 
 }

@@ -1,23 +1,29 @@
 # include "delphes/Partons.hh"
 # include "Predicate.hh"
 
-analysis::delphes::Partons::Partons()
+namespace analysis
 {
-//     DebugLevel = analysis::Object::kDebug;
+
+namespace delphes
+{
+
+Partons::Partons()
+{
+//     DebugLevel = Object::kDebug;
     Print(kDebug, "Constructor");
 }
 
-analysis::Jets analysis::delphes::Partons::Particles() const
+Jets Partons::Particles() const
 {
     return Particles(kStable);
 }
 
-analysis::Jets analysis::delphes::Partons::GenParticles() const
+Jets Partons::GenParticles() const
 {
     return Particles(kGenerator);
 }
 
-analysis::Jets analysis::delphes::Partons::Particles(const analysis::Object::Status max_status) const
+Jets Partons::Particles(const Object::Status max_status) const
 {
     Jets particles;
     Print(kInformation, "Particles", clones_arrays().ParticleSum());
@@ -45,3 +51,5 @@ analysis::Jets analysis::delphes::Partons::Particles(const analysis::Object::Sta
     return particles;
 }
 
+}
+}

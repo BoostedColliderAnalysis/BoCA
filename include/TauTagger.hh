@@ -1,36 +1,25 @@
 # pragma once
 
-# include "Tagger.hh"
+# include "BranchTagger.hh"
 # include "Branches.hh"
-# include "Event.hh"
-# include "JetTag.hh"
-# include "Reader.hh"
-# include "Event.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Bottom BDT tagger
  *
  */
-class TauTagger : public Tagger
+class TauTagger : public BranchTagger<TauBranch>
 {
 
 public:
 
     TauTagger();
 
-    std::vector< TauBranch > GetBranches(analysis::Event &event, const analysis::Object::Tag Tag);
+    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
-    Jets GetBdt(Jets &jets, const analysis::Reader &BottomReader);
-
-    TauBranch GetBranch(const fastjet::PseudoJet &Jet) const;
-
-//     analysis::Object::HTag GetTag(const fastjet::PseudoJet &Jet) const;
-
-    Jets GetJetBdt(const Jets &jets, const analysis::Reader &BottomReader);
-
-    Jets GetSubBdt(const Jets &jets, const analysis::Reader &BottomReader, const int SubJetNumber);
+    Jets Multiplets(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 protected:
 
@@ -43,17 +32,6 @@ private:
     void DefineVariables();
 
     Jets CleanJets(Jets &jets, const Jets &Particles, const analysis::Object::Tag Tag);
-
-    Jets GetSubJets(const Jets &jets,const Jets &Particles, const Tag Tag, const int SubJetNumber);
-
-
-    float GetDeltaR(const fastjet::PseudoJet &Jet) const;
-
-    float GetSpread(const fastjet::PseudoJet &Jet) const;
-
-    TauBranch branch_;
-
-    JetTag jet_tag;
 
 };
 

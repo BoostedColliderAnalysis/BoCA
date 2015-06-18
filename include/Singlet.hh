@@ -1,112 +1,130 @@
 # pragma once
 
-# include "Identification.hh"
 # include "JetInfo.hh"
 
 namespace analysis
 {
 
-  /**
-   * @brief Thin wrapper for fastjet::PsedoJet
-   *
-   */
-  class Singlet : public Identification
+/**
+ * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Especially astracts away the JetInfo user_info().
+ *
+ */
+class Singlet : public Identification
 {
 
 public:
 
-    Singlet(const fastjet::PseudoJet &singlet);
+    Singlet() {};
 
-    inline fastjet::PseudoJet singlet() const {
-        return singlet_;
-    }
+    Singlet(const fastjet::PseudoJet &jet);
 
     fastjet::PseudoJet Jet() const {
-        return singlet();
+        return jet_;
     }
 
+    bool Overlap(const fastjet::PseudoJet &jet) const;
+
+    bool Overlap(const Singlet &singlet) const;
+
     float VertexMass() const {
-        return singlet_.user_info<JetInfo>().VertexMass();
+        return UserInfo().VertexMass();
     }
 
     float MaxDisplacement() const {
-        return log(singlet_.user_info<JetInfo>().MaxDisplacement());
+        return log(UserInfo().MaxDisplacement());
     }
 
     float MeanDisplacement() const {
-        return log(singlet_.user_info<JetInfo>().MeanDisplacement());
+        return log(UserInfo().MeanDisplacement());
     }
 
     float SumDisplacement() const {
-        return log(singlet_.user_info<JetInfo>().SumDisplacement());
+        return log(UserInfo().SumDisplacement());
     }
 
     float Multiplicity() const {
-        return singlet_.user_info<JetInfo>().VertexNumber();
+        return UserInfo().VertexNumber();
     }
 
     float DeltaR() const {
-        return GetDeltaR(singlet_);
+        return DeltaR(Jet());
     }
 
     float Spread() const {
-        return GetSpread(singlet_);
+        return Spread(Jet());
     }
 
     float VertexDeltaR() const {
-        return GetDeltaR(singlet_.user_info<JetInfo>().VertexJet());
+        return DeltaR(UserInfo().VertexJet());
     }
 
     float VertexSpread() const {
-        return GetSpread(singlet_.user_info<JetInfo>().VertexJet());
+        return Spread(UserInfo().VertexJet());
     }
 
     float EnergyFraction() const {
-        return singlet_.user_info<JetInfo>().VertexEnergy() / singlet_.e();
+        return UserInfo().VertexEnergy() / Jet().e();
     }
 
     float EmRadius() const {
-      return singlet_.user_info<JetInfo>().ElectroMagneticRadius(singlet_);
+        return UserInfo().ElectroMagneticRadius(Jet());
     }
 
     float TrackRadius() const {
-      return singlet_.user_info<JetInfo>().TrackRadius(singlet_);
+        return UserInfo().TrackRadius(Jet());
     }
 
     float MomentumFraction() const {
-      return singlet_.user_info<JetInfo>().LeadingTrackMomentumFraction();
+        return UserInfo().LeadingTrackMomentumFraction();
     }
 
     float CoreEnergyFraction() const {
-      return singlet_.user_info<JetInfo>().CoreEnergyFraction(singlet_);
+        return UserInfo().CoreEnergyFraction(Jet());
     }
 
     float EmFraction() const {
-      return singlet_.user_info<JetInfo>().ElectroMagneticFraction();
+        return UserInfo().ElectroMagneticFraction();
     }
 
     float ClusterMass() const {
-      return singlet_.user_info<JetInfo>().ClusterMass();
+        return UserInfo().ClusterMass();
     }
 
     float TrackMass() const {
-      return singlet_.user_info<JetInfo>().TrackMass();
+        return UserInfo().TrackMass();
     }
 
     float FlightPath() const {
-      return log(singlet_.user_info<JetInfo>().MeanDisplacement());
+        return log(UserInfo().MeanDisplacement());
     }
 
     float TrtHtFraction() const {
-      return GetSpread(singlet_.user_info<JetInfo>().VertexJet());
+        return Spread(UserInfo().VertexJet());
     }
 
     float Tag() const {
-        return singlet_.user_info<JetInfo>().Tag();
+        return UserInfo().Tag();
     }
 
     float Bdt() const {
-        return singlet_.user_info<JetInfo>().Bdt();
+        return UserInfo().Bdt();
+    }
+
+    float Ht() const {
+        return Jet().pt();
+    }
+
+    void SetBdt(const float bdt);
+
+    float Rapidity() const {
+        float rap = Jet().rap();
+        if (rap > 100) return 0;
+        return rap;
+    }
+
+    int Charge()const {
+//       return UserInfo().Charge();
+      return sgn(UserInfo().Charge());
     }
 
 protected:
@@ -117,18 +135,15 @@ protected:
 
 private:
 
-    float log(const float Number) const {
-        if (Number > 0) return std::log10(Number);
-        else return std::log10(detector_geometry_.TrackerDistanceMin / 10);
-    }
+    const JetInfo &UserInfo() const;
 
-    float GetDeltaR(const fastjet::PseudoJet &jet) const;
+    float log(const float number) const;
 
-    float GetSpread(const fastjet::PseudoJet &jet) const;
+    float DeltaR(const fastjet::PseudoJet &jet) const;
 
-    fastjet::PseudoJet singlet_;
+    float Spread(const fastjet::PseudoJet &jet) const;
 
-    DetectorGeometry detector_geometry_;
+    fastjet::PseudoJet jet_;
 
 };
 

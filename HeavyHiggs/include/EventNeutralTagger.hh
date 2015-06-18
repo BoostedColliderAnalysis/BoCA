@@ -1,18 +1,20 @@
 # pragma once
 
-# include "Branch.hh"
-# include "Octet62.hh"
 # include "MultipletEvent.hh"
 # include "SignatureNeutralTagger.hh"
 
-namespace heavyhiggs {
+namespace analysis
+{
+
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventNeutralTagger : public analysis::Tagger
+class EventNeutralTagger : public BranchTagger<EventNeutralBranch>
 {
 
 public:
@@ -23,9 +25,9 @@ public:
     */
     EventNeutralTagger();
 
-    int Train(analysis::Event &event, const Tag tag);
+    int Train(Event &event, const Tag tag);
 
-    std::vector< analysis::MultipletEvent< Octet62 > > Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector< MultipletEvent< Octet62 > > Multiplets(Event &event, const TMVA::Reader &reader);
 
 protected:
 
@@ -41,20 +43,14 @@ private:
 
     SignatureNeutralTagger signature_neutral_tagger_;
 
-    analysis::Reader signature_neutral_reader_;
+    Reader signature_neutral_reader_;
 
-    analysis::BottomTagger bottom_tagger_;
-    
-    analysis::Reader bottom_reader_;
+    BottomTagger bottom_tagger_;
 
-    TClass &Class() const {
-      return *EventNeutralBranch::Class();
-    }
-
-  void DefineVariables();
-
-    EventNeutralBranch branch_;
+    Reader bottom_reader_;
 
 };
+
+}
 
 }

@@ -5,11 +5,11 @@
 # include "Configuration.hh"
 # include "TSystem.h"
 # include "Factory.hh"
-# include "Tagger.hh"
+# include "EventNeutralTagger.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const analysis::Configuration &config)
 {
-    heavyhiggs::AnalysisNeutral analysis(tagger);
+    analysis::heavyhiggs::AnalysisNeutral analysis(tagger);
     const std::string name = tagger.tagger_name();
     analysis.Print(analysis.kError, "Tagger", name);
     analysis.SetConfig(config);
@@ -18,81 +18,12 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const an
     if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 
     file_name = analysis.ProjectName() + "/Mva" + name + ".root";
-    if (gSystem->AccessPathName(file_name.c_str())) {
-//         switch (Tagger) {
-//         case analysis::HAnalysis::HBottomTagger:
-            analysis::Factory factory(tagger);
-//             break;
-//         case analysis::HAnalysis::JetPairTagger:
-//             analysis::Factory(Analysis.jet_pair_tagger);
-//             break;
-//         case analysis::HAnalysis::WHadronicTagger:
-//             analysis::Factory(Analysis.w_hadronic_tagger);
-//             break;
-//         case analysis::HAnalysis::HWSemiTagger:
-//             analysis::Factory(Analysis.w_semi_tagger);
-//             break;
-//         case analysis::HAnalysis::TopLeptonicTagger:
-// //             analysis::Factory(Analysis.top_leptonic_tagger);
-//             break;
-//         case analysis::HAnalysis::TopHadronicTagger:
-//             analysis::Factory(Analysis.top_hadronic_tagger);
-//             break;
-//         case analysis::HAnalysis::HTopSemiTagger:
-//             analysis::Factory(Analysis.top_semi_tagger);
-//             break;
-//         case analysis::HAnalysis::HeavyHiggsLeptonicTagger:
-// //             analysis::Factory(Analysis.heavy_higgs_leptonic_tagger);
-//             break;
-//         case analysis::HAnalysis::HHeavyHiggsHadronicTagger:
-// //             analysis::Factory(Analysis.HeavyHiggsHadronicTagger);
-//             break;
-//         case analysis::HAnalysis::HeavyHiggsSemiTagger:
-//             analysis::Factory(Analysis.heavy_higgs_semi_tagger);
-//             break;
-//         case analysis::HAnalysis::EventLeptonicTagger:
-// //             analysis::Factory(Analysis.eventLeptonicTagger);
-//             break;
-//         case analysis::HAnalysis::EventHadronicTagger:
-// //             analysis::Factory(Analysis.eventHadronicTagger);
-//             break;
-//         case analysis::HAnalysis::EventNeutralTagger:
-//             analysis::Factory(Analysis.eventSemiTagger);
-//             break;
-//         case analysis::HAnalysis::SignatureNeutralTagger:
-//             analysis::Factory(Analysis.SignatureSemiTagger);
-//             break;
-// //         case analysis::HAnalysis::ChargedHiggsSemiTagger:
-// //           analysis::Factory(Analysis.charged_higgs_semi_tagger);
-// //           break;
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
-//         }
-    }
-
-//     FileName = Analysis.GetProjectName() + "/Mva" + Name + ".root";
-//     if(!gSystem->AccessPathName(FileName.c_str())){
-//             Analysis.PrepareReader(Tagger);
-//     }
-
+    if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 
     file_name = analysis.ProjectName() + "/" + name + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
-//         switch (Tagger) {
-//         case analysis::HAnalysis::EventLeptonicReader: {
-//             analysis::Reader Reader(Analysis.eventLeptonicTagger);
-//             Reader.SimpleMVALoop();
-//             break;
-//         }
-//         case analysis::HAnalysis::EventSemiReader: {
-//             Analysis.SetTrees(analysis::HAnalysis::EventSemiReader, analysis::Object::kBackground);
-            analysis::Reader Reader(tagger);
-//             Reader.SimpleMVALoop();
-//             break;
-//         }
-//         default:
-//             std::cout << "Unhandled case" << std::endl;
-//         }
+      analysis::Reader Reader(tagger);
+      Reader.OptimalSignificance();
     }
 }
 
@@ -127,15 +58,15 @@ int main()
     RunTagger(tops_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(tops_semi_tagger, analysis::Tagger::kReader, config);
 
-    analysis::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
+    analysis::heavyhiggs::HeavyHiggsSemiTagger heavy_higgs_semi_tagger;
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(heavy_higgs_semi_tagger, analysis::Tagger::kReader, config);
 
-    heavyhiggs::SignatureNeutralTagger signature_semi_tagger;
+    analysis::heavyhiggs::SignatureNeutralTagger signature_semi_tagger;
     RunTagger(signature_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(signature_semi_tagger, analysis::Tagger::kReader, config);
 
-    heavyhiggs::EventNeutralTagger event_semi_tagger;
+    analysis::heavyhiggs::EventNeutralTagger event_semi_tagger;
     RunTagger(event_semi_tagger, analysis::Tagger::kTrainer, config);
     RunTagger(event_semi_tagger, analysis::Tagger::kReader, config);
 

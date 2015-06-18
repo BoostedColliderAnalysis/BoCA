@@ -15,13 +15,25 @@ analysis::InfoBranch::InfoBranch()
     EventNumber = int(InitialValue());
     PreCutNumber = int(InitialValue());
     Mass = InitialValue();
+    Name = "";
 }
 
 ClassImp(analysis::EventBranch)
 
 analysis::EventBranch::EventBranch()
 {
-    ScalarPtSum = InitialValue();
+  LeptonNumber = int(InitialValue());
+  JetNumber = int(InitialValue());
+  BottomNumber = int(InitialValue());
+  MissingEt = InitialValue();
+  ScalarHt = InitialValue();
+
+  LeptonHt = InitialValue();
+  JetMass = InitialValue();
+  JetPt = InitialValue();
+  JetHt = InitialValue();
+  JetRap = InitialValue();
+  JetPhi = InitialValue();
 }
 
 ClassImp(analysis::ParticleBranch)
@@ -32,6 +44,7 @@ analysis::ParticleBranch::ParticleBranch()
     Pt = InitialValue();
     Rap = InitialValue();
     Phi = InitialValue();
+    Charge = int(InitialValue());
 }
 
 ClassImp(analysis::HResultBranch)
@@ -88,7 +101,10 @@ analysis::PairBranch::PairBranch()
     DeltaRap = InitialValue();
     DeltaPhi = InitialValue();
     DeltaR = InitialValue();
+    Rho = InitialValue();
     Bdt = InitialValue();
+    Bdt1 = InitialValue();
+    Bdt2 = InitialValue();
     Tag = int(InitialValue());
 }
 
@@ -160,14 +176,6 @@ analysis::WSemiBranch::WSemiBranch()
     LeptonPt = InitialValue();
 }
 
-ClassImp(analysis::HHeavyHiggsTauBranch)
-
-analysis::HHeavyHiggsTauBranch::HHeavyHiggsTauBranch()
-{
-    NeutrinoPt = InitialValue();
-    LeptonPt = InitialValue();
-}
-
 ClassImp(analysis::TopHadronicBranch)
 
 analysis::TopHadronicBranch::TopHadronicBranch()
@@ -186,15 +194,6 @@ analysis::TopHadronicBranch::TopHadronicBranch()
     Tau3_2 = InitialValue();
     Tau21_2 = InitialValue();
     Tau32_2 = InitialValue();
-//     VertexMass = InitialValue();
-//     MaxDisplacement = InitialValue();
-//     MeanDisplacement = InitialValue();
-//     SumDisplacement = InitialValue();
-//     Multipliticity = int(InitialValue());
-//     Spread = InitialValue();
-//     VertexDeltaR = InitialValue();
-//     VertexSpread = InitialValue();
-//     EnergyFraction = InitialValue();
 }
 
 ClassImp(analysis::TopSemiBranch)
@@ -203,17 +202,6 @@ analysis::TopSemiBranch::TopSemiBranch()
 {
     BottomPt = InitialValue();
     WPt = InitialValue();
-    WBdt = InitialValue();
-    BBdt = InitialValue();
-//     VertexMass = InitialValue();
-//     MaxDisplacement = InitialValue();
-//     MeanDisplacement = InitialValue();
-//     SumDisplacement = InitialValue();
-//     Multipliticity = int(InitialValue());
-//     Spread = InitialValue();
-//     VertexDeltaR = InitialValue();
-//     VertexSpread = InitialValue();
-//     EnergyFraction = InitialValue();
 }
 
 ClassImp(analysis::TopLeptonicBranch)
@@ -226,101 +214,7 @@ analysis::TopLeptonicBranch::TopLeptonicBranch()
 
 ClassImp(analysis::HiggsBranch)
 
-analysis::HiggsBranch::HiggsBranch()
-{
-//     Mass = InitialValue();
-//     PtSum = InitialValue();
-//     PtDiff = InitialValue();
-//     DeltaRap = InitialValue();
-//     DeltaPhi = InitialValue();
-//     DeltaR = InitialValue();
-//     BottomBdt = InitialValue();
-//     Pull1 = InitialValue();
-//     Pull2 = InitialValue();
-//     Pull = InitialValue();
-//     HiggsTag = int(InitialValue());
-}
-
-ClassImp(analysis::HeavyHiggsLeptonicBranch)
-
-analysis::HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
-{
-    LargerWDeltaRap = InitialValue();
-    LargerWDeltaPhi = InitialValue();
-    LargerWDeltaR = InitialValue();
-    SmallerWDeltaRap = InitialValue();
-    SmallerWDeltaPhi = InitialValue();
-    SmallerWDeltaR = InitialValue();
-    LargerNeutrinoDeltaRap = InitialValue();
-    LargerNeutrinoDeltaPhi = InitialValue();
-    LargerNeutrinoDeltaR = InitialValue();
-    SmallerNeutrinoDeltaRap = InitialValue();
-    SmallerNeutrinoDeltaPhi = InitialValue();
-    SmallerNeutrinoDeltaR = InitialValue();
-}
-
-ClassImp(analysis::HHeavyHiggsHadronicBranch)
-
-analysis::HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
-{
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-    TopDeltaRap = InitialValue();
-    TopDeltaPhi = InitialValue();
-    TopDeltaR = InitialValue();
-    TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
-}
-
-ClassImp(analysis::HeavyHiggsSemiBranch)
-
-analysis::HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
-
-ClassImp(analysis::ChargedHiggsSemiBranch)
-
-analysis::ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
-{
-    Flag = int(InitialValue());
-}
-
-ClassImp(analysis::HChargedHiggsHadronicBranch)
-
-analysis::HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
-{
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-    TopDeltaRap = InitialValue();
-    TopDeltaPhi = InitialValue();
-    TopDeltaR = InitialValue();
-    TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
-}
-
-
-ClassImp(analysis::ChargedHiggsLeptonicBranch)
-
-analysis::ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
-{
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-    TopDeltaRap = InitialValue();
-    TopDeltaPhi = InitialValue();
-    TopDeltaR = InitialValue();
-    LargerWDeltaRap = InitialValue();
-    LargerWDeltaPhi = InitialValue();
-    LargerWDeltaR = InitialValue();
-    SmallerWDeltaRap = InitialValue();
-    SmallerWDeltaPhi = InitialValue();
-    SmallerWDeltaR = InitialValue();
-    LargerNeutrinoDeltaRap = InitialValue();
-    LargerNeutrinoDeltaPhi = InitialValue();
-    LargerNeutrinoDeltaR = InitialValue();
-    SmallerNeutrinoDeltaRap = InitialValue();
-    SmallerNeutrinoDeltaPhi = InitialValue();
-    SmallerNeutrinoDeltaR = InitialValue();
-    TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
-}
+analysis::HiggsBranch::HiggsBranch(){}
 
 ClassImp(analysis::EventBottomTaggerBranch)
 

@@ -1,8 +1,5 @@
 # pragma once
 
-# include "fastjet/JetDefinition.hh"
-# include "fastjet/ClusterSequence.hh"
-
 # include "Object.hh"
 
 namespace analysis {
@@ -17,16 +14,16 @@ class TopHadronicHep : public Object
 public:
 
     /**
-     * @brief tagges the tops
-     *
-     */
-    std::vector< fastjet::PseudoJet > GetTops(std::vector< fastjet::PseudoJet > &EFlowJets);
-
-    /**
      * @brief constructor
      *
      */
     TopHadronicHep();
+
+    /**
+     * @brief tagges the tops
+     *
+     */
+    Jets Tops(std::vector< fastjet::PseudoJet > &e_flows);
 
 private:
 
@@ -34,7 +31,7 @@ private:
      * @brief Calculates Vector of granulated Jets
      *
      */
-    Jets GetGranulatedJets(Jets& EFlowJets);
+    Jets GranulatedJets(analysis::Jets &e_flows);
 
     inline std::string ClassName() const {
       return "TopHadronicHep";

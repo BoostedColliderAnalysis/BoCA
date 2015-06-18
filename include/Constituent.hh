@@ -1,6 +1,5 @@
 # pragma once
 
-# include "TLorentzVector.h"
 # include "Family.hh"
 
 namespace analysis
@@ -19,13 +18,13 @@ public:
 
     Constituent(const TLorentzVector &momentum, const TLorentzVector &position);
 
-    Constituent(const TLorentzVector &momentum, const TLorentzVector &position, const SubDetector sub_detector);
+    Constituent(const TLorentzVector &momentum, const TLorentzVector &position, const SubDetector sub_detector, const float charge = 0);
 
     Constituent(const TLorentzVector &momentum, const Family &family);
 
     Constituent(const TLorentzVector &momentum);
 
-    Constituent(const TLorentzVector &momentum, const SubDetector sub_detector);
+    Constituent(const TLorentzVector &momentum, const SubDetector sub_detector, const float charge = 0);
 
     void SetPosition(const TLorentzVector &position);
 
@@ -33,7 +32,7 @@ public:
 
     void SetMomentum(const TLorentzVector &momentum);
 
-    void SetFamily(const Family& family);
+    void SetFamily(const Family &family);
 
     TLorentzVector Position() const;
 
@@ -41,11 +40,15 @@ public:
 
     Family family() const;
 
-    Constituent operator+(Constituent& constituent);
+    Constituent operator+(Constituent &constituent);
 
     void SetDetector(const SubDetector sub_detector);
 
     SubDetector sub_detector() const;
+
+    int charge()const;
+
+    void set_charge(const int charge);
 
 private:
 
@@ -56,6 +59,8 @@ private:
     TLorentzVector momentum_;
 
     analysis::Family family_;
+
+    int charge_ = 0;
 };
 
 }

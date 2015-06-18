@@ -1,85 +1,12 @@
 # pragma once
 
-# include "TCut.h"
-# include "TClonesArray.h"
-
 # include "TMVA/Reader.h"
-
-# include "exroot/ExRootAnalysis.hh"
-
-# include "Branches.hh"
-# include "Predicate.hh"
 # include "Event.hh"
-# include "Doublet.hh"
+# include "Observable.hh"
+# include "PreCuts.hh"
 
 namespace analysis
 {
-
-class Observable
-{
-
-public:
-
-    Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex);
-
-    float *value() const;
-
-    std::string expression() const;
-
-    std::string title() const;
-
-    std::string unit() const;
-
-    char type() const;
-
-private:
-
-    std::string expression_;
-
-    std::string title_;
-
-    std::string unit_;
-
-    char type_;
-
-    float *value_;
-
-};
-
-
-class PreCuts : public analysis::Object
-{
-public:
-    void SetPtLowerCut(const ParticleId particle_id, const float value) {
-        pt_lower_cut_[particle_id] = value;
-    }
-
-    float PtLowerCut(const ParticleId particle_id) {
-        return pt_lower_cut_[particle_id];
-    }
-
-    void SetPtUpperCut(const ParticleId particle_id, const float value) {
-        pt_upper_cut_[particle_id] = value;
-    }
-
-    float PtUpperCut(const ParticleId particle_id) {
-        return pt_upper_cut_[particle_id];
-    }
-
-    void SetTrackerMaxEta(const ParticleId particle_id, const float value) {
-        tracker_eta_upper_cut_[particle_id] = value;
-    }
-
-    float TrackerMaxEta(const ParticleId particle_id) {
-        return tracker_eta_upper_cut_[particle_id];
-    }
-
-private:
-    std::map<ParticleId, float> pt_lower_cut_;
-    std::map<ParticleId, float> pt_upper_cut_;
-    std::map<ParticleId, float> tracker_eta_upper_cut_;
-};
-
 
 /**
  * @brief Prepares multivariant analysis
@@ -97,179 +24,73 @@ public:
 
     Tagger();
 
-    void AddSignalTreeName(const std::string signal_tree_name) {
-        signal_tree_names_.emplace_back(signal_tree_name);
-    }
+    void AddSignalTreeName(const std::string signal_tree_name);
 
-    void AddBackgroundTreeName(const std::string background_tree_name) {
-        background_tree_names_.emplace_back(background_tree_name);
-    }
+    void AddBackgroundTreeName(const std::string background_tree_name);
 
-    std::string branch_name() const {
-        return tagger_name_;
-    }
+    std::string branch_name() const;
 
-    void set_tagger_name(const std::string &tagger_name) {
-        tagger_name_ = tagger_name;
-        signal_file_names_ = {tagger_name};
-        background_file_names_ = {"Not" + tagger_name};
-    }
+    void set_tagger_name(const std::string &tagger_name);
 
-    std::string tagger_name() const {
-        return tagger_name_;
-    }
+    std::string tagger_name() const;
 
-    std::string factory_name() const {
-        return "Mva" + tagger_name();
-    }
+    std::string factory_name() const;
 
-    std::string signal_file_name(const Stage stage) const {
-        const std::string file_name = analysis_name() + "/" + signal_name();
-        switch (stage) {
-        case kTrainer :
-            return file_name;
-        case kReader :
-            return file_name + "Reader.root";
-        }
-    }
+    std::string signal_file_name(const Stage stage) const;
 
-    std::string background_file_name(const Stage stage) const {
-        const std::string file_name = analysis_name() + "/" + background_name();
-        switch (stage) {
-        case kTrainer :
-            return file_name;
-        case kReader :
-            return file_name + "Reader.root";
-        }
-    }
+    std::string background_file_name(const Stage stage) const;
 
-    std::string reader_name() const {
-        return tagger_name_ + "Reader";
-    }
+    std::string reader_name() const;
 
-    std::string name(const Stage stage) const {
-        switch (stage) {
-        case kTrainer :
-            return tagger_name();
-        case kReader :
-            return reader_name();
-        }
-    }
+    std::string name(const Stage stage) const;
 
-    std::string name(const Stage stage, const Tag tag) const {
-        std::string name;
-        switch (stage) {
-        case kTrainer :
-            name = tagger_name();
-            break;
-        case kReader :
-            name = reader_name();
-            break;
-        }
-        switch (tag) {
-        case kSignal :
-            return name;
-        case kBackground :
-            return "Not" + name;
-        }
-    }
+    std::string name(const Stage stage, const Tag tag) const;
 
-    std::string analysis_name() const {
-        Print(kError, "Analysis Name", analysis_name_);
-        return analysis_name_;
-    }
+    std::string analysis_name() const;
 
-    std::vector<Observable> observables() const {
-        return variables_;
-    }
+    std::vector<Observable> observables() const;
 
-    std::vector<Observable> spectators() const {
-        return spectators_;
-    }
+    std::vector<Observable> spectators() const;
 
-    Strings signal_file_names() const {
-        return signal_file_names_;
-    }
+    Strings signal_file_names() const;
 
-    Strings signal_tree_names() const {
-        return signal_tree_names_;
-    }
+    Strings signal_tree_names() const;
 
-    void clear_tree_names() {
-        signal_tree_names_.clear();
-        background_tree_names_.clear();
-    }
+    void clear_tree_names();
 
-    Strings background_file_names() const {
-        return background_file_names_;
-    }
+    Strings background_file_names() const;
 
-    Strings background_tree_names() const {
-        return background_tree_names_;
-    }
+    Strings background_tree_names() const;
 
-    TCut cut() const {
-        return cut_;
-    }
+    TCut cut() const;
 
-    virtual void set_analysis_name(const std::string &analysis_name) {
-        analysis_name_ = analysis_name;
-    }
+    virtual void set_analysis_name(const std::string &analysis_name);
 
-    std::string bdt_method_name() const {
-        return bdt_method_name_;
-    }
+    std::string bdt_method_name() const;
 
-    std::string weight_branch_name() const {
-        return weight_branch_name_;
-    }
+    std::string weight_branch_name() const;
 
-    std::string background_name() const {
-        return "Not" + tagger_name_;
-    }
+    std::string background_name() const;
 
-    std::string signal_name() const {
-        return tagger_name_;
-    }
+    std::string signal_name() const;
 
-//     virtual float GetBdt(TObject *Branch, const TMVA::Reader &Reader);
+    virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &);
 
-    virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &) {
-        Print(kError, "Bdt", "should be subclassed");
-        return 0;
-    }
+    virtual int Train(analysis::Event &, PreCuts &, const Tag);
 
-    virtual int Train(analysis::Event &, PreCuts &, const Tag) {
-        Print(kError, "Train", "Should be subclassed");
-        return 0;
-    }
+//     virtual float GetBranches(analysis::Event &, Stage , const Tag);
 
-    virtual float GetBranches(analysis::Event &, Stage , const Tag) {
-        Print(kError, "get branches", "Should be subclassed", "should be deleted");
-        return 0;
-    }
-
-    Jets GetSubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
+    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
     fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 
-    virtual float ReadBdt(const TClonesArray &, const int) {
-        Print(kError, "Read Bdt", "should be subclassed");
-        return 0;
-    }
+    virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
-    DetectorGeometry detector_geometry() const {
-        return detector_geometry_;
-    }
+    DetectorGeometry detector_geometry() const;
 
-    void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage) {
-        tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
-    }
+    void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
 
-    virtual float Bdt(Event &, const TMVA::Reader &) const {
-        Print(kError, "Bdt", "should be subclassed");
-        return 0;
-    }
+//     virtual float Bdt(Event &, const TMVA::Reader &) const;
 
 protected:
 
@@ -283,65 +104,26 @@ protected:
 
     Observable NewObservable(float &value, const std::string &title, const std::string &latex) const;
 
-    void AddVariable(float &value, const std::string &title) {
-        variables_.emplace_back(NewObservable(value, title));
-    };
+    void AddVariable(float &value, const std::string &title);
 
-    void AddVariable(float &value, const std::string &title, const std::string &latex) {
-        variables_.emplace_back(NewObservable(value, title, latex));
-    };
+    void AddVariable(float &value, const std::string &title, const std::string &latex);
 
-    void AddSpectator(float &value, const std::string &title) {
-        spectators_.emplace_back(NewObservable(value, title));
-    };
+    void AddSpectator(float &value, const std::string &title);
 
-    void ClearVectors() {
-        variables_.clear();
-        spectators_.clear();
-    }
+    void ClearVectors();
 
-    int max_combi() {
-        return max_combi_;
-    }
+    virtual int max_combi() const;
 
-    virtual TClass &Class() const {
-        Print(kError, "Class", "should be subclassed");
-        return *Branch::Class();
-    }
+    virtual TClass &Class() const = 0;
 
-    exroot::TreeBranch &tree_branch() {
-        return *tree_branch_;
-    }
+    exroot::TreeBranch &tree_branch();
 
     float Bdt(const TMVA::Reader &reader);
-
-    template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet) {
-        if (multiplet.empty()) return multiplet;
-        std::sort(multiplet.begin(), multiplet.end());
-        multiplet.erase(multiplet.begin() + std::min(max_combi(), int(multiplet.size())), multiplet.end());
-        return multiplet;
-    }
-
-    template<typename Branch, typename Multiplet>
-    Branch branch(const Multiplet &multiplet) const {
-        Print(kInformation, "Branch");
-        Branch branch;
-        branch.Fill(multiplet);
-        return branch;
-    }
-
-    template<typename Branch, typename Multiplet>
-    int SaveEntries(const std::vector<Multiplet> &multiplets) {
-        for (const auto & multiplet : multiplets) static_cast<Branch &>(*tree_branch().NewEntry()) = branch<Branch>(multiplet);
-        return multiplets.size();
-    }
 
 
 private:
 
     exroot::TreeBranch *tree_branch_;
-
 
     /**
      * @brief Name of the Analysis
@@ -355,20 +137,13 @@ private:
      */
     std::string tagger_name_;
 
+    TCut cut_;
+
     /**
      * @brief Name of the Signal File
      *
      */
     Strings signal_file_names_;
-
-    std::string cut_method_name_;
-
-    std::string bdt_method_name_;
-
-    std::string weight_branch_name_;
-
-
-    TCut cut_;
 
     /**
      * @brief Names of the Background Files
@@ -383,8 +158,6 @@ private:
     std::vector<Observable> variables_;
 
     std::vector<Observable> spectators_;
-
-    int max_combi_;
 
     DetectorGeometry detector_geometry_;
 

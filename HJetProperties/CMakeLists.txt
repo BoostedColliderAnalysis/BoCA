@@ -2,6 +2,7 @@ HInclude(${PROJECT_SOURCE_DIR}/HJetProperties)
 
 HDictionary(HJetPropertiesBranch HJetPropertiesBranch.cpp HJetPropertiesLinkDef.hh)
 
-HLibrary(HAnalysisJetProperties HAnalysisJetProperties.cpp)
+set(PropLib HAnalysisJetProperties.cpp)
+HLibrary(HAnalysisJetProperties PropLib)
 
 HExecutable(HJetProperties main.cpp)
