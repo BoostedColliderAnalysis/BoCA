@@ -1,12 +1,13 @@
-#include "../include/AnalysisZTagger.hh"
-#include "HiggsTagger.hh"
-#include "TSystem.h"
+# include "AnalysisHiggsTagger.hh"
+# include "BranchTagger.hh"
+# include "HiggsTagger.hh"
+# include "TSystem.h"
 # include "Factory.hh"
 
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
-    analysis::ztagger::Analysis analysis(tagger);
+    analysis::higgstagger::Analysis analysis(tagger);
     const std::string name = tagger.name(stage);
     analysis.Print(analysis.kError, "Tagger", name);
 
@@ -16,7 +17,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 
 void RunFactory(analysis::Tagger &tagger)
 {
-    analysis::ztagger::Analysis analysis(tagger);
+    analysis::higgstagger::Analysis analysis(tagger);
     const std::string name = tagger.name(analysis::Tagger::kTrainer);
     analysis.Print(analysis.kError, "Tagger", name);
     std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
@@ -25,7 +26,7 @@ void RunFactory(analysis::Tagger &tagger)
 
 void RunReader(analysis::Tagger &tagger)
 {
-    analysis::ztagger::Analysis analysis(tagger);
+    analysis::higgstagger::Analysis analysis(tagger);
     analysis.PrepareFiles();
     const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
@@ -46,7 +47,7 @@ int main()
     analysis::BottomTagger bottom_tagger;
     Run(bottom_tagger);
 
-    analysis::ztagger::Analysis analysis(bottom_tagger);
+    analysis::higgstagger::Analysis analysis(bottom_tagger);
 
     analysis::HiggsTagger higgs_tagger;
     Run(higgs_tagger);

@@ -101,7 +101,7 @@ private:
 
     void AddVariable();
 
-    InfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
+    analysis::InfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
 
     std::vector<int> BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
 

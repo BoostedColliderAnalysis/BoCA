@@ -1,7 +1,5 @@
-set(Directory
-${PROJECT_SOURCE_DIR}/TopPartner/include
-${PROJECT_SOURCE_DIR}/TopPartner/source
-)
-HInclude(Directory)
+# HInclude(./include)
+HInclude(${PROJECT_SOURCE_DIR}/TopPartner/include)
+HInclude(${PROJECT_SOURCE_DIR}/TopPartner/source)
 
 add_subdirectory(source)

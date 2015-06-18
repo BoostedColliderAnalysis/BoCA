@@ -1,7 +1,7 @@
-#include "AnalysisTopTagger.hh"
-#include "TopHadronicTagger.hh"
-#include "TopSemiTagger.hh"
-#include "TSystem.h"
+# include "AnalysisTopTagger.hh"
+# include "TopHadronicTagger.hh"
+# include "TopSemiTagger.hh"
+# include "TSystem.h"
 # include "Factory.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
