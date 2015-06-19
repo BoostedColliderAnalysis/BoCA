@@ -399,35 +399,34 @@ public:
     TopHadronicBranch();
     float BottomPt;
     float WPt;
-    float WBdt;
-    float BBdt;
-    float Tau1_1;
-    float Tau2_1;
-    float Tau3_1;
-    float Tau21_1;
-    float Tau32_1;
-    float Tau1_2;
-    float Tau2_2;
-    float Tau3_2;
-    float Tau21_2;
-    float Tau32_2;
+//     float Tau1_1;
+//     float Tau2_1;
+//     float Tau3_1;
+//     float Tau21_1;
+//     float Tau32_1;
+//     float Tau1_2;
+//     float Tau2_2;
+//     float Tau3_2;
+//     float Tau21_2;
+//     float Tau32_2;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
         BottomPt = multiplet.SingletJet().pt();
         WPt = multiplet.Doublet().Jet().pt();
-        Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
-        Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
-        Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
-        if (multiplet.sub_jettiness().tau1_beta1 > 0) Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
-        if (multiplet.sub_jettiness().tau2_beta1 > 0) Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
-        Tau1_2 = multiplet.sub_jettiness().tau1_beta2;
-        Tau2_2 = multiplet.sub_jettiness().tau2_beta2;
-        Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
-        if (multiplet.sub_jettiness().tau1_beta2 > 0) Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
-        if (multiplet.sub_jettiness().tau2_beta2 > 0) Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
-        if (!multiplet.Degenerate()) WBdt = multiplet.Doublet().Bdt();
-        BBdt = multiplet.Singlet().Bdt();
+//         Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
+//         Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
+//         Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
+//         if (multiplet.sub_jettiness().tau1_beta1 > 0) Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
+//         if (multiplet.sub_jettiness().tau2_beta1 > 0) Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
+//         Tau1_2 = multiplet.sub_jettiness().tau1_beta2;
+//         Tau2_2 = multiplet.sub_jettiness().tau2_beta2;
+//         Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
+//         if (multiplet.sub_jettiness().tau1_beta2 > 0) Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
+//         if (multiplet.sub_jettiness().tau2_beta2 > 0) Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
+    }
+    Observables Variables() {
+      return Join(MultiBranch::Variables(), {PAIR(BottomPt), PAIR(WPt)});
     }
 private:
     ClassDef(TopHadronicBranch, 1)

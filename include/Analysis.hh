@@ -97,19 +97,19 @@ protected:
 //     }
 
     virtual inline std::string FilePath() const {
-        return "~/Projects/Tagging/";
+        return "~/Projects/";
     }
 
     std::string FileSuffix() const {
         return ".root";
     }
 
-    void NewSignalFile(const std::string &name, const std::string &nice_name = "") {
+    void NewSignalFile(const std::string &name, const std::string &nice_name = " ") {
         files_.emplace_back(get_file(name, nice_name));
         tagger_.AddSignalTreeName(TreeName(name));
     }
 
-    void NewBackgroundFile(const std::string &name, const std::string &nice_name = "") {
+    void NewBackgroundFile(const std::string &name, const std::string &nice_name = " ") {
         files_.emplace_back(get_file(name, nice_name));
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
@@ -124,7 +124,7 @@ protected:
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline File get_file(const std::string &name, const std::string &nice_name = "") const {
+    inline File get_file(const std::string &name, const std::string &nice_name = " ") const {
         return File(name, FilePath(), FileSuffix(), nice_name);
     }
 

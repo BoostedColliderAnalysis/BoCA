@@ -103,7 +103,7 @@ public:
     }
 
     inline float Rho() const {
-        if (Jet().pt() == 0 || DeltaR() == 0) return 0;
+        if (Jet().pt() < DetectorGeometry().MinCellPt || DeltaR() < DetectorGeometry().MinCellResolution) return 0;
         return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 

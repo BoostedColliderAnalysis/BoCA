@@ -172,18 +172,16 @@ analysis::TopHadronicBranch::TopHadronicBranch()
 {
     BottomPt = InitialValue();
     WPt = InitialValue();
-    WBdt = InitialValue();
-    BBdt = InitialValue();
-    Tau1_1 = InitialValue();
-    Tau2_1 = InitialValue();
-    Tau3_1 = InitialValue();
-    Tau21_1 = InitialValue();
-    Tau32_1 = InitialValue();
-    Tau1_2 = InitialValue();
-    Tau2_2 = InitialValue();
-    Tau3_2 = InitialValue();
-    Tau21_2 = InitialValue();
-    Tau32_2 = InitialValue();
+//     Tau1_1 = InitialValue();
+//     Tau2_1 = InitialValue();
+//     Tau3_1 = InitialValue();
+//     Tau21_1 = InitialValue();
+//     Tau32_1 = InitialValue();
+//     Tau1_2 = InitialValue();
+//     Tau2_2 = InitialValue();
+//     Tau3_2 = InitialValue();
+//     Tau21_2 = InitialValue();
+//     Tau32_2 = InitialValue();
 }
 
 ClassImp(analysis::TopSemiBranch)

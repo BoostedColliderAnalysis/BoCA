@@ -58,11 +58,11 @@ private:
 
 
     void NewSignalFile(const Process process) {
-        analysis::Analysis::NewSignalFile(FileName(process));
+        analysis::Analysis::NewSignalFile(FileName(process),NiceName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-        analysis::Analysis::NewBackgroundFile(FileName(process));
+      analysis::Analysis::NewBackgroundFile(FileName(process),NiceName(process));
     }
 
 
@@ -132,6 +132,8 @@ private:
     std::string ProcessName(const Process process) const;
 
     int PassPreCut(Event &event);
+
+    std::string NiceName(const Process process) const;
 
 };
 

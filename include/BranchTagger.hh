@@ -15,14 +15,14 @@ class BranchTagger : public Tagger
 protected:
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet, const std::size_t max = 4) {
-        multiplet.erase(std::remove_if(multiplet.begin(), multiplet.end(), [&](Multiplet & multiplet) {
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) {
+        multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
             return multiplet.IsEmpty();
-        }), multiplet.end());
-        if (multiplet.empty()) return multiplet;
-        std::sort(multiplet.begin(), multiplet.end());
-        multiplet.erase(multiplet.begin() + std::min(max, multiplet.size()), multiplet.end());
-        return multiplet;
+        }), multiplets.end());
+        if (multiplets.empty()) return multiplets;
+        std::sort(multiplets.begin(), multiplets.end());
+        multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
+        return multiplets;
     }
 
     template<typename Multiplet>
@@ -44,17 +44,21 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> BestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) {
         if (multiplets.size() <= particles.size()) return multiplets;
-        return CopyIfClose(multiplets, particles);
+        return CopyIfClose2(multiplets, particles);
     }
 
     template<typename Multiplet>
     std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) {
         if (multiplets.size() <= particles.size()) return multiplets;
-        return RemoveIfClose(multiplets, particles);
+        return RemoveIfClose2(multiplets, particles);
     }
 
     template<typename Multiplet>
     std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) {
+        multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
+            return multiplet.IsEmpty();
+        }), multiplets.end());
+        std::sort(multiplets.begin(),multiplets.end());
         switch (tag) {
         case kSignal :
             return BestMatch(multiplets, particles);
