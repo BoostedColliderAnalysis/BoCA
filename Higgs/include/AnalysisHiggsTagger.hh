@@ -124,7 +124,6 @@ private:
 
     std::string ProcessName(const Process process) const;
 
-
     std::string NiceName(const Process process) const;
 
     int PassPreCut(Event &event);

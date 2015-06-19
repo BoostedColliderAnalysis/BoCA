@@ -156,11 +156,15 @@ Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const int particle_id);
 
 Jets RemoveIfWrongAbsMother(const Jets &NewJets, const int MotherId);
 
+Jets CopyIfAbsMother(const analysis::Jets &jets, const int mother_id);
+
 Jets RemoveIfAbsMother(const Jets &NewJets, const int MotherId);
 
 Jets RemoveIfLetpons(const Jets &jets);
 
 Jets RemoveIfQuark(const Jets &jets);
+
+Jets CopyIfQuark(const Jets &jets);
 
 Jets RemoveIfNot5Quarks(const Jets &jets);
 

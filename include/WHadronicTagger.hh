@@ -21,7 +21,7 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
+        return SaveEntries(Multiplets(event, pre_cuts, reader),1);
     }
 
     std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
@@ -29,9 +29,19 @@ public:
     std::vector<Doublet> Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 
-    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
+    Doublet Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
+    Doublet Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader){
+      PreCuts pre_cuts;
+      return Multiplet(jet_1,jet_2,pre_cuts,reader);
+    }
+
+    Doublet SubMultiplet(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    Doublet Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader){
+      PreCuts pre_cuts;
+      return SubMultiplet(jet,pre_cuts,reader);
+    }
 
     int GetWHadId(Event &event) const {
         return WHadronicId(WDaughters(event));
@@ -45,9 +55,13 @@ protected:
 
 private:
 
-    std::vector<analysis::Doublet> Multiplet(analysis::Doublet &doublet, const TMVA::Reader &reader);
+  bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Object::Tag tag);
 
-    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
+  bool Problematic(const Doublet &doublet, PreCuts &pre_cuts);
+
+    Doublet Multiplet(analysis::Doublet &doublet, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    std::vector<Doublet> Multiplets(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader, const int sub_jet_number);
 
     BottomTagger bottom_tagger_;
 

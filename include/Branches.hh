@@ -20,12 +20,6 @@ class Branch : public TObject
 public:
     Branch();
     virtual ~Branch();
-    Observables Variables() {
-        return {};
-    }
-    Observables Spectators() {
-        return {};
-    }
 protected:
     float InitialValue() {
         return -11.1111111; // should be non integer
@@ -62,21 +56,32 @@ private:
     ClassDef(InfoBranch, 1)
 };
 
-class HResultBranch : public Branch
+class ResultBranch : public Branch
 {
 public:
-    HResultBranch();
+    ResultBranch();
     float Bdt;
     float Tag;
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        Tag = multiplet.Tag();
+        Bdt = multiplet.Bdt();
+    }
+    virtual Observables Variables() {
+        return {};
+    }
+    virtual Observables Spectators() {
+        return {PAIR(Tag), PAIR(Bdt)};
+    }
 private:
-    ClassDef(HResultBranch, 1)
+    ClassDef(ResultBranch, 1)
 };
 
 /**
  * @brief Class for saving event informations to root
  *
  */
-class ParticleBranch : public Branch
+class ParticleBranch : public ResultBranch
 {
 public:
     ParticleBranch();
@@ -87,6 +92,7 @@ public:
     float Charge;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
+        ResultBranch::Fill(multiplet);
         Mass = multiplet.Jet().m();
         Pt = multiplet.Jet().pt();
         Rap = multiplet.Jet().rap();
@@ -94,10 +100,10 @@ public:
         Charge = multiplet.Charge();
     }
     Observables Variables() {
-        return {PAIR(Mass),PAIR(Charge), PAIR(Rap), PAIR(Phi),PAIR(Pt)};
+        return Join(ResultBranch::Variables(), {PAIR(Mass), PAIR(Charge), PAIR(Rap), PAIR(Phi), PAIR(Pt)});
     }
     virtual Observables Spectators() {
-        return {};
+        return ResultBranch::Spectators();
     }
 private:
     ClassDef(ParticleBranch, 1)
@@ -123,8 +129,6 @@ public:
     float VertexDeltaR;
     float VertexSpread;
     float EnergyFraction;
-    float Tag;
-    float Bdt;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         ParticleBranch::Fill(multiplet);
@@ -138,14 +142,12 @@ public:
         VertexDeltaR = multiplet.VertexDeltaR();
         VertexSpread = multiplet.VertexSpread();
         EnergyFraction = multiplet.EnergyFraction();
-        Tag = multiplet.Tag();
-        Bdt = multiplet.Bdt();
     }
     Observables Variables() {
         return Join(ParticleBranch::Variables(), {PAIR(VertexMass), PAIR(MaxDisplacement), PAIR(MeanDisplacement), PAIR(SumDisplacement), PAIR(Multipliticity), PAIR(DeltaR), PAIR(VertexDeltaR), PAIR(VertexSpread), PAIR(EnergyFraction)});
     }
     virtual Observables Spectators() {
-        return Join(ParticleBranch::Spectators(), {PAIR(Tag), PAIR(Bdt)});
+        return ParticleBranch::Spectators();
     }
 private:
     ClassDef(BottomBranch, 1)
@@ -169,8 +171,6 @@ public:
     float TrackMass;
     float FlightPath;
     float TrtHtFraction;
-    float Tag;
-    float Bdt;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         ParticleBranch::Fill(multiplet);
@@ -183,8 +183,12 @@ public:
         TrackMass = multiplet.TrackMass();
         FlightPath = multiplet.FlightPath();
         TrtHtFraction = multiplet.TrtHtFraction();
-        Tag = multiplet.Tag();
-        Bdt = multiplet.Bdt();
+    }
+    Observables Variables() {
+      return Join(ParticleBranch::Variables(), {PAIR(EmRadius), PAIR(TrackRadius), PAIR(MomentumFraction), PAIR(CoreEnergyFraction), PAIR(EmFraction), PAIR(ClusterMass), PAIR(TrackMass), PAIR(FlightPath), PAIR(TrtHtFraction)});
+    }
+    virtual Observables Spectators() {
+      return ParticleBranch::Spectators();
     }
 private:
     ClassDef(TauBranch, 1)
@@ -204,8 +208,6 @@ public:
     float Rho;
     float Bdt1;
     float Bdt2;
-    float Bdt;
-    float Tag;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         ParticleBranch::Fill(multiplet);
@@ -216,16 +218,14 @@ public:
         DeltaPhi = multiplet.DeltaPhi();
         DeltaR = multiplet.DeltaR();
         Rho = multiplet.Rho();
-        Bdt = multiplet.Bdt();
         Bdt1 = multiplet.Multiplet1().Bdt();
         Bdt2 = multiplet.Multiplet2().Bdt();
-        Tag = multiplet.Tag();
     }
     Observables Variables() {
         return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(Bdt2)});
     }
     virtual Observables Spectators() {
-        return Join(ParticleBranch::Spectators(), {PAIR(Tag), PAIR(Bdt)});
+        return ParticleBranch::Spectators();
     }
 private:
     ClassDef(PairBranch, 1)
@@ -256,13 +256,6 @@ private:
  */
 class WHadronicBranch : public PairBranch
 {
-public:
-    WHadronicBranch();
-    template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
-        PairBranch::Fill(multiplet);
-    }
-private:
     ClassDef(WHadronicBranch, 1)
 };
 
@@ -273,13 +266,6 @@ private:
  */
 class ZHadronicBranch : public PairBranch
 {
-public:
-    ZHadronicBranch();
-    template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
-        PairBranch::Fill(multiplet);
-    }
-private:
     ClassDef(ZHadronicBranch, 1)
 };
 
@@ -502,30 +488,17 @@ private:
  */
 class HiggsBranch : public PairBranch
 {
-
-public:
-
-    HiggsBranch();
-    template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
-        PairBranch::Fill(multiplet);
-    }
 private:
-
     ClassDef(HiggsBranch, 1)
-
 };
 
 
-class EventBottomTaggerBranch : public Branch
+class EventBottomTaggerBranch : public ResultBranch
 {
 
 public:
 
     EventBottomTaggerBranch();
-
-    float Bdt;
-    float Tag;
 
     float BottomBdt1;
     float BottomBdt2;

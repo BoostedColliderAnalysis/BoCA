@@ -16,6 +16,9 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplet, const std::size_t max = 4) {
+        multiplet.erase(std::remove_if(multiplet.begin(), multiplet.end(), [&](Multiplet & multiplet) {
+            return multiplet.IsEmpty();
+        }), multiplet.end());
         if (multiplet.empty()) return multiplet;
         std::sort(multiplet.begin(), multiplet.end());
         multiplet.erase(multiplet.begin() + std::min(max, multiplet.size()), multiplet.end());

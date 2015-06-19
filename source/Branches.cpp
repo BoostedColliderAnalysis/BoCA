@@ -47,9 +47,9 @@ analysis::ParticleBranch::ParticleBranch()
     Charge = int(InitialValue());
 }
 
-ClassImp(analysis::HResultBranch)
+ClassImp(analysis::ResultBranch)
 
-analysis::HResultBranch::HResultBranch()
+analysis::ResultBranch::ResultBranch()
 {
     Bdt = InitialValue();
     Tag = int(InitialValue());
@@ -70,8 +70,6 @@ analysis::BottomBranch::BottomBranch()
     VertexDeltaR = InitialValue();
     VertexSpread = InitialValue();
     EnergyFraction = InitialValue();
-    Tag = int(InitialValue());
-    Bdt = InitialValue();
 }
 
 ClassImp(analysis::TauBranch)
@@ -87,8 +85,6 @@ analysis::TauBranch::TauBranch()
     TrackMass = InitialValue();
     FlightPath = InitialValue();
     TrtHtFraction = InitialValue();
-    Tag = int(InitialValue());
-    Bdt = InitialValue();
 }
 
 ClassImp(analysis::PairBranch)
@@ -102,10 +98,8 @@ analysis::PairBranch::PairBranch()
     DeltaPhi = InitialValue();
     DeltaR = InitialValue();
     Rho = InitialValue();
-    Bdt = InitialValue();
     Bdt1 = InitialValue();
     Bdt2 = InitialValue();
-    Tag = int(InitialValue());
 }
 
 ClassImp(analysis::MultiBranch)
@@ -117,11 +111,7 @@ analysis::MultiBranch::MultiBranch()
 
 ClassImp(analysis::WHadronicBranch)
 
-analysis::WHadronicBranch::WHadronicBranch() {}
-
 ClassImp(analysis::ZHadronicBranch)
-
-analysis::ZHadronicBranch::ZHadronicBranch() {}
 
 ClassImp(analysis::JetPairBranch)
 
@@ -214,14 +204,10 @@ analysis::TopLeptonicBranch::TopLeptonicBranch()
 
 ClassImp(analysis::HiggsBranch)
 
-analysis::HiggsBranch::HiggsBranch(){}
-
 ClassImp(analysis::EventBottomTaggerBranch)
 
 analysis::EventBottomTaggerBranch::EventBottomTaggerBranch()
 {
-    Bdt = InitialValue();
-    Tag = InitialValue();
     BottomBdt1 = InitialValue();
     BottomBdt2 = InitialValue();
     BottomBdt3 = InitialValue();

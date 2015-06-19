@@ -41,7 +41,7 @@ protected:
 
 
     virtual inline std::string FilePath() const {
-        return "~/Projects/Tagger/W/";
+        return "~/Projects/Tagger/";
     }
 
     virtual inline std::string NameSpaceName() const {

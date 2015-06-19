@@ -6,14 +6,13 @@ namespace analysis
 namespace wtagger
 {
 
-
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-//     pre_cuts().SetPtLowerCut(WId, PreCut());
-//     pre_cuts().SetPtUpperCut(WId, UpperCut());
+    pre_cuts().SetPtLowerCut(WId, PreCut());
+    pre_cuts().SetPtUpperCut(WId, UpperCut());
 //     DetectorGeometry detector_geometry;
 //     pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
@@ -141,10 +140,10 @@ void Analysis::SetFiles(const Object::Tag tag)
 int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-    Jets particles = event.Partons().GenParticles();
-    Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
+//     Jets particles = event.Partons().GenParticles();
+//     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
 //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
-    return w.size();
+    return 1;
 }
 
 }
