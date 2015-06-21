@@ -167,14 +167,14 @@ void Reader::TaggingEfficiency()
     }
     multi_graph.Draw("al");
     multi_graph.GetXaxis()->SetLimits(0.2, 0.9);
-    multi_graph.GetXaxis()->SetTitle("Signal Efficiency");
-    multi_graph.GetYaxis()->SetTitle("Background Efficiency");
+    multi_graph.GetXaxis()->SetTitle("Signal acceptance");
+    multi_graph.GetYaxis()->SetTitle("Background acceptance");
     multi_graph.SetMaximum(1);
     multi_graph.SetMinimum(0.01);
     legend.Draw();
 
 
-    const std::string efficiency_file_name = tagger().analysis_name() + "-Efficiency.pdf";
+    const std::string efficiency_file_name = tagger().analysis_name() + "-Acceptance.pdf";
     const std::string efficiency_file_path = tagger().analysis_name() + "/" + efficiency_file_name;
     canvas.Print(efficiency_file_path.c_str());
 }
@@ -319,49 +319,49 @@ MvaResult Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &ex
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
     const analysis::InfoBranch Info = InfoBranch(file, tree_name);
 
-    MvaResult Result;
-    Result.event_sum = Info.EventNumber;
-    std::vector<int> Bins = BdtDistribution(tree_reader, tree_name, export_file);
-    std::vector<int> Integral = Result.CutIntegral(Bins);
+    MvaResult result;
+    result.event_sum = Info.EventNumber;
+    std::vector<int> bins = BdtDistribution(tree_reader, tree_name, export_file);
+    std::vector<int> Integral = result.CutIntegral(bins);
 
-    for (int step = 0; step < Result.steps; ++step) {
-        Result.events[step] = float(Integral[step]) / float(Info.EventNumber) * Info.Crosssection * Luminosity;
-        Result.efficiency[step] = float(Integral[step]) / float(Info.EventNumber);
-        Result.analysis_event_number[step] = Integral[step];
-        Result.bdt[step] = Bins[step];
-        Print(kDebug, "Result", Result.efficiency[step], Result.events[step]);
+    for (int step = 0; step < result.steps; ++step) {
+        result.events[step] = float(Integral[step]) / float(Info.EventNumber) * Info.Crosssection * Luminosity;
+        result.efficiency[step] = float(Integral[step]) / float(Info.EventNumber);
+        result.analysis_event_number[step] = Integral[step];
+        result.bdt[step] = bins[step];
+        Print(kDebug, "Result", result.efficiency[step], result.events[step]);
     }
-    return Result;
+    return result;
 }
 
-std::vector<int> Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name,  TFile &export_file) const
+std::vector<int> Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const
 {
     Print(kNotification, "Bdt Distribution", tagger().branch_name());
     std::string NeweventBranchName = tagger().branch_name() + "Reader";
 
-    MvaResult Result;
-    std::vector<int> Bins(Result.steps, 0);
+    MvaResult result;
+    std::vector<int> bins(result.steps, 0);
 
     TClonesArray &event_clones_array = *tree_reader.UseBranch(NeweventBranchName.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
-    exroot::TreeBranch &result_branch = *tree_writer.NewBranch(NeweventBranchName.c_str(), HResultBranch::Class());
+    exroot::TreeBranch &result_branch = *tree_writer.NewBranch(NeweventBranchName.c_str(), ResultBranch::Class());
     for (const int eventNumber : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(eventNumber);
         for (const int Entry : Range(event_clones_array.GetEntriesFast())) {
-            const float BdtValue = tagger().ReadBdt(event_clones_array, Entry);
-            if (BdtValue < 0 || BdtValue > 2) Print(kError, "Bdt Value" , BdtValue);
-            static_cast<HResultBranch &>(*result_branch.NewEntry()).Bdt = BdtValue;
-//             Print(kNotification, "Bdt Distribution", BdtValue,std::floor(BdtValue * Result.steps / 2) - 1);
-            int bin = std::floor(BdtValue * Result.steps / 2) - 1;
+            const float bdt_value = tagger().ReadBdt(event_clones_array, Entry);
+            if (bdt_value < 0 || bdt_value > 2) Print(kError, "Bdt Value" , bdt_value);
+            static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
+//             Print(kNotification, "Bdt Distribution", BdtValue,std::floor(BdtValue * result.steps / 2) - 1);
+            int bin = std::floor(bdt_value * result.steps / 2) - 1;
             if (bin == -1) bin = 0; // FIXME clean this up
-//             ++Bins.at(std::floor(BdtValue * Result.steps / 2) - 1);
-            ++Bins.at(bin);
+//             ++bins.at(std::floor(BdtValue * result.steps / 2) - 1);
+            ++bins.at(bin);
         }
         tree_writer.Fill();
         tree_writer.Clear();
     }
     tree_writer.Write();
-    return Bins;
+    return bins;
 }
 
 InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const

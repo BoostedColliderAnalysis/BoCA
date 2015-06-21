@@ -9,7 +9,7 @@ namespace higgstagger
 {
 /**
  *
- * @brief HAnalysis subclass defining the W Tagger ananlysis
+ * @brief Higgs tagger analysis
  *
  * @author Jan Hajer
  *
@@ -62,8 +62,8 @@ private:
 
     // in GeV
     inline int PreCut() const {
-        return 500;
-//         return 700;
+//         return 500;
+        return 700;
 //         return 1000;
     }
 
@@ -73,7 +73,7 @@ private:
         case 700 :
           return 1000;
         case 500 :
-            return 1000;
+            return 700;
         case 1000 :
             return 1500;
         }
@@ -83,6 +83,7 @@ private:
         //         return 1000000;
         //         return 100000;
 //         return 10000;
+//         return 5000;
         return 1000;
 //         return 100;
 //         return 10;
@@ -122,7 +123,6 @@ private:
     std::string ColliderName(const Collider collider) const;
 
     std::string ProcessName(const Process process) const;
-
 
     std::string NiceName(const Process process) const;
 

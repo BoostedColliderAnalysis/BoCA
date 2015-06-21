@@ -83,6 +83,11 @@ public:
         return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_, number);
     }
 
+    template <typename Tagger, typename Input>
+    auto SubMultiplet(Input &input) {
+      return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_);
+    }
+
     TMVA::Reader &reader() {
         return reader_;
     }

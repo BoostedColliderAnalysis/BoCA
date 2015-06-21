@@ -1,6 +1,7 @@
 # include "BottomTagger.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 BottomTagger::BottomTagger()
 {
@@ -14,8 +15,9 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Bottom Tag", tag);
 
-    Jets particles = event.Partons().GenParticles();
+    Jets particles = event.Partons().Particles();
     Jets bottoms = copy_if_abs_particle(particles, BottomId);
+    bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt);
     Print(kInformation, "Particle size", bottoms.size());
 
     Jets jets = event.Hadrons().Jets();
@@ -37,6 +39,24 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
     return SaveEntries(final_jets);
 }
 
+bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const Tag tag) const
+{
+    if (Problematic(jet, pre_cuts)) return true;
+    if (tag == kSignal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
+    if (jet.user_info<JetInfo>().Tag() != tag) return true;
+    return false;
+}
+
+bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts) const
+{
+    if (!jet.has_user_info<JetInfo>()) return true;
+    if (pre_cuts.PtLowerCut(BottomId) > 0 && jet.pt() < pre_cuts.PtLowerCut(BottomId)) return true;
+    if (pre_cuts.PtUpperCut(BottomId) > 0 && jet.pt() > pre_cuts.PtUpperCut(BottomId)) return true;
+    if (pre_cuts.TrackerMaxEta(BottomId) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(BottomId)) return true;
+    if (jet.m() < 0) return true;
+    return false;
+}
+
 Jets BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
 {
     Print(kInformation, "Clean Jets", jets.size(), particles.size());
@@ -49,28 +69,7 @@ Jets BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cut
 
     Jets clean_jets;
     for (const auto & jet : jets) {
-        if (!jet.has_user_info<JetInfo>()) {
-            Print(kError, "Clean Jets", "No Jet Info");
-            continue;
-        }
-        if (pre_cuts.PtLowerCut(BottomId) > 0 && jet.pt() < pre_cuts.PtLowerCut(BottomId)) continue;
-        if (pre_cuts.PtUpperCut(BottomId) > 0 && jet.pt() > pre_cuts.PtUpperCut(BottomId)) continue;
-        if (std::abs(jet.rap()) > DetectorGeometry().TrackerEtaMax) {
-            Print(kInformation, "Clean Jets", "too large rap");
-            continue;
-        }
-        if (jet.m() < 0) {
-            Print(kInformation, "Clean Jets", "negative mass");
-            continue;
-        }
-        if (tag == kSignal && jet.user_info<JetInfo>().SumDisplacement() == 0) {
-            Print(kInformation, "Clean Jets", "no displacment");
-            continue;
-        }
-        if (jet.user_info<JetInfo>().Tag() != tag) {
-            Print(kDebug, "Clean Jets", "Not a b quark", jet.user_info<JetInfo>().Tag());
-            continue;
-        }
+        if (Problematic(jet, pre_cuts, tag)) continue;
         clean_jets.emplace_back(jet);
     }
     Print(kInformation, "Jets", clean_jets.size(), particles.size());
@@ -104,11 +103,7 @@ Jets BottomTagger::Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::R
 {
     Jets final_jets;
     for (const auto jet : jets) {
-        if (!jet.has_user_info<JetInfo>()) continue;
-        if (jet.m() <= 0) continue;
-        if (pre_cuts.PtLowerCut(BottomId) > 0 && jet.pt() < pre_cuts.PtLowerCut(BottomId)) continue;
-        if (pre_cuts.PtUpperCut(BottomId) > 0 && jet.pt() > pre_cuts.PtUpperCut(BottomId)) continue;
-        if (pre_cuts.TrackerMaxEta(BottomId) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(BottomId)) continue;
+        if (Problematic(jet, pre_cuts)) continue;
         final_jets.emplace_back(Multiplet(jet, reader));
     }
     return final_jets;
@@ -116,7 +111,7 @@ Jets BottomTagger::Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::R
 
 fastjet::PseudoJet BottomTagger::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
-    static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet,reader));
+    static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
     return jet;
 }
 

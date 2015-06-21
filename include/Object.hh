@@ -122,13 +122,14 @@ public:
     }
 
     enum ParticleId {
-        EmptyId = 0, ///< 0
-        DownId = 1,///< \f$d\f$
-        UpId = 2,///< \f$u\f$
-        StrangeId = 3,///< \f$s\f$
-        CharmId = 4,///< \f$c\f$
-        BottomId = 5,///< \f$b\f$
-        TopId = 6,///< \f$t\f$
+        EmptyId = 0,
+        DownId = 1,
+        UpId = 2,
+        StrangeId = 3,
+        CharmId = 4,
+        BottomId = 5,
+        TopId = 6,
+        TopPartnerId = 8,
         ElectronId = 11,
         ElectronNeutrinoId = 12,
         MuonId = 13,
@@ -204,7 +205,7 @@ protected:
 
     std::string Name(const int particle_id) const;
 
-    float Mass(const analysis::Object::ParticleId particle_id) const;
+    float Mass(const ParticleId particle_id) const;
 
 
     /**

@@ -1,7 +1,4 @@
-set(Directory
-${PROJECT_SOURCE_DIR}/HiggsCpv/include
-${PROJECT_SOURCE_DIR}/HiggsCpv/source
-)
-HInclude(Directory)
+HInclude(./include)
+HInclude(${PROJECT_SOURCE_DIR}/HiggsCpv/source)
 
 add_subdirectory(source)

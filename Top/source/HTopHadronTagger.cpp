@@ -503,18 +503,18 @@ SubJettiness HTopHadronTagger::NSubJettiness(const fastjet::PseudoJet &jet)
     SubJettiness sub_jettiness;
 
     // calculate Nsubjettiness values (beta = 1.0)
-    sub_jettiness.tau1_beta1 = n_subjettiness_1_1(jet);
-    sub_jettiness.tau2_beta1 = n_subjettiness_2_1(jet);
-    sub_jettiness.tau3_beta1 = n_subjettiness_3_1(jet);
-    sub_jettiness.tau21_beta1 = n_subjettiness_21_1(jet);
-    sub_jettiness.tau32_beta1 = n_subjettiness_32_1(jet);
-
-    // calculate Nsubjettiness values (beta = 2.0)
-    sub_jettiness.tau1_beta2 = n_subjettiness_1_2(jet);
-    sub_jettiness.tau2_beta2 = n_subjettiness_2_2(jet);
-    sub_jettiness.tau3_beta2 = n_subjettiness_3_2(jet);
-    sub_jettiness.tau21_beta2 = n_subjettiness_21_2(jet);
-    sub_jettiness.tau32_beta2 = n_subjettiness_32_2(jet);
+//     sub_jettiness.tau1_beta1 = n_subjettiness_1_1(jet);
+//     sub_jettiness.tau2_beta1 = n_subjettiness_2_1(jet);
+//     sub_jettiness.tau3_beta1 = n_subjettiness_3_1(jet);
+//     sub_jettiness.tau21_beta1 = n_subjettiness_21_1(jet);
+//     sub_jettiness.tau32_beta1 = n_subjettiness_32_1(jet);
+//
+//     // calculate Nsubjettiness values (beta = 2.0)
+//     sub_jettiness.tau1_beta2 = n_subjettiness_1_2(jet);
+//     sub_jettiness.tau2_beta2 = n_subjettiness_2_2(jet);
+//     sub_jettiness.tau3_beta2 = n_subjettiness_3_2(jet);
+//     sub_jettiness.tau21_beta2 = n_subjettiness_21_2(jet);
+//     sub_jettiness.tau32_beta2 = n_subjettiness_32_2(jet);
 
     return sub_jettiness;
 
