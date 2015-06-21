@@ -6,14 +6,14 @@ namespace analysis
 namespace wtagger
 {
 
-
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-//     pre_cuts().SetPtLowerCut(WId, PreCut());
-//     pre_cuts().SetPtUpperCut(WId, UpperCut());
+    pre_cuts().SetPtLowerCut(WId, PreCut());
+    pre_cuts().SetPtUpperCut(WId, UpperCut());
+    pre_cuts().SetMassUpperCut(WId, 200);
 //     DetectorGeometry detector_geometry;
 //     pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
 }
@@ -100,51 +100,58 @@ void Analysis::SetFiles(const Object::Tag tag)
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
     case kSignal :
-//         if (WDecay() == kHadronic) NewSignalFile(tthad);
-//         else if (WDecay() == kLeptonic) NewSignalFile(ttlep);
-
-        //     NewSignalFile(ttbb);
-//     NewSignalFile(ttjj);
-//     NewSignalFile(tt);
-//     NewSignalFile(bb);
-//     NewSignalFile(ttlep);
-
-//   NewBackgroundFile(ttbb);
-//   NewBackgroundFile(ttcc);
-//   NewBackgroundFile(ttjj);
-//     NewBackgroundFile(bbjj);
-//     NewBackgroundFile(bb);
-//     NewBackgroundFile(hh);
-
-//     NewBackgroundFile(cc);
-//         NewBackgroundFile(qq);
-//         NewBackgroundFile(gg);
         NewSignalFile(ww);
-//         NewBackgroundFile(zz);
         break;
     case kBackground :
-//         if (WDecay() == kHadronic) NewBackgroundFile(ttlep);
-//         else if (WDecay() == kLeptonic) NewBackgroundFile(tthad);
+        NewBackgroundFile(ttlep);
+        NewBackgroundFile(tthad);
+        NewBackgroundFile(hh);
+        NewBackgroundFile(zz);
+        NewBackgroundFile(zz);
         NewBackgroundFile(bb);
-//     NewBackgroundFile(wc);
-//     NewBackgroundFile(wq);
-//     NewBackgroundFile(wg);
-//     NewBackgroundFile(wu);
-//     NewBackgroundFile(wcb);
-//     NewBackgroundFile(wbu);
+        NewBackgroundFile(cc);
+        NewBackgroundFile(qq);
+        NewBackgroundFile(gg);
         break;
     }
 
+}
+
+std::string Analysis::NiceName(const Process process) const
+{
+  switch (process) {
+    case bb:
+      return "b";
+    case cc:
+      return "c";
+    case qq:
+      return "q";
+    case gg:
+      return "g";
+    case hh:
+      return "h";
+    case ww:
+      return "W";
+    case zz:
+      return "Z";
+    case tthad:
+      return "t_{had}";
+    case ttlep:
+      return "t_{lep}";
+    default:
+      Print(kError, "name", "unhandled case", process);
+      return "";
+  }
 }
 
 
 int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-    Jets particles = event.Partons().GenParticles();
-    Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
+//     Jets particles = event.Partons().GenParticles();
+//     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
 //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
-    return w.size();
+    return 1;
 }
 
 }

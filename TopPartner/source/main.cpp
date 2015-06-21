@@ -84,21 +84,21 @@ int main()
 
     } else {
 
-        analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
-        Run(top_partner_hadronic_tagger);
-
-        analysis::toppartner::HiggsPairTagger higgs_pair_tagger;
-        Run(higgs_pair_tagger);
-
-        analysis::toppartner::TopPartnerPairTagger top_partner_pair_tagger;
-        Run(top_partner_pair_tagger);
-
-        analysis::toppartner::SignatureTagger signature_tagger;
-        Run(signature_tagger);
-
-        analysis::toppartner::EventTagger event_tagger;
-        Run(event_tagger);
-        RunReader(event_tagger);
+//         analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
+//         Run(top_partner_hadronic_tagger);
+//
+//         analysis::toppartner::HiggsPairTagger higgs_pair_tagger;
+//         Run(higgs_pair_tagger);
+//
+//         analysis::toppartner::TopPartnerPairTagger top_partner_pair_tagger;
+//         Run(top_partner_pair_tagger);
+//
+//         analysis::toppartner::SignatureTagger signature_tagger;
+//         Run(signature_tagger);
+//
+//         analysis::toppartner::EventTagger event_tagger;
+//         Run(event_tagger);
+//         RunReader(event_tagger);
 
     }
 

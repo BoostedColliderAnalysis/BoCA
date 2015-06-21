@@ -1,7 +1,7 @@
-#include "AnalysisTopTagger.hh"
-#include "TopHadronicTagger.hh"
-#include "TopSemiTagger.hh"
-#include "TSystem.h"
+# include "AnalysisTopTagger.hh"
+# include "TopHadronicTagger.hh"
+# include "TopSemiTagger.hh"
+# include "TSystem.h"
 # include "Factory.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
@@ -16,7 +16,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 
 void RunFactory(analysis::Tagger &tagger)
 {
-    analysis::top::Analysis analysis(tagger);
+  analysis::top::Analysis analysis(tagger);
+  analysis.PrepareFiles();
     const std::string name = tagger.name(analysis::Tagger::kTrainer);
     analysis.Print(analysis.kError, "Tagger", name);
     std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";

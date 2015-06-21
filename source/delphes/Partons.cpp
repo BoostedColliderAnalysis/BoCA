@@ -23,13 +23,13 @@ Jets Partons::GenParticles() const
     return Particles(kGenerator);
 }
 
-Jets Partons::Particles(const Object::Status max_status) const
+Jets Partons::Particles(const Object::Status min_status) const
 {
     Jets particles;
     Print(kInformation, "Particles", clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(ParticleNumber));
-        if (particle.Status < max_status) break;
+        if (particle.Status < min_status) break;
         Print(kDetailed, "Particles ID", particle.PID);
         int MotherId = EmptyId;
         int Mother2Id = EmptyId;

@@ -42,7 +42,9 @@ std::string Object::Name(const int particle_id) const
     case BottomId:
         return (sign + "b");
     case TopId:
-        return (sign + "t");
+      return (sign + "t");
+    case TopPartnerId:
+      return (sign + "T");
     case ElectronId:
         return (sign + "e");
     case ElectronNeutrinoId:
