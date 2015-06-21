@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/toodles/madness/analysis/External/WimpMass/WIMPMASS/WIMPMASS.h
+
+/home/toodles/madness/analysis/External/WimpMass/examples/example33.cpp
+WIMPMASS.h
+/home/toodles/madness/analysis/External/WimpMass/examples/WIMPMASS.h
+iostream
+-
+fstream
+-
+string.h
+-
+math.h
+-
+stdlib.h
+-
+
