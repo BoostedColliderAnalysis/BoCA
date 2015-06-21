@@ -167,14 +167,14 @@ void Reader::TaggingEfficiency()
     }
     multi_graph.Draw("al");
     multi_graph.GetXaxis()->SetLimits(0.2, 0.9);
-    multi_graph.GetXaxis()->SetTitle("Signal Efficiency");
-    multi_graph.GetYaxis()->SetTitle("Background Efficiency");
+    multi_graph.GetXaxis()->SetTitle("Signal acceptance");
+    multi_graph.GetYaxis()->SetTitle("Background acceptance");
     multi_graph.SetMaximum(1);
     multi_graph.SetMinimum(0.01);
     legend.Draw();
 
 
-    const std::string efficiency_file_name = tagger().analysis_name() + "-Efficiency.pdf";
+    const std::string efficiency_file_name = tagger().analysis_name() + "-Acceptance.pdf";
     const std::string efficiency_file_path = tagger().analysis_name() + "/" + efficiency_file_name;
     canvas.Print(efficiency_file_path.c_str());
 }

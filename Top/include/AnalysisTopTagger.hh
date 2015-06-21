@@ -26,7 +26,7 @@ public:
     void SetFiles(const Object::Tag tag);
 
     inline std::string ProjectName() const {
-        return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
+        return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt);
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
@@ -53,32 +53,52 @@ private:
 
 
     void NewSignalFile(const Process process) {
-      analysis::Analysis::NewSignalFile(FileName(process),NiceName(process));
+        analysis::Analysis::NewSignalFile(FileName(process), NiceName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-        analysis::Analysis::NewBackgroundFile(FileName(process),NiceName(process));
+        analysis::Analysis::NewBackgroundFile(FileName(process), NiceName(process));
     }
 
 
     inline std::string FileName(const Process process) const {
-        return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
+        return ProcessName(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
     }
 
     // in GeV
-    inline int PreCut() const {
-        return 700;
-//         return 1000;
+    inline int LowerPtCut() const {
+//         return 350;
+//         return 700;
+//         return 800;
+        return 1000;
     }
 
     // in GeV
-    inline int UpperCut() const {
-        switch (PreCut()) {
+    inline int UpperPtCut() const {
+        switch (LowerPtCut()) {
         case 700 :
             return 1000;
         case 1000 :
             return 1500;
         }
+    }
+
+    // in GeV
+    inline int MadGraphCut() const {
+        switch (LowerPtCut()) {
+        case 700 :
+            return 700;
+        case 1000 :
+            return 1000;
+        }
+    }
+
+    inline int  LowerQuarkCut() const {
+        return LowerPtCut() * 0.9;
+    }
+
+    inline int UpperQuarkCut() const {
+        return UpperPtCut() * 1.1;
     }
 
     inline int EventNumberMax() const {
@@ -118,7 +138,7 @@ private:
     }
 
     std::string BackgroundTree(const Process Process) const {
-        return ProcessName(Process) + "_" + std::to_string(PreCut()) + "GeV" + "-run_01";
+        return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
     }
 
 
@@ -127,7 +147,7 @@ private:
     std::string ProcessName(const Process process) const;
 
     int PassPreCut(Event &event);
-    
+
     std::string NiceName(const Process process) const;
 
 };

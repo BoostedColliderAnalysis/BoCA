@@ -11,8 +11,8 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(TopId, PreCut());
-    pre_cuts().SetPtUpperCut(TopId, UpperCut());
+    pre_cuts().SetPtLowerCut(TopId, LowerPtCut());
+    pre_cuts().SetPtUpperCut(TopId, UpperPtCut());
     pre_cuts().SetMassUpperCut(TopId, 400);
     DetectorGeometry detector_geometry;
     pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
@@ -156,7 +156,7 @@ int Analysis::PassPreCut(Event &event)
     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
     if (particles.empty()) return 1;
     if (particles.size() == 1) Print(kError, "just one top");
-    if ((particles.at(0).pt() > PreCut() && particles.at(0).pt() < UpperCut()) && (particles.at(1).pt() > PreCut() &&  particles.at(1).pt() < UpperCut())) return 1;
+    if ((particles.at(0).pt() > LowerQuarkCut() && particles.at(0).pt() < UpperQuarkCut()) && (particles.at(1).pt() > LowerQuarkCut() &&  particles.at(1).pt() < UpperQuarkCut())) return 1;
     return 0;
 }
 
