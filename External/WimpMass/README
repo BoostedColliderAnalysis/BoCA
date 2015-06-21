@@ -1,0 +1,18 @@
+*********************************************************************************
+                 WIMPMASS 
+               version 1.00
+
+Authors: Hsin-Chia Cheng, John Gunion, Zhenyu Han, Bob McElrath, Dalit Engelhardt
+
+********************************************************************************* 
+This package contains two C++ subroutines useful for event 
+reconstruction in events with missing particles. The references
+are arXiv: 0707.0030 and arXiv: 0802.4290. 
+
+The two functions are given in "topology22.cpp" and "topology33.cpp"
+in the "src/" directory. See the header of the source file for usage. 
+"ROOT" (http://root.cern.ch/drupal/) is required for compiling 
+topology33.cpp. The directory "examples/" contains a couple of examples 
+calling these subroutines. You need to modify the Makefile in the "src" 
+directory and "examples" directory to point to the correct ROOT location.
+
