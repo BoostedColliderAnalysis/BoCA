@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
+=======
+# cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+# project(Analysis VERSION 0.1 LANGUAGES CXX)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+>>>>>>> 686c457fa6d84ad6d8a4f25f1c1a451a10d5e504
 project(Analysis CXX)
 
 # Load some basic macros which are needed later on
@@ -47,8 +53,13 @@ add_subdirectory(source)
 # Taggers
 add_subdirectory(Bottom)
 add_subdirectory(W)
+<<<<<<< HEAD
 # add_subdirectory(Z)
 # add_subdirectory(h)
+=======
+add_subdirectory(Z)
+add_subdirectory(Higgs)
+>>>>>>> 686c457fa6d84ad6d8a4f25f1c1a451a10d5e504
 add_subdirectory(Top)
 # add_subdirectory(PairTagger)
 # add_subdirectory(HBottomSumTagger)

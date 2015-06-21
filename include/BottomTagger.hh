@@ -1,9 +1,8 @@
 # pragma once
 
-# include "TMVA/Reader.h"
-# include "Singlet.hh"
 # include "BranchTagger.hh"
 # include "Branches.hh"
+
 
 namespace analysis
 {
@@ -66,6 +65,10 @@ private:
     }
 
     Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag);
+
+    bool Problematic(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag) const;
+
+    bool Problematic(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts) const;
 
     Jets SubJets(const Jets &jets, const int sub_jet_number);
 

@@ -3,7 +3,8 @@
 namespace analysis
 {
 
-namespace toppartner {
+namespace toppartner
+{
 
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
@@ -40,7 +41,7 @@ std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(analysis::Event &event
         for (const auto & triplet : triplets) {
             Quintet quintet(triplet, doublet);
             if (quintet.Overlap()) continue;
-            quintet.SetBdt(Bdt(quintet,reader));
+            quintet.SetBdt(Bdt(quintet, reader));
             quintets.emplace_back(quintet);
         }
     return ReduceResult(quintets);

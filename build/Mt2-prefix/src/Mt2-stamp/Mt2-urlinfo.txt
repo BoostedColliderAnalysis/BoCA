@@ -1,0 +1,3 @@
+repository='external project URL'
+module='http://particle.physics.ucdavis.edu/hefti/projects/lib/exe/fetch.php?media=mt2-1.01a.tar.gz'
+tag='MD5=dd2d167abb23f4146c05fd0962fba6dc'
