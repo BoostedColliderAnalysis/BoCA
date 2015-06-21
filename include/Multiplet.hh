@@ -11,10 +11,12 @@ class Multiplet : public Identification
 
 public:
 
-    Multiplet() {};
+    Multiplet() {
+        empty_ = true;
+    };
 
     Multiplet(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
-        SetMultiplets(multiplet_1,multiplet_2);
+        SetMultiplets(multiplet_1, multiplet_2);
     }
 
     Multiplet(const fastjet::PseudoJet &jet) {
@@ -24,12 +26,15 @@ public:
     void SetMultiplets(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
-        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt())/2);
+        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
+        empty_ = false;
     }
 
     void SetJet(const fastjet::PseudoJet &jet) {
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
+        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
+        empty_ = false;
     }
 
     inline Multiplet_1 Multiplet1()const {
@@ -97,17 +102,21 @@ public:
         return Multiplet1().Ht() - Multiplet2().Ht();
     }
 
-    inline float Rho() const{
-      if(Jet().pt() == 0 || DeltaR() == 0) return 0;
-      return Jet().m() / Jet().pt() / DeltaR() * 2;
+    inline float Rho() const {
+        if (Jet().pt() < DetectorGeometry().MinCellPt || DeltaR() < DetectorGeometry().MinCellResolution) return 0;
+        return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 
     inline float MassDifferenceTo(const ParticleId particle_id) const {
         return std::abs(Jet().m() - Mass(particle_id));
     }
 
-    inline int Charge() const{
-      return sgn(Multiplet1().Charge() + Multiplet2().Charge());
+    inline int Charge() const {
+        return sgn(Multiplet1().Charge() + Multiplet2().Charge());
+    }
+
+    bool IsEmpty() const {
+        return empty_;
     }
 
 protected:
@@ -116,12 +125,12 @@ protected:
         return "Multiplet";
     }
 
-    void SetMultiplet1(const Multiplet_1 multiplet_1){
-      multiplet_1_ = multiplet_1;
+    void SetMultiplet1(const Multiplet_1 multiplet_1) {
+        multiplet_1_ = multiplet_1;
     }
 
-    void SetMultiplet2(const Multiplet_2 multiplet_2){
-      multiplet_2_ = multiplet_2;
+    void SetMultiplet2(const Multiplet_2 multiplet_2) {
+        multiplet_2_ = multiplet_2;
     }
 
 private:
@@ -129,6 +138,8 @@ private:
     Multiplet_1 multiplet_1_;
 
     Multiplet_2 multiplet_2_;
+
+    bool empty_ = false;
 
 };
 

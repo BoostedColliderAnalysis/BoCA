@@ -1,4 +1,4 @@
-# include "../include/AnalysishTagger.hh"
+# include "AnalysisHiggsTagger.hh"
 
 namespace analysis
 {
@@ -13,7 +13,7 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(HiggsId, PreCut());
     pre_cuts().SetPtUpperCut(HiggsId, UpperCut());
-//     pre_cuts().SetMassUpperCut(HiggsId, 200);
+    pre_cuts().SetMassUpperCut(HiggsId, 250);
 //     DetectorGeometry detector_geometry;
     //     pre_cuts().SetTrackerMaxEta(HiggsId, detector_geometry.TrackerEtaMax);
 }
@@ -82,37 +82,50 @@ void Analysis::SetFiles(const Object::Tag tag)
 
 std::string Analysis::NiceName(const Process process) const
 {
-  switch (process) {
+    switch (process) {
     case bb:
-      return "b";
+        return "b";
     case cc:
-      return "c";
+        return "c";
     case qq:
-      return "q";
+        return "q";
     case gg:
-      return "g";
+        return "g";
     case hh:
-      return "h";
+        return "h";
     case ww:
-      return "W";
+        return "W";
     case zz:
-      return "Z";
+        return "Z";
     case tthad:
-      return "t_{had}";
+        return "t_{had}";
     default:
-      Print(kError, "name", "unhandled case", process);
-      return "";
-  }
+        Print(kError, "name", "unhandled case", process);
+        return "";
+    }
 }
 
 
 int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-    if(leptons.empty()) return 1;
-    if(leptons.front().pt()<80) return 1;
-   return 0;
+
+    Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+    if (jets.empty()) return 0;
+    if (jets.front().pt() < PreCut()) return 0;
+
+//     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+//     if (leptons.empty()) return 1;
+//     if (leptons.front().pt() < 80) return 1;
+//     return 0;
+
+    Jets particles = event.Partons().GenParticles();
+    particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, HiggsId));
+    if (particles.empty()) return 1;
+    if (particles.size() == 1) return 0;
+    if ((particles.at(0).pt() > PreCut() && particles.at(0).pt() < UpperCut()) || (particles.at(1).pt() > PreCut() &&  particles.at(1).pt() < UpperCut())) return 1;
+
+    return 1;
 }
 
 }
