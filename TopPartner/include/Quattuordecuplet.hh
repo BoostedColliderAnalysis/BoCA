@@ -16,17 +16,17 @@ public:
 
     using Multiplet<toppartner::Decuplet55, Quartet22>::Multiplet;
 
-    inline toppartner::Decuplet55 Decuplet()const {
+     toppartner::Decuplet55 Decuplet()const {
         return Multiplet1();
     }
 
-    inline Quartet22 Quartet()const {
+     Quartet22 Quartet()const {
         return Multiplet2();
     }
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Quattuordecuplet";
     }
 

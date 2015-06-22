@@ -51,7 +51,7 @@ public:
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "BottomTagger";
     }
 
@@ -64,7 +64,7 @@ private:
         return Multiplets(jets,pre_cuts,reader);
     }
 
-    Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag);
+    Jets CleanJets(Jets &jets, PreCuts &pre_cuts, const Object::Tag tag);
 
     bool Problematic(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag) const;
 
@@ -72,7 +72,7 @@ private:
 
     Jets SubJets(const Jets &jets, const int sub_jet_number);
 
-    Jets TrainOnSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag, const int sub_jet_number);
+    Jets TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Object::Tag tag, const int sub_jet_number);
 
 };
 

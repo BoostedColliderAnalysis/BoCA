@@ -14,6 +14,10 @@ class BranchTagger : public Tagger
 
 protected:
 
+    BranchTagger() {
+        DefineVariables();
+    }
+
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) {
         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
@@ -44,13 +48,13 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> BestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) {
         if (multiplets.size() <= particles.size()) return multiplets;
-        return CopyIfClose2(multiplets, particles);
+        return CopyIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
     std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) {
         if (multiplets.size() <= particles.size()) return multiplets;
-        return RemoveIfClose2(multiplets, particles);
+        return RemoveIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
@@ -58,13 +62,25 @@ protected:
         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
             return multiplet.IsEmpty();
         }), multiplets.end());
-        std::sort(multiplets.begin(),multiplets.end());
+        std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
         case kSignal :
             return BestMatch(multiplets, particles);
             break;
         case kBackground  :
             return RemoveBestMatch(multiplets, particles);
+            break;
+        }
+    }
+
+    Jets BestMatches(Jets &jets, const Jets &particles, const Tag tag) {
+        std::sort(jets.begin(), jets.end(), SortByBdt());
+        switch (tag) {
+        case kSignal :
+            return BestMatch(jets, particles);
+            break;
+        case kBackground  :
+            return RemoveBestMatch(jets, particles);
             break;
         }
     }
@@ -116,21 +132,10 @@ protected:
         return Tagger::Bdt(reader);
     }
 
-    void AddObservables() {
-        for (auto & variable : branch().Variables()) {
-            AddVariable(variable.first, variable.second);
-        }
-    }
-
-    void AddSpectators() {
-        for (auto & spectator : branch().Spectators()) {
-            AddSpectator(spectator.first, spectator.second);
-        }
-    }
-
     virtual void DefineVariables() {
         Print(kInformation , "Define Variables");
-        AddObservables();
+        ClearObservables();
+        AddVariables();
         AddSpectators();
     }
 
@@ -141,6 +146,18 @@ protected:
 //     }
 
 private:
+
+    void AddVariables() {
+        for (auto & variable : branch().Variables()) {
+            AddVariable(variable.first, variable.second);
+        }
+    }
+
+    void AddSpectators() {
+        for (auto & spectator : branch().Spectators()) {
+            AddSpectator(spectator.first, spectator.second);
+        }
+    }
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {

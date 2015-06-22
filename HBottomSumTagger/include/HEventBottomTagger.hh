@@ -18,20 +18,20 @@ namespace hbottomsumtagger
 // //     }
 //
 //
-//     inline float TotalBottomBdt(const unsigned Number) const {
+//      float TotalBottomBdt(const unsigned Number) const {
 //         if (jets_.size() < Number) return 0;
 //         return jets_.at(Number - 1).user_info<analysis::JetInfo>().Bdt();
 //     }
 //
-//     inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2) const {
+//      float TotalBottomBdt(const unsigned Number1, const unsigned Number2) const {
 //         return TotalBottomBdt(Number1) + TotalBottomBdt(Number2);
 //     }
 //
-//     inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2, const unsigned Number3) const {
+//      float TotalBottomBdt(const unsigned Number1, const unsigned Number2, const unsigned Number3) const {
 //         return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3);
 //     }
 //
-//     inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2, const unsigned Number3, const unsigned Number4) const {
+//      float TotalBottomBdt(const unsigned Number1, const unsigned Number2, const unsigned Number3, const unsigned Number4) const {
 //         return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3) + TotalBottomBdt(Number4);
 //     }
 //
@@ -73,11 +73,11 @@ public:
 
 protected:
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
       return "hbottomsumtagger";
     }
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "EventBottomTagger";
     }
 

@@ -100,10 +100,10 @@ public:
         Charge = multiplet.Charge();
     }
     Observables Variables() {
-        return Join(ResultBranch::Variables(), {PAIR(Mass), PAIR(Charge), PAIR(Rap), PAIR(Phi), PAIR(Pt)});
+        return Join(ResultBranch::Variables(), {PAIR(Mass), PAIR(Rap), PAIR(Phi), PAIR(Pt)});
     }
     virtual Observables Spectators() {
-        return ResultBranch::Spectators();
+      return Join(ResultBranch::Spectators(),{PAIR(Charge)});
     }
 private:
     ClassDef(ParticleBranch, 1)
@@ -137,8 +137,8 @@ public:
         MeanDisplacement = multiplet.MeanDisplacement();
         SumDisplacement = multiplet.SumDisplacement();
         Multipliticity = multiplet.Multiplicity();
-        DeltaR = multiplet.VertexDeltaR();
-        Spread = multiplet.VertexSpread();
+        DeltaR = multiplet.DeltaR();
+        Spread = multiplet.Spread();
         VertexDeltaR = multiplet.VertexDeltaR();
         VertexSpread = multiplet.VertexSpread();
         EnergyFraction = multiplet.EnergyFraction();
@@ -399,6 +399,7 @@ public:
     TopHadronicBranch();
     float BottomPt;
     float WPt;
+    float LeptonPt;
 //     float Tau1_1;
 //     float Tau2_1;
 //     float Tau3_1;
@@ -414,6 +415,7 @@ public:
         MultiBranch::Fill(multiplet);
         BottomPt = multiplet.SingletJet().pt();
         WPt = multiplet.Doublet().Jet().pt();
+        LeptonPt = multiplet.pt();
 //         Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
 //         Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
 //         Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
@@ -426,8 +428,8 @@ public:
 //         Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
     }
     Observables Variables() {
-        return Join(MultiBranch::Variables(), {PAIR(BottomPt), PAIR(WPt)});
-        return Join(ParticleBranch::Variables(), {PAIR(Bdt1)});
+        return Join(MultiBranch::Variables(), {PAIR(BottomPt), PAIR(WPt),PAIR(LeptonPt)});
+        return Join(ParticleBranch::Variables(), {PAIR(Bdt2),PAIR(LeptonPt)});
     }
 private:
     ClassDef(TopHadronicBranch, 1)

@@ -25,13 +25,13 @@ public:
 
     void SetFiles(const Object::Tag tag);
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
         return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt);
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
 
-    inline Decay TopDecay() const {
+     Decay TopDecay() const {
         return kHadronic;
 //         return kLeptonic;
 //         return kSemi;
@@ -39,11 +39,11 @@ public:
 
 protected:
 
-    virtual inline std::string FilePath() const {
+    virtual  std::string FilePath() const {
         return "~/Projects/Tagger/";
     }
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "top";
     }
 
@@ -61,12 +61,12 @@ private:
     }
 
 
-    inline std::string FileName(const Process process) const {
+     std::string FileName(const Process process) const {
         return ProcessName(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
     }
 
     // in GeV
-    inline int LowerPtCut() const {
+     int LowerPtCut() const {
 //         return 350;
 //         return 700;
 //         return 800;
@@ -74,7 +74,7 @@ private:
     }
 
     // in GeV
-    inline int UpperPtCut() const {
+     int UpperPtCut() const {
         switch (LowerPtCut()) {
         case 700 :
             return 1000;
@@ -84,7 +84,7 @@ private:
     }
 
     // in GeV
-    inline int MadGraphCut() const {
+     int MadGraphCut() const {
         switch (LowerPtCut()) {
         case 700 :
             return 700;
@@ -93,30 +93,31 @@ private:
         }
     }
 
-    inline int  LowerQuarkCut() const {
+     int  LowerQuarkCut() const {
         return LowerPtCut() * 0.9;
     }
 
-    inline int UpperQuarkCut() const {
+     int UpperQuarkCut() const {
         return UpperPtCut() * 1.1;
     }
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
         //         return 1000000;
         //         return 100000;
 //         return 10000;
-        return 1000;
+        return 5000;
+//         return 1000;
 //         return 100;
 //         return 10;
     }
 
-    inline Collider collider_type() const {
+     Collider collider_type() const {
         //       return LHC;
         //       return FHC;
         return LE;
     }
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         return 1;
         //         return 2;
         //       return 4;
@@ -125,7 +126,7 @@ private:
     }
 
 
-    inline File BackgroundFile(const Process process) const {
+     File BackgroundFile(const Process process) const {
         return BackgroundFile(process, BackgroundFileNumber());
     }
 

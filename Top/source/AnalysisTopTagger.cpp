@@ -149,13 +149,10 @@ std::string Analysis::NiceName(const Process process) const
 int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-//     Jets particles = event.Partons().GenParticles();
-//     Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-    //     remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
-    Jets particles = event.Partons().GenParticles();
-    particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-    if (particles.empty()) return 1;
-    if (particles.size() == 1) Print(kError, "just one top");
+    Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+//     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
+//     if (particles.empty()) return 1;
+//     if (particles.size() == 1) Print(kError, "just one top");
     if ((particles.at(0).pt() > LowerQuarkCut() && particles.at(0).pt() < UpperQuarkCut()) && (particles.at(1).pt() > LowerQuarkCut() &&  particles.at(1).pt() < UpperQuarkCut())) return 1;
     return 0;
 }

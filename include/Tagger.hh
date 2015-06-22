@@ -96,7 +96,7 @@ protected:
 
     virtual void DefineVariables() = 0;
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Tagger";
     }
 
@@ -110,7 +110,7 @@ protected:
 
     void AddSpectator(float &value, const std::string &title);
 
-    void ClearVectors();
+    void ClearObservables();
 
     virtual int max_combi() const;
 

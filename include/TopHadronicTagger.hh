@@ -19,23 +19,7 @@ public:
 
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
 
-    std::vector<Triplet> Triplets(const std::vector< analysis::Doublet > &doublets, const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
-
-    std::vector<Triplet> Triplets(const analysis::Doublet &doublet, const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
-
-    analysis::Triplet Triplet(const analysis::Doublet &doublet, const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
-
-    bool Problematic(const analysis::Triplet &triplet, PreCuts &pre_cuts, const Tag tag);
-
-    bool Problematic(const analysis::Triplet &triplet, PreCuts &pre_cuts);
-
-    std::vector<analysis::Triplet>  Multiplets(const std::vector< Doublet > &doublets, const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-    std::vector<analysis::Triplet>  Multiplets(const Doublet &doublet, const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-    analysis::Triplet Multiplet(const Doublet &doublet, const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-    analysis::Triplet Multiplet(analysis::Triplet &triplet, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    analysis::Triplet Triplet(const analysis::Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
 
     int TopHadronicId(Event &event) const {
         return sgn(w_hadronic_tagger_.GetWHadId(event)) * std::abs(TopId);
@@ -47,18 +31,30 @@ public:
 
     std::vector<analysis::Triplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
+protected:
+
+    virtual  std::string ClassName() const {
+        return "TopHadronicTagger";
+    }
+
+private:
+
+    std::vector< analysis::Triplet > Triplets(const std::vector< analysis::Doublet > &doublets, const Jets &jets, const Jets &leptons, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
+
+    std::vector< analysis::Triplet > Triplets(const analysis::Doublet &doublet, const Jets &jets, const Jets &leptons, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag);
+
     std::vector<analysis::Triplet> Multiplets(Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
+    std::vector<analysis::Triplet>  Multiplets(const std::vector< Doublet > &doublets, const Jets &jets, const Jets &leptons, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    virtual inline std::string ClassName() const {
-        return "TopHadronicTagger";
-    }
+    std::vector<analysis::Triplet>  Multiplets(const analysis::Doublet &doublet, const Jets &jets, const Jets &leptons, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-private:
+    analysis::Triplet Multiplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    analysis::Triplet Multiplet(analysis::Triplet &triplet, const Jets &leptons, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     BottomTagger bottom_tagger_;
 
@@ -68,7 +64,9 @@ private:
 
     Reader w_hadronic_reader_;
 
-//     void DefineVariables();
+    bool Problematic(const analysis::Triplet &triplet, PreCuts &pre_cuts, const Tag tag);
+
+    bool Problematic(const analysis::Triplet &triplet, PreCuts &pre_cuts);
 
     float top_mass_window_ ;
 
@@ -77,6 +75,8 @@ private:
     void NSubJettiness(analysis::Triplet &triplet);
 
     SubJettiness NSubJettiness(const fastjet::PseudoJet &jet);
+
+    float LeptonPt(const analysis::Triplet &triplet, const Jets &leptons);
 
 };
 

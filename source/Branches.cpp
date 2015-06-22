@@ -172,6 +172,7 @@ analysis::TopHadronicBranch::TopHadronicBranch()
 {
     BottomPt = InitialValue();
     WPt = InitialValue();
+    LeptonPt = InitialValue();
 //     Tau1_1 = InitialValue();
 //     Tau2_1 = InitialValue();
 //     Tau3_1 = InitialValue();

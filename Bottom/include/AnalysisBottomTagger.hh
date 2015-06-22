@@ -24,13 +24,13 @@ public:
 
     Analysis(Tagger &tagger);
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
         return  ProductionChannelName(production_channel()) + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
     }
 
 protected:
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "bottom";
     }
 
@@ -41,7 +41,7 @@ private:
     enum Detector {LHC, FHC, LE};
 
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
         //         return 1000000;
 //         return 100000;
 //         return 10000;
@@ -49,19 +49,19 @@ private:
 //         return 100;
     };
 
-    inline Detector detector() const {
+     Detector detector() const {
         //       return LHC;
         //       return FHC;
         return LE;
     }
 
-    inline ProductionChannel production_channel() const {
+     ProductionChannel production_channel() const {
         return DYP;
         //         return VBF;
 //         return Associated;
     }
 
-    inline int LowerCut() const {
+     int LowerCut() const {
 //         return 1000;
         return 500;
     }
@@ -70,11 +70,11 @@ private:
 
     std::string DetectorName(const Detector detector) const;
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         return 1;
     }
 
-    inline std::string FileName(const Process process) const {
+     std::string FileName(const Process process) const {
       return ProductionChannelName(production_channel()) + ProcessName(process) + "_" + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
     }
 
@@ -90,7 +90,7 @@ private:
       analysis::Analysis::NewBackgroundFile(FileName(process));
     }
 
-    virtual inline std::string FilePath() const {
+    virtual  std::string FilePath() const {
       return "~/Projects/Tagger/Bottom/";
     }
 

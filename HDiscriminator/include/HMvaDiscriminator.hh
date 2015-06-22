@@ -51,7 +51,7 @@ private:
 
     void DefineVariables();
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "HiggsCPV: HMva";
     }
 

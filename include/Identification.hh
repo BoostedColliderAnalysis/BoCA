@@ -18,13 +18,13 @@ public:
 
     virtual float Bdt() const;
 
-    void SetTag(const int NewTag);
+    void SetTag(const int tag);
 
     void SetTag(const int tag_1, const int tag_2);
 
     int Tag() const;
 
-    void SetFlag(const bool NewFlag);
+    void SetFlag(const bool flag);
 
     void SetFlag(const bool flag_1, const bool flag_2);
 
@@ -47,7 +47,7 @@ public:
     }
 
     float initial_value() const {
-        return initial_value_;
+      return -11.1111111; // this must be identical to the initial value in the branch
     }
 
     template<typename Multiplet>
@@ -58,7 +58,7 @@ public:
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Identification";
     }
 
@@ -67,8 +67,6 @@ private:
     float bdt_;
 
     int tag_;
-
-    float initial_value_;
 
     bool flag_;
 

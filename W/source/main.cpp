@@ -29,10 +29,11 @@ void RunFactory(analysis::Tagger &tagger)
 void RunReader(analysis::Tagger &tagger)
 {
   analysis::wtagger::Analysis analysis(tagger);
+  analysis.PrepareFiles();
   const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
   if (gSystem->AccessPathName(file_name.c_str())) {
     analysis::Reader reader(tagger);
-    reader.OptimalSignificance();
+    reader.TaggingEfficiency();
   }
 }
 
@@ -56,6 +57,7 @@ int main(const int argc, const char **argv)
             RunTagger(w_hadronic_tagger, analysis::Tagger::kTrainer);
             RunFactory(w_hadronic_tagger);
             RunTagger(w_hadronic_tagger, analysis::Tagger::kReader);
+            RunReader(w_hadronic_tagger);
 
         }
 
@@ -65,6 +67,7 @@ int main(const int argc, const char **argv)
             RunTagger(w_semi_tagger, analysis::Tagger::kTrainer);
             RunFactory(w_semi_tagger);
             RunTagger(w_semi_tagger, analysis::Tagger::kReader);
+            RunReader(w_semi_tagger);
         }
     } catch (const std::exception &exception) {
       std::cout << "Standard exception: " << exception.what() << std::endl;

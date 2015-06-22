@@ -39,7 +39,14 @@ void Run(analysis::Tagger &tagger)
 {
     RunTagger(tagger, analysis::Tagger::kTrainer);
     RunFactory(tagger);
-    RunTagger(tagger, analysis::Tagger::kReader);
+}
+
+void Run2(analysis::Tagger &tagger)
+{
+  RunTagger(tagger, analysis::Tagger::kTrainer);
+  RunFactory(tagger);
+  RunTagger(tagger, analysis::Tagger::kReader);
+  RunReader(tagger);
 }
 
 int main()
@@ -53,8 +60,7 @@ int main()
         Run(w_hadronic_tagger);
 
         analysis::TopHadronicTagger top_hadronic_tagger;
-        Run(top_hadronic_tagger);
-        RunReader(top_hadronic_tagger);
+        Run2(top_hadronic_tagger);
     }
 
     if (analysis.TopDecay() == analysis::top::Analysis::kLeptonic) {
@@ -62,8 +68,7 @@ int main()
         Run(w_semi_tagger);
 
         analysis::TopSemiTagger tops_semi_tagger;
-        Run(tops_semi_tagger);
-        RunReader(tops_semi_tagger);
+        Run2(tops_semi_tagger);
     }
 }
 

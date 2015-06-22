@@ -15,41 +15,34 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 {
     Print(kInformation, "Bottom Tag", tag);
 
-    Jets particles = event.Partons().Particles();
-    Jets bottoms = copy_if_abs_particle(particles, BottomId);
-    bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt);
-    Print(kInformation, "Particle size", bottoms.size());
-
     Jets jets = event.Hadrons().Jets();
     Print(kInformation, "Number Jets", jets.size());
     if (jets.empty()) return 0;
 
-    Jets final_jets = CleanJets(jets, bottoms, pre_cuts, tag);
-
+    Jets final_jets = CleanJets(jets, pre_cuts, tag);
     if (pre_cuts.DoSubJets()) {
-
-        Jets doublet_pieces = TrainOnSubJets(jets, bottoms, pre_cuts, tag, 2);
-        final_jets = Join(final_jets, doublet_pieces);
-
-        Jets triplet_pieces = TrainOnSubJets(jets, bottoms, pre_cuts, tag, 3);
-        final_jets = Join(final_jets, triplet_pieces);
-
+      final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 2));
+      final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 3));
     }
 
-    return SaveEntries(final_jets);
+    Jets particles = event.Partons().Particles();
+    Jets bottoms = copy_if_abs_particle(particles, BottomId);
+    bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt);
+    Print(kInformation, "Particle size", bottoms.size());
+    return SaveEntries(BestMatches(final_jets, bottoms,tag));
 }
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const Tag tag) const
 {
     if (Problematic(jet, pre_cuts)) return true;
     if (tag == kSignal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
-    if (jet.user_info<JetInfo>().Tag() != tag) return true;
+//     if (jet.user_info<JetInfo>().Tag() != tag) return true;
     return false;
 }
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts) const
 {
-    if (!jet.has_user_info<JetInfo>()) return true;
+    if (!jet.has_user_info<JetInfo>())return true;
     if (pre_cuts.PtLowerCut(BottomId) > 0 && jet.pt() < pre_cuts.PtLowerCut(BottomId)) return true;
     if (pre_cuts.PtUpperCut(BottomId) > 0 && jet.pt() > pre_cuts.PtUpperCut(BottomId)) return true;
     if (pre_cuts.TrackerMaxEta(BottomId) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(BottomId)) return true;
@@ -57,39 +50,31 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts)
     return false;
 }
 
-Jets BottomTagger::CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag)
+Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Clean Jets", jets.size(), particles.size());
+    Print(kInformation, "Clean Jets", jets.size());
 
     if (jets.empty()) return jets;
-    for (const auto & particle : particles) {
-        std::sort(jets.begin(), jets.end(), MinDeltaRTo(particle));
-        if (jets.front().delta_R(particle) < DetectorGeometry().JetConeSize) static_cast<JetInfo &>(*jets.front().user_info_shared_ptr().get()).SetTag(kSignal);
-    }
-
     Jets clean_jets;
     for (const auto & jet : jets) {
         if (Problematic(jet, pre_cuts, tag)) continue;
         clean_jets.emplace_back(jet);
     }
-    Print(kInformation, "Jets", clean_jets.size(), particles.size());
+    Print(kInformation, "Jets", clean_jets.size());
     return clean_jets;
 }
 
-Jets BottomTagger::TrainOnSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
+Jets BottomTagger::TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
 {
-    Print(kInformation, "Sub Jets");
-    Jets pieces = SubJets(jets, sub_jet_number);
-    return CleanJets(pieces, particles, pre_cuts, tag);
+  Print(kDebug, "Sub Jets", sub_jet_number);
+    Jets sub_jets = SubJets(jets, sub_jet_number);
+    return CleanJets(sub_jets, pre_cuts, tag);
 }
 
 Jets BottomTagger::SubJets(const Jets &jets, const int sub_jet_number)
 {
     Jets subjets;
-    for (const auto & jet : jets) {
-        Jets jets = Tagger::SubJets(jet, sub_jet_number);
-        subjets = Join(subjets, jets);
-    }
+    for (const auto & jet : jets) subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
     return subjets;
 }
 
@@ -127,3 +112,4 @@ Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reade
 }
 
 }
+
