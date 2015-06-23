@@ -21,15 +21,15 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
 
     Jets final_jets = CleanJets(jets, pre_cuts, tag);
     if (pre_cuts.DoSubJets()) {
-      final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 2));
-      final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 3));
+        final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 2));
+        final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 3));
     }
 
     Jets particles = event.Partons().Particles();
     Jets bottoms = copy_if_abs_particle(particles, BottomId);
     bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt);
     Print(kInformation, "Particle size", bottoms.size());
-    return SaveEntries(BestMatches(final_jets, bottoms,tag));
+    return SaveEntries(BestMatches(final_jets, bottoms, tag));
 }
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const Tag tag) const
@@ -66,7 +66,7 @@ Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
 
 Jets BottomTagger::TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
 {
-  Print(kDebug, "Sub Jets", sub_jet_number);
+    Print(kDebug, "Sub Jets", sub_jet_number);
     Jets sub_jets = SubJets(jets, sub_jet_number);
     return CleanJets(sub_jets, pre_cuts, tag);
 }
@@ -94,6 +94,16 @@ Jets BottomTagger::Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::R
     return final_jets;
 }
 
+Jets BottomTagger::SubMultiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader, const std::size_t sub_jet_number)
+{
+    Jets final_jets;
+    for (const auto sub_jet : SubJets(jets, sub_jet_number)) {
+        if (Problematic(sub_jet, pre_cuts)) continue;
+        final_jets.emplace_back(Multiplet(sub_jet, reader));
+    }
+    return final_jets;
+}
+
 fastjet::PseudoJet BottomTagger::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
     static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
@@ -109,6 +119,22 @@ Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reade
         jets.emplace_back(Multiplet(sub_jet, reader));
     }
     return jets;
+}
+
+int BottomTagger::GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+{
+    Jets jets = event.Hadrons().Jets();
+    Jets bottoms = Multiplets(jets, pre_cuts, reader);
+    bottoms = Join(bottoms, SubMultiplets(jets, pre_cuts, reader, 2));
+    bottoms = Join(bottoms, SubMultiplets(jets, pre_cuts, reader, 3));
+//     return SaveEntries(ReduceResult(bottoms),2);
+    return SaveEntries(bottoms);
+}
+
+Jets BottomTagger::Multiplets(const Jets &jets, const TMVA::Reader &reader)
+{
+    PreCuts pre_cuts;
+    return Multiplets(jets, pre_cuts, reader);
 }
 
 }

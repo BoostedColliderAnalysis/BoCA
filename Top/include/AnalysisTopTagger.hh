@@ -26,7 +26,7 @@ public:
     void SetFiles(const Object::Tag tag);
 
      std::string ProjectName() const {
-        return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt);
+        return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-1-sj";
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
@@ -105,8 +105,8 @@ private:
         //         return 1000000;
         //         return 100000;
 //         return 10000;
-        return 5000;
-//         return 1000;
+//         return 5000;
+        return 1000;
 //         return 100;
 //         return 10;
     }
@@ -141,7 +141,6 @@ private:
     std::string BackgroundTree(const Process Process) const {
         return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
     }
-
 
     std::string ColliderName(const Collider collider) const;
 

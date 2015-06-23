@@ -177,13 +177,28 @@ struct Close {
     }
     template <typename Multiplet>
     bool operator()(const Multiplet &multiplet) {
-        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize);
+        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize & multiplet.Jet().delta_R(particle_) < multiplet.DeltaR());
     }
     bool operator()(const fastjet::PseudoJet &jet) {
         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
     }
     fastjet::PseudoJet particle_;
     DetectorGeometry detector_geometry_;
+};
+
+struct Close2 {
+  Close2(const fastjet::PseudoJet &particle) {
+    particle_ = particle;
+  }
+  template <typename Multiplet>
+  bool operator()(const Multiplet &multiplet) {
+    return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize);
+  }
+  bool operator()(const fastjet::PseudoJet &jet) {
+    return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
+  }
+  fastjet::PseudoJet particle_;
+  DetectorGeometry detector_geometry_;
 };
 
 template <typename Multiplet>
@@ -199,73 +214,8 @@ std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet> &multiplets, con
 {
     if (multiplets.empty()) return multiplets;
     std::vector<Multiplet> final_multiplets;
-//     std::vector<Multiplet> final_multiplets(multiplets.size());
-//     typename std::vector<Multiplet>::iterator multiplet;
-//     for (const auto & particle : particles) multiplet = std::copy_if(multiplets.begin(), multiplets.end(), final_multiplets.begin(), Close(particle));
-//     final_multiplets.resize(std::distance(final_multiplets.begin(), multiplet));
     for (const auto & particle : particles) for (const auto & multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
     return final_multiplets;
 }
-
-
-// Jets RemoveIfClose(const Jets &jets, const Jets &particles);
-//
-// Jets CopyIfClose(const Jets &jets, const Jets &particles);
-
-
-
-
-
-
-
-
-
-
-// struct Close2 {
-//     Close2(const fastjet::PseudoJet &particle) {
-//         particle_ = particle;
-//     }
-//     template <typename Multiplet>
-//     bool operator()(const Multiplet &multiplet) {
-//         return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize);
-//     }
-//     bool operator()(const fastjet::PseudoJet &jet) {
-//         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
-//     }
-//     fastjet::PseudoJet particle_;
-//     DetectorGeometry detector_geometry_;
-// };
-
-// template <typename Multiplet>
-// std::vector<Multiplet> RemoveIfClose2(const std::vector<Multiplet> &jets, const Jets &particles)
-// {
-//     std::vector<Multiplet> quarks = jets;
-//     for (const auto & particle : particles) quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close2(particle)), quarks.end());
-//     return quarks;
-// }
-//
-// template <typename Multiplet>
-// std::vector<Multiplet> CopyIfClose2(const std::vector<Multiplet> &multiplets, const Jets &particles)
-// {
-//     if (multiplets.empty()) return multiplets;
-//     std::vector<Multiplet> final_multiplets;
-//     for (const auto & particle : particles) for (const auto & multiplet : multiplets) if (
-//       //     jet.delta_R(particle) < DetectorGeometry().JetConeSize
-//       Close2(particle)(multiplet)
-//     ) final_multiplets.emplace_back(multiplet);
-//     return final_multiplets;
-// }
-
-// template <>
-// analysis::Jets CopyIfClose2(const analysis::Jets &jets, const Jets &particles)
-// {
-//   if (jets.empty()) return jets;
-//   Jets final_jets;
-//   for (const auto & particle : particles) for (const auto & jet : jets) if (
-// //     jet.delta_R(particle) < DetectorGeometry().JetConeSize
-//     Close2()
-//   ) final_jets.emplace_back(jet);
-//   return final_jets;
-// }
 
 }

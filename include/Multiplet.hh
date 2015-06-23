@@ -12,7 +12,7 @@ class Multiplet : public Identification
 public:
 
     Multiplet() {
-        empty_ = true;
+//         empty_ = true;
     };
 
     Multiplet(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
@@ -27,14 +27,14 @@ public:
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
-        empty_ = false;
+//         empty_ = false;
     }
 
     void SetJet(const fastjet::PseudoJet &jet) {
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
-        empty_ = false;
+//         empty_ = false;
     }
 
      Multiplet_1 &Multiplet1() const {
@@ -90,7 +90,8 @@ public:
 
      float DeltaR() const {
         float delta_r = Multiplet1().Jet().delta_R(Multiplet2().Jet());
-        if (std::abs(delta_r) > 100) return 0;
+        if (std::abs(delta_r) > 100) delta_r = 0;
+//         if (delta_r < DetectorGeometry().MinCellResolution) delta_r = Singlet(Jet()).DeltaR();
         return delta_r;
     }
 
@@ -115,9 +116,9 @@ public:
         return sgn(Multiplet1().Charge() + Multiplet2().Charge());
     }
 
-    bool IsEmpty() const {
-        return empty_;
-    }
+//     bool IsEmpty() const {
+//         return empty_;
+//     }
 
 protected:
 
@@ -139,7 +140,7 @@ private:
 
     mutable Multiplet_2 multiplet_2_;
 
-    bool empty_ = false;
+//     bool empty_ = false;
 
 };
 

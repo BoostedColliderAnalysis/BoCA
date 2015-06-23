@@ -25,7 +25,7 @@ public:
     Analysis(Tagger &tagger);
 
      std::string ProjectName() const {
-        return  ProductionChannelName(production_channel()) + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
+        return  ProductionChannelName(production_channel()) + DetectorName(detector()) + "_" + std::to_string(MadGraphCut()) + "GeV";
     }
 
 protected:
@@ -36,7 +36,7 @@ protected:
 
 private:
 
-    enum Process {bb, cc, jj, ttjj, ttbb, ttcc, Hbb, tt, qq, gg, ttlep, tthad, hh, ww};
+    enum Process {bb, cc, jj, ttjj, ttbb, ttcc, Hbb, tt, qq, gg, ttlep, tthad, hh, ww,zz};
     enum ProductionChannel {DYP, VBF, Associated};
     enum Detector {LHC, FHC, LE};
 
@@ -61,12 +61,33 @@ private:
 //         return Associated;
     }
 
-     int LowerCut() const {
-//         return 1000;
-        return 500;
+    // in GeV
+    int LowerPtCut() const {
+      //         return 350;
+      //         return 700;
+      //         return 800;
+      return 1000;
     }
 
-    int UpperCut() const;
+    // in GeV
+    int UpperPtCut() const {
+      switch (LowerPtCut()) {
+        case 700 :
+          return 1000;
+        case 1000 :
+          return 1500;
+      }
+    }
+
+    // in GeV
+    int MadGraphCut() const {
+      switch (LowerPtCut()) {
+        case 700 :
+          return 700;
+        case 1000 :
+          return 1000;
+      }
+    }
 
     std::string DetectorName(const Detector detector) const;
 
@@ -74,8 +95,13 @@ private:
         return 1;
     }
 
-     std::string FileName(const Process process) const {
-      return ProductionChannelName(production_channel()) + ProcessName(process) + "_" + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
+//      std::string FileName(const Process process) const {
+//       return ProductionChannelName(production_channel()) + ProcessName(process) + "_" + DetectorName(detector()) + "_" + std::to_string(LowerCut()) + "GeV";
+//     }
+
+
+    std::string FileName(const Process process) const {
+      return ProcessName(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
     }
 
     std::string TreeName(const Process process) const {
@@ -83,15 +109,15 @@ private:
     }
 
     void NewSignalFile(const Process process) {
-      analysis::Analysis::NewSignalFile(FileName(process));
+      analysis::Analysis::NewSignalFile(FileName(process), NiceName(process));
     }
 
     void NewBackgroundFile(const Process process) {
-      analysis::Analysis::NewBackgroundFile(FileName(process));
+      analysis::Analysis::NewBackgroundFile(FileName(process), NiceName(process));
     }
 
     virtual  std::string FilePath() const {
-      return "~/Projects/Tagger/Bottom/";
+      return "~/Projects/Tagger/";
     }
 
     std::string ProductionChannelName(const ProductionChannel production_channel) const;
@@ -101,6 +127,8 @@ private:
     void SetFiles(const Object::Tag Tag);
 
     int PassPreCut(Event &event);
+
+    std::string NiceName(const Process process) const;
 
 };
 

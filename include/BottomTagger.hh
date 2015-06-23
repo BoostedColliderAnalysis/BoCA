@@ -33,9 +33,7 @@ public:
      * @brief Save all jets with bottom bdt value condidering pre cuts
      *
      */
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
-    }
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     /**
      * @brief calculate bottom bdt for given jet
@@ -59,10 +57,9 @@ private:
 
     Jets Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    Jets Multiplets(const Jets &jets, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return Multiplets(jets,pre_cuts,reader);
-    }
+    Jets SubMultiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader, const std::size_t sub_jet_number);
+
+    Jets Multiplets(const Jets &jets, const TMVA::Reader &reader);
 
     Jets CleanJets(Jets &jets, PreCuts &pre_cuts, const Object::Tag tag);
 

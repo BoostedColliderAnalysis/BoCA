@@ -25,7 +25,7 @@ public:
     void SetFiles(const Object::Tag tag);
 
      std::string ProjectName() const {
-        return  "HiggsTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-";
+        return  "HiggsTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-";
     }
 
 protected:
@@ -56,20 +56,32 @@ private:
 
 
      std::string FileName(const Process process) const {
-        return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
+        return ProcessName(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
 //         return ProcessName(process);
     }
 
     // in GeV
-     int PreCut() const {
+     int LowerPtCut() const {
 //         return 500;
         return 700;
 //         return 1000;
-    }
+     }
+
+     // in GeV
+     int MadGraphCut() const {
+       switch (LowerPtCut()) {
+         case 700 :
+           return 500;
+         case 500 :
+           return 500;
+         case 1000 :
+           return 1000;
+       }
+     }
 
     // in GeV
-     int UpperCut() const {
-      switch (PreCut()) {
+     int UpperPtCut() const {
+      switch (LowerPtCut()) {
         case 700 :
           return 1000;
         case 500 :
@@ -117,7 +129,7 @@ private:
     }
 
     std::string BackgroundTree(const Process Process) const {
-        return ProcessName(Process) + "_" + std::to_string(PreCut()) + "GeV" + "-run_01";
+        return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
     }
 
     std::string ColliderName(const Collider collider) const;

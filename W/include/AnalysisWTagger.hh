@@ -25,7 +25,7 @@ public:
     void SetFiles(const Object::Tag tag);
 
      std::string ProjectName() const {
-        return  "WTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
+        return  "WTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt)+"";
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
@@ -67,24 +67,39 @@ private:
 
 
      std::string FileName(const Process process) const {
-        return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
+        return ProcessName(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
 //         return ProcessName(process);
     }
 
     // in GeV
-     int PreCut() const {
-//         return 700;
-        return 1000;
+    int LowerPtCut() const {
+      //         return 350;
+//               return 500;
+      //         return 700;
+      //         return 800;
+      return 1000;
     }
 
     // in GeV
-     int UpperCut() const {
-        switch (PreCut()) {
+    int UpperPtCut() const {
+      switch (LowerPtCut()) {
         case 700 :
-            return 1000;
+          return 1000;
         case 1000 :
-            return 1500;
-        }
+          return 1500;
+      }
+    }
+
+    // in GeV
+    int MadGraphCut() const {
+      switch (LowerPtCut()) {
+        case 500 :
+          return 500;
+        case 700 :
+          return 500;
+        case 1000 :
+          return 1000;
+      }
     }
 
      int EventNumberMax() const {
@@ -124,7 +139,7 @@ private:
     }
 
     std::string BackgroundTree(const Process Process) const {
-        return ProcessName(Process) + "_" + std::to_string(PreCut()) + "GeV" + "-run_01";
+        return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
     }
 
     std::string ColliderName(const Collider collider) const;

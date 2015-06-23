@@ -20,13 +20,20 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) {
-        multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
-            return multiplet.IsEmpty();
-        }), multiplets.end());
+//         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
+//             return multiplet.IsEmpty();
+//         }), multiplets.end());
         if (multiplets.empty()) return multiplets;
         std::sort(multiplets.begin(), multiplets.end());
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
         return multiplets;
+    }
+
+    Jets ReduceResult(Jets &jets, const std::size_t max = 4) {
+      if (jets.empty()) return jets;
+      std::sort(jets.begin(), jets.end(),SortByBdt());
+      jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
+      return jets;
     }
 
     template<typename Multiplet>
@@ -59,9 +66,9 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) {
-        multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
-            return multiplet.IsEmpty();
-        }), multiplets.end());
+//         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
+//             return multiplet.IsEmpty();
+//         }), multiplets.end());
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
         case kSignal :

@@ -170,8 +170,8 @@ ClassImp(analysis::TopHadronicBranch)
 
 analysis::TopHadronicBranch::TopHadronicBranch()
 {
-    BottomPt = InitialValue();
-    WPt = InitialValue();
+    BottomMass = InitialValue();
+    WMass = InitialValue();
     LeptonPt = InitialValue();
 //     Tau1_1 = InitialValue();
 //     Tau2_1 = InitialValue();

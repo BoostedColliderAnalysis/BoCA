@@ -34,7 +34,7 @@ void RunReader(analysis::Tagger &tagger)
     }
 }
 
-void Run(analysis::Tagger &tagger)
+void RunFast(analysis::Tagger &tagger)
 {
     RunTagger(tagger, analysis::Tagger::kTrainer);
     RunFactory(tagger);
@@ -44,12 +44,12 @@ void Run(analysis::Tagger &tagger)
 int main()
 {
     analysis::BottomTagger bottom_tagger;
-    Run(bottom_tagger);
+    RunFast(bottom_tagger);
 
     analysis::ztagger::Analysis analysis(bottom_tagger);
 
     analysis::ZHadronicTagger z_hadronic_tagger;
-    Run(z_hadronic_tagger);
+    RunFast(z_hadronic_tagger);
     RunReader(z_hadronic_tagger);
 
 }

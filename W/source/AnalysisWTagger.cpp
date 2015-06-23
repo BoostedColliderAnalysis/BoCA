@@ -11,8 +11,8 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(WId, PreCut());
-    pre_cuts().SetPtUpperCut(WId, UpperCut());
+    pre_cuts().SetPtLowerCut(WId, LowerPtCut());
+    pre_cuts().SetPtUpperCut(WId, UpperPtCut());
     pre_cuts().SetMassUpperCut(WId, 200);
 //     DetectorGeometry detector_geometry;
 //     pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
@@ -106,7 +106,6 @@ void Analysis::SetFiles(const Object::Tag tag)
         NewBackgroundFile(ttlep);
         NewBackgroundFile(tthad);
         NewBackgroundFile(hh);
-        NewBackgroundFile(zz);
         NewBackgroundFile(zz);
         NewBackgroundFile(bb);
         NewBackgroundFile(cc);
