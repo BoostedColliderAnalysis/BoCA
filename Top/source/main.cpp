@@ -1,6 +1,7 @@
 # include "AnalysisTopTagger.hh"
 # include "TopHadronicTagger.hh"
 # include "TopSemiTagger.hh"
+# include "TopLeptonicTagger.hh"
 # include "TSystem.h"
 # include "Factory.hh"
 
@@ -56,23 +57,28 @@ void RunFull(analysis::Tagger &tagger)
 int main()
 {
     analysis::BottomTagger bottom_tagger;
-    RunNormal(bottom_tagger);
+    RunFast(bottom_tagger);
 
     analysis::top::Analysis analysis(bottom_tagger);
     if (analysis.TopDecay() == analysis::top::Analysis::kHadronic) {
         analysis::WHadronicTagger w_hadronic_tagger;
-        RunNormal(w_hadronic_tagger);
+        RunFast(w_hadronic_tagger);
 
         analysis::TopHadronicTagger top_hadronic_tagger;
         RunFull(top_hadronic_tagger);
     }
 
-    if (analysis.TopDecay() == analysis::top::Analysis::kLeptonic) {
+    if (analysis.TopDecay() == analysis::top::Analysis::kSemi) {
         analysis::WSemiTagger w_semi_tagger;
         RunFast(w_semi_tagger);
 
         analysis::TopSemiTagger tops_semi_tagger;
         RunFull(tops_semi_tagger);
+    }
+
+    if (analysis.TopDecay() == analysis::top::Analysis::kLeptonic) {
+      analysis::TopLeptonicTagger tops_leptonic_tagger;
+      RunFull(tops_leptonic_tagger);
     }
 }
 
