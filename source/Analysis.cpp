@@ -55,7 +55,8 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
                         object_sum += object_number;
                         info_branch.PreCutNumber = event_number;
                         analysis_empty = false;
-                        static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
+//                         static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
+                        dynamic_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
                         tree_writer.Fill();
                     }
                 }

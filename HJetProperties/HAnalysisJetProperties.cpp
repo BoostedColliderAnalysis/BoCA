@@ -127,7 +127,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     //         eventPt += EFlowJet.pt();
     //
     //     }
-    analysis::EventBranch *eventB = static_cast<analysis::EventBranch *>(eventBranch->NewEntry());
+    analysis::EventBranch *eventB ;//= static_cast<analysis::EventBranch *>(eventBranch->NewEntry());
     eventB->ScalarHt= 1. / event.Hadrons().ScalarHt();
     std::vector<int> Ids;
     //     if (StudyName == "Top") Ids = { TopId, -TopId};
@@ -290,7 +290,7 @@ bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, e
 //         if (!sub_structure.Getconstituents(CandidateJet, constituentTreeBranch)) return 0;
         analysis::Vectors constituentVectors = sub_structure.Getconstituents(CandidateJet);
         for (const auto & constituentVector : constituentVectors) {
-            analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentTreeBranch->NewEntry());
+            analysis::ParticleBranch *constituent ;//= static_cast<analysis::ParticleBranch *>(constituentTreeBranch->NewEntry());
             constituent->Rap = constituentVector.Rapidity();
             constituent->Phi = constituentVector.Phi();
             constituent->Pt = constituentVector.Pt();
