@@ -3,10 +3,10 @@
 namespace analysis
 {
 
-namespace higgstagger
+  namespace standardmodel
 {
 
-Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+  AnalysisHiggs::AnalysisHiggs(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
@@ -17,50 +17,16 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 //     DetectorGeometry detector_geometry;
     //     pre_cuts().SetTrackerMaxEta(HiggsId, detector_geometry.TrackerEtaMax);
 }
-
-std::string Analysis::ProcessName(const Process process) const
+std::string AnalysisHiggs::ProjectName() const
 {
-    switch (process) {
-    case ttlep:
-        return "tt_leptonic";
-    case tthad:
-        return "tt_hadronic";
-    case bb:
-        return "bb";
-    case cc:
-        return "cc";
-    case qq:
-        return "qq";
-    case gg:
-        return "gg";
-    case hh:
-        return "hh";
-    case ww:
-        return "ww";
-    case zz:
-        return "zz";
-    default:
-        Print(kError, "process name", "unhandled case", process);
-        return "";
-    }
+    return  "HiggsTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-";
 }
 
-std::string Analysis::ColliderName(const Collider collider) const
-{
-    switch (collider) {
-    case LHC :
-        return "14TeV";
-    case FHC:
-        return "100TeV";
-    case LE:
-        return "LE";
-    default:
-        Print(kError, "collider name", "unhandled case");
-        return "";
-    }
+std::string AnalysisHiggs::ClassName() const{
+  return "AnalysisHiggs";
 }
 
-void Analysis::SetFiles(const Object::Tag tag)
+void AnalysisHiggs::SetFiles(const Object::Tag tag)
 {
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
@@ -80,33 +46,7 @@ void Analysis::SetFiles(const Object::Tag tag)
 
 }
 
-std::string Analysis::NiceName(const Process process) const
-{
-    switch (process) {
-    case bb:
-        return "b";
-    case cc:
-        return "c";
-    case qq:
-        return "q";
-    case gg:
-        return "g";
-    case hh:
-        return "h";
-    case ww:
-        return "W";
-    case zz:
-        return "Z";
-    case tthad:
-        return "t_{had}";
-    default:
-        Print(kError, "name", "unhandled case", process);
-        return "";
-    }
-}
-
-
-int Analysis::PassPreCut(Event &event)
+int AnalysisHiggs::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
 

@@ -67,8 +67,7 @@ void Reader::AddVariable()
 void Reader::BookMva()
 {
     Print(kNotification, "Book Mva");
-    const std::string xml_name = ".weights.xml";
-    const std::string bdt_weight_file = tagger().analysis_name() + "/" + tagger().tagger_name() + "_" + tagger().bdt_method_name() + xml_name;
+    const std::string bdt_weight_file = tagger().analysis_name() + "/" + tagger().bdt_weight_name();
     Print(kNotification, "Opening Weight File", bdt_weight_file);
     reader().BookMVA(tagger().bdt_method_name(), bdt_weight_file);
 }
