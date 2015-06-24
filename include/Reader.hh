@@ -116,7 +116,7 @@ private:
 
     void LatexFooter(std::ofstream &latex_file) const;
 
-    inline std::string ClassName() const {
+     std::string ClassName() const {
         return "Reader";
     }
 

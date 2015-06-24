@@ -35,7 +35,7 @@ void RunReader(analysis::Tagger &tagger)
     }
 }
 
-void Run(analysis::Tagger &tagger)
+void RunFast(analysis::Tagger &tagger)
 {
     RunTagger(tagger, analysis::Tagger::kTrainer);
     RunFactory(tagger);
@@ -45,12 +45,12 @@ void Run(analysis::Tagger &tagger)
 int main()
 {
     analysis::BottomTagger bottom_tagger;
-    Run(bottom_tagger);
+    RunFast(bottom_tagger);
 
     analysis::higgstagger::Analysis analysis(bottom_tagger);
 
     analysis::HiggsTagger higgs_tagger;
-    Run(higgs_tagger);
+    RunFast(higgs_tagger);
     RunReader(higgs_tagger);
 
 }

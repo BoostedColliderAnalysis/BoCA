@@ -4,14 +4,14 @@ namespace analysis
 {
 
 struct SortJetByRap {
-    inline bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
+     bool operator()(const fastjet::PseudoJet &Jet1, const fastjet::PseudoJet &Jet2) {
         return (Jet1.rap() > Jet2.rap());
     }
 };
 
 struct MaxPt {
     template <typename TMultiplet>
-    inline bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
+     bool operator()(const TMultiplet &Multiplet1, const TMultiplet &Multiplet2) {
         return (Multiplet1.Jet().pt() > Multiplet2.Jet().pt());
     }
 };

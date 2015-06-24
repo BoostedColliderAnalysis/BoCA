@@ -28,6 +28,10 @@ WARN_NO_PARAMDOC       = NO
 
 INPUT                  = @DOXYFILE_SOURCE_DIRS@
 
+#INPUT                  = README.md other_sources
+
+USE_MDFILE_AS_MAINPAGE = README.md
+
 RECURSIVE              = YES
 
 EXCLUDE                = @DOXYFILE_EXCLUDE_DIR@
@@ -36,7 +40,7 @@ EXAMPLE_PATH           = #"@CMAKE_CURRENT_SOURCE_DIR@/examples"
 
 IMAGE_PATH             = #"@CMAKE_CURRENT_SOURCE_DIR@"
 
-SOURCE_BROWSER         = YES
+SOURCE_BROWSER         =
 
 INLINE_SOURCES         = NO
 
@@ -50,7 +54,7 @@ HTML_OUTPUT            = "@DOXYFILE_HTML_DIR@"
 
 HTML_DYNAMIC_SECTIONS  = YES
 
-GENERATE_TREEVIEW      = ALL
+GENERATE_TREEVIEW      =
 
 GENERATE_LATEX         = @DOXYFILE_GENERATE_LATEX@
 
@@ -86,7 +90,7 @@ CALLER_GRAPH           = NO
 
 GRAPHICAL_HIERARCHY    = YES
 
-DIRECTORY_GRAPH        = YES
+DIRECTORY_GRAPH        =
 
 DOT_IMAGE_FORMAT       = svg
 

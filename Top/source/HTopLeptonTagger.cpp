@@ -26,7 +26,7 @@ void HTopLeptonTagger::DefineVariables()
     Print(kNotification , "Define Variables");
     set_tagger_name("TopSemi");
     TopWindow = 50;
-    ClearVectors();
+    ClearObservables();
 
 
 //     AddObservable(Branch.Mass, "Mass");

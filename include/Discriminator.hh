@@ -32,7 +32,7 @@ public:
 
 private:
 
-    inline std::string ClassName() const {
+     std::string ClassName() const {
         return "Discriminator";
     }
 

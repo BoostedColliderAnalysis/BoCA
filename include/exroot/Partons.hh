@@ -27,7 +27,7 @@ private:
 
     Jets Particles(const Status max_status) const;
 
-    inline std::string NameSpaceName() const {
+     std::string NameSpaceName() const {
         return "exroot";
     }
 

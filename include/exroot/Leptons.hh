@@ -24,7 +24,7 @@ public:
 
 protected:
 
-    inline std::string NameSpaceName() const {
+     std::string NameSpaceName() const {
         return "exroot";
     }
 

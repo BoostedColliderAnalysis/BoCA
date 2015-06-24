@@ -33,9 +33,7 @@ public:
      * @brief Save all jets with bottom bdt value condidering pre cuts
      *
      */
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
-    }
+    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     /**
      * @brief calculate bottom bdt for given jet
@@ -51,7 +49,7 @@ public:
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "BottomTagger";
     }
 
@@ -59,12 +57,11 @@ private:
 
     Jets Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    Jets Multiplets(const Jets &jets, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return Multiplets(jets,pre_cuts,reader);
-    }
+    Jets SubMultiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader, const std::size_t sub_jet_number);
 
-    Jets CleanJets(Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag);
+    Jets Multiplets(const Jets &jets, const TMVA::Reader &reader);
+
+    Jets CleanJets(Jets &jets, PreCuts &pre_cuts, const Object::Tag tag);
 
     bool Problematic(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag) const;
 
@@ -72,7 +69,7 @@ private:
 
     Jets SubJets(const Jets &jets, const int sub_jet_number);
 
-    Jets TrainOnSubJets(const Jets &jets, const Jets &particles, PreCuts &pre_cuts, const Object::Tag tag, const int sub_jet_number);
+    Jets TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Object::Tag tag, const int sub_jet_number);
 
 };
 

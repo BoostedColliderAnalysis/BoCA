@@ -14,8 +14,9 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
     pre_cuts().SetPtLowerCut(TopId, LowerPtCut());
     pre_cuts().SetPtUpperCut(TopId, UpperPtCut());
     pre_cuts().SetMassUpperCut(TopId, 400);
-    DetectorGeometry detector_geometry;
-    pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
+    pre_cuts().SetTrackerMaxEta(TopId, DetectorGeometry().TrackerEtaMax);
+    pre_cuts().SetPtLowerCut(BottomId, LowerPtCut() / 5);
+    pre_cuts().SetPtLowerCut(WId, LowerPtCut() / 5);
 }
 
 std::string Analysis::ProcessName(const Process process) const
@@ -100,16 +101,19 @@ void Analysis::SetFiles(const Object::Tag tag)
     Print(kNotification, "Set File Vector", tag);
     switch (tag) {
     case kSignal :
-        if (TopDecay() == kHadronic) NewSignalFile(tthad);
-        else if (TopDecay() == kLeptonic) NewSignalFile(ttlep);
+        if (TopDecay() == kHadronic || tagger().tagger_name() == "Bottom") NewSignalFile(tthad);
+        if (TopDecay() == kLeptonic || tagger().tagger_name() == "Bottom") NewSignalFile(ttlep);
+        if (tagger().tagger_name() == "Bottom") NewSignalFile(hh);
+        if (tagger().tagger_name() == "Bottom") NewSignalFile(bb);
+        if (tagger().tagger_name() == "WHadronic") NewSignalFile(ww);
         break;
     case kBackground :
-        if (TopDecay() == kHadronic) NewBackgroundFile(ttlep);
-        else if (TopDecay() == kLeptonic) NewBackgroundFile(tthad);
-        NewBackgroundFile(hh);
+        if (TopDecay() == kHadronic && tagger().tagger_name() != "Bottom") NewBackgroundFile(ttlep);
+        if (TopDecay() == kLeptonic && tagger().tagger_name() != "Bottom") NewBackgroundFile(tthad);
+        if (tagger().tagger_name() != "Bottom") NewBackgroundFile(hh);
         NewBackgroundFile(zz);
-        NewBackgroundFile(ww);
-        NewBackgroundFile(bb);
+        if (tagger().tagger_name() != "WHadronic") NewBackgroundFile(ww);
+        if (tagger().tagger_name() != "Bottom") NewBackgroundFile(bb);
         NewBackgroundFile(cc);
         NewBackgroundFile(qq);
         NewBackgroundFile(gg);
@@ -149,13 +153,10 @@ std::string Analysis::NiceName(const Process process) const
 int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
-//     Jets particles = event.Partons().GenParticles();
-//     Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-    //     remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
-    Jets particles = event.Partons().GenParticles();
-    particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-    if (particles.empty()) return 1;
-    if (particles.size() == 1) Print(kError, "just one top");
+    Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+//     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
+//     if (particles.empty()) return 1;
+//     if (particles.size() == 1) Print(kError, "just one top");
     if ((particles.at(0).pt() > LowerQuarkCut() && particles.at(0).pt() < UpperQuarkCut()) && (particles.at(1).pt() > LowerQuarkCut() &&  particles.at(1).pt() < UpperQuarkCut())) return 1;
     return 0;
 }
