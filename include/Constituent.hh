@@ -24,7 +24,9 @@ public:
 
     Constituent(const TLorentzVector &momentum);
 
-    Constituent(const TLorentzVector &momentum, const SubDetector sub_detector, const float charge = 0);
+    Constituent(const TLorentzVector &momentum, const SubDetector sub_detector, const float charge);
+
+    Constituent(const TLorentzVector &momentum, const SubDetector sub_detector);
 
     void SetPosition(const TLorentzVector &position);
 

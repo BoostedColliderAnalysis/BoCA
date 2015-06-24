@@ -27,7 +27,7 @@ public:
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "ChargedHiggsLeptonicTagger";
     }
 

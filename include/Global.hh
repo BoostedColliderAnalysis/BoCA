@@ -22,7 +22,7 @@ typedef std::vector<TLorentzVector> Vectors;
 typedef std::vector<std::string> Strings;
 
 template <typename Value>
-inline int sgn(const Value value)
+ int sgn(const Value value)
 {
     return (Value(0) < value) - (value < Value(0));
 }

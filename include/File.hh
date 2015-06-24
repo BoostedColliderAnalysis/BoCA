@@ -104,7 +104,7 @@ protected:
 
     std::string MadGraphFilePath() const;
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "File";
     }
 

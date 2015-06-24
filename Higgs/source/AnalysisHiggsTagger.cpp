@@ -11,8 +11,8 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 //   DebugLevel = Object::kDebug;
     Print(kNotification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(HiggsId, PreCut());
-    pre_cuts().SetPtUpperCut(HiggsId, UpperCut());
+    pre_cuts().SetPtLowerCut(HiggsId, LowerPtCut());
+    pre_cuts().SetPtUpperCut(HiggsId, UpperPtCut());
     pre_cuts().SetMassUpperCut(HiggsId, 250);
 //     DetectorGeometry detector_geometry;
     //     pre_cuts().SetTrackerMaxEta(HiggsId, detector_geometry.TrackerEtaMax);
@@ -112,18 +112,18 @@ int Analysis::PassPreCut(Event &event)
 
     Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
     if (jets.empty()) return 0;
-    if (jets.front().pt() < PreCut()) return 0;
+    if (jets.front().pt() < LowerPtCut()) return 0;
 
 //     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
 //     if (leptons.empty()) return 1;
 //     if (leptons.front().pt() < 80) return 1;
 //     return 0;
 
-    Jets particles = event.Partons().GenParticles();
-    particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, HiggsId));
-    if (particles.empty()) return 1;
-    if (particles.size() == 1) return 0;
-    if ((particles.at(0).pt() > PreCut() && particles.at(0).pt() < UpperCut()) || (particles.at(1).pt() > PreCut() &&  particles.at(1).pt() < UpperCut())) return 1;
+    Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+//     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, HiggsId));
+//     if (particles.empty()) return 1;
+//     if (particles.size() == 1) return 0;
+    if ((particles.at(0).pt() > LowerPtCut() && particles.at(0).pt() < UpperPtCut()) && (particles.at(1).pt() > LowerPtCut() &&  particles.at(1).pt() < UpperPtCut())) return 1;
 
     return 1;
 }

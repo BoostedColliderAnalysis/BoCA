@@ -28,6 +28,7 @@ public:
     float TrackerDistanceMin;
     float TrackerDistanceMax;
     float VertexMassMin;
+    float LeptonMinPt;
     JetType jet_type;
 private:
     enum DetectorType {CMS, Spp};
@@ -66,9 +67,9 @@ public:
 
     JetInfo(const std::vector<Constituent> &constituents);
 
-    void Addconstituent(const Constituent &constituent);
+    void AddConstituent(const Constituent &constituent);
 
-    void Addconstituents(const std::vector<Constituent> &constituents);
+    void AddConstituents(const std::vector<Constituent> &constituents);
 
     void AddDaughter(const int daughter);
 
@@ -154,7 +155,7 @@ public:
 
 protected:
 
-    inline std::string ClassName() const {
+     std::string ClassName() const {
         return "JetInfo";
     }
 
@@ -187,7 +188,7 @@ private:
  *
  */
 struct SortByBdt {
-    inline bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2) {
+     bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2) {
         return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
     }
 };

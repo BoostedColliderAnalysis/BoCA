@@ -42,7 +42,7 @@ public:
 
 protected:
 
-    inline std::string NameSpaceName() const {
+     std::string NameSpaceName() const {
         return "delphes";
     }
 
@@ -68,7 +68,7 @@ private:
         for (const int ParticleNumber : Range(clone.Particles.GetEntriesFast())) {
             const Family family = BranchFamily(*clone.Particles.At(ParticleNumber));
             Print(kDebug, "MotherId", family.particle().Id, family.mother_1().Id);
-            jet_info.Addconstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
+            jet_info.AddConstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }
         jet_info.PrintAllInfos(kDebug);
         return jet_info;
@@ -95,7 +95,7 @@ private:
 
     fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::JetDetail jet_detail);
 
-    fastjet::PseudoJet ConstituentJet(const TObject &Object, const FourVector::JetDetail jet_detail, const Constituent::SubDetector Detector = Constituent::kNone);
+    fastjet::PseudoJet ConstituentJet(TObject &Object, const analysis::FourVector::JetDetail jet_detail, const analysis::Constituent::SubDetector Detector = Constituent::kNone);
 
 };
 

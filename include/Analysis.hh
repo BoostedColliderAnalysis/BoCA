@@ -53,7 +53,7 @@ protected:
 
     InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
 
-    virtual inline std::string ProjectName() const {
+    virtual  std::string ProjectName() const {
         return "ProjectName";
     }
 
@@ -61,42 +61,42 @@ protected:
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual inline int EventNumberMax() const {
+    virtual  int EventNumberMax() const {
         return 100000;
     }
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Analysis";
     }
 
-    virtual inline std::string ProcessName() const {
+    virtual  std::string ProcessName() const {
         return "Process";
     }
 
 
     // in GeV
-    inline int Mass() const {
+     int Mass() const {
         return configuration_.Mass();
     }
 
     // in GeV
-    inline int PreCut() const {
+     int PreCut() const {
         return configuration_.PreCut();
     }
 
-//     inline int EventNumberMax() const {
+//      int EventNumberMax() const {
 //         return configuration_.EventNumberMax();
 //     };
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         return configuration_.BackgroundFileNumber();
     }
 
-//     inline ColliderType collider_type() const {
+//      ColliderType collider_type() const {
 //         return configuration_.collider_type();
 //     }
 
-    virtual inline std::string FilePath() const {
+    virtual  std::string FilePath() const {
         return "~/Projects/";
     }
 
@@ -124,15 +124,15 @@ protected:
         tagger_.AddBackgroundTreeName(TreeName(name));
     }
 
-    inline File get_file(const std::string &name, const std::string &nice_name = " ") const {
+     File get_file(const std::string &name, const std::string &nice_name = " ") const {
         return File(name, FilePath(), FileSuffix(), nice_name);
     }
 
-    inline File get_file(const std::string &name, const float crosssection) const {
+     File get_file(const std::string &name, const float crosssection) const {
         return File(name, FilePath(), FileSuffix(), crosssection);
     }
 
-    inline std::string FileName(const std::string &name) const {
+     std::string FileName(const std::string &name) const {
         return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
     }
 
