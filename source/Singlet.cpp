@@ -18,7 +18,7 @@ bool Singlet::Overlap(const Singlet &singlet) const
     return Overlap(singlet.Jet());
 }
 
-float Singlet::DeltaR(const fastjet::PseudoJet &jet) const
+float Singlet::Radius(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "Delta R");
     if (!jet.has_constituents()) return 0;
@@ -36,7 +36,7 @@ float Singlet::Spread(const fastjet::PseudoJet &jet) const
 {
     Print(kInformation, "spread");
     if (!jet.has_constituents()) return 0;
-    float delta_r = DeltaR(jet);
+    float delta_r = Radius(jet);
     if (delta_r == 0) return 0;
     float spread = 0;
     for (const auto & constituent : jet.constituents()) {
@@ -54,7 +54,7 @@ void Singlet::SetBdt(const float bdt)
 
 const JetInfo &Singlet::UserInfo() const
 {
-    if (!Jet().has_user_info<JetInfo>()) return JetInfo(); // FIXME dirty remove again!
+    if (!Jet().has_user_info<JetInfo>()) return jet_info_;
     return Jet().user_info<JetInfo>();
 }
 
