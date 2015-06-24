@@ -34,6 +34,12 @@ int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
+    for (const auto jet : jets) {
+      Doublet doublet(jet);
+      if (Problematic(doublet, pre_cuts, tag)) continue;
+      doublet.SetTag(tag);
+      doublets.emplace_back(doublet);
+    }
     Jets particles = event.Partons().GenParticles();
     Jets higgses = copy_if_abs_particle(particles, HiggsId, CpvHiggsId);
     return SaveEntries(BestMatches(doublets, higgses,tag));
@@ -82,6 +88,12 @@ std::vector<Doublet>  HiggsTagger::Multiplets(Event &event, PreCuts &pre_cuts, c
         if (Problematic(doublet, pre_cuts)) continue;
         doublet.SetBdt(Bdt(doublet, reader));
         doublets.emplace_back(doublet);
+    }
+    for (const auto jet : jets) {
+      Doublet doublet(jet);
+      if (Problematic(doublet, pre_cuts)) continue;
+      doublet.SetBdt(Bdt(doublet, reader));
+      doublets.emplace_back(doublet);
     }
     return ReduceResult(doublets);
 }

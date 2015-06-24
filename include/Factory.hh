@@ -51,7 +51,7 @@ private:
 
     std::string factory_options();
 
-    inline std::string ClassName() const {
+     std::string ClassName() const {
         return "Factory";
     }
 

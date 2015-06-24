@@ -18,7 +18,7 @@ public:
 
     Singlet(const fastjet::PseudoJet &jet);
 
-    fastjet::PseudoJet Jet() const {
+    fastjet::PseudoJet &Jet() const {
         return jet_;
     }
 
@@ -129,7 +129,7 @@ public:
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Singlet";
     }
 
@@ -143,7 +143,7 @@ private:
 
     float Spread(const fastjet::PseudoJet &jet) const;
 
-    fastjet::PseudoJet jet_;
+    mutable fastjet::PseudoJet jet_;
 
 };
 

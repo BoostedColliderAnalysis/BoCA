@@ -4,8 +4,7 @@ namespace analysis {
 
 Identification::Identification()
 {
-    initial_value_ =  -11.1111111; // this must be identical to the initial value in the branch
-    bdt_ = initial_value_;
+    bdt_ = initial_value();
     tag_ = 0;
     flag_ = false;
     degenerate_ = false;

@@ -48,17 +48,17 @@ using analysis::Analysis::Analysis;
 
     std::vector<analysis::File> Files(const analysis::Object::Tag tag);
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
     }
 
 protected:
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "hbottomsumtagger";
     }
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "HAnalysis";
     }
 
@@ -68,7 +68,7 @@ private:
     enum HProductionChannel {DYP, VBF, Associated, Simple};
     enum HDetectorType {LHC, FHC, LE};
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -76,20 +76,20 @@ private:
 //         return 100;
     };
 
-    inline HProductionChannel ProductionChannel() const {
+     HProductionChannel ProductionChannel() const {
 //         return DYP;
         return VBF;
 //         return Associated;
 //         return Simple;
     }
 
-    inline HDetectorType Detector() const {
+     HDetectorType Detector() const {
 //       return LHC;
 //       return FHC;
         return LE;
     }
 
-    inline std::string DetectorName(const HDetectorType DetectorType) const {
+     std::string DetectorName(const HDetectorType DetectorType) const {
         switch (DetectorType) {
         case LHC :
             return "14TeV";
@@ -104,7 +104,7 @@ private:
     }
 
 
-    inline std::string ProductionChannelName(const HProductionChannel NewProductionChannel) const {
+     std::string ProductionChannelName(const HProductionChannel NewProductionChannel) const {
         switch (NewProductionChannel) {
         case Associated :
             return "llbb_";
@@ -120,7 +120,7 @@ private:
         }
     }
 
-    inline ParticleId MotherId(const HProductionChannel NewProductionChannel) const {
+     ParticleId MotherId(const HProductionChannel NewProductionChannel) const {
         switch (NewProductionChannel) {
         case DYP :
             return ZId;
@@ -175,7 +175,7 @@ private:
         }
     }
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         return 1;
     }
 
@@ -184,7 +184,7 @@ private:
         return 1;
     }
 
-    inline int Mass() const {
+     int Mass() const {
             return 0;
         //     return 400;
         //     return 600;
@@ -200,11 +200,11 @@ private:
         //         return 10000;
     }
 
-    inline std::string NameString(const ProcessType Process) const {
+     std::string NameString(const ProcessType Process) const {
         return ProductionChannelName(ProductionChannel()) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-    inline analysis::File BackgroundFile(const ProcessType Process) const {
+     analysis::File BackgroundFile(const ProcessType Process) const {
         return BackgroundFile(Process, BackgroundFileNumber());
     }
 

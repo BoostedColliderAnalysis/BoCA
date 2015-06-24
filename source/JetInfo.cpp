@@ -19,11 +19,12 @@ namespace analysis
 
 DetectorGeometry::DetectorGeometry()
 {
-//     DetectorType detector_type = Spp;
-    DetectorType detector_type = CMS;
+    DetectorType detector_type = Spp;
+//     DetectorType detector_type = CMS;
     switch (detector_type) {
     case CMS :
         JetMinPt = 20;
+        LeptonMinPt = 10;
         JetConeSize = 0.5;
         MinCellResolution = .1;
         MinCellPt = .5;
@@ -36,6 +37,7 @@ DetectorGeometry::DetectorGeometry()
         jet_type = kJet;
     case Spp:
         JetMinPt = 40;
+        LeptonMinPt = 20;
         JetConeSize = 0.5;
         MinCellResolution = .1;
         MinCellPt = .5;
@@ -46,6 +48,7 @@ DetectorGeometry::DetectorGeometry()
         JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
         SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
         jet_type = kJet;
+//         jet_type = kEFlowJet;
     }
 }
 
@@ -57,7 +60,7 @@ struct AccuPerpDistance {
 };
 
 struct MaxPerpDistance {
-    inline bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) const {
+     bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) const {
         return (constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp());
     }
 };
@@ -144,12 +147,12 @@ JetInfo::JetInfo(const std::vector<Constituent> &constituents)
     constituents_ = constituents;
 }
 
-void JetInfo::Addconstituent(const Constituent &constituent)
+void JetInfo::AddConstituent(const Constituent &constituent)
 {
     constituents_.emplace_back(constituent);
 }
 
-void JetInfo::Addconstituents(const std::vector<Constituent> &constituents)
+void JetInfo::AddConstituents(const std::vector<Constituent> &constituents)
 {
     constituents_.insert(constituents_.end(), constituents.begin(), constituents.end());
 }
@@ -430,7 +433,7 @@ int JetInfo::Charge() const
 {
     Print(kDebug, "Charge");
     std::vector <Constituent > vertices = constituents();
-    int charge = std::accumulate(vertices.begin(), vertices.end(), 0, [](int charge, const Constituent& constituent) {
+    int charge = std::accumulate(vertices.begin(), vertices.end(), 0, [](int charge, const Constituent & constituent) {
         return charge + constituent.charge();
     });
     return charge;

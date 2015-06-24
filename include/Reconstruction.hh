@@ -62,7 +62,7 @@ protected:
 
     Jets GetFatjet_tag(Jets &);
 
-    inline std::string ClassName() const {
+     std::string ClassName() const {
         return "Reconstruction";
     }
 

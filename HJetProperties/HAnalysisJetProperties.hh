@@ -20,7 +20,7 @@ public:
 
     const std::set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
 
-    inline std::string ClassName() const {
+     std::string ClassName() const {
 
         return "HiggsCPV: jet_tag";
 
@@ -43,11 +43,11 @@ public:
      */
     HAnalysis();
 
-    inline int GeteventnumberMax()const {
+     int GeteventnumberMax()const {
         return 10000;
     };
 
-    inline std::string ProjectName()const {
+     std::string ProjectName()const {
         return "JetProperties";
     }
 
@@ -182,9 +182,9 @@ private:
 
     void CloseFile();
 
-    inline analysis::Strings GetStudyNames() const;
+     analysis::Strings GetStudyNames() const;
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
 
         return ("HAnalysisJetProperties");
 

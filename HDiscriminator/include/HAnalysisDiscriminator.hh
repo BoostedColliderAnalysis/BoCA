@@ -23,7 +23,7 @@ public:
 
     const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
 
         return "HiggsCPV: JetTag";
 
@@ -75,13 +75,13 @@ public:
 
 private:
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
 
         return 10000;
 
     };
 
-    inline std::string ProjectName()const {
+     std::string ProjectName()const {
 
         return "Discriminator";
 
@@ -126,9 +126,9 @@ private:
      */
     void NewBranches(exroot::TreeWriter *NewTreeWriter);
 
-    inline analysis::Strings GetStudyNames() const;
+     analysis::Strings GetStudyNames() const;
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
 
         return "HiggsCPV: HAnalysis";
 
