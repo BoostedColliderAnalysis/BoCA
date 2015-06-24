@@ -34,7 +34,8 @@ public:
 
 
     float ReadBdt(const TClonesArray &eventClonesArray, const int Entry){
-      return ((HTopHadronBranch *) eventClonesArray.At(Entry))->Bdt;
+//       return ((HTopHadronBranch *) eventClonesArray.At(Entry))->Bdt;
+      return 1;
     }
 
     BottomTagger bottom_tagger_;

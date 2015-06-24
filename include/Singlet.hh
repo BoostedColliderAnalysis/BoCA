@@ -6,7 +6,7 @@ namespace analysis
 {
 
 /**
- * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Especially astracts away the JetInfo user_info().
+ * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
  *
  */
 class Singlet : public Identification
@@ -19,6 +19,10 @@ public:
     Singlet(const fastjet::PseudoJet &jet);
 
     fastjet::PseudoJet &Jet() const {
+        return jet_;
+    }
+
+    fastjet::PseudoJet &ConstituentJet() const {
         return jet_;
     }
 
@@ -46,16 +50,16 @@ public:
         return UserInfo().VertexNumber();
     }
 
-    float DeltaR() const {
-        return DeltaR(Jet());
+    float Radius() const {
+        return Radius(Jet());
     }
 
     float Spread() const {
         return Spread(Jet());
     }
 
-    float VertexDeltaR() const {
-        return DeltaR(UserInfo().VertexJet());
+    float VertexRadius() const {
+        return Radius(UserInfo().VertexJet());
     }
 
     float VertexSpread() const {
@@ -124,7 +128,11 @@ public:
 
     int Charge()const {
 //       return UserInfo().Charge();
-      return sgn(UserInfo().Charge());
+        return sgn(UserInfo().Charge());
+    }
+
+    Singlet singlet() const {
+        return *this;
     }
 
 protected:
@@ -139,11 +147,13 @@ private:
 
     float log(const float number) const;
 
-    float DeltaR(const fastjet::PseudoJet &jet) const;
+    float Radius(const fastjet::PseudoJet &jet) const;
 
     float Spread(const fastjet::PseudoJet &jet) const;
 
     mutable fastjet::PseudoJet jet_;
+
+    JetInfo jet_info_;
 
 };
 
