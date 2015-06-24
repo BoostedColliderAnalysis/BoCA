@@ -350,7 +350,8 @@ std::vector<int> Reader::BdtDistribution(exroot::TreeReader &tree_reader, const 
         for (const int Entry : Range(event_clones_array.GetEntriesFast())) {
             const float bdt_value = tagger().ReadBdt(event_clones_array, Entry);
             if (bdt_value < 0 || bdt_value > 2) Print(kError, "Bdt Value" , bdt_value);
-            static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
+//             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
+            dynamic_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
 //             Print(kNotification, "Bdt Distribution", BdtValue,std::floor(BdtValue * result.steps / 2) - 1);
             int bin = std::floor(bdt_value * result.steps / 2) - 1;
             if (bin == -1) bin = 0; // FIXME clean this up
@@ -372,7 +373,7 @@ InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
 //     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     tree_reader.ReadEntry(0);
-    return static_cast<analysis::InfoBranch &>(*clones_array.At(0));
+    return dynamic_cast<analysis::InfoBranch &>(*clones_array.At(0));
 }
 
 

@@ -177,7 +177,9 @@ struct Close {
     }
     template <typename Multiplet>
     bool operator()(const Multiplet &multiplet) {
-        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize & multiplet.Jet().delta_R(particle_) < multiplet.DeltaR());
+        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize
+//         & multiplet.Jet().delta_R(particle_) < multiplet.Radius()
+        );
     }
     bool operator()(const fastjet::PseudoJet &jet) {
         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);

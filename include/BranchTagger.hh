@@ -98,7 +98,8 @@ protected:
         const int sum = std::min(multiplets.size(), max);
         for (int counter = 0 ; counter < sum; ++counter) {
             FillBranch(multiplets.at(counter));
-            static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
+//             static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
+            dynamic_cast<Branch &>(*tree_branch().NewEntry()) = branch();
         }
         return sum;
     }
@@ -107,7 +108,8 @@ protected:
         if (jets.empty()) return 0;
         for (const auto & jet : jets) {
             FillBranch(Singlet(jet));
-            static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
+//             static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
+            dynamic_cast<Branch &>(*tree_branch().NewEntry()) = branch();
         }
         return jets.size();
     }
@@ -125,7 +127,9 @@ protected:
     }
 
     float ReadBdt(const TClonesArray &clones_array, const int entry) const {
-        return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
+//         return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
+//         return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
+        return dynamic_cast<Branch &>(*clones_array.At(entry)).Bdt;
     }
 
     template<typename Multiplet>

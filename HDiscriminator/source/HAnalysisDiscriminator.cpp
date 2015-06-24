@@ -325,7 +325,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
         analysis::Vectors constituentVectors = sub_structure->Getconstituents(CandidateJet);
 
         for (const auto & constituentVector : constituentVectors) {
-          analysis::ParticleBranch *constituent = static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
+          analysis::ParticleBranch *constituent ;//= static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
             constituent->Rap = constituentVector.Rapidity();
             constituent->Phi = constituentVector.Phi();
             constituent->Pt = constituentVector.Pt();
