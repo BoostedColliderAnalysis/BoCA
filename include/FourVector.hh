@@ -143,7 +143,7 @@ protected:
 
     const float mass_check_value_;
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "FourVector";
     }
 

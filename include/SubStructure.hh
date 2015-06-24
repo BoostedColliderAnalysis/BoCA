@@ -33,81 +33,81 @@ public:
 
     float GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const;
 
-    inline float GetSubJet1Mass() const {
+     float GetSubJet1Mass() const {
         return (SubJet1.Mass / Global.Mass);
     }
 
-    inline float GetSubJet2Mass() const {
+     float GetSubJet2Mass() const {
         return (SubJet2.Mass / Global.Mass);
     }
 
-    inline float GetSubJet1Pt() const {
+     float GetSubJet1Pt() const {
         return (SubJet1.Pt / Global.Pt);
     }
 
-    inline float GetSubJet2Pt() const {
+     float GetSubJet2Pt() const {
         return (SubJet2.Pt / Global.Pt);
     }
 
-    inline float GetSubJet1DeltaR() const {
+     float GetSubJet1DeltaR() const {
         return (SubJet1.DeltaR / Global.DeltaR);
     }
 
-    inline float GetSubJet2DeltaR() const {
+     float GetSubJet2DeltaR() const {
         return (SubJet2.DeltaR / Global.DeltaR);
     }
 
-    inline float GetSubJetsDeltaR() const {
+     float GetSubJetsDeltaR() const {
         return Global.DeltaR;
     }
 
-    inline float GetconstituentRap() const {
+     float GetconstituentRap() const {
         return Global.Rap;
     }
 
-    inline float GetconstituentPhi() const {
+     float GetconstituentPhi() const {
         return Global.Phi;
     }
 
-    inline float GetconstituentDeltaR() const {
+     float GetconstituentDeltaR() const {
         return Length(Global.Rap, Global.Phi);
     }
 
-    inline float GetconstituentAngle() const {
+     float GetconstituentAngle() const {
         return atan2(Global.Phi, Global.Rap);
     }
 
-    inline float GetIsolationRap() const {
+     float GetIsolationRap() const {
         return Isolation.Rap;
     }
 
-    inline float GetIsolationPhi() const {
+     float GetIsolationPhi() const {
         return Isolation.Phi;
     }
 
-    inline float GetIsolationPt() const {
+     float GetIsolationPt() const {
         return Isolation.Pt;
     }
 
-    inline float GetIsolationDeltaR() const {
+     float GetIsolationDeltaR() const {
         return Isolation.DeltaR;
     }
 
-    inline float GetIsolationAngle() const {
+     float GetIsolationAngle() const {
         return atan2(Isolation.Phi, Isolation.Rap);
     }
 
-    inline float GetAsymmetry() const {
+     float GetAsymmetry() const {
         return Asymmetry;
     }
 
-    inline float GetDeltaR() const {
+     float GetDeltaR() const {
         return DeltaR;
     }
 
 protected:
 
-  virtual inline std::string ClassName() const {
+  virtual  std::string ClassName() const {
     return "SubStructure";
   }
 
@@ -127,11 +127,11 @@ private:
 
     const float Shift = 1;
 
-    inline float GetPosition2Rap() const {
+     float GetPosition2Rap() const {
         return (2 * Shift);
     }
 
-    inline float GetPosDistance() const {
+     float GetPosDistance() const {
         return Length(GetPosition2Rap(), 0);
     }
 

@@ -46,8 +46,8 @@ Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
     Jets pieces;
     if (!jet.has_pieces()) return pieces;
     if (!jet.has_user_info<JetInfo>()) return pieces;
-    fastjet::ClusterSequence *cluster_sequence = new fastjet::ClusterSequence(jet.pieces(), detector_geometry().SubJetDefinition);
-    for (auto & piece : cluster_sequence->exclusive_jets_up_to(sub_jet_number)) {
+    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), detector_geometry().SubJetDefinition);
+    for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
         std::vector<Constituent> constituents;
         for (const auto & constituent : piece.constituents()) {
             if (!constituent.has_user_info<JetInfo>()) continue;
@@ -57,21 +57,25 @@ Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
         piece.set_user_info(new JetInfo(constituents));
         pieces.emplace_back(piece);
     }
-    cluster_sequence->delete_self_when_unused();
+    cluster_sequence.delete_self_when_unused();
     return pieces;
 }
+
 void Tagger::AddSignalTreeName(const std::string signal_tree_name)
 {
     signal_tree_names_.emplace_back(signal_tree_name);
 }
+
 void Tagger::AddBackgroundTreeName(const std::string background_tree_name)
 {
     background_tree_names_.emplace_back(background_tree_name);
 }
+
 std::string Tagger::branch_name() const
 {
     return tagger_name_;
 }
+
 void Tagger::set_tagger_name(const std::string &tagger_name)
 {
     tagger_name_ = tagger_name;
@@ -236,7 +240,7 @@ void Tagger::AddSpectator(float &value, const std::string &title)
 {
     spectators_.emplace_back(NewObservable(value, title));
 }
-void Tagger::ClearVectors()
+void Tagger::ClearObservables()
 {
     variables_.clear();
     spectators_.clear();
@@ -251,3 +255,4 @@ exroot::TreeBranch &Tagger::tree_branch()
 }
 
 }
+

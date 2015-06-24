@@ -20,47 +20,35 @@ public:
 
     int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
 
-    virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     std::vector<Doublet> Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
+    Doublet Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
-    Doublet Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+    Doublet Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
 
-    Doublet Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return Multiplet(jet_1, jet_2, pre_cuts, reader);
-    }
+    Doublet SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
-    Doublet SubMultiplet(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-    Doublet Multiplet(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-    Doublet Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader){
-      PreCuts pre_cuts;
-      return Multiplet(jet, pre_cuts, reader);
-    }
-
-    Doublet SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return SubMultiplet(jet, pre_cuts, reader);
-    }
-
-    int GetWHadId(Event &event) const {
-        return WHadronicId(WDaughters(event));
-    }
+    int WHadronicId(Event &event) const;
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "WHadronicTagger";
     }
 
 private:
+
+    std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    std::vector<Doublet> Multiplets3(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    Doublet Multiplet(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    Doublet Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+
+    Doublet SubMultiplet(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Object::Tag tag);
 
@@ -68,7 +56,9 @@ private:
 
     Doublet Multiplet(analysis::Doublet &doublet, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    std::vector<Doublet> SubMultiplets(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader, const int sub_jet_number);
+    std::vector<Doublet> SubMultiplets(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader, const std::size_t sub_jet_number);
+
+    std::vector<Doublet> SubMultiplets2(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     BottomTagger bottom_tagger_;
 

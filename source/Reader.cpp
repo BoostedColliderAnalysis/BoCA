@@ -150,8 +150,8 @@ void Reader::TaggingEfficiency()
     TMultiGraph multi_graph;
     std::vector<TGraph> graphs;
     for (const auto & background_result : background_results) graphs.emplace_back(TGraph(background_result.steps, &signal_results.efficiency[0], &background_result.efficiency[0]));
-    float x_min = 0.75;
-    float y_max = 0.55;
+    float x_min = 0.15;
+    float y_max = 0.85;
     float width = 0.2;
     float height = 0.4;
     TLegend legend(x_min, y_max - height, x_min + width, y_max);

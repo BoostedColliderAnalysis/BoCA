@@ -11,19 +11,15 @@ public:
 
   using Multiplet<analysis::Triplet,analysis::Singlet>::Multiplet;
 
-    analysis::Triplet Triplet() const;
+    analysis::Triplet & Triplet() const;
 
     fastjet::PseudoJet SingletJet() const;
 
-    analysis::Singlet Singlet() const;
-
-//     bool Overlap() const;
-
-//     bool Overlap(const fastjet::PseudoJet &jet) const;
+    analysis::Singlet & Singlet() const;
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Quartet31";
     }
 

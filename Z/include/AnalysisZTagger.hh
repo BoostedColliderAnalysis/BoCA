@@ -22,7 +22,7 @@ public:
 
     Analysis(Tagger &tagger);
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
         return  "ZTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-";
     }
 
@@ -30,15 +30,15 @@ protected:
 
     void SetFiles(const Object::Tag tag);
 
-    virtual inline std::string FilePath() const {
+    virtual  std::string FilePath() const {
         return "~/Projects/Tagger/";
     }
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "ztagger";
     }
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Analysis";
     }
 
@@ -57,20 +57,20 @@ private:
     }
 
 
-    inline std::string FileName(const Process process) const {
+     std::string FileName(const Process process) const {
         return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
 //         return ProcessName(process);
     }
 
     // in GeV
-    inline int PreCut() const {
+     int PreCut() const {
         return 500;
 //         return 700;
 //         return 1000;
     }
 
     // in GeV
-    inline int UpperCut() const {
+     int UpperCut() const {
       switch (PreCut()) {
         case 700 :
           return 1000;
@@ -81,7 +81,7 @@ private:
         }
     }
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
         //         return 1000000;
         //         return 100000;
 //         return 10000;
@@ -90,13 +90,13 @@ private:
 //         return 10;
     }
 
-    inline Collider collider_type() const {
+     Collider collider_type() const {
         //       return LHC;
         //       return FHC;
         return LE;
     }
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         return 1;
         //         return 2;
         //       return 4;
@@ -105,7 +105,7 @@ private:
     }
 
 
-    inline File BackgroundFile(const Process process) const {
+     File BackgroundFile(const Process process) const {
         return BackgroundFile(process, BackgroundFileNumber());
     }
 

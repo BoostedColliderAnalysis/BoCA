@@ -40,6 +40,13 @@ Constituent::Constituent(const TLorentzVector &momentum, const analysis::Constit
 {
     momentum_ = momentum;
     sub_detector_ = sub_detector;
+    charge_ = charge;
+}
+
+Constituent::Constituent(const TLorentzVector &momentum, const analysis::Constituent::SubDetector sub_detector)
+{
+  momentum_ = momentum;
+  sub_detector_ = sub_detector;
 }
 
 void Constituent::SetPosition(const TLorentzVector &position)
