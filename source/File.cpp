@@ -10,14 +10,14 @@ namespace analysis
 
 File::File()
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     file_suffix_ = file_suffix();
 }
 
 File::File(const std::string &process)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     file_suffix_ = file_suffix();
@@ -25,7 +25,7 @@ File::File(const std::string &process)
 
 File::File(const std::string &process, const float crosssection)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -34,7 +34,7 @@ File::File(const std::string &process, const float crosssection)
 
 File::File(const std::string &process, const float crosssection, const float mass)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -44,7 +44,7 @@ File::File(const std::string &process, const float crosssection, const float mas
 
 File::File(const Strings &processes)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     file_suffix_ = file_suffix();
@@ -52,7 +52,7 @@ File::File(const Strings &processes)
 
 File::File(const Strings &processes, const float crosssection)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
@@ -61,7 +61,7 @@ File::File(const Strings &processes, const float crosssection)
 
 File::File(const Strings &processes, const float crosssection, const float mass)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
@@ -71,7 +71,7 @@ File::File(const Strings &processes, const float crosssection, const float mass)
 
 File::File(const std::string &process, const std::string &run_folder)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     run_folder_ = run_folder;
@@ -80,7 +80,7 @@ File::File(const std::string &process, const std::string &run_folder)
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crosssection)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -90,7 +90,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -99,7 +99,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const std::string &nice_name)
 {
-    Print(kInformation, "Constructor");
+    Print(kDebug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -185,7 +185,7 @@ Event File::event()
 
 File::~File()
 {
-    Print(kNotification, "Destructor");
+    Print(kDebug, "Destructor");
     delete chain_;
 }
 

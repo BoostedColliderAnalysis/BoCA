@@ -40,7 +40,7 @@ void HTopHadronTagger::DefineVariables()
     set_tagger_name("TopHadronic");
     TopWindow = (Mass(TopId) - Mass(WId)) / 2;
     WMassWindow = 20;
-    ClearVectors();
+    ClearObservables();
 
 
     AddVariable(Branch.Mass, "Mass");

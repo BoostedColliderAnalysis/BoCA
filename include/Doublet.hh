@@ -40,19 +40,19 @@ public:
 
     using Multiplet<Singlet,Singlet>::Multiplet;
 
-    fastjet::PseudoJet SingletJet1()const;
+    fastjet::PseudoJet SingletJet1() const;
 
-    fastjet::PseudoJet SingletJet2()const;
+    fastjet::PseudoJet SingletJet2() const;
 
-    Singlet Singlet1()const;
+    Singlet &Singlet1() const;
 
-    Singlet Singlet2()const;
+    Singlet &Singlet2() const;
 
     float PullAngle1() const;
 
     float PullAngle2() const;
 
-    inline float PullAngle() const {
+     float PullAngle() const {
         return PullAngle1() * PullAngle2();
     }
 
@@ -60,7 +60,7 @@ public:
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Doublet";
     }
 

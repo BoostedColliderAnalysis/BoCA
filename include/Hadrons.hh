@@ -53,7 +53,7 @@ protected:
         return CheckIsolation(particle_1, particle_2, delta_r_isolation_max);
     }
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Hadrons";
     };
 

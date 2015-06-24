@@ -24,13 +24,13 @@ public:
 
     void SetFiles(const Object::Tag tag);
 
-    inline std::string ProjectName() const {
-        return  "WTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + ProcessName(tt);
+     std::string ProjectName() const {
+        return  "WTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt)+"";
     }
 
     enum Decay {kLeptonic, kHadronic, kSemi};
 
-    inline Decay WDecay() const {
+     Decay WDecay() const {
         return kHadronic;
 //         return kLeptonic;
 //         return kSemi;
@@ -40,15 +40,15 @@ protected:
 
 
 
-    virtual inline std::string FilePath() const {
+    virtual  std::string FilePath() const {
         return "~/Projects/Tagger/";
     }
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "wtagger";
     }
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Analysis";
     }
 
@@ -66,28 +66,43 @@ private:
     }
 
 
-    inline std::string FileName(const Process process) const {
-        return ProcessName(process) + "_" + std::to_string(PreCut()) + "GeV";
+     std::string FileName(const Process process) const {
+        return ProcessName(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
 //         return ProcessName(process);
     }
 
     // in GeV
-    inline int PreCut() const {
-        return 700;
-//         return 1000;
+    int LowerPtCut() const {
+      //         return 350;
+//               return 500;
+      //         return 700;
+      //         return 800;
+      return 1000;
     }
 
     // in GeV
-    inline int UpperCut() const {
-        switch (PreCut()) {
+    int UpperPtCut() const {
+      switch (LowerPtCut()) {
         case 700 :
-            return 1000;
+          return 1000;
         case 1000 :
-            return 1500;
-        }
+          return 1500;
+      }
     }
 
-    inline int EventNumberMax() const {
+    // in GeV
+    int MadGraphCut() const {
+      switch (LowerPtCut()) {
+        case 500 :
+          return 500;
+        case 700 :
+          return 500;
+        case 1000 :
+          return 1000;
+      }
+    }
+
+     int EventNumberMax() const {
         //         return 1000000;
         //         return 100000;
 //         return 10000;
@@ -96,13 +111,13 @@ private:
 //         return 10;
     }
 
-    inline Collider collider_type() const {
+     Collider collider_type() const {
         //       return LHC;
         //       return FHC;
         return LE;
     }
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         return 1;
         //         return 2;
         //       return 4;
@@ -111,7 +126,7 @@ private:
     }
 
 
-    inline File BackgroundFile(const Process process) const {
+     File BackgroundFile(const Process process) const {
         return BackgroundFile(process, BackgroundFileNumber());
     }
 
@@ -124,7 +139,7 @@ private:
     }
 
     std::string BackgroundTree(const Process Process) const {
-        return ProcessName(Process) + "_" + std::to_string(PreCut()) + "GeV" + "-run_01";
+        return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
     }
 
     std::string ColliderName(const Collider collider) const;

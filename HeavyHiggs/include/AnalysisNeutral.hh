@@ -31,17 +31,17 @@ public:
 
     std::vector<File> Files(const Object::Tag tag);
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
 //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
         return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
 
-    inline std::string ProcessName() const {
+     std::string ProcessName() const {
         return "Neutral";
     }
 
     // in GeV
-    inline int Mass() const {
+     int Mass() const {
         //     return 300;
         //     return 400;
 //         return 500;
@@ -65,7 +65,7 @@ public:
     }
 
     // in GeV
-    inline int PreCut() const {
+     int PreCut() const {
         switch (collider_type()) {
         case LHC :
             switch (Mass()) {
@@ -117,7 +117,7 @@ public:
 //         return 2500;
     }
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
 //            return 10000000;
 //                   return 1000000;
 //         return 100000;
@@ -132,7 +132,7 @@ public:
     enum ColliderType {LHC, FHC, LE};
 
 
-    inline ColliderType collider_type() const {
+     ColliderType collider_type() const {
         return LHC;
 //       return FHC;
 //        return LE;
@@ -161,7 +161,7 @@ public:
     }
 
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         switch (collider_type()) {
         case LHC :
             switch (PreCut()) {
@@ -203,7 +203,7 @@ public:
 
 protected:
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "heavyhiggs";
     }
 
@@ -267,7 +267,7 @@ private:
         }
     }
 
-    inline File BackgroundFile(const ProcessType Background) const {
+     File BackgroundFile(const ProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 

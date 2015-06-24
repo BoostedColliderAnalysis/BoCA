@@ -14,17 +14,17 @@ public:
 
     using Multiplet<Quintet, Quintet>::Multiplet;
 
-    inline Quintet Quintet1()const {
+     Quintet Quintet1()const {
         return Multiplet1();
     }
 
-    inline Quintet Quintet2()const {
+     Quintet Quintet2()const {
         return Multiplet2();
     }
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "Decuplet55";
     }
 
@@ -39,17 +39,17 @@ public:
 
   using Multiplet<Septet, Triplet>::Multiplet;
 
-  inline Septet Quintet1()const {
+   Septet Quintet1()const {
     return Multiplet1();
   }
 
-  inline Triplet Quintet2()const {
+   Triplet Quintet2()const {
     return Multiplet2();
   }
 
 protected:
 
-  virtual inline std::string ClassName() const {
+  virtual  std::string ClassName() const {
     return "Decuplet73";
   }
 

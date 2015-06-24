@@ -33,17 +33,17 @@ void RunReader(analysis::Tagger &tagger)
     }
 }
 
-void Run(analysis::Tagger &tagger)
+void RunFull(analysis::Tagger &tagger)
 {
   RunTagger(tagger, analysis::Tagger::kTrainer);
   RunFactory(tagger);
   RunTagger(tagger, analysis::Tagger::kReader);
+  RunReader(tagger);
 }
 
 int main()
 {
     //     analysis::bottom::BottomTaggerSimple bottom_tagger;
     analysis::BottomTagger bottom_tagger;
-    Run(bottom_tagger);
-    RunReader(bottom_tagger);
+    RunFull(bottom_tagger);
 }

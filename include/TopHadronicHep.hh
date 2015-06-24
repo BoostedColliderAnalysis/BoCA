@@ -33,7 +33,7 @@ private:
      */
     Jets GranulatedJets(analysis::Jets &e_flows);
 
-    inline std::string ClassName() const {
+     std::string ClassName() const {
       return "TopHadronicHep";
     }
 

@@ -120,7 +120,7 @@ Jets Reconstruction::GetFatjet_tag(Jets &FatJets)
         JetInfo jet_info;
         for (const auto & constituent : FatJet.constituents()) {
             if (constituent.has_user_info()) {
-                jet_info.Addconstituents(constituent.user_info<JetInfo>().constituents());
+                jet_info.AddConstituents(constituent.user_info<JetInfo>().constituents());
 //               std::map<int, float> JetFractions = constituent.user_info<JetInfo>().GetJetFractions();
 //               for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 //                     jet_info.Addconstituent((*Pair).first, (*Pair).second * constituent.pt());

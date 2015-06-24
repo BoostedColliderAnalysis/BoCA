@@ -34,7 +34,7 @@ void RunReader(analysis::Tagger &tagger)
     }
 }
 
-void Run(analysis::Tagger &tagger)
+void RunFast(analysis::Tagger &tagger)
 {
     RunTagger(tagger, analysis::Tagger::kTrainer);
     RunFactory(tagger);
@@ -47,39 +47,39 @@ int main()
     bool single = true;
 
     analysis::BottomTagger bottom_tagger;
-    Run(bottom_tagger);
+    RunFast(bottom_tagger);
 
     analysis::HiggsTagger higgs_tagger;
-    Run(higgs_tagger);
+    RunFast(higgs_tagger);
 
     analysis::WHadronicTagger w_hadronic_tagger;
-    Run(w_hadronic_tagger);
+    RunFast(w_hadronic_tagger);
 
     analysis::WSemiTagger w_semi_tagger;
-    Run(w_semi_tagger);
+    RunFast(w_semi_tagger);
 
     analysis::TopHadronicTagger top_hadronic_tagger;
-    Run(top_hadronic_tagger);
+    RunFast(top_hadronic_tagger);
 
     analysis::TopSemiTagger top_semi_tagger;
-    Run(top_semi_tagger);
+    RunFast(top_semi_tagger);
 
     analysis::ZHadronicTagger z_hadronic_tagger;
-    Run(z_hadronic_tagger);
+    RunFast(z_hadronic_tagger);
 
     analysis::toppartner::TopPartnerSemiTagger top_partner_semi_tagger;
-    Run(top_partner_semi_tagger);
+    RunFast(top_partner_semi_tagger);
 
     if (single) {
 
         analysis::toppartner::TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger;
-        Run(top_partner_higgs_pair_tagger);
+        RunFast(top_partner_higgs_pair_tagger);
 
         analysis::toppartner::SignatureSingleTagger signature_tagger;
-        Run(signature_tagger);
+        RunFast(signature_tagger);
 
         analysis::toppartner::EventSingleTagger event_tagger;
-        Run(event_tagger);
+        RunFast(event_tagger);
         RunReader(event_tagger);
 
     } else {
