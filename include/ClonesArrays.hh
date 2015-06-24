@@ -36,55 +36,55 @@ public:
 
     int EntrySum(const Branch branch) const;
 
-    inline int ParticleSum() const {
+     int ParticleSum() const {
         return EntrySum(kParticle);
     }
 
-    inline int TrackSum() const {
+     int TrackSum() const {
         return EntrySum(kTrack);
     }
 
-    inline int TowerSum() const {
+     int TowerSum() const {
         return EntrySum(kTower);
     }
 
-    inline int EFlowTrackSum() const {
+     int EFlowTrackSum() const {
         return EntrySum(kEFlowTrack);
     }
 
-    inline int GenJetSum() const {
+     int GenJetSum() const {
         return EntrySum(kGenJet);
     }
 
-    inline int JetSum() const {
+     int JetSum() const {
         return EntrySum(kJet);
     }
 
-    inline int ElectronSum() const {
+     int ElectronSum() const {
         return EntrySum(kElectron);
     }
 
-    inline int MuonSum() const {
+     int MuonSum() const {
         return EntrySum(kMuon);
     }
 
-    inline int PhotonSum() const {
+     int PhotonSum() const {
         return EntrySum(kPhoton);
     }
 
-    inline int EFlowPhotonSum() const {
+     int EFlowPhotonSum() const {
         return EntrySum(kEflowPhoton);
     }
 
-    inline int EFlowNeutralHadronSum() const {
+     int EFlowNeutralHadronSum() const {
         return EntrySum(kEFlowNeutralHadron);
     }
 
-    inline int EFlowMuonSum() const {
+     int EFlowMuonSum() const {
         return EntrySum(kEFlowMuon);
     }
 
-    inline int TauSum() const {
+     int TauSum() const {
         return EntrySum(kTau);
     }
 
@@ -92,7 +92,7 @@ public:
      * @brief Particle Clones Array
      *
      */
-    inline TClonesArray &ParticleClonesArray() const {
+     TClonesArray &ParticleClonesArray() const {
         return ClonesArray(kParticle);
     }
 
@@ -100,7 +100,7 @@ public:
      * @brief Electron Clones Array
      *
      */
-    inline TClonesArray &ElectronClonesArray() const {
+     TClonesArray &ElectronClonesArray() const {
         return ClonesArray(kElectron);
     }
 
@@ -108,7 +108,7 @@ public:
      * @brief Muon Clones Array
      *
      */
-    inline TClonesArray &MuonClonesArray() const {
+     TClonesArray &MuonClonesArray() const {
         return ClonesArray(kMuon);
     }
 
@@ -116,7 +116,7 @@ public:
      * @brief Photon Clones Array
      *
      */
-    inline TClonesArray &PhotonClonesArray() const {
+     TClonesArray &PhotonClonesArray() const {
         return ClonesArray(kPhoton);
     }
 
@@ -124,7 +124,7 @@ public:
      * @brief Particle Clones Array
      *
      */
-    inline TObject &Particle(const int number) const {
+     TObject &Particle(const int number) const {
         return Object(kParticle, number);
     }
 
@@ -132,7 +132,7 @@ public:
      * @brief Track Clones Array
      *
      */
-    inline TObject &Track(const int number) const {
+     TObject &Track(const int number) const {
         return Object(kTrack, number);
     }
 
@@ -140,7 +140,7 @@ public:
      * @brief Tower Clones Array
      *
      */
-    inline TObject &Tower(const int number) const {
+     TObject &Tower(const int number) const {
         return Object(kTower, number);
     }
 
@@ -148,7 +148,7 @@ public:
      * @brief EFlow Track Clones Array
      *
      */
-    inline TObject &EFlowTrack(const int number) const {
+     TObject &EFlowTrack(const int number) const {
         return Object(kEFlowTrack, number);
     }
 
@@ -156,7 +156,7 @@ public:
      * @brief GenJet Clones Array
      *
      */
-    inline TObject &GenJet(const int number) const {
+     TObject &GenJet(const int number) const {
         return Object(kGenJet, number);
     }
 
@@ -164,7 +164,7 @@ public:
      * @brief Jet Clones Array
      *
      */
-    inline TObject &Jet(const int number) const {
+     TObject &Jet(const int number) const {
         return Object(kJet, number);
     }
 
@@ -172,7 +172,7 @@ public:
      * @brief Electron Clones Array
      *
      */
-    inline TObject &Electron(const int number) const {
+     TObject &Electron(const int number) const {
         return Object(kElectron, number);
     }
 
@@ -180,7 +180,7 @@ public:
      * @brief Muon Clones Array
      *
      */
-    inline TObject &Muon(const int number) const {
+     TObject &Muon(const int number) const {
         return Object(kMuon, number);
     }
 
@@ -188,7 +188,7 @@ public:
      * @brief Missing ET Clones Array
      *
      */
-    inline TObject &MissingEt() const {
+     TObject &MissingEt() const {
         return Object(kMissingEt, 0);
     }
 
@@ -196,7 +196,7 @@ public:
      * @brief Scalar HT Clones Array
      *
      */
-    inline TObject &ScalarHt() const {
+     TObject &ScalarHt() const {
         return Object(kScalarHt, 0);
     }
 
@@ -204,7 +204,7 @@ public:
      * @brief Photon Clones Array
      *
      */
-    inline TObject &Photon(const int number) const {
+     TObject &Photon(const int number) const {
         return Object(kPhoton, number);
     }
 
@@ -212,7 +212,7 @@ public:
      * @brief EFlow Photon Clones Array
      *
      */
-    inline TObject &EFlowPhoton(const int number) const {
+     TObject &EFlowPhoton(const int number) const {
         return Object(kEflowPhoton, number);
     }
 
@@ -220,7 +220,7 @@ public:
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    inline TObject &EFlowNeutralHadron(const int number) const {
+     TObject &EFlowNeutralHadron(const int number) const {
         return Object(kEFlowNeutralHadron, number);
     }
 
@@ -228,7 +228,7 @@ public:
      * @brief EFlow Muon Clones Array
      *
      */
-    inline TObject &EFlowMuon(const int number) const {
+     TObject &EFlowMuon(const int number) const {
         return Object(kEFlowMuon, number);
     }
 
@@ -236,14 +236,14 @@ public:
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    inline TObject &Tau(const int number) const {
+     TObject &Tau(const int number) const {
         return Object(kTau, number);
     }
 
 protected:
 
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "ClonesArrays";
     }
 

@@ -36,11 +36,11 @@ public:
 
 protected:
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "higgscpv";
     }
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "TopLeptonicPairTagger";
     }
 

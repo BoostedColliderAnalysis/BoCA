@@ -11,8 +11,8 @@ namespace bottom
 {
     Print(kNotification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(BottomId, LowerCut());
-    pre_cuts().SetPtUpperCut(BottomId, UpperCut());
+    pre_cuts().SetPtLowerCut(BottomId, LowerPtCut());
+    pre_cuts().SetPtUpperCut(BottomId, UpperPtCut());
     DetectorGeometry detector_geometry;
     pre_cuts().SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
     pre_cuts().SetSubJets(false);
@@ -26,23 +26,18 @@ void Analysis::SetFiles(const Object::Tag tag)
     switch (tag) {
     case kSignal :
         NewSignalFile(bb);
-//     NewSignalFile(Hbb);
-//     NewSignalFile(ttbb);
-//     NewSignalFile(ttlep);
-//     NewSignalFile(tthad);
 //     NewSignalFile(tt);
 //     NewBackgroundFile(bb);
         break;
     case kBackground :
         NewBackgroundFile(cc);
-//     NewBackgroundFile(jj);
 //     NewBackgroundFile(tt);
 //     NewBackgroundFile(ttcc);
 //     NewBackgroundFile(ttjj);
         NewBackgroundFile(qq);
         NewBackgroundFile(gg);
 //     NewBackgroundFile(hh);
-//     NewBackgroundFile(ww);
+    NewBackgroundFile(ww);
         break;
     }
 
@@ -99,18 +94,18 @@ std::string Analysis::ProductionChannelName(const ProductionChannel production_c
     }
 }
 
-int Analysis::UpperCut() const
-{
-    switch (LowerCut()) {
-    case 500 :
-        return 800;
-    case 1000 :
-        return 1500;
-    default :
-        Print(kError, "Upper Cut", "No upper cut");
-        return 0;
-    }
-}
+// int Analysis::UpperPtCut() const
+// {
+//     switch (LowerPtCut()) {
+//     case 500 :
+//         return 800;
+//     case 1000 :
+//         return 1500;
+//     default :
+//         Print(kError, "Upper Cut", "No upper cut");
+//         return 0;
+//     }
+// }
 
 std::string Analysis::DetectorName(const Detector detector) const
 {
@@ -126,12 +121,39 @@ std::string Analysis::DetectorName(const Detector detector) const
     }
 }
 
+std::string Analysis::NiceName(const Process process) const
+{
+  switch (process) {
+    case bb:
+      return "b";
+    case cc:
+      return "c";
+    case qq:
+      return "q";
+    case gg:
+      return "g";
+    case hh:
+      return "h";
+    case ww:
+      return "W";
+    case zz:
+      return "Z";
+    case tthad:
+      return "t_{had}";
+    case ttlep:
+      return "t_{lep}";
+    default:
+      Print(kError, "name", "unhandled case", process);
+      return "";
+  }
+}
+
 
 int Analysis::PassPreCut(Event &event)
 {
     Print(kInformation, "pass pre cut");
     Jets jets = event.Hadrons().Jets();
-    jets = remove_if_not_in_pt_window(jets, LowerCut(), UpperCut());
+    jets = remove_if_not_in_pt_window(jets, LowerPtCut(), UpperPtCut());
     return jets.size();
 }
 

@@ -27,7 +27,7 @@ public:
 
 protected:
 
-    virtual inline std::string ClassName() const {
+    virtual  std::string ClassName() const {
         return "WimpMass";
     }
 
@@ -35,7 +35,7 @@ private:
 
     void Momentum(double momentum[4], const fastjet::PseudoJet &jet);
 
-    inline fastjet::PseudoJet PseudoJet(const double Momentum[4]) const {
+     fastjet::PseudoJet PseudoJet(const double Momentum[4]) const {
         // wimpmass (E,px,py,pz)
         // fastjet (px,py,pz,E)
         return fastjet::PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);

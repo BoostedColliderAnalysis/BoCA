@@ -42,9 +42,9 @@ void JetPairTagger::DefineVariables()
     AddVariable(branch().BdtRatio12, "BdtRatio12");  // THIS SHOULD BE ENABLED AGAIN
     AddVariable(branch().BdtRatio13, "BdtRatio13");  // THIS SHOULD BE ENABLED AGAIN
     AddVariable(branch().BdtRatio14, "BdtRatio14");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch().BdtRatio21, "BdtRatio21");  // THIS SHOULD BE ENABLED AGAIN
+    Tagger:: AddVariable(branch().BdtRatio21, "BdtRatio21");  // THIS SHOULD BE ENABLED AGAIN
     AddVariable(branch().BdtRatio22, "BdtRatio22");  // THIS SHOULD BE ENABLED AGAIN
-    AddVariable(branch().BdtRatio23, "BdtRatio23");  // THIS SHOULD BE ENABLED AGAIN
+    Tagger:: AddVariable(branch().BdtRatio23, "BdtRatio23");  // THIS SHOULD BE ENABLED AGAIN
     AddVariable(branch().BdtRatio24, "BdtRatio24");  // THIS SHOULD BE ENABLED AGAIN
 
 

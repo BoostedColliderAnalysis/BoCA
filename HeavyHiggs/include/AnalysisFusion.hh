@@ -23,11 +23,11 @@ public:
 
     std::vector<File> Files(const Object::Tag Tag);
 
-    inline std::string ProcessName() const {
+     std::string ProcessName() const {
         return "Fusion";
     }
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
         return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
     }
 
@@ -40,7 +40,7 @@ public:
 
 protected:
 
-    virtual inline std::string NameSpaceName() const {
+    virtual  std::string NameSpaceName() const {
         return "heavyhiggs";
     }
 
@@ -50,7 +50,7 @@ private:
     enum ColliderType {LHC, FHC, LE};
 
     // in GeV
-    inline int Mass() const {
+     int Mass() const {
         //     return 0;
         //     return 400;
              return 500;
@@ -72,7 +72,7 @@ private:
     }
 
     // in GeV
-    inline int PreCut() const {
+     int PreCut() const {
         switch (collider_type()) {
         case LHC :
             switch (Mass()) {
@@ -124,7 +124,7 @@ private:
 //             return 2500;
     }
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
 //                 return 1000000;
 //         return 100000;
         return 10000;
@@ -132,13 +132,13 @@ private:
 //                 return 100;
     };
 
-    inline ColliderType collider_type() const {
+     ColliderType collider_type() const {
 //         return LHC;
         //       return FHC;
         return LE;
     }
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         switch (collider_type()) {
         case LHC :
             switch (PreCut()) {
@@ -266,7 +266,7 @@ private:
         }
     }
 
-    inline File BackgroundFile(const ProcessType Background) const {
+     File BackgroundFile(const ProcessType Background) const {
         return BackgroundFile(Background, BackgroundFileNumber());
     }
 

@@ -3,22 +3,22 @@
 namespace analysis
 {
 
-fastjet::PseudoJet Doublet::SingletJet1()const
+fastjet::PseudoJet Doublet::SingletJet1() const
 {
     return Multiplet1().Jet();
 }
 
-fastjet::PseudoJet Doublet::SingletJet2()const
+fastjet::PseudoJet Doublet::SingletJet2() const
 {
     return Multiplet2().Jet();
 }
 
-Singlet Doublet::Singlet1()const
+Singlet & Doublet::Singlet1() const
 {
     return Multiplet1();
 }
 
-Singlet Doublet::Singlet2()const
+Singlet & Doublet::Singlet2() const
 {
     return Multiplet2();
 }
