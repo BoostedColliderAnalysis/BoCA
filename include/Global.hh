@@ -77,6 +77,10 @@ private:
 };
 
 template <typename Element>
+/**
+ * @brief Join two std::vector 
+ *
+ */
 std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
 {
   std::vector<Element> joined;
