@@ -1,6 +1,6 @@
 # pragma once
 
-# include "Quintet.hh"
+# include "Quartet22.hh"
 # include "TopLeptonicTagger.hh"
 # include "ZHadronicTagger.hh"
 # include "BranchesTopPartner.hh"
@@ -15,16 +15,16 @@ namespace toppartner
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerSemiTagger : public BranchTagger<TopPartnerBranch>
+class TopPartnerLeptonicTagger : public BranchTagger<TopPartnerBranch>
 {
 
 public:
 
-    TopPartnerSemiTagger();
+    TopPartnerLeptonicTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Quintet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector< Quartet22 > Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
@@ -38,7 +38,7 @@ public:
 protected:
 
     virtual  std::string ClassName() const {
-        return "TopPartnerSemiTagger";
+        return "TopPartnerLeptonicTagger";
     }
 
 private:

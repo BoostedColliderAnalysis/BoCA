@@ -7,8 +7,8 @@ namespace toppartner {
 
 SignatureTagger::SignatureTagger()
 {
-//         DebugLevel = Object::kDetailed;
-    Print(kNotification, "Constructor");
+//         DebugLevel = Object::Severity::kDetailed;
+    Print(Severity::Notification, "Constructor");
     set_tagger_name("Signature");
     top_partner_pair_reader_.SetTagger(top_partner_pair_tagger_);
     higgs_pair_reader_.SetTagger(higgs_pair_tagger);
@@ -17,7 +17,7 @@ SignatureTagger::SignatureTagger()
 
 int SignatureTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Higgs Tags");
+    Print(Severity::Information, "Higgs Tags");
     std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets<TopPartnerPairTagger>(event);
     std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets<HiggsPairTagger>(event);
     std::vector< Quattuordecuplet > quattuordecuplets;

@@ -38,7 +38,7 @@ private:
 
     std::string ProductionChannelName(const ProductionChannel production_channel) const;
 
-    void SetFiles(const Object::Tag Tag);
+    void SetFiles(const Tag Tag);
 
     int PassPreCut(Event &event);
 

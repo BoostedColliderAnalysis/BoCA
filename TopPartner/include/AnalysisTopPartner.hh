@@ -28,7 +28,7 @@ public:
 
 protected:
 
-  void SetFiles(const Object::Tag tag);
+  void SetFiles(const Tag tag);
 
    std::string ProjectName() const {
     return  "TopPartner";

@@ -8,8 +8,8 @@ namespace toppartner
 
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
-//         DebugLevel = Object::kDetailed;
-    Print(kNotification, "Constructor");
+//         DebugLevel = Object::Severity::kDetailed;
+    Print(Severity::Notification, "Constructor");
     set_tagger_name("TopPartnerHadronic");
     top_reader_.SetTagger(top_tagger_);
     z_hadronic_reader_.SetTagger(z_hadronic_tagger);
@@ -18,7 +18,7 @@ TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 
 int TopPartnerHadronicTagger::Train(Event &event,  PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Higgs Tags");
+    Print(Severity::Information, "Higgs Tags");
     std::vector< Triplet> triplets = top_reader_.Multiplets<TopHadronicTagger>(event);
     std::vector< Doublet> doublets = z_hadronic_reader_.Multiplets<ZHadronicTagger>(event);
     std::vector< Quintet > quintets;

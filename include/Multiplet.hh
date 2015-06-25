@@ -124,8 +124,8 @@ public:
         return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 
-    float MassDifferenceTo(const ParticleId particle_id) const {
-        return std::abs(Jet().m() - Mass(particle_id));
+    float MassDifferenceTo(const Id id) const {
+        return std::abs(Jet().m() - Mass(id));
     }
 
     int Charge() const {

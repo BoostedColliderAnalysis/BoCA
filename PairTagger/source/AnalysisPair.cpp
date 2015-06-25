@@ -3,8 +3,8 @@
 
 // hpairtagger::Analysis::Analysis()
 // {
-//     //     DebugLevel = analysis::Object::kDebug;
-//     Print(kNotification, "Constructor");
+//     //     DebugLevel = analysis::Object::Severity::Debug;
+//     Print(Severity::Notification, "Constructor");
 //     BottomTagger.SetAnalysisName(ProjectName());
 //     jet_pair_tagger.SetAnalysisName(ProjectName());
 //     mkdir(ProjectName().c_str(), 0700);
@@ -12,7 +12,7 @@
 
 // std::string hpairtagger::Analysis::StudyName(const analysis::Analysis::HTagger Tagger) const
 // {
-//     Print(kNotification, "Study Names", Tagger);
+//     Print(Severity::Notification, "Study Names", Tagger);
 //
 //     switch (Tagger) {
 //     case  BottomTagger :
@@ -24,14 +24,14 @@
 //     case  HJetPairReader :
 //         return "JetPairReader";
 //     default :
-//         Print(kError, "unexpected TaggerName", Tagger);
+//         Print(Severity::Error, "unexpected TaggerName", Tagger);
 //         return "";
 //     }
 // }
 
-std::vector<analysis::File> fusionpair::Analysis::Files(const analysis::Object::Tag tag)
+std::vector<analysis::File> fusionpair::Analysis::Files(const analysis::Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+  Print(analysis::Severity::Notification, "Set File Vector", Name(tag));
 
     std::vector<analysis::File> SignalLeptonicFiles;
     std::vector<analysis::File> BackgroundLeptonicFiles;
@@ -71,10 +71,10 @@ std::vector<analysis::File> fusionpair::Analysis::Files(const analysis::Object::
     std::vector<analysis::File> NewFiles;
 
         switch (tag) {
-        case Object::kSignal :
+          case analysis::Tag::Signal :
             NewFiles = SignalSemiFiles;
             break;
-        case Object::kBackground :
+          case analysis::Tag::Background :
             NewFiles = BackgroundSemiFiles;
             break;
         }
@@ -129,12 +129,12 @@ void fusionpair::Analysis::SetTrees()
 //     case HBottomTagger:
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
 //         BottomTagger.SetBackgroundTreeNames(SemiTrees);
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::Signal) {
 //             BottomTagger.SetTagger();
 //         }
 //         break;
 //     case HBottomReader:
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::Signal) {
 //             BottomTagger.SetTagger();
 //         }
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
@@ -143,19 +143,19 @@ void fusionpair::Analysis::SetTrees()
 //     case JetPairTagger :
 //         jet_pair_tagger.SetSignalTreeNames(SignalSemiTrees);
 //         jet_pair_tagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::Signal) {
 //             jet_pair_tagger.SetTagger(BottomTagger);
 //         }
 //         break;
 //     case HJetPairReader :
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::Signal) {
 //             jet_pair_tagger.SetTagger(BottomTagger);
 //         }
 //         jet_pair_tagger.SetSignalTreeNames(SignalSemiTrees);
 //         jet_pair_tagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
 //     default :
-//         Print(kError, "SetTrees", "unhandeled case");
+//         Print(Severity::Error, "SetTrees", "unhandeled case");
 //     }
 //     tagger_.SetSignalTreeNames(SignalSemiTrees);
 //     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
@@ -163,8 +163,8 @@ void fusionpair::Analysis::SetTrees()
 
 // void hpairtagger::Analysis::PrepareReader(const analysis::Analysis::HTagger Tagger, const Tag Tag)
 // {
-//     Print(kInformation, "Prepare Reader", Tagger);
-//     if (Tag == kBackground) {
+//     Print(Severity::Information, "Prepare Reader", Tagger);
+//     if (Tag == Tag::Background) {
 //         return;
 //     }
 //     switch (Tagger) {
@@ -182,13 +182,13 @@ void fusionpair::Analysis::SetTrees()
 //         JetPairReader.set_tagger(jet_pair_tagger);
 //         break;
 //     default :
-//         Print(kError, "PrepareReader", "unhandled case");
+//         Print(Severity::Error, "PrepareReader", "unhandled case");
 //     }
 // }
 
 // void hpairtagger::Analysis::NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger)
 // {
-//     Print(kNotification, "New Branches", Tagger);
+//     Print(Severity::Notification, "New Branches", Tagger);
 //
 //     switch (Tagger) {
 //     case BottomTagger :
@@ -204,14 +204,14 @@ void fusionpair::Analysis::SetTrees()
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), JetPairBranch::Class());
 //         break;
 //     default :
-//         Print(kError, "No Branch filled");
+//         Print(Severity::Error, "No Branch filled");
 //     }
 //
 // }
 
-// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag)
+// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Tag tag)
 // {
-//     Print(kInformation, "Analysis", stage, tag);
+//     Print(Severity::Information, "Analysis", stage, tag);
 //     ++event_sum_;
 
 //     switch (stage) {
@@ -224,7 +224,7 @@ void fusionpair::Analysis::SetTrees()
 //     case HJetPairReader :
 //         return GetJetPairReader(event, tag);
 //     default :
-//         Print(kError, "unknown Tagger", tagger);
+//         Print(Severity::Error, "unknown Tagger", tagger);
 //         return 0;
 //     }
 
@@ -239,14 +239,14 @@ void fusionpair::Analysis::SetTrees()
 
 // bool hpairtagger::Analysis::GetTag(analysis::Event &event, const Tag tag)
 // {
-//   Print(kDebug, "Bottom Tag", tag);
+//   Print(Severity::Debug, "Bottom Tag", Name(tag));
 //   return tagger_.GetBranches(event, tag);
 // }
 //
 //
 // bool hpairtagger::Analysis::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Bottom Tag", Tag);
+//     Print(Severity::Debug, "Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
 //     if (Bottoms.empty()) {
 //         return 0;
@@ -259,7 +259,7 @@ void fusionpair::Analysis::SetTrees()
 //
 // bool hpairtagger::Analysis::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Bottom Reader", Tag);
+//     Print(Severity::Debug, "Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) {
@@ -267,12 +267,12 @@ void fusionpair::Analysis::SetTrees()
 //     }
 //
 //     Jets Particles = event.Partons().GenParticles();
-//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(Id::Bottom)), Particles.end());
 //
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
 //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-//             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Signal);
 //         }
 //     }
 //
@@ -290,7 +290,7 @@ void fusionpair::Analysis::SetTrees()
 //
 // bool hpairtagger::Analysis::GetJetPairTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "JetPair Tag", Tag);
+//     Print(Severity::Debug, "JetPair Tag", Tag);
 //     std::vector<JetPairBranch> JetPairs = jet_pair_tagger.GetBranches(event, Tag, MotherId(ProductionChannel()));
 //     if (JetPairs.empty()) {
 //         return 0;
@@ -303,38 +303,38 @@ void fusionpair::Analysis::SetTrees()
 //
 // bool hpairtagger::Analysis::GetJetPairReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "JetPair Reader", Tag);
+//     Print(Severity::Debug, "JetPair Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) {
-//         Print(kInformation, "just one jet", jets.size());
+//         Print(Severity::Information, "just one jet", jets.size());
 //         return 0;
 //     }
-//     Print(kError, "jets", jets.size());
+//     Print(Severity::Error, "jets", jets.size());
 //
 // //     Jets FilteredJets; // WRONG MUST BE REMOVED
 //     Jets Particles = event.Partons().GenParticles();
-//     if (Tag == kSignal) {
-// //         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, BottomId, MotherId(ProductionChannel()));
+//     if (Tag == Tag::Signal) {
+// //         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, Id::Bottom, MotherId(ProductionChannel()));
 //     }
 //     if (
 // // ProductionChannel() == Associated &&
-//         Tag == kBackground) {
-// //         Particles = RemoveIfWrongAbsStepMother(Particles, TopId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
-// //         Particles = BottomTagger.RemoveIfWrongParticle(Particles, GluonId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
-// //         Particles = BottomTagger.RemoveIfWrongAbsMother(Particles, ZId); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+//         Tag == Tag::Background) {
+// //         Particles = RemoveIfWrongAbsStepMother(Particles, Id::Top); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+// //         Particles = BottomTagger.RemoveIfWrongParticle(Particles, Id::Gluon); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+// //         Particles = BottomTagger.RemoveIfWrongAbsMother(Particles, Id::Z); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //     }
 //
 // //     if (
-// //         Tag == kSignal &&
+// //         Tag == Tag::Signal &&
 // //         Particles.size() != 2) {
-// //         Print(kError, "where are the quarks?", Particles.size());
+// //         Print(Severity::Error, "where are the quarks?", Particles.size());
 // //     }
 //
 // //     for (const auto & Particle : Particles) {
 // //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
 // //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-// //             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+// //             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Signal);
 // //             FilteredJets.emplace_back(jets.front()); // WRONG MUST BE REMOVED
 // //         }
 // //     }

@@ -10,8 +10,8 @@ namespace standardmodel
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Object::kDebug;
-    Print(kNotification, "Constructor");
+//   DebugLevel = Object::Severity::Debug;
+    Print(Severity::Notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -37,7 +37,7 @@ std::string Analysis::ProcessName(const Process process) const
     case zz:
         return "zz";
     default:
-        Print(kError, "process name", "unhandled case", process);
+        Print(Severity::Error, "process name", "unhandled case", process);
         return "";
     }
 }
@@ -52,14 +52,14 @@ std::string Analysis::ColliderName(const Collider collider) const
     case LE:
         return "LE";
     default:
-        Print(kError, "Collider name", "unhandled case", collider);
+        Print(Severity::Error, "Collider name", "unhandled case", collider);
         return "";
     }
 }
 
-void Analysis::SetFiles(const Object::Tag tag)
+void Analysis::SetFiles(const Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+    Print(Severity::Notification, "Set File Vector", Name(tag));
 }
 
 std::string Analysis::NiceName(const Process process) const
@@ -84,7 +84,7 @@ std::string Analysis::NiceName(const Process process) const
     case ttlep:
         return "t_{l}";
     default:
-        Print(kError, "name", "unhandled case", process);
+        Print(Severity::Error, "name", "unhandled case", process);
         return "";
     }
 }
@@ -245,13 +245,13 @@ void Analysis::RunReader()
 
 std::string Analysis::PathName(const std::string &file_name) const
 {
-    Print(kError, "Path Name", file_name);
+    Print(Severity::Error, "Path Name", file_name);
     return ProjectName() + "/" + file_name + ".root";
 }
 
 bool Analysis::Missing(const std::string &name) const
 {
-    Print(kError, "Missing", name);
+    Print(Severity::Error, "Missing", name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
 }

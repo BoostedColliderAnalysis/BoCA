@@ -35,20 +35,20 @@ std::vector<int> Result::CutIntegral() const
 
 Reader::Reader()
 {
-//     debug_level_ = kDebug;
-    Print(kInformation, "Constructor");
+//     debug_level_ = Severity::Debug;
+    Print(Severity::Information, "Constructor");
 }
 
 Reader::Reader(Tagger &tagger)
 {
-//     debug_level_ = kDebug;
-    Print(kInformation, "Constructor with tagger");
+//     debug_level_ = Severity::Debug;
+    Print(Severity::Information, "Constructor with tagger");
     SetTagger(tagger);
 }
 
 void Reader::SetTagger(Tagger &tagger)
 {
-    Print(kNotification, "SetMva");
+    Print(Severity::Notification, "SetMva");
     tagger_ = &tagger;
     AddVariable();
     BookMva();
@@ -56,7 +56,7 @@ void Reader::SetTagger(Tagger &tagger)
 
 void Reader::AddVariable()
 {
-    Print(kNotification, "Add Variable");
+    Print(Severity::Notification, "Add Variable");
     const std::string default_options = "!Color:Silent";
     for (auto & observable : tagger().observables()) reader().AddVariable(observable.expression(), observable.value());
     for (auto & spectator : tagger().spectators()) reader().AddSpectator(spectator.expression(), spectator.value());
@@ -65,15 +65,15 @@ void Reader::AddVariable()
 
 void Reader::BookMva()
 {
-    Print(kNotification, "Book Mva");
+    Print(Severity::Notification, "Book Mva");
     const std::string bdt_weight_file = tagger().analysis_name() + "/" + tagger().bdt_weight_name();
-    Print(kNotification, "Opening Weight File", bdt_weight_file);
+    Print(Severity::Notification, "Opening Weight File", bdt_weight_file);
     reader().BookMVA(tagger().bdt_method_name(), bdt_weight_file);
 }
 
 float Reader::Bdt() const
 {
-    Print(kInformation, "Bdt");
+    Print(Severity::Information, "Bdt");
     return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(tagger().bdt_method_name()) + 1;
 }
 
@@ -98,7 +98,7 @@ Results Reader::ExportFile() const
 std::vector<Result> Reader::Export(TFile &export_file, const std::string &file_name, const Strings &treename) const
 {
     TFile file(file_name.c_str(), "Read");
-    Print(kError, "Open Signal File", file_name, treename.size());
+    Print(Severity::Error, "Open Signal File", file_name, treename.size());
 
     std::vector<Result> results;
     for (const auto & tree_name : treename) results.emplace_back(BdtResult(file, tree_name, export_file));
@@ -117,7 +117,7 @@ TLegend Reader::Legend(float x_min, float y_max, float width, float height, cons
 
 void Reader::PlotHistograms(const Results &results)
 {
-    Print(kError, "PlotHistograms");
+    Print(Severity::Error, "PlotHistograms");
     gStyle->SetOptStat("");
 
     TCanvas canvas;
@@ -177,7 +177,7 @@ void Reader::PlotHistograms(const Results &results)
 
 void Reader::PlotMultiGraph(const Results &results)
 {
-    Print(kError, "PlotMultiGraph");
+    Print(Severity::Error, "PlotMultiGraph");
     TCanvas canvas;
     TMultiGraph multi_graph;
     std::vector<TGraph> graphs;
@@ -208,7 +208,7 @@ void Reader::PlotMultiGraph(const Results &results)
 
 void Reader::TaggingEfficiency()
 {
-    Print(kNotification, "Tagging Efficiency");
+    Print(Severity::Notification, "Tagging Efficiency");
 
     Results results = ExportFile();
 
@@ -219,7 +219,7 @@ void Reader::TaggingEfficiency()
 
 void Reader::OptimalSignificance()
 {
-    Print(kNotification, "Mva Loop");
+    Print(Severity::Notification, "Mva Loop");
     std::stringstream TableHeader;
     TableHeader << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rlll}\n\\toprule\n";
 
@@ -230,7 +230,7 @@ void Reader::OptimalSignificance()
 
 //     const std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
 //     TFile background_file(background_file_name.c_str(), "Read");
-//     Print(kError, "Open Background File", background_file_name, tagger().background_tree_names().size());
+//     Print(Severity::Error, "Open Background File", background_file_name, tagger().background_tree_names().size());
 
 
 //     std::vector<Result> background_results;
@@ -238,7 +238,7 @@ void Reader::OptimalSignificance()
 
 //     const std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
 //     TFile signal_file(signal_file_name.c_str(), "Read");
-//     Print(kError, "Open Signal File", signal_file_name, tagger().signal_tree_names().size());
+//     Print(Severity::Error, "Open Signal File", signal_file_name, tagger().signal_tree_names().size());
 
 //     Result signal_results;
     std::vector<float> Significances(Result().steps, 0);
@@ -355,10 +355,10 @@ std::vector<float> background_efficiencies(results.background.size(), 0);
 
 Result Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
-    Print(kNotification, "Apply Bdt", tree_name);
+    Print(Severity::Notification, "Apply Bdt", tree_name);
     const float Luminosity = 3000; // 3000 fb-1
 
-    Print(kError, "Open Tree", tree_name);
+    Print(Severity::Error, "Open Tree", tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
     Result result = BdtDistribution(tree_reader, tree_name, export_file);
     result.info_branch = InfoBranch(file, tree_name);
@@ -371,14 +371,14 @@ Result Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &expor
         result.efficiency[step] = float(Integral[step]) / float(result.info_branch.EventNumber);
         result.analysis_event_number[step] = Integral[step];
 //         result.bdt[step] = bins[step];
-        Print(kDebug, "Result", result.efficiency[step], result.events[step]);
+        Print(Severity::Debug, "Result", result.efficiency[step], result.events[step]);
     }
     return result;
 }
 
 Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const
 {
-    Print(kNotification, "Bdt Distribution", tagger().branch_name());
+    Print(Severity::Notification, "Bdt Distribution", tagger().branch_name());
     std::string NeweventBranchName = tagger().branch_name() + "Reader";
 
     Result result;
@@ -390,9 +390,9 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
         for (const int Entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, Entry);
             result.bdt.emplace_back(bdt_value);
-            if (bdt_value < 0 || bdt_value > 2) Print(kError, "Bdt Value" , bdt_value);
+            if (bdt_value < 0 || bdt_value > 2) Print(Severity::Error, "Bdt Value" , bdt_value);
             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
-//             Print(kNotification, "Bdt Distribution", BdtValue,std::floor(BdtValue * result.steps / 2) - 1);
+//             Print(Severity::Notification, "Bdt Distribution", BdtValue,std::floor(BdtValue * result.steps / 2) - 1);
             int bin = std::floor(bdt_value * result.steps / 2) - 1;
             if (bin == -1) bin = 0; // FIXME clean this up
 //             ++bins.at(std::floor(BdtValue * result.steps / 2) - 1);
@@ -407,9 +407,9 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
 
 InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 {
-    Print(kNotification, "Info Branch", tree_name);
+    Print(Severity::Notification, "Info Branch", tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
-    Print(kError, "Info Branch", tree_name, tagger().weight_branch_name());
+    Print(Severity::Error, "Info Branch", tree_name, tagger().weight_branch_name());
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
 //     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     tree_reader.ReadEntry(0);
@@ -419,7 +419,7 @@ InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 
 void Reader::LatexHeader(std::ofstream &latex_file) const
 {
-    Print(kNotification, "LaTeX Header");
+    Print(Severity::Notification, "LaTeX Header");
     const std::string TexFileName = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
     latex_file.open(TexFileName);
     latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
@@ -441,7 +441,7 @@ void Reader::LatexHeader(std::ofstream &latex_file) const
 
 void Reader::LatexFooter(ofstream &latex_file) const
 {
-    Print(kNotification, "LaTeX Footer");
+    Print(Severity::Notification, "LaTeX Footer");
     latex_file << "\n\\end{document}\n";
     latex_file.close();
 }
@@ -460,7 +460,7 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::GetScaling(const float events, const int Particles) const
 // {
-//     Print(kInformation , "Scaling");
+//     Print(Severity::Information , "Scaling");
 //     float Scaling;
 //     if (Particles == 0) {
 //         Scaling = 0;
@@ -472,21 +472,21 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::GetLuminosity(const float Number) const
 // {
-//     Print(kInformation , "Luminosity");
+//     Print(Severity::Information , "Luminosity");
 //     float Luminosity = Number / CrosssectionScaled;
 //     return Luminosity;
 // }
 //
 // float Reader::GetLuminosityError(const float Number) const
 // {
-//     Print(kInformation , "Luminosity Error");
+//     Print(Severity::Information , "Luminosity Error");
 //     float LuminosityError = GetError(Number) / CrosssectionScaled + Number / CrosssectionNorm * LuminosityScalingError + GetLuminosity(Number) * CrosssectionNormRelError;
 //     return LuminosityError;
 // }
 //
 // float Reader::GetError(const float Value) const
 // {
-//     Print(kInformation , "Error");
+//     Print(Severity::Information , "Error");
 //     float Error;
 //     if (Value == 0) {
 //         Error = 0;
@@ -509,7 +509,7 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::RoundToDigits(const float Value, const int Digits) const
 // {
-//     Print(kInformation , "Round To Digits");
+//     Print(Severity::Information , "Round To Digits");
 //     if (Value == 0 || Value != Value) {
 //         return 0;
 //     } else {
@@ -520,7 +520,7 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::RoundToError(const float Value, const float Error) const
 // {
-//     Print(kInformation , "Round To Digits");
+//     Print(Severity::Information , "Round To Digits");
 //     if (Value == 0) {
 //         return 0;
 //     } else {

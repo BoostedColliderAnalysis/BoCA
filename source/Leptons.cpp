@@ -5,24 +5,24 @@ namespace analysis {
 
 Leptons::Leptons()
 {
-//   DebugLevel=kDebug;
-    Print(kNotification, "Constructor");
+//   DebugLevel=Severity::Debug;
+    Print(Severity::Notification, "Constructor");
 }
 
 Leptons::~Leptons()
 {
-    Print(kNotification, "Destructor");
+    Print(Severity::Notification, "Destructor");
 }
 
 void Leptons::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Print(kInformation, "New event");
+    Print(Severity::Information, "New event");
     FourVector::NewEvent(clones_arrays);
 }
 
 Jets Leptons::leptons()
 {
-    Print(kInformation, "Lepton Jets");
+    Print(Severity::Information, "Lepton Jets");
     return Join(Electrons(), Muons());
 }
 

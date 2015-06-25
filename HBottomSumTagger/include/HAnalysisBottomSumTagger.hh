@@ -46,7 +46,7 @@ using analysis::Analysis::Analysis;
 
     void SetTrees();
 
-    std::vector<analysis::File> Files(const analysis::Object::Tag tag);
+    std::vector<analysis::File> Files(const analysis::Tag tag);
 
      std::string ProjectName() const {
         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
@@ -98,7 +98,7 @@ private:
         case LE :
             return "LE";
         default:
-            Print(kError, "Detector Name", "unhandeld case");
+          Print(analysis::Severity::Error, "Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -115,23 +115,22 @@ private:
         case Simple :
             return "";
         default:
-            Print(kError, "ProductionChannelName", "unhandeld case");
+            Print(analysis::Severity::Error, "ProductionChannelName", "unhandeld case");
             return "";
         }
     }
 
-     ParticleId MotherId(const HProductionChannel NewProductionChannel) const {
+     analysis::Id MotherId(const HProductionChannel NewProductionChannel) const {
         switch (NewProductionChannel) {
         case DYP :
-            return ZId;
-//             return GluonId;
+          return analysis::Id::Z;
         case VBF :
-            return BottomId;
+          return analysis::Id::Bottom;
         case Associated :
-            return GluonId;
+          return analysis::Id::Gluon;
         default:
-            Print(kError, "MotherId", "unhandeld case");
-            return EmptyId;
+          Print(analysis::Severity::Error, "MotherId", "unhandeld case");
+            return analysis::Id::Empty;
         }
     }
 
@@ -170,7 +169,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-            Print(kError, "ProcessName", "unhandeld case");
+          Print(analysis::Severity::Error, "ProcessName", "unhandeld case");
             return "";
         }
     }
@@ -239,8 +238,8 @@ private:
 
 //     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
 
-//     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);
+//     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);
 //
 //     bool GeteventSemiTag(analysis::Event &event, const Tag Tag);
 //     bool GeteventSemiReader(analysis::Event &event, const Tag Tag);

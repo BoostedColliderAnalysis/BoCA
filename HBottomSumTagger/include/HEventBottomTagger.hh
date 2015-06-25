@@ -65,9 +65,9 @@ public:
     */
     EventBottomTagger();
 
-    bool TruthLevelCheck(const analysis::Jets &NewJets, analysis::Event &event, const analysis::Object::Tag Tag);
+    bool TruthLevelCheck(const analysis::Jets &NewJets, analysis::Event &event, const analysis::Tag Tag);
 
-    int Train(analysis::Event &event, const Tag tag);
+    int Train(analysis::Event &event, const analysis::Tag tag);
 
     int Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 

@@ -5,24 +5,24 @@ namespace analysis
 
 TopSemiTagger::TopSemiTagger()
 {
-//     debug_level_ = kDebug;
-    Print(kNotification, "Constructor");
+//     debug_level_ = Severity::Debug;
+    Print(Severity::Notification, "Constructor");
     set_tagger_name("TopSemi");
-    top_mass_window_ = (Mass(TopId) - Mass(WId)) / 2;
+    top_mass_window_ = (Mass(Id::Top) - Mass(Id::W)) / 2;
     bottom_reader_.SetTagger(bottom_tagger_);
     w_semi_reader_.SetTagger(w_semi_tagger_);
     DefineVariables();
 }
 
-int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
+int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Top Tags");
+    Print(Severity::Information, "Top Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
 
     std::vector<Triplet> triplets;
     if (!boost_) {
         std::vector<Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
-        Print(kNotification, "doublet number", doublets.size());
+        Print(Severity::Notification, "doublet number", doublets.size());
         for (const auto & jet : jets) {
             for (const auto & doublet : doublets) {
                 Triplet triplet(doublet, jet);
@@ -33,7 +33,7 @@ int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
         }
     } else {
         Jets leptons = event.Leptons().leptons();
-        Print(kNotification, "leptons number", leptons.size());
+        Print(Severity::Notification, "leptons number", leptons.size());
         for (const auto & jet : jets) {
             for (const auto & lepton : leptons) {
                 Doublet doublet(lepton);
@@ -46,23 +46,23 @@ int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
     }
 
     Jets top_particles = event.Partons().GenParticles();
-    top_particles = copy_if_abs_particle(top_particles, TopSemiId(event));
-    Print(kNotification, "Number of semi tops", top_particles.size());
+    top_particles = copy_if_abs_particle(top_particles, Id(TopSemiId(event)));
+    Print(Severity::Notification, "Number of semi tops", top_particles.size());
     return SaveEntries(BestMatches(triplets,top_particles,tag));
 }
 
 
 bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Problematic");
-    if (pre_cuts.PtLowerCut(TopId) > 0 && triplet.Jet().pt() <  pre_cuts.PtLowerCut(TopId)) return true;
-    if (pre_cuts.PtUpperCut(TopId) > 0 && triplet.Jet().pt() >  pre_cuts.PtUpperCut(TopId)) return true;
+    Print(Severity::Information, "Problematic");
+    if (pre_cuts.PtLowerCut(Id::Top) > 0 && triplet.Jet().pt() <  pre_cuts.PtLowerCut(Id::Top)) return true;
+    if (pre_cuts.PtUpperCut(Id::Top) > 0 && triplet.Jet().pt() >  pre_cuts.PtUpperCut(Id::Top)) return true;
     switch (tag) {
-    case kSignal :
-        if (std::abs(triplet.Jet().m() - Mass(TopId)) > top_mass_window_) return true ;
+    case Tag::Signal :
+        if (std::abs(triplet.Jet().m() - Mass(Id::Top)) > top_mass_window_) return true ;
         if (triplet.Rho() < 0.5 || triplet.Rho() > 2) return true ;
         break;
-    case kBackground :
+    case Tag::Background :
         break;
     }
     return false;
@@ -70,7 +70,7 @@ bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const
 
 std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Bdt");
+    Print(Severity::Information, "Bdt");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);

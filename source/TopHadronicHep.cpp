@@ -7,12 +7,12 @@ namespace analysis {
 
 TopHadronicHep::TopHadronicHep()
 {
-    Print(kNotification, "Constructor");
+    Print(Severity::Notification, "Constructor");
 }
 
 Jets TopHadronicHep::Tops(std::vector< fastjet::PseudoJet > &e_flows)
 {
-    Print(kInformation, "Tagging Top");
+    Print(Severity::Information, "Tagging Top");
 //     float CellRap = 0.1;
 //     Jets hadrons;
 //     ifstream fin("sample_event.dat", ifstream::in);
