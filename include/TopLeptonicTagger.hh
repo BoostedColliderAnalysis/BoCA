@@ -25,6 +25,8 @@ public:
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
+    
+    std::vector<Doublet> Clean_Doublets(const std::vector< Doublet > &Doublets, PreCuts &pre_cuts);
 
     auto Multiplets(Event &event, const TMVA::Reader &reader){
       PreCuts pre_cuts;
