@@ -1,3 +1,0 @@
-repository='external project URL'
-module='http://particle.physics.ucdavis.edu/hefti/projects/lib/exe/fetch.php?media=wimpmass-1.00.tar.gz'
-tag='MD5=1068a6ab41bf52043dd42ce1cd88cbc2'
