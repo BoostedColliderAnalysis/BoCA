@@ -51,6 +51,7 @@ HLinkLibraries(${LIBCONFIGPP_LIBRARIES})
 add_subdirectory(source)
 
 # Taggers
+<<<<<<< HEAD
 add_subdirectory(Bottom)
 add_subdirectory(W)
 <<<<<<< HEAD
@@ -68,3 +69,13 @@ add_subdirectory(Top)
 # add_subdirectory(HeavyHiggs)
 # add_subdirectory(TopPartner)
 # add_subdirectory(HJetProperties)
+=======
+add_subdirectory(StandardModel)
+add_subdirectory(PairTagger)
+add_subdirectory(HBottomSumTagger)
+add_subdirectory(HDiscriminator)
+add_subdirectory(HiggsCpv)
+add_subdirectory(HeavyHiggs)
+add_subdirectory(TopPartner)
+add_subdirectory(HJetProperties)
+>>>>>>> f24ad3c9844907a7e1b66fc0f55efb773c509113
