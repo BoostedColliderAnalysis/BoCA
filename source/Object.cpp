@@ -12,7 +12,7 @@ Object::Object()
 //     Print(kDebug, "Constructor");
 }
 
-void Object::Printer(const std::string &Description, const std::string &func) const
+void Object::Printer(const std::string &Description) const
 {
     const char Separator = ' ';
     const int NameSpaceWidth = 12;

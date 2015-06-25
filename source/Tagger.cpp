@@ -183,10 +183,16 @@ void Tagger::set_analysis_name(const std::string &analysis_name)
 {
     analysis_name_ = analysis_name;
 }
+
 std::string Tagger::bdt_method_name() const
 {
     return "Bdt";
 }
+
+std::string Tagger::bdt_weight_name() const{
+  return tagger_name() + "_" + bdt_method_name() + ".weights.xml";
+}
+
 std::string Tagger::weight_branch_name() const
 {
     return "Info";

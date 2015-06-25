@@ -1,6 +1,6 @@
 # include "Branches.hh"
 
-# include <algorithm>
+// # include <algorithm>
 
 namespace analysis
 {
@@ -244,10 +244,9 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables()
 {
-//     Observables observables = Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
-    Observables observables =  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Bdt2), PAIR(LeptonPt)});
-    observables.erase(std::unique(observables.begin(), observables.end()), observables.end());
-    return observables;
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Bdt2), PAIR(LeptonPt)});
+    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
+//     observables.erase(std::unique(observables.begin(), observables.end()), observables.end());
 }
 
 Observables TopHadronicBranch::Spectators()

@@ -93,7 +93,7 @@ private:
 
 /**
  *
- * @brief Bottom tagger root tree structure
+ * @brief Bottom tagger root tree structure base class (this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond)
  *
  */
 class BottomBase
