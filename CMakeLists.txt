@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 
 # cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 # project(Analysis VERSION 0.1 LANGUAGES CXX)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-
-=======
-# cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-# project(Analysis VERSION 0.1 LANGUAGES CXX)
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
->>>>>>> 47d0e13470a268c5af9d2a511ab2ecdfa1c1410b
 project(Analysis CXX)
 
 # Load some basic macros which are needed later on
@@ -53,10 +46,7 @@ HLinkLibraries(${LIBCONFIGPP_LIBRARIES})
 # Libraries
 add_subdirectory(source)
 
-<<<<<<< HEAD
-=======
-# Taggers
->>>>>>> 47d0e13470a268c5af9d2a511ab2ecdfa1c1410b
+
 add_subdirectory(StandardModel)
 add_subdirectory(PairTagger)
 add_subdirectory(HBottomSumTagger)
@@ -65,3 +55,4 @@ add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
 add_subdirectory(HJetProperties)
+
