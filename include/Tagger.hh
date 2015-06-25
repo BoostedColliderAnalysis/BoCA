@@ -68,6 +68,8 @@ public:
 
     std::string bdt_method_name() const;
 
+    std::string bdt_weight_name() const;
+
     std::string weight_branch_name() const;
 
     std::string background_name() const;

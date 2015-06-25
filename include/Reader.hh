@@ -3,24 +3,39 @@
 # include "Tagger.hh"
 # include "Event.hh"
 # include "Branches.hh"
+# include "TGraph.h"
+# include "TLegend.h"
 
 namespace analysis
 {
 
-class MvaResult : Object
+class Result : Object
 {
 
 public:
 
-    MvaResult();
-    std::vector<int> CutIntegral(const std::vector< int > &bins) const;
+    Result();
+    std::vector<int> CutIntegral() const;
 
     int steps;
     std::vector<float> events;
     std::vector<float> efficiency;
     std::vector<int> analysis_event_number;
     std::vector<float> bdt;
-    int event_sum;
+    std::vector<int> bins;
+    int event_sum(){
+      return info_branch.EventNumber;
+    }
+    InfoBranch info_branch;
+};
+
+struct Results
+{
+
+public:
+
+  std::vector<Result> signal;
+  std::vector<Result> background;
 };
 
 /**
@@ -51,6 +66,16 @@ public:
     void OptimalSignificance();
 
     float Bdt() const;
+
+    TLegend Legend(float x_min, float y_max, float width, float height, const std::string &name = " ");
+
+    Results ExportFile() const;
+
+    std::vector<Result> Export(TFile &export_file, const std::string &file_name, const analysis::Strings &treename) const;
+
+    void PlotMultiGraph(const analysis::Results &results);
+
+    void PlotHistograms(const analysis::Results &results);
 
     int GetBdt(Event &event, PreCuts &pre_cuts) const {
         if (!tagger_) Print(kError, "what is wrong with the tagger?");
@@ -108,9 +133,9 @@ private:
 
     analysis::InfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
 
-    std::vector<int> BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
+    Result BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
 
-    MvaResult BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
+    Result BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
 
     void LatexHeader(std::ofstream &latex_file) const;
 
