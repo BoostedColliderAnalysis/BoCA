@@ -156,7 +156,7 @@ std::string Object::Name(const int particle_id) const
 
 float Object::Mass(const ParticleId particle_id) const
 {
-    switch (std::abs(particle_id)) {
+    switch (particle_id) {
     case StrangeId:
         return 0.095;
     case CharmId:
