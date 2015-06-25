@@ -9,6 +9,7 @@ BINARY_DIR ${CMAKE_BINARY_DIR}/Mt2
 PATCH_COMMAND
    ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Mt2.cmake <SOURCE_DIR>/CMakeLists.txt
 && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake
+&& patch <SOURCE_DIR>/example.cpp < ${CMAKE_SOURCE_DIR}/CMakeFiles/Mt2Patch.diff
 )
 
 ExternalProject_Add(WimpMass

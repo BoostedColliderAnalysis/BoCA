@@ -3,8 +3,8 @@
 
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
-    //   DebugLevel = kDebug;
-    Print(kNotification , "Constructor");
+    //   DebugLevel = Severity::Debug;
+  Print(analysis::Severity::Notification , "Constructor");
     set_tagger_name("eventBottom");
     DefineVariables();
     bottom_reader_.SetTagger(bottom_tagger_);
@@ -12,7 +12,7 @@ hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 
 void hbottomsumtagger::EventBottomTagger::DefineVariables()
 {
-    Print(kNotification , "Define Variables");
+  Print(analysis::Severity::Notification , "Define Variables");
     AddVariable(branch().BottomBdt1, "BottomBdt1");
     AddVariable(branch().BottomBdt2, "BottomBdt2");
     AddVariable(branch().BottomBdt3, "BottomBdt3");
@@ -28,9 +28,9 @@ void hbottomsumtagger::EventBottomTagger::DefineVariables()
     AddSpectator(branch().Tag, "Tag");
 }
 
-int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const Tag tag)
+int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const analysis::Tag tag)
 {
-    Print(kInformation, "event Tags");
+  Print(analysis::Severity::Information, "event Tags");
 
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
 
@@ -41,14 +41,14 @@ int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const Tag
 //     if (jets.size() < JetNumber) return eventSemiBranches;
 //     Jets BottomJets;
 //     Jets Particles = event.Partons().GenParticles();
-//     Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
+//     Particles = RemoveIfWrongAbsParticle(Particles, Id::Bottom);
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
 //         if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
 //             BottomJets.emplace_back(jets.front());
 //     }
 //
-//     if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return eventSemiBranches;
+//     if (Tag == Tag::Signal && BottomJets.size() < SignalBottomNumber)  return eventSemiBranches;
 //     if (Tag == HBackground && BottomJets.size() < BackgroundBottomNumber)  return eventSemiBranches;
 
     if (!TruthLevelCheck(jets,event, tag)) return 0;
@@ -65,7 +65,7 @@ int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const Tag
     return 0;
 }
 
-bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &NewJets,analysis::Event &event, const Tag Tag)
+bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &NewJets,analysis::Event &event, const analysis::Tag Tag)
 {
     const unsigned JetNumber = 2;
     const unsigned SignalBottomNumber = 2;
@@ -76,22 +76,22 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
     if (jets.size() < JetNumber) return 0;
     analysis::Jets BottomJets;
     analysis::Jets Particles = event.Partons().GenParticles();
-    Particles = RemoveIfWrongAbsParticle(Particles, BottomId);
+    Particles = RemoveIfWrongAbsParticle(Particles, analysis::Id::Bottom);
     for (const auto & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), analysis::MinDeltaRTo(Particle));
         if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
             BottomJets.emplace_back(jets.front());
     }
 
-    if (Tag == kSignal && BottomJets.size() < SignalBottomNumber)  return 0;
-    if (Tag == kBackground && BottomJets.size() <= BackgroundBottomNumber)  return 0;
+    if (Tag == analysis::Tag::Signal && BottomJets.size() < SignalBottomNumber)  return 0;
+    if (Tag == analysis::Tag::Background && BottomJets.size() <= BackgroundBottomNumber)  return 0;
 
     return 1;
 }
 
 int hbottomsumtagger::EventBottomTagger::Multiplets(analysis::Event &event, const TMVA::Reader &)
 {
-  Print(kInformation, "event Tags");
+  Print(analysis::Severity::Information, "event Tags");
   analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
     std::vector<analysis::EventBranch> eventMultiplets;
 

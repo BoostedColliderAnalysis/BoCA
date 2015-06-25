@@ -4,41 +4,41 @@ namespace analysis {
 
 TopLeptonicTagger::TopLeptonicTagger()
 {
-    //     debug_level_ = kDebug;
-    Print(kNotification, "Constructor");
+    //     debug_level_ = Severity::Debug;
+    Print(Severity::Notification, "Constructor");
     set_tagger_name("TopLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);
-    top_mass_window = std::abs(Mass(TopId) - Mass(HiggsId));
+    top_mass_window = std::abs(Mass(Id::Top) - Mass(Id::Higgs));
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
+int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Train");
+    Print(Severity::Information, "Train");
     std::size_t number_of_tops = 2;
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    Print(kInformation, "Jet Number", jets.size());
+    Print(Severity::Information, "Jet Number", jets.size());
 
     Jets leptons = event.Leptons().leptons();
-    Print(kInformation, "Lepton Number", leptons.size());
+    Print(Severity::Information, "Lepton Number", leptons.size());
 
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons)
         for (const auto & jet : jets) {
             Doublet doublet(jet, lepton);
-//             if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(TopId)) > top_mass_window) continue;
-            if (tag == kSignal && doublet.Jet().m() < 20) continue;
+//             if (tag == Tag::Signal && std::abs(doublet.Jet().m() - Mass(Id::Top)) > top_mass_window) continue;
+            if (tag == Tag::Signal && doublet.Jet().m() < 20) continue;
             doublets.emplace_back(doublet);
         }
-    Print(kInformation, "Number JetPairs", doublets.size());
+    Print(Severity::Information, "Number JetPairs", doublets.size());
 
     Jets particles = event.Partons().GenParticles();
-    Jets tops = copy_if_abs_particle(particles, TopId);
+    Jets tops = copy_if_abs_particle(particles, Id::Top);
     switch (tag) {
-    case kSignal :
+    case Tag::Signal :
         doublets = BestMatch(doublets, tops);
         break;
-    case kBackground  :
+    case Tag::Background  :
         doublets = RemoveBestMatch(doublets, tops);
         break;
     }
@@ -49,7 +49,7 @@ std::vector<Doublet> TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cu
 {
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Jets leptons = event.Leptons().leptons();
-    Print(kInformation, "Bdt");
+    Print(Severity::Information, "Bdt");
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
         for (const auto & jet : jets) {

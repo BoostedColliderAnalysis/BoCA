@@ -5,7 +5,7 @@ namespace analysis {
 Identification::Identification()
 {
     bdt_ = initial_value();
-    tag_ = 0;
+    tag_ = analysis::Tag::Background;
     flag_ = false;
     degenerate_ = false;
 
@@ -26,17 +26,23 @@ float Identification::Bdt() const
     return bdt_;
 }
 
-void Identification::SetTag(const int tag)
+void Identification::SetTag(const analysis::Tag tag)
 {
     tag_ = tag;
 }
 
-void Identification::SetTag(const int tag_1, const int tag_2)
+void Identification::SetTag(const int tag)
 {
-    tag_ = tag_1 * tag_2;
+  tag_ = analysis::Tag(tag);
 }
 
-int Identification::Tag() const
+void Identification::SetTag(const analysis::Tag tag_1, const analysis::Tag tag_2)
+{
+  if(tag_1 == analysis::Tag::Signal || tag_2 == analysis::Tag::Signal) tag_ = analysis::Tag::Signal;
+  else tag_ = analysis::Tag::Background;
+}
+
+analysis::Tag Identification::Tag() const
 {
     return tag_;
 }

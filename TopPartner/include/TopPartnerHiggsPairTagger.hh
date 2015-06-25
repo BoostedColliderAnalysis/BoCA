@@ -2,6 +2,7 @@
 
 # include "Septet.hh"
 # include "TopPartnerSemiTagger.hh"
+// # include "TopPartnerLeptonicTagger.hh"
 # include "HiggsTagger.hh"
 # include "BranchesTopPartner.hh"
 
@@ -22,7 +23,7 @@ public:
 
     TopPartnerHiggsPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
     std::vector<Septet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
@@ -44,6 +45,7 @@ protected:
 private:
 
     TopPartnerSemiTagger top_partner_hadronic_tagger_;
+//     TopPartnerLeptonicTagger top_partner_hadronic_tagger_;
 
     HiggsTagger higgs_tagger_;
 

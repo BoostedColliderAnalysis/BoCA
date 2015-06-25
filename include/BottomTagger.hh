@@ -21,7 +21,7 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
@@ -61,15 +61,15 @@ private:
 
     Jets Multiplets(const Jets &jets, const TMVA::Reader &reader);
 
-    Jets CleanJets(Jets &jets, PreCuts &pre_cuts, const Object::Tag tag);
+    Jets CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag);
 
-    bool Problematic(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag) const;
+    bool Problematic(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const;
 
     bool Problematic(const fastjet::PseudoJet &jet, analysis::PreCuts &pre_cuts) const;
 
     Jets SubJets(const Jets &jets, const int sub_jet_number);
 
-    Jets TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Object::Tag tag, const int sub_jet_number);
+    Jets TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number);
 
 };
 

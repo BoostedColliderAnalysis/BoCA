@@ -7,8 +7,8 @@ namespace toppartner
 
 EventTagger::EventTagger()
 {
-    Print(kNotification , "Constructor");
-//     debug_level_ = kDebug;
+    Print(Severity::Notification , "Constructor");
+//     debug_level_ = Severity::Debug;
     set_tagger_name("Event");
     signature_reader_.SetTagger(signature_tagger_);
     bottom_reader_.SetTagger(bottom_tagger_);
@@ -17,10 +17,10 @@ EventTagger::EventTagger()
 
 int EventTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-  Print(kInformation, "Train");
+  Print(Severity::Information, "Train");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets<SignatureTagger>(event);
-    Print(kInformation, "Octets", octets.size());
+    Print(Severity::Information, "Octets", octets.size());
     std::vector< MultipletEvent< Quattuordecuplet > > multipletevents;
     for (const auto octet : octets) {
         MultipletEvent< Quattuordecuplet > multipletevent(octet, event, jets);
@@ -32,7 +32,7 @@ int EventTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 
 std::vector< MultipletEvent< Quattuordecuplet > > EventTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-  Print(kInformation, "Multiplets");
+  Print(Severity::Information, "Multiplets");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets<SignatureTagger>(event);
     std::vector< MultipletEvent< Quattuordecuplet > > multiplet_events;

@@ -10,7 +10,7 @@ namespace analysis {
 
 Event::Event(const ClonesArrays::Source source)
 {
-    Print(kNotification, "Constructor");
+    Print(Severity::Notification, "Constructor");
     source_ = source;
     switch (source_) {
     case ClonesArrays::kDelphes :
@@ -30,7 +30,7 @@ Event::Event(const ClonesArrays::Source source)
 
 Event::~Event()
 {
-    Print(kNotification, "Destructor");
+    Print(Severity::Notification, "Destructor");
     switch (source_) {
     case ClonesArrays::kDelphes :
         delete partons_;
@@ -49,7 +49,7 @@ Event::~Event()
 
 void Event::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Print(kInformation, "New event");
+    Print(Severity::Information, "New event");
     switch (source_) {
     case ClonesArrays::kDelphes :
         partons_->NewEvent(clones_arrays);

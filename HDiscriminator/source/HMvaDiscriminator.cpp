@@ -5,7 +5,7 @@
 hcpvhiggs::HMva::HMva()
 {
 
-    Print(kNotification , "Constructor");
+  Print(analysis::Severity::Notification , "Constructor");
 
 //     DebugLevel = 4;
 
@@ -50,7 +50,7 @@ hcpvhiggs::HMva::HMva()
 hcpvhiggs::HMva::~HMva()
 {
 
-    Print(kNotification , "Constructor");
+  Print(analysis::Severity::Notification , "Constructor");
 
     delete Candidate;
 
@@ -59,7 +59,7 @@ hcpvhiggs::HMva::~HMva()
 void hcpvhiggs::HMva::DefineVariables()
 {
 
-    Print(kNotification , "Define Variables");
+  Print(analysis::Severity::Notification , "Define Variables");
 
     AddVariable(Candidate->Mass, "Mass", "m_j");
     AddVariable(Candidate->Pt, "Pt", "p^T_j");
@@ -93,14 +93,14 @@ void hcpvhiggs::HMva::DefineVariables()
     AddSpectator(Candidate->HiggsTag, "HiggsTag");
     AddSpectator(Candidate->TopTag, "TopTag");
 
-    Print(kNotification,"Variables defined");
+    Print(analysis::Severity::Notification,"Variables defined");
 
 }
 
 
 void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
-  Print(kNotification, "Apply Bdt");
+  Print(analysis::Severity::Notification, "Apply Bdt");
 
   const TClonesArray *const CandidateClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
@@ -166,11 +166,11 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader *const TreeReader, const
 // ReaderStruct hcpvhiggs::HMva::CutLoop(const exroot::TreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
-//   Print(kNotification, "Cut Loop");
+//   Print(Severity::Notification, "Cut Loop");
 //
 //   int ObservableSum = Observables.size();
 //
-//   Print(kNotification,"Observables",Observables.size());
+//   Print(Severity::Notification,"Observables",Observables.size());
 //
 //   ReaderStruct.HiggsSum = 0;
 //   ReaderStruct.TopSum = 0;
@@ -187,14 +187,14 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader *const TreeReader, const
 //   ReaderStruct.HiggsVector.assign(ObservableSum, 0);
 //   ReaderStruct.TopVector.assign(ObservableSum, 0);
 //
-//   Print(kInformation,"Vectors assigned");
+//   Print(Severity::Information,"Vectors assigned");
 //
 //   const TClonesArray *const ClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(eventBranchName.c_str());
 //
 //
 //   const int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
 //   for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
-//       Print(kDebug,"event Loop");
+//       Print(Severity::Debug,"event Loop");
 //
 //     const_cast<exroot::TreeReader *>(TreeReader)->ReadEntry(eventNumber);
 //
@@ -206,7 +206,7 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader *const TreeReader, const
 //
 //     for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
 //
-//         Print(kDebug,"Candidate Loop");
+//         Print(Severity::Debug,"Candidate Loop");
 //       ++ReaderStruct.FatJetSum;
 //
 //       if (Candidate->TopTag) {
@@ -228,24 +228,24 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader *const TreeReader, const
 //       bool ParticleCut = 0;
 //       for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 //
-//           Print(kDebug,"Observable Loop");
+//           Print(Severity::Debug,"Observable Loop");
 //
-//           Print(kDebug,"Error",ReaderStruct.CutsMin[ObservableNumber]);
+//           Print(Severity::Debug,"Error",ReaderStruct.CutsMin[ObservableNumber]);
 //
 //         if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
 //             || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 //
-//             Print(kDebug,"we are here",1);
+//             Print(Severity::Debug,"we are here",1);
 //
 //             ParticleCut = 1;
 //
 //           } else {
 //
-//               Print(kDebug,"we are here",2);
+//               Print(Severity::Debug,"we are here",2);
 //             ++ReaderStruct.CutFlowVector[ObservableNumber];
 //
 //           }
-//             Print(kDebug,"Struct filled");
+//             Print(Severity::Debug,"Struct filled");
 //
 //           if (!ParticleCut) {
 //
