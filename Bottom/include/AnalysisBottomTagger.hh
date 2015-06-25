@@ -61,18 +61,12 @@ private:
 //         return Associated;
     }
 
-<<<<<<< HEAD
-    inline int LowerCut() const {
- //       return 1000;
-        return 500;
-=======
-    // in GeV
     int LowerPtCut() const {
       //         return 350;
       //         return 700;
       //         return 800;
       return 1000;
->>>>>>> b97c434c9b33058b317927e1bde57465c8f846bd
+
     }
 
     // in GeV

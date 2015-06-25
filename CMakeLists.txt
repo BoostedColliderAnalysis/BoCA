@@ -1,11 +1,14 @@
 <<<<<<< HEAD
+
+# cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+# project(Analysis VERSION 0.1 LANGUAGES CXX)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 =======
 # cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 # project(Analysis VERSION 0.1 LANGUAGES CXX)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
->>>>>>> 686c457fa6d84ad6d8a4f25f1c1a451a10d5e504
+>>>>>>> 47d0e13470a268c5af9d2a511ab2ecdfa1c1410b
 project(Analysis CXX)
 
 # Load some basic macros which are needed later on
@@ -50,26 +53,10 @@ HLinkLibraries(${LIBCONFIGPP_LIBRARIES})
 # Libraries
 add_subdirectory(source)
 
+<<<<<<< HEAD
+=======
 # Taggers
-<<<<<<< HEAD
-add_subdirectory(Bottom)
-add_subdirectory(W)
-<<<<<<< HEAD
-# add_subdirectory(Z)
-# add_subdirectory(h)
-=======
-add_subdirectory(Z)
-add_subdirectory(Higgs)
->>>>>>> 686c457fa6d84ad6d8a4f25f1c1a451a10d5e504
-add_subdirectory(Top)
-# add_subdirectory(PairTagger)
-# add_subdirectory(HBottomSumTagger)
-# add_subdirectory(HDiscriminator)
-# add_subdirectory(HiggsCpv)
-# add_subdirectory(HeavyHiggs)
-# add_subdirectory(TopPartner)
-# add_subdirectory(HJetProperties)
-=======
+>>>>>>> 47d0e13470a268c5af9d2a511ab2ecdfa1c1410b
 add_subdirectory(StandardModel)
 add_subdirectory(PairTagger)
 add_subdirectory(HBottomSumTagger)
@@ -78,4 +65,3 @@ add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
 add_subdirectory(HJetProperties)
->>>>>>> f24ad3c9844907a7e1b66fc0f55efb773c509113

@@ -1,45 +1,7 @@
 # include "AnalysisTopPartner.hh"
 
-# include "TSystem.h"
-# include "Factory.hh"
 # include "EventTagger.hh"
 # include "EventSingleTagger.hh"
-
-void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
-{
-    analysis::toppartner::Analysis analysis(tagger);
-    const std::string name = tagger.name(stage);
-    analysis.Print(analysis.kError, "Tagger", name);
-
-    std::string file_name = analysis.ProjectName() + "/" + name + ".root";
-    if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
-}
-
-void RunFactory(analysis::Tagger &tagger)
-{
-    analysis::toppartner::Analysis analysis(tagger);
-    const std::string name = tagger.name(analysis::Tagger::kTrainer);
-    analysis.Print(analysis.kError, "Tagger", name);
-    std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
-    if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
-}
-
-void RunReader(analysis::Tagger &tagger)
-{
-    analysis::toppartner::Analysis analysis(tagger);
-    const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
-    if (gSystem->AccessPathName(file_name.c_str())) {
-        analysis::Reader reader(tagger);
-        reader.OptimalSignificance();
-    }
-}
-
-void RunFast(analysis::Tagger &tagger)
-{
-    RunTagger(tagger, analysis::Tagger::kTrainer);
-    RunFactory(tagger);
-    RunTagger(tagger, analysis::Tagger::kReader);
-}
 
 int main()
 {
@@ -47,58 +9,72 @@ int main()
     bool single = true;
 
     analysis::BottomTagger bottom_tagger;
-    RunFast(bottom_tagger);
+    analysis::toppartner::Analysis bottom_analysis(bottom_tagger);
+    bottom_analysis.RunFast();
 
     analysis::HiggsTagger higgs_tagger;
-    RunFast(higgs_tagger);
+    analysis::toppartner::Analysis higgs_analysis(higgs_tagger);
+    higgs_analysis.RunFast();
 
     analysis::WHadronicTagger w_hadronic_tagger;
-    RunFast(w_hadronic_tagger);
+    analysis::toppartner::Analysis w_hadronic_analysis(w_hadronic_tagger);
+    w_hadronic_analysis.RunFast();
 
     analysis::WSemiTagger w_semi_tagger;
-    RunFast(w_semi_tagger);
+    analysis::toppartner::Analysis w_semi_analysis(w_semi_tagger);
+    w_semi_analysis.RunFast();
 
     analysis::TopHadronicTagger top_hadronic_tagger;
-    RunFast(top_hadronic_tagger);
+    analysis::toppartner::Analysis top_hadronic_analysis(top_hadronic_tagger);
+    top_hadronic_analysis.RunFast();
 
     analysis::TopSemiTagger top_semi_tagger;
-    RunFast(top_semi_tagger);
+    analysis::toppartner::Analysis top_semi_analysis(top_semi_tagger);
+    top_semi_analysis.RunFast();
 
     analysis::ZHadronicTagger z_hadronic_tagger;
-    RunFast(z_hadronic_tagger);
+    analysis::toppartner::Analysis z_hadronic_analysis(z_hadronic_tagger);
+    z_hadronic_analysis.RunFast();
 
     analysis::toppartner::TopPartnerSemiTagger top_partner_semi_tagger;
-    RunFast(top_partner_semi_tagger);
+    analysis::toppartner::Analysis top_partner_semi_analysis(top_partner_semi_tagger);
+    top_partner_semi_analysis.RunFast();
 
     if (single) {
 
         analysis::toppartner::TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger;
-        RunFast(top_partner_higgs_pair_tagger);
+        analysis::toppartner::Analysis top_partner_higgs_pair_analysis(top_partner_higgs_pair_tagger);
+        top_partner_higgs_pair_analysis.RunFast();
 
         analysis::toppartner::SignatureSingleTagger signature_tagger;
-        RunFast(signature_tagger);
+        analysis::toppartner::Analysis signature_analysis(signature_tagger);
+        signature_analysis.RunFast();
 
         analysis::toppartner::EventSingleTagger event_tagger;
-        RunFast(event_tagger);
-        RunReader(event_tagger);
+        analysis::toppartner::Analysis event_analysis(event_tagger);
+        event_analysis.RunFast();
 
     } else {
 
 //         analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
-//         Run(top_partner_hadronic_tagger);
+//         analysis::toppartner::Analysis top_partner_hadronic_analysis(top_partner_hadronic_tagger);
+//         top_partner_hadronic_analysis.RunFast();
 //
 //         analysis::toppartner::HiggsPairTagger higgs_pair_tagger;
-//         Run(higgs_pair_tagger);
+//         analysis::toppartner::Analysis higgs_pair_analysis(higgs_pair_tagger);
+//         higgs_pair_analysis.RunFast();
 //
 //         analysis::toppartner::TopPartnerPairTagger top_partner_pair_tagger;
-//         Run(top_partner_pair_tagger);
+//         analysis::toppartner::Analysis top_partner_pair_analysis(top_partner_pair_tagger);
+//         top_partner_pair_analysis.RunFast();
 //
 //         analysis::toppartner::SignatureTagger signature_tagger;
-//         Run(signature_tagger);
+//         analysis::toppartner::Analysis signature_analysis(signature_tagger);
+//         signature_analysis.RunFast();
 //
 //         analysis::toppartner::EventTagger event_tagger;
-//         Run(event_tagger);
-//         RunReader(event_tagger);
+//         analysis::toppartner::Analysis event_analysis(event_tagger);
+//         event_analysis.RunFast();
 
     }
 

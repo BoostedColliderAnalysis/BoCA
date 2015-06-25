@@ -18,7 +18,6 @@ typedef std::vector<ObservablePair> Observables;
 class Branch : public TObject
 {
 public:
-    Branch();
     virtual ~Branch();
 protected:
     static float InitialValue();
@@ -470,8 +469,16 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HiggsBranch : public PairBranch
+class HiggsBranch : public PairBranch, public BottomBase
 {
+public:
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        PairBranch::Fill(multiplet);
+        BottomBase::Fill(multiplet);
+    }
+    Observables Variables();
+    Observables Spectators();
 private:
     ClassDef(HiggsBranch, 1)
 };
@@ -503,40 +510,6 @@ public:
 private:
 
     ClassDef(EventBottomTaggerBranch, 1)
-
-};
-
-/**
- *
- * @brief Top tagger root tree structure
- *
- */
-class HTopLeptonBranch : public PairBranch
-{
-
-public:
-
-    HTopLeptonBranch();
-
-    float VertexMass;
-    float MaxDisplacement;
-    float MeanDisplacement;
-    float SumDisplacement;
-    float Multipliticity;
-    float DeltaR;
-    float Spread;
-    float VertexDeltaR;
-    float VertexSpread;
-    float EnergyFraction;
-    float JetMass;
-    float LeptonPt;
-
-    float WBdt;
-    float BBdt;
-
-private:
-
-    ClassDef(HTopLeptonBranch, 1)
 
 };
 
