@@ -1,4 +1,4 @@
-# HInclude(../include)
+HInclude(${PROJECT_SOURCE_DIR}/include)
 HInclude(${PROJECT_SOURCE_DIR}/source)
 
 add_subdirectory(exroot)
