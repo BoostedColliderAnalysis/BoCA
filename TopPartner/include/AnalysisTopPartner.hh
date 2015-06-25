@@ -8,7 +8,7 @@ namespace toppartner {
 
 /**
  *
- * @brief HAnalysis subclass defining the HiggsCPV Analysis
+ * @brief Top partner analysis
  *
  * \author Jan Hajer
  *
@@ -18,8 +18,15 @@ class Analysis : public analysis::Analysis
 
 public:
 
+  void RunFast();
+
+  void RunNormal();
+
+  void RunFull();
 
   Analysis(Tagger &tagger);
+
+protected:
 
   void SetFiles(const Object::Tag tag);
 
@@ -37,8 +44,6 @@ public:
     return 1000;
   }
 
-protected:
-
 
   virtual  std::string FilePath() const {
     return "~/Projects/TopPartner/Analysis/";
@@ -51,6 +56,16 @@ protected:
 private:
 
   int PassPreCut(Event &event);
+
+  void RunTagger(analysis::Tagger::Stage stage);
+
+  void RunFactory();
+
+  void RunReader();
+
+  std::string PathName(const std::string &file_name) const;
+
+  bool Missing(const std::string& name) const;
 
 };
 

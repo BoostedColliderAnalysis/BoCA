@@ -5,8 +5,6 @@
 namespace analysis
 {
 
-Branch::Branch() {}
-
 Branch::~Branch() {}
 
 float Branch::InitialValue()
@@ -276,6 +274,15 @@ Observables TopLeptonicBranch::Variables()
     return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
 }
 
+Observables HiggsBranch::Variables()
+{
+  return Join(PairBranch::Variables(), BottomBase::Variables());
+}
+
+Observables HiggsBranch::Spectators()
+{
+  return Join(PairBranch::Spectators(), BottomBase::Spectators());
+}
 
 EventBottomTaggerBranch::EventBottomTaggerBranch()
 {
@@ -290,24 +297,6 @@ EventBottomTaggerBranch::EventBottomTaggerBranch()
     BottomBdt56 = InitialValue();
     BottomBdt123 = InitialValue();
     BottomBdt1234 = InitialValue();
-}
-
-HTopLeptonBranch::HTopLeptonBranch()
-{
-    VertexMass = InitialValue();
-    MaxDisplacement = InitialValue();
-    MeanDisplacement = InitialValue();
-    SumDisplacement = InitialValue();
-    Multipliticity = int(InitialValue());
-    DeltaR = InitialValue();
-    Spread = InitialValue();
-    VertexDeltaR = InitialValue();
-    VertexSpread = InitialValue();
-    EnergyFraction = InitialValue();
-    JetMass = InitialValue();
-    LeptonPt = InitialValue();
-    WBdt = InitialValue();
-    BBdt = InitialValue();
 }
 
 EventBranch::EventBranch()
