@@ -35,7 +35,7 @@ int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag 
             Doublet doublet(jet, lepton);
  //           if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(TopId)) > top_mass_window) continue;
             if (tag == kSignal && doublet.Jet().m()<20) continue;
- //	    if (tag == kSignal && lepton.pt()<50) continue;
+ 	    if (lepton.pt()<50) continue;
 	    if (tag == kSignal && lepton.delta_R(jet)>1.0) continue;
             doublets.emplace_back(doublet);
         }

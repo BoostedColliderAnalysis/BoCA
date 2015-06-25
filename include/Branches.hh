@@ -214,8 +214,8 @@ public:
         DeltaPhi = multiplet.DeltaPhi();
         DeltaR = multiplet.DeltaR();
         Rho = multiplet.Rho();
-        Bdt1 = multiplet.Multiplet1().Bdt();
-        Bdt2 = multiplet.Multiplet2().Bdt();
+       Bdt1 = multiplet.Multiplet1().Bdt();
+       Bdt2 = multiplet.Multiplet2().Bdt();
     }
     Observables Variables();
     Observables Spectators();
@@ -386,16 +386,6 @@ public:
     float BottomMass;
     float WMass;
     float LeptonPt;
-//     float Tau1_1;
-//     float Tau2_1;
-//     float Tau3_1;
-//     float Tau21_1;
-//     float Tau32_1;
-//     float Tau1_2;
-//     float Tau2_2;
-//     float Tau3_2;
-//     float Tau21_2;
-//     float Tau32_2;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
@@ -403,16 +393,6 @@ public:
         BottomMass = multiplet.SingletJet().m();
         WMass = multiplet.Doublet().Jet().m();
         LeptonPt = multiplet.pt();
-//         Tau1_1 = multiplet.sub_jettiness().tau1_beta1;
-//         Tau2_1 = multiplet.sub_jettiness().tau2_beta1;
-//         Tau3_1 = multiplet.sub_jettiness().tau3_beta1;
-//         Tau21_1 = multiplet.sub_jettiness().tau21_beta1;
-//         Tau32_1 = multiplet.sub_jettiness().tau32_beta1;
-//         Tau1_2 = multiplet.sub_jettiness().tau1_beta2;
-//         Tau2_2 = multiplet.sub_jettiness().tau2_beta2;
-//         Tau3_2 = multiplet.sub_jettiness().tau3_beta2;
-//         Tau21_2 = multiplet.sub_jettiness().tau21_beta2;
-//         Tau32_2 = multiplet.sub_jettiness().tau32_beta2;
     }
     Observables Variables();
     Observables Spectators();
@@ -425,7 +405,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TopLeptonicBranch : public PairBranch
+class TopLeptonicBranch : public PairBranch, public BottomBase
 {
 public:
     TopLeptonicBranch();
@@ -434,10 +414,12 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
+	BottomBase::Fill(multiplet);
         BottomPt = multiplet.SingletJet1().pt();
         LeptonPt = multiplet.SingletJet2().pt();
     }
     Observables Variables();
+    Observables Spectators();
 private:
     ClassDef(TopLeptonicBranch, 1)
 };
