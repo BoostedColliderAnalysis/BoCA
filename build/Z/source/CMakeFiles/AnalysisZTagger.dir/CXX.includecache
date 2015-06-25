@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/toodles/madness/analysis/Z/source/AnalysisZTagger.cpp
+AnalysisZTagger.hh
+/home/toodles/madness/analysis/Z/source/AnalysisZTagger.hh
+

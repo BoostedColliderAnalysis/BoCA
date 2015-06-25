@@ -1,0 +1,9 @@
+This program calculates MT2 using the bisection method described in 
+arXiv:0810.5178. 
+
+See usage in "mt2.cpp".
+
+An example is given in "example.cpp". To run it, do "make" to get an 
+executable called "example" which prints out an example event and the 
+calculated MT2.
+ 
