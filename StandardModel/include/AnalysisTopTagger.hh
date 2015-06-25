@@ -5,7 +5,7 @@
 namespace analysis
 {
 
-  namespace standardmodel
+namespace standardmodel
 {
 
 /**

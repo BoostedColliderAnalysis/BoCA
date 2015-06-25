@@ -26,7 +26,7 @@ std::string TopAnalysis::ClassName() const
 
 std::string TopAnalysis::ProjectName() const
 {
-    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-test";
+    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-test2";
 }
 
 TopAnalysis::Decay TopAnalysis::TopDecay() const
