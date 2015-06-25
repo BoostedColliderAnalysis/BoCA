@@ -48,7 +48,7 @@ DetectorGeometry::DetectorGeometry()
         JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
         SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
         jet_type = kJet;
-//         jet_type = kEFlowJet;
+  //       jet_type = kEFlowJet;
     }
 }
 
