@@ -1,3 +1,0 @@
-/home/toodles/madness/analysis/build/WimpMass/examples/CMakeFiles/Topology22.dir
-/home/toodles/madness/analysis/build/WimpMass/examples/CMakeFiles/Topology33.dir
-/home/toodles/madness/analysis/build/WimpMass/src/CMakeFiles/WimpMass.dir
