@@ -23,7 +23,7 @@ public:
 
     Analysis(Tagger &tagger);
 
-    void SetFiles(const Object::Tag tag);
+    void SetFiles(const Tag tag);
 
      std::string ProjectName() const {
         return  "HiggsCpv";

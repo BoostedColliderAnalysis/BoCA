@@ -17,7 +17,7 @@ public:
 
     WSemiTagger();
 
-    int Train(Event &event, PreCuts &, const Object::Tag tag);
+    int Train(Event &event, PreCuts &, const Tag tag);
 
     std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 

@@ -10,14 +10,14 @@ namespace analysis
 
 File::File()
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     file_suffix_ = file_suffix();
 }
 
 File::File(const std::string &process)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     file_suffix_ = file_suffix();
@@ -25,7 +25,7 @@ File::File(const std::string &process)
 
 File::File(const std::string &process, const float crosssection)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -34,7 +34,7 @@ File::File(const std::string &process, const float crosssection)
 
 File::File(const std::string &process, const float crosssection, const float mass)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -44,7 +44,7 @@ File::File(const std::string &process, const float crosssection, const float mas
 
 File::File(const Strings &processes)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     file_suffix_ = file_suffix();
@@ -52,7 +52,7 @@ File::File(const Strings &processes)
 
 File::File(const Strings &processes, const float crosssection)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
@@ -61,7 +61,7 @@ File::File(const Strings &processes, const float crosssection)
 
 File::File(const Strings &processes, const float crosssection, const float mass)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
@@ -71,7 +71,7 @@ File::File(const Strings &processes, const float crosssection, const float mass)
 
 File::File(const std::string &process, const std::string &run_folder)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     run_folder_ = run_folder;
@@ -80,7 +80,7 @@ File::File(const std::string &process, const std::string &run_folder)
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crosssection)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -90,7 +90,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -99,7 +99,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const std::string &nice_name)
 {
-    Print(kDebug, "Constructor");
+    Print(Severity::Debug, "Constructor");
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -117,7 +117,7 @@ std::string File::file_suffix() const
     case ClonesArrays::kPgs :
         return "_pgs_events.root";
     default :
-        Print(kError, "file suffix", "no source");
+        Print(Severity::Error, "file suffix", "no source");
         return "";
     }
 }
@@ -132,7 +132,7 @@ std::string File::tree_name() const
     case ClonesArrays::kPgs :
         return "LHCO";
     default :
-        Print(kError, "tree name", "no tree name");
+        Print(Severity::Error, "tree name", "no tree name");
         return "";
     }
 }
@@ -149,14 +149,14 @@ std::string File::MadGraphFilePath() const
 
 void File::SetVariables()
 {
-    Print(kInformation, "Set Variables");
+    Print(Severity::Information, "Set Variables");
     run_folder_ = "run_01";
     tag_name_ = "tag_1";
 }
 
 Strings File::Paths() const
 {
-    Print(kInformation, "FilePath");
+    Print(Severity::Information, "FilePath");
     Strings FilePaths;
     for (const auto & process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
@@ -164,7 +164,7 @@ Strings File::Paths() const
 
 exroot::TreeReader File::TreeReader()
 {
-    Print(kNotification, "Tree Reader", Paths().front());
+    Print(Severity::Notification, "Tree Reader", Paths().front());
     chain_ = new TChain(tree_name().c_str());
     for (const auto & path : Paths()) chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
@@ -172,20 +172,20 @@ exroot::TreeReader File::TreeReader()
 
 ClonesArrays File::clones_arrays()
 {
-    Print(kNotification, "Clones Arrays");
+    Print(Severity::Notification, "Clones Arrays");
     return ClonesArrays(source());
 }
 
 
 Event File::event()
 {
-    Print(kNotification, "event");
+    Print(Severity::Notification, "event");
     return Event(source());
 }
 
 File::~File()
 {
-    Print(kDebug, "Destructor");
+    Print(Severity::Debug, "Destructor");
     delete chain_;
 }
 

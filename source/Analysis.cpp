@@ -15,23 +15,23 @@ namespace analysis
 // HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
-//   debug_level_ = kDebug;
-    Print(kNotification, "Constructor");
+//   debug_level_ = Severity::Debug;
+    Print(Severity::Notification, "Constructor");
 }
 
 void Analysis::AnalysisLoop(const Tagger::Stage stage)
 {
-    Print(kNotification, "Analysis Loop");
+    Print(Severity::Notification, "Analysis Loop");
     mkdir(ProjectName().c_str(), 0700);
     if (stage == Tagger::kReader) reader_.SetTagger(tagger_);
     tagger_.clear_tree_names();
-    for (const auto & tag : std::vector<Tag> {kSignal, kBackground}) {
-        Print(kNotification, "Analysing Mva Sample", tag);
+    for (const auto & tag : std::vector<Tag> {Tag::Signal, Tag::Background}) {
+        Print(Severity::Notification, "Analysing Mva Sample", Name(tag));
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");
         files_.clear();
         SetFiles(tag);
         for (auto & file : Files(tag)) {
-            Print(kNotification, "Analysing File", file.tree_name());
+            Print(Severity::Notification, "Analysing File", file.tree_name());
             ClonesArrays clones_arrays = file.clones_arrays();
             Event event = file.event();
             bool analysis_empty = true;
@@ -64,7 +64,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
                 if (object_sum >= EventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
-            Print(kError, "All events analysed", info_branch.EventNumber);
+            Print(Severity::Error, "All events analysed", info_branch.EventNumber);
 //             progress_bar.Finish();
             if (!analysis_empty) tree_writer.Write();
         }
@@ -85,13 +85,13 @@ InfoBranch Analysis::FillInfoBranch(const exroot::TreeReader &tree_reader, const
 
 std::string Analysis::ExportName(const Tagger::Stage stage, const Tag tag) const
 {
-    Print(kNotification, "Export File", tagger_.name(stage, tag));
+    Print(Severity::Notification, "Export File", tagger_.name(stage, tag));
     return ProjectName() + "/" + tagger_.name(stage, tag) + FileSuffix();
 }
 
 exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage)
 {
-    Print(kNotification, "Tree Writer", export_tree_name.c_str());
+    Print(Severity::Notification, "Tree Writer", export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
     tagger_.SetTreeBranch(tree_writer, stage);
     return tree_writer;
@@ -99,7 +99,7 @@ exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &e
 
 int Analysis::RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag)
 {
-    Print(kInformation, "Analysis");
+    Print(Severity::Information, "Analysis");
     switch (stage) {
     case Tagger::kTrainer :
         return tagger_.Train(event, pre_cuts_, tag);

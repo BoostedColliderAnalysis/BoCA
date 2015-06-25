@@ -37,28 +37,13 @@ public:
 
     Object();
 
-    enum Severity {
-        kError,
-        kNotification,
-        kInformation,
-        kDebug,
-        kDetailed
-    };
-
-    enum Tag {kBackground = 0, kSignal = 1};
-
-    template <typename Severity>
-     void Print(const Severity severity, const std::string &description) const {
-        if (severity > debug_level_) return;
-        Printer(description);
-        std::cout << std::endl;
-    }
+     void Print(const Severity severity, const std::string &description) const;
 
     /**
      * @brief Print a debug messages
      *
      */
-    template<typename Severity, typename Value>
+    template<typename Value>
      void Print(const Severity severity, const std::string &description, const Value value) const {
         if (severity > debug_level_) return;
         Printer(description);
@@ -69,7 +54,7 @@ public:
      * @brief Print a debug messages
      *
      */
-    template<typename Severity, typename Value, typename Value2>
+    template<typename Value, typename Value2>
      void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2) const {
         if (severity > debug_level_) return;
         const char Separator = ' ';
@@ -84,7 +69,7 @@ public:
      * @brief Print a debug messages
      *
      */
-    template<typename Severity, typename Value, typename Value2, typename Value3>
+    template<typename Value, typename Value2, typename Value3>
      void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3) const {
         if (severity > debug_level_) return;
         const char Separator = ' ';
@@ -96,7 +81,7 @@ public:
         std::cout << std::endl;
     }
 
-    template<typename Severity, typename Value, typename Value2, typename Value3, typename Value4>
+    template<typename Value, typename Value2, typename Value3, typename Value4>
      void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3, const Value4 value4) const {
         if (severity > debug_level_) return;
         const char Separator = ' ';
@@ -109,82 +94,9 @@ public:
         std::cout << std::endl;
     }
 
-    template<typename Severity>
-     void Print(const Severity severity, const std::string &description, const fastjet::PseudoJet &Jet) const {
-        if (severity > debug_level_) return;
-        Print(severity, description, Jet.e(), Jet.px(), Jet.py(), Jet.pz());
-    }
+     void Print(const Severity severity, const std::string &description, const fastjet::PseudoJet &Jet) const;
 
-    template<typename Severity>
-    void Print(const Severity severity, const std::string &description, float momentum[]) const {
-        if (severity > debug_level_) return;
-        Print(severity, description, momentum[0], momentum[1], momentum[2], momentum[3]);
-    }
-
-    enum ParticleId {
-        EmptyId = 0,
-        DownId = 1,
-        UpId = 2,
-        StrangeId = 3,
-        CharmId = 4,
-        BottomId = 5,
-        TopId = 6,
-        TopPartnerId = 8,
-        ElectronId = 11,
-        ElectronNeutrinoId = 12,
-        MuonId = 13,
-        MuonNeutrinoId = 14,
-        TauId = 15,
-        TauNeutrinoId = 16,
-        GluonId = 21,
-        PhotonId = 22,
-        ZId = 23,
-        WId = 24,
-        HiggsId = 25,
-        HeavyHiggsId = 35,
-        CPOddHiggsId = 36,
-        ChargedHiggsId = 37,
-        AnyId = 86,
-        IsrId = 87,
-        MarkerId = 88,
-        MixedJetId = 90,
-        ClusterId = 91,
-        StringId = 92,
-        Pi0MesonId = 111,
-        Rho0MesonId = 113,
-        K0LMesonId = 130,
-        PionId = 211,
-        RhoMesonId = 213,
-        RapMesonId = 221,
-        OmegaMesonId = 223,
-        K0SMesonId = 310,
-        KMeson0Id = 311,
-        KMeson0SId = 313,
-        KMesonId = 321,
-        KMesonSId = 323,
-        RapPMesonId = 331,
-        DMesonId = 411,
-        DMesonSId = 413,
-        DMesonS2Id = 415,
-        DMeson0Id = 421,
-        DMesonS0Id = 423,
-        RapCMesonId = 441,
-        BMeson0Id = 511,
-        BMeson0SId = 513,
-        BMesonId = 521,
-        BMesonSId = 523,
-        BMesonS0Id = 531,
-        BMesonSS0Id = 533,
-        DownDown1Id = 1103,
-        UpDown0Id = 2101,
-        UpDown1Id = 2103,
-        DeltaBaryonId = 1114,
-        NeutronId = 2112,
-        UpUp1Id = 2203,
-        ProtonId = 2212,
-        DeltaBaryon2Id = 2224,
-        CpvHiggsId = 5000000
-    };
+    void Print(const Severity severity, const std::string &description, float momentum[]) const;
 
 protected:
 
@@ -195,18 +107,6 @@ protected:
     virtual  std::string ClassName() const {
         return ("Object");
     }
-
-    enum Status {
-        kNoStatus = 0,
-        kStable = 1,
-        kUnstable = 2,
-        kGenerator = 3
-    };
-
-    std::string Name(const int particle_id) const;
-
-    float Mass(const ParticleId particle_id) const;
-
 
     /**
      * @brief Debug level

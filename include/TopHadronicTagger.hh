@@ -17,12 +17,12 @@ public:
 
     TopHadronicTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
     analysis::Triplet Triplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const Tag tag);
 
     int TopHadronicId(Event &event) const {
-        return sgn(w_hadronic_tagger_.WHadronicId(event)) * std::abs(TopId);
+        return sgn(w_hadronic_tagger_.WHadronicId(event)) * to_int(Id::Top);
     }
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {

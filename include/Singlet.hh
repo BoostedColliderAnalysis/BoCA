@@ -106,7 +106,7 @@ public:
         return Spread(UserInfo().VertexJet());
     }
 
-    float Tag() const {
+    analysis::Tag Tag() const {
         return UserInfo().Tag();
     }
 

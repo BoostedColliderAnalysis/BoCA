@@ -8,24 +8,24 @@ namespace analysis
 
 AnalysisZ::AnalysisZ(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Object::kDebug;
-    Print(kNotification, "Constructor");
+//   DebugLevel = Object::Severity::Debug;
+    Print(Severity::Notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(ZId, LowerPtCut());
-    pre_cuts().SetPtUpperCut(ZId, UpperPtCut());
-    pre_cuts().SetMassUpperCut(ZId, 200);
+    pre_cuts().SetPtLowerCut(Id::Z, LowerPtCut());
+    pre_cuts().SetPtUpperCut(Id::Z, UpperPtCut());
+    pre_cuts().SetMassUpperCut(Id::Z, 200);
 //     DetectorGeometry detector_geometry;
-//     pre_cuts().SetTrackerMaxEta(ZId, detector_geometry.TrackerEtaMax);
+//     pre_cuts().SetTrackerMaxEta(Id::Z, detector_geometry.TrackerEtaMax);
 }
 
-void AnalysisZ::SetFiles(const Object::Tag tag)
+void AnalysisZ::SetFiles(const Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+    Print(Severity::Notification, "Set File Vector", Name(tag));
     switch (tag) {
-    case kSignal :
+    case Tag::Signal :
         NewSignalFile(zz);
         break;
-    case kBackground :
+    case Tag::Background :
         NewBackgroundFile(tthad);
         NewBackgroundFile(hh);
         NewBackgroundFile(ww);
@@ -40,7 +40,7 @@ void AnalysisZ::SetFiles(const Object::Tag tag)
 
 int AnalysisZ::PassPreCut(Event &event)
 {
-    Print(kInformation, "pass pre cut");
+    Print(Severity::Information, "pass pre cut");
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if(leptons.empty()) return 1;
     if(leptons.front().pt()<80) return 1;

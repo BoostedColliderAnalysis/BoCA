@@ -8,26 +8,26 @@ namespace analysis
 
 AnalysisBottom::AnalysisBottom(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-    Print(kNotification, "Constructor");
+    Print(Severity::Notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(BottomId, LowerPtCut());
-    pre_cuts().SetPtUpperCut(BottomId, UpperPtCut());
+    pre_cuts().SetPtLowerCut(Id::Bottom, LowerPtCut());
+    pre_cuts().SetPtUpperCut(Id::Bottom, UpperPtCut());
     DetectorGeometry detector_geometry;
-    pre_cuts().SetTrackerMaxEta(BottomId, detector_geometry.TrackerEtaMax);
+    pre_cuts().SetTrackerMaxEta(Id::Bottom, detector_geometry.TrackerEtaMax);
     pre_cuts().SetSubJets(false);
 }
 
-void AnalysisBottom::SetFiles(const Object::Tag tag)
+void AnalysisBottom::SetFiles(const Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+    Print(Severity::Notification, "Set File Vector", Name(tag));
 
     switch (tag) {
-    case kSignal :
+    case Tag::Signal :
         NewSignalFile(bb);
 //     NewSignalFile(tt);
 //     NewBackgroundFile(bb);
         break;
-    case kBackground :
+    case Tag::Background :
         NewBackgroundFile(cc);
 //     NewBackgroundFile(tt);
 //     NewBackgroundFile(ttcc);
@@ -57,7 +57,7 @@ std::string AnalysisBottom::ProductionChannelName(const ProductionChannel produc
 
 int AnalysisBottom::PassPreCut(Event &event)
 {
-    Print(kInformation, "pass pre cut");
+    Print(Severity::Information, "pass pre cut");
     Jets jets = event.Hadrons().Jets();
     jets = remove_if_not_in_pt_window(jets, LowerPtCut(), UpperPtCut());
     return jets.size();

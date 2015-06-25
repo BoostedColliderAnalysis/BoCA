@@ -8,14 +8,14 @@ namespace heavyhiggs
 
 AnalysisCharged::AnalysisCharged(Tagger &tagger) : Analysis::Analysis(tagger)
 {
-    Print(kNotification, "Constructor");
+    Print(Severity::Notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }
 
 
-std::vector<File> AnalysisCharged::Files(const Object::Tag tag)
+std::vector<File> AnalysisCharged::Files(const Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+    Print(Severity::Notification, "Set File Vector", Name(tag));
 
     std::vector<File> SignalLeptonicFiles;
 
@@ -50,10 +50,10 @@ std::vector<File> AnalysisCharged::Files(const Object::Tag tag)
     std::vector<File> NewFiles;
 
     switch (tag) {
-    case Object::kSignal :
+    case Tag::Signal :
         NewFiles = SignalSemiFiles;
         break;
-    case Object::kBackground :
+    case Tag::Background :
         NewFiles = BackgroundSemiFiles;
         break;
     }
@@ -94,21 +94,21 @@ void AnalysisCharged::SetTrees()
 
 int AnalysisCharged::PassPreCut(Event &event)
 {
-    Print(kInformation, "pass pre cut");
+    Print(Severity::Information, "pass pre cut");
     Jets Particles = event.Partons().GenParticles();
     Jets Quarks = fastjet::sorted_by_pt(RemoveIfNot5Quarks(Particles));
-    Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, TopId));
+    Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, Id::Top));
     if (Quarks.empty()) {
-        //       if (Tag == kSignal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
+        //       if (Tag == Tag::Signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
         //       if (PreCut() > 0)
-        Print(kError, "Not enough bottom quarks", Quarks.size());
+        Print(Severity::Error, "Not enough bottom quarks", Quarks.size());
         return 0;
     } else if (Quarks.front().pt() < PreCut()) return 0;
 
 
-    Jets TopQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, TopId));
+    Jets TopQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, Id::Top));
     if (TopQuarks.size() != 2) {
-        Print(kError, "Not enough top quarks", TopQuarks.size());
+        Print(Severity::Error, "Not enough top quarks", TopQuarks.size());
         return 0;
     } else if (TopQuarks.front().pt() < PreCut()) return 0;
 

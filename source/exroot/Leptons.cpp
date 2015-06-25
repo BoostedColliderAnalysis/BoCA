@@ -9,7 +9,7 @@ namespace exroot
 
 Jets Leptons::Electrons()
 {
-    Print(kInformation, "Electrons");
+    Print(Severity::Information, "Electrons");
     Jets electrons;
     for (const int ElectronNumber : Range(clones_arrays().ElectronSum())) {
         ::exroot::Electron electron = static_cast<::exroot::Electron &>(clones_arrays().Electron(ElectronNumber));
@@ -22,7 +22,7 @@ Jets Leptons::Electrons()
 
 Jets Leptons::Muons()
 {
-    Print(kInformation, "Muons");
+    Print(Severity::Information, "Muons");
     Jets muons;
     for (const int MuonNumber : Range(clones_arrays().MuonSum())) {
         ::exroot::Muon &muon = static_cast<::exroot::Muon &>(clones_arrays().Muon(MuonNumber));

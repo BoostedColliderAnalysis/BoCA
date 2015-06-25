@@ -17,7 +17,7 @@ public:
 
     TauTagger();
 
-    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Object::Tag tag);
+    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Tag tag);
 
     Jets Multiplets(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
@@ -31,7 +31,7 @@ private:
 
     void DefineVariables();
 
-    Jets CleanJets(Jets &jets, const Jets &Particles, const analysis::Object::Tag Tag);
+    Jets CleanJets(Jets &jets, const Jets &Particles, const analysis::Tag Tag);
 
 };
 

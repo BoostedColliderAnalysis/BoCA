@@ -67,9 +67,9 @@ std::vector<HMultiplet> SortedByMassTo(std::vector<HMultiplet> &Multiplets, cons
 }
 
 // template <class HMultiplet>
-//  std::vector<HMultiplet> SortedByMassTo(std::vector<HMultiplet> &Multiplets, const Object::ParticleId particle_id )
+//  std::vector<HMultiplet> SortedByMassTo(std::vector<HMultiplet> &Multiplets, const Object::Id id )
 // {
-//   return SortedByMassTo(Multiplets,Object::Mass(particle_id));
+//   return SortedByMassTo(Multiplets,Object::Mass(id));
 // }
 
 
@@ -130,35 +130,35 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
  */
 fastjet::PseudoJet PseudoJet(const TLorentzVector &vector);
 
-Jets copy_if_abs_particle(const Jets &jets, const int particle_id);
+Jets copy_if_abs_particle(const Jets &jets, const Id id);
 
-Jets copy_if_abs_particle(const Jets &jets, const int particle_id_1, const int particle_id_2);
+Jets copy_if_abs_particle(const Jets &jets, const Id id_1, const Id id_2);
 
 Jets copy_if_neutrino(const Jets &jets);
 
-Jets copy_if_particle(const Jets &jets, const int particle_id);
+Jets copy_if_particle(const Jets &jets, const int id);
 
-Jets remove_if_particle(const Jets &jets, const int particle_id);
+Jets remove_if_particle(const Jets &jets, const int id);
 
 Jets remove_if_not_in_pt_window(Jets &jets, const float lower_cut, const float upper_cut);
 
-Jets RemoveIfWrongAbsFamily(const Jets &jets, const int particle_id, int mother_id);
+Jets RemoveIfWrongAbsFamily(const Jets &jets, const Id id, Id mother_id);
 
-Jets RemoveIfWrongFamily(const Jets &jets, const int particle_id, int mother_id);
+Jets RemoveIfWrongFamily(const Jets &jets, const int id, int mother_id);
 
-Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int particle_id , const int mother_2_id);
+Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int id , const int mother_2_id);
 
 Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id);
 
-Jets RemoveIfWrongParticle(const Jets &NewJets, const int particle_id);
+Jets RemoveIfWrongParticle(const Jets &NewJets, const int id);
 
-Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const int particle_id);
+Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const Id id);
 
-Jets RemoveIfWrongAbsMother(const Jets &NewJets, const int MotherId);
+Jets RemoveIfWrongAbsMother(const Jets &NewJets, const Id MotherId);
 
-Jets CopyIfAbsMother(const analysis::Jets &jets, const int mother_id);
+Jets CopyIfAbsMother(const analysis::Jets &jets, const Id mother_id);
 
-Jets RemoveIfAbsMother(const Jets &NewJets, const int MotherId);
+Jets RemoveIfAbsMother(const analysis::Jets &NewJets, const analysis::Id MotherId);
 
 Jets RemoveIfLetpons(const Jets &jets);
 

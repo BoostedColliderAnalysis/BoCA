@@ -62,15 +62,15 @@ private:
 
     template <typename Clone>
     JetInfo JetId(const Clone &clone) {
-        Print(kDetailed, "Jet Id", clone.Particles.GetEntriesFast());
+        Print(Severity::Detailed, "Jet Id", clone.Particles.GetEntriesFast());
         JetInfo jet_info;
 //         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
         for (const int ParticleNumber : Range(clone.Particles.GetEntriesFast())) {
             const Family family = BranchFamily(*clone.Particles.At(ParticleNumber));
-            Print(kDebug, "MotherId", family.particle().Id, family.mother_1().Id);
+            Print(Severity::Debug, "MotherId", family.particle().Id, family.mother_1().Id);
             jet_info.AddConstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }
-        jet_info.PrintAllInfos(kDebug);
+        jet_info.PrintAllInfos(Severity::Debug);
         return jet_info;
     }
 
