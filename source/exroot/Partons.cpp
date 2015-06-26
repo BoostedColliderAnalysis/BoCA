@@ -9,22 +9,22 @@ namespace exroot
 
 Partons::Partons()
 {
-    Print(Severity::Notification, "Constructor");
+    Print(Severity::notification, "Constructor");
 }
 
 Jets Partons::Particles() const
 {
-    return Particles(Status::Stable);
+    return Particles(Status::stable);
 }
 
 Jets Partons::GenParticles() const
 {
-  return Particles(Status::Generator);
+  return Particles(Status::generator);
 }
 
 Jets Partons::Particles(const Status max_status) const
 {
-    Print(Severity::Information, "Particles", clones_arrays().ParticleSum());
+    Print(Severity::information, "Particles", clones_arrays().ParticleSum());
     Jets particles;
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         TRootLHEFParticle &particle = static_cast<TRootLHEFParticle &>(clones_arrays().Particle(ParticleNumber));

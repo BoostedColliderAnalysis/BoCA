@@ -5,8 +5,8 @@ namespace analysis
 
 HiggsTagger::HiggsTagger()
 {
-    //         DebugLevel = Object::Severity::kDetailed;
-    Print(Severity::Notification, "Constructor");
+    //         DebugLevel = Severity::kDetailed;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("Higgs");
     bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
@@ -14,7 +14,7 @@ HiggsTagger::HiggsTagger()
 
 int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::Information, "Higgs Tag");
+    Print(Severity::information, "Higgs Tag");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
@@ -41,7 +41,7 @@ int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
       doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets higgses = copy_if_abs_particle(particles, Id::Higgs, Id::CpvHiggs);
+    Jets higgses = copy_if_abs_particle(particles, Id::higgs, Id::CP_violating_higgs);
     return SaveEntries(BestMatches(doublets, higgses,tag));
 }
 
@@ -49,11 +49,11 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const T
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
-    case Tag::Signal :
-        if (std::abs(doublet.Jet().m() - Mass(Id::Higgs)) > higgs_mass_window) return true;
+    case Tag::signal :
+        if (std::abs(doublet.Jet().m() - Mass(Id::higgs)) > higgs_mass_window) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5)) return true;
         break;
-    case Tag::Background :
+    case Tag::background :
         break;
     }
     return false;
@@ -61,15 +61,15 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const T
 
 bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 {
-    if (pre_cuts.PtLowerCut(Id::Higgs) > 0 && pre_cuts.PtLowerCut(Id::Higgs) > doublet.Jet().pt()) return true;
-    if (pre_cuts.PtUpperCut(Id::Higgs) > 0 && pre_cuts.PtUpperCut(Id::Higgs) < doublet.Jet().pt()) return true;
-    if (pre_cuts.MassUpperCut(Id::Higgs) > 0 && pre_cuts.MassUpperCut(Id::Higgs) < doublet.Jet().m()) return true;
+    if (pre_cuts.PtLowerCut(Id::higgs) > 0 && pre_cuts.PtLowerCut(Id::higgs) > doublet.Jet().pt()) return true;
+    if (pre_cuts.PtUpperCut(Id::higgs) > 0 && pre_cuts.PtUpperCut(Id::higgs) < doublet.Jet().pt()) return true;
+    if (pre_cuts.MassUpperCut(Id::higgs) > 0 && pre_cuts.MassUpperCut(Id::higgs) < doublet.Jet().m()) return true;
     return false;
 }
 
 std::vector<Doublet>  HiggsTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(Severity::Information, "Higgs Bdt");
+    Print(Severity::information, "Higgs Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

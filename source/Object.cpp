@@ -5,11 +5,11 @@ namespace analysis
 
 Object::Object()
 {
-//   debug_level_ = Severity::Information;
-    debug_level_ = Severity::Notification;
-    //     debug_level_ = Severity::Error;
-    //     debug_level_ = Severity::Debug;
-//     Print(Severity::Debug, "Constructor");
+//   debug_level_ = Severity::information;
+    debug_level_ = Severity::notification;
+    //     debug_level_ = Severity::error;
+    //     debug_level_ = Severity::debug;
+//     Print(Severity::debug, "Constructor");
 }
 
 void Object::Printer(const std::string &Description) const

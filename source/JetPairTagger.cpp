@@ -5,14 +5,14 @@ namespace analysis {
 JetPairTagger::JetPairTagger()
 {
 //     DebugLevel = Severity::kDetailed;
-    Print(Severity::Notification, "Constructor");
+    Print(Severity::notification, "Constructor");
     set_tagger_name("JetPair");
     DefineVariables();
 }
 
 void JetPairTagger::DefineVariables()
 {
-    Print(Severity::Notification , "Define Variables");
+    Print(Severity::notification , "Define Variables");
     AddVariable(branch().Mass, "Mass");
     AddVariable(branch().Pt, "Pt");
     AddVariable(branch().Rap, "Rap");
@@ -56,28 +56,28 @@ void JetPairTagger::DefineVariables()
 
 int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::Information, "Jet Pair Tags");
+    Print(Severity::information, "Jet Pair Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    Print(Severity::Debug, "Number of Jets", jets.size());
+    Print(Severity::debug, "Number of Jets", jets.size());
 
     Jets BdtJets = jets;
 
     if (jets.empty()) return 0;
-    Print(Severity::Debug, "Number BDT Jets", jets.size());
+    Print(Severity::debug, "Number BDT Jets", jets.size());
 
     Jets Particles = event.Partons().GenParticles();
-    Id MotherId = Id::Gluon;
-    if (tag == Tag::Signal) Particles = RemoveIfWrongAbsFamily(Particles, Id::Bottom, MotherId);
-//     if (Tag == HBackground) Particles = RemoveIfWrongAbsStepMother(Particles, Id::Top); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
-//     if (Tag == HBackground) Particles = RemoveIfWrongParticle(Particles, Id::Gluon); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+    Id MotherId = Id::gluon;
+    if (tag == Tag::signal) Particles = RemoveIfWrongAbsFamily(Particles, Id::bottom, MotherId);
+//     if (Tag == HBackground) Particles = RemoveIfWrongAbsStepMother(Particles, Id::top); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
+//     if (Tag == HBackground) Particles = RemoveIfWrongParticle(Particles, Id::gluon); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsMother(Particles, Id::Z); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
     if (
-        tag == Tag::Signal &&  // THIS SHOULD BE ENABLED AGAIN
-        Particles.size() != 2) Print(Severity::Error, "Where is the quark pair?", Particles.size());
+        tag == Tag::signal &&  // THIS SHOULD BE ENABLED AGAIN
+        Particles.size() != 2) Print(Severity::error, "Where is the quark pair?", Particles.size());
     Jets BottomJets;
-    Print(Severity::Debug, "Number of Bottoms", Particles.size());
+    Print(Severity::debug, "Number of Bottoms", Particles.size());
 
-    if (tag == Tag::Signal) { // THIS SHOULD BE ENABLED AGAIN
+    if (tag == Tag::signal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Particle : Particles) {
             jets = SortedByMinDeltaRTo(jets, Particle);
             if (jets.front().delta_R(Particle) > detector_geometry().JetConeSize) continue;
@@ -85,8 +85,8 @@ int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
             BottomJets.emplace_back(jets.front());
             if (jets.size() > 1) jets.erase(jets.begin());
         }
-    } else if (tag == Tag::Background) BottomJets = jets; // THIS SHOULD BE ENABLED AGAIN
-//     if (Tag == Tag::Signal && BottomJets.size() != 2) Print(Severity::Error, "Number of Matching Jets", BottomJets.size());
+    } else if (tag == Tag::background) BottomJets = jets; // THIS SHOULD BE ENABLED AGAIN
+//     if (Tag == Tag::signal && BottomJets.size() != 2) Print(Severity::error, "Number of Matching Jets", BottomJets.size());
 
     std::vector<Doublet> doublets;
     for (auto jet1 = BottomJets.begin(); jet1 != BottomJets.end(); ++jet1)
@@ -96,15 +96,15 @@ int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
             else doublet.SetMultiplets(*jet2, *jet1);
 
 //             for (const auto & Jet : BdtJets) if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
-//             if (doublet.RestJets().size() != BdtJets.size() - 2) Print(Severity::Error, "to many jets in the rest jet vector");
+//             if (doublet.RestJets().size() != BdtJets.size() - 2) Print(Severity::error, "to many jets in the rest jet vector");
 
             doublets.emplace_back(doublet);
         }
 
-    Print(Severity::Debug, "Number of Jet Pairs", doublets.size());
+    Print(Severity::debug, "Number of Jet Pairs", doublets.size());
 
-    if (tag == Tag::Signal && doublets.size() > 1) {
-        Print(Severity::Error, "Number of Jet Pairs", doublets.size());
+    if (tag == Tag::signal && doublets.size() > 1) {
+        Print(Severity::error, "Number of Jet Pairs", doublets.size());
         doublets = SortByMaxDeltaRap(doublets);
         if (doublets.size() > 1) doublets.erase(doublets.begin() + 1, doublets.end());
     }
@@ -123,7 +123,7 @@ std::vector<Doublet>  JetPairTagger::Multiplets(analysis::Event &event, analysis
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) doublet.SetMultiplets(*Jet1, *Jet2);
             else doublet.SetMultiplets(*Jet2, *Jet1);
 //             for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
-//             if (doublet.RestJets().size() != jets.size() - 2) Print(Severity::Error, "to many jets in the rest jet vector");
+//             if (doublet.RestJets().size() != jets.size() - 2) Print(Severity::error, "to many jets in the rest jet vector");
 //             if (std::abs(doublet.DeltaRap()) < detector_geometry().JetConeSize) continue;
             doublet.SetBdt(Bdt(doublet,reader));
             doublets.emplace_back(doublet);

@@ -5,8 +5,11 @@
 namespace analysis
 {
 
-  namespace standardmodel
+namespace standardmodel
 {
+
+enum class Decay {semi, hadronic};
+
 /**
  *
  * @brief HAnalysis subclass defining the W Tagger ananlysis
@@ -20,8 +23,6 @@ class AnalysisW : public analysis::standardmodel::Analysis
 public:
 
     AnalysisW(Tagger &tagger);
-
-    enum Decay {kLeptonic, kHadronic, kSemi};
 
     Decay WDecay() const;
 

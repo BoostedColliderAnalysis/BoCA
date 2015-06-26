@@ -27,7 +27,7 @@ float DeltaPhi(const float phi_1, const float phi_2)
         } else if (delta_phi > M_PI) {
             delta_phi -= 2 * M_PI;
         } else {
-//       Print(Severity::Error, "Delta Phi", delta_phi);
+//       Print(Severity::error, "Delta Phi", delta_phi);
             break;
         }
     }
@@ -45,46 +45,48 @@ std::string Name(const int id)
 std::string Name(const Id id)
 {
     switch (id) {
-        //     case Id::Empty: return "Empty";
-    case Id::Down:
+        //     case Id::empty: return "Empty";
+    case Id::down:
         return "d";
-    case Id::Up:
+    case Id::up:
         return "u";
-    case Id::Strange:
+    case Id::strange:
         return "s";
-    case Id::Charm:
+    case Id::charm:
         return "c";
-    case Id::Bottom:
+    case Id::bottom:
         return "b";
-    case Id::Top:
+    case Id::top:
         return "t";
-    case Id::TopPartner:
+    case Id::top_partner:
         return "T";
-    case Id::Electron:
+    case Id::electron:
         return "e";
-    case Id::ElectronNeutrino:
+    case Id::electron_neutrino:
         return "nue";
-    case Id::Muon:
+    case Id::muon:
         return "mu";
-    case Id::MuonNeutrino:
+    case Id::muon_neutrino:
         return "numu";
-    case Id::Tau:
+    case Id::tau:
         return "tau";
-    case Id::TauNeutrino:
+    case Id::tau_neutrino:
         return "nutau";
-    case Id::Gluon:
+    case Id::gluon:
         return "g";
-    case Id::Photon:
+    case Id::photon:
         return "gamma";
     case Id::Z:
         return "Z";
     case Id::W:
         return "W";
-    case Id::Higgs:
+    case Id::higgs:
         return "h";
-    case Id::HeavyHiggs:
-        return "H";
-    case Id::ChargedHiggs:
+    case Id::heavy_higgs:
+      return "H";
+    case Id::CP_odd_higgs:
+      return "A";
+    case Id::charged_higgs:
         return "H+";
     case Id::Isr:
         return "ISR";
@@ -92,7 +94,7 @@ std::string Name(const Id id)
         return "TEMP";
     case Id::Cluster:
         return "Cluster";
-    case Id::String:
+    case Id::string:
         return "String";
     case Id::MixedJet:
         return "MixJet";
@@ -146,23 +148,23 @@ std::string Name(const Id id)
         return "B*0";
     case Id::BMesonSS0:
         return "Bs*0";
-    case Id::DownDown1:
+    case Id::down_down_1:
         return "dd1";
-    case Id::UpDown0:
+    case Id::up_down_0:
         return "ud0";
-    case Id::UpDown1:
+    case Id::up_down_1:
         return "ud1";
     case Id::DeltaBaryon:
         return "Delta";
-    case Id::Neutron:
+    case Id::neutron:
         return "n";
-    case Id::UpUp1:
+    case Id::up_up_1:
         return "uu1";
-    case Id::Proton:
+    case Id::proton:
         return "p";
-    case Id::DeltaBaryon2:
+    case Id::Delta_2:
         return "Delta2";
-    case Id::CpvHiggs:
+    case Id::CP_violating_higgs:
         return "h";
     default:
         return std::to_string(int(id));
@@ -172,33 +174,33 @@ std::string Name(const Id id)
 float Mass(const Id id)
 {
     switch (id) {
-    case Id::Strange:
+    case Id::strange:
         return 0.095;
-    case Id::Charm:
+    case Id::charm:
         return 1.28;
-    case Id::Bottom:
+    case Id::bottom:
         return 4.18;
-    case Id::Top:
+    case Id::top:
         return 173.5;
-    case Id::Electron:
+    case Id::electron:
         return 0.000511;
-    case Id::ElectronNeutrino:
+    case Id::electron_neutrino:
         return 0;
-    case Id::Muon:
+    case Id::muon:
         return 0.1134;
-    case Id::MuonNeutrino:
+    case Id::muon_neutrino:
         return 0;
-    case Id::Tau:
+    case Id::tau:
         return 1.776;
-    case Id::TauNeutrino:
+    case Id::tau_neutrino:
         return 0;
-    case Id::Photon:
+    case Id::photon:
         return 0;
     case Id::Z:
         return 91.188;
     case Id::W:
         return 80.39;
-    case Id::Higgs:
+    case Id::higgs:
         return 125;
     case Id::Pi0Meson:
         return 0.13498;
@@ -210,23 +212,14 @@ float Mass(const Id id)
         return 0.54785;
     case Id::OmegaMeson:
         return 0.78265;
-    case Id::Neutron:
+    case Id::neutron:
         return 1.00866;
-    case Id::Proton:
+    case Id::proton:
         return 0.93827;
-    case Id::CpvHiggs:
-        return Mass(Id::Higgs);
+    case Id::CP_violating_higgs:
+        return Mass(Id::higgs);
     default:
         return 0;
-    }
-}
-std::string Name(const Tag tag)
-{
-    switch (tag) {
-    case  Tag::Signal:
-        return "Signal";
-    case  Tag::Background:
-        return "Background";
     }
 }
 

@@ -170,12 +170,12 @@ struct WrongLeptons {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().Id) == to_int(Id::Electron) ||
-                std::abs(family.particle().Id) == to_int(Id::Muon) ||
-                std::abs(family.particle().Id) == to_int(Id::Tau) ||
-                std::abs(family.particle().Id) == to_int(Id::TauNeutrino) ||
-                std::abs(family.particle().Id) == to_int(Id::MuonNeutrino) ||
-                std::abs(family.particle().Id) == to_int(Id::ElectronNeutrino)
+        return (std::abs(family.particle().Id) == to_int(Id::electron) ||
+                std::abs(family.particle().Id) == to_int(Id::muon) ||
+                std::abs(family.particle().Id) == to_int(Id::tau) ||
+                std::abs(family.particle().Id) == to_int(Id::tau_neutrino) ||
+                std::abs(family.particle().Id) == to_int(Id::muon_neutrino) ||
+                std::abs(family.particle().Id) == to_int(Id::electron_neutrino)
                );
     }
 };
@@ -183,12 +183,12 @@ struct WrongLeptons {
 struct IsQuark {
     bool operator()(const fastjet::PseudoJet &jet) {
         Family family = jet.user_info<JetInfo>().constituents().front().family();
-        return (std::abs(family.particle().Id) == to_int(Id::Up) ||
-                std::abs(family.particle().Id) == to_int(Id::Down) ||
-                std::abs(family.particle().Id) == to_int(Id::Charm) ||
-                std::abs(family.particle().Id) == to_int(Id::Strange) ||
-                std::abs(family.particle().Id) == to_int(Id::Bottom) ||
-                std::abs(family.particle().Id) == to_int(Id::Top)
+        return (std::abs(family.particle().Id) == to_int(Id::up) ||
+                std::abs(family.particle().Id) == to_int(Id::down) ||
+                std::abs(family.particle().Id) == to_int(Id::charm) ||
+                std::abs(family.particle().Id) == to_int(Id::strange) ||
+                std::abs(family.particle().Id) == to_int(Id::bottom) ||
+                std::abs(family.particle().Id) == to_int(Id::top)
                );
     }
 };
@@ -220,7 +220,7 @@ struct SmallDistance {
 struct Not5Quark {
     bool operator()(const fastjet::PseudoJet &Jet) {
         const int id = Jet.user_info<JetInfo>().constituents().front().family().particle().Id;
-        return !(std::abs(id) == to_int(Id::Up) || std::abs(id) == to_int(Id::Down) || std::abs(id) == to_int(Id::Charm) || std::abs(id) == to_int(Id::Strange) || std::abs(id) == to_int(Id::Bottom));
+        return !(std::abs(id) == to_int(Id::up) || std::abs(id) == to_int(Id::down) || std::abs(id) == to_int(Id::charm) || std::abs(id) == to_int(Id::strange) || std::abs(id) == to_int(Id::bottom));
     }
 };
 
@@ -245,7 +245,7 @@ struct AbsId {
 struct IsNeutrino {
     bool operator()(const fastjet::PseudoJet &jet) {
         const int id = jet.user_info<JetInfo>().constituents().front().family().particle().Id;
-        return (id == to_int(Id::ElectronNeutrino) | id == to_int(Id::MuonNeutrino) | id == to_int(Id::TauNeutrino));
+        return (id == to_int(Id::electron_neutrino) | id == to_int(Id::muon_neutrino) | id == to_int(Id::tau_neutrino));
     }
 };
 

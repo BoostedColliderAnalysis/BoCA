@@ -98,7 +98,7 @@ private:
         case LE :
             return "LE";
         default:
-          Print(analysis::Severity::Error, "Detector Name", "unhandeld case");
+          Print(analysis::Severity::error, "Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -115,7 +115,7 @@ private:
         case Simple :
             return "";
         default:
-            Print(analysis::Severity::Error, "ProductionChannelName", "unhandeld case");
+            Print(analysis::Severity::error, "ProductionChannelName", "unhandeld case");
             return "";
         }
     }
@@ -125,12 +125,12 @@ private:
         case DYP :
           return analysis::Id::Z;
         case VBF :
-          return analysis::Id::Bottom;
+          return analysis::Id::bottom;
         case Associated :
-          return analysis::Id::Gluon;
+          return analysis::Id::gluon;
         default:
-          Print(analysis::Severity::Error, "MotherId", "unhandeld case");
-            return analysis::Id::Empty;
+          Print(analysis::Severity::error, "MotherId", "unhandeld case");
+            return analysis::Id::empty;
         }
     }
 
@@ -169,7 +169,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-          Print(analysis::Severity::Error, "ProcessName", "unhandeld case");
+          Print(analysis::Severity::error, "ProcessName", "unhandeld case");
             return "";
         }
     }

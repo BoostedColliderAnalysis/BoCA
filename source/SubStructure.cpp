@@ -8,7 +8,7 @@ namespace analysis {
 
 SubStructure::SubStructure()
 {
-    Print(Severity::Notification, "Constructor");
+    Print(Severity::notification, "Constructor");
 //   Shift = 1;
 }
 
@@ -25,17 +25,17 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     Jets PieceJets = CandidateJet.pieces();
     PieceJets = SortedByMass(PieceJets);
     if (PieceJets.size() != 2) {
-        Print(Severity::Notification, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
+        Print(Severity::notification, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
         return 0;
     }
     if (PieceJets.at(0) == PieceJets.at(1)) {
-        Print(Severity::Notification, "Just one Piece Jet");
+        Print(Severity::notification, "Just one Piece Jet");
         return 0;
     }
     // SubJets
     SubJet1.Mass = PieceJets.at(0).m();
     if (SubJet1.Mass <= 0) {
-        Print(Severity::Notification, "No SubJet 1 Mass", SubJet1.Mass);
+        Print(Severity::notification, "No SubJet 1 Mass", SubJet1.Mass);
         return 0;
     }
     SubJet2.Mass = PieceJets.at(1).m();
@@ -43,7 +43,7 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     SubJet1.Pt = PieceJets.at(0).pt();
     SubJet2.Pt = PieceJets.at(1).pt();
     if (SubJet1.Pt <= 0 || SubJet2.Pt <= 0) {
-        Print(Severity::Notification, "No SubJet Pt");
+        Print(Severity::notification, "No SubJet Pt");
         return 0;
     }
     Global.DeltaR = PieceJets.at(0).delta_R(PieceJets.at(1));
@@ -61,7 +61,7 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     // scale subjet distance to reference value
     const float SubJetDistance = Length(SubJet2.Rap, SubJet2.Phi);
     if (SubJetDistance <= 0) {
-        Print(Severity::Notification, "No SubJet Distance", SubJetDistance);
+        Print(Severity::notification, "No SubJet Distance", SubJetDistance);
         return 0;
     }
     SubJetRatio =  GetPosDistance() / SubJetDistance;
@@ -71,7 +71,7 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
 Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
 {
     if (CandidateJet.constituents().empty()) {
-        Print(Severity::Notification, "Not enough constituents", CandidateJet.constituents().size());
+        Print(Severity::notification, "Not enough constituents", CandidateJet.constituents().size());
 //         return 0;
     }
     if (!SubJets) GetSubJets(CandidateJet);
@@ -84,11 +84,11 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
     std::vector <TLorentzVector> constituentVectors;
     for (const auto & constituentJet : CandidateJet.constituents()) {
         if (constituentJet.user_index() != to_int(Id::Isr) &&
-                constituentJet.user_index() != to_int(Id::CpvHiggs) &&
-                std::abs(constituentJet.user_index()) != to_int(Id::Top) &&
-                constituentJet.user_index() != to_int(Id::Higgs)
+                constituentJet.user_index() != to_int(Id::CP_violating_higgs) &&
+                std::abs(constituentJet.user_index()) != to_int(Id::top) &&
+                constituentJet.user_index() != to_int(Id::higgs)
            )
-            Print(Severity::Error, "Wrong UserId", constituentJet.user_index());
+            Print(Severity::error, "Wrong UserId", constituentJet.user_index());
         const float Distance = constituentJet.delta_R(CandidateJet);
         if (Distance > DeltaR) DeltaR = Distance;
         const float Distance1 = constituentJet.delta_R(CandidateJet.pieces().at(0));
@@ -98,7 +98,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
         } else if (Distance2 < Distance1) {
             SubJet2Pt += constituentJet.pt();
         } else {
-            Print(Severity::Error, "constituent is exactly in the middle");
+            Print(Severity::error, "constituent is exactly in the middle");
         }
         // Get constituent coordinates in Higgs Jet coordinates
         float ConstRap = constituentJet.rap() - CandidateJet.rap();
@@ -135,7 +135,7 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
     Jets PieceJets = CandidateJet.pieces();
     PieceJets = SortedByMass(PieceJets);
     if (PieceJets.size() != 2) {
-        Print(Severity::Notification, "Wrong Number of SubJets", PieceJets.size());
+        Print(Severity::notification, "Wrong Number of SubJets", PieceJets.size());
         return 0;
     }
     // Isolation
@@ -145,7 +145,7 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
     for (const auto & PieceJet : PieceJets) {
         for (const auto & LeptonJet : LeptonJets) {
             const float Distance = LeptonJet.delta_R(PieceJet);
-            Print(Severity::Detailed, "DeltaR", Distance);
+            Print(Severity::detailed, "DeltaR", Distance);
             if (Distance < IsolationDeltaR) {
                 IsolationDeltaR = Distance;
                 ClosestLepton = LeptonJet;
@@ -166,9 +166,9 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
 
 float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 {
-    Print(Severity::Information, "Jing Dipolarity");
+    Print(Severity::information, "Jing Dipolarity");
 //     Jets SubJetVector = CandidateJet.pieces();
-//     if (SubJetVector.size() != 2) Print(Severity::Error, "not two subjets");
+//     if (SubJetVector.size() != 2) Print(Severity::error, "not two subjets");
 //
 //     // Filtering
 //     float ParentCylinderDistance = SubJetVector.at(0).delta_R(SubJetVector.at(1));
@@ -183,7 +183,7 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
 //     fastjet::PseudoJet FilterJet = FatJetFilter(CandidateJet);
     const Jets SubJetVector = CandidateJet.pieces();
-    if (SubJetVector.size() != 2) Print(Severity::Error, "not two subjets");
+    if (SubJetVector.size() != 2) Print(Severity::error, "not two subjets");
     float Rap1, Rap2, Phi1, Phi2;
     if (SubJetVector.at(0).rap() < SubJetVector.at(1).rap()) {
         Rap1 = SubJetVector.at(0).rap();

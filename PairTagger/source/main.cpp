@@ -7,7 +7,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
     fusionpair::Analysis analysis(tagger);
     const std::string Name = tagger.tagger_name();
-    analysis.Print(analysis::Severity::Error, "Tagger", Name);
+    analysis.Print(analysis::Severity::error, "Tagger", Name);
 
     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) analysis.AnalysisLoop(stage);
@@ -30,7 +30,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (Tagger) {
 //           case analysis::Analysis::HJetPairReader: {
-//             Analysis.SetTrees(analysis::Analysis::HJetPairReader, analysis::Tag::Background);
+//             Analysis.SetTrees(analysis::Analysis::HJetPairReader, analysis::Tag::background);
             analysis::Reader Reader(tagger);
             Reader.OptimalSignificance();
 //             break;

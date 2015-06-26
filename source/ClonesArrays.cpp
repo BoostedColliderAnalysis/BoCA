@@ -44,7 +44,7 @@ std::string ClonesArrays::BranchName(const Branch branch) const
     case kTau:
         return "Tau";
     default :
-        Print(Severity::Error, "Unnmaed branch");
+        Print(Severity::error, "Unnmaed branch");
         return "";
     }
 }
@@ -70,26 +70,26 @@ std::vector<ClonesArrays::Branch> ClonesArrays::Branches() const
 
 void ClonesArrays::UseBranches(exroot::TreeReader &tree_reader)
 {
-    Print(Severity::Debug, "Use Branches");
+    Print(Severity::debug, "Use Branches");
     for (const auto & branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
 }
 
 TClonesArray &ClonesArrays::ClonesArray(const Branch branch) const
 {
-    Print(Severity::Debug, "Clones Array", BranchName(branch));
-    if (!clones_arrays_.at(branch)) Print(Severity::Error, "Not in branch");
+    Print(Severity::debug, "Clones Array", BranchName(branch));
+    if (!clones_arrays_.at(branch)) Print(Severity::error, "Not in branch");
     return *clones_arrays_.at(branch);
 }
 
 TObject &ClonesArrays::Object(const ClonesArrays::Branch branch, const int number) const
 {
-    Print(Severity::Debug, "Object", BranchName(branch), number);
+    Print(Severity::debug, "Object", BranchName(branch), number);
     return *ClonesArray(branch).At(number);
 }
 
 int ClonesArrays::EntrySum(const Branch branch) const
 {
-    Print(Severity::Debug, "Sum", BranchName(branch), ClonesArray(branch).GetEntriesFast());
+    Print(Severity::debug, "Sum", BranchName(branch), ClonesArray(branch).GetEntriesFast());
     return ClonesArray(branch).GetEntriesFast();
 }
 

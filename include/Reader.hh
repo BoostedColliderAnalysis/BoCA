@@ -78,7 +78,7 @@ public:
     void PlotHistograms(const analysis::Results &results);
 
     int GetBdt(Event &event, PreCuts &pre_cuts) const {
-        if (!tagger_) Print(Severity::Error, "what is wrong with the tagger?");
+        if (!tagger_) Print(Severity::error, "what is wrong with the tagger?");
         return tagger().GetBdt(event, pre_cuts, reader_);
     }
 

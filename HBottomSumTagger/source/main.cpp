@@ -6,7 +6,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
     hbottomsumtagger::HAnalysis analysis(tagger);
     const std::string Name = tagger.tagger_name();
-    analysis.Print(analysis::Severity::Error, "Tagger", Name);
+    analysis.Print(analysis::Severity::error, "Tagger", Name);
 
     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) analysis.AnalysisLoop(stage);
@@ -29,7 +29,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (tagger) {
 //           case analysis::HAnalysis::HJetPairReader: {
-//             Analysis.SetTrees(analysis::HAnalysis::HJetPairReader, analysis::Tag::Background);
+//             Analysis.SetTrees(analysis::HAnalysis::HJetPairReader, analysis::Tag::background);
             analysis::Reader Reader(tagger);
 //             Reader.SimpleMVALoop();
 //             break;
