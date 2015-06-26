@@ -30,7 +30,7 @@ int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         for (const auto & lepton : leptons) {
             Doublet doublet(jet, lepton);
             if (tag == Tag::signal && doublet.Jet().m()<20) continue;
- 	    if (tag == Tag::signal && lepton.delta_R(jet)>1.0) continue;
+ 	    if (tag == Tag::signal && lepton.delta_R(jet)>0.5) continue;
             doublets.emplace_back(doublet);
         }
    }
