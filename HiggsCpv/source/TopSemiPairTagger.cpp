@@ -28,7 +28,7 @@ int TopSemiPairTagger::Train(Event &event, const Tag tag)
     std::vector<Triplet> final_triplets_hadronic;
     switch(tag) {
     case Tag::signal :
-        for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_hadronic.emplace_back(triplet);
+        for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry().JetConeSize) final_triplets_hadronic.emplace_back(triplet);
         break;
     case Tag::background      :
         final_triplets_hadronic = triplets_hadronic;
@@ -38,7 +38,7 @@ int TopSemiPairTagger::Train(Event &event, const Tag tag)
     std::vector<Triplet> final_triplets_semi;
     switch (tag) {
     case Tag::signal :
-        for (const auto & triplet : triplets_semi) if (triplet.Jet().delta_R(TopParticles.front()) < detector_geometry().JetConeSize) final_triplets_semi.emplace_back(triplet);
+      for (const auto & triplet : triplets_semi) if (triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry().JetConeSize) final_triplets_semi.emplace_back(triplet);
         break;
     case Tag::background :
         final_triplets_semi = triplets_semi;

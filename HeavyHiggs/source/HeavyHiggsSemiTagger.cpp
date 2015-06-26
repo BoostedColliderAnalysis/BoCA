@@ -50,7 +50,7 @@ int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else Print(Severity::error, "Where is the Top?", TopParticles.size());
     if (tag == Tag::signal) {
-        for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) FinaltripletsHadronic.emplace_back(triplet);
+      for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopQuark) < DetectorGeometry().JetConeSize) FinaltripletsHadronic.emplace_back(triplet);
     } else FinaltripletsHadronic = triplets_hadronic;
     Print(Severity::debug, "Number of truth Hadronic Tops", FinaltripletsHadronic.size());
 

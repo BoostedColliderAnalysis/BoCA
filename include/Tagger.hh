@@ -80,19 +80,13 @@ public:
 
     virtual int Train(analysis::Event &, PreCuts &, const Tag);
 
-//     virtual float GetBranches(analysis::Event &, Stage , const Tag);
-
     Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
     fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 
     virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
-    DetectorGeometry detector_geometry() const;
-
     void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
-
-//     virtual float Bdt(Event &, const TMVA::Reader &) const;
 
 protected:
 
@@ -139,7 +133,7 @@ private:
      */
     std::string tagger_name_;
 
-    TCut cut_;
+//     TCut cut_;
 
     /**
      * @brief Name of the Signal File
@@ -160,8 +154,6 @@ private:
     std::vector<Observable> variables_;
 
     std::vector<Observable> spectators_;
-
-    DetectorGeometry detector_geometry_;
 
 };
 
