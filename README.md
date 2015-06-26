@@ -29,6 +29,9 @@ make
 * upload changes to server `git push`
 * change branches `git checkout BRANCH`
 * create new branch `git checkout -b NEWBRANCH`
+* merge branches `git merge BRANCH`
+* save unfinished work on stash `git stash`
+* get stash changes back `git stash pop`
 
 ## Coding style
 
