@@ -119,6 +119,10 @@ protected:
 
 private:
 
+    /**
+     * @brief Tree Branch pointer saving the results
+     *
+     */
     exroot::TreeBranch *tree_branch_;
 
     /**
@@ -128,15 +132,13 @@ private:
     static std::string analysis_name_;
 
     /**
-     * @brief Name of the Analysis
+     * @brief Name of the Tagger
      *
      */
     std::string tagger_name_;
 
-//     TCut cut_;
-
     /**
-     * @brief Name of the Signal File
+     * @brief Names of the Signal Files
      *
      */
     Strings signal_file_names_;
@@ -147,12 +149,28 @@ private:
      */
     Strings background_file_names_;
 
+    /**
+     * @brief Names of the backgrund trees
+     *
+     */
     Strings background_tree_names_;
 
+    /**
+     * @brief Names of the signal trees
+     *
+     */
     Strings signal_tree_names_;
 
+    /**
+     * @brief variables for the analysis
+     *
+     */
     std::vector<Observable> variables_;
 
+    /**
+     * @brief spectators for the analysis
+     *
+     */
     std::vector<Observable> spectators_;
 
 };

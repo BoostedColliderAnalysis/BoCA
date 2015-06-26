@@ -336,7 +336,7 @@ Print(analysis::Severity::information, "Tag", CandidateJet.user_info<analysis::J
         Candidate->ConstDeltaR = sub_structure->GetconstituentDeltaR();
         Candidate->ConstAngle = sub_structure->GetconstituentAngle();
 
-//         CandidateJet.user_info<JetInfo>().PrintAllInfos(Severity::kDetailed);
+//         CandidateJet.user_info<JetInfo>().PrintAllInfos(Severity::detailed);
 //         Print(Severity::notification, "Tag", CandidateJet.user_info<JetInfo>().MaximalId(), CandidateJet.user_info<JetInfo>().MaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;

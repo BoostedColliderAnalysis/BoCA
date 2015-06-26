@@ -5,7 +5,7 @@ namespace analysis
 
 HiggsTagger::HiggsTagger()
 {
-    //         DebugLevel = Severity::kDetailed;
+    //         DebugLevel = Severity::detailed;
     Print(Severity::notification, "Constructor");
     set_tagger_name("Higgs");
     bottom_reader_.SetTagger(bottom_tagger_);

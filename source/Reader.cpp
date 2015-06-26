@@ -109,7 +109,7 @@ std::vector<Result> Reader::Export(TFile &export_file, const std::string &file_n
 TLegend Reader::Legend(float x_min, float y_max, float width, float height, const std::string &name)
 {
     TLegend legend(x_min, y_max - height, x_min + width, y_max);
-    legend.SetHeader(name.c_str());
+    if(name != "") legend.SetHeader(name.c_str());
     legend.SetBorderSize(0);
     legend.SetFillStyle(0);
     return legend;
@@ -257,29 +257,29 @@ void Reader::OptimalSignificance()
 //     export_file.Close();
 
 std::vector<float> background_efficiencies(results.background.size(), 0);
-    int BestBin = 0;
+    int best_bin = 0;
     int counter = 0;
     for (std::size_t background_number = 0; background_number < results.background.size(); ++background_number) {
       while (background_efficiencies.at(background_number) == 0 && counter < Result().steps) {
-            BestBin = std::distance(Significances.begin(), std::max_element(std::begin(Significances), std::end(Significances) - counter));
-            background_efficiencies.at(background_number) = results.background.at(background_number).efficiency.at(BestBin);
+            best_bin = std::distance(Significances.begin(), std::max_element(std::begin(Significances), std::end(Significances) - counter));
+            background_efficiencies.at(background_number) = results.background.at(background_number).efficiency.at(best_bin);
             ++counter;
         }
     }
 
-    float MaxSignificance = Significances.at(BestBin);
-    float SignalEfficiency = results.signal.front().efficiency.at(BestBin);
+    float MaxSignificance = Significances.at(best_bin);
+    float SignalEfficiency = results.signal.front().efficiency.at(best_bin);
 //     const analysis::InfoBranch info_branch = InfoBranch(signal_file, tagger().signal_tree_names().front());
     std::stringstream Table;
     Table << TableHeader.str();
     Table << "    Mass\n" << "  & " << results.signal.front().info_branch.Mass;
     Table << "\n \\\\ \\midrule\n";
-    Table << "    BDT-cut\n" << "  & " << float(BestBin) * 2 / Result().steps;
+    Table << "    BDT-cut\n" << "  & " << float(best_bin) * 2 / Result().steps;
     Table << "\n \\\\ $p$-value\n  & " << MaxSignificance;
-    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << results.signal.front().analysis_event_number.at(BestBin) << "\n  & " << results.signal.front().event_sum() << "\n";
+    Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << results.signal.front().analysis_event_number.at(best_bin) << "\n  & " << results.signal.front().event_sum() << "\n";
 
     for (std::size_t background_number = 0; background_number < results.background.size(); ++background_number) {
-      Table << " \\\\ \\verb|" << tagger().background_tree_names().at(background_number) << "|\n  & " << results.background.at(background_number).efficiency.at(BestBin) << "\n  & " << results.background.at(background_number).analysis_event_number.at(BestBin) << "\n  & " << results.background.at(background_number).event_sum() << "\n";
+      Table << " \\\\ \\verb|" << tagger().background_tree_names().at(background_number) << "|\n  & " << results.background.at(background_number).efficiency.at(best_bin) << "\n  & " << results.background.at(background_number).analysis_event_number.at(best_bin) << "\n  & " << results.background.at(background_number).event_sum() << "\n";
     }
 
     Result signal_results = results.signal.front();
@@ -294,7 +294,7 @@ std::vector<float> background_efficiencies(results.background.size(), 0);
     EfficiencyGraph.SetLineColor(kRed);
     multi_graph.Add(&EfficiencyGraph);
     multi_graph.Draw("al");
-    TLine EfficiencyLine(float(BestBin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmin(), float(BestBin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmax());
+    TLine EfficiencyLine(float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmin(), float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmax());
     EfficiencyLine.SetLineStyle(2);
     EfficiencyLine.Draw();
     const std::string efficiency_file_name = tagger().analysis_name() + "-Efficiency.tex";
@@ -306,7 +306,7 @@ std::vector<float> background_efficiencies(results.background.size(), 0);
     SignificanceGraph.SetTitle("");
     SignificanceGraph.Draw("al");
     SignificanceCanvas.Update();
-    TLine SignificanceLine(float(BestBin) * 2 / signal_results.steps, gPad->GetUymin(), float(BestBin) * 2 / signal_results.steps, gPad->GetUymax());
+    TLine SignificanceLine(float(best_bin) * 2 / signal_results.steps, gPad->GetUymin(), float(best_bin) * 2 / signal_results.steps, gPad->GetUymax());
     SignificanceLine.SetLineStyle(2);
     SignificanceLine.Draw();
     const std::string SignificanceFileName = tagger().analysis_name() + "-Significance.tex";
@@ -379,16 +379,16 @@ Result Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &expor
 Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const
 {
     Print(Severity::notification, "Bdt Distribution", tagger().branch_name());
-    std::string NeweventBranchName = tagger().branch_name() + "Reader";
+    std::string branch_name = tagger().branch_name() + "Reader";
 
     Result result;
-    TClonesArray &event_clones_array = *tree_reader.UseBranch(NeweventBranchName.c_str());
+    TClonesArray &event_clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
-    exroot::TreeBranch &result_branch = *tree_writer.NewBranch(NeweventBranchName.c_str(), ResultBranch::Class());
-    for (const int eventNumber : Range(tree_reader.GetEntries())) {
-        tree_reader.ReadEntry(eventNumber);
-        for (const int Entry : Range(event_clones_array.GetEntriesFast())) {
-            float bdt_value = tagger().ReadBdt(event_clones_array, Entry);
+    exroot::TreeBranch &result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
+    for (const int event_number : Range(tree_reader.GetEntries())) {
+        tree_reader.ReadEntry(event_number);
+        for (const int entry : Range(event_clones_array.GetEntriesFast())) {
+            float bdt_value = tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
             if (bdt_value < 0 || bdt_value > 2) Print(Severity::error, "Bdt Value" , bdt_value);
             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
@@ -420,8 +420,8 @@ InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 void Reader::LatexHeader(std::ofstream &latex_file) const
 {
     Print(Severity::notification, "LaTeX Header");
-    const std::string TexFileName = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
-    latex_file.open(TexFileName);
+    const std::string file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
+    latex_file.open(file_name);
     latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
                << "\\usepackage{booktabs}\n"
                << "\\usepackage{graphicx}\n"
