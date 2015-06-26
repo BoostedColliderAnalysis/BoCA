@@ -198,7 +198,7 @@ void Reader::PlotMultiGraph(const Results &results)
     multi_graph.GetXaxis()->SetTitle("Signal acceptance");
     multi_graph.GetYaxis()->SetTitle("Background acceptance");
     multi_graph.SetMaximum(1);
-    multi_graph.SetMinimum(0.01);
+    multi_graph.SetMinimum(0.001);
     legend.Draw();
 
     std::string efficiency_file_name = tagger().analysis_name() + "-Acceptance.pdf";
