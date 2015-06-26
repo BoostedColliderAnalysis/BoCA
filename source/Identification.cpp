@@ -42,11 +42,6 @@ void Identification::SetTag(const analysis::Tag tag)
     tag_ = tag;
 }
 
-void Identification::SetTag(const int tag)
-{
-    tag_ = analysis::Tag(tag);
-}
-
 void Identification::SetTag(const analysis::Tag tag_1, const analysis::Tag tag_2)
 {
     if (tag_1 == analysis::Tag::signal || tag_2 == analysis::Tag::signal) tag_ = analysis::Tag::signal;
