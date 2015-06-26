@@ -5,16 +5,16 @@ namespace analysis {
 
 Discriminator::Discriminator()
 {
-    Print(kNotification, "Constructor");
+    Print(Severity::notification, "Constructor");
 //     DebugLevel = 5;
 }
 
 Jets Discriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
 {
-    Print(kInformation, "Tagged Candidate Jets", EFlowJets.size());
+    Print(Severity::information, "Tagged Candidate Jets", EFlowJets.size());
     const Jets jets;
     if (EFlowJets.empty()) {
-        Print(kInformation, "No EFlow Jets");
+        Print(Severity::information, "No EFlow Jets");
         return jets;
     }
     const float DeltaR = 750. / ScalarHt;
@@ -32,10 +32,10 @@ Jets Discriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt
 
 Jets Discriminator::GetCandidateJetsForced(const Jets &EFlowJets, const float ScalarHt)
 {
-    Print(kInformation, "Tagged Candidate Jets", EFlowJets.size());
+    Print(Severity::information, "Tagged Candidate Jets", EFlowJets.size());
     const Jets jets;
     if (EFlowJets.empty()) {
-        Print(kInformation, "No EFlow Jets");
+        Print(Severity::information, "No EFlow Jets");
         return jets;
     }
 //     float DeltaR = 1000. / ScalarHt;
@@ -59,15 +59,15 @@ bool Discriminator::JetIsBad(const fastjet::PseudoJet &Jet)
 {
     Object Object;
     if (std::abs(Jet.m()) <= 40.) {
-        Object.Print(kInformation, "Fat Jet Mass", Jet.m());
+        Object.Print(Severity::information, "Fat Jet Mass", Jet.m());
         return 1;
     }
     if (Jet.pieces().size() != 2) {
-        Object.Print(kNotification, "Pieces Sum", Jet.pieces().size());
+        Object.Print(Severity::notification, "Pieces Sum", Jet.pieces().size());
         return 1;
     }
     if (!Jet.has_structure()) {
-        Object.Print(kNotification, "fastjet::PseudoJet has no structure");
+        Object.Print(Severity::notification, "fastjet::PseudoJet has no structure");
         return 1;
     }
     return 0;

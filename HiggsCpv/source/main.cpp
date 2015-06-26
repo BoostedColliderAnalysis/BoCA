@@ -8,7 +8,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
   analysis::higgscpv::Analysis analysis(tagger);
   const std::string name = tagger.name(stage);
-  analysis.Print(analysis.kError, "Tagger", name);
+  analysis.Print(analysis::Severity::error, "Tagger", name);
 
   std::string file_name = analysis.ProjectName() + "/" + name + ".root";
   if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
@@ -18,7 +18,7 @@ void RunFactory(analysis::Tagger &tagger)
 {
   analysis::higgscpv::Analysis analysis(tagger);
   const std::string name = tagger.name(analysis::Tagger::kTrainer);
-  analysis.Print(analysis.kError, "Tagger", name);
+  analysis.Print(analysis::Severity::error, "Tagger", name);
   std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
   if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 }

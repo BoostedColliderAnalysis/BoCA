@@ -4,31 +4,36 @@ namespace analysis {
 
 TopLeptonicTagger::TopLeptonicTagger()
 {
-    //     debug_level_ = kDebug;
-    Print(kNotification, "Constructor");
+    //     debug_level_ = Severity::debug;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("TopLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);
-    top_mass_window = std::abs(Mass(TopId) - Mass(HiggsId))/2;
+
+    top_mass_window = std::abs(Mass(Id::top) - Mass(Id::higgs))/2;
+
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
+int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Train");
+    Print(Severity::information, "Train");
     std::size_t number_of_tops = 2;
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    Print(kInformation, "Jet Number", jets.size());
+    Print(Severity::information, "Jet Number", jets.size());
 
     Jets leptons = event.Leptons().leptons();
-    Print(kInformation, "Lepton Number", leptons.size());
+
+    Print(Severity::information, "Lepton Number", leptons.size());
+
+
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons){
  	if (lepton.pt()<50) continue;
         for (const auto & jet : jets) {
             Doublet doublet(jet, lepton);
- //           if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(TopId)) > top_mass_window) continue;
-            if (tag == kSignal && doublet.Jet().m()<20) continue;
- 	    if (tag == kSignal && lepton.delta_R(jet)>1.0) continue;
+ //           if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(Id::top)) > top_mass_window) continue;
+            if (tag == Tag::signal && doublet.Jet().m()<20) continue;
+ 	    if (tag == Tag::signal && lepton.delta_R(jet)>1.0) continue;
             doublets.emplace_back(doublet);
         }
     }
@@ -43,17 +48,18 @@ int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag 
       
     }
 
-    Print(kInformation, "Number JetPairs", doublets.size());
+    Print(Severity::information, "Number JetPairs", doublets.size());
     std::vector<Doublet> final_doublets=Clean_Doublets(doublets, pre_cuts);
+
 
     
     Jets particles = event.Partons().GenParticles();
-    Jets tops = copy_if_abs_particle(particles, TopId);
+    Jets tops = copy_if_abs_particle(particles, Id::top);
     switch (tag) {
-    case kSignal :
+    case Tag::signal :
         final_doublets = BestMatch(final_doublets, tops);
         break;
-    case kBackground  :
+    case Tag::background  :
         final_doublets = RemoveBestMatch(final_doublets, tops);
         break;
     }
@@ -67,8 +73,8 @@ std::vector<Doublet> TopLeptonicTagger::Clean_Doublets(const std::vector< Double
     
     std::vector<Doublet> clean_doublets;
     for(const auto &doublet : Doublets){
-    if(pre_cuts.PtLowerCut(TopId) > 0 && doublet.Jet().pt() < pre_cuts.PtLowerCut(TopId)) continue;
-    if(pre_cuts.PtUpperCut(TopId) > 0 && doublet.Jet().pt() > pre_cuts.PtUpperCut(TopId)) continue;
+    if(pre_cuts.PtLowerCut(Id::top) > 0 && doublet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) continue;
+    if(pre_cuts.PtUpperCut(Id::top) > 0 && doublet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) continue;
     clean_doublets.emplace_back(doublet);
     }
     return clean_doublets;
@@ -78,7 +84,7 @@ std::vector<Doublet> TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cu
 {
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Jets leptons = event.Leptons().leptons();
-    //Print(kError, "lepton number", leptons.size());
+    Print(Severity::information, "Bdt");
     std::vector<Doublet> doublets;
     for (const auto & lepton : leptons) {
         if (lepton.pt()<50) continue;

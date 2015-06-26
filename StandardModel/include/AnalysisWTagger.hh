@@ -5,8 +5,11 @@
 namespace analysis
 {
 
-  namespace standardmodel
+namespace standardmodel
 {
+
+enum class Decay {semi, hadronic};
+
 /**
  *
  * @brief HAnalysis subclass defining the W Tagger ananlysis
@@ -21,8 +24,6 @@ public:
 
     AnalysisW(Tagger &tagger);
 
-    enum Decay {kLeptonic, kHadronic, kSemi};
-
     Decay WDecay() const;
 
 protected:
@@ -33,7 +34,7 @@ protected:
 
 private:
 
-    void SetFiles(const Object::Tag tag);
+    void SetFiles(const Tag tag);
 
     std::string ProjectName() const;
 

@@ -21,7 +21,7 @@ public:
 
       AnalysisFusion(Tagger &tagger);
 
-    std::vector<File> Files(const Object::Tag Tag);
+    std::vector<File> Files(const Tag Tag);
 
      std::string ProcessName() const {
         return "Fusion";
@@ -195,7 +195,7 @@ private:
             case 4000:
                 return 0.00020344209136808554;
             default:
-                Print(kError, "Signal Crosssection", "unhandled case");
+                Print(Severity::error, "Signal Crosssection", "unhandled case");
                 return 1;
             } ;
         case FHC:
@@ -235,11 +235,11 @@ private:
             case 20000:
                 return 0.0000046; //<this is just wrong get the right numbers
             default:
-                Print(kError,  "Signal Crosssection", "unhandled case");
+                Print(Severity::error,  "Signal Crosssection", "unhandled case");
                 return 1;
             }
         default:
-            Print(kError,  "Signal Crosssection", "unhandled case");
+            Print(Severity::error,  "Signal Crosssection", "unhandled case");
             return 1;
         }
     }
@@ -292,7 +292,7 @@ private:
                 case tt :
                     return 97.54 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 };
             case 30 :
@@ -304,7 +304,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 };
             case 80 :
@@ -316,7 +316,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 250 :
@@ -324,7 +324,7 @@ private:
                 case tt :
                     return 5.698 * 2 * 1000;
                 default :
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             }
@@ -339,7 +339,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 80 :
@@ -351,7 +351,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 150 :
@@ -363,7 +363,7 @@ private:
                 case ttjj:
                     return 61.9287096863 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 300 :
@@ -375,7 +375,7 @@ private:
                 case ttjj:
                     return 26000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             }
@@ -386,7 +386,7 @@ private:
                 case tt:
                     return 3600 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 150 :
@@ -398,7 +398,7 @@ private:
                 case ttjj:
                     return 70289;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 300 :
@@ -412,7 +412,7 @@ private:
                 case tt :
                     return 214.1 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 1000 :
@@ -420,7 +420,7 @@ private:
                 case tt :
                     return 1.532 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 1500 :
@@ -428,7 +428,7 @@ private:
                 case tt :
                     return 0.2447 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 2000 :
@@ -436,7 +436,7 @@ private:
                 case tt :
                     return 0.09014 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             case 2500 :
@@ -444,12 +444,12 @@ private:
                 case tt :
                     return 0.03038 * 2 * 1000;
                 default:
-                    Print(kError, "Background Crosssection", "unhandled case");
+                    Print(Severity::error, "Background Crosssection", "unhandled case");
                     return 1;
                 }
             }
         default:
-            Print(kError, "Background Crosssection",  "unhandled pre cut", PreCut());
+            Print(Severity::error, "Background Crosssection",  "unhandled pre cut", PreCut());
             return 1;
         }
     }
@@ -463,7 +463,7 @@ private:
         case LE:
             return "LE";
         default:
-            Print(kError, "unhandled case");
+            Print(Severity::error, "unhandled case");
             return "";
         }
     }
@@ -483,7 +483,7 @@ private:
         case tt:
             return "tt_inc";
         default:
-            Print(kError, "unhandled case");
+            Print(Severity::error, "unhandled case");
             return "";
         }
     }

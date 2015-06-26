@@ -97,21 +97,21 @@ public:
 
     float VertexEnergy() const;
 
-    void ExtractFraction(const int particle_id);
+    void ExtractFraction(const int id);
 
-    void ExtractAbsFraction(const int particle_id);
+    void ExtractAbsFraction(const int id);
 
-    void ExtractFraction(const int particle_id, const int mother_id);
+    void ExtractFraction(const int id, const int mother_id);
 
-    void PrintAllInfos(const Object::Severity severity) const;
+    void PrintAllInfos(const Severity severity) const;
 
-    void PrintAllconstituentInfos(const Object::Severity severity) const;
+    void PrintAllconstituentInfos(const Severity severity) const;
 
-    void PrintAllFamInfos(const Object::Severity severity) const;
+    void PrintAllFamInfos(const Severity severity) const;
 
     float MaximalFraction() const;
 
-    float Fraction(const int particle_id) const;
+    float Fraction(const int id) const;
 
     int MaximalId() const;
 
@@ -170,6 +170,8 @@ private:
     DetectorGeometry detector_geometry_;
 
     void AddParticle(const int constituent_id, const float weight);
+
+    void AddParticle(const Id constituent_id, const float weight);
 
     float GetWeightSum() const;
 

@@ -25,7 +25,7 @@ public:
     void AnalysisLoop(const Tagger::Stage stage);
 
     virtual std::vector<File> Files(const Tag tag) {
-        Print(kError, "Files", tag);
+        Print(Severity::error, "Files", Name(tag));
         return files_;
     }
 
@@ -33,19 +33,19 @@ public:
         configuration_ = configuration;
     }
 
-    std::string ExportName(const Tagger::Stage stage, const Object::Tag tag) const;
+    std::string ExportName(const Tagger::Stage stage, const Tag tag) const;
 
     void PrepareFiles(){
       files_.clear();
       tagger_.clear_tree_names();
-      SetFiles(analysis::Object::kSignal);
-      SetFiles(analysis::Object::kBackground);
+      SetFiles(analysis::Tag::signal);
+      SetFiles(analysis::Tag::background);
     }
 
 protected:
 
-    virtual void SetFiles(const Object::Tag tag) {
-        Print(kError, "Set Files", "should be subclassed", tag);
+    virtual void SetFiles(const Tag tag) {
+        Print(Severity::error, "Set Files", "should be subclassed", Name(tag));
     }
 
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
@@ -141,7 +141,7 @@ protected:
     }
 
     virtual int PassPreCut(Event &) {
-        Print(kError, "Apply pre cut", "no pre cut applied");
+        Print(Severity::error, "Apply pre cut", "no pre cut applied");
         return 1;
     }
 

@@ -227,7 +227,7 @@ public:
         TopDeltaRap = multiplet.DeltaRap();
         TopDeltaPhi = multiplet.DeltaPhi();
         TopBdt = multiplet.Bdt();
-        HeavyHiggsTag = multiplet.Tag();
+        HeavyHiggsTag = int(multiplet.Tag());
     }
 
     Observables Variables() {

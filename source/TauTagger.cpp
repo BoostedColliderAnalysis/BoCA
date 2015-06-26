@@ -7,15 +7,15 @@ namespace analysis {
 
 TauTagger::TauTagger()
 {
-//     DebugLevel = kDebug;
-    Print(kInformation, "Constructor");
+//     DebugLevel = Severity::debug;
+    Print(Severity::information, "Constructor");
     set_tagger_name("Tau");
     DefineVariables();
 }
 
 void TauTagger::DefineVariables()
 {
-    Print(kInformation , "Define Variables");
+    Print(Severity::information , "Define Variables");
     AddVariable(branch().Mass, "Mass");
     AddVariable(branch().Pt, "Pt");
     AddVariable(branch().Rap, "Rap");
@@ -33,19 +33,19 @@ void TauTagger::DefineVariables()
     AddSpectator(branch().Bdt, "Bdt");
 }
 
-int TauTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag)
+int TauTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag)
 {
-    Print(kInformation, "Tau Tag", tag);
+    Print(Severity::information, "Tau Tag", Name(tag));
     Jets jets = event.Hadrons().Jets();
-    Print(kInformation, "Number Jets", jets.size());
+    Print(Severity::information, "Number Jets", jets.size());
     Jets Particles = event.Partons().GenParticles();
-    Particles = RemoveIfWrongAbsParticle(Particles, TauId);
-//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(TauId)), Particles.end());
+    Particles = RemoveIfWrongAbsParticle(Particles, Id::tau);
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(Id::tau)), Particles.end());
 //     if(Particles.size()!=1)
-    Print(kInformation, "Tau Partilces", Particles.size());
-    Jets final_jets = CleanJets(jets, Particles, tag);
+    Print(Severity::information, "Tau Partilces", Particles.size());
+    Jets final_jets = CleanJets(jets, Particles,tag);
 //     if(FinalJets.size()!=1)
-    Print(kInformation, "Tau Jets", final_jets.size());
+    Print(Severity::information, "Tau Jets", final_jets.size());
 //     Jets Pieces = GetSubJets(jets, Particles, Tag, 2);
 //     FinalJets.insert(FinalJets.end(), Pieces.begin(), Pieces.end());
 //
@@ -58,15 +58,15 @@ int TauTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const 
 
 // Jets TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
 // {
-//     Print(kInformation, "Sub Jets");
+//     Print(Severity::information, "Sub Jets");
 //     Jets Pieces;
 //     for (const auto & Jet : jets) {
 //         if (!Jet.has_constituents()) {
-//             Print(kError, "Pieceless jet");
+//             Print(Severity::error, "Pieceless jet");
 //             continue;
 //         }
 //         if (!Jet.has_user_info<JetInfo>()) {
-//             Print(kError, "Sub Jets", "No Jet Info");
+//             Print(Severity::error, "Sub Jets", "No Jet Info");
 //             continue;
 //         }
 //         fastjet::ClusterSequence *ClusterSequence = new fastjet::ClusterSequence(Jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, 0.4));
@@ -76,7 +76,7 @@ int TauTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const 
 //             std::vector<Constituent> constituents;
 //             for (const auto & Piececonstituent : Piece.constituents()) {
 //                 if (!Piececonstituent.has_user_info<JetInfo>()) {
-//                     Print(kError, "Sub Jets", "No Piece constituent Info");
+//                     Print(Severity::error, "Sub Jets", "No Piece constituent Info");
 //                     continue;
 //                 }
 //                 std::vector<Constituent> Newconstituents = Piececonstituent.user_info<JetInfo>().constituents();
@@ -90,27 +90,27 @@ int TauTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const 
 // }
 
 
-Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
+Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag tag)
 {
-    Print(kInformation, "Clean Jets");
+    Print(Severity::information, "Clean Jets");
     for (const auto & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().delta_R(Particle) < 0.4) static_cast<JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+        if (jets.front().delta_R(Particle) < 0.4) static_cast<JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Tag::signal);
     }
     Jets NewCleanJets;
     for (const auto & Jet : jets) {
         if (!Jet.has_user_info<JetInfo>()) {
-            Print(kError, "Clean Jets", "No Jet Info");
+            Print(Severity::error, "Clean Jets", "No Jet Info");
             continue;
         }
 //         if (std::abs(Jet.rap()) > 2.5) continue;
 // if (Jet.m() < 0){
-//   Print(kError, "Clean Jets", "Massless Jet");
+//   Print(Severity::error, "Clean Jets", "Massless Jet");
 //           continue;
 //         }
-//         if (Tag == kSignal && Jet.user_info<JetInfo>().SumDisplacement() == 0) continue;
-        if (Jet.user_info<JetInfo>().Tag() != Tag) {
-//   Print(kError, "Clean Jets", "Not Tagged Jet");
+//         if (Tag == Tag::signal && Jet.user_info<JetInfo>().SumDisplacement() == 0) continue;
+        if (Jet.user_info<JetInfo>().Tag() != tag) {
+//   Print(Severity::error, "Clean Jets", "Not Tagged Jet");
             continue;
         }
         NewCleanJets.emplace_back(Jet);
@@ -121,11 +121,11 @@ Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 // Object::HTag HTauTagger::GetTag(const fastjet::PseudoJet &Jet) const
 // {
 //
-//     Print(kDebug, "Bottom Tag", Jet.rap(), Jet.user_info<JetInfo>().MaximalId());
-//     if (std::abs(Jet.user_info<JetInfo>().MaximalId()) != BottomId) {
+//     Print(Severity::debug, "Bottom Tag", Jet.rap(), Jet.user_info<JetInfo>().MaximalId());
+//     if (std::abs(Jet.user_info<JetInfo>().MaximalId()) != Id::bottom) {
 //         return HBackground;
 //     }
-//     return kSignal;
+//     return Tag::signal;
 // }
 
 // Jets TauTagger::GetBdt(Jets &jets, const Reader &BottomReader)
@@ -140,15 +140,15 @@ Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 
 // Jets TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
 // {
-//     Print(kInformation, "Sub Bdt");
+//     Print(Severity::information, "Sub Bdt");
 //     Jets Pieces;
 //     for (const auto & Jet : jets) {
 //         if (!Jet.has_pieces()) {
-//             Print(kError, "pieceless jet");
+//             Print(Severity::error, "pieceless jet");
 //             continue;
 //         }
 //         if (!Jet.has_user_info<JetInfo>()) {
-//             Print(kError, "Sub Bdt", "No Jet Info");
+//             Print(Severity::error, "Sub Bdt", "No Jet Info");
 //             continue;
 //         }
 //         fastjet::JetDefinition JetDefinition(fastjet::kt_algorithm, 1);
@@ -159,7 +159,7 @@ Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 //         for (auto & Piece : SubPieces) {
 //             for (const auto & constituent : Piece.constituents()) {
 //                 if (!constituent.has_user_info<JetInfo>()) {
-//                     Print(kError, "constituent Bdt", "No Jet Info");
+//                     Print(Severity::error, "constituent Bdt", "No Jet Info");
 //                     continue;
 //                 }
 //                 std::vector<Constituent> Newconstituents = constituent.user_info<JetInfo>().constituents();
@@ -175,15 +175,15 @@ Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag Tag)
 Jets TauTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets final_jets;
-    Print(kInformation, "Jet Bdt");
+    Print(Severity::information, "Jet Bdt");
     Jets jets = event.Hadrons().Jets();
     for (const auto jet : jets) {
         if (!jet.has_user_info<JetInfo>()) {
-            Print(kError, "Jet Bdt", "No Jet Info");
+            Print(Severity::error, "Jet Bdt", "No Jet Info");
             continue;
         }
 //         if (Jet.m() <= 0) {
-//             Print(kInformation, "Empty Piece");
+//             Print(Severity::information, "Empty Piece");
 //             continue;
 //         }
         static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet,reader));
