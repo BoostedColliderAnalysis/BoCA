@@ -148,6 +148,7 @@ PairBranch::PairBranch()
 Observables PairBranch::Variables()
 {
     return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(Bdt2)});
+   //return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
 }
 
 Observables PairBranch::Spectators()
@@ -271,7 +272,13 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
+   // return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
+}
+
+Observables TopLeptonicBranch::Spectators()
+{
+    return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
 
 Observables HiggsBranch::Variables()
