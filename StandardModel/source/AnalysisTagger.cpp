@@ -124,7 +124,8 @@ int Analysis::LowerPtCut() const
 //         return 350;
 //         return 700;
 //         return 800;
-    return 1000;
+//     return 500;
+     return 1000;
 //     return 1200;
 }
 
@@ -144,14 +145,18 @@ int Analysis::UpperPtCut() const
         return 1500;
     case 1200 :
         return 1500;
+    case 500:
+	return 1000;
     }
 }
 
 int Analysis::MadGraphCut() const
 {
     switch (LowerPtCut()) {
+      case 500:
+	return 500;
     case 700 :
-        return 700;
+        return 500;
     case 1000 :
         return 1000;
     case 1200 :

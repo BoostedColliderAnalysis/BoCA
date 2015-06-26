@@ -22,23 +22,27 @@ int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag 
     Jets leptons = event.Leptons().leptons();
     Print(kInformation, "Lepton Number", leptons.size());
     std::vector<Doublet> doublets;
-    if(leptons.size()==0&&tag==kBackground){
-      for(const auto & jet :jets){
-	const float Lepton_fake_pt=1;
-      fastjet::PseudoJet lepton_fake=fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt()*Lepton_fake_pt;
-      Doublet doublet(jet, lepton_fake);
-      doublets.emplace_back(doublet);
-      }
-    }
-    for (const auto & lepton : leptons)
+    for (const auto & lepton : leptons){
+ 	if (lepton.pt()<50) continue;
         for (const auto & jet : jets) {
             Doublet doublet(jet, lepton);
  //           if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(TopId)) > top_mass_window) continue;
             if (tag == kSignal && doublet.Jet().m()<20) continue;
- 	    if (lepton.pt()<50) continue;
-	    if (tag == kSignal && lepton.delta_R(jet)>1.0) continue;
+ 	    if (tag == kSignal && lepton.delta_R(jet)>1.0) continue;
             doublets.emplace_back(doublet);
         }
+    }
+    
+    for(const auto & jet :jets){
+      if(doublets.size() >= 0) break;
+      const float Lepton_fake_pt=1;    
+      fastjet::PseudoJet lepton_fake=fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt()*Lepton_fake_pt;
+      Doublet doublet(jet, lepton_fake);
+      doublets.emplace_back(doublet);
+      
+      
+    }
+
     Print(kInformation, "Number JetPairs", doublets.size());
     std::vector<Doublet> final_doublets=Clean_Doublets(doublets, pre_cuts);
 
@@ -76,23 +80,24 @@ std::vector<Doublet> TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cu
     Jets leptons = event.Leptons().leptons();
     //Print(kError, "lepton number", leptons.size());
     std::vector<Doublet> doublets;
-    
-    if(leptons.size()==0){ 
-      for(const auto & jet :jets){
-	const int Lepton_fake_pt=1;
-      fastjet::PseudoJet lepton_fake=fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e())/jet.pt()*Lepton_fake_pt;
-      Doublet doublet(jet, lepton_fake);
-      doublet.SetBdt(Bdt(doublet,reader));
-      doublets.emplace_back(doublet);
-      }
-    }
     for (const auto & lepton : leptons) {
+        if (lepton.pt()<50) continue;
         for (const auto & jet : jets) {
             Doublet doublet(jet, lepton);
             doublet.SetBdt(Bdt(doublet,reader));
             doublets.emplace_back(doublet);
         }
     }
+    
+    for(const auto & jet :jets){
+      if(doublets.size() > 0) break;
+      const int Lepton_fake_pt=1;
+      fastjet::PseudoJet lepton_fake=fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e())/jet.pt()*Lepton_fake_pt;
+      Doublet doublet(jet, lepton_fake);
+      doublet.SetBdt(Bdt(doublet,reader));
+      doublets.emplace_back(doublet);
+    }
+    
     std::vector<Doublet> final_doublets=Clean_Doublets(doublets, pre_cuts);
    // if(final_doublets.size()>0)Print(kError, "doublet_pt", final_doublets.at(0).Jet().pt());
     return ReduceResult(final_doublets);
