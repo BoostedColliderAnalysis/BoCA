@@ -46,7 +46,7 @@ Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
     Jets pieces;
     if (!jet.has_pieces()) return pieces;
     if (!jet.has_user_info<JetInfo>()) return pieces;
-    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), detector_geometry().SubJetDefinition);
+    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry().SubJetDefinition);
     for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
         std::vector<Constituent> constituents;
         for (const auto & constituent : piece.constituents()) {
@@ -177,7 +177,7 @@ Strings Tagger::background_tree_names() const
 }
 TCut Tagger::cut() const
 {
-    return cut_;
+    return TCut();
 }
 void Tagger::set_analysis_name(const std::string &analysis_name)
 {
@@ -221,10 +221,10 @@ int Tagger::Train(Event &, PreCuts &, const Tag)
 //     return 0;
 // }
 
-DetectorGeometry Tagger::detector_geometry() const
-{
-    return detector_geometry_;
-}
+// DetectorGeometry Tagger::detector_geometry() const
+// {
+//     return detector_geometry_;
+// }
 void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Tagger::Stage stage)
 {
     tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());

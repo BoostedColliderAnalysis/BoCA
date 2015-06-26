@@ -39,8 +39,9 @@ private:
 
     std::string ProjectName() const;
 
-
     int PassPreCut(Event &event);
+
+    std::string DecayName(const Decay decay) const;
 
 };
 

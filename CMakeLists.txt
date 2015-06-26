@@ -46,7 +46,6 @@ HLinkLibraries(${LIBCONFIGPP_LIBRARIES})
 # Libraries
 add_subdirectory(source)
 
-
 add_subdirectory(StandardModel)
 add_subdirectory(PairTagger)
 add_subdirectory(HBottomSumTagger)

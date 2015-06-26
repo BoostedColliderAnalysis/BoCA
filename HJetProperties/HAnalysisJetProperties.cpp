@@ -88,7 +88,7 @@ void hjetproperties::HAnalysis::CloseFile()
 //
 //     if (id == -BranchId) {
 //
-//         Print(Severity::kDetailed, "ID CONFILICT", id, BranchId);
+//         Print(Severity::detailed, "ID CONFILICT", id, BranchId);
 //
 //     }
 //
