@@ -273,7 +273,6 @@ TopLeptonicBranch::TopLeptonicBranch()
 Observables TopLeptonicBranch::Variables()
 {
     return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
-   // return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
 }
 
 Observables TopLeptonicBranch::Spectators()
