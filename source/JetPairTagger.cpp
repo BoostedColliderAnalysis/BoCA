@@ -4,7 +4,7 @@ namespace analysis {
 
 JetPairTagger::JetPairTagger()
 {
-//     DebugLevel = Severity::kDetailed;
+//     DebugLevel = Severity::detailed;
     Print(Severity::notification, "Constructor");
     set_tagger_name("JetPair");
     DefineVariables();

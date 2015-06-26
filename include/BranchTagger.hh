@@ -175,6 +175,10 @@ private:
         branch_.Fill(multiplet);
     }
 
+    /**
+     * @brief Branch saving the analysis results
+     *
+     */
     Branch branch_;
 };
 

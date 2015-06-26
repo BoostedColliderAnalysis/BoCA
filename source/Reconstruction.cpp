@@ -125,7 +125,7 @@ Jets Reconstruction::GetFatjet_tag(Jets &FatJets)
 //               for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 //                     jet_info.Addconstituent((*Pair).first, (*Pair).second * constituent.pt());
 //                 }
-//                 constituent.user_info<JetInfo>().PrintAllInfos(Severity::kDetailed);
+//                 constituent.user_info<JetInfo>().PrintAllInfos(Severity::detailed);
             } else {
                 Print(Severity::error,"No info in constituent jet");
 //             jet_info.Addconstituent(constituent.user_index(), constituent.pt());
@@ -133,8 +133,8 @@ Jets Reconstruction::GetFatjet_tag(Jets &FatJets)
         }
         FatJet.set_user_info(new JetInfo(jet_info));
 //         FatJet.set_user_index(FatJet.user_info<JetInfo>().MaximalId());
-//         FatJet.user_info<JetInfo>().PrintAllInfos(Severity::kDetailed);
-//         Print(Severity::kDetailed, "Tag", FatJet.user_info<JetInfo>().MaximalId(), FatJet.user_info<JetInfo>().MaximalFraction(), FatJet.m());
+//         FatJet.user_info<JetInfo>().PrintAllInfos(Severity::detailed);
+//         Print(Severity::detailed, "Tag", FatJet.user_info<JetInfo>().MaximalId(), FatJet.user_info<JetInfo>().MaximalFraction(), FatJet.m());
     }
     return FatJets;
 }
