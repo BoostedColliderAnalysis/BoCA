@@ -67,7 +67,7 @@ public:
 
     float Bdt() const;
 
-    TLegend Legend(float x_min, float y_max, float width, float height, const std::string &name = " ");
+    TLegend Legend(float x_min, float y_max, float width, float height, const std::string &name = "");
 
     Results ExportFile() const;
 
