@@ -8,7 +8,7 @@ namespace exroot
 
 Jets Hadrons::Jets()
 {
-    Print(kInformation, "Jets", clones_arrays().JetSum());
+    Print(Severity::information, "Jets", clones_arrays().JetSum());
     analysis::Jets jets;
     for (const int JetNumber : Range(clones_arrays().JetSum())) {
         ::exroot::Jet &jet = static_cast<::exroot::Jet &>(clones_arrays().Jet(JetNumber));

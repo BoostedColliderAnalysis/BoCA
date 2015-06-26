@@ -18,12 +18,12 @@ public:
 
     DoubletTagger();
 
-    int Train(Event &event, const Object::Tag Tag) {
+    int Train(Event &event, const Tag Tag) {
         PreCuts pre_cuts;
         return Train(event, pre_cuts, Tag);
     }
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag Tag);
 
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, reader));

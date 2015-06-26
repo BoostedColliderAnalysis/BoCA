@@ -24,7 +24,7 @@ public:
     */
     EventSingleTagger();
 
-    int Train(Event &event,PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(Event &event,PreCuts &pre_cuts, const Tag tag);
 
     std::vector<MultipletEvent<Decuplet73>> Multiplets(Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
 

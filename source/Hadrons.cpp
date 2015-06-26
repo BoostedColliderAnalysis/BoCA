@@ -4,25 +4,25 @@ namespace analysis {
 
 Hadrons::Hadrons()
 {
-//     DebugLevel = kDebug;
-    Print(kNotification, "Constructor");
+//     DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
 }
 
 void Hadrons::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Print(kInformation, "New event");
+    Print(Severity::information, "New event");
     FourVector::NewEvent(clones_arrays);
 }
 
 float Hadrons::ScalarHt()
 {
-    Print(kError, "Scalar Ht", "No Scalar Ht");
+    Print(Severity::error, "Scalar Ht", "No Scalar Ht");
     return 0;
 }
 
 fastjet::PseudoJet Hadrons::MissingEt()
 {
-    Print(kError, "Missing Et", "No Mising Et");
+    Print(Severity::error, "Missing Et", "No Mising Et");
     return fastjet::PseudoJet{};
 }
 

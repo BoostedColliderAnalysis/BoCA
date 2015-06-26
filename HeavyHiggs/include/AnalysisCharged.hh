@@ -22,7 +22,7 @@ public:
 
     AnalysisCharged(Tagger &tagger);
 
-    std::vector< File > Files(const Object::Tag tag);
+    std::vector< File > Files(const Tag tag);
 
      std::string ProcessName()const {
         return "Charged";
@@ -212,7 +212,7 @@ private:
             case 4000:
                 return 0.000020556093312;
             default:
-                Print(kError, "Signal Crosssection", "unhandled case");
+                Print(Severity::error, "Signal Crosssection", "unhandled case");
                 return 1;
             } ;
         case FHC:
@@ -247,11 +247,11 @@ private:
             case 20000:
                 return 0.000016388469792;
             default:
-                Print(kError, "Signal Crosssection", "unhandled case");
+                Print(Severity::error, "Signal Crosssection", "unhandled case");
                 return 1;
             }
         default:
-            Print(kError, "Signal Crosssection", "unhandled case");
+            Print(Severity::error, "Signal Crosssection", "unhandled case");
             return 1;
         }
     }
@@ -282,7 +282,7 @@ private:
                 case tt :
                     return 97.54 * 2 * 1000;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                 };
             case 30 :
                 switch (Process) {
@@ -293,7 +293,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                 };
             case 80 :
                 switch (Process) {
@@ -304,7 +304,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                     return 1;
                 }
             case 250 :
@@ -312,7 +312,7 @@ private:
                 case tt :
                     return 4.206 * 2 * 1000;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                     return 1;
                 }
             }
@@ -327,7 +327,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                     return 1;
                 }
             case 80 :
@@ -339,7 +339,7 @@ private:
                 case ttjj:
                     return 9999999999;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                     return 1;
                 }
             case 150 :
@@ -351,7 +351,7 @@ private:
                 case ttjj:
                     return 61.9287096863 * 2 * 1000;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                     return 1;
                 }
             case 300 :
@@ -363,7 +363,7 @@ private:
                 case ttjj:
                     return 26000;
                 default :
-                    Print(kError, "unhandled case");
+                    Print(Severity::error, "unhandled case");
                     return 1;
                 }
             }
@@ -396,12 +396,12 @@ private:
                     return 28200;
                 }
             default :
-                Print(kError, "unhandled case");
+                Print(Severity::error, "unhandled case");
                 return 1;
             }
         }
         default :
-            Print(kError, "unhandled case");
+            Print(Severity::error, "unhandled case");
             return 1;
         }
     }
@@ -415,7 +415,7 @@ private:
         case LE:
             return "LE";
         default :
-            Print(kError, "unhandled case");
+            Print(Severity::error, "unhandled case");
             return "";
         }
     }
@@ -434,7 +434,7 @@ private:
         case tt:
             return "tt_inc+";
         default :
-            Print(kError, "unhandled case");
+            Print(Severity::error, "unhandled case");
             return "";
         }
     }

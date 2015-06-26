@@ -9,7 +9,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 {
     analysis::heavyhiggs::AnalysisCharged analysis(tagger);
     const std::string Name = tagger.tagger_name();
-    analysis.Print(analysis.kError, "Tagger", Name);
+    analysis.Print(analysis::Severity::error, "Tagger", Name);
 
     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) analysis.AnalysisLoop(stage);

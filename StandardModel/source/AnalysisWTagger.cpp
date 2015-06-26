@@ -8,24 +8,24 @@ namespace analysis
 
   AnalysisW::AnalysisW(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Object::kDebug;
-    Print(kNotification, "Constructor");
+//   DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(WId, LowerPtCut());
-    pre_cuts().SetPtUpperCut(WId, UpperPtCut());
-    pre_cuts().SetMassUpperCut(WId, 200);
+    pre_cuts().SetPtLowerCut(Id::W, LowerPtCut());
+    pre_cuts().SetPtUpperCut(Id::W, UpperPtCut());
+    pre_cuts().SetMassUpperCut(Id::W, 200);
 //     DetectorGeometry detector_geometry;
-//     pre_cuts().SetTrackerMaxEta(TopId, detector_geometry.TrackerEtaMax);
+//     pre_cuts().SetTrackerMaxEta(Id::top, detector_geometry.TrackerEtaMax);
 }
 
-void AnalysisW::SetFiles(const Object::Tag tag)
+void AnalysisW::SetFiles(const Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+    Print(Severity::notification, "Set File Vector", Name(tag));
     switch (tag) {
-    case kSignal :
+    case Tag::signal :
         NewSignalFile(ww);
         break;
-    case kBackground :
+    case Tag::background :
         NewBackgroundFile(ttlep);
         NewBackgroundFile(tthad);
         NewBackgroundFile(hh);
@@ -41,17 +41,16 @@ void AnalysisW::SetFiles(const Object::Tag tag)
 
 int AnalysisW::PassPreCut(Event &event)
 {
-    Print(kInformation, "pass pre cut");
+    Print(Severity::information, "pass pre cut");
 //     Jets particles = event.Partons().GenParticles();
-//     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, WId));
+//     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::W));
 //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
     return 1;
 }
-AnalysisW::Decay AnalysisW::WDecay() const
+Decay AnalysisW::WDecay() const
 {
-    return kHadronic;
-    //         return kLeptonic;
-    //         return kSemi;
+    return Decay::hadronic;
+    //         return Decay::semi;
 }
 std::string AnalysisW::ProjectName() const
 {

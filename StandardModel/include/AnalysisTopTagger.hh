@@ -8,6 +8,11 @@ namespace analysis
 namespace standardmodel
 {
 
+enum class Decay
+{
+    leptonic, hadronic, semi
+};
+
 /**
  *
  * @brief Top Tagger ananlysis
@@ -22,8 +27,6 @@ public:
 
     TopAnalysis(Tagger &tagger);
 
-    enum Decay {kLeptonic, kHadronic, kSemi};
-
     Decay TopDecay() const;
 
 protected:
@@ -32,7 +35,7 @@ protected:
 
 private:
 
-    void SetFiles(const Object::Tag tag);
+    void SetFiles(const Tag tag);
 
     std::string ProjectName() const;
 

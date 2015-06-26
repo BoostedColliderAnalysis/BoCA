@@ -4,7 +4,7 @@
 // hcpvhiggs::HAnalysis::HAnalysis()
 // {
 //
-//     Print(kNotification, "Constructor");
+//     Print(Severity::notification, "Constructor");
 //
 //     //jet_tag = new analysis::JetTag();
 //
@@ -17,7 +17,7 @@
 hcpvhiggs::HAnalysis::~HAnalysis()
 {
 
-    Print(kNotification, "Destructor");
+  Print(analysis::Severity::notification, "Destructor");
 
     //delete jet_tag;
 
@@ -35,7 +35,7 @@ analysis::Strings hcpvhiggs::HAnalysis::GetStudyNames() const
 
 std::vector<analysis::File *> hcpvhiggs::HAnalysis::GetFiles(const std::string &Name)
 {
-    Print(kNotification, "Set File Vector", Name);
+  Print(analysis::Severity::notification, "Set File Vector", Name);
 
     std::vector<analysis::File *> NewFiles;
 
@@ -77,7 +77,7 @@ std::vector<analysis::File *> hcpvhiggs::HAnalysis::GetFiles(const std::string &
 // //     Odd->TagString="tag_2";
 //     Files.emplace_back(Signal);
 
-    Print(kNotification, "Files prepared");
+    Print(analysis::Severity::notification, "Files prepared");
 
     return NewFiles;
 
@@ -86,7 +86,7 @@ std::vector<analysis::File *> hcpvhiggs::HAnalysis::GetFiles(const std::string &
 
 void hcpvhiggs::HAnalysis::NewBranches(exroot::TreeWriter *NewTreeWriter)
 {
-    Print(kNotification, "New File");
+  Print(analysis::Severity::notification, "New File");
 
     CandidateBranch = NewTreeWriter->NewBranch("Candidate", HCandidateBranch::Class());
     LeptonBranch = NewTreeWriter->NewBranch("Lepton", HLeptonBranch::Class());
@@ -95,34 +95,34 @@ void hcpvhiggs::HAnalysis::NewBranches(exroot::TreeWriter *NewTreeWriter)
 }
 
 
-// int hcpvhiggs::JetTag::GetBranchId(const int particle_id, int BranchId)
+// int hcpvhiggs::JetTag::GetBranchId(const int id, int BranchId)
 // {
 //
 // //     if (HeavyParticles.find(std::abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;
 //
-// //     Print(kError, "we are here", particle_id, BranchId);
-//     Print(kDebug, "HCPVHiggs: Get Branch Id", particle_id, BranchId);
+// //     Print(Severity::error, "we are here", id, BranchId);
+//     Print(Severity::debug, "HCPVHiggs: Get Branch Id", id, BranchId);
 //
 //
 //
 // //     for(auto HeavyParticle : HeavyParticles) {
-// //         Print(kError,"HeavyParticle",HeavyParticle);
+// //         Print(Severity::error,"HeavyParticle",HeavyParticle);
 // //     }
 //
 //
 //     if (
-//         RadiationParticles.find(std::abs(particle_id)) != end(RadiationParticles) &&
+//         RadiationParticles.find(std::abs(id)) != end(RadiationParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
-//         BranchId = IsrId;
+//         BranchId = Id::Isr;
 //     } else if (
-//         HeavyParticles.find(std::abs(particle_id)) != end(HeavyParticles) &&
+//         HeavyParticles.find(std::abs(id)) != end(HeavyParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
-//         BranchId = particle_id;
+//         BranchId = id;
 //     }
 //
-//     Print(kDebug, "HCPVHiggs: Branch Id", BranchId);
+//     Print(Severity::debug, "HCPVHiggs: Branch Id", BranchId);
 // //     DebugLevel =1;
 //     return BranchId;
 //
@@ -131,13 +131,13 @@ void hcpvhiggs::HAnalysis::NewBranches(exroot::TreeWriter *NewTreeWriter)
 int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string &Study)
 {
 
-    Print(kInformation, "Analysis", Study);
+  Print(analysis::Severity::information, "Analysis", Study);
 
     const analysis::Jets Leptons = GetLeptonJets(event);
 
     if (Leptons.size() < 2) {
 
-        Print(kNotification, "Not enough Leptons", Leptons.size());
+      Print(analysis::Severity::notification, "Not enough Leptons", Leptons.size());
         return 0;
 
     }
@@ -147,18 +147,18 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
     // Higgs stuff
 
     /*    for(auto HeavyParticle : jet_tag.HeavyParticles) {
-            Print(kError,"HeavyParticle",HeavyParticle);
+            Print(Severity::error,"HeavyParticle",HeavyParticle);
         }  */
 
     const analysis::Jets CandidateJets{};// = event.GetCandidates(jet_tag);
 
     if (CandidateJets.empty()) {
 
-        Print(kError, "No Candidates", CandidateJets.size());
+      Print(analysis::Severity::error, "No Candidates", CandidateJets.size());
 
         return 0;
 
-    } else Print(kInformation, "Number of Candidates", CandidateJets.size());
+    } else Print(analysis::Severity::information, "Number of Candidates", CandidateJets.size());
 
     int CandidateCounter = 0;
     bool HasCandidate = 0;
@@ -166,27 +166,27 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
     for (const auto & CandidateJet : CandidateJets) {
 
-        Print(kDebug, "Candidate", CandidateJet.user_index());
+      Print(analysis::Severity::debug, "Candidate", CandidateJet.user_index());
 
         if (Study == "Higgs") {
 
             if (CandidateCounter > 0) {
 
-                Print(kInformation, "Number of Higgs", CandidateCounter);
+              Print(analysis::Severity::information, "Number of Higgs", CandidateCounter);
                 break;
 
             }
 
-            if (CandidateJet.user_index() != CpvHiggsId && CandidateJet.user_index() != HiggsId) {
+            if (CandidateJet.user_index() != analysis::to_int(analysis::Id::CP_violating_higgs) && CandidateJet.user_index() != analysis::to_int(analysis::Id::higgs)) {
 
-                Print(kDebug, "Not a Higgs");
+              Print(analysis::Severity::debug, "Not a Higgs");
                 continue;
 
             }
 
             ++CandidateCounter;
 
-            Print(kDebug, "Higgs", CandidateCounter);
+            Print(analysis::Severity::debug, "Higgs", CandidateCounter);
 
         }
 
@@ -194,66 +194,66 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
 
             if (CandidateCounter > 0) {
 
-                Print(kInformation, "Number of Higgs", CandidateCounter);
+              Print(analysis::Severity::information, "Number of Higgs", CandidateCounter);
                 break;
 
             }
 
-            if (std::abs(CandidateJet.user_index()) != TopId) {
+            if (std::abs(CandidateJet.user_index()) != analysis::to_int(analysis::Id::top)) {
 
-                Print(kDebug, "Not a Top");
+              Print(analysis::Severity::debug, "Not a Top");
                 continue;
 
             }
 
-            if (CandidateCounter > 1) Print(kInformation, "Number of Tops", CandidateCounter);
+            if (CandidateCounter > 1) Print(analysis::Severity::information, "Number of Tops", CandidateCounter);
 
             ++CandidateCounter;
 
-            Print(kDebug, "Top", CandidateCounter);
+            Print(analysis::Severity::debug, "Top", CandidateCounter);
 
         }
 
         if (Study == "Jet") {
 
-            if (CandidateJet.user_index() == CpvHiggsId || CandidateJet.user_index() == HiggsId) {
+          if (CandidateJet.user_index() == analysis::to_int(analysis::Id::CP_violating_higgs) || CandidateJet.user_index() == analysis::to_int((analysis::Id::higgs))) {
 
 //                 HiggsCounter = 1;
-                Print(kDebug, "First Higgs is not a light Jet", CandidateJet.user_index());
+            Print(analysis::Severity::debug, "First Higgs is not a light Jet", CandidateJet.user_index());
                 continue;
 
             }
 
-            if (std::abs(CandidateJet.user_index()) == TopId) {
+            if (std::abs(CandidateJet.user_index()) == analysis::to_int(analysis::Id::top)) {
 
-                Print(kDebug, "Top is not a light jet", CandidateJet.user_index());
+              Print(analysis::Severity::debug, "Top is not a light jet", CandidateJet.user_index());
                 continue;
 
             }
 
-            if (CandidateCounter > 2) Print(kNotification, "Number light jets", CandidateCounter);
+            if (CandidateCounter > 2) Print(analysis::Severity::notification, "Number light jets", CandidateCounter);
             ++CandidateCounter;
-            Print(kInformation, "Jet", CandidateCounter);
+            Print(analysis::Severity::information, "Jet", CandidateCounter);
 
         }
 
         if (CandidateJet == 0 || CandidateJet.m() <= 0 || CandidateJet.pt() <= 0) {
 
-            Print(kError, "Illeagal Candidate", CandidateJet.m());
+          Print(analysis::Severity::error, "Illeagal Candidate", CandidateJet.m());
             continue;
 
         }
 
 //         if (CandidateJet.user_info<analysis::JetInfo>().MaximalFraction() < .9) break;
 
-        Print(kInformation, "Tag", CandidateJet.user_info<analysis::JetInfo>().MaximalId(), CandidateJet.user_info<analysis::JetInfo>().MaximalFraction(), CandidateJet.m());
+Print(analysis::Severity::information, "Tag", CandidateJet.user_info<analysis::JetInfo>().MaximalId(), CandidateJet.user_info<analysis::JetInfo>().MaximalFraction(), CandidateJet.m());
 
 //         Jets constituents = CandidateJet.constituents();
 //         sort(constituents.begin(), constituents.end(), SortJetByPt());
 //         int Counter = 0;
 //         for (const auto & constituent : constituents) {
 //             ++Counter;
-//             Print(kError, "Const", constituent.user_index(), constituent.pt());
+//             Print(Severity::error, "Const", constituent.user_index(), constituent.pt());
 //             if (Counter > 9) break;
 //         }
 
@@ -265,18 +265,18 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
         Candidate->Rap = CandidateJet.rap();
         Candidate->Phi = CandidateJet.phi_std();
 
-        Print(kInformation, "Candidate Mass", CandidateJet.m());
+        Print(analysis::Severity::information, "Candidate Mass", CandidateJet.m());
 
         // Tagging
 
         int UserIndex = std::abs(CandidateJet.user_index());
 
-        if (UserIndex == CpvHiggsId || UserIndex == HiggsId) {
+        if (UserIndex == analysis::to_int(analysis::Id::CP_violating_higgs) || UserIndex == analysis::to_int(analysis::Id::higgs)) {
 
             Candidate->HiggsTag = 1;
             Candidate->TopTag = 0;
 
-        } else if (UserIndex == TopId) {
+        } else if (UserIndex == analysis::to_int(analysis::Id::top)) {
 
             Candidate->TopTag = 1;
             Candidate->HiggsTag = 0;
@@ -291,7 +291,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
         sub_structure->NewEvent();
         if (!sub_structure->GetSubJets(CandidateJet)) {
 
-            Print(kError, "No SubJets");
+          Print(analysis::Severity::error, "No SubJets");
 
             return 0;
 
@@ -320,7 +320,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
         Candidate->IsolationDeltaR = sub_structure->GetIsolationDeltaR();
         Candidate->IsolationAngle = sub_structure->GetIsolationAngle();
 
-        Print(kDebug, "Isolation", Candidate->IsolationDeltaR);
+        Print(analysis::Severity::debug, "Isolation", Candidate->IsolationDeltaR);
 
         analysis::Vectors constituentVectors = sub_structure->Getconstituents(CandidateJet);
 
@@ -336,15 +336,15 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event &event, const std::string 
         Candidate->ConstDeltaR = sub_structure->GetconstituentDeltaR();
         Candidate->ConstAngle = sub_structure->GetconstituentAngle();
 
-//         CandidateJet.user_info<JetInfo>().PrintAllInfos(kDetailed);
-//         Print(kNotification, "Tag", CandidateJet.user_info<JetInfo>().MaximalId(), CandidateJet.user_info<JetInfo>().MaximalFraction(), CandidateJet.m());
+//         CandidateJet.user_info<JetInfo>().PrintAllInfos(Severity::kDetailed);
+//         Print(Severity::notification, "Tag", CandidateJet.user_info<JetInfo>().MaximalId(), CandidateJet.user_info<JetInfo>().MaximalFraction(), CandidateJet.m());
 
         HasCandidate = 1;
     }
 
     if (HasCandidate) return 1;
 
-    Print(kInformation, "No Candidates found");
+    Print(analysis::Severity::information, "No Candidates found");
 
     return 0;
 
@@ -413,7 +413,7 @@ analysis::Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event &event)
 
     LeptonJets.insert(LeptonJets.end(), AntiLeptonJets.begin(), AntiLeptonJets.end());
 
-    Print(kInformation, "Number of Leptons", LeptonJets.size());
+    Print(analysis::Severity::information, "Number of Leptons", LeptonJets.size());
 
     return LeptonJets;
 

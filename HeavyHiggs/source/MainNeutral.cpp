@@ -11,7 +11,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage, const an
 {
     analysis::heavyhiggs::AnalysisNeutral analysis(tagger);
     const std::string name = tagger.tagger_name();
-    analysis.Print(analysis.kError, "Tagger", name);
+    analysis.Print(analysis::Severity::error, "Tagger", name);
     analysis.SetConfig(config);
 
     std::string file_name = analysis.ProjectName() + "/" + name + ".root";

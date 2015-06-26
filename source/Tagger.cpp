@@ -16,20 +16,20 @@ std::string Tagger::analysis_name_;
 
 Tagger::Tagger()
 {
-//     DebugLevel = kDebug;
-    Print(kInformation, "Constructor");
+//     DebugLevel = Severity::debug;
+    Print(Severity::information, "Constructor");
 }
 
 Observable Tagger::NewObservable(float &value, const std::string &title) const
 {
-    Print(kInformation, "New Observable", title);
+    Print(Severity::information, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "", "");
 }
 
 Observable Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
 {
-    Print(kInformation, "New Observable", title);
+    Print(Severity::information, "New Observable", title);
     const std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "", latex);
 
@@ -37,7 +37,7 @@ Observable Tagger::NewObservable(float &value, const std::string &title, const s
 
 float Tagger::Bdt(const TMVA::Reader &reader)
 {
-    Print(kInformation, "Bdt");
+    Print(Severity::information, "Bdt");
     return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
@@ -123,7 +123,7 @@ std::string Tagger::name(const Tagger::Stage stage) const
         return reader_name();
     }
 }
-std::string Tagger::name(const Tagger::Stage stage, const Object::Tag tag) const
+std::string Tagger::name(const Tagger::Stage stage, const Tag tag) const
 {
     std::string name;
     switch (stage) {
@@ -135,15 +135,15 @@ std::string Tagger::name(const Tagger::Stage stage, const Object::Tag tag) const
         break;
     }
     switch (tag) {
-    case kSignal :
+    case Tag::signal :
         return name;
-    case kBackground :
+    case Tag::background :
         return "Not" + name;
     }
 }
 std::string Tagger::analysis_name() const
 {
-    Print(kError, "Analysis Name", analysis_name_);
+    Print(Severity::error, "Analysis Name", analysis_name_);
     return analysis_name_;
 }
 std::vector< Observable > Tagger::observables() const
@@ -207,17 +207,17 @@ std::string Tagger::signal_name() const
 }
 int Tagger::GetBdt(Event &, PreCuts &, const TMVA::Reader &)
 {
-    Print(kError, "Get Bdt", "should be subclassed");
+    Print(Severity::error, "Get Bdt", "should be subclassed");
     return 0;
 }
-int Tagger::Train(Event &, PreCuts &, const Object::Tag)
+int Tagger::Train(Event &, PreCuts &, const Tag)
 {
-    Print(kError, "Train", "Should be subclassed");
+    Print(Severity::error, "Train", "Should be subclassed");
     return 0;
 }
-// float Tagger::GetBranches(Event &, Tagger::Stage, const Object::Tag)
+// float Tagger::GetBranches(Event &, Tagger::Stage, const Tag)
 // {
-//     Print(kError, "get branches", "Should be subclassed", "should be deleted");
+//     Print(Severity::error, "get branches", "Should be subclassed", "should be deleted");
 //     return 0;
 // }
 
@@ -231,7 +231,7 @@ void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Tagger::Stage 
 }
 // float Tagger::Bdt(Event &, const TMVA::Reader &) const
 // {
-//     Print(kError, "Bdt", "should be subclassed");
+//     Print(Severity::error, "Bdt", "should be subclassed");
 //     return 0;
 // }
 void Tagger::AddVariable(float &value, const std::string &title)
