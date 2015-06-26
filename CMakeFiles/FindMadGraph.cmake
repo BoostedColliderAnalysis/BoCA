@@ -1,7 +1,9 @@
 
 # set path to dependencies
-# set(MadGraphDir ~/madness/MadGraph) # YingYing
-set(MadGraphDir ~/Development/MadGraph) # Jan
+
+set(MadGraphDir ~/madness/MadGraph) # Ying Ying
+# set(MadGraphDir ~/Development/MadGraph) # Jan
+
 set(ExRootDir ${MadGraphDir}/ExRootAnalysis)
 set(DelphesDir ${MadGraphDir}/Delphes)
 

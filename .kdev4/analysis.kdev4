@@ -20,17 +20,17 @@ Launch Configurations=Launch Configuration 0
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=BottomAnalysis
+Name=TopTagger
 Type=Native Application
 
 [Launch][Launch Configuration 0][Data]
 Arguments=
-Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00a\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x06\x00T\x00o\x00p\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x16\x00T\x00o\x00p\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
-Dependency Action=Build
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
 EnvironmentGroup=default
 Executable=file:///home/toodles/madness/analysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-Project Target=analysis,Top,source,TopAnalysis
+Project Target=analysis,StandardModel,source,TopAnalysis
 Use External Terminal=false
 Working Directory=file:///home/toodles/Projects/Tagger/Top/
 isExecutable=false
