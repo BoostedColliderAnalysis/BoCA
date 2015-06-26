@@ -8,16 +8,16 @@ namespace standardmodel
 
 AnalysisHiggs::AnalysisHiggs(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Object::kDebug;
-    Print(kNotification, "Constructor");
+//   DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
-    pre_cuts().SetPtLowerCut(HiggsId, LowerPtCut());
-    pre_cuts().SetPtUpperCut(HiggsId, UpperPtCut());
-    pre_cuts().SetPtLowerCut(BottomId, LowerPtCut() / 5);
-    pre_cuts().SetPtUpperCut(BottomId, UpperPtCut() / 5);
-    pre_cuts().SetMassUpperCut(HiggsId, 250);
-    pre_cuts().SetTrackerMaxEta(HiggsId, DetectorGeometry().TrackerEtaMax);
-    pre_cuts().SetTrackerMaxEta(BottomId, DetectorGeometry().TrackerEtaMax);
+    pre_cuts().SetPtLowerCut(Id::higgs, LowerPtCut());
+    pre_cuts().SetPtUpperCut(Id::higgs, UpperPtCut());
+    pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut() / 5);
+    pre_cuts().SetPtUpperCut(Id::bottom, UpperPtCut() / 5);
+    pre_cuts().SetMassUpperCut(Id::higgs, 250);
+    pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry().TrackerEtaMax);
+    pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry().TrackerEtaMax);
 }
 std::string AnalysisHiggs::ProjectName() const
 {
@@ -29,17 +29,19 @@ std::string AnalysisHiggs::ClassName() const
     return "AnalysisHiggs";
 }
 
-void AnalysisHiggs::SetFiles(const Object::Tag tag)
+void AnalysisHiggs::SetFiles(const Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+    Print(Severity::notification, "Set File Vector", Name(tag));
     switch (tag) {
-    case kSignal :
+    case Tag::signal :
         NewSignalFile(hh);
         if (tagger().tagger_name() == "Bottom") NewSignalFile(bb);
         if (tagger().tagger_name() == "Bottom") NewSignalFile(tthad);
+        if (tagger().tagger_name() == "Bottom") NewSignalFile(ttlep);
         break;
-    case kBackground :
+    case Tag::background :
         if (tagger().tagger_name() != "Bottom") NewBackgroundFile(tthad);
+        if (tagger().tagger_name() != "Bottom") NewBackgroundFile(ttlep);
         NewBackgroundFile(zz);
         NewBackgroundFile(ww);
         if (tagger().tagger_name() != "Bottom") NewBackgroundFile(bb);
@@ -53,7 +55,7 @@ void AnalysisHiggs::SetFiles(const Object::Tag tag)
 
 int AnalysisHiggs::PassPreCut(Event &event)
 {
-    Print(kInformation, "pass pre cut");
+    Print(Severity::information, "pass pre cut");
 
     Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
     if (jets.empty()) return 0;

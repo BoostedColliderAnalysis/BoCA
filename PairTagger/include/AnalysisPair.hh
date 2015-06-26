@@ -32,7 +32,7 @@ public:
 
     void SetTrees();
 
-    std::vector<analysis::File> Files(const analysis::Object::Tag tag);
+    std::vector<analysis::File> Files(const analysis::Tag tag);
 
      std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
@@ -84,7 +84,7 @@ private:
         case LE :
             return "LE";
         default:
-            Print(kError, "Detector Name", "unhandeld case");
+            Print(analysis::Severity::error, "Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -99,23 +99,23 @@ private:
         case VBF :
             return "VBF_";
         default:
-            Print(kError, "ProductionChannelName", "unhandeld case");
+          Print(analysis::Severity::error, "ProductionChannelName", "unhandeld case");
             return "";
         }
     }
 
-     ParticleId MotherId(const HProductionChannel NewProductionChannel) const {
+     analysis::Id MotherId(const HProductionChannel NewProductionChannel) const {
         switch (NewProductionChannel) {
         case DYP :
-            return ZId;
-//             return GluonId;
+          return analysis::Id::Z;
+//             return Id::gluon;
         case VBF :
-            return BottomId;
+          return analysis::Id::bottom;
         case Associated :
-            return GluonId;
+          return analysis::Id::gluon;
         default:
-            Print(kError, "MotherId", "unhandeld case");
-            return EmptyId;
+          Print(analysis::Severity::error, "MotherId", "unhandeld case");
+            return analysis::Id::empty;
         }
     }
 
@@ -144,7 +144,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-            Print(kError, "ProcessName", "unhandeld case");
+          Print(analysis::Severity::error, "ProcessName", "unhandeld case");
             return "";
         }
     }
@@ -228,15 +228,15 @@ private:
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Object::Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Tag tag);
 
-//     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);
+//     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);
 //
-//     bool GetJetPairTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetJetPairReader(analysis::Event &event, const analysis::Object::Tag Tag);
+//     bool GetJetPairTag(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetJetPairReader(analysis::Event &event, const analysis::Tag Tag);
 //
-//     bool GetTag(analysis::Event &event, const analysis::Object::Tag tag);
+//     bool GetTag(analysis::Event &event, const analysis::Tag tag);
 
 };
 }

@@ -18,7 +18,7 @@ public:
 
     WHadronicTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag Tag);
+    int Train(Event &event, PreCuts &pre_cuts, const Tag Tag);
 
     virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
@@ -50,7 +50,7 @@ private:
 
     Doublet SubMultiplet(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Object::Tag tag);
+    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag);
 
     bool Problematic(const Doublet &doublet, PreCuts &pre_cuts);
 

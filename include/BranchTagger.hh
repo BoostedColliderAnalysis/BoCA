@@ -71,10 +71,10 @@ protected:
 //         }), multiplets.end());
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
-        case kSignal :
+        case Tag::signal :
             return BestMatch(multiplets, particles);
             break;
-        case kBackground  :
+        case Tag::background  :
             return RemoveBestMatch(multiplets, particles);
             break;
         }
@@ -83,10 +83,10 @@ protected:
     Jets BestMatches(Jets &jets, const Jets &particles, const Tag tag) {
         std::sort(jets.begin(), jets.end(), SortByBdt());
         switch (tag) {
-        case kSignal :
+        case Tag::signal :
             return BestMatch(jets, particles);
             break;
-        case kBackground  :
+        case Tag::background  :
             return RemoveBestMatch(jets, particles);
             break;
         }
@@ -143,7 +143,7 @@ protected:
     }
 
     virtual void DefineVariables() {
-        Print(kInformation , "Define Variables");
+        Print(Severity::information , "Define Variables");
         ClearObservables();
         AddVariables();
         AddSpectators();
@@ -171,7 +171,7 @@ private:
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-        Print(kInformation, "Fill Branch");
+        Print(Severity::information, "Fill Branch");
         branch_.Fill(multiplet);
     }
 

@@ -7,8 +7,8 @@ namespace heavyhiggs {
 
 EventFusionTagger::EventFusionTagger()
 {
-    //   DebugLevel = kDebug;
-    Print(kNotification , "Constructor");
+    //   DebugLevel = Severity::debug;
+    Print(Severity::notification , "Constructor");
     set_tagger_name("EventFusion");
     bottom_reader_.SetTagger(bottom_tagger_);
     heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
@@ -17,21 +17,21 @@ EventFusionTagger::EventFusionTagger()
 
 int EventFusionTagger::Train(Event &event, const Tag tag)
 {
-    Print(kInformation, "event Tags");
+    Print(Severity::information, "event Tags");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Jets leptons = event.Leptons().leptons();
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
 
     Jets HiggsParticles = event.Partons().GenParticles();
-    Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, HeavyHiggsId, GluonId);
-    Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, CPOddHiggsId, GluonId);
+    Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
+    Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     fastjet::PseudoJet HiggsBoson;
-    if (tag == kSignal) {
+    if (tag == Tag::signal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-        else Print(kError, "Where is the Higgs?", HiggsParticles.size());
+        else Print(Severity::error, "Where is the Higgs?", HiggsParticles.size());
         std::sort(sextets.begin(), sextets.end(), MinDeltaRTo(HiggsParticles.front()));
         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
@@ -39,8 +39,8 @@ int EventFusionTagger::Train(Event &event, const Tag tag)
 //     std::vector<EventFusionBranch> eventSemiBranches;
     if (sextets.empty()) return 0;
 
-    if (tag == kSignal && sextets.size() > 1) {
-        Print(kError, "more than one event", sextets.size());
+    if (tag == Tag::signal && sextets.size() > 1) {
+        Print(Severity::error, "more than one event", sextets.size());
         std::sort(sextets.begin(), sextets.end());
         sextets.erase(sextets.begin() + 1, sextets.end());
     }
@@ -54,7 +54,7 @@ int EventFusionTagger::Train(Event &event, const Tag tag)
 
 std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event &event, TMVA::Reader &reader)
 {
-  Print(kInformation, "event Tags");
+  Print(Severity::information, "event Tags");
   std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
 
   Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);

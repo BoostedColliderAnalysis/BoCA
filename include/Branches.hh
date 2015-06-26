@@ -52,7 +52,7 @@ public:
     float Tag;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
-        Tag = multiplet.Tag();
+        Tag = int(multiplet.Tag());
         Bdt = multiplet.Bdt();
     }
     virtual Observables Variables();

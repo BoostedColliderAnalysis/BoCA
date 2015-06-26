@@ -5,8 +5,8 @@ namespace analysis
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    //         DebugLevel = Object::kDetailed;
-    Print(kNotification, "Constructor");
+    //         DebugLevel = Severity::kDetailed;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("ZHadronic");
     bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
@@ -14,7 +14,7 @@ ZHadronicTagger::ZHadronicTagger()
 
 int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "ZHadronic Tag");
+    Print(Severity::information, "ZHadronic Tag");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
@@ -35,7 +35,7 @@ int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets z_particles = copy_if_abs_particle(particles, ZId);
+    Jets z_particles = copy_if_abs_particle(particles, Id::Z);
     return SaveEntries(BestMatches(doublets, z_particles,tag));
 }
 
@@ -43,11 +43,11 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, con
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
-    case kSignal :
-        if (std::abs(doublet.Jet().m() - Mass(ZId)) > z_mass_window) return true;
+    case Tag::signal :
+        if (std::abs(doublet.Jet().m() - Mass(Id::Z)) > z_mass_window) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5)) return true;
         break;
-    case kBackground :
+    case Tag::background :
         break;
     }
     return false;
@@ -55,16 +55,16 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, con
 
 bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 {
-    if (pre_cuts.PtLowerCut(ZId) > 0 && pre_cuts.PtLowerCut(ZId) > doublet.Jet().pt()) return true;
-    if (pre_cuts.PtUpperCut(ZId) > 0 && pre_cuts.PtUpperCut(ZId) < doublet.Jet().pt()) return true;
-    if (pre_cuts.MassUpperCut(ZId) > 0 && pre_cuts.MassUpperCut(ZId) < doublet.Jet().m()) return true;
+    if (pre_cuts.PtLowerCut(Id::Z) > 0 && pre_cuts.PtLowerCut(Id::Z) > doublet.Jet().pt()) return true;
+    if (pre_cuts.PtUpperCut(Id::Z) > 0 && pre_cuts.PtUpperCut(Id::Z) < doublet.Jet().pt()) return true;
+    if (pre_cuts.MassUpperCut(Id::Z) > 0 && pre_cuts.MassUpperCut(Id::Z) < doublet.Jet().m()) return true;
     return false;
 }
 
 
 std::vector<Doublet>  ZHadronicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(kInformation, "ZHadronic Bdt");
+    Print(Severity::information, "ZHadronic Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

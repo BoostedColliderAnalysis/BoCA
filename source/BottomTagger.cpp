@@ -5,18 +5,18 @@ namespace analysis
 
 BottomTagger::BottomTagger()
 {
-//     DebugLevel = kDebug;
-    Print(kInformation, "Constructor");
+//     DebugLevel = Severity::debug;
+    Print(Severity::information, "Constructor");
     set_tagger_name("Bottom");
     DefineVariables();
 }
 
-int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
+int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Bottom Tag", tag);
+    Print(Severity::information, "Bottom Tag", Name(tag));
 
     Jets jets = event.Hadrons().Jets();
-    Print(kInformation, "Number Jets", jets.size());
+    Print(Severity::information, "Number Jets", jets.size());
     if (jets.empty()) return 0;
 
     Jets final_jets = CleanJets(jets, pre_cuts, tag);
@@ -26,16 +26,16 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
     }
 
     Jets particles = event.Partons().Particles();
-    Jets bottoms = copy_if_abs_particle(particles, BottomId);
+    Jets bottoms = copy_if_abs_particle(particles, Id::bottom);
     bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt);
-    Print(kInformation, "Particle size", bottoms.size());
+    Print(Severity::information, "Particle size", bottoms.size());
     return SaveEntries(BestMatches(final_jets, bottoms, tag));
 }
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const Tag tag) const
 {
     if (Problematic(jet, pre_cuts)) return true;
-    if (tag == kSignal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
+    if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
 //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
     return false;
 }
@@ -43,16 +43,16 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts,
 bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts) const
 {
     if (!jet.has_user_info<JetInfo>())return true;
-    if (pre_cuts.PtLowerCut(BottomId) > 0 && jet.pt() < pre_cuts.PtLowerCut(BottomId)) return true;
-    if (pre_cuts.PtUpperCut(BottomId) > 0 && jet.pt() > pre_cuts.PtUpperCut(BottomId)) return true;
-    if (pre_cuts.TrackerMaxEta(BottomId) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(BottomId)) return true;
+    if (pre_cuts.PtLowerCut(Id::bottom) > 0 && jet.pt() < pre_cuts.PtLowerCut(Id::bottom)) return true;
+    if (pre_cuts.PtUpperCut(Id::bottom) > 0 && jet.pt() > pre_cuts.PtUpperCut(Id::bottom)) return true;
+    if (pre_cuts.TrackerMaxEta(Id::bottom) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(Id::bottom)) return true;
     if (jet.m() < 0) return true;
     return false;
 }
 
 Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Clean Jets", jets.size());
+    Print(Severity::information, "Clean Jets", jets.size());
 
     if (jets.empty()) return jets;
     Jets clean_jets;
@@ -60,13 +60,13 @@ Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
         if (Problematic(jet, pre_cuts, tag)) continue;
         clean_jets.emplace_back(jet);
     }
-    Print(kInformation, "Jets", clean_jets.size());
+    Print(Severity::information, "Jets", clean_jets.size());
     return clean_jets;
 }
 
 Jets BottomTagger::TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
 {
-    Print(kDebug, "Sub Jets", sub_jet_number);
+    Print(Severity::debug, "Sub Jets", sub_jet_number);
     Jets sub_jets = SubJets(jets, sub_jet_number);
     return CleanJets(sub_jets, pre_cuts, tag);
 }
@@ -80,7 +80,7 @@ Jets BottomTagger::SubJets(const Jets &jets, const int sub_jet_number)
 
 Jets BottomTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Jet Bdt");
+    Print(Severity::information, "Jet Bdt");
     return Multiplets(event.Hadrons().Jets(), pre_cuts, reader);
 }
 

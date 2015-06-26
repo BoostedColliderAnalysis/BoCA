@@ -25,12 +25,12 @@ public:
      * @brief decide on the branch id based on the former branch id and the particle id
      *
      */
-    virtual int GetBranchId(const int particle_id, int branch_id);
+    virtual int GetBranchId(const int id, int branch_id);
 
     Family BranchFamily(const Family& node_family, Family& branch_family);
 
 
-    std::set<ParticleId> HeavyParticles;
+    std::set<Id> HeavyParticles;
 
 protected:
 
@@ -38,7 +38,7 @@ protected:
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    std::set<ParticleId> RadiationParticles {ProtonId};
+    std::set<Id> RadiationParticles {Id::proton};
 
 private:
 
