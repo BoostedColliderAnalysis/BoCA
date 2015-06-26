@@ -83,7 +83,7 @@ public:
     }
 
     template <typename Tagger, typename Input>
-    auto Multiplets(Input &input) {
+    auto Multiplets(Input &input) const {
         PreCuts pre_cuts;
         return static_cast<Tagger &>(tagger()).Multiplets(input, pre_cuts, reader_);
     }

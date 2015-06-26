@@ -26,15 +26,27 @@ std::string TopAnalysis::ClassName() const
 
 std::string TopAnalysis::ProjectName() const
 {
-    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-test3";
+    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-" + DecayName(TopDecay()) + "";
 }
 
 Decay TopAnalysis::TopDecay() const
 {
     //         return Decay::hadronic;
-            return Decay::leptonic;
+    return Decay::leptonic;
     //         return Decay::semi;
 
+}
+
+std::string TopAnalysis::DecayName(const Decay decay) const
+{
+    switch (decay) {
+    case Decay::hadronic :
+        return "hadronic";
+    case Decay::leptonic :
+        return "leptonic";
+    case Decay::semi :
+        return "semi";
+    }
 }
 
 void TopAnalysis::SetFiles(const Tag tag)
@@ -42,15 +54,15 @@ void TopAnalysis::SetFiles(const Tag tag)
     Print(Severity::notification, "Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
-      if (TopDecay() == Decay::hadronic || tagger().tagger_name() == "Bottom") NewSignalFile(tthad);
-      if (TopDecay() == Decay::leptonic || tagger().tagger_name() == "Bottom") NewSignalFile(ttlep);
+        if (TopDecay() == Decay::hadronic || tagger().tagger_name() == "Bottom") NewSignalFile(tthad);
+        if (TopDecay() == Decay::leptonic || tagger().tagger_name() == "Bottom") NewSignalFile(ttlep);
         if (tagger().tagger_name() == "Bottom") NewSignalFile(hh);
         if (tagger().tagger_name() == "Bottom") NewSignalFile(bb);
         if (tagger().tagger_name() == "WHadronic") NewSignalFile(ww);
         break;
     case Tag::background :
-      if (TopDecay() == Decay::hadronic && tagger().tagger_name() != "Bottom") NewBackgroundFile(ttlep);
-      if (TopDecay() == Decay::leptonic && tagger().tagger_name() != "Bottom") NewBackgroundFile(tthad);
+        if (TopDecay() == Decay::hadronic && tagger().tagger_name() != "Bottom") NewBackgroundFile(ttlep);
+        if (TopDecay() == Decay::leptonic && tagger().tagger_name() != "Bottom") NewBackgroundFile(tthad);
         if (tagger().tagger_name() != "Bottom") NewBackgroundFile(hh);
         NewBackgroundFile(zz);
         if (tagger().tagger_name() != "WHadronic") NewBackgroundFile(ww);
