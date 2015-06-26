@@ -65,6 +65,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
 //                 progress_bar.Update(event_number);
             }
             Print(Severity::error, "All events analysed", info_branch.EventNumber);
+            //                 progress_bar.Update(eventSum(tree_reader));
 //             progress_bar.Finish();
             if (!analysis_empty) tree_writer.Write();
         }

@@ -214,8 +214,8 @@ public:
         DeltaPhi = multiplet.DeltaPhi();
         DeltaR = multiplet.DeltaR();
         Rho = multiplet.Rho();
-       Bdt1 = multiplet.Multiplet1().Bdt();
-       Bdt2 = multiplet.Multiplet2().Bdt();
+        Bdt1 = multiplet.Multiplet1().Bdt();
+        Bdt2 = multiplet.Multiplet2().Bdt();
     }
     Observables Variables();
     Observables Spectators();
@@ -414,7 +414,7 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
-	BottomBase::Fill(multiplet);
+        BottomBase::Fill(multiplet);
         BottomPt = multiplet.SingletJet1().pt();
         LeptonPt = multiplet.SingletJet2().pt();
     }
