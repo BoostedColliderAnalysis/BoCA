@@ -52,7 +52,7 @@ void TopAnalysis::SetFiles(const Tag tag)
       if (TopDecay() == Decay::hadronic && tagger().tagger_name() != "Bottom") NewBackgroundFile(ttlep);
       if (TopDecay() == Decay::leptonic && tagger().tagger_name() != "Bottom") NewBackgroundFile(tthad);
         if (tagger().tagger_name() != "Bottom") NewBackgroundFile(hh);
-        NewBackgroundFile(zz);
+  //      NewBackgroundFile(zz);
         if (tagger().tagger_name() != "WHadronic") NewBackgroundFile(ww);
         if (tagger().tagger_name() != "Bottom") NewBackgroundFile(bb);
         NewBackgroundFile(cc);
