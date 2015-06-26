@@ -23,7 +23,7 @@ public:
     std::vector< Doublet> Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-      return SaveEntries(Multiplets(event,pre_cuts, reader));
+      return SaveEntries(Multiplets(event,pre_cuts, reader),1);
     }
     
     std::vector<Doublet> Clean_Doublets(const std::vector< Doublet > &Doublets, PreCuts &pre_cuts);

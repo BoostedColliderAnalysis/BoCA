@@ -15,15 +15,15 @@ Extra Arguments=
 Install Directory=file:///usr/local
 
 [Launch]
-Launch Configurations=Launch Configuration 1
+Launch Configurations=Launch Configuration 0
 
-[Launch][Launch Configuration 1]
+[Launch][Launch Configuration 0]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=TopAnalysis
+Name=TopTagger
 Type=Native Application
 
-[Launch][Launch Configuration 1][Data]
+[Launch][Launch Configuration 0][Data]
 Arguments=
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
 Dependency Action=Nothing
