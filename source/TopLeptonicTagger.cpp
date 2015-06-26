@@ -31,12 +31,11 @@ int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
  	if (lepton.pt()<50) continue;
         for (const auto & jet : jets) {
             Doublet doublet(jet, lepton);
- //           if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(Id::top)) > top_mass_window) continue;
             if (tag == Tag::signal && doublet.Jet().m()<20) continue;
  	    if (tag == Tag::signal && lepton.delta_R(jet)>1.0) continue;
             doublets.emplace_back(doublet);
         }
-    }
+   }
     
     for(const auto & jet :jets){
       if(doublets.size() >= 0) break;
@@ -75,6 +74,7 @@ std::vector<Doublet> TopLeptonicTagger::Clean_Doublets(const std::vector< Double
     for(const auto &doublet : Doublets){
     if(pre_cuts.PtLowerCut(Id::top) > 0 && doublet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) continue;
     if(pre_cuts.PtUpperCut(Id::top) > 0 && doublet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) continue;
+    if(pre_cuts.MassUpperCut(Id::top) > 0 && doublet.Jet().m()> pre_cuts.MassUpperCut(Id::top)) continue;
     clean_doublets.emplace_back(doublet);
     }
     return clean_doublets;
@@ -105,7 +105,6 @@ std::vector<Doublet> TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cu
     }
     
     std::vector<Doublet> final_doublets=Clean_Doublets(doublets, pre_cuts);
-   // if(final_doublets.size()>0)Print(kError, "doublet_pt", final_doublets.at(0).Jet().pt());
     return ReduceResult(final_doublets);
 }
 
