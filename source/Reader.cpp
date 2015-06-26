@@ -363,12 +363,11 @@ Result Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &expor
     Result result = BdtDistribution(tree_reader, tree_name, export_file);
     result.info_branch = InfoBranch(file, tree_name);
 
-//     result.event_sum = result.info_branch.EventNumber;
     std::vector<int> Integral = result.CutIntegral();
 
     for (int step = 0; step < result.steps; ++step) {
-        result.events[step] = float(Integral[step]) / float(result.info_branch.EventNumber) * result.info_branch.Crosssection * Luminosity;
-        result.efficiency[step] = float(Integral[step]) / float(result.info_branch.EventNumber);
+        result.events[step] = float(Integral[step]) / float(result.event_sum()) * result.info_branch.Crosssection * Luminosity;
+        result.efficiency[step] = float(Integral[step]) / float(result.event_sum());
         result.analysis_event_number[step] = Integral[step];
 //         result.bdt[step] = bins[step];
         Print(Severity::debug, "Result", result.efficiency[step], result.events[step]);
@@ -385,6 +384,7 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
     TClonesArray &event_clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch &result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
+    int entries = 0;
     for (const int event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
         for (const int entry : Range(event_clones_array.GetEntriesFast())) {
@@ -397,10 +397,12 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
             if (bin == -1) bin = 0; // FIXME clean this up
 //             ++bins.at(std::floor(BdtValue * result.steps / 2) - 1);
             ++result.bins.at(bin);
+            ++entries;
         }
         tree_writer.Fill();
         tree_writer.Clear();
     }
+    result.set_event_sum(entries);
     tree_writer.Write();
     return result;
 }

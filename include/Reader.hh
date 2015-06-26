@@ -23,19 +23,24 @@ public:
     std::vector<int> analysis_event_number;
     std::vector<float> bdt;
     std::vector<int> bins;
-    int event_sum(){
-      return info_branch.EventNumber;
-    }
     InfoBranch info_branch;
+    int event_sum() {
+//         return info_branch.EventNumber;
+      return event_sum_;
+    }
+    void set_event_sum(const int event_sum) {
+        event_sum_ = event_sum;
+    }
+private:
+    int event_sum_;
 };
 
-struct Results
-{
+struct Results {
 
 public:
 
-  std::vector<Result> signal;
-  std::vector<Result> background;
+    std::vector<Result> signal;
+    std::vector<Result> background;
 };
 
 /**
@@ -110,7 +115,7 @@ public:
 
     template <typename Tagger, typename Input>
     auto SubMultiplet(Input &input) {
-      return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_);
+        return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_);
     }
 
     TMVA::Reader &reader() {
@@ -141,7 +146,7 @@ private:
 
     void LatexFooter(std::ofstream &latex_file) const;
 
-     std::string ClassName() const {
+    std::string ClassName() const {
         return "Reader";
     }
 

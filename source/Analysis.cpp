@@ -39,7 +39,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
             exroot::TreeBranch &tree_branch = *tree_writer.NewBranch(tagger_.weight_branch_name().c_str(), InfoBranch::Class());
             exroot::TreeReader tree_reader = file.TreeReader();
             clones_arrays.UseBranches(tree_reader);
-//             exroot:ProgressBar progress_bar(eventSum(tree_reader));
+            //             exroot:ProgressBar progress_bar(std::min((int)tree_reader.GetEntries(), EventNumberMax());
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = FillInfoBranch(tree_reader, file);
@@ -65,7 +65,6 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
 //                 progress_bar.Update(event_number);
             }
             Print(Severity::error, "All events analysed", info_branch.EventNumber);
-            //                 progress_bar.Update(eventSum(tree_reader));
 //             progress_bar.Finish();
             if (!analysis_empty) tree_writer.Write();
         }
