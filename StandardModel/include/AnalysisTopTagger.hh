@@ -8,6 +8,11 @@ namespace analysis
 namespace standardmodel
 {
 
+enum class Decay
+{
+    leptonic, hadronic, semi
+};
+
 /**
  *
  * @brief Top Tagger ananlysis
@@ -21,8 +26,6 @@ class TopAnalysis : public analysis::standardmodel::Analysis
 public:
 
     TopAnalysis(Tagger &tagger);
-
-    enum Decay {kLeptonic, kHadronic, kSemi};
 
     Decay TopDecay() const;
 

@@ -8,8 +8,8 @@ namespace toppartner
 
 HiggsPairTagger::HiggsPairTagger()
 {
-//         DebugLevel = Object::Severity::kDetailed;
-    Print(Severity::Notification, "Constructor");
+//         DebugLevel = Severity::kDetailed;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("HiggsPairPair");
     higgs_reader_.SetTagger(higgs_tagger_);
     DefineVariables();
@@ -17,7 +17,7 @@ HiggsPairTagger::HiggsPairTagger()
 
 int HiggsPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::Information, "Higgs Tags");
+    Print(Severity::information, "Higgs Tags");
     std::vector< Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
     std::vector< Quartet22 > quartets;
     for (auto doublet_1 = doublets.begin(); doublet_1 != doublets.end(); ++doublet_1) {

@@ -8,8 +8,8 @@ namespace higgscpv
 
 SignatureTagger::SignatureTagger()
 {
-//    debug_level_ = Severity::Debug;
-    Print(Severity::Notification , "Constructor");
+//    debug_level_ = Severity::debug;
+    Print(Severity::notification , "Constructor");
     set_tagger_name("Signature");
     higgs_reader_.SetTagger(higgs_tagger_);
     triplet_pair_reader_.SetTagger(triplet_pair_tagger_);
@@ -18,27 +18,27 @@ SignatureTagger::SignatureTagger()
 
 int SignatureTagger::Train(Event &event, PreCuts &, const Tag tag)
 {
-    Print(Severity::Information, "Train");
+    Print(Severity::information, "Train");
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
     if (sextets.empty()) {
-        Print(Severity::Information, "No sextets", sextets.size());
+        Print(Severity::information, "No sextets", sextets.size());
         return 0;
     }
 
     std::vector<Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
-    if (doublets.empty()) Print(Severity::Information, "No doublets", doublets.size());
+    if (doublets.empty()) Print(Severity::information, "No doublets", doublets.size());
 
     std::vector<Doublet> final_doublets;
     switch (tag) {
-    case Tag::Signal : {
+    case Tag::signal : {
         Jets HiggsParticles = event.Partons().GenParticles();
-        Jets Even = copy_if_abs_particle(HiggsParticles, Id::Higgs);
-        Jets Odd = copy_if_abs_particle(HiggsParticles, Id::CpvHiggs);
+        Jets Even = copy_if_abs_particle(HiggsParticles, Id::higgs);
+        Jets Odd = copy_if_abs_particle(HiggsParticles, Id::CP_violating_higgs);
         HiggsParticles = Join(Even, Odd);
         final_doublets = CopyIfClose(doublets, HiggsParticles);
         break;
     }
-    case Tag::Background :
+    case Tag::background :
         final_doublets = doublets;
         break;
     }
@@ -53,20 +53,20 @@ int SignatureTagger::Train(Event &event, PreCuts &, const Tag tag)
             octets.emplace_back(octet);
         }
     }
-    if (octets.empty()) Print(Severity::Information, "No octets", octets.size());
+    if (octets.empty()) Print(Severity::information, "No octets", octets.size());
 
-    if (tag == Tag::Signal) octets = ReduceResult(octets, 1);
+    if (tag == Tag::signal) octets = ReduceResult(octets, 1);
     return SaveEntries(octets);
 }
 
 
 std::vector< Octet62 > SignatureTagger::Multiplets(Event &event, PreCuts &, const TMVA::Reader &reader)
 {
-    Print(Severity::Information, "Multiplets");
+    Print(Severity::information, "Multiplets");
     std::vector<Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
-    Print(Severity::Information, "Doublets", doublets.size());
+    Print(Severity::information, "Doublets", doublets.size());
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
-    Print(Severity::Information, "Sextets", sextets.size());
+    Print(Severity::information, "Sextets", sextets.size());
     std::vector<Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {

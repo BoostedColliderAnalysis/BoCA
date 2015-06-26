@@ -10,7 +10,7 @@ int main()
     bottom_analysis.RunFast();
 
     switch (bottom_analysis.TopDecay()) {
-    case analysis::standardmodel::TopAnalysis::kHadronic : {
+    case analysis::standardmodel::Decay::hadronic : {
         analysis::WHadronicTagger w_hadronic_tagger;
         analysis::standardmodel::TopAnalysis w_hadronic_analysis(w_hadronic_tagger);
         w_hadronic_analysis.RunFast();
@@ -20,7 +20,7 @@ int main()
         top_hadronic_analysis.RunFull();
         break;
     }
-    case analysis::standardmodel::TopAnalysis::kSemi : {
+    case analysis::standardmodel::Decay::semi : {
         analysis::WSemiTagger w_semi_tagger;
         analysis::standardmodel::TopAnalysis w_semi_analysis(w_semi_tagger);
         w_semi_analysis.RunFast();
@@ -30,7 +30,7 @@ int main()
         top_semi_analysis.RunFull();
         break;
     }
-    case analysis::standardmodel::TopAnalysis::kLeptonic : {
+    case analysis::standardmodel::Decay::leptonic : {
         analysis::TopLeptonicTagger tops_leptonic_tagger;
         analysis::standardmodel::TopAnalysis top_leptonic_analysis(tops_leptonic_tagger);
         top_leptonic_analysis.RunFull();

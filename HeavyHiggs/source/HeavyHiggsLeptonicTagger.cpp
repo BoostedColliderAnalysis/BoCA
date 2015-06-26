@@ -10,9 +10,9 @@ namespace heavyhiggs
 
 HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 {
-    //     DebugLevel = Object::Severity::Debug;
+    //     DebugLevel = Severity::debug;
 
-    Print(Severity::Notification, "Constructor");
+    Print(Severity::notification, "Constructor");
     set_tagger_name("HeavyHiggsLeptonic");
     top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
@@ -20,7 +20,7 @@ HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 
 int HeavyHiggsLeptonicTagger::Train(Event &event, const Tag tag)
 {
-    Print(Severity::Information, "Higgs Tags");
+    Print(Severity::information, "Higgs Tags");
 
     float mass = event.mass();
 
@@ -30,7 +30,7 @@ int HeavyHiggsLeptonicTagger::Train(Event &event, const Tag tag)
     Jets particles = event.Partons().GenParticles();
     Jets neutrinos = copy_if_neutrino(particles);
 
-    Print(Severity::Information, "Number of doublets", doublets.size());
+    Print(Severity::information, "Number of doublets", doublets.size());
 
     std::vector<Sextet> sextets;
     for (const auto & doublet1 : doublets) {
@@ -41,20 +41,20 @@ int HeavyHiggsLeptonicTagger::Train(Event &event, const Tag tag)
             WimpMass wimp_mass;
             Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
             for (const auto & sextet : Presextets) {
-                if (tag == Tag::Signal && sextet.Jet().m() < mass / 2)continue;
+                if (tag == Tag::signal && sextet.Jet().m() < mass / 2)continue;
                 sextets.emplace_back(sextet);
             }
         }
     }
-    Print(Severity::Information, "Numeber of sextets", sextets.size());
+    Print(Severity::information, "Numeber of sextets", sextets.size());
 
-    if (tag == Tag::Signal) sextets = BestMass(sextets, mass);
+    if (tag == Tag::signal) sextets = BestMass(sextets, mass);
     return SaveEntries(sextets);
 }
 
 std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-    Print(Severity::Information, "Bdt");
+    Print(Severity::information, "Bdt");
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
 

@@ -8,24 +8,24 @@ namespace analysis
 
   AnalysisW::AnalysisW(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Object::Severity::Debug;
-    Print(Severity::Notification, "Constructor");
+//   DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::W, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::W, UpperPtCut());
     pre_cuts().SetMassUpperCut(Id::W, 200);
 //     DetectorGeometry detector_geometry;
-//     pre_cuts().SetTrackerMaxEta(Id::Top, detector_geometry.TrackerEtaMax);
+//     pre_cuts().SetTrackerMaxEta(Id::top, detector_geometry.TrackerEtaMax);
 }
 
 void AnalysisW::SetFiles(const Tag tag)
 {
-    Print(Severity::Notification, "Set File Vector", Name(tag));
+    Print(Severity::notification, "Set File Vector", Name(tag));
     switch (tag) {
-    case Tag::Signal :
+    case Tag::signal :
         NewSignalFile(ww);
         break;
-    case Tag::Background :
+    case Tag::background :
         NewBackgroundFile(ttlep);
         NewBackgroundFile(tthad);
         NewBackgroundFile(hh);
@@ -41,17 +41,16 @@ void AnalysisW::SetFiles(const Tag tag)
 
 int AnalysisW::PassPreCut(Event &event)
 {
-    Print(Severity::Information, "pass pre cut");
+    Print(Severity::information, "pass pre cut");
 //     Jets particles = event.Partons().GenParticles();
 //     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::W));
 //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
     return 1;
 }
-AnalysisW::Decay AnalysisW::WDecay() const
+Decay AnalysisW::WDecay() const
 {
-    return kHadronic;
-    //         return kLeptonic;
-    //         return kSemi;
+    return Decay::hadronic;
+    //         return Decay::semi;
 }
 std::string AnalysisW::ProjectName() const
 {

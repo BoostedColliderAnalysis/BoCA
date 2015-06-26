@@ -5,8 +5,8 @@ namespace analysis
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    //         DebugLevel = Object::Severity::kDetailed;
-    Print(Severity::Notification, "Constructor");
+    //         DebugLevel = Severity::kDetailed;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("ZHadronic");
     bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
@@ -14,7 +14,7 @@ ZHadronicTagger::ZHadronicTagger()
 
 int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::Information, "ZHadronic Tag");
+    Print(Severity::information, "ZHadronic Tag");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
@@ -43,11 +43,11 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, con
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
-    case Tag::Signal :
+    case Tag::signal :
         if (std::abs(doublet.Jet().m() - Mass(Id::Z)) > z_mass_window) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5)) return true;
         break;
-    case Tag::Background :
+    case Tag::background :
         break;
     }
     return false;
@@ -64,7 +64,7 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 
 std::vector<Doublet>  ZHadronicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(Severity::Information, "ZHadronic Bdt");
+    Print(Severity::information, "ZHadronic Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

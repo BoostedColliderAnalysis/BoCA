@@ -9,17 +9,17 @@ namespace delphes
 
 Leptons::Leptons()
 {
-    Print(Severity::Notification, "Constructor");
+    Print(Severity::notification, "Constructor");
 }
 Jets Leptons::Electrons()
 {
-    Print(Severity::Information, "Electrons", clones_arrays().ElectronSum());
+    Print(Severity::information, "Electrons", clones_arrays().ElectronSum());
     return Electrons(kPlain);
 }
 
 Jets Leptons::Electrons(FourVector::JetDetail jet_detail)
 {
-    Print(Severity::Information, "Electrons", clones_arrays().ElectronSum());
+    Print(Severity::information, "Electrons", clones_arrays().ElectronSum());
     Jets electrons;
     for (int ElectronNumber : Range(clones_arrays().ElectronSum())) {
         ::Electron &electron = static_cast<::Electron &>(clones_arrays().Electron(ElectronNumber));
@@ -30,19 +30,19 @@ Jets Leptons::Electrons(FourVector::JetDetail jet_detail)
         } else electron_jet.set_user_info(new JetInfo(int(electron.Charge)));
         electrons.emplace_back(electron_jet);
     }
-    PrintTruthLevel(Severity::Debug);
+    PrintTruthLevel(Severity::debug);
     return electrons;
 }
 
 Jets Leptons::Muons()
 {
-    Print(Severity::Information, "Muons", clones_arrays().MuonSum());
+    Print(Severity::information, "Muons", clones_arrays().MuonSum());
     return Muons(kPlain);
 }
 
 Jets Leptons::Muons(JetDetail jet_detail)
 {
-    Print(Severity::Information, "Muons", clones_arrays().MuonSum());
+    Print(Severity::information, "Muons", clones_arrays().MuonSum());
     Jets muons;
     for (int MuonNumber : Range(clones_arrays().MuonSum())) {
         ::Muon &muon = static_cast<::Muon &>(clones_arrays().Muon(MuonNumber));
@@ -53,7 +53,7 @@ Jets Leptons::Muons(JetDetail jet_detail)
         } else muon_jet.set_user_info(new JetInfo(int(muon.Charge)));
         muons.emplace_back(muon_jet);
     }
-    PrintTruthLevel(Severity::Debug);
+    PrintTruthLevel(Severity::debug);
     return muons;
 }
 

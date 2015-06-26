@@ -8,13 +8,13 @@ namespace heavyhiggs
 
 AnalysisFusion::AnalysisFusion(Tagger &tagger) : Analysis::Analysis(tagger)
 {
-    Print(Severity::Notification, "Constructor");
+    Print(Severity::notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }
 
 std::vector<File> AnalysisFusion::Files(const Tag tag)
 {
-    Print(Severity::Notification, "Set File Vector", Name(tag));
+    Print(Severity::notification, "Set File Vector", Name(tag));
 
     std::vector<File> SignalLeptonicFiles;
     std::vector<File> BackgroundLeptonicFiles;
@@ -44,15 +44,15 @@ std::vector<File> AnalysisFusion::Files(const Tag tag)
     std::vector<File> NewFiles;
 
     switch (tag) {
-    case Tag::Signal :
+    case Tag::signal :
         NewFiles = SignalSemiFiles;
         break;
-    case Tag::Background :
+    case Tag::background :
         NewFiles = BackgroundSemiFiles;
         break;
     }
 
-    Print(Severity::Notification, "Files prepared");
+    Print(Severity::notification, "Files prepared");
 
     SetTrees();
 //     PrepareReader(Tagger, tag);
@@ -98,13 +98,13 @@ void AnalysisFusion::SetTrees()
 
 int AnalysisFusion::PassPreCut(Event &event)
 {
-    Print(Severity::Information, "pass pre cut");
+    Print(Severity::information, "pass pre cut");
 //     if (object_number_ > EventNumberMax()) return 0;
 
     Jets Particles = event.Partons().GenParticles();
-    Particles = RemoveIfWrongAbsParticle(Particles, Id::Top);
+    Particles = RemoveIfWrongAbsParticle(Particles, Id::top);
     if (Particles.size() != 2) {
-        Print(Severity::Error, "Not enough top quarks", Particles.size());
+        Print(Severity::error, "Not enough top quarks", Particles.size());
         return 0;
     } else {
         if (Particles.at(0).pt() < PreCut()) return 0;

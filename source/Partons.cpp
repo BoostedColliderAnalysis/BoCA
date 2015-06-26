@@ -5,11 +5,11 @@ namespace analysis {
 
 Partons::Partons()
 {
-    Print(Severity::Notification,"Constructor");
+    Print(Severity::notification,"Constructor");
 }
 
 void Partons::NewEvent(const ClonesArrays &clones_arrays) {
-    Print(Severity::Information,"New event");
+    Print(Severity::information,"New event");
     FourVector::NewEvent(clones_arrays);
 }
 

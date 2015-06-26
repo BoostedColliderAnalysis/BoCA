@@ -8,8 +8,8 @@ namespace toppartner
 
 TopPartnerPairTagger::TopPartnerPairTagger()
 {
-//         DebugLevel = Object::Severity::kDetailed;
-    Print(Severity::Notification, "Constructor");
+//         DebugLevel = Severity::kDetailed;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("TopPartnerPairTagger");
     top_partner_hadronic_reader_.SetTagger(top_partner_hadronic_tagger_);
     top_partner_semi_reader_.SetTagger(top_partner_semi_tagger_);
@@ -18,7 +18,7 @@ TopPartnerPairTagger::TopPartnerPairTagger()
 
 int TopPartnerPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::Information, "Higgs Tags");
+    Print(Severity::information, "Higgs Tags");
     std::vector< Quintet> quintets_1 = top_partner_hadronic_reader_.Multiplets<TopPartnerHadronicTagger>(event);
     std::vector< Quintet> quintets_2 = top_partner_semi_reader_.Multiplets<TopPartnerSemiTagger>(event);
     std::vector< Decuplet55 > decuplets;

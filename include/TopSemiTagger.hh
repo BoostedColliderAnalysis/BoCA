@@ -27,7 +27,7 @@ public:
     std::vector<Triplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     int TopSemiId(Event &event) {
-        return sgn(w_semi_tagger_.WSemiId(event)) * to_int(Id::Top);
+        return sgn(w_semi_tagger_.WSemiId(event)) * to_int(Id::top);
     }
 
 protected:

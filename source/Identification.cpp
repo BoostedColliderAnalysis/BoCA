@@ -1,11 +1,22 @@
 # include "Identification.hh"
 
-namespace analysis {
+namespace analysis
+{
+
+std::string Name(const Tag tag)
+{
+    switch (tag) {
+    case  Tag::signal:
+        return "Signal";
+    case  Tag::background:
+        return "Background";
+    }
+}
 
 Identification::Identification()
 {
     bdt_ = initial_value();
-    tag_ = analysis::Tag::Background;
+    tag_ = analysis::Tag::background;
     flag_ = false;
     degenerate_ = false;
 
@@ -33,13 +44,13 @@ void Identification::SetTag(const analysis::Tag tag)
 
 void Identification::SetTag(const int tag)
 {
-  tag_ = analysis::Tag(tag);
+    tag_ = analysis::Tag(tag);
 }
 
 void Identification::SetTag(const analysis::Tag tag_1, const analysis::Tag tag_2)
 {
-  if(tag_1 == analysis::Tag::Signal || tag_2 == analysis::Tag::Signal) tag_ = analysis::Tag::Signal;
-  else tag_ = analysis::Tag::Background;
+    if (tag_1 == analysis::Tag::signal || tag_2 == analysis::Tag::signal) tag_ = analysis::Tag::signal;
+    else tag_ = analysis::Tag::background;
 }
 
 analysis::Tag Identification::Tag() const
