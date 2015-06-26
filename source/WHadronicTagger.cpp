@@ -120,7 +120,7 @@ bool WHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
     if (pre_cuts.PtLowerCut(Id::W) > 0 && pre_cuts.PtLowerCut(Id::W) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::W) > 0 && pre_cuts.PtUpperCut(Id::W) < doublet.Jet().pt()) return true;
     if (pre_cuts.MassUpperCut(Id::W) > 0 && pre_cuts.MassUpperCut(Id::W) < doublet.Jet().m()) return true;
-    if (doublet.DeltaR() < detector_geometry().MinCellResolution && doublet.DeltaR() > 0) return true;
+    if (doublet.DeltaR() < DetectorGeometry().MinCellResolution && doublet.DeltaR() > 0) return true;
     return false;
 }
 

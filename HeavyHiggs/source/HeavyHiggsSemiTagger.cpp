@@ -8,7 +8,7 @@ namespace heavyhiggs
 
 HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 {
-//         DebugLevel = Severity::kDetailed;
+//         DebugLevel = Severity::detailed;
     Print(Severity::notification, "Constructor");
     set_tagger_name("HeavyHiggsSemi");
     top_hadronic_reader_.SetTagger(top_hadronic_tagger);
@@ -50,7 +50,7 @@ int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else Print(Severity::error, "Where is the Top?", TopParticles.size());
     if (tag == Tag::signal) {
-        for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) FinaltripletsHadronic.emplace_back(triplet);
+      for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopQuark) < DetectorGeometry().JetConeSize) FinaltripletsHadronic.emplace_back(triplet);
     } else FinaltripletsHadronic = triplets_hadronic;
     Print(Severity::debug, "Number of truth Hadronic Tops", FinaltripletsHadronic.size());
 
@@ -74,7 +74,7 @@ int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);

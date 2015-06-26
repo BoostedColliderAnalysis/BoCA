@@ -18,6 +18,8 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 std::string Analysis::ProcessName(const Process process) const
 {
     switch (process) {
+    case tt:
+        return "tt";
     case ttlep:
         return "tt_leptonic";
     case tthad:
@@ -37,7 +39,7 @@ std::string Analysis::ProcessName(const Process process) const
     case zz:
         return "zz";
     default:
-        Print(Severity::error, "process name", "unhandled case", process);
+        Print(Severity::error, "Process Name", "unhandled case", process);
         return "";
     }
 }
@@ -84,7 +86,7 @@ std::string Analysis::NiceName(const Process process) const
     case ttlep:
         return "t_{l}";
     default:
-        Print(Severity::error, "name", "unhandled case", process);
+        Print(Severity::error, "Nice Name", "unhandled case", process);
         return "";
     }
 }
@@ -125,7 +127,7 @@ int Analysis::LowerPtCut() const
 //         return 700;
 //         return 800;
 //     return 500;
-     return 1000;
+    return 1000;
 //     return 1200;
 }
 
@@ -146,15 +148,15 @@ int Analysis::UpperPtCut() const
     case 1200 :
         return 1500;
     case 500:
-	return 1000;
+        return 1000;
     }
 }
 
 int Analysis::MadGraphCut() const
 {
     switch (LowerPtCut()) {
-      case 500:
-	return 500;
+    case 500:
+        return 500;
     case 700 :
         return 500;
     case 1000 :

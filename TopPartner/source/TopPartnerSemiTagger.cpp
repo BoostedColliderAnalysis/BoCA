@@ -8,7 +8,7 @@ namespace toppartner
 
 TopPartnerSemiTagger::TopPartnerSemiTagger()
 {
-//         DebugLevel = Severity::kDetailed;
+//         DebugLevel = Severity::detailed;
     Print(Severity::notification, "Constructor");
     set_tagger_name("TopPartnerSemi");
     top_reader_.SetTagger(top_tagger_);

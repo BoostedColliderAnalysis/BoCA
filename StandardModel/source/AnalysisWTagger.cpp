@@ -3,10 +3,10 @@
 namespace analysis
 {
 
-  namespace standardmodel
+namespace standardmodel
 {
 
-  AnalysisW::AnalysisW(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
+AnalysisW::AnalysisW(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Severity::debug;
     Print(Severity::notification, "Constructor");
@@ -36,7 +36,6 @@ void AnalysisW::SetFiles(const Tag tag)
         NewBackgroundFile(gg);
         break;
     }
-
 }
 
 int AnalysisW::PassPreCut(Event &event)

@@ -8,7 +8,7 @@ namespace heavyhiggs
 
 SignatureChargedTagger::SignatureChargedTagger()
 {
-//       DebugLevel = Severity::kDetailed;
+//       DebugLevel = Severity::detailed;
     Print(Severity::information , "Constructor");
     set_tagger_name("ChargedSignatureSemi");
     DefineVariables();

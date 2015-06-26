@@ -80,19 +80,13 @@ public:
 
     virtual int Train(analysis::Event &, PreCuts &, const Tag);
 
-//     virtual float GetBranches(analysis::Event &, Stage , const Tag);
-
     Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
     fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 
     virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
-    DetectorGeometry detector_geometry() const;
-
     void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
-
-//     virtual float Bdt(Event &, const TMVA::Reader &) const;
 
 protected:
 
@@ -125,6 +119,10 @@ protected:
 
 private:
 
+    /**
+     * @brief Tree Branch pointer saving the results
+     *
+     */
     exroot::TreeBranch *tree_branch_;
 
     /**
@@ -134,15 +132,13 @@ private:
     static std::string analysis_name_;
 
     /**
-     * @brief Name of the Analysis
+     * @brief Name of the Tagger
      *
      */
     std::string tagger_name_;
 
-    TCut cut_;
-
     /**
-     * @brief Name of the Signal File
+     * @brief Names of the Signal Files
      *
      */
     Strings signal_file_names_;
@@ -153,15 +149,29 @@ private:
      */
     Strings background_file_names_;
 
+    /**
+     * @brief Names of the backgrund trees
+     *
+     */
     Strings background_tree_names_;
 
+    /**
+     * @brief Names of the signal trees
+     *
+     */
     Strings signal_tree_names_;
 
+    /**
+     * @brief variables for the analysis
+     *
+     */
     std::vector<Observable> variables_;
 
+    /**
+     * @brief spectators for the analysis
+     *
+     */
     std::vector<Observable> spectators_;
-
-    DetectorGeometry detector_geometry_;
 
 };
 

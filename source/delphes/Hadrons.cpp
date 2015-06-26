@@ -11,7 +11,7 @@ namespace delphes
 
 Hadrons::Hadrons()
 {
-//     debug_level_ = Severity::kDetailed;
+//     debug_level_ = Severity::detailed;
     Print(Severity::notification, "Constructor");
 }
 
