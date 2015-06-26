@@ -29,8 +29,6 @@ public:
 
     void SetTag(const analysis::Tag tag);
 
-    void SetTag(const int tag);
-
     void SetTag(const analysis::Tag tag_1, const analysis::Tag tag_2);
 
     analysis::Tag Tag() const;
